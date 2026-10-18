@@ -1,0 +1,367 @@
+{
+  "schema_version": 1,
+  "kind": "rank01_deep_epoch3_checkpoint_and_heartbeat",
+  "observed_utc": "2026-10-18T06:12:03.164603+00:00",
+  "experiment_id": "E-RR18-01-LABELS",
+  "status": "deep_epoch3_archived_epoch4_running",
+  "beleriand_initial": {
+    "observed_utc": "2026-10-18T06:09:57.678434+00:00",
+    "sequence": {
+      "attempt": "computer-vision-homework-r01-deep-f0s1001-ep25-v1",
+      "heartbeat_utc": "2026-10-18T06:09:46.066369+00:00",
+      "index": 5,
+      "launch_returncode": 0,
+      "launch_stderr": "",
+      "plan": "/home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json",
+      "plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+      "status": "running",
+      "worker_heartbeat": "2026-10-18T06:09:40.868122+00:00",
+      "worker_status": "running"
+    },
+    "attempt": {
+      "id": "computer-vision-homework-r01-deep-f0s1001-ep25-v1",
+      "status": "running",
+      "heartbeat_utc": "2026-10-18T06:09:56.951823+00:00",
+      "exit_status": null,
+      "memory_event_deltas": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "parent_memory_event_deltas": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      }
+    },
+    "worker": {
+      "MainPID": "3634860",
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service",
+      "MemoryCurrent": "2372689920",
+      "CPUQuotaPerSecUSec": "1s",
+      "MemoryHigh": "7200000000",
+      "MemoryMax": "8000000000",
+      "MemorySwapMax": "0",
+      "ActiveState": "active",
+      "SubState": "running",
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "child_cgroups": []
+    },
+    "parent": {
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+      "MemoryCurrent": "3062779904",
+      "CPUQuotaPerSecUSec": "2s",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0",
+      "ActiveState": "active",
+      "SubState": "active",
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "child_cgroups": [
+        "computer-vision-homework-r01-f0-sequence.service",
+        "wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service"
+      ]
+    },
+    "log_tail": [
+      "ep 4 batch 140/1492 loss 1.1948 lr 2.52e-05 seq/s 3.4",
+      "ep 4 batch 160/1492 loss 1.2006 lr 2.48e-05 seq/s 3.4",
+      "ep 4 batch 180/1492 loss 1.4385 lr 2.45e-05 seq/s 3.4",
+      "ep 4 batch 200/1492 loss 1.4251 lr 2.42e-05 seq/s 3.4"
+    ],
+    "campaign_gpu_compute": [
+      "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c, 3634952, 1592 MiB"
+    ],
+    "plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+    "checkpoint_files": [
+      {
+        "name": "training_state.pt",
+        "bytes": 25883247,
+        "mtime_ns": 1792303288066239700
+      },
+      {
+        "name": "model_ep2.pt",
+        "bytes": 8669095,
+        "mtime_ns": 1792299744869848600
+      },
+      {
+        "name": "provenance.json",
+        "bytes": 170585,
+        "mtime_ns": 1792303288024236500
+      },
+      {
+        "name": "model_ep3.pt",
+        "bytes": 8669927,
+        "mtime_ns": 1792303288002235000
+      }
+    ],
+    "producer_updates": {
+      "optimizer_attempts": 59680,
+      "amp_skipped_updates": 0,
+      "optimizer_completed_updates": 59680,
+      "ema_updates": 0,
+      "completed_batches": 5968
+    },
+    "producer_nonfinite": [
+      {
+        "epoch": 0,
+        "nonfinite_steps": 0
+      },
+      {
+        "epoch": 1,
+        "nonfinite_steps": 0
+      },
+      {
+        "epoch": 2,
+        "nonfinite_steps": 0
+      },
+      {
+        "epoch": 3,
+        "nonfinite_steps": 0
+      }
+    ],
+    "producer_resumed_from": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f0_s1001/training_state.pt",
+      "sha256": "c7313a22b8834e8cb2cf9ac498176e972d0293e023c8eef34c6e925b63a0daa0",
+      "next_epoch": 2
+    },
+    "temporary_auth_files_present": {
+      "/home/grinchenkoeg/.local/share/wunder-ds-auth/r01-profile-v1.env": false,
+      "/home/grinchenkoeg/.local/share/wunder-ds-auth/r01-canary-v1.env": false
+    }
+  },
+  "collection": {
+    "receipt": "RANK01_DEEP_F0_S1001_E6_EP3_COLLECTION.json",
+    "receipt_sha256": "48a1ac41c511ad214c7a478752ca9ae6e1855a265144de619e42c2b59b4c3929",
+    "local_remote_receipt_sha256_match": true,
+    "admission": {
+      "created_utc": "2026-10-18T06:10:16.126277+00:00",
+      "unit": "computer-vision-homework-r01-deep-e6-ep3-collect-20261018.service",
+      "argv": [
+        "systemd-run",
+        "--user",
+        "--unit=computer-vision-homework-r01-deep-e6-ep3-collect-20261018.service",
+        "--property=Type=exec",
+        "--property=RemainAfterExit=yes",
+        "--property=Slice=wnn-campaign.slice",
+        "--property=CPUQuota=25%",
+        "--property=MemoryMax=512000000",
+        "--property=MemorySwapMax=0",
+        "--property=RuntimeMaxSec=120",
+        "--setenv=CUDA_VISIBLE_DEVICES=",
+        "--setenv=OMP_NUM_THREADS=1",
+        "--setenv=OPENBLAS_NUM_THREADS=1",
+        "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/collect_epoch_checkpoint.py",
+        "--arm",
+        "deep",
+        "--epoch",
+        "3"
+      ],
+      "parent_memory_at_admission_bytes": 3071782912,
+      "children_before": [
+        "computer-vision-homework-r01-f0-sequence.service",
+        "wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service"
+      ],
+      "launch_stderr": "Running as unit: computer-vision-homework-r01-deep-e6-ep3-collect-20261018.service; invocation ID: 6b4ce8697dcb42d081943b661f9e289a\n"
+    },
+    "execution": {
+      "Type": "exec",
+      "RuntimeMaxUSec": "2min",
+      "RemainAfterExit": "yes",
+      "Result": "success",
+      "ExecMainStartTimestampMonotonic": "1361063257156",
+      "ExecMainExitTimestampMonotonic": "1361066076211",
+      "ExecMainStatus": "0",
+      "Slice": "wnn-campaign.slice",
+      "MemoryPeak": "[not set]",
+      "MemorySwapPeak": "[not set]",
+      "CPUUsageNSec": "720828000",
+      "CPUQuotaPerSecUSec": "250ms",
+      "MemoryMax": "512000000",
+      "MemorySwapMax": "0",
+      "Environment": "CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "6b4ce8697dcb42d081943b661f9e289a"
+    },
+    "exec_elapsed_seconds": 2.819055,
+    "own_exited_unit_stopped_after_capture": true,
+    "source_generation_stable": true,
+    "source_copy_hashes_match": true,
+    "producer_model_hash_matches": true,
+    "producer_cumulative_updates": {
+      "optimizer_attempts": 59680,
+      "amp_skipped_updates": 0,
+      "optimizer_completed_updates": 59680,
+      "ema_updates": 0,
+      "completed_batches": 5968
+    },
+    "producer_nonfinite_steps_by_epoch": [
+      {
+        "epoch": 0,
+        "nonfinite_steps": 0
+      },
+      {
+        "epoch": 1,
+        "nonfinite_steps": 0
+      },
+      {
+        "epoch": 2,
+        "nonfinite_steps": 0
+      },
+      {
+        "epoch": 3,
+        "nonfinite_steps": 0
+      }
+    ],
+    "tensor_verification_this_generation": false,
+    "source_map_verification_this_generation": false,
+    "prior_persisted_lineage_check": "DEEP_CONTINUATION_EP2_20261018.json",
+    "resumed_from": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f0_s1001/training_state.pt",
+      "sha256": "c7313a22b8834e8cb2cf9ac498176e972d0293e023c8eef34c6e925b63a0daa0",
+      "next_epoch": 2
+    }
+  },
+  "beleriand_closeout": {
+    "observed_utc": "2026-10-18T06:12:03.164603+00:00",
+    "sequence": {
+      "attempt": "computer-vision-homework-r01-deep-f0s1001-ep25-v1",
+      "heartbeat_utc": "2026-10-18T06:12:01.314151+00:00",
+      "index": 5,
+      "launch_returncode": 0,
+      "launch_stderr": "",
+      "plan": "/home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json",
+      "plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+      "status": "running",
+      "worker_heartbeat": "2026-10-18T06:11:58.263552+00:00",
+      "worker_status": "running"
+    },
+    "attempt_status": "running",
+    "attempt_heartbeat": "2026-10-18T06:11:58.263552+00:00",
+    "memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_bytes": 3107876864,
+    "parent_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "parent_child_cgroups": [
+      "computer-vision-homework-r01-f0-sequence.service",
+      "wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service"
+    ],
+    "log_tail": [
+      "ep 4 batch 220/1492 loss 0.7196 lr 2.39e-05 seq/s 3.4",
+      "ep 4 batch 240/1492 loss 0.9087 lr 2.36e-05 seq/s 3.4",
+      "ep 4 batch 260/1492 loss 1.3412 lr 2.33e-05 seq/s 3.4"
+    ]
+  },
+  "datasphere": {
+    "auth_mode": "existing yc default profile through SDK",
+    "balance": {
+      "unit_balance": "41652791"
+    },
+    "balance_delta_vs_0540": 0,
+    "credential_persisted": false,
+    "newest": [
+      {
+        "created_at": "2026-10-18T00:28:19.334Z",
+        "finished_at": "2026-10-18T00:33:26.332Z",
+        "id": "bt12dffc0bhjrba9jcp6",
+        "name": "computer-vision-homework-datasphere-canary-v1",
+        "started_at": null,
+        "status": "ERROR"
+      },
+      {
+        "created_at": "2026-10-17T23:58:03.199Z",
+        "finished_at": "2026-10-18T00:03:11.983Z",
+        "id": "bt13i2k83lo8n4m8kplk",
+        "name": "computer-vision-homework-rank01-profile",
+        "started_at": null,
+        "status": "ERROR"
+      }
+    ],
+    "nonterminal_returned": [],
+    "observed_utc": "2026-10-18T06:09:53.216813+00:00",
+    "oldest_returned_created_at": "2026-10-04T22:31:10.384Z",
+    "pages_requested": 1,
+    "project_id": "bt1dqf9jg0tuhggcrj4k",
+    "provider_mutations": 0,
+    "query": {
+      "authentication": "existing yc default profile through SDK in memory",
+      "balance_rpc": "ProjectService.GetUnitBalance",
+      "jobs_request": "ListProjectJobRequest",
+      "jobs_rpc": "ProjectJobService.List",
+      "max_pages": 3,
+      "outer_process_timeout_seconds": 100,
+      "page_size": 100,
+      "per_rpc_timeout_seconds": 20
+    },
+    "returned_count": 100,
+    "scope": "recent100, bounded SDK ListProjectJobRequest pages; not a full inventory",
+    "sdk_version": "0.10.0",
+    "sorted_descending": true
+  },
+  "provider_status": {
+    "observed_utc": "2026-10-18T06:10:00Z",
+    "observation_time_precision": "minute",
+    "method": "live in-app browser accessibility",
+    "url": "https://status.yandex.cloud/en/incidents/2136",
+    "incident_end": "Now",
+    "datasphere_affected": true,
+    "latest_update": "2026-10-16 20:19 MSK",
+    "recovery_observed": false,
+    "interpretation": "Consistent with project pre-start failures; does not establish exact project cause or global unavailability."
+  },
+  "cluster": {
+    "observed_utc": "2026-10-18T06:11:00Z",
+    "observation_time_precision": "minute",
+    "method": "authenticated Zen accessibility",
+    "issue16": {
+      "url": "https://github.com/VladKochetov007/WunderFunder/issues/16",
+      "status": "open",
+      "comments": 0,
+      "assignees": 0,
+      "worker_claim_observed": false,
+      "activity": "cross-reference to issue19 only"
+    },
+    "issue19": {
+      "url": "https://github.com/VladKochetov007/WunderFunder/issues/19",
+      "status": "open",
+      "comments": 0,
+      "assignees": 0,
+      "worker_claim_observed": false,
+      "activity": "cross-reference from separate draft PR18 only"
+    },
+    "physical_device_reservation_verified": false,
+    "temporary_agent_tabs_closed": true
+  },
+  "decision": {
+    "preserve_healthy_sequence": true,
+    "new_gpu_jobs": 0,
+    "new_paid_jobs": 0,
+    "new_support_jobs": 1,
+    "frozen_plan_or_training_source_changed": false,
+    "next_action": "Collect subsequent deep generation and terminal epoch5 endpoint with the reviewed helpers. Preserve existing exports and independent grade. Reconcile claims/provider state before admitting any next pair.",
+    "scientific_limit": "Intermediate collection establishes stable source/copy bytes and producer checkpoint hash. Counters and nonfinite diagnostics are producer-reported. No independent tensor check of epoch3, GPU resume parity, paired quality grade, convergence or CP30 result.",
+    "fallback_preparation": "Read-only agent review of prerequisites for next F1/seed1001 Beleriand pair if DataSphere remains unavailable; no reservation or admission."
+  }
+}

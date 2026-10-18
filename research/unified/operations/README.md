@@ -1,6 +1,8 @@
 # Execution, incidents, and preservation
 
 
+- [Deep epoch3 collection and epoch4 progress](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0610Z.json), with [raw artifact hashes](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F0_S1001_E6_EP3_COLLECTION.json):59,680 producer-reported updates and zero skips/nonfinite; stable generation/source-copy hashes pass. No repeated tensor check. Healthy one-GPU training continues, cloud/cluster access shows no new capacity and paired quality remains pending.
+
 - [Rank1 healthy deep progress at05:40UTC](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0540Z.json): epoch3 batch980/1492, one GPU and zero memory events. No new checkpoint beyond the preserved epoch2 generation, no cloud recovery or cluster claim, and no new admission/quality result.
 
 - [Deep continuation epoch2 archive and persisted ancestry](../../campaign_2026-10-18/priority25_execution_r4/receipts/DEEP_CONTINUATION_EP2_20261018.json), with [raw collection hashes](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F0_S1001_E6_EP2_COLLECTION.json): source/copy generation checks pass and archived resume provenance matches verified stage1.44,760 updates and zero skips/nonfinite are producer-reported; intermediate tensors were not reverified. The existing worker advances into epoch3. No cloud recovery, cluster claim or paired quality result is established.
