@@ -1,0 +1,9 @@
+# Strong-control export completed
+
+The sole guarded export finished at 16:01:31 UTC on 18 October, exit 0 in 544.567 seconds. No training was run. The [capture receipt](computer-vision-homework-quality-gap-control-export-v1/EXPORT_RECEIPT.json) binds a float32 [1873,20000,2] output of 299,680,128 bytes, SHA `3a6e7348334fa8bffe31776abcbd8c3803e80b03f8a3f92f2995ac15be65bc30`, and its exact sidecar. Full finiteness and same-row evaluation are downstream tasks, not claims from header/SHA capture.
+
+The [raw guard record](computer-vision-homework-quality-gap-control-export-v1/BANDIT_ATTEMPT.json) reports zero worker and parent memory-event deltas, peak worker memory 3,026,116,608 bytes, and the admitted 1 CPU / 8 GB envelope. Its observed physical GPU peak may include foreign processes on the shared device; the worker's allocator cap remains 4 GB. Strict FP32 runtime flags are captured separately. The [exact source-map acceptance](computer-vision-homework-quality-gap-control-export-v1/EXACT_SOURCE_MAP_ACCEPTANCE_V1.json) checks all nine entries including the contract; canonical digest `d12cbbe33b561bb1fe302848dbb786d685fd3e27c590df048998016099a2c459` matches the guard record.
+
+The capture support ran with 25% CPU / 512 MB / 120 seconds, exited 0 in 8.033020 seconds, and was stopped only after raw-byte receipt capture. [Execution](computer-vision-homework-quality-gap-control-export-v1/CAPTURE_CAPTURE_V1.json), [stop](computer-vision-homework-quality-gap-control-export-v1/CAPTURE_STOP_V1.json). The export unit is already inactive/dead. No export, restore, or CPU preflight should be repeated.
+
+The subsequent [R2 alignment failure](../../../strong_control_evaluation_r2/records/ALIGN_CAPTURE_V1.json) concerns a lexical comparison of the venv entrypoint and its resolved interpreter path. It occurred before prediction payload analysis. Preserve the export and use a separately reviewed consumer repair.

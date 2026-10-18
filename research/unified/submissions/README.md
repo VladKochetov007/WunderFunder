@@ -1,5 +1,7 @@
 # Submission choices and scores
 
+[October 18 user-transcribed 100-row submission history](../../campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/README.md) resolves the best to `tl3.zip` / `1lmehfi3` / 0.66832, with independent metadata review. Archive recipe and portal-payload identities remain explicitly separate.
+
 Exact releases, public feedback, packaging and release decisions.
 
 ## Current navigation

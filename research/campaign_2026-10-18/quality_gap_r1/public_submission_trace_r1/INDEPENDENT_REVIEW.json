@@ -1,0 +1,61 @@
+{
+  "created_utc": "2026-10-18T16:05:56.777073Z",
+  "decision": "The packet is internally consistent as a trace of user-transcribed public metadata joined by filename to the existing local/server archive inventory. It identifies 1lmehfi3 / tl3.zip / 0.66832 as the unique top successful row in the supplied 100-row list. It does not establish the bytes or exact recipe of the portal upload.",
+  "findings": [
+    {
+      "evidence": "INCUMBENT_BINDING.json sets portal_payload_sha256 and actual_portal_payload_sha256 to null. The local archive and server-copy hashes are equal only within the existing inventory and are joined to the reported public row by filename.",
+      "id": "PUBTRACE-R1-LIMIT-001",
+      "required_action": "Continue to describe the public ID/filename/score as user-transcribed and the member recipe as the inventoried local/server archive. Do not attribute the archive SHA or its members to portal-uploaded bytes.",
+      "severity": "NON_BLOCKING_IDENTITY_LIMIT",
+      "title": "Portal upload bytes and recipe remain unverified"
+    },
+    {
+      "evidence": "The packet preserves a verbatim excerpt through the first five rows; the remaining rows are manual transcription. I independently checked their internal TSV/JSON consistency and computed summaries, but did not have the full original user table available for row-by-row source comparison in this review context.",
+      "id": "PUBTRACE-R1-LIMIT-002",
+      "required_action": "Retain the packet’s stated scope: summaries reconcile to the user-supplied 100-total header, but the full transcription is not a verbatim portal export or independent portal verification.",
+      "severity": "NON_BLOCKING_TRANSCRIPTION_LIMIT",
+      "title": "The 100-row source is normalized transcription, not a full verbatim archive"
+    },
+    {
+      "evidence": "README.md labels the recipe section “What the incumbent contains,” while the binding proves the local/server-copy recipe only and explicitly leaves portal payload bytes unverified.",
+      "id": "PUBTRACE-R1-WORDING-001",
+      "required_action": "If this packet is used to assert the uploaded package composition, qualify the heading as the inventoried local tl3 archive recipe. The body’s existing byte-identity caveat otherwise communicates the limitation.",
+      "severity": "LOW_WORDING_RISK",
+      "title": "The section heading can imply stronger package identity than the binding establishes"
+    }
+  ],
+  "integrity": {
+    "catalog_path": "research/unified/models/CURRENT_MODEL_CATALOG.md",
+    "catalog_sha256_match": "f5c393a4cabaed64231d3300c64f0636b3d04547664e5ffd96f0030caed46fb3",
+    "inventory_path": "research/unified/reviews/audit-2026-10-17/submission_inventory.json",
+    "inventory_sha256_match": "9682897ff941b25739999ae8d8f1f505fcd78d9b19cbf4f2d1e552282e9102c8",
+    "manifest_bytes": 1059,
+    "packet_file_count_checked": 6,
+    "packet_files_matched_size_and_sha256": 6
+  },
+  "review_result": "PASS_METADATA_REVIEW_WITH_EXPLICIT_SOURCE_LIMITS",
+  "review_scope": "Read-only lightweight metadata/source review. No original ZIP was opened or rehashed; no browser/portal query, model/array access, job, test, or execution was performed. The first-five-row excerpt was inspected; full transcript reconciliation to the original user message was not independently repeated.",
+  "reviewed_artifact": "research/campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1",
+  "reviewed_manifest_sha256": "2e53757faefacc609db2e265af049ee63332d6de4658a356fdd4e2505769bae9",
+  "schema": "quality_gap.public_submission_trace_independent_review.r1",
+  "verified_metadata": {
+    "catalog_claims": "The pinned catalog supports the stated family input counts and model/training distinctions, train-plus-valid fit scope, and the w18 teacher coefficient sum. These are documented catalog facts, not newly replayed training evidence.",
+    "near_tie": {
+      "displayed_difference": 2e-05,
+      "filename": "tl4.zip",
+      "score_display": "0.66830",
+      "submission_id": "219y3mlk"
+    },
+    "score_comparison": "0.66832 minus the supplied candidate row 0.65839 equals 0.00993; 0.66832 minus 0.66830 equals 0.00002. The packet labels these as displayed public-score differences and makes no causal attribution.",
+    "summary": "Recomputed row count/header (100), unique IDs (100), status counts (95 SCORE, 4 SCORE:TIMEOUT, 1 CHECK:ERROR), submitter counts, duplicate filenames, top ten, and the listed duration/missing-field anomalies; all match VALIDATION.json. JSON and TSV row order and all normalized fields match. Displayed score strings agree with numeric scores; failed rows retain an em dash and null numeric score.",
+    "tl3_local_inventory_binding": "The exact inventory entry agrees with INCUMBENT_BINDING.json for archive byte count/SHA, member list, and matching server-copy metadata. The tl3 coefficients 0.34/0.33/0.33 sum to 1.00 and match the inventory. The tl4 .25-per-member recipe also matches.",
+    "top_submission": {
+      "displayed_datetime": "23:52 2026-10-15",
+      "filename": "tl3.zip",
+      "score_display": "0.66832",
+      "status": "SCORE",
+      "submission_id": "1lmehfi3",
+      "submitter": "NaiveBayes"
+    }
+  }
+}

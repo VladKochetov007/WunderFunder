@@ -1,0 +1,73 @@
+{
+  "actual_r2_preflight_receipt": {
+    "bytes": 3790,
+    "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/records/preflight-r2-20261018t1520z/COMPATIBILITY_RECEIPT_R2.json",
+    "sha256": "fd1010d586de8cb472b0c6b421890225eecba84e5096ac80e5ff75d5b73b7670",
+    "status": "PASS_CPU_LOADER_PREFLIGHT"
+  },
+  "bytecode_inventory": "PASS_NO_PYC_OR_PYO_OR_PYCACHE",
+  "commands": [
+    "PYTHONPATH=. PYTHONDONTWRITEBYTECODE=1 python3.11 -B -m unittest discover -s tests -v",
+    "uv tool run ruff format --check bindings.py prepare.py launch.py worker.py capture.py tests/test_export_execution.py",
+    "uv tool run ruff check bindings.py prepare.py launch.py worker.py capture.py tests/test_export_execution.py"
+  ],
+  "created_utc": "2026-10-18T15:44:52.399597+00:00",
+  "local_test_source": {
+    "bytes": 8393,
+    "path": "tests/test_export_execution.py",
+    "sha256": "5c55e0a81049bf64e0425bb91fb9250da988d9e9c7b9a6201af149ea3f2daac8",
+    "staged_on_b": false
+  },
+  "python": {
+    "executable": "/Users/nb/.local/bin/python3.11",
+    "version": "3.11.13"
+  },
+  "results": {
+    "ruff_check": "PASS",
+    "ruff_format_check": "PASS",
+    "ruff_version": "ruff 0.17.1",
+    "tests_run": 9,
+    "unittest": "PASS"
+  },
+  "reviewed_runtime_sources": [
+    {
+      "bytes": 16070,
+      "path": "bindings.py",
+      "sha256": "bc3347a086fc204c6abc1a5689f5308d531eaf7274877cf288cabec81820648c"
+    },
+    {
+      "bytes": 13166,
+      "path": "prepare.py",
+      "sha256": "d2bafcca727bb3f72e444dfbf46bca68b733371030035d3286f68dd07c9ad623"
+    },
+    {
+      "bytes": 9041,
+      "path": "launch.py",
+      "sha256": "18c96de0e8447db91648d3ce26390e6ce754c942f54b78c6dbddae61b13908f1"
+    },
+    {
+      "bytes": 7918,
+      "path": "worker.py",
+      "sha256": "285d9628c84a3c7f5e4e0f2a873175f2b72f7b78a66b31f9d42b920af4b215a8"
+    },
+    {
+      "bytes": 18612,
+      "path": "capture.py",
+      "sha256": "01b8d4458afd8ce2417bb8f3d0ff82becc28b60cf8d5ebbe2f4b1e6e41ff24b4"
+    }
+  ],
+  "schema": "quality_gap.strong_control_export_preparation_test_receipt.r1",
+  "scope": "local-only preparation checks; no SSH, remote writes, checkpoint tensor loads, dataset arrays, GPU, training, grading, or prediction",
+  "status": "PASS_LOCAL_BOUNDED_CHECKS",
+  "test_names": [
+    "test_actual_captured_cpu_preflight_receipt_is_semantically_bound",
+    "test_h390_sidecar_requires_its_actual_feature_only_fields",
+    "test_npy_header_checks_shape_and_dtype_without_loading_array_body",
+    "test_output_directory_must_not_redirect_outside_the_project",
+    "test_output_preflight_rejects_every_predictor_collision_path",
+    "test_root_admission_binds_attempt_preflight_and_physical_headroom",
+    "test_row_group_reader_touches_one_bounded_npz_member",
+    "test_runtime_inventory_rejects_cached_bytecode",
+    "test_runtime_inventory_rejects_unreviewed_module"
+  ]
+}

@@ -13,6 +13,10 @@ Earlier: [No-fit research reset and 25-idea portfolio](../campaign_2026-10-17/re
 — deployed prediction/cache fixes, a 249.6M-row narrow census, sampled full-feature
 and event-lag EDA, primary literature, and independent criticism. No new fits.
 
+## October 18 direct quality-gap investigation
+
+The [100-row public submission trace](../campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/README.md) identifies `tl3.zip` / `1lmehfi3` as the user-reported team best, 0.66832, and binds its name to the archived three-model production recipe. Portal bytes remain unverified. The [quality-gap packet](../campaign_2026-10-18/quality_gap_r1/README.md) separates that recipe from the cold rank1 width/depth control, restores a historical F0 control, and records source-bound residual diagnostics. [F1](../campaign_2026-10-18/priority25_execution_r4/receipts/F1_COMPLETION_20261018T1500Z.md) is complete and accepted; F0/F1 are two paired cells, not CP30.
+
 ## Read first
 
 | Need | Start here |
