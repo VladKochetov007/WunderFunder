@@ -1,6 +1,6 @@
 # Causal group-masked pretraining for a GRU teacher
 
-**Status:** proposed B300 experiment with an executable feature-only pretrainer and checkpoint converter. No B300 profile, fit, score, or submission has run.
+**Status:** [draft PR #21](https://github.com/VladKochetov007/WunderFunder/pull/21) is open against `research-team`; its initial published source commit is `642bfad821f83658061615a1f3ac3e2df45fb68e`. This is a proposed B300 experiment with an executable feature-only pretrainer and checkpoint converter. No B300 profile, fit, score, or submission has run.
 
 The idea is to pretrain a 512-wide causal GRU to reconstruct one masked raw input group at a time using the other current inputs and past recurrent state. Each selected group is hidden over a 32-row block. Mask indicators are appended explicitly. At pretraining, canonical event features are rebuilt from the masked raw sequence so they cannot reveal the hidden current group. The prediction at row t never reads row t+1, targets, or scoring masks.
 
