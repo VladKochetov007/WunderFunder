@@ -5495,13 +5495,47 @@
         "unit": "unmeasured",
         "reviewed": false
       }
+    },
+    {
+      "id": "arm:causal-predictive-state-gru-20261018",
+      "parent_id": "family:teacher",
+      "title": "Causal predictive-state GRU with next-input self-supervision",
+      "hypothesis_ids": ["H-2026101801"],
+      "experiment_ids": ["E-2026101801"],
+      "artifacts": [
+        "research/experiment_drafts/causal-predictive-state-gru-b300/README.md",
+        "research/experiment_drafts/causal-predictive-state-gru-b300/PR.md",
+        "research/experiment_drafts/causal-predictive-state-gru-b300/recipe.json",
+        "research/unified/ideas/CAUSAL_PREDICTIVE_STATE_GRU_B300_20261018_R1.md",
+        "research/unified/sources/CAUSAL_PREDICTIVE_STATE_SOURCES_20261018_R1.md"
+      ],
+      "status": "implementation_draft_no_b300_profile_or_fit",
+      "claim_scope": "Proposed auxiliary objective on exposed component folds; no measured task-quality or public-transfer claim.",
+      "next_test": "Claim an issue cell, profile both matched arms for 50 finite updates on an actual B300, then execute the frozen 30-pair matrix if the profile and worker storage/source checks pass.",
+      "related_nodes": ["arm:transformer-temporal-transfer"],
+      "kind": "arm",
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "B300 handoff is drafted; actual worker claim and finite real-shape profile are not yet recorded."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false
+      },
+      "cost_h": null
     }
   ],
   "links": [],
   "documents": [
     "research",
     "reflect_05_day",
-    "specs"
+    "specs",
+    "research/experiment_drafts/causal-predictive-state-gru-b300"
   ],
   "journal": "research/bandit_tree/journal.jsonl",
   "classification_policy": "Curated membership first; keyword family fallback is navigation-only, not a scientific assertion; uncertain nodes remain unclassified",

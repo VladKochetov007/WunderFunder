@@ -31,7 +31,7 @@ from wnn.training.runner import run_training
 | [cli_normalization](cli_normalization.py) | Ordered CLI registration for normalization options, preserving original declarations. |
 | [cli_optimizer](cli_optimizer.py) | Ordered CLI registration for optimizer options, preserving original declarations. |
 | [cli_performance](cli_performance.py) | Ordered CLI registration for performance options, preserving original declarations. |
-| [cli_targets](cli_targets.py) | Main row weighting, shifted targets and next-change auxiliary labels. |
+| [cli_targets](cli_targets.py) | Main row weighting, shifted targets and next-change / next-input auxiliary options. |
 | [cli_views](cli_views.py) | Ordered CLI registration for views options, preserving original declarations. |
 | [compatibility](compatibility.py) | Bounded legacy export adapters for bare/package/custom-name imports; no module monkey-patching. |
 | [compatibility_classes](compatibility_classes.py) | Environment injection for legacy class exports, class-valued API and worker serialization. |
@@ -53,6 +53,7 @@ from wnn.training.runner import run_training
 | [membership](membership.py) | Bounded component-subset manifests and membership validation. |
 | [model_validation](model_validation.py) | Architecture/width restrictions and block-memory defaults. |
 | [models](models.py) | Reusable architecture factory with the original constructor order. |
+| [next_input](next_input.py) | Causal next-row input prediction objective with fitting-only normalization and finite-value telemetry. |
 | [normalization](normalization.py) | Fitting-only normalization and numeric-map calibration. |
 | [optimization](optimization.py) | Optimizer/scheduler/objective/averaging construction and preflight exits. |
 | [outputs](outputs.py) | Evaluation, fixed/best checkpoint selection and terminal/resume recovery artifacts. |
@@ -64,7 +65,7 @@ from wnn.training.runner import run_training
 | [row_views](row_views.py) | Existing causal row-thinning views and retained-mass handling. |
 | [runner](runner.py) | Ordered orchestration; the only owner of epoch/batch/window traversal. |
 | [setup_lineage](setup_lineage.py) | Source ancestry and split loading, device/runtime prerequisites. |
-| [setup_model](setup_model.py) | Output layout, model construction and parent-state loading. |
+| [setup_model](setup_model.py) | Output layout, model construction and parent-state loading, including optional discarded predictive heads. |
 | [setup_model_runtime](setup_model_runtime.py) | QAT/factorization/activation attachment and model identity. |
 | [setup_preprocessing](setup_preprocessing.py) | Inherited/fitting-only preprocessing and frozen initializer-teacher construction. |
 | [setup_progress](setup_progress.py) | Clocks, profiling setup and strict resume; RNG restoration remains last. |

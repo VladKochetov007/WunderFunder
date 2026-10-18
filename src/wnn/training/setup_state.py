@@ -89,6 +89,7 @@ class NetworkState:
     n_in: int | None = None
     n_out: int | None = None
     next_at: int | None = None
+    next_input_at: int | None = None
     quote_at: int | None = None
     sign_at: int | None = None
     struct_at: int | None = None

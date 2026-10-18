@@ -20,6 +20,9 @@ def report_profile(run: TrainingRun) -> None:
     device = run.options.device
     epoch_counter = run.progress.epoch_counter
     epoch_grad_stats = run.progress.epoch_grad_stats
+    fit_next_input_count = run.progress.fit_next_input_count
+    fit_next_input_huber_sum = run.progress.fit_next_input_huber_sum
+    fit_next_input_mse_sum = run.progress.fit_next_input_mse_sum
     model = run.network.model
     profile_losses = run.progress.profile_losses
     scaler = run.optimization.scaler
@@ -39,6 +42,21 @@ def report_profile(run: TrainingRun) -> None:
         None if epoch_grad_stats is None else epoch_grad_stats.get("steps"),
         None if epoch_grad_stats is None else epoch_grad_stats.get("nonfinite_steps"),
     )
+    next_count = 0 if fit_next_input_count is None else int(fit_next_input_count.item())
+    evidence["fit_objective_mean"] = (
+        None if not profile_losses else float(torch.stack(profile_losses).float().mean().item())
+    )
+    evidence["next_input_huber_mean"] = (
+        None
+        if next_count == 0 or fit_next_input_huber_sum is None
+        else float(fit_next_input_huber_sum.item()) / next_count
+    )
+    evidence["next_input_mse_mean"] = (
+        None
+        if next_count == 0 or fit_next_input_mse_sum is None
+        else float(fit_next_input_mse_sum.item()) / next_count
+    )
+    evidence["next_input_finite_elements"] = next_count
     emit("PROFILE_UPDATE_EVIDENCE", json.dumps(evidence), flush=True)
     if args.activation_backend != "none":
         import torch._dynamo.utils as dynamo_utils

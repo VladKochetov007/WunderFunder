@@ -37,6 +37,7 @@ def build_model(run: TrainingRun) -> None:
     n_in = run.network.n_in
     n_out = run.network.n_out
     next_at = run.network.next_at
+    next_input_at = run.network.next_input_at
     quote_at = run.network.quote_at
     saved_training = run.data.saved_training
     shifts = run.data.shifts
@@ -99,6 +100,9 @@ def build_model(run: TrainingRun) -> None:
     quote_at = n_out
     if args.aux_quote > 0:
         n_out += 2
+    next_input_at = n_out
+    if args.aux_next_input_head:
+        n_out += n_in
     family_at = n_out
     base_n_out = n_out
     if args.distill_family_weight > 0:
@@ -122,6 +126,7 @@ def build_model(run: TrainingRun) -> None:
     run.network.n_in = n_in
     run.network.n_out = n_out
     run.network.next_at = next_at
+    run.network.next_input_at = next_input_at
     run.network.quote_at = quote_at
     run.network.sign_at = sign_at
     run.network.struct_at = struct_at

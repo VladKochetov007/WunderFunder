@@ -36,6 +36,22 @@ def validate_models(run: TrainingRun) -> None:
         or args.recurrent_rank
     ):
         ap.error("fixed readout mixture requires a plain dense GRU, linear encoder and no QAT")
+    if not math.isfinite(args.aux_next_input_weight) or args.aux_next_input_weight < 0:
+        ap.error("next-input auxiliary weight must be finite and nonnegative")
+    if args.aux_next_input_weight > 0 and not args.aux_next_input_head:
+        ap.error("--aux-next-input-weight requires --aux-next-input-head")
+    if args.aux_next_input_head and (
+        args.arch != "gru"
+        or args.cell != "gru"
+        or args.enc != "linear"
+        or args.numeric_map != "none"
+        or args.qat != "none"
+        or args.recurrent_rank
+        or args.init
+    ):
+        ap.error(
+            "next-input auxiliary head currently requires a cold dense plain GRU, linear encoder, no numeric map or QAT"
+        )
     width_override = (
         any(
             value is not None
@@ -144,6 +160,8 @@ def validate_clocks(run: TrainingRun) -> None:
         or (args.origin_view != "off")
         or (args.credit_mode != "deterministic")
     )
+    if controlled_loss and args.aux_next_input_weight > 0:
+        ap.error("next-input auxiliary loss is not implemented for controlled macro updates")
     if args.origin_view != "off":
         try:
             origin_windows(

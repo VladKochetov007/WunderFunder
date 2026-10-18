@@ -4,6 +4,7 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
+- [Causal predictive-state GRU B300 draft](CAUSAL_PREDICTIVE_STATE_GRU_B300_20261018_R1.md) — H-2026101801/E-2026101801 proposes a fold-clean, 30-pair FP32 test of a next-input self-supervised GRU teacher, with an implemented auxiliary head and paired B300 runner. The user-supplied feature-extractor anecdote and primary papers motivate the test but are not local quality evidence; actual B300 profile and all fits remain pending.
 - [Ranked25 execution, October18](../../campaign_2026-10-18/priority25_execution_r4/README.md) — Execution of the current25ranked hypotheses in order; rank1 compares two cold GRU shapes, with matched membership and explicit near-capacity control. Both actual-data profiles passed; the first F0 paired six-epoch pipeline is running with actual optimizer progress. Quality results are pending.
 - [Rank1 cluster handoff](../../campaign_2026-10-18/priority25_execution_r4/cluster/README.md) — Prepared issue for additional paired folds and remaining CP30 cells, excluding the running Beleriand pair. It documents executable-source references and unresolved cluster paths/scheduler; no issue or cluster fit has yet been created.
 

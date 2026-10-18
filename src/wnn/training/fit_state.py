@@ -51,6 +51,9 @@ class ProgressState:
     evaluation_score: float | None = None
     fit_loss_sum: torch.Tensor | None = None
     fit_loss_windows: int = 0
+    fit_next_input_count: torch.Tensor | None = None
+    fit_next_input_huber_sum: torch.Tensor | None = None
+    fit_next_input_mse_sum: torch.Tensor | None = None
     fit_lr_first: list[float] | None = None
     fit_lr_last: list[float] | None = None
     fit_lr_sum: list[float] | None = None
@@ -99,6 +102,9 @@ class BatchState:
     profile_batch_started: float | None = None
     qat_cache_identity: dict[str, Any] | None = None
     quote_label: torch.Tensor | None = None
+    next_input_count: torch.Tensor | None = None
+    next_input_huber: torch.Tensor | None = None
+    next_input_mse: torch.Tensor | None = None
     s: int | None = None
     scored_dev: torch.Tensor | None = None
     sl: slice | None = None
