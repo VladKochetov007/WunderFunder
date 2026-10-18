@@ -1,5 +1,7 @@
 # Strong-control recovery and F0 residual diagnostic
 
+**15:28 UTC:** [Full source and loader preflight passed](export_preparation/preflight_execution_r2/records/README.md), with exact raw receipt captured and no model or GPU run. F1 is fully collected and accepted. The historical strong-control export is the next operation. Its extraction R1 was found incompatible with the frozen producer sidecar before execution and is being replaced by isolated R2; no score or prediction was modified.
+
 **Current status, 18 October 15:22 UTC:** F1 result collection, 57-file final-path verification and independent acceptance are complete ([acceptance receipt](../priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json)). The root-gated CPU preflight is running as `preflight-r2-20261018t1520z`; its first tar attempt failed before extraction because `--gzip` was omitted, and the retained failure was followed by a successful separate recovery into the exact empty root. No preflight result/pass is recorded. See the [preflight packet](export_preparation/preflight_execution_r2/README.md); earlier handoffs are dated history.
 
 

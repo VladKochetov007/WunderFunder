@@ -1,0 +1,124 @@
+{
+  "schema": "quality_gap.preflight_independent_acceptance.v1",
+  "reviewed_utc": "2026-10-18",
+  "decision": "PASS_CPU_PREFLIGHT_ONLY",
+  "scope": "Independent local metadata and byte-binding review of the root-admitted R2 CPU loader preflight result. This accepts only the recorded CPU loader preflight; it does not admit inference, export, prediction, grading, or training.",
+  "reviewed_inputs": {
+    "root_admission": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/ROOT_ADMISSION_20261018T1520Z.json",
+      "sha256": "39e0913bf40a6320ca16ba2fd7e7c94531ebfaa43ff54f41edec570d618333cb",
+      "status": "ADMITTED_CPU_PREFLIGHT_ONLY",
+      "export_admitted": false,
+      "limits": {
+        "cpu_fraction": 0.5,
+        "memory_max_bytes": 1500000000,
+        "runtime_max_seconds": 900,
+        "swap_max_bytes": 0
+      }
+    },
+    "overlay_manifest": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/compatibility_overlay_r2/OVERLAY_MANIFEST_R2.json",
+      "bytes": 23518,
+      "sha256": "1785e8529a2868e1ca40a0c668c57ccc28ae82b04fda7c13bf7a3c8bc32c409b"
+    },
+    "independent_overlay_review": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/compatibility_overlay_r2/INDEPENDENT_REVIEW_R2.json",
+      "bytes": 11075,
+      "sha256": "dfb733ebc98ac2012062e48152bf6f0d40d26f5c8ea079e4ab1b88379e8cdffe",
+      "decision": "PASS_STATIC_REVIEW_READY_FOR_ROOT_GATED_PREFLIGHT"
+    },
+    "staging_receipt": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/records/preflight-r2-20261018t1520z/STAGE_REMOTE_RECEIPT.json",
+      "sha256": "77ca2565390af9c1bf8ff185e22e87c3877db99310d55ae737d7e40a534cb094",
+      "status": "STAGED",
+      "manifest_sha256": "1785e8529a2868e1ca40a0c668c57ccc28ae82b04fda7c13bf7a3c8bc32c409b",
+      "r2_review_sha256": "dfb733ebc98ac2012062e48152bf6f0d40d26f5c8ea079e4ab1b88379e8cdffe"
+    }
+  },
+  "result": {
+    "receipt": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/records/preflight-r2-20261018t1520z/COMPATIBILITY_RECEIPT_R2.json",
+      "bytes": 3790,
+      "sha256": "fd1010d586de8cb472b0c6b421890225eecba84e5096ac80e5ff75d5b73b7670",
+      "captured_status": "PASS_CPU_LOADER_PREFLIGHT",
+      "checks": {
+        "component_map_matches_feature_graph": true,
+        "evaluation_membership_matches_chain_folds": true,
+        "fit_and_evaluation_components_are_disjoint": true,
+        "loader_returned": true
+      },
+      "counts": {
+        "fit.train": 10535,
+        "fit.valid": 1405,
+        "evaluation.valid": 468,
+        "excluded.train": 71,
+        "excluded.valid": 468,
+        "excluded.corrupt_train": 1
+      },
+      "scope": {
+        "checkpoint_loaded": false,
+        "model_or_target_arrays_loaded": false,
+        "prediction_or_grade_run": false,
+        "training_or_gpu_execution": false
+      },
+      "binding_checks": {
+        "overlay_manifest_sha256_matches_reviewed_pin": true,
+        "old_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "canonical_split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+        "membership_comparison_sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d",
+        "portable_registry_sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+        "accepted_chain_folds_sha256": "a112f809259f631c2ee7c12480e4ec1d4eef197a980e7ce23c707d842d092567",
+        "rejected_chain_folds_sha256": "315b84f385f5368615c76087288b623f99c33bd680e9ebf7c3465bf5ab8afd35"
+      }
+    },
+    "execution": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/records/preflight-r2-20261018t1520z/EXECUTION.json",
+      "sha256": "8a44cd0f96e83b97c5693023cd69f1892d4c007b5eecd14bbf871713a71751df",
+      "status": "RETURNED",
+      "attempt_id": "preflight-r2-20261018t1520z",
+      "returncode": 0,
+      "elapsed_seconds": 368.111,
+      "stdout_sha256_and_bytes_match_raw_capture": true,
+      "stderr_sha256_and_bytes_match_raw_capture": true,
+      "remote_stdout_reports_same_pass_status_and_receipt_path": true
+    },
+    "capture": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/records/preflight-r2-20261018t1520z/CAPTURE.json",
+      "sha256": "62d5023127dedac0bf45be6996572bbf950c3929f704d0ba58c2d81ccb9a2526",
+      "status": "CAPTURED_AND_VALIDATED",
+      "attempt_id": "preflight-r2-20261018t1520z",
+      "remote_bytes_equals_captured_bytes": true,
+      "remote_sha256_equals_captured_sha256": true,
+      "capture_payload_sha256_equals_local_receipt_sha256": true,
+      "validation_error": null
+    },
+    "postflight": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/records/preflight-r2-20261018t1520z/POSTFLIGHT.json",
+      "sha256": "959753af0c533aa7f83b976c0f380db95b2a39f57772571679e8e3bef0d1b60b",
+      "unit_inactive_and_collected": true,
+      "explicit_stop_needed": false,
+      "export_admitted": false
+    }
+  },
+  "resource_observations": {
+    "elapsed_seconds": 368.111,
+    "hard_runtime_cap_seconds": 900,
+    "memory_high_bytes": 1300000000,
+    "memory_max_bytes": 1500000000,
+    "observed_memory_peak_bytes": 1300520960,
+    "peak_below_memory_max": true,
+    "high_watermark_crossed_by_bytes": 520960,
+    "high_events_reported_during_run": 165,
+    "oom_and_kill_counters": 0,
+    "aggregate_max_counter": 306,
+    "aggregate_max_counter_at_preflight_admission": 306,
+    "interpretation": "The sampled service peak remained below MemoryMax, with a small MemoryHigh crossing and reclaim-pressure events. The max counter shown in the health/postflight records is 306, the same value present in the preflight-admission parent resource observation; the health record also shows run-local max=0. No OOM or kill was reported."
+  },
+  "integrity_and_caveats": [
+    "All 59 overlay-manifest source-file entries matched their declared local sizes and SHA-256 values during this review.",
+    "All seven non-README .py files listed in ROOT_ADMISSION (six runtime helpers and the test file) matched their pinned size and SHA-256. The README pin was 7,892 bytes / b68c58a508f658f7bd3e2c770b5341891d8b734940c63e65cfcd6e2d164e34fb; the current README is 8,159 bytes / f8cb652c2b5eb7eac9c97d37e5ae0d2fa1aee4cb6c09974269aaa64dac6d936c. Its current mtime is 18:23:41 UTC, after completion at 15:27:01 UTC, consistent with a post-run documentation update. This documentation-only change does not alter the executed code or captured receipt; preserve the admission record and treat the updated README as current documentation.",
+    "The initial tar transfer failure is preserved separately; it occurred before extraction. The separately recorded recovery stage is STAGED and its bindings match the reviewed manifest and receipt inputs.",
+    "This reviewer checked local metadata and byte bindings only. No remote call, full source rehash, model/checkpoint deserialization, target/prediction array load, repeated tests, inference, export, grading, or training was performed. The 37.1 GB full-source hashing and loader behavior are accepted from the captured execution/receipt evidence, not independently rerun."
+  ],
+  "remaining_gate": "No inference/export admission follows from this pass. Any later inference/export still requires the campaign's separate root admission, exact source and artifact binding checks, and bounded execution controls."
+}

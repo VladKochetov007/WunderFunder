@@ -1,5 +1,7 @@
 # Ranked25 execution, 18 October 2026
 
+**15:28 UTC:** the [strong-control CPU preflight](../quality_gap_r1/export_preparation/preflight_execution_r2/records/README.md) has now passed and been captured. F1 is complete and accepted. Strong-control no-training export remains pending; no new CP30 cell has been admitted.
+
 **Current F1 status:** both fits, exports and paired grade finished; wide 0.66132919 versus deep 0.66169479, conditional interval crosses zero. Terminal checkpoints are verified. [R2 result collection](receipts/RANK01_F1_S1001_RESULT_COLLECTION.json), [final-path verification](receipts/RANK01_F1_S1001_FINAL_PATH_VERIFICATION_V1.json) and [independent acceptance](receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json) are complete; the latter records the successful 57-file destination hash check. The [R1 source-map failure](receipts/F1_RESULT_COLLECTION_FAILURE_V1.json) remains preserved. No training, export or grade was rerun for collection.
 
 **Current strong-control preflight, 18 October 15:22 UTC:** the root-gated CPU preflight runs as `preflight-r2-20261018t1520z`; see the [operational packet](../quality_gap_r1/export_preparation/preflight_execution_r2/README.md). The initial tar attempt failed before extraction because it omitted `--gzip`; a separate recovery into the exact empty root succeeded. The failure remains recorded, and no preflight result/pass is available yet.
