@@ -1,0 +1,57 @@
+{
+  "schema": "f0_submission.release.v1",
+  "created_utc": "2026-10-18T10:43:29.120910+00:00",
+  "status": "validated_exploratory_release",
+  "artifact_path": "/Users/nb/Documents/wunder/submissions/kotiki_f0_wide75_deep25_q8_20261018.zip",
+  "zip_sha256": "c4cb51bf20e7639f0fa607489b911b551f5296158db3bd913429e95ce7c139e6",
+  "zip_bytes": 17480575,
+  "members": {
+    "wide_f0_s1001_epoch5": 0.75,
+    "deep_f0_s1001_epoch5": 0.25
+  },
+  "precision": "q8vnni",
+  "training_performed_for_submission": false,
+  "competition_upload_performed": false,
+  "selection": "Best of five preregistered scalar FP32 mixtures on previously exposed F0. Fixed weights for both targets.",
+  "native_f0_score": {
+    "t0": 0.6641447254350511,
+    "t1": 0.68350798990468,
+    "wp": 0.6738263576698655,
+    "selected_rows": 808863,
+    "metric_id": "global_wp_clip2_v1"
+  },
+  "full_rows": 9360000,
+  "groups": 468,
+  "components": 141,
+  "independent_wp_max_difference": 5e-16,
+  "validation": [
+    "Complete actual ZIP Python3.11/Linux native callbacks across468 F0 sequences",
+    "Original full parquet SHA and fold/order/official mask verified",
+    "Second canonical original-label grade and separate direct float64 rescore agree",
+    "Finite predictions, exact A-B-A reset, v2/AVX2 panel parity, ELF GLIBC<=2.34, create-only ZIP copy and CRC passed"
+  ],
+  "receipt_sha256": {
+    "MIX75_Q8_BUILD.json": "b8dbdfaf76101e4f77ebee86cc41710f831045a97f143c07574088b9113b042f",
+    "BLEND_SELECTION.json": "59513a1aa292feb9eb4c59211c70a057c3cd0362ebddfc6ad6879b09279c6c46",
+    "Q8_FULL_F0.json": "d5ff23d3bae39f831c00c6431e1d31de635e5c13e696cada2f6760c126dc1572",
+    "Q8_CANONICAL_GRADE.json": "17577b561197ddf0c8a46062d6774d8330fd9c8d6b8afbbcbc93b52cba574fed",
+    "INDEPENDENT_NATIVE_GRADE.json": "7c02f73f947faa1d075fa39e7d76395bb156abdd9aa17ca9726c7d68f1f3b9bf",
+    "FULL_REPLAY_EXECUTION.json": "bdb50431f9d9198a88e587b0ffe02f3c9f4a7e923f1fe680ce503c738c65b545",
+    "CANONICAL_GRADE_EXECUTION.json": "7d6a3c46403800c20409425507134cbdf22c74c4ac8206abcce9b9b15374bfea",
+    "STATIC_RELEASE_REVIEW.json": "18f15e41b0e23efb043ed0014c723f9493daf56f5301bd277a4c6017800ad195"
+  },
+  "runtime": {
+    "matched_two_sequence_ratio_to_local_incumbent": 1.0721692,
+    "conditional_historical_incumbent_estimate_minutes": 53.894,
+    "historical_incumbent_seconds": 3016,
+    "absolute_beleriand_panel_extrapolation_minutes": 137,
+    "actual_scorer_runtime_verified": false,
+    "limit_minutes": 60,
+    "limitations": "Historical incumbent runtime was user-transcribed; uploaded historical payload hash and official scorer image not independently checked. Full native replay changed quota100% to75%, so its raw elapsed-derived ETA is not a one-core benchmark."
+  },
+  "scientific_limits": [
+    "Selection and grade use exposedF0 from one seed.",
+    "No CP30, pristine holdout, convergence or public-score forecast.",
+    "Q8 predictions differ from FP32 mixture; maxabs.0372010/RMS.00160823 on need_prediction rows."
+  ]
+}

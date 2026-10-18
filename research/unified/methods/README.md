@@ -1,5 +1,7 @@
 # Methods, sampling, and metric
 
+- [Released F0 native submission](../../campaign_2026-10-18/f0_submission_r1/receipts/RELEASE.json): fixed75%wide/25%deep Q8 ZIP17.48MB; actual full-F0 WP0.6738263577 confirmed by independent original-label/direct grades. The [packet](../../campaign_2026-10-18/f0_submission_r1/README.md) retains selection exposure, package provenance and the unresolved official-server runtime estimate.
+
 Reusable metric, causal data handling, statistical and implementation contracts.
 
 ## Current navigation

@@ -41,7 +41,7 @@ The [Q8 mixture build](receipts/MIX75_Q8_BUILD.json) uses the same checkpoints,
 coefficients and fixed member list with dynamic integer inference at load.
 There is no retraining, calibration fit, output-dependent routing or wall-clock
 governor. The [Q8 panel](receipts/Q8_PANEL.json) passes the same callback/reset
-checks and is about four times faster than FP32. Its full F0 replay is pending.
+checks and is about four times faster than FP32. Its complete F0 replay now passes: actual served WP **0.6738263577**, only0.0000245866 below the FP32 mixture. The second canonical original-label grade and a separate direct float64 rescore agree within5e-16.
 
 The [same-host incumbent panel](receipts/INCUMBENT_PANEL.json) checks the exact
 locally archived `xteam_h4.zip`. The new Q8 pair is 1.072× its two-sequence time.
@@ -52,12 +52,24 @@ verified. Absolute Beleriand extrapolation is 137 minutes on its Xeon Gold6230;
 the host is not the competition scorer. Both numbers are retained rather than
 treating the favorable calibration as proof.
 
-Full source-qualified F0 replay is active under
-`computer-vision-homework-f0-submit-release-replay-v1.service`. It first runs
-static ELF and v2/AVX2 callback checks, then all 9.36 million F0 rows through the
-actual Q8 ZIP. The [fixed launcher](code/replay_release.sh) started under1CPU; its quota was reduced to0.75CPU after the [F1 admission incident](../priority25_execution_r4/f1_recovery_r1/README.md). It retains
-2GB RAM, swap0 and a 5400-second deadline inside the existing two-core campaign
-slice. No extra GPU worker is created. Its elapsed time spans both quotas and must not be used as a one-core benchmark. Final grade and delivery are pending.
+The [released ZIP](receipts/RELEASE.json) is
+`/Users/nb/Documents/wunder/submissions/kotiki_f0_wide75_deep25_q8_20261018.zip`,
+17,480,575 bytes, SHA256
+`c4cb51bf20e7639f0fa607489b911b551f5296158db3bd913429e95ce7c139e6`.
+All9.36million rows in468 complete F0 sequences ran through its actual native
+Python3.11 callbacks, with808,863 officially scored rows. [Full replay](receipts/Q8_FULL_F0.json),
+[canonical original-label grade](receipts/Q8_CANONICAL_GRADE.json), and
+[independent direct rescore](receipts/INDEPENDENT_NATIVE_GRADE.json) agree.
+The executed package's t0 is0.6641447254, t1 is0.6835079899, and WP is0.6738263577.
+It is0.0002506067 above the original FP32 wide reference on this exposed fold.
+
+The replay and grade exited0; their own exited support units were stopped after
+capture. The [replay execution](receipts/FULL_REPLAY_EXECUTION.json) spans a CPU
+quota change from100% to75% during the [F1 recovery](../priority25_execution_r4/f1_recovery_r1/README.md).
+Its raw elapsed-derived ETA field is retained as producer output but must not
+be treated as a one-core or official-server runtime estimate. The separate
+100% CPU timing panels above retain their original scope. No competition
+upload was performed.
 
 ## Evidence and reproduction
 

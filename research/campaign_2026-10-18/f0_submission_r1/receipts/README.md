@@ -39,3 +39,8 @@ FP32 selection, actual native serving and independent artifact checks.
 - [OFFICIAL_ENVIRONMENT_CHECK](OFFICIAL_ENVIRONMENT_CHECK.json): official guide requirements and the limits of the actual Linux/Python3.11 test environment. The delivered package uses NumPy within the stated range; PyArrow is only a validation-harness dependency.
 
 - [Independent static release audit](STATIC_RELEASE_REVIEW.json): exact ZIP size/SHA/member list and existing ABI checks pass; full replay and canonical grade are still required. Explicitly retains the uncertain scorer runtime estimate.
+
+- [Full actual ZIP replay](Q8_FULL_F0.json) and [execution](FULL_REPLAY_EXECUTION.json):468 sequences/9.36M callbacks rows, full original parquet and fold hashes, finite outputs and exact A-B-A reset; exited0. Raw elapsed ETA spans quotas and is not a one-core benchmark.
+- [Canonical grade](Q8_CANONICAL_GRADE.json), [launch](CANONICAL_GRADE_LAUNCH.json), and [execution](CANONICAL_GRADE_EXECUTION.json): separate original-label metric implementation reproduces both target scores and WP; compact predictions copied with SHA verification.
+- [Independent native rescore](INDEPENDENT_NATIVE_GRADE.json): direct float64 weighted Pearson independently agrees within5e-16 and measures Q8 delta−0.0000245866 against the FP32 mixture.
+- [Final release](RELEASE.json): delivered artifact path/size/SHA, fixed75/25 recipe, measured native WP0.6738263577, all validation links and unresolved official-server runtime uncertainty.

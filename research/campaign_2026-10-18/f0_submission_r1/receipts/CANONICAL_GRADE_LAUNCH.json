@@ -1,0 +1,32 @@
+{
+  "created_utc": "2026-10-18T10:40:02.214778+00:00",
+  "preflight": {
+    "parent_memory_bytes": 5333467136,
+    "memory_events": "low 0\nhigh 0\nmax 306\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=computer-vision-homework-f0-submit-canonical-grade-v1.service",
+    "--slice=wnn-campaign.slice",
+    "--property=CPUQuota=50%",
+    "--property=MemoryMax=1500000000",
+    "--property=MemorySwapMax=0",
+    "--property=RuntimeMaxSec=180",
+    "--property=TimeoutStopSec=10",
+    "--property=RemainAfterExit=yes",
+    "--setenv=CUDA_VISIBLE_DEVICES=",
+    "--setenv=OMP_NUM_THREADS=1",
+    "--setenv=OPENBLAS_NUM_THREADS=1",
+    "--setenv=MKL_NUM_THREADS=1",
+    "--setenv=PYTHONDONTWRITEBYTECODE=1",
+    "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "--setenv=PYTHONPATH=/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/src",
+    "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/submission-f0-r1/grade_native_result.py",
+    "--base",
+    "/home/grinchenkoeg/computer-vision-homework-20261018"
+  ],
+  "returncode": 0,
+  "stderr": "Running as unit: computer-vision-homework-f0-submit-canonical-grade-v1.service; invocation ID: f597f9e8dcca40eeba3f02b7937dcea9\n"
+}

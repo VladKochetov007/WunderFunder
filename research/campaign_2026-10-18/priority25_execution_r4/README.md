@@ -1,5 +1,8 @@
 # Ranked25 execution, 18 October 2026
 
+**10:43UTC handoff:** [Deep F1 stage1 collection and independent verification](receipts/F1_DEEP_STAGE1_HANDOFF_20261018T1043Z.json) passed:29,860updates,2,986batches,0skips,finite FP32 model/Adam,138canonical source hashes; stateSHA31f00126d3a4d572e9f35eba81fec5f87da8e7d10b7ceac8f5acdfa9501268d2. Both stage1 archives/verifications are complete; do not repeat. Wide ep25-v2 continues under recovery sequence. Submission CPU replay/grade and stage1 support all exited0 and were stopped aftercapture. The F0 Q8 ZIP is released with WP0.6738263577; see [submission packet](../f0_submission_r1/README.md).
+
+
 **10:20UTC recovery:** [F1 continuation repair](f1_recovery_r1/README.md) supersedes the old active-controller instructions below. The original sequence stopped before wide continuation because reserved CPU summed to2.1 cores. Replay quota is now75%; the new `computer-vision-homework-r01-f1-recovery-v1.service` runs the reviewed recovery plan with fresh `ep25-v2` attempt, unchanged trainer command and original contract. State: `B/runtime/receipts/RANK01_F1_S1001_RECOVERY_SEQUENCE_V1.json`. Do not restart the old failed controller. Both stage1 fits completed; deep archive/verification remains pending. Existing V2 helpers cover both stage1 and deep terminal; [wide-terminal V3 support](f1_recovery_r1/checkpoints/README.md) is independently reviewed and hash-staged, not yet used. Its manifest SHA is45826ff1c599147ef9d6be905e9a4a116286338f30a91ee84f3968a3f9c01c29. Wide continuation intermediate collection still needs a separately prepared helper; V2 cannot bind the new attempt.
 
 

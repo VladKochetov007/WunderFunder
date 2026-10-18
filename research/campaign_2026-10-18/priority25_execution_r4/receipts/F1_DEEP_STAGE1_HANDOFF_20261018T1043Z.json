@@ -1,0 +1,57 @@
+{
+  "created_utc": "2026-10-18T10:44:08.371790+00:00",
+  "status": "deep_stage1_archived_verified_wide_continuation_healthy",
+  "deep_verification": {
+    "run": "rr18_r01_deep_f1_s1001",
+    "next_epoch": 2,
+    "completed_update_counts": {
+      "optimizer_attempts": 29860,
+      "amp_skipped_updates": 0,
+      "optimizer_completed_updates": 29860,
+      "ema_updates": 0,
+      "completed_batches": 2986
+    },
+    "source_files_verified": 138,
+    "planned_schedule_updates": 89580,
+    "model_tensors_verified": 16,
+    "adam_states_verified": 14,
+    "history_epochs_verified": 2,
+    "cuda_initialized": false
+  },
+  "deep_resume_state": {
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f1_s1001/stage1_epoch1/training_state.pt",
+    "bytes": 25878319,
+    "sha256": "31f00126d3a4d572e9f35eba81fec5f87da8e7d10b7ceac8f5acdfa9501268d2"
+  },
+  "receipts_sha256": {
+    "RANK01_DEEP_F1_S1001_STAGE1_COLLECTION.json": "d8f44403e53550996e1cf1c2b92bdd3acf7f9139b3aa82fa8d5e0da761d171f8",
+    "RANK01_DEEP_F1_S1001_STAGE1_VERIFICATION.json": "b6bb2c662feb7c3dd95d665902a43ba28ed2f06ec7d27cc371d201128c86a9be",
+    "RANK01_DEEP_F1_S1001_STAGE1_COLLECTION_EXECUTION_V2.json": "a8130004fd11810a61ad8dae63f20b91a0852c69b4558b2ec42d54c2c2a05d1a",
+    "RANK01_DEEP_F1_S1001_STAGE1_VERIFICATION_EXECUTION_V2.json": "e4c76e93b58db2ce86080c205547d6a1ed258b15511e3d7de983baa272cbe517"
+  },
+  "live": {
+    "created_utc": "2026-10-18T10:44:08.477715+00:00",
+    "sequence": {
+      "attempt": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+      "heartbeat_utc": "2026-10-18T10:44:02.145061+00:00",
+      "index": 2,
+      "launch_returncode": 0,
+      "launch_stderr": "",
+      "plan": "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_recovery_r1/F1_RECOVERY_PLAN.json",
+      "plan_sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+      "status": "running",
+      "worker_heartbeat": "2026-10-18T10:43:59.204618+00:00",
+      "worker_status": "running"
+    },
+    "log_tail": [
+      "ep 2 batch 1260/1493 loss 1.4339 lr 5.84e-05 seq/s 7.3",
+      "ep 2 batch 1280/1493 loss 1.0517 lr 5.80e-05 seq/s 7.3",
+      "ep 2 batch 1300/1493 loss 1.0242 lr 5.77e-05 seq/s 7.3"
+    ],
+    "parent_memory_bytes": 5390217216,
+    "parent_memory_events": "low 0\nhigh 0\nmax 306\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "submission_support_units": "Full replay and independent grade exited0, captured/stopped. Collector/verifier likewise exited0 and stopped. No active CPU support.",
+  "next": "Continue one healthy wide v2 GPU worker; first continuation checkpoint persisted ancestry pending; V3 wide-terminal helpers reviewed/staged. Both stage1 and deep terminal useV2. Do not repeat completed stage1 checks.",
+  "limitations": "Stage1 structural verification only, not terminal F1 score or GPU resume parity."
+}
