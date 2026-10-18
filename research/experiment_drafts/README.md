@@ -2,7 +2,9 @@
 
 The active [rank1 continuation draft](https://github.com/VladKochetov007/WunderFunder/tree/experiment/rr18-01-labels/research/experiment_drafts/rr18-01-labels) is published on `experiment/rr18-01-labels`, based on the source-bound [October18 execution packet](../campaign_2026-10-18/priority25_execution_r4/README.md). Both profiles passed and the first paired fit is running. Its endpoint metrics and PR URL remain pending; the historical catalogue below is unchanged.
 
-Fourteen draft PRs are published with base **research-team**; The table below preserves historical publication SHAs; the [latest synchronization receipt](BRANCH_SYNC_20261017_R2.json) records current pushed heads, merged target and GitHub verification. No experiment has been merged or fitted by this publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
+New proposal: [meta-trained causal online GRU adaptation](online_meta_tta_gru_b300/README.md) is [draft PR #20](https://github.com/VladKochetov007/WunderFunder/pull/20) on `research-team`, initial head `d987b0d667c8`. It adds input-only fast-weight updates and a required student-transfer comparison, distinct from PR #14's fixed innovation features, PR #17's Kalman state features, and PR #18's static next-input auxiliary. Its adapter and synthetic shape/autograd probe are draft code only; two static ITERATE reviews prompted specification and availability-wording corrections, and a final static review passed at `056a7bd2e17b7fa39dd4f07726dd8e73e476a79d`. Trainer integration, actual B300 profile, fit, and result remain pending.
+
+The table below preserves the first fourteen handoffs' historical publication SHAs; the latest `research-team` drafts also include PR #15, PR #17, PR #18, and PR #20. The [latest synchronization receipt](BRANCH_SYNC_20261017_R2.json) records older pushed heads, merge targets, and GitHub verification. No experiment has been merged or fitted by this publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records historical provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
 
 - [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.
 - [Workflow](../unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) defines30 paired cells per scientific arm, strictFP32, source-clean evaluation and separate logs/weights archives.
@@ -23,6 +25,7 @@ Fourteen draft PRs are published with base **research-team**; The table below pr
 | [#12](https://github.com/VladKochetov007/WunderFunder/pull/12) | Expand clean heterogeneous recurrent teacher cohort | `ec1e55bba63a` |
 | [#13](https://github.com/VladKochetov007/WunderFunder/pull/13) | Fixed checkpoint trajectory averaging | `cc523fc5c1c3` |
 | [#14](https://github.com/VladKochetov007/WunderFunder/pull/14) | Causal innovation residuals beyond moment features | `65f6fffdc559` |
+| [#20](https://github.com/VladKochetov007/WunderFunder/pull/20) | Meta-trained causal online adaptation for GRU teacher and student | `d987b0d667c8` |
 
 ## Readiness
 

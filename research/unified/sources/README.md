@@ -4,6 +4,8 @@ External writeups and literature provenance; external results do not establish l
 
 ## Current navigation
 
+- [Meta-trained causal online adaptation sources](ONLINE_META_TTA_GRU_B300_20261018_R1.md) — four primary arXiv papers on self-supervised test-time updates and nonstationary time series, with direct transfer limits and the local hypothesis they motivate. None establishes a Challenge2 gain; the linked B300 packet remains unprofiled and unfitted. Its independent implementation critique and specification corrections are linked from the [review index](../reviews/README.md).
+
 - [October 18 ranking source check](../ideas/PRIORITIZED_25_20261018_R3.md) - primary FitNets, Mamba-3 and xLSTM abstracts rechecked for intermediate hints, MIMO and scalar/matrix memory. These support operator descriptions only; local priority comes from project evidence and an explicit exploration judgment.
 
 - [R2 mechanism sources](../../campaign_2026-10-17/research_reset_r2/reflection/SOURCE_MANIFEST.md) and [state-clock/query transfer](../../campaign_2026-10-17/research_reset_r2/theory/STATE_CLOCKS_AND_PREDICTIVE_QUERIES.md) — scoped primary-source checks covering semi-Markov/sticky-state/point-process/Rao–Blackwell/compressed-memory mechanisms, Phased LSTM, Skip RNN, hierarchical recurrence, predictive states and Chronos-2. Abstract/formulation inspection and local transfer inferences are separated; no pretrained weights or published gains are imported. Old-code overlap is linked before retaining a proposal.
