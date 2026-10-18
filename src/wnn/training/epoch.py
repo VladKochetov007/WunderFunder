@@ -70,6 +70,9 @@ def prepare_epoch(run: TrainingRun) -> None:
         )
     run.progress.fit_loss_sum = None
     run.progress.fit_loss_windows = 0
+    run.progress.fit_next_input_count = None
+    run.progress.fit_next_input_huber_sum = None
+    run.progress.fit_next_input_mse_sum = None
     run.progress.fit_lr_first = None
     run.progress.fit_lr_last = None
     run.progress.fit_lr_sum = None
@@ -93,6 +96,9 @@ def record_fit_window(run: TrainingRun) -> None:
         raise RuntimeError("fit window lacks its objective or scheduler")
     fit_loss_sum = run.progress.fit_loss_sum
     fit_lr_sum = run.progress.fit_lr_sum
+    next_count = run.batch.next_input_count
+    next_huber = run.batch.next_input_huber
+    next_mse = run.batch.next_input_mse
     rates = [float(value) for value in sched.get_last_lr()]
     if fit_loss_sum is None:
         run.progress.fit_loss_sum = loss.detach().clone()
@@ -106,6 +112,24 @@ def record_fit_window(run: TrainingRun) -> None:
             fit_lr_sum[index] += rate
     run.progress.fit_lr_last = rates
     run.progress.fit_loss_windows += 1
+    if next_count is not None and next_huber is not None and next_mse is not None:
+        count = next_count.detach()
+        huber_sum = next_huber.detach() * count
+        mse_sum = next_mse.detach() * count
+        previous_count = run.progress.fit_next_input_count
+        if previous_count is None:
+            run.progress.fit_next_input_count = count.clone()
+            run.progress.fit_next_input_huber_sum = huber_sum.clone()
+            run.progress.fit_next_input_mse_sum = mse_sum.clone()
+        else:
+            if (
+                run.progress.fit_next_input_huber_sum is None
+                or run.progress.fit_next_input_mse_sum is None
+            ):
+                raise RuntimeError("next-input fit telemetry is partially initialized")
+            previous_count.add_(count)
+            run.progress.fit_next_input_huber_sum.add_(huber_sum)
+            run.progress.fit_next_input_mse_sum.add_(mse_sum)
 
 
 def fit_epoch_summary(run: TrainingRun, epoch_update_counts: dict[str, int]) -> dict[str, object]:
@@ -115,6 +139,9 @@ def fit_epoch_summary(run: TrainingRun, epoch_update_counts: dict[str, int]) -> 
     lr_first = run.progress.fit_lr_first
     lr_last = run.progress.fit_lr_last
     lr_sum = run.progress.fit_lr_sum
+    next_count = run.progress.fit_next_input_count
+    next_huber_sum = run.progress.fit_next_input_huber_sum
+    next_mse_sum = run.progress.fit_next_input_mse_sum
     mean_loss = None if loss_sum is None or count == 0 else float(loss_sum.item()) / count
     mean_lr = None if lr_sum is None or count == 0 else [rate / count for rate in lr_sum]
     groups = []
@@ -125,9 +152,23 @@ def fit_epoch_summary(run: TrainingRun, epoch_update_counts: dict[str, int]) -> 
                 zip(lr_first, lr_last, mean_lr, strict=True)
             )
         ]
+    next_count_value = 0 if next_count is None else int(next_count.item())
+    next_input_huber = (
+        None
+        if next_count_value == 0 or next_huber_sum is None
+        else float(next_huber_sum.item()) / next_count_value
+    )
+    next_input_mse = (
+        None
+        if next_count_value == 0 or next_mse_sum is None
+        else float(next_mse_sum.item()) / next_count_value
+    )
     return {
         "objective_mean": mean_loss,
         "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "next_input_huber_mean": next_input_huber,
+        "next_input_mse_mean": next_input_mse,
+        "next_input_finite_elements": next_count_value,
         "optimizer_windows": count,
         "learning_rate_by_group": groups,
         "optimizer_updates": epoch_update_counts,

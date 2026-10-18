@@ -67,6 +67,8 @@ def validate_inputs(run: TrainingRun) -> None:
             or args.aux_sign
             or args.aux_quote
             or args.aux_next_k
+            or args.aux_next_input_head
+            or args.aux_next_input_weight
             or (args.spread_aux_mode != "original")
             or args.spread_cache_root
             or args.raw_only

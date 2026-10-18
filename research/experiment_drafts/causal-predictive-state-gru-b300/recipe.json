@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "hypothesis_id": "H-2026101801",
+  "experiment_id": "E-2026101801",
+  "title": "Causal predictive-state GRU with next-input self-supervision",
+  "status": "implementation_draft_no_b300_profile_or_fit",
+  "owner": "B300 cluster teammate after issue claim; root owns evidence integration",
+  "mechanism_family": "teacher_representation_and_objective",
+  "parent_ids": ["family:teacher", "family:temporal"],
+  "source": {
+    "research_team_base": "a0355ed6b08f87661522744a5be57d265bc45bbc",
+    "main_snapshot": "24e9001570de158db9a5031e632dbb0b4477145f",
+    "data_contract": "docs/data_overview.md",
+    "trainer_entrypoint": "scripts/train_rnn.py"
+  },
+  "metric": "global_wp_clip2_v1",
+  "comparison": {
+    "control": {
+      "description": "Cold H512 x 1 plain GRU with a next-input output head of identical shape; auxiliary weight zero.",
+      "flags": ["--aux-next-input-head", "--aux-next-input-weight 0.0"]
+    },
+    "candidate": {
+      "description": "Same cold H512 x 1 plain GRU and output-head shape; normalized next-input SmoothL1 loss with fixed weight 0.10.",
+      "flags": ["--aux-next-input-head", "--aux-next-input-weight 0.10"]
+    },
+    "matched": [
+      "same fold, fitting seed, batches, model initialization and output layout",
+      "same fitting components and fitting-only input normalization",
+      "same six epochs, optimizer attempts, optimizer, schedule, clipping, checkpoint and full precision",
+      "same auxiliary-head parameter count; only the candidate has a nonzero auxiliary loss"
+    ],
+    "primary_endpoint": "Fixed epoch 5 checkpoint; outer evaluation is not consulted during fitting.",
+    "no_teacher_or_initializer": true
+  },
+  "objective": {
+    "input_schema": "canonical raw112 + event99 model input; expected width 211 when no optional research features are enabled",
+    "target": "For each fitting time t, predict the standardized model-input row at t+1 from the causal model output at t.",
+    "normalization": "Use the model mean/std buffers fitted only on the cell's fitting membership; standard deviation floor is the existing 0.001.",
+    "loss": "Elementwise SmoothL1 beta=1.0, averaged across finite batch x time x input elements; candidate weight 0.10.",
+    "terminal_row": "The final time step has no successor and is excluded.",
+    "rows": "All rows in fitting sequences, including warmup rows; labels and score masks do not weight this self-supervised term.",
+    "inference": "The auxiliary output columns are ignored; the existing first two task outputs and recurrent state are unchanged."
+  },
+  "matrix": {
+    "fold_manifest_directory": "research/campaign_2026-09-29/artifacts/splits",
+    "folds": {
+      "0": {
+        "evaluation_sequences": 468,
+        "evaluation_components": 141,
+        "manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "1": {
+        "evaluation_sequences": 457,
+        "evaluation_components": 149,
+        "manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+      },
+      "2": {
+        "evaluation_sequences": 443,
+        "evaluation_components": 144,
+        "manifest_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9"
+      },
+      "3": {
+        "evaluation_sequences": 505,
+        "evaluation_components": 145,
+        "manifest_sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343"
+      }
+    },
+    "seed_schedule": "F0/F1 seeds 1001-1008; F2/F3 seeds 1001-1007; same seed identities cross folds",
+    "cells_per_arm": 30,
+    "fits_total": 60,
+    "profile_is_not_a_cell": true
+  },
+  "training": {
+    "architecture": "cold plain GRU, hidden 512, one layer, linear encoder, dropout 0",
+    "batch": 8,
+    "chunk_rows": 2000,
+    "epochs": 6,
+    "checkpoint": "fixed zero-based epoch 5; no validation selection during fitting",
+    "objective": "wmse, chunk normalization",
+    "optimizer": "AdamW",
+    "learning_rate": 0.0001,
+    "beta2": 0.999,
+    "weight_decay": 0.01,
+    "scheduler": "OneCycleLR, warmup fraction 0.05",
+    "gradient_clip_norm": 1.0,
+    "precision": "FP32 weights, activations, gradients and optimizer state; autocast, GradScaler and TF32 disabled",
+    "batch_order": "seeded",
+    "deterministic": true,
+    "optimizer_fast_paths": ["sync-free", "fused AdamW"],
+    "workers_per_gpu": 1,
+    "distributed_data_parallel": false,
+    "quantization": false
+  },
+  "profile_gate": {
+    "first_profile_cell": "fold 2, seed 1001, both arms, one B300 GPU",
+    "updates_per_arm": 50,
+    "command_mode": "./run_cell.sh profile 2 1001",
+    "must_record": [
+      "GPU model, UUID, topology, driver, CUDA, PyTorch and source SHA",
+      "peak device memory and process/host memory; finite forward, loss, gradients and updates",
+      "steady-step time and loader/startup/checkpoint phases",
+      "task loss, next-input loss and gradient norm for candidate",
+      "all environment/profile stdout and hashes"
+    ],
+    "gate": "Do not fan out or start long fits until both arms complete 50 finite updates on actual B300 hardware. If numerical stability or capacity fails, preserve the receipt and revise a versioned recipe; do not alter the declared arm silently."
+  },
+  "command": "./run_cell.sh pair <fold:0..3> <seed:1001..1008; seeds1001..1007 for folds2-3>",
+  "fit_membership": "train+valid source qualified by the frozen fold manifest; fit statistics are computed only from that cell's fitting members; no held-out component or teacher/initializer ancestry enters fitting.",
+  "evaluation": {
+    "exposure": "All four historical component folds are exposed development data; cross-fold results are robustness evidence, not a fresh holdout.",
+    "primary_statistic": "D = equal mean over folds of the within-fold mean paired candidate-minus-control WP deltas; per-cell scores are independently graded on identical outer component rows.",
+    "uncertainty": "Report all fold means and per-seed paired effects; 10,000 shared-seed bootstrap draws across folds using RNG seed 20261018 and 10,000 paired component bootstrap draws within each fold using RNG seed 20261019. These intervals are conditional on the exposed folds and fixed source ancestry.",
+    "multiple_comparisons": "One primary candidate-control comparison; apply Holm correction to any additional predeclared task-score endpoints/arms. Do not treat rows, epochs or repeated fit seeds as independent evaluation units."
+  },
+  "decision": {
+    "provisional_material_effect": "+0.0010 absolute WP in the preregistered mean D is a useful initial threshold for prioritizing hidden-state/teacher transfer; it is not a universal kill boundary.",
+    "success": "Useful paired task gain with stable optimization and compatible serving; smaller/imprecise gains can still justify a bounded student transfer if the representation shows complementary conditional value.",
+    "inconclusive": "A zero-crossing interval, weak early profile score, or lower standalone score is unresolved; it does not close the predictive-state or online-input direction.",
+    "negative_scope": "A clear negative result narrows the tested one-step normalized SmoothL1 objective, weight, H512x1 architecture and six-epoch schedule only. It does not reject multihorizon/coarse targets, separate predictive-state pretraining, or input-only test-time adaptation."
+  },
+  "artifacts": {
+    "run_directory": "<WNN_PROJECT_ROOT>/artifacts/runs/<run_name>/",
+    "stdout": "<WNN_EXPERIMENT_LOG_ROOT>/<run_name>.log",
+    "evidence_archive": "Separate from checkpoint archive; include immutable recipe, source/worktree diff, package/environment, split/data manifests, progress logs, resource/profile receipts, predictions/grades and SHA256 manifest.",
+    "weights_archive": "Separate private archive of fixed model_ep5.pt/model.pt and training_state.pt; include source SHA, run ID, size, precision, and per-file/archive SHA256.",
+    "predictions": "Use source-qualified campaign prediction export for each fold. The grader must verify exact row/component IDs and official mask before scoring.",
+    "secrets_and_raw_data": "Do not archive credentials or copy supplied dataset payloads."
+  },
+  "quality_result": null,
+  "b300_profile": null,
+  "launch_ready": false,
+  "launch_readiness_reason": "Code and cell runner are implemented; actual worker paths, exact B300 environment and bounded real-shape profile remain for the cluster owner."
+}

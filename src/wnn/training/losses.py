@@ -8,6 +8,7 @@ from wnn.nn import weighted_mse_loss
 from wnn.outcomes import N_CODES, N_SP_AUX, readout, sequence_class
 from wnn.spread_aux import structural_loss
 from wnn.training.initializer import final_initializer_distillation_target
+from wnn.training.next_input import next_input_losses
 from wnn.training.state import TrainingRun
 from wnn.training_controls import blended_target
 
@@ -129,6 +130,9 @@ def auxiliary_loss(run: TrainingRun) -> None:
     mask_rows = run.batch.mask_rows
     n_out = run.network.n_out
     next_at = run.network.next_at
+    next_input_at = run.network.next_input_at
+    inputs = run.batch.inputs
+    model = run.network.model
     nw = run.batch.nw
     nx_rows = run.batch.nx_rows
     nx_up = run.batch.nx_up
@@ -148,6 +152,9 @@ def auxiliary_loss(run: TrainingRun) -> None:
     tier_label = run.batch.tier_label
     tier_weight = run.batch.tier_weight
     y = run.batch.y
+    run.batch.next_input_count = None
+    run.batch.next_input_huber = None
+    run.batch.next_input_mse = None
     if args.arch == "gated" and args.gate_ce > 0:
         difference = y[:, sl, 0].float() - y[:, sl, 1].float()
         gate_weight = main_valid[:, sl].float() * difference.abs().clamp_max(2.0)
@@ -221,6 +228,19 @@ def auxiliary_loss(run: TrainingRun) -> None:
         loss = loss + args.aux_quote * (
             quote_error * quote_weight
         ).sum() / quote_weight.sum().clamp_min(1e-08)
+    if args.aux_next_input_weight > 0:
+        next_huber, next_mse, next_count = next_input_losses(
+            out,
+            inputs,
+            sl,
+            next_input_at,
+            model.mean,
+            model.std,
+        )
+        loss = loss + args.aux_next_input_weight * next_huber
+        run.batch.next_input_count = next_count
+        run.batch.next_input_huber = next_huber.detach()
+        run.batch.next_input_mse = next_mse
     for j, (ya, va) in enumerate(aux):
         loss = loss + args.aux_weight * objective(
             out[..., 2 + 2 * j : 4 + 2 * j], ya[:, sl], va[:, sl]

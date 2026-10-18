@@ -119,6 +119,17 @@ def add_targets_arguments(ap: argparse.ArgumentParser) -> None:
         help="weight of auxiliary heads: log rows to next target change (MSE) and its sign (BCE)",
     )
     ap.add_argument(
+        "--aux-next-input-head",
+        action="store_true",
+        help="append a training-only head that predicts the next canonical model-input row",
+    )
+    ap.add_argument(
+        "--aux-next-input-weight",
+        type=float,
+        default=0.0,
+        help="SmoothL1 weight for the next-input auxiliary objective (requires its head)",
+    )
+    ap.add_argument(
         "--aux-tier",
         type=float,
         default=0.0,

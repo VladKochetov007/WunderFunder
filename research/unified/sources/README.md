@@ -4,6 +4,7 @@ External writeups and literature provenance; external results do not establish l
 
 ## Current navigation
 
+- [Causal predictive-state source assessment](CAUSAL_PREDICTIVE_STATE_SOURCES_20261018_R1.md) — checks primary arXiv work on future-observation and next-day self-supervision, includes a counterexample to assuming any pretext objective helps, and records the user's unverified GRU feature-extractor anecdote. It motivates H-2026101801/E-2026101801 without claiming local gain or permitting label-supervised test-time updates.
 - [October 18 ranking source check](../ideas/PRIORITIZED_25_20261018_R3.md) - primary FitNets, Mamba-3 and xLSTM abstracts rechecked for intermediate hints, MIMO and scalar/matrix memory. These support operator descriptions only; local priority comes from project evidence and an explicit exploration judgment.
 
 - [R2 mechanism sources](../../campaign_2026-10-17/research_reset_r2/reflection/SOURCE_MANIFEST.md) and [state-clock/query transfer](../../campaign_2026-10-17/research_reset_r2/theory/STATE_CLOCKS_AND_PREDICTIVE_QUERIES.md) — scoped primary-source checks covering semi-Markov/sticky-state/point-process/Rao–Blackwell/compressed-memory mechanisms, Phased LSTM, Skip RNN, hierarchical recurrence, predictive states and Chronos-2. Abstract/formulation inspection and local transfer inferences are separated; no pretrained weights or published gains are imported. Old-code overlap is linked before retaining a proposal.
