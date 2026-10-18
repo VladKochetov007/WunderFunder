@@ -1,0 +1,48 @@
+{
+  "created_utc": "2026-10-18T13:20:43.697942+00:00",
+  "preflight": {
+    "cpu_quotas": {
+      "wnn-bandit-computer-vision-homework-r01-deep-f1s1001-ep25-v1.service": "100000 100000",
+      "computer-vision-homework-r01-f1-recovery-v1.service": "10000 100000"
+    },
+    "reserved_cpu_including_support": 1.35,
+    "parent_ram_bytes": 3827265536,
+    "memory_events": "low 0\nhigh 0\nmax 306\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "scratch_mount": "ext4   /dev/mapper/vg0-lv--0"
+  },
+  "source_sha256": {
+    "restore_controls.py": "85d954ab833c988d2a4a4d919d68bde049b75c3aa4061b8e0bb9f4eb347e7272",
+    "test_restore_controls.py": "309245457c3820d206acc369e0657466ae92ae8a0f1852706836428258b93f39",
+    "FROZEN_INPUTS.json": "3172ed3b8c7c67b846edb45956ca26141b133c8ba1a9ffc712f94b6ca4679b16"
+  },
+  "unit": "computer-vision-homework-quality-gap-restore-v1.service",
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=computer-vision-homework-quality-gap-restore-v1.service",
+    "--slice=wnn-campaign.slice",
+    "--property=CPUQuota=25%",
+    "--property=MemoryHigh=170000000",
+    "--property=MemoryMax=192000000",
+    "--property=MemorySwapMax=0",
+    "--property=RuntimeMaxSec=180",
+    "--property=TimeoutStopSec=10",
+    "--property=KillMode=control-group",
+    "--property=RemainAfterExit=yes",
+    "--working-directory=/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/support-restore-v1",
+    "--setenv=CUDA_VISIBLE_DEVICES=",
+    "--setenv=PYTHONDONTWRITEBYTECODE=1",
+    "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/support-restore-v1/restore_controls.py",
+    "--manifest",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/support-restore-v1/FROZEN_INPUTS.json",
+    "--manifest-sha256",
+    "3172ed3b8c7c67b846edb45956ca26141b133c8ba1a9ffc712f94b6ca4679b16",
+    "--destination",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/restored-controls-v1"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "Running as unit: computer-vision-homework-quality-gap-restore-v1.service; invocation ID: fab062da3eba4a118d629ab7d402994c\n"
+}

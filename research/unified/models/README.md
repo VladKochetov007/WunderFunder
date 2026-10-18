@@ -1,5 +1,7 @@
 # Model families and training
 
+- [Strong-control asset map and restoration](../../campaign_2026-10-18/quality_gap_r1/README.md) — ten exact weights/provenance files restored from the frozen private HF archive, with SHA-verified receipt and explicit unresolved ancestry/export dependencies. No new training or new strong-control prediction comparison.
+
 Architecture, training lineage, distillation and retained checkpoint sources.
 
 ## Current navigation

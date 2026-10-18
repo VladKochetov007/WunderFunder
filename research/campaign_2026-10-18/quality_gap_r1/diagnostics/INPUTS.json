@@ -1,0 +1,113 @@
+{
+  "schema": "wnn.quality_gap.inputs.v1",
+  "purpose": "Source-bound retrospective F0 residual diagnostic only; not an incumbent comparison, calibration, blend search, or held-out evaluation.",
+  "source": {
+    "metric_id": "global_wp_clip2_v1",
+    "mask_predicate": "need_prediction AND is_scored; compact rows already selected",
+    "selected_rows": 808863,
+    "row_groups": 468,
+    "components": 141,
+    "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "valid_parquet_path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/datasets/valid.parquet",
+    "valid_parquet_bytes": 5615509128,
+    "valid_parquet_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "fold_manifest": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/submission-f0-r1/evidence/fold0.json",
+      "sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+    },
+    "interpretation": "Labels are original-parquet t0/t1 values from rows already selected by is_scored AND need_prediction. No parquet scan or sequence-position reconstruction is performed by this diagnostic."
+  },
+  "bundle": {
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/submission-f0-r1/evidence/scored.npz",
+    "bytes": 32357862,
+    "sha256": "6277cca8d92f103da556929b0e88fc1c63c9eada61c5ae36d98af4a153d62d38",
+    "keys": {
+      "target": "y",
+      "wide": "wide",
+      "deep": "deep",
+      "row_group": "row_group",
+      "component": "component",
+      "position": null,
+      "wide_source_sha": "wide_prediction_sha256",
+      "deep_source_sha": "deep_prediction_sha256",
+      "split_sha": "split_manifest_sha256",
+      "grade_sha": "grade_sha256"
+    },
+    "array_sha256": {
+      "target": "2170ef0b760c35e346c3f9a7dec288fdd731ff0fc245a1504b74773be7c4cb85",
+      "wide": "972d3986f8e4418ee9d1f1750c085acdb5e5e91d9fe20b4cc2725a5edd7dccd5",
+      "deep": "0dca851c31aaac3c724fa8b73b9447a0f3e8da7db1681690de955d27ec498b5f",
+      "row_group": "68953b4cc4b1c434954a251c5499e3935e510507f2b9e41772161f7095e48f03",
+      "component": "7096f4f887e37776406cf1504238820a8487629aa700a4181a8ea666fb3e0188"
+    },
+    "scalar_bindings": {
+      "wide_source_sha": "21af6180c3290a99f450d701daca03581762ea18cfc70ffcc9453929435ee8f0",
+      "deep_source_sha": "50ea5e088b60da8b31ee1796771c4c13f2940131293a51793d63ceadf324be3d",
+      "split_sha": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "grade_sha": "65f448989243aa575cac2e5701c55bf8ee6e874e6b01f39840bb4418dbb9fdd0"
+    }
+  },
+  "receipts": {
+    "EXTRACTION": {
+      "path": "../../f0_submission_r1/receipts/EXTRACTION.json",
+      "sha256": "6934f283105bf70e449d93f8114750169a695c71e7a00a9d5cc9714d6c105fe7"
+    },
+    "BLEND_SELECTION": {
+      "path": "../../f0_submission_r1/receipts/BLEND_SELECTION.json",
+      "sha256": "59513a1aa292feb9eb4c59211c70a057c3cd0362ebddfc6ad6879b09279c6c46"
+    },
+    "INDEPENDENT_NATIVE_GRADE": {
+      "path": "../../f0_submission_r1/receipts/INDEPENDENT_NATIVE_GRADE.json",
+      "sha256": "7c02f73f947faa1d075fa39e7d76395bb156abdd9aa17ca9726c7d68f1f3b9bf"
+    },
+    "Q8_FULL_F0": {
+      "path": "../../f0_submission_r1/receipts/Q8_FULL_F0.json",
+      "sha256": "d5ff23d3bae39f831c00c6431e1d31de635e5c13e696cada2f6760c126dc1572"
+    }
+  },
+  "models": {
+    "wide": {
+      "kind": "bundle_key",
+      "key": "wide",
+      "array_sha256": "972d3986f8e4418ee9d1f1750c085acdb5e5e91d9fe20b4cc2725a5edd7dccd5",
+      "source_prediction_sha256": "21af6180c3290a99f450d701daca03581762ea18cfc70ffcc9453929435ee8f0"
+    },
+    "deep": {
+      "kind": "bundle_key",
+      "key": "deep",
+      "array_sha256": "0dca851c31aaac3c724fa8b73b9447a0f3e8da7db1681690de955d27ec498b5f",
+      "source_prediction_sha256": "50ea5e088b60da8b31ee1796771c4c13f2940131293a51793d63ceadf324be3d"
+    },
+    "fp32_mix": {
+      "kind": "fixed_blend",
+      "wide_model": "wide",
+      "deep_model": "deep",
+      "wide_weight": 0.75,
+      "array_sha256": "d30d612ed55f4b4dd10889c829bc703c0efdd1b8e981d143cd7aedfc10bbd131",
+      "arithmetic": "float32 multiply wide by w, multiply deep by (1-w), then float32 add"
+    },
+    "q8": {
+      "kind": "npy",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/submission-f0-r1/q8_scored.npy",
+      "sha256": "b14e6a6f2e879c52bc09d1cfd946760ed9ad9e175cbab9a59dd2ce50021d6048",
+      "paired_bundle_rows": 808863,
+      "paired_bundle_sha256": "6277cca8d92f103da556929b0e88fc1c63c9eada61c5ae36d98af4a153d62d38",
+      "alignment_receipt": {
+        "path": "../../f0_submission_r1/receipts/INDEPENDENT_NATIVE_GRADE.json",
+        "sha256": "7c02f73f947faa1d075fa39e7d76395bb156abdd9aa17ca9726c7d68f1f3b9bf",
+        "fields": {
+          "bundle": "scored_source_npz_sha256",
+          "prediction": "scored_prediction_sha256",
+          "rows": "selected_rows"
+        }
+      }
+    }
+  },
+  "comparisons": [
+    {"baseline": "wide", "candidate": "fp32_mix"},
+    {"baseline": "deep", "candidate": "fp32_mix"},
+    {"baseline": "fp32_mix", "candidate": "q8"},
+    {"baseline": "wide", "candidate": "q8"}
+  ]
+}

@@ -1,5 +1,14 @@
 # Ranked25 execution ownership
 
+## Latest access and diagnostic handoff, 18 October 13:55 UTC
+
+Read the newest [quality-gap packet](../quality_gap_r1/README.md). Its ten source-bound checkpoint/provenance files were actually restored at13:20UTC; do not repeat recovery. The independent residual helper is prepared/reviewed, not staged or executed. The tiny aggregate-only plot unit `computer-vision-homework-quality-gap-plot-v1.service` was launched at13:23UTC with25%CPU/384MB/60s and output `B/quality-gap-r1/plots-v1`; its terminal status and artifacts have not been captured. Inspect it before any retry, capture then stop only its own exited unit.
+
+[SSH banner timeouts](../quality_gap_r1/SSH_ACCESS_INCIDENT_20261018T1350Z.json) prevent fresh remote inspection since13:49UTC. TCP establishes; authentication is not reached. Preserve existing jobs and retry read-only access with backoff. Do not infer that F1 stopped or start a replacement elsewhere. Last successful [13:20 health](receipts/F1_DEEP_PROGRESS_20261018T1320Z.json) is deep epoch3 batch640/1493, zero new memory events, sole campaign GPU worker. The [13:08 first persisted continuation observation](receipts/F1_DEEP_CONTINUATION_EP2_OBSERVATION_20261018T1308Z.json) confirms exact deep stage1 resume SHA/path/next_epoch2 and producer44,790 updates/4,479batches. No intermediate tensor check/archive was performed; terminal V2 verification remains due after explicit successful completion.
+
+The [F1 result collector preparation](f1_result_collection_r1/README.md) now has local synthetic tests, a preparation manifest and [independent review](f1_result_collection_r1/INDEPENDENT_REVIEW.json). It remains unadmitted; do not run it before root admission and actual deep terminal receipt seal. Preserve automatic exports/grade owned by the frozen controller. The static preparation never authorizes a duplicate export or grade.
+
+
 ## Current F1 execution, 18 October 12:40 UTC
 
 `computer-vision-homework-r01-f1-recovery-v1.service` remains the only active sequence, owning both F1/seed1001 arms on Beleriand. State: `B/runtime/receipts/RANK01_F1_S1001_RECOVERY_SEQUENCE_V1.json`. Current index3 is `computer-vision-homework-r01-deep-f1s1001-ep25-v1`. The [12:37 UTC snapshot](receipts/F1_DEEP_PROGRESS_20261018T1237Z.json) observes epoch2 batch680/1493, finite loss/LR, fresh heartbeats, one campaign GPU process at1588MiB, parent RAM3.78GB and zero new memory events. Its producer-run field explicitly identifies deep; no deep continuation checkpoint exists at that observation.

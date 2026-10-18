@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+- [Concrete quality-gap follow-up](../../campaign_2026-10-18/quality_gap_r1/README.md) — exact student/parent/teacher restoration and source/membership reconciliation; source-bound residual diagnostic independently reviewed, actual array run pending remote access. Existing KD trajectories remain one-seed exposed-F0 evidence, not a public forecast.
+
 Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation

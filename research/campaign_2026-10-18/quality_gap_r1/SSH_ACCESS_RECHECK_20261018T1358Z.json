@@ -1,0 +1,27 @@
+{
+  "schema": "quality_gap.ssh_access_recheck.v1",
+  "recorded_utc": "2026-10-18T13:57:27.116049+00:00",
+  "previous_receipt": "SSH_ACCESS_INCIDENT_20261018T1350Z.json",
+  "additional_checks": [
+    {
+      "mode": "read-only normal status after backoff",
+      "exit_status": 255,
+      "error": "Connection timed out during banner exchange"
+    },
+    {
+      "mode": "read-only normal sequence after backoff",
+      "exit_status": 255,
+      "error": "Connection timed out during banner exchange"
+    },
+    {
+      "mode": "read-only IPQoS=none transport discriminator",
+      "exit_status": 255,
+      "error": "Connection timed out during banner exchange"
+    }
+  ],
+  "configuration_changes": false,
+  "all_checks_pre_authentication": true,
+  "foreign_jobs_touched": false,
+  "jobs_restarted": false,
+  "interpretation": "Persistent access failure from current Mac; no evidence of training failure or server root cause. Stop rapid retries and inspect existing units when read-only access returns."
+}
