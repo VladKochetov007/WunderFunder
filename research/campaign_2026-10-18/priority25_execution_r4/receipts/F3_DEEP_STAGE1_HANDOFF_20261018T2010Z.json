@@ -1,0 +1,72 @@
+{
+  "schema": "priority25.f3_deep_stage1_handoff.v1",
+  "created_utc": "2026-10-18T20:07:36.397746+00:00",
+  "status": "STAGE1_COLLECTED_VERIFIED_AND_INDEPENDENTLY_ACCEPTED",
+  "bindings": {
+    "RANK01_DEEP_F3_S1001_STAGE1_COLLECTION.json": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F3_S1001_STAGE1_COLLECTION.json",
+      "sha256": "99595b13eaa0f7fc7dac54ac74e09f6b55551e4085219d6dba7e05a95af5266b"
+    },
+    "RANK01_DEEP_F3_S1001_STAGE1_VERIFICATION.json": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F3_S1001_STAGE1_VERIFICATION.json",
+      "sha256": "223725c151ec40f6f26e71332b1cf1b0f6fbe26a2c749ce6421f0b49d06a3efa"
+    },
+    "F3_DEEP_STAGE1_ACCEPTANCE_V2.json": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F3_DEEP_STAGE1_ACCEPTANCE_V2.json",
+      "sha256": "6735c63af256a03e1ef750d42ffea9a1d561722edec3b814f00e6c9911fc2d22"
+    },
+    "RANK01_DEEP_F3_S1001_STAGE1_COLLECTION_EXECUTION_V2.json": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F3_S1001_STAGE1_COLLECTION_EXECUTION_V2.json",
+      "sha256": "cb545f1a23806c78e878417ba1ec6ca3525b6058f7bb50c1523fe12e8667c75e"
+    },
+    "RANK01_DEEP_F3_S1001_STAGE1_VERIFICATION_EXECUTION_V2.json": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F3_S1001_STAGE1_VERIFICATION_EXECUTION_V2.json",
+      "sha256": "4a14fdc387a93408eb4b4cda5393f255630f4d16477eefa627c9f8b67a41da85"
+    },
+    "RANK01_DEEP_F3_S1001_STAGE1_COLLECTION_STOP_V2.json": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F3_S1001_STAGE1_COLLECTION_STOP_V2.json",
+      "sha256": "773194b4da6b26a502110abc3730af558a16a6a520c78e99215104ed7dcbde1d"
+    },
+    "RANK01_DEEP_F3_S1001_STAGE1_VERIFICATION_STOP_V2.json": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F3_S1001_STAGE1_VERIFICATION_STOP_V2.json",
+      "sha256": "c92c4a5edd6b5e19dcd1240a4f06e399adfed639aa18b42e4a1220ac41bdc162"
+    }
+  },
+  "snapshot": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f3_s1001/stage1_epoch1",
+  "state_sha256": "2dc2e3b8e150ea6a24e176141d14c5696a3db1325835cf0d7e449873cad5e625",
+  "next_epoch": 2,
+  "actual_counters": {
+    "optimizer_attempts": 29760,
+    "optimizer_completed_updates": 29760,
+    "amp_skipped_updates": 0,
+    "completed_batches": 2976,
+    "ema_updates": 0
+  },
+  "history_epochs_verified": 2,
+  "source_modules_verified": 138,
+  "actual_native_canonical_code_bindings": 521,
+  "actual_native_total_source_bindings": 523,
+  "planned_terminal_updates": 89280,
+  "execution_seconds": {
+    "collector": 2.645063,
+    "verifier": 8.379751
+  },
+  "support_units_captured_then_stopped": true,
+  "parent_memory_event_deltas": 0,
+  "current_progress": {
+    "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_beleriand_execution_r1/POST_STAGE1_ACCEPTANCE_20261018T2010Z.json",
+    "sha256": "0dd03511b86215a2e6681830e88680bf57db93414436be52a9c647da502517c9",
+    "observed_utc": "2026-10-18T20:06:13.606497+00:00",
+    "sequence_index": 2,
+    "attempt": "computer-vision-homework-r01-wide-f3s1001-ep25-v1",
+    "epoch": 2,
+    "batch": 260,
+    "batches_per_epoch": 1488
+  },
+  "acceptance_note": "Use V2. V1 and separate erratum are preserved; V2 corrects two copied hash fields. Underlying raw collection/verifier bytes and scientific computation were unchanged.",
+  "next_action": "Preserve both stage1 snapshots. Monitor existing wide continuation; at its first persisted checkpoint compare resumed_from path/SHA/next_epoch2 to verified wide stage1. Collect terminal checkpoints after explicit successful native completion using separate reviewed terminal root execution.",
+  "limits": [
+    "Stage1 structural acceptance is not terminal quality, GPU resume parity, convergence, CP30 completion or public transfer.",
+    "F3 remains an incomplete paired cell; only F0 and F1 have complete accepted results."
+  ]
+}

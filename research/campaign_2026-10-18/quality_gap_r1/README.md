@@ -1,5 +1,7 @@
 # Strong-control recovery and F0 residual diagnostic
 
+**Latest, 20:06 UTC:** [continuation](CONTINUATION_20261018T2015Z.md) records completed, independently accepted F3 deep stage1 and healthy wide continuation. Both stage1 archives are preserved; no terminal/quality claim or third completed pair. The [F2 metadata observation](f2_split_metadata_observation_r1/README.md) records exact fold counts only, without admission. The [reviewed canonical supervision audit](tl3_final_supervision_capability_audit_r1/README.md) and [raw-scale/chunk addendum](tl3_final_supervision_capability_audit_r1/ADDENDUM_RAW_SCALE_AND_CHUNKS_V1.md) specify tiedlead and same-head zero-weight gaps before implementation. [Official status](PROVIDER_STATUS_20261018T2005Z.json) still shows the DataSphere incident; no paid retry. Historical dated entries below remain preserved.
+
 **Latest, 19:50 UTC:** [continuation](CONTINUATION_20261018T1950Z.md) records healthy F3 deep stage1 at19:44UTC, epoch1 batch1080/1488, fresh heartbeats and zero new memory events. Stage1 collection remains pending; the original sequence is unchanged.
 
 The [modified comparison R2](tl3_modified_recipe_design_r2/README.md) now has [independent design-only PASS](tl3_modified_recipe_design_r2/INDEPENDENT_REVIEW_V1.json). Both arms use the same three members, clean ancestors, seeds, budgets and fixed blend; only final teacher/family-supervision weights differ. All30 complete pairs are required. This is a conditional final-supervision comparison, not a KD-free pipeline or a rank1 replacement. The earlier R1 criticism below is preserved and resolved by this separate successor. R2 is not preregistered, runnable or admitted.
@@ -149,3 +151,5 @@ the R2/R3 runtime failures remain preserved.
 - [Named ancestor follow-up](tl3_ancestor_followup_r1/README.md) — exact fin256 parent paths are now known; missing source/config/membership and w18 producer records remain explicit. One small readonly probe, no repeated model extraction.
 
 - [17:10 UTC continuation](CONTINUATION_20261018T1710Z.md) — F3 actual admission and running sequence, new preflight memory baseline, accepted TL3 checkpoint metadata and remaining exact ancestry/cache-source work.
+
+[Current packet publication validation V2](PUBLICATION_VALIDATION_20261018T2015Z_V2.json) binds staged small files/current reviews; the [earlier staged snapshot](PUBLICATION_VALIDATION_20261018T2015Z.json) remains preserved. Validation checks new links and records unrelated pre-existing unavailable artifact links without rewriting them.

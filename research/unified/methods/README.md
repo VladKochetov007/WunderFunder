@@ -1,5 +1,7 @@
 # Methods, sampling, and metric
 
+[Canonical final-supervision capability audit](../../campaign_2026-10-18/quality_gap_r1/tl3_final_supervision_capability_audit_r1/README.md) and [raw-scale/chunk addendum](../../campaign_2026-10-18/quality_gap_r1/tl3_final_supervision_capability_audit_r1/ADDENDUM_RAW_SCALE_AND_CHUNKS_V1.md) identify the two missing implementations for the matched modified-TL3 design: tiedlead's shared raw-scale encoder/sequence-wide lead features, and identical family-head/cache topology with explicit zero-weight loss branches. All21source pins match independent static review. Delta resets per encode call; recurrent state carries. These are recovered source semantics and proposed tests, not historical runtime parity, implemented capability or a fit. Existing six-source arithmetic is reused.
+
 - [Released F0 native submission](../../campaign_2026-10-18/f0_submission_r1/receipts/RELEASE.json): fixed75%wide/25%deep Q8 ZIP17.48MB; actual full-F0 WP0.6738263577 confirmed by independent original-label/direct grades. The [packet](../../campaign_2026-10-18/f0_submission_r1/README.md) retains selection exposure, package provenance and the unresolved official-server runtime estimate.
 
 Reusable metric, causal data handling, statistical and implementation contracts.

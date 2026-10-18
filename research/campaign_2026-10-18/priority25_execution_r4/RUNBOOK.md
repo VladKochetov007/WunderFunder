@@ -1,5 +1,11 @@
 # Ranked25 execution ownership
 
+## Current delta, 18 October 20:06 UTC
+
+[Both F3 stage1 endpoints are now accepted](receipts/F3_DEEP_STAGE1_HANDOFF_20261018T2010Z.json). Use authoritative [deep V2 acceptance](receipts/F3_DEEP_STAGE1_ACCEPTANCE_V2.json); V1 and its erratum are preserved. Deep stateSHA2dc2e3b8e150ea6a24e176141d14c5696a3db1325835cf0d7e449873cad5e625, next2/29760updates/2976batches/0skips, finiteFP32Adam/138modules. Both serial support units exited0,captured/stopped with no new memory events. Do not repeat stage1.
+
+[Current progress](f3_beleriand_execution_r1/POST_STAGE1_ACCEPTANCE_20261018T2010Z.json): index2 wide continuation epoch2batch260/1488. Preserve the original controller; check persisted resumed_from against wide stage1 when first checkpoint arrives. Terminal helper counts remain89280/8928/next6; stage1 wrappers are not terminal execution wrappers. [Current continuation](../quality_gap_r1/CONTINUATION_20261018T2015Z.md) binds exact receipts and remaining engineering work. F0/F1 still2/30completecells; no F3 score yet.
+
 
 ## Current F3 execution, 18 October 18:40 UTC
 
@@ -112,3 +118,5 @@ The active thread heartbeat is `wunder-1-25`, every 30 minutes. It owns inspecti
 After the first F0 pair, run the first seed on F1/F2/F3 within the same declared comparison, then the remaining CP30 cells as measured compute permits. Do not call one pair a complete rank1 result or start rank2 fits while claiming rank1 is settled. Cheap checks and implementation preparation may overlap healthy execution. The final CP30 estimand is the equal mean of four exposed folds,30pairedcells per arm (8/8/7/7 seeds1001+), with a10000-resample shared-seed bootstrap. The one-cell component bootstrap is a different conditional uncertainty statement. Retain negative and uncertain evidence without a universal zero-crossing kill rule.
 
 Continue positions1→25, freezing exact implementations, ancestry, budgets and decision rules before each comparison. Reuse canonical training modules; do not build another trainer/queue. Respect explicit user stops. Keep notifications quiet while a healthy run is unchanged; report meaningful stage completion, a scientific result, a failure, a budget boundary or required user input.
+
+The [terminal root-execution readiness note](f3_terminal_execution_preparation_r1/README.md) and [independent preparation review](f3_terminal_execution_preparation_r1/INDEPENDENT_REVIEW_V2.json) bind both accepted stage1 snapshots and exact terminal helper commands. Root terminal wrappers still need implementation/review; no terminal payload or admission is implied. The note accounts for a deep continuation, export/grade step, or finished controller instead of requiring a GPU worker in every phase.

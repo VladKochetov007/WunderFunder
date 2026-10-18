@@ -1,5 +1,9 @@
 # F3 / seed 1001 execution
 
+**Latest, 20:06 UTC:** [Deep stage1 is archived and independently accepted](../receipts/F3_DEEP_STAGE1_HANDOFF_20261018T2010Z.json); authoritative [V2 acceptance](../receipts/F3_DEEP_STAGE1_ACCEPTANCE_V2.json) corrects two copied hash fields in retained V1, with raw receipts unchanged. Both arms now have next_epoch2 /29,760successfulupdates /2,976batches /zero skips, finite FP32/Adam and138expected modules. The reviewed deep V2 collector/verifier completed once, exited0, captured/stopped. Do not repeat either stage1.
+
+[Post-support observation](POST_STAGE1_ACCEPTANCE_20261018T2010Z.json) and [raw bytes](POST_STAGE1_PROGRESS_20261018T2010Z.json) show original sequence index2, wide continuation epoch2batch260/1488, finite loss/LR, fresh heartbeats, parent4.36GB and no new memory events. F3 terminal/quality remains pending. Earlier dated descriptions below retain their historical scope.
+
 [19:44 UTC healthy progress](HEARTBEAT_ACCEPTANCE_20261018T1945Z.json), backed by the [raw observation](HEARTBEAT_PROGRESS_20261018T1945Z.json), reaches deep stage1 epoch1 batch1080/1488, loss1.5948 and LR8.53e-5. Sequence/worker heartbeat ages5.38/8.75s, sole campaign GPU1576MiB, parent RAM4,302,503,936B, zero new memory events. Deep stage1 is not yet terminal; no duplicate or support launch.
 
 **19:18 UTC health:** deep stage1 reaches epoch1 batch260/1488, fresh heartbeats and zero new memory events ([health](HEARTBEAT_ACCEPTANCE_20261018T1917Z.json), [raw](HEARTBEAT_PROGRESS_20261018T1917Z.json)). At19:22UTC the first persisted provenance reports14,880 successful updates/1,488batches,zero skips/nonfinite for epoch0 ([metadata observation](DEEP_STAGE1_EP0_OBSERVATION_20261018T1925Z.json)). Model/state files were only stat-observed; no tensor load, payload hash verification or intermediate archive. Full deep stage1 acceptance remains pending its native completion.

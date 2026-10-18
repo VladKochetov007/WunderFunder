@@ -1,0 +1,44 @@
+{
+  "schema": "quality_gap.final_supervision_static_review.v1",
+  "created_utc": "2026-10-18T20:06:07.787930+00:00",
+  "reviewer": "root, independent of audit author control_export_prep",
+  "status": "PASS_STATIC_AUDIT_ONLY",
+  "bindings": {
+    "README.md": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_final_supervision_capability_audit_r1/README.md",
+      "sha256": "ca0ac6a427108a6d2cbc2318a05a7bf2305c3b7dede3b4295397a34a4615e9cf"
+    },
+    "SOURCE_BINDINGS.json": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_final_supervision_capability_audit_r1/SOURCE_BINDINGS.json",
+      "sha256": "b3af1deed0ec2289ea11818c8edd9dcc332393aa2f5e0d293513606cfaf3202e"
+    },
+    "PREPARATION_MANIFEST_R1.json": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_final_supervision_capability_audit_r1/PREPARATION_MANIFEST_R1.json",
+      "sha256": "619e93fe913989d94ad870972e495ccddb92caf92940ee2823fd45c12599bc37"
+    },
+    "ADDENDUM_RAW_SCALE_AND_CHUNKS_V1.md": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_final_supervision_capability_audit_r1/ADDENDUM_RAW_SCALE_AND_CHUNKS_V1.md",
+      "sha256": "e4c6d85c0d42322b4b6ced47ad304b4763d1878d3d20cba610afe2ae6982ec77"
+    }
+  },
+  "checks": {
+    "source_and_context_pins_rehashed": 21,
+    "manifest_artifact_hashes_match": true,
+    "archived_raw_scale_and_chunk_delta_semantics_read_directly": true,
+    "canonical_zero_weight_loss_and_head_gates_read_directly": true
+  },
+  "findings": [
+    "The same-topology comparison needs independent family-head/data-presence configuration; a positive loss-weight gate currently changes both model and data topology.",
+    "Alpha-zero and family-zero require explicit objective branches; multiplication by zero does not safely ignore nonfinite teacher values. Review must additionally preserve label-only WMSE semantics for the frozen control settings.",
+    "Archived tiedlead branches consume reconstructed raw scale while main projection consumes normalized values. Delta resets per encode call but lead features retain sequence-wide causal history; arbitrary chunk equivalence is not established.",
+    "The existing generic six-source and family arithmetic should be reused. No new arithmetic implementation is required."
+  ],
+  "required_before_admission": [
+    "Focused canonical adapter and same-head/zero-objective implementation in isolated code branch, independently reviewed.",
+    "Tiny deterministic tests proposed in README and raw-scale/chunk addendum, plus source/data/runtime bindings and full preregistration."
+  ],
+  "limits": [
+    "Source inspection only: no implementation, tests, models, arrays, numerical parity, actual historical producer identity, fit or admission.",
+    "The original R2 scientific design and frozen rank1 training remain unchanged."
+  ]
+}
