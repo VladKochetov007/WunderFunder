@@ -1,0 +1,39 @@
+{
+  "created_utc": "2026-10-18T09:23:26Z",
+  "diagnostic": {
+    "canonical_resume_contract_source_sha256": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+    "next_epoch": 2,
+    "optimizer_completed_updates": 29860,
+    "save_training_state_in_persisted_options": false,
+    "source_receipt_sha256": "2731fa98402171e8fdf24c12a405124d9dd7bda185b278a99cc9a062e575cd39",
+    "training_state_sha256": "8cb3dde79550355303cbede0d0953864046b7594c16af648423d4a3c9af92255"
+  },
+  "limitations": [
+    "Local fixture checks bind the real producer contract diagnostic; no actual F1 checkpoint was verified by V2 in this review.",
+    "No SSH, model, provider, or training action was performed.",
+    "This review establishes support-code/schema readiness only and makes no model-quality claim."
+  ],
+  "manifest_files_verified": 10,
+  "manifest_mismatches": 0,
+  "packet": "research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/checkpoints_v2",
+  "preparation_manifest_sha256": "2d7df5d19e4996d124bb0ad52586d8f24e0e01925bd40a8619f3b395bf5e3a88",
+  "review": {
+    "blocker": null,
+    "command_phase_binding": "Exact frozen attempt command remains mandatory; includes --save-training-state and --stop-after-epoch 1 for stage1.",
+    "future_helper_identity": "README directs all wide/deep stage1 and terminal verifications to this same V2 directory; lineage compares verifier and dependency hashes.",
+    "v1_mutated": false,
+    "v2_correction": "Removed only the expected persisted-option equality for save_training_state, which canonical resume_contract excludes."
+  },
+  "schema": "priority25.f1_checkpoint_support_v2_independent_review.v1",
+  "status": "passed",
+  "validation": {
+    "python": "3.13.11",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "unit_tests": {
+      "failed": 0,
+      "passed": 18,
+      "skipped": 0
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "canonical_resume_contract_source_sha256": "01f5b3926697f81df70166aabaf75d896d6086597958803660830893ec97ba0c",
+  "canonical_trainer_revision": "a266b036b02e8e012c6eb31072291dad618a169d",
+  "correction": {
+    "canonical_reason": "resume_contract excludes save_training_state and stop_after_epoch from persisted options",
+    "failed_v1_check": "_verify_contract expected options.save_training_state == True",
+    "scientific_checks_preserved": [
+      "fold1 manifest/options",
+      "FP32 and TF32 runtime",
+      "cold labels-only inputs",
+      "model/loader/schedule",
+      "source and registry",
+      "membership",
+      "history",
+      "optimizer/tensor validity",
+      "stage1/terminal lineage"
+    ],
+    "v2_change": "Remove only save_training_state from persisted-option equality; retain exact stage1 command equality via validate_attempt, including --save-training-state and --stop-after-epoch 1."
+  },
+  "created_utc": "2026-10-18T09:22:03.805441+00:00",
+  "diagnostic": {
+    "local_receipt_path": "/Users/nb/Documents/wunder/runtime-20261018/f1-stage1-0915/contract-diagnostic-v1-parsed.json",
+    "local_receipt_sha256": "2731fa98402171e8fdf24c12a405124d9dd7bda185b278a99cc9a062e575cd39",
+    "next_epoch": 2,
+    "optimizer_completed_updates": 29860,
+    "producer_attempt_file_sha256": "a278780d5e96521814d8af5126a034a1c08cd1c3952d03237cdcdb260c873e4a",
+    "producer_diagnostic_raw_sha256": "e0fe0e1ccbfc2b7ac49f81123916edacd50e5f5618175a3dc45a94fb5c36476a",
+    "save_training_state_in_contract_options": false,
+    "training_state_sha256": "8cb3dde79550355303cbede0d0953864046b7594c16af648423d4a3c9af92255"
+  },
+  "helper_files_sha256": {
+    "README.md": "3fde0ef96022d371d7773d3a6e04a6bbb80ecbdc3f8330c3cde0a7081c8018ba",
+    "collect_f1_checkpoint.py": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+    "f1_checkpoint_common.py": "07d596a1b69574e266a909bfe2e24e4c82d1e9cd778c7338bc5855688159f5c5",
+    "f1_checkpoint_evidence.py": "8b50fcdc51dd9d040816dae7117de8c965366d0dd03c7bef8e26856325f790ce",
+    "f1_checkpoint_lineage.py": "c6aec1daace1fd200d60bcc5cc9532aa9d98f76d99bd01e0ca39c65eb727e81d",
+    "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+    "fixtures/wide_stage1_contract.json": "a577b8ac863ce9f304b284b158508100b6e10165329d4832554dbc5d9f6066a6",
+    "test_f1_checkpoint_support.py": "88bab2eeca7db1ff2e83361040ad8d9defa1b10976ecb4dde961e2bc2ce0b32a",
+    "test_real_producer_contract_v2.py": "6ce9448ee7b360e250ce98f1bcb6e897f4058391cbcd7d4985fbfcda31e1d5a6",
+    "verify_f1_checkpoint.py": "d022367b0e4091b1fd4179ff1b5ea8d9f5722ae8ef686bd86fe5774869dc2186"
+  },
+  "metadata_correction": {
+    "created_utc": "2026-10-18T09:24:47.146770+00:00",
+    "previous_manifest_sha256": "2d7df5d19e4996d124bb0ad52586d8f24e0e01925bd40a8619f3b395bf5e3a88",
+    "reason": "Correct 65-character transcribed state SHA and distinguish raw diagnostic receipt from producer attempt SHA. Helper code and fixture bytes unchanged.",
+    "supersedes_metadata_of": "PREPARATION_MANIFEST_V2.json"
+  },
+  "plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+  "schema": "priority25.f1_checkpoint_support_preparation.v2",
+  "status": "LOCAL_DERIVATIVE_READY_FOR_REVIEW",
+  "v1_manifest_sha256": "f3755ed5378991399bf52ba807330f744d7143a7776d48cbf0dd0f15f88951a7",
+  "validation": {
+    "failed": 0,
+    "passed": 18,
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "scope": "Local synthetic/source-derived checks only; V2 has not run against a real F1 checkpoint and no remote training/verification occurred.",
+    "skipped": 0,
+    "unit_tests": 18
+  }
+}
