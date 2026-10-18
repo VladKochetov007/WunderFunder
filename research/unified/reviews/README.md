@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+[Wide F3 terminal root acceptance](../../campaign_2026-10-18/priority25_execution_r4/receipts/F3_WIDE_TERMINAL_ROOT_ACCEPTANCE_20261018T2220Z.json) independently checks raw collection/verifier hashes, native exit0, next_epoch6,89,280updates/zero skips,138 source modules and stage1 ancestry. This accepts structural preservation only; no repeated tensor load, GPU resume parity, F3 score or complete-pair claim. [Execution evidence](../../campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1/records/README.md) preserves the capture-client schema limitation and exact remote capture/stop.
+
 [EDA/probe implementation review](../../campaign_2026-10-19/idea_screens_r1/REVIEW.md) preserves fixed membership/mask/component-pooling blockers and resolutions. [Independent result audit](../../campaign_2026-10-19/idea_screens_r1/RESULT_REVIEW.md) reproduces9scores from6component moment sets within3.4e-16, checks source/result/sample bindings and reveals EMA concentration. Same-panel references are fixed predictions, not an independent refit or new holdout.
 
 [No-fit ideation critique and synthesis audit](../../campaign_2026-10-19/no_fit_ideation_r1/README.md#независимые-предложения) records independent proposals, rejection of renamed old ideas, signed-moment correction, population-versus-finite-model limits and the fact that preconditioning/adaptive damping changes expected updates. These are literature/mathematical checks, not experimental acceptance.

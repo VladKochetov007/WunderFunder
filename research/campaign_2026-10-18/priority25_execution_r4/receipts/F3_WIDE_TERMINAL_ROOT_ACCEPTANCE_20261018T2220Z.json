@@ -1,0 +1,45 @@
+{
+  "schema": "priority25.f3_wide_terminal_structural_review.v1",
+  "status": "passed",
+  "reviewer": "root",
+  "method": "Independent raw-receipt hash, linkage and contract checks; no repeat tensor load",
+  "created_utc": "2026-10-18T22:19:00Z",
+  "arm": "wide",
+  "phase": "terminal",
+  "plan_sha256": "b303146cf9db05e0a3bddf8f245d3c9b880d055ce7e97ebe5dd13510b5f4a2d8",
+  "fold3_manifest_sha256": "21c7fb52e8e69f38126362cbc5dc60dbc46539041d649b9206ec35e0f21ada1f",
+  "receipts": {
+    "collection": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F3_S1001_TERMINAL_COLLECTION.json",
+      "bytes": 62809,
+      "sha256": "45f7fcefb005eda4f95a31b2440688a160974d9a6d47f29e53e741ed2b9ea055"
+    },
+    "verification": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F3_S1001_TERMINAL_VERIFICATION.json",
+      "bytes": 65132,
+      "sha256": "8444e28d22396937855b1465ab79b47b8cce58576f8f5cbf2509e58ccc1f8c50"
+    }
+  },
+  "checks": {
+    "native_exit_status": 0,
+    "next_epoch": 6,
+    "completed_update_counts": {
+      "optimizer_attempts": 89280,
+      "amp_skipped_updates": 0,
+      "optimizer_completed_updates": 89280,
+      "ema_updates": 0,
+      "completed_batches": 8928
+    },
+    "source_files_verified": 138,
+    "history_epochs_verified": 6,
+    "peer_pair_contract_checked": true,
+    "cuda_initialized": false,
+    "stage1_parent_training_state_sha256": "ec900de3eeb977579575649cd3f45d0fa47aa322aae58d1584f22cf7d5836a26"
+  },
+  "limitations": [
+    "Structural checkpoint/source/data identity checks only; not measured GPU resume parity.",
+    "Raw parquet bytes are matched to the sealed registry; no second full-file rehash is performed at checkpoint verification.",
+    "No prediction score, serving latency, convergence, CP30 or quality claim follows."
+  ],
+  "downstream_terminal_seal_created": false
+}

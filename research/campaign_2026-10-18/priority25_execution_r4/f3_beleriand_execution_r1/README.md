@@ -43,3 +43,7 @@ The schedule expects 1,488 batches / 14,880 optimizer updates per epoch; stage1 
 For support, rehash the staged allowlist, check fresh headroom, and serialize collector 25% CPU / 512 MB / 120 s, verifier 50% CPU / 1.5 GB / 120 s; result collection 75% CPU / 512 MB / 120 s. Use hidden CUDA, zero swap, physical TMP, create-only archives and raw-byte receipt transfer. Capture status/receipt before stopping only your own exited support unit. Do not restart failed attempts or interpret `RemainAfterExit` as computation.
 
 `INITIAL_OBSERVATION_V1.json` and later `PROGRESS_*.json` retain live state, raw attempt/sequence receipts, bounded log tails, cgroups and GPU ownership. Current time is inside each receipt; a filename time label is only an indexing bucket. Acceptance of a F3 score remains pending all fixed six-epoch endpoints, exports, official grade, sealed actual receipt hashes and independent result review. F0 and F1 are complete and must not be rerun; two completed pairs do not finish CP30.
+
+## Wide terminal preservation, 22:15 UTC
+
+[Terminal execution records](../f3_terminal_execution_r1/records/README.md) and [independent root structural acceptance](../receipts/F3_WIDE_TERMINAL_ROOT_ACCEPTANCE_20261018T2220Z.json) preserve native exit0, next_epoch6,89,280 updates/8,928 batches/zero skips, finite FP32 model/Adam and138 source modules. The original sequence is on deep continuation index3, healthy at22:15UTC; no paired F3 quality result yet. No wide terminal recollection or verification is needed.
