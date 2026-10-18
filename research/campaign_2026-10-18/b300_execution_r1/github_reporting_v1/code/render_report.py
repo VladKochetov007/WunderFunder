@@ -10,12 +10,35 @@ from datetime import UTC, datetime
 
 CAMPAIGN = "tabdata-b300-20261018"
 PUBLIC_RESULT_FIELDS = {
-    "id", "arm", "fold", "seed", "wp", "metric_id", "pair_id", "source", "source_commit",
-    "source_sha256", "checkpoint_sha256", "checkpoint_payload_sha256", "prediction_sha256",
-    "score_sha256", "prediction_metadata_sha256", "receipt_sha256", "fit_recovery_sha256",
-    "fit_receipt_sha256", "fit_timing_seconds", "fit_timing_note", "receipt_digests",
-    "archive_manifest_path", "archive_manifest_sha256", "evidence_archive", "weights_archive",
-    "export_receipt_sha256", "grade_receipt_sha256", "grade_sha256", "grade_command_sha256",
+    "id",
+    "arm",
+    "fold",
+    "seed",
+    "wp",
+    "metric_id",
+    "pair_id",
+    "source",
+    "source_commit",
+    "source_sha256",
+    "checkpoint_sha256",
+    "checkpoint_payload_sha256",
+    "prediction_sha256",
+    "score_sha256",
+    "prediction_metadata_sha256",
+    "receipt_sha256",
+    "fit_recovery_sha256",
+    "fit_receipt_sha256",
+    "fit_timing_seconds",
+    "fit_timing_note",
+    "receipt_digests",
+    "archive_manifest_path",
+    "archive_manifest_sha256",
+    "evidence_archive",
+    "weights_archive",
+    "export_receipt_sha256",
+    "grade_receipt_sha256",
+    "grade_sha256",
+    "grade_command_sha256",
 }
 
 
@@ -131,10 +154,7 @@ def report(snapshot: dict, *, new_rows: list[dict] | None, evidence_url: str) ->
             f"**New or corrected scored endpoints in this update:** {len(new_rows)}.",
             "<details><summary>Exact endpoint identities and hashes</summary>\n\n```json\n"
             + json.dumps(
-                [
-                    {k: v for k, v in row.items() if k in PUBLIC_RESULT_FIELDS}
-                    for row in new_rows
-                ],
+                [{k: v for k, v in row.items() if k in PUBLIC_RESULT_FIELDS} for row in new_rows],
                 sort_keys=True,
                 indent=2,
             )

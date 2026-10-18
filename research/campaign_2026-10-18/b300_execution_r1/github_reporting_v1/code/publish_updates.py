@@ -123,10 +123,18 @@ def collect_snapshots(root: Path) -> list[dict]:
             snapshot = collector(root)
             validate_snapshot(snapshot)
         except (OSError, ValueError, KeyError, TypeError, RuntimeError, ImportError) as error:
-            snapshot = dict(experiment_id=name, expected_cells=cells, expected_per_arm=30,
-                            completed=[], active=0, pending=0, terminal=False, source={},
-                            contract_note="Collection unavailable; counts are unknown, not evidence of stopped fits.",
-                            errors=["Collector unavailable: " + type(error).__name__])
+            snapshot = dict(
+                experiment_id=name,
+                expected_cells=cells,
+                expected_per_arm=30,
+                completed=[],
+                active=0,
+                pending=0,
+                terminal=False,
+                source={},
+                contract_note="Collection unavailable; counts are unknown, not evidence of stopped fits.",
+                errors=["Collector unavailable: " + type(error).__name__],
+            )
         snapshots.append(snapshot)
     return snapshots
 

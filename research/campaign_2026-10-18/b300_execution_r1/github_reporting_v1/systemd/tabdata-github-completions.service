@@ -1,0 +1,18 @@
+[Unit]
+Description=Publish completed tabdata experiment endpoints
+
+[Service]
+Type=oneshot
+WorkingDirectory=/data/epanov_s/tabdata
+ExecStartPre=/usr/bin/sleep 20
+ExecStart=/data/epanov_s/tabdata/.venv/bin/python -B -u /data/epanov_s/tabdata/runtime/github-reporting-v1/code/publish_updates.py --config /data/epanov_s/tabdata/runtime/github-reporting-v1/CONFIG.json --config-sha256 17e85c403991971425a35b403e296ab7188d7cc68b090ec80fcb2cbafb3c5b55 --reason completion
+TimeoutStartSec=300
+MemoryMax=8G
+MemorySwapMax=0
+TasksMax=128
+CPUAffinity=72 74
+Environment=CUDA_VISIBLE_DEVICES=
+Environment=OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1
+StandardOutput=append:/data/epanov_s/tabdata/state/github-reporting-v1/reporter.log
+StandardError=append:/data/epanov_s/tabdata/state/github-reporting-v1/reporter.log
+UMask=0077

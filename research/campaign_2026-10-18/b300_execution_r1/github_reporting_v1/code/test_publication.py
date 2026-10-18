@@ -34,8 +34,11 @@ class FakeGitHub:
 
     def request(self, method: str, suffix: str) -> dict:
         repo = dict(full_name="VladKochetov007/WunderFunder")
-        return dict(base=dict(ref="research-team", repo=repo),
-                    head=dict(ref="experiment/geometry", repo=repo), state="open")
+        return dict(
+            base=dict(ref="research-team", repo=repo),
+            head=dict(ref="experiment/geometry", repo=repo),
+            state="open",
+        )
 
     def comments(self, number: int) -> list[dict]:
         return list(self.rows)

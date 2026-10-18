@@ -14,6 +14,7 @@ from typing import Any
 EXPERIMENT_ID, EXPECTED_CELLS, EXPECTED_PER_ARM = "PR15", 120, 30
 QUEUE_SHA = "8b3bc9b636ce192c6da9ababace1c5a1a59e58ebcbbe3394fe7f2ae940704eb9"
 PARENT_SHA = "950f5178652ad81ae62220a124dc0253cf5f80f9b1dfef7250f39aa1d0c9f1c8"
+PARENT_FROZEN_SHA = "c18f1877b8579c03d2a0905534f5ecbd13ed56a54306ba66d63b47d892b66510"
 SOURCE_COMMIT = "e238fc5c82ac8c4591f3ca3ef87c37b2b73b929e"
 SOURCE_SHA = "873662aded939afd64c17c80b684011de023c04a31be5b2c74e0b9d97a18efc0"
 ARMS = {
@@ -76,8 +77,21 @@ def _packet(root: Path) -> tuple[Path, Path, dict[str, Any]]:
         path = (packet / relative).resolve(strict=True)
         if not path.is_relative_to(runtime.resolve(strict=True)) or _sha(path) != expected:
             raise ValueError(f"host-v2 manifest member differs: {relative}")
-    if _sha(runtime / "pr15-host-v1/EXECUTION_MANIFEST.json") != PARENT_SHA:
+    original = runtime / "pr15-host-v1"
+    original_manifest_path = original / "EXECUTION_MANIFEST.json"
+    if _sha(original_manifest_path) != PARENT_SHA:
         raise ValueError("original host packet differs from pin")
+    original_manifest = _json(original_manifest_path)
+    if original_manifest.get("files", {}).get("FROZEN.json") != PARENT_FROZEN_SHA:
+        raise ValueError("original host packet does not pin the expected frozen profile")
+    frozen_path = original / "FROZEN.json"
+    if _sha(frozen_path) != PARENT_FROZEN_SHA:
+        raise ValueError("original host frozen profile differs from pin")
+    frozen = _json(frozen_path)
+    for relative, expected in frozen["files"].items():
+        path = (original / relative).resolve(strict=True)
+        if not path.is_relative_to(runtime.resolve(strict=True)) or _sha(path) != expected:
+            raise ValueError(f"original host frozen member differs: {relative}")
     if _sha(packet / "source_manifest.json") != SOURCE_SHA:
         raise ValueError("PR15 source manifest differs from pin")
     return packet, runtime / "pr15-source-e238-v1", manifest
@@ -141,7 +155,7 @@ def _paths(
 ) -> tuple[list[str], list[str]]:
     receipts = [work / f"{phase}_receipt.json" for phase in ("fit", "export", "score")]
     evidence = [endpoint, work / "worker_request.json", work / "worker_receipt.json"]
-    if "delivery-recovery" in endpoint.parts:
+    if endpoint.parent.parent.name == "pr15-delivery-recovery-v2":
         evidence += [
             endpoint.parent / "FIT_RECOVERY.json",
             work / "envelope/fit/train_cell_resource_receipt.json",
@@ -329,14 +343,15 @@ def _old_cell(
     if score != endpoint.get("score") or independent != endpoint.get("independent_endpoint_check"):
         raise ValueError("recovered checkpoint, prediction, or official score differs")
     python = str(root / ".venv/bin/python")
+    original_packet = root / "runtime/pr15-host-v1"
     _phase(
         work,
         endpoint.get("export", {}),
         [
             python,
             "-u",
-            str(packet / "gpu_entrypoint.py"),
-            str(packet / "export_cell.py"),
+            str(original_packet / "gpu_entrypoint.py"),
+            str(original_packet / "export_cell.py"),
             "--request",
             str(work / "worker_request.json"),
         ],
