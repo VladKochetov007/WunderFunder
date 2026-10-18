@@ -1,11 +1,8 @@
 # Research-team experiment catalogue
 
-The active [rank1 continuation handoff](https://github.com/VladKochetov007/WunderFunder/tree/experiment/rr18-01-labels/research/experiment_drafts/rr18-01-labels) is tied to the [October 18 execution packet](../campaign_2026-10-18/priority25_execution_r4/README.md); its paired Beleriand run remains in progress and endpoint grades are pending. Draft PR [#17](https://github.com/VladKochetov007/WunderFunder/pull/17) is the retained-raw causal smoother teacher/student study. These are separate from the historical fourteen-PR catalogue below.
+The active [rank1 continuation handoff](https://github.com/VladKochetov007/WunderFunder/tree/experiment/rr18-01-labels/research/experiment_drafts/rr18-01-labels) is tied to the [October 18 execution packet](../campaign_2026-10-18/priority25_execution_r4/README.md); F0/S1001 and F1/S1001 are graded at audited source e35220969 (two of 30 paired cells); F3 has retained progress. See [the source-pinned review](../unified/reviews/REPOSITORY_DELTA_20261018.md) for uncertainty and the five newer team draft PRs. The [gradient-estimator continuations](../unified/ideas/GRADIENT_ESTIMATOR_CONTINUATIONS_20261018.md) add two unrun proposals without changing the active queue. These are separate from the historical fourteen-PR catalogue below.
 
 The [October 18 base-sync receipt](BRANCH_SYNC_20261018_R3.json) records the no-rewrite merge of current `main` into `research-team`, including append-only conflict handling. The [October 17 receipt](BRANCH_SYNC_20261017_R2.json) remains the historical synchronization record for the original fourteen branches. No B300 quality result follows from publishing or synchronizing draft code. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records handoff scope and evidence limits.
-
-- [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.
-- [Workflow](../unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) defines30 paired cells per scientific arm, strictFP32, source-clean evaluation and separate logs/weights archives.
 
 - [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.
 - [Workflow](../unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) defines30 paired cells per scientific arm, strictFP32, source-clean evaluation and separate logs/weights archives.
