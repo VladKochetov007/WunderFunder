@@ -1,0 +1,89 @@
+{
+  "id": "E-ARCHITECTURE-CP30-HANDOFF-20261018",
+  "status": "proposal_source_preserved_port_pending",
+  "launch_ready": false,
+  "training_authorized": false,
+  "precision": "fp32",
+  "tf32": false,
+  "arms": [
+    "A_gru256x2",
+    "B_transformer256x4_window256",
+    "C_transformer256x4_window2048",
+    "D_mamba2_256x4"
+  ],
+  "cells_per_arm": 30,
+  "total_fits": 120,
+  "epochs": 6,
+  "fixed_checkpoint_epoch": 5,
+  "historical_source_sha": "bd78ac1048fe9d6534e76cde8c6f8ec0d6aa6acb",
+  "historical_source_not_current_trainer": true,
+  "primary_contrasts": [
+    "B-A",
+    "C-B",
+    "D-A"
+  ],
+  "primary_metric": "global_wp_clip2_v1",
+  "minimum_useful_wp_delta": 0.0005,
+  "family_adjusted_interval_percent": 98.3333333333,
+  "fold_seeds": {
+    "F0": [
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008
+    ],
+    "F1": [
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007,
+      1008
+    ],
+    "F2": [
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007
+    ],
+    "F3": [
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007
+    ]
+  },
+  "implementation_sources": [
+    "https://github.com/VladKochetov007/WunderFunder/tree/bd78ac1048fe9d6534e76cde8c6f8ec0d6aa6acb",
+    "src/wnn/training/README.md"
+  ],
+  "remaining_work": [
+    "Port reviewed Transformer/Mamba2 modules into current modular model/forward/state/checkpoint/prediction seams; preserve current safety fixes.",
+    "Bind exact cold initialization and source-qualified data/split/normalization/optimizer/LR/batch/update schedule for each full-data cell.",
+    "Enforce and verify strictFP32 with TF32/autocast/scaler off; validate causality, reset and streaming/gradient parity on target GPU.",
+    "Verify Mamba source build and actual-shape GPU memory/time profile for all arms.",
+    "Record cell ownership, target paths and exact commands; no new queue manager; admit scientific fits separately.",
+    "Add canonical full prediction/score/CP30 collection bindings; downstream GRU KD or CPU endpoint remains separate."
+  ],
+  "mamba2": {
+    "width": 256,
+    "layers": 4,
+    "state_size": 64,
+    "head_dim": 64,
+    "expand": 2,
+    "conv_width": 4,
+    "chunk_size": 256
+  }
+}
