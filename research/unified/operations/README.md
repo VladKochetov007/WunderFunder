@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+
+- [Deep continuation epoch2 archive and persisted ancestry](../../campaign_2026-10-18/priority25_execution_r4/receipts/DEEP_CONTINUATION_EP2_20261018.json), with [raw collection hashes](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F0_S1001_E6_EP2_COLLECTION.json): source/copy generation checks pass and archived resume provenance matches verified stage1.44,760 updates and zero skips/nonfinite are producer-reported; intermediate tensors were not reverified. The existing worker advances into epoch3. No cloud recovery, cluster claim or paired quality result is established.
 - [Wide epoch4 archive and03:40UTC continuation](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0340Z.json): the [next checkpoint generation](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F0_S1001_E6_EP4_COLLECTION.json) is source/hash-bound, with74,600 producer-reported successful updates and zero skips/nonfinite. Wide has entered its fixed final epoch5 on the single GPU; this is not terminal or quality evidence. Provider recovery guidance/history and cluster claims supply no new admission signal.
 
 - [Rank1 deep continuation at04:40UTC](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0440Z.json): epoch2 batch700/1492 with one GPU and zero memory events; first continuation checkpoint is still pending. Cloud recovery and cluster claims remain unobserved, so no new admission or quality conclusion.
