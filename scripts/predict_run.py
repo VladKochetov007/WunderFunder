@@ -33,6 +33,7 @@ from wnn.research_features import (
 from wnn.resources import configure_strict_fp32, configure_torch, dataloader_budget
 from wnn.sentinel import SentinelPreprocessor
 from wnn.splits import file_sha256, load_campaign_split
+from wnn.training.source_identity import kalman_model_source_identity
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
 ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
@@ -45,7 +46,9 @@ def model_from_checkpoint(ck: dict) -> torch.nn.Module:
         from wnn.kalman_local_trend import make_kalman_checkpoint_model
 
         return make_kalman_checkpoint_model(ck["args"], state, ck["n_in"])
-    return make_model(ck["args"], ck["n_in"], state["head.2.weight"].shape[0])
+    model = make_model(ck["args"], ck["n_in"], state["head.2.weight"].shape[0])
+    model.load_state_dict(state, strict=True)
+    return model
 
 
 def campaign_prediction_groups(
@@ -176,6 +179,16 @@ def main():
     checkpoint_name = f"model_ep{args.epoch}.pt" if args.epoch is not None else "model.pt"
     checkpoint_path = ROOT / "artifacts" / "runs" / name / checkpoint_name
     ck = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    model_adapter = ck.get("provenance", {}).get("model_adapter", {})
+    model_source_identity = None
+    if isinstance(model_adapter, dict) and model_adapter.get("kind") == "causal_smoother_gru":
+        model_source_identity = kalman_model_source_identity(SOURCE_ROOT)
+        checkpoint_provenance = ck.get("provenance", {})
+        if (
+            checkpoint_provenance.get("model_source_sha256") != model_source_identity["sha256"]
+            or checkpoint_provenance.get("model_source_files") != model_source_identity["files"]
+        ):
+            raise ValueError("current Kalman model source differs from teacher training provenance")
     if ck["args"].get("privileged_mode", "none") != "none":
         raise ValueError(
             "privileged teachers require component-crossfit extraction, not causal prediction export"
@@ -317,6 +330,13 @@ def main():
         "epoch": ck.get("epoch"),
         "checkpoint_sha256": file_sha256(checkpoint_path),
         "prediction_sha256": file_sha256(final),
+        "prediction_driver_sha256": file_sha256(Path(__file__).resolve()),
+        "model_source_sha256": (
+            model_source_identity["sha256"] if model_source_identity is not None else None
+        ),
+        "model_source_files": (
+            model_source_identity["files"] if model_source_identity is not None else None
+        ),
         "split_manifest_sha256": ck["args"].get("split_manifest_sha256"),
         "quote_cache": quote_cache,
         "gate_mode": args.gate_mode,

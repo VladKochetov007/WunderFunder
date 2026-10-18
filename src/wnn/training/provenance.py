@@ -9,7 +9,7 @@ from wnn.propensity import load_propensity
 from wnn.splits import file_sha256
 from wnn.training.checkpoints import serialized_args
 from wnn.training.inheritance import validate_campaign_checkpoint
-from wnn.training.source_identity import training_source_identity
+from wnn.training.source_identity import kalman_model_source_identity, training_source_identity
 from wnn.training.state import TrainingRun
 
 
@@ -57,6 +57,13 @@ def record_provenance(run: TrainingRun) -> None:
         provenance["model_adapter"] = environment.model_metadata
         provenance["args"]["model_adapter"] = environment.model_metadata
     provenance["trainer_implementation"] = training_source_identity(environment)
+    if (
+        isinstance(environment.model_metadata, dict)
+        and environment.model_metadata.get("kind") == "causal_smoother_gru"
+    ):
+        model_identity = kalman_model_source_identity(environment.source_root)
+        provenance["model_source_sha256"] = model_identity["sha256"]
+        provenance["model_source_files"] = model_identity["files"]
     if fit_subset is not None:
         provenance["fit_subset_manifest_sha256"] = args.fit_subset_manifest_sha256
         provenance["fit_subset_members_sha256"] = fit_subset["manifest"]["selected_members_sha256"]

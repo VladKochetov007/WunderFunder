@@ -3,6 +3,7 @@
   "id": "E-KALMAN-LOCAL-TREND-B300-20261018",
   "hypothesis_id": "H-KALMAN-LOCAL-TREND-20261018",
   "status": "implementation_ready_profile_and_source_registry_pending",
+  "claim_scope": "Proposed direct-teacher and matched student-cache comparisons across 30 paired fold/seed cells per arm on four previously exposed folds; no B300 profile, task fit, student result, runtime or submission impact has been measured. Actual-shape profile and a clean per-cell teacher registry are required before their respective fits.",
   "created_utc": "2026-10-18T00:24:13Z",
   "source_base": "origin/research-team@1ff144e09",
   "implementation": {
@@ -459,7 +460,7 @@
     "must_precede_scientific_fits": true,
     "host": "actual teammate 8xB300 host",
     "one_fit_shape": "learned all112 H1024x2, batch=16, chunk=2000, full-length 20,000-row sequences",
-    "profile_command_template": "WNN_PROJECT_ROOT=$DATA_ROOT CUDA_VISIBLE_DEVICES=$GPU scripts/limited .venv/bin/python scripts/train_kalman_teacher.py --kalman-arm learned --kalman-channels all112 --name kalman_profile_f0_s1001 --split-manifest $F0_MANIFEST --hidden 1024 --layers 2 --batch 16 --chunk 2000 --loss wmse --epochs 1 --checkpoint-policy fixed --checkpoint-epoch 0 --no-eval-during-fit --precision fp32 --profile-warmup 1 --profile-steps 2",
+    "profile_command_template": "WNN_PROJECT_ROOT=$DATA_ROOT CUDA_VISIBLE_DEVICES=$GPU scripts/limited .venv/bin/python scripts/train_kalman_teacher.py --kalman-arm learned --kalman-channels all112 --name kalman_profile_f0_s1001 --split-manifest $F0_MANIFEST --hidden 1024 --layers 2 --batch 16 --chunk 2000 --loss wmse --optim adamw --lr 0.001 --wd 0.01 --sched onecycle --clip 1 --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 --no-eval-during-fit --precision fp32 --grad-stats --profile-warmup 1 --profile-steps 4",
     "measure": [
       "GPU/driver/CUDA/PyTorch build",
       "peak VRAM and host memory",
@@ -512,14 +513,16 @@
       "all112_kalman_family_student - matched_family_student"
     ],
     "multiplicity": "Holm correction across all eight predeclared contrasts if all are reported",
-    "uncertainty": "10,000 crossed seed-identity bootstrap replicates with shared seed multiplicities across folds; separately 10,000 paired source-component bootstrap replicates within each fold; intervals conditional on four exposed folds and fitted endpoints",
+    "uncertainty": "Seed variability: use NumPy PCG64 seed 20261018 and 10,000 percentile-bootstrap replicates. Draw eight seed identities with replacement from 1001-1008 and apply the same multiplicities across folds. For each fold renormalize over its available cells (F0/F1 have eight seeds; F2/F3 have seven); redraw if any fold receives zero available multiplicity. Compute each fold's seed-mean paired WP difference, then average the four fold means equally. Evaluation-unit variability: use a separate NumPy PCG64 seed 20261019 and 10,000 paired source-component bootstrap replicates. Within each fold f, draw C_f component IDs with replacement exactly C_f times, where C_f is that fold's number of unique evaluation components. Apply each draw's component multiplicities jointly to all sequences in a component, both treatment/control endpoints, and every available seed cell; recompute pooled official WP for each endpoint/cell, average paired seed differences within fold, then average the four fold differences equally. For each procedure report the empirical 2.5th/97.5th percentile interval separately; each interval conditions on fixed fitted endpoints and the four exposed folds and captures only its named resampling axis.",
+    "seed_identity_bootstrap_rng": "NumPy PCG64 seed 20261018",
+    "source_component_bootstrap_rng": "NumPy PCG64 seed 20261019",
     "practical_followup_reference": 0.0005,
     "decision_policy": "A zero-crossing interval is inconclusive, not a universal kill; preserve valid cells and report fold/seed variation and measured runtime separately."
   },
   "commands": {
     "smoke": "scripts/limited .venv/bin/python scripts/train_kalman_teacher.py --synthetic-smoke --kalman-arm learned --kalman-channels all112",
-    "profile": "WNN_PROJECT_ROOT=$DATA_ROOT CUDA_VISIBLE_DEVICES=$GPU scripts/limited .venv/bin/python scripts/train_kalman_teacher.py --kalman-arm learned --kalman-channels all112 --name kalman_profile_f0_s1001 --split-manifest $F0_MANIFEST --hidden 1024 --layers 2 --batch 16 --chunk 2000 --loss wmse --epochs 1 --checkpoint-policy fixed --checkpoint-epoch 0 --no-eval-during-fit --precision fp32 --profile-warmup 1 --profile-steps 2",
-    "teacher_cell": "WNN_PROJECT_ROOT=$DATA_ROOT CUDA_VISIBLE_DEVICES=$GPU scripts/limited .venv/bin/python scripts/train_kalman_teacher.py --kalman-arm $ARM --kalman-channels $SCOPE --name $RUN --split-manifest $FOLD_MANIFEST --hidden 1024 --layers 2 --batch 16 --chunk 2000 --loss wmse --optim adamw --lr 0.001 --wd 0.01 --clip 1 --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 --no-eval-during-fit --precision fp32 --grad-stats --seed $SEED",
+    "profile": "WNN_PROJECT_ROOT=$DATA_ROOT CUDA_VISIBLE_DEVICES=$GPU scripts/limited .venv/bin/python scripts/train_kalman_teacher.py --kalman-arm learned --kalman-channels all112 --name kalman_profile_f0_s1001 --split-manifest $F0_MANIFEST --hidden 1024 --layers 2 --batch 16 --chunk 2000 --loss wmse --optim adamw --lr 0.001 --wd 0.01 --sched onecycle --clip 1 --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 --no-eval-during-fit --precision fp32 --grad-stats --profile-warmup 1 --profile-steps 4",
+    "teacher_cell": "WNN_PROJECT_ROOT=$DATA_ROOT CUDA_VISIBLE_DEVICES=$GPU scripts/limited .venv/bin/python scripts/train_kalman_teacher.py --kalman-arm $ARM --kalman-channels $SCOPE --name $RUN --split-manifest $FOLD_MANIFEST --hidden 1024 --layers 2 --batch 16 --chunk 2000 --loss wmse --optim adamw --lr 0.001 --wd 0.01 --sched onecycle --clip 1 --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 --no-eval-during-fit --precision fp32 --grad-stats --seed $SEED",
     "teacher_predictions": "WNN_PROJECT_ROOT=$DATA_ROOT scripts/limited .venv/bin/python scripts/predict_run.py $RUN train --inference-precision fp32 && WNN_PROJECT_ROOT=$DATA_ROOT scripts/limited .venv/bin/python scripts/predict_run.py $RUN valid --inference-precision fp32",
     "build_family_cache": "WNN_PROJECT_ROOT=$DATA_ROOT scripts/limited .venv/bin/python scripts/build_distill_cache.py --data-root $DATA_ROOT --teacher-cache-root $DATA_ROOT/cache --checkpoint-root $DATA_ROOT/artifacts/runs --split-manifest $FOLD_MANIFEST --output $DATA_ROOT/cache/distill/$CACHE_ID --output-profile all --teacher strong=$STRONG_RUN@ep$STRONG_EPOCH*$STRONG_WEIGHT --teacher full_finetuned=$FULL_RUN@ep$FULL_EPOCH*$FULL_WEIGHT --teacher raw_wmse=$RAW_RUN@ep$RAW_EPOCH*$RAW_WEIGHT --teacher samefold_baseline=$BASE_OR_KF_RUN@ep$BASE_OR_KF_EPOCH*$BASE_WEIGHT",
     "student_cell": "WNN_PROJECT_ROOT=$DATA_ROOT scripts/limited .venv/bin/python scripts/train_rnn.py --name $STUDENT_RUN --split-manifest $FOLD_MANIFEST --hidden 256 --layers 2 --batch 16 --chunk 2000 --loss wmse --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 --no-eval-during-fit --precision fp32 --grad-stats --seed $SEED --distill-cache-root $CACHE_PATH --distill-cache-variant source --distill-alpha 0.5",

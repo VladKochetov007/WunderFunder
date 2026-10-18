@@ -4,11 +4,31 @@
 
 This is an implementation and profile-preparation draft, not a completed experiment. It adds a differentiable local-trend feature module, matched EMA and zero-feature raw arms, a strict-FP32 adapter to the canonical modular trainer, adapter-aware prediction reconstruction, and adapter/provenance checks in the existing distillation-cache builder. The source base is `research-team`; the branch and final commit are recorded by the PR. Hypothesis `H-KALMAN-LOCAL-TREND-20261018`; experiment `E-KALMAN-LOCAL-TREND-B300-20261018`. No B300 profile, PyTorch smoke, task fit, student cache, task grade or performance claim has been produced. A separate NumPy synthetic receipt is preserved and labeled as such.
 
+The local inference-only motivation is now independently graded: on 16 selected exposed-F0 groups, replacing four raw inputs with local-trend posterior levels changed pooled WP by +0.000338 versus raw (12-component conditional 95% interval [−0.000019,+0.000716]); the random-walk change was +0.000119. This is one frozen checkpoint, not a trained smoother or student result. The independent scorer revalidated alignment and reproduces the grade. See the separately indexed [local probe packet](https://github.com/VladKochetov007/WunderFunder/blob/main/research/campaign_2026-10-18/online_features_r1/kalman_filter_probe/RESULTS_R2.md) in the main research checkout.
+
+Checkpoint loading is strict for both paths: the Kalman adapter is reconstructed
+from checkpoint metadata and its state dict, while standard family teachers
+load their saved state dict into the canonical model before prediction export.
+This is required for valid teacher caches; shape and finiteness checks alone
+cannot detect random initialized predictions.
+
+For adapted checkpoints, provenance binds the hashes of both
+`src/wnn/kalman_local_trend.py` and `src/wnn/nn.py`. Prediction export checks
+the current implementation against those training hashes before inference;
+the sidecar records current hashes and the prediction-driver hash. Cache
+construction independently checks the current files against both checkpoint
+provenance and prediction sidecar before it accepts the teacher.
+
 ## 2. Why it should work
 
 A local-linear-trend filter can expose a causal estimate of level, slope and innovation uncertainty to the GRU, providing a compact inductive bias for changing latent regimes. The strongest alternative is that ordinary smoothing or the extra input projection explains any change. For both the four-channel local pilot and full 112-channel scope, the primary control is an EMA whose gain is the fixed scalar random-walk Kalman steady-state gain; the fixed-Q/R local-trend arm separates trend-state structure from learned Q/R. A scope-matched raw arm appends zeros so each four-arm set has the same GRU width and projection shape. The learned filter uses positive scalar Q/R parameters tied by state family across selected channels. All arms retain the original raw input.
 
 ## 3. Compute advantage and scaling path
+
+The competition payoff is through a better fixed-size GRU student, not a
+teacher-only score: a Kalman teacher must improve the matched four-family
+student-cache endpoint, then retain a useful quality/runtime/package-size
+tradeoff in the final served pipeline.
 
 The filter adds four features per selected raw channel and a small number of learned scalars, but its eager Python time loop may erase that nominal arithmetic advantage. The 112-channel case adds 448 inputs to the H1024 projection and may be activation-memory intensive. An actual B300 profile at the full planned shape must precede scientific fitting; no time estimate is supplied. Each arm uses fresh H1024×2 weights in this primary attribution experiment. A clean-parent strong-model continuation is a separate future factor: compare it against a matched fresh model and preserve identical parent ancestry across feature treatments before claiming a continuation benefit. If the teacher has value, the included path replaces one clean same-fold teacher family in the existing four-family student cache. Larger GRU teachers, teacher-only/student-only/combined feature placement, and distillation at larger context are later scaling experiments. Teacher DDP is not implemented or required for the independent small-GRU cells.
 
@@ -21,6 +41,16 @@ The task target is the original two competition outputs under the canonical WMSE
 Every arm uses the same 30 exposed fold/seed cells: F0/F1 with seeds 1001–1008 and F2/F3 with seeds 1001–1007, for 8/8/7/7 cells. The direct teacher matrix is raw-zero-pad, steady-state EMA, fixed local trend and learned local trend at `pilot4` and `all112`; this is eight arms. The student matrix has a matched existing-cache control plus pilot4-Kalman and all112-Kalman source-replacement arms; this is three more arms. Total: 11 arms, 330 scientific fits, scheduled as 42 waves of up to eight independent fits. Launch one fit per GPU; no DDP command is supported. The same seed identities pair arms within each fold. All four folds have prior exposure; this is robustness evidence, not a pristine holdout. `pilot4` is the local screening scope, while `all112` is the expanded channel-scope comparison. Profile the all112 learned arm before fit admission; if the profile passes, run both predeclared matrices in full. Pilot quality does not gate all112 inclusion.
 
 ## 6. Validation and significance
+
+For seed variability, use NumPy PCG64 seed `20261018` for 10,000
+percentile-bootstrap replicates: draw eight seed identities with replacement
+from 1001–1008, apply the same multiplicities in every fold, renormalize over
+each fold's available seeds, and redraw if any fold has zero available
+multiplicity. For evaluation-unit variability, use separate PCG64 seed
+`20261019` for 10,000 paired source-component bootstrap replicates within each
+fold, sharing component multiplicities across arms and seed cells. Report the
+two marginal 95% intervals separately; both condition on the exposed folds and
+fixed fitted endpoints.
 
 Grade with unchanged `global_wp_clip2_v1`, fixed scored rows and its original clipping and weighting. Primary contrasts are learned versus EMA and learned versus fixed local trend separately for both scopes (four tests). Secondary contrasts are learned versus same-scope raw-zero-pad control and each Kalman-family student versus the shared matched-cache student (four tests). If all are reported, apply Holm correction across all eight. Use the equal-fold mean of paired seed means, a 10,000-replicate crossed seed-identity bootstrap with shared seed multiplicities across folds, and a separate 10,000-replicate paired source-component bootstrap within each fold. Report fold and seed variation separately; intervals condition on exposed folds and fitted endpoints. Profiles, synthetic checks and PyTorch parity checks are engineering evidence, not quality comparisons.
 
@@ -42,4 +72,6 @@ For each optimizer update preserve attempted/successful steps, progress, loss, L
 
 ## 11. Results and trace
 
-No task cell has been admitted or run from this branch; quality and runtime are unknown. The unified index entries link this draft from experiment drafts, ideas, models and sources. The three source records are [Backprop KF](https://arxiv.org/abs/1605.07148), [KalmanNet](https://arxiv.org/abs/2107.10043) and the [AI-Aided Kalman Filters survey/tutorial](https://arxiv.org/abs/2410.12289). These motivate differentiable and hybrid filtering as a direction; they do not establish a Challenge2 gain. Independent source-code/runtime review and actual B300 profile are still required before fit admission. This PR is a proposal plus runnable adapter; no public score, leaderboard transfer, speedup or competitive result is claimed.
+No task cell has been admitted or run from this branch; teacher/student quality and B300 runtime are unknown. A source-only independent review initially found that the adapted-source sidecar echoed checkpoint metadata rather than validating current filter code and omitted the imported GRU core. The follow-up fix binds both source files through training provenance, prediction export and cache construction; the independent source-only review cleared that path. The [review summary](https://github.com/VladKochetov007/WunderFunder/blob/main/research/unified/reviews/KALMAN_B300_DRAFT_REVIEW_20261018_R1.md) is indexed in the main checkout. The local fixed-GRU screen is separately recorded in the [Kalman results note](https://github.com/VladKochetov007/WunderFunder/blob/main/research/campaign_2026-10-18/online_features_r1/kalman_filter_probe/RESULTS_R2.md) and does not establish trained-feature value.
+
+The three source records are [Backprop KF](https://arxiv.org/abs/1605.07148), [KalmanNet](https://arxiv.org/abs/2107.10043) and the [AI-Aided Kalman Filters survey/tutorial](https://arxiv.org/abs/2410.12289). These motivate differentiable and hybrid filtering as a direction; they do not establish a Challenge2 gain. The full112 actual B300 profile and per-cell clean teacher registry are still required before fitting. This PR is an implementation handoff, not fit authorization; no public score, leaderboard transfer, speedup or competitive result is claimed.

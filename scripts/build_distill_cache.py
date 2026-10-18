@@ -25,6 +25,7 @@ from wnn.distillation_cache import (
     row_groups_sha256,
 )
 from wnn.splits import CampaignSplit, load_campaign_split
+from wnn.training.source_identity import kalman_model_source_identity
 
 # Parsed JSON fields are intentionally dynamic and retain their source schema.
 
@@ -382,6 +383,21 @@ def _inspect_teacher(
 
     predictions: dict[str, np.ndarray] = {}
     cache_records: dict[str, dict[str, Any]] = {}
+    prediction_driver_sha256 = (
+        file_sha256(Path(__file__).resolve().with_name("predict_run.py"))
+        if adapter is not None
+        else None
+    )
+    model_source_identity = (
+        kalman_model_source_identity(Path(__file__).resolve().parents[1])
+        if adapter is not None
+        else None
+    )
+    if adapter is not None and (
+        checkpoint_provenance.get("model_source_sha256") != model_source_identity["sha256"]
+        or checkpoint_provenance.get("model_source_files") != model_source_identity["files"]
+    ):
+        raise ValueError(f"teacher {run} Kalman source differs from training provenance")
     for split_name, expected_order in target_orders.items():
         pred_path = cache_root / f"pred_{run}_{split_name}.npy"
         sidecar_path = pred_path.with_suffix(".json")
@@ -397,6 +413,15 @@ def _inspect_teacher(
         ):
             raise ValueError(
                 f"teacher {run} {split_name} prediction sidecar is not bound to its checkpoint"
+            )
+        if adapter is not None and (
+            sidecar.get("prediction_driver_sha256") != prediction_driver_sha256
+            or sidecar.get("model_source_sha256") != model_source_identity["sha256"]
+            or sidecar.get("model_source_files") != model_source_identity["files"]
+        ):
+            raise ValueError(
+                f"teacher {run} {split_name} prediction sidecar does not bind the current "
+                "prediction driver and adapted model source"
             )
         row_groups = list(map(int, sidecar.get("row_groups", [])))
         if row_groups != expected_order:
@@ -418,6 +443,9 @@ def _inspect_teacher(
             "prediction_sha256": prediction_sha256,
             "sidecar_sha256": file_sha256(sidecar_path),
             "checkpoint_sha256": checkpoint_sha256,
+            "prediction_driver_sha256": sidecar.get("prediction_driver_sha256"),
+            "model_source_sha256": sidecar.get("model_source_sha256"),
+            "model_source_files": sidecar.get("model_source_files"),
             "epoch": epoch,
             "row_groups_sha256": row_groups_sha256(row_groups),
         }

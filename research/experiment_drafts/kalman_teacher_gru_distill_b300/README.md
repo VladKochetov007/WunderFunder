@@ -2,7 +2,10 @@
 
 **Status:** implementation draft; no B300 profile or task fit has been run from
 this branch. The four-channel NumPy receipt is synthetic-only and is not a
-model-quality result. Hypothesis `H-KALMAN-LOCAL-TREND-20261018`; experiment
+model-quality result. A separate fixed-GRU replay on 16 selected exposed-F0
+groups has a +0.000338 local-trend point change with a conditional interval
+crossing zero; it is only motivation and is not teacher/student evidence.
+Hypothesis `H-KALMAN-LOCAL-TREND-20261018`; experiment
 `E-KALMAN-LOCAL-TREND-B300-20261018`.
 
 Published as [draft PR #17](https://github.com/VladKochetov007/WunderFunder/pull/17)
@@ -14,6 +17,11 @@ learned local-trend teacher improves the existing four-family GRU student
 cache. It predicts the two original competition targets with canonical WMSE;
 there is no next-input reconstruction objective. Final grades use the unchanged
 `global_wp_clip2_v1` metric.
+
+The competition payoff is through a better fixed-size GRU student, not a
+teacher-only score: a Kalman teacher must beat the matched four-family student
+cache, with the final served quality/runtime/package-size tradeoff measured
+before any submission claim.
 
 ## Architecture and evidence
 
@@ -53,8 +61,10 @@ flowchart LR
   adapter-marked checkpoints for the existing prediction export.
 - [`scripts/build_distill_cache.py`](../../../scripts/build_distill_cache.py)
   validates adapter identity, arm, channel scope, filter state, dimensions,
-  split membership, checkpoint bytes and source-qualified prediction sidecars
-  before accepting an adapted teacher into the existing four-family cache.
+  split membership, checkpoint bytes, and for adapted teachers the exact
+  prediction-driver and current filter/GRU-core source hashes against both
+  training provenance and each prediction sidecar before accepting the teacher
+  into the existing four-family cache.
 - [`evidence/kalman_numpy_prototype.py`](evidence/kalman_numpy_prototype.py)
   and [`evidence/numpy_synthetic_receipt.json`](evidence/numpy_synthetic_receipt.json)
   preserve the predecessor NumPy-only synthetic checks. Their hashes are
@@ -67,6 +77,9 @@ flowchart LR
   parity check, task-data result, or quality evidence.
 - [Source assessment](../../unified/sources/KALMAN_LOCAL_TREND_DISTILLATION_B300_20261018.md)
   summarizes the primary literature and local prototype provenance.
+- [Local frozen-GRU screen](https://github.com/VladKochetov007/WunderFunder/blob/main/research/campaign_2026-10-18/online_features_r1/kalman_filter_probe/RESULTS_R2.md)
+  motivates retaining raw inputs and adding trainable smoother features; its
+  exposed-panel result does not establish a teacher or student gain.
 
 ## Mechanism and controls
 
@@ -179,7 +192,8 @@ scripts/limited .venv/bin/python scripts/train_kalman_teacher.py \
 ```
 
 Profile gate, using an actual source-qualified fold manifest and one assigned
-GPU (the two profiled steps are engineering measurements, not quality cells):
+GPU (four measured profile updates after one warmup; engineering evidence, not
+quality cells):
 
 ```sh
 export WNN_PROJECT_ROOT="$DATA_ROOT"
@@ -187,8 +201,10 @@ CUDA_VISIBLE_DEVICES="$GPU" scripts/limited .venv/bin/python \
   scripts/train_kalman_teacher.py --kalman-arm learned --kalman-channels all112 \
   --name kalman_profile_f0_s1001 --split-manifest "$F0_MANIFEST" \
   --hidden 1024 --layers 2 --batch 16 --chunk 2000 --loss wmse \
-  --epochs 1 --checkpoint-policy fixed --checkpoint-epoch 0 \
-  --no-eval-during-fit --precision fp32 --profile-warmup 1 --profile-steps 2
+  --epochs 2 --checkpoint-policy fixed --checkpoint-epoch 1 \
+  --no-eval-during-fit --precision fp32 --grad-stats --optim adamw \
+  --lr 0.001 --wd 0.01 --sched onecycle --clip 1 \
+  --profile-warmup 1 --profile-steps 4
 ```
 
 A scientific teacher cell uses one process per GPU. Set `$ARM` to one of

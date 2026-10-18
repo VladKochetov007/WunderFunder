@@ -43,6 +43,7 @@ class CausalLocalTrendKalman(nn.Module):
         self.arm = arm
         if not channels or tuple(sorted(set(channels))) != channels or channels[-1] >= 112:
             raise ValueError("channels must be a nonempty, sorted, unique subset of 0..111")
+        self.max_channel = channels[-1]
         self.register_buffer("channel_indices", torch.tensor(channels, dtype=torch.long))
         self.register_buffer("arm_code", torch.tensor(ARM_CODES[arm], dtype=torch.int8))
         initial = (FIXED_Q_LEVEL, FIXED_Q_SLOPE, FIXED_R)
@@ -64,7 +65,7 @@ class CausalLocalTrendKalman(nn.Module):
         """Return causal level/slope/innovation features and state for the next chunk."""
         if observations.ndim != 3 or observations.shape[1] == 0:
             raise ValueError("Kalman input must be a nonempty (batch, time, features) tensor")
-        if observations.shape[-1] <= int(self.channel_indices.max().item()):
+        if observations.shape[-1] <= self.max_channel:
             raise ValueError("Kalman input does not contain the selected raw channels")
         values = observations.index_select(-1, self.channel_indices)
         batch = values.shape[0]
@@ -125,6 +126,7 @@ class CausalEMAFeatures(nn.Module):
         super().__init__()
         if not channels or tuple(sorted(set(channels))) != channels or channels[-1] >= 112:
             raise ValueError("channels must be a nonempty, sorted, unique subset of 0..111")
+        self.max_channel = channels[-1]
         self.register_buffer("channel_indices", torch.tensor(channels, dtype=torch.long))
         self.register_buffer("arm_code", torch.tensor(ARM_CODES["ema"], dtype=torch.int8))
         self.register_buffer("alpha", torch.tensor(EMA_ALPHA, dtype=torch.float32))
@@ -137,7 +139,7 @@ class CausalEMAFeatures(nn.Module):
         """Emit level, slope, standardized innovation and log variance causally."""
         if observations.ndim != 3 or observations.shape[1] == 0:
             raise ValueError("EMA input must be a nonempty (batch, time, features) tensor")
-        if observations.shape[-1] <= int(self.channel_indices.max().item()):
+        if observations.shape[-1] <= self.max_channel:
             raise ValueError("EMA input does not contain the selected raw channels")
         values = observations.index_select(-1, self.channel_indices)
         if state is None:
