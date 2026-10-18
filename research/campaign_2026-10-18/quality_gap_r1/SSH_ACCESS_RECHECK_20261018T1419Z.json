@@ -1,0 +1,18 @@
+{
+  "schema": "quality_gap.ssh_access_recheck.v1",
+  "observed_utc": "2026-10-18T14:19:40Z",
+  "previous_receipt": "SSH_ACCESS_RECHECK_20261018T1405Z.json",
+  "command": "ssh -o BatchMode=yes -o ConnectTimeout=10 -o ConnectionAttempts=1 beleriand true",
+  "attempts_this_heartbeat": 1,
+  "exit_status": 255,
+  "error": "Connection timed out during banner exchange; Connection to 185.185.59.19 port 22 timed out",
+  "authentication_reached": false,
+  "jobs_modified": false,
+  "last_successful_f1_health_utc": "2026-10-18T13:20:22Z",
+  "current_f1_health": "unobserved",
+  "plot_terminal_status": "uncaptured",
+  "residual_diagnostic": "reviewed_not_staged_not_executed",
+  "provider_and_cluster": "not_refreshed_this_heartbeat; no new admission",
+  "interpretation": "Same pre-authentication access failure after backoff. No evidence of training failure or server root cause. Preserve existing jobs and use next scheduled heartbeat for one bounded check.",
+  "notification": "DONT_NOTIFY: already reported access issue is unchanged; no user action required"
+}

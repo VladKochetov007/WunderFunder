@@ -95,3 +95,5 @@ reviewed compatibility paths. No inference or training was admitted.
   incident remains visible; this does not explain Beleriand SSH failures.
 
 [Seventh bounded SSH recheck](SSH_ACCESS_RECHECK_20261018T1405Z.json) after backoff also failed before authentication; no job was modified. Further polling is deferred to the existing heartbeat.
+
+[14:19 UTC SSH recheck](SSH_ACCESS_RECHECK_20261018T1419Z.json): one bounded attempt after backoff again timed out before authentication. F1 health and plot outputs remain unobserved; no job or admission changed.
