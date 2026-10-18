@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+[21:41 maintenance-only F3 observation](../../campaign_2026-10-18/priority25_execution_r4/f3_beleriand_execution_r1/README.md) preserves the original wide continuation at epoch5 batch680/1488, fresh heartbeats and zero new observed memory events. Raw receipt, exact plan/pointer and GPU ownership checks are linked there; no model/checkpoint read or new launch. The user-requested no-fit discussion stays active and terminal quality remains pending.
+
 [F3 terminal wrapper staging](../../campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1/STAGING_NOTE_V1.md) confirms five exact files on B after independent review and17 synthetic tests; no import or support execution. [Post-staging health](../../campaign_2026-10-18/priority25_execution_r4/f3_beleriand_execution_r1/POST_STAGING_ACCEPTANCE_20261018T2105Z.json) preserves original wide epoch4 training with zero new memory events.
 
 [Tiedlead branch publication](../../campaign_2026-10-18/quality_gap_r1/tiedlead_capability_publication_r1/PUBLICATION.json) binds the verified remote commit b104b0ad and30 changed Git blobs. Code remains isolated from B and the main trainer. No PR URL is claimed, and prior access failures were not blindly retried.
