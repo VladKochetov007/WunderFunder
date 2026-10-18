@@ -69,3 +69,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0041: modular training code](0041-modular-training-code.md) makes the semantic package/thin CLI, uv/Ruff, explicit run state and300/200-line structure checks the shared main/research-team policy; preserves frozen source and numerical recipes.
 
 - [ADR0042: discretionary DataSphere execution](0042-discretionary-datasphere-execution.md) records the user's open allocation authority for ranked25 within existing balance and actual quotas, superseding the numeric-budget wait while retaining bounded jobs, no top-ups and the Beleriand one-GPU limit.
+
+- [ADR0043: measured B300 density and controller handoff](0043-measured-b300-density-and-controller-handoff.md): bounded fourth-process measurement, preserved existing fits and foreign workloads, exact controller ownership transfer and separate reporting authority.

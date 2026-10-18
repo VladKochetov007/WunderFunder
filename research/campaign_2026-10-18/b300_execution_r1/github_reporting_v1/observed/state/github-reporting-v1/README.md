@@ -1,0 +1,1 @@
+Receipt-only preflight snapshots, acknowledged GitHub endpoints, publication events and final invocation status. These are immutable copies of dated server observations; live state stays under /data/epanov_s/tabdata/state/github-reporting-v1. No credential material is included.
