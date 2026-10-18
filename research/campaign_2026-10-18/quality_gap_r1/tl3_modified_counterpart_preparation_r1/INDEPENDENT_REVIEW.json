@@ -1,0 +1,54 @@
+{
+  "schema": "quality_gap.tl3_modified_counterpart_independent_review.v1",
+  "reviewed_utc": "2026-10-18T18:59:20Z",
+  "decision": "PASS_STATIC_READINESS_MAP_ONLY_NOT_RECIPE_OR_RUN_AUTHORIZATION",
+  "packet": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_counterpart_preparation_r1",
+  "preparation_manifest_sha256": "7145070627c8b5d742bfbca603e74b190990c0c4b06aa12d10bf67f859fee2fd",
+  "artifact_bindings": [
+    {
+      "path": "PREPARATION_MANIFEST.json",
+      "bytes": 423,
+      "sha256": "7145070627c8b5d742bfbca603e74b190990c0c4b06aa12d10bf67f859fee2fd"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10675,
+      "sha256": "6652b20ee02f8730fe588a7ddef915ea3f2c4154aaa92ddae00f331c3a84a540"
+    },
+    {
+      "path": "CONFIG_GAPS.json",
+      "bytes": 16195,
+      "sha256": "cf17bb67e0880f1082209fb783e144833dc7e0415e364c2905c28ba9ef824adf"
+    }
+  ],
+  "source_evidence_check": {
+    "evidence_bindings_rehashed": 12,
+    "evidence_size_or_sha256_mismatches": 0,
+    "canonical_source_bindings_rehashed": 18,
+    "canonical_source_sha256_mismatches": 0,
+    "referenced_local_links_resolve": true,
+    "commands_presented_as_executable": false
+  },
+  "findings": {
+    "clean_membership_boundary": "The mapped F0 split totals 10,535 fit-train, 1,405 fit-valid, and 468 evaluation-valid groups. The text correctly defines train+valid as the first two sets, valid-only as fit.valid, and requires all 468 evaluation groups to remain outside every fitted learned ancestor, cache/preprocessing fit, student and selection. Canonical membership selection and campaign split assertions support those intended groups; this is a future contract, not evidence of historical membership.",
+    "precision_and_propensity": "The strict-FP32 requirement is stated as a comparison-wide constraint. The canonical training README says FP16 remains the legacy CLI default and strict-FP32 recipes must pass --precision fp32. The pinned propensity trainer specifically wraps its fit forward in CUDA float16 autocast and computes mean/std from the first batch of its shuffled loader, so the stated propensity gap is supported. The cache-propensity sidecar records model hash/split/counts but not canonical split-manifest SHA or ordered group identity. The packet does not claim that all canonical training already meets the strict-FP32 requirement.",
+    "tied_lead": "The pinned model CLI/factory exposes ordinary architectures and feature encoders but no tied-lead architecture selector; input assembly concatenates declared feature blocks and does not guarantee the archived shared encoder over 52 lead channels. The map appropriately requires a reviewed adapter or an explicitly different architecture, and does not call an arbitrary 263-wide input equivalent to the archived member.",
+    "teacher_scale": "Pinned canonical combination code confirms main_source as the unnormalized coefficient sum, main_normalized as division by the coefficient total, main_homogeneous as the total times one selected family mean, and family outputs as per-family means. The packet keeps these variants distinct and explicitly states that the historical source/cache aliases are not bound to those producing arrays, row order, or orgbase placement.",
+    "historical_limits_and_scope": "Saved W18/fin256 metadata are presented as configuration leads, not run-bound proof of source, optimizer execution/state, clean membership, or cache production. The text preserves the fixed 0.34/0.33/0.33 mixture and CP30 design, distinguishes this modified counterpart from an exact public-TL3 replica and from the frozen rank-1 campaign, and records unresolved ancestors and target choices.",
+    "readiness": "README and manifest consistently label this as a metadata-only readiness map, not a recipe, preregistration, command, fit authorization, or admission. No executable-looking placeholder command is provided. The minimum gates are actionable without implying that the experiment is ready to run."
+  },
+  "blockers": [],
+  "limitations": [
+    "This review validates the bounded readiness-map claims against its pinned local evidence and canonical source files; it does not establish that historical production artifacts executed those semantics or had clean F0 membership.",
+    "The local archive hash is not tied to portal-uploaded bytes, and cache aliases are not bound to their producing command/source or ordered rows.",
+    "No checkpoint/array payloads were read, and no training, inference, tests, remote action, or external operation was performed.",
+    "No modified recipe is preregistered or authorized by this review."
+  ],
+  "scope": {
+    "local_metadata_text_and_pinned_source_only": true,
+    "remote_or_network_calls": false,
+    "checkpoint_or_array_payload_reads": false,
+    "tests_rerun": false,
+    "author_artifacts_edited": false
+  }
+}

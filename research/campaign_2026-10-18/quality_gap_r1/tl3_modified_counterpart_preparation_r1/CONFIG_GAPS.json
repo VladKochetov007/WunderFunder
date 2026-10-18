@@ -1,0 +1,196 @@
+{
+  "schema": "quality_gap.tl3_modified_counterpart_readiness.r1",
+  "status": "READINESS_MAP_ONLY_NOT_PREREGISTRATION",
+  "scope": {
+    "label": "modified clean-F0 TL3 counterpart",
+    "exact_public_tl3_replica_claim": false,
+    "run_or_admission_authorized": false,
+    "frozen_rank1_cp30_campaign_changed": false,
+    "fixed_tl3_ensemble_coefficients_changed": false,
+    "method": "metadata-only mapping from reviewed TL3 gaps to current canonical trainer components"
+  },
+  "fixed_constraints": {
+    "canonical_f0_split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "membership": {
+      "fit_train_groups": 10535,
+      "fit_valid_groups": 1405,
+      "evaluation_valid_groups": 468,
+      "fit_total_groups": 11940,
+      "all_evaluation_groups_excluded_from_fitted_ancestors_caches_preprocessing_students_and_selection": true,
+      "valid_only_finetune_means_fit_valid_only": true
+    },
+    "campaign_split_semantics": {
+      "train_plus_valid": "fit.train plus fit.valid only",
+      "valid_only": "fit.valid only (1,405 groups), never evaluation.valid",
+      "include_heldout_valid": "off; incompatible with campaign split",
+      "checkpoint_selection": "later fit should use fixed checkpoint policy and no-eval-during-fit"
+    },
+    "fixed_public_recipe_weights": {
+      "w18final_distilled_s5_ep1": 0.34,
+      "fttall_tlead_s5_ep3": 0.33,
+      "fttall_tlead_s6_ep3": 0.33,
+      "weight_fitting_or_public_score_tuning_allowed": false
+    },
+    "rank1_comparison": {
+      "paired_fold_seed_cells_per_arm": 30,
+      "existing_fold_allocation": [8, 8, 7, 7],
+      "one_f0_diagnostic_completes_cp30": false
+    },
+    "precision": {
+      "scientific_comparison_requirement": "strict FP32; autocast and TF32 off",
+      "current_propensity_trainer_meets_requirement": false
+    },
+    "official_metric": "global_wp_clip2_v1"
+  },
+  "observed_identity_limits": {
+    "local_archive_sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569",
+    "local_archive_bytes": 12538394,
+    "portal_uploaded_bytes_hash_bound": false,
+    "creative_prop_f0_sha256": "9e92f26d1704f84f9170d746b372c2ba67f7fb611831865a1fc689d6b813b21c",
+    "restored_main_prop_f0_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "creative_and_restored_propensity_are_same_checkpoint": false,
+    "historical_saved_args_prove_runtime_optimizer_state": false,
+    "historical_cache_aliases_have_source_and_order_bound_producers": false
+  },
+  "stage_map": [
+    {
+      "stage": "propensity_model_and_cache",
+      "canonical_components": ["scripts/train_propensity.py", "src/wnn/propensity.py", "scripts/cache_propensity.py", "src/wnn/training/cache_identity.py", "src/wnn/training/data_caches.py"],
+      "available": ["campaign split can select fit.valid for propensity fitting and keep evaluation.valid separate", "cache writer records model checkpoint hash and row counts"],
+      "gaps": ["current fit uses CUDA FP16 autocast and derives normalization from the first shuffled training batch", "cache sidecar lacks canonical split-manifest SHA and ordered group identity", "creative prop_f0 lacks bound run source, resolved settings, normalization, selected endpoint, and ordered fitting groups"],
+      "readiness": "BLOCKED_UNTIL_STRICT_FP32_AND_SOURCE_QUALIFIED_PROPENSITY_CACHE"
+    },
+    {
+      "stage": "base_teacher_families",
+      "historical_configuration_leads": ["W18 metadata records fmu128_s3/s4 and frawW_s3/s4 as 128-hidden two-layer GRU endpoints", "captured args identify family/input/loss/optimizer-name/propensity-name/EMA fields but not actual source identity or executed optimizer state"],
+      "canonical_components": ["scripts/train_rnn.py", "src/wnn/training/runner.py", "src/wnn/training/data_membership.py", "src/wnn/training/models.py", "src/wnn/training/optimization.py", "src/wnn/training/provenance.py"],
+      "gaps": ["rebuild or prove every teacher and preprocessing source clean under the canonical split", "feature, loss, optimizer execution, EMA, schedule, endpoint, and family-map choices are not frozen"],
+      "readiness": "COMPONENTS_EXIST_BUT_COUNTERPART_CONFIGURATION_AND_CLEAN_ANCESTRY_ARE_UNRESOLVED"
+    },
+    {
+      "stage": "full_and_raw_valid_only_finetunes",
+      "historical_configuration_leads": ["W18 metadata links ffull_s3/s4 to matching fmu128_s3/s4 ep3 parents", "W18 metadata links frawW_s3ft/s4ft to matching frawW_s3/s4 ep3 parents", "fin256 metadata links fin256ft_s3/s4 to matching fin256 roots"],
+      "canonical_components": ["scripts/train_rnn.py", "src/wnn/training/data_membership.py", "src/wnn/training/inheritance.py", "src/wnn/training/setup_preprocessing.py", "src/wnn/training/optimization.py"],
+      "membership_contract": "campaign --train-source valid selects fit.valid only (1,405 groups); evaluation.valid stays excluded",
+      "gaps": ["parents must be clean-fit counterparts, not exposed production warm starts", "optimizer, schedule, precision, checkpoint epoch, and preprocessing inheritance need later choices", "saved optimizer argument values do not prove runtime optimizer state"],
+      "readiness": "CANONICAL_MEMBERSHIP_AND_INHERITANCE_EXIST_BUT_CLEAN_PARENTS_AND_SETTINGS_ARE_UNRESOLVED"
+    },
+    {
+      "stage": "teacher_composition_and_family_caches",
+      "canonical_components": ["scripts/build_distill_cache.py", "src/wnn/distillation.py", "src/wnn/distillation_cache.py", "src/wnn/training/cache_identity.py", "src/wnn/training/data_caches.py"],
+      "historical_w18_source_composition": {
+        "members": [
+          {"name": "w18final_fbc1k_s5", "coefficient": 0.3},
+          {"name": "w18final_ffull_s3", "coefficient": 0.1},
+          {"name": "w18final_ffull_s4", "coefficient": 0.1},
+          {"name": "w18final_frawW_s3ft", "coefficient": 0.125},
+          {"name": "w18final_frawW_s4ft", "coefficient": 0.125},
+          {"name": "orgbase", "coefficient": 0.0625}
+        ],
+        "coefficient_sum": 0.8125,
+        "normalization": "direct weighted sum; do not divide by 0.8125",
+        "orgbase_family_and_ancestry_resolved": false,
+        "actual_alias_arrays_bound_to_this_producer": false
+      },
+      "historical_family_averages": {
+        "full_and_raw": "two-member equal means, 0.5 per member",
+        "coefficient_sum_per_family": 1.0,
+        "actual_alias_arrays_bound_to_producer_or_ordered_rows": false
+      },
+      "canonical_scale_variants": {
+        "generic_six_member_direct_sum_supported_when_family_tags_and_bindings_are_valid": true,
+        "main_source": "direct coefficient-weighted sum preserving source scale",
+        "main_normalized": "weighted sum divided by total coefficient sum",
+        "main_homogeneous": "total coefficient scale times one selected family mean",
+        "family_outputs": "unweighted mean within each declared family"
+      },
+      "gaps": ["select source/normalized/homogeneous target variant only in a later reviewed preregistration", "bind each source to the required four-family map plus checkpoint/split/row identities", "historical orgbase family placement, producer command/source, preprocessing, and row order remain unresolved; generic six-member weighted-sum arithmetic is already available"],
+      "readiness": "SCALE_SEMANTICS_MAPPED_BUT_CLEAN_CACHE_CONTRACT_AND_SOURCE_GRAPH_UNRESOLVED"
+    },
+    {
+      "stage": "distilled_student",
+      "historical_configuration_leads": {
+        "input_width": 211,
+        "architecture": "GRU 256 x 2",
+        "initializer_label": "fbc1k_s5@ep3",
+        "teacher_label": "w18final_teacher",
+        "distillation_alpha": 0.7,
+        "bootstrap_horizon": 0
+      },
+      "canonical_components": ["src/wnn/training/models.py", "src/wnn/training/cli_targets.py", "src/wnn/training/initializer.py", "src/wnn/training/cache_identity.py", "src/wnn/training/checkpoints.py"],
+      "gaps": ["historical labels do not identify clean counterpart source/config/checkpoint identities", "rebuild or prove initializer, teacher graph, propensity, preprocessing, and targets clean", "explicitly bind source-scale variant and feature assembly"],
+      "readiness": "CANONICAL_DISTILLATION_PRIMITIVES_EXIST_BUT_NO_APPROVED_COUNTERPART_RECIPE"
+    },
+    {
+      "stage": "tied_lead_students",
+      "historical_configuration_leads": {
+        "input_width": 263,
+        "additional_lead_channels": 52,
+        "architecture": "GRU 256 x 2 with shared instrument encoder",
+        "seeds": [5, 6],
+        "teacher_labels": ["fin256ft_s3", "fin256ft_s4"],
+        "distillation_alpha": 0.5,
+        "bootstrap_horizon": 8
+      },
+      "canonical_components": ["src/wnn/training/models.py", "src/wnn/training/cli_model.py", "src/wnn/training/cli_features.py", "src/wnn/training/inputs.py"],
+      "gaps": ["current canonical model factory has no tiedlead architecture option", "current input routes do not guarantee the shared 52-channel lead encoder", "a reviewed focused adapter or an explicitly different architecture choice is required", "historical fin256 teacher ancestry and ordered target rows are not clean-source-bound"],
+      "readiness": "BLOCKED_FOR_EXACT_MEMBER_WITH_CURRENT_MODEL_FACTORY"
+    },
+    {
+      "stage": "fixed_ensemble_and_evaluation",
+      "canonical_components": ["src/wnn/gmetric.py", "src/wnn/evaluation.py", "src/wnn/blend_optimization.py", "scripts/crossfold_blend.py", "scripts/crossfit_blend.py"],
+      "available": ["official metric and paired component evaluation", "fixed arithmetic mixture with unchanged 0.34/0.33/0.33 weights"],
+      "gaps": ["all clean member exports need the same ordered rows and source-bound alignment receipts", "blend-optimization scripts must not tune this fixed mixture", "a single F0 diagnostic does not supply 30 paired cells per arm"],
+      "readiness": "WEIGHTS_PRESERVED_BUT_CLEAN_EXPORTS_AND_CP30_EVIDENCE_PENDING"
+    }
+  ],
+  "minimum_preparation_gates": [
+    "freeze the modified counterpart stage graph and every resolved setting in a separate preregistration",
+    "bind canonical split, fit membership, ordered rows, source hashes, and clean ancestry for each learned ancestor/cache",
+    "provide strict-FP32 propensity fitting and ordered-row-bound cache provenance",
+    "resolve source-scale 0.8125 versus normalized/homogeneous targets without conflating unit-sum family means",
+    "implement/review tied-lead support or explicitly choose and label a different architecture",
+    "freeze fixed checkpoints, official metric, endpoint, same-row fixed ensemble, resources, and complete CP30 design",
+    "do not substitute the F0 diagnostic for CP30 or tune weights from public scores"
+  ],
+  "evidence_bindings": [
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/TL3_CLEAN_COUNTERPART_PLAN_20261018.md", "sha256": "90d22e7a99f7fff97c5c7868d2fc458e05bde71504affc5c0fed9a883a19ab99", "role": "candidate gaps and exposure statement"},
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/TL3_CLEAN_COUNTERPART_PLAN_REVIEW_20261018.json", "sha256": "a05dc7c2014833d2473ef9524c5961252d5e2820efed84c52a6cb1718e329f32", "role": "review; local archive bytes are not proven portal bytes"},
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/TL3_CLOSURE_NEXT_STEPS_20261018T1840Z.md", "sha256": "0b00a1801abc1bd198ca402d75b96f14493e0f0810cea2c6497c1549bc81d79a", "role": "closure status and ancestry gaps"},
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/TL3_CLOSURE_NEXT_STEPS_REVIEW_20261018T1840Z.json", "sha256": "a01347f19f44b14d4e95ed39035393e55d68cf0908e8e7ea91e3211645cc2103", "role": "independent review of closure evidence"},
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/CONTROL_ASSET_MAP.json", "sha256": "17b7b5fc31557b3d560ae6d8de9aedbba9cb90d9f050a5edf9c136f0c66c7c3f", "role": "saved config and asset-map limits"},
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/F0_MEMBERSHIP_COMPARISON.json", "sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d", "role": "ordered membership and component comparison"},
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json", "sha256": "bc99a852f2307de616002d4785e4ced2f2b898d24824fe9d2357c0e457b2992d", "role": "bounded W18 checkpoint metadata receipt"},
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/RESULT_ACCEPTANCE_REVIEW_V1.json", "sha256": "146532f0d1c821a1745f8d4c6f15573b2bb1572fca72b52da01fe7eb6d7e55ba", "role": "independent W18 metadata acceptance"},
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_execution_r1/TL3_FIN256_METADATA_R1.json", "sha256": "734c1625eb504aae8a790987216d25acbc8246fb06d0b14161a04fd4c08bf283", "role": "bounded fin256 metadata receipt"},
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_execution_r1/RESULT_ACCEPTANCE_REVIEW_V1.json", "sha256": "4a7968eb02aa3b94dcb3f7e53ab4bec1cfb7583ec2a1ac93a8d6d28eef9a24d6", "role": "independent fin256 metadata acceptance"},
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_propensity_history_trace_r1/README.md", "sha256": "a1e50d754e508fe0c52c24aa5825fb6545699f15e5243fc90d031f1ec83952d3", "role": "creative propensity identity and run provenance gap"},
+    {"path": "research/campaign_2026-10-18/quality_gap_r1/tl3_producer_trace_r1/README.md", "sha256": "4ea31be5feff851384de343672bbb12303b26180fd479663d21006ff26e84c91", "role": "W18 composition and cache producer limitations"}
+  ],
+  "canonical_source_bindings": [
+    {"path": "src/wnn/training/README.md", "sha256": "70995bab80868081708b134b77962ad977fc8b1aef4d67bc84075538752c7341"},
+    {"path": "scripts/train_rnn.py", "sha256": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872"},
+    {"path": "src/wnn/training/cli_data.py", "sha256": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b"},
+    {"path": "src/wnn/training/cli_targets.py", "sha256": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1"},
+    {"path": "src/wnn/training/cli_model.py", "sha256": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d"},
+    {"path": "src/wnn/training/data_membership.py", "sha256": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf"},
+    {"path": "src/wnn/training/setup_lineage.py", "sha256": "859650a4467ee5a404846af4c71d9f2874016722e4c3c844f29cf82dcf527973"},
+    {"path": "src/wnn/training/setup_preprocessing.py", "sha256": "b746375d8bbf0ca92f0dfebdae223fee64bc9269fcbea38500c56d7f546a8940"},
+    {"path": "src/wnn/training/cache_identity.py", "sha256": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f"},
+    {"path": "src/wnn/training/models.py", "sha256": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473"},
+    {"path": "scripts/train_propensity.py", "sha256": "ea6bf05470b8bf8afa23b00b95eb980646f6cb7935e013326815af626013f3b7"},
+    {"path": "src/wnn/propensity.py", "sha256": "c92f7bf067c54615439b67cc38c343b9d18bc0ba84e19a7343c61ba424ad414d"},
+    {"path": "scripts/cache_propensity.py", "sha256": "116dbf36ccb3d214072733d84ea2a0e065417622ae722ebeed9f780f94dbadc1"},
+    {"path": "scripts/build_distill_cache.py", "sha256": "2db2d905bd6970b271d26fb4291b571c288789b0821a57af76b7ecc5738c1cd8"},
+    {"path": "src/wnn/distillation.py", "sha256": "5d68b03204b9413d2412533a7aa75ae0759276dacbbed4035b846da1d38350e2"},
+    {"path": "src/wnn/distillation_cache.py", "sha256": "008fd6615ac5b627273f419072933cb95dc85fcd6c30eaffd6f1fb2df53ab0eb"},
+    {"path": "src/wnn/gmetric.py", "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"},
+    {"path": "src/wnn/evaluation.py", "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"}
+  ],
+  "limitations": [
+    "No recipe, executable command, optimizer, epoch, learning rate, seed allocation, architecture replacement, or run authority is selected.",
+    "Saved historical arguments and scripts are not source-bound proof that an exact runtime executed those semantics.",
+    "The local submission archive hash is not a hash of the user-uploaded portal payload.",
+    "No training, inference, cache-array read, payload read, or external action was performed."
+  ]
+}

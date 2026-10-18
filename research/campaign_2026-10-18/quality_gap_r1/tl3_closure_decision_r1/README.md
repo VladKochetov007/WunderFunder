@@ -1,0 +1,17 @@
+# TL3 provenance closure decision — bounded local pass
+
+**Decision:** the already indexed local history/producer records do not add a run-bound artifact that closes creative `prop_f0` or the W18 target-cache production graph. This is a finite decision about the listed records, not a claim that no such artifact exists elsewhere.
+
+## Records that add evidence, and those that do not
+
+The creative checkpoint is pinned to SHA-256 `9e92f26d1704f84f9170d746b372c2ba67f7fb611831865a1fc689d6b813b21c`. The indexed propensity trace binds its safe metadata and cache sidecars, but sidecars only repeat that model SHA and row/fill counts. Its bounded source observation found the exact creative `research/experiments.jsonl` index (SHA-256 `22385503a0a4972f776a3028265da73fac4380d70ed8cc79c4e90c14a8198357`) without the model digest or `prop_f0` text. E-031 is `prop_v1`, not this checkpoint. A separate finished `c20260929_prop_f0` job record and restore receipt concern the Main run; the restored artifact SHA (`b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7`) differs from the creative SHA and cannot identify it. The creative trainer source at SHA `72fab2d0…a0d6d1b1` is a compatible candidate writer, not an identity link. The exact creative command, per-run source, normalization, endpoint-selection rule and ordered fit groups remain unknown.
+
+For W18, the archived Git snapshot pins `full_teacher_lane.sh`, `prepare_full_teachers.py`, `full-teacher-manifest.json`, `predict_run.py` and completion logs. It establishes intended checkpoint aliases and positional weighted-composition code. The indexed run/probe receipts provide no invocation-bound producer receipt or realized array sidecars/row digests; the composition source combines by row index without validating IDs. The run log markers and empty composition log do not bind actual output bytes, source checkpoints, preprocessing, row order or cross-component alignment. The later eight-checkpoint metadata receipt closes endpoint file identities and saved args only; it does not close any cache producer or fit membership.
+
+## Bounded closure boundary
+
+This pass used only the local continuation/memo/review and existing pinned Q history, source-closure, W18 producer, archived-run and checkpoint-metadata records listed with byte counts and SHA-256 in [EVIDENCE_BOUNDARY.json](EVIDENCE_BOUNDARY.json). It performed no network/SSH operation, checkpoint or array read, new exact-path probe, training, inference, or test. Earlier exact-path observations apply only to those paths and predicates; they are not global absence claims.
+
+No further bounded remote read is justified from the existing records because the missing creative job/manifest locator and actual cache producer-output receipt are not identified. If a new authoritative archive/job index supplies a new exact locator, one narrow retrieval can bind the propensity SHA to its run provenance and bind each direct/composed W18 cache to source/checkpoint/data/preprocessing plus ordered rows. Do not repeat checked-path probes or broaden filesystem search.
+
+If those named records cannot close the graph, stop provenance recovery. A modified clean-F0 fork must rebuild propensity, teachers, caches and preprocessing, retrain every affected downstream student/final member, and exclude production or any warm-start weights/ancestors exposed to the 468 F0 evaluation groups. Preserve recipe differences; do not call the fork an exact TL3 replica ([reviewed next-step memo](../TL3_CLOSURE_NEXT_STEPS_20261018T1840Z.md)).

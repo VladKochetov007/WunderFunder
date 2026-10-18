@@ -1,5 +1,7 @@
 # F3 / seed 1001 execution
 
+[18:48 UTC health](HEARTBEAT_ACCEPTANCE_20261018T1847Z.json) observes the same deep stage1 at epoch0 batch800/1488, loss1.7027/LR9.96e-5, fresh heartbeats, one campaign GPU process1572MiB and zero new memory events. Foreign GPU processes remain untouched; no checkpoint collection or new admission was needed.
+
 [Latest 18:40 health](POST_METADATA_ACCEPTANCE_20261018T1840Z.json): deep stage1 is at epoch 0 batch 540/1488, loss 1.2000 / LR 1e-4, fresh heartbeats, sole campaign GPU process 1572 MiB, parent RAM 4.21 GB and zero new memory events after bounded metadata support. [Wide stage1 independent acceptance](../receipts/F3_WIDE_STAGE1_ACCEPTANCE_V1.json) and [handoff](../receipts/F3_WIDE_STAGE1_HANDOFF_20261018T1830Z.json) are complete.
 
 For the future deep stage1 collection, use separate [V2 wrapper preparation](support/V2_PREPARATION.md) and [root review](support/ROOT_STAGE1_SUPPORT_REVIEW_V2.json). V2 accounts for the current continuation worker after the finished deep stage1, checks descendant population and requires fresh local output collision checks before launch. It is reviewed but not admitted or executed. Frozen V1 wrappers and canonical checkpoint helpers remain unchanged.
