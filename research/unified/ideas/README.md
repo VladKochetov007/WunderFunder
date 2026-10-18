@@ -4,6 +4,8 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
+- Published future-experiment draft PRs: [#22 Adaptive TBPTT](https://github.com/VladKochetov007/WunderFunder/pull/22), [#23 current-moment WP replay](https://github.com/VladKochetov007/WunderFunder/pull/23), and [#24 four-arm architecture handoff](https://github.com/VladKochetov007/WunderFunder/pull/24). Each targets research-team; the first two need adapters, the architecture handoff needs a focused port of preserved source. No model execution or run admission follows from publication.
+
 - [Our published GPU packets](PUBLISHED_GPU_PACKETS_20261018.md) — exact remote source tips for the GRU/Transformer/Mamba-2 four-arm packet and complete causal-smoothing implementation. Preserves code for a focused modular-trainer port; identifies legacy FP32/TF32, CP30, ancestry and target-profile gaps. No run or merge-readiness claim.
 
 - [Gradient estimator continuations](GRADIENT_ESTIMATOR_CONTINUATIONS_20261018.md) — two proposed descendants of H-RR17-19 and H-055: adaptive TBPTT at fixed optimizer cadence, and current-superbatch WP gradient replay. Includes prior negative evidence, 30 paired cells per arm, practical decision thresholds and explicit missing adapters; no fit/profile/tests or change to ranked25 scheduling.
