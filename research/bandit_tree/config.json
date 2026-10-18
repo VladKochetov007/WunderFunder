@@ -213,6 +213,39 @@
       }
     },
     {
+      "id": "arm:causal-group-mask-pretraining-20261018",
+      "parent_id": "family:teacher",
+      "title": "Causal group-masked pretraining for the GRU teacher",
+      "kind": "arm",
+      "hypothesis_ids": ["H-CAUSAL-GROUP-MASK-PRETRAIN-20261018-R1"],
+      "experiment_ids": ["E-CAUSAL-GROUP-MASK-PRETRAIN-20261018-R1"],
+      "artifacts": [
+        "research/experiment_drafts/causal-group-mask-pretraining-b300/README.md",
+        "research/experiment_drafts/causal-group-mask-pretraining-b300/PR.md",
+        "research/unified/ideas/CAUSAL_GROUP_MASK_PRETRAIN_20261018_R1.md",
+        "research/unified/sources/CAUSAL_GROUP_MASK_PRETRAIN_SOURCES_20261018_R1.md"
+      ],
+      "status": "proposed_code_draft_no_profile_no_fit",
+      "claim_scope": "B300 teacher representation proposal; no score, runtime or public transfer established",
+      "next_test": "Profile one actual B300 with strict FP32; then bind the existing endpoint grader and cross-cell seed/fold aggregator before admitting the 30-cell comparison.",
+      "related_nodes": ["family:representation"],
+      "allocation": {
+        "eligible": true,
+        "priority": 5,
+        "reason": "A distinct large teacher representation direction with a frozen paired design; compute and quality remain unmeasured.",
+        "launch_authorized": false
+      },
+      "numeric_prior": null,
+      "cost_h": null,
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false
+      }
+    },
+    {
       "id": "arm:transformer-student",
       "parent_id": "arm:causal-transformer-teacher",
       "title": "Transfer Transformer predictions into the serving GRU",

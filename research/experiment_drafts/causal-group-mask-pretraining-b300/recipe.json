@@ -1,0 +1,204 @@
+{
+  "schema": "experiment_recipe_v1",
+  "hypothesis_id": "H-CAUSAL-GROUP-MASK-PRETRAIN-20261018-R1",
+  "experiment_id": "E-CAUSAL-GROUP-MASK-PRETRAIN-20261018-R1",
+  "title": "Causal group-masked pretraining for a recurrent teacher",
+  "status": "proposed_code_draft_no_profile_no_fit",
+  "mechanism_family": "teacher_representation_pretraining",
+  "parents": [
+    "family:teacher",
+    "family:representation"
+  ],
+  "source_base": {
+    "branch": "research-team",
+    "commit": "682e0aab8338b31126d9fdc615996010e1085063",
+    "main_snapshot": "24e9001570de158db9a5031e632dbb0b4477145f"
+  },
+  "data": {
+    "permitted_sources": ["datasets/train.parquet", "datasets/valid.parquet"],
+    "split_manifests": {
+      "fold0": {
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "fold1": {
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+        "sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+      },
+      "fold2": {
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold2.json",
+        "sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9"
+      },
+      "fold3": {
+        "path": "research/campaign_2026-09-29/artifacts/splits/fold3.json",
+        "sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343"
+      }
+    },
+    "fitting_membership": "manifest fit train plus fit valid component membership only",
+    "evaluation_membership": "manifest evaluation valid components; used only after fixed checkpoint export",
+    "statistics": {
+      "sequence_count_per_fold": 64,
+      "row_stride": 64,
+      "sampling_seed": "880301 + fold",
+      "features": "211 canonical raw-plus-causal-event inputs",
+      "source": "fitting components only",
+      "shared_between_arms": true
+    },
+    "labels_and_score_masks": "omitted by SequenceFile.read(targets=false, mask=false) in pretraining and statistics"
+  },
+  "masking": {
+    "raw_feature_count": 112,
+    "groups": [
+      "i0_bid_price_0_10",
+      "i0_ask_price_11_21",
+      "i0_bid_volume_22_32",
+      "i0_ask_volume_33_43",
+      "i0_trade_price_44_47",
+      "i0_trade_volume_48_51",
+      "i1_bid_price_52_62",
+      "i1_ask_price_63_73",
+      "i1_bid_volume_74_84",
+      "i1_ask_volume_85_95",
+      "i1_trade_price_96_99",
+      "i1_trade_volume_100_103",
+      "additional_104_111"
+    ],
+    "mask_rule": "uniformly choose one group per 32-row block and sequence; hide every value of that group in the block",
+    "mask_indicator": "append 112 binary channels after the 211 canonical inputs",
+    "masked_value": "replace raw value with fitting-only feature mean",
+    "event_rebuild": "recompute causal event inputs from the masked raw sequence; never reuse events made from the unmasked target group",
+    "target": "standardized values of masked raw channels at the same row",
+    "loss": "mean per-row SmoothL1 across the selected masked group; each semantic group has equal per-row weight regardless of channel count",
+    "causal_state": "left-to-right GRU; state resets for each sequence and is detached at 2000-row TBPTT boundaries"
+  },
+  "model": {
+    "pretrainer": "plain RNNModel GRU, hidden 512, one layer, linear input projection, GELU readout",
+    "pretraining_input_width": 323,
+    "task_teacher": "plain RNNModel GRU, hidden 512, one layer, linear input projection, two-output task head",
+    "transfer": {
+      "copy": ["first 211 input projection columns", "GRU weights and biases", "fitting-only mean and standard deviation"],
+      "discard": ["112 mask-indicator input columns", "112-output reconstruction head"],
+      "initialize_task_readout": "cold with identical seed in control and candidate"
+    }
+  },
+  "arms": [
+    {
+      "id": "C0",
+      "name": "cold_6_epoch",
+      "pretraining": "none",
+      "supervised_epochs": 6,
+      "fixed_checkpoint_epoch": 5,
+      "role": "ordinary supervised reference"
+    },
+    {
+      "id": "C1",
+      "name": "cold_8_epoch_rowpass_matched",
+      "pretraining": "none",
+      "supervised_epochs": 8,
+      "fixed_checkpoint_epoch": 7,
+      "role": "primary two-extra-sequence-pass control; row-pass matched, not FLOP matched"
+    },
+    {
+      "id": "T1",
+      "name": "masked_pretrain_2_then_supervised_6",
+      "pretraining_epochs": 2,
+      "supervised_epochs": 6,
+      "fixed_checkpoint_epoch": 5,
+      "role": "causal group-mask representation candidate"
+    }
+  ],
+  "optimization": {
+    "precision": "strict_fp32_all_parameters_activations_states_gradients_optimizer",
+    "autocast": false,
+    "grad_scaler": false,
+    "tf32": false,
+    "quantization": false,
+    "pretraining": {
+      "batch_size": 4,
+      "chunk_rows": 2000,
+      "optimizer": "AdamW",
+      "optimizer_betas": [0.9, 0.999],
+      "learning_rate": 0.0001,
+      "weight_decay": 0.01,
+      "scheduler": "OneCycleLR cosine, pct_start 0.05",
+      "scheduler_div_factor": 10,
+      "scheduler_final_div_factor": 100,
+      "max_gradient_norm": 1.0
+    },
+    "supervised": {
+      "batch_size": 8,
+      "chunk_rows": 2000,
+      "loss": "wmse, chunk normalization",
+      "optimizer": "AdamW",
+      "learning_rate": 0.0001,
+      "beta2": 0.999,
+      "weight_decay": 0.01,
+      "scheduler": "OneCycleLR, warmup fraction 0.05",
+      "max_gradient_norm": 1.0,
+      "batch_order": "seeded",
+      "checkpoint_selection": "fixed final declared epoch; no evaluation during fitting"
+    }
+  },
+  "paired_cells": {
+    "fold0": [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008],
+    "fold1": [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008],
+    "fold2": [1001, 1002, 1003, 1004, 1005, 1006, 1007],
+    "fold3": [1001, 1002, 1003, 1004, 1005, 1006, 1007],
+    "cells_per_arm": 30,
+    "task_fits": 90,
+    "pretraining_fits": 30,
+    "profiles_are_replicates": false,
+    "same_fold_seed_membership_across_arms": true
+  },
+  "primary_endpoint": {
+    "metric": "global_wp_clip2_v1",
+    "mask": "official fixed prediction/scored mask",
+    "clipping": "official evaluation clipping and original clipped-label magnitude weighting",
+    "primary_contrast": "T1 minus C1",
+    "secondary_contrasts": ["T1 minus C0", "C1 minus C0"],
+    "primary_statistic": "equal-fold mean of paired seed-average endpoint score differences",
+    "evaluation_units": "source-qualified connected components",
+    "exposure": "all four outer folds have prior exposure; robustness evidence only",
+    "seed_bootstrap": {
+      "samples": 10000,
+      "seed_ids": "1001..1008",
+      "shared_across_folds": true,
+      "rule": "renormalize over available seed cells within each fold; redraw if a fold receives zero weight"
+    },
+    "component_bootstrap": {
+      "samples": 10000,
+      "rule": "paired component resampling within fold with shared multiplicities across arms and seeds"
+    },
+    "multiplicity": "Holm over the three frozen pairwise arm contrasts",
+    "confidence_scope": "separate conditional exposed-fold component and fitting-seed uncertainty; no pristine holdout or public transfer estimate"
+  },
+  "decision": {
+    "practical_reference_effect": 0.001,
+    "interpretation": "priority reference for teacher follow-up, not a universal stop threshold; uncertainty can justify a targeted descendant",
+    "success": "T1 shows useful paired task score versus compute-matched C1 with finite optimization and no material fold collapse",
+    "uncertainty": "zero-crossing intervals remain unresolved; inspect per-fold and per-seed consistency before allocating a student-transfer study",
+    "negative_scope": "this group mask, 32-row span, 512x1 GRU, two-epoch pretraining and the specified weight-transfer path only",
+    "public_score_impact": "unknown until a valid submission is evaluated"
+  },
+  "resources": {
+    "profile_gate": "actual B300, one GPU, strict FP32, pretraining 2-update real-data shape profile plus canonical trainer shape profile",
+    "matrix_execution": "up to eight independent cell workers, one B300 per fit, arms serialized within each cell, no DDP",
+    "measured_b300_runtime": null,
+    "measured_b300_memory": null,
+    "estimated_wall_time": null,
+    "paid_compute_changes": "none authorized by this draft"
+  },
+  "artifacts": {
+    "per_update_metrics": ["masked loss", "learning rate", "preclip gradient norm", "masked value count", "elapsed time"],
+    "per_cell": ["source and split hashes", "normalization sample members", "pretraining checkpoint", "initializer-pair hashes", "task checkpoints", "prediction arrays", "official grades"],
+    "archives": ["separate evidence archive", "separate weights archive"],
+    "private_data": "not copied into Git or archives"
+  },
+  "implementation_files": [
+    "src/wnn/training/masked_group_pretraining.py",
+    "src/wnn/training/masked_pretraining_loop.py",
+    "scripts/pretrain_masked_groups.py",
+    "scripts/prepare_masked_group_initializers.py",
+    "research/experiment_drafts/causal-group-mask-pretraining-b300/run_pair.sh"
+  ]
+}

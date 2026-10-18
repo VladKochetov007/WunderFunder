@@ -4,6 +4,7 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
+- [Causal group-masked pretraining for a GRU teacher](../../experiment_drafts/causal-group-mask-pretraining-b300/README.md) — proposed B300 experiment with feature-only masked reconstruction, fold-clean 30-cell comparisons across C0/T1/C1, and a real-shape profile gate. Code and hash-bound initializer conversion are drafted; no local/B300 fit or gain exists. The cold control matches additional sequence passes, not FLOPs; final 30-cell aggregation is still required before quality claims.
 - [Ranked25 execution, October18](../../campaign_2026-10-18/priority25_execution_r4/README.md) — Execution of the current25ranked hypotheses in order; rank1 compares two cold GRU shapes, with matched membership and explicit near-capacity control. Both actual-data profiles passed; the first F0 paired six-epoch pipeline is running with actual optimizer progress. Quality results are pending.
 - [Rank1 cluster handoff](../../campaign_2026-10-18/priority25_execution_r4/cluster/README.md) — Prepared issue for additional paired folds and remaining CP30 cells, excluding the running Beleriand pair. It documents executable-source references and unresolved cluster paths/scheduler; no issue or cluster fit has yet been created.
 
