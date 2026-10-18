@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import time
 
@@ -76,6 +77,14 @@ def evaluate_epoch(run: TrainingRun) -> None:
     run.progress.evaluation_score = evaluation_score
 
 
+def checkpoint_args(args: argparse.Namespace, provenance: dict) -> dict[str, object]:
+    """Add adapter identity to the serialized CLI arguments when present."""
+    result = serialized_args(args)
+    if "model_adapter" in provenance:
+        result["model_adapter"] = provenance["model_adapter"]
+    return result
+
+
 def save_epoch(run: TrainingRun) -> None:
     """Write inference snapshots, source provenance and resumable optimizer/stream state."""
     environment = run.environment
@@ -113,7 +122,7 @@ def save_epoch(run: TrainingRun) -> None:
     )
     checkpoint = {
         **representation,
-        "args": serialized_args(args),
+        "args": checkpoint_args(args, provenance),
         "n_in": n_in,
         "epoch": epoch,
         "readout": None
@@ -210,7 +219,7 @@ def finalize(run: TrainingRun) -> None:
         )
         checkpoint = {
             **representation,
-            "args": serialized_args(args),
+            "args": checkpoint_args(args, provenance),
             "n_in": n_in,
             "epoch": args.epochs - 1,
             "readout": None if moments is None else [value.cpu() for value in moments.tables()],

@@ -56,6 +56,7 @@ class TrainingEnvironment:
         ).resolve()
     )
     entrypoint_override: Path | None = None
+    model_metadata: dict[str, Any] | None = None
     argv: list[str] = field(factory=lambda: sys.argv[1:])
     inputs: InputConfiguration = field(factory=InputConfiguration)
     readout: ReadoutConfiguration = field(factory=ReadoutConfiguration)

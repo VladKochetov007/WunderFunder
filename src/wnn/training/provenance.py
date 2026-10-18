@@ -53,6 +53,9 @@ def record_provenance(run: TrainingRun) -> None:
         "evaluation_row_groups": valid_idx.tolist(),
         "checkpoint_sha256": {},
     }
+    if environment.model_metadata is not None:
+        provenance["model_adapter"] = environment.model_metadata
+        provenance["args"]["model_adapter"] = environment.model_metadata
     provenance["trainer_implementation"] = training_source_identity(environment)
     if fit_subset is not None:
         provenance["fit_subset_manifest_sha256"] = args.fit_subset_manifest_sha256

@@ -41,7 +41,7 @@ ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
 def model_from_checkpoint(ck: dict) -> torch.nn.Module:
     """Load the standard model or a checkpoint-marked Kalman-GRU adapter."""
     state = ck["model"]
-    if "kalman.arm_code" in state:
+    if "features.arm_code" in state:
         from wnn.kalman_local_trend import make_kalman_checkpoint_model
 
         return make_kalman_checkpoint_model(ck["args"], state, ck["n_in"])
