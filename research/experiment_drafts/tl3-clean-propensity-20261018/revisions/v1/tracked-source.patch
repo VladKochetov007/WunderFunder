@@ -1,0 +1,963 @@
+diff --git a/scripts/cache_propensity.py b/scripts/cache_propensity.py
+index 088d8a41..7529dd41 100644
+--- a/scripts/cache_propensity.py
++++ b/scripts/cache_propensity.py
+@@ -2,33 +2,133 @@
+ 
+     scripts/limited .venv/bin/python scripts/cache_propensity.py prop_v1 [--check 16]
+ Writes cache/propcache_<name>_<split>.npy of shape (row groups, 20000) float32 plus a .json sidecar
+-with the sha256 of the propensity weights; train_rnn.py refuses a cache whose sha differs. The values
+-are the same computation the training loop runs per batch (build_inputs -> propensity, fp16 autocast,
+-chunk 4000), so --check N recomputes N random sequences in a training-shaped batch and reports the
+-max abs difference.
++with the sha256 of the propensity weights; train_rnn.py refuses a cache whose sha differs. The
++legacy profile preserves fp16 autocast; strict_fp32_v1 follows the checkpoint profile and records
++split, fit-normalization, source, output-order and cache-byte identities. --check N recomputes N
++random sequences in a training-shaped batch and reports the maximum absolute difference.
+ """
+ 
+ from __future__ import annotations
+ 
+ import argparse
+-import hashlib
+ import json
++import os
++import stat
+ import sys
++import tempfile
+ import time
+ from pathlib import Path
+ 
+ import numpy as np
+ import torch
+-from torch.utils.data import DataLoader
++from torch.utils.data import DataLoader, Dataset
+ 
+-ROOT = Path(__file__).resolve().parents[1]
+-sys.path.insert(0, str(ROOT / "scripts"))
++SOURCE_ROOT = Path(__file__).resolve().parents[1]
++ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
++sys.path.insert(0, str(SOURCE_ROOT / "scripts"))
+ import train_rnn as T  # noqa: E402
+ 
+ from wnn.data import N_FEATURES, SequenceFile  # noqa: E402
+ from wnn.features import N_EVENT_FEATURES  # noqa: E402
+-from wnn.propensity import load_propensity, propensity  # noqa: E402
+-from wnn.resources import configure_torch  # noqa: E402
++from wnn.propensity import (  # noqa: E402
++    LEGACY_PROFILE,
++    STRICT_FP32_PROFILE,
++    load_propensity,
++    ordered_groups_sha256,
++    propensity,
++)
++from wnn.resources import configure_strict_fp32, configure_torch  # noqa: E402
++from wnn.splits import file_sha256, load_campaign_split  # noqa: E402
++
++
++class FeatureOnlySequences(Dataset):
++    """Read input columns only, so strict inference never loads validation targets or masks."""
++
++    def __init__(self, split: str, indices: np.ndarray) -> None:
++        self.path = ROOT / "datasets" / f"{split}.parquet"
++        self.indices = list(map(int, indices))
++        self._file = None
++
++    def __len__(self) -> int:
++        return len(self.indices)
++
++    def __getitem__(self, index: int) -> torch.Tensor:
++        if self._file is None:
++            self._file = SequenceFile(self.path)
++        sequence = self._file.read(self.indices[index], targets=False, mask=False)
++        return torch.from_numpy(sequence.features)
++
++
++def _strict_output_paths(root: Path, name: str) -> list[tuple[str, Path, Path]]:
++    paths = []
++    for split in ("train", "valid"):
++        output = root / "cache" / f"propcache_{name}_{split}.npy"
++        paths.append((split, output, output.with_suffix(".json")))
++    collisions = [
++        path
++        for _, output, metadata in paths
++        for path in (output, metadata)
++        if os.path.lexists(path)
++    ]
++    if collisions:
++        raise FileExistsError(f"strict propensity cache output already exists: {collisions[0]}")
++    return paths
++
++
++def _reserve_temp(path: Path) -> Path:
++    descriptor, name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
++    os.close(descriptor)
++    return Path(name)
++
++
++def _open_reserved_memmap(path: Path, shape: tuple[int, int]) -> np.memmap:
++    """Initialize and map only the regular file reserved by ``mkstemp``."""
++    flags = os.O_RDWR | getattr(os, "O_NOFOLLOW", 0)
++    descriptor = os.open(path, flags)
++    opened = os.fstat(descriptor)
++    current = os.stat(path, follow_symlinks=False)
++    if not stat.S_ISREG(opened.st_mode) or (opened.st_dev, opened.st_ino) != (
++        current.st_dev,
++        current.st_ino,
++    ):
++        os.close(descriptor)
++        raise RuntimeError(f"reserved cache temporary changed before opening: {path}")
++    with os.fdopen(descriptor, "r+b") as stream:
++        header = {
++            "descr": np.lib.format.dtype_to_descr(np.dtype(np.float32)),
++            "fortran_order": False,
++            "shape": shape,
++        }
++        np.lib.format.write_array_header_2_0(stream, header)
++        offset = stream.tell()
++        stream.truncate(offset + int(np.prod(shape)) * np.dtype(np.float32).itemsize)
++        stream.flush()
++        return np.memmap(stream, dtype=np.float32, mode="r+", offset=offset, shape=shape)
++
++
++def _write_reserved_json(path: Path, payload: dict[str, object]) -> None:
++    encoded = json.dumps(payload, sort_keys=True).encode("utf-8")
++    descriptor = os.open(path, os.O_WRONLY | os.O_TRUNC | getattr(os, "O_NOFOLLOW", 0))
++    with os.fdopen(descriptor, "wb") as stream:
++        stream.write(encoded)
++        stream.flush()
++        os.fsync(stream.fileno())
++
++
++def _publish_pair(temp_array: Path, temp_metadata: Path, output: Path, metadata: Path) -> None:
++    """Publish both reserved files without replacing either final path."""
++    with temp_array.open("rb") as stream:
++        os.fsync(stream.fileno())
++    os.link(temp_array, output)
++    try:
++        os.link(temp_metadata, metadata)
++    except Exception as exc:
++        raise RuntimeError(
++            f"strict cache array published at {output}, but sidecar publication failed; "
++            f"preserved temporary evidence at {temp_array} and {temp_metadata}"
++        ) from exc
++    temp_array.unlink()
++    temp_metadata.unlink()
+ 
+ 
+ def main():
+@@ -36,6 +136,8 @@ def main():
+     ap.add_argument("name")
+     ap.add_argument("--check", type=int, default=16)
+     ap.add_argument("--batch", type=int, default=16)
++    ap.add_argument("--split-manifest", type=Path, default=None)
++    ap.add_argument("--loader-workers", type=int, default=None)
+     a = ap.parse_args()
+     if a.batch < 8:
+         # cuDNN picks an fp32-like GRU path for tiny batches (batch 1-4 differ from batch >= 8 by up to 0.09);
+@@ -44,51 +146,151 @@ def main():
+     configure_torch()
+     dev = torch.device("cuda")
+     wpath = ROOT / "artifacts" / "runs" / a.name / "model.pt"
+-    sha = hashlib.sha256(wpath.read_bytes()).hexdigest()
++    sha = file_sha256(wpath)
+     model = load_propensity(wpath, dev)
++    profile = getattr(model, "_propensity_profile", LEGACY_PROFILE)
++    if a.loader_workers is None:
++        a.loader_workers = 0 if profile == STRICT_FP32_PROFILE else 4
++    if a.loader_workers < 0:
++        ap.error("--loader-workers must be nonnegative")
++    campaign_split = None
++    checkpoint_provenance = getattr(model, "_propensity_provenance", {})
++    if profile == STRICT_FP32_PROFILE:
++        if a.split_manifest is None:
++            ap.error("strict_fp32_v1 cache production requires --split-manifest")
++        campaign_split = load_campaign_split(a.split_manifest, ROOT)
++        if checkpoint_provenance.get("split_manifest_sha256") != campaign_split.sha256:
++            ap.error("cache split manifest differs from the strict propensity checkpoint")
++        if checkpoint_provenance.get("fit_row_groups", {}).get("valid") != list(
++            campaign_split.valid_groups
++        ):
++            ap.error("strict propensity checkpoint fit membership differs from the manifest")
++        if checkpoint_provenance.get("evaluation_row_groups") != list(
++            campaign_split.evaluation_groups
++        ):
++            ap.error("strict propensity checkpoint evaluation membership differs from the manifest")
++        configure_strict_fp32()
++    elif a.split_manifest is not None:
++        campaign_split = load_campaign_split(a.split_manifest, ROOT)
++    cache_dir = ROOT / "cache"
++    cache_dir.mkdir(parents=True, exist_ok=True)
++    if profile == STRICT_FP32_PROFILE:
++        strict_paths = _strict_output_paths(ROOT, a.name)
++        strict_work = {}
++        for split, output, metadata in strict_paths:
++            strict_work[split] = (
++                output,
++                metadata,
++                _reserve_temp(output),
++                _reserve_temp(metadata),
++            )
++    else:
++        strict_work = {}
+     for split in ("train", "valid"):
+         n = len(SequenceFile(ROOT / "datasets" / f"{split}.parquet"))
+         out_path = ROOT / "cache" / f"propcache_{a.name}_{split}.npy"
+-        out = np.lib.format.open_memmap(out_path, mode="w+", dtype=np.float32, shape=(n, 20000))
++        metadata_path = out_path.with_suffix(".json")
++        if profile == STRICT_FP32_PROFILE:
++            _, _, work_path, metadata_temp = strict_work[split]
++        else:
++            work_path, metadata_temp = out_path, metadata_path
++        if profile == STRICT_FP32_PROFILE:
++            out = _open_reserved_memmap(work_path, (n, 20000))
++        else:
++            out = np.lib.format.open_memmap(
++                work_path, mode="w+", dtype=np.float32, shape=(n, 20000)
++            )
++        if profile == STRICT_FP32_PROFILE:
++            out[:] = 0.0
+         idx = np.arange(n)
+         if split == "train":
+             idx = np.array([g for g in idx if g not in T.CORRUPT_TRAIN_ROW_GROUPS])
+-        ds = T.Sequences(split, idx)
+-        loader = DataLoader(
+-            ds, batch_size=a.batch, num_workers=4, prefetch_factor=2, pin_memory=True
++        ds = (
++            FeatureOnlySequences(split, idx)
++            if profile == STRICT_FP32_PROFILE
++            else T.Sequences(split, idx)
+         )
++        loader_options = {"num_workers": a.loader_workers, "pin_memory": True}
++        if a.loader_workers:
++            loader_options["prefetch_factor"] = 2
++        loader = DataLoader(ds, batch_size=a.batch, **loader_options)
+         t0, pos = time.time(), 0
+-        for x, _, _ in loader:
++        for batch in loader:
++            x = batch if profile == STRICT_FP32_PROFILE else batch[0]
+             inputs = T.build_inputs(x.to(dev, non_blocking=True))
+             p = propensity(model, inputs[..., : N_FEATURES + N_EVENT_FEATURES]).cpu().numpy()
++            if profile == STRICT_FP32_PROFILE and (
++                not np.isfinite(p).all() or np.any((p < 0) | (p > 1))
++            ):
++                raise FloatingPointError(
++                    "strict propensity cache batch is not finite probability data"
++                )
+             out[idx[pos : pos + len(p)]] = p
+             pos += len(p)
+         out.flush()
+         del out
+-        with out_path.with_suffix(".json").open("w") as metadata:
+-            json.dump(
++        metadata = {
++            "model": a.name,
++            "model_sha256": sha,
++            "split": split,
++            "rows": int(n),
++            "n_filled": int(len(idx)),
++            "seconds": round(time.time() - t0, 1),
++        }
++        if profile == STRICT_FP32_PROFILE:
++            metadata.update(
+                 {
+-                    "model": a.name,
+-                    "model_sha256": sha,
+-                    "split": split,
+-                    "rows": int(n),
+-                    "n_filled": int(len(idx)),
+-                    "seconds": round(time.time() - t0, 1),
+-                },
+-                metadata,
++                    "schema": "wnn.propensity_cache.strict_fp32.v1",
++                    "precision_profile": STRICT_FP32_PROFILE,
++                    "inference_precision": "float32_no_autocast_tf32_disabled",
++                    "split_manifest_sha256": campaign_split.sha256,
++                    "fit_row_groups_sha256": checkpoint_provenance["fit_row_groups_sha256"][
++                        "valid"
++                    ],
++                    "fit_row_groups_count": len(checkpoint_provenance["fit_row_groups"]["valid"]),
++                    "ordered_output_row_groups_sha256": ordered_groups_sha256(range(n)),
++                    "populated_row_groups_sha256": ordered_groups_sha256(idx),
++                    "checkpoint_normalization": checkpoint_provenance["normalization"],
++                    "cache_shape": [int(n), 20000],
++                    "cache_dtype": "float32",
++                    "cache_sha256": file_sha256(work_path),
++                    "source_sha256": {
++                        **checkpoint_provenance["source_sha256"],
++                        "scripts/cache_propensity.py": file_sha256(
++                            SOURCE_ROOT / "scripts/cache_propensity.py"
++                        ),
++                    },
++                }
+             )
++        if profile == STRICT_FP32_PROFILE:
++            _write_reserved_json(metadata_temp, metadata)
++            _publish_pair(work_path, metadata_temp, out_path, metadata_path)
++        else:
++            with metadata_path.open("w") as stream:
++                json.dump(metadata, stream, sort_keys=True)
+         print(split, "rows", n, "filled", len(idx), f"{time.time() - t0:.0f}s", flush=True)
+         # parity: recompute random sequences in a fresh batch of a different composition
+         rng = np.random.default_rng(0)
+         pick = rng.choice(idx, min(a.check, len(idx)), replace=False)
+         cache = np.load(out_path, mmap_mode="r")
+-        x = torch.stack([torch.from_numpy(T.Sequences(split, [g])[0][0].numpy()) for g in pick])
++        if profile == STRICT_FP32_PROFILE:
++            x = torch.stack([FeatureOnlySequences(split, np.asarray([g]))[0] for g in pick])
++        else:
++            x = torch.stack([torch.from_numpy(T.Sequences(split, [g])[0][0].numpy()) for g in pick])
+         fresh = (
+             propensity(model, T.build_inputs(x.to(dev))[..., : N_FEATURES + N_EVENT_FEATURES])
+             .cpu()
+             .numpy()
+         )
+-        d = np.abs(fresh - np.asarray(cache[pick]))
++        cached = np.asarray(cache[pick])
++        if profile == STRICT_FP32_PROFILE and (
++            not np.isfinite(fresh).all()
++            or not np.isfinite(cached).all()
++            or np.any((fresh < 0) | (fresh > 1))
++            or np.any((cached < 0) | (cached > 1))
++        ):
++            raise FloatingPointError("strict propensity cache parity values are invalid")
++        d = np.abs(fresh - cached)
+         print(
+             f"{split} parity on {len(pick)} random sequences: max abs diff {d.max():.3g}, mean {d.mean():.3g}",
+             flush=True,
+diff --git a/scripts/train_propensity.py b/scripts/train_propensity.py
+index feefda6d..e4d248c7 100644
+--- a/scripts/train_propensity.py
++++ b/scripts/train_propensity.py
+@@ -1,14 +1,17 @@
+ """Causal propensity model P(is_scored | rows <= t), fit on validation devA only.
+ 
+     scripts/limited .venv/bin/python scripts/train_propensity.py --name prop_v1
+-Scores AUC on devB. The frozen model supplies soft scoring weights when training
+-on train.parquet (which has no mask), keeping devB and holdout untouched.
++Legacy mode scores AUC on devB. The opt-in strict_fp32_v1 profile requires a
++campaign split, fits normalization on all ordered fit-valid groups, and withholds
++evaluation. The frozen model supplies soft scoring weights when training on
++train.parquet (which has no mask).
+ """
+ 
+ from __future__ import annotations
+ 
+ import argparse
+ import json
++import os
+ import time
+ from pathlib import Path
+ 
+@@ -20,11 +23,48 @@ from train_rnn import Sequences, build_inputs, checkpoint_selected, configure_ch
+ 
+ from wnn.data import N_FEATURES, WARMUP
+ from wnn.features import N_EVENT_FEATURES
+-from wnn.propensity import PropensityNet, propensity
+-from wnn.resources import configure_torch
++from wnn.propensity import (
++    LEGACY_PROFILE,
++    PROPENSITY_FIT_SOURCE_FILES,
++    STRICT_FP32_PROFILE,
++    PropensityNet,
++    fit_normalization,
++    ordered_groups_sha256,
++    propensity,
++)
++from wnn.resources import configure_strict_fp32, configure_torch
+ from wnn.splits import dev_halves, file_sha256, load_campaign_split
+ 
+-ROOT = Path(__file__).resolve().parents[1]
++SOURCE_ROOT = Path(__file__).resolve().parents[1]
++ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
++
++
++def _source_sha256(profile: str) -> dict[str, str]:
++    """Bind relevant training, data, feature and precision code for strict runs."""
++    if profile == STRICT_FP32_PROFILE:
++        paths = PROPENSITY_FIT_SOURCE_FILES
++    else:
++        paths = (
++            "scripts/train_propensity.py",
++            "scripts/train_rnn.py",
++            "src/wnn/propensity.py",
++            "src/wnn/training/inputs.py",
++        )
++    return {path: file_sha256(SOURCE_ROOT / path) for path in paths}
++
++
++def _prepare_run_directory(path: Path, *, strict: bool) -> None:
++    """Create a strict run directory exclusively; legacy runs retain reuse behavior."""
++    if strict:
++        path.parent.mkdir(parents=True, exist_ok=True)
++        path.mkdir(exist_ok=False)
++    else:
++        path.mkdir(parents=True, exist_ok=True)
++
++
++def _require_finite(tensor: torch.Tensor, name: str) -> None:
++    if not torch.isfinite(tensor).all().item():
++        raise FloatingPointError(f"strict propensity {name} contain non-finite values")
+ 
+ 
+ def auc(scores: np.ndarray, labels: np.ndarray) -> float:
+@@ -47,6 +87,18 @@ def main() -> None:
+     ap.add_argument("--checkpoint-epoch", type=int, default=None)
+     ap.add_argument("--no-eval-during-fit", action="store_true")
+     ap.add_argument("--split-manifest", type=Path, default=None)
++    ap.add_argument(
++        "--precision-profile",
++        choices=[LEGACY_PROFILE, STRICT_FP32_PROFILE],
++        default=LEGACY_PROFILE,
++        help="legacy autocast by default; strict_fp32_v1 is an opt-in clean-fold recipe",
++    )
++    ap.add_argument(
++        "--loader-workers",
++        type=int,
++        default=None,
++        help="data-loader workers; profile defaults are legacy=2 and strict_fp32_v1=0",
++    )
+     ap.add_argument(
+         "--heldout-fold",
+         type=int,
+@@ -61,6 +113,17 @@ def main() -> None:
+     )
+     args = ap.parse_args()
+     configure_checkpoint_policy(args, ap)
++    strict_fp32 = args.precision_profile == STRICT_FP32_PROFILE
++    if strict_fp32 and (Path(args.name).name != args.name or args.name in {".", ".."}):
++        ap.error("strict_fp32_v1 --name must be a single run-directory name")
++    if args.loader_workers is None:
++        args.loader_workers = 0 if strict_fp32 else 2
++    if args.loader_workers < 0:
++        ap.error("--loader-workers must be nonnegative")
++    if strict_fp32 and args.split_manifest is None:
++        ap.error("strict_fp32_v1 requires --split-manifest")
++    if strict_fp32 and not (args.no_eval_during_fit and args.checkpoint_policy == "fixed"):
++        ap.error("strict_fp32_v1 requires fixed checkpoint selection and --no-eval-during-fit")
+     campaign_split = load_campaign_split(args.split_manifest, ROOT) if args.split_manifest else None
+     if campaign_split is not None:
+         if args.dev_all or args.heldout_fold not in (-1, campaign_split.fold):
+@@ -71,8 +134,10 @@ def main() -> None:
+     torch.manual_seed(args.seed)
+     device = torch.device("cuda")
+     configure_torch(gpu_fraction=0.3)
++    if strict_fp32:
++        configure_strict_fp32()
+     out_dir = ROOT / "artifacts" / "runs" / args.name
+-    out_dir.mkdir(parents=True, exist_ok=True)
++    _prepare_run_directory(out_dir, strict=strict_fp32)
+     if campaign_split is not None:
+         dev_a = np.asarray(campaign_split.valid_groups)
+         dev_b = np.asarray(campaign_split.evaluation_groups)
+@@ -90,28 +155,45 @@ def main() -> None:
+         dev_a, dev_b = rg[f != args.heldout_fold], rg[f == args.heldout_fold]
+     else:
+         dev_a, dev_b = dev_halves(ROOT / "datasets" / "valid.parquet")
+-    train = DataLoader(
+-        Sequences("valid", dev_a), batch_size=16, shuffle=True, num_workers=2, prefetch_factor=1
+-    )
++    train_dataset = Sequences("valid", dev_a)
++    loader_options = {"num_workers": args.loader_workers}
++    if args.loader_workers:
++        loader_options["prefetch_factor"] = 1
++    train = DataLoader(train_dataset, batch_size=16, shuffle=True, **loader_options)
+     test = (
+         None
+         if args.no_eval_during_fit
+-        else DataLoader(Sequences("valid", dev_b), batch_size=16, num_workers=2, prefetch_factor=1)
++        else DataLoader(Sequences("valid", dev_b), batch_size=16, **loader_options)
+     )
+     model = PropensityNet(N_FEATURES + N_EVENT_FEATURES, args.hidden).to(device)
+-    with torch.no_grad():
+-        x, _, _ = next(iter(train))
+-        f = build_inputs(x.to(device))
+-        model.mean.copy_(f.reshape(-1, f.shape[-1]).mean(0))
+-        model.std.copy_(f.reshape(-1, f.shape[-1]).std(0).clamp_min(1e-3))
++    model._propensity_profile = args.precision_profile
++    normalization = None
++    if strict_fp32:
++        stats_loader = DataLoader(
++            train_dataset,
++            batch_size=4,
++            shuffle=False,
++            **loader_options,
++        )
++        normalization = fit_normalization(model, (build_inputs(x) for x, _, _ in stats_loader))
++    else:
++        with torch.no_grad():
++            x, _, _ = next(iter(train))
++            f = build_inputs(x.to(device))
++            model.mean.copy_(f.reshape(-1, f.shape[-1]).mean(0))
++            model.std.copy_(f.reshape(-1, f.shape[-1]).std(0).clamp_min(1e-3))
+     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-2)
+     history, best_auc = [], -1.0
+     provenance = {
+         "seed": args.seed,
+         "args": vars(args).copy(),
++        "precision_profile": args.precision_profile,
+         "split_manifest_sha256": campaign_split.sha256 if campaign_split is not None else None,
+         "fit_row_groups": {"valid": dev_a.tolist()},
++        "fit_row_groups_sha256": {"valid": ordered_groups_sha256(dev_a)},
+         "evaluation_row_groups": dev_b.tolist(),
++        "normalization": normalization,
++        "source_sha256": _source_sha256(args.precision_profile),
+         "checkpoint_sha256": {},
+     }
+     fitting_started = time.time()
+@@ -124,8 +206,13 @@ def main() -> None:
+             target = m.to(device).float()
+             h = None
+             for s in range(0, 20_000, 2000):
+-                with torch.autocast("cuda", dtype=torch.float16):
+-                    logit, h = model(inputs[:, s : s + 2000], h)
++                if strict_fp32:
++                    with torch.autocast("cuda", enabled=False):
++                        logit, h = model(inputs[:, s : s + 2000], h)
++                    _require_finite(logit, "logits")
++                else:
++                    with torch.autocast("cuda", dtype=torch.float16):
++                        logit, h = model(inputs[:, s : s + 2000], h)
+                 h = h.detach()
+                 keep = (torch.arange(s, min(s + 2000, 20_000), device=device) >= WARMUP)[
+                     None
+@@ -133,9 +220,18 @@ def main() -> None:
+                 loss = F.binary_cross_entropy_with_logits(
+                     logit.float()[keep], target[:, s : s + 2000][keep]
+                 )
++                if strict_fp32:
++                    _require_finite(loss, "loss")
+                 opt.zero_grad(set_to_none=True)
+                 loss.backward()
++                if strict_fp32:
++                    for name, parameter in model.named_parameters():
++                        if parameter.grad is not None:
++                            _require_finite(parameter.grad, f"gradient {name}")
+                 opt.step()
++                if strict_fp32:
++                    for name, parameter in model.named_parameters():
++                        _require_finite(parameter, f"weight {name}")
+         res = {"epoch": epoch, "train_seconds": round(time.time() - epoch_started, 1)}
+         evaluation_score = None
+         if args.no_eval_during_fit:
+diff --git a/src/wnn/propensity.py b/src/wnn/propensity.py
+index 5d8ddc80..01462e22 100644
+--- a/src/wnn/propensity.py
++++ b/src/wnn/propensity.py
+@@ -2,10 +2,35 @@
+ 
+ from __future__ import annotations
+ 
++import hashlib
++from collections.abc import Iterable
++from contextlib import contextmanager
++
++import numpy as np
+ import torch
+ import torch.nn.functional as F
+ from torch import nn
+ 
++from wnn.resources import configure_strict_fp32
++
++LEGACY_PROFILE = "legacy_autocast_v1"
++STRICT_FP32_PROFILE = "strict_fp32_v1"
++PROPENSITY_PROFILES = (LEGACY_PROFILE, STRICT_FP32_PROFILE)
++PROPENSITY_FIT_SOURCE_FILES = (
++    "scripts/train_propensity.py",
++    "scripts/train_rnn.py",
++    "src/wnn/data.py",
++    "src/wnn/features.py",
++    "src/wnn/propensity.py",
++    "src/wnn/resources.py",
++    "src/wnn/splits.py",
++    "src/wnn/training/checkpoints.py",
++    "src/wnn/training/compatibility.py",
++    "src/wnn/training/datasets.py",
++    "src/wnn/training/environment.py",
++    "src/wnn/training/inputs.py",
++)
++
+ 
+ class PropensityNet(nn.Module):
+     def __init__(self, n_in: int, hidden: int = 64):
+@@ -23,18 +48,131 @@ class PropensityNet(nn.Module):
+ 
+ 
+ @torch.no_grad()
+-def propensity(model, inputs, chunk: int = 4000):
++def propensity(model, inputs, chunk: int = 4000, *, profile: str | None = None):
+     """Probabilities (B, T) for already-built inputs, streaming over chunks."""
+-    h, outs = None, []
+-    for s in range(0, inputs.shape[1], chunk):
+-        with torch.autocast(inputs.device.type, dtype=torch.float16, enabled=inputs.is_cuda):
+-            logit, h = model(inputs[:, s : s + chunk], h)
+-        outs.append(torch.sigmoid(logit.float()))
+-    return torch.cat(outs, 1)
++    profile = profile or getattr(model, "_propensity_profile", LEGACY_PROFILE)
++    if profile not in PROPENSITY_PROFILES:
++        raise ValueError(f"unknown propensity precision profile: {profile}")
++    if profile == STRICT_FP32_PROFILE and (inputs.dtype != torch.float32):
++        raise ValueError("strict propensity inference requires float32 inputs")
++    if profile == STRICT_FP32_PROFILE and not torch.isfinite(inputs).all().item():
++        raise FloatingPointError("strict propensity inputs contain non-finite values")
++    backend = _strict_fp32_backend() if profile == STRICT_FP32_PROFILE else _unchanged_backend()
++    with backend:
++        h, outs = None, []
++        for s in range(0, inputs.shape[1], chunk):
++            with torch.autocast(
++                inputs.device.type,
++                dtype=torch.float16,
++                enabled=inputs.is_cuda and profile == LEGACY_PROFILE,
++            ):
++                logit, h = model(inputs[:, s : s + chunk], h)
++            if profile == STRICT_FP32_PROFILE and not torch.isfinite(logit).all().item():
++                raise FloatingPointError("strict propensity logits contain non-finite values")
++            outs.append(torch.sigmoid(logit.float()))
++        result = torch.cat(outs, 1)
++        if profile == STRICT_FP32_PROFILE and (
++            not torch.isfinite(result).all().item() or torch.any((result < 0) | (result > 1)).item()
++        ):
++            raise FloatingPointError("strict propensity output is not finite probability data")
++        return result
++
++
++@contextmanager
++def _unchanged_backend():
++    yield
++
++
++@contextmanager
++def _strict_fp32_backend():
++    old_matmul_tf32 = torch.backends.cuda.matmul.allow_tf32
++    old_cudnn_tf32 = torch.backends.cudnn.allow_tf32
++    configure_strict_fp32()
++    try:
++        yield
++    finally:
++        torch.backends.cuda.matmul.allow_tf32 = old_matmul_tf32
++        torch.backends.cudnn.allow_tf32 = old_cudnn_tf32
++
++
++def ordered_groups_sha256(groups: Iterable[int]) -> str:
++    """Hash row-group identities as ordered little-endian int64 values."""
++    values = np.asarray(list(map(int, groups)), dtype="<i8")
++    if values.ndim != 1 or len(set(values.tolist())) != len(values):
++        raise ValueError("row groups must be a unique one-dimensional sequence")
++    return hashlib.sha256(values.tobytes()).hexdigest()
++
++
++def fit_normalization(
++    model: PropensityNet,
++    batches: Iterable[torch.Tensor],
++    *,
++    std_floor: float = 1e-3,
++) -> dict[str, object]:
++    """Fit population mean/std by ordered float64 Welford merges over fit batches.
++
++    Statistics use float64 accumulation for stability; model buffers remain float32.
++    The caller controls membership and ordering by supplying the batch iterable.
++    """
++    if std_floor <= 0:
++        raise ValueError("std_floor must be positive")
++    count = 0
++    mean = m2 = None
++    for inputs in batches:
++        if inputs.ndim < 2 or inputs.shape[-1] != model.mean.numel():
++            raise ValueError("normalization batch has the wrong feature width")
++        if inputs.dtype != torch.float32:
++            raise ValueError("strict normalization requires float32 feature batches")
++        if not torch.isfinite(inputs).all().item():
++            raise FloatingPointError("strict normalization inputs contain non-finite values")
++        flat = inputs.reshape(-1, inputs.shape[-1]).to(dtype=torch.float64)
++        batch_count = int(flat.shape[0])
++        if batch_count == 0:
++            continue
++        batch_mean = flat.mean(0)
++        batch_m2 = (flat - batch_mean).square().sum(0)
++        if mean is None:
++            count, mean, m2 = batch_count, batch_mean, batch_m2
++            continue
++        delta = batch_mean - mean
++        total = count + batch_count
++        m2 = m2 + batch_m2 + delta.square() * (count * batch_count / total)
++        mean = mean + delta * (batch_count / total)
++        count = total
++    if count == 0 or mean is None or m2 is None:
++        raise ValueError("cannot fit propensity normalization from no rows")
++    mean32 = mean.to(device=model.mean.device, dtype=torch.float32)
++    std32 = (
++        (m2 / count).sqrt().clamp_min(std_floor).to(device=model.std.device, dtype=torch.float32)
++    )
++    if not torch.isfinite(mean32).all().item() or not torch.isfinite(std32).all().item():
++        raise FloatingPointError("strict normalization statistics are not finite float32 values")
++    model.mean.copy_(mean32)
++    model.std.copy_(std32)
++    return {
++        "method": "ordered_fit_population_welford_float64_v1",
++        "accumulator_dtype": "float64",
++        "buffer_dtype": "float32",
++        "count": count,
++        "std_floor": std_floor,
++        "mean_sha256": _tensor_sha256(mean32),
++        "std_sha256": _tensor_sha256(std32),
++    }
++
++
++def _tensor_sha256(tensor: torch.Tensor) -> str:
++    raw = tensor.detach().cpu().numpy().astype("<f4", copy=False).tobytes(order="C")
++    return hashlib.sha256(raw).hexdigest()
+ 
+ 
+ def load_propensity(path, device):
+     ck = torch.load(path, map_location="cpu", weights_only=False)
+     model = PropensityNet(ck["n_in"], ck["hidden"])
+     model.load_state_dict(ck["model"])
++    provenance = ck.get("provenance", {})
++    profile = provenance.get("precision_profile", LEGACY_PROFILE)
++    if profile not in PROPENSITY_PROFILES:
++        raise ValueError(f"unknown propensity checkpoint precision profile: {profile}")
++    model._propensity_profile = profile
++    model._propensity_provenance = provenance
+     return model.to(device).eval()
+diff --git a/src/wnn/training/cache_identity.py b/src/wnn/training/cache_identity.py
+index a804967c..bd3331a5 100644
+--- a/src/wnn/training/cache_identity.py
++++ b/src/wnn/training/cache_identity.py
+@@ -1,5 +1,6 @@
+ from __future__ import annotations
+ 
++import hashlib
+ import json
+ from collections.abc import Iterable
+ from pathlib import Path
+@@ -9,8 +10,16 @@ from pathlib import Path
+ from typing import Any
+ 
+ import numpy as np
++import torch
+ 
++from wnn.data import CORRUPT_TRAIN_ROW_GROUPS, SequenceFile
+ from wnn.privileged import validate_crossfit_cache
++from wnn.propensity import (
++    LEGACY_PROFILE,
++    PROPENSITY_FIT_SOURCE_FILES,
++    STRICT_FP32_PROFILE,
++    ordered_groups_sha256,
++)
+ from wnn.splits import CampaignSplit, file_sha256
+ from wnn.training.environment import TrainingEnvironment
+ 
+@@ -59,7 +68,11 @@ def bind_fold_teachers(
+ 
+ 
+ def prop_cache_path(
+-    name: str, split: str, *, environment: TrainingEnvironment | None = None
++    name: str,
++    split: str,
++    *,
++    environment: TrainingEnvironment | None = None,
++    campaign_split: CampaignSplit | None = None,
+ ) -> Path:
+     """Propensity cache written by scripts/cache_propensity.py; refuses a cache built from other weights."""
+     environment = environment if environment is not None else TrainingEnvironment()
+@@ -80,4 +93,148 @@ def prop_cache_path(
+         raise ValueError("propensity cache sidecar must be a JSON object")
+     if got.get("model_sha256") != want:
+         raise RuntimeError(f"{path}: propensity weights changed since the cache was built")
++    try:
++        checkpoint = torch.load(model_path, map_location="cpu", weights_only=True)
++    except TypeError:
++        checkpoint = torch.load(model_path, map_location="cpu")
++    checkpoint_provenance = checkpoint.get("provenance", {})
++    profile = checkpoint_provenance.get(
++        "precision_profile", checkpoint.get("args", {}).get("precision_profile", LEGACY_PROFILE)
++    )
++    if profile == STRICT_FP32_PROFILE:
++        _validate_strict_propensity_cache(
++            path,
++            got,
++            name=name,
++            split=split,
++            model_sha256=want,
++            checkpoint=checkpoint,
++            checkpoint_provenance=checkpoint_provenance,
++            campaign_split=campaign_split,
++            environment=environment,
++        )
++    elif profile != LEGACY_PROFILE:
++        raise ValueError(f"unsupported propensity checkpoint profile: {profile}")
+     return path
++
++
++def _validate_strict_propensity_cache(
++    path: Path,
++    metadata: dict[str, Any],
++    *,
++    name: str,
++    split: str,
++    model_sha256: str,
++    checkpoint: dict[str, Any],
++    checkpoint_provenance: dict[str, Any],
++    campaign_split: CampaignSplit | None,
++    environment: TrainingEnvironment,
++) -> None:
++    """Bind strict cache bytes, source, split, fit membership and output row order."""
++    if campaign_split is None:
++        raise ValueError("strict propensity caches require the matching campaign split")
++    if split not in {"train", "valid"}:
++        raise ValueError(f"unsupported propensity cache split: {split}")
++    if metadata.get("model") != name or metadata.get("split") != split:
++        raise ValueError("strict propensity cache names the wrong model or dataset split")
++    if metadata.get("model_sha256") != model_sha256:
++        raise ValueError("strict propensity cache checkpoint hash is invalid")
++    if metadata.get("schema") != "wnn.propensity_cache.strict_fp32.v1":
++        raise ValueError("strict propensity cache sidecar has the wrong schema")
++    if (
++        metadata.get("precision_profile") != STRICT_FP32_PROFILE
++        or metadata.get("inference_precision") != "float32_no_autocast_tf32_disabled"
++    ):
++        raise ValueError("strict propensity cache precision binding is invalid")
++    if metadata.get("split_manifest_sha256") != campaign_split.sha256:
++        raise ValueError("strict propensity cache belongs to a different campaign split")
++    if checkpoint_provenance.get("split_manifest_sha256") != campaign_split.sha256:
++        raise ValueError("strict propensity checkpoint belongs to a different campaign split")
++    fit_groups = checkpoint_provenance.get("fit_row_groups", {}).get("valid")
++    expected_fit_groups = list(campaign_split.valid_groups)
++    if checkpoint_provenance.get("fit_row_groups") != {"valid": expected_fit_groups}:
++        raise ValueError("strict propensity fit membership differs from the campaign manifest")
++    if fit_groups != expected_fit_groups:
++        raise ValueError("strict propensity fit membership differs from the campaign manifest")
++    evaluation_groups = checkpoint_provenance.get("evaluation_row_groups")
++    if evaluation_groups != list(campaign_split.evaluation_groups):
++        raise ValueError(
++            "strict propensity evaluation membership differs from the campaign manifest"
++        )
++    fit_digest = ordered_groups_sha256(fit_groups)
++    if checkpoint_provenance.get("fit_row_groups_sha256") != {"valid": fit_digest}:
++        raise ValueError("strict propensity checkpoint fit-membership digest is invalid")
++    if metadata.get("fit_row_groups_sha256") != fit_digest:
++        raise ValueError("strict propensity cache fit-membership digest is invalid")
++    if metadata.get("fit_row_groups_count") != len(fit_groups):
++        raise ValueError("strict propensity cache fit-membership count is invalid")
++    normalization = checkpoint_provenance.get("normalization")
++    if not isinstance(normalization, dict) or normalization.get("method") != (
++        "ordered_fit_population_welford_float64_v1"
++    ):
++        raise ValueError("strict propensity checkpoint lacks its declared fit normalization")
++    if metadata.get("checkpoint_normalization") != normalization:
++        raise ValueError("strict propensity cache normalization differs from the checkpoint")
++    if normalization.get("count") != len(fit_groups) * 20_000:
++        raise ValueError("strict propensity normalization count differs from its fit rows")
++    state = checkpoint.get("model", {})
++    for key in ("mean", "std"):
++        tensor = state.get(key)
++        if tensor is None or tensor.dtype != torch.float32:
++            raise ValueError("strict propensity checkpoint lacks float32 normalization buffers")
++        if not torch.isfinite(tensor).all().item() or (key == "std" and torch.any(tensor <= 0)):
++            raise ValueError("strict propensity checkpoint normalization is invalid")
++        digest = hashlib.sha256(
++            tensor.numpy().astype("<f4", copy=False).tobytes(order="C")
++        ).hexdigest()
++        if normalization.get(f"{key}_sha256") != digest:
++            raise ValueError(f"strict propensity {key} buffer differs from its provenance")
++
++    source_root = environment.source_root
++    checkpoint_sources = checkpoint_provenance.get("source_sha256")
++    if not isinstance(checkpoint_sources, dict) or set(checkpoint_sources) != set(
++        PROPENSITY_FIT_SOURCE_FILES
++    ):
++        raise ValueError("strict propensity checkpoint source bindings are incomplete")
++    if any(
++        checkpoint_sources.get(relative) != file_sha256(source_root / relative)
++        for relative in PROPENSITY_FIT_SOURCE_FILES
++    ):
++        raise ValueError("strict propensity training/feature sources changed")
++
++    rows = len(SequenceFile(environment.root / "datasets" / f"{split}.parquet"))
++    if metadata.get("rows") != rows or metadata.get("cache_shape") != [rows, 20000]:
++        raise ValueError("strict propensity cache row count or shape is invalid")
++    if metadata.get("cache_dtype") != "float32":
++        raise ValueError("strict propensity cache dtype is invalid")
++    if metadata.get("ordered_output_row_groups_sha256") != ordered_groups_sha256(range(rows)):
++        raise ValueError("strict propensity cache row-group order is not canonical")
++    filled = list(range(rows))
++    if split == "train":
++        filled = [group for group in filled if group not in CORRUPT_TRAIN_ROW_GROUPS]
++    if metadata.get("populated_row_groups_sha256") != ordered_groups_sha256(filled):
++        raise ValueError("strict propensity cache populated row groups are invalid")
++    if metadata.get("n_filled") != len(filled):
++        raise ValueError("strict propensity cache populated row-group count is invalid")
++
++    cache = np.load(path, mmap_mode="r", allow_pickle=False)
++    if cache.shape != (rows, 20000) or cache.dtype != np.float32:
++        raise ValueError("strict propensity cache array shape/dtype differs from its contract")
++    for start in range(0, rows, 64):
++        chunk = np.asarray(cache[start : start + 64])
++        if not np.isfinite(chunk).all() or np.any((chunk < 0) | (chunk > 1)):
++            raise ValueError("strict propensity cache contains invalid probability values")
++    del cache
++    if metadata.get("cache_sha256") != file_sha256(path):
++        raise ValueError("strict propensity cache bytes differ from the recorded digest")
++    source_sha256 = metadata.get("source_sha256")
++    if not isinstance(source_sha256, dict):
++        raise ValueError("strict propensity cache source bindings are missing")
++    cache_sources = (*PROPENSITY_FIT_SOURCE_FILES, "scripts/cache_propensity.py")
++    if not isinstance(source_sha256, dict) or set(source_sha256) != set(cache_sources):
++        raise ValueError("strict propensity cache source inventory is incomplete")
++    if any(
++        source_sha256.get(relative) != file_sha256(source_root / relative)
++        for relative in cache_sources
++    ):
++        raise ValueError("strict propensity cache producer/feature source bindings changed")
+diff --git a/src/wnn/training/checkpoints.py b/src/wnn/training/checkpoints.py
+index 5014e64a..797e2243 100644
+--- a/src/wnn/training/checkpoints.py
++++ b/src/wnn/training/checkpoints.py
+@@ -11,7 +11,7 @@ import torch
+ from torch.utils.data import DataLoader
+ 
+ from wnn.research_features import MOMENT_FEATURE_MODES, validate_causal_moment_prior
+-from wnn.splits import file_sha256
++from wnn.splits import file_sha256, load_campaign_split
+ from wnn.training.averaging import FastEMA
+ from wnn.training.cache_identity import prop_cache_path
+ from wnn.training.environment import TrainingEnvironment
+@@ -144,12 +144,22 @@ def resume_contract(
+                 filename = f"pred_{name}_{split}.npy"
+                 teachers[filename] = file_sha256(environment.root / "cache" / filename)
+     caches = {}
++    campaign_split = (
++        load_campaign_split(Path(args.split_manifest), environment.root)
++        if args.prop_cache and args.propensity and args.split_manifest
++        else None
++    )
+     for split in used_splits:
+         if args.distill:
+             filename = f"{split}_targets.npz"
+             caches[filename] = file_sha256(environment.root / "cache" / filename)
+         if args.propensity and args.prop_cache:
+-            path = prop_cache_path(args.propensity, split, environment=environment)
++            path = prop_cache_path(
++                args.propensity,
++                split,
++                environment=environment,
++                campaign_split=campaign_split,
++            )
+             caches[path.name] = file_sha256(path)
+             caches[path.with_suffix(".json").name] = file_sha256(path.with_suffix(".json"))
+     cache_provenance = provenance.get("distillation_cache")
+diff --git a/src/wnn/training/data_caches.py b/src/wnn/training/data_caches.py
+index c4cc8eeb..62c184d3 100644
+--- a/src/wnn/training/data_caches.py
++++ b/src/wnn/training/data_caches.py
+@@ -54,7 +54,9 @@ def bind_caches(run: TrainingRun) -> None:
+     prop_cache = {}
+     if args.prop_cache and args.propensity:
+         prop_cache = {
+-            sp: prop_cache_path(args.propensity, sp, environment=environment)
++            sp: prop_cache_path(
++                args.propensity, sp, environment=environment, campaign_split=campaign_split
++            )
+             for sp in ("train", "valid")
+         }
+     quote_cache_provenance = None

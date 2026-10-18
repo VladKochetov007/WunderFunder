@@ -1,0 +1,102 @@
+{
+  "schema": "wnn.experiment_draft.independent_review.v1",
+  "decision": "NEEDS_REVISION",
+  "ready_for_engineering_publication": false,
+  "campaign_readiness": "NOT_READY_AS_EXPLICITLY_DOCUMENTED",
+  "reviewed_at_utc": "2026-10-18T19:40:00Z",
+  "base_commit": "5665d7b7c76adf7f80b7599307a636d3ac80dd19",
+  "validation_receipt": {
+    "path": "research/experiment_drafts/tl3-clean-propensity-20261018/VALIDATION.json",
+    "sha256": "715ec15df4aedaa6ee198d8694cdf5eb693ec2c2008ad7eb3229bf7757d0dfdc",
+    "status": "LOCAL_STATIC_AND_TINY_TESTS_PASSED",
+    "reported_tests": "15 passed; not rerun by reviewer",
+    "all_seven_code_and_test_hashes_match": true,
+    "changed_code_sha256": {
+      "scripts/cache_propensity.py": "74275aca9f641ef3079cedacbf63fec5ddb6ef269fc8081fd48c9eb2856bc99f",
+      "scripts/train_propensity.py": "2643b26c39564695b244fe4832c76749105f24a59f51e7c7330448bd6857fb34",
+      "src/wnn/propensity.py": "4026bede5f6bee653c5760a3b581c7b1d926001a8c6c9df4d27e1492d771023e",
+      "src/wnn/training/cache_identity.py": "918dc76fd07f361a65afafa86982e48a250358ec8044d85836143542c28bc2f7",
+      "src/wnn/training/checkpoints.py": "f4a5bddd032853f7a3c9149775a9f196719b038fa4dcfffef0a9daf2d23d43f9",
+      "src/wnn/training/data_caches.py": "1342f2519035560cec73f579b4db4e90928cc055c87baefbb37f42d6b9dcc48d",
+      "tests/test_propensity_strict_profile.py": "bac7c63dd94fa33df0c39e049e2f1c2acdef5170c8864060f2912330168473fa"
+    }
+  },
+  "reviewed_document_bindings": [
+    {
+      "path": "research/experiment_drafts/tl3-clean-propensity-20261018/README.md",
+      "sha256": "904ca7f15c51f6d3bf24a449138e531871c8b614f0fdd129e885a1365efd95b6"
+    },
+    {
+      "path": "research/experiment_drafts/tl3-clean-propensity-20261018/PR.md",
+      "sha256": "2c4f7bbe7d308ef9b7734f68798ea6124def71d737284bf6fab029beee095d6d"
+    },
+    {
+      "path": "research/experiment_drafts/tl3-clean-propensity-20261018/recipe.json",
+      "sha256": "eca71d8b4ddd59a04fac8e3088dddab6af9acb05ad3b731a665cdc54177423eb"
+    },
+    {
+      "path": "research/experiments.jsonl",
+      "sha256": "c41f61e6a8cc4553b72ef1d63722f2f9466d5b5655dbae0cf1820058b44f9cee"
+    },
+    {
+      "path": "research/hypotheses.jsonl",
+      "sha256": "795d39ea14a3cb35895428aa7c1cdb5e7b527a59e84c20b2a545a5a2755e90d6"
+    },
+    {
+      "path": "research/unified/ideas/README.md",
+      "sha256": "e907b274349720ed1400a6509a9cc26d8281c275f0b90a2d9fa2abf500b7cb3e"
+    },
+    {
+      "path": "research/unified/reviews/README.md",
+      "sha256": "40ff28dedd13800d3c19bbaf8c7bf4fe00cc4dc0c5f90ad28265fc8834b65cfc"
+    }
+  ],
+  "blockers": [
+    {
+      "id": "STRICT-CACHE-PATH-01",
+      "severity": "BLOCKING",
+      "path": "scripts/cache_propensity.py",
+      "locations": [
+        "lines 148-150",
+        "lines 62-75"
+      ],
+      "finding": "The CLI name is interpolated into the checkpoint path and strict cache output names without a single-component or resolved-root containment check. A value such as `../../../../tmp/other` resolves the checkpoint read and output outside WNN_PROJECT_ROOT (for example `/private/tmp/other_train.npy`). `train_propensity.py` has a strict-name guard, but the cache producer does not.",
+      "required_action": "Validate the strict model name before opening the checkpoint and before path construction; also assert resolved checkpoint/output paths remain under their intended root/cache directories and reject symlinked parents if containment is part of the contract. Apply an equivalent guard in the strict consumer (`prop_cache_path`) so a strict cache lookup cannot escape the configured project root."
+    },
+    {
+      "id": "STRICT-SOURCE-INVENTORY-01",
+      "severity": "BLOCKING_FOR_PORTABLE_CAMPAIGN_USE",
+      "path": "src/wnn/propensity.py",
+      "locations": [
+        "lines 19-32"
+      ],
+      "finding": "The strict producer/consumer source inventory pins `src/wnn/splits.py` but omits `src/wnn/portability.py`. `load_campaign_split()` conditionally imports and calls `verify_portable_source()` from that module whenever `WNN_PORTABLE_DATA_MANIFEST` is configured. Thus on the supported relocated-data path, data identity validation can change without invalidating the strict checkpoint/cache source bindings.",
+      "required_action": "Add `src/wnn/portability.py` to the strict fit/source inventory and fixtures, or explicitly reject/document the portable-registry environment for strict runs. Revalidate the sealed source list and receipt after the change."
+    }
+  ],
+  "document_findings": [
+    {
+      "severity": "CORRECTION_BEFORE_ENGINEERING_PUBLICATION",
+      "path": "research/experiment_drafts/tl3-clean-propensity-20261018/README.md",
+      "finding": "The README says VALIDATION.json and INDEPENDENT_REVIEW_V1.json are reserved and not yet present, but both files are now present. Update these status sentences after preserving this review receipt."
+    },
+    {
+      "severity": "INDEX_UPDATE_AFTER_REVIEW",
+      "path": "research/unified/reviews/README.md",
+      "finding": "The index calls the byte-bound independent review forthcoming. After recording the result, replace that wording with a link/status for the review and its NEEDS_REVISION decision."
+    }
+  ],
+  "positive_review_findings": [
+    "The opt-in profile preserves the legacy default autocast route and its old first-batch normalization path; strict behavior is selected by checkpoint/profile metadata.",
+    "Strict fitting requires a campaign split, fixed checkpoint selection, and no evaluation during fit. Campaign membership is loaded and verified before fitting; normalization iterates the ordered fit-valid dataset and records its count and float32 buffer hashes.",
+    "Strict training and inference explicitly disable autocast and TF32, enforce float32 input for inference, and reject nonfinite logits/losses/gradients/weights/probabilities.",
+    "Cache inference uses a feature-only SequenceFile read, separates fit membership from output order, validates split/fit/evaluation identities, source hashes, normalization buffers, row order, shape/dtype, finite probability values, and cache bytes.",
+    "Strict run directories and cache final paths use create-only behavior with collision tests; failures are not presented as resumable campaign attempts.",
+    "README, PR, and recipe clearly say there is no real-data fit/cache/GPU profile or scientific admission; optimizer step accounting/resume evidence and the broader recipe/tied-lead adapter remain explicit campaign gates. No scientific-result or public-gain overclaim found."
+  ],
+  "scope_limits": [
+    "Read-only source and metadata review; author-reported tests/Ruff/structure checks were not rerun.",
+    "No campaign data, arrays, checkpoints, remote worker, GPU, fit, or cache generation was accessed.",
+    "This decision is for the reviewed engineering source/document bytes and does not grant campaign readiness or execution authority."
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "wnn.experiment_draft.validation.v2",
+  "status": "LOCAL_STATIC_AND_TINY_TESTS_PASSED_UNADMITTED",
+  "validated_utc": "2026-10-18T19:41:21Z",
+  "worktree": "/Users/nb/Documents/wunder/WunderFunder-tl3-clean-propensity-20261018",
+  "branch": "experiment/tl3-clean-propensity-20261018",
+  "base_commit": "5665d7b7c76adf7f80b7599307a636d3ac80dd19",
+  "prior_reviewed_snapshot": {
+    "validation_v1_sha256": "715ec15df4aedaa6ee198d8694cdf5eb693ec2c2008ad7eb3229bf7757d0dfdc",
+    "snapshot_manifest": "research/experiment_drafts/tl3-clean-propensity-20261018/revisions/v1/SNAPSHOT_MANIFEST.json",
+    "snapshot_manifest_sha256": "d5ac9680205c72bc33e82cd625e7643b103f9ed37fe15e821ea0e315dbe91b9c",
+    "tracked_source_patch": "research/experiment_drafts/tl3-clean-propensity-20261018/revisions/v1/tracked-source.patch",
+    "tracked_source_patch_sha256": "a5185826b3bd4baa489055c7400f32784f150750f0daa4e11bdd4e010e6a5ca8"
+  },
+  "runtime": {
+    "python": "3.13.11",
+    "torch": "2.14.1",
+    "cuda_available": false,
+    "ruff": "0.17.1",
+    "interpreter": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python",
+    "setup_note": "An initial uv resolution attempt failed because the repository-pinned CUDA Torch wheel was unavailable for macOS. It left a small ignored stub .venv in this worktree; no package installation or download completed. Validation used the existing maintenance virtual environment."
+  },
+  "checks": [
+    {
+      "command": "PYTHONPATH=src /Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/pytest -q tests/test_propensity_strict_profile.py tests/test_training_precision.py",
+      "result": "PASS: 25 passed in 1.21s"
+    },
+    {
+      "command": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/ruff format --check scripts/cache_propensity.py scripts/train_propensity.py src/wnn/propensity.py src/wnn/training/cache_identity.py src/wnn/training/checkpoints.py src/wnn/training/data_caches.py tests/test_propensity_strict_profile.py",
+      "result": "PASS: 7 files already formatted"
+    },
+    {
+      "command": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/ruff check scripts/cache_propensity.py scripts/train_propensity.py src/wnn/propensity.py src/wnn/training/cache_identity.py src/wnn/training/checkpoints.py src/wnn/training/data_caches.py tests/test_propensity_strict_profile.py",
+      "result": "PASS: All checks passed"
+    },
+    {
+      "command": "PYTHONPATH=src /Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python scripts/check_training_structure.py",
+      "result": "PASS: {\"files\":59,\"errors\":0,\"max_module_lines\":300,\"max_function_lines\":200}"
+    },
+    {
+      "command": "PYTHONPATH=src /Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python scripts/train_propensity.py --help",
+      "result": "PASS: exit 0"
+    },
+    {
+      "command": "PYTHONPATH=src /Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python scripts/cache_propensity.py --help",
+      "result": "PASS: exit 0"
+    },
+    {
+      "command": "git diff --check",
+      "result": "PASS: exit 0"
+    }
+  ],
+  "changed_code_sha256": {
+    "scripts/cache_propensity.py": "14a985e52696c40b1b6ce59aef39397cae80045d371559e19c822a52fb375216",
+    "scripts/train_propensity.py": "2643b26c39564695b244fe4832c76749105f24a59f51e7c7330448bd6857fb34",
+    "src/wnn/propensity.py": "3cee5c114d842905d894b32a7a8d5b51dbab33a94c83be74315c406bdd504717",
+    "src/wnn/training/cache_identity.py": "999eac72b593a5af996986d8c9603fd113baa5c5c4264896e93ca0adfdbffadd",
+    "src/wnn/training/checkpoints.py": "f4a5bddd032853f7a3c9149775a9f196719b038fa4dcfffef0a9daf2d23d43f9",
+    "src/wnn/training/data_caches.py": "1342f2519035560cec73f579b4db4e90928cc055c87baefbb37f42d6b9dcc48d",
+    "tests/test_propensity_strict_profile.py": "f74fcb80b64da758cb70ef05d7ff4dd4406d980838ea2c8bece168016afe86cd"
+  },
+  "v2_changes": [
+    "The cache CLI and propensity-cache consumer reject empty, dot, parent, absolute, slash-containing and backslash-containing names before checkpoint access; the output-path helper repeats the guard.",
+    "The strict propensity source inventory now pins src/wnn/portability.py, imported by load_campaign_split when a portable-data manifest is configured."
+  ],
+  "limits": [
+    "No campaign data or large arrays were read; no training, cache generation, GPU, remote execution, stage, commit, or publication was performed.",
+    "Optimizer attempt/completed-step, resumability, and recovery diagnostics remain an admission gap; this work is not campaign-ready.",
+    "The initial uv-created ignored stub environment remains in the worktree and was not used for validation."
+  ]
+}

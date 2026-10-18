@@ -54,7 +54,9 @@ def bind_caches(run: TrainingRun) -> None:
     prop_cache = {}
     if args.prop_cache and args.propensity:
         prop_cache = {
-            sp: prop_cache_path(args.propensity, sp, environment=environment)
+            sp: prop_cache_path(
+                args.propensity, sp, environment=environment, campaign_split=campaign_split
+            )
             for sp in ("train", "valid")
         }
     quote_cache_provenance = None

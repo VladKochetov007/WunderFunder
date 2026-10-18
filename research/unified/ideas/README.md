@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[Clean propensity engineering draft](../../experiment_drafts/tl3-clean-propensity-20261018/README.md) adds an opt-in strict-FP32, fit-only normalization and source/row-bound cache path for the separately modified TL3 counterpart. No fit, real-data profile or measured quality; campaign diagnostics and the full scientific design remain pending.
+
 Existing proposals and their evidence; a proposal is not an admitted or completed fit.
 
 ## Current navigation

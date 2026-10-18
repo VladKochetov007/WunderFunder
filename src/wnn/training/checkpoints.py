@@ -11,7 +11,7 @@ import torch
 from torch.utils.data import DataLoader
 
 from wnn.research_features import MOMENT_FEATURE_MODES, validate_causal_moment_prior
-from wnn.splits import file_sha256
+from wnn.splits import file_sha256, load_campaign_split
 from wnn.training.averaging import FastEMA
 from wnn.training.cache_identity import prop_cache_path
 from wnn.training.environment import TrainingEnvironment
@@ -144,12 +144,22 @@ def resume_contract(
                 filename = f"pred_{name}_{split}.npy"
                 teachers[filename] = file_sha256(environment.root / "cache" / filename)
     caches = {}
+    campaign_split = (
+        load_campaign_split(Path(args.split_manifest), environment.root)
+        if args.prop_cache and args.propensity and args.split_manifest
+        else None
+    )
     for split in used_splits:
         if args.distill:
             filename = f"{split}_targets.npz"
             caches[filename] = file_sha256(environment.root / "cache" / filename)
         if args.propensity and args.prop_cache:
-            path = prop_cache_path(args.propensity, split, environment=environment)
+            path = prop_cache_path(
+                args.propensity,
+                split,
+                environment=environment,
+                campaign_split=campaign_split,
+            )
             caches[path.name] = file_sha256(path)
             caches[path.with_suffix(".json").name] = file_sha256(path.with_suffix(".json"))
     cache_provenance = provenance.get("distillation_cache")

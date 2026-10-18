@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+[Clean propensity engineering packet](../../experiment_drafts/tl3-clean-propensity-20261018/README.md) preserves focused validation and byte-bound independent review of canonical producer/consumer changes. The initial review required cache-name confinement and portable-source inventory corrections. V2 fixes pass independent engineering review, with25 tiny tests; campaign readiness remains false. No campaign admission or numerical gain follows from synthetic checks.
+
 **19:00 UTC readiness-map review:** [V2 independent acceptance](../../campaign_2026-10-18/quality_gap_r1/tl3_modified_counterpart_preparation_r1/INDEPENDENT_REVIEW_V2.json) binds the final canonical readiness map. It confirms the strict-FP32 propensity and tied-lead gaps and the already supported six-source composition arithmetic. The earlier review remains preserved for its earlier authored revision. This is documentation readiness, not scientific acceptance or run admission.
 
 [TL3 ancestry closure boundary](../../campaign_2026-10-18/quality_gap_r1/tl3_closure_decision_r1/INDEPENDENT_REVIEW.json) independently checks all 27 named evidence hashes and the distinction between missing records and global absence. Creative propensity provenance and actual W18 target-row/preprocessing bindings remain open; repeated identical probes are not useful. Any successor is explicitly modified and must retrain every affected F0-exposed ancestor and final member. This is a provenance decision, not a new score.

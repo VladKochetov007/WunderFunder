@@ -1,0 +1,85 @@
+{
+  "base_commit": "5665d7b7c76adf7f80b7599307a636d3ac80dd19",
+  "campaign_gates_not_satisfied": [
+    "No real-data propensity fit/cache or bounded production runtime/cost profile was run; no GPU numerical profile or scientific quality comparison exists.",
+    "Optimizer attempt/success/nonfinite accounting and resumable failure/recovery evidence remain absent.",
+    "The modified clean scientific recipe/comparison-policy review and canonical tied-lead adapter remain incomplete. The 30-cell quality study is not admitted; no model improvement or public-gain claim follows from this engineering review."
+  ],
+  "campaign_readiness": "NOT_READY_UNADMITTED",
+  "decision": "PASS_ENGINEERING_REVIEW",
+  "nonblocking_publication_followups": [
+    {
+      "finding": "Section 9 calls VALIDATION.json the authoritative commands/results, although the successor check receipt is VALIDATION_V2.json. README.md links both and identifies V2 as the successor, so this is not an engineering blocker; make the PR text identify V1 as the initial record and V2 as the current successor before external PR publication.",
+      "path": "research/experiment_drafts/tl3-clean-propensity-20261018/PR.md"
+    },
+    {
+      "finding": "The unified review introduction still says successor receipts determine readiness, and the ledger rows retain review_pending_unadmitted. After this independent V2 receipt is added to the index, update the review link/status to engineering review passed while keeping campaign admission false.",
+      "path": "research/unified/reviews/README.md and research/experiments.jsonl / research/hypotheses.jsonl"
+    }
+  ],
+  "positive_findings": [
+    "The V1 cache-name traversal finding is corrected: the cache CLI validates the name immediately after argument parsing, before Torch configuration, checkpoint hashing/loading, or output construction; the strict output helper repeats the check, and the consumer validates before constructing the cache path or accessing the environment/checkpoint.",
+    "The guard rejects empty, dot, parent, slash-containing and backslash-containing names. Normal single-component run identifiers retain their existing path behavior; legacy model precision/inference selection remains opt-in and otherwise unchanged.",
+    "The V1 portable-source binding gap is corrected: src/wnn/portability.py is in PROPENSITY_FIT_SOURCE_FILES, covering the conditional portable-manifest verifier imported by load_campaign_split; strict producer and consumer provenance use that inventory.",
+    "The V1 review, V1 validation and source snapshot/patch remain intact and are explicitly referenced by the V2 validation; the successor fixes are small and align with the producer/consumer call paths and regression assertions."
+  ],
+  "prior_review_preservation": {
+    "review_v1_sha256": "4ed25e29aad141a29e7f349e25fd1ffa1afd87920ea97d470ff663e2e2c84e6a",
+    "snapshot_manifest_sha256": "d5ac9680205c72bc33e82cd625e7643b103f9ed37fe15e821ea0e315dbe91b9c",
+    "tracked_source_patch_sha256": "a5185826b3bd4baa489055c7400f32784f150750f0daa4e11bdd4e010e6a5ca8"
+  },
+  "ready_for_engineering_publication": true,
+  "reviewed_at_utc": "2026-10-18T19:44:35Z",
+  "reviewed_document_bindings": [
+    {
+      "path": "research/experiment_drafts/tl3-clean-propensity-20261018/README.md",
+      "sha256": "fc2d9be0bd3ccff65ca783e9255cb50881d985b3a1b20f6e79e95bcbb1a297a1"
+    },
+    {
+      "path": "research/experiment_drafts/tl3-clean-propensity-20261018/PR.md",
+      "sha256": "279f0c9993703cf4e6bf71a59cf9edd3e64476203718f4ed23f61cc92ecad495"
+    },
+    {
+      "path": "research/experiment_drafts/tl3-clean-propensity-20261018/recipe.json",
+      "sha256": "dd137d610c77dbc1cfc1e6f4bf8462f431f838e8304502229cfccf5f88b77c5c"
+    },
+    {
+      "path": "research/unified/ideas/README.md",
+      "sha256": "e907b274349720ed1400a6509a9cc26d8281c275f0b90a2d9fa2abf500b7cb3e"
+    },
+    {
+      "path": "research/unified/reviews/README.md",
+      "sha256": "e44809cf9a8efafd5c4e02eda90f733cfbfe304f6ca28ee67d5d9a6cf2923287"
+    },
+    {
+      "path": "research/experiments.jsonl",
+      "sha256": "c41f61e6a8cc4553b72ef1d63722f2f9466d5b5655dbae0cf1820058b44f9cee"
+    },
+    {
+      "path": "research/hypotheses.jsonl",
+      "sha256": "795d39ea14a3cb35895428aa7c1cdb5e7b527a59e84c20b2a545a5a2755e90d6"
+    }
+  ],
+  "schema": "wnn.experiment_draft.independent_review.v2",
+  "scope_limits": [
+    "Read-only focused source and documentation review; author-reported tests and static checks were not rerun.",
+    "No campaign data, arrays, checkpoints, remote worker, GPU, fit, cache generation, stage, commit, or PR publication was accessed or performed.",
+    "This approval applies only to the V2 engineering implementation and reviewed documentation bytes. It does not authorize campaign execution or replace later campaign admission."
+  ],
+  "validation_receipt": {
+    "changed_code_sha256": {
+      "scripts/cache_propensity.py": "14a985e52696c40b1b6ce59aef39397cae80045d371559e19c822a52fb375216",
+      "scripts/train_propensity.py": "2643b26c39564695b244fe4832c76749105f24a59f51e7c7330448bd6857fb34",
+      "src/wnn/propensity.py": "3cee5c114d842905d894b32a7a8d5b51dbab33a94c83be74315c406bdd504717",
+      "src/wnn/training/cache_identity.py": "999eac72b593a5af996986d8c9603fd113baa5c5c4264896e93ca0adfdbffadd",
+      "src/wnn/training/checkpoints.py": "f4a5bddd032853f7a3c9149775a9f196719b038fa4dcfffef0a9daf2d23d43f9",
+      "src/wnn/training/data_caches.py": "1342f2519035560cec73f579b4db4e90928cc055c87baefbb37f42d6b9dcc48d",
+      "tests/test_propensity_strict_profile.py": "f74fcb80b64da758cb70ef05d7ff4dd4406d980838ea2c8bece168016afe86cd"
+    },
+    "path": "research/experiment_drafts/tl3-clean-propensity-20261018/VALIDATION_V2.json",
+    "reported_checks": "25 tests, Ruff format/check, structure check, CLI help, and diff check passed per receipt; not rerun by reviewer",
+    "seven_source_and_test_pins_independently_match": true,
+    "sha256": "b89a854e4d2f0492f3687f4591fea34469f1cf7bea6f186a9590658d596b4e57",
+    "status": "LOCAL_STATIC_AND_TINY_TESTS_PASSED_UNADMITTED"
+  }
+}
