@@ -9,13 +9,16 @@ import torch
 
 from wnn.data import N_FEATURES, SequenceFile
 from wnn.features import event_features_torch, online_zscore_torch
+from wnn.kalman_group_features import MODE as KALMAN_GROUP_MODE
 from wnn.privileged import privileged_inputs
 from wnn.research_features import (
+    GEOMETRY_DISCRETE_MODE,
     MOMENT_FEATURE_MODES,
-    fit_causal_moment_prior,
+    PRIOR_FEATURE_MODES,
+    fit_research_feature_constants,
     research_feature_names,
     research_features_torch,
-    validate_causal_moment_prior,
+    validate_research_feature_prior,
 )
 from wnn.training.environment import TrainingEnvironment
 
@@ -43,7 +46,7 @@ def build_inputs(
     if environment.inputs.raw_only:
         ev = torch.zeros_like(ev)
     if (
-        environment.inputs.research_features in MOMENT_FEATURE_MODES
+        environment.inputs.research_features in (*MOMENT_FEATURE_MODES, KALMAN_GROUP_MODE)
         and (not environment.inputs.online_norm)
         and (not environment.inputs.heuristics)
         and (environment.inputs.privileged_mode == "none")
@@ -178,9 +181,13 @@ def fit_research_feature_prior(
     members = sorted(set(members))
     if not members:
         raise ValueError("causal feature prior needs at least one fitting group")
+    mode = environment.inputs.research_features
+    if mode not in PRIOR_FEATURE_MODES:
+        raise ValueError(f"feature mode {mode!r} does not use a fitted prior")
     rng = np.random.default_rng(seed + 20261012)
-    if len(members) > 32:
-        selected_indices = np.sort(rng.choice(len(members), size=32, replace=False))
+    sample_size = 64 if mode == GEOMETRY_DISCRETE_MODE else 32
+    if len(members) > sample_size:
+        selected_indices = np.sort(rng.choice(len(members), size=sample_size, replace=False))
         selected = [members[int(index)] for index in selected_indices]
     else:
         selected = members
@@ -195,11 +202,11 @@ def fit_research_feature_prior(
                 )
             yield files[split].read(group, targets=False, mask=False).features
 
-    prior = fit_causal_moment_prior(fitting_sequences())
+    prior = fit_research_feature_constants(mode, fitting_sequences())
     encoded_members = [{"split": split, "row_group": group} for split, group in selected]
     member_text = json.dumps(encoded_members, sort_keys=True, separators=(",", ":"))
     prior["fit_members"] = encoded_members
     prior["fit_members_sha256"] = hashlib.sha256(member_text.encode("ascii")).hexdigest()
-    prior["sample_policy"] = "uniform_seeded_source_qualified_32_groups_v1"
+    prior["sample_policy"] = f"uniform_seeded_source_qualified_{len(selected)}_groups_v1"
     prior["sample_seed"] = seed + 20261012
-    return validate_causal_moment_prior(prior)
+    return validate_research_feature_prior(mode, prior)

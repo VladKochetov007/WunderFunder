@@ -119,6 +119,11 @@ def main_loss(run: TrainingRun) -> None:
 def auxiliary_loss(run: TrainingRun) -> None:
     """Add the declared auxiliary objectives in the original reduction and summation order."""
     args = run.options.args
+    if (
+        getattr(args, "research_feature_adapter_only", False)
+        and getattr(args, "research_feature_adapter_objective", "inherited") == "target-only"
+    ):
+        return
     aux = run.batch.aux
     br_lab = run.batch.br_lab
     cl_lab = run.batch.cl_lab

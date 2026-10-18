@@ -6,9 +6,10 @@ import numpy as np
 
 from wnn import student_frontier
 from wnn.research_features import (
-    MOMENT_FEATURE_MODES,
+    PRIOR_FEATURE_MODES,
+    research_feature_control_indices,
     research_feature_control_width,
-    validate_causal_moment_prior,
+    validate_research_feature_prior,
 )
 from wnn.splits import file_sha256
 from wnn.training.initializer import final_initializer_state_sha256, make_final_initializer_teacher
@@ -36,15 +37,18 @@ def fit_preprocessing(run: TrainingRun) -> None:
     train_idx = run.data.train_idx
     train_loader = run.data.train_loader
     train_split = run.data.train_split
-    if environment.inputs.research_features in MOMENT_FEATURE_MODES:
+    if environment.inputs.research_features in PRIOR_FEATURE_MODES:
         if (
             init is not None
-            and init.get("args", {}).get("research_features", "none") in MOMENT_FEATURE_MODES
+            and init.get("args", {}).get("research_features", "none")
+            == environment.inputs.research_features
         ):
             parent_prior = init.get("research_feature_prior")
             if not isinstance(parent_prior, dict):
-                ap.error("causal moment initializer lacks its fitting-only feature prior")
-            environment.inputs.research_feature_prior = validate_causal_moment_prior(parent_prior)
+                ap.error("feature initializer lacks its fitting-only prior")
+            environment.inputs.research_feature_prior = validate_research_feature_prior(
+                environment.inputs.research_features, parent_prior
+            )
         else:
             environment.inputs.research_feature_prior = fit_research_feature_prior(
                 train_split,
@@ -54,16 +58,35 @@ def fit_preprocessing(run: TrainingRun) -> None:
                 environment=environment,
             )
         provenance["causal_feature_prior"] = environment.inputs.research_feature_prior
-        provenance["causal_feature_prior_source_sha256"] = file_sha256(
-            environment.source_root / "src/wnn/research_features.py"
-        )
+        prior_sources = [environment.source_root / "src/wnn/research_features.py"]
+        if environment.inputs.research_features == "causal_geometry_discrete":
+            prior_sources.append(environment.source_root / "src/wnn/moment_geometry/online.py")
+        provenance["causal_feature_prior_source_sha256"] = {
+            str(path.relative_to(environment.source_root)): file_sha256(path)
+            for path in prior_sources
+        }
         zero_width = research_feature_control_width(
+            environment.inputs.research_features, environment.inputs.research_feature_control
+        )
+        zeroed_indices = research_feature_control_indices(
             environment.inputs.research_features, environment.inputs.research_feature_control
         )
         provenance["causal_feature_control"] = {
             "kind": environment.inputs.research_feature_control,
-            "zeroed_suffix_width": zero_width,
-            "effective_capacity": "reduced" if zero_width else "full",
+            "zeroed_feature_count": zero_width,
+            "zeroed_feature_indices": list(zeroed_indices),
+            "effective_capacity": "matched_full_width" if zero_width else "full_features",
+        }
+    elif environment.inputs.research_features != "none":
+        mode = environment.inputs.research_features
+        zeroed_indices = research_feature_control_indices(
+            mode, environment.inputs.research_feature_control
+        )
+        provenance["causal_feature_control"] = {
+            "kind": environment.inputs.research_feature_control,
+            "zeroed_feature_count": len(zeroed_indices),
+            "zeroed_feature_indices": list(zeroed_indices),
+            "effective_capacity": "matched_full_width" if zeroed_indices else "full_features",
         }
     if not args.init and saved_training is None:
         if frontier_contract is None:

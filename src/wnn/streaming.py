@@ -14,7 +14,14 @@ import torch
 from torch import nn
 
 from wnn.data import I0, I1
+from wnn.kalman_group_features import (
+    features_torch_step as kalman_group_features_torch_step,
+)
+from wnn.kalman_group_features import (
+    initial_stream_state_torch as initial_kalman_group_state_torch,
+)
 from wnn.research_features import (
+    KALMAN_GROUP_MODE,
     MOMENT_FEATURE_MODES,
     causal_moment_features_torch_step,
     initial_causal_moment_state_torch,
@@ -48,6 +55,8 @@ def initial_state(
         if prior is None:
             raise ValueError("causal moment streaming requires a fitting-only prior")
         state.append(initial_causal_moment_state_torch(prior, device=device))
+    elif research_features == KALMAN_GROUP_MODE:
+        state.append(initial_kalman_group_state_torch(device=device, dtype=torch.float64))
     elif research_features != "none":
         raise ValueError(
             f"streaming graph does not support research features {research_features!r}"
@@ -69,6 +78,7 @@ class StreamingGraph(nn.Module):
         self.research_feature_control = control
         research_feature_control_width(research_features, control)
         self.prior = None
+        self.register_buffer("kalman_group_initial_state", torch.empty(0))
         if research_features in MOMENT_FEATURE_MODES:
             if prior is None:
                 raise ValueError("causal moment streaming requires a fitting-only prior")
@@ -76,6 +86,8 @@ class StreamingGraph(nn.Module):
             self.register_buffer(
                 "moment_initial_state", initial_causal_moment_state_torch(self.prior)
             )
+        elif research_features == KALMAN_GROUP_MODE:
+            self.kalman_group_initial_state = initial_kalman_group_state_torch()
         elif research_features != "none":
             raise ValueError(
                 f"streaming graph does not support research features {research_features!r}"
@@ -91,6 +103,7 @@ class StreamingGraph(nn.Module):
         h: torch.Tensor,
         first: torch.Tensor,
         moment_state: torch.Tensor | None = None,
+        kalman_group_state: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, ...]:
         prev = torch.where(first[:, None] > 0.5, row, prev)
         d = row - prev
@@ -127,12 +140,26 @@ class StreamingGraph(nn.Module):
             initial = self.moment_initial_state.expand(moment_state.shape[0], -1)
             moment_state = torch.where(first[:, None] > 0.5, initial, moment_state)
             moment_features, moment_state = causal_moment_features_torch_step(
-                row, moment_state, self.research_features, self.prior,
+                row,
+                moment_state,
+                self.research_features,
+                self.prior,
                 self.research_feature_control,
             )
             x = torch.cat([x, moment_features[:, None, :]], dim=-1)
+        elif self.research_features == KALMAN_GROUP_MODE:
+            if kalman_group_state is None:
+                raise ValueError("Kalman group streaming state is missing")
+            initial = self.kalman_group_initial_state.expand(kalman_group_state.shape[0], -1)
+            kalman_group_state = torch.where(first[:, None] > 0.5, initial, kalman_group_state)
+            kalman_features, kalman_group_state = kalman_group_features_torch_step(
+                row, kalman_group_state, self.research_feature_control
+            )
+            x = torch.cat([x, kalman_features[:, None, :]], dim=-1)
         y, h = self.model(x, h)
         result = (y[:, 0, :2], row, step + 1, last, held, h, torch.zeros_like(first))
         if self.research_features in MOMENT_FEATURE_MODES:
             return (*result, moment_state)
+        if self.research_features == KALMAN_GROUP_MODE:
+            return (*result, kalman_group_state)
         return result
