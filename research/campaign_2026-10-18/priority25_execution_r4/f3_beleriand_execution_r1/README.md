@@ -1,5 +1,9 @@
 # F3 / seed 1001 execution
 
+**21:03:23 UTC:** [post-staging acceptance](POST_STAGING_ACCEPTANCE_20261018T2105Z.json) binds the [raw observation](POST_STAGING_PROGRESS_20261018T2105Z.json): original wide continuation index2, epoch4 batch220/1488, finite loss/LR, fresh heartbeats, one campaign GPU1508MiB and zero new memory events. The [new root terminal wrappers](../f3_terminal_execution_r1/STAGING_NOTE_V1.md) were staged only; no support or checkpoint read.
+
+**20:46:14 UTC:** [read-only health acceptance](HEARTBEAT_ACCEPTANCE_20261018T2050Z.json) binds the [raw observation](HEARTBEAT_PROGRESS_20261018T2050Z.json): original index2 wide continuation, epoch3 batch800/1488, finite loss/LR, fresh heartbeats, one campaign GPU process1508MiB, parent4,396,630,016B and zero new memory events. Existing worker/controller and foreign process preserved; no checkpoint reread or terminal/quality claim.
+
 **Latest, 20:06 UTC:** [Deep stage1 is archived and independently accepted](../receipts/F3_DEEP_STAGE1_HANDOFF_20261018T2010Z.json); authoritative [V2 acceptance](../receipts/F3_DEEP_STAGE1_ACCEPTANCE_V2.json) corrects two copied hash fields in retained V1, with raw receipts unchanged. Both arms now have next_epoch2 /29,760successfulupdates /2,976batches /zero skips, finite FP32/Adam and138expected modules. The reviewed deep V2 collector/verifier completed once, exited0, captured/stopped. Do not repeat either stage1.
 
 [Post-support observation](POST_STAGE1_ACCEPTANCE_20261018T2010Z.json) and [raw bytes](POST_STAGE1_PROGRESS_20261018T2010Z.json) show original sequence index2, wide continuation epoch2batch260/1488, finite loss/LR, fresh heartbeats, parent4.36GB and no new memory events. F3 terminal/quality remains pending. Earlier dated descriptions below retain their historical scope.

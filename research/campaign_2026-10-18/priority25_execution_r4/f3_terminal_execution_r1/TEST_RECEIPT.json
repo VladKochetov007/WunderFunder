@@ -1,0 +1,40 @@
+{
+  "commands": {
+    "cli_help": "PYTHONDONTWRITEBYTECODE=1 python -B <each launcher/capture/remote script> --help",
+    "ruff_check": "uv run --no-sync ruff check research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1",
+    "ruff_format": "uv run --no-sync ruff format research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1",
+    "ruff_format_check": "uv run --no-sync ruff format --check research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1",
+    "unit_tests": "PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1 python -B -m unittest discover -s research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1 -p 'test_*.py' -v"
+  },
+  "manifest_sha256": "57a07a08dff9405149b9927979fc60ba5612c68a7be1a16a2225ba963c26d121",
+  "remote_or_training_actions": "none",
+  "results": {
+    "cli_help_imports": "passed",
+    "ruff_check": "passed",
+    "ruff_format": "passed",
+    "ruff_format_check": "passed",
+    "unit_tests": {
+      "failed": 0,
+      "passed": 17
+    }
+  },
+  "schema": "priority25.f3_terminal_execution_test_receipt.v1",
+  "status": "passed",
+  "test_sources": {
+    "test_terminal_capture.py": {
+      "bytes": 7189,
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1/test_terminal_capture.py",
+      "sha256": "efa24ebf42a6633e97427df12ee9c11f1a79c6325a5a4fa4152b5a81fff15015"
+    },
+    "test_terminal_gate.py": {
+      "bytes": 9606,
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1/test_terminal_gate.py",
+      "sha256": "2e1af89241e03aa1834c3a0cb83c531ae11795b3b4f6da27939d6bf36586aa63"
+    },
+    "test_terminal_remote.py": {
+      "bytes": 4314,
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1/test_terminal_remote.py",
+      "sha256": "1d08597fd5d5f81e2e6584b5ddb5246ed9fd2f8288d57c8755f4d0ff8eaf807e"
+    }
+  }
+}

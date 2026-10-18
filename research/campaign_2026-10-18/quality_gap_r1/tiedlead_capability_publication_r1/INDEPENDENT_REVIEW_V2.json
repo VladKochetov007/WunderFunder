@@ -1,0 +1,70 @@
+{
+  "schema": "wnn.tl3.tiedlead-capability-independent-review.v2",
+  "created_utc": "2026-10-18T20:52:09+00:00",
+  "reviewer": "independent static reviewer",
+  "decision": "PASS_BOUNDED_ENGINEERING_CANDIDATE_UNADMITTED",
+  "bindings": {
+    "base_commit": "2875425f220fa6b56c8f47d0ec157c1d3450bc99",
+    "branch": "experiment/tl3-tiedlead-capability-20261018",
+    "worktree": "/Users/nb/Documents/wunder/WunderFunder-tl3-tiedlead-capability-20261018",
+    "source_manifest": {
+      "path": "research/experiment_drafts/tl3-tiedlead-capability-20261018/SOURCE_MANIFEST_V1.json",
+      "sha256": "15bfdcebaa4c879235828bf7351039e7bc27e0e183cedbfeeb33e1b8b1594c61"
+    },
+    "authoritative_validation": {
+      "path": "research/experiment_drafts/tl3-tiedlead-capability-20261018/VALIDATION_V2.json",
+      "sha256": "b2b54aba2b48a1df532eff8efd56cb30129f9efe52acc60590a89756ae588b7f"
+    },
+    "validation_erratum": {
+      "path": "research/experiment_drafts/tl3-tiedlead-capability-20261018/VALIDATION_ERRATUM_V1.md",
+      "sha256": "03c8bfc3d7e047fdfed00be58178edaac67b13d9f1f02123ceb356f280daa942"
+    },
+    "README": {
+      "path": "research/experiment_drafts/tl3-tiedlead-capability-20261018/README.md",
+      "sha256": "ca82f5806b189ed4ec19326efc14b29163193b6bc8a62c83b2e25b89b59428e2"
+    },
+    "core_source": {
+      "path": "src/wnn/training/tiedlead.py",
+      "sha256": "7db1757b0c5f99e74fd932ae969a75e759a2bb7910548a7eb98ed5fb3c7192ba"
+    },
+    "focused_tests": {
+      "path": "tests/test_tiedlead_training.py",
+      "sha256": "9724123a79e46f16d88723d3294265d375f46866914558c69f78c3fd786cd4e3"
+    },
+    "reviewed_design_addendum": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_final_supervision_capability_audit_r1/ADDENDUM_RAW_SCALE_AND_CHUNKS_V1.md",
+      "sha256": "e4c6d85c0d42322b4b6ced47ad304b4763d1878d3d20cba610afe2ae6982ec77"
+    }
+  },
+  "checks": {
+    "manifest_implementation_and_test_pins_rehashed": 16,
+    "manifest_reviewed_design_pins_rehashed": 5,
+    "all_manifest_sizes_and_sha256_match": true,
+    "validation_v2_manifest_binding_matches": true,
+    "source_and_test_bytes_unchanged_since_validation": true,
+    "full_validation_rerun": false
+  },
+  "findings": [
+    "The opt-in path constructs the declared 263-channel order: 112 raw channels, 99 canonical event channels, then the sequence-local causal i1 gather at the last ev_i0px event, with row zero forced as the initial event.",
+    "Tied branches reconstruct pre-normalization values from normalized input and fitted mean/std; the main projection receives normalized input. One shared encoder module serves i0, i1, and lead branches; residual projections are zero initialized and added before GELU.",
+    "Per-encode-call deltas reset at chunk boundaries while the appended lead is assembled over the complete sequence before chunking, consistent with the pinned archived-source interpretation and its stated compatibility limit.",
+    "The fixed tiedlead profile rejects incompatible input/model modifiers and nonzero family-head weight. The default GRU path remains opt-out. Existing family-head-at-zero and alpha-zero label-only objective controls remain separate work and are not claimed here.",
+    "Training source identity and tiedlead-specific provenance bind the implementation/profile inputs; README and validation correctly avoid claiming historical runtime identity or measured production behavior."
+  ],
+  "validation_summary": {
+    "author_reported": "4 focused synthetic CPU tests passed; Ruff format/check and training-structure checks passed.",
+    "reviewer_reran_tests": false,
+    "review_scope": "Read-only source, manifest, validation, and documentation review; no real data, checkpoint payload, training, GPU, remote staging, or fit."
+  },
+  "limitations": [
+    "Engineering capability only: campaign admission, a preregistered matched fit, production-data behavior, throughput, and numerical parity remain unverified.",
+    "The separate same-topology family-head presence and explicit alpha-zero label-only objective changes are not implemented.",
+    "Native competition ZIP/ONNX support remains outside this candidate.",
+    "The originally reported validation V1 bytes were overwritten before preservation; the current VALIDATION_V1 is superseded, and VALIDATION_V2 is the authoritative receipt per its explicit erratum."
+  ],
+  "supersession": {
+    "supersedes_path": "research/experiment_drafts/tl3-tiedlead-capability-20261018/INDEPENDENT_REVIEW_V1.json",
+    "supersedes_sha256": "f7eaf4a22eb3e1d4ecfbcf1159e6936210013009d7ed71719fcf9c606285c3ff",
+    "scope": "Timestamp-only correction. V1 was sealed with a future created_utc value (21:03Z); V2 records the tool-observed current time. Source, validation, review conclusions, and decision are unchanged."
+  }
+}

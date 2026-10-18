@@ -1,5 +1,7 @@
 # Unified research library
 
+[Current continuation,18 October21:03UTC](../campaign_2026-10-18/quality_gap_r1/CONTINUATION_20261018T2105Z.md) records healthy F3 wide epoch4, reviewed/staged terminal wrappers and the isolated tiedlead engineering publication. Modified scientific fits and F3 quality remain pending; no new public score.
+
 [Current continuation, 18 October20:31UTC](../campaign_2026-10-18/quality_gap_r1/CONTINUATION_20261018T2035Z.md) separates healthy F3 training and accepted stage1 artifacts from the newly published strict-propensity V3 engineering capability. F3 quality and the modified clean comparison remain pending; no new leaderboard score is claimed.
 
 [18 October measured strong-control comparison](../campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r4/records/RESULTS.md): matched-row F0 WP 0.68115416 versus Q8 0.67382636; conditional delta interval [0.00238446,0.01352521]. [Public incumbent trace](../campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/README.md) resolves tl3 /1lmehfi3 /0.66832; [clean-counterpart plan](../campaign_2026-10-18/quality_gap_r1/TL3_CLEAN_COUNTERPART_PLAN_20261018.md) remains unexecuted; the bounded historical search is closed and a separately declared modified clean reconstruction is being prepared.

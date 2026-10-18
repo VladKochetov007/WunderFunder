@@ -1,0 +1,66 @@
+{
+  "checks": [
+    {
+      "command": "env PYTHONPATH=src /Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python -m pytest -q tests/test_tiedlead_training.py",
+      "exit_status": 0,
+      "result": "4 passed in 1.03s"
+    },
+    {
+      "command": "env PYTHONPATH=src /Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python -m ruff format src/wnn/training/tiedlead.py src/wnn/training/inputs.py src/wnn/training/models.py src/wnn/training/environment.py src/wnn/training/compatibility.py src/wnn/training/cli_model.py src/wnn/training/setup_model.py src/wnn/training/runner.py src/wnn/training/validation_inputs.py src/wnn/training/source_identity.py src/wnn/training/provenance.py scripts/train_rnn.py scripts/predict_run.py scripts/eval_run.py tests/test_tiedlead_training.py",
+      "exit_status": 0,
+      "result": "15 files left unchanged"
+    },
+    {
+      "command": "env PYTHONPATH=src /Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python -m ruff check src/wnn/training/tiedlead.py src/wnn/training/inputs.py src/wnn/training/models.py src/wnn/training/environment.py src/wnn/training/compatibility.py src/wnn/training/cli_model.py src/wnn/training/setup_model.py src/wnn/training/runner.py src/wnn/training/validation_inputs.py src/wnn/training/source_identity.py src/wnn/training/provenance.py scripts/train_rnn.py scripts/predict_run.py scripts/eval_run.py tests/test_tiedlead_training.py",
+      "exit_status": 0,
+      "result": "All checks passed!"
+    },
+    {
+      "command": "env PYTHONPATH=src /Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python scripts/check_training_structure.py",
+      "exit_status": 0,
+      "result": {
+        "errors": 0,
+        "files": 60,
+        "max_function_lines": 200,
+        "max_module_lines": 300
+      }
+    },
+    {
+      "command": "git diff --check",
+      "exit_status": 0,
+      "result": "No whitespace errors."
+    }
+  ],
+  "created_utc": "2026-10-18T20:49:50+00:00",
+  "execution_environment": {
+    "import_path": "PYTHONPATH=src",
+    "package_resolution": "Existing maintenance virtual environment; no dependency install or resolution.",
+    "pytest_version": "9.1.1",
+    "python": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python",
+    "python_version": "3.13.11",
+    "ruff_version": "0.17.1",
+    "torch_version": "2.14.1"
+  },
+  "limitations": [
+    "No production-data behavior or throughput profile was measured.",
+    "Historical source semantics are not evidence of historical runtime identity.",
+    "The R2 family-head topology and alpha-zero objective controls remain separate work.",
+    "Native competition ZIP/ONNX support is outside this capability."
+  ],
+  "schema": "wnn.tl3.tiedlead-capability-validation.v1",
+  "scope": {
+    "campaign_admission": false,
+    "checkpoint_payload_load": "Only a tiny synthetic checkpoint written and loaded by the test fixture.",
+    "fixture": "Small synthetic CPU tensors only.",
+    "gpu": false,
+    "real_data_read": false,
+    "remote_or_staging": false,
+    "training_or_fit": false
+  },
+  "source_manifest": {
+    "bytes": 4303,
+    "path": "research/experiment_drafts/tl3-tiedlead-capability-20261018/SOURCE_MANIFEST_V1.json",
+    "sha256": "15bfdcebaa4c879235828bf7351039e7bc27e0e183cedbfeeb33e1b8b1594c61"
+  },
+  "status": "bounded_local_validation_passed_unadmitted"
+}

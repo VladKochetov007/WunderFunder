@@ -1,0 +1,35 @@
+{
+  "schema": "wnn.tl3.tiedlead-engineering-recipe.v1",
+  "id": "E-TL3-TIEDLEAD-CAPABILITY-20261018",
+  "status": "ENGINEERING_REVIEW_PASS_SCIENTIFIC_RECIPE_UNADMITTED",
+  "base_commit": "2875425f220fa6b56c8f47d0ec157c1d3450bc99",
+  "selector": "--arch tiedlead",
+  "profile": {
+    "features": [
+      "raw112",
+      "canonical_event99",
+      "causal_i1_lead52"
+    ],
+    "gru_hidden": 256,
+    "gru_layers": 2,
+    "precision": "fp32",
+    "shared_encoder": [
+      104,
+      128,
+      64
+    ],
+    "delta_reset": "every encode/chunk call",
+    "recurrent_state": "carried across chunks",
+    "lead_history": "sequence-local causal, assembled before chunking"
+  },
+  "design_path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r2/recipe.json",
+  "design_sha256": "5b713c1da84d4d3064e99373b2ed512620760d857cde481b5eca38166e49d70a",
+  "fit_admitted": false,
+  "scientific_result": null,
+  "pending": [
+    "same-head family-zero topology and alpha-zero objective",
+    "scientific integration and practical-effect preregistration",
+    "actual-data/GPU/runtime profile",
+    "native ZIP/ONNX serving"
+  ]
+}

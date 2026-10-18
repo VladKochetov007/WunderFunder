@@ -1,5 +1,11 @@
 # Strong-control recovery and F0 residual diagnostic
 
+**Latest21:03 UTC:** [current continuation](CONTINUATION_20261018T2105Z.md) records healthy F3 wide epoch4 and reviewed/staged terminal root wrappers, with terminal acceptance still pending. Canonical tiedlead engineering is now independently published on isolated b104b0ad; the next capability is identical head/cache topology with true zero-supervision branches. No new scientific score or fit.
+
+[Canonical tiedlead capability publication](tiedlead_capability_publication_r1/README.md) records the independently reviewed opt-in adapter at isolated commit b104b0ad: fixed causal input order, raw-scale shared encoder, chunk semantics and canonical checkpoint prediction support. Four tiny CPU tests pass; no real-data/GPU profile or campaign fit. Same-head family-zero and explicit alpha-zero objective remain separate work.
+
+[20:37 UTC provider observation](provider_observation_20261018T2040Z/README.md) records zero nonterminal jobs among the latest 100, unchanged balance 41,652,791 and successful restrictions access. A hidden Codex browser observation still shows the official DataSphere incident as ongoing; no recovery or paid retry. Cluster reservations were not refreshed.
+
 **Latest, 20:31 UTC:** [continuation](CONTINUATION_20261018T2035Z.md) records the first F3 wide continuation checkpoint metadata:44,640updates/4,464batches/zero skips, persisted resume binding matching verified stage1; payloads were not loaded or archived. Both stage1 endpoints remain accepted, F3 score pending. [Strict propensity V3](propensity_capability_publication_r2/README.md) is independently reviewed and published on isolated branch235db75a with33tinyCPUtests; no campaign fit, main-source merge or B staging. The remaining canonical tiedlead/zero-objective and actual runtime-profile gaps are explicit.
 
 **Latest, 20:06 UTC:** [continuation](CONTINUATION_20261018T2015Z.md) records completed, independently accepted F3 deep stage1 and healthy wide continuation. Both stage1 archives are preserved; no terminal/quality claim or third completed pair. The [F2 metadata observation](f2_split_metadata_observation_r1/README.md) records exact fold counts only, without admission. The [reviewed canonical supervision audit](tl3_final_supervision_capability_audit_r1/README.md) and [raw-scale/chunk addendum](tl3_final_supervision_capability_audit_r1/ADDENDUM_RAW_SCALE_AND_CHUNKS_V1.md) specify tiedlead and same-head zero-weight gaps before implementation. [Official status](PROVIDER_STATUS_20261018T2005Z.json) still shows the DataSphere incident; no paid retry. Historical dated entries below remain preserved.
@@ -157,3 +163,5 @@ the R2/R3 runtime failures remain preserved.
 [Current packet publication validation V2](PUBLICATION_VALIDATION_20261018T2015Z_V2.json) binds staged small files/current reviews; the [earlier staged snapshot](PUBLICATION_VALIDATION_20261018T2015Z.json) remains preserved. Validation checks new links and records unrelated pre-existing unavailable artifact links without rewriting them.
 
 [Final publication validation V2](PUBLICATION_VALIDATION_20261018T2035Z_V2.json) binds the current small evidence and navigation packet; [V1](PUBLICATION_VALIDATION_20261018T2035Z.json) preserves the staged snapshot before these index links were added. No scientific or runtime claim changed.
+
+[21:05 publication validation](PUBLICATION_VALIDATION_20261018T2105Z.json) binds the indexed packet, terminal wrapper pins/staging and isolated tiedlead publication. No training-source merge or new fit.

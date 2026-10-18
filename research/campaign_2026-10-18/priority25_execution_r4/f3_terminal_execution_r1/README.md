@@ -1,0 +1,51 @@
+# F3 terminal support wrapper preparation R1
+
+**Prepared only; not admitted.** This packet adds create-only terminal checkpoint collector/verifier wrappers around the already reviewed F3 support helpers. No SSH, launch, checkpoint read, training, prediction, or grade was run while preparing it. Do not stage or execute it until the root gate and the independent static review below are both complete.
+
+The frozen plan is `../f3_beleriand_preparation_r1/F3_BELERIAND_PLAN.json`, SHA-256 `b303146cf9db05e0a3bddf8f245d3c9b880d055ce7e97ebe5dd13510b5f4a2d8`. Wide terminal collection is allowed only after its own exact continuation attempt is finished with exit status 0 and the live sequence has advanced to deep continuation, either export, grade, or the plan's finished state. Deep terminal collection has the same successful native-attempt requirement and may begin after deep continuation when the live pointer is at either export, grade, or finished. At every launch the wrapper re-reads the sequence and attempt, validates the pointer against the seven-step plan, and refreshes the populated campaign cgroups immediately before writing admission evidence. An unknown step, attempt, child unit, populated descendant, or changed pointer fails closed. A finished sequence permits an empty child tree or its exact still-populated sequence-controller unit; it never permits a worker or unknown child.
+
+Both previously accepted stage1 pairs are rebound on every admission: wide collection `../receipts/RANK01_WIDE_F3_S1001_STAGE1_COLLECTION.json` (`2af09d13ea5d36c90f84c52e1b6e3b3606f6af143f27280bd1e39d5b29e7cfdd`) and verification (`2a274447676b657f30280631e30a1ff3a67acdec02497b2355486d84a789aeb4`); deep collection (`99595b13eaa0f7fc7dac54ac74e09f6b55551e4085219d6dba7e05a95af5266b`) and verification (`223725c151ec40f6f26e71332b1cf1b0f6fbe26a2c749ce6421f0b49d06a3efa`). Their recorded snapshots must be real directories, not symlinks. These are historical stage1 bindings, not evidence of a terminal checkpoint.
+
+## Staging and review contract
+
+The remote runtime allowlist is exactly `terminal_gate.py` and `terminal_remote_v1.py`. Stage those two files with this `README.md`, `PREPARATION_MANIFEST.json`, and the independent review file `INDEPENDENT_REVIEW_V1.json` into the new B folder `research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1/`. Do not copy tests, launch/capture clients, `.pyc`, `__pycache__`, symlinks, or any unlisted file. Before importing a wrapper, the root stager must independently inspect that exact inventory and hash every file. The remote wrapper repeats the inventory, runtime-source, support-packet, plan, fold, registry, archive-manifest, review, and both stage1 receipt checks. Frozen sources and helper packets are inputs only and are never edited.
+
+The packet pins the canonical checkpoint-support manifest `../f3_checkpoint_support_r1/PREPARATION_MANIFEST.json` (`7e4fce0d7232a487a769e12d611050bc608f9cc7fcea300bc2063525abfa38dc`) and its independent review (`de709897397d7cd775d2aba84fb71f8f7d91504802814f5bcfc26e48e203763b`), then checks every helper listed by that manifest. It invokes the pinned collector `collect_f3_checkpoint.py` and verifier `verify_f3_checkpoint.py` with the unchanged B runtime `/home/grinchenkoeg/WunderFunder/.venv/bin/python`. It does not modify the native sequence, runner, plan, support helpers, or stage1 wrappers.
+
+## Root gates and bounded support
+
+Before each collector or verifier launch, root's fresh external gate is scoped to this already-authorized Beleriand campaign: verify the exact F3 controller/native worker and existing support ownership, inspect the available host/GPU headroom when the current step uses the GPU, and check current B-side resource/OOM state. This wrapper does not observe GPU ownership or provider state, and its environment hides CUDA from the CPU-only helper. A global cluster/API claim is not a prerequisite for collecting the already-owned F3 checkpoints, and this preparation does not add a new permission or `STOP_ADMISSION` gate. The remote wrapper independently requires the `wnn-campaign.slice` parent to have no direct processes, exactly 2 CPU cores, `memory.high=18,000,000,000`, `memory.max=20,000,000,000`, and swap disabled. It enumerates every populated child and descendant and accepts only the sequence controller plus the exact live plan worker (or, once the sequence is finished, no child or the controller alone). It counts each hierarchical child once using its top-unit caps and requires committed memory plus support below 17 GB and aggregate CPU at or below two cores. Collector runs at 0.25 CPU / 512 MB; verifier at 0.5 CPU / 1.5 GB; both have swap disabled and a 120-second systemd runtime cap. `TMPDIR` is B's physical-disk `research_tmp`, which must not be tmpfs/ramfs, and B must have more than 1 GB free.
+
+The remote final preflight rechecks native attempt identity, the current sequence pointer, stage1 receipt pins, canonical output collisions, cgroup descendants, scratch, and free disk just before it creates the admission and invokes `systemd-run`. B's `research_tmp` must have at least 2 GB free; B itself must have more than 1 GB free. The record states which paths were required absent and, for verification, which collection receipt/snapshot were already verified. The collector's terminal snapshot and collection receipt are the exact plan paths; verification's receipt is its only newly created canonical output. Every target uses exclusive creation. Each support invocation has a fresh slug, support-unit name, and record directory. A collision or unknown result is preserved; do not retry a collector, verifier, or launch into existing outputs.
+
+The root-generated support unit is not stopped until its exact unit has exited or failed and its bounded raw evidence has been durably captured. The remote capture stores the admission, launch record, canonical helper receipt if one exists, exit properties, bounded journal tail, parent memory events before and after, and all populated descendant paths. The local capture client validates the raw-byte lengths and SHA-256 values, saves them exclusively, and writes a local execution record before requesting stop of only that named exited unit. If the helper or support unit failed, that failure evidence is still captured before its own exited support unit is stopped; the client reports failure and admits no retry. If `systemd-run` returned but the immediate unit state was inconclusive, the wrapper returns `LAUNCH_UNCONFIRMED` with the exact invocation and unit; use capture to inspect that unit. If capture continues to report `WAITING_SUPPORT_EXIT` because the named unit is not found, stop and have root inspect the preserved launch records; do not launch or stop a guessed unit. A lost capture response may safely be read again because the remote `CAPTURE_V1.json` is durable and immutable; launch itself is never retried after an unknown outcome.
+
+Remote support evidence is create-only beneath `B/receipts/f3_terminal_execution_r1/<invocation>/<arm>_<operation>/`. Local launch/capture records are create-only beneath this packet's `records/<invocation>/`. The wrapper checks B's canonical terminal outputs before both operations. It does not make a grade or submission claim.
+
+## Use after approval
+
+Only after the packet is staged and reviewed, and root has freshly passed the external gates above, the local launcher may request one support operation. It prints the generated invocation slug; pass that exact slug to capture after the unit exits. Keep collector and verifier separate:
+
+```sh
+cd /path/to/f3_terminal_execution_r1
+PYTHONDONTWRITEBYTECODE=1 python -B launch_terminal_v1.py --arm wide --operation collector
+PYTHONDONTWRITEBYTECODE=1 python -B capture_terminal_v1.py --arm wide --operation collector --invocation <printed-slug>
+PYTHONDONTWRITEBYTECODE=1 python -B launch_terminal_v1.py --arm wide --operation verifier
+PYTHONDONTWRITEBYTECODE=1 python -B capture_terminal_v1.py --arm wide --operation verifier --invocation <printed-slug>
+```
+
+Repeat the four operations for `--arm deep` only when its native continuation is finished and the live sequence/cgroup state passes the separate fresh gate. Before launch, this client verifies the local manifest and the byte-bound `INDEPENDENT_REVIEW_V1.json`; it does not supply missing approval. If capture says `WAITING_SUPPORT_EXIT`, no evidence is written and the same invocation can be polled again. After a terminal capture, preserve all local and B records even if helper validation fails.
+
+The downstream result collector remains separate: `../f3_result_collection_r1/collect_f3_results.py` is pinned by its own preparation manifest (`0fbff60fd77d02bf80c8fcff51aa7ea8d90b479e6b7947eabd514096f515036a`) and review (`deeb5a04bbd0f197697c337077647d44a9a3a267fbcb2c694ab004623ba2729a`). It still requires actual terminal verifications, exports, grade, finished sequence evidence, a terminal seal, and its own gates; this wrapper predicts none of those results and does not launch that collector.
+
+## Local checks
+
+This candidate was checked only with synthetic metadata fixtures on the Mac. Run from the repository root:
+
+```sh
+uv run --no-sync ruff format --check research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1
+uv run --no-sync ruff check research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1 python -B -m unittest discover -s research/campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1 -p 'test_*.py' -v
+```
+
+Seventeen tests exercise both arms' allowed continuation/export/grade/finished pointers; native exit failure; exact child and resource envelopes; unknown populated descendants; create-only canonical output collision handling; raw capture hash validation; local path traversal rejection; idempotent capture recovery; and successful, failed, or immediately exited support capture before exact-unit stop. These are synthetic code checks, not evidence that the remote paths, live resources, checkpoint payloads, or sequence still match.

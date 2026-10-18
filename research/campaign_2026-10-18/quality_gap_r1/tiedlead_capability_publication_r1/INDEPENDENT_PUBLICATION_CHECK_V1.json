@@ -1,0 +1,44 @@
+{
+  "schema": "quality_gap.tiedlead_independent_publication_check.v1",
+  "created_utc": "2026-10-18T20:55:04+00:00",
+  "reviewer": "independent publication reviewer",
+  "decision": "PASS_COMMITTED_BLOB_AND_PUBLICATION_BINDINGS",
+  "bindings": {
+    "published_commit": "b104b0ad36c05d1d5aa13f949cd7d3aff16af318",
+    "base_commit": "2875425f220fa6b56c8f47d0ec157c1d3450bc99",
+    "branch": "experiment/tl3-tiedlead-capability-20261018",
+    "publication": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tiedlead_capability_publication_r1/PUBLICATION.json",
+      "sha256": "6e301698a428771a0d11334c8406bf510d06750555b270cbcf952f5b91a9d7cb"
+    },
+    "source_manifest_sha256": "15bfdcebaa4c879235828bf7351039e7bc27e0e183cedbfeeb33e1b8b1594c61",
+    "validation_v2_sha256": "b2b54aba2b48a1df532eff8efd56cb30129f9efe52acc60590a89756ae588b7f",
+    "independent_review_v2_sha256": "ca6de448fb12b45fb63866960582c6acafdb2d5fd4c15967e1a31564e807e998"
+  },
+  "checks": {
+    "local_commit_object_present": true,
+    "commit_parent_is_declared_base": true,
+    "changed_paths_in_commit": 30,
+    "publication_changed_file_entries": 30,
+    "changed_path_set_equals_publication_map": true,
+    "commit_blob_sha256_mismatches": 0,
+    "source_manifest_implementation_test_pins_rehashed": 16,
+    "source_manifest_reviewed_design_pins_rehashed": 5,
+    "source_manifest_pin_mismatches": 0,
+    "eight_metadata_copy_entries_match_commit_blobs": true,
+    "authoritative_validation_v2_and_review_v2_bindings_match": true,
+    "local_branch_checkout_clean_at_published_commit": true,
+    "remote_ref_independently_queried": false
+  },
+  "findings": [
+    "The local published commit is a direct child of the declared base. Its 30 changed paths exactly equal the publication map, and all 30 commit-blob SHA-256 values match.",
+    "All 16 implementation/test/design-document pins and five reviewed design-reference pins in SOURCE_MANIFEST_V1 match the committed bytes. Validation V2 and independent review V2 are the authoritative receipts and their hashes match the publication bindings.",
+    "The exact-copy metadata entries, including current VALIDATION_V1, its erratum, and both review versions, match the committed blob identities. The unavailable earlier VALIDATION_V1 bytes and the future timestamp in preserved review V1 are disclosed; V2 receipts supersede each issue without altering source conclusions.",
+    "The engineering-only boundary is consistent across publication, recipe, PR body, README, and unified indexes: no fit is admitted, no scientific result or production/GPU equivalence is claimed, zero-family-head and alpha-zero objective support remain outstanding, and native ZIP/ONNX serving is unsupported.",
+    "The branch publication is not represented as a created PR or merge. The publication record reports no PR URL and no B staging/merge; its remote-ref verification is accepted as a recorded root check and was not independently queried in this read-only review."
+  ],
+  "limits": [
+    "This check read local Git objects and metadata only; it performed no tests, network/remote operations, model/data reads, training, or staging.",
+    "It verifies publication integrity and claims only, not code behavior beyond the prior source-bound engineering review."
+  ]
+}

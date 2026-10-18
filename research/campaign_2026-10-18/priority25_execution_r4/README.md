@@ -1,5 +1,7 @@
 # Ranked25 execution, 18 October 2026
 
+[F3 terminal support wrappers](f3_terminal_execution_r1/STAGING_NOTE_V1.md) are independently reviewed and staged as five exact files;17 tiny tests pass. No support was admitted or executed. Fresh gates remain required after actual native continuation completion; both stage1 archives stay accepted.
+
 **16:50 UTC preparation:** [Fresh F3 preflight](f3_preflight_r1/README.md) passed six full data hashes,523 source hashes, exact source inventory and approved runtime in267.06s; collected/stopped. [F3 checkpoint support](f3_checkpoint_support_r1/README.md) has23tiny passing tests and independent review. F3 fit remains unadmitted until separate result-helper review and fresh final admission. The new parent hierarchical memory-event baseline is high177/max561/OOM0; max255 arose under the successful CPU preflight’s1.5GB cap, not a training OOM.
 
 [The strong-control diagnostic is complete](../quality_gap_r1/strong_control_evaluation_r4/records/RESULTS.md); historical pending snapshots below are superseded. [TL3 source closure](../quality_gap_r1/tl3_source_closure_r1/README.md) distinguishes configuration donors from weight initializers but does not certify clean teacher/cache ancestry.
