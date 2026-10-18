@@ -1,5 +1,10 @@
 # Frozen F0 control export preparation
 
+## Current status, 18 October 15:22 UTC
+
+F1 fits, exports, grade, R2 result collection, final-path verification and independent acceptance are complete. The strong-control and propensity artifacts have been restored and hashed; no further restoration is needed. [Isolated R2 compatibility](compatibility_overlay_r2/README.md) passed [independent static review](compatibility_overlay_r2/INDEPENDENT_REVIEW_R2.json), preserving the rejected R1 and its failure evidence. The bounded full-source CPU preflight is running in the separate [operational packet](preflight_execution_r2/README.md) under attempt `preflight-r2-20261018t1520z`. Its initial tar call failed before extraction because `--gzip` was omitted; the failure is retained, and a separate exact-empty-root recovery succeeded. No preflight result/pass, strong-control inference or measured residual comparison has been recorded. The older preparation/ownership statements below are historical.
+
+
 **Status: prepared only; no export, grading, or training is admitted here.**
 This note defines one bounded, no-training re-export of the restored Main F0
 `clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5` checkpoint. The task's one

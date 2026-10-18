@@ -1,6 +1,11 @@
 # Reviews and audit receipts
 
-- [Concrete quality-gap follow-up](../../campaign_2026-10-18/quality_gap_r1/README.md) — exact student/parent/teacher restoration and source/membership reconciliation; source-bound residual diagnostic independently reviewed, actual array run pending remote access. Existing KD trajectories remain one-seed exposed-F0 evidence, not a public forecast.
+[F1/seed1001 completed pair and accepted collection](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json): independently verified endpoints and canonical grade, wide 0.66132919 versus deep 0.66169479 with conditional interval crossing zero. R2 collection, final-path verification and independent acceptance are complete; the R1 source-map failure remains preserved. This is the second cell, not CP30 or public evidence.
+
+
+- [Independent review of the actual F0 residual decomposition](../../campaign_2026-10-18/quality_gap_r1/diagnostics/RESULT_INTERPRETATION_REVIEW_V1.json): full input/output/source and receipt bindings pass; endpoint and additive contribution identities agree within floating-point rounding. The review separates a small local mixture gain from cancellation across components and limits the analysis to the current F0 models; strong-control residuals and public causation remain unmeasured.
+
+- [Concrete quality-gap follow-up](../../campaign_2026-10-18/quality_gap_r1/README.md) — exact student/parent/teacher restoration and source/membership reconciliation; source-bound residual diagnostic independently reviewed and now executed, with exact outputs and independent numerical interpretation linked. Existing KD trajectories remain one-seed exposed-F0 evidence, not a public forecast.
 
 Source-qualified audits, independent reviews and evidence assessments.
 

@@ -1,0 +1,89 @@
+{
+  "status": "LAUNCHED",
+  "observed_utc": "2026-10-18T14:49:22.963357+00:00",
+  "unit": "computer-vision-homework-r01-deep-f1-terminal-verifier-v1.service",
+  "phase": "verifier",
+  "helper_sha256": {
+    "collect_f1_checkpoint.py": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+    "verify_f1_checkpoint.py": "d022367b0e4091b1fd4179ff1b5ea8d9f5722ae8ef686bd86fe5774869dc2186",
+    "f1_checkpoint_common.py": "07d596a1b69574e266a909bfe2e24e4c82d1e9cd778c7338bc5855688159f5c5",
+    "f1_checkpoint_evidence.py": "8b50fcdc51dd9d040816dae7117de8c965366d0dd03c7bef8e26856325f790ce",
+    "f1_checkpoint_lineage.py": "c6aec1daace1fd200d60bcc5cc9532aa9d98f76d99bd01e0ca39c65eb727e81d",
+    "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c"
+  },
+  "attempt_file_sha256": "6df8702c2eea08269469f9cc6322abe0a0026927e3b634d49407f27258e87147",
+  "parent_memory_bytes": 2827493376,
+  "parent_children_before": {
+    "wnn-bandit-computer-vision-homework-r01-deep-f1s1001-export-ep5-v1.service": {
+      "cores": 1.0,
+      "memory": 1066860544,
+      "pids": [
+        "397206",
+        "397215",
+        "397217"
+      ]
+    },
+    "computer-vision-homework-r01-f1-recovery-v1.service": {
+      "cores": 0.1,
+      "memory": 9650176,
+      "pids": [
+        "4143290"
+      ]
+    }
+  },
+  "reserved_cpu_with_support": 1.6,
+  "parent_memory_events": "low 0\nhigh 0\nmax 306\noom 0\noom_kill 0\noom_group_kill 0\n",
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=computer-vision-homework-r01-deep-f1-terminal-verifier-v1.service",
+    "--property=Type=exec",
+    "--property=RemainAfterExit=yes",
+    "--property=Slice=wnn-campaign.slice",
+    "--property=CPUQuota=50%",
+    "--property=MemoryHigh=1300000000",
+    "--property=MemoryMax=1500000000",
+    "--property=MemorySwapMax=0",
+    "--property=RuntimeMaxSec=120",
+    "--property=TimeoutStopSec=10",
+    "--working-directory=/home/grinchenkoeg/computer-vision-homework-20261018",
+    "--setenv=CUDA_VISIBLE_DEVICES=",
+    "--setenv=OMP_NUM_THREADS=1",
+    "--setenv=OPENBLAS_NUM_THREADS=1",
+    "--setenv=MKL_NUM_THREADS=1",
+    "--setenv=PYTHONDONTWRITEBYTECODE=1",
+    "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/f1-checkpoint-v2/verify_f1_checkpoint.py",
+    "--arm",
+    "deep",
+    "--phase",
+    "terminal",
+    "--snapshot-dir",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f1_s1001_e6/epoch5_terminal",
+    "--source-root",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036",
+    "--collection-receipt",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/receipts/RANK01_DEEP_F1_S1001_TERMINAL_COLLECTION.json",
+    "--plan",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/F1_BELERIAND_PLAN.json",
+    "--fold-manifest",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+    "--data-registry",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_SOURCES.json",
+    "--archive-manifest",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_ARCHIVES.json",
+    "--output",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/receipts/RANK01_DEEP_F1_S1001_TERMINAL_VERIFICATION.json",
+    "--stage1-snapshot-dir",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f1_s1001/stage1_epoch1",
+    "--stage1-verification",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/receipts/RANK01_DEEP_F1_S1001_STAGE1_VERIFICATION.json",
+    "--peer-stage1-snapshot-dir",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f1_s1001/stage1_epoch1",
+    "--peer-stage1-verification",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/receipts/RANK01_WIDE_F1_S1001_STAGE1_VERIFICATION.json"
+  ],
+  "launch_stdout": "",
+  "launch_stderr": "Running as unit: computer-vision-homework-r01-deep-f1-terminal-verifier-v1.service; invocation ID: b60377aa341947da9988a0d4869476c1\n"
+}

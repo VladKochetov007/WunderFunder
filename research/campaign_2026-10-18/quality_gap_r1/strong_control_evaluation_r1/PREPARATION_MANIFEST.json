@@ -1,0 +1,171 @@
+{
+  "arrival_export": {
+    "actual_hashes_must_be_captured_on_arrival": true,
+    "export_receipt_sha256": null,
+    "full_prediction_sha256": null,
+    "sidecar_sha256": null,
+    "status": "awaiting_actual_full_valid_export_receipt_and_sidecar"
+  },
+  "artifacts": [
+    {
+      "bytes": 6024,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1/README.md",
+      "sha256": "492d76d69a7501880790fe5c0d5cd4b89be98089956867724a5413184f310ed1"
+    },
+    {
+      "bytes": 11202,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1/collect_control.py",
+      "sha256": "3beef604da439fe9ef50bd21fdff5e389c47b09e9ff2f8568d77ffa02aec88c2"
+    },
+    {
+      "bytes": 7923,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1/collection_support.py",
+      "sha256": "10055a4c3c4078801e7e8aa6a560c67ad18cd823f17200ca1fa9ceef12879058"
+    },
+    {
+      "bytes": 10026,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1/frozen_inputs.py",
+      "sha256": "46c4f04068d525b0a72d1947a6b655f739d8681996e346933309628dd72cc99b"
+    },
+    {
+      "bytes": 9252,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1/grade_control.py",
+      "sha256": "540955b702878ba1ea33ec3546fa9dd9460039cb3d3dd4a420eeb5a2127d0467"
+    },
+    {
+      "bytes": 1270,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1/pins.py",
+      "sha256": "17756172e3c00dcbe4279edcf28acff5fccae47177049232e47f2fac288ca047"
+    },
+    {
+      "bytes": 8590,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1/source_alignment.py",
+      "sha256": "ac08f4c411b88d7c379ee41ffad17edc73273b5e813d4230229dcee9b60d98e0"
+    },
+    {
+      "bytes": 2233,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1/test_component_grade.py",
+      "sha256": "c4de3cd8545fd26d669d89e5588207cc4f8b4e6bc76c3a5e64b0ca5dfef58597"
+    },
+    {
+      "bytes": 5252,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1/test_source_alignment.py",
+      "sha256": "07b4a3e73560bb776fcbe54622a6b1f9d4023edd38d1e1fb64bcc7ad44b80b17"
+    }
+  ],
+  "frozen_pins": {
+    "canonical_split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+    "compact_bundle_bytes": 32357862,
+    "compact_bundle_sha256": "6277cca8d92f103da556929b0e88fc1c63c9eada61c5ae36d98af4a153d62d38",
+    "diagnostic_inputs_sha256": "ca42ce983e42e6c2eea501b05b85a2731bf0303bb997df0d337a5593b55cd487",
+    "membership_comparison_sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d",
+    "old_checkpoint_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "q8_full_grade_receipt_sha256": "d5ff23d3bae39f831c00c6431e1d31de635e5c13e696cada2f6760c126dc1572",
+    "rows_per_group": 20000,
+    "valid_parquet_bytes": 5615509128,
+    "valid_parquet_footer_bytes": 10686926,
+    "valid_parquet_footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+    "valid_parquet_inherited_full_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "valid_parquet_row_groups": 1873
+  },
+  "planned_execution_bound": {
+    "cpu_cores": 0.5,
+    "cuda_hidden": true,
+    "large_parquet_rehash": "not repeated; verify pinned Q8 grade receipt, fresh size/mtime/footer and group metadata",
+    "memory_max_bytes": 1610612736,
+    "scratch": "physical B/research_tmp supplied by root wrapper",
+    "timeout_seconds": 300
+  },
+  "purpose": "Create-only same-row comparison of the historical Main F0 CP5 strong-control pipeline against the existing exposed F0 diagnostics.",
+  "runtime_dependencies": {
+    "numpy": "2.2.6",
+    "pyarrow": "19.0.1",
+    "python": "3.13.11"
+  },
+  "schema": "wnn.quality_gap.strong_control_evaluation.preparation.v1",
+  "scientific_scope": {
+    "components": 141,
+    "control_is_exact_public_incumbent": false,
+    "evaluation_row_groups": 468,
+    "no_blend_search_or_calibration": true,
+    "no_generalization_or_public_transfer_claim": true,
+    "no_training": true,
+    "same_row_evaluation_rows": 808863
+  },
+  "source_files": [
+    {
+      "bytes": 1388846,
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    {
+      "bytes": 14469,
+      "path": "research/campaign_2026-10-18/f0_submission_r1/receipts/Q8_FULL_F0.json",
+      "sha256": "d5ff23d3bae39f831c00c6431e1d31de635e5c13e696cada2f6760c126dc1572"
+    },
+    {
+      "bytes": 5268,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/diagnostics/INPUTS.json",
+      "sha256": "ca42ce983e42e6c2eea501b05b85a2731bf0303bb997df0d337a5593b55cd487"
+    },
+    {
+      "bytes": 5062,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/diagnostics/diagnose_f0_residuals.py",
+      "sha256": "c46a60e03a1c63ffbe06b1dc72ac0e0beb353b2eac3b265b3b2388a84dc553f7"
+    },
+    {
+      "bytes": 9029,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/diagnostics/input_bindings.py",
+      "sha256": "7a990a1243ec9b042ec061d95bca7f5d2f0c0136ac95ee7af59438a9429584b2"
+    },
+    {
+      "bytes": 5322,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/diagnostics/receipt_validation.py",
+      "sha256": "6089ca9d21bf026b0c96c1f29916fadb10feb0b255f51f997a3b1ba34d71d984"
+    },
+    {
+      "bytes": 7948,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/diagnostics/residual_analysis.py",
+      "sha256": "54d539309ceb693add355c0bfe9965c7cf5dea9ca4dc56d8ac46b40933824e6b"
+    },
+    {
+      "bytes": 9982,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/diagnostics/residual_moments.py",
+      "sha256": "336c85f42a7334e2b78c90148f12854d5625fd378171a88faaaf9f8c70c64476"
+    },
+    {
+      "bytes": 1388846,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/CANONICAL_F0_REMOTE.json",
+      "sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+    },
+    {
+      "bytes": 6516,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/F0_MEMBERSHIP_COMPARISON.json",
+      "sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d"
+    },
+    {
+      "bytes": 15298,
+      "path": "scripts/predict_run.py",
+      "sha256": "750b9e77aa55673f61a4dd84d809d91dd315bf86eb36c36b065bc67a7d0f4b65"
+    },
+    {
+      "bytes": 8080,
+      "path": "src/wnn/evaluation.py",
+      "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+    },
+    {
+      "bytes": 8902,
+      "path": "src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    }
+  ],
+  "status": "prepared_not_admitted",
+  "verification": {
+    "ruff_check": "passed",
+    "ruff_format": "passed",
+    "test_command": "PYTHONPATH=src:research/campaign_2026-10-18/quality_gap_r1/diagnostics:research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1 uv run --no-sync python -m unittest discover -s research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r1 -p 'test_*.py' -v",
+    "tests": "9 tiny synthetic tests passed; no model/checkpoint, full prediction, real parquet payload or compact-bundle arrays were opened during preparation."
+  },
+  "write_policy": "new output directory; all NPY/JSON artifacts use create-only writes"
+}

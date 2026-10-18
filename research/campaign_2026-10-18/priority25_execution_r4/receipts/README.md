@@ -1,5 +1,18 @@
 # Execution receipts
 
+[Accepted collection path and correction history](F1_COMPLETION_20261018T1500Z.md): R2 succeeded, full prediction hashes/finiteness passed, final-path follow-up rehashed all 57 promoted files. Both own CPU support units captured/stopped; no scientific output rerun.
+
+
+[F1 completed sequence and actual grade](F1_COMPLETION_20261018T1500Z.md) indexes the deep terminal collection/verification, exact grade, independent interpretation and retained collector-only failure. Predictions exist remotely; accepted result snapshot is pending repair.
+
+
+- [14:40:50 UTC F1 health](F1_DEEP_PROGRESS_20261018T1441Z.json): deep epoch 5 batch 1140/1493, original recovery sequence, fresh heartbeat and zero new memory-event deltas after completed CPU diagnostic/recovery support. No terminal checkpoint or score claim.
+
+- [14:26UTC access-restored health](F1_DEEP_PROGRESS_20261018T1426Z.json):
+  original deep worker reached epoch5 batch460/1493 during the SSH outage;
+  fresh heartbeat and zero new memory events, one campaign GPU process.
+  Epoch4 counters are producer metadata, not a new archive/tensor verification.
+
 - [F1 result collector and independent review](../f1_result_collection_r1/README.md): exact F1 plan/schema/membership checks, eight passing synthetic tests, corrected invocation and75%CPU support envelope. Reviewed preparation only; actual deep terminal arrival seal, root admission and collection remain pending.
 
 - [First deep F1 continuation provenance](F1_DEEP_CONTINUATION_EP2_OBSERVATION_20261018T1308Z.json) and [13:20 UTC health](F1_DEEP_PROGRESS_20261018T1320Z.json): exact persisted stage1 path/SHA/next_epoch2, producer44,790 successful updates/4,479batches and zero skips; deep reaches epoch3 batch640/1493 with fresh heartbeat and no new memory events. No intermediate tensor/archive or quality result. [Access incident and recovery work](../../quality_gap_r1/README.md) records subsequent SSH banner timeouts; preserve the existing controller.

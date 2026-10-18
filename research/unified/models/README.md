@@ -1,5 +1,10 @@
 # Model families and training
 
+[F1/seed1001 completed pair and accepted collection](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json): independently verified endpoints and canonical grade, wide 0.66132919 versus deep 0.66169479 with conditional interval crossing zero. R2 collection, final-path verification and independent acceptance are complete; the R1 source-map failure remains preserved. This is the second cell, not CP30 or public evidence. No strong-control predictions have been exported, and the current CPU preflight has not passed.
+
+
+- [Actual F0 residual results and recovered strong-control dependency](../../campaign_2026-10-18/quality_gap_r1/FOLLOWUP_RESULTS.md): the 808,863-row diagnostic measures FP32 mixture gain +0.00027519 over wide and Q8 loss −0.00002459. [Exact propensity model/provenance](../../campaign_2026-10-18/quality_gap_r1/propensity_recovery_r1/RESULT.md) are now restored alongside the earlier student/parent/teachers. No new model fit or strong-control prediction export has occurred; historical weights and one exposed F0 do not constitute independent replications.
+
 - [Strong-control asset map and restoration](../../campaign_2026-10-18/quality_gap_r1/README.md) — ten exact weights/provenance files restored from the frozen private HF archive, with SHA-verified receipt and explicit unresolved ancestry/export dependencies. No new training or new strong-control prediction comparison.
 
 Architecture, training lineage, distillation and retained checkpoint sources.

@@ -1,0 +1,76 @@
+{
+  "artifacts_sha256": {
+    "README.md": "eaa71dbb8c99bf2c28e117d13755115295c349785eedb38396f82b25745ef191",
+    "collect_f1_results.py": "2f4d279a8354e046e37484788f7dad8e67235e9f8d74b5d385feb1dc406fbb01",
+    "result_checks.py": "c14d08a9d0f3e0fe0426b1fe06b857a1d30dbe847ed683f00215730c576f1ad6",
+    "result_io.py": "f57954179fff7d002b1168f3760864f418af89c2d29625250d93cc1ca0e945b7",
+    "test_f1_result_collection.py": "d03464505a348c48c09ce438b1398a0e320d2da28325d814c5969edb5a0529d5"
+  },
+  "bindings": {
+    "base_plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+    "external_grader": {
+      "expected_command_path": "/home/grinchenkoeg/computer-vision-homework-20261018/grader-6f9fd05e/research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py",
+      "sha256": "cb90c0bce31cf6aa2b8e4f6a7536c30972b14c6995fb0db1e9f72aa867c30ec0",
+      "source_map_key_scope": "Absolute external-checkout path; preserved as the existing binding."
+    },
+    "fold1_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "predictor_source": {
+      "expected_command_path": "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/predict_run.py",
+      "project_relative_source_root": "source-a266b036",
+      "sha256": "750b9e77aa55673f61a4dd84d809d91dd315bf86eb36c36b065bc67a7d0f4b65",
+      "source_map_key": "scripts/predict_run.py",
+      "source_map_key_scope": "Relative to source-a266b036, not the absolute command path."
+    },
+    "producer_source_map_shape_fixture": {
+      "absolute_dependency_keys": [
+        "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json"
+      ],
+      "note": "Runner-format example only; confirms source-root-relative predictor key and unrelated absolute data-dependency key. It is not F1 export evidence.",
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/PROFILE_WIDE_ATTEMPT.json",
+      "predictor_key_sha256": "750b9e77aa55673f61a4dd84d809d91dd315bf86eb36c36b065bc67a7d0f4b65",
+      "sha256": "f3ff1398f968c80c3404d2304e312f2f1a4e8c2621102da26990ffe26a7572d4"
+    },
+    "recovery_plan_sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111"
+  },
+  "created_utc": "2026-10-18T15:03:50+00:00",
+  "limitations": [
+    "R2 is prepared but has not received an independent code review or root admission.",
+    "The failure receipt records that no snapshot or successful collection receipt was created by R1; this packet does not rerun collection.",
+    "A later successful collection would bind one previously exposed fold1/seed1001 pair only and would not establish CP30, convergence, resumed/uninterrupted parity, serving performance, or public transfer."
+  ],
+  "manifest_hash_scope": "The manifest does not self-hash; artifacts_sha256 binds the listed R2 packet files.",
+  "schema": "priority25.f1_result_collection_preparation.v2",
+  "scope": "Isolated R2 correction to source-map validation for the already-produced F1 wide/deep exports and grade; no export, grading, training, remote execution, or admission.",
+  "status": "PREPARED_NOT_ADMITTED",
+  "supersedes": {
+    "failure_receipt": {
+      "diagnosis": "R1 looked up the absolute predictor command path in the producer source map; the predictor is represented by a source-root-relative key.",
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_RESULT_COLLECTION_FAILURE_V1.json",
+      "schema": "priority25.f1_result_collection_failure.v1",
+      "sha256": "6e0578aef73a5c70b2c0af40c0a11071c1ea5cbb52c0b81ea6b8dde86750b2af",
+      "snapshot_exists": false,
+      "success_receipt_exists": false
+    },
+    "packet": "research/campaign_2026-10-18/priority25_execution_r4/f1_result_collection_r1"
+  },
+  "support_profiles": {
+    "stage1_and_deep_terminal_v2": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/checkpoints_v2/PREPARATION_MANIFEST_V2_R2.json",
+      "sha256": "bbebbed8c061776eba1732147ea6084057ed4d9cb249c8d11c1df0ea479eb2fd"
+    },
+    "wide_terminal_v4": {
+      "note": "Support identity is hash-bound; manifest status PREPARATION_ONLY_NOT_STAGED is not an execution claim.",
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f1_recovery_r1/checkpoints_v4/PREPARATION_MANIFEST_V4.json",
+      "sha256": "0492d5f569c46cbf498511dce62a6a8d33fec7ed986cae93f369b5ffe0a0970c"
+    }
+  },
+  "validation": {
+    "ruff_check": "passed",
+    "ruff_check_command": "uv run --no-sync ruff check .",
+    "ruff_format_check": "passed",
+    "ruff_format_command": "uv run --no-sync ruff format --check .",
+    "tests_scope": "Small synthetic JSON and NPY fixtures plus the pinned predictor source copy; no F1 prediction arrays, checkpoint payloads, parquet targets, Torch, training, export, or grader execution.",
+    "unit_test_command": "python -m unittest -v test_f1_result_collection.py",
+    "unit_tests_passed": 15
+  }
+}

@@ -1,5 +1,32 @@
 # Ranked25 execution ownership
 
+## F1 collection closed, 18 October 15:11 UTC
+
+[F1 completion](receipts/F1_COMPLETION_20261018T1500Z.md) now includes successful R2 collection and all 57 final files rehashed. Do not rerun fits, exports, grade, terminal checks or result collection. Use FINAL_PATH_VERIFICATION_V1 for final retrieval; original collection per-file snapshot strings name pre-promotion paths. R1 failure is retained.
+
+
+## F1 fits, exports and grade complete, 18 October 15:00 UTC
+
+[Current completion evidence](receipts/F1_COMPLETION_20261018T1500Z.md) supersedes the running observations below. Both terminal checkpoints are verified; all seven sequence steps finished. Do not restart or repeat fit/export/grade. Result collector V1 failed only on relative versus absolute source-map keys; its failure is retained and a separate R2 repair is being reviewed. No accepted result snapshot yet.
+
+
+## Access restored,18 October14:34UTC
+
+[Recovery](../quality_gap_r1/ACCESS_RECOVERY_20261018T1426Z.json) and
+[exact F1 health](receipts/F1_DEEP_PROGRESS_20261018T1426Z.json) confirm existing
+deep continuation epoch5 batch460/1493 at14:26UTC, fresh heartbeat and zero
+new memory events. Its epoch4 producer metadata reports74,650 successful
+updates/7,465 batches, zero skips; no intermediate tensor check was added.
+Preserve this healthy worker and await the existing terminal/export/grade path.
+Wide terminal and both stage1 checks remain done.
+
+The [residual diagnostic](../quality_gap_r1/diagnostics/README.md),
+[historical plot](../quality_gap_r1/plots/README.md) and
+[propensity recovery](../quality_gap_r1/propensity_recovery_r1/RESULT.md) all
+completed exit0, were captured and their own exited support units stopped.
+Do not repeat them. Strong-control export is still a separate pending task;
+no new GPU worker is admitted by these CPU support completions.
+
 ## Latest access and diagnostic handoff, 18 October 13:55 UTC
 
 Read the newest [quality-gap packet](../quality_gap_r1/README.md). Its ten source-bound checkpoint/provenance files were actually restored at13:20UTC; do not repeat recovery. The independent residual helper is prepared/reviewed, not staged or executed. The tiny aggregate-only plot unit `computer-vision-homework-quality-gap-plot-v1.service` was launched at13:23UTC with25%CPU/384MB/60s and output `B/quality-gap-r1/plots-v1`; its terminal status and artifacts have not been captured. Inspect it before any retry, capture then stop only its own exited unit.

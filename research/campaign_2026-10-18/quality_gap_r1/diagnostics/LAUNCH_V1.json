@@ -1,0 +1,104 @@
+{
+  "schema": "quality_gap.diagnostic_launch.v1",
+  "observed_utc": "2026-10-18T14:27:01.300006+00:00",
+  "preflight": {
+    "parent_memory_current": 3897131008,
+    "children": {
+      "wnn-bandit-computer-vision-homework-r01-deep-f1s1001-ep25-v1.service": {
+        "cpu.max": "100000 100000",
+        "memory.current": 2399420416
+      },
+      "computer-vision-homework-r01-f1-recovery-v1.service": {
+        "cpu.max": "10000 100000",
+        "memory.current": 9641984
+      }
+    },
+    "total_reserved_cpu_with_support": 1.6,
+    "scratch_fstype": "ext4",
+    "gmetric_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "staged": {
+    "research/campaign_2026-10-18/quality_gap_r1/diagnostics/diagnose_f0_residuals.py": {
+      "sha256": "c46a60e03a1c63ffbe06b1dc72ac0e0beb353b2eac3b265b3b2388a84dc553f7",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/quality_gap_r1/diagnostics/input_bindings.py": {
+      "sha256": "7a990a1243ec9b042ec061d95bca7f5d2f0c0136ac95ee7af59438a9429584b2",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/quality_gap_r1/diagnostics/receipt_validation.py": {
+      "sha256": "6089ca9d21bf026b0c96c1f29916fadb10feb0b255f51f997a3b1ba34d71d984",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/quality_gap_r1/diagnostics/residual_analysis.py": {
+      "sha256": "54d539309ceb693add355c0bfe9965c7cf5dea9ca4dc56d8ac46b40933824e6b",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/quality_gap_r1/diagnostics/residual_moments.py": {
+      "sha256": "336c85f42a7334e2b78c90148f12854d5625fd378171a88faaaf9f8c70c64476",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/quality_gap_r1/diagnostics/test_residual_analysis.py": {
+      "sha256": "468023ede5364a065da10ae8e32ace7b6986838c55ded102dbf7ad1d549d201b",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/quality_gap_r1/diagnostics/INPUTS.json": {
+      "sha256": "ca42ce983e42e6c2eea501b05b85a2731bf0303bb997df0d337a5593b55cd487",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/quality_gap_r1/diagnostics/PREPARATION_MANIFEST.json": {
+      "sha256": "45cbab18b417bc10197f8869daef5276eecd428bdba45f8605b9706aa0d2fd20",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/quality_gap_r1/diagnostics/DIAGNOSTIC_REVIEW.json": {
+      "sha256": "c4759db321a087d948cf0645f68f98e064332038289f7edd8329816d9cb55c62",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/f0_submission_r1/receipts/EXTRACTION.json": {
+      "sha256": "6934f283105bf70e449d93f8114750169a695c71e7a00a9d5cc9714d6c105fe7",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/f0_submission_r1/receipts/BLEND_SELECTION.json": {
+      "sha256": "59513a1aa292feb9eb4c59211c70a057c3cd0362ebddfc6ad6879b09279c6c46",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/f0_submission_r1/receipts/INDEPENDENT_NATIVE_GRADE.json": {
+      "sha256": "7c02f73f947faa1d075fa39e7d76395bb156abdd9aa17ca9726c7d68f1f3b9bf",
+      "mode": "created"
+    },
+    "research/campaign_2026-10-18/f0_submission_r1/receipts/Q8_FULL_F0.json": {
+      "sha256": "d5ff23d3bae39f831c00c6431e1d31de635e5c13e696cada2f6760c126dc1572",
+      "mode": "created"
+    }
+  },
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=computer-vision-homework-quality-gap-diagnostic-v1.service",
+    "--slice=wnn-campaign.slice",
+    "--property=CPUQuota=50%",
+    "--property=MemoryHigh=1300000000",
+    "--property=MemoryMax=1500000000",
+    "--property=MemorySwapMax=0",
+    "--property=RuntimeMaxSec=300",
+    "--property=TimeoutStopSec=10",
+    "--property=KillMode=control-group",
+    "--property=RemainAfterExit=yes",
+    "--setenv=CUDA_VISIBLE_DEVICES=",
+    "--setenv=OMP_NUM_THREADS=1",
+    "--setenv=OPENBLAS_NUM_THREADS=1",
+    "--setenv=MKL_NUM_THREADS=1",
+    "--setenv=PYTHONDONTWRITEBYTECODE=1",
+    "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "--setenv=PYTHONPATH=/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/src",
+    "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/quality_gap_r1/diagnostics/diagnose_f0_residuals.py",
+    "--inputs",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/quality_gap_r1/diagnostics/INPUTS.json",
+    "--output",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/diagnostics-v1/RESULT.json"
+  ],
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "Running as unit: computer-vision-homework-quality-gap-diagnostic-v1.service; invocation ID: 71116a050828424eb362028c441bc2b7\n"
+}

@@ -1,0 +1,109 @@
+{
+  "schema": "priority25.f1_result_collection_independent_review.v2",
+  "reviewed_utc": "2026-10-18T15:09:30Z",
+  "packet": "research/campaign_2026-10-18/priority25_execution_r4/f1_result_collection_r2",
+  "preparation_manifest_sha256": "6c72459ad9e0ebc278f21766de4c723d37f345bfded650b1cdab38b2556cca77",
+  "status": "PASS_STATIC_REVIEW_CONDITIONAL_ON_CLEAN_STAGE_AND_ROOT_BINDINGS",
+  "scope": "Static packet and code review only. No tests rerun, remote execution, model/array access, export, grader, or training.",
+  "five_manifest_artifact_pins": {
+    "README.md": {
+      "expected_sha256": "eaa71dbb8c99bf2c28e117d13755115295c349785eedb38396f82b25745ef191",
+      "actual_matches": true
+    },
+    "collect_f1_results.py": {
+      "expected_sha256": "2f4d279a8354e046e37484788f7dad8e67235e9f8d74b5d385feb1dc406fbb01",
+      "actual_matches": true
+    },
+    "result_checks.py": {
+      "expected_sha256": "c14d08a9d0f3e0fe0426b1fe06b857a1d30dbe847ed683f00215730c576f1ad6",
+      "actual_matches": true
+    },
+    "result_io.py": {
+      "expected_sha256": "f57954179fff7d002b1168f3760864f418af89c2d29625250d93cc1ca0e945b7",
+      "actual_matches": true
+    },
+    "test_f1_result_collection.py": {
+      "expected_sha256": "d03464505a348c48c09ce438b1398a0e320d2da28325d814c5969edb5a0529d5",
+      "actual_matches": true
+    }
+  },
+  "source_map_review": {
+    "predictor_command_path": "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/predict_run.py",
+    "required_source_map_key": "scripts/predict_run.py",
+    "pinned_predictor_sha256": "750b9e77aa55673f61a4dd84d809d91dd315bf86eb36c36b065bc67a7d0f4b65",
+    "local_scripts_predict_run_sha256": "750b9e77aa55673f61a4dd84d809d91dd315bf86eb36c36b065bc67a7d0f4b65",
+    "assessment": "The R2 validator binds the expected export command to exactly project/source-a266b036/scripts/predict_run.py, requires exactly one source-map key with basename predict_run.py and requires that key to be scripts/predict_run.py, checks its pinned SHA, then stable-hashes the project file with no-follow project-path checks. It rejects a wrong command root, absolute or source-root-prefixed predictor aliases, missing/duplicate predictor entries, wrong map digest, and changed source bytes. The generic attempt-record validator still permits unrelated absolute dependency keys with valid SHA values.",
+    "fixture_checks_present": [
+      "accept canonical relative predictor key and pinned hash",
+      "reject wrong command root",
+      "reject source-root-prefixed predictor key",
+      "reject missing predictor key",
+      "reject wrong predictor hash",
+      "reject changed predictor file",
+      "preserve unrelated absolute data dependency key",
+      "preserve absolute external grader key"
+    ],
+    "original_R1_failure_receipt": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_RESULT_COLLECTION_FAILURE_V1.json",
+      "sha256": "6e0578aef73a5c70b2c0af40c0a11071c1ea5cbb52c0b81ea6b8dde86750b2af",
+      "verified": true,
+      "diagnosis": "R1 looked up the absolute predictor command path in the producer source map; the recorded exports used the relative scripts/predict_run.py key. The receipt records no snapshot or successful collection receipt."
+    },
+    "source_map_shape_fixture": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/PROFILE_WIDE_ATTEMPT.json",
+      "sha256": "f3ff1398f968c80c3404d2304e312f2f1a4e8c2621102da26990ffe26a7572d4",
+      "verified": true,
+      "predictor_key_sha256": "750b9e77aa55673f61a4dd84d809d91dd315bf86eb36c36b065bc67a7d0f4b65",
+      "unrelated_absolute_key": "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json"
+    }
+  },
+  "external_grader_binding": {
+    "command_path": "/home/grinchenkoeg/computer-vision-homework-20261018/grader-6f9fd05e/research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py",
+    "sha256": "cb90c0bce31cf6aa2b8e4f6a7536c30972b14c6995fb0db1e9f72aa867c30ec0",
+    "assessment": "The grade plan continues to name the external checkout's absolute path. The collector reads that exact command token as the source-map key, compares its value with the frozen grader SHA, then hashes the grader file. The generic source-map validator was not narrowed to project-relative keys. This preserves the existing external grader binding."
+  },
+  "additional_manifest_binding_checks": {
+    "base_plan_sha256": {
+      "expected": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+      "actual_matches": true
+    },
+    "recovery_plan_sha256": {
+      "expected": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+      "actual_matches": true
+    },
+    "stage1_and_deep_support_manifest_sha256": {
+      "expected": "bbebbed8c061776eba1732147ea6084057ed4d9cb249c8d11c1df0ea479eb2fd",
+      "actual_matches": true
+    },
+    "wide_terminal_support_manifest_sha256": {
+      "expected": "0492d5f569c46cbf498511dce62a6a8d33fec7ed986cae93f369b5ffe0a0970c",
+      "actual_matches": true
+    },
+    "fold1_manifest_sha256": {
+      "expected": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+      "local_workspace_copy_matches": false,
+      "local_workspace_copy_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "interpretation": "The local fold1 copies are not the pinned B input. Use the exact B splits/fold1.json and verify its SHA before collection; no local substitute was used or remotely inspected by this reviewer."
+    }
+  },
+  "actionable_conditions": [
+    {
+      "id": "CLEAN_STAGE_NO_UNPINNED_BYTECODE",
+      "severity": "HIGH_EXECUTION_CONDITION",
+      "finding": "The review packet directory also contains unmanifested __pycache__ files, including result_checks.cpython-313.pyc and result_io.cpython-313.pyc. Their timestamp-based pyc headers match the corresponding source mtime and size. A CPython 3.13 run from this directory could import unpinned bytecode while the collector later reports hashes of the pinned .py sources.",
+      "action": "Stage a fresh folder containing only the five manifest-pinned artifacts plus the preparation manifest and independent review; assert the exact allowlist and no __pycache__ recursively before launch. PYTHONDONTWRITEBYTECODE prevents new bytecode writes but does not itself disable reading existing pyc files. Root has indicated its staging utility will enforce the clean allowlist."
+    },
+    {
+      "id": "ROOT_SOURCE_AND_RECEIPT_BINDINGS",
+      "severity": "ROOT_OWNED_EXECUTION_CONDITION",
+      "finding": "This review verifies packet code and local metadata only. The pinned B fold manifest is not present byte-identically in the local workspace, and no B staged source map, arrays, or collection inputs were read here.",
+      "action": "At admission, bind the exact B fold1 manifest to SHA d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9, verify the staged predictor file/map, and use root's bounded collection receipt. Root reports a read-only check of both producer export maps with the canonical key/hash; that check is not this reviewer's remote execution."
+    }
+  ],
+  "author_validation": {
+    "reported_by_author": ["15 synthetic fixture tests", "Ruff format check", "Ruff check"],
+    "reviewer_reran_tests": false,
+    "reason": "Static review only; author checks were reported passing and the R2 implementation was not edited."
+  },
+  "decision": "The R1 source-map lookup defect is corrected and the external grader binding is preserved. Approve the source-map implementation for root's clean-staged, bounded collection path, conditional on the allowlist/no-pycache check and exact B source/receipt bindings. No collection, export, grade, or model conclusion is made."
+}

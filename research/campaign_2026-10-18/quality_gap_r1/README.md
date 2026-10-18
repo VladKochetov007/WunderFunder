@@ -1,9 +1,16 @@
 # Strong-control recovery and F0 residual diagnostic
 
-Current status and next actions are in the
-[continuation handoff](CONTINUATION_20261018T1400Z.md).
-[Findings](FOLLOWUP_RESULTS.md) separate completed restoration and historical
-evidence from diagnostic work that has not run on actual arrays.
+**Current status, 18 October 15:22 UTC:** F1 result collection, 57-file final-path verification and independent acceptance are complete ([acceptance receipt](../priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json)). The root-gated CPU preflight is running as `preflight-r2-20261018t1520z`; its first tar attempt failed before extraction because `--gzip` was omitted, and the retained failure was followed by a successful separate recovery into the exact empty root. No preflight result/pass is recorded. See the [preflight packet](export_preparation/preflight_execution_r2/README.md); earlier handoffs are dated history.
+
+
+**Update 14:40 UTC:** SSH is restored. [Recovery observation](ACCESS_RECOVERY_20261018T1426Z.json)
+confirms healthy F1 deep epoch 5 and no new memory events. The
+[residual diagnostic](diagnostics/results/README.md) has now run successfully;
+the [historical plot](plots/README.md) is collected and visually checked.
+Both CPU units exited 0 and were stopped after capture. The [current continuation](CONTINUATION_20261018T1440Z.md) records next actions; the
+[14:00 handoff](CONTINUATION_20261018T1400Z.md) preserves the preceding access failure.
+[Findings](FOLLOWUP_RESULTS.md) separate actual results, historical evidence and
+the still-pending comparison with strong-control predictions.
 
 ## Residual diagnostic preparation
 
@@ -48,7 +55,8 @@ Example command on Beleriand:
 
 This is the inner command only. Use the reviewed resource wrapper, physical
 scratch and source bindings in [the diagnostic runbook](diagnostics/README.md).
-The diagnostic has not been staged or run on actual prediction arrays.
+The diagnostic has already completed. This command documents the procedure;
+do not rerun or overwrite its existing outputs.
 
 The command creates a JSON report and matching CSV table. Both are create-only;
 choose new output names for each run. Synthetic invariants are in
@@ -67,11 +75,21 @@ The no-training, not-admitted export plan is in
 confirms exact ordered fit/evaluation/exclusion memberships and component-map
 equality between the historical Main F0 split and the current canonical F0
 split, while documenting their different manifest and `chain_folds.npz`
-identities. The preparation names the restored CP5 checkpoint, the still-needed
-propensity checkpoint and old cache, and the exact-source and separately
-reviewed compatibility paths. No inference or training was admitted.
+identities. The preparation names the restored CP5 and propensity checkpoints and the
+missing historical cache. An isolated compatibility path is being prepared
+and reviewed; no strong-control inference or training has been admitted.
+
+The isolated [`strong_control_evaluation_r1`](strong_control_evaluation_r1/README.md)
+packet prepares same-row alignment and a fixed comparison against this
+historical CP5 control after its full-valid export arrives. It preserves the
+existing diagnostic inputs and remains unexecuted pending the real export and
+sidecar hashes.
 
 ## Evidence and operational index
+
+- [Propensity recovery](propensity_recovery_r1/RESULT.md): two additional exact
+  archive files restored and verified, 187,249 bytes, exit 0; closes that export
+  dependency without loading a model or occupying another GPU.
 
 - [Restoration](recovery/README.md): ten exact checkpoint/provenance files,
   34,842,630 bytes, were restored successfully; the unit exited zero and was
@@ -80,15 +98,16 @@ reviewed compatibility paths. No inference or training was admitted.
   actual restoration receipt for updated availability.
 - [Diagnostic preparation and independent review](diagnostics/README.md):
   pinned inputs, three passing synthetic tests, resource and collection bounds.
-  Actual residual measurements remain pending.
+  [Actual outputs](diagnostics/results/README.md) are now collected and hash-verified.
 - [Historical trajectory](EXISTING_KD_TRAJECTORY.json) and
   [arithmetic interpretation](TRAJECTORY_INTERPRETATION.json): matched warm-parent
   continuation evidence, separating fitting and excluded-group trajectories.
 - [Plot source](plot_existing_kd.py) and [launch](PLOT_LAUNCH.json): aggregate-only
-  CPU plotting was launched; terminal capture and visual review are pending.
+  CPU plotting exited 0; [capture and visual review](plots/README.md) are complete.
 - [SSH incident](SSH_ACCESS_INCIDENT_20261018T1350Z.json) and
   [bounded rechecks](SSH_ACCESS_RECHECK_20261018T1358Z.json): TCP connects but
-  banner exchange times out before authentication. Training health is unobserved.
+  banner exchange timed out before authentication. These are historical
+  observations, superseded by the successful [access recovery](ACCESS_RECOVERY_20261018T1426Z.json).
 - [Public baseline](PUBLIC_BASELINE_20261018.json): dated team/leader snapshot,
   without an exact incumbent ZIP binding.
 - [Provider status](PROVIDER_STATUS_20261018T1355Z.json): the official DataSphere

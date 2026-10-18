@@ -1,0 +1,103 @@
+{
+  "basis": "Independent interpretation of the exact captured F1 endpoint-grade receipt and terminal-result review hashes; no grader rerun and no prediction-array access.",
+  "collection_state": {
+    "archive_copy_and_raw_prediction_payload_hash_binding": "pending collection and verification",
+    "prediction_hashes_in_grade_are_claimed_identities_only": true,
+    "raw_prediction_collection": "pending"
+  },
+  "conclusion": "inconclusive_screening_pair_no_robust_wide_advantage",
+  "created_utc": "2026-10-18T14:54:56+00:00",
+  "interpretation": {
+    "comparison_scope": "One paired fold/seed cell toward the declared 30 paired cells per arm. The grade itself labels fold 1 as previously exposed screening evidence, not held-out confirmation.",
+    "decision": "Retain as one screening pair; do not declare a width winner, rank promotion, convergence, or held-out confirmation from this result.",
+    "f0_direction_context": "The separately reviewed F0 single-pair delta was positive and this F1 single-pair delta is negative. This direction reversal is descriptive only; no F0/F1 pooling, averaging, or combined estimate is made, and it does not establish a robust width advantage.",
+    "finding": "The F1 wide candidate is lower than deep by 0.0003656005145715735 on this pair. The paired component-bootstrap 95% interval crosses zero, so this single screened pair does not establish a robust wide advantage."
+  },
+  "limitations": [
+    "This interval resamples 149 whole evaluation components containing 457 sequences on one previously exposed fold and one fitting seed; it is not uncertainty across folds, seeds, or external transfer.",
+    "No raw prediction payloads, checkpoint tensors, model execution, grader rerun, or parquet data were accessed; terminal structural reviews do not independently validate the grade receipt or its prediction payloads.",
+    "The F0 value is included only as hash-bound directional context; F0 and F1 are not pooled or treated as a joint estimate.",
+    "The result is one of 30 required paired cells per arm; it does not complete the declared comparison."
+  ],
+  "pair": {
+    "bootstrap": {
+      "bootstrap_fraction_delta_le_0": 0.6166,
+      "bootstrap_sd": 0.001164593357742352,
+      "centered_moments": true,
+      "ci95": [
+        -0.0026568440628224168,
+        0.0019230166217027971
+      ],
+      "method": "paired whole-component bootstrap using centered moments",
+      "resamples": 10000,
+      "seed": 271828
+    },
+    "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+    "deep_reference": {
+      "checkpoint_sha256": "637ced53f5523dc7e42df38051a4b6c60f3faeaba0a8ce2f32398d8f52482e35",
+      "epoch": 5,
+      "prediction_sha256": "568a54f933ebf2a74f3b398989cb0703866c6c2defd802300e83f4aa4d18a5c6",
+      "provenance_sha256": "abe28600205875e7ec785970863d920eb6d539ad122c673133f61de344a988d6",
+      "run": "rr18_r01_deep_f1_s1001_e6",
+      "sidecar_sha256": "75e6b63206883332e6a99d76784a778278321f1e56d2dc6cd011f5911d1a6f29",
+      "wp": 0.661694788579053
+    },
+    "evaluation_components": 149,
+    "evaluation_sequences": 457,
+    "fold": 1,
+    "fold_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "metric_id": "global_wp_clip2_v1",
+    "paired_delta_wide_minus_deep": -0.0003656005145715735,
+    "seed": 1001,
+    "selected_rows_per_endpoint": 812167,
+    "wide_candidate": {
+      "checkpoint_sha256": "4510f1ed9530c10ea58741727bb7ab5c4a2631690e2252bf98777f923f270d2c",
+      "epoch": 5,
+      "prediction_sha256": "9daa66e315dfc4dee2e4273bd00e00d321b7cbfa35fed2cef74f427171f4e341",
+      "provenance_sha256": "02755c544dcd303ded96fc3147958eea1ffee3cf84a8cc3c0f5c2f5708257a37",
+      "run": "rr18_r01_wide_f1_s1001_e6",
+      "sidecar_sha256": "c8218a3fa6636b64e8fef51eb6cb2c126b6da2c4548b03fbf94e7a2ee56d6412",
+      "wp": 0.6613291880644814
+    }
+  },
+  "reviewer": "independent_local_grade_receipt_review",
+  "schema": "priority25.f1_independent_interpretation.v1",
+  "source_bindings": {
+    "deep_terminal_result_review": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_DEEP_TERMINAL_RESULT_REVIEW_V1.json",
+      "schema": "priority25.f1_terminal_result_review.v1",
+      "sha256": "c8c929acda0e667a9653696fc767c093618f1ff6c79630143ef8eee5a9e497b4",
+      "status": "passed",
+      "terminal_collection_sha256": "7aa56c922b25378364dafe83571a3dffbc16dbe7ac5520d4ca2e32b584bf9f21",
+      "terminal_verification_sha256": "4e4defaf1fa048e70b8edfc5685091f0ec71a4d11f4a801de13eb45bb8c80600"
+    },
+    "f0_context_review": {
+      "delta": 0.0014669836684273463,
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F0_S1001_INTERPRETATION_REVIEW.json",
+      "schema": "priority25.f0_independent_interpretation.v1",
+      "sha256": "d38ec9c3cc27494a9e95da6d744cdd4c5286585026fb6ab10c1e5c6d4b439916",
+      "status": "no_result_based_blocker_to_f1_after_admission_gates"
+    },
+    "grade": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT.json",
+      "schema": "priority25.endpoint_grade.v1",
+      "sha256": "d89917534730baa8ba0a7df4d94143834a77df3a686752fefc541eb43e3f0328"
+    },
+    "sequence_terminal": {
+      "attempt": "computer-vision-homework-r01-f1s1001-grade-v1",
+      "launch_returncode": 0,
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F1_S1001_SEQUENCE_TERMINAL.json",
+      "sha256": "6969f1400d037b821ef9ff892a96d5e7cbcb9cefb01d4fe5945d648313d74590",
+      "status": "finished"
+    },
+    "wide_terminal_result_review": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_WIDE_TERMINAL_RESULT_REVIEW_V1.json",
+      "schema": "priority25.f1_terminal_result_review.v1",
+      "sha256": "2729ca2e7eee4024ca7eb7a285c20adb1d82523d79803264e4fbf31b05abaad5",
+      "status": "passed",
+      "terminal_collection_sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26",
+      "terminal_verification_sha256": "d1ee4a615f6635c116197caf48186496caa9a963398af8504856133504e7b63c"
+    }
+  },
+  "status": "passed"
+}
