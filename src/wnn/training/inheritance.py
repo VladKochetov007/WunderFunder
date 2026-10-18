@@ -46,6 +46,7 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
         "heuristics",
         "research_features",
         "research_feature_control",
+        "drop_i1",
         "privileged_mode",
         "privileged_horizon",
         "sentinel_values",

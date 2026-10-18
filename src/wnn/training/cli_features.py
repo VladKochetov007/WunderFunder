@@ -93,7 +93,7 @@ def add_features_arguments(ap: argparse.ArgumentParser) -> None:
         "--research-features",
         choices=RESEARCH_FEATURE_MODES,
         default="none",
-        help="append causal volume, moment, Kalman group-state, geometry, or field-age features before TBPTT",
+        help="append causal volume, moment, Kalman, geometry, field-age, or i1-history features before TBPTT",
     )
     ap.add_argument(
         "--research-feature-adapter-only",
@@ -111,6 +111,11 @@ def add_features_arguments(ap: argparse.ArgumentParser) -> None:
         choices=("none", "newest", "all", "moments_only", "dictionary_only"),
         default="none",
         help="newest masks the newest moment block; all masks a fitted research block at fixed width",
+    )
+    ap.add_argument(
+        "--drop-i1",
+        action="store_true",
+        help="zero raw, event, and history i1 inputs after shared-width normalization",
     )
     ap.add_argument(
         "--privileged-mode",

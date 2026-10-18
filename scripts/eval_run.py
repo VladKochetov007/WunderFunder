@@ -14,11 +14,13 @@ from pathlib import Path
 
 import numpy as np
 import torch
+import train_rnn
 from torch.utils.data import DataLoader
 from train_rnn import Sequences, make_model, predict
 
 from wnn.data import market_class
 from wnn.metric import block_scores
+from wnn.research_features import PRIOR_FEATURE_MODES, validate_research_feature_prior
 from wnn.splits import valid_row_groups
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -36,11 +38,21 @@ def main():
     n_out = 2 + 2 * len([v for v in a.get("aux", "").split(",") if v])
     device = torch.device("cuda")
     if a.get("prop_input"):
-        import train_rnn
-
         from wnn.propensity import load_propensity
 
-        train_rnn.INPUT_PROPENSITY = load_propensity(ROOT / "artifacts" / "runs" / a["prop_input"] / "model.pt", device)
+        train_rnn.INPUT_PROPENSITY = load_propensity(
+            ROOT / "artifacts" / "runs" / a["prop_input"] / "model.pt", device
+        )
+    train_rnn.RESEARCH_FEATURES = a.get("research_features", "none")
+    train_rnn.RESEARCH_FEATURE_CONTROL = a.get("research_feature_control", "none")
+    train_rnn.RESEARCH_FEATURE_PRIOR = None
+    if train_rnn.RESEARCH_FEATURES in PRIOR_FEATURE_MODES:
+        prior = ckpt.get("research_feature_prior")
+        if not isinstance(prior, dict):
+            raise ValueError("prior-based checkpoint lacks its fitting-only feature prior")
+        train_rnn.RESEARCH_FEATURE_PRIOR = validate_research_feature_prior(
+            train_rnn.RESEARCH_FEATURES, prior
+        )
     model = make_model(a, ckpt["n_in"], n_out).to(device)
     model.load_state_dict(ckpt["model"])
     dev, hold = valid_row_groups(ROOT / "datasets" / "valid.parquet")
@@ -60,9 +72,20 @@ def main():
     classes = np.array(classes)
     np.savez(run / f"scores_{split}.npz", row_groups=groups, classes=classes, scores=scores)
     per = scores.mean(1)
-    print(json.dumps({"run": args.name, "split": split, "n": int(len(per)),
-                      "wp": float(np.nanmean(per)),
-                      "by_class": {int(c): round(float(np.nanmean(per[classes == c])), 4) for c in np.unique(classes)}}))
+    print(
+        json.dumps(
+            {
+                "run": args.name,
+                "split": split,
+                "n": int(len(per)),
+                "wp": float(np.nanmean(per)),
+                "by_class": {
+                    int(c): round(float(np.nanmean(per[classes == c])), 4)
+                    for c in np.unique(classes)
+                },
+            }
+        )
+    )
 
 
 if __name__ == "__main__":

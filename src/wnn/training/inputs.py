@@ -9,6 +9,7 @@ import torch
 
 from wnn.data import N_FEATURES, SequenceFile
 from wnn.features import event_features_torch, online_zscore_torch
+from wnn.i1_history import I1_HISTORY_MODE, I1_INPUT_WIDTH
 from wnn.kalman_group_features import MODE as KALMAN_GROUP_MODE
 from wnn.privileged import privileged_inputs
 from wnn.research_features import (
@@ -21,6 +22,7 @@ from wnn.research_features import (
     validate_research_feature_prior,
 )
 from wnn.training.environment import TrainingEnvironment
+from wnn.training.i1_inputs import validate_i1_input_configuration
 
 
 def build_inputs(
@@ -42,11 +44,28 @@ def build_inputs(
     """
     environment = environment if environment is not None else TrainingEnvironment()
     raw, extra = (x[..., :N_FEATURES], x[..., N_FEATURES:])
+    if environment.inputs.research_features == I1_HISTORY_MODE:
+        if extra.shape[-1]:
+            raise ValueError("i1_history requires exactly the fixed-width raw/event/history input")
+        validate_i1_input_configuration(
+            {
+                "research_features": I1_HISTORY_MODE,
+                "research_feature_control": environment.inputs.research_feature_control,
+                "online_norm": environment.inputs.online_norm,
+                "heuristics": environment.inputs.heuristics,
+                "raw_only": environment.inputs.raw_only,
+                "prop_input": bool(environment.inputs.propensity_model),
+                "privileged_mode": environment.inputs.privileged_mode,
+                "sentinel_base_width": bool(environment.inputs.sentinel_preprocessor),
+            },
+            I1_INPUT_WIDTH,
+        )
     ev = event_features_torch(raw)
     if environment.inputs.raw_only:
         ev = torch.zeros_like(ev)
     if (
-        environment.inputs.research_features in (*MOMENT_FEATURE_MODES, KALMAN_GROUP_MODE)
+        environment.inputs.research_features
+        in (*MOMENT_FEATURE_MODES, KALMAN_GROUP_MODE, I1_HISTORY_MODE)
         and (not environment.inputs.online_norm)
         and (not environment.inputs.heuristics)
         and (environment.inputs.privileged_mode == "none")
@@ -65,7 +84,7 @@ def build_inputs(
             environment.inputs.research_features,
             environment.inputs.research_feature_prior,
             output=inputs[..., base_width:],
-            control=environment.inputs.research_feature_control,
+            control=_input_research_control(environment),
         )
         return inputs
     if x.requires_grad:
@@ -82,7 +101,7 @@ def build_inputs(
                 raw,
                 environment.inputs.research_features,
                 environment.inputs.research_feature_prior,
-                control=environment.inputs.research_feature_control,
+                control=_input_research_control(environment),
             )
         )
     if environment.inputs.privileged_mode != "none":
@@ -131,7 +150,7 @@ def _build_staged_inputs(
                     raw,
                     environment.inputs.research_features,
                     environment.inputs.research_feature_prior,
-                    control=environment.inputs.research_feature_control,
+                    control=_input_research_control(environment),
                 ),
             ],
             dim=-1,
@@ -165,6 +184,13 @@ def _build_staged_inputs(
     return inputs
 
 
+def _input_research_control(environment: TrainingEnvironment) -> str:
+    """Keep i1 features unmasked until the model applies masks after normalization."""
+    if environment.inputs.research_features == I1_HISTORY_MODE:
+        return "none"
+    return environment.inputs.research_feature_control
+
+
 def fit_research_feature_prior(
     train_split: str,
     train_groups: np.ndarray,
@@ -185,7 +211,7 @@ def fit_research_feature_prior(
     if mode not in PRIOR_FEATURE_MODES:
         raise ValueError(f"feature mode {mode!r} does not use a fitted prior")
     rng = np.random.default_rng(seed + 20261012)
-    sample_size = 64 if mode == GEOMETRY_DISCRETE_MODE else 32
+    sample_size = 64 if mode in (GEOMETRY_DISCRETE_MODE, I1_HISTORY_MODE) else 32
     if len(members) > sample_size:
         selected_indices = np.sort(rng.choice(len(members), size=sample_size, replace=False))
         selected = [members[int(index)] for index in selected_indices]

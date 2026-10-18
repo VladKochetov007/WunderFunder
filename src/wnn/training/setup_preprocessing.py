@@ -5,6 +5,7 @@ from pathlib import Path
 import numpy as np
 
 from wnn import student_frontier
+from wnn.i1_history import I1_HISTORY_MODE, i1_history_input_mask_indices
 from wnn.research_features import (
     PRIOR_FEATURE_MODES,
     research_feature_control_indices,
@@ -61,6 +62,16 @@ def fit_preprocessing(run: TrainingRun) -> None:
         prior_sources = [environment.source_root / "src/wnn/research_features.py"]
         if environment.inputs.research_features == "causal_geometry_discrete":
             prior_sources.append(environment.source_root / "src/wnn/moment_geometry/online.py")
+        if environment.inputs.research_features == I1_HISTORY_MODE:
+            prior_sources.extend(
+                (
+                    environment.source_root / "src/wnn/i1_history.py",
+                    environment.source_root / "src/wnn/i1_history_scan.py",
+                    environment.source_root / "src/wnn/i1_history_streaming.py",
+                    environment.source_root / "src/wnn/features.py",
+                    environment.source_root / "src/wnn/training/inputs.py",
+                )
+            )
         provenance["causal_feature_prior_source_sha256"] = {
             str(path.relative_to(environment.source_root)): file_sha256(path)
             for path in prior_sources
@@ -71,12 +82,28 @@ def fit_preprocessing(run: TrainingRun) -> None:
         zeroed_indices = research_feature_control_indices(
             environment.inputs.research_features, environment.inputs.research_feature_control
         )
-        provenance["causal_feature_control"] = {
-            "kind": environment.inputs.research_feature_control,
-            "zeroed_feature_count": zero_width,
-            "zeroed_feature_indices": list(zeroed_indices),
-            "effective_capacity": "matched_full_width" if zero_width else "full_features",
-        }
+        if environment.inputs.research_features == I1_HISTORY_MODE:
+            model_input_indices = i1_history_input_mask_indices(
+                environment.inputs.research_feature_control, bool(args.drop_i1)
+            )
+            provenance["causal_feature_control"] = {
+                "kind": environment.inputs.research_feature_control,
+                "drop_i1": bool(args.drop_i1),
+                "zeroed_feature_count": len(model_input_indices),
+                "zeroed_feature_indices": list(zeroed_indices),
+                "zeroed_model_input_indices": list(model_input_indices),
+                "mask_point": "after stored model normalization",
+                "effective_capacity": (
+                    "matched_full_width" if model_input_indices else "full_features"
+                ),
+            }
+        else:
+            provenance["causal_feature_control"] = {
+                "kind": environment.inputs.research_feature_control,
+                "zeroed_feature_count": zero_width,
+                "zeroed_feature_indices": list(zeroed_indices),
+                "effective_capacity": "matched_full_width" if zero_width else "full_features",
+            }
     elif environment.inputs.research_features != "none":
         mode = environment.inputs.research_features
         zeroed_indices = research_feature_control_indices(
