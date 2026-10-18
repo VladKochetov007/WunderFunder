@@ -45,3 +45,5 @@ Every comparison should name independent weights, teacher and initializer ancest
 - [Derived F0 GRU growth initializer](../../campaign_2026-10-15/gru_parent_growth_r1/README.md) — parent c20261003_combo_s3_f0@ep3 expanded H256×2→H384×2 with pinned artifact/provenance and complete-sequence FP32 parity. Source-parent epoch is retained; no new updates, independent replication, native parity or measured quality. H-STUDENT-PARENT-GROWTH-20261015.
 
 </details>
+
+- [Causal smoother GRU teachers and B300 student handoff](../../experiment_drafts/kalman_teacher_gru_distill_b300/README.md) — code-only adapter and proposed fresh-teacher/student-cache comparison with raw-zero-pad, matched EMA, fixed local trend and learned local trend controls at pilot4/all112 scopes. Prediction reconstruction and checkpoint/cache provenance support are implemented; the B300 profile, clean four-family registry, student cache, fits and scores remain pending.

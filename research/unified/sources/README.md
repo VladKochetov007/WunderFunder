@@ -73,3 +73,7 @@ Keep provenance and source links with each imported item. Generated idea cards d
 ## Current sequence-moment investigation
 
 - [RevIN official implementation and its causal-use limitation](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) records the ICLR2022authors' [repository](https://github.com/ts-kim/RevIN) and inspected RevIN.py reduction over the supplied temporal axis. Relevant to mean/variance normalization: a whole-current-sequence call would leak future observations in this competition; the local expanding-prefix treatment is an adaptation, with no imported performance claim.
+
+## Causal filtering and recurrent teachers
+
+- [Causal local-trend filtering and GRU distillation B300 source assessment](KALMAN_LOCAL_TREND_DISTILLATION_B300_20261018.md) links Backprop KF, KalmanNet and the AI-Aided Kalman Filters survey to a task-specific proposal without transferring their benchmark claims. It records hashes and limitations for a synthetic NumPy predecessor whose steady-state random-walk KF matches a causal EMA, then points to the matched-EMA/fixed/learned 30-cell draft; no Challenge2 performance evidence exists.

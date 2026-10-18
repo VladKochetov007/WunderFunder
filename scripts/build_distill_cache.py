@@ -25,6 +25,7 @@ from wnn.distillation_cache import (
     row_groups_sha256,
 )
 from wnn.splits import CampaignSplit, load_campaign_split
+from wnn.training.source_identity import kalman_model_source_identity
 
 # Parsed JSON fields are intentionally dynamic and retain their source schema.
 
@@ -254,9 +255,115 @@ def _inspect_teacher(
     layers = int(args.get("layers", 0))
     cell = args.get("cell", "gru")
     gate_count = {"gru": 3, "lstm": 4}.get(cell)
-    recurrent = model_state.get("gru.weight_ih_l0")
-    input_projection = model_state.get("inp.weight")
-    output_projection = model_state.get("head.2.weight")
+    adapter = args.get("model_adapter")
+    smoother_marked = "features.arm_code" in model_state
+    if adapter is not None or smoother_marked:
+        channels_expected = adapter.get("raw_channels") if isinstance(adapter, dict) else None
+        arm = adapter.get("arm") if isinstance(adapter, dict) else None
+        algorithm = adapter.get("algorithm") if isinstance(adapter, dict) else None
+        code = {"fixed": 0, "learned": 1, "ema": 2, "raw": 3}.get(arm, -1)
+        feature_width = 4 * len(channels_expected) if isinstance(channels_expected, list) else -1
+        expected_algorithm = {
+            "raw": "capacity_matched_zero_features",
+            "ema": "steady_state_ema",
+            "fixed": "fixed_local_trend",
+            "learned": "learned_local_trend",
+        }.get(arm)
+        valid_channels = (
+            isinstance(channels_expected, list)
+            and bool(channels_expected)
+            and all(
+                isinstance(channel, int) and 0 <= channel < 112 for channel in channels_expected
+            )
+            and channels_expected == sorted(set(channels_expected))
+        )
+        expected_scope_channels = {
+            "pilot4": [0, 3, 52, 55],
+            "all112": list(range(112)),
+        }
+        valid_scope = (
+            (
+                adapter.get("channel_scope") in expected_scope_channels
+                and channels_expected == expected_scope_channels.get(adapter.get("channel_scope"))
+            )
+            if isinstance(adapter, dict)
+            else False
+        )
+        if (
+            not isinstance(adapter, dict)
+            or adapter.get("kind") != "causal_smoother_gru"
+            or adapter.get("version") != 1
+            or not valid_channels
+            or not valid_scope
+            or adapter.get("feature_width") != feature_width
+            or algorithm != expected_algorithm
+            or adapter.get("covariance_update")
+            != ("not_applicable" if arm in ("ema", "raw") else "Joseph form")
+            or adapter.get("q_r_tying")
+            != (
+                "not_applicable"
+                if arm in ("ema", "raw")
+                else "one scalar per local-trend state family shared across selected channels"
+            )
+            or checkpoint_provenance.get("model_adapter") != adapter
+            or provenance.get("model_adapter") != adapter
+            or args.get("arch") != "gru"
+            or args.get("cell") != "gru"
+            or args.get("enc") != "linear"
+        ):
+            raise ValueError(f"teacher {run} has incomplete Kalman-adapter provenance")
+        arm_code = model_state.get("features.arm_code")
+        channels = model_state.get("features.channel_indices")
+        if (
+            arm_code is None
+            or int(arm_code.item()) != code
+            or channels is None
+            or channels.tolist() != channels_expected
+        ):
+            raise ValueError(f"teacher {run} causal-smoother buffers disagree with arm/channels")
+        if arm == "ema":
+            alpha = model_state.get("features.alpha")
+            if alpha is None or alpha.numel() != 1 or not torch.isfinite(alpha).all().item():
+                raise ValueError(f"teacher {run} EMA gain is missing or nonfinite")
+        elif arm == "raw":
+            if any(
+                name.startswith("features.log_q") or name == "features.log_r"
+                for name in model_state
+            ):
+                raise ValueError(
+                    f"teacher {run} zero-feature raw control unexpectedly contains Q/R state"
+                )
+        elif any(
+            model_state.get(f"features.{name}") is None
+            or tuple(model_state[f"features.{name}"].shape) != (1,)
+            or not torch.isfinite(model_state[f"features.{name}"]).all().item()
+            for name in ("log_q_level", "log_q_slope", "log_r")
+        ):
+            raise ValueError(f"teacher {run} local-trend Q/R state is missing or nonfinite")
+        recurrent = model_state.get("core.gru.weight_ih_l0")
+        input_projection = model_state.get("core.inp.weight")
+        output_projection = model_state.get("core.head.2.weight")
+        expected_input_width = int(checkpoint.get("n_in", 0)) + feature_width
+        model_mean = model_state.get("mean")
+        core_mean = model_state.get("core.mean")
+        actual_layers = sum(
+            1 for key in model_state if re.fullmatch(r"core\.gru\.weight_ih_l\d+", key)
+        )
+        if (
+            model_mean is None
+            or tuple(model_mean.shape) != (int(checkpoint.get("n_in", 0)),)
+            or core_mean is None
+            or tuple(core_mean.shape) != (expected_input_width,)
+            or input_projection is None
+            or input_projection.shape[1] != expected_input_width
+            or actual_layers != layers
+        ):
+            raise ValueError(f"teacher {run} causal-smoother-GRU input/core dimensions disagree")
+    else:
+        recurrent = model_state.get("gru.weight_ih_l0")
+        input_projection = model_state.get("inp.weight")
+        output_projection = model_state.get("head.2.weight")
+        actual_layers = sum(1 for key in model_state if re.fullmatch(r"gru\.weight_ih_l\d+", key))
     if (
         hidden <= 0
         or layers <= 0
@@ -271,12 +378,26 @@ def _inspect_teacher(
         or input_projection.shape[0] != hidden
     ):
         raise ValueError(f"teacher {run} checkpoint dimensions disagree with model arguments")
-    actual_layers = sum(1 for key in model_state if re.fullmatch(r"gru\.weight_ih_l\d+", key))
     if actual_layers != layers:
         raise ValueError(f"teacher {run} checkpoint recurrent layer count differs")
 
     predictions: dict[str, np.ndarray] = {}
     cache_records: dict[str, dict[str, Any]] = {}
+    prediction_driver_sha256 = (
+        file_sha256(Path(__file__).resolve().with_name("predict_run.py"))
+        if adapter is not None
+        else None
+    )
+    model_source_identity = (
+        kalman_model_source_identity(Path(__file__).resolve().parents[1])
+        if adapter is not None
+        else None
+    )
+    if adapter is not None and (
+        checkpoint_provenance.get("model_source_sha256") != model_source_identity["sha256"]
+        or checkpoint_provenance.get("model_source_files") != model_source_identity["files"]
+    ):
+        raise ValueError(f"teacher {run} Kalman source differs from training provenance")
     for split_name, expected_order in target_orders.items():
         pred_path = cache_root / f"pred_{run}_{split_name}.npy"
         sidecar_path = pred_path.with_suffix(".json")
@@ -292,6 +413,15 @@ def _inspect_teacher(
         ):
             raise ValueError(
                 f"teacher {run} {split_name} prediction sidecar is not bound to its checkpoint"
+            )
+        if adapter is not None and (
+            sidecar.get("prediction_driver_sha256") != prediction_driver_sha256
+            or sidecar.get("model_source_sha256") != model_source_identity["sha256"]
+            or sidecar.get("model_source_files") != model_source_identity["files"]
+        ):
+            raise ValueError(
+                f"teacher {run} {split_name} prediction sidecar does not bind the current "
+                "prediction driver and adapted model source"
             )
         row_groups = list(map(int, sidecar.get("row_groups", [])))
         if row_groups != expected_order:
@@ -313,6 +443,9 @@ def _inspect_teacher(
             "prediction_sha256": prediction_sha256,
             "sidecar_sha256": file_sha256(sidecar_path),
             "checkpoint_sha256": checkpoint_sha256,
+            "prediction_driver_sha256": sidecar.get("prediction_driver_sha256"),
+            "model_source_sha256": sidecar.get("model_source_sha256"),
+            "model_source_files": sidecar.get("model_source_files"),
             "epoch": epoch,
             "row_groups_sha256": row_groups_sha256(row_groups),
         }
@@ -323,6 +456,7 @@ def _inspect_teacher(
         "provenance_sha256": file_sha256(provenance_path),
         "epoch": epoch,
         "architecture": args.get("arch"),
+        "model_adapter": adapter,
         "cell": cell,
         "hidden": hidden,
         "layers": layers,
