@@ -1,5 +1,8 @@
 # Execution, incidents, and preservation
 
+- [F1 DataSphere adapter preparation](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_F1_ADAPTER_PREPARATION.json) — canonical six-epoch pair adapter with bounded collection, partial state and embedded SHA verification;15 offline checks pass. No F1 cloud run is admitted. [Full v2 error reconciliation](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_PROFILE_V2_FULL_ERROR_RECONCILIATION.json) finds no further server detail and motivates a separate no-op diagnostic.
+
+
 Execution status, storage locations, preservation receipts and operational incidents.
 
 ## Current navigation

@@ -176,3 +176,7 @@ Files in this packet:
 
 The CLI and project access findings are preserved in the sanitized
 [DataSphere discovery receipt](../receipts/DATASPHERE_DISCOVERY.json).
+
+## Prepared F1 pair
+
+The [F1 adapter](F1_FIT_ADAPTER_README.md) reuses the frozen canonical trainer/exporter for F1/seed1001 wide/deep six-epoch endpoints. [Preparation and checks](../receipts/DATASPHERE_F1_ADAPTER_PREPARATION.json) record independent review and15 passing CPU fixtures, including signal deadlines and partial artifacts. Separate fit/collection deadlines remain unset. Provider file size/SHA verification and a name-bound follow-on controller are required before dispatch; no F1 job or quality result exists. The [full v2 error read](../receipts/DATASPHERE_PROFILE_V2_FULL_ERROR_RECONCILIATION.json) adds no internal diagnostic detail; a distinct bounded no-op canary is being prepared.
