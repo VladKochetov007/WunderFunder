@@ -48,3 +48,5 @@ Latest routine observation: [01:43UTC continuation](receipts/HEARTBEAT_20261018T
 - [F1 metadata](receipts/F1_BELERIAND_FALLBACK_METADATA_20261018.json) and [independent fallback review](receipts/F1_BELERIAND_FALLBACK_REVIEW_20261018.json) bind canonical fold1 cardinality, its distinct89,580-update schedule and all seven guarded commands. The prepared fallback remains unadmitted; checkpoint helpers and fresh ownership/resource checks are pending.
 
 - [06:40UTC continuation](receipts/HEARTBEAT_20261018T0640Z.json) records healthy deep epoch4 batch1220/1492, unchanged archived epoch3, no cloud recovery or cluster claim, and no new allocation.
+
+- [Deep epoch4 archive and epoch5 handoff](receipts/DEEP_CONTINUATION_EP4_20261018.json) preserves the next stable generation and exact successful collector execution. Deep now advances through fixed epoch5; quality and CP30 remain pending.

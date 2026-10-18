@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "kind": "rank01_deep_epoch4_collection_and_epoch5_progress",
+  "observed_utc": "2026-10-18T06:48:06.356761+00:00",
+  "experiment_id": "E-RR18-01-LABELS",
+  "status": "epoch4_archived_epoch5_running",
+  "collection_receipt": "RANK01_DEEP_F0_S1001_E6_EP4_COLLECTION.json",
+  "collection_receipt_sha256": "b0ae9a20c1a7d90766567274405b0b264347c14a1207a85c17194269865a7611",
+  "local_remote_receipt_hash_match": true,
+  "admission": {
+    "created_utc": "2026-10-18T06:47:28.454088+00:00",
+    "unit": "computer-vision-homework-r01-deep-e6-ep4-collect-20261018.service",
+    "argv": [
+      "systemd-run",
+      "--user",
+      "--unit=computer-vision-homework-r01-deep-e6-ep4-collect-20261018.service",
+      "--property=Type=exec",
+      "--property=RemainAfterExit=yes",
+      "--property=Slice=wnn-campaign.slice",
+      "--property=CPUQuota=25%",
+      "--property=MemoryMax=512000000",
+      "--property=MemorySwapMax=0",
+      "--property=RuntimeMaxSec=120",
+      "--setenv=CUDA_VISIBLE_DEVICES=",
+      "--setenv=OMP_NUM_THREADS=1",
+      "--setenv=OPENBLAS_NUM_THREADS=1",
+      "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+      "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/collect_epoch_checkpoint.py",
+      "--arm",
+      "deep",
+      "--epoch",
+      "4"
+    ],
+    "parent_memory_at_admission_bytes": 3116535808,
+    "children_before": [
+      "computer-vision-homework-r01-f0-sequence.service",
+      "wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service"
+    ],
+    "launch_stderr": "Running as unit: computer-vision-homework-r01-deep-e6-ep4-collect-20261018.service; invocation ID: 360eb66355544a1c91bbb8b9e90bda50\n"
+  },
+  "execution": {
+    "Type": "exec",
+    "RuntimeMaxUSec": "2min",
+    "RemainAfterExit": "yes",
+    "Result": "success",
+    "ExecMainStartTimestampMonotonic": "1363295584134",
+    "ExecMainExitTimestampMonotonic": "1363298125348",
+    "ExecMainStatus": "0",
+    "Slice": "wnn-campaign.slice",
+    "MemoryPeak": "[not set]",
+    "MemorySwapPeak": "[not set]",
+    "CPUUsageNSec": "660828000",
+    "CPUQuotaPerSecUSec": "250ms",
+    "MemoryMax": "512000000",
+    "MemorySwapMax": "0",
+    "Environment": "CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "ActiveState": "active",
+    "SubState": "exited",
+    "InvocationID": "360eb66355544a1c91bbb8b9e90bda50"
+  },
+  "exec_elapsed_seconds": 2.541214,
+  "own_exited_support_unit_stopped_after_capture": true,
+  "producer_updates": {
+    "optimizer_attempts": 74600,
+    "amp_skipped_updates": 0,
+    "optimizer_completed_updates": 74600,
+    "ema_updates": 0,
+    "completed_batches": 7460
+  },
+  "producer_nonfinite": [
+    {
+      "epoch": 0,
+      "nonfinite_steps": 0
+    },
+    {
+      "epoch": 1,
+      "nonfinite_steps": 0
+    },
+    {
+      "epoch": 2,
+      "nonfinite_steps": 0
+    },
+    {
+      "epoch": 3,
+      "nonfinite_steps": 0
+    },
+    {
+      "epoch": 4,
+      "nonfinite_steps": 0
+    }
+  ],
+  "resumed_from": {
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f0_s1001/training_state.pt",
+    "sha256": "c7313a22b8834e8cb2cf9ac498176e972d0293e023c8eef34c6e925b63a0daa0",
+    "next_epoch": 2
+  },
+  "source_generation_stable": true,
+  "source_copy_hashes_match": true,
+  "producer_model_hash_matches": true,
+  "intermediate_tensor_reverification": false,
+  "intermediate_source_map_reverification": false,
+  "beleriand_closeout": {
+    "observed_utc": "2026-10-18T06:48:06.356761+00:00",
+    "sequence": {
+      "attempt": "computer-vision-homework-r01-deep-f0s1001-ep25-v1",
+      "heartbeat_utc": "2026-10-18T06:48:06.309998+00:00",
+      "index": 5,
+      "launch_returncode": 0,
+      "launch_stderr": "",
+      "plan": "/home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json",
+      "plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+      "status": "running",
+      "worker_heartbeat": "2026-10-18T06:48:02.133352+00:00",
+      "worker_status": "running"
+    },
+    "attempt_status": "running",
+    "attempt_heartbeat": "2026-10-18T06:48:02.133352+00:00",
+    "memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_bytes": 3152687104,
+    "parent_memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "parent_child_cgroups": [
+      "computer-vision-homework-r01-f0-sequence.service",
+      "wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service"
+    ],
+    "log_tail": [
+      "ep 5 batch 40/1492 loss 1.1575 lr 7.05e-06 seq/s 5.8",
+      "ep 5 batch 60/1492 loss 1.1504 lr 6.86e-06 seq/s 5.7",
+      "ep 5 batch 80/1492 loss 1.6948 lr 6.68e-06 seq/s 5.7"
+    ]
+  },
+  "prior_provider_and_claim_observation": "HEARTBEAT_20261018T0640Z.json",
+  "next_action": "Preserve healthy fixed epoch5 fit. Only after explicit finished/exit_status0 collect and independently verify deep terminal with reviewed terminal-v1 helpers; exports and paired grade stay in frozen sequence.",
+  "limitations": [
+    "Producer counters and nonfinite diagnostics are reported by training, not a new tensor verification.",
+    "This intermediate checkpoint collection does not establish GPU resume parity, prediction quality, convergence or CP30."
+  ]
+}
