@@ -1,0 +1,62 @@
+{
+  "schema": "wnn.kalman-frozen-gru-replay-execution.v1",
+  "attempt_id": "kalman-gru-replay-20261018-r3",
+  "attempt_record": "../runtime/attempts/kalman-gru-replay-20261018-r3.json",
+  "recipe": "recipe_r2.json",
+  "recipe_sha256": "271b06034d4074b0f99ebf6d8954fa991ba688abcada2dce01e1b34d7b351781",
+  "source_manifest_sha256": "af7aef97d4abe1e99357c3acd7f6736ef6bce7733b74429cf433d30d32e85e94",
+  "status": "completed_prediction_only_replay",
+  "started_utc": "2026-10-18T00:32:36.991509+00:00",
+  "finished_utc": "2026-10-18T00:34:23.259823+00:00",
+  "exit_status": 0,
+  "parent": {
+    "run": "warm_mechanism_f0_s3_c_r3@ep1",
+    "checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2"
+  },
+  "membership": {
+    "fold": "F0",
+    "row_groups": [4, 5, 7, 9, 12, 18, 19, 22, 26, 35, 39, 41, 42, 50, 51, 53],
+    "sequence_count": 16,
+    "rows_per_sequence": 20000,
+    "targets_or_masks_loaded": false,
+    "official_metric_called": false
+  },
+  "environment": {
+    "gpu": "NVIDIA GeForce RTX 3060 Laptop GPU",
+    "torch": "2.14.0+cu130",
+    "weights_inputs_states_outputs": "FP32",
+    "autocast": false,
+    "tf32": false
+  },
+  "resources": {
+    "worker_cpu_quota": "100000/100000",
+    "worker_memory_max_bytes": 4999999488,
+    "worker_memory_peak_bytes": 1125679104,
+    "process_peak_rss_kib": 1434452,
+    "process_rss_and_cgroup_peak_differ": true,
+    "peak_parent_memory_bytes": 8043372544,
+    "peak_observed_gpu_memory_bytes": 350224384,
+    "gpu_memory_is_sampled_observer_value": true,
+    "swap_current_bytes": 0,
+    "oom_event_delta": 0,
+    "elapsed_wall_seconds": 104.401,
+    "elapsed_cpu_seconds": 103.210
+  },
+  "outputs": {
+    "directory": "/home/vlad/development/wunder/research_tmp/kalman-online-20261018/kalman_gru_probe_r2",
+    "raw.npz": {
+      "bytes": 2561038,
+      "sha256": "9b1a058aecdd06ebd93ba1e414f7fe946a9327a9e256c6670f4b5d3da83a220e"
+    },
+    "random_walk_posterior.npz": {
+      "bytes": 2561038,
+      "sha256": "a9c74c4c6cb039d719855ac976631f55cfd5aeb3d702226ca38e3b33ae8bfbd5"
+    },
+    "local_trend_posterior.npz": {
+      "bytes": 2561038,
+      "sha256": "11983b6158ebcdc9be1aa66ad827dce710c61a020deb10b15b29442534433be5"
+    }
+  },
+  "grading": "grade_r2.json",
+  "claim_scope": "One frozen GRU on a selected 16-sequence F0 diagnostic panel; no fitting, training-seed variation, clean-fold result, student transfer, B300 profile, submission or public score."
+}

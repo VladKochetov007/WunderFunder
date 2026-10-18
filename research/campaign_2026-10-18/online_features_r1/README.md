@@ -1,0 +1,34 @@
+# Causal online learning, features and model complementarity
+
+[CONTRACT.json](CONTRACT.json) records the user's new authority to continue overnight and beyond until an explicit pause, with 2 aggregate CPU cores, 5 GB task RAM, one GPU worker, and no new paid compute. It fixes the official metric, causality and exposure limits, plus a bounded first wave. This is a new allocation; previous R3 admission remains drained and its sources and ZIPs remain frozen.
+
+## Evidence and interpretation
+
+- [Data audit](DATA_AUDIT.md) and [receipt](data_audit_receipt.json): independent data-sentinel review completed before new actors started. Checks current official and local contracts, observable inputs and labels, reset rules, F0 ancestry and prepared F2/F3 assets. Deterministic input-state updates fit the documented interface; no blanket organizer ruling on global test-time fine-tuning is claimed. F0 is component-excluded but repeatedly exposed; TL3 ancestry remains unverified. Metadata review only, with no payload or native execution. The audit's reference to 30 paired cells concerns recipe-level server confirmation; the latest user authorizes bounded local exploration.
+- [Previous competition reflection](PREVIOUS_COMPETITION_REFLECTION.md): distinguishes participant anecdotes from tonight's measured results, then proposes tests of online input learning, learned features, SWA, residual and highway models, diversity, memory timescales and selective feature banks. Identifies weaker-baseline and inherited-objective limitations. Proposed directions, not new measured gains.
+- [Initial arXiv search log](arxiv_search_initial.log): actual bounded invocation of the repository search helper for test-time training and expressive hidden states. Retrieval output is a source-discovery record; paper claims and transfer require primary-source review.
+- [Active frontier](FRONTIER.md): current owners, readiness and next allocations. H/E-ADAPTER-TARGETONLY-20261018-R1 has completed its target-only fit and independent F0 grade; it is below the matched R2 control and parent on exposed F0. The TL3 serving replay is complete; its cache is ready for independent grading. The independent scout commits first ideas before reading the controller reflection.
+- [TL3 exact-ZIP replay](tl3_replay/README.md): source-qualified native callback replay of the unchanged three-member team archive, with an eight-group reset/profile check and a complete 468-group F0 prediction cache. The exact training ancestry remains unknown and F0 is exposed, so its scores and complementarity are diagnostics that may be fitted; this is not clean-CV evidence. Two predeclared fixed blends were later scored in the [TL3 diagnostics packet](tl3_diagnostics_r1/README.md); both underperformed TL3 itself, with exposure limits preserved.
+- [TL3 fixed-mixture diagnostics R1](tl3_diagnostics_r1/README.md): preflight-pinned official-metric grades for TL3, its fixed 75/25 and 50/50 mixtures with the selected R3 native endpoint, R3 itself, and the warm parent. TL3 scores 0.7018181 on exposed F0, but its exact ancestry is unknown; neither blend reaches its point score. Component intervals condition on fixed predictions and do not establish transfer or seed-level uncertainty.
+
+## Delivery
+
+Every experiment needs a frozen recipe, actual resource profile, terminal execution receipt, predictions, independent evaluation and indexed notes. Larger promising mechanisms receive runnable draft PRs into `research-team`, with 30 paired seed/fold cells per arm for the teammate's B300 study. No new B300 execution or paid rental is authorized here.
+
+## Runnable objective ablation
+
+[Target-only adapter packet](adapter_target_only/README.md) contains the source patch, source pins, frozen recipe, completed fit/export and independent exact-hash grade. On 468 exposed F0 sequences it scores0.6801455, below the matched R2 adapter0.6804499 and parent0.6812265. Conditional component intervals are negative for these fixed endpoints; no seed-level, generalization or public-transfer claim follows. The saved artifacts do not establish bitwise old-head invariance.
+
+## Active resource accounting
+
+[External Docker split](EXTERNAL_DOCKER_RESOURCE_SPLIT.json) records the original separate-cgroup admission; [restore receipt](EXTERNAL_DOCKER_RESOURCE_RESTORE.json) records successful completion, the 2,049,712,128-byte cgroup peak, and restoration of the internal campaign CPU quota to 2 CPUs before further GPU admission. No memory cap was raised. The host cgroup total—not only process RSS—is reported in the replay packet.
+
+[Independent proposals](independent_proposals/README.md) preserves the scout’s first committed six-card proposal set, sources and independence receipt. It covers six mechanisms and triages the old competition reports; no new fit or empirical gain.
+
+[Prediction geometry](prediction_geometry/README.md) compares five fixed cached endpoints: correlations above 0.9996 and correction projections show that these adapter variants remain close to the parent. Exposed-F0 descriptive evidence only; no generalization claim or causal gradient diagnosis.
+
+[Parent normalization](kalman_parent_normalization.json) preserves the exact four selected raw-column means/scales from the trusted frozen parent, with checkpoint and full-array hashes. It supplies no evaluation-fitted statistics; inherited fitting ancestry still applies.
+
+[Continuous execution runtime](runtime/README.md) records admission of the frozen target-only adapter fit after a successful [actual-shape profile](adapter_target_only/profile_receipt.json): 60 finite updates, 3.830 GB cgroup peak, 1.101 GB reserved VRAM, no OOM. It ablates auxiliary-loss participation; the bitwise old-weight invariance claim remains unverified from saved artifacts.
+
+[Fixed causal Kalman input probe](kalman_filter_probe/README.md) contains a NumPy-only scalar/local-trend reference, synthetic/feature-only diagnostics, and a completed source-pinned 16-group frozen-GRU replay. On exposed F0, local-trend posterior replacement is +0.000338 WP versus raw (12-component conditional 95% interval [−0.000019, +0.000716]); random walk is +0.000119. No model weights were trained, and post-hoc position bins are mixed, so this is only a hypothesis-generating fixed-model result. The [execution receipt](kalman_filter_probe/replay_execution_r3.json) records 1.126 GB worker cgroup peak and no OOM, while process RSS differs. The learned-feature and student-transfer proposal is in [B300 draft PR #17](https://github.com/VladKochetov007/WunderFunder/pull/17); no B300 profile or fit has run.

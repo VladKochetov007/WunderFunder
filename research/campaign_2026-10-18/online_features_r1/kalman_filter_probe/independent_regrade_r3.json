@@ -1,0 +1,226 @@
+{
+  "schema": "independent-kalman-regrade-r1",
+  "status": "passed_alignment_and_independent_regrade",
+  "created_unix": 1792284230.7006407,
+  "command": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=20% WNN_MEM_MAX=1000M WNN_THREADS=1 scripts/limited .venv/bin/python /home/vlad/development/wunder/research_tmp/kalman-online-20261018/independent_regrade.py",
+  "limits": {
+    "cpu_quota": "20%",
+    "memory_max": "1000M",
+    "threads": 1,
+    "gpu": "none"
+  },
+  "runtime_seconds": 19.48828935623169,
+  "python": "3.13.9",
+  "numpy": "2.2.6",
+  "pyarrow": "19.0.1",
+  "torch_imported": false,
+  "recipe_status_stale_at_review": "output-width fix implemented; fresh source and membership preflight passed; awaiting root review and new admission",
+  "durable_attempt": {
+    "id": "kalman-gru-replay-20261018-r3",
+    "status": "finished",
+    "exit_status": 0,
+    "elapsed_seconds": 106.24261392000335,
+    "unit": "wnn-bandit-kalman-gru-replay-20261018-r3.service",
+    "contract_sha256_matches_recipe": true
+  },
+  "membership": {
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "valid_parquet_bytes": 5615509128,
+    "valid_parquet_mtime_ns": 1577826000000000000,
+    "groups": [
+      4,
+      5,
+      7,
+      9,
+      12,
+      18,
+      19,
+      22,
+      26,
+      35,
+      39,
+      41,
+      42,
+      50,
+      51,
+      53
+    ],
+    "sequence_ids": [
+      1990332,
+      2308749,
+      6746551,
+      9147005,
+      11423352,
+      24654613,
+      25927382,
+      28399078,
+      29519713,
+      38268719,
+      45444605,
+      47001707,
+      48100848,
+      51305808,
+      51608922,
+      52382536
+    ],
+    "components_in_order": [
+      2799,
+      2800,
+      2802,
+      2804,
+      2799,
+      2812,
+      2813,
+      2800,
+      2800,
+      2826,
+      2829,
+      2831,
+      2832,
+      2826,
+      2405,
+      2840
+    ],
+    "n_unique_components": 12,
+    "rows_per_group": 20000,
+    "target_mask_rows_before_warmup": 31338,
+    "is_scored_rows_in_first_99": 0,
+    "selected_rows_after_warmup": 31338,
+    "warmup_rows": 99,
+    "row_group_seq_ix_checked": true,
+    "warmup_source": "src/wnn/gmetric.py: WARMUP=99; supplied to caller mask"
+  },
+  "cache_validation": {
+    "sha256": {
+      "raw": "9b1a058aecdd06ebd93ba1e414f7fe946a9327a9e256c6670f4b5d3da83a220e",
+      "random_walk_posterior": "a9c74c4c6cb039d719855ac976631f55cfd5aeb3d702226ca38e3b33ae8bfbd5",
+      "local_trend_posterior": "11983b6158ebcdc9be1aa66ad827dce710c61a020deb10b15b29442534433be5"
+    },
+    "prediction_shape": [
+      16,
+      20000,
+      2
+    ],
+    "dtype": "float32",
+    "all_finite": true,
+    "npz_members": [
+      "group_ids",
+      "sequence_ids",
+      "predictions"
+    ],
+    "raw_identical_to_random_walk": false,
+    "raw_identical_to_local_trend": false,
+    "per_sidecar_cache_checkpoint_preflight_membership_and_no_targets_no_metric_checks": true
+  },
+  "scores": {
+    "raw": {
+      "t0": 0.730985202006418,
+      "t1": 0.6024253759547183,
+      "wp": 0.6667052889805682,
+      "selected_rows": 31338,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "random_walk_posterior": {
+      "t0": 0.7308500154986233,
+      "t1": 0.6027993525694869,
+      "wp": 0.666824684034055,
+      "selected_rows": 31338,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "local_trend_posterior": {
+      "t0": 0.7309746011956151,
+      "t1": 0.6031124857961105,
+      "wp": 0.6670435434958628,
+      "selected_rows": 31338,
+      "metric_id": "global_wp_clip2_v1"
+    }
+  },
+  "comparisons": {
+    "random_walk_posterior": {
+      "delta_wp": 0.00011939505348679269,
+      "independent_component_bootstrap": {
+        "candidate_wp": 0.6668246840340551,
+        "reference_wp": 0.666705288980568,
+        "mean_diff": 0.00011939505348712576,
+        "bootstrap_sd": 0.0002984139764168643,
+        "ci95": [
+          -0.0005073032036324643,
+          0.0006539906655886156
+        ],
+        "p_le_0": 0.4074,
+        "n_sequences": 16,
+        "n_components": 12,
+        "n_boot": 10000,
+        "seed": 20261018,
+        "unit": "unique source component; paired candidate-reference resamples"
+      }
+    },
+    "local_trend_posterior": {
+      "delta_wp": 0.00033825451529456707,
+      "independent_component_bootstrap": {
+        "candidate_wp": 0.6670435434958629,
+        "reference_wp": 0.666705288980568,
+        "mean_diff": 0.00033825451529490014,
+        "bootstrap_sd": 0.00018643706096036446,
+        "ci95": [
+          -1.9154199624210598e-05,
+          0.0007156361169878333
+        ],
+        "p_le_0": 0.0319,
+        "n_sequences": 16,
+        "n_components": 12,
+        "n_boot": 10000,
+        "seed": 20261018,
+        "unit": "unique source component; paired candidate-reference resamples"
+      }
+    }
+  },
+  "provenance_drift": {
+    "current_source_hashes_match_preflight": true,
+    "mismatches": {},
+    "checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+    "normalization_sha256": "d0895b2eeb1252c2a51bfb899036575e477fffe5df5b71f0109ce524a790469c"
+  },
+  "artifact_sha256": {
+    "recipe_r2.json": "271b06034d4074b0f99ebf6d8954fa991ba688abcada2dce01e1b34d7b351781",
+    "preflight_receipt_r2.json": "bef87e31633ff213dedd3146801cd8008ab84570e7ec9739920908bd0af1b46f",
+    "grade_r2.json": "c203016004ddc1d02843bd05f0203e0c06e41d6ed1fe511c480700a7e60c9002",
+    "grade_replay_r2.py_reviewed_not_invoked": "7d6e912f27d26164233fa3be60090046b8791cb21267a20c6332bbb3d295d035",
+    "attempt_r3.json": "32e543579ad834f8a24bafc78a8f5b50a7e8bfca8533890342cdf5aaab6b2502",
+    "attempt_log_r3.log": "a9aa9c311376033ceaa34028d334f818526a72c815d9ece35c4a23f2a947d768",
+    "split_manifest": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "independent_scorer_script_sha256": "0de33fdb3c4fcdbce759fe1bdeaf1c45bf604d95abfbe2ac9040cb0fc6510536",
+    "official_metric_src_wnn_gmetric_py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "comparison_helpers_src_wnn_evaluation_py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+  },
+  "actor_grade_summary": {
+    "raw": {
+      "t0": 0.7309852020064177,
+      "t1": 0.6024253759547181,
+      "wp": 0.6667052889805679,
+      "selected_rows": 31338,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "random_walk_posterior": {
+      "t0": 0.730850015498623,
+      "t1": 0.602799352569487,
+      "wp": 0.666824684034055,
+      "selected_rows": 31338,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "local_trend_posterior": {
+      "t0": 0.7309746011956152,
+      "t1": 0.6031124857961105,
+      "wp": 0.6670435434958628,
+      "selected_rows": 31338,
+      "metric_id": "global_wp_clip2_v1"
+    }
+  },
+  "actor_grade_sha256": "c203016004ddc1d02843bd05f0203e0c06e41d6ed1fe511c480700a7e60c9002",
+  "limits_of_inference": [
+    "The 16 groups are a preselected subset of exposed F0. These scores are fixed-endpoint descriptions, not clean validation or transfer evidence.",
+    "The paired bootstrap resamples only 12 represented source components, conditional on the selected endpoints and panel; it does not quantify training-seed/model-fit variation or selection uncertainty.",
+    "The actor comparison uses candidate and raw from the same aligned prediction caches and the same pooled official metric. Its centered per-sequence moments are correctly aggregated by source component before paired resampling.",
+    "The local-trend percentile interval reported in grade_r2.json crosses zero despite p_le_0=0.0319; p_le_0 is a tail fraction, not a two-sided significance test."
+  ]
+}

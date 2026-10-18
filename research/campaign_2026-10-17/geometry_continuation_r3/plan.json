@@ -1,0 +1,58 @@
+{
+  "id": "E-GEOMETRY-LONGER-20261017-R3",
+  "registered_utc": "2026-10-17T20:08:00Z",
+  "authority": "Latest user: autonomous continuous local research and GPU utilization, record notes; team owns its separate experiments. Supersedes prior scoped pause/timebox; no paid/cloud changes.",
+  "objective_mode": "competition",
+  "question": "Does longer optimization change the negative early-concatenation interaction?",
+  "parent": "E-DISCRETE-OCCUPANCY-PILOT-20261017-R2",
+  "prior_exposure": "All R1/R2 outcomes seen; reused exposed components. Exploratory, not new holdout.",
+  "data": "Exact unchanged R2 fit43/eval46 sequences, fit folds2/3 complete components; two exposed eval slices0/1. Same source/data/preprocessing hashes.",
+  "model": {
+    "hidden": 128,
+    "layers": 2,
+    "input_width": 271
+  },
+  "arms": [
+    "control",
+    "scaled",
+    "dictionary",
+    "combined"
+  ],
+  "seeds": [
+    3,
+    7,
+    11
+  ],
+  "epochs": 8,
+  "updates": 3520,
+  "optimizer": "Canonical FP32 AdamW lr1e-3->1e-5 endpoint-inclusive cosine over3520updates,wd.01,beta2.999,clip1,batch4,chunk512; exclude first99rows per sequence from supervised loss. No optimizer warmup/restarts.",
+  "checkpoint": "Fixed final; no early stopping/validation selection",
+  "primary_comparison": "combined-scaled and four-arm interaction; report all paired seeds/folds, other contrasts descriptive",
+  "practical_screen_delta": 0.001,
+  "fixed_half_mixtures": [
+    [
+      "control",
+      "dictionary"
+    ],
+    [
+      "control",
+      "combined"
+    ],
+    [
+      "scaled",
+      "dictionary"
+    ]
+  ],
+  "limits": "Longer training also changes cosine schedule, so a total-budget comparison rather than isolated duration effect. No KD or production model claim. Three seeds not30cell confirmation.",
+  "resources": {
+    "task_memory_max_bytes": 5000000000,
+    "worker_memory_max_bytes": 3500000000,
+    "worker_cpu_cores": 1,
+    "parent_cpu_cores": 2,
+    "gpu_workers": 1,
+    "cuda_allocator_fraction": 0.18,
+    "paid_spend": 0,
+    "stage_wall_seconds": 1800
+  },
+  "next": "Independently reviewed function-preserving feature continuation and expanded fitting membership; retain failed components for conditional teacher/student value."
+}

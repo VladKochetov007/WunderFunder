@@ -1,0 +1,80 @@
+{
+  "schema": "kalman_filter_probe_execution_measurement.v1",
+  "scope": "code and support checks only; no Torch payload, GPU, fit, or model scoring",
+  "synthetic_run": {
+    "command_requested_scope": "WNN_CPU_QUOTA=20% WNN_MEM_MAX=500M WNN_THREADS=1 WNN_SLICE=wnn-campaign.slice scripts/limited .venv/bin/python check_synthetic.py",
+    "receipt_path": "synthetic_receipt.json",
+    "receipt_written": true,
+    "assertions_recorded_pass": [
+      "finite_20k",
+      "future_perturbation_prefix_equal",
+      "a_b_a_exact_reset",
+      "constant_and_extreme_finite",
+      "covariance_min_eigenvalue_nonnegative",
+      "rw_matches_steady_constant_gain_ema",
+      "streaming_posterior_matches_batch",
+      "raw_columns_retained"
+    ],
+    "wall_seconds_from_receipt": 14.302769400004763,
+    "process_cpu_seconds_from_receipt": 9.670897401,
+    "process_ru_maxrss_kib_from_receipt": 841376,
+    "process_exit_code_captured": false,
+    "cgroup_scope_unit": null,
+    "requested_memory_max": "500M",
+    "actual_memory_max": null,
+    "actual_memory_current_peak_events": null,
+    "cgroup_audit": "No WNN_SCOPE_UNIT was set. After the process disappeared, systemd listed no check_synthetic scope and journal lookup gave no unit record; the cgroup path and memory counters could not be recovered. The reported process RSS exceeds the requested cap if compared directly, so wrapper enforcement is unverified. No rerun was made."
+  },
+  "metadata_preflight": {
+    "scope_unit": "wnn-kalman-preflight-20261018-r2.scope",
+    "command_exit_code": 0,
+    "wall_seconds_from_exec": 1.9356,
+    "requested_cpu_quota": "20%",
+    "requested_memory_max": "500M",
+    "torch_imported": false,
+    "gpu_used": false,
+    "payload_loaded": false,
+    "live_cgroup_receipt": {
+      "path": "/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice/wnn-kalman-preflight-20261018-r2.scope",
+      "memory.current": 203206656,
+      "memory.peak": 206663680,
+      "memory.max": 524288000,
+      "memory.events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0,
+        "sock_throttled": 0
+      },
+      "memory.swap.current": 0,
+      "cpu.max": "20000 100000"
+    },
+    "post_exit_cgroup": "Unit inactive after completion; authoritative counters are the live receipt captured by the Python preflight before scope teardown."
+  },
+  "actual_first_eight_input_projection": {
+    "receipt_path": "f0_input_projection_receipt.json",
+    "wall_seconds": 97.10674817299878,
+    "process_cpu_seconds": 19.427747830999998,
+    "process_ru_maxrss_kib": 375272,
+    "torch_imported": false,
+    "gpu_used": false,
+    "targets_or_masks_read": false
+  },
+  "future_runtime_capture": {
+    "scope_unit": "wnn-kalman-gru-probe-20261018-r1.scope",
+    "requested_memory_max_bytes": 5000000000,
+    "requested_cpu_quota": "20%",
+    "script_capture": [
+      "/proc/self/cgroup",
+      "memory.current",
+      "memory.peak",
+      "memory.max",
+      "memory.events",
+      "memory.swap.current",
+      "cpu.max"
+    ],
+    "gpu_and_prediction_run": "pending root admission"
+  }
+}
