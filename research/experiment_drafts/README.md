@@ -36,4 +36,4 @@ All14 draft branches now include shared trainer revision `eb3309a322c1e24b3cc157
 
 ## Causal smoother and student handoff
 
-- [Causal smoother GRU teachers and distillation on B300](kalman_teacher_gru_distill_b300/README.md) — adds a canonical-trainer adapter, raw-zero-pad/steady-state-EMA/fixed-local-trend/learned-local-trend arms at pilot4 and all112 scopes, checkpoint-aware prediction and adapted-teacher checks in the four-family cache builder. The actual B300 profile, clean source registry, task fits, cache and grades remain pending.
+- [Causal smoother GRU teachers and distillation on B300](kalman_teacher_gru_distill_b300/README.md), [draft PR #17](https://github.com/VladKochetov007/WunderFunder/pull/17) — adds a canonical-trainer adapter, raw-zero-pad/steady-state-EMA/fixed-local-trend/learned-local-trend arms at pilot4 and all112 scopes, checkpoint-aware prediction and adapted-teacher checks in the four-family cache builder. The actual B300 profile, clean source registry, task fits, cache and grades remain pending.

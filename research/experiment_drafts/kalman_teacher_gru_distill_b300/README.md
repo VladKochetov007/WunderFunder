@@ -5,6 +5,9 @@ this branch. The four-channel NumPy receipt is synthetic-only and is not a
 model-quality result. Hypothesis `H-KALMAN-LOCAL-TREND-20261018`; experiment
 `E-KALMAN-LOCAL-TREND-B300-20261018`.
 
+Published as [draft PR #17](https://github.com/VladKochetov007/WunderFunder/pull/17)
+to `research-team`.
+
 The experiment compares causal smoother features against a parameter-shape-
 matched raw-input control and a steady-state EMA control, then tests whether a
 learned local-trend teacher improves the existing four-family GRU student
