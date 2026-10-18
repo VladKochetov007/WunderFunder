@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [F1 checkpoint support preparation](../../campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/checkpoints/README.md) and [independent review/testing receipt](../../campaign_2026-10-18/priority25_execution_r4/receipts/F1_CHECKPOINT_SUPPORT_REVIEW_20261018.json): separate F1 counters, source/data identity, Adam and continuation checks are prepared. All12 root-local synthetic tests pass; a CUDA-hidden server fixture also passes under50%CPU/1.5GB/120s. This is helper validation only; no F1 checkpoint, fit, score or CP30 result. Frozen F0 training continues unchanged.
+
 
 - [Deep epoch3 collection and epoch4 progress](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0610Z.json), with [raw artifact hashes](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F0_S1001_E6_EP3_COLLECTION.json):59,680 producer-reported updates and zero skips/nonfinite; stable generation/source-copy hashes pass. No repeated tensor check. Healthy one-GPU training continues, cloud/cluster access shows no new capacity and paired quality remains pending.
 

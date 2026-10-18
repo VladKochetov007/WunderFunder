@@ -1,0 +1,71 @@
+{
+  "schema": "priority25.f1_checkpoint_support_review.v1",
+  "created_utc": "2026-10-18T07:03:02.341437+00:00",
+  "status": "reviewed_and_synthetic_tests_passed",
+  "candidate_commit": "f6b7b631815a14f0727689eeef913168125a017e",
+  "integrated_commit": "9fbd7abb",
+  "manifest_path": "../f1_beleriand_fallback/checkpoints/PREPARATION_MANIFEST.json",
+  "manifest_sha256": "f3755ed5378991399bf52ba807330f744d7143a7776d48cbf0dd0f15f88951a7",
+  "independent_reviewer": "/root/beleriand_gpu_guard_r4",
+  "root_reviewer": "/root",
+  "final_review": "No remaining critical verifier blockers identified in this candidate.",
+  "resolved_review_findings": [
+    "Frozen producer history stores epoch at row/grad_stats level, not nested diagnostic epoch_index.",
+    "Stage1 model_ep0 may differ from resumed model; model_ep1 must equal it. All raw checkpoint keys/shapes still match.",
+    "Adam requires complete finite FP32 moments with parameter-shape coverage and exact phase step counters.",
+    "Terminal same-arm and peer stage1 receipts bind phase, arm, run, attempt, command, plan, helper dependencies and state hashes.",
+    "Terminal history preserves verified stage1 prefix; embedded resumed_from matches parent state.",
+    "Exclusive archive creation prevents overwriting an existing archive.",
+    "Runtime parsing accepts actual systemd 2min representation; collector checks campaign cgroup limits and 17GB target with 8GB worker reserve.",
+    "Receipts bind imported helper dependencies and canonical training-state loader file."
+  ],
+  "local_validation": {
+    "author_and_critic": {
+      "python": "3.13.11",
+      "tests": 12,
+      "passed": 11,
+      "skipped": 1,
+      "skip_reason": "Torch absent in their lightweight worktree environment"
+    },
+    "root": {
+      "command": "uv run --no-sync python -m unittest discover -s research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/checkpoints -p test_f1_checkpoint_support.py -v",
+      "python": "3.13.11",
+      "torch": "2.14.1",
+      "tests": 12,
+      "passed": 12,
+      "skipped": 0,
+      "ruff_check": "passed",
+      "ruff_format_check": "passed"
+    }
+  },
+  "beleriand_validation": {
+    "receipt": "F1_CHECKPOINT_TORCH_TEST_V1.json",
+    "sha256": "768b2ada3afef7651980d14d1f93bc0c41095798c11c591fc159248fbe678bb2",
+    "execution_receipt": "F1_CHECKPOINT_TORCH_TEST_EXECUTION_V1.json",
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "tests": 1,
+    "passed": 1,
+    "skipped": 0,
+    "cuda_initialized": false,
+    "staged_directory": "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/f1-checkpoint-tests-v1",
+    "staged_files": {
+      "collect_f1_checkpoint.py": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+      "f1_checkpoint_common.py": "07d596a1b69574e266a909bfe2e24e4c82d1e9cd778c7338bc5855688159f5c5",
+      "f1_checkpoint_evidence.py": "5ffb3dfe65b542b7bce28e2c020cec203be402d9b0ad081604d08c35ec2a6cc9",
+      "f1_checkpoint_lineage.py": "c6aec1daace1fd200d60bcc5cc9532aa9d98f76d99bd01e0ca39c65eb727e81d",
+      "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+      "test_f1_checkpoint_support.py": "88bab2eeca7db1ff2e83361040ad8d9defa1b10976ecb4dde961e2bc2ce0b32a",
+      "verify_f1_checkpoint.py": "d022367b0e4091b1fd4179ff1b5ea8d9f5722ae8ef686bd86fe5774869dc2186"
+    },
+    "plan_staged": false
+  },
+  "f1_admission": "UNADMITTED",
+  "f1_checkpoint_collected": false,
+  "f1_checkpoint_verified": false,
+  "next_required": "Finish F0 exports/grade; refresh provider/cell/resource/data/source admission before choosing one provider for both F1 arms. Actual F1 checkpoints must later pass collection and independent verification.",
+  "limitations": [
+    "Synthetic fixtures and static producer/schema review do not establish actual F1 artifacts, training result, GPU resume parity, quality, serving latency or CP30.",
+    "F0 helpers and trainer were not modified. Fixed F1 expected totals 1493 batches/14930 updates per epoch, 89580 terminal updates remain static expectations."
+  ]
+}

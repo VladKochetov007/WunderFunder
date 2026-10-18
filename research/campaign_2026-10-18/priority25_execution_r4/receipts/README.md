@@ -1,5 +1,7 @@
 # Execution receipts
 
+- [F1 checkpoint helper review and synthetic validation](F1_CHECKPOINT_SUPPORT_REVIEW_20261018.json): independently reviewed collector/verifier with F1-specific membership, counters and lineage. Root ran all12 fixtures on local PyTorch; the [real-Torch server fixture](F1_CHECKPOINT_TORCH_TEST_V1.json) passed in the [bounded CPU execution](F1_CHECKPOINT_TORCH_TEST_EXECUTION_V1.json), with no CUDA initialization. Helpers only were staged for this test; F1 plan and fits remain unadmitted, and no actual F1 checkpoint was verified.
+
 This directory will retain sanitized provider access, source/data bindings, profiles, launches and terminal collections for [ranked25](../README.md). Credentials and large data/weights are excluded. No completed fit is claimed by an infrastructure receipt.
 
 - [Beleriand preflight](BELERIAND_PREFLIGHT.json): account, GPU/physical disk/cgroup observation and the first rejected legacy-fold binding, before optimizer steps.

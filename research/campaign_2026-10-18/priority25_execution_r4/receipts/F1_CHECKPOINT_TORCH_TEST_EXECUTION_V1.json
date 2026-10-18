@@ -1,0 +1,106 @@
+{
+  "schema": "priority25.f1_checkpoint_torch_fixture_execution.v1",
+  "created_utc": "2026-10-18T07:03:02.341437+00:00",
+  "status": "passed",
+  "admission": {
+    "utc": "2026-10-18T07:02:18.491697+00:00",
+    "parent_memory_before": 3143593984,
+    "parent_children": [
+      "computer-vision-homework-r01-f0-sequence.service",
+      "wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service"
+    ],
+    "parent_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "unit": "computer-vision-homework-r01-f1-checkpoint-tests-v1.service",
+    "command": [
+      "systemd-run",
+      "--user",
+      "--unit=computer-vision-homework-r01-f1-checkpoint-tests-v1.service",
+      "--property=Slice=wnn-campaign.slice",
+      "--property=Type=exec",
+      "--property=RemainAfterExit=yes",
+      "--property=CPUQuota=50%",
+      "--property=MemoryHigh=1350000000",
+      "--property=MemoryMax=1500000000",
+      "--property=MemorySwapMax=0",
+      "--property=RuntimeMaxSec=120",
+      "--property=TasksMax=128",
+      "--property=Nice=19",
+      "--setenv=CUDA_VISIBLE_DEVICES=",
+      "--setenv=OMP_NUM_THREADS=1",
+      "--setenv=OPENBLAS_NUM_THREADS=1",
+      "--setenv=MKL_NUM_THREADS=1",
+      "--setenv=PYTHONDONTWRITEBYTECODE=1",
+      "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+      "--working-directory=/home/grinchenkoeg/computer-vision-homework-20261018/support-source/f1-checkpoint-tests-v1",
+      "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+      "-c",
+      "import unittest,json,pathlib,datetime,os,platform,torch\nfrom test_f1_checkpoint_support import F1CheckpointSupportTests\ntorch.set_num_threads(1)\nassert os.environ.get('CUDA_VISIBLE_DEVICES')==''\nsuite=unittest.TestSuite([F1CheckpointSupportTests('test_tiny_real_tensor_guards_when_torch_is_available')])\nr=unittest.TextTestRunner(verbosity=2).run(suite)\nassert r.wasSuccessful() and r.testsRun==1 and not r.skipped\nassert not torch.cuda.is_initialized()\nd={'created_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'passed','tests_run':r.testsRun,'skipped':len(r.skipped),'python':platform.python_version(),'torch':torch.__version__,'cuda_visible_devices':os.environ['CUDA_VISIBLE_DEVICES'],'cuda_initialized':torch.cuda.is_initialized(),'torch_cpu_threads':torch.get_num_threads(),'tmpdir':os.environ.get('TMPDIR'),'cgroup':pathlib.Path('/proc/self/cgroup').read_text().strip(),'scope':'Synthetic two-element tensor guards only; no training, inference, actual F1 checkpoint or quality verification.'}\np=pathlib.Path('/home/grinchenkoeg/computer-vision-homework-20261018/receipts/F1_CHECKPOINT_TORCH_TEST_V1.json')\nwith p.open('x') as f:f.write(json.dumps(d,indent=2)+'\\n')\nprint(json.dumps(d))\n"
+    ],
+    "stdout": "",
+    "stderr": "Running as unit: computer-vision-homework-r01-f1-checkpoint-tests-v1.service; invocation ID: f17a13c9b044436c85b62e23d45a201d\n"
+  },
+  "observed": {
+    "utc": "2026-10-18T07:02:35.241501+00:00",
+    "properties": "RuntimeMaxUSec=2min\nResult=success\nExecMainStartTimestampMonotonic=1364185622193\nExecMainExitTimestampMonotonic=1364190618695\nExecMainStatus=0\nControlGroup=\nMemoryPeak=[not set]\nMemorySwapPeak=[not set]\nCPUUsageNSec=2393777000\nCPUQuotaPerSecUSec=500ms\nMemoryHigh=1350000000\nMemoryMax=1500000000\nMemorySwapMax=0\nEnvironment=CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONDONTWRITEBYTECODE=1 TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp\nActiveState=active\nSubState=exited\nInvocationID=f17a13c9b044436c85b62e23d45a201d\n",
+    "receipt_raw": "{\n  \"created_utc\": \"2026-10-18T07:02:22.448935+00:00\",\n  \"status\": \"passed\",\n  \"tests_run\": 1,\n  \"skipped\": 0,\n  \"python\": \"3.13.15\",\n  \"torch\": \"2.14.0+cu130\",\n  \"cuda_visible_devices\": \"\",\n  \"cuda_initialized\": false,\n  \"torch_cpu_threads\": 1,\n  \"tmpdir\": \"/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp\",\n  \"cgroup\": \"0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-r01-f1-checkpoint-tests-v1.service\",\n  \"scope\": \"Synthetic two-element tensor guards only; no training, inference, actual F1 checkpoint or quality verification.\"\n}\n",
+    "receipt_sha256": "768b2ada3afef7651980d14d1f93bc0c41095798c11c591fc159248fbe678bb2",
+    "journal": "Starting computer-vision-homework-r01-f1-checkpoint-tests-v1.service - /home/grinchenkoeg/WunderFunder/.venv/bin/python -c \"import unittest,json,pathlib,datetime,os,platform,torch\\nfrom test_f1_checkpoint_support import F1CheckpointSupportTests\\ntorch.set_num_threads(1)\\nassert os.environ.get('CUDA_VISIBLE_DEVICES')==''\\nsuite=unittest.TestSuite([F1CheckpointSupportTests('test_tiny_real_tensor_guards_when_torch_is_available')])\\nr=unittest.TextTestRunner(verbosity=2).run(suite)\\nassert r.wasSuccessful() and r.testsRun==1 and not r.skipped\\nassert not torch.cuda.is_initialized()\\nd={'created_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'passed','tests_run':r.testsRun,'skipped':len(r.skipped),'python':platform.python_version(),'torch':torch.__version__,'cuda_visible_devices':os.environ['CUDA_VISIBLE_DEVICES'],'cuda_initialized':torch.cuda.is_initialized(),'torch_cpu_threads':torch.get_num_threads(),'tmpdir':os.environ.get('TMPDIR'),'cgroup':pathlib.Path('/proc/self/cgroup').read_text().strip(),'scope':'Synthetic two-element tensor guards only; no training, inference, actual F1 checkpoint or quality verification.'}\\np=pathlib.Path('/home/grinchenkoeg/computer-vision-homework-20261018/receipts/F1_CHECKPOINT_TORCH_TEST_V1.json')\\nwith p.open('x') as f:f.write(json.dumps(d,indent=2)+'\\\\n')\\nprint(json.dumps(d))\\n\"...\nStarted computer-vision-homework-r01-f1-checkpoint-tests-v1.service - /home/grinchenkoeg/WunderFunder/.venv/bin/python -c \"import unittest,json,pathlib,datetime,os,platform,torch\\nfrom test_f1_checkpoint_support import F1CheckpointSupportTests\\ntorch.set_num_threads(1)\\nassert os.environ.get('CUDA_VISIBLE_DEVICES')==''\\nsuite=unittest.TestSuite([F1CheckpointSupportTests('test_tiny_real_tensor_guards_when_torch_is_available')])\\nr=unittest.TextTestRunner(verbosity=2).run(suite)\\nassert r.wasSuccessful() and r.testsRun==1 and not r.skipped\\nassert not torch.cuda.is_initialized()\\nd={'created_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'passed','tests_run':r.testsRun,'skipped':len(r.skipped),'python':platform.python_version(),'torch':torch.__version__,'cuda_visible_devices':os.environ['CUDA_VISIBLE_DEVICES'],'cuda_initialized':torch.cuda.is_initialized(),'torch_cpu_threads':torch.get_num_threads(),'tmpdir':os.environ.get('TMPDIR'),'cgroup':pathlib.Path('/proc/self/cgroup').read_text().strip(),'scope':'Synthetic two-element tensor guards only; no training, inference, actual F1 checkpoint or quality verification.'}\\np=pathlib.Path('/home/grinchenkoeg/computer-vision-homework-20261018/receipts/F1_CHECKPOINT_TORCH_TEST_V1.json')\\nwith p.open('x') as f:f.write(json.dumps(d,indent=2)+'\\\\n')\\nprint(json.dumps(d))\\n\".\ntest_tiny_real_tensor_guards_when_torch_is_available (test_f1_checkpoint_support.F1CheckpointSupportTests.test_tiny_real_tensor_guards_when_torch_is_available) ... ok\n----------------------------------------------------------------------\nRan 1 test in 0.006s\nOK\n{\"created_utc\": \"2026-10-18T07:02:22.448935+00:00\", \"status\": \"passed\", \"tests_run\": 1, \"skipped\": 0, \"python\": \"3.13.15\", \"torch\": \"2.14.0+cu130\", \"cuda_visible_devices\": \"\", \"cuda_initialized\": false, \"torch_cpu_threads\": 1, \"tmpdir\": \"/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp\", \"cgroup\": \"0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-r01-f1-checkpoint-tests-v1.service\", \"scope\": \"Synthetic two-element tensor guards only; no training, inference, actual F1 checkpoint or quality verification.\"}\n"
+  },
+  "receipt": {
+    "created_utc": "2026-10-18T07:02:22.448935+00:00",
+    "status": "passed",
+    "tests_run": 1,
+    "skipped": 0,
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "cuda_visible_devices": "",
+    "cuda_initialized": false,
+    "torch_cpu_threads": 1,
+    "tmpdir": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-r01-f1-checkpoint-tests-v1.service",
+    "scope": "Synthetic two-element tensor guards only; no training, inference, actual F1 checkpoint or quality verification."
+  },
+  "receipt_byte_identical_sha256": "768b2ada3afef7651980d14d1f93bc0c41095798c11c591fc159248fbe678bb2",
+  "actual_process_runtime_seconds": 4.996502,
+  "process_cpu_seconds": 2.393777,
+  "memory_peak_bytes": null,
+  "memory_peak_note": "systemd reported [not set]; no peak value inferred.",
+  "closeout": {
+    "utc": "2026-10-18T07:03:02.341437+00:00",
+    "own_exited_support_stopped": "computer-vision-homework-r01-f1-checkpoint-tests-v1.service",
+    "support_hashes_after": {
+      "collect_f1_checkpoint.py": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+      "f1_checkpoint_common.py": "07d596a1b69574e266a909bfe2e24e4c82d1e9cd778c7338bc5855688159f5c5",
+      "f1_checkpoint_evidence.py": "5ffb3dfe65b542b7bce28e2c020cec203be402d9b0ad081604d08c35ec2a6cc9",
+      "f1_checkpoint_lineage.py": "c6aec1daace1fd200d60bcc5cc9532aa9d98f76d99bd01e0ca39c65eb727e81d",
+      "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+      "test_f1_checkpoint_support.py": "88bab2eeca7db1ff2e83361040ad8d9defa1b10976ecb4dde961e2bc2ce0b32a",
+      "verify_f1_checkpoint.py": "d022367b0e4091b1fd4179ff1b5ea8d9f5722ae8ef686bd86fe5774869dc2186"
+    },
+    "parent_memory": 3152842752,
+    "parent_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "parent_children": [
+      "computer-vision-homework-r01-f0-sequence.service",
+      "wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service"
+    ],
+    "sequence": {
+      "heartbeat_utc": "2026-10-18T07:02:53.110664+00:00",
+      "index": 5,
+      "status": "running"
+    },
+    "worker": {
+      "heartbeat_utc": "2026-10-18T07:02:58.261259+00:00",
+      "status": "running"
+    },
+    "log_tail": [
+      "ep 5 batch 680/1492 loss 2.1251 lr 2.27e-06 seq/s 5.8",
+      "ep 5 batch 700/1492 loss 1.0904 lr 2.16e-06 seq/s 5.8",
+      "ep 5 batch 720/1492 loss 1.4148 lr 2.05e-06 seq/s 5.8"
+    ]
+  },
+  "limitations": [
+    "Only one synthetic real-Torch tensor fixture executed on Beleriand; no F1 checkpoint, fit, prediction or grade.",
+    "F1 plan was not staged or passed to the runner.",
+    "Helper bytes match sealed manifest before and after test; F0 worker and frozen sources unchanged."
+  ]
+}

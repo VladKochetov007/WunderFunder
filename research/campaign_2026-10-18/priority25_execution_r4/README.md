@@ -1,5 +1,7 @@
 # Ranked25 execution, 18 October 2026
 
+- [Separate F1 checkpoint helpers](f1_beleriand_fallback/checkpoints/README.md) now have [independent review and synthetic CPU evidence](receipts/F1_CHECKPOINT_SUPPORT_REVIEW_20261018.json). The frozen preparation manifest preserves the original author test result; root subsequently passed all12 tests locally and the one real-Torch fixture on Beleriand. F1 plan remains UNADMITTED; no F1 fit, actual checkpoint or grade exists.
+
 The latest user explicitly resumes model training and requests the current25ideas in priority order on Beleriand and DataSphere. Root owns execution, collection and independent grading. Preparation is not a completed scientific experiment.
 
 - [Authority and ordered tracker](AUTHORITY.json): exact user instruction, one Beleriand GPU, resource boundaries, CP30 comparison contract and DataSphere budget status. Old frozen no-fit packets remain unchanged.
