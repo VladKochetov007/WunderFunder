@@ -1,0 +1,33 @@
+RuntimeMaxUSec=10min
+Result=success
+ExecMainStartTimestamp=Sun 2026-10-18 23:09:16 UTC
+ExecMainExitTimestamp=Sun 2026-10-18 23:09:33 UTC
+ExecMainStatus=0
+ExecStart={ path=/usr/bin/env ; argv[]=/usr/bin/env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 PYTHONPATH=/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/src:/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r3-sample-v2 TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp /home/grinchenkoeg/WunderFunder/.venv/bin/python -B -c import importlib,json,pathlib,sys,time,numpy as np,pyarrow.parquet as pq
+root=pathlib.Path("/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r3-sample-v2")
+sys.path.insert(0,str(root/"idea_screens_r3"))
+old_load,old_reader=np.load,pq.ParquetFile
+calls=[]
+def deny(*args,**kwargs):
+ calls.append(True)
+ raise AssertionError("import attempted array/parquet data access")
+np.load=pq.ParquetFile=deny
+started=time.monotonic()
+module=importlib.import_module("sample_panel_v2")
+helpers=module._r1_helpers()
+assert not calls
+np.load,pq.ParquetFile=old_load,old_reader
+with (root/"ROOT_IMPORT_SMOKE.json").open("x") as stream:
+ json.dump(dict(status="PASS",data_reads=0,module=module.__file__,helper=helpers.__file__,numpy=np.__version__,elapsed_s=time.monotonic()-started),stream,indent=2)
+module.materialize(pathlib.Path("/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/nf19-sample-r3-v2"))
+ ; ignore_errors=no ; start_time=[Sun 2026-10-18 23:09:16 UTC] ; stop_time=[Sun 2026-10-18 23:09:33 UTC] ; pid=1403365 ; code=exited ; status=0 }
+ControlGroup=
+CPUQuotaPerSecUSec=500ms
+MemoryHigh=1400000000
+MemoryMax=1500000000
+MemorySwapMax=0
+Id=computer-vision-homework-eda19-r3-sample-v2.service
+LoadState=loaded
+ActiveState=active
+SubState=exited
+InvocationID=b514d05be10f4beb9c4711c4154a2d33

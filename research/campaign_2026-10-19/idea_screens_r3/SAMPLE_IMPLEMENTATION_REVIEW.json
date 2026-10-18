@@ -1,0 +1,29 @@
+{
+  "schema": "idea_screens_r3.sample_implementation_review.v1",
+  "verdict": "BLOCKED_CANONICAL_EXCLUDED_MEMBERSHIP_COVERAGE",
+  "scope": "Independent static review of the frozen component-first sampler, selector tests, and isolated import closure. No parquet/array reads or sample materialization were performed by this review.",
+  "findings": [
+    "The selector validates unique source-qualified group metadata and attempts complete fit/evaluation coverage, then asserts global component disjointness before making either draw. However, its current coverage assertion does not accept the pinned F0 split's explicit excluded membership semantics, so selection fails before either draw.",
+    "The fit draw uses canonical fit/train groups only; evaluation uses evaluation/valid groups only. It samples 64 and 32 components uniformly with the fixed seeds, then one eligible whole group per component. The first 32 fit components are nested in the 64, with stage and sequence inclusion probabilities recorded.",
+    "Membership is frozen before sequence reads. No labels or scored masks affect selection or trigger replacement; all selected groups are retained. Evaluation requires and preserves the original mask. Fit preserves a provided mask, otherwise uses only the documented rows-after-99 fallback. SequenceFile fixes the 20,000-row and 112-feature shape; scored labels and inputs are checked for finiteness.",
+    "Source binding checks canonical F0 identity, registered size/mtime/footer identities before reads, then source size/mtime after reads. The sampler records prior registered full-payload hashes without rescanning the full parquet files; this matches the bounded contract and is not a fresh full-file verification.",
+    "Output is create-only under existing physical research_tmp, rejects RAM-backed storage, and requires at least 4 GB free. Individual arrays are non-pickle NPY files with SHA-256 and byte counts recorded.",
+    "An isolated temporary source tree containing only the exact R3 sampler/selector, R1 sample_data helper, and canonical wnn/data.py imported both R3 modules and loaded the pinned R1 helper. np.load and pyarrow.parquet.ParquetFile sentinels were installed before import and were not called; canonical SequenceFile resolved to the copied wnn/data.py, so this smoke did not depend on ambient repository siblings.",
+    "The pinned F0 membership has 10,606 train metadata groups: 10,535 in fit.train and 71 in excluded.train (including corrupt_train 528), with no evaluation.train groups. For valid it has 1,873 metadata groups: 1,405 fit.valid and 468 evaluation.valid; excluded.valid is an exact alias of evaluation.valid. The current generic per-source fit∪evaluation==metadata assertion therefore rejects the train source before selection. It must instead enforce the pinned split's excluded/alias rules while maintaining complete source-qualified accounting and fit/evaluation component disjointness."
+  ],
+  "checks": {
+    "test_panel": "PASS: 4/4 unittest tests (synthetic fixtures do not exercise pinned excluded-group schema)",
+    "ruff_check": "PASS",
+    "ruff_format_check": "PASS",
+    "isolated_import_no_data_read_smoke": "PASS",
+    "blockers": ["panel_membership._split_index rejects the pinned F0 split because it omits excluded.train from coverage accounting; exact resolution needs excluded.train coverage and excluded.valid==evaluation.valid alias validation"]
+  },
+  "sha256": {
+    "sample_panel.py": "a99993e56cebc2a9861dfea32bd4d5f0b417eb908e363b0b67f8280f2b50d660",
+    "panel_membership.py": "e12d79735cd21dd87c35b416956f98924bd4f6ef01aa82b176c8c1f05578ba2c",
+    "test_panel.py": "38f4191ea38151ef82601f8be453b88c92b1b54999b942c265a59359c9a679b9",
+    "idea_screens_r1/sample_data.py": "13a4acfeb62ace285184c8fe0f88ff7ba65a3969843eaa0e0f6175189325abc7",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+  },
+  "remaining_gate": "Re-review the actor's changed selector and tests after the excluded-membership fix. Then root must repeat the exact-bundle import/data-read guard inside the capped B sample unit before any selected array read, as specified by the frozen contract."
+}

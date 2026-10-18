@@ -1,0 +1,15 @@
+{
+  "schema": "idea_screens_r3.sample_implementation_review_erratum.v1",
+  "supersedes": "SAMPLE_IMPLEMENTATION_REVIEW.json",
+  "status": "BLOCKED_PENDING_CANONICAL_EXCLUDED_MEMBERSHIP_FIX_AND_REREVIEW",
+  "finding": "The current panel_membership._split_index requires fit∪evaluation coverage of every sequence metadata group. The pinned canonical F0 split carries explicit excluded membership, so this assertion rejects the train-source coverage before selection. The selector must validate complete source-qualified accounting according to the exact F0 schema and continue to prove fit/evaluation component disjointness before selection.",
+  "correction": "The earlier review sentence stating that corrupt_train group 528 is included among the 71 excluded train groups was an unsupported inference. The available diagnosis shows corrupt_train separately and does not establish its overlap with excluded.train, fit.train, or sequence metadata. Do not assume those identities; check them directly against the exact pinned F0 split bytes before specifying coverage rules.",
+  "checks_and_limits": {
+    "sample_selector_synthetic_tests": "4/4 pass, but current fixtures do not cover the canonical excluded-membership schema and therefore do not catch the failure",
+    "isolated_import_smoke": "PASS with np.load and pyarrow.parquet.ParquetFile sentinels untouched; this only establishes import closure, not selector compatibility with the pinned split",
+    "selected_arrays_read_by_this_review": false,
+    "v1_materialization": "Parent reports captured failure before selected array reads; no output/sample arrays were produced"
+  },
+  "required_resolution": "Actor should validate fit, evaluation, excluded, and sequence metadata group sets using the exact pinned F0 semantics (including explicit handling of any documented aliases) and add a canonical-schema-shaped synthetic test. Independent reviewer must verify the changed source and tests before sample admission.",
+  "timestamp_utc": "2026-10-19"
+}

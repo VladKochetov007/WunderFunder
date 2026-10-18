@@ -1,0 +1,76 @@
+{
+  "code_review": [
+    "The four raw feature blocks have the frozen dimensions 52/60/104/112; EMA views append the fixed signed and absolute-innovation blocks at dimensions 224/224/336 and are built on complete sequences before stride selection.",
+    "The 32/64 component folds are deterministic partitions. Fold models use training components only; inner scoring uses held fit sequences and their full original masks. Eval array values are first consumed only by the outer score after alpha selection/refits.",
+    "Each case selects one shared two-target alpha by pooled canonical WP across held components; exact ties favor the larger alpha. The alpha1 baseline is retained. Outer component raw sums, official per-component metrics, drop-one pooled sensitivities, selected and baseline coefficients, normalizers and norms are recorded.",
+    "No R1 causal histories, masks or targets are changed; no learning-state or gradient claim is inferred from these linear probes."
+  ],
+  "independent_checks": {
+    "isolated_import_closure": {
+      "data_read_blockers": "np.load and pyarrow.parquet.ParquetFile sentinels remained untouched",
+      "modules": [
+        "idea_screens_r1.sample_data",
+        "idea_screens_r2.ridge_math",
+        "idea_screens_r3.analysis_views",
+        "idea_screens_r3.probe_helpers",
+        "idea_screens_r3.analysis_fit",
+        "idea_screens_r3.analysis_report",
+        "idea_screens_r3.ridge_probe",
+        "idea_screens_r3.run_probe"
+      ],
+      "status": "PASS",
+      "tree": "temporary tree populated only from the exact 21 pinned files; canonical wnn.data/gmetric resolved to copied src/wnn files"
+    },
+    "ruff": "PASS: R3 Python files lint clean and all 11 are formatted",
+    "source_hashes": "PASS: all 21 manifest entries matched exact current bytes before isolated import",
+    "tests": {
+      "command_result": "8 passed",
+      "composition": "4 test_panel tests from the V1 sampler + 4 test_ridge_probe synthetic tests",
+      "limitation": "The 4 sampler tests do not cover canonical F0 excluded-membership semantics; the separate V1 sampler failure and current V2 sampler review remain outstanding."
+    },
+    "tiny_synthetic_scorer_and_archive_check": {
+      "checks": [
+        "outer pooled component score exactly matched direct canonical GlobalAccumulator pooling",
+        "zero-scored component remained in component output with null metric",
+        "drop-one pooled metric matched direct recomputation on remaining fixed predictions",
+        "synthetic model archive contained selected and alpha1 baseline arrays with non-object NPY dtypes"
+      ],
+      "runtime_observation": "Local NumPy emitted matmul floating-point RuntimeWarnings in the synthetic dummy-prediction check although prediction arrays were finite and direct metrics matched. No claim is made about B runtime warnings; the actual bounded job should retain its finite checks and captured stderr.",
+      "scope": "synthetic arrays and supplied dummy models only; no fitting or real dataset arrays",
+      "status": "PASS"
+    }
+  },
+  "pinned_file_count": 21,
+  "pinned_files_sha256": {
+    "canonical:wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "canonical:wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "idea_screens_r1/__init__.py": "74a1bc49240577740207993165aa028f75352814c1a35516b8ded7a6af58e63a",
+    "idea_screens_r1/constants.py": "bc7d990835a53586549cf0cf93a2e345098215a3d626f35b195f642cb20f7520",
+    "idea_screens_r1/eda_mechanisms.py": "a677dc1a7ecbdc10a799f918fa8c301af44cc5d339ac51d3f83abf170253b428",
+    "idea_screens_r1/feature_views.py": "60d42c3c961001d9177c7d7d300fcd3472662cc3d024deaac74263e37fe75550",
+    "idea_screens_r1/input_diagnostics.py": "a796ede88e6d80e460c8292a78b066e1be9ca2eab0be70b6c7ab458f0c4f38e7",
+    "idea_screens_r1/sample_data.py": "13a4acfeb62ace285184c8fe0f88ff7ba65a3969843eaa0e0f6175189325abc7",
+    "idea_screens_r1/target_operator.py": "f92d9cac2776bbb6b91aea7eadeb272d57f7951be9b20e23777b8417b1df1410",
+    "idea_screens_r2/__init__.py": "b5cef19fc43cfb5c4777a59d1c3b05d1b4b6c0a71070669d7066f8a438b062a3",
+    "idea_screens_r2/ridge_math.py": "6c3e890aefc211e5d725d9394914c3788bf38c92f8691f8338059259330211ed",
+    "idea_screens_r2/views.py": "685b4f79485edc647d59baa335afc1e6a8a4f84628204f9a4a3124e5678e9af3",
+    "idea_screens_r3/CONTRACT.md": "0bc7876fb88acd3b7f0f6d4f4fe953f5b371867c57609b3f0a1ef26e11397c19",
+    "idea_screens_r3/__init__.py": "1e0b10a697431d6301054c8c8ff3f3d5b41d62eaacb0477dfa7fee1c1d320b06",
+    "idea_screens_r3/analysis_fit.py": "e5d353e8f71679f1bbb36b0ebecf3cd438291efc8882ffc6f4fae501f6b7d86e",
+    "idea_screens_r3/analysis_report.py": "4c76b87420d64e2affa45e51508aef99c4c55353770bf1a12b732844ba8bacbb",
+    "idea_screens_r3/analysis_views.py": "325d192c0ba5ac67091b586ce6673316797848c21b4ede75ea9fc70dcdc0d9b1",
+    "idea_screens_r3/probe_helpers.py": "f2f222e98b7aad087890d6f211ef8a0aa95b39966cdb0cd109118ea2d4795d68",
+    "idea_screens_r3/ridge_probe.py": "e2d15d2381aea39ece6c070b8d44a34cb8057bbc04b4b9b84ec4b8b4c48a8fc6",
+    "idea_screens_r3/run_probe.py": "d1a7099f8959f46d0de1e7088986a2081a7a077c1229f2b97a112f260621ead5",
+    "idea_screens_r3/test_ridge_probe.py": "0f2819cb653199ad139cfe962ad97f7ff8c30ff0aa1b0bae3419e664f03819fa"
+  },
+  "preparation_manifest_schema": "idea_screens_r3.preparation.v1",
+  "preparation_manifest_sha256": "ab8c80d7f866e3c6777a4c5582ed67d66600ccad007a508e8a29638f86193ce4",
+  "real_arrays_or_fits_used": false,
+  "real_results": null,
+  "schema": "idea_screens_r3.probe_implementation_review.v1",
+  "separate_admission_limit": "This is not sample-stage approval and does not clear the V1 sampler membership-coverage failure. Probe admission still requires a valid, source-bound V2 SAMPLE.json, and the root must run the exact-bundle pre-array guard for that sample.",
+  "source_preinvocation_boundary": "run_probe verifies the pinned preparation manifest and dependent source bytes before importing the sample loader or probe implementation. As the CLI entrypoint and package initializer execute before this internal check, root must externally verify the exact launch bundle/CLI bytes before invoking it.",
+  "source_snapshot": "source-a266b036",
+  "verdict": "PASS_FOR_PROBE_PACKAGE_ONLY"
+}

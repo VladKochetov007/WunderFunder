@@ -1,0 +1,3 @@
+# Analytic probe V1
+
+[Durable intent](LAUNCH_INTENT.json) and [actual source/resource admission and launch](LAUNCH_STDOUT.json) bind the accepted V2 sample and frozen21-pin numerical package. One serial CPU unit started at23:13:10UTC under0.5CPU/1.5GB/no-swap/600s and exited0 at23:15:48UTC. All nine cases completed; [raw terminal/stop capture](terminal_capture/README.md) precedes exact-unit cleanup. [Independent result audit](../../RESULT_AUDIT.json) reconstructs18outer,81fold and27pooled-CV endpoints from component moments. Models and arrays remain on B. Helper wall148.623s is separate from157.836974s unit duration; [results](../../RESULTS.md) distinguish these cost scopes and scientific limits.

@@ -1,0 +1,82 @@
+{
+  "schema": "nf19.r3_sample_v2_stop_local_validation.v1",
+  "raw_stop_transport": {
+    "bytes": 7394,
+    "sha256": "547d1ad5ad0f0d8c97f9601ce9ec5a3bc04096cfdb72899eaef9c9713e4baed2",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "guard_passed": true,
+  "guard_checks": {
+    "ActiveState": true,
+    "CPUQuotaPerSecUSec": true,
+    "ExecMainStatus": true,
+    "ExecStartPaths": true,
+    "Id": true,
+    "InvocationID": true,
+    "LoadState": true,
+    "MemoryHigh": true,
+    "MemoryMax": true,
+    "MemorySwapMax": true,
+    "Result": true,
+    "RuntimeMaxUSec": true,
+    "SubState": true
+  },
+  "stop_command": {
+    "argv": [
+      "systemctl",
+      "--user",
+      "stop",
+      "computer-vision-homework-eda19-r3-sample-v2.service"
+    ],
+    "returncode": 0,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "after_state": {
+    "RuntimeMaxUSec": "infinity",
+    "Result": "success",
+    "ExecMainStartTimestamp": "",
+    "ExecMainExitTimestamp": "",
+    "ExecMainStatus": "0",
+    "ControlGroup": "",
+    "CPUQuotaPerSecUSec": "infinity",
+    "MemoryHigh": "infinity",
+    "MemoryMax": "infinity",
+    "MemorySwapMax": "infinity",
+    "Id": "computer-vision-homework-eda19-r3-sample-v2.service",
+    "LoadState": "not-found",
+    "ActiveState": "inactive",
+    "SubState": "dead",
+    "InvocationID": ""
+  },
+  "parent_memory_events_after": {
+    "memory.events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "f3_units_after": {
+    "computer-vision-homework-r01-f3-sequence.service": {
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-r01-f3-sequence.service",
+      "CPUQuotaPerSecUSec": "100ms",
+      "MemoryMax": "512000000",
+      "MemorySwapMax": "0",
+      "Id": "computer-vision-homework-r01-f3-sequence.service",
+      "LoadState": "loaded",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service": {
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service",
+      "CPUQuotaPerSecUSec": "1s",
+      "MemoryHigh": "7200000000",
+      "MemoryMax": "8000000000",
+      "MemorySwapMax": "0",
+      "Id": "wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service",
+      "LoadState": "loaded",
+      "ActiveState": "active",
+      "SubState": "running"
+    }
+  }
+}

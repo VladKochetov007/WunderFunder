@@ -1,5 +1,7 @@
 # 19 October research
 
+- [R3 measured component/block follow-up](idea_screens_r3/RESULTS.md): nine fixed ridge cases on64/32 fitting budgets and32evaluation components. Full-budget raw and i0+tail nearly match, while selected signed EMA adds0.010459WP with positive32/32drop-one contrasts. Fixed-alpha1 absolute EMA remains positive despite opposite fit-selected ranking. All endpoints are audited; changed exposed sampling and linear-model limits prevent full-model/public claims. Both the pre-array failed sample and independently corrected successful sample are preserved.
+
 - [No-fit discussion and25hypothesis cards](no_fit_ideation_r1/README.md): independent generation, literature/math and criticism; no data/model execution in that earlier session.
 - [Bounded EDA/simple-model screens](idea_screens_r1/README.md): later user-authorized48-sequence exploration, nine fixed ridge views and component-aware interpretation. Actual results and remaining untested mechanisms are separated; no public or full-campaign improvement is claimed.
 

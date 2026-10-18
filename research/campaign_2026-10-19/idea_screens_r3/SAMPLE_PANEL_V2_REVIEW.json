@@ -1,0 +1,39 @@
+{
+  "schema": "idea_screens_r3.sample_panel_v2_review.v1",
+  "status": "PASS_BOUNDED_IMPLEMENTATION_REVIEW",
+  "files": {
+    "panel_membership_v2.py": "78158ad1801b1c9a8314a78aeef5098cd5813528848269e434124fc9bf7ef071",
+    "sample_panel_v2.py": "89adf7df87a798ff852d96afaaa2289fb0f81cb9f8eb7c2dfd80458f8f6abfc6",
+    "test_panel_v2.py": "8994f979a6261b1a1865f710b5f9a9ad63e5cd174cbecbfbc39d543d81a37776",
+    "PANEL_METADATA.json": "1a5166b446f4969da4949beda3e2a238936bfad008c323147f06d282847335de"
+  },
+  "membership_review": {
+    "fit_train_and_excluded_train_partition_metadata": true,
+    "fit_valid_and_evaluation_valid_partition_metadata": true,
+    "excluded_valid_exact_alias_of_evaluation_valid": true,
+    "excluded_train_equals_train_metadata_on_evaluation_components": true,
+    "global_fit_and_evaluation_components_disjoint_before_selection": true,
+    "corrupt_markers_in_fit_train_rejected_before_candidate_selection": true,
+    "corrupt_marker_528_absent_from_train_metadata_recorded_without_role_promotion": true,
+    "candidate_pools": "fit.train and evaluation.valid only",
+    "selection_seeds_and_probability_stages": "unchanged from the frozen component-first design"
+  },
+  "materializer_review": {
+    "membership_file_written_before_sequence_reader_construction": true,
+    "r1_sample_data_lookup": "relative sibling idea_screens_r1/sample_data.py; verified in staged layout",
+    "canonical_source_lookup": "source-*/src discovery; verified in staged layout",
+    "mask_behavior": "preserves the provided mask and rejects true values in the first 99 warmup rows; evaluation mask is required",
+    "source_checks": "pinned split hash and source footer/stat checks precede sequence reads; source size and mtime are rechecked after reads",
+    "output_behavior": "create-only under existing physical research_tmp with a 4 GB free-space minimum"
+  },
+  "verification": {
+    "synthetic_tests": "7/7 pass",
+    "isolated_b_stage_layout_smoke": "7/7 pass with R1 and R3 as siblings and canonical source under source-a266b036/src",
+    "read_sentinels": "numpy.load and pyarrow.parquet.ParquetFile were patched to raise; neither was called",
+    "ruff_check": "pass",
+    "ruff_format_check": "pass",
+    "selected_data_or_arrays_accessed": false
+  },
+  "launch_condition": "Run sample_panel_v2.py as a script, or include the R3 directory on sys.path; its panel_membership_v2 import is intentionally flat.",
+  "limits": "This review validates code paths, synthetic metadata, and staged import closure only. It does not validate the remote F0 split bytes, materialize the panel, or authorize a data run; root must bind the staged source hashes and execution receipt."
+}

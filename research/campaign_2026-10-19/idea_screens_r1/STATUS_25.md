@@ -1,5 +1,7 @@
 # Статус всех25 после первого bounded screen
 
+Дополнение R3: [девять фиксированных probes](../idea_screens_r3/RESULTS.md) расширили проверку карточек2/11/19 до32evaluation-компонент, разделили i1/tail и сравнили nested32/64fit. На полном бюджете raw почти равенi0+tail; selected signed EMA+0.01046WP имеет положительные32/32drop-one-контрасты. Fixed-alpha1 absolute EMA также положителен, но fitting-CV выбирает противоположный по outer результат. Это линейные summaries/ablation, а не state matching, Jordan mechanism или gradient conflict. Остальные NOT_TESTED ниже не заменяются этими результатами.
+
 Дополнение: [R2](../idea_screens_r2/RESULTS.md) завершил fit-only выбор регуляризации и разложение EMA; это всё та же exposed-панель. Ниже сохранены конкретные R1 результаты, а не универсальные выводы о семьях. Лаги при выбранной alpha почти равны raw; joint EMA также почти равна raw, отдельные alpha1 EMA и selected endpoints расходятся по ранжированию. i0-subset остаётся лучше, но не изолирует i1.
 
 Источник гипотез: [IDEAS_25.md](../no_fit_ideation_r1/IDEAS_25.md). Результаты: [RESULTS.md](RESULTS.md); предварительная подробная карта тестов сохранена в [SCREEN_MAP.md](SCREEN_MAP.md). Все измерения относятся только к текущей exposed-панели; положительный proxy не доказывает механизм.
