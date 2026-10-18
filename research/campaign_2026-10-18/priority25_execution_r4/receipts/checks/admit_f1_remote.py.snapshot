@@ -1,0 +1,163 @@
+"""One-time root admission of the already reviewed, frozen F1 plan."""
+from __future__ import annotations
+
+import base64
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+B = Path('/home/grinchenkoeg/computer-vision-homework-20261018')
+EXPECTED = '96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96'
+GPU = 'GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c'
+packet = B / 'research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback'
+plan_path = packet / 'F1_BELERIAND_PLAN.json'
+sequence_path = B / 'runtime/receipts/RANK01_F1_S1001_SEQUENCE.json'
+admission_path = B / 'receipts/F1_BELERIAND_ADMISSION_V1.json'
+launch_path = B / 'receipts/F1_BELERIAND_LAUNCH_V1.json'
+payload = json.load(sys.stdin)
+plan_bytes = base64.b64decode(payload['plan_base64'], validate=True)
+assert hashlib.sha256(plan_bytes).hexdigest() == EXPECTED
+plan = json.loads(plan_bytes)
+assert plan['state'] == 'UNADMITTED'
+assert len(plan['steps']) == 7
+
+
+def sha(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def props(unit: str) -> dict[str, str]:
+    output = subprocess.check_output(['systemctl', '--user', 'show', unit,
+        '-p', 'LoadState,ActiveState,SubState,ControlGroup,CPUQuotaPerSecUSec,MemoryHigh,MemoryMax,MemorySwapMax'], text=True)
+    return dict(line.split('=', 1) for line in output.splitlines() if '=' in line)
+
+
+evidence = {}
+expected_receipts = {
+    'RANK01_F0_S1001_RESULT_COLLECTION.json': '6c9713606387c9b265506f51c9135d3dcefe15d572a7f0750167e39f46832612',
+    'F1_BELERIAND_PREFLIGHT_V1.json': 'e38d6ad83e34263d6b99e7b4ae38c1c5ea5924d353239e00e4cd0b36e4fd49ba',
+    'F1_BELERIAND_SOURCE_RUNTIME_PREFLIGHT_V2.json': '7b1e559b2757ff2485d94447181f8250c7930974d965a872dd1d700720ccfdd8',
+}
+for name in ['F1_BELERIAND_PREFLIGHT_V1.json', 'F1_BELERIAND_SOURCE_RUNTIME_PREFLIGHT_V2.json',
+             'RANK01_F0_S1001_RESULT_COLLECTION.json']:
+    path = B / 'receipts' / name
+    data = json.loads(path.read_text())
+    assert data['status'] == 'passed', name
+    if name in expected_receipts:
+        assert sha(path) == expected_receipts[name]
+    evidence[name] = {'path': str(path), 'sha256': sha(path), 'data': data}
+data_preflight = evidence['F1_BELERIAND_PREFLIGHT_V1.json']['data']
+for name, entry in data_preflight['data_files'].items():
+    stat = (B / 'data' / name).stat()
+    expected_stat = entry['stat_after_loader']
+    assert (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns, stat.st_ctime_ns) == tuple(
+        expected_stat[key] for key in ['device', 'inode', 'bytes', 'mtime_ns', 'ctime_ns']), name
+assert sha(B / 'splits/fold1.json') == plan['source_bindings']['fold1_manifest_sha256']
+source_preflight = evidence['F1_BELERIAND_SOURCE_RUNTIME_PREFLIGHT_V2.json']['data']
+assert source_preflight['source_verification']['count'] == 523
+assert source_preflight['attempt']['id'] == 'computer-vision-homework-r01-deep-f0s1001-ep25-v1'
+assert source_preflight['attempt']['sha256'] == '3c8f0f3a534d1c9626bffa7ab5876a295d01d16f9f01f4d54e083121260e174f'
+assert source_preflight['attempt']['contract_sha256'] == '9292b545fd088df40c4cc54066a745025ee4d30c2bf1574bdb4df341eb16937c'
+for entry in source_preflight['source_verification']['files']:
+    path = Path(entry['key'])
+    if not path.is_absolute():
+        path = B / 'source-a266b036' / path
+    stat = path.stat()
+    assert (stat.st_dev, stat.st_ino, stat.st_size, stat.st_mtime_ns, stat.st_ctime_ns) == tuple(
+        entry[key] for key in ['device', 'inode', 'size', 'mtime_ns', 'ctime_ns']), str(path)
+assert source_preflight['runtime']['python_version'] == '3.13.15'
+assert source_preflight['runtime']['installed_distribution_versions']['torch'] == '2.14.0+cu130'
+f0 = json.loads((B / 'receipts/F0_SEQUENCE.json').read_text())
+assert f0['status'] == 'finished' and f0['index'] == 8
+assert not (B / 'runtime/STOP_ADMISSION.json').exists()
+active = []
+for path in (B / 'runtime/attempts').glob('*.json'):
+    record = json.loads(path.read_text())
+    if record.get('status') in ['reserved', 'waiting', 'running', 'preflight', 'launch_uncertain']:
+        active.append(record['id'])
+assert not active, active
+for step in plan['steps']:
+    assert not (B / 'runtime/attempts' / (step['attempt'] + '.json')).exists()
+    for output in step.get('must_not_exist', []):
+        assert not Path(output).exists(), output
+for path in [plan_path, sequence_path, admission_path, launch_path]:
+    assert not path.exists(), str(path)
+unit = 'computer-vision-homework-r01-f1-sequence.service'
+assert props(unit)['LoadState'] == 'not-found'
+parent = props('wnn-campaign.slice')
+assert parent['CPUQuotaPerSecUSec'] == '2s'
+assert parent['MemoryHigh'] == '18000000000' and parent['MemoryMax'] == '20000000000'
+assert parent['MemorySwapMax'] == '0'
+cg = Path('/sys/fs/cgroup') / parent['ControlGroup'].lstrip('/')
+assert not [path for path in cg.iterdir() if path.is_dir()]
+parent_memory = int((cg / 'memory.current').read_text())
+assert parent_memory + 8_512_000_000 < 17_000_000_000
+disk_free = shutil.disk_usage(B).free
+assert disk_free > 15_500_000_000
+filesystem = subprocess.check_output(['findmnt', '-T', str(B / 'research_tmp'), '-n', '-o', 'FSTYPE,SOURCE'], text=True).strip()
+assert filesystem.startswith('ext4 ')
+gpu = subprocess.check_output(['nvidia-smi', '-i', GPU,
+    '--query-gpu=uuid,name,driver_version,memory.free', '--format=csv,noheader,nounits'], text=True).strip()
+values = [part.strip() for part in gpu.split(',')]
+assert values[0] == GPU and values[1] == 'NVIDIA RTX A4000' and values[2] == '610.57.04'
+assert int(values[3]) > 5000
+gpu_processes = subprocess.check_output(['nvidia-smi', '-i', GPU,
+    '--query-compute-apps=pid,process_name,used_memory', '--format=csv,noheader,nounits'], text=True).strip()
+foreign_processes = []
+for row in gpu_processes.splitlines():
+    pid = int(row.split(',')[0].strip())
+    owner_uid = Path('/proc', str(pid)).stat().st_uid
+    assert owner_uid != os.getuid(), 'Existing same-user GPU process needs reconciliation before admission'
+    foreign_processes.append({'pid': pid, 'uid': owner_uid, 'preserved': True})
+python = '/home/grinchenkoeg/WunderFunder/.venv/bin/python'
+command = ['systemd-run', '--user', '--unit=' + unit, '--property=Type=exec',
+    '--property=Slice=wnn-campaign.slice', '--property=CPUQuota=10%',
+    '--property=MemoryMax=512000000', '--property=MemorySwapMax=0',
+    '--property=RuntimeMaxSec=370800', '--property=TimeoutStopSec=45',
+    '--working-directory=' + str(B / 'source-a266b036'),
+    '--setenv=WNN_SLICE=wnn-campaign.slice', '--setenv=WNN_TMP_ROOT=' + str(B / 'research_tmp'),
+    '--setenv=TMPDIR=' + str(B / 'research_tmp'), '--setenv=CUDA_VISIBLE_DEVICES=',
+    '--setenv=OMP_NUM_THREADS=1', '--setenv=OPENBLAS_NUM_THREADS=1', '--setenv=MKL_NUM_THREADS=1',
+    '--setenv=PYTHONDONTWRITEBYTECODE=1', python, str(B / 'source-a266b036/scripts/bandit_sequence.py'),
+    '--plan', str(plan_path), '--receipt', str(sequence_path)]
+admission = {
+    'schema': 'priority25.f1_beleriand_admission.v1', 'status': 'admitted',
+    'created_utc': datetime.now(timezone.utc).isoformat(), 'owner': 'root',
+    'cell': {'fold': 1, 'seed': 1001, 'arms': ['wide', 'deep'], 'provider': 'Beleriand'},
+    'plan_sha256': EXPECTED, 'plan_path': str(plan_path),
+    'plan_documentary_state': 'Frozen UNADMITTED preparation metadata is superseded by this separate admission.',
+    'basis': payload['basis'],
+    'evidence': {key: {field: value[field] for field in ['path', 'sha256']} for key, value in evidence.items()},
+    'resources': {'parent': parent, 'parent_memory_bytes': parent_memory,
+        'memory_events': (cg / 'memory.events').read_text(), 'disk_free_bytes': disk_free,
+        'scratch_filesystem': filesystem, 'gpu': gpu, 'gpu_processes': gpu_processes,
+        'max_campaign_gpu_workers': 1, 'foreign_processes_preserved': True,
+        'foreign_processes': foreign_processes,
+        'controller_cpu_cores': 0.1, 'controller_ram_bytes': 512000000},
+    'all_attempts_and_outputs_absent': True, 'f0_sequence_finished': True,
+    'static_expected_updates': {'per_epoch': 14930, 'stage1': 29860, 'terminal': 89580},
+    'command': command,
+    'limits': 'Each fit24h, export2h, grade1h, admission300s; outer sequence103h. Existing worker guards and gpu.lock enforce serialization.',
+    'checkpoint_owner': 'Root heartbeat collects/verifies F1 stage1, ancestry, terminal and predictions with reviewed F1-specific helpers.',
+    'limitations': ['One additional exposed fold/seed pair; no CP30 or convergence claim.',
+        'Resource reuse is supported by unchanged runtime/source/data route/GPU and both completed six-epoch F0 arms; shared-device throughput is not guaranteed.']}
+with admission_path.open('x') as stream:
+    json.dump(admission, stream, indent=2); stream.write('\n')
+packet.mkdir(parents=True, exist_ok=True)
+sequence_path.parent.mkdir(parents=True, exist_ok=True)
+with plan_path.open('xb') as stream:
+    stream.write(plan_bytes)
+assert sha(plan_path) == EXPECTED
+result = subprocess.run(command, capture_output=True, text=True)
+launch = {'created_utc': datetime.now(timezone.utc).isoformat(), 'returncode': result.returncode,
+    'stdout': result.stdout, 'stderr': result.stderr, 'unit': unit,
+    'admission_sha256': sha(admission_path), 'plan_sha256': sha(plan_path)}
+with launch_path.open('x') as stream:
+    json.dump(launch, stream, indent=2); stream.write('\n')
+print(json.dumps(launch))
+raise SystemExit(result.returncode)

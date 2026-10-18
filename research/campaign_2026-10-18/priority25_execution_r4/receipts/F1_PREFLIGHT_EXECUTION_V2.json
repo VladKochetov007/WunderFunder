@@ -1,0 +1,74 @@
+{
+  "schema": "priority25.f1_preflight_execution.v2",
+  "status": "passed",
+  "data": {
+    "observed_utc": "2026-10-18T07:55:13.587857+00:00",
+    "unit": "computer-vision-homework-r01-f1-preflight-v1.service",
+    "properties": {
+      "Result": "success",
+      "ExecMainStartTimestamp": "Sun 2026-10-18 07:50:03 UTC",
+      "ExecMainStartTimestampMonotonic": "1367050471141",
+      "ExecMainExitTimestamp": "Sun 2026-10-18 07:54:43 UTC",
+      "ExecMainExitTimestampMonotonic": "1367330523538",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "29970432",
+      "CPUUsageNSec": "139838074000",
+      "CPUQuotaPerSecUSec": "500ms",
+      "MemoryMax": "1500000000",
+      "MemorySwapMax": "0",
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "89913eacab3b49d49c506f62394254da"
+    },
+    "receipt_sha256": "e38d6ad83e34263d6b99e7b4ae38c1c5ea5924d353239e00e4cd0b36e4fd49ba",
+    "helper_sha256": "3212ce79d0c9d37de41ba679f47929f4c7abbecff6d3682e8acc827051c52aa4",
+    "wall_seconds": 280.052397
+  },
+  "source_runtime": {
+    "observed_utc": "2026-10-18T07:57:37.760571+00:00",
+    "unit": "computer-vision-homework-r01-f1-source-preflight-v2.service",
+    "properties": {
+      "Result": "success",
+      "ExecMainStartTimestampMonotonic": "1367489674146",
+      "ExecMainExitTimestampMonotonic": "1367490107850",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "[not set]",
+      "CPUUsageNSec": "237235000",
+      "CPUQuotaPerSecUSec": "500ms",
+      "MemoryMax": "512000000",
+      "MemorySwapMax": "0",
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "9767480d570643939dacc75662441a2d"
+    },
+    "receipt_sha256": "7b1e559b2757ff2485d94447181f8250c7930974d965a872dd1d700720ccfdd8",
+    "helper_sha256": "5e89f0fafa4fd68948fe625d882a055fce0a4554f8d4567bdcb1fa09f24e2eba",
+    "runtime": {
+      "cuda_visible_devices": "",
+      "installed_distribution_versions": {
+        "attrs": "26.1.0",
+        "numpy": "2.2.6",
+        "pyarrow": "19.0.1",
+        "torch": "2.14.0+cu130"
+      },
+      "machine": "x86_64",
+      "platform": "Linux-6.8.0-142-generic-x86_64-with-glibc2.39",
+      "python_executable": "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+      "python_full_version": "3.13.15 (main, Sep 24 2026, 17:55:50) [Clang 22.1.3 ]",
+      "python_implementation": "CPython",
+      "python_version": "3.13.15",
+      "release": "6.8.0-142-generic",
+      "system": "Linux",
+      "torch_imported": false
+    },
+    "files_count": 523,
+    "wall_seconds": 0.433704
+  },
+  "execution_order": "Serialized bounded CPU support; each exited unit stopped after capture.",
+  "independent_code_review": "Root inspected both helper implementations; diagnosed source-contract V1 assumption preserved separately.",
+  "known_failures": "F0_F1_SUPPORT_EXECUTION_V1.json",
+  "limitations": [
+    "Source preflight rehashes523 guard inventory files, not a second tensor check of the existing F0 checkpoint.",
+    "Expected F1 update counts are static; no F1 optimizer progress exists at this receipt."
+  ]
+}

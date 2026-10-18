@@ -1,0 +1,237 @@
+#!/usr/bin/env python3
+"""Verify the frozen source tree and Python package metadata without importing Torch."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib.metadata
+import json
+import logging
+import os
+import platform
+import re
+import sys
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
+
+sys.dont_write_bytecode = True
+
+BASE_DEFAULT = Path("/home/grinchenkoeg/computer-vision-homework-20261018")
+ATTEMPT_ID = "computer-vision-homework-r01-deep-f0s1001-ep25-v1"
+ATTEMPT_SHA256 = "3c8f0f3a534d1c9626bffa7ab5876a295d01d16f9f01f4d54e083121260e174f"
+PLAN_SHA256 = "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177"
+EXPECTED_TORCH_VERSION = "2.14.0+cu130"
+EXPECTED_SOURCE_COUNT = 523
+EXPECTED_ABSOLUTE_SOURCE = "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json"
+CHUNK_SIZE = 4 * 1024 * 1024
+
+
+def canonical_json(value: object) -> bytes:
+    """Return the stable JSON bytes used for the source manifest identity."""
+    return json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+
+
+def sha256_file(path: Path) -> str:
+    """Hash a file in bounded memory."""
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for chunk in iter(lambda: source.read(CHUNK_SIZE), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def file_stat(path: Path) -> dict[str, int]:
+    """Capture identity and mutation-sensitive timestamps for a regular file."""
+    info = path.stat(follow_symlinks=False)
+    if not path.is_file() or path.is_symlink():
+        raise ValueError(f"source is not a regular non-symlink file: {path}")
+    return {
+        "device": info.st_dev,
+        "inode": info.st_ino,
+        "size": info.st_size,
+        "mtime_ns": info.st_mtime_ns,
+        "ctime_ns": info.st_ctime_ns,
+    }
+
+
+def source_path(key: str, source_root: Path) -> Path:
+    """Resolve a manifest key under the pinned source tree or its one data path."""
+    candidate = Path(key)
+    if candidate.is_absolute():
+        if key != EXPECTED_ABSOLUTE_SOURCE:
+            raise ValueError(f"unexpected absolute source path: {key}")
+        return candidate
+    if ".." in candidate.parts:
+        raise ValueError(f"relative source path escapes archive: {key}")
+    resolved_root = source_root.resolve(strict=True)
+    resolved = (resolved_root / candidate).resolve(strict=True)
+    if not resolved.is_relative_to(resolved_root):
+        raise ValueError(f"relative source path escapes archive: {key}")
+    return resolved
+
+
+def package_version(name: str) -> str:
+    """Read installed distribution metadata without importing its module."""
+    return importlib.metadata.version(name)
+
+
+def collect_sources(attempt: dict[str, Any], source_root: Path) -> dict[str, Any]:
+    """Validate and hash every path in the pinned successful terminal attempt."""
+    sources = attempt.get("source_sha256")
+    if not isinstance(sources, dict) or len(sources) != EXPECTED_SOURCE_COUNT:
+        raise ValueError("attempt source_sha256 map does not contain exactly 523 entries")
+    if sum(Path(key).is_absolute() for key in sources) != 1:
+        raise ValueError("attempt source map must contain one absolute path")
+    map_sha = hashlib.sha256(canonical_json(sources)).hexdigest()
+    if attempt.get("source_manifest_sha256") != map_sha:
+        raise ValueError("attempt source manifest digest does not match source_sha256")
+
+    observed: list[dict[str, Any]] = []
+    total_bytes = 0
+    for index, (key, expected_sha) in enumerate(sorted(sources.items()), start=1):
+        if not isinstance(expected_sha, str) or re.fullmatch(r"[0-9a-f]{64}", expected_sha) is None:
+            raise ValueError(f"invalid SHA-256 entry for {key}")
+        path = source_path(key, source_root)
+        before = file_stat(path)
+        actual_sha = sha256_file(path)
+        after = file_stat(path)
+        if before != after:
+            raise ValueError(f"source changed while hashing: {key}")
+        if actual_sha != expected_sha:
+            raise ValueError(f"source hash mismatch: {key}")
+        total_bytes += before["size"]
+        observed.append({"key": key, **before, "sha256": actual_sha})
+        logging.info("verified source %d/%d (%d bytes): %s", index, len(sources), total_bytes, key)
+    return {
+        "count": len(observed),
+        "absolute_path_count": 1,
+        "total_bytes": total_bytes,
+        "manifest_sha256": map_sha,
+        "files": observed,
+    }
+
+
+def build_receipt(base: Path, attempt_path: Path, output: Path) -> dict[str, Any]:
+    """Perform source/runtime checks and return a receipt before any write."""
+    if "torch" in sys.modules:
+        raise RuntimeError("Torch was imported before runtime metadata inspection")
+    attempt_before = file_stat(attempt_path)
+    attempt_bytes = attempt_path.read_bytes()
+    attempt_after = file_stat(attempt_path)
+    if attempt_before != attempt_after:
+        raise ValueError("attempt record changed while it was being read")
+    attempt_sha = hashlib.sha256(attempt_bytes).hexdigest()
+    if attempt_sha != ATTEMPT_SHA256:
+        raise ValueError("successful terminal attempt record SHA differs from pinned evidence")
+    attempt = json.loads(attempt_bytes)
+    if not isinstance(attempt, dict):
+        raise ValueError("attempt record must be a JSON object")
+    if (
+        attempt.get("id") != ATTEMPT_ID
+        or attempt.get("phase") != "terminal"
+        or attempt.get("status") != "finished"
+        or attempt.get("exit_status") != 0
+        or attempt.get("contract_sha256") != PLAN_SHA256
+    ):
+        raise ValueError(
+            "attempt identity/status/source manifest differs from successful terminal evidence"
+        )
+    if attempt.get("working_directory") != str(base / "source-a266b036"):
+        raise ValueError("attempt working directory does not match source archive")
+    if (
+        attempt.get("source_manifest_sha256")
+        != hashlib.sha256(canonical_json(attempt.get("source_sha256"))).hexdigest()
+    ):
+        raise ValueError("attempt source manifest digest is not canonical")
+
+    cuda_visible = os.environ.get("CUDA_VISIBLE_DEVICES")
+    if cuda_visible not in ("", "-1"):
+        raise ValueError("CUDA_VISIBLE_DEVICES is unset or not hidden")
+    metadata_before = {
+        name: package_version(name) for name in ("torch", "numpy", "pyarrow", "attrs")
+    }
+    if metadata_before["torch"] != EXPECTED_TORCH_VERSION:
+        raise ValueError(f"unexpected Torch package metadata: {metadata_before['torch']}")
+    if "torch" in sys.modules:
+        raise RuntimeError("Torch was imported while reading package metadata")
+
+    source_info = collect_sources(attempt, base / "source-a266b036")
+    metadata_after = {
+        name: package_version(name) for name in ("torch", "numpy", "pyarrow", "attrs")
+    }
+    if metadata_after != metadata_before:
+        raise ValueError("package metadata changed during source hashing")
+    if "torch" in sys.modules:
+        raise RuntimeError("Torch was imported during source hashing")
+
+    return {
+        "kind": "f1_beleriand_source_runtime_preflight",
+        "version": 1,
+        "status": "passed",
+        "created_utc": datetime.now(UTC).isoformat(),
+        "scope": "Source integrity and installed package metadata only; no training, inference, data loading, or CUDA initialization.",
+        "attempt": {
+            "path": str(attempt_path),
+            "id": ATTEMPT_ID,
+            "sha256": attempt_sha,
+            "phase": attempt["phase"],
+            "status": attempt["status"],
+            "exit_status": attempt["exit_status"],
+            "plan_sha256": attempt["contract_sha256"],
+            "source_manifest_sha256": attempt["source_manifest_sha256"],
+        },
+        "source_root": str((base / "source-a266b036").resolve()),
+        "source_verification": source_info,
+        "runtime": {
+            "python_version": platform.python_version(),
+            "python_implementation": platform.python_implementation(),
+            "python_executable": sys.executable,
+            "python_full_version": sys.version,
+            "platform": platform.platform(),
+            "system": platform.system(),
+            "release": platform.release(),
+            "machine": platform.machine(),
+            "installed_distribution_versions": metadata_before,
+            "cuda_visible_devices": cuda_visible,
+            "torch_imported": False,
+        },
+        "output_path": str(output),
+        "limitations": [
+            "This receipt verifies hashes of the 523 source entries recorded by the pinned successful F0 terminal attempt; it does not verify the F1 fold data preflight or authorize an F1 fit.",
+            "Package versions are read from distribution metadata without importing Torch; CUDA availability is not queried.",
+        ],
+    }
+
+
+def parse_args() -> argparse.Namespace:
+    """Parse paths for the single fixed Beleriand preflight."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--base", type=Path, default=BASE_DEFAULT)
+    parser.add_argument("--attempt", type=Path)
+    parser.add_argument("--output", type=Path)
+    return parser.parse_args()
+
+
+def main() -> int:
+    """Verify inputs, then create the result receipt without overwriting."""
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+    args = parse_args()
+    base = args.base
+    attempt_path = args.attempt or base / "runtime/attempts" / f"{ATTEMPT_ID}.json"
+    output = args.output or base / "receipts/F1_BELERIAND_SOURCE_RUNTIME_PREFLIGHT_V1.json"
+    if output.exists():
+        raise FileExistsError(f"refusing to overwrite existing receipt: {output}")
+    receipt = build_receipt(base, attempt_path, output)
+    encoded = json.dumps(receipt, sort_keys=True, indent=2, allow_nan=False) + "\n"
+    with output.open("x", encoding="utf-8") as stream:
+        stream.write(encoded)
+        stream.flush()
+        os.fsync(stream.fileno())
+    logging.info("wrote source/runtime preflight receipt: %s", output)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

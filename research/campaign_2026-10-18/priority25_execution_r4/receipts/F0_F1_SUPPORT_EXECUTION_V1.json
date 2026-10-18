@@ -1,0 +1,55 @@
+{
+  "schema": "priority25.support_execution.v1",
+  "created_utc": "2026-10-18T07:56:00+00:00",
+  "data_preflight": {
+    "observed_utc": "2026-10-18T07:55:13.587857+00:00",
+    "unit": "computer-vision-homework-r01-f1-preflight-v1.service",
+    "properties": {
+      "Result": "success",
+      "ExecMainStartTimestamp": "Sun 2026-10-18 07:50:03 UTC",
+      "ExecMainStartTimestampMonotonic": "1367050471141",
+      "ExecMainExitTimestamp": "Sun 2026-10-18 07:54:43 UTC",
+      "ExecMainExitTimestampMonotonic": "1367330523538",
+      "ExecMainStatus": "0",
+      "MemoryPeak": "29970432",
+      "CPUUsageNSec": "139838074000",
+      "CPUQuotaPerSecUSec": "500ms",
+      "MemoryMax": "1500000000",
+      "MemorySwapMax": "0",
+      "ActiveState": "active",
+      "SubState": "exited",
+      "InvocationID": "89913eacab3b49d49c506f62394254da"
+    },
+    "receipt_sha256": "e38d6ad83e34263d6b99e7b4ae38c1c5ea5924d353239e00e4cd0b36e4fd49ba",
+    "helper_sha256": "3212ce79d0c9d37de41ba679f47929f4c7abbecff6d3682e8acc827051c52aa4",
+    "wall_seconds": 280.052397
+  },
+  "collector_v1_failure": {
+    "created_utc": "2026-10-18T07:55:47.753045+00:00",
+    "unit": "computer-vision-homework-r01-f0-results-collect-v1.service",
+    "properties": {
+      "Result": "exit-code",
+      "ExecMainStartTimestampMonotonic": "1367362152223",
+      "ExecMainExitTimestampMonotonic": "1367362315334",
+      "ExecMainStatus": "2",
+      "MemoryPeak": "[not set]",
+      "CPUUsageNSec": "113149000",
+      "SubState": "failed",
+      "InvocationID": "4c76718c97af47c281e5a2ddd98417de"
+    },
+    "journal": "Oct 18 07:55:15 beleriand systemd[1720689]: Starting computer-vision-homework-r01-f0-results-collect-v1.service - /home/grinchenkoeg/WunderFunder/.venv/bin/python /home/grinchenkoeg/computer-vision-homework-20261018/support-source/f0-results-v1/collect_results_v1.py --project-root /home/grinchenkoeg/computer-vision-homework-20261018 --plan /home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json --grader-root /home/grinchenkoeg/computer-vision-homework-20261018/grader-6f9fd05e --terminal-dir /home/grinchenkoeg/computer-vision-homework-20261018/receipts...\nOct 18 07:55:15 beleriand systemd[1720689]: Started computer-vision-homework-r01-f0-results-collect-v1.service - /home/grinchenkoeg/WunderFunder/.venv/bin/python /home/grinchenkoeg/computer-vision-homework-20261018/support-source/f0-results-v1/collect_results_v1.py --project-root /home/grinchenkoeg/computer-vision-homework-20261018 --plan /home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json --grader-root /home/grinchenkoeg/computer-vision-homework-20261018/grader-6f9fd05e --terminal-dir /home/grinchenkoeg/computer-vision-homework-20261018/receipts.\nOct 18 07:55:15 beleriand python[3983115]: collection failed closed: cannot stat source /home/grinchenkoeg/computer-vision-homework-20261018/grader-6f9fd05e/src/wnn/evaluation.py: [Errno 2] No such file or directory: '/home/grinchenkoeg/computer-vision-homework-20261018/grader-6f9fd05e/src/wnn/evaluation.py'\nOct 18 07:55:15 beleriand systemd[1720689]: computer-vision-homework-r01-f0-results-collect-v1.service: Main process exited, code=exited, status=2/INVALIDARGUMENT\nOct 18 07:55:15 beleriand systemd[1720689]: computer-vision-homework-r01-f0-results-collect-v1.service: Failed with result 'exit-code'.\n",
+    "diagnosis": "Collector assumed grader checkout contains project modules; deployed grader entrypoint imports canonical source through guard environment. Failure happened before snapshot mkdir. No result rerun or model/source modification."
+  },
+  "source_preflight_v1_failure": {
+    "unit": "computer-vision-homework-r01-f1-source-preflight-v1.service",
+    "invocation_id": "7915614388824fe0a87403a6a498ab07",
+    "exit_status": 1,
+    "helper_sha256": "7ec800b9ae9da55d118adaf80ba47a04f1cf534e7e0cf65121c299203c448fea",
+    "journal": "Oct 18 07:55:48 beleriand systemd[1720689]: Starting computer-vision-homework-r01-f1-source-preflight-v1.service - /home/grinchenkoeg/WunderFunder/.venv/bin/python /home/grinchenkoeg/computer-vision-homework-20261018/support-source/f1-preflight-v1/f1_source_runtime_preflight_v1.py...\nOct 18 07:55:48 beleriand systemd[1720689]: Started computer-vision-homework-r01-f1-source-preflight-v1.service - /home/grinchenkoeg/WunderFunder/.venv/bin/python /home/grinchenkoeg/computer-vision-homework-20261018/support-source/f1-preflight-v1/f1_source_runtime_preflight_v1.py.\nOct 18 07:55:48 beleriand python[3983937]: Traceback (most recent call last):\nOct 18 07:55:48 beleriand python[3983937]:   File \"/home/grinchenkoeg/computer-vision-homework-20261018/support-source/f1-preflight-v1/f1_source_runtime_preflight_v1.py\", line 237, in <module>\nOct 18 07:55:48 beleriand python[3983937]:     raise SystemExit(main())\nOct 18 07:55:48 beleriand python[3983937]:                      ~~~~^^\nOct 18 07:55:48 beleriand python[3983937]:   File \"/home/grinchenkoeg/computer-vision-homework-20261018/support-source/f1-preflight-v1/f1_source_runtime_preflight_v1.py\", line 226, in main\nOct 18 07:55:48 beleriand python[3983937]:     receipt = build_receipt(base, attempt_path, output)\nOct 18 07:55:48 beleriand python[3983937]:   File \"/home/grinchenkoeg/computer-vision-homework-20261018/support-source/f1-preflight-v1/f1_source_runtime_preflight_v1.py\", line 138, in build_receipt\nOct 18 07:55:48 beleriand python[3983937]:     raise ValueError(\nOct 18 07:55:48 beleriand python[3983937]:         \"attempt identity/status/source manifest differs from successful terminal evidence\"\nOct 18 07:55:48 beleriand python[3983937]:     )\nOct 18 07:55:48 beleriand python[3983937]: ValueError: attempt identity/status/source manifest differs from successful terminal evidence\nOct 18 07:55:48 beleriand systemd[1720689]: computer-vision-homework-r01-f1-source-preflight-v1.service: Main process exited, code=exited, status=1/FAILURE\nOct 18 07:55:48 beleriand systemd[1720689]: computer-vision-homework-r01-f1-source-preflight-v1.service: Failed with result 'exit-code'.\n",
+    "diagnosis": "Expected plan hash in attempt contract field, but existing F0 guard contract is canonical RANK01_RECIPE SHA9292b545...; exact terminal attempt hash matched, no source/data modification or receipt written."
+  },
+  "root_source_map_probe": {
+    "status": "no_write_assertion_failure",
+    "diagnosis": "trainer_implementation map contains60 files; full resume contract source map contains138. New source preflight will check all523 files from the exact guard attempt source inventory."
+  }
+}

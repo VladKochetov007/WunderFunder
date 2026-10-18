@@ -1,0 +1,37 @@
+{
+  "schema": "priority25.f0_independent_interpretation.v1",
+  "reviewer": "/root/beleriand_gpu_guard_r4",
+  "basis": "Independent read of actual grade and both terminal verification receipts; no grader rerun",
+  "grade_sha256": "65f448989243aa575cac2e5701c55bf8ee6e874e6b01f39840bb4418dbb9fdd0",
+  "status": "no_result_based_blocker_to_f1_after_admission_gates",
+  "wide_wp": 0.6735757509889004,
+  "deep_wp": 0.6721087673204731,
+  "delta": 0.0014669836684273463,
+  "ci95": [
+    -0.0004116945710798625,
+    0.003589819641354951
+  ],
+  "p_delta_le_zero": 0.0694,
+  "target_deltas": {
+    "t0": 0.0008764718016789352,
+    "t1": 0.0020574955351758684
+  },
+  "completed_pairs_per_arm": 1,
+  "required_pairs_per_arm": 30,
+  "uncertainty": "Conditional resampling of 141 components on one exposed fold and one fitting seed; not uncertainty across seeds/folds or public transfer.",
+  "decision": "Continue same declared comparison on F1; no rank1 promotion, convergence claim, or rank2 admission.",
+  "f1_expected_schedule": {
+    "batches_per_epoch": 1493,
+    "updates_per_epoch": 14930,
+    "stage1_updates": 29860,
+    "terminal_updates": 89580
+  },
+  "pending_operational_gates": [
+    "result archive/source/copy binding",
+    "fresh data/source/runtime/resource/ownership admission"
+  ],
+  "limitations": [
+    "Beleriand is physically shared; one campaign worker does not claim exclusive GPU ownership.",
+    "Matched seed/provider/runtime does not establish resumed-uninterrupted numerical parity."
+  ]
+}

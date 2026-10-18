@@ -1,0 +1,75 @@
+"""Offline tests for F0 collector v2's split grader/source binding."""
+
+from __future__ import annotations
+
+import hashlib
+import tempfile
+import unittest
+from pathlib import Path
+
+import collect_results_v2 as collector
+
+
+class GraderImportBindingTests(unittest.TestCase):
+    def test_entrypoint_and_import_modules_bind_across_two_roots(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source_root = root / "source"
+            module = source_root / "src/wnn/evaluation.py"
+            module.parent.mkdir(parents=True)
+            module.write_bytes(b"module bytes")
+            entrypoint = root / "grader/code/grade_endpoint.py"
+            entrypoint.parent.mkdir(parents=True)
+            entrypoint.write_bytes(b"entrypoint bytes")
+            worker = source_root / "scripts/bandit_resources.py"
+            worker.parent.mkdir(parents=True)
+            worker.write_bytes(b"worker environment builder")
+            module_sha = hashlib.sha256(module.read_bytes()).hexdigest()
+            entrypoint_sha = hashlib.sha256(entrypoint.read_bytes()).hexdigest()
+            worker_sha = hashlib.sha256(worker.read_bytes()).hexdigest()
+            collector.validate_import_source_manifest(
+                {
+                    str(entrypoint): entrypoint_sha,
+                    "src/wnn/evaluation.py": module_sha,
+                    "scripts/bandit_resources.py": worker_sha,
+                },
+                source_root=source_root,
+                entrypoint_path=entrypoint,
+                expected_entrypoint_sha256=entrypoint_sha,
+                expected_imports={"src/wnn/evaluation.py": module_sha},
+                expected_worker_sources={"scripts/bandit_resources.py": worker_sha},
+            )
+
+    def test_rejects_unbound_import_module_even_with_valid_entrypoint(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source_root = root / "source"
+            module = source_root / "src/wnn/evaluation.py"
+            module.parent.mkdir(parents=True)
+            module.write_bytes(b"module bytes")
+            entrypoint = root / "grader/code/grade_endpoint.py"
+            entrypoint.parent.mkdir(parents=True)
+            entrypoint.write_bytes(b"entrypoint bytes")
+            worker = source_root / "scripts/bandit_resources.py"
+            worker.parent.mkdir(parents=True)
+            worker.write_bytes(b"worker environment builder")
+            module_sha = hashlib.sha256(module.read_bytes()).hexdigest()
+            entrypoint_sha = hashlib.sha256(entrypoint.read_bytes()).hexdigest()
+            worker_sha = hashlib.sha256(worker.read_bytes()).hexdigest()
+            with self.assertRaisesRegex(collector.CollectionError, "does not bind import module"):
+                collector.validate_import_source_manifest(
+                    {
+                        str(entrypoint): entrypoint_sha,
+                        "src/wnn/evaluation.py": "0" * 64,
+                        "scripts/bandit_resources.py": worker_sha,
+                    },
+                    source_root=source_root,
+                    entrypoint_path=entrypoint,
+                    expected_entrypoint_sha256=entrypoint_sha,
+                    expected_imports={"src/wnn/evaluation.py": module_sha},
+                    expected_worker_sources={"scripts/bandit_resources.py": worker_sha},
+                )
+
+
+if __name__ == "__main__":
+    unittest.main()

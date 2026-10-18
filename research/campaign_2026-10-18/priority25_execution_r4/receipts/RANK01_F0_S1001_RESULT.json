@@ -1,0 +1,79 @@
+{
+  "schema": "priority25.paired_cell_result.v1",
+  "experiment_id": "E-RR18-01-LABELS",
+  "hypothesis_id": "H-RR17-01",
+  "rank": 1,
+  "status": "F0_seed1001_fixed_epoch5_pair_completed_and_collected",
+  "provider": "Beleriand",
+  "cell": {
+    "fold": 0,
+    "seed": 1001
+  },
+  "arms": {
+    "wide": {
+      "hidden": 512,
+      "layers": 1,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6637479907373635,
+      "t1": 0.6834035112404375,
+      "wp": 0.6735757509889004
+    },
+    "deep": {
+      "hidden": 384,
+      "layers": 2,
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6628715189356845,
+      "t1": 0.6813460157052617,
+      "wp": 0.6721087673204731
+    }
+  },
+  "delta_wide_minus_deep": 0.0014669836684273463,
+  "conditional_component_bootstrap": {
+    "bootstrap_sd": 0.0010292577743075894,
+    "candidate_wp": 0.6735757509889004,
+    "centered_moments": true,
+    "ci95": [
+      -0.0004116945710798625,
+      0.003589819641354951
+    ],
+    "components": 141,
+    "mean_diff": 0.0014669836684273463,
+    "method": "paired whole-component bootstrap using centered moments",
+    "metric_id": "global_wp_clip2_v1",
+    "n_boot": 10000,
+    "n_components": 141,
+    "n_sequences": 468,
+    "p_le_0": 0.0694,
+    "reference_wp": 0.6721087673204731,
+    "resamples": 10000,
+    "seed": 271828
+  },
+  "paired_cells_completed_per_arm": 1,
+  "paired_cells_required_per_arm": 30,
+  "endpoint": {
+    "epoch": 5,
+    "epochs_completed": 6,
+    "successful_updates_per_arm": 89520,
+    "skips_per_arm": 0,
+    "nonfinite_steps_per_arm": 0
+  },
+  "evidence": {
+    "RANK01_F0_S1001_GRADE.json": "65f448989243aa575cac2e5701c55bf8ee6e874e6b01f39840bb4418dbb9fdd0",
+    "RANK01_F0_S1001_RESULT_COLLECTION.json": "6c9713606387c9b265506f51c9135d3dcefe15d572a7f0750167e39f46832612",
+    "RANK01_WIDE_F0_S1001_E6_TERMINAL_VERIFICATION.json": "c272aaf2bdb2503504c164712539ea6bacce5d16c68f91c0488f9ee19705e4c2",
+    "RANK01_DEEP_F0_S1001_E6_TERMINAL_VERIFICATION.json": "48227854d897c8de779f46dbff105f515b1807d01a7129d8c1c32a54c001fbbb",
+    "RANK01_F0_S1001_INTERPRETATION_REVIEW.json": "d38ec9c3cc27494a9e95da6d744cdd4c5286585026fb6ab10c1e5c6d4b439916"
+  },
+  "artifact_location": "/home/grinchenkoeg/computer-vision-homework-20261018/result_snapshots/rr18_r01_f0_s1001_e6",
+  "interpretation": "Both targets favor wide on this exposed F0 cell; the component-bootstrap interval crosses zero. No confident architecture win, convergence, CP30 or public-transfer conclusion.",
+  "next_action": "Continue same comparison on F1/seed1001, both arms Beleriand; separate admission/launch receipts record actual ownership.",
+  "limitations": [
+    "No pristine holdout: F0 is previously exposed.",
+    "Conditional component resampling does not measure training-seed/fold variability.",
+    "Fixed six-epoch endpoint is not proof of convergence.",
+    "Source-qualified structural resume checks do not establish uninterrupted-versus-resumed GPU parity.",
+    "Grader entrypoint revision6f9fd05e imports canonical source-a266b036 project modules; actual split layout and attempt hashes verified."
+  ]
+}

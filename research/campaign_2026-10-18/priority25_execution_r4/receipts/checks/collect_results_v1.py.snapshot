@@ -1,0 +1,771 @@
+"""Create-only collection and JSON binding checks for the frozen R01 F0 grade.
+
+This program copies only two prediction arrays, their sidecars, the grade, three
+attempt records/logs, and small plan/fold/terminal evidence. It never imports
+NumPy, opens checkpoint or dataset payloads, or reruns the grader.
+"""
+
+from __future__ import annotations
+
+import argparse
+import ast
+import hashlib
+import json
+import math
+import os
+import shutil
+import stat
+import struct
+import sys
+import time
+from pathlib import Path
+from typing import Any
+
+PROJECT_NAME = "computer-vision-homework-20261018"
+PLAN_SHA256 = "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177"
+FOLD_SHA256 = "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+SOURCE_REVISION = "a266b036"
+GRADER_REVISION = "6f9fd05e"
+SEQUENCE_LENGTH = 20_000
+BOOTSTRAP_COUNT = 10_000
+BOOTSTRAP_SEED = 271_828
+TERMINAL_RECEIPT_SHA256 = {
+    "wide": {
+        "verification": "c272aaf2bdb2503504c164712539ea6bacce5d16c68f91c0488f9ee19705e4c2",
+        "collection": "691230afa073596932c5063e65b8a056fc26199fe060ef97f0cc8d3db1a3040c",
+    },
+    "deep": {
+        "verification": "48227854d897c8de779f46dbff105f515b1807d01a7129d8c1c32a54c001fbbb",
+        "collection": "aff1b5adbb790a50bac503d8ce8841ac84c5524196d865a4f9925eadbc2277cb",
+    },
+}
+EXPECTED_ENDPOINTS = {
+    "wide": {
+        "run": "rr18_r01_wide_f0_s1001_e6",
+        "prediction_sha256": "21af6180c3290a99f450d701daca03581762ea18cfc70ffcc9453929435ee8f0",
+        "sidecar_sha256": "fa38545c753a403a2eed0f08ae27d885b24db8c2b8e1ac07a4c1f7eeabf6a228",
+        "score": {
+            "wp": 0.6735757509889004,
+            "t0": 0.6637479907373635,
+            "t1": 0.6834035112404375,
+        },
+    },
+    "deep": {
+        "run": "rr18_r01_deep_f0_s1001_e6",
+        "prediction_sha256": "50ea5e088b60da8b31ee1796771c4c13f2940131293a51793d63ceadf324be3d",
+        "sidecar_sha256": "a438a5d61cde32933215ea0803955da36cd4e2b3eae94c529826410407e8fbcc",
+        "score": {
+            "wp": 0.6721087673204731,
+            "t0": 0.6628715189356845,
+            "t1": 0.6813460157052617,
+        },
+    },
+}
+EXPECTED_BOOTSTRAP = {
+    "mean_diff": 0.0014669836684273463,
+    "bootstrap_sd": 0.0010292577743075894,
+    "ci95": [-0.0004116945710798625, 0.003589819641354951],
+    "p_le_0": 0.0694,
+}
+EXPECTED_TARGET_CACHE_SHA256 = "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+
+GRADER_SOURCE_SHA256 = {
+    "research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py": (
+        "cb90c0bce31cf6aa2b8e4f6a7536c30972b14c6995fb0db1e9f72aa867c30ec0"
+    ),
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/splits.py": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe",
+}
+GRADER_ENTRYPOINT_REL = "research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py"
+
+EXPORTS = {
+    "wide": {
+        "run": "rr18_r01_wide_f0_s1001_e6",
+        "attempt": "computer-vision-homework-r01-wide-f0s1001-export-ep5-v1",
+    },
+    "deep": {
+        "run": "rr18_r01_deep_f0_s1001_e6",
+        "attempt": "computer-vision-homework-r01-deep-f0s1001-export-ep5-v1",
+    },
+}
+GRADE_ATTEMPT = "computer-vision-homework-r01-f0s1001-grade-v1"
+EXPORT_ATTEMPTS = {item["attempt"] for item in EXPORTS.values()}
+REQUIRED_ATTEMPTS = EXPORT_ATTEMPTS | {GRADE_ATTEMPT}
+
+
+class CollectionError(RuntimeError):
+    """Raised when an input or its binding fails a fail-closed check."""
+
+
+def read_json(path: Path) -> dict[str, Any]:
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeError, json.JSONDecodeError) as exc:
+        raise CollectionError(f"cannot read JSON object {path}: {exc}") from exc
+    if not isinstance(value, dict):
+        raise CollectionError(f"expected a JSON object at {path}")
+    return value
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        while block := stream.read(1024 * 1024):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def stable_stat(path: Path) -> dict[str, int]:
+    try:
+        info = path.lstat()
+    except OSError as exc:
+        raise CollectionError(f"cannot stat source {path}: {exc}") from exc
+    if not stat.S_ISREG(info.st_mode):
+        raise CollectionError(f"source is not a regular non-symlink file: {path}")
+    return {
+        "device": info.st_dev,
+        "inode": info.st_ino,
+        "size": info.st_size,
+        "mtime_ns": info.st_mtime_ns,
+        "ctime_ns": info.st_ctime_ns,
+    }
+
+
+def copy_stable(source: Path, destination: Path) -> dict[str, Any]:
+    """Copy without overwrite, detecting source replacement/change while reading."""
+    before = stable_stat(source)
+    digest = hashlib.sha256()
+    copied = 0
+    destination.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    try:
+        src_fd = os.open(source, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0))
+        opened = os.fstat(src_fd)
+        opened_stat = {
+            "device": opened.st_dev,
+            "inode": opened.st_ino,
+            "size": opened.st_size,
+            "mtime_ns": opened.st_mtime_ns,
+            "ctime_ns": opened.st_ctime_ns,
+        }
+        if opened_stat != before:
+            os.close(src_fd)
+            raise CollectionError(f"source changed before copy opened: {source}")
+        with os.fdopen(src_fd, "rb") as src, destination.open("xb") as dst:
+            os.chmod(destination, 0o600)
+            while block := src.read(1024 * 1024):
+                dst.write(block)
+                digest.update(block)
+                copied += len(block)
+            dst.flush()
+            os.fsync(dst.fileno())
+    except FileExistsError as exc:
+        raise CollectionError(f"refusing to overwrite collected file {destination}") from exc
+    after = stable_stat(source)
+    opened_after = os.fstat(src.fileno()) if not src.closed else opened
+    if (
+        before != after
+        or copied != before["size"]
+        or opened_after.st_size != before["size"]
+        or opened_after.st_ino != before["inode"]
+    ):
+        raise CollectionError(f"source changed or truncated during copy: {source}")
+    copied_sha = digest.hexdigest()
+    reread_sha = file_sha256(destination)
+    if copied_sha != reread_sha:
+        raise CollectionError(f"copied file hash changed after write: {destination}")
+    return {
+        "source": str(source),
+        "snapshot": str(destination),
+        "bytes": copied,
+        "sha256": copied_sha,
+        "source_stat_before": before,
+        "source_stat_after": after,
+    }
+
+
+def npy_header(path: Path) -> tuple[tuple[int, ...], str, bool, int]:
+    """Read only the small NPY header; return shape, dtype, fortran flag, header end."""
+    with path.open("rb") as stream:
+        if stream.read(6) != b"\x93NUMPY":
+            raise CollectionError(f"prediction is not an NPY file: {path}")
+        version = stream.read(2)
+        if version == b"\x01\x00":
+            length_bytes = stream.read(2)
+            if len(length_bytes) != 2:
+                raise CollectionError(f"truncated NPY v1 header: {path}")
+            header_length = struct.unpack("<H", length_bytes)[0]
+            encoding = "latin1"
+        elif version in {b"\x02\x00", b"\x03\x00"}:
+            length_bytes = stream.read(4)
+            if len(length_bytes) != 4:
+                raise CollectionError(f"truncated NPY v2/v3 header: {path}")
+            header_length = struct.unpack("<I", length_bytes)[0]
+            encoding = "utf-8" if version == b"\x03\x00" else "latin1"
+        else:
+            raise CollectionError(f"unsupported NPY version {version!r}: {path}")
+        if header_length > 16_384:
+            raise CollectionError(f"unreasonably large NPY header: {path}")
+        raw = stream.read(header_length)
+        if len(raw) != header_length:
+            raise CollectionError(f"truncated NPY header: {path}")
+        try:
+            header = ast.literal_eval(raw.decode(encoding).strip())
+        except (SyntaxError, ValueError, UnicodeError) as exc:
+            raise CollectionError(f"invalid NPY header: {path}") from exc
+        if not isinstance(header, dict):
+            raise CollectionError(f"invalid NPY header object: {path}")
+        shape = header.get("shape")
+        dtype = header.get("descr")
+        fortran = header.get("fortran_order")
+        if (
+            not isinstance(shape, tuple)
+            or any(type(dim) is not int or dim < 0 for dim in shape)
+            or not isinstance(dtype, str)
+            or type(fortran) is not bool
+        ):
+            raise CollectionError(f"invalid NPY shape/dtype/order: {path}")
+        return shape, dtype, fortran, stream.tell()
+
+
+def validate_npy(path: Path, row_count: int) -> dict[str, Any]:
+    shape, dtype, fortran, data_offset = npy_header(path)
+    expected_shape = (row_count, SEQUENCE_LENGTH, 2)
+    if shape != expected_shape or dtype != "<f4" or fortran:
+        raise CollectionError(
+            f"prediction NPY header mismatch at {path}: "
+            f"shape={shape}, dtype={dtype}, fortran_order={fortran}"
+        )
+    expected_bytes = data_offset + math.prod(expected_shape) * 4
+    actual_bytes = path.stat().st_size
+    if actual_bytes != expected_bytes:
+        raise CollectionError(
+            f"prediction NPY byte length mismatch at {path}: {actual_bytes} != {expected_bytes}"
+        )
+    return {
+        "shape": list(shape),
+        "dtype": dtype,
+        "fortran_order": fortran,
+        "header_bytes": data_offset,
+        "total_bytes": actual_bytes,
+        "payload_inspected": False,
+    }
+
+
+def membership_sha256(groups: list[int]) -> str:
+    digest = hashlib.sha256()
+    for group in groups:
+        digest.update(struct.pack("<q", group))
+    return digest.hexdigest()
+
+
+def _require(condition: bool, message: str) -> None:
+    if not condition:
+        raise CollectionError(message)
+
+
+def validate_sidecar(
+    sidecar: dict[str, Any],
+    *,
+    run: str,
+    epoch: int,
+    split_sha256: str,
+    groups: list[int],
+    checkpoint_sha256: str,
+    prediction_sha256: str,
+) -> None:
+    """Validate exact exporter fields without touching prediction payload bytes."""
+    checks = {
+        "run": run,
+        "split": "valid",
+        "epoch": epoch,
+        "split_manifest_sha256": split_sha256,
+        "campaign_split_manifest_sha256": split_sha256,
+        "campaign_export_scope": "evaluation",
+        "feature_only": True,
+        "inference_precision": "fp32",
+        "row_groups": groups,
+        "evaluation_membership_sha256": membership_sha256(groups),
+        "checkpoint_sha256": checkpoint_sha256,
+        "prediction_sha256": prediction_sha256,
+    }
+    for key, expected in checks.items():
+        _require(sidecar.get(key) == expected, f"sidecar {run} field {key} mismatch")
+
+
+def validate_grade(
+    grade: dict[str, Any], *, split_sha256: str, groups: list[int]
+) -> None:
+    _require(grade.get("schema") == "priority25.endpoint_grade.v1", "grade schema mismatch")
+    _require(
+        grade.get("classification")
+        == "previously exposed fold; screening evidence, not held-out confirmation",
+        "grade classification mismatch",
+    )
+    _require(grade.get("split_manifest_sha256") == split_sha256, "grade split SHA mismatch")
+    _require(grade.get("fold") == 0 and grade.get("n_folds") == 4, "grade fold mismatch")
+    _require(grade.get("metric_id") == "global_wp_clip2_v1", "grade metric mismatch")
+    _require(grade.get("evaluation_row_groups") == groups, "grade evaluation members mismatch")
+    _require(len(groups) == 468, "canonical F0 evaluation membership count must be 468")
+    _require(grade.get("evaluation_components") == 141, "grade component count mismatch")
+    _require(
+        grade.get("target_cache_sha256") == EXPECTED_TARGET_CACHE_SHA256,
+        "grade target-cache identity mismatch",
+    )
+    endpoint, reference = grade.get("endpoint"), grade.get("reference")
+    paired = grade.get("paired_component_bootstrap")
+    _require(isinstance(endpoint, dict) and isinstance(reference, dict), "grade endpoints missing")
+    _require(isinstance(paired, dict), "paired bootstrap record missing")
+    for label, result, expected in (
+        ("candidate", endpoint, EXPECTED_ENDPOINTS["wide"]),
+        ("reference", reference, EXPECTED_ENDPOINTS["deep"]),
+    ):
+        _require(result.get("run") == expected["run"], f"{label} run mismatch")
+        _require(result.get("epoch") == 5, f"{label} epoch mismatch")
+        _require(result.get("prediction_sha256") == expected["prediction_sha256"], f"{label} prediction hash mismatch")
+        _require(result.get("sidecar_sha256") == expected["sidecar_sha256"], f"{label} sidecar hash mismatch")
+        score = result.get("score")
+        _require(isinstance(score, dict), f"{label} score missing")
+        _require(score.get("metric_id") == "global_wp_clip2_v1", f"{label} score metric mismatch")
+        _require(score.get("selected_rows") == 808_863, f"{label} selected row count mismatch")
+        for field in ("wp", "t0", "t1"):
+            _require(
+                isinstance(score.get(field), (int, float)) and math.isfinite(score[field]),
+                f"{label} score {field} is not finite",
+            )
+            _require(
+                math.isclose(score[field], expected["score"][field], abs_tol=1e-15),
+                f"{label} score {field} differs from the audited F0 grade",
+            )
+    for key, expected in (
+        ("metric_id", "global_wp_clip2_v1"),
+        ("n_boot", BOOTSTRAP_COUNT),
+        ("resamples", BOOTSTRAP_COUNT),
+        ("seed", BOOTSTRAP_SEED),
+        ("components", 141),
+        ("n_components", 141),
+        ("n_sequences", 468),
+        ("centered_moments", True),
+    ):
+        _require(paired.get(key) == expected, f"paired bootstrap {key} mismatch")
+    candidate_wp = float(endpoint["score"]["wp"])
+    reference_wp = float(reference["score"]["wp"])
+    delta = paired.get("mean_diff")
+    _require(isinstance(delta, (int, float)) and math.isfinite(delta), "paired delta is invalid")
+    _require(math.isclose(delta, candidate_wp - reference_wp, abs_tol=1e-12), "paired delta mismatch")
+    for field, expected in EXPECTED_BOOTSTRAP.items():
+        actual = paired.get(field)
+        if isinstance(expected, list):
+            _require(
+                isinstance(actual, list)
+                and len(actual) == len(expected)
+                and all(math.isclose(a, b, abs_tol=1e-15) for a, b in zip(actual, expected)),
+                f"paired bootstrap {field} differs from audited F0 grade",
+            )
+        else:
+            _require(
+                isinstance(actual, (int, float)) and math.isclose(actual, expected, abs_tol=1e-15),
+                f"paired bootstrap {field} differs from audited F0 grade",
+            )
+    ci = paired.get("ci95")
+    _require(
+        isinstance(ci, list)
+        and len(ci) == 2
+        and all(isinstance(x, (int, float)) and math.isfinite(x) for x in ci)
+        and ci[0] <= ci[1],
+        "paired CI is invalid",
+    )
+
+
+def _plan_steps(plan: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    _require(plan.get("version") == 1, "unsupported F0 plan version")
+    _require(plan.get("source_revision") == SOURCE_REVISION, "plan source revision mismatch")
+    _require(plan.get("grader_revision") == GRADER_REVISION, "plan grader revision mismatch")
+    steps = plan.get("steps")
+    _require(isinstance(steps, list), "plan steps missing")
+    by_attempt = {
+        str(step.get("attempt")): step for step in steps if isinstance(step, dict)
+    }
+    _require(REQUIRED_ATTEMPTS.issubset(by_attempt), "plan lacks one or more F0 output attempts")
+    return by_attempt
+
+
+def validate_terminal_binding(
+    verification: dict[str, Any],
+    collection: dict[str, Any],
+    *,
+    arm: str,
+    grade_endpoint: dict[str, Any],
+    plan_sha256: str,
+    collection_sha256: str,
+) -> dict[str, Any]:
+    run = EXPORTS[arm]["run"]
+    _require(
+        verification.get("kind") == "terminal_epoch5_checkpoint_structural_verification"
+        and verification.get("status") == "passed",
+        f"{arm} terminal verification not passed",
+    )
+    _require(verification.get("arm") == arm and verification.get("run") == run, f"{arm} terminal identity mismatch")
+    _require(
+        verification.get("source_revision") == SOURCE_REVISION
+        and verification.get("plan_sha256") == plan_sha256,
+        f"{arm} terminal source/plan binding mismatch",
+    )
+    _require(
+        verification.get("epoch_index") == 5 and verification.get("next_epoch") == 6,
+        f"{arm} terminal epoch mismatch",
+    )
+    _require(
+        verification.get("collection_receipt_sha256") == collection_sha256,
+        f"{arm} terminal collection receipt hash mismatch",
+    )
+    _require(
+        collection.get("kind") == "fixed_epoch5_terminal_checkpoint_collection"
+        and collection.get("run") == run
+        and collection.get("epoch_index") == 5
+        and collection.get("source_snapshot_hash_match") is True
+        and collection.get("producer_model_hash_matches") is True
+        and collection.get("source_stats_before") == collection.get("source_stats_after"),
+        f"{arm} terminal collection identity/status mismatch",
+    )
+    artifacts = verification.get("artifacts")
+    collected = collection.get("artifacts")
+    _require(isinstance(artifacts, dict) and isinstance(collected, dict), f"{arm} terminal artifacts missing")
+    model = artifacts.get("model_ep5.pt")
+    provenance = artifacts.get("provenance.json")
+    _require(isinstance(model, dict) and isinstance(provenance, dict), f"{arm} terminal checkpoint metadata missing")
+    _require(model.get("sha256") == grade_endpoint.get("checkpoint_sha256"), f"{arm} grade/checkpoint SHA mismatch")
+    _require(provenance.get("sha256") == grade_endpoint.get("provenance_sha256"), f"{arm} grade/provenance SHA mismatch")
+    _require(collected.get("model_ep5.pt") == model, f"{arm} collected model metadata mismatch")
+    _require(
+        collected.get("provenance.json") == provenance,
+        f"{arm} collected provenance metadata mismatch",
+    )
+    terminal_attempt = verification.get("attempt")
+    coll_attempt = collection.get("attempt_evidence")
+    _require(isinstance(terminal_attempt, dict) and isinstance(coll_attempt, dict), f"{arm} terminal attempt missing")
+    _require(
+        terminal_attempt.get("status") == "finished"
+        and terminal_attempt.get("exit_status") == 0
+        and terminal_attempt.get("attempt") == coll_attempt.get("id")
+        and terminal_attempt.get("record_sha256") == coll_attempt.get("sha256")
+        and coll_attempt.get("status") == "finished"
+        and coll_attempt.get("exit_status") == 0,
+        f"{arm} terminal attempt evidence mismatch",
+    )
+    counts = verification.get("completed_update_counts")
+    history = verification.get("fit_history")
+    _require(isinstance(counts, dict) and isinstance(history, list) and len(history) == 6, f"{arm} fit history missing")
+    _require(counts.get("optimizer_completed_updates") == 89_520, f"{arm} total optimizer updates mismatch")
+    _require(counts.get("optimizer_attempts") == 89_520, f"{arm} optimizer attempts mismatch")
+    _require(
+        verification.get("scheduler_last_epoch") == 89_520
+        and verification.get("scheduler_step_count") == 89_521,
+        f"{arm} scheduler terminal step count mismatch",
+    )
+    for epoch, item in enumerate(history):
+        fit = item.get("fit_summary", {}) if isinstance(item, dict) else {}
+        updates = fit.get("optimizer_updates", {}) if isinstance(fit, dict) else {}
+        _require(item.get("epoch") == epoch, f"{arm} fit history epoch sequence mismatch")
+        _require(
+            updates.get("optimizer_completed_updates") == 14_920
+            and updates.get("optimizer_attempts") == 14_920,
+            f"{arm} fit epoch {epoch} update count mismatch",
+        )
+    resumed = verification.get("resumed_from")
+    _require(
+        isinstance(resumed, dict)
+        and resumed.get("sha256") == verification.get("stage1_training_state_sha256")
+        and resumed.get("next_epoch") == 2,
+        f"{arm} resumed checkpoint lineage mismatch",
+    )
+    return {
+        "verification_sha256": None,
+        "collection_sha256": collection_sha256,
+        "checkpoint_sha256": model["sha256"],
+        "provenance_sha256": provenance["sha256"],
+        "terminal_attempt": terminal_attempt["attempt"],
+        "completed_updates": counts["optimizer_completed_updates"],
+    }
+
+
+def collect(args: argparse.Namespace) -> dict[str, Any]:
+    project = args.project_root.resolve(strict=True)
+    plan_path = args.plan.resolve(strict=True)
+    grader_root = args.grader_root.resolve(strict=True)
+    terminal_dir = args.terminal_dir.resolve(strict=True)
+    fold_path = args.fold_manifest.resolve(strict=True)
+    snapshot = args.snapshot
+    receipt_path = args.receipt
+    if snapshot.exists() or snapshot.is_symlink():
+        raise CollectionError(f"snapshot already exists; create-only mode refuses: {snapshot}")
+    if receipt_path.exists() or receipt_path.is_symlink():
+        raise CollectionError(f"receipt already exists; create-only mode refuses: {receipt_path}")
+    plan_sha = file_sha256(plan_path)
+    fold_sha = file_sha256(fold_path)
+    _require(plan_sha == PLAN_SHA256, "F0 plan SHA differs from the frozen plan")
+    _require(fold_sha == FOLD_SHA256, "fold0 SHA differs from the sealed remote manifest")
+    _require(project.name == PROJECT_NAME, "project root name mismatch")
+    plan = read_json(plan_path)
+    plan_steps = _plan_steps(plan)
+    fold = read_json(fold_path)
+    _require(fold.get("fold") == 0 and fold.get("n_folds") == 4, "canonical fold manifest identity mismatch")
+    groups = fold.get("evaluation", {}).get("valid") if isinstance(fold.get("evaluation"), dict) else None
+    _require(isinstance(groups, list) and all(type(x) is int for x in groups), "canonical evaluation groups malformed")
+    _require(len(groups) == 468 and len(set(groups)) == 468, "canonical evaluation group count/uniqueness mismatch")
+    _require(fold.get("counts", {}).get("evaluation_components") == 141, "canonical component count mismatch")
+
+    # Verify the deployed official grader and all directly imported project modules.
+    grader_hashes: dict[str, str] = {}
+    grader_stats: dict[str, dict[str, int]] = {}
+    for rel, expected in GRADER_SOURCE_SHA256.items():
+        source_path = grader_root / rel
+        before = stable_stat(source_path)
+        actual = file_sha256(source_path)
+        after = stable_stat(source_path)
+        _require(before == after, f"deployed grader source changed while hashing: {rel}")
+        _require(actual == expected, f"deployed grader source hash mismatch: {rel}")
+        grader_hashes[rel] = actual
+        grader_stats[rel] = before
+
+    files: list[tuple[str, Path, str]] = []
+    for arm, meta in EXPORTS.items():
+        stem = f"pred_{meta['run']}_valid"
+        files.extend(
+            [
+                (f"prediction_{arm}", project / "data/cache" / f"{stem}.npy", f"predictions/{arm}.npy"),
+                (f"sidecar_{arm}", project / "data/cache" / f"{stem}.json", f"predictions/{arm}.json"),
+            ]
+        )
+    files.append(("grade", project / "receipts" / "RANK01_F0_S1001_GRADE.json", "grade/RANK01_F0_S1001_GRADE.json"))
+    for attempt in sorted(REQUIRED_ATTEMPTS):
+        files.append((f"attempt:{attempt}", project / "runtime" / "attempts" / f"{attempt}.json", f"attempts/{attempt}.json"))
+        files.append((f"log:{attempt}", project / "runtime" / "logs" / f"{attempt}.log", f"logs/{attempt}.log"))
+    evidence_files = [
+        ("plan", plan_path, "evidence/F0_PAIR_PLAN.json"),
+        ("fold0", fold_path, "evidence/fold0.json"),
+    ]
+    for arm in ("wide", "deep"):
+        evidence_files.extend(
+            [
+                (
+                    f"terminal_verification:{arm}",
+                    terminal_dir / f"RANK01_{arm.upper()}_F0_S1001_E6_TERMINAL_VERIFICATION.json",
+                    f"evidence/{arm}_terminal_verification.json",
+                ),
+                (
+                    f"terminal_collection:{arm}",
+                    terminal_dir / f"RANK01_{arm.upper()}_F0_S1001_E6_TERMINAL_COLLECTION.json",
+                    f"evidence/{arm}_terminal_collection.json",
+                ),
+            ]
+        )
+
+    snapshot.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    receipt_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    try:
+        snapshot.mkdir(mode=0o700)
+    except FileExistsError as exc:
+        raise CollectionError(f"snapshot appeared during create-only operation: {snapshot}") from exc
+    published = False
+    try:
+        copied: dict[str, dict[str, Any]] = {}
+        for name, source, relative in files + evidence_files:
+            destination = snapshot / relative
+            copied[name] = copy_stable(source, destination)
+
+        grade = read_json(snapshot / "grade/RANK01_F0_S1001_GRADE.json")
+        validate_grade(grade, split_sha256=FOLD_SHA256, groups=groups)
+        sidecars: dict[str, dict[str, Any]] = {}
+        predictions: dict[str, dict[str, Any]] = {}
+        endpoint_by_arm = {"wide": grade["endpoint"], "deep": grade["reference"]}
+        for arm, endpoint in endpoint_by_arm.items():
+            sidecar_path = snapshot / f"predictions/{arm}.json"
+            prediction_path = snapshot / f"predictions/{arm}.npy"
+            sidecar = read_json(sidecar_path)
+            endpoint_sha = endpoint.get("prediction_sha256")
+            _require(copied[f"prediction_{arm}"]["sha256"] == endpoint_sha, f"{arm} prediction hash differs from grade")
+            _require(copied[f"sidecar_{arm}"]["sha256"] == endpoint.get("sidecar_sha256"), f"{arm} sidecar hash differs from grade")
+            validate_sidecar(
+                sidecar,
+                run=EXPORTS[arm]["run"],
+                epoch=5,
+                split_sha256=FOLD_SHA256,
+                groups=groups,
+                checkpoint_sha256=str(endpoint.get("checkpoint_sha256")),
+                prediction_sha256=str(endpoint_sha),
+            )
+            predictions[arm] = {
+                **copied[f"prediction_{arm}"],
+                "npy_header": validate_npy(prediction_path, len(groups)),
+            }
+            sidecars[arm] = {**copied[f"sidecar_{arm}"], "run": EXPORTS[arm]["run"], "epoch": 5}
+
+        terminal_bindings: dict[str, Any] = {}
+        for arm, endpoint in endpoint_by_arm.items():
+            vname = f"terminal_verification:{arm}"
+            cname = f"terminal_collection:{arm}"
+            verification_path = snapshot / f"evidence/{arm}_terminal_verification.json"
+            collection_path = snapshot / f"evidence/{arm}_terminal_collection.json"
+            terminal_bindings[arm] = validate_terminal_binding(
+                read_json(verification_path),
+                read_json(collection_path),
+                arm=arm,
+                grade_endpoint=endpoint,
+                plan_sha256=plan_sha,
+                collection_sha256=copied[cname]["sha256"],
+            )
+            _require(
+                copied[vname]["sha256"] == TERMINAL_RECEIPT_SHA256[arm]["verification"],
+                f"{arm} terminal verification differs from the reviewed receipt",
+            )
+            _require(
+                copied[cname]["sha256"] == TERMINAL_RECEIPT_SHA256[arm]["collection"],
+                f"{arm} terminal collection differs from the reviewed receipt",
+            )
+            terminal_bindings[arm]["verification_sha256"] = copied[vname]["sha256"]
+
+        attempts: dict[str, Any] = {}
+        for attempt in sorted(REQUIRED_ATTEMPTS):
+            record_path = snapshot / f"attempts/{attempt}.json"
+            record = read_json(record_path)
+            step = plan_steps[attempt]
+            _require(record.get("id") == attempt, f"attempt ID mismatch: {attempt}")
+            _require(record.get("status") == "finished" and record.get("exit_status") == 0, f"attempt did not finish cleanly: {attempt}")
+            _require(record.get("command") == step.get("expected_command"), f"attempt command differs from frozen plan: {attempt}")
+            source_manifest = record.get("source_sha256")
+            _require(isinstance(source_manifest, dict), f"attempt source manifest missing: {attempt}")
+            source_manifest_sha = hashlib.sha256(
+                json.dumps(source_manifest, sort_keys=True, separators=(",", ":")).encode()
+            ).hexdigest()
+            _require(
+                record.get("source_manifest_sha256") == source_manifest_sha,
+                f"attempt source manifest digest mismatch: {attempt}",
+            )
+            if attempt == GRADE_ATTEMPT:
+                command_paths = [
+                    token
+                    for token in step["expected_command"]
+                    if isinstance(token, str) and token.endswith("/grade_endpoint.py")
+                ]
+                _require(len(command_paths) == 1, "frozen grade command lacks one grader entrypoint")
+                expected_script = str(grader_root / GRADER_ENTRYPOINT_REL)
+                _require(command_paths[0] == expected_script, "grade command uses an unexpected grader path")
+                _require(
+                    source_manifest.get(command_paths[0]) == GRADER_SOURCE_SHA256[GRADER_ENTRYPOINT_REL],
+                    "grade attempt source manifest does not bind the reviewed grader entrypoint",
+                )
+            expected_log = project / "runtime" / "logs" / f"{attempt}.log"
+            _require(record.get("log") == str(expected_log), f"attempt log path mismatch: {attempt}")
+            log_record = copied[f"log:{attempt}"]
+            attempts[attempt] = {
+                "status": record["status"],
+                "exit_status": record["exit_status"],
+                "command_matches_plan": True,
+                "source_manifest_sha256": source_manifest_sha,
+                "command_sha256": hashlib.sha256(
+                    json.dumps(record["command"], separators=(",", ":")).encode()
+                ).hexdigest(),
+                "attempt_json": copied[f"attempt:{attempt}"],
+                "log": log_record,
+            }
+
+        receipt = {
+            "schema": "priority25.f0_result_collection.v1",
+            "status": "passed",
+            "created_unix": time.time(),
+            "project_root": str(project),
+            "snapshot_directory": str(snapshot),
+            "plan": {"path": str(plan_path), "sha256": plan_sha},
+            "fold0": {"path": str(fold_path), "sha256": fold_sha, "evaluation_groups": len(groups), "components": 141},
+            "grader_revision": GRADER_REVISION,
+            "grader_source_sha256": grader_hashes,
+            "grader_source_stats": grader_stats,
+            "grade": copied["grade"],
+            "predictions": predictions,
+            "sidecars": sidecars,
+            "attempts": attempts,
+            "terminal_bindings": terminal_bindings,
+            "evidence_files": {
+                name: value for name, value in copied.items() if name.startswith(("plan", "fold0", "terminal_"))
+            },
+            "scope": {
+                "prediction_payload_hashed": True,
+                "prediction_payload_deserialized": False,
+                "checkpoints_opened": False,
+                "targets_or_parquet_opened": False,
+                "grader_rerun": False,
+                "integrity_basis": "copy SHA-256, source stability stats, sidecar/grade/terminal/plan bindings",
+            },
+            "limitations": [
+                "This archives and binds existing evidence; it does not recompute predictions or grade.",
+                "Prediction array payload values were not reread; the official grade attempt already validated them.",
+                "The F0 fold was previously exposed and remains screening evidence, not held-out confirmation.",
+            ],
+        }
+        payload = (json.dumps(receipt, indent=2, sort_keys=True) + "\n").encode("utf-8")
+        temporary = receipt_path.with_name(f".{receipt_path.name}.{os.getpid()}.tmp")
+        flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL
+        fd = os.open(temporary, flags, 0o600)
+        try:
+            with os.fdopen(fd, "wb") as stream:
+                stream.write(payload)
+                stream.flush()
+                os.fsync(stream.fileno())
+            os.link(temporary, receipt_path)
+        finally:
+            try:
+                temporary.unlink()
+            except FileNotFoundError:
+                pass
+        published = True
+        return receipt
+    finally:
+        if not published:
+            shutil.rmtree(snapshot, ignore_errors=True)
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--project-root", type=Path, required=True)
+    parser.add_argument("--plan", type=Path, required=True)
+    parser.add_argument("--grader-root", type=Path, required=True)
+    parser.add_argument("--terminal-dir", type=Path, required=True)
+    parser.add_argument("--fold-manifest", type=Path)
+    parser.add_argument("--snapshot", type=Path)
+    parser.add_argument("--receipt", type=Path)
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+    project = args.project_root.resolve()
+    args.project_root = project
+    args.plan = args.plan.resolve()
+    args.fold_manifest = (args.fold_manifest or project / "splits/fold0.json").resolve()
+    args.snapshot = (args.snapshot or project / "result_snapshots/rr18_r01_f0_s1001_e6").resolve()
+    args.receipt = (
+        args.receipt or project / "receipts/RANK01_F0_S1001_RESULT_COLLECTION.json"
+    ).resolve()
+    try:
+        receipt = collect(args)
+    except (CollectionError, OSError, ValueError, KeyError, TypeError) as exc:
+        print(f"collection failed closed: {exc}", file=sys.stderr)
+        return 2
+    print(
+        json.dumps(
+            {
+                "status": receipt["status"],
+                "snapshot_directory": receipt["snapshot_directory"],
+                "receipt": str(args.receipt),
+                "prediction_bytes": sum(item["bytes"] for item in receipt["predictions"].values()),
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

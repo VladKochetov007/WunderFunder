@@ -1,6 +1,8 @@
 # F1/seed1001 Beleriand fallback preparation
 
-**Status: UNADMITTED.** This packet is a reviewed-preparation candidate only. It does not claim the F1 cell, submit a job, or alter the frozen F0 sequence. The plan preparation did not allocate a GPU or claim a cell. Later helper-only staging for a bounded CPU fixture is recorded below; the plan remains unstaged.
+**Current status: ADMITTED on Beleriand for both arms.** See the [separate admission](../receipts/F1_BELERIAND_ADMISSION_V1.json) and [actual launch](../receipts/F1_BELERIAND_LAUNCH_V1.json). The controller is `computer-vision-homework-r01-f1-sequence.service`; initial index0 is wide stage1. Plan bytes are unchanged. The text below describes the earlier preparation state, superseded operationally by those receipts.
+
+**Historical preparation status: UNADMITTED.** This packet is a reviewed-preparation candidate only. It does not claim the F1 cell, submit a job, or alter the frozen F0 sequence. The plan preparation did not allocate a GPU or claim a cell. Later helper-only staging for a bounded CPU fixture is recorded below; the plan remains unstaged.
 
 - [F1 fallback plan](F1_BELERIAND_PLAN.json) gives the fold1/seed1001 pair’s proposed stage1 → exact continuation → fixed epoch5 exports → paired official-grade vectors. It matches the `bandit_sequence.py` plan schema, but remains explicitly UNADMITTED; root must not stage or submit it until the fresh admission gates are satisfied. No runner was invoked.
 - [Binding and preparation receipt](PREPARATION_BINDING.json) records source/archive/data hashes, the sealed fold1 identity, parent-reported live metadata, schedule arithmetic, profile-reuse limits, paths and validation caveats.

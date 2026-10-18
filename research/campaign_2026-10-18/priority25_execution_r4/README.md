@@ -1,5 +1,15 @@
 # Ranked25 execution, 18 October 2026
 
+- [First completed rank1 pair, F0/seed1001](receipts/RANK01_F0_S1001_RESULT.json): wide0.673575751 versus deep0.672108767, delta+0.001466984; conditional component95%CI[−0.000411695,+0.003589820]. Both six-epoch endpoints passed structural checks and outputs are archived. One of30pairedcells per arm; no CP30, convergence or public-transfer conclusion.
+- [F1 admission](receipts/F1_BELERIAND_ADMISSION_V1.json), [launch](receipts/F1_BELERIAND_LAUNCH_V1.json) and [actual optimizer progress](receipts/F1_INITIAL_PROGRESS_20261018T0805Z.json): both arms owned by Beleriand; wide epoch0 batch140/1493 at08:06UTC. One campaign GPU worker, no new memory events, existing foreign GPU process preserved. Frozen plan and F1-specific checkpoint helpers remain unchanged.
+- [Provider/cell reconciliation](receipts/PROVIDER_CELL_RECONCILIATION_20261018T0740Z.json): ongoing DataSphere incident, no recent active jobs, unchanged balance; issues16/19 have no observed worker claims. F2 remains requested from cluster; no duplicate F1 cloud allocation.
+
+Current ownership and next steps are in [RUNBOOK](RUNBOOK.md), [AUTHORITY](AUTHORITY.json) and the [receipt index](receipts/README.md).
+
+## Historical preparation and observations
+
+The dated entries below preserve earlier states; the completed F0 result and F1 admission above supersede their pending/running descriptions.
+
 - [07:10UTC campaign observation](receipts/HEARTBEAT_20261018T0710Z.json): healthy deep epoch5 progress; no terminal checkpoint yet. DataSphere still has no active recent job or observed recovery, and issues16/19 still have no worker claims.
 
 - [Separate F1 checkpoint helpers](f1_beleriand_fallback/checkpoints/README.md) now have [independent review and synthetic CPU evidence](receipts/F1_CHECKPOINT_SUPPORT_REVIEW_20261018.json). The frozen preparation manifest preserves the original author test result; root subsequently passed all12 tests locally and the one real-Torch fixture on Beleriand. F1 plan remains UNADMITTED; no F1 fit, actual checkpoint or grade exists.

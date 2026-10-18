@@ -1,0 +1,156 @@
+"""Offline schema-binding tests for the F0 result collector."""
+
+from __future__ import annotations
+
+import tempfile
+import unittest
+from pathlib import Path
+
+import collect_results_v1 as collector
+
+
+def grade_fixture() -> dict[str, object]:
+    groups = list(range(468))
+    def endpoint(arm: str) -> dict[str, object]:
+        expected = collector.EXPECTED_ENDPOINTS[arm]
+        return {
+            "run": expected["run"],
+            "epoch": 5,
+            "checkpoint_sha256": "c" * 64,
+            "prediction_sha256": expected["prediction_sha256"],
+            "provenance_sha256": "b" * 64,
+            "sidecar_sha256": expected["sidecar_sha256"],
+            "score": {
+                "metric_id": "global_wp_clip2_v1",
+                "selected_rows": 808_863,
+                **expected["score"],
+            },
+        }
+
+    candidate = endpoint("wide")
+    reference = endpoint("deep")
+    return {
+        "schema": "priority25.endpoint_grade.v1",
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "split_manifest_sha256": collector.FOLD_SHA256,
+        "fold": 0,
+        "n_folds": 4,
+        "metric_id": "global_wp_clip2_v1",
+        "evaluation_row_groups": groups,
+        "evaluation_components": 141,
+        "target_cache_sha256": collector.EXPECTED_TARGET_CACHE_SHA256,
+        "endpoint": candidate,
+        "reference": reference,
+        "paired_component_bootstrap": {
+            "metric_id": "global_wp_clip2_v1",
+            "n_boot": collector.BOOTSTRAP_COUNT,
+            "resamples": collector.BOOTSTRAP_COUNT,
+            "seed": collector.BOOTSTRAP_SEED,
+            "components": 141,
+            "n_components": 141,
+            "n_sequences": 468,
+            "centered_moments": True,
+            **collector.EXPECTED_BOOTSTRAP,
+        },
+    }
+
+
+class CollectorBindingTests(unittest.TestCase):
+    def test_grade_fixture_passes_and_epoch_mismatch_fails(self) -> None:
+        grade = grade_fixture()
+        collector.validate_grade(
+            grade, split_sha256=collector.FOLD_SHA256, groups=grade["evaluation_row_groups"]
+        )
+        grade["endpoint"]["epoch"] = 4
+        with self.assertRaisesRegex(collector.CollectionError, "candidate epoch mismatch"):
+            collector.validate_grade(
+                grade, split_sha256=collector.FOLD_SHA256, groups=grade["evaluation_row_groups"]
+            )
+
+    def test_grade_run_mismatch_fails(self) -> None:
+        grade = grade_fixture()
+        grade["reference"]["run"] = "wrong-run"
+        with self.assertRaisesRegex(collector.CollectionError, "reference run mismatch"):
+            collector.validate_grade(
+                grade, split_sha256=collector.FOLD_SHA256, groups=grade["evaluation_row_groups"]
+            )
+
+    def test_sidecar_binds_run_epoch_fold_hash_and_membership(self) -> None:
+        groups = [4, 5, 7]
+        sidecar = {
+            "run": "r",
+            "split": "valid",
+            "epoch": 5,
+            "split_manifest_sha256": collector.FOLD_SHA256,
+            "campaign_split_manifest_sha256": collector.FOLD_SHA256,
+            "campaign_export_scope": "evaluation",
+            "feature_only": True,
+            "inference_precision": "fp32",
+            "row_groups": groups,
+            "evaluation_membership_sha256": collector.membership_sha256(groups),
+            "checkpoint_sha256": "c" * 64,
+            "prediction_sha256": "a" * 64,
+        }
+        collector.validate_sidecar(
+            sidecar,
+            run="r",
+            epoch=5,
+            split_sha256=collector.FOLD_SHA256,
+            groups=groups,
+            checkpoint_sha256="c" * 64,
+            prediction_sha256="a" * 64,
+        )
+        sidecar["run"] = "other"
+        with self.assertRaisesRegex(collector.CollectionError, "sidecar r field run"):
+            collector.validate_sidecar(
+                sidecar,
+                run="r",
+                epoch=5,
+                split_sha256=collector.FOLD_SHA256,
+                groups=groups,
+                checkpoint_sha256="c" * 64,
+                prediction_sha256="a" * 64,
+            )
+        sidecar["run"] = "r"
+        sidecar["prediction_sha256"] = "f" * 64
+        with self.assertRaisesRegex(collector.CollectionError, "prediction_sha256 mismatch"):
+            collector.validate_sidecar(
+                sidecar,
+                run="r",
+                epoch=5,
+                split_sha256=collector.FOLD_SHA256,
+                groups=groups,
+                checkpoint_sha256="c" * 64,
+                prediction_sha256="a" * 64,
+            )
+
+    def test_copy_refuses_existing_destination(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.txt"
+            destination = Path(directory) / "already-there.txt"
+            source.write_text("source", encoding="utf-8")
+            destination.write_text("original", encoding="utf-8")
+            with self.assertRaisesRegex(collector.CollectionError, "refusing to overwrite"):
+                collector.copy_stable(source, destination)
+            self.assertEqual(destination.read_text(encoding="utf-8"), "original")
+
+    def test_npy_header_only_validation(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "prediction.npy"
+            header = repr(
+                {"descr": "<f4", "fortran_order": False, "shape": (1, 20_000, 2)}
+            ).encode("latin1")
+            padding = (-(10 + len(header) + 1)) % 64
+            header += b" " * padding + b"\n"
+            with path.open("wb") as stream:
+                stream.write(b"\x93NUMPY\x01\x00")
+                stream.write(len(header).to_bytes(2, "little"))
+                stream.write(header)
+                stream.write(b"\0" * (20_000 * 2 * 4))
+            result = collector.validate_npy(path, row_count=1)
+            self.assertEqual(result["shape"], [1, 20_000, 2])
+            self.assertFalse(result["payload_inspected"])
+
+
+if __name__ == "__main__":
+    unittest.main()
