@@ -321,6 +321,8 @@ papers motivate a test; none establishes a Challenge2 gain.
 
 The source note and idea record are linked from the unified
 [sources](../../unified/sources/README.md) and
-[ideas](../../unified/ideas/README.md) indexes. PR number, URL, final head SHA,
-and any issue/cell claim are added after publication; no result or dispatch is
+[ideas](../../unified/ideas/README.md) indexes. This is draft PR
+[#20](https://github.com/VladKochetov007/WunderFunder/pull/20), based on
+`research-team`; the branch head when opened was
+`d987b0d667c8f9bb789c8168700c02a4756f1d01`. No result or fit dispatch is
 implied by opening this draft.

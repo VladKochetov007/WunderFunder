@@ -4,6 +4,8 @@
 `E-ONLINE-META-TTA-GRU-B300-20261018-R1`
 **Status:** implementation proposal plus synthetic profile only. No B300
 hardware profile, task-data fit, student transfer, or score has been measured.
+Published as [draft PR #20](https://github.com/VladKochetov007/WunderFunder/pull/20)
+to `research-team`; the initial branch head was `d987b0d667c8`.
 
 ## Hypothesis
 

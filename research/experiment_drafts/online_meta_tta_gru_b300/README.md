@@ -9,6 +9,10 @@ trainer and data bindings below are completed and an actual B300 profile passes.
 `E-ONLINE-META-TTA-GRU-B300-20261018-R1`, teacher-to-student connection.
 Source base: `main` `24e9001570de158db9a5031e632dbb0b4477145f`,
 `research-team` `da90e68e13e8af4f95856f99c4c41a3fdb7cc315`.
+**Draft PR:** [#20](https://github.com/VladKochetov007/WunderFunder/pull/20)
+targets `research-team`; its branch was first published at
+`d987b0d667c8f9bb789c8168700c02a4756f1d01`. The independently reviewed
+starter implementation is commit `056a7bd2e17b7fa39dd4f07726dd8e73e476a79d`.
 
 ## Question
 
@@ -196,8 +200,8 @@ completion of a split 256-row block.
 See [`PR.md`](PR.md) for the 11-section handoff, and the unified
 [idea](../../unified/ideas/ONLINE_META_TTA_GRU_B300_20261018_R1.md) and
 [literature source](../../unified/sources/ONLINE_META_TTA_GRU_B300_20261018_R1.md)
-records. `PR_URL` is recorded in the final commit and unified index after
-publication.
+records. The draft PR is a proposal for the B300 team; no fit dispatch is
+implied.
 
 Two independent static implementation reviews returned ITERATE, then a final
 static review of commit `056a7bd2e17b7fa39dd4f07726dd8e73e476a79d` returned
