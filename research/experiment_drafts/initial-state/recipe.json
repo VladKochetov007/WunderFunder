@@ -1,0 +1,77 @@
+{
+  "schema": "wnn.experiment-draft.v1",
+  "id": "E-DRAFT-INITIAL-STATE-20261017-R1",
+  "hypothesis_id": "H-DRAFT-INITIAL-STATE-20261017",
+  "slug": "initial-state",
+  "title": "Learned causal initial-state family",
+  "status": "implementation_handoff",
+  "kind": "scientific",
+  "lineage": "student",
+  "base_main_sha": "18407ecfa3b02d4db70cfb3c34abbacd6653e79d",
+  "base_research_team_sha": "96b014737211c19d421e29c5595b5ea7e86797ff",
+  "source_receipt": "research/campaign_2026-10-15/initializer_family_f0_r1/README.md",
+  "historical_evidence": "Static FP32 subset recipes only; preflight/profile/fits unrun.",
+  "arms": [
+    "zero",
+    "learned-constant",
+    "first-row",
+    "prefix-mlp"
+  ],
+  "precision": "fp32",
+  "tf32": false,
+  "autocast": false,
+  "launch_ready": false,
+  "metric": "global_wp_clip2_v1",
+  "primary_statistic": "equal-quarter fold mean of within-fold mean paired per-fit WP deltas; no seed prediction averaging",
+  "replications_per_arm": 30,
+  "fold_seed_counts": [
+    8,
+    8,
+    7,
+    7
+  ],
+  "bootstrap_seed": 17017,
+  "bootstrap_replicates": 10000,
+  "decision_threshold": null,
+  "decision_threshold_status": "must be justified and frozen before fits, not selected from these results",
+  "implementation_sources": [
+    "src/wnn/state_initialization.py",
+    "src/wnn/initializer_training.py",
+    "scripts/run_initializer_family_f0_r1.py"
+  ],
+  "implementation_files_in_this_pr": [],
+  "remaining_work": [
+    "Expand beyond104-sequence subset, retain prefix timing and undetached initializer gradients, rebuild clean fold parents.",
+    "Freeze practically useful effect, resource allocation and exact per-cell command/config/ancestry bindings.",
+    "Integrate per-step reporting and graded prediction manifests; no real-data B300 profile or numerical invariance checks performed."
+  ],
+  "optimizer_starting_proposal": {
+    "name": "AdamW",
+    "peak_lr": 0.001,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "weight_decay": 0.01,
+    "preclip_gradient_norm": 1.0
+  },
+  "schedule_starting_proposal": {
+    "name": "WSD",
+    "epochs": 12,
+    "warmup_fraction": 0.02,
+    "cooldown_fraction": 0.2,
+    "final_lr_fraction": 0.1,
+    "status": "proposal; not legacy-recipe replication and not yet bound to actual successful-update count"
+  },
+  "hardware_plan": {
+    "user_reported": "8 x NVIDIA B300",
+    "verified": false,
+    "gpus_per_fit": "1 for GRU; measured DDP/FSDP allocation for larger teacher",
+    "queue_manager": false
+  },
+  "artifact_contract": "separate evidence.tar, weights.tar and SHA256 manifest; no dataset auto-collection",
+  "original_base_research_team_sha": "18407ecfa3b02d4db70cfb3c34abbacd6653e79d",
+  "integration_method": "merge current research-team; preserve original source history",
+  "shared_trainer_revision": "eb3309a322c1e24b3cc157eaefe3ca0e0290cd42",
+  "latest_integration_parent_sha": "944b4e0c8ce26b842b6b8466aea9f0932bf36ea8"
+}
