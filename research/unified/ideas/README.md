@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[19 October no-fit discussion: 25 cards](../../campaign_2026-10-19/no_fit_ideation_r1/IDEAS_25.md) covers target construction, history information, input representations, recurrent state and optimization. It records assumptions and falsifiers rather than predicted leaderboard gains. Several cards are close refinements and one is dependent; this is not a claim of 25 orthogonal discoveries or an execution queue. User discussion supersedes the old automatic engineering continuation.
+
 [Published canonical tiedlead capability](../../campaign_2026-10-18/quality_gap_r1/tiedlead_capability_publication_r1/README.md) implements the reviewed architecture at b104b0ad without silently substituting a plain 263-input GRU. Engineering review and four tiny CPU tests passed; final-supervision topology/objective integration and scientific preregistration remain pending.
 
 [Modified TL3 comparison R2](../../campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r2/README.md) has independent design-only PASS: matched three-member arms, shared clean ancestors and fixed budgets/blend, differing only in final teacher/family-supervision weights. All30 complete pairs are required;240 planned fits is a count, not a measured allocation. It is unadmitted and does not replace rank1. [Strict propensity capability](../../campaign_2026-10-18/quality_gap_r1/propensity_capability_publication_r1/README.md) is engineering-reviewed and published on a separate branch, with campaign/runtime and tiedlead gates still open.

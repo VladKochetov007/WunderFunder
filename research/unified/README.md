@@ -1,5 +1,7 @@
 # Unified research library
 
+[Current user direction: no-fit discussion of 25 hypotheses](../campaign_2026-10-19/no_fit_ideation_r1/README.md). Independent generation, prior-overlap criticism and mathematical/source checks replace automatic historical reconstruction and quantization work. The cards are unmeasured proposals, with close refinements and dependencies marked. Existing F3 has maintenance-only authority; no new fit, data replay or code implementation was performed in this session.
+
 [Current continuation,18 October21:03UTC](../campaign_2026-10-18/quality_gap_r1/CONTINUATION_20261018T2105Z.md) records healthy F3 wide epoch4, reviewed/staged terminal wrappers and the isolated tiedlead engineering publication. Modified scientific fits and F3 quality remain pending; no new public score.
 
 [Current continuation, 18 October20:31UTC](../campaign_2026-10-18/quality_gap_r1/CONTINUATION_20261018T2035Z.md) separates healthy F3 training and accepted stage1 artifacts from the newly published strict-propensity V3 engineering capability. F3 quality and the modified clean comparison remain pending; no new leaderboard score is claimed.

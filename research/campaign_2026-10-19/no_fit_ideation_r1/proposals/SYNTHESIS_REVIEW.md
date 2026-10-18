@@ -1,0 +1,7 @@
+# Final synthesis audit
+
+**Status: pass with one necessary qualification.** I found no hard algebraic error in the signed-moment readout, pooled-WP derivative description, or weighted-MSE population argument. The sequence-length statement is consistent with the task spec. The document clearly labels proposals as unmeasured and says these are not 25 independent discoveries; it also marks close prior directions and the dependency of card 25 on card 16. I found no user-scope violation in the synthesis.
+
+**Clarify the hidden score-selection measure in cards 16 and 22.** The evaluation population is selected by `S = is_scored`, with weight `S·|Yc|`; `train.parquet` has no score mask. Therefore gradients or heteroscedastic objectives weighted only by `|Yc|` recover the evaluation tilted conditional mean only under an explicit assumption that training rows represent the scored-row distribution (or that selection is conditionally irrelevant). Keep the exact population proof, but do not describe train moments as the exact hidden-evaluation moments without that qualification. `S` remains unavailable to inference.
+
+The potential overlap is disclosed rather than padded as orthogonal novelty: cards 4, 11–13, and 18 are called close prior refinements, and 25 explicitly depends on 16. Card 12’s ratio `(A+−A−)/B` is the correct weighted conditional mean when the moments are estimated under the same target measure and `B>0`; its fitting objectives must estimate those moments consistently. No gain, transfer, or empirical mechanism is established by this review.
