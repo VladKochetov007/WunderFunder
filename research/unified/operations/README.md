@@ -355,3 +355,5 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 - [TL3 checkpoint metadata execution](../../campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/README.md) — bounded 24.8 MB CPU metadata pass completed exit 0, captured and stopped; eight fresh checkpoint hashes, restricted loader and raw transport, no tensor values or inference. Parent events stayed high 177 / max 561 / OOM 0.
 
 - [F3 / seed 1001 execution](../../campaign_2026-10-18/priority25_execution_r4/f3_beleriand_execution_r1/README.md) — actual 17:06 UTC admission/launch under the single-worker shared GPU and aggregate 2 CPU limits; exact plan/runtime/source/data bindings and separate result acceptance gates. F0/F1 remain complete.
+
+- [TL3 publication completeness](../../campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/PUBLICATION_COMPLETENESS_V1.json) — all 37 manifest files rehashed; 11 small history/cache-sidecar JSON files explicitly added after generic artifact ignore rules skipped them. No weights, arrays or frozen file content changed.
