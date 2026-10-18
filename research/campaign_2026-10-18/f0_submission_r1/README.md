@@ -1,5 +1,15 @@
 # Exploratory F0 submission, 18 October 2026
 
+**Subsequent public feedback:** the user reports submission `0897egiv` at
+**0.65839**, **45m47s / 653MB**, displayed timestamp `15:04 2026-10-18`.
+The exact filename matches this release; portal bytes were not independently
+hash-verified. This is0.00993 below the October17 team-best snapshot, so this
+package is not promoted. [User-result receipt](receipts/PUBLIC_RESULT_0897egiv_20261018.json),
+[independent static transfer audit](receipts/PUBLIC_TRANSFER_STATIC_AUDIT_20261018.json),
+[quality-gap diagnosis](../../unified/reviews/QUALITY_GAP_DIAGNOSIS_20261018_R1.md).
+Reported observed runtime supersedes the estimate for this submission only.
+The historical release/checks below remain unchanged; no agent upload occurred.
+
 The user requested an optimal submission from the completed F0 endpoints. This
 is an explicit release exception for this exposed fold, while the rank1 CP30
 comparison and healthy F1 training continue. No competition upload is requested.

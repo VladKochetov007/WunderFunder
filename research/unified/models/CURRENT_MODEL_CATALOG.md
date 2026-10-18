@@ -4,6 +4,13 @@ Snapshot: October 17, 2026. Names identify specific artifacts and ancestry; a re
 
 ## Current team packages
 
+October18 follow-up: the exploratory cold wide/deep F0 package scored
+user-reported **0.65839 / 45:47 / 653MB**, portal ID `0897egiv`; it does not
+replace the strong packages below. Its local exposed-F0 native WP0.67382636
+is not directly comparable to their train+valid fitted diagnostics.
+[Release and result](../../campaign_2026-10-18/f0_submission_r1/README.md),
+[gap diagnosis](../reviews/QUALITY_GAP_DIAGNOSIS_20261018_R1.md).
+
 The [official public snapshot](../reviews/audit-2026-10-17/official_leaderboard_20261017.json) records kotiki at **.66832, rank 22, 97 submissions**. The server journal records tl3/tl4 at rounded .6683. An exact current-best portal-ID-to-ZIP-hash binding is not available.
 
 | Package | Fixed members | Recorded public / runtime | Interpretation |

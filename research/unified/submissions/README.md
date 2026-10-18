@@ -4,6 +4,8 @@ Exact releases, public feedback, packaging and release decisions.
 
 ## Current navigation
 
+- [October18 F0 exploratory release and public feedback](../../campaign_2026-10-18/f0_submission_r1/README.md) — user reports `0897egiv` at0.65839,45m47s/653MB; below prior team best. Exact local ZIP passed full F0 at0.67382636; portal payload SHA remains unverified. [Quality-gap diagnosis](../reviews/QUALITY_GAP_DIAGNOSIS_20261018_R1.md).
+
 - [Model and submission catalog](../models/CURRENT_MODEL_CATALOG.md) — current team packages, model/engine naming and source-qualified public results.
 - [Dated public receipt inventory](../reviews/audit-2026-10-17/public_receipts.json) — 81 observations of 70 portal IDs; incomplete submission history.
 - [Official leaderboard snapshot](../reviews/audit-2026-10-17/official_leaderboard_20261017.json) — October 17 team score and rank; 97 is the team submission count.

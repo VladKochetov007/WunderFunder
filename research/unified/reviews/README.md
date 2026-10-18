@@ -4,6 +4,8 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [Quality-gap diagnosis after public 0.65839](QUALITY_GAP_DIAGNOSIS_20261018_R1.md) — separates the regression against our own best from the dated leader gap; reconciles matched KD evidence, validation transfer, missing incumbent-relative diagnostics and checked serving paths. No new fits or causal public explanation.
+
 - [R2 iterative mechanism and implementation review](../../campaign_2026-10-17/research_reset_r2/reflection/README.md) — initial proposals preserved before old-code attack, then25 revised dispositions from measured evidence. Independent review prompted complete target/mask alignment and append-only reporting/variance clarifications. [Integration verification](../../campaign_2026-10-17/research_reset_r2/VERIFICATION.json) binds scores, sufficient statistics, numerical checks and limitations; agreement among agents is not independent model replication.
 
 - [October17 iterative research reviews](../../campaign_2026-10-17/research_reset_r1/reviews/README.md) — independent R2 cross-criticism, R3 EDA/weighted-metric audits, R4 portfolio critique and coordinator resolutions; resulting25cards are proposals, not model results.
