@@ -4,6 +4,8 @@ Reusable metric, causal data handling, statistical and implementation contracts.
 
 ## Current navigation
 
+- [User-requested F0 submission](../../campaign_2026-10-18/f0_submission_r1/README.md) — the completed epoch5 wide/deep pair is packaged under an explicit exploratory release exception. A fixed75/25 mixture scores0.673850944 across468 exposed-F0 groups and wins the five-point screen. Checkpoint-to-package tensors and preliminary native callbacks pass; full Q8 replay and release are pending. This is not CP30 or a public-score forecast.
+
 - [R2 metric decompositions and clocks](../../campaign_2026-10-17/research_reset_r2/theory/README.md) — exact label-run variance/covariance identity, existing WMSE fluctuation penalty and within/between-sequence pooled-score decomposition. All84 target-scores reconstruct within5.56e-16; pure numerical fixtures exercise the canonical scorer. Observation/state/output/label/gradient clocks are distinguished; oracle gain is not a causal gain or Bayes ceiling. E-RR17-R2-DECOMPOSITION/OUTPUTS.
 - [Fixed causal Kalman input probe](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/README.md) — a prediction-only frozen-GRU replay on 16 selected exposed-F0 groups. Local-trend replacement is +0.000338 WP versus raw, with a 12-component conditional interval [−0.000019, +0.000716]; random walk is +0.000119. This small fixed-endpoint screen does not evaluate training with learned filter features or online parameter updates. The separate execution receipt records a 1.126 GB worker-cgroup peak and zero OOM events; process RSS differs. The trained retained-raw teacher/student proposal is draft PR #17, with B300 profiling and all task fits pending.
 

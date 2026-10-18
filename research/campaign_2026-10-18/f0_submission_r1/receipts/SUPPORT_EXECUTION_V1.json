@@ -1,0 +1,83 @@
+{
+  "schema": "f0_submission.support_execution.v1",
+  "observations": [
+    {
+      "unit": "computer-vision-homework-f0-submit-extract-v1",
+      "start_utc": "2026-10-18T09:53:01Z",
+      "end_utc": "2026-10-18T09:53:10Z",
+      "exit_status": 0,
+      "cpu_ns": 4368930000,
+      "quota": "50%",
+      "memory_max": 1500000000
+    },
+    {
+      "unit": "computer-vision-homework-f0-submit-py311-v1",
+      "start_utc": "2026-10-18T09:53:34Z",
+      "end_utc": "2026-10-18T09:53:43Z",
+      "exit_status": 0,
+      "cpu_ns": 3934378000,
+      "quota": "50%",
+      "memory_max": 1000000000
+    },
+    {
+      "unit": "computer-vision-homework-f0-submit-reference-v1",
+      "start_utc": "2026-10-18T09:56:06Z",
+      "end_utc": "2026-10-18T09:56:08Z",
+      "exit_status": 0,
+      "cpu_ns": 1153501000,
+      "quota": "50%",
+      "memory_max": 1000000000
+    },
+    {
+      "unit": "computer-vision-homework-f0-submit-f32-panel-v1",
+      "start_utc": "2026-10-18T09:56:21Z",
+      "end_utc": "2026-10-18T09:56:55Z",
+      "exit_status": 0,
+      "cpu_ns": 33796553000,
+      "quota": "100%",
+      "memory_max": 2000000000
+    },
+    {
+      "unit": "computer-vision-homework-f0-submit-q8-panel-v1",
+      "start_utc": "2026-10-18T09:57:48Z",
+      "end_utc": "2026-10-18T09:57:57Z",
+      "exit_status": 0,
+      "cpu_ns": 8944834000,
+      "quota": "100%",
+      "memory_max": 2000000000
+    },
+    {
+      "unit": "computer-vision-homework-f0-submit-incumbent-v1",
+      "start_utc": "2026-10-18T09:59:00Z",
+      "end_utc": "2026-10-18T09:59:08Z",
+      "exit_status": 0,
+      "cpu_ns": 8341824000,
+      "quota": "100%",
+      "memory_max": 2000000000
+    }
+  ],
+  "all_above_units": "explicit successful exit captured, then own exited unit stopped; no failed/foreign/training units touched",
+  "physical_scratch": "B/research_tmp on ext4",
+  "cuda_visible_devices": "",
+  "threads": 1,
+  "swap": 0,
+  "environment_setup": "isolated Py3.11.16 +numpy2.2.6 +pyarrow19.0.1; dependencies installed before offline inference",
+  "active_release_replay": {
+    "unit": "computer-vision-homework-f0-submit-release-replay-v1",
+    "start_utc": "2026-10-18T10:00:24Z",
+    "deadline_seconds": 5400,
+    "cpu_quota": "100%",
+    "memory_max": 2000000000,
+    "serial_steps": [
+      "ABI",
+      "v2 first2 sequences",
+      "avx2 first2 sequences",
+      "full F0 native callbacks"
+    ],
+    "source_sha256": "bf1d4b95e781bf4e2ffcd8fac0e81a23535984782c30c2a56e08af3b8ecb3e3b",
+    "launcher_sha256": "1368d05becc28f622e7ea3d44a51e50ff72fa54f8aeab1efe521ce563639a18e"
+  },
+  "pre_admission_parent_memory_bytes": 5240545280,
+  "headroom": "Current~5.24GB plus unused8GB fit-worker reservation and2GB support stays below17GB working target. Parent2CPU remains enforced; one training GPU worker.",
+  "erratum": "EXTRACTION.json parquet_full_hash string mentions footer checking; this extraction checked file size/group count/selected sequence identities, not cryptographic footer/full SHA. Full source SHA inherited from archived F0 grade; full native replay separately hashes original parquet."
+}

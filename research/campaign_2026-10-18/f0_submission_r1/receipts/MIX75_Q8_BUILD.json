@@ -1,0 +1,517 @@
+{
+  "artifact": {
+    "bytes": 17480575,
+    "members": {
+      "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+      "members.json": "71e598f6e0bac33f43ba7b8268d7e37dc8df37f4e9b3bd86663e9758c9cb0200",
+      "precision.txt": "14ee38fd31cb3cc62f996a64cb7ddfa69c7bce784386c23890955bab6abc9e52",
+      "solution.py": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54",
+      "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+      "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e",
+      "weights_0.npz": "3aba491b1bf7706cd12db2ad02efc93056d854f96bee41dd74e638de1711a9d0",
+      "weights_1.npz": "f2c632cd6d03123351b805cc4e16a909fb6904e35d4bdf0a20e2b7a43bbebadf"
+    },
+    "path": "/Users/nb/Documents/wunder/runtime-20261018/f0-submission-r1/builds/r01_f0_mix75_q8/submission.zip",
+    "sha256": "c4cb51bf20e7639f0fa607489b911b551f5296158db3bd913429e95ce7c139e6"
+  },
+  "candidate": "r01_f0_mix75_q8",
+  "evidence_files": [
+    {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-18/f0_submission_r1/receipts/BLEND_SELECTION.json",
+      "sha256": "59513a1aa292feb9eb4c59211c70a057c3cd0362ebddfc6ad6879b09279c6c46"
+    }
+  ],
+  "fixed_members": [
+    {
+      "coefficient": 0.75,
+      "run_reference": "rr18_r01_wide_f0_s1001_e6@ep5"
+    },
+    {
+      "coefficient": 0.25,
+      "run_reference": "rr18_r01_deep_f0_s1001_e6@ep5"
+    }
+  ],
+  "gate_status": "package_crc_passed; offline_import_and_streaming_gate_pending",
+  "members": [
+    {
+      "exported_tensors": {
+        "gru.bias_hh_l0": {
+          "dtype": "<f4",
+          "sha256": "af4484e5db2cfb463dafb29dd8a0696acdb37742fef9df5db0b324ba27a48647",
+          "shape": [
+            1536
+          ]
+        },
+        "gru.bias_ih_l0": {
+          "dtype": "<f4",
+          "sha256": "225405495ec284169e0fc359957cc5eae24eb4dee8d7a2078b996168cbc02376",
+          "shape": [
+            1536
+          ]
+        },
+        "gru.weight_hh_l0": {
+          "dtype": "<f4",
+          "sha256": "56720ecaa9f8727760e070fcd21417554ab19551f6f8e844394f3b8d27bf91c2",
+          "shape": [
+            1536,
+            512
+          ]
+        },
+        "gru.weight_ih_l0": {
+          "dtype": "<f4",
+          "sha256": "cc5c67c73bd65377cc26fa34adf737f45377987e0f8467b3105b3c59700b189d",
+          "shape": [
+            1536,
+            512
+          ]
+        },
+        "head.0.bias": {
+          "dtype": "<f4",
+          "sha256": "a4944895981774a1d0d88a0a5c8affe0cf718bf4a5c8adecb5a01ca6af94fe4f",
+          "shape": [
+            512
+          ]
+        },
+        "head.0.weight": {
+          "dtype": "<f4",
+          "sha256": "7e7e9641a3ac3d579592ff18c5eeff418af888159e0c34f49bbb5df53626b7f1",
+          "shape": [
+            512,
+            1024
+          ]
+        },
+        "head.2.bias": {
+          "dtype": "<f4",
+          "sha256": "4ba2a4b2d8de66864c6cc3049efba1ddd7ea105a7d4ab64510ea2cdda14eef36",
+          "shape": [
+            2
+          ]
+        },
+        "head.2.weight": {
+          "dtype": "<f4",
+          "sha256": "8b2f145220cec7e7ca5675b5783aa2131a62d2f14494fec2fb235caa0369f84c",
+          "shape": [
+            2,
+            512
+          ]
+        },
+        "inp.bias": {
+          "dtype": "<f4",
+          "sha256": "1cd51b624fb6150b72278f11f8587c6135cb71795a3754c4b6c01ef060f24231",
+          "shape": [
+            512
+          ]
+        },
+        "inp.weight": {
+          "dtype": "<f4",
+          "sha256": "3e0b3dc95df967ad6767ee6ae4d9dc4e893ddb9d9a6b147411296e9a38d84b2e",
+          "shape": [
+            512,
+            211
+          ]
+        },
+        "mean": {
+          "dtype": "<f4",
+          "sha256": "8ad0707c6e6be6ee758a549b7e538d567aad0b0d660c76f8f1d28c85bb33e8a9",
+          "shape": [
+            211
+          ]
+        },
+        "std": {
+          "dtype": "<f4",
+          "sha256": "9a0587df74f1cfe76745bb7b8ba1c918831bdaf535aba610db19687d9cf87fb7",
+          "shape": [
+            211
+          ]
+        }
+      },
+      "run_reference": "rr18_r01_wide_f0_s1001_e6@ep5",
+      "sources": [
+        {
+          "checkpoint_bytes": 8905959,
+          "checkpoint_path": "/Users/nb/Documents/wunder/runtime-20261018/f0-submission-r1/runs/rr18_r01_wide_f0_s1001_e6/model_ep5.pt",
+          "checkpoint_sha256": "78c1413de8eeaa51f803cf59d6b0d7d2eddaad74cc91f744b8b2f85466b61b7f",
+          "exported_tensors": {
+            "gru.bias_hh_l0": {
+              "dtype": "<f4",
+              "sha256": "af4484e5db2cfb463dafb29dd8a0696acdb37742fef9df5db0b324ba27a48647",
+              "shape": [
+                1536
+              ]
+            },
+            "gru.bias_ih_l0": {
+              "dtype": "<f4",
+              "sha256": "225405495ec284169e0fc359957cc5eae24eb4dee8d7a2078b996168cbc02376",
+              "shape": [
+                1536
+              ]
+            },
+            "gru.weight_hh_l0": {
+              "dtype": "<f4",
+              "sha256": "56720ecaa9f8727760e070fcd21417554ab19551f6f8e844394f3b8d27bf91c2",
+              "shape": [
+                1536,
+                512
+              ]
+            },
+            "gru.weight_ih_l0": {
+              "dtype": "<f4",
+              "sha256": "cc5c67c73bd65377cc26fa34adf737f45377987e0f8467b3105b3c59700b189d",
+              "shape": [
+                1536,
+                512
+              ]
+            },
+            "head.0.bias": {
+              "dtype": "<f4",
+              "sha256": "a4944895981774a1d0d88a0a5c8affe0cf718bf4a5c8adecb5a01ca6af94fe4f",
+              "shape": [
+                512
+              ]
+            },
+            "head.0.weight": {
+              "dtype": "<f4",
+              "sha256": "7e7e9641a3ac3d579592ff18c5eeff418af888159e0c34f49bbb5df53626b7f1",
+              "shape": [
+                512,
+                1024
+              ]
+            },
+            "head.2.bias": {
+              "dtype": "<f4",
+              "sha256": "4ba2a4b2d8de66864c6cc3049efba1ddd7ea105a7d4ab64510ea2cdda14eef36",
+              "shape": [
+                2
+              ]
+            },
+            "head.2.weight": {
+              "dtype": "<f4",
+              "sha256": "8b2f145220cec7e7ca5675b5783aa2131a62d2f14494fec2fb235caa0369f84c",
+              "shape": [
+                2,
+                512
+              ]
+            },
+            "inp.bias": {
+              "dtype": "<f4",
+              "sha256": "1cd51b624fb6150b72278f11f8587c6135cb71795a3754c4b6c01ef060f24231",
+              "shape": [
+                512
+              ]
+            },
+            "inp.weight": {
+              "dtype": "<f4",
+              "sha256": "3e0b3dc95df967ad6767ee6ae4d9dc4e893ddb9d9a6b147411296e9a38d84b2e",
+              "shape": [
+                512,
+                211
+              ]
+            },
+            "mean": {
+              "dtype": "<f4",
+              "sha256": "8ad0707c6e6be6ee758a549b7e538d567aad0b0d660c76f8f1d28c85bb33e8a9",
+              "shape": [
+                211
+              ]
+            },
+            "std": {
+              "dtype": "<f4",
+              "sha256": "9a0587df74f1cfe76745bb7b8ba1c918831bdaf535aba610db19687d9cf87fb7",
+              "shape": [
+                211
+              ]
+            }
+          },
+          "provenance": {
+            "path": "/Users/nb/Documents/wunder/runtime-20261018/f0-submission-r1/runs/rr18_r01_wide_f0_s1001_e6/provenance.json",
+            "sha256": "a90e53b82c2247b344001c2eb17f6f5a0416edb579a2566875339514709f2a19"
+          },
+          "run_reference": "rr18_r01_wide_f0_s1001_e6@ep5"
+        }
+      ],
+      "weights_bytes": 8845984,
+      "weights_path_in_zip": "weights_0.npz",
+      "weights_sha256": "3aba491b1bf7706cd12db2ad02efc93056d854f96bee41dd74e638de1711a9d0"
+    },
+    {
+      "exported_tensors": {
+        "gru.bias_hh_l0": {
+          "dtype": "<f4",
+          "sha256": "5f0caf80a9a27474e476bddc59f4eac416e197fa761b2f0b8abdbddf064d6c17",
+          "shape": [
+            1152
+          ]
+        },
+        "gru.bias_hh_l1": {
+          "dtype": "<f4",
+          "sha256": "857a0265bc8eaae592e32d3ce6654912db053b9aad53f075dddebd3e6b9bf035",
+          "shape": [
+            1152
+          ]
+        },
+        "gru.bias_ih_l0": {
+          "dtype": "<f4",
+          "sha256": "ed49ae4fc235a21ebfb7456c8e9a46ad23c6416b536d3b15e7eae31eac031db9",
+          "shape": [
+            1152
+          ]
+        },
+        "gru.bias_ih_l1": {
+          "dtype": "<f4",
+          "sha256": "bba555c0d6844fa4d035e1eadad2eb1e0e1e18a7d607f5fc85df04c02f33a7dd",
+          "shape": [
+            1152
+          ]
+        },
+        "gru.weight_hh_l0": {
+          "dtype": "<f4",
+          "sha256": "caae4b81bce75b7d86e4bcfc84983b8e8c7778dc8f776b4305f30028003fe430",
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        "gru.weight_hh_l1": {
+          "dtype": "<f4",
+          "sha256": "99d178a1d844af9acdfec9f8dbd5776633cd5d63186025390c5da038ebab8d49",
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        "gru.weight_ih_l0": {
+          "dtype": "<f4",
+          "sha256": "f78977a819b3128b6f9277b2d24acfadf31ca95f898c6e8845bd3b3c0f86923f",
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        "gru.weight_ih_l1": {
+          "dtype": "<f4",
+          "sha256": "9f47d97f3caef19852074eea8a3b6064fe2989dedd922d7f2e96e47ca3c329b3",
+          "shape": [
+            1152,
+            384
+          ]
+        },
+        "head.0.bias": {
+          "dtype": "<f4",
+          "sha256": "21facfd9bbc4d2a076c33d6f787f9e79320f7fdf321d754541d83e4bad4437d3",
+          "shape": [
+            384
+          ]
+        },
+        "head.0.weight": {
+          "dtype": "<f4",
+          "sha256": "d3659609a5fe34f4315b930ff27598433a8ec9583df04e6b89572b227c966425",
+          "shape": [
+            384,
+            768
+          ]
+        },
+        "head.2.bias": {
+          "dtype": "<f4",
+          "sha256": "8952f86dac3f775edb6b583c9fd8f928bbb187ef1014bc57e81b1462015dde60",
+          "shape": [
+            2
+          ]
+        },
+        "head.2.weight": {
+          "dtype": "<f4",
+          "sha256": "eee0a8c2d94a6ae1792ba9abcf4bca93ba85832a81e52d0d5b4f4e5d1786e45e",
+          "shape": [
+            2,
+            384
+          ]
+        },
+        "inp.bias": {
+          "dtype": "<f4",
+          "sha256": "89bcf0e59058c27780fe208725ad7b36af5524f25404038a8936fc6f48398edf",
+          "shape": [
+            384
+          ]
+        },
+        "inp.weight": {
+          "dtype": "<f4",
+          "sha256": "80071ad1429c5eea0e2c577d3f2813ee7b133f53f366e7b02f93c2c91c95a46b",
+          "shape": [
+            384,
+            211
+          ]
+        },
+        "mean": {
+          "dtype": "<f4",
+          "sha256": "8ad0707c6e6be6ee758a549b7e538d567aad0b0d660c76f8f1d28c85bb33e8a9",
+          "shape": [
+            211
+          ]
+        },
+        "std": {
+          "dtype": "<f4",
+          "sha256": "9a0587df74f1cfe76745bb7b8ba1c918831bdaf535aba610db19687d9cf87fb7",
+          "shape": [
+            211
+          ]
+        }
+      },
+      "run_reference": "rr18_r01_deep_f0_s1001_e6@ep5",
+      "sources": [
+        {
+          "checkpoint_bytes": 8671527,
+          "checkpoint_path": "/Users/nb/Documents/wunder/runtime-20261018/f0-submission-r1/runs/rr18_r01_deep_f0_s1001_e6/model_ep5.pt",
+          "checkpoint_sha256": "bb953a2205ee6f2a1f881bb78f5a5c0090e71d678ddd8b2e5ea1a9cee3e31f19",
+          "exported_tensors": {
+            "gru.bias_hh_l0": {
+              "dtype": "<f4",
+              "sha256": "5f0caf80a9a27474e476bddc59f4eac416e197fa761b2f0b8abdbddf064d6c17",
+              "shape": [
+                1152
+              ]
+            },
+            "gru.bias_hh_l1": {
+              "dtype": "<f4",
+              "sha256": "857a0265bc8eaae592e32d3ce6654912db053b9aad53f075dddebd3e6b9bf035",
+              "shape": [
+                1152
+              ]
+            },
+            "gru.bias_ih_l0": {
+              "dtype": "<f4",
+              "sha256": "ed49ae4fc235a21ebfb7456c8e9a46ad23c6416b536d3b15e7eae31eac031db9",
+              "shape": [
+                1152
+              ]
+            },
+            "gru.bias_ih_l1": {
+              "dtype": "<f4",
+              "sha256": "bba555c0d6844fa4d035e1eadad2eb1e0e1e18a7d607f5fc85df04c02f33a7dd",
+              "shape": [
+                1152
+              ]
+            },
+            "gru.weight_hh_l0": {
+              "dtype": "<f4",
+              "sha256": "caae4b81bce75b7d86e4bcfc84983b8e8c7778dc8f776b4305f30028003fe430",
+              "shape": [
+                1152,
+                384
+              ]
+            },
+            "gru.weight_hh_l1": {
+              "dtype": "<f4",
+              "sha256": "99d178a1d844af9acdfec9f8dbd5776633cd5d63186025390c5da038ebab8d49",
+              "shape": [
+                1152,
+                384
+              ]
+            },
+            "gru.weight_ih_l0": {
+              "dtype": "<f4",
+              "sha256": "f78977a819b3128b6f9277b2d24acfadf31ca95f898c6e8845bd3b3c0f86923f",
+              "shape": [
+                1152,
+                384
+              ]
+            },
+            "gru.weight_ih_l1": {
+              "dtype": "<f4",
+              "sha256": "9f47d97f3caef19852074eea8a3b6064fe2989dedd922d7f2e96e47ca3c329b3",
+              "shape": [
+                1152,
+                384
+              ]
+            },
+            "head.0.bias": {
+              "dtype": "<f4",
+              "sha256": "21facfd9bbc4d2a076c33d6f787f9e79320f7fdf321d754541d83e4bad4437d3",
+              "shape": [
+                384
+              ]
+            },
+            "head.0.weight": {
+              "dtype": "<f4",
+              "sha256": "d3659609a5fe34f4315b930ff27598433a8ec9583df04e6b89572b227c966425",
+              "shape": [
+                384,
+                768
+              ]
+            },
+            "head.2.bias": {
+              "dtype": "<f4",
+              "sha256": "8952f86dac3f775edb6b583c9fd8f928bbb187ef1014bc57e81b1462015dde60",
+              "shape": [
+                2
+              ]
+            },
+            "head.2.weight": {
+              "dtype": "<f4",
+              "sha256": "eee0a8c2d94a6ae1792ba9abcf4bca93ba85832a81e52d0d5b4f4e5d1786e45e",
+              "shape": [
+                2,
+                384
+              ]
+            },
+            "inp.bias": {
+              "dtype": "<f4",
+              "sha256": "89bcf0e59058c27780fe208725ad7b36af5524f25404038a8936fc6f48398edf",
+              "shape": [
+                384
+              ]
+            },
+            "inp.weight": {
+              "dtype": "<f4",
+              "sha256": "80071ad1429c5eea0e2c577d3f2813ee7b133f53f366e7b02f93c2c91c95a46b",
+              "shape": [
+                384,
+                211
+              ]
+            },
+            "mean": {
+              "dtype": "<f4",
+              "sha256": "8ad0707c6e6be6ee758a549b7e538d567aad0b0d660c76f8f1d28c85bb33e8a9",
+              "shape": [
+                211
+              ]
+            },
+            "std": {
+              "dtype": "<f4",
+              "sha256": "9a0587df74f1cfe76745bb7b8ba1c918831bdaf535aba610db19687d9cf87fb7",
+              "shape": [
+                211
+              ]
+            }
+          },
+          "provenance": {
+            "path": "/Users/nb/Documents/wunder/runtime-20261018/f0-submission-r1/runs/rr18_r01_deep_f0_s1001_e6/provenance.json",
+            "sha256": "18cf2866d49afa89e84b7d15b0c9375b89ecfae99ac4950cb70ef9aa22246f7a"
+          },
+          "run_reference": "rr18_r01_deep_f0_s1001_e6@ep5"
+        }
+      ],
+      "weights_bytes": 8612024,
+      "weights_path_in_zip": "weights_1.npz",
+      "weights_sha256": "f2c632cd6d03123351b805cc4e16a909fb6904e35d4bdf0a20e2b7a43bbebadf"
+    }
+  ],
+  "native_runtime": {
+    "libraries": {
+      "avx2/wnn_native.abi3.so": "e544ed55538c2c08a7b28389fb2a1cd10a91bf272b7dc4f7cbb7bc3b01ebdaf2",
+      "v2/wnn_native.abi3.so": "0ea36be1ff45556b157f6295892f44adaa89fcfb8242329bbe530dfae07a5fed",
+      "v3/wnn_native.abi3.so": "ce179a68b7cd321368cc9ab73cdf1b79973afcdb8266ef8f6d7e613bb6f9874e"
+    },
+    "source_directory": "/Users/nb/Documents/wunder/runtime-20261018/f0-submission-r1/native"
+  },
+  "packager": {
+    "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/scripts/package_submission.py",
+    "sha256": "1e8ae603ae0bcc8d0d85c5a1ffb95674aa5e3f0b640e8df267e29b5c0751807c"
+  },
+  "precision": "q8vnni",
+  "public_score_forecast": null,
+  "schema": "wnn.submission-build-receipt.v1",
+  "source_code": {
+    "path": "/Users/nb/Documents/wunder/runtime-20261018/f0-submission-r1/native/solution_native.py",
+    "sha256": "f025d65abb4990c05ca1677cefd2502340f9eb8cd80180cd38c14044a2c9bf54"
+  },
+  "training_and_selection_scope": ""
+}

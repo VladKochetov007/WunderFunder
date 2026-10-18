@@ -1,0 +1,41 @@
+{
+  "schema": "f0_submission.plan.v1",
+  "user_request": "\u0434\u0430\u0432\u0430\u0439 \u043f\u043e\u043f\u0440\u043e\u0431\u0443\u0435\u043c \u0441\u043e\u0431\u0440\u0430\u0442\u044c \u0441\u0430\u0431\u043c\u0438\u0442 \u0441 f0 \u043e\u043f\u0442\u0438\u043c\u0430\u043b\u044c\u043d\u044b\u0439",
+  "scope": "Build one best supported usable submission from F0 seed1001 fixed epoch5 endpoints; explicit exploratory F0 release exception, not external upload or CP30 completion.",
+  "wide_coefficients": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "arithmetic": "float32 scalar multiply then add, same coefficient for both outputs",
+  "selection": "Highest official F0 WP among five fixed mixtures that pass package serving checks; no dense search.",
+  "runtime_candidates": [
+    "f32",
+    "q8vnni if measured f32 serving runtime exceeds envelope; require quality comparison"
+  ],
+  "evaluation": "Previously exposed F0, selection optimism; no public-score prediction.",
+  "training": "No model fit; preserve active F1 and frozen source/plans.",
+  "remote_support": {
+    "slice": "wnn-campaign.slice",
+    "serialized": true,
+    "extract_cpu": "50%",
+    "extract_memory": 1500000000,
+    "extract_deadline_seconds": 300,
+    "native_cpu": "100%",
+    "native_memory": 2000000000,
+    "native_panel_deadline_seconds": 300,
+    "full_replay_deadline_seconds": 5400,
+    "swap": 0,
+    "cuda_visible_devices": "",
+    "threads": 1,
+    "scratch": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp"
+  },
+  "pins": {
+    "fold0": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "wide_predictions": "21af6180c3290a99f450d701daca03581762ea18cfc70ffcc9453929435ee8f0",
+    "deep_predictions": "50ea5e088b60da8b31ee1796771c4c13f2940131293a51793d63ceadf324be3d",
+    "grade": "65f448989243aa575cac2e5701c55bf8ee6e874e6b01f39840bb4418dbb9fdd0"
+  }
+}

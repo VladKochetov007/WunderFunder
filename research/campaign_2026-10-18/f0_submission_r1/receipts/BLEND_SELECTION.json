@@ -1,0 +1,181 @@
+{
+  "arithmetic": "float32 multiply wide by w, multiply deep by (1-w), then float32 add; same w for both targets",
+  "candidates": [
+    {
+      "deep_coefficient": 1.0,
+      "score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6628715189356844,
+        "t1": 0.6813460157052619,
+        "wp": 0.6721087673204731
+      },
+      "selected_prediction_rows_sha256": "0dca851c31aaac3c724fa8b73b9447a0f3e8da7db1681690de955d27ec498b5f",
+      "wide_coefficient": 0.0
+    },
+    {
+      "deep_coefficient": 0.75,
+      "score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.663741566510012,
+        "t1": 0.682500284542293,
+        "wp": 0.6731209255261525
+      },
+      "selected_prediction_rows_sha256": "2224cdfab48a402c3f8ea615b516d11d9ad473e2bc3337db07dbfb30e0dfa2aa",
+      "wide_coefficient": 0.25
+    },
+    {
+      "deep_coefficient": 0.5,
+      "score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6641743928042794,
+        "t1": 0.6832277001019182,
+        "wp": 0.6737010464530988
+      },
+      "selected_prediction_rows_sha256": "7f2f8c7f5aeb05bdb71fcebce32fa1686a56c707b53c4e1164e0a5ce16cc824e",
+      "wide_coefficient": 0.5
+    },
+    {
+      "deep_coefficient": 0.25,
+      "score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6641742334814977,
+        "t1": 0.6835276549961394,
+        "wp": 0.6738509442388185
+      },
+      "selected_prediction_rows_sha256": "d30d612ed55f4b4dd10889c829bc703c0efdd1b8e981d143cd7aedfc10bbd131",
+      "wide_coefficient": 0.75
+    },
+    {
+      "deep_coefficient": 0.0,
+      "score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6637479907373637,
+        "t1": 0.6834035112404377,
+        "wp": 0.6735757509889007
+      },
+      "selected_prediction_rows_sha256": "972d3986f8e4418ee9d1f1750c085acdb5e5e91d9fe20b4cc2725a5edd7dccd5",
+      "wide_coefficient": 1.0
+    }
+  ],
+  "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+  "coefficient_grid": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "endpoint_score_abs_tolerance": 1e-10,
+  "endpoints": {
+    "deep": {
+      "checkpoint_sha256": "bb953a2205ee6f2a1f881bb78f5a5c0090e71d678ddd8b2e5ea1a9cee3e31f19",
+      "epoch": 5,
+      "frozen_grade_score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6628715189356845,
+        "t1": 0.6813460157052617,
+        "wp": 0.6721087673204731
+      },
+      "prediction_sha256": "50ea5e088b60da8b31ee1796771c4c13f2940131293a51793d63ceadf324be3d",
+      "provenance_sha256": "18cf2866d49afa89e84b7d15b0c9375b89ecfae99ac4950cb70ef9aa22246f7a",
+      "recomputed_score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6628715189356844,
+        "t1": 0.6813460157052619,
+        "wp": 0.6721087673204731
+      },
+      "run": "rr18_r01_deep_f0_s1001_e6",
+      "sidecar_sha256": "a438a5d61cde32933215ea0803955da36cd4e2b3eae94c529826410407e8fbcc",
+      "training_args_sha256": "7990a3f7895137a2513ed78caa7543f64e2c183b3021d737337038839ac70bb8"
+    },
+    "wide": {
+      "checkpoint_sha256": "78c1413de8eeaa51f803cf59d6b0d7d2eddaad74cc91f744b8b2f85466b61b7f",
+      "epoch": 5,
+      "frozen_grade_score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6637479907373635,
+        "t1": 0.6834035112404375,
+        "wp": 0.6735757509889004
+      },
+      "prediction_sha256": "21af6180c3290a99f450d701daca03581762ea18cfc70ffcc9453929435ee8f0",
+      "provenance_sha256": "a90e53b82c2247b344001c2eb17f6f5a0416edb579a2566875339514709f2a19",
+      "recomputed_score": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 808863,
+        "t0": 0.6637479907373637,
+        "t1": 0.6834035112404377,
+        "wp": 0.6735757509889007
+      },
+      "run": "rr18_r01_wide_f0_s1001_e6",
+      "sidecar_sha256": "fa38545c753a403a2eed0f08ae27d885b24db8c2b8e1ac07a4c1f7eeabf6a228",
+      "training_args_sha256": "0d60153e7986fdab366174c2039276ca7189bdb0a86a8464d788b70abe0d8f1d"
+    }
+  },
+  "fold0": {
+    "collection_plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+    "evaluation_components": 141,
+    "evaluation_row_groups_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "fold": 0,
+    "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "inference_requirements": [
+    "causal full-sequence prediction",
+    "fit-derived normalization buffers preserved exactly",
+    "reset recurrent state between sequence IDs",
+    "submission ABI, Python 3.11 and bounded CPU runtime verified on exact ZIP bytes"
+  ],
+  "input": {
+    "bytes": 32357862,
+    "collection_receipt_sha256": "6c9713606387c9b265506f51c9135d3dcefe15d572a7f0750167e39f46832612",
+    "component_array_sha256": "7096f4f887e37776406cf1504238820a8487629aa700a4181a8ea666fb3e0188",
+    "deep_array_sha256": "0dca851c31aaac3c724fa8b73b9447a0f3e8da7db1681690de955d27ec498b5f",
+    "deep_prediction_sha256": "50ea5e088b60da8b31ee1796771c4c13f2940131293a51793d63ceadf324be3d",
+    "extraction_receipt_sha256": "6934f283105bf70e449d93f8114750169a695c71e7a00a9d5cc9714d6c105fe7",
+    "extraction_script_sha256": "7009873d0f4986dcf3fc1b4c2af125f18dbbaf7296aaf11e4f6b8e0a1f27b8b8",
+    "grade_sha256": "65f448989243aa575cac2e5701c55bf8ee6e874e6b01f39840bb4418dbb9fdd0",
+    "path": "/Users/nb/Documents/wunder/runtime-20261018/f0-submission-r1/scored.npz",
+    "row_group_array_sha256": "68953b4cc4b1c434954a251c5499e3935e510507f2b9e41772161f7095e48f03",
+    "sha256": "6277cca8d92f103da556929b0e88fc1c63c9eada61c5ae36d98af4a153d62d38",
+    "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "target_array_sha256": "2170ef0b760c35e346c3f9a7dec288fdd731ff0fc245a1504b74773be7c4cb85",
+    "wide_array_sha256": "972d3986f8e4418ee9d1f1750c085acdb5e5e91d9fe20b4cc2725a5edd7dccd5",
+    "wide_prediction_sha256": "21af6180c3290a99f450d701daca03581762ea18cfc70ffcc9453929435ee8f0"
+  },
+  "metric_id": "global_wp_clip2_v1",
+  "row_count": 808863,
+  "schema": "f0_submission.fixed_blend_selection.v1",
+  "selected_rows": 808863,
+  "selection": {
+    "deep_coefficient": 0.25,
+    "score": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6641742334814977,
+      "t1": 0.6835276549961394,
+      "wp": 0.6738509442388185
+    },
+    "tie_break": "larger wide coefficient when computed WP values are exactly equal",
+    "wide_coefficient": 0.75
+  },
+  "selection_note": "five fixed mixtures selected on previously exposed F0; no public-transfer or held-out claim",
+  "target_lineage": {
+    "grade_recorded_target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "parquet_full_hash_status": "inherited from F0 grade; size/footer/group identities rechecked here",
+    "parquet_mtime_ns": 1577833200000000000,
+    "parquet_path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/datasets/valid.parquet",
+    "parquet_size": 5615509128,
+    "source": "original parquet t0/t1; scored AND need_prediction",
+    "target_cache_role": "reference recorded by the original endpoint grade; selected labels were extracted directly from the original parquet"
+  },
+  "unique_components": 141,
+  "unique_row_groups": 468
+}

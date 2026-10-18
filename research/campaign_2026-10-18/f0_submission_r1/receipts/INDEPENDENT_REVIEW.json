@@ -1,0 +1,45 @@
+{
+  "schema": "f0_submission.independent_review.v1",
+  "reviewers": [
+    "beleriand_gpu_guard_r4",
+    "idea01_recipe_r4"
+  ],
+  "model": "gpt-6-luna",
+  "reasoning_effort": "max",
+  "selection": {
+    "report_sha256": "59513a1aa292feb9eb4c59211c70a057c3cd0362ebddfc6ad6879b09279c6c46",
+    "direct_float64_rescore_max_abs_difference": 4.5e-16,
+    "candidate_arrays_and_npz_hashes_checked": true,
+    "wide_coefficient": 0.75,
+    "deep_coefficient": 0.25,
+    "wp": 0.6738509442388187
+  },
+  "checkpoint_to_zip": {
+    "canonical_load_member_loaded_pt": true,
+    "runtime": "local repo .venv, Python3.13.11/Torch2.14.1/CPU",
+    "wide_exact_tensors": 12,
+    "deep_exact_tensors": 16,
+    "mismatches": 0,
+    "checked": "source checkpoint/provenance hashes, canonical export including normalization/head slice, ZIP tensors and member hashes"
+  },
+  "wrapper": "112 raw plus99 causal event features, stored normalization, ordinary GRU/GELU; fast native activations require measured replay",
+  "incumbent": {
+    "local_sha256": "f1635d14c0e1b47848b5caeb2ec4ad9362a85800f1b2e2df80702127d3867b27",
+    "reported_public_seconds": 3016,
+    "portal_id": "1hl88h25",
+    "evidence": "user-transcribed historical receipt; no independent portal read or uploaded payload hash"
+  },
+  "limitations": [
+    "Selection is on exposed F0; no clean CV or public forecast.",
+    "The selector report did not itself pin selector source at execution; independent array regrade verifies result and current source SHA is indexed below.",
+    "Extraction inherited source full SHA and sidecar-order validation from archived grade; its footer wording overstated new checks.",
+    "This review does not approve full replay or competition server runtime."
+  ],
+  "code_sha256": {
+    "prepare_reference.py": "838ff6efc2d3768632b8bcb46e5706b90956f95db75e66bf2c958e1b080d3e9f",
+    "check_native_panel.py": "bf1d4b95e781bf4e2ffcd8fac0e81a23535984782c30c2a56e08af3b8ecb3e3b",
+    "test_check_native_panel.py": "2d1845ea64157a6a75362ccde5c4b66023108be94cff04ee8cfec5434420b8c9",
+    "extract_evidence.py": "7009873d0f4986dcf3fc1b4c2af125f18dbbaf7296aaf11e4f6b8e0a1f27b8b8",
+    "select_blend.py": "7f023019403b2c330f8d128a279e687818f0397ef23fad6862b0e2c49d43c4b9"
+  }
+}
