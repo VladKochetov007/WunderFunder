@@ -33,3 +33,7 @@ TPU parity remains a local engineering branch, outside these B300 quality drafts
 ## Modular trainer integration
 
 All14 draft branches now include shared trainer revision `eb3309a322c1e24b3cc157eaefe3ca0e0290cd42` through ordinary merges. Each packet records its integration parent and links the [component map](../../src/wnn/training/README.md) and [engineering receipt](../unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md). The JSON catalogue retains original publication and pre-refactor heads alongside current integrated heads. This is source maintenance with no fits or measured performance result.
+
+## Causal smoother and student handoff
+
+- [Causal smoother GRU teachers and distillation on B300](kalman_teacher_gru_distill_b300/README.md) — adds a canonical-trainer adapter, raw-zero-pad/steady-state-EMA/fixed-local-trend/learned-local-trend arms at pilot4 and all112 scopes, checkpoint-aware prediction and adapted-teacher checks in the four-family cache builder. The actual B300 profile, clean source registry, task fits, cache and grades remain pending.
