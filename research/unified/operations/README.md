@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Ranked25 continuation at01:43UTC](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0143Z.json) — deep epoch1 reaches batch1160/1492 with one GPU worker and zero memory events. Stage1 collection is prepared; no endpoint or quality result yet. Live DataSphere incident, recent project history/balance and unclaimed issue16 remain unchanged; no duplicate or paid retry.
+
 - [Ranked25 routine continuation at01:10UTC](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0110Z.json) — deep epoch1 advances through batch460/1492 on the sole campaign GPU process. Plan, checkpoints and memory-event health remain unchanged; live provider incident, project jobs/balance and unclaimed issue16 supply no new admission signal. No new fit, paid test or quality result.
 
 - [Deep F0 first-epoch verification](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F0_S1001_EP0_VERIFICATION.json) — 14,920 successful updates and an archived `next_epoch=1` continuation state pass independent CPU checks against the complete wide contract; only hidden width and layer count differ. All 138 source hashes and finite FP32 weights/optimizer state match. Epoch1 continues, with no quality grade or measured resume-parity claim. [00:51UTC continuation](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0051Z_CLOSEOUT.json) also confirms one campaign GPU process, no memory events and no new cloud job.

@@ -23,3 +23,5 @@ Ranks2–25 await their preceding experiment decisions and exact implementations
 - [Deep first-epoch collection](receipts/RANK01_DEEP_F0_S1001_EP0_COLLECTION.json) preserves stable model/provenance/continuation bytes under the remote `epoch0` archive. The bounded [collector source](receipts/checks/deep_ep0_collect.py) is retained; the subsequent [independent structural verification](receipts/RANK01_DEEP_F0_S1001_EP0_VERIFICATION.json) passed.
 
 Deep H384×2 F0/seed1001 epoch0 completed 14,920 updates in 4,625.5 training seconds, with zero skips/nonfinite gradients. The independent CPU check of its archived full state passed: `next_epoch=1`, finite FP32 weights/Adam moments, raw/resume equality,138 source hashes and the unchanged six-epoch schedule. Its full contract differs from the wide arm only in the declared hidden width/layer count. Epoch1 continues; endpoint exports and quality grades remain pending.
+
+Latest routine observation: [01:43UTC continuation](receipts/HEARTBEAT_20261018T0143Z.json) confirms healthy deep epoch1 progress through batch1160/1492; cloud recovery and cluster worker claim remain unobserved.
