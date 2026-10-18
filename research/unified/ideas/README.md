@@ -7,6 +7,7 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 - [RR17 published proposal branches](../../campaign_2026-10-17/research_reset_r1/publication/README.md) —25isolated proposal commits from research-team, remote SHA verification and ready PR bodies. No new PR exists without API authentication; no fit is admitted.
 
 - [Research reset: 25 ideas](../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md) — ranked proposal portfolio with existing-work overlap, counterevidence, no-fit gates and future controls; no training admitted.
+- [Fixed causal Kalman screen and retained-raw teacher/student proposal](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/RESULTS_R2.md) — fixed local-trend input replacement adds +0.000338 WP on 16 selected exposed-F0 groups, but its component interval nearly crosses zero and post-hoc temporal bins are mixed. It motivates learned smoother features while retaining raw inputs, evaluated at the student endpoint; code and the 30-cell-per-arm B300 proposal are in [draft PR #17](https://github.com/VladKochetov007/WunderFunder/pull/17). No B300 profile, fit or transfer result exists.
 - [Current state](../../../specs/current-state.md) — analysis/EDA is active; model fitting remains paused.
 - [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — established results and corrections to stale pending statuses.
 - [Experiment draft workflow](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) — implementation handoffs are distinct from measured research outcomes.

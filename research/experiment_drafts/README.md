@@ -1,6 +1,6 @@
 # Research-team experiment catalogue
 
-Fourteen draft PRs are published with base **research-team**; The table below preserves historical publication SHAs; the [latest synchronization receipt](BRANCH_SYNC_20261017_R2.json) records current pushed heads, merged target and GitHub verification. No experiment has been merged or fitted by this publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
+The original fourteen draft PRs were published with base **research-team**; the table preserves their historical publication SHAs. Draft PR #17 is a newer Kalman teacher/student handoff recorded below. The [latest synchronization receipt](BRANCH_SYNC_20261017_R2.json) covers only the original fourteen branches. No experiment has been merged or fitted by publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records the original portfolio's provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
 
 - [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.
 - [Workflow](../unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) defines30 paired cells per scientific arm, strictFP32, source-clean evaluation and separate logs/weights archives.
@@ -31,3 +31,9 @@ TPU parity remains a local engineering branch, outside these B300 quality drafts
 ## Modular trainer integration
 
 All14 draft branches now include shared trainer revision `eb3309a322c1e24b3cc157eaefe3ca0e0290cd42` through ordinary merges. Each packet records its integration parent and links the [component map](../../src/wnn/training/README.md) and [engineering receipt](../unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md). The JSON catalogue retains original publication and pre-refactor heads alongside current integrated heads. This is source maintenance with no fits or measured performance result.
+
+## Kalman causal smoother teachers and student-cache replacement — PR #17
+
+[Draft PR #17](https://github.com/VladKochetov007/WunderFunder/pull/17) targets `research-team` from `experiment/kalman-teacher-gru-distill-b300`. It adds matched fresh GRU teacher arms (zero-padded raw control, steady-state EMA, fixed local trend, learned local trend) at four-channel and all112 scopes, then tests replacing one same-fold teacher family in a four-family GRU student cache. FP32 training, fixed checkpointing, actual full112 B300 profile, clean per-cell teacher registry, progress/gradient logging, separated artifact archives, paired folds/seeds and uncertainty are prescribed. Source hashes for both the Kalman module and imported GRU core are verified across training, prediction export and cache building.
+
+A separate local fixed-GRU replay on 16 selected exposed-F0 groups found +0.000338 WP for local-trend posterior replacement, with a 12-component conditional interval [−0.000019,+0.000716]; an independent CPU grader reproduced it. This motivates testing the trained raw-retaining features but is not teacher/student evidence. No B300 profile, task fit, student grade or submission result exists. See the indexed [local result](../campaign_2026-10-18/online_features_r1/kalman_filter_probe/RESULTS_R2.md), [source review](../unified/reviews/KALMAN_B300_DRAFT_REVIEW_20261018_R1.md), and draft PR for runnable code and exact commands.

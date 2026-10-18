@@ -4,6 +4,7 @@ Metric, data membership, exposure, uncertainty and transfer to the public leader
 
 ## Current navigation
 
+- [Fixed causal Kalman frozen-GRU grade](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/RESULTS_R2.md), [actor receipt](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/grade_r2.json) and [independent CPU regrade](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/independent_regrade_r3.json): the separate scorer reproduces all three endpoint scores and paired component intervals on 31,338 rows in 16 selected exposed-F0 groups. Local-trend replacement is +0.000338 WP and random walk +0.000119 versus raw; the 12-component conditional intervals are [−0.000019,+0.000716] and [−0.000507,+0.000654]. `p_le_0` is a bootstrap tail fraction, not a two-sided significance result. One frozen checkpoint, post-selection diagnostics, no fit-seed/fold/public uncertainty; not a clean-CV or online-learning claim.
 - [October17 measured EDA and clock correction](../../campaign_2026-10-17/research_reset_r1/eda/README.md) — E-RR17-EVENT-CENSUS refutes universal H-001 with1,253exceptions; four-column census covers249.6Mrows, separate full-feature sample5.12Mrows and lag-control sample1.28Mrows. Retrospective strata and magnitude weight are not serving gates or additive score contributions.
 
 - [Validation protocols](VALIDATION_PROTOCOLS.md) — official metric and a side-by-side map of creative/Main panels; highlights fitted diagnostics, exposed folds and invalid historical comparisons.
