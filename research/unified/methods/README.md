@@ -1,8 +1,10 @@
 # Methods, sampling, and metric
 
+[Strict propensity V3 engineering publication](../../campaign_2026-10-18/quality_gap_r1/propensity_capability_publication_r2/README.md) adds optimizer diagnostics and exact epoch-boundary state recovery to the opt-in strict path;33tinyCPUtests and independent review pass. Branch235db75a is published, not staged on B or merged into the running source. Recovery retains failures and unknown in-flight step calls, with journal-corruption and runtime/GPU limits explicit. This supplies an engineering component for the modified final-supervision experiment, not a quality result or admission.
+
 [Canonical final-supervision capability audit](../../campaign_2026-10-18/quality_gap_r1/tl3_final_supervision_capability_audit_r1/README.md) and [raw-scale/chunk addendum](../../campaign_2026-10-18/quality_gap_r1/tl3_final_supervision_capability_audit_r1/ADDENDUM_RAW_SCALE_AND_CHUNKS_V1.md) identify the two missing implementations for the matched modified-TL3 design: tiedlead's shared raw-scale encoder/sequence-wide lead features, and identical family-head/cache topology with explicit zero-weight loss branches. All21source pins match independent static review. Delta resets per encode call; recurrent state carries. These are recovered source semantics and proposed tests, not historical runtime parity, implemented capability or a fit. Existing six-source arithmetic is reused.
 
-- [Released F0 native submission](../../campaign_2026-10-18/f0_submission_r1/receipts/RELEASE.json): fixed75%wide/25%deep Q8 ZIP17.48MB; actual full-F0 WP0.6738263577 confirmed by independent original-label/direct grades. The [packet](../../campaign_2026-10-18/f0_submission_r1/README.md) retains selection exposure, package provenance and the unresolved official-server runtime estimate.
+- [Released F0 native submission](../../campaign_2026-10-18/f0_submission_r1/receipts/RELEASE.json): fixed75%wide/25%deep Q8 ZIP17.48MB; actual full-F0 WP0.6738263577 confirmed by independent original-label/direct grades. The [packet](../../campaign_2026-10-18/f0_submission_r1/README.md) retains selection exposure and package provenance; the subsequent user-reported portal result was0.65839 in45m47s, below the incumbent, without portal-byte SHA confirmation.
 
 Reusable metric, causal data handling, statistical and implementation contracts.
 

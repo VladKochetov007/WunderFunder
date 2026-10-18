@@ -1,0 +1,57 @@
+{
+  "schema": "priority25.f3_wide_continuation_epoch2_metadata_acceptance.v1",
+  "status": "PRODUCER_METADATA_AND_PERSISTED_RESUME_BINDING_MATCH_NOT_PAYLOAD_VERIFICATION",
+  "observed_utc": "2026-10-18T20:31:31.228066+00:00",
+  "raw": {
+    "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_beleriand_execution_r1/WIDE_CONTINUATION_EP2_METADATA_20261018T2035Z.json",
+    "sha256": "079f1dbc174efd488585f41610340563540335a2d843ff25609d869c49534a2f"
+  },
+  "provenance_sha256": "3177a1ed45f0967d8561db5188ed60d8e7560e6eaa7c2436c0d66a8cb17e77e3",
+  "provenance_stable_during_read": true,
+  "verified_stage1_acceptance": {
+    "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F3_WIDE_STAGE1_ACCEPTANCE_V1.json",
+    "sha256": "5e34935dc4d55fcb3f98ae3448afce29343dcfee39d11c0849b33c5faeb0b145"
+  },
+  "resumed_from": {
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_wide_f3_s1001/training_state.pt",
+    "sha256": "ec900de3eeb977579575649cd3f45d0fa47aa322aae58d1584f22cf7d5836a26",
+    "next_epoch": 2
+  },
+  "persisted_resume_binding_matches_verified_stage1": true,
+  "completed_epoch_index": 2,
+  "producer_reported_counters": {
+    "optimizer_attempts": 44640,
+    "amp_skipped_updates": 0,
+    "optimizer_completed_updates": 44640,
+    "ema_updates": 0,
+    "completed_batches": 4464
+  },
+  "producer_reported_nonfinite_steps_all_history": [
+    0,
+    0,
+    0
+  ],
+  "split_manifest_sha256": "21c7fb52e8e69f38126362cbc5dc60dbc46539041d649b9206ec35e0f21ada1f",
+  "payload_stats": {
+    "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_wide_f3_s1001_e6/model_ep2.pt": {
+      "exists": true,
+      "bytes": 8903591,
+      "mtime_ns": 1792355429166801293,
+      "payload_read": false
+    },
+    "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_wide_f3_s1001_e6/model.pt": {
+      "exists": false
+    },
+    "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_wide_f3_s1001_e6/training_state.pt": {
+      "exists": true,
+      "bytes": 26581855,
+      "mtime_ns": 1792355429253807343,
+      "payload_read": false
+    }
+  },
+  "limits": [
+    "Metadata-only observation: model/state payloads were not loaded or content-hashed; no tensor/source-map verification or intermediate archive was performed.",
+    "The ancestry match is persisted producer metadata versus previously independently verified stage1; it is not GPU numerical resume parity or terminal-quality evidence."
+  ],
+  "next_action": "Preserve original sequence and reviewed terminal collection path. Do not repeat this epoch2 metadata-only observation."
+}

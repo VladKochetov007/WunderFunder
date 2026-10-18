@@ -1,0 +1,65 @@
+{
+  "checks": [
+    {
+      "evidence": "The base64 provenance bytes decode to the declared 167,967-byte payload and SHA-256 3177a1ed45f0967d8561db5188ed60d8e7560e6eaa7c2436c0d66a8cb17e77e3; the raw receipt records stable_during_read=true. The observation summary binds both the raw metadata SHA and this provenance SHA.",
+      "name": "raw_provenance_transport_and_stability",
+      "status": "PASS"
+    },
+    {
+      "evidence": "Decoded producer provenance reports resumed_from path /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_wide_f3_s1001/training_state.pt, SHA-256 ec900de3eeb977579575649cd3f45d0fa47aa322aae58d1584f22cf7d5836a26, next_epoch=2. This SHA matches the training_state.pt artifact in the pinned stage1 collection receipt; that receipt SHA matches the stage1 acceptance binding, which independently reports next_epoch=2.",
+      "name": "resume_ancestry_matches_accepted_stage1",
+      "status": "PASS"
+    },
+    {
+      "evidence": "The producer provenance cumulative counters equal the summary: 44,640 optimizer attempts and completions, 4,464 completed batches, zero AMP-skipped updates, and zero EMA updates. Its update_diagnostics contain epochs 0, 1, and 2; each reports 14,880 attempts/completions over 1,488 batches, with nonfinite_steps=0. These are producer-reported metadata counters, not independently measured optimizer execution.",
+      "name": "producer_reported_epoch2_accounting",
+      "status": "PASS"
+    },
+    {
+      "evidence": "The decoded args name the expected wide F3 epoch-6 run, fixed checkpoint epoch 5, and no evaluation during fit. The split-manifest SHA agrees with the stage1 fold3 binding. Metadata says model_ep2.pt and training_state.pt exist, while model.pt does not; these existence observations are consistent with checkpoint epoch 5 and do not hash or inspect payload contents.",
+      "name": "run_configuration_and_artifact_presence",
+      "status": "PASS"
+    },
+    {
+      "evidence": "The raw heartbeat SHA matches its acceptance receipt. Sequence index 2, controller/worker status running, attempt ID, captured optimizer-log line (epoch 2, batch 1380/1488), and zero listed memory-event deltas agree. Two GPU processes were recorded: the campaign PID in the expected unit and one foreign process preserved. This is a timestamped health observation (20:28:42 UTC), not a current or terminal status.",
+      "name": "heartbeat_snapshot_crosscheck",
+      "status": "PASS_WITH_SNAPSHOT_LIMIT"
+    }
+  ],
+  "decision": "PASS_METADATA_ONLY_CROSSCHECK",
+  "reviewed_inputs": {
+    "heartbeat_acceptance": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_beleriand_execution_r1/HEARTBEAT_ACCEPTANCE_20261018T2030Z.json",
+      "sha256": "317574e4389e92e73ab0cd9525a7dc658e6ed6ca54064613964c9c286301fc21"
+    },
+    "heartbeat_raw": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_beleriand_execution_r1/HEARTBEAT_PROGRESS_20261018T2030Z.json",
+      "sha256": "e46422af85f2563c619548f9b89ca5cda44682c3213890a32750cdc3136f5528"
+    },
+    "observation_summary": {
+      "bytes": 2700,
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_beleriand_execution_r1/WIDE_CONTINUATION_EP2_OBSERVATION_20261018T2035Z.json",
+      "sha256": "95d355331f75003c5f786171837e6ca6486f98ac45c3ffbb873274afebd84f9b"
+    },
+    "raw_metadata": {
+      "bytes": 311360,
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_beleriand_execution_r1/WIDE_CONTINUATION_EP2_METADATA_20261018T2035Z.json",
+      "sha256": "079f1dbc174efd488585f41610340563540335a2d843ff25609d869c49534a2f"
+    },
+    "stage1_acceptance": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F3_WIDE_STAGE1_ACCEPTANCE_V1.json",
+      "sha256": "5e34935dc4d55fcb3f98ae3448afce29343dcfee39d11c0849b33c5faeb0b145"
+    },
+    "stage1_collection_receipt": {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F3_S1001_STAGE1_COLLECTION.json",
+      "sha256": "2af09d13ea5d36c90f84c52e1b6e3b3606f6af143f27280bd1e39d5b29e7cfdd"
+    }
+  },
+  "reviewed_utc": "2026-10-18T20:33:18Z",
+  "schema": "priority25.f3_wide_continuation_epoch2_metadata_independent_review.v1",
+  "scope_limits": [
+    "Metadata-only cross-check: no model or training-state payload was read, deserialized, content-hashed, or copied. No arrays, remote calls, tests, or new compute were used.",
+    "The continuation summary expressly does not verify checkpoint tensor contents, source-map contents, optimizer state, numerical GPU resume parity, convergence, terminal quality, or CP30 completion. Update counts and nonfinite counters remain producer-reported.",
+    "The independent ancestry conclusion is a byte-hash match between persisted producer metadata and the previously accepted stage1 checkpoint receipt; it does not prove exact numerical continuation."
+  ]
+}

@@ -1,5 +1,7 @@
 # Strong-control recovery and F0 residual diagnostic
 
+**Latest, 20:31 UTC:** [continuation](CONTINUATION_20261018T2035Z.md) records the first F3 wide continuation checkpoint metadata:44,640updates/4,464batches/zero skips, persisted resume binding matching verified stage1; payloads were not loaded or archived. Both stage1 endpoints remain accepted, F3 score pending. [Strict propensity V3](propensity_capability_publication_r2/README.md) is independently reviewed and published on isolated branch235db75a with33tinyCPUtests; no campaign fit, main-source merge or B staging. The remaining canonical tiedlead/zero-objective and actual runtime-profile gaps are explicit.
+
 **Latest, 20:06 UTC:** [continuation](CONTINUATION_20261018T2015Z.md) records completed, independently accepted F3 deep stage1 and healthy wide continuation. Both stage1 archives are preserved; no terminal/quality claim or third completed pair. The [F2 metadata observation](f2_split_metadata_observation_r1/README.md) records exact fold counts only, without admission. The [reviewed canonical supervision audit](tl3_final_supervision_capability_audit_r1/README.md) and [raw-scale/chunk addendum](tl3_final_supervision_capability_audit_r1/ADDENDUM_RAW_SCALE_AND_CHUNKS_V1.md) specify tiedlead and same-head zero-weight gaps before implementation. [Official status](PROVIDER_STATUS_20261018T2005Z.json) still shows the DataSphere incident; no paid retry. Historical dated entries below remain preserved.
 
 **Latest, 19:50 UTC:** [continuation](CONTINUATION_20261018T1950Z.md) records healthy F3 deep stage1 at19:44UTC, epoch1 batch1080/1488, fresh heartbeats and zero new memory events. Stage1 collection remains pending; the original sequence is unchanged.
@@ -153,3 +155,5 @@ the R2/R3 runtime failures remain preserved.
 - [17:10 UTC continuation](CONTINUATION_20261018T1710Z.md) — F3 actual admission and running sequence, new preflight memory baseline, accepted TL3 checkpoint metadata and remaining exact ancestry/cache-source work.
 
 [Current packet publication validation V2](PUBLICATION_VALIDATION_20261018T2015Z_V2.json) binds staged small files/current reviews; the [earlier staged snapshot](PUBLICATION_VALIDATION_20261018T2015Z.json) remains preserved. Validation checks new links and records unrelated pre-existing unavailable artifact links without rewriting them.
+
+[Final publication validation V2](PUBLICATION_VALIDATION_20261018T2035Z_V2.json) binds the current small evidence and navigation packet; [V1](PUBLICATION_VALIDATION_20261018T2035Z.json) preserves the staged snapshot before these index links were added. No scientific or runtime claim changed.

@@ -1,5 +1,9 @@
 # Ranked25 execution ownership
 
+## Current delta, 18 October 20:31 UTC
+
+[Wide first continuation metadata](f3_beleriand_execution_r1/WIDE_CONTINUATION_EP2_OBSERVATION_20261018T2035Z.json) reports44,640updates/4,464batches/zero skips/nonfinite at epoch2; persisted resume path/SHA/next_epoch2 matches verified wide stage1. Model/state stat only, no payload hash/load/intermediate archive. [20:28 health](f3_beleriand_execution_r1/HEARTBEAT_ACCEPTANCE_20261018T2030Z.json) is healthy with zero new memory events. Both stage1 checks are done; terminal wrappers still require separate preparation/review under [readiness note](f3_terminal_execution_preparation_r1/README.md). No frozen source/plan changes. [Current continuation](../quality_gap_r1/CONTINUATION_20261018T2035Z.md) separately records isolated strict-propensity V3 engineering publication, not F3 code or fit admission.
+
 ## Current delta, 18 October 20:06 UTC
 
 [Both F3 stage1 endpoints are now accepted](receipts/F3_DEEP_STAGE1_HANDOFF_20261018T2010Z.json). Use authoritative [deep V2 acceptance](receipts/F3_DEEP_STAGE1_ACCEPTANCE_V2.json); V1 and its erratum are preserved. Deep stateSHA2dc2e3b8e150ea6a24e176141d14c5696a3db1325835cf0d7e449873cad5e625, next2/29760updates/2976batches/0skips, finiteFP32Adam/138modules. Both serial support units exited0,captured/stopped with no new memory events. Do not repeat stage1.
