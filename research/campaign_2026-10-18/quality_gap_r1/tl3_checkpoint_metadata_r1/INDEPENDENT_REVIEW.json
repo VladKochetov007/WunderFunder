@@ -1,0 +1,31 @@
+{
+  "schema": "quality_gap.tl3_checkpoint_metadata_independent_review.v1",
+  "reviewed_utc": "2026-10-18T17:00:55Z",
+  "packet": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_r1",
+  "preparation_manifest_sha256": "f65c7ac2011f11af490a7eeb61b7ec5f53b3126e4a3b6159fcc7c9483e5f34e2",
+  "test_receipt_sha256": "cb19bab6130e3de53957336143541be6173c8e4ba6118f44a20301faf48d721b",
+  "decision": "PASS_STATIC_REVIEW_READY_FOR_ROOT_ADMISSION_WITH_FRESH_HASH_BINDING",
+  "scope": {
+    "manifest_artifacts_rehashed": 5,
+    "source_binding_files_rehashed": 2,
+    "hash_or_size_mismatches": 0,
+    "unlisted_packet_files_before_review_receipt": 0,
+    "production_checkpoint_read_or_hashed": false,
+    "remote_execution_or_mutation": false,
+    "training_or_inference": false
+  },
+  "confirmed": [
+    "The preparation manifest and test receipt hashes match the requested pins. All five manifest artifacts match both their declared sizes and SHA-256 values; the two bound TL3 source-closure artifacts also match their declared hashes.",
+    "The extractor rejects any inventory other than the exact eight logical IDs, paths and observed sizes, requires eight fresh SHA-256 values plus a root-admission receipt hash, and rejects the unbound template state.",
+    "Each checkpoint is checked as a regular non-symlink file, hashed before loading, loaded on CPU with weights_only=True and no unrestricted fallback, summarized without tensor values, then rehashed and re-statted before proceeding.",
+    "The helper enforces bounded input, metadata and receipt sizes; checks the active cgroup CPU, memory and zero-swap limits; hides CUDA before importing Torch; and checks an internal deadline. The README correctly requires an external 120-second systemd runtime limit because the internal deadline cannot interrupt a blocked loader.",
+    "Output creation uses O_CREAT|O_EXCL and mode 0600. The documented root staging allowlist contains only the extractor and root-generated input manifest, excluding caches and unlisted files.",
+    "The local positive test uses a tiny synthetic Torch checkpoint. The packet explicitly does not claim production checkpoint compatibility, source lineage, teacher identity, checkpoint ancestry or clean-F0 status."
+  ],
+  "qualifications": [
+    "This approval covers static helper/recipe readiness only. It does not admit a run, verify any production checkpoint hash, or establish that restricted loading succeeds on the production objects.",
+    "Before launch, root must freshly bind all eight exact B paths, sizes, stable generations and SHA-256 values in the admitted input manifest, bind the current root admission receipt, stage the exact allowlist in a clean directory, and enforce the declared systemd caps. Unsupported safe-unpickling objects must stop the attempt without fallback.",
+    "A dangling output symlink is not rejected by the early Path.exists check, but the final exclusive create rejects it without overwriting its target. The clean root-controlled execution path keeps this a non-blocking efficiency edge case."
+  ],
+  "blockers": []
+}

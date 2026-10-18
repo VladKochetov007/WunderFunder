@@ -1,5 +1,9 @@
 # Reviews and audit receipts
 
+[F3 checkpoint support independent review](../../campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1/INDEPENDENT_REVIEW.json): accepts isolated F3-specific stage1/terminal tooling with23tiny tests and exact attempt contract/source-map digest checks. Actual attempt working-directory/inventory and fresh source/runtime remain root bindings; no F3 checkpoint or quality result is claimed.
+
+[TL3 metadata/source closure review](../../campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/INDEPENDENT_REVIEW.json): accepts37hash-bound metadata/source files. Tied-lead’s ARGS_FROM edge is a config donor, with empty weight initializer in actual logs; W18 warm-parent facts come from the earlier pinned asset map. Copied live source is not authenticated historical source; teacher/cache/propensity F0 exclusion remains unproven.
+
 [F1/seed1001 completed pair and accepted collection](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json): independently verified endpoints and canonical grade, wide 0.66132919 versus deep 0.66169479 with conditional interval crossing zero. R2 collection, final-path verification and independent acceptance are complete; the R1 source-map failure remains preserved. This is the second cell, not CP30 or public evidence.
 
 
@@ -192,3 +196,11 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 - [Independent causal-geometry pilot grade](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r1.json), interpreted in the [geometry note](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md), verifies all9endpoint official pooled/fold scores, source/initial-state hashes and880updates. Tiny pooled moment gain is opposed across exposed folds; conditional component intervals cross zero. This is integrity evidence and exploratory comparison, not production gain or a rejection of heuristics.
 
 - [Independent discrete/capacity pilot grade R2](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r2.json) verifies all24endpoints and18predeclared half-mixtures, their source/data bindings, matched initialization and880-update clocks. It confirms heterogeneous feature effects and negative naive-concatenation interactions at two capacities; no production, teacher-distillation or public-transfer conclusion follows from these exposed tiny-data slices.
+
+- [TL3 metadata-extractor review](../../campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_r1/INDEPENDENT_REVIEW.json) — independent static PASS for eight exact paths, fresh hash admission, restricted CPU loading, bounded metadata output and create-only receipts; actual execution and its separate acceptance are linked from the execution README.
+
+- [F3 result collection review](../../campaign_2026-10-18/priority25_execution_r4/f3_result_collection_r1/INDEPENDENT_REVIEW.json) — static PASS after six producer-shaped tests for seven original-v1 attempts, four checkpoint receipt pairs, exact fold/order/ancestry, arrival seal and streamed prediction/grade bindings. Actual F3 collection remains pending terminal outputs and independent arrival reviews.
+
+- [Actual TL3 metadata acceptance](../../campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/RESULT_ACCEPTANCE_V1.json) — independent verification of eight exact checkpoint digests and the admission/execution/stop chain. Production config fields confirm validation inclusion; clean membership and target-cache producers remain unresolved.
+
+- [F3 root launch gate](../../campaign_2026-10-18/priority25_execution_r4/f3_preflight_r1/ROOT_LAUNCH_REVIEW_V1.json) and [TL3 ancestor probe review](../../campaign_2026-10-18/quality_gap_r1/tl3_ancestor_followup_r1/INDEPENDENT_REVIEW.json) — independent checks of exact reviewed launch inputs and scoped lineage observations; neither substitutes for future model-quality evidence.

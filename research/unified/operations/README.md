@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+[F3 fresh preflight and admission preparation](../../campaign_2026-10-18/priority25_execution_r4/f3_preflight_r1/README.md): actual bounded CPU source/data/native-membership verification passed; exact ordered digests,521-code-file inventory, grader/archive/runtime identities and30absent output paths were checked. The successful preflight generated255 child memory-max events without OOM/kill; parent-local events stayed zero. New baseline high177/max561/OOM0. Separate reviewed checkpoint and result tooling plus final live admission are required for F3 fits.
+
 [F1/seed1001 completed pair and accepted collection](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json): independently verified endpoints and canonical grade, wide 0.66132919 versus deep 0.66169479 with conditional interval crossing zero. R2 collection, final-path verification and independent acceptance are complete; the R1 source-map failure remains preserved. This is the second cell, not CP30 or public evidence. The root-gated CPU strong-control preflight is running as of 15:22 UTC; no pass or inference result is yet recorded ([run packet](../../campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/README.md)).
 
 
@@ -349,3 +351,7 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 - [Rank1 06:40UTC heartbeat](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0640Z.json) confirms continued deep epoch4 optimizer progress, fresh heartbeats and no memory errors; epoch3 remains the latest archived checkpoint. Cloud state and unclaimed cluster handoffs remain unchanged. No quality result or new allocation.
 
 - [Deep F0 continuation epoch4 collection](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F0_S1001_E6_EP4_COLLECTION.json) and [epoch5 handoff](../../campaign_2026-10-18/priority25_execution_r4/receipts/DEEP_CONTINUATION_EP4_20261018.json) preserve74,600 producer updates with stable source/copy hashes and zero skips/nonfinite. The existing bounded collector exited0; no tensor recheck or quality claim was made. Healthy deep training continues into the final fixed epoch.
+
+- [TL3 checkpoint metadata execution](../../campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/README.md) — bounded 24.8 MB CPU metadata pass completed exit 0, captured and stopped; eight fresh checkpoint hashes, restricted loader and raw transport, no tensor values or inference. Parent events stayed high 177 / max 561 / OOM 0.
+
+- [F3 / seed 1001 execution](../../campaign_2026-10-18/priority25_execution_r4/f3_beleriand_execution_r1/README.md) — actual 17:06 UTC admission/launch under the single-worker shared GPU and aggregate 2 CPU limits; exact plan/runtime/source/data bindings and separate result acceptance gates. F0/F1 remain complete.

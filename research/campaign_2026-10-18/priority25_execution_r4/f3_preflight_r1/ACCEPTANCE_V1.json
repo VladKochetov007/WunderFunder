@@ -1,0 +1,50 @@
+{
+  "schema": "priority25.f3_preflight_acceptance.v1",
+  "created_utc": "2026-10-18T16:49:56.080889+00:00",
+  "status": "PASSED_DATA_SOURCE_RUNTIME_PREFLIGHT_NOT_FIT_ADMISSION",
+  "receipt_sha256": "3d2ec9ba9cb760e1f60888e4608290c311a35398bff372e9e06f1436f476b347",
+  "duration_seconds": 267.059975,
+  "cpu_seconds": 121.780214,
+  "exit_status": 0,
+  "captured_then_stopped": true,
+  "source_hashes": 523,
+  "code_inventory_paths": 521,
+  "registered_full_data_hashes": 6,
+  "ordered_membership_digests": 7,
+  "runtime": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.2.6",
+    "pyarrow": "19.0.1",
+    "attrs": "26.1.0"
+  },
+  "memory_events": {
+    "before_hierarchical": {
+      "high": 177,
+      "max": 306,
+      "oom": 0,
+      "oom_kill": 0
+    },
+    "after_hierarchical": {
+      "high": 177,
+      "max": 561,
+      "oom": 0,
+      "oom_kill": 0
+    },
+    "delta_max": 255,
+    "parent_local_events_observed_164937": {
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0
+    },
+    "preflight_peak_bytes": 1499996160,
+    "interpretation": "The child reached its 1.5GB limit with 255 hierarchical max events. No OOM/kill occurred and exact full checks passed exit0. Parent local max/high remain zero. Child anon/file breakdown was not captured before exit; do not infer payload allocation or GPU training failure."
+  },
+  "observer_note": "A follow-up optional memory-stat read raced terminal cgroup removal and returned FileNotFoundError because ControlGroup was empty; no worker or preflight rerun. Exact terminal capture succeeded; empty terminal cgroup is valid.",
+  "remaining_fit_gates": [
+    "checkpoint/result helper review and binding",
+    "fresh create-only ownership/output/unit/resource collision checks",
+    "separate root admission/staging/launch"
+  ]
+}

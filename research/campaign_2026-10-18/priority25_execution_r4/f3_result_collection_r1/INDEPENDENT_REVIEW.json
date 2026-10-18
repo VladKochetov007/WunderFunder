@@ -1,0 +1,69 @@
+{
+  "artifact_pins": {
+    "INDEPENDENT_REVIEW_REQUEST.md": {
+      "actual_sha256": "12cd1ff571edddd8ea16fd52c306c677b8d89a57ccc949310db5b76b853ceb5e",
+      "expected_sha256": "12cd1ff571edddd8ea16fd52c306c677b8d89a57ccc949310db5b76b853ceb5e",
+      "matches": true
+    },
+    "README.md": {
+      "actual_sha256": "4d62f45ea1c0157db0cfcafef873024ee4ed44ea8127beadf751ced7061f4773",
+      "expected_sha256": "4d62f45ea1c0157db0cfcafef873024ee4ed44ea8127beadf751ced7061f4773",
+      "matches": true
+    },
+    "TEST_RECEIPT.json": {
+      "actual_sha256": "3d7b4c891497cee6dbf3c48a4ed9388e27b2ef297a6c4514e8a9cabe6ff8fccb",
+      "expected_sha256": "3d7b4c891497cee6dbf3c48a4ed9388e27b2ef297a6c4514e8a9cabe6ff8fccb",
+      "matches": true
+    },
+    "collect_f3_results.py": {
+      "actual_sha256": "2a61de37d4fb9260a69e553aca2b789d427ad4719cc516a8a45d10fb745723b8",
+      "expected_sha256": "2a61de37d4fb9260a69e553aca2b789d427ad4719cc516a8a45d10fb745723b8",
+      "matches": true
+    },
+    "f3_result_checks.py": {
+      "actual_sha256": "dd23c9f3016b7b4e5b0e2bb1e753d9b05e4f1717ec1d7d436253f8dcd1146925",
+      "expected_sha256": "dd23c9f3016b7b4e5b0e2bb1e753d9b05e4f1717ec1d7d436253f8dcd1146925",
+      "matches": true
+    },
+    "result_io.py": {
+      "actual_sha256": "8442d1b3f8880487e88888a1ec2749f25fab217878925d744f27acf36ee4b06d",
+      "expected_sha256": "8442d1b3f8880487e88888a1ec2749f25fab217878925d744f27acf36ee4b06d",
+      "matches": true
+    },
+    "test_f3_result_collection.py": {
+      "actual_sha256": "1339bd7c78da84366b376ea7d3e213483f8e616179fb45ad8019f1b905207443",
+      "expected_sha256": "1339bd7c78da84366b376ea7d3e213483f8e616179fb45ad8019f1b905207443",
+      "matches": true
+    }
+  },
+  "decision": "PASS_STATIC_REVIEW_READY_FOR_ROOT_GATED_COLLECTION",
+  "findings": [],
+  "manifest_sha256": "0fbff60fd77d02bf80c8fcff51aa7ea8d90b479e6b7947eabd514096f515036a",
+  "packet": "research/campaign_2026-10-18/priority25_execution_r4/f3_result_collection_r1",
+  "reviewed_utc": "2026-10-18T17:06:00Z",
+  "root_gates": [
+    "This is static review only and does not admit or execute collection. Root must use a freshly staged exact allowlist with no __pycache__ or .pyc, then bind current B paths, hashes, ownership and resource headroom before collection.",
+    "Actual receipt and prediction inputs were not inspected by this reviewer; the arrival seal and reviewers are required at collection time and must match the exact staged artifact pins."
+  ],
+  "schema": "priority25.f3_result_collection_independent_review.v1",
+  "scope": {
+    "author_reported_tests_rerun_by_reviewer": false,
+    "manifest_artifact_hashes_checked": true,
+    "model_quality_claimed": false,
+    "prediction_or_checkpoint_payload_access": false,
+    "remote_commands_or_jobs": false,
+    "result_collection_or_grade_rerun": false,
+    "static_packet_and_source_review": true
+  },
+  "status": "passed",
+  "test_receipt_sha256": "3d7b4c891497cee6dbf3c48a4ed9388e27b2ef297a6c4514e8a9cabe6ff8fccb",
+  "verified": [
+    "The fixed unadmitted F3 plan, fold3 manifest, split metadata receipt, checkpoint-support manifest, frozen predictor and grader are pinned in the manifest and validator. Plan and fold membership/counts are rechecked before collection; ordered fit/evaluation memberships are recomputed from the exact fold definition and checked against each stage1/terminal verification receipt.",
+    "All seven original v1 attempts are selected by exact step set, checked for the planned full command, unit, status/exit, contract path/SHA, and canonical source-map digest. Predictor and grader files are stable-hashed against their frozen pins.",
+    "Both arms require exact stage1 and terminal collection/verifier pairs, artifact inventories and hashes, fixed update/batch/scheduler counters, same-arm resume ancestry, peer fold/fit/normalization identity, verifier dependency hashes, and checkpoint-support artifacts.",
+    "The arrival seal and both independent PASS review files are checked against exact paths, sizes, hashes, four checkpoint receipt bindings, snapshot paths, and collector support hashes; review files are rehashed into the archived evidence set.",
+    "Both epoch-5 predictions are streamed through bounded NPY header/shape/dtype/length/finiteness/hash checks without deserialization. Sidecars and the existing paired grade bind exact run, fold membership, checkpoint, prediction and sidecar digests.",
+    "Archive inputs are no-follow regular files with size limits and stable identity checks. Snapshot and receipt are project-local, create-only, overlap-checked, capped at 256 MiB, copied to a private staging tree, and published without overwriting existing paths; partial outputs are removed on failure.",
+    "The README limits interpretation to one exposed F3/seed1001 pair and explicitly disclaims clean-holdout, width-winner, CP30, convergence, or serving claims. No training, export, grade, or checkpoint payload read is performed by the collector."
+  ]
+}

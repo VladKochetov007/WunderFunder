@@ -1,5 +1,9 @@
 # Ranked25 execution, 18 October 2026
 
+**16:50 UTC preparation:** [Fresh F3 preflight](f3_preflight_r1/README.md) passed six full data hashes,523 source hashes, exact source inventory and approved runtime in267.06s; collected/stopped. [F3 checkpoint support](f3_checkpoint_support_r1/README.md) has23tiny passing tests and independent review. F3 fit remains unadmitted until separate result-helper review and fresh final admission. The new parent hierarchical memory-event baseline is high177/max561/OOM0; max255 arose under the successful CPU preflight’s1.5GB cap, not a training OOM.
+
+[The strong-control diagnostic is complete](../quality_gap_r1/strong_control_evaluation_r4/records/RESULTS.md); historical pending snapshots below are superseded. [TL3 source closure](../quality_gap_r1/tl3_source_closure_r1/README.md) distinguishes configuration donors from weight initializers but does not certify clean teacher/cache ancestry.
+
 **15:28 UTC:** the [strong-control CPU preflight](../quality_gap_r1/export_preparation/preflight_execution_r2/records/README.md) has now passed and been captured. F1 is complete and accepted. Strong-control no-training export remains pending; no new CP30 cell has been admitted.
 
 **Current F1 status:** both fits, exports and paired grade finished; wide 0.66132919 versus deep 0.66169479, conditional interval crosses zero. Terminal checkpoints are verified. [R2 result collection](receipts/RANK01_F1_S1001_RESULT_COLLECTION.json), [final-path verification](receipts/RANK01_F1_S1001_FINAL_PATH_VERIFICATION_V1.json) and [independent acceptance](receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json) are complete; the latter records the successful 57-file destination hash check. The [R1 source-map failure](receipts/F1_RESULT_COLLECTION_FAILURE_V1.json) remains preserved. No training, export or grade was rerun for collection.
@@ -94,3 +98,7 @@ Latest routine observation: [01:43UTC continuation](receipts/HEARTBEAT_20261018T
 - [06:40UTC continuation](receipts/HEARTBEAT_20261018T0640Z.json) records healthy deep epoch4 batch1220/1492, unchanged archived epoch3, no cloud recovery or cluster claim, and no new allocation.
 
 - [Deep epoch4 archive and epoch5 handoff](receipts/DEEP_CONTINUATION_EP4_20261018.json) preserves the next stable generation and exact successful collector execution. Deep now advances through fixed epoch5; quality and CP30 remain pending.
+
+- [F3 result collection support](f3_result_collection_r1/README.md) — independently reviewed, six focused tests passed, exact F3 membership/counts and original-v1 attempts; actual endpoint acceptance and collection require the later observed receipt seal.
+
+- [F3 actual execution](f3_beleriand_execution_r1/README.md) — root admission and seven-step sequence launched at 17:06 UTC after fresh full preflight and independent checkpoint/result-helper reviews. Both arms are owned by Beleriand; no F3 score yet.

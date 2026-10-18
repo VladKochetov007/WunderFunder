@@ -1,0 +1,35 @@
+{
+  "schema": "priority25.f3_root_launch_independent_review.v1",
+  "reviewed_utc": "2026-10-18T17:06:09Z",
+  "decision": "PASS_ROOT_GATED_LAUNCH_REVIEW",
+  "launch_script_path": "/Users/nb/Documents/wunder/runtime-20261018/f3/admit_launch_v1.py",
+  "launch_script_sha256": "1002dbfd3cfd8da5cea3236b7377e87607bb29fc898dad812946d0449842e8ac",
+  "result_collection_manifest_sha256": "0fbff60fd77d02bf80c8fcff51aa7ea8d90b479e6b7947eabd514096f515036a",
+  "result_collection_review_sha256": "deeb5a04bbd0f197697c337077647d44a9a3a267fbcb2c694ab004623ba2729a",
+  "test_receipt_sha256": "3d7b4c891497cee6dbf3c48a4ed9388e27b2ef297a6c4514e8a9cabe6ff8fccb",
+  "checks": {
+    "launch_script_hash_matches_requested_pin": true,
+    "result_manifest_hash_matches_requested_pin": true,
+    "result_review_hash_matches_requested_pin": true,
+    "result_review_schema_status_decision_and_empty_findings_are_exact": true,
+    "result_review_binds_exact_manifest_hash": true,
+    "review_and_manifest_bind_test_receipt": true,
+    "all_seven_manifest_artifacts_rehashed_and_sizes_match": true,
+    "prior_preflight_source_data_resource_and_collision_gates_preserved": true,
+    "remote_commands_or_mutations_performed_by_reviewer": false
+  },
+  "reviewed_result_gate": {
+    "review_schema": "priority25.f3_result_collection_independent_review.v1",
+    "review_status": "passed",
+    "review_decision": "PASS_STATIC_REVIEW_READY_FOR_ROOT_GATED_COLLECTION",
+    "review_findings": [],
+    "manifest_sha256_matches_cli_argument": true,
+    "test_receipt_sha256_matches_manifest": true
+  },
+  "scope_and_limits": [
+    "This is a static review of the root admission and launch gate. It does not execute the script or any remote command.",
+    "Fresh remote ownership, collision, source/data hashes, cgroup headroom, scratch, selected-GPU state and path absence remain checked by the script immediately before its first mutation.",
+    "The reviewed result-collection packet remains unadmitted; launch only follows successful fresh root gates. Foreign shared-GPU processes are preserved, while the script rejects a detected process attributable to this campaign."
+  ],
+  "blockers": []
+}

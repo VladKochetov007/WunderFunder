@@ -1,0 +1,340 @@
+{
+  "ancestors_and_learned_inputs": {
+    "fbc1k_s5_ep3": {
+      "exact_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/fbc1k_s5/model_ep3.pt",
+      "membership": "unknown",
+      "present_bytes": 3934495,
+      "provenance": false,
+      "role": "loaded-weight initializer for w18final_distilled_s5",
+      "sha256": null
+    },
+    "fbc1k_s6_ep3": {
+      "exact_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/fbc1k_s6/model_ep3.pt",
+      "membership": "unknown",
+      "present_bytes": 3934495,
+      "provenance": false,
+      "role": "sibling initializer; not a member of the 3-weight tl3 package",
+      "sha256": null
+    },
+    "fin256ft_s3_s4": {
+      "available_model_endpoints": [
+        "model.pt",
+        "model_ep1.pt"
+      ],
+      "clean_f0_membership": "unknown",
+      "ep3_present": [
+        false,
+        false
+      ],
+      "role": "direct tiedlead teacher names",
+      "run_dirs_present": [
+        true,
+        true
+      ],
+      "target_cache_endpoint": "unbound: named cache arrays have no JSON sidecars"
+    },
+    "fttall_s5_ep3": {
+      "exact_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/fttall_s5/model_ep3.pt",
+      "membership": "not bound; not a tiedlead model-weight ancestor",
+      "present_bytes": 3934751,
+      "provenance": false,
+      "role": "tiedlead args/template donor only",
+      "sha256": null
+    },
+    "prediction_caches": {
+      "all_expected_json_sidecars_absent": true,
+      "array_sources": [
+        "fin256ft_s3",
+        "fin256ft_s4",
+        "orgbase",
+        "w18final_family_full",
+        "w18final_family_raw",
+        "w18final_fbc1k_s5",
+        "w18final_teacher"
+      ],
+      "arrays_present_but_not_read_or_hashed": true,
+      "shape_order_dtype_checkpoint_source_identity": "not observed; do not infer",
+      "train_bytes": 1696960128,
+      "valid_bytes": 299680128
+    },
+    "preprocessing": {
+      "tiedlead_model_normalization": "fitted from train_loader on full train+valid production scope when init is empty",
+      "tiedlead_ple_knots": "",
+      "w18_distilled_normalization": "inherits loaded initializer checkpoint model state; ancestor fit scope unknown"
+    },
+    "prop_f0": {
+      "fit_membership": "unknown",
+      "model_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/prop_f0/model.pt",
+      "model_present_bytes": 159607,
+      "model_sha256_from_sidecars": "9e92f26d1704f84f9170d746b372c2ba67f7fb611831865a1fc689d6b813b21c",
+      "prediction_arrays_read_or_hashed": false,
+      "preprocessing_identity": "unknown",
+      "role": "learned propensity weights used by tiedlead resolved args",
+      "sidecars": [
+        "raw_metadata/cache/propcache_prop_f0_train.json",
+        "raw_metadata/cache/propcache_prop_f0_valid.json"
+      ]
+    },
+    "w18_teacher_family": {
+      "clean_f0_membership": "unknown",
+      "direct_names": [
+        "w18final_teacher",
+        "w18final_fbc1k_s5",
+        "w18final_family_full",
+        "w18final_family_raw",
+        "orgbase"
+      ],
+      "run_dir_presence": {
+        "orgbase": true,
+        "w18final_family_full": false,
+        "w18final_family_raw": false,
+        "w18final_fbc1k_s5": false,
+        "w18final_teacher": false
+      }
+    }
+  },
+  "binding_gaps": [
+    "No historical training-time source hashes; current trainer is a live source snapshot and src/wnn/nn.py was modified relative to repo HEAD.",
+    "No run provenance, args.json, resolved_config.json, or run manifest exists in the exact inspected production/ancestor run directories.",
+    "No checkpoint payload SHA was computed; binaries were stat-only and never loaded.",
+    "The w18 warm initializer fbc1k_s5@ep3 and all direct teachers/teacher ancestors lack certified fit memberships and source/config closure.",
+    "Teacher prediction .npy arrays are present but their exact JSON sidecars are absent, so source checkpoint endpoint, row order, preprocessing, split membership, and producer identity cannot be certified.",
+    "prop_f0 sidecars pin a model digest and array row counts only; model fitting scope and preprocessing ancestry are not proven.",
+    "The tiedlead logs give complete resolved args, but the w18final_distilled_s5 run has only a metric history and no resolved args log.",
+    "No exact clean-F0 counterpart is established; reconstructing the production recipe without the missing dependencies would either be blocked or a clearly labeled modified recipe."
+  ],
+  "clean_f0_membership": {
+    "clean_exclusion_proven_for_all_ancestors_and_cached_targets": false,
+    "production_scope": "all three blend members are full train+valid fits with include_heldout_valid=true and valid_fold=-1; they are not clean F0 controls",
+    "proposed_clean_counterpart_contract": {
+      "evidence": "F0_MEMBERSHIP_COMPARISON.json",
+      "fit_train_groups": 10535,
+      "fit_valid_groups": 1405,
+      "heldout_evaluation_groups": 468,
+      "historical_vs_canonical_membership": "ordered memberships and component map match; manifest/cache identities differ"
+    }
+  },
+  "incumbent": {
+    "binding_note": "User transcript and local archive match by filename; portal upload bytes are not authenticated.",
+    "filename": "tl3.zip",
+    "portal_payload_sha256": null,
+    "reported_score": 0.66832,
+    "submission_id": "1lmehfi3",
+    "weights": [
+      {
+        "coefficient": 0.34,
+        "endpoint": "ep1",
+        "run": "w18final_distilled_s5"
+      },
+      {
+        "coefficient": 0.33,
+        "endpoint": "ep3",
+        "run": "fttall_tlead_s5"
+      },
+      {
+        "coefficient": 0.33,
+        "endpoint": "ep3",
+        "run": "fttall_tlead_s6"
+      }
+    ]
+  },
+  "members": [
+    {
+      "coefficient": 0.34,
+      "direct_teacher_edges": [
+        "w18final_teacher",
+        "w18final_fbc1k_s5",
+        "w18final_family_full",
+        "w18final_family_raw",
+        "orgbase"
+      ],
+      "endpoint": "ep1",
+      "initializer_edge": {
+        "clean_f0_scope_proven": false,
+        "kind": "loaded model weights via args.init branch",
+        "target": "fbc1k_s5@ep3"
+      },
+      "resolved_facts_from_map": {
+        "distill": "w18final_teacher",
+        "distill_alpha": 0.7,
+        "enc": "linear",
+        "family_teachers": [
+          "w18final_fbc1k_s5",
+          "w18final_family_full",
+          "w18final_family_raw",
+          "orgbase"
+        ],
+        "include_heldout_valid": true,
+        "init": "fbc1k_s5@ep3",
+        "n_in": 211,
+        "train_source": "train+valid",
+        "valid_fold": -1
+      },
+      "run": "w18final_distilled_s5",
+      "run_dir_metadata": {
+        "args_json_present": false,
+        "checkpoint_bytes_only": {
+          "model.pt": 3941664,
+          "model_ep1.pt": 3942180
+        },
+        "directory_present": true,
+        "provenance_present": false,
+        "resolved_config_present": false
+      }
+    },
+    {
+      "args_template_checkpoint": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/fttall_s5/model_ep3.pt",
+      "args_template_checkpoint_role": "configuration/template source only; source code reads checkpoint[\"args\"], then overrides name, seed, PLE_KNOTS and explicit OVERRIDES",
+      "coefficient": 0.33,
+      "command_source": "raw_metadata/rs1013/fatl.sh",
+      "direct_teacher_edges": [
+        "fin256ft_s3",
+        "fin256ft_s4"
+      ],
+      "endpoint": "ep3",
+      "loaded_model_weight_ancestors": [],
+      "oom_warning_count": 2,
+      "resolved_facts_from_exact_log": {
+        "batch": 32,
+        "chunk": 1000,
+        "distill": [
+          "fin256ft_s3",
+          "fin256ft_s4"
+        ],
+        "distill_alpha": 0.5,
+        "enc": "tiedlead",
+        "epochs": 4,
+        "family_teachers": [],
+        "include_heldout_valid": true,
+        "init": "",
+        "optimizer": "muon",
+        "ple_knots": "",
+        "precision": "fp16",
+        "prop_cache": true,
+        "propensity": "prop_f0",
+        "train_source": "train+valid",
+        "valid_fold": -1
+      },
+      "run": "fttall_tlead_s5",
+      "scratch_initialization_note": "Resolved init is empty; in the copied trainer the model is loaded from an initializer only in if args.init, else fit_normalization(model, train_loader, device) runs. The fttall_s5 checkpoint is not loaded into the child model state.",
+      "seed": 5,
+      "training_log": {
+        "path": "raw_metadata/rs1013/logs/fttall_tlead_s5.log",
+        "sha256": "19a6f694eab04026ce426495da6ae1ac45affa61710942ba0d61ee1f8dcb11fa"
+      }
+    },
+    {
+      "args_template_checkpoint": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/fttall_s5/model_ep3.pt",
+      "args_template_checkpoint_role": "configuration/template source only; source code reads checkpoint[\"args\"], then overrides name, seed, PLE_KNOTS and explicit OVERRIDES",
+      "coefficient": 0.33,
+      "command_source": "raw_metadata/rs1013/fatl.sh",
+      "direct_teacher_edges": [
+        "fin256ft_s3",
+        "fin256ft_s4"
+      ],
+      "endpoint": "ep3",
+      "loaded_model_weight_ancestors": [],
+      "oom_warning_count": 2,
+      "resolved_facts_from_exact_log": {
+        "batch": 32,
+        "chunk": 1000,
+        "distill": [
+          "fin256ft_s3",
+          "fin256ft_s4"
+        ],
+        "distill_alpha": 0.5,
+        "enc": "tiedlead",
+        "epochs": 4,
+        "family_teachers": [],
+        "include_heldout_valid": true,
+        "init": "",
+        "optimizer": "muon",
+        "ple_knots": "",
+        "precision": "fp16",
+        "prop_cache": true,
+        "propensity": "prop_f0",
+        "train_source": "train+valid",
+        "valid_fold": -1
+      },
+      "run": "fttall_tlead_s6",
+      "scratch_initialization_note": "Resolved init is empty; in the copied trainer the model is loaded from an initializer only in if args.init, else fit_normalization(model, train_loader, device) runs. The fttall_s5 checkpoint is not loaded into the child model state.",
+      "seed": 6,
+      "training_log": {
+        "path": "raw_metadata/rs1013/logs/fttall_tlead_s6.log",
+        "sha256": "4c89db33b83afbed9f27db5023767771f152953626b56248c5b31e87e1817c59"
+      }
+    }
+  ],
+  "next_recoverable_step": "Recover exact source/config/provenance for fbc1k_s5, the w18 teacher family, fin256ft_s3/s4, prop_f0 and the cache producers, with explicit fit/evaluation membership and pinned checkpoint/source identities. Then bind each ancestor to canonical F0 fit membership before authorizing the one-cell reconstruction.",
+  "observed_utc": "2026-10-18T16:42:48.814775+00:00",
+  "packet": "tl3_source_closure_r1",
+  "schema_version": 1,
+  "scope": {
+    "ceiling_per_source_bytes": 16777216,
+    "ceiling_total_recovered_bytes": 41943040,
+    "method": "bounded exact-path, read-only metadata and small text/source recovery on B; no checkpoint/array payload read or hash; no torch/checkpoint load; no training, GPU, staging, launch, or remote mutation",
+    "result": "partial source/recipe closure; clean F0 counterpart remains unproven"
+  },
+  "source_evidence": {
+    "canonical_source_identity": {
+      "path": "CANONICAL_SRC_IDENTITY.json",
+      "repo_head": "e8c050b1ede4c8d9838b446365581a81a94abf0a",
+      "sha256": "acad4936fa3b8bfc8f9981cd6d81ed86eb6c38b86fd63d350dcb0f7890c05ac6",
+      "worktree_status": [
+        "M src/wnn/nn.py"
+      ]
+    },
+    "control_asset_map": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/CONTROL_ASSET_MAP.json",
+      "sha256": "17b7b5fc31557b3d560ae6d8de9aedbba9cb90d9f050a5edf9c136f0c66c7c3f"
+    },
+    "incumbent_binding": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/INCUMBENT_BINDING.json",
+      "sha256": "11ef14a2a2ed8961b572ed514a124d45c740548bc94ed44930f69efa1356a883"
+    },
+    "quality_gap_plan": {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/TL3_CLEAN_COUNTERPART_PLAN_20261018.md",
+      "sha256": "90d22e7a99f7fff97c5c7868d2fc458e05bde71504affc5c0fed9a883a19ab99"
+    },
+    "raw_file_identities": {
+      "all_local_copies_match_remote": true,
+      "copied_files": 29,
+      "path": "RAW_FILE_IDENTITIES.json",
+      "sha256": "57ccc1b11adfd633bd6dcc5bd7b330895b13113ee98459cc8f2ff3a9bcf633f6"
+    },
+    "remote_path_probe": {
+      "path": "REMOTE_PATH_PROBE.json",
+      "sha256": "a7141c51d7aa90f4ea2f178f3a4323302c41980e3de0e27622dc8a804d56539d"
+    }
+  },
+  "source_snapshot": {
+    "other_trainer_candidate": {
+      "note": "Preserved as a neighboring candidate snapshot; no evidence binds it to the TL3 runs.",
+      "path": "source_candidates/train_rnn_rs.py.before-bugfix-20261017",
+      "sha256": "6b3d2a97a49987593d7c1b717f72a5979e81f996c482cae78547fb231e56b8c2"
+    },
+    "tracked_model_source": {
+      "diff": "source_snapshot/wnn_nn.diff",
+      "head": "e8c050b1ede4c8d9838b446365581a81a94abf0a",
+      "local_copy": "source_snapshot/wnn_nn.py",
+      "note": "Live code adds tied/tiedlead/tiedlead2 encoders relative to HEAD. This proves the currently observed implementation, not the exact source bytes consumed by the historical runs.",
+      "observed_sha256": "a6e13c2aceedfd648a6cf3dcee0621f22bd0530af42b350a1d66a48267124bc5",
+      "path": "src/wnn/nn.py",
+      "repo": "/home/grinchenkoeg/WunderFunder-creative",
+      "worktree_modified": true
+    },
+    "training_script": {
+      "historical_at_training_time": false,
+      "path": "source_snapshot/train_rnn_rs.py",
+      "remote_copy_confirmed": true,
+      "remote_path": "/home/grinchenkoeg/WunderFunder-creative/research/iterations/2026-10-08-shift/plew19/train_rnn_rs.py",
+      "sha256": "29c385f665d7fc8a2e25454fa33ad58d081a7db4bd2b0269d4f8ad153c29a79a"
+    }
+  },
+  "training_progress_limits": {
+    "interpretation": "The OOM-named allocator warning did not terminate the overall run. It does not prove zero skipped/retried work or exactly-once updates.",
+    "log_events": "Allocator warning lines coexist with later batch-progress and VALID rows; output progress is every 20 batches.",
+    "source_loop_has_oom_handler_or_batch_skip_retry_branch": false,
+    "successful_optimizer_step_count": "not established: no per-batch receipt; logs do not identify allocation-failure batch or allocator internal retry outcome."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "args_from_role": "The wrapper-provided fttall_s5@ep3 checkpoint supplies args; resolved init is empty for both tiedlead runs.",
+  "evidence_sha256": {
+    "raw_metadata/rs1013/fatl.sh": "cfcf40b9bd1665115a11f0d6efae7a4965d40138072fac03203994c39b6a603c",
+    "raw_metadata/rs1013/logs/fttall_tlead_s5.log": "19a6f694eab04026ce426495da6ae1ac45affa61710942ba0d61ee1f8dcb11fa",
+    "raw_metadata/rs1013/logs/fttall_tlead_s6.log": "4c89db33b83afbed9f27db5023767771f152953626b56248c5b31e87e1817c59"
+  },
+  "log_warning_counts": {
+    "fttall_tlead_s5": 2,
+    "fttall_tlead_s6": 2
+  },
+  "loop_behavior": "No OOM exception catch, retry, or skip branch in the captured training batch loop.",
+  "model_weight_load_branch": "Model state is applied only when args.init is truthy; otherwise fit_normalization(model, train_loader, device) runs.",
+  "schema_version": 1,
+  "source": "source_snapshot/train_rnn_rs.py",
+  "source_sha256": "29c385f665d7fc8a2e25454fa33ad58d081a7db4bd2b0269d4f8ad153c29a79a",
+  "tiedlead_log_paths": [
+    "raw_metadata/rs1013/logs/fttall_tlead_s5.log",
+    "raw_metadata/rs1013/logs/fttall_tlead_s6.log"
+  ],
+  "what_continuation_proves": "Warnings are followed by later progress and valid records; the run was not terminated at those lines.",
+  "what_it_does_not_prove": "Exact affected batches, allocator internal retry, or exactly-once optimizer updates."
+}

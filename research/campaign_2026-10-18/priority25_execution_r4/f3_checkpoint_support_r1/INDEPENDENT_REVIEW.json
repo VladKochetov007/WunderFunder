@@ -1,0 +1,45 @@
+{
+  "schema": "priority25.f3_checkpoint_support_independent_review.v1",
+  "reviewed_utc": "2026-10-18T16:52:03Z",
+  "packet": "research/campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1",
+  "manifest_path": "research/campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1/PREPARATION_MANIFEST.json",
+  "manifest_sha256": "7e4fce0d7232a487a769e12d611050bc608f9cc7fcea300bc2063525abfa38dc",
+  "test_receipt_sha256": "e264314d6f243723c1454ac49cdde472fa60f9b7598e4a6892651ca40edec022",
+  "decision": "PASS_STATIC_REVIEW_READY_FOR_ROOT_ADMISSION_WITH_SEPARATE_FRESH_BINDINGS",
+  "scope": {
+    "static_source_and_manifest_review": true,
+    "tests_rerun": false,
+    "actual_f3_attempt_or_checkpoint_read": false,
+    "large_array_or_parquet_access": false,
+    "remote_execution_or_training": false,
+    "prediction_or_grade": false
+  },
+  "verified": [
+    "The manifest pins the F3 plan and fold3 manifest identities, expected 10,539/1,368/505 group counts, 145 evaluation components, and 29,760/89,280 stage1/terminal update totals. The code rejects a nonmatching fold before membership replay.",
+    "Attempt validation binds the planned ID, full command, service unit, exact F3 contract path and SHA, F3 plan entry in source_sha256, and canonical sorted-JSON source-map digest. The copied attempt evidence is revalidated by the verifier.",
+    "Collection is create-only for archive and receipt, checks planned artifacts, source generation before/after, source/copy hashes, producer checkpoint hashes, update counts/history, and same-arm terminal resume provenance. Live CPU, memory, swap, runtime, and parent headroom checks are explicit in the CLI path.",
+    "Verification checks the frozen fit recipe, strict FP32 flags, labels-only/cold ancestry, data/cache registry identities, source hashes for the listed 138 checkpoint modules, schedule/counters/history, ordered fit/evaluation memberships and component disjointness, model and Adam tensor finiteness/shapes/steps, and stage1/terminal/peer ancestry and endpoint equality.",
+    "The R1 packet and its 23-test receipt are hash-bound. The positive producer fixture is clearly identified as F1-derived, and the exact B fold3 replay and actual F3 producer receipts remain explicitly pending."
+  ],
+  "findings": [],
+  "root_side_bindings_required": [
+    {
+      "item": "Fresh exact-B input and runtime admission",
+      "requirement": "Bind the actual F3 plan, exact B fold3 manifest and ordered memberships, data/cache registry, source archive/inventory, runtime and resource receipts before using this preparation packet. The root-reported preflight PASS receipt SHA is 3d2ec9ba9cb760e1f60888e4608290c311a35398bff372e9e06f1436f476b347; it was not independently re-executed as part of this static review."
+    },
+    {
+      "item": "Attempt root and guard source inventory",
+      "requirement": "At actual acceptance, compare the attempt's working_directory to the full canonical B source path and bind its source_sha256/source_manifest_sha256 to the captured guard inventory. The helper currently checks only the `/source-a266b036` suffix; the canonical digest proves map integrity, not identity with the current root inventory."
+    },
+    {
+      "item": "Checkpoint module key-set scope",
+      "requirement": "The checkpoint contract audit requires 138 entries and hashes each listed module against the supplied source root, but does not assert an independently enumerated canonical 138-key set. Report this as listed-module verification unless the root inventory check also proves the complete expected module set."
+    }
+  ],
+  "limitations": [
+    "No actual F3 attempt or checkpoint exists in this review, so the F1-derived contract fixture does not establish producer compatibility for a future F3 receipt.",
+    "The exact B fold3 ordered-membership replay must occur against the fresh manifest before checkpoint acceptance; the positive replay was not possible from local files.",
+    "This packet verifies checkpoint structure and ancestry only. It does not verify training quality, measured resume parity, prediction output, grade, serving latency, or CP30."
+  ],
+  "admission_status": "PREPARATION_ONLY_ROOT_OWNS_ADMISSION_AND_ANY_EXECUTION"
+}

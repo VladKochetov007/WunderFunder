@@ -1,0 +1,148 @@
+{
+  "admission": {
+    "f3_prediction_or_grade_result_claimed": false,
+    "fit_or_checkpoint_exists": false,
+    "remote_staging_or_execution_performed": false,
+    "root_admission_required": true
+  },
+  "artifacts": {
+    "INDEPENDENT_REVIEW_REQUEST.md": {
+      "bytes": 1499,
+      "sha256": "e54a07397485e276b49f615b3a49bb4c11ac0304b4ee7a8cc8c73a1e5a75aa5f"
+    },
+    "README.md": {
+      "bytes": 8653,
+      "sha256": "96ed11c77c5a96e82f2a2ecebfae4016e87182d05527733aa2383fef496300e8"
+    },
+    "TEST_RECEIPT.json": {
+      "bytes": 2656,
+      "sha256": "e264314d6f243723c1454ac49cdde472fa60f9b7598e4a6892651ca40edec022"
+    },
+    "collect_f3_checkpoint.py": {
+      "bytes": 11516,
+      "sha256": "f937f4634f6c0e4b3a49a9808d8a344a1d5244469d397047c50530f10c6413be"
+    },
+    "f3_checkpoint_common.py": {
+      "bytes": 11629,
+      "sha256": "b24f637128c699eccf7714bbb94a0edad14b4cc77d0d00f9d0ae98f824da3fa8"
+    },
+    "f3_checkpoint_evidence.py": {
+      "bytes": 10201,
+      "sha256": "199dfff55b993fdddd00a1480112a608817d7498477b15842057092345c75ede"
+    },
+    "f3_checkpoint_lineage.py": {
+      "bytes": 7987,
+      "sha256": "2cae2738af4af8fd710abdba78dcaf51c1c9413808166ee9d6ce665b8ab32cb6"
+    },
+    "f3_checkpoint_membership.py": {
+      "bytes": 3946,
+      "sha256": "58a0e0d4ddce37fa25ca9c59256da78f5c0277f8bb9a1a1ff9346bee84738827"
+    },
+    "f3_checkpoint_semantics.py": {
+      "bytes": 2734,
+      "sha256": "3df241b4ca2301f6e7d4d5c9d5303e8aa0eaa8dba99a2f1310e254836fdc703a"
+    },
+    "f3_checkpoint_tensors.py": {
+      "bytes": 8882,
+      "sha256": "90283f2794697f7d02b1042995891f3eeca95f0aa509f07a7e32cf8f480ba359"
+    },
+    "fixtures/f3_wide_stage1_contract.json": {
+      "bytes": 7749,
+      "sha256": "52f922ab1bb1dfc5342fe0e9707e4197c9e832bb9a4a924fe993260abf7c8661"
+    },
+    "test_f3_checkpoint_support.py": {
+      "bytes": 9849,
+      "sha256": "6a46b488b69ddbb0de752673ab962c216fac768e0eafb48a2a257ddaed7b425f"
+    },
+    "test_f3_collection.py": {
+      "bytes": 9284,
+      "sha256": "61f75a023b4afed7217ff847822301131b6f2627801afccc4821ceba27603920"
+    },
+    "test_f3_lineage.py": {
+      "bytes": 7622,
+      "sha256": "64914a21e0cbb4ed3dd6b595bf0b6e2b87c86232475ae011106265d9c1b7fd9a"
+    },
+    "test_f3_producer_shape_fixture.py": {
+      "bytes": 8143,
+      "sha256": "e8bf862f206c59a755029e82a2efc86960e659117ab74ba3a448f71be431a1cf"
+    },
+    "verify_f3_checkpoint.py": {
+      "bytes": 9005,
+      "sha256": "08021054e0ddd4225bbee7a3781aaee505538e5a2d164f3732c15f507c9c3a2b"
+    }
+  },
+  "created_utc": "2026-10-18T16:48:41.542293+00:00",
+  "f3_identity": {
+    "batches_per_epoch": 1488,
+    "fold3_counts": {
+      "evaluation_components": 145,
+      "evaluation_groups": 505,
+      "fit_train": 10539,
+      "fit_valid": 1368
+    },
+    "fold3_manifest_sha256": "21c7fb52e8e69f38126362cbc5dc60dbc46539041d649b9206ec35e0f21ada1f",
+    "plan_sha256": "b303146cf9db05e0a3bddf8f245d3c9b880d055ce7e97ebe5dd13510b5f4a2d8",
+    "stage1_completed_updates": 29760,
+    "terminal_completed_updates": 89280,
+    "updates_per_epoch": 14880
+  },
+  "limitations": [
+    "The positive contract fixture is derived from the captured F1 producer shape with F3 plan/fold and counters substituted; it is not an observed F3 receipt.",
+    "Attempt metadata tests use the native source-map schema and canonical digest algorithm with a small synthetic inventory and exact F3 plan path/hash; no F3 attempt exists.",
+    "The exact B fold3 manifest is unavailable locally. A known local legacy fold3 manifest (SHA-256 78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343) is tested and rejected.",
+    "No F3 prediction/result-collection helper is included; root must prepare and review that separately before export.",
+    "This is preparation only. No root admission, remote staging, fit, verification of actual F3 checkpoints, or quality claim occurred."
+  ],
+  "manifest_hash_scope": "This manifest does not self-hash. `artifacts` binds the packet files; source inputs are recorded separately.",
+  "packet": "f3_checkpoint_support_r1",
+  "schema": "priority25.f3_checkpoint_support_preparation.v1",
+  "scope": "F3/seed1001 stage1 and terminal checkpoint collection plus structural verification only.",
+  "source_bindings": {
+    "f1_checkpoint_support_v2": {
+      "independent_metadata_review_path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/F1_CHECKPOINT_SUPPORT_V2_METADATA_REVIEW_R2.json",
+      "independent_metadata_review_sha256": "b2b8af3522bf8d717ba74eda37ee3bf3091f97f0bbbf3e6e83bc245e9dc2a019",
+      "manifest_path": "research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/checkpoints_v2/PREPARATION_MANIFEST_V2_R2.json",
+      "manifest_sha256": "bbebbed8c061776eba1732147ea6084057ed4d9cb249c8d11c1df0ea479eb2fd",
+      "review_status": "passed"
+    },
+    "f1_result_collection_r2_semantic_reference": {
+      "independent_review_path": "research/campaign_2026-10-18/priority25_execution_r4/f1_result_collection_r2/INDEPENDENT_REVIEW.json",
+      "independent_review_sha256": "be148caed23a54ec1b4f777e84234b55fc74380429ad35e36d85b3470cfcbff7",
+      "manifest_path": "research/campaign_2026-10-18/priority25_execution_r4/f1_result_collection_r2/PREPARATION_MANIFEST.json",
+      "manifest_sha256": "6c72459ad9e0ebc278f21766de4c723d37f345bfded650b1cdab38b2556cca77",
+      "result_checks_path": "research/campaign_2026-10-18/priority25_execution_r4/f1_result_collection_r2/result_checks.py",
+      "result_checks_sha256": "c14d08a9d0f3e0fe0426b1fe06b857a1d30dbe847ed683f00215730c576f1ad6",
+      "review_status": "PASS_STATIC_REVIEW_CONDITIONAL_ON_CLEAN_STAGE_AND_ROOT_BINDINGS",
+      "scope_note": "Semantic reference only; no F3 prediction/result collector is included in this packet."
+    },
+    "f3_plan": {
+      "bytes": 57138,
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_beleriand_preparation_r1/F3_BELERIAND_PLAN.json",
+      "sha256": "b303146cf9db05e0a3bddf8f245d3c9b880d055ce7e97ebe5dd13510b5f4a2d8"
+    },
+    "f3_split_metadata_receipt": {
+      "bytes": 3261,
+      "counts": {
+        "evaluation_components": 145,
+        "evaluation_valid": 505,
+        "fit_train": 10539,
+        "fit_valid": 1368
+      },
+      "fold3_manifest_sha256": "21c7fb52e8e69f38126362cbc5dc60dbc46539041d649b9206ec35e0f21ada1f",
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_beleriand_preparation_r1/F3_SPLIT_METADATA_V1.json",
+      "sha256": "5facd5e512dd8782009ea6630bc42a560ed3f974b513d419b7fa9f0257fc99a9"
+    }
+  },
+  "status": "PREPARED_NOT_ADMITTED_READY_FOR_INDEPENDENT_REVIEW",
+  "validation": {
+    "ruff_check": "passed",
+    "ruff_check_command": "uv run --no-sync ruff check research/campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1",
+    "ruff_format_check": "passed",
+    "ruff_format_command": "uv run --no-sync ruff format --check research/campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1",
+    "unit_test_command": "PYTHONPATH=research/campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1 uv run --no-sync python -m unittest discover -s research/campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1 -p 'test_*.py' -v",
+    "unit_tests_discovered": 23,
+    "unit_tests_failed": 0,
+    "unit_tests_passed": 23,
+    "unit_tests_skipped": 0
+  }
+}

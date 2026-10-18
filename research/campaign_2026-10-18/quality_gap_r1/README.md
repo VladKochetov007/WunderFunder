@@ -4,6 +4,10 @@
 
 **Public incumbent identity:** the [100-row user transcript](public_submission_trace_r1/README.md) identifies **`tl3.zip` / `1lmehfi3` / 0.66832 / 39m12s / 656MB**. Its archived recipe is 0.34 distilled s5 + 0.33 tied-lead s5 + 0.33 tied-lead s6. Portal payload SHA remains unverified. These production models fit train+valid; the restored Main T3 control is a different recipe. The [reviewed clean counterpart plan](TL3_CLEAN_COUNTERPART_PLAN_20261018.md) specifies the still-needed source/config/ancestor closure and F0-excluding reconstruction. Do not score the all-data production checkpoints as held-out F0 or tune weights against public.
 
+The bounded [TL3 source-closure packet](tl3_source_closure_r1/README.md) now resolves a command-line ambiguity: `fttall_s5@ep3` supplied tied-lead arguments, while both resolved `init` values are empty, so it is not a model-weight ancestor. Exact teacher/cache and propensity ancestry remain unproven; allocator OOM warnings are not per-batch update receipts. The packet is metadata-only and does not certify a clean-F0 counterpart.
+
+The [checkpoint metadata extraction packet](tl3_checkpoint_metadata_r1/README.md) prepares a root-admitted, CPU-only pass over eight exact team checkpoints to recover stored config and tensor schemas. It has not been staged or run; every production checkpoint SHA still requires a fresh root-bound observation.
+
 **Rank1:** F0 and F1 fits, exports, grades, terminal checks, result collection and independent acceptance are complete. [F1 acceptance](../priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json). Two paired cells per arm are not CP30. [F3 preparation](../priority25_execution_r4/f3_beleriand_preparation_r1/README.md) is independently reviewed but unadmitted and unstaged.
 
 **Provider state:** the [16:12 UTC observer](provider_observation_20261018T1615Z/) confirms zero nonterminal jobs among the latest 100 and unchanged balance 41,652,791. Official incident refresh returned JavaScript-required content, so recovery was not observed; no blind paid retry was made. The Mac performed only light orchestration, metadata work and tiny synthetic tests.
@@ -116,3 +120,9 @@ the R2/R3 runtime failures remain preserved.
 [Seventh bounded SSH recheck](SSH_ACCESS_RECHECK_20261018T1405Z.json) after backoff also failed before authentication; no job was modified. Further polling is deferred to the existing heartbeat.
 
 [14:19 UTC SSH recheck](SSH_ACCESS_RECHECK_20261018T1419Z.json): one bounded attempt after backoff again timed out before authentication. F1 health and plot outputs remain unobserved; no job or admission changed.
+
+- [Actual TL3 checkpoint metadata](tl3_checkpoint_metadata_execution_r1/README.md) — eight exact checkpoint hashes/configs recovered on CPU at 17:01 UTC; propensity matches its cache sidecar, while its fitting membership remains absent. Direct teachers disclose seed-specific parents and valid-only fine-tuning. No new fit or clean-F0 certification.
+
+- [Named ancestor follow-up](tl3_ancestor_followup_r1/README.md) — exact fin256 parent paths are now known; missing source/config/membership and w18 producer records remain explicit. One small readonly probe, no repeated model extraction.
+
+- [17:10 UTC continuation](CONTINUATION_20261018T1710Z.md) — F3 actual admission and running sequence, new preflight memory baseline, accepted TL3 checkpoint metadata and remaining exact ancestry/cache-source work.

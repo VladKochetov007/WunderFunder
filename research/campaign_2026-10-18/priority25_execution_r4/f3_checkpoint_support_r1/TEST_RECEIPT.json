@@ -1,0 +1,39 @@
+{
+  "created_utc": "2026-10-18T16:48:41.538855+00:00",
+  "fixture_bindings": {
+    "f1_checkpoint_v2_source_manifest_sha256": "bbebbed8c061776eba1732147ea6084057ed4d9cb249c8d11c1df0ea479eb2fd",
+    "f1_result_collection_r2_source_manifest_sha256": "6c72459ad9e0ebc278f21766de4c723d37f345bfded650b1cdab38b2556cca77",
+    "f3_plan_sha256": "b303146cf9db05e0a3bddf8f245d3c9b880d055ce7e97ebe5dd13510b5f4a2d8",
+    "f3_split_metadata_sha256": "5facd5e512dd8782009ea6630bc42a560ed3f974b513d419b7fa9f0257fc99a9"
+  },
+  "limitations": [
+    "The positive contract fixture is derived from the captured F1 producer shape with F3 plan/fold and counters substituted; it is not an observed F3 receipt.",
+    "Attempt metadata tests use the native source-map schema and canonical digest algorithm with a small synthetic inventory and exact F3 plan path/hash; no F3 attempt exists.",
+    "The exact B fold3 manifest is unavailable locally. A known local legacy fold3 manifest (SHA-256 78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343) is tested and rejected.",
+    "No F3 prediction/result-collection helper is included; root must prepare and review that separately before export.",
+    "This is preparation only. No root admission, remote staging, fit, verification of actual F3 checkpoints, or quality claim occurred."
+  ],
+  "package": "research/campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1",
+  "schema": "priority25.f3_checkpoint_support.test_receipt.v1",
+  "scope": {
+    "actual_f3_attempt_or_checkpoint_receipts": false,
+    "exact_b_fold3_manifest_membership_replay": false,
+    "large_arrays_or_parquet_payloads": false,
+    "prediction_or_grade": false,
+    "remote_reads_or_mutations": false,
+    "torch_tensor_fixture": "tiny CPU-only FP32/Adam structures; CUDA not initialized",
+    "training_or_inference": false
+  },
+  "status": "PASS_LOCAL_BOUNDED_TESTS_NOT_ADMITTED",
+  "validation": {
+    "ruff_check": "passed",
+    "ruff_check_command": "uv run --no-sync ruff check research/campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1",
+    "ruff_format_check": "passed",
+    "ruff_format_command": "uv run --no-sync ruff format --check research/campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1",
+    "unit_test_command": "PYTHONPATH=research/campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1 uv run --no-sync python -m unittest discover -s research/campaign_2026-10-18/priority25_execution_r4/f3_checkpoint_support_r1 -p 'test_*.py' -v",
+    "unit_tests_discovered": 23,
+    "unit_tests_failed": 0,
+    "unit_tests_passed": 23,
+    "unit_tests_skipped": 0
+  }
+}

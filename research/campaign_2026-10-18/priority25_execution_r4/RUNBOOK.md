@@ -1,5 +1,18 @@
 # Ranked25 execution ownership
 
+
+## Current F3 execution, 18 October 17:06 UTC
+
+[Actual F3 admission, launch and observation](f3_beleriand_execution_r1/README.md) supersede the old unadmitted F3 and active F1 snapshots below. `computer-vision-homework-r01-f3-sequence.service` owns both F3/seed1001 arms on Beleriand. Exact plan SHA b303146cf9db05e0a3bddf8f245d3c9b880d055ce7e97ebe5dd13510b5f4a2d8 remains unchanged; its documentary UNADMITTED field is superseded only by the separate admission. Index0 is wide stage1. Actual 17:10:46 UTC progress is epoch0 batch60/1488, finite loss/LR, fresh heartbeats, parent RAM4.11GB and zero new memory-event deltas. See INITIAL_PROGRESS_ACCEPTANCE_V1.json. Do not duplicate or restart. [Full preflight](f3_preflight_r1/ACCEPTANCE_V1.json) and [actual native attempt binding](f3_beleriand_execution_r1/ACTUAL_ATTEMPT_BINDING_V1.json) passed. Source and runtime are unchanged.
+
+F3 helpers are independently reviewed and staged under their repository-relative paths: checkpoint manifest7e4fce0d7232a487a769e12d611050bc608f9cc7fcea300bc2063525abfa38dc; result manifest0fbff60fd77d02bf80c8fcff51aa7ea8d90b479e6b7947eabd514096f515036a. Expected stage1 29760updates/2976batches/next_epoch2; terminal89280/8928/next_epoch6. Collect stage1 after finished/explicit exit0 while peer trains; both stage1 receipts and archives are required at terminal verification. Follow the execution README for exact commands, acceptance gates and resource bounds. Do not reuse F0/F1 helpers or rerun passed synthetic tests. No actual F3 checkpoint/result verification has run yet.
+
+The full CPU preflight succeeded without OOM but hit its child memory cap: parent hierarchical max increased306→561, high177 unchanged, OOM0, parent-local max/high0. This occurred before F3 admission. Use high177/max561/OOM0 as the new historical baseline and inspect actual worker/parent deltas. Foreign GPU processes remain untouched; one OUR worker only. All support counts toward 2CPU and runs serially with physical scratch/no swap/hidden CUDA.
+
+DataSphere fresh observer16:44UTC still has recent100nonterminal0 and balance41652791; official live DOM at16:52UTC still shows ongoing incident2136/latest16Oct20:19MSK. No paid retry or F3 cloud dispatch. Current issue16/19 API404 is access failure, not a no-claim observation; F2 requested separately, F3 is a B-scoped claim with no F3 dispatch by root elsewhere. Do not hijack active Zen. [Preflight provider reconciliation](f3_preflight_r1/PROVIDER_CELL_RECONCILIATION_V1.json) states the visibility limits.
+
+The direct quality-gap task now has [accepted TL3 checkpoint metadata](../quality_gap_r1/tl3_checkpoint_metadata_execution_r1/README.md) and an exact-path ancestor follow-up, with no new training or inference. Complete source/config/ancestor/cache/preprocessing closure before a clean F0 reconstruction. Keep the frozen rank1 scientific comparison unchanged.
+
 ## F1 collection closed, 18 October 15:11 UTC
 
 [F1 completion](receipts/F1_COMPLETION_20261018T1500Z.md) now includes successful R2 collection and all 57 final files rehashed. Do not rerun fits, exports, grade, terminal checks or result collection. Use FINAL_PATH_VERIFICATION_V1 for final retrieval; original collection per-file snapshot strings name pre-promotion paths. R1 failure is retained.
