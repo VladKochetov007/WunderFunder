@@ -3,15 +3,15 @@
   "created_utc": "2026-10-17T22:01:53.740241+00:00",
   "experiment_id": "E-RR18-01-LABELS",
   "repository": "VladKochetov007/WunderFunder",
-  "issue_title": "[Cluster] Rank 1: paired wide/deep GRU validation across remaining folds",
-  "issue_body": "ISSUE_RANK01.md",
-  "issue_url": null,
-  "issue_status": "prepared_not_created",
+  "issue_title": "[Cluster] Rank 1: F2/seed1001 paired wide/deep GRU validation",
+  "issue_body": "ISSUE_16_POSTED.md",
+  "issue_url": "https://github.com/VladKochetov007/WunderFunder/issues/16",
+  "issue_status": "published_awaiting_worker_claim",
   "issue_access": {
     "connector": "get_repo404; repository absent from first installed-repository search result",
     "local_gh": "not_authenticated",
     "beleriand_gh": "not_installed",
-    "browser": "in-app browser GitHub signed out; repository issue page404",
+    "browser": "Authenticated native Zen session: all-state issue search returned0; issue16 created and open body/title/URL verified",
     "git_ssh": "read/write access succeeds"
   },
   "cluster_hardware_observed": false,
@@ -29,33 +29,30 @@
   ],
   "proposed_unclaimed_cells": [
     {
-      "fold": 1,
-      "seed": 1001,
-      "arms": [
-        "wide",
-        "deep"
-      ],
-      "owner": null
-    },
-    {
       "fold": 2,
       "seed": 1001,
       "arms": [
         "wide",
         "deep"
       ],
-      "owner": null
-    },
+      "owner": null,
+      "requested_via": "https://github.com/VladKochetov007/WunderFunder/issues/16"
+    }
+  ],
+  "remaining_cp30": "F0/F1 seeds1002–1008; F2/F3 seeds1002–1007, after reconciled cell claims and measured capacity",
+  "coordination": "Issue16 requests F2 only; no worker claim, hardware, or execution observed. Reconcile before admission. Beleriand owns F0; DataSphere prepares F1 under discretionary spending authority.",
+  "updated_utc": "2026-10-18T00:20:06Z",
+  "full_protocol": "ISSUE_RANK01_F2.md",
+  "separately_prepared_cells": [
     {
-      "fold": 3,
+      "fold": 1,
       "seed": 1001,
       "arms": [
         "wide",
         "deep"
       ],
-      "owner": null
+      "provider": "DataSphere",
+      "status": "adapter_preparation_only_no_allocation_or_job"
     }
-  ],
-  "remaining_cp30": "F0/F1 seeds1002–1008; F2/F3 seeds1002–1007, after reconciled cell claims and measured capacity",
-  "coordination": "Prepared issue text does not reserve a cluster cell or establish job execution; record issue URL and worker claim before dispatch status. Preserve Beleriand one-GPU limit and existing DataSphere pending budget."
+  ]
 }
