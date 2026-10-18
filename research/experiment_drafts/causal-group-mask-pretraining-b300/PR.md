@@ -1,0 +1,116 @@
+# [Experiment] Causal group-masked pretraining for a GRU teacher
+
+## 1. Status, lineage and owner
+
+**Draft proposal with code; no profile, fit, score, or submission.** H-CAUSAL-GROUP-MASK-PRETRAIN-20261018-R1 / E-CAUSAL-GROUP-MASK-PRETRAIN-20261018-R1. This is a teacher-representation experiment under `family:teacher`, related to `family:representation`. The implementation branch is `experiment/causal-group-mask-pretraining-b300`, based on `research-team` commit `682e0aab8338b31126d9fdc615996010e1085063`. The source snapshot used to author it corresponds to main `24e9001570de158db9a5031e632dbb0b4477145f`.
+
+Implemented here: fold-clean feature-only statistics, the masked 512x1 causal GRU pretrainer, epoch-boundary resume, update telemetry, a hash-checked initializer converter, a real-shape profile command and a paired C0/T1/C1 fit command. Shared fold-stat creation is serialized, and initializer conversion checks the full frozen pretraining architecture and optimization recipe. Prediction can use `scripts/predict_run.py`; fixed-endpoint grading can use the existing priority25 `grade_endpoint.py`. A small cross-fold/seed aggregator for the frozen statistic and Holm adjustment is still needed before reporting the 30-cell quality comparison. Do not treat the trainer or reconstruction loss as a completed result.
+
+## 2. Why it should work
+
+The current teacher learns from target supervision alone. Each input row contains 112 raw fields organized into 13 user-specified groups, plus 99 deterministic causal event features. A recurrent state that learns to reconstruct one hidden group from the remaining current groups and its past may encode cross-field and temporal structure that transfers to target prediction.
+
+For every 32-row block, one raw group is replaced by its fitting-only mean; a binary mask indicator is appended. Event features are recomputed from this masked raw input before the GRU sees them, so they cannot copy the hidden group's current value. The model predicts standardized values for the hidden raw fields. Loss is averaged within each selected group per row and then across rows, so the wider 11-channel groups do not receive more weight than the 4-channel groups. It is left-to-right, resets per sequence, and detaches state at the declared 2,000-row TBPTT boundaries. No target, future row, or scoring mask is read during pretraining.
+
+The strongest alternative explanation is that the objective learns same-row redundancy that has little relation to the competition targets. T1 therefore must beat the cold supervised control on the official metric; low reconstruction loss alone is not success. A useful next ablation after a positive result is a group-permuted or time-shuffled target control, followed by student distillation as a separate interaction.
+
+## 3. Compute advantage and transfer path
+
+The quality question is whether two feature-only passes add more than spending those two passes directly on supervised training. The experiment has 30 fold/seed cells and three arms: 90 supervised fits and 30 pretraining fits. Run one actual-device profile and one complete cell first; measured B300 time and peak memory are currently unknown. DDP is not used: one GPU runs one cell, with arms serialized within that cell. Up to eight cells may be scheduled concurrently only after the cluster owner has checked the actual B300 profile and available host/device memory.
+
+If the teacher endpoint improves, test a clean, separately budgeted GRU-student distillation arm from fold-specific pretrained teachers. The current proposal makes no scaling-law or leaderboard-gain claim. It uses full FP32 throughout and has no quantization path.
+
+## 4. Frozen comparison
+
+| Arm | Feature pretraining | Supervised fit | Checkpoint | Purpose |
+|---|---:|---:|---:|---|
+| C0 | none | 6 epochs | epoch index 5 | ordinary cold reference |
+| C1 | none | 8 epochs | epoch index 7 | two additional supervised sequence passes; row-pass matched, not FLOP matched |
+| T1 | 2 epochs | 6 epochs | epoch index 5 | causal group-mask representation candidate |
+
+Every cell uses the same 512-hidden, one-layer plain GRU, 211 canonical raw-plus-event inputs at task time, fold-clean normalization sample, task-head seed, fit groups, sequence order seed, batch 8, chunk 2,000, wMSE with chunk normalization, AdamW (`lr=1e-4`, `beta2=0.999`, `wd=0.01`), OneCycleLR with 5% warmup, gradient clipping at 1, fixed checkpoint epoch, and no fit-time evaluation. Pretraining uses batch 4, two epochs, group-balanced masked SmoothL1, AdamW (`lr=1e-4`, `wd=0.01`), cosine OneCycleLR with 5% warmup (`div_factor=10`, `final_div_factor=100`), max gradient norm 1, deterministic cuDNN selection, and strict FP32. Full details and source-qualified split hashes are in [recipe.json](recipe.json).
+
+T1 and both cold arms share identical initial task-readout weights and the same fitting-only normalization. T1 transfers the first 211 input-projection columns and GRU weights; mask-indicator columns and reconstruction head are discarded. The pretraining checkpoint and conversion manifest are source/hash-bound. A fold/seed gets its own pretraining run and initializer pair.
+
+## 5. Thirty paired runs
+
+Run these 30 paired cells for each arm, with the exact same fold/seed membership across C0, C1 and T1:
+
+| Fold | Seeds | Cells |
+|---|---|---:|
+| 0 | 1001–1008 | 8 |
+| 1 | 1001–1008 | 8 |
+| 2 | 1001–1007 | 7 |
+| 3 | 1001–1007 | 7 |
+| **Total per arm** |  | **30** |
+
+All four folds have prior exposure and provide robustness evidence, not a pristine holdout. The split manifest fixes complete sequence and connected-component membership. Statistics, pretraining and supervised fitting exclude each fold's evaluation components. Do not reuse an initializer or checkpoint between fold/seed cells. The bounded profile is resource evidence and does not count as a replicate.
+
+## 6. Validation and significance
+
+Use `global_wp_clip2_v1` with the official fixed scored/prediction mask, evaluation clipping, and original clipped-label-magnitude weights. The primary contrast is T1 minus C1; secondary contrasts are T1 minus C0 and C1 minus C0. Grade each fixed checkpoint on its manifest's evaluation groups using source-validated predictions and the existing official grader.
+
+The frozen summary is the equal-fold mean of paired seed-average score differences. Report seed/fold values, a 10,000-draw paired fitting-seed bootstrap, and a separate 10,000-draw paired component bootstrap within each fold with shared component resampling across arms and seeds. Apply Holm adjustment to the three frozen contrasts. These intervals describe training and component variability conditional on previously exposed folds; they do not estimate a fresh-holdout or public-transfer distribution. The final aggregation command is not yet implemented in this PR and must be supplied before synthesizing the 30 cells.
+
+## 7. Leakage and coverage
+
+`FeatureOnlySequences` calls `SequenceFile.read(..., targets=False, mask=False)`. Statistics use a deterministic 64-sequence sample from fitting components at row stride 64. The pretraining loader includes only manifest train and fit-valid groups; event features are regenerated after masking. No future row, target, target-derived teacher, evaluation label, or scoring mask enters pretraining, initialization, or training. The full input is causal and the GRU resets for each independent sequence.
+
+The raw-field group boundaries come from the supplied 112-column schema; names are bookkeeping, not a claim that every field has verified physical semantics. Four campaign folds have been inspected before and are exposed. This design cannot establish private leaderboard transfer by itself.
+
+## 8. Decision-changing result
+
+`0.001` is a practical prioritization reference for deciding whether a teacher/student follow-up deserves resources, not a universal reject threshold. Success means T1 is useful versus row-pass-matched C1, optimization is finite, and no fold shows a material collapse. A zero-crossing interval is unresolved evidence: inspect fold/seed patterns and consider a bounded descendant if the mechanism signal and cost justify it. A consistent negative result narrows only this 13-group mask, 32-row span, 512x1 GRU, two-epoch budget and transfer path; it does not reject all masked modeling or online learning.
+
+No public score impact is known. Only an evaluated, valid submission can confirm transfer.
+
+## 9. How to run
+
+On the B300 cluster, check the actual device, CUDA/driver/PyTorch versions, and available memory first. Use the repository's provisioned environment and approved data mount; do not install a new CUDA stack for this draft. The data root must provide `datasets/train.parquet`, `datasets/valid.parquet`, the source-qualified fold manifests, and `cache/valid_targets.npz` for official grading. Training and pretraining omit targets and scoring masks; the target cache is read only by the existing grader after prediction export. Bind the source checkout to this branch and the matching `research-team` base:
+
+```bash
+export WNN_PROJECT_ROOT=/path/to/approved/project-data-root
+export WNN_PYTHON=/path/to/repo/.venv/bin/python
+export WNN_EXPERIMENT_LOG_ROOT=/path/to/physical-scratch/causal-group-mask-pretraining/logs
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+nvidia-smi
+bash research/experiment_drafts/causal-group-mask-pretraining-b300/run_pair.sh profile 0 1001
+```
+
+The profile first prepares/verifies fold-0 statistics, then profiles four canonical task-trainer optimizer steps and two masked-pretraining updates at the actual batch/chunk shape. Save the full log, exact source SHA, device/runtime versions, peak allocated/reserved VRAM and host memory. Resolve any nonfinite step or memory concern before admitting a quality cell.
+
+One paired cell runs as:
+
+```bash
+bash research/experiment_drafts/causal-group-mask-pretraining-b300/run_pair.sh pair 0 1001
+```
+
+The script writes fold stats and hash sidecar under `artifacts/masked_group_pretraining/`, pretraining checkpoints/progress there, task checkpoints/state under `artifacts/runs/`, and logs under `$WNN_EXPERIMENT_LOG_ROOT`. It serializes C0, T1 and C1 within the cell; it does not manage a GPU queue. To resume an interrupted supervised arm, set `WNN_RESUME=1`. To resume a completed-epoch pretraining checkpoint, set `WNN_PRETRAIN_RESUME` to its `checkpoints/epoch_NN.pt` path. Existing stats, pretraining, and initializer artifacts are verified against their frozen hashes before reuse.
+
+For each terminal task run, export only that fold's evaluation groups and grade the fixed checkpoint. Example for C0 in the cell above (repeat for `gmf_f0_s1001_masked` at epoch 5 and `gmf_f0_s1001_c1` at epoch 7):
+
+```bash
+WNN_PROJECT_ROOT="$WNN_PROJECT_ROOT" "$WNN_PYTHON" scripts/predict_run.py \
+  gmf_f0_s1001_c0 valid --epoch 5 \
+  --campaign-split-manifest research/campaign_2026-09-29/artifacts/splits/fold0.json \
+  --campaign-evaluation-only --inference-precision fp32
+
+WNN_PROJECT_ROOT="$WNN_PROJECT_ROOT" "$WNN_PYTHON" \
+  research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py \
+  --root "$WNN_PROJECT_ROOT" --run gmf_f0_s1001_c0 \
+  --split research/campaign_2026-09-29/artifacts/splits/fold0.json \
+  --epoch 5 --bootstrap 10000 \
+  --output "$WNN_EXPERIMENT_LOG_ROOT/gmf_f0_s1001_c0_grade.json"
+```
+
+Before quality reporting, implement or bind a small aggregator that consumes the 90 endpoint grades, computes the paired seed/fold summaries and both bootstrap scopes, applies the preregistered Holm correction, and records every missing/failed cell. The commands above provide per-endpoint exports and conditional component grades; the aggregate is not currently automated by this PR.
+
+## 10. Evidence to return
+
+Return the exact branch/source commit, split and dataset identities, B300 model/runtime versions and profile receipt. Preserve per-update pretraining loss, learning rate, preclip gradient norm, clipping/nonfinite status, attempted/successful update counts and elapsed time; retain task-run fit history and gradient summaries. For each cell include all checkpoint hashes, training-state/resume provenance, initializer pair manifest, prediction and sidecar hashes, official grade, exposure label and every failure. Store evidence and weights archives separately in approved storage, with SHA256 manifests and locations. Do not add private data or weights to Git.
+
+## 11. Results and trace
+
+No profile, fit, evaluation grade, leaderboard result, or model gain exists at publication. The independent static review found and prompted fixes to source-hash coverage, reused-artifact verification, the statistics sample binding, a stale manifest rename, concurrent statistics creation, and complete checkpoint-recipe validation. The final static review passed; it did not execute code or inspect data. This draft is published as [PR #21](https://github.com/VladKochetov007/WunderFunder/pull/21) against `research-team`, initially from commit `642bfad821f83658061615a1f3ac3e2df45fb68e`; the unified idea card and append-only ledgers record the link. Preserve failures and negative results at cell level; do not replace them with a single averaged score.

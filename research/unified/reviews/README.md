@@ -4,6 +4,8 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [Independent static review of causal group-masked pretraining](CAUSAL_GROUP_MASK_PRETRAIN_STATIC_REVIEW_20261018_R1.md) — completed before PR publication; checked leakage paths, fit membership, checkpoint compatibility, cache integrity and run instructions. First review blockers were repaired. No Python, data, GPU, or training was run; cross-cell result aggregation remains a separate requirement.
+
 - [R2 iterative mechanism and implementation review](../../campaign_2026-10-17/research_reset_r2/reflection/README.md) — initial proposals preserved before old-code attack, then25 revised dispositions from measured evidence. Independent review prompted complete target/mask alignment and append-only reporting/variance clarifications. [Integration verification](../../campaign_2026-10-17/research_reset_r2/VERIFICATION.json) binds scores, sufficient statistics, numerical checks and limitations; agreement among agents is not independent model replication.
 
 - [October17 iterative research reviews](../../campaign_2026-10-17/research_reset_r1/reviews/README.md) — independent R2 cross-criticism, R3 EDA/weighted-metric audits, R4 portfolio critique and coordinator resolutions; resulting25cards are proposals, not model results.

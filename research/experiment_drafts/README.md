@@ -1,5 +1,9 @@
 # Research-team experiment catalogue
 
+## Current proposal: October 18
+
+- [Causal group-masked GRU pretraining packet](causal-group-mask-pretraining-b300/README.md) — [draft PR #21](https://github.com/VladKochetov007/WunderFunder/pull/21), open against `research-team` from initial source commit `642bfad821f83658061615a1f3ac3e2df45fb68e`. It specifies 30 paired cells per arm, fold-clean feature-only pretraining, strict-FP32 profile and per-endpoint export/grading commands. No fit, hardware result, or quality gain is established; cross-cell aggregation remains pending.
+
 The active [rank1 continuation draft](https://github.com/VladKochetov007/WunderFunder/tree/experiment/rr18-01-labels/research/experiment_drafts/rr18-01-labels) is published on `experiment/rr18-01-labels`, based on the source-bound [October18 execution packet](../campaign_2026-10-18/priority25_execution_r4/README.md). Both profiles passed and the first paired fit is running. Its endpoint metrics and PR URL remain pending; the historical catalogue below is unchanged.
 
 Fourteen draft PRs are published with base **research-team**; The table below preserves historical publication SHAs; the [latest synchronization receipt](BRANCH_SYNC_20261017_R2.json) records current pushed heads, merged target and GitHub verification. No experiment has been merged or fitted by this publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.

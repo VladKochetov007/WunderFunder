@@ -4,6 +4,7 @@ External writeups and literature provenance; external results do not establish l
 
 ## Current navigation
 
+- [Causal group-masked pretraining source review](CAUSAL_GROUP_MASK_PRETRAIN_SOURCES_20261018_R1.md) — primary Ti-MAE, TimeMAE and PITS papers motivate reconstruction and semantic masking but do not show this task will improve. The local proposal uses the supplied 112-field schema for 13 causal masking groups; its transfer claim remains untested.
 - [October 18 ranking source check](../ideas/PRIORITIZED_25_20261018_R3.md) - primary FitNets, Mamba-3 and xLSTM abstracts rechecked for intermediate hints, MIMO and scalar/matrix memory. These support operator descriptions only; local priority comes from project evidence and an explicit exploration judgment.
 
 - [R2 mechanism sources](../../campaign_2026-10-17/research_reset_r2/reflection/SOURCE_MANIFEST.md) and [state-clock/query transfer](../../campaign_2026-10-17/research_reset_r2/theory/STATE_CLOCKS_AND_PREDICTIVE_QUERIES.md) — scoped primary-source checks covering semi-Markov/sticky-state/point-process/Rao–Blackwell/compressed-memory mechanisms, Phased LSTM, Skip RNN, hierarchical recurrence, predictive states and Chronos-2. Abstract/formulation inspection and local transfer inferences are separated; no pretrained weights or published gains are imported. Old-code overlap is linked before retaining a proposal.

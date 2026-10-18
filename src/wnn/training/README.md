@@ -53,6 +53,11 @@ from wnn.training.runner import run_training
 | [membership](membership.py) | Bounded component-subset manifests and membership validation. |
 | [model_validation](model_validation.py) | Architecture/width restrictions and block-memory defaults. |
 | [models](models.py) | Reusable architecture factory with the original constructor order. |
+| [masked_group_pretraining](masked_group_pretraining.py) | Feature-only dataset, 13 semantic raw-channel masks, fit-only input statistics, causal masked-input construction and GRU backbone transfer for the B300 pretraining draft. |
+| [masked_pretraining_epoch](masked_pretraining_epoch.py) | One complete masked-reconstruction data pass, TBPTT updates, and per-update loss/gradient logging. |
+| [masked_pretraining_loop](masked_pretraining_loop.py) | Strict-FP32 masked reconstruction updates with recurrent-state detachment at frozen TBPTT boundaries. |
+| [masked_pretraining_reporting](masked_pretraining_reporting.py) | Atomic epoch-boundary optimizer/model/RNG checkpoints, failed-update receipts and bounded profile summaries. |
+| [masked_pretraining_statistics](masked_pretraining_statistics.py) | Source-qualified fitting membership, deterministic fit-only canonical input statistics and strict cache verification. |
 | [normalization](normalization.py) | Fitting-only normalization and numeric-map calibration. |
 | [optimization](optimization.py) | Optimizer/scheduler/objective/averaging construction and preflight exits. |
 | [outputs](outputs.py) | Evaluation, fixed/best checkpoint selection and terminal/resume recovery artifacts. |
