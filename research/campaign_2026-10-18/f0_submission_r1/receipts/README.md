@@ -37,3 +37,5 @@ FP32 selection, actual native serving and independent artifact checks.
 - [NATIVE_GRADER_REVIEW](NATIVE_GRADER_REVIEW.json): independent producer/schema and metric review; source dataset binding was strengthened before any grader execution.
 
 - [OFFICIAL_ENVIRONMENT_CHECK](OFFICIAL_ENVIRONMENT_CHECK.json): official guide requirements and the limits of the actual Linux/Python3.11 test environment. The delivered package uses NumPy within the stated range; PyArrow is only a validation-harness dependency.
+
+- [Independent static release audit](STATIC_RELEASE_REVIEW.json): exact ZIP size/SHA/member list and existing ABI checks pass; full replay and canonical grade are still required. Explicitly retains the uncertain scorer runtime estimate.

@@ -55,9 +55,9 @@ treating the favorable calibration as proof.
 Full source-qualified F0 replay is active under
 `computer-vision-homework-f0-submit-release-replay-v1.service`. It first runs
 static ELF and v2/AVX2 callback checks, then all 9.36 million F0 rows through the
-actual Q8 ZIP. The [fixed launcher](code/replay_release.sh) runs under 1 CPU,
+actual Q8 ZIP. The [fixed launcher](code/replay_release.sh) started under1CPU; its quota was reduced to0.75CPU after the [F1 admission incident](../priority25_execution_r4/f1_recovery_r1/README.md). It retains
 2GB RAM, swap0 and a 5400-second deadline inside the existing two-core campaign
-slice. No extra GPU worker is created. Final grade and delivery are pending.
+slice. No extra GPU worker is created. Its elapsed time spans both quotas and must not be used as a one-core benchmark. Final grade and delivery are pending.
 
 ## Evidence and reproduction
 

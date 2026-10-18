@@ -1,0 +1,66 @@
+{
+  "created_utc": "2026-10-18T10:20:03.388289+00:00",
+  "status": "admitted",
+  "purpose": "Repair pre-launch CPU reservation failure without changing frozen scientific recipe or rerunning completed fits.",
+  "original_plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+  "recovery_plan_sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+  "fresh_preflight": {
+    "observed_utc": "2026-10-18T10:19:42.929281+00:00",
+    "old_attempt_status": "not_started",
+    "old_attempt_phase": "admission_failed",
+    "old_attempt_sha256": "c1f506e3e4015903b3a067a5f7a34814694916a73d928a989a9b67fac09e22f0",
+    "new_attempt_and_output_absent": true,
+    "stop_marker_absent": true,
+    "old_controller": "failed",
+    "parent_memory": 3288674304,
+    "parent_memory_events": {
+      "max": 306,
+      "oom": 0,
+      "oom_kill": 0
+    },
+    "populated_support": [
+      {
+        "unit": "computer-vision-homework-f0-submit-release-replay-v1.service",
+        "cpu_max": "75000 100000",
+        "memory": 351543296
+      }
+    ],
+    "selected_gpu_processes": ""
+  },
+  "reserved_cpu_cores": {
+    "replay": 0.75,
+    "controller": 0.1,
+    "worker": 1,
+    "total": 1.85
+  },
+  "replay_quota_adjustment": "Reduced existing replay100% to75% before retry; full-run wall time spans quotas and is not one-core benchmark.",
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=computer-vision-homework-r01-f1-recovery-v1.service",
+    "--property=Type=exec",
+    "--property=Slice=wnn-campaign.slice",
+    "--property=CPUQuota=10%",
+    "--property=MemoryMax=512000000",
+    "--property=MemorySwapMax=0",
+    "--property=RuntimeMaxSec=370800",
+    "--property=TimeoutStopSec=45",
+    "--working-directory=/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036",
+    "--setenv=WNN_SLICE=wnn-campaign.slice",
+    "--setenv=WNN_TMP_ROOT=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "--setenv=CUDA_VISIBLE_DEVICES=",
+    "--setenv=OMP_NUM_THREADS=1",
+    "--setenv=OPENBLAS_NUM_THREADS=1",
+    "--setenv=MKL_NUM_THREADS=1",
+    "--setenv=PYTHONDONTWRITEBYTECODE=1",
+    "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/bandit_sequence.py",
+    "--plan",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_recovery_r1/F1_RECOVERY_PLAN.json",
+    "--receipt",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/runtime/receipts/RANK01_F1_S1001_RECOVERY_SEQUENCE_V1.json"
+  ],
+  "helper_followup": "V3 recovery bindings needed; preserve V2.",
+  "local_preparation_error": "First root admission write failed before staging/launch due system Python lacking datetime.UTC; rerun with repo Python. No remote mutation occurred."
+}

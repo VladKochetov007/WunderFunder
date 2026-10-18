@@ -1,5 +1,8 @@
 # Ranked25 execution ownership
 
+**10:20UTC recovery:** [F1 continuation repair](f1_recovery_r1/README.md) supersedes the old active-controller instructions below. The original sequence stopped before wide continuation because reserved CPU summed to2.1 cores. Replay quota is now75%; the new `computer-vision-homework-r01-f1-recovery-v1.service` runs the reviewed recovery plan with fresh `ep25-v2` attempt, unchanged trainer command and original contract. State: `B/runtime/receipts/RANK01_F1_S1001_RECOVERY_SEQUENCE_V1.json`. Do not restart the old failed controller. Both stage1 fits completed; deep archive/verification remains pending. Existing V2 stage1 helpers remain valid; continuation/terminal need separate reviewed recovery bindings.
+
+
 Root owns the ordered campaign end-to-end, including failures, checkpoint collection, independent grading and deciding the next declared comparison. Start with `AUTHORITY.json`, this packet README and the current user messages; later stop/resume/budget instructions take precedence. The immutable ranking maps positions to original H-RR17 IDs.
 
 ## Beleriand
