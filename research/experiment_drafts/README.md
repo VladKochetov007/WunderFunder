@@ -32,6 +32,10 @@ These are experiment handoffs. Existing GRU mechanisms reuse linked trainer/mode
 
 TPU parity remains a local engineering branch, outside these B300 quality drafts. Preserve its originating campaign evidence without launching it here. Shared primitive files appearing in related PRs have identical contents; merge them once and retain all append-only ledger/README entries when resolving conflicts.
 
+## Packet included by this draft
+
+- [Frozen-parent output anchor](parent-anchor/README.md) contains this draft's English proposal, recipe, code bindings and explicit missing training/profile work. `E-DRAFT-PARENT-ANCHOR-20261017-R1`; no new fit.
+
 ## Modular trainer integration
 
 All14 draft branches now include shared trainer revision `eb3309a322c1e24b3cc157eaefe3ca0e0290cd42` through ordinary merges. Each packet records its integration parent and links the [component map](../../src/wnn/training/README.md) and [engineering receipt](../unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md). The JSON catalogue retains original publication and pre-refactor heads alongside current integrated heads. This is source maintenance with no fits or measured performance result.
