@@ -2,6 +2,8 @@
 
 - [Wide epoch4 archive and03:40UTC continuation](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0340Z.json): the [next checkpoint generation](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F0_S1001_E6_EP4_COLLECTION.json) is source/hash-bound, with74,600 producer-reported successful updates and zero skips/nonfinite. Wide has entered its fixed final epoch5 on the single GPU; this is not terminal or quality evidence. Provider recovery guidance/history and cluster claims supply no new admission signal.
 
+- [Rank1 wide terminal endpoint and deep handoff](../../campaign_2026-10-18/priority25_execution_r4/receipts/WIDE_TERMINAL_HANDOFF_20261018T0410Z.json): wide completed six epochs and independent structural checks at89,520 successful updates with zero skips/nonfinite. Seven evidence/artifact files are archived; deep continuation starts automatically under the frozen plan. Prediction grading, paired quality and CP30 remain pending.
+
 - [Rank1 terminal endpoint preparation](../../campaign_2026-10-18/priority25_execution_r4/receipts/TERMINAL_ENDPOINT_PREPARATION.json): reviewed collector/verifier and pinned dependencies are staged with bounded future commands;14 local tests passed. No actual terminal checkpoint check or quality result is claimed.
 
 
