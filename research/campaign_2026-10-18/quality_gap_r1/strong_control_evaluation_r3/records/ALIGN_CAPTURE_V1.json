@@ -1,0 +1,25 @@
+{
+  "observed_utc": "2026-10-18T16:15:13.802621+00:00",
+  "phase": "align",
+  "op": "capture",
+  "unit": "computer-vision-homework-quality-gap-control-align-v3.service",
+  "status": {
+    "Result": "exit-code",
+    "ExecMainStartTimestampMonotonic": "1397336639172",
+    "ExecMainExitTimestampMonotonic": "1397344904521",
+    "ExecMainStatus": "1",
+    "Slice": "wnn-campaign.slice",
+    "ControlGroup": "",
+    "MemoryCurrent": "[not set]",
+    "MemoryPeak": "1953792",
+    "CPUQuotaPerSecUSec": "500ms",
+    "MemoryHigh": "1500000000",
+    "MemoryMax": "1500000000",
+    "MemorySwapMax": "0",
+    "LoadState": "loaded",
+    "ActiveState": "failed",
+    "SubState": "failed"
+  },
+  "journal": "Started computer-vision-homework-quality-gap-control-align-v3.service - /home/grinchenkoeg/WunderFunder/.venv/bin/python -B /home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/collect_control.py --repo-root /home/grinchenkoeg/computer-vision-homework-20261018 --valid-parquet /home/grinchenkoeg/computer-vision-homework-20261018/data/datasets/valid.parquet --prediction /home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/export-preparation-r2/root/cache/pred_clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_exportprep_r1_valid.npy --sidecar /home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/export-preparation-r2/root/cache/pred_clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_exportprep_r1_valid.json --export-contract /home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/export-preparation-r2/root/research/campaign_2026-10-18/quality_gap_r1/export_preparation/export_execution_r1/contracts/computer-vision-homework-quality-gap-control-export-v1.json --expected-export-contract-sha256 c534c0a23eacc2d174864393ab4ac0c38debd34b39b1d897d9023e2d2e487204 --expected-sidecar-sha256 d8ca5c734cc7fac000d530b8d0cc6797fa22cb12bcad8fff25e00f8d1cd43d28 --export-receipt /home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/export-preparation-r2/root/research/campaign_2026-10-18/quality_gap_r1/export_preparation/export_execution_r1/records/computer-vision-homework-quality-gap-control-export-v1/EXPORT_RECEIPT.json --expected-export-receipt-sha256 13d75acf3e20abea5c1bce8aa3ae21fbae67f32e0e7b0fee4412882800813197 --output /home/grinchenkoeg/computer-vision-homework-20261018/quality-gap-r1/strong-control-eval-r3.\nTraceback (most recent call last):\n  File \"/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/collect_control.py\", line 308, in <module>\n    main()\n    ~~~~^^\n  File \"/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/collect_control.py\", line 304, in main\n    print(json.dumps(collect(args), sort_keys=True))\n                     ~~~~~~~^^^^^^\n  File \"/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/collect_control.py\", line 122, in collect\n    Path(str(export_bindings[\"captured_preinference_path\"])),\n             ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nKeyError: 'captured_preinference_path'\ncomputer-vision-homework-quality-gap-control-align-v3.service: Main process exited, code=exited, status=1/FAILURE\ncomputer-vision-homework-quality-gap-control-align-v3.service: Failed with result 'exit-code'.\ncomputer-vision-homework-quality-gap-control-align-v3.service: Consumed 4.155s CPU time, 1.8M memory peak, 0B memory swap peak.",
+  "success": false
+}

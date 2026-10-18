@@ -1,0 +1,115 @@
+{
+  "canonical_evaluation_source_sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+  "canonical_metric_source_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+  "components": 141,
+  "diagnostic_input_validation_source_sha256": "7a990a1243ec9b042ec061d95bca7f5d2f0c0136ac95ee7af59438a9429584b2",
+  "diagnostic_result_sha256": "aca7842c10b6c7065711c1e015efec0e2a33863338d993ace16bf8e500f78f70",
+  "grades_float64": {
+    "deep": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6628715189356844,
+      "t1": 0.6813460157052619,
+      "wp": 0.6721087673204731
+    },
+    "fp32_mix": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6641742334814977,
+      "t1": 0.6835276549961394,
+      "wp": 0.6738509442388185
+    },
+    "q8": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6641447254350513,
+      "t1": 0.6835079899046805,
+      "wp": 0.673826357669866
+    },
+    "strong_control": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6743757506524173,
+      "t1": 0.6879325626117736,
+      "wp": 0.6811541566320954
+    },
+    "wide": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6637479907373637,
+      "t1": 0.6834035112404377,
+      "wp": 0.6735757509889007
+    }
+  },
+  "inputs_sha256": "9ce4fd56c65779d5a32d4257536ca7a3b12d8d58c8c2b863af2fbd385507f08a",
+  "interpretation_limitations": [
+    "historical strong-control pipeline, not the exact public incumbent",
+    "one F0 evaluation panel with prior exposure",
+    "bootstrap conditions on fixed predictions and does not measure training-seed or public-transfer variation",
+    "comparisons are descriptive; no tuning or candidate selection is performed"
+  ],
+  "metric_id": "global_wp_clip2_v1",
+  "paired_component_bootstrap": {
+    "comparisons": {
+      "fp32_mix": {
+        "bootstrap_sd": 0.0028146667271881387,
+        "candidate_wp": 0.6811541566320956,
+        "centered_moments": true,
+        "ci95": [
+          0.0023605117337526793,
+          0.013486869506418794
+        ],
+        "mean_diff": 0.007303212393276803,
+        "metric_id": "global_wp_clip2_v1",
+        "n_boot": 2000,
+        "n_components": 141,
+        "n_sequences": 468,
+        "p_le_0": 0.0,
+        "reference_wp": 0.6738509442388187,
+        "seed": 271828
+      },
+      "q8": {
+        "bootstrap_sd": 0.0028139625546959555,
+        "candidate_wp": 0.6811541566320956,
+        "centered_moments": true,
+        "ci95": [
+          0.0023844567920367765,
+          0.013525214022399909
+        ],
+        "mean_diff": 0.007327798962229792,
+        "metric_id": "global_wp_clip2_v1",
+        "n_boot": 2000,
+        "n_components": 141,
+        "n_sequences": 468,
+        "p_le_0": 0.0,
+        "reference_wp": 0.6738263576698658,
+        "seed": 271828
+      },
+      "wide": {
+        "bootstrap_sd": 0.00271348046466152,
+        "candidate_wp": 0.6811541566320956,
+        "centered_moments": true,
+        "ci95": [
+          0.002742670845879222,
+          0.013500895574436362
+        ],
+        "mean_diff": 0.0075784056431951186,
+        "metric_id": "global_wp_clip2_v1",
+        "n_boot": 2000,
+        "n_components": 141,
+        "n_sequences": 468,
+        "p_le_0": 0.0,
+        "reference_wp": 0.6735757509889004,
+        "seed": 271828
+      }
+    },
+    "conditional_on_fixed_predictions": true,
+    "method": "paired component resampling of canonical centered weighted moments; recompute pooled WP for every resample",
+    "resamples": 2000,
+    "seed": 271828
+  },
+  "row_groups": 468,
+  "schema": "wnn.quality_gap.strong_control_component_grade.v1",
+  "selected_rows": 808863,
+  "status": "passed"
+}

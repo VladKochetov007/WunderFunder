@@ -1,5 +1,7 @@
 # Unified research library
 
+[18 October measured strong-control comparison](../campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r4/records/RESULTS.md): matched-row F0 WP 0.68115416 versus Q8 0.67382636; conditional delta interval [0.00238446,0.01352521]. [Public incumbent trace](../campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/README.md) resolves tl3 /1lmehfi3 /0.66832; [clean-counterpart plan](../campaign_2026-10-18/quality_gap_r1/TL3_CLEAN_COUNTERPART_PLAN_20261018.md) remains unexecuted pending ancestry closure.
+
 Start with [current state](../../specs/current-state.md). The October 17 research
 reset authorizes analysis, EDA and engineering; the separately admitted geometry
 pilot has its own bounded fitting authority.

@@ -1,20 +1,14 @@
 # Strong-control recovery and F0 residual diagnostic
 
-**Incumbent identified from the user's 18 October transcript:** [all 100 submission rows](public_submission_trace_r1/README.md) identify **`tl3.zip` / `1lmehfi3` / 0.66832 / 39m12s / 656MB**, displayed 23:52 on 15 October (timezone unspecified). The local inventory records its fixed recipe as 0.34 distilled s5 + 0.33 tied-lead s5 + 0.33 tied-lead s6. This supersedes the earlier missing-ID claim; the portal payload SHA remains unverified. A clean held-out counterpart of the complete train+valid production recipe is still needed. The reconstructed Main T3 control is a separate recipe, not the exact tl3 ensemble.
+**Measured result, 18 October 16:29 UTC:** [same-row comparison and interpretation](strong_control_evaluation_r4/records/RESULTS.md) are complete. The restored historical Main T3 control scores **0.6811541566** versus the new Q8 package's **0.6738263577** on 808,863 identical F0 rows. Difference **+0.007327799**, conditional component-bootstrap 95% interval **[+0.00238446,+0.01352521]**. The first target supplies 69.81% of the difference; the retrospective `|clipped label| ≥ 1` bin supplies 75.24% of its additive contribution. These describe this exposed panel, not public causality or deployable label-based rules. Canonical float64 grade and diagnostic calculations agree. All export/alignment/diagnostic/grade outputs are captured; do not repeat completed work.
 
-**15:28 UTC:** [Full source and loader preflight passed](export_preparation/preflight_execution_r2/records/README.md), with exact raw receipt captured and no model or GPU run. F1 is fully collected and accepted. The historical strong-control export is the next operation. Its extraction R1 was found incompatible with the frozen producer sidecar before execution and is being replaced by isolated R2; no score or prediction was modified.
+**Public incumbent identity:** the [100-row user transcript](public_submission_trace_r1/README.md) identifies **`tl3.zip` / `1lmehfi3` / 0.66832 / 39m12s / 656MB**. Its archived recipe is 0.34 distilled s5 + 0.33 tied-lead s5 + 0.33 tied-lead s6. Portal payload SHA remains unverified. These production models fit train+valid; the restored Main T3 control is a different recipe. The [reviewed clean counterpart plan](TL3_CLEAN_COUNTERPART_PLAN_20261018.md) specifies the still-needed source/config/ancestor closure and F0-excluding reconstruction. Do not score the all-data production checkpoints as held-out F0 or tune weights against public.
 
-**Current status, 18 October 15:22 UTC:** F1 result collection, 57-file final-path verification and independent acceptance are complete ([acceptance receipt](../priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json)). The root-gated CPU preflight is running as `preflight-r2-20261018t1520z`; its first tar attempt failed before extraction because `--gzip` was omitted, and the retained failure was followed by a successful separate recovery into the exact empty root. No preflight result/pass is recorded. See the [preflight packet](export_preparation/preflight_execution_r2/README.md); earlier handoffs are dated history.
+**Rank1:** F0 and F1 fits, exports, grades, terminal checks, result collection and independent acceptance are complete. [F1 acceptance](../priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json). Two paired cells per arm are not CP30. [F3 preparation](../priority25_execution_r4/f3_beleriand_preparation_r1/README.md) is independently reviewed but unadmitted and unstaged.
 
+**Provider state:** the [16:12 UTC observer](provider_observation_20261018T1615Z/) confirms zero nonterminal jobs among the latest 100 and unchanged balance 41,652,791. Official incident refresh returned JavaScript-required content, so recovery was not observed; no blind paid retry was made. The Mac performed only light orchestration, metadata work and tiny synthetic tests.
 
-**Update 14:40 UTC:** SSH is restored. [Recovery observation](ACCESS_RECOVERY_20261018T1426Z.json)
-confirms healthy F1 deep epoch 5 and no new memory events. The
-[residual diagnostic](diagnostics/results/README.md) has now run successfully;
-the [historical plot](plots/README.md) is collected and visually checked.
-Both CPU units exited 0 and were stopped after capture. The [current continuation](CONTINUATION_20261018T1440Z.md) records next actions; the
-[14:00 handoff](CONTINUATION_20261018T1400Z.md) preserves the preceding access failure.
-[Findings](FOLLOWUP_RESULTS.md) separate actual results, historical evidence and
-the still-pending comparison with strong-control predictions.
+Earlier dated continuation files preserve the SSH outage, restoration, preparation and consumer failures. They do not override the completed result above. [Detailed findings](FOLLOWUP_RESULTS.md).
 
 ## Residual diagnostic preparation
 
@@ -73,21 +67,20 @@ PYTHONPATH=src:research/campaign_2026-10-18/quality_gap_r1/diagnostics \
 
 ## Frozen F0 control export preparation
 
-The no-training, not-admitted export plan is in
+The historical preparation plan is in
 [`export_preparation/README.md`](export_preparation/README.md). Its
 [`F0_MEMBERSHIP_COMPARISON.json`](export_preparation/F0_MEMBERSHIP_COMPARISON.json)
 confirms exact ordered fit/evaluation/exclusion memberships and component-map
 equality between the historical Main F0 split and the current canonical F0
 split, while documenting their different manifest and `chain_folds.npz`
 identities. The preparation names the restored CP5 and propensity checkpoints and the
-missing historical cache. An isolated compatibility path is being prepared
-and reviewed; no strong-control inference or training has been admitted.
+missing historical cache. The reviewed compatibility overlay and successful export are now recorded in
+[`export_execution_r1`](export_preparation/export_execution_r1/README.md). No new training was needed.
 
 The isolated [`strong_control_evaluation_r1`](strong_control_evaluation_r1/README.md)
-packet prepares same-row alignment and a fixed comparison against this
-historical CP5 control after its full-valid export arrives. It preserves the
-existing diagnostic inputs and remains unexecuted pending the real export and
-sidecar hashes.
+packet preserves the first unexecuted consumer preparation. The separately
+reviewed R4 consumer completed the actual alignment and grade documented above;
+the R2/R3 runtime failures remain preserved.
 
 ## Evidence and operational index
 

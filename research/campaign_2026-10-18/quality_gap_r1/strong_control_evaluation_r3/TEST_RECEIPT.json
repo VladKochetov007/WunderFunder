@@ -1,0 +1,149 @@
+{
+  "captured_json_fixtures": [
+    {
+      "bytes": 16738,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/fixtures/CONTRACT.json",
+      "sha256": "c534c0a23eacc2d174864393ab4ac0c38debd34b39b1d897d9023e2d2e487204"
+    },
+    {
+      "bytes": 11075,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/fixtures/EXPORT_RECEIPT.json",
+      "sha256": "13d75acf3e20abea5c1bce8aa3ae21fbae67f32e0e7b0fee4412882800813197"
+    },
+    {
+      "bytes": 11444,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/fixtures/BANDIT_ATTEMPT.json",
+      "sha256": "6572705014d40322ec7bf754f4d2575d0c6207080927d872693dff0f2819e203"
+    },
+    {
+      "bytes": 18496,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/fixtures/PREDICTION_SIDECAR.json",
+      "sha256": "d8ca5c734cc7fac000d530b8d0cc6797fa22cb12bcad8fff25e00f8d1cd43d28"
+    },
+    {
+      "bytes": 1136,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/fixtures/CAPTURED_WORKER_PRE_INFERENCE.json",
+      "sha256": "737d12ad10574a9af55d5c6186973dd96d3035b5c7f69b4d13a682cd4d5a00d0"
+    }
+  ],
+  "command": [
+    "PYTHONDONTWRITEBYTECODE=1",
+    "PYTHONPATH=src:research/campaign_2026-10-18/quality_gap_r1/diagnostics:research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3",
+    "uv run --no-sync python -m unittest discover",
+    "-s research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3",
+    "-p 'test_*.py' -v"
+  ],
+  "created_utc": "2026-10-18T16:11:47Z",
+  "errors": 0,
+  "failures": 0,
+  "independent_review": "pending",
+  "local_test_runtime": {
+    "numpy": "2.2.6",
+    "pyarrow": "19.0.1",
+    "python": "3.13.11"
+  },
+  "passed": 19,
+  "ruff": {
+    "check_command": "uv run --no-sync ruff check research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3",
+    "check_status": "passed",
+    "format_command": "uv run --no-sync ruff format --check research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3",
+    "format_status": "passed"
+  },
+  "schema": "wnn.quality_gap.strong_control_evaluation.test_receipt.v3",
+  "scope": {
+    "actual_prediction_payload_read": false,
+    "captured_contract_receipt_guard_sidecar_metadata_tested": true,
+    "checkpoint_tensor_loaded": false,
+    "current_exporter_utility_files_hash_checked": true,
+    "gpu_execution": false,
+    "only_tiny_synthetic_arrays_and_parquet_fixture_used_by_tests": true,
+    "real_validation_parquet_payload_read": false,
+    "remote_execution": false,
+    "training_or_grading": false
+  },
+  "source_files": [
+    {
+      "bytes": 13521,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/collect_control.py",
+      "sha256": "3cc11944a6bea6ceb81880a5f6df6d7628f28c9affc9aff3b52bc7280a21f759"
+    },
+    {
+      "bytes": 8959,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/collection_support.py",
+      "sha256": "e85edfcb823c9ded6e2b61e4f6d6ec5db37d861a0f3a3224adcf5734a30b7b3e"
+    },
+    {
+      "bytes": 11368,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/export_contract.py",
+      "sha256": "b38d7f28ace6a03879ee5794d37402bcb2bc75e8d5774e1506cb1eeab615d1d6"
+    },
+    {
+      "bytes": 17837,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/export_receipt.py",
+      "sha256": "7f773166a0aacdf88d06508df02cfd44e2569f416d15de05fd11b51a2c6edf54"
+    },
+    {
+      "bytes": 10026,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/frozen_inputs.py",
+      "sha256": "46c4f04068d525b0a72d1947a6b655f739d8681996e346933309628dd72cc99b"
+    },
+    {
+      "bytes": 9252,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/grade_control.py",
+      "sha256": "540955b702878ba1ea33ec3546fa9dd9460039cb3d3dd4a420eeb5a2127d0467"
+    },
+    {
+      "bytes": 3009,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/h390_sidecar.py",
+      "sha256": "9e61ebb0d97ca9a28307e5e0df8e6ca23132b617fd7fe823740e91a9852ba72c"
+    },
+    {
+      "bytes": 1541,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/pins.py",
+      "sha256": "a1a2088acb0b2853005862f8f6afd158fefea145495a394fc4976749a1fc8c48"
+    },
+    {
+      "bytes": 8590,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/source_alignment.py",
+      "sha256": "ac08f4c411b88d7c379ee41ffad17edc73273b5e813d4230229dcee9b60d98e0"
+    },
+    {
+      "bytes": 2233,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/test_component_grade.py",
+      "sha256": "c4de3cd8545fd26d669d89e5588207cc4f8b4e6bc76c3a5e64b0ca5dfef58597"
+    },
+    {
+      "bytes": 26210,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/test_export_contract.py",
+      "sha256": "c1bc9b917aac9599d8603dc69eb22accdf23693d7e9a3433647b1e9297aa7cd5"
+    },
+    {
+      "bytes": 6194,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r3/test_source_alignment.py",
+      "sha256": "8edd8b680c460ba42fbbd27f3407756acf85c7dd5450fdbfd4da249a00610b40"
+    }
+  ],
+  "status": "PASS_LOCAL_TINY_TESTS_RUFF_FORMAT_AND_CHECK",
+  "test_count": 19,
+  "tests": [
+    "test_centered_component_bootstrap_reproduces_pooled_delta",
+    "test_grade_source_paths_resolve_from_repository_root",
+    "test_actual_exporter_contract_shape_is_accepted",
+    "test_captured_guard_schema_binds_worker_exit_and_utility_sources",
+    "test_captured_producer_contract_and_runtime_are_accepted",
+    "test_captured_receipt_sidecar_and_guard_bind_actual_sources",
+    "test_h390_sidecar_shape_and_explicit_order_are_accepted",
+    "test_prediction_and_sidecar_must_match_contract_output_paths",
+    "test_preinference_capture_uses_a_distinct_archival_path",
+    "test_worker_command_matches_exporter_builder",
+    "test_wrong_source_root_command_or_output_inventory_fails",
+    "test_arrival_hash_mismatch_fails",
+    "test_explicit_sidecar_map_handles_and_rejects_row_order",
+    "test_output_collision_never_overwrites",
+    "test_output_path_rejects_final_and_ancestor_symlinks",
+    "test_scoring_mask_selects_only_need_and_scored_rows",
+    "test_selected_nonfinite_prediction_fails",
+    "test_tiny_parquet_uses_explicit_prediction_row_map_and_mask",
+    "test_wrong_step_order_fails_closed"
+  ]
+}

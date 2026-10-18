@@ -1,0 +1,164 @@
+{
+  "acceptance_checks": {
+    "alignment": {
+      "canonical_split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "captured_exit_status": 0,
+      "captured_success": true,
+      "checkpoint_epoch": 5,
+      "checkpoint_run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+      "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "components": 141,
+      "contract_sha256": "c534c0a23eacc2d174864393ab4ac0c38debd34b39b1d897d9023e2d2e487204",
+      "control_prediction_dtype": "float32",
+      "control_prediction_sha256": "ea20109ca1bd194f40cba69f4fd412bb27e33fe164ed443c61f19af4d15fb24d",
+      "control_prediction_shape": [
+        808863,
+        2
+      ],
+      "export_receipt_sha256": "13d75acf3e20abea5c1bce8aa3ae21fbae67f32e0e7b0fee4412882800813197",
+      "old_split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "ordered_groups_and_component_map_equal": true,
+      "row_groups": 468,
+      "same_row_bundle_arrays_bitwise_equal": true,
+      "scope_note": "Alignment compares exact ordered evaluation membership and component mapping despite different split-manifest identities; it does not establish identity of the two split manifests.",
+      "selected_rows": 808863,
+      "sidecar_sha256": "d8ca5c734cc7fac000d530b8d0cc6797fa22cb12bcad8fff25e00f8d1cd43d28",
+      "split_manifest_identities_equal": false
+    },
+    "diagnostic_and_grade": {
+      "csv_rows": 1550,
+      "diagnostic_and_grade_unit_exit_status": 0,
+      "execution_caps": {
+        "cpu_quota_cpus": 0.5,
+        "diagnostic_memory_peak_bytes_reported": 122150912,
+        "memory_max_bytes": 1500000000,
+        "swap_max_bytes": 0
+      },
+      "grade_diagnostic_sha256_matches_result": true,
+      "grade_input_sha256_matches_derived_inputs": true,
+      "grade_schema": "wnn.quality_gap.strong_control_component_grade.v1",
+      "grade_status": "passed",
+      "max_absolute_difference_partition_sum_vs_canonical_delta": 9e-16,
+      "maximum_absolute_difference_result_vs_canonical_grade_wp": 2.3e-16,
+      "metric_id": "global_wp_clip2_v1",
+      "q8_to_strong_control_canonical_delta": 0.007327798962229792,
+      "q8_to_strong_control_component_delta_sum": 0.007327798962228874,
+      "q8_to_strong_control_label_bin_delta_sum": 0.007327798962229041,
+      "result_schema": "wnn.quality_gap.residual_diagnostic.v1"
+    }
+  },
+  "limitations": [
+    "The control is a historical strong-control pipeline, not the exact public incumbent; conclusions are limited to these same-row local F0 predictions and q8 reference.",
+    "This is one F0 panel with prior exposure; the component bootstrap conditions on fixed predictions and does not quantify training-seed uncertainty, public transfer, or CP30 performance.",
+    "The label-magnitude decomposition is retrospective accounting; within-bin rho and bias/slope summaries are descriptive, not calibration evidence or a causal mechanism.",
+    "Fresh-runtime WP differs from the prior historical score by about -1.2037e-6; exact prediction-byte parity across runtimes was not established or required."
+  ],
+  "results_note_claim_review": {
+    "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r4/records/RESULTS.md",
+    "requested_wording_caution": "Keep all label bins and per-component summaries explicitly descriptive and retain the local, exposed-panel and non-public-incumbent qualifications.",
+    "status": "no_material_quantitative_or_scope_overclaim_found",
+    "verified_claims": [
+      "score and target margins",
+      "t0 contribution share",
+      "label-bin shares",
+      "component sign counts and extrema",
+      "q8-to-fixed-mixture difference",
+      "weighted mean bias comparison",
+      "clipping counts",
+      "bootstrap interval and limits"
+    ]
+  },
+  "reviewed_artifacts": {
+    "alignment_receipt_sha256": "49198121cbe8c1787c11db7982bce687bf1d0da2083c4c7490ad4ecd725cc315",
+    "derived_inputs_sha256": "9ce4fd56c65779d5a32d4257536ca7a3b12d8d58c8c2b863af2fbd385507f08a",
+    "diagnostic_capture_sha256": "ecbd6ed8f664c2e09d43f03bd3239588c498843718670751b6666d3d1574b681",
+    "diagnostic_csv_sha256": "1ecb1021d4bdf7942d6d109aa11875ad9230a1fb0e4d2d3bacd65c948da6a5f2",
+    "diagnostic_result_sha256": "aca7842c10b6c7065711c1e015efec0e2a33863338d993ace16bf8e500f78f70",
+    "grade_capture_sha256": "3d370e352bff7c7e8ba8fd02aed1792e7a0f71b6eec4f7113f40ff0b100f41a0",
+    "grade_sha256": "2929bb4e269a73e75ed9bbdba0500eac07e72447ff901a57b813691a3577707e"
+  },
+  "reviewed_utc": "2026-10-18T16:30:49.893734+00:00",
+  "schema": "wnn.quality_gap.result_acceptance_review.v1",
+  "scope": "Independent acceptance and interpretation check of the captured R4 alignment, diagnostic, CSV, and canonical grade. Review used receipt metadata and the emitted aggregate tables only; no prediction, target, or source arrays were loaded and no jobs or tests were run.",
+  "status": "PASS_WITH_SCOPE_LIMITS",
+  "supported_findings": {
+    "component_contributions": {
+      "largest_negative_component": {
+        "delta": -0.0013337033777404625,
+        "id": 995
+      },
+      "largest_positive_component": {
+        "delta": 0.002888372276583102,
+        "id": 2994
+      },
+      "negative_components": 56,
+      "net_delta": 0.007327798962229792,
+      "positive_components": 85,
+      "scope": "Global-normalized pooled contributions; not per-component accuracy wins or leave-one-component-out effects.",
+      "sum_absolute_component_deltas": 0.01980107863152553,
+      "top_three_positive_share_of_net_delta": 0.6344668740493206
+    },
+    "descriptive_caveats": {
+      "aggregate_absolute_weighted_mean_bias": {
+        "q8": 0.017681308341580493,
+        "strong_control": 0.12734907403802126
+      },
+      "no_calibration_or_correction_was_fit": true,
+      "position_status": "unavailable: compact source bundle has no source-bound step_in_seq sidecar; no parquet scan was performed",
+      "raw_prediction_values_tagged_clipped_gt_2": {
+        "q8": {
+          "t0": 572,
+          "t1": 549
+        },
+        "strong_control": {
+          "t0": 1,
+          "t1": 7
+        }
+      }
+    },
+    "paired_component_bootstrap_vs_q8": {
+      "conditional_95_percent_interval": [
+        0.0023844567920367765,
+        0.013525214022399909
+      ],
+      "empirical_p_le_zero": 0.0,
+      "mean_diff": 0.007327798962229792,
+      "n_components": 141,
+      "n_sequences": 468,
+      "resamples": 2000,
+      "scope": "Conditional on fixed predictions and this evaluation panel; the finite-resample zero is not a zero population probability.",
+      "seed": 271828
+    },
+    "retrospective_label_magnitude": {
+      "abs_clipped_target_0_5_to_1_delta": 0.0016664509205167113,
+      "abs_clipped_target_1_to_2_delta": 0.005513411503435761,
+      "abs_clipped_target_1_to_2_share_of_net_delta": 0.7523966653362112,
+      "combined_abs_clipped_target_at_least_0_5_delta": 0.0071798624239524725,
+      "combined_share_of_net_delta_for_at_least_0_5": 0.9798115997668971,
+      "definition": "Pooled global-WP contribution delta, partitioned post hoc by absolute clipped target magnitude; memberships are shared between models and are label-defined.",
+      "scope": "Additive accounting only; retrospective bins do not represent causation, explained error percentage, inference-time availability, or a reweighting experiment."
+    },
+    "scores": {
+      "fp32_mix_wp": 0.6738509442388185,
+      "historical_score_runtime_difference": -1.2037012409e-06,
+      "q8_loss_as_share_of_control_q8_gap": 0.003354,
+      "q8_loss_vs_fp32_mix": 2.45865689525e-05,
+      "q8_targets": {
+        "t0": 0.6641447254350513,
+        "t1": 0.6835079899046805
+      },
+      "q8_wp": 0.673826357669866,
+      "strong_control_minus_q8_wp": 0.007327798962229792,
+      "strong_control_targets": {
+        "t0": 0.6743757506524173,
+        "t1": 0.6879325626117736
+      },
+      "strong_control_wp": 0.6811541566320954,
+      "t0_share_of_equal_target_weighted_wp_delta": 0.6980967457008419,
+      "target_delta": {
+        "t0": 0.010231025217366,
+        "t1": 0.0044245727070931
+      }
+    }
+  }
+}

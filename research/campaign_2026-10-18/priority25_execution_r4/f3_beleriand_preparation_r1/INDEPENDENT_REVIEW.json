@@ -1,0 +1,42 @@
+{
+  "bindings": {
+    "f1_template_plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+    "plan_path": "research/campaign_2026-10-18/priority25_execution_r4/f3_beleriand_preparation_r1/F3_BELERIAND_PLAN.json",
+    "plan_sha256": "b303146cf9db05e0a3bddf8f245d3c9b880d055ce7e97ebe5dd13510b5f4a2d8",
+    "preparation_manifest_sha256": "7c0b953fc62abd581045546f49f755f000596edf7eaa5bd854233beeb7b1ecf6",
+    "source_fold3_manifest_sha256": "21c7fb52e8e69f38126362cbc5dc60dbc46539041d649b9206ec35e0f21ada1f",
+    "split_metadata_path": "research/campaign_2026-10-18/priority25_execution_r4/f3_beleriand_preparation_r1/F3_SPLIT_METADATA_V1.json",
+    "split_metadata_sha256": "5facd5e512dd8782009ea6630bc42a560ed3f974b513d419b7fa9f0257fc99a9"
+  },
+  "checks": {
+    "all_explicit_output_paths_are_f3_specific_and_cross_step_unique": true,
+    "archive_recipe_trainer_and_grader_pins_match_frozen_evidence": true,
+    "attempt_receipt_and_output_paths_are_f3_specific_and_unique": true,
+    "canonical_f1_recipe_and_training_constants_preserved_except_fold_and_unique_names": true,
+    "each_launch_payload_equals_expected_command": true,
+    "fold3_counts_and_component_count_bound": true,
+    "fold3_path_hash_and_metadata_receipt_bound": true,
+    "manifest_inventory_matches": true,
+    "no_execution_or_resource_admission_claim": true,
+    "seven_steps_match_f1_guarded_sequence": true,
+    "source_pin_receipts_match_local_bytes": true,
+    "stage1_to_continuation_counter_gate_present": true,
+    "static_schedule_arithmetic_correct": true
+  },
+  "findings": [],
+  "limitations": [
+    "Review is static; fold3 source files/data/cache and current B ownership/resources require fresh root-side checks before admission.",
+    "No staging, training, inference, grading, or provider operation was performed.",
+    "This is one exposed fold/seed cell and does not establish a CP30 comparison or generalization claim."
+  ],
+  "reviewed_utc": "2026-10-18T16:27:31Z",
+  "reviewer": "independent static reviewer",
+  "schema": "priority25.f3_beleriand_preparation_independent_review.v1",
+  "scope": {
+    "admission_granted": false,
+    "data_payloads_read": false,
+    "execution_performed": false,
+    "remote_access": false
+  },
+  "status": "PASS_STATIC_REVIEW_UNADMITTED"
+}
