@@ -38,6 +38,16 @@ SOURCE_ROOT = Path(__file__).resolve().parents[1]
 ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
 
 
+def model_from_checkpoint(ck: dict) -> torch.nn.Module:
+    """Load the standard model or a checkpoint-marked Kalman-GRU adapter."""
+    state = ck["model"]
+    if "kalman.arm_code" in state:
+        from wnn.kalman_local_trend import make_kalman_checkpoint_model
+
+        return make_kalman_checkpoint_model(ck["args"], state, ck["n_in"])
+    return make_model(ck["args"], ck["n_in"], state["head.2.weight"].shape[0])
+
+
 def campaign_prediction_groups(
     manifest_path: Path,
     checkpoint: dict,
@@ -197,8 +207,7 @@ def main():
         raise ValueError("checkpoint lacks quote cache provenance")
     configure_torch()
     device = torch.device(args.device)
-    model = make_model(ck["args"], ck["n_in"], ck["model"]["head.2.weight"].shape[0]).to(device)
-    model.load_state_dict(ck["model"])
+    model = model_from_checkpoint(ck).to(device)
     train_rnn.SENTINEL_PREPROCESSOR = (
         SentinelPreprocessor(ck["sentinel_preprocessing"])
         if ck.get("sentinel_preprocessing")

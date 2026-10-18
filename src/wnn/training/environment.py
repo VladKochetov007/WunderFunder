@@ -55,6 +55,7 @@ class TrainingEnvironment:
             os.environ.get("WNN_PROJECT_ROOT", Path(__file__).resolve().parents[3])
         ).resolve()
     )
+    entrypoint_override: Path | None = None
     argv: list[str] = field(factory=lambda: sys.argv[1:])
     inputs: InputConfiguration = field(factory=InputConfiguration)
     readout: ReadoutConfiguration = field(factory=ReadoutConfiguration)
@@ -77,4 +78,4 @@ class TrainingEnvironment:
     @property
     def entrypoint(self) -> Path:
         """Keep source provenance bound to the public CLI, not a moved helper."""
-        return self.source_root / "scripts/train_rnn.py"
+        return self.entrypoint_override or self.source_root / "scripts/train_rnn.py"
