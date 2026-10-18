@@ -1,0 +1,126 @@
+{
+  "id": "E-CURRENT-MOMENT-WP-20261018",
+  "parent_hypothesis_id": "H-055",
+  "name": "current_moment_two_pass",
+  "source_sha": "1d57ed815c18eb278bcdd0207369b200970b28fb",
+  "status": "proposal_only",
+  "training_authorized": false,
+  "launch_ready": false,
+  "arms": [
+    "wmse_control",
+    "current_superbatch_clip2_wp_two_pass"
+  ],
+  "precision": "fp32",
+  "tf32": false,
+  "objective": {
+    "control": "Label-only WMSE: mean over the two heads of sum(w*(raw_prediction-z)^2)/sum(w), z=clip(y,-2,2), w=abs(z), on identical fitting mask; zero contribution for total weight <1e-8. No propensity/class/age/episode/auxiliary weighting.",
+    "candidate": "Minimize the negative mean of the two per-target global_wp_clip2_v1 weighted-Pearson coefficients computed over one current fixed superbatch.",
+    "candidate_prediction_target_clip": [
+      -2,
+      2
+    ],
+    "weight": "abs(clipped_target)",
+    "moments": "Current superbatch only; unnormalized centered sums for the analytic derivative; no decay, EMA or per-chunk correlation.",
+    "gradient_wrt_raw_prediction": "For each head: clip_prime(p) * w * [r*(q-mu_p)/Spp - (z-mu_y)/sqrt(Syy*Spp)]; multiply by 1/2 for the two-head mean. If Spp/Syy are normalized by W=sum(w), use w/W.",
+    "degenerate_policy": "Match scorer: zero contribution when total weight <1e-8 or sqrt(Syy/W) or sqrt(Spp/W) <=1e-8; log counts. Near-constant stability and clipping-boundary subgradient convention are admission gates.",
+    "common_row_weight_contract": "Same clipped targets z, w=abs(z), fitting masks and row population in both arms. Disable optional propensity, class, since, episode, auxiliary, target-shift and importance weights."
+  },
+  "comparison": {
+    "cells_per_arm": 30,
+    "total_endpoint_fits": 60,
+    "fold_seeds": {
+      "F0": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "F1": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "F2": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ],
+      "F3": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ]
+    },
+    "initialization": "Cold per fold/seed; arms share identical initialization within each pair; no teacher, parent or distillation target/cache.",
+    "superbatch_sequences": 64,
+    "sequence_rows": 20000,
+    "final_partial_superbatch": "Include it; use its actual eligible rows for moments and in both arms.",
+    "tbptt_rows": 500,
+    "state_policy": "Carry state across chunks within a sequence; detach at each chunk boundary; reset at sequence boundaries. Candidate replays the same detached boundary states and RNG before one update.",
+    "epochs": 6,
+    "fixed_checkpoint_epoch": 5,
+    "update_policy": "One optimizer update per superbatch; identical grouping, ordering and update count between arms. Exact count is bound with fitting memberships before any fit.",
+    "training_loss_mask": "Training membership only: need_prediction plus canonical warm-up handling; no validation labels or masks.",
+    "official_metric": "global_wp_clip2_v1, unchanged",
+    "official_evaluation_mask": "need_prediction AND is_scored",
+    "primary_statistic": "D=(1/4)*sum_f mean_s(WP(candidate_f,s)-WP(control_f,s)); equal fold weights, 8/8/7/7 paired seeds.",
+    "uncertainty": "Shared CP30 protocol: 10000 seed-bootstrap draws with common seed multiplicities across folds (RNG 20261018), separate paired component bootstrap on fixed predictions, and the two-primary-contrast multiplicity adjustment.",
+    "proposed_useful_effect": 0.0005,
+    "proposed_max_time_ratio_candidate_to_control": 2.0,
+    "all_folds_exposed": true
+  },
+  "bindings": {
+    "canonical_model_factory": "Reuse project canonical GRU factory; no trainer/model is invented by this proposal.",
+    "exact_clean_model_registry": null,
+    "exact_input_registry": null,
+    "learning_rate_schedule": null,
+    "optimizer": null,
+    "gradient_clip": null,
+    "membership_hashes": null,
+    "data_paths_and_hashes": null,
+    "environment_and_device_profile": null,
+    "resume_policy": null,
+    "training_command": null
+  },
+  "implementation_sources": [
+    "src/wnn/training/README.md",
+    "research/unified/sources/GRADIENT_ESTIMATOR_LITERATURE_20261018.md",
+    "research/unified/ideas/GRADIENT_ESTIMATOR_CONTINUATIONS_20261018.md",
+    "research/unified/ideas/EVENT_STATE_AND_METRIC_OBJECTIVE_REFRAME_20261015_R1.md"
+  ],
+  "remaining_work": [
+    "Implement a focused canonical-GRU adapter for one fixed sequence superbatch; preserve sequence grouping, one-update cadence and K=500 truncation in both arms.",
+    "Pass a no-fit synthetic gradient audit: analytical formula versus autograd and finite differences; full-superbatch moments versus same-chunk-truncated direct graph; clip, zero-weight, degenerate/near-constant, mask, reset, detached-state and RNG replay cases.",
+    "Bind model/input/LR/optimizer/checkpoint/resume from the exact clean registry; bind source-qualified memberships, data hashes, environment, output paths and clean ancestry.",
+    "Profile the implemented paired macrostep on the actual device and account for full-fit time/memory; no profile or cost is claimed.",
+    "Obtain separate training authority before any CP30 fit; freeze cells, useful-effect gate, multiplicity and exact command."
+  ],
+  "commands": {
+    "plan_only": "python scripts/experiment_draft_plan.py research/experiment_drafts/current-moment-wp-replay/recipe.json",
+    "plan_only_effect": "Prints the expanded paired plan from recipe metadata only; does not access data, allocate devices, fit, infer, profile or score.",
+    "training": null
+  },
+  "results": {
+    "state": "not_run",
+    "measured_wp_delta": null,
+    "measured_time_ratio": null,
+    "public_score_effect": null
+  }
+}
