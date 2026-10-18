@@ -9,7 +9,6 @@ train.parquet (which has no mask).
 
 from __future__ import annotations
 
-import argparse
 import json
 import os
 import time
@@ -24,7 +23,6 @@ from train_rnn import Sequences, build_inputs, checkpoint_selected, configure_ch
 from wnn.data import N_FEATURES, WARMUP
 from wnn.features import N_EVENT_FEATURES
 from wnn.propensity import (
-    LEGACY_PROFILE,
     PROPENSITY_FIT_SOURCE_FILES,
     STRICT_FP32_PROFILE,
     PropensityNet,
@@ -48,16 +46,23 @@ def _source_sha256(profile: str) -> dict[str, str]:
             "scripts/train_propensity.py",
             "scripts/train_rnn.py",
             "src/wnn/propensity.py",
+            "src/wnn/propensity_cli.py",
             "src/wnn/training/inputs.py",
         )
     return {path: file_sha256(SOURCE_ROOT / path) for path in paths}
 
 
-def _prepare_run_directory(path: Path, *, strict: bool) -> None:
+def _prepare_run_directory(path: Path, *, strict: bool, resume: bool = False) -> None:
     """Create a strict run directory exclusively; legacy runs retain reuse behavior."""
     if strict:
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.mkdir(exist_ok=False)
+        if path.is_symlink():
+            raise FileExistsError(f"strict propensity run path is a symlink: {path}")
+        if resume:
+            if not path.is_dir():
+                raise FileNotFoundError(f"strict propensity resume directory is missing: {path}")
+        else:
+            path.mkdir(exist_ok=False)
     else:
         path.mkdir(parents=True, exist_ok=True)
 
@@ -77,45 +82,18 @@ def auc(scores: np.ndarray, labels: np.ndarray) -> float:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--name", required=True)
-    ap.add_argument("--hidden", type=int, default=64)
-    ap.add_argument("--epochs", type=int, default=4)
-    ap.add_argument("--lr", type=float, default=2e-3)
-    ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--checkpoint-policy", choices=["best", "fixed"], default="best")
-    ap.add_argument("--checkpoint-epoch", type=int, default=None)
-    ap.add_argument("--no-eval-during-fit", action="store_true")
-    ap.add_argument("--split-manifest", type=Path, default=None)
-    ap.add_argument(
-        "--precision-profile",
-        choices=[LEGACY_PROFILE, STRICT_FP32_PROFILE],
-        default=LEGACY_PROFILE,
-        help="legacy autocast by default; strict_fp32_v1 is an opt-in clean-fold recipe",
-    )
-    ap.add_argument(
-        "--loader-workers",
-        type=int,
-        default=None,
-        help="data-loader workers; profile defaults are legacy=2 and strict_fp32_v1=0",
-    )
-    ap.add_argument(
-        "--heldout-fold",
-        type=int,
-        default=-1,
-        help="if >= 0: train on all validation sequences outside this chain fold (cache/chain_folds.npz), "
-        "evaluate on it; default: train devA, evaluate devB",
-    )
-    ap.add_argument(
-        "--dev-all",
-        action="store_true",
-        help="train on all dev sequences (devA + devB), evaluate on the holdout",
-    )
+    from wnn.propensity_cli import build_propensity_parser
+
+    ap = build_propensity_parser()
     args = ap.parse_args()
     configure_checkpoint_policy(args, ap)
     strict_fp32 = args.precision_profile == STRICT_FP32_PROFILE
-    if strict_fp32 and (Path(args.name).name != args.name or args.name in {".", ".."}):
+    if strict_fp32 and (
+        Path(args.name).name != args.name or args.name in {".", ".."} or "\\" in args.name
+    ):
         ap.error("strict_fp32_v1 --name must be a single run-directory name")
+    if args.resume and not strict_fp32:
+        ap.error("--resume is supported only by strict_fp32_v1")
     if args.loader_workers is None:
         args.loader_workers = 0 if strict_fp32 else 2
     if args.loader_workers < 0:
@@ -137,7 +115,7 @@ def main() -> None:
     if strict_fp32:
         configure_strict_fp32()
     out_dir = ROOT / "artifacts" / "runs" / args.name
-    _prepare_run_directory(out_dir, strict=strict_fp32)
+    _prepare_run_directory(out_dir, strict=strict_fp32, resume=args.resume)
     if campaign_split is not None:
         dev_a = np.asarray(campaign_split.valid_groups)
         dev_b = np.asarray(campaign_split.evaluation_groups)
@@ -168,7 +146,7 @@ def main() -> None:
     model = PropensityNet(N_FEATURES + N_EVENT_FEATURES, args.hidden).to(device)
     model._propensity_profile = args.precision_profile
     normalization = None
-    if strict_fp32:
+    if strict_fp32 and not args.resume:
         stats_loader = DataLoader(
             train_dataset,
             batch_size=4,
@@ -176,7 +154,7 @@ def main() -> None:
             **loader_options,
         )
         normalization = fit_normalization(model, (build_inputs(x) for x, _, _ in stats_loader))
-    else:
+    elif not strict_fp32:
         with torch.no_grad():
             x, _, _ = next(iter(train))
             f = build_inputs(x.to(device))
@@ -193,9 +171,33 @@ def main() -> None:
         "fit_row_groups_sha256": {"valid": ordered_groups_sha256(dev_a)},
         "evaluation_row_groups": dev_b.tolist(),
         "normalization": normalization,
+        "n_in": N_FEATURES + N_EVENT_FEATURES,
         "source_sha256": _source_sha256(args.precision_profile),
         "checkpoint_sha256": {},
     }
+    if strict_fp32:
+        assert campaign_split is not None
+        from wnn.propensity_fit import fit_strict_propensity
+
+        print(json.dumps(vars(args)), flush=True)
+        fit_strict_propensity(
+            model=model,
+            loader=train,
+            optimizer=opt,
+            build_inputs=build_inputs,
+            args=vars(args).copy(),
+            provenance=provenance,
+            normalization=normalization,
+            split=campaign_split,
+            data_root=ROOT,
+            source_root=SOURCE_ROOT,
+            device=device,
+            warmup=WARMUP,
+            chunk_rows=2000,
+            resume=args.resume,
+            run_dir=out_dir,
+        )
+        return
     fitting_started = time.time()
     print(json.dumps(vars(args)), flush=True)
     for epoch in range(args.epochs):

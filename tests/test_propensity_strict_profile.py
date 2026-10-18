@@ -307,3 +307,485 @@ def test_reserved_cache_memmap_is_valid_npy_and_rejects_symlink_swap(tmp_path: P
     replaced.symlink_to(tmp_path / "target")
     with pytest.raises(OSError):
         cache_propensity_script._open_reserved_memmap(replaced, (2, 3))
+
+
+def _tiny_strict_training_case(tmp_path: Path, run_name: str):
+    from torch.utils.data import DataLoader, TensorDataset
+
+    from wnn.propensity import PropensityNet
+
+    source_root = tmp_path / "sources"
+    source_root.mkdir(parents=True, exist_ok=True)
+    source_file = source_root / "source.py"
+    source_file.write_text("strict fixture source\n")
+    source_sha = hashlib.sha256(source_file.read_bytes()).hexdigest()
+    split_path = tmp_path / "split.json"
+    split_payload = json.dumps({"sources": {"valid": "fixture"}}).encode()
+    split_path.write_bytes(split_payload)
+    split = CampaignSplit(
+        path=split_path,
+        sha256=hashlib.sha256(split_payload).hexdigest(),
+        fold=0,
+        n_folds=2,
+        train_groups=(0, 1),
+        valid_groups=(2, 3),
+        evaluation_groups=(4,),
+        components=(
+            ("train", 0, 0),
+            ("train", 1, 1),
+            ("valid", 2, 2),
+            ("valid", 3, 3),
+            ("valid", 4, 4),
+        ),
+    )
+    features = torch.arange(16, dtype=torch.float32).reshape(2, 4, 2) / 16
+    masks = torch.tensor([[0, 1, 0, 1], [1, 0, 1, 0]], dtype=torch.float32)
+    dataset = TensorDataset(features, torch.zeros(2), masks)
+    dataset.indices = [2, 3]
+    loader = DataLoader(dataset, batch_size=1, shuffle=True)
+    model = PropensityNet(n_in=2, hidden=3)
+    model.mean.copy_(torch.tensor([0.25, 0.5]))
+    model.std.copy_(torch.tensor([0.75, 0.5]))
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.01, weight_decay=0.01)
+    args: dict[str, object] = {
+        "hidden": 3,
+        "epochs": 2,
+        "lr": 0.01,
+        "seed": 17,
+        "checkpoint_epoch": 1,
+        "resume": False,
+        "split_manifest": str(split_path),
+        "loader_workers": 0,
+    }
+    normalization = {
+        "method": "fixture_fit_only",
+        "count": 16,
+        "accumulator_dtype": "float64",
+        "buffer_dtype": "float32",
+    }
+    provenance: dict[str, object] = {
+        "n_in": 2,
+        "source_sha256": {"source.py": source_sha},
+        "checkpoint_sha256": {},
+    }
+    run_dir = tmp_path / run_name
+    run_dir.mkdir(parents=True, exist_ok=True)
+    return model, optimizer, loader, args, provenance, normalization, split, source_root, run_dir
+
+
+def _run_tiny_strict_fit(case, *, resume: bool, build_inputs=None):
+    from wnn.propensity_fit import fit_strict_propensity
+
+    model, optimizer, loader, args, provenance, normalization, split, source_root, run_dir = case
+    call_args = dict(args)
+    call_args["resume"] = resume
+    return fit_strict_propensity(
+        model=model,
+        loader=loader,
+        optimizer=optimizer,
+        build_inputs=build_inputs or (lambda values: values),
+        args=call_args,
+        provenance=provenance,
+        normalization=None if resume else normalization,
+        split=split,
+        data_root=source_root,
+        source_root=source_root,
+        device=torch.device("cpu"),
+        warmup=0,
+        chunk_rows=2,
+        resume=resume,
+        run_dir=run_dir,
+    )
+
+
+def test_strict_fit_resume_replays_only_uncommitted_epoch(tmp_path: Path, monkeypatch) -> None:
+    import random
+
+    from wnn.propensity_failure import create_only_json
+    from wnn.propensity_progress import ProgressJournal
+    from wnn.propensity_recovery import load_resume_state
+
+    monkeypatch.setattr("wnn.propensity_fit.emit", lambda *args, **kwargs: None)
+    monkeypatch.setattr("wnn.propensity_fit_update.emit", lambda *args, **kwargs: None)
+    prior_threads = torch.get_num_threads()
+    torch.set_num_threads(1)
+    try:
+        random.seed(17)
+        torch.manual_seed(17)
+        interrupted = _tiny_strict_training_case(tmp_path / "interrupted", "run")
+        (tmp_path / "interrupted").mkdir(exist_ok=True)
+        calls = 0
+
+        def fail_once(values: torch.Tensor) -> torch.Tensor:
+            nonlocal calls
+            calls += 1
+            if calls == 4:
+                raise RuntimeError("synthetic interruption")
+            return values
+
+        with pytest.raises(RuntimeError, match="synthetic interruption"):
+            _run_tiny_strict_fit(interrupted, resume=False, build_inputs=fail_once)
+        run_dir = interrupted[-1]
+        failures = list(run_dir.glob("failure-*.json"))
+        assert len(failures) == 1
+        first_failure_path = failures[0]
+        first_failure_bytes = first_failure_path.read_bytes()
+        failure = json.loads(first_failure_bytes)
+        assert failure["committed_next_epoch"] == 1
+        assert failure["optimizer_attempts_this_attempt"] == 6
+        with pytest.raises(FileExistsError):
+            create_only_json(first_failure_path, {"status": "overwritten"})
+        assert first_failure_path.read_bytes() == first_failure_bytes
+        saved = load_resume_state(
+            run_dir / "training_state.pt",
+            json.loads((run_dir / "provenance.json").read_text())["resume_contract"]["static"],
+        )
+        journal = ProgressJournal(run_dir / "progress.jsonl", resume_after=saved["event_sequence"])
+        recovery = journal.recovery_summary(saved["event_sequence"])
+        assert recovery["rolled_back_optimizer_attempts"] == 2
+        assert recovery["rolled_back_completed_updates"] == 2
+
+        torch.manual_seed(17)
+        resumed = _tiny_strict_training_case(tmp_path / "interrupted", "run")
+
+        calls = 0
+
+        def fail_second_attempt(values: torch.Tensor) -> torch.Tensor:
+            nonlocal calls
+            calls += 1
+            if calls == 2:
+                raise RuntimeError("second synthetic interruption")
+            return values
+
+        with pytest.raises(RuntimeError, match="second synthetic interruption"):
+            _run_tiny_strict_fit(resumed, resume=True, build_inputs=fail_second_attempt)
+        failures = sorted(run_dir.glob("failure-*.json"))
+        assert len(failures) == 2
+        failure_bytes = {path.name: path.read_bytes() for path in failures}
+
+        torch.manual_seed(17)
+        resumed = _tiny_strict_training_case(tmp_path / "interrupted", "run")
+        _run_tiny_strict_fit(resumed, resume=True)
+        resumed_provenance = json.loads((run_dir / "provenance.json").read_text())
+        progress = resumed_provenance["optimizer_progress"]
+        assert progress["optimizer_attempts"] == 8
+        assert progress["optimizer_step_calls"] == 8
+        assert progress["optimizer_completed_updates"] == 8
+        assert progress["nonfinite_updates"] == 0
+        assert progress["learning_rate_first"] == 0.01
+        assert progress["learning_rate_min"] == 0.01
+        assert progress["preclip_grad_norm_steps"] == 8
+        assert resumed_provenance["recovery_history"][-1]["rolled_back_completed_updates"] == 2
+        assert resumed_provenance["fit_status"] == "completed"
+        assert resumed_provenance["current_attempt_status"] == "completed"
+        assert (
+            resumed_provenance["current_fit_attempt_id"]
+            == resumed_provenance["training_attempts"][-1]["attempt_id"]
+        )
+        assert [item["status"] for item in resumed_provenance["training_attempts"]] == [
+            "failed",
+            "failed",
+            "completed",
+        ]
+        assert len(resumed_provenance["failure_history"]) == 2
+        assert {path.name: path.read_bytes() for path in failures} == failure_bytes
+
+        random.seed(17)
+        torch.manual_seed(17)
+        baseline = _tiny_strict_training_case(tmp_path / "baseline", "run")
+        (tmp_path / "baseline").mkdir(exist_ok=True)
+        _run_tiny_strict_fit(baseline, resume=False)
+        resumed_weights = torch.load(run_dir / "model.pt", map_location="cpu", weights_only=False)[
+            "model"
+        ]
+        baseline_weights = torch.load(
+            baseline[-1] / "model.pt", map_location="cpu", weights_only=False
+        )["model"]
+        for name in resumed_weights:
+            torch.testing.assert_close(
+                resumed_weights[name], baseline_weights[name], rtol=0, atol=0
+            )
+    finally:
+        torch.set_num_threads(prior_threads)
+
+
+def test_strict_resume_binds_runtime_and_ordered_fit_indices(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    from wnn.propensity_recovery import build_static_contract
+
+    case = _tiny_strict_training_case(tmp_path, "run")
+    model, optimizer, loader, args, provenance, _, split, source_root, _ = case
+    monkeypatch.setenv("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+    contract = build_static_contract(
+        args=args,
+        provenance=provenance,
+        split=split,
+        data_root=source_root,
+        source_root=source_root,
+        loader=loader,
+        optimizer=optimizer,
+        device=torch.device("cpu"),
+    )
+    assert (
+        contract["split"]["loader_fit_valid_ordered_int64_le_sha256"]
+        == contract["split"]["fit_valid_ordered_int64_le_sha256"]
+    )
+    assert contract["runtime"]["cublas_workspace_config"] == ":4096:8"
+    assert "cudnn_version" in contract["runtime"]
+    assert "cudnn_deterministic" in contract["runtime"]
+    assert "cudnn_benchmark" in contract["runtime"]
+
+    monkeypatch.setenv("CUBLAS_WORKSPACE_CONFIG", ":16:8")
+    changed_runtime = build_static_contract(
+        args=args,
+        provenance=provenance,
+        split=split,
+        data_root=source_root,
+        source_root=source_root,
+        loader=loader,
+        optimizer=optimizer,
+        device=torch.device("cpu"),
+    )
+    assert contract["runtime"] != changed_runtime["runtime"]
+
+    loader.dataset.indices = [3, 2]
+    with pytest.raises(ValueError, match="ordered split.valid_groups"):
+        build_static_contract(
+            args=args,
+            provenance=provenance,
+            split=split,
+            data_root=source_root,
+            source_root=source_root,
+            loader=loader,
+            optimizer=optimizer,
+            device=torch.device("cpu"),
+        )
+
+
+def test_strict_terminal_checkpoint_can_resume_finalize_only(tmp_path: Path, monkeypatch) -> None:
+    import wnn.propensity_recovery as recovery_module
+
+    monkeypatch.setattr("wnn.propensity_fit.emit", lambda *args, **kwargs: None)
+    monkeypatch.setattr("wnn.propensity_fit_update.emit", lambda *args, **kwargs: None)
+    prior_threads = torch.get_num_threads()
+    torch.set_num_threads(1)
+    try:
+        torch.manual_seed(17)
+        case = _tiny_strict_training_case(tmp_path, "run")
+        state_hash_calls = 0
+        original_file_sha256 = recovery_module.file_sha256
+
+        def fail_terminal_state_digest(path: Path) -> str:
+            nonlocal state_hash_calls
+            if path.name == "training_state.pt":
+                state_hash_calls += 1
+                if state_hash_calls == 3:
+                    raise OSError("synthetic post-save checkpoint digest failure")
+            return original_file_sha256(path)
+
+        monkeypatch.setattr(recovery_module, "file_sha256", fail_terminal_state_digest)
+        with pytest.raises(OSError, match="post-save checkpoint digest"):
+            _run_tiny_strict_fit(case, resume=False)
+        run_dir = case[-1]
+        failure = json.loads(next(run_dir.glob("failure-*.json")).read_text())
+        assert failure["committed_next_epoch"] == 2
+
+        monkeypatch.setattr(recovery_module, "file_sha256", original_file_sha256)
+        torch.manual_seed(17)
+        resumed = _tiny_strict_training_case(tmp_path, "run")
+        _run_tiny_strict_fit(resumed, resume=True)
+        provenance = json.loads((run_dir / "provenance.json").read_text())
+        assert provenance["fit_status"] == "completed"
+        assert provenance["optimizer_progress"]["optimizer_completed_updates"] == 8
+        assert len(list(run_dir.glob("failure-*.json"))) == 1
+    finally:
+        torch.set_num_threads(prior_threads)
+
+
+def test_strict_save_failure_reports_last_durable_epoch(tmp_path: Path, monkeypatch) -> None:
+    import wnn.propensity_fit_checkpoint as checkpoint_module
+
+    monkeypatch.setattr("wnn.propensity_fit.emit", lambda *args, **kwargs: None)
+    monkeypatch.setattr("wnn.propensity_fit_update.emit", lambda *args, **kwargs: None)
+    prior_threads = torch.get_num_threads()
+    torch.set_num_threads(1)
+    try:
+        torch.manual_seed(17)
+        case = _tiny_strict_training_case(tmp_path, "run")
+        original_save = checkpoint_module.save_resume_state
+
+        def fail_before_checkpoint(payload: dict[str, object], path: Path, *, on_saved=None) -> str:
+            if path.name == "training_state.pt":
+                raise OSError("synthetic checkpoint-save failure")
+            return original_save(payload, path, on_saved=on_saved)
+
+        monkeypatch.setattr(checkpoint_module, "save_resume_state", fail_before_checkpoint)
+        with pytest.raises(OSError, match="checkpoint-save failure"):
+            _run_tiny_strict_fit(case, resume=False)
+        failure = json.loads(next(case[-1].glob("failure-*.json")).read_text())
+        assert failure["committed_next_epoch"] == 0
+    finally:
+        torch.set_num_threads(prior_threads)
+
+
+def test_strict_resume_marks_hard_interruption_without_exception_receipt(
+    tmp_path: Path, monkeypatch
+) -> None:
+    monkeypatch.setattr("wnn.propensity_fit.emit", lambda *args, **kwargs: None)
+    monkeypatch.setattr("wnn.propensity_fit_update.emit", lambda *args, **kwargs: None)
+    prior_threads = torch.get_num_threads()
+    torch.set_num_threads(1)
+    try:
+        torch.manual_seed(17)
+        interrupted = _tiny_strict_training_case(tmp_path, "run")
+        optimizer = interrupted[1]
+        original_step = optimizer.step
+
+        def interrupt_after_step() -> None:
+            original_step()
+            raise KeyboardInterrupt("synthetic hard interruption after optimizer invocation")
+
+        monkeypatch.setattr(optimizer, "step", interrupt_after_step)
+
+        with pytest.raises(KeyboardInterrupt, match="hard interruption"):
+            _run_tiny_strict_fit(interrupted, resume=False)
+        run_dir = interrupted[-1]
+        assert not list(run_dir.glob("failure-*.json"))
+
+        torch.manual_seed(17)
+        resumed = _tiny_strict_training_case(tmp_path, "run")
+        _run_tiny_strict_fit(resumed, resume=True)
+        provenance = json.loads((run_dir / "provenance.json").read_text())
+        assert [attempt["status"] for attempt in provenance["training_attempts"]] == [
+            "interrupted_recovered",
+            "completed",
+        ]
+        recovery = provenance["recovery_history"][-1]
+        assert recovery["rolled_back_optimizer_attempts"] == 1
+        assert recovery["known_rolled_back_optimizer_step_calls"] == 0
+        assert recovery["unknown_inflight_optimizer_step_calls"] == 1
+        assert provenance["failure_history"] == []
+        assert provenance["fit_status"] == "completed"
+    finally:
+        torch.set_num_threads(prior_threads)
+
+
+def test_strict_update_counts_and_fails_on_nonfinite_input(tmp_path: Path, monkeypatch) -> None:
+    from wnn.propensity import PropensityNet
+    from wnn.propensity_fit_update import _fit_update
+    from wnn.propensity_progress import ProgressJournal, UpdateProgress
+
+    monkeypatch.setattr("wnn.propensity_fit_update.emit", lambda *args, **kwargs: None)
+    model = PropensityNet(n_in=2, hidden=2)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.01)
+    journal = ProgressJournal(tmp_path / "progress.jsonl")
+    cumulative, epoch = UpdateProgress(), UpdateProgress()
+    with pytest.raises(FloatingPointError, match="input batch"):
+        _fit_update(
+            model=model,
+            optimizer=optimizer,
+            inputs=torch.full((1, 2, 2), float("nan")),
+            target=torch.zeros((1, 2)),
+            hidden=None,
+            chunk_start=0,
+            warmup=0,
+            epoch=0,
+            batch=0,
+            attempt_id="tiny",
+            journal=journal,
+            cumulative=cumulative,
+            epoch_progress=epoch,
+        )
+    assert cumulative.optimizer_attempts == 1
+    assert cumulative.optimizer_completed_updates == 0
+    assert cumulative.nonfinite_inputs == 1
+    assert cumulative.snapshot()["optimizer_rejected_nonfinite"] == 1
+    events = ProgressJournal(tmp_path / "progress.jsonl", resume_after=journal.sequence)
+    assert events.recovery_summary(0)["rolled_back_nonfinite_updates"] == 1
+
+
+def test_strict_update_rejects_overflowed_norm_before_step(tmp_path: Path, monkeypatch) -> None:
+    from wnn.propensity import PropensityNet
+    from wnn.propensity_fit_update import _fit_update
+    from wnn.propensity_progress import ProgressJournal, UpdateProgress
+
+    model = PropensityNet(n_in=2, hidden=2)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.01)
+    step_calls = 0
+    original_step = optimizer.step
+
+    def tracked_step():
+        nonlocal step_calls
+        step_calls += 1
+        return original_step()
+
+    monkeypatch.setattr(optimizer, "step", tracked_step)
+    monkeypatch.setattr(
+        torch.linalg,
+        "vector_norm",
+        lambda *_args, **_kwargs: torch.tensor(float("inf")),
+    )
+    journal = ProgressJournal(tmp_path / "progress.jsonl")
+    cumulative, epoch = UpdateProgress(), UpdateProgress()
+    with pytest.raises(FloatingPointError, match="gradient norm"):
+        _fit_update(
+            model=model,
+            optimizer=optimizer,
+            inputs=torch.ones((1, 2, 2)),
+            target=torch.zeros((1, 2)),
+            hidden=None,
+            chunk_start=0,
+            warmup=0,
+            epoch=0,
+            batch=0,
+            attempt_id="tiny-norm",
+            journal=journal,
+            cumulative=cumulative,
+            epoch_progress=epoch,
+        )
+    assert step_calls == 0
+    assert cumulative.optimizer_step_calls == 0
+    assert cumulative.nonfinite_gradient_norms == 1
+
+
+def test_strict_update_marks_post_step_optimizer_state_failure(tmp_path: Path, monkeypatch) -> None:
+    from wnn.propensity import PropensityNet
+    from wnn.propensity_fit_update import _fit_update
+    from wnn.propensity_progress import ProgressJournal, UpdateProgress
+
+    monkeypatch.setattr("wnn.propensity_fit_update.emit", lambda *args, **kwargs: None)
+    model = PropensityNet(n_in=2, hidden=2)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.01)
+    original_step = optimizer.step
+
+    def corrupt_state():
+        result = original_step()
+        for state in optimizer.state.values():
+            state["exp_avg"].fill_(float("nan"))
+        return result
+
+    monkeypatch.setattr(optimizer, "step", corrupt_state)
+    journal = ProgressJournal(tmp_path / "progress.jsonl")
+    cumulative, epoch = UpdateProgress(), UpdateProgress()
+    with pytest.raises(FloatingPointError, match="optimizer state"):
+        _fit_update(
+            model=model,
+            optimizer=optimizer,
+            inputs=torch.ones((1, 2, 2)),
+            target=torch.zeros((1, 2)),
+            hidden=None,
+            chunk_start=0,
+            warmup=0,
+            epoch=0,
+            batch=0,
+            attempt_id="tiny-state",
+            journal=journal,
+            cumulative=cumulative,
+            epoch_progress=epoch,
+        )
+    assert cumulative.optimizer_step_calls == 1
+    assert cumulative.optimizer_completed_updates == 0
+    assert cumulative.nonfinite_optimizer_states == 1
+    rejected = [event for event in journal._events if event["event"] == "optimizer_update_rejected"]
+    assert rejected[0]["optimizer_step_called"] is True

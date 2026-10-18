@@ -1,0 +1,5 @@
+# Strict propensity progress and recovery
+
+The opt-in strict propensity trainer now records optimizer attempt/completion and non-finite counters, learning-rate and pre-clip gradient summaries, and attempt-scoped failure evidence. It saves the full model/optimizer/RNG/loader state at completed epochs and resumes by replaying only uncommitted work. Resume checks the exact fit row order and pins CUDA/cuDNN determinism settings; it can also finalize a terminal checkpoint after an interruption. A torn or invalid progress journal fails closed, and an in-flight step call is explicitly marked unknown when the journal has no completion/rejection event.
+
+Validation is limited to 33 synthetic CPU tests, Ruff, training-structure validation, CLI help, and `git diff --check`. No campaign fit, cache generation, real-data profile, GPU check, or scientific comparison was run. See [README_V3.md](README_V3.md), [VALIDATION_V3.json](VALIDATION_V3.json), and [the V3 source snapshot manifest](revisions/v3/SNAPSHOT_MANIFEST.json). This remains unadmitted and is not campaign-ready.

@@ -1,0 +1,67 @@
+{
+  "base_commit": "0f17c2b6daab1df70186273738fb0fbadbe4193a",
+  "campaign_readiness": "NOT_READY_UNADMITTED",
+  "decision": "PASS_ENGINEERING_REVIEW",
+  "nonblocking_scope_limits": [
+    "Progress JSONL is directly appended and synced every 64 journal events and at recovery boundaries. Missing, truncated, or invalid journals fail closed; there is no repair or claim of arbitrary power-loss/torn-write resilience.",
+    "Recovery replays incomplete work from the preceding completed epoch; it is not mid-batch continuation. No campaign data, arrays, checkpoint, cache, GPU, remote worker, real fit, or scientific comparison was used in this review.",
+    "No campaign runtime/memory profile, GPU numerical check, cache-generation run, or scientific quality comparison has been completed. This receipt is engineering review only and grants no campaign execution authority."
+  ],
+  "positive_findings": [
+    "The strict profile remains opt-in; the legacy default and legacy autocast/update path are retained. The new resume flag is rejected outside strict_fp32_v1, and the strict path returns before the legacy fitting loop.",
+    "Strict updates validate finite inputs, targets, logits, loss, gradients, and pre-clip aggregate gradient norm before stepping, then validate model parameters and floating AdamW state after stepping. Progress distinguishes attempts, optimizer-step calls, committed updates, rejection stages, learning-rate range, and gradient-norm summaries.",
+    "Recovery is tied to exact source hashes, options, data/split identity, ordered split and loader fit membership, evaluation membership, normalization buffers, loader/sampler state, optimizer defaults, and captured runtime/determinism settings. Model, optimizer, loader, and RNG restore in the intended order, with RNG restored last.",
+    "Only completed-epoch checkpoints are recovery points. The durable epoch cursor advances after atomic state publication; incomplete epochs replay from the saved RNG/loader state. Terminal finalize-only resume validates epoch accounting and checkpoint files. Caught failures use create-only attempt-specific evidence; a recovered saved attempt without a terminal journal marker becomes interrupted_recovered.",
+    "For an orphaned update start with no completion or rejection event, recovery records the in-flight optimizer-step-call count as unknown. The focused KeyboardInterrupt-after-step fixture verifies the status/history and unknown-count behavior; this avoids presenting a pre-event as proof that optimizer.step completed.",
+    "The final source snapshot and validation hashes match the current source files and saved snapshot copies. The V3 docs accurately distinguish synthetic engineering validation from campaign admission and identify journal, runtime-profile, GPU, and scientific-comparison limits."
+  ],
+  "prior_review_preservation": {
+    "review_v1_sha256": "4ed25e29aad141a29e7f349e25fd1ffa1afd87920ea97d470ff663e2e2c84e6a",
+    "review_v2_sha256": "369f597162e1eb717ec626519a76b1076e15a014a0a09d3b395ea991f1b599bb",
+    "validation_v2_sha256": "b89a854e4d2f0492f3687f4591fea34469f1cf7bea6f186a9590658d596b4e57"
+  },
+  "ready_for_engineering_publication": true,
+  "reviewed_at_utc": "2026-10-18T20:29:23Z",
+  "reviewed_document_bindings": [
+    {
+      "path": "research/experiment_drafts/tl3-clean-propensity-20261018/README_V3.md",
+      "sha256": "7f0220e7831951aedb7cd6c23c977657824c33b350b8ec956ba643bfede54451"
+    },
+    {
+      "path": "research/experiment_drafts/tl3-clean-propensity-20261018/PR_V3.md",
+      "sha256": "5f39a766c0ba55565cb4306f5c2ebc7de3fb932b8f39e2c3ca9f7e0e86121c2f"
+    },
+    {
+      "path": "research/experiment_drafts/tl3-clean-propensity-20261018/revisions/v3/SNAPSHOT_MANIFEST.json",
+      "sha256": "c6e1efd7559c9fc6ab47cf103cf0e4d017e73a3513dbf1fa33f498fe3f17e500"
+    }
+  ],
+  "schema": "wnn.experiment_draft.independent_review.v3",
+  "scope_limits": [
+    "Source-bound read-only review of the frozen V3 implementation and documentation; the author-reported full 33-test/static suite was not repeated. One focused hard-interruption recovery test was independently rerun.",
+    "No campaign data, arrays, checkpoints, GPU, remote execution, fit, cache generation, staging, commit, or PR publication was accessed or performed.",
+    "Approval applies only to the V3 engineering source and reviewed documentation bytes; campaign readiness and execution remain separately gated."
+  ],
+  "validation_receipt": {
+    "all_12_source_test_pins_and_snapshot_copies_match": true,
+    "changed_source_sha256": {
+      "scripts/train_propensity.py": "44b9ed72e209fa836f7d171861080471d4804bb4abef6177340145d962379656",
+      "src/wnn/propensity.py": "31a4e8309bc389b4bd72d64fe89fa00a48b4eeac7bce63799bfe985d240fd716",
+      "src/wnn/propensity_cli.py": "3f4738685cd3d7184aa2e28310e25b47e34e91754e52f3772deb094481b22ff7",
+      "src/wnn/propensity_failure.py": "be71d81288178956d1eb7011ca0ac07b7e5289b3a2031b8ea829588f8d15ffcb",
+      "src/wnn/propensity_fit.py": "77b13f43971068669bab4ad07df46a340cb5eb570e27093e586d10c72ab13848",
+      "src/wnn/propensity_fit_checkpoint.py": "267b40b657d2afe7f549d3636115e02a31e96ccb29260c3de182b7bbc634c18d",
+      "src/wnn/propensity_fit_setup.py": "7452ef3a3dbd46cb220a01dbc0df64c990cbbff34f919cd7ec2e7f6a1163518e",
+      "src/wnn/propensity_fit_update.py": "7c07bd1d25fa3c4c0f7b198b5e55e35caa063342f7455d7b5a2b4304996036d7",
+      "src/wnn/propensity_progress.py": "f1738f3429a4f5b23d63952297820d9613d2243fd40f48eabf11573b04a6d401",
+      "src/wnn/propensity_recovery.py": "7669bc607aa71d7faacc80b0c5ec93e295bdb39c1cd4329f311ea8a2b76de848",
+      "src/wnn/propensity_recovery_validation.py": "b043bb84c0b8e2a15f4b870d2c9c4e41c763b5f4791ffa74726226382fcbcdf8",
+      "tests/test_propensity_strict_profile.py": "1be4317b4fa6be96da9f891567678baf6e62bb1e3e0d2209938af9a41f4ebed5"
+    },
+    "path": "research/experiment_drafts/tl3-clean-propensity-20261018/VALIDATION_V3.json",
+    "reported_checks": "33 tests, Ruff format/check, structure validation, CLI help, and git diff --check passed per sealed receipt; reviewer independently reran the hard-interruption recovery test (1 passed).",
+    "sha256": "6a8e6b9e44c6926dfafc14877314b3412f09321c6f7e97464f93d95e4f9a2cd0",
+    "source_snapshot_manifest_sha256": "c6e1efd7559c9fc6ab47cf103cf0e4d017e73a3513dbf1fa33f498fe3f17e500",
+    "status": "LOCAL_STATIC_AND_TINY_TESTS_PASSED_UNADMITTED"
+  }
+}
