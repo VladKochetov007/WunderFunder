@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Deep stage1 completion and wide continuation](../../campaign_2026-10-18/priority25_execution_r4/receipts/STAGE1_DEEP_HANDOFF_20261018T0210Z.json) — deep F0/seed1001 completed29,840 updates with zero skips/nonfinite gradients. Five artifacts are archived and the independent CPU checkpoint check passes; wide epoch2 is active under the unchanged plan. Provider recovery/cluster claims remain unobserved; issue19 is a separate resource-coordination reference. No fixed-endpoint score, GPU resume parity or CP30 claim.
+
 - [Ranked25 continuation at01:43UTC](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0143Z.json) — deep epoch1 reaches batch1160/1492 with one GPU worker and zero memory events. Stage1 collection is prepared; no endpoint or quality result yet. Live DataSphere incident, recent project history/balance and unclaimed issue16 remain unchanged; no duplicate or paid retry.
 
 - [Ranked25 routine continuation at01:10UTC](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0110Z.json) — deep epoch1 advances through batch460/1492 on the sole campaign GPU process. Plan, checkpoints and memory-event health remain unchanged; live provider incident, project jobs/balance and unclaimed issue16 supply no new admission signal. No new fit, paid test or quality result.
