@@ -18,10 +18,19 @@ convergence guarantee.
 
 `f1_fit_spec.template.json` is deliberately not runnable. The admitted profile
 must first establish usable runtime; an execution copy must set `state` to
-`SEALED_FOR_F1_PAIR` and populate positive internal/external cancellation
-deadlines with at least 60 seconds of graceful-collection margin. The adapter
-rejects unset deadlines, changed source/archive/split identities, changed arms,
-recipe drift and unrecognized runtime. `f1_fit_config.template.yaml` is a
+`SEALED_FOR_F1_PAIR` and populate positive `internal_deadline_seconds`,
+`collection_reserve_seconds`, and
+`external_cancel_deadline_seconds_from_submit`. The adapter keeps a fit alarm
+through the internal deadline, then uses the separately declared collection
+reserve through `entry start + internal deadline + collection reserve`. It
+records SIGTERM during collection and continues bounded finalization; the
+collection alarm remains armed, and expiry leaves a partial receipt without
+claiming an archive. The submit-relative external deadline must leave the
+declared collection reserve plus the provider's 60-second graceful shutdown,
+and admission must separately include observed submit/start delay. No runtime
+deadline is inferred from the failed profile attempt. The adapter rejects
+unset deadlines, changed source/archive/split identities, changed arms, and
+recipe drift. `f1_fit_config.template.yaml` is a
 portability template: its local absolute archive paths and provider dataset
 identifiers still require the already-authorized DataSphere project input
 bindings. It has not been submitted. The DataSphere 0.10 SDK rejects an empty
@@ -37,7 +46,9 @@ ordered fold membership and sidecar identity. It does not grade the metric. Its
 terminal bundle includes run checkpoints,
 `training_state.pt`, `history.json`, provenance, logs, predictions, sidecars,
 and the fit/split/registry identities. On SIGTERM or the internal deadline it
-tries to bundle every artifact already written. If interrupted within an epoch,
+tries to bundle every artifact already written within the declared collection
+reserve. If that deadline expires, it retains a partial local receipt but does
+not claim that an archive was collected. If interrupted within an epoch,
 the last durable epoch state and fit log are retained; a clean `history.json`
 is only written by the canonical trainer at normal finalization. SIGKILL,
 provider loss before output collection, or disk failure can still prevent a
@@ -45,10 +56,13 @@ complete bundle.
 
 Before packaging, the adapter writes `fit-artifact-manifest.json` with a
 relative path, byte count, and SHA-256 for every other file, then verifies the
-tree and archive against that manifest. The compressed archive fails closed if
-it exceeds the SDK's 1 GiB aggregate output limit. After provider download,
-verify the archive before claiming collection; after extraction, verify its tree
-as well:
+tree and archive against that manifest. The compressed archive fails closed at
+768 MiB to leave room under the SDK's 1 GiB aggregate download limit for
+provider logs and diagnostics; this cap alone does not guarantee the aggregate
+limit. The controller must explicitly download the `fit-results.tar.gz` output
+and verify the provider file's path, size and hash plus this embedded manifest
+before marking collection complete. A zero SDK exit status is insufficient.
+After extraction, verify the tree as well:
 
 ```sh
 python3 f1_fit_bundle.py --verify-bundle /path/to/fit-results.tar.gz

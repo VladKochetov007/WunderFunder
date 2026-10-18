@@ -45,8 +45,8 @@ ARMS = (
 )
 
 
-def validate_fit_spec(spec: dict[str, object]) -> tuple[int, int]:
-    """Require a sealed, fixed F1 pair and populated measured runtime deadlines."""
+def validate_fit_spec(spec: dict[str, object]) -> tuple[int, int, int]:
+    """Require a sealed F1 pair and explicit fit, collection and provider deadlines."""
     if spec.get("schema_version") != 1 or spec.get("state") != "SEALED_FOR_F1_PAIR":
         raise ValueError("fit spec is not sealed for the F1 pair")
     expected = {
@@ -65,12 +65,22 @@ def validate_fit_spec(spec: dict[str, object]) -> tuple[int, int]:
     if not isinstance(runtime, dict):
         raise ValueError("fit spec lacks measured runtime allocation")
     internal = runtime.get("internal_deadline_seconds")
+    collection = runtime.get("collection_reserve_seconds")
     external = runtime.get("external_cancel_deadline_seconds_from_submit")
-    if type(internal) is not int or type(external) is not int or internal <= 0:
-        raise ValueError("measured runtime deadlines are unset or invalid")
-    if external < internal + 60:
-        raise ValueError("external deadline must leave at least 60 seconds for graceful collection")
-    return internal, external
+    if (
+        type(internal) is not int
+        or type(collection) is not int
+        or type(external) is not int
+        or internal <= 0
+        or collection <= 0
+    ):
+        raise ValueError("measured fit, collection and provider deadlines are unset or invalid")
+    if external < internal + collection + 60:
+        raise ValueError(
+            "external deadline must leave the explicit collection reserve plus "
+            "60 seconds for graceful shutdown"
+        )
+    return internal, collection, external
 
 
 def training_args(arm: dict[str, object], split_path: Path) -> list[str]:

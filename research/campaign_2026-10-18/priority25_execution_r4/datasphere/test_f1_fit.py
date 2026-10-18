@@ -4,13 +4,16 @@ from __future__ import annotations
 
 import hashlib
 import json
+import signal
 import tarfile
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import f1_fit_bundle
 from f1_fit_bundle import verify_bundle_archive, verify_hash_manifest, write_bundle
+from f1_fit_entry import _collect_and_bundle, _request_stop
 from f1_fit_outputs import (
     collect_artifacts,
     validate_completed_fit,
@@ -28,6 +31,7 @@ def sealed_fit_spec() -> dict[str, object]:
     spec["state"] = "SEALED_FOR_F1_PAIR"
     spec["runtime"] = {
         "internal_deadline_seconds": 3000,
+        "collection_reserve_seconds": 300,
         "external_cancel_deadline_seconds_from_submit": 3600,
     }
     return spec
@@ -39,15 +43,35 @@ class FitRecipeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "not sealed"):
             validate_fit_spec(template)
         template["state"] = "SEALED_FOR_F1_PAIR"
-        with self.assertRaisesRegex(ValueError, "unset or invalid"):
+        with self.assertRaisesRegex(ValueError, "fit, collection and provider deadlines"):
             validate_fit_spec(template)
 
     def test_fit_spec_accepts_only_fixed_fold_seed_pair_and_bound(self) -> None:
         spec = sealed_fit_spec()
-        self.assertEqual(validate_fit_spec(spec), (3000, 3600))
+        self.assertEqual(validate_fit_spec(spec), (3000, 300, 3600))
         spec["recipe"]["fold"] = 0
         with self.assertRaisesRegex(ValueError, "authorized recipe"):
             validate_fit_spec(spec)
+
+    def test_fit_spec_requires_collection_reserve_before_external_deadline(self) -> None:
+        spec = sealed_fit_spec()
+        spec["runtime"]["collection_reserve_seconds"] = None
+        with self.assertRaisesRegex(ValueError, "deadlines are unset or invalid"):
+            validate_fit_spec(spec)
+        spec = sealed_fit_spec()
+        spec["runtime"]["external_cancel_deadline_seconds_from_submit"] = 3359
+        with self.assertRaisesRegex(ValueError, "explicit collection reserve"):
+            validate_fit_spec(spec)
+
+    def test_sigterm_during_collection_is_recorded_without_unbounded_work(self) -> None:
+        state = {"phase": "collection", "sigterm_requested": False}
+        _request_stop(signal.SIGTERM, None, state)
+        self.assertTrue(state["sigterm_requested"])
+        with self.assertRaisesRegex(TimeoutError, "collection/finalization deadline"):
+            _request_stop(signal.SIGALRM, None, state)
+        state["phase"] = "fit"
+        with self.assertRaises(InterruptedError):
+            _request_stop(signal.SIGTERM, None, state)
 
     def test_pair_training_commands_differ_only_by_run_and_shape(self) -> None:
         wide = training_args(ARMS[0], Path("splits/fold1.json"))
@@ -289,11 +313,53 @@ class FitArtifactTests(unittest.TestCase):
             original_limit = f1_fit_bundle.MAX_PROVIDER_OUTPUT_BYTES
             try:
                 f1_fit_bundle.MAX_PROVIDER_OUTPUT_BYTES = 1
-                with self.assertRaisesRegex(ValueError, "1 GiB"):
+                with self.assertRaisesRegex(ValueError, "768 MiB"):
                     write_bundle(bundle, output)
             finally:
                 f1_fit_bundle.MAX_PROVIDER_OUTPUT_BYTES = original_limit
             self.assertFalse(bundle.exists())
+
+    def test_collection_deadline_preserves_partial_receipt_and_skips_bundle(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "fit-results"
+            output.mkdir()
+            receipt = {"status": "INTERRUPTED", "quality_result": None}
+            with (
+                patch("f1_fit_entry.collect_artifacts", side_effect=TimeoutError("deadline")),
+                patch("f1_fit_entry.write_bundle") as bundle,
+            ):
+                completed = _collect_and_bundle(
+                    None,
+                    output,
+                    root / "profile.json",
+                    root / "fit.json",
+                    root / "fit-results.tar.gz",
+                    receipt,
+                    {"phase": "collection", "sigterm_requested": True},
+                )
+            self.assertFalse(completed)
+            self.assertFalse(bundle.called)
+            saved = json.loads((output / "fit-pair-receipt.json").read_text(encoding="utf-8"))
+            self.assertEqual(saved["collection_status"], "DEADLINE_EXPIRED")
+            self.assertEqual(saved["bundle_status"], "NOT_ATTEMPTED_COLLECTION_DEADLINE")
+            self.assertTrue(saved["sigterm_requested_during_collection"])
+
+    def test_collection_reraises_deadline_at_copy_boundary(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "fit-results"
+            output.mkdir()
+            profile = root / "profile.json"
+            profile.write_text("{}", encoding="utf-8")
+            fit = root / "fit.json"
+            for error in (TimeoutError("deadline"), InterruptedError("stop")):
+                with (
+                    self.subTest(exception=type(error).__name__),
+                    patch("f1_fit_outputs.shutil.copy2", side_effect=error),
+                    self.assertRaises(type(error)),
+                ):
+                    collect_artifacts(root, output, profile, fit)
 
 
 if __name__ == "__main__":

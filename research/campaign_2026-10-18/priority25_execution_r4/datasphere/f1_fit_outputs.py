@@ -255,6 +255,8 @@ def collect_artifacts(
         try:
             if path.is_file():
                 shutil.copy2(path, inputs / path.name)
+        except (InterruptedError, TimeoutError):
+            raise
         except OSError as error:
             errors.append(f"{path.name}: {type(error).__name__}: {error}")
     if data_root is None or not data_root.is_dir():
@@ -263,6 +265,8 @@ def collect_artifacts(
         try:
             if path.is_file():
                 shutil.copy2(path, inputs / path.name)
+        except (InterruptedError, TimeoutError):
+            raise
         except OSError as error:
             errors.append(f"{path.name}: {type(error).__name__}: {error}")
     for arm in ARMS:
@@ -273,6 +277,8 @@ def collect_artifacts(
             try:
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copytree(source, destination, dirs_exist_ok=True)
+            except (InterruptedError, TimeoutError):
+                raise
             except OSError as error:
                 errors.append(f"{name} run directory: {type(error).__name__}: {error}")
         for suffix in (".npy", ".npy.partial", ".json"):
@@ -282,6 +288,8 @@ def collect_artifacts(
                     destination = output / "cache" / source.name
                     destination.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copy2(source, destination)
+                except (InterruptedError, TimeoutError):
+                    raise
                 except OSError as error:
                     errors.append(f"{source.name}: {type(error).__name__}: {error}")
     return errors

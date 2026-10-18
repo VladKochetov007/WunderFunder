@@ -14,7 +14,8 @@ from profile_staging import sha256_file
 # Manifest data uses Any because it is parsed from producer-generated JSON.
 MANIFEST_NAME = "fit-artifact-manifest.json"
 MAX_MANIFEST_BYTES = 16 << 20
-MAX_PROVIDER_OUTPUT_BYTES = 1 << 30
+# Keep headroom for provider logs/diagnostics in the SDK's aggregate 1 GiB cap.
+MAX_PROVIDER_OUTPUT_BYTES = 768 << 20
 MAX_BUNDLE_CONTENT_BYTES = 4 << 30
 
 
@@ -31,9 +32,7 @@ def write_bundle(out_path: Path, output: Path) -> None:
         with tarfile.open(out_path, "w:gz", compresslevel=1) as archive:
             archive.add(output, arcname="fit-results")
         if out_path.stat().st_size > MAX_PROVIDER_OUTPUT_BYTES:
-            raise ValueError(
-                "compressed fit bundle exceeds the DataSphere 1 GiB aggregate output cap"
-            )
+            raise ValueError("compressed fit bundle exceeds the 768 MiB per-bundle safety cap")
         verify_bundle_archive(out_path)
     except BaseException:
         out_path.unlink(missing_ok=True)
@@ -103,7 +102,7 @@ def verify_hash_manifest(root: Path) -> dict[str, Any]:
 def verify_bundle_archive(archive_path: Path) -> dict[str, Any]:
     """Verify every regular archive file against the embedded manifest."""
     if archive_path.stat().st_size > MAX_PROVIDER_OUTPUT_BYTES:
-        raise ValueError("bundle archive exceeds the DataSphere 1 GiB aggregate output cap")
+        raise ValueError("bundle archive exceeds the 768 MiB per-bundle safety cap")
     with tarfile.open(archive_path, "r:gz") as archive:
         members = archive.getmembers()
         if sum(member.size for member in members if member.isfile()) > MAX_BUNDLE_CONTENT_BYTES:
@@ -149,7 +148,7 @@ def verify_bundle_archive(archive_path: Path) -> dict[str, Any]:
             if byte_count != expected["bytes"] or digest != expected["sha256"]:
                 raise ValueError(f"bundle archive hash or size mismatch: {relative}")
     if archive_path.stat().st_size > MAX_PROVIDER_OUTPUT_BYTES:
-        raise ValueError("bundle archive exceeds the DataSphere 1 GiB aggregate output cap")
+        raise ValueError("bundle archive exceeds the 768 MiB per-bundle safety cap")
     return manifest
 
 
