@@ -1,0 +1,200 @@
+{
+  "schema": "wnn.kalman-frozen-gru-probe.v1",
+  "experiment_id": "E-KALMAN-FROZEN-GRU-INPUT-20261018-R1",
+  "hypothesis_id": "H-KALMAN-CAUSAL-INPUT-20261018-R1",
+  "status": "code and CPU preflight complete; awaiting root GPU admission and independent grading",
+  "owner": {
+    "actor": "adapter_objective_actor",
+    "root_controller": "root",
+    "root_owns": [
+      "GPU admission",
+      "execution monitoring",
+      "integration",
+      "independent grading",
+      "scientific interpretation"
+    ]
+  },
+  "question": "Do fixed causal scalar-random-walk or local-level/drift posterior levels change a frozen parent GRU's predictions when injected into four selected raw channels?",
+  "claim_scope": "One exposed-F0, source-qualified 16-group prediction-only diagnostic; no score or generalization claim",
+  "parent": {
+    "run": "warm_mechanism_f0_s3_c_r3@ep1",
+    "checkpoint": "artifacts/runs/warm_mechanism_f0_s3_c_r3/model_ep1.pt",
+    "sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+    "architecture": "GRU, hidden 256, 2 layers, dropout 0, input width 211, two prediction outputs",
+    "input_order": "112 raw channels followed by 99 event features",
+    "model_tensors": "Loaded strictly from the parent checkpoint; no training or parameter updates"
+  },
+  "arms": [
+    {
+      "name": "raw",
+      "input": "Unchanged parent input and original event block"
+    },
+    {
+      "name": "random_walk_posterior",
+      "input": "Replace only raw columns 0,3,52,55 by current-observation scalar random-walk posterior levels"
+    },
+    {
+      "name": "local_trend_posterior",
+      "input": "Replace only raw columns 0,3,52,55 by current-observation local-trend posterior levels"
+    }
+  ],
+  "filter_config": {
+    "channels": [
+      0,
+      3,
+      52,
+      55
+    ],
+    "channel_names": [
+      "i0_p0",
+      "i0_p3",
+      "i1_p0",
+      "i1_p3"
+    ],
+    "normalization": {
+      "mode": "inherited-checkpoint-buffer",
+      "path": "research/campaign_2026-10-18/online_features_r1/kalman_parent_normalization.json",
+      "sha256": "d0895b2eeb1252c2a51bfb899036575e477fffe5df5b71f0109ce524a790469c",
+      "mean": [
+        -1.5891348123550415,
+        -1.7919175624847412,
+        -1.6288586854934692,
+        -1.8200945854187012
+      ],
+      "std": [
+        0.343542218208313,
+        0.29335129261016846,
+        0.3840661644935608,
+        0.328856885433197
+      ],
+      "full_parent_mean_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8",
+      "full_parent_std_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5",
+      "evaluation_fitting": false
+    },
+    "q_and_r_units": "Parent-normalized selected channel units; fixed for the whole arm, not tuned on F0",
+    "random_walk": {
+      "state": "level",
+      "transition": "x[t+1] = x[t] + process_noise",
+      "q": 0.02,
+      "r": 0.5,
+      "initial_level": "first current observation",
+      "initial_posterior_covariance": "fixed-Q/R steady-state posterior variance"
+    },
+    "local_trend": {
+      "state": [
+        "level",
+        "velocity"
+      ],
+      "transition": [
+        [
+          1,
+          1
+        ],
+        [
+          0,
+          1
+        ]
+      ],
+      "observation": [
+        1,
+        0
+      ],
+      "q_diagonal": [
+        0.02,
+        0.0002
+      ],
+      "r": 0.5,
+      "initial_state": [
+        "first current observation",
+        0
+      ],
+      "initial_covariance_diagonal": [
+        1,
+        0.1
+      ],
+      "covariance_update": "Joseph form; symmetrized; positive eigenvalue floor 1e-12"
+    },
+    "posterior": "Assimilate only current and past same-sequence inputs; emit posterior level at row t; reset before every sequence",
+    "events": "Canonical build_inputs computes the 99 event features from the original raw sequence; the injected forward_chunk closure replaces only four raw slots afterward",
+    "input_width": "Remains 211; the 40-wide Kalman feature stack is not appended to the GRU"
+  },
+  "membership": {
+    "source": "valid.parquet",
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "selection": "First 16 source-qualified F0 evaluation row groups, frozen before model replay",
+    "group_ids": [
+      4,
+      5,
+      7,
+      9,
+      12,
+      18,
+      19,
+      22,
+      26,
+      35,
+      39,
+      41,
+      42,
+      50,
+      51,
+      53
+    ],
+    "group_list_sha256": "ef3581b2aac87706237f40562b1350c5f429c275caf454c6e29bb591e97923bf",
+    "sequence_ids": [
+      1990332,
+      2308749,
+      6746551,
+      9147005,
+      11423352,
+      24654613,
+      25927382,
+      28399078,
+      29519713,
+      38268719,
+      45444605,
+      47001707,
+      48100848,
+      51305808,
+      51608922,
+      52382536
+    ],
+    "rows_per_sequence": 20000,
+    "payload": "SequenceFile.read(targets=False, mask=False): seq_ix plus all 112 raw features; no target, is_scored, or need_prediction payload requested",
+    "exposure": "F0 is exposed and this first-16 panel is selected; any later score is diagnostic only"
+  },
+  "execution": {
+    "fit": false,
+    "batch_size": 1,
+    "chunk_rows": 4000,
+    "precision": "FP32 weights, inputs, states and outputs; autocast and TF32 disabled",
+    "groups_serial": true,
+    "sequence_state_reset": true,
+    "all_20000_rows_processed_including_warmup": true,
+    "per_arm_prediction_cache": "NPZ with source row-group IDs, sequence IDs, and float32 prediction pairs only",
+    "official_metric_called": false,
+    "root_admission": "Pending; actor must not execute --mode execute before root admission"
+  },
+  "commands": {
+    "preflight": "WNN_CPU_QUOTA=20% WNN_MEM_MAX=500M WNN_THREADS=1 WNN_SLICE=wnn-campaign.slice WNN_SCOPE_UNIT=wnn-kalman-preflight-20261018-r2.scope WNN_RUNTIME_MAX=120s scripts/limited .venv/bin/python research/campaign_2026-10-18/online_features_r1/kalman_filter_probe/frozen_gru_probe.py --mode preflight",
+    "execute_after_root_admission": "WNN_CPU_QUOTA=20% WNN_MEM_MAX=5000000000 WNN_THREADS=1 WNN_SLICE=wnn-campaign.slice WNN_SCOPE_UNIT=wnn-kalman-gru-probe-20261018-r1.scope WNN_RUNTIME_MAX=900s scripts/limited .venv/bin/python research/campaign_2026-10-18/online_features_r1/kalman_filter_probe/frozen_gru_probe.py --mode execute"
+  },
+  "resource_estimate": {
+    "status": "planning estimate only; exact replay has not run",
+    "cpu": "The earlier feature-only first-eight projection took 97.1 wall seconds and 19.4 process-CPU seconds; this 16-group replay adds 48 B1 model sequence forwards. Budget up to 15 minutes with CPU capped at 20%.",
+    "ram": "5,000,000,000-byte cgroup cap requested; one sequence is resident at a time and prediction outputs total about 7.7 MB before NPZ metadata. Runtime/library overhead is not measured here.",
+    "vram": "One GPU, B1/chunk4000, FP32; estimate below 1.5 GB but must be measured by root before/while admission."
+  },
+  "checks_completed": {
+    "synthetic": "20,000 rows; finite, future-perturbation prefix invariance, exact A-B-A reset, constant/extreme finite values, local-trend covariance PSD, steady-state EMA equivalence, raw retention, and streaming/batch posterior equality pass",
+    "actual_input_only": "First eight F0 groups projected; all 160,000 selected-channel rows finite, actual A-B-A prefix equality passed; no Torch/GPU/targets/masks",
+    "source_preflight": "Exact first-16 membership, data metadata, code pins, parent SHA and normalization SHA passed; no checkpoint/model/payload loaded"
+  },
+  "limits": [
+    "No GRU replay, prediction cache, grade, official metric, or quality result exists yet.",
+    "The 1,000-row visual panel is one sequence and four columns, with the earlier identity/unscaled diagnostic config; it is not a physical price/noise interpretation.",
+    "A result on this exposed 16-group F0 panel cannot establish generalization or family-level failure/success.",
+    "The larger learned latent Kalman teacher and GRU distillation remain a separate design/implementation path; this NumPy reference is not a paper reproduction."
+  ]
+}

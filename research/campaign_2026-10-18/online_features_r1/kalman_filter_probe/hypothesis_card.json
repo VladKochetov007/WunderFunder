@@ -1,0 +1,29 @@
+{
+  "schema": "wnn.hypothesis_card.v1",
+  "id": "H-KALMAN-CAUSAL-INPUT-20261018-R1",
+  "parent": "C-ONLINE-FEATURES-20261018-R1",
+  "status": "fixed causal transform passes synthetic and input-only engineering checks; frozen-GRU replay awaits root GPU admission",
+  "mechanism": "A scalar random-walk posterior level or two-state level/drift posterior level gives a recurrent predictor a causal, per-sequence summary of selected raw channels. This probe replaces four existing raw inputs and retains the original event block.",
+  "prospective_prediction": "On the first-group visual panel, piecewise plateaus and spikes appear; the scalar filter lags transitions and the local-trend filter can overshoot at plateau entry. If the parent endpoint responds to these channel summaries, its prediction deltas should concentrate where the raw observation differs most from the posterior level. No score direction or gain is predicted.",
+  "strongest_alternative": "The parent recurrent state may already encode the relevant level and transition information; replacing four channels can distort a useful raw cue without adding conditional value.",
+  "falsifier_scope": "A shape- and source-correct frozen replay with negligible parent-prediction response narrows this fixed four-channel replacement. Any score on the 16 selected F0 groups is exposed diagnostic evidence and cannot reject the wider filter or learned-state families.",
+  "scope": {
+    "raw_columns": [0, 3, 52, 55],
+    "model_arms": ["unchanged raw", "scalar random-walk posterior level", "local-trend posterior level"],
+    "normalization": "Exact selected means/scales extracted from the frozen parent checkpoint; no evaluation rows used to fit statistics",
+    "q_r": "One fixed predeclared Q/R configuration per model in inherited parent-normalized units",
+    "data": "First 16 source-qualified evaluation groups in exposed fold 0; all 20,000 rows, state reset per sequence",
+    "future_student_teacher": "A learned latent Kalman teacher plus GRU distillation is a separate design-only arm and must receive its own clean ancestry, recipe, profile, and admission"
+  },
+  "decision_limits": [
+    "Current and past input observations only; no target, scoring mask, or future label enters the filter or predictor.",
+    "The 40-wide NumPy feature stack is an engineering reference; this GRU replay only replaces four of the existing 112 raw slots and keeps input width 211.",
+    "The plotted input-only panel is the first 1,000 rows of one sequence and four channels, using the earlier identity/unscaled display configuration. It supports no physical price/noise interpretation.",
+    "Causality, reset, finite-value, and EMA-equivalence checks establish implementation behavior, not target relevance, public transfer, or competition quality."
+  ],
+  "literature_context": [
+    "KalmanNet, arXiv:2107.10043, motivates learned recurrent corrections around filter structure; this fixed reference is not a reproduction.",
+    "Backprop KF, arXiv:1605.07148, motivates a differentiable state-estimator teacher; no learned teacher is implemented here.",
+    "AI-Aided Kalman Filters, arXiv:2410.12289, is background only and does not establish applicability to this dataset."
+  ]
+}

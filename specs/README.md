@@ -16,9 +16,9 @@ the evidence for individual results.
 The latest user instruction and the dated entry at the top of
 [current-state.md](current-state.md) determine what is active. Older campaign
 plans and snapshots preserve history; they do not grant current authorization.
-For the current project snapshot, research remains paused after its 15 October
-closeout. The 17 October code and documentation maintenance did not resume
-model fitting.
+The latest user explicitly resumed autonomous local GPU research on 17 October.
+The current-state record identifies the bounded continuation; historical pause
+receipts remain preserved and do not override this newer authority.
 
 Historical status entries that preceded the current snapshot are preserved
 byte-for-byte in [current-state-history-20261017.md](current-state-history-20261017.md).

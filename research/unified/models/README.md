@@ -4,6 +4,7 @@ Architecture, training lineage, distillation and retained checkpoint sources.
 
 ## Current navigation
 
+- [Causal smoother GRU teacher/student B300 draft](https://github.com/VladKochetov007/WunderFunder/pull/17) — implements raw-zero-pad, steady-state EMA, fixed/learned local-trend teachers and matched four-family student-cache replacement. The adapter binds both filter and GRU-core source hashes through training provenance, prediction sidecars and cache construction. It is a draft handoff only: no B300 profile, task fit, student grade or serving result has run.
 - [Frozen zero-i1 replay](../../campaign_2026-10-17/research_reset_r1/bugfix/REPLAY_zero_i1_v2.md) — unchanged dftt_zi1_s3 checkpoint,4prespecified groups/11,522scoredrows, canonical WP0.06289742withwrong inputs versus0.72994782after restoring training preprocessing. This isolates an export defect; it is not a new model or full-panel ranking.
 
 - [Current model and submission catalog](CURRENT_MODEL_CATALOG.md) — production packages, ancestry, exact ZIP identities and the distinction between research endpoints and serving engines.

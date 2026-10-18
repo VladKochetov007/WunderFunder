@@ -1,0 +1,167 @@
+{
+  "schema": "kalman-frozen-gru-execution-failure.v1",
+  "attempt_id": "kalman-gru-replay-20261018-r1",
+  "status": "failed before model construction, checkpoint state loading, sequence reads, or inference",
+  "attempt_receipt": {
+    "path": "research/campaign_2026-10-18/online_features_r1/runtime/attempts/kalman-gru-replay-20261018-r1.json",
+    "sha256": "40d66ba6f0ffe896b4154bbdbff244bcbf692cd48a78c07b197a3cedaa91551e",
+    "status": "failed",
+    "exit_status": 1,
+    "elapsed_seconds": 5.040180005998991,
+    "contract_sha256": "936d1a779ff8a448f3b5de6c97c346dc054ed85d56c283b0b3eb5847f105b7a5",
+    "source_manifest_sha256": "b20d7d46ef3c756f7b34b1fe68f784a685051a40767ba4c45813a7b6879b24f9",
+    "source_hashes": {
+      "research/campaign_2026-10-18/online_features_r1/kalman_filter_probe/frozen_gru_probe.py": "7b5cadce07ee0cf751f7ee4085fe4d86841c17bbc0932eecf32b804bcd3f3624",
+      "research/campaign_2026-10-18/online_features_r1/kalman_filter_probe/recipe.json": "936d1a779ff8a448f3b5de6c97c346dc054ed85d56c283b0b3eb5847f105b7a5"
+    }
+  },
+  "log": {
+    "path": "research/campaign_2026-10-18/online_features_r1/runtime/logs/kalman-gru-replay-20261018-r1.log",
+    "sha256": "aa31176b7aadb4503cf828d8753d2d53114351031a1487ecb39afcd4abfc79b0",
+    "exception": "ValueError: checkpoint output shape disagrees with its head metadata",
+    "traceback_location": "frozen_gru_probe.py:164 in load_runtime"
+  },
+  "checkpoint_inspection": {
+    "checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+    "method": "torch.load(map_location=\"cpu\", weights_only=False) under scripts/limited; CPU metadata inspection only",
+    "args": {
+      "loss": "wmse",
+      "aux": "",
+      "arch": "gru",
+      "hidden": 256,
+      "layers": 2
+    },
+    "head_2_weight_shape": [
+      23,
+      256
+    ],
+    "head_2_bias_shape": [
+      23
+    ],
+    "readout_is_none": true,
+    "metadata_scope": {
+      "scope_unit": "wnn-kalman-metadata-inspect-20261018-r2.scope",
+      "cpu_quota": "100000 100000 (one CPU)",
+      "memory_max_bytes": 999997440,
+      "memory_peak_bytes": 299560960
+    },
+    "construction_rule": "Use head.2.weight.shape[0], matching scripts/predict_run.py; do not infer width from args.aux.",
+    "prediction_selection": "With checkpoint readout None and TrainingEnvironment readout tables None, evaluation.predict returns out[..., :2].float()."
+  },
+  "failed_attempt_progress": {
+    "checkpoint_payload_deserialized": true,
+    "checkpoint_map_location": "cpu",
+    "cuda_available_checked": true,
+    "model_constructed": false,
+    "checkpoint_state_dict_loaded_into_model": false,
+    "model_transferred_to_cuda": false,
+    "sequence_or_feature_payload_read": false,
+    "targets_or_masks_read": false,
+    "forward_passes": 0,
+    "predictions_written": false,
+    "official_metric_called": false
+  },
+  "resource_receipt": {
+    "attempt_memory_max_bytes": 5000000000,
+    "attempt_cpu_quota": "1s",
+    "attempt_peak_ram_bytes": 381579264,
+    "attempt_peak_observed_vram_bytes": 79691776,
+    "attempt_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    }
+  },
+  "frozen_input_membership": {
+    "source_receipt_path": "preflight_receipt.json",
+    "source_receipt_sha256": "95c798a5e8472bdc0185e070b0b607d93229ec642cf941dfc5c25545848db9fe",
+    "group_ids": [
+      4,
+      5,
+      7,
+      9,
+      12,
+      18,
+      19,
+      22,
+      26,
+      35,
+      39,
+      41,
+      42,
+      50,
+      51,
+      53
+    ],
+    "sequence_ids": [
+      1990332,
+      2308749,
+      6746551,
+      9147005,
+      11423352,
+      24654613,
+      25927382,
+      28399078,
+      29519713,
+      38268719,
+      45444605,
+      47001707,
+      48100848,
+      51305808,
+      51608922,
+      52382536
+    ],
+    "group_list_sha256": "ef3581b2aac87706237f40562b1350c5f429c275caf454c6e29bb591e97923bf",
+    "no_evaluation_fit": true,
+    "r1_failed_before_any_sequence_read": true,
+    "r2_revalidation": "preflight_receipt_r2.json will pin the same frozen groups and IDs before any future replay"
+  },
+  "source_preservation": {
+    "failed_attempt_json_and_log_unchanged": true,
+    "r1_script_snapshot": {
+      "path": "frozen_gru_probe_r1.py",
+      "sha256": "7b5cadce07ee0cf751f7ee4085fe4d86841c17bbc0932eecf32b804bcd3f3624"
+    },
+    "r1_contract_snapshot": {
+      "path": "probe_contract_r1.py",
+      "sha256": "4331a027ad1698dc83e92c204b9f82f2af4bc0a3d847bf7829bccedd8584ff21"
+    },
+    "r1_preflight_probe_contract_sha256": "4331a027ad1698dc83e92c204b9f82f2af4bc0a3d847bf7829bccedd8584ff21",
+    "r1_recipe_path": "recipe.json",
+    "r1_preflight_path": "preflight_receipt.json"
+  },
+  "corrective_action": {
+    "code": "n_out is derived from the stored output-head weight rows and bias shape; model state loading remains strict.",
+    "new_recipe": "recipe_r2.json",
+    "new_preflight_receipt": "preflight_receipt_r2.json",
+    "new_output_directory": "/home/vlad/development/wunder/research_tmp/kalman-online-20261018/kalman_gru_probe_r2",
+    "root_owns_new_gpu_admission": true,
+    "r2_preflight": {
+      "path": "preflight_receipt_r2.json",
+      "sha256": "bef87e31633ff213dedd3146801cd8008ab84570e7ec9739920908bd0af1b46f",
+      "source_hashes": {
+        "frozen_gru_probe.py": "a42a0518898e41831d6f206c3367a0dfbeb00383e31e09e9c19ff92f73386dc9",
+        "probe_contract.py": "a8b9811d9641074738c962201744536359bb1bdba019773c229f0684a241fef0",
+        "kalman_features.py": "c867df3aa80375e19cf6f7354b78abf3fede7d7b66ad1fab20c3f91f8320200a",
+        "kalman_normalization.py": "66fe420038a2547f25191ba12d070a9a5ef041fda2b6c848a3556624f0c867c5",
+        "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+        "src/wnn/features.py": "c2b317d1f148d0cad9632726a1436b94f4ae76016458deaa70aa36fdca21ecb2",
+        "src/wnn/training/environment.py": "f1e150f7473c8cd317ef489d7c3e9e796f22b6a9715ed2f02ae94505f5b8e18b",
+        "src/wnn/training/evaluation.py": "f7642f20b7c92f56cb79a24b972d91efdd87be2ff50d5220ad6c90a2c5473418",
+        "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+        "src/wnn/training/inputs.py": "5dbd62b94645a29e71cfaba95fdf67ff25f4e7a953aa4d2ae6f3d0c9416376e2",
+        "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+        "src/wnn/nn.py": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      "same_frozen_membership_revalidated": true,
+      "torch_imported": false,
+      "payload_loaded": false,
+      "gpu_used": false
+    },
+    "r2_recipe_sha256": "271b06034d4074b0f99ebf6d8954fa991ba688abcada2dce01e1b34d7b351781"
+  }
+}

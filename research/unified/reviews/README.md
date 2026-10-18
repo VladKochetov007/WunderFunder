@@ -10,6 +10,7 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 - [Repository audit](REPOSITORY_AUDIT_20261017.md) — reconciled local, live GitHub and beleriand findings, corrected stale statuses and unresolved gaps.
 - [Portable audit evidence](audit-2026-10-17/README.md) — five small metadata/public receipts with SHA-256 manifest; no large data or weights.
+- [Kalman B300 teacher draft source review](KALMAN_B300_DRAFT_REVIEW_20261018_R1.md) — an initial independent pass caught a source-hash echo that did not bind the current filter/core code; the draft now records and verifies both module hashes across training, prediction and cache building. Follow-up source-only review cleared the fix and bootstrap specification. The B300 full112 profile and per-cell clean-teacher registry remain prerequisites; no run or quality claim was reviewed.
 
 For active status, start with [current state](../../../specs/current-state.md).
 The dated entries below retain their original descriptions and links. Their
