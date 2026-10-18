@@ -33,3 +33,5 @@ verification identities; unchanged V2 terminal expectations name the failed v1
 attempt. Do not change frozen source, original plan, or prior archives.
 
 [Actual resumed optimizer progress](ACTUAL_PROGRESS_V1.json) observes wide epoch2 batch20/1493, finite loss/LR and a fresh running attempt after recovery. This is real batch progress, not a terminal checkpoint or parity result.
+
+[Wide-terminal V3 helpers](checkpoints/README.md) now have [independent review](CHECKPOINT_REVIEW_V3.json) and [hash-verified remote staging](CHECKPOINT_STAGING_V3.json), with seven local tests passing. They have not verified an actual terminal checkpoint. Both stage1 and deep terminal use V2; wide intermediate continuation collection still requires a separate prepared path.

@@ -1,0 +1,92 @@
+{
+  "base_plan": {
+    "path": "f1_beleriand_fallback/F1_BELERIAND_PLAN.json",
+    "sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96"
+  },
+  "changes_from_v2": {
+    "collect_f1_checkpoint.py": "adds recovery-plan/rejection binding, receipt binding, and wide-terminal-only scope",
+    "f1_checkpoint_common.py": "adds exact recovery payload/hash validation and the wide-terminal V2 attempt mapping while retaining the original F1 plan contract",
+    "f1_checkpoint_evidence.py": "requires the new recovery binding for the recovery terminal collection schema",
+    "f1_checkpoint_lineage.py": "accepts only the exact original V2 stage1 verifier and dependency hashes as parents",
+    "verify_f1_checkpoint.py": "adds recovery-terminal-only validation and a distinct recovery V3 receipt schema"
+  },
+  "copied_from_v2_sha256": {
+    "collect_f1_checkpoint.py": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+    "f1_checkpoint_common.py": "07d596a1b69574e266a909bfe2e24e4c82d1e9cd778c7338bc5855688159f5c5",
+    "f1_checkpoint_evidence.py": "8b50fcdc51dd9d040816dae7117de8c965366d0dd03c7bef8e26856325f790ce",
+    "f1_checkpoint_lineage.py": "c6aec1daace1fd200d60bcc5cc9532aa9d98f76d99bd01e0ca39c65eb727e81d",
+    "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+    "verify_f1_checkpoint.py": "d022367b0e4091b1fd4179ff1b5ea8d9f5722ae8ef686bd86fe5774869dc2186"
+  },
+  "f1_contract": {
+    "batches_per_epoch": 1493,
+    "counts_are_static_expectations_not_observed_f1_training_results": true,
+    "fit_valid_groups": 1416,
+    "fold1_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "optimizer_updates_per_epoch": 14930,
+    "stage1_updates": 29860,
+    "terminal_updates": 89580,
+    "train_groups": 10533
+  },
+  "operational_limits": [
+    "No remote staging or execution has occurred.",
+    "No actual wide F1 terminal artifact has yet been collected or verified by these V3 helpers.",
+    "Existing V2 stage1 receipts are accepted only with their exact V2 verifier and dependency hashes.",
+    "This preparation packet is not an admission or quality result."
+  ],
+  "recovery_plan": {
+    "allowed_changes": [
+      "steps[continuation_wide].attempt",
+      "steps[continuation_wide].launch_command[--attempt value]"
+    ],
+    "attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+    "path": "f1_recovery_r1/F1_RECOVERY_PLAN.json",
+    "sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+    "trainer_command_and_base_contract_unchanged": true
+  },
+  "rejected_attempt": {
+    "attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep25-v1",
+    "path": "f1_recovery_r1/REJECTED_ATTEMPT_V1.json",
+    "phase": "admission_failed",
+    "scope": "Only this exact zero-start CPU-reservation rejection authorizes the one-field retry mapping.",
+    "sha256": "c1f506e3e4015903b3a067a5f7a34814694916a73d928a989a9b67fac09e22f0",
+    "status": "not_started"
+  },
+  "schema": "priority25.f1_recovery_checkpoint_support_preparation.v3",
+  "scope": "This packet supports wide F1/seed1001 terminal collection and verification only. It does not support wide continuation intermediate checkpoints; stage1 and the deep terminal remain on the existing V2 path.",
+  "stage1_parent_identity_full": {
+    "source_manifest_path": "f1_beleriand_fallback/checkpoints_v2/PREPARATION_MANIFEST_V2_R2.json",
+    "source_manifest_sha256": "bbebbed8c061776eba1732147ea6084057ed4d9cb249c8d11c1df0ea479eb2fd",
+    "verification_dependencies_sha256": {
+      "collect_f1_checkpoint.py": "f3e9799d6ac1db62db3ad6426572bf2c72ed9094617a642c25450ad74f25bef2",
+      "f1_checkpoint_common.py": "07d596a1b69574e266a909bfe2e24e4c82d1e9cd778c7338bc5855688159f5c5",
+      "f1_checkpoint_evidence.py": "8b50fcdc51dd9d040816dae7117de8c965366d0dd03c7bef8e26856325f790ce",
+      "f1_checkpoint_lineage.py": "c6aec1daace1fd200d60bcc5cc9532aa9d98f76d99bd01e0ca39c65eb727e81d",
+      "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+      "wnn/training_state.py": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+    },
+    "verifier_sha256": "d022367b0e4091b1fd4179ff1b5ea8d9f5722ae8ef686bd86fe5774869dc2186"
+  },
+  "status": "PREPARATION_ONLY_UNREVIEWED",
+  "support_files_sha256": {
+    "README.md": "41ff5ce4031a1bf2dd851dbc26f09a50f6588f8f1818431242224679299a8219",
+    "collect_f1_checkpoint.py": "908b9a3d2655ce3957e14924be3709dc7bdbaac7e0e25c5d579dd65707397ca0",
+    "f1_checkpoint_common.py": "6531e841cedaf9c5cd960dbe44c29a11fb89b65e15a781c07cea9c3fd2b5284e",
+    "f1_checkpoint_evidence.py": "a35ca6db74a0df37d8fe9610fd5b69ef1193289bacbdcfd314b850cf607c3a73",
+    "f1_checkpoint_lineage.py": "007ff9ef204ea5dc61988a1083ab2122bb7d1f0547fcfe9a7be6125d07650b24",
+    "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+    "test_f1_recovery_support_v3.py": "287b25d41281f80eb1677d2915cfd87c78689f4efb5be7e96c3ca5ad4c0288f3",
+    "verify_f1_checkpoint.py": "61216028a62b41b98fa381920a8019d42b8bd3155d877db1f77a2d90206e8545"
+  },
+  "unchanged_from_v2": [
+    "f1_checkpoint_tensors.py"
+  ],
+  "validation": {
+    "py_compile": "passed",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "scope": "Local plan/identity synthetic tests and static checks only; no checkpoint, archive, training, inference, grade, or real F1 verification was run.",
+    "unit_test_file": "test_f1_recovery_support_v3.py",
+    "unit_tests_passed": 7
+  }
+}
