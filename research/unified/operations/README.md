@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [DataSphere public incident and effective historical controls](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_PROVIDER_INCIDENT_20261018.json) — live official status includes DataSphere in ongoing infrastructure limitations; old CPU/GPU probes already had an uploaded script and no datasets or explicit requirements list. No equivalent paid retry. Bounded log streams timed out without messages; exact internal cause remains unknown.
+
 - [Ranked25 continuation at00:38UTC](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0038Z_CLOSEOUT.json) — healthy single-worker deep-arm progress through batch1360/1492, fresh heartbeats and no memory events. Both cloud diagnostic attempts are terminal with credentials removed; issue16 still has no observed worker claim. No new score is claimed.
 
 - [F1 cloud controller review and preparation](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_F1_CONTROLLER_PREPARATION.json) — reviewed admission/collection extension now binds all uploads/host modules, uses explicit finite measured budgets without the old profile-hour ceiling, and verifies provider/local bundle hashes across restart.30CPU fixtures and the installed SDK producer-schema fixture passed. A working cloud profile, private runtime/budget/token/host bindings and actual dispatch remain pending.

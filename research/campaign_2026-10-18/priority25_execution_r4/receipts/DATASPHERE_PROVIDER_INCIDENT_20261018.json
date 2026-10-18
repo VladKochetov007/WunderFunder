@@ -1,0 +1,123 @@
+{
+  "kind": "provider_incident_and_historical_control_reconciliation",
+  "created_utc": "2026-10-18T00:48:28.879418+00:00",
+  "source_observation_window_utc": "2026-10-18T00:45:00Z/2026-10-18T00:47:30Z",
+  "public_evidence": [
+    {
+      "url": "https://status.yandex.cloud/en/timeline?installation=ru&service=DataSphere",
+      "read_method": "live JavaScript-rendered official status page through Codex browser; direct web reader only returned JS-disabled page",
+      "incident_title": "Unavailability of Yandex Cloud zones",
+      "incident_started_utc": "2026-10-11T01:00:00Z",
+      "end_display": "Now",
+      "region": "Russia",
+      "DataSphere_in_affected_services": true,
+      "latest_visible_update_moscow": "2026-10-16T20:19:00+03:00",
+      "latest_update_summary": "Platform remains in limited operation; restoration continues. The console is the source for individual-service availability."
+    },
+    {
+      "url": "https://yandex.cloud/ru/recommendations",
+      "read_method": "official page retrieved with web tool",
+      "page_updated_moscow": "2026-10-16T17:50:00+03:00",
+      "summary": "Creation of new cloud resources may be limited. No restoration deadline is provided."
+    }
+  ],
+  "interpretation": "The officially ongoing infrastructure incident is consistent with our CPU/GPU failures before start; it does not prove the exact internal failure of this project or that every DataSphere job is unavailable.",
+  "historical_exact_get_utc": "2026-10-18T00:43:39.651836+00:00",
+  "historical_probes": [
+    {
+      "job_id": "bt1dvolfrgojiq4jbs0t",
+      "name": "probe_c1.4",
+      "status": "ERROR",
+      "started_at_present": false,
+      "cmd": "python3 main.py",
+      "effective_inputs": [
+        {
+          "desc": {
+            "path": "main.py"
+          },
+          "sha256": "54f0fee1df1ab07c7d3aba31c51399427b1958a291178e552aead50af42f435a",
+          "size_bytes": "73",
+          "compression_type": "NONE"
+        }
+      ],
+      "python_env": {
+        "python_version": "3.12"
+      },
+      "dataset_ids": [],
+      "cloud_instance_types": [
+        {
+          "name": "c1.4"
+        }
+      ],
+      "declared_config": "name: probe_c1.4\ncmd: python3 main.py\nenv:\n  python: auto\ncloud-instance-type: c1.4\n"
+    },
+    {
+      "job_id": "bt1ebnpvfo46jic2tfhh",
+      "name": "probe_g1.1",
+      "status": "ERROR",
+      "started_at_present": false,
+      "cmd": "python3 main.py",
+      "effective_inputs": [
+        {
+          "desc": {
+            "path": "main.py"
+          },
+          "sha256": "54f0fee1df1ab07c7d3aba31c51399427b1958a291178e552aead50af42f435a",
+          "size_bytes": "73",
+          "compression_type": "NONE"
+        }
+      ],
+      "python_env": {
+        "python_version": "3.12"
+      },
+      "dataset_ids": [],
+      "cloud_instance_types": [
+        {
+          "name": "g1.1"
+        }
+      ],
+      "declared_config": "name: probe_g1.1\ncmd: python3 main.py\nenv:\n  python: auto\ncloud-instance-type: g1.1\n"
+    }
+  ],
+  "erratum": "Prior input_count=0 described explicit YAML config fields, not effective JobParameters. Exact Get shows main.py uploaded as a 73-byte input for both historical probes, with Python3.12, no datasets and no explicit requirements/local-modules fields. Missing entrypoint is not supported by that count.",
+  "readlogs_observed_utc": "2026-10-18T00:47:03.340457+00:00",
+  "readlogs": [
+    {
+      "job_id": "bt13i2k83lo8n4m8kplk",
+      "deadline_seconds": 15,
+      "responses_received": 0,
+      "transport_status": "DEADLINE_EXCEEDED"
+    },
+    {
+      "job_id": "bt12dffc0bhjrba9jcp6",
+      "deadline_seconds": 15,
+      "responses_received": 0,
+      "transport_status": "DEADLINE_EXCEEDED"
+    }
+  ],
+  "readlogs_limit": "Each stream returned no messages before its15-second deadline. DEADLINE_EXCEEDED is not a successful empty-log response and adds no exact-cause evidence. Separate terminal Job.Get file manifests remain empty.",
+  "decision": "Do not submit another materially equivalent no-dataset/no-explicit-requirements CPU canary: the historical effective envelope already covers that broad control. Recheck public recovery state and exact project state before any new admission; a genuinely different bounded diagnostic remains possible.",
+  "new_paid_jobs": 0,
+  "provider_mutations": 0,
+  "credentials_persisted": false,
+  "billing_changed": false,
+  "related_receipts": [
+    "DATASPHERE_PROFILE_V2_FULL_ERROR_RECONCILIATION.json",
+    "DATASPHERE_CANARY_V1_TERMINAL.json"
+  ],
+  "claim_check": {
+    "url": "https://github.com/VladKochetov007/WunderFunder/issues/16",
+    "observed_utc": "2026-10-18T00:47:00Z",
+    "method": "authenticated native Zen issue detail",
+    "open": true,
+    "comments_observed": 0,
+    "assignee_observed": false,
+    "worker_claim_observed": false
+  },
+  "independent_review": {
+    "reviewer": "beleriand_gpu_guard_r4",
+    "result": "causal, timeout and effective-input claims accepted; wording refined to no explicit requirements list because script bytes were not read",
+    "provider_calls": 0,
+    "files_modified_by_reviewer": 0
+  }
+}

@@ -17,3 +17,7 @@ Ranks2–25 await their preceding experiment decisions and exact implementations
 
 - [Execution runbook](RUNBOOK.md) records durable services, phase-aware monitoring, collection, budget handling and ordered continuation for the next owner/wake-up.
 - [Rank1 experiment draft](https://github.com/VladKochetov007/WunderFunder/tree/experiment/rr18-01-labels/research/experiment_drafts/rr18-01-labels) is published on its isolated branch with the eleven-section review and references to this canonical recipe. No PR URL is claimed; [publication evidence](receipts/PUBLICATION.json) records API access limitations.
+
+- [Provider incident and historical-control reconciliation](receipts/DATASPHERE_PROVIDER_INCIDENT_20261018.json): the live official status page lists DataSphere in an ongoing infrastructure incident. Exact historical CPU/GPU Job.Get responses confirm an uploaded entrypoint and no datasets or explicit requirements list, so another equivalent CPU probe is not admitted. This is consistent with the failures, not proof of this project’s exact internal cause.
+
+- [Deep first-epoch collection](receipts/RANK01_DEEP_F0_S1001_EP0_COLLECTION.json) preserves stable model/provenance/continuation bytes under the remote `epoch0` archive. The bounded [collector source](receipts/checks/deep_ep0_collect.py) is retained; independent checkpoint verification is pending at this collection receipt.
