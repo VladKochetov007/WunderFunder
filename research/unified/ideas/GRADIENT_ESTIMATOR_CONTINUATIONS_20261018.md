@@ -49,8 +49,8 @@ WMSE-контроль использует те же z=clip(y,±2), w=|z| и fit
 
 | Experiment | Ветка для draft PR | Что отсутствует |
 |---|---|---|
-| E-ADAPTIVE-TBPTT-20261018 | `experiment/adaptive-tbptt-bias-budget` | Controller/probes, checkpoint/resume состояния schedule, доказательство сохранения update cadence, чистая registry CP30, профиль на выбранной GPU. |
-| E-CURRENT-MOMENT-WP-20261018 | `experiment/current-moment-wp-replay` | Two-pass objective/replay adapter, gradient oracle, равный macrostep WMSE, чистая registry CP30, фактический профиль времени/памяти. |
+| E-ADAPTIVE-TBPTT-20261018 | [PR #22](https://github.com/VladKochetov007/WunderFunder/pull/22), `experiment/adaptive-tbptt-bias-budget` | Controller/probes, checkpoint/resume состояния schedule, доказательство сохранения update cadence, чистая registry CP30, профиль на выбранной GPU. |
+| E-CURRENT-MOMENT-WP-20261018 | [PR #23](https://github.com/VladKochetov007/WunderFunder/pull/23), `experiment/current-moment-wp-replay` | Two-pass objective/replay adapter, gradient oracle, равный macrostep WMSE, чистая registry CP30, фактический профиль времени/памяти. |
 
 Перед fit требуется отдельная фиксация реализационного source SHA, data/split/initializer/config hashes, optimizer settings, env и путей. Данные контроллера и replay входят в resume contract. Не добавлять логику в legacy trainer: использовать [модульную карту](../../../src/wnn/training/README.md). `scripts/experiment_draft_plan.py` только печатает матрицу, не обучает. В этой задаче нет тестов, обучения, model imports или профилей; scope текущей просьбы — анализ и публикация гипотез.
 
@@ -58,4 +58,4 @@ WMSE-контроль использует те же z=clip(y,±2), w=|z| и fit
 
 - [Проверенные статьи и пересечения](../sources/GRADIENT_ESTIMATOR_LITERATURE_20261018.md).
 - [Что добавилось в репозитории](../reviews/REPOSITORY_DELTA_20261018.md), source `1d57ed815c18eb278bcdd0207369b200970b28fb`.
-- [H ledger](../../hypotheses.jsonl) хранит новые continuation records; исходные H-RR17-19/H-055 и отрицательные E-023/E-291 не переписаны. [E ledger](../../experiments.jsonl) регистрирует два unrun proposals. Draft PR URLs добавляются после публикации; до этого remote experiment branches не считаются существующими.
+- [H ledger](../../hypotheses.jsonl) хранит новые continuation records; исходные H-RR17-19/H-055 и отрицательные E-023/E-291 не переписаны. [E ledger](../../experiments.jsonl) регистрирует два unrun proposals. Draft PR #22 и #23 опубликованы к research-team; head SHAs и статус draft проверены через GitHub API. Публикация не является fit admission.
