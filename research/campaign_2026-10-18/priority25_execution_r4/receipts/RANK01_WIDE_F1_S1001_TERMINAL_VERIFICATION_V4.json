@@ -1,0 +1,235 @@
+{
+  "schema": "priority25.f1_checkpoint_verification.recovery_v4",
+  "status": "passed",
+  "created_utc": "2026-10-18T12:27:40.691931+00:00",
+  "arm": "wide",
+  "phase": "terminal",
+  "run": "rr18_r01_wide_f1_s1001_e6",
+  "next_epoch": 6,
+  "attempt": {
+    "id": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+    "status": "finished",
+    "exit_status": 0,
+    "command": [
+      "/usr/bin/timeout",
+      "--signal=TERM",
+      "--kill-after=30s",
+      "24h",
+      "/usr/bin/env",
+      "WNN_PROJECT_ROOT=/home/grinchenkoeg/computer-vision-homework-20261018/data",
+      "WNN_GPU_MEMORY_BYTES=4000000000",
+      "WNN_LOADER_RAM_GB=1",
+      "NVIDIA_TF32_OVERRIDE=0",
+      "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/scripts/train_rnn.py",
+      "--name",
+      "rr18_r01_wide_f1_s1001_e6",
+      "--hidden",
+      "512",
+      "--layers",
+      "1",
+      "--valid-fold",
+      "1",
+      "--split-manifest",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--enc",
+      "linear",
+      "--dropout",
+      "0",
+      "--train-seqs",
+      "10607",
+      "--train-source",
+      "train+valid",
+      "--valid-train-fraction",
+      "1",
+      "--valid-repeat",
+      "1",
+      "--n-valid-folds",
+      "4",
+      "--full-valid",
+      "--eval-source",
+      "vfold",
+      "--batch",
+      "8",
+      "--chunk",
+      "2000",
+      "--epochs",
+      "6",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "5",
+      "--no-eval-during-fit",
+      "--seed",
+      "1001",
+      "--precision",
+      "fp32",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--batch-order",
+      "seeded",
+      "--deterministic",
+      "--sync-free",
+      "--fused-adam",
+      "--grad-stats",
+      "--optim",
+      "adamw",
+      "--lr",
+      "0.0001",
+      "--beta2",
+      "0.999",
+      "--wd",
+      "0.01",
+      "--sched",
+      "onecycle",
+      "--warmup-frac",
+      "0.05",
+      "--head-lr-mult",
+      "1",
+      "--clip",
+      "1",
+      "--save-training-state",
+      "--resume-state",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_wide_f1_s1001/training_state.pt"
+    ],
+    "record_sha256": "35234e646170e158ab3e0c628875bce7c777a9539e6d3c4b9e9455b29d519533"
+  },
+  "plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+  "recovery_binding": {
+    "base_plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+    "recovery_plan_sha256": "f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111",
+    "rejected_attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep25-v1",
+    "rejected_attempt_sha256": "c1f506e3e4015903b3a067a5f7a34814694916a73d928a989a9b67fac09e22f0",
+    "rejected_attempt_status": "not_started",
+    "rejected_attempt_phase": "admission_failed",
+    "recovery_attempt_id": "computer-vision-homework-r01-wide-f1s1001-ep25-v2",
+    "allowed_plan_changes": [
+      "steps[continuation_wide].attempt",
+      "steps[continuation_wide].launch_command[--attempt value]"
+    ]
+  },
+  "collection_receipt_sha256": "c5d9cc2f8644a4931e8804c372b51e3a1706f853353d7e2cae2e6e593f675e26",
+  "collection_helper_sha256": "908b9a3d2655ce3957e14924be3709dc7bdbaac7e0e25c5d579dd65707397ca0",
+  "verification_helper_sha256": "f724ae438d169ccee739d8c8af6229ea974bb61fb0a034c48a298aa17339e70d",
+  "verification_dependencies": {
+    "f1_checkpoint_common.py": "6531e841cedaf9c5cd960dbe44c29a11fb89b65e15a781c07cea9c3fd2b5284e",
+    "f1_checkpoint_evidence.py": "a35ca6db74a0df37d8fe9610fd5b69ef1193289bacbdcfd314b850cf607c3a73",
+    "f1_checkpoint_lineage.py": "0fb68cedb1b2c4b3fe03e108c5915dfd97252cc1c9a9a3b860d8df701f196fcd",
+    "f1_checkpoint_tensors.py": "4b086adc0c2c0cabf9d97c31f8452c21ca8fa452e7763dd540bf4713178b930c",
+    "collect_f1_checkpoint.py": "908b9a3d2655ce3957e14924be3709dc7bdbaac7e0e25c5d579dd65707397ca0",
+    "wnn/training_state.py": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+  },
+  "artifacts": {
+    "history.json": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f1_s1001_e6/epoch5_terminal/history.json",
+      "bytes": 16402,
+      "sha256": "a369c423fdb08a3f6f4a93f068332e5d8fb103424cf476cf0b15987b0d272d83"
+    },
+    "model.pt": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f1_s1001_e6/epoch5_terminal/model.pt",
+      "bytes": 8905515,
+      "sha256": "e4720f2156851907e531ed953a8e779e7dbfbf346b5bac290a53549f5ecc1f42"
+    },
+    "training_state.pt": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f1_s1001_e6/epoch5_terminal/training_state.pt",
+      "bytes": 26587231,
+      "sha256": "429ed49bfb63e3a65dce86a9e7d40066624ad7ff0afc826023cb5f0f543989d8"
+    },
+    "provenance.json": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f1_s1001_e6/epoch5_terminal/provenance.json",
+      "bytes": 175844,
+      "sha256": "02755c544dcd303ded96fc3147958eea1ffee3cf84a8cc3c0f5c2f5708257a37"
+    },
+    "model_ep5.pt": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f1_s1001_e6/epoch5_terminal/model_ep5.pt",
+      "bytes": 8905959,
+      "sha256": "4510f1ed9530c10ea58741727bb7ab5c4a2631690e2252bf98777f923f270d2c"
+    }
+  },
+  "source_revision": "a266b036b02e8e012c6eb31072291dad618a169d",
+  "source_files_verified": 138,
+  "source_archive_manifest_sha256": "9a90e46958eaed2784f1f12e6a501292e4c865b1bc6d07e3f2bd233271da7341",
+  "portable_registry_sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378",
+  "fold1_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+  "fold1_membership": {
+    "manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "fit_train_groups": 10533,
+    "fit_valid_groups": 1416,
+    "evaluation_groups": 457,
+    "evaluation_components": 149,
+    "fit_membership_identity": {
+      "train": {
+        "count": 10533,
+        "ordered_int64_le_sha256": "6f7da60741a85a644e7a01d23810f2106c7023f448c925ff593a5f946bf1e472"
+      },
+      "valid": {
+        "count": 1416,
+        "ordered_int64_le_sha256": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8"
+      },
+      "valid_repeat": 1,
+      "dataset_length": 11949
+    },
+    "ordered_evaluation_membership_sha256": "c27347bd1bc856a285174ed089fcc67d8ea3f42b5cf9e199412dc1108e015774"
+  },
+  "fit_membership_identity": {
+    "train": {
+      "count": 10533,
+      "ordered_int64_le_sha256": "6f7da60741a85a644e7a01d23810f2106c7023f448c925ff593a5f946bf1e472"
+    },
+    "valid": {
+      "count": 1416,
+      "ordered_int64_le_sha256": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8"
+    },
+    "valid_repeat": 1,
+    "dataset_length": 11949
+  },
+  "normalization_identity": {
+    "mean": {
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32",
+      "bytes_sha256": "5a5cdd80cbb320a66656415128726382e63bfb40ac5c041cc3c40ed4c37bc1b0"
+    },
+    "std": {
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32",
+      "bytes_sha256": "bf02d43e7154c9282babc7c5536f9f1a27f19ae8199521d914cb21ed13511f41"
+    }
+  },
+  "stage1_parent_training_state_sha256": "8cb3dde79550355303cbede0d0953864046b7594c16af648423d4a3c9af92255",
+  "completed_update_counts": {
+    "optimizer_attempts": 89580,
+    "amp_skipped_updates": 0,
+    "optimizer_completed_updates": 89580,
+    "ema_updates": 0,
+    "completed_batches": 8958
+  },
+  "planned_schedule_updates": 89580,
+  "planned_schedule_batches": 8958,
+  "scheduler_last_epoch": 89580,
+  "scheduler_step_count": 89581,
+  "model_tensors_verified": 12,
+  "trainable_parameters": 2210306,
+  "adam_states_verified": 10,
+  "adam_floating_tensors_verified": 30,
+  "history_epochs_verified": 6,
+  "peer_pair_contract_checked": true,
+  "optional_epoch0_receipt_checked": false,
+  "cuda_initialized": false,
+  "limitations": [
+    "Structural checkpoint/source/data identity checks only; not measured GPU resume parity.",
+    "Raw parquet bytes are matched to the sealed registry; no second full-file rehash is performed at checkpoint verification.",
+    "No prediction score, serving latency, convergence, CP30 or quality claim follows."
+  ]
+}
