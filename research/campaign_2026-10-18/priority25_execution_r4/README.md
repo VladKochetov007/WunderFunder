@@ -29,3 +29,5 @@ Latest routine observation: [01:43UTC continuation](receipts/HEARTBEAT_20261018T
 [Deep stage1 completed and archived](receipts/STAGE1_DEEP_HANDOFF_20261018T0210Z.json): both arms have completed epochs0–1. Wide is continuing through epochs2–5 under the unchanged plan; deep continuation follows. Endpoint quality and CP30 remain pending.
 
 [First wide continuation checkpoint](receipts/WIDE_CONTINUATION_EP2_20261018.json): epoch2 archived and independently verified with44,760 cumulative updates, finite FP32 model/Adam state, the unchanged six-epoch schedule and exact persisted stage1 resume binding; active fitting continues at epoch3. This intermediate artifact does not provide an endpoint quality result.
+
+[Latest03:10UTC observation](receipts/HEARTBEAT_20261018T0310Z.json): wide epoch3 is archived, producer counters reach59,680 successful updates with zero skips/nonfinite, and epoch4 is active. Endpoint quality remains pending.
