@@ -1,0 +1,128 @@
+{
+  "b300_followup_trigger": "Consider a B300 feature-router draft only if the early-label selector shows a substantial, persistent late advantage over fixed controls and a separate label-blind probe can predict its choices. This is an advancement criterion, not a universal stop rule.",
+  "bootstrap": {
+    "comparisons": [
+      "early_label_selector vs tl3",
+      "early_label_selector vs fixed_75_tl3_25_r3"
+    ],
+    "paired": true,
+    "replicates": 10000,
+    "seed": 20261025,
+    "unit": "source component"
+  },
+  "code": {
+    "bootstrap_sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "grader_path": "research/campaign_2026-10-18/online_features_r1/sequence_oracle_r1/grade_sequence_oracle.py",
+    "grader_sha256": "03f9d67765d9e1472bcd4a4066fa4f38c8ce01e2a977f58843337472bdb40499",
+    "metric_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "source_verifier_sha256": "4c0867125b31e6df88a68dc1c51c094fc0ea44c4ad89616aacf35ff4c5b887e3",
+    "split_loader_sha256": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe"
+  },
+  "contract": {
+    "path": "research/campaign_2026-10-18/online_features_r1/CONTRACT.json",
+    "sha256": "66d746031e9bbb3e8c4d3d3617e99dc3fa04735554266e8c7868e169d03a5a01"
+  },
+  "early_window": [
+    99,
+    5000
+  ],
+  "endpoints": [
+    "tl3",
+    "r3",
+    "fixed_75_tl3_25_r3",
+    "early_label_selector",
+    "late_hindsight_selector"
+  ],
+  "experts": {
+    "r3": {
+      "ancestry": "source-qualified exposed F0 callback replay; labels used only for official metric",
+      "prediction_dtype": "float32",
+      "prediction_path": "cache/pred_geometry_r3_reverse_half_q16x_20261018_v2_valid.npy",
+      "prediction_sha256": "e82e1a9844b323b9886927adab4d3d579a6f278654eef322488de7784d4823e6",
+      "prediction_shape": [
+        468,
+        20000,
+        2
+      ],
+      "sidecar_path": "cache/pred_geometry_r3_reverse_half_q16x_20261018_v2_valid.json",
+      "sidecar_sha256": "483def9df6e480c3a8892ec6657bf47839571516b7135a68554e566a7b06fa3a",
+      "zip_sha256": "27f01f53ba32f7256ce1663e8b163b382e673fc96e7870fdebdf310d4886f98e"
+    },
+    "tl3": {
+      "ancestry": "unknown; potentially trained on F0/validation, so predictions and any local scores are fitted diagnostics, not clean-CV evidence",
+      "prediction_dtype": "float32",
+      "prediction_path": "cache/pred_tl3_unknown_ancestry_f0_valid.npy",
+      "prediction_sha256": "3a7456f0a2e294a852618535b9e3f2551fc15c5b70fd033824bddb10be83bbe3",
+      "prediction_shape": [
+        468,
+        20000,
+        2
+      ],
+      "sidecar_path": "cache/pred_tl3_unknown_ancestry_f0_valid.json",
+      "sidecar_sha256": "b9d8b7371dbff016d48e155da154cd87d85c887cb08921e86caabba082059910",
+      "zip_sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569"
+    }
+  },
+  "hypothesis_id": "H-SEQUENCE-EXPERT-PREFERENCE-PERSISTENCE-20261018-R1",
+  "id": "E-SEQUENCE-ORACLE-PERSISTENCE-20261018-R1",
+  "interpretation_limits": [
+    "F0 is repeatedly exposed and TL3 ancestry is unknown; this is not clean-CV evidence.",
+    "Expert choices use validation labels, which the test callback does not receive. This is not an online method or submission candidate.",
+    "The late-label selector is hindsight on its scoring segment and is not a formal upper bound for globally pooled WP.",
+    "Bootstrap intervals condition on the fixed caches and early selector choices; they do not capture training-seed, fitting, feedback-maturity or public-transfer uncertainty.",
+    "A positive screen would motivate a separate label-blind router or verified-feedback experiment; a weak result does not close the broader online-learning family."
+  ],
+  "late_window": [
+    5000,
+    20000
+  ],
+  "metric_id": "global_wp_clip2_v1",
+  "panel": {
+    "components": 141,
+    "exposure": "Repeatedly inspected/exposed F0; R3 was selected using F0 and TL3 ancestry is unknown, so scores may be fitted diagnostics and are not clean validation or transfer evidence.",
+    "fold": 0,
+    "groups": 468,
+    "steps": 20000
+  },
+  "preregistered_utc": "2026-10-18T05:29:18.571582+00:00",
+  "question": "Does a sequence-specific choice between fixed TL3 and R3 experts using early scored rows remain useful on later rows?",
+  "resources": {
+    "admission_policy": "Use the durable bandit_resources controller; profile eight groups first, then run the full frozen panel under the same reservation.",
+    "cpu_cores": 1,
+    "gpu": false,
+    "profiled_reservation_bytes": 2000000000,
+    "representative_profile": "research/campaign_2026-10-18/online_features_r1/runtime/attempts/online-proxy-gate-grade-20261018-r1.json",
+    "scratch": "/home/vlad/development/wunder/research_tmp",
+    "swap_bytes": 0,
+    "task_hard_cap_bytes": 5000000000
+  },
+  "schema": "wnn.sequence_oracle.recipe.v1",
+  "scoring_start": 99,
+  "selection_rule": {
+    "available_for_test": false,
+    "early_rule": "For each sequence and target, choose the expert with higher official local WP on scored positions 99 through 4999; exact ties choose TL3.",
+    "fitted_parameters": false,
+    "late_rule": "Freeze the early choice on positions 5000 through 19999. Also calculate a late-label hindsight selector on that same late segment as a diagnostic only.",
+    "score_mask": "target-cache official is_scored mask AND position >= 99",
+    "target_maturity": "Unknown; no label feedback is assumed to be available to the test callback."
+  },
+  "split": {
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "source": "source-qualified fold0 evaluation groups; component membership verified before target-cache access"
+  },
+  "status": "frozen_before_profile_and_grading",
+  "targets": {
+    "dtype": {
+      "mask": "bool",
+      "y": "float32"
+    },
+    "index_sha256": "ed030f767a6c650db666844ecffef21f0e96cc9fa2d7e77a0872bdf26c5bed38",
+    "mtime_ns": 1790289582906701329,
+    "open_order": "Only after recipe/code/contract/split/prediction/sidecar hashes and prediction shapes pass.",
+    "path": "cache/valid_targets.npz",
+    "sequences": 1873,
+    "size_bytes": 337186198
+  },
+  "why_it_might_work": "If distinct experts correct different sequence regimes, a label-informed early selector may identify persistent per-sequence advantage and motivate a feature-derived teacher target."
+}

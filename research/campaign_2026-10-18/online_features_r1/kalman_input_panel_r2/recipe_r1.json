@@ -1,0 +1,89 @@
+{
+  "schema": "wnn.kalman_input_panel_recipe.v1",
+  "hypothesis_id": "H-KALMAN-CAUSAL-INPUT-20261018-R1",
+  "experiment_id": "E-KALMAN-INPUT-EXPANDED-F0-20261018-R1",
+  "status": "frozen_before_expanded_prediction_generation",
+  "question": "Does the fixed local-level/local-trend posterior replacement of four price-like channels retain its small positive direction when replayed on a wider source-qualified F0 panel?",
+  "parent": {
+    "run": "warm_mechanism_f0_s3_c_r3@ep1",
+    "checkpoint": "artifacts/runs/warm_mechanism_f0_s3_c_r3/model_ep1.pt",
+    "checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+    "prediction_only": true,
+    "fit_or_parameter_update": false
+  },
+  "mechanism": {
+    "raw_control": "Unchanged canonical parent inputs and predictions.",
+    "candidate": "Replace raw columns 0, 3, 52, 55 with current-observation causal local-level/local-trend posterior levels; preserve all other raw channels and the 99 event features computed from original raw inputs.",
+    "state_reset": "At each sequence boundary.",
+    "normalization": "Inherited exact parent checkpoint buffers; no evaluation fitting.",
+    "filter": {
+      "state": ["level", "velocity"],
+      "transition": [[1.0, 1.0], [0.0, 1.0]],
+      "observation": [1.0, 0.0],
+      "process_noise_diagonal": [0.02, 0.0002],
+      "observation_noise": 0.5,
+      "initial_state": ["first current observation", 0.0],
+      "initial_covariance_diagonal": [1.0, 0.1],
+      "covariance_update": "Joseph form; symmetrized; positive eigenvalue floor 1e-12"
+    },
+    "causality": "For each row t, the posterior uses only the same sequence's inputs through t. No labels, score masks, or future rows are used to generate predictions."
+  },
+  "membership": {
+    "source": "valid.parquet",
+    "fold": 0,
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "selection_rule": "The first 141 row groups in the frozen fold-0 evaluation order, fixed before generating or grading this expanded replay. This deterministic prefix expands the original first-16 discovery panel; it is not a clean holdout.",
+    "groups": 141,
+    "unique_components": 82,
+    "group_order_sha256": "756c6e39b3fb410a8baf05f656c905f9736362c9bd072fdd340aea85400ba76f",
+    "sequence_id_order_sha256": "13bf861f2ec5757fd8d0918e4f2984b063c278d2f18bb66dda9fe3fdf89c3129",
+    "component_order_sha256": "0c89ba23918f5211c6626b3d109580df86368050940990e7b2cf138b8676b8ad"
+  },
+  "scoring": {
+    "metric_id": "global_wp_clip2_v1",
+    "mask": "need_prediction AND is_scored",
+    "warmup_rows_excluded": "Rows 0 through 98; the grader also verifies need_prediction is exactly false before row 99 and true from row 99 onward for every selected group.",
+    "target_clipping": "Official +/-2 clipping with original clipped-target magnitude weights; unchanged.",
+    "uncertainty": "Paired source-component bootstrap over fixed predictions; conditional on these exposed F0 groups and this one checkpoint.",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20261020
+  },
+  "inference": {
+    "arms": ["raw", "local_trend_posterior"],
+    "all_rows_processed": 20000,
+    "chunk_rows": 4000,
+    "batch_size": 1,
+    "precision": "FP32; TF32 and autocast disabled",
+    "gpu_workers": 1,
+    "targets_or_masks_requested": false
+  },
+  "resources": {
+    "aggregate_cpu_cores": 2,
+    "task_cpu_quota": "100%",
+    "task_ram_cap_bytes": 5000000000,
+    "observed_vram_cap_bytes": 5000000000,
+    "runtime_cap_seconds": 1200,
+    "swap_bytes": 0,
+    "scratch_root": "/home/vlad/development/wunder/research_tmp",
+    "new_paid_compute": false
+  },
+  "commands": {
+    "preflight": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-kalman-panel-preflight-20261018-r9.scope scripts/limited .venv/bin/python research/campaign_2026-10-18/online_features_r1/kalman_input_panel_r2/replay_panel.py --mode preflight",
+    "execute": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=20% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s WNN_SCOPE_UNIT=wnn-kalman-panel-launch-20261018-r2.scope scripts/limited .venv/bin/python scripts/bandit_resources.py --root . --state research/campaign_2026-10-18/online_features_r1/runtime launch --attempt kalman-input-panel-f0-141-20261018-r1 --kind gpu --cpus 1 --reserve-bytes 5000000000 --profile research/campaign_2026-10-18/online_features_r1/runtime/attempts/kalman-gru-replay-20261018-r3.json --contract research/campaign_2026-10-18/online_features_r1/kalman_input_panel_r2/recipe_r1.json --admission-timeout 900 -- /usr/bin/timeout --signal=TERM --kill-after=10s 1200s /usr/bin/env PYTHONDONTWRITEBYTECODE=1 WNN_THREADS=1 WNN_LOADER_WORKERS=0 ARROW_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/online_features_r1/kalman_input_panel_r2/replay_panel.py --mode execute",
+    "grade": "WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=50% WNN_THREADS=1 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=900s WNN_SCOPE_UNIT=wnn-kalman-panel-grade-20261018-r1.scope scripts/limited .venv/bin/python research/campaign_2026-10-18/online_features_r1/kalman_input_panel_r2/grade_panel.py"
+  },
+  "interpretation": {
+    "prior_signal": "On the selected first 16 groups, local-trend replacement was +0.000338 WP with a component-bootstrap 95% interval [-0.000019, +0.000716].",
+    "follow_up_purpose": "Estimate whether that small direction persists over more source components. This is an exposed-fold continuation chosen after seeing the first-16 result, not independent confirmation.",
+    "b300_gate": "This fixed-filter replay alone is not a large-scale training handoff. A trainable retained-raw state-feature path is already in draft PR #17; update that draft only if this wider screen adds a concrete, useful result or a distinct mechanism."
+  },
+  "source_pins": {
+    "prior_preflight_path": "research/campaign_2026-10-18/online_features_r1/kalman_filter_probe/preflight_receipt_r2.json",
+    "prior_preflight_sha256": "bef87e31633ff213dedd3146801cd8008ab84570e7ec9739920908bd0af1b46f",
+    "resource_profile_path": "research/campaign_2026-10-18/online_features_r1/runtime/attempts/kalman-gru-replay-20261018-r3.json",
+    "resource_profile_sha256": "32e543579ad834f8a24bafc78a8f5b50a7e8bfca8533890342cdf5aaab6b2502",
+    "resource_profile_contract_path": "research/campaign_2026-10-18/online_features_r1/kalman_filter_probe/recipe_r2.json",
+    "resource_profile_contract_sha256": "271b06034d4074b0f99ebf6d8954fa991ba688abcada2dce01e1b34d7b351781"
+  }
+}

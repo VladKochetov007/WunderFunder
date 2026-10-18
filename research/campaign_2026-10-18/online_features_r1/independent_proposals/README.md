@@ -1,0 +1,5 @@
+# Independent first proposals
+
+[PROPOSALS.md](PROPOSALS.md) contains six fresh-context cards: a warmup gate trained on out-of-fold errors, an input innovation clock, a cross-fitted residual head, fitting-only causal masked pretraining, chrono initialization, and a trailing-window teacher distilled into a GRU. Each gives assumptions, an observable prediction, a cheap comparison, falsifier, cost and artifact. [sources.json](sources.json) records primary literature and selection; [FIRST_COMMIT_RECEIPT.json](FIRST_COMMIT_RECEIPT.json) hashes the first cards before the scout saw controller or actor proposals. Source-grounded proposals only, with no fit or data payload execution.
+
+The read-only [P2 source audit](../../../../unified/operations/P2_INNOVATION_CLOCK_SOURCE_AUDIT_20261018_R1.md) found no cached full-sequence feature stream for the innovation clock. A later footer-pinned, bounded screen supplied that stream directly for 32 fit-side sequences; see its [feature-only results](../innovation_clock_r1/README.md). The earlier unbounded train-footer command remains closed and must not be repeated.

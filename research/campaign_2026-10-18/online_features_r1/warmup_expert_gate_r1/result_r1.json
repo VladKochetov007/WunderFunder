@@ -1,0 +1,253 @@
+{
+  "candidate_ancestry": "four fold0 endpoints exclude the fixed F0 evaluation groups; TL3 and adaptive alpha aliases are excluded",
+  "candidate_predictions": {
+    "parent": {
+      "aligned_groups": 468,
+      "checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+      "path": "cache/pred_warm_mechanism_f0_s3_c_r3_valid.npy",
+      "prediction_sha256": "c45c8d260d011fcc0c5900a4d11ee10d8261799716775ee6b26dd2cb6dd84482",
+      "row_group_count": 1873,
+      "sidecar_sha256": "d341f340fd0987a15f5dc3b8e30b049e4ab2a924c47e096e3043f58d89f86300",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "r2_full_geometry": {
+      "aligned_groups": 468,
+      "checkpoint_sha256": "f03785c3dbc364d3d12a0ad0cbe1969a50a95bdc3a95d1f4bd0f4758f654df19",
+      "path": "cache/pred_geometry_adapter_f0_s3_r2_valid.npy",
+      "prediction_sha256": "b86574111adb85cbd1a4de564f4a91f3efc2d455c20ff932312eafbae1a21f0d",
+      "row_group_count": 468,
+      "sidecar_sha256": "d4a8c1ecdb5f67567b9b7eed9b365c9f23ff1cefaed5fc791ee747c39fb17eb7",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "r3_dictionary_only": {
+      "aligned_groups": 468,
+      "checkpoint_sha256": "7d9602f0f8189528dacd6d82e295a90315e620c3b8fa057f3d71bb01fa314f6f",
+      "path": "cache/pred_geometry_variation_f0_s3_r3_dictionary_only_valid.npy",
+      "prediction_sha256": "728d5a3be3affe2847c4d9c528355e8b66b6066f58e69de68719e3dea2e8b12e",
+      "row_group_count": 468,
+      "sidecar_sha256": "55f64e6d8211227d950b3411cf2a9d74301fcdcfca617231871a2d23de035efa",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "r3_moments_only": {
+      "aligned_groups": 468,
+      "checkpoint_sha256": "e5b943e5bbb8da66e91eafe20a8c0ff45aa2d5df6ea6dabfe46db9fe6b5f88ba",
+      "path": "cache/pred_geometry_variation_f0_s3_r3_moments_only_valid.npy",
+      "prediction_sha256": "caa1aa4e8ff023664f8311980461142eb7ba36ecb4fc14a7242fbb9d740de950",
+      "row_group_count": 468,
+      "sidecar_sha256": "473040052be8b9e29dcc91462ff25a05f00513a398a5b55d2de583186f13b141",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    }
+  },
+  "component_bootstrap": {
+    "gate_minus_training_selected_fixed": {
+      "bootstrap_sd": 0.00016817041797305676,
+      "candidate_wp": 0.6808333321475976,
+      "centered_moments": true,
+      "ci95": [
+        -0.0007483401885699182,
+        -8.756475954064817e-05
+      ],
+      "mean_diff": -0.000393181073950033,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 10000,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 0.9961,
+      "reference_wp": 0.6812265132215476,
+      "seed": 20261019
+    },
+    "gate_minus_uniform_fixed": {
+      "bootstrap_sd": 3.945613746313216e-06,
+      "candidate_wp": 0.6808333321475976,
+      "centered_moments": true,
+      "ci95": [
+        -3.16266639202589e-07,
+        1.5184357140723967e-05
+      ],
+      "mean_diff": 7.418107496603987e-06,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 10000,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 0.0296,
+      "reference_wp": 0.680825914040101,
+      "seed": 20261019
+    },
+    "scope": "paired source-component resampling of the assembled cross-fit predictions; conditional on fitted gate folds"
+  },
+  "created_utc": "2026-10-18T04:13:18.167160+00:00",
+  "evaluation_component_order_sha256": "c285ef4d7ea4002952d22353b5292bcf0fa57095c6da19fe4a8d5e9f57d416dc",
+  "evaluation_group_order_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+  "evaluation_sequence_id_order_sha256": "3af7a949dc6b19f0988210644660f4d1d35fee9c143f3df822d0e1c4831b541c",
+  "experiment_id": "E-WARMUP-EXPERT-GATE-20261018-R1",
+  "exposure": "repeatedly inspected F0; component-cross-fitted gate is a screen, not fresh validation",
+  "feature_receipt_sha256": "c8bc971120751545606ca4a1a3f3b35ec4e55631ab1096c6b4a0099ad192dca4",
+  "feature_sha256": "849e0a93b897468aa2a82346d29e8463984b493570b4589ba60dc8b57ffffc25",
+  "fold": 0,
+  "gate": {
+    "alpha": 25.0,
+    "input_dependence": {
+      "definition": "per-fold mean L1 distance of each held-out group's gate weights from that fold's mean weights",
+      "fold_values": [
+        0.012079643667850522,
+        0.012816712700762702,
+        0.017342629981735014,
+        0.013270715330342247
+      ],
+      "folds_at_or_above_0p10": 0
+    },
+    "mean_weights": [
+      0.25418953071662204,
+      0.2463374381024657,
+      0.250400165099919,
+      0.24907286608099255
+    ],
+    "regression": "standardized multi-output ridge",
+    "std_weights": [
+      0.007170471727621686,
+      0.005505004242624659,
+      0.002423101985907133,
+      0.0031503852235205544
+    ],
+    "temperature": 0.01,
+    "uniform_shrinkage": 0.5
+  },
+  "gate_target": "per-sequence official WP of each expert, used only for gate-training components",
+  "hypothesis_id": "H-WARMUP-EXPERT-GATE-20261018-R1",
+  "limitations": [
+    "All F0 endpoints and labels have prior exposure; cross-fitting prevents gate train/test label reuse only within this screen.",
+    "The gate learns local per-sequence WP as a surrogate target, then is judged by the exact pooled official metric.",
+    "Bootstrap uncertainty conditions on the four fitted gate models and does not cover fitting-seed or unseen-regime variation.",
+    "A positive result needs clean fold/seed confirmation and does not imply a public score increase."
+  ],
+  "metric_id": "global_wp_clip2_v1",
+  "pooled_crossfit_scores": {
+    "gate": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.673701169070636,
+      "t1": 0.6879654952245575,
+      "wp": 0.6808333321475968
+    },
+    "training_selected_fixed": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6742207424247832,
+      "t1": 0.6882322840183097,
+      "wp": 0.6812265132215465
+    },
+    "uniform_fixed": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6736883518653419,
+      "t1": 0.687963476214859,
+      "wp": 0.6808259140401005
+    }
+  },
+  "preflight_fingerprint": "a6cb2fd74e3ff870c690c51b35d29f7cd8fc5028a76d4b3e34ecc7ace41b2b2c",
+  "preflight_path": "research/campaign_2026-10-18/online_features_r1/warmup_expert_gate_r1/preflight_r1.json",
+  "preflight_sha256": "80c13fcb2410883430a0a5acd5700317f1c1fd39911e6000c9859a3779943f78",
+  "recipe_sha256": "72a19ed2fa9d8ffdc6ee446bc99d46541037b7804847aa008f209c9b82be2734",
+  "schema": "wnn.warmup_expert_gate_screen.result.v1",
+  "source_hashes": {
+    "component_evaluation": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "feature_extractor": "f53b31954d98af418fa3bb10ca2de40130e0ba339fb3422aa7d93fdb1d9ed442",
+    "gate_grader": "a5ba5c760843e10e726192458e368971810a5ba36a047ad1ea3e5b02fd8aad13",
+    "official_metric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "prediction_aligner": "fb7a85a5837f61fa6c65cd10a799768006067e87d4c18e92d4b813ba83b9d82e",
+    "target_cache_reader": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39"
+  },
+  "split": {
+    "assignments": [
+      {
+        "fixed_expert_selected_from_training_only": "parent",
+        "fold": 0,
+        "heldout_components": 36,
+        "heldout_groups": 136,
+        "heldout_scores": {
+          "crossfit_fixed": 0.6822364782793726,
+          "gate": 0.681663081634301,
+          "uniform_fixed": 0.6816438500998288
+        },
+        "mean_group_weight_l1_from_fold_mean": 0.012079643667850522,
+        "mean_test_gate_weights": [
+          0.25488720210647514,
+          0.24592868914568708,
+          0.2501157107962346,
+          0.2490683979516031
+        ],
+        "training_components": 105,
+        "training_fixed_expert_wp": 0.6808197818478854,
+        "training_groups": 332
+      },
+      {
+        "fixed_expert_selected_from_training_only": "parent",
+        "fold": 1,
+        "heldout_components": 35,
+        "heldout_groups": 108,
+        "heldout_scores": {
+          "crossfit_fixed": 0.6215985043417397,
+          "gate": 0.620937865381289,
+          "uniform_fixed": 0.6209224579058422
+        },
+        "mean_group_weight_l1_from_fold_mean": 0.012816712700762702,
+        "mean_test_gate_weights": [
+          0.2549592218328325,
+          0.24542378675746213,
+          0.251251262269439,
+          0.2483657291402665
+        ],
+        "training_components": 106,
+        "training_fixed_expert_wp": 0.6992764063029356,
+        "training_groups": 360
+      },
+      {
+        "fixed_expert_selected_from_training_only": "parent",
+        "fold": 2,
+        "heldout_components": 35,
+        "heldout_groups": 115,
+        "heldout_scores": {
+          "crossfit_fixed": 0.7153597019122293,
+          "gate": 0.7153219957610463,
+          "uniform_fixed": 0.7153269181538926
+        },
+        "mean_group_weight_l1_from_fold_mean": 0.017342629981735014,
+        "mean_test_gate_weights": [
+          0.25331732206804436,
+          0.24687949215411512,
+          0.2503033531313353,
+          0.2494998326465053
+        ],
+        "training_components": 106,
+        "training_fixed_expert_wp": 0.6709025904291904,
+        "training_groups": 353
+      },
+      {
+        "fixed_expert_selected_from_training_only": "parent",
+        "fold": 3,
+        "heldout_components": 35,
+        "heldout_groups": 109,
+        "heldout_scores": {
+          "crossfit_fixed": 0.701625748669689,
+          "gate": 0.7013390542032201,
+          "uniform_fixed": 0.7013401827503409
+        },
+        "mean_group_weight_l1_from_fold_mean": 0.013270715330342247,
+        "mean_test_gate_weights": [
+          0.2534766320470418,
+          0.24718081413405138,
+          0.25001393269056166,
+          0.24932862112834517
+        ],
+        "training_components": 106,
+        "training_fixed_expert_wp": 0.673460010359614,
+        "training_groups": 359
+      }
+    ],
+    "folds": 4,
+    "method": "deterministic permutation of sorted source-qualified components followed by np.array_split",
+    "seed": 20261018
+  },
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+}

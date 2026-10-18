@@ -1,0 +1,140 @@
+{
+  "schema": "wnn.warmup_expert_gate_screen.recipe.v1",
+  "experiment_id": "E-WARMUP-EXPERT-GATE-20261018-R1",
+  "hypothesis_id": "H-WARMUP-EXPERT-GATE-20261018-R1",
+  "status": "frozen_screen_recipe",
+  "scope": "component-grouped cross-fitted warmup-only routing screen on exposed F0 predictions",
+  "fold": 0,
+  "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "target_cache": "cache/valid_targets.npz",
+  "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+  "valid_input_source": {
+    "path": "datasets/valid.parquet",
+    "size_bytes": 5615509128,
+    "footer_metadata_bytes": 10686926,
+    "row_groups": 1873,
+    "rows_per_group": 20000,
+    "read_scope": "first 99 feature rows from the 468 frozen F0 evaluation row groups; no targets or mask columns",
+    "warmup_slice_sha256": "d4339b9dba20dd5a2595dc855537d17b7ea37561bf9caa64e41905bc05b0a40a"
+  },
+  "fit_membership_identity": {
+    "valid": {
+      "count": 1405,
+      "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+    },
+    "evaluation_groups_must_be_disjoint_from_all_fit_groups": true
+  },
+  "candidate_experts": {
+    "parent": {
+      "run": "warm_mechanism_f0_s3_c_r3",
+      "prediction": "cache/pred_warm_mechanism_f0_s3_c_r3_valid.npy",
+      "prediction_sha256": "c45c8d260d011fcc0c5900a4d11ee10d8261799716775ee6b26dd2cb6dd84482",
+      "sidecar_sha256": "d341f340fd0987a15f5dc3b8e30b049e4ab2a924c47e096e3043f58d89f86300",
+      "checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+      "checkpoint_name": "model_ep1.pt",
+      "provenance": "artifacts/runs/warm_mechanism_f0_s3_c_r3/provenance.json",
+      "provenance_sha256": "8989f1b3015e822765db8016645739f6c4d2452f4d2d84d4f04ab05f98491d3a"
+    },
+    "r2_full_geometry": {
+      "run": "geometry_adapter_f0_s3_r2",
+      "prediction": "cache/pred_geometry_adapter_f0_s3_r2_valid.npy",
+      "prediction_sha256": "b86574111adb85cbd1a4de564f4a91f3efc2d455c20ff932312eafbae1a21f0d",
+      "sidecar_sha256": "d4a8c1ecdb5f67567b9b7eed9b365c9f23ff1cefaed5fc791ee747c39fb17eb7",
+      "checkpoint_sha256": "f03785c3dbc364d3d12a0ad0cbe1969a50a95bdc3a95d1f4bd0f4758f654df19",
+      "checkpoint_name": "model_ep0.pt",
+      "provenance": "artifacts/runs/geometry_adapter_f0_s3_r2/provenance.json",
+      "provenance_sha256": "10402ba5f435e92d242e2f701606325952cfd87c9262eb930679a1daa29de080"
+    },
+    "r3_moments_only": {
+      "run": "geometry_variation_f0_s3_r3_moments_only",
+      "prediction": "cache/pred_geometry_variation_f0_s3_r3_moments_only_valid.npy",
+      "prediction_sha256": "caa1aa4e8ff023664f8311980461142eb7ba36ecb4fc14a7242fbb9d740de950",
+      "sidecar_sha256": "473040052be8b9e29dcc91462ff25a05f00513a398a5b55d2de583186f13b141",
+      "checkpoint_sha256": "e5b943e5bbb8da66e91eafe20a8c0ff45aa2d5df6ea6dabfe46db9fe6b5f88ba",
+      "checkpoint_name": "model_ep0.pt",
+      "provenance": "artifacts/runs/geometry_variation_f0_s3_r3_moments_only/provenance.json",
+      "provenance_sha256": "949976153635329f69a90ef08689d2dac0ad5509b650379994e744661147606b"
+    },
+    "r3_dictionary_only": {
+      "run": "geometry_variation_f0_s3_r3_dictionary_only",
+      "prediction": "cache/pred_geometry_variation_f0_s3_r3_dictionary_only_valid.npy",
+      "prediction_sha256": "728d5a3be3affe2847c4d9c528355e8b66b6066f58e69de68719e3dea2e8b12e",
+      "sidecar_sha256": "55f64e6d8211227d950b3411cf2a9d74301fcdcfca617231871a2d23de035efa",
+      "checkpoint_sha256": "7d9602f0f8189528dacd6d82e295a90315e620c3b8fa057f3d71bb01fa314f6f",
+      "checkpoint_name": "model_ep0.pt",
+      "provenance": "artifacts/runs/geometry_variation_f0_s3_r3_dictionary_only/provenance.json",
+      "provenance_sha256": "292c5000cd9ecbf41d90afd5996c61b6f3ba28e0a0c7744ecef195e4172b51cc"
+    }
+  },
+  "ancestry": {
+    "warm_parent_initializer": {
+      "run": "c20261003_combo_s3_f0",
+      "provenance": "artifacts/runs/c20261003_combo_s3_f0/provenance.json",
+      "provenance_sha256": "9a9d17eeb4b844d85bb5ca132e0085d0cf6dd1387d3d3de4c56d8e3bb8be7a6f",
+      "checkpoint_name": "model_ep3.pt",
+      "checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e"
+    },
+    "distillation_cache": {
+      "metadata": "cache/clean_t3_f0_h390_t3r5_a9_r2/metadata.json",
+      "metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+      "teachers": [
+        {
+          "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+          "epoch": 2,
+          "coefficient": 0.1,
+          "checkpoint_sha256": "201221c6b4140dda70b078db2a9d7a7246ec40b813f054570d195cecefc61582",
+          "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s3_r5/provenance.json",
+          "provenance_sha256": "740b0d96ee311f215153db62272262e0153ce11f8f91560b03efae8e739f9ed0"
+        },
+        {
+          "run": "clean_t3_f0_muonall_h384_e3_s4_r5",
+          "epoch": 2,
+          "coefficient": 0.1,
+          "checkpoint_sha256": "714ac9b04cd1be0f63fb5f9f60cce2059e5e9284848470cae9d7198794767df7",
+          "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s4_r5/provenance.json",
+          "provenance_sha256": "f738ef25f1b7d4244d6c900ebe4fba861efc24ddd106ff425fc60d7e3caccf11"
+        },
+        {
+          "run": "clean_t3_f0_muonall_h384_e3_s5_r5",
+          "epoch": 2,
+          "coefficient": 0.1,
+          "checkpoint_sha256": "763fac7f0aa24507167425e9905f1514a0a28ace48036b1c1c5819c7eb02c8d1",
+          "provenance": "artifacts/runs/clean_t3_f0_muonall_h384_e3_s5_r5/provenance.json",
+          "provenance_sha256": "44728c0c60981166f63038f2a6696b6714ce57c52e039e304883ffe7449def18"
+        }
+      ]
+    }
+  },
+  "gate": {
+    "features": "13 feature groups x {warmup mean, log standard deviation, normalized first20-to-last20 drift}",
+    "target": "per-sequence official global_wp_clip2_v1 score of each candidate, used only on gate-training components",
+    "regression": "standardized multi-output ridge with alpha=25 and unpenalized intercept",
+    "weights": "0.5 * uniform four-expert weights + 0.5 * softmax(predicted sequence scores / 0.01)",
+    "component_split": {
+      "folds": 4,
+      "seed": 20261018,
+      "grouping": "source-qualified component, never sequence rows"
+    }
+  },
+  "controls": {
+    "crossfit_fixed": "best single candidate selected by pooled official WP on each gate-training component set only",
+    "uniform_fixed": "equal 25 percent weights over the four candidates"
+  },
+  "metric": "global_wp_clip2_v1",
+  "score_mask": "cached official mask and row position >= 99",
+  "precision": "cached predictions and gate calculations use float32/float64; no model fit or altered metric",
+  "exposure": "F0 has been repeatedly inspected; this internal grouped cross-fit is a screen, not fresh validation",
+  "decision_rule": "consider a separate B300 draft only if the cross-fitted gate is at least +0.001 absolute pooled WP over the training-selected fixed expert, positive on at least 3 of 4 held-out component folds, and input-dependent in at least 3 of 4 folds; this is an admission signal, not confirmation",
+  "excluded": [
+    "TL3 because exact fit, teacher, and initializer ancestry remains unknown",
+    "R2 alpha aliases because their coefficient was adaptively selected on exposed F0",
+    "all evaluation targets and masks during feature extraction and gate prediction"
+  ],
+  "input_dependence_rule": {
+    "definition": "within each held-out fold, mean per-group L1 distance between that group gate weights and the fold mean gate weights",
+    "minimum_value": 0.1,
+    "minimum_folds": 3,
+    "interpretation": "material group-conditional routing in held-out components; cross-fit folds are not independent replications"
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "artifacts": {
+    "candidate": {
+      "checkpoint_sha256": "1cacafc098480f6575f25c13004529399c25202f1013ee93023008f65ab0e800",
+      "finite_on_selected_rows": true,
+      "fp32": true,
+      "prediction_sha256": "b12cc6a2b42306b1deba9881093f5185c0176ad94cbf6a25570dee5b2260f8b1",
+      "run": "geometry_adapter_f0_s3_target_only_r1",
+      "sidecar_groups": 468,
+      "sidecar_sha256": "1a9c657e1643928a8648838d0c8ef84fcb754f82727c622d39072c083149e4ca"
+    },
+    "parent": {
+      "checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+      "finite_on_selected_rows": true,
+      "fp32": true,
+      "prediction_sha256": "c45c8d260d011fcc0c5900a4d11ee10d8261799716775ee6b26dd2cb6dd84482",
+      "run": "warm_mechanism_f0_s3_c_r3",
+      "sidecar_groups": 1873,
+      "sidecar_sha256": "d341f340fd0987a15f5dc3b8e30b049e4ab2a924c47e096e3043f58d89f86300"
+    },
+    "r2_control": {
+      "checkpoint_sha256": "f03785c3dbc364d3d12a0ad0cbe1969a50a95bdc3a95d1f4bd0f4758f654df19",
+      "finite_on_selected_rows": true,
+      "fp32": true,
+      "prediction_sha256": "b86574111adb85cbd1a4de564f4a91f3efc2d455c20ff932312eafbae1a21f0d",
+      "run": "geometry_adapter_f0_s3_r2",
+      "sidecar_groups": 468,
+      "sidecar_sha256": "d4a8c1ecdb5f67567b9b7eed9b365c9f23ff1cefaed5fc791ee747c39fb17eb7"
+    }
+  },
+  "conditional_component_bootstrap_95": {
+    "candidate_minus_parent": {
+      "bootstrap_sd": 0.00035896241059959057,
+      "candidate_wp": 0.6801454826570179,
+      "centered_moments": true,
+      "ci95": [
+        -0.0018151602620705865,
+        -0.00044531622457098525
+      ],
+      "mean_diff": -0.0010810305645296836,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 0.9995,
+      "reference_wp": 0.6812265132215476,
+      "seed": 20261018
+    },
+    "candidate_minus_r2_control": {
+      "bootstrap_sd": 0.00011445603898823177,
+      "candidate_wp": 0.6801454826570179,
+      "centered_moments": true,
+      "ci95": [
+        -0.000538391446126063,
+        -9.131581395061261e-05
+      ],
+      "mean_diff": -0.0003044213675589269,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 0.9995,
+      "reference_wp": 0.6804499040245768,
+      "seed": 20261018
+    }
+  },
+  "deltas": {
+    "candidate_minus_parent": -0.0010810305645299056,
+    "candidate_minus_r2_control": -0.00030442136755925997,
+    "independently_graded_parent_minus_recipe_reference": 0.0,
+    "r2_control_minus_parent": -0.0007766091969706457
+  },
+  "execution": {
+    "cpu_quota": "20%",
+    "custom_prior_grader_code_reused": false,
+    "interpreter": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "memory_max_bytes": 1500000000,
+    "reused_components": [
+      "canonical GlobalAccumulator",
+      "canonical paired_component_moments/bootstrap"
+    ],
+    "scope": "wnn-campaign.slice",
+    "swap_max_bytes": 0,
+    "threads": 1,
+    "torch_imported": false,
+    "training_or_gpu_used": false
+  },
+  "existing_score_reconciliation": {
+    "candidate": {
+      "abs_diff": 0.0,
+      "independent_wp": 0.6801454826570177,
+      "matches_within_1e-12": true,
+      "recorded_wp": 0.6801454826570177
+    },
+    "r2_control": {
+      "abs_diff": 0.0,
+      "independent_wp": 0.680449904024577,
+      "matches_within_1e-12": true,
+      "recorded_wp": 0.680449904024577
+    }
+  },
+  "f0_panel": {
+    "component_count": 141,
+    "evaluation_membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "exposure": "F0 is exposed and adaptively selected; this fixed-prediction interval is conditional on the exposed groups and these endpoints.",
+    "scored_from_row": 99,
+    "selected_rows": 808863,
+    "sequence_count": 468,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "fit_membership": {
+    "all_valid_fit_memberships_disjoint_from_f0": true,
+    "candidate": {
+      "fit_group_counts_by_source": {
+        "train": 10535,
+        "valid": 1405
+      },
+      "valid_fit_f0_overlap_count": 0,
+      "valid_fit_f0_overlap_first20": []
+    },
+    "candidate_control_membership_equal_by_source": true,
+    "namespace_note": "The preliminary freeze script incorrectly unioned train and valid row-group integers. Those integers belong to separate parquet namespaces; only valid-fit IDs can be compared with evaluation.valid IDs. The preliminary overlap flag is an audit-script bug, not leakage.",
+    "parent": {
+      "fit_group_counts_by_source": {
+        "train": 10535,
+        "valid": 1405
+      },
+      "valid_fit_f0_overlap_count": 0,
+      "valid_fit_f0_overlap_first20": []
+    },
+    "r2_control": {
+      "fit_group_counts_by_source": {
+        "train": 10535,
+        "valid": 1405
+      },
+      "valid_fit_f0_overlap_count": 0,
+      "valid_fit_f0_overlap_first20": []
+    }
+  },
+  "frozen_inputs_receipt": "research/campaign_2026-10-18/online_features_r1/adapter_target_only/independent_grade_frozen_inputs.json",
+  "frozen_inputs_receipt_sha256": "cd23f45719086155a941853a1680e8af0cb9ea71ca3931da1125647fc5e21292",
+  "grader_sha256": "8565b1a934f68cebc2a603d16d7e39bf95570c5dd48a856d0115e740b10f0f1e",
+  "limitations": [
+    "One seed, one exposed fold and adaptive mechanism/endpoint selection; bootstrap intervals condition on fixed predictions and do not cover seed, model-selection, transfer or public-score uncertainty.",
+    "The inherited parent and its teacher/initializer ancestry are reused, not independent replications; lineage beyond the parent checkpoint identity was not re-audited here.",
+    "The initial row-group overlap flag in independent_grade_frozen_inputs.json is invalid because it unions separate train and valid parquet ID spaces; the corrected source-specific check is recorded above.",
+    "No public leaderboard score or gain forecast is implied."
+  ],
+  "matched_control": "R2 full-feature adapter: same source-qualified 468 F0 groups, checkpoint parent, fit membership by source, seed and frozen optimizer/sampler recipe; target-only objective is the intended treatment.",
+  "metric_id": "global_wp_clip2_v1",
+  "metric_implementation": "canonical wnn.gmetric.GlobalAccumulator; clip2 and label-magnitude weights unchanged",
+  "old_head_invariance": {
+    "basis": "objective_fidelity_receipt is AST/code-path only; integration_v2 fit_admitted is stale pre-fit metadata; train.log and run provenance contain no bitwise parent-head comparison. Per parent instruction no Torch/model checkpoint load was performed.",
+    "status": "unverified_from_saved_artifacts"
+  },
+  "parent_reference_reconciliation": {
+    "independent_parent_wp": 0.6812265132215476,
+    "matches_within_1e-12": true,
+    "parent_aligned_by_row_group_to_same_f0": true,
+    "parent_cache_scope": "full-valid-feature-only",
+    "recipe_parent_wp": 0.6812265132215476
+  },
+  "schema": "wnn.adapter_target_only_independent_grade.v1",
+  "scores": {
+    "candidate": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6728906300544198,
+      "t1": 0.6874003352596156,
+      "wp": 0.6801454826570177
+    },
+    "parent": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6742207424247845,
+      "t1": 0.6882322840183106,
+      "wp": 0.6812265132215476
+    },
+    "r2_control": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 808863,
+      "t0": 0.6731815447936998,
+      "t1": 0.687718263255454,
+      "wp": 0.680449904024577
+    }
+  }
+}

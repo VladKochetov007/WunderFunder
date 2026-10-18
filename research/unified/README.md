@@ -1,10 +1,16 @@
 # Unified research library
 
-Start with [current state](../../specs/current-state.md). Model fitting is paused;
-the October 17 research reset authorizes analysis, EDA and engineering.
-This index distinguishes measured results, implementation drafts and historical plans.
+Start with [current state](../../specs/current-state.md). Research admission is
+closed by the user's 2026-10-18 stop instruction; only graceful completion and
+terminal collection of already-running work remain. The [stop record](operations/RESEARCH_STOP_20261018_R1.md)
+and [nightly closeout](../campaign_2026-10-18/online_features_r1/CLOSEOUT_20261018_R1.md)
+supersede earlier active-authority text. This index distinguishes measured
+results, implementation drafts and historical plans.
 
-Latest: [No-fit research reset and 25-idea portfolio](../campaign_2026-10-17/research_reset_r1/README.md)
+Latest completed evidence: [Online-features closeout](../campaign_2026-10-18/online_features_r1/CLOSEOUT_20261018_R1.md)
+— summarizes causal-state, Kalman, gating, model-blend, submission and local code-draft evidence. No new jobs are admitted.
+
+Previous: [No-fit research reset and 25-idea portfolio](../campaign_2026-10-17/research_reset_r1/README.md)
 — deployed prediction/cache fixes, a 249.6M-row narrow census, sampled full-feature
 and event-lag EDA, primary literature, and independent criticism. No new fits.
 

@@ -5,6 +5,9 @@ Architecture, training lineage, distillation and retained checkpoint sources.
 ## Current navigation
 
 - [Causal smoother GRU teacher/student B300 draft](https://github.com/VladKochetov007/WunderFunder/pull/17) — implements raw-zero-pad, steady-state EMA, fixed/learned local-trend teachers and matched four-family student-cache replacement. The adapter binds both filter and GRU-core source hashes through training provenance, prediction sidecars and cache construction. It is a draft handoff only: no B300 profile, task fit, student grade or serving result has run.
+- [Groupwise Kalman recurrent feature integration](../../campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/README.md) and [`kalman_group_features.py`](../../../src/wnn/kalman_group_features.py) — implements 39 causal fast/slow innovation-energy states with batched training and one-row streaming/reset parity. The matched one-seed F0 screen is nearly tied to the zero-feature control (+0.00005163 WP; conditional component interval crosses zero), so this is a reusable feature implementation and uncertain local signal, not a promoted model gain. The larger teacher/student path remains in draft #17.
+- [Frozen geometry adapter R2](../../campaign_2026-10-18/geometry_adapter_probe_r2/README.md) — H256×2 GRU initialized from clean-F0 `warm_mechanism_f0_s3_c_r3@ep1`, raw112 + event99 + causal geometry/discrete60. A 693-second FP32 fit learned only 60 input columns; bitwise receipts prove the old backbone/normalizers unchanged. Exposed-F0 WP 0.6804499 versus parent 0.6812265 is negative for this short recipe; retained as an exploratory quota endpoint, not a demonstrated improvement. Checkpoint/prior hashes and training logs are linked.
+
 - [Frozen zero-i1 replay](../../campaign_2026-10-17/research_reset_r1/bugfix/REPLAY_zero_i1_v2.md) — unchanged dftt_zi1_s3 checkpoint,4prespecified groups/11,522scoredrows, canonical WP0.06289742withwrong inputs versus0.72994782after restoring training preprocessing. This isolates an export defect; it is not a new model or full-panel ranking.
 
 - [Current model and submission catalog](CURRENT_MODEL_CATALOG.md) — production packages, ancestry, exact ZIP identities and the distinction between research endpoints and serving engines.
@@ -46,3 +49,5 @@ Every comparison should name independent weights, teacher and initializer ancest
 - [Derived F0 GRU growth initializer](../../campaign_2026-10-15/gru_parent_growth_r1/README.md) — parent c20261003_combo_s3_f0@ep3 expanded H256×2→H384×2 with pinned artifact/provenance and complete-sequence FP32 parity. Source-parent epoch is retained; no new updates, independent replication, native parity or measured quality. H-STUDENT-PARENT-GROWTH-20261015.
 
 </details>
+
+- [Official TL3 endpoint import](../../campaign_2026-10-18/geometry_variations_r3/TL3_IMPORT.json): user-provided best-public ZIP moved unchanged from Downloads, SHA d80e69d3…, three fixed int8 recurrent members, reported0.66832/39m12s. Source labels suggest all-data parent ancestry, not yet verified; useful for serving/complementarity research after the current deadline release, with local fitting exposure explicit.

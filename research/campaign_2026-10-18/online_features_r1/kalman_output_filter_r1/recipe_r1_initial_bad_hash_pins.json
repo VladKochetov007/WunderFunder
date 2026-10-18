@@ -1,0 +1,92 @@
+{
+  "schema": "wnn.kalman_output_filter_screen.recipe.v1",
+  "hypothesis_id": "H-KALMAN-OUTPUT-FILTER-20261018-R1",
+  "experiment_id": "E-KALMAN-OUTPUT-FILTER-20261018-R1",
+  "status": "frozen_screen_recipe",
+  "question": "Can a causal local-level Kalman filter on the model's own two output streams reduce prediction noise without changing model weights or reading labels at inference?",
+  "scope": "CPU-only postprocessing screen of one pinned full-validation parent prediction cache on the repeatedly exposed F0 panel",
+  "metric_id": "global_wp_clip2_v1",
+  "fold": 0,
+  "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "target_cache": "cache/valid_targets.npz",
+  "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+  "evaluation": {
+    "groups": 468,
+    "components": 141,
+    "group_order_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+    "sequence_id_order_sha256": "3af7a949dc6b19f0988210644660f4d1d35fee9c143f3df822d0e1c4831b541c",
+    "component_order_sha256": "c285ef4d7ea4002959c9b2eab5b2c9f0fa57095c6da19fe4a8d5e9f57d416dc",
+    "scored_rows": "99..19999, using the official cached mask",
+    "warmup_rows": "0..98; available predictions may initialize/calibrate the state, but target and mask values are not read for filtering",
+    "exposure": "Previously inspected F0 endpoints and labels; discovery screen only, not clean validation"
+  },
+  "parent_endpoint": {
+    "run": "warm_mechanism_f0_s3_c_r3",
+    "checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+    "prediction": "cache/pred_warm_mechanism_f0_s3_c_r3_valid.npy",
+    "prediction_sha256": "c45c8d260d011fcc0c5900a4d11ee10d8261799716775ee6b26dd2cb6dd84482",
+    "sidecar": "cache/pred_warm_mechanism_f0_s3_c_r3_valid.json",
+    "sidecar_sha256": "d341f340fd0987a15f5dc3b8e30b049eab2a924c47e096e3043f58d89f86300",
+    "expected_shape": [1873, 20000, 2],
+    "expected_dtype": "float32",
+    "fit_membership_preflight": "research/campaign_2026-10-18/online_features_r1/warmup_expert_gate_r1/preflight_r1.json",
+    "fit_membership_preflight_sha256": "80c13fcb2410883430a0a5acd5700317f1c1fd39911e6000c9859a3779943f78"
+  },
+  "arms": {
+    "fixed_q_over_r_025": {
+      "type": "steady_state_scalar_local_level_kalman",
+      "q_over_r": 0.25,
+      "steady_state_gain": 0.3903882032022076,
+      "input": "current model prediction only",
+      "state_reset": "each sequence"
+    },
+    "prefix_moments_q_over_r": {
+      "type": "steady_state_scalar_local_level_kalman",
+      "q_over_r_source": "first 99 model predictions for each sequence and target channel; no target or mask",
+      "robust_variance": "(1.4826 * median(abs(x - median(x))))^2",
+      "moments": {
+        "a": "robust_variance(first_difference(prefix))",
+        "b": "robust_variance(second_difference(prefix))",
+        "r_hat": "max((b - 2*a)/2, 0.01*a)",
+        "q_hat": "max(3*a - b, 0)",
+        "q_over_r": "clip(q_hat/r_hat, 0.01, 4.0)"
+      },
+      "gain": "(sqrt((q_over_r)^2 + 4*q_over_r) - q_over_r)/2",
+      "state_reset": "each sequence and target channel"
+    }
+  },
+  "prediction_contract": {
+    "causal": true,
+    "deterministic": true,
+    "labels_or_masks_read_during_filtering": false,
+    "uses_future_predictions": false,
+    "model_weights_updated": false,
+    "uses_first_99_output_predictions_for_prefix_moment_arm": true
+  },
+  "controls": ["raw parent prediction", "fixed q/r=0.25 local-level filter"],
+  "grading": {
+    "preflight_before_target_or_mask_numeric_decode_or_use": true,
+    "official_metric_implementation": "src/wnn/gmetric.py",
+    "component_bootstrap_replicates": 10000,
+    "component_bootstrap_seed": 20261019,
+    "descriptive_fold_partition_seed": 20261018,
+    "descriptive_fold_count": 4,
+    "limitations": "All F0 endpoints and labels were previously exposed; intervals condition on fixed predictions and do not estimate training-seed or public-transfer uncertainty."
+  },
+  "screen_interpretation": {
+    "strong_follow_up_signal": "At least +0.001 pooled WP over raw parent and nonnegative direction in at least three of four descriptive component folds.",
+    "rule_scope": "A follow-up prioritization heuristic only; a negative or uncertain screen does not reject other Kalman, online-learning, teacher, or student mechanisms.",
+    "b300_handoff": "This is a fixed-model CPU postprocessing screen, not a large-scale training direction. A result alone does not authorize a B300 draft."
+  },
+  "resources": {
+    "compute": "CPU only; no model fitting",
+    "cpu_quota": "50%",
+    "threads": 1,
+    "task_memory_cap_bytes": 1500000000,
+    "runtime_cap_seconds": 900,
+    "swap": "disabled",
+    "temporary_storage": "/home/vlad/development/wunder/research_tmp",
+    "paid_compute": false
+  }
+}

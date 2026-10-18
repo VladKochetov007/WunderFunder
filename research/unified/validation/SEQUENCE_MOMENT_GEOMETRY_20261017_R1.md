@@ -96,3 +96,17 @@ R1andR2 control scores are not a paired comparison across stages: R2input width2
 The measured pattern supports preserving this family and decomposing its conditional value. Keep ordinary moments/scale, exact-level identity, row occupancy, event occupancy and dwell as separate arms and test late fusion or a zero-initialized residual feature path. Do not force every sequence onto one circle. Current results do not isolate which subfeature caused a gain, identify market semantics, show a good production teacher, or demonstrate teacher-to-student transfer.
 
 The next useful quality experiment is a clean-ancestry continuation or distillation ablation on a stronger recurrent endpoint, with function-preserving extra-channel initialization, enough fitting components, matched budgets, and the team's30seed/fold confirmation target. Compare teacher-only context, student-only context and both. Include fixed endpoint mixtures and log learning curves rather than killing a component on its first standalone score. If a proposed direction is deferred for resource or information value, retain its evidence and reopening condition.
+
+## R3 longer-budget screen
+
+The [R3 continuation packet](../../campaign_2026-10-17/geometry_continuation_r3/README.md)
+extends the same tiny fitting pool to eight epochs at H128×2. On three paired
+seeds, the all-feature model averaged 0.359690 WP versus 0.376941 for the
+raw/event control (−0.017251); moments/scale alone averaged −0.019742, while
+the dictionary-only arm averaged +0.000501 with mixed seed signs. Fold 0 and
+fold 1 remain far apart. A fixed half control/dictionary mixture averaged
++0.007337 over the matched control predictions, a conditional observation
+that motivates testing the mixture on a stronger model. The fit pool remains
+43 sequences, evaluation 46 sequences/16 components, and both slices are
+exposed. This result is not statistically conclusive and does not reject the
+family; the next comparison increases model capacity and component coverage.

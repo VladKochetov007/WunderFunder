@@ -1,0 +1,136 @@
+{
+  "schema": "wnn.fixed_endpoint_f2_execution_receipt.v1",
+  "experiment_id": "E-TL3-R3-F2-FIXED-MIXTURE-20261018-R1",
+  "status": "completed_grade_only_amended_after_disclosed_initial_failure",
+  "recipe_path": "recipe.json",
+  "recipe_sha256": "5b804705b8b43ad81fce46065286d6cf5a0a65069b5d23d20a6da0a1f5952a18",
+  "grade_amendment_path": "recipe_gradefix_r1.json",
+  "grade_amendment_sha256": "76511d5ac5abdea9f45f1c78217c40be991dc1c0b35639abd198ed9a48061217",
+  "split": {
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold2.json",
+    "sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+    "groups": 443,
+    "connected_components": 144,
+    "sequence_length": 20000
+  },
+  "source_data": {
+    "valid_parquet_bytes": 5615509128,
+    "valid_parquet_footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+    "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "profiles": {
+    "tl3": {
+      "receipt_path": "profile_tl3_replay.json",
+      "receipt_sha256": "faa0abefb0b4e3946ec7e90b05889cf991ebbbb6aad68da064b6d8412119cc32",
+      "groups": 8,
+      "reset_aba_equal": true,
+      "docker_memory_peak_bytes": 399745024,
+      "docker_memory_max_bytes": 3221225472,
+      "exit_code": 0
+    },
+    "r3": {
+      "receipt_path": "profile_r3_replay.json",
+      "receipt_sha256": "a74d32c19237e3afe0e9122f80149e7176eb050647946bba594b7140b9d2da63",
+      "groups": 8,
+      "reset_aba_equal": true,
+      "docker_memory_peak_bytes": 297054208,
+      "docker_memory_max_bytes": 3221225472,
+      "exit_code": 0
+    }
+  },
+  "full_replays": {
+    "tl3": {
+      "started_utc": "2026-10-18T02:25:54Z",
+      "finished_utc": "2026-10-18T02:41:54Z",
+      "receipt_path": "tl3_f2_replay_receipt.json",
+      "receipt_sha256": "8bcdb3a09ed10e0a190ea5abf63fedf9e94fbffac2f3eea28b01552fc8c7bd14",
+      "prediction_scratch_path": "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2/out/tl3_f2.npy",
+      "prediction_sha256": "d37284a4719f7651a3e8f6ac4de6e479a3a21b48c3d83b1721945a4b5776542d",
+      "prediction_bytes": 70880128,
+      "groups": 443,
+      "rows": 8860000,
+      "labels_or_mask_read": false,
+      "reset_aba_equal": true,
+      "all_predictions_finite": true,
+      "wall_seconds": 959.354753821,
+      "callback_seconds": 871.560362873,
+      "docker_memory_peak_bytes": 2992173056,
+      "docker_memory_max_bytes": 3221225472,
+      "swap_max_bytes": 0,
+      "exit_code": 0
+    },
+    "r3": {
+      "started_utc": "2026-10-18T02:42:58Z",
+      "finished_utc": "2026-10-18T02:52:05Z",
+      "receipt_path": "r3_f2_replay_receipt.json",
+      "receipt_sha256": "ca48056ea8313755fed3a01dca4fe45bb276a0577e56b51f60e421d48ae43109",
+      "prediction_scratch_path": "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2/out/r3_f2.npy",
+      "prediction_sha256": "21218a851380834c0528efcad3eca3466ecafdf4591576debceddfd09675ccdf",
+      "prediction_bytes": 70880128,
+      "groups": 443,
+      "rows": 8860000,
+      "labels_or_mask_read": false,
+      "reset_aba_equal": true,
+      "all_predictions_finite": true,
+      "wall_seconds": 546.598795071,
+      "callback_seconds": 498.737169663,
+      "docker_memory_peak_bytes": 370085888,
+      "docker_memory_max_bytes": 3499999232,
+      "swap_max_bytes": 0,
+      "exit_code": 0,
+      "resource_adjustment_path": "r3_resource_adjustment.json"
+    }
+  },
+  "grade_attempts": {
+    "initial_failed_attempt": {
+      "path": "initial_grade_failure.json",
+      "sha256": "093329437e66ce6a9de8241d486883ba8a7ba5e8e0416f27f4af9298198ab747",
+      "status": "KeyError_after_first_group_target_and_mask_access",
+      "result_written": false
+    },
+    "corrected_label_blind_preflight": {
+      "recipe_path": "recipe_gradefix_r1.json",
+      "preflight_path": "preflight_gradefix_r1.json",
+      "preflight_sha256": "fea4d8af2f9c55cd0a101ce7925d56c60d97fb0c5a91ff8d1a5f9e28e7d5a622",
+      "input_fingerprint": "8de37a5a332b0590d61a3bff46b5c4f118a1518e5b46aa5b292f6d69939b3fe8",
+      "target_values_accessed": false,
+      "status": "pass"
+    },
+    "successful_grade": {
+      "result_path": "result_gradefix_r1.json",
+      "result_sha256": "9f4fb2ce53811ae35a95d6f3efa82c1b01ad7e2681b44942af9cd9734293c391",
+      "recipe_sha256": "76511d5ac5abdea9f45f1c78217c40be991dc1c0b35639abd198ed9a48061217",
+      "created_utc": "2026-10-18T02:54:22.972626+00:00",
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 903071,
+      "n_boot": 10000,
+      "seed": 20261019
+    }
+  },
+  "resource_history": {
+    "aggregate_cpu_cores": 2,
+    "parent_cpu_quota_before_and_after_docker_runs": "200%",
+    "parent_cpu_quota_during_docker_runs": "100%",
+    "tl3_task_memory_reservation_bytes": 4721225472,
+    "r3_task_memory_reservation_bytes": 4500000000,
+    "task_memory_cap_bytes": 5000000000,
+    "parent_memory_events_before_campaign_work": {
+      "oom": 3,
+      "oom_kill": 3
+    },
+    "parent_memory_events_after_grade": {
+      "oom": 3,
+      "oom_kill": 3
+    },
+    "parent_oom_event_delta": 0,
+    "parent_memory_current_after_grade_bytes": 4202373120,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_memory_swap_max_bytes": 0,
+    "physical_scratch": "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2",
+    "gpu_fit": false,
+    "new_paid_compute": false
+  },
+  "claim_limit": "F2 is previously inspected and TL3 training/teacher/initializer ancestry is unknown. Scores are exposed cross-fold diagnostics; component intervals are conditional on fixed predictions and do not quantify seed, ancestry, or public-transfer uncertainty.",
+  "interpretation": "The fixed 75/25 and 50/50 TL3/R3 blends both score below TL3, matching the qualitative F0 ordering. No new training mechanism or large B300 direction is established by this fixed endpoint comparison.",
+  "prediction_payloads_copied_into_repository": false
+}

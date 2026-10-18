@@ -1,0 +1,15 @@
+{
+  "authoritative_bitwise_result": "See corrected receipt, which compares aligned selected prediction values as uint32 and reports zero bit-pattern differences.",
+  "corrected_receipt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/geometry_adapter_probe_r2/geometry_adapter_r2_q16x_native_cache_uint32_parity.json",
+  "corrected_receipt_sha256": "1bce0debd60f266152ed7814f437bdaf28456aa0c9a984121c2c630901a89eb1",
+  "correction_scope": "receipt interpretation only; legacy receipt bytes are preserved",
+  "legacy_fields_to_read_with_correction": {
+    "fp32_reference_f0_score": "This legacy panel used the q16x full-F0 native cache as its reference, not the producer FP32 cache. The field name is inaccurate.",
+    "served_minus_fp32_f0_wp": "This legacy delta is the score difference against the q16x full-F0 native cache and equals zero on the panel. It is not a delta against FP32."
+  },
+  "legacy_receipt_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/geometry_adapter_probe_r2/geometry_adapter_r2_q16x_native_cache_parity.json",
+  "legacy_receipt_sha256": "df5774157994bf416c49257f37c35099c0073593992c191011a9ba864e4757a5",
+  "reason": "Do not rewrite the historical scorer output; this append-only correction fixes the reference-label interpretation and scopes equality to q16x native-cache consistency.",
+  "schema": "wnn.geometry-q16x-native-cache-parity-label-correction.v1",
+  "selected_zip_sha256": "955bff715871ff8a977d96a43f4edb89b1f5ecec72ae8ee49c0c2b53a3b6688b"
+}

@@ -1,0 +1,60 @@
+{
+  "id": "OPS-ONLINE-PROXY-METADATA-PREFLIGHT-20261018-R1",
+  "recorded_utc": "2026-10-18T01:08:26Z",
+  "status": "contained_worker_oom_then_measured_corrected_bound",
+  "failed_operation": {
+    "command_shape": "PyArrow ParquetFile metadata open for datasets/train.parquet; no table or row-group payload read",
+    "resource_cap_bytes": 1000000000,
+    "cpu_quota": "100%",
+    "swap_bytes": 0,
+    "observed_terminal_output": "The shell reported the bounded Python process as Killed.",
+    "parent_hierarchical_memory_events_before": {
+      "oom": 2,
+      "oom_kill": 2
+    },
+    "parent_hierarchical_memory_events_after": {
+      "oom": 3,
+      "oom_kill": 3
+    },
+    "parent_memory_events_local_after": {
+      "oom": 0,
+      "oom_kill": 0
+    },
+    "worker_cgroup_terminal_counters": "Transient scope had disappeared before inspection; direct worker event counters are unavailable.",
+    "gpu_used": false,
+    "payload_rows_read": false,
+    "scientific_fit_started": false
+  },
+  "diagnosis": {
+    "dataset_bytes": 29240219011,
+    "parquet_footer_bytes": 60437285,
+    "inference": "The 1.0 GB cap was too low for Arrow's expanded in-memory metadata representation. This is inferred from the contained kill and the corrected successful parse; the failed worker's peak was not captured.",
+    "not_a_parent_slice_oom": true
+  },
+  "corrected_metadata_profile": {
+    "resource_cap_bytes": 1500000000,
+    "status": "completed",
+    "rows": 212140000,
+    "columns": 117,
+    "row_groups": 10607,
+    "rows_per_row_group": 20000,
+    "process_peak_rss_kib": 1036624,
+    "payload_rows_read": false,
+    "oom_event_increment": 0
+  },
+  "additional_measured_bound": {
+    "source": "research/campaign_2026-10-18/online_features_r1/kalman_filter_probe/replay_execution_r3.json",
+    "description": "Same Parquet sequence reader used for an inference-only replay.",
+    "worker_cgroup_peak_bytes": 1125679104,
+    "worker_oom_delta": 0
+  },
+  "next_worker_admission": {
+    "memory_reservation_bytes": 1500000000,
+    "cpu_cores": 1,
+    "parent_memory_current_bytes_at_review": 5552300032,
+    "projected_parent_commitment_bytes": 7052300032,
+    "parent_working_target_bytes": 17000000000,
+    "scratch": "/home/vlad/development/wunder/research_tmp",
+    "processing": "Read one complete 20,000-row group at a time; no payload staging or multiple Parquet metadata objects in one process."
+  }
+}

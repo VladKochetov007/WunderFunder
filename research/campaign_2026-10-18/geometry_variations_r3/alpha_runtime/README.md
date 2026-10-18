@@ -1,0 +1,3 @@
+# Inference-only alpha execution
+
+[Parent packet](../README.md) freezes the scale grid and explicitly states shared-fit/adaptive-exposure limitations. [Attempt receipt](attempts/geometry-alpha-screen-20261018-r3s.json) binds admitted full-width source/shape,1CPU/4.5GB/no-swap reservation and completed terminal state. [Worker log](logs/geometry-alpha-screen-20261018-r3s.log) preserves controller execution; individual prediction/official-score logs and phase receipts remain in the parent packet. All four exports completed, then admission drained before independent grading. Parent memory charge10.48GB plus4.5GB reservation and≤0.5GB support fitted the17GB conservative cap without another reclaim. No new training occurred.

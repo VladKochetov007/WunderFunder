@@ -1,0 +1,194 @@
+{
+  "schema": "wnn.online_data_sentinel_audit.v1",
+  "created_utc": "2026-10-17T23:37:40Z",
+  "status": "bounded_read_only_complete",
+  "authorized_scope": "Audit observable inputs/labels, score mask, sequence reset, test-time feature-only adaptation boundaries, TL3 ancestry status and source-qualified fold assets; no model/native execution, fitting or full dataset scan.",
+  "official_docs_verified": {
+    "verification_time_utc": "2026-10-17T23:37:00Z",
+    "verifier": "root agent reported current official docs check",
+    "urls": [
+      "https://wundernn.io/connectome/docs/data_overview",
+      "https://wundernn.io/connectome/docs/faq",
+      "https://wundernn.io/connectome/docs/submission_guide"
+    ]
+  },
+  "observable_contract": {
+    "callback_fields": [
+      "seq_ix",
+      "step_in_seq",
+      "need_prediction",
+      "state[112] float32"
+    ],
+    "unavailable_at_test": [
+      "t0",
+      "t1",
+      "is_scored"
+    ],
+    "sequence_rows": 20000,
+    "warmup_steps": [
+      0,
+      98
+    ],
+    "required_prediction_steps": [
+      99,
+      19999
+    ],
+    "must_process_every_row": true,
+    "update_state_on_warmup_and_unscored_rows": true,
+    "sequence_order": "Rows arrive in given order; seq_ix changes identify independent sequences.",
+    "reset_all_per_sequence_adaptive_state_on_seq_change": true,
+    "allowed_temporal_information": "current row and earlier rows of the same sequence only",
+    "seq_ix_is_feature_or_time_key": false,
+    "test_scoring_mask": "hidden; platform applies it after inference; predict every required row"
+  },
+  "data_semantics_and_provenance": {
+    "labels": "t0/t1 are anonymous future-movement indicators for i0; exact target definition is undisclosed.",
+    "features": "112 documented channels for anonymous i0/i1 plus a0-a7; category names do not prove venue or market semantics.",
+    "venue_documented": false,
+    "calendar_or_exchange_timestamps_documented": false,
+    "corporate_action_or_adjustment_method_documented": false,
+    "step_in_seq": "within-sequence ordinal only"
+  },
+  "online_adaptation": {
+    "official_rule_status": "No explicit ban or permission located for test-time learning. Current official rules prohibit external data; callback contract permits only causal same-sequence feature observations.",
+    "conservative_admissible_interpretation": "Deterministic per-sequence RLS/fast-weight or feature-statistics inference state updated from current/past inputs only, with full reset at sequence boundary and no labels or scoring mask.",
+    "not_authorized_by_this_audit": "Do not infer blanket permission for global neural fine-tuning or use test labels/mask. Such implementation/rule questions require separate explicit basis.",
+    "first_candidate": "Frozen model plus a predeclared deterministic per-sequence feature-state update; test later-sequence behavior with evaluator-only labels and fixed position bins."
+  },
+  "cleanfold_assets": {
+    "canonical_manifests": [
+      "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+      "research/campaign_2026-09-29/artifacts/splits/fold2.json",
+      "research/campaign_2026-09-29/artifacts/splits/fold3.json"
+    ],
+    "f0_reference": {
+      "run": "warm_mechanism_f0_s3_c_r3@ep1",
+      "checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+      "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "eval_groups": 468,
+      "eval_components": 141,
+      "exposure": "Previously exposed and adaptively selected F0; valid matched comparison panel, not fresh holdout.",
+      "teacher_membership": "T3 metadata binds seeds 3/4/5 epoch 2 to the same fold0 fit membership."
+    },
+    "f2_f3_packet": {
+      "path": "research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r1/",
+      "input_manifests": [
+        "input_manifests/fold2.json",
+        "input_manifests/fold3.json"
+      ],
+      "status": "Prepared, not admitted/fitted; F2/F3 evaluation components previously inspected. Crossfold robustness only."
+    },
+    "prior_exposure": "All four main folds are exposed or potentially exposed; different seeds do not create a fresh holdout."
+  },
+  "tl3": {
+    "archive": "submissions/team_tl3_original_20261018.zip",
+    "sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569",
+    "members": [
+      {
+        "run": "distilled_s5@ep1",
+        "coefficient": 0.34
+      },
+      {
+        "run": "fttall_tlead_s5@ep3",
+        "coefficient": 0.33
+      },
+      {
+        "run": "fttall_tlead_s6@ep3",
+        "coefficient": 0.33
+      }
+    ],
+    "embedded_description": "Calls parent teachers all-data.",
+    "actual_training_teacher_initializer_membership": "UNKNOWN pending actual source/metadata ancestry audit.",
+    "cleanfold_use": "Not a cleanfold reference/teacher until ancestry is verified; team asset reuse remains authorized for exploratory use."
+  },
+  "invalid_claims": [
+    "test-time supervised update from t0/t1 or is_scored",
+    "future-row lookahead or cross-sequence adaptation state",
+    "seq_ix as feature or temporal order",
+    "a clean-holdout claim from TL3 or an all-data endpoint without full ancestry",
+    "a pristine holdout claim from any already exposed/potentially exposed main fold",
+    "venue, exchange timestamp, corporate-action or adjustment claims inferred from anonymous columns"
+  ],
+  "execution_bounds": {
+    "full_dataset_payloads_read": false,
+    "validation_target_or_mask_arrays_read": false,
+    "model_execution": false,
+    "native_execution": false,
+    "fitting": false,
+    "shared_repository_files_written": false,
+    "scratch_filesystem": "btrfs",
+    "outputs": [
+      "/home/vlad/development/wunder/research_tmp/online-data-sentinel-20261018/DATA_AUDIT.md",
+      "/home/vlad/development/wunder/research_tmp/online-data-sentinel-20261018/receipt.json"
+    ]
+  },
+  "evidence": [
+    {
+      "path": "docs/data_overview.md",
+      "lines": "29-52,55-78,82-90,137-160",
+      "supports": "sequence shape, warmup, causal rule, callback observability, labels, hidden scoring mask and metric"
+    },
+    {
+      "path": "docs/submission_guide.md",
+      "lines": "15-57,82-93",
+      "supports": "PredictionModel callback and deployment contract"
+    },
+    {
+      "path": "docs/rules.md",
+      "lines": "10-17",
+      "supports": "external-data prohibition and public pretrained-source allowance"
+    },
+    {
+      "path": "baseline/solution.py",
+      "lines": "36-63",
+      "supports": "static callback example processes current feature state and updates recurrent state before warmup return"
+    },
+    {
+      "path": "src/wnn/gmetric.py",
+      "lines": "14-16,159-170",
+      "supports": "official metric identifier, clip and pooled global score"
+    },
+    {
+      "path": "src/wnn/splits.py",
+      "lines": "115-201",
+      "supports": "source-qualified manifest identities and evaluated-component exclusion"
+    },
+    {
+      "path": "cache/clean_t3_f0_h390_t3r5_a9_r2/metadata.json",
+      "lines": "1-7,12473-12510",
+      "supports": "F0 source-qualified T3 teacher memberships matching fold0 fit groups"
+    },
+    {
+      "path": "artifacts/runs/warm_mechanism_f0_s3_c_r3/provenance.json",
+      "lines": "1-4,18-24,70-76",
+      "supports": "F0 checkpoint, fold0 split, initializer, training/evaluation mode"
+    },
+    {
+      "path": "research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_grade.json",
+      "lines": "72-95",
+      "supports": "F0 evaluation size, exposure and exact checkpoint identity"
+    },
+    {
+      "path": "research/campaign_2026-10-18/geometry_variations_r3/TL3_IMPORT.json",
+      "lines": "2-12,13-53",
+      "supports": "TL3 archive hash, imported member inventory and unknown ancestry"
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/h382_local_clean_crossfold_f2_f3_r1/README.md",
+      "lines": "1-14",
+      "supports": "F2/F3 manifests/preparation status, past evaluation exposure and no fit claim"
+    },
+    {
+      "path": "research/unified/validation/VALIDATION_PROTOCOLS.md",
+      "lines": "1-40",
+      "supports": "source-qualified score requirements and exposed panel limits"
+    },
+    {
+      "path": "specs/current-state.md",
+      "lines": "1-24",
+      "supports": "all four folds exposed/potentially exposed and current F0 status"
+    }
+  ]
+}

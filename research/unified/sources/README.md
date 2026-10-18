@@ -5,6 +5,7 @@ External writeups and literature provenance; external results do not establish l
 ## Current navigation
 
 - [October17 no-fit source register](../../campaign_2026-10-17/research_reset_r1/sources/README.md) — 32 primary works, independent R1 searches and live official-rule checks; inspection depth and transfer limits are explicit, no imported external market data or measured model gain.
+- [KalmanNet-inspired innovation-gain GRU source assessment](KALMANNET_INNOVATION_GAIN_GRU_20261018_R1.md) — summarizes three primary learned-filtering papers and limits their transfer to this anonymous time-series task. They motivate a causal latent gain operator; they provide no local score, calibrated covariance claim, or online-weight-learning evidence.
 
 - [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — existing project evidence, separate from outside proposals.
 - [Storage and source map](../operations/STORAGE_MAP.md) — source histories and physical artifact locations.
@@ -69,3 +70,5 @@ Keep provenance and source links with each imported item. Generated idea cards d
 ## Current sequence-moment investigation
 
 - [RevIN official implementation and its causal-use limitation](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) records the ICLR2022authors' [repository](https://github.com/ts-kim/RevIN) and inspected RevIN.py reduction over the supplied temporal axis. Relevant to mean/variance normalization: a whole-current-sequence call would leak future observations in this competition; the local expanding-prefix treatment is an adaptation, with no imported performance claim.
+
+- [User-supplied previous competition discussion and reflection](../../campaign_2026-10-18/online_features_r1/PREVIOUS_COMPETITION_REFLECTION.md): December2025–March2026 participant reports of SWA, featureextractors, recurrent/attention hybrids, boosting and diversity, contrasted with current callback/metric/data differences and measuredgeometry results. No source URL/figures provided; anecdotes and causal explanations are unverified, numerical gains not transferable.

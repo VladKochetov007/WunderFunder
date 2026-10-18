@@ -16,9 +16,10 @@ the evidence for individual results.
 The latest user instruction and the dated entry at the top of
 [current-state.md](current-state.md) determine what is active. Older campaign
 plans and snapshots preserve history; they do not grant current authorization.
-The latest user explicitly resumed autonomous local GPU research on 17 October.
-The current-state record identifies the bounded continuation; historical pause
-receipts remain preserved and do not override this newer authority.
+The latest user stopped new research admission on 18 October at 08:27 UTC.
+The current-state record identifies the completed local drain and the separate
+already-admitted remote run allowed to finish. Earlier resume instructions
+remain historical and do not reopen admission.
 
 Historical status entries that preceded the current snapshot are preserved
 byte-for-byte in [current-state-history-20261017.md](current-state-history-20261017.md).

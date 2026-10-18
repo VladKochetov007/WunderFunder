@@ -21,14 +21,7 @@ validation, inference and operations.
 
 ## Status and evidence limits
 
-The latest 17 October request resumes analysis, literature review, EDA and bug
-repair while explicitly withholding model fitting. The
-[research reset](research/campaign_2026-10-17/research_reset_r1/README.md) records
-that scope: deployed fixes and an existing-checkpoint replay, measured EDA,
-32 primary literature works and 25 proposals revised through independent
-criticism. No new model was fitted and no competition submission was made.
-The earlier trainer integration and draft packets remain implementation work,
-not measured model improvements.
+The latest user instruction authorizes continuous autonomous onlinelearning/feature/model-complementarity research until explicitpause. The [October18 campaign](research/campaign_2026-10-18/online_features_r1/README.md) carries currentresourcebounds and first-wave contract; the earlier [researchreset](research/campaign_2026-10-17/research_reset_r1/README.md) remains a historical no-fit packet. Completed deadline probes and releasedZIPs are indexed in the [October18 overview](research/campaign_2026-10-18/README.md). Those measured local gains and losses do not establish publictransfer; exact externalresults remain separately recorded.
 
 The 17 October repository snapshot recorded 14 experiment-prefixed draft branches
 and pull requests. They are implementation proposals and handoffs, not 14

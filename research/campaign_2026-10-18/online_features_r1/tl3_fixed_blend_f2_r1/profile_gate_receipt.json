@@ -1,0 +1,63 @@
+{
+  "schema": "wnn.fixed_endpoint_f2_profile_gate.v1",
+  "experiment_id": "E-TL3-R3-F2-FIXED-MIXTURE-20261018-R1",
+  "observed_utc": "2026-10-18T02:25:20Z",
+  "status": "passed_full_replay_admitted",
+  "recipe_sha256": "5b804705b8b43ad81fce46065286d6cf5a0b65069b5d23d20a6da0a1f5952a18",
+  "profile_gate": {
+    "required_groups_per_candidate": 8,
+    "required_reset_check": "exact A-B-A equality on first complete sequence",
+    "required_docker_memory_peak_max_bytes": 2500000000,
+    "required_zero_oom_events": true,
+    "tl3": {
+      "receipt_path": "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2/receipts/tl3_f2_profile8.replay.json",
+      "receipt_sha256": "faa0abefb0b4e3946ec7e90b05889cf991ebbbb6aad68da064b6d8412119cc32",
+      "passed": true,
+      "groups": 8,
+      "rows": 160000,
+      "reset_aba_equal": true,
+      "all_predictions_finite": true,
+      "docker_memory_peak_bytes": 399745024,
+      "docker_memory_max_bytes": 3221225472,
+      "docker_memory_swap_max_bytes": 0,
+      "docker_exit_code": 0
+    },
+    "r3": {
+      "receipt_path": "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2/receipts/r3_f2_profile8.replay.json",
+      "receipt_sha256": "a74d32c19237e3afe0e9122f80149e7176eb050647946bba594b7140b9d2da63",
+      "passed": true,
+      "groups": 8,
+      "rows": 160000,
+      "reset_aba_equal": true,
+      "all_predictions_finite": true,
+      "docker_memory_peak_bytes": 297054208,
+      "docker_memory_max_bytes": 3221225472,
+      "docker_memory_swap_max_bytes": 0,
+      "docker_exit_code": 0
+    }
+  },
+  "resource_observations": {
+    "campaign_cpu_quota_before_percent": 200,
+    "campaign_cpu_quota_during_each_external_container_percent": 100,
+    "campaign_cpu_quota_after_percent": 200,
+    "campaign_memory_current_after_profiles_bytes": 4704235520,
+    "campaign_memory_max_bytes": 20000000000,
+    "campaign_memory_swap_max_bytes": 0,
+    "campaign_memory_events_before": {
+      "oom": 3,
+      "oom_kill": 3
+    },
+    "campaign_memory_events_after": {
+      "oom": 3,
+      "oom_kill": 3
+    },
+    "campaign_oom_event_delta": 0,
+    "task_reservation_bytes": 4721225472,
+    "conservative_parent_commitment_after_reservations_bytes": 9425460992,
+    "parent_commitment_target_bytes": 17000000000,
+    "physical_scratch": "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2",
+    "gpu_fit": false,
+    "new_paid_compute": false
+  },
+  "decision": "Both exact package profiles passed A-B-A reset validation, exited successfully with finite predictions, peaked below the 2.5 GB gate, and produced no increment in campaign-cgroup OOM counters. Proceed with sequential full F2 feature-only replays under the same resource limits."
+}
