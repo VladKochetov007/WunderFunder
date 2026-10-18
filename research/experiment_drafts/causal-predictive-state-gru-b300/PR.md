@@ -15,7 +15,7 @@ claim improved WP, B300 throughput, or leaderboard impact.
 - Implementation source base: `research-team` at
   `a0355ed6b08f87661522744a5be57d265bc45bbc`. Shared-policy Main snapshot:
   `24e9001570de158db9a5031e632dbb0b4477145f`.
-- Owner: B300 worker is to be claimed in the cluster issue; root owns the frozen
+- Owner: B300 worker claim is tracked in [cluster issue #19](https://github.com/VladKochetov007/WunderFunder/issues/19); root owns the frozen
   comparison, collection, and independent evidence integration.
 - Implemented paths: `src/wnn/training/next_input.py` adds the objective;
   `setup_model.py`, `cli_targets.py`, `validation_training.py`,
@@ -284,9 +284,12 @@ independent grade, exclusions/failures, and unified result note are indexed.
 
 Current result is `null`: no B300 profile or model-quality fit has run. The
 implementation is on the isolated `experiment/causal-predictive-state-gru-b300`
-branch, based on the stated research-team SHA. The full packet and source note
-are linked from [ideas](../../unified/ideas/README.md) and [sources](../../unified/sources/README.md).
-After publication, record the exact PR and cluster issue URLs here. After any
-run, append immutable H/E events and link all receipt/archive hashes from the
-unified README. An independent reviewer should audit objective-to-code
-alignment, fold membership and score provenance before interpreting a result.
+branch, based on the stated research-team SHA. It is published as [draft PR
+#18](https://github.com/VladKochetov007/WunderFunder/pull/18), with the B300
+profile and matrix handoff in [issue
+#19](https://github.com/VladKochetov007/WunderFunder/issues/19). The full
+packet and source note are linked from [ideas](../../unified/ideas/README.md)
+and [sources](../../unified/sources/README.md). After any run, append immutable
+H/E events and link all receipt/archive hashes from the unified README. An
+independent reviewer should audit objective-to-code alignment, fold membership
+and score provenance before interpreting a result.

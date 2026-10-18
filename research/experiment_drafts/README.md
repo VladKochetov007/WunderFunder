@@ -2,7 +2,7 @@
 
 ## Current B300 handoff
 
-- [Causal predictive-state GRU](causal-predictive-state-gru-b300/README.md) implements a next-input SmoothL1 auxiliary head and a matched 30-pair B300 recipe. The packet is a draft; no B300 profile, scientific fit or quality gain exists. The initial engineering profile must pass before fan-out. PR/issue publication status will be added after GitHub confirms the objects.
+- [Causal predictive-state GRU](causal-predictive-state-gru-b300/README.md) implements a next-input SmoothL1 auxiliary head and a matched 30-pair B300 recipe. Its [draft PR #18](https://github.com/VladKochetov007/WunderFunder/pull/18) and [B300 profile/matrix handoff issue #19](https://github.com/VladKochetov007/WunderFunder/issues/19) are published. No B300 profile, scientific fit or quality gain exists; the initial engineering profile must pass before matrix fan-out.
 
 The active [rank1 continuation draft](https://github.com/VladKochetov007/WunderFunder/tree/experiment/rr18-01-labels/research/experiment_drafts/rr18-01-labels) is published on `experiment/rr18-01-labels`, based on the source-bound [October18 execution packet](../campaign_2026-10-18/priority25_execution_r4/README.md). Both profiles passed and the first paired fit is running. Its endpoint metrics and PR URL remain pending; the historical catalogue below is unchanged.
 

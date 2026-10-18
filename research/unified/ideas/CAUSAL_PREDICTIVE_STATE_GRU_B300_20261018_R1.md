@@ -75,8 +75,9 @@ input-only test-time state adaptation.
 ## Status and lineage
 
 - Code is implemented in the modular trainer on the isolated experiment branch.
+- Published as [draft PR #18](https://github.com/VladKochetov007/WunderFunder/pull/18), with the [B300 profile and matrix handoff issue #19](https://github.com/VladKochetov007/WunderFunder/issues/19).
 - No new fit, B300 profile, independent grade, submission or leaderboard result
-  exists. The PR is a proposed teammate handoff.
+  exists; publication is not evidence that a worker claimed or started.
 - The next branch, if the result warrants it, is fold-clean hidden-state
   extraction and student transfer measured as a complete matched endpoint.
 - The [source note](../sources/CAUSAL_PREDICTIVE_STATE_SOURCES_20261018_R1.md)

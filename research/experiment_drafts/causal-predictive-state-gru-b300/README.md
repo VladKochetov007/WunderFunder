@@ -42,4 +42,4 @@ separates primary literature from the user-supplied competition anecdote.
   running. The first 50-update profile is an engineering gate, not a quality
   replicate.
 
-The published draft PR URL will be added here after GitHub confirms it.
+Published handoff: [draft PR #18](https://github.com/VladKochetov007/WunderFunder/pull/18) and [cluster issue #19](https://github.com/VladKochetov007/WunderFunder/issues/19). Neither publication means a worker has claimed or started the profile.
