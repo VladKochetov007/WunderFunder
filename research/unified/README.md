@@ -1,5 +1,7 @@
 # Unified research library
 
+[Current user-authorized EDA/simple-model screen](../campaign_2026-10-19/idea_screens_r1/RESULTS.md):48whole sequences, nine fixed ridge views, component-aware interpretation and a status map for all25cards. EMA's pooled gain reverses after dropping the largest evaluation component; i0-only remains worth a fit-only regularization/data-size check. Existing GRUs are much stronger on the same selected rows, with different fit budgets. This supersedes the earlier discussion-only hold for bounded EDA/simple probes, not for a full campaign.
+
 [Current user direction: no-fit discussion of 25 hypotheses](../campaign_2026-10-19/no_fit_ideation_r1/README.md). Independent generation, prior-overlap criticism and mathematical/source checks replace automatic historical reconstruction and quantization work. The cards are unmeasured proposals, with close refinements and dependencies marked. Existing F3 has maintenance-only authority; no new fit, data replay or code implementation was performed in this session.
 
 [Current continuation,18 October21:03UTC](../campaign_2026-10-18/quality_gap_r1/CONTINUATION_20261018T2105Z.md) records healthy F3 wide epoch4, reviewed/staged terminal wrappers and the isolated tiedlead engineering publication. Modified scientific fits and F3 quality remain pending; no new public score.

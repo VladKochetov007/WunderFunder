@@ -1,0 +1,55 @@
+{
+  "utc": "2026-10-18T21:56:38.161015+00:00",
+  "unit": "computer-vision-homework-eda19-sample-v1.service",
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "Running as unit: computer-vision-homework-eda19-sample-v1.service; invocation ID: a4e308f3b77c42af95d3c4b7ed24a5fb\n",
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=computer-vision-homework-eda19-sample-v1.service",
+    "--slice=wnn-campaign.slice",
+    "--property=Type=exec",
+    "--property=CPUQuota=50%",
+    "--property=MemoryHigh=1400000000",
+    "--property=MemoryMax=1500000000",
+    "--property=MemorySwapMax=0",
+    "--property=RuntimeMaxSec=600",
+    "--property=RemainAfterExit=yes",
+    "--property=StandardOutput=append:/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-sample-v1/run.log",
+    "--property=StandardError=append:/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-sample-v1/run.log",
+    "--working-directory=/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-sample-v1",
+    "/usr/bin/env",
+    "CUDA_VISIBLE_DEVICES=",
+    "OMP_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "NUMEXPR_NUM_THREADS=1",
+    "PYTHONPATH=/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/src",
+    "TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "-B",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-sample-v1/sample_data.py",
+    "--output",
+    "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/nf19-sample-v1"
+  ],
+  "source_sha256": {
+    "sample_data.py": "13a4acfeb62ace285184c8fe0f88ff7ba65a3969843eaa0e0f6175189325abc7",
+    "CONTRACT.md": "33da96a5c74ce5b155142aae938f00477d85e7f886735da4b55ab79e783a0da9",
+    "REVIEW.md": "3c60c942e0a0fc64e06309558df19412a7311705f90c753d0cc3fd616bbf97f0"
+  },
+  "canonical_sha256": {
+    "data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "admission": {
+    "cpu_reserved_before": 1.1,
+    "ram_reserved_before": 8512000000,
+    "children": [
+      "computer-vision-homework-r01-f3-sequence.service",
+      "wnn-bandit-computer-vision-homework-r01-wide-f3s1001-ep25-v1.service"
+    ],
+    "parent_memory_events": "low 0\nhigh 177\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "output": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/nf19-sample-v1"
+}

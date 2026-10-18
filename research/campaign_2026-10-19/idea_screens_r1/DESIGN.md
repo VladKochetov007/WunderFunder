@@ -1,0 +1,11 @@
+# EDA mechanism helper
+
+`eda_mechanisms.run(sequences, output)` consumes at most48 complete sequences of at most20,000 rows and writes a new JSON file; it refuses an existing output path. Each sequence has `x[T,112]`, `y[T,2]`, `scored[T]`, role (`fit` or `eval`), and source/group/component metadata. It preserves row order and sequence boundaries.
+
+The target-label screen is limited to H-NF19-01: ten predeclared candidates compare row-mean changes in i0 price-like and trade-price channels at horizons1,8,32,128,512. Targets are clipped to the task range, finite scored rows are counted, and both ordinary and `|clipped y|`-weighted Pearson correlations are reported. Candidate selection occurs inside leave-one-component-out splits over fit components only. Evaluation labels and masks are not read for label-driven analysis. Future inputs appear only in this retrospective label-operator screen and are never constructed as inference features.
+
+These nonofficial correlations measure association between clipped fitting labels and the fixed future row-mean deltas. They are not official Global Weighted Pearson scores, predictive-model scores, or proof of the hidden target's physical meaning. The leave-one-component-out values describe fit-component formula selection and diagnostic stability; they do not create a fresh evaluation set.
+
+Input-only per-sequence summaries cover H-NF19-03 (strictly positive volume-block eligibility, without applying a composition transform), H-NF19-04 (within-group magnitude and spread descriptors, without claiming common units), H-NF19-07 (descriptive i0 trade/quote magnitude ratios), H-NF19-11 (endpoint displacement against total variation), H-NF19-14 (fixed warmup/early/late windows), and H-NF19-15 (input innovations only). H-NF19-05 is explicitly unsupported: the complete input and two-target reflection map is unknown, so no transform is invented. Other cards are out of scope for this helper.
+
+These are bounded diagnostics, not fitted predictive models or evidence of improvement. Component correlations can be unstable at small sample sizes; input distribution summaries do not establish semantic units, causal effects, hidden-state behavior, or future generalization.

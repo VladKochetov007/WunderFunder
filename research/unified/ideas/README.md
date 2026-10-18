@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[First actual screen of the new25ideas](../../campaign_2026-10-19/idea_screens_r1/STATUS_25.md) maps measured premises/fixed-ridge proxies and untested mechanisms. [Results](../../campaign_2026-10-19/idea_screens_r1/RESULTS.md) reject claiming a stable EMA winner from one dominant component, distinguish i0-only's small-panel effect from i1 usefulness, and prioritize fit-only regularization and EMA-part controls. No full-recipe/public improvement or automatic25-fit sweep.
+
 [19 October no-fit discussion: 25 cards](../../campaign_2026-10-19/no_fit_ideation_r1/IDEAS_25.md) covers target construction, history information, input representations, recurrent state and optimization. It records assumptions and falsifiers rather than predicted leaderboard gains. Several cards are close refinements and one is dependent; this is not a claim of 25 orthogonal discoveries or an execution queue. User discussion supersedes the old automatic engineering continuation.
 
 [Published canonical tiedlead capability](../../campaign_2026-10-18/quality_gap_r1/tiedlead_capability_publication_r1/README.md) implements the reviewed architecture at b104b0ad without silently substituting a plain 263-input GRU. Engineering review and four tiny CPU tests passed; final-supervision topology/objective integration and scientific preregistration remain pending.

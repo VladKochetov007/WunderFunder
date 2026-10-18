@@ -1,5 +1,7 @@
 # Validation and public transfer
 
+[Bounded48-sequence exploratory screen](../../campaign_2026-10-19/idea_screens_r1/RESULTS.md) uses canonical F0 component separation and unchanged official scoring, but only6exposed evaluation components. [Independent audit](../../campaign_2026-10-19/idea_screens_r1/RESULT_REVIEW.md) shows one component has64.2%of scored rows and reverses the EMA pooled delta when omitted. Exact-row label alignment contextualizes simple probes with existing GRU outputs; different fitting budgets prohibit an equal-budget or full-fold ranking claim.
+
 [TL3 exact production-source closure](../../campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/README.md): the incumbent comprises a warm-initialized distilled member and two tied-lead members whose logs resolve an empty weight initializer. All production members include supplied-valid fitting; they cannot be scored as clean F0 controls. The reviewed partial graph preserves missing teacher/cache/propensity memberships and source-time identity, rather than substituting an uncertified ancestor.
 
 Metric, data membership, exposure, uncertainty and transfer to the public leaderboard.

@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+[EDA/probe implementation review](../../campaign_2026-10-19/idea_screens_r1/REVIEW.md) preserves fixed membership/mask/component-pooling blockers and resolutions. [Independent result audit](../../campaign_2026-10-19/idea_screens_r1/RESULT_REVIEW.md) reproduces9scores from6component moment sets within3.4e-16, checks source/result/sample bindings and reveals EMA concentration. Same-panel references are fixed predictions, not an independent refit or new holdout.
+
 [No-fit ideation critique and synthesis audit](../../campaign_2026-10-19/no_fit_ideation_r1/README.md#независимые-предложения) records independent proposals, rejection of renamed old ideas, signed-moment correction, population-versus-finite-model limits and the fact that preconditioning/adaptive damping changes expected updates. These are literature/mathematical checks, not experimental acceptance.
 
 [Terminal wrapper independent review](../../campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1/INDEPENDENT_REVIEW_V1.json) checks8 local and30 external pins, phase/resource/collision guards and capture-before-stop, accepting engineering readiness only. [Staging note](../../campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1/STAGING_NOTE_V1.md) separates actual byte staging from future runtime admission.

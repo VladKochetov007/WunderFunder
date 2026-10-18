@@ -1,0 +1,59 @@
+# Independent review: bounded sample materializer
+
+**Scope:** source review of `sample_data.py` against the screen contract, canonical `SequenceFile`, and the supplied F0 membership schema. No dataset arrays were read and no code was executed. The reviewer did not modify implementation sources.
+
+## First-pass disposition
+
+The footer convention is correct: the code hashes `footer_bytes + 8`, matching the repository provenance helper. It checks source byte size and `mtime_ns` against the pinned manifest before opening the readers, then binds the selected `.npy` files by size and SHA-256. Its read/write loop is sequential. The maximum sample payload is about 440 MB (48 feature, target, and mask arrays), while the largest source-footer read is about 60 MB; this is compatible with the stated 1.5 GB memory cap in principle. `load_sample` verifies those bounded sample files one at a time and exposes read-only memmaps. No full source-payload rescan is introduced.
+
+Selected evaluation components are assembled from all eligible `evaluation.valid` groups in each selected component. Fit records are drawn only from `fit.train` and `fit.valid`, so the intended source partition is represented.
+
+**Do not freeze the sample until the membership and mask checks below are enforced.** These are small fail-closed guards, not a request to expand the data read.
+
+## Required before materialization
+
+1. **Check complete, unique eligible membership before selection.** `select_membership` currently walks `sequences[source]` and appends entries found in the split allow-list, but never verifies that every allowed row group was found exactly once. A missing sequence silently shrinks the eligible set; duplicate sequence records can duplicate rows. For each source and role, validate that eligible row groups are present exactly once, and that each row group maps to one consistent `seq_ix` and component, before the randomized component selection. Retain the current whole-component behavior and size caps.
+
+2. **Check the full fit/evaluation component partition before applying caps.** The current overlap check is after sampling and considers only selected components. It can miss a fit-eligible group linked to an evaluation component that was not selected. First build the complete eligible fit and evaluation component sets from the frozen split and assert they are disjoint; then sample. This enforces the stated rule that train groups linked to evaluation components are never fitted or scored, independent of which evaluation components fit under the 16-group cap.
+
+3. **Do not silently alter the source mask.** The reader copies `is_scored` and unconditionally clears rows 0–98. Assert that the documented warmup invariant holds (`is_scored[:99]` is all false) and preserve that original mask when writing the sample. The effective score mask may be derived as `need_prediction AND is_scored`; the stored `scored` field should either retain the original `is_scored` mask with the documented invariant or be named and recorded explicitly as the derived effective mask. For train rows, document that the derived `step >= 99` mask stands for the supplied `need_prediction` convention. Do not let an unexpected mask value be hidden by normalization.
+
+4. **Enforce the contracted output location at launch.** `materialize` currently accepts any `--output` path and does not check free physical disk. Launch it only under the approved physical `research_tmp` path, with adequate space for the bounded sample; preferably have the script fail closed on a path outside the configured scratch root. Keep the create-only behavior.
+
+## Provenance and limits
+
+The source check is consistent with the contract’s no-full-rehash decision: the split SHA pins its registered size/footer metadata, runtime checks size, mtime, and the footer, and selected sample files receive their own full hashes. `registered_full_sha256` is recorded but not recalculated by this program; receipts must describe it as a prior registered identity, not a fresh verification. A post-read size/mtime check would further guard against source replacement during materialization at negligible cost.
+
+The code pins `SPLIT_SHA` to the requested `c09f…` value and fails before arrays on mismatch. The local in-repository `research/campaign_2026-09-29/artifacts/splits/fold0.json` is a different snapshot (`09263ad4…`), so this review could not independently confirm the remote `BASE/splits/fold0.json`; capture the actual runtime split digest in the pre-array membership receipt.
+
+## Checks performed
+
+- Read current `sample_data.py`, `src/wnn/data.py`, the screen contract, and the canonical footer-hash implementation.
+- Parsed only the local split metadata (no Parquet/data arrays); that local snapshot has unique listed row groups and disjoint full fit/evaluation components, but it is not the `c09f…` file used by the materializer.
+- No tests, materialization, or dataset reads were run.
+
+## Follow-up review: sampler guards and EDA helpers
+
+**Sampler disposition: PASS on the revised source.** It now verifies eligible row-group completeness and uniqueness, rejects overlap of the full fit/evaluation component sets before selection, preserves a provided scored mask after asserting warmup rows are false, and checks that output resolves under `BASE/research_tmp` on a non-`tmpfs`/`ramfs` mount with at least 1 GB free. Footer-plus-eight and source stat checks remain in place. The root's additional post-read source stat check is appropriate. No sample arrays were read.
+
+**EDA data-flow review: no leakage or resource blocker found.** `run` uses evaluation inputs only for input-only summaries; it keeps evaluation labels and masks out of the returned fit records and target-operator call. The target-operator function receives fit sequences only, clips fit labels, weights by absolute clipped labels, and uses future input deltas only in this explicit retrospective diagnostic. Its candidate choice is repeated leave-one-component-out over fit components. Per-sequence and per-candidate work is bounded by the selected 48 sequences and ten fixed horizons/families; there is no all-sequence concatenation or unbounded search. The tests exercise evaluation-label isolation, input-only summaries, fit-only labels, and component-held candidate selection. Tests/Ruff were reported by the author; this reviewer did not rerun them.
+
+**Reporting blocker before interpreting the result:** `eda_mechanisms.run` emits `covered_mechanisms: [1, 3, 4, 5, 7, 11, 14, 15]`, but #5 is explicitly unsupported, #15's hidden-state energy mechanism is unobserved, and the #3/#4/#7/#11/#14 values are descriptive premise checks rather than tests of predictive mechanisms. Rename this to `screened_cards` or emit explicit per-card statuses so the result cannot be read as mechanism coverage. This matters for the requested honest `not_tested` ledger; it does not prevent the bounded sample stage from running.
+
+Two interpretation cautions should travel with the EDA output. First, `target_operator` reports magnitude-weighted Pearson association for raw row-mean future-input deltas, not official `global_wp_clip2_v1` predictions (the proxy is not clipped as a prediction). Keep it labeled as a diagnostic association and do not compare it numerically to ridge scores. Second, `pooled_fit_components` is descriptive and in-sample; candidate-selection evidence is the leave-one-component-out record. The fixed row-mean candidate family is a narrow proxy over anonymous channels, so even stable cross-component association does not identify the hidden label operator or generalize to other formulas.
+
+`input_diagnostics` consistently labels ratios and innovations as descriptive and does not read targets. Some summaries cover only declared channel groups, not all 112 features; that is acceptable because the output also reports full-row finiteness and the design states the limited groups. In particular, do not treat input innovations as evidence about hidden-state energy or say the proposed mechanism was tested.
+
+## Final pass: feature views, ridge probe, and wrapper
+
+**Feature-view and fit/scoring logic: PASS.** The nine-view inventory is within the ten-view cap. Histories reset for each complete sequence; lag columns use only earlier rows, EMA summaries are updated from the current or earlier row, rolling beta is calculated before incorporating the current movement, and warmup context at row 99 onward uses only rows 0–98. Rowwise transforms use only the current input. The volume view keeps raw channels, requires each combined `v`/`dv` block to be nonnegative with positive total before adding proportions/log-total, and reports the valid-row count on sampled fit rows. Its extra-feature values are zero when invalid. Read this as a conditional fixed transform: combining orderbook-volume and trade-volume channels assumes their sum is a useful scale, which the screen cannot establish.
+
+Train normalization uses only stride-40 fit features. Fitting selects only masked fit rows after each full causal transform, clips labels to `[-2,2]`, weights each target by its clipped magnitude, and solves a fixed-alpha, unpenalized-intercept weighted ridge. No evaluation rows enter fitting. Evaluation predictions are produced for every sequence row and the selected evaluation mask is passed to canonical `GlobalAccumulator`; this correctly pools the primary official metric over all selected scored rows and clips both target and prediction in the scorer.
+
+**One ridge-result reporting blocker:** `_score_view` keys both component accumulators and `GlobalAccumulator.groups` by `(source, group, component)`. Since `group` is a sequence row-group ID, the emitted `component_pooled_moments` rows are per-sequence, not pooled by component. The global official metric is correct. Before interpreting the per-unit rows, either aggregate the accumulator by component or rename the field and output rows as per-sequence results. With 16 eval sequences but only 6 components, do not report 16 as the independent evaluation-unit count.
+
+`run_analysis.py` creates a fresh output directory, binds the sample manifest and all Python source hashes in `START.json`, imports the package through the supplied parent path, and records elapsed time, CPU, peak RSS, result hash, and CUDA-import state in `DONE.json`. Its execution-path/resource enforcement remains the caller's systemd/contract responsibility; this source review found no wrapper blocker. The focused command `PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/python -m unittest idea_screens_r1.test_probe_helpers idea_screens_r1.test_eda_mechanisms` passed all 5 tests. No model or data-array run was performed by this reviewer.
+
+**Resolution: component pooling PASS.** The revised `_score_view` now keys both the official accumulator's raw sums and its separate component metrics by the component ID, so multiple eval sequences carrying distinct source/group pins are pooled into one component row. The added two-sequence regression case verifies four selected rows combine under one component and that the raw-moment shape is retained. The author reports all four focused probe/EDA tests pass. The global official metric remains pooled over every selected eval row; the component rows are diagnostics and do not change the number of independent components (six in this sample).
+
+**Root test-discovery clarification:** unittest discovery executes the five EDA class methods, not the four plain-function probe cases. Root separately imported and called all four `test_probe_helpers.test_*` functions after the component correction; all passed. Thus five independently discovered EDA checks and four separately executed probe checks are distinguished. Import sorting/formatting was applied before staging v2; no mathematical code changed in that formatting step.
