@@ -64,8 +64,10 @@ packet was revised accordingly. There is no local quality result and no
 leaderboard forecast.
 
 The first independent implementation review returned ITERATE, identifying six
-specification gaps; exact corrections and remaining integration gates are
-tracked in the [review note](../reviews/ONLINE_META_TTA_IMPLEMENTATION_REVIEW_20261018_R1.md).
+specification gaps; the second found and corrected one availability wording
+issue, and the final static review passed on committed starter code. Findings,
+exact corrections, and remaining integration gates are tracked in the
+[review note](../reviews/ONLINE_META_TTA_IMPLEMENTATION_REVIEW_20261018_R1.md).
 The packet distinguishes the earlier weak cached-expert pseudo-label gate from
 this untested model-specific fast-weight update meta-trained against task loss.
 The synthetic profile is an engineering probe only: random task labels are

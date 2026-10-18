@@ -306,8 +306,9 @@ canonical weighted-MSE outer loss, per-update diagnostic aggregation, PR #14
 distinction, and card addendum wording. It also returned ITERATE before
 publication because the eight-card parallel plan sounded like confirmed
 availability; the PR now makes it conditional on a team assignment and says
-availability/topology remain unverified. Final review of the committed tree is
-still pending. No tests, profiles, fits, or data reads were performed.
+availability/topology remain unverified. The final static review of committed
+tree `056a7bd2e17b7fa39dd4f07726dd8e73e476a79d` returned PASS for those
+corrections. No tests, profiles, fits, or data reads were performed.
 
 External source claims are limited to the following: [Sun et al., arXiv:1909.13231](https://arxiv.org/abs/1909.13231)
 motivate self-supervised updates and discuss gradient alignment in a convex

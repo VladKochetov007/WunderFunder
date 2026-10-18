@@ -62,8 +62,8 @@ The review required corrections in six areas:
 ## Remaining gate
 
 These edits repair the packet specification, not the missing implementation.
-Before scientific fits, a separate independent closure review should verify
-the edited source and exact command. The actor must still integrate the
+The independent static closure review is complete for the starter code and
+packet. Before scientific fits, the actor must still integrate the
 cross-chunk state/update path into the modular trainer, bind source-qualified
 fold and data manifests, exercise the actual producer and event-feature path,
 profile the real two-chunk second-order update on the assigned B300 with
@@ -85,9 +85,20 @@ with an addendum. No tests, profiles, fits, or data reads were performed.
 was wording that treated eight B300 cards as available. The PR now makes the
 parallel plan conditional on an actual team assignment and says card
 availability/topology are unverified. The reviewer also required the corrected
-packet to be committed before publication; commit and final committed-tree
-check remain the next release gates. This is still a draft proposal, not a
-launch authorization.
+packet to be committed before publication; that review request led to the
+committed-tree check below. This is still a draft proposal, not a launch
+authorization.
+
+## Static committed-tree review R3
+
+The independent reviewer inspected the packet at commit
+`056a7bd2e17b7fa39dd4f07726dd8e73e476a79d` and returned **PASS**. The
+conditional B300-availability wording is explicit; the synthetic-only profile
+scope, raw112 input alignment, canonical weighted-MSE query objective,
+per-update diagnostic aggregation, PR #14 distinction, and initial-card
+addendum wording are present. The review was static only and accessed no data,
+tests, profiles, or fits. This passes packet review only: no B300 allocation,
+trainer integration, task result, or launch readiness is established.
 
 The earlier local pseudo-label gate screen is a different mechanism: it applied
 a simple online gate to cached experts and had only about `+0.000048` WP versus

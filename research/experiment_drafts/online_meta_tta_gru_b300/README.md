@@ -1,9 +1,9 @@
 # Meta-trained causal online adaptation for a GRU teacher
 
-**Status:** draft implementation and synthetic shape profiler only. No B300 was
-available or profiled; no task-data fit, student distillation, score, or runtime
-measurement exists. `launch_ready` remains false until the trainer and data
-bindings below are completed and an actual B300 profile passes.
+**Status:** draft implementation and synthetic shape profiler only. No B300
+allocation or profile is recorded; no task-data fit, student distillation,
+score, or runtime measurement exists. `launch_ready` remains false until the
+trainer and data bindings below are completed and an actual B300 profile passes.
 
 **Lineage:** `H-ONLINE-META-TTA-GRU-B300-20261018-R1` /
 `E-ONLINE-META-TTA-GRU-B300-20261018-R1`, teacher-to-student connection.
@@ -199,10 +199,11 @@ See [`PR.md`](PR.md) for the 11-section handoff, and the unified
 records. `PR_URL` is recorded in the final commit and unified index after
 publication.
 
-Two independent static implementation reviews returned ITERATE; their
-specification findings and author corrections are recorded in the
+Two independent static implementation reviews returned ITERATE, then a final
+static review of commit `056a7bd2e17b7fa39dd4f07726dd8e73e476a79d` returned
+PASS for the starter packet. Their findings and author corrections are recorded in the
 [review note](../../unified/reviews/ONLINE_META_TTA_IMPLEMENTATION_REVIEW_20261018_R1.md).
 The packet now fixes the 2,000-row synthetic shape, standardized-input
 contract, cross-chunk update semantics, student objective, profiler scope, and
-uncertainty procedure. A final committed-tree check and the trainer/B300 work
-remain pending.
+uncertainty procedure. Trainer integration, actual B300 profiling, and all
+scientific fits remain pending; the static PASS does not authorize launch.
