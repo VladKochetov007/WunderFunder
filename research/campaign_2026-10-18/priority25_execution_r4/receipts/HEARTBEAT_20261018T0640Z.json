@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "kind": "rank01_deep_epoch4_healthy_heartbeat",
+  "observed_utc": "2026-10-18T06:40:05.027250+00:00",
+  "experiment_id": "E-RR18-01-LABELS",
+  "status": "deep_epoch4_running_no_new_checkpoint",
+  "beleriand": {
+    "observed_utc": "2026-10-18T06:40:05.027250+00:00",
+    "sequence": {
+      "attempt": "computer-vision-homework-r01-deep-f0s1001-ep25-v1",
+      "heartbeat_utc": "2026-10-18T06:39:50.156045+00:00",
+      "index": 5,
+      "launch_returncode": 0,
+      "launch_stderr": "",
+      "plan": "/home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json",
+      "plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+      "status": "running",
+      "worker_heartbeat": "2026-10-18T06:39:45.634969+00:00",
+      "worker_status": "running"
+    },
+    "attempt": {
+      "id": "computer-vision-homework-r01-deep-f0s1001-ep25-v1",
+      "status": "running",
+      "heartbeat_utc": "2026-10-18T06:40:01.538859+00:00",
+      "exit_status": null,
+      "memory_event_deltas": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "parent_memory_event_deltas": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      }
+    },
+    "worker": {
+      "MainPID": "3634860",
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service",
+      "MemoryCurrent": "2483191808",
+      "CPUQuotaPerSecUSec": "1s",
+      "MemoryHigh": "7200000000",
+      "MemoryMax": "8000000000",
+      "MemorySwapMax": "0",
+      "ActiveState": "active",
+      "SubState": "running",
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "children": []
+    },
+    "parent": {
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+      "MemoryCurrent": "3107663872",
+      "CPUQuotaPerSecUSec": "2s",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0",
+      "ActiveState": "active",
+      "SubState": "active",
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "children": [
+        "computer-vision-homework-r01-f0-sequence.service",
+        "wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service"
+      ]
+    },
+    "log_tail": [
+      "ep 4 batch 1140/1492 loss 1.2339 lr 1.12e-05 seq/s 4.2",
+      "ep 4 batch 1160/1492 loss 1.2850 lr 1.10e-05 seq/s 4.2",
+      "ep 4 batch 1180/1492 loss 1.5865 lr 1.07e-05 seq/s 4.2",
+      "ep 4 batch 1200/1492 loss 1.9775 lr 1.05e-05 seq/s 4.2",
+      "ep 4 batch 1220/1492 loss 1.1447 lr 1.03e-05 seq/s 4.3"
+    ],
+    "gpu_compute": [
+      "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c, 1093458, 234 MiB",
+      "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c, 3634952, 1592 MiB"
+    ],
+    "plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+    "files": [
+      {
+        "name": "training_state.pt",
+        "bytes": 25883247,
+        "mtime_ns": 1792303288066239700
+      },
+      {
+        "name": "model_ep2.pt",
+        "bytes": 8669095,
+        "mtime_ns": 1792299744869848600
+      },
+      {
+        "name": "provenance.json",
+        "bytes": 170585,
+        "mtime_ns": 1792303288024236500
+      },
+      {
+        "name": "model_ep3.pt",
+        "bytes": 8669927,
+        "mtime_ns": 1792303288002235000
+      }
+    ],
+    "archived_epochs": [
+      "epoch3",
+      "epoch2"
+    ]
+  },
+  "producer_and_ownership_followup": {
+    "observed_utc": "2026-10-18T06:42:10.416147+00:00",
+    "producer_updates": {
+      "optimizer_attempts": 59680,
+      "amp_skipped_updates": 0,
+      "optimizer_completed_updates": 59680,
+      "ema_updates": 0,
+      "completed_batches": 5968
+    },
+    "producer_nonfinite": [
+      {
+        "epoch": 0,
+        "nonfinite_steps": 0
+      },
+      {
+        "epoch": 1,
+        "nonfinite_steps": 0
+      },
+      {
+        "epoch": 2,
+        "nonfinite_steps": 0
+      },
+      {
+        "epoch": 3,
+        "nonfinite_steps": 0
+      }
+    ],
+    "selected_gpu_pids": [
+      {
+        "pid": 1093458,
+        "exists": true,
+        "uid": 1155,
+        "cgroup": "0::/user.slice/user-1155.slice/session-90782.scope\n"
+      },
+      {
+        "pid": 3634952,
+        "exists": true,
+        "uid": 1061,
+        "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service\n"
+      }
+    ],
+    "auth_files_present": {
+      "/home/grinchenkoeg/.local/share/wunder-ds-auth/r01-profile-v1.env": false,
+      "/home/grinchenkoeg/.local/share/wunder-ds-auth/r01-canary-v1.env": false
+    }
+  },
+  "datasphere": {
+    "auth_mode": "existing yc default profile through SDK",
+    "balance": {
+      "unit_balance": "41652791"
+    },
+    "balance_delta_vs_0610": 0,
+    "credential_persisted": false,
+    "newest": [
+      {
+        "created_at": "2026-10-18T00:28:19.334Z",
+        "finished_at": "2026-10-18T00:33:26.332Z",
+        "id": "bt12dffc0bhjrba9jcp6",
+        "name": "computer-vision-homework-datasphere-canary-v1",
+        "started_at": null,
+        "status": "ERROR"
+      },
+      {
+        "created_at": "2026-10-17T23:58:03.199Z",
+        "finished_at": "2026-10-18T00:03:11.983Z",
+        "id": "bt13i2k83lo8n4m8kplk",
+        "name": "computer-vision-homework-rank01-profile",
+        "started_at": null,
+        "status": "ERROR"
+      }
+    ],
+    "nonterminal_returned": [],
+    "observed_utc": "2026-10-18T06:39:50.482641+00:00",
+    "oldest_returned_created_at": "2026-10-04T22:31:10.384Z",
+    "pages_requested": 1,
+    "project_id": "bt1dqf9jg0tuhggcrj4k",
+    "provider_mutations": 0,
+    "query": {
+      "authentication": "existing yc default profile through SDK in memory",
+      "balance_rpc": "ProjectService.GetUnitBalance",
+      "jobs_request": "ListProjectJobRequest",
+      "jobs_rpc": "ProjectJobService.List",
+      "max_pages": 3,
+      "outer_process_timeout_seconds": 100,
+      "page_size": 100,
+      "per_rpc_timeout_seconds": 20
+    },
+    "returned_count": 100,
+    "scope": "recent100, bounded SDK ListProjectJobRequest pages; not a full inventory",
+    "sdk_version": "0.10.0",
+    "sorted_descending": true
+  },
+  "provider_status": {
+    "observed_utc": "2026-10-18T06:40:00Z",
+    "observation_time_precision": "minute",
+    "method": "live in-app browser accessibility",
+    "url": "https://status.yandex.cloud/en/incidents/2136",
+    "incident_end": "Now",
+    "datasphere_affected": true,
+    "latest_update": "2026-10-16 20:19 MSK",
+    "recovery_observed": false,
+    "interpretation": "Consistent with project pre-start failures; does not establish exact internal cause or universal unavailability."
+  },
+  "cluster": {
+    "observed_utc": "2026-10-18T06:41:00Z",
+    "observation_time_precision": "minute",
+    "method": "authenticated Zen accessibility",
+    "issues": [
+      {
+        "id": 16,
+        "url": "https://github.com/VladKochetov007/WunderFunder/issues/16",
+        "status": "open",
+        "comments": 0,
+        "assignees": 0,
+        "worker_claim_observed": false,
+        "activity": "cross-reference to issue19 only"
+      },
+      {
+        "id": 19,
+        "url": "https://github.com/VladKochetov007/WunderFunder/issues/19",
+        "status": "open",
+        "comments": 0,
+        "assignees": 0,
+        "worker_claim_observed": false,
+        "activity": "cross-reference from separate draft PR18 only"
+      }
+    ],
+    "physical_device_reservation_verified": false,
+    "temporary_agent_tabs_closed": true
+  },
+  "decision": {
+    "preserve_healthy_sequence": true,
+    "new_gpu_jobs": 0,
+    "new_paid_jobs": 0,
+    "new_support_jobs": 0,
+    "frozen_plan_or_training_source_changed": false,
+    "repeat_checkpoint_collection": false,
+    "reason": "Newest observed checkpoint remains already archived epoch3; epoch4 optimizer advances with fresh heartbeat and zero memory events.",
+    "next": "Collect next stable generation, then deep terminal and exports/grade. Prepare separate F1 support under independent review without admission.",
+    "other_selected_gpu_process": "PID1093458 is outside campaign and belongs to UID1155; campaign training PID3634952 is UID1061 in its exact worker cgroup. Neither foreign process nor its workload was changed.",
+    "scientific_limit": "No new endpoint, prediction, quality, GPU resume parity or CP30 evidence."
+  },
+  "inspection_notes": [
+    "Initial compact provenance read used absent cumulative_update_counters/training keys; corrected read uses producer cumulative_updates and update_diagnostics[].grad_stats.nonfinite_steps. No artifact/trainer mutation.",
+    "First native browser typing dropped characters; direct paste corrected the URL before authenticated issue read."
+  ]
+}
