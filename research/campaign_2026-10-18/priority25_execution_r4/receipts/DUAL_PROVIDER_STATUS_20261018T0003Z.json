@@ -1,0 +1,91 @@
+{
+  "observed_at_utc": "2026-10-18T00:03:34.228786+00:00",
+  "units": {
+    "wnn-campaign.slice": {
+      "MemoryCurrent": "2797506560",
+      "CPUQuotaPerSecUSec": "2s",
+      "MemoryMax": "20000000000",
+      "ActiveState": "active",
+      "SubState": "active"
+    },
+    "computer-vision-homework-r01-f0-sequence.service": {
+      "ExecMainStatus": "0",
+      "MemoryCurrent": "12800000",
+      "CPUQuotaPerSecUSec": "100ms",
+      "MemoryMax": "500000000",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep01-v1.service": {
+      "ExecMainStatus": "0",
+      "MemoryCurrent": "2385215488",
+      "CPUQuotaPerSecUSec": "1s",
+      "MemoryMax": "8000000000",
+      "ActiveState": "active",
+      "SubState": "running"
+    },
+    "computer-vision-homework-datasphere-r01-profile-v2.service": {
+      "ExecMainStatus": "0",
+      "MemoryCurrent": "49278976",
+      "CPUQuotaPerSecUSec": "500ms",
+      "MemoryMax": "1572864000",
+      "ActiveState": "active",
+      "SubState": "running"
+    }
+  },
+  "beleriand_sequence": {
+    "attempt": "computer-vision-homework-r01-deep-f0s1001-ep01-v1",
+    "heartbeat_utc": "2026-10-18T00:03:24.485159+00:00",
+    "index": 3,
+    "launch_returncode": 0,
+    "launch_stderr": "",
+    "plan": "/home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json",
+    "plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+    "status": "running",
+    "worker_heartbeat": "2026-10-18T00:03:23.152589+00:00",
+    "worker_status": "running"
+  },
+  "latest_deep_batch_progress": [
+    "ep 0 batch 580/1492 loss 2.2165 lr 9.99e-05 seq/s 2.6",
+    "ep 0 batch 600/1492 loss 1.4278 lr 9.99e-05 seq/s 2.6",
+    "ep 0 batch 620/1492 loss 1.4134 lr 9.99e-05 seq/s 2.5",
+    "ep 0 batch 640/1492 loss 1.4247 lr 9.99e-05 seq/s 2.5",
+    "ep 0 batch 660/1492 loss 1.2258 lr 9.98e-05 seq/s 2.5"
+  ],
+  "datasphere_controller": {
+    "cancel_after_seconds": 3480,
+    "cancel_at_epoch": 1792284960.2974715,
+    "config_path": "/home/grinchenkoeg/computer-vision-homework-20261018/datasphere/r01-profile-v2/config.yaml",
+    "config_sha256": "81a269af823f15fe94057af8edf2b4fcb779f916c01fbdd1c6c7cd1333f0d837",
+    "consecutive_poll_errors": 0,
+    "job_id": "bt13i2k83lo8n4m8kplk",
+    "job_name": "computer-vision-homework-rank01-profile",
+    "last_status_at_utc": "2026-10-18T00:03:02.963151+00:00",
+    "operation_id": "bt1a0rd3vfrnch3uat2b",
+    "phase": "MONITORING",
+    "project_id": "bt1dqf9jg0tuhggcrj4k",
+    "provider_status": "PREPARING",
+    "schema_version": 1,
+    "submit_started_epoch": 1792281480.2974715,
+    "submit_started_utc": "2026-10-17T23:58:00.297496+00:00",
+    "submitted_at_utc": "2026-10-17T23:58:07.581025+00:00",
+    "updated_at_utc": "2026-10-17T23:58:07.581050+00:00"
+  },
+  "automated_continuation": {
+    "id": "wunder-1-25",
+    "interval_minutes": 30,
+    "updated": true,
+    "scope": "Watch exact v2 job, collect terminal outputs, size F1 pair from measured profile; preserve Beleriand F0 one-GPU sequence"
+  },
+  "limitations": [
+    "Cloud provider status is not evidence of adapter/GPU optimizer progress.",
+    "Beleriand batch log demonstrates real progress; complete optimizer update/nonfinite counters await the epoch boundary.",
+    "No six-epoch grade or CP30 conclusion exists."
+  ],
+  "follow_on_preparation": {
+    "cell": "F1/seed1001 wide+deep",
+    "status": "isolated adapter preparation; no fit allocation or launch yet",
+    "owner": "idea01_recipe_r4",
+    "budget": "decide from actual profile, existing balance and IAM lifetime"
+  }
+}

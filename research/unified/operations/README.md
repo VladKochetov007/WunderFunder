@@ -4,6 +4,8 @@ Execution status, storage locations, preservation receipts and operational incid
 
 ## Current navigation
 
+- [Beleriand and DataSphere live ownership](../../campaign_2026-10-18/priority25_execution_r4/receipts/DUAL_PROVIDER_STATUS_20261018T0003Z.json) — advancing deep-arm optimizer-batch logs on one Beleriand GPU, an independently controlled A100 profile preparing its environment, and exact job/service/state paths for terminal collection. F1 adapter preparation overlaps this work; no second scientific pair has been launched.
+
 - [DataSphere first A100 profile launch](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_PROFILE_V2_LAUNCH.json) — actual provider job `bt13i2k83lo8n4m8kplk` under a durable Beleriand controller, with fresh balance/quota, one-hour engineering allocation and terminal artifact collection. The receipt preserves the initial SDK empty-local-paths failure, confirms no job was created by it, and binds the corrected inert-marker envelope. No cloud quality result follows; Beleriand retains one GPU worker.
 
 - [DataSphere discretionary allocation](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_AUTHORITY_UPDATE_20261018.json), formalized in [ADR0042](../../../specs/adr/0042-discretionary-datasphere-execution.md) — the latest user removes the numeric-budget wait for ranked25. Root can run useful experiments within existing balance and actual quota, retaining bounded attempts, durable cancellation, expense reconciliation and artifact collection. The existing heartbeat now follows this authority; no additional Beleriand GPU is authorized.
