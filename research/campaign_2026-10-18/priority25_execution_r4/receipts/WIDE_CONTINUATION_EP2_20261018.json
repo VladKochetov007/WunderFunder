@@ -1,0 +1,239 @@
+{
+  "kind": "first_wide_continuation_checkpoint_observation",
+  "created_utc": "2026-10-18T02:42:32.844198+00:00",
+  "collection_receipt": "RANK01_WIDE_F0_S1001_E6_EP2_COLLECTION.json",
+  "collection_receipt_sha256": "61e714438521277b08bca42aa5854fd0fb33627309c2755fd8cf5e36daeb4ced",
+  "checkpoint_epoch": 2,
+  "collection_execution": {
+    "unit": "computer-vision-homework-r01-wide-e6-ep2-collect-20261018.service",
+    "exit_status": 0,
+    "runtime_seconds": 1.991,
+    "cpu_milliseconds": 518,
+    "memory_swap_peak_bytes": 0,
+    "slice": "wnn-campaign.slice",
+    "executed_helper_sha256": "4bbeea5e7c6f5ff617dbff43cbb24c531686ce010b749e5988c8cd15171e014c",
+    "repository_helper_matches_executed": true
+  },
+  "resumed_from": {
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_wide_f0_s1001/training_state.pt",
+    "sha256": "bd21980d093efdfba74840f70e95b45df4140f3110e8217a1ca20380225f8fdb",
+    "next_epoch": 2
+  },
+  "resumed_from_matches_archived_stage1": true,
+  "observed_cumulative_updates": 44760,
+  "observed_skips": 0,
+  "observed_nonfinite_gradient_steps": 0,
+  "verification_status": "passed_independent_structural_check",
+  "training_source_or_plan_changes": 0,
+  "new_gpu_worker_admissions": 0,
+  "new_paid_jobs": 0,
+  "datasphere": {
+    "observed_utc": "2026-10-18T02:41:30.644013+00:00",
+    "balance": {
+      "unit_balance": "41652791"
+    },
+    "returned_count": 100,
+    "newest": [
+      {
+        "id": "bt12dffc0bhjrba9jcp6",
+        "name": "computer-vision-homework-datasphere-canary-v1",
+        "status": "ERROR",
+        "created_at": "2026-10-18T00:28:19.334Z",
+        "started_at": null,
+        "finished_at": "2026-10-18T00:33:26.332Z"
+      },
+      {
+        "id": "bt13i2k83lo8n4m8kplk",
+        "name": "computer-vision-homework-rank01-profile",
+        "status": "ERROR",
+        "created_at": "2026-10-17T23:58:03.199Z",
+        "started_at": null,
+        "finished_at": "2026-10-18T00:03:11.983Z"
+      }
+    ],
+    "oldest_returned_created_at": "2026-10-04T22:31:10.384Z",
+    "nonterminal_returned": [],
+    "sorted_descending": true,
+    "scope": "recent100, not full fresh inventory",
+    "provider_mutations": 0,
+    "credential_persisted": false
+  },
+  "provider_status": {
+    "url": "https://status.yandex.cloud/en/incidents/2136",
+    "observed_window_utc": "2026-10-18T02:41:00Z/2026-10-18T02:42:00Z",
+    "method": "root live rendered official incident page",
+    "incident_end_display": "Now",
+    "DataSphere_listed": true,
+    "latest_visible_update_moscow": "2026-10-16T20:19:00+03:00",
+    "new_recovery_signal": false,
+    "limitation": "Consistent with project pre-start failures; does not prove exact cause or universal service unavailability."
+  },
+  "scientific_status": "Intermediate checkpoint after one completed continuation epoch. Fixed epoch5 endpoint, paired quality grade, GPU uninterrupted/resumed parity and CP30 remain unmeasured.",
+  "cluster": {
+    "observed_window_utc": "2026-10-18T02:42:00Z/2026-10-18T02:43:00Z",
+    "method": "authenticated native Zen issue details",
+    "issues": [
+      {
+        "url": "https://github.com/VladKochetov007/WunderFunder/issues/16",
+        "status": "open",
+        "comments_observed": 0,
+        "worker_claim": null,
+        "timeline": "cross-reference from issue19 only"
+      },
+      {
+        "url": "https://github.com/VladKochetov007/WunderFunder/issues/19",
+        "status": "open",
+        "comments_observed": 0,
+        "worker_claim": null,
+        "timeline": "draft PR18 cross-reference only"
+      }
+    ],
+    "admission": "No observed cluster worker/device reservation to admit or duplicate."
+  },
+  "verification_attempts": [
+    {
+      "attempt": 1,
+      "unit": "computer-vision-homework-wide-e6-epoch2-verify-20261018.service",
+      "executed_helper_sha256": "fb0e972b6546d448064afedad397175c9bcc29aab8c33de785aa092a9ccc91f1",
+      "status": "failed_before_checkpoint_assertions",
+      "cause": "Verifier indexed exit_status on a running attempt record, where that field is absent.",
+      "runtime_seconds": 8.0,
+      "cpu_seconds": 3.94,
+      "model_or_training_changed": false,
+      "correction": "Require observed running state with absent/None exit status, or terminal finished with explicit zero; do not assume a zero exit status.",
+      "preserved_helper": "checks/verify_wide_e6_epoch2_checkpoint_r1.py.snapshot"
+    },
+    {
+      "attempt": 2,
+      "unit": "computer-vision-homework-wide-e6-epoch2-verify-r2-20261018.service",
+      "executed_helper_sha256": "1fd65129653e42dcb150444fdcc2d10f0b66962e35d0960c76ae811a1545ae38",
+      "status": "failed_before_checkpoint_assertions",
+      "cause": "Verifier expected an attempt field absent from this generic collection receipt.",
+      "runtime_seconds": 7.69,
+      "cpu_seconds": 3.76,
+      "model_or_training_changed": false,
+      "correction": "Bind actual collection schema run/epoch/source/snapshot identities; bind attempt separately against the frozen plan. Require complete schema preflight before the next bounded check.",
+      "preserved_helper": "checks/verify_wide_e6_epoch2_checkpoint_r2.py.snapshot"
+    },
+    {
+      "attempt": 3,
+      "unit": "computer-vision-homework-wide-e6-epoch2-verify-r3-20261018.service",
+      "executed_helper_sha256": "25b73830dcff6515bfcdf8ddf43509d447c8711343309239b702b0c37398086c",
+      "status": "failed_on_fit_summary_schema",
+      "cause": "Verifier compared fit_summary.optimizer_updates dictionary with an integer. Actual producer stores the full epoch update counter dictionary here.",
+      "runtime_seconds": 29.828,
+      "cpu_seconds": 14.897,
+      "memory_swap_peak_bytes": 0,
+      "model_or_training_changed": false,
+      "correction": "Compare optimizer_updates with the complete epoch update_diagnostics dictionary; optimizer_windows remains the scalar14920.",
+      "preserved_helper": "checks/verify_wide_e6_epoch2_checkpoint_r3.py.snapshot"
+    },
+    {
+      "attempt": 4,
+      "unit": "computer-vision-homework-wide-e6-epoch2-verify-r4-20261018.service",
+      "invocation_id": "336e0ce63a074f548ccb30d6f894b4a4",
+      "executed_helper_sha256": "302d3c1a8bd5059b6d6047c76a6f85dd71a7a049cdb3d3da6fa5940735fc54c3",
+      "preserved_helper": "verify_wide_e6_epoch2_checkpoint_r4.py",
+      "status": "passed",
+      "exit_status": 0,
+      "runtime_seconds": 43.5,
+      "cpu_seconds": 21.731,
+      "systemd_reported_peak_memory": "352.0K",
+      "reported_peak_memory_limitation": "Not treated as a validated peak working-set measurement. The hard memory cap and captured parent memory remain explicit.",
+      "memory_swap_peak_bytes": 0,
+      "cpu_quota_percent": 50,
+      "memory_max_bytes": 1500000000,
+      "memory_swap_max_bytes": 0,
+      "runtime_max_seconds": 120,
+      "cuda_visible_devices": "",
+      "slice": "wnn-campaign.slice",
+      "repository_helper_matches_executed": true,
+      "model_or_training_changed": false
+    }
+  ],
+  "beleriand_closeout": {
+    "observed_utc": "2026-10-18T02:52:01.174719+00:00",
+    "sequence_status": "running",
+    "sequence_index": 4,
+    "sequence_heartbeat_utc": "2026-10-18T02:51:46.494571+00:00",
+    "attempt": "computer-vision-homework-r01-wide-f0s1001-ep25-v1",
+    "worker_status": "running",
+    "worker_heartbeat_utc": "2026-10-18T02:51:55.379101+00:00",
+    "actual_plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+    "plan_hash_matches_frozen_plan": true,
+    "optimizer_log_observation": {
+      "epoch": 3,
+      "latest_reported_batch": 920,
+      "batches_per_epoch": 1492,
+      "loss": 2.1312,
+      "lr": 3.73e-05,
+      "sequences_per_second": 6.1,
+      "preceding_reported_batches": [
+        800,
+        820,
+        840,
+        860,
+        880,
+        900
+      ]
+    },
+    "worker_memory_current_bytes": 2390822912,
+    "parent_memory_current_bytes": 3385683968,
+    "parent_cpu_cores": 2,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "swap_max_bytes": 0,
+    "worker_and_parent_memory_events_all_zero": true,
+    "campaign_gpu_compute_processes": [
+      {
+        "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+        "pid": 2961895,
+        "gpu_memory_mib": 1508
+      }
+    ],
+    "checkpoint_generation": "epoch2 model/provenance/full state; no newer checkpoint at observation",
+    "temporary_auth_observed_utc": "2026-10-18T02:52:14.101702+00:00",
+    "temporary_auth_files_present": {
+      "/home/grinchenkoeg/.local/share/wunder-ds-auth/r01-profile-v1.env": false,
+      "/home/grinchenkoeg/.local/share/wunder-ds-auth/r01-canary-v1.env": false
+    }
+  },
+  "verification_receipt": "RANK01_WIDE_F0_S1001_E6_EP2_VERIFICATION.json",
+  "verification_receipt_sha256": "ce33daca409d6265c1eb250040afbd82fd6ea017de993b08bb005f70aa72b550",
+  "verified_checkpoint": {
+    "next_epoch": 3,
+    "completed_updates": 44760,
+    "completed_batches": 4476,
+    "zero_skips_and_nonfinite": true,
+    "schedule_total_steps": 89520,
+    "scheduler_last_epoch": 44760,
+    "scheduler_step_count": 44761,
+    "model_tensors": 12,
+    "optimizer_states": 10,
+    "optimizer_floating_tensors": 30,
+    "trainable_parameters": 2210306,
+    "model_and_optimizer_finite_fp32": true,
+    "raw_resume_model_equal": true,
+    "stage1_full_contract_exact_match": true,
+    "stage1_history_preserved": true,
+    "source_files_verified": 138,
+    "data_registry_identity_matches": true,
+    "raw_data_rehashed": false,
+    "cuda_initialized": false,
+    "fit_only_objective_means": [
+      {
+        "epoch": 0,
+        "objective_mean": 1.3787218027396113
+      },
+      {
+        "epoch": 1,
+        "objective_mean": 1.3152142153987936
+      },
+      {
+        "epoch": 2,
+        "objective_mean": 1.296593943741622
+      }
+    ]
+  },
+  "next_action": "Preserve healthy frozen sequence through wide epoch5, then deep continuation; collect complete fixed endpoints, prediction provenance and independent grade. Archive later checkpoint generations as they appear without repeating this completed structural check. Reconcile DataSphere recovery and actual cluster claims before new admissions."
+}

@@ -27,3 +27,5 @@ Deep H384×2 F0/seed1001 epoch0 completed 14,920 updates in 4,625.5 training sec
 Latest routine observation: [01:43UTC continuation](receipts/HEARTBEAT_20261018T0143Z.json) confirms healthy deep epoch1 progress through batch1160/1492; cloud recovery and cluster worker claim remain unobserved.
 
 [Deep stage1 completed and archived](receipts/STAGE1_DEEP_HANDOFF_20261018T0210Z.json): both arms have completed epochs0–1. Wide is continuing through epochs2–5 under the unchanged plan; deep continuation follows. Endpoint quality and CP30 remain pending.
+
+[First wide continuation checkpoint](receipts/WIDE_CONTINUATION_EP2_20261018.json): epoch2 archived and independently verified with44,760 cumulative updates, finite FP32 model/Adam state, the unchanged six-epoch schedule and exact persisted stage1 resume binding; active fitting continues at epoch3. This intermediate artifact does not provide an endpoint quality result.
