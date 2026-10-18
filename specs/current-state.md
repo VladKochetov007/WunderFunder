@@ -8,6 +8,8 @@ The latest user explicitly requests testing ideas1–25 end-to-end on Beleriand 
 
 ## Operating state
 
+A [Beleriand fallback plan for F1/seed1001](../research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/README.md) now has an independent offline command/schema review. It remains unadmitted and unstaged; F0 retains its current worker. Live fold1 metadata implies89,580 expected updates across six epochs, distinct from F0's89,520. Separate F1 checkpoint helpers and fresh provider/cell/resource admission are required before use. No F1 optimizer, prediction or quality result exists.
+
 The user additionally authorizes repository issues for the team’s cluster. [Issue16](https://github.com/VladKochetov007/WunderFunder/issues/16) is now published and requests F2/seed1001 only, both arms, with a pinned [full handoff](../research/campaign_2026-10-18/priority25_execution_r4/cluster/README.md). Authenticated Zen access succeeded despite connector/CLI limitations. No worker claim, hardware or cluster execution is yet verified. Beleriand owns F0/seed1001; DataSphere F1/seed1001 remains adapter preparation, without a fit allocation.
 
 The latest research closeout is dated 15 October 2026 at 18:39 UTC. It records

@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "kind": "independent_f1_beleriand_fallback_plan_review",
+  "reviewed_utc": "2026-10-18T06:26:10Z",
+  "state": "PREPARATION_REVIEW_PASSED_NOT_ADMITTED",
+  "reviewer": "root independent of plan author",
+  "author_commit": "61968b93530f45dd59a60e97bab68518c3833786",
+  "integrated_commit": "09597420",
+  "plan_path": "f1_beleriand_fallback/F1_BELERIAND_PLAN.json",
+  "plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+  "metadata_receipt": "receipts/F1_BELERIAND_FALLBACK_METADATA_20261018.json",
+  "metadata_sha256": "abda35da69495e55360c89c8ea8cce6e35e968d73c72a59de2fa41dfa09ad3b7",
+  "observed_registry_path_checks": [
+    {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/portable-sources.json",
+      "exists": false
+    },
+    {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/PORTABLE_SOURCES.json",
+      "exists": false
+    },
+    {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_SOURCES.json",
+      "exists": true,
+      "bytes": 2157,
+      "sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378"
+    }
+  ],
+  "checks": {
+    "steps": [
+      {
+        "attempt": "computer-vision-homework-r01-wide-f1s1001-ep01-v1",
+        "expected_command_equals_fold_only_f0_transform": true,
+        "guard_payload_equals_expected_command": true,
+        "output_reservation_equals_f0": true,
+        "must_not_exist": [
+          "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_wide_f1_s1001"
+        ]
+      },
+      {
+        "attempt": "computer-vision-homework-r01-deep-f1s1001-ep01-v1",
+        "expected_command_equals_fold_only_f0_transform": true,
+        "guard_payload_equals_expected_command": true,
+        "output_reservation_equals_f0": true,
+        "must_not_exist": [
+          "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f1_s1001"
+        ]
+      },
+      {
+        "attempt": "computer-vision-homework-r01-wide-f1s1001-ep25-v1",
+        "expected_command_equals_fold_only_f0_transform": true,
+        "guard_payload_equals_expected_command": true,
+        "output_reservation_equals_f0": true,
+        "must_not_exist": [
+          "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_wide_f1_s1001_e6"
+        ]
+      },
+      {
+        "attempt": "computer-vision-homework-r01-deep-f1s1001-ep25-v1",
+        "expected_command_equals_fold_only_f0_transform": true,
+        "guard_payload_equals_expected_command": true,
+        "output_reservation_equals_f0": true,
+        "must_not_exist": [
+          "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_deep_f1_s1001_e6"
+        ]
+      },
+      {
+        "attempt": "computer-vision-homework-r01-wide-f1s1001-export-ep5-v1",
+        "expected_command_equals_fold_only_f0_transform": true,
+        "guard_payload_equals_expected_command": true,
+        "output_reservation_equals_f0": true,
+        "must_not_exist": [
+          "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache/pred_rr18_r01_wide_f1_s1001_e6_valid.npy"
+        ]
+      },
+      {
+        "attempt": "computer-vision-homework-r01-deep-f1s1001-export-ep5-v1",
+        "expected_command_equals_fold_only_f0_transform": true,
+        "guard_payload_equals_expected_command": true,
+        "output_reservation_equals_f0": true,
+        "must_not_exist": [
+          "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache/pred_rr18_r01_deep_f1_s1001_e6_valid.npy"
+        ]
+      },
+      {
+        "attempt": "computer-vision-homework-r01-f1s1001-grade-v1",
+        "expected_command_equals_fold_only_f0_transform": true,
+        "guard_payload_equals_expected_command": true,
+        "output_reservation_equals_f0": true,
+        "must_not_exist": [
+          "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_F1_S1001_GRADE.json"
+        ]
+      }
+    ],
+    "unique_attempts": 7,
+    "trainer_and_grader_revisions_equal_f0": true,
+    "runtime_and_disk_path_equal_f0": true,
+    "plan_and_metadata_hashes_match_author_binding": true,
+    "guard_prefix_differences_only": [
+      "F1 attempt identifier",
+      "external contract path now points to this proposed F1 plan"
+    ],
+    "worker_resource_limits_equal_f0": true,
+    "runner_schema_inspected_without_invoking_runner": true,
+    "canonical_f1_manifest_live_hash_and_cardinality_verified": true,
+    "expected_stage1_updates": 29860,
+    "expected_terminal_updates": 89580,
+    "expected_terminal_batches": 8958,
+    "actual_f1_optimizer_updates_observed": false
+  },
+  "findings_resolved_before_integration": [
+    "Initial draft was intentionally not runner-compatible; author corrected it to the existing bandit_sequence schema without adding orchestration.",
+    "Initial proposed data/portable-sources.json was absent; existing support-source/terminal-v1/PORTABLE_SOURCES.json was read and its exact SHA verified.",
+    "A stale contradictory note about runner incompatibility was corrected before cherry-pick."
+  ],
+  "review_command_limitation": "First root comparison used zip(strict=True), unsupported by the local Python version. It did not inspect or mutate remote work; rerun with an explicit equal-length assertion and ordinary zip passed all seven vectors.",
+  "required_before_admission": [
+    "Complete F0 endpoints, exports and independent grade; preserve the active sequence.",
+    "Reconcile live DataSphere/cluster claims and select one provider for both F1 arms.",
+    "Prepare separately reviewed F1 checkpoint collectors/verifier; existing F0 names and counts are not compatible.",
+    "Revalidate runtime, source/data hashes, physical GPU ownership, cgroups, RAM/disk headroom and absent output/attempt paths.",
+    "Explicitly decide whether same-shape F0 profile evidence still applies; reprofile if runtime/device/data route differs.",
+    "Freeze and stage the exact reviewed plan and an admission receipt before invoking the existing runner."
+  ],
+  "limitations": [
+    "UNADMITTED is documentary metadata; the existing runner does not enforce that field. This plan has not been staged remotely or passed to it.",
+    "Offline command/schema review, not local trainer CLI execution or F1 runtime/profile/fit/quality evidence.",
+    "No change to active F0 source, plan, helper, cell ownership, provider settings or paid jobs.",
+    "No raw parquet/full target-cache rehash during this metadata review."
+  ]
+}

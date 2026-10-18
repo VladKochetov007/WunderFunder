@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "kind": "f1_beleriand_fallback_metadata_and_static_schedule_review",
+  "state": "UNADMITTED",
+  "observed_utc": "2026-10-18T06:15:28.536079+00:00",
+  "cell": "F1/seed1001",
+  "scope": "Preparation for next rank1 pair only if selected after F0 completion and fresh provider/cell reconciliation. No assignment or job created.",
+  "metadata": {
+    "observed_utc": "2026-10-18T06:15:28.536079+00:00",
+    "manifest_path": "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold1.json",
+    "sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "bytes": 1388742,
+    "counts": {
+      "evaluation_components": 149,
+      "evaluation_valid": 457,
+      "excluded_train": 73,
+      "fit_train": 10533,
+      "fit_valid": 1416,
+      "total_components": 3289
+    },
+    "fit_lengths": {
+      "train": 10533,
+      "valid": 1416
+    },
+    "eval_lengths": {
+      "valid": 457
+    },
+    "sources": {
+      "cache/chain_folds.npz": {
+        "bytes": 462719,
+        "mtime_ns": 1792272476034928600,
+        "sha256": "a112f809259f631c2ee7c12480e4ec1d4eef197a980e7ce23c707d842d092567"
+      },
+      "cache/chains.npz": {
+        "bytes": 650142,
+        "mtime_ns": 1790639004032905200,
+        "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+      },
+      "cache/train_targets.npz": {
+        "bytes": 1909335790,
+        "index_sha256": "4e52088dc9fd01c19fa0d2558e87f60559ce84d1ab83cc3952c0ab9d9512c597",
+        "mtime_ns": 1790702729565256000
+      },
+      "cache/valid_targets.npz": {
+        "bytes": 337186198,
+        "index_sha256": "ed030f767a6c650db666844ecffef21f0e96cc9fa2d7e77a0872bdf26c5bed38",
+        "mtime_ns": 1790638944452597000
+      },
+      "datasets/train.parquet": {
+        "bytes": 29240219011,
+        "footer_bytes": 60437285,
+        "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+        "mtime_ns": 1577833200000000000
+      },
+      "datasets/valid.parquet": {
+        "bytes": 5615509128,
+        "footer_bytes": 10686926,
+        "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+        "mtime_ns": 1577833200000000000
+      }
+    },
+    "existing_f1_runs": [],
+    "existing_f1_attempts": [],
+    "disk_free_bytes": 88484000075776
+  },
+  "expected_schedule": {
+    "basis": "Observed fold1 manifest counts plus frozen a266b036 membership/loader/update-clock logic; no F1 trainer executed.",
+    "fit_sequences": 11949,
+    "batch_size": 8,
+    "drop_last": true,
+    "batches_per_epoch": 1493,
+    "dropped_sequences_per_epoch": 5,
+    "sequence_rows": 20000,
+    "update_rows": 2000,
+    "updates_per_batch": 10,
+    "updates_per_epoch": 14930,
+    "stage1_epochs": 2,
+    "stage1_updates": 29860,
+    "terminal_epochs": 6,
+    "terminal_updates": 89580,
+    "terminal_batches": 8958,
+    "terminal_checkpoint_epoch": 5,
+    "terminal_next_epoch": 6,
+    "actual_optimizer_counts_observed": false
+  },
+  "frozen_source_evidence": [
+    {
+      "commit": "a266b036b02e8e012c6eb31072291dad618a169d",
+      "path": "src/wnn/training/data_membership.py",
+      "detail": "Campaign split train_groups are used, permuted and capped by10607; all10533 fit train groups qualify. valid_train_fraction1 and valid_repeat1 include1416 fit-valid groups."
+    },
+    {
+      "commit": "a266b036b02e8e012c6eb31072291dad618a169d",
+      "path": "src/wnn/training/data_loaders.py",
+      "detail": "ConcatDataset joins train and valid groups. Seeded sampler and DataLoader both drop_last=True; batch8 yields1493 complete batches."
+    },
+    {
+      "commit": "a266b036b02e8e012c6eb31072291dad618a169d",
+      "path": "src/wnn/training/setup_lineage.py",
+      "line": 183,
+      "detail": "update_rows = args.update_rows or args.chunk; this recipe uses chunk2000 and no update override."
+    },
+    {
+      "commit": "a266b036b02e8e012c6eb31072291dad618a169d",
+      "path": "src/wnn/training/setup_model_runtime.py",
+      "line": 143,
+      "detail": "total = len(train_loader) * ceil(sequence_length/update_rows) * epochs."
+    },
+    {
+      "commit": "6f9fd05e491a9700cce1adf50e58b56cdc5e65bb",
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/code/grade_endpoint.py",
+      "detail": "CLI accepts the supplied split. Checkpoint fold must equal split.fold, export must bind ordered evaluation membership and SHA; grade remains the same global_wp_clip2_v1 with paired component bootstrap for this one cell."
+    }
+  ],
+  "helper_limit": {
+    "f0_helpers_unchanged": true,
+    "compatible_with_f1_as_is": false,
+    "reason": "Existing intermediate/terminal collectors and terminal verifier bind F0 names and1492 batches/14920 updates per epoch. F1 requires a separate reviewed collector/verifier contract; do not change the helpers used by current F0 deep."
+  },
+  "required_before_admission": [
+    "F0 frozen sequence must finish its endpoints, exports and independent grade; preserve it until then.",
+    "Choose exactly one provider for both F1 arms after checking DataSphere recovery and all live cell claims.",
+    "Finish and independently review a separate immutable F1 plan; keep F0 plan unchanged.",
+    "Fresh runtime/source/data identity, resource/headroom/disk and output/attempt collision checks; this observation is not admission.",
+    "Document whether existing actual B8/C2000 shape profiles suffice or run a specifically bounded additional profile.",
+    "Prepare F1 checkpoint collection/verification using actual fold1 cardinality, complete ancestry and finite-state/source checks."
+  ],
+  "limits": [
+    "No raw parquet or target-cache rehash in this metadata read; source records are manifest metadata, not fresh full-file hashes.",
+    "No F1 fit, runtime profile, prediction, score, GPU parity or CP30 result.",
+    "Read-only inspection had a wrong local grader path, overlarge nested metadata output and an unmatched-parenthesis command; corrected bounded reads completed without artifact or training mutation."
+  ]
+}
