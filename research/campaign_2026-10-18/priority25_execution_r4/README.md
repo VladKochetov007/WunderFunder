@@ -31,3 +31,7 @@ Latest routine observation: [01:43UTC continuation](receipts/HEARTBEAT_20261018T
 [First wide continuation checkpoint](receipts/WIDE_CONTINUATION_EP2_20261018.json): epoch2 archived and independently verified with44,760 cumulative updates, finite FP32 model/Adam state, the unchanged six-epoch schedule and exact persisted stage1 resume binding; active fitting continues at epoch3. This intermediate artifact does not provide an endpoint quality result.
 
 [Latest03:10UTC observation](receipts/HEARTBEAT_20261018T0310Z.json): wide epoch3 is archived, producer counters reach59,680 successful updates with zero skips/nonfinite, and epoch4 is active. Endpoint quality remains pending.
+
+[Latest03:40UTC observation](receipts/HEARTBEAT_20261018T0340Z.json): wide epoch4 is archived at74,600 producer-reported updates, and epoch5 is active. Terminal collection, deep continuation and independent quality grades remain pending.
+
+[Terminal endpoint collection and verification are prepared](receipts/TERMINAL_ENDPOINT_PREPARATION.json): reviewed helpers, hashes, exact commands and bounded CPU execution;14 local tests passed. The files are staged on Beleriand without execution. A successful actual terminal attempt is required before collection, and the existing sequence retains ownership of deep continuation, exports and grading.

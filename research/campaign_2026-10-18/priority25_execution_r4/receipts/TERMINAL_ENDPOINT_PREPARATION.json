@@ -1,0 +1,238 @@
+{
+  "kind": "fixed_epoch5_terminal_collection_and_verification_preparation",
+  "created_utc": "2026-10-18T03:54:52.470996+00:00",
+  "status": "reviewed_staged_not_executed",
+  "scope": "Existing F0/seed1001 wide and deep frozen six-epoch endpoints only. No training/source/plan/provider change.",
+  "files": [
+    {
+      "name": "collect_terminal_checkpoint.py",
+      "repository_path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/checks/collect_terminal_checkpoint.py",
+      "sha256": "5c35bcc7dbc91ccc27f9929305c19776a2b8bbfe8c77a7850b43d5c2bc841ea6",
+      "bytes": 6138
+    },
+    {
+      "name": "collect_epoch_checkpoint.py",
+      "repository_path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/checks/collect_epoch_checkpoint.py",
+      "sha256": "4bbeea5e7c6f5ff617dbff43cbb24c531686ce010b749e5988c8cd15171e014c",
+      "bytes": 4381
+    },
+    {
+      "name": "verify_e6_terminal_endpoint.py",
+      "repository_path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/verify_e6_terminal_endpoint.py",
+      "sha256": "d4576b02eb3408d0129cd4cc253d0a6277fceab7ad9d3cd620418525ba0cb6f3",
+      "bytes": 18474
+    },
+    {
+      "name": "verify_wide_e6_epoch2_checkpoint_r4.py",
+      "repository_path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/verify_wide_e6_epoch2_checkpoint_r4.py",
+      "sha256": "302d3c1a8bd5059b6d6047c76a6f85dd71a7a049cdb3d3da6fa5940735fc54c3",
+      "bytes": 21422
+    },
+    {
+      "name": "PORTABLE_SOURCES.json",
+      "repository_path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/PORTABLE_SOURCES.json",
+      "sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378",
+      "bytes": 2157
+    },
+    {
+      "name": "PORTABLE_ARCHIVES.json",
+      "repository_path": "research/campaign_2026-10-18/priority25_execution_r4/receipts/PORTABLE_ARCHIVES.json",
+      "sha256": "9a90e46958eaed2784f1f12e6a501292e4c865b1bc6d07e3f2bd233271da7341",
+      "bytes": 842
+    }
+  ],
+  "staging": {
+    "directory": "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1",
+    "files": [
+      {
+        "name": "collect_terminal_checkpoint.py",
+        "sha256": "5c35bcc7dbc91ccc27f9929305c19776a2b8bbfe8c77a7850b43d5c2bc841ea6",
+        "bytes": 6138
+      },
+      {
+        "name": "collect_epoch_checkpoint.py",
+        "sha256": "4bbeea5e7c6f5ff617dbff43cbb24c531686ce010b749e5988c8cd15171e014c",
+        "bytes": 4381
+      },
+      {
+        "name": "verify_e6_terminal_endpoint.py",
+        "sha256": "d4576b02eb3408d0129cd4cc253d0a6277fceab7ad9d3cd620418525ba0cb6f3",
+        "bytes": 18474
+      },
+      {
+        "name": "verify_wide_e6_epoch2_checkpoint_r4.py",
+        "sha256": "302d3c1a8bd5059b6d6047c76a6f85dd71a7a049cdb3d3da6fa5940735fc54c3",
+        "bytes": 21422
+      },
+      {
+        "name": "PORTABLE_SOURCES.json",
+        "sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378",
+        "bytes": 2157
+      },
+      {
+        "name": "PORTABLE_ARCHIVES.json",
+        "sha256": "9a90e46958eaed2784f1f12e6a501292e4c865b1bc6d07e3f2bd233271da7341",
+        "bytes": 842
+      }
+    ],
+    "helpers_executed": false
+  },
+  "review": {
+    "collector": "Root implementation independently reviewed by idea01_recipe_r4; no blocker found.",
+    "verifier": "Agent implementation 2f8a9fbe1ce2d882aa4f789340b07f0514dc97e9, cherry-picked as51297d8b; root inspected schema, lineage, tensors, source identity and success-only exclusive receipt output.",
+    "producer_inspected": "a266b036:src/wnn/training/outputs.py snapshot/finalize; real wide/deep stage1 receipt histories used in fixtures."
+  },
+  "validation": {
+    "pytest": "14 passed in0.18s",
+    "tests": [
+      "tests/test_rank01_terminal_collection.py",
+      "tests/test_rank01_terminal_verifier.py"
+    ],
+    "ruff_check": "passed",
+    "ruff_format_check": "4files already formatted",
+    "test_scope": "Local synthetic collection/race/failure cases and actual-history-shaped verifier schemas; no real terminal tensors or quality checked."
+  },
+  "admission_requirements": [
+    "Observe existing attempt finished with explicit exit_status0 and frozen command/plan; do not launch a duplicate trainer.",
+    "Check current sequence and new active worker; preserve automatic deep/export/grade stages.",
+    "Inspect current actual parent ControlGroup, memory.current, memory.events and active support jobs. Serialize support; reserve8GB for one GPU worker plus support hard cap below17GB.",
+    "Require five final outputs and copied attempt/log; source/copy SHA, producer model SHA and stable inode/size/mtime.",
+    "Refuse existing snapshot or receipt. On failure preserve evidence and diagnose; do not overwrite/retry blindly."
+  ],
+  "support_limits": {
+    "slice": "wnn-campaign.slice",
+    "parent_cpu_cores": 2,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_swap_bytes": 0,
+    "collector": {
+      "cpu_quota_percent": 25,
+      "memory_max_bytes": 512000000,
+      "runtime_max_seconds": 120
+    },
+    "verifier": {
+      "cpu_quota_percent": 50,
+      "memory_max_bytes": 1500000000,
+      "runtime_max_seconds": 120
+    },
+    "common": {
+      "MemorySwapMax": 0,
+      "CUDA_VISIBLE_DEVICES": "",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "TMPDIR": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+      "systemd_type": "exec",
+      "RemainAfterExit": true,
+      "capture": "Actual systemd invocation/exit/limits/accounting plus fresh worker/parent memory events; stop only own exited support unit after collection."
+    }
+  },
+  "expected_endpoint": {
+    "epoch_index": 5,
+    "next_epoch": 6,
+    "successful_optimizer_updates": 89520,
+    "completed_batches": 8952,
+    "skips": 0,
+    "nonfinite_steps": 0,
+    "history_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ancestry": "Full parent contract and first2history rows, verified stage1 state SHA and persisted resumed_from next_epoch2.",
+    "weights": "Raw epoch5 and selected model.pt equal resume model, finiteFP32; Adam finiteFP32 and complete; scaler empty, EMA/SWA absent.",
+    "artifact_files": [
+      "model_ep5.pt",
+      "model.pt",
+      "provenance.json",
+      "training_state.pt",
+      "history.json"
+    ],
+    "evidence_files": [
+      "attempt.json",
+      "training.log"
+    ]
+  },
+  "commands_pending_terminal": {
+    "wide": {
+      "collector_argv": [
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/collect_terminal_checkpoint.py",
+        "--arm",
+        "wide"
+      ],
+      "verifier_argv": [
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/verify_e6_terminal_endpoint.py",
+        "--arm",
+        "wide",
+        "--snapshot-dir",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f0_s1001_e6/epoch5_terminal",
+        "--source-root",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036",
+        "--stage1-snapshot-dir",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f0_s1001/stage1_epoch1",
+        "--stage1-verification",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_WIDE_F0_S1001_STAGE1_VERIFICATION.json",
+        "--collection-receipt",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_WIDE_F0_S1001_E6_TERMINAL_COLLECTION.json",
+        "--attempt-record",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f0_s1001_e6/epoch5_terminal/attempt.json",
+        "--plan",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json",
+        "--data-registry",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_SOURCES.json",
+        "--archive-manifest",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_ARCHIVES.json",
+        "--r4-helper",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/verify_wide_e6_epoch2_checkpoint_r4.py",
+        "--output",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_WIDE_F0_S1001_E6_TERMINAL_VERIFICATION.json"
+      ]
+    },
+    "deep": {
+      "collector_argv": [
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/collect_terminal_checkpoint.py",
+        "--arm",
+        "deep"
+      ],
+      "verifier_argv": [
+        "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/verify_e6_terminal_endpoint.py",
+        "--arm",
+        "deep",
+        "--snapshot-dir",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f0_s1001_e6/epoch5_terminal",
+        "--source-root",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036",
+        "--stage1-snapshot-dir",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f0_s1001/stage1_epoch1",
+        "--stage1-verification",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_DEEP_F0_S1001_STAGE1_VERIFICATION.json",
+        "--collection-receipt",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_DEEP_F0_S1001_E6_TERMINAL_COLLECTION.json",
+        "--attempt-record",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_deep_f0_s1001_e6/epoch5_terminal/attempt.json",
+        "--plan",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json",
+        "--data-registry",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_SOURCES.json",
+        "--archive-manifest",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_ARCHIVES.json",
+        "--r4-helper",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/verify_wide_e6_epoch2_checkpoint_r4.py",
+        "--output",
+        "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_DEEP_F0_S1001_E6_TERMINAL_VERIFICATION.json"
+      ]
+    }
+  },
+  "limitations": [
+    "Preparation does not establish a completed endpoint, GPU resumed/uninterrupted parity, prediction quality, convergence or CP30.",
+    "A single endpoint does not complete the paired cell. Existing frozen exports and independent grader remain required.",
+    "No raw parquet rehash in structural check; compare sealed registry identities."
+  ],
+  "next_action": "On actual successful terminal wide, collect then independently verify once under fresh bounded support admission; preserve healthy automatic deep continuation. Deep endpoint uses the same reviewed helper with its explicit arm."
+}
