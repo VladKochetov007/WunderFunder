@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [F1 epoch0 checkpoint and 08:45 UTC health](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0845Z.json): producer provenance records14,930 completed updates with zero skips/nonfinite; the same wide worker now reaches epoch1 batch860/1493. This is an intermediate observation, not stage1 completion or independent tensor verification. The reviewed stage1 collector will preserve both epoch models after exit0. No new provider recovery, cluster claim, allocation or quality result.
+
 - [08:20 UTC F1 heartbeat](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0815Z.json): wide F1/seed1001 advances to epoch0 batch940/1493 on the existing sole campaign GPU worker. New memory-event deltas remain zero; no checkpoint or stage completion yet. DataSphere jobs/balance, the official incident and unclaimed cluster issues16/19 are unchanged. Healthy execution is preserved without another admission or quality claim.
 
 - [Rank1 F0 paired result and archive](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F0_S1001_RESULT.json): six epochs per arm,89,520 successful updates each, independently verified checkpoints and hash-bound predictions/grade. Wide leads by0.001466984 on one exposed fold; conditional CI crosses zero, so no CP30/convergence/transfer claim. [Detailed evidence index](../../campaign_2026-10-18/priority25_execution_r4/receipts/README.md) links raw grade, sidecars, independent interpretation, helper sources and preserved support failures.

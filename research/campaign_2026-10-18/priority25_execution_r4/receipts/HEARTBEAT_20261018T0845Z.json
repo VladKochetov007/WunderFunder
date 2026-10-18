@@ -1,0 +1,264 @@
+{
+  "observed_utc": "2026-10-18T08:45:56.897565+00:00",
+  "sequence": {
+    "attempt": "computer-vision-homework-r01-wide-f1s1001-ep01-v1",
+    "heartbeat_utc": "2026-10-18T08:45:42.398022+00:00",
+    "index": 0,
+    "launch_returncode": 0,
+    "launch_stderr": "",
+    "plan": "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/F1_BELERIAND_PLAN.json",
+    "plan_sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96",
+    "status": "running",
+    "worker_heartbeat": "2026-10-18T08:45:38.899568+00:00",
+    "worker_status": "running"
+  },
+  "attempt": {
+    "elapsed_seconds": 2612.2725066540297,
+    "heartbeat_utc": "2026-10-18T08:45:55.431766+00:00",
+    "id": "computer-vision-homework-r01-wide-f1s1001-ep01-v1",
+    "memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "observer_events": [],
+    "parent_hierarchical_memory_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "peak_parent_ram_bytes": 4854149120,
+    "peak_ram_bytes": 2442874880,
+    "phase": "running",
+    "status": "running"
+  },
+  "log_tail": [
+    "ep 1 batch 720/1493 loss 1.1230 lr 8.97e-05 seq/s 7.5",
+    "ep 1 batch 740/1493 loss 1.1151 lr 8.95e-05 seq/s 7.5",
+    "ep 1 batch 760/1493 loss 1.5111 lr 8.93e-05 seq/s 7.5",
+    "ep 1 batch 780/1493 loss 1.3234 lr 8.91e-05 seq/s 7.5",
+    "ep 1 batch 800/1493 loss 1.1543 lr 8.88e-05 seq/s 7.5",
+    "ep 1 batch 820/1493 loss 1.0139 lr 8.86e-05 seq/s 7.5",
+    "ep 1 batch 840/1493 loss 1.3876 lr 8.84e-05 seq/s 7.5",
+    "ep 1 batch 860/1493 loss 1.9319 lr 8.81e-05 seq/s 7.5"
+  ],
+  "runs": {
+    "rr18_r01_wide_f1_s1001": {
+      "files": [
+        [
+          "training_state.pt",
+          26576927
+        ],
+        [
+          "model_ep0.pt",
+          8900519
+        ],
+        [
+          "provenance.json",
+          162644
+        ]
+      ]
+    },
+    "rr18_r01_deep_f1_s1001": {
+      "files": []
+    }
+  },
+  "cgroups": {
+    "wnn-campaign.slice": {
+      "memory.current": "4752056320",
+      "memory.events": "low 0\nhigh 0\nmax 306\noom 0\noom_kill 0\noom_group_kill 0",
+      "cgroup.procs": ""
+    },
+    "computer-vision-homework-r01-f1-sequence.service": {
+      "memory.current": "9224192",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "cgroup.procs": "3993427"
+    },
+    "wnn-bandit-computer-vision-homework-r01-wide-f1s1001-ep01-v1.service": {
+      "memory.current": "2341564416",
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "cgroup.procs": "3993486\n3993504\n3993507"
+    }
+  },
+  "gpu": "1093458, 234 MiB\n3993507, 1430 MiB\n",
+  "producer_checkpoint": {
+    "seed": 1001,
+    "split_manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+    "checkpoint_sha256": {
+      "model_ep0.pt": "2db3426b6974d3a093b5d438b8de20ef5bf36aa78bc940345a155ec4295ed106"
+    },
+    "update_diagnostics": [
+      {
+        "epoch_index": 0,
+        "epoch": {
+          "optimizer_attempts": 14930,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 14930,
+          "ema_updates": 0,
+          "completed_batches": 1493
+        },
+        "cumulative": {
+          "optimizer_attempts": 14930,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 14930,
+          "ema_updates": 0,
+          "completed_batches": 1493
+        },
+        "sample_order_identity": {
+          "sampler_class": "EpochOrderSampler",
+          "batch_size": 8,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "f03b626ae646fcf88b13ac63c917be30f1964f0bd165a5a75d53c0289828dd98"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "f03b626ae646fcf88b13ac63c917be30f1964f0bd165a5a75d53c0289828dd98"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": null,
+          "sampler_num_samples": null,
+          "seeded_order": {
+            "seed": 1001,
+            "epoch": 0,
+            "antithetic": false,
+            "shared_dropped_tail": true
+          }
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "5a5cdd80cbb320a66656415128726382e63bfb40ac5c041cc3c40ed4c37bc1b0"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "bf02d43e7154c9282babc7c5536f9f1a27f19ae8199521d914cb21ed13511f41"
+          }
+        },
+        "grad_stats": {
+          "epoch": 0,
+          "steps": 14930,
+          "nonfinite_steps": 0,
+          "clip": 1,
+          "total_q05_q50_q95": [
+            0.87575,
+            1.54329,
+            3.26207
+          ],
+          "clip_rate": 0.8875,
+          "mean_clip_factor": 0.6577,
+          "family_median": {
+            "rnn_hh": 0.24965,
+            "rnn_ih": 0.44816,
+            "inp": 0.88506,
+            "head": 1.02119,
+            "bias": 0.32773
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0284,
+            "rnn_ih": 0.0988,
+            "inp": 0.3569,
+            "head": 0.4607,
+            "bias": 0.0552
+          }
+        }
+      }
+    ],
+    "training_clocks": {
+      "micro_rows": 2000,
+      "detach_rows": 2000,
+      "update_rows": 2000,
+      "ema_decay_per_update": 0.999,
+      "ema_clock": "attempted updates including AMP skips"
+    },
+    "cumulative_updates": {
+      "optimizer_attempts": 14930,
+      "amp_skipped_updates": 0,
+      "optimizer_completed_updates": 14930,
+      "ema_updates": 0,
+      "completed_batches": 1493
+    },
+    "fitting_seconds": 1673.8,
+    "observed_utc": "2026-10-18T08:46:41.990888+00:00",
+    "provenance_sha256": "3d6aed403e8dcaf2a05186fb77d2a174101c45c7b77cd7faf90419e32d7cc9ed",
+    "provenance_bytes": 162644,
+    "source": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/rr18_r01_wide_f1_s1001/provenance.json",
+    "reading": "producer JSON only; no independent tensor verification or checkpoint collection"
+  },
+  "datasphere": {
+    "observed_utc": "2026-10-18T08:45:57.601124Z",
+    "jobs_window": 100,
+    "nonterminal_count": 0,
+    "balance": 41652791,
+    "balance_delta_vs_0815": 0,
+    "profile_status": "ERROR",
+    "canary_status": "ERROR",
+    "newer_job_observed": false,
+    "private_receipt_path": "/Users/nb/Documents/wunder/runtime-20261018/datasphere/v2-terminal/heartbeat-0845.json",
+    "private_receipt_sha256": "92fce99dc53c6e7a83b8b7f991344dfab695c8cd454a8f9b2fc89c4956e53bdd"
+  },
+  "provider_status": {
+    "url": "https://status.yandex.cloud/en/incidents/2136",
+    "method": "live browser accessibility",
+    "observed_during_utc": "2026-10-18 08:46–08:47",
+    "ongoing": true,
+    "datasphere_listed": true,
+    "latest_visible_update": "2026-10-16 20:19 GMT+3",
+    "limitation": "Consistent with failed jobs, not project-specific causal proof."
+  },
+  "cluster": {
+    "observed_during_utc": "2026-10-18 08:47–08:48",
+    "method": "authenticated Zen accessibility",
+    "issue16": {
+      "url": "https://github.com/VladKochetov007/WunderFunder/issues/16",
+      "status": "open",
+      "comments_observed": 0,
+      "assignee": null,
+      "worker_claim_observed": false,
+      "cell": "F2/seed1001 both arms"
+    },
+    "issue19": {
+      "url": "https://github.com/VladKochetov007/WunderFunder/issues/19",
+      "status": "open",
+      "comments_observed": 0,
+      "assignee": null,
+      "worker_claim_observed": false,
+      "separate_experiment": true
+    },
+    "physical_cluster_reservations_verified": false
+  },
+  "decision": {
+    "healthy_sequence_preserved": true,
+    "new_admission": false,
+    "source_or_plan_modified": false,
+    "checkpoint_collection": false,
+    "tensor_verification": false,
+    "provider_write": false,
+    "foreign_jobs_preserved": true,
+    "f0_rechecks": false,
+    "next_action": "Collect and independently verify both F1 stage1 checkpoints using reviewed helpers after finished and explicit exit_status 0, while peer arm trains.",
+    "limitation": "Epoch0 producer reports 14930 updates and zero skips/nonfinite. This is an intermediate checkpoint observation; not independent tensor verification, stage1 completion, terminal endpoint or quality evidence."
+  }
+}
