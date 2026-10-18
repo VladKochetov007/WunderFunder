@@ -7,7 +7,7 @@ numeric-budget wait is superseded. This packet does not submit a job by itself.
 The controller's live host, credential, quota, dataset, and durable-cancellation
 preflight must pass before the paid `execute` call.
 
-**Current status:** the [v2 terminal incident](../receipts/DATASPHERE_PROFILE_V2_TERMINAL_INCIDENT.json) records providerERROR during preparation, no reported start/allocated machine and no produced files. The short-lived token has been removed. V3 is staged only; unchanged retries are held pending diagnosis or recovery. F1 preparation remains unallocated. Earlier admission and version notes below are historical.
+**Current status:** the [v2 terminal incident](../receipts/DATASPHERE_PROFILE_V2_TERMINAL_INCIDENT.json) records providerERROR during preparation, no reported start/allocated machine and no produced files. The short-lived token has been removed. V3 is staged only; unchanged retries are held pending diagnosis or recovery. F1 preparation remains unallocated. A separate [runtime canary](canary_v1/README.md) is now admitted for diagnosis with a600-second cancel trigger; see its [live receipt](../receipts/DATASPHERE_CANARY_V1.json). Earlier admission and version notes below are historical.
 
 The [v2 launch receipt](../receipts/DATASPHERE_PROFILE_V2_LAUNCH.json) records actual provider job
 `bt13i2k83lo8n4m8kplk`, submitted at23:58UTC on17October. The durable service is
@@ -179,4 +179,4 @@ The CLI and project access findings are preserved in the sanitized
 
 ## Prepared F1 pair
 
-The [F1 adapter](F1_FIT_ADAPTER_README.md) reuses the frozen canonical trainer/exporter for F1/seed1001 wide/deep six-epoch endpoints. [Preparation and checks](../receipts/DATASPHERE_F1_ADAPTER_PREPARATION.json) record independent review and15 passing CPU fixtures, including signal deadlines and partial artifacts. Separate fit/collection deadlines remain unset. Provider file size/SHA verification and a name-bound follow-on controller are required before dispatch; no F1 job or quality result exists. The [full v2 error read](../receipts/DATASPHERE_PROFILE_V2_FULL_ERROR_RECONCILIATION.json) adds no internal diagnostic detail; a distinct bounded no-op canary is being prepared.
+The [F1 adapter](F1_FIT_ADAPTER_README.md) reuses the frozen canonical trainer/exporter for F1/seed1001 wide/deep six-epoch endpoints. [Preparation and checks](../receipts/DATASPHERE_F1_ADAPTER_PREPARATION.json) record independent review and15 passing CPU fixtures, including signal deadlines and partial artifacts. Separate fit/collection deadlines remain unset. Provider file size/SHA verification and a name-bound follow-on controller are required before dispatch; no F1 job or quality result exists. The [full v2 error read](../receipts/DATASPHERE_PROFILE_V2_FULL_ERROR_RECONCILIATION.json) adds no internal diagnostic detail; a distinct bounded no-op canary is admitted, with its outcome pending.

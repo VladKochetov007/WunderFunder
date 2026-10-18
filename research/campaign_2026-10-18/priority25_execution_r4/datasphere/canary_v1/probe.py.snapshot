@@ -1,0 +1,59 @@
+"""Non-training DataSphere runtime probe; writes one small JSON result."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import platform
+from pathlib import Path
+from datetime import datetime, timezone
+
+from runtime_marker import CANARY_MARKER
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--out", required=True)
+    args = parser.parse_args()
+
+    result: dict[str, object] = {
+        "marker": CANARY_MARKER,
+        "python_version": platform.python_version(),
+        "runtime_marker_imported": True,
+        "torch_imported": False,
+        "torch_version": None,
+        "torch_cuda_build": None,
+        "cuda_available": None,
+        "cuda_device_count": None,
+        "cuda_device_0": None,
+        "probe_error_type": None,
+        "created_at_utc": datetime.now(timezone.utc).isoformat(),
+    }
+    try:
+        import torch
+
+        result["torch_imported"] = True
+        result["torch_version"] = str(torch.__version__)
+        result["torch_cuda_build"] = torch.version.cuda
+        try:
+            available = bool(torch.cuda.is_available())
+            result["cuda_available"] = available
+            count = int(torch.cuda.device_count())
+            result["cuda_device_count"] = count
+            if available and count > 0:
+                result["cuda_device_0"] = str(torch.cuda.get_device_name(0))
+        except Exception as error:  # report type only; omit host-specific details
+            result["probe_error_type"] = type(error).__name__
+    except Exception as error:  # report type only; omit host-specific details
+        result["probe_error_type"] = type(error).__name__
+
+    output = Path(args.out)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    temporary = output.with_name(output.name + ".tmp")
+    temporary.write_text(json.dumps(result, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(output)
+    return 0 if result["torch_imported"] else 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

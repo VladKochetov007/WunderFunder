@@ -1,0 +1,295 @@
+{
+  "created_utc": "2026-10-18T00:29:34.416304+00:00",
+  "status": "ADMITTED_PROVIDER_PREPARING",
+  "purpose": "Discriminate known-successful manual cu126 runtime from current failed cu130 profile envelope; no training/data reads/quality claim.",
+  "controller_state": {
+    "cancel_after_seconds": 600,
+    "cancel_at_epoch": 1792283896.5754323,
+    "config_path": "/home/grinchenkoeg/computer-vision-homework-20261018/datasphere/r01-canary-v1/config.yaml",
+    "config_sha256": "9253fda6aa9e0b56602b9bd82a294e60716dff1118a05324e10bc3a53acab5a8",
+    "consecutive_poll_errors": 0,
+    "job_id": "bt12dffc0bhjrba9jcp6",
+    "job_name": "computer-vision-homework-datasphere-canary-v1",
+    "last_status_at_utc": "2026-10-18T00:29:29.062650+00:00",
+    "operation_id": "bt1qev15r56jdhed6qgf",
+    "phase": "MONITORING",
+    "project_id": "bt1dqf9jg0tuhggcrj4k",
+    "provider_status": "PREPARING",
+    "schema_version": 1,
+    "submit_started_epoch": 1792283296.5754323,
+    "submit_started_utc": "2026-10-18T00:28:16.575458+00:00",
+    "submitted_at_utc": "2026-10-18T00:28:21.902141+00:00",
+    "updated_at_utc": "2026-10-18T00:28:21.902164+00:00"
+  },
+  "service": "computer-vision-homework-datasphere-r01-canary-v1.service",
+  "run_dir": "/home/grinchenkoeg/computer-vision-homework-20261018/datasphere/r01-canary-v1",
+  "cancel_at_utc": "2026-10-18T00:38:16.575432+00:00",
+  "allocation": {
+    "kind": "environment_canary_no_training",
+    "cancel_after_seconds": 600,
+    "compute_units_reserved": 100000,
+    "storage_reserve_units": 5000
+  },
+  "preflight": {
+    "captured_at_utc": "2026-10-18T00:27:05.465298+00:00",
+    "token_expires_at_utc": "2026-10-18T09:13:49.946364Z",
+    "active_recent_jobs": [],
+    "recent_job_count": 100,
+    "oldest_recent_created_at": "2026-10-04T22:03:31.204Z",
+    "recent_page_covers_prior_full_inventory_at": "2026-10-17T23:57:48Z",
+    "balance": {
+      "unit_balance": "41652791"
+    },
+    "restrictions": {
+      "restrictions": [
+        {
+          "name": "MAX_VM_COUNT_PER_PROJECT",
+          "long_value": [
+            "18"
+          ]
+        },
+        {
+          "name": "ALLOW_CHANGE_PROJECT_STORAGE",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_DATA_PROC_TEMPLATES",
+          "bool_value": [
+            false
+          ]
+        },
+        {
+          "name": "ALLOW_MODEL_DEPLOY",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_DATASETS",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_EXTERNAL_IDE",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_JOBS",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_SPARK_CONNECTORS",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_FILESTORES",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_SPEC_G_1_2",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_SPEC_G_2_1",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_SPEC_G_1_1",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_SPEC_GT_4_1",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_SPEC_C_1_8",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_SPEC_C_1_32",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_SPEC_C_1_4",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "ALLOW_SPEC_GT_4I_1",
+          "bool_value": [
+            true
+          ]
+        },
+        {
+          "name": "UNIT_BALANCE_LIMIT",
+          "long_value": [
+            "41652791"
+          ]
+        }
+      ]
+    }
+  },
+  "credential_file": "/home/grinchenkoeg/.local/share/wunder-ds-auth/r01-canary-v1.env",
+  "credential_cleanup": "remove this exact temporary file after terminal and collection",
+  "preparation": {
+    "controller_copy": {
+      "base": "private r01-profile-v2/controller.py",
+      "base_sha256": "4ebbbf515c072230b76db7f3cd96510490c37425f51ada417040fac170b11b25",
+      "only_changes": {
+        "CANCEL_AFTER_SECONDS": 600,
+        "EXPECTED_JOB_NAME": "computer-vision-homework-datasphere-canary-v1"
+      }
+    },
+    "created_at_utc": "2026-10-18T00:26:49.568063+00:00",
+    "credentials_copied": false,
+    "file_sha256": {
+      "README.md": "e168199ef8ca29e8ac560a7909de93603555ba12f384d2bc47b6630e85cd1fe8",
+      "config.yaml": "9253fda6aa9e0b56602b9bd82a294e60716dff1118a05324e10bc3a53acab5a8",
+      "controller.py": "58b79095cf91e46ad72a356740e45ee6f846e909256e6315112567fbfb8fbe67",
+      "probe.py": "7ef98206054ec1da616db0afb81801f0ae1afb1a94a615d8ea449ab0a5bbe0d1",
+      "requirements.txt": "2e227278592b41438ded51867872f7c28943b96cf265ab9212e11586f4dbb9a8",
+      "runtime_marker.py": "58d69ae5d21e09a6147592cbf7a77193ca63f62431c771145bedde25d14be80c"
+    },
+    "launch_gates_owned_by_parent": [
+      "current project budget/quota and discretionary authorization",
+      "durable host/service availability and exact staged-file hash match",
+      "verified existing refreshable profile/credentials"
+    ],
+    "offline_sdk_validation": {
+      "client_or_provider_called": false,
+      "config_parse_path_validation_and_size_checks": "passed",
+      "local_path_count": 1,
+      "manual_requirements_count": 4,
+      "note": "SDK harness runs under local Python 3.9; target job config is Python 3.12.",
+      "prepared_input_count": 1,
+      "prepared_local_module_count": 1,
+      "sdk_version": "0.10.0",
+      "target_python_version": "3.12"
+    },
+    "profile": {
+      "controller_deadline_seconds_from_pre_submit_receipt": 600,
+      "controller_deadline_semantics": "Persisted immediately before execute; exact-id cancel retried on poll/cancel errors.",
+      "dataset_ids_preserved_from_known_success": [
+        "bt1hgmjcuue6t8sam7s4",
+        "bt1cqrmc1sg7egjd8e4l",
+        "bt11g4q81k8jjr9sb9lj",
+        "bt1pletrdim678shtnfa"
+      ],
+      "exact_job_name": "computer-vision-homework-datasphere-canary-v1",
+      "graceful_shutdown": {
+        "signal": "SIGTERM",
+        "timeout": "60s"
+      },
+      "instance_type": "g2.1",
+      "python_version": "3.12",
+      "pytorch_extra_index": "https://download.pytorch.org/whl/cu126",
+      "torch_requirement": "torch==2.14.0+cu126",
+      "working_storage": {
+        "size": "100Gb",
+        "type": "SSD"
+      }
+    },
+    "proposed_command_template": [
+      "python3",
+      "<absolute-staged-packet>/controller.py",
+      "--cli",
+      "<absolute-verified-datasphere-cli>",
+      "--profile",
+      "<verified-existing-refreshable-profile>",
+      "--job-dir",
+      "<absolute-staged-packet>",
+      "--config",
+      "<absolute-staged-packet>/config.yaml"
+    ],
+    "provider_calls_made": false,
+    "purpose": "Runtime-only Python/Torch/CUDA canary after bounded INTERNAL13 no-start failures.",
+    "schema_version": 1,
+    "source_baseline": {
+      "config_sha256": "a302630a30a7bde9e33992049571563b358942414372704292fc358b86e8cfb5",
+      "description": "archived known-success 2026-10-08 DataSphere profile",
+      "python_cuda_index_and_four_dataset_ids_preserved": true,
+      "requirements_copied_byte_identically": true,
+      "requirements_sha256": "2e227278592b41438ded51867872f7c28943b96cf265ab9212e11586f4dbb9a8"
+    },
+    "status": "PREPARED_NOT_SUBMITTED",
+    "training_or_dataset_reads": false
+  },
+  "staged_files": {
+    "config.yaml": {
+      "sha256": "9253fda6aa9e0b56602b9bd82a294e60716dff1118a05324e10bc3a53acab5a8",
+      "bytes": 845
+    },
+    "probe.py": {
+      "sha256": "7ef98206054ec1da616db0afb81801f0ae1afb1a94a615d8ea449ab0a5bbe0d1",
+      "bytes": 2035
+    },
+    "runtime_marker.py": {
+      "sha256": "58d69ae5d21e09a6147592cbf7a77193ca63f62431c771145bedde25d14be80c",
+      "bytes": 134
+    },
+    "requirements.txt": {
+      "sha256": "2e227278592b41438ded51867872f7c28943b96cf265ab9212e11586f4dbb9a8",
+      "bytes": 63
+    },
+    "controller.py": {
+      "sha256": "58b79095cf91e46ad72a356740e45ee6f846e909256e6315112567fbfb8fbe67",
+      "bytes": 20972
+    },
+    "README.md": {
+      "sha256": "e168199ef8ca29e8ac560a7909de93603555ba12f384d2bc47b6630e85cd1fe8",
+      "bytes": 3080
+    },
+    "PREPARATION_RECEIPT.json": {
+      "sha256": "1f57e563df56cee882b64dfec198a6162033019f844918aa2082d3a40d49165c",
+      "bytes": 3354
+    },
+    "SHA256SUMS": {
+      "sha256": "0e2ba60ca07042bbea8a90db8395a6205feac3e9cd102b86966b8e82ec36f239",
+      "bytes": 567
+    }
+  },
+  "root_review": [
+    "config/probe and known-successful requirements inspected",
+    "private controller compared byte-for-byte to frozen base plus exactly job-name/cancel600 constants",
+    "fresh balance/quota/no-active reconciliation and IAM TTL passed",
+    "remote staged file sizes/SHA256 and durable systemd parent verified by launcher"
+  ],
+  "result_verified": false,
+  "scientific_result": null,
+  "limitations": [
+    "Runtime/cold-install time remain unmeasured until actual outputs.",
+    "600-second trigger is client-issued cancellation, requiring host/network/provider responsiveness.",
+    "SDK COMPLETE is command completion only; verify provider and local output size/SHA/content.",
+    "Known-success cu126 runtime alone does not validate the current cu130 scientific profile."
+  ],
+  "public_frozen_probe_snapshot": "../datasphere/canary_v1/probe.py.snapshot",
+  "post_admission_style_findings": [
+    "I001 import ordering",
+    "UP017 timezone.UTC alias"
+  ],
+  "frozen_payload_unchanged": true
+}

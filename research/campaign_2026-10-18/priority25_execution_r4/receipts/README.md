@@ -31,3 +31,5 @@ This directory will retain sanitized provider access, source/data bindings, prof
 
 - [Full v2 error reconciliation](DATASPHERE_PROFILE_V2_FULL_ERROR_RECONCILIATION.json): exact Job.Get/Operation.Get expose no additional error details or file errors. It distinguishes allowed project restrictions from the separate community403 and corrects the inference that zero explicit inputs means missing SDK module code.
 - [F1 adapter preparation](DATASPHERE_F1_ADAPTER_PREPARATION.json): reviewed canonical-trainer/exporter adapter, explicit fit/collection deadlines, partial-artifact preservation and hash verification, with15 passing CPU fixtures. It is not allocated, dispatched or cloud-validated.
+
+- [Bounded runtime canary v1](DATASPHERE_CANARY_V1.json): actual job bt12dffc0bhjrba9jcp6, independent durable controller,600-second cancel trigger, fresh quota/balance and private token lifetime. The known-success cu126 envelope plus explicit probe distinguishes runtime readiness from the failed scientific profile; no canary output or quality result is yet verified.

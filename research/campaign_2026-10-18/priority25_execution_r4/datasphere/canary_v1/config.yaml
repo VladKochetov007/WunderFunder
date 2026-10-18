@@ -1,0 +1,33 @@
+name: computer-vision-homework-datasphere-canary-v1
+desc: >-
+  Bounded runtime-only canary after repeated DataSphere INTERNAL13 no-starts.
+  Imports Python and Torch, records CUDA runtime metadata, and exits; no model
+  training, data reads, scoring, or checkpoint output.
+cmd: >
+  python3 ${PROBE} --out ${OUT}
+env:
+  python:
+    type: manual
+    version: "3.12"
+    requirements-file: requirements.txt
+    local-paths:
+      - runtime_marker.py
+    pip:
+      extra-index-urls:
+        - https://download.pytorch.org/whl/cu126
+inputs:
+  - probe.py: PROBE
+outputs:
+  - canary-result.json: OUT
+datasets:
+  - bt1hgmjcuue6t8sam7s4: DS1
+  - bt1cqrmc1sg7egjd8e4l: DS2
+  - bt11g4q81k8jjr9sb9lj: DS3
+  - bt1pletrdim678shtnfa: DS4
+working-storage:
+  type: SSD
+  size: 100Gb
+cloud-instance-type: g2.1
+graceful-shutdown:
+  signal: SIGTERM
+  timeout: 60s
