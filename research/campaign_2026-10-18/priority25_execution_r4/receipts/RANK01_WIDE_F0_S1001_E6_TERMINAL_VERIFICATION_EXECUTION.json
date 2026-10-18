@@ -1,0 +1,166 @@
+{
+  "kind": "bounded_terminal_endpoint_verifier_execution",
+  "status": "completed_successfully",
+  "arm": "wide",
+  "run": "rr18_r01_wide_f0_s1001_e6",
+  "verification_receipt": "RANK01_WIDE_F0_S1001_E6_TERMINAL_VERIFICATION.json",
+  "verification_receipt_sha256": "c272aaf2bdb2503504c164712539ea6bacce5d16c68f91c0488f9ee19705e4c2",
+  "verification_helper_sha256": "d4576b02eb3408d0129cd4cc253d0a6277fceab7ad9d3cd620418525ba0cb6f3",
+  "r4_helper_sha256": "302d3c1a8bd5059b6d6047c76a6f85dd71a7a049cdb3d3da6fa5940735fc54c3",
+  "collection_receipt_sha256": "691230afa073596932c5063e65b8a056fc26199fe060ef97f0cc8d3db1a3040c",
+  "preparation_receipt_sha256": "e89623faa4bbcd28243f634486f94a3bbc44051e56d793bd45b94f3e620303d9",
+  "staged_file_hashes_verified": [
+    {
+      "name": "collect_terminal_checkpoint.py",
+      "sha256": "5c35bcc7dbc91ccc27f9929305c19776a2b8bbfe8c77a7850b43d5c2bc841ea6"
+    },
+    {
+      "name": "collect_epoch_checkpoint.py",
+      "sha256": "4bbeea5e7c6f5ff617dbff43cbb24c531686ce010b749e5988c8cd15171e014c"
+    },
+    {
+      "name": "verify_e6_terminal_endpoint.py",
+      "sha256": "d4576b02eb3408d0129cd4cc253d0a6277fceab7ad9d3cd620418525ba0cb6f3"
+    },
+    {
+      "name": "verify_wide_e6_epoch2_checkpoint_r4.py",
+      "sha256": "302d3c1a8bd5059b6d6047c76a6f85dd71a7a049cdb3d3da6fa5940735fc54c3"
+    },
+    {
+      "name": "PORTABLE_SOURCES.json",
+      "sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378"
+    },
+    {
+      "name": "PORTABLE_ARCHIVES.json",
+      "sha256": "9a90e46958eaed2784f1f12e6a501292e4c865b1bc6d07e3f2bd233271da7341"
+    }
+  ],
+  "preflight": {
+    "wide_attempt": {
+      "status": "finished",
+      "exit_status": 0
+    },
+    "deep_attempt": {
+      "status": "running",
+      "run": "rr18_r01_deep_f0_s1001_e6"
+    },
+    "active_support_units": 0,
+    "verification_output_absent": true,
+    "snapshot_contains": [
+      "attempt.json",
+      "history.json",
+      "model.pt",
+      "model_ep5.pt",
+      "provenance.json",
+      "training.log",
+      "training_state.pt"
+    ],
+    "campaign_control_group": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+    "parent_memory_current_bytes_before": 1221390336,
+    "parent_memory_events_before": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "systemd": {
+    "unit": "computer-vision-homework-r01-wide-e6-terminal-verify-20261018.service",
+    "invocation_id": "a18f5819c5754b73a81ffc88b35d10a8",
+    "slice": "wnn-campaign.slice",
+    "systemd_run_argv": [
+      "systemd-run",
+      "--user",
+      "--unit=computer-vision-homework-r01-wide-e6-terminal-verify-20261018.service",
+      "--slice=wnn-campaign.slice",
+      "--property=Type=exec",
+      "--property=CPUQuota=50%",
+      "--property=MemoryMax=1500000000",
+      "--property=MemorySwapMax=0",
+      "--property=RuntimeMaxSec=120",
+      "--property=RemainAfterExit=yes",
+      "--setenv=CUDA_VISIBLE_DEVICES=",
+      "--setenv=OMP_NUM_THREADS=1",
+      "--setenv=OPENBLAS_NUM_THREADS=1",
+      "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+      "--wait",
+      "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/verify_e6_terminal_endpoint.py",
+      "--arm",
+      "wide",
+      "--snapshot-dir",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f0_s1001_e6/epoch5_terminal",
+      "--source-root",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036",
+      "--stage1-snapshot-dir",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f0_s1001/stage1_epoch1",
+      "--stage1-verification",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_WIDE_F0_S1001_STAGE1_VERIFICATION.json",
+      "--collection-receipt",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_WIDE_F0_S1001_E6_TERMINAL_COLLECTION.json",
+      "--attempt-record",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/checkpoint_snapshots/rr18_r01_wide_f0_s1001_e6/epoch5_terminal/attempt.json",
+      "--plan",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json",
+      "--data-registry",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_SOURCES.json",
+      "--archive-manifest",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_ARCHIVES.json",
+      "--r4-helper",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/verify_wide_e6_epoch2_checkpoint_r4.py",
+      "--output",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/receipts/RANK01_WIDE_F0_S1001_E6_TERMINAL_VERIFICATION.json"
+    ],
+    "started_utc": "2026-10-18T04:15:32Z",
+    "verification_receipt_created_utc": "2026-10-18T04:15:39.138239+00:00",
+    "unit_stopped_utc": "2026-10-18T04:17:09Z",
+    "process_exit_code": 0,
+    "systemd_result": "success",
+    "effective_limits": {
+      "type": "exec",
+      "cpu_quota_per_sec": "500ms (50% of one CPU)",
+      "memory_max_bytes": 1500000000,
+      "memory_swap_max_bytes": 0,
+      "runtime_max_seconds": 120,
+      "remain_after_exit": true
+    },
+    "accounting": {
+      "cpu_time_ns": 4461334000,
+      "memory_peak_bytes_reported_by_systemd": 368640,
+      "memory_swap_peak_bytes_reported_by_systemd": 0,
+      "parent_memory_current_bytes_after": 3043033088,
+      "parent_memory_events_after": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    "cleanup": "After copying and hashing the successful output, stopped only this exited verifier unit; deep E6 remained running.",
+    "wait_behavior": "systemd-run --wait stayed attached while RemainAfterExit=yes retained the exited unit; after receipt and accounting capture, explicitly stopping this unit released the wrapper. Unit process exit remained success (0)."
+  },
+  "structural_result": {
+    "status": "passed",
+    "source_revision": "a266b036",
+    "source_files_verified": 138,
+    "model_tensors_verified": 12,
+    "trainable_parameter_count": 2210306,
+    "optimizer_states_verified": 10,
+    "optimizer_floating_tensors_verified": 30,
+    "successful_optimizer_updates": 89520,
+    "completed_batches": 8952,
+    "skipped_updates": 0,
+    "scheduler_last_epoch": 89520,
+    "scheduler_step_count": 89521,
+    "resumed_from_next_epoch": 2
+  },
+  "limits": [
+    "Structural checkpoint and provenance checks only; no quality grade, prediction metric, CP30, convergence or measured GPU resume-parity claim.",
+    "Raw parquet files were not rehashed; sealed registry identities were compared.",
+    "The deep E6 worker was preserved and remained the only active campaign worker after verifier cleanup."
+  ]
+}
