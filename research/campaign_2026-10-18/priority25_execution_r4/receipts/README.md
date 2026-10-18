@@ -1,5 +1,7 @@
 # Execution receipts
 
+- [11:46 UTC F1 heartbeat](HEARTBEAT_20261018T1145Z.json): wide reaches epoch5 batch240/1493 with one GPU worker and zero new memory events. Epoch4 producer metadata reports 74,650 updates / 7,465 batches, zero skips/nonfinite; no additional archive/tensor check. At 11:49 UTC DataSphere recent100 still has no active jobs and unchanged balance; the official incident and unclaimed issues16/19 persist. Reviewed terminal collection remains next, with no new admission or quality claim.
+
 - [11:17 UTC F1 heartbeat](HEARTBEAT_20261018T1115Z.json): wide reaches epoch4 batch180/1493 with one GPU worker and zero new memory events. Epoch3 producer counters report59,720 updates/5,972 batches,zero skips/nonfinite; no additional archive/tensor check. DataSphere recent100 has no active jobs,unchanged balance/incident; issues16/19 remain unclaimed. Existing terminal collection path retained; no new admission or quality claim.
 
 - [F1 wide continuation epoch2 handoff](F1_WIDE_CONTINUATION_EP2_20261018.json), [raw collection](RANK01_WIDE_F1_S1001_EP2_COLLECTION.json) and [support evidence index](../f1_recovery_r1/README.md):44,790 producer updates/4,479 batches,zero skips/nonfinite,stable byte copies and persisted V2 stage1 ancestry. No intermediate tensor/state-payload check or quality claim. Collector exited0,captured/stopped; wide epoch3 continues.

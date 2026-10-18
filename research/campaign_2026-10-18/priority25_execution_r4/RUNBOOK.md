@@ -1,8 +1,8 @@
 # Ranked25 execution ownership
 
-## Current F1 execution, 18 October 11:17 UTC
+## Current F1 execution, 18 October 11:46 UTC
 
-`computer-vision-homework-r01-f1-recovery-v1.service` is the only active sequence. It owns both F1/seed1001 arms on Beleriand; do not duplicate them elsewhere. Read `B/runtime/receipts/RANK01_F1_S1001_RECOVERY_SEQUENCE_V1.json`. Current index2 is `computer-vision-homework-r01-wide-f1s1001-ep25-v2`; the [latest heartbeat](receipts/HEARTBEAT_20261018T1115Z.json) observes epoch4 batch180/1493, fresh heartbeats, one campaign GPU process at1508MiB, parent RAM5.23GB and zero new memory events. Parent cumulative max306 predates F1 and OOM remains0.
+`computer-vision-homework-r01-f1-recovery-v1.service` is the only active sequence. It owns both F1/seed1001 arms on Beleriand; do not duplicate them elsewhere. Read `B/runtime/receipts/RANK01_F1_S1001_RECOVERY_SEQUENCE_V1.json`. Current index2 is `computer-vision-homework-r01-wide-f1s1001-ep25-v2`; the [latest heartbeat](receipts/HEARTBEAT_20261018T1145Z.json) observes epoch5 batch240/1493, fresh heartbeats, one campaign GPU process at1508MiB, parent RAM5.23GB and zero new memory events. Parent cumulative max306 predates F1 and OOM remains0.
 
 The [recovery record](f1_recovery_r1/README.md) preserves the failed original controller and wide-v1 no-start CPU admission rejection. Recovery-plan SHA is `f1aa897f0be902e114935f0ac9044b0616e2f3e3a889991651d028823938a111`; only the wide continuation attempt and its launch argument changed. Trainer command, original contract SHA `96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96`, data and outputs are unchanged. Do not restart failed units, change frozen plans/source, or launch another controller. Documentary UNADMITTED in the frozen plans is superseded by separate admission receipts.
 
@@ -18,7 +18,7 @@ After finished and explicit exit_status0, collect terminal five outputs plus att
 
 Support is serial with fresh headroom: collector25%CPU/512MB/120s; verifier50%CPU/1.5GB/120s; swap0,CUDA hidden,physical TMP. Capture systemd exit/result,receipt and monotonic compute duration before stopping only own exited units. RemainAfterExit is not a running computation; terminal ControlGroup can be empty after cgroup removal. Preserve first failures and create-only receipts/archives. New intermediate helpers need a separate review; otherwise preserve lineage at the terminal check.
 
-Epoch3 producer metadata now reports59,720 successful updates and5,972 batches,zero skips/nonfinite. This generation was observed only; no new intermediate helper was allocated. Keep the completed epoch2 archive and proceed to the reviewed terminal collection/verification path.
+Epoch4 producer metadata now reports74,650 successful updates and7,465 batches,zero skips/nonfinite. This generation was observed only; no new intermediate helper was allocated. Keep the completed epoch2 archive and proceed to the reviewed terminal collection/verification path.
 
 ## Completed F0 evidence
 
@@ -28,7 +28,7 @@ The separate user-requested [F0 submission](../f0_submission_r1/README.md) is re
 
 ## DataSphere
 
-The [11:17 UTC live reconciliation](receipts/HEARTBEAT_20261018T1115Z.json) confirms zero nonterminal jobs in the latest100, unchanged balance41,652,791units, and the ongoing official incident with the same16October20:19MSK update. Issues16/19 still have no comments, assignees or observed worker claims; cluster physical reservations remain unverified. No paid retry or new cell admission was made.
+The [11:49 UTC live reconciliation](receipts/HEARTBEAT_20261018T1145Z.json) confirms zero nonterminal jobs in the latest100, unchanged balance41,652,791units, and the ongoing official incident with the same16October20:19MSK update. Issues16/19 still have no comments, assignees or observed worker claims; cluster physical reservations remain unverified. No paid retry or new cell admission was made.
 
 F1/seed1001 now uses Beleriand for both arms, following [admission](receipts/F1_BELERIAND_ADMISSION_V1.json). The cloud adapter remains prepared but unallocated; do not submit a duplicate F1 pair after provider recovery. Reconcile the next unclaimed cell before any cloud allocation. Historical preparation metadata remains frozen.
 
