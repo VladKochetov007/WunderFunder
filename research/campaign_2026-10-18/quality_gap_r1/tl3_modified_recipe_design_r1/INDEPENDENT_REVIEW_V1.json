@@ -1,0 +1,70 @@
+{
+  "schema": "quality_gap.tl3_modified_recipe_independent_review.v1",
+  "reviewed_at_utc": "2026-10-18T19:34:38Z",
+  "decision": "NEEDS_REVISION",
+  "readiness": "DESIGN_ONLY_NOT_PREREGISTERED_NOT_RUNNABLE",
+  "reviewed_artifacts": [
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/README.md",
+      "sha256": "9cd266566456a009f10e4b90d0e6af9c2a24f3d70013802f7488bf5b52fe6e7e"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/recipe.json",
+      "sha256": "4976d91e2ed41ac670af400e32626072c4df4f3d16628ade7fd30f58a4583d97"
+    }
+  ],
+  "source_pin_check": {
+    "declared_source_evidence_count": 25,
+    "verified_matching_sha256_count": 25,
+    "missing_or_mismatched": []
+  },
+  "policy_refs": [
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/AUTHORITY.json",
+      "sha256": "7ff8e20ed143d62b2c7da93eabe67cee41790a036fee62086ebbea40966c506d"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/RANK01_RECIPE.json",
+      "sha256": "9292b545fd088df40c4cc54066a745025ee4d30c2bf1574bdb4df341eb16937c"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/F0_MEMBERSHIP_COMPARISON.json",
+      "sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d"
+    }
+  ],
+  "findings": [
+    {
+      "id": "R1-CMP-01",
+      "severity": "BLOCKING_FOR_CP30_PREREGISTRATION",
+      "topic": "Unequal training budget and checkpoint rule versus frozen rank-1 comparator",
+      "evidence": "The candidate is 15 shared clean ancestor/teacher fits per fold plus three final members per cell; its final members use 2/4/4 epochs and fixed epochs 1/3/3. The frozen deep comparator is one labels-only model per cell with six epochs and fixed epoch 5. The proposal discloses this as a bundle comparison and asks for cost reporting, but its paired CP30 framing does not resolve the campaign matched-budget/update/checkpoint requirement.",
+      "required_revision": "Do not treat the current rank-1 deep endpoint as an implicitly acceptable matched CP30 control for this unequal-budget recipe. Either obtain a separately declared systems-level endpoint/control and decision authority that explicitly permits the differing model/training budget and fixes the comparison rules, or formulate a separate matched-budget/checkpoint mechanism experiment. Preserve the frozen rank-1 recipe and keep this design unadmitted until the estimand and control are approved."
+    },
+    {
+      "id": "R1-CMP-02",
+      "severity": "BLOCKING_FOR_PRIMARY_PAIRED_ESTIMAND",
+      "topic": "Unmatched cells can be excluded without a locked completeness rule",
+      "evidence": "The README says a cell that cannot meet the pairing rule is not part of the paired primary result; the pre-admission gates require matched execution but do not say whether all 30 cells must complete or define an outcome-blind missing-pair rule.",
+      "required_revision": "Freeze pair eligibility before any candidate outcome is examined. Prefer requiring all 30 pairs for the stated CP30 primary result; if a pair fails, label the CP30 result incomplete and report it descriptively, or specify an independently justified, pre-outcome missing-pair procedure. Do not allow provider/runtime availability or observed scores to select the paired set."
+    },
+    {
+      "id": "R1-SPLIT-01",
+      "severity": "REQUIRED_CLARIFICATION_BEFORE_PREREGISTRATION",
+      "topic": "F0 count is generalized to every fold and groups/components are conflated",
+      "evidence": "Pinned membership comparison reports F0 ordered membership counts (including 468 evaluation membership entries/groups) and a separate sequence-to-component mapping. The recipe explicitly labels those 468 as F0, but README also says “each outer fold excludes its 468 evaluation groups.” The packet does not pin or enumerate exact membership and component counts for F1–F3.",
+      "required_revision": "Use “that fold’s evaluation membership” in general statements; reserve 468 for F0. Before preregistration, bind all four exact fold manifests and report group/member counts separately from unique component counts or explain their verified one-to-one relation."
+    }
+  ],
+  "supported_strengths": [
+    "All 25 source_evidence SHA-256 pins match the files in this checkout.",
+    "The recipe consistently labels itself proposed, unadmitted, not preregistered, and not runnable; it supplies no run command and does not claim exact public-TL3 reproduction or public-score transfer.",
+    "The fixed per-fold teacher/propensity graph and resulting conditional-on-ancestors estimand are disclosed.",
+    "The missing strict-FP32 propensity path, tiedlead adapter, clean cache producers, per-run provenance, and other implementation gaps are explicitly pre-admission gates rather than claimed completed work.",
+    "The source-recorded direct cache sum (0.8125, no normalization) and the proposed family assignment are distinguished; the latter is not represented as proven historical provenance."
+  ],
+  "scope_limits": [
+    "Static metadata/document review only; no model, checkpoint, array, remote resource, fit, inference, or test execution.",
+    "Source pin hashes were recomputed locally; no source behavior was executed.",
+    "This review does not authorize code changes, preregistration, resource admission, or any training/evaluation run."
+  ]
+}

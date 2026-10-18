@@ -1,0 +1,140 @@
+{
+  "schema": "quality_gap.tl3_modified_recipe_independent_review.v1",
+  "reviewed_at_utc": "2026-10-18T19:48:09Z",
+  "decision": "PASS_DESIGN_ONLY",
+  "readiness": "DESIGN_ONLY_NOT_PREREGISTERED_NOT_RUNNABLE",
+  "reviewed_artifacts": [
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r2/README.md",
+      "sha256": "7837c74ae84bafb4e69c96df0e385513b28f8e04cfbe0bc48ede9ff1d5b935b9"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r2/recipe.json",
+      "sha256": "5b713c1da84d4d3064e99373b2ed512620760d857cde481b5eca38166e49d70a"
+    }
+  ],
+  "prior_review_basis": {
+    "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/INDEPENDENT_REVIEW_V1.json",
+    "sha256": "da7deeb11a7432bf98d831901905e92cfa20dbb313c37556bd7ebe38aad1137a",
+    "decision": "NEEDS_REVISION",
+    "r1_findings_resolved_in_r2": [
+      "matched primary control",
+      "all-30-pair completeness rule",
+      "fold-specific counts with F0-only 468"
+    ]
+  },
+  "source_pin_check": {
+    "source_evidence_count": 25,
+    "source_evidence_matching_sha256_count": 25,
+    "additional_evidence_pin_count": 8,
+    "additional_evidence_matching_sha256_count": 8,
+    "copied_candidate_source_evidence_count": 25,
+    "copied_candidate_source_evidence_matching_sha256_count": 25,
+    "missing_or_mismatched": [],
+    "candidate_configuration_copy": {
+      "source_recipe_sha256": "4976d91e2ed41ac670af400e32626072c4df4f3d16628ade7fd30f58a4583d97",
+      "copied_field_names": [
+        "stages",
+        "cache_contract",
+        "feature_contract",
+        "final_bundle",
+        "precision_contract",
+        "split_contract",
+        "teacher_graph_sharing",
+        "pre_admission_gates",
+        "source_evidence"
+      ],
+      "all_copied_fields_equal_pinned_r1": true,
+      "stage_count": 17,
+      "stages_equal_pinned_r1": true
+    }
+  },
+  "design_checks": {
+    "primary_comparison": "R2 uses three final members in both arms with the same architecture/topology, seeds, shared 15-node per-fold ancestor graph, parents, fit memberships, normalization, optimizer/scheduler, epochs/update budgets, fixed checkpoints, provider/runtime requirement, and fixed 0.34/0.33/0.33 blend. The only allowed config differences are the four declared final distillation/family-loss weights.",
+    "control_interpretation": "Control zeros only final-member teacher/family supervision. It is not described as a KD-free pipeline: the shared fbc1k_s5 parent remains distilled from clean fin256 teachers. The rank-1 endpoint is descriptive historical context only.",
+    "zero_weight_topology": "The control retains the candidate family-head architecture and parameter/checkpoint topology. Exact labels-only alpha-zero behavior and zero family-head gradient remain explicit capability/review requirements; the packet does not claim they are implemented.",
+    "paired_cells": {
+      "total_unique_required_pairs": 30,
+      "fold_summary": [
+        {
+          "fold": 0,
+          "required_pairs": 8,
+          "seeds": [
+            1001,
+            1002,
+            1003,
+            1004,
+            1005,
+            1006,
+            1007,
+            1008
+          ],
+          "member_seed_maps_match": true
+        },
+        {
+          "fold": 1,
+          "required_pairs": 8,
+          "seeds": [
+            1001,
+            1002,
+            1003,
+            1004,
+            1005,
+            1006,
+            1007,
+            1008
+          ],
+          "member_seed_maps_match": true
+        },
+        {
+          "fold": 2,
+          "required_pairs": 7,
+          "seeds": [
+            1001,
+            1002,
+            1003,
+            1004,
+            1005,
+            1006,
+            1007
+          ],
+          "member_seed_maps_match": true
+        },
+        {
+          "fold": 3,
+          "required_pairs": 7,
+          "seeds": [
+            1001,
+            1002,
+            1003,
+            1004,
+            1005,
+            1006,
+            1007
+          ],
+          "member_seed_maps_match": true
+        }
+      ],
+      "complete_cp30_requires_all_30_valid_pairs": true,
+      "post-outcome_pair_exclusions_or_replacements_allowed": false
+    },
+    "fold_scope": {
+      "F0_evaluation_entries": 468,
+      "F0_unique_evaluation_components": 141,
+      "468_is_not_generalized_to_other_folds": true,
+      "F2_manifest_and_counts_pending_and_block_preregistration": true,
+      "all_folds_are_exposed_development_robustness_evidence": true
+    },
+    "shared_ancestry": "The estimand is conditional on one shared fixed-role graph per fold and does not estimate teacher-refit variability or isolate upstream distillation."
+  },
+  "remaining_preregistration_and_capability_gates": [
+    "Recovering the historical creative prop_f0 and W18 producer details is not required for attribution if all new clean per-fold propensity fits and cache targets are rebuilt and bound to their actual source/code, data/split, membership/rows, normalization/preprocessing, checkpoints and runtime.",
+    "Implement and independently review strict-FP32 propensity and tiedlead/family-head capability, including exact zero-alpha loss behavior, same topology, causal feature semantics, finite/row-bound caches and export shape.",
+    "Pin/recompute the exact F2 manifest and counts; refresh all four fold manifests, ordered memberships, source/data/runtime identities and the prospective practical effect rule before preregistration and before outcomes.",
+    "Complete a separate dated preregistration and root admission/resource review before any experiment execution; this design review itself grants no admission or execution authority."
+  ],
+  "scope_limits": [
+    "Static document and JSON metadata review only; no source execution, tests, model/checkpoint/prediction/parquet payload reads, fitting, inference, cache generation, remote operations, or admission.",
+    "The review evaluates design structure and declared source pins, not the correctness of unimplemented model adapters, numerical behavior, producer capability, runtime feasibility, or scientific outcomes."
+  ]
+}

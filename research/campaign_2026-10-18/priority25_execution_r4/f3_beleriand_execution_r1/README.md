@@ -1,5 +1,9 @@
 # F3 / seed 1001 execution
 
+[19:44 UTC healthy progress](HEARTBEAT_ACCEPTANCE_20261018T1945Z.json), backed by the [raw observation](HEARTBEAT_PROGRESS_20261018T1945Z.json), reaches deep stage1 epoch1 batch1080/1488, loss1.5948 and LR8.53e-5. Sequence/worker heartbeat ages5.38/8.75s, sole campaign GPU1576MiB, parent RAM4,302,503,936B, zero new memory events. Deep stage1 is not yet terminal; no duplicate or support launch.
+
+**19:18 UTC health:** deep stage1 reaches epoch1 batch260/1488, fresh heartbeats and zero new memory events ([health](HEARTBEAT_ACCEPTANCE_20261018T1917Z.json), [raw](HEARTBEAT_PROGRESS_20261018T1917Z.json)). At19:22UTC the first persisted provenance reports14,880 successful updates/1,488batches,zero skips/nonfinite for epoch0 ([metadata observation](DEEP_STAGE1_EP0_OBSERVATION_20261018T1925Z.json)). Model/state files were only stat-observed; no tensor load, payload hash verification or intermediate archive. Full deep stage1 acceptance remains pending its native completion.
+
 [18:48 UTC health](HEARTBEAT_ACCEPTANCE_20261018T1847Z.json) observes the same deep stage1 at epoch0 batch800/1488, loss1.7027/LR9.96e-5, fresh heartbeats, one campaign GPU process1572MiB and zero new memory events. Foreign GPU processes remain untouched; no checkpoint collection or new admission was needed.
 
 [Latest 18:40 health](POST_METADATA_ACCEPTANCE_20261018T1840Z.json): deep stage1 is at epoch 0 batch 540/1488, loss 1.2000 / LR 1e-4, fresh heartbeats, sole campaign GPU process 1572 MiB, parent RAM 4.21 GB and zero new memory events after bounded metadata support. [Wide stage1 independent acceptance](../receipts/F3_WIDE_STAGE1_ACCEPTANCE_V1.json) and [handoff](../receipts/F3_WIDE_STAGE1_HANDOFF_20261018T1830Z.json) are complete.

@@ -1,0 +1,2334 @@
+{
+  "schema": "quality_gap.tl3_modified_recipe_design.v2",
+  "design_id": "tl3-cleanfold-final-supervision-matched-cp30-r2",
+  "created_date": "2026-10-18",
+  "status": "PROPOSED_UNADMITTED_NOT_PREREGISTERED_NOT_RUNNABLE",
+  "purpose": "Design-only successor to R1. It adds a matched control and resolves R1 review findings without editing R1. This document itself grants no authority for implementation, training, inference, cache generation, remote work, admission, or publication, and does not revoke the separate user-authorized bounded capability preparation.",
+  "question": "Conditional on the same fold-clean propensity/teacher graph and warm parent, does final-member teacher supervision (main prediction distillation plus the declared family-head loss) improve the fixed three-member blend over the same three final architectures trained with exact zero final-stage teacher-loss scaling?",
+  "estimand": "Equal-weight mean over F0-F3 of the within-fold mean across the frozen 8/8/7/7 paired seeds of global_wp_clip2_v1(candidate fixed blend minus matched-control fixed blend). This tests the joint final-stage teacher-supervision bundle conditional on one shared fixed-role graph per fold, not upstream KD mechanisms or teacher-refit variability.",
+  "objective_mode": "competition",
+  "candidate_recipe_snapshot": {
+    "source_recipe_path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/recipe.json",
+    "source_recipe_sha256": "4976d91e2ed41ac670af400e32626072c4df4f3d16628ade7fd30f58a4583d97",
+    "source_design_id": "tl3-modified-cleanfold-blend-cp30-r1",
+    "copied_configuration_fields": [
+      "stages",
+      "cache_contract",
+      "feature_contract",
+      "final_bundle",
+      "precision_contract",
+      "split_contract",
+      "teacher_graph_sharing",
+      "pre_admission_gates",
+      "source_evidence"
+    ],
+    "stages": [
+      {
+        "architecture": {
+          "family": "PropensityNet",
+          "hidden": 64,
+          "input_channels": 211,
+          "recurrent_layers": 1
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 16,
+          "checkpoint_epoch_zero_based": 3,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 4,
+          "objective": "binary cross entropy for supplied scoring-mask labels",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "AdamW",
+            "cycle_momentum": false,
+            "learning_rate": 0.002,
+            "scheduler": "constant",
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "membership": {
+          "F0_count": 1405,
+          "evaluation_groups_used": 0,
+          "outer_evaluation_during_fit": false,
+          "train_source": "fit.valid only"
+        },
+        "normalization": "reuse canonical fit-only two-batch rule on deterministic fit.valid prefix; this deliberately replaces the historical trainer’s first shuffled batch statistics",
+        "output": "causal score propensities for train and fit.valid; record source model SHA, fold manifest SHA and ordered row-group digests",
+        "repeat": "once_per_outer_fold; reused by all candidate cells in that fold",
+        "role": "clean causal score-mask propensity model",
+        "seed": {
+          "policy": "fixed across folds, same initialization seed; fold data differ",
+          "value": 0
+        },
+        "stage_id": "propensity_f",
+        "status_notes": [
+          "The creative prop_f0 artifact SHA is not the restored Main propensity SHA.",
+          "A reviewed strict-FP32 propensity fitting adapter is required; this design is not runnable with the existing fp16 implementation."
+        ]
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 256,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": 0.999,
+          "evaluate_ema": true
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 32,
+          "checkpoint_epoch_zero_based": 3,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 4,
+          "loss": "wmse",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "muon",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.001,
+            "muon_lr_multiplier": 6,
+            "muon_scope": "rnn",
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": null,
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "train+valid"
+        },
+        "normalization": "canonical fit-only two-batch normalization from deterministic fit-member prefix; record ordered member IDs and buffer digest",
+        "parents": [
+          "propensity_f"
+        ],
+        "propensity_weighting": {
+          "enabled": true,
+          "epsilon": 0.03,
+          "power": 2.0,
+          "source": "this fold’s clean_propensity endpoint"
+        },
+        "raw_only": false,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "256-wide base teacher seed role 3",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 3
+        },
+        "stage_id": "fin256_s3",
+        "status_notes": [
+          "The saved receipt omits optimizer class; Muon x6 is a declared design choice, not a recovered historical fact."
+        ],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 256,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": 0.999,
+          "evaluate_ema": true
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 32,
+          "checkpoint_epoch_zero_based": 3,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 4,
+          "loss": "wmse",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "muon",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.001,
+            "muon_lr_multiplier": 6,
+            "muon_scope": "rnn",
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": null,
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "train+valid"
+        },
+        "normalization": "canonical fit-only two-batch normalization from deterministic fit-member prefix; record ordered member IDs and buffer digest",
+        "parents": [
+          "propensity_f"
+        ],
+        "propensity_weighting": {
+          "enabled": true,
+          "epsilon": 0.03,
+          "power": 2.0,
+          "source": "this fold’s clean_propensity endpoint"
+        },
+        "raw_only": false,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "256-wide base teacher seed role 4",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 4
+        },
+        "stage_id": "fin256_s4",
+        "status_notes": [
+          "The saved receipt omits optimizer class; Muon x6 is a declared design choice, not a recovered historical fact."
+        ],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 256,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": null,
+          "evaluate_ema": false
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 16,
+          "checkpoint_epoch_zero_based": 1,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 2,
+          "loss": "gcorr",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "adamw",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.0001,
+            "muon_lr_multiplier": null,
+            "muon_scope": null,
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": "fin256_s3@fixed_epoch3",
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "valid"
+        },
+        "normalization": "inherit_exact_clean_initializer_buffers",
+        "parents": [
+          "fin256_s3"
+        ],
+        "propensity_weighting": {
+          "enabled": false,
+          "epsilon": null,
+          "power": null,
+          "source": null
+        },
+        "raw_only": false,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "valid-only fine-tuned fin256 teacher seed role 3",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 3
+        },
+        "stage_id": "fin256ft_s3",
+        "status_notes": [
+          "Use exactly fit.valid for this outer fold; inherit only the clean parent weights and normalization."
+        ],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 256,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": null,
+          "evaluate_ema": false
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 16,
+          "checkpoint_epoch_zero_based": 1,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 2,
+          "loss": "gcorr",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "adamw",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.0001,
+            "muon_lr_multiplier": null,
+            "muon_scope": null,
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": "fin256_s4@fixed_epoch3",
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "valid"
+        },
+        "normalization": "inherit_exact_clean_initializer_buffers",
+        "parents": [
+          "fin256_s4"
+        ],
+        "propensity_weighting": {
+          "enabled": false,
+          "epsilon": null,
+          "power": null,
+          "source": null
+        },
+        "raw_only": false,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "valid-only fine-tuned fin256 teacher seed role 4",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 4
+        },
+        "stage_id": "fin256ft_s4",
+        "status_notes": [
+          "Use exactly fit.valid for this outer fold; inherit only the clean parent weights and normalization."
+        ],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 256,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 8,
+        "distillation_alpha": 0.5,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": 0.999,
+          "evaluate_ema": true
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 32,
+          "checkpoint_epoch_zero_based": 3,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 1000,
+          "deterministic": true,
+          "epochs": 4,
+          "loss": "wmse",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "muon",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.001,
+            "muon_lr_multiplier": 3,
+            "muon_scope": "rnn",
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": null,
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "train+valid"
+        },
+        "normalization": "canonical fit-only two-batch normalization from deterministic fit-member prefix; record ordered member IDs and buffer digest",
+        "parents": [
+          "propensity_f",
+          "fin256_s3",
+          "fin256_s4"
+        ],
+        "propensity_weighting": {
+          "enabled": true,
+          "epsilon": 0.03,
+          "power": 2.0,
+          "source": "this fold’s clean_propensity endpoint"
+        },
+        "raw_only": false,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "strong 256-wide bootstrapped teacher role 5",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 5
+        },
+        "stage_id": "fbc1k_s5",
+        "status_notes": [
+          "Scratch weights; the two fin256 teacher fits are part of the clean fold graph."
+        ],
+        "teacher_targets": "equal arithmetic mean of clean fin256_s3@ep3 and fin256_s4@ep3 predictions"
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 128,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": 0.999,
+          "evaluate_ema": true
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 32,
+          "checkpoint_epoch_zero_based": 3,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 4,
+          "loss": "wmse",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "muon",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.001,
+            "muon_lr_multiplier": 6,
+            "muon_scope": "rnn",
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": null,
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "train+valid"
+        },
+        "normalization": "canonical fit-only two-batch normalization from deterministic fit-member prefix; record ordered member IDs and buffer digest",
+        "parents": [
+          "propensity_f"
+        ],
+        "propensity_weighting": {
+          "enabled": true,
+          "epsilon": 0.03,
+          "power": 2.0,
+          "source": "this fold’s clean_propensity endpoint"
+        },
+        "raw_only": false,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "128-wide full-feature Muon base teacher seed role 3",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 3
+        },
+        "stage_id": "fmu128_s3",
+        "status_notes": [],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 128,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": 0.999,
+          "evaluate_ema": true
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 32,
+          "checkpoint_epoch_zero_based": 3,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 4,
+          "loss": "wmse",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "muon",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.001,
+            "muon_lr_multiplier": 6,
+            "muon_scope": "rnn",
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": null,
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "train+valid"
+        },
+        "normalization": "canonical fit-only two-batch normalization from deterministic fit-member prefix; record ordered member IDs and buffer digest",
+        "parents": [
+          "propensity_f"
+        ],
+        "propensity_weighting": {
+          "enabled": true,
+          "epsilon": 0.03,
+          "power": 2.0,
+          "source": "this fold’s clean_propensity endpoint"
+        },
+        "raw_only": false,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "128-wide full-feature Muon base teacher seed role 4",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 4
+        },
+        "stage_id": "fmu128_s4",
+        "status_notes": [],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 128,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": null,
+          "evaluate_ema": false
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 16,
+          "checkpoint_epoch_zero_based": 1,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 2,
+          "loss": "gcorr",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "adamw",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.0001,
+            "muon_lr_multiplier": null,
+            "muon_scope": null,
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": "fmu128_s3@fixed_epoch3",
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "valid"
+        },
+        "normalization": "inherit_exact_clean_initializer_buffers",
+        "parents": [
+          "fmu128_s3"
+        ],
+        "propensity_weighting": {
+          "enabled": false,
+          "epsilon": null,
+          "power": null,
+          "source": null
+        },
+        "raw_only": false,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "full-feature valid-only fine-tune seed role 3",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 3
+        },
+        "stage_id": "ffull_s3",
+        "status_notes": [],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 128,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": null,
+          "evaluate_ema": false
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 16,
+          "checkpoint_epoch_zero_based": 1,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 2,
+          "loss": "gcorr",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "adamw",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.0001,
+            "muon_lr_multiplier": null,
+            "muon_scope": null,
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": "fmu128_s4@fixed_epoch3",
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "valid"
+        },
+        "normalization": "inherit_exact_clean_initializer_buffers",
+        "parents": [
+          "fmu128_s4"
+        ],
+        "propensity_weighting": {
+          "enabled": false,
+          "epsilon": null,
+          "power": null,
+          "source": null
+        },
+        "raw_only": false,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "full-feature valid-only fine-tune seed role 4",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 4
+        },
+        "stage_id": "ffull_s4",
+        "status_notes": [],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 128,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": 0.999,
+          "evaluate_ema": true
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 32,
+          "checkpoint_epoch_zero_based": 3,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 4,
+          "loss": "wmse",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "muon",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.001,
+            "muon_lr_multiplier": 6,
+            "muon_scope": "rnn",
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": null,
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "train+valid"
+        },
+        "normalization": "canonical fit-only two-batch normalization from deterministic fit-member prefix; record ordered member IDs and buffer digest",
+        "parents": [
+          "propensity_f"
+        ],
+        "propensity_weighting": {
+          "enabled": true,
+          "epsilon": 0.03,
+          "power": 2.0,
+          "source": "this fold’s clean_propensity endpoint"
+        },
+        "raw_only": true,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "raw-only WMSE base teacher seed role 3",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 3
+        },
+        "stage_id": "frawW_s3",
+        "status_notes": [],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 128,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": 0.999,
+          "evaluate_ema": true
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 32,
+          "checkpoint_epoch_zero_based": 3,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 4,
+          "loss": "wmse",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "muon",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.001,
+            "muon_lr_multiplier": 6,
+            "muon_scope": "rnn",
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": null,
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "train+valid"
+        },
+        "normalization": "canonical fit-only two-batch normalization from deterministic fit-member prefix; record ordered member IDs and buffer digest",
+        "parents": [
+          "propensity_f"
+        ],
+        "propensity_weighting": {
+          "enabled": true,
+          "epsilon": 0.03,
+          "power": 2.0,
+          "source": "this fold’s clean_propensity endpoint"
+        },
+        "raw_only": true,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "raw-only WMSE base teacher seed role 4",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 4
+        },
+        "stage_id": "frawW_s4",
+        "status_notes": [],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 128,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": null,
+          "evaluate_ema": false
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 16,
+          "checkpoint_epoch_zero_based": 1,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 2,
+          "loss": "gcorr",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "adamw",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.0001,
+            "muon_lr_multiplier": null,
+            "muon_scope": null,
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": "frawW_s3@fixed_epoch3",
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "valid"
+        },
+        "normalization": "inherit_exact_clean_initializer_buffers",
+        "parents": [
+          "frawW_s3"
+        ],
+        "propensity_weighting": {
+          "enabled": false,
+          "epsilon": null,
+          "power": null,
+          "source": null
+        },
+        "raw_only": true,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "raw-only valid-only fine-tune seed role 3",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 3
+        },
+        "stage_id": "frawW_s3ft",
+        "status_notes": [],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 128,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": null,
+          "evaluate_ema": false
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 16,
+          "checkpoint_epoch_zero_based": 1,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 2,
+          "loss": "gcorr",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "adamw",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.0001,
+            "muon_lr_multiplier": null,
+            "muon_scope": null,
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": "frawW_s4@fixed_epoch3",
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "valid"
+        },
+        "normalization": "inherit_exact_clean_initializer_buffers",
+        "parents": [
+          "frawW_s4"
+        ],
+        "propensity_weighting": {
+          "enabled": false,
+          "epsilon": null,
+          "power": null,
+          "source": null
+        },
+        "raw_only": true,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "raw-only valid-only fine-tune seed role 4",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 4
+        },
+        "stage_id": "frawW_s4ft",
+        "status_notes": [],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 128,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "bootstrap_horizon": 0,
+        "distillation_alpha": null,
+        "distillation_family_weight": 0.0,
+        "ema": {
+          "decay": 0.999,
+          "evaluate_ema": true
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 32,
+          "checkpoint_epoch_zero_based": 3,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "epochs": 4,
+          "loss": "wmse",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "muon",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.001,
+            "muon_lr_multiplier": 6,
+            "muon_scope": "rnn",
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "tf32": false
+        },
+        "init": null,
+        "membership": {
+          "meaning": "campaign split fit members only; never set include_heldout_valid",
+          "outer_evaluation_during_fit": false,
+          "train_source": "train+valid"
+        },
+        "normalization": "canonical fit-only two-batch normalization from deterministic fit-member prefix; record ordered member IDs and buffer digest",
+        "parents": [
+          "propensity_f"
+        ],
+        "propensity_weighting": {
+          "enabled": true,
+          "epsilon": 0.03,
+          "power": 2.0,
+          "source": "this fold’s clean_propensity endpoint"
+        },
+        "raw_only": false,
+        "repeat": "once_per_canonical_outer_fold; shared across that fold’s eight/fold-specific cell seeds",
+        "role": "clean samefold_baseline family teacher",
+        "seed": {
+          "policy": "fixed role seed, reset for each outer fold",
+          "value": 3
+        },
+        "stage_id": "orgbase",
+        "status_notes": [
+          "Retain as a first-class clean source; historical family assignment is not proven.",
+          "The fixed ep3 endpoint is a new design choice because the recovered artifact is named model.pt without a source-bound selected-epoch record."
+        ],
+        "teacher_targets": null
+      },
+      {
+        "architecture": {
+          "adapter_proposal": "Reuse the archived architecture specification: shared MLP Linear(104,128)->GELU->Linear(128,64)->GELU over each 52-channel instrument block concatenated with its row-to-row delta; zero-initialized Linear(128,256) residual over the two instrument embeddings; one-direction lead uses the same shared encoder on the second instrument block concatenated with its delta from the most recent first-instrument event; zero-initialized Linear(64,256) residual.",
+          "composition": "canonical 211 base channels + 52 lead channels",
+          "dropout": 0.0,
+          "family": "GRU with tiedlead residual adapter",
+          "gru_hidden": 256,
+          "gru_layers": 2,
+          "input_channels": 263,
+          "lead_semantics": "one event lead (RS_LEAD=1); exact 52-channel block/feature ordering must be pinned from the source-snapshot feature map before code review"
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 32,
+          "bootstrap_horizon": 8,
+          "checkpoint_epoch_zero_based": 3,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 1000,
+          "deterministic": true,
+          "distillation_alpha": 0.5,
+          "epochs": 4,
+          "loss": "wmse",
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "Muon",
+            "cycle_momentum": true,
+            "ema_decay": null,
+            "evaluate_ema": false,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.001,
+            "muon_lr_multiplier": 6.0,
+            "muon_scope": "rnn",
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "propensity_weighting": {
+            "enabled": true,
+            "epsilon": 0.03,
+            "power": 2.0,
+            "source": "this fold’s clean_propensity endpoint"
+          },
+          "tf32": false
+        },
+        "membership": {
+          "meaning": "all outer-fold fit.train plus fit.valid only",
+          "outer_evaluation_during_fit": false,
+          "train_source": "train+valid"
+        },
+        "normalization": "fit-only canonical two-batch normalization over deterministic fit-member prefix; computed separately for each scratch student",
+        "parents": [
+          "propensity_f",
+          "fin256ft_s3",
+          "fin256ft_s4"
+        ],
+        "repeat": "once per cell; two independent students with different deterministic seeds",
+        "role": "two final tied-lead scratch students per CP30 cell",
+        "seed": {
+          "initialization": "scratch; no fttall_s5 weights and no other production/warm weights",
+          "member_A": "cell_seed + 10000",
+          "member_B": "cell_seed + 20000"
+        },
+        "stage_id": "tlead_student_A/B",
+        "status_notes": [
+          "Historical logs support batch32/chunk1000/four epochs/Muon/alpha0.5/boot8/scratch/teachers fin256ft_s3+s4, but not source-per-run or optimizer LR/multiplier/EMA. Those missing values above are explicit choices.",
+          "The adapter is not implemented or reviewed in the canonical trainer."
+        ],
+        "teacher_targets": "equal arithmetic mean of clean fin256ft_s3@ep1 and fin256ft_s4@ep1 predictions"
+      },
+      {
+        "architecture": {
+          "dropout": 0.0,
+          "family": "GRU",
+          "hidden": 256,
+          "input_channels": 211,
+          "layers": 2
+        },
+        "fit": {
+          "autocast": false,
+          "batch_order": "seeded per run and epoch",
+          "batch_sequences": 16,
+          "bootstrap_horizon": 0,
+          "checkpoint_epoch_zero_based": 1,
+          "checkpoint_policy": "fixed",
+          "chunk_rows": 2000,
+          "deterministic": true,
+          "distill_alpha": 0.7,
+          "ema_decay": null,
+          "epochs": 2,
+          "evaluate_ema": false,
+          "family_loss_weight": 1.0,
+          "loss": "wmse",
+          "main_cache": {
+            "coefficient_sum": 0.8125,
+            "normalize_coefficients": false,
+            "scale": 1.0,
+            "variant": "source"
+          },
+          "optimizer": {
+            "beta2": 0.999,
+            "class": "AdamW",
+            "cycle_momentum": true,
+            "final_div_factor": 100,
+            "global_gradient_clip": 1.0,
+            "learning_rate": 0.0001,
+            "scheduler": "onecycle",
+            "warmup_fraction": 0.05,
+            "weight_decay": 0.01
+          },
+          "precision": "fp32",
+          "propensity_weighting": {
+            "enabled": true,
+            "epsilon": 0.03,
+            "power": 2.0,
+            "source": "this fold’s clean_propensity endpoint"
+          },
+          "tf32": false
+        },
+        "init": "this fold’s clean fbc1k_s5@fixed_epoch3 weights and preprocessing only",
+        "membership": {
+          "meaning": "all outer-fold fit.train plus fit.valid only",
+          "outer_evaluation_during_fit": false,
+          "train_source": "train+valid"
+        },
+        "normalization": "inherit the clean fbc1k parent normalization; architecture and input transform must pass inherited-preprocessing contract",
+        "parents": [
+          "propensity_f",
+          "fbc1k_s5",
+          "w18final_teacher_cache",
+          "w18final_family_cache"
+        ],
+        "repeat": "once per CP30 cell",
+        "role": "0.34 final member; clean fbc1k warm start plus six-source distillation",
+        "seed": {
+          "policy": "new per paired cell; all learned parent weights are clean and shared within this outer fold",
+          "value": "cell_seed"
+        },
+        "stage_id": "w18final_distilled_student",
+        "status_notes": [
+          "The 0.7 alpha, architecture, parent label and saved epoch are metadata leads, not proof of per-run source execution.",
+          "Family loss weight 1.0 is a new design choice; it is not recorded in the recovered final checkpoint metadata."
+        ]
+      }
+    ],
+    "cache_contract": {
+      "construction": "Use only predictions from the clean fold graph, on its exact fit rows, with source model/checkpoint/SHA, preprocessing, ordered group, component, data and split identities recorded. Each source and composite must have identical row-group order before arithmetic.",
+      "family_assignment": [
+        {
+          "family": "strong",
+          "family_target": "single source mean",
+          "main_coefficients": {
+            "fbc1k_s5_ep3": 0.3
+          },
+          "sources": [
+            "fbc1k_s5_ep3"
+          ]
+        },
+        {
+          "family": "full_finetuned",
+          "family_target": "unweighted 0.5/0.5 arithmetic mean",
+          "main_coefficients": {
+            "ffull_s3_ep1": 0.1,
+            "ffull_s4_ep1": 0.1
+          },
+          "sources": [
+            "ffull_s3_ep1",
+            "ffull_s4_ep1"
+          ]
+        },
+        {
+          "family": "raw_wmse",
+          "family_target": "unweighted 0.5/0.5 arithmetic mean",
+          "main_coefficients": {
+            "frawW_s3ft_ep1": 0.125,
+            "frawW_s4ft_ep1": 0.125
+          },
+          "sources": [
+            "frawW_s3ft_ep1",
+            "frawW_s4ft_ep1"
+          ]
+        },
+        {
+          "family": "samefold_baseline",
+          "family_target": "single source mean",
+          "main_coefficients": {
+            "orgbase_ep3": 0.0625
+          },
+          "sources": [
+            "orgbase_ep3"
+          ]
+        }
+      ],
+      "family_order": [
+        "strong",
+        "full_finetuned",
+        "raw_wmse",
+        "samefold_baseline"
+      ],
+      "main_teacher_source_variant": {
+        "coefficient_sum": 0.8125,
+        "formula": "float32(0.3000*fbc1k_s5_ep3 + 0.1000*ffull_s3_ep1 + 0.1000*ffull_s4_ep1 + 0.1250*frawW_s3ft_ep1 + 0.1250*frawW_s4ft_ep1 + 0.0625*orgbase_ep3)",
+        "normalization": "none; cache variant source, scale 1.0",
+        "origin": "Archived producer procedure in the pinned W18 history trace; recipe keeps the recorded direct sum but regenerates all inputs cleanly."
+      },
+      "propensity_cache": "Produce separate train/fit.valid row-bound caches from the clean propensity endpoint. No evaluation rows are used to fit the model or any cache values used as training targets.",
+      "provenance_status": "The six-source coefficient formula and source scale are recorded by archived preparation code. This four-tag assignment is the present design’s explicit canonical mapping; the available history does not prove that these were the historical cache family tags or actual target-array producers.",
+      "target_cache_validation": "Require split/source/checkpoint hashes, source row digests, same row alignment across every source, finite FP32 arrays, and create-only output names; export family head is training-only and must emit only the two main prediction columns."
+    },
+    "feature_contract": {
+      "base": "211 causal channels: 112 raw plus 99 event features in canonical order.",
+      "tiedlead": "263 = the 211-channel base plus 52 lead channels; implement the exact shared lead semantics described below in a reviewed focused canonical adapter. No generic 263-wide GRU may be called equivalent.",
+      "transform_rules": "Fit-only canonical two-batch normalization for scratch roots/students; exact clean parent buffers inherited for initialized fine-tunes/final distilled student. Hash the ordered normalization membership and saved buffers."
+    },
+    "final_bundle": {
+      "blend_operation": "On exactly identical ordered eval rows, compute FP32 0.34*p_distilled + 0.33*p_tlead_A + 0.33*p_tlead_B in that order. Do not optimize, calibrate, or retune coefficients.",
+      "fixed_weights": {
+        "modified_fttall_tlead_A": 0.33,
+        "modified_fttall_tlead_B": 0.33,
+        "modified_w18final_distilled": 0.34
+      },
+      "members": [
+        {
+          "architecture": "GRU256x2, 211 inputs",
+          "initializer": "clean fbc1k_s5 ep3 from same fold",
+          "name": "modified_w18final_distilled",
+          "weight": 0.34
+        },
+        {
+          "architecture": "GRU256x2 with reviewed tiedlead adapter, 263 inputs",
+          "initializer": "scratch",
+          "name": "modified_fttall_tlead_A",
+          "weight": 0.33
+        },
+        {
+          "architecture": "GRU256x2 with reviewed tiedlead adapter, 263 inputs",
+          "initializer": "scratch",
+          "name": "modified_fttall_tlead_B",
+          "weight": 0.33
+        }
+      ],
+      "per_cell_seed_map": {
+        "distilled": "cell seed S",
+        "tiedlead_A": "S + 10000",
+        "tiedlead_B": "S + 20000"
+      }
+    },
+    "precision_contract": {
+      "autocast": false,
+      "cuda_matmul_tf32": false,
+      "cudnn_tf32": false,
+      "float32_matmul_precision": "highest",
+      "inference": "FP32 and deterministic; record observed flags and environment; no mixed precision.",
+      "training": "FP32 throughout all propensity and predictor updates"
+    },
+    "split_contract": {
+      "artifact_membership": "Every run/cache/sidecar binds canonical split manifest SHA, ordered fit-group digests, component mapping, source/checkpoint hashes, transform/normalization identity, and prediction row order.",
+      "canonical_f0_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "canonical_source": "Canonical Main source-qualified component-disjoint four-fold manifests; bind each exact per-fold manifest and all required data/source hashes before any future preregistration/admission.",
+      "fit_semantics": {
+        "evaluation": "evaluation.valid; F0 = 468",
+        "train+valid": "fit.train ∪ fit.valid only; F0 = 10,535 + 1,405",
+        "valid": "fit.valid only; F0 = 1,405"
+      },
+      "fold0_counts": {
+        "evaluation_valid": 468,
+        "fit_train": 10535,
+        "fit_valid": 1405
+      },
+      "hard_exclusion": "For every fitted propensity, normalization, teacher, fine-tune, cache target, student, and checkpoint/selection decision, exclude all evaluation components for its own outer fold. Set include_heldout_valid=false and no evaluation loader during fit. Do not fit a learned preprocessing/statistic or target cache from evaluation rows.",
+      "historical_manifest_note": "Historical Main manifest 09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d is a different identity. F0_MEMBERSHIP_COMPARISON proves the ordered membership/component mappings match; new artifacts use the canonical identity, never silently substitute the old manifest."
+    },
+    "teacher_graph_sharing": {
+      "consequence": "This is a declared variance-reduction/compute-sharing choice. Report seed variability conditional on fixed ancestry, and do not generalize it as full teacher-recipe variance.",
+      "policy": "Build one clean teacher/propensity DAG per outer fold using the role seeds below; reuse that fold-specific graph/caches for its 8 or 7 final seed cells."
+    },
+    "pre_admission_gates": [
+      "Implement and independently review the strict-FP32 propensity adapter; prove exact canonical split and fit-only normalization/cache membership.",
+      "Implement and independently review the focused canonical tiedlead adapter against the pinned source-snapshot semantics, feature ordering, causal lead selection, zero initialization, and exporter behavior.",
+      "Freeze exact per-fold manifest/data/source hashes, row membership, every stage config, cache coefficient/family map, seed map, output names and comparator mapping in a real preregistration before candidate evaluation outcomes.",
+      "Rebuild every learned ancestor and cache from clean sources for each outer fold. Do not reuse any production checkpoint, production cache or warm-start ancestor with F0-exposed membership.",
+      "Include orgbase as the explicit samefold_baseline source; do not drop it to avoid unresolved historical family assignment.",
+      "Require all cells’ paired arm execution to match provider/runtime; root must separately check campaign ownership and resource authority before any eventual admission.",
+      "Check exact update accounting and warning/OOM disposition. Preserve every failed attempt; no silently retried/skipped update counts."
+    ],
+    "source_evidence": [
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/TL3_CLEAN_COUNTERPART_PLAN_20261018.md",
+        "role": "incumbent recipe members, fixed weights, clean-F0 exclusions",
+        "sha256": "90d22e7a99f7fff97c5c7868d2fc458e05bde71504affc5c0fed9a883a19ab99"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/TL3_CLOSURE_NEXT_STEPS_20261018T1840Z.md",
+        "role": "bounded closure status and no-reuse stop rule",
+        "sha256": "0b00a1801abc1bd198ca402d75b96f14493e0f0810cea2c6497c1549bc81d79a"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_counterpart_preparation_r1/CONFIG_GAPS.json",
+        "role": "canonical capabilities and readiness gaps",
+        "sha256": "694d390200468540915afe0e2e6d2c149e727beb14bd4000227ef6191f3fa6c2"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_counterpart_preparation_r1/INDEPENDENT_REVIEW_V2.json",
+        "role": "readiness-map-only independent review",
+        "sha256": "eb16d3c7851deabdd6f34fc6fdf24753c04f148b0abe7dc8825e1d6b24c85f81"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/F0_MEMBERSHIP_COMPARISON.json",
+        "role": "ordered membership equality, canonical F0 identity and counts",
+        "sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json",
+        "role": "eight W18 saved-argument records; not runtime proof",
+        "sha256": "bc99a852f2307de616002d4785e4ced2f2b898d24824fe9d2357c0e457b2992d"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json",
+        "role": "fbc1k, fin256ft, orgbase and final-member saved arguments",
+        "sha256": "1dea114d0588c6d6f64df59d2db9391657ba0940c632582b476c6f2de9298f4c"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_execution_r1/TL3_FIN256_METADATA_R1.json",
+        "role": "fin256_s3/s4 saved arguments; optimizer class absent",
+        "sha256": "734c1625eb504aae8a790987216d25acbc8246fb06d0b14161a04fd4c08bf283"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/README.md",
+        "role": "tiedlead scratch-init and teacher lineage distinction",
+        "sha256": "1a43fd7634d722bdc69983b1d412058c45a52f00c928680f65db8d3963d46962"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/wnn_nn.py",
+        "role": "archived tiedlead architecture specification only",
+        "sha256": "a6e13c2aceedfd648a6cf3dcee0621f22bd0530af42b350a1d66a48267124bc5"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/README.md",
+        "role": "archived target composition procedure and limitations",
+        "sha256": "d81580dd4494b1264a66e9f21113fa55e7d25cb7dbb34f0150a868ec0bad794b"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_producer_trace_r1/README.md",
+        "role": "cache and row-provenance gaps",
+        "sha256": "4ea31be5feff851384de343672bbb12303b26180fd479663d21006ff26e84c91"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_propensity_history_trace_r1/README.md",
+        "role": "creative prop_f0 identity/provenance distinction",
+        "sha256": "a1e50d754e508fe0c52c24aa5825fb6545699f15e5243fc90d031f1ec83952d3"
+      },
+      {
+        "path": "research/campaign_2026-10-18/quality_gap_r1/CONTROL_ASSET_MAP.json",
+        "role": "production-member exposure and archive caveats",
+        "sha256": "17b7b5fc31557b3d560ae6d8de9aedbba9cb90d9f050a5edf9c136f0c66c7c3f"
+      },
+      {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/AUTHORITY.json",
+        "role": "four-fold seed matrix, metric, pairing and exposure policy",
+        "sha256": "7ff8e20ed143d62b2c7da93eabe67cee41790a036fee62086ebbea40966c506d"
+      },
+      {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/RANK01_RECIPE.json",
+        "role": "frozen labels-only wide/deep comparison recipe",
+        "sha256": "9292b545fd088df40c4cc54066a745025ee4d30c2bf1574bdb4df341eb16937c"
+      },
+      {
+        "path": "research/campaign_2026-10-18/priority25_execution_r4/DECISION_ADDENDUM.json",
+        "role": "existing proposed practical-effect threshold, timing caveat",
+        "sha256": "3e57dd28a0cf95a06855b442ee0357fc605dd490e9427f806c8ef31548b31a20"
+      },
+      {
+        "path": "src/wnn/training/README.md",
+        "role": "canonical modular training component map",
+        "sha256": "70995bab80868081708b134b77962ad977fc8b1aef4d67bc84075538752c7341"
+      },
+      {
+        "path": "scripts/train_propensity.py",
+        "role": "legacy propensity implementation requiring strict-FP32 adapter",
+        "sha256": "ea6bf05470b8bf8afa23b00b95eb980646f6cb7935e013326815af626013f3b7"
+      },
+      {
+        "path": "src/wnn/training/normalization.py",
+        "role": "canonical two-batch fit-only normalization",
+        "sha256": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c"
+      },
+      {
+        "path": "src/wnn/training/cli_targets.py",
+        "role": "distillation/cache controls and family loss option",
+        "sha256": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1"
+      },
+      {
+        "path": "src/wnn/training/cli_optimizer.py",
+        "role": "optimizer and schedule choices",
+        "sha256": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474"
+      },
+      {
+        "path": "src/wnn/distillation.py",
+        "role": "weighted direct-sum and equal-family-mean arithmetic",
+        "sha256": "5d68b03204b9413d2412533a7aa75ae0759276dacbbed4035b846da1d38350e2"
+      },
+      {
+        "path": "src/wnn/distillation_cache.py",
+        "role": "cache family order, source-variant semantics, identity validation",
+        "sha256": "008fd6615ac5b627273f419072933cb95dc85fcd6c30eaffd6f1fb2df53ab0eb"
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "role": "official metric implementation",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      }
+    ],
+    "note": "These candidate subtrees are unchanged from R1. R1’s former deep comparator and its CP30 framing are not inherited; this R2 envelope supplies the new matched control and primary comparison."
+  },
+  "control_arm": {
+    "arm_id": "clean_three_member_zero_final_teacher_loss",
+    "status": "proposed matched control; not implemented or admitted",
+    "same_as_candidate": [
+      "same 3 member architectures and any auxiliary family-head topology; identical parameter count, input width, feature order, initializer shape, parameter ordering and two-column inference output",
+      "same fold-specific 15-node clean propensity/teacher/cache graph, source/data/split identities, membership, normalization, model parents, checkpoint selection and all ancestor role seeds",
+      "same final member seeds, initial parameter state within each pair, normalization buffers, fit membership, batch order, epoch/batch/chunk and optimizer-update counts, optimizer, scheduler, precision, and fixed checkpoint epoch",
+      "same provider and exact software/runtime for both arms within every pair; bind route before outcomes",
+      "same fixed FP32 blend 0.34/0.33/0.33; no coefficient fitting or calibration"
+    ],
+    "shared_graph_and_initializers": {
+      "graph": "Construct one clean 15-node graph per outer fold and share its weights, caches and normalization artifacts across both arms and all that fold’s seed cells.",
+      "distilled_member": "Both arms warm-start from that fold’s same clean fbc1k_s5@fixed_epoch3 checkpoint and preprocessing.",
+      "tiedlead_members": "Both arms initialize from scratch under the same per-pair member seed and must have identical pre-update state and fit-only normalization hashes.",
+      "limitation": "fbc1k_s5 is itself distilled from clean fin256 teachers. That upstream distillation remains in both arms; R2 disables only final-member teacher losses."
+    },
+    "final_loss_settings": {
+      "modified_w18final_distilled": {
+        "candidate": {
+          "fit.distill_alpha": 0.7,
+          "fit.family_loss_weight": 1.0
+        },
+        "control": {
+          "fit.distill_alpha": 0.0,
+          "fit.family_loss_weight": 0.0
+        },
+        "architecture": "same 211-input GRU256x2 and exact same candidate auxiliary family-head module in both arms; control retains the head but its family loss contributes no gradient",
+        "initializer": "same clean fold-local fbc1k_s5@fixed_epoch3 checkpoint and preprocessing"
+      },
+      "modified_fttall_tlead_A": {
+        "candidate": {
+          "fit.distillation_alpha": 0.5,
+          "fit.family_loss_weight": 0.0
+        },
+        "control": {
+          "fit.distillation_alpha": 0.0,
+          "fit.family_loss_weight": 0.0
+        },
+        "architecture": "same reviewed 263-input tiedlead GRU256x2; no family head added",
+        "initializer": "scratch; paired seed S+10000"
+      },
+      "modified_fttall_tlead_B": {
+        "candidate": {
+          "fit.distillation_alpha": 0.5,
+          "fit.family_loss_weight": 0.0
+        },
+        "control": {
+          "fit.distillation_alpha": 0.0,
+          "fit.family_loss_weight": 0.0
+        },
+        "architecture": "same reviewed 263-input tiedlead GRU256x2; no family head added",
+        "initializer": "scratch; paired seed S+20000"
+      }
+    },
+    "zero_scaling_contract": {
+      "main": "Alpha zero must take the canonical labels-only WMSE objective exactly; do not compute 0×teacher_loss, since that can propagate NaN/Inf and obscure the control semantics.",
+      "family": "Weight zero skips family-loss contribution/gradient while preserving the exact same auxiliary head module, initialization, parameter ordering and checkpoint/export topology as the candidate distilled member.",
+      "target_cache": "Generate and validate candidate teacher/family caches once per fold with the common clean graph and row/source/hash checks. The control objective must not consume teacher values or family labels; common cache integrity checks still run.",
+      "capability_review_required_before_prereg": [
+        "Synthetic fixed-batch test: alpha=0 scalar loss and parameter gradients equal the labels-only objective from identical model state.",
+        "Synthetic test: family weight zero yields zero family-head gradient while head tensors remain present and shape-identical; no architecture pruning or changed inference output.",
+        "Pair check: candidate/control initial parameter and normalization hashes, sampler order, update count and fixed checkpoint identity agree before training.",
+        "Independent adapter review: family-head layout, zero-alpha branch, finite/row-bound cache checks, tiedlead causal semantics and export shape."
+      ],
+      "status": "pending; no implementation or tests are created by this design packet"
+    }
+  },
+  "comparison_protocol": {
+    "primary_treatment": "Candidate: distilled alpha 0.7 and family-loss weight 1.0; each tiedlead alpha 0.5. Control: alpha 0 and family-loss weight 0 for all final members. Everything else in both arms is locked to the copied candidate recipe.",
+    "only_allowed_config_differences": [
+      "modified_w18final_distilled.fit.distill_alpha: candidate 0.7 / control 0.0",
+      "modified_w18final_distilled.fit.family_loss_weight: candidate 1.0 / control 0.0",
+      "modified_fttall_tlead_A.fit.distillation_alpha: candidate 0.5 / control 0.0",
+      "modified_fttall_tlead_B.fit.distillation_alpha: candidate 0.5 / control 0.0"
+    ],
+    "interpretation": "Effect of the joint final-stage teacher-supervision bundle (main prediction targets and the distilled member’s family head) conditional on the clean shared graph and warm parent. Not every upstream distillation mechanism, not a full-pipeline comparison against labels-only cold training, and not an exact TL3 reproduction.",
+    "provider_runtime": "For each (fold, seed) pair, candidate/control must use the same provider and exact pinned software/runtime. Route is bound before outcomes. Any mismatch leaves that pair incomplete.",
+    "fixed_blend": {
+      "coefficients": {
+        "modified_w18final_distilled": 0.34,
+        "modified_fttall_tlead_A": 0.33,
+        "modified_fttall_tlead_B": 0.33
+      },
+      "operation": "FP32 0.34*p_distilled + 0.33*p_tlead_A + 0.33*p_tlead_B on identical ordered evaluation rows; no learned blend, calibration or retuning."
+    },
+    "primary_outcome": "Official global_wp_clip2_v1 for each arm’s fixed blend on that fold’s complete canonical evaluation membership.",
+    "primary_statistic": "D=(1/4)Σ_f [(1/n_f)Σ_s (score_candidate(f,s)−score_control(f,s))], n_f=(8,8,7,7); equal fold weighting.",
+    "uncertainty": {
+      "seed": "10,000 paired bootstrap draws over shared seed identities, joint across arms/folds, renormalized over each fold’s available cells; conditional on fixed graph and exposed folds.",
+      "evaluation_units": "Whole-component paired bootstrap within fold on fixed predictions, identical component multiplicities across arms; reports evaluation-unit variability conditional on fitted models, not training variability.",
+      "reporting": "Show every one of 30 pairs and all four fold means/ranges; keep seed and component intervals separate."
+    },
+    "effect_threshold": {
+      "proposed_delta": 0.001,
+      "status": "proposal only; root must freeze or replace in dated preregistration before any R2 outcome is read",
+      "provenance": "R1 labels this borrowed threshold as not prospectively frozen for the TL3 design."
+    },
+    "rank1_historical_anchor": {
+      "recipe": "research/campaign_2026-10-18/priority25_execution_r4/RANK01_RECIPE.json",
+      "role": "descriptive historical anchor only; never the primary matched control, never substitutes for an R2 pair, and never supplies a reason to retune the fixed blend"
+    }
+  },
+  "cp30_design": {
+    "paired_cells_per_arm": 30,
+    "fold_seeds": {
+      "0": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "1": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007,
+        1008
+      ],
+      "2": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ],
+      "3": [
+        1001,
+        1002,
+        1003,
+        1004,
+        1005,
+        1006,
+        1007
+      ]
+    },
+    "cells": [
+      {
+        "pair_id": "F0-S1001",
+        "fold": 0,
+        "seed": 1001,
+        "candidate_member_seeds": {
+          "distilled": 1001,
+          "tiedlead_A": 11001,
+          "tiedlead_B": 21001
+        },
+        "control_member_seeds": {
+          "distilled": 1001,
+          "tiedlead_A": 11001,
+          "tiedlead_B": 21001
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F0-S1002",
+        "fold": 0,
+        "seed": 1002,
+        "candidate_member_seeds": {
+          "distilled": 1002,
+          "tiedlead_A": 11002,
+          "tiedlead_B": 21002
+        },
+        "control_member_seeds": {
+          "distilled": 1002,
+          "tiedlead_A": 11002,
+          "tiedlead_B": 21002
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F0-S1003",
+        "fold": 0,
+        "seed": 1003,
+        "candidate_member_seeds": {
+          "distilled": 1003,
+          "tiedlead_A": 11003,
+          "tiedlead_B": 21003
+        },
+        "control_member_seeds": {
+          "distilled": 1003,
+          "tiedlead_A": 11003,
+          "tiedlead_B": 21003
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F0-S1004",
+        "fold": 0,
+        "seed": 1004,
+        "candidate_member_seeds": {
+          "distilled": 1004,
+          "tiedlead_A": 11004,
+          "tiedlead_B": 21004
+        },
+        "control_member_seeds": {
+          "distilled": 1004,
+          "tiedlead_A": 11004,
+          "tiedlead_B": 21004
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F0-S1005",
+        "fold": 0,
+        "seed": 1005,
+        "candidate_member_seeds": {
+          "distilled": 1005,
+          "tiedlead_A": 11005,
+          "tiedlead_B": 21005
+        },
+        "control_member_seeds": {
+          "distilled": 1005,
+          "tiedlead_A": 11005,
+          "tiedlead_B": 21005
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F0-S1006",
+        "fold": 0,
+        "seed": 1006,
+        "candidate_member_seeds": {
+          "distilled": 1006,
+          "tiedlead_A": 11006,
+          "tiedlead_B": 21006
+        },
+        "control_member_seeds": {
+          "distilled": 1006,
+          "tiedlead_A": 11006,
+          "tiedlead_B": 21006
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F0-S1007",
+        "fold": 0,
+        "seed": 1007,
+        "candidate_member_seeds": {
+          "distilled": 1007,
+          "tiedlead_A": 11007,
+          "tiedlead_B": 21007
+        },
+        "control_member_seeds": {
+          "distilled": 1007,
+          "tiedlead_A": 11007,
+          "tiedlead_B": 21007
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F0-S1008",
+        "fold": 0,
+        "seed": 1008,
+        "candidate_member_seeds": {
+          "distilled": 1008,
+          "tiedlead_A": 11008,
+          "tiedlead_B": 21008
+        },
+        "control_member_seeds": {
+          "distilled": 1008,
+          "tiedlead_A": 11008,
+          "tiedlead_B": 21008
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F1-S1001",
+        "fold": 1,
+        "seed": 1001,
+        "candidate_member_seeds": {
+          "distilled": 1001,
+          "tiedlead_A": 11001,
+          "tiedlead_B": 21001
+        },
+        "control_member_seeds": {
+          "distilled": 1001,
+          "tiedlead_A": 11001,
+          "tiedlead_B": 21001
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F1-S1002",
+        "fold": 1,
+        "seed": 1002,
+        "candidate_member_seeds": {
+          "distilled": 1002,
+          "tiedlead_A": 11002,
+          "tiedlead_B": 21002
+        },
+        "control_member_seeds": {
+          "distilled": 1002,
+          "tiedlead_A": 11002,
+          "tiedlead_B": 21002
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F1-S1003",
+        "fold": 1,
+        "seed": 1003,
+        "candidate_member_seeds": {
+          "distilled": 1003,
+          "tiedlead_A": 11003,
+          "tiedlead_B": 21003
+        },
+        "control_member_seeds": {
+          "distilled": 1003,
+          "tiedlead_A": 11003,
+          "tiedlead_B": 21003
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F1-S1004",
+        "fold": 1,
+        "seed": 1004,
+        "candidate_member_seeds": {
+          "distilled": 1004,
+          "tiedlead_A": 11004,
+          "tiedlead_B": 21004
+        },
+        "control_member_seeds": {
+          "distilled": 1004,
+          "tiedlead_A": 11004,
+          "tiedlead_B": 21004
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F1-S1005",
+        "fold": 1,
+        "seed": 1005,
+        "candidate_member_seeds": {
+          "distilled": 1005,
+          "tiedlead_A": 11005,
+          "tiedlead_B": 21005
+        },
+        "control_member_seeds": {
+          "distilled": 1005,
+          "tiedlead_A": 11005,
+          "tiedlead_B": 21005
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F1-S1006",
+        "fold": 1,
+        "seed": 1006,
+        "candidate_member_seeds": {
+          "distilled": 1006,
+          "tiedlead_A": 11006,
+          "tiedlead_B": 21006
+        },
+        "control_member_seeds": {
+          "distilled": 1006,
+          "tiedlead_A": 11006,
+          "tiedlead_B": 21006
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F1-S1007",
+        "fold": 1,
+        "seed": 1007,
+        "candidate_member_seeds": {
+          "distilled": 1007,
+          "tiedlead_A": 11007,
+          "tiedlead_B": 21007
+        },
+        "control_member_seeds": {
+          "distilled": 1007,
+          "tiedlead_A": 11007,
+          "tiedlead_B": 21007
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F1-S1008",
+        "fold": 1,
+        "seed": 1008,
+        "candidate_member_seeds": {
+          "distilled": 1008,
+          "tiedlead_A": 11008,
+          "tiedlead_B": 21008
+        },
+        "control_member_seeds": {
+          "distilled": 1008,
+          "tiedlead_A": 11008,
+          "tiedlead_B": 21008
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F2-S1001",
+        "fold": 2,
+        "seed": 1001,
+        "candidate_member_seeds": {
+          "distilled": 1001,
+          "tiedlead_A": 11001,
+          "tiedlead_B": 21001
+        },
+        "control_member_seeds": {
+          "distilled": 1001,
+          "tiedlead_A": 11001,
+          "tiedlead_B": 21001
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F2-S1002",
+        "fold": 2,
+        "seed": 1002,
+        "candidate_member_seeds": {
+          "distilled": 1002,
+          "tiedlead_A": 11002,
+          "tiedlead_B": 21002
+        },
+        "control_member_seeds": {
+          "distilled": 1002,
+          "tiedlead_A": 11002,
+          "tiedlead_B": 21002
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F2-S1003",
+        "fold": 2,
+        "seed": 1003,
+        "candidate_member_seeds": {
+          "distilled": 1003,
+          "tiedlead_A": 11003,
+          "tiedlead_B": 21003
+        },
+        "control_member_seeds": {
+          "distilled": 1003,
+          "tiedlead_A": 11003,
+          "tiedlead_B": 21003
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F2-S1004",
+        "fold": 2,
+        "seed": 1004,
+        "candidate_member_seeds": {
+          "distilled": 1004,
+          "tiedlead_A": 11004,
+          "tiedlead_B": 21004
+        },
+        "control_member_seeds": {
+          "distilled": 1004,
+          "tiedlead_A": 11004,
+          "tiedlead_B": 21004
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F2-S1005",
+        "fold": 2,
+        "seed": 1005,
+        "candidate_member_seeds": {
+          "distilled": 1005,
+          "tiedlead_A": 11005,
+          "tiedlead_B": 21005
+        },
+        "control_member_seeds": {
+          "distilled": 1005,
+          "tiedlead_A": 11005,
+          "tiedlead_B": 21005
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F2-S1006",
+        "fold": 2,
+        "seed": 1006,
+        "candidate_member_seeds": {
+          "distilled": 1006,
+          "tiedlead_A": 11006,
+          "tiedlead_B": 21006
+        },
+        "control_member_seeds": {
+          "distilled": 1006,
+          "tiedlead_A": 11006,
+          "tiedlead_B": 21006
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F2-S1007",
+        "fold": 2,
+        "seed": 1007,
+        "candidate_member_seeds": {
+          "distilled": 1007,
+          "tiedlead_A": 11007,
+          "tiedlead_B": 21007
+        },
+        "control_member_seeds": {
+          "distilled": 1007,
+          "tiedlead_A": 11007,
+          "tiedlead_B": 21007
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F3-S1001",
+        "fold": 3,
+        "seed": 1001,
+        "candidate_member_seeds": {
+          "distilled": 1001,
+          "tiedlead_A": 11001,
+          "tiedlead_B": 21001
+        },
+        "control_member_seeds": {
+          "distilled": 1001,
+          "tiedlead_A": 11001,
+          "tiedlead_B": 21001
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F3-S1002",
+        "fold": 3,
+        "seed": 1002,
+        "candidate_member_seeds": {
+          "distilled": 1002,
+          "tiedlead_A": 11002,
+          "tiedlead_B": 21002
+        },
+        "control_member_seeds": {
+          "distilled": 1002,
+          "tiedlead_A": 11002,
+          "tiedlead_B": 21002
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F3-S1003",
+        "fold": 3,
+        "seed": 1003,
+        "candidate_member_seeds": {
+          "distilled": 1003,
+          "tiedlead_A": 11003,
+          "tiedlead_B": 21003
+        },
+        "control_member_seeds": {
+          "distilled": 1003,
+          "tiedlead_A": 11003,
+          "tiedlead_B": 21003
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F3-S1004",
+        "fold": 3,
+        "seed": 1004,
+        "candidate_member_seeds": {
+          "distilled": 1004,
+          "tiedlead_A": 11004,
+          "tiedlead_B": 21004
+        },
+        "control_member_seeds": {
+          "distilled": 1004,
+          "tiedlead_A": 11004,
+          "tiedlead_B": 21004
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F3-S1005",
+        "fold": 3,
+        "seed": 1005,
+        "candidate_member_seeds": {
+          "distilled": 1005,
+          "tiedlead_A": 11005,
+          "tiedlead_B": 21005
+        },
+        "control_member_seeds": {
+          "distilled": 1005,
+          "tiedlead_A": 11005,
+          "tiedlead_B": 21005
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F3-S1006",
+        "fold": 3,
+        "seed": 1006,
+        "candidate_member_seeds": {
+          "distilled": 1006,
+          "tiedlead_A": 11006,
+          "tiedlead_B": 21006
+        },
+        "control_member_seeds": {
+          "distilled": 1006,
+          "tiedlead_A": 11006,
+          "tiedlead_B": 21006
+        },
+        "required": true
+      },
+      {
+        "pair_id": "F3-S1007",
+        "fold": 3,
+        "seed": 1007,
+        "candidate_member_seeds": {
+          "distilled": 1007,
+          "tiedlead_A": 11007,
+          "tiedlead_B": 21007
+        },
+        "control_member_seeds": {
+          "distilled": 1007,
+          "tiedlead_A": 11007,
+          "tiedlead_B": 21007
+        },
+        "required": true
+      }
+    ],
+    "completeness_rule": {
+      "complete": "Only all 30 valid pairs may be called complete CP30. Any missing, invalid, unresolved or provider/runtime-mismatched pair means incomplete.",
+      "partial": "Partial outcomes are descriptive only, not CP30 and not grounds to promote/reject the mechanism.",
+      "no_opportunistic_exclusions": "No post-outcome exclusions, seed replacement, fold dropping, member substitution or route substitution. Preserve failed attempts. A repair policy must be frozen before outcomes, target the same pair identity, and retain every attempt.",
+      "exposure": "Complete CP30 is still exposed-panel robustness/development evidence, not untouched confirmation.",
+      "valid_pair_requirements": [
+        "both arm outputs are finite, source-bound, and evaluated on the exact same complete ordered fold membership",
+        "candidate and control use the same bound provider/runtime for that pair",
+        "all three paired members preserve the specified seeds, initial-state and normalization hashes, planned successful-update counts, schedules, fixed checkpoint epochs, and expected output shapes",
+        "any unresolved or mismatched update/skip count, source identity, or checkpoint selection leaves the pair invalid and CP30 incomplete; preserve the failed attempt and do not exclude or replace the pair"
+      ]
+    },
+    "shared_graph_fit_count": 60,
+    "final_member_fit_count": 180,
+    "total_fit_count": 240,
+    "arithmetic": "15 shared graph nodes × 4 folds = 60 fits; 30 pairs × 2 arms × 3 final members = 180 final-member fits.",
+    "incremental_vs_R1_candidate_only": "90 additional final-member fits for the matched control; graph remains shared, not duplicated per arm.",
+    "cost_note": "No runtime/throughput estimate. Record actual wall time, successful and skipped updates, memory, and compute; rank-1 descriptive anchor is not an R2 fit."
+  },
+  "split_and_component_accounting": {
+    "fit_semantics": "train+valid = that fold’s fit.train ∪ fit.valid only; valid-only = that fold’s fit.valid only. Exclude every fold’s full evaluation membership and associated connected components from its learned propensity, normalizers, ancestors, caches, students and checkpoint selection.",
+    "folds": {
+      "F0": {
+        "manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+        "fit_train_entries": 10535,
+        "fit_valid_entries": 1405,
+        "evaluation_entries": 468,
+        "evaluation_unique_components": 141,
+        "note": "468 ordered F0 evaluation entries/row-groups map to 141 connected components; 468 is not the component count. Exclude all 468 and all 141 components from every F0 fitted ancestor, cache, normalizer and final member."
+      },
+      "F1": {
+        "manifest_sha256": "d8e9748d770bb3af525943b36b1801e6fd72d78259cc6b823d4661ffd78367d9",
+        "fit_train_entries": 10533,
+        "fit_valid_entries": 1416,
+        "evaluation_entries": 457,
+        "evaluation_unique_components": 149,
+        "evidence_status": "F1 plan’s parent-live-metadata observation; rehash/recompute exact canonical manifest before preregistration/admission."
+      },
+      "F2": {
+        "manifest_sha256": null,
+        "fit_train_entries": null,
+        "fit_valid_entries": null,
+        "evaluation_entries": null,
+        "evaluation_unique_components": null,
+        "evidence_status": "Counts not pinned in the local metadata receipts selected here. Bind exact F2 manifest, ordered memberships and group/component counts before preregistration."
+      },
+      "F3": {
+        "manifest_sha256": "21c7fb52e8e69f38126362cbc5dc60dbc46539041d649b9206ec35e0f21ada1f",
+        "fit_train_entries": 10539,
+        "fit_valid_entries": 1368,
+        "evaluation_entries": 505,
+        "evaluation_unique_components": 145,
+        "evidence_status": "Exact read-only F3 split metadata receipt; rehash/recompute before later preregistration/admission."
+      }
+    },
+    "preregistration_gate": "Bind/recompute all four canonical fold manifests, source/data hashes, ordered fit/evaluation membership and component mappings before preregistration. The listed counts are limited to cited receipts and do not replace fresh admission validation.",
+    "F0_identity": "Historical Main F0 09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d and canonical F0 c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b differ as manifest identities although ordered membership/component maps match; new R2 artifacts bind canonical identity."
+  },
+  "known_gaps": [
+    "Historical creative prop_f0 producer/source/fit and normalization provenance remains unresolved, limiting exact historical attribution. Recovery of that old artifact is not required for this modified design: fit a new clean propensity per fold and bind its actual source/code, data, split, fit membership, normalization and runtime.",
+    "Historical W18 target-cache producer, ordered row identities and preprocessing provenance remain unresolved, limiting exact TL3 attribution. This is not a gate if replacement candidate caches are regenerated from the clean per-fold graph and each new cache is source-bound to its parent checkpoints, exact ordered fit rows/components, data, preprocessing, transform and code.",
+    "Canonical tiedlead adapter is not implemented/reviewed; feature order, causal lead semantics, initialization, same-topology auxiliary family head, zero-alpha objective, checkpoint and export behavior remain capability gates.",
+    "F2 exact manifest and counts are not pinned in the cited local evidence; this blocks preregistration.",
+    "All four folds’ exact current source/data/runtime bindings, the practical effect rule and complete implementation must be frozen prospectively before any outcome."
+  ],
+  "source_evidence": [
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/TL3_CLEAN_COUNTERPART_PLAN_20261018.md",
+      "role": "incumbent recipe members, fixed weights, clean-F0 exclusions",
+      "sha256": "90d22e7a99f7fff97c5c7868d2fc458e05bde71504affc5c0fed9a883a19ab99"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/TL3_CLOSURE_NEXT_STEPS_20261018T1840Z.md",
+      "role": "bounded closure status and no-reuse stop rule",
+      "sha256": "0b00a1801abc1bd198ca402d75b96f14493e0f0810cea2c6497c1549bc81d79a"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_counterpart_preparation_r1/CONFIG_GAPS.json",
+      "role": "canonical capabilities and readiness gaps",
+      "sha256": "694d390200468540915afe0e2e6d2c149e727beb14bd4000227ef6191f3fa6c2"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_counterpart_preparation_r1/INDEPENDENT_REVIEW_V2.json",
+      "role": "readiness-map-only independent review",
+      "sha256": "eb16d3c7851deabdd6f34fc6fdf24753c04f148b0abe7dc8825e1d6b24c85f81"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/F0_MEMBERSHIP_COMPARISON.json",
+      "role": "ordered membership equality, canonical F0 identity and counts",
+      "sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json",
+      "role": "eight W18 saved-argument records; not runtime proof",
+      "sha256": "bc99a852f2307de616002d4785e4ced2f2b898d24824fe9d2357c0e457b2992d"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json",
+      "role": "fbc1k, fin256ft, orgbase and final-member saved arguments",
+      "sha256": "1dea114d0588c6d6f64df59d2db9391657ba0940c632582b476c6f2de9298f4c"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_fin256_metadata_execution_r1/TL3_FIN256_METADATA_R1.json",
+      "role": "fin256_s3/s4 saved arguments; optimizer class absent",
+      "sha256": "734c1625eb504aae8a790987216d25acbc8246fb06d0b14161a04fd4c08bf283"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/README.md",
+      "role": "tiedlead scratch-init and teacher lineage distinction",
+      "sha256": "1a43fd7634d722bdc69983b1d412058c45a52f00c928680f65db8d3963d46962"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/wnn_nn.py",
+      "role": "archived tiedlead architecture specification only",
+      "sha256": "a6e13c2aceedfd648a6cf3dcee0621f22bd0530af42b350a1d66a48267124bc5"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/README.md",
+      "role": "archived target composition procedure and limitations",
+      "sha256": "d81580dd4494b1264a66e9f21113fa55e7d25cb7dbb34f0150a868ec0bad794b"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_producer_trace_r1/README.md",
+      "role": "cache and row-provenance gaps",
+      "sha256": "4ea31be5feff851384de343672bbb12303b26180fd479663d21006ff26e84c91"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_propensity_history_trace_r1/README.md",
+      "role": "creative prop_f0 identity/provenance distinction",
+      "sha256": "a1e50d754e508fe0c52c24aa5825fb6545699f15e5243fc90d031f1ec83952d3"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/CONTROL_ASSET_MAP.json",
+      "role": "production-member exposure and archive caveats",
+      "sha256": "17b7b5fc31557b3d560ae6d8de9aedbba9cb90d9f050a5edf9c136f0c66c7c3f"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/AUTHORITY.json",
+      "role": "four-fold seed matrix, metric, pairing and exposure policy",
+      "sha256": "7ff8e20ed143d62b2c7da93eabe67cee41790a036fee62086ebbea40966c506d"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/RANK01_RECIPE.json",
+      "role": "frozen labels-only wide/deep comparison recipe",
+      "sha256": "9292b545fd088df40c4cc54066a745025ee4d30c2bf1574bdb4df341eb16937c"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/DECISION_ADDENDUM.json",
+      "role": "existing proposed practical-effect threshold, timing caveat",
+      "sha256": "3e57dd28a0cf95a06855b442ee0357fc605dd490e9427f806c8ef31548b31a20"
+    },
+    {
+      "path": "src/wnn/training/README.md",
+      "role": "canonical modular training component map",
+      "sha256": "70995bab80868081708b134b77962ad977fc8b1aef4d67bc84075538752c7341"
+    },
+    {
+      "path": "scripts/train_propensity.py",
+      "role": "legacy propensity implementation requiring strict-FP32 adapter",
+      "sha256": "ea6bf05470b8bf8afa23b00b95eb980646f6cb7935e013326815af626013f3b7"
+    },
+    {
+      "path": "src/wnn/training/normalization.py",
+      "role": "canonical two-batch fit-only normalization",
+      "sha256": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c"
+    },
+    {
+      "path": "src/wnn/training/cli_targets.py",
+      "role": "distillation/cache controls and family loss option",
+      "sha256": "d37444de7b94aba2bd146e246408b36aa5ae99e133468c38c552f190b17dcac1"
+    },
+    {
+      "path": "src/wnn/training/cli_optimizer.py",
+      "role": "optimizer and schedule choices",
+      "sha256": "3560325098112710f5d7dbeb3d555c508b91b4aa0089e13c14a1e03a54fef474"
+    },
+    {
+      "path": "src/wnn/distillation.py",
+      "role": "weighted direct-sum and equal-family-mean arithmetic",
+      "sha256": "5d68b03204b9413d2412533a7aa75ae0759276dacbbed4035b846da1d38350e2"
+    },
+    {
+      "path": "src/wnn/distillation_cache.py",
+      "role": "cache family order, source-variant semantics, identity validation",
+      "sha256": "008fd6615ac5b627273f419072933cb95dc85fcd6c30eaffd6f1fb2df53ab0eb"
+    },
+    {
+      "path": "src/wnn/gmetric.py",
+      "role": "official metric implementation",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    }
+  ],
+  "additional_evidence_pins": [
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/recipe.json",
+      "role": "candidate_recipe_R1",
+      "sha256": "4976d91e2ed41ac670af400e32626072c4df4f3d16628ade7fd30f58a4583d97"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/README.md",
+      "role": "candidate_context_R1",
+      "sha256": "9cd266566456a009f10e4b90d0e6af9c2a24f3d70013802f7488bf5b52fe6e7e"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/INDEPENDENT_REVIEW_V1.json",
+      "role": "blocking_review_R1",
+      "sha256": "da7deeb11a7432bf98d831901905e92cfa20dbb313c37556bd7ebe38aad1137a"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/export_preparation/F0_MEMBERSHIP_COMPARISON.json",
+      "role": "F0_membership_and_split_identity_comparison",
+      "sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d"
+    },
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r4/records/RESULT_ACCEPTANCE_REVIEW_V1.json",
+      "role": "F0_accepted_rowgroup_and_component_counts",
+      "sha256": "e7234591f6a9b81afbcc7cf92e42c04b3032c3c8a9f9f81706ef28ce5cb7074a"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/F1_BELERIAND_PLAN.json",
+      "role": "F1_manifest_binding_and_count_observation",
+      "sha256": "96cfb67b3447866651ae04638166f17dccb9729b3d4a9340f1b72b8d7b089f96"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/PREPARATION_BINDING.json",
+      "role": "F1_live_metadata_observation_scope",
+      "sha256": "05e21d8a12403bbe0521e230b2114d9d1a49bf1659ec1356a17d8233ee9aa181"
+    },
+    {
+      "path": "research/campaign_2026-10-18/priority25_execution_r4/f3_beleriand_preparation_r1/F3_SPLIT_METADATA_V1.json",
+      "role": "F3_exact_readonly_split_metadata",
+      "sha256": "5facd5e512dd8782009ea6630bc42a560ed3f974b513d419b7fa9f0257fc99a9"
+    }
+  ],
+  "nonclaims": [
+    "Not an exact reproduction of the public TL3 package or portal submission.",
+    "Not an isolated estimate of upstream distillation, teacher/propensity training, tiedlead architecture or optimizer; those are common to arms or held fixed.",
+    "Not a teacher-refit variance estimate: graph nodes and role seeds are shared/fixed within fold.",
+    "Not fresh confirmation: all four folds are exposed.",
+    "This design packet itself grants no implementation, training, inference, cache-generation, remote-job, admission or publication authority; separate user-authorized bounded capability preparation remains in force."
+  ],
+  "readiness_and_authority": {
+    "readiness": "DESIGN_ONLY_NOT_PREREGISTERED_NOT_RUNNABLE",
+    "authority_granted_by_this_document": {
+      "implementation": false,
+      "admission": false,
+      "execution": false
+    },
+    "existing_user_authorized_bounded_capability_preparation": "preserved; this design packet neither grants nor revokes it",
+    "next_gate": "Independent review of the exact R2 files, followed if appropriate by a separate dated full preregistration and capability review. Review does not authorize execution."
+  }
+}
