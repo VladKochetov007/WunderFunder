@@ -1,6 +1,6 @@
 # Plateau review: implementation and research plan
 
-Status: accepted; implementation in progress. Recorded 19 October 2026, Kyiv.
+Status: accepted; first-comparison code integrated, prefit checks pending. Recorded 19 October 2026, Kyiv.
 Owner: root/controller. This is the canonical continuation plan for this cycle.
 
 ## Resume here after compaction
@@ -93,6 +93,10 @@ insufficient. Apply the mask on all assembly paths and after normalization so
 disabled slots stay exactly zero. Fit shared preprocessing on the same fitting
 membership before masking. The supported first CLI scope is i1; a general
 arbitrary-group masking framework is not required for this comparison.
+
+This removes explicitly i1-derived channels. Retained i0/additional values may
+still be correlated with i1; A is a named-input ablation, not proof that the
+model has no indirect information about the other instrument.
 
 ### Causal i1 history definition to freeze in the recipe
 
@@ -215,15 +219,19 @@ invent an effect-size threshold after the score arrives.
   ADR0042, AGENTS.md, current-state and campaign navigation.
 - [x] Save the machine-readable compute contract and first F0 fitting membership.
 - [ ] Freeze exact execution recipes against completed implementation and profiles.
-- [ ] Implement a focused history component, semantic i1 mask and CLI/config,
+- [x] Implement a focused history component, semantic i1 mask and CLI/config,
   normalization, checkpoint, prediction and source-provenance integration. Reuse
   `src/wnn/training/`; do not grow `scripts/train_rnn.py` or copy a trainer.
 - [ ] Perform bounded full/chunk/streaming, prefix-invariance, zero-influence and
   checkpoint-restore checks required by the recipe; Ruff and training-structure
   checks distinguish static correctness from measured performance.
-- [ ] Prepare exact recipes, component membership, run commands and Kaggle bundle
-  using existing tooling. Quota/access are currently unverified, not zero or free
-  by assumption. Do not claim code-only stages are completed experiments.
+- [x] Prepare exact local recipes, component membership and fit/predict/score
+  commands using the existing trainer and finite-step runner; see the campaign
+  command index. Code is committed and statically reviewed, not numerically checked.
+- [ ] Prepare the sealed Kaggle bundle after actual-device and paired-budget
+  checks. The October 19 read-only snapshot found about 5.02h gross GPU quota;
+  refresh it and other-agent reservations at admission. Code-only stages are not
+  completed experiments.
 - [ ] Run admitted jobs from October 20; collect checkpoints, predictions and
   per-phase receipts; independently grade, index and update the research tree.
 - [ ] Commit/push coherent documentation, implementation and results separately.

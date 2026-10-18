@@ -3,6 +3,18 @@
 The user accepted an adaptive local/Kaggle investigation after the external
 plateau review, then requested implementation and a durable continuation record.
 
+- [Prepared recipe](recipe.json) and [finite-step command plans](recipes/README.md):
+  exact A/B/C trainer, prediction and official-scoring argv, profile commands,
+  environment, fixed ep2 outputs and measured-subset update count. They use the
+  existing trainer/sequence runner. Feature integration is complete; source
+  sealing, bounded checks and resource admission remain. No new run is claimed.
+- [Implementation manifest](IMPLEMENTATION.json) and
+  [independent code review](../../unified/reviews/PLATEAU_I1_IMPLEMENTATION_REVIEW_20261019_R1.md):
+  bind the integrated causal scans, post-normalization masks and checkpoint paths
+  to commits, changed-source hashes and passed static checks. Numerical parity,
+  restoration and resource profiling remain unmeasured.
+- [Runtime evidence index](runtime/README.md): destination for durable attempts,
+  phase reports and resource accounting; currently no admitted fit.
 - [Compute and research contract](CONTRACT.json): the user's scope, October 20
   start, strict-FP32 paired comparison, local limits, 15h accounting, provider
   boundaries and outstanding admission dependencies. This is authority for the
@@ -17,7 +29,7 @@ plateau review, then requested implementation and a durable continuation record.
   deliverables. No mandatory 30-run matrix; full fits remain allowed.
 - [Frontier](FRONTIER.md): actual progress, pending dependencies, execution
   ownership and budget accounting. Read this after compaction before starting
-  work. Implementation is underway; fits have not started.
+  work. First-comparison implementation is integrated; fits have not started.
 - [Source import manifest](SOURCES.json): original filenames, byte counts,
   SHA-256 hashes, archived destinations and body offsets for four user-supplied
   notes. All source bytes were preserved; the originals were relocated from the

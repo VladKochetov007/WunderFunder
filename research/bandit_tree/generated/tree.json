@@ -3896,6 +3896,39 @@
           "path": "research/bandit_tree/journal.jsonl",
           "sha256": "68a35b4ba8f9d5cb63ac2311399df3e73a7a5736fac33884774fa2dd51dd41aa"
         }
+      },
+      {
+        "raw_record": "{\"id\":\"TREE-20261019-PLATEAU-PLAN-AND-META-REVIEW-R1\",\"kind\":\"allocation\",\"hypothesis_ids\":[\"H-PLATEAU-I1-INCREMENTALITY-20261020-R1\",\"H-PLATEAU-I1-HISTORY-20261020-R1\",\"H-PLATEAU-I1-HISTORY-TRANSFER-20261020-R1\"],\"experiment_ids\":[\"E-PLATEAU-I1-A-20261020-R1\",\"E-PLATEAU-I1-B-20261020-R1\",\"E-PLATEAU-I1-C-20261020-R1\"],\"compute_runs_launched\":0,\"numerical_prior\":null,\"evidence_paths\":[\"specs/plans/2026-10-20-plateau-review-local-kaggle.md\",\"research/campaign_2026-10-20/plateau_review_r1/CONTRACT.json\",\"research/campaign_2026-10-20/plateau_review_r1/SOURCES.json\",\"research/unified/reviews/META_REVIEW_RECONCILIATION_20261019_R1.md\",\"research/unified/operations/PLATEAU_KAGGLE_READINESS_20261019_R1.md\"],\"decision\":\"Prepare accepted i1 A/B/C for October20 within15localGPUh+verifiedavailableKaggle. No CP30 requirement. Imported meta-review adds conditional FP32 anchoring/transfer; historical FP16 C is not a valid control, and another stream already has a six-epoch F3 wide endpoint awaiting paired grade. Preserve old stop and source notes; no fit admitted.\",\"timestamp_utc\":\"2026-10-18T22:46:16.350678+00:00\"}\n",
+        "record": {
+          "compute_runs_launched": 0,
+          "decision": "Prepare accepted i1 A/B/C for October20 within15localGPUh+verifiedavailableKaggle. No CP30 requirement. Imported meta-review adds conditional FP32 anchoring/transfer; historical FP16 C is not a valid control, and another stream already has a six-epoch F3 wide endpoint awaiting paired grade. Preserve old stop and source notes; no fit admitted.",
+          "evidence_paths": [
+            "specs/plans/2026-10-20-plateau-review-local-kaggle.md",
+            "research/campaign_2026-10-20/plateau_review_r1/CONTRACT.json",
+            "research/campaign_2026-10-20/plateau_review_r1/SOURCES.json",
+            "research/unified/reviews/META_REVIEW_RECONCILIATION_20261019_R1.md",
+            "research/unified/operations/PLATEAU_KAGGLE_READINESS_20261019_R1.md"
+          ],
+          "experiment_ids": [
+            "E-PLATEAU-I1-A-20261020-R1",
+            "E-PLATEAU-I1-B-20261020-R1",
+            "E-PLATEAU-I1-C-20261020-R1"
+          ],
+          "hypothesis_ids": [
+            "H-PLATEAU-I1-INCREMENTALITY-20261020-R1",
+            "H-PLATEAU-I1-HISTORY-20261020-R1",
+            "H-PLATEAU-I1-HISTORY-TRANSFER-20261020-R1"
+          ],
+          "id": "TREE-20261019-PLATEAU-PLAN-AND-META-REVIEW-R1",
+          "kind": "allocation",
+          "numerical_prior": null,
+          "timestamp_utc": "2026-10-18T22:46:16.350678+00:00"
+        },
+        "source": {
+          "line": 159,
+          "path": "research/bandit_tree/journal.jsonl",
+          "sha256": "72aa5caa88526a729a8b00d3ebde304b48ab4974e7e6c777b687b130b6f84f9f"
+        }
       }
     ],
     "legacy_archive": {
@@ -10014,9 +10047,9 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 970,
-      "hypotheses": 564,
-      "journal": 158
+      "experiments": 976,
+      "hypotheses": 567,
+      "journal": 159
     }
   },
   "nodes": [
@@ -47109,6 +47142,137 @@
         }
       ],
       "title": "A single causal representation learned by a source-clean teacher and transferred through a matched cache replacement may improve a standard-GRU student more reliably than output-space blending of the current R3 geometry model with TL3.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:temporal",
+        "matches": [
+          "family:temporal"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-PLATEAU-I1-INCREMENTALITY-20261020-R1",
+      "latest_recorded_status": "implementation_in_progress_no_fit",
+      "parent_id": "family:temporal",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"H-PLATEAU-I1-INCREMENTALITY-20261020-R1\",\"parent_ids\":[],\"mechanism_family\":\"source_specific_input_information\",\"statement\":\"The standard i1 raw/event block may not help a cold GRU at the first declared fidelity; mask all i1-derived channels after preprocessing to measure its incremental contribution.\",\"prediction_if_true\":\"Equal-width i0+additional arm A differs reproducibly from standard B under identical fitting and initialization.\",\"falsifier\":\"The declared complete-endpoint contrast is negligible or inconsistent at broader fidelity; do not extrapolate a small-screen result to all i1 representations.\",\"cheap_test\":\"A/B seed1001,315 fitting components,full exposed F0,367slots,H512x1,3epochs,FP32\",\"status\":\"implementation_in_progress_no_fit\",\"source\":\"specs/plans/2026-10-20-plateau-review-local-kaggle.md\",\"experiment_ids\":[\"E-PLATEAU-I1-A-20261020-R1\",\"E-PLATEAU-I1-B-20261020-R1\"],\"numerical_gain_prior\":null,\"timestamp_utc\":\"2026-10-18T22:46:16.350678+00:00\"}\n",
+          "record": {
+            "cheap_test": "A/B seed1001,315 fitting components,full exposed F0,367slots,H512x1,3epochs,FP32",
+            "experiment_ids": [
+              "E-PLATEAU-I1-A-20261020-R1",
+              "E-PLATEAU-I1-B-20261020-R1"
+            ],
+            "falsifier": "The declared complete-endpoint contrast is negligible or inconsistent at broader fidelity; do not extrapolate a small-screen result to all i1 representations.",
+            "id": "H-PLATEAU-I1-INCREMENTALITY-20261020-R1",
+            "mechanism_family": "source_specific_input_information",
+            "numerical_gain_prior": null,
+            "parent_ids": [],
+            "prediction_if_true": "Equal-width i0+additional arm A differs reproducibly from standard B under identical fitting and initialization.",
+            "source": "specs/plans/2026-10-20-plateau-review-local-kaggle.md",
+            "statement": "The standard i1 raw/event block may not help a cold GRU at the first declared fidelity; mask all i1-derived channels after preprocessing to measure its incremental contribution.",
+            "status": "implementation_in_progress_no_fit",
+            "timestamp_utc": "2026-10-18T22:46:16.350678+00:00"
+          },
+          "source": {
+            "line": 565,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "a1d7655f2c86a20cd750d56340cd88156f8c939f2c8c115ca95602db5c03a404"
+          }
+        }
+      ],
+      "title": "The standard i1 raw/event block may not help a cold GRU at the first declared fidelity; mask all i1-derived channels after preprocessing to measure its incremental contribution.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:temporal",
+        "matches": [
+          "family:temporal"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-PLATEAU-I1-HISTORY-20261020-R1",
+      "latest_recorded_status": "implementation_in_progress_no_fit",
+      "parent_id": "family:temporal",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"H-PLATEAU-I1-HISTORY-20261020-R1\",\"parent_ids\":[\"H-PLATEAU-I1-INCREMENTALITY-20261020-R1\"],\"mechanism_family\":\"causal_source_specific_history\",\"statement\":\"Explicit prior-EMA residuals and slow RMS-change channels can make i1 temporal information easier for a cold GRU to use than the standard raw/event block alone.\",\"prediction_if_true\":\"C improves over equal-width zero-history B or contributes in fixed0.9B+0.1C, with interpretable target/position behavior.\",\"falsifier\":\"Prefix/reset/mask invariants fail, or the tested representation has no useful standalone or fixed-mixture contribution under the declared comparison; this does not refute all history representations.\",\"status\":\"implementation_in_progress_no_fit\",\"source\":\"specs/plans/2026-10-20-plateau-review-local-kaggle.md\",\"experiment_ids\":[\"E-PLATEAU-I1-B-20261020-R1\",\"E-PLATEAU-I1-C-20261020-R1\"],\"numerical_gain_prior\":null,\"timestamp_utc\":\"2026-10-18T22:46:16.350678+00:00\"}\n",
+          "record": {
+            "experiment_ids": [
+              "E-PLATEAU-I1-B-20261020-R1",
+              "E-PLATEAU-I1-C-20261020-R1"
+            ],
+            "falsifier": "Prefix/reset/mask invariants fail, or the tested representation has no useful standalone or fixed-mixture contribution under the declared comparison; this does not refute all history representations.",
+            "id": "H-PLATEAU-I1-HISTORY-20261020-R1",
+            "mechanism_family": "causal_source_specific_history",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-PLATEAU-I1-INCREMENTALITY-20261020-R1"
+            ],
+            "prediction_if_true": "C improves over equal-width zero-history B or contributes in fixed0.9B+0.1C, with interpretable target/position behavior.",
+            "source": "specs/plans/2026-10-20-plateau-review-local-kaggle.md",
+            "statement": "Explicit prior-EMA residuals and slow RMS-change channels can make i1 temporal information easier for a cold GRU to use than the standard raw/event block alone.",
+            "status": "implementation_in_progress_no_fit",
+            "timestamp_utc": "2026-10-18T22:46:16.350678+00:00"
+          },
+          "source": {
+            "line": 566,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "b0241efde371ba132de9245b4ffa9e6152f915c99b5710ddd7bec15081c1c166"
+          }
+        }
+      ],
+      "title": "Explicit prior-EMA residuals and slow RMS-change channels can make i1 temporal information easier for a cold GRU to use than the standard raw/event block alone.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:teacher",
+          "family:temporal",
+          "family:objective",
+          "family:representation",
+          "family:optimization",
+          "family:ensemble"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-PLATEAU-I1-HISTORY-TRANSFER-20261020-R1",
+      "latest_recorded_status": "conditional_proposal_no_fit_no_budget_reserved",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"H-PLATEAU-I1-HISTORY-TRANSFER-20261020-R1\",\"parent_ids\":[\"H-PLATEAU-I1-HISTORY-20261020-R1\",\"H-FROZEN-PARENT-ANCHOR-20261015\"],\"mechanism_family\":\"representation_and_teacher_student_interaction\",\"statement\":\"A useful i1-history teacher may transfer information to an identical cold student beyond what retaining a parent function achieves.\",\"prediction_if_true\":\"Matched teacher-cache replacement improves the student, and a separately designed own-parent/external-target comparison distinguishes the practical transfer path.\",\"cheap_test\":\"Only after informative parent comparisons: baseline/history-teacher cache contrast in identical cold students; no automatic four-cell interaction grid.\",\"falsifier\":\"Teacher gain does not survive clean matched student transfer at the studied capacity and horizon.\",\"status\":\"conditional_proposal_no_fit_no_budget_reserved\",\"source\":\"research/unified/reviews/META_REVIEW_RECONCILIATION_20261019_R1.md\",\"numerical_gain_prior\":null,\"timestamp_utc\":\"2026-10-18T22:46:16.350678+00:00\"}\n",
+          "record": {
+            "cheap_test": "Only after informative parent comparisons: baseline/history-teacher cache contrast in identical cold students; no automatic four-cell interaction grid.",
+            "falsifier": "Teacher gain does not survive clean matched student transfer at the studied capacity and horizon.",
+            "id": "H-PLATEAU-I1-HISTORY-TRANSFER-20261020-R1",
+            "mechanism_family": "representation_and_teacher_student_interaction",
+            "numerical_gain_prior": null,
+            "parent_ids": [
+              "H-PLATEAU-I1-HISTORY-20261020-R1",
+              "H-FROZEN-PARENT-ANCHOR-20261015"
+            ],
+            "prediction_if_true": "Matched teacher-cache replacement improves the student, and a separately designed own-parent/external-target comparison distinguishes the practical transfer path.",
+            "source": "research/unified/reviews/META_REVIEW_RECONCILIATION_20261019_R1.md",
+            "statement": "A useful i1-history teacher may transfer information to an identical cold student beyond what retaining a parent function achieves.",
+            "status": "conditional_proposal_no_fit_no_budget_reserved",
+            "timestamp_utc": "2026-10-18T22:46:16.350678+00:00"
+          },
+          "source": {
+            "line": 567,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "9e4c0cac370ebf5390eb01ae2b6f023342e74fe2ccfa90e7053a5f0b0c63b604"
+          }
+        }
+      ],
+      "title": "A useful i1-history teacher may transfer information to an identical cold student beyond what retaining a parent function achieves.",
       "type": "hypothesis"
     },
     {
@@ -90921,6 +91085,201 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-PLATEAU-I1-A-20261020-R1",
+      "latest_recorded_status": "implemented_static_review_complete_prefit_checks_pending",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-PLATEAU-I1-A-20261020-R1\",\"event\":\"recipe_preparation\",\"hypothesis_ids\":[\"H-PLATEAU-I1-INCREMENTALITY-20261020-R1\",\"H-PLATEAU-I1-HISTORY-20261020-R1\"],\"status\":\"implementation_in_progress_no_fit\",\"source\":\"specs/plans/2026-10-20-plateau-review-local-kaggle.md\",\"campaign\":\"research/campaign_2026-10-20/plateau_review_r1\",\"arm\":\"A\",\"fit_admitted\":false,\"local_gpu_hours_used\":0,\"metric_id\":\"global_wp_clip2_v1\",\"evaluation_exposure\":\"F0 exposed; prospective F2 also exposed\",\"fitting_subset_manifest\":\"research/campaign_2026-10-20/plateau_review_r1/fit_f0_10pct_s1001.json\",\"quality_result\":null,\"timestamp_utc\":\"2026-10-18T22:46:16.350678+00:00\"}\n",
+          "record": {
+            "arm": "A",
+            "campaign": "research/campaign_2026-10-20/plateau_review_r1",
+            "evaluation_exposure": "F0 exposed; prospective F2 also exposed",
+            "event": "recipe_preparation",
+            "fit_admitted": false,
+            "fitting_subset_manifest": "research/campaign_2026-10-20/plateau_review_r1/fit_f0_10pct_s1001.json",
+            "hypothesis_ids": [
+              "H-PLATEAU-I1-INCREMENTALITY-20261020-R1",
+              "H-PLATEAU-I1-HISTORY-20261020-R1"
+            ],
+            "id": "E-PLATEAU-I1-A-20261020-R1",
+            "local_gpu_hours_used": 0,
+            "metric_id": "global_wp_clip2_v1",
+            "quality_result": null,
+            "source": "specs/plans/2026-10-20-plateau-review-local-kaggle.md",
+            "status": "implementation_in_progress_no_fit",
+            "timestamp_utc": "2026-10-18T22:46:16.350678+00:00"
+          },
+          "source": {
+            "line": 971,
+            "path": "research/experiments.jsonl",
+            "sha256": "00e2c8586db7e9287d49e49499f604759bbb13cebdc60e188d704f16820f67ad"
+          }
+        },
+        {
+          "raw_record": "{\"id\":\"E-PLATEAU-I1-A-20261020-R1\",\"event\":\"implementation_and_commands_prepared\",\"hypothesis_ids\":[\"H-PLATEAU-I1-INCREMENTALITY-20261020-R1\",\"H-PLATEAU-I1-HISTORY-20261020-R1\"],\"status\":\"implemented_static_review_complete_prefit_checks_pending\",\"source\":\"research/campaign_2026-10-20/plateau_review_r1/IMPLEMENTATION.json\",\"recipe\":\"research/campaign_2026-10-20/plateau_review_r1/recipes/local_a.json\",\"main_code_commit\":\"0cc795070ab4fdebb31067737927075388288ee5\",\"fit_admitted\":false,\"tests_run\":false,\"local_gpu_hours_used\":0,\"quality_result\":null,\"timestamp_utc\":\"2026-10-18T22:59:07Z\"}\n",
+          "record": {
+            "event": "implementation_and_commands_prepared",
+            "fit_admitted": false,
+            "hypothesis_ids": [
+              "H-PLATEAU-I1-INCREMENTALITY-20261020-R1",
+              "H-PLATEAU-I1-HISTORY-20261020-R1"
+            ],
+            "id": "E-PLATEAU-I1-A-20261020-R1",
+            "local_gpu_hours_used": 0,
+            "main_code_commit": "0cc795070ab4fdebb31067737927075388288ee5",
+            "quality_result": null,
+            "recipe": "research/campaign_2026-10-20/plateau_review_r1/recipes/local_a.json",
+            "source": "research/campaign_2026-10-20/plateau_review_r1/IMPLEMENTATION.json",
+            "status": "implemented_static_review_complete_prefit_checks_pending",
+            "tests_run": false,
+            "timestamp_utc": "2026-10-18T22:59:07Z"
+          },
+          "source": {
+            "line": 974,
+            "path": "research/experiments.jsonl",
+            "sha256": "b26c0779fc0dcf5077d28318e4d0b085a9e33eb32ccb04486a58b8c5670bb956"
+          }
+        }
+      ],
+      "title": "E-PLATEAU-I1-A-20261020-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-PLATEAU-I1-B-20261020-R1",
+      "latest_recorded_status": "implemented_static_review_complete_prefit_checks_pending",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-PLATEAU-I1-B-20261020-R1\",\"event\":\"recipe_preparation\",\"hypothesis_ids\":[\"H-PLATEAU-I1-INCREMENTALITY-20261020-R1\",\"H-PLATEAU-I1-HISTORY-20261020-R1\"],\"status\":\"implementation_in_progress_no_fit\",\"source\":\"specs/plans/2026-10-20-plateau-review-local-kaggle.md\",\"campaign\":\"research/campaign_2026-10-20/plateau_review_r1\",\"arm\":\"B\",\"fit_admitted\":false,\"local_gpu_hours_used\":0,\"metric_id\":\"global_wp_clip2_v1\",\"evaluation_exposure\":\"F0 exposed; prospective F2 also exposed\",\"fitting_subset_manifest\":\"research/campaign_2026-10-20/plateau_review_r1/fit_f0_10pct_s1001.json\",\"quality_result\":null,\"timestamp_utc\":\"2026-10-18T22:46:16.350678+00:00\"}\n",
+          "record": {
+            "arm": "B",
+            "campaign": "research/campaign_2026-10-20/plateau_review_r1",
+            "evaluation_exposure": "F0 exposed; prospective F2 also exposed",
+            "event": "recipe_preparation",
+            "fit_admitted": false,
+            "fitting_subset_manifest": "research/campaign_2026-10-20/plateau_review_r1/fit_f0_10pct_s1001.json",
+            "hypothesis_ids": [
+              "H-PLATEAU-I1-INCREMENTALITY-20261020-R1",
+              "H-PLATEAU-I1-HISTORY-20261020-R1"
+            ],
+            "id": "E-PLATEAU-I1-B-20261020-R1",
+            "local_gpu_hours_used": 0,
+            "metric_id": "global_wp_clip2_v1",
+            "quality_result": null,
+            "source": "specs/plans/2026-10-20-plateau-review-local-kaggle.md",
+            "status": "implementation_in_progress_no_fit",
+            "timestamp_utc": "2026-10-18T22:46:16.350678+00:00"
+          },
+          "source": {
+            "line": 972,
+            "path": "research/experiments.jsonl",
+            "sha256": "ebdd53d6ac5feccd48c605acf7e16ddc54fb66d1bb4f8fbf6239f429346fe912"
+          }
+        },
+        {
+          "raw_record": "{\"id\":\"E-PLATEAU-I1-B-20261020-R1\",\"event\":\"implementation_and_commands_prepared\",\"hypothesis_ids\":[\"H-PLATEAU-I1-INCREMENTALITY-20261020-R1\",\"H-PLATEAU-I1-HISTORY-20261020-R1\"],\"status\":\"implemented_static_review_complete_prefit_checks_pending\",\"source\":\"research/campaign_2026-10-20/plateau_review_r1/IMPLEMENTATION.json\",\"recipe\":\"research/campaign_2026-10-20/plateau_review_r1/recipes/local_b.json\",\"main_code_commit\":\"0cc795070ab4fdebb31067737927075388288ee5\",\"fit_admitted\":false,\"tests_run\":false,\"local_gpu_hours_used\":0,\"quality_result\":null,\"timestamp_utc\":\"2026-10-18T22:59:07Z\"}\n",
+          "record": {
+            "event": "implementation_and_commands_prepared",
+            "fit_admitted": false,
+            "hypothesis_ids": [
+              "H-PLATEAU-I1-INCREMENTALITY-20261020-R1",
+              "H-PLATEAU-I1-HISTORY-20261020-R1"
+            ],
+            "id": "E-PLATEAU-I1-B-20261020-R1",
+            "local_gpu_hours_used": 0,
+            "main_code_commit": "0cc795070ab4fdebb31067737927075388288ee5",
+            "quality_result": null,
+            "recipe": "research/campaign_2026-10-20/plateau_review_r1/recipes/local_b.json",
+            "source": "research/campaign_2026-10-20/plateau_review_r1/IMPLEMENTATION.json",
+            "status": "implemented_static_review_complete_prefit_checks_pending",
+            "tests_run": false,
+            "timestamp_utc": "2026-10-18T22:59:07Z"
+          },
+          "source": {
+            "line": 975,
+            "path": "research/experiments.jsonl",
+            "sha256": "036fa70053ab5913f166f2da8c50b5728b52e20afb172fe1f87ae59f9ee5f209"
+          }
+        }
+      ],
+      "title": "E-PLATEAU-I1-B-20261020-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-PLATEAU-I1-C-20261020-R1",
+      "latest_recorded_status": "implemented_static_review_complete_prefit_checks_pending",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-PLATEAU-I1-C-20261020-R1\",\"event\":\"recipe_preparation\",\"hypothesis_ids\":[\"H-PLATEAU-I1-INCREMENTALITY-20261020-R1\",\"H-PLATEAU-I1-HISTORY-20261020-R1\"],\"status\":\"implementation_in_progress_no_fit\",\"source\":\"specs/plans/2026-10-20-plateau-review-local-kaggle.md\",\"campaign\":\"research/campaign_2026-10-20/plateau_review_r1\",\"arm\":\"C\",\"fit_admitted\":false,\"local_gpu_hours_used\":0,\"metric_id\":\"global_wp_clip2_v1\",\"evaluation_exposure\":\"F0 exposed; prospective F2 also exposed\",\"fitting_subset_manifest\":\"research/campaign_2026-10-20/plateau_review_r1/fit_f0_10pct_s1001.json\",\"quality_result\":null,\"timestamp_utc\":\"2026-10-18T22:46:16.350678+00:00\"}\n",
+          "record": {
+            "arm": "C",
+            "campaign": "research/campaign_2026-10-20/plateau_review_r1",
+            "evaluation_exposure": "F0 exposed; prospective F2 also exposed",
+            "event": "recipe_preparation",
+            "fit_admitted": false,
+            "fitting_subset_manifest": "research/campaign_2026-10-20/plateau_review_r1/fit_f0_10pct_s1001.json",
+            "hypothesis_ids": [
+              "H-PLATEAU-I1-INCREMENTALITY-20261020-R1",
+              "H-PLATEAU-I1-HISTORY-20261020-R1"
+            ],
+            "id": "E-PLATEAU-I1-C-20261020-R1",
+            "local_gpu_hours_used": 0,
+            "metric_id": "global_wp_clip2_v1",
+            "quality_result": null,
+            "source": "specs/plans/2026-10-20-plateau-review-local-kaggle.md",
+            "status": "implementation_in_progress_no_fit",
+            "timestamp_utc": "2026-10-18T22:46:16.350678+00:00"
+          },
+          "source": {
+            "line": 973,
+            "path": "research/experiments.jsonl",
+            "sha256": "7961ce434c427a3c462d7ecb03a9cf66a86a2765a26f72cfac4495ad10867d74"
+          }
+        },
+        {
+          "raw_record": "{\"id\":\"E-PLATEAU-I1-C-20261020-R1\",\"event\":\"implementation_and_commands_prepared\",\"hypothesis_ids\":[\"H-PLATEAU-I1-INCREMENTALITY-20261020-R1\",\"H-PLATEAU-I1-HISTORY-20261020-R1\"],\"status\":\"implemented_static_review_complete_prefit_checks_pending\",\"source\":\"research/campaign_2026-10-20/plateau_review_r1/IMPLEMENTATION.json\",\"recipe\":\"research/campaign_2026-10-20/plateau_review_r1/recipes/local_c.json\",\"main_code_commit\":\"0cc795070ab4fdebb31067737927075388288ee5\",\"fit_admitted\":false,\"tests_run\":false,\"local_gpu_hours_used\":0,\"quality_result\":null,\"timestamp_utc\":\"2026-10-18T22:59:07Z\"}\n",
+          "record": {
+            "event": "implementation_and_commands_prepared",
+            "fit_admitted": false,
+            "hypothesis_ids": [
+              "H-PLATEAU-I1-INCREMENTALITY-20261020-R1",
+              "H-PLATEAU-I1-HISTORY-20261020-R1"
+            ],
+            "id": "E-PLATEAU-I1-C-20261020-R1",
+            "local_gpu_hours_used": 0,
+            "main_code_commit": "0cc795070ab4fdebb31067737927075388288ee5",
+            "quality_result": null,
+            "recipe": "research/campaign_2026-10-20/plateau_review_r1/recipes/local_c.json",
+            "source": "research/campaign_2026-10-20/plateau_review_r1/IMPLEMENTATION.json",
+            "status": "implemented_static_review_complete_prefit_checks_pending",
+            "tests_run": false,
+            "timestamp_utc": "2026-10-18T22:59:07Z"
+          },
+          "source": {
+            "line": 976,
+            "path": "research/experiments.jsonl",
+            "sha256": "1663c4de235e77c3bf250128ad6b6a56759d7b991d4222f08b087d28a1e535d5"
+          }
+        }
+      ],
+      "title": "E-PLATEAU-I1-C-20261020-R1",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -94516,6 +94875,39 @@
       },
       "source_id": "hypothesis:H-SUBMISSION-TEACHER-STUDENT-INTEGRATION-20261018-R1",
       "target_id": "hypothesis:H-KALMAN-INNOVATION-GAIN-GRU-20261018-R1"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 566,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "b0241efde371ba132de9245b4ffa9e6152f915c99b5710ddd7bec15081c1c166"
+      },
+      "source_id": "hypothesis:H-PLATEAU-I1-HISTORY-20261020-R1",
+      "target_id": "hypothesis:H-PLATEAU-I1-INCREMENTALITY-20261020-R1"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 567,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "9e4c0cac370ebf5390eb01ae2b6f023342e74fe2ccfa90e7053a5f0b0c63b604"
+      },
+      "source_id": "hypothesis:H-PLATEAU-I1-HISTORY-TRANSFER-20261020-R1",
+      "target_id": "hypothesis:H-PLATEAU-I1-HISTORY-20261020-R1"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 567,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "9e4c0cac370ebf5390eb01ae2b6f023342e74fe2ccfa90e7053a5f0b0c63b604"
+      },
+      "source_id": "hypothesis:H-PLATEAU-I1-HISTORY-TRANSFER-20261020-R1",
+      "target_id": "hypothesis:H-FROZEN-PARENT-ANCHOR-20261015"
     },
     {
       "relation": "ledger_hypothesis_reference",

@@ -16,6 +16,12 @@ The first comparison is cold, equal-width i0-only / standard / causal i1-history
 GRUs on matched components. The imported review's larger grids are deferred.
 All existing folds are exposed. Code/recipe preparation is not a scientific result.
 
+The first-comparison implementation is integrated on main as `0cc795070`: causal
+i1 histories, post-normalization semantic masks and checkpoint/prediction support.
+Ruff and training-structure checks pass, with an independent static review. Exact
+commands and fixed fitting membership are prepared; numerical checks, source seal,
+actual-shape profiles and execution remain pending. See the campaign frontier.
+
 This scoped authority succeeds the October 18 stop for this cycle. Keep its
 receipts and unrelated campaign restrictions intact. Read the new spec before
 interpreting the dated snapshots below as active instructions.

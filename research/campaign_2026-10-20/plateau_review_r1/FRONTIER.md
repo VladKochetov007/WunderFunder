@@ -6,18 +6,24 @@ Updated: 19 October 2026, Europe/Kyiv. Owner: root/controller.
 
 Read the [accepted spec](../../../specs/plans/2026-10-20-plateau-review-local-kaggle.md)
 and latest [project state](../../../specs/current-state.md), then inspect live
-workers and Git status. Continue implementation without reopening the plan.
+workers and Git status. Continue the first unfinished gate without reopening the plan.
 Record changes and receipts here before context compaction or handoff.
 
 ## Actual stage
 
 - Accepted plan saved and linked; no new fits or scientific scores.
-- Baseline source: main `9defbcbc0f2a6f1b35941dc657496993b48889c6`.
+- Baseline source: main `9defbcbc0f2a6f1b35941dc657496993b48889c6`. Plan/source audit
+  pushed in `372af11fe`; first-comparison code integrated in `0cc795070`.
 - Four user files, including `new-meta-review.txt`, are archived verbatim;
   [SOURCES.json](SOURCES.json) binds original bytes and archived destinations.
 - First A/B/C comparison: cold H512×1, seed 1001, 10% complete fitting
   components, full exposed F0, 367 equal-width inputs. History/mask implementation
-  and exact run recipes are pending.
+  is integrated with prediction/checkpoint/provenance paths. Ruff and structure
+  checks pass; independent static review found no concrete first-route blocker.
+  See [implementation record](IMPLEMENTATION.json) and linked review.
+- [Prepared recipes](recipes/README.md) contain exact fit/predict/score and profile
+  argv. Independent command-source review found no flag/path mismatch; numerical checks, complete source seal,
+  actual-shape profiles and admission remain unfinished. No test or GPU job ran.
 - Kaggle read-only audit found about 5.02h gross GPU quota remaining, zero provider
   reservations and no active kernels in the recent set. Refresh on admission;
   device availability and other-agent planned reservations remain distinct.
@@ -37,20 +43,20 @@ source freeze, integration and evidence handoff.
 
 | Role | Owner and scope | Current state |
 |---|---|---|
-| Implementation | `plateau_i1_inputs_actor`, Luna/max; code only, no fits | Isolated worktree `/home/vlad/development/wunder/research_tmp/plateau_i1_inputs_20261019`, branch `refactor/plateau-i1-inputs-20261019`; focused history/mask and checkpoint integration in progress |
+| Implementation | `plateau_i1_inputs_actor`, Luna/max; code only, no fits | Complete, actor commit `3c1936161`, integrated unchanged on main as `0cc795070`; isolated source worktree retained |
 | Provider readiness | `plateau_kaggle_readiness`, Luna/max; read-only metadata, no uploads | Complete; indexed snapshot records ~5.02h gross remaining quota |
-| Source critic | `review_direction_audit`, Luna/max; read-only claims/ancestry audit | Complete; FP16-control and newer-F3 corrections recorded in meta-review reconciliation |
+| Source/code critic | `review_direction_audit`, Luna/max; read-only source/ancestry review | Meta-review, implementation and command-source audits complete; no numerical execution |
 
 The implementation actor may not approve its own scientific result or change
 the recipe/budget. Root owns integration and later resource admission.
 
 ## Next actions
 
-1. Publish the saved plan, source archives, scoped authority and source audit.
-2. Implement history/masking in semantic components and review restoration and
-   all feature-assembly paths.
-3. Prepare matched recipes and actual-shape profile commands. Before execution,
-   refresh resource controls and Kaggle access/quota without touching other agents' kernels.
+1. Read the saved implementation/command reviews and confirm the same source.
+2. Complete bounded numerical, masking, causal-prefix and checkpoint restoration
+   checks before fitting; source review alone cannot establish those properties.
+3. Freeze the accepted source/environment, refresh resource controls and Kaggle
+   quota/ownership, profile actual shapes and reserve complete paired execution.
 4. On October 20, admit bounded local A/B/C and a paired Kaggle F2 cohort only
    after their source/data/resource dependencies are satisfied.
 
