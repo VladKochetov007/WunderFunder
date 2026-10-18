@@ -1,0 +1,16 @@
+{
+  "schema": "wunder.immutable_patch_whitespace_exception.v1",
+  "recorded_utc": "2026-10-18T19:45:54.649455+00:00",
+  "code_commit": "6e839fe6b9be84ebc65b6fafd4a4234725549e85",
+  "whole_change_check": "git diff --cached --check reported trailing spaces on blank context lines inside the archived V1 Git patch; commit was made before recording this exception.",
+  "immutable_archive": "research/experiment_drafts/tl3-clean-propensity-20261018/revisions/v1/tracked-source.patch",
+  "archive_sha256": "a5185826b3bd4baa489055c7400f32784f150750f0daa4e11bdd4e010e6a5ca8",
+  "reason_preserved": "Unified-diff context lines carry a leading context marker even for empty lines. Rewriting them would alter the byte-bound historical patch. Exact original source snapshots are also preserved.",
+  "working_source_check": {
+    "command": "git diff HEAD^ HEAD --check -- . :(exclude)research/experiment_drafts/tl3-clean-propensity-20261018/revisions/v1/tracked-source.patch",
+    "exit_code": 0,
+    "output": ""
+  },
+  "source_code_or_tests_changed": false,
+  "runtime_or_fit_affected": false
+}
