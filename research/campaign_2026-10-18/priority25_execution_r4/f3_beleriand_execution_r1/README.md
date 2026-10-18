@@ -1,5 +1,7 @@
 # F3 / seed 1001 execution
 
+[Routine 17:45 UTC observation](HEARTBEAT_ACCEPTANCE_20261018T1745Z.json) confirms the existing wide stage1 at epoch 0, batch 1140/1488, loss 0.9755 and LR 9.84e-5. Worker/sequence heartbeats are under 20 seconds old; the sole campaign GPU process uses 1428 MiB. Parent RAM is 4.12 GB, with zero new memory events relative to 17:27. Training remains unchanged; no checkpoint or score acceptance is inferred from this progress log.
+
 [Post-support17:27UTC observation](POST_SUPPORT_ACCEPTANCE_20261018T1730Z.json) confirms wide epoch0 batch460/1488, loss1.5942/LR1e-4, fresh heartbeats, one campaign GPU process1426MiB and zero new worker/parent memory events. Parent RAM4.11GB. The bounded fin256 metadata support completed and was stopped; training was preserved.
 
 [Routine 17:18 UTC observation](HEARTBEAT_ACCEPTANCE_20261018T1715Z.json) records wide epoch0 batch240/1488, finite loss/LR, fresh heartbeats, sole campaign GPU process and zero new memory events against the 17:10 baseline. Parent RAM4.11GB; no new job or checkpoint action was needed.

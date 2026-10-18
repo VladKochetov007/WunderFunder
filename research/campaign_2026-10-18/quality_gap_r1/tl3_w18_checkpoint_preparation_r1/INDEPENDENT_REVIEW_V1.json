@@ -1,0 +1,209 @@
+{
+  "bindings": {
+    "input_template": {
+      "bytes": 4547,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_preparation_r1/INPUT_MANIFEST_TEMPLATE_R1.json",
+      "sha256": "615ee43acb0afecd96a95f0ed1393e982c69210a564bf715a22c8fd1eb1136d4"
+    },
+    "preparation_manifest_sha256": "928f9771f099bda8c9c836765043ef2ebcc2e0e53696bcc17307558f095f9e43",
+    "preparation_readme": {
+      "bytes": 4543,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_preparation_r1/README.md",
+      "sha256": "c9f62871640ca3ea41d1cc9d1dd34ef09e894a4a7f525f172c6bc39e611987ec"
+    },
+    "prior_checkpoint_metadata_admission": {
+      "bytes": 3389,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_ADMISSION_V1.json",
+      "sha256": "2dca29fdabea473403953f6402b00349aa546cfce8d10220d57d5a8742cbefb3"
+    },
+    "prior_checkpoint_metadata_inputs": {
+      "bytes": 3117,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_INPUTS_R1.json",
+      "sha256": "933faa52a181d530fdc114434c6de7b7d43682743fb46eb93a0661dbfb3a1294"
+    },
+    "prior_checkpoint_metadata_result": {
+      "bytes": 52862,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json",
+      "sha256": "1dea114d0588c6d6f64df59d2db9391657ba0940c632582b476c6f2de9298f4c"
+    },
+    "w18_history_manifest": {
+      "bytes": 4606,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/PREPARATION_MANIFEST_R1.json",
+      "sha256": "eda49d4cfadce1558e654202568085aa1df481daf8a2275b584e1319f3df5a50"
+    },
+    "w18_remote_run_evidence": {
+      "bytes": 37862,
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/REMOTE_RUN_EVIDENCE_R1.json",
+      "sha256": "08a171c8718a393b9b91b79d6c05fcf2bec6b172fe234b693f9af128daff8609"
+    }
+  },
+  "blocking_findings": [],
+  "checks": {
+    "completed_fbc1k_and_orgbase_loads_not_repeated": true,
+    "existing_checkpoint_helper_remains_exact_eight_file_allowlist": true,
+    "existing_fin256_helper_remains_exact_two_file_allowlist": true,
+    "fmu128_s3_s4_parents_remain_unresolved_and_excluded": true,
+    "future_input_hashes_and_admission_are_null": true,
+    "no_new_helper_or_launch_script_in_packet": true,
+    "no_remote_calls_or_payload_reads_during_review": true,
+    "observed_total_bytes_match": true,
+    "preparation_manifest_artifact_hashes_match": true,
+    "resource_contract_and_future_gates_are_bounded": true,
+    "six_exact_paths_and_sizes_match_sealed_w18_history": true,
+    "source_binding_hashes_match": true,
+    "template_explicitly_non_executable": true
+  },
+  "decision": "PASS_DATA_ONLY_PREPARATION__NO_EXECUTION_OR_LAUNCH_AUTHORIZED",
+  "future_launch_gate_assessment": {
+    "future_output_policy": "Create-only JSON plus raw stdout/stderr capture with byte counts and SHA-256; no checkpoint copy or tensor values. Root must separately bind actual B physical-disk TMPDIR, admission, fresh file identity/hash checks, and available resource headroom.",
+    "not_authorized_by_this_review": true,
+    "required_resource_envelope": {
+      "cpu_quota_cores": 0.5,
+      "cuda_visible_devices": "",
+      "memory_max_bytes": 1500000000,
+      "physical_tmpdir": "root must bind a fresh verified physical disk-backed path on B",
+      "runtime_max_seconds": 120,
+      "swap_max_bytes": 0
+    },
+    "restricted_load_contract": {
+      "checkpoint_payload_copy": false,
+      "cuda_initialized": false,
+      "output_policy": "create-only",
+      "per_input_identity": [
+        "fresh lstat and resolved-target record",
+        "full SHA-256 before load",
+        "stable generation check",
+        "full SHA-256 after load"
+      ],
+      "raw_capture_outputs": [
+        "new raw output JSON bytes",
+        "new stdout bytes",
+        "new stderr bytes",
+        "byte counts and SHA-256 for each"
+      ],
+      "restricted_loader": "torch.load(map_location='cpu', weights_only=True); stop without unrestricted fallback",
+      "serialized_checkpoint_content": "safe scalar/config fields and tensor key/shape/dtype metadata only; no tensor values"
+    },
+    "template_bounds": {
+      "max_file_bytes": 33554432,
+      "max_manifest_bytes": 262144,
+      "max_output_bytes": 2097152,
+      "max_total_input_bytes": 67108864,
+      "observed_total_input_bytes": 6324058
+    }
+  },
+  "helper_immutability_and_non_runnable_assessment": {
+    "checkpoint_helper": "Fixed exact eight-input allowlist; excludes all six W18 target IDs. Its prior execution receipt already contains fbc1k_s5_ep3 and orgbase_model.",
+    "execution_gate": "All six expected hashes and the root admission receipt SHA are null; a future run requires fresh root path/lstat/resolved-target/size/hash and resource/admission checks.",
+    "existing_helpers_changed": "No; their current source SHA-256 values match the preparation manifest pins.",
+    "fin256_helper": "Fixed exact two-input fin256 allowlist; cannot accept the W18 targets.",
+    "new_packet_contains_metadata_template_only": "No extractor, remote script, training command, or launch wrapper is present; the only prospective input is a JSON template."
+  },
+  "non_blocking_precision_note": "README statements that no production checkpoint was loaded refer to this preparation packet. The separately pinned prior execution receipt records completed metadata-only loads of fbc1k_s5_ep3 and orgbase_model; those two IDs are correctly excluded from this six-input template.",
+  "observed_size_sum_bytes": 6324058,
+  "prior_completed_loads_not_reused": [
+    {
+      "bytes": 3934495,
+      "id": "fbc1k_s5_ep3",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/fbc1k_s5/model_ep3.pt",
+      "sha256_after": "b86c5bbc55c490470463664d347d411a1ae6dc10903b33c9499869a620e3f709",
+      "sha256_before": "b86c5bbc55c490470463664d347d411a1ae6dc10903b33c9499869a620e3f709",
+      "status": "METADATA_ONLY_NO_WEIGHT_VALUES_EXPORTED"
+    },
+    {
+      "bytes": 1042631,
+      "id": "orgbase_model",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/orgbase/model.pt",
+      "sha256_after": "45e93b268d9aa21dc470f554c5ed6a67127369aa5ad1edd4ee9217d1baf99568",
+      "sha256_before": "45e93b268d9aa21dc470f554c5ed6a67127369aa5ad1edd4ee9217d1baf99568",
+      "status": "METADATA_ONLY_NO_WEIGHT_VALUES_EXPORTED"
+    }
+  ],
+  "review_scope": "Independent local-only review of the data-only W18 checkpoint metadata preparation packet; no remote calls or checkpoint payloads.",
+  "schema": "quality_gap.tl3_w18_checkpoint_preparation_review.v1",
+  "six_inputs": [
+    {
+      "expected_bytes": 1053479,
+      "expected_sha256": null,
+      "id": "ffull_s3_ep1",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/ffull_s3/model_ep1.pt",
+      "path_and_size_match_w18_history": true,
+      "source_type": "stat_only_historical_observation",
+      "w18_remote_is_file": true,
+      "w18_remote_observed_bytes": 1053479
+    },
+    {
+      "expected_bytes": 1053479,
+      "expected_sha256": null,
+      "id": "ffull_s4_ep1",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/ffull_s4/model_ep1.pt",
+      "path_and_size_match_w18_history": true,
+      "source_type": "stat_only_historical_observation",
+      "w18_remote_is_file": true,
+      "w18_remote_observed_bytes": 1053479
+    },
+    {
+      "expected_bytes": 1054943,
+      "expected_sha256": null,
+      "id": "frawW_s3_ep3",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s3/model_ep3.pt",
+      "path_and_size_match_w18_history": true,
+      "source_type": "stat_only_historical_observation",
+      "w18_remote_is_file": true,
+      "w18_remote_observed_bytes": 1054943
+    },
+    {
+      "expected_bytes": 1054943,
+      "expected_sha256": null,
+      "id": "frawW_s4_ep3",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s4/model_ep3.pt",
+      "path_and_size_match_w18_history": true,
+      "source_type": "stat_only_historical_observation",
+      "w18_remote_is_file": true,
+      "w18_remote_observed_bytes": 1054943
+    },
+    {
+      "expected_bytes": 1053607,
+      "expected_sha256": null,
+      "id": "frawW_s3ft_ep1",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s3ft/model_ep1.pt",
+      "path_and_size_match_w18_history": true,
+      "source_type": "stat_only_historical_observation",
+      "w18_remote_is_file": true,
+      "w18_remote_observed_bytes": 1053607
+    },
+    {
+      "expected_bytes": 1053607,
+      "expected_sha256": null,
+      "id": "frawW_s4ft_ep1",
+      "path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s4ft/model_ep1.pt",
+      "path_and_size_match_w18_history": true,
+      "source_type": "stat_only_historical_observation",
+      "w18_remote_is_file": true,
+      "w18_remote_observed_bytes": 1053607
+    }
+  ],
+  "status": "PASS_STATIC_REVIEW",
+  "unresolved_parents": [
+    {
+      "checkpoint_path": null,
+      "expected_bytes": null,
+      "expected_sha256": null,
+      "id": "fmu128_s3_ep3",
+      "run_log_parent_reference": "fmu128_s3@ep3",
+      "run_log_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/logs/ffull_s3.log",
+      "run_log_sha256": "e59375c81d90f1c5429f47b383788db7606323b350ac4b352b755309ddcfb150",
+      "status": "exact_checkpoint_path_and_size_not_observed"
+    },
+    {
+      "checkpoint_path": null,
+      "expected_bytes": null,
+      "expected_sha256": null,
+      "id": "fmu128_s4_ep3",
+      "run_log_parent_reference": "fmu128_s4@ep3",
+      "run_log_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/logs/ffull_s4.log",
+      "run_log_sha256": "a342f9e5d8f4d91c6fe33b0884815be2f83ca8bd1d029b2189f28d8664b12d4f",
+      "status": "exact_checkpoint_path_and_size_not_observed"
+    }
+  ]
+}

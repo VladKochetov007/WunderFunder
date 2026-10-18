@@ -1,0 +1,60 @@
+{
+  "artifact_pins": [
+    {
+      "bytes": 3522,
+      "path": "REMOTE_OBSERVATION_R1.json",
+      "sha256": "7457704e597cc7a16c58c8f4db469170bf6eb37b6047a41cec43c8074592cd81"
+    },
+    {
+      "bytes": 7364,
+      "path": "HISTORY_TRACE_R1.json",
+      "sha256": "bbf851c1a14deb03c46df806fdbb4e14bebd7a01ded0c8ac8c7986315449e204"
+    },
+    {
+      "bytes": 5414,
+      "path": "README.md",
+      "sha256": "a1e50d754e508fe0c52c24aa5825fb6545699f15e5243fc90d031f1ec83952d3"
+    }
+  ],
+  "blockers": [],
+  "decision": "PASS_STATIC_REVIEW_WITH_NONBLOCKING_WORDING_QUALIFICATION",
+  "limitations": [
+    "No exact command/job record, per-run source hash, history/provenance sidecar, selected epoch, normalization values or ordered membership is bound to the creative checkpoint.",
+    "No conclusion is made about actual F0 exposure or clean-F0 ancestry. The possible heldout-fold checkpoint-selection behavior is conditional only.",
+    "The exact-string negative match covers only `prop_f0` and the full model SHA in the pinned remote research index; it does not establish project-wide or historical absence."
+  ],
+  "packet": "research/campaign_2026-10-18/quality_gap_r1/tl3_propensity_history_trace_r1",
+  "preparation_manifest_sha256": "d07c042a813af86f1ee43fc8a6448e40a56a2a2acef05f0c344a77260141b036",
+  "reviewed_utc": "2026-10-18T17:55:19Z",
+  "schema": "quality_gap.tl3_propensity_history_trace_independent_review.v1",
+  "scope": {
+    "checkpoint_or_array_payloads_read_by_reviewer": false,
+    "hash_or_size_mismatches": 0,
+    "historical_git_blobs_reverified": 4,
+    "local_source_bindings_rehashed": 15,
+    "manifest_artifacts_rehashed": 3,
+    "remote_calls_by_reviewer": false,
+    "tests_rerun": false,
+    "training_or_inference_by_reviewer": false,
+    "unlisted_packet_files_before_review_receipt": 0
+  },
+  "source_binding_counts": {
+    "historical_trainer_revisions": 4,
+    "local_files": 15,
+    "remote_observed_paths": 2
+  },
+  "verified": [
+    "All three packet artifacts match their manifest byte counts and SHA-256 values; all 15 local supporting source files match their pins. Four tracked trainer revisions match their Git blob OIDs and SHA-256/byte counts. The E-031 recorded commit tree lacks scripts/train_propensity.py; that file is present at the following 9833919 commit.",
+    "The bounded remote record is limited to the creative checkout current trainer and research/experiments.jsonl, 221,243 bytes under a 500,000-byte cap. Its source/index hashes match the manifest, and it declares no checkpoint or array payload reads, training, jobs, or mutations.",
+    "The creative `prop_f0` target identity SHA 9e92\u2026 differs from the restored Main control SHA b243\u2026 and the README keeps their provenance separate.",
+    "The creative checkpoint\u2019s minimal hidden/model/n_in metadata is structurally compatible with the pinned legacy wrapper. The README and evidence do not identify that wrapper as the actual fitting source and do not apply its normalization or membership behavior to the creative artifact.",
+    "The `--heldout-fold 0` AUC-selection path is described as conditional on an unknown invocation. The negative exact-string query is scoped to one exact creative experiment index; it is not an absence proof for other ledgers, aliases, paths or records.",
+    "Normalization values, fit groups, flags, selected epoch, per-run source identity and clean-F0 status remain unresolved; `prop_f0` remains an ancestry dependency."
+  ],
+  "wording_qualification": {
+    "sealed_packet_unchanged": true,
+    "severity": "non_blocking",
+    "suggested_wording": "\u201cThe creative propensity checkpoint\u2019s producer remains unbound; its metadata is structurally compatible with the legacy trainer wrapper.\u201d",
+    "text": "The README opening says \u201clikely writer family,\u201d which adds a probability judgment beyond the per-run evidence. The supported claim is structural compatibility with a candidate legacy wrapper while the actual producer remains unbound."
+  }
+}

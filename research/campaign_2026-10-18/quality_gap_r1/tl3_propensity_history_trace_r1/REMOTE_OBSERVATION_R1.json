@@ -1,0 +1,108 @@
+{
+  "captured_utc": "2026-10-18T17:50:35Z",
+  "elapsed_seconds_observed": 0.381,
+  "files": {
+    "research/experiments.jsonl": {
+      "bytes": 216209,
+      "is_file": true,
+      "search": {
+        "matched_exact_model_sha256": false,
+        "matched_text_prop_f0": false
+      },
+      "sha256": "22385503a0a4972f776a3028265da73fac4380d70ed8cc79c4e90c14a8198357"
+    },
+    "scripts/train_propensity.py": {
+      "bytes": 5034,
+      "is_file": true,
+      "relevant_lines": [
+        {
+          "line": 44,
+          "text": "    ap.add_argument(\"--heldout-fold\", type=int, default=-1,"
+        },
+        {
+          "line": 49,
+          "text": "    torch.manual_seed(0)"
+        },
+        {
+          "line": 54,
+          "text": "    dev_a, dev_b = dev_halves(ROOT / \"datasets\" / \"valid.parquet\")"
+        },
+        {
+          "line": 55,
+          "text": "    if args.dev_all:"
+        },
+        {
+          "line": 57,
+          "text": "        dev_a, dev_b = valid_row_groups(ROOT / \"datasets\" / \"valid.parquet\")"
+        },
+        {
+          "line": 64,
+          "text": "        dev_a, dev_b = rg[f != args.heldout_fold], rg[f == args.heldout_fold]"
+        },
+        {
+          "line": 65,
+          "text": "    train = DataLoader(Sequences(\"valid\", dev_a), batch_size=16, shuffle=True, num_workers=2, prefetch_factor=1)"
+        },
+        {
+          "line": 71,
+          "text": "        model.mean.copy_(f.reshape(-1, f.shape[-1]).mean(0))"
+        },
+        {
+          "line": 72,
+          "text": "        model.std.copy_(f.reshape(-1, f.shape[-1]).std(0).clamp_min(1e-3))"
+        },
+        {
+          "line": 104,
+          "text": "            torch.save({\"model\": model.state_dict(), \"hidden\": args.hidden, \"n_in\": N_FEATURES + N_EVENT_FEATURES},"
+        }
+      ],
+      "sha256": "72fab2d0db66d513aca1e0eab6974eaa5ceb1df0c88fbcf25c842b2fa0a6d1b1"
+    }
+  },
+  "git": {
+    "head": "e8c050b1ede4c8d9838b446365581a81a94abf0a",
+    "top_level": "/home/grinchenkoeg/WunderFunder-creative",
+    "train_propensity_path_history_newest_first": [
+      {
+        "commit": "4c260c9a388e848b988f98317f89ae03bfa5986c",
+        "date": "2026-09-26 22:24:39 +0300",
+        "subject": "fix(research): keep best propensity epoch; frontier update"
+      },
+      {
+        "commit": "f9167b30d774b890c3d1b472a651f9d3cf5c33c7",
+        "date": "2026-09-26 16:39:48 +0300",
+        "subject": "feat(research): learning-dynamics branch - weight interpolation, freeze/LP-FT, baseline-as-run, i1-lead and propensity probes"
+      },
+      {
+        "commit": "9833919b3611f4d62b00c358d6991e4018c790a6",
+        "date": "2026-09-15 02:34:19 +0300",
+        "subject": "feat(research): causal scoring propensity (devB AUC 0.911); data incident"
+      }
+    ]
+  },
+  "read_bytes_cap": 500000,
+  "read_bytes_total": 221243,
+  "schema": "quality_gap.tl3_propensity_history_remote_observation.r1",
+  "scope": {
+    "checkpoint_payloads_read_or_hashed": false,
+    "paths_read": [
+      "/home/grinchenkoeg/WunderFunder-creative/scripts/train_propensity.py",
+      "/home/grinchenkoeg/WunderFunder-creative/research/experiments.jsonl"
+    ],
+    "prediction_or_propensity_arrays_read": false,
+    "remote_mutations_or_jobs": false
+  },
+  "ssh_argv": [
+    "ssh",
+    "-T",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=10",
+    "-o",
+    "ConnectionAttempts=1",
+    "beleriand",
+    "python3 -B -"
+  ],
+  "target_root": "/home/grinchenkoeg/WunderFunder-creative"
+}
