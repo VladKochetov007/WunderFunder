@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Deep F0 first-epoch verification](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F0_S1001_EP0_VERIFICATION.json) — 14,920 successful updates and an archived `next_epoch=1` continuation state pass independent CPU checks against the complete wide contract; only hidden width and layer count differ. All 138 source hashes and finite FP32 weights/optimizer state match. Epoch1 continues, with no quality grade or measured resume-parity claim. [00:51UTC continuation](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0051Z_CLOSEOUT.json) also confirms one campaign GPU process, no memory events and no new cloud job.
+
 - [DataSphere public incident and effective historical controls](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_PROVIDER_INCIDENT_20261018.json) — live official status includes DataSphere in ongoing infrastructure limitations; old CPU/GPU probes already had an uploaded script and no datasets or explicit requirements list. No equivalent paid retry. Bounded log streams timed out without messages; exact internal cause remains unknown.
 
 - [Ranked25 continuation at00:38UTC](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0038Z_CLOSEOUT.json) — healthy single-worker deep-arm progress through batch1360/1492, fresh heartbeats and no memory events. Both cloud diagnostic attempts are terminal with credentials removed; issue16 still has no observed worker claim. No new score is claimed.

@@ -17,7 +17,6 @@ os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 import torch
 
-
 SOURCE_COMMIT = "a266b036b02e8e012c6eb31072291dad618a169d"
 SOURCE_ARCHIVE_SHA256 = "288b4c9dd67b48114240bbf593901fc539de15aa709a1aa63388dccf64a4478a"
 EXPECTED_SOURCE_FILES = 138
@@ -202,7 +201,8 @@ def verify(args: argparse.Namespace) -> dict[str, object]:
     )
     wide_checkpoint_sha = sha256_file(wide_snapshot / "training_state.pt")
     require(
-        wide_checkpoint_sha == wide_collection["artifacts"]["training_state.pt"]["sha256"]
+        wide_checkpoint_sha
+        == wide_collection["artifacts"]["training_state.pt"]["sha256"]
         == wide["artifacts"]["training_state.pt"]["sha256"],
         "wide training-state bytes do not match both baseline receipts",
     )
@@ -401,7 +401,7 @@ def verify(args: argparse.Namespace) -> dict[str, object]:
                     "The deep arm adds a recurrent layer, so validation now checks complete "
                     "optimizer parameter-ID coverage instead of a wide-only count."
                 ),
-            }
+            },
         ],
         "source_files_verified": source_count,
         "split_manifest_sha256": options["split_manifest_sha256"],
