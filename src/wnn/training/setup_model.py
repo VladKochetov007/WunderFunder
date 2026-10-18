@@ -13,6 +13,7 @@ from wnn.sentinel import SentinelPreprocessor
 from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
 from wnn.splits import file_sha256
 from wnn.spread_aux import validate_spread_parent
+from wnn.training.i1_inputs import configure_i1_input_mask
 from wnn.training.inheritance import (
     can_extend_research_features,
     expand_research_feature_state,
@@ -104,6 +105,7 @@ def build_model(run: TrainingRun) -> None:
     if args.distill_family_weight > 0:
         n_out += 8
     model = environment.make_model(vars(args), n_in, base_n_out)
+    configure_i1_input_mask(model, vars(args), n_in)
     if args.distill_family_weight > 0:
         model = append_family_output_head(model)
     model = model.to(device)

@@ -4,6 +4,8 @@ import math
 
 import torch
 
+from wnn.i1_history import I1_INPUT_WIDTH
+from wnn.training.i1_inputs import validate_i1_input_configuration
 from wnn.training.inheritance import inherit_init_arguments
 from wnn.training.model_validation import apply_block_memory_defaults, block_memory_rejection
 from wnn.training.state import TrainingRun
@@ -15,6 +17,10 @@ def validate_inputs(run: TrainingRun) -> None:
     ap = run.options.ap
     args = run.options.args
     distillation_requested = run.options.distillation_requested
+    try:
+        validate_i1_input_configuration(vars(args), I1_INPUT_WIDTH)
+    except ValueError as exc:
+        ap.error(str(exc))
     if args.profile_steps:
         args.max_batches = args.profile_warmup + args.profile_steps
     if args.final_model_adaptation and (

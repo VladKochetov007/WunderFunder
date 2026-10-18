@@ -10,13 +10,15 @@ import torch
 from wnn.features import StreamingEventFeatures, event_features_torch
 from wnn.nn import RNNModel
 from wnn.research_features import (
-    MOMENT_FEATURE_MODES,
+    I1_HISTORY_MODE,
+    PRIOR_FEATURE_MODES,
     StreamingResearchFeatures,
     research_feature_control_width,
     research_features_torch,
-    validate_causal_moment_prior,
+    validate_research_feature_prior,
 )
 from wnn.resources import configure_torch
+from wnn.training.i1_inputs import configure_i1_input_mask
 
 
 def predict(checkpoint: Path, raw: np.ndarray, device: str) -> tuple[np.ndarray, dict]:
@@ -32,10 +34,11 @@ def predict(checkpoint: Path, raw: np.ndarray, device: str) -> tuple[np.ndarray,
     control = config.get("research_feature_control", "none")
     research_feature_control_width(mode, control)
     prior = payload.get("research_feature_prior")
-    if mode in MOMENT_FEATURE_MODES:
+    if mode in PRIOR_FEATURE_MODES:
         if not isinstance(prior, dict):
-            raise ValueError("causal moment checkpoint lacks its fitting-only feature prior")
-        prior = validate_causal_moment_prior(prior)
+            raise ValueError("prior-based checkpoint lacks its fitting-only feature prior")
+        prior = validate_research_feature_prior(mode, prior)
+    feature_control = "none" if mode == I1_HISTORY_MODE else control
     model = RNNModel(
         payload["n_in"],
         hidden=config["hidden"],
@@ -46,6 +49,7 @@ def predict(checkpoint: Path, raw: np.ndarray, device: str) -> tuple[np.ndarray,
         readout_width=config.get("readout_width"),
         head_layers=config.get("head_layers", 1),
     ).to(device)
+    configure_i1_input_mask(model, config, payload["n_in"])
     model.load_state_dict(payload["model"])
     model.eval()
     tensor = torch.as_tensor(raw[None], dtype=torch.float32, device=device)
@@ -53,12 +57,15 @@ def predict(checkpoint: Path, raw: np.ndarray, device: str) -> tuple[np.ndarray,
         (
             tensor,
             event_features_torch(tensor),
-            research_features_torch(tensor, mode, prior, control=control),
+            research_features_torch(tensor, mode, prior, control=feature_control),
         ),
         -1,
     )
     state = None
-    event, volume = StreamingEventFeatures(), StreamingResearchFeatures(mode, prior, control)
+    event, volume = (
+        StreamingEventFeatures(),
+        StreamingResearchFeatures(mode, prior, feature_control),
+    )
     rows = []
     with torch.no_grad():
         batch, _ = model(inputs)

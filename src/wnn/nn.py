@@ -25,8 +25,9 @@ class FixedReadoutMixture(nn.Module):
 class RNNReadout(nn.Sequential):
     """One- or two-hidden-layer readout with the legacy parameter names intact."""
 
-    def __init__(self, input_width: int, width: int, n_out: int, layers: int,
-                 activation: nn.Module) -> None:
+    def __init__(
+        self, input_width: int, width: int, n_out: int, layers: int, activation: nn.Module
+    ) -> None:
         first = nn.Linear(input_width, width)
         extra = nn.Linear(width, width) if layers == 2 else None
         output = nn.Linear(width, n_out)
@@ -66,11 +67,24 @@ class RNNModel(nn.Module):
     """Input projection -> stacked GRU -> head fed by GRU output and the projection skip."""
 
     def __init__(
-        self, n_in: int, hidden: int = 256, layers: int = 2, dropout: float = 0.0, n_out: int = 2,
-        cell: str = "gru", enc: str = "linear", tok_dim: int = 32, att_layers: int = 1, conv_k: int = 16,
-        readout_activation: str = "gelu", numeric_map: str = "none", ple_intervals: int = 8,
-        encoder_width: int | None = None, recurrent_width: int | None = None,
-        readout_width: int | None = None, head_layers: int = 1,
+        self,
+        n_in: int,
+        hidden: int = 256,
+        layers: int = 2,
+        dropout: float = 0.0,
+        n_out: int = 2,
+        cell: str = "gru",
+        enc: str = "linear",
+        tok_dim: int = 32,
+        att_layers: int = 1,
+        conv_k: int = 16,
+        readout_activation: str = "gelu",
+        numeric_map: str = "none",
+        ple_intervals: int = 8,
+        encoder_width: int | None = None,
+        recurrent_width: int | None = None,
+        readout_width: int | None = None,
+        head_layers: int = 1,
     ):
         super().__init__()
         if readout_activation not in ("gelu", "fixed_mix"):
@@ -95,7 +109,9 @@ class RNNModel(nn.Module):
         self.numeric_feature_map = (
             None if numeric_map == "none" else NumericFeatureMap(n_in, numeric_map, ple_intervals)
         )
-        input_width = n_in if self.numeric_feature_map is None else self.numeric_feature_map.output_width
+        input_width = (
+            n_in if self.numeric_feature_map is None else self.numeric_feature_map.output_width
+        )
         self.inp = nn.Linear(input_width, encoder_width)
         # Optional per-row encoders, added as residuals to the linear projection (research screening only;
         # the native engine supports enc="linear").
@@ -108,8 +124,15 @@ class RNNModel(nn.Module):
             self.groups = token_groups(n_in)
             self.tok_in = nn.ModuleList(nn.Linear(b - a, tok_dim) for a, b in self.groups)
             self.cls = nn.Parameter(torch.zeros(1, 1, tok_dim))
-            layer = nn.TransformerEncoderLayer(tok_dim, 4, 2 * tok_dim, dropout=0.0, activation="gelu",
-                                               batch_first=True, norm_first=True)
+            layer = nn.TransformerEncoderLayer(
+                tok_dim,
+                4,
+                2 * tok_dim,
+                dropout=0.0,
+                activation="gelu",
+                batch_first=True,
+                norm_first=True,
+            )
             self.att = nn.TransformerEncoder(layer, att_layers, enable_nested_tensor=False)
             self.tok_out = nn.Linear(2 * tok_dim, encoder_width)
         elif enc == "conv":
@@ -142,7 +165,10 @@ class RNNModel(nn.Module):
         if self.enc == "tokens":
             b, t, _ = xn.shape
             flat = xn.reshape(b * t, -1)
-            toks = torch.stack([lin(flat[:, a:c]) for lin, (a, c) in zip(self.tok_in, self.groups)], dim=1)
+            toks = torch.stack(
+                [lin(flat[:, a:c]) for lin, (a, c) in zip(self.tok_in, self.groups, strict=True)],
+                dim=1,
+            )
             toks = self.att(torch.cat([self.cls.expand(b * t, -1, -1), toks], dim=1))
             pooled = torch.cat([toks[:, 0], toks[:, 1:].mean(1)], dim=-1)
             u = u + self.tok_out(pooled).reshape(b, t, -1)
@@ -151,12 +177,22 @@ class RNNModel(nn.Module):
             a, g = self.enc_up(self.enc_norm(z)).chunk(2, dim=-1)
             z = z + self.enc_down(F.gelu(a) * torch.sigmoid(g))
         elif self.enc == "conv":
-            c = F.pad(z.transpose(1, 2), (self.conv_k - 1, 0))  # causal; zero left context at chunk starts
+            c = F.pad(
+                z.transpose(1, 2), (self.conv_k - 1, 0)
+            )  # causal; zero left context at chunk starts
             z = z + F.gelu(self.conv_pw(self.conv_dw(c).transpose(1, 2)))
         return z
 
+    def _normalized_inputs(self, x: torch.Tensor) -> torch.Tensor:
+        """Normalize full-width inputs, then apply an optional semantic mask."""
+        normalized = (x - self.mean) / self.std
+        indices = getattr(self, "_i1_input_mask_indices", ())
+        if indices:
+            normalized[..., list(indices)] = 0.0
+        return normalized
+
     def forward(self, x, h=None):
-        z = self.encode((x - self.mean) / self.std)
+        z = self.encode(self._normalized_inputs(x))
         o, h = self.gru(z, h)
         return self.head(torch.cat([o, z], dim=-1)), h
 
@@ -169,17 +205,19 @@ class GatedRNNModel(RNNModel):
     The sign logit is returned after the ordinary auxiliary outputs for BCE.
     """
 
-    def __init__(self, n_in: int, hidden: int = 128, layers: int = 2,
-                 dropout: float = 0.0, n_out: int = 2) -> None:
+    def __init__(
+        self, n_in: int, hidden: int = 128, layers: int = 2, dropout: float = 0.0, n_out: int = 2
+    ) -> None:
         super().__init__(n_in, hidden, layers, dropout, n_out)
         self.sign_head = nn.Sequential(
             nn.Linear(2 * hidden, hidden), nn.GELU(), nn.Linear(hidden, 1)
         )
         self.gate_mode = "soft"
 
-    def forward(self, x: torch.Tensor, h: torch.Tensor | None = None
-                ) -> tuple[torch.Tensor, torch.Tensor]:
-        z = self.encode((x - self.mean) / self.std)
+    def forward(
+        self, x: torch.Tensor, h: torch.Tensor | None = None
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        z = self.encode(self._normalized_inputs(x))
         recurrent, h = self.gru(z, h)
         features = torch.cat([recurrent, z], dim=-1)
         raw = self.head(features)
@@ -192,8 +230,7 @@ class GatedRNNModel(RNNModel):
         else:
             gate = soft_sign
         movement = gate * F.softplus(raw[..., 1:2].float())
-        pair = torch.cat([raw[..., :1].float() + movement,
-                          raw[..., :1].float() - movement], dim=-1)
+        pair = torch.cat([raw[..., :1].float() + movement, raw[..., :1].float() - movement], dim=-1)
         return torch.cat([pair, raw[..., 2:].float(), sign_logit.float()], dim=-1), h
 
 
@@ -247,7 +284,9 @@ class TCNModel(nn.Module):
     ``wnn.tcn_ref.TCNStream`` is the row-at-a-time reference of the same function.
     """
 
-    def __init__(self, n_in: int, channels: int = 128, layers: int = 12, n_out: int = 2, mix: bool = False):
+    def __init__(
+        self, n_in: int, channels: int = 128, layers: int = 12, n_out: int = 2, mix: bool = False
+    ):
         super().__init__()
         self.register_buffer("mean", torch.zeros(n_in))
         self.register_buffer("std", torch.ones(n_in))
@@ -277,7 +316,9 @@ class TwoClockModel(nn.Module):
     ``wnn.twoclock_ref.TwoClockStream`` is the row-at-a-time reference.
     """
 
-    def __init__(self, n_in: int, hidden: int = 192, layers: int = 2, event_hidden: int = 128, n_out: int = 2):
+    def __init__(
+        self, n_in: int, hidden: int = 192, layers: int = 2, event_hidden: int = 128, n_out: int = 2
+    ):
         super().__init__()
         self.register_buffer("mean", torch.zeros(n_in))
         self.register_buffer("std", torch.ones(n_in))
@@ -304,7 +345,9 @@ class TwoClockModel(nn.Module):
             h_event, seg_sum, seg_rows = state[1:]
         rows = torch.arange(t, device=x.device).expand(b, t)
         neg = torch.full_like(rows, -1)
-        last = torch.cummax(torch.where(events, rows, neg), dim=1).values  # last event at or before the row
+        last = torch.cummax(
+            torch.where(events, rows, neg), dim=1
+        ).values  # last event at or before the row
         prev = torch.cat([neg[:, :1], last[:, :-1]], dim=1)  # last event strictly before the row
         elapsed = torch.where(last >= 0, rows - last, seg_rows[:, None] + rows + 1)
         cs = torch.cumsum(o.to(acc), dim=1)
@@ -316,16 +359,22 @@ class TwoClockModel(nn.Module):
         counts = events.sum(1)
         maxc = int(counts.max())
         if maxc > 0:
-            order = torch.argsort((~events).to(torch.int8), dim=1, stable=True)[:, :maxc]  # event rows in order
+            order = torch.argsort((~events).to(torch.int8), dim=1, stable=True)[
+                :, :maxc
+            ]  # event rows in order
             p = torch.gather(prev, 1, order)
             cs_e = rows_of(cs, order)
-            seg = torch.where((p >= 0)[..., None], cs_e - rows_of(cs, p.clamp_min(0)), cs_e + seg_sum[:, None])
+            seg = torch.where(
+                (p >= 0)[..., None], cs_e - rows_of(cs, p.clamp_min(0)), cs_e + seg_sum[:, None]
+            )
             n = torch.where(p >= 0, order - p, seg_rows[:, None] + order + 1).to(acc)[..., None]
             ev_in = torch.cat([rows_of(o, order).to(acc), seg / n, torch.log1p(n)], dim=-1)
             ev_out, _ = self.gru_event(ev_in.to(h_event.dtype), h_event)
             ev_out = ev_out.to(held.dtype)
             n_upto = torch.cumsum(events.long(), 1)
-            held = torch.where((n_upto > 0)[..., None], rows_of(ev_out, (n_upto - 1).clamp_min(0)), held)
+            held = torch.where(
+                (n_upto > 0)[..., None], rows_of(ev_out, (n_upto - 1).clamp_min(0)), held
+            )
             h_last = ev_out[torch.arange(b, device=x.device), (counts - 1).clamp_min(0)]
             h_event = torch.where((counts > 0)[:, None], h_last, h_event[0])[None]
         end = last[:, -1]
@@ -404,8 +453,16 @@ class PooledCorrMemory:
         w = y.abs() * valid[..., None].double()
         k = y.shape[-1]
         w, y, p = w.reshape(-1, k), y.reshape(-1, k), p.reshape(-1, k)
-        sums = torch.stack([w.sum(0), (w * y).sum(0), (w * p).sum(0), (w * y * y).sum(0), (w * p * p).sum(0),
-                            (w * y * p).sum(0)])
+        sums = torch.stack(
+            [
+                w.sum(0),
+                (w * y).sum(0),
+                (w * p).sum(0),
+                (w * y * y).sum(0),
+                (w * p * p).sum(0),
+                (w * y * p).sum(0),
+            ]
+        )
         pooled = sums if self.memory is None else sums + self.memory
         n, sy, sp, syy, spp, syp = pooled
         n = n.clamp_min(1e-12)
@@ -428,7 +485,9 @@ def weighted_huber_loss(pred, target, valid, delta: float = 0.5):
     """Huber on clip(y) with metric weights |clip(y)|; delta in target units."""
     y = target.float().clamp(-METRIC_CLIP, METRIC_CLIP)
     w = y.abs() * valid[..., None]
-    return (w * F.huber_loss(pred.float(), y, reduction="none", delta=delta)).sum() / w.sum().clamp_min(1e-8)
+    return (
+        w * F.huber_loss(pred.float(), y, reduction="none", delta=delta)
+    ).sum() / w.sum().clamp_min(1e-8)
 
 
 class DualClockModel(nn.Module):
@@ -441,18 +500,31 @@ class DualClockModel(nn.Module):
     events see the event state from the latest event at or before them.
     """
 
-    def __init__(self, n_in: int, hidden: int = 256, layers: int = 2, event_hidden: int = 128,
-                 dropout: float = 0.0, n_out: int = 2):
+    def __init__(
+        self,
+        n_in: int,
+        hidden: int = 256,
+        layers: int = 2,
+        event_hidden: int = 128,
+        dropout: float = 0.0,
+        n_out: int = 2,
+    ):
         super().__init__()
         self.register_buffer("mean", torch.zeros(n_in))
         self.register_buffer("std", torch.ones(n_in))
         self.inp = nn.Linear(n_in, hidden)
-        self.gru = nn.GRU(hidden, hidden, num_layers=layers, batch_first=True,
-                          dropout=dropout if layers > 1 else 0.0)
+        self.gru = nn.GRU(
+            hidden,
+            hidden,
+            num_layers=layers,
+            batch_first=True,
+            dropout=dropout if layers > 1 else 0.0,
+        )
         self.event_gru = nn.GRU(hidden + 1, event_hidden, num_layers=1, batch_first=True)
         self.event_hidden = event_hidden
-        self.head = nn.Sequential(nn.Linear(2 * hidden + event_hidden, hidden), nn.GELU(),
-                                  nn.Linear(hidden, n_out))
+        self.head = nn.Sequential(
+            nn.Linear(2 * hidden + event_hidden, hidden), nn.GELU(), nn.Linear(hidden, n_out)
+        )
 
     def forward(self, x, events, state=None):
         b, t, _ = x.shape
@@ -478,10 +550,13 @@ class DualClockModel(nn.Module):
         if int(counts.max()) > 0:
             maxc = int(counts.max())
             order = torch.argsort((~events).to(torch.int8), dim=1, stable=True)[:, :maxc]
-            ev_in = torch.cat([
-                torch.gather(z, 1, order[..., None].expand(b, maxc, z.shape[-1])),
-                torch.log1p(torch.gather(gap, 1, order).to(z.dtype))[..., None],
-            ], dim=-1)
+            ev_in = torch.cat(
+                [
+                    torch.gather(z, 1, order[..., None].expand(b, maxc, z.shape[-1])),
+                    torch.log1p(torch.gather(gap, 1, order).to(z.dtype))[..., None],
+                ],
+                dim=-1,
+            )
             ev_out, _ = self.event_gru(ev_in.to(h_event.dtype), h_event[None].contiguous())
             ev_out = ev_out.to(z.dtype)
             idx = (n_upto - 1).clamp_min(0)

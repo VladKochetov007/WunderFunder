@@ -12,11 +12,19 @@ from wnn.nn import DualClockModel, GatedRNNModel, RNNModel, TCNModel, TwoClockMo
 from wnn.sentinel import SentinelInputProjection
 from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
 from wnn.structured_state import StructuredStateModel
+from wnn.training.i1_inputs import configure_i1_input_mask
 from wnn.training.model_validation import independent_width_configuration_error
 
 
 def make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Module:
-    """Make model."""
+    """Build a model and restore checkpoint-declared semantic input masks."""
+    model = _make_model(args_dict, n_in, n_out)
+    configure_i1_input_mask(model, args_dict, n_in)
+    return model
+
+
+def _make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Module:
+    """Construct the requested architecture with the historical constructor order."""
     width_error = independent_width_configuration_error(args_dict, n_in)
     if width_error is not None:
         raise ValueError(width_error)

@@ -11,6 +11,8 @@ import train_rnn
 from torch.utils.data import DataLoader
 from train_rnn import Sequences, build_inputs, forward_chunk, make_model
 
+from wnn.research_features import PRIOR_FEATURE_MODES, validate_research_feature_prior
+
 
 def main() -> None:
     """Write one logit per row, aligned to valid-target sequence order."""
@@ -35,6 +37,16 @@ def main() -> None:
     model.eval()
     train_rnn.RAW_ONLY = bool(config.get("raw_only"))
     train_rnn.ONLINE_NORM = bool(config.get("online_norm"))
+    train_rnn.RESEARCH_FEATURES = config.get("research_features", "none")
+    train_rnn.RESEARCH_FEATURE_CONTROL = config.get("research_feature_control", "none")
+    train_rnn.RESEARCH_FEATURE_PRIOR = None
+    if train_rnn.RESEARCH_FEATURES in PRIOR_FEATURE_MODES:
+        prior = checkpoint.get("research_feature_prior")
+        if not isinstance(prior, dict):
+            raise ValueError("prior-based checkpoint lacks its fitting-only feature prior")
+        train_rnn.RESEARCH_FEATURE_PRIOR = validate_research_feature_prior(
+            train_rnn.RESEARCH_FEATURES, prior
+        )
 
     groups = np.load(decide.ROOT / "cache" / "valid_targets.npz")["row_group"]
     _, fold = decide._chains()

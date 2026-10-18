@@ -48,6 +48,7 @@ from wnn.training.runner import run_training
 | [inheritance](inheritance.py) | Parent preprocessing, feature expansion and clean-fold checkpoint ancestry. |
 | [initializer](initializer.py) | Frozen teacher cloning, fingerprinting and causal target replacement. |
 | [inputs](inputs.py) | Causal input assembly and fitting-only research-feature priors. |
+| [i1_inputs](i1_inputs.py) | Fixed-width i1 mask validation and post-normalization model configuration; feature state is implemented in [i1_history](../i1_history.py), [i1_history_scan](../i1_history_scan.py) and [i1_history_streaming](../i1_history_streaming.py). |
 | [losses](losses.py) | Main and auxiliary objectives with unchanged reduction/summation order. |
 | [macro_updates](macro_updates.py) | Controlled macro losses and carried recurrent/initializer state. |
 | [membership](membership.py) | Bounded component-subset manifests and membership validation. |
