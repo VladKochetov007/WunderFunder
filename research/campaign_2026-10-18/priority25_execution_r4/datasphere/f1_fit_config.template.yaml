@@ -1,0 +1,45 @@
+name: computer-vision-homework-rank01-f1-s1001-fit
+desc: >-
+  One bounded, labels-only fold-1 seed-1001 pair using the canonical six-epoch
+  trainer. Runtime deadlines must be filled from the admitted profile; no
+  quality grading or checkpoint selection occurs in this job.
+cmd: >
+  python3 ${ENTRY} --profile-spec ${PROFILE_SPEC} --fit-spec ${FIT_SPEC}
+  --code ${CODE} --supplemental ${SUPPLEMENTAL} --out ${OUT}
+  --datasets ${DS1} ${DS2} ${DS3} ${DS4}
+env:
+  python:
+    type: manual
+    version: "3.12"
+    requirements-file: requirements.txt
+    local-paths:
+      - runtime_marker.py
+    pip:
+      extra-index-urls:
+        - https://download.pytorch.org/whl/cu130
+inputs:
+  - f1_fit_entry.py: ENTRY
+  - f1_fit_bundle.py: FIT_BUNDLE
+  - f1_fit_recipe.py: FIT_RECIPE
+  - f1_fit_staging.py: FIT_STAGING
+  - f1_fit_outputs.py: FIT_OUTPUTS
+  - profile_staging.py: PROFILE_STAGING
+  - profile_recipe.py: PROFILE_RECIPE
+  - profile-spec.json: PROFILE_SPEC
+  - f1_fit_spec.json: FIT_SPEC
+  - /Users/nb/Documents/wunder/runtime-20261018/datasphere/source-a266b036.tar.gz: CODE
+  - /Users/nb/Documents/wunder/runtime-20261018/datasphere/supplemental-inputs.tar.gz: SUPPLEMENTAL
+outputs:
+  - fit-results.tar.gz: OUT
+datasets:
+  - bt1hgmjcuue6t8sam7s4: DS1
+  - bt1cqrmc1sg7egjd8e4l: DS2
+  - bt11g4q81k8jjr9sb9lj: DS3
+  - bt1pletrdim678shtnfa: DS4
+working-storage:
+  type: SSD
+  size: 100Gb
+cloud-instance-type: g2.1
+graceful-shutdown:
+  signal: SIGTERM
+  timeout: 60s
