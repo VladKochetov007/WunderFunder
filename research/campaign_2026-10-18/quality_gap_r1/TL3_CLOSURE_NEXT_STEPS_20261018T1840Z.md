@@ -1,0 +1,21 @@
+# TL3 closure: evidence closed and next bounded step
+
+The metadata receipts close checkpoint identities and saved-configuration links, but not an exact clean-F0 reconstruction. F0 has 10,535 fit-train and 1,405 fit-valid groups, excluding 468 held-out evaluation groups. Historical and current split manifests differ by identity although ordered memberships match ([comparison](export_preparation/F0_MEMBERSHIP_COMPARISON.json), [canonical manifest](export_preparation/CANONICAL_F0_REMOTE.json)).
+
+## What the recovered metadata closes
+
+The W18 receipt hashes eight exact files before and after restricted CPU metadata reads, without exporting weights: `fmu128_s3/s4@ep3`, `ffull_s3/s4@ep1`, `frawW_s3/s4@ep3`, and `frawW_s3ft/s4ft@ep1` ([receipt](tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json)). Saved args link `ffull_s3/s4` to matching `fmu128@ep3` parents and `frawW_s3ft/s4ft` to matching rawW `@ep3`; all are 128-hidden, two-layer GRUs. These links close this part of the checkpoint/config graph, not per-run source identity or fit membership.
+
+`frawW_s3/s4@ep3` records `epochs=4`, full-valid `train+valid`, empty `init`, and raw-only propensity weighting: saved base-run configuration. Its saved `args.optimizer` is `muon` with `muon_lr_mult=6`; `fmu128_s3/s4@ep3` also says `muon`, while `ffull_s3/s4@ep1` and `frawW_s3ft/s4ft@ep1` say `adamw` ([metadata findings](tl3_w18_checkpoint_execution_r1/FINDINGS.md)). These are checkpoint argument declarations; the checkpoint does not contain the instantiated optimizer object/state, and no per-run source binding proves they were executed as recorded. Archived `final_rawW.sh` describes a separate fine-tune wrapper but is not bound to execution, so it cannot establish base-run runtime semantics ([W18 history trace](tl3_w18_history_trace_r1/README.md)). Do not infer optimizer execution from run names.
+
+Other receipts pin `fbc1k_s5@ep3`, `fin256_s3/s4@ep3`, `fin256ft_s3/s4`, `orgbase`, and creative `prop_f0`. `fttall_s5@ep3` was a tied-lead argument donor (`init=""`), not a weight ancestor; the distilled member's initializer is `fbc1k_s5@ep3` ([source closure](tl3_source_closure_r1/README.md), [checkpoint receipt](tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json), [fin256 receipt](tl3_fin256_metadata_execution_r1/TL3_FIN256_METADATA_R1.json)). None of this certifies clean membership: production args include held-out validation or `train+valid`.
+
+## What remains unresolved
+
+Creative propensity SHA-256 `9e92f26d1704f84f9170d746b372c2ba67f7fb611831865a1fc689d6b813b21c` still lacks a bound command/source, normalization, selected endpoint, and ordered fit groups. It differs from restored Main `c20260929_prop_f0`; the nearby legacy trainer is only a candidate writer ([propensity history trace](tl3_propensity_history_trace_r1/README.md)).
+
+Archived W18 source specifies direct checkpoint aliases and row-wise weighted compositions, but actual arrays lack producer-bound sidecars. Source checkpoint, feature/target inputs, preprocessing, ordered rows, and component alignment are unverified; composition code does not check row IDs. `orgbase` and the distilled teacher chain remain open ([producer trace](tl3_producer_trace_r1/README.md), [source closure](tl3_source_closure_r1/README.md)).
+
+## Next bounded action and stop rule
+
+Make one final request for the already named creative propensity run receipt and W18 cache producer outputs. Require propensity SHA→command/source/args/normalization/fit-group binding; for every direct `train`/`valid` array and composition, require producer command/source/checkpoint, data/cache identity, preprocessing, ordered-group digest and row-alignment evidence, including `orgbase`. Check against the 468-group F0 exclusion and retain hashes. Do not repeat exact-path absence checks or broaden the search. If these named records cannot close the graph, stop provenance recovery and fork a clearly named **modified clean-F0 recipe**: rebuild propensity, teachers, caches and preprocessing without those 468 groups, then retrain every affected downstream student/final member. Do not reuse production weights or any warm-start weights/ancestors exposed to F0 evaluation. Record changes; do not call it an exact public-TL3 replica.

@@ -1,0 +1,38 @@
+{
+  "schema": "priority25.f3_root_stage1_support_independent_review.v1",
+  "reviewed_utc": "2026-10-18T18:19:33.776013Z",
+  "decision": "PASS_STATIC_REVIEW_READY_FOR_ROOT_ADMISSION",
+  "support_manifest_sha256": "7e4fce0d7232a487a769e12d611050bc608f9cc7fcea300bc2063525abfa38dc",
+  "support_independent_review_sha256": "de709897397d7cd775d2aba84fb71f8f7d91504802814f5bcfc26e48e203763b",
+  "wrappers": {
+    "launch_stage1_v1.py": {
+      "bytes": 9859,
+      "sha256": "b1a123e38a0dfa98a0d5c0d49f1bb3a43779770690d47e503ce4f8b373ac60bb"
+    },
+    "capture_stage1_v1.py": {
+      "bytes": 5896,
+      "sha256": "806f3dead2a049cf0e07d4ff800970883d4b83ae6e48ab5274b2a0346b50d1b5"
+    }
+  },
+  "blockers": [],
+  "verified": [
+    "The launcher is restricted to wide/deep stage1 collector or verifier operations and gates on the selected native attempt status/exit (finished, 0), the active F3 sequence receipt, the reviewed helper-module hash set, exact plan/fold/registry/archive hashes, absent output paths, physical scratch, disk headroom, cgroup CPU/memory/swap caps, and aggregate memory reserve before writing an admission receipt and starting a bounded 120-second support unit.",
+    "The launched collector/verifier CLI arguments match the reviewed F3 checkpoint helper interfaces. Collection is create-only; verification receives the exact B fold3 path, canonical source root, registry and archive manifests. The independent helper checks the attempt command/provenance, checkpoint inventory, counters and membership before producing accepted artifacts.",
+    "Stage1 semantics match the plan: checkpoint boundary at epoch 1, next_epoch 2, 29,760 completed optimizer updates, while retaining the six-epoch one-cycle schedule with total_steps 89,280. The support helper checks structural state, not training quality or measured continuation parity.",
+    "The capture wrapper first reads terminal unit properties, journal and the three expected raw JSON files; verifies raw byte lengths, SHA-256 and JSON validity; preserves exact raw files create-only; writes a separate execution capture; then stops only the exact support unit after confirming it is exited/failed. It handles failed terminal support by recording evidence and stopping the owned unit before returning a failed acceptance status.",
+    "The root wrapper’s required wrapper and review SHA arguments are recorded in the admission receipt; review approval is static only. Root’s external staging/admission must bind the exact wrapper bytes, support manifest/review and helper pins before executing these scripts."
+  ],
+  "limitations": [
+    "This is a static review. No remote calls, staging, support operation, training, checkpoint deserialization, or tests were run by the reviewer.",
+    "The checkpoint verifier requires the fresh exact B fold3 manifest for positive membership replay; the prior local fixture is derived from F1 and does not demonstrate an actual F3 checkpoint or receipt.",
+    "Root must independently provide the fresh helper hash pins and externally verify the exact wrapper/review bytes. The wrapper records supplied wrapper/review hashes but does not introspect its own stdin source; this is expected to be enforced by the root staging/admission path.",
+    "The native attempt command/provenance is checked by the collector/verifier helper; the launcher itself uses the exact per-arm attempt path and requires only successful terminal status before starting the bounded helper. An invalid producer receipt should therefore fail the helper gate rather than be accepted."
+  ],
+  "scope": {
+    "static_review_only": true,
+    "remote_execution": false,
+    "tests_rerun": false,
+    "checkpoint_or_array_payloads_read": false,
+    "source_files_reviewed": 2
+  }
+}

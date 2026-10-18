@@ -1,0 +1,132 @@
+{
+  "schema": "quality_gap.tl3_closure_next_steps_independent_review.v1",
+  "reviewed_utc": "2026-10-18T18:41:34Z",
+  "decision": "PASS_EVIDENCE_CALIBRATION_AND_SCOPE",
+  "memo": {
+    "path": "research/campaign_2026-10-18/quality_gap_r1/TL3_CLOSURE_NEXT_STEPS_20261018T1840Z.md",
+    "bytes": 4279,
+    "sha256": "0b00a1801abc1bd198ca402d75b96f14493e0f0810cea2c6497c1549bc81d79a"
+  },
+  "blockers": [],
+  "evidence_sources": [
+    {
+      "path": "export_preparation/F0_MEMBERSHIP_COMPARISON.json",
+      "bytes": 6516,
+      "sha256": "6a32f26b2ecd2ea082d2bc6f979ae62533e3360b9cf6169c777fa2f1ce886c5d"
+    },
+    {
+      "path": "export_preparation/CANONICAL_F0_REMOTE.json",
+      "bytes": 1388846,
+      "sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+    },
+    {
+      "path": "tl3_w18_checkpoint_execution_r1/TL3_W18_CHECKPOINT_METADATA_R1.json",
+      "bytes": 58142,
+      "sha256": "bc99a852f2307de616002d4785e4ced2f2b898d24824fe9d2357c0e457b2992d"
+    },
+    {
+      "path": "tl3_w18_checkpoint_execution_r1/RESULT_ACCEPTANCE_REVIEW_V1.json",
+      "bytes": 20886,
+      "sha256": "146532f0d1c821a1745f8d4c6f15573b2bb1572fca72b52da01fe7eb6d7e55ba"
+    },
+    {
+      "path": "tl3_w18_checkpoint_execution_r1/FINDINGS.md",
+      "bytes": 3477,
+      "sha256": "56196fd767123f79cfcd0815b087eae6523c1acf566446a48c63e0518659b555"
+    },
+    {
+      "path": "tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json",
+      "bytes": 52862,
+      "sha256": "1dea114d0588c6d6f64df59d2db9391657ba0940c632582b476c6f2de9298f4c"
+    },
+    {
+      "path": "tl3_checkpoint_metadata_execution_r1/RESULT_ACCEPTANCE_V1.json",
+      "bytes": 5766,
+      "sha256": "1dc49404afa00229027f03eeb20b0707b61ceedec3cb8d50a2533bd33813b4cf"
+    },
+    {
+      "path": "tl3_fin256_metadata_execution_r1/TL3_FIN256_METADATA_R1.json",
+      "bytes": 12714,
+      "sha256": "734c1625eb504aae8a790987216d25acbc8246fb06d0b14161a04fd4c08bf283"
+    },
+    {
+      "path": "tl3_fin256_metadata_execution_r1/RESULT_ACCEPTANCE_REVIEW_V1.json",
+      "bytes": 6256,
+      "sha256": "4a7968eb02aa3b94dcb3f7e53ab4bec1cfb7583ec2a1ac93a8d6d28eef9a24d6"
+    },
+    {
+      "path": "tl3_source_closure_r1/SOURCE_CLOSURE.json",
+      "bytes": 14257,
+      "sha256": "40b97f2e13d2ad3a832ce74967585c416ddd242a37f1608cb03de367e9c2069e"
+    },
+    {
+      "path": "tl3_source_closure_r1/INDEPENDENT_REVIEW.json",
+      "bytes": 4515,
+      "sha256": "c5266a16aea6b25602132a1f934eeeef16dabcd94c80f53eca154865a88d829e"
+    },
+    {
+      "path": "tl3_propensity_history_trace_r1/HISTORY_TRACE_R1.json",
+      "bytes": 7364,
+      "sha256": "bbf851c1a14deb03c46df806fdbb4e14bebd7a01ded0c8ac8c7986315449e204"
+    },
+    {
+      "path": "tl3_propensity_history_trace_r1/INDEPENDENT_REVIEW_V1.json",
+      "bytes": 4036,
+      "sha256": "36d7b6331aed39de8598e511087a1f86065f68a31f0031be3bb9e9fd7a542412"
+    },
+    {
+      "path": "tl3_w18_history_trace_r1/INDEPENDENT_REVIEW_V1.json",
+      "bytes": 9269,
+      "sha256": "89c917244c33f64ba70574d37774c91f3e63d8fa7ae54d657b25104ef8ad90ba"
+    },
+    {
+      "path": "tl3_w18_history_trace_r1/REMOTE_RUN_EVIDENCE_R1.json",
+      "bytes": 37862,
+      "sha256": "08a171c8718a393b9b91b79d6c05fcf2bec6b172fe234b693f9af128daff8609"
+    },
+    {
+      "path": "tl3_w18_history_trace_r1/GIT_SOURCE_BINDINGS_R1.json",
+      "bytes": 10884,
+      "sha256": "f7405e75b1daefbc3905e5c360f68a1beb96d5c2f1a2542afef99d7730886789"
+    },
+    {
+      "path": "tl3_producer_trace_r1/README.md",
+      "bytes": 8112,
+      "sha256": "4ea31be5feff851384de343672bbb12303b26180fd479663d21006ff26e84c91"
+    }
+  ],
+  "evidence_assessment": {
+    "f0_membership": "The pinned comparison supports ordered equality between historical and canonical fit/evaluation/exclusion lists and component mapping: 10,535 fit-train, 1,405 fit-valid, and 468 held-out evaluation groups. The manifests remain different identities; the comparison records the chain_folds cache content/hash difference. The memo preserves this distinction.",
+    "checkpoint_metadata": "The W18 metadata extraction and acceptance review bind eight checkpoint byte identities and before/after hashes, and expose saved argument/configuration metadata only. The separate creative checkpoint and fin256 receipts support the listed endpoint/configuration links. These records do not prove per-run source identity or realized fit membership.",
+    "optimizer_calibration": "The memo's corrected wording accurately reports saved args.optimizer declarations (muon for fmu128/frawW bases and adamw for ffull/frawW fine-tune records; muon_lr_mult=6 for the bases) while stating that no instantiated optimizer object/state or per-run source binding establishes runtime execution. Do not treat these saved arguments as update-history evidence.",
+    "propensity": "The creative prop_f0 identity is pinned to SHA-256 9e92f26d1704f84f9170d746b372c2ba67f7fb611831865a1fc689d6b813b21c and differs from the restored Main c20260929_prop_f0. The nearby legacy source is structurally compatible, but no exact creative run command/source, normalization, selected endpoint, or fit-group record binds it to that checkpoint.",
+    "w18_history": "The archived source supports the memo's description of direct aliases and positional row-wise compositions. The history probe does not verify actual array bytes, checkpoint-to-cache producer binding, ordered row identity, preprocessing, or cross-component alignment; orgbase and teacher ancestry remain open.",
+    "next_step": "The corrected stop rule requires one bounded final request for already named receipts/producer outputs, a check against the 468-group exclusion, then stopping provenance recovery if closure fails. The fallback now explicitly rebuilds learned inputs and preprocessing, retrains affected downstream student/final members, and prohibits reusing production or F0-exposed warm-start weights/ancestors. It is clearly labeled a modified recipe, not an exact public-TL3 replica."
+  },
+  "calibration_and_scope": {
+    "high_confidence": [
+      "Exact membership counts/order comparison and manifest-identity distinction, as recorded in the pinned metadata comparison.",
+      "Checkpoint identities and saved configuration fields as recorded by accepted metadata-only extractions.",
+      "Archived source semantics and bounded history observations as source/history evidence."
+    ],
+    "unresolved": [
+      "Realized historical fit membership and clean-F0 ancestry for production members and all direct/transitive learned ancestors.",
+      "Runtime optimizer class/state/update completion and exact per-run trainer/source binding.",
+      "Creative propensity normalization/fit groups/selected endpoint; actual W18 producer outputs, preprocessing, row order and component alignment."
+    ],
+    "non_claims": [
+      "No clean-F0 certification or exact public-TL3 replica claim.",
+      "No public-score causal attribution or quality conclusion.",
+      "No array payloads, checkpoint weights, training, inference, network, or remote jobs accessed by this review."
+    ],
+    "separate_admission_required_for_any_new_recipe": true,
+    "memo_relative_links_resolve": true
+  },
+  "scope": {
+    "local_metadata_and_text_only": true,
+    "remote_calls": false,
+    "checkpoint_or_array_payloads_read": false,
+    "tests_or_training_rerun": false,
+    "memo_edited_by_reviewer": false
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "blockers": [],
+  "capture_sha256": "00007f863749a8503ad4da746b7b5df00ef866aa337866178afbe01117b621d6",
+  "created_utc": "2026-10-18T18:30:46.016803+00:00",
+  "decision": "PASS_STATIC_REVIEW_READY_FOR_ROOT_ADMISSION",
+  "launch_sha256": "65b750576a2239e5d6600e4c2a5dab121cbe86b6b4136612592c0cbd3557fd07",
+  "review_limits_and_followups": [
+    "This wrapper review does not substitute for the separately sealed/helper-reviewed packet pins supplied at launch, nor for the actual-input admission and post-execution receipt acceptance.",
+    "Capture records actual systemd CPU/memory/swap/runtime properties; final result acceptance should compare these captured values with the admitted limits because capture_status PASS_METADATA_ONLY currently gates terminal success and receipt schema but does not itself reject a property mismatch.",
+    "The prior F3 stage1 root wrapper pair is frozen V1 and was not modified in this review. Root has identified a separate V2 hardening follow-up for its direct-child cgroup accounting before any future F3 stage1 wrapper reuse."
+  ],
+  "reviewed_controls": [
+    "Launcher requires the exact helper preparation-manifest and independent-review hashes as CLI inputs, verifies every artifact hash in the manifest, and checks the review PASS/blocker fields and manifest binding.",
+    "Launcher binds to the pinned fresh ROOT_PATH_PREFLIGHT receipt and freshly hashes the eight allowlisted inputs with stable lstat generation checks, exact sizes, no symlink resolution, and an exact total byte count before producing a root admission record.",
+    "Launcher checks create-only remote receipt/stage/unit names and all local output paths before SSH; transport and returned raw records use exclusive creation. Remote staging is an exact three-helper plus input-manifest allowlist, with helper bytes rehashed after staging.",
+    "Fresh resource admission requires the current exact F3 sequence/worker, an empty campaign-slice cgroup.procs, every populated direct child to be one of the expected bounded units, exact child CPU/memory/swap caps, total CPU at most 2 cores including the 0.5-core support unit, committed memory below 17 GB, physical scratch, and at least 2 GB free disk.",
+    "The unit command sets CPUQuota=50%, MemoryMax=1.5 GB, swap=0, RuntimeMax=120 seconds, CUDA_VISIBLE_DEVICES empty, thread limits, and the approved scratch directory.",
+    "Capture refuses local output collisions before SSH, waits for an exited/failed terminal state, captures raw receipt bytes and hashes before stopping the owned unit, validates terminal status and metadata-only receipt schema fields, writes execution/stop evidence create-only, and returns failure on acceptance errors."
+  ],
+  "schema": "quality_gap.tl3_w18_checkpoint_execution_root_wrapper_review.v1",
+  "scope": "Independent static review only. No remote calls, helper execution, checkpoint/array reads, training, or inference were performed."
+}

@@ -1,0 +1,124 @@
+{
+  "artifact_hash_scope": "PREPARATION_MANIFEST.json excludes its own digest; the root launcher must bind this exact manifest SHA.",
+  "artifacts": {
+    "README.md": {
+      "bytes": 6606,
+      "sha256": "223e4653b7c1ecb46a8eb82febfe797876cee718fa81638fa23e41ea4f51bef5"
+    },
+    "INPUT_MANIFEST_TEMPLATE_R1.json": {
+      "bytes": 5329,
+      "sha256": "b169f888edecc9c9d960ab4c23d472f3ec21fe69263b5c9dd60bc4f7d3840b35"
+    },
+    "TEST_RECEIPT_R1.json": {
+      "bytes": 2855,
+      "sha256": "760f5696103349dfe295810a9d924b27136f157ce69dde082fd0499759dbcbb7"
+    },
+    "extract_w18_checkpoint_metadata.py": {
+      "bytes": 8625,
+      "sha256": "feb821072814d7e49c63c2c0e6924699ec7283965d92b24fc51da94b1582839d"
+    },
+    "w18_metadata_core.py": {
+      "bytes": 11390,
+      "sha256": "06b5ffb6f3cc866fd145a7b48db65a9544cb3961b0fb48188a1fb8e4fc7c8bfb"
+    },
+    "w18_metadata_summary.py": {
+      "bytes": 4546,
+      "sha256": "94f79aeec3238eb2b1bba71a0dde44db5e037e4e4f624ee1985a63bb395bc82d"
+    },
+    "test_extract_w18_checkpoint_metadata.py": {
+      "bytes": 13302,
+      "sha256": "3ebf99f1c2ef786969b0ffc7664981ca675a80469838ac35f4d0726b42dbf7cf"
+    }
+  },
+  "created_utc": "2026-10-18T18:32:43.561949+00:00",
+  "execution_directory_allowlist": [
+    "extract_w18_checkpoint_metadata.py",
+    "w18_metadata_core.py",
+    "w18_metadata_summary.py"
+  ],
+  "execution_directory_forbidden": [
+    "unlisted files",
+    "symlinks",
+    "__pycache__",
+    "*.pyc",
+    "unexpected Python modules"
+  ],
+  "independent_review": {
+    "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_metadata_r1/INDEPENDENT_REVIEW.json",
+    "status": "pending",
+    "required_before_root_stage_or_execution": true
+  },
+  "input_contract": {
+    "schema": "quality_gap.tl3_w18_checkpoint_metadata.v1",
+    "target_count": 8,
+    "expected_total_observed_bytes": 8433688,
+    "max_input_bytes_each": 33554432,
+    "max_total_input_bytes": 67108864,
+    "root_fresh_hash_generation_and_admission_required": true,
+    "path_resolution_contract": "each exact logical path, resolved_path equal to logical_path, symlinks empty"
+  },
+  "local_packet_inventory": [
+    "README.md",
+    "INPUT_MANIFEST_TEMPLATE_R1.json",
+    "TEST_RECEIPT_R1.json",
+    "extract_w18_checkpoint_metadata.py",
+    "w18_metadata_core.py",
+    "w18_metadata_summary.py",
+    "test_extract_w18_checkpoint_metadata.py",
+    "PREPARATION_MANIFEST.json",
+    "INDEPENDENT_REVIEW.json (pending)"
+  ],
+  "packet": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_metadata_r1",
+  "resource_contract": {
+    "cpu_quota_cores": 0.5,
+    "memory_max_bytes": 1500000000,
+    "swap_max_bytes": 0,
+    "runtime_max_seconds": 120,
+    "cuda_visible_devices": "",
+    "physical_tmpdir": "fresh root-verified disk-backed path required on B"
+  },
+  "schema": "quality_gap.tl3_w18_checkpoint_metadata_preparation.r1",
+  "scope": "Restricted CPU metadata extraction for exactly eight W18 teacher/parent checkpoints; no production load, training, inference, or remote action in this packet.",
+  "source_bindings": {
+    "w18_remote_run_evidence": {
+      "bytes": 37862,
+      "sha256": "08a171c8718a393b9b91b79d6c05fcf2bec6b172fe234b693f9af128daff8609",
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_history_trace_r1/REMOTE_RUN_EVIDENCE_R1.json"
+    },
+    "historical_six_target_input_template": {
+      "bytes": 4547,
+      "sha256": "615ee43acb0afecd96a95f0ed1393e982c69210a564bf715a22c8fd1eb1136d4",
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_preparation_r1/INPUT_MANIFEST_TEMPLATE_R1.json"
+    },
+    "historical_six_target_preparation_manifest": {
+      "bytes": 5382,
+      "sha256": "928f9771f099bda8c9c836765043ef2ebcc2e0e53696bcc17307558f095f9e43",
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_preparation_r1/PREPARATION_MANIFEST_R1.json"
+    },
+    "fresh_eight_target_path_preflight": {
+      "bytes": 4002,
+      "sha256": "b555f6e282e45129be74d7614da8a77fc42b2a684da06c6c7aa6d83ae8acc5ba",
+      "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_execution_r1/ROOT_PATH_PREFLIGHT_V1.json"
+    }
+  },
+  "source_observation": {
+    "remote_run_evidence_sha256": "08a171c8718a393b9b91b79d6c05fcf2bec6b172fe234b693f9af128daff8609",
+    "six_target_template_sha256": "615ee43acb0afecd96a95f0ed1393e982c69210a564bf715a22c8fd1eb1136d4",
+    "root_path_preflight_sha256": "b555f6e282e45129be74d7614da8a77fc42b2a684da06c6c7aa6d83ae8acc5ba",
+    "root_path_preflight_observed_utc": "2026-10-18T18:19:20.195765+00:00",
+    "historical_observed_utc": "2026-10-18T17:49:55.242392+00:00"
+  },
+  "status": "PREPARED_NOT_ADMITTED_READY_FOR_INDEPENDENT_REVIEW",
+  "validation": {
+    "actual_production_checkpoint_read_or_hash": false,
+    "actual_remote_stage_or_execution": false,
+    "cli_help": "passed",
+    "input_template_placeholder_parse": "passed",
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "unit_tests_discovered": 11,
+    "unit_tests_failed": 0,
+    "unit_tests_passed": 11,
+    "unit_tests_skipped": 0
+  }
+}

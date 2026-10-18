@@ -1,0 +1,121 @@
+{
+  "schema": "quality_gap.tl3_w18_checkpoint_metadata.independent_review.v1",
+  "status": "passed",
+  "decision": "PASS_STATIC_REVIEW_READY_FOR_ROOT_GATED_METADATA_EXTRACTION",
+  "reviewed_utc": "2026-10-18T18:34:00Z",
+  "review_artifact_path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_metadata_r1/INDEPENDENT_REVIEW_V1.json",
+  "preparation_manifest_path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_metadata_r1/PREPARATION_MANIFEST.json",
+  "preparation_manifest_sha256": "e595fa25e01a5f86a829f64e4915b05d54c1f1ddc6758efa1fec10e4b6a79a63",
+  "test_receipt_path": "research/campaign_2026-10-18/quality_gap_r1/tl3_w18_checkpoint_metadata_r1/TEST_RECEIPT_R1.json",
+  "test_receipt_sha256": "760f5696103349dfe295810a9d924b27136f157ce69dde082fd0499759dbcbb7",
+  "test_receipt_status": "passed",
+  "test_receipt_checks": {
+    "unit_tests_passed": 11,
+    "unit_tests_failed": 0,
+    "unit_tests_skipped": 0,
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "cli_help": "passed",
+    "synthetic_fixtures_only": true,
+    "production_checkpoint_reads_or_hashes": false,
+    "remote_execution_or_mutation": false,
+    "training_or_inference": false,
+    "tensor_values_exported": false,
+    "cuda_initialized": false
+  },
+  "artifact_pin_verification": {
+    "all_preparation_manifest_artifacts_match_bytes_and_sha256": true,
+    "artifacts": {
+      "README.md": {"bytes": 6606, "sha256": "223e4653b7c1ecb46a8eb82febfe797876cee718fa81638fa23e41ea4f51bef5"},
+      "INPUT_MANIFEST_TEMPLATE_R1.json": {"bytes": 5329, "sha256": "b169f888edecc9c9d960ab4c23d472f3ec21fe69263b5c9dd60bc4f7d3840b35"},
+      "TEST_RECEIPT_R1.json": {"bytes": 2855, "sha256": "760f5696103349dfe295810a9d924b27136f157ce69dde082fd0499759dbcbb7"},
+      "extract_w18_checkpoint_metadata.py": {"bytes": 8625, "sha256": "feb821072814d7e49c63c2c0e6924699ec7283965d92b24fc51da94b1582839d"},
+      "w18_metadata_core.py": {"bytes": 11390, "sha256": "06b5ffb6f3cc866fd145a7b48db65a9544cb3961b0fb48188a1fb8e4fc7c8bfb"},
+      "w18_metadata_summary.py": {"bytes": 4546, "sha256": "94f79aeec3238eb2b1bba71a0dde44db5e037e4e4f624ee1985a63bb395bc82d"},
+      "test_extract_w18_checkpoint_metadata.py": {"bytes": 13302, "sha256": "3ebf99f1c2ef786969b0ffc7664981ca675a80469838ac35f4d0726b42dbf7cf"}
+    },
+    "runtime_python_allowlist": [
+      "extract_w18_checkpoint_metadata.py",
+      "w18_metadata_core.py",
+      "w18_metadata_summary.py"
+    ]
+  },
+  "external_source_binding_verification": {
+    "all_four_manifest_source_pins_match_bytes_and_sha256": true,
+    "w18_remote_run_evidence": {
+      "bytes": 37862,
+      "sha256": "08a171c8718a393b9b91b79d6c05fcf2bec6b172fe234b693f9af128daff8609"
+    },
+    "historical_six_target_input_template": {
+      "bytes": 4547,
+      "sha256": "615ee43acb0afecd96a95f0ed1393e982c69210a564bf715a22c8fd1eb1136d4"
+    },
+    "historical_six_target_preparation_manifest": {
+      "bytes": 5382,
+      "sha256": "928f9771f099bda8c9c836765043ef2ebcc2e0e53696bcc17307558f095f9e43"
+    },
+    "fresh_eight_target_path_preflight": {
+      "bytes": 4002,
+      "sha256": "b555f6e282e45129be74d7614da8a77fc42b2a684da06c6c7aa6d83ae8acc5ba",
+      "payloads_read": false,
+      "observed_utc": "2026-10-18T18:19:20.195765+00:00"
+    }
+  },
+  "input_contract_review": {
+    "exact_ordered_target_count": 8,
+    "exact_observed_total_bytes": 8433688,
+    "targets": [
+      {"id": "ffull_s3_ep1", "logical_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/ffull_s3/model_ep1.pt", "bytes": 1053479},
+      {"id": "ffull_s4_ep1", "logical_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/ffull_s4/model_ep1.pt", "bytes": 1053479},
+      {"id": "frawW_s3_ep3", "logical_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s3/model_ep3.pt", "bytes": 1054943},
+      {"id": "frawW_s4_ep3", "logical_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s4/model_ep3.pt", "bytes": 1054943},
+      {"id": "frawW_s3ft_ep1", "logical_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s3ft/model_ep1.pt", "bytes": 1053607},
+      {"id": "frawW_s4ft_ep1", "logical_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/frawW_s4ft/model_ep1.pt", "bytes": 1053607},
+      {"id": "fmu128_s3_ep3", "logical_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/fmu128_s3/model_ep3.pt", "bytes": 1054815},
+      {"id": "fmu128_s4_ep3", "logical_path": "/home/grinchenkoeg/WunderFunder-creative/artifacts/runs/fmu128_s4/model_ep3.pt", "bytes": 1054815}
+    ],
+    "preflight_rows_match_allowlist_path_and_size": true,
+    "preflight_reported_regular_files_and_no_symlink_components": true,
+    "preflight_has_no_content_sha_or_generation_identity": true,
+    "root_fresh_full_sha256_and_generation_required_before_load": true,
+    "template_sha256_and_generation_placeholders_remain_null": true,
+    "excluded_completed_ids": ["fbc1k_s5_ep3", "orgbase_model"],
+    "excluded_fin256_targets": true,
+    "previous_metadata_receipt_sha256": "1dea114d0588c6d6f64df59d2db9391657ba0940c632582b476c6f2de9298f4c"
+  },
+  "static_checks": {
+    "exact_input_schema_and_order_fail_closed": true,
+    "source_resolution_requires_exact_no_symlink_path": true,
+    "input_load_uses_o_nofollow_and_pinned_fd_generation_and_sha_before_and_after": true,
+    "manifest_and_admission_hashing_uses_o_nofollow_and_fd_plus_path_generation_checks": true,
+    "manifest_admission_and_output_size_bounds_present": true,
+    "restricted_torch_load_weights_only_cpu": true,
+    "cuda_hidden_before_torch_import_and_cuda_must_remain_uninitialized": true,
+    "output_receipt_create_only_o_excl_o_nofollow": true,
+    "metadata_redaction_and_tensor_schema_only_output_bounded": true,
+    "runtime_cpu_memory_swap_and_120_second_contract_checked": true,
+    "no_unrestricted_pickle_fallback_or_tensor_value_export": true
+  },
+  "resource_contract": {
+    "cpu_quota_cores_max": 0.5,
+    "memory_max_bytes": 1500000000,
+    "swap_max_bytes": 0,
+    "runtime_max_seconds": 120,
+    "cuda_visible_devices": "",
+    "external_enforcement_and_physical_tmpdir_verification_required_from_root": true
+  },
+  "preparation_state": {
+    "production_checkpoint_content_hashes_or_loads_performed": false,
+    "remote_staging_or_execution_performed": false,
+    "root_admission_receipt_bound": false,
+    "root_fresh_input_sha_and_generation_bound": false,
+    "ready_for_static_launch_gate_review_only": true
+  },
+  "manifest_review_path_note": "The preparation manifest lists the pending review path as INDEPENDENT_REVIEW.json; this review artifact is named INDEPENDENT_REVIEW_V1.json per the root review assignment. Root should bind this exact review path and hash directly.",
+  "non_blocking_root_gates": [
+    "Before any load, root must bind a new eight-input manifest to fresh full SHA-256 and file generations, exact no-symlink resolution, and its root admission receipt.",
+    "Root must stage only the three allowlisted runtime modules into a fresh execution directory, reject pyc/__pycache__/unlisted files, and verify resource headroom plus a physical disk-backed TMPDIR under the required external CPU, memory, swap, and runtime limits.",
+    "The static review does not admit or authorize production checkpoint loading; root owns those separate gates."
+  ],
+  "blockers": []
+}

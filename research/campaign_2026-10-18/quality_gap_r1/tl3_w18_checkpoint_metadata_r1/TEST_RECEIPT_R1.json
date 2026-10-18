@@ -1,0 +1,110 @@
+{
+  "schema": "quality_gap.tl3_w18_checkpoint_metadata.tests.r1",
+  "status": "passed",
+  "decision": "PASS",
+  "created_utc": "2026-10-18T18:32:43.560626+00:00",
+  "scope": {
+    "synthetic_fixtures_only": true,
+    "production_checkpoint_reads_or_hashes": false,
+    "remote_execution_or_mutation": false,
+    "training_or_inference": false,
+    "tensor_values_exported": false,
+    "cuda_initialized": false
+  },
+  "commands": [
+    {
+      "name": "ruff_format_check",
+      "argv": [
+        "ruff",
+        "format",
+        "--check",
+        "extract_w18_checkpoint_metadata.py",
+        "w18_metadata_core.py",
+        "w18_metadata_summary.py",
+        "test_extract_w18_checkpoint_metadata.py"
+      ],
+      "status": "passed",
+      "exit_code": 0
+    },
+    {
+      "name": "ruff_check",
+      "argv": [
+        "ruff",
+        "check",
+        "extract_w18_checkpoint_metadata.py",
+        "w18_metadata_core.py",
+        "w18_metadata_summary.py",
+        "test_extract_w18_checkpoint_metadata.py"
+      ],
+      "status": "passed",
+      "exit_code": 0
+    },
+    {
+      "name": "unit_tests",
+      "argv": [
+        "python",
+        "-m",
+        "unittest",
+        "-v",
+        "test_extract_w18_checkpoint_metadata.py"
+      ],
+      "environment": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "uv": "run --no-sync"
+      },
+      "status": "passed",
+      "exit_code": 0,
+      "tests_run": 11,
+      "tests_passed": 11,
+      "tests_skipped": 0,
+      "tests_failed": 0
+    },
+    {
+      "name": "cli_help",
+      "argv": [
+        "python",
+        "extract_w18_checkpoint_metadata.py",
+        "--help"
+      ],
+      "environment": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "uv": "run --no-sync"
+      },
+      "status": "passed",
+      "exit_code": 0
+    },
+    {
+      "name": "input_template_parse_and_placeholders",
+      "status": "passed",
+      "exit_code": 0,
+      "inputs": 8,
+      "expected_bytes_sum": 8433688,
+      "all_source_sha256_null": true,
+      "admission_binding_null": true
+    }
+  ],
+  "environment": {
+    "python": "3.13.11",
+    "ruff": "0.17.1",
+    "torch_for_synthetic_cpu_test_only": "2.14.1",
+    "torch_cuda_initialized_after_import": false
+  },
+  "source_artifacts": {
+    "extract_w18_checkpoint_metadata.py": {
+      "bytes": 8625,
+      "sha256": "feb821072814d7e49c63c2c0e6924699ec7283965d92b24fc51da94b1582839d"
+    },
+    "w18_metadata_core.py": {
+      "bytes": 11390,
+      "sha256": "06b5ffb6f3cc866fd145a7b48db65a9544cb3961b0fb48188a1fb8e4fc7c8bfb"
+    },
+    "w18_metadata_summary.py": {
+      "bytes": 4546,
+      "sha256": "94f79aeec3238eb2b1bba71a0dde44db5e037e4e4f624ee1985a63bb395bc82d"
+    },
+    "test_extract_w18_checkpoint_metadata.py": {
+      "bytes": 13302,
+      "sha256": "3ebf99f1c2ef786969b0ffc7664981ca675a80469838ac35f4d0726b42dbf7cf"
+    }
+  }
+}

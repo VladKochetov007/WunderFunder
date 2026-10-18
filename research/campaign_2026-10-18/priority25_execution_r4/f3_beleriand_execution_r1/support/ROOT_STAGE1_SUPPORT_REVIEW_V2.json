@@ -1,0 +1,33 @@
+{
+  "schema": "priority25.f3_stage1_support_root_review.v2",
+  "created_utc": "2026-10-18T18:41:26.401973+00:00",
+  "reviewer": "root, independent of diagnostic_review author",
+  "decision": "PASS_STATIC_REVIEW_READY_FOR_FRESH_DEEP_STAGE1_ADMISSION",
+  "blockers": [],
+  "files": {
+    "launch_stage1_v2.py": "75205a7f20951d65dcace65fe3140c38c51eacbc2c48baefbb87ca9e9bca4dc9",
+    "capture_stage1_v2.py": "48092e6664e69571b9a5f2777b1564f998408ba9de9cdbe20ff69ca8f4088ada",
+    "V2_PREPARATION.md": "5342d14915463ca6cef6dcbe012522da057fd5cc9d938781ec9d7387007035ba",
+    "test_stage1_v2_sequence.py": "40ac1ce0500cdb31a3897e7e55b325c182fb71f1a5704100cd045cc7f5ed914e"
+  },
+  "scope": "Deep stage1 only; no execution/admission follows from this review. V1 and frozen checkpoint helpers/plans remain unchanged.",
+  "checks": [
+    "Exact native deep stage1 finished/exit0 guard; frozen plan/fold/registry/helper pins checked before mutation",
+    "Actual frozen F3 plan integration check passed for both continuation indices 2 and 3 with current worker bound to plan.steps[index].attempt",
+    "Parent direct cgroup.procs empty; all populated direct children accounted with hierarchical cgroup.events; only exact controller/current continuation worker accepted",
+    "Aggregate CPU<=2; committed RAM<17GB; exact caps/swap0; physical scratch; create-only outputs/units; collector and verifier serial",
+    "Capture checks five local collision paths before SSH, preserves raw exact receipt bytes and hashes, captures terminal evidence before stopping only owned exited unit",
+    "Author four focused synthetic tests and Ruff checks reported passed; root did not repeat those tests"
+  ],
+  "root_execution_conditions": [
+    "Before sending launcher, check all five local output paths listed in V2_PREPARATION.md are absent; capture precheck alone is too late",
+    "Bind these exact wrapper/review hashes plus all eight frozen helper hashes on actual admission",
+    "Fresh finished native attempt/sequence/resources/source/scratch/output checks are required per support launch",
+    "Independently inspect actual systemd caps/exit/receipt/schema/deltas after capture; a launch return code alone is not successful computation"
+  ],
+  "validation_limitations": [
+    "Not checkpoint tensor acceptance or a training result",
+    "Wrapper SHA/review SHA are caller-supplied provenance; root must transport and bind these exact bytes",
+    "Continuation index4+ or no populated continuation worker is intentionally refused; diagnose and separately review any later collection path"
+  ]
+}
