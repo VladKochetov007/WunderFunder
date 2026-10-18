@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+[R2 bounded CPU launch](../../campaign_2026-10-19/idea_screens_r2/records/README.md) records exact source/sample gates and all populated F3 descendants before the one0.5CPU/1.5GB/600s/no-swap job at22:30UTC. No Parquet scan, inference or new GPU fit; terminal capture and completion remain separate from launch.
+
 [Wide F3 terminal preservation](../../campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1/records/README.md) records successful native completion, bounded collector/verifier, exact raw capture, structural root acceptance and helper stop. Next_epoch6/89,280 completed updates/zero skips are verified; deep continues, with no F3 score yet. The frozen local capture client schema rejection and use of the existing remote capture path are preserved without retries or training changes.
 
 [EDA/simple-probe execution](../../campaign_2026-10-19/idea_screens_r1/README.md#actual-outputs-and-execution) records four serialCPU-only units, finite limits, raw capture and stop, and arrays retained solely on B. Sample creation coincided with hierarchical high177→757without max/OOM increase or parent-local events; subsequent EDA/ridge/report added0events. No GPU allocation, frozen F3 modification or dependency install.

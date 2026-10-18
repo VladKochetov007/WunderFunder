@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[R2 feature-estimation screen](../../campaign_2026-10-19/idea_screens_r2/README.md) separates signed and absolute EMA channels and asks whether fit-only ridge selection changes the raw/subset/history comparisons. Six views and[1,100,10000] grid are fixed; the same six-component outer panel remains exposed. This is a bounded exploratory follow-up, not a new full-model campaign.
+
 [First actual screen of the new25ideas](../../campaign_2026-10-19/idea_screens_r1/STATUS_25.md) maps measured premises/fixed-ridge proxies and untested mechanisms. [Results](../../campaign_2026-10-19/idea_screens_r1/RESULTS.md) reject claiming a stable EMA winner from one dominant component, distinguish i0-only's small-panel effect from i1 usefulness, and prioritize fit-only regularization and EMA-part controls. No full-recipe/public improvement or automatic25-fit sweep.
 
 [19 October no-fit discussion: 25 cards](../../campaign_2026-10-19/no_fit_ideation_r1/IDEAS_25.md) covers target construction, history information, input representations, recurrent state and optimization. It records assumptions and falsifiers rather than predicted leaderboard gains. Several cards are close refinements and one is dependent; this is not a claim of 25 orthogonal discoveries or an execution queue. User discussion supersedes the old automatic engineering continuation.

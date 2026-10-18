@@ -22,7 +22,7 @@
 | 16 | Согласованность scorer проверена; objective-gradient comparison не выполнялся | NOT_TESTED optimizer treatment; population algebra не равняет finite fits |
 | 17 | NOT_TESTED: importance sampling не применялся | Fixed stride40 не является этим методом; нужен inverse-probability и matched time |
 | 18 | NOT_TESTED: ортонормальный basis не реализован | EMA/lag результаты не тестируют matched-pole-span conditioning |
-| 19 | i1-only=.36115, i0-only лучше joint raw в этом fit | Сам cross-fit common/residual mechanism NOT_TESTED; линейная репараметризация может иметь тот же span |
+| 19 | i1-only=.36115, i0-only лучше joint raw в этом fit | i0-only также исключает8tailканалов: i1-effect не изолирован. Cross-fit common/residual mechanism NOT_TESTED; линейная репараметризация может иметь тот же span |
 | 20 | NOT_TESTED: target gradients не собирались | Нельзя выводить gradient conflict из разнонаправленных score deltas |
 | 21 | NOT_TESTED: gradient-covariance preconditioner отсутствует | Нужны реальные gradients и matched optimizer, не covariance coefficients |
 | 22 | NOT_TESTED: heteroskedastic mean/variance objective отсутствует | Остаток ridge смешивает noise и misspecification; отдельная variance head нужна для проверки |

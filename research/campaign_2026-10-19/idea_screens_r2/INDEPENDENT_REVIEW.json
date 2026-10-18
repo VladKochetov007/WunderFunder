@@ -1,0 +1,30 @@
+{
+  "schema": "nf19.r2_independent_review.v1",
+  "status": "PASS_WITH_ROOT_PREINVOCATION_HASH_GATE",
+  "preparation_manifest": {
+    "path": "PREPARATION_MANIFEST.json",
+    "sha256": "cd84cbf0c463243fba40dbe4841cb86804e45397acda01185ed74aaea018273e"
+  },
+  "validation_receipt": {
+    "path": "VALIDATION_RECEIPT.json",
+    "sha256": "637ac391e6a81205a4bde303cd3a935f5f20b104c5f71f522fae46c0bf4affbe",
+    "synthetic_invariants": "PASS: 4/4 per receipt",
+    "ruff_check": "PASS per receipt",
+    "ruff_format_check": "PASS per receipt"
+  },
+  "current_code_sha256": {
+    "__init__.py": "b5cef19fc43cfb5c4777a59d1c3b05d1b4b6c0a71070669d7066f8a438b062a3",
+    "ridge_cv.py": "0e669358a29f1014a07ab53b944cfad4155dcbd68c0c4df7c212ee5512123b8e",
+    "ridge_math.py": "6c3e890aefc211e5d725d9394914c3788bf38c92f8691f8338059259330211ed",
+    "run_analysis.py": "20e9424903b77f847b8ad83c1bf7682497087a3987c827459af6eb717b4c3bbf",
+    "test_ridge_cv.py": "91eadf1f9c8c31f9e014aa2eb36b33651ad939494245c385bdb4d30fa0a1563f",
+    "views.py": "685b4f79485edc647d59baa335afc1e6a8a4f84628204f9a4a3124e5678e9af3",
+    "README.md": "537fa1bc5adc8a9f930c3e3e79ef55fec24c10192ac3f427bb9262c60e865b72"
+  },
+  "review": {
+    "post_ruff_logic_review": "PASS; current implementation preserves the previously reviewed fixed views, fit-only normalization and row selection, component-held-out pooled selection, shared-alpha rule, outer-mask scoring, and fixed-prediction drop-one diagnostics",
+    "i0_only_interpretation": "Jointly omits columns 52:104 and 104:112 versus raw112; not an isolated i1 effect",
+    "root_preinvocation_hash_gate": "REQUIRED: run_analysis.py imports R1 feature_views and R2 ridge_cv at module load before its internal source hash check. Root must independently hash all staged sources before invoking the CLI.",
+    "scientific_result": "NONE; this review records source readiness only. No sample-array analysis or model fit was performed."
+  }
+}

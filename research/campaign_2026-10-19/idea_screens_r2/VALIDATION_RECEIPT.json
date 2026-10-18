@@ -1,0 +1,25 @@
+{
+  "packet": "idea_screens_r2",
+  "validated_at_utc": "2026-10-18 22:29:08 UTC",
+  "scope": "local source-only checks; no sample-array access, parquet scan, model fitting, remote operation, or dependency installation",
+  "checks": {
+    "synthetic_invariants": {
+      "status": "PASS",
+      "passed": 4,
+      "names": [
+        "fit row collection excludes outer partition records",
+        "seeded component folds form a deterministic partition",
+        "signed and absolute EMA views equal the causal R1 parts",
+        "outer scorer matches canonical global scorer and component drop-one aggregation"
+      ]
+    },
+    "ruff_check": "PASS",
+    "ruff_format_check": "PASS"
+  },
+  "style_history": "The first Ruff audit found import-order and deliberate post-sys.path bootstrap import diagnostics. Ruff import sorting/formatting plus scoped E402 suppressions were applied; final lint and format checks pass.",
+  "commands": [
+    "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/python -c 'from idea_screens_r2 import test_ridge_cv as t; t.test_fit_row_collection_ignores_outer_partition_labels(); t.test_seeded_component_folds_are_a_partition(); t.test_signed_and_absolute_ema_views_are_exact_causal_r1_parts(); t.test_outer_score_matches_canonical_global_scorer_and_drop_one(); print(\"4 R2 invariant checks passed\")'",
+    ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r2",
+    ".venv/bin/ruff format --check research/campaign_2026-10-19/idea_screens_r2"
+  ]
+}

@@ -4,12 +4,13 @@ User authority for autonomous EDA/simple models remains active. This is the next
 
 ## Single question
 
-Do i1 and the extra history features look harmful because the small fixed-ridge fit estimates too many weak coefficients? Does EMA's signal come from the signed part, absolute-innovation part, or both?
+Do additional raw channels and history features look harmful because the small fixed-ridge fit estimates too many weak coefficients? The fixed i0-only52 view omits both the52-channel i1 block and8tail channels, so it does not isolate an i1 treatment. Does EMA's signal come from the signed part, absolute-innovation part, or both?
 
 ## Fixed scope before any R2 result
 
 - Reuse the exact R1 source-bound remote sample; no new Parquet scan, component replacement, training GPU, historical weights or public submission. Preserve stride40 after full causal histories.
 - Six fixed views: raw112; i0-only52; raw+lags1/16/128; raw+signed-delta EMA; raw+absolute-innovation EMA; raw+both EMA parts. Keep the R1 half-life32 and exactly its current definition of innovation (delta minus the previous signed EMA). No new pole/window search.
+- Interpretation caveat for the frozen `i0-only52` view: R1 implements it as columns 0:52, while raw112 includes the eight additional features at 104:112. Thus `i0-only52` versus raw112 removes both the i1 block (52:104) and the additional features; it does not isolate the incremental effect of i1. Keep the six fixed views unchanged for R2 and label the contrast as this joint ablation. A clean i1-addition comparison (for example, i0 plus the additional eight channels versus all112) is outside this wave.
 - Shared ridge alpha selected from **[1,100,10000]** using only three deterministic component folds inside the14fitting components, grouping seed19020. Normalize on each inner training partition only. Selection criterion is pooled canonical mean WP across held fitting components on their original masks; couple the two targets through one alpha. Tie chooses the larger alpha. Refit the selected alpha on all fit rows, then report the already-exposed outer panel once per view.
 - Also retain alpha1 as a fixed diagnostic baseline; report the full inner score table and the selected setting. Do not use outer evaluation to change settings. Count all candidates (6views×3alphas×3folds, plus selected refits) as exploratory analytic fits, not independent replications.
 - Report both targets, six component moment tables, fixed-prediction drop-one concentration, coefficient norms, fit/eval counts, elapsedCPU/RSS and all failures. Primary comparison remains each representation versus its own raw/i0 counterpart with the same selection protocol. Do not infer gradient conflict, sparse-factor identification or recurrent-state staleness.
