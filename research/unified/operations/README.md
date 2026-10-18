@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [07:10UTC ranked25 heartbeat](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0710Z.json): healthy deep epoch5 batch1020/1492 with zero memory events. Latest archive remains epoch4; no provider recovery, cluster claim, duplicate job or new quality result.
+
 - [F1 checkpoint support preparation](../../campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/checkpoints/README.md) and [independent review/testing receipt](../../campaign_2026-10-18/priority25_execution_r4/receipts/F1_CHECKPOINT_SUPPORT_REVIEW_20261018.json): separate F1 counters, source/data identity, Adam and continuation checks are prepared. All12 root-local synthetic tests pass; a CUDA-hidden server fixture also passes under50%CPU/1.5GB/120s. This is helper validation only; no F1 checkpoint, fit, score or CP30 result. Frozen F0 training continues unchanged.
 
 
