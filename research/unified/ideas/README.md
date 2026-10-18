@@ -4,6 +4,8 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
+- [Current-moment WP replay draft packet](../../experiment_drafts/current-moment-wp-replay/README.md) — H-055 continuation, E-CURRENT-MOMENT-WP-20261018; current-superbatch moments and replay versus matched WMSE, with prior negative evidence preserved. Adapter, clean bindings and target profile pending; no fit.
+
 - [Our published GPU packets](PUBLISHED_GPU_PACKETS_20261018.md) — exact remote source tips for the GRU/Transformer/Mamba-2 four-arm packet and complete causal-smoothing implementation. Preserves code for a focused modular-trainer port; identifies legacy FP32/TF32, CP30, ancestry and target-profile gaps. No run or merge-readiness claim.
 
 - [Gradient estimator continuations](GRADIENT_ESTIMATOR_CONTINUATIONS_20261018.md) — two proposed descendants of H-RR17-19 and H-055: adaptive TBPTT at fixed optimizer cadence, and current-superbatch WP gradient replay. Includes prior negative evidence, 30 paired cells per arm, practical decision thresholds and explicit missing adapters; no fit/profile/tests or change to ranked25 scheduling.
