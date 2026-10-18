@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "kind": "rank01_heartbeat_observation",
+  "observed_utc": "2026-10-18T05:41:22.913150+00:00",
+  "status": "healthy_deep_epoch3_in_progress_no_new_checkpoint",
+  "experiment_id": "E-RR18-01-LABELS",
+  "beleriand": {
+    "observed_utc": "2026-10-18T05:41:22.913150+00:00",
+    "sequence": {
+      "attempt": "computer-vision-homework-r01-deep-f0s1001-ep25-v1",
+      "heartbeat_utc": "2026-10-18T05:41:12.426601+00:00",
+      "index": 5,
+      "launch_returncode": 0,
+      "launch_stderr": "",
+      "plan": "/home/grinchenkoeg/computer-vision-homework-20261018/f0_pair_plan.json",
+      "plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+      "status": "running",
+      "worker_heartbeat": "2026-10-18T05:41:08.679210+00:00",
+      "worker_status": "running"
+    },
+    "attempt": {
+      "id": "computer-vision-homework-r01-deep-f0s1001-ep25-v1",
+      "status": "running",
+      "heartbeat_utc": "2026-10-18T05:41:19.837777+00:00",
+      "exit_status": null,
+      "memory_event_deltas": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "parent_memory_event_deltas": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      }
+    },
+    "worker": {
+      "MainPID": "3634860",
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service",
+      "MemoryCurrent": "2363310080",
+      "CPUQuotaPerSecUSec": "1s",
+      "MemoryHigh": "7200000000",
+      "MemoryMax": "8000000000",
+      "MemorySwapMax": "0",
+      "ActiveState": "active",
+      "SubState": "running",
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "child_cgroups": []
+    },
+    "parent": {
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+      "MemoryCurrent": "3053608960",
+      "CPUQuotaPerSecUSec": "2s",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0",
+      "ActiveState": "active",
+      "SubState": "active",
+      "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "child_cgroups": [
+        "computer-vision-homework-r01-f0-sequence.service",
+        "wnn-bandit-computer-vision-homework-r01-deep-f0s1001-ep25-v1.service"
+      ]
+    },
+    "log_tail": [
+      "ep 3 batch 940/1492 loss 1.1502 lr 3.69e-05 seq/s 3.4",
+      "ep 3 batch 960/1492 loss 1.2643 lr 3.66e-05 seq/s 3.4",
+      "ep 3 batch 980/1492 loss 0.8283 lr 3.62e-05 seq/s 3.4"
+    ],
+    "campaign_gpu_compute": [
+      "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c, 3634952, 1592 MiB"
+    ],
+    "plan_sha256": "dcafeddb5d1d744ea0d6f981f7d70154403c5f6e4cc199bbd8060b1c961f3177",
+    "checkpoint_files": [
+      {
+        "name": "training_state.pt",
+        "bytes": 25881455,
+        "mtime_ns": 1792299744939853300
+      },
+      {
+        "name": "model_ep2.pt",
+        "bytes": 8669095,
+        "mtime_ns": 1792299744869848600
+      },
+      {
+        "name": "provenance.json",
+        "bytes": 168005,
+        "mtime_ns": 1792299744896850400
+      }
+    ],
+    "producer_updates": {
+      "optimizer_attempts": 44760,
+      "amp_skipped_updates": 0,
+      "optimizer_completed_updates": 44760,
+      "ema_updates": 0,
+      "completed_batches": 4476
+    },
+    "producer_nonfinite": [
+      {
+        "epoch": 0,
+        "nonfinite_steps": 0
+      },
+      {
+        "epoch": 1,
+        "nonfinite_steps": 0
+      },
+      {
+        "epoch": 2,
+        "nonfinite_steps": 0
+      }
+    ],
+    "temporary_auth_files_present": {
+      "/home/grinchenkoeg/.local/share/wunder-ds-auth/r01-profile-v1.env": false,
+      "/home/grinchenkoeg/.local/share/wunder-ds-auth/r01-canary-v1.env": false
+    }
+  },
+  "prior_checkpoint_evidence": "DEEP_CONTINUATION_EP2_20261018.json",
+  "checkpoint_action": "No newer generation than archived epoch2; no repeated collection, tensor verification or GPU admission.",
+  "datasphere": {
+    "auth_mode": "existing yc default profile through SDK",
+    "balance": {
+      "unit_balance": "41652791"
+    },
+    "balance_delta_vs_0510": 0,
+    "credential_persisted": false,
+    "newest": [
+      {
+        "created_at": "2026-10-18T00:28:19.334Z",
+        "finished_at": "2026-10-18T00:33:26.332Z",
+        "id": "bt12dffc0bhjrba9jcp6",
+        "name": "computer-vision-homework-datasphere-canary-v1",
+        "started_at": null,
+        "status": "ERROR"
+      },
+      {
+        "created_at": "2026-10-17T23:58:03.199Z",
+        "finished_at": "2026-10-18T00:03:11.983Z",
+        "id": "bt13i2k83lo8n4m8kplk",
+        "name": "computer-vision-homework-rank01-profile",
+        "started_at": null,
+        "status": "ERROR"
+      }
+    ],
+    "nonterminal_returned": [],
+    "observed_utc": "2026-10-18T05:40:06.573299+00:00",
+    "oldest_returned_created_at": "2026-10-04T22:31:10.384Z",
+    "pages_requested": 1,
+    "project_id": "bt1dqf9jg0tuhggcrj4k",
+    "provider_mutations": 0,
+    "query": {
+      "authentication": "existing yc default profile through SDK in memory",
+      "balance_rpc": "ProjectService.GetUnitBalance",
+      "jobs_request": "ListProjectJobRequest",
+      "jobs_rpc": "ProjectJobService.List",
+      "max_pages": 3,
+      "outer_process_timeout_seconds": 100,
+      "page_size": 100,
+      "per_rpc_timeout_seconds": 20
+    },
+    "returned_count": 100,
+    "scope": "recent100, bounded SDK ListProjectJobRequest pages; not a full inventory",
+    "sdk_version": "0.10.0",
+    "sorted_descending": true
+  },
+  "provider_status": {
+    "observed_utc": "2026-10-18T05:40:00Z",
+    "observation_time_precision": "minute",
+    "method": "live in-app browser accessibility",
+    "incident_url": "https://status.yandex.cloud/en/incidents/2136",
+    "incident_end": "Now",
+    "datasphere_in_affected_services": true,
+    "latest_update": "2026-10-16 20:19 MSK",
+    "recovery_observed": false,
+    "recommendations_url": "https://yandex.cloud/en/recommendations",
+    "recommendations_observation": "No DataSphere-specific recovery section was observed in the live page heading inventory.",
+    "cause_limit": "Ongoing incident is consistent with project pre-start failures, but is not proof of exact project cause or global unavailability."
+  },
+  "cluster": {
+    "observed_utc": "2026-10-18T05:41:00Z",
+    "observation_time_precision": "minute",
+    "method": "authenticated Zen accessibility",
+    "issue16": {
+      "url": "https://github.com/VladKochetov007/WunderFunder/issues/16",
+      "status": "open",
+      "comments": 0,
+      "assignees": 0,
+      "claim_observed": false,
+      "activity": "cross-reference to issue19 only"
+    },
+    "issue19": {
+      "url": "https://github.com/VladKochetov007/WunderFunder/issues/19",
+      "status": "open",
+      "comments": 0,
+      "assignees": 0,
+      "claim_observed": false,
+      "activity": "cross-reference from separate draft PR18 only"
+    },
+    "physical_device_reservation_verified": false,
+    "temporary_agent_tabs_closed": true
+  },
+  "decision": {
+    "new_gpu_jobs": 0,
+    "new_paid_jobs": 0,
+    "new_support_jobs": 0,
+    "training_plan_or_source_changed": false,
+    "preserve_healthy_sequence": true,
+    "next_action": "Collect the next deep checkpoint generation when it exists; use prepared terminal collection and independent verifier only after finished/exit0. Preserve scheduled exports and independent quality grade.",
+    "quality_result": false,
+    "completed_paired_cells": 0,
+    "cp30_complete": false
+  }
+}
