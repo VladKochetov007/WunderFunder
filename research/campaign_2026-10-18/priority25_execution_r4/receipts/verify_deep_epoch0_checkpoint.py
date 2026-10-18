@@ -384,7 +384,6 @@ def verify(args: argparse.Namespace) -> dict[str, object]:
         "prior_verification_attempts": [
             {
                 "attempt": 1,
-                "unit": "computer-vision-homework-r01-deep-ep0-verify-20261018.service",
                 "status": "failed_at_pair_contract_comparison",
                 "reason": (
                     "The first attempt compared the deep full contract to the wide summary receipt, "
@@ -394,7 +393,6 @@ def verify(args: argparse.Namespace) -> dict[str, object]:
             },
             {
                 "attempt": 2,
-                "unit": "computer-vision-homework-r01-deep-ep0-verify-r2-20261018.service",
                 "status": "failed_at_optimizer_state_cardinality_check",
                 "reason": (
                     "The first implementation reused the wide arm's ten optimizer-state count. "
@@ -404,14 +402,8 @@ def verify(args: argparse.Namespace) -> dict[str, object]:
             },
         ],
         "source_files_verified": source_count,
-        "split_manifest_sha256": options["split_manifest_sha256"],
-        "dataset_identities": state_contract["datasets"],
-        "fit_membership_identity": state_contract["fit_membership"],
-        "normalization_identity": state_contract["normalization"],
         "model_tensors_verified": len(model_tensors),
         "trainable_parameter_count": parameter_count,
-        "wide_trainable_parameter_count": wide["trainable_parameter_count"],
-        "deep_minus_wide_parameters": parameter_count - wide["trainable_parameter_count"],
         "optimizer_states_verified": len(optimizer_states),
         "optimizer_floating_tensors_verified": len(floating_optimizer),
         "completed_update_counts": update["epoch"],

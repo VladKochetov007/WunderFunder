@@ -136,7 +136,7 @@
       "oom_group_kill": 0
     },
     "executed_helper_path": "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/r01_deep_f0_ep0_verify/verify_deep_epoch0_checkpoint.py",
-    "executed_helper_sha256": "08fe049043007f506203be64b054101a52c5809a4dba2bdd28272a520db43616",
+    "executed_helper_sha256": "db66f43b7ab4831b45b57bced0d4b32775c213d93bc382c72a3ce78fad9d11f2",
     "executed_helper_remote_sha256_rechecked": true
   },
   "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
@@ -182,18 +182,28 @@
   "deep_minus_wide_parameters": -58752,
   "wide_relative_parameter_excess_percent": 2.73,
   "repository_helper_validation": {
-    "before_sha256": "08fe049043007f506203be64b054101a52c5809a4dba2bdd28272a520db43616",
-    "formatted_sha256": "7a70ccbac0c9d9e81a30180705b63c751f8a4282363928bf298d98d8377ec65e",
-    "ast_identical": true,
+    "before_sha256": "db66f43b7ab4831b45b57bced0d4b32775c213d93bc382c72a3ce78fad9d11f2",
+    "formatted_sha256": "221797a71d4652fd35aaf0bc3e215de146126235a1c136ba09a166c171af8598",
+    "ast_identical_to_actual_remote_executed_helper": true,
     "ruff_check": "passed",
     "ruff_format": "passed",
-    "formatted_lines": 475,
-    "actual_checkpoint_checks_repeated": false
+    "actual_checkpoint_checks_repeated": false,
+    "post_execution_receipt_annotations": [
+      "service identities and resource observations",
+      "split/dataset/membership/normalization identities from previously checked contract",
+      "parameter-count difference and independent reviewer identity"
+    ]
   },
   "independent_verifier": {
     "agent": "idea01_recipe_r4",
     "actor_commit": "abb519f9e98a323880f65d1660039d567e9adb03",
     "root_integration_commit": "4c2fc0bc",
     "scope": "actual collected checkpoint; no fit, CUDA execution, quality evaluation or provider call"
+  },
+  "helper_provenance_reconciliation": {
+    "supersedes_incorrect_binding_in_commit": "3c107f06",
+    "finding": "Agent repository helper had additional output annotations after execution. The prior root binding mistakenly used its hash as the executed hash before inspecting the remote result. Exact remote source retrieval established db66f43b; assertion/check logic was unchanged. Repository helper now derives directly from actual executed bytes with AST-identical Ruff formatting. Receipt annotations remain explicitly post-execution.",
+    "model_or_training_changed": false,
+    "checkpoint_validation_result_changed": false
   }
 }
