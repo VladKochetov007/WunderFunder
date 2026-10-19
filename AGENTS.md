@@ -2,7 +2,7 @@
 
 ## Stop requested for owned tabdata workloads, 19 October 2026
 
-The user requests preserving current results and stopping all our training on 10.14.14.26. This supersedes earlier continuation/admission instructions for this owned tabdata campaign: no new fits, profiles or retries. Preserve checkpoints, predictions, logs, failures and grades, plus foreign workloads. Remote stop is NOT confirmed: the existing SSH connection was reset and the single reconnection was closed before banner/authentication. No remote stop command was executed. See [stop evidence](research/campaign_2026-10-18/b300_execution_r1/stop_20261019_r1/README.md). Honor this stop when access returns; never report a drained node without live process/cgroup verification.
+The user requests preserving current results and stopping all our training on 10.14.14.26. This supersedes earlier continuation/admission instructions for this owned tabdata campaign: no new fits, profiles or retries. Preserve checkpoints, predictions, logs, failures and grades, plus foreign workloads. Remote stop is NOT confirmed: earlier SSH sessions closed; the latest user-requested attempt reached the password prompt but closed without a shell after password input. No remote stop command was executed. See [stop evidence](research/campaign_2026-10-18/b300_execution_r1/stop_20261019_r1/README.md). Honor this stop when access returns; never report a drained node without live process/cgroup verification.
 
 ## Native-feature expansion and delivery recovery, 19 October 2026
 
