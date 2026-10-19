@@ -1,0 +1,21 @@
+{
+  "schema": "wnn.independent_mean_variance_review.v1",
+  "scope": "source-only cross-review of the mean/logvariance objective and warm-start output extension",
+  "result": "no_blocking_mismatch_found_for_the_declared_recipe",
+  "source_sha256": {
+    "src/wnn/training/mean_variance.py": "e4a067bb9d467d121720854876cfffb083ab803a4ed440ec96025779553e15c5",
+    "src/wnn/training/representation_validation.py": "983e63fecc8886a67ec3452e21ca3637a25588eba02ab225ce5e1b6f9d8fb887",
+    "src/wnn/training/setup_model.py": "cec9748ad67c995a3c73f6b0288780ba52d0952445251c410113f6670c79fe33",
+    "src/wnn/training/losses.py": "5859a4d40f13e91f50d34dfaed42d12dcfa2e229a85721ffc68bb5d69e1cfa66",
+    "src/wnn/training/cli_targets.py": "ffc05685353085f2ab627d0b4800af81e06520df94f652b6a888e546176c1b57",
+    "src/wnn/training/input_representation.py": "b21617243653ef573271445a5ce2e3f58d981a698f3187f200f6a3187bba9f51",
+    "tests/test_mean_variance_training.py": "fc9aa333403cdbf7486c591e9cb74bd4e1a55b6a1cc6dc9716f121f09f4f011d"
+  },
+  "review_findings": [
+    "The two logvariance rows append after the existing output rows. Main outputs and auxiliary offsets remain unchanged; mean-variance controls allocate the same rows, and their WMSE path reads only the first two outputs, so variance-row gradients are zero within the shared final Linear parameter rather than None.",
+    "For the fixed 0.9 teacher / 0.1 clipped-label recipe, WMSE and NLL use the same blended target and the original abs(clipped label) times validity weights. Both divide by the same sum of weights. NLL uses bounded logvariance [-4,4] and reduces to the same weighted squared-error scalar at zero logvariance.",
+    "Warm-start mapping copies the parent's full existing input projection and output rows, zeroes the added representation input columns and variance output rows, preserves means/scales for the original 211 inputs, and sets appended input means/scales to 0/1. The resulting 23-output-plus-two-row synthetic case preserves all original predictions.",
+    "The CLI configuration check requires a teacher, alpha 0.9, no far-alpha/bootstrap/reanchor, and cache scale 1. It does not itself prove that the supplied teacher artifact is the specific MainT3 checkpoint. The launch recipe must bind and verify that teacher/cache identity externally before training."
+  ],
+  "execution_scope": "No data, checkpoint, model fit, or held-out scoring was performed by this review."
+}

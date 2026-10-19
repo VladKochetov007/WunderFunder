@@ -18,6 +18,11 @@ from wnn.research_features import (
     validate_causal_moment_prior,
 )
 from wnn.training.environment import TrainingEnvironment
+from wnn.training.input_representation import (
+    FittedInputRepresentation,
+    build_representation_features,
+    representation_input_width,
+)
 
 
 def build_inputs(
@@ -64,9 +69,10 @@ def build_inputs(
             output=inputs[..., base_width:],
             control=environment.inputs.research_feature_control,
         )
-        return inputs
+        return _append_input_representation(inputs, raw, environment)
     if x.requires_grad:
-        return _build_staged_inputs(raw, extra, ev, environment)
+        staged = _build_staged_inputs(raw, extra, ev, environment)
+        return _append_input_representation(staged, raw, environment)
     input_parts = [raw, ev]
     if environment.inputs.online_norm:
         input_parts.append(online_zscore_torch(raw))
@@ -106,7 +112,21 @@ def build_inputs(
     inputs = torch.cat(input_parts, dim=-1)
     if environment.inputs.sentinel_preprocessor is not None:
         inputs = environment.inputs.sentinel_preprocessor.torch(inputs)
-    return inputs
+    return _append_input_representation(inputs, raw, environment)
+
+
+def _append_input_representation(
+    inputs: torch.Tensor, raw: torch.Tensor, environment: TrainingEnvironment
+) -> torch.Tensor:
+    """Append the declared full-history suffix after the unchanged legacy inputs."""
+    mode = environment.inputs.representation_mode
+    if representation_input_width(mode) == 0:
+        return inputs
+    fitted = environment.inputs.input_representation
+    if not isinstance(fitted, FittedInputRepresentation):
+        raise ValueError("experimental representation mode lacks its fitted transform")
+    suffix = build_representation_features(raw, str(mode), fitted)
+    return torch.cat((inputs, suffix), dim=-1)
 
 
 def _build_staged_inputs(

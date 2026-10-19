@@ -6,6 +6,19 @@ import argparse
 def add_targets_arguments(ap: argparse.ArgumentParser) -> None:
     """Register targets options in their historical order."""
     ap.add_argument(
+        "--mean-variance-head",
+        type=int,
+        choices=(0, 1),
+        default=0,
+        help="append the same two-output logvariance head to matched mean/variance experiments",
+    )
+    ap.add_argument(
+        "--mean-variance-objective",
+        choices=("wmse", "nll"),
+        default="wmse",
+        help="use canonical blended-target wMSE or bounded diagonal Gaussian NLL",
+    )
+    ap.add_argument(
         "--loss",
         choices=[
             "corr",

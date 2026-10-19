@@ -1,0 +1,38 @@
+{
+  "schema": "full-gru-tweaks.review-reconciliation.v1",
+  "created_utc": "2026-10-19T14:03:03.581758+00:00",
+  "status": "PASS_CURRENT_REPRESENTATION_AND_OBJECTIVE_SOURCE_BINDINGS",
+  "checks": {
+    "TEST_RECEIPT.json": {
+      "matched_current_source_pins": 23,
+      "total_pins": 23
+    },
+    "INDEPENDENT_REPRESENTATION_REVIEW.json": {
+      "matched_current_source_pins": 23,
+      "total_pins": 23
+    },
+    "INDEPENDENT_MEAN_VARIANCE_REVIEW.json": {
+      "matched_current_source_pins": 6,
+      "total_pins": 7
+    }
+  },
+  "preserved_superseded_pin": [
+    {
+      "review": "INDEPENDENT_MEAN_VARIANCE_REVIEW.json",
+      "path": "src/wnn/training/input_representation.py",
+      "reviewed_sha256": "b21617243653ef573271445a5ce2e3f58d981a698f3187f200f6a3187bba9f51",
+      "current_sha256": "934bac99544c04ac3b77f0b9f78fa4b40ce5782a785fee04d9450d9d568b116f"
+    }
+  ],
+  "resolution": "The earlier cross-review input_representation hash preceded root-requested FP32/cache recipe fixes. Current independent representation review and TEST_RECEIPT bind the final transform. Every objective-specific pin in the earlier review still matches. No old review bytes were rewritten.",
+  "additional_legacy_regression": {
+    "reported_run": "16 passed,1 failed in extra sentinel/legacy regression selection",
+    "test": "tests/test_sentinel.py::test_calibration_membership_components_content_and_native_rejections",
+    "failure": "package_submission has no export attribute",
+    "source_evidence": "scripts/package_submission.py is byte-identical to e20cff47 and defines export_member rather than export; unchanged test calls legacy export",
+    "baseline_package_sha256": "1e8ae603ae0bcc8d0d85c5a1ffb95674aa5e3f0b640e8df267e29b5c0751807c",
+    "classification": "pre-existing API mismatch inferred from unchanged baseline source/test; baseline test was not rerun",
+    "scope": "not repaired in this GRU training port; no native package/quantization claim"
+  },
+  "no_full_gpu_quality_result": true
+}

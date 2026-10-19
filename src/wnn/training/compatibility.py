@@ -73,6 +73,8 @@ INPUT_FIELDS = {
     "PRIVILEGED_MODE": "privileged_mode",
     "PRIVILEGED_HORIZON": "privileged_horizon",
     "SENTINEL_PREPROCESSOR": "sentinel_preprocessor",
+    "REPRESENTATION_MODE": "representation_mode",
+    "INPUT_REPRESENTATION": "input_representation",
 }
 ENVIRONMENT_EXPORTS = {
     "thin_rows",

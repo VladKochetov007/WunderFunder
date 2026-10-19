@@ -8,7 +8,7 @@ from pathlib import Path
 
 # Historical checkpoint records and experimental backend/batch states have
 # heterogeneous layouts; Any is retained only at those compatibility boundaries.
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import torch
 from attrs import define, field
@@ -19,6 +19,9 @@ from wnn.splits import dev_halves, valid_row_groups
 from wnn.training.forward import forward_chunk
 from wnn.training.models import make_model
 from wnn.training_dynamics import build_optimizer
+
+if TYPE_CHECKING:
+    from wnn.training.input_representation import FittedInputRepresentation
 
 
 @define
@@ -35,6 +38,8 @@ class InputConfiguration:
     privileged_mode: str = "none"
     privileged_horizon: int = 8
     sentinel_preprocessor: Any = None
+    representation_mode: str | None = None
+    input_representation: FittedInputRepresentation | None = None
 
 
 @define

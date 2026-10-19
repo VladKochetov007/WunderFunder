@@ -98,3 +98,9 @@ The lightweight GitHub workflow checks PRs to main/research-team without install
 Independent Sol6.1/medium static review and the [original refactor receipt](../../../research/unified/methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md) document that change's scope: Ruff/structure checks and normal CLI help, without unit/integration, numerical parity or throughput tests.
 
 The subsequent [maintenance receipt](../../../research/unified/operations/MAIN_MAINTENANCE_20261017.md) adds synthetic CPU checks for feature values/gradients, causal behavior, resume/export and legacy class/pickle/spawn compatibility. Run `make training-tests` in a provisioned CPU environment; see [Development](../../../docs/DEVELOPMENT.md). CUDA parity, full-data scoring and end-to-end speedup remain unmeasured.
+
+## Opt-in strong-GRU transfer components
+
+`input_representation.py`, `input_representation_fit.py`, and `input_representation_dictionary.py` implement the fixed append-only causal EMA/sparse-residual slots and fitting-only frozen dictionary. `representation_validation.py` binds cache/embedded payloads to the exact recipe and membership. `--representation-mode` omitted preserves the original input layout; explicit `base`, `ema`, `sparse`, or `ema_sparse` uses the common467-column study layout.
+
+`mean_variance.py` adds optional trailing logvariance rows and the bounded weighted Gaussian objective without moving original mean/auxiliary offsets. `--mean-variance-head 1` shares topology between WMSE and NLL controls; `--mean-variance-objective nll` requires the declared teacher/label target. Source checks do not authenticate a particular teacher artifact; the launch contract must bind its exact source/cache. The [draft study](../../../research/experiment_drafts/strong-gru-tweaks-20261019/README.md) describes scientific limits and source validation.

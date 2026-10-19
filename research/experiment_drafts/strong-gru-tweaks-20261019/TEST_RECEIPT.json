@@ -1,0 +1,74 @@
+{
+  "cold_import": {
+    "all_runtime_origins_isolated": true,
+    "read_sentinel_calls": 0,
+    "runtime_and_entrypoint_files_hashed": 99,
+    "runtime_wnn_modules": 96,
+    "sentinels": [
+      "numpy.load",
+      "numpy.memmap",
+      "torch.load",
+      "pyarrow.parquet.ParquetFile",
+      "pyarrow.parquet.read_table",
+      "pyarrow.parquet.read_metadata",
+      "SequenceFile.read"
+    ],
+    "status": "PASS"
+  },
+  "cold_import_receipt_sha256": "33e018dd2873bb2f7e3d9e996b724380acd923fb209dd7b37e8eb79ff4034e50",
+  "focused_tests": [
+    {
+      "command": "PYTHONPATH=src python -m pytest -q tests/test_predict_family_slice.py tests/test_mean_variance_training.py tests/test_input_representation.py",
+      "failed": 0,
+      "passed": 21
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest -q tests/test_propensity_strict_profile.py -k propensity_precision_profile",
+      "failed": 0,
+      "passed": 1
+    },
+    {
+      "check": "synthetic strict-profile checkpoint load; default propensity() rejects float64 input after reload",
+      "status": "PASS"
+    }
+  ],
+  "schema": "nf19.full_gru_tweaks.source_integration_tests.v1",
+  "scope": "source-only synthetic validation; no production arrays, checkpoints, model fits, or grading",
+  "source_sha256": {
+    "scripts/predict_run.py": "cf49d4ebcc1ff0946fa65bf13fdb5a7d4f54207d8c9d24d5a6da85674a72d8a3",
+    "scripts/train_propensity.py": "44b9ed72e209fa836f7d171861080471d4804bb4abef6177340145d962379656",
+    "scripts/train_rnn.py": "74530d3499bba1b5647e459105cb263bfc7205d7f3aa928684dfb279c2677345",
+    "src/wnn/propensity.py": "31a4e8309bc389b4bd72d64fe89fa00a48b4eeac7bce63799bfe985d240fd716",
+    "src/wnn/training/checkpoints.py": "a7dd4e9c092fd7912d20d73e6cd8bc597947898a6551d54c948f28f6e54f84c5",
+    "src/wnn/training/cli_features.py": "680687de564a7c96ac96296a729ccb6aa37a8ecb913e525153e769fa14abd79a",
+    "src/wnn/training/cli_targets.py": "ffc05685353085f2ab627d0b4800af81e06520df94f652b6a888e546176c1b57",
+    "src/wnn/training/compatibility.py": "faff1604339606e31d9012f55b542a87d2bafb7944e855236e5e273cfb7b7cee",
+    "src/wnn/training/environment.py": "37f431554a20b72ecfd10d41c76c4822379f3b4b15c3c69f8f3c6f5ba0e8125c",
+    "src/wnn/training/input_representation.py": "934bac99544c04ac3b77f0b9f78fa4b40ce5782a785fee04d9450d9d568b116f",
+    "src/wnn/training/input_representation_dictionary.py": "49eb729fa01574204698a16e2b2a7f0a2a18f119a84aaf39696df9e476f7b2ff",
+    "src/wnn/training/input_representation_fit.py": "6b5b21774b762d6d316e23d97210e63dcbb1f71241bec65897418e60a21adec9",
+    "src/wnn/training/inputs.py": "b433ad56965e4272f3209e02f9108527fdaeabebefae07616dff61a4bbe5c9ea",
+    "src/wnn/training/losses.py": "5859a4d40f13e91f50d34dfaed42d12dcfa2e229a85721ffc68bb5d69e1cfa66",
+    "src/wnn/training/mean_variance.py": "e4a067bb9d467d121720854876cfffb083ab803a4ed440ec96025779553e15c5",
+    "src/wnn/training/outputs.py": "35aab70e8aeb1ddabfa53f0f274ddc7aaa8c34d2e60ee92094a2221fcd20706a",
+    "src/wnn/training/representation_validation.py": "983e63fecc8886a67ec3452e21ca3637a25588eba02ab225ce5e1b6f9d8fb887",
+    "src/wnn/training/setup_model.py": "cec9748ad67c995a3c73f6b0288780ba52d0952445251c410113f6670c79fe33",
+    "src/wnn/training/setup_preprocessing.py": "a02a47186da846c1dbc82d49d5fc0f35f56e7812120576febeda7988e38ce623",
+    "tests/test_input_representation.py": "03645d748c9b62eeb53ade856d731de8719b719853092dc2b5f5a5ad77e7f3a4",
+    "tests/test_mean_variance_training.py": "fc9aa333403cdbf7486c591e9cb74bd4e1a55b6a1cc6dc9716f121f09f4f011d",
+    "tests/test_predict_family_slice.py": "c1d4f505ff9c2548bcabafe76ce1415cb7b35739088959fe1bb56f70cd4ccf50",
+    "tests/test_propensity_strict_profile.py": "1be4317b4fa6be96da9f891567678baf6e62bb1e3e0d2209938af9a41f4ebed5"
+  },
+  "static_checks": {
+    "ruff_check_touched_integration_files": "PASS (19 files)",
+    "ruff_format_check_touched_integration_files": "PASS (19 files)",
+    "training_structure": {
+      "errors": 0,
+      "files": 64,
+      "max_function_lines": 200,
+      "max_module_lines": 300,
+      "status": "PASS"
+    }
+  },
+  "status": "PASS"
+}

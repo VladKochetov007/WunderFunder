@@ -14,6 +14,11 @@ from wnn.training.checkpoints import (
 )
 from wnn.training.epoch import fit_epoch_summary
 from wnn.training.evaluation import evaluate
+from wnn.training.input_representation import (
+    FittedInputRepresentation,
+    representation_input_width,
+    serialize_input_representation,
+)
 from wnn.training.reporting import emit
 from wnn.training.state import TrainingRun
 from wnn.training_state import atomic_save_training_state, capture_training_state
@@ -141,6 +146,12 @@ def save_epoch(run: TrainingRun) -> None:
         provenance["checkpoint_sha256"]["model.pt"] = file_sha256(out_dir / "model.pt")
         provenance["selected_epoch"] = epoch
     provenance["fitting_seconds"] = round(prior_fit_seconds + time.time() - fitting_started, 1)
+    representation_payload = None
+    if representation_input_width(environment.inputs.representation_mode):
+        fitted = environment.inputs.input_representation
+        if not isinstance(fitted, FittedInputRepresentation):
+            raise ValueError("representation-enabled resume state lacks its fitted transform")
+        representation_payload = serialize_input_representation(fitted)
     (out_dir / "provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
     if continuation:
         training_state = capture_training_state(
@@ -168,6 +179,7 @@ def save_epoch(run: TrainingRun) -> None:
                 "readout_moments": None
                 if moments is None
                 else {field: getattr(moments, field) for field in ("m1", "m0", "n")},
+                "input_representation": representation_payload,
             },
         )
         atomic_save_training_state(training_state, out_dir / "training_state.pt")

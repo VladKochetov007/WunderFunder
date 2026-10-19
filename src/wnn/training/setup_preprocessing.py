@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import numpy as np
+import torch
 
 from wnn import student_frontier
 from wnn.research_features import (
@@ -12,6 +13,17 @@ from wnn.research_features import (
 )
 from wnn.splits import file_sha256
 from wnn.training.initializer import final_initializer_state_sha256, make_final_initializer_teacher
+from wnn.training.input_representation import (
+    FittedInputRepresentation,
+    deserialize_input_representation,
+    input_representation_sha256,
+    representation_input_width,
+)
+from wnn.training.input_representation_fit import (
+    prepare_input_representation,
+    select_fit_members,
+    validate_fitted_representation,
+)
 from wnn.training.inputs import fit_research_feature_prior
 from wnn.training.normalization import fit_e540_numeric_preprocessing, fit_normalization
 from wnn.training.state import TrainingRun
@@ -36,6 +48,19 @@ def fit_preprocessing(run: TrainingRun) -> None:
     train_idx = run.data.train_idx
     train_loader = run.data.train_loader
     train_split = run.data.train_split
+    if representation_input_width(environment.inputs.representation_mode):
+        fitted_representation, artifact_path, artifact_binding = _prepare_input_representation(run)
+        environment.inputs.input_representation = fitted_representation
+        provenance["input_representation"] = {
+            "mode": environment.inputs.representation_mode,
+            "state_sha256": input_representation_sha256(fitted_representation),
+            "artifact_path": str(artifact_path) if artifact_path is not None else None,
+            "artifact_file_sha256": (
+                file_sha256(artifact_path) if artifact_path is not None else None
+            ),
+            "artifact_binding": artifact_binding,
+            "fit_metadata": dict(fitted_representation.fit_metadata),
+        }
     if environment.inputs.research_features in MOMENT_FEATURE_MODES:
         if (
             init is not None
@@ -74,6 +99,12 @@ def fit_preprocessing(run: TrainingRun) -> None:
             )
             student_frontier.install_normalization(model, mean, std)
             provenance["student_frontier"]["normalization_source"] = normalization_source
+    if representation_input_width(environment.inputs.representation_mode):
+        if model.mean.numel() != 467 or model.std.numel() != 467:
+            raise ValueError("representation-enabled model must have the fixed 467-wide layout")
+        with torch.no_grad():
+            model.mean[211:].zero_()
+            model.std[211:].fill_(1.0)
     if args.numeric_map != "none":
         fit_groups_train = train_idx.tolist() if train_split == "train" else []
         fit_groups_valid = (
@@ -102,6 +133,82 @@ def fit_preprocessing(run: TrainingRun) -> None:
         model._inference_fp32 = True
     initializer_teacher = None
     run.network.initializer_teacher = initializer_teacher
+
+
+def _prepare_input_representation(
+    run: TrainingRun,
+) -> tuple[FittedInputRepresentation, Path | None, str]:
+    """Restore or fit the shared frozen dictionary from selected train groups only."""
+    environment = run.environment
+    args = run.options.args
+    device = run.options.device
+    split = run.data.campaign_split
+    train_groups = run.data.train_idx
+    output_dir = run.options.out_dir
+    if run.data.train_split != "train" or train_groups is None or split is None:
+        raise ValueError("input representation fitting requires campaign-qualified train groups")
+    if output_dir is None:
+        raise ValueError("input representation fitting needs a run output directory")
+    members = select_fit_members(np.asarray(train_groups), split)
+    mode = environment.inputs.representation_mode
+    saved_training = run.data.saved_training
+    candidate: FittedInputRepresentation | None = None
+    candidate_binding = "embedded_checkpoint_payload"
+    if saved_training is not None:
+        payload = saved_training.get("auxiliary", {}).get("input_representation")
+        if payload is None:
+            raise ValueError("resumable state lacks its frozen input representation")
+        candidate = deserialize_input_representation(payload, device)
+        candidate_binding = "embedded_resume_payload"
+    elif run.network.init is not None:
+        parent = run.network.init
+        parent_mode = parent.get("args", {}).get("representation_mode")
+        if parent_mode not in (None, mode):
+            raise ValueError("initializer representation mode differs from requested input mode")
+        if parent_mode == mode:
+            payload = parent.get("input_representation")
+            if payload is None:
+                raise ValueError("representation-enabled initializer lacks its fitted transform")
+            candidate = deserialize_input_representation(payload, device)
+            candidate_binding = "embedded_initializer_payload"
+    if candidate is not None:
+        validate_fitted_representation(candidate, split.sha256, members)
+    cache_path = args.representation_cache
+    if cache_path is not None and Path(cache_path).is_file():
+        loaded = prepare_input_representation(
+            np.asarray(train_groups),
+            split,
+            environment,
+            device,
+            cache_path=Path(cache_path),
+            output_path=output_dir,
+        )
+        if candidate is not None and (
+            input_representation_sha256(candidate) != input_representation_sha256(loaded)
+        ):
+            raise ValueError("shared representation cache differs from initializer/resume state")
+        return loaded, Path(cache_path).expanduser().resolve(), "shared_fit_cache"
+    if candidate is not None:
+        if cache_path is not None:
+            raise ValueError("requested shared representation cache does not exist")
+        return candidate, None, candidate_binding
+    fitted = prepare_input_representation(
+        np.asarray(train_groups),
+        split,
+        environment,
+        device,
+        cache_path=None if cache_path is None else Path(cache_path),
+        output_path=output_dir,
+    )
+    artifact_path = (
+        Path(cache_path).expanduser().resolve()
+        if cache_path is not None
+        else output_dir.resolve() / "input_representation.pt"
+    )
+    binding = "shared_fit_cache" if cache_path is not None else "run_local_fit_artifact"
+    if not artifact_path.is_file():
+        raise FileNotFoundError("fitted input representation artifact was not created")
+    return fitted, artifact_path, binding
 
 
 def configure_initializer_teacher(run: TrainingRun) -> None:

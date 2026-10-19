@@ -10,6 +10,7 @@ import argparse
 import hashlib
 import json
 import os
+from collections.abc import Mapping
 from pathlib import Path
 
 import numpy as np
@@ -33,9 +34,50 @@ from wnn.research_features import (
 from wnn.resources import configure_strict_fp32, configure_torch, dataloader_budget
 from wnn.sentinel import SentinelPreprocessor
 from wnn.splits import file_sha256, load_campaign_split
+from wnn.training.input_representation import (
+    FittedInputRepresentation,
+    deserialize_input_representation,
+    input_representation_sha256,
+    representation_input_width,
+)
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
 ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
+
+
+def family_output_slice(checkpoint_args: Mapping[str, object], n_outputs: int) -> slice:
+    """Locate family rows before optional logvariance rows in an output tensor."""
+    if checkpoint_args.get("distill_family_weight", 0.0) <= 0:
+        raise ValueError("family output export requires a checkpoint with a family head")
+    trailing_variance = 2 if checkpoint_args.get("mean_variance_head", 0) else 0
+    stop = n_outputs - trailing_variance
+    start = stop - 8
+    if start < 2:
+        raise ValueError("checkpoint output width cannot contain its declared family head")
+    return slice(start, stop)
+
+
+def restore_input_representation(
+    checkpoint: dict[str, object], device: torch.device
+) -> tuple[str | None, FittedInputRepresentation | None]:
+    """Restore the exact transform required by a representation-enabled checkpoint."""
+    checkpoint_args = checkpoint.get("args", {})
+    if not isinstance(checkpoint_args, dict):
+        raise ValueError("checkpoint training arguments are missing")
+    raw_mode = checkpoint_args.get("representation_mode")
+    if raw_mode is not None and not isinstance(raw_mode, str):
+        raise ValueError("checkpoint representation mode is malformed")
+    mode = None if raw_mode in (None, "none") else raw_mode
+    if representation_input_width(mode):
+        if checkpoint.get("n_in") != 467:
+            raise ValueError("representation checkpoint must use the fixed 467-wide input layout")
+        payload = checkpoint.get("input_representation")
+        if payload is None:
+            raise ValueError("representation checkpoint lacks its fitted input transform")
+        return mode, deserialize_input_representation(payload, device)
+    if checkpoint.get("input_representation") is not None:
+        raise ValueError("legacy checkpoint unexpectedly contains an input representation")
+    return None, None
 
 
 def campaign_prediction_groups(
@@ -170,6 +212,12 @@ def main():
         raise ValueError(
             "privileged teachers require component-crossfit extraction, not causal prediction export"
         )
+    family_columns = None
+    if args.dump_family:
+        try:
+            family_columns = family_output_slice(ck["args"], ck["model"]["head.2.weight"].shape[0])
+        except ValueError as exc:
+            parser.error(str(exc))
     feature_only = args.fit_subset_manifest is not None or args.campaign_split_manifest is not None
     if args.campaign_split_manifest is not None:
         groups = campaign_prediction_groups(
@@ -238,6 +286,9 @@ def main():
         train_rnn.RESEARCH_FEATURE_PRIOR = validate_causal_moment_prior(prior)
     else:
         train_rnn.RESEARCH_FEATURE_PRIOR = None
+    representation_mode, fitted_representation = restore_input_representation(ck, device)
+    train_rnn.INPUT_REPRESENTATION = fitted_representation
+    train_rnn.REPRESENTATION_MODE = representation_mode
     input_propensity = ck["args"].get("prop_input")
     train_rnn.INPUT_PROPENSITY = (
         load_propensity(ROOT / "artifacts" / "runs" / input_propensity / "model.pt", device)
@@ -275,7 +326,7 @@ def main():
         x = batch if feature_only else batch[0]
         if fam is None:
             p = predict(model, x, 4000, device)
-        else:  # research probe: keep every output column (family heads are the last 8)
+        else:  # research probe: keep the main targets and the declared family head
             model.eval()
             with torch.no_grad():
                 inputs = train_rnn.build_inputs(x.to(device, non_blocking=True))
@@ -289,7 +340,9 @@ def main():
                 parts.append(o.float())
             full = torch.cat(parts, dim=1).detach().cpu().numpy()
             p = full[..., :2]
-            fam[i : i + len(p)] = np.concatenate([full[..., :2], full[..., -8:]], axis=-1)
+            fam[i : i + len(p)] = np.concatenate(
+                [full[..., :2], full[..., family_columns]], axis=-1
+            )
         out[i : i + len(p)] = p[..., :2]
         i += len(p)
     out.flush()
@@ -316,6 +369,12 @@ def main():
         "recurrent_rank": ck.get("factorization", {}).get("rank"),
         "sentinel_preprocessing": ck.get("sentinel_preprocessing"),
         "numeric_preprocessing": ck.get("provenance", {}).get("numeric_preprocessing"),
+        "representation_mode": representation_mode,
+        "input_representation_state_sha256": (
+            input_representation_sha256(train_rnn.INPUT_REPRESENTATION)
+            if train_rnn.INPUT_REPRESENTATION is not None
+            else None
+        ),
         "row_groups": groups.tolist(),
         "evaluation_membership_sha256": (
             hashlib.sha256(np.asarray(groups, dtype="<i8").tobytes()).hexdigest()

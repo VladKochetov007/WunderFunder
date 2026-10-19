@@ -1,0 +1,146 @@
+{
+  "schema": "full-gru-tweaks.design.v1",
+  "created_utc": "2026-10-19T13:40:17.051900+00:00",
+  "status": "PRE_OUTCOME_DESIGN_FROZEN_SCIENCE_RUNTIME_PENDING",
+  "question": "Do EMA history, sparse learned residual features and coupled mean/logvariance improve a strong full GRU separately and jointly?",
+  "user_scope": "five arms explicitly confirmed; no pairwise interaction claims",
+  "baseline": {
+    "family": "Main clean T3 student",
+    "hidden": 256,
+    "layers": 2,
+    "cell": "gru",
+    "encoder": "linear",
+    "base_inputs": 211,
+    "epochs": 6,
+    "fixed_epoch": 5,
+    "historical_score_is_not_reproduction": true,
+    "historical_precision": "fp16",
+    "new_precision": "strict fp32",
+    "historical_source": "research/unified/reviews/CLEAN_T3_TEACHER_STUDENT_BOTTLENECK_REVIEW_20261015_R1.md",
+    "ancestry": "rebuild per-fold fitting-only teacher/initializer prerequisites rather than reuse production or one F0 parent across folds",
+    "parent_recipe": "exact clean rebuild endpoint still being source-bound; no outcome-based recipe choice",
+    "teacher_recipe": "clean T3 H384x2 Muon teacher trio seeds3/4/5, fixed epoch2; exact source-bound runtime preregistered separately before first fit",
+    "target": "0.1*clip(label,-2,2)+0.9*clip(0.8125*mean(three fixed teacher predictions),-2,2)",
+    "weights": "abs(clip(label,-2,2))*canonical main_valid; same denominator in all arms"
+  },
+  "arms": [
+    {
+      "name": "control",
+      "ema": false,
+      "sparse": false,
+      "objective": "wmse"
+    },
+    {
+      "name": "ema",
+      "ema": true,
+      "sparse": false,
+      "objective": "wmse"
+    },
+    {
+      "name": "sparse",
+      "ema": false,
+      "sparse": true,
+      "objective": "wmse"
+    },
+    {
+      "name": "mean_variance",
+      "ema": false,
+      "sparse": false,
+      "objective": "nll"
+    },
+    {
+      "name": "all",
+      "ema": true,
+      "sparse": true,
+      "objective": "nll"
+    }
+  ],
+  "feature_layout": {
+    "all_arms_width": 467,
+    "prefix": "unchanged raw112 + canonical event99",
+    "dictionary_slot": 128,
+    "history_slot": 128,
+    "inactive": "exact zeros",
+    "sparse": "append [signed top4-of16 learned code, exact normalized-raw residual112]; original raw/event retained",
+    "ema_only": "HL32 causal signed innovation EMA of raw112, with16 zero padding",
+    "all_history": "HL32 causal signed innovation EMA of code16+residual112",
+    "first_delta": 0,
+    "boundary": "reset at full-sequence boundary; compute before chunking",
+    "adaptation": "append-only port to preserve warm Main T3 function, not literal CPU R15 replacement layout or a new measured sparsity gain"
+  },
+  "initialization": {
+    "same_all_five": "same source-qualified parent mean/trunk tensors; appended input projection columns zero; common mean/logvariance head topology; logvariance projection zero",
+    "active_extra_normalization": "fixed zero mean/unit scale for appended slots; dictionary raw fit-normalization recorded separately",
+    "wmse_variance": "head unused, exact skip, no 0*NaN",
+    "original_default": "absent experimental flags preserves legacy model/objective/checkpoint behavior"
+  },
+  "nll": {
+    "formula": "sum(w*(exp(-s)*(mu-target)^2+s))/sum(w)",
+    "s": "clamp(logvariance,-4,4)",
+    "adaptation": "same teacher/label blend as control; CPU R7 used labels so this is a declared full-recipe extension"
+  },
+  "dictionary": {
+    "scope": "selected fit membership only, no canonical eval groups/labels",
+    "dimensions": [
+      112,
+      16,
+      112
+    ],
+    "top_k": 4,
+    "fit_budget": "bounded fixed sample and training recipe to be pinned before reading arrays; same dictionary shared within the five-arm cell",
+    "frozen_during_gru": true,
+    "no_panel_archive_initializer": true
+  },
+  "comparison": {
+    "folds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "seeds_per_fold": [
+      8,
+      8,
+      7,
+      7
+    ],
+    "seeds": "1001..1008 F0/F1,1001..1007 F2/F3",
+    "final_model_fits": 150,
+    "allocation": "plan only; bounded initial prerequisite/profile/first cell, later allocation based on measured runtime and useful evidence",
+    "primary": "equal-fold mean paired WP delta against matched control over30 cells",
+    "partial": "report actual completed cells honestly; fixed-prediction component resampling is not training replication",
+    "scorer": "unchanged global_wp_clip2_v1",
+    "checkpoint_selection": "fixed endpoint; no eval during fit; no outer retuning/replacement seed/failure exclusion",
+    "exposure": "all four outer folds exposed; not fresh holdout"
+  },
+  "resource": {
+    "provider": "Beleriand",
+    "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+    "max_owned_gpu_workers": 1,
+    "parent_cpu": 2,
+    "parent_memory_high": 18000000000,
+    "parent_memory_max": 20000000000,
+    "parent_swap": 0,
+    "target_committed": 17000000000,
+    "fit_runtime_seconds": 86400,
+    "profile_runtime_seconds": 1200,
+    "export_seconds": 7200,
+    "grade_seconds": 3600,
+    "require_realshape_profile": true,
+    "foreign_jobs": "preserved; empty GPU not required"
+  },
+  "forbidden_claims": [
+    "sum local deltas as public forecast",
+    "five arms estimate all pairwise synergy",
+    "historical FP16 control reproduced before actual fit",
+    "production-trained TL3 weights are clean heldout initializer",
+    "source preparation is a running job"
+  ],
+  "not_selected": [
+    "old ranked25/CP30 queue",
+    "R16 held input-only graph probe",
+    "quantization",
+    "historical recovery",
+    "new provider tests"
+  ]
+}

@@ -1,14 +1,16 @@
 """Causal propensity model P(is_scored | rows <= t), fit on validation devA only.
 
     scripts/limited .venv/bin/python scripts/train_propensity.py --name prop_v1
-Scores AUC on devB. The frozen model supplies soft scoring weights when training
-on train.parquet (which has no mask), keeping devB and holdout untouched.
+Legacy mode scores AUC on devB. The opt-in strict_fp32_v1 profile requires a
+campaign split, fits normalization on all ordered fit-valid groups, and withholds
+evaluation. The frozen model supplies soft scoring weights when training on
+train.parquet (which has no mask).
 """
 
 from __future__ import annotations
 
-import argparse
 import json
+import os
 import time
 from pathlib import Path
 
@@ -20,11 +22,54 @@ from train_rnn import Sequences, build_inputs, checkpoint_selected, configure_ch
 
 from wnn.data import N_FEATURES, WARMUP
 from wnn.features import N_EVENT_FEATURES
-from wnn.propensity import PropensityNet, propensity
-from wnn.resources import configure_torch
+from wnn.propensity import (
+    PROPENSITY_FIT_SOURCE_FILES,
+    STRICT_FP32_PROFILE,
+    PropensityNet,
+    fit_normalization,
+    ordered_groups_sha256,
+    propensity,
+)
+from wnn.resources import configure_strict_fp32, configure_torch
 from wnn.splits import dev_halves, file_sha256, load_campaign_split
 
-ROOT = Path(__file__).resolve().parents[1]
+SOURCE_ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
+
+
+def _source_sha256(profile: str) -> dict[str, str]:
+    """Bind relevant training, data, feature and precision code for strict runs."""
+    if profile == STRICT_FP32_PROFILE:
+        paths = PROPENSITY_FIT_SOURCE_FILES
+    else:
+        paths = (
+            "scripts/train_propensity.py",
+            "scripts/train_rnn.py",
+            "src/wnn/propensity.py",
+            "src/wnn/propensity_cli.py",
+            "src/wnn/training/inputs.py",
+        )
+    return {path: file_sha256(SOURCE_ROOT / path) for path in paths}
+
+
+def _prepare_run_directory(path: Path, *, strict: bool, resume: bool = False) -> None:
+    """Create a strict run directory exclusively; legacy runs retain reuse behavior."""
+    if strict:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if path.is_symlink():
+            raise FileExistsError(f"strict propensity run path is a symlink: {path}")
+        if resume:
+            if not path.is_dir():
+                raise FileNotFoundError(f"strict propensity resume directory is missing: {path}")
+        else:
+            path.mkdir(exist_ok=False)
+    else:
+        path.mkdir(parents=True, exist_ok=True)
+
+
+def _require_finite(tensor: torch.Tensor, name: str) -> None:
+    if not torch.isfinite(tensor).all().item():
+        raise FloatingPointError(f"strict propensity {name} contain non-finite values")
 
 
 def auc(scores: np.ndarray, labels: np.ndarray) -> float:
@@ -37,30 +82,26 @@ def auc(scores: np.ndarray, labels: np.ndarray) -> float:
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--name", required=True)
-    ap.add_argument("--hidden", type=int, default=64)
-    ap.add_argument("--epochs", type=int, default=4)
-    ap.add_argument("--lr", type=float, default=2e-3)
-    ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--checkpoint-policy", choices=["best", "fixed"], default="best")
-    ap.add_argument("--checkpoint-epoch", type=int, default=None)
-    ap.add_argument("--no-eval-during-fit", action="store_true")
-    ap.add_argument("--split-manifest", type=Path, default=None)
-    ap.add_argument(
-        "--heldout-fold",
-        type=int,
-        default=-1,
-        help="if >= 0: train on all validation sequences outside this chain fold (cache/chain_folds.npz), "
-        "evaluate on it; default: train devA, evaluate devB",
-    )
-    ap.add_argument(
-        "--dev-all",
-        action="store_true",
-        help="train on all dev sequences (devA + devB), evaluate on the holdout",
-    )
+    from wnn.propensity_cli import build_propensity_parser
+
+    ap = build_propensity_parser()
     args = ap.parse_args()
     configure_checkpoint_policy(args, ap)
+    strict_fp32 = args.precision_profile == STRICT_FP32_PROFILE
+    if strict_fp32 and (
+        Path(args.name).name != args.name or args.name in {".", ".."} or "\\" in args.name
+    ):
+        ap.error("strict_fp32_v1 --name must be a single run-directory name")
+    if args.resume and not strict_fp32:
+        ap.error("--resume is supported only by strict_fp32_v1")
+    if args.loader_workers is None:
+        args.loader_workers = 0 if strict_fp32 else 2
+    if args.loader_workers < 0:
+        ap.error("--loader-workers must be nonnegative")
+    if strict_fp32 and args.split_manifest is None:
+        ap.error("strict_fp32_v1 requires --split-manifest")
+    if strict_fp32 and not (args.no_eval_during_fit and args.checkpoint_policy == "fixed"):
+        ap.error("strict_fp32_v1 requires fixed checkpoint selection and --no-eval-during-fit")
     campaign_split = load_campaign_split(args.split_manifest, ROOT) if args.split_manifest else None
     if campaign_split is not None:
         if args.dev_all or args.heldout_fold not in (-1, campaign_split.fold):
@@ -71,8 +112,10 @@ def main() -> None:
     torch.manual_seed(args.seed)
     device = torch.device("cuda")
     configure_torch(gpu_fraction=0.3)
+    if strict_fp32:
+        configure_strict_fp32()
     out_dir = ROOT / "artifacts" / "runs" / args.name
-    out_dir.mkdir(parents=True, exist_ok=True)
+    _prepare_run_directory(out_dir, strict=strict_fp32, resume=args.resume)
     if campaign_split is not None:
         dev_a = np.asarray(campaign_split.valid_groups)
         dev_b = np.asarray(campaign_split.evaluation_groups)
@@ -90,30 +133,71 @@ def main() -> None:
         dev_a, dev_b = rg[f != args.heldout_fold], rg[f == args.heldout_fold]
     else:
         dev_a, dev_b = dev_halves(ROOT / "datasets" / "valid.parquet")
-    train = DataLoader(
-        Sequences("valid", dev_a), batch_size=16, shuffle=True, num_workers=2, prefetch_factor=1
-    )
+    train_dataset = Sequences("valid", dev_a)
+    loader_options = {"num_workers": args.loader_workers}
+    if args.loader_workers:
+        loader_options["prefetch_factor"] = 1
+    train = DataLoader(train_dataset, batch_size=16, shuffle=True, **loader_options)
     test = (
         None
         if args.no_eval_during_fit
-        else DataLoader(Sequences("valid", dev_b), batch_size=16, num_workers=2, prefetch_factor=1)
+        else DataLoader(Sequences("valid", dev_b), batch_size=16, **loader_options)
     )
     model = PropensityNet(N_FEATURES + N_EVENT_FEATURES, args.hidden).to(device)
-    with torch.no_grad():
-        x, _, _ = next(iter(train))
-        f = build_inputs(x.to(device))
-        model.mean.copy_(f.reshape(-1, f.shape[-1]).mean(0))
-        model.std.copy_(f.reshape(-1, f.shape[-1]).std(0).clamp_min(1e-3))
+    model._propensity_profile = args.precision_profile
+    normalization = None
+    if strict_fp32 and not args.resume:
+        stats_loader = DataLoader(
+            train_dataset,
+            batch_size=4,
+            shuffle=False,
+            **loader_options,
+        )
+        normalization = fit_normalization(model, (build_inputs(x) for x, _, _ in stats_loader))
+    elif not strict_fp32:
+        with torch.no_grad():
+            x, _, _ = next(iter(train))
+            f = build_inputs(x.to(device))
+            model.mean.copy_(f.reshape(-1, f.shape[-1]).mean(0))
+            model.std.copy_(f.reshape(-1, f.shape[-1]).std(0).clamp_min(1e-3))
     opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-2)
     history, best_auc = [], -1.0
     provenance = {
         "seed": args.seed,
         "args": vars(args).copy(),
+        "precision_profile": args.precision_profile,
         "split_manifest_sha256": campaign_split.sha256 if campaign_split is not None else None,
         "fit_row_groups": {"valid": dev_a.tolist()},
+        "fit_row_groups_sha256": {"valid": ordered_groups_sha256(dev_a)},
         "evaluation_row_groups": dev_b.tolist(),
+        "normalization": normalization,
+        "n_in": N_FEATURES + N_EVENT_FEATURES,
+        "source_sha256": _source_sha256(args.precision_profile),
         "checkpoint_sha256": {},
     }
+    if strict_fp32:
+        assert campaign_split is not None
+        from wnn.propensity_fit import fit_strict_propensity
+
+        print(json.dumps(vars(args)), flush=True)
+        fit_strict_propensity(
+            model=model,
+            loader=train,
+            optimizer=opt,
+            build_inputs=build_inputs,
+            args=vars(args).copy(),
+            provenance=provenance,
+            normalization=normalization,
+            split=campaign_split,
+            data_root=ROOT,
+            source_root=SOURCE_ROOT,
+            device=device,
+            warmup=WARMUP,
+            chunk_rows=2000,
+            resume=args.resume,
+            run_dir=out_dir,
+        )
+        return
     fitting_started = time.time()
     print(json.dumps(vars(args)), flush=True)
     for epoch in range(args.epochs):
@@ -124,8 +208,13 @@ def main() -> None:
             target = m.to(device).float()
             h = None
             for s in range(0, 20_000, 2000):
-                with torch.autocast("cuda", dtype=torch.float16):
-                    logit, h = model(inputs[:, s : s + 2000], h)
+                if strict_fp32:
+                    with torch.autocast("cuda", enabled=False):
+                        logit, h = model(inputs[:, s : s + 2000], h)
+                    _require_finite(logit, "logits")
+                else:
+                    with torch.autocast("cuda", dtype=torch.float16):
+                        logit, h = model(inputs[:, s : s + 2000], h)
                 h = h.detach()
                 keep = (torch.arange(s, min(s + 2000, 20_000), device=device) >= WARMUP)[
                     None
@@ -133,9 +222,18 @@ def main() -> None:
                 loss = F.binary_cross_entropy_with_logits(
                     logit.float()[keep], target[:, s : s + 2000][keep]
                 )
+                if strict_fp32:
+                    _require_finite(loss, "loss")
                 opt.zero_grad(set_to_none=True)
                 loss.backward()
+                if strict_fp32:
+                    for name, parameter in model.named_parameters():
+                        if parameter.grad is not None:
+                            _require_finite(parameter.grad, f"gradient {name}")
                 opt.step()
+                if strict_fp32:
+                    for name, parameter in model.named_parameters():
+                        _require_finite(parameter, f"weight {name}")
         res = {"epoch": epoch, "train_seconds": round(time.time() - epoch_started, 1)}
         evaluation_score = None
         if args.no_eval_during_fit:

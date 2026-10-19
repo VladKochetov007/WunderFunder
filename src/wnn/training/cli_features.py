@@ -102,6 +102,18 @@ def add_features_arguments(ap: argparse.ArgumentParser) -> None:
         help="newest zeros the newest moment-feature block while keeping input width fixed",
     )
     ap.add_argument(
+        "--representation-mode",
+        choices=("base", "ema", "sparse", "ema_sparse"),
+        default=None,
+        help="append the fixed 256-wide fit-only sparse/causal-history representation",
+    )
+    ap.add_argument(
+        "--representation-cache",
+        type=Path,
+        default=None,
+        help="load or create the source-qualified fitted representation artifact shared by arms",
+    )
+    ap.add_argument(
         "--privileged-mode",
         choices=PRIVILEGED_MODES,
         default="none",

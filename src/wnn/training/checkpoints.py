@@ -15,6 +15,11 @@ from wnn.splits import file_sha256
 from wnn.training.averaging import FastEMA
 from wnn.training.cache_identity import prop_cache_path
 from wnn.training.environment import TrainingEnvironment
+from wnn.training.input_representation import (
+    FittedInputRepresentation,
+    representation_input_width,
+    serialize_input_representation,
+)
 from wnn.training_factorized import factorized_inference_state
 from wnn.training_qat import inference_state
 from wnn.training_state import loader_state
@@ -88,6 +93,11 @@ def inference_checkpoint_fields(
         result = {"model": exported, **({"quantization": metadata} if metadata is not None else {})}
     if hasattr(model, "_sentinel_preprocessing"):
         result["sentinel_preprocessing"] = model._sentinel_preprocessing
+    if representation_input_width(environment.inputs.representation_mode):
+        fitted = environment.inputs.input_representation
+        if not isinstance(fitted, FittedInputRepresentation):
+            raise ValueError("representation-enabled checkpoint lacks its fitted transform")
+        result["input_representation"] = serialize_input_representation(fitted)
     if environment.inputs.research_features in MOMENT_FEATURE_MODES:
         if environment.inputs.research_feature_prior is None:
             raise ValueError("causal moment checkpoint is missing its fitting-only prior")
