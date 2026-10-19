@@ -1,0 +1,11 @@
+# R7 execution records
+
+[Startup packet](startup_v1/README.md) preserves reviewed source transport, outer current-pointer/ownership/all-child/headroom/output gates and the serial import/read-sentinel smoke followed by a fresh CLI interpreter. The exact source and root review were frozen before actual execution.
+
+[Launch intent](probe_v1/LAUNCH_INTENT.json) and [raw launch response](probe_v1/LAUNCH_STDOUT.json) identify the sole unit `computer-vision-homework-eda19-r7-v1.service`, invocation`a62a2814610a4f69990635856d83682e`, launched01:50:30.662932UTC19October. Actual caps are0.5CPU/high1.4GB/max1.5GB/swap0/600s, hiddenCUDA and one BLAS/Torch thread, serial within the2CPU campaign parent. Source is `B/support-source/eda19-r7-v1`; output is `B/research_tmp/nf19-r7-v1`, with B=`/home/grinchenkoeg/computer-vision-homework-20261018`.
+
+[Terminal capture](probe_v1/terminal_capture/README.md) links exact result, source, completion, progress and launch/smoke/admission receipts. [Capture summary](probe_v1/terminal_capture/CAPTURE_SUMMARY.json) verifies successful exit0 at01:51:55UTC, invocation/caps and raw-byte transport. The raw envelope SHA is`cc9c7506df2ba8f1429c74bf4338206be2391bfd3605a7e228ec8a1074caf375`; all23embedded payloads were verified. [Stop receipt](probe_v1/terminal_capture/STOP_RECEIPT.json) binds the already durable capture before stopping only this exact exited unit; post-stop state is inactive/dead/not-found at01:54:16.673178UTC. No retry/restart occurred.
+
+The terminal ControlGroup property was empty. Capture correctly records no unit-specific cgroup evidence and never falls back to `/sys/fs/cgroup`. Parent hierarchical/local events and populated F3 child events are separately captured. Process RSS, helper timings and systemd MemoryPeak/CPU describe different scopes; [resource reconciliation](../RESOURCE_RECONCILIATION.json) records them without inventing an explanation for differences.
+
+Only metadata, compact scalar statistics and code moved to the Mac. NPZ/NPY/model/prediction payloads remain on B. [Results](../RESULTS.md) and [independent compact audit](../RESULT_AUDIT.json) are the scientific readout; launch and successful exit alone are not quality evidence.

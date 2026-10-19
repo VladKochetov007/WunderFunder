@@ -1,0 +1,16 @@
+{
+  "review": "independent_preimplementation_design_critique",
+  "decision": "PASS",
+  "design_path": "research/campaign_2026-10-19/idea_screens_r7/DESIGN.md",
+  "design_sha256": "de55e24aa88bce4129116fdd15505cc7db5aa4afb07e806ac09b54aac56820d3",
+  "scope": "One fixed paired CPU screen of a finite heteroskedastic mean/variance objective versus the canonical WMSE control on the already exposed R3 panel.",
+  "checks": {
+    "matched_control": "Both arms share the complete initialization, architecture, normalization, minibatch schedule, optimizer, updates, and final endpoint; the control variance head is unused and therefore receives no gradient. The candidate changes only the fitting objective.",
+    "loss_and_metric": "The stated common-denominator |clip(y)|-weighted WMSE matches the existing canonical weighted_mse_loss reduction. At s=0 the proposed bounded-logvariance loss equals that control loss and its mean-gradient scale; s in [-4,4] keeps exp(-s) finite. The official pooled WP scorer remains unchanged and is used for both final means.",
+    "data_and_leakage": "Feature calculation is causal over each complete sequence; normalization and fitting use fit rows only. The fixed sample preserves original masks and ordered membership, and fit/eval components are disjoint. Evaluation scores do not select an endpoint or tune the recipe.",
+    "resource_bound": "31,808 fit rows, 63 batches per epoch, and 1,512 total arm-updates for a small 224-64-2/2 MLP appear plausible within the specified serial 0.5-CPU, 1.5-GB, 600-second cap. The explicit memory/time guards and incomplete-pair rule remain necessary; equal budget here means matched examples and updates, not exactly equal wall time or FLOPs.",
+    "interpretation": "A result concerns only this 12-epoch finite model/objective on this exposed panel. It cannot establish latent-noise recovery, general heteroskedasticity, a full-recipe/public improvement, or independent replication. The 32 component summaries are paired sensitivity diagnostics, not 32 independent trials."
+  },
+  "blockers": [],
+  "review_limits": "Design-only review; no model execution, dataset-array read, or result inspection was performed. Implementation, provenance, resource guards, and test evidence still require independent review before execution."
+}

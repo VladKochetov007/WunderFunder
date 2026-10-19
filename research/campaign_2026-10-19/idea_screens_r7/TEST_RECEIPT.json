@@ -1,0 +1,46 @@
+{
+  "checks": {
+    "b_shaped_import_and_read_sentinel_smoke": {
+      "layout": "temporary support-source/eda19-r7-v1 bundle with sibling source-a266b036/src/wnn",
+      "metadata_fixture": {
+        "eval_records": 32,
+        "fit_records": 64,
+        "path": "idea_screens_r3/records/sample_v2/terminal_capture/REMOTE_SAMPLE.json",
+        "schema": "idea_screens_r3.sample.v2",
+        "sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64"
+      },
+      "read_sentinels": {
+        "numpy.load": 0,
+        "pyarrow.parquet.ParquetFile": 0,
+        "torch.load": 0
+      },
+      "result": "Only pinned code and the JSON metadata fixture were imported/read; no panel arrays or checkpoint were loaded.",
+      "runtime_modules_imported_and_path_checked": 24,
+      "status": "PASS",
+      "verified_manifest_pins": 30
+    },
+    "py_compile": {
+      "result": "Frozen R7 Python modules compiled successfully.",
+      "status": "PASS"
+    },
+    "ruff": {
+      "result": "Ruff formatting and lint checks passed on the frozen R7 implementation.",
+      "status": "PASS"
+    },
+    "synthetic_tests": {
+      "command": "PYTHONPATH=src .venv/bin/python -m pytest -q research/campaign_2026-10-19/idea_screens_r7/test_probe.py",
+      "result": "11 passed in 1.43s",
+      "status": "PASS"
+    }
+  },
+  "created_utc": "2026-10-19T01:44:38Z",
+  "execution_scope": {
+    "model_training_or_evaluation_run": false,
+    "real_panel_arrays_loaded": false,
+    "remote_or_B_actions": false,
+    "source_changes_after_validation": false
+  },
+  "frozen_pin_count": 30,
+  "preparation_manifest_sha256": "9b941a2180e9012b3011a716d07dde40b0272a04e34a69fcaaa8afc011dd90a4",
+  "schema": "nf19.r7_test_receipt.v1"
+}

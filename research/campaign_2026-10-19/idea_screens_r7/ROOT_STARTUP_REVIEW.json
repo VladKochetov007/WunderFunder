@@ -1,0 +1,62 @@
+{
+  "bindings": {
+    "assembled_script_bytes": 455028,
+    "assembled_script_path": "/Users/nb/Documents/wunder/runtime-20261018/eda19-r7-v1/r7_remote.py",
+    "assembled_script_sha256": "617c7e126ac3fd0f7d9face1a19cc6b1f71e0d9eee90caaa475d7242a1e51460",
+    "assembler_sha256": "a106b332f4a7b04107faf5eb7711f7e241eea2ef9a335a45c3c2a786dd0bc4e0",
+    "preparation_manifest_sha256": "9b941a2180e9012b3011a716d07dde40b0272a04e34a69fcaaa8afc011dd90a4",
+    "remote_body_sha256": "93b4f4956ee006e1793d1be2dda3fa30964b06aea7a498ce97d38a2f2704eb4d",
+    "root_inline_sha256": "fab2a0e16020532937c8ab3b3441f15555adf7e4d28b580f0fc83d47300201d2"
+  },
+  "decision": "PASS",
+  "limitations": [
+    "This is a static local packet review. It does not attest to remote host state or the future result of the preflight assertions.",
+    "The generated script was parsed and compiled locally but was not executed; no SSH, remote staging, model/checkpoint read, array read, or fit was performed."
+  ],
+  "schema": "nf19.r7_root_startup_review.v1",
+  "scope": "Independent static review of the exact assembled root startup script and its embedded source payload; this review did not execute the script or perform SSH/remote actions.",
+  "source_payload": {
+    "canonical_pins": {
+      "wnn/__init__.py": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+      "wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "wnn/event_content.py": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+      "wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "wnn/nn.py": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48",
+      "wnn/numeric_ple.py": "229a7e0f032cd65bbf6700fa9372c08016b20e4719cb2f9eddd540ff8c468720"
+    },
+    "checks": {
+      "assembled_script_parses_and_compiles": true,
+      "canonical_map_matches_all_six_manifest_pins": true,
+      "embedded_payload_lengths_and_sha256_match_local_sources": true,
+      "embedded_preparation_manifest_matches_bound_sha256": true,
+      "generated_script_exactly_reconstructed_from_bound_body_inline_payload_and_manifest": true,
+      "payload_names_equal_24_noncanonical_manifest_pins_plus_4_launch_artifacts": true
+    },
+    "embedded_canonical_pin_count": 6,
+    "manifest_noncanonical_pin_count": 24,
+    "transported_bytes": 247638,
+    "transported_file_count": 28
+  },
+  "startup_checks": {
+    "create_only_support_and_output_paths": true,
+    "outer_rehashes_all_28_staged_files_and_all_six_canonical_sources_before_starting_the_unit": true,
+    "preflight_checks_current_f3_sequence_heartbeat_capacity_memory_events_and_gpu_owner": true,
+    "resource_envelope": {
+      "cpu_quota": "50%",
+      "cuda_visible_devices": "",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "runtime_max_seconds": 600,
+      "swap_bytes": 0
+    },
+    "sample_and_preparation_manifest_hashes_are_bound_in_cli_arguments": true,
+    "smoke_execs_fresh_python_interpreter_before_probe_cli": true,
+    "staged_code_import_smoke_denies_numpy_parquet_and_torch_load_and_checks_cuda_uninitialized": true,
+    "thread_limits": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  }
+}

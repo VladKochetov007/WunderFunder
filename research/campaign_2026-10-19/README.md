@@ -1,5 +1,7 @@
 # 19 October research
 
+- [R7 learned mean/variance MLP](idea_screens_r7/RESULTS.md): one matched seed/12epoch CPU pair improves WP0.501921→0.514297 (+0.012376), both targets positive and32positive leave-one-component contrasts. Independent compact audit/capture/stop pass. Stored R3 ridge remains higher; gradient scaling/noise attribution and full-model/public transfer are unresolved.
+
 - [R6 actual-gradient diagnostic](idea_screens_r6/RESULTS.md): one unchanged FP32 GRU checkpoint,8fit components,16fixed causal windows and zero updates. Shared input/GRU gradients are positive in12/16windows, pooledcos+0.333540; shared hidden readout pooledcos+0.026854 with3negative windows. Compact scalar audit and exact captured/stopped CPU evidence separate local interference from untested optimization/quality claims.
 
 

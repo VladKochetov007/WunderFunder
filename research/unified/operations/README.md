@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+[R7 exact CPU pair execution](../../campaign_2026-10-19/idea_screens_r7/records/README.md) records one successful invocation, durable raw capture then exact stop01:54:16UTC,0new parent/F3 events and untouched existing deep continuation. [Resources](../../campaign_2026-10-19/idea_screens_r7/RESOURCE_RECONCILIATION.json) distinguish unit CPU/MemoryPeak from helper/RSS observations. Empty terminal ControlGroup correctly has no own-unit evidence; NPZ is stat/producer-bound only, never read/copied to Mac.
+
 [R6 exact CPU execution](../../campaign_2026-10-19/idea_screens_r6/records/README.md) preserves two pre-gradient startup failures and the corrected successful16window invocation. Raw receipts precede exact exited-unit stop;0new parent/F3memory events. An empty terminal ControlGroup produced one invalid unscoped root-cgroup object, explicitly excluded from own-unit event inference. No arrays/model/gradient payloads moved to the Mac. [Resource reconciliation](../../campaign_2026-10-19/idea_screens_r6/RESOURCE_RECONCILIATION.json) separates the memory scopes.
 
 

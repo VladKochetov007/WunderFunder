@@ -1,5 +1,8 @@
 # Статус всех25 после первого bounded screen
 
+Дополнение R7: [matched mean/variance MLP](../idea_screens_r7/RESULTS.md) даёт +0.012376 WP относительно своего WMSE-контроля на той же R3-панели, при одинаковых инициализации/756updates/12epochs. Это положительная bounded CPU проверка карточки22; более высокий stored ridge .536004, один seed, exposedpanel и связанное изменение gradient scaling/globalclip ограничивают вывод. Истинный источник выигрыша и перенос на GRU не установлены.
+
+
 Дополнение R6: [реальные градиенты двух целей](../idea_screens_r6/RESULTS.md) измерены на одном фиксированном GRU checkpoint,8fit-компонентах и16заранее заданных окнах без обновления весов. Общий input/GRU trunk:12положительных/4отрицательных скалярных произведения, pooledcos+0.333540; shared hidden readout:+0.026854,3отрицательных окна. Это узкий фактический тест карточки20, а не доказательство training-wide вреда/пользы PCGrad или отдельных сетей. Остальные gradient/state механизмы не подменяются этой пробой.
 
 Дополнение R5: [моментная проба карточки12](../idea_screens_r5/RESULTS.md) сравнила два декодера одних и тех же шести линейных голов. Деление на предсказанную амплитуду проиграло постоянному знаменателю на0.025555WP; все32drop-one-контраста отрицательны. Постоянный вариант дал+0.013658 к сохранённой R3 WMSE-рецептуре, но этот вторичный контраст меняет objective/functional form. Learned moment heads и совместное end-to-end обучение не проверены. Другие NOT_TESTED остаются в силе.
@@ -35,7 +38,7 @@
 | 19 | i1-only=.36115, i0-only лучше joint raw в этом fit | i0-only также исключает8tailканалов: i1-effect не изолирован. Cross-fit common/residual mechanism NOT_TESTED; линейная репараметризация может иметь тот же span |
 | 20 | PARTIAL: R6 actual gradients, один frozenGRU/8fit-компонент/16окон; trunk pooledcos+0.333540,4negative; hiddenreadout+0.026854,3negative | Не training-wide prevalence/causalharm/PCGradbenefit; optimizer intervention и другие checkpoints не проверены |
 | 21 | NOT_TESTED: gradient-covariance preconditioner отсутствует | Нужны реальные gradients и matched optimizer, не covariance coefficients |
-| 22 | NOT_TESTED: heteroskedastic mean/variance objective отсутствует | Остаток ridge смешивает noise и misspecification; отдельная variance head нужна для проверки |
+| 22 | PARTIAL: R7 matchedCPUMLP, NLLmean WP.514297 vs WMSE.501921, +.012376; обе цели+,32/32drop-one+ | Один seed/exposedpanel; objective меняет scaling/globalclip, истинная heteroskedasticnoise не установлена; constantvariance/GRU не проверены |
 | 23 | NOT_TESTED: old/current-weight recurrent state replay не делался | Законный один и тот же prefix, сравнение state при фиксированной gradient horizon |
 | 24 | NOT_TESTED: mixed-curvature penalty отсутствует | Обычная линейная модель его не реализует; допустимые in-support perturbations |
 | 25 | NOT_TESTED, зависит от16 | Нельзя заменить uncertainty of training moments оценкой разброса evaluation scores |
