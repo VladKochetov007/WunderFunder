@@ -53,6 +53,7 @@ from wnn.training.runner import run_training
 | [membership](membership.py) | Bounded component-subset manifests and membership validation. |
 | [model_validation](model_validation.py) | Architecture/width restrictions and block-memory defaults. |
 | [models](models.py) | Reusable architecture factory with the original constructor order. |
+| [muon_precision](muon_precision.py) | Default-preserving Muon orthogonalization dtype and strict-FP32 recipe validation. |
 | [normalization](normalization.py) | Fitting-only normalization and numeric-map calibration. |
 | [optimization](optimization.py) | Optimizer/scheduler/objective/averaging construction and preflight exits. |
 | [outputs](outputs.py) | Evaluation, fixed/best checkpoint selection and terminal/resume recovery artifacts. |

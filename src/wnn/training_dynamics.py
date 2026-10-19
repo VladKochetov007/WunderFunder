@@ -9,6 +9,7 @@ import torch
 from torch import nn
 
 from wnn.optim import MuonAdamW, muon_param_groups, wsd_lambda
+from wnn.training.muon_precision import muon_precision_error
 
 
 def add_arguments(parser: argparse.ArgumentParser) -> None:
@@ -72,6 +73,9 @@ def parse_module_caps(spec: str, model: nn.Module) -> dict[str, float]:
 
 def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.Optimizer:
     """Preserve original default construction; split groups only for an active arm."""
+    precision_error = muon_precision_error(args)
+    if precision_error is not None:
+        raise ValueError(precision_error)
     if not math.isfinite(args.head_lr_mult) or args.head_lr_mult <= 0:
         raise ValueError("head lr multiplier must be positive and finite")
     if args.zoneout != 0:
@@ -95,17 +99,18 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
     if momentum:
         raise ValueError("--momentum requires --optim sgd")
     common = dict(lr=args.lr, betas=(0.9, args.beta2), weight_decay=args.wd)
+    muon_ortho_dtype = getattr(args, "muon_ortho_dtype", "auto")
     is_grouped = bool(args.optim_switch) or args.head_lr_mult != 1
     if not is_grouped:
         if args.optim == "muon":
-            return MuonAdamW(muon_param_groups(model, args.muon_scope), **common)
+            return MuonAdamW(muon_param_groups(model, args.muon_scope, muon_ortho_dtype), **common)
         return torch.optim.AdamW(
             [p for p in model.parameters() if p.requires_grad],
             fused=bool(args.fused_adam),
             **common,
         )
     if args.optim_switch or args.optim == "muon":
-        groups = muon_param_groups(model, args.muon_scope)
+        groups = muon_param_groups(model, args.muon_scope, muon_ortho_dtype)
     else:
         groups = [{"params": [p for p in model.parameters() if p.requires_grad]}]
     names = {id(p): name for name, p in model.named_parameters()}
@@ -165,7 +170,10 @@ def build_scheduler(
         raise ValueError("warmup fraction must be finite and in [0,1)")
     if args.sched == "wsd":
         return torch.optim.lr_scheduler.LambdaLR(
-            opt, wsd_lambda(total, warm, args.wsd_decay, args.wsd_final, getattr(args, "wsd_shape", "sqrt"))
+            opt,
+            wsd_lambda(
+                total, warm, args.wsd_decay, args.wsd_final, getattr(args, "wsd_shape", "sqrt")
+            ),
         )
     if args.sched == "sgdr":
         return torch.optim.lr_scheduler.LambdaLR(

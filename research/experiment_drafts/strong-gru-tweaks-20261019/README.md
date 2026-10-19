@@ -8,6 +8,8 @@ Every experimental arm has two appended zero-initialized logvariance output rows
 
 [The unchanged published strict-propensity capability import](PROPENSITY_IMPORT.json) supplies a clean scoring-mask ancestor for the strong recipe. The historical Main T3 teacher graph and its unsupported old Muon flag still require an explicit source-qualified port before those later stages are admitted. A convenient cold labels-only control is not relabeled the strongest recipe. Production-trained TL3 weights are not treated as clean outer-fold parents.
 
+[The current-source Muon port note](MUON_SCOPE_AND_PRECISION.md) defines the explicit `all` matrix scope and opt-in FP32 Newton-Schulz path. It preserves the existing `auto` default and does not claim exact reconstruction of the historical all-scope optimizer. [Its CPU test receipt](MUON_TEST_RECEIPT.json) records focused optimizer/switch tests, Ruff and training-structure checks; no model or data fit was run.
+
 Five arms cover the requested additions and the full combination; they do not identify every pairwise interaction. A complete scientific comparison requires30 paired fold/seed cells per arm (8/8/7/7), with fixed endpoints, strict FP32, clean per-fold learned ancestry and unchanged official scoring. Initial execution is bounded separately;150 final fits is a plan, not an allocation. Previously exposed folds remain exposed. Local deltas are not added to public scores.
 
 The maintenance campaign is `research/campaign_2026-10-19/full_gru_tweaks_r1/` in the coordinating checkout. Actual source/launch/resource/result receipts are indexed there. The current draft has no PR URL until creation succeeds.
@@ -17,3 +19,5 @@ The maintenance campaign is `research/campaign_2026-10-19/full_gru_tweaks_r1/` i
 [Publication validation](PUBLICATION_VALIDATION.json) binds the code commit and final source/test/import evidence, distinguishing three unchanged unavailable historical artifact links from new links.
 
 [The thin dictionary preparation CLI](DICTIONARY_JOB_REVIEW.json) uses the canonical fitting-only implementation with a create-only cache/receipt, separates source from data roots, and accepts the externally stored fold manifest. One mocked portability fixture and static/import checks pass; no real dictionary fit has run.
+
+[Root Muon review](MUON_FINAL_REVIEW.json) binds the focused67test receipt and a fresh [98-module/four-entrypoint cold-import proof](MUON_COLD_IMPORT_RECEIPT.json), including dictionary preparation and the strict optimizer-state restore. This is synthetic/source evidence; the later teacher GPU profile remains required. The earlier test receipt pins the pre-navigation README; this added navigation changes no numerical source.

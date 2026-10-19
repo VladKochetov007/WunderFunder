@@ -1,0 +1,52 @@
+{
+  "schema": "strong-gru-tweaks.muon-source-validation.v1",
+  "status": "SOURCE_ONLY_VALIDATED_NOT_FIT",
+  "base_commit": "2dc23e13f2a3ad3a9e4ec3ebf8a16f8d87810122",
+  "runtime": {
+    "python": "3.13.11",
+    "ruff": "0.17.1",
+    "environment": "existing maintenance .venv; no installs"
+  },
+  "source_sha256": {
+    "src/wnn/optim.py": "6d70f1863bf268c85a457df9b77735c08c5e8e65549457521001c2a7a721ac1b",
+    "src/wnn/training/muon_precision.py": "41e2435bdd4fc1f39ef5cd16999fc5dd52a1e129a2bfabe8b61fb6890149c2cb",
+    "src/wnn/training/cli_optimizer.py": "cdda138a1a1067cff0fb4c1a7e939d93d30a59b452c5880b8971baa93251007c",
+    "src/wnn/training/validation_inputs.py": "8ebfa7252933c05824f62044cd75ea82599e55e9404b5495605f6228694f5989",
+    "src/wnn/training/setup_progress.py": "62f9bcc06fef3ae939752ee705f4b0222f892a714135726a41e96865bcbc3dc8",
+    "src/wnn/training_dynamics.py": "88f4acedd231b4b5402f0a68061cf788eedc138b43a6248091fbd0dfab64129d",
+    "src/wnn/training/README.md": "60f8f07b3c70ba154b9511fe3c72867ab429569e763abdfc4f1e471945a8ba33",
+    "tests/test_muon_precision_scope.py": "22d7483aabdd190484aa3d102578edffc053309a70708427c44c543b00ec49f2",
+    "research/experiment_drafts/strong-gru-tweaks-20261019/MUON_SCOPE_AND_PRECISION.md": "e569870b1ec8f65d629c33bb3a8aabcf4263b111963b2085991f9e8dd8c83bfa",
+    "research/experiment_drafts/strong-gru-tweaks-20261019/README.md": "0a658069ab79f7dd04a7933dd11427b33108219f303a4f8675795ada93da05ab"
+  },
+  "checks": [
+    {
+      "command": "PYTHONPATH=src python -m pytest -q tests/test_muon_precision_scope.py tests/test_optim.py tests/test_training_dynamics.py tests/test_training_state.py",
+      "result": "67 passed"
+    },
+    {
+      "command": "ruff check on changed optimizer, validation, and test modules",
+      "result": "passed"
+    },
+    {
+      "command": "ruff format --check on changed optimizer, validation, and test modules",
+      "result": "passed"
+    },
+    {
+      "command": "PYTHONPATH=src python scripts/check_training_structure.py",
+      "result": "66 files; 0 errors; 300-line module and 200-line function limits"
+    }
+  ],
+  "coverage": [
+    "Legacy optimizer and scope defaults remain unchanged.",
+    "FP32 Newton-Schulz rejects non-FP32 gradients; CPU synthetic update matches the explicit FP32 path.",
+    "Current-source all scope includes recurrent gate blocks and interior matrices while keeping input/output layers and vectors on AdamW.",
+    "Optimizer switching preserves the FP32 group policy.",
+    "Strict resume rejects a legacy checkpoint state that would downgrade Muon arithmetic; non-strict legacy state remains accepted."
+  ],
+  "limitations": [
+    "No production dataset, model checkpoint, GPU, remote worker, or quality fit was accessed.",
+    "The strict flag validates recipe-level Muon/precision settings and checkpoint policy; the launch must separately disable TF32/autocast under the project strict-FP32 runtime contract.",
+    "The all-scope behavior is a current-source adaptation and is not exact historical optimizer reconstruction."
+  ]
+}

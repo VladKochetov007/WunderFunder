@@ -1,8 +1,8 @@
 """Optimizer, schedule and recurrent-initialisation options for scripts/train_rnn.py (research flags, default off).
 
-- ``MuonAdamW``: Muon (orthogonalised Nesterov momentum, K. Jordan 2024) on the recurrent core's gate matrices, one
-  Newton-Schulz orthogonalisation per gate block, scaled to AdamW's update RMS (0.2 sqrt(max(rows, cols)), Liu et al.
-  2025, arXiv 2502.16982) so one lr / weight-decay schedule drives both; AdamW for inputs, head output and biases.
+- ``MuonAdamW``: Muon (orthogonalised Nesterov momentum, K. Jordan 2024) on selected matrices, one Newton-Schulz
+  orthogonalisation per gate block, scaled to AdamW's update RMS (0.2 sqrt(max(rows, cols)), Liu et al. 2025, arXiv
+  2502.16982) so one lr / weight-decay schedule drives both; AdamW for input/output layers and vectors.
 - ``wsd_lambda``: warmup-stable-decay multiplier with a (1 - sqrt) cooldown (Hagele et al. 2024, arXiv 2405.18392).
 - ``rnn_init_``: chrono gate biases (Tallec & Ollivier 2018, arXiv 1804.11188) and per-gate orthogonal W_hh.
 - ``GradStats``: pre-clip gradient norms per parameter family, kept on device, summarised once per epoch.
@@ -18,13 +18,21 @@ from torch import nn
 NS_COEFFS = (3.4445, -4.7750, 2.0315)  # quintic Newton-Schulz, K. Jordan's Muon
 
 
-def orthogonalize(g: torch.Tensor, steps: int = 5, eps: float = 1e-7) -> torch.Tensor:
+def orthogonalize(
+    g: torch.Tensor, steps: int = 5, eps: float = 1e-7, calculation_dtype: str = "auto"
+) -> torch.Tensor:
     """Approximate U V^T of every trailing (m, n) matrix of ``g`` (singular values pushed into ~[0.7, 1.2]).
 
-    bf16 on CUDA as in Muon; fp32 on CPU (bf16 matmuls there are slow and the tests compare against an SVD).
+    ``auto`` preserves the original BF16-on-CUDA and FP32-on-CPU policy. ``fp32`` is an explicit strict option and
+    rejects non-FP32 gradients instead of silently converting them.
     """
+    if calculation_dtype not in {"auto", "fp32"}:
+        raise ValueError(f"unknown Muon orthogonalization dtype: {calculation_dtype}")
+    if calculation_dtype == "fp32" and g.dtype != torch.float32:
+        raise ValueError(f"FP32 Muon orthogonalization requires FP32 gradients, got {g.dtype}")
     a, b, c = NS_COEFFS
-    x = g.to(torch.bfloat16 if g.is_cuda else torch.float32)
+    target_dtype = torch.bfloat16 if calculation_dtype == "auto" and g.is_cuda else torch.float32
+    x = g.to(target_dtype)
     tall = x.size(-2) > x.size(-1)
     if tall:
         x = x.mT
@@ -44,16 +52,39 @@ class MuonAdamW(torch.optim.Optimizer):
     ``betas[0]`` is both Adam's beta1 and Muon's momentum.
     """
 
-    def __init__(self, params, lr: float = 1e-3, betas: tuple[float, float] = (0.9, 0.999), eps: float = 1e-8,
-                 weight_decay: float = 1e-2, ns_steps: int = 5, rms: float = 0.2):
-        defaults = dict(lr=lr, betas=betas, eps=eps, weight_decay=weight_decay, ns_steps=ns_steps, rms=rms,
-                        muon=False, blocks=1)
+    def __init__(
+        self,
+        params,
+        lr: float = 1e-3,
+        betas: tuple[float, float] = (0.9, 0.999),
+        eps: float = 1e-8,
+        weight_decay: float = 1e-2,
+        ns_steps: int = 5,
+        rms: float = 0.2,
+    ):
+        defaults = dict(
+            lr=lr,
+            betas=betas,
+            eps=eps,
+            weight_decay=weight_decay,
+            ns_steps=ns_steps,
+            rms=rms,
+            muon=False,
+            blocks=1,
+            muon_fp32_ortho=False,
+        )
         super().__init__(params, defaults)
         for group in self.param_groups:
             if group["muon"]:
                 for p in group["params"]:
                     if p.ndim != 2 or p.shape[0] % group["blocks"]:
-                        raise ValueError(f"Muon needs 2-D weights with rows divisible by {group['blocks']}")
+                        raise ValueError(
+                            f"Muon needs 2-D weights with rows divisible by {group['blocks']}"
+                        )
+                    if not isinstance(group.get("muon_fp32_ortho", False), bool):
+                        raise ValueError(
+                            "Muon group must declare a boolean FP32 orthogonalization policy"
+                        )
 
     @torch.no_grad()
     def step(self, closure=None):
@@ -76,9 +107,18 @@ class MuonAdamW(torch.optim.Optimizer):
                     buf.lerp_(g, 1 - beta1)
                     k = group["blocks"]
                     rows, cols = p.shape[0] // k, p.shape[1]
-                    update = orthogonalize(g.lerp(buf, beta1).reshape(k, rows, cols), group["ns_steps"])
+                    update = orthogonalize(
+                        g.lerp(buf, beta1).reshape(k, rows, cols),
+                        group["ns_steps"],
+                        calculation_dtype=(
+                            "fp32" if group.get("muon_fp32_ortho", False) is True else "auto"
+                        ),
+                    )
                     p.mul_(1 - lr * wd)
-                    p.add_(update.reshape(p.shape), alpha=-lr * group["rms"] * math.sqrt(max(rows, cols)))
+                    p.add_(
+                        update.reshape(p.shape),
+                        alpha=-lr * group["rms"] * math.sqrt(max(rows, cols)),
+                    )
                     continue
                 if not state:
                     state["step"] = 0
@@ -104,21 +144,30 @@ def _gates(rnn: nn.Module) -> int:
     raise ValueError(f"no gate layout for {type(rnn).__name__}")
 
 
-def muon_param_groups(model: nn.Module, scope: str = "rnn") -> list[dict]:
+def muon_param_groups(
+    model: nn.Module, scope: str = "rnn", muon_ortho_dtype: str = "auto"
+) -> list[dict]:
     """Trainable parameters split for MuonAdamW.
 
     scope 'rnn': ``model.gru`` and optional ``model.experts`` recurrent
     ``weight_ih_l*`` / ``weight_hh_l*`` matrices (one Muon block per gate);
     scope 'hidden': also the hidden readout matrices ``head.0.weight`` and,
-    when present, ``head.extra.weight``. The input projection ``inp`` (first
-    layer), output layers and biases stay on AdamW, as Muon prescribes for
-    input/output layers and vectors.
+    when present, ``head.extra.weight``. Scope ``all`` additionally selects every trainable 2-D matrix except the
+    input projection and terminal ``head.2`` readout. Recurrent matrices remain gate-blocked. Input/output layers,
+    vectors and biases stay on AdamW. This current-source scope is an explicit adaptation, not a claim of exact
+    historical ``all`` semantics.
     """
-    if scope not in ("rnn", "hidden"):
+    if scope not in ("rnn", "hidden", "all"):
         raise ValueError(scope)
+    if muon_ortho_dtype not in {"auto", "fp32"}:
+        raise ValueError(f"unknown Muon orthogonalization dtype: {muon_ortho_dtype}")
     rnn = getattr(model, "gru", None)
     if not isinstance(rnn, (nn.GRU, nn.LSTM)):
         raise ValueError("Muon groups need an RNNModel-style recurrent core at model.gru")
+    if scope == "all":
+        parameter_names = {name for name, _ in model.named_parameters()}
+        if "inp.weight" not in parameter_names or "head.2.weight" not in parameter_names:
+            raise ValueError("Muon scope all requires the standard inp.weight/head.2.weight layout")
     gates = _gates(rnn)
     recurrent_prefixes = ("gru.weight_",)
     experts = getattr(model, "experts", None)
@@ -128,7 +177,7 @@ def muon_param_groups(model: nn.Module, scope: str = "rnn") -> list[dict]:
         if any(type(expert) is not type(rnn) or _gates(expert) != gates for expert in experts):
             raise ValueError("Muon requires specialist experts with the same recurrent gate layout")
         recurrent_prefixes += tuple(f"experts.{index}.weight_" for index in range(len(experts)))
-    gate_mats, hidden_mats, adam = [], [], []
+    gate_mats, hidden_mats, other_mats, adam = [], [], [], []
     for name, p in model.named_parameters():
         if not p.requires_grad:
             continue
@@ -136,13 +185,44 @@ def muon_param_groups(model: nn.Module, scope: str = "rnn") -> list[dict]:
             gate_mats.append(p)
         elif scope == "hidden" and name in {"head.0.weight", "head.extra.weight"}:
             hidden_mats.append(p)
+        elif (
+            scope == "all"
+            and p.ndim == 2
+            and not name.startswith("inp.")
+            and not name.endswith("head.2.weight")
+        ):
+            other_mats.append(p)
         else:
             adam.append(p)
     if not gate_mats:
         raise ValueError("no trainable recurrent matrices for Muon (frozen core?)")
-    groups = [{"params": adam}, {"params": gate_mats, "muon": True, "blocks": gates}]
+    groups = [
+        {"params": adam},
+        {
+            "params": gate_mats,
+            "muon": True,
+            "blocks": gates,
+            "muon_fp32_ortho": muon_ortho_dtype == "fp32",
+        },
+    ]
     if hidden_mats:
-        groups.append({"params": hidden_mats, "muon": True, "blocks": 1})
+        groups.append(
+            {
+                "params": hidden_mats,
+                "muon": True,
+                "blocks": 1,
+                "muon_fp32_ortho": muon_ortho_dtype == "fp32",
+            }
+        )
+    if other_mats:
+        groups.append(
+            {
+                "params": other_mats,
+                "muon": True,
+                "blocks": 1,
+                "muon_fp32_ortho": muon_ortho_dtype == "fp32",
+            }
+        )
     return groups
 
 
@@ -196,8 +276,8 @@ def rnn_init_(model: nn.Module, mode: str, t_max: float, seed: int) -> None:
             # the memory gate is the second block in both layouts: z of GRU (r, z, n), f of LSTM (i, f, g, o)
             b_ih, b_hh = getattr(rnn, f"bias_ih_l{k}"), getattr(rnn, f"bias_hh_l{k}")
             bias = torch.empty(h).uniform_(1.0, t_max - 1.0, generator=gen).log().to(b_ih)
-            b_ih[h:2 * h] = bias
-            b_hh[h:2 * h] = 0.0
+            b_ih[h : 2 * h] = bias
+            b_hh[h : 2 * h] = 0.0
             if gates == 4:
                 b_ih[:h] = -bias
                 b_hh[:h] = 0.0
@@ -206,7 +286,7 @@ def rnn_init_(model: nn.Module, mode: str, t_max: float, seed: int) -> None:
             for j in range(gates):
                 block = torch.empty(h, h)
                 nn.init.orthogonal_(block, generator=gen)
-                w[j * h:(j + 1) * h] = block.to(w)
+                w[j * h : (j + 1) * h] = block.to(w)
 
 
 class GradStats:
@@ -240,8 +320,11 @@ class GradStats:
         norms = []
         for params in self.families.values():
             grads = [p.grad for p in params if p.grad is not None]
-            norms.append(torch.linalg.vector_norm(torch.stack(torch._foreach_norm(grads)).float())
-                         if grads else torch.zeros((), device=params[0].device))
+            norms.append(
+                torch.linalg.vector_norm(torch.stack(torch._foreach_norm(grads)).float())
+                if grads
+                else torch.zeros((), device=params[0].device)
+            )
         self.rows.append(torch.stack(norms))
 
     def finish(self) -> dict:
@@ -255,9 +338,16 @@ class GradStats:
         t = total[ok]
         if len(t):
             q = torch.quantile(t, torch.tensor([0.05, 0.5, 0.95], dtype=t.dtype)).tolist()
-            out.update(total_q05_q50_q95=[round(v, 5) for v in q], clip_rate=round(float((t > self.clip).double().mean()), 4),
-                       mean_clip_factor=round(float(torch.clamp(self.clip / t, max=1.0).mean()), 4))
-            out["family_median"] = {k: round(float(per[ok, i].median()), 5) for i, k in enumerate(self.families)}
+            out.update(
+                total_q05_q50_q95=[round(v, 5) for v in q],
+                clip_rate=round(float((t > self.clip).double().mean()), 4),
+                mean_clip_factor=round(float(torch.clamp(self.clip / t, max=1.0).mean()), 4),
+            )
+            out["family_median"] = {
+                k: round(float(per[ok, i].median()), 5) for i, k in enumerate(self.families)
+            }
             share = per[ok].pow(2) / t.pow(2)[:, None]
-            out["family_sq_share_mean"] = {k: round(float(share[:, i].mean()), 4) for i, k in enumerate(self.families)}
+            out["family_sq_share_mean"] = {
+                k: round(float(share[:, i].mean()), 4) for i, k in enumerate(self.families)
+            }
         return out

@@ -18,9 +18,20 @@ def add_optimizer_arguments(ap: argparse.ArgumentParser) -> None:
     )
     research.add_argument(
         "--muon-scope",
-        choices=["rnn", "hidden"],
+        choices=["rnn", "hidden", "all"],
         default="rnn",
-        help="hidden: Muon also on head.0.weight",
+        help="hidden: also hidden readout matrices; all: eligible interior 2-D matrices (input/output stay AdamW)",
+    )
+    research.add_argument(
+        "--muon-ortho-dtype",
+        choices=["auto", "fp32"],
+        default="auto",
+        help="Newton-Schulz arithmetic; auto preserves BF16 CUDA / FP32 CPU, fp32 requires FP32 gradients",
+    )
+    research.add_argument(
+        "--strict-muon-fp32",
+        action="store_true",
+        help="require active Muon, --precision fp32 and --muon-ortho-dtype fp32",
     )
     research.add_argument("--beta2", type=float, default=0.999, help="Adam second-moment decay")
     research.add_argument(

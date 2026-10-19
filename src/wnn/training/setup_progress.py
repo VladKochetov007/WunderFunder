@@ -9,6 +9,7 @@ import torch
 from wnn.resources import cpu_threads
 from wnn.splits import file_sha256
 from wnn.training.checkpoints import resume_contract, serialized_args
+from wnn.training.muon_precision import muon_resume_policy_error
 from wnn.training.profiling import StageTimer
 from wnn.training.reporting import emit
 from wnn.training.state import TrainingRun
@@ -190,6 +191,11 @@ def restore_progress(run: TrainingRun) -> None:
             ap.error(
                 "resume contract differs: recipe, schedule, data, code, lineage or runtime changed"
             )
+        muon_resume_error = muon_resume_policy_error(
+            args, opt.param_groups, saved_training["optimizer"]
+        )
+        if muon_resume_error is not None:
+            ap.error(muon_resume_error)
         saved_dynamics = saved_training["auxiliary"]["dynamics"]
         if saved_dynamics["is_switched"]:
             opt, _ = switch_optimizer(opt, sched, saved_dynamics["switch"][1])

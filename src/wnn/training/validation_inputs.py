@@ -6,6 +6,7 @@ import torch
 
 from wnn.training.inheritance import inherit_init_arguments
 from wnn.training.model_validation import apply_block_memory_defaults, block_memory_rejection
+from wnn.training.muon_precision import muon_precision_error
 from wnn.training.state import TrainingRun
 from wnn.training_qat import QAT_LEARN_SCALE_MODES
 
@@ -15,6 +16,9 @@ def validate_inputs(run: TrainingRun) -> None:
     ap = run.options.ap
     args = run.options.args
     distillation_requested = run.options.distillation_requested
+    muon_error = muon_precision_error(args)
+    if muon_error is not None:
+        ap.error(muon_error)
     if args.profile_steps:
         args.max_batches = args.profile_warmup + args.profile_steps
     if args.final_model_adaptation and (
