@@ -1,0 +1,29 @@
+{
+  "schema": "strong_gru.dictionary_preparation_review.v1",
+  "created_utc": "2026-10-19T14:17:33.813288+00:00",
+  "status": "PASS_FOR_IMMUTABLE_STAGING_ONLY",
+  "reviewer": "root",
+  "source_sha256": {
+    "scripts/fit_input_representation.py": "1f47b498b4be33d4c385a3e18b1abacfc754785eb6dffe83d0ff62a0f0f594cc",
+    "src/wnn/training/input_representation_job.py": "faaaece894377f54e9663757be154561ea25eb2ae1c70889a46a64b85cd6ea99",
+    "tests/test_input_representation_job.py": "d15dd25e62184c11d6b8c1115e0d5fd71c59ba3cac32aba5483c49c02d059551"
+  },
+  "actor_reported_checks": [
+    "one mocked external-split/source-root integration fixture PASS",
+    "Ruff PASS",
+    "training structure65files/0errors",
+    "CLI help and light import without numpy/torch/pyarrow PASS"
+  ],
+  "root_review": [
+    "Data and source roots remain distinct",
+    "External split manifest is allowed while outputs are confined to data root",
+    "Create-only cache and receipt",
+    "Canonical train-only dictionary recipe unchanged; explicit CPU and600s alarm",
+    "No new trainer implementation or real-payload read on Mac"
+  ],
+  "limits": [
+    "No real dictionary fitting or resource measurement yet",
+    "Actor test report is not an independent numerical replication",
+    "CPU fitting needs separately bound source/import/resource/data gates before launch"
+  ]
+}
