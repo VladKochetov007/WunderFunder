@@ -1,3 +1,5 @@
+- [One S3 train-export adapter](teacher_cache_s3_train_export_v1/README.md), [frozen source review](TEACHER_CACHE_S3_TRAIN_EXPORT_REVIEW.json) and [actual launch records](../records/teacher_s3_train_export_v1/README.md): source/profile reused, fourJSON metadata staged only after fresh gates, one create-only inference command; no trainer or framework copy.
+
 # Teacher terminal verification preparation
 
 ## S4 terminal acceptance and S5 actual admission — 19:41UTC
@@ -80,3 +82,5 @@ See [the clean Main T3 rebuild candidate](CLEAN_MAIN_T3_REBUILD_CANDIDATE_R1.md)
 [Local packet](teacher_cache_profile_v1/README.md), [preparer](prepare_teacher_cache_profile_v1.py) and [short remote template](teacher_cache_profile_remote_v1.py) contain code/JSON only. [Actual profile records](../records/teacher_cache_profile_v1/README.md) supersede their prepared-only status: native exit0, captured/accepted/exact-stopped,640,000finite FP32 main predictions at B16×20k/chunk4000 with no retained prediction array or updates. First production fitting export is still a separately gated next step.
 
 [Independent actual profile review](TEACHER_CACHE_PROFILE_ACTUAL_REVIEW.json) separately reconciles native/capture/acceptance/exact-stop bytes and the640,000finiteFP32outputs. [Resource reconciliation](../records/teacher_cache_profile_v1/RESOURCE_RECONCILIATION.json) keeps GPU/RSS/service accounting distinct; source/profile engineering is not student quality evidence.
+
+[Actual S3 export launch metadata review](TEACHER_CACHE_S3_TRAIN_EXPORT_ACTUAL_REVIEW.json) reconciles exact rawlength/SHA,167source pins, stagedcontract/receipts, profile acceptance+stop, unit/invocation/PID/resources. [Startup](../records/teacher_s3_train_export_v1/startup_health_v1/README.md) is separate dated progress, not completion.

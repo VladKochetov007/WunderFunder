@@ -1,3 +1,5 @@
+- [S3 fitting-train export V1](teacher_s3_train_export_v1/README.md): one actual22:12UTC launch on source88becca; raw transport, admission, invocation and resource bounds. Zero scientific fits; terminal/cache/quality pending.
+
 # Full-GRU campaign actual execution records
 
 **21:58UTC: [Full-shape strictFP32 teacher inference profile passed and exact-stopped](teacher_cache_profile_v1/README.md).**16fittingsequences×20k/640,000finite main predictions; peakCUDA0.901GBallocated/1.141GBreserved, no retained prediction array/update/quality score. Allthree teachers accepted. First S3train fitting export is being gated, not yet admitted; current continuation supersedes dated statements below.

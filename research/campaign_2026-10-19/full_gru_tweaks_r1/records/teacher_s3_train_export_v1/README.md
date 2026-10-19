@@ -1,0 +1,11 @@
+# S3 fitting-train prediction export V1
+
+One new export of the accepted S3 epoch2 teacher launched at 2026-10-19 22:12:29 UTC, invocation `48732136d70548b2903f3426bfedf656`, PID3658053 at launch. It uses source88becca/167files on the selected A4000, strictFP32, batch16/chunk4000/loader0, raw main2 outputs and the teacher’s own normalizer. Scope: all10,535 fitting-train sequences only; no evaluation rows, labels or masks. This is inference, with zero new scientific fits or quality grades.
+
+[Root launch acceptance](LAUNCH_ACCEPTANCE.json) records admission only. [Raw transport](STDOUT.raw.json), [transport identity](TRANSPORT.json), [admission](ADMISSION.json) and [native launch](LAUNCH.json) preserve one root SSH invocation. The two compact JSON extracts are semantically identical to the raw response; no byte-identical B-format claim is made. [Reviewed adapter](../../preparation/TEACHER_CACHE_S3_TRAIN_EXPORT_REVIEW.json) stages only the frozen contract and three accepted receipt JSONs after fresh source/checkpoint/profile/split/registered-path/ownership/resource/output gates.
+
+Envelope: one CPU, MemoryHigh7.5e9/MemoryMax8e9/swap0, CUDA allocator4GiB plus1GB reserve, runtime10,800s. Parent aggregate2CPU/high18e9/max20e9/swap0, one owned GPUworker. All foreign processes remain untouched. At admission the populated map was empty and disk space exceeded the declared25GiB floor plus7,641,600,000B payload reserve.
+
+Output B/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1; evidence/log B/research_tmp/fg19_teacher_s3_train_export_v1. A preallocated partial file’s logical size is not completion evidence. Never read/hash a changing array or copy real payloads to Mac. Unknown outcome: inspect the exact unit and durable receipts; never blindly resubmit/restart. Capture/validate actual terminal bytes before exact-stop or downstream use. S3fit-valid, S4/S5exports and CPUmean×.8125 cache remain future serial dependencies, with no automatic queue.
+
+[Startup observation22:14:50UTC](startup_health_v1/README.md) confirms same active invocation, recorded896/10535sequences, one ownedGPUprocess and zero new own/parent memoryevents. [Independent actual launch metadata review](../../preparation/TEACHER_CACHE_S3_TRAIN_EXPORT_ACTUAL_REVIEW.json) passes; neither receipt establishes completed cache or model quality.

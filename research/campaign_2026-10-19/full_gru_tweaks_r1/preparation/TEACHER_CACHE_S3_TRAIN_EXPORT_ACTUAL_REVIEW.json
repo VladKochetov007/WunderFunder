@@ -1,0 +1,190 @@
+{
+  "admission_resources": {
+    "disk": {
+      "free_bytes": 88189103312896,
+      "required_reserve_bytes": 34485145600
+    },
+    "gpu": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, NVIDIA RTX A4000, 9187 MiB, 16376 MiB",
+    "gpu_and_cpu_environment": [
+      "--setenv=CUDA_VISIBLE_DEVICES=GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "--setenv=WNN_THREADS=1",
+      "--setenv=OMP_NUM_THREADS=1",
+      "--setenv=WNN_GPU_MEMORY_BYTES=4294967296",
+      "--setenv=WNN_GPU_MEMORY_RESERVE_BYTES=1000000000",
+      "--setenv=WNN_LOADER_WORKERS=0",
+      "--setenv=WNN_LOADER_RAM_GB=1"
+    ],
+    "owned_populated_units": {},
+    "parent": {
+      "CPUQuotaPerSecUSec": "2s",
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+      "MemoryCurrent": "3728056320",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    },
+    "unit_resource_properties": [
+      "--property=Type=exec",
+      "--property=RemainAfterExit=yes",
+      "--property=Slice=wnn-campaign.slice",
+      "--property=CPUQuota=100%",
+      "--property=MemoryHigh=7500000000",
+      "--property=MemoryMax=8000000000",
+      "--property=MemorySwapMax=0",
+      "--property=RuntimeMaxSec=10800",
+      "--property=StandardOutput=append:/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_train_export_v1/unit.log",
+      "--property=StandardError=append:/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_train_export_v1/unit.log"
+    ]
+  },
+  "caveats": [
+    "ADMISSION.json and LAUNCH.json are structured parsed extracts; their semantic equality with the raw record is checked, and no byte identity with B-format is claimed.",
+    "The export unit was active/running at the pinned launch snapshot. No later terminal record was used here.",
+    "No export-output validity, completion, prediction quality, or scientific-result claim is made."
+  ],
+  "checks": {
+    "contract_hash_matches_admission_and_launch_acceptance": true,
+    "extract_byte_identity_claim_not_made": true,
+    "launch_acceptance_pins_match_records": true,
+    "launch_raw_stream_hashes_match_base64": true,
+    "launch_returncode_and_active_snapshot": true,
+    "launch_state_not_misreported_as_completion": true,
+    "profile_acceptance_hash_matches": true,
+    "profile_exact_stop_raw_and_transport_match": true,
+    "raw_admission_and_launch_semantically_match_extracts": true,
+    "raw_stdout_transport_bytes_and_sha_match": true,
+    "source_manifest_sha_count_and_mapping_match": true,
+    "teacher_receipt_pins_match": true,
+    "transport_completed_without_retry": true,
+    "unit_command_matches_admission_and_launch": true
+  },
+  "identity": {
+    "contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "profile_acceptance_sha256": "956e14754c45861665a24619e9a752cd93fb8efaa084e5bb00021b5e5f33c3cd",
+    "profile_sha256": "2bed70f766b94bab23baaad7fde320ab80ce04d60521b62cc92a41188025f570",
+    "profile_stop_sha256": "acf46cea39494e728af2651656d9a0771650102298e6f49614e2467e9c6e3a75",
+    "selected_teacher": {
+      "checkpoint_sha256": "58e62541b9305169b94301d2e4f6643741d6a25f0712bc7b7cbf020de6b76241",
+      "epoch": 2,
+      "provenance_sha256": "fd64ca38ce6c6032bbaac6bdc60cfb5081fc9a76d26a85224cec87471704d36b",
+      "run": "fg19_t3_h384x2_e3_s3_v1"
+    },
+    "source_commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "source_file_count": 167,
+    "source_manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97",
+    "teacher_acceptance_sha256": {
+      "fg19_t3_h384x2_e3_s3_v1": "7c5ce63b087a15c309eeada24f0dd8df983d28f9931e86862347ca87b04282cc",
+      "fg19_t3_h384x2_e3_s4_v1": "37e484f2ca507c11f45cb67299e6ba093046caffa3380a37dc0c84c53110a9e3",
+      "fg19_t3_h384x2_e3_s5_v1": "8d22151187a5d64ecd13cab15d10dc8fc320faddf02cdc5dac23ac3cba64411a"
+    },
+    "unit": "computer-vision-homework-fg19-teacher-s3-train-export-v1.service"
+  },
+  "launch": {
+    "acceptance_sha256": "63bb0ce56d60fe14714d50772928c7ce5ea82f1e3e44fb40fa69f0b3b2915e1f",
+    "acceptance_status": "LAUNCHED_NOT_COMPLETED",
+    "acceptance_utc": "2026-10-19T22:13:21.860071+00:00",
+    "active_state": "active",
+    "command": [
+      "systemd-run",
+      "--user",
+      "--unit=computer-vision-homework-fg19-teacher-s3-train-export-v1.service",
+      "--property=Type=exec",
+      "--property=RemainAfterExit=yes",
+      "--property=Slice=wnn-campaign.slice",
+      "--property=CPUQuota=100%",
+      "--property=MemoryHigh=7500000000",
+      "--property=MemoryMax=8000000000",
+      "--property=MemorySwapMax=0",
+      "--property=RuntimeMaxSec=10800",
+      "--property=StandardOutput=append:/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_train_export_v1/unit.log",
+      "--property=StandardError=append:/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_train_export_v1/unit.log",
+      "--setenv=CUDA_VISIBLE_DEVICES=GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "--setenv=WNN_PROJECT_ROOT=/home/grinchenkoeg/computer-vision-homework-20261018/data",
+      "--setenv=PYTHONPATH=/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-88becca8/src",
+      "--setenv=PYTHONDONTWRITEBYTECODE=1",
+      "--setenv=WNN_THREADS=1",
+      "--setenv=OMP_NUM_THREADS=1",
+      "--setenv=MKL_NUM_THREADS=1",
+      "--setenv=OPENBLAS_NUM_THREADS=1",
+      "--setenv=NUMEXPR_NUM_THREADS=1",
+      "--setenv=WNN_GPU_MEMORY_BYTES=4294967296",
+      "--setenv=WNN_GPU_MEMORY_RESERVE_BYTES=1000000000",
+      "--setenv=WNN_LOADER_WORKERS=0",
+      "--setenv=WNN_LOADER_RAM_GB=1",
+      "--setenv=TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+      "--working-directory=/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-88becca8",
+      "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+      "-u",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-88becca8/scripts/predict_run.py",
+      "fg19_t3_h384x2_e3_s3_v1",
+      "train",
+      "--epoch",
+      "2",
+      "--campaign-split-manifest",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json",
+      "--device",
+      "cuda",
+      "--inference-precision",
+      "fp32",
+      "--loader-workers",
+      "0",
+      "--output-dir",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1",
+      "--create-only"
+    ],
+    "invocation_id": "48732136d70548b2903f3426bfedf656",
+    "main_pid": "3658053",
+    "new_scientific_fits": 0,
+    "returncode": 0,
+    "sub_state": "running"
+  },
+  "profile_prerequisite": {
+    "acceptance_sha256": "956e14754c45861665a24619e9a752cd93fb8efaa084e5bb00021b5e5f33c3cd",
+    "acceptance_status": "ACCEPTED",
+    "exact_stop_after_state": {
+      "ActiveState": "inactive",
+      "ControlGroup": "",
+      "ExecMainStatus": "0",
+      "SubState": "dead"
+    },
+    "exact_stop_raw_sha256": "acf46cea39494e728af2651656d9a0771650102298e6f49614e2467e9c6e3a75",
+    "exact_stop_transport_returncode": 0,
+    "populated_after_stop": {}
+  },
+  "record_files": {
+    "ADMISSION.json": {
+      "bytes": 25531,
+      "sha256": "bc412b4f726dd33a9944cb21de49aecd2a206d07e29f75b02975a241f486263b"
+    },
+    "LAUNCH.json": {
+      "bytes": 3144,
+      "sha256": "4a9f30e279cda83b1943624eb678a64ea21420834b9459026c57810e7649c200"
+    },
+    "LAUNCH_ACCEPTANCE.json": {
+      "bytes": 1561,
+      "sha256": "63bb0ce56d60fe14714d50772928c7ce5ea82f1e3e44fb40fa69f0b3b2915e1f"
+    },
+    "STDOUT.raw.json": {
+      "bytes": 26989,
+      "sha256": "7f5f0f32c81b18728a4be0f7b85d3fbdc215d3d70b600fe324b90df46a04993a"
+    },
+    "TRANSPORT.json": {
+      "bytes": 569,
+      "sha256": "588598bdde869c3b011d810279cc5cd1e5dbbac48f8a6ca1c25c787588a1462b"
+    }
+  },
+  "reviewed_date_utc": "2026-10-20",
+  "schema": "fg19.teacher-cache-s3-train-export-actual-review.v1",
+  "scope": "Independent local metadata-only audit of S3 train-export admission and launch. No SSH or model/prediction payload reads. This is not an export-completion or quality review.",
+  "status": "PASS_METADATA_ADMISSION_LAUNCH",
+  "transport": {
+    "no_retry": true,
+    "raw_written_before_parse": true,
+    "returncode": 0,
+    "schema": "fg19.teacher-s3-train-export-transport.v1",
+    "status": "RETURNED",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 26989,
+    "stdout_sha256": "7f5f0f32c81b18728a4be0f7b85d3fbdc215d3d70b600fe324b90df46a04993a"
+  }
+}

@@ -1,5 +1,8 @@
 # Current project state
 
+**19 October22:12UTC full-GRU dependency:** [S3 fitting-train inference export actually launched](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_train_export_v1/README.md), exact invocation48732136d70548b2903f3426bfedf656 on source88becca/one owned GPU. Allthree teachers and full-shape inference profile are accepted/stopped. Sharedtarget cache and six parent/child scientific fits follow; no five-arm quality result yet.
+
+
 **19 October21:58UTC full-GRU dependency:** [Full-shape teacher inference profile passed and exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_profile_v1/README.md):16×20k/640,000finiteFP32mainoutputs, CUDA0.901GBallocated/1.141GBreserved; no weight update/prediction cache/quality score. Source88becca/167files published; allthree teachers accepted. First S3 fitting export is the next gated stage under the same one-GPU authority.
 
 

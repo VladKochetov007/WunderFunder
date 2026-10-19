@@ -1,3 +1,5 @@
+**22:12UTC: [First S3 fitting-train export is actually running](records/teacher_s3_train_export_v1/README.md)** under one owned GPU/source88becca, restoring the accepted fixed-epoch teacher. This produces the shared training target cache; it is not a new fit, completed cache or five-arm quality score. [Continuation](CONTINUATION.md) supersedes dated preparation/running snapshots below.
+
 # Full GRU: strong recipe plus three positive CPU-screen candidates
 
 **21:58UTC: [Full-shape strictFP32 teacher inference profile passed and exact-stopped](records/teacher_cache_profile_v1/README.md).**16fittingsequences×20k/640,000finite main predictions; peakCUDA0.901GBallocated/1.141GBreserved, no retained prediction array/update/quality score. Allthree teachers accepted. First S3train fitting export is being gated, not yet admitted; current continuation supersedes dated statements below.
