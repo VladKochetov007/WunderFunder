@@ -130,8 +130,7 @@ ring buffer removes that repeated full-window copy; it does not remove the per-r
 1. Freeze the baseline, raw112 input configuration, split/component manifests, seeds, checkpoint epochs, and teacher/student
    recipes. The selected packet uses fixed L207M outputs. Its inputs are complete fit-normalized raw112 rows; its anchored-prefix
    causal attention is distinct from the streaming student's local sliding-window attention.
-2. Preserve the packet's teacher exposure: L207M targets are intentionally in-sample on outer-fitting components, while outer
-   evaluation components and all teacher ancestors are excluded from fitting. Call these fitting-only in-sample targets, not OOF
+2. Preserve the packet's teacher exposure: L207M targets are intentionally in-sample on outer-fitting components, while every teacher and all its ancestors exclude the outer evaluation components from fitting. Call these fitting-only in-sample targets, not OOF
    targets. Any OOF variant is a separate recipe.
 3. Export ordered full-sequence predictions with checkpoint hash, split/component hash, fit membership, source hash, row-group
    order, prediction hash, dtype, and shape. Bind `seq_ix`/row-group identity and row order; reject missing, duplicated,
@@ -177,10 +176,11 @@ its own causal training and replay contract; labels are never callback inputs. I
 members and coefficients before evaluation, give every member an independent reset and state, and use the same fixed blend on
 every required row. Do not select or drop members by `is_scored`, outer scores, or a wall-clock governor.
 
-The GRU and Transformer have different integration gaps. `GruStepper` can already consume normalized raw112 tensors and reset its
-hidden state, but the current scorer `Predictor` validates 211 inputs and calls the event-feature stream. A raw112
-`PredictionModel` wrapper must load mean/std and use the stepper in a Python 3.11 package. For the Transformer, both the model
-implementation and wrapper are missing.
+The GRU and Transformer have different integration gaps. `GruStepper` accepts raw112 model inputs, applies the checkpoint's
+mean/std internally, and resets its hidden state; the current scorer `Predictor` instead validates 211 inputs and calls the
+event-feature stream. A raw112 `PredictionModel` wrapper must load recurrent checkpoint tensors, call `GruStepper.step`, and
+preserve warm-up/reset behavior in a Python 3.11 package. For the Transformer, both the model implementation and wrapper are
+missing.
 
 Two direct Transformer implementation routes are plausible, neither currently complete:
 
@@ -250,7 +250,7 @@ the legacy branch only.
 
 - [PyTorch `torch.nn.GRU`](https://docs.pytorch.org/docs/stable/generated/torch.nn.GRU.html): recurrent hidden-state input/output
   shapes for the current student route.
-- [PyTorch `torch.nn.MultiheadAttention`](https://docs.pytorch.org/docs/stable/generated/torch.nn.MultiheadAtten tion.html):
+- [PyTorch `torch.nn.MultiheadAttention`](https://docs.pytorch.org/docs/stable/generated/torch.nn.MultiheadAttention.html):
   query/key/value and mask interface; persistent cache updates remain model/caller state.
 - [ONNX Runtime thread management](https://onnxruntime.ai/docs/performance/tune-performance/threading.html): intra-op and
   execution-mode controls; defaults may use multiple physical cores, so one-core settings must be explicit.
