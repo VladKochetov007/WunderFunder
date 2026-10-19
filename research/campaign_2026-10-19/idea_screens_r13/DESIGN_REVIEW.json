@@ -1,0 +1,34 @@
+{
+  "schema": "nf19.r13_design_review.v1",
+  "decision": "PASS_SOURCE_ONLY_CONDITIONAL_ON_IMPLEMENTATION_REVIEW",
+  "design_sha256": "13987a1cfde3a1389b43515dd045fdffb23b467ccddbd687ed15d07b6302e0b4",
+  "selection_history_sha256": "57df4dee5b79cc9e950556073d439db8bd171382fb19fd27c8fca52a34ecb82a",
+  "selected_before_implementation_or_outcomes": true,
+  "basis": {
+    "hypothesis": "H-NF19-14",
+    "experiment": "E-NF19-IDEA-SCREENS-R13",
+    "sample": {
+      "fit_components": 64,
+      "fit_rows_per_arm_per_epoch": 31808,
+      "evaluation_components": 32,
+      "evaluation_original_scored_rows": 59436,
+      "whole_sequences": 96,
+      "repartition_or_replacement": false
+    },
+    "arms": ["zero", "current_bypass", "warmup99"],
+    "primary_contrast": "WP(warmup99)-WP(current_bypass)",
+    "secondary_contrasts": [
+      "WP(warmup99)-WP(zero)",
+      "WP(current_bypass)-WP(zero)"
+    ],
+    "exploratory_spending_gate": "warmup99 exceeds each control by >0.005 WP; not a significance or generalization threshold"
+  },
+  "design_findings": {
+    "common_capacity_control": "All arms use the same 336-to-64 GELU model and cloned initialization. The first 224 input weights and head are shared; the added 112 weights start exactly zero, making initial outputs equal. A receives exact-zero side input; B receives duplicated current raw112; C receives the fixed per-sequence FP64 mean of raw[0:99], cast to FP32 and broadcast only from t>=99.",
+    "normalization_and_causality": "One fit-row-only R7 normalizer is shared by all arms. Its raw112 mean/scale is applied identically to B current raw112 and C warmup mean; do not fit context-specific statistics. Force every side block to exact zero at t<99 after transforms. The original masks/stride stay unchanged and eligible scored rows must all satisfy t>=99. Context uses only each sequence's first 99 raw input rows, with no labels, seq_ix, future rows, future masks, or evaluation-derived statistics.",
+    "fixed_training_budget": "Each arm makes 12 epochs over all 31,808 fit rows: 381,696 row exposures and 756 attempted/successful updates per arm; 1,145,088 total exposures and 2,268 total updates. The shared epoch permutation, optimizer, objective, clipping, and numerical mode are fixed. Any incomplete or nonfinite arm makes the comparison incomplete; no retry or replacement seed.",
+    "metric_and_claim_boundary": "The final comparison uses the unchanged canonical global_wp_clip2_v1 scorer on the original 32 evaluation masks. The screen can prioritize a later ordered/recurrent context test only if the predeclared gate clears; it cannot establish GRU benefit, a serving gain, public/full-fold performance, or population significance. The first-99 mean discards order, represents 64 fit-sequence summaries rather than 31,808 independent contexts, and may behave as a sequence/component signature. One seed and the exposed panel are exploratory evidence. A negative result addresses this fixed prefix-mean recipe only."
+  },
+  "review_scope": "Prospective design review only. No R13 source, data arrays, model, or outcome was inspected or executed.",
+  "implementation_gate": "Before admission, independently verify the frozen code and source pins, exact initialization/output parity, context boundaries and future-perturbation/sequence-reset invariants, fit-only shared normalization, unchanged membership/masks, common order/update counts, zero-anchor and unused-head invariants, finite canonical scoring, complete cold-import/read-sentinel closure, and bounded runtime/resource guards."
+}

@@ -1,0 +1,45 @@
+{
+  "schema": "nf19.r13_implementation_review.v1",
+  "decision": "PASS_SOURCE_REVIEW_ROOT_ADMISSION_STILL_REQUIRED",
+  "design_sha256": "13987a1cfde3a1389b43515dd045fdffb23b467ccddbd687ed15d07b6302e0b4",
+  "design_review_sha256": "e7736037b77ee35f90ab03614489e325a3b7e832fc7c54bd6c5d48360d20458d",
+  "selection_history_sha256": "57df4dee5b79cc9e950556073d439db8bd171382fb19fd27c8fca52a34ecb82a",
+  "preparation_manifest_sha256": "8504aedca37a20d76ae31d1b2fcd7498676c956f70e3c7e69017a8be13213861",
+  "test_receipt_sha256": "9fc7ffa9a3a971fb82bab25c066ef2e2eb3bd2a74cce759dab67cf6c99264f57",
+  "preparation_manifest_files": 36,
+  "exact_runtime_module_count": 30,
+  "source_pin_verification": {
+    "result": "PASS",
+    "verified_files": 36,
+    "source_and_metadata_payloads_only": true
+  },
+  "implementation_findings": {
+    "input_contract": "The frozen panel uses R7 full-sequence raw+signed-delta EMA features before fit stride/masks; shared normalization is fit-only. The context is R1 raw_warmup99_context from rows 0:99, normalized with the shared raw112 fit statistics, broadcast only from row 99, and side inputs are forced to exact zero earlier. Evaluation uses the original masks and fit-only statistics.",
+    "initialization_and_training": "One seed-19061 224-input core and its heads are expanded with identical base weights and exact-zero side weights across all three 336-input models. Initial states and predictions are checked. Training reuses R7's canonical control WMSE update, fixed common epoch permutation, optimizer, and fit diagnostics; it enforces 12 epochs, 756 updates, finite state, unchanged zero-arm side weights, and an unchanged unused variance head with grad=None.",
+    "scoring": "The scorer now accumulates finite predictions into canonical GlobalAccumulator instances, requires 59,436 selected evaluation rows per arm over the 32 fixed components, records correctly named official clipped additive sums, and reports all three contrasts at pooled, component, and drop-one levels. The synthetic integration fixture executes the scorer over all 32 groups and asserts complete accumulation.",
+    "provenance_and_execution": "The CLI checks the exact manifest, design, review, selection-history, sample, and membership identities before importing the executor; the runtime import inventory is compared for exact equality with the 30-entry map. Training/scoring code imports are covered by the pinned closure. Runtime numerical mode and model dtype/device checks are explicit."
+  },
+  "independent_checks": {
+    "isolated_b_shaped_source_bundle": {
+      "result": "PASS",
+      "layout": "support source tree plus source-a266b036/src/wnn canonical tree; all 36 manifest files copied and rehashed",
+      "observed_runtime_modules": 30,
+      "exact_module_set_and_paths": true,
+      "loader_sentinels": [
+        "numpy.load",
+        "numpy.memmap",
+        "pyarrow.memory_map",
+        "pyarrow.parquet.ParquetFile/read_table/read_pandas/ParquetDataset",
+        "pyarrow.dataset.dataset",
+        "torch.load",
+        "torch.jit.load"
+      ],
+      "cuda_initialization_sentinels": ["torch.cuda.init", "torch.cuda._lazy_init"],
+      "cuda_initialized_after_import": false
+    },
+    "focused_synthetic_tests": "PASS: 9 tests in 1.76s, including causal/reset-local warmup behavior, normalizer and zero boundary, initial parity, zero-anchor/unused-head behavior, common permutation/update arithmetic, canonical scorer integration, exact R3 metadata fixture, import closure, and python -m identity.",
+    "actual_sample_arrays_or_model_fit_read": false,
+    "remote_or_B_action_performed_by_reviewer": false
+  },
+  "limitations_and_remaining_gate": "This is a source and source-only closure review, not a real-data or training result. Root must separately complete the final B-side source/command/resource/headroom/ownership admission and launch review before any execution. The experiment remains one exposed-panel, one-seed exploratory screen and cannot establish GRU benefit or population significance."
+}

@@ -1,0 +1,65 @@
+{
+  "ast_size_check": {
+    "max_function_lines": 143,
+    "max_module_lines": 284,
+    "python_files": 9
+  },
+  "checks": [
+    {
+      "command": ".venv/bin/ruff format research/campaign_2026-10-19/idea_screens_r13",
+      "result": "PASS"
+    },
+    {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r13",
+      "result": "PASS"
+    },
+    {
+      "command": "PYTHONPATH=research/campaign_2026-10-19:src .venv/bin/python -B -m pytest -q research/campaign_2026-10-19/idea_screens_r13/test_probe.py",
+      "coverage": [
+        "causal first-99 context, reset boundary, and future perturbation",
+        "shared raw normalizer and exact pre-99 side zeroing",
+        "same initial arm states/predictions, FP32 CPU parameters, unused variance head, and zero-anchor update",
+        "common epoch permutation and 756-update/exposure arithmetic",
+        "canonical metric accumulation and drop-one behavior",
+        "three-arm score_models integration over 32 synthetic components",
+        "R3 producer metadata schema, roles, and 59,436 eval-row count",
+        "30-module cold-import closure with NumPy/PyArrow/Torch payload-loader sentinels",
+        "actual python -m entrypoint provenance before --help parsing"
+      ],
+      "result": "PASS: 9 passed in 2.21s"
+    },
+    {
+      "command": ".venv/bin/python scripts/check_training_structure.py --root research/campaign_2026-10-19/idea_screens_r13",
+      "observed": "requires src/wnn/training; this source-only folder is not that package root",
+      "result": "NOT_APPLICABLE_TO_RESEARCH_PACKAGE"
+    }
+  ],
+  "data_and_execution_boundary": {
+    "full_r13_fit_or_evaluation_run": false,
+    "metadata_fixture_read": true,
+    "real_sample_arrays_loaded_or_mapped": false,
+    "remote_or_B_actions": false,
+    "sample_npy_payloads_read": false,
+    "synthetic_arrays_and_tiny_optimizer_step_used": true
+  },
+  "environment": {
+    "execution": "local synthetic/source-only checks",
+    "python": "3.13.11",
+    "ruff": "0.17.1"
+  },
+  "manifest_check": {
+    "pinned_files": 36,
+    "result": "PASS",
+    "runtime_modules": 30
+  },
+  "preparation_manifest_sha256": "8504aedca37a20d76ae31d1b2fcd7498676c956f70e3c7e69017a8be13213861",
+  "schema": "nf19.r13.test_receipt.v1",
+  "source_identities": {
+    "design_review_sha256": "e7736037b77ee35f90ab03614489e325a3b7e832fc7c54bd6c5d48360d20458d",
+    "design_sha256": "13987a1cfde3a1389b43515dd045fdffb23b467ccddbd687ed15d07b6302e0b4",
+    "r3_membership_metadata_sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+    "r3_sample_metadata_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+    "selection_history_sha256": "57df4dee5b79cc9e950556073d439db8bd171382fb19fd27c8fca52a34ecb82a",
+    "test_probe_sha256": "9d01f4a7d69798871a58ad5333b626282d29d88750b0c4f409821f192a351211"
+  }
+}

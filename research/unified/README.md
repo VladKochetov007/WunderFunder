@@ -1,5 +1,7 @@
 # Unified research library
 
+[Latest bounded idea screen, R13](../campaign_2026-10-19/idea_screens_r13/RESULTS.md) closes one immutable first99-row mean side-context recipe: WP0.462646 versus current bypass0.499683 and zero0.507387, same initialization/updates. All R1–R13 and original F3 are finished; no new GPU or old-queue cell. See the [current continuation](../campaign_2026-10-19/idea_screens_r13/CONTINUATION.md).
+
 [Current user-authorized EDA/simple-model screen](../campaign_2026-10-19/idea_screens_r1/RESULTS.md):48whole sequences, nine fixed ridge views, component-aware interpretation and a status map for all25cards. EMA's pooled gain reverses after dropping the largest evaluation component; i0-only remains worth a fit-only regularization/data-size check. Existing GRUs are much stronger on the same selected rows, with different fit budgets. This supersedes the earlier discussion-only hold for bounded EDA/simple probes, not for a full campaign.
 
 [Current user direction: no-fit discussion of 25 hypotheses](../campaign_2026-10-19/no_fit_ideation_r1/README.md). Independent generation, prior-overlap criticism and mathematical/source checks replace automatic historical reconstruction and quantization work. The cards are unmeasured proposals, with close refinements and dependencies marked. Existing F3 has maintenance-only authority; no new fit, data replay or code implementation was performed in this session.

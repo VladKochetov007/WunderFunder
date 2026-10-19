@@ -1,0 +1,35 @@
+{
+  "checks": {
+    "all_nine_raw_payloads_match_local_extractions_by_bytes_and_sha256": true,
+    "archive_stat_and_producer_digest_only": true,
+    "capture_envelope_matches_root_validation_sha256": true,
+    "configured_caps_match_capture": true,
+    "empty_terminal_control_group_recorded_as_na_without_root_fallback": true,
+    "exact_stop_after_validated_capture_and_unit_terminal_proof": true,
+    "exact_unit_invocation_consistent_across_launch_capture_and_stop": true,
+    "explicit_terminal_success_status_before_stop": true,
+    "no_populated_campaign_descendants_at_capture": true,
+    "parent_event_deltas_zero": true,
+    "parent_local_event_deltas_zero": true
+  },
+  "limitations": [
+    "No scientific score or model/archive contents are reviewed here.",
+    "No own-unit cgroup usage is available from the terminal capture because ControlGroup was empty; no host-root cgroup data was substituted."
+  ],
+  "measurement_scope_review": [
+    "Systemd ExecMain monotonic duration, CPUUsageNSec and MemoryPeak are unit-property measurements.",
+    "RESULT/DONE elapsed wall and CPU values are helper-reported measurements.",
+    "RESULT resource_guards are sampled cgroup-current and process-RSS observations; they are not peak values. process_peak_rss_native_units remains in native units.",
+    "The empty terminal ControlGroup leaves own-unit cgroup readings NA. Campaign-parent events and counters are retained separately.",
+    "The archive SHA is the producer-reported DONE value; the local capture recorded only archive stat size and did not read or rehash the archive."
+  ],
+  "pre_remote_local_transport_notes": {
+    "LOCAL_IMPORT_SMOKE_V1": "Preserved local harness failure: it resolved the frozen canonical root incorrectly and stopped before imports; no sample/model payloads or remote actions were involved.",
+    "LOCAL_IMPORT_SMOKE_V2": "Authoritative corrected B-shaped smoke passed for all 30 owned modules with reader sentinels and CUDA uninitialized.",
+    "assembly_keyset": "A local keyset/count assertion was corrected before remote admission. The final startup review records 34 transport files matching the 30 noncanonical manifest files plus four exact metadata extras; this was not a runtime or model failure."
+  },
+  "reviewed_utc": "2026-10-19T05:52:03+00:00",
+  "schema": "nf19.r13.resource_metadata_review.v1",
+  "scope": "Independent local review of captured metadata, raw-byte bindings, resource scopes and exact-stop ordering; no source, archive payload, array, or scientific score validation.",
+  "status": "PASS_METADATA_ONLY"
+}
