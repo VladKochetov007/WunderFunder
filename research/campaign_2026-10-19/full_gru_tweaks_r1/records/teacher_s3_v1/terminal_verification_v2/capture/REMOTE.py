@@ -1,0 +1,16 @@
+import json,subprocess,base64,hashlib,datetime
+from pathlib import Path
+B=Path('/home/grinchenkoeg/computer-vision-homework-20261018');D=B/'research_tmp/fg19_teacher_s3_verify_v2';U='computer-vision-homework-fg19-teacher-s3-verify-v2.service'
+def show(u):
+ r=subprocess.run(['systemctl','--user','show','--all',u,*sum((['-p',k] for k in ['InvocationID','ActiveState','SubState','ExecMainCode','ExecMainStatus','ControlGroup','CPUUsageNSec','MemoryPeak','ExecStart','ExecMainStartTimestamp','ExecMainExitTimestamp']),[])],capture_output=True,text=True,timeout=15);assert r.returncode==0;return dict(a.split('=',1) for a in r.stdout.splitlines())
+u=show(U);assert u['InvocationID']=='60439cc15bf64d2e8f8fbd8c2a92255d'
+f={}
+for n in ['VERIFICATION.json','unit.log','VERIFIER_ADMISSION.json','VERIFIER_LAUNCH.json','TERMINAL_EVIDENCE.json']:
+ p=D/n
+ if p.exists():
+  assert p.stat().st_size<1000000;v=p.read_bytes();f[n]={'bytes':len(v),'sha256':hashlib.sha256(v).hexdigest(),'base64':base64.b64encode(v).decode()}
+parent=show('wnn-campaign.slice')
+cp=parent['ControlGroup'];assert cp and cp!='/'
+cg=Path('/sys/fs/cgroup')/cp.lstrip('/')
+parent_events={name:(cg/name).read_text() for name in ('memory.current','memory.events','memory.events.local')}
+print(json.dumps(dict(parent=parent,parent_events=parent_events,utc=datetime.datetime.now(datetime.UTC).isoformat(),unit=u,native=show('computer-vision-homework-fg19-teacher-s3-v1.service'),files=f)))

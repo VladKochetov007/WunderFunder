@@ -1,4 +1,23 @@
-# Common clean ancestry and bounded execution
+# Teacher terminal verification preparation
+
+The seed-3 teacher fit is complete and its checkpoint integrity and exact stop are accepted. The verifier checked native checkpoint/source/counter consistency only; no inference, grading, or quality result was produced. The checkpoint and optimizer payloads remained on B.
+
+## S3 verifier source and outcome
+
+- [V2 checker](teacher_terminal_check_v2.py), [V1/V2 packet generators](admit_teacher_terminal_verifier.py) and [V2 generator](admit_teacher_terminal_verifier_v2.py), [V2 synthetic preparation receipt](TEACHER_TERMINAL_PREPARATION_V2.json), [V2 source review](TEACHER_TERMINAL_REVIEW_V2.json), and [final actual-terminal review](ACTUAL_TERMINAL_REVIEW.json).
+- [Focused tests](test_teacher_terminal_check_v2.py) and their final [two-test/Ruff/generator receipt](teacher_terminal_verifier_v2_checks_root_final/README.md).
+- [V2 prepared packet](teacher_terminal_verifier_v2/README.md) was used for the successful bounded verifier. The earlier [V1 packet](teacher_terminal_verifier_v1/README.md) failed only on restricted `TorchVersion` loading; [pre-format V2 bytes](teacher_terminal_verifier_v2_before_format/README.md) and all earlier check rounds remain available with their status.
+- Actual records: [V2 verification and capture](../records/teacher_s3_v1/terminal_verification_v2/README.md), [root terminal acceptance](../records/teacher_s3_v1/TERMINAL_ACCEPTANCE.json), and [exact-stop record](../records/teacher_s3_v1/terminal_exact_stop/README.md). The actual review digest is `bfd6f4c0fabe48528de8b7c8163e45e0f0490f68656b81812cd22f7cfe14a0c8`.
+
+## S4 conditional successor
+
+One seed-4 successor was admitted and launched after S3 acceptance and exact stop. The launch acceptance at 17:52:26 UTC records invocation `b6d71599e0044970b8641e3e241c40a4`, expected 22,380 updates, and status `ADMITTED_RUNNING_NOT_TERMINAL`; it is a launch-time snapshot, not a current progress or outcome report. See the root-owned [S4 launch acceptance](../records/teacher_s4_v1/LAUNCH_ACCEPTANCE.json), [admission](../records/teacher_s4_v1/ADMISSION.json), [recipe](../records/teacher_s4_v1/RECIPE.json), [predecessor terminal acceptance](../records/teacher_s4_v1/PREDECESSOR_TERMINAL_ACCEPTANCE.json), and [predecessor exact stop](../records/teacher_s4_v1/PREDECESSOR_TERMINAL_STOP.json). Current status and any terminal result belong in the root-maintained continuation and S4 record; none is asserted here.
+
+## Earlier preparation navigation — dated and superseded
+
+The original navigation below preserves all earlier source, recipe and admission links. Its dated running/hold statements are superseded by the current execution and accepted records above.
+
+### Original common-ancestry preparation index
 
 The [seed3 terminal checker](teacher_terminal_check.py), [13-test/source-only preparation proof](TEACHER_TERMINAL_PREPARATION.json) and [independent final review](TEACHER_TERMINAL_REVIEW.json) are locally prepared for the admitted teacher. They bind the exact launch, canonical CLI, seeded membership order, saved normalization buffers, source, finite FP32 model/Muon state and actual producer counters. No real checkpoint was opened and no checker was staged or admitted on B. Use only after the exact native invocation finishes with explicit integer exit0, under fresh bounded CPU admission; preparation is not terminal acceptance. The [test source](test_teacher_terminal_check.py) and [preserved pre-correction draft](teacher_terminal_source_v1/README.md) retain the synthetic checks and two resolved local readiness defects. The running trainer and recipe are unchanged.
 

@@ -1,5 +1,8 @@
 # Full-GRU campaign actual execution records
 
+[First strong teacher S3 completed](teacher_s3_v1/TERMINAL_ACCEPTANCE.json), [independently reviewed](../preparation/ACTUAL_TERMINAL_REVIEW.json) and [exact-stopped](teacher_s3_v1/terminal_exact_stop/README.md):22,380successful updates/1,119batches/0skips/nonfinite, finiteFP32 model/Muon/Adam/loader/RNG and164source files. The [V1 verifier compatibility failure](teacher_s3_v1/terminal_verification_v1/README.md) and [successful V2](teacher_s3_v1/terminal_verification_v2/README.md) preserve the correction without training replay. [Resource reconciliation](teacher_s3_v1/RESOURCE_RECONCILIATION.json) separates native/support/progress observations.
+
+[Second strong teacher S4 is actually running](teacher_s4_v1/README.md), launched17:50:37UTC with the same source/recipe except seed4/runname, after accepted and stopped S3. [Startup17:52:49UTC](teacher_s4_v1/startup_health_v1/README.md) confirms one owned populated GPUworker, first logged batch and no new memory events. No S4 terminal or five-arm quality score.
 [The completed engineering profile](profile_v1/README.md) exercises the published strict propensity components on real fitting sequences and the full B16×20k×211 GPU shape. It passed20finite updates, without a retained checkpoint or quality score. Source and scalar evidence are local; all actual data/model payloads remain on B.
 
 [The first full-fit admission attempt](propensity_f0_e4_v1/README.md) failed read-only before any unit/run/output creation because a registered in-B cache alias was rejected by an overstrict path guard. The raw failure is retained; it is not a failed training run. A focused corrected admission must bind the same immutable trainer and fresh gates before an actual launch.

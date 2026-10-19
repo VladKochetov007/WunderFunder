@@ -1,0 +1,51 @@
+{
+  "bindings": {
+    "checker": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_check.py",
+      "sha256": "8aaba33317c8dce3f6b75c77577560c78591a2dd6fe5e2ed3f7ea347e202f2d9"
+    },
+    "generator": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/admit_teacher_terminal_verifier.py",
+      "sha256": "469640136d7e267d321eba920ddbdd346ce522420e409e35ef0ab2335eb8dd6e"
+    },
+    "native_terminal_evidence": {
+      "exit": {
+        "exec_main_code": 1,
+        "exec_main_status": 0,
+        "main_pid": 0
+      },
+      "invocation_id": "02a8c00b433b49a185c2700624397769",
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_v1/terminal_native_v1/TERMINAL_EVIDENCE.json",
+      "scope": "Native exit metadata only; this does not attest to checker acceptance or model contents.",
+      "sha256": "5601d8f071823962da15fdf789751c5c3620fd1712fa2224cd5008e6b03d3431"
+    },
+    "preparation_receipt": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_verifier_v1/PREPARATION.json",
+      "sha256": "c10197447d0c8b8a56dd889794243d7016975381c6fac2731e91b9f8e7f6dcc9"
+    },
+    "remote_submission": {
+      "bytes": 187368,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_verifier_v1/REMOTE_SUBMISSION.py",
+      "sha256": "1ee83302fa662adc8f7f9cc58ee63deb4d22c3222a28946abe4efe44f5e1c66d"
+    },
+    "support": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/propensity_terminal_support.py",
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    }
+  },
+  "limitations": [
+    "This review is packet readiness only. The prepared body has not been transmitted or run by this reviewer.",
+    "Native successful exit is captured, but terminal model/checkpoint integrity is not accepted until the B-side checker creates a valid VERIFICATION.json and root validates the verifier unit completion and outputs.",
+    "No model/checkpoint/data payload was read by this reviewer; no SSH, training, inference, grading, or GPU action was performed."
+  ],
+  "reviewed_properties": [
+    "The packet pins raw launch, normalized launch acceptance, admission, split, source manifest, fit binding, checker, support module, preparation receipt, and captured native terminal evidence; the body rechecks exact digests before staging.",
+    "The output directory is create-only. Staged LAUNCH.json and TERMINAL_EVIDENCE.json are each written once; generated outputs use distinct VERIFIER_ADMISSION.json, VERIFIER_LAUNCH.json, VERIFICATION.json, and unit.log names.",
+    "The fresh native gate checks current invocation, active/exited state, exact successful integer exit fields, CPU usage, timestamps, and MemoryPeak. It also rechecks source inventory/content, split identity, registered paths, required terminal artifact stats, persistent output storage, parent occupancy, headroom, and free-space guards before launching the verifier.",
+    "The verifier unit is constrained to 50% CPU, 1.4 GB MemoryHigh, 1.5 GB MemoryMax, no swap, and 600 seconds; CUDA is hidden and CPU thread environment variables are set to one.",
+    "The admission body only stages code and JSON metadata and stats the model artifacts. The subsequent pinned checker is the component that performs bounded hashing and restricted CPU checkpoint loading."
+  ],
+  "schema": "fg19.teacher-s3-terminal-verifier-admission-review.v1",
+  "scope": "Independent static review of the frozen local generator and its prepared remote verifier body. No transmission or remote action was performed by this reviewer.",
+  "status": "PASS_PACKET_REVIEW_ONLY"
+}

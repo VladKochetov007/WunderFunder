@@ -1,6 +1,8 @@
 # First clean strong GRU teacher — actually running
 
-The launch/acceptance below is dated15:35–15:36UTC. Subsequent startup-capture evidence and its local transport limitation are recorded at the end; no terminal or quality result is asserted.
+**Completed and exact-stopped:** [Root acceptance](TERMINAL_ACCEPTANCE.json), [actual independent review](../../preparation/ACTUAL_TERMINAL_REVIEW.json), [native terminal](terminal_native_v1/README.md), [successful V2 verifier](terminal_verification_v2/README.md) and [exact stop](terminal_exact_stop/README.md) bind22,380updates/1,119batches/0skips/nonfinite/next_epoch3 and finiteFP32 model/Muon/Adam/loader/RNG. Native exited17:30:38UTC; accepted artifacts were captured before exact stop17:50:04UTC. [V1 consumer failure](terminal_verification_v1/README.md) remains preserved. [Resource reconciliation](RESOURCE_RECONCILIATION.json) distinguishes native/support observations. Payloads remain onB; no quality result.
+
+The launch/acceptance below is dated15:35–15:36UTC. Later terminal acceptance above supersedes its pending/running statements. Historical startup-capture evidence and its local transport limitation remain unchanged.
 
 [Fresh16:59:55UTC health](health_20261019T1700Z/README.md) reports the same active invocation, two logged complete epochs/14,920updates/0skips/nonfinite0, then recordedep2batch20/373. Only one owned populated GPUworker; own/parent memory events unchanged. Provenance/training_state are stat-only, not verified terminal artifacts. No terminal or quality result.
 

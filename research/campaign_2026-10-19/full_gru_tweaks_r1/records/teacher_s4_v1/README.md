@@ -1,0 +1,7 @@
+# Teacher seed4 — one actual strong-GRU fit
+
+[Launch acceptance](LAUNCH_ACCEPTANCE.json), [admission](ADMISSION.json), [launch](LAUNCH.json), [recipe](RECIPE.json), [raw response](STDOUT.raw.json) and [transport](TRANSPORT.json) bind the actual second teacher: `computer-vision-homework-fg19-teacher-s4-v1.service`, invocation `b6d71599e0044970b8641e3e241c40a4`, launched19October17:50:37UTC. Sourceaf21d6d8/164files, H384×2/legacy211inputs/23outputs/B32/C1000/threeepochs/fixed2, currentF0 train+valid with held-out groups excluded. Only name and seed differ from S3. The [remote submission](REMOTE_SUBMISSION.py) reuses the reviewed gates; no trainer was copied or changed.
+
+[S3 terminal acceptance](PREDECESSOR_TERMINAL_ACCEPTANCE.json) and [exact-stop bytes](PREDECESSOR_TERMINAL_STOP.json) were bound before fresh source/split/registered-data/ownership/all-populated/headroom/output gates. One GPU remains selected: GPU-ec74220d-78d7-cc47-69fc-0de1fb580944; foreign work is untouched. Limits1CPU/high7.5e9/max8e9B/swap0/allocator4GiB/runtime24h. StrictFP32Muon/TF32off and no evaluation during fitting are unchanged.
+
+[17:52:49UTC startup](startup_health_v1/README.md) confirms active/running, one owned populated GPU worker and recordedep0batch0/373. Expected22,380updates is not observed completion. No terminal checkpoint or teacher/control/tweak quality result exists at this snapshot. RunB/data/artifacts/runs/fg19_t3_h384x2_e3_s4_v1; logB/research_tmp/fg19_teacher_s4_v1; actual payloads remain on B. Do not duplicate/restart or read changing checkpoints.

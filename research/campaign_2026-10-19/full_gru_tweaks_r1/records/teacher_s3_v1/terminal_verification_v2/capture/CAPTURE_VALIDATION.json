@@ -1,0 +1,56 @@
+{
+  "utc": "2026-10-19T17:48:54.861994+00:00",
+  "unit": {
+    "ExecMainStartTimestamp": "Mon 2026-10-19 17:48:20 UTC",
+    "ExecMainExitTimestamp": "Mon 2026-10-19 17:48:31 UTC",
+    "ExecMainCode": "1",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v2/teacher_terminal_check_v2.py --run-dir /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_t3_h384x2_e3_s3_v1 --source-root /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-teacher-af21d6d8 --split /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --source-manifest /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v2/SOURCE_MANIFEST.json --admission /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v2/ADMISSION.json --launch /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v2/LAUNCH.json --launch-acceptance /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v2/LAUNCH_ACCEPTANCE.json --terminal-evidence /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v2/TERMINAL_EVIDENCE.json --output /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v2/VERIFICATION.json ; ignore_errors=no ; start_time=[Mon 2026-10-19 17:48:20 UTC] ; stop_time=[Mon 2026-10-19 17:48:31 UTC] ; pid=3261078 ; code=exited ; status=0 }",
+    "ControlGroup": "",
+    "MemoryPeak": "1933312",
+    "CPUUsageNSec": "3044148000",
+    "ActiveState": "active",
+    "SubState": "exited",
+    "InvocationID": "60439cc15bf64d2e8f8fbd8c2a92255d"
+  },
+  "native": {
+    "ExecMainStartTimestamp": "Mon 2026-10-19 15:35:05 UTC",
+    "ExecMainExitTimestamp": "Mon 2026-10-19 17:30:38 UTC",
+    "ExecMainCode": "1",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-teacher-af21d6d8/scripts/train_rnn.py --name fg19_t3_h384x2_e3_s3_v1 --seed 3 --device cuda --arch gru --cell gru --enc linear --hidden 384 --layers 2 --head-layers 1 --epochs 3 --checkpoint-policy fixed --checkpoint-epoch 2 --batch 32 --chunk 1000 --optim muon --muon-scope all --muon-ortho-dtype fp32 --strict-muon-fp32 --lr 0.001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --loss wmse --loss-norm chunk --precision fp32 --aux-struct 0.3 --aux-next 0.3 --since-weight 32 --since-floor 0.25 --propensity fg19_propensity_clean_f0_seed0_e4 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --grad-stats --sync-free --pin-memory --save-training-state --no-eval-during-fit --valid-fold 0 ; ignore_errors=no ; start_time=[Mon 2026-10-19 15:35:05 UTC] ; stop_time=[Mon 2026-10-19 17:30:38 UTC] ; pid=3031175 ; code=exited ; status=0 }",
+    "ControlGroup": "",
+    "MemoryPeak": "4098809856",
+    "CPUUsageNSec": "6923995701000",
+    "ActiveState": "active",
+    "SubState": "exited",
+    "InvocationID": "02a8c00b433b49a185c2700624397769"
+  },
+  "files": {
+    "VERIFICATION.json": {
+      "bytes": 2113,
+      "sha256": "cfd1ba48b9e01d1329005862d304da42bc22dfe5b92654556dd6787bdf6660e5"
+    },
+    "unit.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "VERIFIER_ADMISSION.json": {
+      "bytes": 6671,
+      "sha256": "0ebee8acb105b45ae75c1e229658d61bef377476daf6b0a2a2cd47dc6337a5d1"
+    },
+    "VERIFIER_LAUNCH.json": {
+      "bytes": 3238,
+      "sha256": "ab077d55f35c8f31108c52299a620b95f39f27ee9bd10aa812f57fc4633afb3e"
+    },
+    "TERMINAL_EVIDENCE.json": {
+      "bytes": 559,
+      "sha256": "5601d8f071823962da15fdf789751c5c3620fd1712fa2224cd5008e6b03d3431"
+    }
+  },
+  "parent_events": {
+    "memory.current": "2295590912\n",
+    "memory.events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  }
+}
