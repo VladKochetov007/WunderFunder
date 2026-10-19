@@ -1,0 +1,14 @@
+# First clean strong GRU teacher — actually running
+
+The launch/acceptance below is dated15:35–15:36UTC. Subsequent startup-capture evidence and its local transport limitation are recorded at the end; no terminal or quality result is asserted.
+
+[Admission](ADMISSION.json), [actual launch](LAUNCH.json), [launch acceptance](LAUNCH_ACCEPTANCE.json), [frozen recipe bytes](RECIPE.json), [raw transport](TRANSPORT.json) and originalSTDOUT/STDERR bind one real seed3 teacher fit. Native computer-vision-homework-fg19-teacher-s3-v1.service launched15:35:05UTC19October, invocation02a8c00b433b49a185c2700624397769. Current-source H384x2/211inputs/23outputs/B32/C1000/3epochs/fixedep2, currentF0/train+valid with heldout excluded, strictFP32Muon-all interior adaptation and the verified clean propensity. Expected22380updates is not an observed terminal count.
+
+The [actual passing full-shape profile](../teacher_profile_v3/README.md) preceded admission; [independent admission review](../../preparation/TEACHER_S3_FIT_ADMISSION_CRITIC_REVIEW.json) binds frozen recipe/guard/accepted launch and fresh source/split/data/parent/GPU/output/resource checks. [Current single-GPU allocation](../../GPU_REALLOCATION_20261019T1525Z.json) is one available identical A4000, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, with all foreign jobs preserved. Worker1CPU/high7.5e9/max8e9B/swap0/allocator4GiB/runtime24h and per-epoch training-state recovery.
+
+Run B/data/artifacts/runs/fg19_t3_h384x2_e3_s3_v1, log/admission B/research_tmp/fg19_teacher_s3_v1; immutable source B/source-fg19-teacher-af21d6d8 (publishedaf21d6d8,164files). Do not duplicate/restart on missing initial stdout: canonical source/data validation and normalization precede optimizer logging. Unknown outcomes require exactunit/durablepath inspection. Real data/model/checkpoint payloads stay onB. No outergrade or five-arm quality result yet.
+
+Startup health capture requested for teacher S3 has no durable observation: one read-only SSH call ran, but local persistence failed on `datetime.UTC` before stdout/stderr were saved; the state at that probe remains unknown and no retry was made. See [capture note](startup_health_v1/README.md) and [failure receipt](startup_health_v1/LOCAL_CAPTURE_FAILURE.json).
+
+
+A later local inspection recovered a schema-valid startup snapshot from the existing [raw capture](startup_health_v1/OBSERVATION.json), linked to the pinned read-only script. At 15:40:38 UTC the exact teacher S3 invocation was active; the bounded log showed epoch 0 batch 20/373, not a completed fit. The local wrapper failure remains preserved because it failed before its own write calls; the origin of the later-found raw files and the SSH return code remain unknown. No remote retry was made. See [recovery correction](startup_health_v1/CORRECTION.json).

@@ -1,0 +1,36 @@
+{
+  "binding_sha256": "babfd92939eb5580933929a591872dec9056aaacd5002979a26ca2de8ed6ff00",
+  "checks": {
+    "full_payload_verification": "not run by this actor; root-owned fresh unit and captured-exit gate required",
+    "py_compile": "passed on four implementation/test files",
+    "pytest": {
+      "command": ".venv/bin/pytest -q research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_propensity_terminal.py",
+      "result": "8 passed"
+    },
+    "restricted_loader_cli": {
+      "command": ".venv/bin/python -B research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/verify_propensity_terminal.py --self-test",
+      "result": "passed; five exact NumPy RNG globals only; unknown synthetic global rejected; safe-global context restored"
+    },
+    "ruff_check": "passed on four implementation/test files",
+    "ruff_format": "passed on four implementation/test files"
+  },
+  "implementation_files": {
+    "propensity_terminal_checks.py": "795b509f33f3b92e77290b7df47f9fb96e1e5614026d831c53a937789b642406",
+    "propensity_terminal_support.py": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+    "test_propensity_terminal.py": "b05de108e9aa7fee9329e7bbb0225887f900610d451b3f8f0e01fad10ed097a4",
+    "verify_propensity_terminal.py": "5996e7ceb112f7bdaec9d9ca85ba503bad8c1634b7c61c2a9118cb0eda0d2e3c"
+  },
+  "local_runtime": {
+    "cuda_used": false,
+    "numpy": "2.2.6",
+    "python": "3.13.11",
+    "torch": "2.14.1"
+  },
+  "schema": "fg19.propensity_terminal_verifier.test_receipt.v2",
+  "scope": "No SSH, B actions, or new real run payload reads. The changed hash path was checked with synthetic scalar, non-contiguous, and empty tensors; other tests use a synthetic journal and BytesIO RNG fixtures.",
+  "source_commit": "235db75ab91e24c69f21e637a83a48512dc674fe",
+  "status": "passed_synthetic_checks_only",
+  "supersedes_sha256": "bf1960b73ab4cb0abc6acc3d70db68b2ecf1f9e4a5decde263daa70ba0016d6b",
+  "v1_failure": "The first capped verifier stopped on a zero-dimensional AdamW step tensor; its exact source and receipt are preserved in the V1 snapshot.",
+  "v1_snapshot": "propensity_terminal_v1/"
+}

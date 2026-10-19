@@ -1,0 +1,3 @@
+# First terminal verifier — failed helper, unchanged fit
+
+The [launch](LAUNCH.json) admitted only a0.5CPU integrity read of the already-completed propensity. The [raw capture](capture/STDOUT.raw.json) and [native log](capture/unit.log) preserve a zero-dimensional AdamW step tensor byte-view exception. No new fit, optimizer update, inference or grade occurred. The failed native support unit is preserved. The [V1 source/test snapshot](../../../preparation/propensity_terminal_v1/README.md) retains exact code. The corrected [V2 verification](../terminal_verification_v2/README.md) supersedes this failed helper attempt.

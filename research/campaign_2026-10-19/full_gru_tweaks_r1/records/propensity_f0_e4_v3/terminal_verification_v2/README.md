@@ -1,0 +1,3 @@
+# Successful terminal integrity verification
+
+The [launch](LAUNCH.json) binds the0.5CPU/1.5GB/120s support job and exact native exit0. [Original captured scalar/hash receipt](capture/VERIFICATION.json) independently hashes and safely loads the B-only model/resume checkpoints, validates source/split/progress/AdamW/loader/RNG and four fixed epochs, with no inference/grade/refit. [Native capture](capture/STDOUT.raw.json) binds the successful invocation9319de78e74a45f0a01f04b1c14ee042. The [root acceptance](../TERMINAL_ACCEPTANCE.json) preceded [exact stop](../terminal_exact_stop/STDOUT.raw.json).
