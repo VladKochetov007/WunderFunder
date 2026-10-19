@@ -72,12 +72,13 @@ def _run_child(
     return {"returncode": code, "log_sha256": sha256_file(log_path), "argv": argv}
 
 
-def _base_cli(config: dict[str, Any], recovery: Path) -> list[str]:
+def _base_cli(config: dict[str, Any], recovery: Path, phase: str) -> list[str]:
     """Build helper arguments for only the three permitted delivery phases."""
     return [
         sys.executable,
         "-B",
         str(config["helper_path"] / "r01_delivery_recovery_v2.py"),
+        phase,
         "--root",
         str(config["root_path"]),
         "--packet",

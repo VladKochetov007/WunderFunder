@@ -121,7 +121,7 @@ def main() -> None:
     recovery = root / "state/r01-delivery-recovery-v2"
     if recovery.is_symlink() or not recovery.is_dir():
         raise ValueError("recovery tree must be an existing nonsymlink directory")
-    state = root / "state/r01-delivery-watch-v1"
+    state = root / "state/r01-delivery-watch-v2"
     if state.is_symlink():
         raise ValueError("watcher state cannot be a symlink")
     state.mkdir(parents=True, exist_ok=True)
