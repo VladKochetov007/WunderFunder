@@ -1,5 +1,9 @@
 # Additional B300 directions, user instruction19October2026
 
+## Native-feature expansion and delivery recovery, 19 October 2026
+
+The latest user authorizes the existing eight-B300 campaign plus reviewed GitHub experiments in parallel. The [execution packet](research/campaign_2026-10-18/b300_execution_r1/parallel_expansion_v1/README.md) records 40 scientific fits, five per GPU, at startup: 32 existing R01/PR15 and eight new native-feature fits. PR26/27 own a separate 120-fit CP30 panel, with 8 active and 112 pending at the startup snapshot. Preserve frozen FP32 recipes, source identities, all foreign clients and the single SSH console. The delivery-only R01 watcher reuses completed checkpoints without refitting and posts source-qualified PR25 updates; independent PR26/27 updates run every ten minutes and on scored-pair completion. The historical four-fit-density instructions below are superseded for this bounded expansion; no major normalized-throughput gain or new quality score is claimed.
+
 The user authorizes continuing existing R01/PR15 and adding reviewed GitHub experiments in parallel on the existing eight B300s. This supersedes the previous four-actor ceiling for separately profiled native-feature successors. Preserve all healthy existing and foreign jobs. Only root uses the existing SSH console. See [native-feature expansion](research/campaign_2026-10-18/b300_execution_r1/parallel_expansion_v1/README.md). Freeze each new recipe and use distinct draft PRs, exact CP30/FP32 comparisons and separate ten-minute/completion reporting as SemyonEpanov. No new rental, account/SSH changes or automatic scientific refits.
 
 # Project agent instructions
