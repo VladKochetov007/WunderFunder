@@ -1,0 +1,43 @@
+{
+  "checks": {
+    "all_nine_raw_payloads_match_capture_envelope_and_local_extractions": true,
+    "archive_hash_is_producer_only_and_payload_untouched": true,
+    "archive_terminal_stat_matches_done_producer_size": true,
+    "capture_envelope_sha_matches_transport_receipt": true,
+    "configured_caps_match_terminal_properties_and_admission": true,
+    "empty_terminal_control_group_recorded_as_na_without_host_root_fallback": true,
+    "exact_stop_after_validated_capture": true,
+    "exact_unit_invocation_consistent_across_launch_capture_validation_and_stop": true,
+    "explicit_terminal_success_before_stop": true,
+    "no_populated_campaign_descendants_at_admission_or_capture": true,
+    "parent_event_deltas_zero": true,
+    "parent_local_event_deltas_zero": true,
+    "post_stop_state_not_found_inactive_dead": true,
+    "sampled_guard_points_labeled_separately_from_unit_memory_peak": true,
+    "stop_stdout_sha_is_distinct_from_enclosing_stop_receipt_sha": true,
+    "systemd_unit_usage_separate_from_helper_elapsed_usage": true,
+    "top_level_aliases_byte_identical_to_records_files": true
+  },
+  "limitations": [
+    "No scientific score or model/archive contents were reviewed.",
+    "No NPZ/array/model payload was opened or transferred to the local host."
+  ],
+  "measurement_scope_review": [
+    "Systemd ExecMain monotonic duration, CPUUsageNSec, MemoryPeak, and configured caps are unit-property measurements.",
+    "DONE/RESULT elapsed wall and CPU values are helper-reported and are not substituted for systemd duration or CPUUsageNSec.",
+    "RESULT memory_guards are sampled cgroup-current and process-RSS observations; their sampled extrema are not systemd MemoryPeak. Process native RSS units are retained as reported.",
+    "The terminal ControlGroup was empty, so the own-unit terminal cgroup snapshot is NA; no host-root cgroup fallback was used.",
+    "model_parameters.npz evidence is limited to terminal stat size and producer-reported DONE SHA/size; the archive was not opened, copied, or independently rehashed.",
+    "The STOP_RECEIPT JSON hash and raw stop.stdout SHA are separate byte identities."
+  ],
+  "resource_reconciliation_path": "RESOURCE_RECONCILIATION.json",
+  "resource_reconciliation_sha256": "da687309eea1f6c35c88e50bdd2e7a3427f29987268164877bf90b3f11cb8109",
+  "reviewed_utc": "2026-10-19T08:59:09.954854+00:00",
+  "root_capture_validation_path": "ROOT_CAPTURE_VALIDATION.json",
+  "root_capture_validation_sha256": "26825ae421bc1bfdef0b987fd27472caaa0a7239e9d98caf4d3a41507c93a44a",
+  "schema": "nf19.r15.resource_metadata_review.v1",
+  "scope": "Independent local review of captured receipt bindings and resource scopes; no source edits, model/archive payload reads, or scientific-score audit.",
+  "status": "PASS_METADATA_ONLY",
+  "stop_receipt_path": "STOP_RECEIPT.json",
+  "stop_receipt_sha256": "a5dd2179bd6ea7c842497bbf2fb081280a3527ed10dbde5bceeb45e738a15209"
+}

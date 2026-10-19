@@ -1,0 +1,58 @@
+{
+  "schema": "nf19.r15_implementation_review.v1",
+  "status": "PASS_SOURCE_ONLY_REVIEW",
+  "experiment": "E-NF19-IDEA-SCREENS-R15",
+  "hypothesis": "H-NF19-09",
+  "preparation_manifest_sha256": "ad26d2589ed34101b4eed1cd4655f7924c11349f5cb5ea3fd4a345189cd8f798",
+  "test_receipt_sha256": "132b06ee2e9348c08d6997338d75bc43e8f4ebdf4aa22b31eb3ab1ba4dab6886",
+  "cold_import_smoke_sha256": "e1919ce2311b1b1857d5c91c0d9ca07daf8736d4a3c26dd50cae4610f0438a56",
+  "design_sha256": "5956b3f2d752e8b71e8966e35a36e41176d1f5b4d01ae70864c42e4b5646ed58",
+  "design_review_sha256": "af95167725492b2c6ddc494d5441ac758cb5347ce6cad4c58596af8d3ace96c7",
+  "selection_history_sha256": "1d9971acfbbe39f6b0f6657332e5f5df7f0db5d3299f24bcebdaf1caac765d6b",
+  "independent_checks": {
+    "manifest_sha256_recomputed": "ad26d2589ed34101b4eed1cd4655f7924c11349f5cb5ea3fd4a345189cd8f798",
+    "source_pin_count": 31,
+    "source_pin_mismatches": [],
+    "runtime_module_count": 25,
+    "author_source_only_tests": "9 passed; receipt-bound, not rerun during this review",
+    "cold_import_inventory": "25 expected and observed modules; exact paths recorded",
+    "read_sentinels": [
+      "numpy.load",
+      "numpy.memmap",
+      "torch.load",
+      "pyarrow.parquet.ParquetFile",
+      "pyarrow.parquet.read_table",
+      "pyarrow.dataset.dataset",
+      "pyarrow.parquet.ParquetDataset"
+    ],
+    "sentinel_calls": [],
+    "cuda_initialized": false,
+    "fresh_subprocess_runtime_state": {
+      "torch_threads": 1,
+      "torch_interop_threads": 1,
+      "tf32_matmul_enabled": false,
+      "tf32_cudnn_enabled": false,
+      "autocast_cuda_enabled": false,
+      "autocast_cpu_enabled": false,
+      "cuda_initialized": false
+    }
+  },
+  "review_findings": [
+    "The encoder initializer is materialized as decoder.T.contiguous(), then copied with load_state_dict into separate encoder and decoder parameters; W and D are initialized as transposes but are not tied.",
+    "Stable descending absolute-value top-4 selection preserves signed values and detaches the selected mask. Decoder columns are normalized after every update and nonfinite or collapsed columns fail closed.",
+    "The normalized raw-input residual is x-Dz; the corrected runtime check measures batch-(reconstruction+residual) and rejects error above 1e-5. Tiny tests cover stable ties, signed values, residual identity, and causal prefix behavior.",
+    "Raw-input moments are fitted on the exact 31,808 original-mask stride rows from fit components. Both unsupervised dictionaries use only those normalized x rows and share initialization and epoch order; labels enter only the two supervised fit-row objectives and final evaluation.",
+    "Downstream features are constructed over complete sequences before selecting fit stride rows. The reset-local signed EMA uses only current/past base features. Each arm fits its own downstream normalizer on fit rows, then uses the same 256-to-64 GELU mean predictor, shared initialization, AdamW recipe, masks, and fixed order.",
+    "The earlier V1 fingerprint guard compared post-supervised dictionary state with the pre-autoencoder initialization. V2 fixes this: it freezes parameters after each 756-update dictionary fit, stores a distinct post-fit fingerprint, and compares that fingerprint after predictor training. The synthetic regression checks a trained hash differs from initialization, accepts the frozen hash, and rejects later mutation.",
+    "V3 configures Torch intra-op and inter-op thread counts to one and disables both TF32 flags only after source-pin/import-closure checks, before executor and sample reads. The executor reasserts the runtime contract. A fresh subprocess exercises the full source/import sentinel smoke and verifies the actual resulting thread, TF32, autocast, and CUDA states.",
+    "The source enforces exact 756-update/zero-nonfinite counts for each of four fits, verifies unused variance-head state/gradients, processes full histories one sequence at a time, and checks original fit/evaluation component and row counts before scoring with the canonical pooled metric."
+  ],
+  "interpretation_limits": [
+    "This is one fixed sparse-versus-dense retained-residual pipeline on an exposed adaptive panel; it does not establish factor identity, cross-component stability, equal effective capacity/FLOPs, compute advantage, or full-fold/public generalization.",
+    "The cited cold-import proof records local repository module paths. Root admission must separately rehash the staged payload and canonical source bytes before importing or launching the fresh B-side CLI. The subprocess test exercises the shared smoke/configuration path without opening sample data; the production CLI call chain is additionally checked statically through _run before executor invocation."
+  ],
+  "execution_performed": false,
+  "data_or_model_payloads_read": false,
+  "remote_actions": false,
+  "admission_scope": "Independent source implementation review only; separate root staging/resource admission remains required."
+}

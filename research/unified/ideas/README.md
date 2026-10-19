@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[R15 explicit sparse-factor pipeline](../../campaign_2026-10-19/idea_screens_r15/RESULTS.md) tests H-NF19-09 with learned top-four-of16 codes versus a same-width dense bottleneck, retaining112residual channels and causal signed EMA. Sparse WP0.482441 vs dense0.479873 (+0.002568) fails the frozen+0.005 gate despite both target deltas being positive. Component signs13+/19− and30/32positive drop-one pooled contrasts are sensitivity, not replications. This exact pipeline is now PARTIAL; factor stability, causal factors and GRU transfer remain untested.
+
 [R14 same-span coordinate comparison](../../campaign_2026-10-19/idea_screens_r14/RESULTS.md) tests H-NF19-18 with the same three poles,449coefficients/target and mapped weighted-ridge objective. B/A terminal gap ratios1.1556/1.1426 fail the prospective≤.8 gate; empirical Hessian condition numbers also worsen. Secondary B−A WP+.001648 is retained, not used to choose a new endpoint. One convex FP64 diagnostic on the exposed R3 panel closes this recipe, not all orthogonal-state/GRU methods.
 
 [What thirteen screens support](IDEA_SCREEN_SYNTHESIS_20261019_R1.md) separates signed-history and coupled mean/variance leads from the secondary moment-decoder recipe, exact negatives and target-free premises. It explains why automatic additional tiny-model variants or a PCA interaction proxy are not faithful tests of every remaining card. CPU authority is unchanged; no new fit or direction is selected.

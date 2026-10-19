@@ -1,0 +1,355 @@
+{
+  "base_owner_uid": 1061,
+  "canonical_source_sha256": {
+    "canonical:wnn/__init__.py": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+    "canonical:wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "canonical:wnn/event_content.py": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+    "canonical:wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "canonical:wnn/nn.py": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48",
+    "canonical:wnn/numeric_ple.py": "229a7e0f032cd65bbf6700fa9372c08016b20e4719cb2f9eddd540ff8c468720"
+  },
+  "caps": {
+    "blas_threads": 1,
+    "cpu_cores": 0.5,
+    "cuda_visible_devices": "",
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "memory_swap_max_bytes": 0,
+    "runtime_max_s": 600,
+    "tmpdir": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp"
+  },
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=computer-vision-homework-eda19-r15-v1.service",
+    "--slice=wnn-campaign.slice",
+    "--property=Type=exec",
+    "--property=CPUQuota=50%",
+    "--property=MemoryHigh=1400000000",
+    "--property=MemoryMax=1500000000",
+    "--property=MemorySwapMax=0",
+    "--property=RuntimeMaxSec=600",
+    "--property=RemainAfterExit=yes",
+    "--property=StandardOutput=append:/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r15-v1/probe.log",
+    "--property=StandardError=append:/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r15-v1/probe.log",
+    "--working-directory=/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r15-v1",
+    "/usr/bin/env",
+    "CUDA_VISIBLE_DEVICES=",
+    "OMP_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "NUMEXPR_NUM_THREADS=1",
+    "PYTHONPATH=/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/src:/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r15-v1",
+    "TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "-B",
+    "-c",
+    "from __future__ import annotations\n\nimport hashlib\nimport importlib\nimport json\nimport os\nimport pathlib\nimport sys\nimport time\nfrom collections.abc import Callable\n\nimport numpy as np\nimport pyarrow.dataset as pds\nimport pyarrow.parquet as pq\nimport torch\n\nB = pathlib.Path(\"/home/grinchenkoeg/computer-vision-homework-20261018\")\nROOT = B / \"support-source/eda19-r15-v1\"\nCANONICAL_ROOT = B / \"source-a266b036/src\"\nMANIFEST_PATH = ROOT / \"idea_screens_r15/PREPARATION_MANIFEST.json\"\nMANIFEST_SHA256 = \"ad26d2589ed34101b4eed1cd4655f7924c11349f5cb5ea3fd4a345189cd8f798\"\nCANONICAL_PINS = {'canonical:wnn/__init__.py': '2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6', 'canonical:wnn/data.py': 'a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00', 'canonical:wnn/event_content.py': '75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd', 'canonical:wnn/gmetric.py': '2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa', 'canonical:wnn/nn.py': '7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48', 'canonical:wnn/numeric_ple.py': '229a7e0f032cd65bbf6700fa9372c08016b20e4719cb2f9eddd540ff8c468720'}  # noqa: F821\nRUNTIME_PY = {'idea_screens_r1': 'idea_screens_r1/__init__.py', 'idea_screens_r1.constants': 'idea_screens_r1/constants.py', 'idea_screens_r1.eda_mechanisms': 'idea_screens_r1/eda_mechanisms.py', 'idea_screens_r1.input_diagnostics': 'idea_screens_r1/input_diagnostics.py', 'idea_screens_r1.sample_data': 'idea_screens_r1/sample_data.py', 'idea_screens_r1.target_operator': 'idea_screens_r1/target_operator.py', 'idea_screens_r15': 'idea_screens_r15/__init__.py', 'idea_screens_r15.panel': 'idea_screens_r15/panel.py', 'idea_screens_r15.pipeline_reports': 'idea_screens_r15/pipeline_reports.py', 'idea_screens_r15.probe_execution': 'idea_screens_r15/probe_execution.py', 'idea_screens_r15.representation': 'idea_screens_r15/representation.py', 'idea_screens_r15.run_probe': 'idea_screens_r15/run_probe.py', 'idea_screens_r15.runtime_support': 'idea_screens_r15/runtime_support.py', 'idea_screens_r15.training': 'idea_screens_r15/training.py', 'idea_screens_r3': 'idea_screens_r3/__init__.py', 'idea_screens_r3.probe_helpers': 'idea_screens_r3/probe_helpers.py', 'idea_screens_r7': 'idea_screens_r7/__init__.py', 'idea_screens_r7.model_math': 'idea_screens_r7/model_math.py', 'idea_screens_r7.model_training': 'idea_screens_r7/model_training.py', 'wnn': 'canonical:wnn/__init__.py', 'wnn.data': 'canonical:wnn/data.py', 'wnn.event_content': 'canonical:wnn/event_content.py', 'wnn.gmetric': 'canonical:wnn/gmetric.py', 'wnn.nn': 'canonical:wnn/nn.py', 'wnn.numeric_ple': 'canonical:wnn/numeric_ple.py'}  # noqa: F821\nSAMPLE = B / \"research_tmp/nf19-sample-r3-v2\"\nOUT = B / \"research_tmp/nf19-r15-v1\"\nSAMPLE_SHA256 = \"b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64\"\nALLOWED_BUNDLE_ROOTS = {\n    \"idea_screens_r1\",\n    \"idea_screens_r3\",\n    \"idea_screens_r7\",\n    \"idea_screens_r15\",\n}\n\nsys.dont_write_bytecode = True\n\n\ndef sha256_file(path: pathlib.Path) -> str:\n    \"\"\"Hash one pinned source or manifest file without importing its package.\"\"\"\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as stream:\n        for chunk in iter(lambda: stream.read(1 << 20), b\"\"):\n            digest.update(chunk)\n    return digest.hexdigest()\n\n\ndef safe_canonical_path(pin_name: str) -> pathlib.Path:\n    \"\"\"Resolve a canonical semantic pin under the frozen WNN source snapshot.\"\"\"\n    if not pin_name.startswith(\"canonical:wnn/\"):\n        raise RuntimeError(f\"unexpected canonical pin namespace: {pin_name}\")\n    relative = pathlib.PurePosixPath(pin_name.removeprefix(\"canonical:\"))\n    if (\n        relative.is_absolute()\n        or not relative.parts\n        or \"..\" in relative.parts\n        or relative.parts[0] != \"wnn\"\n    ):\n        raise RuntimeError(f\"unsafe canonical pin path: {pin_name}\")\n    return CANONICAL_ROOT / relative\n\n\ndef runtime_path(relative: str) -> pathlib.Path:\n    \"\"\"Resolve a runtime module to either its sealed staged or canonical source file.\"\"\"\n    if relative.startswith(\"canonical:\"):\n        return safe_canonical_path(relative)\n    path = pathlib.PurePosixPath(relative)\n    if (\n        path.is_absolute()\n        or \"..\" in path.parts\n        or not path.parts\n        or path.parts[0] not in ALLOWED_BUNDLE_ROOTS\n    ):\n        raise RuntimeError(f\"runtime path escapes the sealed bundle roots: {relative}\")\n    return ROOT / path\n\n\nmanifest_bytes = MANIFEST_PATH.read_bytes()\nif hashlib.sha256(manifest_bytes).hexdigest() != MANIFEST_SHA256:\n    raise RuntimeError(\"R15 import smoke saw a different preparation manifest\")\nmanifest = json.loads(manifest_bytes)\nif not isinstance(manifest, dict) or manifest.get(\"schema\") != \"nf19.r15_preparation.v1\":\n    raise RuntimeError(\"unexpected R15 preparation manifest schema\")\nmanifest_files = manifest.get(\"files\")\nif not isinstance(manifest_files, dict):\n    raise RuntimeError(\"R15 manifest files must be an object\")\nmanifest_canonical = {\n    name: digest for name, digest in manifest_files.items() if name.startswith(\"canonical:\")\n}\nif manifest_canonical != CANONICAL_PINS:\n    raise RuntimeError(\"R15 canonical source pins differ from the frozen assembly\")\nif manifest.get(\"runtime_py\") != RUNTIME_PY:\n    raise RuntimeError(\"R15 runtime closure differs from the frozen assembly\")\n\ncanonical_verified: dict[str, str] = {}\nfor pin_name, expected_sha256 in CANONICAL_PINS.items():\n    path = safe_canonical_path(pin_name)\n    if not path.is_file() or path.is_symlink() or sha256_file(path) != expected_sha256:\n        raise RuntimeError(f\"R15 canonical source pin differs: {pin_name}\")\n    canonical_verified[pin_name] = expected_sha256\n\n# Verify each runtime source path and pin before any R15/R1/R2/R3/R7/WNN import.\nfor module_name, relative in RUNTIME_PY.items():\n    if not isinstance(module_name, str) or not isinstance(relative, str):\n        raise RuntimeError(\"R15 runtime_py entries must be string pairs\")\n    expected_sha256 = manifest_files.get(relative)\n    if not isinstance(expected_sha256, str):\n        raise RuntimeError(f\"runtime source is absent from the manifest: {relative}\")\n    path = runtime_path(relative)\n    if not path.is_file() or path.is_symlink() or sha256_file(path) != expected_sha256:\n        raise RuntimeError(f\"R15 runtime source bytes differ: {relative}\")\n\ncalls: list[str] = []\n\n\ndef deny_reader(name: str) -> Callable[..., object]:\n    \"\"\"Build an import-time reader sentinel for metadata and checkpoint loaders.\"\"\"\n\n    def deny(*args: object, **kwargs: object) -> object:\n        calls.append(name)\n        raise AssertionError(f\"R15 cold import attempted a forbidden read through {name}\")\n\n    return deny\n\n\nif torch.cuda.is_initialized():\n    raise RuntimeError(\"R15 cold import started after CUDA initialization\")\nnp.load = deny_reader(\"numpy.load\")\nnp.memmap = deny_reader(\"numpy.memmap\")\npq.ParquetFile = deny_reader(\"pyarrow.parquet.ParquetFile\")\npq.read_table = deny_reader(\"pyarrow.parquet.read_table\")\npq.ParquetDataset = deny_reader(\"pyarrow.parquet.ParquetDataset\")\npds.dataset = deny_reader(\"pyarrow.dataset.dataset\")\ntorch.load = deny_reader(\"torch.load\")\n\nstarted = time.monotonic()\nimported: dict[str, str] = {}\nfor module_name, relative in RUNTIME_PY.items():\n    module = importlib.import_module(module_name)\n    expected_path = runtime_path(relative).resolve()\n    actual_path = pathlib.Path(str(module.__file__)).resolve()\n    if actual_path != expected_path:\n        raise RuntimeError(f\"R15 import resolved outside its pinned source: {module_name}\")\n    imported[module_name] = str(actual_path)\nprefixes = (\"idea_screens_r15\", \"idea_screens_r1\", \"idea_screens_r3\", \"idea_screens_r7\", \"wnn\")\nexpected_names = set(RUNTIME_PY)\nactual_names = {\n    name\n    for name in sys.modules\n    if any(name == prefix or name.startswith(prefix + \".\") for prefix in prefixes)\n}\nif actual_names != expected_names:\n    missing, extra = expected_names - actual_names, actual_names - expected_names\n    raise RuntimeError(f\"R15 import closure differs: missing={sorted(missing)}, extra={sorted(extra)}\")\nif calls:\n    raise RuntimeError(f\"R15 cold import attempted forbidden reads: {calls}\")\nif torch.cuda.is_initialized():\n    raise RuntimeError(\"R15 cold import initialized CUDA\")\nif os.environ.get(\"CUDA_VISIBLE_DEVICES\") != \"\":\n    raise RuntimeError(\"R15 cold import did not hide CUDA devices\")\n\nsmoke = {\n    \"schema\": \"nf19.r15_import_smoke.v1\",\n    \"status\": \"PASS\",\n    \"observed_utc\": __import__(\"datetime\")\n    .datetime.now(__import__(\"datetime\").timezone.utc)\n    .isoformat(),\n    \"preparation_manifest_sha256\": MANIFEST_SHA256,\n    \"runtime_import_paths\": imported,\n    \"runtime_source_sha256\": {\n        relative: manifest_files[relative] for relative in RUNTIME_PY.values()\n    },\n    \"canonical_source_sha256\": canonical_verified,\n    \"reader_sentinel_calls\": calls,\n    \"array_reads\": 0,\n    \"parquet_reads\": 0,\n    \"checkpoint_reads\": 0,\n    \"cuda_initialized\": False,\n    \"numpy_version\": np.__version__,\n    \"torch_version\": str(torch.__version__),\n    \"elapsed_s\": time.monotonic() - started,\n}\nwith (ROOT / \"ROOT_IMPORT_SMOKE.json\").open(\"xb\") as stream:\n    stream.write(json.dumps(smoke, indent=2, sort_keys=True).encode(\"utf-8\"))\n    stream.write(b\"\\n\")\n\narguments = [\n    \"--sample\",\n    str(SAMPLE),\n    \"--output\",\n    str(OUT),\n    \"--expected-sample-sha256\",\n    SAMPLE_SHA256,\n    \"--expected-preparation-manifest-sha256\",\n    MANIFEST_SHA256,\n]\nos.execv(\n    sys.executable,\n    [sys.executable, \"-B\", \"-m\", \"idea_screens_r15.run_probe\", *arguments],\n)\n"
+  ],
+  "manifest_noncanonical_pins": {
+    "idea_screens_r1/__init__.py": "74a1bc49240577740207993165aa028f75352814c1a35516b8ded7a6af58e63a",
+    "idea_screens_r1/constants.py": "bc7d990835a53586549cf0cf93a2e345098215a3d626f35b195f642cb20f7520",
+    "idea_screens_r1/eda_mechanisms.py": "a677dc1a7ecbdc10a799f918fa8c301af44cc5d339ac51d3f83abf170253b428",
+    "idea_screens_r1/input_diagnostics.py": "a796ede88e6d80e460c8292a78b066e1be9ca2eab0be70b6c7ab458f0c4f38e7",
+    "idea_screens_r1/sample_data.py": "13a4acfeb62ace285184c8fe0f88ff7ba65a3969843eaa0e0f6175189325abc7",
+    "idea_screens_r1/target_operator.py": "f92d9cac2776bbb6b91aea7eadeb272d57f7951be9b20e23777b8417b1df1410",
+    "idea_screens_r15/DESIGN.md": "5956b3f2d752e8b71e8966e35a36e41176d1f5b4d01ae70864c42e4b5646ed58",
+    "idea_screens_r15/DESIGN_REVIEW.json": "af95167725492b2c6ddc494d5441ac758cb5347ce6cad4c58596af8d3ace96c7",
+    "idea_screens_r15/SELECTION_HISTORY.json": "1d9971acfbbe39f6b0f6657332e5f5df7f0db5d3299f24bcebdaf1caac765d6b",
+    "idea_screens_r15/__init__.py": "4773fb792209d06d6287c47e7a3a3b3542c9d0d5850f5fed8680492fae6f090c",
+    "idea_screens_r15/panel.py": "b6457221cb6f71b0dd17f8b3c6c5617dab749a1aa44ef6d8ef5fed51665e9bba",
+    "idea_screens_r15/pipeline_reports.py": "722aa55b100c760275b9b7980e19b48461c493ba010a1da3d354b4361c325fe3",
+    "idea_screens_r15/probe_execution.py": "77a3c8621a3f49fb1c498f11e9cb22d5e40ae06a7147ea4100cfbeaa96ca655b",
+    "idea_screens_r15/representation.py": "64a2e5255f8919c93b51f5c8b0c72bbf4b15f182099da0c621a7538dbaa96549",
+    "idea_screens_r15/run_probe.py": "7101933cd0f7857c0cbeeb2e237cc2daac5829410fcda48c87fd204bf5547440",
+    "idea_screens_r15/runtime_support.py": "e7dfacb75627e0bc924e85dbd078bef04d0b0cd7abac9ffacd481e134d9a0d17",
+    "idea_screens_r15/test_probe.py": "4a895af4f27e940766d73f62116ed3f9523b22ff486a0c81ce539e021f08ed1b",
+    "idea_screens_r15/training.py": "616c6c35f3e123b5529aa1940f76025458e440a8e8b4730b33399abde6126fb4",
+    "idea_screens_r3/__init__.py": "1e0b10a697431d6301054c8c8ff3f3d5b41d62eaacb0477dfa7fee1c1d320b06",
+    "idea_screens_r3/probe_helpers.py": "f2f222e98b7aad087890d6f211ef8a0aa95b39966cdb0cd109118ea2d4795d68",
+    "idea_screens_r3/records/sample_v2/terminal_capture/REMOTE_MEMBERSHIP.json": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+    "idea_screens_r3/records/sample_v2/terminal_capture/REMOTE_SAMPLE.json": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+    "idea_screens_r7/__init__.py": "528d60b2b590a6221554adcd7c57eef69bebe88f4211c36f35716b0836e34f13",
+    "idea_screens_r7/model_math.py": "4255a0fe656a6166a1df132900428f6f994488caf7022d01dcb64395e4f5f8de",
+    "idea_screens_r7/model_training.py": "1ef4587f2c63191937c73c41dbb235c61b5948643046982f445efd5689be1f8e"
+  },
+  "observed_utc": "2026-10-19T08:51:35.998894+00:00",
+  "output": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/nf19-r15-v1",
+  "preparation_manifest_sha256": "ad26d2589ed34101b4eed1cd4655f7924c11349f5cb5ea3fd4a345189cd8f798",
+  "resource_admission_initial": {
+    "cgroups_checked_empty": [
+      "."
+    ],
+    "host_mem_available_bytes": 735372324864,
+    "observed_utc": "2026-10-19T08:51:35.720777+00:00",
+    "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+    "parent_cpu_max": "200000 100000",
+    "parent_memory": {
+      "configured_high_bytes": 18000000000,
+      "configured_max_bytes": 20000000000,
+      "current_bytes": 3974230016,
+      "events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0",
+      "events_local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "high_bytes": 17999998976,
+      "kernel_page_size_bytes": 4096,
+      "max_bytes": 19999997952,
+      "new_reservation_bytes": 1500000000,
+      "reservation_target_bytes": 17000000000,
+      "swap_max_bytes": 0
+    },
+    "parent_systemd": {
+      "properties": {
+        "ActiveState": "active",
+        "CPUQuotaPerSecUSec": "2s",
+        "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+        "LoadState": "loaded",
+        "MemoryCurrent": "3974230016",
+        "MemoryHigh": "18000000000",
+        "MemoryMax": "20000000000",
+        "MemorySwapMax": "0",
+        "SubState": "active"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stderr_base64": "",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "ControlGroup=/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice\nMemoryCurrent=3974230016\nCPUQuotaPerSecUSec=2s\nMemoryHigh=18000000000\nMemoryMax=20000000000\nMemorySwapMax=0\nLoadState=loaded\nActiveState=active\nSubState=active\n",
+      "stdout_base64": "Q29udHJvbEdyb3VwPS91c2VyLnNsaWNlL3VzZXItMTA2MS5zbGljZS91c2VyQDEwNjEuc2VydmljZS93bm4uc2xpY2Uvd25uLWNhbXBhaWduLnNsaWNlCk1lbW9yeUN1cnJlbnQ9Mzk3NDIzMDAxNgpDUFVRdW90YVBlclNlY1VTZWM9MnMKTWVtb3J5SGlnaD0xODAwMDAwMDAwMApNZW1vcnlNYXg9MjAwMDAwMDAwMDAKTWVtb3J5U3dhcE1heD0wCkxvYWRTdGF0ZT1sb2FkZWQKQWN0aXZlU3RhdGU9YWN0aXZlClN1YlN0YXRlPWFjdGl2ZQo=",
+      "stdout_bytes": 248,
+      "stdout_sha256": "48999f04b37392442da5426c57e4bf2801798c58f7a033dd6c39910463ebe9f8"
+    },
+    "populated_cgroups": [],
+    "scratch_free_bytes": 88270961057792,
+    "scratch_mount": "/      /dev/mapper/vg0-lv--0 ext4",
+    "selected_gpu": {
+      "compute_processes": [
+        {
+          "campaign_owned": false,
+          "cgroup": "0::/user.slice/user-1155.slice/session-105852.scope\n",
+          "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+          "pid": 4142499,
+          "used_memory": "932 MiB"
+        }
+      ],
+      "identity_stdout": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c\n"
+    }
+  },
+  "resource_admission_prelaunch": {
+    "cgroups_checked_empty": [
+      "."
+    ],
+    "host_mem_available_bytes": 735374823424,
+    "observed_utc": "2026-10-19T08:51:35.991173+00:00",
+    "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+    "parent_cpu_max": "200000 100000",
+    "parent_memory": {
+      "configured_high_bytes": 18000000000,
+      "configured_max_bytes": 20000000000,
+      "current_bytes": 3974230016,
+      "events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0",
+      "events_local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "high_bytes": 17999998976,
+      "kernel_page_size_bytes": 4096,
+      "max_bytes": 19999997952,
+      "new_reservation_bytes": 1500000000,
+      "reservation_target_bytes": 17000000000,
+      "swap_max_bytes": 0
+    },
+    "parent_systemd": {
+      "properties": {
+        "ActiveState": "active",
+        "CPUQuotaPerSecUSec": "2s",
+        "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+        "LoadState": "loaded",
+        "MemoryCurrent": "3974230016",
+        "MemoryHigh": "18000000000",
+        "MemoryMax": "20000000000",
+        "MemorySwapMax": "0",
+        "SubState": "active"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stderr_base64": "",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "ControlGroup=/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice\nMemoryCurrent=3974230016\nCPUQuotaPerSecUSec=2s\nMemoryHigh=18000000000\nMemoryMax=20000000000\nMemorySwapMax=0\nLoadState=loaded\nActiveState=active\nSubState=active\n",
+      "stdout_base64": "Q29udHJvbEdyb3VwPS91c2VyLnNsaWNlL3VzZXItMTA2MS5zbGljZS91c2VyQDEwNjEuc2VydmljZS93bm4uc2xpY2Uvd25uLWNhbXBhaWduLnNsaWNlCk1lbW9yeUN1cnJlbnQ9Mzk3NDIzMDAxNgpDUFVRdW90YVBlclNlY1VTZWM9MnMKTWVtb3J5SGlnaD0xODAwMDAwMDAwMApNZW1vcnlNYXg9MjAwMDAwMDAwMDAKTWVtb3J5U3dhcE1heD0wCkxvYWRTdGF0ZT1sb2FkZWQKQWN0aXZlU3RhdGU9YWN0aXZlClN1YlN0YXRlPWFjdGl2ZQo=",
+      "stdout_bytes": 248,
+      "stdout_sha256": "48999f04b37392442da5426c57e4bf2801798c58f7a033dd6c39910463ebe9f8"
+    },
+    "populated_cgroups": [],
+    "scratch_free_bytes": 88270960570368,
+    "scratch_mount": "/      /dev/mapper/vg0-lv--0 ext4",
+    "selected_gpu": {
+      "compute_processes": [
+        {
+          "campaign_owned": false,
+          "cgroup": "0::/user.slice/user-1155.slice/session-105852.scope\n",
+          "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+          "pid": 4142499,
+          "used_memory": "932 MiB"
+        }
+      ],
+      "identity_stdout": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c\n"
+    }
+  },
+  "runtime_py": {
+    "idea_screens_r1": "idea_screens_r1/__init__.py",
+    "idea_screens_r1.constants": "idea_screens_r1/constants.py",
+    "idea_screens_r1.eda_mechanisms": "idea_screens_r1/eda_mechanisms.py",
+    "idea_screens_r1.input_diagnostics": "idea_screens_r1/input_diagnostics.py",
+    "idea_screens_r1.sample_data": "idea_screens_r1/sample_data.py",
+    "idea_screens_r1.target_operator": "idea_screens_r1/target_operator.py",
+    "idea_screens_r15": "idea_screens_r15/__init__.py",
+    "idea_screens_r15.panel": "idea_screens_r15/panel.py",
+    "idea_screens_r15.pipeline_reports": "idea_screens_r15/pipeline_reports.py",
+    "idea_screens_r15.probe_execution": "idea_screens_r15/probe_execution.py",
+    "idea_screens_r15.representation": "idea_screens_r15/representation.py",
+    "idea_screens_r15.run_probe": "idea_screens_r15/run_probe.py",
+    "idea_screens_r15.runtime_support": "idea_screens_r15/runtime_support.py",
+    "idea_screens_r15.training": "idea_screens_r15/training.py",
+    "idea_screens_r3": "idea_screens_r3/__init__.py",
+    "idea_screens_r3.probe_helpers": "idea_screens_r3/probe_helpers.py",
+    "idea_screens_r7": "idea_screens_r7/__init__.py",
+    "idea_screens_r7.model_math": "idea_screens_r7/model_math.py",
+    "idea_screens_r7.model_training": "idea_screens_r7/model_training.py",
+    "wnn": "canonical:wnn/__init__.py",
+    "wnn.data": "canonical:wnn/data.py",
+    "wnn.event_content": "canonical:wnn/event_content.py",
+    "wnn.gmetric": "canonical:wnn/gmetric.py",
+    "wnn.nn": "canonical:wnn/nn.py",
+    "wnn.numeric_ple": "canonical:wnn/numeric_ple.py"
+  },
+  "sample": {
+    "array_payloads_read": 0,
+    "eval_metadata_component_count": 32,
+    "fit_component_count": 64,
+    "membership_sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+    "nested_fit_component_count": 32,
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/nf19-sample-r3-v2",
+    "sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+  },
+  "schema": "nf19.r15_support_launch_admission.v1",
+  "staged_files": {
+    "idea_screens_r1/__init__.py": {
+      "bytes": 115,
+      "sha256": "74a1bc49240577740207993165aa028f75352814c1a35516b8ded7a6af58e63a"
+    },
+    "idea_screens_r1/constants.py": {
+      "bytes": 339,
+      "sha256": "bc7d990835a53586549cf0cf93a2e345098215a3d626f35b195f642cb20f7520"
+    },
+    "idea_screens_r1/eda_mechanisms.py": {
+      "bytes": 6045,
+      "sha256": "a677dc1a7ecbdc10a799f918fa8c301af44cc5d339ac51d3f83abf170253b428"
+    },
+    "idea_screens_r1/input_diagnostics.py": {
+      "bytes": 6150,
+      "sha256": "a796ede88e6d80e460c8292a78b066e1be9ca2eab0be70b6c7ab458f0c4f38e7"
+    },
+    "idea_screens_r1/sample_data.py": {
+      "bytes": 9573,
+      "sha256": "13a4acfeb62ace285184c8fe0f88ff7ba65a3969843eaa0e0f6175189325abc7"
+    },
+    "idea_screens_r1/target_operator.py": {
+      "bytes": 6375,
+      "sha256": "f92d9cac2776bbb6b91aea7eadeb272d57f7951be9b20e23777b8417b1df1410"
+    },
+    "idea_screens_r15/DESIGN.md": {
+      "bytes": 7071,
+      "sha256": "5956b3f2d752e8b71e8966e35a36e41176d1f5b4d01ae70864c42e4b5646ed58"
+    },
+    "idea_screens_r15/DESIGN_REVIEW.json": {
+      "bytes": 2939,
+      "sha256": "af95167725492b2c6ddc494d5441ac758cb5347ce6cad4c58596af8d3ace96c7"
+    },
+    "idea_screens_r15/IMPLEMENTATION_REVIEW.json": {
+      "bytes": 5033,
+      "sha256": "b769ee739d8ab26f81f7754e63ef06a922f2482cc4bbcc8d68a5818f253c4416"
+    },
+    "idea_screens_r15/PREPARATION_MANIFEST.json": {
+      "bytes": 5028,
+      "sha256": "ad26d2589ed34101b4eed1cd4655f7924c11349f5cb5ea3fd4a345189cd8f798"
+    },
+    "idea_screens_r15/README.md": {
+      "bytes": 5046,
+      "sha256": "3eff9695a2330c289a95ad1df0e8c266de3b914c08a7aafa24e4ed76c47eb7ca"
+    },
+    "idea_screens_r15/SELECTION_HISTORY.json": {
+      "bytes": 599,
+      "sha256": "1d9971acfbbe39f6b0f6657332e5f5df7f0db5d3299f24bcebdaf1caac765d6b"
+    },
+    "idea_screens_r15/TEST_RECEIPT.json": {
+      "bytes": 5093,
+      "sha256": "132b06ee2e9348c08d6997338d75bc43e8f4ebdf4aa22b31eb3ab1ba4dab6886"
+    },
+    "idea_screens_r15/__init__.py": {
+      "bytes": 64,
+      "sha256": "4773fb792209d06d6287c47e7a3a3b3542c9d0d5850f5fed8680492fae6f090c"
+    },
+    "idea_screens_r15/panel.py": {
+      "bytes": 9307,
+      "sha256": "b6457221cb6f71b0dd17f8b3c6c5617dab749a1aa44ef6d8ef5fed51665e9bba"
+    },
+    "idea_screens_r15/pipeline_reports.py": {
+      "bytes": 5204,
+      "sha256": "722aa55b100c760275b9b7980e19b48461c493ba010a1da3d354b4361c325fe3"
+    },
+    "idea_screens_r15/probe_execution.py": {
+      "bytes": 13157,
+      "sha256": "77a3c8621a3f49fb1c498f11e9cb22d5e40ae06a7147ea4100cfbeaa96ca655b"
+    },
+    "idea_screens_r15/representation.py": {
+      "bytes": 6962,
+      "sha256": "64a2e5255f8919c93b51f5c8b0c72bbf4b15f182099da0c621a7538dbaa96549"
+    },
+    "idea_screens_r15/run_probe.py": {
+      "bytes": 11540,
+      "sha256": "7101933cd0f7857c0cbeeb2e237cc2daac5829410fcda48c87fd204bf5547440"
+    },
+    "idea_screens_r15/runtime_support.py": {
+      "bytes": 6049,
+      "sha256": "e7dfacb75627e0bc924e85dbd078bef04d0b0cd7abac9ffacd481e134d9a0d17"
+    },
+    "idea_screens_r15/test_probe.py": {
+      "bytes": 8348,
+      "sha256": "4a895af4f27e940766d73f62116ed3f9523b22ff486a0c81ce539e021f08ed1b"
+    },
+    "idea_screens_r15/training.py": {
+      "bytes": 9735,
+      "sha256": "616c6c35f3e123b5529aa1940f76025458e440a8e8b4730b33399abde6126fb4"
+    },
+    "idea_screens_r3/__init__.py": {
+      "bytes": 72,
+      "sha256": "1e0b10a697431d6301054c8c8ff3f3d5b41d62eaacb0477dfa7fee1c1d320b06"
+    },
+    "idea_screens_r3/probe_helpers.py": {
+      "bytes": 2482,
+      "sha256": "f2f222e98b7aad087890d6f211ef8a0aa95b39966cdb0cd109118ea2d4795d68"
+    },
+    "idea_screens_r3/records/sample_v2/terminal_capture/REMOTE_MEMBERSHIP.json": {
+      "bytes": 56569,
+      "sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217"
+    },
+    "idea_screens_r3/records/sample_v2/terminal_capture/REMOTE_SAMPLE.json": {
+      "bytes": 120800,
+      "sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64"
+    },
+    "idea_screens_r7/__init__.py": {
+      "bytes": 63,
+      "sha256": "528d60b2b590a6221554adcd7c57eef69bebe88f4211c36f35716b0836e34f13"
+    },
+    "idea_screens_r7/model_math.py": {
+      "bytes": 6212,
+      "sha256": "4255a0fe656a6166a1df132900428f6f994488caf7022d01dcb64395e4f5f8de"
+    },
+    "idea_screens_r7/model_training.py": {
+      "bytes": 8292,
+      "sha256": "1ef4587f2c63191937c73c41dbb235c61b5948643046982f445efd5689be1f8e"
+    }
+  },
+  "uid": 1061,
+  "unit": "computer-vision-homework-eda19-r15-v1.service"
+}

@@ -1,0 +1,77 @@
+{
+  "actual_npy_payloads_read": false,
+  "actual_sample_or_model_execution": false,
+  "cold_import_smoke": {
+    "cuda_initialized": false,
+    "manifest_sha256_checked": "582171973f77d88348409218d974c41481a509af70e6b5a91b1dcd08cf8897dd",
+    "path": "records/preparation_v2/cold_import_smoke.json",
+    "read_sentinels": [
+      "numpy.load",
+      "numpy.memmap",
+      "torch.load",
+      "pyarrow.parquet.ParquetFile",
+      "pyarrow.parquet.read_table",
+      "pyarrow.dataset.dataset",
+      "pyarrow.parquet.ParquetDataset"
+    ],
+    "runtime_modules_expected": 25,
+    "runtime_modules_observed": 25,
+    "sample_arrays_or_models_loaded": false,
+    "sentinel_calls": [],
+    "sha256": "c00aa96f7ef287d8e300a9df246f3da6037dc344465c91e69ea8f9f18b80fd96",
+    "source_paths_verified": true,
+    "stdout_path": "records/preparation_v2/cold_import_smoke.stdout.txt",
+    "stdout_sha256": "a71fc858f3258c526f292a8fa6b507c85a95e29417fb596b11703199cb891461"
+  },
+  "commands": [
+    {
+      "command": ".venv/bin/ruff format research/campaign_2026-10-19/idea_screens_r15",
+      "exit_code": 0,
+      "stderr_path": "records/preparation_v2/ruff_format.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v2/ruff_format.stdout.txt",
+      "stdout_sha256": "baf73945c8ce13eaaacd165cd35381e97df957c27557e73860dbbfb1c186be07",
+      "summary": "12 files left unchanged"
+    },
+    {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r15",
+      "exit_code": 0,
+      "stderr_path": "records/preparation_v2/ruff_check.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v2/ruff_check.stdout.txt",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "summary": "All checks passed!"
+    },
+    {
+      "command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/pytest -q research/campaign_2026-10-19/idea_screens_r15/test_probe.py",
+      "exit_code": 0,
+      "stderr_path": "records/preparation_v2/pytest.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v2/pytest.stdout.txt",
+      "stdout_sha256": "16feac72ee714b1eeda5989915dde8f6b2566bc4a4527f05c5d17c2fbae5dc73",
+      "summary": "........                                                                 [100%]\n8 passed in 1.50s"
+    }
+  ],
+  "design_review_sha256": "af95167725492b2c6ddc494d5441ac758cb5347ce6cad4c58596af8d3ace96c7",
+  "design_sha256": "5956b3f2d752e8b71e8966e35a36e41176d1f5b4d01ae70864c42e4b5646ed58",
+  "environment": {
+    "numpy": "2.2.6",
+    "pyarrow": "19.0.1",
+    "python": "3.13.11",
+    "torch": "2.14.1"
+  },
+  "predecessor_v1_manifest_sha256": "27961e6cc58fe0b799483c144692aa313da363703333ff3ea20c9cee3ed3162e",
+  "preparation_manifest_path": "PREPARATION_MANIFEST.json",
+  "preparation_manifest_sha256": "582171973f77d88348409218d974c41481a509af70e6b5a91b1dcd08cf8897dd",
+  "remote_actions": false,
+  "schema": "nf19.r15_test_receipt.v2",
+  "selection_history_sha256": "1d9971acfbbe39f6b0f6657332e5f5df7f0db5d3299f24bcebdaf1caac765d6b",
+  "source_correction": {
+    "description": "Dictionary freeze guard now compares post-predictor fingerprints with fingerprints captured after AE training and freezing; initial fingerprints remain initialization provenance.",
+    "probe_execution_sha256": "b2c084b7bcec223d56e574cac62be8fe350d855e5013288acaf54dcaaefffaae",
+    "regression": "Synthetic test trains one tiny dictionary, asserts the trained hash differs from its initial hash, accepts the post-fit frozen hash, and rejects a later mutation.",
+    "test_probe_sha256": "67630b4b89427373c7781e60064de2858a705b0a8e74a8ceec3696db1b9d3d53"
+  },
+  "status": "PASS_SOURCE_ONLY",
+  "v1_snapshot_receipt_sha256": "a8a77c4fbfc32f7ec1c9499415930d6324f15b73c949935fe6ff78568673bb0d"
+}

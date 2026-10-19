@@ -1,0 +1,30 @@
+{
+  "schema": "nf19.r15_design_review.v1",
+  "status": "DESIGN_PASS_SCOPED",
+  "experiment": "E-NF19-IDEA-SCREENS-R15",
+  "hypothesis": "H-NF19-09",
+  "design_sha256": "5956b3f2d752e8b71e8966e35a36e41176d1f5b4d01ae70864c42e4b5646ed58",
+  "selection_history_sha256": "1d9971acfbbe39f6b0f6657332e5f5df7f0db5d3299f24bcebdaf1caac765d6b",
+  "review": {
+    "decision": "The fixed comparison is a useful, bounded partial test of H-NF19-09. It compares one sparse top-4 learned dictionary pipeline with a same-nominal-width dense dictionary pipeline, retains the reconstruction residual in both, and carries both through the same causal representation and supervised recipe.",
+    "strengths": [
+      "Raw-input and downstream-feature normalizers are fit-side only; dictionary fitting receives no labels, and the sequence EMA is reset at each sequence and formed causally before mask/stride selection.",
+      "The arms share initialization and epoch ordering within each stage, fixed update/exposure counts, downstream initialization and recipe, original masks, and the official pooled scorer. The design forbids outcome-driven retuning and makes the exposed-panel limitation explicit.",
+      "The retained residual preserves the normalized input information in both arms. The design therefore treats any result as a representation/optimization effect and does not claim new information, factor identification, or cross-component stability."
+    ],
+    "interpretation_limits": [
+      "One sparse and one dense fit do not establish factor stability or identifiability; component usage summaries are descriptive, not aligned-factor evidence.",
+      "Same nominal width and update count do not match effective capacity, FLOPs, or wall time: top-4 routing is nonlinear and sparse. No compute-advantage claim is supported by this design.",
+      "The selected R3 panel is exposed and adaptive, so endpoint differences are exploratory panel evidence, not unbiased full-fold generalization or public performance evidence.",
+      "The result concerns this fixed reconstruction-plus-residual pipeline and does not by itself show that sparse latent sources exist or that a recurrent model learns them."
+    ],
+    "implementation_checks_for_later_review": [
+      "Reject non-finite or zero decoder-column norms before normalization rather than silently substituting a direction.",
+      "Test deterministic top-4 tie handling, exact residual reconstruction, frozen autoencoder fingerprints/no gradients during predictor fitting, and full-sequence causal EMA behavior across the warmup and scored rows.",
+      "Verify actual source/import closure, read sentinels, row counts, fixed update counters, and resource gates before any real-data execution."
+    ],
+    "execution_performed": false,
+    "data_or_model_payloads_read": false,
+    "approval_scope": "Design review only; implementation review and root admission remain separate gates."
+  }
+}

@@ -1,0 +1,13 @@
+# R15 terminal capture
+
+The raw capture envelope is [`capture.stdout`](capture.stdout), accompanied by [`TRANSPORT.json`](TRANSPORT.json) and an empty [`capture.stderr`](capture.stderr). The envelope was captured at 2026-10-19T08:54:36.520737Z (transport receipt 08:54:36.585180Z), is 510,301 bytes, and has SHA-256 `6429b9d388bdc515926090506fab030183d77fd1718fd36f82c410c20db7ff88`. The envelope contains base64 raw bytes for root admission/launch/import-smoke and the START, SOURCE, RESULT, DONE, PROGRESS, and probe-log payloads; the exact extracted byte files are named `REMOTE_*.json`, `REMOTE_PROGRESS.jsonl`, and `REMOTE_PROBE_LOG.txt`. [`ROOT_CAPTURE_VALIDATION.json`](../ROOT_CAPTURE_VALIDATION.json) records nine payloads verified before stop.
+
+The captured systemd unit is `computer-vision-homework-eda19-r15-v1.service`, invocation `5da8269acf294ac0bd02bd94ec4b59e0`. Before stop it was `ActiveState=active`, `SubState=exited`, `Result=success`, `ExecMainStatus=0`, with `RemainAfterExit=yes`. Terminal configured properties were 500 ms CPU quota, MemoryHigh 1,400,000,000 bytes, MemoryMax 1,500,000,000 bytes, swap maximum 0, and a 10-minute runtime maximum. The systemd monotonic execution interval was 105.0575 seconds, unit CPU usage was 52.17586 seconds, and unit MemoryPeak was 568,016,896 bytes. These are unit-property measurements.
+
+DONE/RESULT helper-reported wall and CPU times are recorded separately in [`RESOURCE_RECONCILIATION.json`](../RESOURCE_RECONCILIATION.json). RESULT memory guard points are sampled cgroup-current and process-RSS observations, not the unit MemoryPeak. At capture the unit ControlGroup property was empty, so the own-unit terminal cgroup snapshot is NA; no host-root fallback was used. The campaign parent event counters matched their admission baseline (`high=2179`, `max=561`, OOM counters 0), their local counters remained 0, and the capture listed no populated descendants or direct PIDs.
+
+The terminal inventory reports `model_parameters.npz` at 178,584 bytes. DONE reports producer SHA-256 `9f3404f921bb27ffa92912a88b51142a5d1fa76ab29df417c12c808f30d4269f`; the archive was not opened, copied, or independently rehashed. Other outputs are listed in the metadata reconciliation.
+
+After durable payload validation, the stop receipt records the exact unit as not found/inactive/dead. Raw [`stop.stdout`](../stop.stdout) is 34,936 bytes with SHA-256 `720a8c4ce36db41385ad30adefce9825659ed8d7562b8547a1a4dfcc0aef6036`; this raw stdout hash is distinct from the enclosing [`STOP_RECEIPT.json`](../STOP_RECEIPT.json) hash.
+
+This capture record makes no scientific score or archive-content claim. See the separately maintained [result audit](../../RESULT_AUDIT.json).

@@ -1,6 +1,6 @@
-# Статус25карточек после R1–R14
+# Статус25карточек после R1–R15
 
-Текущий [синтез свидетельств](../../unified/ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md) отделяет положительные условные leads, закрытые exact variants и действительно NOT_TESTED механизмы. Число screens не означает, что все25механизмов проверены. R14 ниже добавляет узкую same-span проверку карточки18; новой R15-модели или очереди нет.
+Текущий [синтез свидетельств](../../unified/ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md) отделяет положительные условные leads, закрытые exact variants и действительно NOT_TESTED механизмы. Число screens не означает, что все25механизмов проверены. R14 добавляет узкую same-span проверку карточки18; R15 ниже — явный sparse-vs-dense pipeline для карточки9. Все завершены; новой R16-модели или очереди нет.
 
 Дополнение R10: [target-free joint-support screen](../idea_screens_r10/RESULTS.md) обнаружил редкие distinct cases beyond marginal ranges на фиксированных raw0/52 и256строках.52компоненты из64,26в каждой заранее заданной половине; без меток/модели/grade. Это не доказательство предсказательной пользы или выбранного направления.
 
@@ -33,7 +33,7 @@
 | 6 | Rolling-beta view− .00036; почти нулевой общий screen | Проверить fit-only регуляризацию; это не тест экономической beta или causal identification |
 | 7 | Есть описательные масштабы trade/quote; общие физические единицы не доказаны | Target-blind проверка допустимости конкретных отношений; predictive cloud-view не запускался |
 | 8 | PARTIAL: R10 fixed2D hull даёт274joint-only queries/31552 (0.8684%),52/64fit components | Это геометрическое отличие от same-window box; target usefulness, full-dimensional support и matched outlier/volatility controls NOT_TESTED |
-| 9 | NOT_TESTED: sparse factor model не обучался | Sparse-vs-dense matched bottleneck; low-rank/PCA не считать подтверждением |
+| 9 | PARTIAL: [R15](../idea_screens_r15/RESULTS.md) learned signed top4/16 vs dense16 with residual+EMA; sparse−dense WP+.002568, below frozen+.005 gate; both targets positive | One exposed pipeline/seed;13+/19−component signs,30/32positive drop-one. Different routing/effective capacity; no independent factor-stability/identity or GRU/public claim |
 | 10 | NOT_TESTED: conditional innovation graph отсутствует | Input-only fit-component stability grouped VAR/residual associations |
 | 11 | PARTIAL: [R3](../idea_screens_r3/RESULTS.md) selected signed EMA+.010459WP vs raw, все32drop-one+; fixedalpha1 absoluteEMA+.029060, но selected−.004323 | Линейная causal history representation; не isolated Jordan-split. Fit-CV/outer ranking mismatch не разрешён выбором alpha по outer |
 | 12 | PARTIAL: R5 shared linear moment heads; ratio−constant−0.025555WP, все32drop-one отрицательны | Learned heads/joint objective остаются NOT_TESTED; вторичный constant-vs-R3+0.013658 не изолирует механизм |

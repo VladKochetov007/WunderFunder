@@ -1,5 +1,7 @@
 # 19 October research
 
+[R15 learned sparse dictionary](idea_screens_r15/RESULTS.md) tests signed top-four-of16 codes against dense16 with retained residuals and matched downstream recipe. Sparse−dense WP+0.002568 is below the prospective+0.005 gate;13/19component signs and30/32positive drop-one sensitivities limit robustness. Four756-update CPU fits/nonfinite0, one exposed panel; factor stability and transfer remain untested. [Continuation](idea_screens_r15/CONTINUATION.md) binds the single captured/stopped execution and pre-admission corrections.
+
 [R14 same-span filter coordinates](idea_screens_r14/RESULTS.md) keeps three exponential poles, function span and mapped objective fixed. The analytic orthonormal basis worsens both128-step objective gaps and empirical condition numbers; the predeclared optimization gate fails. Secondary WP B .542595 vs A .540947 is preserved without outer promotion. One exposed FP64 convex diagnostic, not GRU/quality gain.
 
 - [Synthesis after thirteen screens](../unified/ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md): conditional leads and exact negatives are separated from untested mechanisms; proxy scores do not select a new recurrent architecture. No new data/model work, R14 preparation or fit is admitted by this review.

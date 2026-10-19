@@ -1,0 +1,43 @@
+# R15 continuation — actual CPU screen completed
+
+Latest direct user scope remains autonomous bounded EDA/simple CPU models. No quantization, historical reconstruction, old CP30 queue, new GPU/paid/provider work, billing/topups, external messages, Mac payloads/training, installs, iCloud or active Zen. All R1–R15 and original F3 are complete; do not repeat their compute, inference/scorer, samples, captures/stops or poll the finished F3 controller. No R16 source/preparation/admission/job exists.
+
+## Scientific result and decision
+
+[RESULTS.md](RESULTS.md) records one faithful H-NF19-09 pipeline comparison on the already exposed R3 panel. Dense WP 0.4798730901246624, sparse 0.4824412038543008; sparse−dense 0.0025681137296383882. Target deltas [0.001041956890606488, 0.004094270568670344]. Both positive, but frozen +.005 pooled allocation gate fails. Individual component signs13+/19−; drop-one pooled contrasts30+/2−, range−.00197019691297..+.00753914851338. Sensitivity is not independent replication or a significance interval. Close this exact variant without outer tuning; not all sparse representations.
+
+Each arm learns a separate112→16 encoder/16→112 unit-column decoder, then freezes it. Sparse retains signed top4absolute values with stable-index ties; dense retains16. Both keep the112-channel residual and causal signed-innovation EMA32, giving256downstream features. Fit-only raw normalization and per-arm downstream normalization; same predictor256→64GELU/WMSE/init/order/AdamW budget. Four fits each756successful updates/381696row exposures/nonfinite0, actual total3024. Dictionary initialization matches across arms, trained fingerprints differ from initial, and post-predictor fingerprints match the post-AE frozen hashes. Same parameter shapes/budgets are not identical function, effective capacity, routing, FLOPs or time. Factor identity/stability, independent dictionary fits and GRU/full-fold/public/CP30 transfer are untested.
+
+## Exact actual invocation and raw evidence
+
+- Sole actual unit `computer-vision-homework-eda19-r15-v1.service`, invocation `5da8269acf294ac0bd02bd94ec4b59e0`.
+- Native start08:51:36UTC19Oct, explicit exit0 at08:53:21UTC. Systemd monotonic duration105.0575s/CPU52.17586s/MemoryPeak568016896B. Helper RESULT wall95.725423577s/CPU47.69201315s; DONE and stageRSS/cgroup-current are separate observations. Do not invent causes for differences.
+- Source `B/support-source/eda19-r15-v1`, output `B/research_tmp/nf19-r15-v1`, B=`/home/grinchenkoeg/computer-vision-homework-20261018`.
+- [Launch](records/launch.stdout) / [transport](records/LAUNCH_TRANSPORT.json), nine original-byte payloads in [terminal capture](records/terminal_capture/README.md), [root validation](records/ROOT_CAPTURE_VALIDATION.json) completed before [exact stop](records/STOP_RECEIPT.json) at08:55:07.840018UTC; post not-found/inactive/dead. Never repeat launch/capture/stop.
+- RESULT SHA `ab149a3fcf9d58c1221300ddca3eba356a16181fe5239ea1b3d7646bfe9099c3`; SOURCE SHA `f8abfe9102941f3471f924cfdab9066823c64b079286177473cc155b3729dd01`; DONE SHA `c3ccc0da62f5d2be7d7449d853240c577b811913c1f7fead4f6268952603a67b`.
+- Archive `model_parameters.npz`,178584B, producer SHA `9f3404f921bb27ffa92912a88b51142a5d1fa76ab29df417c12c808f30d4269f`; stat/producer evidence only. No NPZ contents independently opened/rehashed or copied to Mac. No predictions in archive.
+- Parent high2179/max561/OOM0/local0 unchanged; no direct/populated campaign children at capture. Empty terminal ControlGroup means own files unavailable, no host-root fallback. See [resources](RESOURCE_RECONCILIATION.json), [metadata review](RESOURCE_METADATA_REVIEW.json) and [records](records/README.md).
+
+[Canonical compact scalar audit](RESULT_AUDIT.json) SHA `be2afa8bfe3afef05de4a1b4cdc569586d66678954a791c9c061dc0dddfe5cfe` reconstructs2pooled/64component/64drop-one score sets, paired contrasts, counters/fingerprints/runtime/caps/stop from receipts. Maximum score discrepancy9.44e-16. It opened no array/model payloads and performed no fit/scorer replay. V1 omitted only paired-contrast summaries and is preserved; V2 adds them without changing compute or source.
+
+Resource reconciliation SHA `da687309eea1f6c35c88e50bdd2e7a3427f29987268164877bf90b3f11cb8109`; independent metadata review SHA `e22b02440566301c72530f9a6724ed336dccebeb2e2f90bb18e14b24c1039f00`,17checksPASS. Root aliases equal records bytes.
+
+## Final source identity and preserved preparation failures
+
+[Manifest](PREPARATION_MANIFEST.json) SHA `ad26d2589ed34101b4eed1cd4655f7924c11349f5cb5ea3fd4a345189cd8f798`:31pins/25runtime modules/sixcanonical files. [Test receipt](TEST_RECEIPT.json) SHA `132b06ee2e9348c08d6997338d75bc43e8f4ebdf4aa22b31eb3ab1ba4dab6886`:9tiny synthetic tests/Ruff and fresh full import-reader sentinels. [Independent source review](IMPLEMENTATION_REVIEW.json) SHA `b769ee739d8ab26f81f7754e63ef06a922f2482cc4bbcc8d68a5818f253c4416`. Final local smoke verifies Torch intra/inter-op1/1, bothTF32/autocast off/CUDA uninitialized and all25exact modules without payload reads. Actual SOURCE reasserts those flags. No repeated passed checks without code change.
+
+V1 compared frozen dictionary weights to pre-AE initialization; V2 fixed that but omitted explicit fresh-CLI TF32 setup. V3 configures runtime before executor/data. V1/V2 source candidates and preparation records remain under records/source_v1 and source_v2; startup_v1 binds the never-executed V2 transport. None was a remote failed attempt or scientific negative. Startup_v2 alone binds executed V3. Its prepared README bytes are immutable; top README now adds result navigation. Local startup harness token/environment assertion corrections preceded the sole remote launch and did not alter source/science.
+
+Final private scripts remain `/Users/nb/Documents/wunder/runtime-20261018/eda19-r15-v3-transport-private`: r15_remote.py SHA `eff5dcb48aa6be2e3d4467b4ce3459a874837cdac2ff1764189f5314f3db211f`, capture `1be89883af68578099a487c38000dc9e0f8326b6586ae523259ab9afda32d401`, stop `8bdab3e70a45d6fb4401ac98ba77be58bd2e59733a3daad224d050da8b17b91f`. Already executed; no replay authorized. [Startup packet](records/startup_v2/README.md) binds29exact transported files plus six frozen canonical pins; [root review](records/startup_v2/ROOT_STARTUP_REVIEW.json) SHA `740049453760691783eca66ca8822e7e94383e6b092b544e35af10d24108d2a5`.
+
+## Accepted panel, constraints, next work
+
+Same fixed sample `B/research_tmp/nf19-sample-r3-v2`: SAMPLE`b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64`, MEMBERSHIP`e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217`, canonical exposedF0`c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7`.64fit components/31808stride40rows,32eval/59436rows,96whole20ksequences. All288NPY files integritymapped including targets; fit labels only predictor objective, evaluation labels only final score. This adaptive cost-capped panel is not fresh or unbiased full-fold. R1/R2 have different composition; no absolute-score subtraction.
+
+Future work only if another genuinely different faithful mechanism changes an allocation decision; no automatic sparse variants, width/k/seed/floor retuning, ridge sweeps, repeated LLM triage or infrastructure-only work. Prior R3/R4 positive fixed-alpha diagnostics stay alongside negative selected endpoints; R5 primary/secondary and R6gradient/R9carry limits remain. Input/coefficient covariance is not gradients/state evidence. Do not rewrite the dated R1–R13 synthesis.
+
+Remote Python `/home/grinchenkoeg/WunderFunder/.venv/bin/python`, canonical `B/source-a266b036`; SSH BatchMode/ConnectTimeout10/ConnectionAttempts1. CPU support serial .5CPU/high1.4GB/max1.5GB/swap0/600s/CUDAhidden/BLAS1/physicalB/research_tmp. Parentwnn-campaign.slice2CPU/high18GB/max20GB/swap0/target17GBcommitted. Fresh ownership/all populated descendants/source/sample/output absence/disk/headroom before any new admission. Preserve foreign jobs. Raw receipts bytes/base64, unknown outcome never retry/restart. Mac literal maintenance/.venv/bin/python, no install or resolving to miniconda base.
+
+## Publication
+
+Root publishes useful source/results/reviews through unified READMEs and append-only ledgers, preserving parallel updates/two unrelated skill-gitlink deletions. Origin mirror=true requires mirror=false, explicit fetch--refmap=remote-tracking refs and atomic explicit-ref push/no force/fresh refs. See [publication validation](PUBLICATION_VALIDATION.json) for the staged snapshot; it is documentary/source integrity evidence, not a second experiment. Current H-NF19-09 status is PARTIAL; old F0/F1/F3=3of30paired cells/arm remains incomplete and unadmitted for new cells.

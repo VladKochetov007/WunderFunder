@@ -1,0 +1,96 @@
+{
+  "actual_npy_payloads_read": false,
+  "actual_sample_or_model_execution": false,
+  "cold_import_smoke": {
+    "manifest_sha256_checked": "ad26d2589ed34101b4eed1cd4655f7924c11349f5cb5ea3fd4a345189cd8f798",
+    "path": "records/preparation_v3/cold_import_smoke.json",
+    "read_sentinels": [
+      "numpy.load",
+      "numpy.memmap",
+      "torch.load",
+      "pyarrow.parquet.ParquetFile",
+      "pyarrow.parquet.read_table",
+      "pyarrow.dataset.dataset",
+      "pyarrow.parquet.ParquetDataset"
+    ],
+    "runtime_modules_expected": 25,
+    "runtime_modules_observed": 25,
+    "runtime_state": {
+      "autocast_cpu_enabled": false,
+      "autocast_cuda_enabled": false,
+      "cuda_initialized": false,
+      "tf32_cudnn_enabled": false,
+      "tf32_matmul_enabled": false,
+      "torch_interop_threads": 1,
+      "torch_threads": 1
+    },
+    "sample_arrays_or_models_loaded": false,
+    "sentinel_calls": [],
+    "sha256": "e1919ce2311b1b1857d5c91c0d9ca07daf8736d4a3c26dd50cae4610f0438a56",
+    "source_paths_verified": true,
+    "stdout_path": "records/preparation_v3/cold_import_smoke.stdout.txt",
+    "stdout_sha256": "925ac35ab0439aeacb00ca7c73519b24b8d33bf88eb4ab49ff4ba01435be748f"
+  },
+  "commands": [
+    {
+      "command": ".venv/bin/ruff format research/campaign_2026-10-19/idea_screens_r15",
+      "exit_code": 0,
+      "stderr_path": "records/preparation_v3/ruff_format.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v3/ruff_format.stdout.txt",
+      "stdout_sha256": "3849c2adb1586ab08ca11af4fb59e554e256fbabc8dc2419baa27e3a2cc6b923",
+      "summary": "15 files left unchanged"
+    },
+    {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r15",
+      "exit_code": 0,
+      "stderr_path": "records/preparation_v3/ruff_check.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v3/ruff_check.stdout.txt",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "summary": "All checks passed!"
+    },
+    {
+      "command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/pytest -q research/campaign_2026-10-19/idea_screens_r15/test_probe.py",
+      "exit_code": 0,
+      "stderr_path": "records/preparation_v3/pytest.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v3/pytest.stdout.txt",
+      "stdout_sha256": "546260af822296611e7bb3141c252ebb14e40699ab238aee03ff1f8c9b7c951a",
+      "summary": ".........                                                                [100%]\n9 passed in 2.13s"
+    }
+  ],
+  "design_review_sha256": "af95167725492b2c6ddc494d5441ac758cb5347ce6cad4c58596af8d3ace96c7",
+  "design_sha256": "5956b3f2d752e8b71e8966e35a36e41176d1f5b4d01ae70864c42e4b5646ed58",
+  "environment": {
+    "numpy": "2.2.6",
+    "pyarrow": "19.0.1",
+    "python": "3.13.11",
+    "torch": "2.14.1"
+  },
+  "predecessor_v1_manifest_sha256": "27961e6cc58fe0b799483c144692aa313da363703333ff3ea20c9cee3ed3162e",
+  "predecessor_v2_manifest_sha256": "582171973f77d88348409218d974c41481a509af70e6b5a91b1dcd08cf8897dd",
+  "preparation_manifest_path": "PREPARATION_MANIFEST.json",
+  "preparation_manifest_sha256": "ad26d2589ed34101b4eed1cd4655f7924c11349f5cb5ea3fd4a345189cd8f798",
+  "remote_actions": false,
+  "schema": "nf19.r15_test_receipt.v3",
+  "selection_history_sha256": "1d9971acfbbe39f6b0f6657332e5f5df7f0db5d3299f24bcebdaf1caac765d6b",
+  "source_corrections": [
+    {
+      "description": "Post-predictor dictionary fingerprints are compared with a separate post-AE-train/freeze reference; initial hashes remain initialization provenance.",
+      "probe_execution_sha256": "77a3c8621a3f49fb1c498f11e9cb22d5e40ae06a7147ea4100cfbeaa96ca655b",
+      "regression": "Synthetic test verifies trained hash differs from initialization, frozen hash passes, and a later mutation fails.",
+      "test_probe_sha256": "4a895af4f27e940766d73f62116ed3f9523b22ff486a0c81ce539e021f08ed1b"
+    },
+    {
+      "description": "Fresh CLI configures Torch intra/inter-op threads to one and disables both TF32 flags after source/import verification and before executor/data mapping; CUDA/autocast checks remain fail-closed.",
+      "regression": "Fresh subprocess runs full source-pinned import/read-sentinel smoke and asserts actual thread, TF32, autocast, CUDA and no-payload states.",
+      "run_probe_sha256": "7101933cd0f7857c0cbeeb2e237cc2daac5829410fcda48c87fd204bf5547440",
+      "runtime_support_sha256": "e7dfacb75627e0bc924e85dbd078bef04d0b0cd7abac9ffacd481e134d9a0d17",
+      "test_probe_sha256": "4a895af4f27e940766d73f62116ed3f9523b22ff486a0c81ce539e021f08ed1b"
+    }
+  ],
+  "status": "PASS_SOURCE_ONLY",
+  "v1_snapshot_receipt_sha256": "a8a77c4fbfc32f7ec1c9499415930d6324f15b73c949935fe6ff78568673bb0d",
+  "v2_snapshot_receipt_sha256": "d0c5962498013878675a24f7af470d303eeb05898396842166039cde18bfda77"
+}

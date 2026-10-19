@@ -1,0 +1,256 @@
+{
+  "schema": "nf19.r15_scalar_audit.v1",
+  "status": "PASS_SCALAR_AUDIT",
+  "scope": "JSON receipts and six scalar sums only; no NPY/NPZ/tensor/prediction payload opened; no fit or scorer replay",
+  "binding_sha256": {
+    "result": "ab149a3fcf9d58c1221300ddca3eba356a16181fe5239ea1b3d7646bfe9099c3",
+    "source": "f8abfe9102941f3471f924cfdab9066823c64b079286177473cc155b3729dd01",
+    "done": "c3ccc0da62f5d2be7d7449d853240c577b811913c1f7fead4f6268952603a67b",
+    "start": "7714c1d4eb5a45dccc7d2dee0cc01f24dbb63da5f926cc61e49cabde8ca9a18f"
+  },
+  "source_panel": {
+    "manifest_sha256": "ad26d2589ed34101b4eed1cd4655f7924c11349f5cb5ea3fd4a345189cd8f798",
+    "source_pins": 31,
+    "runtime_modules": 25,
+    "fit_components": 64,
+    "fit_rows": 31808,
+    "eval_components": 32,
+    "eval_rows": 59436,
+    "mapped_npy": 288
+  },
+  "scores": {
+    "arms": {
+      "dense": {
+        "official": {
+          "t0": 0.49831451471938276,
+          "t1": 0.461431665529942,
+          "wp": 0.4798730901246624,
+          "selected_rows": 59436,
+          "metric_id": "global_wp_clip2_v1"
+        },
+        "six_sum_pool": {
+          "t0": 0.4983145147193826,
+          "t1": 0.46143166552994164,
+          "wp": 0.4798730901246621
+        },
+        "components": 32,
+        "rows": 59436,
+        "max_component_or_pool_error": 8.326672684688674e-16,
+        "max_drop_one_error": 4.440892098500626e-16
+      },
+      "sparse": {
+        "official": {
+          "t0": 0.49935647160998925,
+          "t1": 0.46552593609861237,
+          "wp": 0.4824412038543008,
+          "selected_rows": 59436,
+          "metric_id": "global_wp_clip2_v1"
+        },
+        "six_sum_pool": {
+          "t0": 0.49935647160998886,
+          "t1": 0.46552593609861215,
+          "wp": 0.4824412038543005
+        },
+        "components": 32,
+        "rows": 59436,
+        "max_component_or_pool_error": 9.43689570931383e-16,
+        "max_drop_one_error": 4.996003610813204e-16
+      }
+    },
+    "primary_sparse_minus_dense_wp": 0.0025681137296383882,
+    "target_deltas_sparse_minus_dense": [
+      0.001041956890606488,
+      0.004094270568670344
+    ],
+    "gate": {
+      "minimum_pooled_delta": 0.005,
+      "both_target_deltas_positive": true,
+      "passed": false,
+      "recomputed_passed": false
+    },
+    "max_component_or_pool_error": 9.43689570931383e-16,
+    "max_drop_one_error": 4.996003610813204e-16,
+    "tolerance": 0.0001,
+    "note": "centered official scores compared with exposed clipped additive W/WY/WP/WYY/WPP/WYP sums"
+  },
+  "training": {
+    "fit_count": 4,
+    "updates_each": 756,
+    "total_updates": 3024,
+    "epochs_each": 12,
+    "row_exposures_each": 381696,
+    "row_exposures_total": 1526784,
+    "nonfinite_count": 0,
+    "dictionary_initial": {
+      "dense": "3a327c3609c5b7ad4a2c2f0506847a55ff755eac210e085a7a465127fbdab4c0",
+      "sparse": "3a327c3609c5b7ad4a2c2f0506847a55ff755eac210e085a7a465127fbdab4c0"
+    },
+    "dictionary_frozen": {
+      "dense": "4505c35e6cb7974d232442b849a845dc62aa616dc0fb4ba3b6d9c6c7e0487116",
+      "sparse": "7a62eac9aa42658c38b92ebe90b84489f7dcb9c8750e9b33e872db8a7b124b06"
+    },
+    "dictionary_final": {
+      "dense": "4505c35e6cb7974d232442b849a845dc62aa616dc0fb4ba3b6d9c6c7e0487116",
+      "sparse": "7a62eac9aa42658c38b92ebe90b84489f7dcb9c8750e9b33e872db8a7b124b06"
+    },
+    "predictor_shared_initialization": "bce617ce88cb42d0c2cce82f3ec479c90909adc2b9e8adcd4cb6dc1d50963405",
+    "per_arm": {
+      "dense": {
+        "fit_rows": 31808,
+        "feature_width": 256,
+        "scale_floor": 1e-06,
+        "min_scale": 0.004105377873156652,
+        "max_residual_identity_error": 3.814697265625e-06
+      },
+      "sparse": {
+        "fit_rows": 31808,
+        "feature_width": 256,
+        "scale_floor": 1e-06,
+        "min_scale": 0.005944025478927559,
+        "max_residual_identity_error": 3.814697265625e-06
+      }
+    },
+    "model_archive_shapes_only": {
+      "dense_decoder_weight": [
+        112,
+        16
+      ],
+      "dense_downstream_mean": [
+        256
+      ],
+      "dense_downstream_scale": [
+        256
+      ],
+      "dense_encoder_weight": [
+        16,
+        112
+      ],
+      "dense_predictor_logvar_head_bias": [
+        2
+      ],
+      "dense_predictor_logvar_head_weight": [
+        2,
+        64
+      ],
+      "dense_predictor_mean_head_bias": [
+        2
+      ],
+      "dense_predictor_mean_head_weight": [
+        2,
+        64
+      ],
+      "dense_predictor_trunk_bias": [
+        64
+      ],
+      "dense_predictor_trunk_weight": [
+        64,
+        256
+      ],
+      "raw_input_mean": [
+        112
+      ],
+      "raw_input_scale": [
+        112
+      ],
+      "sparse_decoder_weight": [
+        112,
+        16
+      ],
+      "sparse_downstream_mean": [
+        256
+      ],
+      "sparse_downstream_scale": [
+        256
+      ],
+      "sparse_encoder_weight": [
+        16,
+        112
+      ],
+      "sparse_predictor_logvar_head_bias": [
+        2
+      ],
+      "sparse_predictor_logvar_head_weight": [
+        2,
+        64
+      ],
+      "sparse_predictor_mean_head_bias": [
+        2
+      ],
+      "sparse_predictor_mean_head_weight": [
+        2,
+        64
+      ],
+      "sparse_predictor_trunk_bias": [
+        64
+      ],
+      "sparse_predictor_trunk_weight": [
+        64,
+        256
+      ]
+    },
+    "npz_payload_opened": false
+  },
+  "execution_receipts": {
+    "validation": {
+      "file": "ROOT_CAPTURE_VALIDATION.json",
+      "sha256": "26825ae421bc1bfdef0b987fd27472caaa0a7239e9d98caf4d3a41507c93a44a",
+      "schema": "nf19.r15_root_capture_validation.v1",
+      "status": "PASS_BEFORE_EXACT_STOP",
+      "invocation_id": "5da8269acf294ac0bd02bd94ec4b59e0"
+    },
+    "admission": {
+      "file": "REMOTE_ROOT_ADMISSION.json",
+      "sha256": "52be5c787733e8ced248d5e7870f21db07748e8292a5dfb038cc9a409ef6cb5d",
+      "unit": "computer-vision-homework-eda19-r15-v1.service",
+      "caps": {
+        "blas_threads": 1,
+        "cpu_cores": 0.5,
+        "cuda_visible_devices": "",
+        "memory_high_bytes": 1400000000,
+        "memory_max_bytes": 1500000000,
+        "memory_swap_max_bytes": 0,
+        "runtime_max_s": 600,
+        "tmpdir": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp"
+      }
+    },
+    "launch": {
+      "file": "REMOTE_ROOT_LAUNCH.json",
+      "sha256": "382af5205f55bf686d02e3a2adbbadc761b8b62c65743532495b81111d65e876",
+      "unit": "computer-vision-homework-eda19-r15-v1.service",
+      "invocation_id": "5da8269acf294ac0bd02bd94ec4b59e0",
+      "systemd_run_returncode": 0
+    },
+    "stop": {
+      "file": "STOP_RECEIPT.json",
+      "sha256": "a5dd2179bd6ea7c842497bbf2fb081280a3527ed10dbde5bceeb45e738a15209",
+      "returncode": 0,
+      "unit": "computer-vision-homework-eda19-r15-v1.service",
+      "before": {
+        "ActiveState": "active",
+        "SubState": "exited",
+        "Result": "success",
+        "ExecMainStatus": "0",
+        "MemoryHigh": "1400000000",
+        "MemoryMax": "1500000000",
+        "MemorySwapMax": "0",
+        "CPUQuotaPerSecUSec": "500ms",
+        "RuntimeMaxUSec": "10min"
+      },
+      "after": {
+        "ActiveState": "inactive",
+        "SubState": "dead",
+        "LoadState": "not-found",
+        "Result": "success",
+        "ExecMainStatus": "0"
+      }
+    }
+  },
+  "expected_caps": {
+    "service": "computer-vision-homework-eda19-r15-v1.service",
+    "cpu_cores": 0.5,
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "swap_bytes": 0,
+    "runtime_seconds": 600
+  }
+}

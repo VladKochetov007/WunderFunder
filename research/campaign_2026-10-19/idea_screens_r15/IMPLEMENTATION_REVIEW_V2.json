@@ -1,0 +1,48 @@
+{
+  "schema": "nf19.r15_implementation_review.v1",
+  "status": "PASS_SOURCE_ONLY_REVIEW",
+  "experiment": "E-NF19-IDEA-SCREENS-R15",
+  "hypothesis": "H-NF19-09",
+  "preparation_manifest_sha256": "582171973f77d88348409218d974c41481a509af70e6b5a91b1dcd08cf8897dd",
+  "test_receipt_sha256": "afc9d639747e8484fdf1ae0f18dd55bc8ba5a41877fd9602d6950cd410f1b781",
+  "cold_import_smoke_sha256": "c00aa96f7ef287d8e300a9df246f3da6037dc344465c91e69ea8f9f18b80fd96",
+  "design_sha256": "5956b3f2d752e8b71e8966e35a36e41176d1f5b4d01ae70864c42e4b5646ed58",
+  "design_review_sha256": "af95167725492b2c6ddc494d5441ac758cb5347ce6cad4c58596af8d3ace96c7",
+  "selection_history_sha256": "1d9971acfbbe39f6b0f6657332e5f5df7f0db5d3299f24bcebdaf1caac765d6b",
+  "independent_checks": {
+    "manifest_sha256_recomputed": "582171973f77d88348409218d974c41481a509af70e6b5a91b1dcd08cf8897dd",
+    "source_pin_count": 31,
+    "source_pin_mismatches": [],
+    "runtime_module_count": 25,
+    "author_source_only_tests": "8 passed; receipt-bound, not rerun during this review",
+    "cold_import_inventory": "25 expected and observed modules; exact paths recorded",
+    "read_sentinels": [
+      "numpy.load",
+      "numpy.memmap",
+      "torch.load",
+      "pyarrow.parquet.ParquetFile",
+      "pyarrow.parquet.read_table",
+      "pyarrow.dataset.dataset",
+      "pyarrow.parquet.ParquetDataset"
+    ],
+    "sentinel_calls": [],
+    "cuda_initialized": false
+  },
+  "review_findings": [
+    "The encoder initializer is materialized as decoder.T.contiguous(), then copied with load_state_dict into separate encoder and decoder parameters; W and D are initialized as transposes but are not tied.",
+    "Stable descending absolute-value top-4 selection preserves signed values and detaches the selected mask. Decoder columns are normalized after every update and nonfinite or collapsed columns fail closed.",
+    "The normalized raw-input residual is x-Dz; the corrected runtime check measures batch-(reconstruction+residual) and rejects error above 1e-5. Tiny tests cover stable ties, signed values, residual identity, and causal prefix behavior.",
+    "Raw-input moments are fitted on the exact 31,808 original-mask stride rows from fit components. Both unsupervised dictionaries use only those normalized x rows and share initialization and epoch order; labels enter only the two supervised fit-row objectives and final evaluation.",
+    "Downstream features are constructed over complete sequences before selecting fit stride rows. The reset-local signed EMA uses only current/past base features. Each arm fits its own downstream normalizer on fit rows, then uses the same 256-to-64 GELU mean predictor, shared initialization, AdamW recipe, masks, and fixed order.",
+    "The earlier V1 fingerprint guard compared post-supervised dictionary state with the pre-autoencoder initialization. V2 fixes this: it freezes parameters after each 756-update dictionary fit, stores a distinct post-fit fingerprint, and compares that fingerprint after predictor training. The synthetic regression checks a trained hash differs from initialization, accepts the frozen hash, and rejects later mutation.",
+    "The source enforces exact 756-update/zero-nonfinite counts for each of four fits, verifies unused variance-head state/gradients, processes full histories one sequence at a time, and checks original fit/evaluation component and row counts before scoring with the canonical pooled metric."
+  ],
+  "interpretation_limits": [
+    "This is one fixed sparse-versus-dense retained-residual pipeline on an exposed adaptive panel; it does not establish factor identity, cross-component stability, equal effective capacity/FLOPs, compute advantage, or full-fold/public generalization.",
+    "The cited cold-import proof records local repository module paths. Root admission must separately rehash the staged payload and canonical source bytes before importing or launching the fresh B-side CLI."
+  ],
+  "execution_performed": false,
+  "data_or_model_payloads_read": false,
+  "remote_actions": false,
+  "admission_scope": "Independent source implementation review only; separate root staging/resource admission remains required."
+}

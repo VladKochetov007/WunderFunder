@@ -1,0 +1,131 @@
+{
+  "allowed_bundle_prefixes": [
+    "idea_screens_r1",
+    "idea_screens_r15",
+    "idea_screens_r3",
+    "idea_screens_r7"
+  ],
+  "canonical_pin_names": [
+    "canonical:wnn/__init__.py",
+    "canonical:wnn/data.py",
+    "canonical:wnn/event_content.py",
+    "canonical:wnn/gmetric.py",
+    "canonical:wnn/nn.py",
+    "canonical:wnn/numeric_ple.py"
+  ],
+  "destination": "support-source/eda19-r15-v1",
+  "extra_transport_paths": [
+    "idea_screens_r15/IMPLEMENTATION_REVIEW.json",
+    "idea_screens_r15/PREPARATION_MANIFEST.json",
+    "idea_screens_r15/README.md",
+    "idea_screens_r15/TEST_RECEIPT.json"
+  ],
+  "identity_patch": {
+    "capture_r10_to_r15": 4,
+    "remote_body_r10_to_r15": {
+      "R10_to_R15": 20,
+      "idea_screens_r10_to_r15": 15,
+      "r10_to_r15": 6
+    },
+    "stop_r10_to_r15": 3
+  },
+  "implementation_review_sha256": "b769ee739d8ab26f81f7754e63ef06a922f2482cc4bbcc8d68a5818f253c4416",
+  "job_environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TMPDIR": "B/research_tmp"
+  },
+  "limits": {
+    "bundle_bytes": 64000000,
+    "job_cpu_cores": 0.5,
+    "job_memory_high_bytes": 1400000000,
+    "job_memory_max_bytes": 1500000000,
+    "job_memory_swap_bytes": 0,
+    "job_runtime_seconds": 600,
+    "parent_cpu_cores": 2,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_memory_reservation_target_bytes": 17000000000,
+    "parent_memory_swap_bytes": 0,
+    "per_file_bytes": 16000000
+  },
+  "local_import_smoke_sha256": "d11ae2738692a9d3216b0cb587db69d4fefa88e433d72069310b08f192734621",
+  "membership_sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+  "output": "research_tmp/nf19-r15-v1",
+  "patches": [
+    {
+      "change": "Bind the fixed R15 V1 unit/source/output identity, accepted R3 sample, source snapshot, and reviewed V3 manifest.",
+      "id": "identity-paths"
+    },
+    {
+      "change": "Bind exact equality to all 25 manifest-declared R1/R3/R7/R15/WNN runtime modules.",
+      "id": "runtime-map"
+    },
+    {
+      "change": "Verify all six canonical WNN pins before runtime import and immediately before launch.",
+      "id": "canonical-pins"
+    },
+    {
+      "change": "Allow only R1/R3/R7/R15 roots and the exact three-file R7 source closure.",
+      "id": "bundle-prefixes"
+    },
+    {
+      "change": "Run Torch CPU import smoke with CUDA hidden, exact actual owned-prefix inventory and NumPy/Parquet/Torch read sentinels before clean CLI exec; fresh CLI configures Torch threads to one and disables TF32 before executor/data mapping.",
+      "id": "cold-import"
+    },
+    {
+      "change": "Reuse the pinned R10 V2 capture/stop helpers with exact R15 identity, terminal/cap checks and raw validation before stop.",
+      "id": "capture-stop"
+    },
+    {
+      "change": "Pin CUDA hidden and OMP/OPENBLAS/MKL thread environment to one in the systemd-run command.",
+      "id": "blas-environment"
+    }
+  ],
+  "r10_base_pins": {
+    "capture_remote_v2.py": "7f7e7576380d9796ace256d70cbc6333036f4758fb8ce2bd0507395707c18f00",
+    "remote_body_v1.py": "e3b3b13217bda561fc8e638ce693226ae9ed944d791b443480fc6b074afa1fb0",
+    "stop_remote_v1.py": "0664e2544ad0dc4bbaa5d2b701bdb31706dd3831752e955e8a844ec9d75828ca"
+  },
+  "r7_source_allowlist": [
+    "idea_screens_r7/__init__.py",
+    "idea_screens_r7/model_math.py",
+    "idea_screens_r7/model_training.py"
+  ],
+  "runtime_py": {
+    "idea_screens_r1": "idea_screens_r1/__init__.py",
+    "idea_screens_r1.constants": "idea_screens_r1/constants.py",
+    "idea_screens_r1.eda_mechanisms": "idea_screens_r1/eda_mechanisms.py",
+    "idea_screens_r1.input_diagnostics": "idea_screens_r1/input_diagnostics.py",
+    "idea_screens_r1.sample_data": "idea_screens_r1/sample_data.py",
+    "idea_screens_r1.target_operator": "idea_screens_r1/target_operator.py",
+    "idea_screens_r15": "idea_screens_r15/__init__.py",
+    "idea_screens_r15.panel": "idea_screens_r15/panel.py",
+    "idea_screens_r15.pipeline_reports": "idea_screens_r15/pipeline_reports.py",
+    "idea_screens_r15.probe_execution": "idea_screens_r15/probe_execution.py",
+    "idea_screens_r15.representation": "idea_screens_r15/representation.py",
+    "idea_screens_r15.run_probe": "idea_screens_r15/run_probe.py",
+    "idea_screens_r15.runtime_support": "idea_screens_r15/runtime_support.py",
+    "idea_screens_r15.training": "idea_screens_r15/training.py",
+    "idea_screens_r3": "idea_screens_r3/__init__.py",
+    "idea_screens_r3.probe_helpers": "idea_screens_r3/probe_helpers.py",
+    "idea_screens_r7": "idea_screens_r7/__init__.py",
+    "idea_screens_r7.model_math": "idea_screens_r7/model_math.py",
+    "idea_screens_r7.model_training": "idea_screens_r7/model_training.py",
+    "wnn": "canonical:wnn/__init__.py",
+    "wnn.data": "canonical:wnn/data.py",
+    "wnn.event_content": "canonical:wnn/event_content.py",
+    "wnn.gmetric": "canonical:wnn/gmetric.py",
+    "wnn.nn": "canonical:wnn/nn.py",
+    "wnn.numeric_ple": "canonical:wnn/numeric_ple.py"
+  },
+  "sample": "research_tmp/nf19-sample-r3-v2",
+  "sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+  "schema": "nf19.r15_startup_assembly_spec.v1",
+  "source_readme_sha256": "3eff9695a2330c289a95ad1df0e8c266de3b914c08a7aafa24e4ed76c47eb7ca",
+  "source_snapshot": "a266b036",
+  "test_receipt_sha256": "132b06ee2e9348c08d6997338d75bc43e8f4ebdf4aa22b31eb3ab1ba4dab6886",
+  "unit": "computer-vision-homework-eda19-r15-v1.service"
+}

@@ -1,0 +1,63 @@
+{
+  "actual_npy_payloads_read": false,
+  "actual_sample_or_model_execution": false,
+  "cold_import_smoke": {
+    "cuda_initialized": false,
+    "manifest_sha256_checked": "27961e6cc58fe0b799483c144692aa313da363703333ff3ea20c9cee3ed3162e",
+    "path": "records/preparation/cold_import_smoke.json",
+    "read_sentinels": [
+      "numpy.load",
+      "numpy.memmap",
+      "torch.load",
+      "pyarrow.parquet.ParquetFile",
+      "pyarrow.parquet.read_table",
+      "pyarrow.dataset.dataset",
+      "pyarrow.parquet.ParquetDataset"
+    ],
+    "runtime_modules_expected": 25,
+    "runtime_modules_observed": 25,
+    "sample_arrays_or_models_loaded": false,
+    "sentinel_calls": [],
+    "sha256": "2c5fdadcacb0d305e843f1bbe3afc576a9fa73304856cdfaa64b25f2fc926cd0",
+    "source_paths_verified": true,
+    "stdout_path": "records/preparation/cold_import_smoke.stdout.txt",
+    "stdout_sha256": "e4942e991d2ccbac88a7190d826f0851074144b979b8f879dee51064bb3acc76"
+  },
+  "commands": [
+    {
+      "command": ".venv/bin/ruff format research/campaign_2026-10-19/idea_screens_r15",
+      "exit_code": 0,
+      "stdout_path": "records/preparation/ruff_format.stdout.txt",
+      "stdout_sha256": "1d3ee9249eca9e040ff2d6ddcad0b665b5ee67ff2ac0edcd42e4a316238ab015",
+      "summary": "10 files left unchanged"
+    },
+    {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r15",
+      "exit_code": 0,
+      "stdout_path": "records/preparation/ruff_check.stdout.txt",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "summary": "All checks passed!"
+    },
+    {
+      "command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/pytest -q research/campaign_2026-10-19/idea_screens_r15/test_probe.py",
+      "exit_code": 0,
+      "stdout_path": "records/preparation/pytest.stdout.txt",
+      "stdout_sha256": "93e530399127b0b66491fab4e86bd5c496b39d407c8b25efde6ab90d8bb6804e",
+      "summary": "7 passed in 1.18s"
+    }
+  ],
+  "design_review_sha256": "af95167725492b2c6ddc494d5441ac758cb5347ce6cad4c58596af8d3ace96c7",
+  "design_sha256": "5956b3f2d752e8b71e8966e35a36e41176d1f5b4d01ae70864c42e4b5646ed58",
+  "environment": {
+    "numpy": "2.2.6",
+    "pyarrow": "19.0.1",
+    "python": "3.13.11",
+    "torch": "2.14.1"
+  },
+  "preparation_manifest_path": "PREPARATION_MANIFEST.json",
+  "preparation_manifest_sha256": "27961e6cc58fe0b799483c144692aa313da363703333ff3ea20c9cee3ed3162e",
+  "remote_actions": false,
+  "schema": "nf19.r15_test_receipt.v1",
+  "selection_history_sha256": "1d9971acfbbe39f6b0f6657332e5f5df7f0db5d3299f24bcebdaf1caac765d6b",
+  "status": "PASS_SOURCE_ONLY"
+}

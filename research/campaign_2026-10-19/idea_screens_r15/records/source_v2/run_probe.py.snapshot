@@ -1,0 +1,246 @@
+"""Hash-gated R15 CLI and exact cold-import closure validation."""
+
+from __future__ import annotations
+
+import argparse
+import importlib
+import json
+import sys
+from pathlib import Path
+from types import ModuleType
+
+from .runtime_support import sha256_file
+
+DESIGN_SHA256 = "5956b3f2d752e8b71e8966e35a36e41176d1f5b4d01ae70864c42e4b5646ed58"
+REVIEW_SHA256 = "af95167725492b2c6ddc494d5441ac758cb5347ce6cad4c58596af8d3ace96c7"
+HISTORY_SHA256 = "1d9971acfbbe39f6b0f6657332e5f5df7f0db5d3299f24bcebdaf1caac765d6b"
+SAMPLE_SHA256 = "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64"
+MEMBERSHIP_SHA256 = "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217"
+SPLIT_SHA256 = "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+SOURCE_REVISION = "a266b036"
+
+RUNTIME_IMPORT_PATHS = {
+    "idea_screens_r15": "idea_screens_r15/__init__.py",
+    "idea_screens_r15.run_probe": "idea_screens_r15/run_probe.py",
+    "idea_screens_r15.probe_execution": "idea_screens_r15/probe_execution.py",
+    "idea_screens_r15.panel": "idea_screens_r15/panel.py",
+    "idea_screens_r15.pipeline_reports": "idea_screens_r15/pipeline_reports.py",
+    "idea_screens_r15.representation": "idea_screens_r15/representation.py",
+    "idea_screens_r15.runtime_support": "idea_screens_r15/runtime_support.py",
+    "idea_screens_r15.training": "idea_screens_r15/training.py",
+    "idea_screens_r1": "idea_screens_r1/__init__.py",
+    "idea_screens_r1.eda_mechanisms": "idea_screens_r1/eda_mechanisms.py",
+    "idea_screens_r1.constants": "idea_screens_r1/constants.py",
+    "idea_screens_r1.input_diagnostics": "idea_screens_r1/input_diagnostics.py",
+    "idea_screens_r1.target_operator": "idea_screens_r1/target_operator.py",
+    "idea_screens_r1.sample_data": "idea_screens_r1/sample_data.py",
+    "idea_screens_r3": "idea_screens_r3/__init__.py",
+    "idea_screens_r3.probe_helpers": "idea_screens_r3/probe_helpers.py",
+    "idea_screens_r7": "idea_screens_r7/__init__.py",
+    "idea_screens_r7.model_math": "idea_screens_r7/model_math.py",
+    "idea_screens_r7.model_training": "idea_screens_r7/model_training.py",
+    "wnn": "canonical:wnn/__init__.py",
+    "wnn.data": "canonical:wnn/data.py",
+    "wnn.gmetric": "canonical:wnn/gmetric.py",
+    "wnn.nn": "canonical:wnn/nn.py",
+    "wnn.event_content": "canonical:wnn/event_content.py",
+    "wnn.numeric_ple": "canonical:wnn/numeric_ple.py",
+}
+REQUIRED_FILES = {
+    "idea_screens_r15/DESIGN.md",
+    "idea_screens_r15/DESIGN_REVIEW.json",
+    "idea_screens_r15/SELECTION_HISTORY.json",
+    "idea_screens_r15/__init__.py",
+    "idea_screens_r15/run_probe.py",
+    "idea_screens_r15/probe_execution.py",
+    "idea_screens_r15/panel.py",
+    "idea_screens_r15/pipeline_reports.py",
+    "idea_screens_r15/representation.py",
+    "idea_screens_r15/runtime_support.py",
+    "idea_screens_r15/training.py",
+    "idea_screens_r15/test_probe.py",
+    "idea_screens_r3/records/sample_v2/terminal_capture/REMOTE_SAMPLE.json",
+    "idea_screens_r3/records/sample_v2/terminal_capture/REMOTE_MEMBERSHIP.json",
+    "idea_screens_r7/__init__.py",
+    "canonical:wnn/__init__.py",
+    "canonical:wnn/data.py",
+    "canonical:wnn/gmetric.py",
+    "canonical:wnn/nn.py",
+    "canonical:wnn/event_content.py",
+    "canonical:wnn/numeric_ple.py",
+}
+
+
+def _source_path(key: str, support_root: Path, source_root: Path) -> Path:
+    """Resolve only safe staged or canonical source keys."""
+    canonical = key.startswith("canonical:")
+    relative = Path(key.partition(":")[2] if canonical else key)
+    if relative.is_absolute() or ".." in relative.parts:
+        raise ValueError(f"unsafe R15 source path: {key}")
+    if canonical:
+        if relative.parts[:1] != ("wnn",):
+            raise ValueError(f"invalid R15 canonical source key: {key}")
+        return source_root / "src" / relative
+    if len(relative.parts) < 2:
+        raise ValueError(f"invalid R15 staged source key: {key}")
+    return support_root / relative
+
+
+def _verify_manifest(
+    path: Path, expected_sha256: str, support_root: Path, source_root: Path
+) -> dict[str, str]:
+    """Verify schema, exact runtime map, every source pin, and fixed identities."""
+    if sha256_file(path) != expected_sha256:
+        raise ValueError("R15 preparation manifest SHA256 differs")
+    manifest = json.loads(path.read_bytes())
+    files = manifest.get("files")
+    if manifest.get("schema") != "nf19.r15_preparation.v1" or not isinstance(files, dict):
+        raise ValueError("unexpected R15 preparation manifest schema")
+    if manifest.get("runtime_py") != RUNTIME_IMPORT_PATHS:
+        raise ValueError("R15 manifest runtime module map differs")
+    checked: dict[str, str] = {}
+    for key, expected in files.items():
+        if not isinstance(key, str) or not isinstance(expected, str):
+            raise ValueError("invalid R15 file pin")
+        checked[key] = sha256_file(_source_path(key, support_root, source_root))
+        if checked[key] != expected:
+            raise ValueError(f"R15 source pin differs: {key}")
+    missing = (REQUIRED_FILES | set(RUNTIME_IMPORT_PATHS.values())) - checked.keys()
+    if missing:
+        raise ValueError(f"R15 manifest omits required sources: {sorted(missing)}")
+    fixed = {
+        "idea_screens_r15/DESIGN.md": DESIGN_SHA256,
+        "idea_screens_r15/DESIGN_REVIEW.json": REVIEW_SHA256,
+        "idea_screens_r15/SELECTION_HISTORY.json": HISTORY_SHA256,
+        "idea_screens_r3/records/sample_v2/terminal_capture/REMOTE_SAMPLE.json": SAMPLE_SHA256,
+        "idea_screens_r3/records/sample_v2/terminal_capture/REMOTE_MEMBERSHIP.json": MEMBERSHIP_SHA256,
+        "canonical:wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+        "canonical:wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "canonical:wnn/nn.py": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48",
+    }
+    for key, digest in fixed.items():
+        if checked.get(key) != digest:
+            raise ValueError(f"R15 fixed source identity differs: {key}")
+    return checked
+
+
+def _cli_module(modules: dict[str, ModuleType]) -> ModuleType:
+    """Require this pinned import or its exact `python -m` instance."""
+    module = modules.get("idea_screens_r15.run_probe")
+    if module is None:
+        module = modules.get("__main__")
+        spec = getattr(module, "__spec__", None) if module is not None else None
+        if getattr(spec, "name", None) != "idea_screens_r15.run_probe":
+            raise RuntimeError("invoke R15 with python -m idea_screens_r15.run_probe")
+    if Path(str(getattr(module, "__file__", ""))).resolve() != Path(__file__).resolve():
+        raise RuntimeError("R15 CLI module is not the pinned entrypoint")
+    return module
+
+
+def _load_runtime_closure() -> None:
+    """Import exactly the runtime modules without opening sample/model payloads."""
+    for name in (
+        "idea_screens_r15.probe_execution",
+        "idea_screens_r1.sample_data",
+        "idea_screens_r3.probe_helpers",
+        "idea_screens_r7.model_training",
+    ):
+        importlib.import_module(name)
+
+
+def _verify_runtime_imports(
+    support_root: Path, source_root: Path, pins: dict[str, str]
+) -> dict[str, str]:
+    """Require exact observed package-prefixed imports and pinned file paths."""
+    expected_names = set(RUNTIME_IMPORT_PATHS)
+    prefixes = ("idea_screens_r15", "idea_screens_r1", "idea_screens_r3", "idea_screens_r7", "wnn")
+    actual_names = {
+        name
+        for name in sys.modules
+        if any(name == prefix or name.startswith(f"{prefix}.") for prefix in prefixes)
+    }
+    cli = _cli_module(sys.modules)
+    if "idea_screens_r15.run_probe" not in actual_names:
+        actual_names.add("idea_screens_r15.run_probe")
+    if actual_names != expected_names:
+        missing, extra = expected_names - actual_names, actual_names - expected_names
+        raise RuntimeError(
+            f"R15 import closure differs: missing={sorted(missing)}, extra={sorted(extra)}"
+        )
+    inventory: dict[str, str] = {}
+    for name, key in RUNTIME_IMPORT_PATHS.items():
+        module = sys.modules.get(name)
+        if name == "idea_screens_r15.run_probe" and module is None:
+            module = cli
+        if module is None or not getattr(module, "__file__", None):
+            raise RuntimeError(f"R15 runtime import is absent: {name}")
+        actual_path = Path(module.__file__).resolve()
+        expected_path = _source_path(key, support_root, source_root).resolve()
+        if actual_path != expected_path or key not in pins:
+            raise RuntimeError(f"R15 runtime module path differs from its pin: {name}")
+        inventory[name] = str(actual_path)
+    return inventory
+
+
+def smoke_imports(
+    support_root: Path, source_root: Path, manifest_path: Path, expected_sha256: str
+) -> dict[str, str]:
+    """Validate full imports and source pins without data or checkpoint reads."""
+    pins = _verify_manifest(manifest_path, expected_sha256, support_root, source_root)
+    _load_runtime_closure()
+    return _verify_runtime_imports(support_root, source_root, pins)
+
+
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Fixed R15 sparse dictionary pipeline screen")
+    parser.add_argument("--sample", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--expected-sample-sha256", required=True)
+    parser.add_argument("--expected-preparation-manifest-sha256", required=True)
+    return parser.parse_args()
+
+
+def _run(args: argparse.Namespace) -> None:
+    """Verify identities and source bytes before mapping the accepted sample."""
+    sample_path, output = args.sample.resolve(), args.output.resolve()
+    if sample_path.parent.name != "research_tmp" or output.parent != sample_path.parent:
+        raise ValueError("R15 sample and output must be direct children of B/research_tmp")
+    base = sample_path.parent.parent
+    source_root = base / f"source-{SOURCE_REVISION}"
+    if args.expected_sample_sha256 != SAMPLE_SHA256 or not source_root.is_dir():
+        raise ValueError("R15 accepted sample identity or source snapshot differs")
+    support_root = Path(__file__).resolve().parent.parent
+    package_dir = Path(__file__).resolve().parent
+    manifest_path = package_dir / "PREPARATION_MANIFEST.json"
+    pins = _verify_manifest(
+        manifest_path,
+        args.expected_preparation_manifest_sha256,
+        support_root,
+        source_root,
+    )
+    if sha256_file(sample_path / "SAMPLE.json") != SAMPLE_SHA256:
+        raise ValueError("R15 accepted sample manifest SHA256 differs")
+    if sha256_file(sample_path / "MEMBERSHIP.json") != MEMBERSHIP_SHA256:
+        raise ValueError("R15 accepted membership manifest SHA256 differs")
+    _cli_module(sys.modules)
+    _load_runtime_closure()
+    inventory = _verify_runtime_imports(support_root, source_root, pins)
+    executor = importlib.import_module("idea_screens_r15.probe_execution")
+    executor.execute(
+        sample_path=sample_path,
+        output=output,
+        base=base,
+        preparation_sha256=args.expected_preparation_manifest_sha256,
+        source_pins=pins,
+        runtime_imports=inventory,
+    )
+
+
+def main() -> None:
+    """Check exact CLI identity before parsing even informational options."""
+    _cli_module(sys.modules)
+    _run(_parse_args())
+
+
+if __name__ == "__main__":
+    main()

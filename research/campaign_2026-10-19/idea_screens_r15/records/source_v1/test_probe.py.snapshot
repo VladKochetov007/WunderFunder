@@ -1,0 +1,113 @@
+"""Tiny deterministic R15 representation and training invariants."""
+
+from __future__ import annotations
+
+import os
+import subprocess
+import sys
+from pathlib import Path
+
+import numpy as np
+import torch
+
+from idea_screens_r15.representation import (
+    DictionaryAutoencoder,
+    build_sequence_features,
+    fingerprint,
+    fit_normalizer,
+    initialize_dictionary_pair,
+)
+from idea_screens_r15.training import initialize_predictor_pair, train_dictionary, train_predictor
+
+
+def test_sparse_topk_is_stable_signed_and_residual_reconstructs() -> None:
+    dense, sparse = initialize_dictionary_pair(19071)
+    values = torch.zeros((2, 112))
+    values[:, :6] = torch.tensor([1.0, -1.0, 1.0, -1.0, 2.0, -2.0])
+    with torch.no_grad():
+        sparse.encoder.weight.zero_()
+        sparse.encoder.weight[:6, :6] = torch.eye(6)
+        code, rebuilt, residual = sparse(values)
+    assert (code != 0).sum(dim=1).tolist() == [4, 4]
+    assert torch.equal(code[:, 2:4], torch.zeros_like(code[:, 2:4]))
+    assert torch.equal(code[:, [0, 1, 4, 5]], values[:, [0, 1, 4, 5]])
+    assert torch.allclose(rebuilt + residual, values, atol=3e-7, rtol=0.0)
+    assert fingerprint(dense) == fingerprint(initialize_dictionary_pair(19071)[0])
+
+
+def test_normalizer_uses_exact_positive_floor() -> None:
+    values = np.array([[3.0, 5.0], [3.0, 5.0 + 1e-9]], dtype=np.float64)
+    mean, scale = fit_normalizer(values)
+    assert mean.shape == scale.shape == (2,)
+    assert scale[0] == 1e-6
+    assert np.all(scale >= 1e-6)
+
+
+def test_sequence_ema_resets_and_has_no_future_suffix_dependence() -> None:
+    dense, _ = initialize_dictionary_pair(19071)
+    raw_mean = np.zeros(112, dtype=np.float32)
+    raw_scale = np.ones(112, dtype=np.float32)
+    raw = np.random.default_rng(11).normal(size=(24, 112)).astype(np.float32)
+    full, metadata = build_sequence_features(raw, raw_mean, raw_scale, dense)
+    prefix, _ = build_sequence_features(raw[:13], raw_mean, raw_scale, dense)
+    assert np.array_equal(full[0, 128:], np.zeros(128, dtype=np.float32))
+    assert metadata["residual_identity_max_abs"] <= 1e-5
+    np.testing.assert_allclose(full[:13], prefix, rtol=0.0, atol=2e-6)
+
+
+def test_dictionary_fit_counts_updates_and_keeps_decoder_columns_unit() -> None:
+    dense, _ = initialize_dictionary_pair(19071)
+    values = np.random.default_rng(12).normal(size=(5, 112)).astype(np.float32)
+    counters = {"attempted_updates": 0, "successful_updates": 0, "nonfinite_count": 0}
+    result = train_dictionary(dense, values, 19072, lambda _event: None, counters)
+    assert result["attempted_updates"] == result["successful_updates"] == 12
+    assert result["nonfinite_count"] == 0
+    norms = torch.linalg.vector_norm(dense.decoder.weight, dim=0)
+    assert torch.allclose(norms, torch.ones_like(norms), atol=2e-6, rtol=0.0)
+    for parameter in dense.parameters():
+        parameter.grad = None
+        parameter.requires_grad_(False)
+    before = fingerprint(dense)
+    build_sequence_features(
+        values[:3], np.zeros(112, dtype=np.float64), np.ones(112, dtype=np.float64), dense
+    )
+    assert fingerprint(dense) == before
+    assert all(parameter.grad is None for parameter in dense.parameters())
+
+
+def test_predictor_pair_and_unused_variance_head_are_frozen() -> None:
+    dense, sparse, initial_hash = initialize_predictor_pair()
+    assert fingerprint(dense) == fingerprint(sparse) == initial_hash
+    features = np.random.default_rng(13).normal(size=(5, 256)).astype(np.float32)
+    targets = np.random.default_rng(14).normal(size=(5, 2)).astype(np.float32)
+    counters = {"attempted_updates": 0, "successful_updates": 0, "nonfinite_count": 0}
+    result = train_predictor(dense, features, targets, 19074, lambda _event: None, counters)
+    assert result["attempted_updates"] == result["successful_updates"] == 12
+    assert result["unused_variance_head_unchanged"] is True
+    assert dense.logvar_head.weight.grad is None
+    assert dense.logvar_head.bias.grad is None
+
+
+def test_dictionary_initialization_is_shared_across_sparsity_modes() -> None:
+    dense, sparse = initialize_dictionary_pair(19071)
+    assert fingerprint(dense) == fingerprint(sparse)
+    assert dense.sparse is False
+    assert sparse.sparse is True
+    assert dense.encoder.bias is None and dense.decoder.bias is None
+    assert isinstance(sparse, DictionaryAutoencoder)
+
+
+def test_python_m_entrypoint_accepts_exact_main_module_before_help() -> None:
+    repository = Path(__file__).resolve().parents[3]
+    env = dict(os.environ)
+    env["PYTHONPATH"] = os.pathsep.join(
+        (str(repository / "src"), str(repository / "research/campaign_2026-10-19"))
+    )
+    result = subprocess.run(
+        [sys.executable, "-m", "idea_screens_r15.run_probe", "--help"],
+        env=env,
+        text=True,
+        capture_output=True,
+        check=True,
+    )
+    assert "Fixed R15 sparse dictionary pipeline screen" in result.stdout

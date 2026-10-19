@@ -1,5 +1,7 @@
 # Unified research library
 
+[Latest bounded idea screen, R15](../campaign_2026-10-19/idea_screens_r15/RESULTS.md) trains explicit sparse/dense dictionaries with retained residuals. The sparse pipeline gains0.002568WP, below its fixed0.005 spending gate; both targets positive but component/drop-one signs are mixed. Four756-update fits complete on the exposed R3 panel; no factor-identity/GRU/public claim. All R1–R15/F3 are finished; [continuation](../campaign_2026-10-19/idea_screens_r15/CONTINUATION.md) records no R16 admission.
+
 [Latest bounded idea screen, R14](../campaign_2026-10-19/idea_screens_r14/RESULTS.md) tests matched-pole/span conditioning directly. Orthonormal impulse coordinates leave larger128-step objective gaps for both targets; secondary WP is slightly higher, so optimization and prediction evidence remain distinct. All R1–R14/F3 are finished; see [current continuation](../campaign_2026-10-19/idea_screens_r14/CONTINUATION.md).
 
 [Synthesis after thirteen screens](ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md) retains three conditional leads, closes only exact negative variants and preserves untested mechanisms. No R14 job or model is admitted; this evidence review adds no data/model execution or empirical result.

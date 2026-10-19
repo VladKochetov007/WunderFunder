@@ -1,0 +1,43 @@
+F821 Undefined name `DictionaryAutoencoder`
+  --> research/campaign_2026-10-19/idea_screens_r15/probe_execution.py:32:29
+   |
+31 | def _check_dictionaries_frozen(
+32 |     dictionaries: dict[str, DictionaryAutoencoder],
+   |                             ^^^^^^^^^^^^^^^^^^^^^
+33 |     frozen_fingerprints: dict[str, str],
+34 | ) -> dict[str, str]:
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> research/campaign_2026-10-19/idea_screens_r15/records/source_v1/test_probe.py:3:1
+   |
+ 1 |   """Tiny deterministic R15 representation and training invariants."""
+ 2 |
+ 3 | / from __future__ import annotations
+ 4 | |
+ 5 | | import os
+ 6 | | import subprocess
+ 7 | | import sys
+ 8 | | from pathlib import Path
+ 9 | |
+10 | | import numpy as np
+11 | | import torch
+12 | |
+13 | | from idea_screens_r15.representation import (
+14 | |     DictionaryAutoencoder,
+15 | |     build_sequence_features,
+16 | |     fingerprint,
+17 | |     fit_normalizer,
+18 | |     initialize_dictionary_pair,
+19 | | )
+20 | | from idea_screens_r15.training import initialize_predictor_pair, train_dictionary, train_predictor
+   | |__________________________________________________________________________________________________^
+help: Organize imports
+   |
+11 | import torch
+   -
+12 | from idea_screens_r15.representation import (
+   |
+
+Found 2 errors.
+[*] 1 fixable with `--fix`.
