@@ -1,0 +1,3 @@
+# Observed stages
+
+All files here are metadata, logs, configuration or engineering evidence; no supplied dataset or model tensor archive is in Git. `receipts/LIVE_STATUS.json` proves the initial40-fit allocation and process envelopes at its timestamp; it is a historical snapshot, not a current heartbeat. `EXECUTION_CONFIG.json` freezes120 new cells. `profile/` contains both successful450-update modes and the baseline/overlay observations. `smoke/` retains failed final membership checks and successful no-refit delivery recovery. Native CPU tests and independent source scopes are described in the parent RUN_STATUS and SOURCE_AUDIT notes. Reporter deployment/first-publication evidence is added separately after verified API writes.
