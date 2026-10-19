@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[teacher-representation-hints](../../experiment_drafts/teacher-representation-hints/README.md): 90 planned student fits across 3 arms, strict FP32 CP30 and explicit source/cache/CPU gaps. Proposal only; no local execution, `launch_ready=false`. Canonical Transformer note Sections22–27 supplies the common design and16contrast portfolio.
+
 [Transformer teacher transfer and CPU-student continuation](CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md#22-select-the-best-transferable-teacher-not-the-largest-checkpoint) adds three explicit comparisons: L207/XL682 teacher scale × H256/H512 student capacity, aligned versus permuted hidden hints, and streaming D128 Transformer versus GRU with/without KD. CP30, sixteen contrasts, clean cache lineage and CPU handoff are specified;510planned student fits are not launches or results. The [team/teacher audit](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md) distinguishes new team evidence from these proposals.
 
 [User-authorized full-GRU transfer](../../campaign_2026-10-19/full_gru_tweaks_r1/README.md) moves the three measured positive tweaks to the strongest source-supported GRU recipe, individually and jointly. Five planned arms; strong-base/clean-ancestor integration and fresh resource readiness are under audit. This is new training authority, not an actual launch or proof that CPU effects transfer.
