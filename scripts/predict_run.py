@@ -24,7 +24,13 @@ else:
     import train_rnn
     from train_rnn import Sequences, make_model, predict
 
+from wnn import prediction_profile
 from wnn.data import N_FEATURES, SEQUENCE_LENGTH, SequenceFile
+from wnn.prediction_profile import (
+    first_profile_groups,
+    run_prediction_profile,
+    write_json_create_only,
+)
 from wnn.propensity import load_propensity
 from wnn.research_features import (
     MOMENT_FEATURE_MODES,
@@ -32,6 +38,7 @@ from wnn.research_features import (
     validate_causal_moment_prior,
 )
 from wnn.resources import configure_strict_fp32, configure_torch, dataloader_budget
+from wnn.run_identity import normalization_identity
 from wnn.sentinel import SentinelPreprocessor
 from wnn.splits import file_sha256, load_campaign_split
 from wnn.training.input_representation import (
@@ -169,7 +176,7 @@ def load_e540_evaluation_groups(path: Path, checkpoint: dict[str, object]) -> li
     return groups
 
 
-def main():
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     parser.add_argument("name")
     parser.add_argument("split", nargs="?", default="valid")
@@ -197,8 +204,126 @@ def main():
         help="also save [main 2 outputs, last 8 family-head outputs] to cache/allout_<name>.npy (research probe)",
     )
     parser.add_argument("--gate-mode", choices=["soft", "hard", "confident"], default="soft")
-    args = parser.parse_args()
+    parser.add_argument("--profile-only", action="store_true")
+    parser.add_argument("--profile-output", type=Path)
+    parser.add_argument("--loader-workers", type=int, default=None)
+    parser.add_argument("--output-dir", type=Path)
+    parser.add_argument("--create-only", action="store_true")
+    return parser
+
+
+def validate_profile_checkpoint(checkpoint: dict[str, object]) -> None:
+    """Require the declared raw-112, model-211 two-layer GRU inference geometry."""
+    checkpoint_args = checkpoint.get("args")
+    model_state = checkpoint.get("model")
+    if not isinstance(checkpoint_args, dict) or not isinstance(model_state, dict):
+        raise ValueError("profile requires a complete GRU checkpoint")
+    if (
+        checkpoint.get("n_in") != 211
+        or N_FEATURES != 112
+        or checkpoint_args.get("arch") != "gru"
+        or checkpoint_args.get("hidden") != 384
+        or checkpoint_args.get("layers") != 2
+        or checkpoint_args.get("privileged_mode", "none") != "none"
+        or checkpoint.get("readout") is not None
+        or checkpoint.get("quantization") is not None
+        or checkpoint.get("factorization") is not None
+    ):
+        raise ValueError("profile checkpoint differs from raw-112/model-211 H384x2 GRU inference")
+    output = model_state.get("head.2.weight")
+    if not isinstance(output, torch.Tensor) or tuple(output.shape) != (23, 384):
+        raise ValueError("profile checkpoint must preserve its 23-output auxiliary teacher head")
+
+
+def source_hashes() -> dict[str, str]:
+    """Hash the predictor and all directly reused inference-path source modules."""
+    paths = {
+        Path(__file__).resolve(),
+        Path(train_rnn.__file__).resolve(),
+        Path(predict.__code__.co_filename).resolve(),
+        Path(make_model.__code__.co_filename).resolve(),
+        Path(normalization_identity.__code__.co_filename).resolve(),
+        Path(prediction_profile.__file__).resolve(),
+    }
+    paths.update(
+        (SOURCE_ROOT / relative).resolve()
+        for relative in (
+            "src/wnn/data.py",
+            "src/wnn/nn.py",
+            "src/wnn/resources.py",
+            "src/wnn/sentinel.py",
+            "src/wnn/splits.py",
+            "src/wnn/research_features.py",
+            "src/wnn/training/compatibility.py",
+            "src/wnn/training/environment.py",
+            "src/wnn/training/evaluation.py",
+            "src/wnn/training/forward.py",
+            "src/wnn/training/input_representation.py",
+            "src/wnn/training/inputs.py",
+            "src/wnn/training/models.py",
+            "src/wnn/numeric_ple.py",
+        )
+    )
+    return {path.relative_to(SOURCE_ROOT).as_posix(): file_sha256(path) for path in sorted(paths)}
+
+
+def reserve_create_only_prediction_paths(
+    output_dir: Path, output_stem: str, split: str
+) -> tuple[Path, Path, Path]:
+    """Reserve the partial path only when final array and sidecar are both absent."""
+    if Path(output_stem).name != output_stem:
+        raise ValueError("create-only output name must be a single filename component")
+    output_dir.mkdir(parents=True, exist_ok=True)
+    final = output_dir / f"pred_{output_stem}_{split}.npy"
+    partial = final.with_name(final.name + ".partial")
+    sidecar = final.with_suffix(".json")
+    existing = [path for path in (final, partial, sidecar) if os.path.lexists(path)]
+    if existing:
+        raise FileExistsError(f"create-only prediction outputs already exist: {existing}")
+    with partial.open("xb"):
+        pass
+    return final, partial, sidecar
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = build_parser()
+    args = parser.parse_args(argv)
     name, split = args.name, args.split
+    if args.loader_workers is not None and args.loader_workers < 0:
+        parser.error("--loader-workers must be nonnegative")
+    if args.profile_only:
+        if (
+            args.profile_output is None
+            or args.campaign_split_manifest is None
+            or split != "train"
+            or args.campaign_evaluation_only
+            or args.campaign_full_valid_feature_only
+            or args.fit_subset_manifest is not None
+            or args.inference_precision != "fp32"
+            or args.device != "cuda"
+            or args.loader_workers != 0
+            or args.output_dir is not None
+            or args.create_only
+            or args.dump_family
+        ):
+            parser.error(
+                "profile-only requires train campaign-fit membership, FP32 CUDA, "
+                "--loader-workers 0, and --profile-output"
+            )
+    elif args.profile_output is not None:
+        parser.error("--profile-output requires --profile-only")
+    if args.output_dir is not None and not args.create_only:
+        parser.error("--output-dir requires --create-only to protect paired cache outputs")
+    if args.create_only and (args.output_dir is None or args.dump_family):
+        parser.error("--create-only requires --output-dir and excludes --dump-family")
+    if args.create_only and (
+        args.campaign_split_manifest is None
+        or split not in ("train", "valid")
+        or args.campaign_evaluation_only
+        or args.campaign_full_valid_feature_only
+        or args.fit_subset_manifest is not None
+    ):
+        parser.error("create-only fit export requires train/valid campaign membership")
     if (args.campaign_evaluation_only or args.campaign_full_valid_feature_only) and (
         args.campaign_split_manifest is None
     ):
@@ -240,11 +365,28 @@ def main():
     else:
         with np.load(ROOT / "cache" / f"{split}_targets.npz", allow_pickle=False) as targets:
             groups = targets["row_group"]
+    if args.profile_only:
+        groups = np.asarray(first_profile_groups(groups.tolist()), dtype=np.int64)
     quote_cache = ck.get("provenance", {}).get("quote_cache")
     if ck["args"].get("quote_cache_root") and quote_cache is None:
         raise ValueError("checkpoint lacks quote cache provenance")
+    if args.profile_only:
+        validate_profile_checkpoint(ck)
+        if not torch.cuda.is_available():
+            raise RuntimeError("profile-only requires an available CUDA device")
     configure_torch()
     device = torch.device(args.device)
+    strict_fp32 = (
+        args.profile_only
+        or args.inference_precision == "fp32"
+        or ck["args"].get("precision") == "fp32"
+        or ck.get("quantization") is not None
+        or ck.get("factorization") is not None
+    )
+    if strict_fp32:
+        configure_strict_fp32()
+    if args.profile_only:
+        torch.set_num_threads(1)
     model = make_model(ck["args"], ck["n_in"], ck["model"]["head.2.weight"].shape[0]).to(device)
     model.load_state_dict(ck["model"])
     train_rnn.SENTINEL_PREPROCESSOR = (
@@ -252,13 +394,7 @@ def main():
         if ck.get("sentinel_preprocessing")
         else None
     )
-    if (
-        args.inference_precision == "fp32"
-        or ck["args"].get("precision") == "fp32"
-        or ck.get("quantization") is not None
-        or ck.get("factorization") is not None
-    ):
-        configure_strict_fp32()
+    if strict_fp32:
         model._inference_fp32 = True
     if ck["args"].get("arch") == "gated":
         model.gate_mode = args.gate_mode
@@ -301,15 +437,42 @@ def main():
     dataset = (
         FeatureOnlySequences(split, groups.tolist()) if feature_only else Sequences(split, groups)
     )
-    workers, prefetch = dataloader_budget(dataset.batch_tensor_bytes(16), max_workers=2)
+    workers, prefetch = (
+        (args.loader_workers, None)
+        if args.loader_workers is not None
+        else dataloader_budget(dataset.batch_tensor_bytes(16), max_workers=2)
+    )
     loader = DataLoader(
         dataset,
         batch_size=16,
         num_workers=workers,
         prefetch_factor=prefetch if workers else None,
     )
-    final = ROOT / "cache" / f"pred_{args.output_name or name}_{split}.npy"
-    tmp = final.with_name(final.name + ".partial")  # renamed only after every sequence is written
+    if args.profile_only:
+        run_prediction_profile(
+            model,
+            loader,
+            predict,
+            device,
+            groups.tolist(),
+            args.profile_output,
+            checkpoint_sha256=file_sha256(checkpoint_path),
+            source_sha256=source_hashes(),
+            split_manifest_sha256=ck["args"].get("split_manifest_sha256"),
+            model_input_width=int(ck["n_in"]),
+            sequence_length=SEQUENCE_LENGTH,
+        )
+        return
+    output_stem = args.output_name or name
+    output_dir = args.output_dir.resolve() if args.output_dir is not None else ROOT / "cache"
+    if args.create_only:
+        final, tmp, sidecar_path = reserve_create_only_prediction_paths(
+            output_dir, output_stem, split
+        )
+    else:
+        final = output_dir / f"pred_{output_stem}_{split}.npy"
+        tmp = final.with_name(final.name + ".partial")
+        sidecar_path = final.with_suffix(".json")
     out = np.lib.format.open_memmap(
         tmp, mode="w+", dtype=np.float32, shape=(len(groups), SEQUENCE_LENGTH, 2)
     )
@@ -345,16 +508,29 @@ def main():
             )
         out[i : i + len(p)] = p[..., :2]
         i += len(p)
+        if args.create_only:
+            print(
+                json.dumps(
+                    {
+                        "event": "prediction_progress",
+                        "completed_sequences": i,
+                        "total_sequences": len(groups),
+                    }
+                ),
+                flush=True,
+            )
     out.flush()
     del out
     if i != len(groups):
         raise RuntimeError(f"wrote {i} of {len(groups)} sequences")
-    stale = (
-        ROOT / "cache" / f"seqsums_{args.output_name or name}.npz"
-    )  # cached metric sums of an older prediction file
-    if stale.exists():
-        stale.unlink()
-    tmp.replace(final)
+    if args.create_only:
+        os.link(tmp, final)
+        tmp.unlink()
+    else:
+        stale = ROOT / "cache" / f"seqsums_{args.output_name or name}.npz"
+        if stale.exists():
+            stale.unlink()
+        tmp.replace(final)
     metadata = {
         "run": name,
         "split": split,
@@ -400,7 +576,12 @@ def main():
         ),
         "feature_only": feature_only,
     }
-    final.with_suffix(".json").write_text(json.dumps(metadata, indent=2) + "\n")
+    if args.output_dir is not None:
+        metadata["normalization_identity"] = normalization_identity(model)
+        metadata["source_sha256"] = source_hashes()
+        write_json_create_only(sidecar_path, metadata)
+    else:
+        sidecar_path.write_text(json.dumps(metadata, indent=2) + "\n")
 
 
 if __name__ == "__main__":

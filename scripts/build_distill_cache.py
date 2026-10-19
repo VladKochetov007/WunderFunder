@@ -1,8 +1,9 @@
-"""Build a fold-bound source-scale and four-family teacher-target cache."""
+"""Build a fold-bound source-scale and teacher-target cache."""
 
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -15,6 +16,12 @@ from typing import Any
 import numpy as np
 import torch
 
+from wnn.cleanfold_t3_cache import (
+    T3_HOMOGENEOUS_SCALE,
+    T3_TEACHER_ORDER,
+    combine_cleanfold_t3_chunk,
+    fit_prediction_positions,
+)
 from wnn.distillation import TeacherSource, combine_teacher_chunk
 from wnn.distillation_cache import (
     CACHE_FORMAT,
@@ -44,6 +51,10 @@ OUTPUT_TARGETS = {
     "homogeneous-only": ("main_homogeneous",),
 }
 TARGET_WIDTHS = {"main_source": 2, "main_normalized": 2, "main_homogeneous": 2, "families": 8}
+CLEANFOLD_T3_PROFILE = "cleanfold_homogeneous_strong_t3_v1"
+CLEANFOLD_T3_CONTRACT_SCHEMA = "fg19.teacher-cache-execution-contract.v1"
+CLEANFOLD_T3_CONTRACT_LIMIT = 128 * 1024
+SHA256_TEXT = re.compile(r"[0-9a-f]{64}\Z")
 
 
 def estimate_output_bytes(fit_rows: int, output_profile: str) -> int:
@@ -84,6 +95,14 @@ def parse_teacher(value: str) -> TeacherSource:
 
 def _expected_groups(split: CampaignSplit, name: str) -> tuple[int, ...]:
     return split.train_groups if name == "train" else split.valid_groups
+
+
+def _fit_sidecar_groups(sidecar: dict[str, Any], run: str, split_name: str) -> list[int]:
+    """Read exact JSON integer row-group identities for the opt-in fit-only path."""
+    row_groups = sidecar.get("row_groups")
+    if not isinstance(row_groups, list) or any(type(group) is not int for group in row_groups):
+        raise ValueError(f"teacher {run} {split_name} sidecar row_groups must be JSON integers")
+    return row_groups
 
 
 def _target_order(data_root: Path, split_name: str) -> list[int]:
@@ -222,8 +241,11 @@ def _inspect_teacher(
     checkpoint_root: Path,
     target_orders: dict[str, list[int]],
     epoch: int,
+    *,
+    fit_only: bool = False,
+    root_pin: dict[str, Any] | None = None,
 ) -> tuple[dict[str, Any], dict[str, np.ndarray], dict[str, dict[str, Any]]]:
-    """Verify teacher checkpoint bytes, architecture, fit groups and prediction caches."""
+    """Verify teacher identities, fit groups and prediction caches."""
     if not RUN_NAME.fullmatch(run):
         raise ValueError(f"invalid teacher run name: {run}")
     run_root = checkpoint_root / run
@@ -231,49 +253,88 @@ def _inspect_teacher(
     checkpoint_path = run_root / f"model_ep{epoch}.pt"
     if not provenance_path.is_file() or not checkpoint_path.is_file():
         raise FileNotFoundError(f"teacher {run} lacks provenance or model_ep{epoch}.pt")
-    provenance = json.loads(provenance_path.read_text())
+    if root_pin is None:
+        provenance = json.loads(provenance_path.read_text())
+    else:
+        provenance_size = provenance_path.stat().st_size
+        if provenance_size <= 0 or provenance_size > CLEANFOLD_T3_CONTRACT_LIMIT:
+            raise ValueError(f"teacher {run} provenance exceeds its bounded read size")
+        provenance_raw = provenance_path.read_bytes()
+        if (
+            len(provenance_raw) != provenance_size
+            or hashlib.sha256(provenance_raw).hexdigest() != root_pin["provenance_sha256"]
+        ):
+            raise ValueError(f"teacher {run} provenance bytes changed after pin verification")
+        provenance = json.loads(provenance_raw)
     fit_counts = _verify_run_membership(provenance, split, run)
-    checkpoint_sha256 = file_sha256(checkpoint_path)
+    checkpoint_sha256 = (
+        file_sha256(checkpoint_path) if root_pin is None else root_pin["checkpoint_sha256"]
+    )
     expected_checkpoint_sha256 = provenance.get("checkpoint_sha256", {}).get(checkpoint_path.name)
     if checkpoint_sha256 != expected_checkpoint_sha256:
         raise ValueError(f"teacher {run} checkpoint bytes disagree with provenance")
 
-    checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
-    args = checkpoint.get("args", {})
-    if (
-        checkpoint.get("epoch") != epoch
-        or args.get("checkpoint_policy") != "fixed"
-        or args.get("checkpoint_epoch") != epoch
-        or args.get("split_manifest_sha256") != split.sha256
-    ):
-        raise ValueError(f"teacher {run} checkpoint is not the requested fixed clean-fold epoch")
-    checkpoint_provenance = checkpoint.get("provenance", {})
-    _verify_run_membership(checkpoint_provenance, split, run)
-    model_state = checkpoint.get("model", {})
+    if root_pin is None:
+        checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+        args = checkpoint.get("args", {})
+        if (
+            checkpoint.get("epoch") != epoch
+            or args.get("checkpoint_policy") != "fixed"
+            or args.get("checkpoint_epoch") != epoch
+            or args.get("split_manifest_sha256") != split.sha256
+        ):
+            raise ValueError(
+                f"teacher {run} checkpoint is not the requested fixed clean-fold epoch"
+            )
+        checkpoint_provenance = checkpoint.get("provenance", {})
+        _verify_run_membership(checkpoint_provenance, split, run)
+        model_state = checkpoint.get("model", {})
+    else:
+        args = provenance.get("args", {})
+        if not isinstance(args, dict):
+            raise ValueError(f"teacher {run} provenance has invalid training arguments")
+        expected_seed = T3_TEACHER_ORDER.index(run) + 3
+        if (
+            int(args.get("hidden", 0)) != 384
+            or int(args.get("layers", 0)) != 2
+            or args.get("cell") != "gru"
+            or int(args.get("seed", -1)) != expected_seed
+            or args.get("split_manifest_sha256") != split.sha256
+        ):
+            raise ValueError(f"teacher {run} provenance differs from its root-pinned T3 recipe")
+        model_hashes = provenance.get("checkpoint_sha256", {})
+        if not isinstance(model_hashes, dict) or (
+            model_hashes.get(checkpoint_path.name) != root_pin["checkpoint_sha256"]
+        ):
+            raise ValueError(f"teacher {run} provenance does not bind its selected checkpoint")
+        if model_hashes.get("model.pt") != root_pin["model_sha256"]:
+            raise ValueError(f"teacher {run} provenance does not bind its selected model")
+        model_state = {}
     hidden = int(args.get("hidden", 0))
     layers = int(args.get("layers", 0))
     cell = args.get("cell", "gru")
-    gate_count = {"gru": 3, "lstm": 4}.get(cell)
-    recurrent = model_state.get("gru.weight_ih_l0")
-    input_projection = model_state.get("inp.weight")
-    output_projection = model_state.get("head.2.weight")
-    if (
-        hidden <= 0
-        or layers <= 0
-        or gate_count is None
-        or recurrent is None
-        or input_projection is None
-        or output_projection is None
-        or output_projection.ndim != 2
-        or output_projection.shape[0] < 2
-        or output_projection.shape[1] != hidden
-        or recurrent.shape[0] != gate_count * hidden
-        or input_projection.shape[0] != hidden
-    ):
-        raise ValueError(f"teacher {run} checkpoint dimensions disagree with model arguments")
-    actual_layers = sum(1 for key in model_state if re.fullmatch(r"gru\.weight_ih_l\d+", key))
-    if actual_layers != layers:
-        raise ValueError(f"teacher {run} checkpoint recurrent layer count differs")
+    if root_pin is None:
+        gate_count = {"gru": 3, "lstm": 4}.get(cell)
+        recurrent = model_state.get("gru.weight_ih_l0")
+        input_projection = model_state.get("inp.weight")
+        output_projection = model_state.get("head.2.weight")
+        if (
+            hidden <= 0
+            or layers <= 0
+            or gate_count is None
+            or recurrent is None
+            or input_projection is None
+            or output_projection is None
+            or output_projection.ndim != 2
+            or output_projection.shape[0] < 2
+            or output_projection.shape[1] != hidden
+            or recurrent.shape[0] != gate_count * hidden
+            or input_projection.shape[0] != hidden
+        ):
+            raise ValueError(f"teacher {run} checkpoint dimensions disagree with model arguments")
+        actual_layers = sum(1 for key in model_state if re.fullmatch(r"gru\.weight_ih_l\d+", key))
+        if actual_layers != layers:
+            raise ValueError(f"teacher {run} checkpoint recurrent layer count differs")
 
     predictions: dict[str, np.ndarray] = {}
     cache_records: dict[str, dict[str, Any]] = {}
@@ -282,6 +343,13 @@ def _inspect_teacher(
         sidecar_path = pred_path.with_suffix(".json")
         if not pred_path.is_file() or not sidecar_path.is_file():
             raise FileNotFoundError(f"teacher {run} needs regenerated {split_name} predictions")
+        if fit_only and (
+            sidecar_path.stat().st_size <= 0
+            or sidecar_path.stat().st_size > CLEANFOLD_T3_CONTRACT_LIMIT
+        ):
+            raise ValueError(
+                f"teacher {run} {split_name} prediction sidecar exceeds its read bound"
+            )
         sidecar = json.loads(sidecar_path.read_text())
         if (
             sidecar.get("run") != run
@@ -293,8 +361,28 @@ def _inspect_teacher(
             raise ValueError(
                 f"teacher {run} {split_name} prediction sidecar is not bound to its checkpoint"
             )
-        row_groups = list(map(int, sidecar.get("row_groups", [])))
-        if row_groups != expected_order:
+        if fit_only and (
+            sidecar.get("campaign_split_manifest_sha256") != split.sha256
+            or sidecar.get("campaign_export_scope") != "fit"
+            or sidecar.get("feature_only") is not True
+        ):
+            raise ValueError(f"teacher {run} {split_name} export is not explicitly fit-only")
+        row_groups = (
+            _fit_sidecar_groups(sidecar, run, split_name)
+            if fit_only
+            else list(map(int, sidecar.get("row_groups", [])))
+        )
+        if fit_only:
+            expected_fit_groups = _expected_groups(split, split_name)
+            canonical_fit_order, _ = fit_prediction_positions(
+                row_groups, expected_order, expected_fit_groups
+            )
+            expected_canonical_order = tuple(
+                group for group in expected_order if group in set(expected_fit_groups)
+            )
+            if canonical_fit_order != expected_canonical_order:
+                raise ValueError(f"teacher {run} {split_name} canonical fit order differs")
+        elif row_groups != expected_order:
             raise ValueError(
                 f"teacher {run} {split_name} prediction row order differs from target index"
             )
@@ -302,7 +390,7 @@ def _inspect_teacher(
         if prediction_sha256 != sidecar.get("prediction_sha256"):
             raise ValueError(f"teacher {run} {split_name} prediction bytes disagree with sidecar")
         values = np.load(pred_path, mmap_mode="r", allow_pickle=False)
-        if values.shape != (len(expected_order), SEQUENCE_ROWS, 2) or values.dtype != np.float32:
+        if values.shape != (len(row_groups), SEQUENCE_ROWS, 2) or values.dtype != np.float32:
             raise ValueError(f"teacher {run} {split_name} prediction shape/dtype differs")
         for start in range(0, len(values), 64):
             if not np.isfinite(values[start : start + 64]).all():
@@ -316,11 +404,15 @@ def _inspect_teacher(
             "epoch": epoch,
             "row_groups_sha256": row_groups_sha256(row_groups),
         }
+        if fit_only:
+            cache_records[split_name]["_row_groups"] = row_groups
     record = {
         "run": run,
         "checkpoint_path": str(checkpoint_path),
         "checkpoint_sha256": checkpoint_sha256,
-        "provenance_sha256": file_sha256(provenance_path),
+        "provenance_sha256": (
+            file_sha256(provenance_path) if root_pin is None else root_pin["provenance_sha256"]
+        ),
         "epoch": epoch,
         "architecture": args.get("arch"),
         "cell": cell,
@@ -334,7 +426,114 @@ def _inspect_teacher(
         },
         "predictions": cache_records,
     }
+    if root_pin is not None:
+        record["model_sha256"] = root_pin["model_sha256"]
+        record["acceptance_sha256"] = root_pin["acceptance_sha256"]
+        record["tensor_fingerprint"] = root_pin["tensor_fingerprint"]
     return record, predictions, cache_records
+
+
+def _cleanfold_t3_pins(
+    contract_path: Path,
+    expected_contract_sha256: str,
+    acceptance_root: Path,
+    checkpoint_root: Path,
+    split: CampaignSplit,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Verify root-pinned teacher and acceptance identities for the T3 profile."""
+    if not isinstance(expected_contract_sha256, str) or not SHA256_TEXT.fullmatch(
+        expected_contract_sha256
+    ):
+        raise ValueError("cleanfold T3 execution-contract SHA-256 is malformed")
+    contract_size = contract_path.stat().st_size
+    if contract_size <= 0 or contract_size > CLEANFOLD_T3_CONTRACT_LIMIT:
+        raise ValueError("cleanfold T3 execution contract exceeds its bounded read size")
+    raw = contract_path.read_bytes()
+    if len(raw) != contract_size or file_sha256(contract_path) != expected_contract_sha256:
+        raise ValueError("cleanfold T3 execution contract bytes disagree with the root pin")
+    contract = json.loads(raw)
+    if not isinstance(contract, dict):
+        raise ValueError("cleanfold T3 execution contract must be a JSON object")
+    if (
+        contract.get("schema") != CLEANFOLD_T3_CONTRACT_SCHEMA
+        or contract.get("source_teacher_commit") != "af21d6d8409c46b36830f0bdddd50e67ee17025f"
+        or contract.get("split_sha256") != split.sha256
+        or contract.get("teacher_order") != [3, 4, 5]
+    ):
+        raise ValueError("cleanfold T3 execution contract is bound to a different source or split")
+
+    arithmetic = contract.get("arithmetic", {})
+    if not isinstance(arithmetic, dict):
+        raise ValueError("cleanfold T3 arithmetic contract is invalid")
+    if (
+        arithmetic.get("mean")
+        != "Unweighted arithmetic mean of S3,S4,S5 in FP32, fixed source order."
+        or arithmetic.get("scale") != 0.8125
+        or arithmetic.get("scaling_count") != 1
+        or arithmetic.get("cache_clipping") != "none"
+        or arithmetic.get("consumer_cache_scale") != 1.0
+    ):
+        raise ValueError("cleanfold T3 arithmetic differs from its root-bound contract")
+    membership = contract.get("membership", {})
+    if not isinstance(membership, dict):
+        raise ValueError("cleanfold T3 membership contract is invalid")
+    if (
+        membership.get("train") != len(split.train_groups)
+        or membership.get("valid") != len(split.valid_groups)
+        or membership.get("evaluation_inferred") != 0
+    ):
+        raise ValueError("cleanfold T3 membership differs from its source-qualified split")
+
+    teachers = contract.get("teachers")
+    if not isinstance(teachers, list) or len(teachers) != 3:
+        raise ValueError("cleanfold T3 contract must pin exactly three teachers")
+    accepted: list[dict[str, Any]] = []
+    for index, (teacher, run) in enumerate(zip(teachers, T3_TEACHER_ORDER, strict=True)):
+        if not isinstance(teacher, dict):
+            raise ValueError("cleanfold T3 teacher pin is invalid")
+        expected_seed = index + 3
+        if (
+            teacher.get("run") != run
+            or teacher.get("seed") != expected_seed
+            or teacher.get("epoch") != 2
+        ):
+            raise ValueError("cleanfold T3 teachers must be ordered S3/S4/S5 at fixed epoch 2")
+        pin_keys = (
+            "acceptance_sha256",
+            "model_sha256",
+            "checkpoint_sha256",
+            "provenance_sha256",
+            "tensor_fingerprint",
+        )
+        if any(
+            not isinstance(teacher.get(key), str) or not SHA256_TEXT.fullmatch(teacher[key])
+            for key in pin_keys
+        ):
+            raise ValueError(f"cleanfold T3 identity pin is malformed: {run}")
+        acceptance_relative = Path(str(teacher.get("acceptance_path", "")))
+        if acceptance_relative.is_absolute() or ".." in acceptance_relative.parts:
+            raise ValueError(f"cleanfold T3 acceptance path is unsafe: {run}")
+        acceptance_path = (acceptance_root / acceptance_relative).resolve()
+        if not acceptance_path.is_relative_to(acceptance_root.resolve()):
+            raise ValueError(f"cleanfold T3 acceptance path escapes its root: {run}")
+        if file_sha256(acceptance_path) != teacher["acceptance_sha256"]:
+            raise ValueError(f"cleanfold T3 terminal acceptance bytes disagree: {run}")
+        run_root = checkpoint_root / run
+        actual_files = {
+            "model_sha256": run_root / "model.pt",
+            "checkpoint_sha256": run_root / "model_ep2.pt",
+            "provenance_sha256": run_root / "provenance.json",
+        }
+        if any(file_sha256(path) != teacher[key] for key, path in actual_files.items()):
+            raise ValueError(f"cleanfold T3 checkpoint or provenance bytes disagree: {run}")
+        accepted.append(
+            {
+                "run": run,
+                "acceptance_path": str(acceptance_relative),
+                **{key: teacher[key] for key in pin_keys},
+            }
+        )
+    return accepted, contract
 
 
 def _array_entry(path: Path, row_groups: list[int], array: np.ndarray) -> dict[str, Any]:
@@ -356,19 +555,49 @@ def build_cache(args: argparse.Namespace) -> Path:
     cache_root = args.teacher_cache_root.resolve()
     checkpoint_root = args.checkpoint_root.resolve()
     split = load_campaign_split(args.split_manifest.resolve(), data_root)
+    cache_profile = getattr(args, "cache_profile", "legacy-four-family")
+    cleanfold_t3 = cache_profile == CLEANFOLD_T3_PROFILE
+    if cache_profile not in ("legacy-four-family", CLEANFOLD_T3_PROFILE):
+        raise ValueError(f"unknown distillation cache profile: {cache_profile}")
     if any(source.epoch < 0 for source in args.teacher):
         raise ValueError("teacher epochs must be nonnegative zero-based indices")
-    if abs(args.expected_coefficient_sum - 0.8125) > 1e-7:
-        raise ValueError("source-scale cache must retain the declared 0.8125 coefficient sum")
-    if len(args.teacher) < 4 or set(source.family for source in args.teacher) != set(FAMILY_ORDER):
-        raise ValueError("teacher sources must cover the four declared families")
     if len({source.run for source in args.teacher}) != len(args.teacher):
         raise ValueError("each source run may appear only once")
     total = math.fsum(source.coefficient for source in args.teacher)
-    if abs(total - args.expected_coefficient_sum) > 1e-7:
-        raise ValueError(f"teacher coefficients sum to {total}, expected 0.8125")
-    if args.homogeneous_family not in FAMILY_ORDER:
-        raise ValueError("homogeneous family must be one of the declared teacher families")
+    acceptance_pins: list[dict[str, Any]] = []
+    execution_contract: dict[str, Any] = {}
+    if cleanfold_t3:
+        expected_sources = [("strong", run, 0.1, 2) for run in T3_TEACHER_ORDER]
+        actual_sources = [
+            (source.family, source.run, source.coefficient, source.epoch) for source in args.teacher
+        ]
+        if actual_sources != expected_sources:
+            raise ValueError(
+                "cleanfold T3 sources must be ordered strong S3/S4/S5 at 0.1 each, epoch 2"
+            )
+        if args.output_profile != "homogeneous-only" or args.homogeneous_family != "strong":
+            raise ValueError("cleanfold T3 requires the strong homogeneous-only output profile")
+        if abs(total - 0.3) > 1e-7:
+            raise ValueError(
+                "cleanfold T3 metadata must preserve the original 0.3 coefficient subtotal"
+            )
+        if not getattr(args, "cleanfold_contract", None) or not getattr(
+            args, "acceptance_root", None
+        ):
+            raise ValueError("cleanfold T3 requires a root-pinned contract and acceptance root")
+        if abs(args.expected_coefficient_sum - 0.8125) > 1e-7:
+            raise ValueError("the T3 homogeneous multiplier is fixed at 0.8125")
+    else:
+        if abs(args.expected_coefficient_sum - 0.8125) > 1e-7:
+            raise ValueError("source-scale cache must retain the declared 0.8125 coefficient sum")
+        if len(args.teacher) < 4 or set(source.family for source in args.teacher) != set(
+            FAMILY_ORDER
+        ):
+            raise ValueError("teacher sources must cover the four declared families")
+        if abs(total - args.expected_coefficient_sum) > 1e-7:
+            raise ValueError(f"teacher coefficients sum to {total}, expected 0.8125")
+        if args.homogeneous_family not in FAMILY_ORDER:
+            raise ValueError("homogeneous family must be one of the declared teacher families")
     if args.output_profile not in OUTPUT_TARGETS:
         raise ValueError(f"unknown distillation cache output profile: {args.output_profile}")
     if args.chunk_sequences < 1 or args.chunk_sequences > 64:
@@ -386,6 +615,10 @@ def build_cache(args: argparse.Namespace) -> Path:
             raise ValueError(f"target index omits {name} fitting groups")
 
     fit_rows = sum(len(groups) for groups in row_groups.values())
+    if cleanfold_t3 and os.path.lexists(args.output):
+        raise FileExistsError(
+            f"refusing to replace existing cache path (including symlinks): {args.output}"
+        )
     output_path = args.output.resolve()
     if output_path.exists():
         raise FileExistsError(f"refusing to replace existing cache directory: {output_path}")
@@ -402,23 +635,73 @@ def build_cache(args: argparse.Namespace) -> Path:
             f"distillation cache needs {estimated_bytes} bytes; available budget while preserving "
             f"{free_floor} free bytes is {max(0, usage.free - free_floor)}"
         )
+    if cleanfold_t3:
+        acceptance_pins, execution_contract = _cleanfold_t3_pins(
+            args.cleanfold_contract.resolve(),
+            args.cleanfold_contract_sha256,
+            args.acceptance_root.resolve(),
+            checkpoint_root,
+            split,
+        )
 
     records: list[dict[str, Any]] = []
     predictions: dict[str, dict[str, np.ndarray]] = {}
+    prediction_records: dict[str, dict[str, dict[str, Any]]] = {}
     for source in args.teacher:
-        if source.family not in FAMILY_ORDER:
+        if not cleanfold_t3 and source.family not in FAMILY_ORDER:
             raise ValueError(f"unknown teacher family: {source.family}")
-        ancestor_closure = _audit_ancestor_closure(
-            source.run, split, checkpoint_root, f"model_ep{source.epoch}.pt"
+        pin = acceptance_pins[len(records)] if cleanfold_t3 else None
+        ancestor_closure = (
+            []
+            if cleanfold_t3
+            else _audit_ancestor_closure(
+                source.run, split, checkpoint_root, f"model_ep{source.epoch}.pt"
+            )
         )
-        record, arrays, _ = _inspect_teacher(
-            source.run, split, cache_root, checkpoint_root, target_orders, source.epoch
-        )
+        if cleanfold_t3:
+            record, arrays, _ = _inspect_teacher(
+                source.run,
+                split,
+                cache_root,
+                checkpoint_root,
+                target_orders,
+                source.epoch,
+                fit_only=True,
+                root_pin=pin,
+            )
+        else:
+            record, arrays, _ = _inspect_teacher(
+                source.run, split, cache_root, checkpoint_root, target_orders, source.epoch
+            )
         record["family"] = source.family
         record["coefficient"] = source.coefficient
-        record["ancestor_closure"] = ancestor_closure
+        if not cleanfold_t3:
+            record["ancestor_closure"] = ancestor_closure
+        if cleanfold_t3:
+            record.update(
+                {
+                    "acceptance_sha256": pin["acceptance_sha256"],
+                    "model_sha256": pin["model_sha256"],
+                    "tensor_fingerprint": pin["tensor_fingerprint"],
+                }
+            )
         records.append(record)
         predictions[source.run] = arrays
+        if cleanfold_t3:
+            prediction_records[source.run] = record["predictions"]
+
+    prediction_positions: dict[str, dict[str, np.ndarray]] = {}
+    if cleanfold_t3:
+        for source in args.teacher:
+            prediction_positions[source.run] = {}
+            for split_name in ("train", "valid"):
+                sidecar_groups = prediction_records[source.run][split_name].pop("_row_groups")
+                fit_order, positions = fit_prediction_positions(
+                    sidecar_groups, target_orders[split_name], _expected_groups(split, split_name)
+                )
+                if tuple(row_groups[split_name]) != fit_order:
+                    raise ValueError(f"teacher {source.run} {split_name} cache order differs")
+                prediction_positions[source.run][split_name] = positions
 
     partial.mkdir()
     file_entries: dict[str, dict[str, Any]] = {}
@@ -438,24 +721,36 @@ def build_cache(args: argparse.Namespace) -> Path:
         for start in range(0, len(groups), args.chunk_sequences):
             selected = groups[start : start + args.chunk_sequences]
             rows = np.asarray([position[group] for group in selected], dtype=np.int64)
-            source_chunk = {
-                run: np.asarray(arrays[split_name][rows], dtype=np.float32)
-                for run, arrays in predictions.items()
-            }
-            main, normalized, homogeneous, families = combine_teacher_chunk(
-                source_chunk, args.teacher, FAMILY_ORDER, args.homogeneous_family
-            )
             stop = start + len(selected)
-            target_values = (
-                ("main_source", main),
-                ("main_normalized", normalized),
-                ("main_homogeneous", homogeneous),
-                ("families", families),
-            )
-            for name, values in target_values:
-                if name not in outputs:
-                    continue
-                outputs[name][start:stop] = values
+            if cleanfold_t3:
+                source_chunks = [
+                    np.asarray(
+                        predictions[source.run][split_name][
+                            prediction_positions[source.run][split_name][start:stop]
+                        ],
+                        dtype=np.float32,
+                    )
+                    for source in args.teacher
+                ]
+                outputs["main_homogeneous"][start:stop] = combine_cleanfold_t3_chunk(source_chunks)
+            else:
+                source_chunk = {
+                    run: np.asarray(arrays[split_name][rows], dtype=np.float32)
+                    for run, arrays in predictions.items()
+                }
+                main, normalized, homogeneous, families = combine_teacher_chunk(
+                    source_chunk, args.teacher, FAMILY_ORDER, args.homogeneous_family
+                )
+                target_values = (
+                    ("main_source", main),
+                    ("main_normalized", normalized),
+                    ("main_homogeneous", homogeneous),
+                    ("families", families),
+                )
+                for name, values in target_values:
+                    if name not in outputs:
+                        continue
+                    outputs[name][start:stop] = values
         for array in outputs.values():
             array.flush()
         for name, array in outputs.items():
@@ -473,7 +768,7 @@ def build_cache(args: argparse.Namespace) -> Path:
         "split_manifest_sha256": split.sha256,
         "fit_groups": {"train": list(split.train_groups), "valid": list(split.valid_groups)},
         "evaluation_valid_groups": list(split.evaluation_groups),
-        "family_order": list(FAMILY_ORDER),
+        "family_order": ["strong"] if cleanfold_t3 else list(FAMILY_ORDER),
         "source_coefficients": [
             {
                 "family": source.family,
@@ -483,7 +778,7 @@ def build_cache(args: argparse.Namespace) -> Path:
             }
             for source in args.teacher
         ],
-        "coefficient_sum": total,
+        "coefficient_sum": 0.3 if cleanfold_t3 else total,
         "homogeneous_family": args.homogeneous_family,
         "output_profile": args.output_profile,
         "stored_targets": list(OUTPUT_TARGETS[args.output_profile]),
@@ -492,6 +787,40 @@ def build_cache(args: argparse.Namespace) -> Path:
         "files": file_entries,
         "estimated_bytes": estimated_bytes,
     }
+    if cleanfold_t3:
+        metadata.update(
+            {
+                "cache_profile": CLEANFOLD_T3_PROFILE,
+                "homogeneous_scale": float(T3_HOMOGENEOUS_SCALE),
+                "homogeneous_family": "strong",
+                "stored_targets": ["main_homogeneous"],
+                "target_contract": {
+                    "formula": "float32(0.8125 * float32_mean(three_epoch2_predictions))",
+                    "teacher_epoch": 2,
+                    "teacher_mean": "unweighted arithmetic mean in float32",
+                    "clipping": "none during cache construction",
+                    "coefficient_multiplier": 0.8125,
+                },
+                "student_contract": {
+                    "epochs": 6,
+                    "checkpoint_policy": "fixed",
+                    "checkpoint_epoch": 5,
+                    "hidden": 256,
+                    "layers": 2,
+                    "batch": 16,
+                    "chunk": 2000,
+                    "distill_alpha": 0.9,
+                    "since_weight": 0.0,
+                    "inherit_init_preprocessing": False,
+                },
+                "root_execution_contract": {
+                    "path": str(args.cleanfold_contract.resolve()),
+                    "sha256": args.cleanfold_contract_sha256,
+                    "schema": execution_contract["schema"],
+                },
+                "root_acceptance_pins": acceptance_pins,
+            }
+        )
     (partial / "metadata.json").write_text(json.dumps(metadata, indent=2) + "\n")
     os.replace(partial, output_path)
     print(
@@ -500,7 +829,7 @@ def build_cache(args: argparse.Namespace) -> Path:
                 "cache": str(output_path),
                 "metadata_sha256": file_sha256(output_path / "metadata.json"),
                 "estimated_bytes": estimated_bytes,
-                "coefficient_sum": total,
+                "coefficient_sum": 0.3 if cleanfold_t3 else total,
             }
         )
     )
@@ -513,6 +842,19 @@ def main() -> None:
     parser.add_argument("--data-root", type=Path, default=ROOT)
     parser.add_argument("--teacher-cache-root", type=Path, default=ROOT / "cache")
     parser.add_argument("--checkpoint-root", type=Path, default=ROOT / "artifacts" / "runs")
+    parser.add_argument(
+        "--cache-profile",
+        choices=("legacy-four-family", CLEANFOLD_T3_PROFILE),
+        default="legacy-four-family",
+        help="cache semantics; the opt-in cleanfold T3 profile is source- and acceptance-pinned",
+    )
+    parser.add_argument("--cleanfold-contract", type=Path)
+    parser.add_argument("--cleanfold-contract-sha256")
+    parser.add_argument(
+        "--acceptance-root",
+        type=Path,
+        help="root under which the pinned contract's relative records/... paths resolve",
+    )
     parser.add_argument("--split-manifest", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument(
