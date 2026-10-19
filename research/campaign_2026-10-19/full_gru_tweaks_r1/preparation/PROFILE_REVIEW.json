@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "created_utc": "2026-10-19T14:01:21.133352+00:00",
+  "review_roles": {
+    "profile_source": "root independently read entry/core/canonical update/data APIs",
+    "transport": "beleriand_gpu_guard_r4 independently read root binder/admission; root reviewed invocation capture/hashgate additions"
+  },
+  "profile_sha256": "d5c2c3030f46ba5ea4a22a9d4ad0e5a5ec2af7d53ab729742fc7068d706f4376",
+  "profile_core_sha256": "fe9f3551085244dd278f89fc61ec0a95853d8f4a71b5b5c8d2d17bb40086d2af",
+  "prerequisite_sha256": "adf6ea2d9d9f91721c3e96ad4174053c436bfad45bdb2ba700979e1eeb603cac",
+  "remote_admission_sha256": "ced3a733b9d3c9cfa2888aadb0810fef69bc8d762218bdf72a7ce5a5b290d5a7",
+  "local_binder_sha256": "b0edaad3aef17acbde3d55401cff3dfa155d65a29d4aa250dbec9f99b1156a46",
+  "test_sha256": "992e2ac9c9704e623c600c3e32967d5bdbfa954a38425125816e96576462fd1c",
+  "canonical_smoke_sha256": "b8994de8b20409003622871771396bddc8f6f55c96798eb9e73d8cae822f5cfa",
+  "checks": [
+    "fixed first16 fit-valid groups,0outer groups/targetcolumns",
+    "full B16x20000x211 GPU canonical features,20 canonical strict updates",
+    "FP32/autocastoff/TF32off,seed0/thread1/allocator3GB",
+    "finite losses/gradients/weights/Adam checks via unchanged published update component",
+    "fit-only profile stats discarded before actual allfitvalid normalization",
+    "separate data-validation/normalization/fullGPUinput/update elapsed timings",
+    "create-only output/journal,no checkpoint/score",
+    "fixed core dataclass required by lazy read path now present",
+    "fresh parent/allchildren/sharedGPU/source/split/registry/output gates before mutation",
+    "initial launch captures InvocationID and ExecStart",
+    "unknown outcomes no blindretry; rawreceipts collected before exactexitstop"
+  ],
+  "reported_validation": {
+    "profile_owner_cpu_tests": 6,
+    "profile_owner_ruff": "PASS",
+    "module_line_bounds": "entry290/core293,functions<=97",
+    "root_cold_canonical_imports": 96,
+    "root_canonical_read_sentinels": "np.load/torch.load/SequenceFile.read/parquet.read_table; PASS"
+  },
+  "prelaunch_correction": {
+    "earlier_core_sha256": "846078bd05fab15a97995ef3f79108740da392c3e7d50c63cff354731632a49e",
+    "issue": "ProfileRowsData imported lazily but undefined; caught by root before any remote action",
+    "repair": "concrete typed dataclass + synthetic lazy load path test",
+    "compute_or_design_change": false
+  },
+  "limitations": [
+    "engineering profile is not full fit or quality comparison",
+    "profile only proves tested shape/membership/runtime,not all later teacher/student shapes",
+    "fullfitnorm uses all fitting-valid groups rather than profile16",
+    "no remote action had occurred at review creation"
+  ]
+}

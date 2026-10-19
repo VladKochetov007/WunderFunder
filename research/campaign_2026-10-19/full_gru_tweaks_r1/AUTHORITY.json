@@ -1,0 +1,37 @@
+{
+  "schema": "nf19.full_gru_tweaks.authority.v1",
+  "created_utc": "2026-10-19T13:34:54.882366+00:00",
+  "status": "USER_AUTHORIZED_FULL_GRU_PREPARATION_AND_BOUNDED_EXECUTION",
+  "direct_user_request": "давай на полноценном гру все эти проверки проверять. на самом лучшем рецепте + эти твики",
+  "scope_clarification": "Три положительных твика: отдельно и вместе",
+  "arms_requested": [
+    "strong_control",
+    "ema_only",
+    "sparse_only",
+    "mean_variance_only",
+    "ema_sparse_mean_variance"
+  ],
+  "authority_effect": "Supersedes prior no-new-GPU/full-training hold for this new task. Does not restart completed experiments, frozen F3, R16, old ranked25/CP30 queue, quantization, or historical recovery.",
+  "base_requirement": "Select strongest source-supported available full GRU recipe, distinguishing individual GRU from ensemble incumbent; do not silently substitute an easy cold baseline. Final recipe/source/clean ancestor binding and paired-comparison design pending current audits.",
+  "execution_resources": {
+    "provider_initial": "Beleriand existing allocation; no rental/billing change",
+    "gpu_worker_max": 1,
+    "selected_gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+    "aggregate_cpu_cores": 2,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "memory_swap_max_bytes": 0,
+    "scratch": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "fit_runtime_max_seconds": 86400,
+    "export_runtime_max_seconds": 7200,
+    "grade_runtime_max_seconds": 3600,
+    "new_fit_requires": "fresh ownership/resources/source/data/split/recipe/runtime profile and independent source/design checks; same provider/runtime and clean ancestry per paired cell"
+  },
+  "precision": "strict FP32 model/input/state/loss/optimizer; autocast/scaler/TF32 off",
+  "scientific_comparison_requirement": "30 paired cells per arm, fixed F0/F1 8 seeds each and F2/F3 7 each; 150 final-model fits planned for five arms, not a runtime allocation or claim of completeness. First bounded full cell after readiness; no outcome-based cell exclusions/replacement seeds.",
+  "mac_scope": "docs/light orchestration/code/tiny synthetic CPU only; no real arrays/models/training/installs/iCloud/active Zen",
+  "code_worktree": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019",
+  "code_branch": "experiment/strong-gru-tweaks-20261019",
+  "code_base": "e20cff47e53e321816c85f0433f3ea8a201c02a6",
+  "current_status": "base/integration audits and fresh read-only B resource observation in progress; no new full-GRU source staging/admission/job yet"
+}

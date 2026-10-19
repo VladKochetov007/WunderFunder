@@ -423,3 +423,5 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 - [R4 completed CPU execution](../../campaign_2026-10-19/idea_screens_r4/records/README.md) captures/stops the exact0.5CPU/1.5GB/no-swap/600s invocation after exit0. Parent baselinehigh2179/max561/OOM0 and F3 child counters remain unchanged. Raw read-only capture NameError and local stop-packaging collision are preserved separately from successful compute; arrays/models stay on B and process/unit memory measures remain separate.
 
 - [R5 exact CPU execution](../../campaign_2026-10-19/idea_screens_r5/records/README.md): one0.5CPU/1.5GB/no-swap/600s invocation exited0 after90.647s, raw bytes validated before exact-unit stop. Parent high2179/max561/OOM0 and active F3 child events unchanged; arrays/model archive stay on B.
+
+[Full-GRU prerequisite execution](../../campaign_2026-10-19/full_gru_tweaks_r1/records/README.md) retains the actual strict-FP32 GPU profile,20finite updates/no quality score, source/ownership/resource/capture/stop bindings and the pre-mutation full-fit path-guard correction.

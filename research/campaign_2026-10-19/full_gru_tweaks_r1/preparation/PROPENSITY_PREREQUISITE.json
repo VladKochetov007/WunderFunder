@@ -1,0 +1,35 @@
+{
+  "schema": "full_gru_tweaks.propensity_prerequisite.v1",
+  "status": "declared_not_run",
+  "scope": "one fresh strict-FP32 clean fold-0 propensity fit only; no R2 admission, no 150-fit completion claim",
+  "source_commit": "235db75ab91e24c69f21e637a83a48512dc674fe",
+  "data_root": "/home/grinchenkoeg/computer-vision-homework-20261018/data",
+  "split_manifest": {
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json",
+    "sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+  },
+  "run_name": "fg19_propensity_clean_f0_seed0_e4",
+  "arguments": [
+    "scripts/train_propensity.py",
+    "--name", "fg19_propensity_clean_f0_seed0_e4",
+    "--hidden", "64",
+    "--epochs", "4",
+    "--lr", "0.002",
+    "--seed", "0",
+    "--checkpoint-policy", "fixed",
+    "--checkpoint-epoch", "3",
+    "--no-eval-during-fit",
+    "--split-manifest", "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json",
+    "--precision-profile", "strict_fp32_v1",
+    "--loader-workers", "0"
+  ],
+  "normalization_scope": "all canonical fold-0 fit-valid groups, fitted by the canonical strict trainer; the profile's first-16-group statistics are engineering-only and discarded",
+  "precision": "strict FP32; autocast/scaler/TF32 disabled",
+  "checkpoint_selection": "fixed epoch 3; no evaluation during fit",
+  "fresh_run_directory_required": true,
+  "profile_is_fit_or_quality_evidence": false,
+  "limitations": [
+    "This declaration does not establish that the prerequisite fit has run or completed.",
+    "A clean source-qualified warm parent and the exact teacher/Muon semantic port remain separate prerequisites for later full-GRU stages."
+  ]
+}

@@ -1,0 +1,9 @@
+# Full clean F0 propensity — actually admitted and running
+
+The sole native fit `computer-vision-homework-fg19-propensity-f0-e4-v3.service` launched14:25:53UTC19October, invocation85b87a83f96945f4b78908f124435a2b, active/running in the launch receipt. [Admission](ADMISSION.json), [launch](LAUNCH.json), [root acceptance](ACCEPTANCE.json), [local binding](BINDING.json), [raw transport status](TRANSPORT.json) and original STDOUT/STDERR retain the one actual launch. The source is immutable235db75; only the admission path-map guard changed after V1/V2 readonly rejection. Do not resubmit or restart blindly.
+
+The run is `B/data/artifacts/runs/fg19_propensity_clean_f0_seed0_e4`; log/admission evidence is `B/research_tmp/fg19_propensity_clean_f0_admission_v3`. It trains all1405fitting-valid groups, hidden64/B16/C2000/four epochs/fixed epoch3, strict FP32/autocastoff/TF32off,1CPU/high7.5GB/max8GB/swap0/allocator3GB/24h bound. Expected3520updates is not yet an observed terminal count. No outer score or final-GRU quality result exists. Initial full-fold normalization can precede training stdout for several minutes.
+
+The [V3 review](../../preparation/FIT_ADMISSION_REVIEW_V3.json) binds the exact captured six-file path map and profile identities; [prior V2 diagnosis](../propensity_f0_e4_v2/README.md) retains the actual aliases. GPU admission observed9784MiB free on the selected sharedA4000 and preserved foreign processes. Parent current3987406848B plus8GB reservation was below17GB. These are launch-time values, not later health checks.
+
+[Startup health at14:27:34UTC](startup_health_v1/STDOUT.raw.json) confirms the same invocation active/running, one owned populated cgroup/PID,100.84CPU seconds, ownMemoryCurrent312627200B and zero own/parent new events. Log/run artifacts were not yet present during the initial source/data validation/normalization phase; no optimizer-progress claim is made. This is a dated observation, not a future health guarantee.
