@@ -1,5 +1,9 @@
 # Research-team experiment catalogue
 
+- [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
+- [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
+- [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
+
 - Published future-experiment draft PRs: [#22 Adaptive TBPTT](https://github.com/VladKochetov007/WunderFunder/pull/22), [#23 current-moment WP replay](https://github.com/VladKochetov007/WunderFunder/pull/23), and [#24 four-arm architecture handoff](https://github.com/VladKochetov007/WunderFunder/pull/24). Each targets research-team; the first two need adapters, the architecture handoff needs a focused port of preserved source. No model execution or run admission follows from publication.
 
 The active [rank1 continuation handoff](https://github.com/VladKochetov007/WunderFunder/tree/experiment/rr18-01-labels/research/experiment_drafts/rr18-01-labels) is tied to the [October 18 execution packet](../campaign_2026-10-18/priority25_execution_r4/README.md); F0/S1001 and F1/S1001 are graded at audited source e35220969 (two of 30 paired cells); F3 has retained progress. See [the source-pinned review](../unified/reviews/REPOSITORY_DELTA_20261018.md) for uncertainty and the five newer team draft PRs. The [gradient-estimator continuations](../unified/ideas/GRADIENT_ESTIMATOR_CONTINUATIONS_20261018.md) add two unrun proposals without changing the active queue. These are separate from the historical fourteen-PR catalogue below.
