@@ -1,0 +1,82 @@
+{
+  "schema": "nf19.r10_resource_reconciliation.v1",
+  "utc": "2026-10-19T03:55:54.277189+00:00",
+  "status": "CAPTURED_AND_EXACT_STOPPED",
+  "unit": "computer-vision-homework-eda19-r10-v1.service",
+  "invocation": "8aa5dbfc71e946188eaac5611a4a8e74",
+  "scope": "One model-free CPU geometry diagnostic, no fit/grade/model/target/eval reads; no provider/GPU/F3 action.",
+  "unit_start": "Mon 2026-10-19 03:50:55 UTC",
+  "unit_exit": "Mon 2026-10-19 03:51:26 UTC",
+  "helper_wall_s": 30.774027502164245,
+  "unit_wall_monotonic_s": 31.24234,
+  "unit_cpu_s": 15.644817,
+  "terminal_systemd_memory_peak_bytes": 2781184,
+  "terminal_memory_current": null,
+  "terminal_control_group": null,
+  "own_cgroup_evidence": null,
+  "source_point_observations": {
+    "memory_before_inputs": {
+      "conservative_extra_budget_bytes": 256000000,
+      "memory_high_bytes": 1400000000,
+      "own_cgroup_current_bytes": 15773696,
+      "process_rss_bytes": 34717696,
+      "stage": "before_sample_metadata_and_arrays"
+    },
+    "memory_after_input_hashes": {
+      "conservative_extra_budget_bytes": 256000000,
+      "memory_high_bytes": 1400000000,
+      "own_cgroup_current_bytes": 15884288,
+      "process_rss_bytes": 34983936,
+      "stage": "after_fit_input_hashes_before_mapping"
+    }
+  },
+  "memory_scope_limit": "Systemd terminal MemoryPeak, process RSS and own-cgroup current are distinct observations. Their differing values are preserved; no common peak or cause is inferred. Empty terminal ControlGroup produces no host-root fallback.",
+  "caps": {
+    "cpu_cores": 0.5,
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "swap_max": 0,
+    "runtime_s": 600,
+    "blas_threads": 1,
+    "cuda_visible_devices": ""
+  },
+  "parent_baseline": {
+    "high": 2179,
+    "max": 561,
+    "oom": 0
+  },
+  "parent_deltas_at_capture": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_local_deltas_at_capture": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "populated_campaign_paths_at_capture": {},
+  "exact_stop": {
+    "status": "EXACT_UNIT_STOPPED_AFTER_DURABLE_VALIDATION",
+    "unit": "computer-vision-homework-eda19-r10-v1.service",
+    "invocation": "8aa5dbfc71e946188eaac5611a4a8e74",
+    "utc": "2026-10-19T03:55:03.639362+00:00",
+    "raw_stop_sha256": "604dafce659b92ba7ed6409a237b6ae18ea8a3bd144b3c4a5ced7901f041a068",
+    "raw_stop_bytes": 25405,
+    "returncode": 0,
+    "after": {
+      "LoadState": "not-found",
+      "ActiveState": "inactive",
+      "SubState": "dead"
+    },
+    "capture_validation_sha256": "fc4821948864006b0bcdf4f6cb0c3777ede122457736b66f710bec2865ccf317"
+  },
+  "capture_correction": "V1 read-only capture failed before payload encoding because default systemctl show omitted empty ControlGroup. V2 adds only --all, separately reviewed. Both scripts and failed raw stdout/stderr retained; no compute retry or source change.",
+  "raw_capture_sha256": "f2b098739a8eb9246ec02c2624da88961287c53bcdbdf38b0a3c59f474999646"
+}

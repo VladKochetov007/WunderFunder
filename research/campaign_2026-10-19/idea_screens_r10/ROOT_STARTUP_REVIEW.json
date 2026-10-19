@@ -1,0 +1,30 @@
+{
+  "schema": "nf19.r10_root_startup_review.v1",
+  "utc": "2026-10-19T03:50:38.369830+00:00",
+  "status": "PASS",
+  "scope": "Root review of operator-written one-off admission/launch, separate from independent scientific implementation review.",
+  "preparation_manifest_sha256": "49f39bf3e32faed6ecdcfef38e1b93cd95a5386177999c78b866b0de7dd1e483",
+  "implementation_review_sha256": "06b9acb72e42f56325a8bc214cacdb7b292a7d22683561ad58d051301fbf51a6",
+  "test_receipt_sha256": "f49faddcda5ffc3442bf24c1851be30d3a29580fd8195983bcbc4416cbf8acf6",
+  "transport_script_sha256": "09313213a5943e7027c2bfb38a2775b5c3fb633ab65d2305c8fbfcba0d6d5677",
+  "staged_file_count": 14,
+  "files": {
+    "root_inline_v1.py": "53582b24fb1dc06cf2aa992c1079d6271ce4086c30e78a9d7470c3c4b66d7856",
+    "assemble_transport_v1.py": "4cc8d27c8bdd6dbf0fbf401ba374bea43c468f4f198b4ecf7cdffa112b508a0b",
+    "stop_remote_v1.py": "0664e2544ad0dc4bbaa5d2b701bdb31706dd3831752e955e8a844ec9d75828ca",
+    "remote_body_v1.py": "e3b3b13217bda561fc8e638ce693226ae9ed944d791b443480fc6b074afa1fb0",
+    "capture_remote_v1.py": "b3eb79b05ef88be9e99e81f8d6160a39ccd99adcc6c92d3285887dc38a5dd267"
+  },
+  "checks": [
+    "Exact 11 scientific pins, four-module runtime and14 stage paths; full per-file byte verification before any module import.",
+    "Fresh scoped parent UID1061 ownership, direct and ALL descendant process absence twice; selected GPU0campaign processes, foreign processes preserved.",
+    "Parent exact configured2CPU/18GBhigh/20GBmax/swap0 plus observed4096page-floor kernel limits; reserve1.5GB against17GB current-memory target, host>5GB and physical scratch>2GB free.",
+    "Pinned source/sample/membership and create-only support/output/unit identities; second prelaunch hash/resource gate.",
+    "0.5CPU/1.4GBhigh/1.5GBmax/swap0/600s, CUDAhidden/BLAS1/physicalTMP.",
+    "Cold four-module import np.load+np.memmap sentinels, then execv fresh CLI.",
+    "Capture and stop consume actual producer systemd_run_returncode + invocation_id fields; exact explicitexit0/caps before action; no empty terminal cgroup root fallback.",
+    "Unknown launch outcome is recorded and never retried."
+  ],
+  "real_data_or_model_execution_in_review": false,
+  "capture_stop_independent_review": "Separate review pending before those later operations; launch itself reviewed here."
+}

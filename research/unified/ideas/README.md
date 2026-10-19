@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[R10 fixed joint-support premise](../../campaign_2026-10-19/idea_screens_r10/RESULTS.md) finds274inside-box/outside-hull cases among31552strict-past queries,52/64fitting components and26in each fixed half. A tolerance-defined2D hull is geometrically nonredundant with its matched box; no targets/model/quality test means predictive usefulness and full-dimensional/outlier controls remain open.
+
 [R9 recurrent carry dependence](../../campaign_2026-10-19/idea_screens_r9/RESULTS.md) measures an actual state intervention at one unchanged GRU checkpoint: recent256 vs full history gives19.354% pooled relative prediction RMS across16windows/8fit components. Shared causal features keep their history. This keeps persistent-context mechanisms relevant without claiming old-state usefulness for labels, conditional target information, energy regularization, stale-weight effects or a new architecture.
 
 [R8 constant-variance mechanism control](../../campaign_2026-10-19/idea_screens_r8/RESULTS.md) adds one fixed CPU arm WP0.501394. Stored input-dependent R7 remains ahead+0.012903; constant-minus-WMSE−0.000528. All32 primary leave-one contrasts stay positive, sensitivity only. This global-scaling control does not reproduce R7, while removed variance-trunk gradients prevent noise/expressivity isolation. No R7 replay or new absolute-best/full-model/public claim.

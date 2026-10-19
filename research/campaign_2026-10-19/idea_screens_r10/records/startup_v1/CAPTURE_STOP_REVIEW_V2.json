@@ -1,0 +1,102 @@
+{
+  "checks": [
+    {
+      "detail": "Programmatic source comparison confirms V2 equals V1 with exactly the single `--all` argument addition.",
+      "id": "minimal_diff",
+      "status": "PASS"
+    },
+    {
+      "detail": "The existing empty ControlGroup handling now receives the property; empty leaves own_cgroup null and no host-root cgroup fallback is introduced.",
+      "id": "empty_terminal_cgroup_handling",
+      "status": "PASS"
+    },
+    {
+      "detail": "V2 retains the exact ROOT_LAUNCH return-code and InvocationID checks, explicit exited/success/zero exit checks, and expected CPU/memory/swap/runtime checks before returning a capture.",
+      "id": "invocation_exit_and_caps",
+      "status": "PASS"
+    },
+    {
+      "detail": "V2 retains the prior success-only guard that aborts if FAILURE.json exists. Do not use it to capture failed runs.",
+      "id": "failure_scope",
+      "status": "PASS_WITH_LIMITATION"
+    },
+    {
+      "detail": "Stop helper remains unchanged and exact-unit gated. Root must first durably capture and locally validate raw receipt lengths/SHA and producer schemas, then call stop only for this exact exited invocation.",
+      "id": "stop_sequencing",
+      "status": "PASS_WITH_CONDITION"
+    }
+  ],
+  "launch_binding": {
+    "invocation_id": "8aa5dbfc71e946188eaac5611a4a8e74",
+    "terminal_observation": "Root reports exact invocation terminal success with status 0 before this review; this review does not independently query the remote host.",
+    "unit": "computer-vision-homework-eda19-r10-v1.service"
+  },
+  "limitations": [
+    "Capture helper is success-path-only; it asserts FAILURE.json is absent.",
+    "The helper checks the 4,000,000-byte limit after read_bytes(), bounding transported data but not pre-read allocation.",
+    "This review is not scientific-result acceptance and does not replace root-side raw-byte integrity/schema verification."
+  ],
+  "observed_utc": "2026-10-19T03:54:16.729690+00:00",
+  "reviewed_artifacts": {
+    "CAPTURE_STDERR.raw": {
+      "bytes": 99,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/attempt_v1/terminal_capture/CAPTURE_STDERR.raw",
+      "sha256": "61882c17d1ee6eae3bb1990e6cda20a2274fc712904d73cfc57a771c3af5905c"
+    },
+    "CAPTURE_STDOUT.raw": {
+      "bytes": 0,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/attempt_v1/terminal_capture/CAPTURE_STDOUT.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "CAPTURE_STOP_REVIEW.json": {
+      "bytes": 6943,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/CAPTURE_STOP_REVIEW.json",
+      "sha256": "2b9c08605a6fec3adfeae757249054e4240d727faa4370353df1299f59b56cd1"
+    },
+    "PREPARATION_MANIFEST.json": {
+      "bytes": 1592,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/PREPARATION_MANIFEST.json",
+      "sha256": "49f39bf3e32faed6ecdcfef38e1b93cd95a5386177999c78b866b0de7dd1e483"
+    },
+    "ROOT_STARTUP_REVIEW.json": {
+      "bytes": 2345,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/ROOT_STARTUP_REVIEW.json",
+      "sha256": "5404a8ee90d0d6e4f8f81e785d60ba272f8163c3b8ee65ad71ee1a57a45b9af9"
+    },
+    "capture_remote_v1.py": {
+      "bytes": 3853,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/capture_remote_v1.py",
+      "sha256": "b3eb79b05ef88be9e99e81f8d6160a39ccd99adcc6c92d3285887dc38a5dd267"
+    },
+    "capture_remote_v2.py": {
+      "bytes": 3862,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/capture_remote_v2.py",
+      "sha256": "7f7e7576380d9796ace256d70cbc6333036f4758fb8ce2bd0507395707c18f00"
+    },
+    "remote_body_v1.py": {
+      "bytes": 27480,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/remote_body_v1.py",
+      "sha256": "e3b3b13217bda561fc8e638ce693226ae9ed944d791b443480fc6b074afa1fb0"
+    },
+    "stop_remote_v1.py": {
+      "bytes": 1737,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/stop_remote_v1.py",
+      "sha256": "0664e2544ad0dc4bbaa5d2b701bdb31706dd3831752e955e8a844ec9d75828ca"
+    }
+  },
+  "schema": "nf19.r10_capture_stop_review_v2.v1",
+  "scope": "Independent static review of the corrected read-only terminal capture helper and unchanged exact-stop helper. No remote action, rerun, or compute action was performed for this review.",
+  "v1_failure": {
+    "effect": "The capture exited before printing a receipt. It had already performed read-only unit/parent property queries and parent-cgroup snapshot; it did not reach the receipt file-payload encoding loop or any stop command. No compute, model/array reads, source edits, or job restart occurred in this failure path.",
+    "observed_error": "KeyError: 'ControlGroup' at receipt construction because ordinary `systemctl show` omitted the empty terminal-unit property.",
+    "stderr_sha256": "61882c17d1ee6eae3bb1990e6cda20a2274fc712904d73cfc57a771c3af5905c",
+    "stdout_bytes": 0
+  },
+  "v2_diff": {
+    "compute_impact": "The sole difference is a read-only systemd property-query flag. It does not change or rerun the admitted compute. V1 produced no payload receipt, so V2 must perform the intended metadata-only capture once; root must validate its raw bytes locally before exact stop.",
+    "control_group_effect": "systemctl show --all includes empty properties, allowing the existing ControlGroup == empty check to set own_cgroup_empty_terminal=true and leave own_cgroup null. The code does not fall back to /sys/fs/cgroup root.",
+    "only_change": "The properties() command changes from systemctl --user show UNIT to systemctl --user show --all UNIT.",
+    "other_capture_and_stop_logic": "Unchanged from V1; exact launch return code, InvocationID, terminal success, exit status, configured caps/runtime, metadata-only file allowlist, parent cgroup scoping, success-only FAILURE absence check, and stop helper gates remain intact."
+  },
+  "verdict": "PASS_CAPTURE_V2_SUCCESS_PATH_ONLY"
+}

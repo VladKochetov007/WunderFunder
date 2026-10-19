@@ -1,0 +1,110 @@
+{
+  "checks": [
+    {
+      "detail": "Assembler bundles exactly the noncanonical manifest pins plus PREPARATION_MANIFEST.json, IMPLEMENTATION_REVIEW.json, TEST_RECEIPT.json, and README.md; verifies pinned bytes, substitutes frozen manifest/runtime/canonical pins, compiles inline and assembled script, and records transport identity.",
+      "id": "transport_identity_and_scope",
+      "status": "PASS"
+    },
+    {
+      "detail": "Launch body enforces UID 1061 and B ownership, physical B scratch, exact absent unit/create-only paths, empty campaign cgroup descendants, scoped parent path, 2-CPU parent, exact configured 18/20 GB and zero swap caps with observed page-rounded kernel caps, reservation/headroom/disk floors, selected GPU campaign ownership, and repeats the gates before launch. Resource observation supports the page-rounding check.",
+      "id": "admission_and_resource_gates",
+      "status": "PASS"
+    },
+    {
+      "detail": "Only manifest-pinned R10 source plus the four frozen extras are staged after byte/size/SHA checks. ROOT_ADMISSION and ROOT_LAUNCH bind the exact command, return code, post-launch properties, and InvocationID; the command sets 0.5 CPU, 1.4/1.5 GB, zero swap, 600 seconds, CUDA hidden, single-threaded BLAS, physical-B TMPDIR, and RemainAfterExit.",
+      "id": "staging_and_launch_binding",
+      "status": "PASS"
+    },
+    {
+      "detail": "Root inline smoke pins the runtime closure, patches NumPy load/memmap to fail before importing the four R10 modules, rejects preloaded/new WNN/PyArrow/Torch imports, records ROOT_IMPORT_SMOKE, then execs the frozen CLI. The CLI and staging body verify metadata/pins before fit array mapping; no target/eval data path is configured.",
+      "id": "runtime_smoke_and_data_boundary",
+      "status": "PASS"
+    },
+    {
+      "detail": "Capture helper requires the matching successful ROOT_LAUNCH and exact InvocationID, exited/success/zero status, expected caps and runtime, then preserves small selected receipts as base64 with original-byte length/SHA; inventories output by stat only and captures scoped parent events. Empty terminal ControlGroup remains null and never falls back to host-root cgroup.",
+      "id": "terminal_capture_validation",
+      "status": "PASS"
+    },
+    {
+      "detail": "Stop helper re-reads ROOT_LAUNCH and the exact unit properties, verifies the same invocation, terminal success, and caps before stopping only the named unit, then verifies inactive/dead state.",
+      "id": "exact_stop_gate",
+      "status": "PASS"
+    }
+  ],
+  "launch_binding": {
+    "invocation_id": "8aa5dbfc71e946188eaac5611a4a8e74",
+    "root_operator_requirement": "Capture only after terminal state and exact invocation/cap checks; validate raw payload lengths and SHA-256 locally and durably before invoking the exact-stop helper.",
+    "unit": "computer-vision-homework-eda19-r10-v1.service"
+  },
+  "limitations": [
+    "The capture helper is success-path-only: it asserts FAILURE.json is absent, so it is not suitable for preserving a failed R10 run. If failure evidence exists, do not call this helper; preserve failure through a separately reviewed metadata-only path.",
+    "The capture helper checks the 4,000,000-byte receipt limit only after read_bytes() has loaded the file. This bounds transport size, not peak read allocation; selected receipts and probe.log are expected to be small, and no array/model payload paths are selected.",
+    "This is a static review of the pinned artifacts, not a scientific-result acceptance. Independent local raw-byte durability, length/SHA verification, and producer/result schema checks remain required before exact stop."
+  ],
+  "observed_utc": "2026-10-19T03:53:21.166900+00:00",
+  "reviewed_artifacts": {
+    "IMPLEMENTATION_REVIEW.json": {
+      "bytes": 4266,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/IMPLEMENTATION_REVIEW.json",
+      "sha256": "06b9acb72e42f56325a8bc214cacdb7b292a7d22683561ad58d051301fbf51a6"
+    },
+    "PREPARATION_MANIFEST.json": {
+      "bytes": 1592,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/PREPARATION_MANIFEST.json",
+      "sha256": "49f39bf3e32faed6ecdcfef38e1b93cd95a5386177999c78b866b0de7dd1e483"
+    },
+    "RESOURCE_CAP_OBSERVATION.json": {
+      "bytes": 607,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/RESOURCE_CAP_OBSERVATION.json",
+      "sha256": "82e667243321ee64ccb88840b21dcf1a32a9774a71045ca3acc45ca19e397965"
+    },
+    "ROOT_STARTUP_REVIEW.json": {
+      "bytes": 2345,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/ROOT_STARTUP_REVIEW.json",
+      "sha256": "5404a8ee90d0d6e4f8f81e785d60ba272f8163c3b8ee65ad71ee1a57a45b9af9"
+    },
+    "TEST_RECEIPT.json": {
+      "bytes": 3340,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/TEST_RECEIPT.json",
+      "sha256": "f49faddcda5ffc3442bf24c1851be30d3a29580fd8195983bcbc4416cbf8acf6"
+    },
+    "TRANSPORT_BINDINGS.json": {
+      "bytes": 2437,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/TRANSPORT_BINDINGS.json",
+      "sha256": "30c2836f00be3cc0231b66fea88e5c1f2caebe4cbdac77320b95791ee10e8417"
+    },
+    "assemble_transport_v1.py": {
+      "bytes": 2718,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/assemble_transport_v1.py",
+      "sha256": "4cc8d27c8bdd6dbf0fbf401ba374bea43c468f4f198b4ecf7cdffa112b508a0b"
+    },
+    "capture_remote_v1.py": {
+      "bytes": 3853,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/capture_remote_v1.py",
+      "sha256": "b3eb79b05ef88be9e99e81f8d6160a39ccd99adcc6c92d3285887dc38a5dd267"
+    },
+    "remote_body_v1.py": {
+      "bytes": 27480,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/remote_body_v1.py",
+      "sha256": "e3b3b13217bda561fc8e638ce693226ae9ed944d791b443480fc6b074afa1fb0"
+    },
+    "root_inline_v1.py": {
+      "bytes": 3718,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/root_inline_v1.py",
+      "sha256": "53582b24fb1dc06cf2aa992c1079d6271ce4086c30e78a9d7470c3c4b66d7856"
+    },
+    "run_probe.py": {
+      "bytes": 21062,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/run_probe.py",
+      "sha256": "df30e18e33965f7332f357dd4f18d6ce5cf3c45c31e7d15a36d62ebbc537b929"
+    },
+    "stop_remote_v1.py": {
+      "bytes": 1737,
+      "path": "research/campaign_2026-10-19/idea_screens_r10/records/startup_v1/stop_remote_v1.py",
+      "sha256": "0664e2544ad0dc4bbaa5d2b701bdb31706dd3831752e955e8a844ec9d75828ca"
+    }
+  },
+  "schema": "nf19.r10_capture_stop_review.v1",
+  "scope": "Independent static pre-capture review of the frozen R10 transport, launch body, root inline smoke/exec, terminal capture helper, and exact-stop helper. No remote commands or capture/stop actions were executed by this review.",
+  "verdict": "PASS_SUCCESS_PATH_ONLY"
+}

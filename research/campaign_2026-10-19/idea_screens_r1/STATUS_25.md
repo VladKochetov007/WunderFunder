@@ -1,5 +1,7 @@
 # Статус всех25 после первого bounded screen
 
+Дополнение R10: [target-free joint-support screen](../idea_screens_r10/RESULTS.md) обнаружил редкие distinct cases beyond marginal ranges на фиксированных raw0/52 и256строках.52компоненты из64,26в каждой заранее заданной половине; без меток/модели/grade. Это не доказательство предсказательной пользы или выбранного направления.
+
 Дополнение R9: [прямая интервенция в recurrent carry](../idea_screens_r9/RESULTS.md) на одном неизменном GRU,8fit-компонентах и16окнах. Замена полной истории состоянием, восстановленным за256строк, меняет следующие128прогнозов на19.354% pooled relative RMS; все16окон выше1% описательного ориентира. Causal input features и их история одинаковы. Это зависимость прогнозов от старого state, не польза для меток, conditional-information test или выбранная архитектура;0обновлений/0backward/0grade.
 
 Дополнение R8: [learned constant-variance control](../idea_screens_r8/RESULTS.md) не воспроизвёл преимущество R7 input-dependent objective: WP.501394 против stored.514297; primary+.012903, secondary кWMSE−.000528. Это одна новая CPU-arm с теми же756updates/init, без replayR7. Удалён также variance-to-trunkgradient, поэтому истинныйnoise/expressivity не изолированы.
@@ -28,7 +30,7 @@
 | 5 | NOT_TESTED: нет обоснованного полного отражения112каналов и таргетов | Не создавать mirror labels без полной спецификации |
 | 6 | Rolling-beta view− .00036; почти нулевой общий screen | Проверить fit-only регуляризацию; это не тест экономической beta или causal identification |
 | 7 | Есть описательные масштабы trade/quote; общие физические единицы не доказаны | Target-blind проверка допустимости конкретных отношений; predictive cloud-view не запускался |
-| 8 | NOT_TESTED: joint-support estimator отсутствует | Сравнить фиксированную совместную поддержку с axis-aligned bounds на fit |
+| 8 | PARTIAL: R10 fixed2D hull даёт274joint-only queries/31552 (0.8684%),52/64fit components | Это геометрическое отличие от same-window box; target usefulness, full-dimensional support и matched outlier/volatility controls NOT_TESTED |
 | 9 | NOT_TESTED: sparse factor model не обучался | Sparse-vs-dense matched bottleneck; low-rank/PCA не считать подтверждением |
 | 10 | NOT_TESTED: conditional innovation graph отсутствует | Input-only fit-component stability grouped VAR/residual associations |
 | 11 | Joint signed/absolute-innovation EMA+ .01119, но выигрыш меняет знак без компоненты995 | Разделить signed и absolute части; нынешний screen не изолирует Jordan/variation механизм |

@@ -1,5 +1,7 @@
 # 19 October research
 
+- [R10 fixed joint-support geometry](idea_screens_r10/README.md): a same-window two-coordinate hull adds274inside-box/outside-hull queries (0.8684%) across52of64fit components,26in each fixed half. Target-free, no fit/grade or predictive-value claim; exact CPU invocation captured/stopped.
+
 - [Existing F3 pair preservation completed](../campaign_2026-10-18/priority25_execution_r4/f3_result_collection_r1/RESULTS.md): wide.7031224625/deep.7032378322, Δ−.00011537 and conditional component interval crossing0. Both fits/exports/grade were already running under old authority; this turn archived59files with source/header/finite/hash/receipt checks and independent acceptance. No new old-queue cell or grade replay.
 
 - [R9 carried-history intervention](idea_screens_r9/RESULTS.md): rebuilding one fixed GRU state from only256rows changes next128-row predictions by19.354% pooled relative RMS, with all16window contrasts above the1% descriptive reference. Same intact causal features,8fit components,0updates/0labels used. This establishes checkpoint-conditional carry dependence; label usefulness, history matching and architecture gains remain untested.

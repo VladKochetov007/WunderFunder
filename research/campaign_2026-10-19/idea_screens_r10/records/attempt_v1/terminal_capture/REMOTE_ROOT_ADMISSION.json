@@ -1,0 +1,280 @@
+{
+  "base_owner_uid": 1061,
+  "canonical_data_py_sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+  "caps": {
+    "blas_threads": 1,
+    "cpu_cores": 0.5,
+    "cuda_visible_devices": "",
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "memory_swap_max_bytes": 0,
+    "runtime_max_s": 600,
+    "tmpdir": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp"
+  },
+  "command": [
+    "systemd-run",
+    "--user",
+    "--unit=computer-vision-homework-eda19-r10-v1.service",
+    "--slice=wnn-campaign.slice",
+    "--property=Type=exec",
+    "--property=CPUQuota=50%",
+    "--property=MemoryHigh=1400000000",
+    "--property=MemoryMax=1500000000",
+    "--property=MemorySwapMax=0",
+    "--property=RuntimeMaxSec=600",
+    "--property=RemainAfterExit=yes",
+    "--property=StandardOutput=append:/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r10-v1/probe.log",
+    "--property=StandardError=append:/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r10-v1/probe.log",
+    "--working-directory=/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r10-v1",
+    "/usr/bin/env",
+    "CUDA_VISIBLE_DEVICES=",
+    "OMP_NUM_THREADS=1",
+    "OPENBLAS_NUM_THREADS=1",
+    "MKL_NUM_THREADS=1",
+    "NUMEXPR_NUM_THREADS=1",
+    "PYTHONPATH=/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r10-v1",
+    "TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "-B",
+    "-c",
+    "import importlib\nimport json\nimport os\nimport pathlib\nimport sys\nimport time\n\nimport numpy as np\n\nROOT = pathlib.Path(\n    \"/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r10-v1\"\n)\nMANIFEST_PATH = ROOT / \"idea_screens_r10/PREPARATION_MANIFEST.json\"\nMANIFEST_SHA256 = \"49f39bf3e32faed6ecdcfef38e1b93cd95a5386177999c78b866b0de7dd1e483\"\nRUNTIME_PY = {'idea_screens_r10': 'idea_screens_r10/__init__.py', 'idea_screens_r10.geometry': 'idea_screens_r10/geometry.py', 'idea_screens_r10.panel_io': 'idea_screens_r10/panel_io.py', 'idea_screens_r10.run_probe': 'idea_screens_r10/run_probe.py'}\nEXPECTED_RUNTIME_PY = {\n    \"idea_screens_r10\": \"idea_screens_r10/__init__.py\",\n    \"idea_screens_r10.geometry\": \"idea_screens_r10/geometry.py\",\n    \"idea_screens_r10.panel_io\": \"idea_screens_r10/panel_io.py\",\n    \"idea_screens_r10.run_probe\": \"idea_screens_r10/run_probe.py\",\n}\nSAMPLE = \"/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/nf19-sample-r3-v2\"\nOUT = \"/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/nf19-r10-v1\"\nSAMPLE_SHA256 = \"b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64\"\n\nsys.dont_write_bytecode = True\nif RUNTIME_PY != EXPECTED_RUNTIME_PY:\n    raise RuntimeError(\"assembled R10 runtime module map differs from the frozen import closure\")\nmanifest_bytes = MANIFEST_PATH.read_bytes()\nif __import__(\"hashlib\").sha256(manifest_bytes).hexdigest() != MANIFEST_SHA256:\n    raise RuntimeError(\"R10 import smoke saw a different preparation manifest\")\nmanifest = json.loads(manifest_bytes)\nif manifest.get(\"runtime_py\") != EXPECTED_RUNTIME_PY:\n    raise RuntimeError(\"R10 manifest runtime closure differs from its frozen map\")\n\nold_load = np.load\nold_memmap = np.memmap\ncalls = []\n\n\ndef deny_array_read(*args, **kwargs):\n    calls.append({\"args\": len(args), \"kwargs\": sorted(kwargs)})\n    raise AssertionError(\"R10 import smoke attempted an array read\")\n\n\nnp.load = deny_array_read\nnp.memmap = deny_array_read\nstarted = time.monotonic()\nbefore = set(sys.modules)\nforbidden = (\"wnn\", \"pyarrow\", \"torch\")\npreloaded_forbidden = sorted(\n    name\n    for name in before\n    if any(name == root or name.startswith(root + \".\") for root in forbidden)\n)\nif preloaded_forbidden:\n    raise RuntimeError(\"R10 import smoke started with a forbidden runtime already loaded\")\nimported = {}\nfor module_name, relative_path in EXPECTED_RUNTIME_PY.items():\n    module = importlib.import_module(module_name)\n    actual_path = pathlib.Path(str(module.__file__)).resolve()\n    expected_path = (ROOT / relative_path).resolve()\n    if actual_path != expected_path:\n        raise RuntimeError(\"R10 import resolved outside the staged source: \" + module_name)\n    imported[module_name] = str(actual_path)\nnew_forbidden = sorted(\n    name\n    for name in set(sys.modules) - before\n    if any(name == root or name.startswith(root + \".\") for root in forbidden)\n)\nif calls or new_forbidden:\n    raise RuntimeError(\"R10 import smoke read data or imported a forbidden runtime\")\nreceipt = {\n    \"schema\": \"nf19.r10_import_smoke.v1\",\n    \"status\": \"PASS\",\n    \"observed_utc\": __import__(\"datetime\")\n    .datetime.now(__import__(\"datetime\").timezone.utc)\n    .isoformat(),\n    \"preparation_manifest_sha256\": MANIFEST_SHA256,\n    \"runtime_import_paths\": imported,\n    \"array_reads\": 0,\n    \"array_read_sentinel_calls\": calls,\n    \"preloaded_forbidden_imports\": preloaded_forbidden,\n    \"new_forbidden_imports\": new_forbidden,\n    \"numpy_version\": np.__version__,\n    \"elapsed_s\": time.monotonic() - started,\n}\nwith (ROOT / \"ROOT_IMPORT_SMOKE.json\").open(\"xb\") as stream:\n    stream.write(json.dumps(receipt, indent=2, sort_keys=True).encode(\"utf-8\"))\n    stream.write(b\"\\n\")\n\nargs = [\n    \"--sample\",\n    SAMPLE,\n    \"--output\",\n    OUT,\n    \"--expected-sample-sha256\",\n    SAMPLE_SHA256,\n    \"--expected-preparation-manifest-sha256\",\n    MANIFEST_SHA256,\n]\nos.execv(sys.executable, [sys.executable, \"-B\", \"-m\", \"idea_screens_r10.run_probe\", *args])\n"
+  ],
+  "manifest_noncanonical_pins": {
+    "idea_screens_r10/DESIGN.md": "a6a94cd82a0e516b3c9e726415bfcfbf1d113f81f097947e6961ff7b7aa4d685",
+    "idea_screens_r10/DESIGN_REVIEW.json": "129b30e6dc41e0af08803d333bc64cf429922692efca24c04e7a1971d2ce002d",
+    "idea_screens_r10/SELECTION_HISTORY.json": "4f69b8e1502435c3f6578c6b6e01ffb6d8ff4ae2b03338236e8a91982adc66df",
+    "idea_screens_r10/__init__.py": "44dae8f66420e4572bf8bbbea1de974dd3d63427bf79700c010439f9d8f0eb13",
+    "idea_screens_r10/fixtures/R3_MEMBERSHIP.json": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+    "idea_screens_r10/fixtures/R3_SAMPLE.json": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+    "idea_screens_r10/geometry.py": "5a50321cec56293cd4fff2b1ad812e0f2487ce562eb3ecbbc5bf4c2714d45404",
+    "idea_screens_r10/panel_io.py": "3d2c68f07d169896218932c46fa3767e6a074065a99a744d455741046acf91ba",
+    "idea_screens_r10/run_probe.py": "df30e18e33965f7332f357dd4f18d6ce5cf3c45c31e7d15a36d62ebbc537b929",
+    "idea_screens_r10/test_r10.py": "d07da674ea980aa3119795e92b27c0b05f80ec2104fb34fcb3f7d25396075110"
+  },
+  "observed_utc": "2026-10-19T03:50:55.000153+00:00",
+  "output": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/nf19-r10-v1",
+  "preparation_manifest_sha256": "49f39bf3e32faed6ecdcfef38e1b93cd95a5386177999c78b866b0de7dd1e483",
+  "resource_admission_initial": {
+    "cgroups_checked_empty": [
+      "."
+    ],
+    "host_mem_available_bytes": 660163371008,
+    "observed_utc": "2026-10-19T03:50:54.099148+00:00",
+    "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+    "parent_cpu_max": "200000 100000",
+    "parent_memory": {
+      "configured_high_bytes": 18000000000,
+      "configured_max_bytes": 20000000000,
+      "current_bytes": 3961159680,
+      "events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0",
+      "events_local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "high_bytes": 17999998976,
+      "kernel_page_size_bytes": 4096,
+      "max_bytes": 19999997952,
+      "new_reservation_bytes": 1500000000,
+      "reservation_target_bytes": 17000000000,
+      "swap_max_bytes": 0
+    },
+    "parent_systemd": {
+      "properties": {
+        "ActiveState": "active",
+        "CPUQuotaPerSecUSec": "2s",
+        "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+        "LoadState": "loaded",
+        "MemoryCurrent": "3961159680",
+        "MemoryHigh": "18000000000",
+        "MemoryMax": "20000000000",
+        "MemorySwapMax": "0",
+        "SubState": "active"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stderr_base64": "",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "ControlGroup=/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice\nMemoryCurrent=3961159680\nCPUQuotaPerSecUSec=2s\nMemoryHigh=18000000000\nMemoryMax=20000000000\nMemorySwapMax=0\nLoadState=loaded\nActiveState=active\nSubState=active\n",
+      "stdout_base64": "Q29udHJvbEdyb3VwPS91c2VyLnNsaWNlL3VzZXItMTA2MS5zbGljZS91c2VyQDEwNjEuc2VydmljZS93bm4uc2xpY2Uvd25uLWNhbXBhaWduLnNsaWNlCk1lbW9yeUN1cnJlbnQ9Mzk2MTE1OTY4MApDUFVRdW90YVBlclNlY1VTZWM9MnMKTWVtb3J5SGlnaD0xODAwMDAwMDAwMApNZW1vcnlNYXg9MjAwMDAwMDAwMDAKTWVtb3J5U3dhcE1heD0wCkxvYWRTdGF0ZT1sb2FkZWQKQWN0aXZlU3RhdGU9YWN0aXZlClN1YlN0YXRlPWFjdGl2ZQo=",
+      "stdout_bytes": 248,
+      "stdout_sha256": "bd82758b7ebe03f34519e897267f7aec408032e0cd15d7d2e4c7b20325c48c46"
+    },
+    "populated_cgroups": [],
+    "scratch_free_bytes": 88273993396224,
+    "scratch_mount": "/      /dev/mapper/vg0-lv--0 ext4",
+    "selected_gpu": {
+      "compute_processes": [
+        {
+          "campaign_owned": false,
+          "cgroup": "0::/user.slice/user-1155.slice/session-105852.scope\n",
+          "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+          "pid": 4142499,
+          "used_memory": "932 MiB"
+        },
+        {
+          "campaign_owned": false,
+          "cgroup": "0::/user.slice/user-1124.slice/session-118294.scope\n",
+          "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+          "pid": 1352983,
+          "used_memory": "1336 MiB"
+        },
+        {
+          "campaign_owned": false,
+          "cgroup": "0::/user.slice/user-1124.slice/session-120922.scope\n",
+          "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+          "pid": 1628093,
+          "used_memory": "1720 MiB"
+        }
+      ],
+      "identity_stdout": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c\n"
+    }
+  },
+  "resource_admission_prelaunch": {
+    "cgroups_checked_empty": [
+      "."
+    ],
+    "host_mem_available_bytes": 659350994944,
+    "observed_utc": "2026-10-19T03:50:54.995457+00:00",
+    "parent_cgroup": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+    "parent_cpu_max": "200000 100000",
+    "parent_memory": {
+      "configured_high_bytes": 18000000000,
+      "configured_max_bytes": 20000000000,
+      "current_bytes": 3961159680,
+      "events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0",
+      "events_local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "high_bytes": 17999998976,
+      "kernel_page_size_bytes": 4096,
+      "max_bytes": 19999997952,
+      "new_reservation_bytes": 1500000000,
+      "reservation_target_bytes": 17000000000,
+      "swap_max_bytes": 0
+    },
+    "parent_systemd": {
+      "properties": {
+        "ActiveState": "active",
+        "CPUQuotaPerSecUSec": "2s",
+        "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+        "LoadState": "loaded",
+        "MemoryCurrent": "3961159680",
+        "MemoryHigh": "18000000000",
+        "MemoryMax": "20000000000",
+        "MemorySwapMax": "0",
+        "SubState": "active"
+      },
+      "returncode": 0,
+      "stderr": "",
+      "stderr_base64": "",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "ControlGroup=/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice\nMemoryCurrent=3961159680\nCPUQuotaPerSecUSec=2s\nMemoryHigh=18000000000\nMemoryMax=20000000000\nMemorySwapMax=0\nLoadState=loaded\nActiveState=active\nSubState=active\n",
+      "stdout_base64": "Q29udHJvbEdyb3VwPS91c2VyLnNsaWNlL3VzZXItMTA2MS5zbGljZS91c2VyQDEwNjEuc2VydmljZS93bm4uc2xpY2Uvd25uLWNhbXBhaWduLnNsaWNlCk1lbW9yeUN1cnJlbnQ9Mzk2MTE1OTY4MApDUFVRdW90YVBlclNlY1VTZWM9MnMKTWVtb3J5SGlnaD0xODAwMDAwMDAwMApNZW1vcnlNYXg9MjAwMDAwMDAwMDAKTWVtb3J5U3dhcE1heD0wCkxvYWRTdGF0ZT1sb2FkZWQKQWN0aXZlU3RhdGU9YWN0aXZlClN1YlN0YXRlPWFjdGl2ZQo=",
+      "stdout_bytes": 248,
+      "stdout_sha256": "bd82758b7ebe03f34519e897267f7aec408032e0cd15d7d2e4c7b20325c48c46"
+    },
+    "populated_cgroups": [],
+    "scratch_free_bytes": 88273993068544,
+    "scratch_mount": "/      /dev/mapper/vg0-lv--0 ext4",
+    "selected_gpu": {
+      "compute_processes": [
+        {
+          "campaign_owned": false,
+          "cgroup": "0::/user.slice/user-1155.slice/session-105852.scope\n",
+          "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+          "pid": 4142499,
+          "used_memory": "932 MiB"
+        },
+        {
+          "campaign_owned": false,
+          "cgroup": "0::/user.slice/user-1124.slice/session-118294.scope\n",
+          "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+          "pid": 1352983,
+          "used_memory": "1336 MiB"
+        },
+        {
+          "campaign_owned": false,
+          "cgroup": "0::/user.slice/user-1124.slice/session-120922.scope\n",
+          "gpu_uuid": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c",
+          "pid": 1628093,
+          "used_memory": "1720 MiB"
+        }
+      ],
+      "identity_stdout": "GPU-a50d0c3b-d28f-a2a7-8b43-3e02b543fc0c\n"
+    }
+  },
+  "runtime_py": {
+    "idea_screens_r10": "idea_screens_r10/__init__.py",
+    "idea_screens_r10.geometry": "idea_screens_r10/geometry.py",
+    "idea_screens_r10.panel_io": "idea_screens_r10/panel_io.py",
+    "idea_screens_r10.run_probe": "idea_screens_r10/run_probe.py"
+  },
+  "sample": {
+    "array_payloads_read": 0,
+    "eval_metadata_component_count": 32,
+    "fit_component_count": 64,
+    "membership_sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+    "nested_fit_component_count": 32,
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/nf19-sample-r3-v2",
+    "sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+  },
+  "schema": "nf19.r10_support_launch_admission.v1",
+  "staged_files": {
+    "idea_screens_r10/DESIGN.md": {
+      "bytes": 7476,
+      "sha256": "a6a94cd82a0e516b3c9e726415bfcfbf1d113f81f097947e6961ff7b7aa4d685"
+    },
+    "idea_screens_r10/DESIGN_REVIEW.json": {
+      "bytes": 5004,
+      "sha256": "129b30e6dc41e0af08803d333bc64cf429922692efca24c04e7a1971d2ce002d"
+    },
+    "idea_screens_r10/IMPLEMENTATION_REVIEW.json": {
+      "bytes": 4266,
+      "sha256": "06b9acb72e42f56325a8bc214cacdb7b292a7d22683561ad58d051301fbf51a6"
+    },
+    "idea_screens_r10/PREPARATION_MANIFEST.json": {
+      "bytes": 1592,
+      "sha256": "49f39bf3e32faed6ecdcfef38e1b93cd95a5386177999c78b866b0de7dd1e483"
+    },
+    "idea_screens_r10/README.md": {
+      "bytes": 2409,
+      "sha256": "8d3c346641b5cd173436fdef20e5a013fc2b040071d5e4d01c77b197ddc72e89"
+    },
+    "idea_screens_r10/SELECTION_HISTORY.json": {
+      "bytes": 989,
+      "sha256": "4f69b8e1502435c3f6578c6b6e01ffb6d8ff4ae2b03338236e8a91982adc66df"
+    },
+    "idea_screens_r10/TEST_RECEIPT.json": {
+      "bytes": 3340,
+      "sha256": "f49faddcda5ffc3442bf24c1851be30d3a29580fd8195983bcbc4416cbf8acf6"
+    },
+    "idea_screens_r10/__init__.py": {
+      "bytes": 79,
+      "sha256": "44dae8f66420e4572bf8bbbea1de974dd3d63427bf79700c010439f9d8f0eb13"
+    },
+    "idea_screens_r10/fixtures/R3_MEMBERSHIP.json": {
+      "bytes": 56569,
+      "sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217"
+    },
+    "idea_screens_r10/fixtures/R3_SAMPLE.json": {
+      "bytes": 120800,
+      "sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64"
+    },
+    "idea_screens_r10/geometry.py": {
+      "bytes": 5699,
+      "sha256": "5a50321cec56293cd4fff2b1ad812e0f2487ce562eb3ecbbc5bf4c2714d45404"
+    },
+    "idea_screens_r10/panel_io.py": {
+      "bytes": 12628,
+      "sha256": "3d2c68f07d169896218932c46fa3767e6a074065a99a744d455741046acf91ba"
+    },
+    "idea_screens_r10/run_probe.py": {
+      "bytes": 21062,
+      "sha256": "df30e18e33965f7332f357dd4f18d6ce5cf3c45c31e7d15a36d62ebbc537b929"
+    },
+    "idea_screens_r10/test_r10.py": {
+      "bytes": 5744,
+      "sha256": "d07da674ea980aa3119795e92b27c0b05f80ec2104fb34fcb3f7d25396075110"
+    }
+  },
+  "uid": 1061,
+  "unit": "computer-vision-homework-eda19-r10-v1.service"
+}

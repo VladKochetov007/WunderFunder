@@ -1,0 +1,57 @@
+{
+  "artifact": "independent_design_review",
+  "idea_id": "H-NF19-08",
+  "verdict": "conditional_design_pass",
+  "basis": {
+    "original_card": {
+      "path": "research/campaign_2026-10-19/no_fit_ideation_r1/IDEAS_25.md",
+      "sha256": "e456661211350ebd990ef20dbef033179077ca7468abc1d4cca612561e364502",
+      "anchor": "h-nf19-08",
+      "claim_under_review": "Test whether fixed recent joint support distinguishes observations beyond axis-aligned bounds; do not assume a breakout predicts direction."
+    },
+    "status_record": {
+      "path": "research/campaign_2026-10-19/idea_screens_r1/STATUS_25.md",
+      "sha256": "990f3f1c157f80720e47cc98ecde412f8f151b6ff9a5fe3c07520ae01cdfda24",
+      "row": 8,
+      "status": "NOT_TESTED: joint-support estimator absent; compare fixed joint support with axis-aligned bounds on fit."
+    },
+    "review_scope": "Design only. No production arrays, target values, models, remote actions, or fits were read or run."
+  },
+  "frozen_design_assumptions": {
+    "panel": "Existing R3 exposed fit panel only: 64 fit components; no evaluation components or score/grade use.",
+    "coordinates": {
+      "columns": [0, 52],
+      "canonical_labels": ["firstbid_px", "firstbid_px"],
+      "label_source": "canonical data.py metadata as reported by the task owner",
+      "qualification": "The labels do not establish common physical units or economic meaning across i0/i1. Interpret the pair only as these two fixed coordinates unless source documentation proves more."
+    },
+    "queries": "Original stride-40 eligible rows, with t >= 256; each query uses only the same sequence's strict-past window [t-256,t).",
+    "classes": [
+      "outside the closed axis-aligned window box (range extension)",
+      "inside the closed box but outside the closed convex hull (joint-only novelty)",
+      "inside the closed convex hull"
+    ],
+    "target_access": "Target-free. Do not read target values; no target-conditioned moments, evaluation, training, or quality grade. Only the fixed x inputs and the existing row/sequence masks, mappings, and source hashes needed to define eligible queries are in scope."
+  },
+  "review": {
+    "decision_value": "Useful as a cheap falsifier for this one coordinate pair and one window: if the joint-only class is absent or concentrated in a small number of components/one fixed half, a broader hull implementation is not justified by this screen. A repeatable nontrivial class only shows that the hull differs geometrically from marginal bounds; it does not show predictive value.",
+    "required_controls": [
+      "Treat the convex hull as a subset of its axis-aligned bounding box and report all three mutually exclusive classes, not only the primary joint-only class.",
+      "Include hull degeneracies (one point, collinear/segment, and duplicate points) and define closed-boundary inclusion and orientation handling before execution; do not tune a numerical tolerance from outcomes.",
+      "Report counts and rates per component plus equal-component-weight summaries and the two pre-fixed 32-component halves. Rows within a component are serially dependent; halves are stability checks, not independent inferential replicates.",
+      "Freeze the component-to-half assignment, coordinate IDs, eligibility/mask handling, and query count before looking at results. Keep the physical-unit caveat attached to every interpretation."
+    ],
+    "falsifiers": [
+      "No eligible inside-box/outside-hull observations.",
+      "The joint-only category appears in only one fixed half or is dominated by a few components, indicating weak panel-wide stability.",
+      "Most departures are outside the box, while the joint-only category is negligible; marginal range extension then explains nearly all observed novelty for this fixed pair/window."
+    ],
+    "limits": [
+      "This is a current-point-versus-past-window geometry screen, not a matched test of the same current state under different histories.",
+      "Regime drift, local dependence, and the current point's location can create the joint-only category; its occurrence does not establish information about future labels or an incremental forecast benefit.",
+      "One pair and W=256 do not establish the full state-geometry mechanism or robustness to coordinate/window choice. No post-result coordinate/window search is authorized by this review."
+    ],
+    "advance_rule": "For a descriptive screen, report the fixed counts/rates and component distribution without significance claims. If a binary go/no-go threshold is desired, set its numerical prevalence and component-coverage threshold before inspecting outputs; this review does not invent a post-hoc threshold."
+  },
+  "resource_note": "The proposed 2D, 256-point rolling hull over fixed stride rows is plausibly bounded, but the implementation owner must establish the exact eligible-query bound and CPU/memory estimate from metadata before execution. No production-data access was part of this review."
+}

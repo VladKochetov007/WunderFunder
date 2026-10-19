@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+[R10 target-free CPU execution](../../campaign_2026-10-19/idea_screens_r10/records/README.md) records one0.5CPU/1.5GB/600s diagnostic, original-byte capture before exact stopped invocation and0new parent/local events. [Resource reconciliation](../../campaign_2026-10-19/idea_screens_r10/RESOURCE_RECONCILIATION.json) separates31.24234unit-wall/15.644817CPU from30.774helperseconds and preserves differing memory observations; no model/data payload reached the Mac.
+
 [Existing F3 result snapshot](../../campaign_2026-10-18/priority25_execution_r4/f3_result_collection_r1/records/README.md) completes the original pre-pivot pair:59files/164386450B retained on Beleriand, exact0.75CPU/512MB/120s collector exited0/captured/stopped, no new parent memory events. A read-only capture NameError and preliminary stale staging-path stats are preserved separately from the successful compute and the59final published-path observations. No fit/export/grade rerun or new old-CP30 admission.
 
 [R9 execution and F3 terminal preservation](../../campaign_2026-10-19/idea_screens_r9/records/README.md) records one CPU-only no-update history intervention under0.5CPU/1.4GBhigh/1.5GBmax/600s, exact source gates, capture before exact stop, unavailable terminal MemoryPeak and zero new parent events. Both existing F3 terminal archives now have acceptance; the original native sequence finished, with final grade collection handled separately through its existing reviewed collector. No new GPU fit or old-CP30 admission.
