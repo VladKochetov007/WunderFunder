@@ -1,0 +1,63 @@
+{
+  "schema": "wnn.experiment-draft.v2",
+  "id": "E-OBSERVABLE-EVENT-DYNAMICS-20261019-R1",
+  "hypothesis_id": "H-OBSERVABLE-EVENT-DYNAMICS-20261019-R1",
+  "kind": "scientific",
+  "comparison_stage": "screen",
+  "status": "design_only_not_implemented",
+  "launch_ready": false,
+  "arms": [
+    "teacher_068b_supervised",
+    "teacher_068b_supervised_event_nll"
+  ],
+  "cells": [
+    {
+      "fold": 0,
+      "seed": 1001
+    },
+    {
+      "fold": 2,
+      "seed": 1002
+    }
+  ],
+  "replications_per_arm": 2,
+  "reused_controls": [],
+  "total_new_teacher_fits": 4,
+  "student_fits_in_this_panel": 0,
+  "precision": "fp32",
+  "autocast": false,
+  "tf32": false,
+  "metric": "global_wp_clip2_v1",
+  "shared_model": {
+    "layers": 24,
+    "width": 1536,
+    "heads": 24,
+    "ff_width": 4096,
+    "raw_inputs": 112,
+    "event_inputs": 99
+  },
+  "common_recipe_reference": "recipe.json teacher_068b_fp32_muon; same context, optimizer, membership, target policy and fixed horizon",
+  "primary_difference": "auxiliary coefficient 0 versus .05; identical head inventory and backbone inputs",
+  "event_definition": "canonical observable group-change semantics; no physical action/side assumption",
+  "future_horizon_rows": 64,
+  "future_targets": [
+    "next observable group-change survival likelihood",
+    "observed-event group/direction/fit-only magnitude bins"
+  ],
+  "no_change_policy": "quiet anchors contribute survival likelihood; finite sequence/crop tails are right-censored",
+  "normalization": "separate global valid-anchor/event denominators; exact DDP accumulation semantics",
+  "source_paper": "https://arxiv.org/abs/2602.23784",
+  "implementation_sources": [
+    "src/wnn/training/README.md"
+  ],
+  "remaining_work": [
+    "Implement the source-bound teacher/DDP/FP32 optimizer path from the main design",
+    "Bind exact canonical event group definitions, fit-only bins and future-target censoring",
+    "Check no future target enters the encoder, memory or main prediction head",
+    "Validate survival loss and distributed denominators including zero-event ranks",
+    "Profile actual B300 shapes and explicitly allocate this panel separately from the capacity panel",
+    "Evaluate official target score and budget a separate matched GRU transfer stage"
+  ],
+  "base_research_team_sha": "c5e962295",
+  "portfolio_order": "event-objective screen preferred first; each capacity or objective panel has a separate four-fit budget; no jobs admitted"
+}

@@ -1,0 +1,47 @@
+{
+  "experiment_id": "E-OBSERVABLE-EVENT-DYNAMICS-20261019-R1",
+  "status": "plan_only_not_training",
+  "launch_ready": false,
+  "arms": [
+    "teacher_068b_supervised",
+    "teacher_068b_supervised_event_nll"
+  ],
+  "cells_per_arm": 2,
+  "total_fits": 4,
+  "reused_fits": 0,
+  "new_fits": 4,
+  "comparison_stage": "screen",
+  "legacy_source_commit": null,
+  "provenance_refs_status": "caller-declared; verify artifacts, ancestry and allocation at admission",
+  "reused_controls": [],
+  "followup_allocation": null,
+  "fit_count_scope": "listed arms only; budget separate teacher/student stages explicitly",
+  "evidence_scope": "directional screen, not significance; all existing folds exposed",
+  "cells": [
+    {
+      "fold": 0,
+      "seed": 1001
+    },
+    {
+      "fold": 2,
+      "seed": 1002
+    }
+  ],
+  "required_bindings_per_cell": [
+    "source-qualified split hash and fitting membership",
+    "fold-clean teacher, initializer, normalizer and propensity ancestry",
+    "exact command and config hashes, checkpoint and resume policy",
+    "GPU profile, environment, dataset/cache paths and output directory"
+  ],
+  "implementation_sources": [
+    "src/wnn/training/README.md"
+  ],
+  "remaining_work": [
+    "Implement the source-bound teacher/DDP/FP32 optimizer path from the main design",
+    "Bind exact canonical event group definitions, fit-only bins and future-target censoring",
+    "Check no future target enters the encoder, memory or main prediction head",
+    "Validate survival loss and distributed denominators including zero-event ranks",
+    "Profile actual B300 shapes and explicitly allocate this panel separately from the capacity panel",
+    "Evaluate official target score and budget a separate matched GRU transfer stage"
+  ]
+}

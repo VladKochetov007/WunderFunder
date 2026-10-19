@@ -34,6 +34,17 @@ measured result on our dataset. No external data or pretrained weights were adde
 | [Scaling Data-Constrained Language Models,2305.16264](https://arxiv.org/abs/2305.16264) | Repeated-data training has diminishing returns; useful caution for large teachers on fixed data. | Do not transfer language-token scaling coefficients or an epoch cutoff to correlated market rows. |
 | [On the Efficacy of Knowledge Distillation,1910.01348](https://arxiv.org/abs/1910.01348) | Teacher capacity/accuracy need not order student performance. | Vision evidence motivates a local teacher/student test; it does not predict a GRU capacity ceiling. |
 
+## Later user-supplied TradeFM source
+
+[TradeFM,2602.23784](https://arxiv.org/abs/2602.23784), primary PDF Sections5–7
+and Appendix B, was read after the first design. It is an event-generative
+market model with discrete/tabular input encoding. Its real trade units,
+training precision and generation metrics differ from our task. The
+[adaptation](../../experiment_drafts/large-dynamics-teacher-b300-r2/TRADEFM_ADAPTATION.md)
+records source details and the proposed, unrun hazard/mark auxiliary experiment.
+Independent scout followed up on this paper. No proprietary data/weights were
+imported and no literature runtime was scaled into a B300 ETA.
+
 ## Search and inspection provenance
 
 The root used web search with arXiv primary queries for Muon scaling, numerical

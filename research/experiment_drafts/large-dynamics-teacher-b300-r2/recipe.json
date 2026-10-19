@@ -1,0 +1,94 @@
+{
+  "schema": "wnn.experiment-draft.v2",
+  "id": "E-LARGE-DYNAMICS-TEACHER-SCALE-20261019-R2",
+  "hypothesis_id": "H-LARGE-DYNAMICS-TEACHER-20261019-R2",
+  "kind": "scientific",
+  "comparison_stage": "screen",
+  "status": "design_handoff_not_runnable_training",
+  "launch_ready": false,
+  "lineage": "teacher_then_student_connection",
+  "arms": [
+    "teacher_068b_fp32_muon",
+    "teacher_165b_fp32_muon"
+  ],
+  "cells": [
+    {
+      "fold": 0,
+      "seed": 1001
+    },
+    {
+      "fold": 2,
+      "seed": 1002
+    }
+  ],
+  "replications_per_arm": 2,
+  "total_new_teacher_fits": 4,
+  "reused_controls": [],
+  "student_fits_in_this_panel": 0,
+  "student_transfer_status": "separate matched 4-6-fit stage required; not funded by teacher-only panel",
+  "precision": "fp32",
+  "autocast": false,
+  "tf32": false,
+  "metric": "global_wp_clip2_v1",
+  "input": {
+    "raw": 112,
+    "canonical_events": 99,
+    "window": 4096,
+    "new_core": 2048
+  },
+  "model_trunks": {
+    "teacher_068b_fp32_muon": {
+      "layers": 24,
+      "width": 1536,
+      "heads": 24,
+      "ff_width": 4096,
+      "base_peak_lr": 0.0001
+    },
+    "teacher_165b_fp32_muon": {
+      "layers": 32,
+      "width": 2048,
+      "heads": 32,
+      "ff_width": 5632,
+      "base_peak_lr": 7.5e-05
+    }
+  },
+  "optimizer_proposal": {
+    "hidden_matrices": "source-pinned FP32 Muon; separately defined Q/K/V",
+    "lr_adjustment": "match_rms_adamw",
+    "momentum": 0.95,
+    "nesterov": true,
+    "newton_schulz_steps": 5,
+    "input_readout_and_other": "AdamW; same base LR; beta1=.9 beta2=.95 eps=1e-8",
+    "decay": {
+      "backbone": 0.05,
+      "input_readout_matrices": 0.01,
+      "norm_bias": 0.0
+    },
+    "gradient_clip": 1.0,
+    "upstream_cast_warning": "inspected PyTorch Muon performs BF16 NS work; do not use unchanged"
+  },
+  "schedule_proposal": {
+    "name": "WSD",
+    "epochs": 12,
+    "warmup_updates_shared_with_24_epoch_anchor": 1500,
+    "cooldown_fraction": 0.2,
+    "final_lr_fraction": 0.1
+  },
+  "global_new_rows_per_update_nominal": 65536,
+  "gpus_per_fit": "profile 8 versus 4; no reservation or job admitted",
+  "target_policy": "proposed clipped targets with .05+abs(clipped y) weights; bind exact canonical objective before launch",
+  "data_split_membership": null,
+  "implementation_sources": [
+    "src/wnn/training/README.md"
+  ],
+  "remaining_work": [
+    "Bind source-qualified membership, ownership, source SHA, normalized objective and fixed endpoint",
+    "Implement teacher model and distributed execution using canonical training components",
+    "Implement and audit all-FP32 Muon and actual attention forward/backward backend",
+    "Check causality, reset, weighted accumulation/DDP, actual producer schemas and resume",
+    "Profile actual allocated B300 memory/time and reserve complete fit/export/evaluation costs",
+    "Build fold-clean teacher prediction caches and budget a separate matched GRU transfer stage"
+  ],
+  "base_research_team_sha": "c5e962295",
+  "portfolio_order": "event-objective screen preferred first; each capacity or objective panel has a separate four-fit budget; no jobs admitted"
+}

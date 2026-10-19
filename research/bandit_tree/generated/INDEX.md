@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1632 · raw hypothesis rows 638 · raw experiment rows 1044 · legacy arms 18 · catalog files 42465.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1634 · raw hypothesis rows 639 · raw experiment rows 1045 · legacy arms 18 · catalog files 42475.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-a0f04689b2ff2755406ce37fc97d293e013ecc70a1c8ea9b868f3cf779a1d783.json](<snapshots/config-a0f04689b2ff2755406ce37fc97d293e013ecc70a1c8ea9b868f3cf779a1d783.json>).
 
@@ -1617,6 +1617,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-TEACHER-REPRESENTATION-HINTS-20261019 | H-TEACHER-REPRESENTATION-HINTS-20261019 | hypothesis · draft_published_not_launch_ready | family:teacher | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L633>), [research/hypotheses.jsonl](<../../hypotheses.jsonl#L636>) | — |
 | hypothesis:H-STREAMING-STUDENT-DISTILLATION-20261019 | H-STREAMING-STUDENT-DISTILLATION-20261019 | hypothesis · draft_published_not_launch_ready | family:teacher | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L634>), [research/hypotheses.jsonl](<../../hypotheses.jsonl#L637>) | — |
 | hypothesis:H-LARGE-DYNAMICS-TEACHER-20261019-R2 | A larger causal numerical Transformer with measured dynamics/context learning can provide teacher signal that improves a matched GRU or served blend. | hypothesis · proposed | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L638>) | — |
+| hypothesis:H-OBSERVABLE-EVENT-DYNAMICS-20261019-R1 | Training a large causal teacher on future observable-change timing and marks improves predictive state and useful target/student performance beyond matched supervision alone. | hypothesis · proposed | family:objective | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L639>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -2503,6 +2504,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-TEACHER-REPRESENTATION-HINTS-20261019 | E-TEACHER-REPRESENTATION-HINTS-20261019 | experiment · draft_published_not_launch_ready | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1035>), [research/experiments.jsonl](<../../experiments.jsonl#L1038>) | — |
 | experiment:E-STREAMING-STUDENT-DISTILLATION-20261019 | E-STREAMING-STUDENT-DISTILLATION-20261019 | experiment · draft_published_not_launch_ready | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1036>), [research/experiments.jsonl](<../../experiments.jsonl#L1039>) | — |
 | experiment:E-LARGE-DYNAMICS-TEACHER-SCALE-20261019-R2 | E-LARGE-DYNAMICS-TEACHER-SCALE-20261019-R2 | experiment · proposed_not_launch_ready | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1044>) | — |
+| experiment:E-OBSERVABLE-EVENT-DYNAMICS-20261019-R1 | E-OBSERVABLE-EVENT-DYNAMICS-20261019-R1 | experiment · proposed_not_implemented | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1045>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
