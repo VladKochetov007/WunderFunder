@@ -1,4 +1,6 @@
-# Current execution — 19 October 15:36 UTC
+# Current execution — 19 October16:59UTC
+
+**Fresh16:59:55UTC readonly health:** [Exact original invocation remains active/running](records/teacher_s3_v1/health_20261019T1700Z/README.md). Native FIT logs report epochs0/1 complete,14,920successful updates/746batches/0skips and both GRAD_STATS nonfinite0; latest recorded optimizer line ep2batch20/373/loss1.6076/LR2.47e-4. This is producer-log progress, not terminal22,380updates or independent checkpoint verification. Provenance/training_state now exist stat-only; selected model/fixedepoch2/history pending. One owned populated GPU worker, own/parent memory-event deltas0. No new staging/admission/fit/stop or quality result. This dated capture supersedes16:18for freshness; do not repeat immediately.
 
 **Fresh16:18:39UTC readonly health:** [Root-owned capture returned0 and persisted raw bytes](records/teacher_s3_v1/health_20261019T1618Z/README.md). Same exact teacher invocation active/running; last recorded optimizer line ep0batch360/373/loss1.9067/LR8.10e-4, not a synchronous live batch or verified completed-update counter. Only one owned populated GPUworker, own/parent newmemoryevents0; no terminal/checkpoint/qualityresult at capture. This is current health evidence, superseding the15:40startup snapshot for freshness without rewriting its transport caveat. Do not repeat this check immediately.
 

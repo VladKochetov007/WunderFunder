@@ -19,3 +19,5 @@ The [actual teacher profileV2](teacher_profile_v2/FAILURE.json) exited1at15:19:0
 [The first full strong GRU teacher is actually running](teacher_s3_v1/README.md), seed3/fixed3epochs under invocation02a8c00b433b49a185c2700624397769. This follows the completed current-source120update strictFP32Muon profile. It is a common prerequisite, not a measured tweak/control endpoint.
 
 [16:18UTC bounded teacher health](teacher_s3_v1/health_20261019T1618Z/README.md) records the same active invocation and epoch0batch360/373 log line, with exact raw transport/returncode0, one owned worker and no new parent/own memory events. Metadata/model paths were stat-only; no checkpoint payload or quality result. Earlier startup transport failure/correction is preserved separately.
+
+[16:59:55UTC teacher progress](teacher_s3_v1/health_20261019T1700Z/README.md) logs two completed epochs/14,920successful updates/0skips/nonfinite0 before recordedep2batch20/373. Same original invocation remains active with one owned worker and no new memory events. New provenance/training-state paths are stat-only; terminal/quality acceptance is still pending.

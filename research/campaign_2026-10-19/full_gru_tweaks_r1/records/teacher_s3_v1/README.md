@@ -2,6 +2,8 @@
 
 The launch/acceptance below is dated15:35–15:36UTC. Subsequent startup-capture evidence and its local transport limitation are recorded at the end; no terminal or quality result is asserted.
 
+[Fresh16:59:55UTC health](health_20261019T1700Z/README.md) reports the same active invocation, two logged complete epochs/14,920updates/0skips/nonfinite0, then recordedep2batch20/373. Only one owned populated GPUworker; own/parent memory events unchanged. Provenance/training_state are stat-only, not verified terminal artifacts. No terminal or quality result.
+
 [Fresh16:18:39UTC root-owned health capture](health_20261019T1618Z/README.md) has durable raw bytes and recorded SSHreturncode0: sameinvocation active/running, recordedep0batch360/373, oneownedGPUworker and0newmemoryevents. It supersedes startup freshness only; no terminal/quality or checkpoint inspection.
 
 [Admission](ADMISSION.json), [actual launch](LAUNCH.json), [launch acceptance](LAUNCH_ACCEPTANCE.json), [frozen recipe bytes](RECIPE.json), [raw transport](TRANSPORT.json) and originalSTDOUT/STDERR bind one real seed3 teacher fit. Native computer-vision-homework-fg19-teacher-s3-v1.service launched15:35:05UTC19October, invocation02a8c00b433b49a185c2700624397769. Current-source H384x2/211inputs/23outputs/B32/C1000/3epochs/fixedep2, currentF0/train+valid with heldout excluded, strictFP32Muon-all interior adaptation and the verified clean propensity. Expected22380updates is not an observed terminal count.
