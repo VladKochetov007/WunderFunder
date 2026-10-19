@@ -1,0 +1,16 @@
+
+==================================== ERRORS ====================================
+_ ERROR collecting runtime/parallel-expansion-v1/tests/test_smoke_native_v2.py _
+ImportError while importing test module '/data/epanov_s/tabdata/runtime/parallel-expansion-v1/tests/test_smoke_native_v2.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+runtime/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+runtime/parallel-expansion-v1/tests/test_smoke_native_v2.py:14: in <module>
+    from smoke_native_subset import (  # noqa: E402
+E   ImportError: cannot import name 'SUBSET_BUILDER_PATH' from 'smoke_native_subset' (/data/epanov_s/tabdata/runtime/parallel-expansion-v1/smoke_native_subset.py). Did you mean: 'SUBSET_BUILDER_SHA256'?
+=========================== short test summary info ============================
+ERROR runtime/parallel-expansion-v1/tests/test_smoke_native_v2.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.09s
