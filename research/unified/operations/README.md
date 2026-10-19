@@ -1,6 +1,6 @@
 # Execution, incidents, and preservation
 
-[19 October requested tabdata stop](../../campaign_2026-10-18/b300_execution_r1/stop_20261019_r1/README.md): preserved PR15 partial scores and PR25/26/27 publication evidence. SSH closed before authorization; remote stop remains unconfirmed. No new scientific admission is authorized, and old continuation snapshots are historical.
+[19 October requested tabdata stop](../../campaign_2026-10-18/b300_execution_r1/stop_20261019_r1/README.md): preserved PR15 partial scores and PR25/26/27 publication evidence. Latest SSH reached the password prompt, then closed without a shell; remote stop remains unconfirmed. No new scientific admission is authorized, and old continuation snapshots are historical.
 
 ## Five-fit density expansion and recovered R01 delivery
 

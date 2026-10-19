@@ -1,7 +1,7 @@
-<!-- https://github.com/VladKochetov007/WunderFunder/pull/15#issuecomment-6256107437 updated 2026-10-19T13:40:43Z -->
+<!-- https://github.com/VladKochetov007/WunderFunder/pull/15#issuecomment-6256107437 updated 2026-10-19T14:10:38Z -->
 <!-- tabdata-b300-20261018:PR15:status: -->
 
-### tabdata PR15: status update — 2026-10-19 13:40 UTC
+### tabdata PR15: status update — 2026-10-19 14:10 UTC
 
 **Status:** Partial / in progress. Scored 64/120; in-flight cells (including delivery) 16; unstarted 40.
 
@@ -35,6 +35,22 @@ Recovered original fits retain the failed worker receipt and actor-returned enve
 **Evidence / contract trace:** https://github.com/VladKochetov007/WunderFunder/pull/15. Large weights and supplied data remain in the approved private server storage; this reporter does not upload them.
 
 Automated reporting only: no fitting, retries of scientific fits, export or grading was launched.
+
+<!-- https://github.com/VladKochetov007/WunderFunder/pull/15#issuecomment-6268922664 updated 2026-10-19T13:55:13Z -->
+<!-- tabdata-user-stop-request-20261019-r1 -->
+### User-requested tabdata stop; remote stop not yet confirmed
+
+The user requests preserving results and removing all owned training from the B300 node. **No new fits, profiles or scientific retries are authorized.**
+
+**Remote stop is NOT confirmed:** the old SSH session was reset; one new plain SSH connection was closed before banner/password authentication. No remote command or stop signal could be executed. Existing GPU workloads may still be running; no empty-node or freed-resource claim is made.
+
+Latest preserved PR15 snapshot: 64/120 scored fits, 16/30 cells per arm. Equal-fold means: baseline 0.67824425; moments 0.67809108 (delta -0.00015317); dictionary 0.67756978 (-0.00067447); combined 0.67702747 (-0.00121678). Partial development-fold evidence, not a significance or public-transfer claim.
+
+R01 recovery has no published validated paired scores: twelve receipt chains report a stdout filename mismatch. Raw grade JSON/checkpoints require server access before numerical recovery can be claimed. Age/innovation each report 0/30 scored pairs.
+
+Checkpoints/predictions/logs must remain intact. With a working node shell, stop the owned `tabdata-*` units and verify their cgroups/project CUDA processes have drained; preserve foreign workloads.
+
+[Frozen result/API snapshots and access evidence](https://github.com/VladKochetov007/WunderFunder/blob/f5876b545f7c99f7b584be9b827ed2e5c1d3e22a/research/campaign_2026-10-18/b300_execution_r1/stop_20261019_r1/README.md).
 
 <!-- https://github.com/VladKochetov007/WunderFunder/pull/15#issuecomment-6267762794 updated 2026-10-19T12:58:07Z -->
 <!-- tabdata-b300-20261018:PR15:results:f30a83740f265102a7f3550648f274a5fccdae965a8a9727b00cd784c016923a -->
@@ -389,96 +405,6 @@ Recovered original fits retain the failed worker receipt and actor-returned enve
       "sha256": "463bdd97f27e7f7610f52034b4cd0b6c3141c96fbd177ed9480c8a282ca35013"
     },
     "wp": 0.6992602638697119
-  }
-]
-```
-</details>
-
-Automated reporting only: no fitting, retries of scientific fits, export or grading was launched.
-
-<!-- https://github.com/VladKochetov007/WunderFunder/pull/15#issuecomment-6267435137 updated 2026-10-19T12:40:35Z -->
-<!-- tabdata-b300-20261018:PR15:results:c728d870734381a5221fb2054298f7f7532e4344dadb05251ec0ca2c11715568 -->
-
-### tabdata PR15: results update — 2026-10-19 12:40 UTC
-
-**Status:** Partial / in progress. Scored 60/120; in-flight cells (including delivery) 16; unstarted 44.
-
-Recovered original fits retain the failed worker receipt and actor-returned envelope; their missing fit receipt/timing is not reconstructed. New fits are independently revalidated.
-
-**Frozen comparison / provenance:** strict FP32, autocast and TF32 off; unchanged `global_wp_clip2_v1`; fixed checkpoint; original panel, folds and fitting seeds. Profiles, inference aliases and recovered exports are not additional training replications.
-
-```json
-{
-  "archive_sha256": "29fb624f73a4d6ca8dc38a428fb73fa7fec2c410617b18781c4e0a8d30506985",
-  "commit": "e238fc5c82ac8c4591f3ca3ef87c37b2b73b929e",
-  "file_count": 172,
-  "manifest_sha256": "873662aded939afd64c17c80b684011de023c04a31be5b2c74e0b9d97a18efc0",
-  "source_commit": "e238fc5c82ac8c4591f3ca3ef87c37b2b73b929e",
-  "source_tree_sha256": "a7aff9a98f45012e78c7a51251399754f4320bf271cb8639c957e2f372c4a265",
-  "total_uncompressed_bytes": 7146485
-}
-```
-
-| Arm | Scored / planned | Mean WP¹ | Paired Δ¹ | Matched cells |
-|---|---:|---:|---:|---:|
-| baseline | 16 / 30 | 0.67824425 | — | 16 |
-| combined | 16 / 30 | 0.67702747 | -0.00121678 | 16 |
-| dictionary | 14 / 30 | 0.67727928 | -0.00089022 | 14 |
-| moments | 14 / 30 | 0.67815283 | -0.00001667 | 14 |
-
-¹ Equal mean of the available fold means. A delta uses only matching fold/seed cells. Until all four folds and the complete frozen matrix are present, it is a partial statistic. This table is not a confidence interval, significance test or public-score forecast.
-
-**Validation and decision:** these are exposed development folds. Training-seed uncertainty, component uncertainty and selection/public-transfer uncertainty are distinct. Complete CP30 fits do not by themselves establish statistical significance. Preserve negative and inconclusive results; no automatic merge, pruning, checkpoint selection or model promotion.
-
-**Evidence / contract trace:** https://github.com/VladKochetov007/WunderFunder/pull/15. Large weights and supplied data remain in the approved private server storage; this reporter does not upload them.
-
-<!-- tabdata-b300-20261018:PR15:endpoint:39f5040c4344ddfe87a2e5e0ab5c081c99a276272668e7f2f13fc8cb59feb8fd -->
-
-**New or corrected scored endpoints in this update:** 1.
-
-<details><summary>Exact endpoint identities and hashes</summary>
-
-```json
-[
-  {
-    "archive_manifest_path": "/data/epanov_s/tabdata/artifacts/github-reporting-v1/39f5040c4344ddfe87a2e5e0ab5c081c99a276272668e7f2f13fc8cb59feb8fd/MANIFEST.json",
-    "archive_manifest_sha256": "82a0f0b1e3ec37035e78b502494739e0a84e6a161c73591aa93ee05eed39e1fd",
-    "arm": "baseline",
-    "checkpoint_payload_sha256": "406a68fd406433ea660cebdf419a26cd2a44d3cf3ad9af7d36778ae1857dd720",
-    "checkpoint_sha256": "aef64e9d551ab25f600e129fa0314a6acafe846be49f1e7a4cc9660d8cfbe678",
-    "evidence_archive": {
-      "bytes": 624640,
-      "path": "/data/epanov_s/tabdata/artifacts/github-reporting-v1/39f5040c4344ddfe87a2e5e0ab5c081c99a276272668e7f2f13fc8cb59feb8fd/evidence.tar",
-      "sha256": "38fd59d6c6f1d51a938d77d55ffa283f96ad3a98fcc88c3d2d075b9d5669d9c6"
-    },
-    "fit_receipt_sha256": "d5f6ea3b247581d9a89f66416f40d71fb1251efb37983bcf1aa79c1d3666c227",
-    "fit_recovery_sha256": null,
-    "fit_timing_note": "verified worker receipts",
-    "fit_timing_seconds": 17703.527621030807,
-    "fold": 2,
-    "id": "pr15_b300_v1_baseline_f2_s1004",
-    "prediction_metadata_sha256": "9e83f3595d139de5fde9cd3a4d5efaec367d82eb71ef3bb0d1178340c500ff53",
-    "prediction_sha256": "df2399d32432dc21bc4d74eb09d55dd2241a190cdc297279cc2c769c11701973",
-    "receipt_digests": {
-      "endpoint_sha256": "82db94591835803c4a16662374715d17b8748bb10dd8c3a124ca53cc45ffe2cc",
-      "export_receipt_sha256": "c1da8fb01c78a9d811a03d69da0222b1617b75008342c0d1255d23755e9a319d",
-      "fit_receipt_sha256": "d5f6ea3b247581d9a89f66416f40d71fb1251efb37983bcf1aa79c1d3666c227",
-      "request_sha256": "7923ee17d7ed3fcd6891d451ce65b636c7ec8f8ddb79fab2a0d3711b8c002abe",
-      "score_receipt_sha256": "2307b5c00bd0f9fc3ed5c805790f3aa90a58b7169bc0f39f8d3590f263021846",
-      "split_manifest_sha256": "9fff6617d7f701735c2edee57945d33d6e3cce3573197cd7980b927b8b504fa4",
-      "worker_receipt_sha256": "3a3e5b5ed533571a14d6da326e85cd60bdf418a1348783d8826c94bde2f4c0b4"
-    },
-    "receipt_sha256": "82db94591835803c4a16662374715d17b8748bb10dd8c3a124ca53cc45ffe2cc",
-    "score_sha256": "ca5835bf5f2beeb267f03139c8ac9f1a7401850ea1aca1b35788c504eafadd56",
-    "seed": 1004,
-    "source_commit": "e238fc5c82ac8c4591f3ca3ef87c37b2b73b929e",
-    "source_sha256": "873662aded939afd64c17c80b684011de023c04a31be5b2c74e0b9d97a18efc0",
-    "weights_archive": {
-      "bytes": 45025280,
-      "path": "/data/epanov_s/tabdata/artifacts/github-reporting-v1/39f5040c4344ddfe87a2e5e0ab5c081c99a276272668e7f2f13fc8cb59feb8fd/weights.tar",
-      "sha256": "c34ccdd5ddfc173fc256f398f70839306a2d7d264b8f91eccfc6289b6d53b5d2"
-    },
-    "wp": 0.6903256250091325
   }
 ]
 ```
