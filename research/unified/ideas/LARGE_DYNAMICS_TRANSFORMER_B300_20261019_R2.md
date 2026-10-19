@@ -435,3 +435,5 @@ The controller's synthesis is a proposal, not independent experimental approval.
 records the actual paper/docs lookups, API caveats and transfer limits. Related
 H/E ledger entries register this unrun scale/dynamics design. No supplied data,
 weights or external pretrained payloads were imported for this task.
+
+Published handoff: [draft PR #31](https://github.com/VladKochetov007/WunderFunder/pull/31) targets research-team. Its publication receipt names the initial source/base commits and recipe hashes. No B300 fit is admitted.

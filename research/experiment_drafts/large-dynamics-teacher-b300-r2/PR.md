@@ -5,7 +5,7 @@
    E-LARGE-DYNAMICS-TEACHER-SCALE-20261019-R2. Builds on the earlier AR/grouped-input
    proposals; not a claim that their trainers or fits completed. This draft
    supplies a recipe and analytical calculator, not a new executable DDP trainer.
-2. **Why it should work.** Latest user source [TradeFM](https://arxiv.org/abs/2602.23784) motivates an additional, separately budgeted [event-objective contrast](TRADEFM_ADAPTATION.md): predict observable-change hazards and marks while retaining supervised per-row targets. This is the preferred first dynamics screen; it does not import proprietary data, real-unit feature assumptions or a market simulator.
+2. **Why it should work.** Latest user source [TradeFM](https://arxiv.org/abs/2602.23784) motivates an additional, separately budgeted [event-objective contrast](https://github.com/VladKochetov007/WunderFunder/blob/experiment/large-dynamics-teacher-b300-r2/research/experiment_drafts/large-dynamics-teacher-b300-r2/TRADEFM_ADAPTATION.md): predict observable-change hazards and marks while retaining supervised per-row targets. This is the preferred first dynamics screen; it does not import proprietary data, real-unit feature assumptions or a market simulator.
 
  A larger causal teacher may represent conditional
    cross-feature dynamics that a compact recurrent teacher misses. Compare0.68B
@@ -64,11 +64,11 @@
     Separate checksummed evidence/weights archives in private storage, no raw
     dataset upload. Include teacher export and student fitting costs in total ETA.
 11. **Results and trace.** No new fit or empirical improvement. The unified
-    [design](../../unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md),
-    [sources](../../unified/sources/TRANSFORMER_B300_SCALE_SOURCES_20261019_R2.md)
-    and [independent review](../../unified/reviews/LARGE_TEACHER_DESIGN_REVIEW_20261019_R2.md)
+    [design](https://github.com/VladKochetov007/WunderFunder/blob/experiment/large-dynamics-teacher-b300-r2/research/unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md),
+    [sources](https://github.com/VladKochetov007/WunderFunder/blob/experiment/large-dynamics-teacher-b300-r2/research/unified/sources/TRANSFORMER_B300_SCALE_SOURCES_20261019_R2.md)
+    and [independent review](https://github.com/VladKochetov007/WunderFunder/blob/experiment/large-dynamics-teacher-b300-r2/research/unified/reviews/LARGE_TEACHER_DESIGN_REVIEW_20261019_R2.md)
     preserve the reasoning and remaining checks. Older stopped B300 GRU evidence
     is not Transformer evidence. Publication/source/base links must name actual
     commits after this draft is created. No model launch or competition upload.
 
-User-paper addendum: [TradeFM adaptation](TRADEFM_ADAPTATION.md), [transition recipe](transition_recipe.json), and [explicit four-fit plan](TRANSITION_PLAN.json). Paper generation quality is not evidence for our official WP or student quality. Strict-FP32 Muon remains a proposed adaptation, not the source paper recipe.
+User-paper addendum: [TradeFM adaptation](https://github.com/VladKochetov007/WunderFunder/blob/experiment/large-dynamics-teacher-b300-r2/research/experiment_drafts/large-dynamics-teacher-b300-r2/TRADEFM_ADAPTATION.md), [transition recipe](https://github.com/VladKochetov007/WunderFunder/blob/experiment/large-dynamics-teacher-b300-r2/research/experiment_drafts/large-dynamics-teacher-b300-r2/transition_recipe.json), and [explicit four-fit plan](https://github.com/VladKochetov007/WunderFunder/blob/experiment/large-dynamics-teacher-b300-r2/research/experiment_drafts/large-dynamics-teacher-b300-r2/TRANSITION_PLAN.json). Paper generation quality is not evidence for our official WP or student quality. Strict-FP32 Muon remains a proposed adaptation, not the source paper recipe.

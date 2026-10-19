@@ -29,6 +29,6 @@ recipe and compute inventory; it does not restart the stopped server campaign.
 Reuse canonical datasets/input assembly/objectives/checkpoint/provenance modules.
 New model, attention, FP32 optimizer and DDP components need focused modules and
 numerical checks. Do not copy a trainer or add logic to scripts/train_rnn.py.
-Publication metadata will name the actual source/base SHA and PR after creation.
+Published [draft PR #31](https://github.com/VladKochetov007/WunderFunder/pull/31) targets research-team. [Publication receipt](PUBLICATION.json) records the initial immutable source commit, policy/base commits and code/recipe hashes; metadata publication is not a launch.
 
 The later user paper motivates the event-objective comparison before committing to the full scale ladder. Both panels remain unrun and require separate actual compute admission. No completed source paper result is presented as our target-score evidence.

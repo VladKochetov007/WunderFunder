@@ -9589,8 +9589,8 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 1044,
-      "hypotheses": 638,
+      "experiments": 1045,
+      "hypotheses": 639,
       "journal": 148
     }
   },
@@ -47885,6 +47885,44 @@
         }
       ],
       "title": "A larger causal numerical Transformer with measured dynamics/context learning can provide teacher signal that improves a matched GRU or served blend.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:objective",
+        "matches": [
+          "family:objective"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-OBSERVABLE-EVENT-DYNAMICS-20261019-R1",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:objective",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"H-OBSERVABLE-EVENT-DYNAMICS-20261019-R1\",\"mechanism_family\":\"causal event-transition likelihood for teacher representations\",\"parent_ids\":[\"H-LARGE-DYNAMICS-TEACHER-20261019-R2\"],\"statement\":\"Training a large causal teacher on future observable-change timing and marks improves predictive state and useful target/student performance beyond matched supervision alone.\",\"predicted_observable\":\"Lower change-timing/mark NLL plus useful official target or matched GRU transfer gains on the declared exposed cells.\",\"falsifier\":\"The frozen auxiliary definition fails to improve either target quality or a justified transfer endpoint; narrows this objective/definition.\",\"status\":\"proposed\",\"source\":\"research/experiment_drafts/large-dynamics-teacher-b300-r2/TRADEFM_ADAPTATION.md\",\"committed_at\":\"2026-10-19\"}\n",
+          "record": {
+            "committed_at": "2026-10-19",
+            "falsifier": "The frozen auxiliary definition fails to improve either target quality or a justified transfer endpoint; narrows this objective/definition.",
+            "id": "H-OBSERVABLE-EVENT-DYNAMICS-20261019-R1",
+            "mechanism_family": "causal event-transition likelihood for teacher representations",
+            "parent_ids": [
+              "H-LARGE-DYNAMICS-TEACHER-20261019-R2"
+            ],
+            "predicted_observable": "Lower change-timing/mark NLL plus useful official target or matched GRU transfer gains on the declared exposed cells.",
+            "source": "research/experiment_drafts/large-dynamics-teacher-b300-r2/TRADEFM_ADAPTATION.md",
+            "statement": "Training a large causal teacher on future observable-change timing and marks improves predictive state and useful target/student performance beyond matched supervision alone.",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 639,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "a790567ae8b34918aa5547af8b8409026b04aaa84dc06a7c26b1545cafd639e5"
+          }
+        }
+      ],
+      "title": "Training a large causal teacher on future observable-change timing and marks improves predictive state and useful target/student performance beyond matched supervision alone.",
       "type": "hypothesis"
     },
     {
@@ -93233,6 +93271,50 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-OBSERVABLE-EVENT-DYNAMICS-20261019-R1",
+      "latest_recorded_status": "proposed_not_implemented",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-OBSERVABLE-EVENT-DYNAMICS-20261019-R1\",\"hypothesis_ids\":[\"H-OBSERVABLE-EVENT-DYNAMICS-20261019-R1\"],\"status\":\"proposed_not_implemented\",\"recipe\":\"research/experiment_drafts/large-dynamics-teacher-b300-r2/transition_recipe.json\",\"cells\":[{\"fold\":0,\"seed\":1001},{\"fold\":2,\"seed\":1002}],\"new_teacher_fits_planned\":4,\"student_fits_in_panel\":0,\"fit_admitted\":false,\"quality_result\":null,\"timestamp_utc\":\"2026-10-19\"}\n",
+          "record": {
+            "cells": [
+              {
+                "fold": 0,
+                "seed": 1001
+              },
+              {
+                "fold": 2,
+                "seed": 1002
+              }
+            ],
+            "fit_admitted": false,
+            "hypothesis_ids": [
+              "H-OBSERVABLE-EVENT-DYNAMICS-20261019-R1"
+            ],
+            "id": "E-OBSERVABLE-EVENT-DYNAMICS-20261019-R1",
+            "new_teacher_fits_planned": 4,
+            "quality_result": null,
+            "recipe": "research/experiment_drafts/large-dynamics-teacher-b300-r2/transition_recipe.json",
+            "status": "proposed_not_implemented",
+            "student_fits_in_panel": 0,
+            "timestamp_utc": "2026-10-19"
+          },
+          "source": {
+            "line": 1045,
+            "path": "research/experiments.jsonl",
+            "sha256": "d53fa5fdaf80e17e9b0ff897d87458b614f5f2806b3a8fff81d6211199fefb41"
+          }
+        }
+      ],
+      "title": "E-OBSERVABLE-EVENT-DYNAMICS-20261019-R1",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -96674,6 +96756,17 @@
       },
       "source_id": "hypothesis:H-LARGE-DYNAMICS-TEACHER-20261019-R2",
       "target_id": "hypothesis:H-TRANSFORMER-QUALITY-SCALE-20261017"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 639,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "a790567ae8b34918aa5547af8b8409026b04aaa84dc06a7c26b1545cafd639e5"
+      },
+      "source_id": "hypothesis:H-OBSERVABLE-EVENT-DYNAMICS-20261019-R1",
+      "target_id": "hypothesis:H-LARGE-DYNAMICS-TEACHER-20261019-R2"
     },
     {
       "relation": "ledger_hypothesis_reference",
