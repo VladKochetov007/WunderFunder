@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+[19 October requested tabdata stop](../../campaign_2026-10-18/b300_execution_r1/stop_20261019_r1/README.md): preserved PR15 partial scores and PR25/26/27 publication evidence. SSH closed before authorization; remote stop remains unconfirmed. No new scientific admission is authorized, and old continuation snapshots are historical.
+
 ## Five-fit density expansion and recovered R01 delivery
 
 The [execution packet](../../campaign_2026-10-18/b300_execution_r1/parallel_expansion_v1/README.md) records measured five-fit GPU density, two explicit PR4/14 successor experiments in PR26/27, preserved original workloads, engineering delivery checks, immutable deployment pins and ten-minute/completion GitHub reporting. The separate R01 recovery preserves the original failures and reuses valid trained checkpoints.
