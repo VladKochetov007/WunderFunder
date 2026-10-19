@@ -1,7 +1,7 @@
-<!-- https://github.com/VladKochetov007/WunderFunder/pull/25#issuecomment-6256106017 updated 2026-10-19T13:50:39Z -->
+<!-- https://github.com/VladKochetov007/WunderFunder/pull/25#issuecomment-6256106017 updated 2026-10-19T14:10:33Z -->
 <!-- tabdata-b300-20261018:E-B300-R01:status: -->
 
-### tabdata E-B300-R01: status update — 2026-10-19 13:50 UTC
+### tabdata E-B300-R01: status update — 2026-10-19 14:10 UTC
 
 **Status:** Partial / in progress. Scored 0/60; in-flight cells (including delivery) 16; unstarted 20.
 
@@ -75,6 +75,22 @@ H512x1 wide vs H384x2 deep; six-epoch strict-FP32 fixed-epoch-5 labels-only reci
 - tabdata_b300_r01_v1_wide_f2_s1004: fit_failed: fit actor exited with status 1
 
 Automated reporting only: no fitting, retries of scientific fits, export or grading was launched.
+
+<!-- https://github.com/VladKochetov007/WunderFunder/pull/25#issuecomment-6268923635 updated 2026-10-19T13:55:16Z -->
+<!-- tabdata-user-stop-request-20261019-r1 -->
+### User-requested tabdata stop; remote stop not yet confirmed
+
+The user requests preserving results and removing all owned training from the B300 node. **No new fits, profiles or scientific retries are authorized.**
+
+**Remote stop is NOT confirmed:** the old SSH session was reset; one new plain SSH connection was closed before banner/password authentication. No remote command or stop signal could be executed. Existing GPU workloads may still be running; no empty-node or freed-resource claim is made.
+
+Latest preserved PR15 snapshot: 64/120 scored fits, 16/30 cells per arm. Equal-fold means: baseline 0.67824425; moments 0.67809108 (delta -0.00015317); dictionary 0.67756978 (-0.00067447); combined 0.67702747 (-0.00121678). Partial development-fold evidence, not a significance or public-transfer claim.
+
+R01 recovery has no published validated paired scores: twelve receipt chains report a stdout filename mismatch. Raw grade JSON/checkpoints require server access before numerical recovery can be claimed. Age/innovation each report 0/30 scored pairs.
+
+Checkpoints/predictions/logs must remain intact. With a working node shell, stop the owned `tabdata-*` units and verify their cgroups/project CUDA processes have drained; preserve foreign workloads.
+
+[Frozen result/API snapshots and access evidence](https://github.com/VladKochetov007/WunderFunder/blob/f5876b545f7c99f7b584be9b827ed2e5c1d3e22a/research/campaign_2026-10-18/b300_execution_r1/stop_20261019_r1/README.md).
 
 <!-- https://github.com/VladKochetov007/WunderFunder/pull/25#issuecomment-6257196087 updated 2026-10-19T13:02:58Z -->
 <!-- tabdata-b300-20261018:E-B300-R01-DELIVERY-RECOVERY-V2:status: -->

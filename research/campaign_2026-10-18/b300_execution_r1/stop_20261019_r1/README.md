@@ -1,6 +1,6 @@
 # Requested stop and preserved results, 19 October 2026
 
-The user requests preserving results and stopping all our training on `epanov_s@10.14.14.26`. New scientific admission is no longer authorized. **Remote stop is not confirmed.** The old SSH session returned `client_loop: send disconnect: Connection reset`. The single new `ssh epanov_s@10.14.14.26` connection was closed by the host before a banner/password prompt. No remote command or stop signal was executed in this turn. This is not evidence of an authentication/password failure or of the exact networking cause.
+The user requests preserving results and stopping all our training on `epanov_s@10.14.14.26`. New scientific admission is no longer authorized. **Remote stop is not confirmed.** The old SSH session returned `client_loop: send disconnect: Connection reset`. Earlier explicitly requested SSH attempts closed before a shell. The latest user-requested plain SSH attempt at 14:12 UTC (17:12 Moscow) displayed the server banner and password prompt. After password input the host closed the connection without providing a shell. No remote command or stop signal was executed. No Permission denied message was returned, and the exact cause is unknown. See [latest access receipt](SSH_ATTEMPT_20261019T1412Z.json). No additional connections were attempted after this closure.
 
 ## Preserved scientific evidence
 
@@ -8,10 +8,10 @@ The [API snapshot](GITHUB_SNAPSHOT.json) preserves complete PR metadata/comments
 
 | Experiment | Latest published stage | Partial quality evidence |
 |---|---|---|
-| [PR15](https://github.com/VladKochetov007/WunderFunder/pull/15#issuecomment-6256107437), 13:40:43 UTC | 64/120 scored fits; 16 in flight including delivery; 40 unstarted | 16/30 scored cells per arm; table below |
+| [PR15](https://github.com/VladKochetov007/WunderFunder/pull/15#issuecomment-6256107437), 14:10:38 UTC | 64/120 scored fits; 16 in flight including delivery; 40 unstarted | 16/30 scored cells per arm; table below |
 | [R01/PR25](https://github.com/VladKochetov007/WunderFunder/pull/25#issuecomment-6257196087), recovery comment 13:02:58 UTC | 0 published paired grades; 12 rejected/incomplete publication receipt chains | Scores cannot be inferred from the rejected chains |
-| [Age/PR26](https://github.com/VladKochetov007/WunderFunder/pull/26#issuecomment-6256781766), 13:50:04 UTC | 0/30 scored pairs; 4 active paired cells | No reported quality comparison |
-| [Innovations/PR27](https://github.com/VladKochetov007/WunderFunder/pull/27#issuecomment-6256782166), 13:50:11 UTC | 0/30 scored pairs; 4 active paired cells | No reported quality comparison |
+| [Age/PR26](https://github.com/VladKochetov007/WunderFunder/pull/26#issuecomment-6256781766), 14:10:04 UTC | 0/30 scored pairs; 4 active paired cells | No reported quality comparison |
+| [Innovations/PR27](https://github.com/VladKochetov007/WunderFunder/pull/27#issuecomment-6256782166), 14:10:06 UTC | 0/30 scored pairs; 4 active paired cells | No reported quality comparison |
 
 PR15 equal-fold means over available matched cells:
 
