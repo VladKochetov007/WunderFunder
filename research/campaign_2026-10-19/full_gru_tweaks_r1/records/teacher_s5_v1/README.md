@@ -1,4 +1,16 @@
-# Third strong teacher — actual seed5 fit
+# Third strong teacher — seed-5 records
+
+## Completed terminal verification and exact stop — 21:39 UTC, 19 October
+
+Seed-5 native training finished with explicit exit status 0. The root-captured [terminal evidence](TERMINAL_EVIDENCE.json) binds invocation `4317408cdc69442c8438c74aaf5809eb`, unit `computer-vision-homework-fg19-teacher-s5-v1.service`, and the 21:30:20 UTC exit. The [accepted integrity record](TERMINAL_ACCEPTANCE.json) follows the one-pass [bounded verifier record](terminal_verification_v1/README.md): its verification result is PASS, pinned to source commit `af21d6d8409c46b36830f0bdddd50e67ee17025f` and all 164 source files.
+
+The checker confirms 22,380 successful updates in 1,119 completed batches, with zero skipped updates and zero nonfinite updates. It reports the selected fixed epoch 2, model layout and checkpoint/source consistency. This is an integrity result; inference, grading, and model quality were not evaluated. The next cache step is **NOT RUN**. Model and training-state payloads remain on B.
+
+The [resource reconciliation](RESOURCE_RECONCILIATION.json) keeps native fit and verifier accounting separate and links each figure to the captured records. The subsequent [exact-stop record](terminal_exact_stop/README.md) shows both S5 units stopped successfully; the parent campaign cgroup was empty and had zero local events. The acceptance JSON was written just before that stop, so its pending-stop text is superseded by the later exact-stop receipt.
+
+Navigate the completed record set: [recipe](RECIPE.json), [admission](ADMISSION.json), [launch](LAUNCH.json), [launch acceptance](LAUNCH_ACCEPTANCE.json), [raw launch response](STDOUT.raw.json), [launch transport](TRANSPORT.json), [native terminal evidence](TERMINAL_EVIDENCE.json), [terminal acceptance](TERMINAL_ACCEPTANCE.json), [raw native health response](health_20261019T213221Z/STDOUT.raw.json), [native health note](health_20261019T213221Z/README.md), [verifier run](terminal_verification_v1/README.md), [verifier capture](terminal_verification_v1/capture/README.md), and [exact stop](terminal_exact_stop/README.md). Earlier startup and mid-fit observations remain in [startup health V1](startup_health_v1/README.md), [startup health V2](startup_health_v2/README.md), and [20:32 health](health_20261019T203227Z/README.md).
+
+## Earlier fit notes — dated snapshots, superseded by the terminal records above
 
 **20:32:29UTC bounded health:** [Same S5 invocation](health_20261019T203227Z/README.md) remains active/running. Native epoch0 logs7,460successful updates/373batches/0skips/nonfinite0; latestrecordedep1batch180/373/loss1.5940/LR5.49e-4. One owned populated GPUworker4,126MiB and own/parentnewmemoryevents0. State/provenance now exist; tensorfilesstat-only, no terminal/quality result. This dated observation supersedes freshness below; no immediatepoll.
 

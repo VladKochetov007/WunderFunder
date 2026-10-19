@@ -1,0 +1,110 @@
+{
+  "accepted_utc": "2026-10-19T21:39:26.091965+00:00",
+  "capture_payloads_length_sha_validated": true,
+  "capture_raw_sha256": "fb4811b7131bde684e9576ae97afb68a4dff088b7540084f36a8bd892cfd2b80",
+  "checkpoint_sha256": "0ec6dcb7fc82e5a8282ef93d460fcac7b4f6dcb4d3cc63726c485fb2f3595f26",
+  "completed_batches": 1119,
+  "files": {
+    "history.json": {
+      "bytes": 8633,
+      "sha256": "6927156c12bcc1ebccb8f81d463574699362d2083f65921c4696ab872e6061a9"
+    },
+    "model.pt": {
+      "bytes": 8700779,
+      "sha256": "72cd4557d53d9b1fb84e33818271b6270009d4255557ea9a346e302d9e101ceb"
+    },
+    "model_ep0.pt": {
+      "bytes": 8699687,
+      "sha256": "6421915f10455f698e983a8d394257fc4d88294e2316fa1c3b34b8dfa0950372"
+    },
+    "model_ep1.pt": {
+      "bytes": 8700519,
+      "sha256": "8f75982cda360f3aa50a15cea307569e68fb462f6c6667280006c5f1f7e55fcf"
+    },
+    "model_ep2.pt": {
+      "bytes": 8701223,
+      "sha256": "0ec6dcb7fc82e5a8282ef93d460fcac7b4f6dcb4d3cc63726c485fb2f3595f26"
+    },
+    "provenance.json": {
+      "bytes": 168717,
+      "sha256": "0cb36af9cb19fb278d0bd500514d014972ccf997c8b91baa5ab43896e6cb287f"
+    },
+    "training_state.pt": {
+      "bytes": 17717224,
+      "sha256": "92f29e36ac5e0f7c95785ac0934c7e71c161123c53f840c6d5862143187cb7d2"
+    }
+  },
+  "membership_counts": {
+    "evaluation": 468,
+    "fit_train": 10535,
+    "fit_valid": 1405
+  },
+  "model_sha256": "72cd4557d53d9b1fb84e33818271b6270009d4255557ea9a346e302d9e101ceb",
+  "model_tensor_count": 16,
+  "model_tensor_fingerprint": "de3116ec6666817c80588570c97306647f22177487eaac9cc81192ec8d7041d5",
+  "native_unit": {
+    "ActiveState": "active",
+    "CPUUsageNSec": "6546051030000",
+    "ControlGroup": "",
+    "ExecMainCode": "1",
+    "ExecMainExitTimestamp": "Mon 2026-10-19 21:30:20 UTC",
+    "ExecMainExitTimestampMonotonic": "1502667909403",
+    "ExecMainStartTimestamp": "Mon 2026-10-19 19:41:03 UTC",
+    "ExecMainStartTimestampMonotonic": "1496110429124",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-teacher-af21d6d8/scripts/train_rnn.py --name fg19_t3_h384x2_e3_s5_v1 --seed 5 --device cuda --arch gru --cell gru --enc linear --hidden 384 --layers 2 --head-layers 1 --epochs 3 --checkpoint-policy fixed --checkpoint-epoch 2 --batch 32 --chunk 1000 --optim muon --muon-scope all --muon-ortho-dtype fp32 --strict-muon-fp32 --lr 0.001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --loss wmse --loss-norm chunk --precision fp32 --aux-struct 0.3 --aux-next 0.3 --since-weight 32 --since-floor 0.25 --propensity fg19_propensity_clean_f0_seed0_e4 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --grad-stats --sync-free --pin-memory --save-training-state --no-eval-during-fit --valid-fold 0 ; ignore_errors=no ; start_time=[Mon 2026-10-19 19:41:03 UTC] ; stop_time=[Mon 2026-10-19 21:30:20 UTC] ; pid=3439045 ; code=exited ; status=0 }",
+    "InvocationID": "4317408cdc69442c8438c74aaf5809eb",
+    "LoadState": "loaded",
+    "MainPID": "0",
+    "MemoryPeak": "4314652672",
+    "SubState": "exited",
+    "unit": "computer-vision-homework-fg19-teacher-s5-v1.service"
+  },
+  "next_epoch": 3,
+  "nonfinite_updates": 0,
+  "optimizer": {
+    "adamw_parameters": 9,
+    "floating_tensors": 23,
+    "groups": 3,
+    "interior_muon_parameters": 1,
+    "recurrent_muon_parameters": 4
+  },
+  "parameter_count": 2159639,
+  "parent_memory_events": {
+    "memory.current": "3727802368\n",
+    "memory.events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "recipe_sha256": "6d9d91b9d19b4d2cd6c957433e534f74880f1bf8414a06e3434adf8eb56d734a",
+  "run_name": "fg19_t3_h384x2_e3_s5_v1",
+  "schema": "fg19.teacher-s5-terminal-root-acceptance.v1",
+  "scope": "Integrity/source-bound completed-training acceptance only; next_epoch3/fixed2, finiteFP32 model/Muon/Adam/loader/RNG and source164 checked in the pinned B-side verifier; no inference/grading/quality result. Real payloads stayB.",
+  "selected_epoch": 2,
+  "skipped_updates": 0,
+  "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+  "status": "ACCEPTED",
+  "stop_status": "Pending exact stop of only accepted native S5 and successful verifier after this durable acceptance.",
+  "strict_fp32_finite_model_optimizer_verified": true,
+  "successful_updates": 22380,
+  "verification_path_b": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s5_verify_v1/VERIFICATION.json",
+  "verification_schema": "fg19.teacher-s5-terminal-check.v1",
+  "verification_sha256": "c4060e68220ce5b21d90e75b35797302a8b09c4474e97e927558c8f85b167d8f",
+  "verifier_unit": {
+    "ActiveState": "active",
+    "CPUUsageNSec": "3201004000",
+    "ControlGroup": "",
+    "ExecMainCode": "1",
+    "ExecMainExitTimestamp": "Mon 2026-10-19 21:39:01 UTC",
+    "ExecMainExitTimestampMonotonic": "1503188550910",
+    "ExecMainStartTimestamp": "Mon 2026-10-19 21:38:54 UTC",
+    "ExecMainStartTimestampMonotonic": "1503182025173",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s5_verify_v1/teacher_s5_terminal_check_v1.py --run-dir /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_t3_h384x2_e3_s5_v1 --source-root /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-teacher-af21d6d8 --split /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --source-manifest /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s5_verify_v1/SOURCE_MANIFEST.json --admission /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s5_verify_v1/ADMISSION.json --launch /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s5_verify_v1/LAUNCH.json --launch-acceptance /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s5_verify_v1/LAUNCH_ACCEPTANCE.json --terminal-evidence /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s5_verify_v1/TERMINAL_EVIDENCE.json --output /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s5_verify_v1/VERIFICATION.json ; ignore_errors=no ; start_time=[Mon 2026-10-19 21:38:54 UTC] ; stop_time=[Mon 2026-10-19 21:39:01 UTC] ; pid=3609021 ; code=exited ; status=0 }",
+    "InvocationID": "6594891a6fea423f907e7c478da0af31",
+    "LoadState": "loaded",
+    "MainPID": "0",
+    "MemoryPeak": "2334720",
+    "SubState": "exited",
+    "unit": "computer-vision-homework-fg19-teacher-s5-verify-v1.service"
+  }
+}

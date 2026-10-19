@@ -1,5 +1,8 @@
 # Current project state
 
+**19 October21:39UTC full-GRU stream:** [All three clean H384×2 teachers accepted and exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md), each22,380finiteFP32updates/3epochs/0skips/nonfinite. Five student arms have no quality endpoint yet. Next dependency is one fit-only strictFP32 teacher cache, mean×0.8125 once; a narrow canonical producer extension/inference profile is in progress, not a new teacher fit or separate October20 allocation.
+
+
 ## Latest steering — October 19: fast screens and large B300 teachers
 
 The user replaces mandatory30-per-arm experiment matrices for FUTURE drafts

@@ -1,3 +1,25 @@
+# Current execution — 19 October21:39UTC
+
+**All three strong teachers are completed, integrity-verified and exact-stopped.** [S5 terminal acceptance](records/teacher_s5_v1/TERMINAL_ACCEPTANCE.json) follows native exit0 at21:30:20UTC and restricted CPU verification exit0 at21:39:01. It binds actual22,380updates/1,119batches/3epochs/0skips/nonfinite, next_epoch3/fixed2, source164 and finiteFP32 model/Muon/Adam/loader/RNG. [Compact capture](records/teacher_s5_v1/terminal_verification_v1/capture/README.md) was durable21:39:11 before [exact stop](records/teacher_s5_v1/terminal_exact_stop/README.md)21:39:26. No S3/S4 or failed historical verifier was polled or replayed. No student/control/tweak score exists yet.
+
+## Next actual dependency
+
+One common teacher target cache is next. The [pre-outcome cache execution contract](preparation/TEACHER_CACHE_EXECUTION_CONTRACT_R1.json) binds all three accepted epoch2 checkpoint digests, S3/S4/S5 source order, fitting groups only, raw strictFP32 predictions, FP32 unweighted mean and **0.8125 exactly once**, with no cache clipping and consumer scale1. Each teacher restores its own accepted normalizer. Production cache/inference has NOT RUN at this snapshot. The canonical producer needs a narrow opt-in three-strong-teacher profile and explicit fit-only row alignment; source implementation and an actual full-shape B16×20k/211/H384×2/chunk4000 inference profile are in progress, not yet admitted. Frozen teacher sourceaf21 remains immutable. Do not substitute four-family coefficients, predict outer rows for convenience, rerun teacher fits or describe preparation as execution.
+
+## Authority and cost
+
+Human authorized three positive tweaks separately and together on a strong GRU and one GPU. Fixed arms: warm H256×2 control, causal signed innovation EMA32, learned signed top4of16dictionary+retainedresidual, coupled mean/logvariance NLL, allthree. Current firstF0/seed1001 cell includes one future shared4epoch/fixed3 parent and five6epoch/fixed5 child fits; three completed teacher fits, one propensity fit and one train-only dictionary fit are explicit shared prerequisite costs. Cache/inference/profile adds zero scientific fits. No automatic150fits or separate October20/B300/Kaggle execution. New human corrections take priority; no repeated permission/budget question.
+
+One owned GPU worker, serial stages, selectedA4000 GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, foreign jobs untouched. Aggregate2CPU, parent18e9high/20e9max/swap0,target17e9committed. Fresh all-populated-descendant/ownership/source/split/registered-path/output absence/disk/headroom gates before each admission; no emptycard requirement. Mac only code/docs/tinysyntheticchecks, realpayloadsBonly. Current units stopped after durable validation; failedS3verifierV1 remains preserved. Unknown launch outcome never blindly resubmitted/restarted; no healthy job stop.
+
+## Evidence and numerical boundaries
+
+S5 selected model72cd4557d53d9b1fb84e33818271b6270009d4255557ea9a346e302d9e101ceb; epoch2 archive0ec6dcb7fc82e5a8282ef93d460fcac7b4f6dcb4d3cc63726c485fb2f3595f26. Archive SHA difference is allowed; the exact common tensor fingerprintde3116ec6666817c80588570c97306647f22177487eaac9cc81192ec8d7041d5 was verified. Native systemdwall6557.480279s/CPU6546.05103s/MemoryPeak4314652672B and supportwall6.525737s/CPU3.201004s/MemoryPeak2334720B are distinct observations. A small terminal support accounting value is not full runtime RAM; no cause is invented. Empty terminalControlGroup means ownfilesNA/nohostrootfallback; parent memoryevents unchanged. Modelpayloads remainB.
+
+[Records](records/README.md) and [preparation](preparation/README.md) retain source checks, corrections, independent audits, raw capture and exact-stop chronology. AllR1–R15/COMBO/F3 remaindone; no replay/poll/R16resume/quantization/historyrecovery/paidprovider/externalmessages/installs. Shared parent/child recipe remains frozen in [rebuild binding](preparation/REBUILD_RECIPE_BINDING_R2.json). Historical snapshots below remain dated; current terminal evidence supersedes their running claims. Preserve parallel changes and two unrelated skillgitlinkdeletions; unified navigation/append-onlyledgers; fresh mirrorfalse explicitrefs before publication.
+
+---
+
 # Current execution — 19 October20:32UTC
 
 **20:32:29UTC bounded health:** [Same S5 invocation](records/teacher_s5_v1/health_20261019T203227Z/README.md) remains active/running. Native epoch0 logs7,460successful updates/373batches/0skips/nonfinite0; latestrecordedep1batch180/373/loss1.5940/LR5.49e-4. One owned populated GPUworker4,126MiB and own/parentnewmemoryevents0. State/provenance now exist; tensorfilesstat-only, no terminal/quality result. This dated observation supersedes freshness below; no immediatepoll.

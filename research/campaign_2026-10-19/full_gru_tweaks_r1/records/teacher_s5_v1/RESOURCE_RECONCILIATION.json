@@ -1,0 +1,240 @@
+{
+  "cgroup_reconciliation": {
+    "host_memory_fallback_used": false,
+    "parent_campaign_control_group": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+    "parent_memory_current_bytes": {
+      "admission": 3727564800,
+      "admission_to_capture_delta": 237568,
+      "after_stop": 3727802368,
+      "capture": 3727802368
+    },
+    "parent_memory_events": {
+      "global_after_stop": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "global_at_capture": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "global_before_capture": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "global_counters_changed_between_admission_capture_and_stop": false,
+      "local_after_stop": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "local_at_capture": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "new_local_events": 0
+    },
+    "parent_populated_after_stop": {},
+    "parent_populated_at_admission": {},
+    "parent_populated_at_capture": "NOT_CAPTURED",
+    "terminal_control_group_status": "UNAVAILABLE_EMPTY_CONTROLGROUP_FIELD_AFTER_EXIT; this does not establish that a former unit cgroup was empty",
+    "terminal_memory_current_native": "not set",
+    "terminal_memory_current_verifier": "not set",
+    "terminal_native_control_group": "",
+    "terminal_verifier_control_group": "",
+    "verifier_launch_control_group": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s5-verify-v1.service"
+  },
+  "exact_stop": {
+    "acceptance_pending_stop_status_is_superseded_by_this_later_record": "Pending exact stop of only accepted native S5 and successful verifier after this durable acceptance.",
+    "acceptance_recorded_before_exact_stop": true,
+    "after": {
+      "computer-vision-homework-fg19-teacher-s5-v1.service": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "InvocationID": "",
+        "LoadState": "not-found",
+        "SubState": "dead"
+      },
+      "computer-vision-homework-fg19-teacher-s5-verify-v1.service": {
+        "ActiveState": "inactive",
+        "ControlGroup": "",
+        "InvocationID": "",
+        "LoadState": "not-found",
+        "SubState": "dead"
+      }
+    },
+    "before": {
+      "computer-vision-homework-fg19-teacher-s5-v1.service": {
+        "ActiveState": "active",
+        "CPUUsageNSec": "6546051030000",
+        "ControlGroup": "",
+        "ExecMainCode": "1",
+        "ExecMainStatus": "0",
+        "InvocationID": "4317408cdc69442c8438c74aaf5809eb",
+        "LoadState": "loaded",
+        "MemoryCurrent": "[not set]",
+        "MemoryPeak": "4314652672",
+        "SubState": "exited"
+      },
+      "computer-vision-homework-fg19-teacher-s5-verify-v1.service": {
+        "ActiveState": "active",
+        "CPUUsageNSec": "3201004000",
+        "ControlGroup": "",
+        "ExecMainCode": "1",
+        "ExecMainStatus": "0",
+        "InvocationID": "6594891a6fea423f907e7c478da0af31",
+        "LoadState": "loaded",
+        "MemoryCurrent": "[not set]",
+        "MemoryPeak": "2334720",
+        "SubState": "exited"
+      }
+    },
+    "parent_populated_after_stop": {},
+    "stop_returncodes": {
+      "computer-vision-homework-fg19-teacher-s5-v1.service": 0,
+      "computer-vision-homework-fg19-teacher-s5-verify-v1.service": 0
+    },
+    "transport_finish_utc": "2026-10-19T21:39:26.660438+00:00",
+    "transport_returncode": 0,
+    "transport_start_utc": "2026-10-19T21:39:26.092597+00:00"
+  },
+  "native_fit_accounting": {
+    "admitted_limits": {
+      "cpu_quota_per_sec_usec": "1s",
+      "memory_high_bytes": 7500000000,
+      "memory_max_bytes": 8000000000,
+      "memory_swap_max_bytes": 0
+    },
+    "cpu_usage_nsec": 6546051030000,
+    "cpu_usage_seconds": 6546.05103,
+    "elapsed_monotonic_usec": 6557480279,
+    "elapsed_seconds": 6557.480279,
+    "exit_utc": "Mon 2026-10-19 21:30:20 UTC",
+    "source": "terminal_verification_v1/capture/STDOUT.raw.json native snapshot, cross-checked against root terminal health and acceptance",
+    "start_utc": "Mon 2026-10-19 19:41:03 UTC",
+    "systemd_memory_peak_bytes": 4314652672,
+    "terminal_exit": {
+      "active_state": "active",
+      "exec_main_code": 1,
+      "exec_main_status": 0,
+      "main_pid": 0,
+      "sub_state": "exited"
+    }
+  },
+  "next_cache": {
+    "status": "NOT RUN"
+  },
+  "quality": {
+    "claim": "The verifier establishes source/checkpoint/counter integrity only; it reports no model-quality result.",
+    "grading": "NOT RUN",
+    "inference": "NOT RUN",
+    "status": "NOT ASSESSED"
+  },
+  "run": {
+    "integrity_result": {
+      "model_tensor_count": 16,
+      "parameter_count": 2159639,
+      "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+      "source_files": 164,
+      "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "status": "PASS",
+      "verification_sha256": "c4060e68220ce5b21d90e75b35797302a8b09c4474e97e927558c8f85b167d8f"
+    },
+    "name": "fg19_t3_h384x2_e3_s5_v1",
+    "native_exit": {
+      "active_state": "active",
+      "exec_main_code": 1,
+      "exec_main_status": 0,
+      "exit_timestamp": "Mon 2026-10-19 21:30:20 UTC",
+      "main_pid": 0,
+      "sub_state": "exited"
+    },
+    "native_invocation_id": "4317408cdc69442c8438c74aaf5809eb",
+    "native_unit": "computer-vision-homework-fg19-teacher-s5-v1.service",
+    "raw_health_sha256": "9bdc3861961d19ed6454007376bb69f94f4429eb2eba5dce99497a5335d98421",
+    "terminal_evidence_sha256": "e284787effbb9ad1a64be763c6bc5eb9c805bc1715c37b08aa032b2673b433b4",
+    "training_counters": {
+      "completed_batches": 1119,
+      "next_epoch": 3,
+      "nonfinite_updates": 0,
+      "selected_epoch": 2,
+      "skipped_updates": 0,
+      "successful_optimizer_updates": 22380
+    }
+  },
+  "schema": "fg19.teacher-s5-resource-reconciliation.v1",
+  "scope": "Source-qualified terminal accounting for the completed S5 native fit, one bounded verifier run, and subsequent exact stop. No inference, grading, quality claim, cache run, or host-level memory fallback.",
+  "sources": {
+    "TERMINAL_ACCEPTANCE.json": {
+      "bytes": 7020,
+      "sha256": "8d22151187a5d64ecd13cab15d10dc8fc320faddf02cdc5dac23ac3cba64411a"
+    },
+    "TERMINAL_EVIDENCE.json": {
+      "bytes": 559,
+      "sha256": "e284787effbb9ad1a64be763c6bc5eb9c805bc1715c37b08aa032b2673b433b4"
+    },
+    "health_20261019T213221Z/OBSERVATION.json": {
+      "bytes": 7971,
+      "sha256": "aa62767d7ddeb6172fc30d05943f2ea7a1ecfbdeedb0300b013ccf2ec8815338"
+    },
+    "health_20261019T213221Z/STDOUT.raw.json": {
+      "bytes": 30350,
+      "sha256": "9bdc3861961d19ed6454007376bb69f94f4429eb2eba5dce99497a5335d98421"
+    },
+    "health_20261019T213221Z/TRANSPORT.json": {
+      "bytes": 911,
+      "sha256": "4a3b75daf54cbf034de2b01b2404334883891e374ffeaa23e2a47bb2895b1902"
+    },
+    "terminal_exact_stop/STDOUT.raw.json": {
+      "bytes": 1798,
+      "sha256": "f272fa2aed81477dd37b9e046bb8d9c3691798c98af0655f539d16d19610cab0"
+    },
+    "terminal_exact_stop/TRANSPORT.json": {
+      "bytes": 633,
+      "sha256": "f63478ef8ba5c00bc817d86c02f6bd3e34606f02a6644c9717cf3d7a7e807c86"
+    },
+    "terminal_verification_v1/STDOUT.raw.json": {
+      "bytes": 3189,
+      "sha256": "4cee60e270666b179cd18a100b7a2d43e6a9a7c6a764f532066b17ddbeead07f"
+    },
+    "terminal_verification_v1/TRANSPORT.json": {
+      "bytes": 901,
+      "sha256": "bd84030dda4a809f3e42df205ab9b93328945b5f8fac4458f0614cfcc4586af2"
+    },
+    "terminal_verification_v1/capture/STDOUT.raw.json": {
+      "bytes": 19972,
+      "sha256": "fb4811b7131bde684e9576ae97afb68a4dff088b7540084f36a8bd892cfd2b80"
+    },
+    "terminal_verification_v1/capture/TERMINAL_EVIDENCE.json": {
+      "bytes": 559,
+      "sha256": "e284787effbb9ad1a64be763c6bc5eb9c805bc1715c37b08aa032b2673b433b4"
+    },
+    "terminal_verification_v1/capture/TRANSPORT.json": {
+      "bytes": 730,
+      "sha256": "17200f16b2b9fc4329d6233c89a3e3999e1b8afd008270ed91adacd3c4cecb16"
+    },
+    "terminal_verification_v1/capture/VERIFICATION.json": {
+      "bytes": 2113,
+      "sha256": "c4060e68220ce5b21d90e75b35797302a8b09c4474e97e927558c8f85b167d8f"
+    },
+    "terminal_verification_v1/capture/VERIFIER_ADMISSION.json": {
+      "bytes": 5456,
+      "sha256": "d8c123ba5d9e2fe61cf44e4e6e5188941d28fba74132511cb3c8e12921a99496"
+    },
+    "terminal_verification_v1/capture/VERIFIER_LAUNCH.json": {
+      "bytes": 3241,
+      "sha256": "ccb2626ce51235a1efe828e27c402e71f9cd9104da34dbeb99f456f800ae2252"
+    }
+  },
+  "status": "RECONCILED",
+  "support_verifier_accounting": {
+    "admitted_limits": {
+      "cpu_quota": "50%",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "memory_swap_max_bytes": 0,
+      "runtime_max_seconds": 600
+    },
+    "cpu_usage_nsec": 3201004000,
+    "cpu_usage_seconds": 3.201004,
+    "elapsed_monotonic_usec": 6525737,
+    "elapsed_seconds": 6.525737,
+    "exit": {
+      "active_state": "active",
+      "exec_main_code": 1,
+      "exec_main_status": 0,
+      "main_pid": 0,
+      "sub_state": "exited"
+    },
+    "exit_utc": "Mon 2026-10-19 21:39:01 UTC",
+    "invocation_id": "6594891a6fea423f907e7c478da0af31",
+    "memory_peak_interpretation": "The 2,334,720-byte value is the unit's reported MemoryPeak field only. The terminal ControlGroup is empty and MemoryCurrent is not set; this is not a complete process-RSS or host-RAM measurement, and no host fallback was used.",
+    "start_utc": "Mon 2026-10-19 21:38:54 UTC",
+    "systemd_memory_peak_bytes": 2334720,
+    "unit": "computer-vision-homework-fg19-teacher-s5-verify-v1.service",
+    "verification_status": "PASS"
+  }
+}
