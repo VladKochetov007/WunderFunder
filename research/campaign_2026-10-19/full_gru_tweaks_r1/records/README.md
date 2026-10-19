@@ -17,3 +17,5 @@ The [actual teacher profileV2](teacher_profile_v2/FAILURE.json) exited1at15:19:0
 [Strong teacher profileV3 passed](teacher_profile_v3/README.md):120finiteFP32Muon updates, peakallocated2.742GB/reserved4.161GB, no checkpoint/quality. The [seven-card inventory](GPU_INVENTORY_20261019T1525Z/README.md) allowed a single-worker move to an available identical A4000; prior failed allocation evidence remains preserved.
 
 [The first full strong GRU teacher is actually running](teacher_s3_v1/README.md), seed3/fixed3epochs under invocation02a8c00b433b49a185c2700624397769. This follows the completed current-source120update strictFP32Muon profile. It is a common prerequisite, not a measured tweak/control endpoint.
+
+[16:18UTC bounded teacher health](teacher_s3_v1/health_20261019T1618Z/README.md) records the same active invocation and epoch0batch360/373 log line, with exact raw transport/returncode0, one owned worker and no new parent/own memory events. Metadata/model paths were stat-only; no checkpoint payload or quality result. Earlier startup transport failure/correction is preserved separately.

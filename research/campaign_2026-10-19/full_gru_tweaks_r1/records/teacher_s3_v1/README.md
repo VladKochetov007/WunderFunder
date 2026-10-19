@@ -2,6 +2,8 @@
 
 The launch/acceptance below is dated15:35–15:36UTC. Subsequent startup-capture evidence and its local transport limitation are recorded at the end; no terminal or quality result is asserted.
 
+[Fresh16:18:39UTC root-owned health capture](health_20261019T1618Z/README.md) has durable raw bytes and recorded SSHreturncode0: sameinvocation active/running, recordedep0batch360/373, oneownedGPUworker and0newmemoryevents. It supersedes startup freshness only; no terminal/quality or checkpoint inspection.
+
 [Admission](ADMISSION.json), [actual launch](LAUNCH.json), [launch acceptance](LAUNCH_ACCEPTANCE.json), [frozen recipe bytes](RECIPE.json), [raw transport](TRANSPORT.json) and originalSTDOUT/STDERR bind one real seed3 teacher fit. Native computer-vision-homework-fg19-teacher-s3-v1.service launched15:35:05UTC19October, invocation02a8c00b433b49a185c2700624397769. Current-source H384x2/211inputs/23outputs/B32/C1000/3epochs/fixedep2, currentF0/train+valid with heldout excluded, strictFP32Muon-all interior adaptation and the verified clean propensity. Expected22380updates is not an observed terminal count.
 
 The [actual passing full-shape profile](../teacher_profile_v3/README.md) preceded admission; [independent admission review](../../preparation/TEACHER_S3_FIT_ADMISSION_CRITIC_REVIEW.json) binds frozen recipe/guard/accepted launch and fresh source/split/data/parent/GPU/output/resource checks. [Current single-GPU allocation](../../GPU_REALLOCATION_20261019T1525Z.json) is one available identical A4000, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, with all foreign jobs preserved. Worker1CPU/high7.5e9/max8e9B/swap0/allocator4GiB/runtime24h and per-epoch training-state recovery.
