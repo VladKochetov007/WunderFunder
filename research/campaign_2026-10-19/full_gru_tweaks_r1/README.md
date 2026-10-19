@@ -1,3 +1,7 @@
+**23:08UTC: [S4trainexportisrunning](records/teacher_s4_train_export_v1/README.md)** afterbothS3predictionpartscompleted/accepted/exactstopped. Startuprecorded672/10535sequences,oneownedGPUworker/zero newmemoryevents. CommonT3mean-cache/sharedparent/fiveGRUarmsremainpending; noqualityclaim. [Continuation](CONTINUATION.md) supersedesdatedsnapshotsbelow.
+
+**22:53UTC: [S3 fitting-train export completed and exact-stopped](records/teacher_s3_train_export_v1/README.md)**:10,535sequences/659batches/nativeexit0, source/normalizer/membership/producerSHA bound. S3fit-valid is next, notadmittedatthissnapshot. No newfit or five-armqualityscore.
+
 **22:12UTC: [First S3 fitting-train export is actually running](records/teacher_s3_train_export_v1/README.md)** under one owned GPU/source88becca, restoring the accepted fixed-epoch teacher. This produces the shared training target cache; it is not a new fit, completed cache or five-arm quality score. [Continuation](CONTINUATION.md) supersedes dated preparation/running snapshots below.
 
 # Full GRU: strong recipe plus three positive CPU-screen candidates

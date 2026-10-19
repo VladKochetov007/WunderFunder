@@ -1,0 +1,99 @@
+{
+  "completed_train_predecessor": {
+    "acceptance_sha256": "a3e6b023dda48c339daa12f17d721eb0765efe63dead6220976425fc1485d2f4",
+    "completed_sequences": 10535,
+    "exact_stop_sha256": "5d9e2a956d21ab8a1130323475dcb6cdac49d2f9efee775dd912adc6255c92ba",
+    "finite_validation_remains_deferred_to_streamed_cache_builder": true,
+    "independent_review_sha256": "55efdb055e48c2d571451eaed9811e7890e229a8eddadac6053690ef1fa25e73",
+    "independent_review_status": "PASS_METADATA_AND_EXACT_STOP",
+    "prediction_bytes": 1685600128,
+    "prediction_metadata_sha256": "491767c8a914cf945d0284d29506e41cb74e2977c7b2b78baec524eabae859f6",
+    "prediction_sha256_authority": "Producer whole-file SHA; capture stat-only, no independent payload rehash.",
+    "train_prediction_payload_read_or_rehashed_by_valid_adapter": false
+  },
+  "fresh_gates_preserved": [
+    "167-file immutable source inventory and teacher checkpoint/provenance hashes",
+    "profile acceptance and exact-stop identity",
+    "accepted and exactly stopped S3 train predecessor",
+    "registered data identity, campaign cgroup ownership/headroom, selected-GPU free space/processes",
+    "physical scratch filesystem and disk reserve",
+    "output absence and existing metadata integrity"
+  ],
+  "packet_sha256": {
+    "REMOTE_SUBMISSION.py": "18f2db8a3a4911509e6fa2a036e768dd518337b1bd34305d7be4bf4de181c3a4",
+    "REMOTE_SUBMISSION_TEMPLATE.py": "cf9dc3c384df790ec41ebd7447de913fe489194f6dc787659a2e7bf3934a65d5"
+  },
+  "profile_identity_sha256": {
+    "profile": "2bed70f766b94bab23baaad7fde320ab80ce04d60521b62cc92a41188025f570",
+    "profile_acceptance": "956e14754c45861665a24619e9a752cd93fb8efaa084e5bb00021b5e5f33c3cd",
+    "profile_exact_stop": "acf46cea39494e728af2651656d9a0771650102298e6f49614e2467e9c6e3a75"
+  },
+  "resource_limits": {
+    "cpu_quota": "100% (1 CPU)",
+    "cuda_allocator_bytes": 4294967296,
+    "cuda_reserve_bytes": 1000000000,
+    "loader_workers": 0,
+    "memory_high_bytes": 7500000000,
+    "memory_max_bytes": 8000000000,
+    "minimum_selected_gpu_free_bytes": 5294967296,
+    "runtime_max_seconds": 10800,
+    "selected_gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "swap_bytes": 0,
+    "torch_threads": 1
+  },
+  "retry_policy": "Never retry; inspect exact unit and durable receipts after any unknown outcome.",
+  "review_scope": {
+    "actual_admission": false,
+    "launch_performed": false,
+    "local_metadata_only": true,
+    "model_checkpoint_payload_read": false,
+    "note": "Static delta review only; not an admission, export-completion, finite-output, or quality result.",
+    "prediction_array_payload_read": false,
+    "remote_access_performed": false
+  },
+  "reviewed_utc": "2026-10-19T22:56:29+00:00",
+  "schema": "fg19.teacher-cache-s3-valid-export-source-review.v1",
+  "source_and_contract": {
+    "execution_contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "selected_epoch": 2,
+    "selected_run": "fg19_t3_h384x2_e3_s3_v1",
+    "source_commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "source_file_count": 167,
+    "source_manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97",
+    "teacher_order": [
+      3,
+      4,
+      5
+    ]
+  },
+  "status": "PASS_SOURCE_REVIEW_ONLY",
+  "valid_delta": {
+    "command": [
+      "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+      "-u",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-88becca8/scripts/predict_run.py",
+      "fg19_t3_h384x2_e3_s3_v1",
+      "valid",
+      "--epoch",
+      "2",
+      "--campaign-split-manifest",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json",
+      "--device",
+      "cuda",
+      "--inference-precision",
+      "fp32",
+      "--loader-workers",
+      "0",
+      "--output-dir",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1",
+      "--create-only"
+    ],
+    "existing_four_metadata_json_files_are_verified_in_place_not_recreated": true,
+    "existing_train_prediction_requires_exact_size_and_sidecar_hash": true,
+    "new_scientific_fits": 0,
+    "quality_grade": false,
+    "unit": "computer-vision-homework-fg19-teacher-s3-valid-export-v1.service",
+    "valid_fit_rows": 1405,
+    "valid_prediction_and_partial_and_sidecar_require_absent": true
+  }
+}

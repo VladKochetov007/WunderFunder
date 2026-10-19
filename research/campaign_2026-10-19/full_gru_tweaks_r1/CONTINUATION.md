@@ -1,3 +1,25 @@
+# Current execution — 19 October23:08UTC
+
+**S4 fitting-train export is actually running**, unitcomputer-vision-homework-fg19-teacher-s4-train-export-v1.service/invocationc48563e6113d4351a7ca23e7715ad2c2/launched23:07:04UTC/PID3730320. [Actualrecords](records/teacher_s4_train_export_v1/README.md), [source-review](preparation/TEACHER_CACHE_S4_TRAIN_EXPORT_REVIEW.json), [independentlaunchreview](preparation/TEACHER_CACHE_S4_TRAIN_EXPORT_ACTUAL_REVIEW.json) bind acceptedS4epoch2/checkpoint/provenance, unchangedsource88becca167files, bothaccepted/exact-stoppedS3exports, freshresource/source/data/outputgates. SameoneownedA4000/1CPU/high7.5e9/max8e9/swap0/4GiBallocator+1GBreserve/runtime10800s; aggregate2CPU/foreignjobsuntouched.
+
+[Latestboundedstartup23:08:54UTC](records/teacher_s4_train_export_v1/startup_health_v1/README.md): exactsameactiveinvocation,recorded672/10535fit-train sequences, oneownedGPUprocess1286MiB,ownmemoryevents0/parentdeltas0. No synchronouslivecounter/terminal/qualityclaim. Partialsizeispreallocation;stat-only/noarrayload/hash. SourceIDinhealthconstant/sourcepathstatonly, fresh167contenthashadmission remainsauthority. Rare nexthealthasuseful; noimmediatepoll/blindrestart/resubmit/healthyjobstop.
+
+**BothS3fittingpredictionparts are completed/captured/independentlymetadata-audited/accepted/exactstopped.** [Train10535/659records](records/teacher_s3_train_export_v1/README.md):nativeexit0at22:39:16,capture22:50:39/stop22:53:03,NPY1685600128BproducerSHA218e3c41e91ff45e691b85e6999412841ca05c68aebdfc25c1c7659b0cc6bec5. [Fit-valid1405/88records](records/teacher_s3_valid_export_v1/README.md):nativeexit0at23:00:24,capture23:00:55/stop23:02:01,NPY224800128BproducerSHA0ba98e6df9d59fb3c301388ab06ff1d34875946b2809d2be6efb251c1fa0baef. ExactorderedF0fitmembership/noevaluation,sameacceptedS3normalizer,source167/18semanticpins. No independentarrayfinite/header/hashreplay; streamedCPUcacheconsumer MUSTstillvalidatefinite/shape/alignment. Neverpoll/replaystoppedS3exports/teachers/profiles.
+
+Nextactualdependency: captureS4trainterminal onlyafterexplicitintegerexit0/progress10535/659/source/sidecar/membership/ownnormalizer. Reusecapturereader byidentity only; **S4normalizer mustmatch S4provenance/acceptedteacher, notassumedS3profilebufferhashes**. S3profileisengineeringgeometry/sourceanchor. Durablecapture/acceptancebeforeexactownexitedstop. ThennewS4fit-valid,S5train/fit-valid,CPUmean×.8125oncecache remainserialgateddependencies, noautomaticqueue. Sharedparent+5children notstarted/noGRUqualityyet; zero scientificfitsaddedbyexports. CurrentfirstF0seed1001scope/6futurefits/prerequisitecosts/authority/preservationrulesunchanged.
+
+---
+
+# Current dependency — 19 October22:53UTC
+
+**S3 fitting-train export is completed, captured, accepted and exact-stopped.** Originalinvocation48732136d70548b2903f3426bfedf656 exited0at22:39:16,10535sequences/659progressrecords. [Terminalrecords](records/teacher_s3_train_export_v1/README.md) bind exactorderedF0fittrain, source88becca/167codehashes/18semanticpins, acceptedS3epoch2/ownnormalizer/strictFP32/feature-only. Capture22:50:39precededacceptance/exactstop22:53:03. NPY1,685,600,128Bstat-only/producerSHA218e3c41e91ff45e691b85e6999412841ca05c68aebdfc25c1c7659b0cc6bec5; no independentwholearrayfinite/header/hash replay. StreamedCPUcacheconsumer must still validatefinite/shape/alignment. Neverpoll/replaystoppedexport.
+
+Nextactualdependency is one new S3fit-valid export1405groups on the same immutable source/GPU/acceptedcheckpoint. Thinidentityadmission is being reviewed, NOTadmitted atthissnapshot. Existingmetadata/predictiondirectories must be verified, newvalidfilesabsent; do not blindly replaythe originalcreate-directoryadapter. ThenS4/S5exports/CPUmean×.8125cache/sharedparent/fivechildfits remainserialgateddependencies. Noqualityresult or publicforecast; zero newscientificfits fromexports. OneownedGPU/aggregate2CPU/allpriorauthority/foreignworkrulesunchanged.
+
+RootcaptureV1hit1MBmetadataoutputguard on the1.388MBF0split. Astat-onlydiagnostic ledtoV2’s boundedmembership excerpt+exactsplitSHA at unchanged1MB/outputand4MBaggregatecaps; nofit/inferencereplay/modelnegative. Nativewall1607.235567s/CPU1606.223317s/systemdMemoryPeak3,054,235,648B; emptyterminalCG=>ownfilesNA/nohostfallback,parentnewmemoryevents0/populated{}.
+
+---
+
 # Latest observed export progress — 19 October22:26:55UTC
 
 [Human-requested bounded status](records/teacher_s3_train_export_v1/health_20261019T2226Z/README.md): exactS3trainexportinv48732136d70548b2903f3426bfedf656 remainsactive/running, lastrecorded5712/10535fit-train sequences. OnepopulatedownedGPUworker/1286MiB; ownmemoryevents0/parentdeltas0. No payloadread/hash/newjob/terminal/quality. This supersedes22:14startupfreshness only; current launch/source/next-stage boundaries below are unchanged. No immediate repeatpoll.

@@ -1,0 +1,11 @@
+# S4 fitting-train prediction export V1 — launched
+
+One root launch23:07:04UTC, exactunitcomputer-vision-homework-fg19-teacher-s4-train-export-v1.service/invocationc48563e6113d4351a7ca23e7715ad2c2/PID3730320 atlaunch. AcceptedS4epoch2/H384x2/211→23/source88becca167files/strictFP32/rawmain2/ownnormalizer,10535F0fittrainsequence scope. No evaluationrows/labels/masks, scientificfit or qualitygrade. S3trainandfit-valid arealreadycaptured/accepted/exactstopped, notpolledorreplayed.
+
+[Launchacceptance](LAUNCH_ACCEPTANCE.json), [rawlaunchresponse](STDOUT.raw.json), [transport](TRANSPORT.json), [nativeadmission](ADMISSION.json), [nativelaunch](LAUNCH.json), [frozenpacket](REMOTE_SUBMISSION.py). JSONextracts aresemanticallyidenticaltorawresponse, notB-formatbyteidentityclaims. [Source-reviewedS4delta](../../preparation/TEACHER_CACHE_S4_TRAIN_EXPORT_REVIEW.json) binds bothactualS3acceptances+stops, existingpredictionfiles bystat/sidecarSHAonly, exactfourmetadataJSONs, immutable source/code/split/registeredpaths and freshALLpopulated/ownership/GPU/disk/headroom/newoutputabsence gates. No source/model/profiletests repeated, metadatarewritten, completedarraysread/rehash or newframework.
+
+S3engineeringprofile remains ageometry/sourcebind; selectedS4 checkpoint/provenance arefreshlybound separately. TerminalS4normalizer mustmatchS4acceptedprovenance, notassumedS3normalizer. Profilepassing isnotanS4qualityresult. Fullarrayfinite/header/hashnotindependentlyvalidatedinprecursorrecords; streamedCPUcacheconsumer stillmustcheckfinite/shape/alignment.
+
+SameA4000GPU-ec74220d-78d7-cc47-69fc-0de1fb580944,oneownedworker/oneCPU/high7.5e9/max8e9/swap0/4GiBallocator+1GBreserve/runtime10800s/loader0,aggregate2CPU. Allforeignjobspreserved. Log/evidenceB/research_tmp/fg19_teacher_s4_train_export_v1; predictionsB/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1/newS4trainNPY/partial/JSON. Partiallogicalsizeispreallocation, notcompletion. Unknownoutcomenoretry/restart, nohealthyjobstop. Capturevalidateactualterminal beforeexactstop/downstream; currentlaunch isnotcompletion.
+
+[Startup23:08:54UTC](startup_health_v1/README.md): exactsameinvocationactive/running,recorded672/10535,oneownedGPUworker/ownandparentnewmemoryevents0. [Independentactuallaunchreview](../../preparation/TEACHER_CACHE_S4_TRAIN_EXPORT_ACTUAL_REVIEW.json) passes; no completion/qualityclaim.

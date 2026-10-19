@@ -42,3 +42,9 @@ The [actual teacher profileV2](teacher_profile_v2/FAILURE.json) exited1at15:19:0
 [16:59:55UTC teacher progress](teacher_s3_v1/health_20261019T1700Z/README.md) logs two completed epochs/14,920successful updates/0skips/nonfinite0 before recordedep2batch20/373. Same original invocation remains active with one owned worker and no new memory events. New provenance/training-state paths are stat-only; terminal/quality acceptance is still pending.
 
 [Human-requested S3export status22:26:55UTC](teacher_s3_train_export_v1/health_20261019T2226Z/README.md): sameactiveinvocation, recorded5712/10535fit-train sequences, oneownedGPUworker and unchangedmemoryevents; no terminal or quality claim.
+
+[S3fitting-train export completed](teacher_s3_train_export_v1/README.md): originalinvocation exited0at22:39:16UTC,10535sequences/659batches, capturedaccepted/exactstopped22:53:03. Source-qualifiedFP32/membership/norm/producerSHA; wholearrayfinite/header/hashnotindependentlyreplayed, streamedcachevalidationpending. Zero newfits/quality.
+
+[S3fitting-valid export completed](teacher_s3_valid_export_v1/README.md):1405sequences/88records/exit0at23:00:24UTC,capturedaccepted/exactstopped23:02:01. BothS3predictionpartsready; nofullmean-cache/GRUqualityresult/newfit. Source-qualifiedFP32/orderedfit-valid(no468eval)/ownnorm/producerSHA; payloadfinite/header/hashnotindependentlyreplayed.
+
+[S4trainexportactuallyrunning](teacher_s4_train_export_v1/README.md),launched23:07:04UTC/source88becca167/S4epoch2/oneownedA4000. Startup23:08:54recorded672/10535/ownandparentnewmemoryevents0. BothS3exportsaccepted/exactstopped; S4completion/cache/qualitypending.

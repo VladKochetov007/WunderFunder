@@ -1,5 +1,9 @@
 # Current project state
 
+**19 October23:08UTC full-GRU dependency:** [BothS3fittingpredictionpartscompleted; S4trainexportrunning](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md),recorded672/10535/oneownedGPUworker/no newmemoryevents. Source88becca167/S4epoch2/ownnormalizer. Commoncache/parent/fivefinalGRUarmsnotyetcompleted/noqualityscore.
+
+**19 October22:53UTC full-GRU dependency:** [First S3fitting-train export completed/captured/accepted/exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_train_export_v1/README.md):10535sequences/659batches/exit0, source-qualifiedFP32/norm/membership/producerSHA; arrayfinitecheck stillrequiredinstreamedcacheconsumer. S3fit-validisnext, no finalGRUarmqualityyet.
+
 **19 October22:26:55UTC human-requested status:** [Same S3 fitting-train export active](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_train_export_v1/health_20261019T2226Z/README.md), recorded5712/10535sequences, oneownedGPUworker/zero new memoryevents. No terminal/cache/five-armquality result.
 
 **19 October22:12UTC full-GRU dependency:** [S3 fitting-train inference export actually launched](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_train_export_v1/README.md), exact invocation48732136d70548b2903f3426bfedf656 on source88becca/one owned GPU. Allthree teachers and full-shape inference profile are accepted/stopped. Sharedtarget cache and six parent/child scientific fits follow; no five-arm quality result yet.

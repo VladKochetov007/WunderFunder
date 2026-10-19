@@ -1,0 +1,141 @@
+{
+  "schema": "fg19.teacher-s4-train-export-startup-observation.v1",
+  "captured_utc": "2026-10-19T23:08:54.265501+00:00",
+  "unit": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s4-train-export-v1.service",
+    "ExecMainCode": "0",
+    "ExecMainStartTimestamp": "Mon 2026-10-19 23:07:04 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-88becca8/scripts/predict_run.py fg19_t3_h384x2_e3_s4_v1 train --epoch 2 --campaign-split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --device cuda --inference-precision fp32 --loader-workers 0 --output-dir /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1 --create-only ; ignore_errors=no ; start_time=[Mon 2026-10-19 23:07:04 UTC] ; stop_time=[n/a] ; pid=3730320 ; code=(null) ; status=0/0 }",
+    "InvocationID": "c48563e6113d4351a7ca23e7715ad2c2",
+    "LoadState": "loaded",
+    "MainPID": "3730320",
+    "MemoryCurrent": "1934540800",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "2230714368",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "running"
+  },
+  "invocation_id": "c48563e6113d4351a7ca23e7715ad2c2",
+  "last_recorded_prediction_progress": {
+    "event": "prediction_progress",
+    "completed_sequences": 672,
+    "total_sequences": 10535
+  },
+  "not_synchronous_live_or_terminal_count": true,
+  "own_cgroup": {
+    "events": {
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+    },
+    "memory_current": "1934540800",
+    "memory_peak": "2230714368",
+    "path": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s4-train-export-v1.service",
+    "populated_pids": [
+      "3730320"
+    ]
+  },
+  "parent_memory_event_deltas_from_admission": {
+    "memory.events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "memory.events.local": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "parent_current_at_snapshot": "7630524416",
+  "all_populated": {
+    "cgroup_count": 2,
+    "overflow": false,
+    "populated": {
+      "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s4-train-export-v1.service": [
+        "3730320"
+      ]
+    },
+    "root": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice"
+  },
+  "owned_gpu_processes": 1,
+  "owned_gpu_used_memory": "1286 MiB",
+  "prediction_stat_only": {
+    "directory_stat": {
+      "bytes": 4096,
+      "device": 64512,
+      "exists": true,
+      "inode": 739677798,
+      "kind": "directory",
+      "mode": "0o40775",
+      "mtime_ns": 1792451227662868029,
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1"
+    },
+    "entries": [
+      {
+        "bytes": 16411,
+        "device": 64512,
+        "inode": 739677806,
+        "kind": "regular",
+        "mtime_ns": 1792450823558269184,
+        "name": "pred_fg19_t3_h384x2_e3_s3_v1_valid.json",
+        "partial_suffix": false
+      },
+      {
+        "bytes": 108035,
+        "device": 64512,
+        "inode": 739677800,
+        "kind": "regular",
+        "mtime_ns": 1792449555562814658,
+        "name": "pred_fg19_t3_h384x2_e3_s3_v1_train.json",
+        "partial_suffix": false
+      },
+      {
+        "bytes": 1685600128,
+        "device": 64512,
+        "inode": 739677811,
+        "kind": "regular",
+        "mtime_ns": 1792451332423383078,
+        "name": "pred_fg19_t3_h384x2_e3_s4_v1_train.npy.partial",
+        "partial_suffix": true
+      },
+      {
+        "bytes": 1685600128,
+        "device": 64512,
+        "inode": 739677799,
+        "kind": "regular",
+        "mtime_ns": 1792449551403532419,
+        "name": "pred_fg19_t3_h384x2_e3_s3_v1_train.npy",
+        "partial_suffix": false
+      },
+      {
+        "bytes": 224800128,
+        "device": 64512,
+        "inode": 739677805,
+        "kind": "regular",
+        "mtime_ns": 1792450822912220791,
+        "name": "pred_fg19_t3_h384x2_e3_s3_v1_valid.npy",
+        "partial_suffix": false
+      }
+    ],
+    "entry_limit": 64,
+    "payload_read_or_hashed": false,
+    "truncated": false
+  },
+  "raw_sha256": "47e032950a9b64f6b226b5a4305985d93aad471c9ce7f6c1b1655587d00ad028",
+  "raw_length_sha_validated": true,
+  "source_content_reverified_by_health": false,
+  "source_authority": "ExpectedsourceIDconstant/sourcepathstatonly; originalfresh167contenthashadmission remainsauthority.",
+  "quality_result": false,
+  "prediction_payload_read_or_hashed": false
+}
