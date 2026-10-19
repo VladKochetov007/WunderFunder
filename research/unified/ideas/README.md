@@ -4,6 +4,8 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
+- [Large dynamics Transformer teachers on8 B300s](LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md) — H-LARGE-DYNAMICS-TEACHER-20261019-R2; proposed0.68B/1.65B capacity contrast and eligible3.17B extension, numerical/group encoders, future-observation auxiliary tasks, causal dense/local/slow-memory attention, all-FP32 Muon, WSD, DDP and GRU transfer. Includes analytical memory/runtime scenarios, independent criticism and a four-fit draft packet; no runnable trainer, profile, fit, transfer or public gain. Supersedes prospective CP30 counting in the old proposal, preserving its frozen source/history.
+
 - [RR17 published proposal branches](../../campaign_2026-10-17/research_reset_r1/publication/README.md) —25isolated proposal commits from research-team, remote SHA verification and ready PR bodies. No new PR exists without API authentication; no fit is admitted.
 
 - [Research reset: 25 ideas](../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md) — ranked proposal portfolio with existing-work overlap, counterevidence, no-fit gates and future controls; no training admitted.

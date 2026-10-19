@@ -1,5 +1,27 @@
 # Project agent instructions
 
+## Prospective experiment policy — user instruction, 2026-10-19
+
+Future experiment drafts use **4–6 total new scientific fits for an initial idea
+screen**, normally 2–3 matched fold/seed cells for a two-arm comparison. There is
+no mandatory 30-run matrix and no default 4–6 runs per arm. State per-arm counts,
+total new fits, reused exact controls, and teacher/student fitting costs explicitly.
+Use multiple source-qualified folds and distinct seeds where affordable; a small
+screen cannot disentangle both axes or establish significance. Report every
+paired delta, exposure and uncertainty; allocate targeted follow-up by information
+and complete-endpoint value. Preserve frozen historical CP30 recipes/results;
+amend a continuing experiment explicitly rather than silently changing its plan.
+See [ADR0043](specs/adr/0043-fast-screens-and-transformer-teacher-scale.md) and the
+[updated draft workflow](research/unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md).
+
+The new research priority is a large causal Transformer teacher on the team's
+eight B300 GPUs, followed by measured GRU distillation. Prepare architecture,
+scale, optimization and profiling handoffs; this instruction does not restart
+the stopped remote jobs or change the existing local start/budget. Strict FP32,
+autocast/TF32 off, causal inputs, clean ancestry and official scoring still apply.
+Large teachers may exceed submission limits. Scale by measured teacher quality
+and student benefit, not by fitting the largest model that memory permits.
+
 ## Active continuation plan — user instruction, 2026-10-19
 
 After compaction, read the [accepted local/Kaggle plan](specs/plans/2026-10-20-plateau-review-local-kaggle.md)
@@ -27,7 +49,7 @@ Use the [research-team workflow guide](research/unified/methods/EXPERIMENT_DRAFT
 
 Proactively use `$create-experiment-draft` for experiment proposals/code/handoffs, `$conduct-creative-research` for mechanisms and independent criticism, `$arxiv-search` for primary literature, and `$b300-training` for accelerator implementation. Canonical skill folders are `.agents/skills/`; Claude discovers the same skills through `.claude/skills/` symlinks. `CLAUDE.md` is a symlink to this file.
 
-Scientific comparisons require30 paired fold/seed cells **per arm** (8/8/7/7 over the existing four exposed folds), clean teacher/initializer ancestry, strictFP32 with autocast and TF32 off, and the unchanged official metric. Engineering profiles/parity checks are not quality comparisons. No quantization until submission work; no queue manager. Every PR answers mechanism, compute advantage, validation/significance, lineage, decision-changing effects and leakage/coverage. Preserve progress metrics, preclip gradient norm, LR, scores, source/config/ancestry and separate evidence/weights archives. Trace all results from unified READMEs through packet/run/archive manifests and PR/merge SHAs; retain negative and inconclusive evidence. See the guide for precise statistics, execution and merge rules.
+Initial scientific screens budget 4–6 total new fits, with an explicit matched panel and any reused controls; the prospective policy above supersedes the October17 CP30 requirement. Preserve clean teacher/initializer ancestry, strictFP32 with autocast and TF32 off, and the unchanged official metric. Engineering profiles/parity checks are not quality comparisons. No quantization until submission work; no queue manager. Every PR answers mechanism, compute advantage, validation/uncertainty, lineage, decision-changing effects and leakage/coverage. Preserve progress metrics, preclip gradient norm, LR, scores, source/config/ancestry and separate evidence/weights archives. Trace all results from unified READMEs through packet/run/archive manifests and PR/merge SHAs; retain negative and inconclusive evidence. See the guide for precise statistics, execution and merge rules.
 
 
 Latest local instruction (2026-10-15): **two aggregate CPU cores**, replacing

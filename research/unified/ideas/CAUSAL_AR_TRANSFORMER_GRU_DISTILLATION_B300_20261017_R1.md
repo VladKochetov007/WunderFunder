@@ -20,6 +20,13 @@ evidence_paths:
 
 # Causal autoregressive Transformer teachers, GRU distillation, and eight-B300 training
 
+October19 successor: [large dynamics teacher R2](LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md)
+and [ADR0043](../../../specs/adr/0043-fast-screens-and-transformer-teacher-scale.md)
+replace the prospective mandatory30-run requirement with4–6 total new fits per
+initial idea screen. The original equations, proposal and frozen historical
+recipes below are preserved; use the successor for current scale/optimizer and
+readiness guidance.
+
 ## Question or claim
 
 Can a causal Transformer with a learned autoregressive output term produce a better teacher and, more importantly, a better deterministic GRU student for root Wunder Connectome Challenge 2?

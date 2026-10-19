@@ -2,6 +2,11 @@
 
 Status: accepted user direction, October 19, 2026.
 
+The later same-day [ADR0043](0043-fast-screens-and-transformer-teacher-scale.md)
+extends the fast-screen policy to all future drafts and adds the large B300
+Transformer-teacher design priority. This ADR's local allocation/start stays in
+force; frozen historical protocols remain unchanged until explicitly amended.
+
 ## Decision
 
 Implement the [accepted plan](../plans/2026-10-20-plateau-review-local-kaggle.md)

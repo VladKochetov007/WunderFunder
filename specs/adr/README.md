@@ -69,3 +69,5 @@ For a new decision, copy [the template](template.md), choose the next unused num
 - [ADR0041: modular training code](0041-modular-training-code.md) makes the semantic package/thin CLI, uv/Ruff, explicit run state and300/200-line structure checks the shared main/research-team policy; preserves frozen source and numerical recipes.
 
 - [ADR0042: local/Kaggle plateau-review budget](0042-local-kaggle-plateau-review-budget.md) records the October 19 user revision: 15 local GPU-hours, verified available Kaggle quota in parallel, a scoped waiver of the 30-cell matrix, unchanged 2-CPU/5-GB/no-swap bounds, preparation now and experiment start October 20. Full-data fits remain allowed; the canonical plan and frontier preserve continuation after compaction.
+
+- [ADR0043: fast screens and large Transformer teachers](0043-fast-screens-and-transformer-teacher-scale.md) replaces mandatory CP30 for future drafts with4–6 total new fits per initial screen, explicit cached-control and teacher/student accounting, and targeted follow-up. Sets the8×B300 causal-Transformer→GRU priority while preserving FP32, ancestry, historical protocols and existing compute/start boundaries.

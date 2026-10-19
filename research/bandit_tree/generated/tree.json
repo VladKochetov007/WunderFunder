@@ -10047,8 +10047,8 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 976,
-      "hypotheses": 567,
+      "experiments": 977,
+      "hypotheses": 568,
       "journal": 159
     }
   },
@@ -47273,6 +47273,46 @@
         }
       ],
       "title": "A useful i1-history teacher may transfer information to an identical cold student beyond what retaining a parent function achieves.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:teacher",
+          "family:optimization"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-LARGE-DYNAMICS-TEACHER-20261019-R2",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"H-LARGE-DYNAMICS-TEACHER-20261019-R2\",\"mechanism_family\":\"large causal dynamics teacher and recurrent transfer\",\"statement\":\"A larger causal numerical Transformer with measured dynamics/context learning can provide teacher signal that improves a matched GRU or served blend.\",\"predicted_observable\":\"Matched teacher capacity gains survive causal evaluation and improve a same-ancestry GRU after fixed regression distillation.\",\"falsifier\":\"Scale or dynamics gains fail on matched cells or do not transfer to the declared GRU endpoint; narrows the tested recipe rather than all scale descendants.\",\"status\":\"proposed\",\"parent_ids\":[\"H-TRANSFORMER-QUALITY-SCALE-20261017\"],\"evidence\":[],\"source_note\":\"research/unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md\",\"committed_at\":\"2026-10-19\"}\n",
+          "record": {
+            "committed_at": "2026-10-19",
+            "evidence": [],
+            "falsifier": "Scale or dynamics gains fail on matched cells or do not transfer to the declared GRU endpoint; narrows the tested recipe rather than all scale descendants.",
+            "id": "H-LARGE-DYNAMICS-TEACHER-20261019-R2",
+            "mechanism_family": "large causal dynamics teacher and recurrent transfer",
+            "parent_ids": [
+              "H-TRANSFORMER-QUALITY-SCALE-20261017"
+            ],
+            "predicted_observable": "Matched teacher capacity gains survive causal evaluation and improve a same-ancestry GRU after fixed regression distillation.",
+            "source_note": "research/unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md",
+            "statement": "A larger causal numerical Transformer with measured dynamics/context learning can provide teacher signal that improves a matched GRU or served blend.",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 568,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "52afc5900f8750115e3c6e4131898a98755d343321b603c5a5a352f27c716d1f"
+          }
+        }
+      ],
+      "title": "A larger causal numerical Transformer with measured dynamics/context learning can provide teacher signal that improves a matched GRU or served blend.",
       "type": "hypothesis"
     },
     {
@@ -91280,6 +91320,56 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-LARGE-DYNAMICS-TEACHER-SCALE-20261019-R2",
+      "latest_recorded_status": "proposed_not_launch_ready",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-LARGE-DYNAMICS-TEACHER-SCALE-20261019-R2\",\"hypothesis_ids\":[\"H-LARGE-DYNAMICS-TEACHER-20261019-R2\"],\"event\":\"design_and_recipe_proposed\",\"status\":\"proposed_not_launch_ready\",\"recipe\":\"research/experiment_drafts/large-dynamics-teacher-b300-r2/recipe.json\",\"arms\":[\"teacher_068b_fp32_muon\",\"teacher_165b_fp32_muon\"],\"cells\":[{\"fold\":0,\"seed\":1001},{\"fold\":2,\"seed\":1002}],\"new_teacher_fits_planned\":4,\"student_fits_in_panel\":0,\"fit_admitted\":false,\"quality_result\":null,\"timestamp_utc\":\"2026-10-19\",\"review\":\"research/unified/reviews/LARGE_TEACHER_DESIGN_REVIEW_20261019_R2.md\"}\n",
+          "record": {
+            "arms": [
+              "teacher_068b_fp32_muon",
+              "teacher_165b_fp32_muon"
+            ],
+            "cells": [
+              {
+                "fold": 0,
+                "seed": 1001
+              },
+              {
+                "fold": 2,
+                "seed": 1002
+              }
+            ],
+            "event": "design_and_recipe_proposed",
+            "fit_admitted": false,
+            "hypothesis_ids": [
+              "H-LARGE-DYNAMICS-TEACHER-20261019-R2"
+            ],
+            "id": "E-LARGE-DYNAMICS-TEACHER-SCALE-20261019-R2",
+            "new_teacher_fits_planned": 4,
+            "quality_result": null,
+            "recipe": "research/experiment_drafts/large-dynamics-teacher-b300-r2/recipe.json",
+            "review": "research/unified/reviews/LARGE_TEACHER_DESIGN_REVIEW_20261019_R2.md",
+            "status": "proposed_not_launch_ready",
+            "student_fits_in_panel": 0,
+            "timestamp_utc": "2026-10-19"
+          },
+          "source": {
+            "line": 977,
+            "path": "research/experiments.jsonl",
+            "sha256": "0daaf637e7491debc43bf2ce86fadb4b2bfb503796b3161e0407928402c97806"
+          }
+        }
+      ],
+      "title": "E-LARGE-DYNAMICS-TEACHER-SCALE-20261019-R2",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -94908,6 +94998,17 @@
       },
       "source_id": "hypothesis:H-PLATEAU-I1-HISTORY-TRANSFER-20261020-R1",
       "target_id": "hypothesis:H-FROZEN-PARENT-ANCHOR-20261015"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 568,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "52afc5900f8750115e3c6e4131898a98755d343321b603c5a5a352f27c716d1f"
+      },
+      "source_id": "hypothesis:H-LARGE-DYNAMICS-TEACHER-20261019-R2",
+      "target_id": "hypothesis:H-TRANSFORMER-QUALITY-SCALE-20261017"
     },
     {
       "relation": "ledger_hypothesis_reference",

@@ -4,6 +4,10 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [Large teacher design criticism](LARGE_TEACHER_DESIGN_REVIEW_20261019_R2.md) — independent fresh-context Luna/max scout and specification critic assess the new scale direction and count migration. Records4–6 TOTAL fits, causal summary visibility, DDP normalization, Muon semantics, memory lower bounds and the need to measure GRU transfer. Criticism and proposed mitigations, not empirical approval or a B300 profile; related H/E IDs and primary sources are linked.
+
+- [October 19 B300 PR results and stop review](B300_PR_RUN_UPDATE_REVIEW_20261019_R1.md) — reads the PR15/25/26/27 status and PR25 stop packet. Independently recomputes R01 partial fold/equal-fold means from the preserved 12-pair JSON, while relying on its sealed verifier for grade provenance. Width modestly favors H512×1; partial geometry means favor baseline; age/innovation have no scored pairs. The work was stopped, all folds were exposed, and no complete CP30 or public-transfer result exists.
+
 - [Causal i1 implementation review](PLATEAU_I1_IMPLEMENTATION_REVIEW_20261019_R1.md) — independent Luna/max static review of the equal-width A/B/C code, source-bound to actor commit `3c1936161` and its main integration. Covers complete i1 masking after common normalization, centered causal scans and checkpoint/provenance restoration. Ruff and training-structure checks pass; numerical, restoration and actual-shape resource gates remain. No fit, score or native serving result.
 
 - [Meta-review reconciliation](META_REVIEW_RECONCILIATION_20261019_R1.md) — independent Luna/max audit and root allocation update for the imported student/transfer review. Confirms the missing frozen-parent fit but finds its old T3 control was FP16 and its profile exceeded 5 GB; a fresh FP32 pair is required. Identifies a newer six-epoch F3 wide checkpoint on research-team, so existing results should be collected before repeating capacity work. Preserves the first i1 comparison and defines a conditional representation-to-student interaction; no new fit or score.

@@ -9,8 +9,21 @@ records actual progress. The [October 18 stop](operations/RESEARCH_STOP_20261018
 remains historical authority for unrelated work. This index distinguishes
 measured results, implementation drafts and historical plans.
 
-Latest completed evidence: [Online-features closeout](../campaign_2026-10-18/online_features_r1/CLOSEOUT_20261018_R1.md)
+Latest policy and design: [fast screens / large teacher ADR](../../specs/adr/0043-fast-screens-and-transformer-teacher-scale.md)
+sets4–6 total new fits per initial idea comparison. The
+[large causal Transformer proposal](ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md)
+specifies0.68B/1.65B capacity recipes, optional3.17B scaling, dynamics embeddings,
+FP32 Muon/WSD/DDP, causal long memory and measured GRU transfer. Sources and
+independent design criticism are indexed; no new fit, B300 profile or gain exists.
+
+Latest broad campaign closeout: [Online-features closeout](../campaign_2026-10-18/online_features_r1/CLOSEOUT_20261018_R1.md)
 — summarizes causal-state, Kalman, gating, model-blend, submission and local code-draft evidence from the closed campaign. The new plan contains no additional quality result yet.
+
+The October 19 [B300 PR review](reviews/B300_PR_RUN_UPDATE_REVIEW_20261019_R1.md)
+records partial width/depth and geometry scores from stopped research-team jobs.
+It finds a small directional advantage for the wide GRU, a negative partial
+geometry bundle, and no scored age/innovation pairs. These exposed-fold partials
+do not promote a model or establish transfer.
 
 Previous: [No-fit research reset and 25-idea portfolio](../campaign_2026-10-17/research_reset_r1/README.md)
 — deployed prediction/cache fixes, a 249.6M-row narrow census, sampled full-feature

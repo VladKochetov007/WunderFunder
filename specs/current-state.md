@@ -1,5 +1,19 @@
 # Current project state
 
+## Latest steering — October 19: fast screens and large B300 teachers
+
+The user replaces mandatory30-per-arm experiment matrices for FUTURE drafts
+with **4–6 total new fits per initial idea comparison**, normally2–3 matched
+two-arm cells. Count cached controls and teacher/student stages explicitly;
+retain historical frozen panels and expose small-screen uncertainty. The new
+strategic priority is a large causal Transformer teacher on8 B300s, followed by
+GRU distillation. See [ADR0043](adr/0043-fast-screens-and-transformer-teacher-scale.md)
+and the [detailed design](../research/unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md).
+The design proposes0.68B/1.65B capacity recipes, optional3.17B extension, strict
+FP32 Muon, WSD, profiled DDP and causal dynamics objectives. It supplies no
+new runnable DDP trainer, B300 reservation, fit or quality claim. Preserve the
+local/Kaggle plan below and its start/allocation; do not restart stopped jobs.
+
 ## Active instruction — October 19, 2026
 
 The user accepted the [plateau-review local/Kaggle plan](plans/2026-10-20-plateau-review-local-kaggle.md),
@@ -21,6 +35,12 @@ i1 histories, post-normalization semantic masks and checkpoint/prediction suppor
 Ruff and training-structure checks pass, with an independent static review. Exact
 commands and fixed fitting membership are prepared; numerical checks, source seal,
 actual-shape profiles and execution remain pending. See the campaign frontier.
+
+The October 19 B300 PR status review found 12 verified but partial width/depth
+pairs and 16/30 geometry pairs per arm; field-age and innovation have no scored
+paired cells. The tabdata jobs were explicitly stopped. See the
+[PR evidence review](../research/unified/reviews/B300_PR_RUN_UPDATE_REVIEW_20261019_R1.md)
+before repeating these comparisons.
 
 This scoped authority succeeds the October 18 stop for this cycle. Keep its
 receipts and unrelated campaign restrictions intact. Read the new spec before

@@ -11,6 +11,14 @@ Record changes and receipts here before context compaction or handoff.
 
 ## Actual stage
 
+- Later October19 steering makes4–6 TOTAL new fits the default initial screen
+  for future drafts and prioritizes large B300 Transformer teachers→GRU transfer.
+  [ADR0043](../../../specs/adr/0043-fast-screens-and-transformer-teacher-scale.md)
+  and the [teacher design](../../unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md)
+  preserve this direction, its independent review and unimplemented distributed
+  training path. Existing B300 results were collected in the linked PR review;
+  no B300/local/Kaggle job was admitted. The accepted local plan and unused15h
+  allocation remain preserved; reconcile the latest priority before spending.
 - Accepted plan saved and linked; no new fits or scientific scores.
 - Baseline source: main `9defbcbc0f2a6f1b35941dc657496993b48889c6`. Plan/source audit
   pushed in `372af11fe`; first-comparison code integrated in `0cc795070`.
