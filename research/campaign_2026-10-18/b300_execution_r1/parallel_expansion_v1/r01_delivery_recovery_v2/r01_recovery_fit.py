@@ -19,6 +19,7 @@ from r01_recovery_common import (
     validate_epoch_records,
     write_json_new,
 )
+from r01_recovery_placement import verify_placement
 
 EXPECTED_PANEL_SHA256 = "471f465cc1d13fc6e5153a4c998390bb14e06823fed4c6721f929ce95fee47fb"
 EXPECTED_ACTOR_SHA256 = "e6a155ee13a7e907bb7fca2c1ebed07879e8466422015546e20360af9b404220"
@@ -163,7 +164,6 @@ def _verify_completed_training_phase(run_dir: Path, job: dict[str, Any]) -> dict
         or "B300" not in str(resource.get("gpu", ""))
         or resource.get("allocator_budget_bytes") != 6 * 1024**3
         or resource.get("torch_threads") != 2
-        or resource.get("cpu_affinity") != job.get("cpu_ids_initial")
         or resource.get("status") not in {"actor_returned", "actor_failed"}
         or isinstance(elapsed, bool)
         or not isinstance(elapsed, (int, float))
@@ -175,6 +175,7 @@ def _verify_completed_training_phase(run_dir: Path, job: dict[str, Any]) -> dict
         or not 0 <= resource["cuda_peak_reserved_bytes"] <= 6 * 1024**3
     ):
         raise ValueError("original R01 train actor resource receipt is not the panel-bound fit")
+    placement = verify_placement(run_dir.parent.parent, job, resource)
     producer_path = run_dir / "producer_receipt.json"
     producer_status = "missing_after_postfit_receipt_error"
     producer_sha256 = None
@@ -201,6 +202,7 @@ def _verify_completed_training_phase(run_dir: Path, job: dict[str, Any]) -> dict
         "status": resource["status"],
         "error_type": resource.get("error_type"),
         "resource_receipt_sha256": sha256_file(resource_path),
+        "placement_authorization": placement,
         "original_producer_receipt_status": producer_status,
         "original_producer_receipt_sha256": producer_sha256,
         "fit_completion_verified_from": [
