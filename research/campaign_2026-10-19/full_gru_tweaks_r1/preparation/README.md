@@ -1,6 +1,16 @@
 # Teacher terminal verification preparation
 
+## S4 terminal acceptance and S5 actual admission — 19:41UTC
+
+[Native S4 metadata review](TEACHER_S4_NATIVE_METADATA_REVIEW.json) and [scope note](TEACHER_S4_NATIVE_REVIEW_NOTE.md) reconcile explicit exit0/three-epoch producer counters, without tensor reads. [Independent S4 checker source review](TEACHER_S4_TERMINAL_REVIEW.json) binds the identity-only [restricted checker](teacher_s4_terminal_check_v1.py), [one-shot generator](admit_teacher_s4_terminal_verifier_v1.py), [new identity tests](test_teacher_s4_terminal_check_v1.py) and [frozen local packet/check receipts](teacher_s4_terminal_verifier_v1/README.md). [Actual S4 audit](TEACHER_S4_ACTUAL_TERMINAL_REVIEW.json) and [note](TEACHER_S4_ACTUAL_TERMINAL_REVIEW_NOTE.md) independently validate compact capture/root acceptance/exact stop; [executed support](../records/teacher_s4_v1/terminal_verification_v1/README.md) passed once without a remote retry. These are integrity/source checks, not quality replications.
+
+[S5 frozen same-recipe binding](TEACHER_S5_FIT_BINDING.json), [conditional source review](TEACHER_S5_FIT_ADMISSION_REVIEW.json), [binder](admit_teacher_s5_fit.py), [four focused tests](test_teacher_s5_fit_admission.py) and [preparation evidence/CLI](S5_PREPARATION_NOTE.md) bind seed5 to the exact accepted/stopped S4 bytes and fresh gates. [Actual S5 records](../records/teacher_s5_v1/README.md) supersede these locally-prepared status labels: launched19:41:03UTC, sourceaf21 unchanged. No final child/tweak quality result. Older preparation notes below remain dated history.
+
 The seed-3 teacher fit is complete and its checkpoint integrity and exact stop are accepted. The verifier checked native checkpoint/source/counter consistency only; no inference, grading, or quality result was produced. The checkpoint and optimizer payloads remained on B.
+
+## S4 terminal verifier preparation
+
+The seed-4 fit has root-captured native terminal evidence with `ActiveState=active`, `SubState=exited`, `MainPID=0`, `ExecMainCode=1`, and `ExecMainStatus=0`. The new [S4 checker](teacher_s4_terminal_check_v1.py), [local packet generator](admit_teacher_s4_terminal_verifier_v1.py), [focused identity tests](test_teacher_s4_terminal_check_v1.py), and [prepared packet](teacher_s4_terminal_verifier_v1/README.md) bind that invocation and its exact recipe, admission, launch, acceptance, source, split, and terminal-evidence identities. The packet is prepared locally only; no SSH or B-side verifier launch has occurred, and no S4 checkpoint-integrity result is claimed. The [local checks receipt](teacher_s4_terminal_verifier_v1/CHECKS.json) records three passing identity tests, Ruff, and a cold checker/helper import with data-reader and CUDA sentinels clear.
 
 ## S3 verifier source and outcome
 
@@ -9,9 +19,9 @@ The seed-3 teacher fit is complete and its checkpoint integrity and exact stop a
 - [V2 prepared packet](teacher_terminal_verifier_v2/README.md) was used for the successful bounded verifier. The earlier [V1 packet](teacher_terminal_verifier_v1/README.md) failed only on restricted `TorchVersion` loading; [pre-format V2 bytes](teacher_terminal_verifier_v2_before_format/README.md) and all earlier check rounds remain available with their status.
 - Actual records: [V2 verification and capture](../records/teacher_s3_v1/terminal_verification_v2/README.md), [root terminal acceptance](../records/teacher_s3_v1/TERMINAL_ACCEPTANCE.json), and [exact-stop record](../records/teacher_s3_v1/terminal_exact_stop/README.md). The actual review digest is `bfd6f4c0fabe48528de8b7c8163e45e0f0490f68656b81812cd22f7cfe14a0c8`.
 
-## S4 conditional successor
+## S4 launch record and terminal evidence
 
-One seed-4 successor was admitted and launched after S3 acceptance and exact stop. The launch acceptance at 17:52:26 UTC records invocation `b6d71599e0044970b8641e3e241c40a4`, expected 22,380 updates, and status `ADMITTED_RUNNING_NOT_TERMINAL`; it is a launch-time snapshot, not a current progress or outcome report. See the root-owned [S4 launch acceptance](../records/teacher_s4_v1/LAUNCH_ACCEPTANCE.json), [admission](../records/teacher_s4_v1/ADMISSION.json), [recipe](../records/teacher_s4_v1/RECIPE.json), [predecessor terminal acceptance](../records/teacher_s4_v1/PREDECESSOR_TERMINAL_ACCEPTANCE.json), and [predecessor exact stop](../records/teacher_s4_v1/PREDECESSOR_TERMINAL_STOP.json). Current status and any terminal result belong in the root-maintained continuation and S4 record; none is asserted here.
+One seed-4 successor was admitted and launched after S3 acceptance and exact stop. Its launch acceptance at 17:52:26 UTC records invocation `b6d71599e0044970b8641e3e241c40a4`, expected 22,380 updates, and the launch-time status `ADMITTED_RUNNING_NOT_TERMINAL`. That snapshot is superseded by the root-owned [S4 terminal evidence](../records/teacher_s4_v1/TERMINAL_EVIDENCE.json), which records the explicit successful native exit and binds the captured raw health output. See also the [S4 launch acceptance](../records/teacher_s4_v1/LAUNCH_ACCEPTANCE.json), [admission](../records/teacher_s4_v1/ADMISSION.json), [recipe](../records/teacher_s4_v1/RECIPE.json), [predecessor terminal acceptance](../records/teacher_s4_v1/PREDECESSOR_TERMINAL_ACCEPTANCE.json), and [predecessor exact stop](../records/teacher_s4_v1/PREDECESSOR_TERMINAL_STOP.json). The terminal integrity checker remains prepared but not run; the root-maintained continuation owns current status and acceptance.
 
 ## Earlier preparation navigation — dated and superseded
 
