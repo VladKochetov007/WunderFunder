@@ -1,3 +1,7 @@
+# Additional B300 directions, user instruction19October2026
+
+The user authorizes continuing existing R01/PR15 and adding reviewed GitHub experiments in parallel on the existing eight B300s. This supersedes the previous four-actor ceiling for separately profiled native-feature successors. Preserve all healthy existing and foreign jobs. Only root uses the existing SSH console. See [native-feature expansion](research/campaign_2026-10-18/b300_execution_r1/parallel_expansion_v1/README.md). Freeze each new recipe and use distinct draft PRs, exact CP30/FP32 comparisons and separate ten-minute/completion reporting as SemyonEpanov. No new rental, account/SSH changes or automatic scientific refits.
+
 # Project agent instructions
 
 ## DataSphere allocation — user instruction, 2026-10-18
