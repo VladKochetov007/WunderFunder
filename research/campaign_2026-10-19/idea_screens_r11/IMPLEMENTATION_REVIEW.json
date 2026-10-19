@@ -1,0 +1,58 @@
+{
+  "bindings": {
+    "design_sha256": "15860112cd051995253120596cb57acf8bbbfe2493d76c1245c9494631decf5c",
+    "packaging_source_hashes": {
+      "idea_screens_r11/probe_execution.py": "da0bcc0799c4bf5aa93e4fa89d047f8d0008a8c69b5bd3b848f2599f8728df0d",
+      "idea_screens_r11/run_probe.py": "106cdecf734dbf565e757d07aafa77b498f6a6a9eb37b9f020d73228eb5cf6a1",
+      "idea_screens_r11/test_probe.py": "fb702c0b791213be6ef538a0a09212473b74d0d21d8b1594352c2f568b0e94bd"
+    },
+    "preparation_manifest": {
+      "all_file_pins_rehashed": true,
+      "path": "PREPARATION_MANIFEST.json",
+      "pinned_files": 32,
+      "runtime_modules": 24,
+      "sha256": "13a58c9915d9e82fc57eb191386ff9645ab33d04e044e73fde4bf99ca58f8878"
+    },
+    "test_receipt": {
+      "path": "TEST_RECEIPT.json",
+      "sha256": "fb7d8813c19411121279e21a4d54398587c31a09199ac3d8749e5de45fcb061d"
+    },
+    "v1_archive_inventory_sha256": "abb07a78c4a5a02a81686030e9df2f3c9d24a4c7e16d96669fc20d0f96b19d07",
+    "v1_archive_manifest_sha256": "c79506b19c5ba6ed217fe0e4be0fc74596eee397b35c9cfc3cc91685ae953613",
+    "v1_archive_receipt_sha256": "3cd57d5d6c94ee90077ea5a79c37e6d1d0d51ce25cfde51a61e8cf24fac6fe3c"
+  },
+  "implementation_review": {
+    "entrypoint_alias": "The runtime inventory resolves a missing named `idea_screens_r11.run_probe` key only through `sys.modules[\"__main__\"]` when that object is a module whose `__spec__.name` is exactly `idea_screens_r11.run_probe` and whose resolved `__file__` equals the expected pinned CLI path. It does not add a duplicate module key.",
+    "entrypoint_guard": "The CLI applies the same exact `__main__` spec/path check before argument parsing, including `--help`.",
+    "scientific_scope": "Only the Python -m entrypoint resolution and R11 V2 cgroup identity changed from preserved V1 code; importance math, sampling, optimizer, and experiment design remain unchanged.",
+    "service_scope": "The cgroup guard requires exactly the R11 V2 service and rejects R11 V1 or mixed R11 service names; attempt-2 assembly spec and test receipt agree on unit, support directory, output directory, accepted sample SHA, and fixed caps."
+  },
+  "resource_envelope": {
+    "cpu_cores": 0.5,
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "memory_swap_bytes": 0,
+    "output_directory": "research_tmp/nf19-r11-v2",
+    "runtime_seconds": 600,
+    "support_directory": "support-source/eda19-r11-v2",
+    "unit": "computer-vision-homework-eda19-r11-v2.service"
+  },
+  "schema": "nf19.r11_implementation_review.v2",
+  "startup_gate_separation": {
+    "launch_specific_cold_smoke": "Pending separate root/operator gate at review time; this implementation review does not claim an assembled remote script or remote launch passed.",
+    "payloads_read_by_this_review": false,
+    "remote_actions_by_this_review": false,
+    "v1_failure": "The preserved V1 run failed in runtime import inventory on the `python -m` `__main__` alias before `execute()`/output initialization; its failure records and source archive remain preserved. V2 uses a new unit/source/output identity and does not restart V1."
+  },
+  "status": "PASS_FOR_V2_PACKAGING",
+  "supersedes": {
+    "path": "IMPLEMENTATION_REVIEW_PRE_V2.json",
+    "sha256": "70869da44ae91165af49838a76b9d927a50636aaf690abaef2b188348d86f1cb"
+  },
+  "verification": {
+    "focused_tests": "PASS; independently reran 9 tests, including actual `python -m ... --help`, accepted/rejected synthetic __main__ identities, V2 cgroup rejection cases, and data-loader sentinels.",
+    "isolated_b_shaped_bundle": "PASS; copied exact pinned files to `support-source/eda19-r11-v2` and canonical WNN pins to `source-a266b036/src`, imported all 24 runtime modules at expected paths; numpy.load, torch.load, and pyarrow.parquet.ParquetFile sentinels were untouched.",
+    "manifest_pins": "PASS; all 32 pins matched current files and the 24-entry runtime map.",
+    "ruff": "PASS; independently ran check and format check on the 3 changed Python files."
+  }
+}

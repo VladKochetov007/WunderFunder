@@ -1,0 +1,54 @@
+{
+  "checks": {
+    "ruff_check": {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r11",
+      "result": "passed"
+    },
+    "ruff_format": {
+      "command": ".venv/bin/ruff format --check <seven top-level R11 Python files>",
+      "result": "passed"
+    },
+    "source_import_smoke": {
+      "data_or_checkpoint_read": false,
+      "result": "24/24 pinned runtime modules imported from expected checkout paths; numpy.load and torch.load were sentinels and were not called"
+    },
+    "synthetic_tests": {
+      "command": "PYTHONPATH=src .venv/bin/pytest -q research/campaign_2026-10-19/idea_screens_r11/test_probe.py",
+      "result": "7 passed"
+    }
+  },
+  "not_run": {
+    "B_shaped_import_read_sentinel_smoke": "reserved for root/operator/critic launch gate",
+    "model_checkpoint_load": true,
+    "real_sample_array_reads": true,
+    "remote_or_provider_execution": true,
+    "training_or_evaluation_fit": true
+  },
+  "pinned_file_count": 30,
+  "preparation_manifest_sha256": "81670913e5adae791ab5c56441699ad1a21a266592b5052ec9711cdda5ff628e",
+  "runtime_python_modules": [
+    "idea_screens_r11",
+    "idea_screens_r11.importance_math",
+    "idea_screens_r11.importance_training",
+    "idea_screens_r11.probe_execution",
+    "idea_screens_r11.result_payload",
+    "idea_screens_r11.run_probe"
+  ],
+  "schema": "nf19.r11_test_receipt.v1",
+  "source_identity": {
+    "design_initial_sha256": "47b117730f817547600f16e1a5079842f507df6c74df8f157e79e9be8ff472d9",
+    "design_review_sha256": "b35632e30d84678bfb2f8769523460e02667d27430a9670a267a1b869974a0a0",
+    "design_sha256": "15860112cd051995253120596cb57acf8bbbfe2493d76c1245c9494631decf5c",
+    "selection_history_sha256": "5482e3f5f506c143ea1a19af5f333077e58c39b7bad58c93bedc648832375978"
+  },
+  "timing_scope_note": "Per-arm elapsed time begins before inverse-CDF index generation, correction lookup, and optimizer setup; sampler/optimizer setup and training-loop durations are separately reported. Norm computation and fixed probability/correction/common-uniform setup have separate phase timers.",
+  "top_level_python_files": [
+    "__init__.py",
+    "importance_math.py",
+    "importance_training.py",
+    "probe_execution.py",
+    "result_payload.py",
+    "run_probe.py",
+    "test_probe.py"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "nf19.r11_selection.v1",
+  "utc": "2026-10-19T04:09:30.067097+00:00",
+  "experiment": "E-NF19-IDEA-SCREENS-R11",
+  "hypothesis": "H-NF19-17",
+  "decision": "One matched fixed-step tinyMLP predictive importance-sampling comparison; no equal-time/efficiency claim.",
+  "fixed": {
+    "panel": "acceptedR3fit64/eval32 originalorderedrows/masks",
+    "fit_rows": 31808,
+    "features": "R7raw_signed_delta_ema_hl32 224",
+    "architecture": "same224->64GELU meanandunusedzero-variancehead",
+    "initial_seed": 19041,
+    "sampling_U_seed": 19042,
+    "draw_rounds": 12,
+    "draws_per_round": 31808,
+    "batch_sizes": "62*512+64 per round",
+    "updates_per_arm": 756,
+    "draws_per_arm": 381696,
+    "objective": "joint clipped-|y|-weighted MSE normalized by fixed fit mean sumweight per row mu_w; globally pooled WMSE expectation",
+    "control": "uniform withreplacement",
+    "candidate": "p=.5/N+.5*initialJOINTper-examplegradientnorm/sum_norm; unbiasedpreclipcorrection1/(N*p)",
+    "norm_timing": "once atsameinitialtheta,fitonly,neverrefresh",
+    "primary": "finalcanonicalpooledWP importance minus uniform",
+    "secondary": "target/component/dropone contrasts, fitobjective, actual prepass/wall/CPU/clip/probability summaries"
+  },
+  "selection_history": "Fresh seed and fixed-step protocol chosen before R11 outcomes. Earlier exposed R3/R7 findings and runtime are known; reuse of their panel/features/model is adaptive research, not a fresh validation claim. No sweep, R7 endpoint replay, epoch/seed/mixture selection from R11 scores.",
+  "design_review_sha256": "b35632e30d84678bfb2f8769523460e02667d27430a9670a267a1b869974a0a0",
+  "authority": "Already-authorized bounded CPU simple models only; no newGPU/provider/oldCP30cell.",
+  "status": "designapproved_beforecode_or_data"
+}

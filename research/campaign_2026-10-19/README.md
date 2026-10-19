@@ -1,5 +1,7 @@
 # 19 October research
 
+- [R11 matched importance-sampling pilot](idea_screens_r11/RESULTS.md): fixed initial-gradient sampler loses0.033282WP against a new matched uniform arm (.454911 vs .488192); both756updates, both targets and all32drop-one contrasts negative. One exposed CPU seed, no equal-time/full-model claim. A pre-array CLI entrypoint failure is preserved; a focused versioned packaging repair ran the unchanged design successfully.
+
 - [R10 fixed joint-support geometry](idea_screens_r10/README.md): a same-window two-coordinate hull adds274inside-box/outside-hull queries (0.8684%) across52of64fit components,26in each fixed half. Target-free, no fit/grade or predictive-value claim; exact CPU invocation captured/stopped.
 
 - [Existing F3 pair preservation completed](../campaign_2026-10-18/priority25_execution_r4/f3_result_collection_r1/RESULTS.md): wide.7031224625/deep.7032378322, Δ−.00011537 and conditional component interval crossing0. Both fits/exports/grade were already running under old authority; this turn archived59files with source/header/finite/hash/receipt checks and independent acceptance. No new old-queue cell or grade replay.

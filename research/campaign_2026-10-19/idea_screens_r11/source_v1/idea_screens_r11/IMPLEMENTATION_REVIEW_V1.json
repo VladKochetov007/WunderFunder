@@ -1,0 +1,45 @@
+{
+  "independent_checks": {
+    "joint_norm": "The analytic initial selector norm is joint across both target means and the shared trunk, using the fixed initial model and fit data only; the variance head is excluded from the objective and remains unused. The analytic selector uses FP64 arithmetic on stored FP32 parameter/input values and is not asserted bit-identical to FP32 autograd.",
+    "objective_and_sampling": "For fit rows, mu_w is the mean row-sum weight; each sampled two-target numerator is divided by mu_w, and the batch mean applies 1/(N*p_i). With p_i=0.5/N+0.5*g_i/sum(g), correction is bounded by 2. This estimates the fixed pooled WMSE gradient before clipping/AdamW; it does not make clipped AdamW parameter updates unbiased.",
+    "source_closure": "In an isolated temporary B-shaped bundle, rehashed and imported the complete 24-module runtime closure from the exact 32 manifest pins plus canonical source pins. numpy.load, torch.load, and pyarrow.parquet.ParquetFile sentinels remained untouched; no array, checkpoint, model, fit, or evaluation payload was read.",
+    "source_review": "Reviewed importance_math.py, importance_training.py, probe_execution.py, result_payload.py, run_probe.py, and test_probe.py against the fixed design and manifest.",
+    "synthetic_tests": "TEST_RECEIPT.json binds 7 passing focused synthetic tests, Ruff check/format passes, and the root B-shaped cold-smoke receipt records PASS for all 24 runtime modules.",
+    "training_scope": "Both arms use the fixed initialization, 12 rounds of 31,808 draws, 756 optimizer updates, common uniforms, fit-only sampler construction, and the same fit-only normalization. Arm-specific inverse-CDF sampling intentionally yields different examples. Evaluation is used only for the final fixed scorer call; no evaluation-driven tuning or R7 result selection is present."
+  },
+  "launch_smoke_binding": {
+    "array_model_or_training_payloads_read": false,
+    "manifest_sha256": "c79506b19c5ba6ed217fe0e4be0fc74596eee397b35c9cfc3cc91685ae953613",
+    "path": "records/startup_v1/LOCAL_IMPORT_SMOKE.json",
+    "result": "PASS",
+    "runtime_module_count": 24,
+    "sha256": "1ef5469e84f0e649be54b9dba3d0e885d8bf8f20683a45c23d934bde4fdeb5d8"
+  },
+  "limits": [
+    "This is a fixed-update predictive comparison, not a wall-clock-matched efficiency comparison.",
+    "The pre-clipping sampling estimator is unbiased for the specified fixed pooled objective gradient; clipping and AdamW make resulting training trajectories nonlinear and are not covered by that unbiasedness statement.",
+    "The review validates source, packaging, and synthetic behavior only; it contains no R11 real-data, model-fit, or score result."
+  ],
+  "manifest_binding": {
+    "all_pinned_files_rehashed_locally": true,
+    "path": "PREPARATION_MANIFEST.json",
+    "pinned_file_count": 32,
+    "runtime_map_matches_import_closure": true,
+    "runtime_module_count": 24,
+    "sha256": "c79506b19c5ba6ed217fe0e4be0fc74596eee397b35c9cfc3cc91685ae953613"
+  },
+  "other_review_bindings": {
+    "design_path": "DESIGN.md",
+    "design_review_path": "DESIGN_REVIEW.json",
+    "design_review_sha256": "b35632e30d84678bfb2f8769523460e02667d27430a9670a267a1b869974a0a0",
+    "design_sha256": "15860112cd051995253120596cb57acf8bbbfe2493d76c1245c9494631decf5c",
+    "initial_design_path": "DESIGN_INITIAL.md",
+    "initial_design_sha256": "47b117730f817547600f16e1a5079842f507df6c74df8f157e79e9be8ff472d9",
+    "selection_history_path": "SELECTION_HISTORY.json",
+    "selection_history_sha256": "5482e3f5f506c143ea1a19af5f333077e58c39b7bad58c93bedc648832375978",
+    "test_receipt_path": "TEST_RECEIPT.json",
+    "test_receipt_sha256": "3cd57d5d6c94ee90077ea5a79c37e6d1d0d51ce25cfde51a61e8cf24fac6fe3"
+  },
+  "schema": "nf19.r11_implementation_review.v1",
+  "status": "PASS_FOR_BOUNDED_CPU_ADMISSION"
+}

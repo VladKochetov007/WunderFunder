@@ -1,0 +1,65 @@
+{
+  "schema": "nf19.r11_design_review.v1",
+  "status": "CONDITIONAL_PASS_FIXED_UPDATE_PREDICTIVE_SCREEN_ONLY",
+  "review_basis": {
+    "reviewed_scope": "Root R11 proposal received 2026-10-19, before code freeze; no frozen R11 DESIGN.md was present at review time.",
+    "card": "H-NF19-17 — Frequently sample informative updates while preserving risk",
+    "card_source": "research/campaign_2026-10-19/no_fit_ideation_r1/IDEAS_25.md",
+    "card_source_sha256": "e456661211350ebd990ef20dbef033179077ca7468abc1d4cca612561e364502",
+    "r3_sample_acceptance": "research/campaign_2026-10-19/idea_screens_r3/SAMPLE_ACCEPTANCE_V2.json",
+    "r3_sample_acceptance_file_sha256": "0851e5d3d480c2c68402054e5f02b4c20d47e29069eac9365d57f432c558f167",
+    "r3_sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+    "r3_membership_sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+    "r3_fit_eval_components": [
+      64,
+      32
+    ],
+    "r3_stride40_fit_rows": 31808,
+    "r3_eval_scored_rows": 59436
+  },
+  "fixed_comparison": {
+    "model": "FP32 224→64 GELU, two-target mean output plus unused variance head; same byte-identical initialization and fit-only normalizer in both arms.",
+    "initialization_seed": 19041,
+    "common_uniform_draw_seed": 19042,
+    "arms": {
+      "uniform": "With replacement, p_i=1/N.",
+      "importance": "With replacement, p_i=0.5/N + 0.5*g_i/sum_j(g_j), where g_i is the exact joint two-target shared-parameter data-loss gradient norm for row i at the common initial parameters theta0."
+    },
+    "importance_correction": "For each sampled row multiply its row loss by 1/(N*p_i), then take the batch mean. The mixture floor implies 1/(N*p_i) <= 2.",
+    "common_rng_coupling": "Both arms consume the same uniform variates and invert their respective CDFs; different row sequences are intentional. This is a reproducible coupling, not same-example pairing.",
+    "draw_budget": {
+      "draw_rounds": 12,
+      "rows_per_round": 31808,
+      "batch_partition_per_round": "62 batches of 512 plus one final batch of 64",
+      "with_replacement_draws_per_arm": 381696,
+      "optimizer_steps_per_arm": 756,
+      "label": "756 fixed update steps; do not call this 12 epochs of unique-row coverage."
+    }
+  },
+  "objective_and_unbiasedness": {
+    "fixed_weight_denominator": "mu_w = (1/N) * sum_i sum_t w_it, where w_it is the canonical fit mask times abs(clip(y_it,-2,2)).",
+    "per_row_loss": "l_i(theta) = sum_t w_it*(mu_it(theta)-clip(y_it,-2,2))^2 / mu_w.",
+    "estimator": "Each update averages sampled l_i(theta)/(N*p_i). Its expectation is the gradient of the globally normalized pooled WMSE at fixed theta, before clipping.",
+    "gradient_norm_scope": "g_i is the norm of the joint two-target gradient over shared trunk and mean-head parameters for the same fixed per-row pooled-loss contribution; do not sum separate target norms or substitute a row-normalized/unweighted proxy. The unused variance head contributes zero.",
+    "analytic_GELU_norm_for_tiny_autograd_check": "For exact GELU, a=W1*x+b1; h=GELU(a); mu=W2*h+b2; u_t=2*w_t*(mu_t-y_t)/mu_w; delta=(W2^T*u) elementwise-multiplied by GELU'(a), where GELU'(a)=Phi(a)+a*phi(a). Then grad(W2)=u outer h, grad(b2)=u, grad(W1)=delta outer x, grad(b1)=delta; g_i is the Euclidean norm of these joint gradients. Exclude decoupled AdamW weight decay from g_i. Compare this formula with tiny autograd before admission."
+  },
+  "interpretation_boundary": {
+    "primary_allowed_claim": "A conditional final pooled-WP difference after exactly 756 successful updates per arm on the fixed exposed R3 panel.",
+    "not_equal_wall_clock": true,
+    "prepass_cost_requirement": "Measure and report gradient-norm prepass and each arm wall/CPU time. This fixed-step design does not test lower total cost or equal-wall-clock advantage; do not claim a practical efficiency win.",
+    "nonlinear_optimizer_limit": "Importance correction makes the preclip stochastic gradient estimator unbiased at fixed theta. Global norm clipping and AdamW make optimizer updates/trajectories nonlinear, so no unbiased full-trajectory or final-model claim follows.",
+    "panel_limit": "R3 is an exposed/adaptive panel, not a fresh holdout; inference is conditional on this panel. Do not treat the 32 evaluation components as independent training replications or make generalization/public-score claims.",
+    "selection_limit": "No R7 outcomes may determine R11 seed, learning schedule, draw count, architecture, correction, stopping point, or any other hyperparameter; no tuning on the R3 evaluation scores.",
+    "no_historical_model_claim": true
+  },
+  "pre_admission_falsifiers_and_gates": [
+    "Tiny autograd agrees with the analytic joint per-example GELU gradient norm, including weights and the fixed mu_w denominator.",
+    "On a deterministic tiny fixture, importance-weighted batch gradient expectation matches the full pooled-WMSE gradient; verify probability normalization, correction bound <=2, and same-uniform reproducibility.",
+    "Fit-only rows/targets alone define mu_w, gradient norms, and p_i; evaluation arrays or scores never enter them.",
+    "Both arms use the same initialization, features/normalizer, FP32 mode, and fixed optimizer settings; exactly 756 successful steps per arm are required for a paired endpoint.",
+    "Report p_i/importance-weight range and effective sample concentration, plus preclip norm/clipping incidence. These diagnose the tested sampler but do not prove lower gradient variance or equal-time efficiency.",
+    "If either arm fails to complete all 756 steps under the authorized 0.5 CPU / 1.4 GB high / 1.5 GB max / 600 s cap, record an incomplete pair and make no predictive comparison."
+  ],
+  "falsifier": "If the importance arm does not improve fixed-step pooled WP, close this exact fixed initial-gradient sampler on this panel. If it does improve, treat it as a recipe-level, fixed-step result only; measured prepass/runtime cost can still negate practical value.",
+  "review_limits": "Design-only review. No R11 code, data arrays, model, fit, or remote resource was accessed."
+}

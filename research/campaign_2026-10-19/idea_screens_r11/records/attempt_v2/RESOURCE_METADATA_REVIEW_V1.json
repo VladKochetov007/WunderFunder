@@ -1,0 +1,27 @@
+{
+  "checks": {
+    "archive_inventory_size_matches_producer_receipts_and_payload_not_read": "PASS",
+    "capture_payload_lengths_and_sha256_match_raw_base64_bytes": "PASS",
+    "capture_validation_complete_pair_before_stop": "PASS",
+    "configured_and_observed_job_caps_match_0_5_cpu_1_4gb_high_1_5gb_max_zero_swap_600s": "PASS",
+    "empty_terminal_control_group_recorded_as_none_without_host_root_fallback": "PASS",
+    "exact_owned_unit_stop_returncode_zero_and_after_not_found_inactive_dead": "PASS",
+    "exact_v2_unit_invocation_and_launch_returncode": "PASS",
+    "parent_campaign_high_max_oom_and_local_event_deltas_zero": "PASS",
+    "r11_v1_failure_preserved_as_no_output_no_restart_attempt": "PASS",
+    "terminal_status_explicit_success_before_stop": "PASS",
+    "unit_memory_peak_parent_memory_peak_stage_cgroup_current_and_process_rss_kept_as_distinct_scopes": "PASS"
+  },
+  "limitations": [
+    "Own service-cgroup event files were unavailable after terminal because systemd reported an empty ControlGroup; no `/sys/fs/cgroup` root fallback was used.",
+    "The V1 failure is a pre-output import-inventory failure and is not a failed scientific result.",
+    "NPZ was not transferred or independently read/hashed; only output inventory stat size and producer SHA receipts were reconciled."
+  ],
+  "reconciliation_path": "RESOURCE_RECONCILIATION.json",
+  "reconciliation_sha256": "f34150ca466f0125654e2e118fa59b75bb27678683e51cef936ab52cb85a94b9",
+  "reviewed_utc": "2026-10-19T04:39:17.434845+00:00",
+  "reviewer_note": "Memory values come from different reported scopes and stages. The review makes no causal claim from their differences.",
+  "schema": "nf19.r11_resource_metadata_review.v1",
+  "status": "PASS_RESOURCE_METADATA_ONLY",
+  "verdict_scope": "Independent metadata reconciliation of the R11 V2 launch, terminal capture, resource scopes, raw receipts, and exact stop. No scientific or model-quality acceptance is asserted."
+}

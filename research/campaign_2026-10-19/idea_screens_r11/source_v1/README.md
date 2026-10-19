@@ -1,0 +1,3 @@
+# Preserved R11 V1 source bundle
+
+[V1_PRESERVATION.json](V1_PRESERVATION.json) inventories 37 byte-checked source/metadata files from the first attempt before correction. Relative source keys remain under their original idea_screens namespaces; no model/data payload is included. The first CLI failed before execute/output/data. This archive is immutable evidence, not a runnable replacement or new experiment. See [failure capture](../records/attempt_v1/failure_capture/README.md) and [current results](../RESULTS.md) for the versioned packaging repair and completed fixed scientific comparison. This navigation file is outside the preserved 37-file inventory.

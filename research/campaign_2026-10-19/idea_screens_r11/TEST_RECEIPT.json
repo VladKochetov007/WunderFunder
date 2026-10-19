@@ -1,0 +1,51 @@
+{
+  "checks": {
+    "manifest_pin_verification": {
+      "result": "32/32 current pins and 24/24 runtime map verified locally"
+    },
+    "python_m_entrypoint": {
+      "command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/python -B -m idea_screens_r11.run_probe --help",
+      "result": "passed; exact __main__.__spec__.name and pinned __file__ validated before argument parsing"
+    },
+    "ruff_check": {
+      "command": ".venv/bin/ruff check idea_screens_r11/run_probe.py idea_screens_r11/probe_execution.py idea_screens_r11/test_probe.py",
+      "result": "passed"
+    },
+    "ruff_format": {
+      "command": ".venv/bin/ruff format <changed three Python files>",
+      "result": "passed"
+    },
+    "runtime_import_alias": {
+      "result": "synthetic __main__ module with exact spec.name/file is accepted when named sys.modules key is absent; wrong spec is rejected; NumPy/Torch load sentinels were not called"
+    },
+    "synthetic_tests": {
+      "command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/pytest -q research/campaign_2026-10-19/idea_screens_r11/test_probe.py",
+      "result": "9 passed"
+    }
+  },
+  "pinned_file_count": 32,
+  "preparation_manifest_sha256": "13a58c9915d9e82fc57eb191386ff9645ab33d04e044e73fde4bf99ca58f8878",
+  "runtime_module_count": 24,
+  "schema": "nf19.r11_v2_test_receipt.v1",
+  "scope": {
+    "actual_arrays_or_checkpoints_read_by_actor": false,
+    "remote_actions_by_actor": false,
+    "scientific_design_changed": false,
+    "training_or_evaluation_run_by_actor": false
+  },
+  "v1_failure": {
+    "cause": "fresh python -m CLI was registered as __main__, while runtime inventory required the named idea_screens_r11.run_probe sys.modules entry",
+    "phase": "before output initialization, real array access, or model construction/training",
+    "retry_policy": "V2 is a new explicitly versioned unit/output; no V1 restart"
+  },
+  "v1_preservation": {
+    "file_count": 37,
+    "inventory_sha256": "abb07a78c4a5a02a81686030e9df2f3c9d24a4c7e16d96669fc20d0f96b19d07",
+    "path": "source_v1/",
+    "v1_manifest_sha256": "c79506b19c5ba6ed217fe0e4be0fc74596eee397b35c9cfc3cc91685ae953613",
+    "v1_receipt_sha256": "3cd57d5d6c94ee90077ea5a79c37e6d1d0d51ce25cfde51a61e8cf24fac6fe3c"
+  },
+  "v2_output": "research_tmp/nf19-r11-v2",
+  "v2_source": "support-source/eda19-r11-v2",
+  "v2_unit": "computer-vision-homework-eda19-r11-v2.service"
+}

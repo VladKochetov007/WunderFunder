@@ -1,0 +1,28 @@
+{
+  "checks": {
+    "archive_inventory_size_matches_producer_receipts_and_payload_not_read": "PASS",
+    "capture_payload_lengths_and_sha256_match_raw_base64_bytes": "PASS",
+    "capture_validation_complete_pair_before_stop": "PASS",
+    "configured_and_observed_job_caps_match_0_5_cpu_1_4gb_high_1_5gb_max_zero_swap_600s": "PASS",
+    "empty_terminal_control_group_recorded_as_none_without_host_root_fallback": "PASS",
+    "exact_owned_unit_stop_returncode_zero_and_after_not_found_inactive_dead": "PASS",
+    "exact_v2_unit_invocation_and_launch_returncode": "PASS",
+    "parent_campaign_high_max_oom_and_local_event_deltas_zero": "PASS",
+    "r11_v1_failure_preserved_as_no_output_no_restart_attempt": "PASS",
+    "terminal_status_explicit_success_before_stop": "PASS",
+    "unit_memory_peak_parent_memory_peak_stage_cgroup_current_and_process_rss_kept_as_distinct_scopes": "PASS",
+    "unit_wall_and_cpu_timing_recomputed_from_systemd_properties_and_kept_separate_from_done_reported_elapsed": "PASS"
+  },
+  "limitations": [
+    "Own service-cgroup event files were unavailable after terminal because systemd reported an empty ControlGroup; no `/sys/fs/cgroup` root fallback was used.",
+    "The V1 failure is a pre-output import-inventory failure and is not a failed scientific result.",
+    "NPZ was not transferred or independently read/hashed; only output inventory stat size and producer SHA receipts were reconciled."
+  ],
+  "reconciliation_path": "RESOURCE_RECONCILIATION.json",
+  "reconciliation_sha256": "44e2f741bff985a9b53217c69ea0b9cbbd3c7451d8e08baf42fa6cffadae4e4e",
+  "reviewed_utc": "2026-10-19T04:41:04.410437+00:00",
+  "reviewer_note": "Memory values come from different reported scopes and stages. DONE-reported elapsed values are retained separately from systemd-derived unit wall duration and CPU usage. The review makes no causal claim from differences among scopes or timings.",
+  "schema": "nf19.r11_resource_metadata_review.v2",
+  "status": "PASS_RESOURCE_METADATA_ONLY",
+  "verdict_scope": "Independent metadata reconciliation of the R11 V2 launch, terminal capture, resource scopes, raw receipts, and exact stop. No scientific or model-quality acceptance is asserted."
+}

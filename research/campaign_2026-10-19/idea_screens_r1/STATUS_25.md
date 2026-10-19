@@ -39,7 +39,7 @@
 | 14 | Warmup99 constant-view− .04337; R9 separately показывает persistent carry dependence | R9 не проверяет неизменный контекст первых99строк; этот механизм остаётся NOT_TESTED |
 | 15 | R9 измерил actual state-distance snapshots при carry reset; energy regularizer не применялся | NOT_TESTED actual recurrent energy bound; descriptive state norms не доказывают пользу штрафа |
 | 16 | Согласованность scorer проверена; objective-gradient comparison не выполнялся | NOT_TESTED optimizer treatment; population algebra не равняет finite fits |
-| 17 | NOT_TESTED: importance sampling не применялся | Fixed stride40 не является этим методом; нужен inverse-probability и matched time |
+| 17 | PARTIAL: [R11](../idea_screens_r11/RESULTS.md) fixed initial-gradient sampling WP .454911 vs uniform .488192, Δ−.033282; все32drop-one отрицательны | Один seed/756updates на exposed R3; initial norm proxy + exact inverse-probability correction. Этот вариант закрыт; equal-time/dynamic sampling/full-recipe эффект не проверены |
 | 18 | NOT_TESTED: ортонормальный basis не реализован | EMA/lag результаты не тестируют matched-pole-span conditioning |
 | 19 | i1-only=.36115, i0-only лучше joint raw в этом fit | i0-only также исключает8tailканалов: i1-effect не изолирован. Cross-fit common/residual mechanism NOT_TESTED; линейная репараметризация может иметь тот же span |
 | 20 | PARTIAL: R6 actual gradients, один frozenGRU/8fit-компонент/16окон; trunk pooledcos+0.333540,4negative; hiddenreadout+0.026854,3negative | Не training-wide prevalence/causalharm/PCGradbenefit; optimizer intervention и другие checkpoints не проверены |

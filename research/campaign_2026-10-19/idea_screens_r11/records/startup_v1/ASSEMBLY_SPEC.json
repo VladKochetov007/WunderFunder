@@ -1,0 +1,88 @@
+{
+  "schema": "nf19.r11_startup_assembly_spec.v1",
+  "unit": "computer-vision-homework-eda19-r11-v1.service",
+  "destination": "support-source/eda19-r11-v1",
+  "output": "research_tmp/nf19-r11-v1",
+  "sample": "research_tmp/nf19-sample-r3-v2",
+  "sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+  "membership_sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+  "source_snapshot": "a266b036",
+  "runtime_py": {
+    "idea_screens_r1": "idea_screens_r1/__init__.py",
+    "idea_screens_r1.constants": "idea_screens_r1/constants.py",
+    "idea_screens_r1.eda_mechanisms": "idea_screens_r1/eda_mechanisms.py",
+    "idea_screens_r1.feature_views": "idea_screens_r1/feature_views.py",
+    "idea_screens_r1.input_diagnostics": "idea_screens_r1/input_diagnostics.py",
+    "idea_screens_r1.sample_data": "idea_screens_r1/sample_data.py",
+    "idea_screens_r1.target_operator": "idea_screens_r1/target_operator.py",
+    "idea_screens_r2": "idea_screens_r2/__init__.py",
+    "idea_screens_r2.views": "idea_screens_r2/views.py",
+    "idea_screens_r3": "idea_screens_r3/__init__.py",
+    "idea_screens_r3.probe_helpers": "idea_screens_r3/probe_helpers.py",
+    "idea_screens_r7": "idea_screens_r7/__init__.py",
+    "idea_screens_r7.model_math": "idea_screens_r7/model_math.py",
+    "idea_screens_r7.panel": "idea_screens_r7/panel.py",
+    "idea_screens_r7.runtime_support": "idea_screens_r7/runtime_support.py",
+    "idea_screens_r11": "idea_screens_r11/__init__.py",
+    "idea_screens_r11.importance_math": "idea_screens_r11/importance_math.py",
+    "idea_screens_r11.importance_training": "idea_screens_r11/importance_training.py",
+    "idea_screens_r11.probe_execution": "idea_screens_r11/probe_execution.py",
+    "idea_screens_r11.result_payload": "idea_screens_r11/result_payload.py",
+    "idea_screens_r11.run_probe": "idea_screens_r11/run_probe.py",
+    "wnn": "canonical:wnn/__init__.py",
+    "wnn.data": "canonical:wnn/data.py",
+    "wnn.gmetric": "canonical:wnn/gmetric.py"
+  },
+  "canonical_pin_names": [
+    "canonical:wnn/__init__.py",
+    "canonical:wnn/data.py",
+    "canonical:wnn/gmetric.py"
+  ],
+  "allowed_bundle_prefixes": [
+    "idea_screens_r1",
+    "idea_screens_r2",
+    "idea_screens_r3",
+    "idea_screens_r7",
+    "idea_screens_r11"
+  ],
+  "r7_source_allowlist": [
+    "idea_screens_r7/__init__.py",
+    "idea_screens_r7/model_math.py",
+    "idea_screens_r7/panel.py",
+    "idea_screens_r7/runtime_support.py"
+  ],
+  "extra_transport_paths": [
+    "idea_screens_r11/PREPARATION_MANIFEST.json",
+    "idea_screens_r11/IMPLEMENTATION_REVIEW.json",
+    "idea_screens_r11/TEST_RECEIPT.json",
+    "idea_screens_r11/README.md"
+  ],
+  "limits": {
+    "per_file_bytes": 16000000,
+    "bundle_bytes": 64000000,
+    "parent_cpu_cores": 2,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_memory_swap_bytes": 0,
+    "parent_memory_reservation_target_bytes": 17000000000,
+    "job_cpu_cores": 0.5,
+    "job_memory_high_bytes": 1400000000,
+    "job_memory_max_bytes": 1500000000,
+    "job_memory_swap_bytes": 0,
+    "job_runtime_seconds": 600
+  },
+  "r10_base_pins": {
+    "remote_body_v1.py": "e3b3b13217bda561fc8e638ce693226ae9ed944d791b443480fc6b074afa1fb0",
+    "capture_remote_v2.py": "7f7e7576380d9796ace256d70cbc6333036f4758fb8ce2bd0507395707c18f00",
+    "stop_remote_v1.py": "0664e2544ad0dc4bbaa5d2b701bdb31706dd3831752e955e8a844ec9d75828ca"
+  },
+  "patches": [
+    {"id": "remote-identity-paths", "source": "R10 B/OUT/unit constants", "change": "Change only the R10 source, output and unit identity to R11; retain sample SHA and fixed resource caps."},
+    {"id": "remote-runtime-map", "source": "R10 fixed four-module runtime map", "change": "Bind the exact 23-module runtime closure above and require equality to the manifest map."},
+    {"id": "canonical-pins", "source": "R10 single data.py semantic pin", "change": "Validate exactly the three canonical WNN pins above before any staged runtime import and again immediately before launch."},
+    {"id": "bundle-prefixes", "source": "R10 R10-only path guard", "change": "Allow only the five declared idea_screens roots; R7 paths are limited to the four runtime primitives above; canonical paths remain semantic pins and are never transported."},
+    {"id": "pythonpath", "source": "R10 staged-only import path", "change": "Set PYTHONPATH to the pinned source snapshot src plus staged R11 bundle so canonical runtime imports resolve to the reviewed source."},
+    {"id": "cold-import-sentinel", "source": "R10 NumPy-only import smoke", "change": "Use the R11 inline template with Torch load, NumPy load/memmap and PyArrow Parquet sentinels; hash canonical pins and resolve every runtime module to its actual staged/canonical file before execv."},
+    {"id": "capture-stop-identities", "source": "R10 V2 capture and R10 exact-stop helpers", "change": "Change only R10 paths/unit/schema identity to R11; preserve V2 --all, successful-terminal/cap/InvocationID checks, capture allowlist, raw-byte validation-before-stop requirement, and exact-stop semantics."}
+  ]
+}

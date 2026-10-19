@@ -1,0 +1,7 @@
+# R11 attempt-2 transport preparation
+
+This is a local-only, create-only replay recipe for a distinct `r11-v2` attempt after the earlier `r11-v1` CLI discovery failure. It does not stage files, launch or inspect a remote unit, or change the scientific design. The preparation record binds the new files to the prior pinned assembler, inline smoke template, and spec; the attempt-2 assembler is compiled, but it must not run until the actor's corrected R11-v2 manifest, implementation review, and test receipt are final.
+
+The exact intended remote identity is `computer-vision-homework-eda19-r11-v2.service`, source `support-source/eda19-r11-v2`, output `research_tmp/nf19-r11-v2`. The accepted R3 sample and membership pins, 24-module runtime closure shape, source snapshot, and `.5 CPU / 1.4 GB high / 1.5 GB max / zero swap / 600 s` envelope remain fixed. Attempt 2 also applies counted literal identity substitutions to the pinned R10 body, capture, and stop helpers before their established R10-to-R11 adaptation. The launch template writes a distinct attempt-2 import-smoke schema.
+
+`ASSEMBLY_SPEC_ATTEMPT2.json`, `root_inline_attempt2.py`, and `assemble_transport_attempt2.py` are create-only. `ATTEMPT2_PREPARATION.json` records their exact hashes, source hashes, counted patches, and compile-only status. Once the corrected R11-v2 source pins arrive, run assembly into `/Users/nb/Documents/wunder/runtime-20261018/eda19-r11-attempt2` only after independent review; root owns any later remote admission, capture, and stop.

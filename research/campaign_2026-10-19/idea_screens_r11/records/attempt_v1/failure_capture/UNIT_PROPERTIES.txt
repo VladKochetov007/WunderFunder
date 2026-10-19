@@ -1,0 +1,767 @@
+Type=exec
+ExitType=main
+Restart=no
+RestartMode=normal
+PIDFile=
+NotifyAccess=none
+RestartUSec=100ms
+RestartSteps=0
+RestartMaxDelayUSec=infinity
+RestartUSecNext=100ms
+TimeoutStartUSec=1min 30s
+TimeoutStopUSec=1min 30s
+TimeoutAbortUSec=1min 30s
+TimeoutStartFailureMode=terminate
+TimeoutStopFailureMode=terminate
+RuntimeMaxUSec=10min
+RuntimeRandomizedExtraUSec=0
+WatchdogUSec=0
+WatchdogTimestamp=
+WatchdogTimestampMonotonic=0
+RootDirectoryStartOnly=no
+RemainAfterExit=yes
+GuessMainPID=yes
+RestartPreventExitStatus=
+RestartForceExitStatus=
+SuccessExitStatus=
+MainPID=0
+ControlPID=0
+BusName=
+FileDescriptorStoreMax=0
+NFileDescriptorStore=0
+FileDescriptorStorePreserve=restart
+StatusText=
+StatusErrno=0
+Result=exit-code
+ReloadResult=success
+CleanResult=success
+USBFunctionDescriptors=
+USBFunctionStrings=
+UID=[not set]
+GID=[not set]
+NRestarts=0
+OOMPolicy=stop
+ReloadSignal=1
+ExecMainStartTimestamp=Mon 2026-10-19 04:25:24 UTC
+ExecMainStartTimestampMonotonic=1441171380155
+ExecMainExitTimestamp=Mon 2026-10-19 04:25:31 UTC
+ExecMainExitTimestampMonotonic=1441178932691
+ExecMainPID=1982174
+ExecMainCode=1
+ExecMainStatus=1
+ExecStart={ path=/usr/bin/env ; argv[]=/usr/bin/env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 PYTHONPATH=/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/src:/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r11-v1 TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp /home/grinchenkoeg/WunderFunder/.venv/bin/python -B -c from __future__ import annotations
+
+import hashlib
+import importlib
+import json
+import os
+import pathlib
+import sys
+import time
+from collections.abc import Callable
+
+import numpy as np
+import pyarrow.parquet as pq
+import torch
+
+B = pathlib.Path("/home/grinchenkoeg/computer-vision-homework-20261018")
+ROOT = B / "support-source/eda19-r11-v1"
+CANONICAL_ROOT = B / "source-a266b036/src"
+MANIFEST_PATH = ROOT / "idea_screens_r11/PREPARATION_MANIFEST.json"
+MANIFEST_SHA256 = "c79506b19c5ba6ed217fe0e4be0fc74596eee397b35c9cfc3cc91685ae953613"
+CANONICAL_PINS = {'canonical:wnn/__init__.py': '2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6', 'canonical:wnn/data.py': 'a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00', 'canonical:wnn/gmetric.py': '2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa'}  # noqa: F821
+RUNTIME_PY = {'idea_screens_r1': 'idea_screens_r1/__init__.py', 'idea_screens_r1.constants': 'idea_screens_r1/constants.py', 'idea_screens_r1.eda_mechanisms': 'idea_screens_r1/eda_mechanisms.py', 'idea_screens_r1.feature_views': 'idea_screens_r1/feature_views.py', 'idea_screens_r1.input_diagnostics': 'idea_screens_r1/input_diagnostics.py', 'idea_screens_r1.sample_data': 'idea_screens_r1/sample_data.py', 'idea_screens_r1.target_operator': 'idea_screens_r1/target_operator.py', 'idea_screens_r2': 'idea_screens_r2/__init__.py', 'idea_screens_r2.views': 'idea_screens_r2/views.py', 'idea_screens_r3': 'idea_screens_r3/__init__.py', 'idea_screens_r3.probe_helpers': 'idea_screens_r3/probe_helpers.py', 'idea_screens_r7': 'idea_screens_r7/__init__.py', 'idea_screens_r7.model_math': 'idea_screens_r7/model_math.py', 'idea_screens_r7.panel': 'idea_screens_r7/panel.py', 'idea_screens_r7.runtime_support': 'idea_screens_r7/runtime_support.py', 'idea_screens_r11': 'idea_screens_r11/__init__.py', 'idea_screens_r11.importance_math': 'idea_screens_r11/importance_math.py', 'idea_screens_r11.importance_training': 'idea_screens_r11/importance_training.py', 'idea_screens_r11.probe_execution': 'idea_screens_r11/probe_execution.py', 'idea_screens_r11.result_payload': 'idea_screens_r11/result_payload.py', 'idea_screens_r11.run_probe': 'idea_screens_r11/run_probe.py', 'wnn': 'canonical:wnn/__init__.py', 'wnn.data': 'canonical:wnn/data.py', 'wnn.gmetric': 'canonical:wnn/gmetric.py'}  # noqa: F821
+SAMPLE = B / "research_tmp/nf19-sample-r3-v2"
+OUT = B / "research_tmp/nf19-r11-v1"
+SAMPLE_SHA256 = "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64"
+ALLOWED_BUNDLE_ROOTS = {
+    "idea_screens_r1",
+    "idea_screens_r2",
+    "idea_screens_r3",
+    "idea_screens_r7",
+    "idea_screens_r11",
+}
+
+sys.dont_write_bytecode = True
+
+
+def sha256_file(path: pathlib.Path) -> str:
+    """Hash one pinned source or manifest file without importing its package."""
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1 << 20), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def safe_canonical_path(pin_name: str) -> pathlib.Path:
+    """Resolve a canonical semantic pin under the frozen WNN source snapshot."""
+    if not pin_name.startswith("canonical:wnn/"):
+        raise RuntimeError(f"unexpected canonical pin namespace: {pin_name}")
+    relative = pathlib.PurePosixPath(pin_name.removeprefix("canonical:"))
+    if (
+        relative.is_absolute()
+        or not relative.parts
+        or ".." in relative.parts
+        or relative.parts[0] != "wnn"
+    ):
+        raise RuntimeError(f"unsafe canonical pin path: {pin_name}")
+    return CANONICAL_ROOT / relative
+
+
+def runtime_path(relative: str) -> pathlib.Path:
+    """Resolve a runtime module to either its sealed staged or canonical source file."""
+    if relative.startswith("canonical:"):
+        return safe_canonical_path(relative)
+    path = pathlib.PurePosixPath(relative)
+    if (
+        path.is_absolute()
+        or ".." in path.parts
+        or not path.parts
+        or path.parts[0] not in ALLOWED_BUNDLE_ROOTS
+    ):
+        raise RuntimeError(f"runtime path escapes the sealed bundle roots: {relative}")
+    return ROOT / path
+
+
+manifest_bytes = MANIFEST_PATH.read_bytes()
+if hashlib.sha256(manifest_bytes).hexdigest() != MANIFEST_SHA256:
+    raise RuntimeError("R11 import smoke saw a different preparation manifest")
+manifest = json.loads(manifest_bytes)
+if not isinstance(manifest, dict) or manifest.get("schema") != "nf19.r11_preparation.v1":
+    raise RuntimeError("unexpected R11 preparation manifest schema")
+manifest_files = manifest.get("files")
+if not isinstance(manifest_files, dict):
+    raise RuntimeError("R11 manifest files must be an object")
+manifest_canonical = {
+    name: digest for name, digest in manifest_files.items() if name.startswith("canonical:")
+}
+if manifest_canonical != CANONICAL_PINS:
+    raise RuntimeError("R11 canonical source pins differ from the frozen assembly")
+if manifest.get("runtime_py") != RUNTIME_PY:
+    raise RuntimeError("R11 runtime closure differs from the frozen assembly")
+
+canonical_verified: dict[str, str] = {}
+for pin_name, expected_sha256 in CANONICAL_PINS.items():
+    path = safe_canonical_path(pin_name)
+    if not path.is_file() or path.is_symlink() or sha256_file(path) != expected_sha256:
+        raise RuntimeError(f"R11 canonical source pin differs: {pin_name}")
+    canonical_verified[pin_name] = expected_sha256
+
+# Verify each runtime source path and pin before any R11/R1/R2/R3/R7/WNN import.
+for module_name, relative in RUNTIME_PY.items():
+    if not isinstance(module_name, str) or not isinstance(relative, str):
+        raise RuntimeError("R11 runtime_py entries must be string pairs")
+    expected_sha256 = manifest_files.get(relative)
+    if not isinstance(expected_sha256, str):
+        raise RuntimeError(f"runtime source is absent from the manifest: {relative}")
+    path = runtime_path(relative)
+    if not path.is_file() or path.is_symlink() or sha256_file(path) != expected_sha256:
+        raise RuntimeError(f"R11 runtime source bytes differ: {relative}")
+
+calls: list[str] = []
+
+
+def deny_reader(name: str) -> Callable[..., object]:
+    """Build an import-time reader sentinel for metadata and checkpoint loaders."""
+
+    def deny(*args: object, **kwargs: object) -> object:
+        calls.append(name)
+        raise AssertionError(f"R11 cold import attempted a forbidden read through {name}")
+
+    return deny
+
+
+if torch.cuda.is_initialized():
+    raise RuntimeError("R11 cold import started after CUDA initialization")
+np.load = deny_reader("numpy.load")
+np.memmap = deny_reader("numpy.memmap")
+pq.ParquetFile = deny_reader("pyarrow.parquet.ParquetFile")
+torch.load = deny_reader("torch.load")
+
+started = time.monotonic()
+imported: dict[str, str] = {}
+for module_name, relative in RUNTIME_PY.items():
+    module = importlib.import_module(module_name)
+    expected_path = runtime_path(relative).resolve()
+    actual_path = pathlib.Path(str(module.__file__)).resolve()
+    if actual_path != expected_path:
+        raise RuntimeError(f"R11 import resolved outside its pinned source: {module_name}")
+    imported[module_name] = str(actual_path)
+if calls:
+    raise RuntimeError(f"R11 cold import attempted forbidden reads: {calls}")
+if torch.cuda.is_initialized():
+    raise RuntimeError("R11 cold import initialized CUDA")
+
+smoke = {
+    "schema": "nf19.r11_import_smoke.v1",
+    "status": "PASS",
+    "observed_utc": __import__("datetime")
+    .datetime.now(__import__("datetime").timezone.utc)
+    .isoformat(),
+    "preparation_manifest_sha256": MANIFEST_SHA256,
+    "runtime_import_paths": imported,
+    "runtime_source_sha256": {
+        relative: manifest_files[relative] for relative in RUNTIME_PY.values()
+    },
+    "canonical_source_sha256": canonical_verified,
+    "reader_sentinel_calls": calls,
+    "array_reads": 0,
+    "parquet_reads": 0,
+    "checkpoint_reads": 0,
+    "cuda_initialized": False,
+    "numpy_version": np.__version__,
+    "torch_version": str(torch.__version__),
+    "elapsed_s": time.monotonic() - started,
+}
+with (ROOT / "ROOT_IMPORT_SMOKE.json").open("xb") as stream:
+    stream.write(json.dumps(smoke, indent=2, sort_keys=True).encode("utf-8"))
+    stream.write(b"\n")
+
+arguments = [
+    "--sample",
+    str(SAMPLE),
+    "--output",
+    str(OUT),
+    "--expected-sample-sha256",
+    SAMPLE_SHA256,
+    "--expected-preparation-manifest-sha256",
+    MANIFEST_SHA256,
+]
+os.execv(
+    sys.executable,
+    [sys.executable, "-B", "-m", "idea_screens_r11.run_probe", *arguments],
+)
+ ; ignore_errors=no ; start_time=[Mon 2026-10-19 04:25:24 UTC] ; stop_time=[Mon 2026-10-19 04:25:31 UTC] ; pid=1982174 ; code=exited ; status=1 }
+ExecStartEx={ path=/usr/bin/env ; argv[]=/usr/bin/env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 PYTHONPATH=/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/src:/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r11-v1 TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp /home/grinchenkoeg/WunderFunder/.venv/bin/python -B -c from __future__ import annotations
+
+import hashlib
+import importlib
+import json
+import os
+import pathlib
+import sys
+import time
+from collections.abc import Callable
+
+import numpy as np
+import pyarrow.parquet as pq
+import torch
+
+B = pathlib.Path("/home/grinchenkoeg/computer-vision-homework-20261018")
+ROOT = B / "support-source/eda19-r11-v1"
+CANONICAL_ROOT = B / "source-a266b036/src"
+MANIFEST_PATH = ROOT / "idea_screens_r11/PREPARATION_MANIFEST.json"
+MANIFEST_SHA256 = "c79506b19c5ba6ed217fe0e4be0fc74596eee397b35c9cfc3cc91685ae953613"
+CANONICAL_PINS = {'canonical:wnn/__init__.py': '2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6', 'canonical:wnn/data.py': 'a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00', 'canonical:wnn/gmetric.py': '2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa'}  # noqa: F821
+RUNTIME_PY = {'idea_screens_r1': 'idea_screens_r1/__init__.py', 'idea_screens_r1.constants': 'idea_screens_r1/constants.py', 'idea_screens_r1.eda_mechanisms': 'idea_screens_r1/eda_mechanisms.py', 'idea_screens_r1.feature_views': 'idea_screens_r1/feature_views.py', 'idea_screens_r1.input_diagnostics': 'idea_screens_r1/input_diagnostics.py', 'idea_screens_r1.sample_data': 'idea_screens_r1/sample_data.py', 'idea_screens_r1.target_operator': 'idea_screens_r1/target_operator.py', 'idea_screens_r2': 'idea_screens_r2/__init__.py', 'idea_screens_r2.views': 'idea_screens_r2/views.py', 'idea_screens_r3': 'idea_screens_r3/__init__.py', 'idea_screens_r3.probe_helpers': 'idea_screens_r3/probe_helpers.py', 'idea_screens_r7': 'idea_screens_r7/__init__.py', 'idea_screens_r7.model_math': 'idea_screens_r7/model_math.py', 'idea_screens_r7.panel': 'idea_screens_r7/panel.py', 'idea_screens_r7.runtime_support': 'idea_screens_r7/runtime_support.py', 'idea_screens_r11': 'idea_screens_r11/__init__.py', 'idea_screens_r11.importance_math': 'idea_screens_r11/importance_math.py', 'idea_screens_r11.importance_training': 'idea_screens_r11/importance_training.py', 'idea_screens_r11.probe_execution': 'idea_screens_r11/probe_execution.py', 'idea_screens_r11.result_payload': 'idea_screens_r11/result_payload.py', 'idea_screens_r11.run_probe': 'idea_screens_r11/run_probe.py', 'wnn': 'canonical:wnn/__init__.py', 'wnn.data': 'canonical:wnn/data.py', 'wnn.gmetric': 'canonical:wnn/gmetric.py'}  # noqa: F821
+SAMPLE = B / "research_tmp/nf19-sample-r3-v2"
+OUT = B / "research_tmp/nf19-r11-v1"
+SAMPLE_SHA256 = "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64"
+ALLOWED_BUNDLE_ROOTS = {
+    "idea_screens_r1",
+    "idea_screens_r2",
+    "idea_screens_r3",
+    "idea_screens_r7",
+    "idea_screens_r11",
+}
+
+sys.dont_write_bytecode = True
+
+
+def sha256_file(path: pathlib.Path) -> str:
+    """Hash one pinned source or manifest file without importing its package."""
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1 << 20), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def safe_canonical_path(pin_name: str) -> pathlib.Path:
+    """Resolve a canonical semantic pin under the frozen WNN source snapshot."""
+    if not pin_name.startswith("canonical:wnn/"):
+        raise RuntimeError(f"unexpected canonical pin namespace: {pin_name}")
+    relative = pathlib.PurePosixPath(pin_name.removeprefix("canonical:"))
+    if (
+        relative.is_absolute()
+        or not relative.parts
+        or ".." in relative.parts
+        or relative.parts[0] != "wnn"
+    ):
+        raise RuntimeError(f"unsafe canonical pin path: {pin_name}")
+    return CANONICAL_ROOT / relative
+
+
+def runtime_path(relative: str) -> pathlib.Path:
+    """Resolve a runtime module to either its sealed staged or canonical source file."""
+    if relative.startswith("canonical:"):
+        return safe_canonical_path(relative)
+    path = pathlib.PurePosixPath(relative)
+    if (
+        path.is_absolute()
+        or ".." in path.parts
+        or not path.parts
+        or path.parts[0] not in ALLOWED_BUNDLE_ROOTS
+    ):
+        raise RuntimeError(f"runtime path escapes the sealed bundle roots: {relative}")
+    return ROOT / path
+
+
+manifest_bytes = MANIFEST_PATH.read_bytes()
+if hashlib.sha256(manifest_bytes).hexdigest() != MANIFEST_SHA256:
+    raise RuntimeError("R11 import smoke saw a different preparation manifest")
+manifest = json.loads(manifest_bytes)
+if not isinstance(manifest, dict) or manifest.get("schema") != "nf19.r11_preparation.v1":
+    raise RuntimeError("unexpected R11 preparation manifest schema")
+manifest_files = manifest.get("files")
+if not isinstance(manifest_files, dict):
+    raise RuntimeError("R11 manifest files must be an object")
+manifest_canonical = {
+    name: digest for name, digest in manifest_files.items() if name.startswith("canonical:")
+}
+if manifest_canonical != CANONICAL_PINS:
+    raise RuntimeError("R11 canonical source pins differ from the frozen assembly")
+if manifest.get("runtime_py") != RUNTIME_PY:
+    raise RuntimeError("R11 runtime closure differs from the frozen assembly")
+
+canonical_verified: dict[str, str] = {}
+for pin_name, expected_sha256 in CANONICAL_PINS.items():
+    path = safe_canonical_path(pin_name)
+    if not path.is_file() or path.is_symlink() or sha256_file(path) != expected_sha256:
+        raise RuntimeError(f"R11 canonical source pin differs: {pin_name}")
+    canonical_verified[pin_name] = expected_sha256
+
+# Verify each runtime source path and pin before any R11/R1/R2/R3/R7/WNN import.
+for module_name, relative in RUNTIME_PY.items():
+    if not isinstance(module_name, str) or not isinstance(relative, str):
+        raise RuntimeError("R11 runtime_py entries must be string pairs")
+    expected_sha256 = manifest_files.get(relative)
+    if not isinstance(expected_sha256, str):
+        raise RuntimeError(f"runtime source is absent from the manifest: {relative}")
+    path = runtime_path(relative)
+    if not path.is_file() or path.is_symlink() or sha256_file(path) != expected_sha256:
+        raise RuntimeError(f"R11 runtime source bytes differ: {relative}")
+
+calls: list[str] = []
+
+
+def deny_reader(name: str) -> Callable[..., object]:
+    """Build an import-time reader sentinel for metadata and checkpoint loaders."""
+
+    def deny(*args: object, **kwargs: object) -> object:
+        calls.append(name)
+        raise AssertionError(f"R11 cold import attempted a forbidden read through {name}")
+
+    return deny
+
+
+if torch.cuda.is_initialized():
+    raise RuntimeError("R11 cold import started after CUDA initialization")
+np.load = deny_reader("numpy.load")
+np.memmap = deny_reader("numpy.memmap")
+pq.ParquetFile = deny_reader("pyarrow.parquet.ParquetFile")
+torch.load = deny_reader("torch.load")
+
+started = time.monotonic()
+imported: dict[str, str] = {}
+for module_name, relative in RUNTIME_PY.items():
+    module = importlib.import_module(module_name)
+    expected_path = runtime_path(relative).resolve()
+    actual_path = pathlib.Path(str(module.__file__)).resolve()
+    if actual_path != expected_path:
+        raise RuntimeError(f"R11 import resolved outside its pinned source: {module_name}")
+    imported[module_name] = str(actual_path)
+if calls:
+    raise RuntimeError(f"R11 cold import attempted forbidden reads: {calls}")
+if torch.cuda.is_initialized():
+    raise RuntimeError("R11 cold import initialized CUDA")
+
+smoke = {
+    "schema": "nf19.r11_import_smoke.v1",
+    "status": "PASS",
+    "observed_utc": __import__("datetime")
+    .datetime.now(__import__("datetime").timezone.utc)
+    .isoformat(),
+    "preparation_manifest_sha256": MANIFEST_SHA256,
+    "runtime_import_paths": imported,
+    "runtime_source_sha256": {
+        relative: manifest_files[relative] for relative in RUNTIME_PY.values()
+    },
+    "canonical_source_sha256": canonical_verified,
+    "reader_sentinel_calls": calls,
+    "array_reads": 0,
+    "parquet_reads": 0,
+    "checkpoint_reads": 0,
+    "cuda_initialized": False,
+    "numpy_version": np.__version__,
+    "torch_version": str(torch.__version__),
+    "elapsed_s": time.monotonic() - started,
+}
+with (ROOT / "ROOT_IMPORT_SMOKE.json").open("xb") as stream:
+    stream.write(json.dumps(smoke, indent=2, sort_keys=True).encode("utf-8"))
+    stream.write(b"\n")
+
+arguments = [
+    "--sample",
+    str(SAMPLE),
+    "--output",
+    str(OUT),
+    "--expected-sample-sha256",
+    SAMPLE_SHA256,
+    "--expected-preparation-manifest-sha256",
+    MANIFEST_SHA256,
+]
+os.execv(
+    sys.executable,
+    [sys.executable, "-B", "-m", "idea_screens_r11.run_probe", *arguments],
+)
+ ; flags= ; start_time=[Mon 2026-10-19 04:25:24 UTC] ; stop_time=[Mon 2026-10-19 04:25:31 UTC] ; pid=1982174 ; code=exited ; status=1 }
+Slice=wnn-campaign.slice
+ControlGroup=
+ControlGroupId=12789997
+MemoryCurrent=[not set]
+MemoryPeak=3272704
+MemorySwapCurrent=[not set]
+MemorySwapPeak=0
+MemoryZSwapCurrent=[not set]
+MemoryAvailable=14038217728
+CPUUsageNSec=3675653000
+EffectiveCPUs=
+EffectiveMemoryNodes=
+TasksCurrent=[not set]
+IPIngressBytes=[no data]
+IPIngressPackets=[no data]
+IPEgressBytes=[no data]
+IPEgressPackets=[no data]
+IOReadBytes=[not set]
+IOReadOperations=[not set]
+IOWriteBytes=[not set]
+IOWriteOperations=[not set]
+Delegate=no
+DelegateControllers=
+DelegateSubgroup=
+CPUAccounting=yes
+CPUWeight=[not set]
+StartupCPUWeight=[not set]
+CPUShares=[not set]
+StartupCPUShares=[not set]
+CPUQuotaPerSecUSec=500ms
+CPUQuotaPeriodUSec=infinity
+AllowedCPUs=
+StartupAllowedCPUs=
+AllowedMemoryNodes=
+StartupAllowedMemoryNodes=
+IOAccounting=no
+IOWeight=[not set]
+StartupIOWeight=[not set]
+BlockIOAccounting=no
+BlockIOWeight=[not set]
+StartupBlockIOWeight=[not set]
+MemoryAccounting=yes
+DefaultMemoryLow=0
+DefaultStartupMemoryLow=0
+DefaultMemoryMin=0
+MemoryMin=0
+MemoryLow=0
+StartupMemoryLow=0
+MemoryHigh=1400000000
+StartupMemoryHigh=infinity
+MemoryMax=1500000000
+StartupMemoryMax=infinity
+MemorySwapMax=0
+StartupMemorySwapMax=infinity
+MemoryZSwapMax=infinity
+StartupMemoryZSwapMax=infinity
+MemoryLimit=infinity
+DevicePolicy=auto
+TasksAccounting=yes
+TasksMax=629145
+IPAccounting=no
+IPAddressAllow=
+IPAddressDeny=
+IPIngressFilterPath=
+IPEgressFilterPath=
+DisableControllers=
+ManagedOOMSwap=auto
+ManagedOOMMemoryPressure=auto
+ManagedOOMMemoryPressureLimit=0
+ManagedOOMPreference=none
+RestrictNetworkInterfaces=~
+MemoryPressureWatch=auto
+MemoryPressureThresholdUSec=200ms
+NFTSet=[unprintable]
+CoredumpReceive=no
+Environment=
+PassEnvironment=
+UnsetEnvironment=
+UMask=0002
+LimitCPU=infinity
+LimitCPUSoft=infinity
+LimitFSIZE=infinity
+LimitFSIZESoft=infinity
+LimitDATA=infinity
+LimitDATASoft=infinity
+LimitSTACK=infinity
+LimitSTACKSoft=8388608
+LimitCORE=infinity
+LimitCORESoft=0
+LimitRSS=infinity
+LimitRSSSoft=infinity
+LimitNOFILE=1048576
+LimitNOFILESoft=1024
+LimitAS=infinity
+LimitASSoft=infinity
+LimitNPROC=3090140
+LimitNPROCSoft=3090140
+LimitMEMLOCK=101268443136
+LimitMEMLOCKSoft=101268443136
+LimitLOCKS=infinity
+LimitLOCKSSoft=infinity
+LimitSIGPENDING=3090140
+LimitSIGPENDINGSoft=3090140
+LimitMSGQUEUE=819200
+LimitMSGQUEUESoft=819200
+LimitNICE=0
+LimitNICESoft=0
+LimitRTPRIO=0
+LimitRTPRIOSoft=0
+LimitRTTIME=infinity
+LimitRTTIMESoft=infinity
+WorkingDirectory=/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r11-v1
+RootDirectory=
+RootImage=
+RootImageOptions=[unprintable]
+RootHash=
+RootHashPath=
+RootHashSignature=
+RootHashSignaturePath=
+RootVerity=
+RootEphemeral=no
+ExtensionDirectories=
+ExtensionImages=
+MountImages=
+OOMScoreAdjust=200
+CoredumpFilter=0x33
+Nice=0
+IOSchedulingClass=2
+IOSchedulingPriority=4
+CPUSchedulingPolicy=0
+CPUSchedulingPriority=0
+CPUAffinity=
+CPUAffinityFromNUMA=no
+NUMAPolicy=n/a
+NUMAMask=
+TimerSlackNSec=50000
+CPUSchedulingResetOnFork=no
+NonBlocking=no
+StandardInput=null
+StandardInputFileDescriptorName=
+StandardInputData=
+StandardOutput=append
+StandardOutputFileDescriptorName=
+StandardError=append
+StandardErrorFileDescriptorName=
+TTYPath=
+TTYReset=no
+TTYVHangup=no
+TTYVTDisallocate=no
+TTYRows=[unprintable]
+TTYColumns=[unprintable]
+SyslogPriority=30
+SyslogIdentifier=
+SyslogLevelPrefix=yes
+SyslogLevel=6
+SyslogFacility=3
+LogLevelMax=-1
+LogRateLimitIntervalUSec=0
+LogRateLimitBurst=0
+LogExtraFields=
+LogNamespace=
+SecureBits=0
+CapabilityBoundingSet=cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config cap_mknod cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore
+AmbientCapabilities=
+User=
+Group=
+DynamicUser=no
+SetLoginEnvironment=no
+RemoveIPC=no
+SetCredential=[unprintable]
+SetCredentialEncrypted=[unprintable]
+LoadCredential=[unprintable]
+LoadCredentialEncrypted=[unprintable]
+ImportCredential=
+SupplementaryGroups=
+PAMName=
+ReadWritePaths=
+ReadOnlyPaths=
+InaccessiblePaths=
+ExecPaths=
+NoExecPaths=
+ExecSearchPath=
+MountFlags=
+PrivateTmp=no
+PrivateDevices=no
+ProtectClock=no
+ProtectKernelTunables=no
+ProtectKernelModules=no
+ProtectKernelLogs=no
+ProtectControlGroups=no
+PrivateNetwork=no
+PrivateUsers=no
+PrivateMounts=no
+PrivateIPC=no
+ProtectHome=no
+ProtectSystem=no
+SameProcessGroup=no
+UtmpIdentifier=
+UtmpMode=init
+SELinuxContext=
+AppArmorProfile=
+SmackProcessLabel=
+IgnoreSIGPIPE=yes
+NoNewPrivileges=no
+SystemCallFilter=~
+SystemCallArchitectures=
+SystemCallErrorNumber=2147483646
+SystemCallLog=~
+Personality=
+LockPersonality=no
+RestrictAddressFamilies=~
+RuntimeDirectoryPreserve=no
+RuntimeDirectoryMode=0755
+RuntimeDirectory=
+StateDirectoryMode=0755
+StateDirectory=
+CacheDirectoryMode=0755
+CacheDirectory=
+LogsDirectoryMode=0755
+LogsDirectory=
+ConfigurationDirectoryMode=0755
+ConfigurationDirectory=
+TimeoutCleanUSec=infinity
+MemoryDenyWriteExecute=no
+RestrictRealtime=no
+RestrictSUIDSGID=no
+RestrictNamespaces=no
+RestrictFileSystems=~
+BindPaths=
+BindReadOnlyPaths=
+TemporaryFileSystem=
+MountAPIVFS=no
+KeyringMode=inherit
+ProtectProc=default
+ProcSubset=all
+ProtectHostname=no
+MemoryKSM=no
+NetworkNamespacePath=
+IPCNamespacePath=
+RootImagePolicy=root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent
+MountImagePolicy=root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent
+ExtensionImagePolicy=root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent
+KillMode=control-group
+KillSignal=15
+RestartKillSignal=15
+FinalKillSignal=9
+SendSIGKILL=yes
+SendSIGHUP=no
+WatchdogSignal=6
+Id=computer-vision-homework-eda19-r11-v1.service
+Names=computer-vision-homework-eda19-r11-v1.service
+Following=
+Requires=wnn-campaign.slice basic.target
+Requisite=
+Wants=
+BindsTo=
+PartOf=
+Upholds=
+RequiredBy=
+RequisiteOf=
+WantedBy=
+BoundBy=
+UpheldBy=
+ConsistsOf=
+Conflicts=shutdown.target
+ConflictedBy=
+Before=shutdown.target
+After=wnn-campaign.slice -.mount basic.target
+OnSuccess=
+OnSuccessOf=
+OnFailure=
+OnFailureOf=
+Triggers=
+TriggeredBy=
+PropagatesReloadTo=
+ReloadPropagatedFrom=
+PropagatesStopTo=
+StopPropagatedFrom=
+JoinsNamespaceOf=
+SliceOf=
+RequiresMountsFor=/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r11-v1
+Documentation=
+Description=/usr/bin/env CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 PYTHONPATH=/home/grinchenkoeg/computer-vision-homework-20261018/source-a266b036/src:/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r11-v1 TMPDIR=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp /home/grinchenkoeg/WunderFunder/.venv/bin/python -B -c "from __future__ import annotations\n\nimport hashlib\nimport importlib\nimport json\nimport os\nimport pathlib\nimport sys\nimport time\nfrom collections.abc import Callable\n\nimport numpy as np\nimport pyarrow.parquet as pq\nimport torch\n\nB = pathlib.Path(\"/home/grinchenkoeg/computer-vision-homework-20261018\")\nROOT = B / \"support-source/eda19-r11-v1\"\nCANONICAL_ROOT = B / \"source-a266b036/src\"\nMANIFEST_PATH = ROOT / \"idea_screens_r11/PREPARATION_MANIFEST.json\"\nMANIFEST_SHA256 = \"c79506b19c5ba6ed217fe0e4be0fc74596eee397b35c9cfc3cc91685ae953613\"\nCANONICAL_PINS = {'canonical:wnn/__init__.py': '2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6', 'canonical:wnn/data.py': 'a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00', 'canonical:wnn/gmetric.py': '2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa'}  # noqa: F821\nRUNTIME_PY = {'idea_screens_r1': 'idea_screens_r1/__init__.py', 'idea_screens_r1.constants': 'idea_screens_r1/constants.py', 'idea_screens_r1.eda_mechanisms': 'idea_screens_r1/eda_mechanisms.py', 'idea_screens_r1.feature_views': 'idea_screens_r1/feature_views.py', 'idea_screens_r1.input_diagnostics': 'idea_screens_r1/input_diagnostics.py', 'idea_screens_r1.sample_data': 'idea_screens_r1/sample_data.py', 'idea_screens_r1.target_operator': 'idea_screens_r1/target_operator.py', 'idea_screens_r2': 'idea_screens_r2/__init__.py', 'idea_screens_r2.views': 'idea_screens_r2/views.py', 'idea_screens_r3': 'idea_screens_r3/__init__.py', 'idea_screens_r3.probe_helpers': 'idea_screens_r3/probe_helpers.py', 'idea_screens_r7': 'idea_screens_r7/__init__.py', 'idea_screens_r7.model_math': 'idea_screens_r7/model_math.py', 'idea_screens_r7.panel': 'idea_screens_r7/panel.py', 'idea_screens_r7.runtime_support': 'idea_screens_r7/runtime_support.py', 'idea_screens_r11': 'idea_screens_r11/__init__.py', 'idea_screens_r11.importance_math': 'idea_screens_r11/importance_math.py', 'idea_screens_r11.importance_training': 'idea_screens_r11/importance_training.py', 'idea_screens_r11.probe_execution': 'idea_screens_r11/probe_execution.py', 'idea_screens_r11.result_payload': 'idea_screens_r11/result_payload.py', 'idea_screens_r11.run_probe': 'idea_screens_r11/run_probe.py', 'wnn': 'canonical:wnn/__init__.py', 'wnn.data': 'canonical:wnn/data.py', 'wnn.gmetric': 'canonical:wnn/gmetric.py'}  # noqa: F821\nSAMPLE = B / \"research_tmp/nf19-sample-r3-v2\"\nOUT = B / \"research_tmp/nf19-r11-v1\"\nSAMPLE_SHA256 = \"b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64\"\nALLOWED_BUNDLE_ROOTS = {\n    \"idea_screens_r1\",\n    \"idea_screens_r2\",\n    \"idea_screens_r3\",\n    \"idea_screens_r7\",\n    \"idea_screens_r11\",\n}\n\nsys.dont_write_bytecode = True\n\n\ndef sha256_file(path: pathlib.Path) -> str:\n    \"\"\"Hash one pinned source or manifest file without importing its package.\"\"\"\n    digest = hashlib.sha256()\n    with path.open(\"rb\") as stream:\n        for chunk in iter(lambda: stream.read(1 << 20), b\"\"):\n            digest.update(chunk)\n    return digest.hexdigest()\n\n\ndef safe_canonical_path(pin_name: str) -> pathlib.Path:\n    \"\"\"Resolve a canonical semantic pin under the frozen WNN source snapshot.\"\"\"\n    if not pin_name.startswith(\"canonical:wnn/\"):\n        raise RuntimeError(f\"unexpected canonical pin namespace: {pin_name}\")\n    relative = pathlib.PurePosixPath(pin_name.removeprefix(\"canonical:\"))\n    if (\n        relative.is_absolute()\n        or not relative.parts\n        or \"..\" in relative.parts\n        or relative.parts[0] != \"wnn\"\n    ):\n        raise RuntimeError(f\"unsafe canonical pin path: {pin_name}\")\n    return CANONICAL_ROOT / relative\n\n\ndef runtime_path(relative: str) -> pathlib.Path:\n    \"\"\"Resolve a runtime module to either its sealed staged or canonical source file.\"\"\"\n    if relative.startswith(\"canonical:\"):\n        return safe_canonical_path(relative)\n    path = pathlib.PurePosixPath(relative)\n    if (\n        path.is_absolute()\n        or \"..\" in path.parts\n        or not path.parts\n        or path.parts[0] not in ALLOWED_BUNDLE_ROOTS\n    ):\n        raise RuntimeError(f\"runtime path escapes the sealed bundle roots: {relative}\")\n    return ROOT / path\n\n\nmanifest_bytes = MANIFEST_PATH.read_bytes()\nif hashlib.sha256(manifest_bytes).hexdigest() != MANIFEST_SHA256:\n    raise RuntimeError(\"R11 import smoke saw a different preparation manifest\")\nmanifest = json.loads(manifest_bytes)\nif not isinstance(manifest, dict) or manifest.get(\"schema\") != \"nf19.r11_preparation.v1\":\n    raise RuntimeError(\"unexpected R11 preparation manifest schema\")\nmanifest_files = manifest.get(\"files\")\nif not isinstance(manifest_files, dict):\n    raise RuntimeError(\"R11 manifest files must be an object\")\nmanifest_canonical = {\n    name: digest for name, digest in manifest_files.items() if name.startswith(\"canonical:\")\n}\nif manifest_canonical != CANONICAL_PINS:\n    raise RuntimeError(\"R11 canonical source pins differ from the frozen assembly\")\nif manifest.get(\"runtime_py\") != RUNTIME_PY:\n    raise RuntimeError(\"R11 runtime closure differs from the frozen assembly\")\n\ncanonical_verified: dict[str, str] = {}\nfor pin_name, expected_sha256 in CANONICAL_PINS.items():\n    path = safe_canonical_path(pin_name)\n    if not path.is_file() or path.is_symlink() or sha256_file(path) != expected_sha256:\n        raise RuntimeError(f\"R11 canonical source pin differs: {pin_name}\")\n    canonical_verified[pin_name] = expected_sha256\n\n# Verify each runtime source path and pin before any R11/R1/R2/R3/R7/WNN import.\nfor module_name, relative in RUNTIME_PY.items():\n    if not isinstance(module_name, str) or not isinstance(relative, str):\n        raise RuntimeError(\"R11 runtime_py entries must be string pairs\")\n    expected_sha256 = manifest_files.get(relative)\n    if not isinstance(expected_sha256, str):\n        raise RuntimeError(f\"runtime source is absent from the manifest: {relative}\")\n    path = runtime_path(relative)\n    if not path.is_file() or path.is_symlink() or sha256_file(path) != expected_sha256:\n        raise RuntimeError(f\"R11 runtime source bytes differ: {relative}\")\n\ncalls: list[str] = []\n\n\ndef deny_reader(name: str) -> Callable[..., object]:\n    \"\"\"Build an import-time reader sentinel for metadata and checkpoint loaders.\"\"\"\n\n    def deny(*args: object, **kwargs: object) -> object:\n        calls.append(name)\n        raise AssertionError(f\"R11 cold import attempted a forbidden read through {name}\")\n\n    return deny\n\n\nif torch.cuda.is_initialized():\n    raise RuntimeError(\"R11 cold import started after CUDA initialization\")\nnp.load = deny_reader(\"numpy.load\")\nnp.memmap = deny_reader(\"numpy.memmap\")\npq.ParquetFile = deny_reader(\"pyarrow.parquet.ParquetFile\")\ntorch.load = deny_reader(\"torch.load\")\n\nstarted = time.monotonic()\nimported: dict[str, str] = {}\nfor module_name, relative in RUNTIME_PY.items():\n    module = importlib.import_module(module_name)\n    expected_path = runtime_path(relative).resolve()\n    actual_path = pathlib.Path(str(module.__file__)).resolve()\n    if actual_path != expected_path:\n        raise RuntimeError(f\"R11 import resolved outside its pinned source: {module_name}\")\n    imported[module_name] = str(actual_path)\nif calls:\n    raise RuntimeError(f\"R11 cold import attempted forbidden reads: {calls}\")\nif torch.cuda.is_initialized():\n    raise RuntimeError(\"R11 cold import initialized CUDA\")\n\nsmoke = {\n    \"schema\": \"nf19.r11_import_smoke.v1\",\n    \"status\": \"PASS\",\n    \"observed_utc\": __import__(\"datetime\")\n    .datetime.now(__import__(\"datetime\").timezone.utc)\n    .isoformat(),\n    \"preparation_manifest_sha256\": MANIFEST_SHA256,\n    \"runtime_import_paths\": imported,\n    \"runtime_source_sha256\": {\n        relative: manifest_files[relative] for relative in RUNTIME_PY.values()\n    },\n    \"canonical_source_sha256\": canonical_verified,\n    \"reader_sentinel_calls\": calls,\n    \"array_reads\": 0,\n    \"parquet_reads\": 0,\n    \"checkpoint_reads\": 0,\n    \"cuda_initialized\": False,\n    \"numpy_version\": np.__version__,\n    \"torch_version\": str(torch.__version__),\n    \"elapsed_s\": time.monotonic() - started,\n}\nwith (ROOT / \"ROOT_IMPORT_SMOKE.json\").open(\"xb\") as stream:\n    stream.write(json.dumps(smoke, indent=2, sort_keys=True).encode(\"utf-8\"))\n    stream.write(b\"\\n\")\n\narguments = [\n    \"--sample\",\n    str(SAMPLE),\n    \"--output\",\n    str(OUT),\n    \"--expected-sample-sha256\",\n    SAMPLE_SHA256,\n    \"--expected-preparation-manifest-sha256\",\n    MANIFEST_SHA256,\n]\nos.execv(\n    sys.executable,\n    [sys.executable, \"-B\", \"-m\", \"idea_screens_r11.run_probe\", *arguments],\n)\n"
+AccessSELinuxContext=
+LoadState=loaded
+ActiveState=failed
+FreezerState=running
+SubState=failed
+FragmentPath=/run/user/1061/systemd/transient/computer-vision-homework-eda19-r11-v1.service
+SourcePath=
+DropInPaths=
+UnitFileState=transient
+UnitFilePreset=enabled
+StateChangeTimestamp=Mon 2026-10-19 04:25:31 UTC
+StateChangeTimestampMonotonic=1441178933333
+InactiveExitTimestamp=Mon 2026-10-19 04:25:24 UTC
+InactiveExitTimestampMonotonic=1441171380499
+ActiveEnterTimestamp=Mon 2026-10-19 04:25:24 UTC
+ActiveEnterTimestampMonotonic=1441171381767
+ActiveExitTimestamp=Mon 2026-10-19 04:25:31 UTC
+ActiveExitTimestampMonotonic=1441178933333
+InactiveEnterTimestamp=Mon 2026-10-19 04:25:31 UTC
+InactiveEnterTimestampMonotonic=1441178933333
+CanStart=yes
+CanStop=yes
+CanReload=no
+CanIsolate=no
+CanClean=
+CanFreeze=yes
+Job=
+StopWhenUnneeded=no
+RefuseManualStart=no
+RefuseManualStop=no
+AllowIsolate=no
+DefaultDependencies=yes
+SurviveFinalKillSignal=no
+OnSuccessJobMode=fail
+OnFailureJobMode=replace
+IgnoreOnIsolate=no
+NeedDaemonReload=no
+Markers=
+JobTimeoutUSec=infinity
+JobRunningTimeoutUSec=infinity
+JobTimeoutAction=none
+JobTimeoutRebootArgument=
+ConditionResult=yes
+AssertResult=yes
+ConditionTimestamp=Mon 2026-10-19 04:25:24 UTC
+ConditionTimestampMonotonic=1441171364242
+AssertTimestamp=Mon 2026-10-19 04:25:24 UTC
+AssertTimestampMonotonic=1441171364251
+Conditions=[unprintable]
+Asserts=[unprintable]
+LoadError=
+Transient=yes
+Perpetual=no
+StartLimitIntervalUSec=10s
+StartLimitBurst=5
+StartLimitAction=none
+FailureAction=none
+FailureActionExitStatus=[not set]
+SuccessAction=none
+SuccessActionExitStatus=[not set]
+RebootArgument=
+InvocationID=dac7ae0b6f094022931d7311c4b1c02a
+CollectMode=inactive
+Refs=
+ActivationDetails=[unprintable]

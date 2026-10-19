@@ -1,0 +1,78 @@
+{
+  "checks": {
+    "ruff_check": {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r11",
+      "result": "passed"
+    },
+    "ruff_format": {
+      "command": ".venv/bin/ruff format --check <seven top-level R11 Python files>",
+      "result": "passed"
+    },
+    "source_import_smoke": {
+      "data_or_checkpoint_loads": 0,
+      "result": "24/24 pinned runtime modules imported from expected checkout paths with NumPy load and Torch load sentinels untouched"
+    },
+    "synthetic_tests": {
+      "command": "PYTHONPATH=src .venv/bin/pytest -q research/campaign_2026-10-19/idea_screens_r11/test_probe.py",
+      "result": "7 passed"
+    }
+  },
+  "not_performed": [
+    "B-shaped bundle import/read-sentinel smoke (root/operator launch gate)",
+    "real R3 array mapping or value access",
+    "checkpoint load, model fit, or evaluation",
+    "remote/provider execution"
+  ],
+  "pinned_file_count": 32,
+  "preparation_manifest_sha256": "c79506b19c5ba6ed217fe0e4be0fc74596eee397b35c9cfc3cc91685ae953613",
+  "preserved_initial_bytes": {
+    "PREPARATION_MANIFEST_INITIAL.json": "81670913e5adae791ab5c56441699ad1a21a266592b5052ec9711cdda5ff628e",
+    "TEST_RECEIPT_INITIAL.json": "04b8b9065cbe8c5d458b359863c23474cc9da639099d0b0a56ee6ec3642bc707"
+  },
+  "runtime_module_count": 24,
+  "runtime_python_modules": [
+    "idea_screens_r1",
+    "idea_screens_r1.constants",
+    "idea_screens_r1.eda_mechanisms",
+    "idea_screens_r1.feature_views",
+    "idea_screens_r1.input_diagnostics",
+    "idea_screens_r1.sample_data",
+    "idea_screens_r1.target_operator",
+    "idea_screens_r11",
+    "idea_screens_r11.importance_math",
+    "idea_screens_r11.importance_training",
+    "idea_screens_r11.probe_execution",
+    "idea_screens_r11.result_payload",
+    "idea_screens_r11.run_probe",
+    "idea_screens_r2",
+    "idea_screens_r2.views",
+    "idea_screens_r3",
+    "idea_screens_r3.probe_helpers",
+    "idea_screens_r7",
+    "idea_screens_r7.model_math",
+    "idea_screens_r7.panel",
+    "idea_screens_r7.runtime_support",
+    "wnn",
+    "wnn.data",
+    "wnn.gmetric"
+  ],
+  "schema": "nf19.r11_test_receipt.v1",
+  "source_identity": {
+    "design_initial_sha256": "47b117730f817547600f16e1a5079842f507df6c74df8f157e79e9be8ff472d9",
+    "design_review_sha256": "b35632e30d84678bfb2f8769523460e02667d27430a9670a267a1b869974a0a0",
+    "design_sha256": "15860112cd051995253120596cb57acf8bbbfe2493d76c1245c9494631decf5c",
+    "membership_sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+    "sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+    "selection_history_sha256": "5482e3f5f506c143ea1a19af5f333077e58c39b7bad58c93bedc648832375978"
+  },
+  "timing_scope_note": "Per-arm wall/CPU clocks begin before inverse-CDF index generation, correction factors, and optimizer setup; sampler/optimizer setup and training-loop durations are reported separately. Analytic norm calculation and fixed probability/correction/common-uniform preparation have separate phase timers.",
+  "top_level_python_files": [
+    "__init__.py",
+    "importance_math.py",
+    "importance_training.py",
+    "probe_execution.py",
+    "result_payload.py",
+    "run_probe.py",
+    "test_probe.py"
+  ]
+}
