@@ -21,3 +21,5 @@ A read-only B snapshot at13:34:02UTC found no populated campaign descendants and
 [Published source binding](SOURCE_PUBLICATION.json) now points to `51a9b168584e86ca10ebdc0532465d6158ab19d3`: explicit FP32 Muon and guarded restore add67focused checks plus a98-module/four-entrypoint no-read cold-import proof. The running propensity remains on unchanged235db75; the new teacher/student source has not yet been staged or profiled on B.
 
 [Publication validation](PUBLICATION_VALIDATION.json) binds the staged authority/design/source/actual-profile/fit-admission snapshot, validates new navigation and append-only ledger history, and excludes the two unrelated skill deletions. Running fit status is dated evidence, not completion.
+
+[User confirmation of one-GPU allocation](GPU_ALLOCATION_CONFIRMATION_20261019.json) records “одну гпу можно занять”. The same native prerequisite remains active: [14:36:22UTC raw health](records/propensity_f0_e4_v3/one_gpu_steering_health/STDOUT.raw.json) shows760completedupdates/nonfinite0 and only one owned populated worker. Later GPU stages remain serial on this allocation.
