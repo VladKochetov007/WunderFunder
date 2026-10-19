@@ -4,6 +4,8 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
+- [Teacher quality and empirical scaling](TEACHER_QUALITY_SCALING_20261019_R1.md) — latest teacher-first amendment for PR31: distillation optional, proposed six-fit 0.2/0.68/1.65B ladder, equal-data/equal-compute curves, data-reuse saturation, ranked LR/context/objective tuning and failure diagnostics. Proposal only; no trainer, profile, fit or scaling law measured.
+
 - [Large dynamics Transformer teachers on8 B300s](LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md) — H-LARGE-DYNAMICS-TEACHER-20261019-R2; proposed0.68B/1.65B capacity contrast and eligible3.17B extension, numerical/group encoders, future-observation auxiliary tasks, causal dense/local/slow-memory attention, all-FP32 Muon, WSD, DDP and GRU transfer. Includes analytical memory/runtime scenarios, independent criticism and separately counted four-fit capacity/event-objective panels in [draft PR #31](https://github.com/VladKochetov007/WunderFunder/pull/31). The later TradeFM source prioritizes a fixed-scale observable-event likelihood screen before the full ladder; no runnable trainer, profile, fit, transfer or public gain. Supersedes prospective CP30 counting in the old proposal, preserving its frozen source/history.
 
 - [RR17 published proposal branches](../../campaign_2026-10-17/research_reset_r1/publication/README.md) —25isolated proposal commits from research-team, remote SHA verification and ready PR bodies. No new PR exists without API authentication; no fit is admitted.

@@ -11,6 +11,8 @@ Record changes and receipts here before context compaction or handoff.
 
 ## Actual stage
 
+- Latest teacher-first steering is preserved in the [scaling programme](../../unified/ideas/TEACHER_QUALITY_SCALING_20261019_R1.md): optional distillation, six-fit ladder proposal and ranked tuning. No new fit/profile or budget admission; local plan remains preserved.
+
 - Later October19 steering makes4–6 TOTAL new fits the default initial screen
   for future drafts and prioritizes large B300 Transformer teachers→GRU transfer.
   [ADR0043](../../../specs/adr/0043-fast-screens-and-transformer-teacher-scale.md)

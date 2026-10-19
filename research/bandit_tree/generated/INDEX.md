@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1602 · raw hypothesis rows 569 · raw experiment rows 978 · legacy arms 18 · catalog files 92331.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1603 · raw hypothesis rows 570 · raw experiment rows 978 · legacy arms 18 · catalog files 92332.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-ea93166c38b45e481d18666a4c4fbad43e9457228c9823063116e858aa3099d9.json](<snapshots/config-ea93166c38b45e481d18666a4c4fbad43e9457228c9823063116e858aa3099d9.json>).
 
@@ -1650,6 +1650,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-PLATEAU-I1-HISTORY-TRANSFER-20261020-R1 | A useful i1-history teacher may transfer information to an identical cold student beyond what retaining a parent function achieves. | hypothesis · conditional_proposal_no_fit_no_budget_reserved | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L567>) | — |
 | hypothesis:H-LARGE-DYNAMICS-TEACHER-20261019-R2 | A larger causal numerical Transformer with measured dynamics/context learning can provide teacher signal that improves a matched GRU or served blend. | hypothesis · proposed | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L568>) | — |
 | hypothesis:H-OBSERVABLE-EVENT-DYNAMICS-20261019-R1 | Training a large causal teacher on future observable-change timing and marks improves predictive state and useful target/student performance beyond matched supervision alone. | hypothesis · proposed | family:objective | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L569>) | — |
+| hypothesis:H-TEACHER-QUALITY-SCALING-20261019-R1 | Increasing capacity, useful causal history and training at a measured data-reuse frontier can improve official held-out teacher quality; distillation is optional. | hypothesis · proposed | family:teacher | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L570>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |

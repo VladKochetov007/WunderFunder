@@ -1,3 +1,7 @@
+> Latest user amendment: optimize teacher quality and empirical scaling;
+> distillation is optional. See [teacher-scaling programme](TEACHER_QUALITY_SCALING_20261019_R1.md).
+> Historical sections below retain the earlier proposed transfer path.
+
 ---
 kind: idea
 status: proposed
