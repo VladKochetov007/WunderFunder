@@ -1,4 +1,6 @@
-# Статус всех25 после первого bounded screen
+# Статус25карточек после R1–R13
+
+Текущий [синтез свидетельств](../../unified/ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md) отделяет положительные условные leads, закрытые exact variants и действительно NOT_TESTED механизмы. Число screens не означает, что все25механизмов проверены; новая R14-модель или очередь не допущены.
 
 Дополнение R10: [target-free joint-support screen](../idea_screens_r10/RESULTS.md) обнаружил редкие distinct cases beyond marginal ranges на фиксированных raw0/52 и256строках.52компоненты из64,26в каждой заранее заданной половине; без меток/модели/grade. Это не доказательство предсказательной пользы или выбранного направления.
 
@@ -33,7 +35,7 @@
 | 8 | PARTIAL: R10 fixed2D hull даёт274joint-only queries/31552 (0.8684%),52/64fit components | Это геометрическое отличие от same-window box; target usefulness, full-dimensional support и matched outlier/volatility controls NOT_TESTED |
 | 9 | NOT_TESTED: sparse factor model не обучался | Sparse-vs-dense matched bottleneck; low-rank/PCA не считать подтверждением |
 | 10 | NOT_TESTED: conditional innovation graph отсутствует | Input-only fit-component stability grouped VAR/residual associations |
-| 11 | Joint signed/absolute-innovation EMA+ .01119, но выигрыш меняет знак без компоненты995 | Разделить signed и absolute части; нынешний screen не изолирует Jordan/variation механизм |
+| 11 | PARTIAL: [R3](../idea_screens_r3/RESULTS.md) selected signed EMA+.010459WP vs raw, все32drop-one+; fixedalpha1 absoluteEMA+.029060, но selected−.004323 | Линейная causal history representation; не isolated Jordan-split. Fit-CV/outer ranking mismatch не разрешён выбором alpha по outer |
 | 12 | PARTIAL: R5 shared linear moment heads; ratio−constant−0.025555WP, все32drop-one отрицательны | Learned heads/joint objective остаются NOT_TESTED; вторичный constant-vs-R3+0.013658 не изолирует механизм |
 | 13 | NOT_TESTED: prior/correction recurrent model отсутствует | Сначала доказать отличие от имеющегося gated update; затем tiny recurrent comparison |
 | 14 | PARTIAL: [R13](../idea_screens_r13/RESULTS.md) immutable mean99 context WP .462646 vs current-bypass .499683/zero .507387, primary Δ−.037037; both warmup contrasts/all32drop-one negative | One exposed CPU MLP seed/756updates per arm closes this fixed prefix-mean recipe. Does not test ordered/learned context, GRU memory or general contextual usefulness; R9 remains separate checkpoint-conditional carry evidence |
@@ -41,7 +43,7 @@
 | 16 | PARTIAL: [R12](../idea_screens_r12/RESULTS.md) full-fit pooled-correlation objective WP .405817 vs matched WMSE .490743, Δ−.084925; обе цели/all32drop-one отрицательны | Один seed/128full-fit updates на exposed R3. Оба loss используют global moments; закрыт этот exact objective/AdamW вариант, не проверены global-vs-local и другие schedules/GRU/full recipe |
 | 17 | PARTIAL: [R11](../idea_screens_r11/RESULTS.md) fixed initial-gradient sampling WP .454911 vs uniform .488192, Δ−.033282; все32drop-one отрицательны | Один seed/756updates на exposed R3; initial norm proxy + exact inverse-probability correction. Этот вариант закрыт; equal-time/dynamic sampling/full-recipe эффект не проверены |
 | 18 | NOT_TESTED: ортонормальный basis не реализован | EMA/lag результаты не тестируют matched-pole-span conditioning |
-| 19 | i1-only=.36115, i0-only лучше joint raw в этом fit | i0-only также исключает8tailканалов: i1-effect не изолирован. Cross-fit common/residual mechanism NOT_TESTED; линейная репараметризация может иметь тот же span |
+| 19 | [R3](../idea_screens_r3/RESULTS.md) full64fit: presence i1−.000496 безtail/−.000044 сtail; drop-one меняетзнак | Нет устойчивого основания удалятьi1; cross-fit common/residual mechanism NOT_TESTED. Обычная линейная репараметризация может сохранить span |
 | 20 | PARTIAL: R6 actual gradients, один frozenGRU/8fit-компонент/16окон; trunk pooledcos+0.333540,4negative; hiddenreadout+0.026854,3negative | Не training-wide prevalence/causalharm/PCGradbenefit; optimizer intervention и другие checkpoints не проверены |
 | 21 | NOT_TESTED: gradient-covariance preconditioner отсутствует | Нужны реальные gradients и matched optimizer, не covariance coefficients |
 | 22 | PARTIAL: R7 NLLmean .514297 vs WMSE.501921; R8 constantvariance .501394, primarygap+.012903,32/32drop-one+ | Этот globalscalingcontrol не повторил gain; variance-to-trunkgradient также меняется, истинныйnoise/expressivity не изолированы; одинseed/exposedpanel/GRUнепроверен |
@@ -49,4 +51,4 @@
 | 24 | NOT_TESTED: mixed-curvature penalty отсутствует | Обычная линейная модель его не реализует; допустимые in-support perturbations |
 | 25 | NOT_TESTED, зависит от16 | Нельзя заменить uncertainty of training moments оценкой разброса evaluation scores |
 
-Первые пригодные для следующей дешёвой волны вопросы: regularization/data-size confounding у i0-vs-i0+i1 и разложение joint EMA. Никакого решения о полном training campaign или candidate submission этот статус не содержит.
+Условные положительные leads — causal signed EMA и coupled mean/variance objective; constant-denominator moment recipe остаётся вторичным descriptive lead. Они не выбраны как новая архитектура/очередь. Следующий дешёвый тест должен соответствовать заявленному механизму и менять решение, а не повторять автоматическую серию слабых proxies. Полный training campaign или candidate submission не допущены этим статусом.

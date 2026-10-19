@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[What thirteen screens support](IDEA_SCREEN_SYNTHESIS_20261019_R1.md) separates signed-history and coupled mean/variance leads from the secondary moment-decoder recipe, exact negatives and target-free premises. It explains why automatic additional tiny-model variants or a PCA interaction proxy are not faithful tests of every remaining card. CPU authority is unchanged; no new fit or direction is selected.
+
 [R13 matched prefix-context screen](../../campaign_2026-10-19/idea_screens_r13/RESULTS.md) tests H-NF19-14 with zero/current-bypass/warmup99 mean side blocks. Warmup WP0.462646 loses0.037037 to current bypass and0.044742 to zero; all32drop-one sensitivities of both contrasts are negative. One exposed CPU seed with same nominal architecture/initial function/updates closes this mean99 recipe, not all contextual memory or GRU behavior.
 
 [R12 full-fit objective comparison](../../campaign_2026-10-19/idea_screens_r12/RESULTS.md) tests H-NF19-16 with identical clipped MLP/init/fit normalizer/128full-fit updates. Canonical correlation loss givesWP.405817 versus WMSE.490743 (−.084925), with both targets/all32drop-one contrasts negative. Both losses use full-fit global moments; this is finite objective/optimizer evidence, not a global-versus-local comparison or rejection of correlation training generally.

@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+[Independent synthesis review](IDEA_SCREEN_SYNTHESIS_REVIEW_20261019_R1.json) checks the cited R3–R13 findings and their interpretation in the [allocation synthesis](../ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md). This is a source-bound evidence review, not numerical replay or independent empirical replication.
+
 [R13 compact audit](../../campaign_2026-10-19/idea_screens_r13/RESULT_AUDIT.json) reconstructs three pooled and component/drop-one score sets and all contrasts from six sums, without arrays/refit. [Source review](../../campaign_2026-10-19/idea_screens_r13/IMPLEMENTATION_REVIEW.json), [startup gate](../../campaign_2026-10-19/idea_screens_r13/records/startup_v1/ROOT_STARTUP_REVIEW.json) and [resource review](../../campaign_2026-10-19/idea_screens_r13/RESOURCE_METADATA_REVIEW.json) separate science/source, execution and metadata scopes.
 
 [R12 independent compact audit](../../campaign_2026-10-19/idea_screens_r12/RESULT_AUDIT.json) checks scalar pooled/component/drop-one scores, provenance, gamma, updates and exact capture/stop without arrays/refit. [Design review](../../campaign_2026-10-19/idea_screens_r12/DESIGN_REVIEW.json), [implementation review](../../campaign_2026-10-19/idea_screens_r12/IMPLEMENTATION_REVIEW.json), [cold import gate](../../campaign_2026-10-19/idea_screens_r12/records/startup_v1/LOCAL_IMPORT_SMOKE.json) and [resource review](../../campaign_2026-10-19/idea_screens_r12/RESOURCE_METADATA_REVIEW.json) keep mathematical, implementation and resource evidence separate.

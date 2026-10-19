@@ -1,0 +1,29 @@
+{
+  "schema": "nf19.idea_screen_synthesis_review.v1",
+  "status": "PASS",
+  "reviewed_document": {
+    "path": "research/unified/ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md",
+    "sha256": "4cf3560eca8abcc0d89632dfed019c3cf002f741bcd54002c3951bb661da1369",
+    "bytes": 6690
+  },
+  "review_scope": "Independent documentary consistency review against the linked frozen screen reports and STATUS_25. Numeric score summaries were checked against those reports; no data arrays or model payloads were read, no score calculation was replayed, and no new empirical work was performed.",
+  "numerical_claims_checked": [
+    "R3 selected signed-EMA WP 0.536004 versus raw WP 0.525544, delta +0.010459; all 32 drop-one contrasts positive.",
+    "R3 fixed-alpha1 absolute-EMA gain +0.029060 over raw-alpha1 and selected absolute-EMA endpoint shortfall 0.004323 versus selected raw; R4 selected tanh contrasts and fixed-alpha1 history +0.002015 are stated with the correct distinct baselines.",
+    "R5 constant-denominator WP 0.549662 versus same-head ratio WP 0.524107, difference +0.025555 for constant-minus-ratio.",
+    "R7 NLL mean WP 0.514297 versus WMSE 0.501921, delta +0.012376; R8 constant-variance WP 0.501394 and input-dependent-minus-constant delta +0.012903.",
+    "R11 importance-minus-uniform delta -0.033282; R12 pooled-correlation-minus-WMSE delta -0.084925.",
+    "R13 warmup99 WP 0.462646 versus current-bypass 0.499683 and zero-side 0.507387, with primary delta -0.037037 and negative all-32 drop-one comparisons.",
+    "R6, R9, and R10 diagnostic summaries agree with their reports: pooled trunk gradient cosine +0.333540; recent-256 carry reset changes output RMS by 19.354%; R10 has 274 joint-only cases among 31,552 queries (0.8684%)."
+  ],
+  "scope_checks": {
+    "exposed_panel_and_drop_one_limits_are_explicit": true,
+    "R1_R2_different_panel_composition_is_not_subtracted_from_R3_plus": true,
+    "checkpoint_or_input_diagnostics_are_not_called_label_usefulness_or_training_benefit": true,
+    "R13_closes_only_the_fixed_mean99_recipe": true,
+    "feature_interaction_proxy_is_not_conflated_with_H_NF19_24_curvature_penalty": true,
+    "no_new_R14_or_automatic_experiment_series_is_admitted": true,
+    "NOT_TESTED_mechanisms_are_not_claimed_as_covered_by_related_proxies": true
+  },
+  "reviewer_interpretation": "The allocation judgment is a documentary synthesis of prior empirical receipts and literature/LLM-generated hypothesis framing, not an empirical replication. The cited experiments support only their bounded recipes and diagnostics; the document does not claim population, full-fold, GRU, public-score, or CP30 conclusions."
+}

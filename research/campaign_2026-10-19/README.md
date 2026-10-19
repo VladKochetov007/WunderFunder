@@ -1,5 +1,7 @@
 # 19 October research
 
+- [Synthesis after thirteen screens](../unified/ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md): conditional leads and exact negatives are separated from untested mechanisms; proxy scores do not select a new recurrent architecture. No new data/model work, R14 preparation or fit is admitted by this review.
+
 - [R13 immutable warmup99 context](idea_screens_r13/RESULTS.md): matched three-arm MLP gives warmup0.462646/current-bypass0.499683/zero0.507387; primary−0.037037 and both warmup drop-one contrasts negative across32components. Same initialization/756updates per arm, one exposed panel. Close this exact prefix-mean recipe; no general context/GRU/public claim.
 
 - [R12 matched full-fit objectives](idea_screens_r12/RESULTS.md): canonical pooled-correlation loss loses0.084925WP to a new matched WMSE arm (.405817 vs .490743); both targets/all32drop-one contrasts negative,128full-fit updates each. Both objectives use global fit moments and initial gradient norms were matched once. Close this exact exposed CPU variant; no general objective/full-model claim.
