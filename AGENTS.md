@@ -1,5 +1,9 @@
 # Additional B300 directions, user instruction19October2026
 
+## Stop requested for owned tabdata workloads, 19 October 2026
+
+The user requests preserving current results and stopping all our training on 10.14.14.26. This supersedes earlier continuation/admission instructions for this owned tabdata campaign: no new fits, profiles or retries. Preserve checkpoints, predictions, logs, failures and grades, plus foreign workloads. Remote stop is NOT confirmed: the existing SSH connection was reset and the single reconnection was closed before banner/authentication. No remote stop command was executed. See [stop evidence](research/campaign_2026-10-18/b300_execution_r1/stop_20261019_r1/README.md). Honor this stop when access returns; never report a drained node without live process/cgroup verification.
+
 ## Native-feature expansion and delivery recovery, 19 October 2026
 
 The latest user authorizes the existing eight-B300 campaign plus reviewed GitHub experiments in parallel. The [execution packet](research/campaign_2026-10-18/b300_execution_r1/parallel_expansion_v1/README.md) records 40 scientific fits, five per GPU, at startup: 32 existing R01/PR15 and eight new native-feature fits. PR26/27 own a separate 120-fit CP30 panel, with 8 active and 112 pending at the startup snapshot. Preserve frozen FP32 recipes, source identities, all foreign clients and the single SSH console. The delivery-only R01 watcher reuses completed checkpoints without refitting and posts source-qualified PR25 updates; independent PR26/27 updates run every ten minutes and on scored-pair completion. The historical four-fit-density instructions below are superseded for this bounded expansion; no major normalized-throughput gain or new quality score is claimed.
