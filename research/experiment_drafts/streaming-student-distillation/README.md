@@ -13,4 +13,4 @@ PR #24 compares standalone D256 architecture models. This compares compact D128 
 
 180 student fits;30 L teachers/caches unless identical prior sources are reusable. Teacher inference is offline preparation; deployment executes only the student. No quantization in fits.
 
-Publication and result fields remain empty until actual receipts exist. No plan printer, queue or placeholder trainer is supplied.
+Published draft: [PR #30](https://github.com/VladKochetov007/WunderFunder/pull/30) targeting `research-team`; initial packet head `5084c0b14c1c080e52400d6ecc302a2266298e20`. Result fields remain empty until actual receipts exist. No plan printer, queue or placeholder trainer is supplied.
