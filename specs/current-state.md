@@ -1,5 +1,14 @@
 # Current project state
 
+## Latest amendment — teacher quality and scaling
+
+The user now prioritizes progressively smarter teachers; distillation is optional,
+not a teacher-promotion requirement. The [scaling programme](../research/unified/ideas/TEACHER_QUALITY_SCALING_20261019_R1.md)
+proposes a six-fit three-size ladder, matched learning curves and ranked tuning.
+This explicitly amends the earlier strategy; existing four-fit JSON recipes
+remain historical proposals until a receiver freezes an amended runnable panel.
+No fits/profiles or new compute allocation are claimed.
+
 ## Latest steering — October 19: fast screens and large B300 teachers
 
 The user replaces mandatory30-per-arm experiment matrices for FUTURE drafts

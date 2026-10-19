@@ -15,12 +15,14 @@ See [ADR0043](specs/adr/0043-fast-screens-and-transformer-teacher-scale.md) and 
 [updated draft workflow](research/unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md).
 
 The new research priority is a large causal Transformer teacher on the team's
-eight B300 GPUs, followed by measured GRU distillation. Prepare architecture,
+eight B300 GPUs. Latest steering prioritizes teacher quality and empirical
+scaling; distillation is optional and is not a promotion gate. Prepare architecture,
 scale, optimization and profiling handoffs; this instruction does not restart
 the stopped remote jobs or change the existing local start/budget. Strict FP32,
 autocast/TF32 off, causal inputs, clean ancestry and official scoring still apply.
 Large teachers may exceed submission limits. Scale by measured teacher quality
-and student benefit, not by fitting the largest model that memory permits.
+and generalization, with optional later transfer; see the
+[teacher-scaling amendment](research/unified/ideas/TEACHER_QUALITY_SCALING_20261019_R1.md).
 
 ## Active continuation plan — user instruction, 2026-10-19
 

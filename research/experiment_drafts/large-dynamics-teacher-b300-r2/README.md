@@ -32,3 +32,7 @@ numerical checks. Do not copy a trainer or add logic to scripts/train_rnn.py.
 Published [draft PR #31](https://github.com/VladKochetov007/WunderFunder/pull/31) targets research-team. [Publication receipt](PUBLICATION.json) records the initial immutable source commit, policy/base commits and code/recipe hashes; metadata publication is not a launch.
 
 The later user paper motivates the event-objective comparison before committing to the full scale ladder. Both panels remain unrun and require separate actual compute admission. No completed source paper result is presented as our target-score evidence.
+
+## Latest strategic amendment
+
+[Teacher quality and scaling](../../unified/ideas/TEACHER_QUALITY_SCALING_20261019_R1.md) makes distillation optional and proposes a six-fit ladder with ranked tuning; existing JSON recipes are not silently rewritten. No fit is admitted.

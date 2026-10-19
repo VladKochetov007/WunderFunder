@@ -9590,7 +9590,7 @@
     },
     "source_rows": {
       "experiments": 1045,
-      "hypotheses": 639,
+      "hypotheses": 640,
       "journal": 148
     }
   },
@@ -47923,6 +47923,44 @@
         }
       ],
       "title": "Training a large causal teacher on future observable-change timing and marks improves predictive state and useful target/student performance beyond matched supervision alone.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:teacher",
+        "matches": [
+          "family:teacher"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-TEACHER-QUALITY-SCALING-20261019-R1",
+      "latest_recorded_status": "proposed",
+      "parent_id": "family:teacher",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"H-TEACHER-QUALITY-SCALING-20261019-R1\",\"mechanism_family\":\"teacher capacity-data-compute scaling\",\"parent_ids\":[\"H-LARGE-DYNAMICS-TEACHER-20261019-R2\"],\"statement\":\"Increasing capacity, useful causal history and training at a measured data-reuse frontier can improve official held-out teacher quality; distillation is optional.\",\"predicted_observable\":\"A reproducible quality-versus-compute frontier across matched scale recipes, with diagnostics separating optimization failure and repeated-data overfitting.\",\"falsifier\":\"A frozen tested extension consumes more compute without useful teacher quality or informative optimization improvement; narrows that recipe and scale interval.\",\"status\":\"proposed\",\"source\":\"research/unified/ideas/TEACHER_QUALITY_SCALING_20261019_R1.md\",\"committed_at\":\"2026-10-19\"}\n",
+          "record": {
+            "committed_at": "2026-10-19",
+            "falsifier": "A frozen tested extension consumes more compute without useful teacher quality or informative optimization improvement; narrows that recipe and scale interval.",
+            "id": "H-TEACHER-QUALITY-SCALING-20261019-R1",
+            "mechanism_family": "teacher capacity-data-compute scaling",
+            "parent_ids": [
+              "H-LARGE-DYNAMICS-TEACHER-20261019-R2"
+            ],
+            "predicted_observable": "A reproducible quality-versus-compute frontier across matched scale recipes, with diagnostics separating optimization failure and repeated-data overfitting.",
+            "source": "research/unified/ideas/TEACHER_QUALITY_SCALING_20261019_R1.md",
+            "statement": "Increasing capacity, useful causal history and training at a measured data-reuse frontier can improve official held-out teacher quality; distillation is optional.",
+            "status": "proposed"
+          },
+          "source": {
+            "line": 640,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "2092d6610cb2a01549f68c12a5a677bf695f0bfcf5a20c583f1e1256219f9417"
+          }
+        }
+      ],
+      "title": "Increasing capacity, useful causal history and training at a measured data-reuse frontier can improve official held-out teacher quality; distillation is optional.",
       "type": "hypothesis"
     },
     {
@@ -96766,6 +96804,17 @@
         "sha256": "a790567ae8b34918aa5547af8b8409026b04aaa84dc06a7c26b1545cafd639e5"
       },
       "source_id": "hypothesis:H-OBSERVABLE-EVENT-DYNAMICS-20261019-R1",
+      "target_id": "hypothesis:H-LARGE-DYNAMICS-TEACHER-20261019-R2"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 640,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "2092d6610cb2a01549f68c12a5a677bf695f0bfcf5a20c583f1e1256219f9417"
+      },
+      "source_id": "hypothesis:H-TEACHER-QUALITY-SCALING-20261019-R1",
       "target_id": "hypothesis:H-LARGE-DYNAMICS-TEACHER-20261019-R2"
     },
     {

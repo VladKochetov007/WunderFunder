@@ -1,4 +1,7 @@
-# [Experiment] large-dynamics-teacher-b300-r2: event dynamics, teacher scale and GRU transfer
+# [Experiment] large-dynamics-teacher-b300-r2: teacher quality, scaling and event dynamics
+
+Latest user amendment: **teacher quality first; distillation optional**. The
+[scaling programme](https://github.com/VladKochetov007/WunderFunder/blob/experiment/large-dynamics-teacher-b300-r2/research/unified/ideas/TEACHER_QUALITY_SCALING_20261019_R1.md) proposes a six-fit 0.2/0.68/1.65B ladder, equal-data/equal-compute curves, repeated-data diagnostics and ranked tuning. This is the current strategic priority. Existing four-fit JSON panels below remain prior unlaunched proposals; receiver must explicitly replace the selected recipe and freeze its budget before launch. No extra panel is implicitly admitted.
 
 1. **Status, lineage and owner.** Proposed teacher-scale recipe; root owns design,
    receiving B300 implementer owns source binding and execution. H-LARGE-DYNAMICS-TEACHER-20261019-R2;

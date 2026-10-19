@@ -20,6 +20,8 @@ External writeups and literature provenance; external results do not establish l
 
 ## Current navigation
 
+- [Teacher-scaling source assessment](../ideas/TEACHER_QUALITY_SCALING_20261019_R1.md#sources-and-what-transfers) — primary abstracts for Chinchilla, repeated-data scaling, two time-series scaling studies and muP; separates useful study designs from inapplicable token ratios and unverified Muon transfer. No imported weights/data or local gain.
+
 - [Large B300 teacher primary-source register](TRANSFORMER_B300_SCALE_SOURCES_20261019_R2.md) — actual October19 inspection of the user's2606.30634 gradient-delay paper and later2602.23784 TradeFM event-modeling paper, NVIDIA B300 hardware, Muon source/API, FP32 attention/DDP, numeric encoders, WSD, dynamics pretraining and teacher/student limits. Records the upstream Muon BF16 cast and the gap between external LLM results and this unrun time-series proposal; no imported data or weights.
 - [Adaptive TBPTT and current-moment gradient replay](GRADIENT_ESTIMATOR_LITERATURE_20261018.md) — primary Aicher/Foti/Fox and Gradient Cache methods, an abstract-only SCGD context check, and deduplication against H-RR17-19 / H-055 / E-291. Distinguishes published mechanisms from our unimplemented GRU transfer; no local quality or speed claim.
 
