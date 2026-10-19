@@ -1,5 +1,8 @@
 # Full-GRU campaign actual execution records
 
+**21:58UTC: [Full-shape strictFP32 teacher inference profile passed and exact-stopped](teacher_cache_profile_v1/README.md).**16fittingsequences×20k/640,000finite main predictions; peakCUDA0.901GBallocated/1.141GBreserved, no retained prediction array/update/quality score. Allthree teachers accepted. First S3train fitting export is being gated, not yet admitted; current continuation supersedes dated statements below.
+
+
 **21:39UTC: all three strong teachers are accepted and exact-stopped.** [S5 records](teacher_s5_v1/README.md) bind native22,380updates/3epochs/0skips/nonfinite and finiteFP32/source164 verification; no student or tweak quality score yet. [Cache contract](../preparation/TEACHER_CACHE_EXECUTION_CONTRACT_R1.json) fixes one fit-only meanT3×0.8125 cache; its canonical opt-in producer and inference shape profile are being implemented, with no production cache admission yet. [Current continuation](../CONTINUATION.md) supersedes dated running entries below.
 
 

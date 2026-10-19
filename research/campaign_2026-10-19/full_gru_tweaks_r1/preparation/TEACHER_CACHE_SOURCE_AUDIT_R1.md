@@ -82,3 +82,64 @@ These runtime files match the 164-file manifest unless marked `commit-pinned` (t
 | `src/wnn/final_distillation_cache.py` | `d649fe87a7ee2da53d60fa0350aa8a95cdf1b5046fd128e35814e199a37d82af` |
 
 Authorized next code scope is limited to the existing canonical combiner/builder plus a bounded profile-only mode in `predict_run.py`. Keep legacy four-family behavior unchanged. Root supplies all accepted S3/S4/S5 acceptance, `model.pt`, and selected `model_ep2.pt` pins; profile and production admissions remain root-controlled.
+
+## Implementation follow-up R1
+
+The paragraph above records the audit-time pending state. Root subsequently verified that S5 was accepted and stopped and supplied the frozen execution contract, SHA-256 `dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9`. This local preparation still performed no prediction export or cache build. The contract binds the accepted S3/S4/S5 `model.pt`, selected epoch-2 checkpoint, provenance, tensor fingerprint, split, source order, and exact target arithmetic. The builder checks the contract bytes and corresponding acceptance/checkpoint/provenance files before inspecting prediction artifacts.
+
+The canonical builder now has an opt-in `cleanfold_homogeneous_strong_t3_v1` path. It accepts only ordered strong S3/S4/S5 epoch-2 sources at their original `0.1` metadata weights, validates exact fit-only train/valid sidecar membership, maps prediction row order to canonical target-index fit order, and writes only two-column FP32 homogeneous memmaps. It computes the fixed-order FP32 mean then multiplies by `0.8125` once; no teacher clipping, cache clipping, FP16, or consumer rescaling is introduced. Its metadata remains compatible with the existing T3 consumer validator and records the historical six-epoch/fixed-epoch-5 student contract. The opt-in path verifies the root-pinned files and provenance but does not deserialize the checkpoint or reload optimizer/ancestor state. Legacy four-family validation and combination remain on their prior path.
+
+For the commands below, `PROJECT` is `/home/grinchenkoeg/computer-vision-homework-20261018` and `B` is its registered physical-disk data root, `/home/grinchenkoeg/computer-vision-homework-20261018/data`. The root stages the compact acceptance files and contract under `$B/research/full_gru_tweaks_r1/teacher_cache_v1`; their `records/...` paths are resolved under that directory. Prediction exports and the combined cache live directly under physical scratch at `$B/research_tmp/...`.
+
+After the root's fresh acceptance/stop, source, fit-membership, GPU, physical-disk, memory-headroom, and create-only output checks, the approved producer CLI is one bounded profile and six serial exports. The profile writes only scalar evidence to `PROFILE.json` and does not persist predictions:
+
+```sh
+python scripts/predict_run.py fg19_t3_h384x2_e3_s3_v1 train --epoch 2 --campaign-split-manifest "$PROJECT/splits/fold0.json" --device cuda --inference-precision fp32 --loader-workers 0 --profile-only --profile-output "$B/research_tmp/fg19_teacher_cache_profile_v1/PROFILE.json"
+```
+
+The production export CLI is issued once for each `(RUN, SPLIT)` pair below. It uses the accepted model and native source checkpoint loader, exports only the fit train/valid groups, and creates a `.npy` plus sidecar per pair:
+
+```sh
+python scripts/predict_run.py fg19_t3_h384x2_e3_s3_v1 train --epoch 2 --campaign-split-manifest "$PROJECT/splits/fold0.json" --inference-precision fp32 --loader-workers 0 --output-dir "$B/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1" --create-only
+python scripts/predict_run.py fg19_t3_h384x2_e3_s3_v1 valid --epoch 2 --campaign-split-manifest "$PROJECT/splits/fold0.json" --inference-precision fp32 --loader-workers 0 --output-dir "$B/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1" --create-only
+python scripts/predict_run.py fg19_t3_h384x2_e3_s4_v1 train --epoch 2 --campaign-split-manifest "$PROJECT/splits/fold0.json" --inference-precision fp32 --loader-workers 0 --output-dir "$B/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1" --create-only
+python scripts/predict_run.py fg19_t3_h384x2_e3_s4_v1 valid --epoch 2 --campaign-split-manifest "$PROJECT/splits/fold0.json" --inference-precision fp32 --loader-workers 0 --output-dir "$B/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1" --create-only
+python scripts/predict_run.py fg19_t3_h384x2_e3_s5_v1 train --epoch 2 --campaign-split-manifest "$PROJECT/splits/fold0.json" --inference-precision fp32 --loader-workers 0 --output-dir "$B/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1" --create-only
+python scripts/predict_run.py fg19_t3_h384x2_e3_s5_v1 valid --epoch 2 --campaign-split-manifest "$PROJECT/splits/fold0.json" --inference-precision fp32 --loader-workers 0 --output-dir "$B/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1" --create-only
+```
+
+After exports are accepted, the concrete cache command is:
+
+```sh
+python scripts/build_distill_cache.py \
+  --data-root "$PROJECT" \
+  --teacher-cache-root "$B/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1" \
+  --checkpoint-root "$PROJECT/artifacts/runs" \
+  --cache-profile cleanfold_homogeneous_strong_t3_v1 \
+  --cleanfold-contract "$B/research/full_gru_tweaks_r1/teacher_cache_v1/preparation/TEACHER_CACHE_EXECUTION_CONTRACT_R1.json" \
+  --cleanfold-contract-sha256 dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9 \
+  --acceptance-root "$B/research/full_gru_tweaks_r1/teacher_cache_v1" \
+  --split-manifest "$PROJECT/splits/fold0.json" \
+  --output "$B/research_tmp/fg19_t3_fit_homogeneous_cache_v1" \
+  --teacher 'strong=fg19_t3_h384x2_e3_s3_v1@ep2*0.1' \
+  --teacher 'strong=fg19_t3_h384x2_e3_s4_v1@ep2*0.1' \
+  --teacher 'strong=fg19_t3_h384x2_e3_s5_v1@ep2*0.1' \
+  --homogeneous-family strong \
+  --expected-coefficient-sum 0.8125 \
+  --chunk-sequences 8 \
+  --output-profile homogeneous-only \
+  --output-budget-gb 30 \
+  --min-free-gb 25
+```
+
+The builder's independent preflight refuses an existing cache path or partial directory and preserves the configured 25-GiB free-space floor. At the known fit counts, the three teacher exports plus cache contain 7,641,600,000 FP32 payload bytes; root must remeasure actual physical free space and safety margin after source staging and before production admission. The builder reads predictions by mmap, validates them in bounded chunks, combines eight sequences at a time, and writes only `main_homogeneous_{train,valid}.npy` plus metadata. The existing consumer validator accepts the resulting absolute cache path.
+
+Focused local verification completed without GPU, real-data, or checkpoint reads: the original 13 focused semantic/legacy tests passed; the synthetic legacy-ancestor closure regression passed again against the final builder; and 15 edge-case cases passed for strict row-group identities, FP32 overflow, and dangling output symlinks. Ruff format/check and `git diff --check` passed. The final combined cold import/read-sentinel smoke passed for 100 runtime WNN modules, both CLIs, and the helper; receipt: `/tmp/teacher_cache_cold_import_receipt.json`. No actual prediction or cache outputs exist from this work. Changed cache files are pinned here for root review:
+
+The final narrow hardening preserves the legacy path: T3 fit-only sidecars and the semantic alignment helper now accept only actual integer identities (not booleans, floats, or strings); the FP32 combiner rejects a nonfinite result under a bounded NumPy error state before returning a chunk to its writer; and the opt-in T3 output preflight uses `lexists` before resolving the path so a dangling output symlink is rejected.
+
+| File | SHA-256 |
+|---|---|
+| `scripts/build_distill_cache.py` | `e0d494019357e790576629b4731198fcbe2b80572b32e38ac7afc065bd6328b7` |
+| `src/wnn/cleanfold_t3_cache.py` | `5f89ac1023d1b35f4d1ba02a39727e30ec1ff1d09fac28730039716188d5c8d4` |
+| `tests/test_cleanfold_t3_cache.py` | `2f0ca5858c605d79e7bc24c89a74e30005216270645bba57c2229918ea8e6fbc` |

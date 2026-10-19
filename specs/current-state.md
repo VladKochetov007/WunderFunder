@@ -1,5 +1,8 @@
 # Current project state
 
+**19 October21:58UTC full-GRU dependency:** [Full-shape teacher inference profile passed and exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_profile_v1/README.md):16×20k/640,000finiteFP32mainoutputs, CUDA0.901GBallocated/1.141GBreserved; no weight update/prediction cache/quality score. Source88becca/167files published; allthree teachers accepted. First S3 fitting export is the next gated stage under the same one-GPU authority.
+
+
 **19 October21:39UTC full-GRU stream:** [All three clean H384×2 teachers accepted and exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md), each22,380finiteFP32updates/3epochs/0skips/nonfinite. Five student arms have no quality endpoint yet. Next dependency is one fit-only strictFP32 teacher cache, mean×0.8125 once; a narrow canonical producer extension/inference profile is in progress, not a new teacher fit or separate October20 allocation.
 
 

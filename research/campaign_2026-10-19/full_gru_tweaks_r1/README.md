@@ -1,5 +1,8 @@
 # Full GRU: strong recipe plus three positive CPU-screen candidates
 
+**21:58UTC: [Full-shape strictFP32 teacher inference profile passed and exact-stopped](records/teacher_cache_profile_v1/README.md).**16fittingsequences×20k/640,000finite main predictions; peakCUDA0.901GBallocated/1.141GBreserved, no retained prediction array/update/quality score. Allthree teachers accepted. First S3train fitting export is being gated, not yet admitted; current continuation supersedes dated statements below.
+
+
 **21:39UTC: all three strong teachers are accepted and exact-stopped.** [S5 records](records/teacher_s5_v1/README.md) bind native22,380updates/3epochs/0skips/nonfinite and finiteFP32/source164 verification; no student or tweak quality score yet. [Cache contract](preparation/TEACHER_CACHE_EXECUTION_CONTRACT_R1.json) fixes one fit-only meanT3×0.8125 cache; its canonical opt-in producer and inference shape profile are being implemented, with no production cache admission yet. [Current continuation](CONTINUATION.md) supersedes dated running entries below.
 
 
@@ -54,3 +57,5 @@ A read-only B snapshot at13:34:02UTC found no populated campaign descendants and
 [User confirmation of one-GPU allocation](GPU_ALLOCATION_CONFIRMATION_20261019.json) records “одну гпу можно занять”. The same native prerequisite remains active: [14:36:22UTC raw health](records/propensity_f0_e4_v3/one_gpu_steering_health/STDOUT.raw.json) shows760completedupdates/nonfinite0 and only one owned populated worker. Later GPU stages remain serial on this allocation.
 
 [Current F0 rebuild binding R2](preparation/REBUILD_RECIPE_BINDING_R2.json) records the source-qualified B split, train+valid membership choice for teachers/parent/children, historical-evidence correction, and explicit clean-rebuild adaptations. The full teacher argv remains a template until the propensity checkpoint SHA is verified; see [preparation README](preparation/README.md).
+
+[Completed S5 publication checks](PUBLICATION_VALIDATION_20261019_S5.json) bind51committed files, source/review/receipt pins and append-only history. [Inference source/profile publication checks](PUBLICATION_VALIDATION_20261019_CACHE_PROFILE.json) bind the subsequent canonical source/code-only packet, captured engineering profile, links and one new append-only completion row. These checks add no model fit or quality measurement.
