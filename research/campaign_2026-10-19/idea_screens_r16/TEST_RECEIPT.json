@@ -1,0 +1,75 @@
+{
+  "actual_npy_payloads_read": false,
+  "actual_sample_or_model_execution": false,
+  "cold_import_smoke": {
+    "path": "records/preparation_v2/cold_import_smoke.json",
+    "pyarrow_imported": false,
+    "runtime_modules_expected": 9,
+    "runtime_modules_observed": 9,
+    "sample_arrays_or_models_loaded": false,
+    "sentinel_calls": [],
+    "sentinels": [
+      "numpy.load",
+      "numpy.memmap"
+    ],
+    "sha256": "b94bdc15b1596c07eaaa11b84adbd636cea2f3f91c7919ced08415a395dfa1fd",
+    "source_paths_verified": true,
+    "stdout_path": "records/preparation_v2/cold_import_smoke.stdout.txt",
+    "stdout_sha256": "b94bdc15b1596c07eaaa11b84adbd636cea2f3f91c7919ced08415a395dfa1fd",
+    "torch_imported": false
+  },
+  "commands": [
+    {
+      "command": "PYTHONPATH=research/campaign_2026-10-19 .venv/bin/python -m pytest -q research/campaign_2026-10-19/idea_screens_r16/test_probe.py",
+      "exit_code": 0,
+      "stdout_path": "records/preparation_v2/pytest_stdout.txt",
+      "stdout_sha256": "7a61ca24b371c1f6c7f96fff56c1dade2928371738a23f78521e2fc09c76ac29",
+      "summary": "11 passed, 6 warnings in 0.29s"
+    },
+    {
+      "command": ".venv/bin/ruff format --check research/campaign_2026-10-19/idea_screens_r16",
+      "exit_code": 0,
+      "stdout_path": "records/preparation_v2/ruff_format_stdout.txt",
+      "stdout_sha256": "5b9f70ad96522f492ef846065642c069b5627379aff2ab3f74acd2e3b9ecfe34",
+      "summary": "PASS"
+    },
+    {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r16",
+      "exit_code": 0,
+      "stdout_path": "records/preparation_v2/ruff_check_stdout.txt",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "summary": "All checks passed!"
+    }
+  ],
+  "design_review_sha256": "952bd7561443d4240058e001fa978e6c47d7db642cd1b919c135ef3b17f46809",
+  "design_sha256": "7b0d01571b61e83362fa53a10bf4e76d0ba2d7bf0b2f6c7f9faa75ea27186696",
+  "environment": {
+    "numpy": "2.2.6",
+    "python": "3.13.11"
+  },
+  "preparation_manifest": {
+    "path": "PREPARATION_MANIFEST.json",
+    "pinned_file_count": 18,
+    "runtime_module_count": 9,
+    "runtime_modules": [
+      "idea_screens_r10",
+      "idea_screens_r10.panel_io",
+      "idea_screens_r16",
+      "idea_screens_r16.estimator",
+      "idea_screens_r16.linear_ops",
+      "idea_screens_r16.panel",
+      "idea_screens_r16.probe_execution",
+      "idea_screens_r16.run_probe",
+      "idea_screens_r16.runtime_support"
+    ],
+    "sha256": "88a584baceeac9efba05c1697cece83baf5fa55cfcaa990523ae16f9af97074a"
+  },
+  "remote_actions": false,
+  "schema": "nf19.r16_test_receipt.v1",
+  "selection_history_sha256": "e19205a38248207ebfd601d460fec0426304ed3daa1439e16c22112058151fd1",
+  "status": "PASS_SOURCE_ONLY",
+  "warnings": {
+    "count": 6,
+    "note": "NumPy matrix-multiplication RuntimeWarnings (divide-by-zero, overflow, and invalid value) were observed during the synthetic transform test on macOS; outputs remained finite and all 11 tests passed. Cause not established."
+  }
+}

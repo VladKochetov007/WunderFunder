@@ -1,0 +1,67 @@
+{
+  "schema": "nf19.combo_implementation_review.v2",
+  "status": "IMPLEMENTATION_PASS_SCOPED",
+  "revision": 2,
+  "design_sha256": "9f2c714bd09f8a4bf31507774326671ff2c279274b1af76810870262a7cf7360",
+  "design_review_sha256": "6ede3784643fa5bb53cbf9ca001a147f4a5e0a059c7e557cb8ef97b82610e840",
+  "selection_history_sha256": "31d1f3f1edf0d18148ba9f49b273aa1cb8bb9c9edc47822101356d692205e924",
+  "preparation_manifest_sha256": "ec4bd56f08eaebeb13e8f359b15128f1d0a67a329532b3bf9ec664fb72480bee",
+  "test_receipt_sha256": "198fceac38a419ec0b5fc2bca7d7fe3e8bd899979c6d2c478fa195a67c627459",
+  "prior_review": {
+    "path": "IMPLEMENTATION_REVIEW_V1.json",
+    "sha256": "addb8ffbd25fc581247ccf0f6565eea4cf4698c70a1bc36c5ea0cda2e772205e",
+    "note": "Preserved exactly; it binds the superseded source manifest and receipt."
+  },
+  "r15_result_fixture_sha256": "ab149a3fcf9d58c1221300ddca3eba356a16181fe5239ea1b3d7646bfe9099c3",
+  "source_pin_count": 38,
+  "runtime_module_count": 31,
+  "changed_source_pins_since_v1": [
+    "idea_combo_r1/probe_execution.py",
+    "idea_combo_r1/run_probe.py"
+  ],
+  "review": {
+    "decision": "The final frozen source remains within the approved one-arm R15 sparse+EMA / R7 NLL comparison. The runtime setup and reference-archive loading path are fail-closed and bound to the final manifest. No implementation blocker remains in this scoped review.",
+    "checks": [
+      "I independently rehashed all 38 entries in the final preparation manifest; all matched. Its exact runtime map contains 31 modules, and the source code checks the exact observed owned-package module inventory and resolved paths before execution. The final source-only cold-smoke receipt reports 31 of 31 modules and no calls to any of the seven NumPy, Torch, or PyArrow payload-read sentinels.",
+      "The final CLI verifies the pinned manifest and sample/membership identities, loads and verifies the declared runtime closure, then calls the pinned R15 CPU-runtime configurator before importing the executor. The executor rechecks FP32, one intra-op and inter-op thread, CUDA uninitialized, autocast disabled, and both TF32 flags disabled before sample loading. The final receipt records those runtime values; setup does not access model or sample payloads.",
+      "The R15 compact result remains bound by exact bytes and hash. The archive path is confined to the expected R15 research_tmp directory; the archive is size- and SHA-checked before np.load, and its complete key set is compared with the captured result metadata. Only the six whitelisted raw-input, sparse dictionary, and sparse downstream-normalizer arrays are indexed and retained. A focused synthetic archive check used the pinned compact metadata to emulate a 22-key archive and confirmed exactly those six accesses; its archive hash and dictionary fingerprint were deliberately stubbed, so it does not claim validation of the actual archive payload.",
+      "The final source-only receipt has nine passing focused tests, Ruff check/format passes, a 31-module cold import smoke with all seven read sentinels untouched, and a separate runtime-flag observation. The compact R15 fixture and runtime receipts have matching recorded byte hashes. No actual R15 archive or R3 sample payload was opened by this reviewer.",
+      "The previously reviewed fixed training design and endpoint logic are unchanged. This remains one fresh 12-epoch, 756-update, 381,696-row-exposure NLL predictor compared with stored sparse-WMSE R15 results; the fit-only causal features and one final exposed-panel score do not identify sparse-by-NLL synergy."
+    ],
+    "test_evidence": {
+      "actor_receipt_status": "PASS_SOURCE_ONLY",
+      "actor_test_summary": "9 passed; Ruff check and format passed.",
+      "cold_import_expected_modules": 31,
+      "cold_import_observed_modules": 31,
+      "cold_import_sentinel_calls": [],
+      "local_manifest_pin_mismatches": 0,
+      "receipt_output_hash_mismatches": 0,
+      "synthetic_archive_manifest_entries": 22,
+      "synthetic_archive_accesses": [
+        "raw_input_mean",
+        "raw_input_scale",
+        "sparse_encoder_weight",
+        "sparse_decoder_weight",
+        "sparse_downstream_mean",
+        "sparse_downstream_scale"
+      ],
+      "synthetic_archive_fingerprint_stubbed": true,
+      "runtime_flags": {
+        "default_dtype": "torch.float32",
+        "torch_threads": 1,
+        "torch_interop_threads": 1,
+        "cuda_initialized": false,
+        "autocast_cpu_enabled": false,
+        "autocast_cuda_enabled": false,
+        "tf32_matmul_enabled": false,
+        "tf32_cudnn_enabled": false
+      }
+    },
+    "limitations": [
+      "This reviewer did not inspect or load the actual R15 model archive payload; the six-array access check used synthetic arrays and a stubbed fingerprint/hash. The runtime code verifies the actual archive identity before reading it.",
+      "This is one new NLL endpoint compared with stored sparse-WMSE R15 results. No dense-NLL arm exists, so the result cannot identify sparse-by-NLL synergy.",
+      "The R3 panel is exposed and adaptively reused. Component and drop-one summaries are sensitivity descriptions, not independent replications or uncertainty intervals.",
+      "No sample arrays, model fit, prediction, scoring run, or remote operation was performed by this reviewer. Root admission and actual-job capture remain separate gates."
+    ]
+  }
+}

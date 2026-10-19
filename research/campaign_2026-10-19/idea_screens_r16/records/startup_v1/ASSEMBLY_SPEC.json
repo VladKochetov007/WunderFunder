@@ -1,0 +1,103 @@
+{
+  "allowed_bundle_prefixes": [
+    "idea_screens_r10",
+    "idea_screens_r16",
+    "idea_screens_r3"
+  ],
+  "canonical_pin_names": [],
+  "destination": "support-source/eda19-r16-v1",
+  "extra_transport_paths": [
+    "idea_screens_r16/IMPLEMENTATION_REVIEW.json",
+    "idea_screens_r16/PREPARATION_MANIFEST.json",
+    "idea_screens_r16/README.md",
+    "idea_screens_r16/TEST_RECEIPT.json"
+  ],
+  "identity_patch": {
+    "capture_r10_to_r16": 4,
+    "remote_body_r10_to_r16": {
+      "R10_to_R16": 20,
+      "idea_screens_r10_to_r16": 15,
+      "r10_to_r16": 6
+    },
+    "stop_r10_to_r16": 3
+  },
+  "implementation_review_sha256": "f6489e2dc5eccb5ebd029090eaac6b89dc86afb3e874a60bd90c837f813f54cb",
+  "job_environment": {
+    "CUDA_VISIBLE_DEVICES": "",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "TMPDIR": "B/research_tmp"
+  },
+  "limits": {
+    "bundle_bytes": 64000000,
+    "job_cpu_cores": 0.5,
+    "job_memory_high_bytes": 1400000000,
+    "job_memory_max_bytes": 1500000000,
+    "job_memory_swap_bytes": 0,
+    "job_runtime_seconds": 600,
+    "parent_cpu_cores": 2,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_memory_reservation_target_bytes": 17000000000,
+    "parent_memory_swap_bytes": 0,
+    "per_file_bytes": 16000000
+  },
+  "local_import_smoke_sha256": "14130c1040f70e3fb444e8da6c39e0442b859f4c096d0c3a4d01122a69730b00",
+  "membership_sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+  "output": "research_tmp/nf19-r16-v1",
+  "patches": [
+    {
+      "change": "Bind exact R16 V1 unit/source/output, accepted R3 sample and source snapshot.",
+      "id": "identity-paths"
+    },
+    {
+      "change": "Bind exact equality to all nine frozen R10/R16 NumPy runtime modules.",
+      "id": "runtime-map"
+    },
+    {
+      "change": "Carry no canonical/WNN runtime pins or imports; keep PYTHONPATH limited to staged support.",
+      "id": "canonical-pins"
+    },
+    {
+      "change": "Allow only idea_screens_r10, idea_screens_r16, and the R3 metadata-fixture root; no R3 runtime module is imported.",
+      "id": "bundle-prefixes"
+    },
+    {
+      "change": "B-shaped NumPy-only smoke checks exact module inventory with numpy.load/memmap sentinels and Torch/PyArrow absent, then clean-execs the fresh -m CLI.",
+      "id": "cold-import"
+    },
+    {
+      "change": "Reuse pinned R10 V2 capture and stop helpers with exact R16 identity; root owns remote actions.",
+      "id": "capture-stop"
+    },
+    {
+      "change": "Pin CUDA hidden and OMP/OPENBLAS/MKL thread environment to one in the systemd-run command.",
+      "id": "blas-environment"
+    }
+  ],
+  "r10_base_pins": {
+    "capture_remote_v2.py": "7f7e7576380d9796ace256d70cbc6333036f4758fb8ce2bd0507395707c18f00",
+    "remote_body_v1.py": "e3b3b13217bda561fc8e638ce693226ae9ed944d791b443480fc6b074afa1fb0",
+    "stop_remote_v1.py": "0664e2544ad0dc4bbaa5d2b701bdb31706dd3831752e955e8a844ec9d75828ca"
+  },
+  "r7_source_allowlist": [],
+  "runtime_py": {
+    "idea_screens_r10": "idea_screens_r10/__init__.py",
+    "idea_screens_r10.panel_io": "idea_screens_r10/panel_io.py",
+    "idea_screens_r16": "idea_screens_r16/__init__.py",
+    "idea_screens_r16.estimator": "idea_screens_r16/estimator.py",
+    "idea_screens_r16.linear_ops": "idea_screens_r16/linear_ops.py",
+    "idea_screens_r16.panel": "idea_screens_r16/panel.py",
+    "idea_screens_r16.probe_execution": "idea_screens_r16/probe_execution.py",
+    "idea_screens_r16.run_probe": "idea_screens_r16/run_probe.py",
+    "idea_screens_r16.runtime_support": "idea_screens_r16/runtime_support.py"
+  },
+  "sample": "research_tmp/nf19-sample-r3-v2",
+  "sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+  "schema": "nf19.r16_startup_assembly_spec.v1",
+  "source_readme_sha256": "7c562d131bc1a5313cd1f1ac8520aad2463aedb00db8469c8e17f10f5758d7e9",
+  "source_snapshot": "a266b036",
+  "test_receipt_sha256": "cf71e06e889c9d14f80b7845c98c4944e679683d83dfa39ddea64d185452d521",
+  "unit": "computer-vision-homework-eda19-r16-v1.service"
+}

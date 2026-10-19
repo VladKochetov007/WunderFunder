@@ -1,0 +1,131 @@
+{
+  "archive_scope_checks": {
+    "combo_output_archive_independently_rehashed_locally": false,
+    "combo_output_archive_local_payload_not_opened_or_copied": true,
+    "r15_reference_archive_admission_stat_only": true,
+    "r15_reference_archive_bounded_unit_metadata_reports_6_restored_validated_arrays": true,
+    "r15_reference_archive_is_hashed_and_opened_inside_bounded_unit": true,
+    "r15_reference_archive_payload_read_outside_bounded_unit": false
+  },
+  "identity_and_stop_checks": {
+    "capture_validation_passed_before_exact_stop": true,
+    "configured_caps_match_root_admission": true,
+    "native_exit_successfully_reported": true,
+    "post_stop_state_is_not_found_inactive_dead": true,
+    "stop_stdout_hash_distinct_from_enclosing_json_hash": true,
+    "unit_invocation_matches_launch_capture_and_pre_stop_receipt": true
+  },
+  "limitations": [
+    "The captured systemd MemoryPeak is 2,469,888 B; RESULT guard samples include process_rss_bytes up to 1,668,898,816 B and helper own-cgroup-current up to 453,582,848 B. These scopes are retained as reported without a causal explanation.",
+    "The COMBO output NPZ was not opened, copied, or independently rehashed locally; producer SHA and size are paired with capture-time stat size only.",
+    "This review does not independently audit scalar scientific scores."
+  ],
+  "raw_payload_checks": {
+    "all_extracted_payload_bytes_match_capture_base64": true,
+    "all_payload_bytes_and_sha256_match_validation": true,
+    "output_archive_producer_sha_agrees_between_result_and_done": true,
+    "output_archive_stat_matches_producer_bytes": true,
+    "payload_count": 9,
+    "payload_files": [
+      {
+        "bytes": 30814,
+        "matches_capture_envelope": true,
+        "name": "ROOT_ADMISSION.json",
+        "sha256": "f6de558c5e40a746fdb862a4b8019634c186ccc037b0346350f9e803d48530d3"
+      },
+      {
+        "bytes": 46197,
+        "matches_capture_envelope": true,
+        "name": "ROOT_LAUNCH.json",
+        "sha256": "8c60789d3fd9df106b62b609b4dc2a9788adcc95b2351fc7318888db00d4be4b"
+      },
+      {
+        "bytes": 8817,
+        "matches_capture_envelope": true,
+        "name": "ROOT_IMPORT_SMOKE.json",
+        "sha256": "7c8527c7cf392b7fb1c81761bab74f2da7f1a8bc8ff0a1b76cdff8b7b2b97c64"
+      },
+      {
+        "bytes": 0,
+        "matches_capture_envelope": true,
+        "name": "PROBE_LOG.txt",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 559,
+        "matches_capture_envelope": true,
+        "name": "START.json",
+        "sha256": "7fb3c9fbe4fcebdb830f4f363643b6d7b5fa9c6ebdb133e2238168ac965d36ef"
+      },
+      {
+        "bytes": 10526,
+        "matches_capture_envelope": true,
+        "name": "SOURCE.json",
+        "sha256": "18c9c259aafe852915064caa8952222a93fbeae5983479667dc3e8b7b48ac05c"
+      },
+      {
+        "bytes": 136174,
+        "matches_capture_envelope": true,
+        "name": "RESULT.json",
+        "sha256": "9d6109b4181e9666195011478b83f77c9319549b162651ff5df8af6c89c7de05"
+      },
+      {
+        "bytes": 1974,
+        "matches_capture_envelope": true,
+        "name": "DONE.json",
+        "sha256": "9fea10ba160c9022b92381f525c9890f474ae98266f9247f0708c3d8a63b496c"
+      },
+      {
+        "bytes": 6933,
+        "matches_capture_envelope": true,
+        "name": "PROGRESS.jsonl",
+        "sha256": "7ba4c098a99d64fa31a741b54062eee07030094c2358915cd304d93f32409900"
+      }
+    ],
+    "source_result_done_identity_chain_matches": true
+  },
+  "resource_checks": {
+    "campaign_descendants_empty_at_capture": true,
+    "helper_done_elapsed_cpu_seconds": 22.556494829,
+    "helper_done_elapsed_wall_seconds": 45.136959054972976,
+    "helper_result_elapsed_cpu_seconds": 22.554326948,
+    "helper_result_elapsed_wall_seconds": 45.12639868189581,
+    "maximum_helper_own_cgroup_memory_current_sample_bytes": {
+      "samples": 210,
+      "stage": "sparse_ema_nll_epoch_2_start",
+      "value": 453582848
+    },
+    "maximum_helper_process_rss_sample_bytes": {
+      "samples": 210,
+      "stage": "after_new_endpoint_scoring",
+      "value": 1668898816
+    },
+    "memory_scope_difference_explained": false,
+    "parent_local_memory_event_deltas_all_zero": true,
+    "parent_memory_event_deltas_all_zero": true,
+    "systemd_cpu_seconds_derived_from_captured_properties": 26.812348,
+    "systemd_memory_peak_and_helper_memory_samples_kept_as_separate_scopes": true,
+    "systemd_memory_peak_bytes_reported": 2469888,
+    "terminal_unit_cgroup_empty_no_host_root_fallback": true,
+    "unit_monotonic_wall_seconds_derived_from_captured_properties": 53.696638
+  },
+  "review_scope": "Independent local metadata reconciliation from preserved JSON and raw-byte receipts only; not scientific score audit or NPZ payload inspection.",
+  "reviewed_inputs": {
+    "capture_envelope_sha256": "b8e3b3d08ab9922d9139d19abe4e465862eaea5de0e17eca15192d2af3216847",
+    "capture_transport_sha256": "4829b492408cabd5e4865ed5c226fb3e71d1fab8f1a71faa6bdbe2dfabe18acc",
+    "capture_validation_sha256": "77ebaa2d3c1e55ff82b65fa6b02b380a6678fe0ec93a5c025c8855c0259c35d4",
+    "done_json_sha256": "9fea10ba160c9022b92381f525c9890f474ae98266f9247f0708c3d8a63b496c",
+    "implementation_review_sha256": "d5752131767bd9e7e5e1cca0e5f44a1a84744ae39421b23a93772fe0634de7d8",
+    "preparation_manifest_sha256": "ec4bd56f08eaebeb13e8f359b15128f1d0a67a329532b3bf9ec664fb72480bee",
+    "result_json_sha256": "9d6109b4181e9666195011478b83f77c9319549b162651ff5df8af6c89c7de05",
+    "root_admission_sha256": "f6de558c5e40a746fdb862a4b8019634c186ccc037b0346350f9e803d48530d3",
+    "root_import_smoke_sha256": "7c8527c7cf392b7fb1c81761bab74f2da7f1a8bc8ff0a1b76cdff8b7b2b97c64",
+    "root_launch_sha256": "8c60789d3fd9df106b62b609b4dc2a9788adcc95b2351fc7318888db00d4be4b",
+    "source_json_sha256": "18c9c259aafe852915064caa8952222a93fbeae5983479667dc3e8b7b48ac05c",
+    "stop_raw_stdout_sha256": "041f2e74b8fedade3cf011b897b7a1b26b1fd67820d53467db1fbdb9ed84005f",
+    "stop_receipt_sha256": "a9c03215cddbc943448c7844fce45f399e9a94a6f75473dc72610fe4ca889a6a",
+    "test_receipt_sha256": "198fceac38a419ec0b5fc2bca7d7fe3e8bd899979c6d2c478fa195a67c627459"
+  },
+  "schema": "nf19.combo.resource_metadata_review.v1",
+  "status": "PASS_SCOPED_WITH_UNRESOLVED_MEMORY_SCOPE_DIFFERENCE"
+}

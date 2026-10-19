@@ -1,0 +1,31 @@
+{
+  "schema": "nf19.r16_design_review.v1",
+  "status": "DESIGN_PASS_SCOPED",
+  "experiment": "E-NF19-IDEA-SCREENS-R16",
+  "hypothesis": "H-NF19-10",
+  "design_sha256": "7b0d01571b61e83362fa53a10bf4e76d0ba2d7bf0b2f6c7f9faa75ea27186696",
+  "selection_history_sha256": "e19205a38248207ebfd601d460fec0426304ed3daa1439e16c22112058151fd1",
+  "review": {
+    "decision": "The fixed estimator is a bounded, faithful first conditional-innovation/stability screen for H-NF19-10. It asks whether a prescribed source group's one-step past residual adds held-component predictive information for a destination group's input delta beyond that destination's own past and a fit-only three-PC control. The PSD-tolerance and undefined-component-gate edits clarify fail-closed handling without changing the estimator or selection. It does not test a graph-masked target model.",
+    "strengths": [
+      "The predictor uses x[t-1] and the response is x[t]-x[t-1], so no current or future feature enters the predictor. Fixed component halves are used in both directions, with fit-only means, scales, PCA, residualization and ridge coefficients.",
+      "All six ordered edges, both directional holds and every held component are retained. The one-percent gain plus positive component-median rule is frozen before results; the document calls it an allocation gate rather than significance, and explicitly says the halves/components are not independent replications.",
+      "The common PCA is correctly described as a fitted linear control, not an identified common cause. The result is explicitly bounded to this one-lag, group definition and estimator, with no target-quality, causal-graph, full-fold or public-performance claim.",
+      "The R3 fit-only x-and-mask reader avoids target arrays, evaluation arrays, checkpoints and the official scorer. In canonical train data there is no is_scored column; the R3 fitting mask is the deterministic post-warmup eligibility mask. That terminology should remain explicit in implementation receipts."
+    ],
+    "interpretation_limits": [
+      "The 64 selected fit components are already exposed and the L/R split is a fixed sensitivity screen, not fresh validation or an unbiased estimate of full-fold edge prevalence.",
+      "A positive edge only supports considering a separately designed sparse-mask predictive comparison. It does not show that a mask improves the competition target, that relationships are causal, or that the reported PCA residual is a complete conditional-independence test.",
+      "The fixed three-PC control, one lag, feature blocks, ridge penalty and one-percent gate define the result. A negative screen closes this exact estimator, not all nonlinear, longer-lag or differently controlled relationships."
+    ],
+    "implementation_checks_for_later_review": [
+      "Verify every fit mask is the fixed post-99 train eligibility mask, every selected t satisfies t>=99 and stride 40, and the response uses x[t] only as the held response while predictors use x[t-1]. Do not read y or evaluation payloads.",
+      "For each direction, fit every transform on the training half only; apply its input scaler, PCA basis/sign convention, response means, pseudoinverse cutoff and residual scales unchanged to the held half. Preserve all six edge/direction outcomes.",
+      "Make undefined or near-zero baseline SSE cases fail the stable-edge gate without dropping components. Preserve undefined component gains rather than taking a median over a selectively reduced set.",
+      "Check finite/rank/eigenvalue gates, exact 15,904 train and held rows per direction, 497 rows per sequence, per-component SSE reconstruction, complete 128 fit x/mask file binding, and the stated CPU/memory/runtime limits before any admitted run."
+    ],
+    "execution_performed": false,
+    "data_or_model_payloads_read": false,
+    "approval_scope": "Design review only; implementation review, source closure and root admission remain separate gates."
+  }
+}

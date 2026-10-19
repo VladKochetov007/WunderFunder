@@ -1,0 +1,37 @@
+{
+  "schema": "nf19.combo_implementation_review.v1",
+  "status": "IMPLEMENTATION_PASS_SCOPED",
+  "design_sha256": "9f2c714bd09f8a4bf31507774326671ff2c279274b1af76810870262a7cf7360",
+  "design_review_sha256": "6ede3784643fa5bb53cbf9ca001a147f4a5e0a059c7e557cb8ef97b82610e840",
+  "selection_history_sha256": "31d1f3f1edf0d18148ba9f49b273aa1cb8bb9c9edc47822101356d692205e924",
+  "preparation_manifest_sha256": "ea8b3a96d51dd21a838f06690eb80c943e9e84a0cb40649530fd6e3a8d8c1cd1",
+  "test_receipt_sha256": "39f1f2d5640b699fe7345f8d17a3e751d3783f8010409435df63e8825a2c6697",
+  "r15_result_fixture_sha256": "ab149a3fcf9d58c1221300ddca3eba356a16181fe5239ea1b3d7646bfe9099c3",
+  "source_pin_count": 38,
+  "runtime_module_count": 31,
+  "review": {
+    "decision": "The frozen implementation matches the bounded one-arm NLL follow-up. The R15 feature state and fit normalizers are restored and checked against exact prior receipts; the only new trained predictor uses the pinned R7 loss and is scored once. No implementation blocker remains in this scoped review.",
+    "checks": [
+      "I independently rehashed all 38 manifest entries; every local source byte matches. The exact runtime map contains 31 modules, each declared module path is pinned, and the cold smoke receipt reports all 31 paths observed with NumPy, Torch, and PyArrow payload-read sentinels untouched.",
+      "The R15 compact result fixture is bound to its exact hash, schema, initial predictor fingerprint, sparse dictionary fingerprint, endpoint values, and model archive receipt. The external B archive is size/SHA checked before NPZ loading; required sparse dictionary and raw/downstream normalizers are shape, dtype, finiteness, and scale checked, and the restored dictionary fingerprint is checked before fitting. The exact fit-only normalizers are recomputed and compared byte-value-wise to the stored R15 normalizers.",
+      "The candidate starts from the exact R15 predictor initialization (including its zero logvariance head), then trains one fresh AdamW state for 12 fixed epochs, 756 updates and 381,696 row exposures using the R15 seed-plus-epoch permutation and the unchanged R7 clipped-label weighted Gaussian NLL. The prior WMSE-only unchanged-logvariance assertion was removed; the frozen code reports whether the NLL-trained head changes, and a focused synthetic test proves the zero-initialized head receives a nonzero gradient and updates.",
+      "Fit features use the pinned full-sequence R15 sparse top-four code, retained residual and causal EMA construction before the original fit stride/mask. Evaluation is used only for the one final mean score. The new scorer verifies component row membership and W/WY/WYY label-mask sums against both stored R15 arms before reporting primary and secondary endpoint deltas, component scores and drop-one summaries.",
+      "A separate synthetic check confirmed that at zero logvariance the R7 NLL exactly equals canonical R15 weighted MSE, including the mean-output gradient. This is an objective-identity check, not evidence that subsequent clipped AdamW trajectories match."
+    ],
+    "test_evidence": {
+      "actor_receipt_status": "PASS_SOURCE_ONLY",
+      "actor_test_summary": "9 passed in 1.42s; Ruff check and format passed.",
+      "cold_import_expected_modules": 31,
+      "cold_import_observed_modules": 31,
+      "cold_import_sentinel_calls": [],
+      "local_manifest_pin_mismatches": 0,
+      "independent_zero_logvar_loss_equal_to_wmse": true,
+      "independent_zero_logvar_mean_gradient_equal_to_wmse": true
+    },
+    "limitations": [
+      "This is one new NLL endpoint compared with the stored sparse-WMSE R15 endpoint; no dense-NLL arm exists, so the result cannot identify sparse-by-NLL synergy.",
+      "The R3 panel is exposed and adaptively reused. Component/drop-one summaries are sensitivity descriptions, not independent replications, uncertainty intervals, or fresh-fold evidence.",
+      "Review used source, test, smoke, and compact JSON metadata only. No actual sample arrays, R15 NPZ payload, fit, prediction, or remote operation was performed by this reviewer. Root admission and exact-job capture remain separate gates."
+    ]
+  }
+}

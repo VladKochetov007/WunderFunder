@@ -1,0 +1,30 @@
+{
+  "schema": "nf19.idea_combo_r1.design_review.v1",
+  "design_sha256": "9f2c714bd09f8a4bf31507774326671ff2c279274b1af76810870262a7cf7360",
+  "selection_history_sha256": "31d1f3f1edf0d18148ba9f49b273aa1cb8bb9c9edc47822101356d692205e924",
+  "status": "DESIGN_PASS_SCOPED",
+  "review": {
+    "decision": "The fixed one-arm follow-up is a defensible test of whether this R7-style weighted Gaussian-NLL recipe improves the already selected R15 sparse-plus-residual-plus-EMA predictor over its stored sparse-WMSE endpoint. No design blocker found.",
+    "checks": [
+      "The primary comparator is the stored R15 sparse-WMSE score on the same accepted panel, feature pipeline, fit-row normalizer, predictor initialization, row membership, and epoch order. The new NLL endpoint is the sole additional fit; it does not use the R7 score as a matched control.",
+      "The proposed loss matches R7's bounded Gaussian objective: clip labels to [-2,2], weight by absolute clipped labels, clamp logvariance to [-4,4], and normalize by the same total weight. At zero logvariance it equals the R15 weighted-MSE scalar objective; subsequent variance gradients and shared global clipping change optimization as intended.",
+      "Restoring the frozen sparse dictionary and normalizers, verifying the archive's exact producer hash/size, checking the dictionary fingerprint, and requiring recomputed fit-only normalizers to match the stored values are appropriate provenance and parity gates. They do not constitute a second control fit.",
+      "The design explicitly limits conclusions: it tests one new NLL predictor on an adaptively exposed panel, lacks a dense-NLL arm, and therefore cannot identify sparse-by-NLL synergy, fresh-fold/public performance, or the R7 loss effect independently of all pipeline history. The secondary dense-WMSE comparison is contextual only."
+    ],
+    "prelaunch_requirements": [
+      "Keep R15 feature construction causal and sequence-local, apply the original fit mask/stride only after building full histories, and use no evaluation values for fitting, normalizing, or selection.",
+      "Bind the candidate's initial model fingerprint and exact R15 feature/normalizer identities to the captured R15 receipts; compare the final canonical score against R15 stored sufficient statistics without replaying the old fit.",
+      "Treat this as one paired historical comparison with no independent training replication; report the signed delta regardless of magnitude and do not imply that a positive result establishes synergy or transfer."
+    ],
+    "independent_checks": {
+      "r15_result_sha256": "ab149a3fcf9d58c1221300ddca3eba356a16181fe5239ea1b3d7646bfe9099c3",
+      "r15_sparse_wmse_pooled_wp": 0.4824412038543008,
+      "r15_dense_wmse_pooled_wp": 0.4798730901246624,
+      "r15_sparse_minus_dense_wmse_wp": 0.0025681137296383882,
+      "r7_nll_minus_wmse_pooled_wp_context_only": 0.0123755330239149,
+      "data_or_model_payloads_read": false,
+      "remote_actions_performed": false,
+      "training_or_replay_performed": false
+    }
+  }
+}

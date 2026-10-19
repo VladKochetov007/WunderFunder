@@ -1,0 +1,114 @@
+{
+  "actual_model_fit_or_eval": false,
+  "actual_r15_archive_payload_read": false,
+  "actual_sample_npy_payloads_read": false,
+  "archive_restore_contract": {
+    "actual_archive_payload_tested_locally": false,
+    "archive_key_manifest_checked_before_restoration": true,
+    "expected_bytes": 178584,
+    "expected_sha256": "9f3404f921bb27ffa92912a88b51142a5d1fa76ab29df417c12c808f30d4269f",
+    "old_predictor_arrays_loaded": false,
+    "only_array_names_whitelisted_for_restore": [
+      "raw_input_mean",
+      "raw_input_scale",
+      "sparse_encoder_weight",
+      "sparse_decoder_weight",
+      "sparse_downstream_mean",
+      "sparse_downstream_scale"
+    ]
+  },
+  "cold_import_smoke": {
+    "expected_runtime_modules": 31,
+    "observed_runtime_modules": 31,
+    "sentinel_calls": [],
+    "sentinels": [
+      "numpy.load",
+      "numpy.memmap",
+      "torch.load",
+      "pyarrow.parquet.ParquetFile",
+      "pyarrow.parquet.read_table",
+      "pyarrow.parquet.ParquetDataset",
+      "pyarrow.dataset.dataset"
+    ],
+    "source_paths_verified": true
+  },
+  "commands": [
+    {
+      "command": ".venv/bin/ruff format research/campaign_2026-10-19/idea_combo_r1/__init__.py research/campaign_2026-10-19/idea_combo_r1/panel.py research/campaign_2026-10-19/idea_combo_r1/probe_execution.py research/campaign_2026-10-19/idea_combo_r1/reference.py research/campaign_2026-10-19/idea_combo_r1/run_probe.py research/campaign_2026-10-19/idea_combo_r1/runtime_support.py research/campaign_2026-10-19/idea_combo_r1/scoring.py research/campaign_2026-10-19/idea_combo_r1/training.py research/campaign_2026-10-19/idea_combo_r1/test_combo.py",
+      "name": "ruff_format",
+      "status": "PASS",
+      "stderr_path": "records/preparation_v2/ruff_format.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v2/ruff_format.stdout.txt",
+      "stdout_sha256": "c9d286e056974509705d98cfcd4cb8889b86308329df52267873c37c09f0fa9d"
+    },
+    {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_combo_r1/__init__.py research/campaign_2026-10-19/idea_combo_r1/panel.py research/campaign_2026-10-19/idea_combo_r1/probe_execution.py research/campaign_2026-10-19/idea_combo_r1/reference.py research/campaign_2026-10-19/idea_combo_r1/run_probe.py research/campaign_2026-10-19/idea_combo_r1/runtime_support.py research/campaign_2026-10-19/idea_combo_r1/scoring.py research/campaign_2026-10-19/idea_combo_r1/training.py research/campaign_2026-10-19/idea_combo_r1/test_combo.py",
+      "name": "ruff_check",
+      "status": "PASS",
+      "stderr_path": "records/preparation_v2/ruff_check.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v2/ruff_check.stdout.txt",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/pytest -q research/campaign_2026-10-19/idea_combo_r1/test_combo.py",
+      "name": "pytest",
+      "status": "PASS",
+      "stderr_path": "records/preparation_v2/pytest.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v2/pytest.stdout.txt",
+      "stdout_sha256": "000838e86ffd475e620408b5a5ba9cdf6ff82f71936b60ee65f8b75d84e6be81"
+    },
+    {
+      "command": "Fresh subprocess installed 7 read sentinels then called smoke_imports(campaign, repo, manifest, manifest_sha); full 31-module inventory matched pins.",
+      "name": "cold_import_smoke",
+      "status": "PASS",
+      "stderr_path": "records/preparation_v2/cold_import_smoke.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v2/cold_import_smoke.stdout.txt",
+      "stdout_sha256": "0a0e198ad4fb757b451d6400c1bf206a8fd209b20844ac73387899cf11a72723"
+    },
+    {
+      "command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/python; configure_cpu_runtime() and assert FP32 default dtype.",
+      "name": "runtime_flags",
+      "status": "PASS",
+      "stderr_path": "records/preparation_v2/runtime_flags.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v2/runtime_flags.stdout.txt",
+      "stdout_sha256": "60532f0628f1561b6789d9c3b2fcb42d735a3800e57d34c5cc6a6f328409aeda"
+    }
+  ],
+  "compact_reference_result_fixture_read": true,
+  "design_review_sha256": "6ede3784643fa5bb53cbf9ca001a147f4a5e0a059c7e557cb8ef97b82610e840",
+  "design_sha256": "9f2c714bd09f8a4bf31507774326671ff2c279274b1af76810870262a7cf7360",
+  "environment": {
+    "numpy": "2.2.6",
+    "pyarrow": "19.0.1",
+    "python": "3.13.11",
+    "torch": "2.14.1"
+  },
+  "preparation_manifest_path": "PREPARATION_MANIFEST.json",
+  "preparation_manifest_sha256": "ec4bd56f08eaebeb13e8f359b15128f1d0a67a329532b3bf9ec664fb72480bee",
+  "remote_actions": false,
+  "runtime_flag_observation": {
+    "default_dtype": "torch.float32",
+    "state": {
+      "autocast_cpu_enabled": false,
+      "autocast_cuda_enabled": false,
+      "cuda_initialized": false,
+      "tf32_cudnn_enabled": false,
+      "tf32_matmul_enabled": false,
+      "torch_interop_threads": 1,
+      "torch_threads": 1
+    }
+  },
+  "runtime_module_count": 31,
+  "schema": "nf19.combo_test_receipt.v1",
+  "selection_history_sha256": "31d1f3f1edf0d18148ba9f49b273aa1cb8bb9c9edc47822101356d692205e924",
+  "source_pin_count": 38,
+  "status": "PASS_SOURCE_ONLY",
+  "synthetic_cpu_model_checks": true,
+  "test_summary": "9 passed in 2.12s; synthetic initialization/loss/variance-head update/causal feature/normalizer/mask audit/reference fixture/python -m CLI/cold-import checks.",
+  "working_directory": "."
+}

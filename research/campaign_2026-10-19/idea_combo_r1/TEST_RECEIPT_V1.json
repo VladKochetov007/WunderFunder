@@ -1,0 +1,70 @@
+{
+  "actual_model_fit_or_eval": false,
+  "actual_r15_archive_payload_read": false,
+  "actual_sample_npy_payloads_read": false,
+  "cold_import_smoke": {
+    "expected_runtime_modules": 31,
+    "observed_runtime_modules": 31,
+    "path": "records/preparation_v1/cold_import_smoke.stdout.txt",
+    "read_sentinels": [
+      "numpy.load",
+      "numpy.memmap",
+      "torch.load",
+      "pyarrow.parquet.ParquetFile",
+      "pyarrow.parquet.read_table",
+      "pyarrow.parquet.ParquetDataset",
+      "pyarrow.dataset.dataset"
+    ],
+    "sentinel_calls": [],
+    "sha256": "74d8a1ad10c6fb6324d36b79515c9caaf50c2995ca7fa7f9550790cf49b227d8",
+    "source_paths_verified": true
+  },
+  "commands": [
+    {
+      "command": ".venv/bin/ruff format research/campaign_2026-10-19/idea_combo_r1",
+      "exit_code": 0,
+      "name": "ruff_format",
+      "stderr_path": "records/preparation_v1/ruff_format.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v1/ruff_format.stdout.txt",
+      "stdout_sha256": "23dde56d6faa3b26b810f15427e9f10adcfdd45311a2297d7934948d680a7f74"
+    },
+    {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_combo_r1",
+      "exit_code": 0,
+      "name": "ruff_check",
+      "stderr_path": "records/preparation_v1/ruff_check.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v1/ruff_check.stdout.txt",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/pytest -q research/campaign_2026-10-19/idea_combo_r1/test_combo.py",
+      "exit_code": 0,
+      "name": "pytest",
+      "stderr_path": "records/preparation_v1/pytest.stderr.txt",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "records/preparation_v1/pytest.stdout.txt",
+      "stdout_sha256": "1bfadd9be674873dd5d2101a80a3d7aad6a8c91c3e2309b757c31fce779eeb47"
+    }
+  ],
+  "compact_reference_result_fixture_read": true,
+  "design_review_sha256": "6ede3784643fa5bb53cbf9ca001a147f4a5e0a059c7e557cb8ef97b82610e840",
+  "design_sha256": "9f2c714bd09f8a4bf31507774326671ff2c279274b1af76810870262a7cf7360",
+  "environment": {
+    "numpy": "2.2.6",
+    "pyarrow": "19.0.1",
+    "python": "3.13.11",
+    "torch": "2.14.1"
+  },
+  "preparation_manifest_path": "PREPARATION_MANIFEST.json",
+  "preparation_manifest_sha256": "ea8b3a96d51dd21a838f06690eb80c943e9e84a0cb40649530fd6e3a8d8c1cd1",
+  "remote_actions": false,
+  "runtime_module_count": 31,
+  "schema": "nf19.combo_test_receipt.v1",
+  "selection_history_sha256": "31d1f3f1edf0d18148ba9f49b273aa1cb8bb9c9edc47822101356d692205e924",
+  "source_pin_count": 38,
+  "status": "PASS_SOURCE_ONLY",
+  "synthetic_cpu_model_checks": true,
+  "test_summary": "9 passed in 1.42s; synthetic initialization/loss/causal feature/normalizer/mask audit/reference fixture/CLI/cold import checks."
+}

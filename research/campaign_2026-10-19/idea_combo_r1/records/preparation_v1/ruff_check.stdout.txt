@@ -1,0 +1,21 @@
+B007 Loop control variable `arm_name` not used within loop body
+   --> research/campaign_2026-10-19/idea_combo_r1/audit_scalar.py:172:9
+    |
+170 |     # prediction columns may differ, so WPP/WYP are not compared with the old arms.
+171 |     max_label_sum_error = 0.0
+172 |     for arm_name, arm in (("sparse", sparse), ("dense", dense)):
+    |         ^^^^^^^^
+173 |         old_sums = arm[SUMS_KEY]
+174 |         assert set(old_sums) == set(components)
+    |
+help: Rename unused `arm_name` to `_arm_name`
+    |
+171 |     max_label_sum_error = 0.0
+    -     for arm_name, arm in (("sparse", sparse), ("dense", dense)):
+172 +     for _arm_name, arm in (("sparse", sparse), ("dense", dense)):
+173 |         old_sums = arm[SUMS_KEY]
+    |
+note: This is an unsafe fix and may change runtime behavior
+
+Found 1 error.
+1 unsafe fix available with `--fix --unsafe-fixes`.

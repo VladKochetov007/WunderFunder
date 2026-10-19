@@ -1,5 +1,8 @@
 # R15 sparse dictionary screen — bounded run complete
 
+[Current allocation update](ALLOCATION_UPDATE_20261019.md): the user retains the small positive R15 endpoint as a transfer/interaction candidate. Original numeric results and failed +.005 gate remain unchanged; EMA overlap prevents adding screen deltas.
+
+
 This folder contains the fixed implementation for H-NF19-09. V3 fixes fresh-process CPU initialization: after verifying source pins and the runtime import closure, the CLI sets Torch intra-op and inter-op threads to one and disables matmul/CuDNN TF32 before creating the executor or mapping sample arrays. Autocast and CUDA-initialization checks remain fail-closed. The source-only subprocess test checks the resulting flags with data-read sentinels installed.
 
 V3 retains the V2 dictionary freeze-guard correction: `dict_initial` is pre-AE initialization provenance, a separate fingerprint is captured after both AEs train and freeze, and the post-predictor state must match that frozen fingerprint. A synthetic regression verifies changed initial-to-trained hashes, passes the frozen comparison, and detects a later mutation.
