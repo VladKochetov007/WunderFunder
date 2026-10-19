@@ -1,5 +1,9 @@
 # Project agent instructions
 
+## Native-feature expansion and delivery recovery, 19 October 2026
+
+The latest user authorizes the existing eight-B300 campaign plus reviewed GitHub experiments in parallel. The [execution packet](research/campaign_2026-10-18/b300_execution_r1/parallel_expansion_v1/README.md) records 40 scientific fits, five per GPU, at startup: 32 existing R01/PR15 and eight new native-feature fits. PR26/27 own a separate 120-fit CP30 panel, with 8 active and 112 pending at the startup snapshot. Preserve frozen FP32 recipes, source identities, all foreign clients and the single SSH console. The delivery-only R01 watcher reuses completed checkpoints without refitting and posts source-qualified PR25 updates; independent PR26/27 updates run every ten minutes and on scored-pair completion. The historical four-fit-density instructions below are superseded for this bounded expansion; no major normalized-throughput gain or new quality score is claimed.
+
 ## Automatic B300 GitHub reporting, user instruction 19 October2026
 
 The user explicitly authorizes experiment updates as SemyonEpanov, now every10minutes plus completion-triggered scored results. This supersedes older publication holds for this reporting task. Publish geometry results to PR15 and the distinct fixed-budget R01 panel to its own draft PR; never relabel PR2 matched FLOPs as executed. Reuse existing verified Git authorization, private server credential storage and the single SSH console. Retain a durable outbox, reconcile duplicates, and preserve negative/inconclusive evidence and source-qualified contracts. Reporter must not train, export, grade, retry fits, change controllers/recipes, merge, rent or alter account/SSH settings. See [reporting packet](research/campaign_2026-10-18/b300_execution_r1/github_reporting_v1/README.md).

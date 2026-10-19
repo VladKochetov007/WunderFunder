@@ -1,5 +1,9 @@
 # Execution, incidents, and preservation
 
+## Five-fit density expansion and recovered R01 delivery
+
+The [execution packet](../../campaign_2026-10-18/b300_execution_r1/parallel_expansion_v1/README.md) records measured five-fit GPU density, two explicit PR4/14 successor experiments in PR26/27, preserved original workloads, engineering delivery checks, immutable deployment pins and ten-minute/completion GitHub reporting. The separate R01 recovery preserves the original failures and reuses valid trained checkpoints.
+
 [B300 GitHub reporting deployment](../../campaign_2026-10-18/b300_execution_r1/github_reporting_v1/README.md): authorized ten-minute and completion triggers, bounded CPU-only reporter, private credential file, durable outbox and author-owned reconciliation; no scientific retries or training changes.
 
 [Wide F3 terminal preservation](../../campaign_2026-10-18/priority25_execution_r4/f3_terminal_execution_r1/records/README.md) records successful native completion, bounded collector/verifier, exact raw capture, structural root acceptance and helper stop. Next_epoch6/89,280 completed updates/zero skips are verified; deep continues, with no F3 score yet. The frozen local capture client schema rejection and use of the existing remote capture path are preserved without retries or training changes.
