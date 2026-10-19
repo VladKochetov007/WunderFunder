@@ -1,5 +1,7 @@
 # Teacher seed4 — one actual strong-GRU fit
 
+[18:34:07UTC health](health_20261019T183406Z/README.md) supersedes startup freshness: same invocation active/running, native epoch0 records7,460successful updates/373batches/0skips/nonfinite0, last recorded epoch1batch100/373. One owned populated GPUworker and no new memory events; tensor files remain stat-only and no terminal/quality result exists. The dated startup below is preserved.
+
 [Launch acceptance](LAUNCH_ACCEPTANCE.json), [admission](ADMISSION.json), [launch](LAUNCH.json), [recipe](RECIPE.json), [raw response](STDOUT.raw.json) and [transport](TRANSPORT.json) bind the actual second teacher: `computer-vision-homework-fg19-teacher-s4-v1.service`, invocation `b6d71599e0044970b8641e3e241c40a4`, launched19October17:50:37UTC. Sourceaf21d6d8/164files, H384×2/legacy211inputs/23outputs/B32/C1000/threeepochs/fixed2, currentF0 train+valid with held-out groups excluded. Only name and seed differ from S3. The [remote submission](REMOTE_SUBMISSION.py) reuses the reviewed gates; no trainer was copied or changed.
 
 [S3 terminal acceptance](PREDECESSOR_TERMINAL_ACCEPTANCE.json) and [exact-stop bytes](PREDECESSOR_TERMINAL_STOP.json) were bound before fresh source/split/registered-data/ownership/all-populated/headroom/output gates. One GPU remains selected: GPU-ec74220d-78d7-cc47-69fc-0de1fb580944; foreign work is untouched. Limits1CPU/high7.5e9/max8e9B/swap0/allocator4GiB/runtime24h. StrictFP32Muon/TF32off and no evaluation during fitting are unchanged.

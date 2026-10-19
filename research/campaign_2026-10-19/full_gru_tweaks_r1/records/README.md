@@ -1,5 +1,7 @@
 # Full-GRU campaign actual execution records
 
+[18:34:07UTC S4 health](teacher_s4_v1/health_20261019T183406Z/README.md) reuses the unchanged bounded readonly script: one logged completed epoch/7,460successful updates/0skips/nonfinite0, recorded epoch1batch100/373, one owned GPUworker and no new memory events. State/provenance paths exist, model/history pending; no checkpoint payload load, terminal acceptance or quality score.
+
 [First strong teacher S3 completed](teacher_s3_v1/TERMINAL_ACCEPTANCE.json), [independently reviewed](../preparation/ACTUAL_TERMINAL_REVIEW.json) and [exact-stopped](teacher_s3_v1/terminal_exact_stop/README.md):22,380successful updates/1,119batches/0skips/nonfinite, finiteFP32 model/Muon/Adam/loader/RNG and164source files. The [V1 verifier compatibility failure](teacher_s3_v1/terminal_verification_v1/README.md) and [successful V2](teacher_s3_v1/terminal_verification_v2/README.md) preserve the correction without training replay. [Resource reconciliation](teacher_s3_v1/RESOURCE_RECONCILIATION.json) separates native/support/progress observations.
 
 [Second strong teacher S4 is actually running](teacher_s4_v1/README.md), launched17:50:37UTC with the same source/recipe except seed4/runname, after accepted and stopped S3. [Startup17:52:49UTC](teacher_s4_v1/startup_health_v1/README.md) confirms one owned populated GPUworker, first logged batch and no new memory events. No S4 terminal or five-arm quality score.

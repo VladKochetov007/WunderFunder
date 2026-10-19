@@ -1,5 +1,7 @@
 # Full GRU: strong recipe plus three positive CPU-screen candidates
 
+**18:34UTC dated health:** [S4 continues](records/teacher_s4_v1/health_20261019T183406Z/README.md) under the same invocation; one logged completed epoch/7,460successful updates/0skips/nonfinite0, followed by recorded epoch1batch100/373. One owned GPUworker/no new memory events; no terminal acceptance or five-arm quality result. [Continuation](CONTINUATION.md) has the current operational state.
+
 **17:52UTC current state:** [First teacher S3 is verified and exact-stopped](records/teacher_s3_v1/TERMINAL_ACCEPTANCE.json):22,380updates/1,119batches/0skips/nonfinite, finiteFP32 model/Muon/Adam and164source files; [independent actual review](preparation/ACTUAL_TERMINAL_REVIEW.json) passes. [Second teacher S4](records/teacher_s4_v1/README.md) actually launched17:50:37UTC with the same recipe except seed/name; its startup check confirms one owned worker and recorded first batch. A restricted-loader metadata compatibility failure was preserved and corrected in a separate CPU verifier, without replaying training. No five-arm quality result yet. [Current continuation](CONTINUATION.md) is authoritative.
 
 [S3 terminal and S4 execution publication validation](PUBLICATION_VALIDATION_20261019_S3_S4.json) binds the staged source/metadata, captured receipts, source-review pins, local navigation and append-only ledger prefix. This is a publication check, not a quality evaluation.
