@@ -1,0 +1,741 @@
+{
+  "active_unit_names": [],
+  "active_units": {
+    "argv": [
+      "systemctl",
+      "--user",
+      "list-units",
+      "--state=active,activating,deactivating",
+      "--plain",
+      "--no-legend",
+      "tabdata*"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "artifacts_preserved": "/data/epanov_s/tabdata",
+  "foreign_processes": {
+    "4060404": {
+      "argv": "VLLM::EngineCore                                                                                                                                     ",
+      "startticks": 207469348
+    },
+    "4061037": {
+      "argv": "VLLM::EngineCore                                                                                                                                     ",
+      "startticks": 207474461
+    },
+    "4086591": {
+      "argv": "VLLM::EngineCore                                                                                                                                     ",
+      "startticks": 208123403
+    }
+  },
+  "gpu_processes": {
+    "argv": [
+      "nvidia-smi",
+      "--query-compute-apps=gpu_uuid,pid,process_name,used_gpu_memory",
+      "--format=csv,noheader"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e, 4060404, VLLM::EngineCore, 56194 MiB\nGPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67, 4086591, VLLM::EngineCore, 56196 MiB\nGPU-e6d65cb1-aba4-14f5-d4e5-bf24ef1ee3d8, 4061037, VLLM::EngineCore, 56194 MiB\n"
+  },
+  "hostname": "ml-app100-lp1.hq.bc",
+  "no_files_deleted": true,
+  "no_new_fit_export_or_grade_launched": true,
+  "observed_at_utc": "2026-10-19T14:33:55.314978+00:00",
+  "project_processes": [],
+  "r01_existing_grades": {
+    "equal_fold_deep_wp": 0.6833137853659541,
+    "equal_fold_wide_wp": 0.6840911057920952,
+    "fold_means": [
+      {
+        "deep_wp": 0.6723926923889666,
+        "fold": 0,
+        "pairs": 3,
+        "wide_wp": 0.6746289176979996
+      },
+      {
+        "deep_wp": 0.6605368750095282,
+        "fold": 1,
+        "pairs": 3,
+        "wide_wp": 0.6613310295551457
+      },
+      {
+        "deep_wp": 0.6966430687190887,
+        "fold": 2,
+        "pairs": 3,
+        "wide_wp": 0.6969493808977655
+      },
+      {
+        "deep_wp": 0.7036825053462332,
+        "fold": 3,
+        "pairs": 3,
+        "wide_wp": 0.7034550950174702
+      }
+    ],
+    "rejected": [],
+    "verification_scope": "Existing official-grade command, fit/export receipt and split hashes; no refit, export or regrade. Original receipt payloads retained; this is partial exposed-fold evidence.",
+    "verified_pairs": [
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": -0.0035906113573629383,
+        "fold": 0,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1003/fold0/grade.json",
+        "grade_sha256": "903a745370de9ffcbf8c11da305d0243fb33d3f21a2433b9d043d7f235a88d56",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.001169004781131467,
+          "candidate_wp": 0.6701800190930032,
+          "centered_moments": true,
+          "ci95": [
+            -0.005974652489859478,
+            -0.00155514691691873
+          ],
+          "components": 141,
+          "mean_diff": -0.0035906113573629383,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 141,
+          "n_sequences": 468,
+          "p_le_0": 1.0,
+          "reference_wp": 0.6737706304503661,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f0_s1003",
+          "command_sha256": "749af9ebc36e23d00da5478d0c377403661d69e22a86589e97606b137367c168",
+          "elapsed_seconds": 4.429554224014282,
+          "fold": 0,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1003/fold0/grade.json",
+          "grade_sha256": "903a745370de9ffcbf8c11da305d0243fb33d3f21a2433b9d043d7f235a88d56",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f0_s1003",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.6701800190930028,
+            "wide_wp": 0.6737706304503658
+          },
+          "seed": 1003,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.6701800190930028,
+          "wide_wp": 0.6737706304503658
+        },
+        "seed": 1003
+      },
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": -0.0007184912113749053,
+        "fold": 1,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1003/fold1/grade.json",
+        "grade_sha256": "a13d1eecb5982f226ba19db01d7668b20b9dd2c43462d07117d520f05f66c805",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.001231367502286566,
+          "candidate_wp": 0.660495977728084,
+          "centered_moments": true,
+          "ci95": [
+            -0.003064148579505971,
+            0.0017842036693715888
+          ],
+          "components": 149,
+          "mean_diff": -0.0007184912113747943,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 149,
+          "n_sequences": 457,
+          "p_le_0": 0.723,
+          "reference_wp": 0.6612144689394588,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f1_s1003",
+          "command_sha256": "a855dc02231063187b6c4a3affa33e938c1e9990cb581abb64ebf603004b7624",
+          "elapsed_seconds": 4.379531621932983,
+          "fold": 1,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1003/fold1/grade.json",
+          "grade_sha256": "a13d1eecb5982f226ba19db01d7668b20b9dd2c43462d07117d520f05f66c805",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f1_s1003",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.660495977728084,
+            "wide_wp": 0.6612144689394589
+          },
+          "seed": 1003,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.660495977728084,
+          "wide_wp": 0.6612144689394589
+        },
+        "seed": 1003
+      },
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": 0.0008900974343412082,
+        "fold": 2,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1003/fold2/grade.json",
+        "grade_sha256": "fe340e6ac272d43bfd0e1f158fa13224a208f63f459c493f2bdadbb7512b2cd1",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.0007722689009939894,
+          "candidate_wp": 0.6964135582835268,
+          "centered_moments": true,
+          "ci95": [
+            -0.0005370467340840874,
+            0.0024206819106480557
+          ],
+          "components": 144,
+          "mean_diff": 0.0008900974343410972,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 144,
+          "n_sequences": 443,
+          "p_le_0": 0.116,
+          "reference_wp": 0.6955234608491857,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f2_s1003",
+          "command_sha256": "31e86ca0e5623b3100ae26e4acc6dcbccb81d29caefe6be3c61aca89bbe7249d",
+          "elapsed_seconds": 4.177491903305054,
+          "fold": 2,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1003/fold2/grade.json",
+          "grade_sha256": "fe340e6ac272d43bfd0e1f158fa13224a208f63f459c493f2bdadbb7512b2cd1",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f2_s1003",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.6964135582835271,
+            "wide_wp": 0.6955234608491859
+          },
+          "seed": 1003,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.6964135582835271,
+          "wide_wp": 0.6955234608491859
+        },
+        "seed": 1003
+      },
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": -0.00014506395005309258,
+        "fold": 3,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1003/fold3/grade.json",
+        "grade_sha256": "bf4c8e26b872e92a77cbf0565a3d496ddb11d6351e5e20d6c56e25ae95e27845",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.0011080737048116023,
+          "candidate_wp": 0.703594813048713,
+          "centered_moments": true,
+          "ci95": [
+            -0.0023792170976413146,
+            0.001984710465926567
+          ],
+          "components": 145,
+          "mean_diff": -0.0001450639500532036,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 145,
+          "n_sequences": 505,
+          "p_le_0": 0.5425,
+          "reference_wp": 0.7037398769987662,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f3_s1003",
+          "command_sha256": "0c403951257734a18917f6c221c401696e0f59554a4520d57fc4fb7686fe011c",
+          "elapsed_seconds": 4.4259192943573,
+          "fold": 3,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1003/fold3/grade.json",
+          "grade_sha256": "bf4c8e26b872e92a77cbf0565a3d496ddb11d6351e5e20d6c56e25ae95e27845",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f3_s1003",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.7035948130487132,
+            "wide_wp": 0.7037398769987663
+          },
+          "seed": 1003,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.7035948130487132,
+          "wide_wp": 0.7037398769987663
+        },
+        "seed": 1003
+      },
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": -0.0013452649119988225,
+        "fold": 0,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1004/fold0/grade.json",
+        "grade_sha256": "bef468346b9f91735f8b5b5b92873cd8dc45d9ac9e12984961298d5707330013",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.0010799869106017078,
+          "candidate_wp": 0.6737523275351611,
+          "centered_moments": true,
+          "ci95": [
+            -0.0035411853055646396,
+            0.0007675059202147198
+          ],
+          "components": 141,
+          "mean_diff": -0.0013452649119989335,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 141,
+          "n_sequences": 468,
+          "p_le_0": 0.899,
+          "reference_wp": 0.67509759244716,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f0_s1004",
+          "command_sha256": "aa22be683c3f94fb6b4017e4db0ecaad52582a9dbbe8b20246c91beccf405fa2",
+          "elapsed_seconds": 4.3776960372924805,
+          "fold": 0,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1004/fold0/grade.json",
+          "grade_sha256": "bef468346b9f91735f8b5b5b92873cd8dc45d9ac9e12984961298d5707330013",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f0_s1004",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.673752327535161,
+            "wide_wp": 0.6750975924471598
+          },
+          "seed": 1004,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.673752327535161,
+          "wide_wp": 0.6750975924471598
+        },
+        "seed": 1004
+      },
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": -0.0013805062894385323,
+        "fold": 1,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1004/fold1/grade.json",
+        "grade_sha256": "321df3af6c17470233aab03ee333502d2d77f0df4b65406df7d06b2433ea170a",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.0012355185353137964,
+          "candidate_wp": 0.6598720881898726,
+          "centered_moments": true,
+          "ci95": [
+            -0.0038822048987689956,
+            0.0010220944367848538
+          ],
+          "components": 149,
+          "mean_diff": -0.0013805062894383102,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 149,
+          "n_sequences": 457,
+          "p_le_0": 0.8695,
+          "reference_wp": 0.661252594479311,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f1_s1004",
+          "command_sha256": "3bf7e1eca0e8a250ffc3e006740c9e84e9ae5166342dc49a560ec89eeeafd34f",
+          "elapsed_seconds": 4.429169654846191,
+          "fold": 1,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1004/fold1/grade.json",
+          "grade_sha256": "321df3af6c17470233aab03ee333502d2d77f0df4b65406df7d06b2433ea170a",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f1_s1004",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.6598720881898728,
+            "wide_wp": 0.6612525944793113
+          },
+          "seed": 1004,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.6598720881898728,
+          "wide_wp": 0.6612525944793113
+        },
+        "seed": 1004
+      },
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": -0.002297098140656817,
+        "fold": 2,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1004/fold2/grade.json",
+        "grade_sha256": "f0975e56350c48421348b8dfadcc5f4d44ece80bd6d9b038050a632084585847",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.0007092774451925858,
+          "candidate_wp": 0.6959966210457516,
+          "centered_moments": true,
+          "ci95": [
+            -0.003740588304745171,
+            -0.001030852250298703
+          ],
+          "components": 144,
+          "mean_diff": -0.002297098140657372,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 144,
+          "n_sequences": 443,
+          "p_le_0": 1.0,
+          "reference_wp": 0.6982937191864089,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f2_s1004",
+          "command_sha256": "d138da6061bd20cd46d237ce819dd5cdda617ad306ce16c9a208c92265e4e3c5",
+          "elapsed_seconds": 4.33511757850647,
+          "fold": 2,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1004/fold2/grade.json",
+          "grade_sha256": "f0975e56350c48421348b8dfadcc5f4d44ece80bd6d9b038050a632084585847",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f2_s1004",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.6959966210457518,
+            "wide_wp": 0.6982937191864086
+          },
+          "seed": 1004,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.6959966210457518,
+          "wide_wp": 0.6982937191864086
+        },
+        "seed": 1004
+      },
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": 0.0012894207425787618,
+        "fold": 3,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1004/fold3/grade.json",
+        "grade_sha256": "9b542549dd1c470b85a03fd4f3c0acd0bf6009cac65442f1239f35c725faf013",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.0010138142638554373,
+          "candidate_wp": 0.7040766438194936,
+          "centered_moments": true,
+          "ci95": [
+            -0.0003913985882416787,
+            0.0036007124738633195
+          ],
+          "components": 145,
+          "mean_diff": 0.0012894207425786508,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 145,
+          "n_sequences": 505,
+          "p_le_0": 0.079,
+          "reference_wp": 0.702787223076915,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f3_s1004",
+          "command_sha256": "ad13fd8059130c1cb570c352b57b8c4f4994992961058af14ecb8d837f831074",
+          "elapsed_seconds": 4.626749515533447,
+          "fold": 3,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1004/fold3/grade.json",
+          "grade_sha256": "9b542549dd1c470b85a03fd4f3c0acd0bf6009cac65442f1239f35c725faf013",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f3_s1004",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.7040766438194939,
+            "wide_wp": 0.7027872230769151
+          },
+          "seed": 1004,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.7040766438194939,
+          "wide_wp": 0.7027872230769151
+        },
+        "seed": 1004
+      },
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": -0.0017727996577374672,
+        "fold": 0,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1005/fold0/grade.json",
+        "grade_sha256": "ceb989bc7e5e686690af953ca17abc119e5f99c68bc194c898dd2e0bab1d2ce1",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.0007564570837663134,
+          "candidate_wp": 0.6732457305387363,
+          "centered_moments": true,
+          "ci95": [
+            -0.003287452847241676,
+            -0.0003352871222056971
+          ],
+          "components": 141,
+          "mean_diff": -0.001772799657737134,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 141,
+          "n_sequences": 468,
+          "p_le_0": 0.9885,
+          "reference_wp": 0.6750185301964734,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f0_s1005",
+          "command_sha256": "c2df72d674e6868a717afda969edb8be951cca908562d9f6b8896a002ee783ff",
+          "elapsed_seconds": 4.3790388107299805,
+          "fold": 0,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1005/fold0/grade.json",
+          "grade_sha256": "ceb989bc7e5e686690af953ca17abc119e5f99c68bc194c898dd2e0bab1d2ce1",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f0_s1005",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.6732457305387358,
+            "wide_wp": 0.6750185301964733
+          },
+          "seed": 1005,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.6732457305387358,
+          "wide_wp": 0.6750185301964733
+        },
+        "seed": 1005
+      },
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": -0.0002834661360390234,
+        "fold": 1,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1005/fold1/grade.json",
+        "grade_sha256": "b741d483cb4f0b0b3082ebe0ad4d8555ec3d4fc0493e31986cfe490862f14bf2",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.0012906464963044085,
+          "candidate_wp": 0.6612425591106278,
+          "centered_moments": true,
+          "ci95": [
+            -0.002835536590560511,
+            0.0021722807264267703
+          ],
+          "components": 149,
+          "mean_diff": -0.0002834661360390234,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 149,
+          "n_sequences": 457,
+          "p_le_0": 0.605,
+          "reference_wp": 0.6615260252466668,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f1_s1005",
+          "command_sha256": "d27c14f82edce44666c3f45b2d49cfaf12c47f36d93146142abf6b564b73162e",
+          "elapsed_seconds": 4.477497577667236,
+          "fold": 1,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1005/fold1/grade.json",
+          "grade_sha256": "b741d483cb4f0b0b3082ebe0ad4d8555ec3d4fc0493e31986cfe490862f14bf2",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f1_s1005",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.6612425591106278,
+            "wide_wp": 0.6615260252466668
+          },
+          "seed": 1005,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.6612425591106278,
+          "wide_wp": 0.6615260252466668
+        },
+        "seed": 1005
+      },
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": 0.0004880641702850186,
+        "fold": 2,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1005/fold2/grade.json",
+        "grade_sha256": "ce6ebd1a9fbc8f4ef58bd3ccd53d45ce1077332f5293a34b7c0f3ac16ee6af8f",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.0013206023092107435,
+          "candidate_wp": 0.6975190268279869,
+          "centered_moments": true,
+          "ci95": [
+            -0.0017154822606218784,
+            0.0034378034198296165
+          ],
+          "components": 144,
+          "mean_diff": 0.0004880641702850186,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 144,
+          "n_sequences": 443,
+          "p_le_0": 0.3915,
+          "reference_wp": 0.6970309626577019,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f2_s1005",
+          "command_sha256": "7d79df26b334e2ec2db96da34177b70ae9536deb487e10ccf8345efe284388d9",
+          "elapsed_seconds": 4.378580808639526,
+          "fold": 2,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1005/fold2/grade.json",
+          "grade_sha256": "ce6ebd1a9fbc8f4ef58bd3ccd53d45ce1077332f5293a34b7c0f3ac16ee6af8f",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f2_s1005",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.697519026827987,
+            "wide_wp": 0.697030962657702
+          },
+          "seed": 1005,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.697519026827987,
+          "wide_wp": 0.697030962657702
+        },
+        "seed": 1005
+      },
+      {
+        "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+        "delta_deep_minus_wide": -0.00046212580623627986,
+        "fold": 3,
+        "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1005/fold3/grade.json",
+        "grade_sha256": "09079d34b37e360296a5ceb4e4fe9417b46eda53b9bbc3feaaeb62abfe4304a9",
+        "paired_component_bootstrap": {
+          "bootstrap_sd": 0.0007793548307324772,
+          "candidate_wp": 0.7033760591704928,
+          "centered_moments": true,
+          "ci95": [
+            -0.002017333161015858,
+            0.001101073813546784
+          ],
+          "components": 145,
+          "mean_diff": -0.00046212580623616883,
+          "method": "paired whole-component bootstrap using centered moments",
+          "metric_id": "global_wp_clip2_v1",
+          "n_boot": 2000,
+          "n_components": 145,
+          "n_sequences": 505,
+          "p_le_0": 0.7315,
+          "reference_wp": 0.703838184976729,
+          "resamples": 2000,
+          "seed": 271828
+        },
+        "receipt": {
+          "candidate": "tabdata_b300_r01_v1_deep_f3_s1005",
+          "command_sha256": "8e50425b47f77b454f5c60551603d1f16b3bd9c5bfc550943dfc99dc90f46af8",
+          "elapsed_seconds": 4.674297571182251,
+          "fold": 3,
+          "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1005/fold3/grade.json",
+          "grade_sha256": "09079d34b37e360296a5ceb4e4fe9417b46eda53b9bbc3feaaeb62abfe4304a9",
+          "metric_id": "global_wp_clip2_v1",
+          "old_fit_outputs_modified": false,
+          "reference": "tabdata_b300_r01_v1_wide_f3_s1005",
+          "schema": "tabdata-r01-delivery-grade.v2",
+          "score": {
+            "deep_wp": 0.7033760591704927,
+            "wide_wp": 0.703838184976729
+          },
+          "seed": 1005,
+          "status": "graded",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "score": {
+          "deep_wp": 0.7033760591704927,
+          "wide_wp": 0.703838184976729
+        },
+        "seed": 1005
+      }
+    ]
+  },
+  "recurring_units_enabled": {
+    "argv": [
+      "systemctl",
+      "--user",
+      "is-enabled",
+      "tabdata-github-updates.timer",
+      "tabdata-github-completions.path",
+      "tabdata-feature-reporting-updates.timer",
+      "tabdata-feature-reporting-completions.path"
+    ],
+    "returncode": 1,
+    "stderr": "",
+    "stdout": "disabled\ndisabled\ndisabled\ndisabled\n"
+  },
+  "remote_stop_confirmed": true,
+  "schema": "tabdata-final-stop-proof.v1",
+  "stop_command": "systemctl --user stop --no-block 'tabdata-*'",
+  "stop_sent_at_utc": "2026-10-19T14:31:34Z",
+  "uid": 969845684,
+  "unit_jobs": {
+    "argv": [
+      "systemctl",
+      "--user",
+      "list-jobs",
+      "--no-pager",
+      "--no-legend"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "verifier_files": {
+    "MANIFEST.json": "4538090865237d80d163edd5cf8bc95d91067aefaa0446fc27e74400f8114c22",
+    "delivery_watch_core.py": "ccbe2da929ed09df83c5750a42d44dd03ade41385c0d015c7e681c81cb3b4a09",
+    "delivery_watch_receipts.py": "3ab366ba85b722fb4f1804c0f5e73ed769909f5fbbb609f3b7067aa2d2b44167"
+  }
+}

@@ -2,7 +2,7 @@
 
 ## Stop requested for owned tabdata workloads, 19 October 2026
 
-The user requests preserving current results and stopping all our training on 10.14.14.26. This supersedes earlier continuation/admission instructions for this owned tabdata campaign: no new fits, profiles or retries. Preserve checkpoints, predictions, logs, failures and grades, plus foreign workloads. Remote stop is NOT confirmed: earlier SSH sessions closed; the latest user-requested attempt reached the password prompt but closed without a shell after password input. No remote stop command was executed. See [stop evidence](research/campaign_2026-10-18/b300_execution_r1/stop_20261019_r1/README.md). Honor this stop when access returns; never report a drained node without live process/cgroup verification.
+The user requests preserving current results and stopping all our training on 10.14.14.26. This supersedes earlier continuation/admission instructions for this owned tabdata campaign: no new fits, profiles or retries. Preserve checkpoints, predictions, logs, failures and grades, plus foreign workloads. Remote stop is CONFIRMED at 14:33:55 UTC on 19 October: the successful user-requested SSH session sent the stop at 14:31:34 UTC. All tabdata units and project processes are inactive; only the three original foreign vLLM CUDA clients remain, with matching process start ticks. All four recurring timers/paths are disabled, and artifacts remain intact on the node. See [stop evidence](research/campaign_2026-10-18/b300_execution_r1/stop_20261019_r1/README.md). Twelve existing R01 paired official grades were receipt-verified without refitting or regrading. No resumption is authorized.
 
 ## Native-feature expansion and delivery recovery, 19 October 2026
 
