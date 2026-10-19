@@ -1,6 +1,18 @@
-# Full GRU: strongest recipe plus three measured tweaks
+# Full GRU: strong recipe plus three positive CPU-screen candidates
 
-The user explicitly requests full-GRU tests of EMA history, sparse learned factors with retained residual, and coupled mean/variance training, separately and jointly. The [authority record](AUTHORITY.json) preserves the exact request and clarification, superseding the earlier GPU hold only for this new task. Planned variants are strong control, EMA, sparse, mean/variance, and all three. No new fit has been admitted at this entry snapshot.
+**15:36UTC current state:** [The first clean strong H384x2 GRU teacher is actually running](records/teacher_s3_v1/README.md), invocation02a8c00b433b49a185c2700624397769 since15:35:05UTC. [Current-source profile passed120finiteFP32Muon updates](records/teacher_profile_v3/README.md) on one available identical A4000 after a resource-only failure on the crowded original card. [Single-worker reallocation](GPU_REALLOCATION_20261019T1525Z.json) preserves all foreign jobs. Propensity/dictionary are accepted. No five-arm quality result yet.
+
+[Current execution publication validation](PUBLICATION_VALIDATION_20261019_R2.json) binds the new source/preparation/prerequisite/teacher-launch records and navigation, with append-only history and excluded unrelated deletions. It is a publication check, not a model-quality test.
+
+**15:22UTC superseded resource observation:** [The actual strong-teacher profile failed CUDAallocation](records/teacher_profile_v2/FAILURE.json) under a lower2.5GB allocator envelope while the sharedGPU had limited headroom; no passing profile or teacher/student quality fit exists. Foreign jobs and failed-unit evidence are preserved. Next admission needs adequate sharedGPUheadroom; no automatic cap-search/retry or model weakening. Common prerequisites below are accepted.
+
+**15:05UTC prerequisite completion:** Both clean prerequisites are complete: [propensity3520updates/0nonfinite](records/propensity_f0_e4_v3/TERMINAL_ACCEPTANCE.json) and [shared train-only dictionary756updates](records/dictionary_f0_v1/ACCEPTANCE.json), captured and exact-stopped. The [corrected current T3-derived recipe](preparation/REBUILD_RECIPE_BINDING_R2.json) fixes train+valid fitting with held-out groups excluded, and preserves the export-versus-training citation correction. New strict-FP32 teacher profiling is the next execution stage; no teacher/student quality result yet. Dated running/preparation paragraphs below are superseded by this state.
+
+The user explicitly requests full-GRU tests of EMA history, sparse learned factors with retained residual, and coupled mean/variance training, separately and jointly. The [authority record](AUTHORITY.json) preserves the exact request and clarification, superseding the earlier GPU hold only for this new task. Fixed variants are strong control, EMA, sparse, mean/variance, and all three. [Current continuation](CONTINUATION.md) identifies the running teacher and accepted prerequisites; final student fits and scores remain pending.
+
+## Historical entry and preparation snapshots
+
+The following paragraphs retain the earlier preparation state; the15:36UTC status above and current continuation supersede their pending/running claims.
 
 Root is identifying the strongest source-supported individual GRU recipe and its clean fitting/ancestor requirements before finalizing the design. The user-reported TL3 ensemble and historical Main T3 are distinct evidence; an easy scratch control is not silently labeled the strongest recipe. Existing history-retrieval closure remains closed.
 
@@ -12,7 +24,7 @@ The [pre-outcome five-arm design](DESIGN.json) fixes a common467-input topology:
 
 A read-only B snapshot at13:34:02UTC found no populated campaign descendants and sufficient CPU/RAM/disk headroom. The selected RTX A4000 had9,602MiB free and five foreign GPU processes, all preserved. The observation is dated and is not a future admission check: [resource receipt](</Users/nb/Documents/wunder/runtime-20261019/full-gru-preflight/B_RESOURCE_OWNERSHIP_PREFLIGHT.json>) and [raw capture](</Users/nb/Documents/wunder/runtime-20261019/full-gru-preflight/snapshot-001.raw.json>). No new remote profile or fit had run when this paragraph was written.
 
-## Actual execution update
+## Historical prerequisite execution updates
 
 [The new profile is complete and accepted](records/profile_v1/README.md):20finite GPU updates at full propensity batch shape, no checkpoint or quality score. [Actual records](records/README.md) retain the first full-fit pre-mutation path-guard rejection and corrected-admission status. The source branch is published through `2dc23e13f2a3ad3a9e4ec3ebf8a16f8d87810122`; this includes the three-tweak integration and thin train-only dictionary CLI. Before teacher admission the opt-in Muon port must also eliminate its internal CUDA BF16 cast; unchanged propensity uses AdamW and is unaffected.
 
@@ -23,3 +35,5 @@ A read-only B snapshot at13:34:02UTC found no populated campaign descendants and
 [Publication validation](PUBLICATION_VALIDATION.json) binds the staged authority/design/source/actual-profile/fit-admission snapshot, validates new navigation and append-only ledger history, and excludes the two unrelated skill deletions. Running fit status is dated evidence, not completion.
 
 [User confirmation of one-GPU allocation](GPU_ALLOCATION_CONFIRMATION_20261019.json) records “одну гпу можно занять”. The same native prerequisite remains active: [14:36:22UTC raw health](records/propensity_f0_e4_v3/one_gpu_steering_health/STDOUT.raw.json) shows760completedupdates/nonfinite0 and only one owned populated worker. Later GPU stages remain serial on this allocation.
+
+[Current F0 rebuild binding R2](preparation/REBUILD_RECIPE_BINDING_R2.json) records the source-qualified B split, train+valid membership choice for teachers/parent/children, historical-evidence correction, and explicit clean-rebuild adaptations. The full teacher argv remains a template until the propensity checkpoint SHA is verified; see [preparation README](preparation/README.md).

@@ -1,0 +1,7 @@
+# Full-shape strong teacher profile — passed
+
+[Admission](ADMISSION.json), [launch](LAUNCH.json), [raw terminal capture](capture_v1/STDOUT.raw.json) and [root acceptance](ACCEPTANCE.json) bind the sole successful H384x2/B32/C1000 strictFP32Muon profile on currentF0 train+valid. Native invocation68b2f648a5c24dc28bd5ee65aabc4a45 ran15:26:15–15:29:05UTC19October;120optimizerattempts/completions,0skips/nonfinite, complete gradient/loss checks and finiteFP32 model+optimizer. No model checkpoint, evaluation or quality result. [Exact stop](exact_stop/STDOUT.raw.json) occurred15:31:24UTC after durable validation.
+
+GPUpeak allocated2742460928B, reserved4160749568B: actual framework phase peaks, distinct from retained systemdMemoryPeak1941504B, which is not fullruntimeRAM evidence. Measured profile rate4.06seq/s/7.873sper32sequence batch is an engineering sample, not a quality or full-fit duration measurement. Parent memory events remain unchanged, no populated descendants at stop.
+
+The [single-GPU reallocation](../../GPU_REALLOCATION_20261019T1525Z.json) preserved all foreign jobs and moved the one owned worker to an available identical A4000 (GPU-ec74220d-78d7-cc47-69fc-0de1fb580944), using the original4GiB envelope. [Earlier lower-cap failure](../teacher_profile_v2/FAILURE.json) remains preserved. Immutable sourceaf21d6d8/164files and all scientific flags are unchanged; this is not a new model/seed/panel selected by a quality score.

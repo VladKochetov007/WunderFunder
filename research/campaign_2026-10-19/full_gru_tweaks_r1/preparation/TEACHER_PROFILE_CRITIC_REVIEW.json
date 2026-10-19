@@ -1,0 +1,36 @@
+{
+  "bindings": {
+    "binding_sha256": "74ca7aa7dc946731bb62f4be32e9ff981816b9df9dfa533ce77e4c77ff5a7f2c",
+    "cold_import_entrypoint_count": 5,
+    "cold_import_read_sentinel_calls": [],
+    "cold_import_sha256": "c7dee4f1b06c9def80445df8a9ddfd6e11401c3b578806c9bc7b39cec48cd1cf",
+    "include_heldout_valid": false,
+    "local_binder_sha256": "7d247757737c80cc5f794b165ddf206812220647f984ff3f1868f2ea78e92275",
+    "propensity_checkpoint_sha256": "6facf4ca9045118b8e18ca590053c97e2f5f5122c92f228f75002f0c76a2800e",
+    "propensity_verification_sha256": "73b1155011bee53ecba84da8005d3ef2f70b1a5117bb0ae7a01cd145af6cc139",
+    "remote_helper_sha256": "ec081543a5626070ea26ec599948afdade478f4eb2a213f0d141160723d6fc45",
+    "runtime_wnn_module_count": 99,
+    "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+    "source_file_count": 164,
+    "source_manifest_sha256": "0c83367d4ee3afd7e9f382111060d8c125b52420ce27cd5cc309d338287af7fd",
+    "split_path": "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json",
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "train_source": "train+valid",
+    "valid_fold": 0
+  },
+  "limitations": [
+    "Current train/evaluation counts and ordered membership hashes are intentionally checked by the canonical loader at admission rather than copied from historical split-family metadata.",
+    "The full teacher-fit recipe remains a separate admission; this packet authorizes only the bounded profile and does not claim a teacher fit.",
+    "Resource and B-side file gates were reviewed statically here and were not executed by this reviewer."
+  ],
+  "review_findings": {
+    "fit_scope_and_recipe": "The binder appends --valid-fold 0 to the V4 profile argv before embedding it. The remote guard requires the current fold0 path, train+valid, fold 0, seed 3, the H384x2 23-output model, strict FP32 Muon-all flags, exact WMSE/aux/propensity settings, grad-stats, six max batches (two warmup plus four measured), and no evaluation during fit. Its exact-option allowlist excludes heldout-valid inclusion and unreviewed auxiliary/objective flags.",
+    "prior_valid_fold_issue": "The earlier remote template required --valid-fold 0 while the V4 argv omitted it. The current local binder explicitly appends that pair before payload construction; the remote guard then validates it. This resolves the observed mismatch without changing the scientific recipe.",
+    "resource_and_output_gates": "The remote guard requires the two-CPU aggregate campaign slice and headroom, empty populated campaign descendants, selected-GPU identity/free-memory reservation while preserving foreign processes, physical scratch, a fresh source/packet/output/run destination, and uses one CPU, an 8 GB worker memory maximum, no swap, and a 1200-second runtime limit. The profile is fit-only and does not retain a checkpoint or quality score.",
+    "source_and_prerequisite": "The binder pins the published af21d6d8 source manifest (164 files), cold-import receipt (99 runtime modules, five entrypoints, no read-sentinel calls), V4 profile binding, source publication receipt, exact current F0 split, and the accepted terminal propensity verification/checkpoint identities. The remote guard rechecks the staged file set and bytes, verification/acceptance/launch/stop chain, source data alias/stat map, and checkpoint bytes before profile admission."
+  },
+  "reviewed_utc": "2026-10-19T15:14:53.681924+00:00",
+  "schema": "fg19.teacher-profile-independent-critic-review.v1",
+  "scope": "Focused static prelaunch review of the bounded native teacher-profile admission, its current binder, and the verified propensity prerequisite. No SSH, remote command, profile run, data-array read, model load, or test rerun was performed.",
+  "status": "PASS"
+}

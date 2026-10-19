@@ -1,0 +1,42 @@
+{
+  "schema": "fg19.teacher-s3-fit-admission-critic-review.v1",
+  "status": "PASS",
+  "review_scope": "Read-only independent review of the fit admission generator and its embedded remote gate. This review does not run admission, SSH, data loading, or training.",
+  "reviewed_artifact": {
+    "path": "preparation/admit_teacher_s3_fit_v2.py",
+    "sha256": "f603de84c723a136b62eb6df5f34be5f8e2a1df5471365c14a7e7ce2f06aa412",
+    "bytes": 9167
+  },
+  "bindings": {
+    "fit_recipe_sha256": "6a50960bd650111c1da64a4f89694d7d992c88473f139f295c7a54f4fa5547f3",
+    "profile_acceptance_sha256": "d19eed47c0e447810d35e1661b91546004c8aabc42e5aca7f1928fb2eb53ab37",
+    "profile_launch_sha256": "9883f438115e50e5ce75b2204d6f8e3f8ad9967a2b2e56f88d4b89a8ecb6717b",
+    "reused_profile_guard_sha256": "65151d60f69edc66d935d323813965906cacd57cb843eb3d70746348f16775ce",
+    "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+    "canonical_split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+  },
+  "reviewed_gates": [
+    "Requires the accepted seed-3 profile evidence and verifies the profile launch and log hashes before constructing the remote payload.",
+    "Reuses only the reviewed profile admission helper definitions, binds the accepted source commit and 164-file source manifest, and requires clean destinations and an unused exact fit unit.",
+    "Checks the current canonical fold-0 split as a regular non-symlink file, hashes its bytes against the fixed recipe SHA, checks stable before/after stat identity, and records the split identity before creating outputs or launching the unit.",
+    "Verifies the current propensity acceptance and model plus the six registered data/cache identities; enforces parent cgroup headroom, empty campaign descendants, selected-GPU identity/free-memory reserve, physical scratch, and exact worker limits.",
+    "Preserves the fixed train+valid scope with held-out validation excluded, three epochs and fixed epoch-2 checkpoint, no evaluation during fit, strict FP32 Muon, and the reviewed seed/name; no profile-only flags enter the fit command.",
+    "Uses the accepted profile command only as the systemd prefix template, changes the unit/output paths and runtime limit, then invokes the pinned canonical training entry point with the fixed fit arguments."
+  ],
+  "resource_envelope": {
+    "selected_gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "pytorch_allocator_limit_bytes": 4294967296,
+    "cpu_quota": "100%",
+    "memory_high_bytes": 7500000000,
+    "memory_max_bytes": 8000000000,
+    "swap_max_bytes": 0,
+    "runtime_max_seconds": 86400,
+    "campaign_parent_memory_high_bytes": 18000000000,
+    "campaign_parent_memory_max_bytes": 20000000000
+  },
+  "limitations": [
+    "The profile acceptance is engineering feasibility evidence only; it records 120 finite FP32 updates and memory peaks, not a checkpoint or quality result.",
+    "This artifact reviews the admission logic only. It does not attest that the full fit has been admitted or completed."
+  ],
+  "validation_provenance": "Independent static review of current helper, binding, profile acceptance/launch, and reused guard hashes. Root reported compile and Ruff checks pass; not rerun in this review."
+}

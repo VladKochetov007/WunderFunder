@@ -1,0 +1,37 @@
+{
+  "binding_sha256": "babfd92939eb5580933929a591872dec9056aaacd5002979a26ca2de8ed6ff00",
+  "checks": {
+    "full_payload_verification": "not run; requires root-owned stopped-native-exit gate and B-side payloads",
+    "pytest": {
+      "command": ".venv/bin/pytest -q research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_propensity_terminal.py",
+      "result": "7 passed"
+    },
+    "restricted_loader_cli": {
+      "command": ".venv/bin/python -B research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/verify_propensity_terminal.py --self-test",
+      "result": "passed; NumPy RandomState fixture loaded with weights_only=True under five exact safe globals; unapproved synthetic global rejected; safe-global context restored"
+    },
+    "ruff_check": "passed on four implementation/test files",
+    "ruff_format": "passed on four implementation/test files"
+  },
+  "implementation_files": {
+    "propensity_terminal_checks.py": "795b509f33f3b92e77290b7df47f9fb96e1e5614026d831c53a937789b642406",
+    "propensity_terminal_support.py": "5d1c93ed6b31f3c9397121ca419434b28ea80ee31420caa30bbefa5995848069",
+    "test_propensity_terminal.py": "f46c334d84bb2aefa3ef09c470b45a49918c981d89491c6867e10842a1ffe70b",
+    "verify_propensity_terminal.py": "5996e7ceb112f7bdaec9d9ca85ba503bad8c1634b7c61c2a9118cb0eda0d2e3c"
+  },
+  "local_runtime": {
+    "cuda_used": false,
+    "numpy": "2.2.6",
+    "python": "3.13.11",
+    "torch": "2.14.1"
+  },
+  "schema": "fg19.propensity_terminal_verifier.test_receipt.v1",
+  "scope": "No SSH, B access, real run payload, data arrays, or model checkpoint was read; tests use synthetic journal and BytesIO serialization fixtures.",
+  "source_commit": "235db75ab91e24c69f21e637a83a48512dc674fe",
+  "status": "passed_synthetic_checks_only",
+  "verified_local_source": {
+    "files": 153,
+    "profile_files": 25,
+    "source_set_sha256": "978861e2826cdad22f4554086928fd9c668ab98883215884a342f5c986c090c1"
+  }
+}

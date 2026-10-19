@@ -1,0 +1,51 @@
+{
+  "schema": "fg19.propensity-terminal-root-acceptance.v1",
+  "utc": "2026-10-19T15:04:48.677922+00:00",
+  "status": "ACCEPTED",
+  "verification_sha256": "73b1155011bee53ecba84da8005d3ef2f70b1a5117bb0ae7a01cd145af6cc139",
+  "verification": "terminal_verification_v2/capture/VERIFICATION.json",
+  "native_unit": {
+    "ExecMainStartTimestamp": "Mon 2026-10-19 14:25:53 UTC",
+    "ExecMainExitTimestamp": "Mon 2026-10-19 14:54:16 UTC",
+    "ExecMainCode": "1",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-propensity-235db75/scripts/train_propensity.py --name fg19_propensity_clean_f0_seed0_e4 --hidden 64 --epochs 4 --lr 0.002 --seed 0 --checkpoint-policy fixed --checkpoint-epoch 3 --no-eval-during-fit --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --precision-profile strict_fp32_v1 --loader-workers 0 ; ignore_errors=no ; start_time=[Mon 2026-10-19 14:25:53 UTC] ; stop_time=[Mon 2026-10-19 14:54:16 UTC] ; pid=2925791 ; code=exited ; status=0 }",
+    "ControlGroup": "",
+    "MemoryPeak": "1939513344",
+    "CPUUsageNSec": "1696953448000",
+    "ActiveState": "active",
+    "SubState": "exited",
+    "InvocationID": "85b87a83f96945f4b78908f124435a2b"
+  },
+  "verifier_unit": {
+    "ExecMainStartTimestamp": "Mon 2026-10-19 15:04:07 UTC",
+    "ExecMainExitTimestamp": "Mon 2026-10-19 15:04:14 UTC",
+    "ExecMainCode": "1",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_propensity_verify_v2/verify_propensity_terminal.py --run-dir /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_propensity_clean_f0_seed0_e4 --source-root /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-propensity-235db75 --binding /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_propensity_verify_v2/BINDING.json --split /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --output /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_propensity_verify_v2/VERIFICATION.json --invocation-id 85b87a83f96945f4b78908f124435a2b --native-exit-status 0 --expected-binding-sha256 babfd92939eb5580933929a591872dec9056aaacd5002979a26ca2de8ed6ff00 --expected-split-sha256 c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7 ; ignore_errors=no ; start_time=[Mon 2026-10-19 15:04:07 UTC] ; stop_time=[Mon 2026-10-19 15:04:14 UTC] ; pid=2982048 ; code=exited ; status=0 }",
+    "ControlGroup": "",
+    "MemoryPeak": "2199552",
+    "CPUUsageNSec": "3034375000",
+    "ActiveState": "active",
+    "SubState": "exited",
+    "InvocationID": "9319de78e74a45f0a01f04b1c14ee042"
+  },
+  "counts": {
+    "epochs": 4,
+    "successful_updates": 3520,
+    "nonfinite_updates": 0,
+    "source_files": 153,
+    "strict_source_files": 25
+  },
+  "model": {
+    "bytes": 174545,
+    "sha256": "6facf4ca9045118b8e18ca590053c97e2f5f5122c92f228f75002f0c76a2800e"
+  },
+  "training_state": {
+    "bytes": 507383,
+    "sha256": "637ae52e7ae97913661e26b7b5b63f0b7d5b89ec1e5e5c6f425cea3e6ff63260"
+  },
+  "scope": "clean train-only scoring-mask propensity prerequisite; no outer inference/quality/GRU result",
+  "payload_location": "B only; hash/shape/scalar summaries on Mac",
+  "correction": "V1 verification failed only on hashing a zero-dimensional AdamW step tensor; original native fit unchanged. V2 adds flatten-before-byte-view with original shape retained and tested. Failed V1 unit preserved."
+}

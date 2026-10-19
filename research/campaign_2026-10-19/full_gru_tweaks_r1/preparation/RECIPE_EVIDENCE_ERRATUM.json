@@ -1,0 +1,88 @@
+{
+  "schema": "full-gru-tweaks.recipe-evidence-erratum.v1",
+  "status": "METADATA_CORRECTION__ORIGINAL_BINDINGS_UNCHANGED",
+  "scope": {
+    "date": "2026-10-19",
+    "method": "Read the named bounded metadata and review files only; no checkpoint, prediction, label, or training-array payload was opened, and no remote action or fit was performed.",
+    "history_boundary": "No archive-wide search or historical payload recovery was attempted."
+  },
+  "evidence_sources": [
+    {
+      "path": "research/campaign_2026-10-18/quality_gap_r1/CONTROL_ASSET_MAP.json",
+      "sha256": "17b7b5fc31557b3d560ae6d8de9aedbba9cb90d9f050a5edf9c136f0c66c7c3f",
+      "relevant_fields": [
+        "frozen_export_reference.student_cp5_original_argv",
+        "remote_lineage_probe.main_provenance",
+        "remote_recovery_probe.ancestry",
+        "teacher_cache_producer_evidence"
+      ]
+    },
+    {
+      "path": "research/unified/reviews/CLEAN_T3_TEACHER_STUDENT_BOTTLENECK_REVIEW_20261015_R1.md",
+      "sha256": "ce310312090c188f319c4c2ac3250300636c56a1154eab1a737138a8e095d0a7",
+      "relevant_sections": [
+        "Mechanism and method",
+        "Evidence and interpretation",
+        "Dated follow-up: paired warm-parent score"
+      ]
+    },
+    {
+      "path": "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/ops_continuation_20261011/clean_t3_f0_matched_student_r5_cache_r1/cache_adapter_r1/ACTUAL_INPUT_VALIDATION_R2.json",
+      "sha256": "3e5c09731a1dbf83b34de06f34fdf76c54ec3ceb7ea53376d63d46c798441910",
+      "relevant_fields": ["split", "target_indices", "teacher_records"]
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/STUDENT_RECIPE_BINDING.json",
+      "sha256": "81662d8391fdc327bfe52bb5684533056af71dd467342b1f1c2375d854335171",
+      "relevant_fields": ["evidence", "historical_run", "shared_all_five", "limitations"]
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/CLEAN_MAIN_T3_REBUILD_CANDIDATE_R1.md",
+      "sha256": "a87e23e564d14effd565252dfe6056d19c5e220b2237cd65cbb9465b227237bd",
+      "relevant_sections": ["Candidate argument binding", "Required departures and admission checks"]
+    }
+  ],
+  "corrections": [
+    {
+      "field": "CONTROL_ASSET_MAP.frozen_export_reference.student_cp5_original_argv",
+      "finding": "This is the historical prediction/export command: it runs research/.../scripts/predict_run.py for the student's valid split at epoch 5, with FP32 inference and campaign-full-valid-feature-only. It is not the training argv and cannot establish batch, chunk, optimizer, training precision, epochs, schedule, or training-source flags.",
+      "binding_implication": "STUDENT_RECIPE_BINDING.json currently cites this export argv as its evidence. Keep it as export evidence only; cite the review and provenance summaries for training facts, and mark the complete historical training argv unavailable in this bounded audit."
+    },
+    {
+      "field": "historical_fit_membership",
+      "finding": "The bounded provenance summaries identify train_source=train+valid, valid_fold=0, include_heldout_valid=false for the three clean T3 teachers, the cited warm parent, and the clean T3 student. Their F0 fitting set is 10,535 train groups plus 1,405 valid-source groups. The 468 evaluation-valid groups are separate; ACTUAL_INPUT_VALIDATION_R2 reports zero fit-valid/evaluation overlap.",
+      "membership_hashes": {
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+        "fit_train_order_sha256": "8ebb217415c8cdc8b468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+        "fit_valid_order_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+        "evaluation_valid_order_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7"
+      },
+      "binding_implication": "The candidate templates' FIT_SOURCE placeholder should not silently resolve to train. For a current run intended to preserve the known T3 F0 fit population, bind train+valid explicitly and leave include-heldout-valid disabled; validate the current split's membership hashes and exclusion before launch. A deliberate train-only fit is a new membership choice, not a reproduction of the recorded T3 fit scope."
+    },
+    {
+      "field": "teacher_cache_producer_evidence",
+      "finding": "ACTUAL_INPUT_VALIDATION_R2 confirms each seed-3/4/5 teacher's fit membership includes both 10,535 train and 1,405 fit-valid groups. The teacher prediction cache's valid file covers all 1,873 valid-source groups for feature-only prediction, while only the 1,405 non-evaluation groups belong to the historical fit set. Cache prediction coverage must not be mistaken for fit membership.",
+      "binding_implication": "For the proposed teacher, common parent, and children, keep fitting membership explicit and common. Do not use all 1,873 valid groups as fit; exclude the 468 evaluation groups."
+    },
+    {
+      "field": "historical_parent_student_ancestry",
+      "finding": "CONTROL_ASSET_MAP provenance summaries identify the historical student as initialized from c20261003_combo_s3_f0@ep3, train_source=train+valid, alpha=0.9, and FP16. The review states the child ran six epochs with fixed epoch 5, B16/C2000, AdamW, and its parent was a four-epoch FP16/Muon student trained with alpha=0.5 on two older since-targets. The candidate clean rebuild parent instead uses the current T3 target and a fresh initialization; it is an adaptation, not that historical parent lineage.",
+      "binding_implication": "Source training details from the bounded review/provenance, not the predict_run export argv. Keep the clean parent and student adaptation clearly labeled and bind their new source and membership independently."
+    }
+  ],
+  "suggested_current_t3_choices": {
+    "fit_scope_if_matching_recorded_f0_population": {
+      "train_source": "train+valid",
+      "valid_fold": 0,
+      "include_heldout_valid": false,
+      "fit_train_count_reference": 10535,
+      "fit_valid_count_reference": 1405,
+      "evaluation_valid_count_reference": 468,
+      "rule": "Recompute and bind the current split's ordered membership hashes; the historical counts are a reference, not a substitute for current validation."
+    },
+    "apply_to": ["T3 teachers", "shared clean parent", "all five student arms"],
+    "student_recipe_evidence_pointer": "Replace the export-argv-only evidence attribution with the CLEAN_T3_TEACHER_STUDENT_BOTTLENECK_REVIEW_20261015_R1.md training summary plus CONTROL_ASSET_MAP.remote_lineage_probe.main_provenance / teacher_cache_producer_evidence and ACTUAL_INPUT_VALIDATION_R2 membership evidence. Retain frozen_export_reference.student_cp5_original_argv only under export provenance.",
+    "historical_argv_limit": "The exact complete original teacher/parent/student training argv is not established by these bounded sources; no broader recovery was attempted.",
+    "status": "Suggestions only; existing bindings and commands were not edited."
+  }
+}

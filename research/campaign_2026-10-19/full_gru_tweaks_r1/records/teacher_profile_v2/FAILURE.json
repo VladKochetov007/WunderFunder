@@ -1,0 +1,34 @@
+{
+  "schema": "fg19.teacher-profile-resource-failure.v1",
+  "utc": "2026-10-19T15:24:11.294323+00:00",
+  "status": "FAILED_CUDA_ALLOCATION__NO_PROFILE_PASS__FIT_HOLD",
+  "native": {
+    "MainPID": "0",
+    "ExecMainStartTimestamp": "Mon 2026-10-19 15:17:06 UTC",
+    "ExecMainExitTimestamp": "Mon 2026-10-19 15:19:03 UTC",
+    "ExecMainCode": "1",
+    "ExecMainStatus": "1",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-teacher-af21d6d8/scripts/profile_teacher.py --name fg19_t3_h384x2_profile_s3_v2 --seed 3 --device cuda --arch gru --cell gru --enc linear --hidden 384 --layers 2 --head-layers 1 --epochs 3 --checkpoint-policy fixed --checkpoint-epoch 2 --batch 32 --chunk 1000 --optim muon --muon-scope all --muon-ortho-dtype fp32 --strict-muon-fp32 --lr 0.001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --loss wmse --loss-norm chunk --precision fp32 --aux-struct 0.3 --aux-next 0.3 --since-weight 32 --since-floor 0.25 --propensity fg19_propensity_clean_f0_seed0_e4 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --sync-free --pin-memory --grad-stats --max-batches 6 --profile-warmup 2 --profile-steps 4 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --no-eval-during-fit --valid-fold 0 ; ignore_errors=no ; start_time=[Mon 2026-10-19 15:17:06 UTC] ; stop_time=[Mon 2026-10-19 15:19:03 UTC] ; pid=3002064 ; code=exited ; status=1 }",
+    "ControlGroup": "",
+    "MemoryCurrent": "[not set]",
+    "MemoryPeak": "312254464",
+    "CPUUsageNSec": "114254917000",
+    "LoadState": "loaded",
+    "ActiveState": "failed",
+    "SubState": "failed",
+    "InvocationID": "3fbd0ed7815f45378da964ba330e5bd2"
+  },
+  "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+  "allocator_cap_bytes": 2500000000,
+  "log_sha256": "79ed6dc88474faa2aceda1f5b0e0e0d689eff4de46f868da9c45500ca4c13fb7",
+  "observed_error": "CUDAallocation failed requesting610MiB; log reports2.33GiB allowed,1.55GiB allocated+186.32MiB reserved unallocated,1.50GiB free at error. These are separate allocator/device observations, not an isolated causal attribution.",
+  "profile_update_count": "Unavailable; no terminal PROFILE_UPDATE_EVIDENCE or teacher checkpoint exists. Do not assert120 updates or aqualityresult.",
+  "run_inventory_stat_only": {},
+  "parent_events": {
+    "memory.current": "4005343232\n",
+    "memory.events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "allocation": "Preserve failed unit and all foreign GPUjobs. No restart/retry/cap escalation based on this OOM. Later admission requires fresh externally sufficient GPU headroom and an explicitly bound resource decision; original4GiB profile envelope predates this lower-cap attempt.",
+  "scope": "Resource/engineering evidence only, not negative evidence for the strong family or any of thethree tweaks."
+}
