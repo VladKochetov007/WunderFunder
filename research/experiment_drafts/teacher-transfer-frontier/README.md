@@ -13,4 +13,4 @@ This extends PR #3 with a predeclared teacher-scale by student-capacity interact
 
 240 student fits; up to90 teacher fits (30 each clean GRU/L/XL) if no exact eligible sources exist. Teacher source per cell is shared between student sizes. No8GPU-hour allocation is implied.
 
-Publication and result fields remain empty until actual receipts exist. No plan printer, queue or placeholder trainer is supplied.
+Published draft: [PR #28](https://github.com/VladKochetov007/WunderFunder/pull/28) targeting `research-team`; initial packet head `5eb7b5a29e8c0787bba91bec3fb39f8e17b3f4c0`. Result fields remain empty until actual receipts exist. No plan printer, queue or placeholder trainer is supplied.
