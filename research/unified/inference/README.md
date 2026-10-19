@@ -1,5 +1,7 @@
 # Inference, quantization, and runtime
 
+[Transformer distillation CPU path](TRANSFORMER_DISTILLATION_CPU_PATH.md) traces a frozen teacher into a native GRU or compact streaming Transformer student, then explicit state/export/parity, one-core callback and archive gates. It distinguishes existing native code, historical measurements and missing Transformer adapters; storage/runtime arithmetic is not a measured target-host pass. Quantization remains a later release comparison.
+
 Serving implementations, quantization, package identity and measured runtime.
 
 ## Current navigation

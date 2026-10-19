@@ -4,11 +4,17 @@ status: proposed
 created_utc: 2026-10-17T11:11:30Z
 updated_utc: 2026-10-17T11:21:03Z
 hypothesis_ids:
+  - H-TEACHER-TRANSFER-FRONTIER-20261019
+  - H-TEACHER-REPRESENTATION-HINTS-20261019
+  - H-STREAMING-STUDENT-DISTILLATION-20261019
   - H-TRANSFORMER-CAUSAL-AR-20261017
   - H-TRANSFORMER-INNOVATION-AUX-20261017
   - H-TRANSFORMER-AR-GRU-KD-20261017
   - H-TRANSFORMER-QUALITY-SCALE-20261017
 experiment_ids:
+  - E-TEACHER-TRANSFER-FRONTIER-20261019
+  - E-TEACHER-REPRESENTATION-HINTS-20261019
+  - E-STREAMING-STUDENT-DISTILLATION-20261019
   - E-TRANSFORMER-AR-FACTORIAL-20261017-R1
   - E-TRANSFORMER-AR-GRU-KD-20261017-R1
   - E-TRANSFORMER-QUALITY-SCALE-20261017-R1
@@ -19,6 +25,8 @@ evidence_paths:
 ---
 
 # Causal autoregressive Transformer teachers, GRU distillation, and eight-B300 training
+
+The concrete continuation is in Sections 22–27: teacher scale × student capacity, representation hints, and a streaming student comparison. The [CPU inference contract](../inference/TRANSFORMER_DISTILLATION_CPU_PATH.md) follows a student through export, stateful inference and release qualification. The [team/teacher audit](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md) separates newly measured team results from still-proposed Transformer work. These additions do not start or reassign any team's running jobs.
 
 ## Question or claim
 
@@ -292,7 +300,7 @@ Carry state through full sequences; do not train shuffled isolated rows. Freeze 
 
 The user asked for full precision and no quantization. This note's admitted-by-design reference is strict FP32: FP32 parameters/forward/backward/state, no autocast, and no silently enabled TF32 matrix products. Record the actual backend controls because library defaults can change.
 
-BF16 mixed-precision training is distinct from INT8/INT4 submission quantization, but it is also distinct from strict FP32. If the user's intended meaning of full precision is simply no quantization, BF16 with FP32 master parameters, loss reductions, optimizer state, and AR state is an explicit optional recipe. It is not silently substituted here. Document operation-level autocast behavior and verify the actual fused backend.
+All comparisons in this note use strict FP32, including master parameters, forward activations, optimizer state and recurrence. BF16/FP16/FP8 and TF32 are outside this specification. Quantization belongs only to a separately recorded submission-engineering comparison after the scientific endpoint is frozen.
 
 Official FlashAttention documentation distinguishes dtype/hardware support [S12]. FlashAttention-4 targets Hopper/Blackwell [S13], but its headline throughput does not certify our exact B300, dropout, backward, shape, dtype, or causal-mask path. A fast BF16 attention result is not a strict-FP32 runtime estimate. For FP32, profile the actual selected SDPA/math/other supported backend and its peak workspace. Disabling a fused path may materially change time and memory.
 
@@ -469,6 +477,80 @@ Reprofile every model/context/precision/DDP shape. In the earlier illustrative t
 This note invents no new user GPU-hour ceiling. A future launch still needs verified cluster access and a concrete operational allocation for the chosen batch; this task remains documentation.
 
 
+### 22. Select the best transferable teacher, not the largest checkpoint
+
+The strongest public recipe and the best clean outer-fold teacher are different objects. The audited successful public recipe is recurrent; there is no source-qualified measured Transformer winner in this proposal. Do not rename a production train+valid checkpoint a clean teacher. Reconstruct its permitted recipe with fold-clean ancestry before using it for outer-fold comparisons. The [teacher audit](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md) records the current evidence and missing lineage.
+
+Keep three leaderboards with different purposes:
+
+1. **Teacher frontier:** full outer-fold WP, per-target/slice scores, compute and context. This describes the teacher, not student transfer.
+2. **Transfer frontier:** the *same* student, optimizer, labels, masks and budget trained from each teacher. Rank its actual WP delta and fitting cost. Also report weighted teacher-imitation error and residual correlation with the strong GRU; low imitation error alone is not success.
+3. **Release frontier:** frozen student or complete blend after CPU export. Rank actual callback quality, total runtime, resident memory and ZIP bytes. A fast incomplete export does not enter this frontier.
+
+Use an immutable teacher registry, one record per fold/seed/checkpoint: source and architecture hashes; checkpoint SHA256; source-qualified fitting and inner-selection component hashes; full ancestor graph including propensity/normalization/initializer; precision; selected epoch/rule; context/position/AR semantics; raw-output and optional hint-cache manifests; eligible purpose (`outer_clean`, `fit_in_sample_targets`, `production_only`, `unknown`). Missing membership is `unknown`, never an empty fitting set. Alias/duplicate components across both supplied sources belong to the same exclusion unit.
+
+For each outer fold, choose checkpoints by a predetermined terminal epoch or an inner fitting-only rule. Never use the outer fold to select a teacher and then quote that same fold as unbiased transfer confirmation. The initial packets avoid this selection loop: they fix the 207M L teacher in advance for hints and streaming, and compare L/XL explicitly in the capacity packet. Selecting a later production winner from exposed development results is allowed operationally, but must retain selection history and unknown public transfer.
+
+The new `teacher-transfer-frontier` packet tests four target sources (labels only, clean strong GRU, L207M, XL682M) crossed with two cold GRU students (H256×2, H512×2): **eight arms, 240 student fits**, plus up to90 teacher fits for three30-cell teacher families if no eligible exact caches exist. Each cell's teacher is shared across the two student capacities; it is not two independent teachers. The primary contrasts are XL−L for each capacity and their difference-in-differences. An XL teacher that improves only H512 changes the student/assistant allocation; an XL teacher that improves neither despite higher teacher WP argues against buying more teacher scale for this student recipe. It does not close large teachers generally. GRU and label-only arms keep practical baselines visible without attributing historical recipe differences to architecture.
+
+### 23. Freeze cache semantics before spending on teacher scale
+
+Export teacher outputs with fixed weights, dropout disabled and the exact free-running forward definition. The cache key includes data SHA, source name, row-group/component identity, sequence and row position, teacher checkpoint, normalizer, window anchoring, positional rule, warmup/reset, output head and precision. Integer group IDs alone are insufficient across train/valid. Bind the exact served t0/t1 head mapping, any inverse target transform and units; the current strong GRU teacher has auxiliary outputs, so taking the first two columns without a verified export mapping is forbidden. Write atomic complete shards with row counts, shape, dtype, SHA256 and completion markers; partial exports cannot be training inputs.
+
+Preserve all causal rows for state updates. The student loss mask excludes padding/warmup and disallowed fitting rows; it never drops intermediate rows from the recurrent input stream. No teacher output, uncertainty, latent hint or teacher-forced label becomes a student inference input. Teacher hidden hints must be the hidden state at that row, computed without future observations. Future auxiliary labels may supervise a causal model, but cannot be cached as its input representation.
+
+The default is **in-sample teacher targets on outer-fitting components**, clearly labeled. This is not outer leakage when all teacher ancestors exclude the outer fold, but it can transfer memorization. A nested crossfit-cache comparison is a continuation of PR #3/#12: partition outer-fitting components into K=3 source-qualified groups; train3 inner teachers, each excluding its target shard and the entire outer evaluation; stitch predictions by exact row key. Compare against ordinary in-sample targets using identical student fits. Extra teacher fits and smaller teacher training sets are part of this treatment, so any gain is not attributed solely to leakage removal. A three-teacher in-sample ensemble at matched total teacher-fit count is the useful cost/diversity control. Freeze inner partitions before labels/results. Do not silently substitute a crossfit cache into the new packets.
+
+Cache arithmetic is a capacity planning input: two FP32 predictions cost `8N` bytes; a64-dimensional FP32 hint costs `256N`. At249.6million rows these are about2.0GB and63.9GB before identifiers/manifests. Export only admissible fitting membership for each cell, on physical storage. Compression/quantization of hints is a separate treatment; scientific caches remain FP32. A streaming sharded reader avoids multiplying RAM by the total cache size, but disk throughput must be measured with the actual teacher/student pipeline.
+
+### 24. Output KD versus intermediate knowledge
+
+Two scalar predictions may discard teacher features useful to the GRU. Conversely, forcing a GRU to copy attention coordinates may consume capacity and worsen the task. `teacher-representation-hints` makes this falsifiable with a fixed L207M teacher and the same H256×2 student:
+
+| Arm | Common output objective | Additional fitting-only supervision |
+|---|---|---|
+| O | 0.1 supervised +0.9 output KD | None; auxiliary projection exists but has zero loss |
+| H | Same | Correct-row teacher feature hint |
+| P | Same | Deterministic component-permuted teacher hint at the same row position |
+
+All arms contain the same student projection `P: H256→64`; discard it at export because it neither feeds recurrent state nor the final head. Teacher target is the final pre-readout hidden vector projected by a fixed seed14019 random matrix `R[d,64] ~ N(0,1/d)`, followed by coordinate centering/scaling fitted only on fitting hints (scale floor1e-6). Record R and moment hashes. The proposed hint term is the mean of `(P(hS_t)-zT_t)^2` over eligible rows and64 coordinates, coefficient0.1. No teacher/student coordinate equality is assumed and no fitted reduction uses outer rows. P is a fixed no-self component permutation within fitting source, preserving row position; reject unpaired/length-mismatched components or freeze a common eligible mask for H/P before fitting. Output KD remains correctly aligned in all arms. Report the number of excluded hint rows.
+
+Primary contrasts H−O and H−P distinguish useful aligned knowledge from extra training loss/regularization. Report hint and task gradient norms separately; matching coefficient does not match gradient scale. H−P can still reflect the negative control being harmful, so H−O is indispensable. Three arms mean90 student fits, not30. The teacher and its cache are shared across arms within each cell.
+
+FitNets motivates projected features; RKD motivates a future **separate** relation-target comparison with within-sequence lags and an explicit detached-state convention [S21]. Neither paper establishes gains for anonymous financial sequences. Relation loss, assistant stages and teacher uncertainty weighting are not silently combined with the first hint experiment.
+
+### 25. Distill to the architecture we can actually serve
+
+`streaming-student-distillation` compares three backbones, each trained label-only and with the same fixed L207M teacher: GRU H256×2; compact Transformer D128×2 with local attention W256; the same Transformer with W1024. Six arms imply180 student fits. It separates the benefit of KD in each architecture from the raw architecture difference. Primary contrasts: Transformer−GRU under KD at each window, and the corresponding two KD-by-architecture interactions. Report window1024−256 as a prespecified secondary contrast.
+
+The compact student is not the historical D256×4 teacher package. Its proposed token is the complete normalized112-feature row, linear112→128, two pre-LayerNorm blocks, four heads of32 dimensions, RoPE with absolute row positions within the sequence, ordinary MHA, GELU FFN128→512→128, direct two-value linear readout, dropout0. Every layer attends to the current and previous W−1 positions. The model's stacked receptive field can exceed W; W is per-layer attention width. No output AR, learned initializer, extra features or patch compression enters this comparison.
+
+Training uses500-row cores with per-layer KV memory carried between cores and detached at the boundary, matching the student’s streaming model definition. Positions and per-query local causal masks must be explicit even for rectangular query/key tensors. Carried training K/V were formed before a subsequent optimizer update; this is a declared truncated-training approximation, not an exact full-gradient rolling model. Evaluation uses fixed weights and every row from sequence start; exact streaming/reference agreement is required. Do not replace the teacher's anchored-window semantics with this cache implementation when exporting targets.
+
+All six student arms use complete causal sequence slots,32 sequences per global batch, one optimizer update per500-row core,8 full fitting epochs, terminal epoch7, strict FP32, AdamW LR1e-3/betas(0.9,0.999)/eps1e-8/decay0.01 on matrices, no decay on bias/norm, clip1.0, linear2% warmup capped below total then cosine to0.1×LR, no EMA/SWA/propensity. GRU students retain the canonical RNNModel readout: concatenate the final-layer output and input-projection skip, map2H→H→2 with GELU; encoder/recurrent/readout widths equal H. Cold initialization, common normalizer and paired sequence-order seed are fixed. This is a controlled successor recipe, not reproduction of the strongest legacy student. Effective row/mask denominators are recorded. Different shapes are not claimed equal-FLOP; report actual time, memory, parameters and score. Microbatch/accumulation can change only with unchanged effective batch/update/loss normalization and a recorded parity check.
+
+A direct FP32 compact Transformer has a plausible storage budget but unknown CPU latency. The [inference note](../inference/TRANSFORMER_DISTILLATION_CPU_PATH.md) specifies a ring cache, position/reset behavior, tensor shapes, packaging, one-thread backends and acceptance receipts. No backend is called faster without target-shaped measurements. A teacher may use the whole GPU budget while only its student is submitted.
+
+### 26. Teacher combinations, assistants and pretrained models: deepen existing PRs
+
+**PR #3 family mixture.** Retain raw teacher amplitudes first. Compare fixed50/50 G+T against G-only/T-only; if a mixed target helps, add two-GRU and two-Transformer seed mixtures before claiming architectural complementarity. Same teacher count does not equal GPU cost: report both. Do not tune mixture weights on outer labels or discard members after outer results. An inner-fit-only calibration/mixture procedure is a new frozen recipe. A worse standalone teacher remains useful if it improves the same distilled student or complete frozen blend.
+
+**PR #12 cohort / assistant path.** Compare direct large-T→H256, large-T→H512→H256, and direct large-T→H256 with additional student budget matching the assistant route’s measured total GPU time. Preserve both equal-final-student-budget and equal-total-cost estimands. A no-KD H512→H256 bridge can discriminate whether the extra stage helps without the original teacher. All ancestor folds stay clean; assistants and descendants share lineage and are not independent reps. Conflicting outcomes in the capacity/assistant literature [S6,S18] make this conditional follow-up valuable, not guaranteed.
+
+**PR #11 Chronos/TimesFM.** Keep as an external-model proposal pending competition permission, exact model/license/revision and training-data provenance. A model pretrained to forecast observed series does not supply our hidden future-price targets directly. Specify prefix-only observable channel forecasts or representations, fit a two-target adapter on fitting components, then export its own causal outputs. Whole-series normalization, bidirectional encoders over future rows, filling missing inputs with future observations and zero-shot target-name guesses are invalid. Compare frozen backbone+adapter, trainable-backbone adapter, and random-backbone adapter at declared budgets; score actual students. No pretrained asset or downloadable weight is assumed present, permitted or superior.
+
+### 27. Execution priority, statistics and handoff status
+
+Start with a source-clean strong GRU baseline and the L teacher’s causal export integration; then the teacher-capacity transfer grid, hints, and streaming students. This ordering maximizes information about whether extra teacher capacity reaches a useful endpoint. It is not a queue manager or dispatch. These three packets total510 student endpoint fits if fully executed, plus teacher preparation; exact shared-cell reuse is allowed only when every recipe/source/data/seed/cache identity matches. No new fit is admitted here.
+
+All packets bind CP30 (F0/F1 seeds1001–1008, F2/F3 seeds1001–1007), terminal endpoints, official pooled `global_wp_clip2_v1` and the [workflow's equal-fold paired estimand and two uncertainty procedures](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md). Reuse the same eight seed identities across folds and resample whole source-qualified components for fixed-prediction uncertainty. Cache sharing means student arms share teacher noise; record teacher seed=s+100000 and student seed=s, pair both, and never count teacher outputs or rows as independent repetitions. No new unexposed holdout is created.
+
+Across the three packets freeze nine primary contrasts (3+2+4) before any results. Report approximate95% marginal intervals and99.4444% Bonferroni-adjusted marginal intervals for this nine-contrast portfolio for both seed and component resampling, using10000 draws and RNG19019. Sparse tail draws/eight unique seeds limit coverage; these are sensitivity intervals, not a calibrated universal significance certificate. Do not turn bootstrap percentiles into invented p-values. Report selection/public uncertainty separately.
+
+Proposed useful student gain is ΔWP≥0.0005 for direct endpoint-versus-control contrasts only; interactions use a separate signed diagnostic with abs(D)≥0.0005 as a prospective mechanism-follow-up threshold and cannot alone promote a student; this is a prospective allocation threshold, not measured variance or a promise of detectability. Require source/target/fold inspection and actual end-to-end cost before promotion. A cheaper serving endpoint may instead justify a separately declared noninferiority release comparison. A zero-crossing interval is inconclusive; a teacher gain without student gain motivates capacity/hints/assistant analysis rather than an automatic larger teacher. A measured failure of causality, provenance or numerical parity invalidates that result before quality interpretation.
+
+Implementation work still needed: integrate the chosen Transformer into the canonical model/state/checkpoint/predict factory; preserve sequence/KV/AR semantics; implement FP32 cache and hidden-hint readers with provenance; exact loss/mask/DDP reductions; registry binding; packet admission/export/grade adapters; actual-device resource profiles; and compact Transformer CPU serving. Existing `run_plan.py` files print plans, not fits. The new recipes explicitly keep `launch_ready=false`, null asset bindings and no runnable training command until these dependencies are implemented and checked. No local tests, model inference, training or CPU profiles were run for this addition.
+
 ## Limits and validity
 
 The AR term may learn nothing beyond the Transformer/GRU hidden state. It may improve fit but hurt the clipped global metric, lag fast events, or transfer poorly to a constrained student. A teacher can improve while its student degrades. A mixed teacher can help despite a weaker individual member; measure that complete path.
@@ -491,7 +573,7 @@ The scientific deliverable is the comparison of trained students, including fail
 
 ## Source records
 
-Primary sources were opened or searched on 2026-10-17. External evidence concerns other tasks; proposed settings, equations specific to this head, and runtime arithmetic above are our design choices.
+The original source set was opened or searched on 2026-10-17; S6/S18 and the new S21 sources were checked directly again for the October19 continuation. External evidence concerns other tasks; proposed settings, equations specific to this head, and runtime arithmetic above are our design choices.
 
 | ID | Primary source | What it supports; local limitation |
 |---|---|---|
@@ -516,6 +598,7 @@ Primary sources were opened or searched on 2026-10-17. External evidence concern
 | S18 | [Mirzadeh et al., Improved Knowledge Distillation via Teacher Assistant](https://arxiv.org/abs/1902.03393) | Intermediate-capacity distillation precedent from vision; no demonstrated benefit for our GRU compression stages. |
 | S19 | [Hinton et al., Distilling the Knowledge in a Neural Network](https://arxiv.org/abs/1503.02531) | Ensemble-to-student compression precedent; continuous regression objectives here are separately specified. |
 | S20 | [Training Compute-Optimal Large Language Models](https://arxiv.org/abs/2203.15556), [Scaling Data-Constrained Language Models](https://arxiv.org/abs/2305.16264) | Reasons to measure scale and repeated-data duration; their empirical laws are not imported as market-data exponents or capacity limits. |
+| S21 | [FitNets](https://arxiv.org/abs/1412.6550), [Relational Knowledge Distillation](https://arxiv.org/abs/1904.05068) | Projected intermediate features and relational supervision in other tasks. The specific64-dimensional causal regression hint and permutation control above are our proposals. |
 
 The explicitly invoked arxiv-search skill was read at /home/vlad/src/agent-system/arxiv-search/SKILL.md. Its Bash search implementation ran successfully with the broad query “autoregressive transformer time series distillation” (four results), which returned mostly tangential material, and then “DeepAR” (two results), which returned the original DeepAR paper and an unrelated application. Only the verified original DeepAR source was used; search ranking was not treated as evidence of relevance. Other sources were checked directly through primary arXiv/PyTorch/official repository pages.
 
