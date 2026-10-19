@@ -1,5 +1,7 @@
 # Статус всех25 после первого bounded screen
 
+Дополнение R8: [learned constant-variance control](../idea_screens_r8/RESULTS.md) не воспроизвёл преимущество R7 input-dependent objective: WP.501394 против stored.514297; primary+.012903, secondary кWMSE−.000528. Это одна новая CPU-arm с теми же756updates/init, без replayR7. Удалён также variance-to-trunkgradient, поэтому истинныйnoise/expressivity не изолированы.
+
 Дополнение R7: [matched mean/variance MLP](../idea_screens_r7/RESULTS.md) даёт +0.012376 WP относительно своего WMSE-контроля на той же R3-панели, при одинаковых инициализации/756updates/12epochs. Это положительная bounded CPU проверка карточки22; более высокий stored ridge .536004, один seed, exposedpanel и связанное изменение gradient scaling/globalclip ограничивают вывод. Истинный источник выигрыша и перенос на GRU не установлены.
 
 
@@ -38,7 +40,7 @@
 | 19 | i1-only=.36115, i0-only лучше joint raw в этом fit | i0-only также исключает8tailканалов: i1-effect не изолирован. Cross-fit common/residual mechanism NOT_TESTED; линейная репараметризация может иметь тот же span |
 | 20 | PARTIAL: R6 actual gradients, один frozenGRU/8fit-компонент/16окон; trunk pooledcos+0.333540,4negative; hiddenreadout+0.026854,3negative | Не training-wide prevalence/causalharm/PCGradbenefit; optimizer intervention и другие checkpoints не проверены |
 | 21 | NOT_TESTED: gradient-covariance preconditioner отсутствует | Нужны реальные gradients и matched optimizer, не covariance coefficients |
-| 22 | PARTIAL: R7 matchedCPUMLP, NLLmean WP.514297 vs WMSE.501921, +.012376; обе цели+,32/32drop-one+ | Один seed/exposedpanel; objective меняет scaling/globalclip, истинная heteroskedasticnoise не установлена; constantvariance/GRU не проверены |
+| 22 | PARTIAL: R7 NLLmean .514297 vs WMSE.501921; R8 constantvariance .501394, primarygap+.012903,32/32drop-one+ | Этот globalscalingcontrol не повторил gain; variance-to-trunkgradient также меняется, истинныйnoise/expressivity не изолированы; одинseed/exposedpanel/GRUнепроверен |
 | 23 | NOT_TESTED: old/current-weight recurrent state replay не делался | Законный один и тот же prefix, сравнение state при фиксированной gradient horizon |
 | 24 | NOT_TESTED: mixed-curvature penalty отсутствует | Обычная линейная модель его не реализует; допустимые in-support perturbations |
 | 25 | NOT_TESTED, зависит от16 | Нельзя заменить uncertainty of training moments оценкой разброса evaluation scores |

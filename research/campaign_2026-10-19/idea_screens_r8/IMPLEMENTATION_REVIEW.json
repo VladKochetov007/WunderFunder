@@ -1,0 +1,26 @@
+{
+  "decision": "PASS",
+  "design_sha256": "e9f36bd9ce16a0dae88c02b33dabc28c6dbec2185efc606afe11dd2ce135cbb9",
+  "independent_checks": {
+    "actor_receipt_b_shaped_smoke": "PASS per pinned TEST_RECEIPT: 31 runtime module paths, 42 pins, R3 metadata/R7 result only, np.load/ParquetFile/torch.load sentinels untouched",
+    "focused_synthetic_pytest": "PASS: 8 passed in 1.26s; no production arrays, checkpoint load, or real fit",
+    "manifest_and_source_bytes": "PASS: all 42 manifest entries match local bytes",
+    "model_and_objective": "PASS: exact seed-19031 R7 initialization fingerprint; unchanged topology; hidden*0 logvariance input retains two bias parameters, with zero variance-weight/trunk contribution from that path; frozen R7 weighted Gaussian trainer and 756-update schedule reused",
+    "reviewed_execution_path": "PASS: fixed R3 sample and original masks; fit-only normalization; 224-feature view; 31,808 fit rows; one 59,436-row final endpoint; no R7 replay or checkpoint/NPZ read",
+    "scorer_and_reference": "PASS: canonical GlobalAccumulator with unchanged R3 masks; component scores, sufficient statistics, and all 32 drop-one comparisons; compact R7 result hash-checked and read as JSON scalars only"
+  },
+  "interpretation_limits": [
+    "This intervention removes variance-to-trunk gradients; it does not isolate variance expressivity from optimization coupling.",
+    "A single adaptively exposed panel and seed do not provide a fresh full-fold estimate or latent-noise recovery evidence.",
+    "The actor-reported B-shaped import/read-sentinel smoke was not independently rerun here; local synthetic tests and all source-pin hashes were independently verified."
+  ],
+  "preparation_manifest_sha256": "f36198c019ae3183c315ec31f299836fd5ba37f8e491ef81e0c3dfdef6594d22",
+  "schema": "nf19.r8_implementation_review.v1",
+  "scope": "Read-only implementation review; no production arrays or model/checkpoint artifacts were read, and no B-side action was performed.",
+  "source_pins": {
+    "declared": 42,
+    "independently_rehashed": 42,
+    "mismatches": 0
+  },
+  "test_receipt_sha256": "e0d2a3d8c22c6bb1f5a2e4a7eb3e256aad46d0713c30f09ae089fd796461932f"
+}

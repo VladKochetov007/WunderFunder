@@ -1,0 +1,18 @@
+{
+  "decision": "PASS",
+  "design_sha256": "e9f36bd9ce16a0dae88c02b33dabc28c6dbec2185efc606afe11dd2ce135cbb9",
+  "findings": [
+    "The one new constant-variance arm is a direct control for the input-dependent variance pathway: applying the existing logvariance head to hidden*0 makes its output depend only on two biases while retaining the R7 parameter topology and initialization.",
+    "The design correctly states the optimization confound: constant variance removes variance-to-trunk gradients after the R7 heteroskedastic weights can become nonzero, so the comparison cannot isolate variance expressivity from optimization coupling or establish latent-noise recovery.",
+    "Primary and secondary contrast directions are explicit; both compare one new endpoint against compact stored R7 scores, with no R7 rerun, evaluation-driven selection, CV, or tuning.",
+    "The adaptive exposed-panel boundary, fixed seed/recipe/masks, one-endpoint rule, fit-only normalization, finite training counters, and bounded CPU-only resource envelope are stated."
+  ],
+  "limitations_preserved": [
+    "One seed and an adaptively exposed panel do not provide a training-variation interval or fresh/full-fold estimate.",
+    "A constant-arm match would weaken the input-dependent-variance explanation for this pilot; an advantage would motivate confirmation, not prove noise recovery.",
+    "The finite objective comparison does not establish public, CP30, or full-model performance."
+  ],
+  "required_design_corrections": [],
+  "review_scope": "Bounded pre-code scientific design review only; no implementation, panel arrays, model/checkpoint loads, or execution.",
+  "schema": "nf19.r8_design_review.v1"
+}

@@ -1,0 +1,43 @@
+{
+  "assembled_script_bytes": 782647,
+  "assembled_script_sha256": "a071bebd516800332cda0a27e4c5c195b4ad958a2cae15c1e55b99f152ede689",
+  "decision": "PASS",
+  "implementation_review_sha256": "1bac5550c81958a350c7e800df2eb370f73bd92ddb71c8ab9a907137123df3b9",
+  "independent_reconstruction": {
+    "canonical_sources": 6,
+    "extras_beyond_manifest_pins": [
+      "idea_screens_r8/PREPARATION_MANIFEST.json",
+      "idea_screens_r8/IMPLEMENTATION_REVIEW.json",
+      "idea_screens_r8/TEST_RECEIPT.json",
+      "idea_screens_r8/README.md"
+    ],
+    "implementation_review_staged": true,
+    "method": "Reconstructed the emitted byte string in memory from the frozen assembler templates, current manifest, and current payload files; compared byte-for-byte with the private emitted script; compiled both reconstructed and emitted scripts without executing them.",
+    "payload_bytes": 429445,
+    "payload_files": 40,
+    "pinned_payload_mismatches": 0,
+    "startup_self_review_staged": false,
+    "status": "PASS",
+    "unresolved_template_placeholders": false
+  },
+  "limitations": [
+    "This review verifies emitted startup bytes and static ordering only; it did not execute or contact the B host.",
+    "The in-unit import/read-sentinel execution is covered by the separate pinned TEST_RECEIPT smoke; this startup review did not run the remote unit."
+  ],
+  "preparation_manifest_sha256": "f36198c019ae3183c315ec31f299836fd5ba37f8e491ef81e0c3dfdef6594d22",
+  "schema": "nf19.r8_root_startup_review.v1",
+  "startup_gate_review": {
+    "capped_command": "One serial systemd user service at 50% CPU, 1.4GB MemoryHigh, 1.5GB MemoryMax, no swap, 600s, hidden CUDA, BLAS/OpenMP threads=1, physical B research_tmp.",
+    "cli_order": "The fresh CLI checks full manifest/canonical byte pins, compact stored R7 result hash and structure, runtime versions, sample and membership hashes, and the metadata fixture before importing/path-checking runtime modules and calling the R1 sample loader.",
+    "create_only_paths": {
+      "output": "research_tmp/nf19-r8-v1",
+      "support": "support-source/eda19-r8-v1",
+      "unit": "computer-vision-homework-eda19-r8-v1.service"
+    },
+    "payload_gate": "Every embedded payload has path-whitelist, byte-count, SHA and create-only checks; the complete staged bundle and six canonical sources are rehashed before the capped service starts.",
+    "preflight_and_fresh_exec": "Inside the capped unit, the inline entry imports the pinned runtime closure under numpy.load/ParquetFile/torch.load sentinels, records module paths and verifies runtime closure, restores readers, then execv-replaces itself with a fresh Python process running the pinned CLI and fixed R3 sample/R7 result/manifest identities.",
+    "preimport_checks": "The outer body checks the fixed F3 index-3 plan/heartbeat, exact populated-child ownership and active controller/worker, aggregate CPU/RAM reservations and headroom, no swap/OOM, physical scratch and disk/host memory, expected GPU ownership, sample SHA, six canonical source SHAs, and absent output/unit/support paths before staging or importing.",
+    "sample_and_output": "Fixed R3 sample hash and membership hash are passed; output is the distinct R8 path and is checked absent. No stored R7 arrays, checkpoint, NPZ, or model are loaded; R7 evidence is compact scalar JSON only.",
+    "status": "PASS"
+  }
+}

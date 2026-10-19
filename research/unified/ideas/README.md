@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[R8 constant-variance mechanism control](../../campaign_2026-10-19/idea_screens_r8/RESULTS.md) adds one fixed CPU arm WP0.501394. Stored input-dependent R7 remains ahead+0.012903; constant-minus-WMSE−0.000528. All32 primary leave-one contrasts stay positive, sensitivity only. This global-scaling control does not reproduce R7, while removed variance-trunk gradients prevent noise/expressivity isolation. No R7 replay or new absolute-best/full-model/public claim.
+
 [R7 learned mean/variance pilot](../../campaign_2026-10-19/idea_screens_r7/RESULTS.md) gives final candidate WP0.514297 versus matched WMSE0.501921, delta+0.012376, with both target deltas and all32 leave-one-component pooled contrasts positive. Same seed/model/batches/756updates; one exposed panel and variance-gradient/clipping coupling limit noise-mechanism claims. Stored R3 ridge0.536004 remains higher absolutely. Idea22 is PARTIAL; constant-variance scaling control and GRU transfer remain untested.
 
 [R6 actual target-gradient diagnostic](../../campaign_2026-10-19/idea_screens_r6/RESULTS.md) moves idea20 beyond input/score proxies: one frozen GRU,8fit components,16fixed windows, no updates. Trunk12positive/4negative windows and pooledcos+0.333540 do not support a universal opposite-direction premise; local conflicts remain. No PCGrad/separate-network or quality comparison was run.

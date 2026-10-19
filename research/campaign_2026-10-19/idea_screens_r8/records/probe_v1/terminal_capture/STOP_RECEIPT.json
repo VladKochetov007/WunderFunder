@@ -1,0 +1,95 @@
+{
+  "invocation": "80efb79bc60d4b75b2ec6d778abd9524",
+  "note": "Only this exact exited R8 unit was stopped after the capture and local payload validation. Transient unit properties, including InvocationID and caps, were cleared in the post-stop systemd view; pre-stop values are preserved above and in the raw receipt.",
+  "observed_utc": "2026-10-19T02:22:10.298357+00:00",
+  "post_stop_properties": {
+    "ActiveState": "inactive",
+    "CPUQuotaPerSecUSec": "infinity",
+    "CPUUsageNSec": "[not set]",
+    "ControlGroup": "",
+    "ExecMainCode": "0",
+    "ExecMainExitTimestamp": "",
+    "ExecMainStartTimestamp": "",
+    "ExecMainStatus": "0",
+    "Id": "computer-vision-homework-eda19-r8-v1.service",
+    "InvocationID": "",
+    "MemoryCurrent": "[not set]",
+    "MemoryHigh": "infinity",
+    "MemoryMax": "infinity",
+    "MemoryPeak": "[not set]",
+    "MemorySwapMax": "infinity",
+    "Result": "success",
+    "RuntimeMaxUSec": "infinity",
+    "SubState": "dead"
+  },
+  "post_stop_state": "inactive/dead",
+  "pre_stop_validation": {
+    "ActiveState": {
+      "actual": "active",
+      "expected": "active",
+      "pass": true
+    },
+    "CPUQuotaPerSecUSec": {
+      "actual": "500ms",
+      "expected": "500ms",
+      "pass": true
+    },
+    "ExecMainStatus": {
+      "actual": "0",
+      "expected": "0",
+      "pass": true
+    },
+    "Id": {
+      "actual": "computer-vision-homework-eda19-r8-v1.service",
+      "expected": "computer-vision-homework-eda19-r8-v1.service",
+      "pass": true
+    },
+    "InvocationID": {
+      "actual": "80efb79bc60d4b75b2ec6d778abd9524",
+      "expected": "80efb79bc60d4b75b2ec6d778abd9524",
+      "pass": true
+    },
+    "MemoryHigh": {
+      "actual": "1400000000",
+      "expected": "1400000000",
+      "pass": true
+    },
+    "MemoryMax": {
+      "actual": "1500000000",
+      "expected": "1500000000",
+      "pass": true
+    },
+    "MemorySwapMax": {
+      "actual": "0",
+      "expected": "0",
+      "pass": true
+    },
+    "Result": {
+      "actual": "success",
+      "expected": "success",
+      "pass": true
+    },
+    "RuntimeMaxUSec": {
+      "actual": "10min",
+      "expected": "10min",
+      "pass": true
+    },
+    "SubState": {
+      "actual": "exited",
+      "expected": "exited",
+      "pass": true
+    }
+  },
+  "raw_file": "REMOTE_STOP_RAW.json",
+  "raw_length": 5322,
+  "raw_sha256": "e49ae296e8ec6a710485f7f41f71f11b26d47014eb1656ec57f3bdfd25944e0e",
+  "schema": "nf19.r8_stop_receipt.v1",
+  "stop_command": [
+    "systemctl",
+    "--user",
+    "stop",
+    "computer-vision-homework-eda19-r8-v1.service"
+  ],
+  "stop_returncode": 0,
+  "unit": "computer-vision-homework-eda19-r8-v1.service"
+}

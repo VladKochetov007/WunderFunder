@@ -1,0 +1,42 @@
+{
+  "checks": [
+    {
+      "command": "PYTHONPATH=src .venv/bin/python -m pytest -q research/campaign_2026-10-19/idea_screens_r8/test_probe.py",
+      "name": "focused_synthetic_tests",
+      "result": "PASS: 8 passed"
+    },
+    {
+      "name": "ruff_format",
+      "result": "PASS: all seven R8 Python files formatted"
+    },
+    {
+      "name": "ruff_check",
+      "result": "PASS: all seven R8 Python files clean"
+    },
+    {
+      "name": "module_function_limits",
+      "result": "PASS: every R8 Python module <=300 lines and each function <=200 lines"
+    },
+    {
+      "name": "b_shaped_import_read_sentinel_smoke",
+      "result": "PASS: 42 pins verified; 31 runtime module paths matched; compact R7 result and R3 metadata fixture parsed; numpy.load, pyarrow.parquet.ParquetFile, and torch.load sentinels untouched"
+    }
+  ],
+  "execution_scope": "No actual R3 sample sequence arrays were loaded, no checkpoint/model was deserialized or trained, no endpoint was queried, and no B staging or remote execution was performed. The smoke used a temporary B-shaped source bundle and read only pinned metadata plus the compact stored R7 result.",
+  "implementation_files": [
+    "idea_screens_r8/__init__.py",
+    "idea_screens_r8/model.py",
+    "idea_screens_r8/reporting.py",
+    "idea_screens_r8/scoring.py",
+    "idea_screens_r8/execution.py",
+    "idea_screens_r8/run_probe.py",
+    "idea_screens_r8/test_probe.py"
+  ],
+  "manifest_policy": "README.md and this TEST_RECEIPT.json are excluded from the source manifest so operational annotations can be appended without changing frozen code pins.",
+  "preparation_manifest_sha256": "f36198c019ae3183c315ec31f299836fd5ba37f8e491ef81e0c3dfdef6594d22",
+  "r3_sample_metadata_fixture_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+  "r7_compact_result_sha256": "dd36e82a51672a9b9e2ab694dd92fcd827a2445d607927548200d333d1f4b9e0",
+  "r7_manifest_sha256": "9b941a2180e9012b3011a716d07dde40b0272a04e34a69fcaaa8afc011dd90a4",
+  "schema": "nf19.r8_test_receipt.v1",
+  "source_pin_count": 42
+}
