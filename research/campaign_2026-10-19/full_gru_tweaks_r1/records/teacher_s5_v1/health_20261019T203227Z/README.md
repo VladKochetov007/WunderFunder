@@ -1,0 +1,9 @@
+# S5 bounded health — 20:32:29UTC
+
+[Raw stdout](STDOUT.raw.json), [stderr](STDERR.raw), [transport](TRANSPORT.json) and [observation](OBSERVATION.json) preserve one rare readonly snapshot with the unchanged [S5 reader](../startup_health_v1/REMOTE.py) SHA327bbe95735f63d396924890c70cb68f7dba80b9deb853a109d5544c8bce1eef. Raw23,663bytes/SHA37a1a7044ae9fa326c7afcb79651858ce47d72ebbdd9f5ae584241140b09d311 were persisted before parsing; SSH returned0, no retry/unit mutation/newjob.
+
+Same exact invocation4317408cdc69442c8438c74aaf5809eb is active/running. Native epoch0 FIT records7,460successful updates/373batches/0AMPskips, with GRAD_STATS0nonfinite steps. Last recorded line is epoch1batch180/373/loss1.5940/LR5.49e-4; not synchronous live progress, a verified current-update count or terminal22,380completion. Evaluation remains withheld, no quality result.
+
+One owned populated PID3439045/GPUprocess4,126MiB; foreign work untouched. Service MemoryCurrent3,866,169,344B, separately sampled own cgroup current3,749,695,488/peak4,314,652,672B and parent current are distinct observations; no common atomic/current value or cause is inferred. Own/parent memory events match prior observation: all own0, parenthistoricalhigh2179/max561/OOM0/local0 unchanged. Provenance163,768B and training_state17,713,576B exist, selectedmodel/ep2/history absent bystat. Bounded provenance JSON was read; no model/checkpoint/state/data tensor payload opened or hashed. Legacy rawS3schema and hardcoded expectedsource identifier remain reader caveats; actual admission is source-content authority. No immediate repeated polling.
+
+[Independent local metadata review](METADATA_REVIEW.json) passes raw transport, exact identity/ownership, logged counters and event comparisons, preserving the reader/source and memory-sampling caveats. It is not checkpoint verification or empirical replication.

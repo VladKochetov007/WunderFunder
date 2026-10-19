@@ -1,5 +1,7 @@
 # Full GRU: strong recipe plus three positive CPU-screen candidates
 
+**20:32:29UTC bounded health:** [Same S5 invocation](records/teacher_s5_v1/health_20261019T203227Z/README.md) remains active/running. Native epoch0 logs7,460successful updates/373batches/0skips/nonfinite0; latestrecordedep1batch180/373/loss1.5940/LR5.49e-4. One owned populated GPUworker4,126MiB and own/parentnewmemoryevents0. State/provenance now exist; tensorfilesstat-only, no terminal/quality result. This dated observation supersedes freshness below; no immediatepoll.
+
 [S4 completion and S5 execution publication validation](PUBLICATION_VALIDATION_20261019_S4_S5.json) binds the exact staged source/metadata/navigation and preserves the parallel policy commit plus append-only history. It is not a model quality evaluation.
 
 **19:46:32UTC recorded fitting:** [Same S5 invocation](records/teacher_s5_v1/startup_health_v2/README.md) is active/running, loggedepoch0batch20/373/loss2.1483/LR3.37e-4, with one owned populated GPUworker3,732MiB and own/parent newmemoryevents0. No verified terminal/update count or quality result. This supersedes only freshness of the initial no-log/no-GPU startup below.

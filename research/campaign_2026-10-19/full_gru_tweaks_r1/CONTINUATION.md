@@ -1,4 +1,6 @@
-# Current execution — 19 October19:46UTC
+# Current execution — 19 October20:32UTC
+
+**20:32:29UTC bounded health:** [Same S5 invocation](records/teacher_s5_v1/health_20261019T203227Z/README.md) remains active/running. Native epoch0 logs7,460successful updates/373batches/0skips/nonfinite0; latestrecordedep1batch180/373/loss1.5940/LR5.49e-4. One owned populated GPUworker4,126MiB and own/parentnewmemoryevents0. State/provenance now exist; tensorfilesstat-only, no terminal/quality result. This dated observation supersedes freshness below; no immediatepoll.
 
 **Two strong teachers are completed and accepted; the third is actually launched.** [Seed4 terminal acceptance](records/teacher_s4_v1/TERMINAL_ACCEPTANCE.json) binds native exit0at19:30:32UTC,22,380successful updates/1,119batches/0skips/nonfinite,3epochs/next_epoch3/fixed2,source164 and finiteFP32 model/Muon/Adam/loader/RNG. [Restricted verifier](records/teacher_s4_v1/terminal_verification_v1/README.md) exited0at19:39:25; compact metadata was captured and length/SHA validated19:39:38 before [exact stop](records/teacher_s4_v1/terminal_exact_stop/README.md)19:40:45. [Independent actual metadata review](preparation/TEACHER_S4_ACTUAL_TERMINAL_REVIEW.json) confirms the capture/acceptance/stop bindings. Do not poll/retrain/reverify stopped S4 or S3. Real checkpoint payloads remainB; no inference/grade or tweak-quality result.
 

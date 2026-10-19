@@ -1,5 +1,7 @@
 # Third strong teacher — actual seed5 fit
 
+**20:32:29UTC bounded health:** [Same S5 invocation](health_20261019T203227Z/README.md) remains active/running. Native epoch0 logs7,460successful updates/373batches/0skips/nonfinite0; latestrecordedep1batch180/373/loss1.5940/LR5.49e-4. One owned populated GPUworker4,126MiB and own/parentnewmemoryevents0. State/provenance now exist; tensorfilesstat-only, no terminal/quality result. This dated observation supersedes freshness below; no immediatepoll.
+
 **19:46:32UTC recorded fitting:** [Same S5 invocation](startup_health_v2/README.md) is active/running, loggedepoch0batch20/373/loss2.1483/LR3.37e-4, with one owned populated GPUworker3,732MiB and own/parent newmemoryevents0. No verified terminal/update count or quality result. This supersedes only freshness of the initial no-log/no-GPU startup below.
 
 [Admission](ADMISSION.json), [launch](LAUNCH.json), [launch acceptance](LAUNCH_ACCEPTANCE.json), [frozen recipe](RECIPE.json), [raw response](STDOUT.raw.json), [transport](TRANSPORT.json) and [executed binder body](REMOTE_SUBMISSION.py) bind one actual cold teacher: computer-vision-homework-fg19-teacher-s5-v1.service, invocation4317408cdc69442c8438c74aaf5809eb, launched19October19:41:03UTC. Same sourceaf21/164files, H384×2/legacy211inputs/23outputs/B32/C1000/threefixedepochs/select2, currentF0/train+valid/held-out-excluded/noeval as S4; only runname/seed5 differ. It is not warm-started from S4.
