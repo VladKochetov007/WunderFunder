@@ -17,6 +17,16 @@ evidence_paths: []
 
 [Draft PR #24](https://github.com/VladKochetov007/WunderFunder/pull/24) передаёт эту четвёрку в research-team как отдельный future-CP30 handoff; исходный код сохранён в указанном remote snapshot, а его перенос в текущий trainer ещё не сделан.
 
+## Дистилляция сильных учителей и streaming-студенты
+
+| Draft | Проверяемый вопрос | Опубликованный snapshot |
+|---|---|---|
+| [PR #28](https://github.com/VladKochetov007/WunderFunder/pull/28) | L207/XL682 × GRU H256/H512: перенос качества учителя | [packet](https://github.com/VladKochetov007/WunderFunder/tree/4eec1fd9d0e27261846fbd6ab122231519248ecb/research/experiment_drafts/teacher-transfer-frontier), `4eec1fd9d0e2` |
+| [PR #29](https://github.com/VladKochetov007/WunderFunder/pull/29) | Скрытые представления учителя: правильный hint против переставленного | [packet](https://github.com/VladKochetov007/WunderFunder/tree/f7f176aebe1007638364ef841c1f2824b255e002/research/experiment_drafts/teacher-representation-hints), `f7f176aebe10` |
+| [PR #30](https://github.com/VladKochetov007/WunderFunder/pull/30) | Streaming Transformer-студент против GRU с одинаковым учителем | [packet](https://github.com/VladKochetov007/WunderFunder/tree/5e0ebde31bb4d88c7cb7e57838814c584e3b0a39/research/experiment_drafts/streaming-student-distillation), `5e0ebde31bb4` |
+
+Все три PR направлены в `research-team`. Это подготовленные исследования:510student fits при полном выполнении матриц и до90teacher fits,16заранее заданных основных контрастов. Запусков нет; `launch_ready=false`. [Общее обоснование и первоисточники](CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md#22-select-the-best-transferable-teacher-not-the-largest-checkpoint), [CPU-инференс](../inference/TRANSFORMER_DISTILLATION_CPU_PATH.md), [свежие командные результаты и происхождение учителей](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md).
+
 ## Архитектурная четвёрка
 
 [Замороженный README и recipe](https://github.com/VladKochetov007/WunderFunder/tree/bd78ac1048fe9d6534e76cde8c6f8ec0d6aa6acb/research/campaign_2026-10-17/architecture_gpu_wave_r1) содержат исторический F0/seed3/one-epoch screen. Его не переписывали под вид завершённого CP30. Он привязан к legacy trainer: модели ещё нужно подключить через текущие `wnn.training.models`, input/state/forward/checkpoint/prediction seams. Простое слияние всей старой ветки может конфликтовать с новой архитектурой trainer и общими индексами.
