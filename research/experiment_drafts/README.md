@@ -1,6 +1,6 @@
 # Research-team experiment catalogue
 
-[teacher-representation-hints](teacher-representation-hints/README.md): 90 planned student fits across 3 arms, strict FP32 CP30 and explicit source/cache/CPU gaps. Proposal only; no local execution, `launch_ready=false`. Canonical Transformer note Sections22–27 supplies the common design and16contrast portfolio.
+[PR #29: teacher-representation-hints](teacher-representation-hints/README.md): 90 planned student fits across 3 arms, strict FP32 CP30 and explicit source/cache/CPU gaps. Proposal only; no local execution, `launch_ready=false`. Canonical Transformer note Sections22–27 supplies the common design and16contrast portfolio.
 
 - Published future-experiment draft PRs: [#22 Adaptive TBPTT](https://github.com/VladKochetov007/WunderFunder/pull/22), [#23 current-moment WP replay](https://github.com/VladKochetov007/WunderFunder/pull/23), and [#24 four-arm architecture handoff](https://github.com/VladKochetov007/WunderFunder/pull/24). Each targets research-team; the first two need adapters, the architecture handoff needs a focused port of preserved source. No model execution or run admission follows from publication.
 

@@ -13,4 +13,4 @@ The canonical note deferred hidden alignment. PR #3 changes teacher family; this
 
 90 student fits,30 L teachers/caches unless exact grid sources are reusable. A64-channel FP32 hint is32times the two-output cache payload; measure I/O cost.
 
-Publication and result fields remain empty until actual receipts exist. No plan printer, queue or placeholder trainer is supplied.
+Published draft: [PR #29](https://github.com/VladKochetov007/WunderFunder/pull/29) targeting `research-team`; initial packet head `0d8c7b537a2d8657260b76443dbf3ec628c73cc4`. Result fields remain empty until actual receipts exist. No plan printer, queue or placeholder trainer is supplied.
