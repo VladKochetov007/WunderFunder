@@ -1,0 +1,21 @@
+{
+  "time_unix": 1792366353.7513633,
+  "argv": [
+    "systemd-run",
+    "--user",
+    "--unit=tabdata-parallel-feature-profile-v2",
+    "--property=MemoryMax=64G",
+    "--property=MemorySwapMax=0",
+    "--property=TasksMax=256",
+    "--property=CPUAffinity=80-95",
+    "--property=RuntimeMaxSec=1900",
+    "--property=WorkingDirectory=/data/epanov_s/tabdata",
+    "--property=StandardOutput=append:/data/epanov_s/tabdata/receipts/parallel-expansion-v1/profile_v2.log",
+    "--property=StandardError=append:/data/epanov_s/tabdata/receipts/parallel-expansion-v1/profile_v2.log",
+    "/data/epanov_s/tabdata/.venv/bin/python",
+    "-B",
+    "-u",
+    "/data/epanov_s/tabdata/runtime/parallel-expansion-v1/profile_overlay_v2.py"
+  ],
+  "source_sha256": "3a49352028f4f95058f62e997eafb425ae4a79ba160b8969329179092c1edc7b"
+}

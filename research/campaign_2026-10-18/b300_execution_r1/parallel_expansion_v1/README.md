@@ -7,3 +7,5 @@ Two distinct successors: [field age](AGE_CONTRACT.md) fromPR4 and [causal innova
 The separate controller uses the canonical trainer and original official grader. Profile v1 was an engineering-only overlong outer-batch request, stopped with partial evidence retained; v2 counts40 measured plus5 warmup outer batches,450 actual optimizer updates/mode. Source identity distinguishes60 producer code files, the61-member portable manifest (extra training README), and147 deployed files; none may be conflated.
 
 See [PR4 critique](REVIEW_PR4.md), [PR14 critique](source_contracts/REVIEW_PR14.md), frozen source contracts, `code/`, and `observed/` for measured stages. Profiles/smoke runs are zero scientific cells. This index makes no unobserved launch or quality claim.
+
+[Actual execution status](RUN_STATUS.md), [source/smoke audit](SOURCE_AUDIT.md), [frozen runtime config](observed/EXECUTION_CONFIG.json), and [40-fit live receipt](observed/receipts/LIVE_STATUS.json).

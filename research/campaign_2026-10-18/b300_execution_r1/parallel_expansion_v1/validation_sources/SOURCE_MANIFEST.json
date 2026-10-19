@@ -1,0 +1,41 @@
+{
+  "files": {
+    "scripts/train_rnn.py": {
+      "bytes": 1735,
+      "raw_sha256": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872"
+    },
+    "tests/__init__.py": {
+      "bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "tests/conftest.py": {
+      "bytes": 547,
+      "raw_sha256": "3b6cb2e340c522f3d728f3c5cb0a5886f50b5c6668a5037d5b848eedd08bb95f"
+    },
+    "tests/test_causal_moment_features.py": {
+      "bytes": 7510,
+      "raw_sha256": "1895ffffa33f155290e4f547ff1372948fb6e4bf7867a7307217e8a6040d0a0d"
+    },
+    "tests/test_field_age_features.py": {
+      "bytes": 6222,
+      "raw_sha256": "ef57037c1c3b36f63e4172d41b75183163dc78bca0b2422861a1ade55671e113"
+    },
+    "tests/test_predictor.py": {
+      "bytes": 3555,
+      "raw_sha256": "66ec8e4c64fe41025e36b42afca9cc5bf094b6b20939ff246ce96fca32986ce3"
+    },
+    "tests/test_streaming_graph.py": {
+      "bytes": 4811,
+      "raw_sha256": "3dfdaad50fc0638fe6318e187a2e53c8ba88454a20315bcb78110ea0b69c3f78"
+    }
+  },
+  "runtime_source_required": "runtime/source-a266-lf-subset-v1/src",
+  "schema": "tabdata-a266-feature-validation-sources.v1",
+  "source_commit": "a266b036b02e8e012c6eb31072291dad618a169d",
+  "test_scope": [
+    "causal moment batch/torch/stream parity, future isolation, reset, prior and trainer input wiring",
+    "field/group-age row oracle, stream/chunk parity, future isolation and cap",
+    "streaming graph batch parity and recurrent-state reset with causal innovations",
+    "native predictor parity and reset, when wnn_native is installed"
+  ]
+}
