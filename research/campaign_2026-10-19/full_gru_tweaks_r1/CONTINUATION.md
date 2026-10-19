@@ -1,3 +1,9 @@
+# Latest observed export progress — 19 October22:26:55UTC
+
+[Human-requested bounded status](records/teacher_s3_train_export_v1/health_20261019T2226Z/README.md): exactS3trainexportinv48732136d70548b2903f3426bfedf656 remainsactive/running, lastrecorded5712/10535fit-train sequences. OnepopulatedownedGPUworker/1286MiB; ownmemoryevents0/parentdeltas0. No payloadread/hash/newjob/terminal/quality. This supersedes22:14startupfreshness only; current launch/source/next-stage boundaries below are unchanged. No immediate repeatpoll.
+
+---
+
 # Current execution — 19 October22:12UTC
 
 **22:14:50UTC startup:** [Exact invocation remains active/running](records/teacher_s3_train_export_v1/startup_health_v1/README.md), last recorded896/10535predictedsequences; one populated owned GPUprocess1,286MiB, own/parent memoryeventdeltas0. PartialarraySTAT-ONLY; sourceID/file-stat health is not fresh content verification. No synchronous live/terminal/quality claim or immediate repeated polling.

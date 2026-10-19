@@ -1,5 +1,7 @@
 # Current project state
 
+**19 October22:26:55UTC human-requested status:** [Same S3 fitting-train export active](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_train_export_v1/health_20261019T2226Z/README.md), recorded5712/10535sequences, oneownedGPUworker/zero new memoryevents. No terminal/cache/five-armquality result.
+
 **19 October22:12UTC full-GRU dependency:** [S3 fitting-train inference export actually launched](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_train_export_v1/README.md), exact invocation48732136d70548b2903f3426bfedf656 on source88becca/one owned GPU. Allthree teachers and full-shape inference profile are accepted/stopped. Sharedtarget cache and six parent/child scientific fits follow; no five-arm quality result yet.
 
 

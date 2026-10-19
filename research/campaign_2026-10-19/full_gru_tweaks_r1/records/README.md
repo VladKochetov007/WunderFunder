@@ -40,3 +40,5 @@ The [actual teacher profileV2](teacher_profile_v2/FAILURE.json) exited1at15:19:0
 [16:18UTC bounded teacher health](teacher_s3_v1/health_20261019T1618Z/README.md) records the same active invocation and epoch0batch360/373 log line, with exact raw transport/returncode0, one owned worker and no new parent/own memory events. Metadata/model paths were stat-only; no checkpoint payload or quality result. Earlier startup transport failure/correction is preserved separately.
 
 [16:59:55UTC teacher progress](teacher_s3_v1/health_20261019T1700Z/README.md) logs two completed epochs/14,920successful updates/0skips/nonfinite0 before recordedep2batch20/373. Same original invocation remains active with one owned worker and no new memory events. New provenance/training-state paths are stat-only; terminal/quality acceptance is still pending.
+
+[Human-requested S3export status22:26:55UTC](teacher_s3_train_export_v1/health_20261019T2226Z/README.md): sameactiveinvocation, recorded5712/10535fit-train sequences, oneownedGPUworker and unchangedmemoryevents; no terminal or quality claim.
