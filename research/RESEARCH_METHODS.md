@@ -5,6 +5,13 @@ particular competition, model architecture, dataset, or evaluation measure. Its
 purpose is to sustain useful exploration, deepen promising directions, and escape
 loops caused by stale assumptions or an unproductive task framing.
 
+Project-specific prospective fit counts follow
+[ADR0043](../specs/adr/0043-fast-screens-and-transformer-teacher-scale.md):4–6 total
+new fits per initial idea comparison, explicit matched cells and teacher/student
+costs, followed by targeted rather than quota-driven confirmation. Historical
+frozen protocols remain preserved. This small-screen budget does not establish
+significance or relax causal/ancestry/evaluator requirements.
+
 The operating cycle is:
 
 **frame → generate → challenge → probe → implement → evaluate → reproduce → update → reframe**.

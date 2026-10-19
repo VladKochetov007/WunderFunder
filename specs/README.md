@@ -22,3 +22,10 @@ receipts remain preserved and do not override this newer authority.
 
 Historical status entries that preceded the current snapshot are preserved
 byte-for-byte in [current-state-history-20261017.md](current-state-history-20261017.md).
+
+The later October19 [ADR0043](adr/0043-fast-screens-and-transformer-teacher-scale.md)
+extends fast screening to all future drafts:4–6 total new fits per initial idea,
+not per arm, with explicit costs and uncertainty. The new strategic design
+priority is a large8×B300 causal Transformer teacher and GRU distillation. Read
+the new top entry in current state; historical matrices and existing local
+budget/start are preserved. No remote controller is restarted by a proposal.

@@ -1,5 +1,21 @@
 # Current project state
 
+## Latest steering — October 19: fast screens and large B300 teachers
+
+The user replaces mandatory30-per-arm experiment matrices for FUTURE drafts
+with **4–6 total new fits per initial idea comparison**, normally2–3 matched
+two-arm cells. Count cached controls and teacher/student stages explicitly;
+retain historical frozen panels and expose small-screen uncertainty. The new
+strategic priority is a large causal Transformer teacher on8 B300s, followed by
+GRU distillation. See [ADR0043](adr/0043-fast-screens-and-transformer-teacher-scale.md)
+and the [detailed design](../research/unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md).
+The design proposes0.68B/1.65B capacity recipes, optional3.17B extension, strict
+FP32 Muon, WSD, profiled DDP and causal dynamics objectives. It supplies no
+new runnable DDP trainer, B300 reservation, fit or quality claim. Preserve the
+local/Kaggle plan below and its start/allocation; do not restart stopped jobs.
+
+Root local/Kaggle preparation remains tracked in the [accepted plan](plans/2026-10-20-plateau-review-local-kaggle.md) and its frontier, with the existing October20 start and15h budget. The parallel research-team stream retains its separately dated actual progress below.
+
 **19 October18:34UTC bounded health:** [Same S4 teacher remains active](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s4_v1/health_20261019T183406Z/README.md). Native epoch0 records7,460successful updates/373batches/0skips/nonfinite0; last recorded line is epoch1batch100/373. One owned GPUworker and own/parent newmemoryevents0. Metadata/state paths now exist, model/history pending; no tensor payload read, terminal acceptance or quality result. This supersedes only health freshness in the17:52 snapshot below.
 
 **19 October17:52UTC strong-GRU progress:** [First teacher S3 is completed, verified and exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_v1/TERMINAL_ACCEPTANCE.json):22,380updates/1,119batches/0skips/nonfinite, finiteFP32 model/Muon/Adam/loader/RNG and164source files. [Independent actual review](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/ACTUAL_TERMINAL_REVIEW.json) passes. The initial restricted-loader `TorchVersion` metadata failure was corrected in a separate same-cap CPU verifier; no training replay. [Second teacher S4 is running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s4_v1/README.md), launched17:50:37UTC with only seed/name changed; startup shows one owned GPUworker and no new memory events. Three-teacher cache, shared warm parent and five final arms still follow serially. No tweak/control quality result or public-transfer claim yet; [current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes dated states below.
