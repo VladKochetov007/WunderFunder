@@ -14,7 +14,7 @@ sets4–6 total new fits per initial idea comparison. The
 [large causal Transformer proposal](ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md)
 specifies0.68B/1.65B capacity recipes, optional3.17B scaling, dynamics embeddings,
 FP32 Muon/WSD/DDP, causal long memory and measured GRU transfer. Sources and
-independent design criticism are indexed; no new fit, B300 profile or gain exists.
+independent design criticism are indexed; no new fit, B300 profile or gain exists. [Draft PR #31](https://github.com/VladKochetov007/WunderFunder/pull/31) includes the later TradeFM-inspired observable-event timing/mark objective and separately counted four-fit screens.
 
 Latest broad campaign closeout: [Online-features closeout](../campaign_2026-10-18/online_features_r1/CLOSEOUT_20261018_R1.md)
 — summarizes causal-state, Kalman, gating, model-blend, submission and local code-draft evidence from the closed campaign. The new plan contains no additional quality result yet.

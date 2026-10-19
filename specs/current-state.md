@@ -13,6 +13,10 @@ The design proposes0.68B/1.65B capacity recipes, optional3.17B extension, strict
 FP32 Muon, WSD, profiled DDP and causal dynamics objectives. It supplies no
 new runnable DDP trainer, B300 reservation, fit or quality claim. Preserve the
 local/Kaggle plan below and its start/allocation; do not restart stopped jobs.
+The later user-supplied TradeFM paper motivates a fixed-scale event-likelihood
+screen before the full ladder; its four fits and the capacity panel are separate.
+[Draft PR #31](https://github.com/VladKochetov007/WunderFunder/pull/31) contains the
+source-bound design handoff and analytical tools; no runnable teacher fit exists.
 
 ## Active instruction — October 19, 2026
 

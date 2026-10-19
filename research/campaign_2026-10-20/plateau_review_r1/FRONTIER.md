@@ -19,6 +19,10 @@ Record changes and receipts here before context compaction or handoff.
   training path. Existing B300 results were collected in the linked PR review;
   no B300/local/Kaggle job was admitted. The accepted local plan and unused15h
   allocation remain preserved; reconcile the latest priority before spending.
+  Shared policy is pushed on main/research-team; [draft PR #31](https://github.com/VladKochetov007/WunderFunder/pull/31)
+  adds separately counted teacher-scale and TradeFM-inspired event-objective
+  panels. Preferred first dynamics comparison uses likelihood off/on at0.68B.
+  No B300 fit, local job or teacher/student result was added by this preparation.
 - Accepted plan saved and linked; no new fits or scientific scores.
 - Baseline source: main `9defbcbc0f2a6f1b35941dc657496993b48889c6`. Plan/source audit
   pushed in `372af11fe`; first-comparison code integrated in `0cc795070`.

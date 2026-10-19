@@ -4,7 +4,7 @@ External writeups and literature provenance; external results do not establish l
 
 ## Current navigation
 
-- [Large B300 teacher primary-source register](TRANSFORMER_B300_SCALE_SOURCES_20261019_R2.md) — actual October19 inspection of the user's2606.30634 gradient-delay paper, NVIDIA B300 hardware, Muon source/API, FP32 attention/DDP, numeric encoders, WSD, dynamics pretraining and teacher/student limits. Records the upstream Muon BF16 cast and the gap between external LLM results and this unrun time-series proposal; no imported data or weights.
+- [Large B300 teacher primary-source register](TRANSFORMER_B300_SCALE_SOURCES_20261019_R2.md) — actual October19 inspection of the user's2606.30634 gradient-delay paper and later2602.23784 TradeFM event-modeling paper, NVIDIA B300 hardware, Muon source/API, FP32 attention/DDP, numeric encoders, WSD, dynamics pretraining and teacher/student limits. Records the upstream Muon BF16 cast and the gap between external LLM results and this unrun time-series proposal; no imported data or weights.
 
 - [October17 no-fit source register](../../campaign_2026-10-17/research_reset_r1/sources/README.md) — 32 primary works, independent R1 searches and live official-rule checks; inspection depth and transfer limits are explicit, no imported external market data or measured model gain.
 - [KalmanNet-inspired innovation-gain GRU source assessment](KALMANNET_INNOVATION_GAIN_GRU_20261018_R1.md) — summarizes three primary learned-filtering papers and limits their transfer to this anonymous time-series task. They motivate a causal latent gain operator; they provide no local score, calibrated covariance claim, or online-weight-learning evidence.

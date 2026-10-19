@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1600 · raw hypothesis rows 568 · raw experiment rows 977 · legacy arms 18 · catalog files 92331.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1602 · raw hypothesis rows 569 · raw experiment rows 978 · legacy arms 18 · catalog files 92331.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-ea93166c38b45e481d18666a4c4fbad43e9457228c9823063116e858aa3099d9.json](<snapshots/config-ea93166c38b45e481d18666a4c4fbad43e9457228c9823063116e858aa3099d9.json>).
 
@@ -1649,6 +1649,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-PLATEAU-I1-HISTORY-20261020-R1 | Explicit prior-EMA residuals and slow RMS-change channels can make i1 temporal information easier for a cold GRU to use than the standard raw/event block alone. | hypothesis · implementation_in_progress_no_fit | family:temporal | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L566>) | — |
 | hypothesis:H-PLATEAU-I1-HISTORY-TRANSFER-20261020-R1 | A useful i1-history teacher may transfer information to an identical cold student beyond what retaining a parent function achieves. | hypothesis · conditional_proposal_no_fit_no_budget_reserved | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L567>) | — |
 | hypothesis:H-LARGE-DYNAMICS-TEACHER-20261019-R2 | A larger causal numerical Transformer with measured dynamics/context learning can provide teacher signal that improves a matched GRU or served blend. | hypothesis · proposed | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L568>) | — |
+| hypothesis:H-OBSERVABLE-EVENT-DYNAMICS-20261019-R1 | Training a large causal teacher on future observable-change timing and marks improves predictive state and useful target/student performance beyond matched supervision alone. | hypothesis · proposed | family:objective | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L569>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -2518,6 +2519,7 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-PLATEAU-I1-B-20261020-R1 | E-PLATEAU-I1-B-20261020-R1 | experiment · implemented_static_review_complete_prefit_checks_pending | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L972>), [research/experiments.jsonl](<../../experiments.jsonl#L975>) | — |
 | experiment:E-PLATEAU-I1-C-20261020-R1 | E-PLATEAU-I1-C-20261020-R1 | experiment · implemented_static_review_complete_prefit_checks_pending | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L973>), [research/experiments.jsonl](<../../experiments.jsonl#L976>) | — |
 | experiment:E-LARGE-DYNAMICS-TEACHER-SCALE-20261019-R2 | E-LARGE-DYNAMICS-TEACHER-SCALE-20261019-R2 | experiment · proposed_not_launch_ready | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L977>) | — |
+| experiment:E-OBSERVABLE-EVENT-DYNAMICS-20261019-R1 | E-OBSERVABLE-EVENT-DYNAMICS-20261019-R1 | experiment · proposed_not_implemented | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L978>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
