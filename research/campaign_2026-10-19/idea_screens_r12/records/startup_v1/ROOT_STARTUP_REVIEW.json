@@ -1,0 +1,36 @@
+{
+  "schema": "nf19.r12_root_startup_review.v1",
+  "utc": "2026-10-19T05:06:55.421171+00:00",
+  "status": "PASS_SOURCE_TRANSPORT_AND_LOCAL_COLD_IMPORT; REMOTE_FRESH_GATES_PENDING",
+  "manifest_sha256": "20d26c8adfddef62feb76edebba254751bd2f7c3cbecddfd2487606c7690ec86",
+  "implementation_review_sha256": "706ac94949b722a6bbc3813700242ab62f1dd8f2a85efa026404ec89703b1b18",
+  "transport_replay_sha256": "e79551ba546952ce7cd43e6f69d1d08d1925b74aafc999d241a3ef14b3d6bea7",
+  "assembly_receipt_sha256": "850a7c1af99ca761e00ef0507bb4006898488d07ee821295f3ab5dbce0bd9d99",
+  "local_import_smoke_sha256": "c9a8d9e5893c62e1d67e779cbdae84c4dd243ce07a28b8d30ca499a22250df5b",
+  "scientific_pin_count": 32,
+  "runtime_module_count": 26,
+  "transport_file_count": 30,
+  "checks": [
+    "Every embedded source/metadata byte equals its local hash-bound source",
+    "All 32 science pins match",
+    "All generated private scripts SHA/size and syntax match replay",
+    "Cold B-shaped import PASS; no payload reads",
+    "Existing caps and ownership/resource/outputabsence gates retained",
+    "Single launch only; unknown outcome is not retried"
+  ],
+  "generated_scripts": {
+    "r12_capture.py": {
+      "bytes": 3862,
+      "sha256": "57624d3effda7dc9eff6b827cc25d0390e44d0560e1e3113bf119e056fef3f0c"
+    },
+    "r12_remote.py": {
+      "bytes": 596182,
+      "sha256": "62257ade67d52bc0eeaed2f29e336f5a367db611c69c5e460da87e58697d3848"
+    },
+    "r12_stop.py": {
+      "bytes": 1737,
+      "sha256": "0d5388b2b4b577b679fac32cd2dbfc82e19c768f8b1ceb23b69fe40e215960a9"
+    }
+  },
+  "remote_actions_performed_so_far": false
+}

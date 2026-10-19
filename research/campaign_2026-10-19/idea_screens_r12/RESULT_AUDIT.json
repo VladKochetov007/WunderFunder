@@ -1,0 +1,136 @@
+{
+  "bindings": {
+    "capture_sha256": "29ad810d8bf6b0583c5238be38eea878915b56811bac88d92fc8fdc1c459c55f",
+    "capture_validation_sha256": "2f7614574c8c6e2ceb3298e223b4bb715cb21af449be010e1946064ac60543cf",
+    "done_sha256": "2efc29eded446dbfc05c002a03a76d0d0dadde56049ff1b7bfc715962aba84ab",
+    "invocation_id": "e4b029367b2d46be8a02055799d46c17",
+    "manifest_sha256": "20d26c8adfddef62feb76edebba254751bd2f7c3cbecddfd2487606c7690ec86",
+    "membership_sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+    "result_sha256": "d5d444bc36fc8664dbdf0c5b748fb61767f2da2a1917d015a1b3ba420e72871f",
+    "runtime_modules": 26,
+    "sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+    "source_pins": 32,
+    "source_revision": "a266b036",
+    "source_sha256": "d6824ce8b9c4e8c3aaac764cec677c62f7e8c44a631587704e821b8f99ac227c",
+    "stop_envelope_sha256": "4020bf5281877f4695b4bf55f1fc069c69999f765e4bcfd8f2669374de44423c",
+    "stop_stdout_sha256": "3e5b5ffc0482f1de5c39d12d7b0f08925838297e9f66e5a8c7a474b6bfd361a6"
+  },
+  "evaluation": {
+    "component_delta_signs": {
+      "max": 0.070178728192973,
+      "min": -0.2349100068363036,
+      "negative": 28,
+      "positive": 4
+    },
+    "drop_one_delta_signs": {
+      "max": -0.07387560084590816,
+      "min": -0.09620913962279659,
+      "negative": 32,
+      "positive": 0
+    },
+    "max_absolute_six_sum_error": 6.106226635438361e-16,
+    "pooled_corr_minus_wmse_wp": -0.08492508013308958,
+    "reconstruction": {
+      "pooled_corr": {
+        "component_max_error": 2.7755575615628914e-16,
+        "drop_one_max_error": 3.885780586188048e-16,
+        "official": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 59436,
+          "t0": 0.4070440630477068,
+          "t1": 0.40459081082553205,
+          "wp": 0.4058174369366194
+        },
+        "six_sum_reconstruction": {
+          "t0": 0.4070440630477068,
+          "t1": 0.40459081082553217,
+          "wp": 0.4058174369366195
+        }
+      },
+      "wmse": {
+        "component_max_error": 6.106226635438361e-16,
+        "drop_one_max_error": 3.885780586188048e-16,
+        "official": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 59436,
+          "t0": 0.49641132743911986,
+          "t1": 0.4850737067002982,
+          "wp": 0.49074251706970906
+        },
+        "six_sum_reconstruction": {
+          "t0": 0.49641132743911986,
+          "t1": 0.4850737067002983,
+          "wp": 0.49074251706970906
+        }
+      }
+    }
+  },
+  "limits": [
+    "One fixed 128-update objective pair on the exposed 32-component panel.",
+    "Component and leave-one-component summaries are sensitivities, not independent replications.",
+    "Equal rows and optimizer updates do not imply equal FLOPs or wall time; this does not establish general objective superiority or full-campaign improvement."
+  ],
+  "runtime_stop": {
+    "archive_metadata_only": {
+      "bytes": 123000,
+      "payload_opened": false,
+      "payload_transferred": false,
+      "sha256": "f006980490d779a6a25fbd515499ae489c4c5bb2af9c2b81ad40c6ef9513b9a1"
+    },
+    "cpu_quota_string": "500ms",
+    "done_elapsed_cpu_s": 36.137947306,
+    "done_elapsed_wall_s": 72.87407662207261,
+    "exec_main_status_string": "0",
+    "memory_high_string": "1400000000",
+    "memory_max_string": "1500000000",
+    "memory_swap_max_string": "0",
+    "own_cgroup_memory": "unavailable: terminal cgroup empty",
+    "post_stop": {
+      "ActiveState": "inactive",
+      "LoadState": "not-found",
+      "SubState": "dead"
+    },
+    "runtime_max_string": "10min",
+    "stop_returncode": 0,
+    "systemd_memory_peak_bytes_string": "365895680",
+    "systemd_result": "success"
+  },
+  "schema": "nf19.r12_independent_scalar_audit.v1",
+  "status": "PASS",
+  "training": {
+    "eval_components": 32,
+    "eval_rows": 59436,
+    "fit_components": 64,
+    "fit_mean_clip_outside_rows": {
+      "pooled_corr": [
+        0,
+        0
+      ],
+      "wmse": [
+        124,
+        157
+      ]
+    },
+    "fit_only_gamma_prepass_flags": {
+      "fit_rows_only": true,
+      "model_state_unchanged": true,
+      "optimizer_decay_excluded": true,
+      "parameter_grad_fields_none": true,
+      "variance_head_excluded": true
+    },
+    "fit_only_norm_ratio": 1.1335188721618201,
+    "fit_rows": 31808,
+    "gamma": 1.1335188721618201,
+    "initial_gradient_norms": {
+      "pooled_corr": 0.9712620833381314,
+      "wmse": 1.1009439012789783
+    },
+    "initialization_identical": true,
+    "nonfinite_updates": 0,
+    "objective_candidate": "gamma times canonical weighted_pooled_corr_loss on same clipped q",
+    "objective_control": "canonical weighted_mse_loss on q=clamp(raw_mean,-2,2)",
+    "row_exposures_per_arm": 4071424,
+    "updates_per_arm": 128,
+    "variance_head_unchanged": true
+  }
+}

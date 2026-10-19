@@ -1,0 +1,57 @@
+{
+  "created_utc": "2026-10-19T05:11:58.410340+00:00",
+  "evidence_input_sha256": {
+    "REMOTE_DONE.json": {
+      "bytes": 653,
+      "sha256": "2efc29eded446dbfc05c002a03a76d0d0dadde56049ff1b7bfc715962aba84ab"
+    },
+    "REMOTE_RESULT.json": {
+      "bytes": 109082,
+      "sha256": "d5d444bc36fc8664dbdf0c5b748fb61767f2da2a1917d015a1b3ba420e72871f"
+    },
+    "REMOTE_ROOT_ADMISSION.json": {
+      "bytes": 27612,
+      "sha256": "a429551e8441f77f7c91776a40ba20d84bd2ad9c5642b0eff4430039f3900411"
+    },
+    "REMOTE_ROOT_LAUNCH.json": {
+      "bytes": 41088,
+      "sha256": "cee17f32cb83ad4147145004f5cd51ff94b6d8d3824cb5d0ccc5dfbfa37a8294"
+    },
+    "REMOTE_SOURCE.json": {
+      "bytes": 11392,
+      "sha256": "d6824ce8b9c4e8c3aaac764cec677c62f7e8c44a631587704e821b8f99ac227c"
+    },
+    "ROOT_CAPTURE_VALIDATION.json": {
+      "bytes": 1949,
+      "sha256": "2f7614574c8c6e2ceb3298e223b4bb715cb21af449be010e1946064ac60543cf"
+    },
+    "STOP_RECEIPT.json": {
+      "bytes": 374,
+      "sha256": "4020bf5281877f4695b4bf55f1fc069c69999f765e4bcfd8f2669374de44423c"
+    },
+    "capture.stdout": {
+      "bytes": 309932,
+      "sha256": "29ad810d8bf6b0583c5238be38eea878915b56811bac88d92fc8fdc1c459c55f"
+    },
+    "stop.stdout": {
+      "bytes": 33338,
+      "sha256": "3e5b5ffc0482f1de5c39d12d7b0f08925838297e9f66e5a8c7a474b6bfd361a6"
+    }
+  },
+  "post_validation_local_print_error": "A local wrong-key exception occurred after durable capture validation; this is not a remote compute failure and caused no compute rerun or remote retry.",
+  "reconciliation_path": "RESOURCE_RECONCILIATION.json",
+  "reconciliation_sha256": "0543066c04bdd38752b880dbb58e33c21fa35655b32345b38c4b032622965a44",
+  "resource_scope_findings": [
+    "Configured envelope matches admission and terminal unit properties: 0.5 CPU (CPUQuotaPerSecUSec=500ms), MemoryHigh 1400000000 bytes, MemoryMax 1500000000 bytes, swap 0, runtime max 600 seconds.",
+    "Unit duration is derived from ExecMain monotonic timestamps (82.026556 seconds); systemd CPUUsageNSec is 40.674282 seconds. These are kept separate from DONE helper elapsed wall/CPU (72.874076622/36.137947306 seconds) and RESULT phase total wall/CPU (72.831755697/36.12950946 seconds).",
+    "Systemd unit MemoryPeak is 365895680 bytes and is reported from the captured unit show properties even though ControlGroup is empty and the own-cgroup snapshot is null at terminal capture.",
+    "SOURCE cgroup-current and process-RSS values are stage point observations, not peaks; the separately named process_peak_rss_native_units field is preserved without conversion. No causal explanation is inferred across these scopes.",
+    "Parent event counters remained at high=2179, max=561, oom=0 from admission through capture; parent-local event counters stayed zero. Terminal campaign snapshot had no direct PIDs or populated descendants.",
+    "Capture validation PASS binds raw capture bytes before stop. Raw stop stdout SHA is distinct from the enclosing STOP_RECEIPT.json file SHA; the embedded stdout_sha256 correctly identifies the raw stop.stdout bytes.",
+    "The NPZ was stat-inventoried at 123000 bytes and its producer SHA comes from DONE.json; the archive payload was not transferred or read by this review."
+  ],
+  "schema": "nf19.r12_resource_metadata_review.v1",
+  "status": "PASS",
+  "terminal_claim": "Exact invocation e4b029367b2d46be8a02055799d46c17 was observed loaded/active/exited with Result=success and ExecMainStatus=0, then exact-stopped; stop observation is not-found/inactive/dead.",
+  "unit_identity_match": true
+}

@@ -1,0 +1,17 @@
+# R12 results
+
+The prespecified pooled-correlation variant scored lower than the matched pooled-WMSE arm on the exposed evaluation panel. The pooled weighted-Pearson difference was **−0.084925** (`pooled_corr − WMSE`). All 32 leave-one-component-out differences were negative. This closes this fixed variant without outer retuning.
+
+| Arm | Target 0 weighted Pearson | Target 1 weighted Pearson | Pooled weighted Pearson |
+|---|---:|---:|---:|
+| Canonical pooled WMSE | 0.496411 | 0.485074 | 0.490743 |
+| Canonical pooled correlation | 0.407044 | 0.404591 | 0.405817 |
+| Difference (correlation − WMSE) | −0.089367 | −0.080483 | **−0.084925** |
+
+Individual component contrasts were4positive/28negative. The paired leave-one-component-out pooled differences ranged from **−0.096209** to **−0.073876** across the 32 evaluation components. These are sensitivity checks on the same panel, not independent replications. Both arms trained for 128 full-fit updates on the same 31,808 fit rows and were evaluated on the same 59,436 scored rows across 32 held-out components. Each arm completed 128 updates with no nonfinite step. The arms shared the same initialization, fit-only normalization, architecture, and ±2 prediction clamp. The initial gradient-norm scale was `γ = 1.133519`; this matches only the initial total gradient norm, not the subsequent gradients, clipping, trajectories, compute, or time.
+
+Fit-mask prediction-clamp diagnostics were 124/31,808 rows for target 0 and 157/31,808 for target 1 in the WMSE arm, and 0/31,808 for both targets in the pooled-correlation arm. These are descriptive observations; they do not identify why the score gap occurred. The weighted-correlation objective changes target allocation relative to WMSE, so this is not evidence against weighted Pearson as a general objective or metric. This is one fixed panel, initialization, architecture, and training budget; both losses use full-fit global moments, so it does not compare minibatch-local objectives or establish a broader population result. The two arms share a full-fit update budget, not a claim of equal FLOPs or wall time. R7 scores are not a baseline for this comparison.
+
+The DONE helper clock reports **72.874 seconds wall time** and **36.138 seconds process CPU time**; systemd reports82.026556seconds monotonic duration and40.674282CPU seconds. These are separate scopes; see [resource reconciliation](RESOURCE_RECONCILIATION.json). The producer recorded the model archive as **123,000 bytes**, SHA-256 `f006980490d779a6a25fbd515499ae489c4c5bb2af9c2b81ad40c6ef9513b9a1`; the archive payload was not opened for this report.
+
+The frozen protocol, review, pinned source closure, and synthetic test receipt are [DESIGN.md](DESIGN.md), [DESIGN_REVIEW.json](DESIGN_REVIEW.json), [IMPLEMENTATION_REVIEW.json](IMPLEMENTATION_REVIEW.json), [PREPARATION_MANIFEST.json](PREPARATION_MANIFEST.json), and [TEST_RECEIPT.json](TEST_RECEIPT.json). Captured execution evidence is in [REMOTE_RESULT.json](records/terminal_capture/REMOTE_RESULT.json), [REMOTE_SOURCE.json](records/terminal_capture/REMOTE_SOURCE.json), [REMOTE_DONE.json](records/terminal_capture/REMOTE_DONE.json), [capture.stdout](records/terminal_capture/capture.stdout), and [stop.stdout](records/terminal_capture/stop.stdout). The compact result SHA-256 is `d5d444bc36fc8664dbdf0c5b748fb61767f2da2a1917d015a1b3ba420e72871f`. The [independent scalar audit](RESULT_AUDIT.json) reconstructs pooled, component and drop-one scores with maximum error6.11e-16; its [script](audit_scalar.py) reads compact JSON only.

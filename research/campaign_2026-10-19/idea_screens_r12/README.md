@@ -1,0 +1,9 @@
+# R12 results
+
+The fixed CPU comparison completed. On the exposed 32-component evaluation panel, the pooled-correlation arm's pooled weighted-Pearson score was **0.405817**, versus **0.490743** for pooled WMSE (paired difference **−0.084925**). All 32 leave-one-component-out differences remained negative. This closes this exact variant; it does not establish a general result about pooled correlation or weighted-Pearson objectives. Details and limits are in [RESULTS.md](RESULTS.md).
+
+The frozen protocol and design review are [DESIGN.md](DESIGN.md) and [DESIGN_REVIEW.json](DESIGN_REVIEW.json). The implementation review, source pins, and synthetic-check receipt are [IMPLEMENTATION_REVIEW.json](IMPLEMENTATION_REVIEW.json), [PREPARATION_MANIFEST.json](PREPARATION_MANIFEST.json), and [TEST_RECEIPT.json](TEST_RECEIPT.json).
+
+The implementation is in [training_pair.py](training_pair.py), [probe_execution.py](probe_execution.py), and [result_payload.py](result_payload.py), with the hash-gated `python -m idea_screens_r12.run_probe` entrypoint. The captured result, source, completion receipt, terminal capture, and exact-stop receipt are indexed in [records/README.md](records/README.md). The [independent scalar audit](RESULT_AUDIT.json) passes; it reconstructs pooled/component/drop-one scores from compact statistics without payload replay.
+
+[Resource reconciliation](RESOURCE_RECONCILIATION.json), [resource review](RESOURCE_METADATA_REVIEW.json) and [continuation](CONTINUATION.md) record the completed execution and next-turn boundaries. The [selection history](SELECTION_HISTORY.json) predates code and outcomes; [canonical source check](CANONICAL_SOURCE_CHECK.json) binds the six reused source files. The launch-time README is preserved byte-for-byte in [startup records](records/startup_v1/PREPARED_README.md). No R13 is prepared or running.

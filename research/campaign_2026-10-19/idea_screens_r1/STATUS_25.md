@@ -38,7 +38,7 @@
 | 13 | NOT_TESTED: prior/correction recurrent model отсутствует | Сначала доказать отличие от имеющегося gated update; затем tiny recurrent comparison |
 | 14 | Warmup99 constant-view− .04337; R9 separately показывает persistent carry dependence | R9 не проверяет неизменный контекст первых99строк; этот механизм остаётся NOT_TESTED |
 | 15 | R9 измерил actual state-distance snapshots при carry reset; energy regularizer не применялся | NOT_TESTED actual recurrent energy bound; descriptive state norms не доказывают пользу штрафа |
-| 16 | Согласованность scorer проверена; objective-gradient comparison не выполнялся | NOT_TESTED optimizer treatment; population algebra не равняет finite fits |
+| 16 | PARTIAL: [R12](../idea_screens_r12/RESULTS.md) full-fit pooled-correlation objective WP .405817 vs matched WMSE .490743, Δ−.084925; обе цели/all32drop-one отрицательны | Один seed/128full-fit updates на exposed R3. Оба loss используют global moments; закрыт этот exact objective/AdamW вариант, не проверены global-vs-local и другие schedules/GRU/full recipe |
 | 17 | PARTIAL: [R11](../idea_screens_r11/RESULTS.md) fixed initial-gradient sampling WP .454911 vs uniform .488192, Δ−.033282; все32drop-one отрицательны | Один seed/756updates на exposed R3; initial norm proxy + exact inverse-probability correction. Этот вариант закрыт; equal-time/dynamic sampling/full-recipe эффект не проверены |
 | 18 | NOT_TESTED: ортонормальный basis не реализован | EMA/lag результаты не тестируют matched-pole-span conditioning |
 | 19 | i1-only=.36115, i0-only лучше joint raw в этом fit | i0-only также исключает8tailканалов: i1-effect не изолирован. Cross-fit common/residual mechanism NOT_TESTED; линейная репараметризация может иметь тот же span |

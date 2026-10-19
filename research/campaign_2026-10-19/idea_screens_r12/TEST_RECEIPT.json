@@ -1,0 +1,53 @@
+{
+  "checks": [
+    {
+      "command": ".venv/bin/ruff format research/campaign_2026-10-19/idea_screens_r12",
+      "status": "PASS"
+    },
+    {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r12",
+      "status": "PASS"
+    },
+    {
+      "command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/python -m pytest -q research/campaign_2026-10-19/idea_screens_r12/test_probe.py",
+      "status": "PASS",
+      "tests_passed": 8
+    },
+    {
+      "check": "cold local full-closure runtime import smoke",
+      "runtime_modules_verified": 26,
+      "sentinels": [
+        "numpy.load",
+        "numpy.memmap",
+        "torch.load",
+        "pyarrow.parquet.ParquetFile"
+      ],
+      "sentinels_touched": false,
+      "status": "PASS"
+    },
+    {
+      "accepted": "python -m idea_screens_r12.run_probe --help",
+      "check": "exact python -m entrypoint identity guard",
+      "rejected": "python research/campaign_2026-10-19/idea_screens_r12/run_probe.py --help",
+      "status": "PASS"
+    }
+  ],
+  "design_sha256": "a1694748779414d2a53b89d7db3b9db791fdcd7cb55aaf87c360cf1746750d00",
+  "preparation_manifest_sha256": "20d26c8adfddef62feb76edebba254751bd2f7c3cbecddfd2487606c7690ec86",
+  "schema": "nf19.r12_test_receipt.v1",
+  "scope": {
+    "actual_r12_run": false,
+    "model_fit_or_checkpoint_loaded": false,
+    "remote_actions": false,
+    "sample_arrays_loaded": false,
+    "synthetic_tests_only": true
+  },
+  "source_sha256": {
+    "idea_screens_r12/__init__.py": "6d33abc293b6f78fa903f7576497b8704a6dd127601a9ca7849a0455fab20f0d",
+    "idea_screens_r12/probe_execution.py": "cbd5dbea5353cb6256c9802d3cd0a130ab94edc6dca7b192d80b10aa76edcbcd",
+    "idea_screens_r12/result_payload.py": "5c7ada4c70334af2a6512f29b6fd149f6527a6ec0b71c68dc4cd2ac3c8eac9b6",
+    "idea_screens_r12/run_probe.py": "b9761ac04bd8cbbb29f40557ee01b0ba49bd242f15195db1384794a65b8cf373",
+    "idea_screens_r12/test_probe.py": "82259cc283ecf5d55f915b40761985a29ea2f35c405ab80efbd09dde1e6f5c49",
+    "idea_screens_r12/training_pair.py": "2a2fee92b7b02e146d224bf1945996e216c9c99b13e8f04becd649109046e559"
+  }
+}

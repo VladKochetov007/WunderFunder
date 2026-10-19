@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[R12 full-fit objective comparison](../../campaign_2026-10-19/idea_screens_r12/RESULTS.md) tests H-NF19-16 with identical clipped MLP/init/fit normalizer/128full-fit updates. Canonical correlation loss givesWP.405817 versus WMSE.490743 (−.084925), with both targets/all32drop-one contrasts negative. Both losses use full-fit global moments; this is finite objective/optimizer evidence, not a global-versus-local comparison or rejection of correlation training generally.
+
 [R11 fixed-step importance sampler](../../campaign_2026-10-19/idea_screens_r11/RESULTS.md) loses0.033282WP to a matched new uniform arm on the exposed R3 panel; both targets/all32drop-one contrasts negative,756successfulupdates each. The initial selector decreases its uncentered norm-only second moment, but this does not establish training-wide variance, cause or efficiency. H-NF19-17 is PARTIAL; close this exact frozen variant without rejecting all importance sampling.
 
 [R10 fixed joint-support premise](../../campaign_2026-10-19/idea_screens_r10/RESULTS.md) finds274inside-box/outside-hull cases among31552strict-past queries,52/64fitting components and26in each fixed half. A tolerance-defined2D hull is geometrically nonredundant with its matched box; no targets/model/quality test means predictive usefulness and full-dimensional/outlier controls remain open.

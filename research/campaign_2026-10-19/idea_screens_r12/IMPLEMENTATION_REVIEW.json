@@ -1,0 +1,57 @@
+{
+  "bindings": {
+    "design_review_sha256": "07ad8e4b749a03bcbad27913bd16d28808991a24e1df26bbe1ccfc0704d85af8",
+    "design_sha256": "a1694748779414d2a53b89d7db3b9db791fdcd7cb55aaf87c360cf1746750d00",
+    "manifest_file_pin_count": 32,
+    "preparation_manifest_sha256": "20d26c8adfddef62feb76edebba254751bd2f7c3cbecddfd2487606c7690ec86",
+    "runtime_import_count": 26,
+    "source_modules": {
+      "idea_screens_r12/__init__.py": {
+        "lines": 1,
+        "sha256": "6d33abc293b6f78fa903f7576497b8704a6dd127601a9ca7849a0455fab20f0d"
+      },
+      "idea_screens_r12/probe_execution.py": {
+        "lines": 295,
+        "sha256": "cbd5dbea5353cb6256c9802d3cd0a130ab94edc6dca7b192d80b10aa76edcbcd"
+      },
+      "idea_screens_r12/result_payload.py": {
+        "lines": 90,
+        "sha256": "5c7ada4c70334af2a6512f29b6fd149f6527a6ec0b71c68dc4cd2ac3c8eac9b6"
+      },
+      "idea_screens_r12/run_probe.py": {
+        "lines": 222,
+        "sha256": "b9761ac04bd8cbbb29f40557ee01b0ba49bd242f15195db1384794a65b8cf373"
+      },
+      "idea_screens_r12/test_probe.py": {
+        "lines": 175,
+        "sha256": "82259cc283ecf5d55f915b40761985a29ea2f35c405ab80efbd09dde1e6f5c49"
+      },
+      "idea_screens_r12/training_pair.py": {
+        "lines": 231,
+        "sha256": "2a2fee92b7b02e146d224bf1945996e216c9c99b13e8f04becd649109046e559"
+      }
+    },
+    "test_receipt_sha256": "dc7623a70722f1a19d9c8bbfe5695e9afac19ea8982e9f36e5596b0edbc69b60"
+  },
+  "implementation_review": {
+    "data_and_score": "R7 history features are built over full sequences before stride selection; only accepted fit rows determine normalization, gamma, and updates. Final scoring reuses the canonical R7 scorer on original evaluation masks after both arms complete.",
+    "entrypoint_and_hash_gates": "Manifest bytes and all 32 source pins are verified before execution imports data helpers; the exact python -m entrypoint identity is checked before argument parsing. The current runtime map includes the R12/R7/R1/R2/R3/canonical import closure.",
+    "initialization_and_scale": "One seed-created state is cloned byte-identically. Fit-only theta0 gradients exclude the unused variance head and AdamW decay; autograd.grad leaves .grad fields untouched, checks the model fingerprint, and freezes gamma once with finite/nonzero and [1e-4,1e4] gates.",
+    "paired_objectives": "Both arms feed the same clipped q=clamp(raw mean,-2,2), target clipping/abs-target weights, and all-valid rows into the canonical WMSE or stabilized pooled-correlation loss. Full-batch shape is fixed at 31,808x224; the objective distinction and near-degenerate scorer-surrogate limit match the reviewed design.",
+    "resource_control": "The runtime checks exact R12 service cgroup identity before resource reads and applies the memory guard before gamma prepass, before first optimizer update, and every16 training updates. Root admission remains responsible for prelaunch caps/headroom/source/output checks.",
+    "training_loop": "Each arm runs exactly128 full-fit AdamW updates. Timing starts before tensor conversions and optimizer creation; preclip gradient norms are retained for all128 steps; clipping incidence, losses, update counters, nonfinite counters, per-step finite state checks, and variance-head no-gradient/no-change are recorded."
+  },
+  "independent_verification": {
+    "actor_receipt_says_cold_full_closure_import_with_numpy_memmap_torch_and_parquet_sentinels_passed": true,
+    "actor_receipt_says_ruff_format_and_check_pass": true,
+    "all_manifest_pins_match_current_local_bytes": true,
+    "focused_synthetic_tests_command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/python -m pytest -q research/campaign_2026-10-19/idea_screens_r12/test_probe.py",
+    "focused_synthetic_tests_result": "8 passed in 0.97s",
+    "largest_r12_python_module_lines": 295,
+    "manifest_runtime_map_exactly_names_26_imports": true
+  },
+  "interpretation_limit": "A completed contrast is conditional on one exposed adaptive R3 panel, one initialization, and 128 full-fit updates. It does not isolate global versus local moments, prove WMSE has the wrong population optimum, or establish equal-time advantage.",
+  "remaining_admission_gate": "This review did not build or execute a B-shaped runtime. Root/operator still must verify the exact staged payload/source hashes and full import/read-sentinel smoke before admitting the one job. No production arrays, model archives, fits, or remote resources were touched.",
+  "schema": "nf19.r12_independent_implementation_review.v1",
+  "status": "PASS_SOURCE_AND_SYNTHETIC_REVIEW; ROOT_B_SHAPED_GATE_REQUIRED_BEFORE_ADMISSION"
+}

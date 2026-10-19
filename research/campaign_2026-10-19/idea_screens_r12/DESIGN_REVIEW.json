@@ -1,0 +1,30 @@
+{
+  "bindings": {
+    "design_path": "research/campaign_2026-10-19/idea_screens_r12/DESIGN.md",
+    "design_sha256": "a1694748779414d2a53b89d7db3b9db791fdcd7cb55aaf87c360cf1746750d00",
+    "idea_cards_path": "research/campaign_2026-10-19/no_fit_ideation_r1/IDEAS_25.md",
+    "idea_cards_sha256": "e456661211350ebd990ef20dbef033179077ca7468abc1d4cca612561e364502",
+    "reviewed_card": "H-NF19-16 \u2014 \u0413\u043b\u043e\u0431\u0430\u043b\u044c\u043d\u044b\u0435 \u043c\u043e\u043c\u0435\u043d\u0442\u044b WP \u0432\u043c\u0435\u0441\u0442\u043e \u043b\u043e\u043a\u0430\u043b\u044c\u043d\u044b\u0445 batch-\u043e\u0442\u043d\u043e\u0448\u0435\u043d\u0438\u0439",
+    "selection_history_path": "research/campaign_2026-10-19/idea_screens_r12/SELECTION_HISTORY.json",
+    "selection_history_sha256": "840dccb65445702d7e86ccf327b56a7cd51a8e972f92a1939e6d270d0c751d5a",
+    "status_25_path": "research/campaign_2026-10-19/idea_screens_r1/STATUS_25.md",
+    "status_25_sha256": "8b57830a921f13a2ef9a04465f6ecbe6f86456962c0256b5e0c78b043977aad1"
+  },
+  "design_assessment": {
+    "clipping_and_scorer_limit": "Both objectives receive the same clipped prediction and therefore avoid a loss-arm clipping asymmetry. The pooled-correlation loss remains a stabilized differentiable surrogate with sqrt(vy*vp+1e-12), not the official scorer\u2019s exact near-degenerate convention; the design discloses this and should retain tiny finite-gradient/zero-variance checks.",
+    "fixed_comparison": "The design reuses one R3 fit/eval panel and one newly seeded 224\u219264 GELU mean/unused-variance model. Both arms use the same fit-only normalization, all 31,808 stride rows, initial state, 128 full-fit updates, AdamW settings, and clipped predictions q=clamp(raw_mean,-2,2). No evaluation-based selection or prior endpoint tuning is specified.",
+    "interpretation_limit": "Even with initial norm matching, the objectives can produce different later gradients, clipping frequencies, and AdamW trajectories. A score difference is conditional on this exposed adaptive panel, architecture, seed, and 128-step budget; it cannot establish WMSE\u2019s population-optimum failure, a general WP-loss advantage, fresh-holdout performance, or equal-time efficiency.",
+    "objective_scope": "The control is canonical globally normalized pooled WMSE on q; the candidate is a fixed positive scale times canonical stabilized global pooled weighted correlation on the same q. Both objectives use full-fit global statistics, so this does not isolate global moments versus local batch ratios. The intended comparison is a finite-budget objective/gradient treatment.",
+    "resource_feasibility": "Two arms \u00d7 128 full-fit updates \u00d7 31,808 rows = 8,142,848 row exposures. The 224\u00d764 MLP and in-memory fit batch appear compatible with the 0.5 CPU, 1.5 GB, 600 s cap. Runtime is the main uncertainty; retain the exact hard cap and mark the comparison incomplete if both arms do not finish, without a retry or budget expansion.",
+    "scale_matching": "gamma=||grad L_WMSE(theta0)||/||grad L_corr(theta0)|| on all fit rows, computed once before optimization and excluding the unused variance head and AdamW decay. It matches only initial aggregate gradient norms. The finite/nonzero check and predeclared [1e-4,1e4] range fail closed without tuning."
+  },
+  "pre_code_checks_to_preserve": [
+    "Tiny fixtures verify scorer/loss agreement in nondegenerate cases, finite gradients for zero-weight and zero-variance cases, and finite differences or autograd for both objectives through the shared clamp.",
+    "Verify gamma excludes unused variance parameters and optimizer decay, is computed once on fit rows only, and does not mutate model parameters or .grad fields.",
+    "Pin the complete import closure and run source/read sentinels before data access; confirm actual python -m entrypoint provenance.",
+    "Require exactly 128 successful updates per arm, zero nonfinite events, and preserved initialization/fingerprint; otherwise report an incomplete pair."
+  ],
+  "review_limits": "Design-only review. No code, arrays, model, fit, or remote resources were accessed.",
+  "schema": "nf19.r12_design_review.v1",
+  "status": "PASS_FOR_FOCUSED_IMPLEMENTATION_REVIEW"
+}

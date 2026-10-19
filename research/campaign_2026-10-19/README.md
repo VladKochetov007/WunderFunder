@@ -1,5 +1,7 @@
 # 19 October research
 
+- [R12 matched full-fit objectives](idea_screens_r12/RESULTS.md): canonical pooled-correlation loss loses0.084925WP to a new matched WMSE arm (.405817 vs .490743); both targets/all32drop-one contrasts negative,128full-fit updates each. Both objectives use global fit moments and initial gradient norms were matched once. Close this exact exposed CPU variant; no general objective/full-model claim.
+
 - [R11 matched importance-sampling pilot](idea_screens_r11/RESULTS.md): fixed initial-gradient sampler loses0.033282WP against a new matched uniform arm (.454911 vs .488192); both756updates, both targets and all32drop-one contrasts negative. One exposed CPU seed, no equal-time/full-model claim. A pre-array CLI entrypoint failure is preserved; a focused versioned packaging repair ran the unchanged design successfully.
 
 - [R10 fixed joint-support geometry](idea_screens_r10/README.md): a same-window two-coordinate hull adds274inside-box/outside-hull queries (0.8684%) across52of64fit components,26in each fixed half. Target-free, no fit/grade or predictive-value claim; exact CPU invocation captured/stopped.
