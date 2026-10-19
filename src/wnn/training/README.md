@@ -59,6 +59,7 @@ from wnn.training.runner import run_training
 | [outputs](outputs.py) | Evaluation, fixed/best checkpoint selection and terminal/resume recovery artifacts. |
 | [prefetch](prefetch.py) | Original pinned-memory CUDA stream prefetch. |
 | [profile_results](profile_results.py) | Profile receipts and parity artifact output without fitting/quality claims. |
+| [profile_capture](profile_capture.py) | Fit-only canonical-trainer profile hooks that retain model/optimizer state and report setup/fit CUDA peaks and strict-FP32 finite-state evidence; no evaluation or checkpoint save. |
 | [profiling](profiling.py) | CUDA event timing, warning capture and finite-update evidence. |
 | [provenance](provenance.py) | Run/source/cache/fitting provenance assembled before fitting. |
 | [reporting](reporting.py) | Structured logging preserving machine-consumed legacy record content. |
