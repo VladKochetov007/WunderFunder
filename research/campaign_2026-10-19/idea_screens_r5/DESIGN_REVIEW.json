@@ -1,0 +1,21 @@
+{
+  "assessment": {
+    "algebra": "For a shared conditional population and weight |y|, the weighted squared-error minimizer is E[|y|y|H]/E[|y||H]. With the frozen clipped target, A+\u2212A\u2212 estimates the numerator and B estimates the denominator. The fixed positive floor avoids division by near-zero estimates but is an engineering convention, not an optimality guarantee.",
+    "diagnostics": "Required fit/evaluation diagnostics for Bhat positivity/floor, negative A estimates, denominator distributions, raw prediction excursions beyond \u00b12, and clipping will expose where the linear moment estimates violate moment bounds or make the ratio unstable. The official scorer remains unchanged.",
+    "fit_selection": "No new CV, alpha search, panel, or outer-driven selection. Alpha=100 matches the pinned R3 raw+signed-EMA case selected alpha=100; R3 full-panel WP is 0.5360037389017978 at SHA a7e19f6358fbd1f61496efd7c1712b80cb7d582f22445a1e3c12988851b323dc.",
+    "mechanism": "The paired comparison changes only decoder denominator: Dhat/max(Bhat,epsilon) versus Dhat/muB. The six moment heads, fit sample, base normalization, shared analytic ridge Gram matrix, fixed alpha=100, and official scoring path stay common."
+  },
+  "authorization_boundary": "Proceed only with the single frozen CPU job and exact sample/source/output/cap gates in the contract; no new panels, hyperparameter selection, repeated R3 fits, or broader model campaign.",
+  "blockers": [],
+  "contract_sha256": "50194152914197c777ce7ace3df415096de4ad6cc4ecbcad96dded36b4332586",
+  "contract_sha256_expected": "50194152914197c777ce7ace3df415096de4ad6cc4ecbcad96dded36b4332586",
+  "decision": "DESIGN_PASS",
+  "limits_and_caveats": [
+    "The conditional ratio is Bayes-optimal only under a representative common conditional population and the stated weighted squared-error objective. Fitted unweighted linear ridge projections need not recover conditional expectations; the fixed stride and sparse exposed evaluation masks can change source/composition and weaken transfer.",
+    "A negative result rejects only these two decoders in this fixed linear-moment recipe. It does not reject the broader idea of joint moment prediction or prove a sign/magnitude mechanism.",
+    "Any gain is decoder-conditional and recipe-specific; it is not evidence for end-to-end WMSE optimization, larger sign-head capacity, general population performance, public score, or causal hidden-state effects.",
+    "The same exposed R3 panel is development data, not a fresh holdout; 32 component drop-one contrasts are descriptive and not independent significance evidence."
+  ],
+  "reviewer_scope": "Independent design critique only; no source implementation, sample arrays, real fitting, remote work, or installation.",
+  "schema": "idea_screens_r5.design_review.v1"
+}

@@ -10,3 +10,5 @@
 - [Fit-only regularization and separated EMA parts, R2](idea_screens_r2/README.md): six fixed views, three fitting-component folds and a predeclared alpha grid; independent review and tiny checks pass. [Execution records](idea_screens_r2/records/README.md) show the single bounded CPU run launched at22:30UTC; no quality conclusion at launch.
 
 - [R2 measured results](idea_screens_r2/RESULTS.md): fit-selected raw.68865,52-channel subset.69819,lags.68858,joint EMA.68866; separate fixed-alpha1 EMA results differ and remain exploratory. V1 import failure and successful V2 raw outputs are preserved, with all six scientific source hashes unchanged.
+
+- [R5 conditional-moment screen](idea_screens_r5/README.md): one shared six-head CPU fit, no CV/grid. Ratio WP0.524107 versus constant denominator0.549662; ratio loses0.025555 on the fixed exposed R3 panel. The constant endpoint is+0.013658 against the stored R3 WMSE recipe, a descriptive secondary lead. Raw moments, diagnostics, source/review and exact stopped-unit receipts are indexed.

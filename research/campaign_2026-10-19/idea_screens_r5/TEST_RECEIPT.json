@@ -1,0 +1,33 @@
+{
+  "schema": "bounded_r5_local_test_receipt_v1",
+  "contract_sha256": "50194152914197c777ce7ace3df415096de4ad6cc4ecbcad96dded36b4332586",
+  "sample_manifest_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+  "reference_result_sha256": "a7e19f6358fbd1f61496efd7c1712b80cb7d582f22445a1e3c12988851b323dc",
+  "source_sha256": {
+    "__init__.py": "d14747c8d99e33cfe67bfe35eea1179bf4955c44fb6b84b7cb0e8ce2d51beb11",
+    "analysis_diagnostics.py": "c8fe8b3bb462512cc280e82fdee7c92a39fc851ae676fc4aee0ca477ecef3c60",
+    "analysis_fit.py": "c76fb6d06203e4fab34724c6c042fd82cab5fc463502fb918dd892cb63d51f9a",
+    "analysis_score.py": "2064470f9b5c6323476414f47d08bff30334bf6847190e3d8d04659206f89d12",
+    "analysis_report.py": "e6b8dc38ac14b3ce269966adbeeb0f4233ced1fbb629bb27d6699b3dc3ffacf0",
+    "run_probe.py": "f74545553efc4d467ec76e67fb25183290be061b6c498abfd0032a66defe4129",
+    "test_probe.py": "e402e7116b0642a4031db24b285a095335c662d4a7e55bea24086f4769851170"
+  },
+  "checks": [
+    {
+      "command": ".venv/bin/ruff format research/campaign_2026-10-19/idea_screens_r5",
+      "result": "passed"
+    },
+    {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r5",
+      "result": "passed"
+    },
+    {
+      "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 .venv/bin/python -m pytest -q research/campaign_2026-10-19/idea_screens_r5/test_probe.py",
+      "result": "7 passed"
+    }
+  ],
+  "test_scope": "synthetic algebra, decoder pair, causal reset-local view, metadata-only sample membership gate, canonical pooling/drop-one, compact JSON, numeric NPZ and DONE receipt",
+  "actual_panel_arrays_read": false,
+  "actual_fit_or_score_run": false,
+  "platform_note": "NumPy matmul RuntimeWarnings were observed on macOS; outputs remained finite and seven tests passed. The cause was not established."
+}

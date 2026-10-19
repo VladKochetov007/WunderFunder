@@ -1,5 +1,7 @@
 # Current project state
 
+**19 October R5 discovery completed:** [One shared-head moment-decoder screen](../research/campaign_2026-10-19/idea_screens_r5/RESULTS.md) scores ratio0.524107 versus constant denominator0.549662 on the fixed exposed R3 panel. Primary ratio loss−0.025555, all32 drop-one contrasts negative. Constant-vs-stored-R3 WMSE+0.013658 is a descriptive recipe lead; no floor/alpha tuning or general moment-head claim. Exact CPU invocation exited0/captured/stopped with0new memory events. [Continuation](../research/campaign_2026-10-19/idea_screens_r5/CONTINUATION.md) preserves the current scope and F3 maintenance boundary.
+
 **19 October R4 discovery completed:** [Four fixed nonlinear cases](../research/campaign_2026-10-19/idea_screens_r4/RESULTS.md) compare tanh with same-width identity random features on the unchanged R3 panel. Selected WP deltas−0.009039 raw/−0.023440 history; fixedalpha1 history retains+0.002015 with32positive drop-one contrasts. Fit-only selection is unchanged; no outer promotion or general nonlinear rejection. Independent moment/pin audit passes, unit exited0/captured/stopped,0new memory events. Existing F3 remains under maintenance only; [continuation](../research/campaign_2026-10-19/idea_screens_r4/CONTINUATION.md) preserves the current user scope and exact receipts.
 
 

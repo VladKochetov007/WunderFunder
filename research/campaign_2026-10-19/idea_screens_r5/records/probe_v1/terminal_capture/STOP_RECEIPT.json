@@ -1,0 +1,156 @@
+{
+  "campaign_cgroup_after_stop": {
+    "children": [
+      {
+        "files": {
+          "cgroup.events": "populated 1\nfrozen 0",
+          "cgroup.procs": "582956",
+          "cpu.stat": "usage_usec 5238809\nuser_usec 3791686\nsystem_usec 1447122\ncore_sched.force_idle_usec 0\nnr_periods 3651\nnr_throttled 163\nthrottled_usec 13579512\nnr_bursts 0\nburst_usec 0",
+          "memory.current": "9621504",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "max",
+          "memory.max": "512000000",
+          "memory.peak": "45309952",
+          "memory.swap.current": "0",
+          "memory.swap.max": "0",
+          "pids.current": "1",
+          "pids.max": "629145"
+        },
+        "name": "computer-vision-homework-r01-f3-sequence.service",
+        "path": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-r01-f3-sequence.service",
+        "populated": true
+      },
+      {
+        "files": {
+          "cgroup.events": "populated 1\nfrozen 0",
+          "cgroup.procs": "1264295\n1264303\n1264305",
+          "cpu.stat": "usage_usec 8571522763\nuser_usec 5999231643\nsystem_usec 2572291120\ncore_sched.force_idle_usec 0\nnr_periods 85801\nnr_throttled 27097\nthrottled_usec 299522768\nnr_bursts 0\nburst_usec 0",
+          "memory.current": "2360061952",
+          "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+          "memory.high": "7199997952",
+          "memory.max": "8000000000",
+          "memory.peak": "2499297280",
+          "memory.swap.current": "0",
+          "memory.swap.max": "0",
+          "pids.current": "9",
+          "pids.max": "629145"
+        },
+        "name": "wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service",
+        "path": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service",
+        "populated": true
+      }
+    ],
+    "files": {
+      "cgroup.events": "populated 1\nfrozen 0",
+      "cgroup.procs": "",
+      "cpu.stat": "usage_usec 88513501211\nuser_usec 73533020912\nsystem_usec 14980480298\ncore_sched.force_idle_usec 0\nnr_periods 875153\nnr_throttled 1681\nthrottled_usec 4471194\nnr_bursts 0\nburst_usec 0",
+      "memory.current": "5869686784",
+      "memory.events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0",
+      "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+      "memory.high": "17999998976",
+      "memory.max": "19999997952",
+      "memory.peak": "6487048192",
+      "memory.swap.current": "0",
+      "memory.swap.max": "0",
+      "pids.current": "10",
+      "pids.max": "max"
+    },
+    "name": "wnn-campaign.slice",
+    "path": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+    "populated": true
+  },
+  "campaign_direct_units_after_stop": [
+    "computer-vision-homework-r01-f3-sequence.service",
+    "wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service"
+  ],
+  "expected_invocation": "0c56cff45d2044168fb6ed9d310b0a3a",
+  "observed_utc": "2026-10-19T00:21:55.669205+00:00",
+  "post_stop_properties": {
+    "ActiveState": "inactive",
+    "CPUUsageNSec": "[not set]",
+    "ControlGroup": "",
+    "ExecMainCode": "0",
+    "ExecMainExitTimestamp": "",
+    "ExecMainStatus": "0",
+    "InvocationID": "",
+    "MemoryPeak": "[not set]",
+    "Result": "success",
+    "SubState": "dead"
+  },
+  "post_stop_terminal": true,
+  "pre_stop_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "500ms",
+    "ControlGroup": "",
+    "ExecMainCode": "1",
+    "ExecMainExitTimestamp": "Mon 2026-10-19 00:18:47 UTC",
+    "ExecMainStatus": "0",
+    "InvocationID": "0c56cff45d2044168fb6ed9d310b0a3a",
+    "MemoryHigh": "1400000000",
+    "MemoryMax": "1500000000",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "RuntimeMaxUSec": "10min",
+    "SubState": "exited"
+  },
+  "pre_stop_validation": {
+    "ActiveState": {
+      "expected": "active",
+      "observed": "active",
+      "pass": true
+    },
+    "CPUQuotaPerSecUSec": {
+      "expected": "500ms",
+      "observed": "500ms",
+      "pass": true
+    },
+    "ExecMainStatus": {
+      "expected": "0",
+      "observed": "0",
+      "pass": true
+    },
+    "InvocationID": {
+      "expected": "0c56cff45d2044168fb6ed9d310b0a3a",
+      "observed": "0c56cff45d2044168fb6ed9d310b0a3a",
+      "pass": true
+    },
+    "MemoryHigh": {
+      "expected": "1400000000",
+      "observed": "1400000000",
+      "pass": true
+    },
+    "MemoryMax": {
+      "expected": "1500000000",
+      "observed": "1500000000",
+      "pass": true
+    },
+    "MemorySwapMax": {
+      "expected": "0",
+      "observed": "0",
+      "pass": true
+    },
+    "Result": {
+      "expected": "success",
+      "observed": "success",
+      "pass": true
+    },
+    "RuntimeMaxUSec": {
+      "expected": "10min",
+      "observed": "10min",
+      "pass": true
+    },
+    "SubState": {
+      "expected": "exited",
+      "observed": "exited",
+      "pass": true
+    }
+  },
+  "raw_envelope_length": 8887,
+  "raw_envelope_sha256": "4544c7abcc13ad5b9e019335d4fc9772ee1c08ec8d328db69797c6b5f183ed7a",
+  "schema": "r5-exact-stop-v1",
+  "stop_issued": true,
+  "unit": "computer-vision-homework-eda19-r5-v1.service",
+  "warning": "Stop command was issued only after this script verified the exact invocation, exited state, explicit success/status 0, and launch caps."
+}

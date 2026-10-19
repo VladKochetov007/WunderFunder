@@ -1,5 +1,7 @@
 # Статус всех25 после первого bounded screen
 
+Дополнение R5: [моментная проба карточки12](../idea_screens_r5/RESULTS.md) сравнила два декодера одних и тех же шести линейных голов. Деление на предсказанную амплитуду проиграло постоянному знаменателю на0.025555WP; все32drop-one-контраста отрицательны. Постоянный вариант дал+0.013658 к сохранённой R3 WMSE-рецептуре, но этот вторичный контраст меняет objective/functional form. Learned moment heads и совместное end-to-end обучение не проверены. Другие NOT_TESTED остаются в силе.
+
 Дополнение R4: [четыре фиксированные nonlinear-пробы](../idea_screens_r4/RESULTS.md) не дали selected-выигрыша к identity-контролю на raw/истории; fixedalpha1 история сохраняет+0.002015WP. Это проверка конкретных случайных признаков/регуляризации на той же панели, не learned MLP, moment heads, gradient conflict или recurrent-state механизм. NOT_TESTED ниже остаются в силе.
 
 Дополнение R3: [девять фиксированных probes](../idea_screens_r3/RESULTS.md) расширили проверку карточек2/11/19 до32evaluation-компонент, разделили i1/tail и сравнили nested32/64fit. На полном бюджете raw почти равенi0+tail; selected signed EMA+0.01046WP имеет положительные32/32drop-one-контрасты. Fixed-alpha1 absolute EMA также положителен, но fitting-CV выбирает противоположный по outer результат. Это линейные summaries/ablation, а не state matching, Jordan mechanism или gradient conflict. Остальные NOT_TESTED ниже не заменяются этими результатами.
@@ -21,7 +23,7 @@
 | 9 | NOT_TESTED: sparse factor model не обучался | Sparse-vs-dense matched bottleneck; low-rank/PCA не считать подтверждением |
 | 10 | NOT_TESTED: conditional innovation graph отсутствует | Input-only fit-component stability grouped VAR/residual associations |
 | 11 | Joint signed/absolute-innovation EMA+ .01119, но выигрыш меняет знак без компоненты995 | Разделить signed и absolute части; нынешний screen не изолирует Jordan/variation механизм |
-| 12 | NOT_TESTED: moment/sign-amplitude heads отсутствуют | Единая мера и правильный moment ratio, matched direct-WMSE head |
+| 12 | PARTIAL: R5 shared linear moment heads; ratio−constant−0.025555WP, все32drop-one отрицательны | Learned heads/joint objective остаются NOT_TESTED; вторичный constant-vs-R3+0.013658 не изолирует механизм |
 | 13 | NOT_TESTED: prior/correction recurrent model отсутствует | Сначала доказать отличие от имеющегося gated update; затем tiny recurrent comparison |
 | 14 | Warmup99 constant-view− .04337, две цели реагируют разнонаправленно | Этот конкретный linear-context recipe не прошёл; не объявлять все initializer/context методы плохими |
 | 15 | Только input-innovation descriptors; hidden state не измерялся | NOT_TESTED actual recurrent energy bound, не подменять его нормой входа |
