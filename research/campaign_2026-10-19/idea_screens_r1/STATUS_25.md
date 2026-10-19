@@ -1,6 +1,6 @@
-# Статус25карточек после R1–R13
+# Статус25карточек после R1–R14
 
-Текущий [синтез свидетельств](../../unified/ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md) отделяет положительные условные leads, закрытые exact variants и действительно NOT_TESTED механизмы. Число screens не означает, что все25механизмов проверены; новая R14-модель или очередь не допущены.
+Текущий [синтез свидетельств](../../unified/ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md) отделяет положительные условные leads, закрытые exact variants и действительно NOT_TESTED механизмы. Число screens не означает, что все25механизмов проверены. R14 ниже добавляет узкую same-span проверку карточки18; новой R15-модели или очереди нет.
 
 Дополнение R10: [target-free joint-support screen](../idea_screens_r10/RESULTS.md) обнаружил редкие distinct cases beyond marginal ranges на фиксированных raw0/52 и256строках.52компоненты из64,26в каждой заранее заданной половине; без меток/модели/grade. Это не доказательство предсказательной пользы или выбранного направления.
 
@@ -42,7 +42,7 @@
 | 15 | R9 измерил actual state-distance snapshots при carry reset; energy regularizer не применялся | NOT_TESTED actual recurrent energy bound; descriptive state norms не доказывают пользу штрафа |
 | 16 | PARTIAL: [R12](../idea_screens_r12/RESULTS.md) full-fit pooled-correlation objective WP .405817 vs matched WMSE .490743, Δ−.084925; обе цели/all32drop-one отрицательны | Один seed/128full-fit updates на exposed R3. Оба loss используют global moments; закрыт этот exact objective/AdamW вариант, не проверены global-vs-local и другие schedules/GRU/full recipe |
 | 17 | PARTIAL: [R11](../idea_screens_r11/RESULTS.md) fixed initial-gradient sampling WP .454911 vs uniform .488192, Δ−.033282; все32drop-one отрицательны | Один seed/756updates на exposed R3; initial norm proxy + exact inverse-probability correction. Этот вариант закрыт; equal-time/dynamic sampling/full-recipe эффект не проверены |
-| 18 | NOT_TESTED: ортонормальный basis не реализован | EMA/lag результаты не тестируют matched-pole-span conditioning |
+| 18 | PARTIAL: [R14](../idea_screens_r14/RESULTS.md) same8/32/128poles/span/mappedobjective; B128 relative gaps .051066/.048887 worse than A .044191/.042784, spending gate failed | One convex FP64 exact-line-search diagnostic; impulse orthonormality does not whiten empirical covariance. Secondary WP B−A+.001648 does not reverse primary result; no general GRU/optimizer/public claim |
 | 19 | [R3](../idea_screens_r3/RESULTS.md) full64fit: presence i1−.000496 безtail/−.000044 сtail; drop-one меняетзнак | Нет устойчивого основания удалятьi1; cross-fit common/residual mechanism NOT_TESTED. Обычная линейная репараметризация может сохранить span |
 | 20 | PARTIAL: R6 actual gradients, один frozenGRU/8fit-компонент/16окон; trunk pooledcos+0.333540,4negative; hiddenreadout+0.026854,3negative | Не training-wide prevalence/causalharm/PCGradbenefit; optimizer intervention и другие checkpoints не проверены |
 | 21 | NOT_TESTED: gradient-covariance preconditioner отсутствует | Нужны реальные gradients и matched optimizer, не covariance coefficients |

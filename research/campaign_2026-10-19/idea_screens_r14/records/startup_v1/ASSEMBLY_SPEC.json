@@ -1,0 +1,107 @@
+{
+  "allowed_bundle_prefixes": [
+    "idea_screens_r1",
+    "idea_screens_r14",
+    "idea_screens_r3"
+  ],
+  "canonical_pin_names": [
+    "canonical:wnn/__init__.py",
+    "canonical:wnn/data.py",
+    "canonical:wnn/gmetric.py"
+  ],
+  "destination": "support-source/eda19-r14-v1",
+  "extra_transport_paths": [
+    "idea_screens_r14/PREPARATION_MANIFEST.json",
+    "idea_screens_r14/IMPLEMENTATION_REVIEW.json",
+    "idea_screens_r14/TEST_RECEIPT.json",
+    "idea_screens_r14/README.md"
+  ],
+  "identity_patch": {
+    "capture_r10_to_r14": 4,
+    "remote_body_r10_to_r14": {
+      "R10_to_R14": 20,
+      "idea_screens_r10_to_r14": 15,
+      "r10_to_r14": 6
+    },
+    "stop_r10_to_r14": 3
+  },
+  "implementation_review_sha256": "3f65c84b7fb5f5b220fc3787c3f374859d87aa77da471a481e9de2f8629171f3",
+  "limits": {
+    "bundle_bytes": 64000000,
+    "job_cpu_cores": 0.5,
+    "job_memory_high_bytes": 1400000000,
+    "job_memory_max_bytes": 1500000000,
+    "job_memory_swap_bytes": 0,
+    "job_runtime_seconds": 600,
+    "parent_cpu_cores": 2,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_memory_reservation_target_bytes": 17000000000,
+    "parent_memory_swap_bytes": 0,
+    "per_file_bytes": 16000000
+  },
+  "local_import_smoke_sha256": "e90a9902d23e82faf73d48d59275af6874aeab88a7e52da732d69a8ed655d573",
+  "membership_sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+  "output": "research_tmp/nf19-r14-v1",
+  "patches": [
+    {
+      "change": "Bind the fixed R14 unit, destination, output, sample and source snapshot; retain fixed parent/job caps.",
+      "id": "identity-paths"
+    },
+    {
+      "change": "Bind exact equality to the final manifest-declared 20-module R1/R3/R14/WNN runtime map.",
+      "id": "runtime-map"
+    },
+    {
+      "change": "Verify all three canonical WNN pins before imports and immediately before launch.",
+      "id": "canonical-pins"
+    },
+    {
+      "change": "Allow only the exact R1/R3/R14 roots; the R7 source allowlist is empty.",
+      "id": "bundle-prefixes"
+    },
+    {
+      "change": "Run the local B-shaped cold-import smoke with loader sentinels and exact owned-prefix module inventory; Torch remains unimported.",
+      "id": "cold-import"
+    },
+    {
+      "change": "Reuse pinned R10 capture/stop helpers with R14 identity, exact invocation/caps/exit checks, raw validation before stop.",
+      "id": "capture-stop"
+    }
+  ],
+  "r10_base_pins": {
+    "capture_remote_v2.py": "7f7e7576380d9796ace256d70cbc6333036f4758fb8ce2bd0507395707c18f00",
+    "remote_body_v1.py": "e3b3b13217bda561fc8e638ce693226ae9ed944d791b443480fc6b074afa1fb0",
+    "stop_remote_v1.py": "0664e2544ad0dc4bbaa5d2b701bdb31706dd3831752e955e8a844ec9d75828ca"
+  },
+  "r7_source_allowlist": [],
+  "runtime_py": {
+    "idea_screens_r1": "idea_screens_r1/__init__.py",
+    "idea_screens_r1.constants": "idea_screens_r1/constants.py",
+    "idea_screens_r1.eda_mechanisms": "idea_screens_r1/eda_mechanisms.py",
+    "idea_screens_r1.input_diagnostics": "idea_screens_r1/input_diagnostics.py",
+    "idea_screens_r1.sample_data": "idea_screens_r1/sample_data.py",
+    "idea_screens_r1.target_operator": "idea_screens_r1/target_operator.py",
+    "idea_screens_r14": "idea_screens_r14/__init__.py",
+    "idea_screens_r14.history_features": "idea_screens_r14/history_features.py",
+    "idea_screens_r14.linear_math": "idea_screens_r14/linear_math.py",
+    "idea_screens_r14.panel_data": "idea_screens_r14/panel_data.py",
+    "idea_screens_r14.probe_execution": "idea_screens_r14/probe_execution.py",
+    "idea_screens_r14.result_payload": "idea_screens_r14/result_payload.py",
+    "idea_screens_r14.run_probe": "idea_screens_r14/run_probe.py",
+    "idea_screens_r14.runtime_support": "idea_screens_r14/runtime_support.py",
+    "idea_screens_r14.score_endpoints": "idea_screens_r14/score_endpoints.py",
+    "idea_screens_r3": "idea_screens_r3/__init__.py",
+    "idea_screens_r3.probe_helpers": "idea_screens_r3/probe_helpers.py",
+    "wnn": "canonical:wnn/__init__.py",
+    "wnn.data": "canonical:wnn/data.py",
+    "wnn.gmetric": "canonical:wnn/gmetric.py"
+  },
+  "sample": "research_tmp/nf19-sample-r3-v2",
+  "sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+  "schema": "nf19.r14_startup_assembly_spec.v1",
+  "source_readme_sha256": "4cda031548fa11a540411ad4e0bad58ef866765cabf8a1f629c30b8cc3658a17",
+  "source_snapshot": "a266b036",
+  "test_receipt_sha256": "0315ae81ebdb4e92754135a12dd64052cf78ddd07330f653b60dba22ad08da2e",
+  "unit": "computer-vision-homework-eda19-r14-v1.service"
+}

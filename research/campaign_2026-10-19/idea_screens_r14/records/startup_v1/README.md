@@ -1,0 +1,5 @@
+# R14 startup records
+
+[REPLAY.json](REPLAY.json) binds the private assembler/patch inputs, final launch/capture/stop script bytes, 27 transported files and the 20-module runtime inventory. [ASSEMBLY_SPEC.json](ASSEMBLY_SPEC.json) and [ASSEMBLY_RECEIPT.json](ASSEMBLY_RECEIPT.json) describe local construction only; neither is evidence of a remote launch. [LOCAL_IMPORT_SMOKE.json](LOCAL_IMPORT_SMOKE.json) records the source-only B-shaped cold import with reader sentinels untouched and Torch absent. [ROOT_STARTUP_REVIEW.json](ROOT_STARTUP_REVIEW.json) independently checks the final pins, decoded transport bytes, caps and identities before the sole actual launch.
+
+[PREPARED_README.md](PREPARED_README.md) retains the exact launch-time README; links inside that snapshot resolve relative to the original R14 packet root. The current [packet README](../../README.md) adds result navigation outside the frozen source manifest. Actual admission, invocation, capture, validation and exact stop are linked from the parent [records README](../README.md). No actual arrays/models were read by these local startup checks.

@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+[R14 compact audit](../../campaign_2026-10-19/idea_screens_r14/RESULT_AUDIT.json) checks fixed-step objective/eta/counters and three canonical score sets from compact JSON, without arrays/fit/scorer replay. [Design review](../../campaign_2026-10-19/idea_screens_r14/DESIGN_REVIEW.json), [source review](../../campaign_2026-10-19/idea_screens_r14/IMPLEMENTATION_REVIEW.json), [root startup review](../../campaign_2026-10-19/idea_screens_r14/records/startup_v1/ROOT_STARTUP_REVIEW.json) and [resource metadata review](../../campaign_2026-10-19/idea_screens_r14/RESOURCE_METADATA_REVIEW.json) separate claim, source, launch and operational scopes.
+
 [Independent synthesis review](IDEA_SCREEN_SYNTHESIS_REVIEW_20261019_R1.json) checks the cited R3–R13 findings and their interpretation in the [allocation synthesis](../ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md). This is a source-bound evidence review, not numerical replay or independent empirical replication.
 
 [R13 compact audit](../../campaign_2026-10-19/idea_screens_r13/RESULT_AUDIT.json) reconstructs three pooled and component/drop-one score sets and all contrasts from six sums, without arrays/refit. [Source review](../../campaign_2026-10-19/idea_screens_r13/IMPLEMENTATION_REVIEW.json), [startup gate](../../campaign_2026-10-19/idea_screens_r13/records/startup_v1/ROOT_STARTUP_REVIEW.json) and [resource review](../../campaign_2026-10-19/idea_screens_r13/RESOURCE_METADATA_REVIEW.json) separate science/source, execution and metadata scopes.

@@ -1,0 +1,3 @@
+# R14 terminal capture
+
+[capture.stdout](capture.stdout) is the original raw envelope; [TRANSPORT.json](TRANSPORT.json) binds its bytes and script identity. The extracted receipts are [admission](REMOTE_ROOT_ADMISSION.json), [launch](REMOTE_ROOT_LAUNCH.json), [cold import](REMOTE_ROOT_IMPORT_SMOKE.json), [start](REMOTE_START.json), [source](REMOTE_SOURCE.json), [result](REMOTE_RESULT.json), [done](REMOTE_DONE.json), [progress](REMOTE_PROGRESS.jsonl) and [probe log](REMOTE_PROBE_LOG.txt). Every extracted payload passed exact length/SHA validation before [root validation and stop](../README.md). The envelope records archive stat size only; actual coefficient/Hessian/normalizer payloads remain on Beleriand. No raw capture or compute replay is needed.

@@ -1,0 +1,42 @@
+{
+  "schema": "nf19.r14_implementation_review.v1",
+  "status": "PASS_SOURCE_REVIEW",
+  "execution_admission": false,
+  "scope": "Independent source and pin review only; no sample arrays, model payloads, remote files, or empirical fit were read or run.",
+  "bindings": {
+    "preparation_manifest": {
+      "path": "research/campaign_2026-10-19/idea_screens_r14/PREPARATION_MANIFEST.json",
+      "sha256": "3ed272bc6d1efd6ec016c68f73a5efcfe3211c011cb1f60cbb2b28e80b1f7257"
+    },
+    "test_receipt": {
+      "path": "research/campaign_2026-10-19/idea_screens_r14/TEST_RECEIPT.json",
+      "sha256": "0315ae81ebdb4e92754135a12dd64052cf78ddd07330f653b60dba22ad08da2e"
+    },
+    "design": {
+      "sha256": "bde80d4260c0d84fe7e1b2da8229f75e7c0b3f775c8a976f65b13dc67e929d79"
+    },
+    "design_review": {
+      "sha256": "b72c67bbb57ad43e6a6063b38a013401205668489afb2ca9d40df87f02210a85"
+    },
+    "selection_history": {
+      "sha256": "8aabd5810cb4a3b9cbcd721718c935f2a71e76dc5ebbdbe4bcc33e803405d8d5"
+    }
+  },
+  "checks": {
+    "source_pins": "All 27 files named in the final preparation manifest were independently rehashed from the local checkout and matched; no missing or mismatched paths.",
+    "runtime_closure": "The pinned runtime map contains 20 exact module names. The entrypoint verifies source pins before imports, requires exact equality between the observed package-prefixed module set and the map, and checks each resolved module path against its pinned source path.",
+    "coordinate_and_objective": "The block-major T kron I112 transform has the stated direction zB=S zA; betaA=S.T betaB and the mapped S R S.T penalty preserve the same predictions and objective. Congruence mapping of H and b is correct. The exact steepest-descent step uses the unnormalized quadratic consistently; the normalized-risk gradient differs by weight_sum and its step by the inverse scale only.",
+    "gap_and_reports": "Iteration zero retains absolute initial H-energy and relative gap 1.0. Terminal per-target and mean relative gaps are present. The direct native-B versus mapped-A check now returns one scalar per target, and the fit invariant gates compare the mapped systems and optima.",
+    "data_and_scoring": "Fit-only scored stride-40 rows determine normalization; EMA histories reset at sequence start and are built across each full sequence before mask/stride selection. Fit targets form the weighted objective. Evaluation labels are passed to the canonical scorer only after both fixed optimization paths complete; predictions are converted to FP32 before scoring.",
+    "resource_shape": "The fit design is preallocated at 31,808 by 449 FP64 entries and full feature histories are built one sequence at a time for both fit and evaluation. This is consistent with the stated memory envelope; retaining all complete-sequence feature histories would not be.",
+    "fail_closed_numerics": "The source checks finite input/features, Gram identity, finite and positive-definite systems, mapped H/rhs errors, mapped optimum and direct-prediction errors, finite gradients/curvature/steps/objectives, objective monotonicity, and selected scorer values. Failed checks raise before a success result is written.",
+    "synthetic_receipt": "The bound author receipt reports 8 synthetic/metadata tests passed, an exact 20-module cold import closure with payload-reader sentinels untouched, and Ruff check/format passes. I verified the corrected direct-map scalar and mean-gap fields in the frozen source; I did not rerun the suite."
+  },
+  "known_validation_note": "The author test receipt records 69 NumPy matmul RuntimeWarnings on macOS and explicitly says their cause is unknown. This review does not infer a cause; finite/SPD/objective/map guards are present, and any corresponding invariant failure in the bounded run must remain an incomplete result.",
+  "interpretation_limits": [
+    "The analytic Gram is for infinite unit impulse responses, not the empirical finite-history feature covariance.",
+    "The comparison isolates this fixed same-span FP64 coordinate-conditioning procedure, not GRU conditioning, production FP32 training, general optimizer behavior, or public performance.",
+    "The R3 exposed panel and component/drop-one summaries do not provide independent replications or an unbiased full-fold estimate."
+  ],
+  "decision": "Source is suitable for root transport review. This is not permission or admission to execute; exact external staging, source/sample identity checks, and resource gates remain separate."
+}

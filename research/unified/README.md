@@ -1,5 +1,7 @@
 # Unified research library
 
+[Latest bounded idea screen, R14](../campaign_2026-10-19/idea_screens_r14/RESULTS.md) tests matched-pole/span conditioning directly. Orthonormal impulse coordinates leave larger128-step objective gaps for both targets; secondary WP is slightly higher, so optimization and prediction evidence remain distinct. All R1–R14/F3 are finished; see [current continuation](../campaign_2026-10-19/idea_screens_r14/CONTINUATION.md).
+
 [Synthesis after thirteen screens](ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md) retains three conditional leads, closes only exact negative variants and preserves untested mechanisms. No R14 job or model is admitted; this evidence review adds no data/model execution or empirical result.
 
 [Latest bounded idea screen, R13](../campaign_2026-10-19/idea_screens_r13/RESULTS.md) closes one immutable first99-row mean side-context recipe: WP0.462646 versus current bypass0.499683 and zero0.507387, same initialization/updates. All R1–R13 and original F3 are finished; no new GPU or old-queue cell. See the [current continuation](../campaign_2026-10-19/idea_screens_r13/CONTINUATION.md).

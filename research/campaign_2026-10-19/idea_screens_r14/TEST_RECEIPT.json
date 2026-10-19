@@ -1,0 +1,17 @@
+{
+  "schema": "nf19.r14.test_receipt.v1",
+  "scope": "synthetic CPU checks and metadata/source-only validation; no actual panel arrays, model payloads, remote files, or empirical fit",
+  "commands": {
+    "tests": "PYTHONPATH=research/campaign_2026-10-19:src .venv/bin/python -m pytest -q research/campaign_2026-10-19/idea_screens_r14/test_probe.py",
+    "ruff_check": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r14",
+    "ruff_format": ".venv/bin/ruff format --check research/campaign_2026-10-19/idea_screens_r14"
+  },
+  "results": {
+    "synthetic_and_metadata_tests": "8 passed; includes the cold source-closure smoke with exact 20-module inventory and reader sentinels untouched",
+    "pytest_warnings_observed": 69,
+    "ruff_check": "passed",
+    "ruff_format": "passed"
+  },
+  "platform_note": "NumPy matmul RuntimeWarnings (divide-by-zero, overflow, invalid) were observed on macOS in synthetic tests. The tested outputs remained finite and assertions passed; the cause was not established.",
+  "actual_data_or_model_execution": false
+}

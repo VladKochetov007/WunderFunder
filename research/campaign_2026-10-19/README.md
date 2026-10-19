@@ -1,5 +1,7 @@
 # 19 October research
 
+[R14 same-span filter coordinates](idea_screens_r14/RESULTS.md) keeps three exponential poles, function span and mapped objective fixed. The analytic orthonormal basis worsens both128-step objective gaps and empirical condition numbers; the predeclared optimization gate fails. Secondary WP B .542595 vs A .540947 is preserved without outer promotion. One exposed FP64 convex diagnostic, not GRU/quality gain.
+
 - [Synthesis after thirteen screens](../unified/ideas/IDEA_SCREEN_SYNTHESIS_20261019_R1.md): conditional leads and exact negatives are separated from untested mechanisms; proxy scores do not select a new recurrent architecture. No new data/model work, R14 preparation or fit is admitted by this review.
 
 - [R13 immutable warmup99 context](idea_screens_r13/RESULTS.md): matched three-arm MLP gives warmup0.462646/current-bypass0.499683/zero0.507387; primary−0.037037 and both warmup drop-one contrasts negative across32components. Same initialization/756updates per arm, one exposed panel. Close this exact prefix-mean recipe; no general context/GRU/public claim.

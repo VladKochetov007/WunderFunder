@@ -1,0 +1,32 @@
+{
+  "schema": "nf19.r14_design_review.v1",
+  "status": "PASS_DESIGN_ONLY",
+  "review_scope": "Independent mathematical identification and resource-feasibility review; no code, data, model, remote, or outcome inspection.",
+  "design": {
+    "path": "research/campaign_2026-10-19/idea_screens_r14/DESIGN.md",
+    "sha256": "bde80d4260c0d84fe7e1b2da8229f75e7c0b3f775c8a976f65b13dc67e929d79",
+    "bytes": 6071
+  },
+  "selection_history": {
+    "path": "research/campaign_2026-10-19/idea_screens_r14/SELECTION_HISTORY.json",
+    "sha256": "8aabd5810cb4a3b9cbcd721718c935f2a71e76dc5ebbdbe4bcc33e803405d8d5",
+    "bytes": 862,
+    "selection_precedes_code_and_outcomes": true
+  },
+  "review": {
+    "mathematics": "The proposed transform is invertible on the three fixed EMA blocks: for C=L L^T, T=L^-1 gives T C T^T=I for the infinite unit-impulse Gram. With zB=S zA, betaA=S^T betaB and the mapped penalty S R S^T preserve predictions and the same convex objective; H_B=S H_A S^T and b_B=S b_A follow. The stated exact steepest-descent step g^Tg/(g^T(2H)g) is correct for that quadratic. The primary terminal objective-gap ratio therefore tests finite-step coordinate conditioning under the specified Euclidean steepest-descent algorithm.",
+    "identification_limits": [
+      "C is the infinite impulse-response Gram, not the empirical covariance of the finite, autocorrelated input design; results support only this fixed same-span coordinate-conditioning test.",
+      "FP64 analytic optimization is not evidence about strict-FP32 training, GRU behavior, general optimizers, generalization, or public performance.",
+      "The single exposed panel and its component/drop-one summaries are sensitivity evidence, not independent replications or an unbiased full-fold estimate."
+    ],
+    "resource_feasibility": "The 449-by-449 sufficient-statistic matrices are small and one sequence's 20,000-by-448 FP64 history is about 71.7 MB. Materializing all 96 histories would require about 6.88 GB before temporary arrays and exceeds the stated memory cap. Implementation must stream one complete sequence at a time, accumulate compact moments, and avoid retaining all-panel feature histories; under that condition the stated memory envelope is plausible. The 600-second limit remains an execution gate, not a runtime guarantee.",
+    "pre_execution_requirements": [
+      "Bind and recheck the exact R3 sample and membership hashes, canonical feature construction/normalization, and official scorer source before importing or reading arrays.",
+      "Build each causal history over the complete sequence before applying the original fit/evaluation masks and stride; fit-only rows determine raw normalization.",
+      "Verify the analytic transform, mapped penalty, direct-versus-mapped predictions, positive-definite systems, finite line-search steps, and optimum agreement using synthetic checks before any bounded run.",
+      "Keep the two endpoint predictions and one shared optimum as secondary scorer inputs only; do not use evaluation outcomes to alter poles, lambda, iterations, or the gate."
+    ],
+    "decision": "The design is mathematically identified for its narrow optimization-conditioning question and is suitable for bounded implementation review, conditional on streamed sequence processing and exact source/sample binding. No empirical conclusion or execution admission is implied."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "exact_transport_payloads_match_local": true,
+  "limitations": [
+    "Two stale diagnostic wording strings mention four-module closure / R7 allowlist, but exact actual 20-module inventory and 27-file gates bind R14; no scientific effect.",
+    "Remote source declares cuda_or_torch_imported false; actual import smoke checks Torch absence, not a CUDA API initialization measurement."
+  ],
+  "local_import_smoke_sha256": "e90a9902d23e82faf73d48d59275af6874aeab88a7e52da732d69a8ed655d573",
+  "observed_utc": "2026-10-19T06:57:49.520359+00:00",
+  "preparation_manifest_sha256": "3ed272bc6d1efd6ec016c68f73a5efcfe3211c011cb1f60cbb2b28e80b1f7257",
+  "private_scripts": {
+    "r14_capture.py": {
+      "bytes": 3862,
+      "sha256": "e2966c0a5c55a74dbdefc1446f01b7958a14ff4ffd268cf55d532f270350a495"
+    },
+    "r14_remote.py": {
+      "bytes": 578925,
+      "sha256": "07fd54ea710f0499f05e3e95d2f1eb6af6116adc9d7ea7611b23495aee917f36"
+    },
+    "r14_stop.py": {
+      "bytes": 1737,
+      "sha256": "0165d3f61e9ee73c8cd0fd911102844a75456bc4cd3ecb9dbd92773d3f687207"
+    }
+  },
+  "replay_sha256": "a7198c59c8737b7bf3440519bb63a37cf5df63ee0d0a31303f0a0b8fbb6f00f1",
+  "review_scope": "Root independently checked final pins, decoded sealed transport bytes, syntax, runtime reader sentinel record, resource caps, create-only/output/unit identities and B-owned all-descendant empty admission gates. No remote actions or data/model execution in this review.",
+  "runtime_modules": 20,
+  "schema": "nf19.r14_root_startup_review.v1",
+  "status": "PASS_STARTUP_ONLY",
+  "transport_files": 27,
+  "verified_manifest_pins": 27
+}

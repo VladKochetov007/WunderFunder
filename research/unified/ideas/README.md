@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[R14 same-span coordinate comparison](../../campaign_2026-10-19/idea_screens_r14/RESULTS.md) tests H-NF19-18 with the same three poles,449coefficients/target and mapped weighted-ridge objective. B/A terminal gap ratios1.1556/1.1426 fail the prospective≤.8 gate; empirical Hessian condition numbers also worsen. Secondary B−A WP+.001648 is retained, not used to choose a new endpoint. One convex FP64 diagnostic on the exposed R3 panel closes this recipe, not all orthogonal-state/GRU methods.
+
 [What thirteen screens support](IDEA_SCREEN_SYNTHESIS_20261019_R1.md) separates signed-history and coupled mean/variance leads from the secondary moment-decoder recipe, exact negatives and target-free premises. It explains why automatic additional tiny-model variants or a PCA interaction proxy are not faithful tests of every remaining card. CPU authority is unchanged; no new fit or direction is selected.
 
 [R13 matched prefix-context screen](../../campaign_2026-10-19/idea_screens_r13/RESULTS.md) tests H-NF19-14 with zero/current-bypass/warmup99 mean side blocks. Warmup WP0.462646 loses0.037037 to current bypass and0.044742 to zero; all32drop-one sensitivities of both contrasts are negative. One exposed CPU seed with same nominal architecture/initial function/updates closes this mean99 recipe, not all contextual memory or GRU behavior.
