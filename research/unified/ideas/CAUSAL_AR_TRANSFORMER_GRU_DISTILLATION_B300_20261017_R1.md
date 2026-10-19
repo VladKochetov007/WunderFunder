@@ -26,6 +26,8 @@ evidence_paths:
 
 # Causal autoregressive Transformer teachers, GRU distillation, and eight-B300 training
 
+Published continuation packets: [PR #28 — teacher transfer frontier](https://github.com/VladKochetov007/WunderFunder/pull/28), [PR #29 — representation hints](https://github.com/VladKochetov007/WunderFunder/pull/29), and [PR #30 — streaming students](https://github.com/VladKochetov007/WunderFunder/pull/30). All target `research-team`; pinned heads and packet links are in the [publication map](PUBLISHED_GPU_PACKETS_20261018.md#дистилляция-сильных-учителей-и-streaming-студенты). They remain unrun proposals.
+
 The concrete continuation is in Sections 22–27: teacher scale × student capacity, representation hints, and a streaming student comparison. The [CPU inference contract](../inference/TRANSFORMER_DISTILLATION_CPU_PATH.md) follows a student through export, stateful inference and release qualification. The [team/teacher audit](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md) separates newly measured team results from still-proposed Transformer work. These additions do not start or reassign any team's running jobs.
 
 ## Question or claim
