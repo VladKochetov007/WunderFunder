@@ -21,6 +21,7 @@ from delivery_watch_receipts import (
     verify_gradient_history,
     verify_original_actor_binding,
 )
+from delivery_watch_state import _base_cli
 
 
 def _write(path: Path, value: dict) -> None:
@@ -37,6 +38,24 @@ class RetryPolicyTests(unittest.TestCase):
         self.assertFalse(fresh_attempt_allowed(False, True, "pending"))
         self.assertFalse(fresh_attempt_allowed(False, False, "validation_started"))
         self.assertFalse(fresh_attempt_allowed(False, False, "rejected"))
+
+
+class HelperCliTests(unittest.TestCase):
+    """Keep the helper phase before options owned by its argparse subparser."""
+
+    def test_phase_precedes_common_and_phase_arguments(self) -> None:
+        config = {
+            "helper_path": Path("/runtime/helper"),
+            "root_path": Path("/project"),
+            "packet_path": Path("/project/runtime/b300-r01-v1"),
+        }
+        recovery = Path("/project/state/r01-delivery-recovery-v2")
+        for phase in ("validate", "export"):
+            with self.subTest(phase=phase):
+                argv = _base_cli(config, recovery, phase) + ["--job-id", "wide_f0_s1003"]
+                self.assertEqual(argv[3], phase)
+                self.assertEqual(argv[4], "--root")
+                self.assertEqual(argv[-2:], ["--job-id", "wide_f0_s1003"])
 
 
 class WatcherIdentityTests(unittest.TestCase):

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import subprocess
 import sys
 import time
 from pathlib import Path
@@ -15,6 +16,7 @@ from delivery_watch_core import (
     verify_runtime_envelope,
 )
 from delivery_watch_receipts import verify_export_receipt, verify_fit_receipt
+from delivery_watch_state import _base_cli
 from r01_delivery_watch import _load_config
 
 
@@ -41,6 +43,11 @@ def main() -> None:
     from r01_recovery_placement import verify_placement
 
     recovery = root / "state/r01-delivery-recovery-v2"
+    cli_checks = []
+    for phase in ("validate", "export"):
+        argv = _base_cli(config, recovery, phase) + ["--job-id", "parser-check", "--help"]
+        checked = subprocess.run(argv, capture_output=True, text=True, timeout=30, check=True)
+        cli_checks.append({"phase": phase, "argv": argv, "returncode": checked.returncode})
     validated, exports = [], []
     for job in config["jobs"]:
         job_id = job["id"]
@@ -105,6 +112,7 @@ def main() -> None:
         "packet_manifest_sha256": sha256_file(manifest_path),
         "helper_manifest_sha256": config["helper_manifest_sha256"],
         "validated_existing_fits": validated,
+        "canonical_cli_checks": cli_checks,
         "validated_existing_exports": exports,
         "official_prediction_checks": prediction_checks,
         "official_paired_grades": len(snapshot["completed"]),

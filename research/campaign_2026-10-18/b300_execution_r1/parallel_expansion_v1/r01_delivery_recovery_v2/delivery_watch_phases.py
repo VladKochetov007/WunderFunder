@@ -123,7 +123,7 @@ def _fit_one(
         OPENBLAS_NUM_THREADS="2",
         NUMEXPR_NUM_THREADS="2",
     )
-    argv = _base_cli(config, recovery) + ["validate", "--job-id", job_id]
+    argv = _base_cli(config, recovery, "validate") + ["--job-id", job_id]
     try:
         result = _run_child(
             argv,
@@ -250,7 +250,7 @@ def _export_one(
         OPENBLAS_NUM_THREADS="2",
         NUMEXPR_NUM_THREADS="2",
     )
-    argv = _base_cli(config, recovery) + ["export", "--job-id", job_id]
+    argv = _base_cli(config, recovery, "export") + ["--job-id", job_id]
     try:
         result = _run_child(
             argv,
