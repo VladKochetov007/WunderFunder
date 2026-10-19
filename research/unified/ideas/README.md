@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[R9 recurrent carry dependence](../../campaign_2026-10-19/idea_screens_r9/RESULTS.md) measures an actual state intervention at one unchanged GRU checkpoint: recent256 vs full history gives19.354% pooled relative prediction RMS across16windows/8fit components. Shared causal features keep their history. This keeps persistent-context mechanisms relevant without claiming old-state usefulness for labels, conditional target information, energy regularization, stale-weight effects or a new architecture.
+
 [R8 constant-variance mechanism control](../../campaign_2026-10-19/idea_screens_r8/RESULTS.md) adds one fixed CPU arm WP0.501394. Stored input-dependent R7 remains ahead+0.012903; constant-minus-WMSE−0.000528. All32 primary leave-one contrasts stay positive, sensitivity only. This global-scaling control does not reproduce R7, while removed variance-trunk gradients prevent noise/expressivity isolation. No R7 replay or new absolute-best/full-model/public claim.
 
 [R7 learned mean/variance pilot](../../campaign_2026-10-19/idea_screens_r7/RESULTS.md) gives final candidate WP0.514297 versus matched WMSE0.501921, delta+0.012376, with both target deltas and all32 leave-one-component pooled contrasts positive. Same seed/model/batches/756updates; one exposed panel and variance-gradient/clipping coupling limit noise-mechanism claims. Stored R3 ridge0.536004 remains higher absolutely. Idea22 is PARTIAL; constant-variance scaling control and GRU transfer remain untested.

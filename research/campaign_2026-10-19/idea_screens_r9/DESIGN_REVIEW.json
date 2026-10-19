@@ -1,0 +1,18 @@
+{
+  "decision": "PASS",
+  "design_sha256": "5fa6f4a6fda34402232444cc670e1f36263bc359059fb66e646fa22fd4bcee70",
+  "findings": [
+    "The fixed-checkpoint, no-update comparison is a focused test of whether this model\u2019s predictions and recurrent states depend on carried GRU state beyond 256 rows when the canonical 211-wide causal inputs are held identical. The design keeps causal feature history intact, so it does not confound recurrent-state truncation with feature-history reset.",
+    "The FULL branch is correctly specified as one continuous stream across both anchors, with independent branch states for RECENT256 and ZERO. The declared forward-row accounting is consistent: 130,048 non-rollout full-prefix rows plus 10,240 branch/rollout rows equals 140,288 total rows for eight sequences.",
+    "The fixed R3 fit-only component selection, no-target-use rule, no evaluation arrays, no score/backward/update, source/checkpoint identities, strict loader, fixed positions/windows, state and model invariants, compact sufficient statistics, and fail-closed CPU/resource limits are concrete and suitable for this bounded diagnostic."
+  ],
+  "implementation_acceptance_note": "Keep k=0 defined as the state immediately before consuming the anchor row, process the same [anchor, anchor+128) feature rows for all three branches, and clone FULL state for window observations so recording a rollout cannot alter the continuous stream into the next anchor.",
+  "limits_preserved": [
+    "Output differences measure dependence on recurrent carry for one stored checkpoint and fixed inputs; they do not show that the erased history is predictively useful or that longer raw history is unnecessary.",
+    "The same canonical causal features already contain their own history, so this does not test total history dependence or reset the input-feature state.",
+    "The eight sequences and sixteen windows are an exposed-panel diagnostic, not independent replications or a population/evaluation estimate.",
+    "The 1% relative and 1e-3 absolute scales are descriptive references only; the test produces no quality grade or campaign acceptance decision."
+  ],
+  "review_scope": "Read-only pre-code design critique; no checkpoint, arrays, model outputs, remote actions, or new fitting.",
+  "schema": "nf19.r9_design_review.v1"
+}

@@ -1,5 +1,9 @@
 # 19 October research
 
+- [Existing F3 pair preservation completed](../campaign_2026-10-18/priority25_execution_r4/f3_result_collection_r1/RESULTS.md): wide.7031224625/deep.7032378322, Δ−.00011537 and conditional component interval crossing0. Both fits/exports/grade were already running under old authority; this turn archived59files with source/header/finite/hash/receipt checks and independent acceptance. No new old-queue cell or grade replay.
+
+- [R9 carried-history intervention](idea_screens_r9/RESULTS.md): rebuilding one fixed GRU state from only256rows changes next128-row predictions by19.354% pooled relative RMS, with all16window contrasts above the1% descriptive reference. Same intact causal features,8fit components,0updates/0labels used. This establishes checkpoint-conditional carry dependence; label usefulness, history matching and architecture gains remain untested.
+
 - [R8 constant-variance control](idea_screens_r8/RESULTS.md): one new arm WP0.501394, stored input-dependent variance ahead+0.012903, constant-minus-WMSE−0.000528. Fixed seed/756updates, no R7 replay. Independent compact audit/capture/stop pass; mechanism/noise and transfer limitations remain explicit.
 
 - [R7 learned mean/variance MLP](idea_screens_r7/RESULTS.md): one matched seed/12epoch CPU pair improves WP0.501921→0.514297 (+0.012376), both targets positive and32positive leave-one-component contrasts. Independent compact audit/capture/stop pass. Stored R3 ridge remains higher; gradient scaling/noise attribution and full-model/public transfer are unresolved.

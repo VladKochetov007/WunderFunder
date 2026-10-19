@@ -1,0 +1,126 @@
+{
+  "schema": "nf19.r9_resource_reconciliation.v1",
+  "status": "captured_and_exact_unit_stopped",
+  "created_utc": "2026-10-19T03:03:40.430651+00:00",
+  "unit": "computer-vision-homework-eda19-r9-v1.service",
+  "invocation": "1ee30a179669428782b90fccf0a0f1db",
+  "capture_observed_utc": "2026-10-19T02:58:26.465153+00:00",
+  "stop_observed_utc": "2026-10-19T03:03:07.642604+00:00",
+  "configured_caps": {
+    "cpu_cores": 0.5,
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "swap_max_bytes": 0,
+    "runtime_seconds": 600,
+    "cuda_visible_devices": "",
+    "blas_threads": 1
+  },
+  "unit_observations": {
+    "start": "Mon 2026-10-19 02:55:24 UTC",
+    "exit": "Mon 2026-10-19 02:56:34 UTC",
+    "exec_main_status": 0,
+    "result": "success",
+    "elapsed_monotonic_seconds": 69.41872,
+    "cpu_seconds": 34.663788,
+    "memory_peak_bytes": null,
+    "memory_peak_raw": "[not set]",
+    "terminal_control_group": "",
+    "own_terminal_cgroup_sample": "not available; no root-cgroup fallback"
+  },
+  "helper_observations": {
+    "elapsed_seconds": 60.62113789492287,
+    "phase_seconds": {
+      "checkpoint_load_and_reconstruction": 0.1077652380336076,
+      "input_preparation": 1.0011937418021262,
+      "model_forward": 58.826614514691755,
+      "sample_verification_and_mapping": 0.4808734869584441,
+      "total": 60.61638870998286
+    },
+    "memory_guard_before_input_and_forward": {
+      "conservative_extra_budget_bytes": 256000000,
+      "own_cgroup_current_bytes": 314945536,
+      "process_rss_bytes": 583012352,
+      "required_high_bytes": 1400000000,
+      "stage": "before_input_preparation_and_forward"
+    },
+    "note": "Guard RSS and own cgroup.current are two point observations, not a process or unit peak."
+  },
+  "parent_events": {
+    "parent_memory_events_after": {
+      "high": 2179,
+      "low": 0,
+      "max": 561,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_events_before": {
+      "high": 2179,
+      "low": 0,
+      "max": 561,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_events_delta": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_events_local_after": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_events_local_before": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_memory_events_local_delta": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "populated_campaign_descendants": 0,
+    "terminal_control_group_empty_no_fallback": true
+  },
+  "terminal_transport": {
+    "raw_capture_sha256": "1999b743bc795961ab3946796c86d63bb517c6da01e9d55006bb676452cdfde1",
+    "raw_capture_bytes": 490585,
+    "embedded_payloads_verified": 45,
+    "capture_validation_sha256": "019ca2473755a7450c6222ab21fe21c1dd22a76f971c580b422fc04724789df0",
+    "post_stop_state": {
+      "ActiveState": "inactive",
+      "ExecMainStatus": "0",
+      "Id": "computer-vision-homework-eda19-r9-v1.service",
+      "InvocationID": "",
+      "LoadState": "not-found",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "stop_stdout_sha256": "a5e1fecf5e8379b5fecd41bc825844f00e9e1e5044d870c9577bce6d7838227c",
+    "stop_stdout_path": "research/campaign_2026-10-19/idea_screens_r9/records/attempt_v1/terminal_capture/REMOTE_STOP_RAW.json",
+    "stop_receipt_sha256": "caef166a1962fe0b73ecc1b28d6f6d4dd99b139571c51e437cbbca3fc134d9d7",
+    "stop_receipt_path": "research/campaign_2026-10-19/idea_screens_r9/records/attempt_v1/terminal_capture/STOP_RECEIPT.json"
+  },
+  "result_sha256": "fff06e1257794d0c84c29015e3a7a462d8729b6075a6d05e5ed6a759edc1bbef",
+  "source_sha256": "8f507a9a16dcb4b5ef3fe5c00145ca143f1540dac80b916b96fe4fe68f2804f6",
+  "payload_policy": "No arrays/models/states/prediction arrays copied to Mac. Scalar receipts and source/metadata only. No new GPU fit, provider test or paid allocation.",
+  "prelaunch_corrections": "Before frozen manifest/admission, root caught per-k snapshots being recorded from final states; author moved capture inside endpoint loop and added a changing-state invariant. Target-file integrity IO was clarified separately from target-value access. No flawed diagnostic was executed.",
+  "capture_correction": "Local semantic validation initially expected invocation at a top-level launch field; exact invocation was validated from saved launch stderr and unit properties before stop. No compute was rerun.",
+  "interpretation": "Configured caps, helper time, monotonic unit elapsed, process RSS, cgroup.current and missing terminal MemoryPeak are separate observations; no explanation for scope differences is invented.",
+  "metadata_correction": "Independent audit distinguished exact remote stop stdout from the enclosing local stop receipt; both hashes are now labeled separately. Raw files unchanged."
+}

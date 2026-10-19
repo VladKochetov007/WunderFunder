@@ -1,0 +1,11 @@
+# Deep terminal collector evidence
+
+Exact owned support unit: `computer-vision-homework-r01-f3-deep-terminal-collector-t20261019025125207888-002b600b.service`; invocation `t20261019025125207888-002b600b`. It launched at `2026-10-19T02:51:25.208119+00:00` and its durable remote launch record is included as `REMOTE_LAUNCH_V1.json`. The remote terminal capture was recorded at `2026-10-19T02:51:58.382352+00:00` with explicit SubState `exited`, Result `success`, ExecMainStatus `0`, and unit_success `True`. ExecMainCode is `1`; systemd reported `SubState=exited` and `ExecMainStatus=0`.
+
+Support envelope: CPU quota `250ms` (expected `250ms`), MemoryMax `512000000` bytes (expected `512000000`), MemorySwapMax `0`, RuntimeMaxUSec `2min`. The systemd unit MemoryPeak was `10018816` bytes; this is the unit cgroup scope. Monotonic start-to-exit duration was 4.334211 seconds. CPUUsageNSec was `1108692000`. This MemoryPeak is distinct from process `peak_ram_bytes` recorded by the native training receipt.
+
+Collection receipt SHA-256: a7bd493c84f2ccd66f66e8ca917953ba1f8b5a5c37fa0bd4f4ed0c3936ffc230. Source snapshot match: True. Archive-only status: F3 checkpoint archive only; independent structural verification and quality grade pending. No quality or grade claim.
+
+The terminal capture response and the exact raw admission, launch, and helper receipt bytes are stored alongside this README. All encoded raw-file byte lengths and SHA-256 values were verified locally before the exact owned exited unit was stopped. Stop receipt: `2026-10-19T02:52:32.944058+00:00`, returncode `0`, capture SHA-256 `7512639a9d65ef1e48dbf1a33e409b0f8381ca65fde37a8a55c95e0c36327ab8`. Parent memory events before and after capture were unchanged: `low 0; high 2179; max 561; oom 0; oom_kill 0; oom_group_kill 0`. Populated campaign descendants at capture: `., computer-vision-homework-r01-f3-sequence.service, wnn-bandit-computer-vision-homework-r01-deep-f3s1001-export-ep5-v1.service.
+
+No model, checkpoint, array, or prediction payload was transferred to the local machine. For the collector, the checkpoint-support helper performed its bounded B-side work. This record is evidence preservation and helper validation, not a model-quality or grade conclusion.

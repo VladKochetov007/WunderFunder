@@ -1,0 +1,11 @@
+# F3 read-only health snapshot
+
+Actual observation time: `2026-10-19T02:34:48.430202+00:00`. This is one metadata-only snapshot of the existing R01 F3 sequence at index 3 and attempt `computer-vision-homework-r01-deep-f3s1001-ep25-v1`. The sequence pointer and attempt receipt both report `running`; the native deep worker is active/running with `ExecMainStatus=0` and has no exit timestamp. This is not a terminal-success claim.
+
+The exact sequence receipt, current attempt receipt, controller/worker systemd properties and status, a bounded 16 KiB attempt-log tail, campaign and populated-child cgroup files, GPU query plus process cgroups, and deep-output stat inventory are preserved as base64 byte payloads in `F3_HEALTH_20261019T0235Z.json`. The envelope SHA-256 is `a607001a0b834087714bd8f1d8d8137f878890abc894871058e9632ae2124fd6`; all 41 embedded payload byte lengths and SHA values were checked locally. `SUMMARY.json` decodes the small state fields and records the observation context.
+
+The captured log tail ends with: `ep 5 batch 1240/1488 loss 1.4927 lr 2.49e-07 seq/s 2.3`. Its source file had `28025` bytes and mtime_ns `1792377286169437383`; this is the last captured line, not a claim about subsequent progress. Deep output files are stat-only: the existing directory contains `provenance.json`, `training_state.pt`, and prior `model_ep2.pt`, `model_ep3.pt`, and `model_ep4.pt`; `model_ep5.pt`, `model.pt`, `history.json`, `attempt.json`, and `training.log` were absent at observation. No artifact payload was opened.
+
+Parent hierarchical campaign event counters remain high `2179`, max `561`, OOM `0` (zero delta from the preceding snapshot baseline high 2179 / max 561 / OOM 0); parent-local and both populated F3 child event counters are zero. The selected GPU query sees worker PID `1264295` in its expected F3 cgroup using `unmatched MiB`; other GPU owners are retained only in raw evidence and were untouched.
+
+One transport metadata caveat is retained without rewriting raw bytes: procfs reports `st_size=0` for `/proc/<pid>/cgroup` despite returning bytes. The exact returned byte lengths and SHA-256 values validate; the raw envelope's `total_length=0` for those pseudo-files reflects the stat size, not their content length. No arrays, checkpoints, models, training, launches, restarts, stops, or archives were touched.

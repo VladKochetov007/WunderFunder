@@ -1,0 +1,60 @@
+{
+  "schema": "nf19.r9_history_probe.root_startup_review.v1",
+  "decision": "PASS",
+  "preparation_manifest_sha256": "d8fd82e062f4e3f60fbfbda478a14da0ead6ab551358ca48b177a9a87b4f854b",
+  "implementation_review_sha256": "60c5c61e21281090e86749b8be76e75b38042af5e728e6a9060c0fd5515853ef",
+  "test_receipt_sha256": "a36d5bcba84a176e47e839080f1091e1773742c452085802efffcd6734aa0bd7",
+  "startup_inputs": {
+    "assembler_sha256": "3278407387e1521e7b160e4c79cf9f105aec93dd46401a7a0dd83e51fd3bd904",
+    "remote_body_sha256": "434cb5f01464fe56825f3be8678747268f2a60563c3e4674556f6510d6736558",
+    "root_inline_sha256": "8c1c20b0e5892ce77f46558bedcca13dde04bc264095bf0d1a87eeb214a78a4f",
+    "prepared_readme_sha256": "d80436bd17b0e481a77c31aaf4b0e851a23dc417a16669e46bc287bbdde74892",
+    "build_receipt_sha256": "2d0f7b9f9b4de884f92701872d698f483221613a70b218193104c248e7f7abf1",
+    "readme_matches_prepared_snapshot": true
+  },
+  "assembled_script": {
+    "path": "/Users/nb/Documents/wunder/runtime-20261018/eda19-r9-v1/r9_remote.py",
+    "bytes": 530667,
+    "sha256": "8b3066a73270e7e036adf8a354cf2df23a4646728f15c203c39570a4e1439af9",
+    "independent_reconstruction_byte_equal": true,
+    "compile_result": "PASS",
+    "build_receipt_matches": true,
+    "unique_staged_payload_files": 22,
+    "unique_staged_payload_bytes": 287467,
+    "canonical_source_pins": 25,
+    "implementation_review_staged_sha256": "60c5c61e21281090e86749b8be76e75b38042af5e728e6a9060c0fd5515853ef"
+  },
+  "startup_gate_review": {
+    "canonical_and_payload_hashes_before_staged_import": true,
+    "p5_helper_hashes_and_exact_inventory_checked_before_import": true,
+    "dont_write_bytecode_set_before_p5_dynamic_import": true,
+    "fresh_f3_pointer_and_resource_observation_before_systemd_run": true,
+    "final_memory_events_and_local_oom_counters_reread_before_launch": true,
+    "sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+    "checkpoint_sha256": "78c1413de8eeaa51f803cf59d6b0d7d2eddaad74cc91f744b8b2f85466b61b7f",
+    "temporary_output_and_support_paths_are_create_only": true,
+    "cpu_quota_cores": 0.5,
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "swap_max_bytes": 0,
+    "runtime_limit_seconds": 600,
+    "cuda_hidden_and_native_threads_one": true,
+    "physical_scratch_and_host_headroom_required": true,
+    "only_pure_existing_f3_pointer_resource_validation_reused": true
+  },
+  "import_smoke_and_execution_order": {
+    "read_sentinels": ["numpy.load", "pyarrow.parquet.ParquetFile", "torch.load"],
+    "dynamic_r1_digest_helper_exercised": true,
+    "complete_runtime_and_canonical_import_inventory_checked": true,
+    "no_model_or_data_load_in_import_smoke": true,
+    "fresh_interpreter_exec_after_smoke": true,
+    "cli_source_identity_gate_runs_before_checkpoint_or_sample_array_load": true
+  },
+  "review_boundary": {
+    "remote_script_executed": false,
+    "remote_host_contacted": false,
+    "production_arrays_or_checkpoint_read": false,
+    "result_or_model_claim": false,
+    "note": "The assembled launcher was reconstructed and compiled locally only; root admission and remote execution remain separate actions."
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "schema": "nf19.r9_history_probe.test_receipt.v1",
+  "preparation_manifest_sha256": "d8fd82e062f4e3f60fbfbda478a14da0ead6ab551358ca48b177a9a87b4f854b",
+  "source_pin_count": 43,
+  "canonical_source_pin_count": 25,
+  "checks": [
+    {
+      "name": "ruff_check",
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r9/{__init__.py,execution.py,history_math.py,history_probe.py,run_probe.py,source_manifest.py,state_replay.py,test_history_probe.py,window_probe.py}",
+      "result": "passed"
+    },
+    {
+      "name": "ruff_format_check",
+      "command": ".venv/bin/ruff format --check research/campaign_2026-10-19/idea_screens_r9/{__init__.py,execution.py,history_math.py,history_probe.py,run_probe.py,source_manifest.py,state_replay.py,test_history_probe.py,window_probe.py}",
+      "result": "passed"
+    },
+    {
+      "name": "synthetic_tests",
+      "command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/python -m pytest -q research/campaign_2026-10-19/idea_screens_r9/test_history_probe.py",
+      "result": "5 passed"
+    },
+    {
+      "name": "training_structure",
+      "command": ".venv/bin/python scripts/check_training_structure.py",
+      "result": "59 files checked; 0 errors; maximum module 300 lines; maximum function 200 lines"
+    },
+    {
+      "name": "pinned_manifest_verification",
+      "command": "idea_screens_r9.source_manifest.verify_manifest",
+      "result": "43 source pins verified, including 25 canonical WNN files"
+    },
+    {
+      "name": "local_read_sentinel_import_smoke",
+      "entrypoint": "idea_screens_r9.run_probe.smoke_imports(bundle_root, source_root, pins)",
+      "result": "12 runtime modules and 25 canonical modules imported; numpy.load, pyarrow.parquet.ParquetFile, and torch.load sentinels were installed and each had 0 calls; reader_calls=0; model_or_data_loaded=false",
+      "scope_note": "Local source-tree smoke only; root owns the B-shaped import/read-sentinel gate before execution."
+    }
+  ],
+  "probe_execution": "not run",
+  "arrays_or_checkpoint_loaded": false,
+  "pinned_source_and_small_metadata_read": true,
+  "target_value_access": false,
+  "target_file_integrity_io": "The frozen R6 sample helper hashes and memory-maps the 24 selected fit x/y/scored NPY files, including eight y files; R9 reads no target values and no evaluation arrays.",
+  "scientific_scope": "No actual checkpoint reconstruction, sample NPY access, forward diagnostic, scorer, backward pass, or optimizer update was run during code validation."
+}

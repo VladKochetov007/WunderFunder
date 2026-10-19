@@ -1,0 +1,43 @@
+{
+  "schema": "nf19.r9_history_probe.implementation_review.v1",
+  "decision": "PASS",
+  "preparation_manifest_sha256": "d8fd82e062f4e3f60fbfbda478a14da0ead6ab551358ca48b177a9a87b4f854b",
+  "test_receipt_sha256": "a36d5bcba84a176e47e839080f1091e1773742c452085802efffcd6734aa0bd7",
+  "source_pins": {
+    "total": 43,
+    "canonical_wnn": 25,
+    "campaign_payload": 18,
+    "all_manifest_file_hashes_verified": true
+  },
+  "independent_checks": {
+    "synthetic_test_command": "PYTHONPATH=src:research/campaign_2026-10-19 .venv/bin/python -m pytest -q research/campaign_2026-10-19/idea_screens_r9/test_history_probe.py",
+    "synthetic_tests": "5 passed",
+    "isolated_b_shaped_bundle": {
+      "status": "PASS",
+      "copied_manifest_payload_files": 18,
+      "copied_canonical_source_files": 25,
+      "runtime_import_paths": 12,
+      "canonical_import_inventory": 25,
+      "numpy_load_calls": 0,
+      "pyarrow_parquet_file_calls": 0,
+      "torch_load_calls": 0,
+      "model_or_data_loaded": false,
+      "reader_calls": 0,
+      "temporary_bundle_used": true
+    }
+  },
+  "scientific_invariants_reviewed": [
+    "The first eight fit sequences are selected from the R3 fixed fit component order and validated against complete sample/membership metadata; evaluation arrays are not loaded.",
+    "The frozen R6 reader hashes and maps 24 selected fit x/y/scored files, including y files for integrity; R9 input preparation reads sequence.x only and never reads target values or calls the scorer.",
+    "Canonical causal 211-wide inputs are assembled from the row-zero raw prefix through row 16512, and the checkpoint's saved normalization remains unchanged.",
+    "FULL state continues across both anchors; RECENT256 and ZERO branches are independently cloned/reset, and all branches receive the same fixed 128-row inputs.",
+    "Each k snapshot is captured immediately after its own rollout segment; the synthetic regression checks that k=1 and k=128 zero-branch snapshots differ.",
+    "The traversal counters reconcile to 130048 full-prefix, 4096 recent-reset, and 6144 three-branch rollout rows, totaling 140288.",
+    "Raw/clipped prediction contrasts retain additive per-target and pooled sufficient statistics; state/output checks reject nonfinite values, and model fingerprints plus empty-grad checks enforce no update."
+  ],
+  "limitations": [
+    "The isolated import smoke used a temporary local B-shaped tree, not the remote B host; its local Torch version was 2.14.1. The admission-time B smoke and runtime version gate remain required.",
+    "No production arrays, checkpoint, model reconstruction, model forward pass, scorer, remote host, or actual R9 diagnostic was accessed or run in this review.",
+    "The 16 windows are dependent within eight sequences and are descriptive fixed-checkpoint output-sensitivity evidence, not label utility, population validation, or evidence that shorter causal input history is sufficient."
+  ]
+}

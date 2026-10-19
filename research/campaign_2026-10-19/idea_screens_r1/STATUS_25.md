@@ -1,5 +1,7 @@
 # Статус всех25 после первого bounded screen
 
+Дополнение R9: [прямая интервенция в recurrent carry](../idea_screens_r9/RESULTS.md) на одном неизменном GRU,8fit-компонентах и16окнах. Замена полной истории состоянием, восстановленным за256строк, меняет следующие128прогнозов на19.354% pooled relative RMS; все16окон выше1% описательного ориентира. Causal input features и их история одинаковы. Это зависимость прогнозов от старого state, не польза для меток, conditional-information test или выбранная архитектура;0обновлений/0backward/0grade.
+
 Дополнение R8: [learned constant-variance control](../idea_screens_r8/RESULTS.md) не воспроизвёл преимущество R7 input-dependent objective: WP.501394 против stored.514297; primary+.012903, secondary кWMSE−.000528. Это одна новая CPU-arm с теми же756updates/init, без replayR7. Удалён также variance-to-trunkgradient, поэтому истинныйnoise/expressivity не изолированы.
 
 Дополнение R7: [matched mean/variance MLP](../idea_screens_r7/RESULTS.md) даёт +0.012376 WP относительно своего WMSE-контроля на той же R3-панели, при одинаковых инициализации/756updates/12epochs. Это положительная bounded CPU проверка карточки22; более высокий stored ridge .536004, один seed, exposedpanel и связанное изменение gradient scaling/globalclip ограничивают вывод. Истинный источник выигрыша и перенос на GRU не установлены.
@@ -20,7 +22,7 @@
 | № | Полученное свидетельство | Следующий различающий тест / граница |
 |---:|---|---|
 | 1 | Измерены10fit-only future-delta proxies; стабильной формулы таргета не установлено | Другой заранее заданный оператор и корректная анонимная шкала; не расширять поиск горизонтов по выигрышу |
-| 2 | История в разных fixed views имеет разные эффекты: EMA+ .01119, lag-view− .03206 | Это линейная ценность конкретных summaries; target-free state matching ещё не выполнен |
+| 2 | PARTIAL: R9 actual carry-state intervention даёт19.354% pooled relative prediction RMS при recent256 vs full; EMA/lag результаты сохранены | Зависимость fixed checkpoint от старого carry при одинаковых causal features; target-free matching и полезность старой истории для меток не измерены |
 | 3 | Положительная композиция почти нигде не определена; отдельно названный proxy− .00088 | Сначала восстановить допустимый смысл преобразования; не log-ratio signed-чисел |
 | 4 | Row-shape view− .01937 | Fit-only выбор регуляризации/контроль размера; физическая инвариантность не установлена |
 | 5 | NOT_TESTED: нет обоснованного полного отражения112каналов и таргетов | Не создавать mirror labels без полной спецификации |
@@ -32,8 +34,8 @@
 | 11 | Joint signed/absolute-innovation EMA+ .01119, но выигрыш меняет знак без компоненты995 | Разделить signed и absolute части; нынешний screen не изолирует Jordan/variation механизм |
 | 12 | PARTIAL: R5 shared linear moment heads; ratio−constant−0.025555WP, все32drop-one отрицательны | Learned heads/joint objective остаются NOT_TESTED; вторичный constant-vs-R3+0.013658 не изолирует механизм |
 | 13 | NOT_TESTED: prior/correction recurrent model отсутствует | Сначала доказать отличие от имеющегося gated update; затем tiny recurrent comparison |
-| 14 | Warmup99 constant-view− .04337, две цели реагируют разнонаправленно | Этот конкретный linear-context recipe не прошёл; не объявлять все initializer/context методы плохими |
-| 15 | Только input-innovation descriptors; hidden state не измерялся | NOT_TESTED actual recurrent energy bound, не подменять его нормой входа |
+| 14 | Warmup99 constant-view− .04337; R9 separately показывает persistent carry dependence | R9 не проверяет неизменный контекст первых99строк; этот механизм остаётся NOT_TESTED |
+| 15 | R9 измерил actual state-distance snapshots при carry reset; energy regularizer не применялся | NOT_TESTED actual recurrent energy bound; descriptive state norms не доказывают пользу штрафа |
 | 16 | Согласованность scorer проверена; objective-gradient comparison не выполнялся | NOT_TESTED optimizer treatment; population algebra не равняет finite fits |
 | 17 | NOT_TESTED: importance sampling не применялся | Fixed stride40 не является этим методом; нужен inverse-probability и matched time |
 | 18 | NOT_TESTED: ортонормальный basis не реализован | EMA/lag результаты не тестируют matched-pole-span conditioning |

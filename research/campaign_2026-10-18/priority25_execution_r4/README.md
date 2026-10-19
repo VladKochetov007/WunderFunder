@@ -104,3 +104,5 @@ Latest routine observation: [01:43UTC continuation](receipts/HEARTBEAT_20261018T
 - [F3 result collection support](f3_result_collection_r1/README.md) — independently reviewed, six focused tests passed, exact F3 membership/counts and original-v1 attempts; actual endpoint acceptance and collection require the later observed receipt seal.
 
 - [F3 actual execution](f3_beleriand_execution_r1/README.md) — root admission and seven-step sequence launched at 17:06 UTC after fresh full preflight and independent checkpoint/result-helper reviews. Both arms are owned by Beleriand; no F3 score yet.
+
+19October completion: [the original F3/seed1001 pair](f3_result_collection_r1/RESULTS.md) is fully collected and independently accepted: wide.7031224625/deep.7032378322, conditional paired interval crosses0;3/30cells per arm complete. Both terminal snapshots and59final result files are preserved, all support stopped. Latest user scope remains [bounded exploration of the new25ideas](../../campaign_2026-10-19/idea_screens_r9/CONTINUATION.md), not another old-queue admission.

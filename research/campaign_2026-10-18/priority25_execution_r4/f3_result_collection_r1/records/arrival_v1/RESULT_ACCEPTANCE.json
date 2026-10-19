@@ -1,0 +1,123 @@
+{
+  "bindings": {
+    "capture_summary_sha256": "118f12b7571a3f23109e5cb0eb843e3c71f0b2ad7f906005fc9ea7e6875883c4",
+    "final_snapshot_inventory_sha256": "d1cc0fec4b0c2a75e1cb0ce4607fd811780121704ae6b6cd90f05de69addc79d",
+    "packet_review_sha256": "7fa95e66cb370411da6b882d2d67e8621e6526b50cea0d9d7e5033326cb0060a",
+    "plan_sha256": "b303146cf9db05e0a3bddf8f245d3c9b880d055ce7e97ebe5dd13510b5f4a2d8",
+    "remote_capture_raw_sha256": "cecb48275f9cc52e3f5e1a070cbba8ad0b37245a3006e24424c17528c1433295",
+    "result_receipt_path": "research/campaign_2026-10-18/priority25_execution_r4/f3_result_collection_r1/records/arrival_v1/terminal_capture/attempt_02/RESULT_RECEIPT.json",
+    "result_receipt_sha256": "d99135b40bf968e3b9dbe8ab1ea5dc6d022af7e487385948f3648cbd915da0f0",
+    "snapshot_stat_raw_sha256": "5eb19638ebd1521a1ec181b6fcb4499b54aec80efa3fd4ff2c48c06c613948eb",
+    "stop_receipt_sha256": "fe491ec6b4865d4e0546c8382c86f5b3133252b26486ff2518178f6fc6dced59",
+    "stop_validation_sha256": "7987d4b8813ecff42571cd527834e71600a819bd724f510f050459e8868b4c9b",
+    "terminal_seal_sha256": "eea50275f21a478a4ce17de3c0007fb53f0b70539563903ad1dcf8337ab679f6"
+  },
+  "capture_attempt_note": "The first capture-reader attempt failed locally with NameError before any output (preserved 117-byte stderr); attempt_02 reread the completed result and did not rerun the collector.",
+  "execution": {
+    "cpu_quota": "0.75 CPU",
+    "cpu_usage_ns": 6498569000,
+    "exec_result": "success",
+    "exec_status": 0,
+    "exit_timestamp": "Mon 2026-10-19 03:15:00 UTC",
+    "invocation_id": "0beed2d4d96c492b814ad6969170526c",
+    "memory_high_bytes": 448000000,
+    "memory_max_bytes": 512000000,
+    "parent_aggregate_event_counters_unchanged": true,
+    "parent_aggregate_high": 2179,
+    "parent_aggregate_max": 561,
+    "parent_oom_counters_zero": true,
+    "post_stop_active_state": "inactive",
+    "post_stop_substate": "dead",
+    "resource_note": "The service cgroup had disappeared by post-exit capture, so per-unit memory peak is unavailable. Parent high/max counters are aggregate and unchanged from admission; do not attribute them to this collection.",
+    "runtime_limit_seconds": 120,
+    "start_timestamp": "Mon 2026-10-19 03:14:51 UTC",
+    "stop_command_status": 0,
+    "stop_guard_passed": true,
+    "swap_max_bytes": 0,
+    "unit": "computer-vision-homework-r01-f3-result-collection-r1.service",
+    "unit_memory_peak_available": false
+  },
+  "official_existing_grade": {
+    "ci95": [
+      -0.0024722855586102738,
+      0.002055095947420582
+    ],
+    "deep_wp": 0.7032378322267472,
+    "grade_rerun": false,
+    "grade_sha256": "53fa7c9ed8ec755620e3fa8f54d16bc4de4ac76baea204a2ca05e3be164c465a",
+    "interpretation": "Previously exposed F3 fold-3, seed-1001 screening comparison only. The paired interval crosses zero; this does not establish a clean holdout, CP30, a width winner, convergence, or serving performance.",
+    "matches_previously_captured_grade_bytes_and_values": true,
+    "p_le_0": 0.5292,
+    "schema": "priority25.endpoint_grade.v1",
+    "wide_minus_deep": -0.00011536974596026983,
+    "wide_wp": 0.7031224624807867
+  },
+  "prediction_exports": {
+    "deep_sha256": "474f629a147ed943125cb202820755c41053c53e7bd3b4e2f6086239f751601b",
+    "evaluation_components": 145,
+    "evaluation_groups": 505,
+    "fold": 3,
+    "header_per_arm": {
+      "bytes": 80800128,
+      "dtype": "<f4",
+      "fortran_order": false,
+      "header_bytes": 128,
+      "shape": [
+        505,
+        20000,
+        2
+      ]
+    },
+    "metric_id": "global_wp_clip2_v1",
+    "n_folds": 4,
+    "prediction_payload_deserialized": false,
+    "producer_stream_hash_and_finiteness_checks": true,
+    "sidecars_bind_prediction_hashes": true,
+    "wide_sha256": "4815ec49ca07b5a6136c7502f7f5665913459ab399461ecda55648fe6a544c9b"
+  },
+  "provenance": {
+    "all_59_source_stats_stable_before_after": true,
+    "attempt_ids": {
+      "continuation_deep": "computer-vision-homework-r01-deep-f3s1001-ep25-v1",
+      "continuation_wide": "computer-vision-homework-r01-wide-f3s1001-ep25-v1",
+      "export_deep": "computer-vision-homework-r01-deep-f3s1001-export-ep5-v1",
+      "export_wide": "computer-vision-homework-r01-wide-f3s1001-export-ep5-v1",
+      "grade": "computer-vision-homework-r01-f3s1001-grade-v1",
+      "stage1_deep": "computer-vision-homework-r01-deep-f3s1001-ep01-v1",
+      "stage1_wide": "computer-vision-homework-r01-wide-f3s1001-ep01-v1"
+    },
+    "checkpoint_support_manifests_sha256": {
+      "f3_checkpoint_support_r1": "7e4fce0d7232a487a769e12d611050bc608f9cc7fcea300bc2063525abfa38dc"
+    },
+    "collector_support_sha256": {
+      "collect_f3_results.py": "2a61de37d4fb9260a69e553aca2b789d427ad4719cc516a8a45d10fb745723b8",
+      "f3_result_checks.py": "dd23c9f3016b7b4e5b0e2bb1e753d9b05e4f1717ec1d7d436253f8dcd1146925",
+      "result_io.py": "8442d1b3f8880487e88888a1ec2749f25fab217878925d744f27acf36ee4b06d"
+    },
+    "fold3_manifest_sha256": "21c7fb52e8e69f38126362cbc5dc60dbc46539041d649b9206ec35e0f21ada1f",
+    "plan_matching_attempts": 7,
+    "plan_sha256": "b303146cf9db05e0a3bddf8f245d3c9b880d055ce7e97ebe5dd13510b5f4a2d8",
+    "receipt_schema": "priority25.f3_result_collection.v1",
+    "receipt_status": "collection_passed",
+    "reviews_bound": [
+      "wide",
+      "deep"
+    ],
+    "sealed_checkpoint_collection_verification_refs": 8,
+    "terminal_seal_sha256": "eea50275f21a478a4ce17de3c0007fb53f0b70539563903ad1dcf8337ab679f6"
+  },
+  "published_snapshot": {
+    "all_final_paths_exist": true,
+    "all_final_payloads_rehashed_by_this_review": false,
+    "all_final_sizes_match_manifest": true,
+    "captured_producer_sha_fields_match_receipt_manifest": true,
+    "directory": "/home/grinchenkoeg/computer-vision-homework-20261018/research/campaign_2026-10-18/priority25_execution_r4/f3_result_collection_r1/records/F3_S1001_RESULT_R1",
+    "final_path_stat_count": 59,
+    "manifest_file_count": 59,
+    "manifest_total_bytes": 164386450,
+    "path_field_caveat": "The result receipt per-file snapshot field names the temporary staging tree, which the helper removes after hard-linking each verified item under snapshot_directory/<relative>. Those staging paths are absent as expected. The final stat-only inventory confirms 59/59 final destinations exist and size/producer SHA metadata matches the receipt manifest; this review did not read final payload bytes."
+  },
+  "schema": "priority25.f3_result_collection_acceptance.v1",
+  "scope": "Metadata-only acceptance of the existing bounded F3 collection. No prediction/model/checkpoint payload was opened by this review; no fit, export, grade, bootstrap, or remote operation was repeated.",
+  "status": "ACCEPTED_COLLECTION_RESULT"
+}
