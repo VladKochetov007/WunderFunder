@@ -1,0 +1,47 @@
+{
+  "experiment_id": "E-LARGE-DYNAMICS-TEACHER-SCALE-20261019-R2",
+  "status": "plan_only_not_training",
+  "launch_ready": false,
+  "arms": [
+    "teacher_068b_fp32_muon",
+    "teacher_165b_fp32_muon"
+  ],
+  "cells_per_arm": 2,
+  "total_fits": 4,
+  "reused_fits": 0,
+  "new_fits": 4,
+  "comparison_stage": "screen",
+  "legacy_source_commit": null,
+  "provenance_refs_status": "caller-declared; verify artifacts, ancestry and allocation at admission",
+  "reused_controls": [],
+  "followup_allocation": null,
+  "fit_count_scope": "listed arms only; budget separate teacher/student stages explicitly",
+  "evidence_scope": "directional screen, not significance; all existing folds exposed",
+  "cells": [
+    {
+      "fold": 0,
+      "seed": 1001
+    },
+    {
+      "fold": 2,
+      "seed": 1002
+    }
+  ],
+  "required_bindings_per_cell": [
+    "source-qualified split hash and fitting membership",
+    "fold-clean teacher, initializer, normalizer and propensity ancestry",
+    "exact command and config hashes, checkpoint and resume policy",
+    "GPU profile, environment, dataset/cache paths and output directory"
+  ],
+  "implementation_sources": [
+    "src/wnn/training/README.md"
+  ],
+  "remaining_work": [
+    "Bind source-qualified membership, ownership, source SHA, normalized objective and fixed endpoint",
+    "Implement teacher model and distributed execution using canonical training components",
+    "Implement and audit all-FP32 Muon and actual attention forward/backward backend",
+    "Check causality, reset, weighted accumulation/DDP, actual producer schemas and resume",
+    "Profile actual allocated B300 memory/time and reserve complete fit/export/evaluation costs",
+    "Build fold-clean teacher prediction caches and budget a separate matched GRU transfer stage"
+  ]
+}

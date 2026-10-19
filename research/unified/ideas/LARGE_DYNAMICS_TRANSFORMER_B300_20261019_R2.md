@@ -39,6 +39,19 @@ supplies earlier equations and source history. This R2 supersedes its prospectiv
 replication count and makes the larger-model/optimization choices concrete; it
 does not rewrite its frozen recipes or claim its proposed trainer already exists.
 
+## Latest user source: TradeFM and observable transition likelihood
+
+The user supplied [TradeFM](https://arxiv.org/abs/2602.23784) after the initial
+scale design. Its event-modeling mechanism motivates our proposed
+[observable-event adaptation](../../experiment_drafts/large-dynamics-teacher-b300-r2/TRADEFM_ADAPTATION.md):
+retain raw rows and supervised targets, add next-change survival and mark losses,
+and test them at fixed0.68B capacity before spending on the whole scale ladder.
+This comparison costs four new fits; the0.68B/1.65B capacity screen is a separate
+four-fit allocation. The source's distributional generation results do not
+establish weighted-Pearson or GRU transfer. Anonymous columns do not justify
+copying price/volume/timestamp formulas. The addendum preserves the actual
+source inspection, our censoring/causality adaptation and independent scout review.
+
 ## What the B300 results tell us
 
 The [partial B300 review](../reviews/B300_PR_RUN_UPDATE_REVIEW_20261019_R1.md)

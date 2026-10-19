@@ -1,0 +1,156 @@
+{
+  "status": "analytical_only_not_a_profile_or_memory_admission",
+  "limits": [
+    "excludes nontrunk parameters, activations, workspace and communication buffers",
+    "dense score map is one tensor, not total attention or peak device memory",
+    "runtime seconds/update are hypothetical, not B300 estimates",
+    "row batching, padding and sequence boundaries determine actual update counts",
+    "multiply fit costs by actual fits; include validation, export and students separately"
+  ],
+  "fitting_rows_scenario": 200000000,
+  "new_rows_per_update_scenario": 65536,
+  "gpus_per_fit_scenario": 8,
+  "trunks": [
+    {
+      "layers": 16,
+      "width": 1024,
+      "heads": 16,
+      "ff_width": 2816,
+      "trunk_parameters": 205520896,
+      "fp32_parameter_gradient_momentum_gb": 2.466250752,
+      "fp32_parameter_gradient_two_moments_gb": 3.288334336,
+      "dense_score_map_one_sequence_4096_gb": 1.073741824,
+      "dense_score_map_one_sequence_20000_gb": 25.6
+    },
+    {
+      "layers": 24,
+      "width": 1536,
+      "heads": 24,
+      "ff_width": 4096,
+      "trunk_parameters": 679477248,
+      "fp32_parameter_gradient_momentum_gb": 8.153726976,
+      "fp32_parameter_gradient_two_moments_gb": 10.871635968,
+      "dense_score_map_one_sequence_4096_gb": 1.610612736,
+      "dense_score_map_one_sequence_20000_gb": 38.4
+    },
+    {
+      "layers": 32,
+      "width": 2048,
+      "heads": 32,
+      "ff_width": 5632,
+      "trunk_parameters": 1644167168,
+      "fp32_parameter_gradient_momentum_gb": 19.730006016,
+      "fp32_parameter_gradient_two_moments_gb": 26.306674688,
+      "dense_score_map_one_sequence_4096_gb": 2.147483648,
+      "dense_score_map_one_sequence_20000_gb": 51.2
+    },
+    {
+      "layers": 40,
+      "width": 2560,
+      "heads": 40,
+      "ff_width": 6912,
+      "trunk_parameters": 3171942400,
+      "fp32_parameter_gradient_momentum_gb": 38.0633088,
+      "fp32_parameter_gradient_two_moments_gb": 50.7510784,
+      "dense_score_map_one_sequence_4096_gb": 2.68435456,
+      "dense_score_map_one_sequence_20000_gb": 64.0
+    },
+    {
+      "layers": 48,
+      "width": 3072,
+      "heads": 48,
+      "ff_width": 8192,
+      "trunk_parameters": 5435817984,
+      "fp32_parameter_gradient_momentum_gb": 65.229815808,
+      "fp32_parameter_gradient_two_moments_gb": 86.973087744,
+      "dense_score_map_one_sequence_4096_gb": 3.221225472,
+      "dense_score_map_one_sequence_20000_gb": 76.8
+    }
+  ],
+  "duration_scenarios": [
+    {
+      "epochs": 12,
+      "approximate_updates": 36622,
+      "hypothetical_seconds_per_update": 0.5,
+      "fit_wall_hours_excluding_delivery": 5.086388888888889,
+      "fit_gpu_hours_excluding_delivery": 40.69111111111111
+    },
+    {
+      "epochs": 12,
+      "approximate_updates": 36622,
+      "hypothetical_seconds_per_update": 1.0,
+      "fit_wall_hours_excluding_delivery": 10.172777777777778,
+      "fit_gpu_hours_excluding_delivery": 81.38222222222223
+    },
+    {
+      "epochs": 12,
+      "approximate_updates": 36622,
+      "hypothetical_seconds_per_update": 2.0,
+      "fit_wall_hours_excluding_delivery": 20.345555555555556,
+      "fit_gpu_hours_excluding_delivery": 162.76444444444445
+    },
+    {
+      "epochs": 12,
+      "approximate_updates": 36622,
+      "hypothetical_seconds_per_update": 5.0,
+      "fit_wall_hours_excluding_delivery": 50.86388888888889,
+      "fit_gpu_hours_excluding_delivery": 406.9111111111111
+    },
+    {
+      "epochs": 24,
+      "approximate_updates": 73243,
+      "hypothetical_seconds_per_update": 0.5,
+      "fit_wall_hours_excluding_delivery": 10.172638888888889,
+      "fit_gpu_hours_excluding_delivery": 81.38111111111111
+    },
+    {
+      "epochs": 24,
+      "approximate_updates": 73243,
+      "hypothetical_seconds_per_update": 1.0,
+      "fit_wall_hours_excluding_delivery": 20.345277777777778,
+      "fit_gpu_hours_excluding_delivery": 162.76222222222222
+    },
+    {
+      "epochs": 24,
+      "approximate_updates": 73243,
+      "hypothetical_seconds_per_update": 2.0,
+      "fit_wall_hours_excluding_delivery": 40.690555555555555,
+      "fit_gpu_hours_excluding_delivery": 325.52444444444444
+    },
+    {
+      "epochs": 24,
+      "approximate_updates": 73243,
+      "hypothetical_seconds_per_update": 5.0,
+      "fit_wall_hours_excluding_delivery": 101.72638888888889,
+      "fit_gpu_hours_excluding_delivery": 813.8111111111111
+    },
+    {
+      "epochs": 48,
+      "approximate_updates": 146485,
+      "hypothetical_seconds_per_update": 0.5,
+      "fit_wall_hours_excluding_delivery": 20.34513888888889,
+      "fit_gpu_hours_excluding_delivery": 162.76111111111112
+    },
+    {
+      "epochs": 48,
+      "approximate_updates": 146485,
+      "hypothetical_seconds_per_update": 1.0,
+      "fit_wall_hours_excluding_delivery": 40.69027777777778,
+      "fit_gpu_hours_excluding_delivery": 325.52222222222224
+    },
+    {
+      "epochs": 48,
+      "approximate_updates": 146485,
+      "hypothetical_seconds_per_update": 2.0,
+      "fit_wall_hours_excluding_delivery": 81.38055555555556,
+      "fit_gpu_hours_excluding_delivery": 651.0444444444445
+    },
+    {
+      "epochs": 48,
+      "approximate_updates": 146485,
+      "hypothetical_seconds_per_update": 5.0,
+      "fit_wall_hours_excluding_delivery": 203.45138888888889,
+      "fit_gpu_hours_excluding_delivery": 1627.611111111111
+    }
+  ]
+}
