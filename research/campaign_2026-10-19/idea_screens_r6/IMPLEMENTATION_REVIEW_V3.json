@@ -1,0 +1,43 @@
+{
+  "bindings": {
+    "all_manifest_pins_recomputed": true,
+    "canonical_source_snapshot": "a266b036",
+    "changed_runtime_and_test_pins": {
+      "idea_screens_r6/model_contract.py": "2bf3a7c36fe0f49b5ffe131225e2c261ec1548b4737363d03daadb3d853a13b4",
+      "idea_screens_r6/probe_execution.py": "8ddafefd5bf69cf7d470e5c82585cc01edfa3130e89db87af74ba87b78fae20c",
+      "idea_screens_r6/records/CURRENT_MODEL_ARGS_OBSERVATION.json": "b176bd7ed19db98663c99bf2eeab4d2461c4bc29c926681fd8e8d3d6354f2364",
+      "idea_screens_r6/records/CURRENT_MODEL_PICKLE_GLOBALS.json": "e835cf7533bc4ff1216fe59c45569e8aae76fd680b78781b5cc557efebc99514",
+      "idea_screens_r6/test_model_probe.py": "061dcac423424298be16bfbde35f72cc568bc778ab24ce91a04524354bced0d5"
+    },
+    "checkpoint_sha256": "78c1413de8eeaa51f803cf59d6b0d7d2eddaad74cc91f744b8b2f85466b61b7f",
+    "membership_sha256": "e809d4810eeea7d2065ea8f2153b53ece3bde285f7900ce3d49e468e18045217",
+    "preparation_manifest_sha256": "c291687c93689463133f5e4109e7adef116dc79bca8aec08b7ec30d29a28505d",
+    "sample_sha256": "b89455ba449f31bb9ebe815976d4da23bb1a8e499e421b6bb5f8d44566f76e64",
+    "test_receipt_sha256": "de99da26f369e88f570d0282fbb83976cfbcaad346aa511eeaac6fef1f084a5d",
+    "verified_manifest_pin_count": 45
+  },
+  "findings": {
+    "auxiliary_metadata": "PASS: the observed, separately pinned metadata has aux_weight=0.5, all six active objective flags exactly 0, and aux_next_k empty. The guard accepts only that nonzero numeric default when all active flags compare equal to zero; other nonzero numeric aux fields reject, and nonempty next-step keys reject. The exception is semantically inert: canonical losses.py applies aux_weight only over active auxiliary objective outputs, while setup_model adds auxiliary outputs only for positive objective flags. Exact expected two-output state keys and tensor shapes remain enforced.",
+    "checkpoint_hash_and_order": "PASS: run_probe verifies the full checkpoint SHA before executor import. probe_execution validates canonical runtime inventory before load_frozen_model, and completes restricted checkpoint loading/model reconstruction before importing/calling load_first_fit_eight; selected NPY mapping therefore follows checkpoint load.",
+    "model_and_scoring_scope": "PASS: CPU FP32 model reconstruction, saved normalization, fixed 211-column inputs, shared pooled WMSE gradient calculation, state fingerprint/no-update checks, and the R6 scientific windows/objective are unchanged by the V3 loader fix.",
+    "restricted_loader": "PASS: torch.load remains map_location=cpu, weights_only=True. Its safe_globals scope adds only torch.torch_version.TorchVersion. There is no unrestricted fallback. The synthetic TorchVersion checkpoint loads and the unrelated SimpleNamespace global remains rejected."
+  },
+  "independent_validation": {
+    "isolated_b_shaped_import_smoke": "PASS in a temporary support-source/eda19-r6-v3 layout: imported the source-pinned 25-module canonical WNN closure and staged R6 runtime modules; deferred sample_panel._r1_helpers resolved to staged idea_screens_r1/sample_data.py. np.load, pyarrow.parquet.ParquetFile, and torch.load sentinels recorded zero calls; CUDA remained uninitialized.",
+    "manifest_and_source_hashes": "Recomputed all 45 staged/canonical pins against local files and git archive a266b036; every digest matched.",
+    "provenance_fixture": "The observed args fixture and pickle-global observation are both nested in the manifest and their bytes match the manifest pins. The test binds the args fixture to its recorded checkpoint provenance digest.",
+    "synthetic_tests": "PASS: PYTHONPATH=src .venv/bin/python -m pytest -q research/campaign_2026-10-19/idea_screens_r6/test_model_probe.py (5 passed)."
+  },
+  "limitations": [
+    "This is a source/test/startup review only. It does not establish that the remote producer checkpoint will load successfully or that a real gradient diagnostic will complete."
+  ],
+  "schema": "nf19.r6_gradient_probe.implementation_review.v3",
+  "scope": "Independent, read-only review of frozen V3 loader compatibility and R6 implementation. No real checkpoint, production arrays, forward/backward job, or remote action was performed by this review.",
+  "startup_review": {
+    "note": "Current outer-admission body externally checks all 25 canonical source pins before systemd/import, then performs the in-unit reader-sentinel smoke and execv into a fresh CLI process.",
+    "path": "ROOT_EXEC_STARTUP_V3_REVIEW.json",
+    "sha256": "92da4026d950ec04062b3d45a39058391389c27e94d4611eb241d51083ec3df2",
+    "status": "PASS"
+  },
+  "status": "PASS"
+}

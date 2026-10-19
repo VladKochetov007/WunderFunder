@@ -1,5 +1,8 @@
 # Ideas and hypotheses
 
+[R6 actual target-gradient diagnostic](../../campaign_2026-10-19/idea_screens_r6/RESULTS.md) moves idea20 beyond input/score proxies: one frozen GRU,8fit components,16fixed windows, no updates. Trunk12positive/4negative windows and pooledcos+0.333540 do not support a universal opposite-direction premise; local conflicts remain. No PCGrad/separate-network or quality comparison was run.
+
+
 [R2 measured regularization/EMA follow-up](../../campaign_2026-10-19/idea_screens_r2/RESULTS.md) completes six source-bound views on the same small exposed panel. Fit-selected lags recover from the initial loss to near-raw; joint EMA becomes near-raw, while alpha1 signed/absolute diagnostics differ and reveal selection/component sensitivity. The52-channel subset remains locally positive but jointly omits i1 and eight tail channels. No mechanism or full-model improvement is confirmed.
 
 [R2 feature-estimation screen](../../campaign_2026-10-19/idea_screens_r2/README.md) separates signed and absolute EMA channels and asks whether fit-only ridge selection changes the raw/subset/history comparisons. Six views and[1,100,10000] grid are fixed; the same six-component outer panel remains exposed. This is a bounded exploratory follow-up, not a new full-model campaign.

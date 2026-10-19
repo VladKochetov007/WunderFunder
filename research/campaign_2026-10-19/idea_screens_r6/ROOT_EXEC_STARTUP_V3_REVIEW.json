@@ -1,0 +1,31 @@
+{
+  "bindings": {
+    "canonical_manifest_entry_count": 25,
+    "inline_launcher_path": "records/startup_correction_v3/root_inline_v3.py",
+    "inline_launcher_sha256": "93a6358a139ecdd6856df6cef0246de35fce664abd2f0cf154fb730445445d02",
+    "outer_admission_body_path": "records/startup_correction_v3/remote_admission_body_v3.py",
+    "outer_admission_body_sha256": "5b7ef347169f669e0b754bad74ce50b65665f9c10dd4dfd5f2e57cfd87b48376",
+    "outer_canonical_map_count": 25,
+    "outer_canonical_map_exactly_matches_manifest": true,
+    "preparation_manifest_sha256": "c291687c93689463133f5e4109e7adef116dc79bca8aec08b7ec30d29a28505d",
+    "startup_note_sha256": "a27601ceaa2660689fbcc2e19358527ea87f60fd5d586a874a3d64e25f4ea09c",
+    "v1_failure_sha256": "ee68307ef49e9397e3d09201f0d11802474f10b8b823261a7c8bd45ef4469014",
+    "v1_import_smoke_sha256": "0e1150b592db133d2cf5df9b42ded781e5f4e748721c8ed7ef8375363d88ce86",
+    "v1_launch_sha256": "d166d8fc8e9a14ebd8b1a75feaae1e7bcc872da0d41c89cdba3d30a706ba4bf7",
+    "v2_capture_raw_sha256": "c1a53f5d6c0f79ec18811fc9a10066720d2fd66bbc18ff8e8ccd85fcdb14479d",
+    "v2_capture_summary_sha256": "7e4c6cfdcc2ee8069854d3d93dd840fbb797f1fcf39f3ebd070b689beccdcc3c"
+  },
+  "limitations": [
+    "This review approves the V3 startup correction for admission; it does not assert an actual V3 launch, checkpoint load, array read, or gradient result.",
+    "The V1 import smoke receipt records zero data-reader calls, but V2 itself had already hashed/mapped the selected 24 NPYs before its checkpoint-loader failure."
+  ],
+  "review": {
+    "historical_failures": "V1 failure is preserved: same-process import smoke left wnn loaded, so CLI source guard raised RuntimeError before any model/gradient work; its separate import smoke passed with zero data-reader calls and no CUDA initialization. V2 failure is preserved: weights_only=True rejected TorchVersion metadata before model construction; V2 had mapped/hashed 24 sample NPYs before reaching that loader. V3 uses the narrow restricted-loader correction and fresh exec startup; those historical attempts are not results.",
+    "outer_preimport_source_gate": "PASS: the current literal outer-body map contains all 25 canonical WNN source digests and exactly matches the 25 canonical entries in the reviewed manifest. It verifies them before systemd-run and again after staging; staged payload bytes are hash-checked on decode, on write, and in a final pre-invocation pass. The updated path gate accepts flat staged names and only the direct idea_screens_r6/records/<file> form needed for the two pinned metadata fixtures; absolute and parent-traversal paths reject.",
+    "resource_and_scope": "PASS: V3 uses a new unique support destination, output path and unit, retaining the 50% CPU quota, 1.4 GB MemoryHigh, 1.5 GB MemoryMax, zero swap, and 600-second runtime. Outer admission checks existing campaign/resource conditions before creating the unit. The inline smoke and corrected process do not overlap; no scientific windows, loss, checkpoint identity or model design changes.",
+    "startup_order": "PASS: the in-unit import smoke runs serially under the same unit limits. While np.load, pyarrow.parquet.ParquetFile and torch.load are denied, it imports every staged non-test R6 Python module and the deferred R1 helper, then verifies zero denied-reader calls and no CUDA initialization. It restores the readers and uses os.execv to replace the process with the clean frozen run_probe.py CLI and the same fixed sample/checkpoint/output/manifest arguments. The CLI therefore starts with an empty sys.modules and repeats its own source and payload checks before checkpoint load."
+  },
+  "schema": "nf19.r6_gradient_probe.root_exec_startup_review.v3",
+  "scope": "Independent review of the V3 startup correction and outer admission template only. This is a prelaunch review, not evidence that V3 ran or completed.",
+  "status": "PASS"
+}

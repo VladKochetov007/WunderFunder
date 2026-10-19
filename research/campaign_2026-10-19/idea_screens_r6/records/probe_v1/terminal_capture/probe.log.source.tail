@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "<string>", line 21, in <module>
+    importlib.import_module("run_probe").main()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r6-v1/idea_screens_r6/run_probe.py", line 143, in main
+    _run(_parse_args())
+    ~~~~^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r6-v1/idea_screens_r6/run_probe.py", line 121, in _run
+    executor.execute(
+    ~~~~~~~~~~~~~~~~^
+        sample_path=sample_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<14 lines>...
+        },
+        ^^
+    )
+    ^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r6-v1/idea_screens_r6/probe_execution.py", line 57, in execute
+    torch, runtime = _runtime_modules(source_root, pins)
+                     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/eda19-r6-v1/idea_screens_r6/execution_host.py", line 123, in _runtime_modules
+    raise RuntimeError("wnn was imported before R6 source validation")
+RuntimeError: wnn was imported before R6 source validation

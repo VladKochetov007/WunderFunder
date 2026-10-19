@@ -1,0 +1,33 @@
+{
+  "schema": "nf19.r6_root_startup_correction_review.v2",
+  "decision": "PASS_FOR_V2_STARTUP_REPAIR",
+  "correction_sha256": "d47120c41f5d3577cff0fcd49e88548321ec4ff9ee5142a6b3835d542be90d4d",
+  "v2_admission_body_sha256": "0871a3ee3b237544a4c9ca7f939c5e0f0bd4cb2e44e2c4dca5a330e1d61baff5",
+  "frozen_preparation_manifest_sha256": "474a2110fc3969ac1b5234d9ed0bccf51952ab307db8a9ce894e1e4f3fccfe6c",
+  "v1_evidence": {
+    "unit": "computer-vision-homework-eda19-r6-v1.service",
+    "invocation_id": "25bb02e9cd6e4f3780a4e5e978e5401e",
+    "root_launch_sha256": "d166d8fc8e9a14ebd8b1a75feaae1e7bcc872da0d41c89cdba3d30a706ba4bf7",
+    "failure_sha256": "ee68307ef49e9397e3d09201f0d11802474f10b8b823261a7c8bd45ef4469014",
+    "failure": "RuntimeError: wnn was imported before R6 source validation",
+    "import_smoke_sha256": "0e1150b592db133d2cf5df9b42ded781e5f4e748721c8ed7ef8375363d88ce86",
+    "import_smoke": "PASS; 8 R6/R1 modules loaded with array, parquet and checkpoint readers denied; zero data reads and CUDA was not initialized",
+    "source_binding_check": "PASS; all 42 current manifest pins match the v1 ROOT_LAUNCH source/canonical hash maps",
+    "scientific_work": "none; no array mapping, checkpoint deserialization, forward/backward pass, or gradient window was reached"
+  },
+  "v2_correction_review": {
+    "launch_mode": "PASS; direct `python -B .../idea_screens_r6/run_probe.py` in a clean process replaces the inline pre-import smoke that caused the v1 guard failure",
+    "cli_inputs": "PASS; sample, checkpoint, manifest and six fixed CLI arguments are unchanged; only the create-only source directory, output directory and unit identity are new",
+    "source_boundary": "PASS; the outer admission body independently rehashes all staged files and canonical sources before starting Python; the unchanged CLI then validates its manifest/source closure before canonical imports and payload deserialization",
+    "resource_gates": "PASS; CPU 0.5, memory.high 1.4 GB, memory.max 1.5 GB, swap 0 and runtime 600 s are unchanged",
+    "ownership_and_headroom": "PASS in plan; the body rechecks source F3 health, populated campaign units, parent resource headroom, GPU ownership, physical scratch and create-only output/unit state before admission",
+    "scientific_scope": "PASS; same checkpoint, R3 fit sample, source revision, 16 windows, loss, gradient code and analysis; v1 is retained as a diagnosed startup failure rather than a model result"
+  },
+  "evidence_limits": {
+    "v2_was_not_launched_by_this_review": true,
+    "production_arrays_read_by_this_review": false,
+    "checkpoint_loaded_by_this_review": false,
+    "new_model_or_scientific_variant": false,
+    "result_claimed": false
+  }
+}

@@ -1,0 +1,3 @@
+# R6 direct-CLI startup correction
+
+[Correction](CORRECTION.json) isolates a root startup-order mistake before model/data deserialization. The [v1 inline](root_inline_v1.py) passed import smoke but then invoked the CLI in the same interpreter, triggering the CLI pre-import guard. [V2 admission body](remote_admission_body_v2.py) retains resource/ownership/source checks and invokes the unchanged run_probe.py directly in a clean Python process. It reuses the durable v1 import smoke for the same42pins; no science code, checkpoint, data, windows, loss, caps or source pins change. Independent startup review is required before V2; no unknown-outcome retry or model-result selection.

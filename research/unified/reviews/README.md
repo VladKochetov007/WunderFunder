@@ -1,5 +1,8 @@
 # Reviews and audit receipts
 
+[R6 compact gradient audit](../../campaign_2026-10-19/idea_screens_r6/RESULT_AUDIT.json) independently reconstructs window/pool inner-product summaries without backward replay. [V3 source review](../../campaign_2026-10-19/idea_screens_r6/IMPLEMENTATION_REVIEW_V3.json) binds45source/metadata pins and the narrow TorchVersion compatibility path; [startup review](../../campaign_2026-10-19/idea_screens_r6/ROOT_EXEC_STARTUP_V3_REVIEW.json) checks all25canonical source hashes before import, serial read-sentinel smoke and clean exec CLI.
+
+
 [R2 result audit](../../campaign_2026-10-19/idea_screens_r2/RESULT_AUDIT.json) checks compact moment/score and source/sample bindings; [delivery correction review](../../campaign_2026-10-19/idea_screens_r2/STAGING_CORRECTION_REVIEW.json) isolates the seven-file R1 transitive import closure with a raising array-loader sentinel. V1 import failure precedes data/fit; V2 scientific code is unchanged. Prepared README identity belongs to source commit758db928, with later result annotations explicitly marked.
 
 [R2 independent source review](../../campaign_2026-10-19/idea_screens_r2/INDEPENDENT_REVIEW.json) binds final post-Ruff code/readme hashes, four tiny invariant checks and component-held-out pooled selection. It requires an external pre-invocation source byte check, fulfilled in the[raw launch record](../../campaign_2026-10-19/idea_screens_r2/records/REMOTE_LAUNCH_RESPONSE.json). No scientific result follows from this source readiness review.

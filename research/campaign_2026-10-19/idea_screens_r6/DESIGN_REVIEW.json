@@ -1,0 +1,27 @@
+{
+  "review": "independent R6 design critique",
+  "decision": "PASS_FOR_IMPLEMENTATION",
+  "reviewed_design": "research/campaign_2026-10-19/idea_screens_r6/DESIGN.md",
+  "design_sha256": "f724f1d44ab872dc5b27952ba04f7e0762faacad6f5c5cdf71e8393b3ca6a5c8",
+  "hypothesis": "H-NF19-20: conflict between gradients for two targets",
+  "scope": "One fixed-checkpoint, fit-only, no-update diagnostic of actual per-target gradients on shared GRU parameters. No PCGrad, optimizer, quality evaluation, or full-sequence-gradient claim.",
+  "decision_basis": [
+    "The corrected design pins the existing R01 wide F0 terminal checkpoint and its 211-input raw-plus-causal-event representation, builds canonical inputs over the complete 0:4224 prefix, and preserves saved normalization.",
+    "The two predetermined 128-row windows per sequence use legal sequence-local causal prefixes; hidden state is carried forward under fixed weights and detached at each diagnostic boundary. The stated gradient horizon is explicitly truncated to each window.",
+    "Per-target weighted-error numerators share the canonical joint WMSE denominator. Weight-mass pooling of per-window gradients therefore reconstructs the gradient of the declared pooled window objective, provided each window uses the same fixed parameters and detached prefix state.",
+    "The named shared blocks exclude the target-specific final output rows, while reporting the shared hidden readout separately. The design requires immutable model state and no optimizer or gradient accumulation.",
+    "The sample is limited to eight predeclared R3 fit components and existing train sequences; evaluation sequences, outcome-based replacement, significance claims, and broader training-dynamics claims are excluded.",
+    "The one-job CPU, memory, time, and no-retry limits are explicit; the operation estimate and numerical-memory allowance are correctly described as estimates rather than measured runtime or RSS."
+  ],
+  "implementation_gates": [
+    "Before any array/model read, bind the exact accepted R3 SAMPLE identity, consumed train-file hashes, canonical input/model/loss source hashes, and checkpoint receipt/hash; reject mismatches without fallback.",
+    "Keep the exact 16 windows, per-window joint denominator, parameter-name inventory, and pooling rule fixed. Clearly label the aggregate shared-path vector (inp+gru plus shared hidden readout) separately from the primary inp+gru block, and define norm-ratio and first-order cross-effect sign conventions.",
+    "Verify with tiny synthetic checks that per-target losses sum to canonical WMSE and that joint-weighted per-window gradient sums equal the pooled-window gradient; verify hidden-prefix reset/carry semantics and unchanged model state/no populated parameter gradients.",
+    "Admit at most the declared capped job; a concrete cap or validity failure ends the diagnostic without changing windows, checkpoint, or resources."
+  ],
+  "interpretation_limits": [
+    "Results characterize this checkpoint, these dependent windows, and this truncated gradient horizon only.",
+    "Cosine conflict or norm imbalance is a mechanism diagnostic, not evidence of harm, a PCGrad benefit, optimizer-time behavior, or a public-score effect.",
+    "No data arrays, checkpoint, model, or remote job were accessed for this design review."
+  ]
+}

@@ -1,0 +1,3 @@
+# Preserved prelaunch R6 freeze V1
+
+This snapshot retains the exact original PREPARATION_MANIFEST.json, TEST_RECEIPT.json and probe_execution.py before any remote staging or real model/data execution. Root found that the initialized progress event used a pretty JSON writer before JSONL appends. The corrected source creates the progress file exclusively and appends all events as compact JSONL lines; one focused test was added. Numerical gradient code, inputs, windows, checkpoint, loss, caps and design were unchanged. The current root source files retain every other unchanged V1 source byte; the current manifest and test receipt explicitly supersede this freeze. This was a producer-interface correction before execution, not a model outcome or runtime failure.

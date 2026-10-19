@@ -1,0 +1,64 @@
+{
+  "change": "Restricted CPU weights-only loading now allows only TorchVersion metadata; the fixed checkpoint load occurs before selected sample NPY mappings; the observed aux_weight=0.5 default is accepted only when all auxiliary objectives and next-step heads are disabled.",
+  "checks": {
+    "execution_order_review": "Static review confirms load_frozen_model completes before importing/calling load_first_fit_eight; sample helper inventory remains verified before input preparation and gradient work.",
+    "pytest": {
+      "command": "PYTHONPATH=src .venv/bin/python -m pytest -q research/campaign_2026-10-19/idea_screens_r6/test_model_probe.py",
+      "failed": 0,
+      "passed": 5,
+      "scope": "synthetic gradient/probe tests, restricted-loader serialization fixture, observed-args gate regression"
+    },
+    "ruff_check": "passed",
+    "ruff_check_command": ".venv/bin/ruff check research/campaign_2026-10-19/idea_screens_r6/model_contract.py research/campaign_2026-10-19/idea_screens_r6/test_model_probe.py research/campaign_2026-10-19/idea_screens_r6/probe_execution.py",
+    "ruff_format": "passed",
+    "ruff_format_command": ".venv/bin/ruff format research/campaign_2026-10-19/idea_screens_r6/model_contract.py research/campaign_2026-10-19/idea_screens_r6/test_model_probe.py research/campaign_2026-10-19/idea_screens_r6/probe_execution.py"
+  },
+  "evidence_limits": {
+    "real_arrays_read_by_v3": false,
+    "real_checkpoint_loaded_by_v3": false,
+    "real_forward_backward_or_gradient_job_by_v3": false,
+    "real_model_constructed_by_v3": false,
+    "remote_action_by_this_revision": false,
+    "scientific_design_changed": false,
+    "synthetic_torchversion_checkpoint_test": true,
+    "unsupported_simple_namespace_global_rejected": true
+  },
+  "metadata_evidence": {
+    "checkpoint_sha256": "78c1413de8eeaa51f803cf59d6b0d7d2eddaad74cc91f744b8b2f85466b61b7f",
+    "metadata_scope": "root-provided static metadata only; no model deserialization or tensor-storage read by this revision",
+    "observed_globals": [
+      "collections.OrderedDict",
+      "torch._utils._rebuild_tensor_v2",
+      "torch.FloatStorage",
+      "torch.torch_version.TorchVersion"
+    ],
+    "pickle_opcode_observation_file_sha256": "e835cf7533bc4ff1216fe59c45569e8aae76fd680b78781b5cc557efebc99514",
+    "pickle_opcode_sha256": "2dc3adb1c7600dc61a3e411721ea98a650c680180282b21f1a1ec8e31ae3429e",
+    "provenance_json_sha256": "a90e53b82c2247b344001c2eb17f6f5a0416edb579a2566875339514709f2a19",
+    "provenance_observation_file_sha256": "b176bd7ed19db98663c99bf2eeab4d2461c4bc29c926681fd8e8d3d6354f2364",
+    "stack_global_count": 0
+  },
+  "schema": "nf19.r6_gradient_probe.test_receipt.v3",
+  "source_file_sha256": {
+    "idea_screens_r6/LOADER_COMPATIBILITY_V3.md": "bf450fe011f46c923edfa3dbc8b82363ad0086407210b7c037eecafe3af20202",
+    "idea_screens_r6/model_contract.py": "2bf3a7c36fe0f49b5ffe131225e2c261ec1548b4737363d03daadb3d853a13b4",
+    "idea_screens_r6/probe_execution.py": "8ddafefd5bf69cf7d470e5c82585cc01edfa3130e89db87af74ba87b78fae20c",
+    "idea_screens_r6/records/CURRENT_MODEL_ARGS_OBSERVATION.json": "b176bd7ed19db98663c99bf2eeab4d2461c4bc29c926681fd8e8d3d6354f2364",
+    "idea_screens_r6/records/CURRENT_MODEL_PICKLE_GLOBALS.json": "e835cf7533bc4ff1216fe59c45569e8aae76fd680b78781b5cc557efebc99514",
+    "idea_screens_r6/test_model_probe.py": "061dcac423424298be16bfbde35f72cc568bc778ab24ce91a04524354bced0d5"
+  },
+  "source_snapshot": "a266b036",
+  "status": "implementation_checks_passed_no_v3_real_run",
+  "supersedes_v2": {
+    "preparation_manifest_sha256": "474a2110fc3969ac1b5234d9ed0bccf51952ab307db8a9ce894e1e4f3fccfe6c",
+    "preserved_exact_files_sha256": {
+      "records/loader_freeze_v2/PREPARATION_MANIFEST.json": "474a2110fc3969ac1b5234d9ed0bccf51952ab307db8a9ce894e1e4f3fccfe6c",
+      "records/loader_freeze_v2/TEST_RECEIPT.json": "4f6d95dbb8d1154ced479da7f141d1ff0a992bdee39519529bcc5f47bfe963ca",
+      "records/loader_freeze_v2/model_contract.py": "bec23e7ba22edac00ad374e0ed11691df37ee4ac86cdc01629823e72dbb8df81",
+      "records/loader_freeze_v2/probe_execution.py": "8abeb6aa1dcf35a7b303f90376e6aa56a5ae2109f952f73097bf49dff614cc93",
+      "records/loader_freeze_v2/test_model_probe.py": "d2fede82e1ffca5e88692e8765903f088dc0f0feab499fafabadeb0e30d7944f"
+    },
+    "test_receipt_sha256": "4f6d95dbb8d1154ced479da7f141d1ff0a992bdee39519529bcc5f47bfe963ca",
+    "v2_loader_failure": "weights_only=True rejected torch.torch_version.TorchVersion before model construction; v2 mapped 24 selected sample NPY files before deserialization."
+  }
+}

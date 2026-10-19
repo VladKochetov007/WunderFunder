@@ -1,0 +1,43 @@
+{
+  "schema": "nf19.r6_gradient_probe.implementation_review.v1",
+  "decision": "PASS_FOR_ONE_BOUNDED_RUN",
+  "reviewed_design_sha256": "f724f1d44ab872dc5b27952ba04f7e0762faacad6f5c5cdf71e8393b3ca6a5c8",
+  "preparation_manifest_sha256": "474a2110fc3969ac1b5234d9ed0bccf51952ab307db8a9ce894e1e4f3fccfe6c",
+  "test_receipt_sha256": "4f6d95dbb8d1154ced479da7f141d1ff0a992bdee39519529bcc5f47bfe963ca",
+  "pinned_source_summary": {
+    "manifest_file_pins_verified": 42,
+    "canonical_wnn_runtime_pins_verified": 25,
+    "canonical_source_revision": "a266b036",
+    "dynamic_r1_helper": "idea_screens_r1/sample_data.py",
+    "actor_validation": "11 focused synthetic/metadata tests passed; Ruff check and format passed",
+    "independent_closure_smoke": "PASS in a B-shaped temporary layout using bare module imports"
+  },
+  "independent_checks": {
+    "staged_manifest_and_all_42_file_hashes": "PASS",
+    "canonical_import_order_and_inventory": "PASS; imported all 25 pinned wnn modules from source-a266b036 after manifest verification",
+    "deferred_r1_helper_resolution": "PASS; sample_panel._r1_helpers resolved to the staged sibling idea_screens_r1/sample_data.py",
+    "actual_r3_metadata_fixture": "PASS; selected only fit/train components [1655,861,1987,127,2008,2455,1876,2440]",
+    "read_sentinels": "PASS; numpy.load, torch.load and pyarrow.parquet.ParquetFile were denied during import/helper/metadata checks and remained unused",
+    "wmse_and_gradient_pooling": "PASS; independent tiny autograd fixture verified target-loss additivity and joint-weight-mass pooling against direct pooled gradients",
+    "progress_jsonl": "PASS; actor's focused test verifies create-only initialization and valid line-delimited records"
+  },
+  "implementation_review": {
+    "canonical_inputs": "PASS; full causal raw prefix is passed once to canonical build_inputs, yielding 211 FP32 raw-plus-event features; saved normalization is strictly loaded and unchanged",
+    "model_reconstruction": "PASS; exact checkpoint pin precedes the restricted weights-only CPU load; strict canonical state_dict shapes/dtypes and parameter counts are checked; unsupported feature modifiers and trainable parameters are rejected",
+    "loss_and_autograd": "PASS; each target numerator uses the same clipped-label absolute-weight mass as canonical weighted_mse_loss; separate autograd.grad calls use one fixed forward and frozen parameters",
+    "parameter_groups": "PASS; inp+gru and shared hidden readout are reported separately; target-specific final output rows are excluded; all trainable parameters are classified",
+    "prefix_and_window_semantics": "PASS; causal prefix is streamed in bounded chunks, hidden state is carried then detached at each fixed window, and only the 128-row window has a gradient graph",
+    "immutability": "PASS; full parameter/buffer fingerprint before and after plus empty parameter .grad fields are enforced",
+    "pooled_sufficient_statistics": "PASS; FP64 joint-weighted running gradient sums and per-window norm/dot/cross-products support independent pooled reconstruction",
+    "resource_controls": "PASS for capped admission; one CPU thread is set, CUDA is required hidden, memory is checked before every gradient graph with a fixed 256 MB reserve under the 1.4 GB guard, and the 600 s/CPU cap remains externally enforced"
+  },
+  "reporting_note": "The result emits disjoint inp+gru and shared-head blocks. Their per-window and pooled squared norms and inner products can be summed exactly to reconstruct a concatenated all-shared-path summary; no redundant aggregate vector is retained.",
+  "launch_boundary": "The B launcher must independently rehash the staged manifest and all staged files, including run_probe.py, before the first interpreter import. The CLI then re-verifies its manifest and source closure before canonical imports, sample array mapping, or checkpoint deserialization; its internal check alone is not an independent attestation of its own bytes.",
+  "evidence_limits": {
+    "production_arrays_read": false,
+    "checkpoint_loaded": false,
+    "real_model_gradients_run": false,
+    "remote_action_performed": false,
+    "scientific_result_claimed": false
+  }
+}

@@ -1,5 +1,7 @@
 # Статус всех25 после первого bounded screen
 
+Дополнение R6: [реальные градиенты двух целей](../idea_screens_r6/RESULTS.md) измерены на одном фиксированном GRU checkpoint,8fit-компонентах и16заранее заданных окнах без обновления весов. Общий input/GRU trunk:12положительных/4отрицательных скалярных произведения, pooledcos+0.333540; shared hidden readout:+0.026854,3отрицательных окна. Это узкий фактический тест карточки20, а не доказательство training-wide вреда/пользы PCGrad или отдельных сетей. Остальные gradient/state механизмы не подменяются этой пробой.
+
 Дополнение R5: [моментная проба карточки12](../idea_screens_r5/RESULTS.md) сравнила два декодера одних и тех же шести линейных голов. Деление на предсказанную амплитуду проиграло постоянному знаменателю на0.025555WP; все32drop-one-контраста отрицательны. Постоянный вариант дал+0.013658 к сохранённой R3 WMSE-рецептуре, но этот вторичный контраст меняет objective/functional form. Learned moment heads и совместное end-to-end обучение не проверены. Другие NOT_TESTED остаются в силе.
 
 Дополнение R4: [четыре фиксированные nonlinear-пробы](../idea_screens_r4/RESULTS.md) не дали selected-выигрыша к identity-контролю на raw/истории; fixedalpha1 история сохраняет+0.002015WP. Это проверка конкретных случайных признаков/регуляризации на той же панели, не learned MLP, moment heads, gradient conflict или recurrent-state механизм. NOT_TESTED ниже остаются в силе.
@@ -31,7 +33,7 @@
 | 17 | NOT_TESTED: importance sampling не применялся | Fixed stride40 не является этим методом; нужен inverse-probability и matched time |
 | 18 | NOT_TESTED: ортонормальный basis не реализован | EMA/lag результаты не тестируют matched-pole-span conditioning |
 | 19 | i1-only=.36115, i0-only лучше joint raw в этом fit | i0-only также исключает8tailканалов: i1-effect не изолирован. Cross-fit common/residual mechanism NOT_TESTED; линейная репараметризация может иметь тот же span |
-| 20 | NOT_TESTED: target gradients не собирались | Нельзя выводить gradient conflict из разнонаправленных score deltas |
+| 20 | PARTIAL: R6 actual gradients, один frozenGRU/8fit-компонент/16окон; trunk pooledcos+0.333540,4negative; hiddenreadout+0.026854,3negative | Не training-wide prevalence/causalharm/PCGradbenefit; optimizer intervention и другие checkpoints не проверены |
 | 21 | NOT_TESTED: gradient-covariance preconditioner отсутствует | Нужны реальные gradients и matched optimizer, не covariance coefficients |
 | 22 | NOT_TESTED: heteroskedastic mean/variance objective отсутствует | Остаток ridge смешивает noise и misspecification; отдельная variance head нужна для проверки |
 | 23 | NOT_TESTED: old/current-weight recurrent state replay не делался | Законный один и тот же prefix, сравнение state при фиксированной gradient horizon |

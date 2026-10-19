@@ -1,5 +1,8 @@
 # Execution, incidents, and preservation
 
+[R6 exact CPU execution](../../campaign_2026-10-19/idea_screens_r6/records/README.md) preserves two pre-gradient startup failures and the corrected successful16window invocation. Raw receipts precede exact exited-unit stop;0new parent/F3memory events. An empty terminal ControlGroup produced one invalid unscoped root-cgroup object, explicitly excluded from own-unit event inference. No arrays/model/gradient payloads moved to the Mac. [Resource reconciliation](../../campaign_2026-10-19/idea_screens_r6/RESOURCE_RECONCILIATION.json) separates the memory scopes.
+
+
 [R2 V2 completed capture](../../campaign_2026-10-19/idea_screens_r2/records/attempt_v2/terminal_capture/README.md) preserves159.873s wall/79.903s CPU,745152KiB process maxRSS, all six completed views and exact exit0/stop after capture. [V1 failure](../../campaign_2026-10-19/idea_screens_r2/records/r2-terminal-capture-20261018T2232Z/README.md) was import-only from an incomplete package copy; no data/fit or OOM. Scientific sources and caps were unchanged in the corrected full-closure staging.
 
 [R2 bounded CPU launch](../../campaign_2026-10-19/idea_screens_r2/records/README.md) records exact source/sample gates and all populated F3 descendants before the one0.5CPU/1.5GB/600s/no-swap job at22:30UTC. No Parquet scan, inference or new GPU fit; terminal capture and completion remain separate from launch.

@@ -1,0 +1,101 @@
+{
+  "schema": "nf19.r6_resource_reconciliation.v1",
+  "utc": "2026-10-19T01:14:58.614133+00:00",
+  "status": "PASS",
+  "unit": "computer-vision-homework-eda19-r6-v3.service",
+  "invocation": "b4c2ac3dc5454fbb8c72180cd2b31fe3",
+  "launch_utc": "2026-10-19T01:10:54.694420+00:00",
+  "exit_utc": "Mon 2026-10-19 01:11:35 UTC",
+  "stop_utc": "2026-10-19T01:13:37.206081+00:00",
+  "explicit_exit_status": 0,
+  "unit_result": "success",
+  "caps": {
+    "CPUQuotaPerSecUSec": "500ms",
+    "MemoryHigh": "1400000000",
+    "MemoryMax": "1500000000",
+    "MemorySwapMax": "0",
+    "RuntimeMaxUSec": "10min"
+  },
+  "unit_elapsed_wall_s_at_timestamp_resolution": 41,
+  "unit_timestamp_resolution_s": 1,
+  "unit_cpu_s": 20.015408,
+  "unit_memory_peak_bytes": 478564352,
+  "helper_phase_seconds": {
+    "checkpoint_load_and_reconstruction": 0.11034397897310555,
+    "gradient_and_prefix": 29.721512597985566,
+    "input_preparation": 0.19194598007015884,
+    "sample_verification_and_mapping": 0.4757687379606068,
+    "total": 34.091471136081964
+  },
+  "max_progress_process_rss_bytes": 822554624,
+  "max_progress_own_cgroup_current_bytes": 524730368,
+  "memory_guard_extra_bytes": 256000000,
+  "memory_measurement_limit": "Systemd MemoryPeak, progress process RSS and reported own-cgroup-current are separate observations. The difference has no established explanation. The terminal empty-ControlGroup capture accidentally resolved /sys/fs/cgroup; that unscoped object is invalid as own-unit evidence and is not used for event inference.",
+  "parent_events_before": {
+    "low": 0,
+    "high": 2179,
+    "max": 561,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_events_after_capture": {
+    "low": 0,
+    "high": 2179,
+    "max": 561,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_event_deltas": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_local_events_after_capture": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "populated_f3_child_events": {
+    "computer-vision-homework-r01-f3-sequence.service": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "wnn-bandit-computer-vision-homework-r01-deep-f3s1001-ep25-v1.service": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "only_stopped_unit": "computer-vision-homework-eda19-r6-v3.service",
+  "post_stop_state": {
+    "LoadState": "not-found",
+    "ActiveState": "inactive",
+    "SubState": "dead"
+  },
+  "payload_transport": {
+    "envelope_sha256": "a8e9189a36d242dc0e06c79a6ab528951469beb328c3ba281e569dfb2dd6fea0",
+    "result_sha256": "4488f585df1d1ce29ee90ca8eeadd4e54c04a3b91f84472e558419b6d1a48bca",
+    "source_sha256": "ce2747146a057c7662f209fa4f4003473b9fda96496b83a5703775537b0166eb",
+    "stop_sha256": "3f845eaef0320e5ebe9ad536a3c560e8e5a3c695f72f71d944df8f5963dbf691"
+  },
+  "failed_attempts": {
+    "v1": "records/probe_v1/terminal_capture: same-process preimport guard, no checkpoint/array deserialization or gradient.",
+    "v2": "records/probe_v2/terminal_capture: 24 sample NPYs hashed/mapped, restricted checkpoint metadata rejected; no model reconstruction or forward/backward. Both failed units preserved, never restarted."
+  },
+  "scope": "One frozen checkpoint, 8 fit components, 16 dependent windows, zero optimizer steps and quality grades. Actual arrays/model/gradients remained on Beleriand; local captures are metadata only."
+}

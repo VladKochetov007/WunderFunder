@@ -1,5 +1,8 @@
 # 19 October research
 
+- [R6 actual-gradient diagnostic](idea_screens_r6/RESULTS.md): one unchanged FP32 GRU checkpoint,8fit components,16fixed causal windows and zero updates. Shared input/GRU gradients are positive in12/16windows, pooledcos+0.333540; shared hidden readout pooledcos+0.026854 with3negative windows. Compact scalar audit and exact captured/stopped CPU evidence separate local interference from untested optimization/quality claims.
+
+
 - [R4 measured fixed nonlinear screen](idea_screens_r4/RESULTS.md): four paired identity/tanh cases on the same R3 panel; selected tanh−identity WP−0.009039 raw/−0.023440 history, while fixed-alpha1 history remains+0.002015. Independent moment/selection audit passes; one CPU unit exited0/captured/stopped, no new memory events. Recipe-specific exposed-panel evidence, no MLP/public/CP30 claim.
 
 - [R3 measured component/block follow-up](idea_screens_r3/RESULTS.md): nine fixed ridge cases on64/32 fitting budgets and32evaluation components. Full-budget raw and i0+tail nearly match, while selected signed EMA adds0.010459WP with positive32/32drop-one contrasts. Fixed-alpha1 absolute EMA remains positive despite opposite fit-selected ranking. All endpoints are audited; changed exposed sampling and linear-model limits prevent full-model/public claims. Both the pre-array failed sample and independently corrected successful sample are preserved.
