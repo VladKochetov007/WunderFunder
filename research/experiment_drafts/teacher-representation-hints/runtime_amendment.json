@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "record_type": "prospective_runtime_amendment",
+  "experiment_id": "E-TEACHER-REPRESENTATION-HINTS-20261019",
+  "hypothesis_id": "H-TEACHER-REPRESENTATION-HINTS-20261019",
+  "status": "implemented_unexecuted",
+  "training_authorized": false,
+  "launch_ready": false,
+  "result": null,
+  "runtime_dependency": {
+    "pr": 32,
+    "url": "https://github.com/VladKochetov007/WunderFunder/pull/32",
+    "source_commit": "d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6",
+    "packet_path": "research/experiment_drafts/b300-transformer-distillation-runtime"
+  },
+  "historical_cp30": {
+    "status": "preserved_unchanged",
+    "pr_body_path": "research/experiment_drafts/teacher-representation-hints/PR_CP30_FROZEN.md",
+    "pr_body_sha256": "22a0aeec71d68199a2d0b44e2f6195614ea656170c10d51e11f99b20b4df39e0",
+    "recipe_path": "research/experiment_drafts/teacher-representation-hints/recipe.json",
+    "recipe_sha256": "34076662eea04341b4b542bdfa8e3f485deac65a0fd53d09a2fba56b42a5d80e",
+    "student_fits": 90,
+    "design": "CP30, three arms, L207 anchored 4096-row teacher, alpha 0.9 label/KD mixture"
+  },
+  "new_panel": {
+    "new_student_fits": 4,
+    "new_teacher_fits": 0,
+    "reused_output_kd_controls": 2,
+    "reused_teacher_fits_and_caches": 2,
+    "arms": {
+      "O": "reused same-fold GRU256 output-KD endpoint",
+      "H": "new GRU256 output-KD plus aligned 64-dimensional hidden hint loss",
+      "P": "new GRU256 output-KD plus component-permuted 64-dimensional hidden hint loss"
+    },
+    "primary_contrasts": [
+      "H - O",
+      "H - P"
+    ],
+    "cells": [
+      {
+        "fold": "F0",
+        "fold_index": 0,
+        "student_seed": 1001,
+        "teacher_seed": 101001,
+        "new_configs": [
+          {
+            "arm": "H",
+            "packet_path": "configs/gru256_hint_f0_s1001.json",
+            "sha256": "7be39e176cd8c4522436b3d538e32d4bf420f0b46ff3e98864b1ae2392206e5e",
+            "hint_mode": "aligned"
+          },
+          {
+            "arm": "P",
+            "packet_path": "configs/gru256_permuted_hint_f0_s1001.json",
+            "sha256": "7d696531e6b7701cedc8be9f9317248f850e92c8daf80aeb4068f88f20c45369",
+            "hint_mode": "component_permuted"
+          }
+        ],
+        "reuse": [
+          {
+            "arm": "O",
+            "kind": "gru256_output_kd_endpoint",
+            "config_packet_path": "configs/gru256_kd_f0_s1001.json",
+            "config_sha256": "b996653953da0af415cf5ac3c93006004a0976422028a163cedf37f1032f855c",
+            "artifact_sha256": null
+          },
+          {
+            "kind": "teacher_and_fitting_cache",
+            "config_packet_path": "configs/teacher_t768_l24_f0_s1001.json",
+            "config_sha256": "f4d5ddda744bd40c6157bfdc4a608f207db3446fa2db584c176b0fb39cdd456f",
+            "artifact_sha256": null
+          }
+        ]
+      },
+      {
+        "fold": "F2",
+        "fold_index": 2,
+        "student_seed": 1002,
+        "teacher_seed": 101002,
+        "new_configs": [
+          {
+            "arm": "H",
+            "packet_path": "configs/gru256_hint_f2_s1002.json",
+            "sha256": "53fd1abc1811ba36975f5f96cdf6802b563ab0598de0830f06b88dd3475ec587",
+            "hint_mode": "aligned"
+          },
+          {
+            "arm": "P",
+            "packet_path": "configs/gru256_permuted_hint_f2_s1002.json",
+            "sha256": "24c89643805043e533cd5c5cf70bc947af4826d3b17b1ed2d9ab1dc598b82a7e",
+            "hint_mode": "component_permuted"
+          }
+        ],
+        "reuse": [
+          {
+            "arm": "O",
+            "kind": "gru256_output_kd_endpoint",
+            "config_packet_path": "configs/gru256_kd_f2_s1002.json",
+            "config_sha256": "19159751eb72ed2d69e89935bf944319cdbf1644ed7bf02afb66d1483888f94a",
+            "artifact_sha256": null
+          },
+          {
+            "kind": "teacher_and_fitting_cache",
+            "config_packet_path": "configs/teacher_t768_l24_f2_s1002.json",
+            "config_sha256": "fbdbf0b50e24204d87f2f7a0cc15ecc815e0ad4f57ea190b3e360c3c4e17bae3",
+            "artifact_sha256": null
+          }
+        ]
+      }
+    ]
+  },
+  "student_configuration": {
+    "architecture": "canonical GRU256x2",
+    "input": "raw112, fit-only normalization over the first 32 fitting sequences",
+    "epochs": 3,
+    "batch_size": 1,
+    "chunk_rows": 256,
+    "accumulate_chunks": 4,
+    "dropout": 0.0,
+    "hint_dim": 64,
+    "hint_projection": "learned",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.01,
+    "gradient_clip": 1.0,
+    "warmup_fraction": 0.05,
+    "strict_fp32": true,
+    "autocast": false,
+    "grad_scaler": false,
+    "tf32": false,
+    "quantization": false,
+    "objective": {
+      "label": "WMSE(clipped labels), weight abs(clipped label)",
+      "output_kd": "WMSE(clipped teacher outputs), weight abs(clipped label)",
+      "hint": "elementwise MSE",
+      "kd_weight": 1.0,
+      "hint_weight": 0.1,
+      "mask": "is_scored AND row_index >= 99"
+    }
+  },
+  "teacher_configuration": {
+    "architecture": "causal RoPE Transformer",
+    "hidden": 768,
+    "layers": 24,
+    "heads": 12,
+    "context_rows_per_layer": 512,
+    "epochs": 3,
+    "precision": "strict_fp32",
+    "hint_projection": "frozen seed-1729 projection from per-row-normalized final hidden state to 64 dimensions"
+  },
+  "historical_to_amended_schema": {
+    "student_fit_count": "90 CP30 student fits becomes four new fits plus exact PR28 reuse",
+    "teacher": "L207 anchored 4096-row recomputation becomes reused T768x24 with 512-row sliding KV per layer",
+    "student_schedule": "eight epochs becomes three fixed epochs",
+    "objective": "alpha=0.9 label/KD mixture becomes additive clipped-label WMSE + output-KD WMSE + 0.1 hint MSE",
+    "hint_projection": "historical seed-14019 proposal becomes pinned runtime seed-1729 projection"
+  },
+  "decision_guidance": {
+    "descriptive_followup_signal": 0.001,
+    "threshold_is_gate": false,
+    "mixed_or_smaller_effect_rejects": false,
+    "zero_crossing_interval_rejects": false
+  },
+  "evidence": {
+    "profiled": false,
+    "fitted": false,
+    "scored": false,
+    "gpu_acceptance_passed": false,
+    "public_score_forecast": null,
+    "limitations": "two exposed folds, one student seed per fold; no across-seed or unseen-fold inference"
+  }
+}
