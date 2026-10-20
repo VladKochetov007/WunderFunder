@@ -68,13 +68,14 @@
       "WNN_THREADS": "1",
       "WNN_LOADER_WORKERS": "0",
       "WNN_LOADER_RAM_GB": "3.5",
-      "WNN_GPU_MEMORY_BYTES": "5000000000",
+      "WNN_GPU_MEMORY_BYTES": "4500000000",
       "OMP_NUM_THREADS": "1",
       "MKL_NUM_THREADS": "1",
       "OPENBLAS_NUM_THREADS": "1"
     },
     "launch_contract": "Root-owned cgroup/systemd wrapper; preprovisioned root venv only, no resolution/install.",
-    "source_reuse": "Use the pinned trainer and canonical training components as-is; this plan adds no trainer or source change."
+    "source_reuse": "Use the pinned trainer and canonical training components as-is; this plan adds no trainer or source change.",
+    "gpu_allocator_cap_note": "4.5 GB allocator cap within the observed 5 GB VRAM budget, leaving about 0.5 GB driver/display headroom."
   },
   "matched_design": {
     "fit_seed": 4,
@@ -257,7 +258,7 @@
           "--save-training-state"
         ],
         "export_argv": [
-          "/home/vlad/development/wnn_connectome_starterpack/.venv/bin/python",
+          "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
           "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
           "overnight_nll_f1_s4_wmse_e2_r1",
           "valid",
@@ -378,7 +379,7 @@
           "--save-training-state"
         ],
         "export_argv": [
-          "/home/vlad/development/wnn_connectome_starterpack/.venv/bin/python",
+          "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
           "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
           "overnight_nll_f1_s4_nll_e2_r1",
           "valid",
@@ -491,7 +492,8 @@
       "family_head_must_remain_enabled": true,
       "NLL_child_output_rows": 33,
       "layout": "23 existing base rows + 8 family rows + 2 appended zero-initialized logvariance rows",
-      "relationship_to_f1": "Different from F1/F0 25-output no-family model; this is a distinct production adaptation."
+      "relationship_to_f1": "Different from F1/F0 25-output no-family model; this is a distinct production adaptation.",
+      "route_scope": "This 31\u219233 statement applies only to the existing all-data history-swap initializer route below."
     },
     "reuse_feasibility": "The all-data history and family targets are already recorded with complete train/valid coverage, so existing teacher assets could avoid new teacher fitting if actual storage verifies the files and hashes. Their ancestry mixes clean-fold teacher sources with an all-data history parent and is production-only.",
     "blocking_reasons": [
@@ -503,13 +505,13 @@
     "required_before_recipe_freeze": [
       "Implement or approve a separate all-data final-adaptation membership/cache validator; do not weaken the fold validator.",
       "Verify on the execution host that the parent checkpoint and all main/family cache arrays exist and match metadata hashes and full row order.",
-      "Preserve the 31-row family-enabled layout and append only two logvariance rows; inherit preprocessing from the exact all-data initializer.",
-      "Record complete ancestry and source hashes, then produce a concrete argv and production artifact plan."
+      "Record complete ancestry and source hashes, then produce a concrete argv and production artifact plan.",
+      "Preserve route-specific head layouts: history-swap route 31\u219233 with family head on; expanded fold-1 main-cache route 23\u219225 with family head off, if that route passes ancestry and runtime validation."
     ],
     "teacher_fit_cost": "0 if the existing recorded target assets are present and verify; no teacher fit or teacher prediction export is proposed. Student fitting/export cost is not estimated here because the supported final-all-data recipe is not yet frozen.",
     "no_code_created": true,
     "fold1_teacher_reconstruction_option": {
-      "status": "NO_TEACHER_FITS_NEEDED; ADDITIONAL_TEACHER_INFERENCE_AND_CACHE_BUILD_NEEDED",
+      "status": "UNVERIFIED_CONCEPT; NO_TEACHER_FITS_IF_EXISTING_CHECKPOINTS_VERIFY; FULL_COVERAGE_INFERENCE_AND_CACHE_BUILD_REQUIRED",
       "starting_teacher_family": "Reuse the exact eight existing fold-1 checkpoints and coefficients recorded in cache/h230_four_family_fold1_source_20261009_r1/metadata.json.",
       "source_checkpoint_inventory": [
         {
@@ -620,15 +622,46 @@
       },
       "required_work": [
         "Recheck each checkpoint SHA and source ancestry on the execution host.",
-        "Export the eight teachers on missing train and valid groups (or full datasets), then reconstruct all four family targets and the source-mixed main target using the frozen coefficient table; do not fit teachers.",
-        "Verify complete source-qualified row order, target hashes, source coefficients sum 0.8125, no teacher fit overlap with the omitted groups, and causal feature-only inference.",
-        "Train from the compatible all-data 31-row family-enabled initializer to 33 rows; NLL adaptation remains distinct from the 25-row F0/F1 clean-fold pair.",
-        "Implement or approve a separate final all-data cache membership/validator path; the pinned fold cache validator cannot accept this cache."
+        "Export the eight teachers on missing train and valid groups (or full datasets), then reconstruct the main source-mixed target with the frozen coefficient table; no teacher fit is needed if these checkpoints verify.",
+        "Keep the family objective/head disabled for this 23\u219225 route; family arrays need not be completed for this route.",
+        "Verify complete source-qualified row order, main target hashes, source coefficients sum 0.8125, no teacher fit overlap with the omitted groups, and causal feature-only inference.",
+        "Implement or approve a separate final all-data membership/cache validator that explicitly supports this fold-trained initializer; the pinned fold cache validator cannot accept the full-data cache."
       ],
       "new_teacher_fits": 0,
       "teacher_inference_exports": 8,
-      "inference_and_cache_build_cost": "Not measured; cannot assume the existing 45-minute two-student export estimate covers eight teachers.",
-      "availability_limit": "Checkpoint path existence was checked in the preparation checkout; hashes and prediction runtime must be verified at future admission."
+      "inference_and_cache_build_cost": "Not measured; do not assume the existing 45-minute two-student export estimate covers eight teachers.",
+      "availability_limit": "Checkpoint path existence was checked in the preparation checkout; hashes and prediction runtime must be verified at future admission.",
+      "candidate_initializer": {
+        "run": "oldz4_h230_parent_f1_s3_r4",
+        "checkpoint": "artifacts/runs/oldz4_h230_parent_f1_s3_r4/model_ep3.pt",
+        "sha256": "be2273cc96027295c19133504354a262cd1a2066fa5ae3df7d6be64ed0a1ad8e",
+        "fit_scope": "Fold-1 fit groups only; historical FP16/AMP.",
+        "head": "23 rows, no family head; with two appended logvariance rows the NLL child is 25 rows.",
+        "family_objective": "Keep family objective/head disabled; use only the full-coverage main source target cache.",
+        "caveat": "The pinned --final-model-adaptation validator requires an all-data initializer, so a separate explicit production mode would need to admit this fold-trained initializer and preserve its ancestry/exposure."
+      },
+      "feasibility_limit": "This is a plausible reconstruction path from metadata, not a validated runnable production recipe. Existing checkpoint path presence does not establish runtime compatibility, prediction completeness, cost, or cache-builder compatibility."
+    },
+    "route_comparison": {
+      "existing_history_swap": {
+        "initializer_output_rows": 31,
+        "family_head": "enabled, weight .1",
+        "nll_child_output_rows": 33,
+        "target_ancestry": "Existing .8125 mixed clean-fold and all-data history-source target plus base all-family cache.",
+        "new_teacher_fits": 0,
+        "new_teacher_inference": 0,
+        "status": "Recorded assets present in preparation checkout; content hashes and trainer compatibility still require validation."
+      },
+      "expanded_fold1_main_cache": {
+        "initializer_output_rows": 23,
+        "family_head": "disabled",
+        "nll_child_output_rows": 25,
+        "target_ancestry": "Complete the existing eight-source fold-1 main target cache to all train and valid rows.",
+        "new_teacher_fits": 0,
+        "teacher_inference_exports": 8,
+        "status": "Unverified concept; no measured export cost or validated all-data trainer path."
+      },
+      "comparison": "These are distinct production adaptations. The first starts from an already all-data family-enabled model and uses its history-swap cache; the second would use the fold-1 no-family initializer and a rebuilt full-coverage fold-1 source cache. Neither is a direct production counterpart of the clean-fold F1 pair until an all-data mode is validated."
     }
   }
 }
