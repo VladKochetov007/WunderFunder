@@ -54,6 +54,7 @@ TARGET_WIDTHS = {"main_source": 2, "main_normalized": 2, "main_homogeneous": 2, 
 CLEANFOLD_T3_PROFILE = "cleanfold_homogeneous_strong_t3_v1"
 CLEANFOLD_T3_CONTRACT_SCHEMA = "fg19.teacher-cache-execution-contract.v1"
 CLEANFOLD_T3_CONTRACT_LIMIT = 128 * 1024
+CLEANFOLD_T3_PROVENANCE_LIMIT = 1_000_000
 SHA256_TEXT = re.compile(r"[0-9a-f]{64}\Z")
 
 
@@ -95,6 +96,13 @@ def parse_teacher(value: str) -> TeacherSource:
 
 def _expected_groups(split: CampaignSplit, name: str) -> tuple[int, ...]:
     return split.train_groups if name == "train" else split.valid_groups
+
+
+def _ordered_fit_groups(
+    target_groups: list[int] | tuple[int, ...], expected_fit_group_set: frozenset[int]
+) -> tuple[int, ...]:
+    """Keep fitting groups in target-index order using one prebuilt membership set."""
+    return tuple(group for group in target_groups if group in expected_fit_group_set)
 
 
 def _fit_sidecar_groups(sidecar: dict[str, Any], run: str, split_name: str) -> list[int]:
@@ -257,7 +265,7 @@ def _inspect_teacher(
         provenance = json.loads(provenance_path.read_text())
     else:
         provenance_size = provenance_path.stat().st_size
-        if provenance_size <= 0 or provenance_size > CLEANFOLD_T3_CONTRACT_LIMIT:
+        if provenance_size <= 0 or provenance_size > CLEANFOLD_T3_PROVENANCE_LIMIT:
             raise ValueError(f"teacher {run} provenance exceeds its bounded read size")
         provenance_raw = provenance_path.read_bytes()
         if (
@@ -374,12 +382,11 @@ def _inspect_teacher(
         )
         if fit_only:
             expected_fit_groups = _expected_groups(split, split_name)
+            expected_fit_group_set = frozenset(expected_fit_groups)
             canonical_fit_order, _ = fit_prediction_positions(
                 row_groups, expected_order, expected_fit_groups
             )
-            expected_canonical_order = tuple(
-                group for group in expected_order if group in set(expected_fit_groups)
-            )
+            expected_canonical_order = _ordered_fit_groups(expected_order, expected_fit_group_set)
             if canonical_fit_order != expected_canonical_order:
                 raise ValueError(f"teacher {run} {split_name} canonical fit order differs")
         elif row_groups != expected_order:
@@ -522,9 +529,18 @@ def _cleanfold_t3_pins(
         actual_files = {
             "model_sha256": run_root / "model.pt",
             "checkpoint_sha256": run_root / "model_ep2.pt",
-            "provenance_sha256": run_root / "provenance.json",
         }
         if any(file_sha256(path) != teacher[key] for key, path in actual_files.items()):
+            raise ValueError(f"cleanfold T3 checkpoint or provenance bytes disagree: {run}")
+        provenance_path = run_root / "provenance.json"
+        provenance_size = provenance_path.stat().st_size
+        if provenance_size <= 0 or provenance_size > CLEANFOLD_T3_PROVENANCE_LIMIT:
+            raise ValueError(f"teacher {run} provenance exceeds its bounded read size")
+        provenance_raw = provenance_path.read_bytes()
+        if (
+            len(provenance_raw) != provenance_size
+            or hashlib.sha256(provenance_raw).hexdigest() != teacher["provenance_sha256"]
+        ):
             raise ValueError(f"cleanfold T3 checkpoint or provenance bytes disagree: {run}")
         accepted.append(
             {
@@ -604,14 +620,16 @@ def build_cache(args: argparse.Namespace) -> Path:
         raise ValueError("chunk sequence count must be between 1 and 64")
 
     target_orders = {name: _target_order(data_root, name) for name in ("train", "valid")}
+    expected_fit_groups = {name: _expected_groups(split, name) for name in target_orders}
+    expected_fit_group_sets = {
+        name: frozenset(groups) for name, groups in expected_fit_groups.items()
+    }
     row_groups = {
-        name: [
-            group for group in target_orders[name] if group in set(_expected_groups(split, name))
-        ]
+        name: list(_ordered_fit_groups(target_orders[name], expected_fit_group_sets[name]))
         for name in ("train", "valid")
     }
     for name in ("train", "valid"):
-        if set(row_groups[name]) != set(_expected_groups(split, name)):
+        if set(row_groups[name]) != expected_fit_group_sets[name]:
             raise ValueError(f"target index omits {name} fitting groups")
 
     fit_rows = sum(len(groups) for groups in row_groups.values())
@@ -697,7 +715,7 @@ def build_cache(args: argparse.Namespace) -> Path:
             for split_name in ("train", "valid"):
                 sidecar_groups = prediction_records[source.run][split_name].pop("_row_groups")
                 fit_order, positions = fit_prediction_positions(
-                    sidecar_groups, target_orders[split_name], _expected_groups(split, split_name)
+                    sidecar_groups, target_orders[split_name], expected_fit_groups[split_name]
                 )
                 if tuple(row_groups[split_name]) != fit_order:
                     raise ValueError(f"teacher {source.run} {split_name} cache order differs")

@@ -48,10 +48,27 @@ def test_t3_combiner_rejects_fp32_overflow_before_returning_chunk() -> None:
 
 
 def test_fit_prediction_positions_reorders_only_the_exact_fit_membership() -> None:
-    groups, positions = fit_prediction_positions([12, 10], [10, 11, 12, 99], [10, 12])
+    groups, positions = fit_prediction_positions([10, 12], [12, 99, 11, 10], [10, 12])
 
-    assert groups == (10, 12)
+    assert groups == (12, 10)
     np.testing.assert_array_equal(positions, [1, 0])
+
+
+def test_target_fit_order_digest_matches_permuted_prediction_mapping() -> None:
+    target_groups = [12, 99, 11, 10]
+    expected_fit_groups = (10, 12)
+    prediction_groups = [10, 12]
+
+    target_fit_order = builder._ordered_fit_groups(target_groups, frozenset(expected_fit_groups))
+    prediction_fit_order, positions = fit_prediction_positions(
+        prediction_groups, target_groups, expected_fit_groups
+    )
+
+    assert target_fit_order == prediction_fit_order == (12, 10)
+    np.testing.assert_array_equal(positions, [1, 0])
+    assert builder.row_groups_sha256(list(target_fit_order)) == (
+        "64ac415e7e58f26540f04791fc97156f1ca27b21989c3c73d1f96c4e0305e765"
+    )
 
 
 @pytest.mark.parametrize(
@@ -190,6 +207,15 @@ def test_root_t3_contract_binds_acceptance_and_selected_checkpoint_bytes(tmp_pat
         "fg19_t3_h384x2_e3_s5_v1",
     ]
     assert contract["schema"] == "fg19.teacher-cache-execution-contract.v1"
+    provenance_path = checkpoint_root / pins[0]["run"] / "provenance.json"
+    original_provenance = provenance_path.read_bytes()
+    oversized_provenance = b"{}" + b" " * (builder.CLEANFOLD_T3_PROVENANCE_LIMIT + 1 - len(b"{}"))
+    provenance_path.write_bytes(oversized_provenance)
+    with pytest.raises(ValueError, match="provenance exceeds its bounded read size"):
+        builder._cleanfold_t3_pins(
+            contract_path, contract_sha, acceptance_root, checkpoint_root, split
+        )
+    provenance_path.write_bytes(original_provenance)
     (checkpoint_root / pins[0]["run"] / "model_ep2.pt").write_bytes(b"changed")
     with pytest.raises(ValueError, match="checkpoint or provenance bytes disagree"):
         builder._cleanfold_t3_pins(
@@ -197,8 +223,17 @@ def test_root_t3_contract_binds_acceptance_and_selected_checkpoint_bytes(tmp_pat
         )
 
 
+@pytest.mark.parametrize(
+    "provenance_size",
+    [
+        0,
+        builder.CLEANFOLD_T3_CONTRACT_LIMIT + 1,
+        166_192,
+        builder.CLEANFOLD_T3_PROVENANCE_LIMIT,
+    ],
+)
 def test_t3_inspection_uses_root_pins_without_deserializing_checkpoint(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, provenance_size: int
 ) -> None:
     run = builder.T3_TEACHER_ORDER[0]
     split = CampaignSplit(
@@ -227,7 +262,11 @@ def test_t3_inspection_uses_root_pins_without_deserializing_checkpoint(
             "split_manifest_sha256": split.sha256,
         },
     }
-    provenance_sha = _write(run_root / "provenance.json", json.dumps(provenance).encode())
+    provenance_raw = json.dumps(provenance).encode()
+    if provenance_size:
+        assert provenance_size >= len(provenance_raw)
+        provenance_raw += b" " * (provenance_size - len(provenance_raw))
+    provenance_sha = _write(run_root / "provenance.json", provenance_raw)
     cache_root = tmp_path / "predictions"
     cache_root.mkdir()
     target_orders = {"train": [10, 11], "valid": [20, 21]}
@@ -275,6 +314,86 @@ def test_t3_inspection_uses_root_pins_without_deserializing_checkpoint(
     assert record["acceptance_sha256"] == "b" * 64
     assert arrays["train"].shape == (1, SEQUENCE_ROWS, 2)
     assert sidecars["train"]["_row_groups"] == [10]
+
+
+def test_t3_inspection_rejects_provenance_above_one_megabyte_without_checkpoint_load(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    run = builder.T3_TEACHER_ORDER[0]
+    run_root = tmp_path / "runs" / run
+    run_root.mkdir(parents=True)
+    oversized = b"{}" + b" " * (builder.CLEANFOLD_T3_PROVENANCE_LIMIT - 1)
+    _write(run_root / "provenance.json", oversized)
+    (run_root / "model_ep2.pt").write_bytes(b"pinned checkpoint")
+    split = CampaignSplit(
+        tmp_path / "fold0.json",
+        "split-sha",
+        0,
+        4,
+        (10,),
+        (20,),
+        (21,),
+        (("train", 10, 0), ("valid", 20, 1), ("valid", 21, 2)),
+    )
+    monkeypatch.setattr(
+        builder.torch,
+        "load",
+        lambda *_args, **_kwargs: pytest.fail(
+            "root-pinned T3 inspection must not deserialize checkpoints"
+        ),
+    )
+
+    with pytest.raises(ValueError, match="provenance exceeds its bounded read size"):
+        builder._inspect_teacher(
+            run,
+            split,
+            tmp_path / "predictions",
+            tmp_path / "runs",
+            {},
+            2,
+            fit_only=True,
+            root_pin={"provenance_sha256": "a" * 64},
+        )
+
+
+def test_t3_inspection_rejects_invalid_bounded_provenance_json_without_checkpoint_load(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    run = builder.T3_TEACHER_ORDER[0]
+    run_root = tmp_path / "runs" / run
+    run_root.mkdir(parents=True)
+    invalid = b"{not-json"
+    provenance_sha = _write(run_root / "provenance.json", invalid)
+    (run_root / "model_ep2.pt").write_bytes(b"pinned checkpoint")
+    split = CampaignSplit(
+        tmp_path / "fold0.json",
+        "split-sha",
+        0,
+        4,
+        (10,),
+        (20,),
+        (21,),
+        (("train", 10, 0), ("valid", 20, 1), ("valid", 21, 2)),
+    )
+    monkeypatch.setattr(
+        builder.torch,
+        "load",
+        lambda *_args, **_kwargs: pytest.fail(
+            "root-pinned T3 inspection must not deserialize checkpoints"
+        ),
+    )
+
+    with pytest.raises(json.JSONDecodeError):
+        builder._inspect_teacher(
+            run,
+            split,
+            tmp_path / "predictions",
+            tmp_path / "runs",
+            {},
+            2,
+            fit_only=True,
+            root_pin={"provenance_sha256": provenance_sha},
+        )
 
 
 def test_legacy_ancestor_audit_still_verifies_checkpoint_closure(
