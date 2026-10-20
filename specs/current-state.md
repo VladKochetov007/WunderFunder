@@ -1,3 +1,9 @@
+## 20 October14:40UTC — EMA active; terminal checker locally bound
+
+[Rare same-invocation EMA health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1440Z/README.md) records two completed epochs14,920updates/1,492batches/zero skips/nonfinite; later ep2batch240 is not current totals, actual terminal44,760 or quality. Tensors stat-only, one owned worker, no new memoryevents or action. [EMA-specific checker](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/README.md) is source-reviewed/locally bound with complete private/WNN import sentinels; no B staging/admission/execution before actual strict typed native exit0. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs fresh cappedCPU verification/acceptance/exact-stop gates. No new fits, quality or unchanged suite rerun; routine healthy preparation remains quiet.
+
+---
+
 ## 20 October 13:51 UTC — EMA continues, first epoch recorded
 
 [One rare bounded EMA capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1351Z/README.md) found exact invocation active/running, one owned GPU worker and no new own/parent memoryevents. Completed epoch0 has7,460updates/746batches/zero skips/nonfinite in its native records. Later ep1batch20 is not current totals, terminal44,760 or quality. Checkpoint/state/provenance remain stat-only; no support/restart/stop/newfit/inference. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; routine healthy progress requires no notification.

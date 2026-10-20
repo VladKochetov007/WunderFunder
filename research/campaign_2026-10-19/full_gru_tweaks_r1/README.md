@@ -1,3 +1,7 @@
+**Latest actual20October14:40UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1440Z/README.md); two completed epoch records14,920updates/1,492batches/zero skips/nonfinite, later ep2batch240 is not current totals/terminal/quality. Tensor files stat-only, no new job/restart/stop. [EMA terminal checker](preparation/child_ema_terminal_check_v1/README.md), [source review](preparation/child_ema_terminal_check_v1/CHILD_EMA_TERMINAL_SOURCE_REVIEW_V1.json) and [root binding](preparation/child_ema_terminal_check_v1/ROOT_PREPARATION.json) are LOCAL ONLY, no B staging/admission before actual typed native exit0. [Continuation](CONTINUATION.md) and [publication validation](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_TERMINAL_PREP_1440.json) bind current gates; no repeated tests/preparation/poll.
+
+---
+
 **Latest actual 20 October 13:51 UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1351Z/README.md), one completed epoch record/7,460updates/zero skips/nonfinite in that record. Later ep1batch20 is not current totals, terminal or quality. Own/parent memoryevents unchanged, tensor files stat-only, no new job/support/restart/stop. [Continuation](CONTINUATION.md) and [health publication](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1351.json) govern the dated observation; no immediate repeat poll.
 
 ---

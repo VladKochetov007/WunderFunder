@@ -1,3 +1,7 @@
+[EMA rare health14:40UTC](child_ema_fit_v1/health_20261020T1440Z/README.md): same active invocation, completed epochs0/1 total14,920updates/1,492batches/zero skips/nonfinite; later ep2batch240 is not current totals/terminal/quality. Own/parent events unchanged, tensor files stat-only, no new support/fit/restart/stop. [Prepared EMA integrity checker](../preparation/child_ema_terminal_check_v1/README.md) remains local and gated on actual native typed exit0.
+
+---
+
 [EMA rare health13:51UTC](child_ema_fit_v1/health_20261020T1351Z/README.md): same active invocation, completed epoch0 counters/7,460updates/zero skips/nonfinite; later log progress is not terminal/current totals/quality. Tensor files stat-only, one owned GPU worker, no new action or fit.
 
 [EMA32 full fit actual launch](child_ema_fit_v1/README.md): one reviewed fresh admission, same common recipe/parent as accepted CONTROL, one owned GPU worker. No completed EMA endpoint or quality score; no automatic successor queue.

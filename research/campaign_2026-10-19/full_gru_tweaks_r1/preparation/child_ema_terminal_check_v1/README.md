@@ -1,0 +1,16 @@
+# EMA terminal checker packet
+
+This packet adds a read-only terminal verifier for the already admitted EMA-input-representation fit `fg19_child_ema_f0_s1001_fit_v1`. It is intentionally separate from the CONTROL checker entrypoint: it binds the original EMA admission, launch, nested root launch acceptance, actual accepted CONTROL terminal receipt and exact-stop receipt, and the EMA-specific native terminal schema. The recipe check requires `--representation-mode ema`; this is source-68 input history, not optimizer/model-weight EMA. Shared parent, dictionary, profile, cache, loader, optimizer, RNG, checkpoint, and training-state checks are delegated to the exact frozen dependencies in `DEPENDENCY_MANIFEST.json`.
+
+`child_ema_terminal_check_v1.py` must be staged with the four listed dependency files beside it, at the recorded hashes. Its output is create-only. It requires a typed EMA native terminal capture with the expected unit, invocation, `MainPID=0`, `ExecMainCode=1`, and `ExecMainStatus=0`; it does not stop or restart a unit. No EMA model, training-state, cache-array, or dataset payload was read while preparing this local packet. The verifier itself has not been run against the live EMA payloads.
+
+The focused local suite binds the actual small EMA admission/launch/launch-acceptance and CONTROL acceptance/stop receipts, checks nearby wrong-identity and wrong-recipe cases, and exercises the stat-only registered-data gate with synthetic files. Its cold-import test starts a fresh interpreter and copies exactly the checker plus four pinned helper files into a temporary private directory. It imports those five modules from that directory, verifies each origin and byte hash, then exercises the real lazy S5 CLI and tensor-identity imports plus the three CONTROL dictionary-representation imports against the clean local source-68 checkout. It verifies all 29 loaded `wnn` module origins and file hashes against the pinned 167-file manifest, blocks model/array/dataset payload and B source-root opens, and makes CUDA probe functions raise if called. The probe records local PyTorch 2.14.1, empty `CUDA_VISIBLE_DEVICES`, and `torch.cuda._initialized == false`; this local runtime observation makes no claim about the worker runtime, which the checker validates independently. The retained result is in `IMPORT_READ_CUDA_PROOF.json`; exact local command outcomes and source pins are in `LOCAL_CHECKS.json`.
+
+Run the local checks from the repository root with:
+
+```sh
+.venv/bin/python -m unittest research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/test_child_ema_terminal_check_v1.py
+.venv/bin/ruff check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/child_ema_terminal_check_v1.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/test_child_ema_terminal_check_v1.py
+```
+
+The command-line entrypoint requires explicit paths for the run directory, source tree and manifest, split, EMA evidence, shared profile evidence, admission, launch, root launch acceptance, native terminal evidence, cache root and receipts, and output. It only writes the requested output if that path does not already exist. Root owns any later remote staging, admission, capture, and stop actions.
