@@ -1,3 +1,5 @@
+- [CONTROL health07:25UTC](child_control_fit_v1/health_20261020T0724Z/README.md): same invocation/one owned worker, completed epochs0–2/cumulative22,380updates, stat-only run files; no terminal/current total or quality.
+
 [Shared parent accepted and exact-stopped](parent_fit_r2_v1/README.md): full native29,840updates/four epochs and restricted V3 state/model/AdamW/RNG/source167/ancestry checks pass; exact stop closes accepted native+successfulV3 only. Failed supports are retained. One new parent fit is complete; five child fits/quality endpoints remain pending.
 
 - [CONTROL health06:15UTC](child_control_fit_v1/health_20261020T0614Z/README.md): same invocation/one owned worker, dated completed epoch0 counters; no terminal/current total or quality.

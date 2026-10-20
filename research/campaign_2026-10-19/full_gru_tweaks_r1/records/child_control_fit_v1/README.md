@@ -13,3 +13,5 @@ Expected44,760updates/4,476batches/next_epoch6 are arithmetic, not observed comp
 [Bounded health06:15UTC](health_20261020T0614Z/README.md) records one completed epoch/7,460updates/zero skips/nonfinite; a later epoch1batch320line is not synchronous progress or terminal proof. This supersedes startup freshness without replaying or stopping the fit.
 
 [Needed terminal checker, local preparation only](../../preparation/README_CHILD_CONTROL_TERMINAL_CHECK_V1.md), [independent source review](../../preparation/CHILD_CONTROL_TERMINAL_SOURCE_REVIEW_V1.json) and [root dependency binding](../../preparation/CHILD_CONTROL_TERMINAL_ROOT_PREPARATION_V1.json) are ready for a future post-exit admission. No checker was staged or run against the active fit, and no terminal integrity/quality result exists.
+
+[Later rare health07:25UTC](health_20261020T0724Z/README.md) supersedes06:15freshness: same active worker, completed native epochs0–2/cumulative22,380updates; no synchronous current total, native terminal or quality. Current payloads remain stat-only and the prepared terminal checker stays unadmitted.

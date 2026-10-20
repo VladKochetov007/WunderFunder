@@ -1,3 +1,7 @@
+## 20 October07:25UTC — rare bounded CONTROL observation
+
+[The same CONTROL invocation was active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0724Z/README.md) at07:25:01UTC, one populated owned GPU worker/no new own or parent memoryevents. Three completed epoch records report cumulative22,380updates/2,238batches/zero skips/nonfinite0; later ep3batch280 is not synchronous current progress, terminal44,760 or quality. Run checkpoint/state/provenance files remain stat-only. The already reviewed terminal checker is unchanged/local only, gated on actual typed native exit0 and a fresh cappedCPU admission. No replay/newfit/support/restart/stop/grade; completed parent/profile/prerequisites remain untouched.
+
 ## 20 October06:15UTC — bounded full CONTROL progress
 
 [Same CONTROL invocation active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0614Z/README.md), one owned GPU worker/no new own or parent memoryevents. Completed native epoch0 records7,460updates/746batches/zero skips/nonfinite0; later recorded epoch1batch320 is not a synchronous current total, terminal44,760 or quality endpoint. Changing tensorfiles remain stat-only; no restart/stop/newjob/grade. Existing parent/profile/completed prerequisite stages remain accepted/exact-stopped and must not be polled or replayed.
