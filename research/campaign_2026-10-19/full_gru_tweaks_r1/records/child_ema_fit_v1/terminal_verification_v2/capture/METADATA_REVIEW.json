@@ -1,0 +1,110 @@
+{
+  "schema": "fg19.child-ema-terminal-verifier-v2-failure-metadata-review.v1",
+  "reviewed_utc": "2026-10-20T17:50:15Z",
+  "status": "PASS_FAILURE_METADATA_ONLY_SOURCE_ATTRIBUTED_NO_TERMINAL_RESULT",
+  "scope": "Independent local-only audit of the exact V2 failure capture, raw transport, decoded receipt joins, captured unit/resource metadata, and source-qualified traceback. No worker query, tests, checker execution, or model/state/cache-array/dictionary/dataset payload reads were performed by this reviewer.",
+  "pins": {
+    "failure_capture": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/capture/STDOUT.raw.json",
+      "bytes": 26811,
+      "sha256": "68b9b7c7ea5013e94f3de5b4895d7f66b12cf5c03ee31ed373965bfff31970ad"
+    },
+    "transport": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/capture/TRANSPORT.json",
+      "bytes": 971,
+      "sha256": "17527ef0cf8f15f958dadc90edc886c4e37a8f31c55ad7ea6baa23c526ff2893",
+      "ssh_returncode": 0,
+      "raw_persisted_before_parse": true
+    },
+    "unit_log": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/capture/unit.log",
+      "bytes": 975,
+      "sha256": "a38d372602242892b2ddbe4ce88f7c2b23a66eb83a5ed368773f5397cc024d0d"
+    },
+    "captured_admission": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/capture/VERIFIER_ADMISSION.json",
+      "bytes": 15825,
+      "sha256": "70dc5fab93d57aa2e3a246dc852c7b340766618be46b2e818774dc48b0cb3dac"
+    },
+    "captured_launch": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/capture/VERIFIER_LAUNCH.json",
+      "bytes": 1294,
+      "sha256": "ef57f6751825841bd2debbf874035f946805382bd4ec750ba165cdfb7c856dd0"
+    },
+    "capture_reader": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/capture/REMOTE.py",
+      "bytes": 2890,
+      "sha256": "af43cafea6f82fd82b23361652968c2f860ad6d92a5a61f0cb3db804fad32b17"
+    },
+    "reviewed_v2_body": {
+      "bytes": 549195,
+      "sha256": "b45a5ae30296ef2e5b1942064df68c2c874c2f1be48de8ca814e3eaab9acba59"
+    },
+    "prior_launch_review": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/ACTUAL_LAUNCH_METADATA_REVIEW.json",
+      "sha256": "7750ba553625a344e1e6a963f2b9b32f82bfc7b8d3fa721c4840af463675c7d4"
+    }
+  },
+  "capture_joins": {
+    "raw_base64_receipts": "The captured raw object identifies V2 invocation d1527a182e16493d934368bf2ab9d772 and reports terminal_success=false with an empty populated map. Its base64 VERIFIER_ADMISSION.json, VERIFIER_LAUNCH.json, and unit.log decode byte-for-byte to the persisted files with matching lengths and SHA-256 values.",
+    "support_unit": {
+      "unit": "computer-vision-homework-fg19-child-ema-verify-v2.service",
+      "invocation_id": "d1527a182e16493d934368bf2ab9d772",
+      "LoadState": "loaded",
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "MainPID": "0",
+      "ExecMainCode": "1",
+      "ExecMainStatus": "1",
+      "Result": "exit-code",
+      "start_utc": "2026-10-20 17:49:29 UTC",
+      "exit_utc": "2026-10-20 17:49:35 UTC"
+    },
+    "code_pins": {
+      "child_ema_terminal_check_v2.py": {"bytes": 38266, "sha256": "c6bf44fe1c2702b5a9b415992136e56e99c811149e8ca3c5893e8e77289bd909"},
+      "child_control_terminal_check_v3.py": {"bytes": 79972, "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"},
+      "parent_fit_terminal_check_v3.py": {"bytes": 64550, "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"},
+      "propensity_terminal_support.py": {"bytes": 13107, "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"},
+      "teacher_s5_terminal_check_v1.py": {"bytes": 37448, "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"}
+    }
+  },
+  "failure_attribution": {
+    "observed_error": "AttributeError: module 'parent_fit_terminal_check_v3' has no attribute 'PARENT_ACCEPTANCE_SHA'",
+    "traceback_location": "child_ema_terminal_check_v2.py:750 in verify_terminal",
+    "source_finding": "The frozen child checker imports the CONTROL helper as control_v3 and the parent helper as parent_v3. PARENT_ACCEPTANCE_SHA is defined on child_control_terminal_check_v3.py (line 39) and is already referenced as control_v3.PARENT_ACCEPTANCE_SHA elsewhere in this EMA checker (lines 65, 258, and 732). parent_fit_terminal_check_v3.py does not define PARENT_ACCEPTANCE_SHA; its acceptance constant is CACHE_ACCEPTANCE_SHA. At line 750, evaluation of parent_v3.PARENT_ACCEPTANCE_SHA therefore raises before _read_pinned_json is called. This is a concrete helper-namespace reference defect in the frozen checker.",
+    "progress_boundary": "The traceback is after _check_parent_and_dictionary_stats at line 748, so the V1 dictionary metadata mismatch is passed. The exception occurs before the subsequent parent checkpoint load at line 752 and before dictionary artifact/model/training-state payload loads later in verify_terminal. No tensor integrity or terminal verification result was produced.",
+    "not_an_observed_data_failure": true
+  },
+  "resource_and_ownership_scope": {
+    "effective_support_caps": {
+      "CPUQuotaPerSecUSec": "500ms",
+      "MemoryHigh": "1400000000",
+      "MemoryMax": "1500000000",
+      "MemorySwapMax": "0"
+    },
+    "MemoryPeak": "2461696",
+    "MemoryCurrent": "[not set]",
+    "ControlGroup": "",
+    "own_cgroup_scope": "Unavailable in the captured unit properties; no host-root fallback was used.",
+    "parent_cgroup": {
+      "ActiveState": "active",
+      "MemoryCurrent": "7783555072",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0",
+      "populated": {},
+      "memory.events.local": "low 0; high 0; max 0; oom 0; oom_kill 0; oom_group_kill 0"
+    },
+    "interpretation": "These are captured failure-time metadata samples only. No cause or performance attribution is made."
+  },
+  "preservation_and_limits": {
+    "failed_v1_capture_sha256": "ecb7f92562964f3b29dd4faec8faf81975f95722c892e8323fd72b40b9c4c063",
+    "failed_v1_unit_log_sha256": "61ddbbd97666c595cd404e00c3c143ff24882901aa1fe34e01ed4819831ff192",
+    "failed_v1_local_files_still_match": true,
+    "v2_native_ema_was_stopped": false,
+    "retry_or_restart_recorded": false,
+    "verification_receipt_present_in_capture": false,
+    "model_state_cache_array_dictionary_or_dataset_payloads_read_by_reviewer": false,
+    "no_claims": ["terminal integrity acceptance", "tensor quality", "scientific performance", "completed fit" ]
+  }
+}

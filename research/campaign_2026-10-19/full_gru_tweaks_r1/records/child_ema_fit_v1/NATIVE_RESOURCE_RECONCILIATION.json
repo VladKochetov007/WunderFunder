@@ -1,0 +1,80 @@
+{
+  "schema": "fg19.child-ema-native-resource-reconciliation.v1",
+  "scope": "Native-terminal compact metadata only; independent metrics are not atomic equality/fullRAM/cause/performance evidence.",
+  "captured_utc": "2026-10-20T17:21:24.881465+00:00",
+  "unit": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "CPUUsageNSec": "13868537230000",
+    "ControlGroup": "",
+    "ExecMainCode": "1",
+    "ExecMainExitTimestamp": "Tue 2026-10-20 16:55:42 UTC",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 13:04:16 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_child_ema_f0_s1001_fit_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode ema --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective wmse --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --grad-stats --save-training-state --no-eval-during-fit ; ignore_errors=no ; start_time=[Tue 2026-10-20 13:04:16 UTC] ; stop_time=[Tue 2026-10-20 16:55:42 UTC] ; pid=730727 ; code=exited ; status=0 }",
+    "InvocationID": "da5baf82d22b4f02890e184193b8caf7",
+    "LoadState": "loaded",
+    "MainPID": "0",
+    "MemoryCurrent": "[not set]",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "3737264128",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "exited"
+  },
+  "service_accounting": {
+    "cpu_usage_nsec_raw": "13868537230000",
+    "cpu_usage_seconds_derived": 13868.53723,
+    "memory_peak_bytes_raw": "3737264128",
+    "memory_current_raw": "[not set]",
+    "start_timestamp_raw": "Tue 2026-10-20 13:04:16 UTC",
+    "exit_timestamp_raw": "Tue 2026-10-20 16:55:42 UTC",
+    "exact_wall_seconds_claimed": false
+  },
+  "own_cgroup": {
+    "status": "UNAVAILABLE_EMPTY_CONTROL_GROUP",
+    "control_group_raw": "",
+    "memory_current_bytes": null,
+    "memory_peak_bytes": null,
+    "events": null,
+    "host_root_fallback_used": false
+  },
+  "parent_observation": {
+    "memory_current_bytes": 7783063552,
+    "memory_high_bytes": 18000000000,
+    "memory_max_bytes": 20000000000,
+    "cpu_quota_per_sec_usec": "2s",
+    "swap_max_raw": "0",
+    "populated_descendants": {},
+    "event_delta_from_1651": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "local_event_delta_from_1651": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "gpu_native_pid_730727_observed": false,
+  "gpu_scope": "Read-only PID/UID/cgroup inventory; foreign processes untouched. No empty-card or CUDA-peak/fullVRAM claim.",
+  "payload_scope": "Run artifact stat-only inventory; no model/state/cache/data payload read/hash in native capture. Native log updates44760 are not full state acceptance or quality.",
+  "raw_native_capture": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+    "bytes": 75226,
+    "sha256": "f8534769efdfd1949d5570927a0b5804f2819570c6154bac60c38387410a7cad"
+  },
+  "prior_health_raw": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/STDOUT.raw.json",
+    "bytes": 72437,
+    "sha256": "bc7aebb50fc71c350798623aaddab7f1880e32c412c0888aa3a8e0ba0b798f30"
+  }
+}

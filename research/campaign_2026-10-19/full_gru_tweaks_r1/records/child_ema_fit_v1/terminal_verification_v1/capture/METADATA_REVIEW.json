@@ -1,0 +1,125 @@
+{
+  "actual_support_unit": {
+    "ActiveState": "failed",
+    "CPUUsageNSec": "3227693000",
+    "ExecMainCode": "1",
+    "ExecMainExitTimestamp": "Tue 2026-10-20 17:36:35 UTC",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 17:36:28 UTC",
+    "ExecMainStatus": "1",
+    "InvocationID": "f0caca9f0ba04efc976a45b4a0b2a651",
+    "LoadState": "loaded",
+    "MainPID": "0",
+    "Result": "exit-code",
+    "SubState": "failed",
+    "effective_caps": {
+      "CPUQuotaPerSecUSec": "500ms",
+      "MemoryCurrent": "[not set]",
+      "MemoryHigh": "1400000000",
+      "MemoryMax": "1500000000",
+      "MemoryPeak": "2207744",
+      "MemorySwapMax": "0"
+    },
+    "own_cgroup_data": "Unavailable: ControlGroup was empty. The capture reader explicitly used no host-root fallback; do not infer zero own-cgroup current/events.",
+    "parent_scope": {
+      "CPUQuotaPerSecUSec": "2s",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0",
+      "memory_current_bytes": 7783317504,
+      "populated": {}
+    }
+  },
+  "capture_files": {
+    "REMOTE.py": {
+      "bytes": 2890,
+      "sha256": "a4231c80cd7c2ca8641fe7af74d9ec2f24d31c40a899e30596a13db4f70409d0"
+    },
+    "STDERR.raw.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "STDOUT.raw.json": {
+      "bytes": 26784,
+      "sha256": "ecb7f92562964f3b29dd4faec8faf81975f95722c892e8323fd72b40b9c4c063"
+    },
+    "TRANSPORT.json": {
+      "bytes": 971,
+      "raw_persisted_before_parse": true,
+      "sha256": "ba092ac832f61b6c68bdd0587449d33a29db8f7d84865c214eb73b3b62ca936a",
+      "ssh_returncode": 0,
+      "stderr_bytes": 0,
+      "stdout_bytes": 26784,
+      "stdout_sha256": "ecb7f92562964f3b29dd4faec8faf81975f95722c892e8323fd72b40b9c4c063"
+    },
+    "VERIFIER_ADMISSION.json": {
+      "bytes": 14989,
+      "capture_exact_byte_join": true,
+      "sha256": "d88a537ba0154c779031c440e44681f8efb7c9b064bd8e3decc3d495e79b9ee8"
+    },
+    "VERIFIER_LAUNCH.json": {
+      "bytes": 1294,
+      "capture_exact_byte_join": true,
+      "sha256": "386f80ca3e96248d183069907e7ceaa3466da171801bda6ac33a8a938e7fc230"
+    },
+    "unit.log": {
+      "bytes": 1788,
+      "capture_exact_byte_join": true,
+      "sha256": "61ddbbd97666c595cd404e00c3c143ff24882901aa1fe34e01ed4819831ff192"
+    }
+  },
+  "capture_identity": {
+    "native_invocation_bound_at_admission": "da5baf82d22b4f02890e184193b8caf7",
+    "native_stop_requested": false,
+    "native_unit_bound_at_admission": "computer-vision-homework-fg19-child-ema-fit-v1.service",
+    "support_invocation_id": "f0caca9f0ba04efc976a45b4a0b2a651",
+    "support_unit": "computer-vision-homework-fg19-child-ema-verify-v1.service",
+    "terminal_success": false
+  },
+  "decision": "The failed support invocation and exact failure are metadata-joined. The error is a deterministic mismatch between the original EMA admission dictionary stat schema and the frozen checker four-field comparison, not evidence of corrupted model or dictionary contents.",
+  "failure": {
+    "consequence": "The fourth expected tuple member is record.get(\"mtime_ns\") == None, while the actual stat member is an integer. This deterministic metadata-shape mismatch triggers the logged ValueError.",
+    "fresh_support_admission_dictionary_stat": {
+      "bytes": 22557,
+      "device": 64512,
+      "inode": 733618561,
+      "mtime_ns_present": false,
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt"
+    },
+    "message": "ValueError: EMA dictionary stat identity differs",
+    "pinned_original_admission": {
+      "bytes": 9880,
+      "dictionary": {
+        "bytes": 22557,
+        "device": 64512,
+        "inode": 733618561,
+        "mtime_ns_present": false,
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt",
+        "sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659"
+      },
+      "dictionary_keys": [
+        "bytes",
+        "device",
+        "inode",
+        "path",
+        "sha256"
+      ],
+      "sha256": "db13e5433cb0a414c1a235806220c53db4ded6c128fc5ffbda5e465dde9fde51"
+    },
+    "source_order": {
+      "cache_payload_scope": "Pinned parent helper _check_cache reads acceptance/stop/metadata and array stats only; it does not load cache-array payloads.",
+      "not_reached": "Parent checkpoint restricted load at line 706; dictionary artifact load at lines 723-733; model checkpoint loads at lines 776-799; training-state restricted load at lines 803-807; output VERIFICATION write.",
+      "pre_failure_calls_returned_without_exception": "EMA checker verify_terminal lines 672-702: source, registered-data stats, split, worker, cache metadata/array stats, predecessor receipts, CONTROL receipt and accepted parent/dictionary stat checks precede the failing call."
+    },
+    "source_qualified_comparison": "Checker lines 512-537 obtains path.stat(follow_symlinks=False) and compares (st_size, st_dev, st_ino, st_mtime_ns) with (record.bytes, record.device, record.inode, record.mtime_ns).",
+    "traceback_target": "staged child_ema_terminal_check_v1.py:528, _check_parent_and_dictionary_stats"
+  },
+  "interpretation_limits": [
+    "This failure does not establish model/state/dictionary integrity or scientific quality; no VERIFICATION status PASS was produced.",
+    "The error is about the accepted metadata field shape. It is not evidence that the dictionary file changed or is corrupt.",
+    "The failed V1 invocation is preserved. Do not stop, restart, retry, or resubmit it; any source-qualified V2 proposal needs its own exact review and root-owned fresh admission.",
+    "The native EMA fit remains separately captured as exited; this support-failure capture does not requery or alter it."
+  ],
+  "reviewed_utc": "2026-10-20T17:38:00Z",
+  "schema": "fg19.child-ema-terminal-verifier-failure-metadata-review.v1",
+  "status": "PASS_FAILURE_METADATA_ONLY_SOURCE_QUALIFIED_SCHEMA_MISMATCH"
+}

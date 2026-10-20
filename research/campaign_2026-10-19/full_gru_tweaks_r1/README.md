@@ -1,3 +1,19 @@
+**Latest dictionary startup18:14UTC:** [Bounded same-invocation capture](records/child_dictionary_fit_v1/startup_health_v1/README.md) confirms one active owned worker and zero new memoryevents; no completed epoch, terminal or quality result. No payload read/hash, immediate repeat poll, or new support. [Current continuation](CONTINUATION.md) governs next rare19:00UTC follow-up.
+
+---
+
+**Current20October18:10UTC:** [Dictionary-only full GRU child actually launched](records/child_dictionary_fit_v1/README.md) after [full EMA acceptance](records/child_ema_fit_v1/TERMINAL_ACCEPTANCE.json) and [exact stop](records/child_ema_fit_v1/exact_stop/README.md), with fresh serial gates. Same accepted parent/norm/dictionary/batches/target, mode sparse/WMSE; one owned GPU/aggregate2CPU. Two remaining arms unadmitted. No quality endpoint/gain.
+
+---
+
+**Current20October18:01UTC:** [EMA V3 actual integrity PASS](records/child_ema_fit_v1/terminal_verification_v3/README.md), [full root acceptance](records/child_ema_fit_v1/TERMINAL_ACCEPTANCE.json) and [later exact owned stop](records/child_ema_fit_v1/exact_stop/README.md) complete the second child. Native44,760updates/4,476batches counted once, finiteFP32/model-state/AdamW/RNG/norm/dictionary/cache/ancestry verified. Failed V1/V2 preserved as engineering errors; no fit replay or quality endpoint/gain. [Next dictionary recipe](preparation/child_dictionary_fit_v1/README.md) remains local at this snapshot.
+
+---
+
+**Current20October17:37UTC:** [EMA native completion](records/child_ema_fit_v1/terminal_native_capture_v1/README.md) establishes exit0 and six complete native records. [Actual verifier V1](records/child_ema_fit_v1/terminal_verification_v1/README.md) is a preserved engineering failure on a missing dictionary receipt `mtime_ns`; it does not reject native training or predictive quality. [Current continuation](CONTINUATION.md) governs a narrow versioned correction and full-integrity gate before the next arm.
+
+---
+
 **Latest actual20October16:51UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1651Z/README.md), five completed epochs/cumulative37,300updates/3,730batches/zero skips/nonfinite in those records. Later ep5batch640 is not current totals, terminal44,760, integrity or quality. Own/parent events unchanged, tensors stat-only, no new action/job. Existing terminal checker is frozen/local/unadmitted. [Continuation](CONTINUATION.md) and [health validation](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1651.json) govern dated evidence and later actual-exit gates; no repeated preparation/tests/poll.
 
 ---

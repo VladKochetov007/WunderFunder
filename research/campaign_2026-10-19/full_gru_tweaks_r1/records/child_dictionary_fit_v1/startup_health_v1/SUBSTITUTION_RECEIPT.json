@@ -1,0 +1,36 @@
+{
+  "ast_normalization": {
+    "gate_source": "for name, (expected_bytes, expected_sha) in EXPECTED_RECEIPTS.items():\n        receipt = receipts[name]\n        if (\n            receipt.get(\"regular_file\") is not True\n            or receipt.get(\"bytes\") != expected_bytes\n            or receipt.get(\"sha256\") != expected_sha\n        ):\n            raise RuntimeError(f\"dictionary {name} receipt identity differs\")",
+    "identity_and_documentation_strings_reverted_to_frozen_EMA_values": true,
+    "new_expected_receipts_assignment_removed_for_comparison": 1,
+    "new_single_fixed_receipt_gate_removed_for_comparison": 1
+  },
+  "bound_receipts": {
+    "ADMISSION.json": {
+      "bytes": 10937,
+      "sha256": "b13ccf5834fd210ce02ca6c3aea7251d8dcae3f63823341da15a77abcbc75063"
+    },
+    "LAUNCH.json": {
+      "bytes": 8072,
+      "sha256": "9cbcc8b4df3886620429cae42d678d2e281aff980402f5b19d63d9f515b6ad3c"
+    },
+    "LAUNCH_ACCEPTANCE.json": {
+      "bytes": 2674,
+      "sha256": "33fa4fd4cb37c16374e615c2eb6d698f5f3065b252803377260fdae6dd913a95"
+    }
+  },
+  "new_source": {
+    "bytes": 13027,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/startup_health_v1/REMOTE.py",
+    "sha256": "f25aed539a796f96f5863fa9cb85a8e7a0b6c08964e1d44cb2a32612ad697653"
+  },
+  "normalized_ast_equal_after_declared_substitutions": true,
+  "original_source": {
+    "bytes": 12395,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/startup_health_v1/REMOTE.py",
+    "sha256": "8c42338dfcee85aff11580a513d32b35841c34430cc3423d6f9c66af16ed62b0"
+  },
+  "schema": "fg19-child-dictionary-startup-reader-substitution.v1",
+  "scope": "Local byte and AST comparison only. The remote reader was not executed; no SSH, B-side reads, polling, stopping, tensor/array access, model loading, or payload hashing was performed.",
+  "status": "LOCAL_SUBSTITUTION_PROVED_NO_RUNTIME_CLAIM"
+}

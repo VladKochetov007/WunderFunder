@@ -1,0 +1,255 @@
+{
+  "blocking_findings": [],
+  "fresh_admission_observations": {
+    "accepted_ancestry_receipts": {
+      "child_profile_acceptance_sha256": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045",
+      "child_profile_exact_stop_sha256": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce",
+      "control_acceptance_sha256": "92aaf5eeed156aaad25c4adbb6700d41b0527600b520dd051657a43a50bbb6d2",
+      "control_exact_stop_sha256": "600cb3c4a56c7d0731ed2bf6174d47f5b09623c7ca22a7e5fce77d4d358ae012",
+      "ema_acceptance_sha256": "0aea6295b64670bb02ac008fdfece6ee430b8f68b84904a14c39dd816c0161a8",
+      "ema_exact_stop_sha256": "548fe9876947345d4ac443601e478341bdfe165d5670d7397d50b401b93cc2bf",
+      "local_receipt_hashes_recomputed": true,
+      "parent_acceptance_sha256": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+      "parent_checkpoint_sha256": "6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45",
+      "parent_exact_stop_sha256": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+      "shared_dictionary_acceptance_sha256": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+      "shared_dictionary_exact_stop_sha256": "2eb44a4381de06f28ed3d7438ace320ef3274eae37c89074fc481f58f5d88158",
+      "teacher_cache_contract_and_teacher_acceptance_pin_files_recomputed": true
+    },
+    "fresh_output_run_and_unit_absence_checks": {
+      "actual_metadata_limit": "The compact ADMISSION receipt does not serialize separate before-state values for output path, run path, or the unit-not-found query. Their passing status is established by the exact fail-closed source path reaching a successful one-time launch receipt, not by standalone raw fields for each query.",
+      "source_gate": "PASS_IN_REVIEWED_BODY: exact output/run lexists checks and target-unit LoadState=not-found check are performed immediately before output creation/staging and systemd submission."
+    },
+    "inputs_and_cache": {
+      "cache_acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+      "cache_exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+      "cache_metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+      "data_identity_was_stats_only": true,
+      "dictionary_artifact": {
+        "bytes": 22557,
+        "device": 64512,
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt",
+        "reviewer_payload_read": false,
+        "sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659"
+      },
+      "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "stat_entries": 6
+    },
+    "parent_resource_and_cgroup_snapshot": {
+      "CPUQuotaPerSecUSec": "2s",
+      "MemoryCurrent_bytes": 7783550976,
+      "MemoryHigh_bytes": 18000000000,
+      "MemoryMax_bytes": 20000000000,
+      "MemorySwapMax_bytes": 0,
+      "current_plus_fit_memory_bytes": 15783550976,
+      "fit_memory_max_bytes": 8000000000,
+      "memory_events": {
+        "high": 38355,
+        "low": 0,
+        "max": 561,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory_events_local": "all zero",
+      "populated": {},
+      "pre_fit_headroom_floor_bytes": 17000000000
+    },
+    "physical_scratch": {
+      "device": 64512,
+      "filesystem": "ext4",
+      "free_bytes": 88144689217536,
+      "minimum_free_bytes": 26843545600,
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+      "project_device": 64512,
+      "source": "/dev/mapper/vg0-lv--0"
+    },
+    "selected_gpu_and_foreign_processes": {
+      "foreign_processes_preserved": [
+        {
+          "pid": "521754",
+          "preserved": true,
+          "uid": 1026,
+          "used_memory": "490 MiB"
+        },
+        {
+          "pid": "964460",
+          "preserved": true,
+          "uid": 1117,
+          "used_memory": "4542 MiB"
+        },
+        {
+          "pid": "1162780",
+          "preserved": true,
+          "uid": 1117,
+          "used_memory": "3382 MiB"
+        }
+      ],
+      "free_mib_at_admission": 7537,
+      "minimum_free_bytes": 5294967296,
+      "name": "NVIDIA RTX A4000",
+      "total_mib_at_admission": 16376,
+      "uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944"
+    },
+    "source": {
+      "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "matches_launch_acceptance": true,
+      "verified_file_count": 167
+    }
+  },
+  "interpretation_and_limits": {
+    "actual_event": "One actual dictionary fit was submitted once with the exact reviewed body and reported active/running with the captured MainPID and invocation ID at the post-submission systemctl observation.",
+    "current_health_claim": false,
+    "expected_updates_are_arithmetic_only_not_observations": 44760,
+    "native_exit_observed": false,
+    "next_metadata_review": "A later independent audit may bind the root's single bounded startup/health capture. This launch review does not attest to later state.",
+    "no_stop_or_retry": true,
+    "quality_or_performance_claim": false,
+    "terminal_completion_observed": false
+  },
+  "launch_identity_and_command": {
+    "command": {
+      "allocator_bytes": 4294967296,
+      "argv_matches_pinned_digest": true,
+      "device": "cuda",
+      "evaluation_during_fit": false,
+      "fit_plan": {
+        "checkpoint_epoch_zero_based": 5,
+        "epochs": 6,
+        "expected_batches_arithmetic_only": 4476,
+        "expected_updates_arithmetic_only": 44760
+      },
+      "loader_workers": 0,
+      "objective": "wmse",
+      "parent_initializer": "fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3",
+      "precision": "fp32",
+      "representation_mode": "sparse",
+      "run_name": "fg19_child_dictionary_f0_s1001_fit_v1",
+      "seed": 1001,
+      "selected_cuda_visible_device": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "systemd_limits": {
+        "cpu_quota": "100%",
+        "memory_high_bytes": 7500000000,
+        "memory_max_bytes": 8000000000,
+        "memory_swap_max_bytes": 0,
+        "runtime_max_seconds": 86400
+      },
+      "systemd_run_command_entry_count": 127,
+      "thread_caps": 1,
+      "trainer_argv_count": 92,
+      "trainer_argv_sha256": "096b036c8af6220512e51b2002f3598729274b482d5db4b1df8099b26f91ab6d"
+    },
+    "cross_host_timestamps": "Transport/root UTC fields and remote launch JSON differ by about 55 ms; source clocks may be offset. This review does not infer sub-second ordering from those timestamps. Raw transport completion, exact invocation IDs, and captured systemctl response establish the join.",
+    "invocation_id": "73b10b699e034a1b9952b2377b845095",
+    "launch_returncode": 0,
+    "launch_time_remote_receipt_utc": "2026-10-20T18:10:38.705457+00:00",
+    "main_pid_at_launch": 1179783,
+    "run_name": "fg19_child_dictionary_f0_s1001_fit_v1",
+    "submission_outcome": "submitted",
+    "systemctl_observation_after_submission": {
+      "active_state": "active",
+      "exit_code": null,
+      "invocation_id": "73b10b699e034a1b9952b2377b845095",
+      "main_pid": 1179783,
+      "outcome": "captured",
+      "stop_time": "n/a",
+      "sub_state": "running"
+    },
+    "unit": "computer-vision-homework-fg19-child-dictionary-fit-v1.service"
+  },
+  "receipt_join": {
+    "decoded_receipts": {
+      "ADMISSION.json": {
+        "decoded_bytes": 10937,
+        "matches_saved_local_bytes": true,
+        "sha256": "b13ccf5834fd210ce02ca6c3aea7251d8dcae3f63823341da15a77abcbc75063"
+      },
+      "LAUNCH.json": {
+        "decoded_bytes": 8072,
+        "matches_saved_local_bytes": true,
+        "sha256": "9cbcc8b4df3886620429cae42d678d2e281aff980402f5b19d63d9f515b6ad3c"
+      }
+    },
+    "raw_shape": "flat filename-to-base64-string mapping",
+    "raw_top_level_keys": [
+      "ADMISSION.json",
+      "LAUNCH.json"
+    ],
+    "result": "PASS_EXACT_TRANSPORT_TO_RECEIPT_BYTE_JOIN"
+  },
+  "reviewed_artifacts": {
+    "admission_receipt": {
+      "bytes": 10937,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/ADMISSION.json",
+      "sha256": "b13ccf5834fd210ce02ca6c3aea7251d8dcae3f63823341da15a77abcbc75063"
+    },
+    "empty_launch_stderr": {
+      "bytes": 0,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/STDERR.launch.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "final_binding": {
+      "bytes": 9135,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/DICTIONARY_FINAL_BINDING_V2.json",
+      "sha256": "2c1f47ae4b5b2699cb1392d1a616ba1ccc54d7b9a7d5f7943224dcc927bb7a4e"
+    },
+    "final_body_source_review": {
+      "bytes": 7213,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/DICTIONARY_FINAL_BODY_SOURCE_REVIEW_V2.json",
+      "sha256": "67528bf25430a7bd422e233f3ce84059b14d372f59b9b033cdd70e674634528a"
+    },
+    "launch_acceptance": {
+      "bytes": 2674,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/LAUNCH_ACCEPTANCE.json",
+      "sha256": "33fa4fd4cb37c16374e615c2eb6d698f5f3065b252803377260fdae6dd913a95",
+      "status": "ACCEPTED_ACTUAL_ONE_LAUNCH_ONLY"
+    },
+    "launch_receipt": {
+      "bytes": 8072,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/LAUNCH.json",
+      "sha256": "9cbcc8b4df3886620429cae42d678d2e281aff980402f5b19d63d9f515b6ad3c"
+    },
+    "raw_transport": {
+      "bytes": 25390,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/STDOUT.launch.raw.json",
+      "retry_performed": false,
+      "sha256": "90a5968351f5aaaf2962d087d52ed74086dda0472f14a21915e270dac134b123",
+      "ssh_returncode": 0,
+      "unknown_outcome": false
+    },
+    "record_body_copy": {
+      "bytes": 196111,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/REMOTE_SUBMISSION.py",
+      "sha256": "9f545489dd80c13831b1a02c75dddf4059f3cbfb84311b2400db4830b4fdd77e"
+    },
+    "rendered_body": {
+      "bytes": 196111,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/REMOTE_SUBMISSION.py",
+      "sha256": "9f545489dd80c13831b1a02c75dddf4059f3cbfb84311b2400db4830b4fdd77e"
+    },
+    "root_admission_preparation": {
+      "bytes": 2343,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/ROOT_ADMISSION_PREPARATION.json",
+      "sha256": "2c0ee4b298a744f3c3204c46f5a269f3ea03c73d1a521c6db05dfa7a4144cf66",
+      "status": "REVIEWED_ONE_ROOT_ADMISSION_INTENT"
+    },
+    "transport_record": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/TRANSPORT.launch.json",
+      "raw_persisted_before_parse": true,
+      "schema": "fg19.raw-ssh-transport.v1",
+      "stderr_bytes": 0,
+      "stdout_bytes": 25390
+    }
+  },
+  "reviewed_utc": "2026-10-20T18:14:22.962810+00:00",
+  "schema": "fg19-child-dictionary-fit-actual-launch-metadata-review.v1",
+  "scope": {
+    "method": "Read-only local JSON/base64/hash/argv metadata inspection. The raw flat receipt map was decoded in memory and matched byte-for-byte to the saved typed receipt files. The rendered body was not executed/imported; no SSH, tests, worker commands, tensor/model/cache/data payloads, or entrypoints were used.",
+    "raw_transport_persisted_before_parse": true,
+    "reviewed": "Local raw transport, exact typed launch/admission receipts, root launch-preparation and launch-acceptance bindings, exact reviewed body and source-review pins, source/data/cache/dictionary/predecessor/resource/scratch metadata, and trainer argv identity.",
+    "reviewer_payload_reads": false,
+    "reviewer_remote_or_B_action": false
+  },
+  "status": "PASS_ACTUAL_LAUNCH_METADATA_ONLY"
+}

@@ -1,0 +1,159 @@
+{
+  "schema": "fg19.child-ema-terminal-verifier-actual-launch-metadata-review.v2",
+  "reviewed_utc": "2026-10-20T17:50:15Z",
+  "status": "PASS_ACTUAL_LAUNCH_METADATA_ONLY_PENDING_TERMINAL",
+  "scope": "Independent local audit of the persisted one-shot V2 support launch, transport, raw output, flat receipt joins, captured fresh-gate metadata, resource boundaries, and V1 preservation. No SSH/worker query, tests, checker execution, model/state/cache-array/dictionary payload reads, or other mutation was performed by this reviewer.",
+  "pins": {
+    "rendered_body": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/REMOTE_SUBMISSION.py",
+      "bytes": 549195,
+      "sha256": "b45a5ae30296ef2e5b1942064df68c2c874c2f1be48de8ca814e3eaab9acba59"
+    },
+    "transport": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/TRANSPORT.json",
+      "bytes": 1014,
+      "sha256": "99ec63d49755eac26eb1e821521a2e654989065083fd19951b584f2fd6b97477",
+      "ssh_returncode": 0,
+      "raw_persisted_before_parse": true,
+      "retry_performed": false,
+      "unknown_outcome": false
+    },
+    "raw_stdout": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/STDOUT.raw.json",
+      "bytes": 22967,
+      "sha256": "37cc45b383e403033a45a8a84bf0e70a293d0cf552ad7a6f635f45185507187a"
+    },
+    "admission": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/VERIFIER_ADMISSION.json",
+      "bytes": 15825,
+      "sha256": "70dc5fab93d57aa2e3a246dc852c7b340766618be46b2e818774dc48b0cb3dac"
+    },
+    "launch": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/VERIFIER_LAUNCH.json",
+      "bytes": 1294,
+      "sha256": "ef57f6751825841bd2debbf874035f946805382bd4ec750ba165cdfb7c856dd0"
+    },
+    "root_launch_acceptance": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/LAUNCH_ACCEPTANCE.json",
+      "bytes": 1277,
+      "sha256": "be881ae164e858de2ef5333527d548adcdd71f84f3e88a094d0b1951cd55e7dc"
+    },
+    "root_admission_manifest": {
+      "path": "records/child_ema_fit_v1/terminal_verification_v2/ROOT_ADMISSION_MANIFEST.json",
+      "bytes": 2355,
+      "sha256": "6ce5511ecd0eb25ec18dce47bfe05831bd63d6815e6c24c484c3c476c2a09cfc"
+    },
+    "source_review": {
+      "path": "preparation/child_ema_terminal_verifier_v2/CHILD_EMA_TERMINAL_VERIFIER_SOURCE_REVIEW_V2.json",
+      "sha256": "476f653badc4085ede4280e50b3cc187e8dfc0d3e164f56b2dcc68b7435fdb43"
+    }
+  },
+  "receipt_joins": {
+    "raw_stdout": "The raw stdout object reports unit computer-vision-homework-fg19-child-ema-verify-v2.service and outcome submitted. Its admission_base64 and launch_base64 decode byte-for-byte to the persisted VERIFIER_ADMISSION.json and VERIFIER_LAUNCH.json files, with lengths and SHA-256 values matching the pins above.",
+    "launch_identity": {
+      "support_unit": "computer-vision-homework-fg19-child-ema-verify-v2.service",
+      "support_invocation_id": "d1527a182e16493d934368bf2ab9d772",
+      "native_unit": "computer-vision-homework-fg19-child-ema-fit-v1.service",
+      "native_invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+      "submission_outcome": "submitted",
+      "submission_returncode": 0,
+      "captured_post_submit_state": {
+        "LoadState": "loaded",
+        "ActiveState": "active",
+        "SubState": "running",
+        "MainPID": "1146594",
+        "InvocationID": "d1527a182e16493d934368bf2ab9d772",
+        "Result": "success"
+      }
+    },
+    "root_acceptance": "LAUNCH_ACCEPTANCE binds the exact V2 body/raw/admission/launch pins, source-review SHA, support invocation, and native invocation. It records one support launch, zero scientific fits, failed V1 untouched, and native_stopped=false.",
+    "one_shot_manifest": "ROOT_ADMISSION_MANIFEST records REVIEWED_ROOT_ONE_ADMISSION_INTENT, zero scientific fits, no native stop, failed V1 preserved without stop/retry/restart, and the never-retry policy."
+  },
+  "fresh_gates_and_scope": {
+    "native_terminal_snapshot": {
+      "unit": "computer-vision-homework-fg19-child-ema-fit-v1.service",
+      "invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+      "LoadState": "loaded",
+      "ActiveState": "active",
+      "SubState": "exited",
+      "MainPID": "0",
+      "ExecMainCode": "1",
+      "ExecMainStatus": "0",
+      "Result": "success",
+      "terminal_evidence_sha256": "7cb75057155f3582e0493d1f6ca8c88eff475b022215d755f53751495f5c7d0a",
+      "native_raw_capture_sha256": "f8534769efdfd1949d5570927a0b5804f2819570c6154bac60c38387410a7cad"
+    },
+    "identity_and_predecessors": {
+      "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "source_file_count": 167,
+      "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "parent_population": {},
+      "predecessor_receipts_read_only": true,
+      "cache_array_payloads_read_or_hashed": false,
+      "parent_checkpoint_and_dictionary_payloads_read_or_hashed": false
+    },
+    "captured_resource_and_disk_gates": {
+      "parent_memory_current_bytes": 7783317504,
+      "headroom_formula": "current + 1500000000 support max + 1000000000 reserve < 17000000000 target",
+      "parent_cgroup_populated": {},
+      "filesystem_free_bytes": 88144909139968,
+      "filesystem_floor_bytes": 26843545600,
+      "filesystem_type": "ext4",
+      "project_and_research_tmp_device_match": true
+    },
+    "staged_inputs": {
+      "count": 11,
+      "exactly_matches_rendered_body_payload_map": true,
+      "entries": {
+        "LAUNCH_ACCEPTANCE.json": {"bytes": 4839, "sha256": "4fc34f4769da2f08aaf1fcca97d87731dc38b1709a93afa9376be003c28ffb72"},
+        "NATIVE_STDOUT.raw.json": {"bytes": 75226, "sha256": "f8534769efdfd1949d5570927a0b5804f2819570c6154bac60c38387410a7cad"},
+        "SOURCE_MANIFEST.json": {"bytes": 27569, "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"},
+        "TERMINAL_EVIDENCE.json": {"bytes": 697, "sha256": "7cb75057155f3582e0493d1f6ca8c88eff475b022215d755f53751495f5c7d0a"},
+        "V1_FAILURE_STDOUT.raw.json": {"bytes": 26784, "sha256": "ecb7f92562964f3b29dd4faec8faf81975f95722c892e8323fd72b40b9c4c063"},
+        "V1_FAILURE_UNIT_LOG.txt": {"bytes": 1788, "sha256": "61ddbbd97666c595cd404e00c3c143ff24882901aa1fe34e01ed4819831ff192"},
+        "child_control_terminal_check_v3.py": {"bytes": 79972, "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"},
+        "child_ema_terminal_check_v2.py": {"bytes": 38266, "sha256": "c6bf44fe1c2702b5a9b415992136e56e99c811149e8ca3c5893e8e77289bd909"},
+        "parent_fit_terminal_check_v3.py": {"bytes": 64550, "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"},
+        "propensity_terminal_support.py": {"bytes": 13107, "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"},
+        "teacher_s5_terminal_check_v1.py": {"bytes": 37448, "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"}
+      },
+      "existing_eight_predecessor_receipts_restaged": false
+    },
+    "approved_path_exception": {
+      "environment_variable": "FG19_APPROVED_PATH_COMPAT_EXCEPTION",
+      "value": "pathlib._local.PosixPath:exact-dictionary-path-only",
+      "global": "pathlib._local.PosixPath",
+      "scope": "training_state.pt only; one exact dictionary-cache path constructor; weights_only=True"
+    },
+    "support_limits": {
+      "cpu_quota": "50%",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "swap_max_bytes": 0,
+      "runtime_seconds": 600,
+      "cuda_visible_devices": "",
+      "blas_threads": 1
+    }
+  },
+  "v1_preservation": {
+    "capture_sha256": "ecb7f92562964f3b29dd4faec8faf81975f95722c892e8323fd72b40b9c4c063",
+    "capture_bytes": 26784,
+    "unit_log_sha256": "61ddbbd97666c595cd404e00c3c143ff24882901aa1fe34e01ed4819831ff192",
+    "unit_log_bytes": 1788,
+    "support_invocation": "f0caca9f0ba04efc976a45b4a0b2a651",
+    "local_capture_and_log_hashes_still_match": true,
+    "stop_retry_restart": false
+  },
+  "terminal_state_at_review": {
+    "v2_verification_receipt_exists": false,
+    "support_unit_was_captured_running": true,
+    "completion_or_integrity_claim": false
+  },
+  "limitations": [
+    "This review validates stored transport and launch metadata only; it does not establish V2 terminal success.",
+    "No worker status was queried by this reviewer.",
+    "No model, training-state, dataset, cache-array, or dictionary artifact payload was read or hashed by this reviewer.",
+    "Resource values and stat inventories are the captured admission observations; no cause or performance attribution is made."
+  ]
+}

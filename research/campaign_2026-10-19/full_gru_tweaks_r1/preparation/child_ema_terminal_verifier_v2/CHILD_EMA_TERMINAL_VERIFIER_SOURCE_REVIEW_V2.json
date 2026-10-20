@@ -1,0 +1,86 @@
+{
+  "schema": "fg19.child-ema-terminal-verifier-source-review.v2",
+  "reviewed_utc": "2026-10-20T17:48:28Z",
+  "status": "PASS_SOURCE_ONLY_PENDING_ROOT_OWNED_ADMISSION",
+  "scope": "Independent local-only review of the exact V2 checker, rendered body, bounded inputs, schema correction, safety gates, and fixture source. No checker execution, test execution, remote action, or model/state/cache-array/dictionary payload read was performed by this reviewer.",
+  "artifacts": {
+    "checker": {
+      "path": "preparation/child_ema_terminal_verifier_v2/child_ema_terminal_check_v2.py",
+      "bytes": 38266,
+      "sha256": "c6bf44fe1c2702b5a9b415992136e56e99c811149e8ca3c5893e8e77289bd909"
+    },
+    "rendered_body": {
+      "path": "preparation/child_ema_terminal_verifier_v2/REMOTE_SUBMISSION.py",
+      "bytes": 549195,
+      "sha256": "b45a5ae30296ef2e5b1942064df68c2c874c2f1be48de8ca814e3eaab9acba59"
+    },
+    "template": {
+      "path": "preparation/child_ema_terminal_verifier_v2/REMOTE_SUBMISSION_TEMPLATE.py",
+      "bytes": 53980,
+      "sha256": "ad09e060d6266261456e0db02931dc94a43bff4f543e92a64a8e72d1a23e1f72"
+    },
+    "focused_fixture": {
+      "path": "preparation/child_ema_terminal_verifier_v2/test_child_ema_terminal_verifier_v2.py",
+      "bytes": 4877,
+      "sha256": "813d06426e406867d4dc5e3f5bb5dd9831af4cccbda29136e3afcdcbeef46086",
+      "reported_tests_passed": 6,
+      "reviewer_ran_tests": false
+    },
+    "root_preparation": {
+      "path": "preparation/child_ema_terminal_verifier_v2/ROOT_PREPARATION.json",
+      "bytes": 13708,
+      "sha256": "91152abe9a12e7f1803847b077acffba923db54e84c1ff8724793b0d5c4790bb"
+    },
+    "dependency_manifest": {
+      "path": "preparation/child_ema_terminal_verifier_v2/DEPENDENCY_MANIFEST.json",
+      "bytes": 7450,
+      "sha256": "3b6cff7b06a1e89358befaae3da6dc1de68bb6375191ec5381f28357decc6bed"
+    },
+    "root_binding": {
+      "path": "preparation/child_ema_terminal_verifier_v2/ROOT_BINDING.json",
+      "bytes": 4882,
+      "sha256": "fc5c09cbd66199d6bb5b683a7f49e804b5a137eaebdf421dd527a42124a26173"
+    },
+    "local_checks": {
+      "path": "preparation/child_ema_terminal_verifier_v2/LOCAL_CHECKS.json",
+      "bytes": 5672,
+      "sha256": "a2575ab2728c0c154344ecd0b4d26aab844ff554ab198af7b1d83a5eddaecf80"
+    },
+    "root_payload_check": {
+      "path": "preparation/child_ema_terminal_verifier_v2/ROOT_PAYLOAD_CHECK.json",
+      "bytes": 3404,
+      "sha256": "babeb9cff349d23f1d9a531d1eebf95e076378f01f67f9ce59751f5f53617da3"
+    },
+    "readme": {
+      "path": "preparation/child_ema_terminal_verifier_v2/README.md",
+      "bytes": 3776,
+      "sha256": "e2b020ef648fdbeb300d17ecc2c0f25264a775ab7860ef31dcb3e648f52b56de"
+    },
+    "generator": {
+      "path": "preparation/child_ema_terminal_verifier_v2/prepare_child_ema_terminal_verifier_v2.py",
+      "bytes": 44939,
+      "sha256": "b4cdc1dd6c51b31fa81be5f749f3ce5ae98e6c574c89df98237820c76452a2b9"
+    }
+  },
+  "findings": {
+    "v2_change_is_narrow": "The checker diff from V1 is limited to splitting parent and dictionary stat validation plus changing the result schema to v2. Parent identity remains the exact six-field bytes/device/inode/mtime_ns/path/sha256 record, rejects symlinks, and compares all four stat values. Dictionary identity is checked against its actual original exact five-field bytes/device/inode/path/sha256 schema; it rejects symlinks, compares bytes/device/inode, and retains fixed expected path, byte count, and SHA-256. No other checker logic changed.",
+    "actual_original_metadata": {
+      "ema_admission_sha256": "db13e5433cb0a414c1a235806220c53db4ded6c128fc5ffbda5e465dde9fde51",
+      "dictionary_keys": ["bytes", "device", "inode", "path", "sha256"],
+      "dictionary_bytes": 22557,
+      "dictionary_sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659",
+      "parent_identity_keys": ["bytes", "device", "inode", "mtime_ns", "path", "sha256"]
+    },
+    "v1_failure_binding": "V2 binds the exact V1 failure capture/log, support invocation f0caca9f0ba04efc976a45b4a0b2a651, failed exit status, empty populated map, V1 checker/body pins, captured admission/launch bytes, and the dictionary-stat traceback. The V1 output is preserved; V2 uses a distinct output directory and support unit.",
+    "restricted_load_and_path_exception": "The shared frozen loader closure is unchanged. Dictionary and model reads use bounded O_NOFOLLOW descriptors and weights_only=True. Training-state loading retains the static unknown-global audit, exact existing NumPy RNG/TorchVersion baseline plus the previously granted single pathlib._local.PosixPath mapping, exact one-call/path-field validation, and no generic Path allowance or unsafe loader.",
+    "body_and_inputs": "Static AST comparison shows the rendered body is identical to its template except for PAYLOAD. Independently decoded all 11 embedded entries and matched exact local bytes, sizes, and SHA-256 values: five code files and six bounded source/native/V1-failure metadata inputs. The root payload receipt records the same body and 11 exact inputs.",
+    "fresh_admission_gates": "Before creating the new output directory, the body requires the exact granted path-exception marker, canonical project/source locations, executable canonical Python, absent create-only V2 output, absent V2 support unit, exact pinned input digests and V1 failure, source manifest, split, registered-data stat identities, successful native exit for the exact EMA invocation, predecessor/cache/stat-only identities, empty scoped parent cgroup, headroom reservation, and 25 GiB disk floor. It then stages only the pinned closure and bounded inputs and submits one CPU-only verifier with 50% CPU, 1.4 GB MemoryHigh, 1.5 GB MemoryMax, zero swap, 600-second runtime, hidden CUDA, and one BLAS thread. Unknown submission outcomes are retained and never retried; no native stop is requested.",
+    "future_terminal_scope": "The checker requires the exact native exit evidence, source/recipe/ancestry/cache bindings, bounded output identities, all six epoch histories, 44,760 updates, 4,476 batches, next_epoch 6, fixed epoch 5, zero skipped/nonfinite counters, finite FP32 model/state consistency, optimizer/scheduler/RNG/normalizer and dictionary provenance checks before writing the V2 verification receipt. This is a source review only; no V2 result exists or is inferred here."
+  },
+  "limitations": [
+    "No remote state was queried or changed by this review.",
+    "No model, training-state, cache-array, dictionary artifact, or dataset payload was read or hashed by this review.",
+    "The actor's six focused test passes are recorded as reported evidence; this reviewer did not rerun tests or import/execute the checker or rendered body.",
+    "This review does not establish tensor integrity, completed verification, scientific quality, or performance. Root-owned fresh admission gates and result acceptance remain required."
+  ]
+}

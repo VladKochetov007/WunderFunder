@@ -1,3 +1,29 @@
+**Latest dictionary startup18:14UTC (dated):** [Exact same invocation active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/startup_health_v1/README.md), one owned GPU worker, own memoryevents0/parent deltas0. Setup+later ep0batch0, no completed epoch/terminal/quality claim; artifacts stat-only. No immediate repeat poll, next rare check19:00UTC or later. Source-content authority remains actual fresh167-file admission; raw reader scope prose-label note and one local parser correction are retained without raw changes or extra remote attempts.
+
+---
+
+**Current20October18:10UTC:** The [dictionary-only full GRU child](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/README.md) actually launched once after full EMA acceptance/exact stop and fresh gates. Invocation73b10b699e034a1b9952b2377b845095/PID1179783 at launch. Same parent@ep3/norm/dictionary/batches/T3target, sparse mode with signed top4-of16+residual; one owned GPU/aggregate2CPU. Parent+CONTROL+EMA complete; third child started, two later fixed arms unadmitted; shared five prerequisite fits separate from six planned comparison fits. No actual dictionary completion or child quality endpoint/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs startup/rare health and strict terminal gates.
+
+---
+
+**Current20October18:01UTC:** EMA passed the actual capped [V3 integrity check](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_verification_v3/README.md). [Full acceptance](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/TERMINAL_ACCEPTANCE.json) preceded the [exact own exited stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/exact_stop/README.md); failed V1/V2 preserved. Parent+CONTROL+EMA completed, next fixed sparse-dictionary arm remains local pending actual-receipt binding and fresh serial gates. Shared prerequisitefits5 separate; no child quality endpoint/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) is authoritative.
+
+---
+
+**Current20October17:50UTC:** [EMA verifier V2](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_verification_v2/README.md) exited1 on an undefined helper constant before payload loads. Native EMA completed six epochs/exited0 and remains untouched; V1/V2 preserved, V3 narrowly versioned repair pending. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs full-integrity acceptance before the dictionary arm. No quality result or fit replay.
+
+---
+
+**Current 20 October17:37UTC:** EMA native exit0/44,760updates is captured, but the [actual integrity support V1](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_verification_v1/README.md) failed on an early dictionary receipt stat-schema expectation, before payload loads. Native fit and failed unit remain untouched; exact versioned correction is local, full acceptance and dictionary-arm admission pending. No quality result or fit replay. [Campaign continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs the next action.
+
+---
+
+## 20 October17:21UTC — EMA native completion, integrity gate pending
+
+[Exact EMA native capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_native_capture_v1/README.md) establishes exit0 at16:55:42UTC, six epochs/44,760updates/4,476batches/zero native skips/nonfinite, evaluation withheld. The native unit is preserved/exited; actual model/state integrity acceptance and exact stop are pending. The existing frozen EMA checker is being bound locally to one fresh cappedCPU admission; no support or scientific successor has been admitted at this snapshot. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs actual gates. No child quality/gain endpoint.
+
+---
+
 ## 20 October16:51UTC — EMA remains active at rare observation
 
 [Bounded exact-invocation EMA health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/README.md) records five completed epochs/37,300updates/3,730batches/zero skips/nonfinite. Later ep5batch640 is not current totals, terminal44,760, integrity or quality. One owned worker, own/parent events unchanged, run tensors stat-only, no new support/fit/restart/stop/inference. The existing terminal checker remains frozen/local/unadmitted; actual typed native exit0 then fresh cappedCPU verification/acceptance/exact-stop gates apply. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; routine healthy progress is quiet.

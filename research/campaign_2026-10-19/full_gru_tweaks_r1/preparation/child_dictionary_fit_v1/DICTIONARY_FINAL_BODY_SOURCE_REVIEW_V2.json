@@ -1,0 +1,107 @@
+{
+  "blocking_findings": [],
+  "execution_boundary": {
+    "admission_performed_by_reviewer": false,
+    "body_executed_or_imported": false,
+    "fit_started_by_reviewer": false,
+    "next_step_condition": "Root may perform the single already-authorized admission only after binding this exact review receipt and exact rendered body in its admission manifest, and only if every fresh remote gate in the body passes. This source review is not itself evidence of those remote values or fit quality.",
+    "payloads_loaded": false,
+    "quality_claimed": false,
+    "remote_or_B_action": false
+  },
+  "findings": {
+    "ema_predecessor_lineage": {
+      "detail": "The body binds the accepted EMA run/unit/invocation and checks the accepted schema/status, source identity, counters, finite/tensor identity evidence, optimizer/normalizer/RNG/sample-order evidence, model/state file identities, representation, ancestry/cache and exact stopped invocation. The exact-stop receipt independently binds the acceptance digest and the same invocation.",
+      "result": "PASS"
+    },
+    "embedded_predecessor_receipt_identity": {
+      "detail": "The rendered body embeds the exact local byte strings for the actual EMA terminal acceptance and separate exact-stop receipt. Root's AST-literal check also pins exact embedded CONTROL, CONTROL stop, and profile acceptance/stop bytes. No receipt is synthesized or replaced by a status-only summary.",
+      "result": "PASS"
+    },
+    "fresh_admission_checks_and_resource_contract": {
+      "detail": "The body retains fresh source-manifest (167 files), registered input/cache/dictionary/parent/profile/predecessor identity, output/run-directory absence, unit-not-found, campaign cgroup/headroom, owned-GPU UUID/free-reserve/foreign-process preservation, physical scratch path/device/filesystem/free-space, and post-gate rechecks before mutation. The declared contract is one owned GPU worker, 100% worker CPU within aggregate 200% CPU, worker memory high/max 7.5/8.0 GB, no swap, single-thread BLAS caps, and bounded runtime. Source review establishes that these checks are present and fail-closed; it does not attest that remote values are fresh or passing.",
+      "result": "PASS_IN_SOURCE; FRESH_REMOTE_OBSERVATION_REQUIRED"
+    },
+    "mutation_and_submission_boundary": {
+      "detail": "Admission and launch receipt creation follow the identity/resource/absence gates; output creation is exclusive and receipts are staged with bounded/hash-checked inputs. The body uses a dictionary-specific unit/run/output path and a single submission attempt with unknown outcome treated as non-retryable. The response is a flat filename-to-base64-string mapping.",
+      "result": "PASS_IN_SOURCE"
+    },
+    "successor_recipe_and_initializer": {
+      "detail": "The 92-entry trainer argv has the pinned digest 096b036c8af6220512e51b2002f3598729274b482d5db4b1df8099b26f91ab6d. Static comparison with the actual EMA argv shows only run-name change at index 1 and representation ema-to-sparse change at index 48. Initialization remains the accepted parent checkpoint fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3; this successor does not initialize from EMA weights. WMSE, seed, six epochs, fixed schedule, batch/chunk settings, inherited preprocessing, and no-evaluation-during-fit remain pinned.",
+      "result": "PASS"
+    }
+  },
+  "review_scope": {
+    "method": "Read-only local source and metadata review. Body was statically parsed/inspected and embedded receipt literals were checked for exact byte identity; body was not executed or imported.",
+    "no_B_or_SSH_action": true,
+    "no_model_state_array_data_or_cache_payload_reads": true,
+    "no_tests_or_checker_execution": true,
+    "reviewed": "Exact final rendered dictionary admission body, its bound final binding/local integrity/root AST-literal receipts, the actual EMA predecessor acceptance and exact-stop receipts, and the final review README."
+  },
+  "reviewed_artifacts": {
+    "actual_ema_acceptance": {
+      "amp_skipped_updates": 0,
+      "bytes": 13016,
+      "completed_batches": 4476,
+      "epochs": 6,
+      "invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+      "next_epoch": 6,
+      "nonfinite_updates": 0,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/TERMINAL_ACCEPTANCE.json",
+      "run_name": "fg19_child_ema_f0_s1001_fit_v1",
+      "selected_epoch": 5,
+      "sha256": "0aea6295b64670bb02ac008fdfece6ee430b8f68b84904a14c39dd816c0161a8",
+      "status": "ACCEPTED",
+      "successful_updates": 44760,
+      "unit": "computer-vision-homework-fg19-child-ema-fit-v1.service"
+    },
+    "actual_ema_exact_stop": {
+      "bytes": 3093,
+      "invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/exact_stop/EXACT_STOP.json",
+      "populated_after": {},
+      "post_stop_state": "not-found/inactive/dead/MainPID=0/empty-invocation",
+      "sha256": "548fe9876947345d4ac443601e478341bdfe165d5670d7397d50b401b93cc2bf",
+      "stop_returncode": 0,
+      "unit": "computer-vision-homework-fg19-child-ema-fit-v1.service"
+    },
+    "final_binding": {
+      "bytes": 9135,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/DICTIONARY_FINAL_BINDING_V2.json",
+      "sha256": "2c1f47ae4b5b2699cb1392d1a616ba1ccc54d7b9a7d5f7943224dcc927bb7a4e"
+    },
+    "final_binding_readme": {
+      "bytes": 5011,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/CONDITIONAL_ADMISSION_README_V2.md",
+      "sha256": "7104ed91a86a2eff4abf6bf1f9ed86f4fccb6a4c9d3ef941dde654bb52f918b2"
+    },
+    "prior_conditional_template_review": {
+      "blocking_findings": [],
+      "bytes": 5458,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/DICTIONARY_SOURCE_REVIEW_V2.json",
+      "sha256": "14afe1602d2f0befc86f7df03e1309e9a0cffdd4b931344fb6c73001e3a07850"
+    },
+    "rendered_body": {
+      "ast_parse": "PASS",
+      "bytes": 196111,
+      "mode": "0600",
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/REMOTE_SUBMISSION.py",
+      "sha256": "9f545489dd80c13831b1a02c75dddf4059f3cbfb84311b2400db4830b4fdd77e"
+    },
+    "rendered_body_local_integrity_check": {
+      "bytes": 1990,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/DICTIONARY_RENDERED_BODY_LOCAL_CHECKS_V2.json",
+      "sha256": "c238520fb138dda633befdb7980d0b637d96a3962aeeb51befeea507762e7fba",
+      "status": "PASS_RENDERED_BODY_LOCAL_INTEGRITY"
+    },
+    "root_literal_receipt_and_argv_check": {
+      "bytes": 2314,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/ROOT_RENDERED_BODY_CHECK.json",
+      "sha256": "2fbb67be9e4292876b1b5f2b8a7f1e99a5c307aa5faed17dca91456bc4fc0213",
+      "status": "PASS_AST_LITERAL_ONLY_NO_BODY_EXECUTION"
+    }
+  },
+  "reviewed_utc": "2026-10-20T18:08:00Z",
+  "schema": "fg19-child-dictionary-fit-final-body-source-review.v2",
+  "status": "PASS_SOURCE_REVIEW_FINAL_RENDERED_BODY"
+}

@@ -1,3 +1,19 @@
+[Dictionary startup18:14UTC](child_dictionary_fit_v1/startup_health_v1/README.md): one exact active worker/zero new events, no completed FIT/GRAD epoch yet recorded, stat-only outputs and no quality claim. [Actual launch metadata audit](child_dictionary_fit_v1/ACTUAL_LAUNCH_METADATA_REVIEW.json) joins one reviewed submission and fresh source/resource gates; metadata review is not training replication.
+
+---
+
+**18:10UTC:** [Actual dictionary-only full child launch](child_dictionary_fit_v1/README.md), with [root launch acceptance](child_dictionary_fit_v1/LAUNCH_ACCEPTANCE.json). Exact new invocation73b10b699e034a1b9952b2377b845095/PID1179783 at launch; expected44760 is not completed. EMA acceptance+stop preceded it, one GPU serial/aggregate2CPU, no quality endpoint.
+
+---
+
+**18:01UTC:** [EMA accepted](child_ema_fit_v1/TERMINAL_ACCEPTANCE.json) after [actual V3 PASS](child_ema_fit_v1/terminal_verification_v3/README.md), then [exact-stopped](child_ema_fit_v1/exact_stop/README.md). [V1 stat-schema failure](child_ema_fit_v1/terminal_verification_v1/README.md) and [V2 helper-binding failure](child_ema_fit_v1/terminal_verification_v2/README.md) remain immutable; three engineering supports are zero scientific fits. No quality result.
+
+---
+
+**20 October17:37UTC:** [EMA native completion](child_ema_fit_v1/terminal_native_capture_v1/README.md), [typed exit evidence](child_ema_fit_v1/TERMINAL_EVIDENCE.json), [resource reconciliation](child_ema_fit_v1/NATIVE_RESOURCE_RECONCILIATION.json), and [actual verifier V1 engineering failure](child_ema_fit_v1/terminal_verification_v1/README.md). Native six-epoch fit remains exited0, integrity acceptance pending; no training replay/quality evaluation.
+
+---
+
 [EMA rare health16:51UTC](child_ema_fit_v1/health_20261020T1651Z/README.md): same active invocation, completed epochs0–4/cumulative37,300updates/3,730batches/zero skips/nonfinite, later ep5batch640 not synchronous current totals/terminal/quality. Own/parent events unchanged; tensors stat-only; no new support/fit/restart/stop. Existing EMA integrity checker remains local and gated on actual native typed exit0.
 
 ---
