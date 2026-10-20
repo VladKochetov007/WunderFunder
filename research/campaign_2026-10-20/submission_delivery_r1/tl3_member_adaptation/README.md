@@ -17,9 +17,9 @@ After fitting, export the first two output rows as the serving member. Keep the 
 ## Source basis and limits
 
 - The original ZIP hash is `d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569`; its member map and wrapper were inspected without loading NPZ arrays or importing Torch.
-- The existing `team_member_export_lib` has generic canonical-shape and strict-load helpers, but its package allowlist does not include TL3. A narrow TL3 source record and a reviewed converter are still needed.
+- The existing `team_member_export_lib` provides canonical shape inference and strict loading, but its package allowlist does not include TL3. The create-only [TL3 conversion CLI](../../../../scripts/convert_tl3_student_checkpoint.py) pins the archive and every entry hash, and writes only under an explicit new directory on physical scratch. It has not been run.
 - No matching TL3 Torch checkpoint is present in the local run artifacts; the only available initializer is the original NPZ member.
 - The original wrapper dynamically quantizes its three members through `wnn_cpp`; FP32 PyTorch and native outputs are not expected to match exactly. Separate exact tensor/state round-trip checks from native-versus-FP32 diagnostic deltas.
 - The full-data history cache has complete target coverage and coefficient sum 0.8125, but its `history` variant is not accepted by the pinned clean-fold NLL trainer. Do not relabel it as a clean-fold `source` cache.
 
-No converter, cache validator, fit, prediction export, package, grader, or original ZIP was changed.
+The converter's runtime checks cover strict loading, finiteness, positive normalization scales, and exact checkpoint tensor round-trip. It does not run forward or native comparisons; native-versus-FP32 tolerance, package ABI/runtime and prediction quality remain unmeasured. Its output keeps unknown ancestry and `training_admission: false`; it does not add a production validator. No conversion, fit, prediction export, package, grader, or original ZIP was changed.
