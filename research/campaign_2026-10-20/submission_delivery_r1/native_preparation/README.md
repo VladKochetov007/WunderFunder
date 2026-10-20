@@ -14,6 +14,9 @@ representations. The producer source was frozen at
 - `receipt.json` records source and artifact hashes, ABI details, build command,
   resource measurements, the synthetic producer EMA comparison, and outstanding
   checks.
+- `COMMAND_MANIFEST.md` maps the post-fit AVX2 build, fixed-member package
+  exports, static ABI check, Python 3.11 callback gate, and local official
+  metric replay. Its commands are prepared only and have not been run.
 - The bounded v2 and v3 builds passed `scripts/check_submission_abi.py`. Both
   used the same native source tree (`32a1ddd91af86913cda40e113029d7bb283b806f`)
   and Cargo lockfile. The v2 extension is outside the repository at
