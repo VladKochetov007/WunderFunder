@@ -1,5 +1,8 @@
 # Execution, incidents, and preservation
 
+- [Completed local WMSE/NLL fits and corrected export](../../campaign_2026-10-20/submission_delivery_r1/nll_adaptation/README.md#both-fits-completed-corrected-export-attempt) — both fixed fits succeeded,14920updates each, matched sampling/normalization, no nonfinite gradients/skips. Records the pre-export path-binding failure and corrected R2 actual preflight pass; quality scores remain pending.
+
+
 - [Conditional H512 local cost profile](../../campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/README.md) — exact derived R01 wide-arm profile, declared source adaptation and unresolved local cost. Uses partial B300 width evidence; NOT_ADMITTED, with zero quality fits and no unsupported4h+4h budget assumption.
 
 

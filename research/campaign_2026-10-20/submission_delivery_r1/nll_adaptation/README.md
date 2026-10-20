@@ -128,3 +128,36 @@ comparison remains frozen through epoch1 and validation; no LR, clipping,
 variance constraint or checkpoint rule was changed. If endpoint evidence is
 weak, distinguish an optimization limitation of this recipe from a rejection
 of heteroscedastic learning before allocating follow-up.
+
+## Both fits completed; corrected export attempt
+
+The [terminal fit receipt](fit_terminal_r1.json) binds both CP1/provenance/history
+files. Control took4249.17seconds and NLL4391.30seconds; the fit worker took
+8640.57seconds total. Each completed14920updates with zero nonfinite-gradient
+steps and zero skipped updates. Serialized sampling and normalization identities
+match between arms in both epochs. NLL epoch1 still clipped all updates (median
+preclip28.3077,mean factor0.039); this is not a quality result.
+
+The initial export attempt failed before any prediction: its CLI named the root
+evaluation-manifest copy, while the frozen source pin required the producer
+copy. Their bytes have the same94d22268…SHA. Preserve [failed attempt report](post_fit_plan_report.json),
+`exports.log` and original plans. The [R2 plan](post_fit_plan_r2.json) corrects
+only those manifest CLI paths and uses distinct audit/report/log paths. The
+[amended admission](post_fit_admission_r2.json) pins its [launcher](run_post_fit_r2.sh),
+retains original execution pins and accounts for the0.2second failed attempt.
+No predictor, metric, endpoint, coefficient or checkpoint selection changed.
+
+Active corrected supervisor: `wnn-overnight-nll-postfit-r2-20261021.service`,
+invocation65bdd8af278c41ed8f916741c323ff5a. Export worker:
+`wnn-overnight-nll-export-r2-20261021.service`. Its
+[actual preflight pass](prediction_preflight_r2.json) binds source/data, all
+completed checkpoints/provenance/ancestry, row order and absent outputs. First
+WMSE export is running; no score or new candidate is claimed yet. Continue from
+`exports_r2.log`, `post_fit_plan_report_r2.json`, `export_resource_samples_r2.log`
+and the unchanged `grades/f0_seven_endpoints_r1.json` destination.
+
+The [independent R2 repair review](export_repair_review_r2.json) confirms the
+manifest-path/receipt-only change preserves all scientific and resource
+settings. Its source-gate caveat is covered by the actual pre/post validator,
+which also checks ignored untracked Python sources. Both child prediction
+exports completed; old-Z4 export and the final audit/grade remain in progress.
