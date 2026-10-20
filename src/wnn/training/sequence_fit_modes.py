@@ -55,6 +55,7 @@ def _load_resume(
     metrics_offset = int(state["metrics_offset"])
 
     def restore() -> bool:
+        """Restore this rank from the already validated safe checkpoint."""
         model.load_state_dict(state["model"], strict=True)
         optimizer.load_state_dict(state["optimizer"])
         scheduler.load_state_dict(state["scheduler"])

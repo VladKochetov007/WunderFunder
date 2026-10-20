@@ -1,5 +1,13 @@
 # Ideas and hypotheses
 
+[B300 Transformer and distillation runtime](../../experiment_drafts/b300-transformer-distillation-runtime/README.md)
+implements a strict-FP32 causal raw112 teacher, source-qualified fitting caches,
+GRU/Transformer students, hidden-hint controls, DDP and official pooled scoring.
+It explicitly amends PR28–30 with separate six/four/four-fit screens while
+preserving historical CP30 and anchored-window recipes. Code and static review
+are delivered; receiving-host numerical checks, B300 profiles and all quality
+results remain pending. No jobs are launched by this packet.
+
 [Published distillation drafts #28–30](PUBLISHED_GPU_PACKETS_20261018.md#дистилляция-сильных-учителей-и-streaming-студенты) link the exact source snapshots for teacher-capacity transfer, representation hints and streaming students. All target `research-team`; implementation/cache/CPU admission remains pending.
 
 [Transformer teacher transfer and CPU-student continuation](CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md#22-select-the-best-transferable-teacher-not-the-largest-checkpoint) adds three explicit comparisons: L207/XL682 teacher scale × H256/H512 student capacity, aligned versus permuted hidden hints, and streaming D128 Transformer versus GRU with/without KD. CP30, sixteen contrasts, clean cache lineage and CPU handoff are specified;510planned student fits are not launches or results. The [team/teacher audit](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md) distinguishes new team evidence from these proposals.

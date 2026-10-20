@@ -103,6 +103,7 @@ def make_optimizer(
     warmup_updates = min(total_updates, math.ceil(total_updates * float(config["warmup_fraction"])))
 
     def multiplier(step: int) -> float:
+        """Return the declared learning-rate factor for one optimizer step."""
         if warmup_updates > 0 and step < warmup_updates:
             return (step + 1) / warmup_updates
         cosine_updates = max(1, total_updates - warmup_updates)

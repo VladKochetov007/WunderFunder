@@ -12,6 +12,7 @@ from torch.nn.parallel import DistributedDataParallel
 from wnn.training.sequence_distributed import (
     DistributedContext,
     all_ranks_true,
+    coordinated_call,
     global_sum,
     local_sequence_indices,
 )
@@ -221,8 +222,14 @@ def train_epoch(
     updates = 0
     for batch_start in range(0, len(indices), batch_size):
         batch_ids = indices[batch_start : batch_start + batch_size]
-        batch = move_and_validate_batch(
-            collate_sequences(dataset, batch_ids), context.device, int(config["model"]["hint_dim"])
+        batch = coordinated_call(
+            lambda batch_ids=batch_ids: move_and_validate_batch(
+                collate_sequences(dataset, batch_ids),
+                context.device,
+                int(config["model"]["hint_dim"]),
+            ),
+            "sequence batch load and validation",
+            context,
         )
         target, teacher, mask, hints, x = (
             batch["y"],

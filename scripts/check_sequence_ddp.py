@@ -6,10 +6,10 @@ import argparse
 import json
 import os
 import tempfile
+from collections.abc import Sequence
 from contextlib import nullcontext
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Sequence
 
 import torch
 import torch.distributed as dist
@@ -159,9 +159,7 @@ def _run_window(
             loss.backward()
 
     actual_gradients = [parameter.grad.detach().clone() for parameter in model.module.parameters()]
-    expected_gradients = _reference_gradients(
-        model, all_batches, indices, expected_denominators
-    )
+    expected_gradients = _reference_gradients(model, all_batches, indices, expected_denominators)
     max_absolute = _max_absolute_error(actual_gradients, expected_gradients)
     denominators_match = bool(torch.allclose(global_denominators, expected_denominators))
     gradients_match = all(

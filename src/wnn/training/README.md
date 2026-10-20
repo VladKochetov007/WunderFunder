@@ -85,6 +85,31 @@ from wnn.training.runner import run_training
 - Strict resume hashes the public entrypoint and implementation sources. An old checkpoint cannot claim exact continuation after a code change. Existing parent initialization remains supported with its ancestry checks.
 - Portable source packets can omit pyproject/uv.lock; provenance names these missing metadata files instead of failing or claiming a locked environment. Present sources are hashed and actual attrs version is recorded.
 
+## Causal sequence DDP runtime
+
+The [B300 packet](../../../research/experiment_drafts/b300-transformer-distillation-runtime/README.md)
+adds a separate thin `scripts/train_sequence.py` entrypoint over focused semantic
+components, reusing `Sequences`, `TrainingEnvironment`, `CampaignSplit`,
+`RNNModel`, `RunRecorder` and the official pooled scorer. It does not modify the
+legacy recurrent CLI or claim parity with historical anchored-window recipes.
+
+- `sequence_config`, `sequence_data`, `sequence_cache`: validated raw112 recipes,
+  fitting-only normalization, source-qualified complete sequences and teacher ancestry.
+- `sequence_attention`, `sequence_models`: causal RoPE sliding KV, canonical GRU,
+  FP32 checks and fixed/learned representation hints.
+- `sequence_distributed`, `sequence_objectives`, `sequence_loop`: equal-count
+  DDP partitioning with zero-weight padding, global accumulation denominators,
+  strict-FP32 TBPTT and update telemetry.
+- `sequence_fit`, `sequence_fit_utils`, `sequence_fit_modes`, `sequence_fit_artifacts`,
+  `sequence_checkpoint`, `sequence_provenance`, `sequence_profile`: CUDA
+  orchestration, approved real-shape profiles, fixed-final checkpoints and safe resume.
+- `sequence_predict`, `sequence_score`: disjoint distributed exports and a
+  model-independent official held-out grade from complete immutable predictions.
+
+Prepared checks are in `tests/test_b300_sequence_models.py`,
+`tests/test_b300_sequence_contracts.py` and `scripts/check_sequence_ddp.py`.
+They must run on the receiving host; this delivery executed no local tests or models.
+
 ## Quality checks
 
 Static checks and checker unit tests do not require the training dependencies:

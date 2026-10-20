@@ -198,9 +198,12 @@ def validate_profile_receipt(path: Path, identity: dict[str, object]) -> str:
         raise ValueError("full fitting requires an explicitly approved completed profile receipt")
     if value.get("identity") != identity:
         raise ValueError("profile receipt config/data/source/runtime identity does not match")
-    for name in ("updates", "forwarded_rows", "real_rows", "valid_rows", "epochs_traversed"):
+    for name in ("updates", "forwarded_rows", "real_rows", "valid_rows"):
         if not _positive_integer(value.get(name)):
             raise ValueError(f"profile receipt {name} must be a positive integer")
+    epochs = value.get("epochs_traversed")
+    if not isinstance(epochs, int) or isinstance(epochs, bool) or epochs < 0:
+        raise ValueError("profile completed-epoch count must be a nonnegative integer")
     if value["forwarded_rows"] < value["real_rows"] or value["valid_rows"] > value["real_rows"]:
         raise ValueError("profile work counts are internally inconsistent")
     if not _finite_nonnegative(value.get("elapsed_seconds")) or value["elapsed_seconds"] <= 0:
