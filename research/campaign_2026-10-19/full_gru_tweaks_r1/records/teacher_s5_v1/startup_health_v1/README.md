@@ -1,0 +1,5 @@
+# S5 initial startup — 19:41:57UTC
+
+[Raw snapshot](STDOUT.raw.json), [stderr](STDERR.raw), [transport](TRANSPORT.json), [observation](OBSERVATION.json), [read-only script](REMOTE.py) and [reuse](REUSE.json) preserve one response after actual admission. Raw9,414bytes/SHA c7a3f8b4ea03765a174b40fc692c1df3b5a66de333b06d4bcc57d9164de5df1a were written before parsing; SSH returned0.
+
+Exact invocation4317408cdc69442c8438c74aaf5809eb is active/running, with one owned populated processPID3439045, own current565,686,272/peak565,911,552B and own/parent newmemoryevents0. At this54-second startup observation there is no owned GPU process, optimizer log or run metadata/checkpoint yet. Source/data validation and normalization can precede these; this is not proof of a hang, fitting progress or completion. Expected22,380updates is not an observed counter. Foreign processes stay untouched; no source/model payload was loaded or hashed by this reader. The raw legacy S3 schema label and hardcoded expected source identifier remain; actual admission checks content hashes. No immediate repeated polling or automatic restart.

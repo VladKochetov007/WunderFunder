@@ -1,0 +1,59 @@
+{
+  "checker": {
+    "path": "preparation/teacher_terminal_check_v2.py",
+    "sha256": "d3abd965ec31e27c24629304fc28016fe4b51fe0cc03af6db60d105aca1d6202"
+  },
+  "checks": {
+    "fresh_import_read_sentinel": {
+      "result": "passed; zero np.load/memmap, torch.load, ParquetFile/read_table/dataset, CUDA init calls; torch.cuda.is_initialized() false",
+      "stdout_sha256": "0605f91ecf7cecefa9fcf5e3503cf23d9c340488bc3aad86f62184f73a029f6f"
+    },
+    "pytest": {
+      "command": ".venv/bin/python -m pytest -q preparation/test_teacher_terminal_check_v2.py",
+      "result": "2 passed",
+      "stdout_sha256": "7c3178f0eacce0030ee95f7f98a44083255d44c3206e826585cc9bcd4b8c4092"
+    },
+    "ruff_check": {
+      "command": ".venv/bin/ruff check preparation/teacher_terminal_check_v2.py preparation/test_teacher_terminal_check_v2.py",
+      "result": "passed",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "ruff_format": {
+      "command": ".venv/bin/ruff format --check preparation/teacher_terminal_check_v2.py preparation/test_teacher_terminal_check_v2.py",
+      "result": "passed",
+      "stdout_sha256": "fb3f1e161b7f185adef30d2bd4e4159b4bed477b87ce5381971bac3d83c20900"
+    }
+  },
+  "previous_attempt": {
+    "capture_files": {
+      "CAPTURE_VALIDATION.json": "406d41c4cf80150e60a466e4fca55d441cced16a40883575011d1b9d82878699",
+      "STDOUT.raw.json": "3292bf363e96dfab6d60827f40eb5db2fe6721b5d12f5e437f97225ea5b22f65",
+      "VERIFIER_LAUNCH.json": "1679107e001a4d9cb893cc9147f7a645d2d4110ff9b85bed116c038dbb055817",
+      "unit.log": "4c2a24c40b0c8e73846e9a18aa3d954292c5d3fae54161bde5e2a704b95e1caa"
+    },
+    "failure": "weights_only=True rejected GLOBAL torch.torch_version.TorchVersion while loading inference checkpoint metadata",
+    "invocation_id": "2a0e38a6515643e1b8ae9a167de10e3f",
+    "unit": "computer-vision-homework-fg19-teacher-s3-verify-v1.service"
+  },
+  "previous_checker_preserved": {
+    "path": "preparation/teacher_terminal_check.py",
+    "sha256": "8aaba33317c8dce3f6b75c77577560c78591a2dd6fe5e2ed3f7ea347e202f2d9"
+  },
+  "repair": {
+    "applied_to": [
+      "model.pt",
+      "model_ep2.pt",
+      "training_state.pt"
+    ],
+    "map_location": "cpu",
+    "numpy_rng_allowlist_unchanged": true,
+    "only_allowlist_addition": "torch.torch_version.TorchVersion",
+    "unsupported_globals_remain_rejected": true,
+    "weights_only": true
+  },
+  "schema": "fg19.teacher-s3-terminal-check-preparation.v2",
+  "scope": "Synthetic CPU serialization fixtures and checker import only; no real checkpoint, arrays, GPU, SSH, or remote operation was performed.",
+  "status": "SOURCE_AND_SYNTHETIC_CHECKS_PASS_NOT_TERMINAL_ACCEPTANCE",
+  "support_sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+  "test_sha256": "8524234ac64e585b58fc6c984bc2bbf159cf20f1ed9f29f87126478c7439a66b"
+}

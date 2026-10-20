@@ -1,0 +1,7 @@
+# S5 native terminal observation — 21:32:22UTC
+
+[Raw stdout](STDOUT.raw.json), [stderr](STDERR.raw), [transport](TRANSPORT.json) and [observation](OBSERVATION.json) preserve one rare readonly capture with the unchanged [S5 reader](../startup_health_v1/REMOTE.py). SSH returned0; raw30,350bytes/SHA9bdc3861961d19ed6454007376bb69f94f4429eb2eba5dce99497a5335d98421 were persisted before parsing. [Normalized terminal evidence](../TERMINAL_EVIDENCE.json) derives strict integer0/1/0 for MainPID/ExecMainCode/ExecMainStatus.
+
+Exact S5invocation4317408cdc69442c8438c74aaf5809eb finished21:30:20UTC with exit0, active/exited and empty campaign population. Native FIT epochs0/1/2 each report7,460successfulupdates/373batches/0AMPskips and GRAD_STATS0nonfinite, total22,380/1,119; fixedepoch2 selected. This is producer evidence, not yet checkpoint/source/state integrity acceptance. All final artifacts exist bystat; boundedprovenanceJSON/logtext read only, no model/state/checkpoint/data tensor payload load/hash. No compute retry, new fit, inference or quality grade.
+
+Empty terminal ControlGroup gives own files unavailable with no host-root fallback; parenthistoricalhigh2179/max561/OOM0/local0 unchanged. RawlegacyS3schema and hardcoded expected sourceID remain preserved reader caveats. Original content-hash admission remains source authority. Subsequent restricted verification, if present, supersedes the pending integrity state here without changing these raw bytes.

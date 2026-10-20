@@ -1,0 +1,3 @@
+# CPU cache V1 failure capture
+
+[Unchanged bounded reader](REMOTE.py) captured00:51:38UTC, [raw35072bytes](STDOUT.raw.json) and [transport](TRANSPORT.json) persisted before extracting [admission](ADMISSION.json), [launch](LAUNCH.json) and [native traceback](unit.log). Exact invocationb131699c99e541c583f050b01a286f03 exited1at00:50:00UTC. The 128KiB guard was reused for known166192B S3 provenance, so the first teacher inspection failed before predictionhash/mmap validation. No output or partial directory was created. Native failedunit/source preserved. Observer reads compact metadata/code/logs only.

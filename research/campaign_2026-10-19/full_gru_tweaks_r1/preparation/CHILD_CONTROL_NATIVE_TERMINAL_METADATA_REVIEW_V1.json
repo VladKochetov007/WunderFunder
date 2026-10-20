@@ -1,0 +1,162 @@
+{
+  "schema": "fg19.child-control-native-terminal-metadata-review.v1",
+  "review": "CHILD_CONTROL_NATIVE_TERMINAL_METADATA_REVIEW_V1",
+  "outcome": "PASS_NATIVE_METADATA_ONLY",
+  "target": {
+    "campaign": "research/campaign_2026-10-19/full_gru_tweaks_r1",
+    "run_name": "fg19_child_control_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+    "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "human_scope": "fullGRU first F0 seed1001 only; one owned GPU worker and two aggregate local CPU cores"
+  },
+  "method": {
+    "mode": "local read-only metadata and log audit",
+    "checks": [
+      "Compared the terminal capture's base64 ADMISSION.json and LAUNCH.json receipt bytes to the original persisted admission and launch bytes.",
+      "Compared the original launch argv with the native unit's captured ExecStart argv, and decoded the original launch submission/status base64 fields.",
+      "Recomputed SHA-256 and byte counts for the persisted terminal stdout, transport, reader, typed evidence, counter summary, reconciliation, and unit log; checked typed status fields against the raw capture and unit properties.",
+      "Parsed only FIT and GRAD_STATS JSON log records in the preserved unit.log and compared their logged counters to COUNTER_SUMMARY.json.",
+      "Compared the 08:24 prior observation to terminal capture only for parent memory.events and memory.events.local; no other prior-snapshot fields were compared."
+    ],
+    "excluded": [
+      "No SSH or remote calls.",
+      "No source/model imports, model or checkpoint or optimizer or cache or dictionary or dataset payload reads or hashes, tests, support admission, stop, restart, or new fit."
+    ]
+  },
+  "checks": {
+    "original_admission_exact_base64_copy": "PASS",
+    "original_launch_exact_base64_copy": "PASS",
+    "actual_exec_argv_matches_original_launch": "PASS",
+    "transport_raw_hash_size_and_persist_before_parse": "PASS",
+    "typed_native_exit_matches_raw_unit_status": "PASS",
+    "six_fit_and_six_gradient_log_records_match_counter_summary": "PASS",
+    "resource_reconciliation_raw_binding_and_scope": "PASS",
+    "parent_event_delta_since_0824_snapshot": "PASS_ZERO_OBSERVED_DELTA"
+  },
+  "pins": {
+    "original_admission": {
+      "path": "records/child_control_fit_v1/ADMISSION.json",
+      "bytes": 9059,
+      "sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973",
+      "terminal_base64_receipt_decoded_exact_match": true,
+      "recorded_source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "recorded_source_file_count": 167,
+      "recorded_source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "recorded_split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "worker_cpu_quota": "100%",
+      "worker_memory_high_bytes": 7500000000,
+      "worker_memory_max_bytes": 8000000000,
+      "worker_swap_max_bytes": 0
+    },
+    "original_launch": {
+      "path": "records/child_control_fit_v1/LAUNCH.json",
+      "bytes": 6999,
+      "sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9",
+      "terminal_base64_receipt_decoded_exact_match": true,
+      "launch_acceptance_path": "records/child_control_fit_v1/LAUNCH_ACCEPTANCE.json",
+      "launch_acceptance_sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15",
+      "accepted_body_sha256": "124b90f9cc76c17c9a62e22b934dc15e579417f0b769eb86f44334ba55f6b954",
+      "decoded_submission_confirms_exact_unit_and_invocation": true,
+      "decoded_initial_status": {
+        "main_pid": 96892,
+        "active_state": "active",
+        "sub_state": "running",
+        "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202"
+      },
+      "actual_native_exec_argv_token_count": 95,
+      "actual_native_exec_argv_exactly_matches_launched_python_argv": true,
+      "single_assigned_gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944"
+    },
+    "terminal_capture": {
+      "raw_path": "records/child_control_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+      "raw_bytes": 73636,
+      "raw_sha256": "33133c140cf9c8676c87f518230c7aa48ac2485ecdf3dafc5e8c45edf16c0f43",
+      "transport_path": "records/child_control_fit_v1/terminal_native_capture_v1/TRANSPORT.json",
+      "transport_sha256": "842f358ed3bf5d59648d12f84b9ae877221da3ed880916bc2877b8b733cfba2f",
+      "transport_returncode": 0,
+      "transport_timed_out": false,
+      "transport_persisted_before_parse": true,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reader_path": "records/child_control_fit_v1/terminal_native_capture_v1/REMOTE.py",
+      "reader_sha256": "2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9",
+      "transport_body_sha256_matches_reader": true,
+      "captured_utc": "2026-10-20T08:54:24.104019+00:00",
+      "native_exit_utc_second_resolution": "2026-10-20T08:40:45+00:00",
+      "status": {
+        "result": "success",
+        "active_state": "active",
+        "sub_state": "exited",
+        "main_pid": 0,
+        "exec_main_code": 1,
+        "exec_main_status": 0
+      },
+      "typed_evidence_path": "records/child_control_fit_v1/TERMINAL_EVIDENCE.json",
+      "typed_evidence_bytes": 713,
+      "typed_evidence_sha256": "fefa2e85469495b89e5c9a502f4bd0b9f0b2bcd7cb8928364b46f6a9b2b7a70a",
+      "typed_identity_exit_capture_and_raw_hash_match": true
+    },
+    "logged_counters": {
+      "unit_log_path": "records/child_control_fit_v1/terminal_native_capture_v1/unit.log",
+      "unit_log_sha256": "9679fdf4a93be9d4a9a92e98b11063a179e9616bcbb391e50475fab39dbbc066",
+      "counter_summary_path": "records/child_control_fit_v1/terminal_native_capture_v1/COUNTER_SUMMARY.json",
+      "counter_summary_sha256": "c02df9e377db3f10c77940a5c06097285a45f902b8ae214bfe561481cb98f492",
+      "fit_epoch_records": 6,
+      "grad_stats_records": 6,
+      "epochs": [0, 1, 2, 3, 4, 5],
+      "optimizer_completed_updates": 44760,
+      "completed_batches": 4476,
+      "amp_skips": 0,
+      "grad_stats_steps": 44760,
+      "grad_stats_nonfinite_steps": 0,
+      "logged_selected_fixed_epoch": 5,
+      "evaluation": "withheld",
+      "log_and_counter_summary_match": true
+    },
+    "resource_reconciliation": {
+      "path": "records/child_control_fit_v1/NATIVE_RESOURCE_RECONCILIATION.json",
+      "sha256": "b43cbfee4ee9b07243d4480015e959e694e023b3ef6dbdd679996bdda54c6c92",
+      "bound_terminal_raw_sha256": "33133c140cf9c8676c87f518230c7aa48ac2485ecdf3dafc5e8c45edf16c0f43",
+      "native_service_cpu_quota_per_sec": "1s",
+      "native_service_cpu_usage_seconds": 11247.121869,
+      "native_service_memory_high_bytes": 7500000000,
+      "native_service_memory_max_bytes": 8000000000,
+      "native_service_swap_max_bytes": 0,
+      "native_service_memory_peak_bytes": 2829709312,
+      "parent_aggregate_cpu_quota_per_sec": "2s",
+      "parent_aggregate_memory_high_bytes": 18000000000,
+      "parent_aggregate_memory_max_bytes": 20000000000,
+      "parent_aggregate_swap_max_bytes": 0,
+      "terminal_parent_current_sample_bytes": 7849529344,
+      "terminal_own_cgroup_path": "",
+      "terminal_own_cgroup_files_available": false,
+      "terminal_own_events_available": false,
+      "terminal_own_memory_current_available": false,
+      "terminal_own_cgroup_host_root_fallback_used": false,
+      "parent_events_prior_0824": "low 0; high 38355; max 561; oom 0; oom_kill 0; oom_group_kill 0",
+      "parent_events_terminal": "low 0; high 38355; max 561; oom 0; oom_kill 0; oom_group_kill 0",
+      "parent_local_events_prior_0824": "low 0; high 0; max 0; oom 0; oom_kill 0; oom_group_kill 0",
+      "parent_local_events_terminal": "low 0; high 0; max 0; oom 0; oom_kill 0; oom_group_kill 0",
+      "parent_event_counter_delta_since_0824": 0,
+      "parent_local_event_counter_delta_since_0824": 0,
+      "parent_counters_are_aggregate_and_not_per_fit": true
+    },
+    "prior_event_only_reference": {
+      "path": "records/child_control_fit_v1/health_20261020T0824Z/STDOUT.raw.json",
+      "bytes": 69641,
+      "sha256": "ca6674a6cdbd2874992ed8a68859804d0b496895378bb4e672a1b845911de765",
+      "observation_path": "records/child_control_fit_v1/health_20261020T0824Z/OBSERVATION.json",
+      "observation_sha256": "235e2cda7fd4b6948f713aea223ce252e183f2f0995ef0c950f0ceabb3a79f46",
+      "comparison_fields": ["parent_state.memory.events", "parent_state.memory.events.local"]
+    }
+  },
+  "limitations": [
+    "This review confirms native terminal metadata and logged counters only. It does not accept model, optimizer, loader, RNG, provenance, checkpoint, or other tensor integrity; the separate restricted verifier and root acceptance remain pending.",
+    "No evaluation or quality score was produced or audited. SELECTED_FIXED 5 is a training log selection marker, not tensor verification or a quality endpoint.",
+    "The capture reader is pinned at 2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9 and did not freshly rehash current canonical source. The original 167-file admission and its source manifest remain the source authority; this review performed no current source rehash.",
+    "Native unit timestamps are second-resolution, and no monotonic start/exit fields are present. No precise native wall-duration claim is made; service CPU time is a separate counter.",
+    "At terminal capture the fit's own cgroup files and process RSS were unavailable. Parent current-memory and event counters are aggregate samples; the unchanged parent event counters show no observed delta since 08:24, not zero events across the full fit. No host-root fallback was used.",
+    "The GPU query occurred after native exit and is not a fit peak-memory measurement. Other GPU processes remain unattributed and were not acted on."
+  ],
+  "blockers": []
+}

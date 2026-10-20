@@ -1,0 +1,43 @@
+{
+  "failure": {
+    "admission_sha256": "3ac13a9cea53994cebe712009e72c60e0a6d7b9840065b73a0514f05a9314b5d",
+    "capture_terminal_success": false,
+    "classification": "Verifier expectation/source-contract mismatch; this failure does not indicate a failed or altered native fit.",
+    "error": "ValueError: runtime cuDNN deterministic mode differs",
+    "invocation_id": "c439756a99294d1381c3f32b1a4d98ea",
+    "launch_sha256": "d10895ba6b3e8e9c135e06b3d52efdcec83ef003ee343497da7bc7bdb458d07a",
+    "native_result": {
+      "active_state": "failed",
+      "exec_main_code": 1,
+      "exec_main_status": 1,
+      "main_pid": 0,
+      "populated": {},
+      "sub_state": "failed"
+    },
+    "raw_bytes": 23276,
+    "raw_sha256": "766b939262559d809fe9b011a708b0bb326026463fffa16cf832c33fe28131cd",
+    "stage": "_check_contract after RNG diagnostic and saved-state signature checks",
+    "transport_returncode": 0,
+    "transport_sha256": "4c5d5f012625dffad00b27947e7b56c4ab7de5328f1cbae7c3817af4b427634d",
+    "transport_stderr_bytes": 0,
+    "unit": "computer-vision-homework-fg19-parent-fit-r2-verify-v2.service",
+    "unit_log_sha256": "ef17c5aa8c26c368c58dba2fc9278cd1719124489028ca14c4b0d845820fad49"
+  },
+  "preservation": [
+    "The failed V2 support unit and capture are preserved; no stop or retry was performed by this reviewer.",
+    "The parent native fit and its terminal evidence are unchanged.",
+    "No acceptance, quality score, or fit failure is inferred from this verifier-only error."
+  ],
+  "reviewed_at_utc": "2026-10-20T04:55:30Z",
+  "schema": "fg19.parent-fit-terminal-verifier-failure-review.v2",
+  "scope": "Independent local metadata and canonical-source review only; no SSH, unit query/stop, model/checkpoint/array payload read, or test execution.",
+  "source_proof": {
+    "behavior": "configure_torch() sets torch.backends.cudnn.benchmark=False and torch.backends.cudnn.deterministic=True whenever CUDA is available; the provenance deterministic=False expectation contradicted the pinned source.",
+    "file_sha256": "95fdc839ff1561622ac06c465cfc9a01370130d99be1e832b3a33c79bcb37930",
+    "path": "src/wnn/resources.py",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_files": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+  },
+  "status": "METADATA_AND_SOURCE_CAUSE_CONFIRMED"
+}

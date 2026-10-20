@@ -1,0 +1,29 @@
+{
+  "non_blocking_observation": "The frozen contract pins for all three acceptance receipts match current local receipt hashes; each receipt names the intended run, selected_epoch=2, and its checkpoint/model/provenance digests match the contract. This observation validates metadata pins only.",
+  "pins": {
+    "contract_path": "preparation/TEACHER_CACHE_EXECUTION_CONTRACT_R1.json",
+    "contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "contract_status": "PRE_OUTCOME_CONTRACT_NEW_INFERENCE_NOT_RUN",
+    "template_path": "preparation/teacher_cache_profile_remote_v1.py",
+    "template_sha256": "409ec9df53d3fa70e464bf4bf0833cb53a50b73a2470688a56e94da8e50029f6"
+  },
+  "required_final_source_checks": [
+    "The launch argv itself does not specify batch=16, chunk=4000, or the exact first-16-groups/20,000-step profile boundary. The new profile-only source must enforce these frozen contract values and emit them in a receipt that root can check; otherwise the invocation is not yet bound to the contract.",
+    "The template sets inference precision fp32 but does not explicitly disable TF32. The new source must set TF32 false (and report it) to satisfy the frozen resource/numerics contract.",
+    "The template records source_commit and validates each embedded file against its own supplied SHA, but does not verify that file inventory against a separate source manifest or git tree. Final packet review/root admission should bind the exact source commit, complete inventory, and embedded payload/body hashes before launch."
+  ],
+  "review_limits": [
+    "This is a template-level conditional review, not approval of final embedded payload bytes or the new source commit.",
+    "No profile result, prediction/cache artifact, or model-quality claim is established."
+  ],
+  "reviewed_guards": {
+    "create_only_staging": "Requires source and output absent/non-symlink, writes staged files with exclusive-create mode, checks each base64 file byte count and SHA, and verifies the staged regular-file inventory equals the supplied payload inventory.",
+    "launch_envelope": "Uses one CPU quota, 7.5-GB MemoryHigh, 8-GB MemoryMax, no swap, 600-second runtime, selected-GPU visibility, FP32 inference flag, zero loader workers, and fresh output paths.",
+    "reused_resource_gates": "Executes the SHA-pinned existing read-only profile helpers, then binds selected GPU UUID, raises free-memory reservation to 4 GiB allocator plus 1 GB reserve, checks 1-CPU parent headroom/campaign descendants, data identity, persistent scratch and disk headroom, and stop-marker/unit absence.",
+    "teacher_inputs": "For each contract teacher, requires accepted receipt bytes to match pinned acceptance SHA, status ACCEPTED and checkpoint SHA; freshly hashes model_ep2.pt and provenance.json against contract pins."
+  },
+  "reviewed_utc": "2026-10-19T21:46:08.022692+00:00",
+  "schema": "fg19.teacher-cache-profile-template-review.v1",
+  "scope": "Static local review of the short profile-only admission template and frozen cache execution contract. No SSH, tests, model/payload reads, or remote action.",
+  "status": "CONDITIONAL_TEMPLATE_OK_SOURCE_PROFILE_CONTRACT_BINDING_PENDING"
+}

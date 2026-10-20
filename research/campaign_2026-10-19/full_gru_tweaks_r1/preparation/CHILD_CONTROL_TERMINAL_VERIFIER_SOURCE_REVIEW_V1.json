@@ -1,0 +1,103 @@
+{
+  "schema": "fg19-child-control-terminal-verifier-source-review.v1",
+  "reviewed_utc": "2026-10-20T09:11:29Z",
+  "status": "PASS_SOURCE_ONLY_NO_EXECUTION",
+  "scope": "Independent local source, pin, and captured-metadata schema review of the exact one-shot CPU admission body. No SSH, B query, unit action, checker import or execution, test execution, model/source-tree import, checkpoint/state/cache-array/dictionary payload read, or support submission was performed.",
+  "frozen_body": {
+    "path": "preparation/child_control_terminal_verifier_v1/REMOTE_SUBMISSION.py",
+    "bytes": 460536,
+    "sha256": "6548861998eb2bfe87ba539752805794b3c806005a90eff7be165d612baf9620"
+  },
+  "identity": {
+    "run_name": "fg19_child_control_f0_s1001_fit_v1",
+    "native_unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+    "native_invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "support_unit": "computer-vision-homework-fg19-child-control-verify-v1.service",
+    "new_output": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_control_verify_v1",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+  },
+  "code_dependencies": [
+    {
+      "path": "preparation/child_control_terminal_check_v1.py",
+      "bytes": 70406,
+      "sha256": "663d4aee291c86e87475e0599a3151f60f684943c59dfc406d2f35ddfba63cad"
+    },
+    {
+      "path": "preparation/parent_fit_terminal_check_v3.py",
+      "bytes": 64550,
+      "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+    },
+    {
+      "path": "preparation/propensity_terminal_support.py",
+      "bytes": 13107,
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    },
+    {
+      "path": "preparation/teacher_s5_terminal_check_v1.py",
+      "bytes": 37448,
+      "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+    }
+  ],
+  "input_pin_review": {
+    "embedded_input_count": 12,
+    "native_admission_sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973",
+    "native_launch_sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9",
+    "native_launch_acceptance_sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15",
+    "typed_terminal_evidence_sha256": "fefa2e85469495b89e5c9a502f4bd0b9f0b2bcd7cb8928364b46f6a9b2b7a70a",
+    "native_raw_capture_bytes": 73636,
+    "native_raw_capture_sha256": "33133c140cf9c8676c87f518230c7aa48ac2485ecdf3dafc5e8c45edf16c0f43",
+    "cache_acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "cache_exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "local_dependency_hashes": "Independently recomputed the four code dependency hashes and the pinned canonical source manifest, CONTROL admission/launch/launch-acceptance/typed-terminal receipts, and parent/profile/dictionary/cache acceptance and stop receipt hashes; all matched the body pins and current local files. The wrapper's fixed payload map verifies names, byte caps, byte counts, and SHA-256 before staging."
+  },
+  "review_findings": [
+    "The native join is fail-closed: it binds the typed terminal schema/run/unit/invocation and exact raw bytes/SHA; the raw capture schema, expected identity, capture timestamp, captured native unit properties, nested admission and launch bytes, and exact unit.log bytes; launch acceptance is explicitly not completion. It then refreshes the exact native unit and requires loaded, the same invocation, active/exited, MainPID 0, ExecMainCode 1, ExecMainStatus 0, Result success, and positive CPUUsageNSec. No native stop or restart path exists.",
+    "Before creating the new output directory or staging any input, the body requires the canonical project root and research_tmp directory, executable canonical interpreter path, absent create-only output path, and absent support unit. It verifies all 167 current source files and exact inventory against the pinned manifest, the exact split, the six registered path identities, current terminal run-file inventory/stat identities, and read-only predecessor/cache evidence.",
+    "The actual CONTROL admission schema contains the required top-level parent_checkpoint_sha256, parent_checkpoint_identity.sha256, dictionary.sha256, and six-entry staged_receipt_sha256 map. The new body checks those digest metadata values against fixed pins, and checks current parent/dictionary paths and stat identities without reading their payloads. Profile admission, launch, and unit.log have exact pins; the six parent/dictionary/profile acceptance and stop receipts are fixed-SHA checked against the original admission map. The cache stop guards match the actual before/stop/after/populated receipt shape.",
+    "Cache acceptance, exact stop, and current metadata are hash-bound. Train/valid cache arrays are checked against accepted shape/dtype/size/hash metadata and the original device/inode/mtime stats only; no array contents are opened or hashed by the admission body. Parent/profile/dictionary and run checkpoint/state files remain payload-stat-only at this boundary.",
+    "The final fresh resource gate requires the existing two-core parent envelope (2s CPU quota, 18 GB high, 20 GB max, swap 0), an available non-root campaign cgroup with no populated descendants, current headroom satisfying current + 1.5 GB support max + 1 GB reserve < 17 GB, and at least 25 GiB free. The one support service is limited to 50% CPU, 1.4 GB MemoryHigh, 1.5 GB MemoryMax, zero swap, 600 seconds, hidden CUDA, and single-thread BLAS/WNN settings.",
+    "Mutation is create-only and follows all stated gates: it creates the unique output directory, writes only the pinned four code files and bounded metadata inputs plus durable admission/intent records, and submits one fixed verifier command. Submission timeout/error is preserved as unknown, the support invocation ID is read from the support unit's post-submission properties, the native invocation is stored separately, and the policy explicitly forbids retry or output recreation."
+  ],
+  "predecessor_schema_crosscheck": {
+    "control_admission_sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973",
+    "parent_acceptance_sha256": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+    "parent_exact_stop_sha256": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+    "dictionary_acceptance_sha256": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+    "dictionary_exact_stop_sha256": "2eb44a4381de06f28ed3d7438ace320ef3274eae37c89074fc481f58f5d88158",
+    "profile_acceptance_sha256": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045",
+    "profile_exact_stop_sha256": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce",
+    "profile_admission_sha256": "908d066878b6a5b69549077a0002c6d6f1ed306bc10f5b059fa6ca423d2da2c5",
+    "profile_launch_sha256": "df171f46017dbb4b4b7bdfaaeb374db651d6d972eb11e8ffcebe917a4b464d44",
+    "profile_unit_log_sha256": "b4480cd8529ecbb0d5ec1cf840f0c9a312b541f9598cc4cd4cfa19084350c289",
+    "schema_result": "PASS; names, shapes and hashes agree with the retained original CONTROL admission and exact local receipts."
+  },
+  "resource_limits": {
+    "cpu_quota": "50%",
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "swap_max_bytes": 0,
+    "runtime_seconds": 600,
+    "cuda_visible_devices": "",
+    "blas_threads": 1,
+    "parent_cpu_quota": "2s",
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_memory_swap_max_bytes": 0
+  },
+  "non_blocking_limitations": [
+    "The metadata/source stable-read helpers perform lstat, then Path.open, then stat; this leaves a theoretical symlink-swap race. It is inherited in the root-owned one-shot metadata preflight and the downstream frozen checker separately uses O_NOFOLLOW for payload reads. No concrete race or mismatched pin was found in reviewed inputs.",
+    "The disk gate requires the free-space floor and rejects tmpfs/ramfs, but does not positively allowlist a physical filesystem type. This is recorded as an inherited runtime/storage assumption, not a source blocker for the reviewed one-shot; the fresh gate remains the only evidence of actual free space and reported filesystem at execution time.",
+    "This review establishes only source/pin/gate correctness. It does not establish model/state tensor integrity, checker success, acceptance, scientific quality, or that the fresh B-side gates will still pass when the body runs."
+  ],
+  "reviewer_execution": {
+    "source_or_model_imports": 0,
+    "tests_run_by_reviewer": 0,
+    "remote_queries_or_actions": 0,
+    "payload_reads_or_hashes": 0,
+    "support_submissions": 0,
+    "actor_local_checks": "The preparation-local receipt reports three offline metadata/synthetic fixtures and static checks PASS with no real model/state/cache-array/dictionary payload reads. Those checks were not repeated by this reviewer."
+  },
+  "decision": "PASS for one source-reviewed, create-only CPU verifier admission body after its own fresh gates pass. The support result must still be independently captured, validated, and accepted; this review is not terminal verification or artifact acceptance."
+}

@@ -1,0 +1,3 @@
+# Preserved failed parent verifier V1 capture
+
+[Raw capture](STDOUT.raw.json), [transport](TRANSPORT.json) and exact admission/launch/log bytes preserve the actual exit1 verifier outcome. Its combined CUDA RNG guard demanded at least1,024elements, which the subsequent source-qualified diagnostic showed incompatible with this producer’s uint8[16] format. This is an integrity-consumer failure, not a failed native fit or quality result. [Failed support record](../README.md) remains immutable; never stop/restart/replay its failed unit. Later versioned parent V3 passed full checks without replaying training. Real tensors stayed B-only.

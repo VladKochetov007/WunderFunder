@@ -1,0 +1,11 @@
+# Child CONTROL terminal verifier V2
+
+This local packet prepares one bounded CPU integrity check for the already completed first CONTROL run (`firstF0seed1001`). The V2 checker keeps the existing source, predecessor, cache, resource, loader, and numeric gates. It corrects two receipt-shape assumptions found by evaluating the actual saved metadata before any model or state loading.
+
+The native CONTROL `LAUNCH.json` is pinned and validated with its original schema, service unit, invocation, and submission result. Its body SHA is not present in that record: V2 binds the body identity through the separately pinned original `LAUNCH_ACCEPTANCE.json`. The accepted profile receipt also has no top-level `initial_state_sha256`; V2 pins the canonical digest of its exact nested `initial_state` object and retains the full proof/log equality check.
+
+The frozen rendered candidate is `REMOTE_SUBMISSION.py` (461,527 bytes, SHA-256 `6014b5189541efbecaaee095209b99ba09135c32b551f233830056dd33c96d1e`). Its checker is `child_control_terminal_check_v2.py` (71,144 bytes, SHA-256 `cbaff895c6d451a671b14ff77d9c4b26dad69dcaa5c4ab0a8a642129cc3c7c9e`). The target support unit is `computer-vision-homework-fg19-child-control-verify-v2.service`; its create-only private output is `fg19_child_control_verify_v2`.
+
+Seven focused local tests passed, covering actual saved terminal/launch/admission/cache/predecessor/profile metadata, the separate launch-acceptance binding and a negative binding fixture, worker and CLI predicates, exact embedded payload pins, and isolated imports of the four staged checker dependencies. Ruff formatting and lint checks passed. Details are in [LOCAL_METADATA_CHECKS_V2.json](LOCAL_METADATA_CHECKS_V2.json).
+
+`ROOT_PAYLOAD_CHECK.json` in this folder is a historical root-side check of an earlier body revision, before the accepted-profile digest correction; it is superseded and is not evidence for the current body. The current exact bytes above still require root's independent review and single admission/capture. This preparation performed no B/SSH/network action, opened no model, state, cache-array, or dictionary payload, executed no trainer or full verification, and did not alter the frozen V1 packet or native CONTROL unit. Root retains ownership of any V2 admission and capture.

@@ -1,0 +1,77 @@
+{
+  "cold_import_read_sentinel": {
+    "assertions": [
+      "checker and helper resolved from preparation",
+      "numpy.load/memmap not called",
+      "torch.load not called",
+      "Parquet readers/dataset not called when installed",
+      "CUDA init not called",
+      "torch.cuda.is_initialized() is false"
+    ],
+    "command": [
+      ".venv/bin/python",
+      "-B",
+      "-"
+    ],
+    "returncode": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "{\"checker\": \"cold import\", \"cuda_initialized\": false, \"sentinel_calls\": [], \"status\": \"PASS\", \"support\": \"transitive import\"}\n",
+    "stdout_sha256": "83019912fcf8ae2aabf0995436c44cfa7460b32c2052e82923c34cc8854ae37a"
+  },
+  "commands": [
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "pytest",
+        "-q",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_s4_terminal_check_v1.py"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "...                                                                      [100%]\n3 passed in 0.69s\n",
+      "stdout_sha256": "e531f9807c48228f2aaa1736969d698b614219646b0162df322d768bfbaa6331"
+    },
+    {
+      "command": [
+        ".venv/bin/ruff",
+        "check",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_s4_terminal_check_v1.py",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/admit_teacher_s4_terminal_verifier_v1.py",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_s4_terminal_check_v1.py"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "All checks passed!\n",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        ".venv/bin/ruff",
+        "format",
+        "--check",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_s4_terminal_check_v1.py",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/admit_teacher_s4_terminal_verifier_v1.py",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_s4_terminal_check_v1.py"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "3 files already formatted\n",
+      "stdout_sha256": "eee76f865de5a9f2456950f710ae5d5f9b5bd0ea02aa54f614c5eed6642a0bfd"
+    }
+  ],
+  "frozen_artifacts": {
+    "checker_sha256": "e6891fb6273b0f8b7f37af4f713e0ab2e6e16a13fbaf8ce8275401c2c6d4a0cf",
+    "generator_sha256": "7b3ab65a49acddc82179dce80f0b53c1e40beb099e7b9c39ab6e85e7dd185b92",
+    "preparation_receipt_sha256": "58c7f61ed8be64428f5a87020978bf9d73acceeb79186de1f5a710b5484240bb",
+    "transport_body_sha256": "18332ba6e073fb2b0dad3fe5a0725198984a4e772a5cc3adda203ee2d115ddf3"
+  },
+  "python_executable": ".venv/bin/python",
+  "python_prefix": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv",
+  "schema": "fg19.teacher-s4-terminal-verifier-local-checks.v1",
+  "scope": "Only the new S4 identity tests, Ruff check/format check, and cold transitive checker/helper import with reader/CUDA sentinels. No checkpoint, dataset, arrays, SSH, or remote action.",
+  "status": "PASS"
+}

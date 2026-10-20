@@ -1,0 +1,106 @@
+{
+  "schema": "fg19-child-control-terminal-verifier-v2-source-review.v1",
+  "reviewed_utc": "2026-10-20T12:19:05Z",
+  "status": "PASS_SOURCE_ONLY_NO_EXECUTION",
+  "scope": "Independent local review of the exact V2 one-shot CPU admission wrapper, its embedded fixed inputs, the revised terminal checker, and the retained native/profile receipt contracts. No SSH, B query, unit action, native stop/restart/replay, checker import or execution, test execution, or model/state/cache-array/dictionary payload read/hash was performed.",
+  "frozen_artifacts": {
+    "checker": {
+      "path": "preparation/child_control_terminal_verifier_v2/child_control_terminal_check_v2.py",
+      "bytes": 71144,
+      "sha256": "cbaff895c6d451a671b14ff77d9c4b26dad69dcaa5c4ab0a8a642129cc3c7c9e"
+    },
+    "body": {
+      "path": "preparation/child_control_terminal_verifier_v2/REMOTE_SUBMISSION.py",
+      "bytes": 461527,
+      "sha256": "6014b5189541efbecaaee095209b99ba09135c32b551f233830056dd33c96d1e"
+    }
+  },
+  "identity": {
+    "run_name": "fg19_child_control_f0_s1001_fit_v1",
+    "native_unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+    "native_invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "support_unit": "computer-vision-homework-fg19-child-control-verify-v2.service",
+    "new_output": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_control_verify_v2",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+  },
+  "code_dependencies": [
+    {
+      "path": "preparation/child_control_terminal_verifier_v2/child_control_terminal_check_v2.py",
+      "bytes": 71144,
+      "sha256": "cbaff895c6d451a671b14ff77d9c4b26dad69dcaa5c4ab0a8a642129cc3c7c9e",
+      "embedded_payload_matches_local_file": true
+    },
+    {
+      "path": "preparation/parent_fit_terminal_check_v3.py",
+      "bytes": 64550,
+      "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41",
+      "embedded_payload_matches_local_file": true
+    },
+    {
+      "path": "preparation/propensity_terminal_support.py",
+      "bytes": 13107,
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+      "embedded_payload_matches_local_file": true
+    },
+    {
+      "path": "preparation/teacher_s5_terminal_check_v1.py",
+      "bytes": 37448,
+      "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5",
+      "embedded_payload_matches_local_file": true
+    }
+  ],
+  "fixed_input_pin_review": {
+    "embedded_input_count": 12,
+    "all_names_match_expected_hashes_and_caps": true,
+    "all_byte_counts_match": true,
+    "fixed_inputs_decoded_in_memory_for_hash_review": 12,
+    "native_admission_sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973",
+    "native_launch_sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9",
+    "native_launch_acceptance_sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15",
+    "typed_terminal_evidence_bytes": 713,
+    "typed_terminal_evidence_sha256": "fefa2e85469495b89e5c9a502f4bd0b9f0b2bcd7cb8928364b46f6a9b2b7a70a",
+    "native_raw_capture_bytes": 73636,
+    "native_raw_capture_sha256": "33133c140cf9c8676c87f518230c7aa48ac2485ecdf3dafc5e8c45edf16c0f43",
+    "cache_acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "cache_exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4"
+  },
+  "review_findings": [
+    "The only V2 checker changes relative to the previously frozen checker are the exact launch-record contract correction and the profile initial-state digest correction. The launch helper is called immediately after reading the original admission, launch, launch-acceptance, and typed terminal receipts. It verifies exact admission/launch/acceptance hashes, the actual launch schema/unit/submitted return code, and the separate acceptance schema/status/unit/invocation/admission/launch/body SHA bindings. The retained local LAUNCH.json is exactly 6999 bytes/SHA afd19428… and has no body_sha256; the separately pinned LAUNCH_ACCEPTANCE.json is exactly 2805 bytes/SHA caa7e156… and contains body SHA 124b90f9…. The checker now reads that body SHA from the correct receipt.",
+    "The exact profile acceptance receipt is SHA 9235b167… and contains nested initial_state but no top-level initial_state_sha256. The checker retains the strict proof: it validates the nested ancestry/geometry/initialization fields, compares the nested object with the one pinned unit.log line, computes its canonical sorted compact-JSON digest, and compares that result with fixed SHA 254b2951…. I independently recomputed this digest and verified the captured ADMISSION.json, LAUNCH.json, and unit.log all match the acceptance receipt's byte/hash entries; the unit log has exactly one matching initial-state line.",
+    "The body binds a fresh read of the exact native unit and requires the same invocation, loaded/active/exited state, MainPID 0, ExecMainCode 1, ExecMainStatus 0, Result success, and positive CPU usage. It also joins the exact root-captured typed terminal receipt, raw-capture identity, nested admission/launch bytes, and captured native unit.log. The code has no native stop, restart, or replay path.",
+    "Before creating the new V2 output directory or staging files, the body checks the canonical project root and research_tmp directory, executable canonical interpreter, absent create-only output path, and absent V2 support unit. It then checks all 167 source-file hashes and exact inventory, the pinned split, registered data paths, terminal run artifact inventory and stat identities, read-only parent/dictionary/profile receipts, cache metadata/acceptance/stop and array stat identities, and current parent resource/disk headroom. Model, state, cache-array, and dictionary payload contents are not read or hashed by the admission body.",
+    "The resource limits remain 50% CPU, MemoryHigh 1400000000 bytes, MemoryMax 1500000000 bytes, swap 0, RuntimeMaxSec 600, hidden CUDA, and single-thread BLAS/WNN settings. The parent gate retains the 2-core envelope, 18 GB MemoryHigh/20 GB MemoryMax/swap 0, empty campaign cgroup descendants, current + one 1.5 GB support allowance + one 1 GB reserve < 17 GB target, at least 25 GiB free space, and rejection of tmpfs/ramfs.",
+    "All pre-mutation gates precede create-only staging. The body writes only the four pinned code files and bounded metadata inputs plus durable admission/intent records, then submits the exact V2 checker once. Timeout, OS error, or nonzero return is durably represented as unknown/failed, support invocation identity is read from post-submission properties, native invocation is stored separately, and the recorded policy forbids retry or output recreation."
+  ],
+  "resource_limits": {
+    "cpu_quota": "50%",
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "swap_max_bytes": 0,
+    "runtime_seconds": 600,
+    "cuda_visible_devices": "",
+    "blas_threads": 1,
+    "parent_cpu_quota": "2s",
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_memory_swap_max_bytes": 0
+  },
+  "non_blocking_limitations": [
+    "The inherited metadata stable-read helpers use lstat, Path.open, then stat, leaving a theoretical symlink-swap race. No concrete mismatched pin was found; the downstream frozen checker separately uses O_NOFOLLOW for payload reads.",
+    "The disk gate enforces at least 25 GiB free and rejects tmpfs/ramfs but does not positively allowlist a physical filesystem type. This is inherited from V1 and is not a source blocker; the actual filesystem and free-space check remains fresh at execution time.",
+    "This review establishes source and fixed-input pin correctness only. It does not establish that fresh B-side gates pass, that the checker succeeds, that model/state tensors are intact, or that any scientific result is accepted or high quality."
+  ],
+  "reviewer_execution": {
+    "source_or_model_imports": 0,
+    "checker_or_remote_body_execution": 0,
+    "tests_run_by_reviewer": 0,
+    "remote_queries_or_actions": 0,
+    "support_submissions": 0,
+    "model_state_cache_array_or_dictionary_payloads_read_or_hashed": 0,
+    "fixed_wrapper_inputs_decoded_only_for_byte_count_and_sha256": 12,
+    "actor_reported_focused_actual_byte_fixtures": "Seven local fixtures reported PASS by the preparation actor; not repeated by this reviewer."
+  },
+  "decision": "PASS for one source-reviewed, create-only CPU verifier admission after its own fresh gates pass. This review is not terminal verification, artifact acceptance, model/state integrity, or scientific quality evidence."
+}

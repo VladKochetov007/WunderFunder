@@ -1,0 +1,738 @@
+{
+  "actual_parent_receipt_fixtures": {
+    "acceptance_invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+    "acceptance_sha256": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+    "acceptance_status": "ACCEPTED",
+    "checkpoint_payload_opened": false,
+    "checkpoint_sha256": "6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45",
+    "dictionary_acceptance_sha256": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+    "dictionary_cache_sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659",
+    "dictionary_payload_opened": false,
+    "exact_stop_invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+    "exact_stop_raw_sha256": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+    "exact_stop_unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service",
+    "nonfinite_updates": 0,
+    "populated_after": {},
+    "selected_epoch": 3,
+    "successful_updates": 29840
+  },
+  "cli_fixture": {
+    "canonical_component_origins": {
+      "TrainingEnvironment": "wnn.training.environment",
+      "build_optimizer": "wnn.training_dynamics",
+      "run_training": "wnn.training.runner"
+    },
+    "canonical_parser": "wnn.training.cli.build_parser",
+    "canonical_training_components_imported": [
+      "wnn.data.SEQUENCE_LENGTH",
+      "wnn.training.environment.TrainingEnvironment",
+      "wnn.training.runner.run_training",
+      "wnn.training_dynamics.build_optimizer"
+    ],
+    "inherit_init_preprocessing": true,
+    "local_fixture_path_substitutions": {
+      "--distill-cache-root": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records",
+      "--representation-cache": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation"
+    },
+    "optimizer_builder_called": false,
+    "sequence_length": 20000,
+    "trainer_argv": [
+      "--name",
+      "fg19_child_allthree_f0_s1001_profile_v1",
+      "--device",
+      "cuda",
+      "--seed",
+      "1001",
+      "--train-seqs",
+      "10535",
+      "--train-source",
+      "train+valid",
+      "--valid-fold",
+      "0",
+      "--valid-repeat",
+      "1",
+      "--valid-train-fraction",
+      "1.0",
+      "--batch-order",
+      "seeded",
+      "--batch",
+      "16",
+      "--chunk",
+      "2000",
+      "--max-batches",
+      "6",
+      "--profile-warmup",
+      "2",
+      "--profile-steps",
+      "4",
+      "--epochs",
+      "6",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "5",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--enc",
+      "linear",
+      "--hidden",
+      "256",
+      "--layers",
+      "2",
+      "--head-layers",
+      "1",
+      "--dropout",
+      "0",
+      "--split-manifest",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json",
+      "--init",
+      "fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3",
+      "--inherit-init-preprocessing",
+      "--representation-mode",
+      "ema_sparse",
+      "--representation-cache",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt",
+      "--mean-variance-head",
+      "1",
+      "--mean-variance-objective",
+      "nll",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--distill-cache-root",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1",
+      "--distill-cache-variant",
+      "homogeneous",
+      "--distill-cache-scale",
+      "1.0",
+      "--distill-alpha",
+      "0.9",
+      "--distill-family-weight",
+      "0",
+      "--aux-struct",
+      "0.3",
+      "--aux-next",
+      "0.3",
+      "--aux",
+      "",
+      "--aux-next-k",
+      "",
+      "--optim",
+      "adamw",
+      "--lr",
+      "0.0001",
+      "--wd",
+      "0.01",
+      "--beta2",
+      "0.999",
+      "--sched",
+      "onecycle",
+      "--warmup-frac",
+      "0.05",
+      "--clip",
+      "1",
+      "--precision",
+      "fp32",
+      "--no-eval-during-fit",
+      "--grad-stats"
+    ],
+    "trainer_argv_sha256": "90bf3969799f61f765225179d10ee73a75ff4a6fb9dbaef87db1bed0cc30b38b",
+    "training_entrypoint_called": false,
+    "validated": true
+  },
+  "created_utc": "2026-10-20T05:13:34.451638+00:00",
+  "focused_test_and_style_evidence": [
+    {
+      "command": "PYTHONPATH=research/campaign_2026-10-19/full_gru_tweaks_r1/preparation /Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python -m pytest -q research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_child_allthree_profile_probe_v1.py",
+      "contract_sha256_at_run": "ca6bc4b1c33e445521bce5d80b24a436dddc2319ace38cb75781872008b95d11",
+      "exit_code": 0,
+      "note": "Recorded from the earlier run; the 17-test suite was not replayed after the one-field delta.",
+      "probe_sha256_at_run": "446e679ddae0f05225209950d928790264c8cd57fb8836b79f671d06d03be9e4",
+      "result": "PASS_HISTORICAL_PRE_INHERITANCE_DELTA",
+      "stdout": "................. [100%]\n17 passed in 0.75s\n",
+      "test_sha256_at_run": "d2a72564befa758892ad678130940e06ee95db75fc717f368d2d067dfd96f179"
+    },
+    {
+      "command": "PYTHONPATH=research/campaign_2026-10-19/full_gru_tweaks_r1/preparation /Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python -m pytest -q research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_child_allthree_profile_probe_v1.py::test_profile_requires_parent_preprocessing_inheritance",
+      "contract_sha256": "ab68d868261106a7548b649243f4a645ece926b6138d683c731841cfb9f0b7c5",
+      "exit_code": 0,
+      "probe_sha256": "446e679ddae0f05225209950d928790264c8cd57fb8836b79f671d06d03be9e4",
+      "result": "PASS",
+      "stdout": ". [100%]\n1 passed in 0.84s\n",
+      "test_sha256": "75cabed1560f9d22bdcd5f11b1228cc17c7a705d4f2a05395b5a570a8cce860d"
+    },
+    {
+      "command": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python -m ruff check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_profile_contract_v1.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_profile_probe_v1.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_child_allthree_profile_probe_v1.py",
+      "result": "PASS",
+      "source_sha256": {
+        "contract": "ab68d868261106a7548b649243f4a645ece926b6138d683c731841cfb9f0b7c5",
+        "probe": "446e679ddae0f05225209950d928790264c8cd57fb8836b79f671d06d03be9e4",
+        "tests": "75cabed1560f9d22bdcd5f11b1228cc17c7a705d4f2a05395b5a570a8cce860d"
+      },
+      "stdout": "All checks passed!\n"
+    }
+  ],
+  "local_code": {
+    "contract": {
+      "path": "preparation/child_allthree_profile_contract_v1.py",
+      "sha256": "ab68d868261106a7548b649243f4a645ece926b6138d683c731841cfb9f0b7c5"
+    },
+    "planned_private_d_helpers": {
+      "modules": {
+        "child_allthree_profile_contract_v1": {
+          "origin": "/private/var/folders/hl/078zcnmn10v0732k9b0c20mm0000gn/T/fg19-child-profile-code-only-kgggwg32/child_allthree_profile_contract_v1.py",
+          "sha256": "ab68d868261106a7548b649243f4a645ece926b6138d683c731841cfb9f0b7c5",
+          "sys_path_zero_at_import": "/private/var/folders/hl/078zcnmn10v0732k9b0c20mm0000gn/T/fg19-child-profile-code-only-kgggwg32"
+        },
+        "child_allthree_profile_probe_v1": {
+          "origin": "/private/var/folders/hl/078zcnmn10v0732k9b0c20mm0000gn/T/fg19-child-profile-code-only-kgggwg32/child_allthree_profile_probe_v1.py",
+          "sha256": "446e679ddae0f05225209950d928790264c8cd57fb8836b79f671d06d03be9e4",
+          "sys_path_zero_at_import": "/private/var/folders/hl/078zcnmn10v0732k9b0c20mm0000gn/T/fg19-child-profile-code-only-kgggwg32"
+        },
+        "propensity_terminal_support": {
+          "origin": "/private/var/folders/hl/078zcnmn10v0732k9b0c20mm0000gn/T/fg19-child-profile-code-only-kgggwg32/propensity_terminal_support.py",
+          "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+          "sys_path_zero_at_import": "/private/var/folders/hl/078zcnmn10v0732k9b0c20mm0000gn/T/fg19-child-profile-code-only-kgggwg32"
+        }
+      },
+      "preparation_imported": false,
+      "pythonpath": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019/src",
+      "restricted_checkpoint_loader_called": false,
+      "sys_path_zero_at_import": "/private/var/folders/hl/078zcnmn10v0732k9b0c20mm0000gn/T/fg19-child-profile-code-only-kgggwg32"
+    },
+    "probe": {
+      "path": "preparation/child_allthree_profile_probe_v1.py",
+      "sha256": "446e679ddae0f05225209950d928790264c8cd57fb8836b79f671d06d03be9e4"
+    },
+    "profile_template": {
+      "path": "preparation/child_allthree_profile_v1/REMOTE_SUBMISSION_TEMPLATE.py",
+      "sha256": "e03e3b4640531d8c6d3a532efbb672f1d21433d3564e590b79e6188812d414ad"
+    },
+    "proof_script": {
+      "path": "preparation/child_allthree_profile_local_checks_v1/RETAINED_PROOF.py",
+      "sha256": "17ae5cbcfdac9da9724aa4e2d35a1668947b520ceab9dae7c33653116e51165f"
+    },
+    "tests": {
+      "path": "preparation/test_child_allthree_profile_probe_v1.py",
+      "sha256": "75cabed1560f9d22bdcd5f11b1228cc17c7a705d4f2a05395b5a570a8cce860d"
+    }
+  },
+  "proof_console_summary": "LOCAL_PROFILE_PROOF_PASS; WNN_MODULES=96; WNN_SUBMODULES=95; CUDA_INITIALIZED=false; PAYLOAD_READS=0",
+  "reader_and_cuda_sentinels": {
+    "blocked_payload_paths": [],
+    "blocked_suffixes": [
+      ".parquet",
+      ".npy",
+      ".npz",
+      ".pt"
+    ],
+    "cuda_initialized_after_canonical_import": false,
+    "cuda_visible_devices": ""
+  },
+  "schema": "fg19.child-allthree-profile-local-checks.v1",
+  "scope": {
+    "array_or_parquet_payload_read": false,
+    "full_existing_test_suite_replayed": false,
+    "inheritance_delta": "inherit_init_preprocessing must be exactly True",
+    "model_or_optimizer_payload_read": false,
+    "quality_or_fit_claim": false,
+    "remote_actions": false,
+    "training_or_profile_execution": false
+  },
+  "source": {
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "root": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019",
+    "runtime_wnn_module_count": 96,
+    "runtime_wnn_modules": [
+      {
+        "module": "wnn",
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+      },
+      {
+        "module": "wnn.block_memory_attention",
+        "path": "src/wnn/block_memory_attention.py",
+        "sha256": "a05c04d49f258d808ddb4fc4f7373a7bef57963050619f96698822e61840cc39"
+      },
+      {
+        "module": "wnn.data",
+        "path": "src/wnn/data.py",
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      {
+        "module": "wnn.distillation",
+        "path": "src/wnn/distillation.py",
+        "sha256": "5d68b03204b9413d2412533a7aa75ae0759276dacbbed4035b846da1d38350e2"
+      },
+      {
+        "module": "wnn.distillation_cache",
+        "path": "src/wnn/distillation_cache.py",
+        "sha256": "008fd6615ac5b627273f419072933cb95dc85fcd6c30eaffd6f1fb2df53ab0eb"
+      },
+      {
+        "module": "wnn.event_content",
+        "path": "src/wnn/event_content.py",
+        "sha256": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd"
+      },
+      {
+        "module": "wnn.features",
+        "path": "src/wnn/features.py",
+        "sha256": "c2b317d1f148d0cad9632726a1436b94f4ae76016458deaa70aa36fdca21ecb2"
+      },
+      {
+        "module": "wnn.gmetric",
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      },
+      {
+        "module": "wnn.metric",
+        "path": "src/wnn/metric.py",
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc"
+      },
+      {
+        "module": "wnn.nn",
+        "path": "src/wnn/nn.py",
+        "sha256": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48"
+      },
+      {
+        "module": "wnn.numeric_ple",
+        "path": "src/wnn/numeric_ple.py",
+        "sha256": "229a7e0f032cd65bbf6700fa9372c08016b20e4719cb2f9eddd540ff8c468720"
+      },
+      {
+        "module": "wnn.optim",
+        "path": "src/wnn/optim.py",
+        "sha256": "6d70f1863bf268c85a457df9b77735c08c5e8e65549457521001c2a7a721ac1b"
+      },
+      {
+        "module": "wnn.outcomes",
+        "path": "src/wnn/outcomes.py",
+        "sha256": "47625c6712975f3611b92186eae9adf5ccc0b2b64e70bf9e3387935969a9be75"
+      },
+      {
+        "module": "wnn.privileged",
+        "path": "src/wnn/privileged.py",
+        "sha256": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4"
+      },
+      {
+        "module": "wnn.propensity",
+        "path": "src/wnn/propensity.py",
+        "sha256": "31a4e8309bc389b4bd72d64fe89fa00a48b4eeac7bce63799bfe985d240fd716"
+      },
+      {
+        "module": "wnn.quantization",
+        "path": "src/wnn/quantization.py",
+        "sha256": "fbca8fff8af5ae488eea2c2b53e304fd3620fdaf32f1f213ac499378b0261298"
+      },
+      {
+        "module": "wnn.research_features",
+        "path": "src/wnn/research_features.py",
+        "sha256": "5dfc31d01c6a5934f66fd6029f457ae2a85a22d6f169d32b89e2160e38c84b50"
+      },
+      {
+        "module": "wnn.resources",
+        "path": "src/wnn/resources.py",
+        "sha256": "95fdc839ff1561622ac06c465cfc9a01370130d99be1e832b3a33c79bcb37930"
+      },
+      {
+        "module": "wnn.run_identity",
+        "path": "src/wnn/run_identity.py",
+        "sha256": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76"
+      },
+      {
+        "module": "wnn.sentinel",
+        "path": "src/wnn/sentinel.py",
+        "sha256": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec"
+      },
+      {
+        "module": "wnn.sentinel_calibration",
+        "path": "src/wnn/sentinel_calibration.py",
+        "sha256": "903c455c2e8faf1e84f7aa458df5d2bc87066766c867349444f476b385cd7599"
+      },
+      {
+        "module": "wnn.specialist",
+        "path": "src/wnn/specialist.py",
+        "sha256": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400"
+      },
+      {
+        "module": "wnn.splits",
+        "path": "src/wnn/splits.py",
+        "sha256": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe"
+      },
+      {
+        "module": "wnn.spread_aux",
+        "path": "src/wnn/spread_aux.py",
+        "sha256": "013cb04d28e946ae2e3a772f797438c045a08a63fd0f32c4d71e8e3b62921512"
+      },
+      {
+        "module": "wnn.structured_state",
+        "path": "src/wnn/structured_state.py",
+        "sha256": "227a5b8fe8ada7b34d61463ad2f022a0d802011aa985b215ef880d5a469c1756"
+      },
+      {
+        "module": "wnn.student_frontier",
+        "path": "src/wnn/student_frontier.py",
+        "sha256": "caca6b0019f21286767112b77719a280b9409833b5c4b625bd9c14c5736397d0"
+      },
+      {
+        "module": "wnn.student_frontier_order",
+        "path": "src/wnn/student_frontier_order.py",
+        "sha256": "6be4ab23547c38cc1373ac8a3ba0f5cb8f7a7cbd989cc924f965aa25d3dbc9ba"
+      },
+      {
+        "module": "wnn.training",
+        "path": "src/wnn/training/__init__.py",
+        "sha256": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7"
+      },
+      {
+        "module": "wnn.training.averaging",
+        "path": "src/wnn/training/averaging.py",
+        "sha256": "336a795dd460d2d1f591af742806df157b8fa136ad1c76653ed876e17849b6e1"
+      },
+      {
+        "module": "wnn.training.batches",
+        "path": "src/wnn/training/batches.py",
+        "sha256": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21"
+      },
+      {
+        "module": "wnn.training.cache_identity",
+        "path": "src/wnn/training/cache_identity.py",
+        "sha256": "0919b062d56b19d59b974a595f7412401029ba6b01a57ae968405336f3404d1f"
+      },
+      {
+        "module": "wnn.training.calibration",
+        "path": "src/wnn/training/calibration.py",
+        "sha256": "20674be56038efa7da9cdbd39c409bc62b8227044bbb7943b4c1122c8c9f9112"
+      },
+      {
+        "module": "wnn.training.checkpoints",
+        "path": "src/wnn/training/checkpoints.py",
+        "sha256": "a7dd4e9c092fd7912d20d73e6cd8bc597947898a6551d54c948f28f6e54f84c5"
+      },
+      {
+        "module": "wnn.training.cli",
+        "path": "src/wnn/training/cli.py",
+        "sha256": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6"
+      },
+      {
+        "module": "wnn.training.cli_data",
+        "path": "src/wnn/training/cli_data.py",
+        "sha256": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b"
+      },
+      {
+        "module": "wnn.training.cli_features",
+        "path": "src/wnn/training/cli_features.py",
+        "sha256": "680687de564a7c96ac96296a729ccb6aa37a8ecb913e525153e769fa14abd79a"
+      },
+      {
+        "module": "wnn.training.cli_model",
+        "path": "src/wnn/training/cli_model.py",
+        "sha256": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d"
+      },
+      {
+        "module": "wnn.training.cli_normalization",
+        "path": "src/wnn/training/cli_normalization.py",
+        "sha256": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa"
+      },
+      {
+        "module": "wnn.training.cli_optimizer",
+        "path": "src/wnn/training/cli_optimizer.py",
+        "sha256": "cdda138a1a1067cff0fb4c1a7e939d93d30a59b452c5880b8971baa93251007c"
+      },
+      {
+        "module": "wnn.training.cli_performance",
+        "path": "src/wnn/training/cli_performance.py",
+        "sha256": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8"
+      },
+      {
+        "module": "wnn.training.cli_targets",
+        "path": "src/wnn/training/cli_targets.py",
+        "sha256": "ffc05685353085f2ab627d0b4800af81e06520df94f652b6a888e546176c1b57"
+      },
+      {
+        "module": "wnn.training.cli_views",
+        "path": "src/wnn/training/cli_views.py",
+        "sha256": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26"
+      },
+      {
+        "module": "wnn.training.data_caches",
+        "path": "src/wnn/training/data_caches.py",
+        "sha256": "f5840a1925e0d9ba74a4b8da974336a143e074f8223d214a06097d51c776e62a"
+      },
+      {
+        "module": "wnn.training.data_loaders",
+        "path": "src/wnn/training/data_loaders.py",
+        "sha256": "9429f29d214ebfdb369ed92296c63d4413b9a9848bb66ba98392b7c6474de612"
+      },
+      {
+        "module": "wnn.training.data_membership",
+        "path": "src/wnn/training/data_membership.py",
+        "sha256": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf"
+      },
+      {
+        "module": "wnn.training.datasets",
+        "path": "src/wnn/training/datasets.py",
+        "sha256": "43b1d5da218d9740f7855d341e320bfb1dff9aad14b9a77b5654b3e78485fa02"
+      },
+      {
+        "module": "wnn.training.environment",
+        "path": "src/wnn/training/environment.py",
+        "sha256": "37f431554a20b72ecfd10d41c76c4822379f3b4b15c3c69f8f3c6f5ba0e8125c"
+      },
+      {
+        "module": "wnn.training.epoch",
+        "path": "src/wnn/training/epoch.py",
+        "sha256": "cc72be0e0f6bfb6e67659068ab30778cf48e0734ae9740b856485e79b4a2cbe6"
+      },
+      {
+        "module": "wnn.training.evaluation",
+        "path": "src/wnn/training/evaluation.py",
+        "sha256": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345"
+      },
+      {
+        "module": "wnn.training.fit_state",
+        "path": "src/wnn/training/fit_state.py",
+        "sha256": "f773deaf2d2850248e6ef7be542903a79909617b18fd160f6a273c10ea1e6316"
+      },
+      {
+        "module": "wnn.training.forward",
+        "path": "src/wnn/training/forward.py",
+        "sha256": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9"
+      },
+      {
+        "module": "wnn.training.forward_backward",
+        "path": "src/wnn/training/forward_backward.py",
+        "sha256": "51a06c6f3a74ac5ebf87c84974173b6e7410631e9a761e9d9c11f7968cec2cb3"
+      },
+      {
+        "module": "wnn.training.inheritance",
+        "path": "src/wnn/training/inheritance.py",
+        "sha256": "b5595f39f1d466f9fce0115f9aad362cd4a9c3cc59b179515783ba6893a295b8"
+      },
+      {
+        "module": "wnn.training.initializer",
+        "path": "src/wnn/training/initializer.py",
+        "sha256": "bfb419342013382c3d527d0f08003df7a2e64052b20062c0ab2598f2a8d16a94"
+      },
+      {
+        "module": "wnn.training.input_representation",
+        "path": "src/wnn/training/input_representation.py",
+        "sha256": "934bac99544c04ac3b77f0b9f78fa4b40ce5782a785fee04d9450d9d568b116f"
+      },
+      {
+        "module": "wnn.training.input_representation_dictionary",
+        "path": "src/wnn/training/input_representation_dictionary.py",
+        "sha256": "49eb729fa01574204698a16e2b2a7f0a2a18f119a84aaf39696df9e476f7b2ff"
+      },
+      {
+        "module": "wnn.training.input_representation_fit",
+        "path": "src/wnn/training/input_representation_fit.py",
+        "sha256": "6b5b21774b762d6d316e23d97210e63dcbb1f71241bec65897418e60a21adec9"
+      },
+      {
+        "module": "wnn.training.inputs",
+        "path": "src/wnn/training/inputs.py",
+        "sha256": "b433ad56965e4272f3209e02f9108527fdaeabebefae07616dff61a4bbe5c9ea"
+      },
+      {
+        "module": "wnn.training.losses",
+        "path": "src/wnn/training/losses.py",
+        "sha256": "5859a4d40f13e91f50d34dfaed42d12dcfa2e229a85721ffc68bb5d69e1cfa66"
+      },
+      {
+        "module": "wnn.training.macro_updates",
+        "path": "src/wnn/training/macro_updates.py",
+        "sha256": "ce2177d4ef5043561f65deb4eeb2330f893465614075ce03fa15b05cb7cdf3f4"
+      },
+      {
+        "module": "wnn.training.mean_variance",
+        "path": "src/wnn/training/mean_variance.py",
+        "sha256": "e4a067bb9d467d121720854876cfffb083ab803a4ed440ec96025779553e15c5"
+      },
+      {
+        "module": "wnn.training.membership",
+        "path": "src/wnn/training/membership.py",
+        "sha256": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238"
+      },
+      {
+        "module": "wnn.training.model_validation",
+        "path": "src/wnn/training/model_validation.py",
+        "sha256": "2326c3e39793753d077be580e3953dc1b2e2a09bf455f63d7576497868d557ba"
+      },
+      {
+        "module": "wnn.training.models",
+        "path": "src/wnn/training/models.py",
+        "sha256": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473"
+      },
+      {
+        "module": "wnn.training.muon_precision",
+        "path": "src/wnn/training/muon_precision.py",
+        "sha256": "41e2435bdd4fc1f39ef5cd16999fc5dd52a1e129a2bfabe8b61fb6890149c2cb"
+      },
+      {
+        "module": "wnn.training.normalization",
+        "path": "src/wnn/training/normalization.py",
+        "sha256": "e4a46d33fdfd8585a03c621f4c6b1155c93c43c54fb4fb45cacdaa1d0fc6352c"
+      },
+      {
+        "module": "wnn.training.optimization",
+        "path": "src/wnn/training/optimization.py",
+        "sha256": "83bc9cf53b1b633b741f411e6754cc3f65db6b2df5cc4f54657e8a1b6fe64d62"
+      },
+      {
+        "module": "wnn.training.outputs",
+        "path": "src/wnn/training/outputs.py",
+        "sha256": "35aab70e8aeb1ddabfa53f0f274ddc7aaa8c34d2e60ee92094a2221fcd20706a"
+      },
+      {
+        "module": "wnn.training.prefetch",
+        "path": "src/wnn/training/prefetch.py",
+        "sha256": "12fe0e08e7c162cab15dfaf93a13c83e07849182a935be262e03cb0468185646"
+      },
+      {
+        "module": "wnn.training.profile_results",
+        "path": "src/wnn/training/profile_results.py",
+        "sha256": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9"
+      },
+      {
+        "module": "wnn.training.profiling",
+        "path": "src/wnn/training/profiling.py",
+        "sha256": "478c789d72798123a0dca618c14e0ff5fe85420fd742659eebb23fbc74054604"
+      },
+      {
+        "module": "wnn.training.provenance",
+        "path": "src/wnn/training/provenance.py",
+        "sha256": "25008a9b6a302dbf95cbec9807337a2221b9831e5dd15361a8f9896366a44584"
+      },
+      {
+        "module": "wnn.training.reporting",
+        "path": "src/wnn/training/reporting.py",
+        "sha256": "9675101594f2746b414d3fa851e06617f67e80b1707193ae2bec3f976b9e8b7b"
+      },
+      {
+        "module": "wnn.training.representation_validation",
+        "path": "src/wnn/training/representation_validation.py",
+        "sha256": "983e63fecc8886a67ec3452e21ca3637a25588eba02ab225ce5e1b6f9d8fb887"
+      },
+      {
+        "module": "wnn.training.row_views",
+        "path": "src/wnn/training/row_views.py",
+        "sha256": "9a792fef1b68c69b094d3ae7ec663e16d68064153c3f3dda1e4cc0036dcdc4d5"
+      },
+      {
+        "module": "wnn.training.runner",
+        "path": "src/wnn/training/runner.py",
+        "sha256": "306e0619daa5bb2171063a0e766f064281281fcee4379ae120477ec1b849da7d"
+      },
+      {
+        "module": "wnn.training.setup_lineage",
+        "path": "src/wnn/training/setup_lineage.py",
+        "sha256": "859650a4467ee5a404846af4c71d9f2874016722e4c3c844f29cf82dcf527973"
+      },
+      {
+        "module": "wnn.training.setup_model",
+        "path": "src/wnn/training/setup_model.py",
+        "sha256": "cec9748ad67c995a3c73f6b0288780ba52d0952445251c410113f6670c79fe33"
+      },
+      {
+        "module": "wnn.training.setup_model_runtime",
+        "path": "src/wnn/training/setup_model_runtime.py",
+        "sha256": "8bee93409ccb00e629e8b2e9340e0a80b703e36c4ee687d853f28e375a1fe982"
+      },
+      {
+        "module": "wnn.training.setup_preprocessing",
+        "path": "src/wnn/training/setup_preprocessing.py",
+        "sha256": "a02a47186da846c1dbc82d49d5fc0f35f56e7812120576febeda7988e38ce623"
+      },
+      {
+        "module": "wnn.training.setup_progress",
+        "path": "src/wnn/training/setup_progress.py",
+        "sha256": "62f9bcc06fef3ae939752ee705f4b0222f892a714135726a41e96865bcbc3dc8"
+      },
+      {
+        "module": "wnn.training.setup_state",
+        "path": "src/wnn/training/setup_state.py",
+        "sha256": "7a795c2be72728aa7d487e0b5f71f76d19dd32586934a64b101155f596bea976"
+      },
+      {
+        "module": "wnn.training.source_identity",
+        "path": "src/wnn/training/source_identity.py",
+        "sha256": "40cf510ba04fc30139966506b7cd91e4998a2819d614673fa1287fcb279a002c"
+      },
+      {
+        "module": "wnn.training.state",
+        "path": "src/wnn/training/state.py",
+        "sha256": "b7b347b5df1d0526e727b95918855188fc41f437b0092841b66b8824927e24d8"
+      },
+      {
+        "module": "wnn.training.targets",
+        "path": "src/wnn/training/targets.py",
+        "sha256": "082d30d856323481f64ac5099b114c7015d17945a5d9fac045094dd8d4576438"
+      },
+      {
+        "module": "wnn.training.updates",
+        "path": "src/wnn/training/updates.py",
+        "sha256": "c150120c130bdada6daa516a0d1ad2fc39d92c0e586c0ade2a94b6ae37b462d1"
+      },
+      {
+        "module": "wnn.training.validation_inputs",
+        "path": "src/wnn/training/validation_inputs.py",
+        "sha256": "8ebfa7252933c05824f62044cd75ea82599e55e9404b5495605f6228694f5989"
+      },
+      {
+        "module": "wnn.training.validation_training",
+        "path": "src/wnn/training/validation_training.py",
+        "sha256": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370"
+      },
+      {
+        "module": "wnn.training_controls",
+        "path": "src/wnn/training_controls.py",
+        "sha256": "67c759fdc0f053d97fe86c19d32790a8184ee671e501c7c76444dbe85137ef39"
+      },
+      {
+        "module": "wnn.training_credit",
+        "path": "src/wnn/training_credit.py",
+        "sha256": "dc57768e86c1622d872b1250857edd12f89261d2352740dfbffe3bdbfe97e3cd"
+      },
+      {
+        "module": "wnn.training_dynamics",
+        "path": "src/wnn/training_dynamics.py",
+        "sha256": "88f4acedd231b4b5402f0a68061cf788eedc138b43a6248091fbd0dfab64129d"
+      },
+      {
+        "module": "wnn.training_factorized",
+        "path": "src/wnn/training_factorized.py",
+        "sha256": "b1e7edb7a780e6c2539b298bc30294c03882e04c9dcb27eae323b0576fa6f2b2"
+      },
+      {
+        "module": "wnn.training_qat",
+        "path": "src/wnn/training_qat.py",
+        "sha256": "65d770f1ee5bc4cb5b88d7e1b42d63eb77fae4704010f0b263966e0de58578e2"
+      },
+      {
+        "module": "wnn.training_sampling",
+        "path": "src/wnn/training_sampling.py",
+        "sha256": "342f3b1842885fd59971a0f53d9716ac90461fceb3319caff975a6b203bcedb2"
+      },
+      {
+        "module": "wnn.training_state",
+        "path": "src/wnn/training_state.py",
+        "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+      },
+      {
+        "module": "wnn.training_views",
+        "path": "src/wnn/training_views.py",
+        "sha256": "da7cc56a6808ade7066011eded76d8a836f8f99292974ae578d2191f972da142"
+      }
+    ],
+    "runtime_wnn_submodule_count": 95,
+    "source_file_count": 167,
+    "source_manifest_path": "preparation/teacher_cache_cpu_repair_v2/SOURCE_MANIFEST.json",
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "tracked_worktree_clean": true
+  },
+  "status": "PASS_LOCAL_COLD_IMPORT_CLI_RECEIPT_FIXTURES_ONLY"
+}

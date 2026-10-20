@@ -1,0 +1,3 @@
+# Superseded V2 draft
+
+This unlaunched draft body was rendered before the independent review required the RNG diagnostic exact-stop checks to include `before.MainPID == "0"` and `after.InvocationID == ""`. The body and preparation receipt are preserved verbatim: body SHA `e72b7fb981251976edd2a2907a3a0cd9c7ec570ca6ee9c02e7588cec9f4d85ff`, preparation SHA `7f24254d402d34276dd14b25d307d3605f021d8283bda6d0c18bfc317ad7c282`, prior local-check SHA `a18542c8be9bb7158a96d4c8232b9467d43e96b7cf1eaf5dcee3005ad9d31ec5`. It was never transmitted, submitted, or launched. The current V2 template includes the missing fail-closed fields; this snapshot exists only for draft history.

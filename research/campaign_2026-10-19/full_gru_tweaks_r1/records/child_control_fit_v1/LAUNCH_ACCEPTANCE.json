@@ -1,0 +1,24 @@
+{
+  "accepted_utc": "2026-10-20T05:33:09.761270+00:00",
+  "admission_sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973",
+  "body_sha256": "124b90f9cc76c17c9a62e22b934dc15e579417f0b769eb86f44334ba55f6b954",
+  "expected_counts_are_not_observed": true,
+  "expected_optimizer_updates": 44760,
+  "independent_source_review_sha256": "17d035a2f7ad5545256c195666f4ad0b973ebc96172522822ad98f595aa7c625",
+  "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+  "launch_sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9",
+  "quality_score": null,
+  "raw_stdout_sha256": "22b66a7c530579e5e6b05e6f797bf8a3c77016ec7dc7fddf643fcf4acc1945fe",
+  "schema": "fg19-child-control-fit-launch-acceptance.v1",
+  "scientific_fits_newly_started": 1,
+  "status": "ACTUAL_LAUNCH_CAPTURED_NOT_COMPLETION",
+  "systemctl_after_submission": {
+    "ActiveState": "active",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-control-fit-v1.service",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_child_control_f0_s1001_fit_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode base --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective wmse --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --grad-stats --save-training-state --no-eval-during-fit ; ignore_errors=no ; start_time=[Tue 2026-10-20 05:33:09 UTC] ; stop_time=[n/a] ; pid=96892 ; code=(null) ; status=0/0 }",
+    "InvocationID": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "MainPID": "96892",
+    "SubState": "running"
+  },
+  "unit": "computer-vision-homework-fg19-child-control-fit-v1.service"
+}

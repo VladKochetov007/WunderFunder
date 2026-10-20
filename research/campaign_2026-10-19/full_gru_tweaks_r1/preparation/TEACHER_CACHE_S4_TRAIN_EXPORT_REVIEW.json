@@ -1,0 +1,96 @@
+{
+  "checks": {
+    "compile_ast_only_no_submission_execution": true,
+    "frozen_packet_hashes_match": true,
+    "output_absence_and_metadata_in_place_gates_present": true,
+    "payload_contract_manifest_and_167_file_inventory_pins_match": true,
+    "profile_gate_code_unchanged_from_reviewed_s3_valid_adapter": true,
+    "rendered_body_matches_template_payload": true,
+    "s3_train_and_valid_acceptance_stop_bytes_match_local_receipts": true,
+    "s4_target_run_seed_checkpoint_provenance_and_native_acceptance_match": true,
+    "single_bounded_create_only_command_and_no_retry_present": true
+  },
+  "fresh_gates_preserved": [
+    "167-file immutable source inventory and teacher checkpoint/provenance hashes",
+    "profile acceptance and exact-stop identity",
+    "accepted and exactly stopped S3 train predecessor",
+    "registered data identity, campaign cgroup ownership/headroom, selected-GPU free space/processes",
+    "physical scratch filesystem and disk reserve",
+    "output absence and existing metadata integrity"
+  ],
+  "packet_sha256": {
+    "IDENTITY_DELTA.md": "9906793184c283fc0445e7455dbaf83eb5427b72bafa074e508a80367faf8d57",
+    "REMOTE_SUBMISSION.py": "6872dbafa83c993de73773713c03d41319f511e79a859e2a2fcb7c40717b7a97",
+    "REMOTE_SUBMISSION_TEMPLATE.py": "b227f83f1767aaeff1c40ce8a42e3a93b871f82c339931e3d1e2eaee89a9b8f6"
+  },
+  "predecessors": {
+    "array_finiteness_check_deferred_to_streamed_cpu_cache_builder": true,
+    "prior_prediction_files_require_exact_stat_and_producer_sidecar_sha256": true,
+    "prior_prediction_payloads_read_or_hashed_by_adapter": false,
+    "s3_train": {
+      "acceptance_sha256": "a3e6b023dda48c339daa12f17d721eb0765efe63dead6220976425fc1485d2f4",
+      "exact_stop_sha256": "5d9e2a956d21ab8a1130323475dcb6cdac49d2f9efee775dd912adc6255c92ba",
+      "fit_rows": 10535
+    },
+    "s3_valid": {
+      "acceptance_sha256": "676f609681e71c5ad26ad3261527df69024a84c311ab8375a2c07a42eb76a288",
+      "exact_stop_sha256": "902549b2c12290e372c8f11d57f189f2f21cd39141fe12f389a402fc2b3c863e",
+      "fit_rows": 1405
+    }
+  },
+  "resource_limits": {
+    "cpu_quota": "100% (1 CPU)",
+    "cuda_allocator_bytes": 4294967296,
+    "cuda_reserve_bytes": 1000000000,
+    "loader_workers": 0,
+    "memory_high_bytes": 7500000000,
+    "memory_max_bytes": 8000000000,
+    "minimum_selected_gpu_free_bytes": 5294967296,
+    "physical_scratch_and_disk_reserve_gates_inherited_from_pinned_profile_gate_code": true,
+    "runtime_max_seconds": 10800,
+    "swap_bytes": 0,
+    "torch_threads": 1
+  },
+  "retry_policy": "Never retry; inspect exact unit and durable receipts after any unknown outcome.",
+  "review_scope": {
+    "actual_admission": false,
+    "launch_performed": false,
+    "model_checkpoint_payload_read": false,
+    "note": "Static packet and identity delta review only; not an admission, launch, export completion, independent finite-output, or quality result.",
+    "prediction_array_payload_read": false,
+    "remote_access_performed": false
+  },
+  "reviewed_utc": "2026-10-19T23:06:39+00:00",
+  "s4_delta": {
+    "evidence_directory_absent_before_admission": true,
+    "four_staged_metadata_jsons_verified_in_place_not_recreated": true,
+    "launch_unit": "computer-vision-homework-fg19-teacher-s4-train-export-v1.service",
+    "output_dir_b": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1",
+    "single_command_only": true,
+    "target_npy_partial_sidecar_absent_before_export": true,
+    "train_fit_rows": 10535
+  },
+  "schema": "fg19.teacher-cache-s4-train-export-source-review.v1",
+  "source_and_contract": {
+    "execution_contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "profile_remains_anchored_to": "fg19_t3_h384x2_e3_s3_v1",
+    "reused_profile_gates_sha256": "65151d60f69edc66d935d323813965906cacd57cb843eb3d70746348f16775ce",
+    "selected_export": {
+      "checkpoint_sha256": "a59a747176263fc0ecdfcc584f78cf77b13465ec4645ca4bb5d9992380865a36",
+      "epoch": 2,
+      "native_teacher_acceptance_sha256": "37e484f2ca507c11f45cb67299e6ba093046caffa3380a37dc0c84c53110a9e3",
+      "provenance_sha256": "6a6c5bae6bd2ee943684ddad3b6c888682cd4e13de492cf1cac571e97727b2bf",
+      "run": "fg19_t3_h384x2_e3_s4_v1",
+      "seed": 4
+    },
+    "source_commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "source_file_count": 167,
+    "source_manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97",
+    "teacher_order": [
+      3,
+      4,
+      5
+    ]
+  },
+  "status": "PASS_SOURCE_REVIEW_ONLY"
+}

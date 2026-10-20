@@ -1,0 +1,47 @@
+{
+  "schema": "fg19-child-allthree-profile-admission-review.v1",
+  "result": "CONDITIONAL_PACKET_PASS",
+  "scope": "Local packet/source review. No SSH, unit query/action, profile launch, model checkpoint read, array read, or tests run by reviewer.",
+  "packet_pins": {
+    "body": {
+      "path": "preparation/child_allthree_profile_v1/REMOTE_SUBMISSION.py",
+      "sha256": "e03e3b4640531d8c6d3a532efbb672f1d21433d3564e590b79e6188812d414ad"
+    },
+    "template": {
+      "path": "preparation/child_allthree_profile_v1/REMOTE_SUBMISSION_TEMPLATE.py",
+      "sha256": "e03e3b4640531d8c6d3a532efbb672f1d21433d3564e590b79e6188812d414ad"
+    },
+    "preparation": {
+      "path": "preparation/child_allthree_profile_v1/PREPARATION.json",
+      "sha256": "3b5bf6d7f49ccb2c569c1f137699a3e64bd06334801a520039fa3d1d73bb7b36"
+    },
+    "local_checks": {
+      "path": "preparation/child_allthree_profile_v1/LOCAL_CHECKS.json",
+      "sha256": "c0e4dccd09a7993589dd30cbddf13457cef60d3b8ee7204f7832251ecbc4d85d"
+    },
+    "check_script": {
+      "path": "preparation/child_allthree_profile_v1/check_local.py",
+      "sha256": "72aadb73aa6ed9a1d44d8baf65270dda47977bc3ec4af6448e13383489e84ac4"
+    },
+    "private_d_import_proof": {
+      "path": "preparation/child_allthree_profile_v1/private_d_closure_proof.py",
+      "sha256": "b98a935d723655e4ab34edf1956aefbc0068b29001b11014d507384cd69b8613"
+    }
+  },
+  "source_pins": {
+    "probe_sha256": "446e679ddae0f05225209950d928790264c8cd57fb8836b79f671d06d03be9e4",
+    "contract_sha256": "ab68d868261106a7548b649243f4a645ece926b6138d683c731841cfb9f0b7c5",
+    "restricted_loader_helper_sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+    "focused_probe_tests_sha256": "75cabed1560f9d22bdcd5f11b1228cc17c7a705d4f2a05395b5a570a8cce860d"
+  },
+  "review_findings": [
+    "The payload membership is exactly six files: parent acceptance, parent exact-stop receipt, dictionary acceptance, probe, contract, and the restricted-loader helper. Each embedded byte string is SHA checked before staging; the helper SHA is fixed to the reviewed artifact.",
+    "The private-D import proof uses staged bytes copied into a temporary private-D directory, executes a script located in that directory, and asserts exact private-D origin and SHA for probe, contract, and helper. Its sanitized environment has no preparation path; the recorded import origins all point to private-D. This addresses the local-preparation shadowing concern.",
+    "The production command runs the probe from OUTPUT, with PYTHONPATH limited to the pinned source src directory. Since the helper is staged beside the probe and the script directory is first on sys.path, the lazy top-level helper import resolves from private-D ahead of PYTHONPATH.",
+    "Pre-staging gates bind the accepted parent receipt/checkpoint/stop, dictionary and T3 cache metadata, split, 167-file source manifest, six registered data-file identities, empty campaign cgroup, memory headroom, selected-GPU reserve/ownership, physical scratch floor, and absent output/unit. The body creates only the private output directory after these gates, rehashes the six staged files, then records admission and a single systemd submission with durable unknown-outcome handling.",
+    "The fixed argv includes inherited parent preprocessing and the reviewed 2-warmup/4-measured/6-batch profile. The 8 GB memory maximum, 7.5 GB high limit, zero swap, 600-second runtime, 4 GiB CUDA allocator cap, 1 GiB free reserve, one CPU quota, and zero data-loader workers match the current bounded screen."
+  ],
+  "nonblocking_note": "The admission mapping repeats the profile_helper_sha256 key with the same value; Python retains one identical value and the staged-file pin is independently present.",
+  "local_check_claims": "LOCAL_CHECKS.json records PASS for payload membership, checkpoint mutation/symlink fixtures, argv, and private-D import origin; Ruff and py_compile are reported there. Reviewer inspected the files and receipt but did not rerun checks.",
+  "remaining_condition": "This is not a launch authorization or proof that fresh admission gates pass. Root must independently bind final body/metadata pins and capture current resource/ownership gates before any submission."
+}

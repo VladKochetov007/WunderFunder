@@ -1,0 +1,5 @@
+# S3 export startup observation
+
+One root-owned bounded read-only SSH at22:14:50UTC returned0 and persisted rawbytes before parsing. Exact invocation48732136d70548b2903f3426bfedf656/PID3658053 remained active/running, last recorded prediction-progress896of10535sequences. This recorded line is not a synchronous live counter, terminal completion, training update count or quality score. One populated owned GPUprocess1,286MiB; own memoryevents0 and parent event deltas0.
+
+[Raw observation](STDOUT.raw.json), [transport identity](TRANSPORT.json), [compact reconciliation](OBSERVATION.json) and [exact reader](REMOTE.py). The partialNPY has logical size1,685,600,128B bystat only; preallocation does not show completion. No array/checkpoint/source-content read or hash. The expected sourceID in the health reader is a constant and the source path is stat-only; fresh167-file admission hashes remain authority. No unit mutation or stopped-job polling. OwnCGcurrent1,963,274,240B/peak2,259,443,712B and serviceaccounting are separately observed fields. No immediate repeat probe.

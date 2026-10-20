@@ -1,0 +1,53 @@
+{
+  "schema": "fg19.parent-fit-r2-rng-diagnostic-source-review.v1",
+  "status": "CONDITIONAL_PASS_FRESH_ROOT_PREFLIGHT_REQUIRED",
+  "scope": "Independent local review of the frozen metadata-only RNG diagnostic source/admission packet. No SSH, remote query, unit action, tests, checkpoint/model payload, or array/data payload was read by this reviewer.",
+  "identity": {
+    "run_name": "fg19_parent_h256x2_f0_s1001_fit_r2_v1",
+    "native_unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service",
+    "native_invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "failed_verifier_unit": "computer-vision-homework-fg19-parent-fit-r2-verify-v1.service",
+    "failed_verifier_invocation_id": "7ecaf59d01ba4a07b0971a1c9902d87e"
+  },
+  "frozen_packet": {
+    "body": {"path": "preparation/parent_rng_diagnostic_v1/REMOTE_SUBMISSION.py", "bytes": 697786, "sha256": "eb7bb815bd77b5b757d5038798a7aa71f59abad64f047ff450265bb6af4c1723"},
+    "template": {"path": "preparation/parent_rng_diagnostic_v1/REMOTE_SUBMISSION_TEMPLATE.py", "bytes": 34621, "sha256": "19bc9373b2424b5b8d0603a9469bbbd4a8a3852533ef8dc6503f3a2ce5265fd9"},
+    "diagnostic": {"path": "preparation/parent_rng_diagnostic_v1/rng_diagnostic_v1.py", "bytes": 6267, "sha256": "4e9183b8771a698326020164f3bf209d4316b917c490a61e5f1126e818b8714f"},
+    "generator": {"path": "preparation/parent_rng_diagnostic_v1/prepare_parent_rng_diagnostic_v1.py", "sha256": "62c3261b6722e6e1427c5f803ac65e2ef8038d440d5786595ad03312cec22537"},
+    "preparation": {"path": "preparation/parent_rng_diagnostic_v1/PREPARATION.json", "sha256": "f4b04ea220dc22eb38e69832dc2aefa5485e5e0ac25e551dff36bf6d6736d166"},
+    "checker": {"path": "preparation/parent_rng_diagnostic_v1/check_parent_rng_diagnostic_v1.py", "sha256": "e72d42c0399be62c08d0d9b3cf1eec3720e0861307d95e4cf8decc6386b66960"},
+    "local_checks": {"path": "preparation/parent_rng_diagnostic_v1/LOCAL_CHECKS.json", "sha256": "01e591214623b8415e48a86c73d84c5d70eeca1e7d9725d8e3cd17e1ff5514e5"},
+    "readme": {"path": "preparation/parent_rng_diagnostic_v1/README.md", "sha256": "18a98d3483c474b0f432e6b8f286843c1d7f3ff6037671a233ee380a1437bf0e"}
+  },
+  "bound_inputs": {
+    "frozen_gate_template_sha256": "c07446cc2841c53fb2e9dc28bdfae03dc3657a217ead1d7168a614909c562dd2",
+    "parent_checker_sha256": "f27091c864287d6a3b7c173619ad1af5db6887e9632c49a8c6d0bb50c3a9c1d1",
+    "failed_capture_sha256": "7761927b6bcacd034af294ee5f37c30561b6ff3b07b846f0e7393324fea1a359",
+    "failed_admission_sha256": "b89cd063f2409c5551af68819ac4d9f9274d362e2074cd413dce0df0877027d7",
+    "failed_launch_sha256": "ad718e0cb72c11e3a4ea90d4ab5ac694d705d81166f020f10fe0acab9a6e1e12",
+    "failed_unit_log_sha256": "536e2019e084a40eeb0848d9288751f721f609a49a514d629f1d8de5515a2d70",
+    "training_state_stat_sha256": "d7410f6bf76e25bbdc6bcefeb92851803c52f6e8d94e91ba6d93afa63b2e2a35",
+    "native_terminal_evidence_sha256": "780e64538cb34dd9e6a9c7da528a4232d4362daca9bee1dd871bd722373f7615",
+    "native_raw_capture_sha256": "a65af766fafaaa811d0991072035b51ec04dc01353da3059d7c594dffef239cb",
+    "cache_acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "cache_exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4"
+  },
+  "review": {
+    "verdict": "No material blocker found in the frozen diagnostic packet; root must satisfy its fresh admission gates before the one diagnostic submission.",
+    "findings": [
+      "The rendered body’s AST matches its template after normalizing only the generated PAYLOAD assignment. All 17 embedded payload byte lengths and SHA-256 values match PREPARATION.json, and the pinned local metadata/source inputs still match those hashes.",
+      "The script verifies the SHA-256 and import path of the exact f270 checker, then calls that checker’s existing `_load_checkpoint(training_state.pt, 64 MB)` restricted weights-only loader. It checks the captured training-state stat before and after load; it opens no model checkpoint, optimizer payload separately, dataset, or prediction array.",
+      "The output contains format/next_epoch, installed Torch version, RNG keys/types/cardinalities, and tensor dtype/shape/numel/SHA-256 only. Tensor values and model/optimizer values are not emitted. No CUDA RNG shape or length is assumed by this review; it remains unknown until the diagnostic’s persisted output is inspected.",
+      "The new admission binds the prior failed support capture/admission/launch/log and its exact guard message, and proves the state stat matches the prior failed verifier’s captured output inventory. It uses a new output path and unit and does not query, stop, restart, or retry the failed V1 unit.",
+      "The body reuses the frozen source/split/data/cache/native checks and fresh parent gates: exact native invocation/typed exit, 167-file source tree, cache acceptance/exact stop, all populated descendants empty, 17-GB support headroom, physical scratch and 25-GiB project-disk floor. The diagnostic unit keeps 0.5 CPU, 1.4-GB high/1.5-GB max, zero swap, 600 seconds, hidden CUDA and one BLAS thread.",
+      "The body creates a separate unique output only after gates, submits once, and fsyncs an exclusive launch record. Submit timeout and post-submit query errors are retained as unknown outcomes with an explicit no-retry rule."
+    ],
+    "reported_local_checks": "The frozen local-check receipt reports the f270 restricted loader/safe-global binding, payload/template AST checks, cold stdlib metadata-read sentinels, Ruff, and one-submit/create-only/unknown-outcome checks PASS. This reviewer did not rerun checks.",
+    "limits": [
+      "This is source/admission review only; it does not establish the RNG tensor’s actual size, any corrected checker condition, terminal integrity, or quality.",
+      "The diagnostic is not a terminal checker or acceptance. Any checker correction must use the actual diagnostic output and receive separate source review before a new verifier attempt."
+    ]
+  }
+}

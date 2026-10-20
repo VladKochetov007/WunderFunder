@@ -1,0 +1,5 @@
+# Teacher seed3 — bounded readonly health at16:18UTC
+
+One root-owned readonly SSH returned0; [transport](TRANSPORT.json) records exact reused source hash and raw stdout/stderr bytes persisted before metadata. [Observation](OBSERVATION.json) interprets [raw stdout](STDOUT.raw) without model/checkpoint payload reads or training changes. Exact invocation02a8c00b433b49a185c2700624397769 is active/running, only one populated campaign worker and one owned GPU process. Last recorded optimizer line is epoch0batch360/373, loss1.9067/LR8.10e-4; this is recorded progress, not a live-batch/terminal-update count.
+
+Own-cgroup events remain0; parent high2179/max561/OOM0/local0 is unchanged. Own cgroup current3.565GB/peak4.060GB and parent current5.770GB are separate sampled observations. Run metadata/checkpoint paths were stat-only and absent at capture, consistent with an unfinished first epoch. No terminal or quality score. This capture has a recorded return code and does not rewrite the [older startup wrapper failure/correction](../startup_health_v1/README.md). No polling of completed prerequisites, duplicate, restart or stop.

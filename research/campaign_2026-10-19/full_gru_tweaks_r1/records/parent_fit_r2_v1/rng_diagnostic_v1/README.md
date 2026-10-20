@@ -1,0 +1,3 @@
+# RNG diagnostic V1 admission rejected read-only
+
+The [raw stderr](STDERR.launch.raw), [transport](TRANSPORT.launch.json), [executed body](REMOTE_SUBMISSION.py), and [root rejection record](READONLY_REJECTION.json) preserve one SSH invocation that rejected the source-bound failed-verifier capture before output creation, staging or systemd submission. The prior verifier correctly had `terminal_success=false`; the diagnostic admission incorrectly demanded `true` while also requiring failed/failed/exit1. No diagnostic ran and no native/model/array payload was read. V1 is frozen; a new V2 identity packet must use the actual failed-capture fixture and retain all fresh resource/source gates. This is orchestration evidence, not negative training or quality evidence.

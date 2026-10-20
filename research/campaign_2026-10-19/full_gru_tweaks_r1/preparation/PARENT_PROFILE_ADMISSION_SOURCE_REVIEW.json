@@ -1,0 +1,73 @@
+{
+  "schema": "fg19.parent-profile-admission-source-review.v1",
+  "status": "BLOCKED_CURRENT_TEMPLATE_SOURCE_FIX_AND_REPIN_REQUIRED",
+  "scope": "Independent source-only review before actual parent-profile cache binding/admission. No SSH, profile execution, tests, model/checkpoint reads, or array payload reads.",
+  "reviewed_inputs": {
+    "template": {
+      "path": "preparation/parent_profile_v1/REMOTE_SUBMISSION_TEMPLATE.py",
+      "sha256": "b8df9b44d119dcf1c8ef12cef39853225b82f1d68cd9b7111028f0085f09c934"
+    },
+    "preparation": {
+      "path": "preparation/parent_profile_v1/PREPARATION.json",
+      "sha256": "31a4ce85569a234075e8f45f91b468d24c783bc8fe61dff5089f5d4400ab6aa0"
+    },
+    "cli": {
+      "path": "preparation/parent_profile_v1/CLI.md",
+      "sha256": "1077a26669851d12032913d518dea75fe84f2936742672729c73f562975e6059"
+    },
+    "local_checks": {
+      "path": "preparation/parent_profile_v1/LOCAL_CHECKS.json",
+      "sha256": "785f5216aaea1817d2f3308c5a7a35fbedfc0a8faea0bfda88478392c2766e8b"
+    },
+    "receipt_stage_helper": {
+      "path": "preparation/parent_profile_v1/STAGE_CACHE_RECEIPTS.py",
+      "sha256": "2a1cd60484d6bd6a49ea066e4f245149629bd6a400aba2b7b317ce5eeb876127"
+    },
+    "source": {
+      "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "file_count": 167
+    },
+    "reused_profile_gate": {
+      "path": "records/teacher_profile_v2/REMOTE_SUBMISSION.py",
+      "sha256": "65151d60f69edc66d935d323813965906cacd57cb843eb3d70746348f16775ce"
+    },
+    "cache": {
+      "contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+      "v2_native_invocation": "a358e89cd6fe42118e426a954ee897f0",
+      "metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+      "output_array_payload_hashing_by_profile_preflight": false
+    }
+  },
+  "blockers": [
+    {
+      "location": "REMOTE_SUBMISSION_TEMPLATE.py:_cache_identity",
+      "finding": "The disjointness expression compares `fit_groups.train` IDs against `fit_groups.valid` and `evaluation_valid_groups` as bare integers. Train and valid parquet row-group numbers are separate source namespaces and can legitimately overlap numerically, so this rejects valid accepted cache metadata.",
+      "required_correction": "Validate train membership within the train namespace; validate fit-valid against evaluation-valid only within the shared valid namespace; bind source-qualified memberships/order to the accepted producer provenance. Re-pin all affected packet bytes before admission."
+    },
+    {
+      "location": "REMOTE_SUBMISSION_TEMPLATE.py:post-submission systemctl show",
+      "finding": "The post-submit `systemctl show` subprocess has a timeout but no `TimeoutExpired` handler. If that read times out after a successful or unknown submission, the function can exit before durably writing `LAUNCH.json`.",
+      "required_correction": "Record the timeout as an unknown observation and always persist the launch record; never retry the submission. Re-pin the corrected template and preparation packet."
+    }
+  ],
+  "compatibility_note": "The pinned source requires Python >=3.11, so datetime.UTC is available under that floor. Using datetime.timezone.utc remains the requested portability cleanup; it is not treated as a separate runtime blocker.",
+  "source_checks": {
+    "canonical_entrypoint": "scripts/train_rnn.py from source commit 68ff682977b822f38351aac0f621146f5f13b440; no copied trainer",
+    "profile_argv": "43 options match CLI.md and the template; B16, chunk 2000, six fit batches, two profile warmups, four measured batches, four nominal epochs, fixed epoch 3, no fit-time evaluation, homogeneous cache scale 1, alpha 0.9, FP32 AdamW",
+    "normalization": "canonical fit_normalization consumes exactly two batches and samples transformed rows with [::7]; source setup fits this on selected training loader data before profile fitting",
+    "update_scope": "six batches times ten 2,000-row update windows on 20,000-row sequences = 60 in-memory AdamW updates; runner returns through report_profile before evaluation_epoch/save_epoch, so no checkpoint is written",
+    "project_root": "WNN_PROJECT_ROOT is B/data, matching TrainingEnvironment.root and the canonical CLI split/data-resolution behavior",
+    "resource_envelope": "one CPU worker; MemoryHigh 7.5 GB, MemoryMax 8 GB, swap 0, RuntimeMax 600 s; selected GPU allocator 4 GiB with 1 GiB free reserve; existing parent gate requires 2 CPUs, 18/20 GB high/max, no swap, empty descendants and >=17 GB headroom; physical scratch >=25 GiB",
+    "reused_gates": "The embedded registered-data identity, parent-cgroup, and selected-GPU checks mirror the pinned 65151d... profile gate; source hashes/inventory, four metadata JSON pins, split hash, output/cache stats, absent unit/destinations and stop marker remain gated.",
+    "cache_preflight": "Null actual acceptance/stop/invocation/metadata/stat fields reject before remote cache output-stat access; payload headers and array bytes are not read or hashed by the profile admission template."
+  },
+  "receipt_stage_helper_review": {
+    "status": "PASS_CONDITIONAL",
+    "basis": "The pinned helper embeds only the accepted cache terminal receipt and exact-stop receipt for the same V2 invocation; checks accepted status, invocation match, successful stop, unit removal, bounded input bytes, B/target absence, fresh parent limits/headroom and empty campaign descendants; it then create-only writes and fsyncs exactly those JSON receipts.",
+    "execution_constraint": "Use the root-prescribed `python3 -E -B` without `-O`; helper guards are Python assertions. This review did not execute it."
+  },
+  "actual_cache_resource_review": "See TEACHER_CACHE_CPU_BUILD_V2_RESOURCE_REVIEW.json; V2 completed with the existing caps. That observation is not a profile admission or quality result.",
+  "reviewer_action": "Do not bind or admit this current template revision. Re-review the corrected final hashes before root-owned admission.",
+  "reviewed_utc": "2026-10-20"
+}

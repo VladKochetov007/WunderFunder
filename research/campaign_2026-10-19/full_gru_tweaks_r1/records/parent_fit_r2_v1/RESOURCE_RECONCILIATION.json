@@ -1,0 +1,78 @@
+{
+  "schema": "fg19.parent-fit-r2-resource-reconciliation.v1",
+  "native": {
+    "schema": "fg19.parent-fit-r2-resource-reconciliation.v1",
+    "scope": "Native terminal accounting only; support result will be separately recorded. Observations have different scopes and are not interchangeable.",
+    "native": {
+      "unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service",
+      "start_utc": "Tue 2026-10-20 01:31:35 UTC",
+      "exit_utc": "Tue 2026-10-20 03:38:02 UTC",
+      "wall_seconds_monotonic": 7587.175295,
+      "cpu_seconds": 7577.810018,
+      "systemd_memory_peak_bytes": 2873643008,
+      "own_cgroup": null,
+      "own_cgroup_event_scope": "Unavailable at terminal: ControlGroup empty; never fall back to host root",
+      "FIT_epoch_train_seconds": [
+        2270.6,
+        2073.1,
+        1566.4,
+        1568.7
+      ],
+      "provenance_fitting_seconds": 7479.3,
+      "provenance_training_clocks": {
+        "micro_rows": 2000,
+        "detach_rows": 2000,
+        "update_rows": 2000,
+        "ema_decay_per_update": 0.999,
+        "ema_clock": "attempted updates including AMP skips"
+      },
+      "invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4"
+    },
+    "last_active_own_observation": "03:10:07.939585UTC: memory.events all0, ownCGcurrent2585612288/peak2873643008B; dated, not terminal counters",
+    "parent_terminal_events": {
+      "memory.current": "7537139712\n",
+      "memory.events": "low 0\nhigh 38355\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+    },
+    "interpretation": "FIT durations, service CPU/wall/MemoryPeak, sampled RSS/cgroup and CUDA measurements remain separate; no causal performance/full-runtime-RAM inference."
+  },
+  "supports": [
+    {
+      "stage": "terminal_verification_v1",
+      "invocation_id": "7ecaf59d01ba4a07b0971a1c9902d87e",
+      "exit_status": 1,
+      "wall_seconds": 5.841709,
+      "cpu_seconds": 2.867498,
+      "systemd_memory_peak_bytes": 2093056,
+      "own_terminal_cgroup_available": false
+    },
+    {
+      "stage": "terminal_verification_v2",
+      "invocation_id": "c439756a99294d1381c3f32b1a4d98ea",
+      "exit_status": 1,
+      "wall_seconds": 6.116699,
+      "cpu_seconds": 3.022329,
+      "systemd_memory_peak_bytes": 3182592,
+      "own_terminal_cgroup_available": false
+    },
+    {
+      "stage": "terminal_verification_v3",
+      "invocation_id": "104861c532664603913af5170af04b1a",
+      "exit_status": 0,
+      "wall_seconds": 7.122455,
+      "cpu_seconds": 3.495998,
+      "systemd_memory_peak_bytes": 2465792,
+      "own_terminal_cgroup_available": false
+    },
+    {
+      "stage": "rng_diagnostic_v2",
+      "invocation_id": "b9dcbfc0b8054e51a49fc3792fd037a0",
+      "exit_status": 0,
+      "wall_seconds": 4.872158,
+      "cpu_seconds": 2.379384,
+      "systemd_memory_peak_bytes": 2203648,
+      "own_terminal_cgroup_available": false
+    }
+  ],
+  "scope": "Unit-accounted wall/CPU/MemoryPeak are separate observations. Terminal empty cgroups make own current/events unavailable, never host-root fallback. Small support terminal MemoryPeak is not full runtime RAM. No causal explanation inferred."
+}

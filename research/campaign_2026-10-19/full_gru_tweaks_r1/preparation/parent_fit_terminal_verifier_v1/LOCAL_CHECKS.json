@@ -1,0 +1,35 @@
+{
+  "body_sha256": "dff08c36f52e0d4b5f9ef6c1131efe91011ed0a72467634b5a5220096c5d3ac6",
+  "checker_sha256": "f27091c864287d6a3b7c173619ad1af5db6887e9632c49a8c6d0bb50c3a9c1d1",
+  "checks": {
+    "cold_metadata_read_sentinel": {
+      "command": "python -I -B -c <script embedded in this check file>",
+      "forbidden_suffixes": [
+        ".pt",
+        ".npy",
+        ".npz",
+        ".parquet"
+      ],
+      "module_path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/parent_fit_terminal_verifier_v1/prepare_parent_fit_terminal_verifier_v1.py",
+      "returncode": 0,
+      "script_sha256": "5c05c4ef03052f87abddafaf161dda828ecd01b87647adb665dc9385b70eed55",
+      "stderr": "",
+      "stdout": "PASS cold stdlib import; pinned inputs=11; model/array/data suffix reads=0"
+    },
+    "post_submit_timeout_and_query_error_durable_record_order": "PASS",
+    "rendered_body_and_template_ast": "PASS",
+    "ruff": "PASS; exact commands recorded in README",
+    "single_submit_no_stop_no_model_array_or_gpu_probe": "PASS"
+  },
+  "generator_sha256": "f0ceb30761136271ec450ca5c8485373a82417ce01e11e6d2558d72fb177a6da",
+  "limits": [
+    "No SSH, remote query, admission, submission or unit action was performed.",
+    "The cold child read only the fixed Python/JSON package inputs and denied .pt/.npy/.npz/.parquet opens.",
+    "No model, training-state, dataset, or prediction-array payload was opened locally.",
+    "Remote source/data/cache/resource/output gates remain to be run by root immediately before submission."
+  ],
+  "preparation_sha256": "95db9f53ca3c5f90a1d85482070306e45de14105fe755fb81b976ba3c2889054",
+  "schema": "fg19.parent-fit-r2-terminal-verifier-local-checks.v1",
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "template_sha256": "c07446cc2841c53fb2e9dc28bdfae03dc3657a217ead1d7168a614909c562dd2"
+}

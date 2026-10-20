@@ -1,0 +1,35 @@
+{
+  "checks": [
+    "python_compile",
+    "exact_run_and_invocation",
+    "resource_caps_and_cpu_only",
+    "required_checker_cli",
+    "no_native_stop_or_payload_loader",
+    "create_only_and_no_retry"
+  ],
+  "focused_offline_fixtures": {
+    "command": "./.venv/bin/python -m unittest discover -s research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v1 -p test_*.py -v",
+    "coverage": [
+      "actual native capture receipt and run_directory_stat_only schema; synthetic lstat-only run inventory pass and inode drift rejection",
+      "synthetic source tree accepts exactly167 pinned files and rejects count or content-digest drift",
+      "exact small retained receipt hashes plus accepted parent/dictionary stat-only match and drift rejection"
+    ],
+    "model_state_cache_array_or_dictionary_payloads_read_or_hashed": false,
+    "remote_body_executed": false,
+    "status": "PASS",
+    "tests_run": 3
+  },
+  "metadata_inputs_hashed": 12,
+  "model_state_cache_array_dictionary_payloads_read_or_hashed": false,
+  "remote_action": false,
+  "remote_body_bytes": 460536,
+  "remote_body_sha256": "6548861998eb2bfe87ba539752805794b3c806005a90eff7be165d612baf9620",
+  "ruff": {
+    "command": "./.venv/bin/ruff check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v1",
+    "format_check": "PASS for template, renderer and focused fixtures; generated body retains the reviewed-pattern fixed PAYLOAD literal.",
+    "status": "PASS"
+  },
+  "schema": "fg19.child-control-terminal-verifier-local-checks.v1",
+  "source_tree_read_or_hashed_locally": false,
+  "status": "PASS_LOCAL_STATIC_AND_METADATA_CHECKS_ONLY"
+}

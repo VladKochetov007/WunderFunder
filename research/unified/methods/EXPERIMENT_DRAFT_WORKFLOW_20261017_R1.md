@@ -41,9 +41,36 @@ gh pr create --draft --base research-team --head experiment/<id>   --title "[Exp
 
 Do not create PRs targeting main for individual experiments. Add the actual PR URL to the packet and its unified index when it exists. Review/merge completed or useful negative/inconclusive work into research-team, preserving IDs and evidence; a separate integration PR promotes a coherent snapshot to main. Retain receipts for rejected experiments through an archive/evidence commit rather than losing them when branches are deleted. Merging notes does not promote a candidate model. Resolve common-file conflicts by retaining both research entries, never by replacing append-only ledgers. Branch-specific source is pinned per run even after merge.
 
-### 2. Thirty paired cells per scientific comparison
+### 2. Fast matched screens — prospective October 19 revision
 
-Freeze 30 `(fold, fitting seed)` cells before results: F0/F1 have seeds1001–1008, F2/F3 seeds1001–1007 (8/8/7/7). Candidate and control each run all30 cells: **60 fits for a two-arm comparison**, not30 fits split between arms. Additional arms also need30 fits when claiming a confirmed comparison. Resource-only smoke/profile/parity checks are engineering work, not30 scientific replications. Existing runs do not silently count toward the new matrix.
+Future drafts budget **4–6 total newly trained fits for an initial idea screen**.
+For two arms this normally means 2–3 matched `(fold, fitting seed)` cells, one
+control and one candidate fit each. It does not mean4–6 fits per arm. Three arms
+with two cells cost six fits. Include teacher and student fits in the inventory;
+a teacher-only screen does not establish student transfer. Exact source-clean
+cached controls may be reused; name their IDs, recipe, ancestry and old versus
+new fitting costs. One shared control is not a fresh replication per contrast.
+
+Freeze explicit cells before outcomes. Prefer distinct existing folds and fitting
+seeds; report which axis is covered. A default two-cell panel is F0/seed1001 and
+F2/seed1002; an optional third is F3/seed1001. These identities are examples,
+not reservations: verify ownership before admission. Two or three cells cannot
+separate fold and seed effects or establish significance. Useful gains, mixed
+mechanisms and informative uncertainty can justify separately budgeted follow-up.
+There is no automatic expansion to30. Full-data fits and larger teachers remain
+eligible under actual compute authority.
+
+The plan helper accepts explicit `cells`, reports per-arm and total fitting
+counts and defaults to two cells. For an unchanged historical v1 CP30 recipe,
+`--legacy-source-commit <full-original-source-SHA>` explicitly enables its old
+panel; the source reference is declared, not verified by the plan printer. A new
+recipe cannot bypass the screen budget merely by declaring30. Cached endpoints
+need matching arm/fold/seed plus `artifact_ref`/`ancestry_ref`; follow-up needs
+`followup_allocation` with `reference` and `new_fit_budget`. Verify those references
+and actual resources at admission, not just their syntax. Preserve frozen recipes and results;
+changing future admission in an existing study needs a dated amendment.
+Resource-only smoke/profile/parity checks are engineering work, not scientific
+replications. See [ADR0043](../../../specs/adr/0043-fast-screens-and-transformer-teacher-scale.md).
 
 Use existing source-qualified component folds, not new row splits. Every cell requires matching fitting membership, preprocessing, update/epoch budget and checkpoint rule, with fold-clean teachers, initializers, normalizers and propensity models. A F0-trained parent cannot initialize another outer fold merely because the CLI fold flag changed. If ancestry cannot be reconstructed, train a clean parent or mark the cell ineligible. Do not train on held-out targets or select a checkpoint on the outer evaluation. Any development split/checkpoint selection stays within fitting components. All existing folds remain exposed.
 
@@ -55,11 +82,28 @@ Report score by source, fold, sequence age and target-magnitude regime in additi
 
 ### 4. Decision and uncertainty
 
-Before fits record a practically useful score improvement, absolute or cost-adjusted, with its justification; do not invent a universal cutoff. Specify resource opportunity cost and useful downstream teacher/student/blend outcomes. Report every cell, failures and any exclusion. Pair candidate and control predictions on identical scored rows. Compute pooled official scores, per-fold deltas, seed variation and component-cluster paired resampling; never treat millions of rows or30 overlapping-fit cells as independent observations. Reuse seed identities across folds as a crossed factor. Report evaluation-unit uncertainty separately from fitting variation and selection/public-transfer uncertainty; a conditional bootstrap over fixed predictions covers only the first.
+Before fitting, state the useful effect, compute cost, baseline and decision that
+would change. Pair official scores on identical scored rows and retain every
+cell, failure, exclusion and tried configuration. Report each paired delta and
+their descriptive mean. With unequal fold counts, freeze equal-fold weighting
+over INCLUDED folds and name them; an unrun fold is not a zero effect. Report
+pooled OOF and seed-ensemble predictions as distinct endpoints with full ancestry.
 
-Freeze the primary estimand as `D = (1/4) Σ_f [(1/n_f) Σ_s (WP(candidate_f,s) − WP(control_f,s))]`, with n_f=8,8,7,7 and equal quarter weights for folds. Compute WP separately for each fitted endpoint on its full outer scored rows, then pair; do not average predictions across seeds for this estimand. Report pooled OOF and seed-ensemble endpoints as separately named secondary statistics; neither replaces D for recipe ranking without a declared new endpoint comparison.
+Component-cluster paired resampling holds the fits fixed and describes evaluation
+sensitivity only. Freeze its RNG seed and keep component multiplicities identical
+for both arms and shared seed endpoints. With2–3 cells, do not claim a reliable
+training-variance estimate or significance from bootstrapping fit scores. List
+fold/seed coverage and confounding instead. Repeated rows and overlapping fitting
+sets are not independent datasets. More seeds/folds are decision-driven follow-up,
+not a quota. A later formal significance claim needs a declared null, comparison
+family, adequate design and selection accounting.
 
-For fitting variability, draw10000 bootstrap samples of the eight seed identities with replacement, using the SAME sampled seed multiplicities in all folds; within each fold renormalize over its available cells, redraw a sample if any fold has zero available seed multiplicity. Recompute D and report the percentile95% interval as an approximate seed-bootstrap interval conditional on these four exposed folds, fixed data and ancestry. This preserves shared-seed structure and the unbalanced eighth seed. Eight seed identities are few; do not claim exact coverage or uncertainty over new market regimes. For evaluation-unit uncertainty keep fits fixed and resample source-qualified components within each fold, with identical component multiplicities for every seed and both arms, recomputing official scores and D. A joint sensitivity can nest these two resamplings, clearly labeled approximate; keep the two marginal intervals as well. Freeze a resampling RNG seed in the packet. Report all four fold means/ranges as robustness evidence, not an inferred population of unseen folds. For a claim of statistical significance, define the null, confidence procedure and comparison family before reading results; account for shared components/seed effects and multiple arms (e.g. Holm within the frozen primary comparison family). Thirty repetitions alone do not guarantee power or calibrated coverage. Inspect paired variance to plan follow-up precision. Do not report a CI that resamples folds as if four folds were a large independent population. Success means useful effect with robustness and compatible student transfer; uncertainty can justify targeted follow-up. A zero-crossing interval does not close a mechanism. A negative result narrows the tested recipe, not every descendant. Never add local delta to a public score.
+Historical CP30 recipes retain their frozen equal-four-fold estimand, shared-seed
+resampling and endpoints. The new policy does not rewrite their statistics or
+turn partial matrices into completed ones. Success includes student and complete
+mixture contribution. A zero-crossing interval alone does not close an idea;
+negative evidence narrows the tested recipe. Never add a local delta to a public
+score or relabel exposed folds as fresh.
 
 ### 5. Precision and B300 execution
 
@@ -81,4 +125,10 @@ Required trace: unified topic README → experiment packet README/PR → H/E IDs
 
 ## Evidence, interpretation and next step
 
-This workflow is a user-requested preparation protocol. No B300 has been inspected, no30-cell comparison has run, and no new leaderboard impact is measured. The [draft inventory](../ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) distinguishes interrupted fits, completed sources and new proposals. Publish through gh under the subsequent explicit user authorization, then report actual PR links, code readiness, source search and limitations.
+This protocol supplies no measured gain by itself. The
+[draft inventory](../ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) preserves
+original proposals. The [October19 B300 review](../reviews/B300_PR_RUN_UPDATE_REVIEW_20261019_R1.md)
+records partial endpoints from stopped jobs. Publish through gh under the user's
+standing authority, then record actual PR links, source, code readiness and limits.
+The prospective fitting-count revision and large Transformer-teacher priority are
+recorded in [ADR0043](../../../specs/adr/0043-fast-screens-and-transformer-teacher-scale.md).

@@ -1,0 +1,91 @@
+{
+  "schema": "fg19-child-control-startup-independent-metadata-review.v1",
+  "reviewed_utc": "2026-10-20T05:37:20Z",
+  "reviewer": "Independent local metadata audit by /root/s4_s5_integrity_critic",
+  "status": "PASS_STARTUP_SNAPSHOT_ONLY",
+  "scope": "Reviewed already-captured local raw/normalized metadata only; no SSH, remote query, unit action, payload read, or repeated capture.",
+  "pins": {
+    "raw": {
+      "path": "STDOUT.raw.json",
+      "bytes": 36875,
+      "sha256": "53afefccfdc52b62906155fb7bad40b705c2cd1c5c6c4ce999cd4649e1bced5f"
+    },
+    "transport": {
+      "path": "TRANSPORT.json",
+      "sha256": "71bb879d57f8346b2f954b5a293dab712dcfc4e7dd5d88b48a39396b8ce64721",
+      "returncode": 0,
+      "persisted_before_parse": true,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "observation": {
+      "path": "OBSERVATION.json",
+      "sha256": "ef3802145977e44ff4f6137251bbf0f51cc62831504438be09effeda36f0ba28"
+    },
+    "reader": {
+      "path": "REMOTE.py",
+      "sha256": "2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9"
+    },
+    "receipt_bytes_decoded_from_raw": {
+      "ADMISSION.json": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973",
+      "LAUNCH.json": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9",
+      "unit.log": "a0dc366d63bd4a4a8538155b5b4798dbb24622edf279eec1e743173ed77f79cc"
+    }
+  },
+  "reviewed_facts": {
+    "identity": {
+      "unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+      "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+      "captured_utc": "2026-10-20T05:35:20.250452+00:00",
+      "state": "active/running",
+      "main_pid": 96892
+    },
+    "ownership": {
+      "populated_campaign_worker_count": 1,
+      "owned_worker_pid": 96892,
+      "owned_gpu_process_pid": 96892,
+      "owned_gpu_memory": "3404 MiB",
+      "foreign_gpu_pids_preserved": [521754, 3545867]
+    },
+    "resources": {
+      "own_cgroup_current_bytes": 2507718656,
+      "own_cgroup_peak_bytes": 2786459648,
+      "own_memory_event_counters": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "parent_current_bytes": 10313134080,
+      "parent_memory_event_deltas": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "unit_limits": {
+        "cpu_quota_per_sec_usec": "1s",
+        "memory_high": "7500000000",
+        "memory_max": "8000000000",
+        "memory_swap_max": "0"
+      }
+    },
+    "progress": {
+      "last_recorded_line": "ep 0 batch 0/746 loss 0.5843 lr 4.00e-06 seq/s 3.2",
+      "fit_counters_observed": false,
+      "line_is_synchronous_progress_or_verified_total": false,
+      "quality_claim": false
+    },
+    "source_authority": "Fresh 167-file admission content hashes are the source authority; the startup reader does not refresh canonical source hashes."
+  },
+  "caveats": [
+    "Parent and worker cgroup, RSS, service, and GPU values are distinct observations at the capture time; no causal or equal-value inference is made.",
+    "Parent cumulative memory-event counters include earlier history; local event deltas in this capture are zero.",
+    "This is one startup snapshot only. It establishes neither optimizer progress nor terminal status, completion, checkpoint validity, nor quality."
+  ],
+  "decision": "Raw, transport, reader identity, normalized observation, receipt identities, invocation, ownership, and resource facts are consistent. No new actionable inconsistency was found."
+}

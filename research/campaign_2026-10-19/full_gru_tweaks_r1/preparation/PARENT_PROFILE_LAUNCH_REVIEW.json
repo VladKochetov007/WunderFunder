@@ -1,0 +1,72 @@
+{
+  "schema": "fg19.parent-profile-launch-review.v1",
+  "status": "PASS_LAUNCH_METADATA_ONLY_PROFILE_PENDING",
+  "scope": "Independent local review of persisted launch transport and decoded admission/launch/acceptance metadata. No SSH, health polling, model/array payload reads, profile rerun, or terminal/quality claim.",
+  "receipt_pins": {
+    "raw_transport": {
+      "path": "records/parent_profile_v1/STDOUT.raw.json",
+      "bytes": 16662,
+      "sha256": "e0eead2fbe5dda2b138d6f5810cf3bd2fe34f7fe8dc07ee477952dd8443b2f35"
+    },
+    "transport": {
+      "path": "records/parent_profile_v1/TRANSPORT.json",
+      "sha256": "1a04ef09cd732f9c18830cc9be83070fb1bb117c3cc4f66a8a80a51e6b9fcfc7",
+      "returncode": 0,
+      "persisted_raw_before_parse": true,
+      "stderr_bytes": 0
+    },
+    "admission": {
+      "path": "records/parent_profile_v1/ADMISSION.json",
+      "sha256": "2f2281403be28fb526396c611037ef95d396a1080bd6ca55da5c9f6f82f35472",
+      "decoded_bytes_equal_local_file": true
+    },
+    "launch": {
+      "path": "records/parent_profile_v1/LAUNCH.json",
+      "sha256": "5ff7293504d77ec7e1bc5e6123103ce1bb85f87f21045877dbdd757cc38c002d",
+      "decoded_bytes_equal_local_file": true
+    },
+    "launch_acceptance": {
+      "path": "records/parent_profile_v1/LAUNCH_ACCEPTANCE.json",
+      "sha256": "9b9197b2a417b805456f9953614b2dbd11cffaef843bf84ac4b30d34b2236290"
+    },
+    "embedded_source": {
+      "path": "records/parent_profile_v1/REMOTE_SUBMISSION.py",
+      "sha256": "65fd9fb67f5c545709d44a2cbeddd604e371a58e6afcbfc257a768782f02966b"
+    }
+  },
+  "actual_launch": {
+    "unit": "computer-vision-homework-fg19-parent-profile-v1.service",
+    "invocation_id": "dc7f34afbdfb4fed8bdfbb66d20d558b",
+    "launch_pid": 3917802,
+    "launch_utc": "2026-10-20T01:20:22.672307+00:00",
+    "submission_returncode": 0,
+    "post_submission_systemctl_returncode": 0,
+    "post_submission_state": "active/running",
+    "invocation_and_pid_match_acceptance": true
+  },
+  "admission_bindings": {
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_files_verified": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "cache_invocation_id": "a358e89cd6fe42118e426a954ee897f0",
+    "cache_acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "cache_exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "cache_metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+    "resource_gates_recorded": "two-CPU parent with 18/20 GB high/max and zero swap; 17 GB admission target; one-CPU worker with 7.5/8 GB high/max, zero swap, 600-second cap; selected GPU and scratch gates passed in this admission"
+  },
+  "profile_scope": {
+    "description": "Two normalization batches plus six fit-only profile batches; 60 in-memory AdamW updates; no evaluation, checkpoint, or quality score.",
+    "scientific_fits_claimed": 0,
+    "completion_claimed": false
+  },
+  "review_findings": [
+    "Raw transport length/hash and transport JSON agree. The decoded ADMISSION.json and LAUNCH.json base64 payloads are byte-identical to the locally persisted extracts; acceptance binds their exact hashes and the same raw SHA.",
+    "Submission returned zero and post-submit systemctl returned zero. Captured systemd state is active/running with invocation dc7f34afbdfb4fed8bdfbb66d20d558b and MainPID 3917802, matching LAUNCH_ACCEPTANCE.",
+    "Admission records the independently reviewed 167-file source manifest, accepted/stopped cache V2 receipts, pinned metadata and output stats, and the configured fresh resource gates. Array identity remains stat-only at this stage."
+  ],
+  "not_established": [
+    "Profile progress, native exit, terminal acceptance, exact stop, checkpoint, model quality, and any scientific-fit result."
+  ],
+  "verdict": "Launch metadata passes. Treat the profile as active and pending until separately captured native evidence establishes its later state."
+}

@@ -1,0 +1,38 @@
+{
+  "admission_gates": {
+    "create_only_and_no_retry": "Rejects existing output, partial, V2 evidence, stop marker, or exact V2 unit; rechecks destinations before evidence creation; records unknown submission/status bytes and states never retry.",
+    "disk": "Physical scratch check and post-output 25 GiB free floor remain unchanged; estimate is 1,910,400,000 bytes.",
+    "metadata": "Checks frozen contract and all three teacher acceptance JSON byte hashes before mutation; contract teacher source remains af21.",
+    "resources": "Unchanged CPU-only reservation: CPUQuota 50%, MemoryHigh 1,400,000,000 bytes, MemoryMax/FIT_MEMORY 1,500,000,000 bytes, swap 0, RuntimeMaxSec 600, Torch/BLAS threads 1, CUDA_VISIBLE_DEVICES empty; parent gate receives FIT_MEMORY=1,500,000,000.",
+    "scientific_scope": "One canonical CPU cache-builder command only; teacher order/epoch, arithmetic and clipping metadata remain identical to V1. Admission performs no fits or prediction-array validation.",
+    "source_and_data": "Fresh source inventory verifies all 167 expected source files and hashes; canonical split and data identity checks are inherited unchanged."
+  },
+  "identity_delta": {
+    "ast_comparison": "PASS: after normalizing exactly SOURCE, SOURCE_COMMIT, SOURCE_MANIFEST_B64, SOURCE_MANIFEST_SHA256, UNIT, and EVIDENCE assignments, the full V1 and V2 module ASTs are identical.",
+    "embedded_source_manifest": "Decoded manifest SHA matches its pin; it declares commit 68ff682977b822f38351aac0f621146f5f13b440, the new B source root, 167 files, and only the builder differs from V1.",
+    "evidence": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v2_admission",
+    "exports": "All six accepted/stopped export identities and capture-time array stat pins are AST-identical to V1; admission stats NPY files without reading or hashing prediction payloads and reads only bounded accepted JSON sidecars.",
+    "output": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 (unchanged canonical destination; prior failed V1 recorded no output or partial, and V2 checks both create-only before submission)",
+    "source_root": "/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829",
+    "unit": "computer-vision-homework-fg19-teacher-cache-cpu-build-v2.service"
+  },
+  "pins": {
+    "builder_sha256": "ac920f43572ab31a6cfa6fe15acd0d3a5129c129645d190efd14d82bb9880a11",
+    "changed_source_manifest_paths": [
+      "scripts/build_distill_cache.py"
+    ],
+    "contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "published_source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "remote_submission_sha256": "523ce5f9fa75388a90e1eb3c41fd35e3cf421286f7fd52e52573aa1413dbc1b3",
+    "source_manifest_files": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "source_publication_record_sha256": "45fe2acd8987e1404acc4d17070be5636f0300a2713087fc3da23ba6ea3e2674",
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "teacher_source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f"
+  },
+  "publication_record_note": "The local publication record says the non-force push completed and ls-remote confirmed the source SHA; this review relied on that record and performed no network check.",
+  "review": "PASS: the V2 packet is a six-global identity rebind over the previously reviewed V1 admission, with the new published source manifest and V2 unit/evidence names. No material admission-gate or CLI drift found.",
+  "schema": "fg19.teacher-cache-cpu-build-v2-admission-review.v1",
+  "scope": "Local identity-only review of the frozen V2 admission body against frozen V1. No SSH, tests, remote observations, payload reads, or execution.",
+  "status": "PASS_SOURCE_REVIEW_ONLY"
+}

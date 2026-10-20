@@ -1,0 +1,7 @@
+# S4 native terminal observation — 19:32:20UTC
+
+[Raw stdout](STDOUT.raw.json), [stderr](STDERR.raw), [transport](TRANSPORT.json) and [observation](OBSERVATION.json) preserve one bounded readonly capture with the unchanged [startup reader](../startup_health_v1/REMOTE.py). SSH returned0;29,747raw bytes/SHA0ced27330d6d572c24338fc97971ea2aac100c07b312770351c71b30ae0fb18d were persisted before parsing. [Normalized exit evidence](../TERMINAL_EVIDENCE.json) derives integer0/1/0 for MainPID/ExecMainCode/ExecMainStatus directly from these bytes.
+
+Exact S4 invocationb6d71599e0044970b8641e3e241c40a4 finished19:30:32UTC and is active/exited with no populated campaign descendants. Three native FIT/GRAD_STATS records report22,380successful updates/1,119batches/0skips/nonfinite, with fixedepoch2 selected. This is native producer evidence; checkpoint/source/state integrity is still pending a separately bounded verifier. Provenance/history/selected model/epoch2 model/training state exist by stat. Only bounded provenance JSON and log text were read; no tensor/data payload loaded or hashed, no grade/inference/training replay or unit mutation.
+
+The empty terminal ControlGroup gives own files unavailable; no host-root fallback. Parent historicalhigh2179/max561/OOM0/local0 remain unchanged. The raw legacy S3 schema label and expected hardcoded source identifier are preserved: exact unit/invocation/run/argv bind S4, while original admission remains source authority. No GRU-tweak quality result is established.

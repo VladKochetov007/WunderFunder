@@ -1,0 +1,46 @@
+{
+  "utc": "2026-10-20T01:34:35.936430+00:00",
+  "unit": {
+    "MainPID": "3929676",
+    "Result": "success",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 01:31:35 UTC",
+    "ExecMainStartTimestampMonotonic": "1517142893148",
+    "ExecMainExitTimestamp": "",
+    "ExecMainExitTimestampMonotonic": "0",
+    "ExecMainCode": "0",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_parent_h256x2_f0_s1001_fit_r2_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --aux-struct 0.3 --aux-next 0.3 --batch 16 --chunk 2000 --epochs 4 --checkpoint-policy fixed --checkpoint-epoch 3 --no-eval-during-fit --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1 --distill-alpha 0.9 --distill-family-weight 0 --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --optim adamw --grad-stats --save-training-state ; ignore_errors=no ; start_time=[Tue 2026-10-20 01:31:35 UTC] ; stop_time=[n/a] ; pid=3929676 ; code=(null) ; status=0/0 }",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-parent-fit-r2-v1.service",
+    "MemoryCurrent": "2552954880",
+    "MemoryPeak": "2837839872",
+    "CPUUsageNSec": "178482687000",
+    "CPUQuotaPerSecUSec": "1s",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemorySwapMax": "0",
+    "LoadState": "loaded",
+    "ActiveState": "active",
+    "SubState": "running",
+    "InvocationID": "5186b3016ff54b1fa754c10a1f87b3e4"
+  },
+  "populated": {
+    "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-parent-fit-r2-v1.service/cgroup.procs": "3929676"
+  },
+  "own_files": {
+    "memory.current": "2552954880\n",
+    "memory.peak": "2837839872\n",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "gpu_process_observation": "521754, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 490 MiB\n3545867, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 4542 MiB\n3612770, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 1788 MiB\n3929676, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 2216 MiB\n",
+  "own_process_rss_observation": [
+    "VmHWM:\t 3275728 kB",
+    "VmRSS:\t 3010568 kB"
+  ],
+  "parent_events": {
+    "memory.current": "10589442048\n",
+    "memory.events": "low 0\nhigh 38355\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "scope": "Dated startup/log observation; no synchronous completed update/terminal/quality claim. Source ID remains launch-bound expected constant until terminal content rehash."
+}

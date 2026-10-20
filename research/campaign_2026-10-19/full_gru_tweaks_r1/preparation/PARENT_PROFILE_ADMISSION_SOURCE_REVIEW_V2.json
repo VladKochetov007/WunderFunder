@@ -1,0 +1,66 @@
+{
+  "schema": "fg19.parent-profile-admission-source-review.v2",
+  "status": "CONDITIONAL_PASS_ROOT_FRESH_PREFLIGHT_REQUIRED",
+  "scope": "Independent local source and packet review only. No SSH, remote preflight, profile execution, model/array payload reads, or tests run by reviewer.",
+  "reviewed_packet": {
+    "template": {
+      "path": "preparation/parent_profile_v1/REMOTE_SUBMISSION_TEMPLATE.py",
+      "sha256": "ab82cb4a472a1d109072f9f7ed790f87b3d820218d784ce01e9b0d0fca0775f9"
+    },
+    "rendered_body": {
+      "path": "preparation/parent_profile_v1/REMOTE_SUBMISSION.py",
+      "sha256": "65fd9fb67f5c545709d44a2cbeddd604e371a58e6afcbfc257a768782f02966b"
+    },
+    "local_checks": {
+      "path": "preparation/parent_profile_v1/LOCAL_CHECKS.json",
+      "sha256": "a087717f83fedd9d1751f390554b380c9e70394950455c6f85c67bfb2ba229d8"
+    },
+    "preparation": {
+      "path": "preparation/parent_profile_v1/PREPARATION.json",
+      "sha256": "1eeee9106c4d0f56c2ca6765fbf39e724f776852f2695cdb34c4d6a0f2671355"
+    },
+    "cli": {
+      "path": "preparation/parent_profile_v1/CLI.md",
+      "sha256": "783b3090234c080c898561f5002a96a625b7f2d1e4491fb55be5d21afadf0ff1"
+    },
+    "readme": {
+      "path": "preparation/parent_profile_v1/README.md",
+      "sha256": "c09915c1bbc7d8e7866c0fa99392f93196eca75cf83164386f67304adce16908"
+    },
+    "template_and_rendered_body_relationship": "The rendered body differs from the template only by the embedded cache binding; remaining lines match."
+  },
+  "bindings": {
+    "canonical_source": {
+      "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "files": 167,
+      "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "cache_execution_contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "accepted_cpu_cache": {
+      "unit": "computer-vision-homework-fg19-teacher-cache-cpu-build-v2.service",
+      "invocation_id": "a358e89cd6fe42118e426a954ee897f0",
+      "acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+      "exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+      "metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+      "array_validation_scope": "Metadata and captured output stat identity only; no external array payload/header/hash verification."
+    },
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+  },
+  "review_findings": [
+    "Cache membership compares train and valid lists independently to canonical split namespaces; numeric IDs may overlap across namespaces. It rejects only fit-valid/outer-valid overlap, and requires unique output membership sets. Exact target-index row ordering is explicitly deferred to the canonical trainer inside the profile unit.",
+    "The bound cache receipts, metadata, output stat identities, contract, split, source manifest, and three teacher metadata JSON pins are checked before profile side effects. Embedded receipt and metadata pins match the accepted/stopped CPU V2 records.",
+    "The fixed canonical command profiles the legacy 211-input/23-output GRU H256x2 path with FP32, AdamW, producer-applied homogeneous scale 0.8125 consumed at scale 1, and alpha 0.9. It fits normalization on two canonical batches, then runs six profile batches (two warmup plus four measured; 60 in-memory optimizer update windows). The canonical runner returns before evaluation or checkpoint saving; this is not a fit-quality result.",
+    "Admission preserves the established one-GPU parent gates: parent two CPUs and 18/20 GB high/max with 17 GB current-plus-reservation target; worker one CPU, 7.5/8 GB high/max, swap disabled, 600-second cap; selected-GPU free reserve and foreign-process preservation; physical scratch threshold 25 GiB. These must pass again in root-owned fresh preflight.",
+    "Submission and post-submit systemctl timeouts are durably represented in LAUNCH.json as unknown outcomes, with captured bytes base64-encoded and a no-retry policy. The timestamp uses datetime.timezone.utc."
+  ],
+  "local_check_summary": {
+    "reported_status": "PASS_LOCAL_CACHE_BOUND_PROFILE_UNLAUNCHED",
+    "remote_actions": 0,
+    "profile_or_fit_run": false,
+    "array_payload_reads": 0,
+    "ruff_select_F": "PASS",
+    "full_ruff": "Not clean: 87 compact-style diagnostics are recorded in LOCAL_CHECKS.json; do not describe packet as full-Ruff-clean."
+  },
+  "remaining_gate": "Root must perform the sole fresh remote source/data/resource/output/cgroup/GPU preflight and decide whether to launch. This review is not launch authorization or a claim that current remote state still satisfies those gates.",
+  "review_verdict": "No material source or binding blocker found in the frozen packet. Conditional source review passes subject to root fresh preflight."
+}

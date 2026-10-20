@@ -1,0 +1,108 @@
+{
+  "schema": "fg19.parent-rng-diagnostic-v2-metadata-review.v1",
+  "status": "PASS_CAPTURE_METADATA_ONLY",
+  "capture_acceptance": {
+    "path": "CAPTURE_ACCEPTANCE.json",
+    "sha256": "655c5f12db5e166cfabf68c343aeb10d709f95db4abffeaf2925b413226837ec",
+    "status": "CAPTURE_VALIDATED_DIAGNOSTIC_ONLY_NOT_PARENT_ACCEPTANCE",
+    "raw_path": "capture/STDOUT.raw.json",
+    "raw_bytes": 24300,
+    "raw_sha256": "2f6ced10d3812a3b3ae8354268a193323df6a22ea8523fdd2458060f4b8fcf69",
+    "transport_path": "capture/TRANSPORT.json",
+    "transport_returncode": 0,
+    "raw_persisted_before_parse": true
+  },
+  "identity": {
+    "unit": "computer-vision-homework-fg19-parent-rng-diag-v2.service",
+    "invocation_id": "b9dcbfc0b8054e51a49fc3792fd037a0",
+    "native_parent_unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service",
+    "native_parent_invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+    "native_untouched": true,
+    "current_native_status": "active/exited, MainPID 0, ExecMainCode 1, ExecMainStatus 0"
+  },
+  "captured_file_sha256": {
+    "RNG_DIAGNOSTIC_ADMISSION.json": "e0f52c8e25cfd6191822084e61c3eedf0c864604f04d7e980ebc8b2cbf0db847",
+    "RNG_DIAGNOSTIC_LAUNCH.json": "ae0aaf0f14e2b38d3884adb49fb003f0581311366435a66253689600c766be1d",
+    "RNG_DIAGNOSTIC.json": "0bb2a87b9796872d5e26666ea7398bca69b7f0a0ce27bb0895714b5ed654598b",
+    "unit.log": "6986ad88dacb6fe06553d36e296f54119bd7f0696da6bd98beb56acb08c88c9e"
+  },
+  "diagnostic": {
+    "schema": "fg19.parent-fit-r2-rng-diagnostic.v2",
+    "status": "DIAGNOSTIC_ONLY_NO_ACCEPTANCE",
+    "torch_version": "2.14.0+cu130",
+    "rng_keys": ["cuda", "numpy", "python", "torch"],
+    "cuda_rng": {
+      "container": "builtins.list",
+      "list_length": 1,
+      "tensor_dtype": "torch.uint8",
+      "tensor_shape": [16],
+      "tensor_numel": 16
+    },
+    "cpu_torch_rng": {
+      "dtype": "torch.uint8",
+      "shape": [5056],
+      "numel": 5056
+    },
+    "training_state_stat_only": {
+      "bytes": 11837935,
+      "device": 64512,
+      "inode": 779788692,
+      "mtime_ns": 1792467480789082396
+    },
+    "state_stat_matches_v2_admission_and_v1_failure_capture": true,
+    "diagnostic_source": {
+      "path": "research_tmp/fg19_parent_rng_diag_v2/RNG_DIAGNOSTIC.py",
+      "bytes": 6267,
+      "sha256": "75f3b53762f5faf60f785126a8dec4b24e2bf52f620fce1397d7958eb25906b2",
+      "stat_matches_admission_source_pin": true
+    },
+    "interpretation": "The staged source used its narrow restricted loader to inspect training-state RNG metadata. This capture review did not open the state payload; the diagnostic emits only structure/cardinality and CPU/CUDA tensor byte hashes, not model or optimizer values, arrays, a grade, or a parent-integrity acceptance."
+  },
+  "resources": {
+    "cpu_usage_seconds": 2.379384,
+    "monotonic_wall_seconds": 4.872158,
+    "systemd_memory_peak_bytes": 2203648,
+    "cpu_quota": "50%",
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "memory_swap_max_bytes": 0,
+    "memory_peak_scope": "Systemd unit MemoryPeak only; it is not a claim of full runtime or process RAM."
+  },
+  "cgroup_accounting": {
+    "own_cgroup": "NA: the exited unit has an empty ControlGroup; no host-root fallback was used.",
+    "parent_populated_at_admission": {},
+    "parent_populated_at_capture": {},
+    "parent_memory_current_admission_bytes": 7537385472,
+    "parent_memory_current_capture_bytes": 7537643520,
+    "parent_memory_current_delta_bytes": 258048,
+    "parent_memory_events_unchanged": true,
+    "parent_memory_events": {
+      "low": 0,
+      "high": 38355,
+      "max": 561,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "parent_memory_events_local": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "history": {
+    "v1_readonly_rejection": "../rng_diagnostic_v1/READONLY_REJECTION.json",
+    "v1_status": "READONLY_REJECTED_BEFORE_OUTPUT_CREATION_OR_SUBMIT",
+    "v1_unit_or_output_created": false,
+    "v1_was_stopped_or_retried": false
+  },
+  "limits": [
+    "This is a metadata-only review of the saved V2 diagnostic capture and its accepted raw binding.",
+    "The diagnostic result is not parent fit acceptance, full checkpoint/state verification, evaluation, or a quality score.",
+    "The successful diagnostic unit has not yet been exact-stopped by this review; the separately prepared stop action is bound only to its invocation.",
+    "The failed CPU verifier V1 and completed native parent were not stopped."
+  ]
+}
