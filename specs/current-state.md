@@ -1,3 +1,9 @@
+## 20 October 13:51 UTC — EMA continues, first epoch recorded
+
+[One rare bounded EMA capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1351Z/README.md) found exact invocation active/running, one owned GPU worker and no new own/parent memoryevents. Completed epoch0 has7,460updates/746batches/zero skips/nonfinite in its native records. Later ep1batch20 is not current totals, terminal44,760 or quality. Checkpoint/state/provenance remain stat-only; no support/restart/stop/newfit/inference. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; routine healthy progress requires no notification.
+
+---
+
 ## 20 October 13:04 UTC — second fixed child EMA32 is actually running
 
 [EMA32 full fit](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/README.md), invocation da5baf82d22b4f02890e184193b8caf7, launched once after accepted/exact-stopped CONTROL and fresh source/ownership/resource gates. Same parent/norm/dictionary/seeded batches/target; causal input history is the sole recipe change. Expected six epochs/44,760 updates are not completion. Parent+CONTROL complete, EMA started, three children unadmitted, no child quality/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes older pending snapshots.

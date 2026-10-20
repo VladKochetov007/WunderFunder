@@ -1,0 +1,247 @@
+{
+  "capture": {
+    "persisted_before_parse": true,
+    "raw_stdout_bytes": 45331,
+    "raw_stdout_path": "records/child_ema_fit_v1/health_20261020T1351Z/STDOUT.raw.json",
+    "raw_stdout_sha256": "2e427ba22219210ef407c795c4724f6adff7b5c0abeb812daea8dd7a8b6fe884",
+    "reader_bytes": 12395,
+    "reader_path": "records/child_ema_fit_v1/health_20261020T1351Z/REMOTE.py",
+    "reader_sha256": "8c42338dfcee85aff11580a513d32b35841c34430cc3423d6f9c66af16ed62b0",
+    "ssh_returncode": 0,
+    "stderr_bytes": 0,
+    "timed_out": false,
+    "transport_bytes": 483,
+    "transport_path": "records/child_ema_fit_v1/health_20261020T1351Z/TRANSPORT.json",
+    "transport_sha256": "79f3e3900bfda1d4b3989dcce3fbbeae750187c7bc8a5a707a14f6cd917d0ed7"
+  },
+  "checks": [
+    {
+      "check": "raw stdout length/SHA match transport and reported capture SHA",
+      "result": "PASS"
+    },
+    {
+      "check": "single successful transport was persisted before parse, with empty stderr",
+      "result": "PASS"
+    },
+    {
+      "check": "reader bytes match unchanged pinned reader SHA",
+      "result": "PASS"
+    },
+    {
+      "check": "capture timestamp, unit, run and invocation match actual EMA launch identity",
+      "result": "PASS"
+    },
+    {
+      "check": "all captured ADMISSION, LAUNCH and unit.log base64 bytes match durable exact local files",
+      "result": "PASS"
+    },
+    {
+      "check": "unit query succeeded and exact same invocation remains active/running at PID 730727",
+      "result": "PASS"
+    },
+    {
+      "check": "unit cgroup limits match admitted CPU/memory/swap caps",
+      "result": "PASS"
+    },
+    {
+      "check": "one epoch-0 FIT record gives 7460 completed updates, 746 batches and zero AMP skips",
+      "result": "PASS"
+    },
+    {
+      "check": "one epoch-0 GRAD_STATS record gives 7460 steps and zero nonfinite",
+      "result": "PASS"
+    },
+    {
+      "check": "latest recorded ep1 batch20 line is marked non-synchronous and nonterminal",
+      "result": "PASS"
+    },
+    {
+      "check": "own cgroup current/peak match summary and own event counters remain zero",
+      "result": "PASS"
+    },
+    {
+      "check": "parent current and all memory-event deltas vs 13:06 match summary and are zero",
+      "result": "PASS"
+    },
+    {
+      "check": "one owned process is in exact EMA cgroup/PID on selected GPU at 3408 MiB",
+      "result": "PASS"
+    },
+    {
+      "check": "foreign process identity continuity holds by PID/cgroup/UID across admission and both samples",
+      "result": "PASS"
+    },
+    {
+      "check": "stat-only artifact names/sizes match observation without payload reads",
+      "result": "PASS"
+    },
+    {
+      "check": "observation and final README bind this raw capture and preserve progress limits",
+      "result": "PASS"
+    },
+    {
+      "check": "admission remains source authority and current reader does not claim fresh source rehash",
+      "result": "PASS"
+    }
+  ],
+  "created_utc": "2026-10-20T13:56:18+00:00",
+  "identity": {
+    "active_state": "active",
+    "admission_source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "admission_source_file_count": 167,
+    "admission_source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "captured_utc": "2026-10-20T13:51:44.193452+00:00",
+    "invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+    "main_pid": "730727",
+    "run_name": "fg19_child_ema_f0_s1001_fit_v1",
+    "sub_state": "running",
+    "unit": "computer-vision-homework-fg19-child-ema-fit-v1.service"
+  },
+  "limitations": [
+    "The health record is one dated observation of the same active invocation, not a terminal receipt. No total current-update/nonfinite count, completion, successful terminal exit, or integrity acceptance is claimed.",
+    "No model/checkpoint, optimizer/training state, cache array, dictionary tensor, dataset, or other payload bytes were opened or hashed; recorded artifact entries are stat-only metadata.",
+    "Original fresh 167-file admission is the source authority. The unchanged health reader uses the source identity as an expected constant and does not rehash canonical source content.",
+    "Foreign process identity continuity is checked by PID, UID and cgroup; per-capture GPU-memory readings are samples and are not given causal or performance attribution.",
+    "No B query, tests, entrypoints, admission, restart, stop, inference, or new fit was performed by this reviewer."
+  ],
+  "observation_and_navigation": {
+    "observation_bytes": 10263,
+    "observation_path": "records/child_ema_fit_v1/health_20261020T1351Z/OBSERVATION.json",
+    "observation_sha256": "5e8eb25282823292fc5abb1c0890b53fd314068af6dc37ad9b81d6f74ccfea21",
+    "readme_bytes": 2026,
+    "readme_path": "records/child_ema_fit_v1/health_20261020T1351Z/README.md",
+    "readme_sha256": "ec3b965940138b216146d92ff871ff5708f07fb70730687d64ee6234c25ef124"
+  },
+  "prior_launch_review": {
+    "path": "preparation/CHILD_EMA_FIT_ACTUAL_LAUNCH_REVIEW_V1.json",
+    "same_invocation": true,
+    "sha256": "fc1a4513c3d74103f5487493ac95bc257e514556fad025a5743e0eb080019989"
+  },
+  "progress_scope": {
+    "amp_skipped_updates": 0,
+    "completed_batches_from_fit_record": 746,
+    "completed_epoch": 0,
+    "completed_epoch_fit_records": 1,
+    "completed_epoch_gradient_stats_records": 1,
+    "completed_updates_from_fit_record": 7460,
+    "gradient_nonfinite_steps": 0,
+    "gradient_steps": 7460,
+    "interpretation": "The log records one completed epoch-0 FIT/GRAD_STATS pair and a later ep1 batch20/746 line. The latter is not a synchronous current batch/update/nonfinite total. This sample is not terminal 44,760 proof, tensor integrity, or quality evidence.",
+    "last_line_is_not_synchronous_live_or_terminal_total": true,
+    "last_recorded_progress_line": "ep 1 batch 20/746 loss 0.5352 lr 9.60e-05 seq/s 5.0"
+  },
+  "receipt_joins": {
+    "ADMISSION.json": {
+      "bytes": 9880,
+      "raw_base64_exact_match": true,
+      "sha256": "db13e5433cb0a414c1a235806220c53db4ded6c128fc5ffbda5e465dde9fde51"
+    },
+    "LAUNCH.json": {
+      "bytes": 7404,
+      "raw_base64_exact_match": true,
+      "sha256": "8c43f6fb26d3f6a046304617094e266a3e1940c83a7ea56787781fa176ef133e"
+    },
+    "unit.log": {
+      "bytes": 9627,
+      "line_count": 45,
+      "raw_base64_exact_match": true,
+      "sha256": "cf31985e5ccc51caa4a45e5b08f59f1589fe54758f0c0a484517e6c2085fa357"
+    }
+  },
+  "resource_and_ownership_sample": {
+    "foreign_process_identity_continuity": [
+      {
+        "cgroup": "0::/user.slice/user-1026.slice/user@1026.service/tmux-spawn-7f677d27-6fac-4c20-9e97-48fd3d2d86a9.scope",
+        "pid": "521754",
+        "uid": 1026
+      },
+      {
+        "cgroup": "0::/user.slice/user-1117.slice/session-141127.scope",
+        "pid": "154065",
+        "uid": 1117
+      },
+      {
+        "cgroup": "0::/user.slice/user-1124.slice/session-160188.scope",
+        "pid": "592527",
+        "uid": 1124
+      }
+    ],
+    "foreign_usage_attribution": "GPU process memory values are distinct samples; no cause or performance attribution is made.",
+    "gpu_memory_sample": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 16376 MiB, 10543 MiB, 5431 MiB",
+    "own_cgroup_current_bytes": 3498680320,
+    "own_cgroup_peak_bytes": 3719335936,
+    "own_memory_events": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "own_memory_events_local": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "owned_gpu_process": {
+      "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service",
+      "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "pid": 730727,
+      "uid": 1061,
+      "used_memory": "3408 MiB"
+    },
+    "parent_cgroup_current_bytes": 10272514048,
+    "parent_events_delta_from_13_06": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_local_events_delta_from_13_06": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "populated_descendants": {
+      "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service/cgroup.procs": "730727"
+    },
+    "worker_cpu_quota_per_sec_usec": "1s",
+    "worker_memory_high_bytes": 7500000000,
+    "worker_memory_max_bytes": 8000000000,
+    "worker_swap_max_bytes": 0
+  },
+  "schema": "fg19-child-ema-rare-health-metadata-review.v1",
+  "scope": "Independent local-only audit of the one persisted 13:51 UTC EMA health capture, exact receipt-byte joins, same-invocation state, progress/counter scope, cgroup/GPU ownership metadata, and parent-event comparison.",
+  "stat_only_artifacts": {
+    "model_ep0.pt": {
+      "bytes": 4275938,
+      "device": 64512,
+      "inode": 780114420,
+      "is_symlink": false,
+      "mtime_ns": 1792504174793353870
+    },
+    "provenance.json": {
+      "bytes": 181096,
+      "device": 64512,
+      "inode": 780114421,
+      "is_symlink": false,
+      "mtime_ns": 1792504174811355216
+    },
+    "training_state.pt": {
+      "bytes": 12650403,
+      "device": 64512,
+      "inode": 780114422,
+      "is_symlink": false,
+      "mtime_ns": 1792504174846357833
+    }
+  },
+  "status": "PASS_LOCAL_METADATA_AUDIT_ACTIVE_PROGRESS_ONLY_NO_TERMINAL_OR_QUALITY_CLAIM"
+}

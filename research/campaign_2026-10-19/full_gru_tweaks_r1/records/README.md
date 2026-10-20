@@ -1,3 +1,5 @@
+[EMA rare health13:51UTC](child_ema_fit_v1/health_20261020T1351Z/README.md): same active invocation, completed epoch0 counters/7,460updates/zero skips/nonfinite; later log progress is not terminal/current totals/quality. Tensor files stat-only, one owned GPU worker, no new action or fit.
+
 [EMA32 full fit actual launch](child_ema_fit_v1/README.md): one reviewed fresh admission, same common recipe/parent as accepted CONTROL, one owned GPU worker. No completed EMA endpoint or quality score; no automatic successor queue.
 
 **Current 12:58 UTC:** [CONTROL V3 PASS](child_control_fit_v1/terminal_verification_v3/README.md), [acceptance](child_control_fit_v1/TERMINAL_ACCEPTANCE.json) and [exact stop](child_control_fit_v1/exact_stop/README.md) supersede earlier pending snapshots. Failed V1/V2 remain preserved, no quality score. EMA-only is not yet admitted; [continuation](../CONTINUATION.md) governs the next serial gate.

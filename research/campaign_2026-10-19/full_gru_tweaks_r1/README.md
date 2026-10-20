@@ -1,3 +1,7 @@
+**Latest actual 20 October 13:51 UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1351Z/README.md), one completed epoch record/7,460updates/zero skips/nonfinite in that record. Later ep1batch20 is not current totals, terminal or quality. Own/parent memoryevents unchanged, tensor files stat-only, no new job/support/restart/stop. [Continuation](CONTINUATION.md) and [health publication](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1351.json) govern the dated observation; no immediate repeat poll.
+
+---
+
 **Current 20 October 13:04 UTC:** [EMA32 full fit](records/child_ema_fit_v1/README.md) actually launched once, invocation da5baf82d22b4f02890e184193b8caf7. CONTROL passed full integrity and is exact-stopped. EMA uses the same parent/norm/dictionary/batches/target and changes only input history; it has no completion/quality endpoint yet. Parent+CONTROL complete; EMA started; three fixed children unadmitted. [Current continuation](CONTINUATION.md) governs rare health and later source-qualified terminal acceptance.
 
 ---

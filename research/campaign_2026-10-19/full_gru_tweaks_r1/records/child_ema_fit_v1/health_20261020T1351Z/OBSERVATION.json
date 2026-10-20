@@ -1,0 +1,267 @@
+{
+  "schema": "fg19.child-ema-fit-rare-health-observation.v1",
+  "status": "ACTIVE_RUNNING_DATED_METADATA_ONLY",
+  "captured_utc": "2026-10-20T13:51:44.193452+00:00",
+  "unit_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "CPUUsageNSec": "2840441031000",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service",
+    "ExecMainCode": "0",
+    "ExecMainExitTimestamp": "",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 13:04:16 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_child_ema_f0_s1001_fit_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode ema --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective wmse --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --grad-stats --save-training-state --no-eval-during-fit ; ignore_errors=no ; start_time=[Tue 2026-10-20 13:04:16 UTC] ; stop_time=[n/a] ; pid=730727 ; code=(null) ; status=0/0 }",
+    "InvocationID": "da5baf82d22b4f02890e184193b8caf7",
+    "LoadState": "loaded",
+    "MainPID": "730727",
+    "MemoryCurrent": "3437076480",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "3719335936",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "running"
+  },
+  "invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+  "raw_bytes": 45331,
+  "raw_sha256": "2e427ba22219210ef407c795c4724f6adff7b5c0abeb812daea8dd7a8b6fe884",
+  "reader_sha256": "8c42338dfcee85aff11580a513d32b35841c34430cc3423d6f9c66af16ed62b0",
+  "completed_epoch_fit_records": [
+    {
+      "epoch": 0,
+      "train_seconds": 2571.8,
+      "evaluation": "withheld",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "cumulative": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "sample_order_identity": {
+          "sampler_class": "EpochOrderSampler",
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "88ef3f1de04244baa8588fdc5119935442c0e007e87f0d772f0534208c21f04f"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "88ef3f1de04244baa8588fdc5119935442c0e007e87f0d772f0534208c21f04f"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": null,
+          "sampler_num_samples": null,
+          "seeded_order": {
+            "seed": 1001,
+            "epoch": 0,
+            "antithetic": false,
+            "shared_dropped_tail": true
+          }
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "72def7c8dee31e2f469e49cb1c6059440669896d4bbded28d61f0cf35e4a41f2"
+          },
+          "std": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "3bf84643202ca8995f8797634d76e34292745914e902c234ee022f94f9258798"
+          }
+        },
+        "grad_stats": {
+          "epoch": 0,
+          "steps": 7460,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            0.56376,
+            0.92875,
+            1.6885
+          ],
+          "clip_rate": 0.4119,
+          "mean_clip_factor": 0.9122,
+          "family_median": {
+            "rnn_hh": 0.18622,
+            "rnn_ih": 0.22032,
+            "inp": 0.27122,
+            "head": 0.82502,
+            "bias": 0.0779
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0443,
+            "rnn_ih": 0.0623,
+            "inp": 0.1019,
+            "head": 0.7839,
+            "bias": 0.0077
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": 0.5725983238731568,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 7460,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 4.000000000000002e-06,
+            "last": 9.632617347939579e-05,
+            "mean": 8.473825159427787e-05
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        }
+      }
+    }
+  ],
+  "completed_epoch_gradient_stats": [
+    {
+      "epoch": 0,
+      "steps": 7460,
+      "nonfinite_steps": 0,
+      "clip": 1.0,
+      "total_q05_q50_q95": [
+        0.56376,
+        0.92875,
+        1.6885
+      ],
+      "clip_rate": 0.4119,
+      "mean_clip_factor": 0.9122,
+      "family_median": {
+        "rnn_hh": 0.18622,
+        "rnn_ih": 0.22032,
+        "inp": 0.27122,
+        "head": 0.82502,
+        "bias": 0.0779
+      },
+      "family_sq_share_mean": {
+        "rnn_hh": 0.0443,
+        "rnn_ih": 0.0623,
+        "inp": 0.1019,
+        "head": 0.7839,
+        "bias": 0.0077
+      }
+    }
+  ],
+  "completed_epoch_successful_updates": 7460,
+  "completed_epoch_batches": 746,
+  "completed_epoch_amp_skipped_updates": 0,
+  "completed_epoch_nonfinite_gradient_steps": 0,
+  "last_recorded_progress_line": "ep 1 batch 20/746 loss 0.5352 lr 9.60e-05 seq/s 5.0",
+  "last_line_is_not_synchronous_live_or_terminal_total": true,
+  "own_cgroup_state": {
+    "cgroup.procs": "730727\n",
+    "cgroup.procs_bytes_observed": 7,
+    "cgroup.procs_truncated": false,
+    "memory.current": "3498680320\n",
+    "memory.current_bytes_observed": 11,
+    "memory.current_truncated": false,
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local_bytes_observed": 53,
+    "memory.events.local_truncated": false,
+    "memory.events_bytes_observed": 53,
+    "memory.events_truncated": false,
+    "memory.peak": "3719335936\n",
+    "memory.peak_bytes_observed": 11,
+    "memory.peak_truncated": false,
+    "path": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service"
+  },
+  "own_process_rss_observation": [
+    "VmHWM:\t 5079188 kB",
+    "VmRSS:\t 4880108 kB"
+  ],
+  "parent_cgroup_current_bytes": 10272514048,
+  "parent_events_delta_from_startup": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_local_events_delta_from_startup": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "owned_gpu_process": {
+    "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service",
+    "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "pid": 730727,
+    "uid": 1061,
+    "used_memory": "3408 MiB"
+  },
+  "all_populated_descendants": {
+    "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service/cgroup.procs": "730727"
+  },
+  "run_directory_stat_only": {
+    "entries": [
+      {
+        "bytes": 4275938,
+        "device": 64512,
+        "inode": 780114420,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792504174793353870,
+        "name": "model_ep0.pt"
+      },
+      {
+        "bytes": 181096,
+        "device": 64512,
+        "inode": 780114421,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792504174811355216,
+        "name": "provenance.json"
+      },
+      {
+        "bytes": 12650403,
+        "device": 64512,
+        "inode": 780114422,
+        "is_symlink": false,
+        "mode": 33152,
+        "mtime_ns": 1792504174846357833,
+        "name": "training_state.pt"
+      }
+    ],
+    "exists": true,
+    "symlink": false
+  },
+  "canonical_source_content_rehashed_by_reader": false,
+  "source_authority": "Fresh167-file content hashes in original EMA admission; current reader source identity is an expected constant only.",
+  "limits": "Native logged epoch0 counters/gradients only; later ep1 line is not synchronous current update/nonfinite total, native44760 terminal proof, tensor integrity or quality. Service/RSS/cgroup/GPU/FITtime are distinct observations, not atomic equality/fullRAM/performance evidence. No payload reads/hashes, inference, new admission, restart or stop."
+}

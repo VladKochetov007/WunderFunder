@@ -1,3 +1,7 @@
+**Latest actual13:51UTC:** [One bounded health capture](health_20261020T1351Z/README.md) found the same active/running invocation. Native epoch0 completed7,460updates/746batches/zero skips/nonfinite; later ep1batch20 is only recorded progress, not synchronous current/terminal/quality. Own memoryevents0/parent deltas0, tensor files stat-only. No restart/stop/newfit/support, no immediate repeated poll.
+
+---
+
 # Actual EMA32 full fit
 
 One [reviewed admission body](REMOTE_SUBMISSION.py), [root binding](ROOT_ADMISSION_PREPARATION.json) and [fresh actual admission](ADMISSION.json) launched the second fixed child at13:04:16.910037UTC: unit computer-vision-homework-fg19-child-ema-fit-v1.service/invocation da5baf82d22b4f02890e184193b8caf7, PID730727 at dated launch. [Launch](LAUNCH.json), [raw stdout](STDOUT.launch.raw.json), [stderr](STDERR.launch.raw), [transport](TRANSPORT.launch.json) and [root launch acceptance](LAUNCH_ACCEPTANCE.json) bind that sole submission. [Local extractor note](ROOT_LOCAL_EXTRACT_SCHEMA_NOTE.json) preserves two local receipt-shape mistakes corrected exclusively from stored raw bytes; no extra remote attempt.
