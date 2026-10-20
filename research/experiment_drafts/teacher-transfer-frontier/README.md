@@ -1,16 +1,13 @@
-# Teacher scale × GRU capacity transfer frontier
+# Teacher scale × GRU transfer frontier
 
-**Proposal only.** No local tests, training, inference or profiles were run. `launch_ready=false`; the missing integration and asset bindings are listed explicitly.
+**Current record: prospective runtime amendment, pending receiving-host checks.** The bounded executable panel is six new fits: two T768×24 teachers, two GRU256 label controls and two GRU256 KD students across F0/s1001 and F2/s1002. It is not launched, profiled or measured.
 
-- [PR.md](PR.md): mechanism, controls, CP30, decision and receiving-host handoff.
-- [recipe.json](recipe.json): named arms, all30fold/seed cells per arm, precision, proposed hyperparameters and null launch bindings. This is a specification, not trainer CLI input.
-- [Canonical rationale](../../unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md): Section22, plus shared cache/lineage/statistics Sections22–27.
-- [CPU inference path](../../unified/inference/TRANSFORMER_DISTILLATION_CPU_PATH.md): export/state/runtime/ZIP gates, separate from scientific FP32 comparisons.
+- [Current amended PR body](PR.md)
+- [Runtime amendment details](RUNTIME_AMENDMENT.md) and [machine-readable amendment](runtime_amendment.json)
+- [Frozen original CP30 PR body](PR_CP30_FROZEN.md)
+- [Historical CP30 recipe](recipe.json), unchanged and not a current runtime CLI configuration
+- Shared executable dependency: [runtime PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32), source pin [`d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6`](https://github.com/VladKochetov007/WunderFunder/commit/d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6)
+- [Canonical rationale](../../unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md), including the dated Section 22 amendment
+- [CPU inference contract](../../unified/inference/TRANSFORMER_DISTILLATION_CPU_PATH.md), a separate release gate
 
-IDs: `H-TEACHER-TRANSFER-FRONTIER-20261019` / `E-TEACHER-TRANSFER-FRONTIER-20261019`. Draft base: `research-team`. Source snapshot inspected: `3cebc9f0a0e375c71651115ca43bad129af857e8`; actual implementation/run source must be bound at admission. Root owns this design; receiving researcher claims individual cells before execution.
-
-This extends PR #3 with a predeclared teacher-scale by student-capacity interaction; the clean GRU and labels retain practical baselines. It is not a repeat of generic teacher-family selection.
-
-240 student fits; up to90 teacher fits (30 each clean GRU/L/XL) if no exact eligible sources exist. Teacher source per cell is shared between student sizes. No8GPU-hour allocation is implied.
-
-Published draft: [PR #28](https://github.com/VladKochetov007/WunderFunder/pull/28) targeting `research-team`; initial packet head `5eb7b5a29e8c0787bba91bec3fb39f8e17b3f4c0`. Result fields remain empty until actual receipts exist. No plan printer, queue or placeholder trainer is supplied.
+IDs remain `H-TEACHER-TRANSFER-FRONTIER-20261019` / `E-TEACHER-TRANSFER-FRONTIER-20261019`; historical CP30 design and result records remain intact. All six fits await cell ownership, canonical split/data binding, remote acceptance and approved actual-device profiles. No B300 quality or throughput claim is made.

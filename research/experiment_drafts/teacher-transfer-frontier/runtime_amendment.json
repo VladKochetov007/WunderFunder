@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "amendment_date": "2026-10-20",
+  "experiment_id": "E-TEACHER-TRANSFER-FRONTIER-20261019",
+  "hypothesis_id": "H-TEACHER-TRANSFER-FRONTIER-20261019",
+  "status": "prospective_not_launch_ready",
+  "training_authorized": false,
+  "current_pr": "https://github.com/VladKochetov007/WunderFunder/pull/28",
+  "cp30_pr_snapshot": "PR_CP30_FROZEN.md",
+  "historical_recipe_unchanged": "recipe.json",
+  "shared_runtime": {
+    "pr": "https://github.com/VladKochetov007/WunderFunder/pull/32",
+    "source_sha": "d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6",
+    "copied_into_packet": false
+  },
+  "panel": {
+    "id": "transfer",
+    "cells": [
+      {
+        "fold": "F0",
+        "student_seed": 1001,
+        "teacher_seed": 101001,
+        "teacher": "configs/teacher_t768_l24_f0_s1001.json",
+        "labels": "configs/gru256_labels_f0_s1001.json",
+        "kd": "configs/gru256_kd_f0_s1001.json"
+      },
+      {
+        "fold": "F2",
+        "student_seed": 1002,
+        "teacher_seed": 101002,
+        "teacher": "configs/teacher_t768_l24_f2_s1002.json",
+        "labels": "configs/gru256_labels_f2_s1002.json",
+        "kd": "configs/gru256_kd_f2_s1002.json"
+      }
+    ],
+    "new_teacher_fits": 2,
+    "new_student_fits": 4,
+    "total_new_fits": 6,
+    "reused_controls_or_caches": []
+  },
+  "schema_differences": [
+    "raw112 causal streaming with per-layer sliding KV context replaces the anchored4096 proposal",
+    "three fixed epochs in place of eight student epochs",
+    "additive WMSE labels plus weighted WMSE teacher outputs replaces alpha=0.9 interpolation",
+    "strict FP32 AdamW/cosine runtime; autocast, TF32, GradScaler and quantization disabled"
+  ],
+  "pending_receiving_checks": [
+    "bind canonical F0/F2 data and split manifests and assign cell ownership",
+    "pass remote unit, DDP, causality, state, cache and resume acceptance",
+    "profile exact full shapes on actual receiving GPUs and approve finite-headroom FP32 receipts",
+    "run and independently grade all six fits only after separate admission"
+  ],
+  "measured_b300_claim": null,
+  "measured_quality_claim": null,
+  "launch_ready": false
+}
