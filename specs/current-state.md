@@ -11,11 +11,6 @@ submission is claimed. Preserve the15localGPU-hour budget, oneGPUworker,
 twoaggregateCPUcores,5GBtaskRAM/VRAM and zero swap. The original i1 comparison
 remains deferred. Read the frontier and live service before admitting work.
 
-Template modernization and creation of `/home/vlad/development/NIPS2027` are
-explicitly side tasks assigned to a user-authorized `gpt-6.1-sol`/medium agent;
-they do not replace or pause the main research. The new project receives the
-user's LLM-diversity context document as source material, without starting fits.
-
 ## Latest amendment — teacher quality and scaling
 
 The user now prioritizes progressively smarter teachers; distillation is optional,
