@@ -44,6 +44,9 @@ The [matched epoch0 receipt](../../campaign_2026-10-20/submission_delivery_r1/nl
 records100%NLL clipping with mean factor0.0418, versus0.9866 for WMSE. Its
 aggregate head gradient includes mean, auxiliary and variance rows; it cannot
 identify the responsible rows or establish a paper-specific failure mode.
+Global clipping rescales all gradients, while AdamW's moments also respond to
+that scaling. A small clip factor alone does not quantify the resulting
+parameter updates or prove that recurrent learning is suppressed.
 
 ## Limits and validity
 

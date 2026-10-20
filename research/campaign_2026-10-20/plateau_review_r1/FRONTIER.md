@@ -11,6 +11,8 @@ Record changes and receipts here before context compaction or handoff.
 
 ## Actual stage
 
+- The TL3 plain-member converter is integrated and independently statically reviewed; actual CPU conversion waits for the running fit/export/grade chain to drain. It retains unknown ancestry and is not a production training validator. A [conditional H512 cost profile](../submission_delivery_r1/h512_replication_profile/README.md) preserves the B300-supported fallback with an explicit source adaptation and no unsupported timing promise. Free Kaggle quota was refreshed:5.02unreserved GPU-hours, zero provider-reserved time; no cloud job admitted.
+
 - [Conditional F1 comparison](../submission_delivery_r1/nll_followup_f1/README.md) now freezes seed4 WMSE/NLL commands and the exact two-endpoint scorer. It is NOT_ADMITTED until F0 is graded and resource/ancestry preflight passes. The [TL3 member adaptation](../submission_delivery_r1/tl3_member_adaptation/README.md) identifies a three-model production path by replacing only the0.34plain student; no conversion or fitting yet. Original ZIP/member hashes are verified and unknown ancestry remains explicit.
 
 - Latest October20 steering after failed SSH discovery: train the small GRU

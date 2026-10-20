@@ -1,5 +1,11 @@
 # Execution, incidents, and preservation
 
+- [Conditional H512 local cost profile](../../campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/README.md) — exact derived R01 wide-arm profile, declared source adaptation and unresolved local cost. Uses partial B300 width evidence; NOT_ADMITTED, with zero quality fits and no unsupported4h+4h budget assumption.
+
+
+- [Refreshed Kaggle quota, October21Kyiv](../../campaign_2026-10-20/submission_delivery_r1/KAGGLE_QUOTA_REFRESH_20261021_R1.json) — read-only provider evidence of5.02unreserved GPU-hours and zero provider reservations, refreshingOctober24UTC. No cloud job or upload; device/billing/other-owner checks remain before admission.
+
+
 - [Conditional F1 NLL follow-up](../../campaign_2026-10-20/submission_delivery_r1/nll_followup_f1/README.md) — exact prospective seed4 WMSE/NLL commands, two total new fits, compatible parent/cache metadata and source pins. NOT_ADMITTED pending F0 results; distinguishes full-data target/head adaptations and unmeasured export cost.
 
 

@@ -117,3 +117,22 @@ and a production-only full-data validator remain required. The original
 archive and all member bytes are hash-bound. Unknown source ancestry remains
 explicit, so final fitted-data diagnostics cannot be called clean CV. This
 production route is NOT_ADMITTED and depends on the fold recipe evidence.
+
+## Refreshed free compute inventory
+
+The [October21Kyiv Kaggle quota receipt](KAGGLE_QUOTA_REFRESH_20261021_R1.json)
+confirms18076.427unreserved GPU-seconds (5.02hours), zero provider-reserved
+GPU time and an October24UTC refresh. It used one bounded read-only SDK call,
+300MBRAM,10%CPU and no swap. No kernel, upload, fit or reservation was created.
+Device availability, multi-device billing and other agents' planned reservations
+still require reconciliation before any cloud admission. The local15-hour
+allocation remains separate.
+
+## Conditional architecture fallback
+
+The [H512 local cost profile](h512_replication_profile/README.md) derives exact
+R01 wide-arm profiling flags from the B300 evidence, while declaring the local
+source adaptation. It is NOT_ADMITTED and asks for no quality score. Actual
+local timing must establish whether a complete fold replication and production
+fit fit the remaining15-hour budget; the previously considered4h+4h cost is
+unsubstantiated. This is a fallback if NLL has little endpoint value.
