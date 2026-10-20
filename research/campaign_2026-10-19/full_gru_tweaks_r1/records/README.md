@@ -1,3 +1,7 @@
+[Dictionary rare health19:31UTC](child_dictionary_fit_v1/health_20261020T1913Z/README.md): same active invocation, two complete epochs/14,920updates/1492batches/zero skips/nonfinite. Later ep2batch220 is not synchronous current totals/terminal/quality. Own/parent events unchanged, tensor files stat-only, no support/fit/restart/stop. Actual typed native exit0 remains prerequisite for any B integrity support.
+
+---
+
 [Dictionary startup18:14UTC](child_dictionary_fit_v1/startup_health_v1/README.md): one exact active worker/zero new events, no completed FIT/GRAD epoch yet recorded, stat-only outputs and no quality claim. [Actual launch metadata audit](child_dictionary_fit_v1/ACTUAL_LAUNCH_METADATA_REVIEW.json) joins one reviewed submission and fresh source/resource gates; metadata review is not training replication.
 
 ---
