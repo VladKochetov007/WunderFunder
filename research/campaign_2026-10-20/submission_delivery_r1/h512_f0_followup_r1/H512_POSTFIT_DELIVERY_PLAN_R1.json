@@ -39,6 +39,17 @@
     "normalization": "mean/std must be bit-identical; canonical helper preserves them",
     "other_buffers": "non-floating tensors must be bit-identical",
     "input_manifest_template": "SWA345_SOURCE_MANIFEST_TEMPLATE_R1.json",
+    "manifest_materialization": {
+      "condition": "After root accepts FIT_TERMINAL_ACCEPTANCE_R1.json and before derivation.",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/materialize_h512_swa_manifest.py",
+        "--root", "/home/vlad/development/wunder/wnn_connectome_starterpack"
+      ],
+      "output": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/SWA345_SOURCE_MANIFEST_R1.json",
+      "template_sha256": "284c4ead1f78546f13883c054019356964fc9ae0f6e00e3b55a9eea3aec07fa7",
+      "checks": "Pins the template bytes; binds the accepted terminal receipt and source provenance hashes; verifies each CP3/4/5 file against both checkpoint-hash maps before writing create-only READY_FOR_DERIVATION metadata. No Torch or tensor loading."
+    },
     "command": [
       "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
       "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/derive_h512_swa345.py",

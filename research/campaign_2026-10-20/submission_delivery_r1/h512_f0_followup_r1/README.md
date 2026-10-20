@@ -61,10 +61,12 @@ bindings and commands for the frozen seven-endpoint score screen. It derives
 only the predeclared equal mean of epochs 3/4/5 through the canonical
 `mean_state` helper, then exports CP5 and SWA345 predictions for the already
 frozen F0 comparison. The [manifest template](SWA345_SOURCE_MANIFEST_TEMPLATE_R1.json),
-[derivation CLI](derive_h512_swa345.py), and its [source/checkpoint validator](h512_swa345_validation.py)
-are post-fit only; none fits or grades a model. The [terminal receipt producer](record_h512_fit_terminal.py)
-checks the admitted service, trainer closure, log and checkpoint hashes before
-writing a create-only receipt. Root reviews that receipt before derivation.
+[manifest materializer](materialize_h512_swa_manifest.py), [derivation CLI](derive_h512_swa345.py),
+and its [source/checkpoint validator](h512_swa345_validation.py) are post-fit only;
+none fits or grades a model. After root accepts the [terminal receipt](record_h512_fit_terminal.py),
+the materializer checks provenance and CP3/4/5 checkpoint hashes against source
+files and writes the create-only READY manifest used by the derivation CLI. The
+plan records exact argv for both phases.
 
 The same plan contains a conditional two-epoch full-data warm continuation
 from H512 F0 CP5, with inherited preprocessing and all supplied valid labels.
