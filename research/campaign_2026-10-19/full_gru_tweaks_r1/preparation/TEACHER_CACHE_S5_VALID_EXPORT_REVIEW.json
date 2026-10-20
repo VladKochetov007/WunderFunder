@@ -1,0 +1,156 @@
+{
+  "checks": {
+    "all_s3_s4_s5_train_and_profile_receipt_hashes_match_local": true,
+    "body_template_ast_parity": true,
+    "compile_ast_only_no_submission_execution": true,
+    "five_prior_outputs_stat_and_sidecar_only": true,
+    "fresh_parent_gpu_data_disk_source_gates_retained": true,
+    "frozen_packet_and_root_prep_pins_match": true,
+    "local_checks_sha256": "cdc07ba7f8caceecc71e48f3c292bb406b3679dc2a92e6b4b58dc4e96bed6194",
+    "s5_train_acceptance_stop_and_normalizer_match": true,
+    "single_s5_valid_fp32_zero_loader_create_only_command_no_retry": true,
+    "source_manifest_contract_and_167_files_match": true,
+    "target_absence_and_four_metadata_readonly_gates_present": true
+  },
+  "frozen_packet_sha256": {
+    "LOCAL_CHECKS.json": "cdc07ba7f8caceecc71e48f3c292bb406b3679dc2a92e6b4b58dc4e96bed6194",
+    "PREPARATION_NOTE.md": "4859b3cc341f051e851d9e71b87b0b7148d22da3ef4cff7ca0e08b20405922ce",
+    "README.md": "346d8e03d8a277ee54619e59bd892c60e6c3050243f013d7f268f4266c22ea92",
+    "REMOTE_SUBMISSION.py": "9c253702888f39f365631ae15cd7f03a6ffa69c1b3867b8a177fd9da0bc91a8f",
+    "REMOTE_SUBMISSION_TEMPLATE.py": "b72d643bcb3cd5b2259d545e4ae749a9cb69d1995b327b86ad0d7b5e3720f7ab",
+    "ROOT_PREPARATION.json": "758c0580b55a3ba50b914c06e33cbb926c057e6b5d4c0b83d4cbaa7a23f40fea"
+  },
+  "predecessors": {
+    "all_twelve_receipt_hashes_match_local_files": true,
+    "profile_acceptance_sha256": "956e14754c45861665a24619e9a752cd93fb8efaa084e5bb00021b5e5f33c3cd",
+    "profile_exact_stop_sha256": "acf46cea39494e728af2651656d9a0771650102298e6f49614e2467e9c6e3a75",
+    "s3_train": {
+      "acceptance_sha256": "a3e6b023dda48c339daa12f17d721eb0765efe63dead6220976425fc1485d2f4",
+      "exact_stop_sha256": "5d9e2a956d21ab8a1130323475dcb6cdac49d2f9efee775dd912adc6255c92ba",
+      "rows": 10535
+    },
+    "s3_valid": {
+      "acceptance_sha256": "676f609681e71c5ad26ad3261527df69024a84c311ab8375a2c07a42eb76a288",
+      "exact_stop_sha256": "902549b2c12290e372c8f11d57f189f2f21cd39141fe12f389a402fc2b3c863e",
+      "rows": 1405
+    },
+    "s4_train": {
+      "acceptance_sha256": "26557d622a2ad96bd4b25000389e3956f9a3283ecdfb33f38afcffad5cc52c5e",
+      "exact_stop_sha256": "80454742a9edaebda9cf42839c6101dbc8b8f8bf01158552e43eef230e7392b9",
+      "rows": 10535
+    },
+    "s4_valid": {
+      "acceptance_sha256": "03c951dab22d1ed089bf5118b350186dd5f1c623bed70cba974b49ab4cddb360",
+      "exact_stop_sha256": "7b2c47e20a942fe372c7630b0a0bd6c0e90995baffce03fdd4942dfe6752ece9",
+      "rows": 1405
+    },
+    "s5_train": {
+      "acceptance_sha256": "282ad4b9878a33c0120935ce4b1a2d009b4cd57867c0f3f323c846b1a9aba32c",
+      "exact_stop_sha256": "81964bf8e0022797d4d646f18e78cdea2b1e4702cad2f09e7397e5b52827eec8",
+      "invocation_id": "9d2b2c9328f241bf896fd1ca75a3421b",
+      "normalization_identity": {
+        "mean": {
+          "bytes_sha256": "bbb5606e591b033d446665672cc4a33a8353afe85fc52027152289ae1718de47",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        },
+        "std": {
+          "bytes_sha256": "a8c840067bd76955c231ece61911edfd8f5716359d8a55a49c6e920e80e5b6e0",
+          "dtype": "torch.float32",
+          "shape": [
+            211
+          ]
+        }
+      },
+      "prediction_bytes": 1685600128,
+      "rows": 10535
+    }
+  },
+  "resource_gates": {
+    "cpu_quota": "100% (1 CPU)",
+    "create_only": true,
+    "cuda_allocator_bytes": 4294967296,
+    "cuda_reserve_bytes": 1000000000,
+    "current_parent_2_cpu_quota_and_headroom": true,
+    "foreign_gpu_processes_preserved": true,
+    "loader_workers": 0,
+    "memory_high_bytes": 7500000000,
+    "memory_max_bytes": 8000000000,
+    "minimum_selected_gpu_free_bytes": 5294967296,
+    "parent_campaign_descendants_empty": true,
+    "physical_scratch_and_contract_disk_reserve": true,
+    "registered_data_and_split_identity": true,
+    "retry_policy": "Never retry; inspect exact unit and durable receipts after any unknown outcome.",
+    "runtime_max_seconds": 10800,
+    "selected_gpu_identity_free_headroom_and_owned_processes_checked": true,
+    "single_command_only": true,
+    "source_167_hash_inventory": true,
+    "swap_bytes": 0,
+    "torch_threads": 1
+  },
+  "review_scope": {
+    "admission": false,
+    "launch": false,
+    "model_or_checkpoint_payload_read": false,
+    "note": "Static code and receipt-binding review only; no fresh preflight, remote launch, finiteness, or quality claim.",
+    "old_unit_poll": false,
+    "prediction_array_payload_read_or_hashed": false,
+    "remote_access": false
+  },
+  "reviewed_utc": "2026-10-20T00:35:57+00:00",
+  "s5_valid_delta": {
+    "evidence_and_unit_absent_checks_present": true,
+    "existing_four_metadata_jsons_verified_read_only": true,
+    "finite_validation_deferred_to_streamed_cpu_cache_builder": true,
+    "fit_rows": 1405,
+    "new_output_npy_partial_sidecar_absent_checks_present": true,
+    "new_scientific_fits": 0,
+    "prior_outputs_stat_and_producer_sidecar_sha_only": true,
+    "prior_prediction_payloads_read_or_hashed": false,
+    "quality_grade": false,
+    "same_valid_namespace_eval_disjoint_check_preserved": true,
+    "shape": [
+      1405,
+      20000,
+      2
+    ]
+  },
+  "schema": "fg19.teacher-cache-s5-valid-export-source-review.v1",
+  "source_contract": {
+    "checkpoint_sha256": "0ec6dcb7fc82e5a8282ef93d460fcac7b4f6dcb4d3cc63726c485fb2f3595f26",
+    "commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "epoch": 2,
+    "execution_contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97",
+    "normalization_identity": {
+      "mean": {
+        "bytes_sha256": "bbb5606e591b033d446665672cc4a33a8353afe85fc52027152289ae1718de47",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      },
+      "std": {
+        "bytes_sha256": "a8c840067bd76955c231ece61911edfd8f5716359d8a55a49c6e920e80e5b6e0",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      }
+    },
+    "profile_geometry_anchor": "fg19_t3_h384x2_e3_s3_v1",
+    "provenance_sha256": "0cb36af9cb19fb278d0bd500514d014972ccf997c8b91baa5ab43896e6cb287f",
+    "reused_gates_sha256": "65151d60f69edc66d935d323813965906cacd57cb843eb3d70746348f16775ce",
+    "seed": 5,
+    "selected_run": "fg19_t3_h384x2_e3_s5_v1",
+    "source_files": 167,
+    "teacher_order": [
+      3,
+      4,
+      5
+    ]
+  },
+  "status": "PASS_SOURCE_REVIEW_ONLY"
+}

@@ -1,0 +1,5 @@
+# S5 train terminal capture
+
+Original invocation exited0 at00:28:16UTC,10535sequences/659progressrecords. Root captured00:29:42UTC using [identity-bound reader](REMOTE.py), persisted [raw bytes](STDOUT.raw.json) before parsing, and verified all six embedded lengths/SHAs in [transport](TRANSPORT.json). [Admission](ADMISSION.json), [launch](LAUNCH.json), [log](unit.log), [prediction sidecar](PREDICTION.json), [own S5 provenance](TEACHER_PROVENANCE.json) and [fit membership excerpt](FIT_MEMBERSHIP.json) bind source167/18semanticpins, exact canonical train order and S5 normalization. The excerpt binds full split SHA/size without exceeding the unchanged transport caps.
+
+Teacher training order is seed5 shuffled; export order is exact canonical manifest order with the same fit set. Membership hashes use little-endian int64 bytes. NPY1685600128B remains on B; capture is stat-only and uses producer whole-file SHA, with independent header/hash/finite checks deferred to the capped CPU cache consumer. No model/inference/scorer replay or quality score.

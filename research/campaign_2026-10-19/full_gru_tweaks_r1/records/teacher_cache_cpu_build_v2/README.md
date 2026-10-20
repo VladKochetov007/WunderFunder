@@ -1,0 +1,11 @@
+# Canonical homogeneous CPU cache build V2
+
+One actuallaunch20October01:00:23UTC, unitcomputer-vision-homework-fg19-teacher-cache-cpu-build-v2.service/invocationa358e89cd6fe42118e426a954ee897f0/PID3888906 atlaunch. [Launch acceptance](LAUNCH_ACCEPTANCE.json), [rawresponse](STDOUT.raw.json), [transport](TRANSPORT.json), [exact B admission](ADMISSION.json), [exact B launch](LAUNCH.json) and [executed body](REMOTE_SUBMISSION.py) preserve originalbytesbeforeparse/no retry. [Reviewed repair](../../preparation/teacher_cache_cpu_repair_v2/README.md) and [admission identity review](../../preparation/TEACHER_CACHE_CPU_BUILD_V2_ADMISSION_REVIEW.json) bind source68ff6829/167files while teacheraf21/predictionpipeline88/sixacceptedexports remain unchanged.
+
+Fresh source167/split/registereddata/sixsidecarhash+NPYstats/fourexistingmetadatahashes/emptyparent/physicaldisk/output+partial+evidence+unitabsence/1.5GBreservation checks passed.0.5CPU/high1.4GB/max1.5GB/swap0/600s/CUDAhidden/BLAS1, aggregate2CPU. OutputcanonicalB/research_tmp/fg19_t3_fit_homogeneous_cache_v1 is create-only; V1 didnotcreateit or partial. FailedV1/unit/source/receipts are preserved, not restarted. This is a reviewed versioned metadata-compatibility repair, no teacher/inference/fit replay or newquality grade.
+
+[Bounded startup01:01:54UTC](startup_health_v1/README.md) is runningevidence, not terminalcompletion. Require nativeintegerexit0/metadata/source/outputstats/actualinputvalidation beforedurable rootacceptance/exactstop. Unknownoutcome neverblindlyretried.
+
+## Completed cache
+
+[Terminal capture](capture/README.md), [root acceptance](TERMINAL_ACCEPTANCE.json), [resource reconciliation](RESOURCE_RECONCILIATION.json) and [exact stop](exact_stop/README.md) establish successful construction in 365.148217 wall seconds / 162.146935 CPU seconds under the unchanged .5 CPU, 1.4/1.5 GB, no-swap, 600-second limits. All six prediction inputs were independently hashed and checked by the capped CPU consumer. Output hashes are producer hashes, with stat-only capture; there is no scorer, model replay or GRU quality endpoint. The [01:05 running observation](health_20261020T0105Z/README.md) preserves memory-high pressure before success. Failed V1 remains preserved separately.

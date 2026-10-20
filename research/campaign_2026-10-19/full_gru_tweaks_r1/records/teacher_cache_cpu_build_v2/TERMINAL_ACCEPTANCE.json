@@ -1,0 +1,80 @@
+{
+  "schema": "fg19-teacher-cache-cpu-terminal-acceptance.v2",
+  "status": "ACCEPTED",
+  "created_utc": "2026-10-20T01:13:12.187783+00:00",
+  "capture_utc": "2026-10-20T01:12:06.103341+00:00",
+  "unit": "computer-vision-homework-fg19-teacher-cache-cpu-build-v2.service",
+  "invocation_id": "a358e89cd6fe42118e426a954ee897f0",
+  "native_terminal": {
+    "active_state": "active",
+    "sub_state": "exited",
+    "main_pid": 0,
+    "exec_main_code": 1,
+    "exec_main_status": 0,
+    "exit_timestamp": "Tue 2026-10-20 01:06:28 UTC"
+  },
+  "raw_sha256": "6679d0bd938fb1d29db622381760129c86bf6e21880f0ef7418f7d321a125bfc",
+  "metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+  "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+  "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+  "source_files_verified": 167,
+  "six_input_predictions_independently_hashed_and_finite_checked_by_cpu_consumer": true,
+  "source_qualified_checks": [
+    "exact accepted input SHA/sidecar/checkpoint/provenance/fit-order pins",
+    "six actual NPY headers/shape/FP32/finite validated in capped CPU builder",
+    "fixed ordered unweighted float32 S3/S4/S5 mean then .8125 exactly once, no construction clip",
+    "fit10535train/1405valid and exclusion of468eval in valid namespace",
+    "produced pair finite guarded during construction, producer whole-file SHA, capture stat-only"
+  ],
+  "output": {
+    "train": {
+      "path": "main_homogeneous_train.npy",
+      "sha256": "4abbb9be31ec1135a5e0ff5bb87c93a2db6e44943e95d23ff70835b8044c5194",
+      "bytes": 1685600128,
+      "shape": [
+        10535,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "row_groups_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+      "stat_only": {
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1/main_homogeneous_train.npy",
+        "bytes": 1685600128,
+        "device": 64512,
+        "inode": 739677840,
+        "mtime_ns": 1792458365441028881,
+        "payload_read_or_hashed_by_capture": false
+      }
+    },
+    "valid": {
+      "path": "main_homogeneous_valid.npy",
+      "sha256": "6963d3c565caf469b023a61ba6d2dd376d929b2bcf724af88492dc8adb76f591",
+      "bytes": 224800128,
+      "shape": [
+        1405,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "row_groups_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "stat_only": {
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1/main_homogeneous_valid.npy",
+        "bytes": 224800128,
+        "device": 64512,
+        "inode": 739677841,
+        "mtime_ns": 1792458385154390137,
+        "payload_read_or_hashed_by_capture": false
+      }
+    }
+  },
+  "scientific_fits": 0,
+  "quality_score": null,
+  "limitations": [
+    "Independent metadata review is not replication or a quality comparison.",
+    "Captured output array payloads remain B-only and were not independently rehashed by the observer.",
+    "Memory-high events occurred; hard-max/OOM counts did not increase. Separate sampled cgroup and service accounting observations are not equal-time measurements.",
+    "Terminal own ControlGroup is empty: own memory files unavailable, no host-root fallback."
+  ],
+  "stop_status": "pending; acceptance is frozen before exact stopped-unit cleanup"
+}

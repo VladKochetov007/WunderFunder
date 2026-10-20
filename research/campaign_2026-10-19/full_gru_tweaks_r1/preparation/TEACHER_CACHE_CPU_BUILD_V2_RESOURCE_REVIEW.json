@@ -1,0 +1,31 @@
+{
+  "schema": "fg19.teacher-cache-cpu-build-v2-resource-review.v1",
+  "scope": "Independent metadata-only reconciliation of the successful CPU cache-builder receipts; no payload, model, SSH, test, or replay access.",
+  "bindings": {
+    "invocation_id": "a358e89cd6fe42118e426a954ee897f0",
+    "unit": "computer-vision-homework-fg19-teacher-cache-cpu-build-v2.service",
+    "active_health_raw_sha256": "46a87a91918e109671c84d188b80889ea1547fe87db75cad392d910669ded57d",
+    "terminal_capture_raw_sha256": "6679d0bd938fb1d29db622381760129c86bf6e21880f0ef7418f7d321a125bfc",
+    "resource_reconciliation_sha256": "e31c44afe5e142a54be7cc58d581b0ae2fdc27739a748cc8da7e2756c6c2a885"
+  },
+  "samples": {
+    "active_utc": "2026-10-20T01:05:49.240187+00:00",
+    "active_worker_memory_current_bytes": 1399742464,
+    "active_worker_memory_peak_bytes": 1400774656,
+    "worker_memory_high_bytes": 1400000000,
+    "worker_memory_max_bytes": 1500000000,
+    "worker_swap_max_bytes": 0,
+    "active_parent_memory_current_bytes": 7078547456,
+    "active_parent_memory_events_high": 27827,
+    "admission_parent_memory_events_high": 2179,
+    "active_parent_memory_events_local_high": 0,
+    "terminal_parent_memory_events_high": 38355,
+    "terminal_parent_memory_events_local_high": 0,
+    "terminal_parent_max_event_delta": 0,
+    "terminal_parent_oom_event_delta": 0,
+    "native_wall_seconds": 365.148217,
+    "native_cpu_seconds": 162.146935
+  },
+  "interpretation": "The successful unit's recorded MemoryPeak was 774656 bytes above MemoryHigh and below MemoryMax. The parent high-event counter includes descendant propagation; its local high counter remained zero, and reconciliation reports no new max or OOM events. These counters do not establish a causal performance explanation. The capture's own terminal-cgroup files were null, so no terminal own-cgroup event count is claimed.",
+  "status": "PASS_METADATA_RECONCILIATION_NO_CAUSAL_OR_FULL_RAM_CLAIM"
+}

@@ -1,0 +1,81 @@
+{
+  "checks": {
+    "admission_and_launch_unit_match": true,
+    "declared_resource_caps_match_review": true,
+    "fit_prediction_namespace": true,
+    "launch_success_and_post_state_identity_match": true,
+    "s5_train_predecessor_receipts_bound": true,
+    "s5_valid_epoch2_fp32_zero_loader_create_only": true,
+    "saved_source_review_status_and_pin_match": true,
+    "scope_is_fit_only_no_quality_claim": true,
+    "selected_s5_teacher_identity_matches_acceptance": true,
+    "single_systemd_run_predict_command": true,
+    "transport_raw_length_and_sha256_match": true,
+    "transport_returncode_zero_no_retry_raw_written_first": true
+  },
+  "identity": {
+    "body_sha256": "9c253702888f39f365631ae15cd7f03a6ffa69c1b3867b8a177fd9da0bc91a8f",
+    "checkpoint_sha256": "0ec6dcb7fc82e5a8282ef93d460fcac7b4f6dcb4d3cc63726c485fb2f3595f26",
+    "epoch": 2,
+    "invocation_id": "48d87b0c40514a18adbecf80e5a7d1db",
+    "launch_utc": "2026-10-20T00:36:16.463131+00:00",
+    "pid_at_launch": 3853151,
+    "provenance_sha256": "0cb36af9cb19fb278d0bd500514d014972ccf997c8b91baa5ab43896e6cb287f",
+    "selected_run": "fg19_t3_h384x2_e3_s5_v1",
+    "source_commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "source_manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97",
+    "unit": "computer-vision-homework-fg19-teacher-s5-valid-export-v1.service"
+  },
+  "launch_observation": {
+    "acceptance_status": "ADMITTED_RUNNING_NOT_TERMINAL",
+    "expected_sequences": 1405,
+    "launch_post_active_state": "active",
+    "launch_post_invocation_id": "48d87b0c40514a18adbecf80e5a7d1db",
+    "launch_post_sub_state": "running",
+    "launch_returncode": 0,
+    "new_scientific_fits": 0,
+    "quality_grade": false,
+    "raw_written_before_parse": true,
+    "transport_returncode": 0
+  },
+  "predecessor_s5_train": {
+    "acceptance_sha256": "282ad4b9878a33c0120935ce4b1a2d009b4cd57867c0f3f323c846b1a9aba32c",
+    "exact_stop_sha256": "81964bf8e0022797d4d646f18e78cdea2b1e4702cad2f09e7397e5b52827eec8",
+    "payload_read_or_hashed": false,
+    "prediction_stat_bytes": 1685600128
+  },
+  "receipts": {
+    "admission_sha256": "664be159f7d78675a4a480d32c99fd729eeb9e58c7d6a9bfd325921b8cfffb6a",
+    "launch_acceptance_sha256": "48c3a3530fcd4dd25036451bc2b847a2c2e29b57aab7e812b6e56452f8703751",
+    "launch_sha256": "4150af6445f7920b77e8d00f685b11025ae69f767850afa6bf62aa971df618c0",
+    "raw_transport_bytes": 31409,
+    "raw_transport_sha256": "b324f561b2850238dd5ecfb4500fee326ea51189cb9b68309e24cc61afef5184",
+    "transport_sha256": "28cf49cd78681f99d2157c2f9ddc93de672b7ed7974a39567d1c93a976c872f2"
+  },
+  "resources": {
+    "cuda_allocator_bytes": 4294967296,
+    "cuda_reserve_bytes": 1000000000,
+    "disk_free_bytes_at_admission": 88183167299584,
+    "disk_required_reserve_bytes": 34485145600,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_memory_swap_max_bytes": 0,
+    "runtime_max_seconds": 10800,
+    "selected_gpu": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, NVIDIA RTX A4000, 9157 MiB, 16376 MiB",
+    "torch_threads": 1,
+    "unit_cpu_quota": "100% (1 CPU)",
+    "unit_memory_high_bytes": 7500000000,
+    "unit_memory_max_bytes": 8000000000,
+    "unit_memory_swap_max_bytes": 0
+  },
+  "reviewed_utc": "2026-10-20T00:36:16Z",
+  "schema": "fg19.teacher-cache-s5-valid-export-launch-review.v1",
+  "scope": {
+    "note": "Review covers saved launch metadata and the raw transport byte count/hash only. LAUNCH records an active/running process; terminal capture and exact stop are separate root-owned work.",
+    "prediction_payload_read_or_hashed": false,
+    "remote_access_performed_by_reviewer": false,
+    "source_review_sha256": "48082717bf0366b9b7dcba23d171dbee05535102f102b310b3e0a85b254948fa",
+    "terminal_state_or_output_acceptance_claimed": false
+  },
+  "status": "PASS_LAUNCH_METADATA_ONLY"
+}

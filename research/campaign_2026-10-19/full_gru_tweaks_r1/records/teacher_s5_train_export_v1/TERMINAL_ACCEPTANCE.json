@@ -1,0 +1,89 @@
+{
+  "schema": "fg19.teacher-s5-train-export-terminal-acceptance.v1",
+  "status": "ACCEPTED",
+  "accepted_utc": "2026-10-20T00:30:04.044023+00:00",
+  "capture_utc": "2026-10-20T00:29:42.279111+00:00",
+  "capture_transport_sha256": "b1f76ca4e2fc80d7c0e6d73245c254b684bafb79fb095740f7580bbae8ae43e8",
+  "capture_raw_sha256": "9df094b234d62203210d8735047fa22cc1d1cf7c1924942fc61f3d14454fa9d2",
+  "capture_payloads_length_sha_validated": true,
+  "native_unit": {
+    "MainPID": "0",
+    "Result": "success",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 00:01:39 UTC",
+    "ExecMainStartTimestampMonotonic": "1511746642200",
+    "ExecMainExitTimestamp": "Tue 2026-10-20 00:28:16 UTC",
+    "ExecMainExitTimestampMonotonic": "1513343212386",
+    "ExecMainCode": "1",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-88becca8/scripts/predict_run.py fg19_t3_h384x2_e3_s5_v1 train --epoch 2 --campaign-split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --device cuda --inference-precision fp32 --loader-workers 0 --output-dir /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1 --create-only ; ignore_errors=no ; start_time=[Tue 2026-10-20 00:01:39 UTC] ; stop_time=[Tue 2026-10-20 00:28:16 UTC] ; pid=3802605 ; code=exited ; status=0 }",
+    "ControlGroup": "",
+    "MemoryCurrent": "[not set]",
+    "MemoryPeak": "3255631872",
+    "CPUUsageNSec": "1593851599000",
+    "CPUQuotaPerSecUSec": "1s",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemorySwapMax": "0",
+    "LoadState": "loaded",
+    "ActiveState": "active",
+    "SubState": "exited",
+    "InvocationID": "9d2b2c9328f241bf896fd1ca75a3421b"
+  },
+  "run_name": "fg19_t3_h384x2_e3_s5_v1",
+  "split": "train",
+  "selected_epoch": 2,
+  "completed_sequences": 10535,
+  "progress_records": 659,
+  "source_commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+  "source_files_verified": 167,
+  "runtime_semantic_pins_verified": 18,
+  "source_manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97",
+  "prediction_path_b": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1/pred_fg19_t3_h384x2_e3_s5_v1_train.npy",
+  "prediction_bytes": 1685600128,
+  "prediction_sha256": "d6e1f58743725c15d609db9d7e13aa897100d363d9225d85ecc96fb8bd48115b",
+  "prediction_hash_authority": "Producer whole-file SHA; capture stat-only, no independent payload rehash.",
+  "prediction_metadata_sha256": "be505136f01c95fc0d55ad65c7e5cc024bc18bf4fe1ecfdf63cdbe83057e38b4",
+  "prediction_metadata_path_b": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1/pred_fg19_t3_h384x2_e3_s5_v1_train.json",
+  "prediction_dtype_authority": "float32 by immutable source memmap construction and strictFP32 sidecar; no independent header read.",
+  "prediction_finite_independently_checked": false,
+  "finite_check_deferred_to_streamed_cpu_cache_builder": true,
+  "prediction_shape_by_source_membership": [
+    10535,
+    20000,
+    2
+  ],
+  "checkpoint_sha256": "0ec6dcb7fc82e5a8282ef93d460fcac7b4f6dcb4d3cc63726c485fb2f3595f26",
+  "normalization_identity": {
+    "mean": {
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32",
+      "bytes_sha256": "bbb5606e591b033d446665672cc4a33a8353afe85fc52027152289ae1718de47"
+    },
+    "std": {
+      "shape": [
+        211
+      ],
+      "dtype": "torch.float32",
+      "bytes_sha256": "a8c840067bd76955c231ece61911edfd8f5716359d8a55a49c6e920e80e5b6e0"
+    }
+  },
+  "ordered_fit_membership_verified": true,
+  "fit_membership_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+  "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+  "teacher_provenance_sha256": "0cb36af9cb19fb278d0bd500514d014972ccf997c8b91baa5ab43896e6cb287f",
+  "feature_only": true,
+  "parent_memory_events": {
+    "memory.current": "9035919360\n",
+    "memory.events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "populated_at_capture": {},
+  "own_terminal_cgroup_files": null,
+  "new_scientific_fits": 0,
+  "quality_grade": false,
+  "stop_status": "PENDING_EXACT_STOP_AFTER_DURABLE_ACCEPTANCE",
+  "scope": "Accepted completed source-qualified producer metadata; no array/model/inference/scorer replay. Full-array finiteness remains mandatory in the streamed cache consumer.",
+  "teacher_training_order_authority": "Accepted provenance retains seed5 shuffled training order; export order equals canonical split fit.train exactly, with identical teacher fit membership set."
+}

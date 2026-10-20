@@ -1,0 +1,90 @@
+{
+  "body_sha256": "604c7fbfc75094e460b2f65cbc15035a4eec461842cd30c01fe6fab6ccb6f423",
+  "created_utc": "2026-10-20T01:26:33.859510+00:00",
+  "not_run": [
+    "full model/test suite",
+    "source re-stage",
+    "cache/data array reads",
+    "model/checkpoint load",
+    "SSH",
+    "systemd/fit/profile invocation",
+    "dependency install/resolver"
+  ],
+  "results": [
+    {
+      "check": "Python compile",
+      "files": [
+        "REMOTE_SUBMISSION.py",
+        "REMOTE_SUBMISSION_TEMPLATE.py"
+      ],
+      "status": "PASS"
+    },
+    {
+      "architecture": "GRU H256x2",
+      "batch": 16,
+      "canonical_epoch_state": [
+        "--save-training-state"
+      ],
+      "check": "full-fit argv invariants",
+      "chunk": 2000,
+      "epochs": 4,
+      "expected_not_observed": true,
+      "expected_updates": 29840,
+      "fixed_epoch_zero_based": 3,
+      "no_initial_resume_or_initializer": true,
+      "option_count": 41,
+      "profile_only_controls_absent": [
+        "--profile-steps",
+        "--profile-warmup",
+        "--max-batches"
+      ],
+      "seed": 1001,
+      "status": "PASS"
+    },
+    {
+      "B_evidence_hashes": {
+        "ADMISSION.json": "2f2281403be28fb526396c611037ef95d396a1080bd6ca55da5c9f6f82f35472",
+        "LAUNCH.json": "5ff7293504d77ec7e1bc5e6123103ce1bb85f87f21045877dbdd757cc38c002d",
+        "unit.log": "91503e98647c76cf53f924d72fb79b6f05f94cf140707c298eabf5fafc77b310"
+      },
+      "acceptance_sha256": "426792c35c9685682de266db056414cf2a6a0d0a550dfab07c4fb528be6fbebf",
+      "check": "actual parent profile dependency",
+      "checkpoints_written": false,
+      "exact_stop_sha256": "a401b954f63c761776699221403fa9cf11ba6e6d29cc69a8f7f1effab3f25257",
+      "invocation_id": "dc7f34afbdfb4fed8bdfbb66d20d558b",
+      "quality_score": null,
+      "scientific_fits": 0,
+      "status": "PASS",
+      "successful_updates": 60
+    },
+    {
+      "check": "unbound template remains fail-closed",
+      "required_root_bindings_null": true,
+      "status": "PASS"
+    },
+    {
+      "accepted_teacher_fit_receipt_sha256": "8d22151187a5d64ecd13cab15d10dc8fc320faddf02cdc5dac23ac3cba64411a",
+      "actual_teacher_argv_has_save_training_state": true,
+      "check": "source-pinned CLI component audit",
+      "files": {
+        "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+        "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+        "src/wnn/training/epoch.py": "cc72be0e0f6bfb6e67659068ab30778cf48e0734ae9740b856485e79b4a2cbe6",
+        "src/wnn/training/profile_results.py": "6413cecb075b3ce0209ccb301ecc7a1aa96598a0134f60e57f677a512d689ae9",
+        "src/wnn/training/runner.py": "306e0619daa5bb2171063a0e766f064281281fcee4379ae120477ec1b849da7d",
+        "src/wnn/training_state.py": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+      },
+      "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "status": "PASS"
+    },
+    {
+      "check": "targeted Ruff F",
+      "command": ".venv/bin/python -m ruff check --select F REMOTE_SUBMISSION.py REMOTE_SUBMISSION_TEMPLATE.py",
+      "status": "PASS"
+    }
+  ],
+  "schema": "fg19-parent-fit-r2-local-checks.v1",
+  "scope": "local code/receipt text only; no SSH, systemd calls, fit/profile launch, source mutation, model loading, or array payload reads",
+  "template_sha256": "e6b4a12d00256314af3724c19ce2b9ac21bad392771dc7b592fedf52e9382b06"
+}

@@ -1,0 +1,5 @@
+# CPU cache V2 terminal capture
+
+The root-owned bounded SSH capture at 01:12:06 UTC found the exact V2 invocation exited successfully at 01:06:28. [Raw response](STDOUT.raw.json), [transport](TRANSPORT.json), [reader](REMOTE.py), and byte-identical decoded B [admission](ADMISSION.json), [launch](LAUNCH.json), [log](unit.log), and [metadata](METADATA.json) bind the result. Every embedded byte length and SHA was checked before root acceptance. All 167 source files were rehashed by the observer; only the produced arrays' stat identities and producer hashes were captured, with payloads remaining on B.
+
+The builder validated six input array whole-file hashes, headers, FP32 shapes and finite values before producing the fixed S3/S4/S5 mean scaled by .8125 once. This is a cache construction and integrity result, with zero scientific fits and no quality score. [Root acceptance](../TERMINAL_ACCEPTANCE.json) predates [exact stop](../exact_stop/README.md). Separate resource observations are reconciled in [RESOURCE_RECONCILIATION.json](../RESOURCE_RECONCILIATION.json).

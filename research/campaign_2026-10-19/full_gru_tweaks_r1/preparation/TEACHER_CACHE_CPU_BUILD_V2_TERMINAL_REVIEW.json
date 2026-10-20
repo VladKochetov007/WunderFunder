@@ -1,0 +1,285 @@
+{
+  "schema": "fg19-cpu-cache-v2-independent-terminal-metadata-review.v1",
+  "status": "PASS_METADATA_AND_TERMINAL_BINDING",
+  "reviewed_utc": "2026-10-20",
+  "scope": "Independent local reconciliation of captured native terminal response, durable root acceptance, exact-stop response, source and output metadata. No SSH, source tests, model replay, or array payload reads/hashes were performed by this reviewer.",
+  "conclusion": "The exact CPU cache V2 invocation completed with native exit status 0, its capture is byte-bound to durable acceptance, and the same invocation was later stopped and observed absent/inactive/dead with an empty populated-descendant map. The capped canonical builder reports hashing and finite-checking all six inputs and finite-guarding/producing the output pair. Outputs are producer-hash and capture-stat evidence; this review does not independently inspect their array bytes and makes no scientific-quality claim.",
+  "native_execution": {
+    "unit": "computer-vision-homework-fg19-teacher-cache-cpu-build-v2.service",
+    "invocation_id": "a358e89cd6fe42118e426a954ee897f0",
+    "start_utc": "Tue 2026-10-20 01:00:22 UTC",
+    "exit_utc": "Tue 2026-10-20 01:06:28 UTC",
+    "wall_seconds": 365.148217,
+    "cpu_seconds": 162.146935,
+    "systemd_result": "success",
+    "main_pid_at_terminal": 0,
+    "exec_main_code": 1,
+    "exec_main_status": 0,
+    "terminal_active_state": "active",
+    "terminal_sub_state": "exited"
+  },
+  "evidence_sha256": {
+    "capture_raw_stdout": "6679d0bd938fb1d29db622381760129c86bf6e21880f0ef7418f7d321a125bfc",
+    "capture_transport": "069a9750e54a23b802514a715587fa2e04fdfb2c3e39e4afea918e5cf4ac4222",
+    "capture_admission": "63c8f8e6e8d8874df3a4c85f1265890fed0863840b8a2f8d77187d54a5c12d52",
+    "capture_launch": "8a50cd4cd59ef5b9f6cce2bef893040b1e721083342e94fa1ad0eba83d18fdc1",
+    "capture_metadata": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+    "capture_unit_log": "aa60629479d3d97d64298574e68450357e66a46197b56bfe7922dc8cdd3ad892",
+    "root_terminal_acceptance": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "launch_acceptance": "d82dac5afcaa7adfc7948f97c41b38f93a3d1eadbd314fe44d4e7c989f01301b",
+    "exact_stop_raw_stdout": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "exact_stop_transport": "67d3acf90c973d2f176ca63f8af45c215e1cfeaa39a9edd3417d6869cc7aecdd",
+    "resource_reconciliation": "e31c44afe5e142a54be7cc58d581b0ae2fdc27739a748cc8da7e2756c6c2a885"
+  },
+  "capture_transport": {
+    "returncode": 0,
+    "stdout_bytes": 483855,
+    "stdout_sha256": "6679d0bd938fb1d29db622381760129c86bf6e21880f0ef7418f7d321a125bfc",
+    "stderr_bytes": 0,
+    "raw_persisted_before_parse": true,
+    "embedded_capture_files_byte_equal_to_local": [
+      "ADMISSION.json",
+      "LAUNCH.json",
+      "METADATA.json",
+      "unit.log"
+    ]
+  },
+  "source": {
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "source_files_verified": 167,
+    "builder_path": "scripts/build_distill_cache.py",
+    "builder_sha256": "ac920f43572ab31a6cfa6fe15acd0d3a5129c129645d190efd14d82bb9880a11",
+    "contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "teacher_source_commit": "af21",
+    "prediction_pipeline_source_commit": "88becca892b3d6b97022cf06076c84a7ab165974"
+  },
+  "teacher_inputs": [
+    {
+      "teacher_run": "fg19_t3_h384x2_e3_s3_v1",
+      "split": "train",
+      "teacher_seed": 3,
+      "epoch": 2,
+      "prediction_sha256_producer_authority": "218e3c41e91ff45e691b85e6999412841ca05c68aebdfc25c1c7659b0cc6bec5",
+      "prediction_sidecar_sha256": "491767c8a914cf945d0284d29506e41cb74e2977c7b2b78baec524eabae859f6",
+      "teacher_checkpoint_sha256": "58e62541b9305169b94301d2e4f6643741d6a25f0712bc7b7cbf020de6b76241",
+      "teacher_provenance_sha256": "fd64ca38ce6c6032bbaac6bdc60cfb5081fc9a76d26a85224cec87471704d36b",
+      "fit_membership_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+      "teacher_export_acceptance_sha256": "a3e6b023dda48c339daa12f17d721eb0765efe63dead6220976425fc1485d2f4",
+      "teacher_export_exact_stop_raw_sha256": "5d9e2a956d21ab8a1130323475dcb6cdac49d2f9efee775dd912adc6255c92ba",
+      "teacher_export_invocation_id": "48732136d70548b2903f3426bfedf656",
+      "captured_prediction_bytes_stat_only": 1685600128,
+      "captured_sidecar_bytes_stat_only": 108035,
+      "input_payload_independently_hashed_and_finite_checked_by_builder": true
+    },
+    {
+      "teacher_run": "fg19_t3_h384x2_e3_s3_v1",
+      "split": "valid",
+      "teacher_seed": 3,
+      "epoch": 2,
+      "prediction_sha256_producer_authority": "0ba98e6df9d59fb3c301388ab06ff1d34875946b2809d2be6efb251c1fa0baef",
+      "prediction_sidecar_sha256": "55ddc99fd7aa06ba3a9b309421b3f4642c826abf0a918ca9616b82020b19be9b",
+      "teacher_checkpoint_sha256": "58e62541b9305169b94301d2e4f6643741d6a25f0712bc7b7cbf020de6b76241",
+      "teacher_provenance_sha256": "fd64ca38ce6c6032bbaac6bdc60cfb5081fc9a76d26a85224cec87471704d36b",
+      "fit_membership_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "teacher_export_acceptance_sha256": "676f609681e71c5ad26ad3261527df69024a84c311ab8375a2c07a42eb76a288",
+      "teacher_export_exact_stop_raw_sha256": "902549b2c12290e372c8f11d57f189f2f21cd39141fe12f389a402fc2b3c863e",
+      "teacher_export_invocation_id": "6c4365b925564e27af985ea833addcf6",
+      "captured_prediction_bytes_stat_only": 224800128,
+      "captured_sidecar_bytes_stat_only": 16411,
+      "input_payload_independently_hashed_and_finite_checked_by_builder": true
+    },
+    {
+      "teacher_run": "fg19_t3_h384x2_e3_s4_v1",
+      "split": "train",
+      "teacher_seed": 4,
+      "epoch": 2,
+      "prediction_sha256_producer_authority": "43fdc2d384a8846a5b6c373679a5f0f0e4ef24c5d5925aa2b84905016d0e5c93",
+      "prediction_sidecar_sha256": "2a8c83f1fa40ec2e00ef0bb1fa6e62b115af340bcd84128da611596e1107c9cd",
+      "teacher_checkpoint_sha256": "a59a747176263fc0ecdfcc584f78cf77b13465ec4645ca4bb5d9992380865a36",
+      "teacher_provenance_sha256": "6a6c5bae6bd2ee943684ddad3b6c888682cd4e13de492cf1cac571e97727b2bf",
+      "fit_membership_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+      "teacher_export_acceptance_sha256": "26557d622a2ad96bd4b25000389e3956f9a3283ecdfb33f38afcffad5cc52c5e",
+      "teacher_export_exact_stop_raw_sha256": "80454742a9edaebda9cf42839c6101dbc8b8f8bf01158552e43eef230e7392b9",
+      "teacher_export_invocation_id": "c48563e6113d4351a7ca23e7715ad2c2",
+      "captured_prediction_bytes_stat_only": 1685600128,
+      "captured_sidecar_bytes_stat_only": 108035,
+      "input_payload_independently_hashed_and_finite_checked_by_builder": true
+    },
+    {
+      "teacher_run": "fg19_t3_h384x2_e3_s4_v1",
+      "split": "valid",
+      "teacher_seed": 4,
+      "epoch": 2,
+      "prediction_sha256_producer_authority": "9c6cc043eaabaff0adb9f1dc55133c3418914a1f7ca31e33359e07d68b378e4b",
+      "prediction_sidecar_sha256": "e234ecce1bb5a583add2ff97372fbde482d1e64f7bfee6d39abc538ae51890f1",
+      "teacher_checkpoint_sha256": "a59a747176263fc0ecdfcc584f78cf77b13465ec4645ca4bb5d9992380865a36",
+      "teacher_provenance_sha256": "6a6c5bae6bd2ee943684ddad3b6c888682cd4e13de492cf1cac571e97727b2bf",
+      "fit_membership_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "teacher_export_acceptance_sha256": "03c951dab22d1ed089bf5118b350186dd5f1c623bed70cba974b49ab4cddb360",
+      "teacher_export_exact_stop_raw_sha256": "7b2c47e20a942fe372c7630b0a0bd6c0e90995baffce03fdd4942dfe6752ece9",
+      "teacher_export_invocation_id": "4ee46e04e7264a6ea0278d28d6479400",
+      "captured_prediction_bytes_stat_only": 224800128,
+      "captured_sidecar_bytes_stat_only": 16411,
+      "input_payload_independently_hashed_and_finite_checked_by_builder": true
+    },
+    {
+      "teacher_run": "fg19_t3_h384x2_e3_s5_v1",
+      "split": "train",
+      "teacher_seed": 5,
+      "epoch": 2,
+      "prediction_sha256_producer_authority": "d6e1f58743725c15d609db9d7e13aa897100d363d9225d85ecc96fb8bd48115b",
+      "prediction_sidecar_sha256": "be505136f01c95fc0d55ad65c7e5cc024bc18bf4fe1ecfdf63cdbe83057e38b4",
+      "teacher_checkpoint_sha256": "0ec6dcb7fc82e5a8282ef93d460fcac7b4f6dcb4d3cc63726c485fb2f3595f26",
+      "teacher_provenance_sha256": "0cb36af9cb19fb278d0bd500514d014972ccf997c8b91baa5ab43896e6cb287f",
+      "fit_membership_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+      "teacher_export_acceptance_sha256": "282ad4b9878a33c0120935ce4b1a2d009b4cd57867c0f3f323c846b1a9aba32c",
+      "teacher_export_exact_stop_raw_sha256": "81964bf8e0022797d4d646f18e78cdea2b1e4702cad2f09e7397e5b52827eec8",
+      "teacher_export_invocation_id": "9d2b2c9328f241bf896fd1ca75a3421b",
+      "captured_prediction_bytes_stat_only": 1685600128,
+      "captured_sidecar_bytes_stat_only": 108035,
+      "input_payload_independently_hashed_and_finite_checked_by_builder": true
+    },
+    {
+      "teacher_run": "fg19_t3_h384x2_e3_s5_v1",
+      "split": "valid",
+      "teacher_seed": 5,
+      "epoch": 2,
+      "prediction_sha256_producer_authority": "9fff42e4ab396f16e4bdbfe2e215836694535603fd201f0d3bfe31f89f0867ad",
+      "prediction_sidecar_sha256": "34ef603e0614f92acfe6801a8d90daad1938b827811edae0f1f994ef7c8ec1e2",
+      "teacher_checkpoint_sha256": "0ec6dcb7fc82e5a8282ef93d460fcac7b4f6dcb4d3cc63726c485fb2f3595f26",
+      "teacher_provenance_sha256": "0cb36af9cb19fb278d0bd500514d014972ccf997c8b91baa5ab43896e6cb287f",
+      "fit_membership_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "teacher_export_acceptance_sha256": "a99e57b7b004a857dbf4348d80d9886220f99cc2ad5e8890b09ec4e96ce6bda9",
+      "teacher_export_exact_stop_raw_sha256": "9e608e09113847e09ad4b941773dec7eb895b100ac11da5ce5120fb38fdad7a9",
+      "teacher_export_invocation_id": "48d87b0c40514a18adbecf80e5a7d1db",
+      "captured_prediction_bytes_stat_only": 224800128,
+      "captured_sidecar_bytes_stat_only": 16411,
+      "input_payload_independently_hashed_and_finite_checked_by_builder": true
+    }
+  ],
+  "cache_semantics_from_captured_metadata_and_acceptance": {
+    "teacher_order": [
+      3,
+      4,
+      5
+    ],
+    "teacher_epoch": 2,
+    "source_coefficients": [
+      0.1,
+      0.1,
+      0.1
+    ],
+    "coefficient_sum": 0.3,
+    "formula": "float32(0.8125 * float32_mean(three_epoch2_predictions))",
+    "clipping_during_cache_construction": "none",
+    "new_scientific_fits": 0,
+    "quality_score": null
+  },
+  "fit_membership": {
+    "train_rows": 10535,
+    "valid_fit_rows": 1405,
+    "heldout_eval_valid_rows_not_stored": 468,
+    "train_output_order_matches_metadata_fit_order": true,
+    "valid_output_order_matches_metadata_fit_order": true,
+    "eval_valid_disjoint_from_stored_fit_valid": true,
+    "fit_valid_plus_eval_valid_namespace_count": 1873
+  },
+  "outputs": {
+    "capture_scope": "B-only output producer hashes and stat identities; no output array payload read or hash by capture/reviewer.",
+    "partial_absent": true,
+    "train": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1/main_homogeneous_train.npy",
+      "producer_sha256": "4abbb9be31ec1135a5e0ff5bb87c93a2db6e44943e95d23ff70835b8044c5194",
+      "bytes": 1685600128,
+      "shape": [
+        10535,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "row_groups_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+      "capture_stat_only": {
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1/main_homogeneous_train.npy",
+        "bytes": 1685600128,
+        "device": 64512,
+        "inode": 739677840,
+        "mtime_ns": 1792458365441028881,
+        "payload_read_or_hashed_by_capture": false
+      }
+    },
+    "valid": {
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1/main_homogeneous_valid.npy",
+      "producer_sha256": "6963d3c565caf469b023a61ba6d2dd376d929b2bcf724af88492dc8adb76f591",
+      "bytes": 224800128,
+      "shape": [
+        1405,
+        20000,
+        2
+      ],
+      "dtype": "float32",
+      "row_groups_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+      "capture_stat_only": {
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1/main_homogeneous_valid.npy",
+        "bytes": 224800128,
+        "device": 64512,
+        "inode": 739677841,
+        "mtime_ns": 1792458385154390137,
+        "payload_read_or_hashed_by_capture": false
+      }
+    }
+  },
+  "resource_accounting": {
+    "service_limits": {
+      "blas_threads": 1,
+      "cpu_quota": "50%",
+      "cuda_visible_devices": "",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "runtime_max_seconds": 600,
+      "swap_max_bytes": 0,
+      "torch_threads": 1
+    },
+    "service_memory_peak_bytes": 1400774656,
+    "service_memory_high_bytes": 1400000000,
+    "service_memory_max_bytes": 1500000000,
+    "parent_memory_at_admission_bytes": 5678551040,
+    "parent_memory_at_terminal_bytes": 6736015360,
+    "parent_memory_peak_bytes": 11418365952,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_high_events_at_admission": 2179,
+    "parent_high_events_at_terminal": 38355,
+    "parent_high_event_delta": 36176,
+    "parent_local_high_events_at_terminal": 0,
+    "parent_max_event_delta": 0,
+    "parent_oom_event_delta": 0,
+    "terminal_unit_control_group": "",
+    "terminal_unit_own_memory_files": null,
+    "interpretation": "Service MemoryPeak and parent aggregate current/peak/events are separate accounting scopes and not equal-time samples. Aggregate memory.high events increased, but the parent local count stayed zero; no exact per-unit high-event count is available because the terminal unit cgroup was empty. Parent max/OOM deltas were zero. No inference of cause or small-memory full-RAM equivalence."
+  },
+  "exact_stop": {
+    "raw_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "transport_sha256": "67d3acf90c973d2f176ca63f8af45c215e1cfeaa39a9edd3417d6869cc7aecdd",
+    "stop_returncode": 0,
+    "before_invocation_id": "a358e89cd6fe42118e426a954ee897f0",
+    "after_load_state": "not-found",
+    "after_active_state": "inactive",
+    "after_sub_state": "dead",
+    "after_invocation_id": "",
+    "populated_campaign_descendants": {}
+  },
+  "limitations": [
+    "This is metadata/receipt reconciliation, not independent replication of the CPU arithmetic or source-quality review.",
+    "The canonical builder reports validating all six input NPY hashes, headers, FP32 shape and finite values; this observer did not read those input arrays.",
+    "Output NPY whole-file hashes are builder-produced hashes; capture/reviewer only reconciled metadata and stat identities, not output payload bytes.",
+    "No scientific fits were performed by this cache build and no quality score is present."
+  ],
+  "navigation": {
+    "capture_readme": "../records/teacher_cache_cpu_build_v2/capture/README.md",
+    "root_acceptance": "../records/teacher_cache_cpu_build_v2/TERMINAL_ACCEPTANCE.json",
+    "resource_reconciliation": "../records/teacher_cache_cpu_build_v2/RESOURCE_RECONCILIATION.json",
+    "exact_stop_readme": "../records/teacher_cache_cpu_build_v2/exact_stop/README.md"
+  }
+}

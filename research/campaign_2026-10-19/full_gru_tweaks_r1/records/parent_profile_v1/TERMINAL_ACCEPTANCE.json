@@ -1,0 +1,60 @@
+{
+  "schema": "fg19-parent-profile-terminal-acceptance.v1",
+  "status": "ACCEPTED",
+  "created_utc": "2026-10-20T01:23:26.214838+00:00",
+  "unit": "computer-vision-homework-fg19-parent-profile-v1.service",
+  "invocation_id": "dc7f34afbdfb4fed8bdfbb66d20d558b",
+  "capture_utc": "2026-10-20T01:22:56.476826+00:00",
+  "raw_sha256": "0f36d80bdd31b93912cdff317105dcfede68d31d6084f20d6c5c703866609d63",
+  "native_terminal": {
+    "active_state": "active",
+    "sub_state": "exited",
+    "main_pid": 0,
+    "exec_main_code": 1,
+    "exec_main_status": 0,
+    "exit_timestamp": "Tue 2026-10-20 01:22:25 UTC"
+  },
+  "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+  "source_files_verified": 167,
+  "cache_metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+  "profile_update_evidence": {
+    "optimizer_attempts": 60,
+    "optimizer_completed_updates": 60,
+    "amp_skipped_updates": 0,
+    "grad_scaler_enabled": false,
+    "loss_checks": 60,
+    "loss_finite": true,
+    "gradient_finite": true,
+    "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+    "gradient_stats_steps": 60,
+    "gradient_stats_nonfinite_steps": 0,
+    "counts_consistent": true,
+    "valid_for_throughput": true
+  },
+  "profile_timings_ms_source_report": {
+    "backward": 1290.29,
+    "forward": 1228.47,
+    "gpu_total": 2604.02,
+    "h2d": 31.97,
+    "inputs": 24.8,
+    "labels": 1.14,
+    "loss": 6.65,
+    "optimizer": 10.56,
+    "weights": 0.01,
+    "loader_wait": 0.0,
+    "step_wall": 2951.57,
+    "seq_per_s": 5.42,
+    "syncs_per_step": 0.5
+  },
+  "architecture": "H256x2 GRU, legacy211 inputs/23 outputs, B16x20k/C2000, AdamW, strictFP32",
+  "normalizer_scope": "Two fit-loader batches/32sequences, transformed rows strided7; discarded with in-memory profile model.",
+  "scientific_fits": 0,
+  "checkpoints_written": false,
+  "quality_score": null,
+  "limitations": [
+    "Generic canonical profile does not report CUDA peak, final private optimizer tensors or full parameter-finiteness sweep. Complete finite loss/preclip gradient observations cover60updates.",
+    "Only startup active ownCG/RSS was sampled, before GPU setup; terminal service peak and separate active startup observations are distinct scopes.",
+    "No profile weights persisted; fresh seed1001 parent must start from initialization, not profile weights."
+  ],
+  "stop_status": "pending; frozen acceptance before exact stop"
+}

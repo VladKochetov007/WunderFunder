@@ -1,0 +1,5 @@
+# Accepted parent profile terminal capture
+
+At01:22:56UTC the [exact bounded reader](REMOTE.py) captured [raw response](STDOUT.raw.json) and [transport](TRANSPORT.json) before parsing. Exact decoded B [admission](ADMISSION.json), [launch](LAUNCH.json) and [log](unit.log) bind source68, cache03d9, one selected GPU, canonical FP32/AdamW/B16/C2000 profile. The native invocation exited0 at01:22:25UTC; source167 was rehashed and the output run inventory was empty. Actual PROFILE_UPDATE_EVIDENCE records60attempts/60completed/0skips,60finite losses and preclip-gradient observations, nonfinite0 and valid throughput evidence.
+
+[Root acceptance](../TERMINAL_ACCEPTANCE.json) and [resource reconciliation](../RESOURCE_RECONCILIATION.json) predate [exact stop](../exact_stop/README.md). The generic canonical profile does not report CUDA peak, final parameter/optimizer tensor sweeps or persisted model weights; no such claim is inferred. No evaluation/checkpoint/quality score was produced; no model/array payload was opened by the observer.

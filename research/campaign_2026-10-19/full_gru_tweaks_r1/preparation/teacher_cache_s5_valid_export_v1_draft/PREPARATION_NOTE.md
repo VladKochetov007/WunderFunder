@@ -1,0 +1,9 @@
+# S5 fit-valid export preparation note
+
+The frozen source is `88becca892b3d6b97022cf06076c84a7ab165974` with 167 files and manifest SHA `f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97`. The selected teacher is contract entry 2, `fg19_t3_h384x2_e3_s5_v1`, epoch 2, checkpoint `0ec6dcb7fc82e5a8282ef93d460fcac7b4f6dcb4d3cc63726c485fb2f3595f26`, provenance `0cb36af9cb19fb278d0bd500514d014972ccf997c8b91baa5ab43896e6cb287f`. The accepted S3-anchored profile and strict FP32 inference path remain unchanged. S5's own normalization identity is read only from its source-pinned, hash-verified provenance JSON.
+
+Predecessor order is S3 train, S3 valid, S4 train, S4 valid, S5 train. The S5-train terminal acceptance is embedded byte-for-byte with SHA-256 `282ad4b9878a33c0120935ce4b1a2d009b4cd57867c0f3f323c846b1a9aba32c`; the exact-stop bytes are embedded byte-for-byte with SHA-256 `81964bf8e0022797d4d646f18e78cdea2b1e4702cad2f09e7397e5b52827eec8`. The accepted run completed 10,535 sequences; its invocation was `9d2b2c9328f241bf896fd1ca75a3421b`, and exact stop confirms not-found/inactive/dead with `populated: {}`.
+
+All earlier prediction files are only stat-checked and their small metadata sidecars SHA-checked. No `.npy` payload is opened or hashed. The adapter verifies that S5-train acceptance normalization equals the S5 provenance normalizer. It creates no metadata and does not restage source or data. The existing four JSON metadata files are checked byte-for-byte. New S5-valid `.npy`, `.partial`, `.json`, evidence directory, and unit must be absent.
+
+This is a prepared, receipt-bound adapter only. Root owns source review, the fresh resource/data/source admission, and the single production launch. No remote admission or command has been performed from this preparation.

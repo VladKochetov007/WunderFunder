@@ -2,6 +2,13 @@
 
 # Full-GRU campaign actual execution records
 
+
+[CPU cache V1 metadata failure](teacher_cache_cpu_build_v1/README.md) is separately reviewed in [failure metadata review](../preparation/TEACHER_CACHE_CPU_BUILD_FAILURE_REVIEW.json): the 166,192-byte S3 provenance value exceeded a reused 128 KiB metadata cap before prediction payload validation; this was not an OOM and created no cache or partial output. The versioned [source repair stage](teacher_cache_cpu_repair_source_v2/README.md) adds only the published builder change; [payload review](../preparation/TEACHER_CACHE_CPU_REPAIR_STAGE_PAYLOAD_REVIEW.json) verifies Git/blob identity, and [source review](../preparation/TEACHER_CACHE_CPU_REPAIR_SOURCE_REVIEW.json) covers the cap split and linear fit-membership lookup without remote execution.
+
+[CPU cache V2 completion](teacher_cache_cpu_build_v2/README.md) links the original raw response and transport plus byte-matched decoded B [admission](teacher_cache_cpu_build_v2/capture/ADMISSION.json), [launch](teacher_cache_cpu_build_v2/capture/LAUNCH.json), [unit log](teacher_cache_cpu_build_v2/capture/unit.log), and [metadata](teacher_cache_cpu_build_v2/capture/METADATA.json). The separate [root acceptance](teacher_cache_cpu_build_v2/TERMINAL_ACCEPTANCE.json), [resource reconciliation](teacher_cache_cpu_build_v2/RESOURCE_RECONCILIATION.json), [exact stop](teacher_cache_cpu_build_v2/exact_stop/README.md), and [independent terminal metadata review](../preparation/TEACHER_CACHE_CPU_BUILD_V2_TERMINAL_REVIEW.json) record exit 0, six streamed input checks, fit-only rows, and producer-hash/stat-only outputs. No scientific fit or quality score was produced.
+
+[S5 train export](teacher_s5_train_export_v1/README.md) and [S5 fit-valid export](teacher_s5_valid_export_v1/README.md) are completed, accepted and exact-stopped; their [train terminal review](../preparation/TEACHER_CACHE_S5_TRAIN_EXPORT_TERMINAL_REVIEW.json) and [fit-valid terminal review](../preparation/TEACHER_CACHE_S5_VALID_TERMINAL_REVIEW.json) reconcile the own-seed normalization and canonical fit row orders. Prediction arrays remain B-only and were not independently re-read by these metadata audits.
+
 **21:58UTC: [Full-shape strictFP32 teacher inference profile passed and exact-stopped](teacher_cache_profile_v1/README.md).**16fittingsequences×20k/640,000finite main predictions; peakCUDA0.901GBallocated/1.141GBreserved, no retained prediction array/update/quality score. Allthree teachers accepted. First S3train fitting export is being gated, not yet admitted; current continuation supersedes dated statements below.
 
 
@@ -54,3 +61,19 @@ The [actual teacher profileV2](teacher_profile_v2/FAILURE.json) exited1at15:19:0
 [S4 fit-valid export launched](teacher_s4_valid_export_v1/README.md)23:55:11UTC/invocation4ee46e04e7264a6ea0278d28d6479400. Same immutable source/S4epoch2/ownnormalizer,1405fit-valid sequences only, one ownedGPU. S4train is captured/accepted/exact-stopped; no complete cache or GRUquality score yet.
 
 [S4 fit-valid completed](teacher_s4_valid_export_v1/README.md):1405sequences/88records/exit0 at23:58:45UTC, captured/accepted/exact-stopped23:59:38. Both S4 fitting parts are ready; source167/18pins/ownnorm/exactmembership pass, payload remains producerSHA/stat-only. [S5 fitting-train export](teacher_s5_train_export_v1/README.md) actually launched20October00:01:39UTC/invocation9d2b2c9328f241bf896fd1ca75a3421b after fresh gates. Zero new scientific fits or quality scores.
+
+[S5 fitting-train predictions completed](teacher_s5_train_export_v1/README.md):10535sequences/659progressrecords/exit0 at00:28:16UTC, captured/accepted/exact-stopped00:32:41. Source167/18pins/canonical train order/ownS5normalization match; array producerSHA/stat-only, fullstreamedvalidationpending. [Scoped memory handoff](prediction_cache_handoff_v1/README.md) reclaims only clean pages of accepted/stopped own prediction files after fresh emptyparent checks, within unchanged caps. No scientific fit or quality result.
+
+[S5 fit-valid prediction export launched](teacher_s5_valid_export_v1/README.md)00:36:16UTC/invocation48d87b0c40514a18adbecf80e5a7d1db. Last teacher prediction dependency,1405fit-valid only/ownS5normalization/source167/oneownedGPU; no completion/cache/quality claim. S5train already captured/accepted/exact-stopped.
+
+[S5 fit-valid predictions completed](teacher_s5_valid_export_v1/README.md):1405sequences/88records/exit0 at00:40:02UTC, captured00:40:31/accepted/exact-stopped00:41:01, independentlymetadata-audited. All six teacher parts now ready, with source167/18pins/exactfit-onlyorder/ownnormalizers bound; no common-cache arrayvalidation or GRUquality claim yet.
+
+[Canonical homogeneous CPU cache build](teacher_cache_cpu_build_v1/README.md) actually launched00:45:56UTC/invocationb131699c99e541c583f050b01a286f03 after all six exports accepted/exact-stopped and fresh source/resource/output gates.0.5CPU/high1.4GB/max1.5GB/swap0/600s/CUDAhidden; first00:47snapshot active/no newmemoryevents. It independently validates inputs and streamsmeanT3×.8125once; no newfit/qualityscore or completed-cache claim at this snapshot.
+
+- [Completed teacher cache V2](teacher_cache_cpu_build_v2/README.md): six input integrity checks and fixed scaled mean completed; exact stop and resource pressure preserved, zero scientific fits/no quality.
+
+- [Parent profile cache receipt handoff](parent_profile_cache_receipts_v1/README.md): exact accepted-cache and stop JSONs staged create-only after a reviewed bounded metadata operation; no array reads or GPU launch.
+
+- [Actual H256×2 parent profile](parent_profile_v1/README.md): canonical AdamW/source68/cache-bound profile launched01:20:22; expected60 update windows, no evaluation/checkpoint/quality claim from admission.
+
+- [Shared full parent R2 actual fit](parent_fit_r2_v1/README.md): one new H256×2/AdamW/seed1001 four-epoch fit launched01:31:35UTC after accepted cache/profile and fresh complete gates;29,840updates expected, no completed quality result or child fit yet.

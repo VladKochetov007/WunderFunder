@@ -1,0 +1,28 @@
+{
+  "checks": {
+    "author_reported_focused_tests": "9 passed, 23 deselected; no unchanged-test replay by reviewer.",
+    "isolated_cold_import_read_sentinels": {
+      "receipt_sha256": "97fd4fa427e628475edbbb44b2fd0d55727b5514b72240ae5523f7288310becb",
+      "result": "PASS over 100 WNN runtime modules"
+    },
+    "ruff_format_and_check": "PASS (actor report)."
+  },
+  "review": "PASS: the reviewed diff addresses the captured metadata-size failure and repeated set construction without changing target arithmetic or teacher semantics. Ready for root-owned versioned publication and fresh admission under the unchanged declared CPU caps.",
+  "reviewed_delta": {
+    "actual_producer_fixture": "Focused test parameterizes 166192-byte producer provenance through root-pinned inspection, and tests zero, 128 KiB + 1, exact 1 MB, over-1 MB, and invalid bounded JSON cases without checkpoint deserialization.",
+    "membership_cost": "Precomputes immutable fit-membership sets once per split in cache construction and uses ordered filtering; preserves target-index order. The permuted-ID fixture checks canonical order, position mapping, and row-group digest.",
+    "provenance_bound": "Adds a distinct 1,000,000-byte bound for provenance pin hashing and root-pinned provenance parsing; contract and prediction sidecar remain capped at 128 KiB.",
+    "scientific_semantics": "Diff does not alter the T3 mean, scale, clipping behavior (none), checkpoint/teacher identity, or model-state loading policy. T3 remains CPU-only memmapped prediction consumption with weights-only concerns unchanged."
+  },
+  "schema": "fg19.teacher-cache-cpu-repair-source-review.v1",
+  "scope": "Read-only independent review of the frozen two-file source diff and test fixture. No source edits, test replay, SSH, admission, model/data payload reads, or commit.",
+  "source": {
+    "changed_files_only": {
+      "scripts/build_distill_cache.py": "ac920f43572ab31a6cfa6fe15acd0d3a5129c129645d190efd14d82bb9880a11",
+      "tests/test_cleanfold_t3_cache.py": "1c6afbf950826fd775160e473ae3a941754d59b82828824a5b7038b1474831dc"
+    },
+    "commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "worktree": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019"
+  },
+  "status": "PASS_SOURCE_REVIEW_ONLY"
+}

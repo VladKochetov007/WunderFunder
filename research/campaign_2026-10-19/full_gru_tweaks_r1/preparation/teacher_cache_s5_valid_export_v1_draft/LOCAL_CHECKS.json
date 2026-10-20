@@ -1,0 +1,60 @@
+{
+  "body_sha256": "9c253702888f39f365631ae15cd7f03a6ffa69c1b3867b8a177fd9da0bc91a8f",
+  "checks": [
+    {
+      "command": ".venv/bin/ruff format on the S5-valid template/body",
+      "result": "PASS: both formatted"
+    },
+    {
+      "command": ".venv/bin/ruff check on the S5-valid template/body",
+      "result": "PASS: all checks passed"
+    },
+    {
+      "check": "AST parse and template/body code parity after normalizing the PAYLOAD assignment",
+      "result": "PASS"
+    },
+    {
+      "check": "Prior S5-train pending-binding short-circuit (preserved snapshot)",
+      "result": "PASS on prior body SHA-256 82933052f38bdecd0f7ff600d7aca98ca334f5dc2d7a9219ed73006058d375fa; unchanged snapshot preserved under pending_s5_train_binding_v1/REMOTE_SUBMISSION.py."
+    },
+    {
+      "check": "Embedded predecessor receipt byte comparisons",
+      "result": "PASS: 10 S3/S4/profile acceptance and exact-stop JSONs plus three native teacher acceptances matched local receipts"
+    }
+  ],
+  "remote_admission": "Not performed; root owns final admission, preflight, and the single launch.",
+  "s5_train_binding": {
+    "acceptance_sha256": "282ad4b9878a33c0120935ce4b1a2d009b4cd57867c0f3f323c846b1a9aba32c",
+    "exact_stop_sha256": "81964bf8e0022797d4d646f18e78cdea2b1e4702cad2f09e7397e5b52827eec8",
+    "invocation_id": "9d2b2c9328f241bf896fd1ca75a3421b",
+    "accepted_completed_sequences": 10535,
+    "acceptance_native_result": "success / exit status 0",
+    "exact_stop_after_state": "not-found / inactive / dead; populated {}"
+  },
+  "schema": "fg19.teacher-s5-fit-valid-export-local-checks.v1",
+  "scope": "Local adapter preparation only; no SSH, remote command, prediction array, model load, training data read, install, or source/model test.",
+  "source": {
+    "commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "file_count": 167,
+    "manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97"
+  },
+  "template_sha256": "b72d643bcb3cd5b2259d545e4ae749a9cb69d1995b327b86ad0d7b5e3720f7ab",
+  "focused_final_binding_checks": [
+    {
+      "check": "S5-train acceptance and exact-stop embedded-byte identity",
+      "result": "PASS: embedded raw bytes match the local receipts and supplied SHA-256 pins"
+    },
+    {
+      "check": "S5-train terminal and exact-stop binding",
+      "result": "PASS: accepted 10,535 train sequences; invocation 9d2b2c9328f241bf896fd1ca75a3421b; exact stop confirms not-found/inactive/dead and populated {}"
+    },
+    {
+      "check": "Rendered body/template code parity excluding PAYLOAD",
+      "result": "PASS: ASTs match; only the payload binding differs"
+    },
+    {
+      "check": "Fail-closed S5-train pending marker",
+      "result": "PASS: all five S5-train pending fields are bound; no pending marker remains in payload"
+    }
+  ]
+}

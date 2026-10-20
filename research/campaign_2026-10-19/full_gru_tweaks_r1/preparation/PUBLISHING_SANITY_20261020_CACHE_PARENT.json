@@ -1,0 +1,92 @@
+{
+  "schema": "fg19.cache-parent-prepublication-sanity.v1",
+  "observed_utc": "2026-10-20T01:28:25Z",
+  "status": "PRE_PUBLICATION_SNAPSHOT_ONLY",
+  "scope": "Read-only local sanity over current changed/new metadata, source packets, records, documentation, transport receipts, and append-only experiment ledger. Root final snapshot is still required immediately before publication.",
+  "tree_snapshot": {
+    "git_status_paths": 271,
+    "tracked_modified_paths": 11,
+    "changed_python_ast_parsed_under_campaign": 45,
+    "python_ast_failures": 0,
+    "changed_json_parsed_under_campaign": 143,
+    "json_parse_failures": 0,
+    "changed_markdown_files_checked": 45,
+    "relative_markdown_links_checked": 1487,
+    "newly_introduced_missing_relative_links": 0,
+    "preexisting_missing_targets_in_unified_readmes": {
+      "count": 11,
+      "files": [
+        "research/unified/operations/README.md",
+        "research/unified/reviews/README.md"
+      ],
+      "basis": "Each missing target link was already present in the corresponding HEAD version; no newly added relative link was broken. These unrelated unified indexes were left unchanged by this scoped audit."
+    },
+    "parent_fit_packet": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/parent_fit_r2_v1/",
+      "changed_paths_at_snapshot": 6,
+      "state": "Frozen preparation packet was present and its local Python/JSON/Markdown syntax and links were included. Later root-owned admission, launch, and terminal artifacts are outside this snapshot."
+    },
+    "tracked_review_or_publication_json_modified": []
+  },
+  "transport_integrity": {
+    "changed_campaign_transport_json_count": 25,
+    "raw_stdout_stderr_streams_checked": 50,
+    "byte_length_and_sha256_mismatches": 0,
+    "transport_inventory_sha256": "3e3c196bbae6bd56f81e43f81a990571b78a214b4c78cacdfbd185129e7f6928",
+    "method": "For each changed campaign TRANSPORT.json, sibling raw stdout/stderr byte lengths and SHA-256 values matched its declarations; the inventory digest binds the ordered transport paths, transport-file hashes, and raw-stream identities."
+  },
+  "experiment_ledger": {
+    "path": "research/experiments.jsonl",
+    "head_prefix_bytes": 860086,
+    "current_bytes": 865693,
+    "append_only_from_head": true,
+    "appended_bytes": 5607,
+    "appended_jsonl_rows": 9,
+    "current_sha256": "aa9a650d39c180ad5475dafbfac81e99f114b5dabad9339902f5b5b75a503a9c",
+    "new_row_ids": [
+      "E-NF19-FULL-GRU-TWEAKS-R1",
+      "E-NF19-FULL-GRU-TWEAKS-R1",
+      "E-NF19-FULL-GRU-TWEAKS-R1",
+      "E-NF19-FULL-GRU-TWEAKS-R1",
+      "E-NF19-FULL-GRU-TWEAKS-R1",
+      "E-NF19-FULL-GRU-TWEAKS-R1",
+      "fg19-teacher-cache-cpu-build-v2-complete",
+      "fg19-parent-profile-v1-launch",
+      "fg19-parent-profile-v1-complete"
+    ]
+  },
+  "parent_profile_recorded_result": {
+    "acceptance_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/parent_profile_v1/TERMINAL_ACCEPTANCE.json",
+    "acceptance_sha256": "426792c35c9685682de266db056414cf2a6a0d0a550dfab07c4fb528be6fbebf",
+    "capture_raw_sha256": "0f36d80bdd31b93912cdff317105dcfede68d31d6084f20d6c5c703866609d63",
+    "exact_stop_raw_sha256": "a401b954f63c761776699221403fa9cf11ba6e6d29cc69a8f7f1effab3f25257",
+    "unit": "computer-vision-homework-fg19-parent-profile-v1.service",
+    "invocation_id": "dc7f34afbdfb4fed8bdfbb66d20d558b",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_files_verified": 167,
+    "native_exit_status": 0,
+    "completed_finite_updates": 60,
+    "nonfinite_or_skipped_updates": 0,
+    "scientific_fits": 0,
+    "checkpoint_written": false,
+    "quality_score": null,
+    "resource_scope": {
+      "service_wall_seconds": 123.078832,
+      "service_cpu_seconds": 120.324347,
+      "systemd_memory_peak_bytes": 311570432,
+      "parent_terminal_memory_events": {
+        "high": 38355,
+        "max": 561,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "limitations": "Service peak and parent-cgroup counters are distinct scopes. No terminal own-cgroup fallback, CUDA peak, or full-RAM claim is made."
+    }
+  },
+  "limits": [
+    "No NPY/PT/checkpoint/data payload was opened or read; no model or source tests were run and no SSH or remote command was issued.",
+    "Python files were parsed as AST only; JSON and raw transport receipts were read for integrity checks.",
+    "This is not a publication authorization or a final-tree manifest. Re-run final status, transport, links, and ledger-prefix checks after remaining root-owned fit records settle and immediately before publication."
+  ]
+}

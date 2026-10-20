@@ -1,0 +1,3 @@
+# Parent profile startup observation
+
+[Raw bytes](STDOUT.raw.json), [transport](TRANSPORT.json), [bounded reader](REMOTE.py), [summary](OBSERVATION.json), and exact decoded [admission](ADMISSION.json), [launch](LAUNCH.json), [log](unit.log) record the same active parent-profile invocation at01:21:28UTC. It had65.18CPU seconds and own cgroup311.55MB/current311.57MB/peak, with own memory events zero; the separate process RSS observation was559,724KiB. GPU query listed only preserved foreign processes at this observation; initial canonical source/data/cache validation can precede logging/GPU setup. Empty log is not hang evidence and running Result=success/Status0 is not native completion. No payload reads/hashes by observer, no restart/stop or new job.

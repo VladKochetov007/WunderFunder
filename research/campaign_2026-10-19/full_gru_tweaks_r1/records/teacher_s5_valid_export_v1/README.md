@@ -1,0 +1,13 @@
+**20October00:41UTC: completed/captured/accepted/exact-stopped.** [Terminal acceptance](TERMINAL_ACCEPTANCE.json) binds1405sequences/88records/nativeexit0/source167/18semanticpins/ownS5normalization/exactfit-validorder/no468eval. [First followup](health_v1/README.md), [capture](capture/README.md), [exact stop](exact_stop/README.md) and [resource reconciliation](RESOURCE_RECONCILIATION.json) preserve evidence. All six teacher prediction parts are ready, while full streamed array validation/common cache remains pending. Zero new scientific fits or quality grades.
+
+# S5 fit-valid prediction export V1
+
+One actual launch20October00:36:16UTC, unit computer-vision-homework-fg19-teacher-s5-valid-export-v1.service/invocation48d87b0c40514a18adbecf80e5a7d1db/PID3853151 at launch. [Launch acceptance](LAUNCH_ACCEPTANCE.json), [raw response](STDOUT.raw.json), [transport](TRANSPORT.json), [semantic admission extract](ADMISSION.json), [semantic launch extract](LAUNCH.json), [actual source](REMOTE_SUBMISSION.py) bind one canonical strictFP32/create-only predictor command. Structured extracts preserve meaning; raw preserves original B response bytes.
+
+[Source review](../../preparation/TEACHER_CACHE_S5_VALID_EXPORT_REVIEW.json) binds the [prepared packet](../../preparation/teacher_cache_s5_valid_export_v1_draft/README.md), accepted/stopped S3/S4train+valid and S5train, own S5epoch2/checkpoint/provenance/normalization, unchanged167-file source88becca. Fresh source/data/split/ownership/allpopulated/GPU/disk/headroom/outputabsence gates precede launch; four existing metadata JSONs verified/read-only, no restaging. One A4000/1CPU/high7.5GB/max8GB/swap0/allocator4GiB+1GBreserve/runtime10800s/BLAS1/loader0, aggregate2CPU; foreign jobs untouched.1405fit-valid sequences only/no468eval/labels/masks.
+
+Initial active/running post is not terminal or quality evidence. Require actual native integerexit0/progress1405/88/source/sidecar/exactfit-validorder/ownS5normalizer before durable capture/acceptance/exact stop. Partial logical size is preallocation. NPY staysB, no changing payload read/hash; later capped CPU cache must independently check hash/header/finite/alignment. Zero new scientific fits, no quality grade, no blind restart/retry or healthy-job stop.
+
+[Independent launch metadata review](../../preparation/TEACHER_CACHE_S5_VALID_LAUNCH_REVIEW.json) verifies raw/transport/semanticextract/unit/invocation/command/teacher/resource identity without terminal or payload claims.
+
+[Independent terminal metadata review](../../preparation/TEACHER_CACHE_S5_VALID_TERMINAL_REVIEW.json) passes14checks across capture/acceptance/stop/source/order/normalizer/progress, without array/model replay.
