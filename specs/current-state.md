@@ -1,5 +1,21 @@
 # Current project state
 
+## Active local delivery — October20
+
+The latest user instruction chooses local small-GRU training after remote
+Beleriand weights could not be retrieved. The [delivery packet](../research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/README.md)
+records two matched H256×2 continuations, WMSE versus Gaussian NLL, using local
+parent weights and cached teacher targets. Both bounded profiles passed; the
+two-fit sequence started at20:33:35UTC and is running. No new quality result or
+submission is claimed. Preserve the15localGPU-hour budget, oneGPUworker,
+twoaggregateCPUcores,5GBtaskRAM/VRAM and zero swap. The original i1 comparison
+remains deferred. Read the frontier and live service before admitting work.
+
+Template modernization and creation of `/home/vlad/development/NIPS2027` are
+explicitly side tasks assigned to a user-authorized `gpt-6.1-sol`/medium agent;
+they do not replace or pause the main research. The new project receives the
+user's LLM-diversity context document as source material, without starting fits.
+
 ## Latest amendment — teacher quality and scaling
 
 The user now prioritizes progressively smarter teachers; distillation is optional,

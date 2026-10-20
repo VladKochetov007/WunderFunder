@@ -17,3 +17,36 @@ This is a strict-FP32 adaptation from a historical FP16 parent, not a fresh-FP32
 - [Fit admission](fit_admission.json) and [literal fit plan](fit_plan.json): one new fit per arm, no new teachers, three-hour maximum for the pair. Practical screen effect0.0002WP is a follow-up guide, not a significance threshold. Latest progress is in [fit log](fits.log) and [sequence report](fit_plan_report.json); existence of a running worker is not a completed result.
 
 The NLL profile clipped every update (mean clip factor0.176), compared with11.7% for WMSE. Nearly98% of squared gradient mass was in the readout, initially learning variance from zero logvariance. This is an observed optimization difference to track, not a demonstrated gain or an automatic rejection. The declared objective comparison includes this interaction with common global clipping; changing variance initialization or per-head clipping would be a separate follow-up.
+
+
+## Live resource protection
+
+[Resource samples](resource_samples.jsonl) record observed full-fit device use around2.49GB, workerRAM3.2–3.5GB, zero worker swap and the historical cumulative parent cgroup counters (these are not new event deltas). The parent approached4.989GB because cold file cache from preparation remained charged. Root reclaimed666.8MB of clean file cache with `swappiness=0`; parent usage fell from4.662GB to3.999GB without killing a process or changing global swap settings.
+
+The [scoped file-cache guard](filecache_guard.sh), adapted from the existing campaign guard, reclaims only available inactive file cache above4.4GB toward4.0GB. It exits when this fit worker exits and has a3-hour cap,2%CPU,30MBRAM and zero swap. [Its log](filecache_guard.log) records actual reclaim events. This operational change does not alter the training recipe or source. Parent memory remains separately monitored; the worker's hard reservation is4.2GB.
+
+
+## Pre-outcome endpoint amendment
+
+Before any new validation score, root added the stronger existing old-Z4 endpoint and two fixed mixtures:75%old-Z4+25%WMSE and75%old-Z4+25%NLL. These answer whether the new objective contributes to a stronger deployable system; the original matched NLL/WMSE comparison and50/50parent-NLL remain. There are seven total endpoints and two new scientific fits, with no coefficient search. The independent critic audited13run records, including8teacher sources, and found no source-qualified F0 fitting/evaluation overlap. This does not remove historical panel exposure.
+
+[Evaluation membership](evaluation_manifest.json) binds468valid-source groups/141components. [Prediction and scoring plan](score_plan_r1.json), imported unchanged from actor commit563395207, freezes source hashes, literal commands and the [seven-endpoint screen](score_screen_f0_r1.json). New child exports and a unique-name old-Z4 re-export use strictFP32 inference; old-Z4's historical FP16 cache remains untouched. ParentCP5's existing FP32 cache was byte/order checked. The actual canonical predictor uses B16/C4000 without gradients; analytical memory estimates are in the plan and must be distinguished from measured prediction peaks.
+
+The source worktree now has a documentation-only descendant commit563395207 of68ff6829; no training/prediction implementation byte changed. Training provenance binds module hashes, preserving equal code identity across both arms. Original root fit/profile recipes were retained rather than overwritten by the actor's older prepared copy.
+
+## Throughput update and conditional follow-up
+
+At 20:55 UTC on October20, the control reached epoch0 batch480/746. Sustained
+throughput was about5.8 sequences/second, below the short warm-profile estimate.
+The revised planning estimate is65–75minutes per two-epoch fit, or roughly
+2–2.5hours for the pair before export and grading. This is an estimate, not a
+completed duration; the three-hour pair cap and15-hour campaign allocation remain.
+
+The independently inspected [fold asset catalog](FOLD_ASSET_CATALOG_R1.md)
+records an available F1 parent, compatible teacher cache and propensity model
+for a possible second matched pair. Its parent has23 outputs, so adding two
+variance outputs is compatible; the related31-output family student is not a
+drop-in initializer. F2 lacks a matching full teacher target bank. The catalog
+also identifies an all-data production lineage, which cannot support a held-out
+comparison. This is metadata evidence from critic commit87746a30; no follow-up
+fit is admitted until the current comparison is graded.

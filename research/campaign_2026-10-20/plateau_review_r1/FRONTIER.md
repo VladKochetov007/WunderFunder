@@ -1,6 +1,6 @@
 # Plateau review frontier
 
-Updated: 19 October 2026, Europe/Kyiv. Owner: root/controller.
+Updated: 20 October 2026, 20:55 UTC. Owner: root/controller.
 
 ## Resume instruction
 
@@ -58,7 +58,7 @@ Record changes and receipts here before context compaction or handoff.
 
 ## Budget and ownership
 
-New-cycle local GPU time spent: **41.30seconds completed profiles**, plus the currently running local two-fit sequence; allocation: **15h total**. Pair projection84minutes, hard reservation3hours; no Kaggle worker admitted. Inspect the actual service/receipt before relying on this snapshot. Root owns admission,
+New-cycle local GPU time spent: **41.30seconds completed profiles**, plus the currently running local two-fit sequence; allocation: **15h total**. Sustained throughput revises the pair projection to roughly2–2.5hours, superseding the short-profile84minute estimate; hard reservation3hours. No Kaggle worker admitted. Inspect the actual service/receipt before relying on this snapshot. Root owns admission,
 source freeze, integration and evidence handoff.
 
 | Role | Owner and scope | Current state |
@@ -73,7 +73,10 @@ the recipe/budget. Root owns integration and later resource admission.
 ## Current next actions
 
 1. Monitor the local matched WMSE/NLL pair and record actual elapsed/resident/device memory.
-2. Export parent/children and fixed50/50parent-NLL predictions on exact source-qualified F0, then independently grade official metric and component uncertainty.
+2. Execute the pre-outcome seven-endpoint plan: reused FP32 parent, two children,
+   old-Z4 FP32 re-export, fixed50/50parent-NLL and fixed75/25old-Z4/child blends.
+   Score only the468source-qualified F0 groups/141components and independently
+   grade the official metric and conditional component uncertainty.
 3. Form a candidate only from actual endpoint evidence, measure the native ZIP precision/runtime/size, and preserve negative outcomes. Root owns delivery.
 
 ## Deferred original i1 next actions

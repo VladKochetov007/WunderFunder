@@ -1,5 +1,11 @@
 # Execution, incidents, and preservation
 
+- [Template refresh and NIPS2027 initialization](TEMPLATE_AND_NIPS2027_BOOTSTRAP_20261020_R1.md)
+  — completed side task: universal skills and Claude/Grok links, pinned imports,
+  NVIDIA Kaggle tools, and a new project made through the template copier.
+  Records commits, source-document move/hash and static-check limits. Main
+  competition training continues; no scientific work ran in the new project.
+
 - [Overnight submission delivery](../../campaign_2026-10-20/submission_delivery_r1/README.md) — user authorizes completed-model evaluation, useful bounded training and a new ZIP. Latest user steering selects a local H256×2 WMSE/NLL pair; two profiles passed and fitting is active. Native EMA/precision support and v2/v3 binaries are prepared. No new quality score or submission claim. Existing local resource limits and 15 GPU-hour ceiling remain.
 
 - [October 19 Kaggle readiness](PLATEAU_KAGGLE_READINESS_20261019_R1.md) — read-only account snapshot from the existing project SDK: about 5.02 GPU quota-hours remain, zero provider reservations, and no running/queued kernels among 29 recent runs. Records working environment and existing bundle/worker paths; no install, upload or job. Availability and separate agent reservations must be rechecked at actual admission.
@@ -275,3 +281,10 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 - [TL3/R3 F2 replay execution receipt](../../campaign_2026-10-18/online_features_r1/tl3_fixed_blend_f2_r1/replay_execution_receipt.json) records the sequential external Docker CPU split, restored 200% parent quota, unchanged parent OOM counters, and actual memory peaks: 2.99 GB TL3 under a 3.22 GB cap, then 0.37 GB R3 under an adjusted 3.5 GB cap. Combined task reservations were 4.72 GB and 4.50 GB respectively, below the 5 GB limit; the prediction payloads stayed on physical scratch and no GPU or paid compute was used.
 
 - [Bounded all-channel innovation-clock execution](../../campaign_2026-10-18/online_features_r1/innovation_clock_r1/README.md): admitted at one CPU/1.5 GB/no swap after exact metadata-only and one-row-group profiles. The worker verified the pinned 60,437,285-byte train footer before PyArrow opened metadata and completed 32 input-only sequences at a 1,351,356,416-byte peak. Worker `memory.high` delta was 87, parent-hierarchical `high` delta 117; worker max/OOM/OOM-kill and parent-local OOM/OOM-kill deltas were zero. Exact receipt and feature summaries are linked in the packet.
+- [Portable skills refresh](../../../docs/skill-imports-20261020.json) — pinned
+  Ponytail5.3.2 and marimo-pair0.0.20 imports with licenses and file hashes;
+  canonical arXiv skill location and complete relative Claude/Grok discovery
+  links, including nested skills. Imported from the user's separately assigned
+  template task (actor commit4d166b4f7). Static checks only; no provider jobs,
+  notebook sessions, or scientific result. Universal adaptations live in the
+  separate `/home/vlad/development/CompetitionTemplate` repository.
