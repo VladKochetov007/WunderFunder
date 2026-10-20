@@ -1,16 +1,34 @@
-# Streaming Transformer students versus GRU under one teacher
+# PR30 streaming-student panel
 
-**Proposal only.** No local tests, training, inference or profiles were run. `launch_ready=false`; the missing integration and asset bindings are listed explicitly.
+## Current runtime amendment
 
-- [PR.md](PR.md): mechanism, controls, CP30, decision and receiving-host handoff.
-- [recipe.json](recipe.json): named arms, all30fold/seed cells per arm, precision, proposed hyperparameters and null launch bindings. This is a specification, not trainer CLI input.
-- [Canonical rationale](../../unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md): Section25, plus shared cache/lineage/statistics Sections22–27.
-- [CPU inference path](../../unified/inference/TRANSFORMER_DISTILLATION_CPU_PATH.md): export/state/runtime/ZIP gates, separate from scientific FP32 comparisons.
+PR30's current prospective panel is four executable fits: label-only and KD
+compact Transformer students at F0/seed1001 and F2/seed1002. It uses the shared
+raw-112 sequence runtime from [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32), pinned to implementation source
+`d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6`. The amendment is documented in
+[RUNTIME_AMENDMENT.md](RUNTIME_AMENDMENT.md) and the machine-readable
+[runtime_amendment.json](runtime_amendment.json). The runtime is implemented but
+unexecuted; the panel is not launched, and B300 acceptance remains pending.
 
-IDs: `H-STREAMING-STUDENT-DISTILLATION-20261019` / `E-STREAMING-STUDENT-DISTILLATION-20261019`. Draft base: `research-team`. Source snapshot inspected: `3cebc9f0a0e375c71651115ca43bad129af857e8`; actual implementation/run source must be bound at admission. Root owns this design; receiving researcher claims individual cells before execution.
+- [PR.md](PR.md): the amended 11-section handoff, with pinned checkout and commands.
+- [PR_CP30_FROZEN.md](PR_CP30_FROZEN.md): byte-preserved original PR30 body.
+- [recipe.json](recipe.json): byte-preserved historical CP30 recipe; it is not the
+  current launch config and is not trainer CLI input.
+- The current exact executable configs are in the shared runtime packet at
+  `research/experiment_drafts/b300-transformer-distillation-runtime/configs/`.
 
-PR #24 compares standalone D256 architecture models. This compares compact D128 streaming students with and without one identical teacher, plus deployment semantics. Shapes are not claimed parameter/FLOP matched.
+The panel costs four new fits. It reuses the exact two teachers/caches and four
+GRU label/KD endpoints from PR28 only when source, split, configuration, seed,
+cache and endpoint identities match. No output, score, profile, or acceptance
+result exists for this amended panel. No CPU-serving, ZIP-readiness, or
+parameter/FLOP-matched GRU-versus-Transformer claim is made.
 
-180 student fits;30 L teachers/caches unless identical prior sources are reusable. Teacher inference is offline preparation; deployment executes only the student. No quantization in fits.
+## Historical CP30 (superseded)
 
-Published draft: [PR #30](https://github.com/VladKochetov007/WunderFunder/pull/30) targeting `research-team`; initial packet head `5084c0b14c1c080e52400d6ecc302a2266298e20`. Result fields remain empty until actual receipts exist. No plan printer, queue or placeholder trainer is supplied.
+The original proposal compared three student backbones across 30 paired cells
+per arm (180 planned student fits), with student windows 256/1024, anchored teacher targets up to 4096 rows, and
+an alpha-0.9 label/KD mixture. Those specifications remain byte-for-byte in
+[recipe.json](recipe.json) and the original handoff is preserved in
+[PR_CP30_FROZEN.md](PR_CP30_FROZEN.md). They are historical only. The current
+four-fit streaming amendment supersedes them for the executable PR30 panel;
+this does not create training authorization.

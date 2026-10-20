@@ -26,7 +26,7 @@ evidence_paths:
 
 # Causal autoregressive Transformer teachers, GRU distillation, and eight-B300 training
 
-Published continuation packets: [PR #28 — teacher transfer frontier](https://github.com/VladKochetov007/WunderFunder/pull/28), [PR #29 — representation hints](https://github.com/VladKochetov007/WunderFunder/pull/29), and [PR #30 — streaming students](https://github.com/VladKochetov007/WunderFunder/pull/30). All target `research-team`; pinned heads and packet links are in the [publication map](PUBLISHED_GPU_PACKETS_20261018.md#дистилляция-сильных-учителей-и-streaming-студенты). They remain unrun proposals.
+Published continuation packets: [PR #28 — teacher transfer frontier](https://github.com/VladKochetov007/WunderFunder/pull/28), [PR #29 — representation hints](https://github.com/VladKochetov007/WunderFunder/pull/29), and [PR #30 — streaming students](https://github.com/VladKochetov007/WunderFunder/pull/30). All target `research-team`; pinned heads and packet links are in the [publication map](PUBLISHED_GPU_PACKETS_20261018.md#дистилляция-сильных-учителей-и-streaming-студенты). The PR30 panel remains unrun. Its shared runtime is implemented in draft [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32), while B300 acceptance is pending.
 
 The concrete continuation is in Sections 22–27: teacher scale × student capacity, representation hints, and a streaming student comparison. The [CPU inference contract](../inference/TRANSFORMER_DISTILLATION_CPU_PATH.md) follows a student through export, stateful inference and release qualification. The [team/teacher audit](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md) separates newly measured team results from still-proposed Transformer work. These additions do not start or reassign any team's running jobs.
 
@@ -523,6 +523,26 @@ FitNets motivates projected features; RKD motivates a future **separate** relati
 
 ### 25. Distill to the architecture we can actually serve
 
+**Current executable amendment (2026-10-20).** The current PR30 handoff is a
+four-fit panel: label-only and output-KD compact raw-112 Transformer students
+at F0/seed1001 and F2/seed1002. It uses width128, two layers, four heads,
+sliding KV context128 per layer, three epochs, strict FP32, AdamW and the
+additive objective `label WMSE + kd_weight × KD WMSE` with `kd_weight=1.0`.
+It reuses the two exact PR28 teachers/caches and four GRU endpoints when all
+source, split, config, seed and artifact hashes match. The shared runtime is
+implemented at the pinned source SHA in [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32), but profiles, fits, scores and
+B300 acceptance are pending. The full [PR30 runtime amendment](../../experiment_drafts/streaming-student-distillation/RUNTIME_AMENDMENT.md)
+and [machine-readable config](../../experiment_drafts/streaming-student-distillation/runtime_amendment.json)
+carry the exact commands and bindings. This makes no CPU/ZIP readiness or
+parameter/FLOP-matched GRU-versus-Transformer claim. A +0.001 WP result is a
+useful follow-up signal, not an automatic promotion rule; mixed signs, smaller
+gains or an interval crossing zero do not automatically reject the candidate.
+
+**Historical CP30 specification (superseded for the executable PR30 panel).**
+The following original proposal is retained as historical rationale. Its
+30-cell-per-arm, 180-fit, student windows256/1024, teacher-prefix up to4096, and alpha-0.9 specifications are
+preserved byte-for-byte in the packet's `recipe.json` and original PR body.
+
 `streaming-student-distillation` compares three backbones, each trained label-only and with the same fixed L207M teacher: GRU H256×2; compact Transformer D128×2 with local attention W256; the same Transformer with W1024. Six arms imply180 student fits. It separates the benefit of KD in each architecture from the raw architecture difference. Primary contrasts: Transformer−GRU under KD at each window, the corresponding two KD-by-architecture interactions, and KD−label-only within each of the three architectures. Report window1024−256 as a prespecified secondary contrast.
 
 The compact student is not the historical D256×4 teacher package. Its proposed token is the complete normalized112-feature row, linear112→128, two pre-LayerNorm blocks, four heads of32 dimensions, RoPE with absolute row positions within the sequence, ordinary MHA, GELU FFN128→512→128, direct two-value linear readout, dropout0. Every layer attends to the current and previous W−1 positions. The model's stacked receptive field can exceed W; W is per-layer attention width. No output AR, learned initializer, extra features or patch compression enters this comparison.
@@ -543,7 +563,7 @@ A direct FP32 compact Transformer has a plausible storage budget but unknown CPU
 
 ### 27. Execution priority, statistics and handoff status
 
-Start with a source-clean strong GRU baseline and the L teacher’s causal export integration; then the teacher-capacity transfer grid, hints, and streaming students. This ordering maximizes information about whether extra teacher capacity reaches a useful endpoint. It is not a queue manager or dispatch. These three packets total510 student endpoint fits if fully executed, plus teacher preparation; exact shared-cell reuse is allowed only when every recipe/source/data/seed/cache identity matches. No new fit is admitted here.
+Start with a source-clean strong GRU baseline and the L teacher’s causal export integration; then the teacher-capacity transfer grid, hints, and streaming students. This ordering maximizes information about whether extra teacher capacity reaches a useful endpoint. It is not a queue manager or dispatch. The original full matrices totaled510 planned student endpoint fits plus teacher preparation; that number includes the superseded PR30 CP30 panel. Current PR30 adds four prospective fits with exact PR28 reuse, and no execution is recorded. Reuse is allowed only when every recipe/source/data/seed/cache identity matches. No new fit is admitted here.
 
 All packets bind CP30 (F0/F1 seeds1001–1008, F2/F3 seeds1001–1007), terminal endpoints, official pooled `global_wp_clip2_v1` and the [workflow's equal-fold paired estimand and two uncertainty procedures](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md). Reuse the same eight seed identities across folds and resample whole source-qualified components for fixed-prediction uncertainty. Cache sharing means student arms share teacher noise; record teacher seed=s+100000 and student seed=s, pair both, and never count teacher outputs or rows as independent repetitions. No new unexposed holdout is created.
 
