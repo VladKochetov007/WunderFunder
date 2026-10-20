@@ -65,7 +65,6 @@ def _producer_tree(worktree: Path, commit: str) -> dict[str, Any]:
             str(worktree),
             "ls-files",
             "--others",
-            "--exclude-standard",
             "--",
             "src/wnn",
             "scripts",
