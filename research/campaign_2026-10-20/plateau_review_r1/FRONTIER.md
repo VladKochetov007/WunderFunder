@@ -11,6 +11,8 @@ Record changes and receipts here before context compaction or handoff.
 
 ## Actual stage
 
+- [Conditional F1 comparison](../submission_delivery_r1/nll_followup_f1/README.md) now freezes seed4 WMSE/NLL commands and the exact two-endpoint scorer. It is NOT_ADMITTED until F0 is graded and resource/ancestry preflight passes. The [TL3 member adaptation](../submission_delivery_r1/tl3_member_adaptation/README.md) identifies a three-model production path by replacing only the0.34plain student; no conversion or fitting yet. Original ZIP/member hashes are verified and unknown ancestry remains explicit.
+
 - Latest October20 steering after failed SSH discovery: train the small GRU
   locally. The [delivery packet](../submission_delivery_r1/README.md) now prioritizes
   a matched H256×2 WMSE/NLL continuation pair using local weights and cached
@@ -65,7 +67,7 @@ Record changes and receipts here before context compaction or handoff.
 
 ## Budget and ownership
 
-New-cycle local GPU time spent: **41.30seconds completed profiles**, plus the currently running local two-fit sequence; allocation: **15h total**. Sustained throughput revises the pair projection to roughly2–2.5hours, superseding the short-profile84minute estimate; hard reservation3hours. No Kaggle worker admitted. Inspect the actual service/receipt before relying on this snapshot. Root owns admission,
+New-cycle local GPU time spent: **41.30seconds completed profiles +4249.17seconds completed control**, plus the running NLL fit; allocation: **15h total**. Sustained throughput revises the pair projection to roughly2–2.5hours, superseding the short-profile84minute estimate; hard reservation3hours. No Kaggle worker admitted. Inspect the actual service/receipt before relying on this snapshot. Root owns admission,
 source freeze, integration and evidence handoff.
 
 | Role | Owner and scope | Current state |

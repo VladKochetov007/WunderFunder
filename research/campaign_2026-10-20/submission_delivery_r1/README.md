@@ -106,3 +106,14 @@ exposed; different fold, parent and teacher cache limit cross-cell inference.
 The packet also separates the existing all-data31→33 family-head route from an
 unverified expanded-target25-output route. Neither production route is runnable
 without explicit full-membership/cache validation; no new fit is scheduled.
+
+## Conditional adaptation of the strongest served ensemble
+
+The [TL3 student adaptation packet](tl3_member_adaptation/README.md) identifies
+a way to retain the original three-model runtime: adapt only the0.34plain
+H256×2/211-input member, preserving the two0.33tied263-input models, wrapper
+and libraries. Its model shapes match the canonical GRU; numerical conversion
+and a production-only full-data validator remain required. The original
+archive and all member bytes are hash-bound. Unknown source ancestry remains
+explicit, so final fitted-data diagnostics cannot be called clean CV. This
+production route is NOT_ADMITTED and depends on the fold recipe evidence.

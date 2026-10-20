@@ -1,5 +1,8 @@
 # Model families and training
 
+- [Conditional TL3 member adaptation](../../campaign_2026-10-20/submission_delivery_r1/tl3_member_adaptation/README.md) — source-hash and shape audit of replacing only the0.34plain211-input H256×2 student while preserving the two263-input tied members and three-model serving graph. Unknown ancestry and full-data training remain explicit; no conversion, fit or candidate ZIP exists yet.
+
+
 Architecture, training lineage, distillation and retained checkpoint sources.
 
 ## Current navigation
