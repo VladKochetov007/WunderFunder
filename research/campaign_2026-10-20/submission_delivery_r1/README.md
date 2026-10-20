@@ -118,6 +118,14 @@ archive and all member bytes are hash-bound. Unknown source ancestry remains
 explicit, so final fitted-data diagnostics cannot be called clean CV. This
 production route is NOT_ADMITTED and depends on the fold recipe evidence.
 
+The [single-member packager handoff](tl3_member_packager_r1/README.md) adds a
+create-only path for replacing just TL3's 211-input student weights from an
+explicit FP32 H512 checkpoint. It pins the checkpoint, provenance sidecar, all
+source ZIP entries and all output ZIP entries; it preserves the original wrapper,
+three C++ libraries, two 263-input members and coefficients. Code is prepared,
+but no candidate ZIP or callback probe has been built or run. Its old H512 fixture
+command is engineering-only and carries no quality claim.
+
 ## Refreshed free compute inventory
 
 The [October21Kyiv Kaggle quota receipt](KAGGLE_QUOTA_REFRESH_20261021_R1.json)
