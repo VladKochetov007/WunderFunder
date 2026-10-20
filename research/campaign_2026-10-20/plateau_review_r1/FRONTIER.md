@@ -1,6 +1,6 @@
 # Plateau review frontier
 
-Updated: 2026-10-20T21:15:53.066377+00:00. Owner: root/controller.
+Updated: 2026-10-20T22:19:10.294283+00:00. Owner: root/controller.
 
 ## Resume instruction
 
@@ -16,8 +16,9 @@ Record changes and receipts here before context compaction or handoff.
   a matched H256×2 WMSE/NLL continuation pair using local weights and cached
   teacher targets. Beleriand access is no longer a prerequisite for progress.
   Both profiles passed; the two-fit sequence is running as `wnn-overnight-nll-fit-20261020.service`.
-  Control epoch0 completed in2100.9seconds with7460successful updates and zero
-  nonfinite gradients; epoch1 is running. The durable
+  Control completed both epochs in4249.17seconds with14920successful updates,
+  zero nonfinite gradients and zero skipped updates. NLL is running; its
+  progress and the control receipt are indexed in the delivery packet. The durable
   `wnn-overnight-nll-postfit-20261020.service` waits for exact pair success, then
   executes the frozen three exports, artifact audits and seven-endpoint score
   with a45-minute cap. No fitting quality result is claimed. See the packet for

@@ -95,3 +95,19 @@ and inactive-file-cache guard remain. Creating `STOP_POST_FIT` before admission
 or stopping the waiting supervisor cancels this successor without killing fits.
 Root must independently interpret the completed score before another fit or
 candidate promotion; the second-fold catalog remains conditional.
+
+## Completed control and source refresh — October21 Kyiv
+
+The [control completion receipt](control_terminal_progress_r1.json) records both
+fixed epochs:4249.17seconds fit walltime,14920completed optimizer updates, zero
+nonfinite gradient steps and zero skipped updates. Epoch1 preclip gradient median
+was0.60970,p95was1.07604,clip rate0.0698 and mean clip factor0.9879. The NLL
+arm remains live under the same fit service; the frozen seven-endpoint scorer
+will run after both fits finish. No predictive improvement is established yet.
+
+A fresh GitHub/remote inspection found research-team835f35ef6 adds dictionary
+health evidence, with no terminal grade. PR32 and amended PR28 provide unrun
+Transformer/runtime handoffs. They do not add a measured model-selection result.
+Root is preparing a conditional F1/seed4 matched pair and production pathway
+while this fit completes; these are not admitted jobs and preserve the15-hour
+allocation. See the frozen F0 plan and fold catalog before spending follow-up.
