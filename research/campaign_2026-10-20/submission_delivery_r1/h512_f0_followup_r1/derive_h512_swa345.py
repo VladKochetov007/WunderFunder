@@ -60,6 +60,7 @@ def derive(root: Path, manifest_path: Path) -> dict[str, Any]:
     derived["model"] = averaged
     derived["weight_derivation"] = derivation
     derived["provenance"]["weight_derivation"] = derivation
+    derived["provenance"].pop("checkpoint_sha256", None)
     destination.mkdir()
     output = destination / "model_ep5.pt"
     with output.open("xb") as stream:

@@ -17,6 +17,8 @@ PLAN_SHA = "51d797d1d568d98b0d9553c934721aab2826ba5d4d61b96a24e496ce514c7ec9"
 SCREEN_SHA = "f6b3b954cd2253a9eac10032c9a053f7abcd55e359c41c2062ed3bdeff2920d8"
 ADMISSION_SHA = "a17a468f5d0d247db92cbaac0e3d4f0800536c46d6682f2665abb4b781e776f1"
 PACKET = Path("research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1")
+COMMAND_BINDING_PATH = PACKET / "FIT_COMMAND_BINDING_R1.json"
+COMMAND_BINDING_SHA = "5d3de903226714bb9ce824a1ce263338110a8ed96c6951fd984eacfb07726964"
 OUTPUT = PACKET / "FIT_TERMINAL_ACCEPTANCE_R1.json"
 
 
@@ -66,16 +68,32 @@ def record(root: Path, service: str) -> dict[str, Any]:
     start = packet / "FIT_START_R1.json"
     log = packet / "fit_r1.log"
     provenance_path = root / "artifacts/runs" / RUN / "provenance.json"
+    plan_path = packet / "H512_FIT_AND_PRODUCTION_PLAN_R1.json"
+    binding_path = packet / COMMAND_BINDING_PATH.name
     for path, expected in (
         (admission, ADMISSION_SHA),
-        (packet / "H512_FIT_AND_PRODUCTION_PLAN_R1.json", PLAN_SHA),
+        (plan_path, PLAN_SHA),
         (packet / "H512_F0_SCORE_SCREEN_R1.json", SCREEN_SHA),
+        (binding_path, COMMAND_BINDING_SHA),
     ):
         if sha256(path) != expected:
             raise ValueError(f"frozen input differs: {path}")
+    plan = read_json(plan_path)
+    binding = read_json(binding_path)
     started = read_json(start)
     properties = service_properties(service)
     invocation = started.get("service", {}).get("InvocationID")
+    binding_service = binding.get("service", {})
+    binding_invocation = binding_service.get("InvocationID")
+    if (
+        binding.get("schema") != "wnn.live-fit-command-binding.v1"
+        or binding.get("unit") != service
+        or binding.get("frozen_plan_sha256") != PLAN_SHA
+        or binding.get("actual_training_argv") != plan.get("f0_fit", {}).get("argv")
+        or started.get("service", {}).get("InvocationID") != binding_invocation
+        or properties.get("InvocationID") != binding_invocation
+    ):
+        raise ValueError("live command binding differs from the frozen F0 recipe or service")
     active = properties.get("ActiveState")
     substate = properties.get("SubState")
     settled = (active == "active" and substate == "exited") or (
@@ -109,24 +127,9 @@ def record(root: Path, service: str) -> dict[str, Any]:
         raise ValueError("fit log lacks six completed epochs or fixed epoch-5 selection")
 
     provenance = read_json(provenance_path)
-    args = provenance.get("args", {})
-    if (
-        args.get("name") != RUN
-        or args.get("epochs") != 6
-        or args.get("checkpoint_epoch") != 5
-        or args.get("checkpoint_policy") != "fixed"
-        or args.get("seed") != 1003
-        or args.get("hidden") != 512
-        or args.get("loss") != "wmse"
-        or args.get("precision") != "fp32"
-        or args.get("train_source") != "train+valid"
-        or args.get("valid_fold") != 0
-        or args.get("include_heldout_valid")
-        or not args.get("no_eval_during_fit")
-        or args.get("split_manifest_sha256")
-        != "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
-    ):
-        raise ValueError("run provenance does not match the frozen H512 fit")
+    args = provenance.get("args")
+    if not isinstance(args, dict) or args != binding.get("resolved_training_args"):
+        raise ValueError("run provenance arguments differ from the live command binding")
     trainer = provenance.get("trainer_implementation", {})
     source = current_training_source(SOURCE_ROOT.resolve(strict=True))
     if (
@@ -156,6 +159,9 @@ def record(root: Path, service: str) -> dict[str, Any]:
         "plan_sha256": PLAN_SHA,
         "screen_sha256": SCREEN_SHA,
         "admission_sha256": ADMISSION_SHA,
+        "command_binding_path": str(COMMAND_BINDING_PATH),
+        "command_binding_sha256": COMMAND_BINDING_SHA,
+        "actual_training_argv": binding["actual_training_argv"],
         "service": service,
         "service_properties": properties,
         "fit_log_sha256": sha256(log),

@@ -22,6 +22,8 @@
   },
   "terminal_receipt": {
     "producer": "record_h512_fit_terminal.py",
+    "command_binding_path": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/FIT_COMMAND_BINDING_R1.json",
+    "command_binding_sha256": "5d3de903226714bb9ce824a1ce263338110a8ed96c6951fd984eacfb07726964",
     "argv": [
       "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
       "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/record_h512_fit_terminal.py",
@@ -29,7 +31,7 @@
       "--service", "wnn-h512-f0-fit-r1-20261021.service"
     ],
     "output": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/FIT_TERMINAL_ACCEPTANCE_R1.json",
-    "condition": "Run after the admitted process completes; producer accepts the retained active/exited state or an inactive-compatible state only when MainPID is 0, Result is success, ExecMainStatus is 0, InvocationID matches FIT_START_R1.json, and monotonic exit is later than start. It also verifies six FIT epoch records, SELECTED_FIXED 5, source pins, provenance, and checkpoint hashes. Root reviews the receipt before use."
+    "condition": "Run after the admitted process completes; producer pins the live command binding, requires its argv to equal the frozen F0 argv, matches the unit InvocationID, and requires full provenance.args equality with the captured resolved namespace. It accepts retained active/exited or inactive-compatible completion only with MainPID 0, success/0 status, and monotonic exit after start. It also verifies six FIT epoch records, SELECTED_FIXED 5, source pins, trainer closure, provenance and checkpoint hashes. Root reviews the receipt before use."
   },
   "swa345": {
     "source_run": "r01_h512_f0_s1003_local_cp5_r1",

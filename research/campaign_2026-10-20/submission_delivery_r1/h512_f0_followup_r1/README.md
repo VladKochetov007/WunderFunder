@@ -66,7 +66,9 @@ and its [source/checkpoint validator](h512_swa345_validation.py) are post-fit on
 none fits or grades a model. After root accepts the [terminal receipt](record_h512_fit_terminal.py),
 the materializer checks provenance and CP3/4/5 checkpoint hashes against source
 files and writes the create-only READY manifest used by the derivation CLI. The
-plan records exact argv for both phases.
+terminal producer binds the exact live argv, unit InvocationID and complete
+source-emitted argument namespace to frozen F0. The plan records exact argv for
+both manifest and derivation phases.
 
 The same plan contains a conditional two-epoch full-data warm continuation
 from H512 F0 CP5, with inherited preprocessing and all supplied valid labels.
