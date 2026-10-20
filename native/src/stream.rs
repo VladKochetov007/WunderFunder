@@ -7,7 +7,117 @@
 
 pub const N_RAW: usize = 112;
 pub const N_EVENT: usize = 99;
+pub const N_REPRESENTATION: usize = 256;
+pub const N_EMA_PREFIX: usize = 128;
+pub const N_EMA_TAIL: usize = 16;
 const CAP: f64 = 10_000.0;
+
+/// Supported 467-column input layouts. Sparse dictionaries need checkpoint-owned tensors and are
+/// deliberately not inferred from a model's width.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum RepresentationMode {
+    None,
+    Base,
+    Ema,
+}
+
+impl RepresentationMode {
+    pub fn parse(value: &str) -> Result<Self, String> {
+        match value {
+            "none" => Ok(Self::None),
+            "base" => Ok(Self::Base),
+            "ema" => Ok(Self::Ema),
+            "sparse" | "ema_sparse" => Err(format!(
+                "input representation mode {value:?} is unsupported by native serving"
+            )),
+            _ => Err(format!("unknown input representation mode: {value:?}")),
+        }
+    }
+}
+
+/// Fills the checkpoint-defined suffix for a supported input representation.
+pub fn fill_representation_suffix(
+    mode: RepresentationMode,
+    ema_values: &[f32],
+    suffix: &mut [f32],
+) -> Result<(), String> {
+    match mode {
+        RepresentationMode::None if suffix.is_empty() => Ok(()),
+        RepresentationMode::None => {
+            Err("base input mode cannot have a representation suffix".into())
+        }
+        RepresentationMode::Base if suffix.len() == N_REPRESENTATION => {
+            suffix.fill(0.0);
+            Ok(())
+        }
+        RepresentationMode::Ema if suffix.len() == N_REPRESENTATION => {
+            if ema_values.len() != N_RAW {
+                return Err(format!(
+                    "expected {N_RAW} EMA values, got {}",
+                    ema_values.len()
+                ));
+            }
+            let (zero_prefix, rest) = suffix.split_at_mut(N_EMA_PREFIX);
+            zero_prefix.fill(0.0);
+            let (ema, zero_tail) = rest.split_at_mut(N_RAW);
+            ema.copy_from_slice(ema_values);
+            zero_tail.fill(0.0);
+            Ok(())
+        }
+        RepresentationMode::Base | RepresentationMode::Ema => Err(format!(
+            "representation suffix must have {N_REPRESENTATION} values, got {}",
+            suffix.len()
+        )),
+    }
+}
+
+const EMA_ALPHA: f32 = 0.021_427_938_714_623_45;
+const EMA_BETA: f32 = 0.978_572_070_598_602_3;
+
+/// Reset-local EMA of signed one-step raw-feature changes with a 32-row half-life.
+#[derive(Debug, Clone)]
+pub struct CausalDeltaEma {
+    previous: [f32; N_RAW],
+    value: [f32; N_RAW],
+    first: bool,
+}
+
+impl Default for CausalDeltaEma {
+    fn default() -> Self {
+        Self {
+            previous: [0.0; N_RAW],
+            value: [0.0; N_RAW],
+            first: true,
+        }
+    }
+}
+
+impl CausalDeltaEma {
+    pub fn reset(&mut self) {
+        *self = Self::default();
+    }
+
+    /// Writes the current row's EMA using only this and earlier sanitized raw rows.
+    pub fn update(&mut self, row: &[f32], out: &mut [f32]) {
+        assert_eq!(row.len(), N_RAW, "row width");
+        assert_eq!(out.len(), N_RAW, "EMA feature width");
+        for ((previous, value), (raw, feature)) in self
+            .previous
+            .iter_mut()
+            .zip(self.value.iter_mut())
+            .zip(row.iter().zip(out.iter_mut()))
+        {
+            let delta = if self.first { 0.0 } else { *raw - *previous };
+            let scaled_delta = EMA_ALPHA * delta;
+            let decayed_value = EMA_BETA * *value;
+            let next = scaled_delta + decayed_value;
+            *feature = next;
+            *value = next;
+            *previous = *raw;
+        }
+        self.first = false;
+    }
+}
 
 #[derive(Debug, Clone)]
 pub struct StreamFeatures {
@@ -166,6 +276,49 @@ mod tests {
         (0..n)
             .map(|r| std::array::from_fn(|c| ((r * 37 + c * 11) % 97) as f32 / 20.0 - 2.4))
             .collect()
+    }
+
+    #[test]
+    fn signed_delta_ema_is_causal_and_resets_between_sequences() {
+        let mut ema = CausalDeltaEma::default();
+        let mut out = [9.0; N_RAW];
+        let first = row(2.0);
+        ema.update(&first, &mut out);
+        assert!(out.iter().all(|value| *value == 0.0));
+
+        let mut second = first;
+        second[0] = 4.0;
+        second[1] = 1.0;
+        ema.update(&second, &mut out);
+        assert_eq!(out[0], EMA_ALPHA * 2.0);
+        assert_eq!(out[1], EMA_ALPHA * -1.0);
+        assert_eq!(out[2], 0.0);
+
+        let saved = out;
+        ema.reset();
+        ema.update(&first, &mut out);
+        assert!(out.iter().all(|value| *value == 0.0));
+        ema.update(&second, &mut out);
+        assert_eq!(out, saved);
+    }
+
+    #[test]
+    fn representation_suffix_places_only_the_causal_ema_block() {
+        let ema: [f32; N_RAW] = std::array::from_fn(|index| index as f32 - 30.0);
+        let mut suffix = [7.0; N_REPRESENTATION];
+        fill_representation_suffix(RepresentationMode::Ema, &ema, &mut suffix).unwrap();
+        assert!(suffix[..N_EMA_PREFIX].iter().all(|value| *value == 0.0));
+        assert_eq!(&suffix[N_EMA_PREFIX..N_EMA_PREFIX + N_RAW], &ema);
+        assert!(
+            suffix[N_EMA_PREFIX + N_RAW..]
+                .iter()
+                .all(|value| *value == 0.0)
+        );
+
+        suffix.fill(7.0);
+        fill_representation_suffix(RepresentationMode::Base, &[], &mut suffix).unwrap();
+        assert!(suffix.iter().all(|value| *value == 0.0));
+        assert!(fill_representation_suffix(RepresentationMode::None, &[], &mut suffix).is_err());
     }
 
     #[test]
