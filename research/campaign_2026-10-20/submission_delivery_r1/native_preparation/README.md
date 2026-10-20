@@ -2,7 +2,8 @@
 
 This receipt records the native EMA serving preparation for the FG19 467-input
 GRU path. The implementation is integrated on main as `7a46eedd4`; this
-worktree holds the bounded v2 build and the remaining small delivery changes.
+worktree holds the bounded v2/v3 builds and the remaining small delivery
+changes.
 The serving path supports the control suffix and causal EMA suffix, preserves
 the existing 211- and 323-input modes, and fails closed on unsupported sparse
 representations. The producer source was frozen at
@@ -13,9 +14,19 @@ representations. The producer source was frozen at
 - `receipt.json` records source and artifact hashes, ABI details, build command,
   resource measurements, the synthetic producer EMA comparison, and outstanding
   checks.
-- The bounded v2 build passed `scripts/check_submission_abi.py`. The resulting
-  extension is outside the repository at
+- The bounded v2 and v3 builds passed `scripts/check_submission_abi.py`. Both
+  used the same native source tree (`32a1ddd91af86913cda40e113029d7bb283b806f`)
+  and Cargo lockfile. The v2 extension is outside the repository at
   `/home/vlad/development/wunder/research_tmp/overnight-ema-native-20261020-artifacts/native-built/v2/wnn_native.abi3.so`.
+- The v2 extension is 1,181,912 bytes, SHA256
+  `253e674ccb50ab633afc72d77744c138699fa68b1b2e5ae8d82a2121d5e29511`.
+- The v3 extension is 1,231,496 bytes, SHA256
+  `11b4c437fc394253366e650c0021ace3ad3caa77761bbf759ae6f6e194b98577`; it is
+  at `/home/vlad/development/wunder/research_tmp/overnight-ema-native-20261020-artifacts/native-built/v3/wnn_native.abi3.so`.
+- Both use the `cp311-abi3-manylinux_2_34_x86_64` wheel tag, require at most
+  GLIBC 2.34, and have no `libpython` dependency. The v3-only bounded build took
+  37.43 seconds; sampled container memory was 222.3 MiB / 1.863 GiB with no
+  swap. The sample is not an absolute peak measurement.
 - The synthetic EMA comparison used three independent sequences, 1,025 rows,
   112 features, and seed 20261020. The float32 online recurrence starts at
   zero for each sequence and agreed with the frozen producer helper to max
@@ -42,9 +53,9 @@ real checkpoint is not available in the staged source area, so its appended
 normalizer values, exported metadata, and predictions remain unverified. In
 particular, verify that the exported 467-wide checkpoint has the expected
 shared normalizers (appended mean 0 and standard deviation 1) before packaging.
-No FG19 score, checkpoint parity, or serving latency is claimed here. A v3 build
-is held pending the parent's two short local GPU profiles and decision that it
-is still needed.
+No FG19 score, checkpoint parity, or serving latency is claimed here. The
+parent authorized v3 after the two short local GPU profiles completed; no
+additional build is pending.
 
 The JSON receipt is the compact reproducibility record. The parent owns the
 campaign index and will add the navigation link.
