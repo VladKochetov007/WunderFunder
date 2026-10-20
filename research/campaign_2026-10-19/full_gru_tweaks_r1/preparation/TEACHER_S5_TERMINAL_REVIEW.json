@@ -1,0 +1,66 @@
+{
+  "guards_reviewed": {
+    "artifact_bounds": "Prehashes bounded required artifacts, verifies stable file identity across hash/load, checks selected model and epoch-2 checkpoint digests against provenance, and caps the seven-file aggregate at 128 MB.",
+    "counters": "Requires three withheld-evaluation epochs, each with 7,460 optimizer attempts/completed updates, 373 completed batches, zero skipped updates, and zero nonfinite gradient steps; total 22,380 updates and 1,119 batches.",
+    "execution_caps": "Stages only the pinned checker/helper and JSON metadata; runs CPU-only with CUDA_VISIBLE_DEVICES empty, 50% CPU quota, 1.4-GB MemoryHigh, 1.5-GB MemoryMax, zero swap, 600-second runtime, and create-only output receipts.",
+    "fresh_wrapper_gates": "Before staging/launch, binds the exact S5 native invocation and successful exit; verifies pinned metadata bytes, exact 164-file source tree/content, split digest, registered data stat identities, terminal artifact presence/size bounds, absent verifier unit/output, no stop marker, parent 2-core/18-GB-high/20-GB-max/swap-zero envelope, fresh cgroup population/headroom, persistent scratch and disk headroom.",
+    "model_and_normalization": "Checks the exact 211-input/23-output GRU tensor inventory, shapes, 2,159,639 parameters, FP32 finite tensors, canonical source-bound normalization identities, and matching selected/checkpoint/resume-model fingerprints.",
+    "optimizer_and_resume": "Checks exact three-group Muon/AdamW shape and membership, FP32 finite state, 22,380 AdamW steps, momentum state, next_epoch=3 and fixed epoch boundary; rebinds contract options to seed 5, the exact launched CLI, split and data identities, source files, one runtime thread, and TF32 disabled.",
+    "restricted_loader": "Uses torch.load(weights_only=True) with the narrow observed NumPy/RNG and torch.torch_version.TorchVersion safe-global allowlist; the shared helper is byte-identical to the reviewed S4 helper.",
+    "source_manifest": "Requires the exact manifest SHA, commit, exactly 164 unique paths, admission-map equality, bounded aggregate source bytes, safe relative paths, and fresh SHA-256 checks of every source file.",
+    "split_and_membership": "Rehashes the fixed split; reconstructs seed-5 train order and fixed evaluation order; validates ordered train/fit-valid/evaluation group lists, expected counts, dataset identity, and component-disjoint fit/evaluation membership.",
+    "terminal_identity": "Binds recipe, admission, launch, launch acceptance, S5 run/unit/invocation, and S5 terminal-evidence raw digest; requires successful exited native state and integer main_pid=0, exec_main_code=1, exec_main_status=0."
+  },
+  "identity_delta_from_reviewed_s4": {
+    "checker_diff": "Compared with the reviewed S4 checker, changes are limited to docstring/run/unit/invocation/recipe/admission/launch pins, seed 4 to 5 in critical args and resume contract, S5 launch-acceptance fields/schema, and S5 result schema. Numerical, membership, loader, model, optimizer, counter, and state checks are unchanged.",
+    "generator_and_body_diff": "The embedded body changes S4 to S5 run/output/unit/invocation/native-raw digest and pinned receipt identities. It adds/rebinds the S5 launch-acceptance schema, run_name, source_files, and recipe fields. Fresh preflight logic and resource bounds remain unchanged.",
+    "normalizer_independence": "S5 uses its own pinned S5 terminal-evidence bytes and raw-output digest, checks the S5 unit/invocation/run plus normalized integer exit fields, and re-queries the exact live S5 unit in its wrapper. No S4 normalizer or S4 receipt is imported or relied on; this review does not independently certify the producer of root-normalized terminal evidence.",
+    "recipe_comparison": "S4 and S5 RECIPE.json model/optimizer/training recipe, fit_scope, resource_envelope, and hardware_allocation compare equal; run identity changes from seed/name 4/S4 to 5/S5, with one fit and no automatic seed queue.",
+    "reviewed_s4_body_sha256": "18332ba6e073fb2b0dad3fe5a0725198984a4e772a5cc3adda203ee2d115ddf3",
+    "reviewed_s4_checker_sha256": "e6891fb6273b0f8b7f37af4f713e0ab2e6e16a13fbaf8ce8275401c2c6d4a0cf",
+    "reviewed_s4_generator_sha256": "7b3ab65a49acddc82179dce80f0b53c1e40beb099e7b9c39ab6e85e7dd185b92"
+  },
+  "limitations_and_next_gate": [
+    "This is a conditional source review, not an actual restricted S5 payload verification or root acceptance. Root controls and must perform the short CPU verifier admission/run and then independently reconcile its terminal receipt and exact stop.",
+    "No model quality, inference, grading, or evaluation claim is made.",
+    "The checker expects normalized terminal-evidence integer fields; exact S5 evidence bytes are pinned by the wrapper, but the root terminal-evidence normalizer itself is outside this source review."
+  ],
+  "local_validation_receipt": {
+    "checks_json_sha256": "185554d7df000db9660092d8deead5906beeec705ab3fea6c34fc84d75d6aade",
+    "reported": "Three focused identity tests, Ruff check/format, local packet body compilation, and cold transitive import with numpy/dataset/torch/CUDA reader sentinels passed. Receipt inspected but tests were not rerun by this reviewer.",
+    "status_in_receipt": "PASS",
+    "test_sha256": "42f347832fafd2fa25d4550b3787d27526a7c193acaf1d60e2163738bb2fd5f4"
+  },
+  "review_scope": "Local static review of frozen S5 checker, wrapper/generator, embedded remote body, recorded metadata pins, and test/check receipt. No SSH, remote execution, test execution, data/model/checkpoint payload reads, training, or score generation by this reviewer.",
+  "reviewed_final_pins": {
+    "checker": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5",
+    "checks_receipt": "185554d7df000db9660092d8deead5906beeec705ab3fea6c34fc84d75d6aade",
+    "fit_admission": "9d0b0b0d3515a82d226c2d7e8020ae4aca28f139d607582967f36b0c094f6981",
+    "fit_launch": "027ad3fb491e829343635a68dc509cc560fd634e4e7e06ffd41e734e0e44b4cc",
+    "generator": "ef67f98ce81a370fd76ea520d673baddb4c46d4efb5ff455c9134c5656c0ed7d",
+    "identity_test": "42f347832fafd2fa25d4550b3787d27526a7c193acaf1d60e2163738bb2fd5f4",
+    "launch_acceptance": "59c04d97c469fef7ea21a27114b704f3ef388f1f9e359d4aadce740c310adb0c",
+    "native_terminal_evidence": "e284787effbb9ad1a64be763c6bc5eb9c805bc1715c37b08aa032b2673b433b4",
+    "preparation_receipt": "33ecf08a49c79dbef27e00fe046c3ada4e9bd7c2b6b38e0b12093e0a5ad5b0f2",
+    "recipe": "6d9d91b9d19b4d2cd6c957433e534f74880f1bf8414a06e3434adf8eb56d734a",
+    "source_manifest": "0c83367d4ee3afd7e9f382111060d8c125b52420ce27cd5cc309d338287af7fd",
+    "support_helper": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+    "transport_body": "bd08f04328fb95eb81429e5b64ce7428fa078b5639d35e70ac16b4311a6a4abc"
+  },
+  "reviewed_identity": {
+    "checker_output_schema": "fg19.teacher-s5-terminal-check.v1",
+    "launch_acceptance_schema": "fg19.teacher-s5-launch-acceptance.v1",
+    "native_invocation_id": "4317408cdc69442c8438c74aaf5809eb",
+    "native_stdout_sha256": "9bdc3861961d19ed6454007376bb69f94f4429eb2eba5dce99497a5335d98421",
+    "native_unit": "computer-vision-homework-fg19-teacher-s5-v1.service",
+    "recipe_sha256": "6d9d91b9d19b4d2cd6c957433e534f74880f1bf8414a06e3434adf8eb56d734a",
+    "run_name": "fg19_t3_h384x2_e3_s5_v1",
+    "seed": 5,
+    "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+    "source_files": 164,
+    "source_manifest_sha256": "0c83367d4ee3afd7e9f382111060d8c125b52420ce27cd5cc309d338287af7fd",
+    "terminal_evidence_schema": "fg19.teacher-s5-native-terminal-evidence.v1"
+  },
+  "schema": "fg19.teacher-s5-terminal-source-review.v1",
+  "status": "CONDITIONAL_SOURCE_READY_FOR_ROOT_S5_VERIFIER_ADMISSION"
+}

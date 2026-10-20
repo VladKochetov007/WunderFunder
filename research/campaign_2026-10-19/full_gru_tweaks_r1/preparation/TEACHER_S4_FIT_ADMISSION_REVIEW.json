@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "execution_scope": "Creates one seed-4 run with no evaluation during fitting and no automatic seed queue. The helper reuses the reviewed profile guard definitions and derives the training command from the profile launch prefix; it does not replay the S3 fit.",
+    "predecessor_gate": "Requires exact root-accepted S3 terminal acceptance with 22,380 successful updates and zero skipped/nonfinite updates, plus matching S3 and verifier invocations in the before/stop/after receipt and an empty campaign population. Remote preflight requires the predecessor units to be not-found.",
+    "recipe_relationship": "The S4 argv matches the pinned S3 argv exactly except run name and seed (s3/3 to s4/4). Fit uses current F0 train+valid with held-out valid excluded; current split SHA is c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7.",
+    "resource_and_path_gates": "Uses the original 4 GiB PyTorch allocator bound, 1 CPU core, 7.5 GB high/8 GB max systemd memory limits, no swap, 24-hour runtime, and the pinned GPU. It checks fresh S4 run/output paths, source/data identities, disk/headroom, and current unit absence before launch.",
+    "source_and_dependencies": "Binds source commit af21d6d8409c46b36830f0bdddd50e67ee17025f and 164-file source manifest, accepted profile V3, and the root-accepted propensity checkpoint/verification; remote body rehashes the complete source and dependency files."
+  },
+  "limitation": "This review approves the prepared S4 admission logic only. Actual admission still requires the exact accepted V2 verifier receipt and stop receipt; no S4 launch or outcome is approved by this review.",
+  "review_scope": "Read-only review of the local S4 admission script and fixed recipe binding. No SSH, model/checkpoint payload reads, fit, or tests were run by this reviewer.",
+  "reviewed_files": {
+    "admission_script": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/admit_teacher_s4_fit.py",
+      "sha256": "602e729a3cc0c15e51a6830f474620f52ff592caad96ec892d0e34413acec3a2"
+    },
+    "recipe_binding": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/TEACHER_S4_FIT_BINDING.json",
+      "sha256": "c460b098d09773786552e5b2c98596fab3319a05108d49bd5693da43ee8a7d88"
+    }
+  },
+  "schema": "fg19.teacher-s4-fit-admission-review.v1",
+  "status": "PASS_REVIEWED_CONDITIONALLY_NOT_ADMITTED"
+}

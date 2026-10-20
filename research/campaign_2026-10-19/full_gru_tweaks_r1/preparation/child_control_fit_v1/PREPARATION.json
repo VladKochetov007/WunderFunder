@@ -1,0 +1,63 @@
+{
+  "argv_sha256": "69e735294550802364f29a94a3dbc68873aa2e4500fe543e4ffb1b90f594b9a2",
+  "body": {
+    "bytes": 139751,
+    "path": "preparation/child_control_fit_v1/REMOTE_SUBMISSION.py",
+    "sha256": "124b90f9cc76c17c9a62e22b934dc15e579417f0b769eb86f44334ba55f6b954"
+  },
+  "canonical_cli_root_check": {
+    "bytes": 1049,
+    "path": "preparation/child_control_fit_v1/CONTROL_CLI_ROOT_CHECK.json",
+    "sha256": "e987489258a77af11930ce1ecce16b5e9f0c1d1e70331fdca86ea3dc34806b81"
+  },
+  "checks": [
+    {
+      "command": "literal .venv/bin/python -m ruff check REMOTE_SUBMISSION_TEMPLATE.py REMOTE_SUBMISSION.py",
+      "result": "PASS"
+    },
+    {
+      "command": "literal .venv/bin/python -m ruff format --check REMOTE_SUBMISSION_TEMPLATE.py REMOTE_SUBMISSION.py",
+      "result": "PASS"
+    },
+    {
+      "command": "ast.parse(REMOTE_SUBMISSION.py)",
+      "result": "PASS"
+    },
+    {
+      "check": "embedded acceptance/stop bytes decode to the pinned local receipt hashes; stop binds the same accepted unit/invocation and after-state is absent/inactive/dead with empty population",
+      "result": "PASS"
+    },
+    {
+      "command": "import final body and call _profile_receipt_bytes() and _profile_identity() using the preserved local capture directory as PROFILE_OUTPUT",
+      "result": "PASS; bound acceptance/exact-stop, accepted file hashes, initial-state record, 60 finite updates, no checkpoint or quality",
+      "scope": "Local receipt/file metadata only. _physical was mapped to Path for this fixture; no remote path or payload was read."
+    },
+    {
+      "command": "focused final-body profile receipt fixture: validate accepted local capture with an empty temporary PROFILE_RUN_DIR, then add one sentinel and require rejection",
+      "result": "PASS; accepted actual empty/non-symlink run-directory inventory and rejected nonempty directory",
+      "scope": "Metadata-only fixture; no model/data payloads, remote paths, or admission action."
+    }
+  ],
+  "profile_acceptance": {
+    "bytes": 8960,
+    "path": "records/child_allthree_profile_v1/TERMINAL_ACCEPTANCE.json",
+    "sha256": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045"
+  },
+  "profile_exact_stop": {
+    "bytes": 966,
+    "path": "records/child_allthree_profile_v1/exact_stop/STDOUT.raw.json",
+    "sha256": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce"
+  },
+  "run": "fg19_child_control_f0_s1001_fit_v1",
+  "schema": "fg19-child-control-fit-preparation.v1",
+  "scope": "No remote admission, launch, SSH, model/data payload reads, staging, or commit was performed for this preparation.",
+  "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+  "source_file_count": 167,
+  "status": "LOCAL_BODY_READY_FOR_INDEPENDENT_SOURCE_REVIEW",
+  "template": {
+    "bytes": 126510,
+    "path": "preparation/child_control_fit_v1/REMOTE_SUBMISSION_TEMPLATE.py",
+    "sha256": "89d9a778185e19bc9196e6d28f44e0756a2e95660754ed04298c3aac06fbb830"
+  },
+  "unit": "computer-vision-homework-fg19-child-control-fit-v1.service"
+}

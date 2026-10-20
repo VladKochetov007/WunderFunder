@@ -1,0 +1,47 @@
+{
+  "body_sha256": "e72b7fb981251976edd2a2907a3a0cd9c7ec570ca6ee9c02e7588cec9f4d85ff",
+  "checker_sha256": "5721ade20549e95927da268679c9da7ef092b084c49c28c195017fc20a6dcf22",
+  "checks": {
+    "cold_metadata_read_sentinel": {
+      "command": "python -I -B -c <script embedded in this check file>",
+      "forbidden_suffixes": [
+        ".pt",
+        ".npy",
+        ".npz",
+        ".parquet"
+      ],
+      "module_path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/parent_fit_terminal_verifier_v2/prepare_parent_fit_terminal_verifier_v2.py",
+      "returncode": 0,
+      "script_sha256": "c7ac27efef9f5acf86058a897e60f33a19c7c592d4f977b26c7c1091f9e7bd9e",
+      "stderr": "",
+      "stdout": "PASS cold stdlib import; pinned inputs=14; model/array/data suffix reads=0"
+    },
+    "focused_new_rng_signature_tests": {
+      "command": [
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python",
+        "-I",
+        "-B",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/parent_fit_terminal_verifier_v2/test_parent_fit_terminal_check_v2_rng.py"
+      ],
+      "returncode": 0,
+      "script_sha256": "568231a81fca7cce6fe93dd45a2f56345d7767e70fd8ab1e543a358304b28bed",
+      "stderr": "....\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK",
+      "stdout": ""
+    },
+    "post_submit_timeout_and_query_error_durable_record_order": "PASS",
+    "rendered_body_and_template_ast": "PASS",
+    "ruff": "PASS; exact commands recorded in README",
+    "single_submit_no_stop_no_model_array_or_gpu_probe": "PASS"
+  },
+  "generator_sha256": "27de9a055a324e2f5dfd4fe8e87b162bb061964c7ccad53160a449e71c4bbf8a",
+  "limits": [
+    "No SSH, remote query, admission, submission or unit action was performed.",
+    "The cold child read only the fixed Python/JSON package inputs and denied .pt/.npy/.npz/.parquet opens.",
+    "No model, training-state, dataset, or prediction-array payload was opened locally.",
+    "Remote source/data/cache/resource/output gates remain to be run by root immediately before submission."
+  ],
+  "preparation_sha256": "7f24254d402d34276dd14b25d307d3605f021d8283bda6d0c18bfc317ad7c282",
+  "schema": "fg19.parent-fit-r2-terminal-verifier-local-checks.v2",
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "template_sha256": "eabf43265d024b648320e55461bca1c17976173af7b1a0958548ed4321717b09"
+}

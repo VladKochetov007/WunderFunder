@@ -1,0 +1,92 @@
+{
+  "schema": "fg19.accepted-prediction-cache-handoff-review.v1",
+  "status": "CONDITIONAL_SOURCE_PASS_WITH_CALLER_PRECONDITIONS",
+  "reviewed_utc": "2026-10-20",
+  "scope": "Independent local review of the prepared metadata-only cache handoff. No SSH, tests, prediction payload reads/hashes, model work, jobs, or page-cache advice were performed.",
+  "reviewed_files": {
+    "source": {
+      "path": "preparation/accepted_prediction_cache_handoff_v1/REMOTE.py",
+      "sha256": "0cb06d15840cb2ba2ad660dfc44ff1286ce5e0209198adfe3cf81dcc99dc6983"
+    },
+    "readme": {
+      "path": "preparation/accepted_prediction_cache_handoff_v1/README.md",
+      "sha256": "f4b7a45e4152d047b942c4b1ca56f93b60a954ad0c309b82b47274b4e59a1320"
+    },
+    "local_checks": {
+      "path": "preparation/accepted_prediction_cache_handoff_v1/LOCAL_CHECKS.json",
+      "sha256": "7273214960b728f57601bde82b536aba5e47832655ce244702955b6e2827dd5d",
+      "status": "PASS_SOURCE_ONLY_NOT_EXECUTED; actor-reported; not independently rerun"
+    }
+  },
+  "checks": [
+    {
+      "name": "fixed file scope and byte-free identity binding",
+      "result": "PASS",
+      "basis": "Decoded the source's pinned item list: exactly S3/S4 train+valid NPYs, no S5, dataset, model, or foreign path. Each binds an exact sidecar SHA-256 and producer SHA plus expected NPY path/device/inode/size/mtime. Sidecars are bounded below 1 MB; NPYs are opened read-only with O_NOFOLLOW and checked by fstat. No NPY payload is read or hashed."
+    },
+    {
+      "name": "all-or-nothing pre-advice validation and immutability",
+      "result": "PASS",
+      "basis": "The helper verifies all four sidecars, producer hashes, and open-file identities before issuing any advice. It advises only each pinned file descriptor's byte range with POSIX_FADV_DONTNEED, then rechecks descriptor identity and closes every descriptor in finally. It does not unlink, write, chmod, drop global caches, or alter resource limits. An advice error stops the operation; any already-issued advice affects only clean-cache residency, not file bytes."
+    },
+    {
+      "name": "fresh parent and exact headroom decision",
+      "result": "PASS_WITH_ROOT_GATE",
+      "basis": "Each before/after snapshot requires the same explicit campaign slice, CPU quota 2s, MemoryHigh 18,000,000,000, MemoryMax 20,000,000,000, swap 0, and no populated descendants; cgroup enumeration fails closed above 128 entries. Before advice, current+8,000,000,000 below 17,000,000,000 skips without touching files; otherwise it requires an additional 128,000,000-byte margin. After advice it reports HEADROOM_READY only if the 8-GB reserve fits under 17 GB; otherwise HEADROOM_HOLD. This does not guarantee a reclaimed byte count."
+    },
+    {
+      "name": "bounded caller process",
+      "result": "PASS_WITH_CALLER_PRECONDITIONS",
+      "basis": "The helper sets 5 CPU-seconds and 128,000,000-byte address-space limits; its systemctl observations have 10-second timeouts each. The documented 30-second outer timeout and single-thread/at-most-one-CPU invocation are caller constraints, not encoded in REMOTE.py. Run outside wnn-campaign.slice so its own PID does not invalidate the required empty-parent test."
+    },
+    {
+      "name": "assert-based safety guards require normal Python mode",
+      "result": "CALLER_PRECONDITION",
+      "basis": "Safety checks for exact slice properties, empty descendants, headroom margin, and file metadata use assert. Python optimization (-O or PYTHONOPTIMIZE) removes those guards. Caller must ensure sys.flags.optimize == 0 (for example, clear PYTHONOPTIMIZE and invoke ordinary python) before any execution; the prepared source itself does not enforce this."
+    }
+  ],
+  "root_only_preconditions": [
+    "Do not invoke until S5 is durably accepted and exact-stopped; root is the sole caller after a fresh post-stop empty-parent observation.",
+    "If the fresh parent sample shows current+8 GB <17 GB, expect NO_HANDOFF_NEEDED and no advice. If the advice path runs, stop on any identity/cap/population assertion or HEADROOM_HOLD; do not retry or enlarge limits.",
+    "After execution, reconcile the emitted before/after snapshots and unchanged file identities; the operation is metadata-only resource support, not evidence of cache correctness or scientific progress."
+  ],
+  "exact_pinned_inputs": [
+    {
+      "run": "fg19_t3_h384x2_e3_s3_v1",
+      "split": "train",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1/pred_fg19_t3_h384x2_e3_s3_v1_train.npy",
+      "metadata_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1/pred_fg19_t3_h384x2_e3_s3_v1_train.json",
+      "metadata_sha256": "491767c8a914cf945d0284d29506e41cb74e2977c7b2b78baec524eabae859f6",
+      "producer_sha256": "218e3c41e91ff45e691b85e6999412841ca05c68aebdfc25c1c7659b0cc6bec5",
+      "stat": {"bytes": 1685600128, "device": 64512, "inode": 739677799, "mtime_ns": 1792449551403532419}
+    },
+    {
+      "run": "fg19_t3_h384x2_e3_s3_v1",
+      "split": "valid",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1/pred_fg19_t3_h384x2_e3_s3_v1_valid.npy",
+      "metadata_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1/pred_fg19_t3_h384x2_e3_s3_v1_valid.json",
+      "metadata_sha256": "55ddc99fd7aa06ba3a9b309421b3f4642c826abf0a918ca9616b82020b19be9b",
+      "producer_sha256": "0ba98e6df9d59fb3c301388ab06ff1d34875946b2809d2be6efb251c1fa0baef",
+      "stat": {"bytes": 224800128, "device": 64512, "inode": 739677805, "mtime_ns": 1792450822912220791}
+    },
+    {
+      "run": "fg19_t3_h384x2_e3_s4_v1",
+      "split": "train",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1/pred_fg19_t3_h384x2_e3_s4_v1_train.npy",
+      "metadata_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1/pred_fg19_t3_h384x2_e3_s4_v1_train.json",
+      "metadata_sha256": "2a8c83f1fa40ec2e00ef0bb1fa6e62b115af340bcd84128da611596e1107c9cd",
+      "producer_sha256": "43fdc2d384a8846a5b6c373679a5f0f0e4ef24c5d5925aa2b84905016d0e5c93",
+      "stat": {"bytes": 1685600128, "device": 64512, "inode": 739677811, "mtime_ns": 1792452819377433325}
+    },
+    {
+      "run": "fg19_t3_h384x2_e3_s4_v1",
+      "split": "valid",
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1/pred_fg19_t3_h384x2_e3_s4_v1_valid.npy",
+      "metadata_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1/pred_fg19_t3_h384x2_e3_s4_v1_valid.json",
+      "metadata_sha256": "e234ecce1bb5a583add2ff97372fbde482d1e64f7bfee6d39abc538ae51890f1",
+      "producer_sha256": "9c6cc043eaabaff0adb9f1dc55133c3418914a1f7ca31e33359e07d68b378e4b",
+      "stat": {"bytes": 224800128, "device": 64512, "inode": 739677817, "mtime_ns": 1792454323523896539}
+    }
+  ],
+  "not_executed": true
+}

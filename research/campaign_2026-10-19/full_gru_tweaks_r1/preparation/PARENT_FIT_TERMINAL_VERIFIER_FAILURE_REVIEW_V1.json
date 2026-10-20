@@ -1,0 +1,121 @@
+{
+  "schema": "fg19.parent-fit-r2-terminal-verifier-failure-review.v1",
+  "status": "SUPPORT_CHECK_FAILED_NO_CPU_ACCEPTANCE",
+  "scope": "Local metadata and traceback review only; no SSH, checkpoint/state payload read, prediction-array read, model test, or training replay.",
+  "support": {
+    "unit": "computer-vision-homework-fg19-parent-fit-r2-verify-v1.service",
+    "invocation_id": "7ecaf59d01ba4a07b0971a1c9902d87e",
+    "run_name": "fg19_parent_h256x2_f0_s1001_fit_r2_v1",
+    "started_utc": "Tue 2026-10-20 04:22:31 UTC",
+    "exited_utc": "Tue 2026-10-20 04:22:37 UTC",
+    "native_result": {
+      "active_state": "failed",
+      "sub_state": "failed",
+      "result": "exit-code",
+      "main_pid": 0,
+      "exec_main_code": 1,
+      "exec_main_status": 1
+    },
+    "raw_capture": {
+      "path": "../records/parent_fit_r2_v1/terminal_verification_v1/capture/STDOUT.raw.json",
+      "bytes": 20604,
+      "sha256": "7761927b6bcacd034af294ee5f37c30561b6ff3b07b846f0e7393324fea1a359",
+      "transport_path": "../records/parent_fit_r2_v1/terminal_verification_v1/capture/TRANSPORT.json",
+      "transport_sha256": "c147f87e99386cb6ac7ea1be3102e84544beceff47b2a709c607f4a6a48c4e34",
+      "transport_returncode": 0,
+      "transport_source_sha256": "89c0a5a784222f7eaa62c4e2cc5f4b1b50ec188393784b7c330d0fa09fa8c845",
+      "raw_persisted_before_parse": true,
+      "decoded_admission_launch_log_match_local_bytes": true
+    },
+    "submission_body": {
+      "path": "../records/parent_fit_r2_v1/terminal_verification_v1/REMOTE_SUBMISSION.py",
+      "sha256": "dff08c36f52e0d4b5f9ef6c1131efe91011ed0a72467634b5a5220096c5d3ac6"
+    },
+    "capture_worker": {
+      "path": "../records/parent_fit_r2_v1/terminal_verification_v1/capture/REMOTE.py",
+      "sha256": "89c0a5a784222f7eaa62c4e2cc5f4b1b50ec188393784b7c330d0fa09fa8c845"
+    },
+    "admission": {
+      "path": "../records/parent_fit_r2_v1/terminal_verification_v1/capture/VERIFIER_ADMISSION.json",
+      "sha256": "b89cd063f2409c5551af68819ac4d9f9274d362e2074cd413dce0df0877027d7"
+    },
+    "launch": {
+      "path": "../records/parent_fit_r2_v1/terminal_verification_v1/capture/VERIFIER_LAUNCH.json",
+      "sha256": "ad718e0cb72c11e3a4ea90d4ab5ac694d705d81166f020f10fe0acab9a6e1e12"
+    },
+    "unit_log": {
+      "path": "../records/parent_fit_r2_v1/terminal_verification_v1/capture/unit.log",
+      "sha256": "536e2019e084a40eeb0848d9288751f721f609a49a514d629f1d8de5515a2d70"
+    }
+  },
+  "bound_verifier_source": {
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "checker": {
+      "path": "parent_fit_terminal_check_v1.py",
+      "bytes": 55293,
+      "sha256": "f27091c864287d6a3b7c173619ad1af5db6887e9632c49a8c6d0bb50c3a9c1d1"
+    },
+    "helpers": {
+      "propensity_terminal_support.py": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+      "teacher_s5_terminal_check_v1.py": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+    }
+  },
+  "failure": {
+    "function": "_check_loader_and_rng",
+    "checker_line": 863,
+    "exception": "ValueError: single visible CUDA RNG state is malformed",
+    "traceback_call_site": "verify_terminal at checker line 1354",
+    "guarded_conditions": [
+      "CUDA RNG state is a list with exactly one element",
+      "element is a one-dimensional torch.uint8 Tensor",
+      "tensor length is at least 1024"
+    ],
+    "failing_subcondition": "UNKNOWN; the traceback does not expose the saved RNG object's type, list length, dtype, rank, or element count, and this review did not read the saved state payload.",
+    "interpretation": "The restricted verifier failed at its saved CUDA RNG schema/shape guard. This is not evidence of a nonfinite model, failed native fit, OOM, or quality result. Root is preparing a bounded diagnostic of sanitized saved RNG metadata before any checker correction or further run."
+  },
+  "native_fit_unchanged": {
+    "unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service",
+    "invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+    "terminal_evidence_sha256": "780e64538cb34dd9e6a9c7da528a4232d4362daca9bee1dd871bd722373f7615",
+    "terminal_native_status": "active/exited, MainPID=0, ExecMainCode=1, ExecMainStatus=0, Result=success (native exit 0)",
+    "fit_metadata_scope": "The existing native terminal metadata review records four FIT/GRAD_STATS epochs and 29,840 producer-reported updates; this failure review did not reread checkpoint/state or alter the completed run.",
+    "cpu_support_acceptance": "NOT ESTABLISHED"
+  },
+  "resource_accounting": {
+    "declared_support_limits": {
+      "cpu_quota": "50%",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "swap_max_bytes": 0,
+      "cuda_visible_devices": "",
+      "runtime_seconds": 600,
+      "blas_threads": 1
+    },
+    "support_systemd_memory_peak_bytes": 2093056,
+    "support_cpu_usage_ns": 2867498000,
+    "own_cgroup": "UNAVAILABLE: populated={} and own_files=null in the post-exit raw capture; do not substitute host or parent values.",
+    "parent_snapshot": {
+      "memory_current_bytes": 7537385472,
+      "memory_events": {
+        "low": 0,
+        "high": 38355,
+        "max": 561,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      },
+      "memory_events_local": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    "parent_event_delta_vs_native_terminal_snapshot": "0 for recorded event counters; native and verifier snapshots have the same values. Parent memory.current rose by 245760 bytes between the snapshots. One post-exit snapshot per observation does not establish a support-local event trace."
+  },
+  "next_step": "Await root's read-only saved-RNG metadata diagnostic. No verifier acceptance, exact-stop request, restart, retry, checkpoint repair, or training conclusion is authorized by this receipt."
+}

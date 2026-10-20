@@ -1,0 +1,91 @@
+{
+  "cold_import_read_sentinel": {
+    "assertions": [
+      "checker and helper resolved from preparation",
+      "numpy.load and numpy.memmap were not called",
+      "torch.load was not called",
+      "Parquet readers and dataset reader were not called when installed",
+      "CUDA init was not called",
+      "torch.cuda.is_initialized() is false"
+    ],
+    "command": [
+      "../../../.venv/bin/python",
+      "-B",
+      "-"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout": "{\"checker\": \"cold import\", \"cuda_initialized\": false, \"sentinel_calls\": [], \"status\": \"PASS\", \"support\": \"transitive import\"}\n",
+    "stdout_sha256": "83019912fcf8ae2aabf0995436c44cfa7460b32c2052e82923c34cc8854ae37a"
+  },
+  "commands": [
+    {
+      "command": [
+        "../../../.venv/bin/python",
+        "-B",
+        "preparation/admit_teacher_s5_terminal_verifier_v1.py"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "command": [
+        "../../../.venv/bin/python",
+        "-B",
+        "-m",
+        "pytest",
+        "-q",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_s5_terminal_check_v1.py"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "...                                                                      [100%]\n3 passed in 0.79s\n",
+      "stdout_sha256": "53cc069672d0c165a301c7e5246ddf54a875ecd65c424d56b766afe44c7cf235"
+    },
+    {
+      "command": [
+        "../../../.venv/bin/ruff",
+        "check",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_s5_terminal_check_v1.py",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/admit_teacher_s5_terminal_verifier_v1.py",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_s5_terminal_check_v1.py"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "All checks passed!\n",
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "command": [
+        "../../../.venv/bin/ruff",
+        "format",
+        "--check",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_s5_terminal_check_v1.py",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/admit_teacher_s5_terminal_verifier_v1.py",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_s5_terminal_check_v1.py"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "3 files already formatted\n",
+      "stdout_sha256": "eee76f865de5a9f2456950f710ae5d5f9b5bd0ea02aa54f614c5eed6642a0bfd"
+    }
+  ],
+  "frozen_artifacts": {
+    "checker_sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5",
+    "generator_sha256": "ef67f98ce81a370fd76ea520d673baddb4c46d4efb5ff455c9134c5656c0ed7d",
+    "preparation_receipt_sha256": "33ecf08a49c79dbef27e00fe046c3ada4e9bd7c2b6b38e0b12093e0a5ad5b0f2",
+    "transport_body_sha256": "bd08f04328fb95eb81429e5b64ce7428fa078b5639d35e70ac16b4311a6a4abc"
+  },
+  "python_executable": "../../../.venv/bin/python",
+  "python_prefix": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv",
+  "schema": "fg19.teacher-s5-terminal-verifier-local-checks.v1",
+  "scope": "Only the new S5 identity tests, Ruff check/format check, and cold transitive checker/helper import with reader/CUDA sentinels; local packet generation compiled the body and wrote the preparation receipt. No checkpoint, dataset, arrays, SSH, or remote action.",
+  "status": "PASS"
+}

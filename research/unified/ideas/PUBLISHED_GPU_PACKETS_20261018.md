@@ -21,9 +21,9 @@ evidence_paths: []
 
 | Draft | Проверяемый вопрос | Опубликованный snapshot |
 |---|---|---|
-| [PR #28](https://github.com/VladKochetov007/WunderFunder/pull/28) | L207/XL682 × GRU H256/H512: перенос качества учителя | [packet](https://github.com/VladKochetov007/WunderFunder/tree/4eec1fd9d0e27261846fbd6ab122231519248ecb/research/experiment_drafts/teacher-transfer-frontier), `4eec1fd9d0e2` |
-| [PR #29](https://github.com/VladKochetov007/WunderFunder/pull/29) | Скрытые представления учителя: правильный hint против переставленного | [packet](https://github.com/VladKochetov007/WunderFunder/tree/f7f176aebe1007638364ef841c1f2824b255e002/research/experiment_drafts/teacher-representation-hints), `f7f176aebe10` |
-| [PR #30](https://github.com/VladKochetov007/WunderFunder/pull/30) | Streaming Transformer-студент против GRU с одинаковым учителем | [packet](https://github.com/VladKochetov007/WunderFunder/tree/5e0ebde31bb4d88c7cb7e57838814c584e3b0a39/research/experiment_drafts/streaming-student-distillation), `5e0ebde31bb4` |
+| [PR #28](https://github.com/VladKochetov007/WunderFunder/pull/28) | L207/XL682 × GRU H256/H512: перенос качества учителя | [packet](https://github.com/VladKochetov007/WunderFunder/tree/6bbc99ad761a28659930f65931acfb452226a690/research/experiment_drafts/teacher-transfer-frontier), `6bbc99ad761a` |
+| [PR #29](https://github.com/VladKochetov007/WunderFunder/pull/29) | Скрытые представления учителя: правильный hint против переставленного | [packet](https://github.com/VladKochetov007/WunderFunder/tree/98f707ebeb702dc5f282203f91429d1d5223c1fa/research/experiment_drafts/teacher-representation-hints), `98f707ebeb70` |
+| [PR #30](https://github.com/VladKochetov007/WunderFunder/pull/30) | Streaming Transformer-студент против GRU с одинаковым учителем | [packet](https://github.com/VladKochetov007/WunderFunder/tree/3148fb621bdf7cd3e50110f57baf03882bafd2c4/research/experiment_drafts/streaming-student-distillation), `3148fb621bdf` |
 
 Все три PR направлены в `research-team`. Это подготовленные исследования:510student fits при полном выполнении матриц и до90teacher fits,16заранее заданных основных контрастов. Запусков нет; `launch_ready=false`. [Общее обоснование и первоисточники](CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md#22-select-the-best-transferable-teacher-not-the-largest-checkpoint), [CPU-инференс](../inference/TRANSFORMER_DISTILLATION_CPU_PATH.md), [свежие командные результаты и происхождение учителей](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md).
 

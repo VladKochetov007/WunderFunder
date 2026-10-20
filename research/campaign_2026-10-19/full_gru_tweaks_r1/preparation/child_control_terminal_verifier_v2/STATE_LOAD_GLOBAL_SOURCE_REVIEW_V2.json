@@ -1,0 +1,76 @@
+{
+  "schema": "child_control_terminal_verifier_v2.state-load-global-source-review.v1",
+  "status": "SOURCE_QUALIFIED_PATH_ORIGIN_FOUND; CHECKPOINT_OPCODE_CONFIRMATION_NOT_PERFORMED",
+  "failure": {
+    "support_unit": "computer-vision-homework-fg19-child-control-verify-v2.service",
+    "invocation_id": "c890ef75142844a9a8f61ae21e38a97f",
+    "exit_status": 1,
+    "terminal_capture_raw_bytes": 26978,
+    "terminal_capture_raw_sha256": "d7f81c3773ee27c48611623689eda482b41dfc6ddee7776c61f905db8e76f7d2",
+    "observed_error": "weights_only=True rejects GLOBAL pathlib._local.PosixPath",
+    "verification_receipt_created": false,
+    "native_control_changed_or_stopped": false
+  },
+  "source_identity": {
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "commit_source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+  },
+  "native_receipt": {
+    "path": "records/child_control_fit_v1/LAUNCH.json",
+    "sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9",
+    "argv_contains": [
+      "--representation-cache",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt"
+    ]
+  },
+  "producer_chain": [
+    {
+      "source": "src/wnn/training/cli_features.py",
+      "lines": "110-115",
+      "fact": "The --representation-cache CLI option is parsed with type=Path."
+    },
+    {
+      "source": "src/wnn/training/checkpoints.py",
+      "lines": "110-128",
+      "fact": "resume_contract stores vars(args) values in contract.options and excludes name, resume_state, save_training_state, stop_after_epoch, split_manifest, and fit_groups_manifest only; representation_cache is retained as its parsed Path value."
+    },
+    {
+      "source": "src/wnn/training_state.py",
+      "lines": "21-30,123-161",
+      "fact": "_cpu_copy deep-copies non-tensors; capture_training_state embeds the contract in the training-state dictionary. A pathlib.PosixPath therefore remains a serialized Python object in contract.options.representation_cache."
+    },
+    {
+      "source": "src/wnn/training/outputs.py",
+      "lines": "156-185",
+      "fact": "The epoch output passes the captured training state to atomic_save_training_state."
+    },
+    {
+      "source": "src/wnn/training_state.py",
+      "lines": "225-234",
+      "fact": "atomic_save_training_state writes the state using torch.save."
+    },
+    {
+      "source": "src/wnn/training/input_representation_fit.py",
+      "lines": "179-182",
+      "fact": "The fitted representation metadata constructed by this producer uses fit members, digest strings, recipe strings, numeric counts, and numeric arrays converted to lists; this path is not the direct Path-valued field identified above."
+    }
+  ],
+  "assessment": {
+    "source_supported_expected_field": "training_state.contract.options.representation_cache",
+    "expected_value": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt",
+    "conclusion_limit": "The producer/CLI chain and actual pinned launch make this a concrete expected PosixPath origin. Since the checkpoint pickle opcodes were not inspected, this does not prove that it is the only PosixPath or the only unknown global in the artifact."
+  },
+  "safe_next_step": {
+    "first": "If an additional check is needed, use a separately reviewed, bounded read-only static pickle-opcode/global diagnostic on only the exact training_state.pt. It must not call torch.load, unpickle, instantiate globals, or inspect tensor contents; report only static global names and the pinned file identity. This task did not perform that B action.",
+    "then": "Do not change the exact NumPy-RNG/TorchVersion allowlist without explicit authorization. If the static diagnostic confirms the expected additional global and an allowlist exception is explicitly authorized, scope pathlib.PosixPath to the one weights_only=True training-state load, keep every existing size/finite/state/counter check, and after loading require contract.options.representation_cache to equal the exact source-qualified canonical path above. Never use weights_only=False.",
+    "strict_allowlist_outcome": "If the two-type allowlist must remain exact, this canonical training-state artifact cannot be loaded by the current weights_only verifier; do not accept integrity or retry another job under the current checker."
+  },
+  "inspection_scope": {
+    "checkpoint_or_model_payload_opened_or_hashed": false,
+    "pickle_disassembled": false,
+    "torch_load_called": false,
+    "loader_allowlist_changed": false,
+    "B_ssh_network_or_remote_action_performed": false,
+    "V1_or_V2_native_or_support_unit_stopped_or_retried": false
+  }
+}

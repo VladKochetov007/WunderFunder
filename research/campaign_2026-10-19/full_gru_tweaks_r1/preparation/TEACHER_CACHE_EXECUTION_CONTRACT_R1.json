@@ -1,0 +1,123 @@
+{
+  "arithmetic": {
+    "cache_clipping": "none",
+    "consumer_cache_scale": 1.0,
+    "consumer_target": "0.1*clip(original_label,-2,2)+0.9*clip(cache,-2,2)",
+    "main_weights": "Original clipped-label magnitude times canonical main_valid; no teacher-propensity weighting in student target loss.",
+    "mean": "Unweighted arithmetic mean of S3,S4,S5 in FP32, fixed source order.",
+    "prediction": "Raw two-target FP32 forward output, no clipping. Restore each accepted teacher own exact model/normalizer, epoch2.",
+    "profile_metadata_coefficient_sum": 0.3,
+    "profile_metadata_coefficients": [
+      0.1,
+      0.1,
+      0.1
+    ],
+    "scale": 0.8125,
+    "scaling_count": 1
+  },
+  "cost_accounting": {
+    "automatic_additional_fold_seed_matrix": false,
+    "completed_propensity_fits": 1,
+    "completed_shared_teacher_fits": 3,
+    "completed_train_dictionary_fits": 1,
+    "future_child_comparison_fits": 5,
+    "future_shared_parent_fits": 1,
+    "new_scientific_fits_for_cache": 0
+  },
+  "disk_estimates": {
+    "bytes_per_value": 4,
+    "headers_additional": true,
+    "memmap_physical_disk": true,
+    "one_export_payload_bytes": 1910400000,
+    "outputs": 2,
+    "rows": 11940,
+    "three_teacher_plus_combined_payload_bytes": 7641600000,
+    "timesteps": 20000
+  },
+  "frozen_utc": "2026-10-19T21:40:25.298163+00:00",
+  "membership": {
+    "evaluation_inferred": 0,
+    "order": "Exact F0 fit membership; cache output canonical target-index order. Per-teacher sidecar binds actual prediction row order; reject missing, duplicate or outer rows.",
+    "train": 10535,
+    "valid": 1405
+  },
+  "new_producer_source": "Pending reviewed minimal opt-in canonical extension; frozen teacher source remains immutable.",
+  "no_retuning": "No teacher/epoch/normalizer/scale/chunk/group changes selected using inference outputs or evaluation quality; failures preserved, no enlarged-cap search.",
+  "profile": {
+    "batch": 16,
+    "chunk": 4000,
+    "gradients": false,
+    "hidden": 384,
+    "input_width": 211,
+    "kind": "Engineering inference profile; no fitting or quality score.",
+    "layers": 2,
+    "parameter_mutations": false,
+    "persistent_predictions": false,
+    "raw_features": 112,
+    "rows": "First16 fixed F0 train fitting groups in canonical prediction selector order.",
+    "sequence_rows": 20000,
+    "teacher_seed": 3,
+    "updates": 0
+  },
+  "purpose": "One common fit-only target cache for the authorized full GRU five-arm first F0/seed1001 comparison.",
+  "resources": {
+    "autocast": false,
+    "cpu": 1,
+    "cuda_allocator_bytes": 4294967296,
+    "cuda_reserve_bytes": 1000000000,
+    "inference_workers": 0,
+    "memory_high_bytes": 7500000000,
+    "memory_max_bytes": 8000000000,
+    "precision": "fp32",
+    "profile_runtime_seconds": 600,
+    "swap": 0,
+    "tf32": false,
+    "torch_threads": 1,
+    "worker_count": 1
+  },
+  "root_controls": "Fresh exact source/checkpoint/split/registered-path/all-populated descendants/ownership/disk/headroom/output absence gates before each actual profile/export/combine admission; one GPU worker, serial stages.",
+  "schema": "fg19.teacher-cache-execution-contract.v1",
+  "source_teacher_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+  "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+  "status": "PRE_OUTCOME_CONTRACT_NEW_INFERENCE_NOT_RUN",
+  "teacher_order": [
+    3,
+    4,
+    5
+  ],
+  "teachers": [
+    {
+      "acceptance_path": "records/teacher_s3_v1/TERMINAL_ACCEPTANCE.json",
+      "acceptance_sha256": "7c5ce63b087a15c309eeada24f0dd8df983d28f9931e86862347ca87b04282cc",
+      "checkpoint_sha256": "58e62541b9305169b94301d2e4f6643741d6a25f0712bc7b7cbf020de6b76241",
+      "epoch": 2,
+      "model_sha256": "67bbfb80bf915938efb9d961389d5f324ffd4e251862cc6d634d994596afd1dd",
+      "provenance_sha256": "fd64ca38ce6c6032bbaac6bdc60cfb5081fc9a76d26a85224cec87471704d36b",
+      "run": "fg19_t3_h384x2_e3_s3_v1",
+      "seed": 3,
+      "tensor_fingerprint": "6a868dfe732313f57aab75de33b83faad9336ec48a22395ec2a6aefc5a767902"
+    },
+    {
+      "acceptance_path": "records/teacher_s4_v1/TERMINAL_ACCEPTANCE.json",
+      "acceptance_sha256": "37e484f2ca507c11f45cb67299e6ba093046caffa3380a37dc0c84c53110a9e3",
+      "checkpoint_sha256": "a59a747176263fc0ecdfcc584f78cf77b13465ec4645ca4bb5d9992380865a36",
+      "epoch": 2,
+      "model_sha256": "e20ce56668c9633141e461373cf6ea1f05d4ea2eaf50b6d9b3dbd48833221c5a",
+      "provenance_sha256": "6a6c5bae6bd2ee943684ddad3b6c888682cd4e13de492cf1cac571e97727b2bf",
+      "run": "fg19_t3_h384x2_e3_s4_v1",
+      "seed": 4,
+      "tensor_fingerprint": "1deed8c26d044b87cb2af28ae724c0bf2e10994ece39a05752ca1395e6e28aab"
+    },
+    {
+      "acceptance_path": "records/teacher_s5_v1/TERMINAL_ACCEPTANCE.json",
+      "acceptance_sha256": "8d22151187a5d64ecd13cab15d10dc8fc320faddf02cdc5dac23ac3cba64411a",
+      "checkpoint_sha256": "0ec6dcb7fc82e5a8282ef93d460fcac7b4f6dcb4d3cc63726c485fb2f3595f26",
+      "epoch": 2,
+      "model_sha256": "72cd4557d53d9b1fb84e33818271b6270009d4255557ea9a346e302d9e101ceb",
+      "provenance_sha256": "0cb36af9cb19fb278d0bd500514d014972ccf997c8b91baa5ab43896e6cb287f",
+      "run": "fg19_t3_h384x2_e3_s5_v1",
+      "seed": 5,
+      "tensor_fingerprint": "de3116ec6666817c80588570c97306647f22177487eaac9cc81192ec8d7041d5"
+    }
+  ]
+}

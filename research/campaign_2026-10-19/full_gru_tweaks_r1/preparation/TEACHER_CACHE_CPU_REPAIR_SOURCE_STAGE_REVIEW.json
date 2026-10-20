@@ -1,0 +1,70 @@
+{
+  "schema": "fg19.teacher-cache-cpu-repair-source-stage-review.v1",
+  "status": "CONDITIONAL_TEMPLATE_PASS_PAYLOAD_BINDING_AND_INVOCATION_CAPS_PENDING",
+  "review_scope": "Independent local source-only review of the code-only staging template. No SSH, remote observations, payload reads, model/data access, tests, source changes, or staging were performed.",
+  "template": {
+    "path": "preparation/teacher_cache_cpu_repair_v2/STAGE_SOURCE_TEMPLATE.py",
+    "sha256": "2f573a5b0fd5fb0c86d1599d90455fb8d03c5779d80fd45a496d7fc94bfa77b1",
+    "bytes": 4678,
+    "lines": 110,
+    "payload_placeholder_unrendered": true,
+    "future_source_commit": null,
+    "future_source_manifest_sha256": null,
+    "future_rendered_body_sha256": null
+  },
+  "checks": [
+    {
+      "name": "new immutable source destination",
+      "result": "PASS_TEMPLATE_STRUCTURE",
+      "basis": "The destination is derived as B/source-fg19-cache-<first-8-commit-hex>; payload source_root must equal that exact path. B and the new destination must exist/not be a symlink and lexists must show the destination absent. Staging uses mkdir followed by exclusive xb file creation. An existing or dangling-symlink destination fails closed; there is no overwrite path."
+    },
+    {
+      "name": "source commit, manifest and staged code bytes",
+      "result": "CONDITIONAL_PASS_ROOT_GIT_BINDING_REQUIRED",
+      "basis": "Before the first write, the template checks the embedded source-manifest SHA-256, commit and source_root, exact 167-entry manifest/file-map equality, allowed source path roots, and each base64 file's byte count and SHA-256. After writing, it checks the exact file-name set and re-hashes all 167 files. The template does not independently fetch/compare Git; root must render the payload from the confirmed published commit and verify the final embedded manifest/file map against that Git commit before invoking it."
+    },
+    {
+      "name": "all admission checks precede the first filesystem write",
+      "result": "PASS_TEMPLATE_STRUCTURE",
+      "basis": "Payload decoding and hash validation, B/destination/STOP_ADMISSION absence, read-only parent cgroup inspection, populated-descendant check, memory headroom check, physical-filesystem/free-space check, and a second destination absence check all occur before source.mkdir. No source metadata, run directory, cache, or evidence directory is created by this template."
+    },
+    {
+      "name": "parent resource and populated-tree gate",
+      "result": "PASS_TEMPLATE_STRUCTURE",
+      "basis": "The read-only systemctl show requires parent CPUQuotaPerSecUSec=2s, MemoryHigh=18,000,000,000, MemoryMax=20,000,000,000 and MemorySwapMax=0. It resolves the reported cgroup, bounds the cgroup.procs scan to fewer than 128 files, requires every listed process file empty, and requires memory.current + 128,000,000 < 17,000,000,000 before writing."
+    },
+    {
+      "name": "physical disk and free-space gate",
+      "result": "PASS_TEMPLATE_STRUCTURE",
+      "basis": "It requires more than 30 GiB available at B and checks findmnt -T B returns a filesystem type other than tmpfs or ramfs. B itself is rejected if symlinked."
+    },
+    {
+      "name": "scope limited to code staging",
+      "result": "PASS_TEMPLATE_STRUCTURE",
+      "basis": "The embedded source path filter permits only src/, scripts/, pyproject.toml and uv.lock; the code reads parent cgroup/control metadata and writes the newly named code snapshot. It does not read an old source tree, dataset arrays, checkpoints, model weights or cache outputs; it does not query or alter scientific units/jobs, GPU state, metadata, or campaign records."
+    },
+    {
+      "name": "unknown staging outcome",
+      "result": "FAIL_CLOSED_NO_BLIND_RETRY",
+      "basis": "A rerun against any existing destination aborts before writing. After an unknown prior outcome, root must inspect that exact destination read-only and classify it against the expected 167-file manifest before deciding on any next action; the template itself does not reconcile or repair an existing tree."
+    }
+  ],
+  "invocation_controls": {
+    "normal_python_e_required": true,
+    "outer_wall_timeout_seconds": 30,
+    "body_cpu_limit_seconds": 5,
+    "body_address_space_limit_bytes": 128000000,
+    "review_note": "The body rejects optimized Python via sys.flags.optimize, then installs RLIMIT_CPU and RLIMIT_AS inside main. Module import and the module-level embedded-payload base64/JSON decode occur before those in-process limits. The body also does not assert sys.flags.ignore_environment. To claim the requested whole-process controls, the root launch must invoke normal `python -E`, apply the 30-second outer timeout, and apply the CPU/address-space limits from process start (or have the source actor move payload decoding under the limits and root review the new template)."
+  },
+  "required_before_root_stage_call": [
+    "Confirm the source actor's push and bind the actual new commit plus manifest SHA from the published Git bytes.",
+    "Render this exact template from that bound manifest; independently verify all 167 embedded files, source root, manifest SHA and rendered body SHA before execution.",
+    "Use normal `python -E`, an outer 30-second deadline, and process-start CPU/address-space limits consistent with the declared 5-second/128-MB envelope.",
+    "Recheck the fresh parent cgroup, empty populated tree, physical B filesystem with >30-GiB free, STOP_ADMISSION absence, and exact new destination absence immediately before staging.",
+    "If the invocation outcome is unknown, inspect the existing destination read-only; never blindly rerun or overwrite."
+  ],
+  "not_established": [
+    "The future source commit, manifest digest, rendered body digest, and remote destination state are not known from this template review.",
+    "No source staging, CPU cache repair run, cache output, scientific job, or model result is admitted by this review."
+  ]
+}

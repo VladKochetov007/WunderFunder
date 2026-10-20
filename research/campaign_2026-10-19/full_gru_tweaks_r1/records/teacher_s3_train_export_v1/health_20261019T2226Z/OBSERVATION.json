@@ -1,0 +1,104 @@
+{
+  "schema": "fg19.teacher-s3-train-export-status-observation.v1",
+  "captured_utc": "2026-10-19T22:26:55.021337+00:00",
+  "invocation_id": "48732136d70548b2903f3426bfedf656",
+  "unit": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s3-train-export-v1.service",
+    "ExecMainCode": "0",
+    "ExecMainStartTimestamp": "Mon 2026-10-19 22:12:29 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-88becca8/scripts/predict_run.py fg19_t3_h384x2_e3_s3_v1 train --epoch 2 --campaign-split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --device cuda --inference-precision fp32 --loader-workers 0 --output-dir /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1 --create-only ; ignore_errors=no ; start_time=[Mon 2026-10-19 22:12:29 UTC] ; stop_time=[n/a] ; pid=3658053 ; code=(null) ; status=0/0 }",
+    "InvocationID": "48732136d70548b2903f3426bfedf656",
+    "LoadState": "loaded",
+    "MainPID": "3658053",
+    "MemoryCurrent": "2755723264",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "3054235648",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "running"
+  },
+  "last_recorded_prediction_progress": {
+    "event": "prediction_progress",
+    "completed_sequences": 5712,
+    "total_sequences": 10535
+  },
+  "not_synchronous_live_counter_or_terminal": true,
+  "own_cgroup": {
+    "events": {
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+    },
+    "memory_current": "2755723264",
+    "memory_peak": "3054235648",
+    "path": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s3-train-export-v1.service",
+    "populated_pids": [
+      "3658053"
+    ]
+  },
+  "parent_event_deltas_from_admission": {
+    "memory.events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "memory.events.local": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "all_populated": {
+    "cgroup_count": 2,
+    "overflow": false,
+    "populated": {
+      "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s3-train-export-v1.service": [
+        "3658053"
+      ]
+    },
+    "root": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice"
+  },
+  "owned_gpu_processes": 1,
+  "owned_gpu_used_memory": "1286 MiB",
+  "prediction_stat_only": {
+    "directory_stat": {
+      "bytes": 4096,
+      "device": 64512,
+      "exists": true,
+      "inode": 739677798,
+      "kind": "directory",
+      "mode": "0o40775",
+      "mtime_ns": 1792447951679919649,
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1"
+    },
+    "entries": [
+      {
+        "bytes": 1685600128,
+        "device": 64512,
+        "inode": 739677799,
+        "kind": "regular",
+        "mtime_ns": 1792448812800194195,
+        "name": "pred_fg19_t3_h384x2_e3_s3_v1_train.npy.partial",
+        "partial_suffix": true
+      }
+    ],
+    "entry_limit": 64,
+    "payload_read_or_hashed": false,
+    "truncated": false
+  },
+  "raw_sha256": "67301023b33787c1e1c23fbf70775cfc8263fb3ae4bc8eead10783d5c802cf88",
+  "raw_length_sha_validated": true,
+  "source_content_reverified_by_health": false,
+  "quality_result": false,
+  "payload_read_or_hashed": false,
+  "trigger": "Direct human status question."
+}

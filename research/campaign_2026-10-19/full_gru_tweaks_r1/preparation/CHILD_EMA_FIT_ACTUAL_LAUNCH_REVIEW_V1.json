@@ -1,0 +1,230 @@
+{
+  "admission_metadata": {
+    "created_utc": "2026-10-20T13:04:16.810688+00:00",
+    "foreign_gpu_processes_recorded_as_preserved": 3,
+    "metadata_json_sha256_pins": {
+      "preparation/TEACHER_CACHE_EXECUTION_CONTRACT_R1.json": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+      "records/teacher_s3_v1/TERMINAL_ACCEPTANCE.json": "7c5ce63b087a15c309eeada24f0dd8df983d28f9931e86862347ca87b04282cc",
+      "records/teacher_s4_v1/TERMINAL_ACCEPTANCE.json": "37e484f2ca507c11f45cb67299e6ba093046caffa3380a37dc0c84c53110a9e3",
+      "records/teacher_s5_v1/TERMINAL_ACCEPTANCE.json": "8d22151187a5d64ecd13cab15d10dc8fc320faddf02cdc5dac23ac3cba64411a"
+    },
+    "parent_slice": {
+      "CPUQuotaPerSecUSec": "2s",
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+      "MemoryCurrent": "6850945024",
+      "MemoryHigh": "18000000000",
+      "MemoryMax": "20000000000",
+      "MemorySwapMax": "0"
+    },
+    "populated_before_submission": {},
+    "recipe": {
+      "batch_size": 16,
+      "checkpoint_epoch_zero_based": 5,
+      "chunk_rows": 2000,
+      "epochs": 6,
+      "evaluation_during_fit": false,
+      "expected_optimizer_updates": 44760,
+      "expected_updates_are_arithmetic_not_observed": true,
+      "fit_groups": 11940,
+      "held_out_evaluation_groups_excluded": 468,
+      "inherited_parent_preprocessing": true,
+      "objective": "wmse",
+      "representation_mode": "ema",
+      "seed": 1001,
+      "trainer_argv_sha256": "a20b4ede3b501daa6cd39e847c212ca3d6215dde81e130a8ab09a48004beb449"
+    },
+    "schema": "fg19-child-ema-fit-admission.v1",
+    "scratch_filesystem": "ext4   /dev/mapper/vg0-lv--0 /",
+    "scratch_free_bytes": 88151275270144,
+    "selected_gpu_receipt": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, NVIDIA RTX A4000, 8863 MiB, 16376 MiB",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_files_verified": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "staged_receipt_hashes": {
+      "CONTROL_EXACT_STOP.json": "600cb3c4a56c7d0731ed2bf6174d47f5b09623c7ca22a7e5fce77d4d358ae012",
+      "CONTROL_TERMINAL_ACCEPTANCE.json": "92aaf5eeed156aaad25c4adbb6700d41b0527600b520dd051657a43a50bbb6d2",
+      "DICTIONARY_ACCEPTANCE.json": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+      "DICTIONARY_EXACT_STOP.json": "2eb44a4381de06f28ed3d7438ace320ef3274eae37c89074fc481f58f5d88158",
+      "PARENT_EXACT_STOP.json": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+      "PARENT_TERMINAL_ACCEPTANCE.json": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+      "PROFILE_EXACT_STOP.json": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce",
+      "PROFILE_TERMINAL_ACCEPTANCE.json": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045"
+    },
+    "worker_caps": {
+      "cpu_quota": "100%",
+      "cuda_allocator_bytes": 4294967296,
+      "cuda_free_reserve_bytes": 1000000000,
+      "loader_workers": 0,
+      "memory_high": 7500000000,
+      "memory_max": 8000000000,
+      "runtime_max_seconds": 86400,
+      "swap_max": 0
+    }
+  },
+  "checks": [
+    {
+      "check": "transport raw byte length and SHA-256 match persisted stdout",
+      "result": "PASS"
+    },
+    {
+      "check": "raw stdout is the reviewed filename-keyed wrapper shape",
+      "result": "PASS"
+    },
+    {
+      "check": "base64-decoded ADMISSION and LAUNCH are byte-identical to saved files",
+      "result": "PASS"
+    },
+    {
+      "check": "SSH transport completed once successfully and raw bytes were persisted before parsing",
+      "result": "PASS"
+    },
+    {
+      "check": "empty stderr capture matches transport digest/length",
+      "result": "PASS"
+    },
+    {
+      "check": "submission body bytes/SHA match transport, root preparation, and final binding receipt",
+      "result": "PASS"
+    },
+    {
+      "check": "source review pass is bound and declares no reviewer-side remote action/tests/payload reads",
+      "result": "PASS"
+    },
+    {
+      "check": "CONTROL predecessor fields match exact local accepted receipt and exact-stop bytes in ADMISSION and LAUNCH",
+      "result": "PASS"
+    },
+    {
+      "check": "all eight staged CONTROL/parent/dictionary/profile receipt hashes match local immutable receipt files",
+      "result": "PASS"
+    },
+    {
+      "check": "all teacher cache contract and S3/S4/S5 acceptance metadata hashes match admission pins",
+      "result": "PASS"
+    },
+    {
+      "check": "cache acceptance/exact-stop hashes match local metadata receipts",
+      "result": "PASS"
+    },
+    {
+      "check": "launch unit/run/timestamp match requested EMA cell and admission",
+      "result": "PASS"
+    },
+    {
+      "check": "submitted trainer argv equals frozen EMA recipe and hash",
+      "result": "PASS"
+    },
+    {
+      "check": "captured systemd invocation confirms exact unit, invocation ID, PID and initial active/running state",
+      "result": "PASS"
+    }
+  ],
+  "created_utc": "2026-10-20T13:07:41+00:00",
+  "identity": {
+    "initial_active_state": "active",
+    "initial_main_pid": "730727",
+    "initial_sub_state": "running",
+    "invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+    "launch_created_utc": "2026-10-20T13:04:16.910037+00:00",
+    "run_name": "fg19_child_ema_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-ema-fit-v1.service"
+  },
+  "limits_and_status": [
+    "This review did not independently query B; admission gate and resource facts above are as recorded by the actual saved root admission receipt and source-reviewed one-shot body.",
+    "Initial systemd status is launch-time evidence only. No startup observation or terminal state is included in this review.",
+    "No model, optimizer, cache array, dictionary tensor or other fitted payload was read or hashed by this reviewer; no tests or entrypoints were run.",
+    "No completion, tensor integrity, scientific quality, or model-selection conclusion is made."
+  ],
+  "predecessor_join": {
+    "all_staged_predecessor_receipts_match_local_metadata": true,
+    "control_predecessor_in_both_actual_receipts": {
+      "acceptance_sha256": "92aaf5eeed156aaad25c4adbb6700d41b0527600b520dd051657a43a50bbb6d2",
+      "exact_stop_sha256": "600cb3c4a56c7d0731ed2bf6174d47f5b09623c7ca22a7e5fce77d4d358ae012",
+      "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+      "run_name": "fg19_child_control_f0_s1001_fit_v1",
+      "status": "ACCEPTED_AND_EXACT_STOPPED",
+      "unit": "computer-vision-homework-fg19-child-control-fit-v1.service"
+    },
+    "local_exact_stop": {
+      "bytes": 3089,
+      "path": "records/child_control_fit_v1/exact_stop/STDOUT.raw.json",
+      "sha256": "600cb3c4a56c7d0731ed2bf6174d47f5b09623c7ca22a7e5fce77d4d358ae012"
+    },
+    "local_terminal_acceptance": {
+      "bytes": 11883,
+      "path": "records/child_control_fit_v1/TERMINAL_ACCEPTANCE.json",
+      "sha256": "92aaf5eeed156aaad25c4adbb6700d41b0527600b520dd051657a43a50bbb6d2"
+    }
+  },
+  "schema": "fg19-child-ema-actual-launch-metadata-review.v1",
+  "scope": "Independent local-only review of the saved EMA one-shot launch package, source-review/body pins, actual admission/launch receipt joins, and CONTROL predecessor identities.",
+  "status": "PASS_ACTUAL_LAUNCH_METADATA_ONLY_STARTUP_AND_TERMINAL_PENDING",
+  "submission_body": {
+    "bytes": 163040,
+    "final_local_binding_receipt": {
+      "bytes": 7061,
+      "path": "preparation/child_ema_fit_v1/EMA_FINAL_BINDING_RECEIPT_V1.json",
+      "sha256": "4c9d5ca5e569660a62c91af53780af2e9c3e8c1aa8b2a9c808bfeda6fe47fc80",
+      "status": "PASS_LOCAL_ACTUAL_CONTROL_RECEIPT_BINDING_AND_BODY_IDENTITY_ONLY"
+    },
+    "matches_frozen_ema_recipe": true,
+    "path": "records/child_ema_fit_v1/REMOTE_SUBMISSION.py",
+    "root_admission_preparation": {
+      "bytes": 2339,
+      "path": "records/child_ema_fit_v1/ROOT_ADMISSION_PREPARATION.json",
+      "pinned_body_sha256": "f83ac3120a2e445f1752fcd026123a0e8a21ba53594d27b398462a5236ffebd6",
+      "sha256": "a3dbb7aa98f586d0f754bb915898932fa1acd407df3f11a7d126b14d26b5a465"
+    },
+    "sha256": "f83ac3120a2e445f1752fcd026123a0e8a21ba53594d27b398462a5236ffebd6",
+    "source_review": {
+      "bytes": 8000,
+      "path": "preparation/CHILD_EMA_FIT_SOURCE_REVIEW_V1.json",
+      "sha256": "3d2f78b0c8902c1a43748a237310ae6a31277e60fa9c18c13a5d162c13722138",
+      "status": "PASS_LOCAL_STATIC_SOURCE_REVIEW_ONLY__ROOT_ADMISSION_NOT_PERFORMED"
+    },
+    "trainer_argv_count": 92,
+    "trainer_argv_sha256": "a20b4ede3b501daa6cd39e847c212ca3d6215dde81e130a8ab09a48004beb449"
+  },
+  "transport": {
+    "bytes": 483,
+    "ended_utc": "2026-10-20T13:04:16.901969+00:00",
+    "local_extractor_note": {
+      "extra_remote_action": false,
+      "path": "records/child_ema_fit_v1/ROOT_LOCAL_EXTRACT_SCHEMA_NOTE.json",
+      "remote_attempts": 1,
+      "sha256": "07328f8d739c037379d9b1431ce54d95ad95ab7585effbb9fad0bb806b4e703f"
+    },
+    "path": "records/child_ema_fit_v1/TRANSPORT.launch.json",
+    "persisted_before_parse": true,
+    "raw_stdout": {
+      "bytes": 23090,
+      "path": "records/child_ema_fit_v1/STDOUT.launch.raw.json",
+      "sha256": "37454887ca556b23af4b7fb6372d13ab5d7f3ad8c0bfc9fd885a2d06a931b66e"
+    },
+    "receipt_decode": {
+      "admission": {
+        "bytes": 9880,
+        "decoded_exact_match": true,
+        "path": "records/child_ema_fit_v1/ADMISSION.json",
+        "sha256": "db13e5433cb0a414c1a235806220c53db4ded6c128fc5ffbda5e465dde9fde51"
+      },
+      "launch": {
+        "bytes": 7404,
+        "decoded_exact_match": true,
+        "path": "records/child_ema_fit_v1/LAUNCH.json",
+        "sha256": "8c43f6fb26d3f6a046304617094e266a3e1940c83a7ea56787781fa176ef133e"
+      },
+      "wrapper_shape": "filename-keyed ADMISSION.json and LAUNCH.json base64 strings"
+    },
+    "sha256": "45710d962cae924fbbb148b00b4e58e11c7906a862ee2b8b68c3ec9cf490bfa6",
+    "ssh_returncode": 0,
+    "started_utc": "2026-10-20T13:04:15.852203+00:00",
+    "stderr": {
+      "bytes": 0,
+      "path": "records/child_ema_fit_v1/STDERR.launch.raw",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "timed_out": false
+  }
+}

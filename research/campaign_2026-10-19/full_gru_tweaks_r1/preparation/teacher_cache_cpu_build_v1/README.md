@@ -1,0 +1,7 @@
+# CPU homogeneous cache admission source
+
+This local-only packet prepares the canonical CPU cache builder under the frozen T3 contract. All six actual teacher exports now have root-bound acceptance and exact-stop pins. `REMOTE_SUBMISSION.py` and `REMOTE_SUBMISSION_TEMPLATE.py` remain unlaunched and await an independent final source review plus root’s fresh source/data/resource/output/headroom gates.
+
+The source reuses the previously reviewed read-only data-identity and parent-cgroup gates, verifies the 167-file staged source and canonical split, checks the frozen contract and three original teacher acceptance JSONs by exact hash, and reads the six prediction sidecars and rechecks each array’s device, inode, byte count, and mtime against its accepted stat-only capture receipt. It does not read or hash prediction arrays; the canonical builder performs streamed SHA, shape, FP32, fit-order, and finiteness validation while producing the cache. It launches no model inference or fit.
+
+Resource limits are 0.5 CPU, 1.4 GB MemoryHigh, 1.5 GB MemoryMax, no swap, 600 seconds, one BLAS/PyTorch thread, and CUDA hidden. The builder’s create-only `.partial` path and 25 GiB post-output disk floor are checked before launch. See [PREPARATION.json](PREPARATION.json) for body and receipt pins, and [CPU execution review](../TEACHER_CACHE_CPU_EXECUTION_REVIEW.json) for the frozen CLI and source/memory analysis.

@@ -1,0 +1,166 @@
+{
+  "actual_exact_stop": {
+    "after_state": "Both exact unit names report LoadState=not-found, ActiveState=inactive, SubState=dead, and empty InvocationID.",
+    "before_exact_units_and_invocations": {
+      "computer-vision-homework-fg19-teacher-s4-v1.service": "b6d71599e0044970b8641e3e241c40a4",
+      "computer-vision-homework-fg19-teacher-s4-verify-v1.service": "d1b87e7dce66433ba3704373310c6ae3"
+    },
+    "before_state": "Both exact invocations were loaded, active/exited, ExecMainCode=1 and ExecMainStatus=0.",
+    "campaign_populated_map": {},
+    "path": "records/teacher_s4_v1/terminal_exact_stop/STDOUT.raw.json",
+    "result": "PASS_EXACT_ACCEPTED_NATIVE_AND_VERIFIER_STOPPED_EMPTY",
+    "sha256": "9dc203b3891ba0e87f3d0e02d6f669bfd953b62cf49358de4c96de8ea17ebf7d",
+    "stop_returncodes": {
+      "native_s4": 0,
+      "s4_verifier": 0
+    },
+    "transport_returncode": 0,
+    "transport_sha256": "23c817df26d3e618e1cd6488442c1cfad3282a4fab807960bc69de5a622f23dd",
+    "transport_status": "RETURNED"
+  },
+  "actual_verification": {
+    "capture_validation": {
+      "capture_validation_sha256": "7c31b493a7ec4689f34731419b0d424eaf16a299183635e00808dee14c8838b8",
+      "five_payload_length_sha_caps_validated": true,
+      "local_mapping_correction": "The capture validator documented that a local summary initially expected flat successful_updates/source_commit keys, while the saved producer schema nests updates/source.commit. The mapping was corrected from durable local bytes; no SSH recapture, checker rerun, or native failure occurred.",
+      "raw_capture_bytes": 19972,
+      "raw_capture_sha256": "7babc64141ea2963c5127276d7cdb3824b4d3532e920e7e8ba343db61d1fc9dd",
+      "status": "PASS",
+      "transport_sha256": "cb74f262867f801da542d9eb07399ceb32ef182203156009f5d1b70ad1516a76"
+    },
+    "restricted_verifier": {
+      "accepted_artifact_digests": {
+        "epoch2_checkpoint_sha256": "a59a747176263fc0ecdfcc584f78cf77b13465ec4645ca4bb5d9992380865a36",
+        "model_sha256": "e20ce56668c9633141e461373cf6ea1f05d4ea2eaf50b6d9b3dbd48833221c5a"
+      },
+      "fit_receipt": {
+        "completed_batches": 1119,
+        "epochs": 3,
+        "membership_counts": {
+          "evaluation": 468,
+          "fit_train": 10535,
+          "fit_valid": 1405
+        },
+        "model_tensor_count": 16,
+        "model_tensor_fingerprint": "1deed8c26d044b87cb2af28ae724c0bf2e10994ece39a05752ca1395e6e28aab",
+        "next_epoch": 3,
+        "nonfinite_updates": 0,
+        "optimizer_summary": {
+          "adamw_parameters": 9,
+          "floating_tensors": 23,
+          "groups": 3,
+          "interior_muon_parameters": 1,
+          "recurrent_muon_parameters": 4
+        },
+        "parameter_count": 2159639,
+        "selected_epoch_zero_based": 2,
+        "skipped_updates": 0,
+        "strict_fp32_finite_model_optimizer_verified": true,
+        "successful_updates": 22380
+      },
+      "receipt_path": "records/teacher_s4_v1/terminal_verification_v1/capture/VERIFICATION.json",
+      "receipt_sha256": "ffa860caf8185b19e79490d9f1ea7189c5042c948a4a637179e784ac5acd690f",
+      "schema": "fg19.teacher-s4-terminal-check.v1",
+      "scope_limit": "Integrity/source-bound completed-training acceptance only. No inference, grading, or model-quality result is established.",
+      "status": "PASS",
+      "verified_native_invocation_id": "b6d71599e0044970b8641e3e241c40a4",
+      "verified_native_unit": "computer-vision-homework-fg19-teacher-s4-v1.service",
+      "verified_run": "fg19_t3_h384x2_e3_s4_v1",
+      "verifier_exit": {
+        "exec_main_code": 1,
+        "exec_main_status": 0,
+        "exit_timestamp": "Mon 2026-10-19 19:39:25 UTC",
+        "launch_returncode": 0
+      },
+      "verifier_invocation_id": "d1b87e7dce66433ba3704373310c6ae3",
+      "verifier_unit": "computer-vision-homework-fg19-teacher-s4-verify-v1.service"
+    },
+    "root_acceptance": {
+      "accepted_utc": "2026-10-19T19:40:27.647171+00:00",
+      "path": "records/teacher_s4_v1/TERMINAL_ACCEPTANCE.json",
+      "schema": "fg19.teacher-s4-terminal-root-acceptance.v1",
+      "sha256": "37e484f2ca507c11f45cb67299e6ba093046caffa3380a37dc0c84c53110a9e3",
+      "status": "ACCEPTED"
+    },
+    "root_acceptance_stop_field_reconciliation": "The root acceptance records stop_status as pending because it was durably written at 19:40:27 before the exact stop. The later exact-stop receipt at 19:40:44 is the actual stop evidence and satisfies that subsequent gate; the earlier acceptance was not rewritten."
+  },
+  "receipt_hashes_reviewed": {
+    "s4_capture_raw": "7babc64141ea2963c5127276d7cdb3824b4d3532e920e7e8ba343db61d1fc9dd",
+    "s4_capture_transport": "cb74f262867f801da542d9eb07399ceb32ef182203156009f5d1b70ad1516a76",
+    "s4_capture_validation": "7c31b493a7ec4689f34731419b0d424eaf16a299183635e00808dee14c8838b8",
+    "s4_exact_stop": "9dc203b3891ba0e87f3d0e02d6f669bfd953b62cf49358de4c96de8ea17ebf7d",
+    "s4_exact_stop_transport": "23c817df26d3e618e1cd6488442c1cfad3282a4fab807960bc69de5a622f23dd",
+    "s4_normalized_terminal_evidence": "e11c8c0147511883f9946f87898df2a49ff21734e0eb1c833001f28555099b6e",
+    "s4_root_acceptance": "37e484f2ca507c11f45cb67299e6ba093046caffa3380a37dc0c84c53110a9e3",
+    "s4_verification": "ffa860caf8185b19e79490d9f1ea7189c5042c948a4a637179e784ac5acd690f",
+    "s4_verification_launch_stdout": "3e51c24bd5335d1e20c58ad3a69f90140baec1f0ed815ffceefebc582d0026b4",
+    "s4_verification_launch_transport": "6f37251736a86b34eee4f68baef2085e92de3c9b9e501551bd35ad9934bbab31",
+    "s4_verifier_admission": "6088b33b0733218cb82e11bd7d97915ef3a7da11b194d9e58e653f0d83a0bac5",
+    "s4_verifier_launch": "d18a4d952e8c285db1aec1980b21a119268a045b94cc2e0caa955820a457450d",
+    "s5_launch_acceptance": "59c04d97c469fef7ea21a27114b704f3ef388f1f9e359d4aadce740c310adb0c",
+    "s5_startup_snapshot": "c7a3f8b4ea03765a174b40fc692c1df3b5a66de333b06d4bcc57d9164de5df1a"
+  },
+  "review_scope": "Local metadata/hash review of already durable native S4, restricted verifier, root acceptance, exact-stop and S5 launch/startup receipts. No SSH or remote action; no model/checkpoint/data-array payload was opened, loaded, copied, or hashed by this reviewer. Hashes below bind the local receipt bytes.",
+  "s4_identity": {
+    "identity_caveat": "The historical raw startup-health schema label says teacher_s3; it is not used as S4 identity. S4 is bound by the exact run, unit, invocation, recipe and successful verifier receipt. The verifier reports the admitted 164-file source manifest identity and checks source contents against that manifest.",
+    "native_invocation_id": "b6d71599e0044970b8641e3e241c40a4",
+    "native_terminal": {
+      "active_state": "active",
+      "exec_main_code": 1,
+      "exec_main_status": 0,
+      "main_pid": 0,
+      "native_exit_timestamp": "Mon 2026-10-19 19:30:32 UTC",
+      "normalized_terminal_evidence_sha256": "e11c8c0147511883f9946f87898df2a49ff21734e0eb1c833001f28555099b6e",
+      "raw_health_sha256": "0ced27330d6d572c24338fc97971ea2aac100c07b312770351c71b30ae0fb18d",
+      "sub_state": "exited"
+    },
+    "native_unit": "computer-vision-homework-fg19-teacher-s4-v1.service",
+    "recipe_sha256": "c460b098d09773786552e5b2c98596fab3319a05108d49bd5693da43ee8a7d88",
+    "run_name": "fg19_t3_h384x2_e3_s4_v1",
+    "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+    "source_files": 164,
+    "source_manifest_sha256": "0c83367d4ee3afd7e9f382111060d8c125b52420ce27cd5cc309d338287af7fd"
+  },
+  "s5_successor_snapshot": {
+    "admission_sha256": "9d0b0b0d3515a82d226c2d7e8020ae4aca28f139d607582967f36b0c094f6981",
+    "invocation_id": "4317408cdc69442c8438c74aaf5809eb",
+    "launch_acceptance_path": "records/teacher_s5_v1/LAUNCH_ACCEPTANCE.json",
+    "launch_acceptance_sha256": "59c04d97c469fef7ea21a27114b704f3ef388f1f9e359d4aadce740c310adb0c",
+    "launch_acceptance_status": "ADMITTED_RUNNING_NOT_TERMINAL",
+    "launch_sha256": "027ad3fb491e829343635a68dc509cc560fd634e4e7e06ffd41e734e0e44b4cc",
+    "launch_stdout_sha256": "22c927796228f9ec41bcbe44edced2b4775a5cf48673b67a5eeab2e033c0978f",
+    "launch_transport_sha256": "2606ddcc06ed2ac6fded3ffca7f49a3a2af73e403db88a5edca256a0a9ee4abd",
+    "launch_utc": "2026-10-19T19:41:03.298876+00:00",
+    "main_pid_at_launch": "3439045",
+    "predecessor_acceptance_sha256": "37e484f2ca507c11f45cb67299e6ba093046caffa3380a37dc0c84c53110a9e3",
+    "predecessor_exact_stop_sha256": "9dc203b3891ba0e87f3d0e02d6f669bfd953b62cf49358de4c96de8ea17ebf7d",
+    "recipe_sha256": "6d9d91b9d19b4d2cd6c957433e534f74880f1bf8414a06e3434adf8eb56d734a",
+    "run_name": "fg19_t3_h384x2_e3_s5_v1",
+    "seed": 5,
+    "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+    "source_files": 164,
+    "startup_snapshot": {
+      "campaign_descendant_count": 1,
+      "captured_utc": "2026-10-19T19:41:57.145697+00:00",
+      "exact_invocation_match": true,
+      "log_bytes": 0,
+      "log_exists": true,
+      "log_line_count": 0,
+      "parent_scan_overflow": false,
+      "path": "records/teacher_s5_v1/startup_health_v1/STDOUT.raw.json",
+      "run_directory_exists_at_snapshot": false,
+      "sha256": "c7a3f8b4ea03765a174b40fc692c1df3b5a66de333b06d4bcc57d9164de5df1a",
+      "state": {
+        "active_state": "active",
+        "invocation_id": "4317408cdc69442c8438c74aaf5809eb",
+        "main_pid": "3439045",
+        "sub_state": "running"
+      },
+      "transport_sha256": "0b146e18c7f79e8715bea0c9d1d6e61a204e6b167aa7564ba27d19c7be9162e0"
+    },
+    "status_limit": "The saved launch acceptance and startup snapshot establish launch/running process identity only. They do not establish completed fit progress, terminal integrity, evaluation, or model quality. The startup snapshot is an initial pre-progress observation.",
+    "unit": "computer-vision-homework-fg19-teacher-s5-v1.service"
+  },
+  "schema": "fg19.teacher-s4-actual-terminal-review.v1",
+  "status": "PASS_S4_ACCEPTANCE_AND_EXACT_STOP_METADATA"
+}

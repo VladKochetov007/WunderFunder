@@ -1,0 +1,63 @@
+{
+  "schema": "fg19-child-control-fit-independent-source-review.v1",
+  "reviewed_utc": "2026-10-20T05:32:12Z",
+  "status": "CONDITIONAL_SOURCE_PASS_FRESH_ADMISSION_GATES_REQUIRED",
+  "scope": "Independent local source and binding review only; no remote query, SSH, staging, admission, launch, model or data-payload read, or trainer invocation.",
+  "pins": {
+    "body": {
+      "path": "preparation/child_control_fit_v1/REMOTE_SUBMISSION.py",
+      "sha256": "124b90f9cc76c17c9a62e22b934dc15e579417f0b769eb86f44334ba55f6b954",
+      "bytes": 139751
+    },
+    "template": {
+      "path": "preparation/child_control_fit_v1/REMOTE_SUBMISSION_TEMPLATE.py",
+      "sha256": "89d9a778185e19bc9196e6d28f44e0756a2e95660754ed04298c3aac06fbb830",
+      "bytes": 126510
+    },
+    "preparation": {
+      "path": "preparation/child_control_fit_v1/PREPARATION.json",
+      "sha256": "71cee104c5fabd869a7b47ed74566ed8a6020ca7a0bcb2da387704c24075be9a"
+    },
+    "recipe_binding": {
+      "path": "preparation/child_control_fit_v1/CONTROL_RECIPE_BINDING_V1.json",
+      "sha256": "c00c8f5e478326ee72c3651aec0c23bf911344e8984009ad3953abcd5d3057e8"
+    },
+    "independent_cli_parse": {
+      "path": "preparation/child_control_fit_v1/CONTROL_CLI_ROOT_CHECK.json",
+      "sha256": "e987489258a77af11930ce1ecce16b5e9f0c1d1e70331fdca86ea3dc34806b81"
+    },
+    "source": {
+      "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "file_count": 167
+    },
+    "profile_acceptance": {
+      "sha256": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045",
+      "unit": "computer-vision-homework-fg19-child-allthree-profile-v1.service",
+      "invocation_id": "1d62c3fb47ac4bd5be8e8ec8fe6759cd"
+    },
+    "profile_exact_stop": {
+      "sha256": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce"
+    }
+  },
+  "review_findings": {
+    "recipe": {
+      "argv_elements": 92,
+      "flags": 48,
+      "compact_argv_sha256": "69e735294550802364f29a94a3dbc68873aa2e4500fe543e4ffb1b90f594b9a2",
+      "matches_recipe_binding": true,
+      "profile_or_partial_fit_flags_present": false,
+      "review": "The body argv exactly matches the frozen recipe and its compact JSON digest. It is a full six-epoch CUDA fit, seed 1001, seeded batch order, batch 16/chunk 2000, H256x2, parent epoch-3 initialization with inherited preprocessing, base representation, AdamW, FP32, grad stats, training-state save, and no fit-time evaluation. The homogeneous cache is consumed at scale 1.0 after its construction-time 0.8125 multiplier."
+    },
+    "identity_and_lineage": [
+      "Before mutation, the body checks the pinned 167-file source manifest and exact file inventory, canonical split and registered data identities, teacher metadata, cache contract/acceptance/exact stop, per-split ordered fit memberships and output membership sets, stat-only array identities, dictionary acceptance/stop and artifact hash/stat, and accepted parent epoch-3 checkpoint/acceptance/stop.",
+      "The embedded child-profile acceptance and exact-stop bytes are SHA-bound and validated against the accepted invocation. The profile checker requires 60 completed finite updates, no skips/nonfinite steps, no checkpoint or quality claim, the captured initial-state log proof and 211→467/23→25 parent-preservation predicates. Its existing empty run directory is accepted only when the captured stat-only inventory says present/physical/empty and the live path is a nonsymlink physical empty directory."
+    ],
+    "resource_and_mutation_guards": [
+      "Fresh parent cgroup ownership/population and memory headroom, selected-GPU free reserve and foreign-process preservation, physical scratch filesystem with at least 25 GiB free, absent CONTROL unit, and absent output/run paths are checked before staging; destination and unit absence are checked again before create-only staging.",
+      "The unit is bounded to CPUQuota 100%, MemoryHigh 7.5 GB, MemoryMax 8 GB, swap 0, RuntimeMaxSec 86400, one visible selected GPU with a 4 GiB allocator cap and 1 GiB reserve, loader workers 0, and one-thread numerical libraries."
+    ],
+    "durability": "Submission and post-submit query success, nonzero, timeout, and OS-error outcomes are represented in the single durable launch record; timeout bytes are base64-preserved and there is no blind retry."
+  },
+  "decision": "Conditional source pass. Root must independently run and preserve all fresh admission gates immediately before any create-only action; this review does not authorize or establish an admission, launch, fit completion, or scientific result."
+}

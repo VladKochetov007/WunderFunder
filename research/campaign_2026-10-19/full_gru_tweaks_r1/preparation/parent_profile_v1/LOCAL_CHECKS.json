@@ -1,0 +1,73 @@
+{
+  "array_payload_reads": 0,
+  "cache_receipts": {
+    "acceptance_path": "records/teacher_cache_cpu_build_v2/TERMINAL_ACCEPTANCE.json",
+    "acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "accepted_and_exact_stopped": true,
+    "exact_stop_path": "records/teacher_cache_cpu_build_v2/exact_stop/STDOUT.raw.json",
+    "exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "invocation_id": "a358e89cd6fe42118e426a954ee897f0",
+    "metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+    "unit": "computer-vision-homework-fg19-teacher-cache-cpu-build-v2.service"
+  },
+  "commands": {
+    "ruff_check_select_F": "PASS",
+    "ruff_format_check": "both generated compact bodies would be reformatted; wholesale reformat not applied to keep the reviewed thin admission body stable",
+    "ruff_full_check": "87 existing compact-style diagnostics (44 E701, 39 E702, 2 UP017, 1 E401, 1 I001); UP017 conflicts with the required datetime.timezone.utc compatibility form",
+    "runpy_without_main": "PASS",
+    "stdlib_syntax_and_invariant_check": "PASS"
+  },
+  "durability_and_compatibility": {
+    "datetime_uses_timezone_utc": true,
+    "post_submit_systemctl_timeout_recorded_as_timeout_unknown_before_launch_json_write": true,
+    "retry_policy": "never retry unknown submission outcome"
+  },
+  "membership_checks": {
+    "canonical_train_and_valid_fit_equality_checked_per_namespace": true,
+    "captured_cache_fit_valid_outer_overlap": 0,
+    "captured_cache_metadata_membership": "PASS",
+    "captured_cache_train_valid_numeric_overlap": 1395,
+    "captured_row_group_set_matches_fit_namespace": true,
+    "fit_valid_outer_valid_overlap_rejected": true,
+    "output_row_group_membership_unique_and_set_equal": true,
+    "synthetic_cross_namespace_overlap_and_reordered_output_rows": "PASS",
+    "synthetic_fit_valid_outer_overlap_duplicate_and_noncanonical_fit_rejections": "PASS",
+    "target_index_order_check": "delegated to canonical trainer inside profile unit before profile updates",
+    "train_valid_numeric_overlap_allowed": true
+  },
+  "remote_actions": 0,
+  "rendered_body": {
+    "bytes": 74570,
+    "lines": 234,
+    "path": "REMOTE_SUBMISSION.py",
+    "profile_launched": false,
+    "same_executable_code_as_template_except_embedded_cache_binding": true,
+    "sha256": "65fd9fb67f5c545709d44a2cbeddd604e371a58e6afcbfc257a768782f02966b"
+  },
+  "resource_recipe_pins": {
+    "cuda_allocator_bytes": 4294967296,
+    "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "memory_high_bytes": 7500000000,
+    "memory_max_bytes": 8000000000,
+    "parent_headroom_target_bytes": 17000000000,
+    "runtime_max_seconds": 600,
+    "swap_max_bytes": 0,
+    "worker_cpu": "100%"
+  },
+  "schema": "fg19.parent-profile-admission-local-checks.v3",
+  "scientific_fits": 0,
+  "scope": "Stdlib syntax, receipt-byte binding, synthetic namespace/membership invariants, captured metadata consistency, and static timeout durability only. No SSH, cache/model/data array payload reads, profile execution, install, or commit.",
+  "source": {
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "file_count": 167,
+    "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+  },
+  "status": "PASS_LOCAL_CACHE_BOUND_PROFILE_UNLAUNCHED",
+  "template": {
+    "bytes": 73834,
+    "cache_binding": "null; fail-closed gate verified",
+    "lines": 234,
+    "path": "REMOTE_SUBMISSION_TEMPLATE.py",
+    "sha256": "ab82cb4a472a1d109072f9f7ed790f87b3d820218d784ce01e9b0d0fca0775f9"
+  }
+}

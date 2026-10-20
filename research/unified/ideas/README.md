@@ -56,6 +56,7 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
+- [Large dynamics Transformer teachers on8 B300s](LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md) — H-LARGE-DYNAMICS-TEACHER-20261019-R2; proposed0.68B/1.65B capacity contrast and eligible3.17B extension, numerical/group encoders, future-observation auxiliary tasks, causal dense/local/slow-memory attention, all-FP32 Muon, WSD, DDP and GRU transfer. Includes analytical memory/runtime scenarios, independent criticism and a four-fit draft packet; no runnable trainer, profile, fit, transfer or public gain. Supersedes prospective CP30 counting in the old proposal, preserving its frozen source/history.
 - Published future-experiment draft PRs: [#22 Adaptive TBPTT](https://github.com/VladKochetov007/WunderFunder/pull/22), [#23 current-moment WP replay](https://github.com/VladKochetov007/WunderFunder/pull/23), and [#24 four-arm architecture handoff](https://github.com/VladKochetov007/WunderFunder/pull/24). Each targets research-team; the first two need adapters, the architecture handoff needs a focused port of preserved source. No model execution or run admission follows from publication.
 
 - [Our published GPU packets](PUBLISHED_GPU_PACKETS_20261018.md) — exact remote source tips for the GRU/Transformer/Mamba-2 four-arm packet and complete causal-smoothing implementation. Preserves code for a focused modular-trainer port; identifies legacy FP32/TF32, CP30, ancestry and target-profile gaps. No run or merge-readiness claim.

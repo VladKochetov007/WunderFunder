@@ -1,0 +1,5 @@
+# Scoped clean prediction-page handoff
+
+After durable S5 train acceptance and exact stop, root executed the [reviewed source](REMOTE.py) once00:33:12UTC, with normal python3 -E -B outside the campaign slice, CPU5seconds/address-space128MB/outer30seconds. [Raw receipt](STDOUT.raw.json) and [transport](TRANSPORT.json) bind preconditions and [independent source review](../../preparation/ACCEPTED_PREDICTION_CACHE_HANDOFF_REVIEW.json).
+
+Fresh parent was empty with unchanged2CPU/high18GB/max20GB/swap0. Current9035919360B plus next8GB export reserve exceeded17GB, so POSIX_FADV_DONTNEED was issued only for four accepted/stopped own S3/S4 train+valid descriptors after all sidecar/stat identities passed. No prediction payload byte was read/hashed or changed; no dataset/foreign/global cache action. All four identities remained unchanged. Distinct after-sample5101903872B admitted the same8GB reservation below17GB; status HEADROOM_READY, memory events unchanged. Samples do not establish a guaranteed reclaim amount or cause. No scientific fit/quality result.

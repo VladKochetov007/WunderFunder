@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_control_verify_v2/child_control_terminal_check_v2.py", line 1790, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_control_verify_v2/child_control_terminal_check_v2.py", line 1765, in main
+    result = verify_terminal(
+        args.run_dir,
+    ...<11 lines>...
+        args.cache_exact_stop,
+    )
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_control_verify_v2/child_control_terminal_check_v2.py", line 1667, in verify_terminal
+    state, state_sha, state_stat = parent_v3._load_checkpoint(
+                                   ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        paths["training_state.pt"], MAX_STATE_BYTES
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_control_verify_v2/parent_fit_terminal_check_v3.py", line 267, in _load_checkpoint
+    payload = torch.load(stream, map_location="cpu", weights_only=True)
+  File "/home/grinchenkoeg/WunderFunder/.venv/lib/python3.13/site-packages/torch/serialization.py", line 1614, in load
+    raise pickle.UnpicklingError(_get_wo_message(str(e))) from None
+_pickle.UnpicklingError: Weights only load failed. This file can still be loaded, to do so you have two options, [1mdo those steps only if you trust the source of the checkpoint[0m. 
+	(1) In PyTorch 2.6, we changed the default value of the `weights_only` argument in `torch.load` from `False` to `True`. Re-running `torch.load` with `weights_only` set to `False` will likely succeed, but it can result in arbitrary code execution. Do it only if you got the file from a trusted source.
+	(2) Alternatively, to load with `weights_only=True` please check the recommended steps in the following error message.
+	WeightsUnpickler error: Unsupported global: GLOBAL pathlib._local.PosixPath was not an allowed global by default. Please use `torch.serialization.add_safe_globals([pathlib._local.PosixPath])` or the `torch.serialization.safe_globals([pathlib._local.PosixPath])` context manager to allowlist this global if you trust this class/function.
+
+Check the documentation of torch.load to learn more about types accepted by default with weights_only https://pytorch.org/docs/stable/generated/torch.load.html.

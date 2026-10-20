@@ -1,0 +1,30 @@
+{
+  "evidence": {
+    "failure_json_sha256": "8d25bb308652dbe9d658ee386c7f74ae6b5bb87ea196810f54281a57772a7c9a",
+    "invocation_id": "b131699c99e541c583f050b01a286f03",
+    "raw_stdout_sha256": "e94683220401b81465e17c2a94276a31ddbc222e3b6a1e069f939d90eb9fb7f9",
+    "resource_reconciliation_sha256": "a9cf5138571f71420d61baa83bcdd2f283048c4405af4ab61e74ca0dd5d506c5",
+    "source_commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "transport_sha256": "d8be57ce1f6955fd9d49ec9b16b4f5ef71587d66a6ac94aa91b5f065f37c05b9",
+    "unit_log_sha256": "4334c1ce927b0adbf0f18145e560f6fd597ce7c9d725d28b0231c8237fbdb6f1"
+  },
+  "finding": {
+    "cause": "The builder rejected S3 provenance at 166192 bytes because _inspect_teacher applied the 128 KiB contract limit to provenance.",
+    "failure_point": "Before the first teacher prediction hash/mmap loop; no completed prediction-array validation.",
+    "native_status": "failed / exit-code / ExecMainStatus=1",
+    "not_oom": "This was a bounded metadata ValueError. Recorded memory.events.local OOM counters are zero; systemd MemoryPeak was 640524288 bytes. No OOM claim is supported.",
+    "outputs": "No output cache, .partial directory, populated cache files, or scientific fits."
+  },
+  "resource_accounting": {
+    "interpretation": "Native unit, parent cgroup, and host scopes are kept distinct. CPU time alone does not identify a bottleneck; own terminal cgroup files were unavailable and were not replaced with host-root values.",
+    "native_unit_cpu_seconds": 121.948059,
+    "native_unit_memory_peak_bytes": 640524288,
+    "native_unit_wall_seconds": 244.373154,
+    "parent_memory_current_bytes_at_capture": 5678551040,
+    "parent_memory_events_local": "all zero"
+  },
+  "review": "PASS: cause and limits match the saved native failure, structured failure record, and resource reconciliation. The source guard identifies the precise 128 KiB vs 166192-byte mismatch; no memory failure or quality result is inferred.",
+  "schema": "fg19.teacher-cache-cpu-build-failure-review.v1",
+  "scope": "Independent local review of preserved failure metadata; no SSH, retry, tests, model/data payload read, or unit mutation.",
+  "status": "PASS_FAILURE_METADATA_REVIEW_ONLY"
+}

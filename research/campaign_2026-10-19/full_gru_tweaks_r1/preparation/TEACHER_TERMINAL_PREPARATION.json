@@ -1,0 +1,150 @@
+{
+  "bindings": {
+    "admission_sha256": "dd3cbb8416c6cf14c29fb5937e664b41b71496420e44200c42248fa4d3109c17",
+    "launch_acceptance_sha256": "67479aef04bcca80d4e9d8bfbe0de71b180439a4d48fd135bffc9ccd2b94a1c7",
+    "raw_launch_sha256": "6538d9502bdcd8cd3bdac0b50c4dc46b48ca80ca15d45ea25365c5313ecf8144",
+    "source_bytes_hashed": 1569698,
+    "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+    "source_file_count": 164,
+    "source_manifest_sha256": "0c83367d4ee3afd7e9f382111060d8c125b52420ce27cd5cc309d338287af7fd",
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+  },
+  "implementation": {
+    "cli": [
+      "--run-dir",
+      "--source-root",
+      "--split",
+      "--source-manifest",
+      "--admission",
+      "--launch",
+      "--launch-acceptance",
+      "--terminal-evidence",
+      "--output"
+    ],
+    "normalized_terminal_evidence": {
+      "identity": [
+        "run_name",
+        "unit",
+        "invocation_id"
+      ],
+      "native_integer_fields": {
+        "exec_main_code": 1,
+        "exec_main_status": 0,
+        "main_pid": 0
+      },
+      "state": [
+        "active_state=active",
+        "sub_state=exited"
+      ]
+    },
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_check.py",
+    "sha256": "8aaba33317c8dce3f6b75c77577560c78591a2dd6fe5e2ed3f7ea347e202f2d9",
+    "synthetic_tests": {
+      "count": 13,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_terminal_check.py",
+      "sha256": "a6a1a4ff6d5bda21b70442b2c3db3e9cab8884211e60acbd4c57838ebfd4830b"
+    }
+  },
+  "local_runtime_dependency": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/propensity_terminal_support.py",
+    "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+    "use": "Bounded stable-file hashing, restricted weights_only CPU loading and the narrowly scoped NumPy RNG safe-global fixture."
+  },
+  "not_performed": [
+    "No SSH, remote command, GPU, training, inference, grading, or optimizer step.",
+    "No actual checkpoint, training-state, dataset, Parquet table, or training/evaluation array was read.",
+    "No terminal acceptance result is claimed; the tool awaits the caller's exact native exit evidence and bounded B-side artifacts."
+  ],
+  "pre_correction_snapshot": {
+    "files": {
+      "TEACHER_TERMINAL_PREPARATION.json": "5c8f54d0cd7d43c6d3751996b50d1beda7edb992eda00b427e96f353871ea972",
+      "teacher_terminal_check.py": "dc3ef17091cb11bb6f6d946ed0da57a1175bbb2ab5e4b980a889ba02c321cb1f",
+      "test_teacher_terminal_check.py": "3022c4e4d21750a5d94927378e3a2664b055ea886d514140330c75ec1a1321e9"
+    },
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_source_v1",
+    "purpose": "Preserves the previously sealed local checker/test/preparation bytes before membership-order and checkpoint-normalizer corrections; no prior remote use."
+  },
+  "purpose": "Read-only verifier for the admitted seed-3 strict-FP32 teacher run; no actual run payload was loaded or checked on this host.",
+  "resource_bounds": {
+    "deserialization": "The checker prehashes every terminal file under its per-file and aggregate caps before loading any checkpoint; it uses the existing restricted CPU weights_only=True loader and verifies the file identity/hash after loading.",
+    "source_tree_total_bytes": 128000000,
+    "terminal_files": {
+      "aggregate_terminal_artifacts_bytes_max": 128000000,
+      "inference_checkpoints_each_bytes_max": 32000000,
+      "metadata_json_each_bytes_max": 16000000,
+      "training_state_bytes_max": 64000000
+    }
+  },
+  "schema": "fg19.teacher-s3-terminal-preparation.v1",
+  "status": "SOURCE_AND_SYNTHETIC_CHECKS_PASS_NOT_TERMINAL_ACCEPTANCE",
+  "verification": {
+    "canonical_membership_order": {
+      "comparison": "Exact ordered IDs, in addition to the provenance ordered membership digests and global component-disjointness check.",
+      "evaluation": "default_rng(12345).permutation(split.evaluation.valid)[:n_valid], using parsed full_valid/valid_seqs",
+      "fit_valid": "split.fit.valid in manifest order for train+valid, valid_fold=0, valid_train_fraction=1.0",
+      "train": "default_rng(parsed seed).permutation(split.fit.train)[:parsed train_seqs]"
+    },
+    "checkpoint_digest_map_fixture": "The four published inference-checkpoint digests must match their initial bounded prehashes; missing or altered digest metadata fails closed.",
+    "cold_import_reader_sentinels": {
+      "SequenceFile_constructions": 0,
+      "cuda_init_calls": 0,
+      "cuda_lazy_init_calls": 0,
+      "numpy_load_calls": 0,
+      "numpy_memmap_calls": 0,
+      "pyarrow_dataset_calls": 0,
+      "pyarrow_parquet_reads": 0,
+      "result": "PASS",
+      "torch_load_calls": 0
+    },
+    "normalizer_checkpoint_binding": {
+      "artifacts_checked": [
+        "model.pt",
+        "model_ep2.pt",
+        "training_state.pt"
+      ],
+      "buffers_checked": [
+        "mean",
+        "std"
+      ],
+      "identity": "canonical wnn.run_identity.tensor_identity shape/dtype/bytes_sha256",
+      "source_path_checked": "wnn/run_identity.py must resolve inside the source root after source validation",
+      "synthetic_corruption_test": "Changing one saved mean value while retaining the declared normalization identity is rejected."
+    },
+    "ruff_check_command": ".venv/bin/ruff check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_check.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_terminal_check.py",
+    "ruff_check_result": "All checks passed",
+    "ruff_format_command": ".venv/bin/ruff format research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_check.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_terminal_check.py",
+    "ruff_format_result": "passed; 1 file reformatted, 1 file left unchanged",
+    "source_only_cli_smoke": {
+      "campaign_split_derivations": [
+        "valid_fold=0",
+        "n_valid_folds=4",
+        "eval_source=vfold",
+        "split_manifest_sha256 bound to pinned split"
+      ],
+      "canonical_parser_arguments": 190,
+      "derived_runtime_arguments": 191,
+      "explicit_recipe_fields_matched": 97,
+      "final_post_correction": {
+        "SequenceFile_constructions": 0,
+        "canonical_parser_source": "scripts/train_rnn.py and wnn.training.cli from the pinned source worktree",
+        "canonical_tensor_identity_source": "wnn.run_identity.tensor_identity from the pinned source worktree",
+        "cuda_init_calls": 0,
+        "cuda_lazy_init_calls": 0,
+        "data_reader_calls": 0,
+        "numpy_load_calls": 0,
+        "numpy_memmap_calls": 0,
+        "parser_arguments": 190,
+        "pyarrow_dataset_calls": 0,
+        "pyarrow_parquet_calls": 0,
+        "result": "PASS",
+        "torch_load_calls": 0
+      },
+      "result": "PASS",
+      "source_bytes_hashed": 1569698,
+      "source_files_hashed": 164
+    },
+    "synthetic_producer_consumer_roundtrip": "A temporary producer-shaped training-state fixture with a 16-tensor GRU state, exact 3-group optimizer state, and NumPy RNG passed bounded prehash plus weights_only=True restricted CPU loading; no real checkpoint was used.",
+    "test_command": ".venv/bin/python -m pytest -q research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_terminal_check.py",
+    "test_result": "13 passed in 0.91s"
+  }
+}

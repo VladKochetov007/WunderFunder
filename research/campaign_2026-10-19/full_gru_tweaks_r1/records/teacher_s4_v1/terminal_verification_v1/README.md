@@ -1,0 +1,5 @@
+# S4 restricted terminal verification — completed
+
+The [source-only review](../../../preparation/TEACHER_S4_TERMINAL_REVIEW.json) bound a thin identity adaptation of the previously accepted S3 V2 checker. [Executed body](REMOTE_SUBMISSION.py), [raw launch response](STDOUT.raw.json), [transport](TRANSPORT.json) and [stderr](STDERR.raw) record one actual CPU support admission at19:39:15UTC, invocationd1b87e7dce66433ba3704373310c6ae3. It exited0at19:39:25UTC and its [five compact terminal receipts](capture/README.md) were captured19:39:38UTC before exact stop19:40:45UTC.
+
+[Verification](capture/VERIFICATION.json) SHA ffa860caf8185b19e79490d9f1ea7189c5042c948a4a637179e784ac5acd690f passes source164files, recipe/ordered memberships/normalizer,3epochs/22,380updates/next_epoch3/fixed2, finiteFP32 model/Muon/Adam/loader/RNG and common selected/epoch2 tensor identity. Restricted `weights_only=True` CPU reading and exact NumPy-RNG/TorchVersion safe globals remain;0.5CPU/high1.4GB/max1.5GB/swap0/600s/CUDAhidden/BLAS1. It performed no fit, prediction, grade, model mutation or evaluation. All real checkpoint payloads stayB. No S4 verifier failure/retry occurred.

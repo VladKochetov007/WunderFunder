@@ -1,0 +1,55 @@
+{
+  "schema": "fg19.parent-fit-r2-admission-review.v1",
+  "status": "CONDITIONAL_PASS_ROOT_FRESH_PREFLIGHT_REQUIRED",
+  "scope": "Independent local source/receipt review only. No SSH, fit/profile launch, model/array reads, source edits, or repeated tests.",
+  "packet": {
+    "body": {"path": "preparation/parent_fit_r2_v1/REMOTE_SUBMISSION.py", "sha256": "604c7fbfc75094e460b2f65cbc15035a4eec461842cd30c01fe6fab6ccb6f423"},
+    "template": {"path": "preparation/parent_fit_r2_v1/REMOTE_SUBMISSION_TEMPLATE.py", "sha256": "e6b4a12d00256314af3724c19ce2b9ac21bad392771dc7b592fedf52e9382b06"},
+    "preparation": {"path": "preparation/parent_fit_r2_v1/PREPARATION.json", "sha256": "bf2200880f9dbc2dab7ab01ac9a572c2bd1322b03fafa1d9c5ae1797f35c1d74"},
+    "local_checks": {"path": "preparation/parent_fit_r2_v1/LOCAL_CHECKS.json", "sha256": "10aab1222c46b84e0afaf4701de997e7c8d1b14a47d655d91e02246a1bdd0bc5"},
+    "cli": {"path": "preparation/parent_fit_r2_v1/CLI.md", "sha256": "eb4e7ee6d66061179c0837c9181a919e4daf2193f89aebf730bb311bc5c2b34c"},
+    "readme": {"path": "preparation/parent_fit_r2_v1/README.md", "sha256": "d1713f136e71234b488fad4285427d5d0c8432beb2f5f214a5aa63a85746b53b"},
+    "body_template_difference": "The frozen 268-line rendered body differs from its template only in the embedded P binding."
+  },
+  "fit_contract": {
+    "run_name": "fg19_parent_h256x2_f0_s1001_fit_r2_v1",
+    "unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service",
+    "seed": 1001,
+    "architecture": "GRU H256x2, 211 inputs to 23 outputs",
+    "batch": 16,
+    "chunk": 2000,
+    "epochs": 4,
+    "optimizer": "AdamW",
+    "precision": "strict FP32",
+    "teacher_cache": "accepted homogeneous three-teacher epoch-2 cache; producer-applied scale 0.8125 consumed at scale 1; alpha 0.9",
+    "checkpoint": "fixed zero-based epoch 3",
+    "training_state": "--save-training-state enabled; no initial resume state or initializer",
+    "evaluation": "disabled during fit",
+    "profile_only_controls": "Removed: no --profile-steps, --profile-warmup, or --max-batches",
+    "expected_updates": {"batches_per_epoch": 746, "updates_per_batch": 10, "total": 29840, "status": "expected, not observed"}
+  },
+  "prior_profile_binding": {
+    "unit": "computer-vision-homework-fg19-parent-profile-v1.service",
+    "invocation_id": "dc7f34afbdfb4fed8bdfbb66d20d558b",
+    "acceptance_sha256": "426792c35c9685682de266db056414cf2a6a0d0a550dfab07c4fb528be6fbebf",
+    "exact_stop_sha256": "a401b954f63c761776699221403fa9cf11ba6e6d29cc69a8f7f1effab3f25257",
+    "admission_sha256": "2f2281403be28fb526396c611037ef95d396a1080bd6ca55da5c9f6f82f35472",
+    "launch_sha256": "5ff7293504d77ec7e1bc5e6123103ce1bb85f87f21045877dbdd757cc38c002d",
+    "log_sha256": "91503e98647c76cf53f924d72fb79b6f05f94cf140707c298eabf5fafc77b310",
+    "profile_proof": "Checks the accepted profile receipt and exact-stop bytes, same invocation/source/cache, no checkpoint/quality/scientific fit, and exactly 60 completed finite updates with no skips/nonfinite GradStats."
+  },
+  "preserved_gates": {
+    "canonical_source": {"commit": "68ff682977b822f38351aac0f621146f5f13b440", "files": 167, "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"},
+    "cache_execution_contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "cache_metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+    "resource_limits": "1 CPU, 7.5/8 GB worker high/max, swap 0, 24-hour RuntimeMaxSec; 4 GiB CUDA allocator with 1 GiB free reserve; parent two CPUs, 18/20 GB high/max, 17 GB admission headroom target; same data/source/split/cgroup/GPU/scratch/output gates rechecked before admission."
+  },
+  "local_check_summary": {
+    "compile_and_full_fit_argv_invariants": "PASS per pinned LOCAL_CHECKS.json",
+    "source_pinned_cli_component_audit": "PASS per pinned LOCAL_CHECKS.json; actual teacher argv includes --save-training-state",
+    "targeted_ruff_F": "PASS per pinned LOCAL_CHECKS.json",
+    "reviewer_ran_no_tests_or_remote_actions": true
+  },
+  "remaining_gate": "Root owns the sole fresh remote admission and launch; this review does not assert that the remote gates remain satisfied.",
+  "verdict": "No material blocker found in the frozen thin full-fit packet. Conditional source review passes subject to fresh root preflight."
+}

@@ -1,0 +1,3 @@
+# Actual parent RNG diagnostic V2 capture
+
+The [raw capture](STDOUT.raw.json), [transport](TRANSPORT.json), [diagnostic](RNG_DIAGNOSTIC.json), exact admission/launch and log preserve the completed CPU-only restricted-loader diagnostic. Actual saved CUDA RNG is one uint8[16] tensor under Torch2.14.0+cu130; CPU RNG is uint8[5056]. This explains the old checker’s incompatible size expectation. This diagnostic alone is not parent integrity acceptance or quality evidence; no model training was replayed. [Diagnostic record and separate exact stop](../README.md) and later parent V3 verification provide the final disposition. The observer copied bounded metadata only; real state stayed B-only.

@@ -1,0 +1,9 @@
+# Parent fit R2 health capture — 2026-10-20 02:10 UTC
+
+This is one durable, source-qualified observation of the exact parent-fit unit. The 31,143-byte raw response was persisted before parsing; its SHA-256 and the zero-byte stderr match the local transport receipt. The saved remote health reader hash also matches its transport pin. See the [metadata review](METADATA_REVIEW.json), [observation](OBSERVATION.json), [raw stdout](STDOUT.raw.json), [raw stderr](STDERR.raw), [transport](TRANSPORT.json), [unit log](unit.log), [admission](ADMISSION.json), [launch](LAUNCH.json), and [reader source](REMOTE.py).
+
+At capture time the unit was `active/running`, invocation `5186b3016ff54b1fa754c10a1f87b3e4`, PID `3929676`, with one populated worker. The last log line was epoch 0, batch 720/746, loss 0.5717 and learning rate 9.03e-05. That is a saved progress line, not a synchronous live batch or an exact completed-update/nonfinite count. There is no exit timestamp and this is not terminal evidence.
+
+The fit PID was observed at 2,220 MiB GPU process memory. Its cgroup reported 2,569,961,472 bytes current and 2,848,210,944 bytes peak, with zero local high/max/OOM events. Process RSS, owned-cgroup memory, and parent-cgroup memory are separate scopes: the sampled RSS high-water/current values were 5,041,664/4,796,636 KiB, while parent current/peak were 10,031,685,632/11,418,365,952 bytes. Parent event counters were unchanged from the prior profile capture and reported no OOM events. These measurements do not imply a full-host RAM figure.
+
+The captured observation contains no output stat entries. No checkpoint, training-state, prediction, or dataset payload was opened, loaded, or hashed. No terminal completion, scientific-fit counter, or quality result is asserted here; root-owned terminal capture and verification remain separate.

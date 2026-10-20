@@ -1,0 +1,3 @@
+# Parent integrity verifier V2 source-expectation failure
+
+The [raw capture](capture/STDOUT.raw.json), [transport](capture/TRANSPORT.json), [traceback](capture/unit.log), and [root failure record](FAILURE.json) preserve actual exit1 at04:51:53UTC, invocation `c439756a99294d1381c3f32b1a4d98ea`. The corrected RNG checks completed, then the unchanged old contract check demanded cuDNN deterministic=False. Immutable source68 `resources.configure_torch()` sets True for GPU execution, so a narrowly versioned source-qualified checker must require True. This is checker evidence, not a failed native fit or quality result. No VERIFICATION PASS or parent acceptance exists. Preserve V2 unit/source/output; never stop, restart or blindly retry it.

@@ -1,0 +1,38 @@
+{
+  "schema": "fg19-child-control-fit-independent-launch-review.v1",
+  "reviewed_utc": "2026-10-20T05:33:57Z",
+  "status": "ACTUAL_LAUNCH_METADATA_PASS_NOT_COMPLETION",
+  "scope": "Local launch metadata only. No SSH, remote query, unit action, tests, trainer replay, or model/data-payload read.",
+  "pins": {
+    "body_sha256": "124b90f9cc76c17c9a62e22b934dc15e579417f0b769eb86f44334ba55f6b954",
+    "independent_source_review_sha256": "17d035a2f7ad5545256c195666f4ad0b973ebc96172522822ad98f595aa7c625",
+    "raw_stdout": {
+      "path": "records/child_control_fit_v1/STDOUT.raw.json",
+      "bytes": 21454,
+      "sha256": "22b66a7c530579e5e6b05e6f797bf8a3c77016ec7dc7fddf643fcf4acc1945fe"
+    },
+    "raw_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "transport_sha256": "b0433c11543ac6e6f683267f55b79fd85580c76e3b0c88dc756d809854c12581",
+    "admission_sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973",
+    "launch_sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9",
+    "launch_acceptance_sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15"
+  },
+  "observations": {
+    "transport": "SSH/root submission return code is 0; raw bytes were durably persisted before parsing; stored raw byte count/hash equal the transport record.",
+    "decoded_records": "The two base64 values in the captured raw JSON decode byte-for-byte to the stored ADMISSION.json and LAUNCH.json; their hashes match the launch acceptance bindings.",
+    "native_launch": {
+      "unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+      "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+      "launched_utc": "2026-10-20T05:33:09.831980Z",
+      "pid": 96892,
+      "active_state": "active",
+      "sub_state": "running",
+      "systemctl_query_returncode": 0,
+      "actual_command_matches_frozen_full_fit_argv": true
+    },
+    "admission_gates": "Admission binds source commit 68ff682977b822f38351aac0f621146f5f13b440 with 167 verified files, the accepted/stopped parent epoch-3 checkpoint, the accepted/stopped child profile, the accepted/stopped homogeneous cache, dictionary and F0 split/data identities. It records an empty campaign populated map, selected A4000 free memory 10924 MiB, preserved foreign GPU processes, ext4 scratch with 88166053273600 free bytes, and parent MemoryCurrent 7805116416 bytes plus the 8000000000-byte worker reservation below the 17000000000-byte headroom threshold.",
+    "resource_envelope": "The admitted unit records CPUQuota 100%, MemoryHigh 7500000000, MemoryMax 8000000000, swap 0, RuntimeMaxSec 86400, one visible selected GPU with 4294967296 allocator bytes and 1000000000 free reserve, and zero loader workers.",
+    "fit_status": "One scientific fit was newly started. The acceptance is explicitly ACTUAL_LAUNCH_CAPTURED_NOT_COMPLETION; 44760 updates are labeled arithmetic expectation, not observed progress; quality_score is null. No terminal, completion, or quality claim is made."
+  },
+  "decision": "Launch metadata is internally consistent with the independently reviewed body and its fresh-admission record. Continue with separately bounded health/terminal evidence; do not treat this receipt as training progress or completion."
+}

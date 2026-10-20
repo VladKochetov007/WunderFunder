@@ -1,0 +1,62 @@
+{
+  "body_sha256": "fea0aa8b553d04e6608227f6547054212c4657faa43879b0d3ea28a0d6c81e86",
+  "checker_sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41",
+  "checks": {
+    "cold_metadata_read_sentinel": {
+      "command": "python -I -B -c <script embedded in this check file>",
+      "forbidden_suffixes": [
+        ".pt",
+        ".npy",
+        ".npz",
+        ".parquet"
+      ],
+      "module_path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/parent_fit_terminal_verifier_v3/prepare_parent_fit_terminal_verifier_v3.py",
+      "returncode": 0,
+      "script_sha256": "af780f3b67c4e8df866a11d8bf01cace215589c582282c3d1c96523a56c2fedd",
+      "stderr": "",
+      "stdout": "PASS cold stdlib import; pinned inputs=14; model/array/data suffix reads=0"
+    },
+    "focused_new_determinism_tests": {
+      "command": [
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python",
+        "-I",
+        "-B",
+        "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/parent_fit_terminal_verifier_v3/test_parent_fit_terminal_check_v3_determinism.py"
+      ],
+      "returncode": 0,
+      "script_sha256": "fd027bb58b2d9fb5760679593cfc3768d4090b71a0efd1fad0c19a09a6371b1e",
+      "stderr": "..\n----------------------------------------------------------------------\nRan 2 tests in 0.001s\n\nOK",
+      "stdout": ""
+    },
+    "full_transitive_cold_import_v4": {
+      "cuda_initialized": false,
+      "reader_sentinel_calls": [],
+      "receipt_path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_COLD_IMPORT_V4.json",
+      "receipt_sha256": "198dade1a405d861f9d94fa51b3763ccae3e133611709383a91fc109b3d192fb",
+      "runtime_module_count": 26,
+      "script_path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/parent_fit_terminal_cold_import_proof_v4.py",
+      "script_sha256": "e7413dedfad2c49154c56128297575e82aa177d66469919188895ddcb1af0cd2"
+    },
+    "post_submit_timeout_and_query_error_durable_record_order": "PASS",
+    "rendered_body_and_template_ast": "PASS",
+    "ruff": "PASS; exact commands recorded in README",
+    "single_submit_no_stop_no_model_array_or_gpu_probe": "PASS",
+    "source_pinned_cuda_policy": {
+      "cold_import_proof_receipt_sha256": "198dade1a405d861f9d94fa51b3763ccae3e133611709383a91fc109b3d192fb",
+      "cold_import_proof_script_sha256": "e7413dedfad2c49154c56128297575e82aa177d66469919188895ddcb1af0cd2",
+      "path": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019/src/wnn/resources.py",
+      "sha256": "95fdc839ff1561622ac06c465cfc9a01370130d99be1e832b3a33c79bcb37930"
+    }
+  },
+  "generator_sha256": "a2a9bd46d58ddee630ef4c9d7f4dac1c90c352e5a22524c1de4443d7b6271388",
+  "limits": [
+    "No SSH, remote query, admission, submission or unit action was performed.",
+    "The cold child read only the fixed Python/JSON package inputs and denied .pt/.npy/.npz/.parquet opens.",
+    "No model, training-state, dataset, or prediction-array payload was opened locally.",
+    "Remote source/data/cache/resource/output gates remain to be run by root immediately before submission."
+  ],
+  "preparation_sha256": "60bb0b75ff1ece1e33c83c12f33f19d8f81c2f77352c0298111d1881f83b4c01",
+  "schema": "fg19.parent-fit-r2-terminal-verifier-local-checks.v3",
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "template_sha256": "828447f5bc65ab4430323ad3f7d36973276488720066c2892e9978c54b8e804b"
+}

@@ -1,0 +1,98 @@
+{
+  "schema": "fg19.parent-profile-terminal-review.v1",
+  "status": "PASS_CAPTURE_ACCEPTANCE_AND_EXACT_STOP_METADATA",
+  "scope": "Independent local metadata audit only. No SSH, source or model/array payload reads, tests, or profile replay.",
+  "capture": {
+    "raw_path": "records/parent_profile_v1/capture/STDOUT.raw.json",
+    "raw_bytes": 44774,
+    "raw_sha256": "0f36d80bdd31b93912cdff317105dcfede68d31d6084f20d6c5c703866609d63",
+    "transport_sha256": "3150557e3d9aa5aff10f74417321922a30bb1268f390ea7d67729e029e0db4dc",
+    "transport_returncode": 0,
+    "raw_persisted_before_parse": true,
+    "decoded_extracts_match_local_bytes": {
+      "ADMISSION.json": "2f2281403be28fb526396c611037ef95d396a1080bd6ca55da5c9f6f82f35472",
+      "LAUNCH.json": "5ff7293504d77ec7e1bc5e6123103ce1bb85f87f21045877dbdd757cc38c002d",
+      "unit.log": "91503e98647c76cf53f924d72fb79b6f05f94cf140707c298eabf5fafc77b310"
+    },
+    "captured_source_inventory": {
+      "files": 167,
+      "matches_published_manifest": true,
+      "source_commit": "68ff682977b822f38351aac0f621146f5f13b440"
+    }
+  },
+  "accepted_terminal": {
+    "path": "records/parent_profile_v1/TERMINAL_ACCEPTANCE.json",
+    "sha256": "426792c35c9685682de266db056414cf2a6a0d0a550dfab07c4fb528be6fbebf",
+    "status": "ACCEPTED",
+    "raw_capture_hash_matches": true,
+    "unit": "computer-vision-homework-fg19-parent-profile-v1.service",
+    "invocation_id": "dc7f34afbdfb4fed8bdfbb66d20d558b",
+    "native_start_utc": "2026-10-20 01:20:22 UTC",
+    "native_exit_utc": "2026-10-20 01:22:25 UTC",
+    "native_exit_status": 0,
+    "systemd_result": "success",
+    "post_exit_state": "active/exited before explicit stop"
+  },
+  "profile_evidence": {
+    "architecture": "H256x2 GRU, legacy 211-input/23-output, batch16, chunk2000, strict FP32, AdamW",
+    "normalizer": "Two fit-loader batches / 32 sequences; transformed rows sampled at stride 7; discarded with in-memory profile model.",
+    "profile_update_evidence": {
+      "optimizer_attempts": 60,
+      "optimizer_completed_updates": 60,
+      "amp_skipped_updates": 0,
+      "loss_checks": 60,
+      "loss_finite": true,
+      "gradient_finite": true,
+      "gradient_check_basis": "Complete pre-clip GradStats gradient norms",
+      "gradient_stats_steps": 60,
+      "gradient_stats_nonfinite_steps": 0,
+      "counts_consistent": true,
+      "valid_for_throughput": true
+    },
+    "checkpoint_written": false,
+    "quality_score": null,
+    "scientific_fits": 0,
+    "run_output_inventory": "Captured empty; no checkpoint or persisted profile weights.",
+    "not_reported_by_generic_profile": [
+      "CUDA peak allocation",
+      "final private optimizer tensors",
+      "full parameter-finiteness sweep"
+    ]
+  },
+  "resource_observations": {
+    "service_cgroup": {
+      "cpu_usage_ns": 120324347000,
+      "memory_peak_bytes": 311570432,
+      "memory_high_bytes": 7500000000,
+      "memory_max_bytes": 8000000000,
+      "swap_max_bytes": 0
+    },
+    "parent_cgroup_capture": {
+      "memory_current_bytes": 8157093888,
+      "memory_peak_bytes": 11418365952,
+      "memory_high_bytes": 18000000000,
+      "memory_max_bytes": 20000000000,
+      "memory_events_local_high": 0,
+      "scope_note": "Parent and service counters are separate observations; no whole-machine RAM or causal attribution is inferred."
+    },
+    "rss": "No terminal process RSS sample; own process was already gone."
+  },
+  "exact_stop": {
+    "raw_path": "records/parent_profile_v1/exact_stop/STDOUT.raw.json",
+    "raw_bytes": 1058,
+    "raw_sha256": "a401b954f63c761776699221403fa9cf11ba6e6d29cc69a8f7f1effab3f25257",
+    "transport_sha256": "dd122eadfde0b04608878173b0ce7dbe01fca9bc196ddd19d6474234f80623c3",
+    "transport_returncode": 0,
+    "invocation_before_stop_matches_acceptance": true,
+    "native_status_before_stop": 0,
+    "stop_returncode": 0,
+    "after_stop": {
+      "load_state": "not-found",
+      "active_state": "inactive",
+      "sub_state": "dead",
+      "invocation_id": ""
+    },
+    "populated_descendants": {}
+  },
+  "verdict": "The accepted native profile completed with 60 finite, completed profile updates and was subsequently stopped exactly. This remains an engineering profile only; it produced no checkpoint, score, or scientific fit result."
+}

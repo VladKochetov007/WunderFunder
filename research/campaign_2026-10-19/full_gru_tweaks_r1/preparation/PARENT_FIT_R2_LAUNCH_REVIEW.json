@@ -1,0 +1,65 @@
+{
+  "schema": "fg19.parent-fit-r2-launch-review.v1",
+  "status": "PASS_LAUNCH_METADATA_ONLY_FIT_PENDING",
+  "scope": "Independent local review of persisted launch transport and decoded admission/launch metadata only. No SSH, tests, model/array reads, or fit progress claim.",
+  "transport": {
+    "raw_path": "records/parent_fit_r2_v1/STDOUT.raw.json",
+    "raw_bytes": 18038,
+    "raw_sha256": "ebf860d9f520b7208349b1ea7209dc38dd8643560b95ce322d2a4a4603fe31f3",
+    "transport_path": "records/parent_fit_r2_v1/TRANSPORT.json",
+    "transport_sha256": "b8f7395e350b3c836af0778a57bd2df162e689193d947dee7996ba1274cfbbc0",
+    "returncode": 0,
+    "stderr_bytes": 0,
+    "raw_persisted_before_parse": true,
+    "embedded_source_sha256": "604c7fbfc75094e460b2f65cbc15035a4eec461842cd30c01fe6fab6ccb6f423"
+  },
+  "decoded_receipts": {
+    "admission": {
+      "path": "records/parent_fit_r2_v1/ADMISSION.json",
+      "sha256": "42b5f3fe7142d931b189ff86fa24031426506e60c8a41440b0483d97dc50026b",
+      "base64_payload_matches_file": true
+    },
+    "launch": {
+      "path": "records/parent_fit_r2_v1/LAUNCH.json",
+      "sha256": "012c7ba3b484f16f587c61cb39f880380d22a6199e0a105773dbffc423bd22ea",
+      "base64_payload_matches_file": true
+    },
+    "launch_acceptance": {
+      "path": "records/parent_fit_r2_v1/LAUNCH_ACCEPTANCE.json",
+      "sha256": "89b8199b6431c8959fe3bab41a630632210b30ae017dd9128f9ad2491c87a3bf",
+      "admission_sha256_matches": true,
+      "launch_sha256_matches": true,
+      "raw_sha256_matches": true
+    }
+  },
+  "actual_launch": {
+    "unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service",
+    "invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+    "pid": 3929676,
+    "launch_utc": "2026-10-20T01:31:35.785882+00:00",
+    "submission_returncode": 0,
+    "post_submission_systemctl_returncode": 0,
+    "post_submission_state": "active/running",
+    "invocation_and_pid_match_acceptance": true
+  },
+  "admission_bindings": {
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_files_verified": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "cache_metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+    "prior_profile_acceptance_sha256": "426792c35c9685682de266db056414cf2a6a0d0a550dfab07c4fb528be6fbebf",
+    "prior_profile_exact_stop_sha256": "a401b954f63c761776699221403fa9cf11ba6e6d29cc69a8f7f1effab3f25257",
+    "fit_recipe": "Seed1001 H256x2 GRU, 211-to-23, B16/C2000, FP32 AdamW, four epochs, fixed zero-based epoch3, cache scale1 and alpha0.9, evaluation disabled, training state saved each epoch; no init/resume/profile-only controls.",
+    "configured_runtime": "One CPU, 7.5/8 GB worker high/max, zero swap, 86,400-second cap, 4 GiB CUDA allocator; fresh parent/data/GPU/source/cache/scratch/output admission recorded before launch."
+  },
+  "fit_expectation": {
+    "batches_per_epoch": 746,
+    "updates_per_batch": 10,
+    "expected_total_updates": 29840,
+    "status": "EXPECTED_NOT_OBSERVED",
+    "observed_completed_updates": null,
+    "quality_score": null,
+    "new_scientific_fits_started": 1
+  },
+  "verdict": "Launch transport and invocation metadata pass. The full fit is active and pending; this review establishes no completed updates, terminal state, checkpoint, or quality result."
+}

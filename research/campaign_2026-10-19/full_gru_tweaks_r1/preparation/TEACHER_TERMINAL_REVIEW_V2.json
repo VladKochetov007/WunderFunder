@@ -1,0 +1,56 @@
+{
+  "admission_review": {
+    "new_output": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v2",
+    "new_unit": "computer-vision-homework-fg19-teacher-s3-verify-v2.service",
+    "one_shot_guards": "The generator and body require the V2 unit to be not-found and output path absent, bind source/split/native terminal evidence and registered file identities, then create-only stage unique V2 outputs. No teacher training or V1 unit replay is requested.",
+    "prior_v1_preserved": "V2 pins the exact V1 failure captures and verifies the failed unit/invocation plus the TorchVersion loader error before staging.",
+    "resource_limits": {
+      "cpu_quota": "50%",
+      "cuda_visible_devices": "",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "runtime_seconds": 600,
+      "swap_max_bytes": 0
+    }
+  },
+  "checker_review": {
+    "allowlist": "V2 adds exactly torch.torch_version.TorchVersion to the existing NumPy RNG safe-global list. The helper applies it in a scoped safe_globals context only around the bounded loads.",
+    "checks": "Final preparation records 2 focused tests passed, Ruff check/format passed, and fresh import/read-sentinel smoke passed with zero payload-reader calls and CUDA uninitialized.",
+    "fixture": "The focused synthetic test uses the producer nesting provenance.update_counter_implementation.torch_version and a NumPy RandomState payload; it verifies both round-trip under the allowlist and that an unrelated pickle global is still rejected.",
+    "loading": "All checkpoint loads remain map_location=cpu and weights_only=True; no unsafe fallback or persistent global registration is present. The same narrow allowlist is passed to model.pt, model_ep2.pt, and training_state.pt."
+  },
+  "limitation": "A successful V2 verifier run, captured output, and exact stop must still be validated before accepting the teacher checkpoint or admitting S4.",
+  "pins": {
+    "admission_generator": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/admit_teacher_terminal_verifier_v2.py",
+      "sha256": "3b5577f63bb20bf69a3cdd3d4712167bf887b6da15bf30f72e518b842d201a08"
+    },
+    "checker": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_check_v2.py",
+      "sha256": "d3abd965ec31e27c24629304fc28016fe4b51fe0cc03af6db60d105aca1d6202"
+    },
+    "checker_preparation": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/TEACHER_TERMINAL_PREPARATION_V2.json",
+      "sha256": "d2b1c92b59841b66e9fb587d9c097de3d50f3b63f1aa3741762dbe8ffe87d69b"
+    },
+    "focused_test": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_terminal_check_v2.py",
+      "sha256": "546a756f2c34481c4585358d803b8dec9ffefaf4d7b16df56ca80fbbbb8c7e22"
+    },
+    "remote_body": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_verifier_v2/REMOTE_SUBMISSION.py",
+      "sha256": "438bb154a732acab438f0e1b8449ce630250b05db2bfa211de9f4c15e2d2d338"
+    },
+    "remote_preparation": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_verifier_v2/PREPARATION.json",
+      "sha256": "43bd5544685db7577f3cef0d308792134a2267115388a9d40188314c99b8ad0c"
+    }
+  },
+  "producer_basis": {
+    "canonical_source": "src/wnn/run_identity.py scaler_source_identity() stores torch.__version__; setup_model_runtime records that mapping in provenance, which outputs.py embeds in both inference checkpoints and training state.",
+    "observed_v1_failure": "The preserved V1 verifier log reports exactly unsupported GLOBAL torch.torch_version.TorchVersion while loading a checkpoint with weights_only=True."
+  },
+  "review_scope": "Independent source and locally prepared admission review only. No terminal checkpoint payload was opened, and this review does not constitute actual terminal acceptance.",
+  "schema": "fg19.teacher-s3-terminal-verifier-review.v2",
+  "status": "PASS_PREPARED_NOT_LAUNCHED"
+}

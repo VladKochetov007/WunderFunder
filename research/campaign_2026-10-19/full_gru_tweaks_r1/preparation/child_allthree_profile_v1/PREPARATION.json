@@ -1,0 +1,102 @@
+{
+  "campaign": "research/campaign_2026-10-19/full_gru_tweaks_r1",
+  "capture_observer_local_checks": {
+    "path": "preparation/child_allthree_profile_v1/PROFILE_CAPTURE_LOCAL_CHECKS.json",
+    "remote_action_by_packet_author": false,
+    "saved_capture_reader": "PASS; raw capture SHA b2665d829676714a770d21eae90c538d6042dc36de7c2f18a62071fe4ecbc2a1",
+    "sha256": "01ca43bafb645d139677fbef285e00adcdb93fdc611ccb03e8425297b9e377c2"
+  },
+  "dictionary": {
+    "acceptance_sha256": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+    "cache_bytes": 22557,
+    "cache_sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659"
+  },
+  "exact_stop_sha256": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce",
+  "exact_stopped_utc": "2026-10-20T05:27:44.423161+00:00",
+  "independent_source_review": {
+    "condition": "Root must independently run fresh preflight gates and bind current resource/ownership state before submission.",
+    "path": "preparation/CHILD_ALLTHREE_PROFILE_ADMISSION_REVIEW_V1.json",
+    "result": "CONDITIONAL_PACKET_PASS",
+    "sha256": "45c90057bf52719dae0d0ccd292f9b418498e1451c905b0e7ca949332e33b683"
+  },
+  "local_checks": {
+    "body_sha256": "e03e3b4640531d8c6d3a532efbb672f1d21433d3564e590b79e6188812d414ad",
+    "focused_adapter_and_private_d_import": "PASS",
+    "probe_contract_focused_test": {
+      "command": "PYTHONPATH=research/campaign_2026-10-19/full_gru_tweaks_r1/preparation /Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python -m pytest -q research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_child_allthree_profile_probe_v1.py::test_profile_requires_parent_preprocessing_inheritance",
+      "path": "preparation/test_child_allthree_profile_probe_v1.py",
+      "result": "1 passed; no full-suite rerun after the one-field delta",
+      "test": "test_profile_requires_parent_preprocessing_inheritance",
+      "test_sha256": "75cabed1560f9d22bdcd5f11b1228cc17c7a705d4f2a05395b5a570a8cce860d"
+    },
+    "py_compile": "PASS",
+    "receipt": "preparation/child_allthree_profile_v1/LOCAL_CHECKS.json",
+    "receipt_sha256": "c0e4dccd09a7993589dd30cbddf13457cef60d3b8ee7204f7832251ecbc4d85d",
+    "retained_closure_proof": {
+      "cuda_initialized": false,
+      "path": "preparation/child_allthree_profile_local_checks_v1/CHILD_ALLTHREE_PROFILE_LOCAL_CHECKS_V1.json",
+      "proof_script_path": "preparation/child_allthree_profile_local_checks_v1/RETAINED_PROOF.py",
+      "proof_script_sha256": "17ae5cbcfdac9da9724aa4e2d35a1668947b520ceab9dae7c33653116e51165f",
+      "reader_sentinels": "PASS; parquet/npy/npz/pt readers blocked; payload read count zero",
+      "sha256": "09e3592e541d2fb05391357ec2568c518a5100b7dd51b1daf30b54fcb66740d7",
+      "wnn_runtime_modules": 96
+    },
+    "ruff": "PASS"
+  },
+  "parent": {
+    "acceptance_sha256": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+    "checkpoint": {
+      "bytes": 3988711,
+      "fresh_pre_stage_stat_and_sha_gate": true,
+      "path": "data/artifacts/runs/fg19_parent_h256x2_f0_s1001_fit_r2_v1/model_ep3.pt",
+      "sha256": "6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45"
+    },
+    "exact_stop_sha256": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+    "invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+    "run": "fg19_parent_h256x2_f0_s1001_fit_r2_v1",
+    "unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service"
+  },
+  "private_stage_sha256": {
+    "DICTIONARY_ACCEPTANCE.json": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+    "PARENT_EXACT_STOP.json": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+    "PARENT_TERMINAL_ACCEPTANCE.json": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+    "child_allthree_profile_contract_v1.py": "ab68d868261106a7548b649243f4a645ece926b6138d683c731841cfb9f0b7c5",
+    "child_allthree_profile_probe_v1.py": "446e679ddae0f05225209950d928790264c8cd57fb8836b79f671d06d03be9e4",
+    "propensity_terminal_support.py": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+  },
+  "profile": {
+    "blas_threads": 1,
+    "checkpoint_write": false,
+    "cpu_quota": "100%",
+    "cuda_allocator_bytes": 4294967296,
+    "cuda_free_reserve_bytes": 1000000000,
+    "evaluation": false,
+    "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "loader_workers": 0,
+    "memory_high_bytes": 7500000000,
+    "memory_max_bytes": 8000000000,
+    "memory_swap_max_bytes": 0,
+    "normalization": "inherit accepted parent normalization; do not refit",
+    "parent_memory_target_bytes": 17000000000,
+    "physical_scratch_min_free_bytes": 26843545600,
+    "private_output": "research_tmp/fg19_child_allthree_profile_v1",
+    "profile_update_state": "in-memory-only",
+    "profile_updates_expected": 60,
+    "run_name": "fg19_child_allthree_f0_s1001_profile_v1",
+    "runtime_max_seconds": 600,
+    "unit": "computer-vision-homework-fg19-child-allthree-profile-v1.service"
+  },
+  "readme_sha256": "f455a2165e0d247b99184435512f4aeacbf6d24c5563606df068920b1248b975",
+  "remote_actions_by_packet_author": false,
+  "remote_root": "/home/grinchenkoeg/computer-vision-homework-20261018",
+  "schema": "fg19-child-allthree-profile-preparation.v1",
+  "source": {
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "file_count": 167,
+    "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+  },
+  "status": "ROOT_PROFILE_ACCEPTED_AND_EXACT_STOPPED",
+  "terminal_acceptance_sha256": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045",
+  "terminal_accepted_utc": "2026-10-20T05:26:44.799451+00:00",
+  "terminal_capture_sha256": "b2665d829676714a770d21eae90c538d6042dc36de7c2f18a62071fe4ecbc2a1"
+}

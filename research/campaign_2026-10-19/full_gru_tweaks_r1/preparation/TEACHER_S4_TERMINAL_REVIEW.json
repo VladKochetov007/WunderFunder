@@ -1,0 +1,61 @@
+{
+  "guards_reviewed": {
+    "ancestry_contract": "Binds S4 recipe, source, split, propensity dependency, checkpoint/model parity, normalization identities and training-state resume contract to S4 seed 4.",
+    "artifact_bounds": "Hashes selected model, epoch-2 checkpoint, training state, provenance and history under per-file and 128 MB aggregate bounds; no inference or optimizer replay.",
+    "finite_fp32_state": "Checks model tensors are FP32, finite, shape/inventory/parameter-count bound; checks strict Muon/AdamW groups, exact optimizer state membership, FP32 finite optimizer tensors and completed step counts.",
+    "fit_counters": "Reconciles the three withheld-evaluation epochs, ordered diagnostics/history/progress, 22,380 updates, 1,119 batches, zero skipped updates and zero nonfinite gradient steps.",
+    "membership": "Checks ordered train, fit-valid and evaluation row-group sequences against the current component-disjoint F0 split; validates identities, no fit/evaluation component overlap, and expected counts.",
+    "restricted_loader": "Uses torch.load(weights_only=True) and the narrow observed safe-global allowlist including torch.torch_version.TorchVersion; hashes before load and rechecks file identity after load.",
+    "source_manifest": "Requires exactly 164 unique manifest entries, source/admission map equality, bounded aggregate bytes, safe relative paths, and actual per-file SHA-256 checks against the manifest."
+  },
+  "identity": {
+    "captured_health_stdout_sha256": "0ced27330d6d572c24338fc97971ea2aac100c07b312770351c71b30ae0fb18d",
+    "native_invocation_id": "b6d71599e0044970b8641e3e241c40a4",
+    "native_unit": "computer-vision-homework-fg19-teacher-s4-v1.service",
+    "recipe_sha256": "c460b098d09773786552e5b2c98596fab3319a05108d49bd5693da43ee8a7d88",
+    "run_name": "fg19_t3_h384x2_e3_s4_v1",
+    "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+    "source_manifest_sha256": "0c83367d4ee3afd7e9f382111060d8c125b52420ce27cd5cc309d338287af7fd",
+    "terminal_evidence_sha256": "e11c8c0147511883f9946f87898df2a49ff21734e0eb1c833001f28555099b6e"
+  },
+  "identity_delta_from_reviewed_s3_v2": {
+    "code_logic_other_than_fixed_identity_schema_and_seed_contract": "unchanged by source diff",
+    "critical_seed_and_resume_contract_rebound_to_4": true,
+    "launch_acceptance_schema": "fg19.teacher-s4-launch-acceptance.v1",
+    "run_unit_invocation_recipe_admission_launch_hashes_rebound_to_s4": true,
+    "terminal_checker_output_schema": "fg19.teacher-s4-terminal-check.v1"
+  },
+  "notes": [
+    "The pinned terminal raw_sha256 is the recorded read-only health response digest; the remote verifier independently rechecks fresh systemd native exit identity/status.",
+    "No model-quality result is established."
+  ],
+  "pending_gates": [
+    "Conditional source readiness does not claim the remote preflight or terminal checker has run.",
+    "Root must inspect the actual verifier launch/result and native verifier-unit exit, then create the root S4 acceptance only from the successful verification receipt.",
+    "S5 admission remains blocked until root has the actual accepted S4 receipt and exact stop capture; this review creates neither."
+  ],
+  "review_scope": "Final local source review against the reviewed S3 V2 checker/verifier and completed S4 fit admission. No remote action, model/checkpoint/data payload reads, training, scorer, or installation by this reviewer.",
+  "reviewed_final_pins": {
+    "CHECKS.json": "f8ed7a9f7aeb46a3e60f5a2b01f7d1d450d210fd44720c364a251a36c8b8e837",
+    "PREPARATION.json": "58c7f61ed8be64428f5a87020978bf9d73acceeb79186de1f5a710b5484240bb",
+    "REMOTE_SUBMISSION.py": "18332ba6e073fb2b0dad3fe5a0725198984a4e772a5cc3adda203ee2d115ddf3",
+    "admit_teacher_s4_terminal_verifier_v1.py": "7b3ab65a49acddc82179dce80f0b53c1e40beb099e7b9c39ab6e85e7dd185b92",
+    "teacher_s4_terminal_check_v1.py": "e6891fb6273b0f8b7f37af4f713e0ab2e6e16a13fbaf8ce8275401c2c6d4a0cf"
+  },
+  "schema": "fg19.teacher-s4-terminal-source-review.v1",
+  "status": "CONDITIONAL_SOURCE_READY_FOR_ROOT_VERIFIER_ADMISSION",
+  "validation_receipt": "CHECKS.json reports 3 focused identity tests, Ruff check/format, and a cold checker/helper import with file-reader and CUDA-init sentinels; all recorded PASS. Reviewer inspected the receipt and independently matched final source/body/preparation hashes.",
+  "verifier_wrapper_review": {
+    "exact_staged_inputs": "S4 checker/helper plus pinned source manifest, S4 admission, launch, launch acceptance, RECIPE.json and normalized TERMINAL_EVIDENCE.json; no model/checkpoint/data payloads are staged.",
+    "fresh_preflight": "Rechecks the exact successful native S4 unit, source and split identity, registered data paths by stat, artifact stats, parent slice limits, complete bounded descendant cgroup population, memory headroom, disk headroom, persistent scratch, stop marker and verifier-unit absence.",
+    "launch_layout": "Uses S4 RECIPE.json and exact S4 run/seed/unit/invocation/schema bindings in place of S3 FIT_BINDING.json and S3 acceptance data.",
+    "no_actor_remote_action": true,
+    "verifier_resources": {
+      "cpu_quota": "50%",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "runtime_seconds": 600,
+      "swap_max_bytes": 0
+    }
+  }
+}

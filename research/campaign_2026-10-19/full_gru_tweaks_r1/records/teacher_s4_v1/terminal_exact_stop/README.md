@@ -1,0 +1,3 @@
+# S4 exact stop — completed
+
+[Raw stop response](STDOUT.raw.json), [transport](TRANSPORT.json), [stop script](REMOTE.py), [stderr](STDERR.raw) and [reuse](REUSE.json) bind exactly the already-exited nativeS4 invocationb6d71599e0044970b8641e3e241c40a4 and successful verifierd1b87e7dce66433ba3704373310c6ae3. They were stopped19:40:45UTC only after durable [root acceptance](../TERMINAL_ACCEPTANCE.json) and receipt validation. Both commands returned0; both units were not-found/inactive/dead afterward, with empty invocation IDs and empty campaign population. S3/failed historical units were not touched. No training, inference or grading replay.

@@ -1,0 +1,150 @@
+{
+  "schema": "fg19-child-control-health-metadata-review.v1",
+  "status": "PASS_METADATA_ONLY",
+  "reviewer": "Codex independent local reviewer (/root/control_health_review_0724)",
+  "reviewed_utc": "2026-10-20T07:29:10Z",
+  "method": "Bounded independent metadata review following .agents/skills/research-evidence-review/SKILL.md. Standard-library JSON/base64 parsing and file hashing only; no project code import or execution, no SSH/network/unit control, and no tests or model execution.",
+  "scope": {
+    "campaign": "research/campaign_2026-10-19/full_gru_tweaks_r1",
+    "run": "fg19_child_control_f0_s1001_fit_v1",
+    "capture_directory": "health_20261020T0724Z",
+    "capture_utc": "2026-10-20T07:25:01.108081+00:00",
+    "comparison_capture": {
+      "directory": "health_20261020T0614Z",
+      "capture_utc": "2026-10-20T06:15:05.444113+00:00",
+      "raw_bytes": 44340,
+      "raw_sha256": "e662fac993ff93c773f8c88525c90d7c6bca8783a52b26efb65a8940ee970b3b"
+    }
+  },
+  "artifacts": {
+    "raw_stdout": {
+      "path": "STDOUT.raw.json",
+      "bytes": 57225,
+      "sha256": "b273cc167d805f519c2f91bcb4776eab9f67ff5b2125a7f993dd049e7fac3526"
+    },
+    "transport": {
+      "path": "TRANSPORT.json",
+      "bytes": 483,
+      "sha256": "46b1bc27f8ce0f98b1bf21ef5acdd5acb16ebbe6f749ddd5d59cdcae4f2b3dbf",
+      "returncode": 0,
+      "timed_out": false,
+      "persisted_before_parse": true,
+      "body_sha256": "2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9",
+      "stdout_bytes": 57225,
+      "stdout_sha256": "b273cc167d805f519c2f91bcb4776eab9f67ff5b2125a7f993dd049e7fac3526",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "extracted_observation": {
+      "path": "OBSERVATION.json",
+      "bytes": 9529,
+      "sha256": "0dba98c5506e408bde1039852ec45427bf659e76e0b1fbc720c7e41a47bc21c9"
+    },
+    "stderr_file": {
+      "path": "STDERR.raw.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "reader": {
+      "path": "REMOTE.py",
+      "bytes": 12421,
+      "sha256": "2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9",
+      "matches_transport_body_sha256": true
+    }
+  },
+  "source_receipts": {
+    "original_admission": {
+      "path": "../ADMISSION.json",
+      "bytes": 9059,
+      "sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973",
+      "source_files_verified": 167,
+      "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "original_launch": {
+      "path": "../LAUNCH.json",
+      "bytes": 6999,
+      "sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9"
+    },
+    "original_launch_acceptance": {
+      "path": "../LAUNCH_ACCEPTANCE.json",
+      "bytes": 2805,
+      "sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15",
+      "status": "ACTUAL_LAUNCH_CAPTURED_NOT_COMPLETION",
+      "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202"
+    },
+    "comparison_result": "The raw capture's embedded ADMISSION.json and LAUNCH.json bytes, the copied files in this health folder, and the original record files match exactly. LAUNCH_ACCEPTANCE binds the same invocation and the original admission/launch hashes. The original fresh 167-file admission remains the source-content authority; no current canonical source files were rehashed."
+  },
+  "checks": [
+    {
+      "status": "PASS",
+      "check": "capture_transport_and_extract",
+      "detail": "Raw byte length and SHA-256 match TRANSPORT.json and OBSERVATION.json; transport reports returncode 0, no timeout, and persistence before parsing."
+    },
+    {
+      "status": "PASS",
+      "check": "reader_identity",
+      "detail": "Local reader file SHA-256 equals the expected constant 2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9 and TRANSPORT.json body_sha256."
+    },
+    {
+      "status": "PASS",
+      "check": "invocation_identity_and_state",
+      "detail": "Unit computer-vision-homework-fg19-child-control-fit-v1.service, invocation e66e0d0703314e4fb5d47dcdbfcaf202, PID 96892, active/running agree across raw metadata, extraction, and original launch acceptance."
+    },
+    {
+      "status": "PASS",
+      "check": "completed_epoch_progress",
+      "detail": "Raw FIT records and OBSERVATION agree for epochs 0, 1, and 2: each has 7,460 optimizer attempts, 7,460 completed updates, 746 batches, zero AMP-skipped updates, 7,460 GRAD_STATS steps, and zero nonfinite steps. Cumulative completed-epoch counts are 22,380 updates and 2,238 batches."
+    },
+    {
+      "status": "PASS",
+      "check": "sample_order_and_normalization_metadata",
+      "detail": "Completed-epoch records show seed 1001, EpochOrderSampler, batch size 16, drop_last true, antithetic false, and float32 normalization metadata with shape [467]; mean and std hashes are stable across epochs."
+    },
+    {
+      "status": "PASS",
+      "check": "owned_worker_and_resource_samples",
+      "detail": "Exactly one populated process in the owned unit cgroup is observed: PID 96892 on GPU-ec74220d-78d7-cc47-69fc-0de1fb580944 using 3408 MiB. Own cgroup current/peak are 2542305280/2820898816 bytes; parent current is 10347646976 bytes. RSS, unit accounting, cgroup, parent, and GPU figures are distinct sampled observations."
+    },
+    {
+      "status": "PASS",
+      "check": "memory_event_deltas_since_0615",
+      "detail": "Owned cgroup event deltas, parent event deltas, and parent local event deltas are all zero for low/high/max/oom/oom_kill/oom_group_kill."
+    },
+    {
+      "status": "PASS",
+      "check": "stat_only_output_inventory",
+      "detail": "Inventory names epoch 0/1/2 model files, provenance.json, and training_state.pt; metadata is stat-only, with no payload read or hash."
+    }
+  ],
+  "observed_metadata": {
+    "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+    "state": "active/running",
+    "main_pid": 96892,
+    "completed_epoch_counts": [
+      {"epoch": 0, "optimizer_attempts": 7460, "optimizer_completed_updates": 7460, "completed_batches": 746, "amp_skipped_updates": 0, "grad_stats_steps": 7460, "grad_stats_nonfinite_steps": 0},
+      {"epoch": 1, "optimizer_attempts": 7460, "optimizer_completed_updates": 7460, "completed_batches": 746, "amp_skipped_updates": 0, "grad_stats_steps": 7460, "grad_stats_nonfinite_steps": 0},
+      {"epoch": 2, "optimizer_attempts": 7460, "optimizer_completed_updates": 7460, "completed_batches": 746, "amp_skipped_updates": 0, "grad_stats_steps": 7460, "grad_stats_nonfinite_steps": 0}
+    ],
+    "last_recorded_training_line": "ep 3 batch 280/746 loss 0.5325 lr 4.38e-05 seq/s 5.7",
+    "progress_limit": "The later ep3 batch line is not a synchronous current-batch or completed-update/nonfinite total, terminal 44760 proof, checkpoint-integrity acceptance, or quality endpoint. Evaluations remain withheld.",
+    "memory_events": {
+      "owned_cgroup_delta": {"low": 0, "high": 0, "max": 0, "oom": 0, "oom_kill": 0, "oom_group_kill": 0},
+      "parent_delta": {"low": 0, "high": 0, "max": 0, "oom": 0, "oom_kill": 0, "oom_group_kill": 0},
+      "parent_local_delta": {"low": 0, "high": 0, "max": 0, "oom": 0, "oom_kill": 0, "oom_group_kill": 0}
+    },
+    "foreign_selected_gpu_inventory": {
+      "prior_pids": [521754],
+      "current_pids": [521754, 154065, 239068],
+      "interpretation": "Inventory changed; it was observed only. No cause or performance inference is made, and foreign processes were left untouched."
+    }
+  },
+  "limitations": [
+    "This is a metadata audit, not empirical replication, training-integrity acceptance, terminal completion, or quality evaluation.",
+    "No model, checkpoint, training-state, array, cache, dictionary, dataset, or other payload was read or hashed. The existing 167-file admission is accepted as canonical source-content authority; no current source tree was rehashed.",
+    "Memory, RSS, unit, cgroup, and GPU values are sampled observations and are not interchangeable accounting totals.",
+    "The captured ep3 line does not establish terminal completion or a complete observed update count."
+  ],
+  "finding": "No blocking metadata inconsistency found. The changed foreign GPU process inventory is recorded as an observation only."
+}

@@ -2,6 +2,11 @@
 
 Status: accepted user protocol, 2026-10-17; local preparation before publication.
 
+Prospective fitting-count successor: [ADR0043](0043-fast-screens-and-transformer-teacher-scale.md)
+replaces the30-per-arm requirement for future drafts with4–6 total new fits per
+initial idea screen. The original decision below preserves historical contracts;
+its workflow, precision, ancestry and trace requirements continue to apply.
+
 ## Context
 
 The user requests a shared integration branch and one English draft PR per research idea, with code, reproducible runs and results recoverable through unified notes. They explicitly skip a queue manager and request an explanation before this delivery is pushed.

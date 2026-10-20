@@ -1,0 +1,99 @@
+{
+  "schema": "fg19.teacher-s3-terminal-preparation.v1",
+  "status": "SOURCE_AND_SYNTHETIC_CHECKS_PASS_NOT_TERMINAL_ACCEPTANCE",
+  "purpose": "Read-only verifier for the admitted seed-3 strict-FP32 teacher run; no actual run payload was loaded or checked on this host.",
+  "implementation": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_check.py",
+    "sha256": "dc3ef17091cb11bb6f6d946ed0da57a1175bbb2ab5e4b980a889ba02c321cb1f",
+    "synthetic_tests": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_terminal_check.py",
+      "sha256": "3022c4e4d21750a5d94927378e3a2664b055ea886d514140330c75ec1a1321e9",
+      "count": 11
+    },
+    "cli": [
+      "--run-dir",
+      "--source-root",
+      "--split",
+      "--source-manifest",
+      "--admission",
+      "--launch",
+      "--launch-acceptance",
+      "--terminal-evidence",
+      "--output"
+    ],
+    "normalized_terminal_evidence": {
+      "identity": ["run_name", "unit", "invocation_id"],
+      "state": ["active_state=active", "sub_state=exited"],
+      "native_integer_fields": {
+        "main_pid": 0,
+        "exec_main_code": 1,
+        "exec_main_status": 0
+      }
+    }
+  },
+  "bindings": {
+    "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+    "source_manifest_sha256": "0c83367d4ee3afd7e9f382111060d8c125b52420ce27cd5cc309d338287af7fd",
+    "source_file_count": 164,
+    "source_bytes_hashed": 1569698,
+    "admission_sha256": "dd3cbb8416c6cf14c29fb5937e664b41b71496420e44200c42248fa4d3109c17",
+    "raw_launch_sha256": "6538d9502bdcd8cd3bdac0b50c4dc46b48ca80ca15d45ea25365c5313ecf8144",
+    "launch_acceptance_sha256": "67479aef04bcca80d4e9d8bfbe0de71b180439a4d48fd135bffc9ccd2b94a1c7",
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+  },
+  "local_runtime_dependency": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/propensity_terminal_support.py",
+    "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+    "use": "Bounded stable-file hashing, restricted weights_only CPU loading and the narrowly scoped NumPy RNG safe-global fixture."
+  },
+  "verification": {
+    "test_command": ".venv/bin/python -m pytest -q research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_terminal_check.py",
+    "test_result": "11 passed in 0.83s",
+    "ruff_format_command": ".venv/bin/ruff format research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_check.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_terminal_check.py",
+    "ruff_format_result": "passed; 2 files left unchanged",
+    "ruff_check_command": ".venv/bin/ruff check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_check.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_terminal_check.py",
+    "ruff_check_result": "All checks passed",
+    "source_only_cli_smoke": {
+      "result": "PASS",
+      "canonical_parser_arguments": 190,
+      "derived_runtime_arguments": 191,
+      "explicit_recipe_fields_matched": 97,
+      "campaign_split_derivations": [
+        "valid_fold=0",
+        "n_valid_folds=4",
+        "eval_source=vfold",
+        "split_manifest_sha256 bound to pinned split"
+      ],
+      "source_files_hashed": 164,
+      "source_bytes_hashed": 1569698
+    },
+    "cold_import_reader_sentinels": {
+      "result": "PASS",
+      "numpy_load_calls": 0,
+      "numpy_memmap_calls": 0,
+      "pyarrow_parquet_reads": 0,
+      "pyarrow_dataset_calls": 0,
+      "SequenceFile_constructions": 0,
+      "torch_load_calls": 0,
+      "cuda_init_calls": 0,
+      "cuda_lazy_init_calls": 0
+    },
+    "synthetic_producer_consumer_roundtrip": "A temporary producer-shaped training-state fixture with a 16-tensor GRU state, exact 3-group optimizer state, and NumPy RNG passed bounded prehash plus weights_only=True restricted CPU loading; no real checkpoint was used.",
+    "checkpoint_digest_map_fixture": "The four published inference-checkpoint digests must match their initial bounded prehashes; missing or altered digest metadata fails closed."
+  },
+  "resource_bounds": {
+    "source_tree_total_bytes": 128000000,
+    "terminal_files": {
+      "inference_checkpoints_each_bytes_max": 32000000,
+      "training_state_bytes_max": 64000000,
+      "metadata_json_each_bytes_max": 16000000,
+      "aggregate_terminal_artifacts_bytes_max": 128000000
+    },
+    "deserialization": "The checker prehashes every terminal file under its per-file and aggregate caps before loading any checkpoint; it uses the existing restricted CPU weights_only=True loader and verifies the file identity/hash after loading."
+  },
+  "not_performed": [
+    "No SSH, remote command, GPU, training, inference, grading, or optimizer step.",
+    "No actual checkpoint, training-state, dataset, Parquet table, or training/evaluation array was read.",
+    "No terminal acceptance result is claimed; the tool awaits the caller's exact native exit evidence and bounded B-side artifacts."
+  ]
+}
