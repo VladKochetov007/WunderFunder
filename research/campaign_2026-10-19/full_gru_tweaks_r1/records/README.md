@@ -48,3 +48,9 @@ The [actual teacher profileV2](teacher_profile_v2/FAILURE.json) exited1at15:19:0
 [S3fitting-valid export completed](teacher_s3_valid_export_v1/README.md):1405sequences/88records/exit0at23:00:24UTC,capturedaccepted/exactstopped23:02:01. BothS3predictionpartsready; nofullmean-cache/GRUqualityresult/newfit. Source-qualifiedFP32/orderedfit-valid(no468eval)/ownnorm/producerSHA; payloadfinite/header/hashnotindependentlyreplayed.
 
 [S4trainexportactuallyrunning](teacher_s4_train_export_v1/README.md),launched23:07:04UTC/source88becca167/S4epoch2/oneownedA4000. Startup23:08:54recorded672/10535/ownandparentnewmemoryevents0. BothS3exportsaccepted/exactstopped; S4completion/cache/qualitypending.
+
+[S4 fitting-train predictions completed](teacher_s4_train_export_v1/README.md): 10,535 sequences, 659 progress records, native exit0 at23:33:44UTC; captured, accepted and exact-stopped23:50:59UTC. Source167/18runtime pins, canonical export order and S4’s own normalization match. NPY remains B-only with producerSHA/stat; independent finite/header/hash validation remains required in the streamed cache consumer. Zero new scientific fits or quality scores.
+
+[S4 fit-valid export launched](teacher_s4_valid_export_v1/README.md)23:55:11UTC/invocation4ee46e04e7264a6ea0278d28d6479400. Same immutable source/S4epoch2/ownnormalizer,1405fit-valid sequences only, one ownedGPU. S4train is captured/accepted/exact-stopped; no complete cache or GRUquality score yet.
+
+[S4 fit-valid completed](teacher_s4_valid_export_v1/README.md):1405sequences/88records/exit0 at23:58:45UTC, captured/accepted/exact-stopped23:59:38. Both S4 fitting parts are ready; source167/18pins/ownnorm/exactmembership pass, payload remains producerSHA/stat-only. [S5 fitting-train export](teacher_s5_train_export_v1/README.md) actually launched20October00:01:39UTC/invocation9d2b2c9328f241bf896fd1ca75a3421b after fresh gates. Zero new scientific fits or quality scores.

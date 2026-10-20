@@ -1,5 +1,7 @@
 # Current project state
 
+**20 October00:01UTC full-GRU dependency:** [S4 train and fit-valid predictions completed and exact-stopped; S5 train export actually running](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md), invocation9d2b2c9328f241bf896fd1ca75a3421b/source88becca167/ownS5normalizer/oneGPU. Four S3/S4 fitting exports are accepted; remaining S5valid/commoncache/parent/fivechild endpoints are pending. Zero new scientific fits or quality scores from inference exports; payload finite/header/hash validation remains required in streamed CPU cache.
+
 **19 October23:08UTC full-GRU dependency:** [BothS3fittingpredictionpartscompleted; S4trainexportrunning](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md),recorded672/10535/oneownedGPUworker/no newmemoryevents. Source88becca167/S4epoch2/ownnormalizer. Commoncache/parent/fivefinalGRUarmsnotyetcompleted/noqualityscore.
 
 **19 October22:53UTC full-GRU dependency:** [First S3fitting-train export completed/captured/accepted/exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_train_export_v1/README.md):10535sequences/659batches/exit0, source-qualifiedFP32/norm/membership/producerSHA; arrayfinitecheck stillrequiredinstreamedcacheconsumer. S3fit-validisnext, no finalGRUarmqualityyet.

@@ -1,3 +1,5 @@
+**20 October00:01UTC:** [S3 and S4 fitting predictions are complete; S5 train export is running](CONTINUATION.md). Both S4 parts were captured, independently metadata-audited, accepted and exact-stopped; same source88becca167/S5epoch2/ownnormalizer/one GPU continues. No common mean-cache, parent/five-child quality endpoint or new scientific fit from these exports. Array finite/header/hash validation remains for the streamed CPU cache consumer.
+
 **23:08UTC: [S4trainexportisrunning](records/teacher_s4_train_export_v1/README.md)** afterbothS3predictionpartscompleted/accepted/exactstopped. Startuprecorded672/10535sequences,oneownedGPUworker/zero newmemoryevents. CommonT3mean-cache/sharedparent/fiveGRUarmsremainpending; noqualityclaim. [Continuation](CONTINUATION.md) supersedesdatedsnapshotsbelow.
 
 **22:53UTC: [S3 fitting-train export completed and exact-stopped](records/teacher_s3_train_export_v1/README.md)**:10,535sequences/659batches/nativeexit0, source/normalizer/membership/producerSHA bound. S3fit-valid is next, notadmittedatthissnapshot. No newfit or five-armqualityscore.
@@ -65,3 +67,5 @@ A read-only B snapshot at13:34:02UTC found no populated campaign descendants and
 [Current F0 rebuild binding R2](preparation/REBUILD_RECIPE_BINDING_R2.json) records the source-qualified B split, train+valid membership choice for teachers/parent/children, historical-evidence correction, and explicit clean-rebuild adaptations. The full teacher argv remains a template until the propensity checkpoint SHA is verified; see [preparation README](preparation/README.md).
 
 [Completed S5 publication checks](PUBLICATION_VALIDATION_20261019_S5.json) bind51committed files, source/review/receipt pins and append-only history. [Inference source/profile publication checks](PUBLICATION_VALIDATION_20261019_CACHE_PROFILE.json) bind the subsequent canonical source/code-only packet, captured engineering profile, links and one new append-only completion row. These checks add no model fit or quality measurement.
+
+[S4 prediction completion and S5 execution publication validation](PUBLICATION_VALIDATION_20261020_S4_PREDICTIONS_S5_EXPORT.json) binds the exact staged source/metadata/navigation, raw transports and append-only ledger. It does not evaluate prediction arrays or scientific quality.

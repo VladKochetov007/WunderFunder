@@ -1,0 +1,3 @@
+# S4 train export terminal observation
+
+One unchanged bounded read-only reader at23:48:51UTC observed the exact invocation exited successfully and recorded10535/10535, no populated campaign descendants and unchanged parent memory events. [Raw bytes](STDOUT.raw.json), [transport](TRANSPORT.json), [observation](OBSERVATION.json), [reader](REMOTE.py). Terminal ControlGroup is empty, own files unavailable; no host-root fallback. Output inventory is stat-only. Source ID/path in this reader are expected constant/stat only; full content hashes are independently captured in the subsequent terminal metadata capture. No array/model/inference replay.
