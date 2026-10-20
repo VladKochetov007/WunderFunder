@@ -39,6 +39,7 @@ def service_properties(service: str) -> dict[str, str]:
     result = subprocess.run(
         [
             "systemctl",
+            "--user",
             "show",
             service,
             "--property=ActiveState",
