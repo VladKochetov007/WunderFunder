@@ -86,4 +86,12 @@ not a replication of FG19's fresh FP32 ancestry. The [local NLL packet](nll_adap
 
 ## Current local execution and serving
 
-The [local NLL adaptation](nll_adaptation/README.md) is primary: matched small-GRU continuation with exposed-F0 evaluation, then a fixed parent/NLL blend. The [native preparation](native_preparation/README.md) records feature support, precision plumbing correction, v2/v3 build artifacts, and their measured limitations. Saved remote models above remain a secondary route; no further SSH action is required for the local work.
+The [local NLL adaptation](nll_adaptation/README.md) is primary: matched small-GRU
+continuations followed by the seven-endpoint exposed-F0 screen, including fixed
+parent/NLL and old-Z4/child blends. A bounded durable successor waits for both
+fits to succeed, then audits, exports and scores those fixed endpoints. Root
+owns independent result interpretation and later package selection. The
+[native preparation](native_preparation/README.md) records feature support,
+precision plumbing, v2/v3 binaries and the source-qualified submission replay.
+The required AVX2 binary and actual selected-ZIP replay remain outstanding.
+Saved remote models remain secondary; no further SSH action is needed locally.

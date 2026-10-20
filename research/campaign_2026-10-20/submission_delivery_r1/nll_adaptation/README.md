@@ -50,3 +50,48 @@ drop-in initializer. F2 lacks a matching full teacher target bank. The catalog
 also identifies an all-data production lineage, which cannot support a held-out
 comparison. This is metadata evidence from critic commit87746a30; no follow-up
 fit is admitted until the current comparison is graded.
+
+[Control epoch0 progress](control_epoch0_progress.json) records the first completed
+epoch:2100.9seconds,7460completed updates, zero nonfinite gradients or skipped
+updates, clip rate0.0757 and mean clipping factor0.9866. Median preclip norm was
+0.61539 and its95th percentile1.10824. These are optimization diagnostics with
+evaluation withheld; the prescribed epoch1 checkpoint remains unfinished.
+
+## Admitted post-fit delivery
+
+The [post-fit admission](post_fit_admission.json) records the durable supervisor
+`wnn-overnight-nll-postfit-20261020.service`, invocation
+`aaa57a282722430389732e899c97267f`. It waits for this exact fit invocation to
+exit successfully and for both fit report entries to be complete. It then
+checks the pinned execution files and remaining15-hour allocation before
+starting one45-minute maximum export/score worker. The supervisor adds no fit,
+adaptive selection or upload. Its [launcher](run_post_fit.sh) and [six-step
+plan](post_fit_plan.json) are hash-bound in the admission.
+
+The [audit CLI](validate_prediction_artifacts.py), [input/source checks](prediction_artifact_validation.py)
+and [checkpoint/export checks](prediction_export_audit.py) were integrated from
+actor stack through `d3055423a`. Preflight verifies the completed checkpoints,
+every explicit fitting argument, actual initializer/propensity/teacher-cache
+ancestry hashes, source-qualified membership, source tree, Parquet identity and
+output absence. Post-export compares the same bindings, then checks FP32
+feature-only metadata, full row order, shapes, finiteness and actual byte hashes.
+The [operator command reference](EXPORT_SCORE_COMMANDS_R1.md) preserves the
+underlying commands; the admitted plan uses the packet's root receipt paths.
+
+Independent Luna/max static review found no remaining concrete blocker after
+correcting the initially incompatible `--create-only` proposal and strengthening
+the pre-export argument/ancestry/source/mtime checks. The pinned predictor rejects
+that flag in full-valid feature-only mode, so output absence plus the shared
+single-writer lock protects these unique destinations. This is static review,
+not a completed prediction or score. Scoring remains conditional on all gates.
+
+Actual progress will appear in `post_fit_supervisor.log`, `post_fit_start.json`,
+`exports.log`, `export_resource_samples.log`, `post_fit_plan_report.json`,
+`prediction_preflight_r1.json`, `prediction_post_export_r1.json`, and
+`grades/f0_seven_endpoints_r1.json` as the stages execute. Resource samples
+measure device usage rather than Torch allocator peak. The worker has4.0GB
+hardRAM,1CPU,zero swap and a4.5GB CUDA allocator cap; the aggregate5GB limit
+and inactive-file-cache guard remain. Creating `STOP_POST_FIT` before admission
+or stopping the waiting supervisor cancels this successor without killing fits.
+Root must independently interpret the completed score before another fit or
+candidate promotion; the second-fold catalog remains conditional.

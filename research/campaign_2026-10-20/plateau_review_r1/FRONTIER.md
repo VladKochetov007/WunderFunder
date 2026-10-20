@@ -1,6 +1,6 @@
 # Plateau review frontier
 
-Updated: 20 October 2026, 20:55 UTC. Owner: root/controller.
+Updated: 2026-10-20T21:15:53.066377+00:00. Owner: root/controller.
 
 ## Resume instruction
 
@@ -15,7 +15,13 @@ Record changes and receipts here before context compaction or handoff.
   locally. The [delivery packet](../submission_delivery_r1/README.md) now prioritizes
   a matched H256×2 WMSE/NLL continuation pair using local weights and cached
   teacher targets. Beleriand access is no longer a prerequisite for progress.
-  Both profiles passed; the two-fit sequence is running as `wnn-overnight-nll-fit-20261020.service`. No fitting quality result is claimed. See the packet for exact admission, actual progress and serving preparation.
+  Both profiles passed; the two-fit sequence is running as `wnn-overnight-nll-fit-20261020.service`.
+  Control epoch0 completed in2100.9seconds with7460successful updates and zero
+  nonfinite gradients; epoch1 is running. The durable
+  `wnn-overnight-nll-postfit-20261020.service` waits for exact pair success, then
+  executes the frozen three exports, artifact audits and seven-endpoint score
+  with a45-minute cap. No fitting quality result is claimed. See the packet for
+  exact admission, actual progress and serving preparation.
 
 - October20 latest execution priority: [overnight submission delivery](../submission_delivery_r1/README.md), evaluating saved FG19 control/EMA first and admitting useful bounded training if needed. The user allows all-night compute; root preserves the local 15h cap and resource limits. Original i1 comparison is deferred, not cancelled or running.
 
