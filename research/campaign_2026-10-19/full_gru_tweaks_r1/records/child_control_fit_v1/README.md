@@ -15,3 +15,5 @@ Expected44,760updates/4,476batches/next_epoch6 are arithmetic, not observed comp
 [Needed terminal checker, local preparation only](../../preparation/README_CHILD_CONTROL_TERMINAL_CHECK_V1.md), [independent source review](../../preparation/CHILD_CONTROL_TERMINAL_SOURCE_REVIEW_V1.json) and [root dependency binding](../../preparation/CHILD_CONTROL_TERMINAL_ROOT_PREPARATION_V1.json) are ready for a future post-exit admission. No checker was staged or run against the active fit, and no terminal integrity/quality result exists.
 
 [Later rare health07:25UTC](health_20261020T0724Z/README.md) supersedes06:15freshness: same active worker, completed native epochs0–2/cumulative22,380updates; no synchronous current total, native terminal or quality. Current payloads remain stat-only and the prepared terminal checker stays unadmitted.
+
+[Later rare health08:24UTC](health_20261020T0824Z/README.md) supersedes07:25freshness: same active worker, completed native epochs0–4/cumulative37,300updates; later epoch5batch300 is not actual terminal44,760 or quality. Tensors remain stat-only and the unchanged prepared terminal checker is still unadmitted.

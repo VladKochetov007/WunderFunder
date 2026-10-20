@@ -1,3 +1,7 @@
+## 20 October08:24UTC — CONTROL still active at bounded observation
+
+[The same exact CONTROL invocation was active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0824Z/README.md) at08:24:56UTC, one populated owned GPUworker/no new own or parent memoryevents. Five completed epoch records give cumulative37,300updates/3,730batches/zero skips/nonfinite0. Later ep5batch300 is not a synchronous current total, actual native terminal44,760 or quality. All run tensors remain stat-only; existing reviewed checker remains local/unadmitted. Next is actual typed native exit0 capture and fresh cappedCPU integrity admission, not a new preparation cycle or changing checkpoint read. No newfit/support/restart/stop/grade; completed stages remain untouched.
+
 ## 20 October07:25UTC — rare bounded CONTROL observation
 
 [The same CONTROL invocation was active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0724Z/README.md) at07:25:01UTC, one populated owned GPU worker/no new own or parent memoryevents. Three completed epoch records report cumulative22,380updates/2,238batches/zero skips/nonfinite0; later ep3batch280 is not synchronous current progress, terminal44,760 or quality. Run checkpoint/state/provenance files remain stat-only. The already reviewed terminal checker is unchanged/local only, gated on actual typed native exit0 and a fresh cappedCPU admission. No replay/newfit/support/restart/stop/grade; completed parent/profile/prerequisites remain untouched.
