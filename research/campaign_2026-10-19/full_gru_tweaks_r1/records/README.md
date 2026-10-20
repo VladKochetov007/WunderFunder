@@ -77,3 +77,5 @@ The [actual teacher profileV2](teacher_profile_v2/FAILURE.json) exited1at15:19:0
 - [Actual H256×2 parent profile](parent_profile_v1/README.md): canonical AdamW/source68/cache-bound profile launched01:20:22; expected60 update windows, no evaluation/checkpoint/quality claim from admission.
 
 - [Shared full parent R2 actual fit](parent_fit_r2_v1/README.md): one new H256×2/AdamW/seed1001 four-epoch fit launched01:31:35UTC after accepted cache/profile and fresh complete gates;29,840updates expected, no completed quality result or child fit yet.
+
+[Latest parent-fit health capture](parent_fit_r2_v1/health_20261020T0209Z/README.md) is the 02:10:25UTC exact-invocation metadata snapshot, still active/running at saved batch720/746. It separates process, GPU, owned-cgroup and parent-cgroup observations and does not establish terminal completion.
