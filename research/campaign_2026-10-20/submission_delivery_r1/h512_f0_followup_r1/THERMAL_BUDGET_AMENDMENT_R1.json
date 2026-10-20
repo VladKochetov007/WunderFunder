@@ -1,0 +1,23 @@
+{
+  "schema": "wnn.compute-reservation-amendment.v1",
+  "timestamp_utc": "2026-10-20T23:25:33.071696+00:00",
+  "reason": "Observed thermal slowdown makes short-profile projection optimistic. Preserve the healthy six-epoch primary fit; no model, objective, data, seed, update or checkpoint change.",
+  "before": "InvocationID=c2b99b3c2b944edaa05156537655b04c\nRuntimeMaxUSec=6h\nMainPID=1784602\n",
+  "after": "DropInPaths=/usr/lib/systemd/user/service.d/10-timeout-abort.conf /run/user/1000/systemd/user/wnn-h512-f0-fit-r1-20261021.service.d/20-thermal-budget.conf\nInvocationID=c2b99b3c2b944edaa05156537655b04c\nRuntimeMaxUSec=9h\nMainPID=1784602\n",
+  "fit_runtime_cap_seconds": 32400,
+  "previous_runtime_cap_seconds": 21600,
+  "total_campaign_cap_seconds": 54000,
+  "completed_prior_gpu_job_seconds": 9158.249398,
+  "minimum_remaining_after_fit_at_cap_seconds": 12441.750602,
+  "later_admission": "Cold six-epoch production remains conditional. If sustained timing makes it infeasible, separately freeze/admit a one- or two-epoch all-data continuation from the supported own cold H512. No final fit admitted now.",
+  "reserve_rule": "Future GPU workers, failures, profiles and exports debit actual remaining15h. Reserve at least720GPU-job seconds after fit for exports/scoring. CPU native packaging remains inside twoCPU/5GB/noSwap.",
+  "runtime_dropin": "/run/user/1000/systemd/user/wnn-h512-f0-fit-r1-20261021.service.d/20-thermal-budget.conf",
+  "first_attempt": "systemctl set-property cannot mutate this service RuntimeMaxUSec; rejected without changing the worker. A runtime-only drop-in plus daemon-reload succeeded, preserving invocation/PID.",
+  "fit_last_lines": [
+    "ep 0 batch 40/1492 loss 1.8847 lr 5.97e-06 seq/s 4.0",
+    "ep 0 batch 60/1492 loss 1.7272 lr 8.33e-06 seq/s 3.4",
+    "ep 0 batch 80/1492 loss 1.0531 lr 1.16e-05 seq/s 3.1",
+    "ep 0 batch 100/1492 loss 2.6386 lr 1.56e-05 seq/s 2.9",
+    "ep 0 batch 120/1492 loss 1.2930 lr 2.03e-05 seq/s 2.7"
+  ]
+}

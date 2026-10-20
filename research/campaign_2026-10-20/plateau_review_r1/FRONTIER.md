@@ -11,6 +11,13 @@ Record changes and receipts here before context compaction or handoff.
 
 ## Actual stage
 
+- **Cost caveat:** the healthy H512 fit is thermally throttled at 89°C / roughly400MHz. Short-profile4.7h estimate is optimistic; use sustained epoch timings before any final-fit admission. Optional physical cooling requested, no settings changed. [Thermal record](../submission_delivery_r1/h512_f0_followup_r1/README.md#sustained-thermal-limitation).
+
+
+- **H512 fit running** since23:18:35UTC under `wnn-h512-f0-fit-r1-20261021.service`, invocationc2b99b3c2b944edaa05156537655b04c. [Frozen fit/score/start](../submission_delivery_r1/h512_f0_followup_r1/README.md) admits one cold6epochF0seed1003 fit now, no teacher/final fit. PrimaryCP5 plus fixedSWA345 and75/25blends declared before training. Root owns measured timing, evaluated exports and final-training admission. Parent now5GBRAM/twoCPU/noSwap.
+- TL3plain-member CPU conversion and full/chunked synthetic output/state transport pass; see [actual receipts](../submission_delivery_r1/tl3_member_adaptation/README.md#actual-cpu-conversion-and-transport-acceptance). A single-member H512replacement packager is being prepared, no candidateZIP or quality claim.
+
+
 - Completed [F0 results](../submission_delivery_r1/nll_adaptation/RESULTS_F0_R1.md): best fixed oldZ4/WMSE blend0.6835218031, +.00035747 versus oldZ4; NLL−WMSE−.00004361. Broad conditional intervals, one exposed fold/seed; actual independent review pending. No new ZIP. Prepared NLLF1pair deferred for opportunity cost.
 - Completed [H512 local profile](../submission_delivery_r1/h512_replication_profile/README.md):40finite updates,1.893s/batch,3.602GBpeak,zero swap. Approx4.7h fold fit and~5h production projection; exact fitting/comparison plan in preparation, no H512 fit admitted. Completed local GPU job-time~2.54h plus15.17sprofile, within15htotal.
 

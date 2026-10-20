@@ -1,5 +1,9 @@
 # Execution, incidents, and preservation
 
+- [H512 sustained thermal limit](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#sustained-thermal-limitation) — NVIDIA reports software thermal throttling at 89°C and approximately 400 MHz during the admitted local fit. Short-profile estimates are optimistic; root is reassessing sustained cost and final-fit capacity. No GPU settings changed.
+
+- [Aggregate allocation enforcement](../../campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/AGGREGATE_LIMIT_ENFORCEMENT_R1.json) — runtime parent research slice now enforces the latest5GBRAM, twoCPU, zero-task-swap contract; stale20GBceiling reduced after inactive-cache reclaim. No processkill/globalswapchange; applies to active local jobs.
+
 - [Kaggle delivery readiness, October21](../../campaign_2026-10-21/kaggle_delivery_readiness_r1/README.md) —5.0212GPU-hours unreserved, matching public dataset sizes and local F1assets. T4 bundle requests two devices; single-device availability and charging unverified. No cloud job admitted; private asset staging and actual-shape cost remain prerequisites.
 
 

@@ -1,5 +1,9 @@
 # Current project state
 
+## Active H512 fit — October21
+
+[The H512 delivery packet](../research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md) records one admitted cold label-only H512×1 F0seed1003 fit, running since23:18:35UTC under `wnn-h512-f0-fit-r1-20261021.service`. Six epochs, fixedCP5; SWA345 and fixedblends declared before outcomes. Core source/recipe static review passed and actual profile measured1.893s/batch. Full-data production remains conditional after actual scoring and budget reassessment. No new ZIP. Local15hbudget cumulative, parent5GBRAM/twoCPU/noSwap now enforced. Older no-running-job statements below are historical.
+
 ## October21 measured continuation update
 
 Both matched WMSE/NLL fits and seven-endpoint scoring completed. The [actual results](../research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/RESULTS_F0_R1.md) favor retaining the fixed oldZ4/WMSE blend for further evaluation, without a demonstrated TL3/public improvement. NLL has no matched point advantage. The PR25-supported [H512 local profile](../research/campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/README.md) completed safely at1.893s/batch; root is freezing exact fold/production commands before admitting a quality fit. Existing15hbudget remains cumulative; no GPU job is currently running. Historical running snapshots below are superseded.

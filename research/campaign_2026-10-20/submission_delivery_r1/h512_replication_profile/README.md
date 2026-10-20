@@ -33,3 +33,5 @@ blend contribution are unmeasured.
 ## Actual local profile completed
 
 [Admission](PROFILE_ADMISSION_R1.json), [raw log](profile_r1.log), and [result](PROFILE_RESULT_R1.json) bind the derived source and actual data checks. Service4efb14e7231e4252ad407af755c6c3cd completed successfully in15.17seconds:40/40finite optimizer updates, no AMP, zero process swaps, cgroup peak3.602GB. Median batch wall1.89304seconds projects4.707hours for six fold epochs; this is a short-profile estimate, not full-fit timing. No scientific fit has yet been admitted. Two metadata preflight stops (footer-length interpretation and residual inactive cache) occurred before model launch and are retained in admission.
+
+[Aggregate resource enforcement](AGGREGATE_LIMIT_ENFORCEMENT_R1.json) records the runtime parent change to the latest 5 GB task allocation, two CPU cores and zero swap, after cache reclaim. This enforces the existing user contract and does not alter model updates.
