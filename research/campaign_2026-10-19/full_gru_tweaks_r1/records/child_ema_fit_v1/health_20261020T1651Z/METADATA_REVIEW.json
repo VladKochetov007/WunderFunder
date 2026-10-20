@@ -1,0 +1,323 @@
+{
+  "capture_transport": {
+    "persisted_before_parse": true,
+    "raw_stdout_bytes": 72437,
+    "raw_stdout_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/STDOUT.raw.json",
+    "raw_stdout_sha256": "bc7aebb50fc71c350798623aaddab7f1880e32c412c0888aa3a8e0ba0b798f30",
+    "returncode": 0,
+    "stderr_bytes": 0,
+    "stderr_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/STDERR.raw.txt",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "timed_out": false,
+    "transport_bytes": 483,
+    "transport_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/TRANSPORT.json",
+    "transport_sha256": "fb5a1af3fcc0765ee758d20fd5836685edb77745200bdf7ad7e9812ba1a25c15"
+  },
+  "checks": [
+    {
+      "check": "raw stdout byte length/hash match transport and observation; persisted before parse",
+      "detail": "stdout is 72,437 bytes; SHA-256 bc7aebb50fc71c350798623aaddab7f1880e32c412c0888aa3a8e0ba0b798f30",
+      "result": "PASS"
+    },
+    {
+      "check": "transport completed successfully with empty stderr",
+      "detail": "return code 0; no timeout; stderr is empty",
+      "result": "PASS"
+    },
+    {
+      "check": "ADMISSION, LAUNCH, and unit.log base64 receipts match local bytes",
+      "detail": "3 of 3 receipt extracts match sibling files by bytes, length, and SHA-256",
+      "result": "PASS"
+    },
+    {
+      "check": "run, unit, and invocation identity join across admission, launch, raw capture, and observation",
+      "detail": "fg19_child_ema_f0_s1001_fit_v1; computer-vision-homework-fg19-child-ema-fit-v1.service; invocation da5baf82d22b4f02890e184193b8caf7",
+      "result": "PASS"
+    },
+    {
+      "check": "observation is the same active invocation with no exit timestamp",
+      "detail": "active/running, MainPID 730727; no terminal state claimed",
+      "result": "PASS"
+    },
+    {
+      "check": "one owned selected-GPU process matches the populated child cgroup",
+      "detail": "PID 730727, 3408 MiB, same invocation cgroup; foreign process data is observation-only",
+      "result": "PASS"
+    },
+    {
+      "check": "completed native FIT records cover epochs 0 through 4 only",
+      "detail": "37,300 cumulative updates; 3,730 completed batches; zero AMP skips",
+      "result": "PASS"
+    },
+    {
+      "check": "completed GRAD_STATS records cover epochs 0 through 4 with zero nonfinite steps",
+      "detail": "7,460 steps per epoch; zero nonfinite steps in all five recorded epochs",
+      "result": "PASS"
+    },
+    {
+      "check": "later progress line is explicitly bounded",
+      "detail": "ep 5 batch 640/746 is not a current synchronous total, terminal 44,760 proof, integrity, or quality evidence",
+      "result": "PASS"
+    },
+    {
+      "check": "parent event and local-event deltas independently recomputed from 15:51 raw capture",
+      "detail": "all counters unchanged (zero deltas); prior and current raw capture identity/transport joins pass",
+      "result": "PASS"
+    },
+    {
+      "check": "own event counters and dated memory samples match observation",
+      "detail": "own memory.events and memory.events.local all zero; own cgroup current/peak and parent current are separate dated samples",
+      "result": "PASS"
+    },
+    {
+      "check": "model/state/provenance directory entries are stat-only",
+      "detail": "seven names and stat fields only; no artifact content was read or hashed",
+      "result": "PASS"
+    },
+    {
+      "check": "original fresh-167-file admission remains source authority; reader identity is unchanged",
+      "detail": "reader hash matches this captured REMOTE.py; it reports no current source-content rehash",
+      "result": "PASS"
+    },
+    {
+      "check": "README is accurate, appropriately limited, and hash-pinned",
+      "detail": "README records this dated sample, nonterminal boundary, zero event deltas, stat-only artifacts, and next observation as a terminal-status gate only",
+      "result": "PASS"
+    },
+    {
+      "check": "review scope remained local metadata-only",
+      "detail": "no SSH/B calls, payload reads/hashes, checker preparation, tests, source/profile execution, admission, inference, restart, or stop",
+      "result": "PASS"
+    }
+  ],
+  "created_utc": "2026-10-20T16:53:12Z",
+  "identity": {
+    "active_state": "active",
+    "captured_utc": "2026-10-20T16:51:42.785961+00:00",
+    "exec_main_exit_timestamp": "",
+    "invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+    "main_pid": 730727,
+    "run_name": "fg19_child_ema_f0_s1001_fit_v1",
+    "selected_gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "sub_state": "running",
+    "unit": "computer-vision-homework-fg19-child-ema-fit-v1.service"
+  },
+  "limitations": [
+    "This is one dated read-only observation of the same active invocation, not a terminal receipt.",
+    "The last recorded progress line is not a synchronous current batch/update/nonfinite total.",
+    "No 44,760-update completion, checkpoint/state tensor integrity, or predictive quality claim is made.",
+    "Model, state, provenance, cache, dictionary, and data payloads were not read or hashed by this review.",
+    "No new fit/admission, support job, inference, restart, stop, or worker-control action was performed by this review.",
+    "No checker preparation, tests, source/profile execution, or remote query was performed by this review."
+  ],
+  "predecessor_capture_join": {
+    "parent_events_delta_from_1551": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_local_events_delta_from_1551": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "path": "../health_20261020T1551Z",
+    "previous_raw_stdout_bytes": 65175,
+    "previous_raw_stdout_sha256": "53a5eeff0673d324eb4635931114462b982cda889a2b40e7e9e4253471dc4c5b",
+    "same_invocation": true
+  },
+  "progress_observation": {
+    "amp_skipped_updates": 0,
+    "completed_batches_by_epoch": [
+      746,
+      746,
+      746,
+      746,
+      746
+    ],
+    "completed_epochs": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "completed_updates_by_epoch": [
+      7460,
+      7460,
+      7460,
+      7460,
+      7460
+    ],
+    "cumulative_completed_batches": 3730,
+    "cumulative_completed_updates": 37300,
+    "grad_stats_nonfinite_steps_by_epoch": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "grad_stats_steps_by_epoch": [
+      7460,
+      7460,
+      7460,
+      7460,
+      7460
+    ],
+    "interpretation": "Completed epoch-0 through epoch-4 FIT/GRAD_STATS records only. The later epoch-5 batch-640 line is not a live total; this observation does not prove 44,760 terminal updates, tensor integrity, or quality.",
+    "last_line_is_not_synchronous_live_or_terminal_total": true,
+    "last_recorded_progress_line": "ep 5 batch 640/746 loss 0.5223 lr 1.90e-07 seq/s 5.0"
+  },
+  "readme_binding": {
+    "bytes": 2285,
+    "claims_match_observation_and_limits": true,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/README.md",
+    "sha256": "41d04306a4de58464f34b139f532fefc817f0c80bade70555a681bf0b7891056"
+  },
+  "receipt_joins": {
+    "ADMISSION.json": {
+      "base64_decodes_to_local_bytes": true,
+      "bytes": 9880,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/ADMISSION.json",
+      "sha256": "db13e5433cb0a414c1a235806220c53db4ded6c128fc5ffbda5e465dde9fde51"
+    },
+    "LAUNCH.json": {
+      "base64_decodes_to_local_bytes": true,
+      "bytes": 7404,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/LAUNCH.json",
+      "sha256": "8c43f6fb26d3f6a046304617094e266a3e1940c83a7ea56787781fa176ef133e"
+    },
+    "unit.log": {
+      "base64_decodes_to_local_bytes": true,
+      "bytes": 29718,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/unit.log",
+      "sha256": "056931477ec1d9e24fd7d91c89600c02cb40558bf98f375b165e585160d59b44"
+    }
+  },
+  "resource_and_ownership_sample": {
+    "own_cgroup_current_bytes": 3454963712,
+    "own_cgroup_peak_bytes": 3737264128,
+    "own_memory_events": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "own_memory_events_local": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "owned_gpu_process": {
+      "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service",
+      "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "pid": 730727,
+      "uid": 1061,
+      "used_memory": "3408 MiB"
+    },
+    "parent_cgroup_current_bytes": 10290122752,
+    "parent_events_delta_from_1551": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_local_events_delta_from_1551": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "populated_descendant_count": 1,
+    "populated_descendant_processes": [
+      "730727"
+    ],
+    "resource_interpretation": "Cgroup, service, RSS, CPU and GPU values are distinct sampled observations; no atomic equality, full-RAM, cause, or performance claim."
+  },
+  "schema": "fg19-child-ema-rare-health-metadata-review.v1",
+  "scope": "Independent local-only review of the 2026-10-20 16:51 same-invocation EMA health capture. No model/state/provenance/cache/dictionary/data payload was opened or hashed; no worker query or control action, checker preparation, test, source/profile execution, admission, inference, restart, or stop was performed by this review.",
+  "source_authority": {
+    "admission_source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "admission_source_files_verified": 167,
+    "admission_source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "canonical_source_content_rehashed_by_reader": false,
+    "captured_reader_sha256": "8c42338dfcee85aff11580a513d32b35841c34430cc3423d6f9c66af16ed62b0",
+    "interpretation": "The original fresh 167-file EMA admission is source-content authority; this reader identity is expected and was not used to rehash current source.",
+    "reader_sha256": "8c42338dfcee85aff11580a513d32b35841c34430cc3423d6f9c66af16ed62b0"
+  },
+  "stat_only_artifacts": [
+    {
+      "bytes": 4275938,
+      "device": 64512,
+      "inode": 780114420,
+      "is_symlink": false,
+      "mtime_ns": 1792504174793353870,
+      "name": "model_ep0.pt"
+    },
+    {
+      "bytes": 4276770,
+      "device": 64512,
+      "inode": 780114423,
+      "is_symlink": false,
+      "mtime_ns": 1792506649250887408,
+      "name": "model_ep1.pt"
+    },
+    {
+      "bytes": 4277602,
+      "device": 64512,
+      "inode": 780114422,
+      "is_symlink": false,
+      "mtime_ns": 1792508450213651428,
+      "name": "model_ep2.pt"
+    },
+    {
+      "bytes": 4278370,
+      "device": 64512,
+      "inode": 780116375,
+      "is_symlink": false,
+      "mtime_ns": 1792510474203900543,
+      "name": "model_ep3.pt"
+    },
+    {
+      "bytes": 4279202,
+      "device": 64512,
+      "inode": 780116372,
+      "is_symlink": false,
+      "mtime_ns": 1792513031441344637,
+      "name": "model_ep4.pt"
+    },
+    {
+      "bytes": 191403,
+      "device": 64512,
+      "inode": 780114421,
+      "is_symlink": false,
+      "mtime_ns": 1792513031464346240,
+      "name": "provenance.json"
+    },
+    {
+      "bytes": 12657507,
+      "device": 64512,
+      "inode": 780116377,
+      "is_symlink": false,
+      "mtime_ns": 1792513031508349308,
+      "name": "training_state.pt"
+    }
+  ],
+  "status": "PASS_LOCAL_METADATA_AUDIT_ACTIVE_PROGRESS_ONLY_NO_TERMINAL_OR_QUALITY_CLAIM"
+}

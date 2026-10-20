@@ -1,3 +1,9 @@
+## 20 October16:51UTC — EMA remains active at rare observation
+
+[Bounded exact-invocation EMA health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/README.md) records five completed epochs/37,300updates/3,730batches/zero skips/nonfinite. Later ep5batch640 is not current totals, terminal44,760, integrity or quality. One owned worker, own/parent events unchanged, run tensors stat-only, no new support/fit/restart/stop/inference. The existing terminal checker remains frozen/local/unadmitted; actual typed native exit0 then fresh cappedCPU verification/acceptance/exact-stop gates apply. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; routine healthy progress is quiet.
+
+---
+
 ## 20 October15:51UTC — EMA remains active at rare observation
 
 [Bounded exact-invocation EMA health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1551Z/README.md) records four completed epochs/29,840updates/2,984batches/zero skips/nonfinite. Later ep4batch300 is not current totals, terminal44,760, integrity or quality. One owned worker, own/parent events unchanged, run tensors stat-only, no new support/fit/restart/stop/inference. The existing terminal checker remains frozen/local/unadmitted; actual typed native exit0 then fresh cappedCPU verification/acceptance/exact-stop gates apply. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; routine healthy progress is quiet.

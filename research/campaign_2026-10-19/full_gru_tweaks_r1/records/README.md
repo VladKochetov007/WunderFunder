@@ -1,3 +1,7 @@
+[EMA rare health16:51UTC](child_ema_fit_v1/health_20261020T1651Z/README.md): same active invocation, completed epochs0–4/cumulative37,300updates/3,730batches/zero skips/nonfinite, later ep5batch640 not synchronous current totals/terminal/quality. Own/parent events unchanged; tensors stat-only; no new support/fit/restart/stop. Existing EMA integrity checker remains local and gated on actual native typed exit0.
+
+---
+
 [EMA rare health15:51UTC](child_ema_fit_v1/health_20261020T1551Z/README.md): same active invocation, completed epochs0–3/cumulative29,840updates/2,984batches/zero skips/nonfinite, later ep4batch300 not synchronous current totals/terminal/quality. Own/parent events unchanged; tensors stat-only; no new support/fit/restart/stop. Existing EMA integrity checker remains local and gated on actual native typed exit0.
 
 ---

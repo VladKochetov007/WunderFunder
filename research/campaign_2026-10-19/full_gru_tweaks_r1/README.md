@@ -1,3 +1,7 @@
+**Latest actual20October16:51UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1651Z/README.md), five completed epochs/cumulative37,300updates/3,730batches/zero skips/nonfinite in those records. Later ep5batch640 is not current totals, terminal44,760, integrity or quality. Own/parent events unchanged, tensors stat-only, no new action/job. Existing terminal checker is frozen/local/unadmitted. [Continuation](CONTINUATION.md) and [health validation](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1651.json) govern dated evidence and later actual-exit gates; no repeated preparation/tests/poll.
+
+---
+
 **Latest actual20October15:51UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1551Z/README.md), four completed epochs/cumulative29,840updates/2,984batches/zero skips/nonfinite in those records. Later ep4batch300 is not current totals, terminal44,760, integrity or quality. Own/parent events unchanged, tensors stat-only, no new action/job. Existing terminal checker is frozen/local/unadmitted. [Continuation](CONTINUATION.md) and [health validation](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1551.json) govern dated evidence and later actual-exit gates; no repeated preparation/tests/poll.
 
 ---
