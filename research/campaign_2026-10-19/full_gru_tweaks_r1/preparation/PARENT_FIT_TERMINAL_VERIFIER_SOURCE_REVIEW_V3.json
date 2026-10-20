@@ -1,0 +1,39 @@
+{
+  "dependencies": {
+    "propensity_terminal_support.py": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+    "teacher_s5_terminal_check_v1.py": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+  },
+  "limitations": [
+    "Root must still verify the exact final byte pins and all fresh remote gates before submission.",
+    "This source review is not parent terminal acceptance, checkpoint-content evidence, or a scientific quality result."
+  ],
+  "pins": {
+    "body_sha256": "fea0aa8b553d04e6608227f6547054212c4657faa43879b0d3ea28a0d6c81e86",
+    "checker_sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41",
+    "cold_import_proof_receipt_sha256": "198dade1a405d861f9d94fa51b3763ccae3e133611709383a91fc109b3d192fb",
+    "cold_import_proof_script_sha256": "e7413dedfad2c49154c56128297575e82aa177d66469919188895ddcb1af0cd2",
+    "focused_determinism_tests_sha256": "fd027bb58b2d9fb5760679593cfc3768d4090b71a0efd1fad0c19a09a6371b1e",
+    "local_checks_sha256": "2c66ce53570fd16c5c7f57acf4fe9d1011cfba15181ddee0d64d76e814710417",
+    "preparation_sha256": "60bb0b75ff1ece1e33c83c12f33f19d8f81c2f77352c0298111d1881f83b4c01",
+    "template_sha256": "828447f5bc65ab4430323ad3f7d36973276488720066c2892e9978c54b8e804b"
+  },
+  "review_findings": [
+    "V3 corrects the source-mismatched deterministic-mode expectation exposed by the V2 failure: it requires exact boolean True and binds the runtime policy file SHA to the accepted source manifest. The V2 failure review is separately preserved at PARENT_FIT_TERMINAL_VERIFIER_FAILURE_REVIEW_V2.json.",
+    "The V2 RNG diagnostic binding, observed CPU/CUDA RNG signatures, installed PyTorch version check, and existing full fit-integrity checks remain unchanged. The output schema identifies the pinned CUDA resource policy.",
+    "The V3 packet uses a distinct output path and unit, embeds the exact V3 checker plus the two previously pinned helper files and bounded JSON receipts, and retains the root-owned fresh source/split/data/cache/native-success/empty-descendant/headroom/physical-storage/output gates.",
+    "Support caps remain 50% CPU, 1.4 GB memory.high, 1.5 GB memory.max, no swap, 600 seconds, CUDA hidden, and one BLAS thread. No admission or launch is performed by this review.",
+    "Frozen local-check receipts report two exact-bool/source-AST tests and an isolated import proof pinning 26 WNN modules with CUDA uninitialized and no reader-sentinel calls; these remain preparation evidence only."
+  ],
+  "reviewed_at_utc": "2026-10-20T04:57:44Z",
+  "schema": "fg19.parent-fit-terminal-verifier-source-review.v3",
+  "scope": "Independent local source, source-manifest, and preparation-receipt review only; no SSH, remote query, unit action, model/checkpoint/array payload read, or test replay.",
+  "source_binding": {
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "manifest_file_count": 167,
+    "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "resource_policy_path": "src/wnn/resources.py",
+    "resource_policy_sha256": "95fdc839ff1561622ac06c465cfc9a01370130d99be1e832b3a33c79bcb37930",
+    "verified_source_behavior": "configure_torch() sets cuDNN benchmark=False and deterministic=True when CUDA is available."
+  },
+  "status": "CONDITIONAL_SOURCE_PASS"
+}

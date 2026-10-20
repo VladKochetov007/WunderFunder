@@ -1,0 +1,136 @@
+{
+  "schema": "fg19-child-allthree-profile-independent-terminal-review.v1",
+  "reviewed_at_utc": "2026-10-20T05:28:05Z",
+  "classification": "METADATA_REVIEW_PASS_ACCEPTED_AND_EXACT_STOPPED",
+  "scope": "Independent local review of durable metadata only. No SSH, unit query, test replay, checkpoint/model/data/cache/dictionary payload read, or quality evaluation was performed.",
+  "paths": {
+    "record_root": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1",
+    "raw_capture": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/capture/STDOUT.raw.json",
+    "validation": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/capture/VALIDATION.json",
+    "acceptance": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/TERMINAL_ACCEPTANCE.json",
+    "exact_stop": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/exact_stop/STDOUT.raw.json"
+  },
+  "receipt_pins": {
+    "capture_raw_bytes": 46755,
+    "capture_raw_sha256": "b2665d829676714a770d21eae90c538d6042dc36de7c2f18a62071fe4ecbc2a1",
+    "capture_transport_returncode": 0,
+    "capture_transport_persisted_before_parse": true,
+    "capture_transport_stdout_bytes": 46755,
+    "capture_transport_stdout_sha256": "b2665d829676714a770d21eae90c538d6042dc36de7c2f18a62071fe4ecbc2a1",
+    "capture_transport_stderr_bytes": 0,
+    "admission_bytes": 7817,
+    "admission_sha256": "908d066878b6a5b69549077a0002c6d6f1ed306bc10f5b059fa6ca423d2da2c5",
+    "launch_bytes": 9691,
+    "launch_sha256": "df171f46017dbb4b4b7bdfaaeb374db651d6d972eb11e8ffcebe917a4b464d44",
+    "unit_log_bytes": 7624,
+    "unit_log_sha256": "b4480cd8529ecbb0d5ec1cf840f0c9a312b541f9598cc4cd4cfa19084350c289",
+    "validation_bytes": 1417,
+    "validation_sha256": "8609ab4c26e097ba042f97602b39b3c8ef3ee53a13bcfa8ee360604e6ca9ea74",
+    "acceptance_bytes": 8960,
+    "acceptance_sha256": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045"
+  },
+  "actual_unit": {
+    "unit": "computer-vision-homework-fg19-child-allthree-profile-v1.service",
+    "invocation_id": "1d62c3fb47ac4bd5be8e8ec8fe6759cd",
+    "native_exit_status": 0,
+    "exec_main_code": 1,
+    "main_pid": 0,
+    "captured_utc": "2026-10-20T05:25:48.275168+00:00",
+    "native_exit_utc": "2026-10-20T05:20:07+00:00",
+    "acceptance_utc": "2026-10-20T05:26:44.799451+00:00",
+    "acceptance_status": "ACCEPTED",
+    "exact_stop_status": "PENDING_EXACT_STOP",
+    "exact_stop_file_present_at_review": true
+  },
+  "exact_stop": {
+    "utc": "2026-10-20T05:27:44.423161+00:00",
+    "raw_bytes": 966,
+    "raw_sha256": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce",
+    "transport_returncode": 0,
+    "transport_persisted_before_parse": true,
+    "transport_stdout_sha256": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce",
+    "acceptance_sha256_bound_by_stop": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045",
+    "invocation_id": "1d62c3fb47ac4bd5be8e8ec8fe6759cd",
+    "before": {
+      "ActiveState": "active",
+      "SubState": "exited",
+      "MainPID": "0",
+      "ExecMainCode": "1",
+      "ExecMainStatus": "0",
+      "InvocationID": "1d62c3fb47ac4bd5be8e8ec8fe6759cd"
+    },
+    "stop_returncode": 0,
+    "after": {
+      "LoadState": "not-found",
+      "ActiveState": "inactive",
+      "SubState": "dead",
+      "MainPID": "0",
+      "InvocationID": ""
+    },
+    "populated_before": {},
+    "populated_after": {}
+  },
+  "profile_evidence": {
+    "scientific_fits": 0,
+    "geometry": {
+      "parent_input_width": 211,
+      "child_input_width": 467,
+      "parent_output_width": 23,
+      "child_output_width": 25,
+      "trunk_and_prefix_equal": true,
+      "new_input_columns_zero": true,
+      "new_logvariance_rows_zero": true,
+      "normalization_prefix_equal": true,
+      "normalization_suffix_mean_zero_std_one": true,
+      "initial_state_finite": true
+    },
+    "recipe": {
+      "representation": "ema_sparse",
+      "objective": "nll",
+      "batch_size": 16,
+      "batch_count": 6,
+      "sequence_length": 20000,
+      "chunk_rows": 2000,
+      "updates_per_batch": 10,
+      "warmup_batches": 2,
+      "measured_batches": 4
+    },
+    "optimizer_attempts": 60,
+    "optimizer_completed_updates": 60,
+    "amp_skipped_updates": 0,
+    "loss_checks": 60,
+    "loss_finite": true,
+    "gradient_finite": true,
+    "gradient_stats_steps": 60,
+    "gradient_stats_nonfinite_steps": 0,
+    "checkpoint_absent": true,
+    "run_directory_exists_and_empty": true,
+    "quality_score": null
+  },
+  "lineage_and_source": {
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count_verified_at_admission": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "terminal_capture_scope": "The capture rehashed the three staged Python files; it did not freshly rehash all 167 canonical source files.",
+    "parent_acceptance_sha256": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+    "parent_exact_stop_sha256": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+    "parent_checkpoint_sha256": "6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45",
+    "initial_state_fingerprint_note": "The profile's parent-state fingerprint (915655ae8dcf9fcdfacfeeee83c8a6652afd0101c05482f3be906f17270e27b0) is reported by its own initialization probe and differs from the terminal verifier's differently defined fingerprint; acceptance also binds the exact parent checkpoint hash and explicit trunk/prefix/normalization predicates. No fingerprint equality is asserted."
+  },
+  "resource_scope": {
+    "parent_populated": {},
+    "parent_memory_current_bytes_at_capture": 7805116416,
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "selected_gpu_free_mib_at_capture": 10924,
+    "own_cgroup_current_unavailable": true,
+    "reported_systemd_memory_peak_bytes": 2437120,
+    "memory_peak_interpretation": "Service-reported MemoryPeak is retained as its own scope and is not a full-runtime RAM measurement."
+  },
+  "conclusion": "Durable capture hashes and decoded receipt hashes reconcile; exact invocation exited successfully; validation and root acceptance agree on 60 finite profile updates, accepted-parent initialization predicates, expected 467-to-25 all-three geometry, empty output inventory, and no quality score. A later exact-stop receipt binds the frozen acceptance and same invocation, shows stop returncode 0, not-found/inactive/dead after stop, MainPID 0, empty InvocationID, and empty populated sets."
+}

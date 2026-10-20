@@ -1,3 +1,17 @@
+**05:00UTC parent accepted/exact-stopped:** [Full parent integrity and closure](records/parent_fit_r2_v1/TERMINAL_ACCEPTANCE.json) verifies29,840updates/FP32 model+AdamW/loader/RNG/source167/cache/ancestry; [exact stop](records/parent_fit_r2_v1/exact_stop/README.md) excludes failed supports. New child-shape profile is next, not yet admitted; five arms/quality endpoints remain pending. [Current continuation](CONTINUATION.md) supersedes old running/failed-checker snapshots.
+
+- [Parent-to-CONTROL publication validation](PUBLICATION_VALIDATION_20261020_PARENT_CONTROL.json): scoped files, raw transports, source/review pins, append-only costs and navigation; no model/data payloads.
+
+- [First full CONTROL fit actually launched](records/child_control_fit_v1/README.md): six fixed epochs from accepted shared parent; first child started, no quality score.
+
+- [Accepted and exact-stopped all-three child shape profile](records/child_allthree_profile_v1/README.md): source68, inherited parent, actual60 finite updates; no quality endpoint.
+
+**04:41UTC integrity repair:** [Separate bounded RNG diagnostic](records/parent_fit_r2_v1/rng_diagnostic_v2/capture/RNG_DIAGNOSTIC.json) confirms actual saved CUDA RNG uint8[16]/Torch2.14.0+cu130; the old >=1024 checker guard was incompatible. Native29,840-update parent is unchanged/completed, full new V2 integrity acceptance and five child stages remain pending. No quality endpoint. [Current continuation](CONTINUATION.md) supersedes dated pending-schema statements below.
+
+**04:35UTC diagnostic admission boundary:** [V1 rejected read-only](records/parent_fit_r2_v1/rng_diagnostic_v1/README.md) before staging/submission because its failed-capture predicate demanded success. No diagnostic worker ran. A separately reviewed V2 will bind the correct failed receipt; native parent and failed integrity V1 remain untouched.
+
+**20 October04:09UTC native capture:** [Shared parent ended with explicit exit0](records/parent_fit_r2_v1/terminal_native_capture_v1/README.md), four actual epoch records/29,840updates/2,984batches/zero skips/nonfinite, fixed3/source167. Actual tensor/state integrity verification and acceptance are pending; no child fit or predictive quality endpoint yet.
+
 **20 October03:10UTC dated health:** [Same parent invocation active/running](records/parent_fit_r2_v1/health_20261020T0309Z/README.md), two completed epoch records/14,920updates/1,492batches/zero skips/nonfinite in those epochs, last recorded epoch2batch680/746. One owned GPU worker/no new memoryevents. No current synchronous count, terminal, quality endpoint or new admission; prepared integrity checker remains unused.
 
 **20 October02:10UTC dated health:** [Same shared-parent fit active/running](records/parent_fit_r2_v1/health_20261020T0209Z/README.md), last recorded epoch0batch720/746, one owned GPU worker and own/parent new memoryevents0. No terminal, exact current update total or quality result. [Continuation](CONTINUATION.md) distinguishes this observation from completed cache/profile prerequisites; the [needed parent terminal checker](preparation/PARENT_FIT_TERMINAL_ROOT_PREPARATION_V1.json) is locally prepared/source-reviewed, with nine focused synthetic checks and cold imports passing. It has not been staged/admitted/executed on B or applied to an actual checkpoint.

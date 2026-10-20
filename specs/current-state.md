@@ -1,4 +1,24 @@
+## 20 October05:33UTC — first full CONTROL GRU fit actually launched
+
+[Startup05:35UTC](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/startup_health_v1/README.md) observes the same active invocation and sole owned GPU worker, zero new own/parent memory events; recorded ep0batch0 is not a verified update total or quality score.
+
+[CONTROL launch](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/README.md) binds unit`computer-vision-homework-fg19-child-control-fit-v1.service`/invocation`e66e0d0703314e4fb5d47dcdbfcaf202`,05:33:09UTC/PID96892 at launch. Parent and all-three shape profile are accepted/exact-stopped; fresh gates passed for six fixed CONTROL epochs from shared parent. One GPU/firstF0seed1001, no queue; expected44,760updates are not observed completion. Child1started/0completed; no comparative quality score or gain exists yet. See current campaign continuation for exact scope and next integrity gates.
+
+## 20 October05:28UTC — child shape profile accepted and exact-stopped
+
+The [all-three child shape profile](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/README.md) passed60 finite updates and exact parent/zero-extension/normalization checks, with no checkpoint or quality score. Actual profile exit0/capture/acceptance precede exact stop05:27:44UTC; no owned campaign worker remains at that stop snapshot. First full CONTROL admission is next; children0/5 at this snapshot. Parent and completed profiles/verifiers must not be polled/replayed.
+
+## 20 October05:20UTC — child shape profile actually launched
+
+The shared parent is accepted and exact-stopped. The [all-three child shape profile](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/README.md) is now launched as invocation `1d62c3fb47ac4bd5be8e8ec8fe6759cd`; terminal evidence is pending. This is a bounded60-update engineering profile, zero scientific fits and no quality score. Next is first full control after actual profile acceptance/exact stop; children0/5 remain unadmitted.
+
 # Current project state
+
+**20 October05:00UTC full-GRU parent accepted:** [Full verification and exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) close29,840updates/next_epoch4/fixed3/finiteFP32model+AdamW/loader/RNG/source167/cache/clean ancestry. Two checker expectation failures were preserved and corrected in versioned support, without native replay. Child common-shape profile next; five full child arms and predictive quality are pending.
+
+**20 October04:41UTC full-GRU integrity repair:** [Actual bounded RNG diagnostic](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) confirms saved CUDA RNG uint8[16]/Torch2.14.0+cu130, incompatible with verifierV1’s >=1024 guard. Native parent completed29,840updates unchanged; failed support preserved, new exact-schema verifierV2 pending. No child fit or quality endpoint.
+
+**20 October04:09UTC full-GRU native capture:** [Shared parent completed](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) at03:38:02UTC, explicit native exit0 and four epoch records/29,840updates/2,984batches/zero skips/nonfinite/source167. Checkpoint/state integrity verification remains pending before acceptance and five child stages; no quality endpoint.
 
 **20 October03:10UTC full-GRU dated health:** [Same parent invocation active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/health_20261020T0309Z/README.md), native epochs0/1 report14,920cumulative updates/1,492batches/zero skips/nonfinite in those completed records; latest line epoch2batch680/746. One owned GPU worker/no new memoryevents. No synchronous current total, terminal, quality endpoint or new admission; prepared checker remains unused.
 

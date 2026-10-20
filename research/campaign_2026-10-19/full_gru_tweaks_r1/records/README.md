@@ -1,3 +1,9 @@
+[Shared parent accepted and exact-stopped](parent_fit_r2_v1/README.md): full native29,840updates/four epochs and restricted V3 state/model/AdamW/RNG/source167/ancestry checks pass; exact stop closes accepted native+successfulV3 only. Failed supports are retained. One new parent fit is complete; five child fits/quality endpoints remain pending.
+
+- [First full CONTROL fit](child_control_fit_v1/README.md): actual one-worker launch; terminal completion pending.
+
+- [All-three child shape profile](child_allthree_profile_v1/README.md): accepted60 finite updates and exact-stopped; first full CONTROL now launched.
+
 - [S3 fitting-train export V1](teacher_s3_train_export_v1/README.md): one actual22:12UTC launch on source88becca; raw transport, admission, invocation and resource bounds. Zero scientific fits; terminal/cache/quality pending.
 
 # Full-GRU campaign actual execution records
@@ -81,3 +87,9 @@ The [actual teacher profileV2](teacher_profile_v2/FAILURE.json) exited1at15:19:0
 [Latest parent-fit health capture](parent_fit_r2_v1/health_20261020T0209Z/README.md) is the 02:10:25UTC exact-invocation metadata snapshot, still active/running at saved batch720/746. It separates process, GPU, owned-cgroup and parent-cgroup observations and does not establish terminal completion.
 
 [Later parent-fit health capture](parent_fit_r2_v1/health_20261020T0309Z/README.md) records two completed epoch FIT records and the same invocation's saved epoch2 batch680/746 progress line. Its review is metadata-only; the line is not synchronous live state, a full current update total or terminal proof.
+
+[Parent-fit R2 native terminal capture](parent_fit_r2_v1/terminal_native_capture_v1/README.md) supersedes those dated active-health snapshots. The [metadata review](../preparation/PARENT_FIT_NATIVE_TERMINAL_METADATA_REVIEW.json) reconciles the 301,285-byte raw response, source167 manifest pin, four FIT and four GRAD_STATS rows, 29,840 producer-reported updates, withheld evaluation, cache/normalizer ancestry and stat-only outputs. It does not replace the pending restricted CPU model/state verification or claim quality.
+
+[Parent-fit R2 CPU verifier V1 failure](parent_fit_r2_v1/terminal_verification_v1/README.md) is a separate support-unit result: the raw capture and decoded admission/launch/log bind one failed checker invocation at the CUDA RNG schema guard. The [failure metadata review](../preparation/PARENT_FIT_TERMINAL_VERIFIER_FAILURE_REVIEW_V1.json) confirms the native fit remains separately recorded as exit 0; the saved RNG subcondition is not identified, no CPU acceptance or retry exists, and no quality conclusion follows.
+
+[Parent-fit RNG diagnostic V1](parent_fit_r2_v1/rng_diagnostic_v1/READONLY_REJECTION.json) is a read-only pre-output rejection; V1 created no unit. The [successful V2 diagnostic capture](parent_fit_r2_v1/rng_diagnostic_v2/README.md) and [metadata review](parent_fit_r2_v1/rng_diagnostic_v2/METADATA_REVIEW.json) bind its exact invocation, source/report hash, RNG structure, resource metadata, and unchanged parent counters. It is diagnostic-only, not parent integrity acceptance or a quality result; its separate stop adapter is recorded under `rng_diagnostic_v2/exact_stop/`.

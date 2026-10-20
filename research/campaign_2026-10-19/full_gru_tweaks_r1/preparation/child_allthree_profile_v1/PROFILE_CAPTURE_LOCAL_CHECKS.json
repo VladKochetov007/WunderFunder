@@ -1,0 +1,55 @@
+{
+  "commands": [
+    {
+      "command": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python -m unittest -v test_read_profile_capture_v1",
+      "coverage": "synthetic receipt validation; strict typed initial-state widths/booleans; update-counter substitution and receipt corruption rejection",
+      "result": "PASS: 3 tests"
+    },
+    {
+      "command": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python -m ruff check PROFILE_CAPTURE_REMOTE.py read_profile_capture_v1.py test_read_profile_capture_v1.py",
+      "result": "PASS"
+    },
+    {
+      "command": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python -m py_compile PROFILE_CAPTURE_REMOTE.py read_profile_capture_v1.py test_read_profile_capture_v1.py",
+      "result": "PASS"
+    }
+  ],
+  "cwd": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_profile_v1",
+  "files": {
+    "PROFILE_CAPTURE_REMOTE.py": {
+      "sha256": "46ca4c1144dbf9ae7765d7d637d617c3494aaf0b0e1a8e30a1149b38cfe5aa99"
+    },
+    "read_profile_capture_v1.py": {
+      "sha256": "78311deb2f271d003e4980f24235015c2f68ec05451103890891744380a7014c"
+    },
+    "test_read_profile_capture_v1.py": {
+      "sha256": "c8a2f0b83134059db0fcedb407901ac70c718990d23b8c4c9cf6e41ca5db5249"
+    }
+  },
+  "observer_caps": {
+    "aggregate_receipt_bytes": 4000000,
+    "campaign_cgroup_paths": 128,
+    "per_receipt_bytes": 1000000,
+    "run_directory_entries": 128,
+    "staged_python_file_bytes": 200000
+  },
+  "payload_reads": 0,
+  "python": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python",
+  "remote_action_by_packet_author": false,
+  "saved_capture_reader": {
+    "acceptance_candidate_for_root_review": true,
+    "capture_consistent": true,
+    "capture_path": "records/child_allthree_profile_v1/capture/STDOUT.raw.json",
+    "capture_sha256": "b2665d829676714a770d21eae90c538d6042dc36de7c2f18a62071fe4ecbc2a1",
+    "checkpoint_absence": true,
+    "initial_state_proof_valid": true,
+    "profile_timing_records": 1,
+    "run_directory_valid": true,
+    "run_inventory_complete": true,
+    "scope": "Local raw-byte/metadata parse only; no remote action or payload read. Root independently accepted and exact-stopped the invocation.",
+    "terminal_success": true,
+    "update_evidence_valid": true
+  },
+  "schema": "fg19-child-allthree-profile-capture-local-checks.v1",
+  "scope": "Local syntax, lint, and synthetic checks for the bounded capture observer and reader; no remote query or payload read by this packet author."
+}

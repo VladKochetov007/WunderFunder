@@ -1,3 +1,73 @@
+# Current stage — 20 October05:33UTC
+
+Latest actual [bounded startup health05:35:20UTC](records/child_control_fit_v1/startup_health_v1/README.md) confirms the same invocation active/running/PID96892, one owned populated GPU worker3,404MiB, own memory events0/parent deltas0. Last recorded ep0batch0/746/loss0.5843/LR4.00e-6 is not synchronous progress or verified counters/quality. Own CGcurrent2,507,718,656B/peak2,786,459,648B and parentcurrent10,313,134,080B are separate observations. Raw36,875B/SHA`53afefccfdc52b62906155fb7bad40b705c2cd1c5c6c4ce999cd4649e1bced5f` persisted before parse; no payload read/hash/restart/support/stop. Do not repeat immediately.
+
+**The first full CONTROL fit is actually running.** [Actual launch](records/child_control_fit_v1/README.md), unit`computer-vision-homework-fg19-child-control-fit-v1.service`/invocation`e66e0d0703314e4fb5d47dcdbfcaf202`, launched05:33:09.831980UTC/PID96892 at the dated launch snapshot. RootSSH0/raw21,454B/SHA`22b66a7c530579e5e6b05e6f797bf8a3c77016ec7dc7fddf643fcf4acc1945fe` persisted before parse; exact B admission/launch extracted. [Launch acceptance](records/child_control_fit_v1/LAUNCH_ACCEPTANCE.json) SHA`caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15` binds the sole execution of reviewed body124b90f9. Fresh gates passed with accepted/stopped parent and all-three shape profile; no healthy job was stopped or replayed.
+
+CONTROL is H256×2/common467→25/base/WMSE/meanvariancehead1, accepted parent@ep3/inherited norm, seed1001/seeded order/B16C2000/six epochs/fixed5/AdamW/currentcache/originalweights/noeval/gradstats/epoch recovery. Expected44,760updates/4,476batches/next_epoch6 are NOT observed completion. Use rare bounded exact-unit health and preserve unknown outcomes, no restart/retry/new job. After actual integer native exit0, capture then adapt the reviewed integrity checks to this actual child source/recipe/ancestry/state before downstream or exact stop. Never blindly invoke the old parent/teacher checker.
+
+Shared prerequisites5completed fits + parent1completed new fit; first child1started/0completed, remaining4children not admitted. One owned GPU/aggregate2CPU/firstF0seed1001 only. Parent, successful verifier, all-three shape profile and completed prerequisites are accepted/exact-stopped, NEVER poll/replay. No student/control/tweak quality endpoint or measured gain exists. [Publication validation](PUBLICATION_VALIDATION_20261020_PARENT_CONTROL.json) binds the parent completion/repairs/acceptance, child profile acceptance/stop and current CONTROL launch/startup evidence. Final atomic ref confirmation is recorded by root at publication time; maintenance1dcb9791 is the earlier historical publication.
+
+---
+
+# Current stage — 20 October05:28UTC
+
+**The all-three child shape profile passed and is exact-stopped.** [Acceptance](records/child_allthree_profile_v1/TERMINAL_ACCEPTANCE.json) SHA`9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045` follows actual60/60 completed AdamW updates, finite losses/pre-clip gradients, zero skips/nonfinite, and exact parent trunk/input/head/normalization inheritance with zero added columns/rows/biases. Native invocation`1d62c3fb47ac4bd5be8e8ec8fe6759cd` ended05:20:07UTC exit0, captured05:25:48. It wrote no checkpoint and has no quality score. [Exact stop05:27:44UTC](records/child_allthree_profile_v1/exact_stop/README.md), raw966B/SHA`a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce`, shows only accepted profile not-found/inactive/dead and no populated campaign descendants. Do not poll/replay this profile or the completed parent/verifiers.
+
+Next is actual first full CONTROL fit, common H256×2/467→25, accepted parent epoch3/inherited norm, modebase/WMSE, seeded epoch order shared across the five children, six epochs/fixed5/AdamW/current T3 cache. Its short admission body is being bound to actual profile acceptance and stop; NO full child fit is admitted at this snapshot. Shared prerequisites5completed fits + parent1completed new fit; children0/5. The profile is zero scientific fits. No student/control/tweak quality endpoint or gain exists. Current-turn work remains unpublished pending final validation/publication.
+
+---
+
+# Current stage — 20 October05:20UTC
+
+[All-three child shape profile](records/child_allthree_profile_v1/README.md) is actually launched, invocation `1d62c3fb47ac4bd5be8e8ec8fe6759cd`, unit `computer-vision-homework-fg19-child-allthree-profile-v1.service`. Dated launch observation was active/running; rootSSH0/raw23,390B/SHA`a5d76b72366e2a3e975ad6a8d342439f52f690858efe1d2f36faecd0251a3dcd` persisted before parsing. Expected60updates/6batches are not completion. The profile checks parent inheritance and all-three467→25 geometry without checkpoint/evaluation/quality. Capture actual proof/counters/exit0 before acceptance/exact stop, then admit first full CONTROL serially. No current parent/successful-verifier polling: both accepted/exact-stopped05:00:52. Shared prerequisite5fits + completed parent1; children0/5. New turn work remains unpublished pending final validation.
+
+---
+
+# Current stage — 20 October05:00UTC
+
+**The shared parent is fully accepted and exact-stopped.** [Root acceptance](records/parent_fit_r2_v1/TERMINAL_ACCEPTANCE.json) SHA`5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8` follows actual [successful restricted verifier V3](records/parent_fit_r2_v1/terminal_verification_v3/README.md), native04:58:34exit0/captured04:58:58UTC. Actual29,840updates/2,984batches/four histories/next_epoch4/fixed3/zero skips/nonfinite, source167 and finite FP32 model+AdamW/loader/RNG/cache/normalizer/clean ancestry all pass. Selected model, epoch3 and saved-state tensors share fingerprint`6e1c587824ea363d56fec1fa7c393f89b63690419dda9e230146d08ff5e9e9c5`; epoch3 file SHA`6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45`. Real payloads stay B-only. [Independent actual review](preparation/PARENT_FIT_TERMINAL_VERIFIER_ACTUAL_REVIEW_V3.json) is metadata-only, not empirical replication or quality evaluation.
+
+[Exact stop05:00:52UTC](records/parent_fit_r2_v1/exact_stop/README.md), raw3,083B/SHA`15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8`, closed ONLY accepted native parent and successful verifierV3: both not-found/inactive/dead, no populated descendants. Failed verifiersV1/V2 are preserved, never stop/restart/retry. They exposed checker expectations incompatible with actual16-byte CUDA RNG and source-mandated cuDNN determinism; native training/weights were not changed or replayed. The successful diagnostic is separately captured/accepted/exact-stopped. Frozen acceptance's pending-stop field is historical, superseded by later stop without rewrite. [Resource reconciliation](records/parent_fit_r2_v1/RESOURCE_RECONCILIATION.json) separates native/support CPU/wall/MemoryPeak and dated active observations.
+
+Next authorized dependency: first actual common467-input/25-output all-three child-shape profile,60bounded updates through canonical trainer and shared accepted parent/dictionary/cache. Local profile probe and fresh admission body are being prepared/reviewed; NO child profile/fit admitted yet. After actual profile/ancestry/resource acceptance, admit the first full six-epoch control, then four tweak arms serially. OneGPU/aggregate2CPU and firstF0seed1001 only; no queue/otherprovider/autofit expansion. Shared prerequisites5completed fits + current parent1completed new fit; children0/5. No student/control/tweak quality endpoint or gain exists yet. New current-turn work is unpublished; last published maintenance1dcb9791 remains historical publication until final validation/push.
+
+---
+
+# Current integrity repair — 20 October04:52UTC
+
+[Actual parent verifier V2](records/parent_fit_r2_v1/terminal_verification_v2/README.md) exited1 at04:51:53UTC, invocation `c439756a99294d1381c3f32b1a4d98ea`, after passing the new RNG checks. The remaining old contract guard demanded cuDNN deterministic=False. Immutable source68 `resources.configure_torch()` explicitly sets True on CUDA; CLI default deterministic=False does not reset that runtime setting. [Root failure/source record](records/parent_fit_r2_v1/terminal_verification_v2/FAILURE.json) binds the exact traceback and source hash. No complete verification PASS/acceptance exists. V2's failing condition alone does not expose the exact saved value; a new narrow source-qualified V3 must strictly require True under unchanged full checks/caps. No new diagnostic or native fitting replay is needed.
+
+Native parent remains completed/exited and untouched; both failed verifier units remain preserved and excluded from stops/retries. The successful RNG diagnostic was separately exact-stopped04:44:51UTC after its durable capture acceptance. Child profile/fit remains gated on actual full parent acceptance and exact stop. All new work is unpublished at this snapshot; last maintenance publication1dcb9791 remains authoritative historical publication.
+
+---
+
+# Current integrity repair — 20 October04:41UTC
+
+[Actual separate CPU RNG diagnostic V2](records/parent_fit_r2_v1/rng_diagnostic_v2/capture/RNG_DIAGNOSTIC.json) completed with native exit0 at04:40:54UTC (invocation `b9dcbfc0b8054e51a49fc3792fd037a0`) and root-captured durable raw bytes at04:41:06UTC. The saved parent CUDA RNG is exactly one `torch.uint8` tensor of shape[16], SHA`f7d8d061e24e21aa31b7afef7d6093940af44207bb0f0cd6e9f7decec4672238`; CPU RNG is uint8[5056], and installed Torch is2.14.0+cu130. This explains why the old checker’s >=1024 CUDA guard rejected the actual producer state. The parent checkpoint, weights and training were not changed or replayed.
+
+[Diagnostic capture acceptance](records/parent_fit_r2_v1/rng_diagnostic_v2/CAPTURE_ACCEPTANCE.json) validates only durable diagnostic metadata, NOT parent integrity or quality. Source version/boundary, full counters/model/AdamW/contract checks remain the responsibility of a separately reviewed new parent checker V2, which is being prepared with exact observed shape/hash/version/diagnostic binding and unchanged restricted-loader/resource caps. Failed integrity V1 stays preserved and excluded from stops/retries. Parent native remains completed/exited and must not be stopped before full acceptance. The read-only rejected diagnostic admission V1 is retained separately; it created no worker/output.
+
+---
+
+**04:35UTC diagnostic admission boundary:** [V1 rejected read-only](records/parent_fit_r2_v1/rng_diagnostic_v1/README.md) before staging/submission because its failed-capture predicate demanded success. No diagnostic worker ran. A separately reviewed V2 will bind the correct failed receipt; native parent and failed integrity V1 remain untouched.
+
+# Current integrity gate — 20 October04:23UTC
+
+The native shared parent is completed/exited0 and preserved. The first restricted CPU verifier was actually admitted at04:22:31UTC as `computer-vision-homework-fg19-parent-fit-r2-verify-v1.service`, invocation `7ecaf59d01ba4a07b0971a1c9902d87e`, and failed at04:22:37UTC. [Actual support capture](records/parent_fit_r2_v1/terminal_verification_v1/README.md) preserves the raw bytes, successful admission, launch and traceback. The frozen f270 checker rejected its saved CUDA RNG condition (one uint8 vector with at least1,024elements). The actual type/cardinality/shape is not yet known; this is verifier evidence, not a failed fit or quality result. No VERIFICATION PASS or parent acceptance exists.
+
+Failed V1 unit/source/output are preserved; NEVER restart, stop or blindly retry it. The native parent remains exited and must not be stopped before actual integrity acceptance. One new capped CPU-only RNG metadata diagnostic is being prepared as a separate unit/output, NOT yet admitted. It will use the same exact restricted loader on B to report saved RNG schema/version/shape/dtype/hash only, under unchanged .5CPU/high1.4GB/max1.5GB/swap0/600s/CUDAhidden/BLAS1 and fresh source/ownership/output/headroom/disk gates. No unsafe loader, model/array transfer, native fit replay or weaker guard is authorized. Observe the actual saved schema before any focused new checker version. Child profiles/fits remain gated on parent acceptance and exact stop.
+
+---
+
+# Native parent completion — 20 October04:09UTC capture
+
+The exact parent invocation `5186b3016ff54b1fa754c10a1f87b3e4` ended at03:38:02UTC with native active/exited, MainPID0/ExecMainCode1/Status0. [Root-captured raw terminal evidence](records/parent_fit_r2_v1/terminal_native_capture_v1/README.md) and [strict typed evidence](records/parent_fit_r2_v1/TERMINAL_EVIDENCE.json) bind four actual FIT/GRAD_STATS epoch records:29,840completed updates/2,984batches, zero AMP skips/nonfinite in those records, fixed selected epoch3 and withheld evaluation. All167source content pins were freshly checked by the terminal reader. Checkpoint files are still observer stat-only; actual finite FP32 model/AdamW/loader/RNG/contract integrity verification and acceptance remain pending.
+
+The native unit remains preserved/exited; no stop or replay occurred. One short reviewed .5CPU/high1.4GB/max1.5GB/swap0/600s support admission will run the already frozen parent checker and exact helper pins after fresh resource/ownership/output gates. Native capture/verification/acceptance precede exact own exited stop. No child fit, evaluation or quality score has completed. [Native resource reconciliation](records/parent_fit_r2_v1/NATIVE_RESOURCE_RECONCILIATION.json) separates7,587.175295wall/7,577.810018CPU seconds, systemdMemoryPeak2,873,643,008B and FIT durations; empty terminal ownCG means unavailable own files, never host-root fallback. Current continuation will be updated when actual support acceptance settles.
+
+---
+
 # Latest bounded observation — 20 October03:10UTC
 
 [One new rare readonly capture](records/parent_fit_r2_v1/health_20261020T0309Z/README.md), actual03:10:07.939585UTC (directory03:09 follows the trigger), found the same parent invocation `5186b3016ff54b1fa754c10a1f87b3e4` active/running/PID3929676. Native epochs0/1 each report7,460completed updates/746batches/zero AMP skips and nonfinite0 in their completed GRAD_STATS records; cumulative after epoch1 is14,920updates/1,492batches. Latest recorded line is epoch2batch680/746/loss0.5905/LR1.89e-5. This does not establish a synchronous current batch/update/nonfinite total, native terminal29,840count or predictive quality.

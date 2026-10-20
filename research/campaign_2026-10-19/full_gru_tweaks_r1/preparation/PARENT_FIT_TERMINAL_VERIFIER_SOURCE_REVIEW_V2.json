@@ -1,0 +1,60 @@
+{
+  "bound_dependencies": {
+    "propensity_terminal_support.py": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "teacher_s5_terminal_check_v1.py": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+  },
+  "limitations": [
+    "This is a conditional source pass only. Root must perform and persist the fresh remote admission gates and verify the exact embedded byte pins before submission.",
+    "No fit acceptance or scientific quality claim is made by the RNG diagnostic. Full fit acceptance remains contingent on a successful actual checker result and subsequent root validation."
+  ],
+  "pins": {
+    "body_sha256": "e42b7d30001ec2aa4c983144c57ecf8667f50b93c9d4f0dfaf56e0391ffc096b",
+    "checker_sha256": "5721ade20549e95927da268679c9da7ef092b084c49c28c195017fc20a6dcf22",
+    "cold_import_proof_receipt_sha256": "70995390199b38234f21cde6a03b005561a3bd967031a31de1fb7dc09cddadcc",
+    "cold_import_proof_script_sha256": "2725b05d65f6a13a542e9acbefbaac7622ab13e33c72cd2acb7e23b707d610bc",
+    "focused_rng_tests_sha256": "568231a81fca7cce6fe93dd45a2f56345d7767e70fd8ab1e543a358304b28bed",
+    "local_checks_sha256": "e228dcec4957eadd97d3c9205cf8e8bdf36942fdbd25d316e9c54470a933e1f3",
+    "preparation_sha256": "4ee52aba7c2a3042b290a07dd35e50f72ab5f06298ad285cd691d80f3983c4c3",
+    "template_sha256": "29577c04aef875e8d744de5420d651ab79495b6080ffc0b84d837fd9b9367db1"
+  },
+  "review_findings": [
+    "The checker preserves the prior bounded source/split/data/cache/terminal/counter/model/optimizer/normalizer checks and restricted weights-only state loader. Its delta binds the RNG diagnostic report, acceptance and exact-stop receipts, checks the actual loaded PyTorch version against 2.14.0+cu130, and compares saved CPU/CUDA RNG tensor signatures with the observed diagnostic signatures.",
+    "The diagnostic format string is source-qualified by the pinned 167-file commit; the diagnostic output itself does not report training-state version or boundary. The checker still validates version=1 and boundary=epoch alongside next_epoch=4 after restricted loading.",
+    "The V2 submission body stages the exact checker and two pinned helpers plus bounded JSON metadata; it retains fresh native successful-exit, all-populated empty, source/split/data/cache/output/resource/disk/headroom gates and the one-support-unit limits (50% CPU, 1.4 GB high, 1.5 GB max, swap 0, 600 s, CUDA hidden, BLAS/thread count 1).",
+    "Exact diagnostic stop preflight checks now include before.MainPID=0 and after.InvocationID empty. The current native fit remains expected active/exited until this verifier runs; the body does not require the native unit to be stopped first.",
+    "Prepared local checks report four new RNG signature tests, metadata-only cold input checks, and a V3 isolated import proof covering 26 WNN modules with no CUDA initialization or reader-sentinel calls. These receipts are bound by the pins above; they are not remote admission evidence."
+  ],
+  "review_scope": "Local source and metadata receipt review only; no SSH, remote query, unit action, model/checkpoint/array payload read, or test replay by reviewer.",
+  "reviewed_at_utc": "2026-10-20T04:51:24Z",
+  "rng_diagnostic_evidence": {
+    "capture_acceptance_sha256": "655c5f12db5e166cfabf68c343aeb10d709f95db4abffeaf2925b413226837ec",
+    "capture_exact_stop_sha256": "8e935356da08ac249e47389bb65bc5597134e6442ab9d914da1e7ec256b73c67",
+    "capture_status": "DIAGNOSTIC_ONLY_NO_ACCEPTANCE",
+    "cpu_rng_signature": {
+      "dtype": "torch.uint8",
+      "numel": 5056,
+      "sha256": "78b7aa970d6550d7d03e2b99942959f766a0e7abf3a3c2f10e55294329ec575e",
+      "shape": [
+        5056
+      ]
+    },
+    "cuda_rng_signature": {
+      "dtype": "torch.uint8",
+      "numel": 16,
+      "sha256": "f7d8d061e24e21aa31b7afef7d6093940af44207bb0f0cd6e9f7decec4672238",
+      "shape": [
+        16
+      ]
+    },
+    "raw_capture_bytes": 24300,
+    "raw_capture_sha256": "2f6ced10d3812a3b3ae8354268a193323df6a22ea8523fdd2458060f4b8fcf69",
+    "report_format": "wnn.epoch-training-state",
+    "report_sha256": "0bb2a87b9796872d5e26666ea7398bca69b7f0a0ce27bb0895714b5ed654598b",
+    "runtime_torch_version": "2.14.0+cu130"
+  },
+  "schema": "fg19.parent-fit-terminal-verifier-source-review.v2",
+  "status": "CONDITIONAL_SOURCE_PASS"
+}

@@ -1,0 +1,54 @@
+{
+  "checks": {
+    "cold_metadata_read_sentinel": {
+      "command": "python -I -B -c <script embedded in this check file>",
+      "forbidden_suffixes": [
+        ".pt",
+        ".npy",
+        ".npz",
+        ".parquet"
+      ],
+      "preparer_path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/parent_rng_diagnostic_v1/prepare_parent_rng_diagnostic_v1.py",
+      "returncode": 0,
+      "script_sha256": "3bd5481ae550f2877a011f3e1ff9ba546758dc2cefe880b26719d86dfabbd09c",
+      "stderr": "",
+      "stdout": "PASS isolated stdlib preparation; pinned inputs=17; forbidden payload opens=0"
+    },
+    "create_only_output_and_durable_unknown_outcome": "PASS",
+    "exact_f270_weights_only_loader_and_safe_globals": "PASS",
+    "no_prior_failed_unit_query_or_stop_and_one_submit": "PASS",
+    "ruff": "PASS; commands listed in packet README",
+    "template_body_and_script_ast": "PASS"
+  },
+  "diagnostic_script_sha256": "4e9183b8771a698326020164f3bf209d4316b917c490a61e5f1126e818b8714f",
+  "generator_sha256": "62c3261b6722e6e1427c5f803ac65e2ef8038d440d5786595ad03312cec22537",
+  "inputs_sha256": {
+    "ADMISSION.json": "42b5f3fe7142d931b189ff86fa24031426506e60c8a41440b0483d97dc50026b",
+    "CACHE_ACCEPTANCE.json": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "CACHE_EXACT_STOP.json": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "FAILED_VERIFIER_ADMISSION.json": "b89cd063f2409c5551af68819ac4d9f9274d362e2074cd413dce0df0877027d7",
+    "FAILED_VERIFIER_CAPTURE.raw.json": "7761927b6bcacd034af294ee5f37c30561b6ff3b07b846f0e7393324fea1a359",
+    "FAILED_VERIFIER_LAUNCH.json": "ad718e0cb72c11e3a4ea90d4ab5ac694d705d81166f020f10fe0acab9a6e1e12",
+    "FAILED_VERIFIER_UNIT_LOG.raw": "536e2019e084a40eeb0848d9288751f721f609a49a514d629f1d8de5515a2d70",
+    "LAUNCH.json": "012c7ba3b484f16f587c61cb39f880380d22a6199e0a105773dbffc423bd22ea",
+    "LAUNCH_ACCEPTANCE.json": "89b8199b6431c8959fe3bab41a630632210b30ae017dd9128f9ad2491c87a3bf",
+    "NATIVE_STDOUT.raw.json": "a65af766fafaaa811d0991072035b51ec04dc01353da3059d7c594dffef239cb",
+    "RNG_DIAGNOSTIC.py": "4e9183b8771a698326020164f3bf209d4316b917c490a61e5f1126e818b8714f",
+    "RNG_STATE_STAT.json": "d7410f6bf76e25bbdc6bcefeb92851803c52f6e8d94e91ba6d93afa63b2e2a35",
+    "SOURCE_MANIFEST.json": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "TERMINAL_EVIDENCE.json": "780e64538cb34dd9e6a9c7da528a4232d4362daca9bee1dd871bd722373f7615",
+    "parent_fit_terminal_check_v1.py": "f27091c864287d6a3b7c173619ad1af5db6887e9632c49a8c6d0bb50c3a9c1d1",
+    "propensity_terminal_support.py": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+    "teacher_s5_terminal_check_v1.py": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+  },
+  "limits": [
+    "No SSH, remote query, unit action, model read, training-state read, or array/data read was performed.",
+    "Cold child read only bounded Python and JSON source/metadata; .pt/.npy/.npz/.parquet opens were denied.",
+    "Only the future remote unit loads training_state.pt through the exact pinned f270 restricted weights_only loader."
+  ],
+  "preparation_sha256": "f4b04ea220dc22eb38e69832dc2aefa5485e5e0ac25e551dff36bf6d6736d166",
+  "remote_body_sha256": "eb7bb815bd77b5b757d5038798a7aa71f59abad64f047ff450265bb6af4c1723",
+  "schema": "fg19.parent-fit-r2-rng-diagnostic-local-checks.v1",
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "template_sha256": "19bc9373b2424b5b8d0603a9469bbbd4a8a3852533ef8dc6503f3a2ce5265fd9"
+}

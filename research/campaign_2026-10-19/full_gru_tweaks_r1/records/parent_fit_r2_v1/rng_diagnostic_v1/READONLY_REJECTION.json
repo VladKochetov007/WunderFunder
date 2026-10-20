@@ -1,0 +1,19 @@
+{
+  "schema": "fg19.parent-rng-diagnostic-v1-readonly-admission-rejection.v1",
+  "status": "READONLY_REJECTED_BEFORE_OUTPUT_CREATION_OR_SUBMIT",
+  "stdout_bytes": 0,
+  "stderr_sha256": "738d029dbaad826e70d9eaa843c421b09e51997fa8ac7b2f32523e7f297cc58a",
+  "transport": {
+    "returncode": 1,
+    "captured_utc": "2026-10-20T04:35:35.326207+00:00",
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 265,
+    "stderr_sha256": "738d029dbaad826e70d9eaa843c421b09e51997fa8ac7b2f32523e7f297cc58a",
+    "raw_persisted_before_parse": true
+  },
+  "source_body_sha256": "eb7bb815bd77b5b757d5038798a7aa71f59abad64f047ff450265bb6af4c1723",
+  "cause": "checked_failed_attempt demanded terminal_success is True while source-bound prior FAILED verifier capture correctly records False. Exact failure statuses independently match failed/failed/exit-code/MainPID0/ExecMainCode1/Status1.",
+  "execution_boundary": "source call checked_failed_attempt follows readonly checks and precedes output.mkdir, stage, and systemd-run. Traceback reached only that call; stdout empty. No diagnostic worker or output admitted.",
+  "next": "Separate V2 packet corrects only failure-capture predicate/new unit+output, with actual-fixture helper test and independent review. No retry of V1 body/native/failed verifier."
+}

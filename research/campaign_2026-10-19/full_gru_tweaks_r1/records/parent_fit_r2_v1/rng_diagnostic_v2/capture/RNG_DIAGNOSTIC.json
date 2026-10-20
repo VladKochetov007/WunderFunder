@@ -1,0 +1,101 @@
+{
+  "format": "wnn.epoch-training-state",
+  "limits": [
+    "Only training_state.pt was loaded, through the exact source-pinned f270 weights_only loader with its narrow NumPy/TorchVersion allowlist.",
+    "No model or optimizer values were inspected or emitted.",
+    "Python/NumPy RNG values were not emitted; only structure/cardinality is reported.",
+    "CUDA/CPU RNG tensors are represented only by dtype, shape, numel and SHA-256.",
+    "This diagnostic is not a terminal verification or acceptance result."
+  ],
+  "next_epoch": 4,
+  "rng": {
+    "entries": {
+      "cuda": {
+        "cardinality": 1,
+        "components": [
+          {
+            "cardinality": 16,
+            "dtype": "torch.uint8",
+            "numel": 16,
+            "sha256": "f7d8d061e24e21aa31b7afef7d6093940af44207bb0f0cd6e9f7decec4672238",
+            "shape": [
+              16
+            ],
+            "type": "torch.Tensor"
+          }
+        ],
+        "type": "builtins.list"
+      },
+      "numpy": {
+        "cardinality": 5,
+        "components": [
+          {
+            "cardinality": null,
+            "type": "builtins.str"
+          },
+          {
+            "cardinality": 624,
+            "type": "numpy.ndarray"
+          },
+          {
+            "cardinality": null,
+            "type": "builtins.int"
+          },
+          {
+            "cardinality": null,
+            "type": "builtins.int"
+          },
+          {
+            "cardinality": null,
+            "type": "builtins.float"
+          }
+        ],
+        "type": "builtins.tuple"
+      },
+      "python": {
+        "cardinality": 3,
+        "components": [
+          {
+            "cardinality": null,
+            "type": "builtins.int"
+          },
+          {
+            "cardinality": 625,
+            "type": "builtins.tuple"
+          },
+          {
+            "cardinality": null,
+            "type": "builtins.NoneType"
+          }
+        ],
+        "type": "builtins.tuple"
+      },
+      "torch": {
+        "cardinality": 5056,
+        "dtype": "torch.uint8",
+        "numel": 5056,
+        "sha256": "78b7aa970d6550d7d03e2b99942959f766a0e7abf3a3c2f10e55294329ec575e",
+        "shape": [
+          5056
+        ],
+        "type": "torch.Tensor"
+      }
+    },
+    "keys": [
+      "cuda",
+      "numpy",
+      "python",
+      "torch"
+    ]
+  },
+  "run_name": "fg19_parent_h256x2_f0_s1001_fit_r2_v1",
+  "schema": "fg19.parent-fit-r2-rng-diagnostic.v2",
+  "state_file_stat_only": {
+    "bytes": 11837935,
+    "device": 64512,
+    "inode": 779788692,
+    "mtime_ns": 1792467480789082396
+  },
+  "status": "DIAGNOSTIC_ONLY_NO_ACCEPTANCE",
+  "torch_version": "2.14.0+cu130"
+}

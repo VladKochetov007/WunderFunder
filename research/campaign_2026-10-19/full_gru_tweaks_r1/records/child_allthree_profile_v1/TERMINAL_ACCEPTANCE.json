@@ -1,0 +1,167 @@
+{
+  "accepted_utc": "2026-10-20T05:26:44.799451+00:00",
+  "amp_skipped_updates": 0,
+  "capture_sha256": "b2665d829676714a770d21eae90c538d6042dc36de7c2f18a62071fe4ecbc2a1",
+  "capture_utc": "2026-10-20T05:25:48.275168+00:00",
+  "exec_main_code": 1,
+  "exec_main_status": 0,
+  "files": {
+    "ADMISSION.json": {
+      "bytes": 7817,
+      "sha256": "908d066878b6a5b69549077a0002c6d6f1ed306bc10f5b059fa6ca423d2da2c5"
+    },
+    "LAUNCH.json": {
+      "bytes": 9691,
+      "sha256": "df171f46017dbb4b4b7bdfaaeb374db651d6d972eb11e8ffcebe917a4b464d44"
+    },
+    "unit.log": {
+      "bytes": 7624,
+      "sha256": "b4480cd8529ecbb0d5ec1cf840f0c9a312b541f9598cc4cd4cfa19084350c289"
+    }
+  },
+  "gradient_stats_nonfinite_steps": 0,
+  "initial_state": {
+    "dictionary_acceptance_sha256": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+    "dictionary_cache_sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659",
+    "initialization": {
+      "child_input_width": 467,
+      "child_output_width": 25,
+      "finite_initial_state": true,
+      "initial_child_state_fingerprint": "833a0fcd411eed6830f73b785e8b521985ea1ca1265a3da74943fbc00b5147de",
+      "new_input_columns_zero": true,
+      "new_logvariance_rows_zero": true,
+      "normalization_prefix_equal": true,
+      "normalization_suffix_mean_zero_std_one": true,
+      "parent_input_width": 211,
+      "parent_output_width": 23,
+      "parent_state_fingerprint": "915655ae8dcf9fcdfacfeeee83c8a6652afd0101c05482f3be906f17270e27b0",
+      "parent_trunk_and_prefix_equal": true
+    },
+    "parent_acceptance_sha256": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+    "parent_acceptance_status": "ACCEPTED",
+    "parent_checkpoint_sha256": "6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45",
+    "parent_exact_stop_sha256": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+    "parent_invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+    "parent_run": "fg19_parent_h256x2_f0_s1001_fit_r2_v1",
+    "profile": {
+      "batch": 16,
+      "batch_count": 6,
+      "chunk": 2000,
+      "input_representation": "ema_sparse",
+      "measured_batches": 4,
+      "objective": "nll",
+      "optimizer_attempts": 60,
+      "sequence_length": 20000,
+      "updates_per_batch": 10,
+      "warmup_batches": 2
+    },
+    "schema": "fg19-child-allthree-profile-initial-state.v1",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7"
+  },
+  "invocation_id": "1d62c3fb47ac4bd5be8e8ec8fe6759cd",
+  "limitations": [
+    "Engineering update/ancestry profile only; no evaluation or persistent weights.",
+    "Generic profile does not report CUDA peak, private optimizer state, or complete post-update parameter sweep.",
+    "Terminal own cgroup is empty/unavailable; reported service MemoryPeak is not a full-runtime RAM observation.",
+    "Observer validation is metadata/source-qualified, not an independent model-array replication."
+  ],
+  "main_pid": 0,
+  "native_unit": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "CPUUsageNSec": "131069978000",
+    "ControlGroup": "",
+    "ExecMainCode": "1",
+    "ExecMainExitTimestamp": "Tue 2026-10-20 05:20:07 UTC",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 05:17:51 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_profile_v1/child_allthree_profile_probe_v1.py --source-root /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829 --parent-acceptance /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_profile_v1/PARENT_TERMINAL_ACCEPTANCE.json --expected-parent-acceptance-sha256 5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8 --parent-exact-stop /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_profile_v1/PARENT_EXACT_STOP.json --expected-parent-exact-stop-sha256 15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8 --expected-parent-checkpoint-sha256 6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45 --dictionary-acceptance /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_profile_v1/DICTIONARY_ACCEPTANCE.json --expected-distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 -- --name fg19_child_allthree_f0_s1001_profile_v1 --device cuda --seed 1001 --train-seqs 10535 --train-source train+valid --valid-fold 0 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --max-batches 6 --profile-warmup 2 --profile-steps 4 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode ema_sparse --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective nll --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --aux  --aux-next-k  --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --no-eval-during-fit --grad-stats ; ignore_errors=no ; start_time=[Tue 2026-10-20 05:17:51 UTC] ; stop_time=[Tue 2026-10-20 05:20:07 UTC] ; pid=75113 ; code=exited ; status=0 }",
+    "InvocationID": "1d62c3fb47ac4bd5be8e8ec8fe6759cd",
+    "LoadState": "loaded",
+    "MainPID": "0",
+    "MemoryCurrent": "[not set]",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "2437120",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "exited"
+  },
+  "no_checkpoint": true,
+  "optimizer_attempts": 60,
+  "optimizer_completed_updates": 60,
+  "parent_memory_event_deltas": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0
+  },
+  "parent_populated": {},
+  "profile_timings": {
+    "backward": 841.79,
+    "forward": 776.64,
+    "gpu_total": 1742.72,
+    "h2d": 31.41,
+    "inputs": 78.44,
+    "labels": 3.38,
+    "loader_wait": 0.0,
+    "loss": 6.39,
+    "optimizer": 7.46,
+    "seq_per_s": 7.16,
+    "step_wall": 2235.23,
+    "syncs_per_step": 5.5,
+    "weights": 0.01
+  },
+  "profile_update_evidence": {
+    "amp_skipped_updates": 0,
+    "counts_consistent": true,
+    "grad_scaler_enabled": false,
+    "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+    "gradient_finite": true,
+    "gradient_stats_nonfinite_steps": 0,
+    "gradient_stats_steps": 60,
+    "loss_checks": 60,
+    "loss_finite": true,
+    "optimizer_attempts": 60,
+    "optimizer_completed_updates": 60,
+    "valid_for_throughput": true
+  },
+  "quality_score": null,
+  "run_directory_stat_only": {
+    "entries": [],
+    "exists": true,
+    "symlink": false
+  },
+  "schema": "fg19-child-allthree-profile-terminal-acceptance.v1",
+  "scientific_fits": 0,
+  "source_authority": "Fresh admission verified167 canonical source files; terminal capture rehashed3 staged Python files, not canonical167 again.",
+  "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+  "source_file_count": 167,
+  "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+  "staged_code_pins": {
+    "child_allthree_profile_contract_v1.py": {
+      "bytes": 14416,
+      "expected_sha256": "ab68d868261106a7548b649243f4a645ece926b6138d683c731841cfb9f0b7c5",
+      "matches_expected": true,
+      "sha256": "ab68d868261106a7548b649243f4a645ece926b6138d683c731841cfb9f0b7c5"
+    },
+    "child_allthree_profile_probe_v1.py": {
+      "bytes": 9599,
+      "expected_sha256": "446e679ddae0f05225209950d928790264c8cd57fb8836b79f671d06d03be9e4",
+      "matches_expected": true,
+      "sha256": "446e679ddae0f05225209950d928790264c8cd57fb8836b79f671d06d03be9e4"
+    },
+    "propensity_terminal_support.py": {
+      "bytes": 13107,
+      "expected_sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+      "matches_expected": true,
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    }
+  },
+  "status": "ACCEPTED",
+  "stop_status": "PENDING_EXACT_STOP",
+  "unit": "computer-vision-homework-fg19-child-allthree-profile-v1.service"
+}

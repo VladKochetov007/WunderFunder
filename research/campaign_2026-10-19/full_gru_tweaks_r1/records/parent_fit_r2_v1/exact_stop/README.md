@@ -1,0 +1,3 @@
+# Accepted parent and successful verifier exact stop
+
+One root [executed source](REMOTE.py) rechecked exact accepted native and successful verifierV3 invocations, native exited0, and bounded source/provenance/VERIFICATION hashes before stopping exactly those two exited units. The [raw receipt](STDOUT.raw.json) was persisted before parsing; [transport](TRANSPORT.json) records SSH0. Both post-states are not-found/inactive/dead/MainPID0, and populated descendants are empty. Failed verifierV1/V2 and all older completed units were excluded. No checkpoint, tensor or array payload was read or hashed. This supersedes the frozen parent acceptance pending-stop field without rewriting it.

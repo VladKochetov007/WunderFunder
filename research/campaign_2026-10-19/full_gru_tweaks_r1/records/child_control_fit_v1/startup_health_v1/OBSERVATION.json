@@ -1,0 +1,68 @@
+{
+  "actual_epoch_fit_counters_observed": false,
+  "captured_utc": "2026-10-20T05:35:20.250452+00:00",
+  "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+  "last_recorded_training_line": "ep 0 batch 0/746 loss 0.5843 lr 4.00e-06 seq/s 3.2",
+  "line_is_not_synchronous_progress_or_verified_total": true,
+  "main_pid": 96892,
+  "one_populated_owned_worker": true,
+  "own_cgroup_current_bytes": 2507718656,
+  "own_cgroup_peak_bytes": 2786459648,
+  "own_memory_events": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0
+  },
+  "own_rss_observation": [
+    "VmHWM:\t 3225720 kB",
+    "VmRSS:\t 2958164 kB"
+  ],
+  "owned_gpu_process": {
+    "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-control-fit-v1.service",
+    "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "pid": 96892,
+    "uid": 1061,
+    "used_memory": "3404 MiB"
+  },
+  "parent_current_bytes": 10313134080,
+  "parent_memory_event_deltas": {
+    "high": 0,
+    "low": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_group_kill": 0,
+    "oom_kill": 0
+  },
+  "raw_sha256": "53afefccfdc52b62906155fb7bad40b705c2cd1c5c6c4ce999cd4649e1bced5f",
+  "schema": "fg19-child-control-startup-observation.v1",
+  "scope": "Read-only dated startup health, no model/checkpoint/cache/dictionary/data payload read/hash, no completion/nonfinite-total/quality claim. Cgroup, service, RSS and GPU observations sampled separately.",
+  "source_authority": "Fresh167-file admission content hashes; startup reader does not refresh canonical source content hashes.",
+  "source_commit_expected": "68ff682977b822f38351aac0f621146f5f13b440",
+  "state": "active",
+  "substate": "running",
+  "unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+  "unit_accounting_observation": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "CPUUsageNSec": "128020029000",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-control-fit-v1.service",
+    "ExecMainCode": "0",
+    "ExecMainExitTimestamp": "",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 05:33:09 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_child_control_f0_s1001_fit_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode base --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective wmse --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --grad-stats --save-training-state --no-eval-during-fit ; ignore_errors=no ; start_time=[Tue 2026-10-20 05:33:09 UTC] ; stop_time=[n/a] ; pid=96892 ; code=(null) ; status=0/0 }",
+    "InvocationID": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "LoadState": "loaded",
+    "MainPID": "96892",
+    "MemoryCurrent": "2507792384",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "2786459648",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "running"
+  }
+}
