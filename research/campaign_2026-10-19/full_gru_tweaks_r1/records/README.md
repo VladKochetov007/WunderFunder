@@ -1,3 +1,19 @@
+[EMA32 full fit actual launch](child_ema_fit_v1/README.md): one reviewed fresh admission, same common recipe/parent as accepted CONTROL, one owned GPU worker. No completed EMA endpoint or quality score; no automatic successor queue.
+
+**Current 12:58 UTC:** [CONTROL V3 PASS](child_control_fit_v1/terminal_verification_v3/README.md), [acceptance](child_control_fit_v1/TERMINAL_ACCEPTANCE.json) and [exact stop](child_control_fit_v1/exact_stop/README.md) supersede earlier pending snapshots. Failed V1/V2 remain preserved, no quality score. EMA-only is not yet admitted; [continuation](../CONTINUATION.md) governs the next serial gate.
+
+---
+
+**20 October 12:48 UTC:** [CONTROL native completion](child_control_fit_v1/terminal_native_capture_v1/README.md) is captured, with [failed verifier V1](child_control_fit_v1/terminal_verification_v1/README.md) and [failed verifier V2](child_control_fit_v1/terminal_verification_v2/README.md) preserved. No full acceptance or exact stop exists. The [reviewed local V3 proposal and pending exception](../preparation/child_control_terminal_verifier_v3/README.md) have no B execution receipt. [Current continuation](../CONTINUATION.md) governs the pending human reply.
+
+---
+
+- [CONTROL verifier V2 restricted-loader rejection](child_control_fit_v1/terminal_verification_v2/README.md): exact weights_only=True failure at saved PosixPath, independently audited/source-qualified. No full verification or corrupt-state conclusion; native fitting unchanged, failedV1/V2 preserved. V3 is local proposal only.
+
+- [CONTROL restricted CPU verifier V1](child_control_fit_v1/terminal_verification_v1/README.md): fresh admission passed, then actual support exited1 on a missing-field checker expectation before tensor loading. Native CONTROL is unchanged/completed; no integrity acceptance. Failed source/unit/receipts preserved, no retry/stop.
+
+- [CONTROL native completion08:40UTC, captured08:54UTC](child_control_fit_v1/terminal_native_capture_v1/README.md): exact exit0/six epochs/44,760updates/4,476batches/zero native skips/nonfinite, independently metadata-reviewed. Model/state integrity and exact stop are pending; no quality score.
+
 - [CONTROL health08:24UTC](child_control_fit_v1/health_20261020T0824Z/README.md): same invocation/one owned worker, completed epochs0–4/cumulative37,300updates, stat-only run files; no terminal/current total or quality.
 
 - [CONTROL health07:25UTC](child_control_fit_v1/health_20261020T0724Z/README.md): same invocation/one owned worker, completed epochs0–2/cumulative22,380updates, stat-only run files; no terminal/current total or quality.

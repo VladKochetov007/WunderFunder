@@ -1,0 +1,9 @@
+# CONTROL native terminal capture
+
+The root-owned unchanged bounded reader captured exact invocation e66e0d0703314e4fb5d47dcdbfcaf202 at08:54:24.104019UTC. Native exited08:40:45UTC with active/exited and strict MainPID0/ExecMainCode1/Status0. [Raw73,636B](STDOUT.raw.json), SHA33133c140cf9c8676c87f518230c7aa48ac2485ecdf3dafc5e8c45edf16c0f43, and [transport](TRANSPORT.json) were persisted before parsing; [reader](REMOTE.py) is unchanged2c111. Admission/launch exact base64 bytes match original receipts; the native log is preserved.
+
+[Typed native evidence](../TERMINAL_EVIDENCE.json) and [logged counter summary](COUNTER_SUMMARY.json) bind six FIT/GRAD_STATS epochs,44,760successful updates/4,476batches/zero skips/nonfinite and SELECTED_FIXED5; evaluation was withheld. This establishes logged native completion, not tensor/state integrity acceptance or a quality score. Model/state payloads remain B-only and observer stat-only. The reader did not freshly hash canonical source; source167 and ancestry are refreshed by the separate new cappedCPU admission before the prepared checker.
+
+The native unit is preserved/exited and must not be stopped before actual restricted-checker capture and root acceptance. No support or next arm was admitted by this capture. [Native resource reconciliation](../NATIVE_RESOURCE_RECONCILIATION.json) separates CPU/MemoryPeak/FIT durations and unavailable terminal-own-cgroup fields without host-root fallback or invented cause.
+
+[Independent metadata-only review](../../../preparation/CHILD_CONTROL_NATIVE_TERMINAL_METADATA_REVIEW_V1.json) confirms the raw/transport, exact original admission and launch byte bindings, terminal status, logged counters and resource scopes. It passes native metadata only; checkpoint/state integrity and quality remain unreviewed.

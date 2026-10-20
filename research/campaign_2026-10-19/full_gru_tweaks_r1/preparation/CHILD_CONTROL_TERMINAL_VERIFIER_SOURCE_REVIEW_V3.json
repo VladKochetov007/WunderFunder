@@ -1,0 +1,178 @@
+{
+  "schema": "fg19.child-control-terminal-verifier-source-review.v3",
+  "status": "PASS_SOURCE_ONLY_PENDING_EXPLICIT_HUMAN_EXCEPTION",
+  "reviewed_utc": "2026-10-20T12:43:38Z",
+  "scope": "Independent local source and pin review of the exact unexecuted V3 CPU verifier proposal. No remote calls, B staging, actual checkpoint/model/dictionary/cache-array reads, or test execution by this reviewer.",
+  "reviewed_artifacts": {
+    "checker": {
+      "path": "preparation/child_control_terminal_verifier_v3/child_control_terminal_check_v3.py",
+      "bytes": 79972,
+      "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+    },
+    "rendered_body": {
+      "path": "preparation/child_control_terminal_verifier_v3/REMOTE_SUBMISSION.py",
+      "bytes": 474126,
+      "sha256": "9d4918119aaf7c0569c55f77711f14a65b1db70af19859cdebbf979c95963d08"
+    },
+    "preparation": {
+      "path": "preparation/child_control_terminal_verifier_v3/PREPARATION.json",
+      "bytes": 6640,
+      "sha256": "535f68f62f95f55324592f48f077ccfe1af9e6313b10c7983d33c8cbe52a6594"
+    },
+    "path_compatibility_proposal": {
+      "path": "preparation/child_control_terminal_verifier_v3/STATE_LOAD_COMPATIBILITY_PROPOSAL_V3.json",
+      "bytes": 5655,
+      "sha256": "7d6b77c4fdd0904e3de1ba23fa8c6d8e3d53cf570bd3a03611e0e6e82e339130"
+    },
+    "focused_test_receipt": {
+      "path": "preparation/child_control_terminal_verifier_v3/LOCAL_PATH_COMPAT_TESTS_V3.json",
+      "bytes": 2658,
+      "sha256": "5b564dea03b3d306943de86613c895418f33074e6620ecdae8eb75570fdf7a0f",
+      "test_module_bytes": 14102,
+      "test_module_sha256": "f6eb1d92a2e7c8af6a954e9b279c763732836ebd7a977c048b53dbf1c5e53222",
+      "reported_result": "11 focused local fixtures passed; not rerun by this reviewer"
+    },
+    "root_final_payload_check": {
+      "path": "preparation/child_control_terminal_verifier_v3/ROOT_FINAL_PAYLOAD_CHECK_V3.json",
+      "bytes": 700,
+      "sha256": "2e71a015c944fd0d3babc5ac1059017098c3edee9ecd801e630641959e625aa9",
+      "status": "PASS_LOCAL_PROPOSAL_ONLY_PENDING_HUMAN_EXCEPTION",
+      "main_executed": false,
+      "exception_marker_set": false,
+      "remote_action": false
+    }
+  },
+  "embedded_payload_review": {
+    "method": "Parsed only literal PAYLOAD and EXPECTED_HASHES assignments from the pinned wrapper AST; decoded bounded embedded base64 values and computed lengths/SHA-256 without executing the wrapper.",
+    "entry_count": 12,
+    "all_declared_lengths_hashes_and_expected_hashes_match": true,
+    "all_four_embedded_code_files_match_local_pinned_files_byte_for_byte": true,
+    "code_files": {
+      "child_control_terminal_check_v3.py": {
+        "bytes": 79972,
+        "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+      },
+      "parent_fit_terminal_check_v3.py": {
+        "bytes": 64550,
+        "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+      },
+      "propensity_terminal_support.py": {
+        "bytes": 13107,
+        "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+      },
+      "teacher_s5_terminal_check_v1.py": {
+        "bytes": 37448,
+        "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+      }
+    },
+    "bounded_metadata_pins": {
+      "SOURCE_MANIFEST.json": {
+        "bytes": 27569,
+        "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+      },
+      "ADMISSION.json": {
+        "bytes": 9059,
+        "sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973"
+      },
+      "LAUNCH.json": {
+        "bytes": 6999,
+        "sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9"
+      },
+      "LAUNCH_ACCEPTANCE.json": {
+        "bytes": 2805,
+        "sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15"
+      },
+      "TERMINAL_EVIDENCE.json": {
+        "bytes": 713,
+        "sha256": "fefa2e85469495b89e5c9a502f4bd0b9f0b2bcd7cb8928364b46f6a9b2b7a70a"
+      },
+      "NATIVE_STDOUT.raw.json": {
+        "bytes": 73636,
+        "sha256": "33133c140cf9c8676c87f518230c7aa48ac2485ecdf3dafc5e8c45edf16c0f43"
+      },
+      "CACHE_ACCEPTANCE.json": {
+        "bytes": 3496,
+        "sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7"
+      },
+      "CACHE_EXACT_STOP.json": {
+        "bytes": 1086,
+        "sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4"
+      }
+    }
+  },
+  "source_qualification": {
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "producer_chain": [
+      {
+        "path": "src/wnn/training/cli_features.py",
+        "finding": "--representation-cache is parsed with type=Path.",
+        "bytes": 4409,
+        "sha256": "680687de564a7c96ac96296a729ccb6aa37a8ecb913e525153e769fa14abd79a"
+      },
+      {
+        "path": "src/wnn/training/checkpoints.py",
+        "finding": "resume_contract copies vars(args) into options and retains representation_cache.",
+        "bytes": 9411,
+        "sha256": "a7dd4e9c092fd7912d20d73e6cd8bc597947898a6551d54c948f28f6e54f84c5"
+      },
+      {
+        "path": "src/wnn/training_state.py",
+        "finding": "_cpu_copy deep-copies non-tensors; capture_training_state stores the contract; atomic save uses torch.save.",
+        "bytes": 8689,
+        "sha256": "4d42137c6c8b50ba9ab39844e1ccf0a2c35be030f68debedc0c3be5e8a2c67ac"
+      },
+      {
+        "path": "src/wnn/training/outputs.py",
+        "finding": "Continuation passes the captured state to atomic_save_training_state.",
+        "bytes": 10325,
+        "sha256": "35aab70e8aeb1ddabfa53f0f274ddc7aaa8c34d2e60ee92094a2221fcd20706a"
+      }
+    ],
+    "exact_path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt",
+    "exact_path_from": "Original pinned LAUNCH.json --representation-cache argument and accepted dictionary metadata; V2 failure occurred before state load.",
+    "expected_state_location": "contract.options.representation_cache",
+    "actual_training_state_opened_in_this_review": false
+  },
+  "compatibility_safety_review": {
+    "baseline": "The pinned parent checker returns only its existing NumPy RNG globals plus torch.torch_version.TorchVersion. No baseline change.",
+    "ambient_globals": "Checker requires the exact exception marker, clears ambient user registrations, and requires the safe-global registry empty before the state file is opened and after scoped contexts.",
+    "static_global_gate": "On the bounded O_NOFOLLOW descriptor, static unsafe-global scan under the unchanged baseline must equal exactly [pathlib._local.PosixPath].",
+    "constructor": "A scoped tuple mapping for this one global accepts only the exact one-string reducer argument, constructs the exact PosixPath by pure path operations with no filesystem access, and must be called exactly once.",
+    "restricted_load": "training_state.pt only; torch.load(map_location='cpu', weights_only=True) remains enabled. Model and dictionary loaders remain on the unchanged parent checker path.",
+    "post_load_path_gate": "Requires exactly one exact PosixPath with the pinned value, directly at contract.options.representation_cache. The recursive metadata walk covers Python containers, NumPy object arrays, structured object fields and NumPy object scalars; numeric arrays stay opaque. Extra or misplaced Paths fail closed.",
+    "comparison": "Only a shallow local options comparison copy stringifies the already-validated exact path; original decoded state remains typed and unmodified.",
+    "full_checker": "Diff against the exact V2 checker is limited to this compatibility path, local comparison normalization, and corresponding receipt fields/schema; other source, receipt, model, optimizer, RNG, lineage, numerical and resource checks remain unchanged."
+  },
+  "wrapper_and_admission_review": {
+    "exception_guard": "The wrapper's first main action requires FG19_APPROVED_PATH_COMPAT_EXCEPTION=pathlib._local.PosixPath:exact-dictionary-path-only before directory creation, staging or support submission; the checker repeats the guard before artifact reads.",
+    "fresh_gates_before_staging": [
+      "exact current native unit and invocation remain active/exited with MainPID=0, ExecMainCode=1, ExecMainStatus=0, Result=success and positive CPU evidence",
+      "all 167 admitted source hashes and exact source-tree inventory, canonical split, registered paths/stat pins",
+      "accepted parent/profile/dictionary/cache receipts and checkpoint/dictionary/cache stats only",
+      "terminal raw capture joins exact admission/launch/launch-acceptance and typed terminal evidence",
+      "empty campaign cgroup ownership, two-core parent envelope, one-time support headroom reservation, 25 GiB physical-disk floor"
+    ],
+    "new_support": {
+      "unit": "computer-vision-homework-fg19-child-control-verify-v3.service",
+      "output": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_control_verify_v3",
+      "cpu_quota": "50%",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "swap_max_bytes": 0,
+      "runtime_seconds": 600,
+      "cuda_hidden": true,
+      "blas_threads": 1
+    },
+    "native_fit_stop_or_replay": false,
+    "failed_v1_v2_retry_or_stop": false,
+    "submit_unknown_outcome_policy": "Durably retain and inspect the exact unit/output; never retry or recreate."
+  },
+  "decision": {
+    "source_review_finding": "No remaining source or payload-pin blocker found in the exact frozen V3 candidate.",
+    "required_explicit_human_exception": "Authorize exactly one additional weights_only safe-global mapping: pathlib._local.PosixPath -> an inert constructor accepting only the exact pinned dictionary-path reducer argument, only for training_state.pt, with one call and an exact direct field postcheck. The unchanged NumPy RNG/TorchVersion baseline and all full validations remain in force.",
+    "v3_execution_authorized_by_this_review": false,
+    "status": "PROPOSAL_ONLY; DO_NOT_STAGE_OR_EXECUTE_UNTIL THE EXACT HUMAN EXCEPTION IS GIVEN"
+  }
+}

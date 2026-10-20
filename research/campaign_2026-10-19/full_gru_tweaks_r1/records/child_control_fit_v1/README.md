@@ -1,3 +1,17 @@
+**Current 12:58 UTC:** [Successful V3 integrity capture](terminal_verification_v3/capture/README.md), [root acceptance](TERMINAL_ACCEPTANCE.json) and [later exact stop](exact_stop/README.md) are durable. The [human exception](../../preparation/child_control_terminal_verifier_v3/HUMAN_PATH_COMPAT_EXCEPTION_AUTHORITY_V1.json) was granted before V3 execution. All actual counters/finite FP32 state/AdamW/schedule/RNG/source/cache/normalizer/dictionary/ancestry checks passed. Failed V1/V2 remain preserved; no quality endpoint/gain. Earlier pending snapshots below are historical.
+
+---
+
+**20 October 12:48 UTC:** Native training is complete/exited 0, 44,760 updates/4,476 batches. Full integrity acceptance remains pending. [V1](terminal_verification_v1/README.md) and [V2](terminal_verification_v2/README.md) are actual failed CPU checks, preserved with no retry/stop. [V3](../../preparation/child_control_terminal_verifier_v3/README.md) is a reviewed local proposal only; its [one scoped loader exception question](../../preparation/child_control_terminal_verifier_v3/HUMAN_EXCEPTION_REQUEST_PENDING_V1.json) awaits a direct human reply. No V3 B action, CONTROL exact stop, successor admission or quality endpoint exists.
+
+---
+
+**12:21UTC state-loading gate:** [Verifier V2 actual capture](terminal_verification_v2/capture/README.md) records a weights_only=True PosixPath rejection at training_state loading. No full integrity acceptance or exact stop. Native44,760-update fit remains unchanged/exited; failed V1/V2 supports remain preserved. Current continuation governs a local narrow compatibility proposal and any required policy exception; no successor admitted.
+
+**09:13UTC integrity gate:** [First restricted CPU verifier](terminal_verification_v1/README.md) failed before tensor loading because it demanded LAUNCH.body_sha256, which belongs to the separate pinned root launch acceptance. Native training is unchanged/completed; full integrity acceptance and exact stop remain pending. Failed support is preserved, never stopped/restarted/retried. A narrow metadata-schema repair is local preparation only until reviewed/admitted.
+
+**Native completion captured20October08:54UTC:** [Exact raw evidence](terminal_native_capture_v1/README.md) proves this same invocation ended08:40:45UTC active/exited/MainPID0/ExecMainCode1/Status0, six FIT/GRAD_STATS records/44,760updates/4,476batches/zero skips/nonfinite, fixed5/evaluation withheld. [Typed evidence](TERMINAL_EVIDENCE.json), [independent metadata review](../../preparation/CHILD_CONTROL_NATIVE_TERMINAL_METADATA_REVIEW_V1.json) and [native resource reconciliation](NATIVE_RESOURCE_RECONCILIATION.json) are durable. Full model/state integrity and exact stop remain pending; native unit is preserved/exited, tensor files stat-only. Dated launch/health statements below are historical.
+
 # First full CONTROL fit — actual launch
 
 The sole invocation `e66e0d0703314e4fb5d47dcdbfcaf202` was launched at `2026-10-20T05:33:09.831980+00:00` as `computer-vision-homework-fg19-child-control-fit-v1.service`, PID96892 in the dated launch snapshot. [Root launch acceptance](LAUNCH_ACCEPTANCE.json), exact B-byte [admission](ADMISSION.json) and [launch](LAUNCH.json), [transport](TRANSPORT.json) and [executed body](REMOTE_SUBMISSION.py) preserve the one actual submission. Raw21,454B/SHA`22b66a7c530579e5e6b05e6f797bf8a3c77016ec7dc7fddf643fcf4acc1945fe` was persisted before decoding; local admission/launch bytes match B.
