@@ -1,3 +1,9 @@
+## 20 October06:15UTC — bounded full CONTROL progress
+
+[Same CONTROL invocation active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0614Z/README.md), one owned GPU worker/no new own or parent memoryevents. Completed native epoch0 records7,460updates/746batches/zero skips/nonfinite0; later recorded epoch1batch320 is not a synchronous current total, terminal44,760 or quality endpoint. Changing tensorfiles remain stat-only; no restart/stop/newjob/grade. Existing parent/profile/completed prerequisite stages remain accepted/exact-stopped and must not be polled or replayed.
+
+[The needed CONTROL terminal checker](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/README_CHILD_CONTROL_TERMINAL_CHECK_V1.md) is now locally prepared, [independently source-reviewed](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_SOURCE_REVIEW_V1.json), and [root-bound](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_ROOT_PREPARATION_V1.json). It has not been staged/admitted/executed on B. Final code validates the child-specific six-epoch model/loader/dictionary/parent/cache contract and exact terminal OneCycle LR/beta1; focused synthetic checks and isolated four-file/29-module imports passed. This is preparation, with no actual terminal, current payload read, quality result or new fit.
+
 ## 20 October05:33UTC — first full CONTROL GRU fit actually launched
 
 [Startup05:35UTC](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/startup_health_v1/README.md) observes the same active invocation and sole owned GPU worker, zero new own/parent memory events; recorded ep0batch0 is not a verified update total or quality score.

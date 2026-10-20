@@ -1,5 +1,7 @@
 [Shared parent accepted and exact-stopped](parent_fit_r2_v1/README.md): full native29,840updates/four epochs and restricted V3 state/model/AdamW/RNG/source167/ancestry checks pass; exact stop closes accepted native+successfulV3 only. Failed supports are retained. One new parent fit is complete; five child fits/quality endpoints remain pending.
 
+- [CONTROL health06:15UTC](child_control_fit_v1/health_20261020T0614Z/README.md): same invocation/one owned worker, dated completed epoch0 counters; no terminal/current total or quality.
+
 - [First full CONTROL fit](child_control_fit_v1/README.md): actual one-worker launch; terminal completion pending.
 
 - [All-three child shape profile](child_allthree_profile_v1/README.md): accepted60 finite updates and exact-stopped; first full CONTROL now launched.

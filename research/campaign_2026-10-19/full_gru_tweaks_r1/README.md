@@ -1,4 +1,8 @@
+**Current20October06:15UTC dated observation:** the same full CONTROL invocation is active/running; one completed epoch is recorded, with no terminal or quality endpoint. The [needed CONTROL integrity checker](preparation/README_CHILD_CONTROL_TERMINAL_CHECK_V1.md), [independent source review](preparation/CHILD_CONTROL_TERMINAL_SOURCE_REVIEW_V1.json) and [root dependency binding](preparation/CHILD_CONTROL_TERMINAL_ROOT_PREPARATION_V1.json) are LOCAL ONLY, not staged/admitted/executed on B. [Current continuation](CONTINUATION.md) governs the next exact-native-exit and fresh resource gates. [Health/preparation publication validation](PUBLICATION_VALIDATION_20261020_CONTROL_HEALTH_TERMINAL_PREP.json) adds zero scientific fits or ledger rows.
+
 **05:00UTC parent accepted/exact-stopped:** [Full parent integrity and closure](records/parent_fit_r2_v1/TERMINAL_ACCEPTANCE.json) verifies29,840updates/FP32 model+AdamW/loader/RNG/source167/cache/ancestry; [exact stop](records/parent_fit_r2_v1/exact_stop/README.md) excludes failed supports. New child-shape profile is next, not yet admitted; five arms/quality endpoints remain pending. [Current continuation](CONTINUATION.md) supersedes old running/failed-checker snapshots.
+
+- [Bounded CONTROL health06:15UTC](records/child_control_fit_v1/health_20261020T0614Z/README.md): one completed epoch record/7,460updates/zero skips/nonfinite in that record, same active worker; no current total, terminal or quality endpoint.
 
 - [Parent-to-CONTROL publication validation](PUBLICATION_VALIDATION_20261020_PARENT_CONTROL.json): scoped files, raw transports, source/review pins, append-only costs and navigation; no model/data payloads.
 
