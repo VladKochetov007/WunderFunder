@@ -53,10 +53,13 @@ def _load(name: str) -> dict[str, np.ndarray]:
 class PredictionModel:
     def __init__(self) -> None:
         spec = json.loads((HERE / "members.json").read_text())
+        precision_path = HERE / "precision.txt"
+        precision = precision_path.read_text().strip() if precision_path.is_file() else "f32"
         self.members = [
             wnn_native.Predictor(
                 _load(member["weights"]),
                 fast_activations=True,
+                precision=precision,
                 feature_mode=member.get("input_layout", {}).get("representation_mode", "none"),
             )
             for member in spec

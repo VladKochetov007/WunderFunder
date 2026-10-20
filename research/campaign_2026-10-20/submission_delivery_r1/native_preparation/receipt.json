@@ -1,0 +1,76 @@
+{
+  "schema": "wnn.native_preparation_receipt.v1",
+  "status": "v2-built; scorer import, callback, and real-checkpoint checks pending",
+  "implementation": {
+    "integrated_main_commit": "7a46eedd4",
+    "worktree_branch": "experiment/overnight-ema-native-20261020",
+    "worktree_head": "96e9066964bf9f36e4d2bec063464cb7f368880b",
+    "producer_source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "producer_source_path": "/home/vlad/development/wunder/research_tmp/fg19-source-68ff6829/src/wnn/training/input_representation.py",
+    "serving_modes": ["none", "base", "ema"],
+    "input_widths": {
+      "legacy_stream": [211, 323],
+      "representation": 467
+    },
+    "unsupported_sparse_modes": "rejected explicitly"
+  },
+  "ema_synthetic_comparison": {
+    "reference": "frozen producer causal_signed_ema",
+    "candidate": "float32 causal online recurrence with per-sequence zero reset",
+    "seed": 20261020,
+    "sequences": 3,
+    "rows_per_sequence": 1025,
+    "features": 112,
+    "first_row": "zero",
+    "max_absolute_error": 3.53902578e-8,
+    "mean_absolute_error": 5.85595572e-9,
+    "rmse": 7.44170281e-9,
+    "peak_rss_kib": 635076,
+    "resource_bound": "MemoryMax=1500000000 bytes; CPUQuota=100%; one thread; swap disabled",
+    "limitation": "producer representation comparison only; not native extension or model prediction parity"
+  },
+  "v2_build": {
+    "command": "WNN_MEM_MAX=2000000000 WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_TMP_ROOT=/home/vlad/development/wunder/research_tmp WNN_BUILD_CPUS=1 WNN_BUILD_MEM=2000000000 WNN_USE_EXISTING_BUILD_IMAGE=1 WNN_BUILD_LEVELS=v2 scripts/limited /usr/bin/time -v scripts/build_native.sh /home/vlad/development/wunder/research_tmp/overnight-ema-native-20261020-artifacts/native-built",
+    "container_image": "wnn-native-build",
+    "container_image_id": "sha256:822c803e663bd22fb0c5d0831db6b58875dee91adeb4bbb99cf111c3bc8dda6a",
+    "container_limits": {
+      "cpu_cores": 1,
+      "memory_bytes": 2000000000,
+      "swap_bytes": 0,
+      "scratch": "/home/vlad/development/wunder/research_tmp"
+    },
+    "rust_toolchain": "1.94.0 (from submission/Dockerfile.build)",
+    "maturin": "1.15.0",
+    "build_flags": "RUSTFLAGS=-C target-cpu=x86-64-v2; maturin build --locked --release --features extension-module",
+    "cargo_lock_sha256": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+    "dockerfile_sha256": "8ce1283b378eb590dee10ca4bfce54b9d5537b69f265383392708fc019e7e57d",
+    "artifact_path": "/home/vlad/development/wunder/research_tmp/overnight-ema-native-20261020-artifacts/native-built/v2/wnn_native.abi3.so",
+    "artifact_bytes": 1181912,
+    "artifact_sha256": "253e674ccb50ab633afc72d77744c138699fa68b1b2e5ae8d82a2121d5e29511",
+    "wheel_abi_tag": "cp311-abi3-manylinux_2_34_x86_64",
+    "abi_check": "passed; maximum GLIBC requirement 2.34; no libpython dependency",
+    "elapsed_seconds": 58.39,
+    "sampled_container_memory": "244.1 MiB at approximately 45 seconds; sampling is not an absolute peak",
+    "host_time_max_rss_kib": 32356,
+    "host_time_rss_note": "measures the Docker launcher, not container peak RSS",
+    "v3": "not built; held for parent profile decision"
+  },
+  "precision_dispatch": {
+    "changed_file": "submission/solution_multi.py",
+    "source": "packaged precision.txt; defaults to f32 when absent",
+    "accepted_package_choices": ["f32", "f16", "i16", "q16x", "q8vnni"],
+    "legacy_build_level_defaults": ["v2", "avx2", "v3"]
+  },
+  "interrupted_attempt": {
+    "elapsed_seconds": 25.97,
+    "cause": "initially interpreted the dependency-install limit as prohibiting pinned Cargo crate downloads",
+    "resolution": "parent clarified Cargo.lock-pinned build dependencies are authorized",
+    "cleanup": "transient container removed; partial target scratch cleaned; Python environment unchanged"
+  },
+  "pending_checks": [
+    "Import the built v2 abi3 extension in the packaging runtime and verify Predictor construction for 467-wide base and EMA inputs.",
+    "Run scorer-callback parity and verify state reset across independent sequences with the built extension.",
+    "Inspect an actual checkpoint and exported metadata; verify appended mean=0 and std=1 and correct first-two-output mean selection.",
+    "Build v3 only after parent profile decision, then repeat relevant ABI and runtime checks if required."
+  ]
+}
