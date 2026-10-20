@@ -210,7 +210,7 @@ def _cache(item: dict[str, Any], split_sha: str, checkpoint_sha: str) -> dict[st
 
 
 def _base(
-    plan_path: Path, eval_path: Path
+    plan_path: Path, eval_path: Path, verification: dict[str, Any]
 ) -> tuple[
     dict[str, Any], dict[str, Any], dict[str, Any], dict[str, dict[int, int]], dict[str, Any]
 ]:
@@ -221,12 +221,22 @@ def _base(
     split_pin = pins["split_manifest"]
     split_path = Path(split_pin["path"])
     split, components = _fold(split_path, split_pin["sha256"], evaluation)
+    valid_input = next(
+        row
+        for row in verification["inputs"]
+        if Path(row["path"]) == root / "datasets/valid.parquet"
+    )
     parquet = evaluation["data_pins"]["valid_parquet"]
     parquet_path = root / parquet["path"]
-    if parquet_path.stat().st_size != parquet["bytes"]:
-        raise ValueError("valid.parquet byte size changed")
+    stat = parquet_path.stat()
+    if (
+        stat.st_size != parquet["bytes"]
+        or stat.st_size != valid_input["bytes"]
+        or stat.st_mtime_ns != valid_input["mtime_ns"]
+    ):
+        raise ValueError("valid.parquet size or frozen mtime changed")
     footer_bytes, footer_sha = _footer(parquet_path)
-    if footer_sha != parquet["footer_sha256"]:
+    if footer_sha != parquet["footer_sha256"] or footer_sha != valid_input["footer_sha256"]:
         raise ValueError("valid.parquet footer hash changed")
     parent = next(x for x in plan["endpoints"] if x["id"] == "parent_cp5")
     old = next(x for x in plan["endpoints"] if x["id"] == "oldz4_cp1_fp32")
@@ -248,6 +258,7 @@ def _base(
             "valid_parquet": {
                 "path": str(parquet_path),
                 "bytes": parquet["bytes"],
+                "mtime_ns": stat.st_mtime_ns,
                 "footer_bytes": footer_bytes,
                 "footer_sha256": footer_sha,
             },
@@ -268,6 +279,7 @@ def _base(
 def _absent(plan: dict[str, Any], receipt: Path, post_receipt: Path) -> list[str]:
     """Require new prediction, temporary, sidecar, seqsum, and receipt paths absent."""
     root, paths = Path(plan["source_pins"]["project_root"]), [receipt, post_receipt]
+    paths.append(Path(plan["screen"]["report_path"]))
     for item in plan["endpoints"]:
         if item.get("argv"):
             final, stem = Path(item["prediction_path"]), item["output_name"]

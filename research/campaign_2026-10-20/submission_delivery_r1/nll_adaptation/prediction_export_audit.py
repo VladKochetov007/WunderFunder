@@ -7,6 +7,64 @@ from typing import Any
 
 from prediction_artifact_validation import GROUPS, NBYTES, SHAPE, _json, _prediction, _sha
 
+_BOOLEAN_OPTIONS = {
+    "--no-eval-during-fit",
+    "--inherit-init-preprocessing",
+    "--grad-stats",
+    "--fast",
+    "--save-training-state",
+}
+
+
+def _fit_args_by_name(recipe: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Parse each frozen fit argv into the exact provenance arguments expected."""
+    result = {}
+    for arm in recipe["design"]["arms"]:
+        argv = arm["fit_argv"]
+        if not isinstance(argv, list) or len(argv) < 2:
+            raise ValueError("recipe arm has no executable fit argv")
+        expected: dict[str, Any] = {}
+        cursor = 1
+        while cursor < len(argv):
+            option = argv[cursor]
+            if not isinstance(option, str) or not option.startswith("--"):
+                raise ValueError(f"invalid fit option in recipe: {option!r}")
+            key = option[2:].replace("-", "_")
+            if key in expected:
+                raise ValueError(f"duplicate fit option in recipe: {option}")
+            if option in _BOOLEAN_OPTIONS:
+                expected[key] = True
+                cursor += 1
+                continue
+            if cursor + 1 >= len(argv) or str(argv[cursor + 1]).startswith("--"):
+                raise ValueError(f"fit option has no value in recipe: {option}")
+            expected[key] = argv[cursor + 1]
+            cursor += 2
+        name = expected.get("name")
+        if not isinstance(name, str) or name in result:
+            raise ValueError("recipe fit names must be unique strings")
+        if expected.get("mean_variance_objective") != arm["objective"]:
+            raise ValueError(f"{name} objective differs from its recipe arm")
+        result[name] = expected
+    return result
+
+
+def _args_match(actual: Any, expected: Any) -> bool:
+    """Compare string argv values with typed provenance values."""
+    if isinstance(actual, bool):
+        return expected is True and actual is True
+    if isinstance(actual, int):
+        try:
+            return actual == int(expected)
+        except (TypeError, ValueError):
+            return False
+    if isinstance(actual, float):
+        try:
+            return actual == float(expected)
+        except (TypeError, ValueError):
+            return False
+    return actual == expected
+
 
 def _export(
     root: Path,
@@ -15,6 +73,8 @@ def _export(
     components: dict[str, dict[int, int]],
     split_sha: str,
     *,
+    expected_args: dict[str, Any] | None = None,
+    expected_ancestry: dict[str, Any] | None = None,
     check_predictions: bool = True,
 ) -> dict[str, Any]:
     """Bind a completed checkpoint and provenance, then optionally its export."""
@@ -26,6 +86,32 @@ def _export(
     args = provenance.get("args", {})
     if (pinned_sha and checkpoint_sha != pinned_sha) or not isinstance(args, dict):
         raise ValueError(f"checkpoint identity mismatch: {run}")
+    if expected_args is not None:
+        mismatches = [
+            key
+            for key, expected in expected_args.items()
+            if key not in args or not _args_match(args[key], expected)
+        ]
+        if mismatches:
+            raise ValueError(f"{run} provenance differs from frozen fit argv: {mismatches}")
+    if expected_ancestry is not None:
+        cache = provenance.get("distillation_cache", {})
+        if not isinstance(cache, dict) or expected_args is None:
+            raise ValueError(f"{run} provenance is missing frozen cache ancestry")
+        cache_expected = expected_ancestry["distillation_cache"]
+        if (
+            provenance.get("initial_checkpoint_sha256")
+            != expected_ancestry["initial_checkpoint_sha256"]
+            or provenance.get("propensity_checkpoint_sha256")
+            != expected_ancestry["propensity_checkpoint_sha256"]
+            or cache.get("root") != expected_args.get("distill_cache_root")
+            or cache.get("variant") != expected_args.get("distill_cache_variant")
+            or cache.get("main_target_scale") != float(expected_args["distill_cache_scale"])
+            or cache.get("main_target_scale_applied_before_training_clip") is not True
+            or cache.get("metadata_sha256") != cache_expected["metadata_sha256"]
+            or cache.get("verified_files") != cache_expected["verified_files"]
+        ):
+            raise ValueError(f"{run} provenance ancestry differs from pinned parent/cache inputs")
     if (
         args.get("name") != run
         or args.get("valid_fold") != 0
@@ -78,6 +164,8 @@ def _export(
             "epoch": epoch,
             "checkpoint": checkpoint_record,
             "provenance": provenance_record,
+            "fit_args": expected_args,
+            "lineage_pins": expected_ancestry,
             "fit_group_counts": fit_counts,
             "fit_components_exclude_evaluation": True,
         }
@@ -104,6 +192,8 @@ def _export(
         "epoch": epoch,
         "checkpoint": checkpoint_record,
         "provenance": provenance_record,
+        "fit_args": expected_args,
+        "lineage_pins": expected_ancestry,
         "fit_group_counts": fit_counts,
         "fit_components_exclude_evaluation": True,
         "sidecar": {"path": str(side_path), "sha256": _sha(side_path)},
