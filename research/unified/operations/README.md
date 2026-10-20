@@ -1,5 +1,8 @@
 # Execution, incidents, and preservation
 
+- [Kaggle delivery readiness, October21](../../campaign_2026-10-21/kaggle_delivery_readiness_r1/README.md) —5.0212GPU-hours unreserved, matching public dataset sizes and local F1assets. T4 bundle requests two devices; single-device availability and charging unverified. No cloud job admitted; private asset staging and actual-shape cost remain prerequisites.
+
+
 - [Completed local WMSE/NLL fits and corrected export](../../campaign_2026-10-20/submission_delivery_r1/nll_adaptation/README.md#both-fits-completed-corrected-export-attempt) — both fixed fits succeeded,14920updates each, matched sampling/normalization, no nonfinite gradients/skips. Records the pre-export path-binding failure and corrected R2 actual preflight pass; quality scores remain pending.
 
 

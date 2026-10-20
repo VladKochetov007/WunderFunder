@@ -61,3 +61,7 @@ fixed-input source/checkpoint CPU output comparison before accepting conversion.
 Native dynamic-int8 deltas, exact serving quality/runtime and the separate
 production cache/membership adapter remain outstanding. No conversion or model
 execution has occurred at this recording.
+
+## Actual CPU conversion and transport acceptance
+
+[Conversion receipt](CONVERSION_RECEIPT_R1.json) binds all source archive entries, the exact imported canonical model source and the3,912,179-byte checkpoint SHA4e91c705b43d9dfcf279592089162d4c7147188491d58ca13cf90dd4cecbfb2b. Payloads stay at `/home/vlad/development/wunder/research_tmp/tl3-student-conversion-r1/`. [Forward acceptance](FORWARD_TRANSPORT_RECEIPT_R1.json) passes source-NPZ versus checkpoint-loaded output/state bitwise equality for seeded CPUFP32 synthetic input2×257×211, full and chunks99/101/57, and reset/replay equality. Chunk/full diagnostic max difference0.0. Both processes used one CPU,1.2GBRAMhard,zero task swap,CUDAhidden. This establishes transport, not original quantized-native parity, quality, clean ancestry or training admission. No production fit or candidate ZIP exists.

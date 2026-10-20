@@ -2,7 +2,7 @@
 
 Frozen two-arm recipe against the H256×2 seed-3 F0 parent. The WMSE and NLL arms share initialization, strict-FP32 update schedule, target cache, and one appended zero-initialized logvariance head; only the objective flag differs. Exact commands and all known pins are in [recipe.json](recipe.json).
 
-Status: both bounded profiles passed; the matched two-fit sequence is running under `wnn-overnight-nll-fit-20261020.service` (invocation `d2a82026557c4f5b915a361b8f8e375a`). Profile uses 2 warmup plus 4 measured full batches per arm (60 chunk updates total) and omits `--save-training-state`; fit uses two full epochs and fixed zero-based checkpoint epoch 1. Root owns launch and monitoring.
+Historical launch status: both bounded profiles passed; the matched two-fit sequence was running under `wnn-overnight-nll-fit-20261020.service` (invocation `d2a82026557c4f5b915a361b8f8e375a`). Profile uses 2 warmup plus 4 measured full batches per arm (60 chunk updates total) and omits `--save-training-state`; fit uses two full epochs and fixed zero-based checkpoint epoch 1. Root owns launch and monitoring.
 
 Accounting: 2 new scientific fits total, one per arm; no new teacher fits. The target cache stores 0.8125 times the mean of three fixed MainT3 teacher epoch-2 predictions; keep cache scale 1.0. Parent/cache artifact names and target semantics are pinned in the JSON. A positive small CPU MLP NLL pilot is only a directional prior and does not establish GRU transfer.
 
@@ -161,3 +161,11 @@ manifest-path/receipt-only change preserves all scientific and resource
 settings. Its source-gate caveat is covered by the actual pre/post validator,
 which also checks ignored untracked Python sources. Both child prediction
 exports completed; old-Z4 export and the final audit/grade remain in progress.
+
+## Completed F0 endpoint evaluation
+
+[Actual results](RESULTS_F0_R1.md) report all seven frozen scores and paired component intervals. Best point endpoint is75%oldZ4/25%WMSE, WP0.6835218031 versus oldZ4 alone0.6831643304; the NLL blend is0.6835179511. NLL minus WMSE is−0.0000436109. Both fits, all three exports, artifact audit and official grading completed. These are one exposed-fold/one-seed results with broad conditional intervals; no new ZIP or TL3 improvement is established. [R2 chain report](post_fit_plan_report_r2.json), [post-export audit](prediction_post_export_r2.json), [start receipt](post_fit_start_r2.json), [export log](exports_r2.log), [resource samples](export_resource_samples_r2.log), and [supervisor log](post_fit_supervisor_r2.log) preserve the successful repaired attempt. Actual endpoint review is pending.
+
+[Grade navigation](grades/README.md) indexes the retained official result payload.
+
+[Independent actual evidence review](ACTUAL_EVIDENCE_REVIEW_R1.json) passes source/metric/ancestry and result-scope checks. The apparent parent discrepancy was a different historical checkpoint, not a discovered mask/cache shift. No new fits or array loads were used for this review.

@@ -1,5 +1,9 @@
 # Current project state
 
+## October21 measured continuation update
+
+Both matched WMSE/NLL fits and seven-endpoint scoring completed. The [actual results](../research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/RESULTS_F0_R1.md) favor retaining the fixed oldZ4/WMSE blend for further evaluation, without a demonstrated TL3/public improvement. NLL has no matched point advantage. The PR25-supported [H512 local profile](../research/campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/README.md) completed safely at1.893s/batch; root is freezing exact fold/production commands before admitting a quality fit. Existing15hbudget remains cumulative; no GPU job is currently running. Historical running snapshots below are superseded.
+
 ## Active local delivery — October20
 
 The latest user instruction chooses local small-GRU training after remote

@@ -1,6 +1,10 @@
 # Model families and training
 
-- [Conditional TL3 member adaptation](../../campaign_2026-10-20/submission_delivery_r1/tl3_member_adaptation/README.md) — source-hash and shape audit of replacing only the0.34plain211-input H256×2 student while preserving the two263-input tied members and three-model serving graph. Unknown ancestry and full-data training remain explicit; no conversion, fit or candidate ZIP exists yet.
+- [Actual matched GRU continuation results](../../campaign_2026-10-20/submission_delivery_r1/nll_adaptation/RESULTS_F0_R1.md) — two completed strict-FP32 continuation fits, seven fixed exposed-F0 endpoints. OldZ4/WMSE blend gains+.00035747WP at the point estimate; NLL has no matched advantage. Component intervals remain broad; one seed/fold, historical mixed-precision ancestry, no TL3/new-public-best claim.
+- [Measured local H512 cost](../../campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/README.md) — PR25-derived cold wide GRU profile passes40finiteupdates at1.893s/batch,3.602GBpeak/zero swap. Approximately4.7h fold-fit projection; no quality fit yet.
+
+
+- [Conditional TL3 member adaptation](../../campaign_2026-10-20/submission_delivery_r1/tl3_member_adaptation/README.md) — source-hash and shape audit of replacing only the0.34plain211-input H256×2 student while preserving the two263-input tied members and three-model serving graph. Unknown ancestry remains explicit; CPU conversion and bounded FP32 forward/state transport now pass. No production fit or candidate ZIP exists.
 
 
 Architecture, training lineage, distillation and retained checkpoint sources.
