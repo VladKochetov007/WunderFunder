@@ -137,6 +137,15 @@ def convert_tl3_student(archive_path: Path, requested_output_dir: Path) -> dict[
     ):
         raise ValueError("extracted student member differs from its pinned source hash")
     model = load_fp32_model(weight_path, architecture, "cpu")
+    code_root = Path(__file__).resolve().parents[1]
+    model_module = sys.modules.get(model.__class__.__module__)
+    model_module_file = getattr(model_module, "__file__", None)
+    if not isinstance(model_module_file, str):
+        raise ValueError("loaded canonical model has no resolvable module path")
+    canonical_model_path = Path(model_module_file).resolve(strict=True)
+    expected_model_path = (code_root / "src/wnn/nn.py").resolve(strict=True)
+    if canonical_model_path != expected_model_path:
+        raise ValueError("loaded model implementation is not this checkout's canonical wnn.nn")
     state = _validated_state(model)
     tensor_hashes = _state_hashes(state)
     if not torch.equal(state["mean"], model.mean.detach().cpu()) or not torch.equal(
@@ -144,12 +153,11 @@ def convert_tl3_student(archive_path: Path, requested_output_dir: Path) -> dict[
     ):
         raise ValueError("normalization buffers changed during canonical loading")
 
-    code_root = Path(__file__).resolve().parents[1]
     code_hashes = {
         "converter": file_sha256(Path(__file__).resolve()),
         "archive_helper": file_sha256(code_root / "scripts/tl3_source_archive.py"),
         "export_helper": file_sha256(code_root / "scripts/team_member_export_lib.py"),
-        "canonical_model": file_sha256(code_root / "src/wnn/nn.py"),
+        "canonical_model": file_sha256(canonical_model_path),
     }
     source_asset = {
         "kind": "official_team_archive_member",
@@ -169,6 +177,7 @@ def convert_tl3_student(archive_path: Path, requested_output_dir: Path) -> dict[
         "heldout_claim": False,
         "training_admission": False,
         "conversion_code_sha256": code_hashes,
+        "canonical_model_path": str(canonical_model_path),
         "source_tensor_sha256": tensor_hashes,
     }
     checkpoint = {
@@ -222,6 +231,7 @@ def convert_tl3_student(archive_path: Path, requested_output_dir: Path) -> dict[
             "tensor_sha256": output_tensor_hashes,
         },
         "code_sha256": code_hashes,
+        "canonical_model_path": str(canonical_model_path),
         "validation": {
             "strict_load": True,
             "cpu_fp32": True,
