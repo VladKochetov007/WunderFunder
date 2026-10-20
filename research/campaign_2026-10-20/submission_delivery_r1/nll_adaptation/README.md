@@ -2,6 +2,8 @@
 
 This folder contains the frozen two-fit recipe and the prediction/scoring handoff for the H256×2 seed-3 F0 continuation. The fit recipe compares chunk-WMSE with diagonal Gaussian NLL from the same parent CP5, exact MainT3 cache target, precision, optimizer, schedule, and fixed CP1 endpoint. See [recipe.json](recipe.json) for the exact profile and fit argv, hashes, and target-scale contract.
 
+The [fold and production asset catalog](FOLD_ASSET_CATALOG_R1.md) records reusable F1/F2 continuation parents, target/propensity cache availability and the all-data production lineage. It supports a later focused follow-up if F0 warrants it; its metadata-only ancestry findings preserve the exposed-fold and missing-cache limitations.
+
 Root reports both bounded profiles exited 0 with finite updates, 60 chunk updates per arm, and about 1.68 seconds per full B16 training batch. Fit execution and result collection remain root-owned. No export or grading result is claimed in this preparation note.
 
 ## Prediction and scoring
