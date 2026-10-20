@@ -95,3 +95,14 @@ owns independent result interpretation and later package selection. The
 precision plumbing, v2/v3 binaries and the source-qualified submission replay.
 The required AVX2 binary and actual selected-ZIP replay remain outstanding.
 Saved remote models remain secondary; no further SSH action is needed locally.
+
+## Conditional second-fold comparison
+
+The [F1 follow-up packet](nll_followup_f1/README.md) preserves two exact prospective
+seed4 WMSE/NLL commands using a compatible H256×2 parent and eight-source cache.
+It remains NOT_ADMITTED pending the F0 grade and remaining-budget decision.
+This would bring the idea to four total new fits, with no teacher fits. F1 is
+exposed; different fold, parent and teacher cache limit cross-cell inference.
+The packet also separates the existing all-data31→33 family-head route from an
+unverified expanded-target25-output route. Neither production route is runnable
+without explicit full-membership/cache validation; no new fit is scheduled.

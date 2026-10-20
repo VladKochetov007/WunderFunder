@@ -1,5 +1,8 @@
 # Execution, incidents, and preservation
 
+- [Conditional F1 NLL follow-up](../../campaign_2026-10-20/submission_delivery_r1/nll_followup_f1/README.md) — exact prospective seed4 WMSE/NLL commands, two total new fits, compatible parent/cache metadata and source pins. NOT_ADMITTED pending F0 results; distinguishes full-data target/head adaptations and unmeasured export cost.
+
+
 - [Overnight submission delivery](../../campaign_2026-10-20/submission_delivery_r1/README.md) — user authorizes completed-model evaluation, useful bounded training and a new ZIP. Latest user steering selects a local H256×2 WMSE/NLL pair; two profiles passed, and the [WMSE control completion receipt](../../campaign_2026-10-20/submission_delivery_r1/nll_adaptation/control_terminal_progress_r1.json) records two epochs in4249.17seconds with14920completed updates and no nonfinite gradients. The [first NLL epoch diagnostics](../../campaign_2026-10-20/submission_delivery_r1/nll_adaptation/nll_epoch0_diagnostics_r1.json) confirm matching sampling/normalization identities and finite updates, but substantially stronger clipping (mean factor0.0418). NLL fitting remains active; predictive scores are pending. Native EMA/precision support and v2/v3 binaries are prepared. No new quality score or submission claim. Existing local resource limits and 15 GPU-hour ceiling remain.
 
 - [October 19 Kaggle readiness](PLATEAU_KAGGLE_READINESS_20261019_R1.md) — read-only account snapshot from the existing project SDK: about 5.02 GPU quota-hours remain, zero provider reservations, and no running/queued kernels among 29 recent runs. Records working environment and existing bundle/worker paths; no install, upload or job. Availability and separate agent reservations must be rechecked at actual admission.
