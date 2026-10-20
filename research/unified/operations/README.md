@@ -1,3 +1,7 @@
+[EMA rare health15:51UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1551Z/README.md): same active worker, completed epochs0–3/29,840updates/2,984batches/zero skips/nonfinite; later line not current totals/native terminal/quality. Memoryevents unchanged, tensors stat-only, no new job/action or unchanged checker/source/model/profile test. [Health validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1551.json) preserves raw bytes/navigation with zero ledger rows/fits; existing local checker and actual-exit gate are unchanged.
+
+---
+
 [EMA health14:40UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1440Z/README.md): same active worker, completed epochs0/1 totals14,920updates/1,492batches/zero skips/nonfinite; later log line is not current totals/terminal/quality. [EMA-specific terminal checker](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/README.md) and [root closure binding](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/ROOT_PREPARATION.json) are local-only; actual typed exit0 and fresh reviewed cappedCPU gates precede B staging/execution, acceptance and exact stop. [Validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_EMA_HEALTH_TERMINAL_PREP_1440.json) adds no ledger rows/fits; unchanged suites were not repeated.
 
 ---

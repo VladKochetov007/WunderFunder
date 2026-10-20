@@ -1,3 +1,7 @@
+**Latest actual20October15:51UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1551Z/README.md), four completed epochs/cumulative29,840updates/2,984batches/zero skips/nonfinite in those records. Later ep4batch300 is not current totals, terminal44,760, integrity or quality. Own/parent events unchanged, tensors stat-only, no new action/job. Existing terminal checker is frozen/local/unadmitted. [Continuation](CONTINUATION.md) and [health validation](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1551.json) govern dated evidence and later actual-exit gates; no repeated preparation/tests/poll.
+
+---
+
 **Latest actual20October14:40UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1440Z/README.md); two completed epoch records14,920updates/1,492batches/zero skips/nonfinite, later ep2batch240 is not current totals/terminal/quality. Tensor files stat-only, no new job/restart/stop. [EMA terminal checker](preparation/child_ema_terminal_check_v1/README.md), [source review](preparation/child_ema_terminal_check_v1/CHILD_EMA_TERMINAL_SOURCE_REVIEW_V1.json) and [root binding](preparation/child_ema_terminal_check_v1/ROOT_PREPARATION.json) are LOCAL ONLY, no B staging/admission before actual typed native exit0. [Continuation](CONTINUATION.md) and [publication validation](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_TERMINAL_PREP_1440.json) bind current gates; no repeated tests/preparation/poll.
 
 ---

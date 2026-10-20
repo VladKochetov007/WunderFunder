@@ -1,3 +1,7 @@
+**Latest actual15:51UTC:** [One bounded same-invocation health](health_20261020T1551Z/README.md) records epochs0–3/29,840updates/2,984batches/zero skips/nonfinite; later ep4batch300 is not current totals, terminal44,760 or quality. One owned worker, no new memoryevents, tensor files stat-only. Existing source-reviewed terminal checker stays local/unadmitted until actual native typed exit0, no new preparation or immediate repeat poll.
+
+---
+
 **Latest actual14:40UTC:** [One bounded same-invocation health](health_20261020T1440Z/README.md) records epochs0/1/14,920updates/1,492batches/zero skips/nonfinite; later ep2batch240 is not synchronous current totals/terminal/quality. One owned worker, events unchanged, tensors stat-only. [Needed terminal checker](../../preparation/child_ema_terminal_check_v1/README.md) and [root binding](../../preparation/child_ema_terminal_check_v1/ROOT_PREPARATION.json) are local-only, with no support staging/admission before actual native typed exit0. No immediate repeated poll.
 
 ---
