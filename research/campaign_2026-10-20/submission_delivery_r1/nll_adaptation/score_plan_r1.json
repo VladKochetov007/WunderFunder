@@ -1,0 +1,424 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-OVERNIGHT-NLL-ADAPTATION-R1",
+  "status": "prepared_frozen_seven_endpoint_screen",
+  "scope": "Export WMSE and NLL CP1 predictions plus one FP32 re-export of the source-audited Z4 CP1 checkpoint under a unique cache name; reuse the exact parent CP5 cache; score seven fixed endpoints on the exposed F0 panel.",
+  "source_pins": {
+    "training_source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "predictor": {
+      "path": "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
+      "sha256": "904ddc9a2cafd194dc8d6ab9bdf1524120d6a089b83e33e2eb731e67abed6754",
+      "imports_sha256": {
+        "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+        "src/wnn/training/inputs.py": "b433ad56965e4272f3209e02f9108527fdaeabebefae07616dff61a4bbe5c9ea",
+        "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+        "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+        "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+        "src/wnn/splits.py": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe"
+      },
+      "fixed_geometry": {
+        "batch_size": 16,
+        "forward_chunk_rows": 4000,
+        "source_behavior": "Pinned predict_run.py hardcodes batch size 16 and calls the no-grad predictor with chunk=4000. It builds full-sequence inputs but processes recurrent forwards in 4,000-row chunks.",
+        "profile_mode": "The predictor profile-only gate is H384-specific and is not applicable to these checkpoints. No source change or copied predictor is used; root observes the first live batch under the admitted resource cap."
+      }
+    },
+    "screen_scorer": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/screen_score.py",
+      "sha256": "6bbd064d30e9ab608f24386c8bb076f0356be028c02092b629ab9a342051d34e",
+      "frozen_component": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-30/audit/campaign_score.py",
+        "sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39"
+      },
+      "metric_id": "global_wp_clip2_v1",
+      "metric_implementation_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "component_bootstrap": {
+        "replicates": 2000,
+        "seed": 271828,
+        "evaluation_components": 141
+      },
+      "imports_sha256": {
+        "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+        "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+        "src/wnn/metric.py": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+        "src/wnn/splits.py": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe"
+      }
+    },
+    "split_manifest": {
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "frozen_evaluation_manifest": {
+      "path": "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/evaluation_manifest.json",
+      "sha256": "94d2226849ec0822bce5cf53890bda6aa41a0677f7d77da231a9b6495f22069b"
+    },
+    "screen_definition": {
+      "path": "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/score_screen_f0_r1.json",
+      "sha256": "0e80ed190c695b80a94e29424a58de6374a9fca5aa40438169451f45ed9c913f"
+    }
+  },
+  "prediction_contract": {
+    "split": "valid",
+    "selector": "--campaign-full-valid-feature-only",
+    "label_access": "FeatureOnlySequences reads valid-source features with targets=false and mask=false. The selector obtains full row-group order from valid_targets.npz; it does not read y or mask during prediction.",
+    "output_dtype": "float32",
+    "output_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "output_bytes": 299680128,
+    "full_row_order": "valid_targets.npz row_group order; every exported sidecar must contain the same 1,873 groups in order, verified by screen_score before scoring.",
+    "new_outputs": 3,
+    "new_prediction_bytes_total": 899040384,
+    "head": {
+      "checkpoint_output_width": 25,
+      "layout": "2 main + 19 struct auxiliary + 2 next auxiliary + 2 appended logvariance",
+      "prediction_readout": "predict_run reads output columns 0:2 as the mean predictions; logvariance rows are not submitted outputs"
+    },
+    "fixed_geometry": {
+      "batch_size": 16,
+      "forward_chunk_rows": 4000,
+      "no_grad": true,
+      "first_batch_observation": "Root records actual cgroup/RSS and CUDA peak during the first live export batch."
+    }
+  },
+  "evaluation_contract": {
+    "only_scored_source": "valid",
+    "evaluation_groups": 468,
+    "evaluation_components": 141,
+    "non_evaluation_valid_rows": 1405,
+    "non_evaluation_rows_label": "fitting diagnostics; never include in the official score",
+    "alignment": "Each scored group is source-qualified as (valid,row_group), then joined to its component ID from fold0.json. The full prediction array is aligned by the row_group index stored in valid_targets.npz.",
+    "metric": "global_wp_clip2_v1",
+    "uncertainty": "Paired component bootstrap conditional on these fixed predictions; it does not estimate fitting-seed or public-transfer uncertainty.",
+    "exposure": "F0 is a repeatedly inspected development panel, not a pristine holdout or a public forecast.",
+    "total_frozen_endpoints": 7,
+    "fixed_blends": [
+      {
+        "id": "parent_nll_50_50",
+        "members": {
+          "parent_cp5": 0.5,
+          "nll_cp1": 0.5
+        }
+      },
+      {
+        "id": "oldz4_075_wmse_025",
+        "members": {
+          "oldz4_cp1_fp32": 0.75,
+          "wmse_cp1": 0.25
+        }
+      },
+      {
+        "id": "oldz4_075_nll_025",
+        "members": {
+          "oldz4_cp1_fp32": 0.75,
+          "nll_cp1": 0.25
+        }
+      }
+    ]
+  },
+  "endpoints": [
+    {
+      "id": "parent_cp5",
+      "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+      "epoch": 5,
+      "action": "reuse_exact_existing_prediction_after_actual_byte_and_order_check",
+      "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1_valid.npy",
+      "prediction_bytes": 299680128,
+      "prediction_sha256": "f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6",
+      "actual_sha256_verified": true,
+      "sidecar_sha256": "ad3ef0a0ad9f9668ab9764f40f916752d450554517859fb6782978ca5e97348e",
+      "sidecar_rows_verified": "exactly [0,1,...,1872]",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "inference_precision": "fp32",
+      "overwrite": false
+    },
+    {
+      "id": "wmse_cp1",
+      "run": "overnight_nll_f0_s3_wmse_e2_r1",
+      "epoch": 1,
+      "action": "export_after_root_confirms_checkpoint_and_provenance",
+      "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_overnight_nll_f0_s3_wmse_e2_r1_valid.npy",
+      "expected_prediction_bytes": 299680128,
+      "inference_precision": "fp32",
+      "output_name": "overnight_nll_f0_s3_wmse_e2_r1",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
+        "overnight_nll_f0_s3_wmse_e2_r1",
+        "valid",
+        "--epoch",
+        "1",
+        "--campaign-split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--campaign-full-valid-feature-only",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "fp32",
+        "--loader-workers",
+        "0",
+        "--output-name",
+        "overnight_nll_f0_s3_wmse_e2_r1"
+      ]
+    },
+    {
+      "id": "nll_cp1",
+      "run": "overnight_nll_f0_s3_nll_e2_r1",
+      "epoch": 1,
+      "action": "export_after_root_confirms_checkpoint_and_provenance",
+      "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_overnight_nll_f0_s3_nll_e2_r1_valid.npy",
+      "expected_prediction_bytes": 299680128,
+      "inference_precision": "fp32",
+      "output_name": "overnight_nll_f0_s3_nll_e2_r1",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
+        "overnight_nll_f0_s3_nll_e2_r1",
+        "valid",
+        "--epoch",
+        "1",
+        "--campaign-split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--campaign-full-valid-feature-only",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "fp32",
+        "--loader-workers",
+        "0",
+        "--output-name",
+        "overnight_nll_f0_s3_nll_e2_r1"
+      ]
+    },
+    {
+      "id": "parent_nll_50_50",
+      "action": "fixed_inference_blend_in_screen_score",
+      "weights": {
+        "parent_cp5": 0.5,
+        "nll_cp1": 0.5
+      },
+      "new_prediction_file": false
+    },
+    {
+      "id": "oldz4_cp1_fp32",
+      "run": "oldz4_h230_student_f0_s3_r3",
+      "epoch": 1,
+      "action": "export_existing_source_audited_checkpoint_in_fp32_to_unique_cache_stem",
+      "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb",
+      "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_oldz4_h230_student_f0_s3_r3_fp32_reexport_r1_valid.npy",
+      "expected_prediction_bytes": 299680128,
+      "inference_precision": "fp32",
+      "output_name": "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
+        "oldz4_h230_student_f0_s3_r3",
+        "valid",
+        "--epoch",
+        "1",
+        "--campaign-split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--campaign-full-valid-feature-only",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "fp32",
+        "--loader-workers",
+        "0",
+        "--output-name",
+        "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1"
+      ],
+      "independent_ancestry_review": {
+        "status": "cleared_by_independent_critic_as_reported_by_root",
+        "scope": "source-qualified F0 ancestry with 13 run records including 8 teacher runs",
+        "new_fit_cost": 0
+      }
+    },
+    {
+      "id": "oldz4_075_wmse_025",
+      "action": "fixed_inference_blend_in_screen_score",
+      "weights": {
+        "oldz4_cp1_fp32": 0.75,
+        "wmse_cp1": 0.25
+      },
+      "new_prediction_file": false
+    },
+    {
+      "id": "oldz4_075_nll_025",
+      "action": "fixed_inference_blend_in_screen_score",
+      "weights": {
+        "oldz4_cp1_fp32": 0.75,
+        "nll_cp1": 0.25
+      },
+      "new_prediction_file": false
+    }
+  ],
+  "screen": {
+    "definition_path": "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/score_screen_f0_r1.json",
+    "report_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/grades/f0_seven_endpoints_r1.json",
+    "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "executable": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "argv": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/screen_score.py",
+      "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/score_screen_f0_r1.json",
+      "--output",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/grades/f0_seven_endpoints_r1.json"
+    ],
+    "members": [
+      "parent_cp5",
+      "wmse_cp1",
+      "nll_cp1",
+      "parent_nll_50_50",
+      "oldz4_cp1_fp32",
+      "oldz4_075_wmse_025",
+      "oldz4_075_nll_025"
+    ],
+    "comparisons": [
+      [
+        "nll_cp1",
+        "wmse_cp1"
+      ],
+      [
+        "wmse_cp1",
+        "parent_cp5"
+      ],
+      [
+        "nll_cp1",
+        "parent_cp5"
+      ],
+      [
+        "parent_nll_50_50",
+        "parent_cp5"
+      ],
+      [
+        "oldz4_075_wmse_025",
+        "oldz4_cp1_fp32"
+      ],
+      [
+        "oldz4_075_nll_025",
+        "oldz4_cp1_fp32"
+      ],
+      [
+        "oldz4_075_nll_025",
+        "oldz4_075_wmse_025"
+      ]
+    ],
+    "no_blend_search": true
+  },
+  "runtime": {
+    "owner": "root",
+    "execution_order": [
+      "Wait for root to confirm both fixed CP1 child checkpoints and provenance are complete.",
+      "Verify source/data/cache pins and all new cache-output absence checks.",
+      "Export WMSE CP1, NLL CP1, then audited Z4 CP1 in FP32 sequentially with the pinned B16/C4000 path; observe the first live batch.",
+      "Run one screen_score process after all three new cache files pass sidecar and byte checks."
+    ],
+    "aggregate_cpu_cores": 1,
+    "aggregate_ram_bytes": 5000000000,
+    "worker_ram_ceiling_bytes": 4200000000,
+    "vram_bytes": 5000000000,
+    "swap_bytes": 0,
+    "loader_workers": 0,
+    "WNN_GPU_MEMORY_BYTES": "4500000000",
+    "WNN_LOADER_RAM_GB": "3.5",
+    "temporary_directory": "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020",
+    "prediction_environment": {
+      "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "PYTHONPATH": "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/src",
+      "TMPDIR": "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020",
+      "WNN_THREADS": "1",
+      "WNN_LOADER_WORKERS": "0",
+      "WNN_LOADER_RAM_GB": "3.5",
+      "WNN_GPU_MEMORY_BYTES": "4500000000",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "screen_environment": {
+      "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "PYTHONPATH": "/home/vlad/development/wunder/wnn_connectome_starterpack/src:/home/vlad/development/wunder/wnn_connectome_starterpack/scripts",
+      "TMPDIR": "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020",
+      "WNN_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "WNN_GPU_MEMORY_BYTES": "4500000000"
+    },
+    "memory_plan": {
+      "new_prediction_disk_bytes": 899040384,
+      "per_prediction_memmap_bytes": 299680128,
+      "screen_scoring": "Use the existing scorer's NPY memmaps and stored-NPZ target memmaps; process one 20,000-row sequence at a time. No combined prediction bank is materialized in RAM. The official scorer loops only over the 468 evaluation groups.",
+      "prediction_batch_raw112_bytes": 143360000,
+      "prediction_batch_model211_bytes": 270080000,
+      "batch_estimate_note": "These are tensor payloads for one batch of 16 complete sequences, not measured peak RSS/VRAM; preprocessing/model temporaries add overhead. Root wrapper must monitor cgroup RSS and CUDA peak within the caps.",
+      "combined_prediction_file_total_bytes": 1198720512,
+      "no_output_blend_file": true,
+      "existing_parent_prediction_disk_bytes_reused": 299680128,
+      "historical_fp16_z4_cache_bytes_retained_unmodified": 299680128,
+      "active_prediction_file_total_bytes": 1198720512,
+      "prediction_batch_size": 16,
+      "prediction_forward_chunk_rows": 4000,
+      "prediction_chunk_activation_payload_bytes": 131072000,
+      "prediction_batch_estimate_note": "The path materializes one raw112 and assembled211 feature batch, then performs no-grad recurrent forwards in 4,000-row chunks. Analytic payloads are not measured peak RSS/VRAM; monitor the first live batch under the 4.2 GB worker RAM and 4.5 GB allocator caps.",
+      "root_inference_expectation": "Root expects inference to stay below the observed 2.49 GB training peak because chunked no-grad activations are about 131 MB; this is a planning inference, not a measured export peak.",
+      "prediction_profile_status": "No separate profile-only run: the pinned H384 profile gate is unrelated; the first actual export batch is measured live by root."
+    },
+    "allocator_cap_bytes": 4500000000
+  },
+  "preflight": {
+    "before_prediction": [
+      "Verify pinned predictor/scorer/frozen-scorer source hashes, fold0.json SHA256, and recorded valid.parquet byte/footer identity.",
+      "Verify actual valid_targets.npz SHA256 dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955 plus the split index SHA256; this actor verified the actual file hash and size 337186198 bytes.",
+      "Verify the two child epoch-1 checkpoints and run provenance exist; record actual checkpoint/provenance hashes before export.",
+      "Require all output .npy, .npy.partial, .json sidecar, and seqsums paths to be absent for the two child run stems and oldz4_h230_student_f0_s3_r3_fp32_reexport_r1; predictor non-create-only mode can overwrite output paths.",
+      "Reverify the parent cache file SHA f933297d2b8a3cdc5bb1b1657a60120dec8421ed95cd37785077f6b49cbd37d6, its sidecar, exact run/epoch/FP32 identity, split hash, and row_groups [0..1872].",
+      "Keep the old Z4 FP16 cache and sidecar unchanged. The new Z4 FP32 re-export must use its distinct output-name and pass the checkpoint/run identity check."
+    ],
+    "after_each_prediction": [
+      "Require sidecar run identity equal to checkpoint run (for Z4 it remains oldz4_h230_student_f0_s3_r3 despite the unique cache stem), epoch, split=valid, split_manifest_sha256, checkpoint_sha256, prediction_sha256, inference_precision=fp32, campaign_export_scope=full-valid-feature-only, feature_only=true, and full valid_targets row_groups order to match.",
+      "Require NPY shape [1873,20000,2], dtype float32, exact file size 299680128 bytes, finite values, and byte hash equal to sidecar.",
+      "Confirm screen_score binds all cache hashes and reports only fold 0 with 468 sequences and 141 components."
+    ],
+    "no_fit_or_tuning": "The score definition is frozen before outcomes; no checkpoint selection, blend search, target change, or fit is part of this export/grade plan."
+  },
+  "historical_reference_artifacts": [
+    {
+      "id": "oldz4_historical_fp16_only",
+      "run": "oldz4_h230_student_f0_s3_r3",
+      "epoch": 1,
+      "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_oldz4_h230_student_f0_s3_r3_valid.npy",
+      "prediction_bytes": 299680128,
+      "prediction_sha256": "1e8259b829dcde4e3e395ac6e56e2d187b5b0c3e0ba343a98f9cbf530893712f",
+      "actual_sha256_verified": true,
+      "sidecar_sha256": "5310ee451377522b43eb0f217933ad73ad162b944093515107806a7ee1984f7a",
+      "sidecar_rows_verified": "exactly [0,1,...,1872]",
+      "inference_precision": "fp16",
+      "prior_f0_official_wp": 0.6831418133898598,
+      "prior_delta_vs_old_parent": 0.00031847202031676236,
+      "prior_delta_ci95": [
+        -0.0013200833962836221,
+        0.0017990148125494859
+      ],
+      "prior_receipt": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-06/bandit_continuation/runtime/receipts/oldz4-r5-f0-s3-student-export/F0_GRADE_PAIRED_R5.json",
+        "sha256": "5ffc8e138f0876d3ac4e4af78e391bc1026f89c2c04285aa6ab98e709cee3423"
+      },
+      "role": "historical FP16 evidence only; never overwrite, blend, or count as the new FP32 endpoint"
+    }
+  ],
+  "ancestry_review": {
+    "status": "cleared_before_outcomes_by_independent_critic_as_reported_by_root",
+    "scope": "old Z4 source-qualified F0 ancestry: 13 run records including 8 teacher runs",
+    "approved_fixed_additions": [
+      "Re-export old Z4 CP1 checkpoint in FP32 to a unique cache stem.",
+      "0.75 oldZ4 FP32 + 0.25 WMSE CP1.",
+      "0.75 oldZ4 FP32 + 0.25 NLL CP1."
+    ],
+    "not_authorized": "No coefficient grid, new fit, or use of the old FP16 cache in a blend."
+  }
+}
