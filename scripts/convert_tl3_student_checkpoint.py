@@ -5,7 +5,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import shutil
 import sys
 from collections.abc import Mapping
 from pathlib import Path
@@ -127,124 +126,118 @@ def convert_tl3_student(archive_path: Path, requested_output_dir: Path) -> dict[
     archive_sha256, receipt_sha256, source_entries = verify_source_archive(archive_path)
     output_dir = resolve_create_only_output_dir(requested_output_dir)
     output_dir.mkdir(exist_ok=False)
-    succeeded = False
-    try:
-        entry_hashes = extract_verified_entries(archive_path, output_dir, source_entries)
-        architecture = infer_architecture(_expected_shapes())
-        if architecture != EXPECTED_ARCHITECTURE:
-            raise ValueError("pinned TL3 architecture specification changed")
-        weight_path = output_dir / EXTRACTED_MEMBER
-        if (
-            weight_path.stat().st_size != source_entries[SOURCE_MEMBER]["bytes"]
-            or file_sha256(weight_path) != source_entries[SOURCE_MEMBER]["sha256"]
-        ):
-            raise ValueError("extracted student member differs from its pinned source hash")
-        model = load_fp32_model(weight_path, architecture, "cpu")
-        state = _validated_state(model)
-        tensor_hashes = _state_hashes(state)
-        if not torch.equal(state["mean"], model.mean.detach().cpu()) or not torch.equal(
-            state["std"], model.std.detach().cpu()
-        ):
-            raise ValueError("normalization buffers changed during canonical loading")
+    entry_hashes = extract_verified_entries(archive_path, output_dir, source_entries)
+    architecture = infer_architecture(_expected_shapes())
+    if architecture != EXPECTED_ARCHITECTURE:
+        raise ValueError("pinned TL3 architecture specification changed")
+    weight_path = output_dir / EXTRACTED_MEMBER
+    if (
+        weight_path.stat().st_size != source_entries[SOURCE_MEMBER]["bytes"]
+        or file_sha256(weight_path) != source_entries[SOURCE_MEMBER]["sha256"]
+    ):
+        raise ValueError("extracted student member differs from its pinned source hash")
+    model = load_fp32_model(weight_path, architecture, "cpu")
+    state = _validated_state(model)
+    tensor_hashes = _state_hashes(state)
+    if not torch.equal(state["mean"], model.mean.detach().cpu()) or not torch.equal(
+        state["std"], model.std.detach().cpu()
+    ):
+        raise ValueError("normalization buffers changed during canonical loading")
 
-        code_root = Path(__file__).resolve().parents[1]
-        code_hashes = {
-            "converter": file_sha256(Path(__file__).resolve()),
-            "archive_helper": file_sha256(code_root / "scripts/tl3_source_archive.py"),
-            "export_helper": file_sha256(code_root / "scripts/team_member_export_lib.py"),
-            "canonical_model": file_sha256(code_root / "src/wnn/nn.py"),
-        }
-        source_asset = {
-            "kind": "official_team_archive_member",
-            "archive_path": str(archive_path),
-            "archive_sha256": archive_sha256,
-            "archive_receipt_path": str(SOURCE_RECEIPT),
-            "archive_receipt_sha256": receipt_sha256,
-            "member": SOURCE_MEMBER,
-            "member_sha256": source_entries[SOURCE_MEMBER]["sha256"],
-        }
-        provenance = {
-            "original_training_args": None,
-            "training_membership": "unknown",
-            "teacher_ancestry": "unknown",
-            "initializer_ancestry": "unknown",
-            "claim_scope": "production-only",
-            "heldout_claim": False,
-            "training_admission": False,
-            "conversion_code_sha256": code_hashes,
-            "source_tensor_sha256": tensor_hashes,
-        }
-        checkpoint = {
-            "format": "wnn.tl3-student-conversion.v1",
-            "model": state,
-            "n_in": 211,
-            "args": dict(ARCHITECTURE_ARGS),
-            "source_asset": source_asset,
-            "provenance": provenance,
-        }
-        checkpoint_path = output_dir / CHECKPOINT_NAME
-        with checkpoint_path.open("xb") as stream:
-            torch.save(checkpoint, stream)
-        reloaded: object = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
-        if not isinstance(reloaded, dict) or reloaded.get("n_in") != 211:
-            raise ValueError("checkpoint round-trip lost its input-width metadata")
-        if reloaded.get("args") != ARCHITECTURE_ARGS:
-            raise ValueError("checkpoint round-trip changed architecture-only arguments")
-        loaded_state = reloaded.get("model")
-        if not isinstance(loaded_state, Mapping) or set(loaded_state) != set(state):
-            raise ValueError("checkpoint round-trip changed model-state keys")
-        for name, tensor in state.items():
-            if not isinstance(loaded_state.get(name), torch.Tensor) or not torch.equal(
-                tensor, loaded_state[name]
-            ):
-                raise ValueError(f"checkpoint tensor round-trip mismatch: {name}")
-        model.load_state_dict(loaded_state, strict=True)
-        output_tensor_hashes = _state_hashes(loaded_state)
-        if output_tensor_hashes != tensor_hashes:
-            raise ValueError("checkpoint tensor hashes changed after round-trip")
+    code_root = Path(__file__).resolve().parents[1]
+    code_hashes = {
+        "converter": file_sha256(Path(__file__).resolve()),
+        "archive_helper": file_sha256(code_root / "scripts/tl3_source_archive.py"),
+        "export_helper": file_sha256(code_root / "scripts/team_member_export_lib.py"),
+        "canonical_model": file_sha256(code_root / "src/wnn/nn.py"),
+    }
+    source_asset = {
+        "kind": "official_team_archive_member",
+        "archive_path": str(archive_path),
+        "archive_sha256": archive_sha256,
+        "archive_receipt_path": str(SOURCE_RECEIPT),
+        "archive_receipt_sha256": receipt_sha256,
+        "member": SOURCE_MEMBER,
+        "member_sha256": source_entries[SOURCE_MEMBER]["sha256"],
+    }
+    provenance = {
+        "original_training_args": None,
+        "training_membership": "unknown",
+        "teacher_ancestry": "unknown",
+        "initializer_ancestry": "unknown",
+        "claim_scope": "production-only",
+        "heldout_claim": False,
+        "training_admission": False,
+        "conversion_code_sha256": code_hashes,
+        "source_tensor_sha256": tensor_hashes,
+    }
+    checkpoint = {
+        "format": "wnn.tl3-student-conversion.v1",
+        "model": state,
+        "n_in": 211,
+        "args": dict(ARCHITECTURE_ARGS),
+        "source_asset": source_asset,
+        "provenance": provenance,
+    }
+    checkpoint_path = output_dir / CHECKPOINT_NAME
+    with checkpoint_path.open("xb") as stream:
+        torch.save(checkpoint, stream)
+    reloaded: object = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
+    if not isinstance(reloaded, dict) or reloaded.get("n_in") != 211:
+        raise ValueError("checkpoint round-trip lost its input-width metadata")
+    if reloaded.get("args") != ARCHITECTURE_ARGS:
+        raise ValueError("checkpoint round-trip changed architecture-only arguments")
+    loaded_state = reloaded.get("model")
+    if not isinstance(loaded_state, Mapping) or set(loaded_state) != set(state):
+        raise ValueError("checkpoint round-trip changed model-state keys")
+    for name, tensor in state.items():
+        if not isinstance(loaded_state.get(name), torch.Tensor) or not torch.equal(
+            tensor, loaded_state[name]
+        ):
+            raise ValueError(f"checkpoint tensor round-trip mismatch: {name}")
+    model.load_state_dict(loaded_state, strict=True)
+    output_tensor_hashes = _state_hashes(loaded_state)
+    if output_tensor_hashes != tensor_hashes:
+        raise ValueError("checkpoint tensor hashes changed after round-trip")
 
-        receipt: dict[str, object] = {
-            "schema": "wnn.tl3-student-conversion-receipt.v1",
-            "status": "converted_initializer_only; training_admission=false",
-            "source_archive": {
-                "path": str(archive_path),
-                "bytes": archive_path.stat().st_size,
-                "sha256": archive_sha256,
-                "receipt_sha256": receipt_sha256,
-                "entries": entry_hashes,
-                "extracted_source_member": {
-                    "path": EXTRACTED_MEMBER,
-                    "bytes": weight_path.stat().st_size,
-                    "sha256": file_sha256(weight_path),
-                },
+    receipt: dict[str, object] = {
+        "schema": "wnn.tl3-student-conversion-receipt.v1",
+        "status": "converted_initializer_only; training_admission=false",
+        "source_archive": {
+            "path": str(archive_path),
+            "bytes": archive_path.stat().st_size,
+            "sha256": archive_sha256,
+            "receipt_sha256": receipt_sha256,
+            "entries": entry_hashes,
+            "extracted_source_member": {
+                "path": EXTRACTED_MEMBER,
+                "bytes": weight_path.stat().st_size,
+                "sha256": file_sha256(weight_path),
             },
-            "checkpoint": {
-                "path": CHECKPOINT_NAME,
-                "bytes": checkpoint_path.stat().st_size,
-                "sha256": file_sha256(checkpoint_path),
-                "tensor_sha256": output_tensor_hashes,
-            },
-            "code_sha256": code_hashes,
-            "validation": {
-                "strict_load": True,
-                "cpu_fp32": True,
-                "finite_tensors": True,
-                "positive_std": True,
-                "exact_tensor_roundtrip": True,
-                "forward_test_run": False,
-                "training_or_fit_run": False,
-            },
-        }
-        _write_json_create_only(output_dir / RECEIPT_NAME, receipt)
-        succeeded = True
-        return {
-            "output_dir": str(output_dir),
-            "checkpoint": CHECKPOINT_NAME,
-            "receipt": RECEIPT_NAME,
-        }
-    finally:
-        if not succeeded:
-            shutil.rmtree(output_dir)
+        },
+        "checkpoint": {
+            "path": CHECKPOINT_NAME,
+            "bytes": checkpoint_path.stat().st_size,
+            "sha256": file_sha256(checkpoint_path),
+            "tensor_sha256": output_tensor_hashes,
+        },
+        "code_sha256": code_hashes,
+        "validation": {
+            "strict_load": True,
+            "cpu_fp32": True,
+            "finite_tensors": True,
+            "positive_std": True,
+            "exact_tensor_roundtrip": True,
+            "forward_test_run": False,
+            "training_or_fit_run": False,
+        },
+    }
+    _write_json_create_only(output_dir / RECEIPT_NAME, receipt)
+    return {
+        "output_dir": str(output_dir),
+        "checkpoint": CHECKPOINT_NAME,
+        "receipt": RECEIPT_NAME,
+    }
 
 
 def main() -> None:

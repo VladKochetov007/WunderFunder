@@ -24,6 +24,7 @@ SOURCE_RECEIPT_SHA256 = "73cd201b165424f4b7ec72fe4bf4d9d573f56d93c0501519ed3bc6a
 SCRATCH_ROOT = Path("/home/vlad/development/wunder/research_tmp")
 SOURCE_MEMBER = "weights_s5.npz"
 EXTRACTED_MEMBER = "source_weights_s5.npz"
+CHECKPOINT_NAME = "tl3_student_initializer.pt"
 
 
 def file_sha256(path: Path) -> str:
