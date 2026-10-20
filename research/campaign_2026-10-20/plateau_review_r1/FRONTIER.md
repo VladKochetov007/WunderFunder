@@ -11,6 +11,14 @@ Record changes and receipts here before context compaction or handoff.
 
 ## Actual stage
 
+- Latest October20 steering after failed SSH discovery: train the small GRU
+  locally. The [delivery packet](../submission_delivery_r1/README.md) now prioritizes
+  a matched H256×2 WMSE/NLL continuation pair using local weights and cached
+  teacher targets. Beleriand access is no longer a prerequisite for progress.
+  Both profiles passed; the two-fit sequence is running as `wnn-overnight-nll-fit-20261020.service`. No fitting quality result is claimed. See the packet for exact admission, actual progress and serving preparation.
+
+- October20 latest execution priority: [overnight submission delivery](../submission_delivery_r1/README.md), evaluating saved FG19 control/EMA first and admitting useful bounded training if needed. The user allows all-night compute; root preserves the local 15h cap and resource limits. Original i1 comparison is deferred, not cancelled or running.
+
 - Latest teacher-first steering is preserved in the [scaling programme](../../unified/ideas/TEACHER_QUALITY_SCALING_20261019_R1.md): optional distillation, six-fit ladder proposal and ranked tuning. No new fit/profile or budget admission; local plan remains preserved.
 
 - Later October19 steering makes4–6 TOTAL new fits the default initial screen
@@ -50,9 +58,7 @@ Record changes and receipts here before context compaction or handoff.
 
 ## Budget and ownership
 
-New-cycle local GPU time spent: **0h recorded**; allocation: **15h total**.
-No local or Kaggle worker has been admitted for this cycle. Inspect the actual
-process/provider state before relying on this snapshot. Root owns admission,
+New-cycle local GPU time spent: **41.30seconds completed profiles**, plus the currently running local two-fit sequence; allocation: **15h total**. Pair projection84minutes, hard reservation3hours; no Kaggle worker admitted. Inspect the actual service/receipt before relying on this snapshot. Root owns admission,
 source freeze, integration and evidence handoff.
 
 | Role | Owner and scope | Current state |
@@ -64,7 +70,13 @@ source freeze, integration and evidence handoff.
 The implementation actor may not approve its own scientific result or change
 the recipe/budget. Root owns integration and later resource admission.
 
-## Next actions
+## Current next actions
+
+1. Monitor the local matched WMSE/NLL pair and record actual elapsed/resident/device memory.
+2. Export parent/children and fixed50/50parent-NLL predictions on exact source-qualified F0, then independently grade official metric and component uncertainty.
+3. Form a candidate only from actual endpoint evidence, measure the native ZIP precision/runtime/size, and preserve negative outcomes. Root owns delivery.
+
+## Deferred original i1 next actions
 
 1. Read the saved implementation/command reviews and confirm the same source.
 2. Complete bounded numerical, masking, causal-prefix and checkpoint restoration

@@ -4,6 +4,8 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [Overnight submission input audit](OVERNIGHT_SUBMISSION_INPUT_AUDIT_20261020_R1.md) — independent Luna/max source and metadata review of completed FG19 control/EMA and local clean-T3 alternatives. Distinguishes accepted fits from missing scores, pins local AMP ancestry and target scale, corrects the NLL-only input-width requirement, and reviews native EMA reset/layout. No new fit or score; actual checkpoint parity and server weight access remain pending.
+
 - [Large teacher design criticism](LARGE_TEACHER_DESIGN_REVIEW_20261019_R2.md) — independent fresh-context Luna/max scout and specification critic assess the new scale direction and count migration. Records4–6 TOTAL fits, causal summary visibility, DDP normalization, Muon semantics, memory lower bounds and the need to measure GRU transfer. Criticism and proposed mitigations, not empirical approval or a B300 profile; related H/E IDs and primary sources are linked.
 
 - [October 19 B300 PR results and stop review](B300_PR_RUN_UPDATE_REVIEW_20261019_R1.md) — reads the PR15/25/26/27 status and PR25 stop packet. Independently recomputes R01 partial fold/equal-fold means from the preserved 12-pair JSON, while relying on its sealed verifier for grade provenance. Width modestly favors H512×1; partial geometry means favor baseline; age/innovation have no scored pairs. The work was stopped, all folds were exposed, and no complete CP30 or public-transfer result exists.

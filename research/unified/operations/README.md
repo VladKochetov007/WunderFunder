@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Overnight submission delivery](../../campaign_2026-10-20/submission_delivery_r1/README.md) — user authorizes completed-model evaluation, useful bounded training and a new ZIP. Latest user steering selects a local H256×2 WMSE/NLL pair; two profiles passed and fitting is active. Native EMA/precision support and v2/v3 binaries are prepared. No new quality score or submission claim. Existing local resource limits and 15 GPU-hour ceiling remain.
+
 - [October 19 Kaggle readiness](PLATEAU_KAGGLE_READINESS_20261019_R1.md) — read-only account snapshot from the existing project SDK: about 5.02 GPU quota-hours remain, zero provider reservations, and no running/queued kernels among 29 recent runs. Records working environment and existing bundle/worker paths; no install, upload or job. Availability and separate agent reservations must be rechecked at actual admission.
 
 Execution status, storage locations, preservation receipts and operational incidents.

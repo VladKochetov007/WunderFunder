@@ -1,0 +1,286 @@
+{
+  "schema": "fg19-child-control-fit-terminal-acceptance.v1",
+  "status": "ACCEPTED",
+  "utc": "2026-10-20T12:56:55.850688+00:00",
+  "run_name": "fg19_child_control_f0_s1001_fit_v1",
+  "unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+  "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+  "native_unit": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "CPUUsageNSec": "11247121869000",
+    "ControlGroup": "",
+    "ExecMainCode": "1",
+    "ExecMainExitTimestamp": "Tue 2026-10-20 08:40:45 UTC",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 05:33:09 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_child_control_f0_s1001_fit_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode base --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective wmse --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --grad-stats --save-training-state --no-eval-during-fit ; ignore_errors=no ; start_time=[Tue 2026-10-20 05:33:09 UTC] ; stop_time=[Tue 2026-10-20 08:40:45 UTC] ; pid=96892 ; code=exited ; status=0 }",
+    "InvocationID": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "LoadState": "loaded",
+    "MainPID": "0",
+    "MemoryCurrent": "[not set]",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "2829709312",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "exited"
+  },
+  "main_pid": 0,
+  "exec_main_code": 1,
+  "exec_main_status": 0,
+  "successful_updates": 44760,
+  "completed_batches": 4476,
+  "amp_skipped_updates": 0,
+  "nonfinite_updates": 0,
+  "next_epoch": 6,
+  "selected_epoch": 5,
+  "epochs": 6,
+  "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+  "source_file_count": 167,
+  "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+  "source": {
+    "bytes_hashed": 1629413,
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "files": 167,
+    "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "source_set_sha256": "9c461bcc5883572a071d41a86e18b9a91136099cf8fa87371ce7c3ee41445bd8"
+  },
+  "strict_fp32_finite_model_optimizer_verified": true,
+  "selected_model_epoch5_and_training_state_tensor_identity_verified": true,
+  "model_tensor_count": 16,
+  "model_tensor_fingerprint": "afc0a23dca84bc0e3535288094709ea550200648902a13c91ecfb695472d83d1",
+  "files": {
+    "history.json": {
+      "bytes": 16356,
+      "sha256": "297abccdd191a87980ac12c379911934baddfdbb3cb3786094d316c28cc6412c"
+    },
+    "model.pt": {
+      "bytes": 4279254,
+      "sha256": "54c631b71c8b479eb56efad13f91e6d56d68dd4f2ac7591b03528ccb3324ff36"
+    },
+    "model_ep0.pt": {
+      "bytes": 4275938,
+      "sha256": "183490e22c08b6fe770f4320102a36a6f69730bc54872882e7806479ccc04006"
+    },
+    "model_ep1.pt": {
+      "bytes": 4276770,
+      "sha256": "2cf7d9b74a492ea86a777c5777533e8c760736129d4590d70e8e9c3d0570190e"
+    },
+    "model_ep2.pt": {
+      "bytes": 4277602,
+      "sha256": "65d781ed7773b0161bdd44a4670b32a253591f95258b61912c2e5426c40e2b94"
+    },
+    "model_ep3.pt": {
+      "bytes": 4278370,
+      "sha256": "47da398a3194824c531a15ce189c34c6c98893d3bdccce238b190bdad3fae4bf"
+    },
+    "model_ep4.pt": {
+      "bytes": 4279202,
+      "sha256": "473d5861630001a12fdee63aee3119a424383ff6a3da20a4bac3f99a13a9d1a2"
+    },
+    "model_ep5.pt": {
+      "bytes": 4279970,
+      "sha256": "d3f25e52aa590029593e5af6ea06c6d4f460bc6131ffa85d4cf1cb09c36b3b3f"
+    },
+    "provenance.json": {
+      "bytes": 194094,
+      "sha256": "2fdae26fecc97eb0985089ebf69bbc059ac44ec89600cf36675e9a21ab913cbb"
+    },
+    "training_state.pt": {
+      "bytes": 12659299,
+      "sha256": "9cc33dd86f5cefad957bdf4f2b5b40d4faf941da3a0a5d83352e80b1985ac8ef"
+    }
+  },
+  "optimizer": {
+    "beta1": 0.9499999998635378,
+    "groups": 1,
+    "learning_rate": 4.0000136407623314e-08,
+    "moment_tensors": 28,
+    "parameters": 14,
+    "step": 44760
+  },
+  "normalization_identity": {
+    "mean": {
+      "bytes_sha256": "72def7c8dee31e2f469e49cb1c6059440669896d4bbded28d61f0cf35e4a41f2",
+      "dtype": "torch.float32",
+      "shape": [
+        467
+      ]
+    },
+    "std": {
+      "bytes_sha256": "3bf84643202ca8995f8797634d76e34292745914e902c234ee022f94f9258798",
+      "dtype": "torch.float32",
+      "shape": [
+        467
+      ]
+    }
+  },
+  "predecessor_ancestry": {
+    "dictionary_acceptance_sha256": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+    "dictionary_exact_stop_sha256": "2eb44a4381de06f28ed3d7438ace320ef3274eae37c89074fc481f58f5d88158",
+    "dictionary_sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659",
+    "parent_acceptance_sha256": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+    "parent_checkpoint_sha256": "6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45",
+    "parent_exact_stop_sha256": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+    "profile_acceptance_sha256": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045",
+    "profile_exact_stop_sha256": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce",
+    "profile_initial_state_sha256": "254b29510a93a689ef3f259e65890fb6be76cfe112b483b15fd91763ea74c2cd"
+  },
+  "input_representation": {
+    "artifact_binding": "shared_fit_cache",
+    "artifact_sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659",
+    "state_sha256": "fff74834e7deaa1486c4d28b3688733287c65c848d5cf95b077538bbb864632c"
+  },
+  "cache": {
+    "acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "array_sha256": {
+      "train": "4abbb9be31ec1135a5e0ff5bb87c93a2db6e44943e95d23ff70835b8044c5194",
+      "valid": "6963d3c565caf469b023a61ba6d2dd376d929b2bcf724af88492dc8adb76f591"
+    },
+    "arrays_stat_only": {
+      "train": {
+        "bytes": 1685600128,
+        "device": 64512,
+        "inode": 739677840,
+        "mtime_ns": 1792458365441028881
+      },
+      "valid": {
+        "bytes": 224800128,
+        "device": 64512,
+        "inode": 739677841,
+        "mtime_ns": 1792458385154390137
+      }
+    },
+    "exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3"
+  },
+  "rng_observed_after_restricted_load": {
+    "cuda": {
+      "cardinality": 1,
+      "components": [
+        {
+          "dtype": "torch.uint8",
+          "numel": 16,
+          "sha256": "f7d8d061e24e21aa31b7afef7d6093940af44207bb0f0cd6e9f7decec4672238",
+          "shape": [
+            16
+          ],
+          "type": "torch.Tensor"
+        }
+      ],
+      "type": "builtins.list"
+    },
+    "torch": {
+      "dtype": "torch.uint8",
+      "numel": 5056,
+      "sha256": "d55e6b83a04a18b6007f5f557a643865d04f9bbd98ab373783d2324b590aace9",
+      "shape": [
+        5056
+      ],
+      "type": "torch.Tensor"
+    }
+  },
+  "sample_order_observations": [
+    {
+      "epoch": 0,
+      "rng_dtype": "torch.uint8",
+      "rng_sha256": "88ef3f1de04244baa8588fdc5119935442c0e007e87f0d772f0534208c21f04f",
+      "rng_shape": [
+        5056
+      ]
+    },
+    {
+      "epoch": 1,
+      "rng_dtype": "torch.uint8",
+      "rng_sha256": "051314e55b7af2a26927068cf7b6cb66373ef73fb40ee5880e1bd3eeb180610c",
+      "rng_shape": [
+        5056
+      ]
+    },
+    {
+      "epoch": 2,
+      "rng_dtype": "torch.uint8",
+      "rng_sha256": "2ff5c0f63e649e9b5c31ad70b9e602ef7f2f60d3fc9db68db171be5af34fd4fc",
+      "rng_shape": [
+        5056
+      ]
+    },
+    {
+      "epoch": 3,
+      "rng_dtype": "torch.uint8",
+      "rng_sha256": "319993ed7b925207a68484ee7b282e108efa5dd2ffcbf4710807df6e3cd1217a",
+      "rng_shape": [
+        5056
+      ]
+    },
+    {
+      "epoch": 4,
+      "rng_dtype": "torch.uint8",
+      "rng_sha256": "775afa88e99213f11e13e664187be10640b187dc66fd68c5c330a9c0c6b114c5",
+      "rng_shape": [
+        5056
+      ]
+    },
+    {
+      "epoch": 5,
+      "rng_dtype": "torch.uint8",
+      "rng_sha256": "b3be4ac4a3b263dad627790d5c747c4122cb52b0f87d640a067afa19772fc6b0",
+      "rng_shape": [
+        5056
+      ]
+    }
+  ],
+  "cuda_resource_policy_source": {
+    "cudnn_benchmark": false,
+    "cudnn_deterministic": true,
+    "path": "src/wnn/resources.py",
+    "sha256": "95fdc839ff1561622ac06c465cfc9a01370130d99be1e832b3a33c79bcb37930"
+  },
+  "training_state_path_compatibility": {
+    "constructor_calls": 1,
+    "field": "contract.options.representation_cache",
+    "occurrence_count": 1,
+    "parts": [
+      "/",
+      "home",
+      "grinchenkoeg",
+      "computer-vision-homework-20261018",
+      "data",
+      "artifacts",
+      "research",
+      "fg19_dictionary_f0_v1",
+      "input_representation.pt"
+    ],
+    "safe_globals_empty_after_load": true,
+    "static_unknown_globals_with_baseline": [
+      "pathlib._local.PosixPath"
+    ],
+    "type": "pathlib._local.PosixPath",
+    "value": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt",
+    "weights_only": true
+  },
+  "scoped_human_exception_authority": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/HUMAN_PATH_COMPAT_EXCEPTION_AUTHORITY_V1.json",
+    "bytes": 1862,
+    "sha256": "9d0259675d97856b744abe63030575e38551b58d1fc9ac7adaa1281f535abacb"
+  },
+  "verification_sha256": "e2f49946a12813f703bf704f91b2a3d3f2ef3f74df14a740d13380b3cc8af7ac",
+  "verification_bytes": 8689,
+  "verification_raw_sha256": "7d8e1a0bc1242ae7d9c3815a60f5805ca990d1af91c496ab2accad9af7bccab5",
+  "verification_unit": "computer-vision-homework-fg19-child-control-verify-v3.service",
+  "verification_invocation_id": "d889874023444d90aa8609d85b33d1b9",
+  "verifier_checker_sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167",
+  "verifier_admission_body_sha256": "9d4918119aaf7c0569c55f77711f14a65b1db70af19859cdebbf979c95963d08",
+  "native_terminal_evidence_sha256": "fefa2e85469495b89e5c9a502f4bd0b9f0b2bcd7cb8928364b46f6a9b2b7a70a",
+  "native_log": {
+    "bytes": 32600,
+    "fit_records": 6,
+    "fixed_selection": "5",
+    "gradient_records": 6,
+    "sha256": "9679fdf4a93be9d4a9a92e98b11063a179e9616bcbb391e50475fab39dbbc066"
+  },
+  "stop_status": "PENDING_EXACT_STOP",
+  "quality_score": null,
+  "limits": "Actual capped B-only weights_only=True verifier V3 passed full source-qualified model/state/AdamW/schedule/RNG/loader/normalizer/dictionary/cache/ancestry/history/counter checks with the explicitly granted exact Path decoder. Observer read only compact metadata; no tensor replay or quality evaluation. Failed verifiers V1/V2 remain preserved and excluded from stops."
+}
