@@ -1,0 +1,68 @@
+{
+  "cache_metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+  "code_dependencies": {
+    "parent_fit_terminal_check_v2.py": "5721ade20549e95927da268679c9da7ef092b084c49c28c195017fc20a6dcf22",
+    "propensity_terminal_support.py": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+    "teacher_s5_terminal_check_v1.py": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+  },
+  "embedded_inputs": {
+    "ADMISSION.json": "42b5f3fe7142d931b189ff86fa24031426506e60c8a41440b0483d97dc50026b",
+    "CACHE_ACCEPTANCE.json": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "CACHE_EXACT_STOP.json": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "LAUNCH.json": "012c7ba3b484f16f587c61cb39f880380d22a6199e0a105773dbffc423bd22ea",
+    "LAUNCH_ACCEPTANCE.json": "89b8199b6431c8959fe3bab41a630632210b30ae017dd9128f9ad2491c87a3bf",
+    "NATIVE_STDOUT.raw.json": "a65af766fafaaa811d0991072035b51ec04dc01353da3059d7c594dffef239cb",
+    "RNG_DIAGNOSTIC.json": "0bb2a87b9796872d5e26666ea7398bca69b7f0a0ce27bb0895714b5ed654598b",
+    "RNG_DIAGNOSTIC_ACCEPTANCE.json": "655c5f12db5e166cfabf68c343aeb10d709f95db4abffeaf2925b413226837ec",
+    "RNG_DIAGNOSTIC_EXACT_STOP.json": "8e935356da08ac249e47389bb65bc5597134e6442ab9d914da1e7ec256b73c67",
+    "SOURCE_MANIFEST.json": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "TERMINAL_EVIDENCE.json": "780e64538cb34dd9e6a9c7da528a4232d4362daca9bee1dd871bd722373f7615",
+    "parent_fit_terminal_check_v2.py": "5721ade20549e95927da268679c9da7ef092b084c49c28c195017fc20a6dcf22",
+    "propensity_terminal_support.py": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+    "teacher_s5_terminal_check_v1.py": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+  },
+  "evidence_limits": [
+    "The prepared body does not verify the fit; the pinned checker runs once after admission under the CPU-only caps.",
+    "The checker reads bounded model and training-state files under its restricted loader; neither the preparation step nor this body reads cache prediction array payloads.",
+    "The checker verifies the required counters and epoch-3 endpoint; no quality score is requested or inferred.",
+    "Profile ancestry is transitively bound by the exact parent-fit admission hash; this packet does not re-evaluate the profile.",
+    "The CUDA RNG length and bytes are source-qualified by the actual pinned V2 diagnostic and stop receipts; the diagnostic does not substitute for full runtime provenance checks."
+  ],
+  "fresh_remote_gates": [
+    "Output path and new verifier unit absent; exact native invocation still active/exited with typed successful status.",
+    "All-populated parent descendants empty, two-core/18GB/20GB/swap-zero envelope, one-CPU-support headroom under the 17GB target, physical scratch, and at least 25 GiB free on project storage.",
+    "Exact 167-file source manifest/tree, split, registered data stats, run artifact stats, accepted cache metadata/stats and cache acceptance/exact-stop receipts.",
+    "Create-only staging of the three pinned Python files and bounded JSON metadata; no cache prediction array bytes are read or copied by admission."
+  ],
+  "generator_sha256": "27de9a055a324e2f5dfd4fe8e87b162bb061964c7ccad53160a449e71c4bbf8a",
+  "native_evidence_sha256": "780e64538cb34dd9e6a9c7da528a4232d4362daca9bee1dd871bd722373f7615",
+  "native_invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+  "native_raw_capture_sha256": "a65af766fafaaa811d0991072035b51ec04dc01353da3059d7c594dffef239cb",
+  "native_unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service",
+  "remote_action_by_this_preparation": false,
+  "remote_body_bytes": 664126,
+  "remote_body_sha256": "e72b7fb981251976edd2a2907a3a0cd9c7ec570ca6ee9c02e7588cec9f4d85ff",
+  "remote_output": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_parent_fit_r2_verify_v2",
+  "resource_limits": {
+    "blas_threads": 1,
+    "cpu_quota": "50%",
+    "cuda_visible_devices": "",
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "runtime_seconds": 600,
+    "swap_max_bytes": 0
+  },
+  "rng_diagnostic_acceptance_sha256": "655c5f12db5e166cfabf68c343aeb10d709f95db4abffeaf2925b413226837ec",
+  "rng_diagnostic_exact_stop_sha256": "8e935356da08ac249e47389bb65bc5597134e6442ab9d914da1e7ec256b73c67",
+  "rng_diagnostic_sha256": "0bb2a87b9796872d5e26666ea7398bca69b7f0a0ce27bb0895714b5ed654598b",
+  "root_preparation_manifest_at_render_sha256": "53c393ffc41b88f7a8846791bf5bc7b59318a2f9aebf1ba5f62b3d744e547fdd",
+  "run_name": "fg19_parent_h256x2_f0_s1001_fit_r2_v1",
+  "schema": "fg19.parent-fit-r2-terminal-verifier-preparation.v2",
+  "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+  "source_file_count": 167,
+  "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+  "status": "PREPARED_LOCALLY_NOT_TRANSMITTED_OR_LAUNCHED",
+  "template_sha256": "eabf43265d024b648320e55461bca1c17976173af7b1a0958548ed4321717b09",
+  "unknown_outcome_policy": "Durably retain verifier launch outcome; inspect exact unit and output before any further action; never retry blindly.",
+  "verifier_unit": "computer-vision-homework-fg19-parent-fit-r2-verify-v2.service"
+}

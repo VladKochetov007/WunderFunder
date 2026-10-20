@@ -1,0 +1,33 @@
+{
+  "schema": "fg19-child-allthree-profile-source-review.v1",
+  "result": "CONDITIONAL_SOURCE_PASS",
+  "review_scope": "Local source review only. No remote action, model/array payload read, or tests run by this reviewer.",
+  "source_pins": {
+    "probe": {
+      "path": "preparation/child_allthree_profile_probe_v1.py",
+      "sha256": "446e679ddae0f05225209950d928790264c8cd57fb8836b79f671d06d03be9e4"
+    },
+    "contract": {
+      "path": "preparation/child_allthree_profile_contract_v1.py",
+      "sha256": "ca6bc4b1c33e445521bce5d80b24a436dddc2319ace38cb75781872008b95d11"
+    },
+    "tests": {
+      "path": "preparation/test_child_allthree_profile_probe_v1.py",
+      "sha256": "d2a72564befa758892ad678130940e06ee95db75fc717f368d2d067dfd96f179"
+    }
+  },
+  "review_findings": [
+    "The earlier early-return gap is fixed: validate_profile_args invokes validate_profile_no_short_circuit, which rejects both student_frontier_preflight_only and calibrate_distill_reference before run_training can return without profile updates.",
+    "The probe binds the parent epoch-3 checkpoint SHA, accepted parent receipt, exact-stop receipt, split SHA, accepted dictionary receipt/cache bytes and hash, and source sequence length. Parent state is loaded on CPU through the bounded restricted loader and a narrow safe-global allowlist.",
+    "Warm-start verification checks exact tensor key set, 211-to-467 input and 23-to-25 output shapes, equal parent prefixes and unchanged trunk, zero new input/output rows, mean/std suffix values, and finite child state. The pinned accepted parent receipt carries the strict FP32 finite-state verification.",
+    "The validated profile fixes batch 16, chunk 2000, six batches with two warmup and four measured batches, FP32 AdamW, no fit evaluation, exact representation/distillation cache identities, and canonical runner invocation. The canonical runner returns after profiling before evaluation or checkpoint save; the probe also rejects persistent model checkpoint outputs."
+  ],
+  "reviewer_check_notes": [
+    "Fresh path resolution permits an alias to the same cache identity; acceptance still requires the exact cache byte count and SHA-256.",
+    "The packet's source review does not replace actual admission validation of GPU/resource headroom, empty populated-unit inventory, source manifest, or cache availability."
+  ],
+  "test_status": {
+    "reported_by_source_actor": "17 focused tests, Ruff/format, and cold-import/read-sentinel checks passed; actual acceptance/stop fixtures passed.",
+    "independently_run_by_reviewer": false
+  }
+}

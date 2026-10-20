@@ -1,0 +1,5 @@
+# Full parent fit startup health
+
+At01:34:35.936430UTC, [raw bytes](STDOUT.raw.json), [transport](TRANSPORT.json), [reader](REMOTE.py), [summary](OBSERVATION.json), and exact decoded [admission](ADMISSION.json), [launch](LAUNCH.json) and [native log](unit.log) bind the same active invocation5186b301/PID3929676. Native membership is10535train+1405fit-valid/468eval excluded, B16/drop-last746batches; last recorded line is epoch0batch0/746/loss2.3451/LR4.01e-6. It is not a synchronous live-batch or verified completed-update count. Expected29,840 remains a recipe total, not completion.
+
+One populated owned worker and one owned GPUprocess2,216MiB; preserved foreign processes remain on the selected card. Own cgroupcurrent2,552,954,880/peak2,837,839,872B; own memoryevents0 and parent counter deltas0. Parentcurrent10,589,442,048B and separate process RSS3,010,568KiB/HWM3,275,728KiB are distinct sampled/accounting observations, with no atomic equality or causal/fullRAM claim. Source content authority is original fresh167-file admission; this running reader does not rehash code or read model/state payloads. No terminal, grade, restart, stop or new job.

@@ -1,0 +1,345 @@
+{
+  "checker_runner": {
+    "cli_required_inputs": [
+      "--run-dir",
+      "--source-root",
+      "--source-manifest",
+      "--split",
+      "--evidence-root",
+      "--profile-evidence-root",
+      "--admission",
+      "--launch",
+      "--launch-acceptance",
+      "--terminal-evidence",
+      "--cache-root",
+      "--cache-acceptance",
+      "--cache-exact-stop",
+      "--output"
+    ],
+    "execution_module": "child_control_terminal_check_v1:main",
+    "expected_worker_output": "private no-overwrite JSON receipt created only after actual typed native exit and all checker gates pass",
+    "required_fit_torch_version": "2.14.0+cu130",
+    "required_interpreter_on_worker": "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "source": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_check_v1.py",
+      "sha256": "663d4aee291c86e87475e0599a3151f60f684943c59dfc406d2f35ddfba63cad"
+    }
+  },
+  "cold_import_proof": {
+    "blocked_b_payload_open_attempts": 0,
+    "cuda_initialized": false,
+    "cuda_visible_devices": "",
+    "exercised_lazy_helpers": [
+      "teacher._launch_cli_args",
+      "teacher._canonical_tensor_identity",
+      "parent._safe_globals",
+      "support._stable_file",
+      "support._json_file",
+      "child._tensor_rng_signature"
+    ],
+    "input_receipts": {
+      "admission": {
+        "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/ADMISSION.json",
+        "sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973"
+      },
+      "launch": {
+        "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/LAUNCH.json",
+        "sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9"
+      },
+      "launch_acceptance": {
+        "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/LAUNCH_ACCEPTANCE.json",
+        "sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15"
+      },
+      "recipe_binding": {
+        "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_fit_v1/CONTROL_RECIPE_BINDING_V1.json",
+        "sha256": "c00c8f5e478326ee72c3651aec0c23bf911344e8984009ad3953abcd5d3057e8"
+      }
+    },
+    "local_runtime": {
+      "cuda_initialized": false,
+      "cuda_visible_devices": "",
+      "numpy_version": "2.2.6",
+      "payload_open_attempts": 0,
+      "python_executable": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python",
+      "python_version": "3.13.11",
+      "thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "RAYON_NUM_THREADS": "1",
+        "WNN_THREADS": "1"
+      },
+      "torch_version": "2.14.1"
+    },
+    "private_d_temp_copy_proof": {
+      "all_origins_are_exact_temporary_copies": true,
+      "canonical_preparation_origin_escape_check": "PASS",
+      "copied_files": [
+        "child_control_terminal_check_v1.py",
+        "parent_fit_terminal_check_v3.py",
+        "propensity_terminal_support.py",
+        "teacher_s5_terminal_check_v1.py"
+      ],
+      "module_origins": {
+        "child_control_terminal_check_v1": "/private/var/folders/hl/078zcnmn10v0732k9b0c20mm0000gn/T/child-control-terminal-cold-8xkwrt3p/child_control_terminal_check_v1.py",
+        "parent_fit_terminal_check_v3": "/private/var/folders/hl/078zcnmn10v0732k9b0c20mm0000gn/T/child-control-terminal-cold-8xkwrt3p/parent_fit_terminal_check_v3.py",
+        "propensity_terminal_support": "/private/var/folders/hl/078zcnmn10v0732k9b0c20mm0000gn/T/child-control-terminal-cold-8xkwrt3p/propensity_terminal_support.py",
+        "teacher_s5_terminal_check_v1": "/private/var/folders/hl/078zcnmn10v0732k9b0c20mm0000gn/T/child-control-terminal-cold-8xkwrt3p/teacher_s5_terminal_check_v1.py"
+      }
+    },
+    "runner": {
+      "checker_file": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_check_v1.py",
+      "checker_file_sha256": "663d4aee291c86e87475e0599a3151f60f684943c59dfc406d2f35ddfba63cad",
+      "command": "from the preparation directory: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 WNN_THREADS=1 RAYON_NUM_THREADS=1 ${WUNDER_MAINTENANCE_ROOT}/.venv/bin/python -m unittest test_child_control_terminal_check_v1.ChildControlTerminalCheckerTests.test_isolated_cold_import_closure_and_lazy_helpers -v",
+      "test_file": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_child_control_terminal_check_v1.py",
+      "test_file_sha256": "ad75f078c6ccebea6616c09b985dd8427acfe8cf53afd70625312b63e37179da"
+    },
+    "status": "PASS",
+    "transitive_source_count": 29,
+    "transitive_wnn_origins_all_within_canonical_source_root": true
+  },
+  "cold_import_receipt": {
+    "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_check_v1_cold_import_receipt.json",
+    "sha256": "b531b2a02bb3efe3a07fc735ba7a1796c7a307753467f2f2d528771d07939a88"
+  },
+  "control_identity": {
+    "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "last_known_fit_state": "active/running at the root-owned 2026-10-20T06:15Z health observation; no terminal capture existed when this local checker was prepared",
+    "run_directory_expected_on_worker": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_child_control_f0_s1001_fit_v1",
+    "run_name": "fg19_child_control_f0_s1001_fit_v1",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "source_root_expected_on_worker": "/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829",
+    "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "unit": "computer-vision-homework-fg19-child-control-fit-v1.service"
+  },
+  "documentation": {
+    "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/README_CHILD_CONTROL_TERMINAL_CHECK_V1.md",
+    "sha256": "9131140f99d038c829dcfd147cc2df230e80d4f83234fc08353214f727968fc7"
+  },
+  "launch_evidence_inputs": {
+    "admission": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/ADMISSION.json",
+      "sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973"
+    },
+    "launch": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/LAUNCH.json",
+      "sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9"
+    },
+    "launch_acceptance": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/LAUNCH_ACCEPTANCE.json",
+      "sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15"
+    },
+    "recipe_binding": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_fit_v1/CONTROL_RECIPE_BINDING_V1.json",
+      "sha256": "c00c8f5e478326ee72c3651aec0c23bf911344e8984009ad3953abcd5d3057e8"
+    }
+  },
+  "local_input_receipts": {
+    "admission": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/ADMISSION.json",
+      "sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973"
+    },
+    "launch": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/LAUNCH.json",
+      "sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9"
+    },
+    "launch_acceptance": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/LAUNCH_ACCEPTANCE.json",
+      "sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15"
+    },
+    "recipe_binding": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_fit_v1/CONTROL_RECIPE_BINDING_V1.json",
+      "sha256": "c00c8f5e478326ee72c3651aec0c23bf911344e8984009ad3953abcd5d3057e8"
+    }
+  },
+  "non_actions": [
+    "checker was not run against an active run or real output/checkpoint/cache/dictionary payload",
+    "no remote source or B job was submitted, staged, admitted, executed, stopped, or accepted",
+    "no frozen source, helper dependency, index, grader, or recipe was modified"
+  ],
+  "onecycle_terminal_semantics": {
+    "cosine_formula": "end + (start - end) / 2 * (cos(pi * pct) + 1)",
+    "local_fixture_torch": "2.14.1",
+    "persisted_group_endpoints": {
+      "base_momentum": 0.85,
+      "initial_lr": 4e-06,
+      "max_lr": 0.0001,
+      "max_momentum": 0.95,
+      "min_lr": 4e-08
+    },
+    "phase_end_steps": [
+      2237.0,
+      44759.0
+    ],
+    "producer_source_path": "src/wnn/training_dynamics.py",
+    "producer_source_sha256": "88f4acedd231b4b5402f0a68061cf788eedc138b43a6248091fbd0dfab64129d",
+    "required_worker_torch": "2.14.0+cu130",
+    "saved_last_epoch": 44760,
+    "scheduler_total_steps": 44760,
+    "terminal_beta1": 0.9499999998635378,
+    "terminal_learning_rate": 4.0000136407623314e-08,
+    "terminal_phase_fraction": 1.0000235172381355,
+    "verification": "Inspected the installed OneCycleLR cosine implementation and ran a 100-step CPU-only fixture at the one-step-past-phase endpoint; no full-fit update loop was run."
+  },
+  "pinned_source_import_closure": {
+    "all_transitively_loaded_wnn_python_modules_sha256": {
+      "src/wnn/__init__.py": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6",
+      "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "src/wnn/event_content.py": "75beff387c4f9312dc3bc7e065d76e7df2ceeb666fe1bb3e93cc245dfca445cd",
+      "src/wnn/nn.py": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48",
+      "src/wnn/numeric_ple.py": "229a7e0f032cd65bbf6700fa9372c08016b20e4719cb2f9eddd540ff8c468720",
+      "src/wnn/optim.py": "6d70f1863bf268c85a457df9b77735c08c5e8e65549457521001c2a7a721ac1b",
+      "src/wnn/privileged.py": "89dded31558dde890f671f7a4394c429346f77bdfafa1a5b078876e0c94b76c4",
+      "src/wnn/quantization.py": "fbca8fff8af5ae488eea2c2b53e304fd3620fdaf32f1f213ac499378b0261298",
+      "src/wnn/research_features.py": "5dfc31d01c6a5934f66fd6029f457ae2a85a22d6f169d32b89e2160e38c84b50",
+      "src/wnn/run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+      "src/wnn/sentinel.py": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec",
+      "src/wnn/specialist.py": "2937ca9a32561c150a19401eec30dab5e0dd81f507f1fc8365d7f4fb90b0a400",
+      "src/wnn/splits.py": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe",
+      "src/wnn/training/__init__.py": "686df59460b49e15730ed1c2c7d4496d8a516c1c505ed84752a56d12262591e7",
+      "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+      "src/wnn/training/cli_data.py": "4616c5451ad310c4e6444984659a7932617581a6c5d12d5dfe190b4b1940bf4b",
+      "src/wnn/training/cli_features.py": "680687de564a7c96ac96296a729ccb6aa37a8ecb913e525153e769fa14abd79a",
+      "src/wnn/training/cli_model.py": "323edd2631cba27c83a82e2713324223e65d66bf0c9ff121ef90ad836291085d",
+      "src/wnn/training/cli_normalization.py": "2a7e669abbad90a3d6a61e75a0f6fb480a5d06328e8674feac7586d043cc35fa",
+      "src/wnn/training/cli_optimizer.py": "cdda138a1a1067cff0fb4c1a7e939d93d30a59b452c5880b8971baa93251007c",
+      "src/wnn/training/cli_performance.py": "c13e314c7a885898f52f9002a58bbc8b4e8c3fe74aab7644419820759185eca8",
+      "src/wnn/training/cli_targets.py": "ffc05685353085f2ab627d0b4800af81e06520df94f652b6a888e546176c1b57",
+      "src/wnn/training/cli_views.py": "bac04740a730d58c5010020b1e7fb708fa377201bcd687b2df2b4610bd922f26",
+      "src/wnn/training/input_representation.py": "934bac99544c04ac3b77f0b9f78fa4b40ce5782a785fee04d9450d9d568b116f",
+      "src/wnn/training/input_representation_dictionary.py": "49eb729fa01574204698a16e2b2a7f0a2a18f119a84aaf39696df9e476f7b2ff",
+      "src/wnn/training/input_representation_fit.py": "6b5b21774b762d6d316e23d97210e63dcbb1f71241bec65897418e60a21adec9",
+      "src/wnn/training/muon_precision.py": "41e2435bdd4fc1f39ef5cd16999fc5dd52a1e129a2bfabe8b61fb6890149c2cb",
+      "src/wnn/training_dynamics.py": "88f4acedd231b4b5402f0a68061cf788eedc138b43a6248091fbd0dfab64129d",
+      "src/wnn/training_qat.py": "65d770f1ee5bc4cb5b88d7e1b42d63eb77fae4704010f0b263966e0de58578e2"
+    },
+    "cold_import_modules_observed": 29,
+    "direct_helper_modules_sha256": {
+      "src/wnn/run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+      "src/wnn/training/cli.py": "02003850416abf740b8d5b875bfc04eda911bbfd62df7eae6a074efe3cba46d6",
+      "src/wnn/training/input_representation.py": "934bac99544c04ac3b77f0b9f78fa4b40ce5782a785fee04d9450d9d568b116f",
+      "src/wnn/training/input_representation_dictionary.py": "49eb729fa01574204698a16e2b2a7f0a2a18f119a84aaf39696df9e476f7b2ff",
+      "src/wnn/training/input_representation_fit.py": "6b5b21774b762d6d316e23d97210e63dcbb1f71241bec65897418e60a21adec9"
+    },
+    "dynamic_modules_required_by_checker": [
+      "wnn.training.cli",
+      "wnn.run_identity",
+      "wnn.training.input_representation",
+      "wnn.training.input_representation_fit",
+      "wnn.training.input_representation_dictionary"
+    ],
+    "import_binding": "The checker first verifies the complete 167-file source tree against the admitted manifest; the teacher helpers and input-representation helpers then verify their resolved module paths are inside that pinned tree.",
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "source_root": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019"
+  },
+  "predecessor_pins": {
+    "dictionary_acceptance_sha256": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+    "dictionary_artifact_sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659",
+    "dictionary_exact_stop_sha256": "2eb44a4381de06f28ed3d7438ace320ef3274eae37c89074fc481f58f5d88158",
+    "parent_acceptance_sha256": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+    "parent_checkpoint_sha256": "6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45",
+    "parent_exact_stop_sha256": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+    "profile_acceptance_sha256": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045",
+    "profile_exact_stop_sha256": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce"
+  },
+  "private_d_import_closure": [
+    {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_check_v1.py",
+      "role": "child checker; entrypoint",
+      "sha256": "663d4aee291c86e87475e0599a3151f60f684943c59dfc406d2f35ddfba63cad"
+    },
+    {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/parent_fit_terminal_check_v3.py",
+      "role": "reused parent V3 bounded integrity primitives",
+      "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+    },
+    {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/propensity_terminal_support.py",
+      "role": "reused no-follow hashing, JSON and tensor primitives",
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    },
+    {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_s5_terminal_check_v1.py",
+      "role": "reused source-qualified parser and tensor identity helpers",
+      "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+    }
+  ],
+  "reused_private_d_api": {
+    "not_reused": [
+      "parent V3 RNG byte digests (child digests are observations)",
+      "parent V3 RandomSampler loader expectation",
+      "parent V3 disabled input_representation auxiliary check"
+    ],
+    "parent_v3": [
+      "_check_worker",
+      "_source_identity",
+      "_check_membership",
+      "_check_cache",
+      "_check_cache_provenance",
+      "_finite_tree",
+      "_load_checkpoint",
+      "_model_fingerprint",
+      "_safe_globals via _load_checkpoint",
+      "CACHE_METADATA_SHA",
+      "CUDA_POLICY_SOURCE_SHA"
+    ],
+    "propensity_terminal_support": [
+      "_hash_file",
+      "_json_file",
+      "_stable_file",
+      "_tensor_summary"
+    ],
+    "teacher_s5": [
+      "_launch_cli_args",
+      "_canonical_tensor_identity"
+    ]
+  },
+  "schema": "fg19.child-control-terminal-check-dependency-closure.v1",
+  "scope": "Local preparation of a post-exit CONTROL terminal integrity checker. No B submission, payload read, checker execution against the live fit, acceptance, or stop occurred.",
+  "status": "LOCAL_CLOSURE_AND_FOCUSED_TERMINAL_SCHEDULE_CHECKS_PASS",
+  "terminal_gate_summary": [
+    "exact typed native success for the child unit/invocation before any acceptance or stop",
+    "admission, launch and source identity; full CLI, fit-only split, source, cache and worker bindings",
+    "restricted CPU/O_NOFOLLOW checkpoint loads within per-file and aggregate byte limits",
+    "accepted parent epoch-3 initializer plus child profile proof and accepted input-dictionary lineage/state SHA",
+    "467-input/25-output finite FP32 model, selected model/model_ep5/training-state tensor agreement and parent normalization prefix",
+    "AdamW moments and the 44,760-step OneCycle schedule, including its exact cosine-evaluated post-endpoint terminal LR/beta1 and persisted group endpoints",
+    "producer-shaped EpochOrderSampler state at completed epoch 5, continuation next_epoch 6, sampled epoch order identities and observed child RNG hashes",
+    "fit-only no-evaluation history, native log reconciliation, exact accepted cache and staged predecessor receipts"
+  ],
+  "test_runner": {
+    "command": "from the preparation directory: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 WNN_THREADS=1 RAYON_NUM_THREADS=1 ${WUNDER_MAINTENANCE_ROOT}/.venv/bin/python -m unittest test_child_control_terminal_check_v1.ChildControlTerminalCheckerTests.test_isolated_cold_import_closure_and_lazy_helpers -v",
+    "commands": [
+      "from the preparation directory: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 WNN_THREADS=1 RAYON_NUM_THREADS=1 ${WUNDER_MAINTENANCE_ROOT}/.venv/bin/python -m unittest test_child_control_terminal_check_v1.ChildControlTerminalCheckerTests.test_installed_onecycle_fixture_confirms_post_endpoint_cosine_formula test_child_control_terminal_check_v1.ChildControlTerminalCheckerTests.test_terminal_scheduler_rejects_nominal_min_lr_instead_of_cosine_cursor_value test_child_control_terminal_check_v1.ChildControlTerminalCheckerTests.test_optimizer_rejects_unannealed_beta1_and_wrong_schedule_endpoints -v",
+      "from the preparation directory: OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 WNN_THREADS=1 RAYON_NUM_THREADS=1 ${WUNDER_MAINTENANCE_ROOT}/.venv/bin/python -m unittest test_child_control_terminal_check_v1.ChildControlTerminalCheckerTests.test_isolated_cold_import_closure_and_lazy_helpers -v"
+    ],
+    "local_runtime": {
+      "cuda_initialized": false,
+      "cuda_visible_devices": "",
+      "numpy_version": "2.2.6",
+      "payload_open_attempts": 0,
+      "python_executable": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python",
+      "python_version": "3.13.11",
+      "thread_environment": {
+        "MKL_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+        "RAYON_NUM_THREADS": "1",
+        "WNN_THREADS": "1"
+      },
+      "torch_version": "2.14.1"
+    },
+    "result": "Final checker targeted OneCycle validation: 3 tests passed (100-step CPU fixture, malformed terminal LR rejection, arbitrary beta1 and endpoint rejection). Final isolated cold-import proof: 1 test passed. The earlier full 7-test suite passed against checker SHA 833ee9d340d85d4f6dc21d42cc6ad804bbf6367a429f6e5e65231c301d454c42 and test SHA 1282b843060bccbb2e4cf46431e71fedc2b627256739a14a6173829d2f55857b; it was not rerun after this checker tightening, and the six unrelated synthetic invariants were not rerun.",
+    "ruff": {
+      "command": ".venv/bin/ruff format and .venv/bin/ruff check on child_control_terminal_check_v1.py and test_child_control_terminal_check_v1.py",
+      "result": "PASS",
+      "version": "ruff 0.17.1"
+    },
+    "test_file": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_child_control_terminal_check_v1.py",
+      "sha256": "ad75f078c6ccebea6616c09b985dd8427acfe8cf53afd70625312b63e37179da"
+    }
+  }
+}

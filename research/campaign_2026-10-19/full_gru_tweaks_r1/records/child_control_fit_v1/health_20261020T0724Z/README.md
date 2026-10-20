@@ -1,0 +1,11 @@
+# Rare bounded CONTROL health — 20 October07:25UTC
+
+The single root capture at07:25:01.108081UTC (directory follows07:24trigger) found exact invocation e66e0d0703314e4fb5d47dcdbfcaf202 active/running/PID96892. [Raw57,225-byte JSON](STDOUT.raw.json), SHA b273cc167d805f519c2f91bcb4776eab9f67ff5b2125a7f993dd049e7fac3526, [transport](TRANSPORT.json), [unchanged reader](REMOTE.py) and [observation](OBSERVATION.json) preserve rootSSH0/raw persisted before parsing. Embedded admission and launch match the original bytes; the log is preserved exactly.
+
+Native completed epochs0/1/2 each report7,460successful updates/746batches/zero AMP skips and7,460GRAD_STATS steps/nonfinite0. Completed-epoch cumulative counts are22,380updates/2,238batches. The later recorded line ep3batch280/746/loss0.5325/LR4.38e-5 is not a synchronous current batch, completed-update/nonfinite total, terminal44,760 proof or quality endpoint. Evaluations remain withheld. Seeded order and FP32[467] normalization identities are logged; no state payload was loaded.
+
+One populated owned worker/GPUprocess96892/3,408MiB; own memoryevents0 and parent event/local-event deltas versus06:15 are0. OwnCGcurrent2,542,305,280B/peak2,820,898,816B and parentcurrent10,347,646,976B are separate samples from service/RSS/GPU accounting. Foreign GPU processes were observed only and left untouched; no cause or performance inference is made from their changed inventory. Source authority remains the original fresh167-file admission. Run inventory is stat-only: epoch0/1/2 model files, provenance and training_state; no model/state/array payload read/hash, support admission, restart, stop, new fit or grade. Earlier06:15health is retained with freshness superseded. No immediate repeated poll.
+
+[CONTROL records](../README.md). The prepared terminal checker remains local/unadmitted until actual typed native exit0; this observation establishes neither native terminal completion nor integrity acceptance.
+
+[Independent metadata review](METADATA_REVIEW.json) records the raw/transport/extract hashes and lengths, receipt and reader identity checks, progress/resource observations, and metadata-only limitations. It found no blocking metadata inconsistency; the changed foreign GPU inventory is observation-only.

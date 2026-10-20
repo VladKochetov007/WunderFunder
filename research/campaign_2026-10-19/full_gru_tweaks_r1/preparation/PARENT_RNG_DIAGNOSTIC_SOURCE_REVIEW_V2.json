@@ -1,0 +1,59 @@
+{
+  "schema": "fg19.parent-fit-r2-rng-diagnostic-source-review.v2",
+  "status": "CONDITIONAL_PASS_FRESH_ROOT_PREFLIGHT_REQUIRED",
+  "scope": "Independent local review of the frozen V2 RNG diagnostic delta and admission body. No SSH, native query, unit action, checkpoint/model payload, or dataset/prediction-array payload was read by this reviewer.",
+  "identity": {
+    "run_name": "fg19_parent_h256x2_f0_s1001_fit_r2_v1",
+    "native_unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service",
+    "native_invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "failed_verifier_unit": "computer-vision-homework-fg19-parent-fit-r2-verify-v1.service",
+    "failed_verifier_invocation_id": "7ecaf59d01ba4a07b0971a1c9902d87e"
+  },
+  "frozen_packet": {
+    "body": {"path": "preparation/parent_rng_diagnostic_v2/REMOTE_SUBMISSION.py", "bytes": 697787, "sha256": "728a47006d96a8d1efb876b37f143258f10180045ecd40d7a366deb5fa677a9c"},
+    "template": {"path": "preparation/parent_rng_diagnostic_v2/REMOTE_SUBMISSION_TEMPLATE.py", "bytes": 34622, "sha256": "55a98ff70b16b89e163ea31ea35d5b2a826ccf4eb87bc40d20f4a07ba768b9f6"},
+    "diagnostic": {"path": "preparation/parent_rng_diagnostic_v2/rng_diagnostic_v2.py", "sha256": "75f3b53762f5faf60f785126a8dec4b24e2bf52f620fce1397d7958eb25906b2"},
+    "generator": {"path": "preparation/parent_rng_diagnostic_v2/prepare_parent_rng_diagnostic_v2.py", "sha256": "4f8d8f792d3409869feb4c4c84e5e260f64998c25cf3c08904e9c81f05d15464"},
+    "preparation": {"path": "preparation/parent_rng_diagnostic_v2/PREPARATION.json", "sha256": "bd09445a8006bb87e662202e5c53ece191a4e54a301fc61151125150f7bc7039"},
+    "focused_checker": {"path": "preparation/parent_rng_diagnostic_v2/check_parent_rng_diagnostic_v2.py", "sha256": "7b12818601ede138d17e9fcc5af756d9275705427201e28fa0c588b82145ce4e"},
+    "local_checks": {"path": "preparation/parent_rng_diagnostic_v2/LOCAL_CHECKS.json", "sha256": "f1eb29a0a0221073fcb54a9b14a5e2a04ca7b4a868c27d86b9e386ca9e93fde7"},
+    "readme": {"path": "preparation/parent_rng_diagnostic_v2/README.md", "sha256": "1faabbc85c7864bdbe09e3261002af77d6924f61666df707e1069f75ff4c847c"}
+  },
+  "source_bindings": {
+    "frozen_parent_gate_template_sha256": "c07446cc2841c53fb2e9dc28bdfae03dc3657a217ead1d7168a614909c562dd2",
+    "restricted_parent_checker_sha256": "f27091c864287d6a3b7c173619ad1af5db6887e9632c49a8c6d0bb50c3a9c1d1",
+    "actual_failed_capture_sha256": "7761927b6bcacd034af294ee5f37c30561b6ff3b07b846f0e7393324fea1a359",
+    "actual_failed_admission_sha256": "b89cd063f2409c5551af68819ac4d9f9274d362e2074cd413dce0df0877027d7",
+    "actual_failed_launch_sha256": "ad718e0cb72c11e3a4ea90d4ab5ac694d705d81166f020f10fe0acab9a6e1e12",
+    "actual_failed_log_sha256": "536e2019e084a40eeb0848d9288751f721f609a49a514d629f1d8de5515a2d70",
+    "training_state_stat_sha256": "d7410f6bf76e25bbdc6bcefeb92851803c52f6e8d94e91ba6d93afa63b2e2a35",
+    "native_terminal_evidence_sha256": "780e64538cb34dd9e6a9c7da528a4232d4362daca9bee1dd871bd722373f7615",
+    "native_raw_capture_sha256": "a65af766fafaaa811d0991072035b51ec04dc01353da3059d7c594dffef239cb"
+  },
+  "v1_correction_record": {
+    "prior_v1_review_sha256": "0ae527ef6b7094a7b0e94c3e8ed9c44d1b61f467e2f0eda0f1fe97b6722093a2",
+    "prior_v1_body_sha256": "eb7bb815bd77b5b757d5038798a7aa71f59abad64f047ff450265bb6af4c1723",
+    "v1_readonly_rejection_stderr_sha256": "738d029dbaad826e70d9eaa843c421b09e51997fa8ac7b2f32523e7f297cc58a",
+    "v1_transport_sha256": "4721ce2974b2ee4a6a7a513dde8ce6c94cd86b30c217e91cc1219e16e73286c7",
+    "v1_failure": "V1 required terminal_success is True although the exact captured failed verifier correctly has boolean false; its input gate rejected before output.mkdir and before systemd-run submission. V1 stdout was zero bytes and no diagnostic unit was launched.",
+    "review_correction": "The prior V1 conditional-pass verdict missed this false-terminal fixture condition and is superseded for any use. V1 source, review, and receipts remain preserved unchanged."
+  },
+  "review": {
+    "verdict": "No material blocker found in the frozen V2 diagnostic packet; root fresh preflight and its sole new diagnostic submission remain required.",
+    "delta": [
+      "Compared with V1, the gate now requires the exact captured failed-attempt field terminal_success is False; the output path and systemd unit are distinct V2 identities, and admission/launch schemas are versioned V2. No other gate-function changes were found in the template diff.",
+      "Directly executed the focused V2 helper check against the actual source-bound captured failure fixture: checked_failed_attempt accepted boolean false and rejected terminal_success true, integer zero, and an integer exit-status mutation. The helper path is executed from the parsed remote template with its main call removed; the exact embedded metadata fixture is loaded from the pinned preparer.",
+      "The V2 body AST matches its template after normalizing only the generated PAYLOAD assignment; all 17 embedded payload lengths and hashes match PREPARATION.json. The training-state stat pin remains equal to the failed verifier’s stat-only output inventory.",
+      "The diagnostic still uses the exact pinned f270 `_load_checkpoint(training_state.pt, 64 MB)` weights-only loader and reports only format/next_epoch, Torch version, RNG structure, and tensor dtype/shape/numel/hash. It does not inspect or emit model/optimizer values, and makes no assumption about actual RNG tensor shape.",
+      "The reused source/split/data/cache/native and fresh parent gates remain intact, including exact native invocation and typed exit, 167-file source tree, accepted cache/exact stop, empty populated descendants, 17-GB headroom, physical scratch, and 25-GiB storage floor. V2 uses its own absent unit/output and the same .5-CPU/1.4-GB-high/1.5-GB-max/zero-swap/600-second/CUDA-hidden/BLAS1 envelope.",
+      "The body never queries or stops V1, submits one new unit only after the captured-failure gate and fresh preflight, and retains unknown submit/query outcomes in an exclusive durable launch record without retry."
+    ],
+    "reported_local_checks": "The actor’s pinned local receipt reports the focused actual-fixture and mutation check, Ruff and cold metadata-read sentinel PASS. The focused actual-fixture helper was independently executed for this review; other checks were not rerun.",
+    "limits": [
+      "The actual RNG state size remains unknown until a future V2 diagnostic output is persisted and reviewed.",
+      "This review authorizes no native checker correction or retry and establishes no terminal integrity or model-quality result. Any V2 checker change must be separately reviewed against the actual diagnostic metadata before a new submission."
+    ]
+  }
+}

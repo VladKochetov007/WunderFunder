@@ -20,6 +20,7 @@ External writeups and literature provenance; external results do not establish l
 
 ## Current navigation
 
+- [Large B300 teacher primary-source register](TRANSFORMER_B300_SCALE_SOURCES_20261019_R2.md) — actual October19 inspection of the user's2606.30634 gradient-delay paper, NVIDIA B300 hardware, Muon source/API, FP32 attention/DDP, numeric encoders, WSD, dynamics pretraining and teacher/student limits. Records the upstream Muon BF16 cast and the gap between external LLM results and this unrun time-series proposal; no imported data or weights.
 - [Adaptive TBPTT and current-moment gradient replay](GRADIENT_ESTIMATOR_LITERATURE_20261018.md) — primary Aicher/Foti/Fox and Gradient Cache methods, an abstract-only SCGD context check, and deduplication against H-RR17-19 / H-055 / E-291. Distinguishes published mechanisms from our unimplemented GRU transfer; no local quality or speed claim.
 
 - [October 18 ranking source check](../ideas/PRIORITIZED_25_20261018_R3.md) - primary FitNets, Mamba-3 and xLSTM abstracts rechecked for intermediate hints, MIMO and scalar/matrix memory. These support operator descriptions only; local priority comes from project evidence and an explicit exploration judgment.

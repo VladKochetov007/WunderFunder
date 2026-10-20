@@ -1,0 +1,7 @@
+# Parent-fit R2 native terminal capture
+
+This folder preserves the root-captured native response for the single `computer-vision-homework-fg19-parent-fit-r2-v1.service` invocation `5186b3016ff54b1fa754c10a1f87b3e4`. The raw 301,285-byte response is [stored as captured](STDOUT.raw.json) with [transport metadata](TRANSPORT.json); it reports native exit status 0 at 03:38:02 UTC on 20 October, with `Result=success`, `ActiveState=active`, `SubState=exited`, `MainPID=0`, `ExecMainCode=1`, and `ExecMainStatus=0`.
+
+The raw response embeds [admission](ADMISSION.json), [launch](LAUNCH.json), [unit log](unit.log), and [producer provenance](PROVENANCE.json); the root-captured [observation summary](OBSERVATION.json) and parent [native resource reconciliation](../NATIVE_RESOURCE_RECONCILIATION.json) summarize their metadata scopes. [Terminal evidence](../TERMINAL_EVIDENCE.json) pins the raw length and SHA-256. The [independent local review](../../../preparation/PARENT_FIT_NATIVE_TERMINAL_METADATA_REVIEW.json) reconciles the 167-file source inventory, four FIT and four GRAD_STATS rows, 29,840 producer-reported completed updates, cache/normalizer ancestry, and stat-only output inventory.
+
+This is native terminal metadata, not checkpoint-integrity acceptance. Checkpoint, optimizer, loader/RNG, and normalizer payloads were not read by this reviewer; the separately bounded CPU verification remains pending. Evaluation was withheld, and no model-quality result is claimed. Resource observations retain their native, worker, and parent-cgroup scopes separately.

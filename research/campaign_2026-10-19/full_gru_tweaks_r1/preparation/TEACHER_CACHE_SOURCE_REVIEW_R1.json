@@ -1,0 +1,52 @@
+{
+  "schema": "fg19.teacher-cache-source-review.v1",
+  "status": "CONDITIONAL_SOURCE_READY_FOR_ROOT_PROFILE_AND_CACHE_ADMISSION",
+  "scope": "Read-only local source review of the canonical prediction-profile producer, the opt-in three-teacher cleanfold cache producer, and its pure semantic helper. No tests, SSH, remote actions, model/data payload reads, cache construction, or GPU profile execution were performed by this reviewer.",
+  "reviewed_utc": "2026-10-20",
+  "source_identity": {
+    "base_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+    "source_worktree": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019",
+    "execution_contract_path": "preparation/TEACHER_CACHE_EXECUTION_CONTRACT_R1.json",
+    "execution_contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9"
+  },
+  "reviewed_pins": {
+    "scripts/build_distill_cache.py": "e0d494019357e790576629b4731198fcbe2b80572b32e38ac7afc065bd6328b7",
+    "src/wnn/cleanfold_t3_cache.py": "5f89ac1023d1b35f4d1ba02a39727e30ec1ff1d09fac28730039716188d5c8d4",
+    "tests/test_cleanfold_t3_cache.py": "2f0ca5858c605d79e7bc24c89a74e30005216270645bba57c2229918ea8e6fbc",
+    "scripts/predict_run.py": "904ddc9a2cafd194dc8d6ab9bdf1524120d6a089b83e33e2eb731e67abed6754",
+    "src/wnn/prediction_profile.py": "459c22b075297a923e8a91cceb78c45d2c69b37f943fc84c8f9f53d3ac0585ab",
+    "tests/test_prediction_profile.py": "2e6203855d6b934e04e8656fc887b276a269e5db124408ced133f0d7bb89adb9",
+    "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+    "local_checks_receipt": "a9cb50a0cc2d16b890ff176108f515ade0123d8add35a89db8375b171006a1bd"
+  },
+  "reviewed_guards": {
+    "prediction_profile": [
+      "Uses the campaign split manifest to select ordered train-fit groups, then exactly the leading 16; FeatureOnlySequences requests features with targets and masks disabled.",
+      "Requires the fixed CUDA/FP32 profile invocation with zero loader workers; constructs batch size 16 and passes fixed chunk size 4000.",
+      "Validates the checkpoint as raw-112/model-input-211, complete H384x2 GRU with the 23-output auxiliary head and no privileged/readout/quantized/factorized state; profile output remains the raw two-column main prediction.",
+      "Disables CUDA matmul and cuDNN TF32, marks the model strict-inference-FP32 so canonical prediction disables autocast, and records scalar timing/memory/output statistics without persisting predictions.",
+      "Hashes the predictor and explicit canonical inference-path modules, including model construction, evaluation, input building, compatibility, resources, normalization identity, split/data and profile helper."
+    ],
+    "cleanfold_t3_cache": [
+      "Opt-in profile pins ordered S3/S4/S5, strong-family 0.1 metadata coefficients at fixed epoch 2, homogeneous-only output, one 0.8125 multiplier, no cache clipping, and the frozen execution-contract hash/schema/source commit/split.",
+      "Checks exact acceptance, model, epoch-2 checkpoint and provenance SHA pins; validates selected provenance recipe fields and fit membership; sidecars must declare campaign fit scope, feature-only export and the split hash.",
+      "Requires exact JSON integer row-group identities, exact expected fit membership, and reorders predictions into canonical target-index fit order; evaluation rows are not loaded into the cache construction loop.",
+      "Requires prediction arrays to be FP32, shape-aligned and finite, averages in fixed S3/S4/S5 FP32 order, applies the multiplier once, and now rejects nonfinite arithmetic output.",
+      "Streams bounded sequence chunks into create-only output paths with output-budget/free-disk gates; opt-in path rejects existing output paths including dangling symlinks."
+    ]
+  },
+  "source_review_findings": [
+    "The initial row-group coercion, FP32-overflow publication, and dangling-output-symlink issues were corrected in the frozen source. Their final implementations enforce true JSON integers, reject nonfinite combined chunks, and reject symlink output paths before resolution.",
+    "No remaining concrete blocker found in the reviewed final source for the frozen profile/cache contract."
+  ],
+  "actor_reported_validation_not_independently_reproduced": {
+    "cache_helper": "15 targeted edge cases passed; 11 deselected; 13 prior tests and one legacy-closure test passed; Ruff diff check passed.",
+    "prediction_profile": "10 tests and Ruff passed.",
+    "combined_coldproof": "Root-reported final cold100 runtime/source-hash-map pass with no sentinel or wrong-origin findings; receipt SHA-256 is pinned above. Reviewer did not execute the coldproof."
+  },
+  "limitations_and_next_gate": [
+    "This is a conditional source review only. Root admission must still bind the final source inventory, execution contract, current artifacts and fresh runtime/resource gates before actual profile/export/cache execution.",
+    "No actual GPU inference profile, prediction cache, combined cache, model quality, or evaluation result is established by this review.",
+    "Validation claims above are actor-reported; the reviewer only checked current file hashes and read source/contract text."
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "schema": "fg19-child-allthree-profile-source-review.v2",
+  "result": "CONDITIONAL_SOURCE_PASS",
+  "scope": "Local source-only delta review; no remote action, training, model/array payload read, or tests run by reviewer.",
+  "source_pins": {
+    "probe": {
+      "path": "preparation/child_allthree_profile_probe_v1.py",
+      "sha256": "446e679ddae0f05225209950d928790264c8cd57fb8836b79f671d06d03be9e4"
+    },
+    "contract": {
+      "path": "preparation/child_allthree_profile_contract_v1.py",
+      "sha256": "ab68d868261106a7548b649243f4a645ece926b6138d683c731841cfb9f0b7c5"
+    },
+    "tests": {
+      "path": "preparation/test_child_allthree_profile_probe_v1.py",
+      "sha256": "75cabed1560f9d22bdcd5f11b1228cc17c7a705d4f2a05395b5a570a8cce860d"
+    },
+    "restricted_loader_helper": {
+      "path": "preparation/propensity_terminal_support.py",
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    }
+  },
+  "review_findings": [
+    "The prior early-return gap is fixed: both student_frontier_preflight_only and calibrate_distill_reference are rejected before canonical run_training can exit successfully without profile updates.",
+    "The delta now requires inherit_init_preprocessing=True, matching the accepted parent's saved preprocessing and the canonical inheritance path.",
+    "The probe binds the parent epoch-3 checkpoint SHA, accepted parent receipt, exact-stop receipt, split SHA, accepted dictionary receipt/cache bytes and hash, and source sequence length. The parent's strict typed terminal and finite FP32 evidence are required; checkpoint state is loaded via the bounded restricted CPU reader and narrow safe-global allowlist before canonical initialization.",
+    "Warm-start verification checks exact tensor keys, 211-to-467 input and 23-to-25 output shapes, equal parent prefixes and unchanged trunk, zero new input/output rows, mean/std suffix values, and finite child state.",
+    "The profile pins batch 16, chunk 2000, six fit batches with two warmup plus four measured batches, FP32 AdamW, no fit evaluation, and exact representation/distillation cache identities. The canonical runner returns after profiling before evaluation or checkpoint saves."
+  ],
+  "deployment_closure": {
+    "restricted_loader_helper_required": true,
+    "helper_sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+    "admission_body_stages_helper": "Current body has a sixth staged helper entry and SOURCE/src-only PYTHONPATH; exact frozen body/import-closure proof review is pending.",
+    "limitation": "The existing test module imports the probe from local preparation, so it does not independently establish the private-D helper import origin."
+  },
+  "test_status": {
+    "reported_by_source_actor": "17 focused tests plus the added inheritance test, Ruff/format, cold import/read-sentinel checks, and actual acceptance/stop fixtures passed.",
+    "independently_run_by_reviewer": false
+  }
+}

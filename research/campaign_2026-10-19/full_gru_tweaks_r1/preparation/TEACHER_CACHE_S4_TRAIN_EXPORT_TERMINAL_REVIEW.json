@@ -1,0 +1,148 @@
+{
+  "acceptance": {
+    "accepted_utc": "2026-10-19T23:50:40.479602+00:00",
+    "checkpoint_sha256": "a59a747176263fc0ecdfcc584f78cf77b13465ec4645ca4bb5d9992380865a36",
+    "completed_sequences": 10535,
+    "exec_main_code": "1",
+    "exec_main_status": "0",
+    "feature_only": true,
+    "finite_check_deferred_to_streamed_cpu_cache_builder": true,
+    "fit_membership_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+    "frozen_stop_status": "PENDING_EXACT_STOP_AFTER_DURABLE_ACCEPTANCE",
+    "invocation_id": "c48563e6113d4351a7ca23e7715ad2c2",
+    "main_pid": "0",
+    "native_exit_utc": "Mon 2026-10-19 23:33:44 UTC",
+    "native_start_utc": "Mon 2026-10-19 23:07:04 UTC",
+    "normalization_identity": {
+      "mean": {
+        "bytes_sha256": "dd4147321b23ccf5fa686a6d1c5366681fc6f4b3a8cd8b420986f05a80b5f807",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      },
+      "std": {
+        "bytes_sha256": "7b40914fb16a1912b2f0219de5cb7d98b59ff7707bdc09d094c8d8d3ca30a6e7",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      }
+    },
+    "path": "records/teacher_s4_train_export_v1/TERMINAL_ACCEPTANCE.json",
+    "prediction_finite_independently_checked": false,
+    "prediction_metadata_sha256": "2a8c83f1fa40ec2e00ef0bb1fa6e62b115af340bcd84128da611596e1107c9cd",
+    "prediction_producer_sha256": "43fdc2d384a8846a5b6c373679a5f0f0e4ef24c5d5925aa2b84905016d0e5c93",
+    "prediction_stat_bytes": 1685600128,
+    "progress_records": 659,
+    "runtime_semantic_pins_verified": 18,
+    "selected_epoch": 2,
+    "sha256": "26557d622a2ad96bd4b25000389e3956f9a3283ecdfb33f38afcffad5cc52c5e",
+    "source_commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "source_files_verified": 167,
+    "source_manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97",
+    "split": "train",
+    "status": "ACCEPTED",
+    "teacher_provenance_sha256": "6a6c5bae6bd2ee943684ddad3b6c888682cd4e13de492cf1cac571e97727b2bf",
+    "unit": "computer-vision-homework-fg19-teacher-s4-train-export-v1.service"
+  },
+  "checks": {
+    "acceptance_binds_capture_and_source": true,
+    "all_18_runtime_sidecar_pins_match_manifest": true,
+    "canonical_fit_train_membership_and_digest": true,
+    "capture_embedded_admission_launch_match": true,
+    "exact_stop_binds_acceptance_and_same_invocation": true,
+    "launch_acceptance_binds_current_launch": true,
+    "launch_raw_transport_and_envelope": true,
+    "native_exit_matches_exact_launch_invocation": true,
+    "prediction_metadata_stat_only_and_shape_membership": true,
+    "progress_659_records_complete_10535": true,
+    "provenance_seeded_train_order_digest_is_consistent": true,
+    "resource_observations_are_separate_and_in_bounds": true,
+    "s4_teacher_checkpoint_provenance_and_own_norm_match": true,
+    "six_embedded_extracts_bind_local_files": true,
+    "source_manifest_and_fullmap_match": true,
+    "terminal_capture_transport_and_all_six_embedded_extracts": true,
+    "valid_and_eval_memberships_reconcile_to_provenance": true
+  },
+  "exact_stop": {
+    "after_state": {
+      "ActiveState": "inactive",
+      "CPUUsageNSec": "[not set]",
+      "ControlGroup": "",
+      "ExecMainCode": "0",
+      "ExecMainStatus": "0",
+      "InvocationID": "",
+      "LoadState": "not-found",
+      "MemoryCurrent": "[not set]",
+      "MemoryPeak": "[not set]",
+      "SubState": "dead"
+    },
+    "populated": {},
+    "raw_bytes": 1086,
+    "raw_sha256": "80454742a9edaebda9cf42839c6101dbc8b8f8bf01158552e43eef230e7392b9",
+    "stop_returncode": 0,
+    "transport_sha256": "95833250b4cc7dae6bc9892490f852bc34743fcafbd6442093d6ee78b851c5ad",
+    "utc": "2026-10-19T23:50:59.517835+00:00"
+  },
+  "launch_capture": {
+    "capture_extract_count": 6,
+    "capture_raw_bytes": 586986,
+    "capture_raw_sha256": "88b434a8bba3f2dce0bfdf20498bafa83f553d0b6f6bc85ab4d360c7e0617c3a",
+    "capture_transport_sha256": "0087683fa4eb8880618055a7b84c726b219ba73dc1e26178389da64f35124838",
+    "launch_raw_bytes": 27989,
+    "launch_raw_sha256": "aa5434f409e0cee4c8bbcfc5df3bffa4405cda08aeab7d15d72ed086ed75a3c7",
+    "launch_transport_sha256": "5c044bd7e5007f6af041cc6b4cd54639ef0cf418998607654d468986ee5af572",
+    "runtime_sidecar_pin_count": 18,
+    "source_file_count": 167
+  },
+  "limitations": [
+    "Prediction output is producer-SHA and stat-only; no independent output header, whole-file hash, or finite-value check was performed. Streamed CPU cache validation remains mandatory.",
+    "The native acceptance is frozen with stop_status=PENDING_EXACT_STOP_AFTER_DURABLE_ACCEPTANCE; the later stop receipt is reported separately.",
+    "FIT membership uses canonical split order for export; seed-4 provenance retains its shuffled training order. The audit compared their sets and computed the canonical little-endian int64 membership digest."
+  ],
+  "membership": {
+    "canonical_export_order": "FIT_MEMBERSHIP.fit.train and PREDICTION.row_groups match exactly in canonical split order",
+    "canonical_little_endian_int64_sha256": "8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda",
+    "canonical_train_count": 10535,
+    "cross_namespace_numeric_overlap_checked": false,
+    "evaluation_valid_count": 468,
+    "fit_valid_count": 1405,
+    "split_manifest_bytes": 1388846,
+    "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "teacher_provenance_train_order": "seed-4 shuffled order; same set as export, order intentionally differs",
+    "teacher_provenance_train_order_sha256": "1c367b283bdea5b3cfb93fdea2b7e30349f99edc5d40eabe2ff056480c258c49"
+  },
+  "normalization": {
+    "interpretation": "S4 export correctly uses S4 teacher normalization; the distinct S3 profile anchor is geometry/resource context.",
+    "matches_s3_profile_anchor": false,
+    "matches_s4_teacher_provenance_and_prediction_sidecar": true,
+    "s4_own_normalization_identity": {
+      "mean": {
+        "bytes_sha256": "dd4147321b23ccf5fa686a6d1c5366681fc6f4b3a8cd8b420986f05a80b5f807",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      },
+      "std": {
+        "bytes_sha256": "7b40914fb16a1912b2f0219de5cb7d98b59ff7707bdc09d094c8d8d3ca30a6e7",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      }
+    }
+  },
+  "resources": {
+    "interpretation": "Unit MemoryPeak and parent MemoryCurrent/MemoryPeak are separate cgroup/time observations; no single full-RAM claim.",
+    "native_cpu_seconds": 1598.373617,
+    "native_unit_memory_peak_bytes": 2230714368,
+    "parent_memory_current_at_capture_bytes": 7431733248,
+    "parent_memory_peak_bytes": 9548558336
+  },
+  "reviewed_utc": "2026-10-19T23:51:56.084976+00:00",
+  "schema": "fg19.teacher-s4-train-export-independent-terminal-review.v1",
+  "scope": "Independent local metadata-only audit. No SSH, model/checkpoint/prediction-array reads, tests, or replay.",
+  "status": "PASS_TERMINAL_METADATA_AND_EXACT_STOP"
+}

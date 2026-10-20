@@ -1,0 +1,209 @@
+{
+  "capture_transport": {
+    "bytes": 483,
+    "path": "records/child_ema_fit_v1/startup_health_v1/TRANSPORT.json",
+    "persisted_before_parse": true,
+    "raw_stdout": {
+      "bytes": 38630,
+      "path": "records/child_ema_fit_v1/startup_health_v1/STDOUT.raw.json",
+      "sha256": "77338800df4927772fc7539cba0ea4401aacb57fd65b32223dc89422d06b5fc0"
+    },
+    "reader_end_utc": "2026-10-20T13:06:46.397728+00:00",
+    "reader_source": {
+      "bytes": 12395,
+      "path": "records/child_ema_fit_v1/startup_health_v1/REMOTE.py",
+      "sha256": "8c42338dfcee85aff11580a513d32b35841c34430cc3423d6f9c66af16ed62b0"
+    },
+    "reader_start_utc": "2026-10-20T13:06:45.611585+00:00",
+    "returncode": 0,
+    "sha256": "aa6e91c77ed5b286c68193a1a73ba3890abe71b0d555830399a256878f54b9b1",
+    "stderr_bytes": 0,
+    "timed_out": false
+  },
+  "checks": [
+    {
+      "check": "startup transport is one successful persisted capture whose raw bytes match transport and observation",
+      "result": "PASS"
+    },
+    {
+      "check": "reader source bytes match the transport body pin and observation reader pin",
+      "result": "PASS"
+    },
+    {
+      "check": "raw reader pins expected EMA unit/run/invocation and captured UTC",
+      "result": "PASS"
+    },
+    {
+      "check": "unit query succeeded and exact same invocation is active/running with original PID",
+      "result": "PASS"
+    },
+    {
+      "check": "unit properties retain reviewed resource caps and expected training entrypoint",
+      "result": "PASS"
+    },
+    {
+      "check": "actual launch receipt copies match the already reviewed launch metadata exactly",
+      "result": "PASS"
+    },
+    {
+      "check": "captured unit.log receipt matches saved bytes and shows bounded setup only",
+      "result": "PASS"
+    },
+    {
+      "check": "own cgroup current/peak agree with observation and are below configured caps",
+      "result": "PASS"
+    },
+    {
+      "check": "own memory.events and memory.events.local are zero for this sample",
+      "result": "PASS"
+    },
+    {
+      "check": "parent current agrees with observation and event deltas from admission are zero",
+      "result": "PASS"
+    },
+    {
+      "check": "owned GPU PID belongs to the exact EMA unit and selected GPU",
+      "result": "PASS"
+    },
+    {
+      "check": "the three foreign GPU processes recorded at startup match the admission identities after PID type normalization",
+      "result": "PASS"
+    },
+    {
+      "check": "populated-descendant and run-directory evidence is scoped to this sample",
+      "result": "PASS"
+    },
+    {
+      "check": "launch identity joins to prior independent launch review",
+      "result": "PASS"
+    },
+    {
+      "check": "no fresh canonical source content rehash is claimed by the startup reader",
+      "result": "PASS"
+    }
+  ],
+  "created_utc": "2026-10-20T13:09:40+00:00",
+  "identity": {
+    "captured_utc": "2026-10-20T13:06:46.417507+00:00",
+    "invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+    "run_name": "fg19_child_ema_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-ema-fit-v1.service",
+    "unit_state": {
+      "ActiveState": "active",
+      "ExecMainCode": "0",
+      "ExecMainStatus": "0",
+      "InvocationID": "da5baf82d22b4f02890e184193b8caf7",
+      "LoadState": "loaded",
+      "MainPID": "730727",
+      "SubState": "running"
+    }
+  },
+  "launch_review_join": {
+    "path": "preparation/CHILD_EMA_FIT_ACTUAL_LAUNCH_REVIEW_V1.json",
+    "sha256": "fc1a4513c3d74103f5487493ac95bc257e514556fad025a5743e0eb080019989",
+    "status": "PASS_ACTUAL_LAUNCH_METADATA_ONLY_STARTUP_AND_TERMINAL_PENDING"
+  },
+  "limitations": [
+    "This is one dated startup observation, not terminal evidence. It does not establish a final update count, completion, tensor integrity, checkpoint acceptance, or scientific quality.",
+    "The empty stat-only run-directory listing is limited to that sampled directory view and is not interpreted as broad absence.",
+    "Fresh source-file identity is bound by the actual EMA admission receipt; this startup reader records an expected source identifier but did not freshly hash the canonical source tree.",
+    "No fitted model, optimizer, cache array, dictionary tensor, or other payload was read or hashed by this reviewer."
+  ],
+  "observation": {
+    "bytes": 4877,
+    "path": "records/child_ema_fit_v1/startup_health_v1/OBSERVATION.json",
+    "same_invocation_as_actual_launch": true,
+    "sha256": "86f35e5809c8b99d10358b830ee236ef4d57c940af80bcf112cf440f32c54921",
+    "status": "ACTIVE_RUNNING_DATED_OBSERVATION_ONLY"
+  },
+  "progress_observation": {
+    "interpretation": "The bounded log ends at loader/parameter/expected-step setup and has no FIT/GRAD_STATS completion record. The logged 44,760 steps are expected/arithmetic setup metadata, not an observed update count; no failure or progress total is inferred.",
+    "native_fit_or_grad_stats_record_seen": false,
+    "progress_scope": "Log ends at canonical loader/parameter/expected-step setup; no epoch/batch FIT/GRAD_STATS completion is recorded in this bounded snapshot. Do not infer current update count or failure from setup duration.",
+    "run_directory_stat_only": {
+      "entries": [],
+      "exists": true,
+      "symlink": false
+    }
+  },
+  "receipt_byte_joins": {
+    "ADMISSION.json": {
+      "bytes": 9880,
+      "matches_raw_capture_and_actual_launch_review": true,
+      "sha256": "db13e5433cb0a414c1a235806220c53db4ded6c128fc5ffbda5e465dde9fde51"
+    },
+    "LAUNCH.json": {
+      "bytes": 7404,
+      "matches_raw_capture_and_actual_launch_review": true,
+      "sha256": "8c43f6fb26d3f6a046304617094e266a3e1940c83a7ea56787781fa176ef133e"
+    },
+    "unit.log": {
+      "bytes": 4915,
+      "line_count": 3,
+      "matches_raw_capture": true,
+      "sha256": "c3c75add592e0fe0fc8ca0b61a03004d2c3e7fc311375c730eb3ed97ca3ed47d"
+    }
+  },
+  "resource_observation": {
+    "foreign_gpu_processes_preserved": 3,
+    "gpu_memory_sample": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 16376 MiB, 9463 MiB, 6511 MiB",
+    "own_cgroup_current_bytes": 3006345216,
+    "own_cgroup_peak_bytes": 3006345216,
+    "own_memory_events": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "own_memory_events_local": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "owned_gpu_process": {
+      "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service",
+      "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "pid": 730727,
+      "uid": 1061,
+      "used_memory": "1380 MiB"
+    },
+    "parent_cgroup_current_bytes": 9724575744,
+    "parent_events_delta_from_admission": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "parent_local_events_delta_from_admission": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "populated_descendants_at_capture": {
+      "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service/cgroup.procs": "730727"
+    },
+    "worker_caps_from_unit": [
+      "CPUQuotaPerSecUSec=1s",
+      "MemoryHigh=7500000000",
+      "MemoryMax=8000000000",
+      "MemorySwapMax=0"
+    ]
+  },
+  "schema": "fg19-child-ema-startup-metadata-review.v1",
+  "scope": "Independent local-only metadata audit of the single persisted EMA startup capture; no B query, test, entrypoint, or fitted-payload inspection.",
+  "source_authority": {
+    "fresh_canonical_source_content_hash_in_this_reader": false,
+    "source_authority": "Fresh167-file content hashes in actual EMA admission; runtime source identifier is an expected constant only."
+  },
+  "status": "PASS_SAME_INVOCATION_STARTUP_METADATA_ONLY_ACTIVE_RUNNING_NO_PROGRESS_CLAIM"
+}

@@ -1,0 +1,5 @@
+# Exact stop of the accepted all-three profile
+
+The one root stop at05:27:44.423161UTC followed durable [profile acceptance](../TERMINAL_ACCEPTANCE.json) SHA`9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045`. [Raw966-byte receipt](STDOUT.raw.json) SHA`a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce`, [transport](TRANSPORT.json) and [executed body](REMOTE.py) preserve the exact operation, SSH0/raw persisted before parse.
+
+Only unit`computer-vision-homework-fg19-child-allthree-profile-v1.service`/invocation`1d62c3fb47ac4bd5be8e8ec8fe6759cd` was stopped. Before: active/exited/MainPID0/exit0; after: not-found/inactive/dead/MainPID0/empty invocation. Populated campaign descendants were empty before and after. No healthy job or failed support was stopped; no model/data payload was read. Frozen acceptance's pending-stop field is historical and superseded by this later receipt without rewriting it. Never poll/replay this completed profile. [Record](../README.md).

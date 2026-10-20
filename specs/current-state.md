@@ -1,4 +1,127 @@
+## 20 October 13:51 UTC — EMA continues, first epoch recorded
+
+[One rare bounded EMA capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1351Z/README.md) found exact invocation active/running, one owned GPU worker and no new own/parent memoryevents. Completed epoch0 has7,460updates/746batches/zero skips/nonfinite in its native records. Later ep1batch20 is not current totals, terminal44,760 or quality. Checkpoint/state/provenance remain stat-only; no support/restart/stop/newfit/inference. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; routine healthy progress requires no notification.
+
+---
+
+## 20 October 13:04 UTC — second fixed child EMA32 is actually running
+
+[EMA32 full fit](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/README.md), invocation da5baf82d22b4f02890e184193b8caf7, launched once after accepted/exact-stopped CONTROL and fresh source/ownership/resource gates. Same parent/norm/dictionary/seeded batches/target; causal input history is the sole recipe change. Expected six epochs/44,760 updates are not completion. Parent+CONTROL complete, EMA started, three children unadmitted, no child quality/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes older pending snapshots.
+
+---
+
+## 20 October 12:58 UTC — CONTROL fully accepted and exact-stopped
+
+The human granted the scoped path decoder. [Actual V3](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_verification_v3/README.md) passed full finite FP32/model/state/AdamW/schedule/RNG/normalizer/dictionary/cache/source/ancestry integrity. [Acceptance](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/TERMINAL_ACCEPTANCE.json) preceded [exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/exact_stop/README.md) of only native CONTROL and successful V3; failed V1/V2 remain preserved. Parent+CONTROL are complete, four fixed children remain unadmitted, EMA-only packet is being bound locally. No child quality/gain endpoint. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes the historical pending question below.
+
+---
+
+## 20 October 12:48 UTC — CONTROL complete; one scoped loader exception awaits reply
+
+[Native CONTROL](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/TERMINAL_EVIDENCE.json) completed six epochs/44,760 updates/4,476 batches with exit 0; full integrity acceptance remains pending. Two actual CPU support failures are preserved. The final [V3 proposal](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/README.md) and [independent source review](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_VERIFIER_SOURCE_REVIEW_V3.json) retain weights_only=True and restrict the additional Path decoder to the accepted dictionary at one contract field. Eleven local fixtures pass; no V3 B action occurred.
+
+Because the monitoring instruction fixes an exact NumPyRNG+TorchVersion list, one [specific exception question](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/HUMAN_EXCEPTION_REQUEST_PENDING_V1.json) was sent at approximately 12:44 UTC and is unanswered at this snapshot. No marker/staging/execution, native stop or successor admission is permitted while pending. Do not repeat the question or infer approval from time. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs this gate; [publication validation](../research/campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_CONTROL_INTEGRITY_PATH_GATE.json) binds the new evidence. No child quality/gain endpoint exists.
+
+---
+
+## 20 October12:21UTC — safe loader rejects canonical saved Path
+
+[CONTROL verifier V2](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_verification_v2/README.md) exited1 at training_state loading under weights_only=True: unsupported PosixPath. Canonical source stores representation_cache as Path in contract.options; no corruption or quality conclusion follows. Native CONTROL is unchanged/completed/exited, full state/counter/RNG acceptance pending. V3 is a LOCAL proposal for one inert exact-path constructor; it technically extends the exact baseline allowlist and cannot run without a specific exception. Failed supports/source/receipts remain preserved; no scientific successor has been admitted.
+
+## 20 October09:13UTC — CONTROL integrity checker metadata repair
+
+[The actual first CPU verifier](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_verification_v1/README.md) failed on an expected launch field absent from the exact original receipt; the separate pinned root acceptance binds the body. Native CONTROL training remains completed/exited0/44,760updates and unchanged. No full integrity acceptance, exact stop or next-arm admission has occurred. A narrow versioned receipt-schema repair is being prepared, preserving full checks, caps and failed evidence; no quality endpoint/gain.
+
+## 20 October08:54UTC — CONTROL native completion, integrity gate pending
+
+[Exact CONTROL native capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_native_capture_v1/README.md) establishes exit0 at08:40:45UTC and six epochs/44,760updates/4,476batches/zero native skips/nonfinite. Independent metadata review passes; the preserved exited unit awaits actual restricted CPU model/state integrity acceptance and exact stop. One short fresh reviewed support admission is being bound to the actual native receipt; no support has yet run at this snapshot. Four remaining fixed arms remain unadmitted, no quality endpoint or gain exists. [Campaign continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes earlier running observations.
+
+## 20 October08:24UTC — CONTROL still active at bounded observation
+
+[The same exact CONTROL invocation was active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0824Z/README.md) at08:24:56UTC, one populated owned GPUworker/no new own or parent memoryevents. Five completed epoch records give cumulative37,300updates/3,730batches/zero skips/nonfinite0. Later ep5batch300 is not a synchronous current total, actual native terminal44,760 or quality. All run tensors remain stat-only; existing reviewed checker remains local/unadmitted. Next is actual typed native exit0 capture and fresh cappedCPU integrity admission, not a new preparation cycle or changing checkpoint read. No newfit/support/restart/stop/grade; completed stages remain untouched.
+
+## 20 October07:25UTC — rare bounded CONTROL observation
+
+[The same CONTROL invocation was active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0724Z/README.md) at07:25:01UTC, one populated owned GPU worker/no new own or parent memoryevents. Three completed epoch records report cumulative22,380updates/2,238batches/zero skips/nonfinite0; later ep3batch280 is not synchronous current progress, terminal44,760 or quality. Run checkpoint/state/provenance files remain stat-only. The already reviewed terminal checker is unchanged/local only, gated on actual typed native exit0 and a fresh cappedCPU admission. No replay/newfit/support/restart/stop/grade; completed parent/profile/prerequisites remain untouched.
+
+## 20 October06:15UTC — bounded full CONTROL progress
+
+[Same CONTROL invocation active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0614Z/README.md), one owned GPU worker/no new own or parent memoryevents. Completed native epoch0 records7,460updates/746batches/zero skips/nonfinite0; later recorded epoch1batch320 is not a synchronous current total, terminal44,760 or quality endpoint. Changing tensorfiles remain stat-only; no restart/stop/newjob/grade. Existing parent/profile/completed prerequisite stages remain accepted/exact-stopped and must not be polled or replayed.
+
+[The needed CONTROL terminal checker](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/README_CHILD_CONTROL_TERMINAL_CHECK_V1.md) is now locally prepared, [independently source-reviewed](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_SOURCE_REVIEW_V1.json), and [root-bound](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_ROOT_PREPARATION_V1.json). It has not been staged/admitted/executed on B. Final code validates the child-specific six-epoch model/loader/dictionary/parent/cache contract and exact terminal OneCycle LR/beta1; focused synthetic checks and isolated four-file/29-module imports passed. This is preparation, with no actual terminal, current payload read, quality result or new fit.
+
+## 20 October05:33UTC — first full CONTROL GRU fit actually launched
+
+[Startup05:35UTC](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/startup_health_v1/README.md) observes the same active invocation and sole owned GPU worker, zero new own/parent memory events; recorded ep0batch0 is not a verified update total or quality score.
+
+[CONTROL launch](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/README.md) binds unit`computer-vision-homework-fg19-child-control-fit-v1.service`/invocation`e66e0d0703314e4fb5d47dcdbfcaf202`,05:33:09UTC/PID96892 at launch. Parent and all-three shape profile are accepted/exact-stopped; fresh gates passed for six fixed CONTROL epochs from shared parent. One GPU/firstF0seed1001, no queue; expected44,760updates are not observed completion. Child1started/0completed; no comparative quality score or gain exists yet. See current campaign continuation for exact scope and next integrity gates.
+
+## 20 October05:28UTC — child shape profile accepted and exact-stopped
+
+The [all-three child shape profile](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/README.md) passed60 finite updates and exact parent/zero-extension/normalization checks, with no checkpoint or quality score. Actual profile exit0/capture/acceptance precede exact stop05:27:44UTC; no owned campaign worker remains at that stop snapshot. First full CONTROL admission is next; children0/5 at this snapshot. Parent and completed profiles/verifiers must not be polled/replayed.
+
+## 20 October05:20UTC — child shape profile actually launched
+
+The shared parent is accepted and exact-stopped. The [all-three child shape profile](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/README.md) is now launched as invocation `1d62c3fb47ac4bd5be8e8ec8fe6759cd`; terminal evidence is pending. This is a bounded60-update engineering profile, zero scientific fits and no quality score. Next is first full control after actual profile acceptance/exact stop; children0/5 remain unadmitted.
+
 # Current project state
+
+**20 October05:00UTC full-GRU parent accepted:** [Full verification and exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) close29,840updates/next_epoch4/fixed3/finiteFP32model+AdamW/loader/RNG/source167/cache/clean ancestry. Two checker expectation failures were preserved and corrected in versioned support, without native replay. Child common-shape profile next; five full child arms and predictive quality are pending.
+
+**20 October04:41UTC full-GRU integrity repair:** [Actual bounded RNG diagnostic](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) confirms saved CUDA RNG uint8[16]/Torch2.14.0+cu130, incompatible with verifierV1’s >=1024 guard. Native parent completed29,840updates unchanged; failed support preserved, new exact-schema verifierV2 pending. No child fit or quality endpoint.
+
+**20 October04:09UTC full-GRU native capture:** [Shared parent completed](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) at03:38:02UTC, explicit native exit0 and four epoch records/29,840updates/2,984batches/zero skips/nonfinite/source167. Checkpoint/state integrity verification remains pending before acceptance and five child stages; no quality endpoint.
+
+**20 October03:10UTC full-GRU dated health:** [Same parent invocation active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/health_20261020T0309Z/README.md), native epochs0/1 report14,920cumulative updates/1,492batches/zero skips/nonfinite in those completed records; latest line epoch2batch680/746. One owned GPU worker/no new memoryevents. No synchronous current total, terminal, quality endpoint or new admission; prepared checker remains unused.
+
+**20 October02:10UTC full-GRU dated health:** [Same parent invocation5186b301 active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/health_20261020T0209Z/README.md), last recorded epoch0batch720/746, one owned GPU worker and no new own/parent memoryevents. This is training progress, not terminal completion or a quality score. No restart/stop/new job; [Focused local terminal checker and source review](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_ROOT_PREPARATION_V1.json) are prepared; nine synthetic checks and cold imports pass. No B-side verifier admission or actual checkpoint/terminal verification has occurred.
+
+**20 October01:31UTC full-GRU dependency:** [Shared H256×2 parent fit actually running](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md), invocation5186b301/source68ff/seed1001/4fixedepochs/AdamW on the approved oneGPU. Canonical parent profile passed60finite updates and exact-stopped; all six teacher exports and cache are accepted. One new scientific fit started;29,840updates expected, no completed parent/child quality endpoint yet. FirstF0cell remains bounded, with no unrelated Oct20/provider allocation or automatic150fits.
+
+**20 October01:13UTC full-GRU dependency:** [All six teacher prediction exports and the shared cache are accepted/exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md). CPU V2 source68ff independently checked six input hashes/header/FP32/finiteness/alignment and built meanT3×.8125 once, under unchanged .5CPU/1.5GB/600s. Failed V1 provenance guard and its narrow source repair are preserved; no fit/inference replay. Parent shape profile is next; parent+five children have no quality endpoint yet.
+
+**20 October00:01UTC full-GRU dependency:** [S4 train and fit-valid predictions completed and exact-stopped; S5 train export actually running](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md), invocation9d2b2c9328f241bf896fd1ca75a3421b/source88becca167/ownS5normalizer/oneGPU. Four S3/S4 fitting exports are accepted; remaining S5valid/commoncache/parent/fivechild endpoints are pending. Zero new scientific fits or quality scores from inference exports; payload finite/header/hash validation remains required in streamed CPU cache.
+
+**19 October23:08UTC full-GRU dependency:** [BothS3fittingpredictionpartscompleted; S4trainexportrunning](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md),recorded672/10535/oneownedGPUworker/no newmemoryevents. Source88becca167/S4epoch2/ownnormalizer. Commoncache/parent/fivefinalGRUarmsnotyetcompleted/noqualityscore.
+
+**19 October22:53UTC full-GRU dependency:** [First S3fitting-train export completed/captured/accepted/exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_train_export_v1/README.md):10535sequences/659batches/exit0, source-qualifiedFP32/norm/membership/producerSHA; arrayfinitecheck stillrequiredinstreamedcacheconsumer. S3fit-validisnext, no finalGRUarmqualityyet.
+
+**19 October22:26:55UTC human-requested status:** [Same S3 fitting-train export active](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_train_export_v1/health_20261019T2226Z/README.md), recorded5712/10535sequences, oneownedGPUworker/zero new memoryevents. No terminal/cache/five-armquality result.
+
+**19 October22:12UTC full-GRU dependency:** [S3 fitting-train inference export actually launched](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_train_export_v1/README.md), exact invocation48732136d70548b2903f3426bfedf656 on source88becca/one owned GPU. Allthree teachers and full-shape inference profile are accepted/stopped. Sharedtarget cache and six parent/child scientific fits follow; no five-arm quality result yet.
+
+
+**19 October21:58UTC full-GRU dependency:** [Full-shape teacher inference profile passed and exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_profile_v1/README.md):16×20k/640,000finiteFP32mainoutputs, CUDA0.901GBallocated/1.141GBreserved; no weight update/prediction cache/quality score. Source88becca/167files published; allthree teachers accepted. First S3 fitting export is the next gated stage under the same one-GPU authority.
+
+
+**19 October21:39UTC full-GRU stream:** [All three clean H384×2 teachers accepted and exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md), each22,380finiteFP32updates/3epochs/0skips/nonfinite. Five student arms have no quality endpoint yet. Next dependency is one fit-only strictFP32 teacher cache, mean×0.8125 once; a narrow canonical producer extension/inference profile is in progress, not a new teacher fit or separate October20 allocation.
+
+
+## Latest steering — October 19: fast screens and large B300 teachers
+
+The user replaces mandatory30-per-arm experiment matrices for FUTURE drafts
+with **4–6 total new fits per initial idea comparison**, normally2–3 matched
+two-arm cells. Count cached controls and teacher/student stages explicitly;
+retain historical frozen panels and expose small-screen uncertainty. The new
+strategic priority is a large causal Transformer teacher on8 B300s, followed by
+GRU distillation. See [ADR0043](adr/0043-fast-screens-and-transformer-teacher-scale.md)
+and the [detailed design](../research/unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md).
+The design proposes0.68B/1.65B capacity recipes, optional3.17B extension, strict
+FP32 Muon, WSD, profiled DDP and causal dynamics objectives. It supplies no
+new runnable DDP trainer, B300 reservation, fit or quality claim. Preserve the
+local/Kaggle plan below and its start/allocation; do not restart stopped jobs.
+
+Root local/Kaggle preparation remains tracked in the [accepted plan](plans/2026-10-20-plateau-review-local-kaggle.md) and its frontier, with the existing October20 start and15h budget. The parallel research-team stream retains its separately dated actual progress below.
+
+**19 October20:32UTC routine full-GRU health:** [S5 remains active](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s5_v1/health_20261019T203227Z/README.md), native epoch0 logs7,460updates/373batches/0skips/nonfinite0 before recordedep1batch180/373. One ownedGPUworker/unchangedmemoryevents; provenance/state nowstat-only present. No terminal verification or quality result; this supersedes only progress freshness below.
+
+**19 October19:46UTC fitting confirmation:** [S5 continues under its original invocation](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s5_v1/startup_health_v2/README.md), recordedepoch0batch20/373 with one owned GPUprocess3,732MiB and own/parent memoryeventdeltas0. This supersedes the initial54-second startup freshness below; no terminal counters or quality result.
+
+**19 October19:41UTC independent full-GRU stream:** [S4 is accepted and exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s4_v1/README.md):22,380updates/1,119batches/0skips/nonfinite, finiteFP32 model/Muon/Adam/loader/RNG/source164. [S5 launched](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s5_v1/README.md)19:41:03UTC on the same selected A4000/source/recipe except seed/name; initial54-second startup has one owned populated process but no recorded optimizer progress yet. No GRU-tweak quality result. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) records current authority; parallel prospective policy and October20 plans above remain preserved.
+
+**19 October18:34UTC bounded health:** [Same S4 teacher remains active](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s4_v1/health_20261019T183406Z/README.md). Native epoch0 records7,460successful updates/373batches/0skips/nonfinite0; last recorded line is epoch1batch100/373. One owned GPUworker and own/parent newmemoryevents0. Metadata/state paths now exist, model/history pending; no tensor payload read, terminal acceptance or quality result. This supersedes only health freshness in the17:52 snapshot below.
+
+**19 October17:52UTC strong-GRU progress:** [First teacher S3 is completed, verified and exact-stopped](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_v1/TERMINAL_ACCEPTANCE.json):22,380updates/1,119batches/0skips/nonfinite, finiteFP32 model/Muon/Adam/loader/RNG and164source files. [Independent actual review](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/ACTUAL_TERMINAL_REVIEW.json) passes. The initial restricted-loader `TorchVersion` metadata failure was corrected in a separate same-cap CPU verifier; no training replay. [Second teacher S4 is running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s4_v1/README.md), launched17:50:37UTC with only seed/name changed; startup shows one owned GPUworker and no new memory events. Three-teacher cache, shared warm parent and five final arms still follow serially. No tweak/control quality result or public-transfer claim yet; [current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes dated states below.
 
 **19 October15:36UTC actual strong-GRU execution:** [First clean H384x2 teacher](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_v1/README.md) launched15:35:05UTC, invocation02a8c00b433b49a185c2700624397769, one GPU on an available identical A4000. [Full-shape profile](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_profile_v3/README.md) passed120finiteFP32Muon updates; [single-worker reallocation](../research/campaign_2026-10-19/full_gru_tweaks_r1/GPU_REALLOCATION_20261019T1525Z.json) resolved the crowded-card headroom issue without touching foreign jobs. Prerequisites accepted; teacher terminal/control/tweak scores still pending.
 

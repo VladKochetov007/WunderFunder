@@ -1,0 +1,174 @@
+{
+  "schema": "fg19.teacher-cache-profile-actual-review.v1",
+  "status": "PASS_ACTUAL_PROFILE_METADATA_RECONCILIATION",
+  "reviewed_utc": "2026-10-19 22:01:39 UTC",
+  "scope": "Independent local metadata audit of the native profile launch, durable capture, root acceptance, and exact-stop records. No SSH, tests, profile rerun, prediction-array reads, or model/checkpoint payload reads.",
+  "identity": {
+    "run": "fg19_t3_h384x2_e3_s3_v1",
+    "epoch": 2,
+    "unit": "computer-vision-homework-fg19-teacher-cache-profile-v1.service",
+    "invocation_id": "983d65b923c54f05a25aa98d61e0bb1d",
+    "source_commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "source_manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97",
+    "source_files": 167,
+    "runtime_source_hashes_verified_against_manifest": 18,
+    "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9"
+  },
+  "event_order": {
+    "native_launch_utc": "2026-10-19T21:57:10.582485+00:00",
+    "unit_exit_utc": "Mon 2026-10-19 21:57:19 UTC",
+    "capture_utc": "2026-10-19T21:57:53.938496+00:00",
+    "root_acceptance_utc": "2026-10-19T21:58:45.541934+00:00",
+    "exact_stop_utc": "2026-10-19T21:58:46.298402+00:00",
+    "return_codes": {
+      "native_transport": 0,
+      "capture": 0,
+      "exact_stop": 0,
+      "unit_exec_main_status": "0",
+      "unit_result": "success"
+    },
+    "exact_stop": {
+      "same_invocation_before_stop": true,
+      "stop_command_returncode": 0,
+      "after_load_state": "not-found",
+      "after_active_state": "inactive",
+      "after_sub_state": "dead"
+    }
+  },
+  "receipt_hashes": {
+    "native_stdout_raw_sha256": "82a39d3c6d33a59c94a0e6a9810a4e50444d475069db12edf61c066324df9232",
+    "native_transport_json_sha256": "d9004629f8415a2b0e6a2b5e9529b51adf7a4ca172308a27a55a65a380a980db",
+    "capture_stdout_raw_sha256": "6037c6129798358ba3546a5ea120c8c5916be34288f8dfc8e915216d44f2cd61",
+    "capture_transport_json_sha256": "dfea7d35078bb67a4d12cdafca0daf7df4deea99fd37540bac3c5fa1ec6ca4e4",
+    "profile_json_sha256": "2bed70f766b94bab23baaad7fde320ab80ce04d60521b62cc92a41188025f570",
+    "root_acceptance_sha256": "956e14754c45861665a24619e9a752cd93fb8efaa084e5bb00021b5e5f33c3cd",
+    "exact_stop_stdout_raw_sha256": "acf46cea39494e728af2651656d9a0771650102298e6f49614e2467e9c6e3a75",
+    "exact_stop_transport_json_sha256": "37eea1d9af3f29b49f39b85084c3c82c7ba2392bc41bf636d340feeab65f17b6"
+  },
+  "profile_result": {
+    "root_acceptance_status": "ACCEPTED",
+    "profile_status": "PASS",
+    "record_type": "PROFILE",
+    "shape": [
+      16,
+      20000,
+      2
+    ],
+    "rows": 320000,
+    "output_width": 2,
+    "dtype": "float32",
+    "finite_output_count": 640000,
+    "prediction_finite": true,
+    "row_groups": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16
+    ],
+    "selector": "first_16_fit_train_manifest_order",
+    "profile_contract": {
+      "batch_size": 16,
+      "chunk_size": 4000,
+      "sequence_length": 20000,
+      "raw_input_width": 112,
+      "model_input_width": 211,
+      "hidden_width": 384,
+      "layers": 2,
+      "strict_fp32": true,
+      "matmul_tf32": false,
+      "cudnn_tf32": false,
+      "autocast_enabled": false,
+      "torch_threads": 1
+    },
+    "normalization_identity": {
+      "mean": {
+        "shape": [
+          211
+        ],
+        "dtype": "torch.float32",
+        "bytes_sha256": "4e0144fb210b08c72ca8b5fde0ad04b2fefb483ca769806e375841ea061b7d04"
+      },
+      "std": {
+        "shape": [
+          211
+        ],
+        "dtype": "torch.float32",
+        "bytes_sha256": "2ba319907f05cc8f388264e5190635feb42a84a87f5c0be7e2f8373318937696"
+      },
+      "root_acceptance_matches_stored_s3_native_logs": true
+    },
+    "telemetry": {
+      "prediction_min": -2.3456966876983643,
+      "prediction_max": 2.081367254257202,
+      "prediction_mean": -0.3913739846166951,
+      "profile_elapsed_seconds": 3.8326193999964744
+    }
+  },
+  "resource_observations": {
+    "cuda": {
+      "device": "NVIDIA RTX A4000",
+      "total_bytes": 16749428736,
+      "free_before_bytes": 9408872448,
+      "peak_allocated_bytes": 901167616,
+      "peak_reserved_bytes": 1140850688
+    },
+    "process_rss_peak_bytes": 2232668160,
+    "native_service_wall_seconds": 9.033604,
+    "native_service_cpu_seconds": 7.047671,
+    "systemd_memory_peak_bytes": 2031616,
+    "interpretation": "CUDA allocator, process RSS, native service wall/CPU, and systemd MemoryPeak are separate recorded scopes. The MemoryPeak field is not full runtime RAM; no cause is inferred.",
+    "admission_envelope": {
+      "cpu_quota": "100% (1 CPU)",
+      "memory_high_bytes": 7500000000,
+      "memory_max_bytes": 8000000000,
+      "swap_max_bytes": 0,
+      "runtime_max_seconds": 600,
+      "cuda_allocator_bytes": 4294967296,
+      "cuda_reserve_bytes": 1000000000,
+      "loader_workers": 0,
+      "torch_threads": 1
+    }
+  },
+  "parent_and_stop_state": {
+    "populated_at_capture": {},
+    "populated_after_exact_stop": {},
+    "parent_memory_current_capture_and_stop_bytes": 3728056320,
+    "parent_memory_events_capture_and_stop": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "parent_memory_events_local_capture_and_stop": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "no_change_between_capture_and_exact_stop": true
+  },
+  "persisted_output_inventory": {
+    "captured_files": [
+      "PROFILE.json",
+      "ADMISSION.json",
+      "LAUNCH.json",
+      "unit.log"
+    ],
+    "profile_payload_verified_against_capture_base64": true,
+    "prediction_arrays_written": false,
+    "checkpoint_written": false,
+    "model_update_or_grade": false
+  },
+  "audit_limits": [
+    "The row-group sequence and fixed first-16 selector are reconciled from the accepted profile receipt and previously reviewed source; this review did not independently load the split file.",
+    "The normalization comparison is recorded as true in root acceptance; this reviewer checked the accepted profile's 211-wide FP32 byte digests but did not load model or normalizer payloads.",
+    "No quality, grading, training, or scientific conclusion follows from this engineering profile."
+  ],
+  "documentation": {
+    "records_readme": "records/teacher_cache_profile_v1/README.md",
+    "review_json": "preparation/TEACHER_CACHE_PROFILE_ACTUAL_REVIEW.json"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "body_sha256": "bf58d70ea0b0d0db8840ad7b9ba334ee25a7ac41cb304caf75049c683d5bdb6b",
+  "checks": [
+    {
+      "command": ".venv/bin/ruff format --check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_cache_s5_train_export_v1_draft/REMOTE_SUBMISSION_TEMPLATE.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_cache_s5_train_export_v1_draft/REMOTE_SUBMISSION.py",
+      "result": "PASS: 2 files already formatted"
+    },
+    {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_cache_s5_train_export_v1_draft/REMOTE_SUBMISSION_TEMPLATE.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_cache_s5_train_export_v1_draft/REMOTE_SUBMISSION.py",
+      "result": "PASS: All checks passed"
+    },
+    {
+      "check": "AST parse and AST parity after replacing only PAYLOAD assignment",
+      "result": "PASS: rendered body code matches template code; syntax valid; no bytecode written"
+    },
+    {
+      "check": "Identity, selection, and fail-closed pending S4-valid gate invariants",
+      "result": "PASS: selected S5 epoch-2 contract entry, source/shape/output/unit pins, and main short-circuit before gate compilation verified"
+    },
+    {
+      "check": "Embedded receipt byte comparison against local campaign records",
+      "result": "PASS: S3 train/valid + S4 train + profile acceptance/exact-stop JSON (8 files) and three native teacher acceptances matched byte-for-byte/SHA-256"
+    }
+  ],
+  "remote_admission": "Not performed; root owns binding, review, preflight, and the only launch.",
+  "s4_valid_binding": {
+    "acceptance_sha256": "PENDING_ROOT_CAPTURE",
+    "exact_stop_sha256": "PENDING_ROOT_EXACT_STOP",
+    "fail_closed_marker": "__PENDING_ROOT_S4_VALID_ACCEPTANCE_AND_STOP_BINDING__"
+  },
+  "schema": "fg19.teacher-s5-fit-train-export-local-checks.v1",
+  "scope": "Local adapter preparation only. No SSH, remote command, prediction array, model load, training data read, install, or source/model test was performed.",
+  "source": {
+    "commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "file_count": 167,
+    "manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97"
+  },
+  "template_sha256": "8a77b0138d9c9bc12d821f5ce6413f12dc18c870b613e938032f0ad3636bd0ce"
+}

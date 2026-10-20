@@ -1,0 +1,69 @@
+{
+  "schema": "fg19-child-ema-fit-launch-acceptance.v1",
+  "status": "ACCEPTED_ACTUAL_ONE_LAUNCH_ONLY",
+  "created_utc": "2026-10-20T13:05:34.623179+00:00",
+  "run_name": "fg19_child_ema_f0_s1001_fit_v1",
+  "unit": "computer-vision-homework-fg19-child-ema-fit-v1.service",
+  "invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+  "main_pid_at_launch": 730727,
+  "dated_launch_utc": "2026-10-20T13:04:16.910037+00:00",
+  "systemctl_at_launch": {
+    "MainPID": "730727",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_child_ema_f0_s1001_fit_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode ema --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective wmse --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --grad-stats --save-training-state --no-eval-during-fit ; ignore_errors=no ; start_time=[Tue 2026-10-20 13:04:16 UTC] ; stop_time=[n/a] ; pid=730727 ; code=(null) ; status=0/0 }",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service",
+    "ActiveState": "active",
+    "SubState": "running",
+    "InvocationID": "da5baf82d22b4f02890e184193b8caf7"
+  },
+  "body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/REMOTE_SUBMISSION.py",
+    "bytes": 163040,
+    "sha256": "f83ac3120a2e445f1752fcd026123a0e8a21ba53594d27b398462a5236ffebd6"
+  },
+  "source_review": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_EMA_FIT_SOURCE_REVIEW_V1.json",
+    "bytes": 8000,
+    "sha256": "3d2f78b0c8902c1a43748a237310ae6a31277e60fa9c18c13a5d162c13722138"
+  },
+  "admission": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/ADMISSION.json",
+    "bytes": 9880,
+    "sha256": "db13e5433cb0a414c1a235806220c53db4ded6c128fc5ffbda5e465dde9fde51"
+  },
+  "launch": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/LAUNCH.json",
+    "bytes": 7404,
+    "sha256": "8c43f6fb26d3f6a046304617094e266a3e1940c83a7ea56787781fa176ef133e"
+  },
+  "raw_stdout": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/STDOUT.launch.raw.json",
+    "bytes": 23090,
+    "sha256": "37454887ca556b23af4b7fb6372d13ab5d7f3ad8c0bfc9fd885a2d06a931b66e"
+  },
+  "raw_stderr": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/STDERR.launch.raw",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "transport": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/TRANSPORT.launch.json",
+    "bytes": 483,
+    "sha256": "45710d962cae924fbbb148b00b4e58e11c7906a862ee2b8b68c3ec9cf490bfa6"
+  },
+  "control_predecessor": {
+    "acceptance_sha256": "92aaf5eeed156aaad25c4adbb6700d41b0527600b520dd051657a43a50bbb6d2",
+    "exact_stop_sha256": "600cb3c4a56c7d0731ed2bf6174d47f5b09623c7ca22a7e5fce77d4d358ae012",
+    "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "run_name": "fg19_child_control_f0_s1001_fit_v1",
+    "status": "ACCEPTED_AND_EXACT_STOPPED",
+    "unit": "computer-vision-homework-fg19-child-control-fit-v1.service"
+  },
+  "scientific_fits_started": 1,
+  "epochs_expected_not_completed": 6,
+  "updates_expected_not_completed": 44760,
+  "children_integrity_accepted": 1,
+  "children_currently_started_not_completed": 1,
+  "remaining_children_unadmitted": 3,
+  "quality_score": null,
+  "limits": "One actual launch and fresh gate metadata, not observed update counts, terminal integrity or predictive quality. Local extractor schema errors were corrected from stored bytes only; no SSH/admission replay."
+}

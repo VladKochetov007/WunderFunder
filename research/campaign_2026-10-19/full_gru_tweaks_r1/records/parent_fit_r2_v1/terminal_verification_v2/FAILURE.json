@@ -1,0 +1,17 @@
+{
+  "schema": "fg19.parent-verifier-v2-runtime-guard-failure.v1",
+  "status": "FAILED_VERIFIER_SOURCE_EXPECTATION_NOT_FIT_FAILURE",
+  "invocation_id": "c439756a99294d1381c3f32b1a4d98ea",
+  "raw_bytes": 23276,
+  "raw_sha256": "766b939262559d809fe9b011a708b0bb326026463fffa16cf832c33fe28131cd",
+  "checker_sha256": "5721ade20549e95927da268679c9da7ef092b084c49c28c195017fc20a6dcf22",
+  "error": "runtime cuDNN deterministic mode differs",
+  "source_proof": {
+    "path": "src/wnn/resources.py",
+    "sha256": "95fdc839ff1561622ac06c465cfc9a01370130d99be1e832b3a33c79bcb37930",
+    "scope": "configure_torch sets cudnn.deterministic=True when CUDA is available; native GPU fit calls this canonical function. CLI deterministicFalse does not override that function."
+  },
+  "limits": "Actual failing saved value is not separately emitted by V2; new checker must strictly verify True as required by source. V2 reached this guard after RNG checks, but produced no complete verification receipt or acceptance.",
+  "preserve_native_and_failed_units": true,
+  "next": "Separate narrow V3 expectedTrue source-qualified guard and fresh CPU admission, same caps and remaining checks. No training or source mutation."
+}

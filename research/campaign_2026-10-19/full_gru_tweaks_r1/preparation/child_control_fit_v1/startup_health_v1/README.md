@@ -1,0 +1,7 @@
+# CONTROL startup observer preparation
+
+`REMOTE.py` is an unexecuted, one-shot read-only observer for the exact `computer-vision-homework-fg19-child-control-fit-v1.service` invocation `e66e0d0703314e4fb5d47dcdbfcaf202` and run `fg19_child_control_f0_s1001_fit_v1`. It rejects an invocation mismatch before collecting other observations. It captures bounded `ADMISSION.json`, `LAUNCH.json`, and `unit.log` bytes from the private evidence directory, current unit properties, own cgroup and RSS, the campaign parent cgroup's populated descendants and current/events counters, selected GPU process PID/UID/cgroup ownership, and the run directory using stat metadata only.
+
+It queries only the exact CONTROL unit and `wnn-campaign.slice`; it does not poll predecessor units, read/hash model or data payloads, change units, retry, or accept the fit. Receipt reads are capped at 1 MB each and 4 MB total; cgroup scans are bounded to 128 entries and 32 KiB per process list; run-directory inventory is capped at 128 entries. The prior unbound draft is preserved as [REMOTE_PREBIND_DRAFT.py](REMOTE_PREBIND_DRAFT.py) (SHA-256 `76a7de64e2fcabd8086f5bd9fba2bb364857d4f25b1f3b68d8972e003db833e7`) and was not executed.
+
+This is a local preparation file. Root owns the single SSH invocation, raw transport preservation, and interpretation after launch. Syntax and Ruff checks are recorded in [LOCAL_CHECKS.json](LOCAL_CHECKS.json); the updated observer was not executed locally because execution queries the remote unit.

@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "status": "integrated_static_review_complete_prefit_checks_pending",
+  "recorded_utc": "2026-10-18T22:59:07Z",
+  "actor_commit": "3c1936161e72970967c66a7ae54a69c9638f564b",
+  "main_commit": "0cc795070ab4fdebb31067737927075388288ee5",
+  "source_hash_scope": "Changed implementation files only; complete execution source/environment seal remains a prefit gate.",
+  "files_sha256": {
+    "scripts/diag_struct.py": "cfe894f224108b31c189970fc1a48fbede752ac9ecc711edbb275059a906edb1",
+    "scripts/eval_run.py": "86526f4fe2c8dae49ba3c39dd1426aa8688787621b70851702b1ea602aa91465",
+    "scripts/feature_predict.py": "885bd5f6b5428ce64eaa0bb547e2c5e2c7cdbff2c2897e81c5d752d15cfc0e1b",
+    "scripts/predict_aux_sign.py": "886043659d58f5a070503348d21aa0bfafa574498cc32cc17c0932a1477a8401",
+    "scripts/predict_student_frontier_f0_frozen.py": "c751a9c8dc36a165bd40b9db2d59b7bc51f6ce702aed60c2045e040575b535f4",
+    "src/wnn/i1_history.py": "ab6c6589afc0c7177b329ac61b5021c39abf4d65720f1dda3473d4ca20427a73",
+    "src/wnn/i1_history_scan.py": "91ecb083c7e02a40b61423ea8be623daf1a5170952185a88f326dca6c3ad9d72",
+    "src/wnn/i1_history_streaming.py": "7a7af114dd32278da77c60bc51c6082f735b91b6ac60a547bd800c18db711b9b",
+    "src/wnn/nn.py": "d799e6b879cf7d6c355c17da4a2a5e3e82e449bc842eefe49e552a4f96cd204b",
+    "src/wnn/research_features.py": "c8c20d12ab3b7d502a9b49593c335459f7b32189decc1e075d05d75118dfb594",
+    "src/wnn/training/README.md": "f6c2c17e60b341b7ada71ef45e4a09c83f19b10c70c860ad201c6f889533d6ae",
+    "src/wnn/training/cli_features.py": "5085d724650b563268ef60c28995249f3655b9b07173cdda9b97c740926d9592",
+    "src/wnn/training/i1_inputs.py": "27c7e569ca1449340189c92a06104ac3cb94624a601c89d3be7d20bab2ab0631",
+    "src/wnn/training/inheritance.py": "1085b4a98c3d8f1c4de0e5ba9dba0e4427f409dc79f052b11d84b0ad59c8b62a",
+    "src/wnn/training/inputs.py": "6eb5eb25ed39c2631b0298ee8d3e3ae46c626f6d0b0a4b839e2f7c9fe9566747",
+    "src/wnn/training/models.py": "9253b184f06c56b197935196cc40759a6ec23469addb116c1cd05ff7b2637bfd",
+    "src/wnn/training/setup_model.py": "4c0eff71d4e2e6e27fe310cddd1b409b0fcdf41e639410ee1f422f0ae42d6aa9",
+    "src/wnn/training/setup_preprocessing.py": "8e33eb3ae742958050c3e8ee7fdf4d8c9e6390cef56a3a2dbe9483e5a5b84b0c",
+    "src/wnn/training/source_identity.py": "d1f3eacb0dc90d0449f6c6d06bd14d295ddc0f51f93c32c4bd9eae670781e762",
+    "src/wnn/training/validation_inputs.py": "eafb7f4145cdd14ab5110376f12298e68978944eb42c0dc0327e882c426dae7c"
+  },
+  "actor": {
+    "role": "plateau_i1_inputs_actor",
+    "model": "gpt-6-luna",
+    "effort": "max"
+  },
+  "independent_critic": {
+    "role": "review_direction_audit",
+    "model": "gpt-6-luna",
+    "effort": "max",
+    "scope": "read-only source review",
+    "finding": "No concrete blocker for first A/B/C path by static inspection."
+  },
+  "review": "research/unified/reviews/PLATEAU_I1_IMPLEMENTATION_REVIEW_20261019_R1.md",
+  "static_checks": {
+    "ruff_format": "19 changed Python files unchanged after integration",
+    "ruff_check": "passed on 19 changed Python files",
+    "training_structure": {
+      "files": 61,
+      "errors": 0,
+      "max_module_lines": 300,
+      "max_function_lines": 200
+    },
+    "root_wrapper": {
+      "memory_max_bytes": 1000000000,
+      "cpu_quota": "100%",
+      "swap_bytes": 0,
+      "environment": "uv run --no-sync through scripts/limited"
+    }
+  },
+  "execution": {
+    "tests_run": false,
+    "profiles_run": false,
+    "fits_run": false,
+    "predictions_run": false,
+    "gpu_seconds": 0
+  },
+  "open_gates": [
+    "bounded full/chunk/streaming numerical comparison",
+    "prefix and sequence-reset checks",
+    "post-normalization zero-influence checks",
+    "checkpoint/prior/mask prediction restoration",
+    "actual-shape aggregate RAM/VRAM resource profile",
+    "complete source/data/environment seal and budget admission"
+  ],
+  "serving": "Python research path only; native/ONNX StreamingGraph unavailable for i1_history",
+  "command_source_review": {
+    "reviewer": "review_direction_audit",
+    "scope": "read-only source, argv, file metadata and shape accounting; no payload read or execution",
+    "finding": "No invalid flags or output-path mismatch; 4620 optimizer attempts and fixed model_ep2.pt agree with the implementation.",
+    "mask_basis": "cache is_scored intersected with row>=99, equivalent under documented need_prediction warmup contract",
+    "estimated_scoring_working_set_bytes_upper": 1000000000,
+    "memory_estimate_is_measured": false,
+    "separate_profile_required": true,
+    "source_sha256": {
+      "scripts/train_rnn.py": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+      "scripts/predict_run.py": "9383dc2bdd9fd0fff6049f0ea7bb5ed6d01bf1fcb65c0b2bb4ea41eee00f81fd",
+      "scripts/score_run.py": "4743629d43306cdfa2a09da526410d3e1d2c20463a814d0f4efa837e76e44ebc",
+      "scripts/grade_prediction_bank.py": "fb7a85a5837f61fa6c65cd10a799768006067e87d4c18e92d4b813ba83b9d82e",
+      "scripts/cache_targets.py": "1e89c3e5a6397ac3f8d8e4cedb632c86ee769212a726d02618b8e069afdd02cd",
+      "scripts/kaggle_sequence.py": "4d658bb757d3a62ae91f6999b3219005ccba4b257f14dde2ed32538ec0fefb11",
+      "docs/data_overview.md": "c6d1e2c5ae25717362a993fab52e0af05c1f7f85e2d58dfe572dbfb2d9fdd1cc"
+    },
+    "plans_sha256": {
+      "research/campaign_2026-10-20/plateau_review_r1/recipes/local_a.json": "aa9ce0adb655cf7271d0616a60be1404d122afccfb3bfd0028cc33111eb00586",
+      "research/campaign_2026-10-20/plateau_review_r1/recipes/local_b.json": "33a992731f3f2e6698c0a1d4310ac66a5f3d88345965aeca119c086fceacc6d1",
+      "research/campaign_2026-10-20/plateau_review_r1/recipes/local_c.json": "9faf6ecff85a4a4bdc9b00afa0870586a4edd3088d7fcd67bc0fa29655eb1cda"
+    }
+  }
+}

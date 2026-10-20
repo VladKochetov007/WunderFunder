@@ -1,0 +1,129 @@
+{
+  "bindings_pending": [
+    "fresh source/data/resource/output/cgroup/GPU preflight and the root-owned parent-profile launch remain pending"
+  ],
+  "cache": {
+    "execution_contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "expected_payload_files": [
+      "main_homogeneous_train.npy",
+      "main_homogeneous_valid.npy"
+    ],
+    "invocation_id": "a358e89cd6fe42118e426a954ee897f0",
+    "metadata_path": "metadata.json",
+    "metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+    "preflight": "metadata SHA/bounded JSON semantics and output stat only; no external array header/payload hash",
+    "root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1",
+    "terminal_unit": "computer-vision-homework-fg19-teacher-cache-cpu-build-v2.service"
+  },
+  "cache_binding": {
+    "acceptance_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research/full_gru_tweaks_r1/cache_cpu_v2/TERMINAL_ACCEPTANCE.json",
+    "acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "array_stat_only": {
+      "train": {
+        "bytes": 1685600128,
+        "device": 64512,
+        "inode": 739677840,
+        "mtime_ns": 1792458365441028881
+      },
+      "valid": {
+        "bytes": 224800128,
+        "device": 64512,
+        "inode": 739677841,
+        "mtime_ns": 1792458385154390137
+      }
+    },
+    "exact_stop_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research/full_gru_tweaks_r1/cache_cpu_v2/EXACT_STOP.json",
+    "exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "invocation_id": "a358e89cd6fe42118e426a954ee897f0",
+    "launch_blocked_until_all_fields_root_bound": false,
+    "metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+    "status": "ROOT_ACCEPTED_EXACT_STOPPED_CACHE_V2_BOUND",
+    "unit": "computer-vision-homework-fg19-teacher-cache-cpu-build-v2.service"
+  },
+  "local_artifacts": {
+    "checks": {
+      "path": "LOCAL_CHECKS.json",
+      "sha256": "a087717f83fedd9d1751f390554b380c9e70394950455c6f85c67bfb2ba229d8"
+    },
+    "cli": {
+      "path": "CLI.md",
+      "sha256": "783b3090234c080c898561f5002a96a625b7f2d1e4491fb55be5d21afadf0ff1"
+    },
+    "readme": {
+      "path": "README.md",
+      "sha256": "c09915c1bbc7d8e7866c0fa99392f93196eca75cf83164386f67304adce16908"
+    },
+    "rendered_body": {
+      "path": "REMOTE_SUBMISSION.py",
+      "sha256": "65fd9fb67f5c545709d44a2cbeddd604e371a58e6afcbfc257a768782f02966b"
+    },
+    "template": {
+      "path": "REMOTE_SUBMISSION_TEMPLATE.py",
+      "sha256": "ab82cb4a472a1d109072f9f7ed790f87b3d820218d784ce01e9b0d0fca0775f9"
+    }
+  },
+  "payload_reads": 0,
+  "profile_or_fit_run": false,
+  "profile_output": {
+    "absence_required_before_admission": true,
+    "checkpoint": false,
+    "evaluation": false,
+    "evidence_log": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_parent_profile_v1",
+    "new_scientific_fits": 0,
+    "quality_score": false,
+    "run_dir": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_parent_h256x2_f0_s1001_profile_r2_v1",
+    "run_name": "fg19_parent_h256x2_f0_s1001_profile_r2_v1",
+    "unit": "computer-vision-homework-fg19-parent-profile-v1.service"
+  },
+  "recipe": {
+    "architecture": "legacy 211-input/23-output GRU H256x2",
+    "normalizer": "two canonical fit-loader batches, B16/32 fitting sequences, transformed-row stride [::7], not a full 11,940-group pass",
+    "optimizer": "AdamW",
+    "optimizer_updates": 60,
+    "parent_adaptation": "4 epochs, fixed zero-based epoch 3",
+    "profile_batches": 6,
+    "rebuild_recipe_r2_sha256": "4a107af9189935f8f9732b0b2e6822e7883fbde2c44e00f5dda5eb73ae3abe39",
+    "run_name": "fg19_parent_h256x2_f0_s1001_profile_r2_v1",
+    "seed": 1001,
+    "student_recipe_binding_sha256": "81662d8391fdc327bfe52bb5684533056af71dd467342b1f1c2375d854335171",
+    "target": "producer-applied 0.8125 is consumed at scale 1; alpha 0.9; original label-magnitude main weighting",
+    "warmup_batches": 2
+  },
+  "remote_actions": 0,
+  "reused_gates": {
+    "checks": [
+      "registered data identity stats",
+      "2-CPU/18-GB/20-GB/no-swap parent cgroup and empty descendants",
+      "selected GPU UUID/free reserve/foreign process preservation"
+    ],
+    "path": "records/teacher_profile_v2/REMOTE_SUBMISSION.py",
+    "sha256": "65151d60f69edc66d935d323813965906cacd57cb843eb3d70746348f16775ce"
+  },
+  "runtime": {
+    "cuda_allocator_env": "WNN_GPU_MEMORY_BYTES=4294967296",
+    "gpu_min_free_bytes": 5294967296,
+    "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "loader_workers": 0,
+    "parent_cpu_quota": "2 CPU",
+    "parent_memory_admission_target_bytes": 17000000000,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "physical_scratch_min_free_bytes": 26843545600,
+    "runtime_max_seconds": 600,
+    "worker_cpu_quota": "100%",
+    "worker_memory_high_bytes": 7500000000,
+    "worker_memory_max_bytes": 8000000000,
+    "worker_swap_max_bytes": 0
+  },
+  "schema": "fg19.parent-profile-preparation.v2",
+  "scope": "Local bounded parent-profile admission preparation only; root owns actual cache binding, peer review, fresh preflight and the only launch.",
+  "source": {
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "file_count": 167,
+    "manifest_path": "preparation/teacher_cache_cpu_repair_v2/SOURCE_MANIFEST.json",
+    "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "path": "/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829",
+    "source_set": "same 167 old-manifest paths; new published inventory is pinned exactly"
+  },
+  "status": "READY_FOR_ROOT_FRESH_PREFLIGHT_AND_REVIEW_PROFILE_NOT_LAUNCHED"
+}

@@ -1,0 +1,91 @@
+{
+  "schema": "fg19-child-control-health-metadata-review.v1",
+  "reviewed_utc": "2026-10-20T06:18:41Z",
+  "reviewer": {
+    "identity": "/root/control_health_review_0614",
+    "role": "independent local metadata auditor",
+    "method": "Read-only inspection of persisted metadata receipts; local byte-count, SHA-256, decoded-receipt identity, and cross-record comparisons."
+  },
+  "status": "PASS_METADATA_ONLY",
+  "scope": "Reviewed the 2026-10-20T06:15:05.444113Z bounded health capture and its persisted local receipts. No worker connection, canonical-source inspection, source/test execution, tensor or array payload read/hash, process/unit control, or model-quality assessment occurred.",
+  "evidence_sha256": {
+    "current_health": {
+      "STDOUT.raw.json": {"bytes": 44340, "sha256": "e662fac993ff93c773f8c88525c90d7c6bca8783a52b26efb65a8940ee970b3b"},
+      "STDERR.raw.txt": {"bytes": 0, "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+      "TRANSPORT.json": {"bytes": 461, "sha256": "7f69d17717cd95dab95c1ceb37579c9ed54caa9084a0ac54359c871e86a7acd3"},
+      "OBSERVATION.json": {"bytes": 7160, "sha256": "a8e10c3b599755c3fdd3a3dde146bbb47f8aeb181aa8075e8405c7eaf95570a8"},
+      "REMOTE.py": {"bytes": 12421, "sha256": "2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9"},
+      "ADMISSION.json": {"bytes": 9059, "sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973"},
+      "LAUNCH.json": {"bytes": 6999, "sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9"},
+      "unit.log": {"bytes": 10426, "sha256": "6fa249a0aad7105f6e54932cf391f3430e5870e161953a5716d50ff6e9b685e8"}
+    },
+    "original_launch": {
+      "ADMISSION.json": {"bytes": 9059, "sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973"},
+      "LAUNCH.json": {"bytes": 6999, "sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9"},
+      "LAUNCH_ACCEPTANCE.json": {"bytes": 2805, "sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15"}
+    },
+    "startup_comparison": {
+      "STDOUT.raw.json": {"bytes": 36875, "sha256": "53afefccfdc52b62906155fb7bad40b705c2cd1c5c6c4ce999cd4649e1bced5f"},
+      "TRANSPORT.json": {"bytes": 461, "sha256": "71bb879d57f8346b2f954b5a293dab712dcfc4e7dd5d88b48a39396b8ce64721"},
+      "OBSERVATION.json": {"bytes": 4152, "sha256": "ef3802145977e44ff4f6137251bbf0f51cc62831504438be09effeda36f0ba28"},
+      "REMOTE.py": {"bytes": 12421, "sha256": "2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9"}
+    }
+  },
+  "checks": [
+    {
+      "id": "transport_and_persist_first",
+      "status": "PASS",
+      "details": "TRANSPORT reports return code 0, stdout 44,340 bytes/SHA-256 e662fac993ff93c773f8c88525c90d7c6bca8783a52b26efb65a8940ee970b3b, empty stderr, and persisted_before_parse=true. Local raw byte count and SHA-256 match. Capture time 06:15:05.444113Z follows transport end 06:15:05.271537Z."
+    },
+    {
+      "id": "receipt_identity",
+      "status": "PASS",
+      "details": "All three raw base64 receipt blocks decode byte-for-byte to local ADMISSION.json, LAUNCH.json, and unit.log. Admission and launch files also match their original launch copies. LAUNCH_ACCEPTANCE pins those admission/launch hashes and invocation e66e0d0703314e4fb5d47dcdbfcaf202."
+    },
+    {
+      "id": "unit_launch_and_source_authority",
+      "status": "PASS",
+      "details": "The raw unit query returned 0 for computer-vision-homework-fg19-child-control-fit-v1.service, invocation e66e0d0703314e4fb5d47dcdbfcaf202, active/running, PID 96892. The captured ExecStart is byte-identical to the original launch's captured ExecStart property; the unit has no exit timestamp. Original admission binds source commit 68ff682977b822f38351aac0f621146f5f13b440, manifest SHA-256 a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621, and 167 verified source-file content hashes. The reused reader REMOTE.py hash 2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9 matches both startup and current captures; it is not a fresh canonical training-source hash."
+    },
+    {
+      "id": "counter_and_progress_scope",
+      "status": "PASS",
+      "details": "The exact unit.log FIT record for completed epoch 0 reports 7,460 optimizer attempts/completed updates, 746 batches, and zero AMP skips. GRAD_STATS reports 7,460 steps and zero nonfinite steps. A later printed line is ep 1 batch 320/746, loss 0.4590, LR 9.06e-5. These are logged records, not synchronous current/cumulative counters. The expected 44,760 total updates remain arithmetic, not observed completion."
+    },
+    {
+      "id": "resource_ownership_and_scope",
+      "status": "PASS",
+      "details": "PID 96892 is observed on GPU-ec74220d-78d7-cc47-69fc-0de1fb580944 at 3,408 MiB, UID 1061, in the exact unit cgroup; the campaign cgroup's only populated descendant is that unit cgroup with PID 96892. Current unit limits match the admitted CPUQuota=100%, MemoryHigh=7,500,000,000 bytes, MemoryMax=8,000,000,000 bytes, and MemorySwapMax=0; admission sets RuntimeMaxSec=86,400. Unit and own-cgroup samples agree on current 2,528,477,184 bytes and peak 2,812,243,968 bytes; own memory events are all zero. Parent current is separately sampled at 10,333,818,880 bytes. Parent memory.events and memory.events.local are unchanged from the 05:35 raw startup snapshot, consistent with reported zero deltas. Parent/worker current, peak, RSS, and GPU measurements are separate observations."
+    },
+    {
+      "id": "foreign_inventory_and_payload_boundary",
+      "status": "PASS",
+      "details": "Compared with startup, foreign GPU PID 3545867 is absent from the later inventory while PID 521754 remains. No action or cause is inferred. Run-directory entries are stat-only: model_ep0.pt 4,275,938 bytes, provenance.json 181,104 bytes, training_state.pt 12,650,403 bytes. No checkpoint/state/cache/dictionary/data/tensor/array payload was read or hashed."
+    }
+  ],
+  "observed_state": {
+    "captured_utc": "2026-10-20T06:15:05.444113+00:00",
+    "unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+    "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "main_pid": 96892,
+    "active_state": "active",
+    "sub_state": "running",
+    "epoch_zero_optimizer_completed_updates": 7460,
+    "epoch_zero_completed_batches": 746,
+    "epoch_zero_amp_skipped_updates": 0,
+    "epoch_zero_grad_stats_steps": 7460,
+    "epoch_zero_grad_stats_nonfinite_steps": 0,
+    "last_recorded_training_line": "ep 1 batch 320/746 loss 0.4590 lr 9.06e-05 seq/s 7.1",
+    "expected_total_updates": 44760,
+    "expected_total_is_observed": false,
+    "quality_score": null
+  },
+  "caveats": [
+    "PASS_METADATA_ONLY denotes internal metadata and receipt consistency within this scope; it is not empirical replication, checkpoint integrity verification, terminal acceptance, or quality evaluation.",
+    "The worker was active/running at capture. No terminal completion, exit code, exact stop, full 44,760-update result, checkpoint integrity, or quality score is established.",
+    "The later training line is not a synchronous live update counter or total nonfinite-step count.",
+    "Checkpoint, state, cache, dictionary and data payloads were not read or hashed; output byte sizes are stat-only observations.",
+    "Original admission hashes remain the training-source authority. The reused health-reader hash does not revalidate current canonical source contents.",
+    "Foreign GPU inventory changes are observations only. No cause is inferred and no foreign process was touched. Resource values are separate samples and are not interchangeable or attributable to parent usage."
+  ]
+}

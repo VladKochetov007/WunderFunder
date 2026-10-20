@@ -1,0 +1,39 @@
+{
+  "body_sha256": "82933052f38bdecd0f7ff600d7aca98ca334f5dc2d7a9219ed73006058d375fa",
+  "checks": [
+    {
+      "command": ".venv/bin/ruff format on the S5-valid template/body",
+      "result": "PASS: both formatted"
+    },
+    {
+      "command": ".venv/bin/ruff check on the S5-valid template/body",
+      "result": "PASS: all checks passed"
+    },
+    {
+      "check": "AST parse and template/body code parity after normalizing the PAYLOAD assignment",
+      "result": "PASS"
+    },
+    {
+      "check": "S5-train pending binding short-circuit",
+      "result": "PASS: exits before embedded gates/remote command"
+    },
+    {
+      "check": "Embedded predecessor receipt byte comparisons",
+      "result": "PASS: 10 S3/S4/profile acceptance and exact-stop JSONs plus three native teacher acceptances matched local receipts"
+    }
+  ],
+  "remote_admission": "Not performed; root owns S5-train binding, source review, preflight, and launch.",
+  "s5_train_binding": {
+    "acceptance_sha256": "PENDING_ROOT_CAPTURE",
+    "exact_stop_sha256": "PENDING_ROOT_EXACT_STOP",
+    "invocation_id": "PENDING_ROOT_CAPTURE"
+  },
+  "schema": "fg19.teacher-s5-fit-valid-export-local-checks.v1",
+  "scope": "Local adapter preparation only; no SSH, remote command, prediction array, model load, training data read, install, or source/model test.",
+  "source": {
+    "commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "file_count": 167,
+    "manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97"
+  },
+  "template_sha256": "b72d643bcb3cd5b2259d545e4ae749a9cb69d1995b327b86ad0d7b5e3720f7ab"
+}

@@ -1,0 +1,89 @@
+{
+  "schema": "fg19.child-ema-fit-startup-observation.v1",
+  "status": "ACTIVE_RUNNING_DATED_OBSERVATION_ONLY",
+  "captured_utc": "2026-10-20T13:06:46.417507+00:00",
+  "unit": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "CPUUsageNSec": "144144098000",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service",
+    "ExecMainCode": "0",
+    "ExecMainExitTimestamp": "",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 13:04:16 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_child_ema_f0_s1001_fit_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode ema --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective wmse --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --grad-stats --save-training-state --no-eval-during-fit ; ignore_errors=no ; start_time=[Tue 2026-10-20 13:04:16 UTC] ; stop_time=[n/a] ; pid=730727 ; code=(null) ; status=0/0 }",
+    "InvocationID": "da5baf82d22b4f02890e184193b8caf7",
+    "LoadState": "loaded",
+    "MainPID": "730727",
+    "MemoryCurrent": "2866851840",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "2866851840",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "running"
+  },
+  "invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+  "raw_bytes": 38630,
+  "raw_sha256": "77338800df4927772fc7539cba0ea4401aacb57fd65b32223dc89422d06b5fc0",
+  "reader_sha256": "8c42338dfcee85aff11580a513d32b35841c34430cc3423d6f9c66af16ed62b0",
+  "own_memory_events": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "own_memory_events_local": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_events_delta_from_admission": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_local_events_delta_from_admission": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "own_cgroup_current_bytes": 3006345216,
+  "own_cgroup_peak_bytes": 3006345216,
+  "parent_cgroup_current_bytes": 9724575744,
+  "own_process_rss_observation": [
+    "VmHWM:\t 2533480 kB",
+    "VmRSS:\t 2533480 kB"
+  ],
+  "owned_gpu_process": {
+    "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service",
+    "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "pid": 730727,
+    "uid": 1061,
+    "used_memory": "1380 MiB"
+  },
+  "all_populated_descendants": {
+    "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-ema-fit-v1.service/cgroup.procs": "730727"
+  },
+  "native_fit_or_grad_stats_record_seen": false,
+  "progress_scope": "Log ends at canonical loader/parameter/expected-step setup; no epoch/batch FIT/GRAD_STATS completion is recorded in this bounded snapshot. Do not infer current update count or failure from setup duration.",
+  "run_directory_stat_only": {
+    "entries": [],
+    "exists": true,
+    "symlink": false
+  },
+  "fresh_canonical_source_content_hash_in_this_reader": false,
+  "source_authority": "Fresh167-file content hashes in actual EMA admission; runtime source identifier is an expected constant only.",
+  "limits": "Separate sampled cgroup/service/RSS/GPU accounting is not atomic equality or full RAM. Running Result=success/ExecMainStatus0 is not a native exit. Model/state/cache/data payloads are not read or hashed by this reader; no acceptance, restart, stop, inference or quality claim."
+}

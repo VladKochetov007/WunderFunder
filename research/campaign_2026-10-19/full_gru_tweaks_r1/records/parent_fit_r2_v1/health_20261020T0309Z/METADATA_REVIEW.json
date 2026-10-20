@@ -1,0 +1,72 @@
+{
+  "schema": "fg19-parent-fit-r2-health-metadata-review.v1",
+  "review_status": "METADATA_ONLY_PROGRESS_SNAPSHOT",
+  "capture_utc": "2026-10-20T03:10:07.939585Z",
+  "scope": "Independent local review of one already persisted health response, decoded metadata files, and log. No SSH, remote command, model/checkpoint/prediction/data payload read, source or model test, restart, or stop.",
+  "identity": {
+    "unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service",
+    "invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+    "run_name": "fg19_parent_h256x2_f0_s1001_fit_r2_v1",
+    "pid": 3929676,
+    "source_commit_authority": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_authority_note": "This running observation has no fresh source file inventory/content verification; the original 167-file admission remains the source authority."
+  },
+  "evidence_pins": {
+    "TRANSPORT.json": {"bytes": 412, "sha256": "c3ed25cb943769303800e0ef331f22c80fde15ba934e4d198d7a53e01dfe623a"},
+    "STDOUT.raw.json": {"bytes": 43036, "sha256": "87289c479c70b3803fa7ac99ba36bfa05dd7b9f598a07112b2569d2a27ff3f71"},
+    "STDERR.raw": {"bytes": 0, "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+    "OBSERVATION.json": {"bytes": 12492, "sha256": "e0d5cda3065449207587a53ed8aa91fb58ac9b8093964903d6c6a7f095b5a471"},
+    "ADMISSION.json": {"bytes": 7378, "sha256": "42b5f3fe7142d931b189ff86fa24031426506e60c8a41440b0483d97dc50026b"},
+    "LAUNCH.json": {"bytes": 6117, "sha256": "012c7ba3b484f16f587c61cb39f880380d22a6199e0a105773dbffc423bd22ea"},
+    "REMOTE.py": {"bytes": 40685, "sha256": "9bff87858f004d45bd256088e1204e2aa562f484518376eebeb1e37097e567b8"},
+    "unit.log": {"bytes": 15636, "sha256": "963cafe051626646e38b7b111d3668fbd08e93ba7b5a713db74d73fe13836bff"}
+  },
+  "transport_checks": {
+    "returncode": 0,
+    "raw_persisted_before_parse": true,
+    "stdout_and_stderr_lengths_and_hashes_match_transport": true,
+    "remote_reader_sha256_matches_saved_source": true,
+    "captured_admission_launch_and_log_base64_match_saved_files": true
+  },
+  "native_state_at_capture": {
+    "active_state": "active",
+    "sub_state": "running",
+    "exec_main_code": 0,
+    "exec_main_status": 0,
+    "exit_timestamp": null,
+    "terminal_success": false,
+    "single_populated_owned_pid": 3929676,
+    "completed_epoch_fit_records": [
+      {"epoch": 0, "completed_batches": 746, "completed_optimizer_updates": 7460, "amp_skipped_updates": 0, "nonfinite_grad_stats_steps": 0},
+      {"epoch": 1, "completed_batches": 746, "completed_optimizer_updates": 7460, "amp_skipped_updates": 0, "nonfinite_grad_stats_steps": 0}
+    ],
+    "cumulative_after_recorded_epoch_1": {"completed_batches": 1492, "completed_optimizer_updates": 14920},
+    "latest_native_progress_record": "ep 2 batch 680/746 loss 0.5905 lr 1.89e-05 seq/s 7.6",
+    "progress_limit": "The epoch 0/1 FIT records are completed historical producer records. The epoch 2 line is only the latest saved progress record; it is not a synchronous live batch, current exact update/nonfinite total, terminal proof, or quality result."
+  },
+  "resource_observation": {
+    "owned_gpu_process_mib": 2222,
+    "other_gpu_process_observations_mib": [490, 4542],
+    "owned_cgroup": {
+      "memory_current_bytes": 2585612288,
+      "memory_peak_bytes": 2873643008,
+      "memory_events": {"high": 0, "max": 0, "oom": 0, "oom_kill": 0, "oom_group_kill": 0}
+    },
+    "process_rss_kib": {"high_water_mark": 5076568, "current": 4940008},
+    "parent_cgroup": {
+      "memory_current_bytes": 10047336448,
+      "memory_peak_bytes": 11418365952,
+      "memory_events": {"high": 38355, "max": 561, "oom": 0, "oom_kill": 0, "oom_group_kill": 0},
+      "event_deltas_vs_2026_10_20T0210_capture": {"high": 0, "max": 0, "oom": 0, "oom_kill": 0, "oom_group_kill": 0}
+    },
+    "scope_note": "GPU process memory, process RSS, owned-cgroup, parent-cgroup, and systemd measurements are distinct observations; they do not form a full-host RAM estimate."
+  },
+  "inventory_and_claim_limits": {
+    "output_exists_field": true,
+    "output_stat_only": {},
+    "source_files_field": {},
+    "interpretation": "The active reader's output-inventory branch runs only after native terminal success, so the empty stat inventory does not show that files are absent. The source fields do not refresh full source content identity; retain the original admitted source authority.",
+    "model_checkpoint_prediction_or_dataset_payload_read_or_hashed": false,
+    "terminal_or_quality_claim": false
+  }
+}

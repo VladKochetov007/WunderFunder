@@ -1,0 +1,3 @@
+# CPU cache bounded startup
+
+[Raw snapshot](STDOUT.raw.json)00:47:16UTC, [transport](TRANSPORT.json) SSH0/raw-before-parse, [reader](REMOTE.py), [observation](OBSERVATION.json). Exactinvocationb131699c99e541c583f050b01a286f03 remainedactive/running, ownCGcurrent639971328/peak640524288B and own/parentnewmemoryevents0; one populatedCPUworker. Output/partial not yet created, log empty during canonical validation. These are dated separate observations, not terminal/completion/quality evidence. No observer array/model payload read/hash, no restart or newjob. The native capped builder performs authorized first independent prediction validation.

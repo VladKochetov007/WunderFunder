@@ -1,0 +1,156 @@
+{
+  "capture_payloads_length_sha_validated": true,
+  "capture_raw_sha256": "6037c6129798358ba3546a5ea120c8c5916be34288f8dfc8e915216d44f2cd61",
+  "normalization_matches_stored_s3_native_logs": true,
+  "parent_events": {
+    "memory.current": "3728056320\n",
+    "memory.events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "profile": {
+    "checkpoint_sha256": "58e62541b9305169b94301d2e4f6643741d6a25f0712bc7b7cbf020de6b76241",
+    "cuda": {
+      "device": "NVIDIA RTX A4000",
+      "free_before_bytes": 9408872448,
+      "peak_allocated_bytes": 901167616,
+      "peak_reserved_bytes": 1140850688,
+      "total_bytes": 16749428736
+    },
+    "elapsed_seconds": 3.8326193999964744,
+    "finite_output_count": 640000,
+    "normalization_identity": {
+      "mean": {
+        "bytes_sha256": "4e0144fb210b08c72ca8b5fde0ad04b2fefb483ca769806e375841ea061b7d04",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      },
+      "std": {
+        "bytes_sha256": "2ba319907f05cc8f388264e5190635feb42a84a87f5c0be7e2f8373318937696",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      }
+    },
+    "output_width": 2,
+    "prediction_dtype": "float32",
+    "prediction_finite": true,
+    "prediction_max": 2.081367254257202,
+    "prediction_mean": -0.3913739846166951,
+    "prediction_min": -2.3456966876983643,
+    "prediction_shape": [
+      16,
+      20000,
+      2
+    ],
+    "profile_contract": {
+      "autocast_enabled": false,
+      "batch_size": 16,
+      "chunk_size": 4000,
+      "cudnn_tf32": false,
+      "hidden_width": 384,
+      "layers": 2,
+      "matmul_tf32": false,
+      "membership": "first_16_fit_train_manifest_order",
+      "model_input_width": 211,
+      "output_width": 2,
+      "raw_input_width": 112,
+      "raw_main_outputs": true,
+      "sequence_length": 20000,
+      "strict_fp32": true,
+      "torch_threads": 1
+    },
+    "record_type": "PROFILE",
+    "row_groups": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      16
+    ],
+    "rows": 320000,
+    "rss_peak_bytes": 2232668160,
+    "sequence_length": 20000,
+    "sequences": 16,
+    "source_sha256": {
+      "scripts/predict_run.py": "904ddc9a2cafd194dc8d6ab9bdf1524120d6a089b83e33e2eb731e67abed6754",
+      "scripts/train_rnn.py": "74530d3499bba1b5647e459105cb263bfc7205d7f3aa928684dfb279c2677345",
+      "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "src/wnn/nn.py": "7fca0e21fc0da2a40e2a39bed069a871b404adf6a0e41a49dcf24ddcab878d48",
+      "src/wnn/numeric_ple.py": "229a7e0f032cd65bbf6700fa9372c08016b20e4719cb2f9eddd540ff8c468720",
+      "src/wnn/prediction_profile.py": "459c22b075297a923e8a91cceb78c45d2c69b37f943fc84c8f9f53d3ac0585ab",
+      "src/wnn/research_features.py": "5dfc31d01c6a5934f66fd6029f457ae2a85a22d6f169d32b89e2160e38c84b50",
+      "src/wnn/resources.py": "95fdc839ff1561622ac06c465cfc9a01370130d99be1e832b3a33c79bcb37930",
+      "src/wnn/run_identity.py": "7033ea007b9c7dcf498d3ab1e31aaeacb5725b7009fe719e9071c05b99272a76",
+      "src/wnn/sentinel.py": "114bf5afa346ee2af6b9dc5de642de5467b7d5893629ffcd91519d72bea6a9ec",
+      "src/wnn/splits.py": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe",
+      "src/wnn/training/compatibility.py": "faff1604339606e31d9012f55b542a87d2bafb7944e855236e5e273cfb7b7cee",
+      "src/wnn/training/environment.py": "37f431554a20b72ecfd10d41c76c4822379f3b4b15c3c69f8f3c6f5ba0e8125c",
+      "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+      "src/wnn/training/forward.py": "7e7e23051bea314a3547bc26f8232ebe56616f79c1872cafc480667e873794b9",
+      "src/wnn/training/input_representation.py": "934bac99544c04ac3b77f0b9f78fa4b40ce5782a785fee04d9450d9d568b116f",
+      "src/wnn/training/inputs.py": "b433ad56965e4272f3209e02f9108527fdaeabebefae07616dff61a4bbe5c9ea",
+      "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473"
+    },
+    "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "status": "PASS"
+  },
+  "profile_path_b": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_cache_profile_v1/PROFILE.json",
+  "profile_sha256": "2bed70f766b94bab23baaad7fde320ab80ce04d60521b62cc92a41188025f570",
+  "resource_observations": {
+    "cuda": {
+      "device": "NVIDIA RTX A4000",
+      "free_before_bytes": 9408872448,
+      "peak_allocated_bytes": 901167616,
+      "peak_reserved_bytes": 1140850688,
+      "total_bytes": 16749428736
+    },
+    "interpretation": "Distinct service/profile/RSS/CUDA observations; small service MemoryPeak is not full runtime RAM, no cause inferred.",
+    "native_cpu_seconds": 7.047671,
+    "native_wall_seconds": 9.033604,
+    "profile_elapsed_seconds": 3.8326193999964744,
+    "profile_rss_peak_bytes": 2232668160,
+    "systemd_memory_peak_bytes": 2031616
+  },
+  "schema": "fg19.teacher-cache-profile-root-acceptance.v1",
+  "scope": "Engineering full-shape inference only: no updates, checkpoint, persisted predictions, score or student quality. Accepted S3 own normalizer/checkpoint and fit-only selector used.",
+  "source_commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+  "source_files": 167,
+  "source_manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97",
+  "source_semantic_pins_match_manifest": true,
+  "status": "ACCEPTED",
+  "stop_status": "Pending exact stop after this durable acceptance.",
+  "unit": {
+    "ActiveState": "active",
+    "CPUUsageNSec": "7047671000",
+    "ControlGroup": "",
+    "ExecMainCode": "1",
+    "ExecMainExitTimestamp": "Mon 2026-10-19 21:57:19 UTC",
+    "ExecMainExitTimestampMonotonic": "1504286747683",
+    "ExecMainStartTimestamp": "Mon 2026-10-19 21:57:10 UTC",
+    "ExecMainStartTimestampMonotonic": "1504277714079",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-88becca8/scripts/predict_run.py fg19_t3_h384x2_e3_s3_v1 train --epoch 2 --campaign-split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --device cuda --inference-precision fp32 --loader-workers 0 --profile-only --profile-output /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_cache_profile_v1/PROFILE.json ; ignore_errors=no ; start_time=[Mon 2026-10-19 21:57:10 UTC] ; stop_time=[Mon 2026-10-19 21:57:19 UTC] ; pid=3636481 ; code=exited ; status=0 }",
+    "InvocationID": "983d65b923c54f05a25aa98d61e0bb1d",
+    "LoadState": "loaded",
+    "MainPID": "0",
+    "MemoryCurrent": "[not set]",
+    "MemoryPeak": "2031616",
+    "Result": "success",
+    "SubState": "exited"
+  },
+  "utc": "2026-10-19T21:58:45.541934+00:00"
+}

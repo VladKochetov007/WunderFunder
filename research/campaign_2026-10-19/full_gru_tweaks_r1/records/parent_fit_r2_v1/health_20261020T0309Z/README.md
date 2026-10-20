@@ -1,0 +1,11 @@
+# Parent-fit bounded health — 20 October03:10UTC
+
+Root reused the unchanged [reader](REMOTE.py) once for the exact parent unit `computer-vision-homework-fg19-parent-fit-r2-v1.service`, invocation `5186b3016ff54b1fa754c10a1f87b3e4`. The actual remote observation is **03:10:07.939585UTC**; the directory follows the03:09heartbeat trigger. [Transport](TRANSPORT.json) records SSH return0, raw43,036B/SHA87289c479c70b3803fa7ac99ba36bfa05dd7b9f598a07112b2569d2a27ff3f71 and empty stderr, persisted before parsing. [Raw bytes](STDOUT.raw.json), [observation](OBSERVATION.json), byte-checked [admission](ADMISSION.json), [launch](LAUNCH.json) and [native log](unit.log) are preserved.
+
+The same invocation was active/running/PID3929676. Native FIT records for epochs0/1 each report7,460successful updates/746batches/zero AMP skips; cumulative after epoch1 is14,920updates/1,492batches. Both completed GRAD_STATS records report nonfinite0. The latest recorded line is epoch2batch680/746/loss0.5905/LR1.89e-5. Those completed epoch records and later progress line are not a synchronous current batch/update/nonfinite total or terminal29,840-update proof. No evaluation or predictive-quality endpoint was produced.
+
+One populated owned worker/GPUprocess2,222MiB was observed. OwnCGcurrent2,585,612,288B/peak2,873,643,008B, parentcurrent10,047,336,448B, RSS/HWM and systemd fields are separate observations. Own memoryevents remain0; parent event deltas versus02:10 are0. Foreign processes were untouched.
+
+The running reader's expected source ID/path statistics do not freshly verify source content; the original167-file admission remains authority. Its output inventory branch runs only after native terminal success, so the empty active inventory does **not** establish file absence. No changing model/state payload read/hash, support admission, inference, grade, restart or stop occurred. The prepared checker remains unused until typed actual native exit0 and fresh support gates. No immediate repeated poll is needed.
+
+[Publication validation](../../../PUBLICATION_VALIDATION_20261020_PARENT_HEALTH_0310.json) binds this raw/decoded metadata snapshot and its added navigation; it is not a source/model test or scientific endpoint.

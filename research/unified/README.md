@@ -1,5 +1,31 @@
 # Unified research library
 
+Start with [current state](../../specs/current-state.md) and the
+[accepted local/Kaggle plan](../../specs/plans/2026-10-20-plateau-review-local-kaggle.md).
+The user requested implementation of the October 20 cycle with 15 local GPU-hours
+and verified available Kaggle quota, without a mandatory 30-run matrix.
+Preparation is active; the [campaign frontier](../campaign_2026-10-20/plateau_review_r1/FRONTIER.md)
+records actual progress. The [October 18 stop](operations/RESEARCH_STOP_20261018_R1.md)
+remains historical authority for unrelated work. This index distinguishes
+measured results, implementation drafts and historical plans.
+
+Latest policy and design: [fast screens / large teacher ADR](../../specs/adr/0043-fast-screens-and-transformer-teacher-scale.md)
+sets4–6 total new fits per initial idea comparison. The
+[large causal Transformer proposal](ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md)
+specifies0.68B/1.65B capacity recipes, optional3.17B scaling, dynamics embeddings,
+FP32 Muon/WSD/DDP, causal long memory and measured GRU transfer. Sources and
+independent design criticism are indexed; no new fit, B300 profile or gain exists.
+
+Latest broad campaign closeout: [Online-features closeout](../campaign_2026-10-18/online_features_r1/CLOSEOUT_20261018_R1.md)
+— summarizes causal-state, Kalman, gating, model-blend, submission and local code-draft evidence from the closed campaign. The new plan contains no additional quality result yet.
+
+The October 19 [B300 PR review](reviews/B300_PR_RUN_UPDATE_REVIEW_20261019_R1.md)
+records partial width/depth and geometry scores from stopped research-team jobs.
+It finds a small directional advantage for the wide GRU, a negative partial
+geometry bundle, and no scored age/innovation pairs. These exposed-fold partials
+do not promote a model or establish transfer.
+
+Previous: [No-fit research reset and 25-idea portfolio](../campaign_2026-10-17/research_reset_r1/README.md)
 [Latest bounded idea screen, R15](../campaign_2026-10-19/idea_screens_r15/RESULTS.md) trains explicit sparse/dense dictionaries with retained residuals. The sparse pipeline gains0.002568WP, below its fixed0.005 spending gate; both targets positive but component/drop-one signs are mixed. Four756-update fits complete on the exposed R3 panel; no factor-identity/GRU/public claim. All R1–R15/F3 are finished; [continuation](../campaign_2026-10-19/idea_screens_r15/CONTINUATION.md) records no R16 admission.
 
 [Latest bounded idea screen, R14](../campaign_2026-10-19/idea_screens_r14/RESULTS.md) tests matched-pole/span conditioning directly. Orthonormal impulse coordinates leave larger128-step objective gaps for both targets; secondary WP is slightly higher, so optimization and prediction evidence remain distinct. All R1–R14/F3 are finished; see [current continuation](../campaign_2026-10-19/idea_screens_r14/CONTINUATION.md).

@@ -119,7 +119,7 @@ The validation-shaped panel has 1,873 × 20,000 = 37,460,000 callback rows, of w
 99-row warm-up per sequence. A 3,600-second limit averages 96.10 microseconds for every row and all work. The compact Transformer
 requires approximately 20.186 trillion model MACs at W=256 or 34.916 trillion at W=1024 across all rows. If the whole time budget
 were available to the model alone, that implies 5.61 or 9.70 GMAC/s respectively; the actual pipeline must also process features,
-callbacks, scoring, and I/O. These are necessary arithmetic rates, not measured throughput claims.
+callbacks, scoring, and I/O. These are steady-state arithmetic estimates, not measured throughput requirements. Shorter attention windows during sequence startup reduce the totals; the omitted operations add work.
 
 The existing `torch.cat` cache update also copies on the order of a full K/V window per row: approximately 0.52 MB at W=256 or
 2.10 MB at W=1024 per model step for this shape. Across 37.46 million rows that is roughly 19.6 TB or 78.5 TB of cache traffic. A

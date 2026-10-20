@@ -1,0 +1,67 @@
+{
+  "schema": "fg19-child-control-terminal-source-review.v1",
+  "reviewed_utc": "2026-10-20T06:42:44Z",
+  "status": "CONDITIONAL_SOURCE_PASS",
+  "scope": "Independent local source, dependency, and retained-check evidence review only. No SSH, remote query, unit action, checker invocation against the active fit, source/test edit, model/data/cache/dictionary payload access, training replay, acceptance, or stop.",
+  "source_binding": {
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "manifest_file_count": 167,
+    "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "run_name": "fg19_child_control_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+    "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "last_root_observation": "The retained 2026-10-20T06:15Z health observation reported active/running; it is not terminal evidence."
+  },
+  "pins": {
+    "checker": {
+      "path": "preparation/child_control_terminal_check_v1.py",
+      "sha256": "663d4aee291c86e87475e0599a3151f60f684943c59dfc406d2f35ddfba63cad"
+    },
+    "focused_tests": {
+      "path": "preparation/test_child_control_terminal_check_v1.py",
+      "sha256": "ad75f078c6ccebea6616c09b985dd8427acfe8cf53afd70625312b63e37179da"
+    },
+    "cold_import_receipt": {
+      "path": "preparation/child_control_terminal_check_v1_cold_import_receipt.json",
+      "sha256": "b531b2a02bb3efe3a07fc735ba7a1796c7a307753467f2f2d528771d07939a88"
+    },
+    "dependency_manifest": {
+      "path": "preparation/CHILD_CONTROL_TERMINAL_CHECK_V1_DEPENDENCIES.json",
+      "sha256": "7096e3b0aafac0dcd24d06e042dc649591123e324ebf4ec63f916749609415d4"
+    },
+    "readme": {
+      "path": "preparation/README_CHILD_CONTROL_TERMINAL_CHECK_V1.md",
+      "sha256": "9131140f99d038c829dcfd147cc2df230e80d4f83234fc08353214f727968fc7"
+    },
+    "unchanged_helpers": {
+      "parent_fit_terminal_check_v3.py": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41",
+      "propensity_terminal_support.py": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+      "teacher_s5_terminal_check_v1.py": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+    }
+  },
+  "review_findings": [
+    "The final checker is bound to the admitted run, unit, invocation, source commit/manifest, split, launch receipts, worker envelope, cache, parent epoch-3 initializer, accepted child profile proof, and shared dictionary acceptance/stop. Its CLI and continuation contract are tied to the exact admitted argv digest and pinned source implementation map.",
+    "The source-specific gates match the canonical producer: H256x2 with 467 inputs and 25 outputs; inherited 211-feature normalization prefix and base-mode zero/one suffix; six fit-only epochs; fixed epoch 5 and next_epoch 6; 44,760 optimizer updates and 4,476 batches; EpochOrderSampler epoch 5; and one visible CUDA RNG state with the producer-shaped CPU/CUDA uint8 vectors. Child RNG contents are recorded as observed values and are not pinned to parent trajectory digests.",
+    "Selected model.pt, model_ep5.pt, and training_state.pt model tensors are checked for exact inventory/shapes, FP32 finiteness, and matching fingerprints. AdamW parameter moments and update steps, scheduler cursor/phases, counters/history/gradient diagnostics, auxiliary dictionary state, source/cache lineage, and native log records are reconciled. All epoch checkpoint files are no-follow hashed and bound through provenance; only the selected endpoint checkpoints and full training state are restricted-loaded for tensor validation.",
+    "The checker reuses the frozen parent V3 source/worker/membership/cache/cache-provenance/finite-tree/restricted-load/safe-global/fingerprint primitives, support no-follow stable-file/hash/JSON/tensor helpers, and teacher source-qualified CLI/tensor-identity helpers. New code is limited to the child model, loader/RNG, dictionary, profile/ancestry, and terminal recipe checks; it does not rebind or mutate parent module globals.",
+    "The first frozen checker candidate (SHA 833ee9d340d85d4f6dc21d42cc6ad804bbf6367a429f6e5e65231c301d454c42) had an actionable full-state gap: any finite nonnegative scheduler _last_lr paired with the same optimizer-group LR, and any beta1 in (0,1), passed despite the exact OneCycle recipe. The final checker closes this by evaluating the cosine at saved last_epoch=44,760 (one beyond phase end 44,759), checking the resulting terminal LR and beta1, and pinning the optimizer group initial/max/min LR and base/max momentum values. Focused tests reject the nominal min-LR endpoint, a mismatched beta1, and altered group endpoints; a 100-step CPU fixture confirms the post-endpoint cosine convention.",
+    "The final cold-import proof uses a temporary copy containing exactly the four pinned private-D modules, asserts their import origins, rejects other absolute preparation-module origins, and fails if any transitive wnn module resolves outside the pinned source tree. The retained proof reports 29 transitive source modules, CUDA hidden/uninitialized, and zero blocked B payload opens."
+  ],
+  "resolved_source_blocker": {
+    "initial_checker_sha256": "833ee9d340d85d4f6dc21d42cc6ad804bbf6367a429f6e5e65231c301d454c42",
+    "finding": "The initial candidate did not require the exact terminal OneCycle LR/beta1 pair or persisted group schedule endpoints.",
+    "resolution": "The final checker SHA in pins.checker computes and checks the source cosine endpoint and enforces the expected optimizer group endpoints. No canonical source or helper file changed."
+  },
+  "retained_local_checks": {
+    "schedule_tests": "Three focused schedule tests passed on the final checker, including the CPU cursor fixture and malformed LR/beta/group rejection.",
+    "cold_import_test": "One updated isolated cold-import test passed against the final checker/test pins.",
+    "unchanged_invariants": "The six unrelated synthetic invariants previously passed with the initial checker candidate and were not rerun after the narrow schedule correction.",
+    "ruff": "PASS on the final checker and focused test files.",
+    "reviewer_execution": "The reviewer inspected sources and retained receipts only; no tests or checker were run by this reviewer."
+  },
+  "limitations": [
+    "This is a source-preparation review, not terminal verification, artifact acceptance, or a scientific quality result. The actual fit was still reported active/running at the last retained health observation.",
+    "Before eventual execution, root must refresh terminal state and perform its fresh source, ownership, resource, output, storage, and native-evidence gates. The post-exit checker remains restricted to the declared CPU-only worker caps, no-follow prehashing, bounded files/aggregate, and weights_only loading."
+  ],
+  "decision": "Conditional source pass for the final pinned checker only. The initial LR/beta validation blocker was corrected in the reviewed final source. Root must bind the final dependency/evidence pins and run the checker only after actual typed native success; this review establishes neither completion nor acceptance."
+}

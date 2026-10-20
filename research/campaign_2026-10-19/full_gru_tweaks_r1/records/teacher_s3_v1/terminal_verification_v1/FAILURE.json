@@ -1,0 +1,37 @@
+{
+  "bounded_fix": "Prepare a new version/unit/output, allowing only the canonical TorchVersion type in a scoped weights_only=True context, plus existing NumPy RNG types for training state. No cap enlargement, weights_only=False, training replay, or failed-unit restart.",
+  "capture_stdout_sha256": "3292bf363e96dfab6d60827f40eb5db2fe6721b5d12f5e437f97225ea5b22f65",
+  "cause": "Canonical scaler-source metadata preserves raw torch.__version__, serialized as torch.torch_version.TorchVersion; the restricted inference checkpoint loader did not allow that exact type.",
+  "checker_sha256": "8aaba33317c8dce3f6b75c77577560c78591a2dd6fe5e2ed3f7ea347e202f2d9",
+  "checkpoint_integrity_accepted": false,
+  "created_utc": "2026-10-19T17:40:03.407507+00:00",
+  "exit": {
+    "ActiveState": "failed",
+    "CPUUsageNSec": "2843253000",
+    "ControlGroup": "",
+    "ExecMainCode": "1",
+    "ExecMainExitTimestamp": "Mon 2026-10-19 17:37:38 UTC",
+    "ExecMainStartTimestamp": "Mon 2026-10-19 17:37:33 UTC",
+    "ExecMainStatus": "1",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v1/teacher_terminal_check.py --run-dir /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_t3_h384x2_e3_s3_v1 --source-root /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-teacher-af21d6d8 --split /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --source-manifest /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v1/SOURCE_MANIFEST.json --admission /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v1/ADMISSION.json --launch /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v1/LAUNCH.json --launch-acceptance /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v1/LAUNCH_ACCEPTANCE.json --terminal-evidence /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v1/TERMINAL_EVIDENCE.json --output /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_teacher_s3_verify_v1/VERIFICATION.json ; ignore_errors=no ; start_time=[Mon 2026-10-19 17:37:33 UTC] ; stop_time=[Mon 2026-10-19 17:37:38 UTC] ; pid=3247995 ; code=exited ; status=1 }",
+    "InvocationID": "2a0e38a6515643e1b8ae9a167de10e3f",
+    "MemoryPeak": "2469888",
+    "SubState": "failed"
+  },
+  "failed_unit_preserved": true,
+  "invocation_id": "2a0e38a6515643e1b8ae9a167de10e3f",
+  "log_sha256": "4c2a24c40b0c8e73846e9a18aa3d954292c5d3fae54161bde5e2a704b95e1caa",
+  "memory_events": {
+    "memory.current": "2318503936\n",
+    "memory.events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "native_teacher_integer_exit_status": 0,
+  "native_teacher_invocation": "02a8c00b433b49a185c2700624397769",
+  "native_teacher_unit": "computer-vision-homework-fg19-teacher-s3-v1.service",
+  "quality_result": false,
+  "schema": "fg19.teacher-terminal-verifier-failure.v1",
+  "status": "CONSUMER_RESTRICTED_LOADING_COMPATIBILITY_FAILURE",
+  "training_negative_evidence": false,
+  "unit": "computer-vision-homework-fg19-teacher-s3-verify-v1.service"
+}

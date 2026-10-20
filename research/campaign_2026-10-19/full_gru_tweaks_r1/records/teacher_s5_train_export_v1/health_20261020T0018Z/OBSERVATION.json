@@ -1,0 +1,60 @@
+{
+  "schema": "fg19.teacher-s5-train-export-health-observation.v1",
+  "captured_utc": "2026-10-20T00:19:10.867535+00:00",
+  "raw_sha256": "08f5ed3c91d0c68b0aec7934e1e4c574ffc8a86fe765a379bfd17e1fbadf7094",
+  "unit": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s5-train-export-v1.service",
+    "ExecMainCode": "0",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 00:01:39 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-88becca8/scripts/predict_run.py fg19_t3_h384x2_e3_s5_v1 train --epoch 2 --campaign-split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --device cuda --inference-precision fp32 --loader-workers 0 --output-dir /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1 --create-only ; ignore_errors=no ; start_time=[Tue 2026-10-20 00:01:39 UTC] ; stop_time=[n/a] ; pid=3802605 ; code=(null) ; status=0/0 }",
+    "InvocationID": "9d2b2c9328f241bf896fd1ca75a3421b",
+    "LoadState": "loaded",
+    "MainPID": "3802605",
+    "MemoryCurrent": "2956869632",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "3255631872",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "running"
+  },
+  "exact_invocation_match": true,
+  "last_recorded_progress": {
+    "completed_sequences": 6880,
+    "total_sequences": 10535
+  },
+  "one_owned_populated_worker": true,
+  "parent_memory_events": {
+    "memory.events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "own_cgroup": {
+    "events": {
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+    },
+    "memory_current": "2956869632",
+    "memory_peak": "3255631872",
+    "path": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s5-train-export-v1.service",
+    "populated_pids": [
+      "3802605"
+    ]
+  },
+  "gpu_own_processes": [
+    {
+      "campaign_descendant": true,
+      "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s5-train-export-v1.service",
+      "cmdline": "/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-88becca8/scripts/predict_run.py fg19_t3_h384x2_e3_s5_v1 train --epoch 2 --campaign-split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --device cuda --inference-precision fp32 --loader-workers 0 --output-dir /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1 --create-only ",
+      "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "pid": "3802605",
+      "uid": 1061,
+      "used_memory": "1286 MiB"
+    }
+  ],
+  "prediction_access": "stat only; partial size is preallocation, no payload load/hash",
+  "source_health_limit": "Expected source ID constant/path stat only; original167contenthash admission is source authority.",
+  "scope": "Recorded log progress is not synchronous live/terminal/quality; no new fit/restart/stop."
+}

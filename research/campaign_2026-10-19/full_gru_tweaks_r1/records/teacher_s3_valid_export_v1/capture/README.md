@@ -1,0 +1,3 @@
+# S3 fit-valid terminal capture
+
+Raw396,971B/SHA b9d2b539eb3d0791303fa2b300cb2368e3b922cd1e694bc04fcbad8e42793c1e captured23:00:55UTC. Sixboundedpayloads base64length/SHAvalidated before writingcompactcopies. ReusesS3trainV2capture by identity/outputsizeconstants only; no capincrease, source/model/test/inference replay or arraypayloadread/hash. ExactfullsplitSHA-boundmembershipexcerpt isderivedmetadata, notthewhole1.388MBsplit. [Acceptance](../TERMINAL_ACCEPTANCE.json) bindsordered1405fit-valid/88records/18runtimepins/normalizer/source167/nativeexit0 before [laterexactstop](../exact_stop/STDOUT.raw.json).

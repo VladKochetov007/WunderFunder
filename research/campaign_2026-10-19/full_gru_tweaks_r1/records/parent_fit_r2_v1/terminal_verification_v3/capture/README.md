@@ -1,0 +1,3 @@
+# Successful parent verifier V3 capture
+
+[Raw bytes](STDOUT.raw.json) persisted before parsing, [transport](TRANSPORT.json) SSH0,28,596B/SHA107a4b96b3c400c1b80a00b723af2ec4d08c4127094f4180d3c2f058f4102093. Decoded [admission](VERIFIER_ADMISSION.json), [launch](VERIFIER_LAUNCH.json), [empty unit log](unit.log) and [5,020-byte verification](VERIFICATION.json) match embedded lengths/hashes. Exact support invocation exited0, source167 and complete parent-state checks passed. All model/state payloads remained on B; observer loaded metadata only. Empty terminal own cgroup means unavailable own files, no host-root fallback.

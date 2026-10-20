@@ -1,0 +1,316 @@
+{
+  "schema": "fg19-child-control-health-metadata-review.v1",
+  "status": "PASS_METADATA_ONLY",
+  "reviewer": "Codex independent local reviewer (/root/control_health_review_0824)",
+  "reviewed_utc": "2026-10-20T08:27:43Z",
+  "method": "Bounded independent metadata review following .agents/skills/research-evidence-review/SKILL.md. Python standard-library JSON/base64 parsing and SHA-256 only; no project code import/execution, network/SSH/unit control, support admission, model execution, or test run.",
+  "scope": {
+    "campaign": "research/campaign_2026-10-19/full_gru_tweaks_r1",
+    "run": "fg19_child_control_f0_s1001_fit_v1",
+    "capture_directory": "health_20261020T0824Z",
+    "capture_utc": "2026-10-20T08:24:56.107475+00:00",
+    "prior_capture_event_comparison_only": {
+      "directory": "health_20261020T0724Z",
+      "capture_utc": "2026-10-20T07:25:01.108081+00:00",
+      "compared_fields": [
+        "own_cgroup_state.memory.events",
+        "own_cgroup_state.memory.events.local",
+        "parent_state.memory.events",
+        "parent_state.memory.events.local"
+      ]
+    }
+  },
+  "artifacts": {
+    "raw_stdout": {
+      "path": "STDOUT.raw.json",
+      "bytes": 69641,
+      "sha256": "ca6674a6cdbd2874992ed8a68859804d0b496895378bb4e672a1b845911de765"
+    },
+    "transport": {
+      "path": "TRANSPORT.json",
+      "bytes": 483,
+      "sha256": "eb22484e3137ad1b223351b176bc225a61a9e3fe83b120eb4adff439a95cd1ea",
+      "body_sha256": "2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9",
+      "returncode": 0,
+      "timed_out": false,
+      "stdout_bytes": 69641,
+      "stdout_sha256": "ca6674a6cdbd2874992ed8a68859804d0b496895378bb4e672a1b845911de765",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "persisted_before_parse": true
+    },
+    "reader": {
+      "path": "REMOTE.py",
+      "bytes": 12421,
+      "sha256": "2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9",
+      "matches_transport_body_sha256": true
+    },
+    "extracted_observation": {
+      "path": "OBSERVATION.json",
+      "bytes": 13821,
+      "sha256": "235e2cda7fd4b6948f713aea223ce252e183f2f0995ef0c950f0ceabb3a79f46"
+    },
+    "capture_readme": {
+      "path": "README.md",
+      "bytes": 2075,
+      "sha256": "2148b67e11167b3d630996fd813cac8353ad76787c399d9c87d2ec60629e89f7"
+    },
+    "stderr_file": {
+      "path": "STDERR.raw.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "receipt_byte_comparisons": {
+      "ADMISSION.json": {
+        "capture_bytes": 9059,
+        "capture_sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973",
+        "embedded_base64_matches_capture": true,
+        "original_path": "../ADMISSION.json",
+        "original_bytes": 9059,
+        "original_sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973",
+        "capture_matches_original": true
+      },
+      "LAUNCH.json": {
+        "capture_bytes": 6999,
+        "capture_sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9",
+        "embedded_base64_matches_capture": true,
+        "original_path": "../LAUNCH.json",
+        "original_bytes": 6999,
+        "original_sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9",
+        "capture_matches_original": true
+      },
+      "unit.log": {
+        "capture_bytes": 28824,
+        "capture_sha256": "924627db1323ae014668af172ed5a58a1112361300042cd56bfba5ec378d280d",
+        "embedded_base64_matches_capture": true
+      }
+    },
+    "original_receipts": {
+      "admission": {
+        "path": "../ADMISSION.json",
+        "bytes": 9059,
+        "sha256": "f749d0c4ba4925506320f1a480d7e76164a2b0f84b7efac5b432cb18522c5973",
+        "source_files_verified": 167,
+        "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+        "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+      },
+      "launch": {
+        "path": "../LAUNCH.json",
+        "bytes": 6999,
+        "sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9"
+      },
+      "launch_acceptance": {
+        "path": "../LAUNCH_ACCEPTANCE.json",
+        "bytes": 2805,
+        "sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15",
+        "status": "ACTUAL_LAUNCH_CAPTURED_NOT_COMPLETION",
+        "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+        "expected_counts_are_not_observed": true,
+        "expected_optimizer_updates": 44760,
+        "quality_score": null
+      }
+    }
+  },
+  "checks": [
+    {
+      "status": "PASS",
+      "check": "raw_transport_and_observation_identity",
+      "detail": "Raw byte length and SHA-256 match TRANSPORT.json and OBSERVATION.json; transport records returncode 0, no timeout, persistence before parse, and empty stderr. The local reader SHA-256 matches the transport body_sha256."
+    },
+    {
+      "status": "PASS",
+      "check": "exact_embedded_and_original_receipts",
+      "detail": "Base64-decoded ADMISSION.json and LAUNCH.json equal both the copies in this capture and the original parent-folder files byte-for-byte. The embedded unit.log equals its persisted local copy. LAUNCH_ACCEPTANCE binds the same original admission, launch, unit, and invocation; its raw_stdout_sha256 is the earlier launch capture, not this health capture."
+    },
+    {
+      "status": "PASS",
+      "check": "invocation_identity_and_state",
+      "detail": "The exact run fg19_child_control_f0_s1001_fit_v1, unit computer-vision-homework-fg19-child-control-fit-v1.service, invocation e66e0d0703314e4fb5d47dcdbfcaf202, seed 1001, and PID 96892 agree across the captured unit metadata, extracted observation, and original launch acceptance. The recorded state at capture was active/running."
+    },
+    {
+      "status": "PASS",
+      "check": "completed_epoch_records",
+      "detail": "The exact embedded log's FIT and GRAD_STATS records agree with OBSERVATION.json for epochs 0 through 4. Each completed epoch records 7,460 optimizer attempts, 7,460 completed updates, 746 batches, zero AMP-skipped updates, 7,460 GRAD_STATS steps, and zero nonfinite steps. The cumulative completed-epoch totals are 37,300 updates and 3,730 batches."
+    },
+    {
+      "status": "PASS",
+      "check": "resource_and_ownership_samples",
+      "detail": "The owned unit cgroup contains only PID 96892. Its GPU process is on GPU-ec74220d-78d7-cc47-69fc-0de1fb580944 and reports 3,408 MiB. Own cgroup current/peak are 2,551,205,888/2,829,709,312 bytes; parent current is 10,356,547,584 bytes. Process RSS, unit/cgroup, parent, and GPU values remain separate sampled observations."
+    },
+    {
+      "status": "PASS",
+      "check": "memory_event_deltas_since_0725",
+      "detail": "Own cgroup memory.events and memory.events.local are zero in the current sample. Deltas for low/high/max/oom/oom_kill/oom_group_kill are zero across the prior and current raw records for both own cgroup event files and both parent event files."
+    },
+    {
+      "status": "PASS",
+      "check": "stat_only_run_inventory",
+      "detail": "The raw inventory and extracted observation agree on model_ep0.pt through model_ep4.pt, provenance.json (191,409 bytes), and training_state.pt (12,657,507 bytes). Inventory is stat-only; no listed payload was read or hashed."
+    },
+    {
+      "status": "PASS",
+      "check": "source_authority_and_readme_claims",
+      "detail": "Source authority remains the original fresh 167-file admission (commit 68ff682977b822f38351aac0f621146f5f13b440). Reader body 2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9 is unchanged and does not freshly hash canonical source files. The capture README's identity, counters, resource distinctions, inventory, and evidence limits agree with the checked artifacts; this review link was added."
+    }
+  ],
+  "observed_metadata": {
+    "invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+    "run": "fg19_child_control_f0_s1001_fit_v1",
+    "seed": 1001,
+    "state_at_capture": "active/running",
+    "main_pid": 96892,
+    "completed_epoch_counts": [
+      {
+        "epoch": 0,
+        "optimizer_attempts": 7460,
+        "optimizer_completed_updates": 7460,
+        "completed_batches": 746,
+        "amp_skipped_updates": 0,
+        "grad_stats_steps": 7460,
+        "grad_stats_nonfinite_steps": 0
+      },
+      {
+        "epoch": 1,
+        "optimizer_attempts": 7460,
+        "optimizer_completed_updates": 7460,
+        "completed_batches": 746,
+        "amp_skipped_updates": 0,
+        "grad_stats_steps": 7460,
+        "grad_stats_nonfinite_steps": 0
+      },
+      {
+        "epoch": 2,
+        "optimizer_attempts": 7460,
+        "optimizer_completed_updates": 7460,
+        "completed_batches": 746,
+        "amp_skipped_updates": 0,
+        "grad_stats_steps": 7460,
+        "grad_stats_nonfinite_steps": 0
+      },
+      {
+        "epoch": 3,
+        "optimizer_attempts": 7460,
+        "optimizer_completed_updates": 7460,
+        "completed_batches": 746,
+        "amp_skipped_updates": 0,
+        "grad_stats_steps": 7460,
+        "grad_stats_nonfinite_steps": 0
+      },
+      {
+        "epoch": 4,
+        "optimizer_attempts": 7460,
+        "optimizer_completed_updates": 7460,
+        "completed_batches": 746,
+        "amp_skipped_updates": 0,
+        "grad_stats_steps": 7460,
+        "grad_stats_nonfinite_steps": 0
+      }
+    ],
+    "cumulative_completed_epoch_counts": {
+      "optimizer_completed_updates": 37300,
+      "completed_batches": 3730
+    },
+    "last_recorded_training_line": "ep 5 batch 300/746 loss 0.5449 lr 2.72e-06 seq/s 7.5",
+    "progress_limit": "The later ep5 batch line is not a synchronous current-batch/update/nonfinite total, proof of terminal 44,760 updates, checkpoint-integrity acceptance, or quality endpoint."
+  },
+  "resource_samples": {
+    "owned_gpu_process": {
+      "pid": 96892,
+      "uid": 1061,
+      "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "used_memory": "3408 MiB"
+    },
+    "other_observed_gpu_processes": [
+      {
+        "pid": 521754,
+        "uid": 1026,
+        "used_memory": "490 MiB"
+      },
+      {
+        "pid": 154065,
+        "uid": 1117,
+        "used_memory": "4542 MiB"
+      }
+    ],
+    "own_cgroup_current_bytes": 2551205888,
+    "own_cgroup_peak_bytes": 2829709312,
+    "own_cgroup_memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "parent_cgroup_current_bytes": 10356547584,
+    "parent_event_deltas_since_0725": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "parent_local_event_deltas_since_0725": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "process_rss_observation": [
+      "VmHWM:\t 5100804 kB",
+      "VmRSS:\t 4818504 kB"
+    ],
+    "foreign_process_handling": "Other selected GPU processes were observed only and left untouched; no cause or performance inference is made."
+  },
+  "run_inventory_stat_only": [
+    {
+      "name": "model_ep0.pt",
+      "bytes": 4275938
+    },
+    {
+      "name": "model_ep1.pt",
+      "bytes": 4276770
+    },
+    {
+      "name": "model_ep2.pt",
+      "bytes": 4277602
+    },
+    {
+      "name": "model_ep3.pt",
+      "bytes": 4278370
+    },
+    {
+      "name": "model_ep4.pt",
+      "bytes": 4279202
+    },
+    {
+      "name": "provenance.json",
+      "bytes": 191409
+    },
+    {
+      "name": "training_state.pt",
+      "bytes": 12657507
+    }
+  ],
+  "source_authority": {
+    "admission_path": "../ADMISSION.json",
+    "source_files_verified": 167,
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "reader_sha256": "2c111abaaea64c40d9f251b442c5c05b42999b0b80c07e41b5598613506515e9",
+    "fresh_canonical_source_hash_performed": false
+  },
+  "limitations": [
+    "This is a local metadata audit, not empirical replication, terminal completion, training-integrity acceptance, or quality evaluation.",
+    "No model, checkpoint, training-state, data, array, cache, dictionary, or other run payload was read or hashed; run output inventory is stat-only.",
+    "The original admission remains the canonical source-content authority; no new source-tree content hash was performed.",
+    "Memory, RSS, unit/cgroup, parent, and GPU readings are distinct sampled observations and are not interchangeable totals.",
+    "The later ep5 progress line does not establish terminal completion or a complete observed update/nonfinite count.",
+    "Other GPU processes were observed without control, attribution, causal explanation, or performance claims."
+  ],
+  "finding": "No blocking metadata inconsistency found in the bounded local comparison. This pass supports the capture's byte identity, exact receipt lineage, recorded epoch counters, and resource observations at 08:24:56.107475 UTC only."
+}

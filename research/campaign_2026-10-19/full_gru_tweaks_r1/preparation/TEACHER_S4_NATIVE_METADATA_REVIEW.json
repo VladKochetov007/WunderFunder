@@ -1,0 +1,71 @@
+{
+  "schema": "fg19.teacher-s4-native-metadata-review.v1",
+  "status": "PASS_NATIVE_METADATA_ONLY",
+  "source_readiness": "PENDING_FINAL_SOURCE_REVIEW",
+  "terminal_integrity": "PENDING_RESTRICTED_PAYLOAD_VERIFICATION",
+  "review_scope": "Local text-only review of native terminal evidence, read-only health metadata and recorded transport; no SSH, model/checkpoint/data payload reads, training, scorer, or installation.",
+  "run": {
+    "name": "fg19_t3_h384x2_e3_s4_v1",
+    "unit": "computer-vision-homework-fg19-teacher-s4-v1.service",
+    "invocation_id": "b6d71599e0044970b8641e3e241c40a4",
+    "native_state": {"active_state": "active", "sub_state": "exited", "main_pid": 0, "exec_main_code": 1, "exec_main_status": 0},
+    "exit_normalization": "TERMINAL_EVIDENCE.json has integer main_pid/exec_main_code/exec_main_status (0/1/0); raw systemd strings are '0'/'1'/'0'. ExecMainStatus 0 is the successful native exit.",
+    "native_exit_timestamp": "Mon 2026-10-19 19:30:32 UTC"
+  },
+  "transport": {
+    "status": "RETURNED",
+    "remote_readonly": true,
+    "returncode": 0,
+    "no_retry": true,
+    "stdout_bytes": 29747,
+    "stdout_sha256": "0ced27330d6d572c24338fc97971ea2aac100c07b312770351c71b30ae0fb18d",
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "raw_digest_matches_terminal_evidence": true
+  },
+  "native_fit_counters": {
+    "epochs_observed": [0, 1, 2],
+    "successful_updates_total": 22380,
+    "completed_batches_total": 1119,
+    "successful_updates_per_epoch": [7460, 7460, 7460],
+    "completed_batches_per_epoch": [373, 373, 373],
+    "amp_skipped_updates_per_epoch": [0, 0, 0],
+    "nonfinite_gradient_steps_per_epoch": [0, 0, 0],
+    "evaluation": "withheld during fit"
+  },
+  "cgroup": {
+    "own_cgroup": null,
+    "parent_scan_cgroup_count": 1,
+    "parent_scan_overflow": false,
+    "parent_scan_populated": {},
+    "campaign_processes": [],
+    "host_root_fallback_used": false
+  },
+  "source_caveat": {
+    "raw_schema_label": "full_gru_tweaks.teacher_s3_startup_health.v1",
+    "schema_label_is_s4_identity": false,
+    "exact_s4_identity_is_bound_by_unit_invocation_run_and_argv": true,
+    "source_commit_value": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+    "source_commit_value_is_hardcoded_in_health_reader": true,
+    "source_files_content_hashed_by_health_reader": false,
+    "source_evidence": "Source root and two named files have stat metadata only; source content authority remains the admitted manifest and must be checked by the restricted verifier."
+  },
+  "limitations": [
+    "This establishes native producer metadata only; it does not establish checkpoint/model/source/data integrity or model quality.",
+    "training_state.pt and model payloads were not read or hashed; the health reader reports payload_read_or_hashed=false.",
+    "S4 source checker and S5 successor admission source review remain outstanding."
+  ],
+  "evidence_files": [
+    "records/teacher_s4_v1/TERMINAL_EVIDENCE.json",
+    "records/teacher_s4_v1/health_20261019T193219Z/STDOUT.raw.json",
+    "records/teacher_s4_v1/health_20261019T193219Z/TRANSPORT.json",
+    "records/teacher_s4_v1/health_20261019T193219Z/STDERR.raw",
+    "records/teacher_s4_v1/health_20261019T193219Z/OBSERVATION.json",
+    "records/teacher_s4_v1/startup_health_v1/REMOTE.py"
+  ],
+  "reviewed_predecessor_sources": [
+    "preparation/teacher_terminal_check_v2.py",
+    "preparation/admit_teacher_terminal_verifier_v2.py",
+    "preparation/admit_teacher_s4_fit.py"
+  ]
+}

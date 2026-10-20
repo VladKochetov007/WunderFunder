@@ -1,0 +1,76 @@
+{
+  "schema": "fg19.teacher-cache-s5-train-export-actual-review.v1",
+  "status": "PASS_METADATA_ONLY",
+  "reviewed_utc": "2026-10-20",
+  "scope": "Independent local metadata audit of S5 train export capture, frozen acceptance, and separate exact-stop receipt. No SSH, prediction payload reads/hashes, tests, replay, or model work.",
+  "acceptance": {
+    "path": "records/teacher_s5_train_export_v1/TERMINAL_ACCEPTANCE.json",
+    "bytes": 4922,
+    "sha256": "282ad4b9878a33c0120935ce4b1a2d009b4cd57867c0f3f323c846b1a9aba32c",
+    "status": "ACCEPTED",
+    "accepted_utc": "2026-10-20T00:30:04.044023+00:00",
+    "capture_raw_sha256": "9df094b234d62203210d8735047fa22cc1d1cf7c1924942fc61f3d14454fa9d2",
+    "stop_status": "PENDING_EXACT_STOP_AFTER_DURABLE_ACCEPTANCE",
+    "native_unit": {
+      "name": "computer-vision-homework-fg19-teacher-s5-train-export-v1.service",
+      "invocation_id": "9d2b2c9328f241bf896fd1ca75a3421b",
+      "main_pid": 0,
+      "active_state": "active",
+      "sub_state": "exited",
+      "exec_main_code": 1,
+      "exec_main_status": 0,
+      "result": "success",
+      "start_utc": "2026-10-20T00:01:39Z",
+      "exit_utc": "2026-10-20T00:28:16Z"
+    }
+  },
+  "capture": {
+    "raw_path": "records/teacher_s5_train_export_v1/capture/STDOUT.raw.json",
+    "raw_bytes": 591107,
+    "raw_sha256": "9df094b234d62203210d8735047fa22cc1d1cf7c1924942fc61f3d14454fa9d2",
+    "transport_returncode": 0,
+    "transport_bytes": 591107,
+    "transport_sha256": "9df094b234d62203210d8735047fa22cc1d1cf7c1924942fc61f3d14454fa9d2",
+    "raw_persisted_before_parse": true,
+    "capture_sha_matches_acceptance": true,
+    "decoded_receipts": [
+      {"name": "ADMISSION.json", "bytes": 29655, "sha256": "4a85745df5c38000818d55afb947ad25717e38b8b3d8f2b28c99a5119bef0d80", "matches_saved_bytes": true},
+      {"name": "LAUNCH.json", "bytes": 3144, "sha256": "0f9d26c039bce5ebc8590613f6663bd5c0997493e15c18a65472628df255fb55", "matches_saved_bytes": true},
+      {"name": "unit.log", "bytes": 57959, "sha256": "4028314a99efa1c2824f66b582dc504654f8612d149ef20f3adade41e5a80dd1", "matches_saved_bytes": true},
+      {"name": "PREDICTION.json", "bytes": 108035, "sha256": "be505136f01c95fc0d55ad65c7e5cc024bc18bf4fe1ecfdf63cdbe83057e38b4", "matches_saved_bytes": true},
+      {"name": "TEACHER_PROVENANCE.json", "bytes": 168717, "sha256": "0cb36af9cb19fb278d0bd500514d014972ccf997c8b91baa5ab43896e6cb287f", "matches_saved_bytes": true},
+      {"name": "FIT_MEMBERSHIP.json", "bytes": 60607, "sha256": "ac811bdd423ecea8cd2515aca54c7fbd58bd1e279153012433b30a87a9c769bc", "matches_saved_bytes": true}
+    ]
+  },
+  "checks": [
+    {
+      "name": "capture and source identity",
+      "result": "PASS",
+      "basis": "The capture transport is returncode 0 and hash/length match the durable raw JSON and acceptance. All six base64-decoded metadata/log receipts match the separately saved files byte-for-byte. Acceptance binds source commit 88becca892b3d6b97022cf06076c84a7ab165974, 167 files, manifest SHA-256 f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97, and 18 runtime semantic pins. Raw source-file map equals the admission map (167/167); all 18 sidecar semantic pins are present in that map."
+    },
+    {
+      "name": "S5 train recipe, provenance, and normalization",
+      "result": "PASS",
+      "basis": "Captured run is fg19_t3_h384x2_e3_s5_v1, train, selected epoch 2; checkpoint SHA-256 0ec6dcb7fc82e5a8282ef93d460fcac7b4f6dcb4d3cc63726c485fb2f3595f26 and provenance SHA-256 0cb36af9cb19fb278d0bd500514d014972ccf997c8b91baa5ab43896e6cb287f. Prediction sidecar, teacher provenance, admission expectation, and acceptance agree on the same S5 normalization identity: mean shape [211] FP32 SHA-256 bbb5606e591b033d446665672cc4a33a8353afe85fc52027152289ae1718de47; std shape [211] FP32 SHA-256 a8c840067bd76955c231ece61911edfd8f5716359d8a55a49c6e920e80e5b6e0."
+    },
+    {
+      "name": "ordered fit membership and export scope",
+      "result": "PASS",
+      "basis": "Captured fit train membership and sidecar row_groups are exactly equal and ordered, with 10,535 unique IDs; their little-endian int64 membership hash equals acceptance SHA-256 8ebb217415c8cdc8c468bb081a7fa815e90b661fd1714f6d05da434a2fa3bbda. Split SHA-256 is c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7; sidecar declares campaign export scope fit and feature_only true. The export contains no evaluation rows."
+    },
+    {
+      "name": "producer output and scientific scope",
+      "result": "PASS_WITH_PAYLOAD_LIMITATION",
+      "basis": "Acceptance records 659 progress records for 10,535 completed train sequences, source-shaped prediction [10535,20000,2], 1,685,600,128 bytes, and producer whole-file SHA-256 d6e1f58743725c15d609db9d7e13aa897100d363d9225d85ecc96fb8bd48115b. The SHA authority is the producer/sidecar; no independent NPY payload hash, header read, or finite scan was done. FP32 dtype is source-construction/sidecar authority; streamed CPU validation is still required. This export adds zero scientific fits and is not a quality grade."
+    },
+    {
+      "name": "separate exact-stop receipt",
+      "result": "PASS",
+      "basis": "The exact-stop raw response is 1,086 bytes with SHA-256 81964bf8e0022797d4d646f18e78cdea2b1e4702cad2f09e7397e5b52827eec8; transport length/hash match and returncode is 0. Its acceptance_before_stop_sha256 equals the frozen acceptance SHA above. It records stop returncode 0 for the exact S5 train unit, then unit not-found/inactive/dead with empty populated descendants. The acceptance remains immutable with its pre-stop PENDING status; the later stop is separate evidence."
+    }
+  ],
+  "limitations": [
+    "This audit does not independently validate prediction array bytes, NPY header, finiteness, or model quality.",
+    "The exact-stop parent memory sample is historical to that stop capture and is not a current parent-headroom assertion."
+  ]
+}

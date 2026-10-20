@@ -1,0 +1,150 @@
+{
+  "captured_utc": "2026-10-19T17:29:52.610644+00:00",
+  "checkpoint_payload_read": false,
+  "gradient_nonfinite_by_epoch": [
+    {
+      "epoch": 0,
+      "nonfinite_steps": 0,
+      "steps": 7460
+    },
+    {
+      "epoch": 1,
+      "nonfinite_steps": 0,
+      "steps": 7460
+    }
+  ],
+  "last_optimizer_line": "ep 2 batch 360/373 loss 1.6110 lr 7.12e-07 seq/s 6.0",
+  "limitations": [
+    "Recordedep2batch360/373 is a dated log line, not a synchronous live batch.",
+    "This17:29running snapshot is superseded for terminal status by the later17:32native capture."
+  ],
+  "native_unit": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s3-v1.service",
+    "ExecMainCode": "0",
+    "ExecMainExitTimestamp": "",
+    "ExecMainStartTimestamp": "Mon 2026-10-19 15:35:05 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-teacher-af21d6d8/scripts/train_rnn.py --name fg19_t3_h384x2_e3_s3_v1 --seed 3 --device cuda --arch gru --cell gru --enc linear --hidden 384 --layers 2 --head-layers 1 --epochs 3 --checkpoint-policy fixed --checkpoint-epoch 2 --batch 32 --chunk 1000 --optim muon --muon-scope all --muon-ortho-dtype fp32 --strict-muon-fp32 --lr 0.001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --loss wmse --loss-norm chunk --precision fp32 --aux-struct 0.3 --aux-next 0.3 --since-weight 32 --since-floor 0.25 --propensity fg19_propensity_clean_f0_seed0_e4 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --grad-stats --sync-free --pin-memory --save-training-state --no-eval-during-fit --valid-fold 0 ; ignore_errors=no ; start_time=[Mon 2026-10-19 15:35:05 UTC] ; stop_time=[n/a] ; pid=3031175 ; code=(null) ; status=0/0 }",
+    "InvocationID": "02a8c00b433b49a185c2700624397769",
+    "LoadState": "loaded",
+    "MainPID": "3031175",
+    "MemoryCurrent": "3600138240",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "4098809856",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "running"
+  },
+  "own_cgroup": {
+    "events": {
+      "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+    },
+    "memory_current": "3952721920",
+    "memory_peak": "4098809856",
+    "path": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s3-v1.service",
+    "populated_pids": [
+      "3031175"
+    ]
+  },
+  "parent_memory_events": {
+    "memory.events": "low 0\nhigh 2179\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "populated_campaign_children": {
+    "cgroup_count": 2,
+    "overflow": false,
+    "populated": {
+      "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s3-v1.service": [
+        "3031175"
+      ]
+    },
+    "root": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice"
+  },
+  "producer_epoch_summaries": [
+    {
+      "cumulative_updates": {
+        "amp_skipped_updates": 0,
+        "completed_batches": 373,
+        "ema_updates": 0,
+        "optimizer_attempts": 7460,
+        "optimizer_completed_updates": 7460
+      },
+      "epoch": 0,
+      "epoch_updates": {
+        "amp_skipped_updates": 0,
+        "completed_batches": 373,
+        "ema_updates": 0,
+        "optimizer_attempts": 7460,
+        "optimizer_completed_updates": 7460
+      },
+      "evaluation": "withheld",
+      "train_seconds": 2570.3
+    },
+    {
+      "cumulative_updates": {
+        "amp_skipped_updates": 0,
+        "completed_batches": 746,
+        "ema_updates": 0,
+        "optimizer_attempts": 14920,
+        "optimizer_completed_updates": 14920
+      },
+      "epoch": 1,
+      "epoch_updates": {
+        "amp_skipped_updates": 0,
+        "completed_batches": 373,
+        "ema_updates": 0,
+        "optimizer_attempts": 7460,
+        "optimizer_completed_updates": 7460
+      },
+      "evaluation": "withheld",
+      "train_seconds": 2257.6
+    }
+  ],
+  "quality_result": false,
+  "raw_sha256": "2b3f8764b72ce99bbee0345847c6dcd4e71bbf7a29584e967048818446fef268",
+  "run_file_stats": {
+    "history.json": {
+      "exists": false,
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_t3_h384x2_e3_s3_v1/history.json"
+    },
+    "model.pt": {
+      "exists": false,
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_t3_h384x2_e3_s3_v1/model.pt"
+    },
+    "model_ep2.pt": {
+      "exists": false,
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_t3_h384x2_e3_s3_v1/model_ep2.pt"
+    },
+    "progress.jsonl": {
+      "exists": false,
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_t3_h384x2_e3_s3_v1/progress.jsonl"
+    },
+    "provenance.json": {
+      "bytes": 166192,
+      "device": 64512,
+      "exists": true,
+      "inode": 779039754,
+      "is_symlink": false,
+      "mode": "0o100664",
+      "mtime_ns": 1792429039856235661,
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_t3_h384x2_e3_s3_v1/provenance.json"
+    },
+    "training_state.pt": {
+      "bytes": 17715368,
+      "device": 64512,
+      "exists": true,
+      "inode": 779039757,
+      "is_symlink": false,
+      "mode": "0o100600",
+      "mtime_ns": 1792429039893238273,
+      "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_t3_h384x2_e3_s3_v1/training_state.pt"
+    }
+  },
+  "schema": "fg19.teacher-native-observation.v1",
+  "status": "HEALTHY_RUNNING_BEFORE_NATIVE_COMPLETION",
+  "terminal_integrity_accepted": false
+}

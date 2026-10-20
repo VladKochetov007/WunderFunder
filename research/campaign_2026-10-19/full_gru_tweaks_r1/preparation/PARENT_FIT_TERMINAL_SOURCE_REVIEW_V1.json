@@ -1,0 +1,79 @@
+{
+  "schema": "fg19.parent-fit-r2-terminal-source-review.v1",
+  "status": "CONDITIONAL_PASS_ROOT_MANIFEST_BINDING_REQUIRED",
+  "scope": "Independent local source review of the frozen bounded terminal checker and its direct helper dependencies. No SSH, native query, training, model/checkpoint read, or prediction-array read was performed. This is not terminal or quality evidence.",
+  "identity": {
+    "run_name": "fg19_parent_h256x2_f0_s1001_fit_r2_v1",
+    "unit": "computer-vision-homework-fg19-parent-fit-r2-v1.service",
+    "invocation_id": "5186b3016ff54b1fa754c10a1f87b3e4",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+  },
+  "reviewed_pins": {
+    "checker": {
+      "path": "preparation/parent_fit_terminal_check_v1.py",
+      "sha256": "f27091c864287d6a3b7c173619ad1af5db6887e9632c49a8c6d0bb50c3a9c1d1"
+    },
+    "focused_tests": {
+      "path": "preparation/test_parent_fit_terminal_check_v1.py",
+      "sha256": "04975aa9c15ac82ddaeaa442b1f31f46bf9c4d885bad93351021ea8eab3d6702",
+      "reported_result": "9 passed; recorded in the pinned local-check receipt, not rerun by this reviewer"
+    },
+    "local_checks": {
+      "path": "preparation/PARENT_FIT_TERMINAL_CHECK_LOCAL_CHECKS.json",
+      "sha256": "72bc6f6d21f5ac8aac53b688bb7f39719b3ee54e91f3afc347e5123350ab68d4",
+      "reported_result": "Ruff, formatting, compile, focused synthetic tests, and cold-import proof PASS"
+    },
+    "frozen_support_helper": {
+      "path": "preparation/propensity_terminal_support.py",
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+      "git_blob_oid": "9b310dd7c474d132f78af0e4620925a83baa9317",
+      "matches_HEAD_bytes": true
+    },
+    "s5_source_helper": {
+      "path": "preparation/teacher_s5_terminal_check_v1.py",
+      "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5",
+      "used_helpers": ["_launch_cli_args", "_canonical_tensor_identity"]
+    },
+    "cold_import_proof": {
+      "script_path": "preparation/parent_fit_terminal_cold_import_proof_v2.py",
+      "script_sha256": "c206b5ce1b032869b27d5ec0bc02e87d7948993f9728fc3d84d71752013d14c5",
+      "receipt_path": "preparation/PARENT_FIT_TERMINAL_COLD_IMPORT_V2.json",
+      "receipt_sha256": "d9be6de0c613b7596361823051977e4e12de3dff690c4a0880175a2eedc4ae81",
+      "reported_result": "PASS; python -I; both reused helpers exercised on synthetic metadata/tensor; 26 pinned WNN modules including wnn.run_identity; no CUDA initialization or model/array reader calls"
+    },
+    "review_note": {
+      "path": "preparation/PARENT_FIT_TERMINAL_CHECK_V1.md",
+      "sha256": "86d56396128ad6356b608559b5677502449237276da2c69fd774f85ed1ea3789"
+    }
+  },
+  "fit_contract": {
+    "architecture": "strict FP32 GRU H256x2, 211 inputs to 23 outputs",
+    "seed": 1001,
+    "batch": 16,
+    "chunk": 2000,
+    "optimizer": "AdamW",
+    "checkpoint": "fixed zero-based epoch 3; training state resumes at next_epoch 4",
+    "evaluation": "withheld during fit",
+    "expected_counters": {
+      "batches_per_epoch": 746,
+      "updates_per_batch": 10,
+      "updates_per_epoch": 7460,
+      "epochs": 4,
+      "total_updates": 29840,
+      "status": "expected until the native terminal checker verifies saved metadata"
+    }
+  },
+  "source_review": {
+    "verdict": "No material source blocker found in the pinned checker/helper set, conditional on exact root manifest binding and fresh execution gates.",
+    "checks": [
+      "The verifier checks the captured typed native success for the exact unit and invocation before root acceptance/exact-stop. It does not require the current fit to be stopped first, avoiding a circular gate; predecessor cache/profile stops remain bound inputs.",
+      "The full trainer CLI, source commit/167-file manifest, fit-only membership, accepted homogeneous cache provenance, and producer-recorded array hashes plus shape/dtype/stat identities are checked against pinned records without opening cache-array payloads.",
+      "Model and normalization tensors are checked for expected inventory, shape, finite FP32 values, and identity agreement across model.pt, model_ep3.pt, training state, and provenance. The checker binds the canonical normalization implementation and identity; it does not recompute normalization from dataset arrays.",
+      "The exact epoch-bound training-state schema, next_epoch=4, AdamW moments and step counts, OneCycle horizon/final learning rate, loader/RNG/auxiliary state, and history/provenance progress counters are checked; evaluation is required to remain withheld.",
+      "Checkpoint reads use O_NOFOLLOW, per-file and aggregate byte caps, SHA-256, weights_only=True restricted loading, and file identity/stability checks. No prediction-array or dataset-array read is part of the checker."
+    ],
+    "remaining_condition": "Before any checker use, root must verify and bind the exact checker, frozen support helper, S5 helper, source manifest and receipt pins in its root preparation manifest, then satisfy fresh resource/native-exit gates. A checker PASS would validate terminal integrity metadata only; it would not establish predictive quality."
+  }
+}

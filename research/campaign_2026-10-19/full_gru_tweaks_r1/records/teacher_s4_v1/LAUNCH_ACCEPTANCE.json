@@ -1,0 +1,27 @@
+{
+  "accepted_utc": "2026-10-19T17:52:26.558399+00:00",
+  "admission_sha256": "0f68060beeb73a0fc92892dfa9621fa06a28a6a6f9d175f5adb87ae1fc2852c2",
+  "expected_updates": 22380,
+  "invocation_id": "b6d71599e0044970b8641e3e241c40a4",
+  "launch_post": {
+    "ActiveState": "active",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-teacher-s4-v1.service",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-teacher-af21d6d8/scripts/train_rnn.py --name fg19_t3_h384x2_e3_s4_v1 --seed 4 --device cuda --arch gru --cell gru --enc linear --hidden 384 --layers 2 --head-layers 1 --epochs 3 --checkpoint-policy fixed --checkpoint-epoch 2 --batch 32 --chunk 1000 --optim muon --muon-scope all --muon-ortho-dtype fp32 --strict-muon-fp32 --lr 0.001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --loss wmse --loss-norm chunk --precision fp32 --aux-struct 0.3 --aux-next 0.3 --since-weight 32 --since-floor 0.25 --propensity fg19_propensity_clean_f0_seed0_e4 --prop-power 2 --prop-eps 0.03 --valid-true-mask 0.03 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --grad-stats --sync-free --pin-memory --save-training-state --no-eval-during-fit --valid-fold 0 ; ignore_errors=no ; start_time=[Mon 2026-10-19 17:50:37 UTC] ; stop_time=[n/a] ; pid=3263631 ; code=(null) ; status=0/0 }",
+    "InvocationID": "b6d71599e0044970b8641e3e241c40a4",
+    "MainPID": "3263631",
+    "SubState": "running"
+  },
+  "launch_sha256": "f303534d17c770fd993d979ca407b050a8e8a1207bbe96a32224a392448b16f9",
+  "observed_completed_updates": null,
+  "predecessor_terminal_acceptance_sha256": "7c5ce63b087a15c309eeada24f0dd8df983d28f9931e86862347ca87b04282cc",
+  "predecessor_terminal_stop_sha256": "1761d85cc103a4df6e2c14c670d08989ad94c542ea84a6be070caa8bbf01d44d",
+  "profile_acceptance_sha256": "d19eed47c0e447810d35e1661b91546004c8aabc42e5aca7f1928fb2eb53ab37",
+  "recipe_sha256": "c460b098d09773786552e5b2c98596fab3319a05108d49bd5693da43ee8a7d88",
+  "remote_submission_sha256": "f67f707d903c0a2d98925eff7a117cc376108a36fe7a7cbf3f96d5aeb4e50a94",
+  "schema": "fg19.teacher-s4-launch-acceptance.v1",
+  "scope": "One actual new seed4 strong teacher on the original source/recipe, after accepted/stopped S3. No optimizer progress, terminal checkpoint or quality result yet. Raw transport response is preserved; admission/launch JSON are local structured extractions by the reviewed binder.",
+  "source_commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+  "source_file_count": 164,
+  "status": "ADMITTED_RUNNING_NOT_TERMINAL",
+  "unit": "computer-vision-homework-fg19-teacher-s4-v1.service"
+}

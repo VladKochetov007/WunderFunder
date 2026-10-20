@@ -1,0 +1,59 @@
+{
+  "schema": "fg19.teacher-cache-cpu-execution-review.v1",
+  "status": "CONDITIONAL_SOURCE_PASS",
+  "reviewed_utc": "2026-10-20",
+  "scope": "Independent local source-only review of the frozen CPU cache-build phase. No source changes, tests, SSH, model/checkpoint deserialization, prediction-array payload reads, or cache execution were performed.",
+  "source_identity": {
+    "worktree": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019",
+    "commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "source_manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97",
+    "source_file_count": 167,
+    "contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "builder_sha256": "e0d494019357e790576629b4731198fcbe2b80572b32e38ac7afc065bd6328b7",
+    "semantic_helper_sha256": "5f89ac1023d1b35f4d1ba02a39727e30ec1ff1d09fac28730039716188d5c8d4",
+    "prior_source_review_sha256": "1286573e693b2dce6251050454bc110e0e61eea5f5df2f93cb276ab106042d67",
+    "prior_local_checks_sha256": "a9cb50a0cc2d16b890ff176108f515ade0123d8add35a89db8375b171006a1bd"
+  },
+  "checks": [
+    {
+      "name": "canonical invocation and storage paths",
+      "result": "PASS",
+      "command": "PROJECT=/home/grinchenkoeg/computer-vision-homework-20261018/data; B=/home/grinchenkoeg/computer-vision-homework-20261018; python scripts/build_distill_cache.py --data-root \"$PROJECT\" --teacher-cache-root \"$B/research_tmp/fg19_t3_fit_predictions_s3_s4_s5_v1\" --checkpoint-root \"$PROJECT/artifacts/runs\" --cache-profile cleanfold_homogeneous_strong_t3_v1 --cleanfold-contract \"$B/research/full_gru_tweaks_r1/teacher_cache_v1/preparation/TEACHER_CACHE_EXECUTION_CONTRACT_R1.json\" --cleanfold-contract-sha256 dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9 --acceptance-root \"$B/research/full_gru_tweaks_r1/teacher_cache_v1\" --split-manifest \"$B/splits/fold0.json\" --output \"$B/research_tmp/fg19_t3_fit_homogeneous_cache_v1\" --teacher 'strong=fg19_t3_h384x2_e3_s3_v1@ep2*0.1' --teacher 'strong=fg19_t3_h384x2_e3_s4_v1@ep2*0.1' --teacher 'strong=fg19_t3_h384x2_e3_s5_v1@ep2*0.1' --homogeneous-family strong --expected-coefficient-sum 0.8125 --chunk-sequences 8 --output-profile homogeneous-only --output-budget-gb 30 --min-free-gb 25",
+      "basis": "Matches the frozen source-audit CLI except the split path is the separately captured canonical B/splits/fold0.json (SHA-256 c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7, 1,388,846 bytes). PROJECT remains B/data for data-root and checkpoints; the builder accepts the explicit split path and binds its content hash, so PROJECT/splits is not assumed. Output and existing predictions use physical B/research_tmp; accepted metadata uses B/research/full_gru_tweaks_r1/teacher_cache_v1."
+    },
+    {
+      "name": "teacher recipe and arithmetic",
+      "result": "PASS",
+      "basis": "The opt-in builder requires exactly ordered strong S3/S4/S5 at epoch 2 and original 0.1 metadata coefficients, homogeneous-only output and fixed 0.8125 multiplier. The helper computes the raw FP32 arithmetic mean in S3/S4/S5 order and multiplies once; no construction clipping, per-teacher normalization, FP16, or second consumer scaling is applied."
+    },
+    {
+      "name": "accepted identity and no replay",
+      "result": "PASS",
+      "basis": "The builder verifies contract, accepted receipt, model, epoch-2 checkpoint and provenance hashes plus selected recipe fields. On the root-pinned T3 path it hashes checkpoint files but does not deserialize them, instantiate/infer a teacher, rerun a scorer, or fit a model."
+    },
+    {
+      "name": "fit alignment and finite validation",
+      "result": "PASS",
+      "basis": "It reads fit-only sidecars with a 128-KiB bound, requires JSON integer row-group IDs and exact train/valid fit membership, rejects duplicates/outers, maps to canonical target-index order, and opens predictions as read-only mmap with exact FP32 shape checks. Input finite checks stream 64 sequences at a time; combination runs 8 sequences at a time and rejects nonfinite FP32 inputs or overflow output. Evaluation groups are excluded."
+    },
+    {
+      "name": "input/output hash authority and create-only behavior",
+      "result": "PASS",
+      "basis": "Each input NPY is SHA-256 checked against its sidecar; contract/acceptance/checkpoint/provenance pins are checked before combination. Output NPYs are flushed, then SHA-256 and ordered little-endian int64 membership hashes are recorded in metadata. The T3 path rejects existing output paths including dangling symlinks and an existing partial directory, then publishes the completed partial directory."
+    },
+    {
+      "name": "CPU memory, I/O, disk, and runtime envelope",
+      "result": "PASS_WITH_ROOT_GATES",
+      "basis": "At 11,940 fit sequences and 20,000x2 FP32 outputs, three prediction pairs occupy 5,731,200,000 payload bytes on disk; the two cache arrays add 1,910,400,000 bytes plus NPY headers/metadata. Source keeps six inputs mmap-backed, hashes with an 8-MiB buffer, finite-scans 64-sequence slices (~9.77-MiB float slice and ~2.44-MiB bool mask), combines 8-sequence chunks (1.28-MiB per teacher chunk; 3.84-MiB copied inputs plus ~1.28-MiB FP32 accumulator written directly into output mmap). Thus private array working buffers are only tens of MiB; full source/output files are physical-disk-backed rather than simultaneous heap copies. Source performs about 21.0 GB aggregate prediction/output read-write traffic (input hash+scan+combine, output write+hash), requiring ~35 MB/s aggregate average to finish within the existing 600-s cap before overhead. No source evidence requires increasing the authorized 0.5-CPU, MemoryHigh 1.4-GB, MemoryMax 1.5-GB, swap-0 cap; however mmap page cache/dirty output pages are cgroup-charged, so this source review does not prove actual peak memory or storage throughput. The builder itself requires output <=30 GiB and preserves >=25 GiB physical free space after the 1.91-GB output."
+    },
+    {
+      "name": "remaining admission boundary",
+      "result": "ROOT_CONTROLLED",
+      "basis": "Before actual execution, root must bind all six fresh accepted/stopped exports and exact current source, confirm output and partial paths absent, physical B scratch and the builder's 25-GiB post-output free-space floor, and recheck populated descendants, cgroup/parent headroom, unit ownership and runtime quota. This review establishes no cache output, quality result, or measured peak/runtime."
+    }
+  ],
+  "limitations": [
+    "Source-only; no cache run or payload validation was performed by this reviewer.",
+    "Mmap-backed page-cache residency and actual B scratch throughput remain runtime observations for root to gate under the existing caps."
+  ]
+}

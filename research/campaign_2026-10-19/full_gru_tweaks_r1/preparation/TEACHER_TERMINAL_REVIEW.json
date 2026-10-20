@@ -1,0 +1,45 @@
+{
+  "bindings": {
+    "canonical_source": {
+      "commit": "af21d6d8409c46b36830f0bdddd50e67ee17025f",
+      "file_count": 164,
+      "manifest_sha256": "0c83367d4ee3afd7e9f382111060d8c125b52420ce27cd5cc309d338287af7fd"
+    },
+    "checker": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_terminal_check.py",
+      "sha256": "8aaba33317c8dce3f6b75c77577560c78591a2dd6fe5e2ed3f7ea347e202f2d9"
+    },
+    "preparation_receipt": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/TEACHER_TERMINAL_PREPARATION.json",
+      "sha256": "9c97e3f5b3b9faeeda1d7dc3bd22a1fb1d0077b634176a57a9e3fd601261e0fd"
+    },
+    "restricted_loader_support": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/propensity_terminal_support.py",
+      "role": "Bounded stable-file verification and weights_only CPU deserialization with a narrow NumPy RNG safe-global allowlist.",
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    },
+    "test_file": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/test_teacher_terminal_check.py",
+      "sha256": "a6a1a4ff6d5bda21b70442b2c3db3e9cab8884211e60acbd4c57838ebfd4830b"
+    }
+  },
+  "limitations": [
+    "No actual checkpoint, training-state, history, dataset, array, or Parquet payload was read in this review.",
+    "No SSH, remote command, GPU work, training, inference, grading, or optimizer step was run.",
+    "This review is source/preparation readiness only. The checker must still run against the exact captured terminal evidence and bounded artifacts before any terminal acceptance claim."
+  ],
+  "preparation_evidence": {
+    "cold_source_only_reader_sentinels": "pass according to the pinned preparation receipt: no data readers, torch.load, or CUDA initialization calls.",
+    "ruff": "pass according to the pinned preparation receipt.",
+    "synthetic_tests": "13 passed according to the pinned preparation receipt; not rerun during this independent review."
+  },
+  "reviewed_properties": [
+    "The checker binds raw launch and normalized launch-acceptance records separately, parses the actual trainer command with the pinned pure CLI, and compares the complete normalized argument namespace with checkpoint and resume-contract metadata.",
+    "It reconstructs canonical ordered fit-train membership from the seed-3 permutation, keeps fit-valid in split order for the fixed full-fraction recipe, and reconstructs evaluation order with seed 12345; it then checks exact lists and global component disjointness.",
+    "It recomputes model mean/std identities from the checkpoint buffers through the source-pinned canonical tensor_identity helper.",
+    "It bounds and hashes all terminal artifacts before restricted CPU loading, requires the exact GRU tensor layout and FP32 finiteness, checks optimizer group/state shapes and finite FP32 tensors, reconciles fit-only epoch/update counters, and verifies strict runtime flags."
+  ],
+  "schema": "fg19.teacher-s3-terminal-review.v1",
+  "scope": "Independent static review of the frozen terminal checker and its source-only preparation evidence. This is not terminal acceptance.",
+  "status": "PASS_SOURCE_REVIEW_ONLY"
+}

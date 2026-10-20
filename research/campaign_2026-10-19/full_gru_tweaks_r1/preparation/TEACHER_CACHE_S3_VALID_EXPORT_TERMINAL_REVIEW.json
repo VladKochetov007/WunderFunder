@@ -1,0 +1,122 @@
+{
+  "capture": {
+    "embedded_extract_count": 6,
+    "raw_bytes": 396971,
+    "raw_sha256": "b9d2b539eb3d0791303fa2b300cb2368e3b922cd1e694bc04fcbad8e42793c1e",
+    "transport_sha256": "eab95effe2ea83958a205f160c5b5f88f34542fd25fe82167271145b4796d0ba"
+  },
+  "checks": {
+    "all_18_sidecar_source_pins_match_manifest": true,
+    "all_six_capture_extracts_match_raw_embedded_bytes": true,
+    "capture_admission_launch_semantic_match": true,
+    "capture_has_six_extracts": true,
+    "capture_transport_matches_raw": true,
+    "contract_and_prior_receipts_match_admission_pins": true,
+    "exact_stop_transport_binds_raw": true,
+    "later_exact_stop_matches_invocation_and_is_inactive": true,
+    "launch_acceptance_binds_raw_admission_launch": true,
+    "launch_raw_matches_extracted_admission_launch": true,
+    "launch_transport_matches_raw": true,
+    "manifest_is_167_source_map": true,
+    "membership_provenance_sidecar_digests_match": true,
+    "native_command_is_valid_fp32_create_only_profile": true,
+    "native_unit_is_exact_successful_invocation": true,
+    "ordered_prediction_rows_match_fit_valid_membership": true,
+    "output_metadata_scope_is_bounded": true,
+    "profile_and_s3_normalizer_match": true,
+    "progress_is_88_monotone_to_1405": true,
+    "same_valid_namespace_eval_membership_is_disjoint": true,
+    "selected_teacher_and_checkpoint_match_capture": true,
+    "terminal_acceptance_binds_capture": true
+  },
+  "exact_stop": {
+    "after_state": {
+      "ActiveState": "inactive",
+      "CPUUsageNSec": "[not set]",
+      "ControlGroup": "",
+      "ExecMainCode": "0",
+      "ExecMainStatus": "0",
+      "InvocationID": "",
+      "LoadState": "not-found",
+      "MemoryCurrent": "[not set]",
+      "MemoryPeak": "[not set]",
+      "SubState": "dead"
+    },
+    "populated": {},
+    "raw_bytes": 1082,
+    "raw_sha256": "902549b2c12290e372c8f11d57f189f2f21cd39141fe12f389a402fc2b3c863e",
+    "stop_returncode": 0,
+    "transport_sha256": "2f8382e2af28f0bad8a90637f8ba1f4ccc458acec641b68a594bafdf5fd9d65d",
+    "utc": "2026-10-19T23:02:01.415310+00:00"
+  },
+  "launch": {
+    "contract_sha256": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+    "invocation_id": "6c4365b925564e27af985ea833addcf6",
+    "launch_acceptance_sha256": "b0802b60984f0352ddf11ebe1c5ffe74860e1b6002e48d4a93b80cd1412d5d3e",
+    "launch_raw_bytes": 27490,
+    "launch_raw_sha256": "cd9f5fa71b1aa84313953a907b9e829c74dda33702f245ef9ec5b364cf203d88",
+    "launch_transport_sha256": "4b01c4602bd0f9f7747a54810761c4e0971cb07ea8de223da9e9ce4b557011b0",
+    "source_commit": "88becca892b3d6b97022cf06076c84a7ab165974",
+    "source_files": 167,
+    "source_manifest_sha256": "f214d944694737a3925acc1d703c18e4ee06839a7e598d0955f472abff661f97",
+    "unit": "computer-vision-homework-fg19-teacher-s3-valid-export-v1.service"
+  },
+  "limitations": [
+    "Prediction output checked by producer-reported whole-file SHA and captured stat only; no independent array header/hash/finiteness read. The streamed CPU cache builder remains the finite/shape/alignment gate.",
+    "The accepted terminal receipt keeps its frozen stop_status=PENDING_EXACT_STOP_AFTER_DURABLE_ACCEPTANCE; the later exact-stop receipt is reported separately.",
+    "Disjointness is established within the valid namespace only; numeric group IDs from train and valid namespaces are not compared across namespaces."
+  ],
+  "native_terminal": {
+    "completed_sequences": 1405,
+    "exec_main_code": "1",
+    "exec_main_status": "0",
+    "exit_utc": "Mon 2026-10-19 23:00:24 UTC",
+    "feature_only": true,
+    "finite_check_deferred_to_streamed_cpu_cache_builder": true,
+    "fit_eval_overlap_count": 0,
+    "fit_membership_identity_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+    "main_pid": "0",
+    "new_scientific_fits": 0,
+    "normalization_identity": {
+      "mean": {
+        "bytes_sha256": "4e0144fb210b08c72ca8b5fde0ad04b2fefb483ca769806e375841ea061b7d04",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      },
+      "std": {
+        "bytes_sha256": "2ba319907f05cc8f388264e5190635feb42a84a87f5c0be7e2f8373318937696",
+        "dtype": "torch.float32",
+        "shape": [
+          211
+        ]
+      }
+    },
+    "ordered_prediction_groups": 1405,
+    "prediction_finite_independently_checked": false,
+    "prediction_metadata_sha256": "55ddc99fd7aa06ba3a9b309421b3f4642c826abf0a918ca9616b82020b19be9b",
+    "prediction_producer_sha256": "0ba98e6df9d59fb3c301388ab06ff1d34875946b2809d2be6efb251c1fa0baef",
+    "prediction_stat_bytes": 224800128,
+    "progress_records": 88,
+    "quality_grade": false,
+    "runtime_semantic_pins_verified": 18,
+    "same_namespace_eval_groups": 468,
+    "selected_epoch": 2,
+    "source_files_verified": 167,
+    "split": "valid",
+    "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "start_utc": "Mon 2026-10-19 22:56:51 UTC",
+    "status": "ACCEPTED",
+    "stop_status_in_frozen_acceptance": "PENDING_EXACT_STOP_AFTER_DURABLE_ACCEPTANCE"
+  },
+  "resource_observations": {
+    "interpretation": "native unit MemoryPeak and parent MemoryCurrent are distinct samples; no full-RAM claim.",
+    "native_cpu_seconds": 211.056941,
+    "native_memory_peak_bytes": 2428928
+  },
+  "reviewed_utc": "2026-10-19T23:03:31.129989+00:00",
+  "schema": "fg19.teacher-s3-valid-export-independent-metadata-review.v1",
+  "scope": "Independent local metadata-only reconciliation; no SSH, model/checkpoint/prediction-array payload read, tests, or replay.",
+  "status": "PASS_CAPTURED_TERMINAL_AND_EXACT_STOP_METADATA"
+}

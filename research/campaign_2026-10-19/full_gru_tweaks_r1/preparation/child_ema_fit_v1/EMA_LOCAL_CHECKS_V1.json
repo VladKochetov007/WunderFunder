@@ -1,0 +1,102 @@
+{
+  "actual_control_acceptance_sha256": "UNBOUND_PENDING_ROOT_RECEIPT",
+  "actual_control_exact_stop_sha256": "UNBOUND_PENDING_ROOT_RECEIPT",
+  "binder_sha256": "17be7d163966c354b961162b758ee7978d703196ed859006f8d96e64bb11c302",
+  "canonical_cli": {
+    "parsed": {
+      "batch": 16,
+      "checkpoint_epoch": 5,
+      "chunk": 2000,
+      "epochs": 6,
+      "loss": "wmse",
+      "mean_variance_head": 1,
+      "mean_variance_objective": "wmse",
+      "name": "fg19_child_ema_f0_s1001_fit_v1",
+      "representation_mode": "ema",
+      "seed": 1001
+    },
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440"
+  },
+  "changed_argv_values_only": [
+    "--name: control to EMA run identity",
+    "--representation-mode: base to ema"
+  ],
+  "control_body_sha256": "124b90f9cc76c17c9a62e22b934dc15e579417f0b769eb86f44334ba55f6b954",
+  "control_recipe_sha256": "c00c8f5e478326ee72c3651aec0c23bf911344e8984009ad3953abcd5d3057e8",
+  "ema_mode_source_semantics": {
+    "appended_width": 256,
+    "code_width": 16,
+    "ema_half_life_rows": 32,
+    "innovation": "current raw row minus previous raw row; row zero is zero; history resets for each input sequence before recurrent chunking",
+    "mode_ema_layout": {
+      "columns_0_128": "exact zero dictionary/sparse slots",
+      "columns_128_240": "causal signed EMA of 112 raw input innovations",
+      "columns_240_256": "exact zero padding"
+    },
+    "parameter_ema": false,
+    "raw_width": 112,
+    "representation_slot_width": 128,
+    "source_path": "src/wnn/training/input_representation.py",
+    "source_sha256": "934bac99544c04ac3b77f0b9f78fa4b40ce5782a785fee04d9450d9d568b116f"
+  },
+  "ema_trainer_argv_sha256": "a20b4ede3b501daa6cd39e847c212ca3d6215dde81e130a8ab09a48004beb449",
+  "payload_reads_or_hashes": 0,
+  "profile_or_model_suite_repeated": false,
+  "recipe_sha256": "7650cc81e432e76153c1f291defc9931e8d958e02e9d22acb6ed4d80c1273f72",
+  "remote_action_performed": false,
+  "rendered_body_exists": false,
+  "schema": "fg19-child-ema-fit-local-checks.v1",
+  "source_component_hashes": {
+    "src/wnn/training/cli_features.py": {
+      "bytes": 4409,
+      "sha256": "680687de564a7c96ac96296a729ccb6aa37a8ecb913e525153e769fa14abd79a"
+    },
+    "src/wnn/training/input_representation.py": {
+      "bytes": 11714,
+      "sha256": "934bac99544c04ac3b77f0b9f78fa4b40ce5782a785fee04d9450d9d568b116f"
+    },
+    "src/wnn/training/input_representation_dictionary.py": {
+      "bytes": 7470,
+      "sha256": "49eb729fa01574204698a16e2b2a7f0a2a18f119a84aaf39696df9e476f7b2ff"
+    },
+    "src/wnn/training/representation_validation.py": {
+      "bytes": 1418,
+      "sha256": "983e63fecc8886a67ec3452e21ca3637a25588eba02ab225ce5e1b6f9d8fb887"
+    },
+    "src/wnn/training/setup_model.py": {
+      "bytes": 12302,
+      "sha256": "cec9748ad67c995a3c73f6b0288780ba52d0952445251c410113f6670c79fe33"
+    },
+    "src/wnn/training/setup_preprocessing.py": {
+      "bytes": 12381,
+      "sha256": "a02a47186da846c1dbc82d49d5fc0f35f56e7812120576febeda7988e38ce623"
+    }
+  },
+  "status": "PASS_LOCAL_PREPARATION_ONLY_CONTROL_RECEIPTS_UNBOUND",
+  "synthetic_control_receipt_identity": {
+    "acceptance_sha256": "848359ca7613e2a1bcc2c3d58179903a37a5046f66e94d52bb4dd0241a44164e",
+    "amp_skipped_updates": 0,
+    "completed_batches": 4476,
+    "exact_stop_sha256": "ed009dda081e4fb1947ad184dce42b2267f27db34224cd0d4da94c00c1037add",
+    "invocation_id": "0123456789abcdef0123456789abcdef",
+    "next_epoch": 6,
+    "nonfinite_updates": 0,
+    "run_name": "fg19_child_control_f0_s1001_fit_v1",
+    "selected_epoch": 5,
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "successful_updates": 44760,
+    "unit": "computer-vision-homework-fg19-child-control-fit-v1.service"
+  },
+  "synthetic_pending_receipt_rejected": true,
+  "template_patch_anchor_check": {
+    "base_body_sha256": "124b90f9cc76c17c9a62e22b934dc15e579417f0b769eb86f44334ba55f6b954",
+    "unique_patch_anchors": [
+      "admission_link",
+      "launch_link",
+      "main_receipt_gate",
+      "unit_assignment"
+    ]
+  }
+}

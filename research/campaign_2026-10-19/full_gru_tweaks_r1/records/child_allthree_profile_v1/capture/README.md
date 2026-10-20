@@ -1,0 +1,5 @@
+# All-three profile terminal capture
+
+Root captured the exact invocation at05:25:48.275168UTC, after native exit0 at05:20:07. [Raw46,755-byte JSON](STDOUT.raw.json), [transport](TRANSPORT.json) and [executed read-only observer](REMOTE.py) were persisted before parsing. Exact [admission](ADMISSION.json), [launch](LAUNCH.json) and [unit.log](unit.log) payload lengths/SHAs match their raw base64 receipt blocks. [Local validation](VALIDATION.json) reports60 finite completed updates, exact initial ancestry/zero extension, and an empty physical run directory with no checkpoint.
+
+Canonical167-file source authority is the fresh admission; this capture rehashed only the three private-D Python files. No checkpoint, model, dictionary, cache or data payload was opened/hashed. Own terminal cgroup is unavailable; GPU/cgroup/service observations are separate. This is engineering evidence, no quality score or independent model replication. [Acceptance](../TERMINAL_ACCEPTANCE.json), [later exact stop](../exact_stop/README.md), [record](../README.md).
