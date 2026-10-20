@@ -1,5 +1,9 @@
 # [Experiment] B300 causal Transformer and distillation runtime
 
+[Executable packet and B300 commands](https://github.com/VladKochetov007/WunderFunder/blob/d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6/research/experiment_drafts/b300-transformer-distillation-runtime/README.md) · [Receiving-host acceptance](https://github.com/VladKochetov007/WunderFunder/blob/d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6/research/experiment_drafts/b300-transformer-distillation-runtime/REMOTE_ACCEPTANCE.md)
+
+Ruff, formatting, AST parsing and repository structure checks passed locally. No local tests, project imports, training, inference or GPU profiles were run.
+
 1. **Status, lineage and owner.** Implements a CUDA/torchrun teacher → fitting-only
    cache → GRU/Transformer student → official score path, on research-team
    `4e0626c8`. E/H-B300-SEQUENCE-RUNTIME-20261020 connects PR28 transfer, PR29

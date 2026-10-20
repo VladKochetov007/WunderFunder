@@ -18,6 +18,10 @@ This change neither starts jobs nor resumes the separately running GRU campaign.
   [official scorer](../../../scripts/score_sequence.py).
   Components live in `src/wnn/training/sequence_*.py`; the legacy trainer is unchanged.
 
+Published [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32) targets `research-team`. Executable source
+is frozen at `d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6`; later publication/base-sync commits preserve that
+implementation. [Validation record](VALIDATION.json) records static checks only.
+
 ## What is implemented
 
 Raw112 causal pre-norm Transformer, RoPE, GELU FFN, per-layer sliding KV state,

@@ -60,6 +60,8 @@ results remain pending. No jobs are launched by this packet.
 
 Existing proposals and their evidence; a proposal is not an admitted or completed fit.
 
+- Published executable runtime [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32) — Transformer/DDP, fit-only teacher caches, output/hint distillation and official scoring; implementation `d2e6263a`. Static checks passed; B300 acceptance and scientific results remain pending.
+
 ## Current navigation
 
 - [Large dynamics Transformer teachers on8 B300s](LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md) — H-LARGE-DYNAMICS-TEACHER-20261019-R2; proposed0.68B/1.65B capacity contrast and eligible3.17B extension, numerical/group encoders, future-observation auxiliary tasks, causal dense/local/slow-memory attention, all-FP32 Muon, WSD, DDP and GRU transfer. Includes analytical memory/runtime scenarios, independent criticism and a four-fit draft packet; no runnable trainer, profile, fit, transfer or public gain. Supersedes prospective CP30 counting in the old proposal, preserving its frozen source/history.
