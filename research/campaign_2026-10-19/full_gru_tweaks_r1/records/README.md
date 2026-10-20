@@ -1,3 +1,7 @@
+[NLL rare health23:02UTC](child_nll_fit_v1/health_20261020T2301Z/README.md): same active invocation, one completed epoch / 7460updates / 746batches / zero skips/nonfinite. Later ep1batch580 is not current totals/native terminal/quality. One owned worker, no new memoryevents, stat-only run artifacts; no B support, newfit, restart, stop, inference or checker preparation. Next rare check21October00:00UTC+.
+
+---
+
 [NLL-only actual launch22:07UTC](child_nll_fit_v1/README.md), after [dictionary accepted](child_dictionary_fit_v1/TERMINAL_ACCEPTANCE.json) and [exact stopped22:02UTC](child_dictionary_fit_v1/exact_stop/README.md). One GPU worker, fifth comparison fit started, fourth completed including parent; allthree pending. [Actual dictionary support metadata audit](child_dictionary_fit_v1/terminal_verification_v1/ACTUAL_RESULT_METADATA_REVIEW.json) joins PASS/acceptance/stop. No predictive-quality score/gain.
 
 ---

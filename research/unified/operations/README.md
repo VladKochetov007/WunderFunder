@@ -1,3 +1,7 @@
+[NLL rare health23:02UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261020T2301Z/README.md): same active owned worker, completed epoch0 / 7460updates / 746batches / zero skips/nonfinite; later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only, no support/newfit/restart/stop/checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_NLL_HEALTH_2302.json) binds exact raw/navigation with zero ledger rows/fits/quality; next rare observation21October00:00UTC+.
+
+---
+
 [Dictionary full acceptance and exact owned stop22:02UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/exact_stop/README.md) preceded [actual NLL-only launch22:07UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/README.md). One serial GPU worker/aggregate2CPU, common parent and target; comparison5started/4completed of6, allthree unadmitted. [Continuation](../../campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs raw-first lifecycle/resource gates and quiet rare health. No quality comparison yet.
 
 ---

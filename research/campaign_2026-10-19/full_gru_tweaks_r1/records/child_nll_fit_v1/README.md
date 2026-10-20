@@ -1,3 +1,7 @@
+**Latest dated health23:02UTC:** [One rare same-invocation capture](health_20261020T2301Z/README.md) records completed epoch0 / 7460successfulupdates / 746batches / zero skips/nonfinite. Later ep1batch580 is not current totals, terminal44760, integrity or quality. One owned GPU worker, no new events, three stat-only artifact files; no new job/action/checker preparation. Next rare check21October00:00UTC+; actual typed native exit0 remains prerequisite for B integrity checking.
+
+---
+
 # Actual NLL-only full GRU child
 
 The fourth fixed child launched once20October22:07:20.840571UTC (receipt time; 21October01:07MSK), after the dictionary child passed full integrity and exact owned stop. Unit `computer-vision-homework-fg19-child-nll-fit-v1.service`, invocationc833c613fb92426981ab255a5faf4452, PID1537702 at the launch observation. Expected six epochs/44,760updates are not completed work or quality evidence.

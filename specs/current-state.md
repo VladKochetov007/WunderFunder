@@ -1,3 +1,9 @@
+## 20 October23:02UTC — NLL child active at rare observation
+
+[Bounded NLL health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261020T2301Z/README.md) records one completed epoch / 7460updates / 746batches / zero skips/nonfinite. Later ep1batch580 is not synchronous current totals, native44760, integrity or predictive quality; NLL loss is not a WMSE quality comparison. One owned GPU, own/parent event deltas0, tensor files stat-only; no new support/fit/restart/stop/inference/checker preparation. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare21October00:00UTC+ and actual native-exit gates. Comparison5started/4completed of6 including parent; allthree unadmitted, shared prerequisitefits5 separate.
+
+---
+
 ## 20October22:07UTC — dictionary accepted; NLL-only child launched
 
 [Dictionary integrity acceptance and exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/exact_stop/README.md) completed. [NLL-only full fit](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/README.md) launched once under fresh one-GPU gates; same source/parent/norm/order/target, base representation and coupled mean-logvariance NLL. Comparison5started/4completed of6 including parent; final allthree arm unadmitted, shared prerequisitefits5 separate. No predictive-quality endpoint/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs one startup then rare23:00UTC+ and actual exit/integrity/acceptance/stop gates.
