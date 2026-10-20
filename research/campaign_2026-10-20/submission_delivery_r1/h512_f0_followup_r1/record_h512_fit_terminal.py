@@ -141,6 +141,7 @@ def record(root: Path, service: str) -> dict[str, Any]:
         "service_properties": properties,
         "fit_log_sha256": sha256(log),
         "provenance_sha256": sha256(provenance_path),
+        "receipt_producer_sha256": sha256(Path(__file__).resolve()),
         "checkpoint_sha256": hashes,
         "fit_epochs": sorted(fit_epochs),
         "selected_fixed_epoch": 5,
