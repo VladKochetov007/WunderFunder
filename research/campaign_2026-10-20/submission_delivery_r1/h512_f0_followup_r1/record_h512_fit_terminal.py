@@ -42,9 +42,13 @@ def service_properties(service: str) -> dict[str, str]:
             "show",
             service,
             "--property=ActiveState",
+            "--property=SubState",
+            "--property=MainPID",
             "--property=Result",
             "--property=ExecMainStatus",
             "--property=InvocationID",
+            "--property=ExecMainStartTimestampMonotonic",
+            "--property=ExecMainExitTimestampMonotonic",
         ],
         check=True,
         capture_output=True,
@@ -71,13 +75,25 @@ def record(root: Path, service: str) -> dict[str, Any]:
     started = read_json(start)
     properties = service_properties(service)
     invocation = started.get("service", {}).get("InvocationID")
+    active = properties.get("ActiveState")
+    substate = properties.get("SubState")
+    settled = (active == "active" and substate == "exited") or (
+        active == "inactive" and substate in {"dead", "inactive"}
+    )
+    try:
+        start_monotonic = int(properties["ExecMainStartTimestampMonotonic"])
+        exit_monotonic = int(properties["ExecMainExitTimestampMonotonic"])
+    except (KeyError, ValueError) as error:
+        raise ValueError("systemd did not report monotonic start/exit timestamps") from error
     if (
-        properties.get("ActiveState") != "inactive"
+        not settled
+        or properties.get("MainPID") != "0"
         or properties.get("Result") != "success"
         or properties.get("ExecMainStatus") != "0"
         or properties.get("InvocationID") != invocation
+        or exit_monotonic <= start_monotonic
     ):
-        raise ValueError("service is incomplete, failed, or has a different invocation")
+        raise ValueError("service is running, incomplete, failed, or has a different invocation")
 
     fit_epochs: set[int] = set()
     selected_fixed = False

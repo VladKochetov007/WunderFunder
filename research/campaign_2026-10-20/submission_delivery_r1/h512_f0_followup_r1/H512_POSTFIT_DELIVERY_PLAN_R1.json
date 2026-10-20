@@ -29,7 +29,7 @@
       "--service", "wnn-h512-f0-fit-r1-20261021.service"
     ],
     "output": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/FIT_TERMINAL_ACCEPTANCE_R1.json",
-    "condition": "Run only after the admitted service exits; producer checks inactive systemd state, InvocationID/Result/exit status, six FIT epoch records, SELECTED_FIXED 5, source pins, provenance, and checkpoint hashes. Root reviews the generated receipt before using it."
+    "condition": "Run after the admitted process completes; producer accepts the retained active/exited state or an inactive-compatible state only when MainPID is 0, Result is success, ExecMainStatus is 0, InvocationID matches FIT_START_R1.json, and monotonic exit is later than start. It also verifies six FIT epoch records, SELECTED_FIXED 5, source pins, provenance, and checkpoint hashes. Root reviews the receipt before use."
   },
   "swa345": {
     "source_run": "r01_h512_f0_s1003_local_cp5_r1",
