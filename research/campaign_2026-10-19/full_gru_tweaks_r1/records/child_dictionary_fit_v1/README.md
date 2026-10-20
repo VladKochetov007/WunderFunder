@@ -1,3 +1,7 @@
+**Latest actual20:16UTC (23:16MSK):** [Direct-request health](health_20261020T2016Z/README.md) records three complete epochs/22,380updates/2238batches/zero skips/nonfinite. Later ep3batch620 is not current totals, terminal or quality. One owned worker, no new memoryevents and stat-only tensors. Checker remains unprepared/unadmitted; actual typed native exit0 gates B integrity. Next rare follow-up21:05UTC+.
+
+---
+
 **Latest actual19:31UTC:** [One rare same-invocation health](health_20261020T1913Z/README.md) records two complete epochs/14,920updates/1492batches/zero skips/nonfinite. Later ep2batch220 is not current totals, terminal44,760 or quality. One owned worker and zero new own/parent memoryevents; tensor files stat-only. Dictionary checker remains unprepared/unadmitted; actual typed native exit0 gates B integrity. Next rare check20:20UTC or later; no immediate repeat poll.
 
 ---

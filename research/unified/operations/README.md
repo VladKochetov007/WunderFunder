@@ -1,3 +1,7 @@
+[Dictionary direct-request health20:16UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2016Z/README.md): three completed epochs/22,380updates/2238batches/zero skips/nonfinite; the later line is not synchronous current totals, terminal or quality. Same owned worker, no new memoryevents, tensors stat-only. [Validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_2016.json) preserves one raw transport and navigation with zero ledger rows/fits/supports. Checker stays unprepared; no early B staging/payload reads.
+
+---
+
 [Dictionary rare health19:31UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T1913Z/README.md): same active owned worker, two complete epochs/14,920updates/1492batches/zero skips/nonfinite; later line not current totals/native terminal/quality. Memoryevents unchanged, tensor files stat-only, no new job/action/checker preparation or unchanged source/model/profile test. [Health validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_1931.json) preserves raw bytes/navigation with zero ledger rows/fits; actual typed-exit gate unchanged.
 
 ---

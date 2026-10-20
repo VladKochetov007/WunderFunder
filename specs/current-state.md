@@ -1,3 +1,9 @@
+## 20 October20:16UTC — direct-request dictionary status
+
+[Bounded observation](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2016Z/README.md) at23:16MSK found the same dictionary worker active, with three completed epochs/22,380updates/2238batches/zero skips/nonfinite. Later ep3batch620 is not current totals, terminal, integrity or quality. One owned GPU, no new memoryevents, stat-only outputs and no new job/action. Parent+CONTROL+EMA completed/accepted/stopped; dictionary third child running, NLL-only/allthree pending. No predictive-quality score/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare21:05UTC+ and actual native-exit/integrity/acceptance/exact-stop gates.
+
+---
+
 ## 20 October19:31UTC — dictionary child remains active at rare observation
 
 [Bounded exact-invocation dictionary health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T1913Z/README.md) records two complete epochs/14,920updates/1492batches/zero skips/nonfinite. Later ep2batch220 is not current totals, terminal44,760, integrity or predictive quality. One owned worker, own/parent events unchanged, tensors stat-only; no support/fit/restart/stop/inference or unchanged source/model/profile tests. Dictionary checker stays unprepared/unadmitted; actual typed native exit0 and fresh CPU integrity/acceptance/exact-stop gates apply. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; next rare20:20UTC+ and routine progress stays quiet.

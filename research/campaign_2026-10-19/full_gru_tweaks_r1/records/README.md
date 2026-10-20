@@ -1,3 +1,7 @@
+[Dictionary direct-request health20:16UTC](child_dictionary_fit_v1/health_20261020T2016Z/README.md): same active invocation, three completed epochs/22,380updates/2238batches/zero skips/nonfinite. Later ep3batch620 is not synchronous current totals, terminal or quality. One owned worker, unchanged memoryevents and stat-only tensors; no new job/restart/stop or checker preparation.
+
+---
+
 [Dictionary rare health19:31UTC](child_dictionary_fit_v1/health_20261020T1913Z/README.md): same active invocation, two complete epochs/14,920updates/1492batches/zero skips/nonfinite. Later ep2batch220 is not synchronous current totals/terminal/quality. Own/parent events unchanged, tensor files stat-only, no support/fit/restart/stop. Actual typed native exit0 remains prerequisite for any B integrity support.
 
 ---

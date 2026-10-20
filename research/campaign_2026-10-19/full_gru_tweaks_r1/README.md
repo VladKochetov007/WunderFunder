@@ -1,3 +1,7 @@
+**Latest actual20October20:16UTC (23:16MSK):** [Direct-request dictionary health](records/child_dictionary_fit_v1/health_20261020T2016Z/README.md) found the same invocation active, with three completed epochs/22,380updates/2238batches/zero skips/nonfinite. The later ep3batch620 line is not current totals, terminal or quality. One owned worker, no new memoryevents, tensor files stat-only; no new job/restart/stop/inference. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_2016.json) govern dated evidence and the actual-exit gate; next rare follow-up21:05UTC+.
+
+---
+
 **Latest actual20October19:31UTC:** [Same dictionary invocation active/running](records/child_dictionary_fit_v1/health_20261020T1913Z/README.md), two completed epochs/14,920updates/1492batches/zero skips/nonfinite in those records. Later ep2batch220 is not current totals, terminal44,760, integrity or quality. Own/parent events unchanged, tensor files stat-only, no new action/job. Dictionary checker remains unprepared/unadmitted. [Continuation](CONTINUATION.md) and [health validation](PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_1931.json) govern dated evidence and later actual-exit gates; next rare20:20UTC+, no repeated preparation/tests/poll.
 
 ---
