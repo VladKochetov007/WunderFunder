@@ -41,6 +41,7 @@ def service_properties(service: str) -> dict[str, str]:
             "systemctl",
             "show",
             service,
+            "--property=ActiveState",
             "--property=Result",
             "--property=ExecMainStatus",
             "--property=InvocationID",
@@ -71,7 +72,8 @@ def record(root: Path, service: str) -> dict[str, Any]:
     properties = service_properties(service)
     invocation = started.get("service", {}).get("InvocationID")
     if (
-        properties.get("Result") != "success"
+        properties.get("ActiveState") != "inactive"
+        or properties.get("Result") != "success"
         or properties.get("ExecMainStatus") != "0"
         or properties.get("InvocationID") != invocation
     ):
