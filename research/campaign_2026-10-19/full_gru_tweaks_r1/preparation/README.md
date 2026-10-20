@@ -142,6 +142,8 @@ The [parent-fit R2 terminal-checker note](PARENT_FIT_TERMINAL_CHECK_V1.md), [bou
 
 [The 02:10:25UTC parent-fit health capture](../records/parent_fit_r2_v1/health_20261020T0209Z/README.md) is a dated exact-unit observation with matching raw transport. It records the last saved progress line and separate GPU/RSS/cgroup scopes; it is not synchronous live state or terminal evidence.
 
+[The 03:10:07UTC parent-fit health capture](../records/parent_fit_r2_v1/health_20261020T0309Z/README.md) binds two completed epoch FIT records to a later saved epoch2 batch680/746 line. The adjacent [metadata review](../records/parent_fit_r2_v1/health_20261020T0309Z/METADATA_REVIEW.json) preserves source-content and empty-output-inventory caveats; it makes no terminal or quality claim.
+
 The [pre-publication sanity snapshot](PUBLISHING_SANITY_20261020_CACHE_PARENT.json) records local AST/JSON/link and raw-transport integrity checks, the append-only ledger prefix, and the accepted parent-profile metadata. It is a time-bounded snapshot; root must rerun the final-tree checks after the remaining fit records settle.
 
 [Parent terminal-checker root preparation](PARENT_FIT_TERMINAL_ROOT_PREPARATION_V1.json): pins the final local checker, tests, source review and all sibling helper dependencies for the exact source68ff/seed1001 H256×2 parent. Nine synthetic checks and cold import/read sentinels pass; preparation adds zero fits and no remote admission, checkpoint read, terminal acceptance or quality result. Actual typed native exit0 and fresh capped CPU support gates are still required before use.

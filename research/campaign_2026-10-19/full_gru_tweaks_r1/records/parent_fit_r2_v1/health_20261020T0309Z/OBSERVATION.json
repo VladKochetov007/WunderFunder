@@ -1,0 +1,361 @@
+{
+  "utc": "2026-10-20T03:10:07.939585+00:00",
+  "unit": {
+    "MainPID": "3929676",
+    "Result": "success",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 01:31:35 UTC",
+    "ExecMainStartTimestampMonotonic": "1517142893148",
+    "ExecMainExitTimestamp": "",
+    "ExecMainExitTimestampMonotonic": "0",
+    "ExecMainCode": "0",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_parent_h256x2_f0_s1001_fit_r2_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --aux-struct 0.3 --aux-next 0.3 --batch 16 --chunk 2000 --epochs 4 --checkpoint-policy fixed --checkpoint-epoch 3 --no-eval-during-fit --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1 --distill-alpha 0.9 --distill-family-weight 0 --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --optim adamw --grad-stats --save-training-state ; ignore_errors=no ; start_time=[Tue 2026-10-20 01:31:35 UTC] ; stop_time=[n/a] ; pid=3929676 ; code=(null) ; status=0/0 }",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-parent-fit-r2-v1.service",
+    "MemoryCurrent": "2585612288",
+    "MemoryPeak": "2873643008",
+    "CPUUsageNSec": "5903631142000",
+    "CPUQuotaPerSecUSec": "1s",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemorySwapMax": "0",
+    "LoadState": "loaded",
+    "ActiveState": "active",
+    "SubState": "running",
+    "InvocationID": "5186b3016ff54b1fa754c10a1f87b3e4"
+  },
+  "terminal_success": false,
+  "populated": {
+    "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-parent-fit-r2-v1.service/cgroup.procs": "3929676"
+  },
+  "own_files": {
+    "memory.current": "2585612288\n",
+    "memory.peak": "2873643008\n",
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "gpu_process_observation": "521754, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 490 MiB\n3545867, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 4542 MiB\n3929676, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 2222 MiB\n",
+  "own_process_rss_observation": [
+    "VmHWM:\t 5076568 kB",
+    "VmRSS:\t 4940008 kB"
+  ],
+  "parent_events": {
+    "memory.current": "10047336448\n",
+    "memory.events": "low 0\nhigh 38355\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+  },
+  "output_stat_only": {},
+  "scope": "Dated exact-unit active observation. Log lines are producer records, not synchronous live batch/current counters/terminal/quality. No changing checkpoint payload read/hash. Source expected-ID/path-stat caveat: source authority remains original 167-file admission. Active output inventory is empty by reader branch, not evidence of file absence.",
+  "parent_event_deltas_vs_0210": {
+    "memory.events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "memory.events.local": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "latest_native_records": [
+    "ep 2 batch 520/746 loss 0.4846 lr 2.63e-05 seq/s 7.6",
+    "ep 2 batch 540/746 loss 0.5774 lr 2.53e-05 seq/s 7.6",
+    "ep 2 batch 560/746 loss 0.5358 lr 2.44e-05 seq/s 7.6",
+    "ep 2 batch 580/746 loss 0.4927 lr 2.34e-05 seq/s 7.6",
+    "ep 2 batch 600/746 loss 0.5908 lr 2.25e-05 seq/s 7.6",
+    "ep 2 batch 620/746 loss 0.6276 lr 2.16e-05 seq/s 7.6",
+    "ep 2 batch 640/746 loss 0.6764 lr 2.07e-05 seq/s 7.6",
+    "ep 2 batch 660/746 loss 0.5213 lr 1.98e-05 seq/s 7.6",
+    "ep 2 batch 680/746 loss 0.5905 lr 1.89e-05 seq/s 7.6"
+  ],
+  "raw_stdout_sha256": "87289c479c70b3803fa7ac99ba36bfa05dd7b9f598a07112b2569d2a27ff3f71",
+  "completed_epoch_FIT_records": [
+    {
+      "epoch": 0,
+      "train_seconds": 2270.6,
+      "evaluation": "withheld",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "cumulative": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "sample_order_identity": {
+          "sampler_class": "RandomSampler",
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "29370dbe3cb8afcfe1a055c02e6ed5386b9a1d281f6c5be22b892c327e21b11b"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "29370dbe3cb8afcfe1a055c02e6ed5386b9a1d281f6c5be22b892c327e21b11b"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": false,
+          "sampler_num_samples": 11940
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "8518ee2104182600cfce88b0b7b8e1721a69d1ebbcc8e079280f9c7223ce1941"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "8c1ba2240e043da048ae740bee2c86441d41a0019ed0a401b49b21568186af3d"
+          }
+        },
+        "grad_stats": {
+          "epoch": 0,
+          "steps": 7460,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            0.78227,
+            1.43124,
+            2.82571
+          ],
+          "clip_rate": 0.8275,
+          "mean_clip_factor": 0.706,
+          "family_median": {
+            "rnn_hh": 0.21938,
+            "rnn_ih": 0.2404,
+            "inp": 0.3376,
+            "head": 1.33082,
+            "bias": 0.10997
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0257,
+            "rnn_ih": 0.0329,
+            "inp": 0.0721,
+            "head": 0.8443,
+            "bias": 0.0251
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": 0.777978122905496,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 7460,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 4.000000000000002e-06,
+            "last": 8.946124265963176e-05,
+            "mean": 8.754733079967757e-05
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        }
+      }
+    },
+    {
+      "epoch": 1,
+      "train_seconds": 2073.1,
+      "evaluation": "withheld",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "cumulative": {
+          "optimizer_attempts": 14920,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 14920,
+          "ema_updates": 0,
+          "completed_batches": 1492
+        },
+        "sample_order_identity": {
+          "sampler_class": "RandomSampler",
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "e7be8dd8ce0056426d9f027937a19e0dcc6c48a5328abbf2e0bee44be0e9514e"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "e7be8dd8ce0056426d9f027937a19e0dcc6c48a5328abbf2e0bee44be0e9514e"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": false,
+          "sampler_num_samples": 11940
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "8518ee2104182600cfce88b0b7b8e1721a69d1ebbcc8e079280f9c7223ce1941"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "8c1ba2240e043da048ae740bee2c86441d41a0019ed0a401b49b21568186af3d"
+          }
+        },
+        "grad_stats": {
+          "epoch": 1,
+          "steps": 7460,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            0.66392,
+            1.10521,
+            2.0726
+          ],
+          "clip_rate": 0.6168,
+          "mean_clip_factor": 0.8399,
+          "family_median": {
+            "rnn_hh": 0.1912,
+            "rnn_ih": 0.22464,
+            "inp": 0.29979,
+            "head": 1.00469,
+            "bias": 0.08366
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0336,
+            "rnn_ih": 0.0463,
+            "inp": 0.0911,
+            "head": 0.8227,
+            "bias": 0.0063
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": 0.5921489480353552,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 7460,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 8.945784035326508e-05,
+            "last": 5.414731568670718e-05,
+            "mean": 7.313379932039108e-05
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        }
+      }
+    }
+  ],
+  "completed_epoch_GRAD_STATS_records": [
+    {
+      "epoch": 0,
+      "steps": 7460,
+      "nonfinite_steps": 0,
+      "clip": 1.0,
+      "total_q05_q50_q95": [
+        0.78227,
+        1.43124,
+        2.82571
+      ],
+      "clip_rate": 0.8275,
+      "mean_clip_factor": 0.706,
+      "family_median": {
+        "rnn_hh": 0.21938,
+        "rnn_ih": 0.2404,
+        "inp": 0.3376,
+        "head": 1.33082,
+        "bias": 0.10997
+      },
+      "family_sq_share_mean": {
+        "rnn_hh": 0.0257,
+        "rnn_ih": 0.0329,
+        "inp": 0.0721,
+        "head": 0.8443,
+        "bias": 0.0251
+      }
+    },
+    {
+      "epoch": 1,
+      "steps": 7460,
+      "nonfinite_steps": 0,
+      "clip": 1.0,
+      "total_q05_q50_q95": [
+        0.66392,
+        1.10521,
+        2.0726
+      ],
+      "clip_rate": 0.6168,
+      "mean_clip_factor": 0.8399,
+      "family_median": {
+        "rnn_hh": 0.1912,
+        "rnn_ih": 0.22464,
+        "inp": 0.29979,
+        "head": 1.00469,
+        "bias": 0.08366
+      },
+      "family_sq_share_mean": {
+        "rnn_hh": 0.0336,
+        "rnn_ih": 0.0463,
+        "inp": 0.0911,
+        "head": 0.8227,
+        "bias": 0.0063
+      }
+    }
+  ],
+  "last_completed_epoch_cumulative_record": {
+    "optimizer_attempts": 14920,
+    "amp_skipped_updates": 0,
+    "optimizer_completed_updates": 14920,
+    "ema_updates": 0,
+    "completed_batches": 1492
+  }
+}

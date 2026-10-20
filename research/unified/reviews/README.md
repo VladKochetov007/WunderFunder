@@ -355,4 +355,6 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 
 - [Parent-fit R2 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/health_20261020T0209Z/METADATA_REVIEW.json) binds the 02:10:25.977190UTC raw observation and exact invocation. The service was still active/running; the saved last line and memory scopes are descriptive metadata only, with no terminal, exact completed-update, nonfinite-count, or quality assertion.
 
+- [Parent-fit R2 later health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/health_20261020T0309Z/METADATA_REVIEW.json) binds the 03:10:07.939585UTC raw response and exact same invocation. It verifies two completed epoch records and the separate epoch2 batch680/746 progress record, while retaining source identity and output-inventory limitations; no terminal or quality result is claimed.
+
 - [Parent-fit R2 terminal source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_SOURCE_REVIEW_V1.json): conditional source-only pass for the pinned H256×2/AdamW terminal checker and its support/S5 helper dependencies. The checker is intended to run after captured native exit 0 but before root acceptance/exact stop; the receipt makes no terminal or quality claim.

@@ -79,3 +79,5 @@ The [actual teacher profileV2](teacher_profile_v2/FAILURE.json) exited1at15:19:0
 - [Shared full parent R2 actual fit](parent_fit_r2_v1/README.md): one new H256×2/AdamW/seed1001 four-epoch fit launched01:31:35UTC after accepted cache/profile and fresh complete gates;29,840updates expected, no completed quality result or child fit yet.
 
 [Latest parent-fit health capture](parent_fit_r2_v1/health_20261020T0209Z/README.md) is the 02:10:25UTC exact-invocation metadata snapshot, still active/running at saved batch720/746. It separates process, GPU, owned-cgroup and parent-cgroup observations and does not establish terminal completion.
+
+[Later parent-fit health capture](parent_fit_r2_v1/health_20261020T0309Z/README.md) records two completed epoch FIT records and the same invocation's saved epoch2 batch680/746 progress line. Its review is metadata-only; the line is not synchronous live state, a full current update total or terminal proof.
