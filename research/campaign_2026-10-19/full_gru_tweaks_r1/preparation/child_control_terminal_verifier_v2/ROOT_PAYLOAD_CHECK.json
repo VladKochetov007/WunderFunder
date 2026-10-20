@@ -1,0 +1,22 @@
+{
+  "schema": "fg19.child-control-verifier-v2-root-payload-check.v1",
+  "status": "PASS_NEW_ADAPTER_PAYLOAD_ONLY",
+  "utc": "2026-10-20T12:15:15.336877+00:00",
+  "body_sha256": "995294a1464158a9855e7677d80d7100da8f74d92a459b9df1475423965f58c0",
+  "body_bytes": 461307,
+  "checker_sha256": "b72fa686790f8b6dae740afef4b8d12441e6d909d2d7118ed8e57498849f70c2",
+  "checker_bytes": 70978,
+  "method": "AST parse final body, omit its final main() expression, execute stdlib-only definitions and invoke payload_bytes() only. All12 original compact metadata/code base64 payloads pass final runtime size/SHA guards; new checker bytes equal the local final source. No admission/source/data/model/state/dictionary function or remote call executes.",
+  "main_executed": false,
+  "remote_action": false,
+  "model_or_array_payloads_read": false,
+  "superseded_unlaunched_local_candidates": [
+    "12d91ca612450c583b9f35f1a5507e836a666900b4680fdf28b4bba12520e93a",
+    "be98d39cd0ccdd4fc1c08472b31ee5770b43abd7ec882fb976b7f7e9c4603f4d"
+  ],
+  "local_review_findings_resolved": [
+    "Corrected helper is called from verify_terminal before terminal/model work.",
+    "Final runtime CHECKER_SHA equals actual embedded V2 checker SHA."
+  ],
+  "old_failed_verifier_preserved": true
+}

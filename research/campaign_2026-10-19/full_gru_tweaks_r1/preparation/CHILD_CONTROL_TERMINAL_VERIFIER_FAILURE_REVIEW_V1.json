@@ -1,0 +1,77 @@
+{
+  "schema": "fg19-child-control-terminal-verifier-failure-review.v1",
+  "reviewed_utc": "2026-10-20T09:15:08Z",
+  "status": "PASS_METADATA_FAILURE_ONLY",
+  "scope": "Independent local review of the root-captured first CPU verifier attempt's terminal metadata and the exact early failure guard. No B query, unit action, retry, stop, source/model import, test run, or model/state/cache-array/dictionary payload read was performed.",
+  "attempt": {
+    "version": "V1",
+    "support_unit": "computer-vision-homework-fg19-child-control-verify-v1.service",
+    "support_invocation_id": "b8ac3cf78bfd4a38a9cf899305fe0582",
+    "native_unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+    "native_invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202",
+    "submission": "systemd-run returned 0 and captured the support invocation ID; this records submission, not verifier success.",
+    "captured_status": {
+      "LoadState": "loaded",
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "MainPID": "0",
+      "ExecMainCode": "1",
+      "ExecMainStatus": "1",
+      "Result": "exit-code",
+      "terminal_success": false
+    },
+    "exit_utc": "2026-10-20T09:12:58Z"
+  },
+  "capture": {
+    "raw_path": "records/child_control_fit_v1/terminal_verification_v1/capture/STDOUT.raw.json",
+    "raw_bytes": 25106,
+    "raw_sha256": "d641bed097563c664573c4d37e50a68e0638f33ac63c28e3320c8ee3d4a88f68",
+    "transport_returncode": 0,
+    "transport_body_sha256": "8d94fc72e01a606122e8b8cdf500edf755f8429aa778324562e1662371bfb3f8",
+    "persisted_before_parse": true,
+    "captured_files": [
+      "VERIFIER_ADMISSION.json",
+      "VERIFIER_LAUNCH.json",
+      "unit.log"
+    ],
+    "verification_output_present": false,
+    "unit_log_sha256": "48a697259e06c980eda2d4ab72a45d15554fb12b70f332ae880c1d6fd094d2de"
+  },
+  "failure": {
+    "type": "early metadata guard mismatch",
+    "traceback": "The unit log reaches child_control_terminal_check_v1.py:1445 inside verify_terminal; the _eq guard labeled 'CONTROL launch record' raises ValueError('CONTROL launch record differs').",
+    "expected_guard": {
+      "launch_schema": "fg19-child-control-fit-launch.v1",
+      "launch_unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+      "launch_body_sha256": "124b90f9cc76c17c9a62e22b934dc15e579417f0b769eb86f44334ba55f6b954",
+      "submission_returncode": 0
+    },
+    "actual_receipts": {
+      "launch_path": "records/child_control_fit_v1/LAUNCH.json",
+      "launch_sha256": "afd19428c8b6034a9dd40fac78d6adb78b70f3d95f1f964917cbadc828ed27e9",
+      "launch_has_body_sha256": false,
+      "launch_acceptance_path": "records/child_control_fit_v1/LAUNCH_ACCEPTANCE.json",
+      "launch_acceptance_sha256": "caa7e1560171ee6813a6766649b82dc512432c240b400a286a11cea39ad29a15",
+      "launch_acceptance_body_sha256": "124b90f9cc76c17c9a62e22b934dc15e579417f0b769eb86f44334ba55f6b954",
+      "launch_acceptance_invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202"
+    },
+    "diagnosis": "The pinned LAUNCH.json contains the actual launch schema, unit, and successful submission receipt but has no body_sha256 field. The exact body SHA is carried by the separately pinned LAUNCH_ACCEPTANCE.json, whose admission_sha256 and launch_sha256 bind these exact original receipts. The frozen checker read the correct bytes but looked for the body digest in the wrong receipt. This is a checker metadata-contract defect, not evidence of a corrupted checkpoint or failed native fit.",
+    "boundary": "The failing comparison occurs in the early launch-metadata gate after receipt JSON parsing and before the checker proceeds to model or training-state tensor loading. The captured output inventory contains no VERIFICATION.json. No model/state acceptance can be inferred."
+  },
+  "native_fit_boundary": {
+    "native_invocation": "The V1 support attempt names the already captured CONTROL invocation e66e0d0703314e4fb5d47dcdbfcaf202; this reviewer made no new native-unit query.",
+    "native_replay": false,
+    "native_stop_or_restart": false,
+    "scientific_fit_added": false,
+    "interpretation": "Preserve the failed verifier attempt as evidence. Any repair must be a narrowly source-qualified verifier version using the actual pinned receipt contract and retaining all existing integrity checks, resource caps, and no-retry policy."
+  },
+  "reviewer_actions": {
+    "B_queries_or_actions": 0,
+    "source_or_model_imports": 0,
+    "tests_run": 0,
+    "model_state_or_array_payload_reads": 0,
+    "support_submissions": 0,
+    "local_checks": "Reviewed the root-captured raw metadata, durable launch/admission records, exact retained CONTROL launch receipts, and the narrow frozen-checker guard/traceback only."
+  },
+  "decision": "PASS_METADATA_FAILURE_ONLY. The captured attempt is an actual support-verifier failure at a pre-tensor launch-record guard. This review is not terminal artifact verification, model/state integrity acceptance, or scientific quality evidence."
+}

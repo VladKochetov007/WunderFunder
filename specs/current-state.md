@@ -1,3 +1,41 @@
+## 20 October 13:51 UTC — EMA continues, first epoch recorded
+
+[One rare bounded EMA capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1351Z/README.md) found exact invocation active/running, one owned GPU worker and no new own/parent memoryevents. Completed epoch0 has7,460updates/746batches/zero skips/nonfinite in its native records. Later ep1batch20 is not current totals, terminal44,760 or quality. Checkpoint/state/provenance remain stat-only; no support/restart/stop/newfit/inference. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; routine healthy progress requires no notification.
+
+---
+
+## 20 October 13:04 UTC — second fixed child EMA32 is actually running
+
+[EMA32 full fit](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/README.md), invocation da5baf82d22b4f02890e184193b8caf7, launched once after accepted/exact-stopped CONTROL and fresh source/ownership/resource gates. Same parent/norm/dictionary/seeded batches/target; causal input history is the sole recipe change. Expected six epochs/44,760 updates are not completion. Parent+CONTROL complete, EMA started, three children unadmitted, no child quality/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes older pending snapshots.
+
+---
+
+## 20 October 12:58 UTC — CONTROL fully accepted and exact-stopped
+
+The human granted the scoped path decoder. [Actual V3](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_verification_v3/README.md) passed full finite FP32/model/state/AdamW/schedule/RNG/normalizer/dictionary/cache/source/ancestry integrity. [Acceptance](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/TERMINAL_ACCEPTANCE.json) preceded [exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/exact_stop/README.md) of only native CONTROL and successful V3; failed V1/V2 remain preserved. Parent+CONTROL are complete, four fixed children remain unadmitted, EMA-only packet is being bound locally. No child quality/gain endpoint. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes the historical pending question below.
+
+---
+
+## 20 October 12:48 UTC — CONTROL complete; one scoped loader exception awaits reply
+
+[Native CONTROL](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/TERMINAL_EVIDENCE.json) completed six epochs/44,760 updates/4,476 batches with exit 0; full integrity acceptance remains pending. Two actual CPU support failures are preserved. The final [V3 proposal](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/README.md) and [independent source review](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_VERIFIER_SOURCE_REVIEW_V3.json) retain weights_only=True and restrict the additional Path decoder to the accepted dictionary at one contract field. Eleven local fixtures pass; no V3 B action occurred.
+
+Because the monitoring instruction fixes an exact NumPyRNG+TorchVersion list, one [specific exception question](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/HUMAN_EXCEPTION_REQUEST_PENDING_V1.json) was sent at approximately 12:44 UTC and is unanswered at this snapshot. No marker/staging/execution, native stop or successor admission is permitted while pending. Do not repeat the question or infer approval from time. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs this gate; [publication validation](../research/campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_CONTROL_INTEGRITY_PATH_GATE.json) binds the new evidence. No child quality/gain endpoint exists.
+
+---
+
+## 20 October12:21UTC — safe loader rejects canonical saved Path
+
+[CONTROL verifier V2](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_verification_v2/README.md) exited1 at training_state loading under weights_only=True: unsupported PosixPath. Canonical source stores representation_cache as Path in contract.options; no corruption or quality conclusion follows. Native CONTROL is unchanged/completed/exited, full state/counter/RNG acceptance pending. V3 is a LOCAL proposal for one inert exact-path constructor; it technically extends the exact baseline allowlist and cannot run without a specific exception. Failed supports/source/receipts remain preserved; no scientific successor has been admitted.
+
+## 20 October09:13UTC — CONTROL integrity checker metadata repair
+
+[The actual first CPU verifier](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_verification_v1/README.md) failed on an expected launch field absent from the exact original receipt; the separate pinned root acceptance binds the body. Native CONTROL training remains completed/exited0/44,760updates and unchanged. No full integrity acceptance, exact stop or next-arm admission has occurred. A narrow versioned receipt-schema repair is being prepared, preserving full checks, caps and failed evidence; no quality endpoint/gain.
+
+## 20 October08:54UTC — CONTROL native completion, integrity gate pending
+
+[Exact CONTROL native capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_native_capture_v1/README.md) establishes exit0 at08:40:45UTC and six epochs/44,760updates/4,476batches/zero native skips/nonfinite. Independent metadata review passes; the preserved exited unit awaits actual restricted CPU model/state integrity acceptance and exact stop. One short fresh reviewed support admission is being bound to the actual native receipt; no support has yet run at this snapshot. Four remaining fixed arms remain unadmitted, no quality endpoint or gain exists. [Campaign continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes earlier running observations.
+
 ## 20 October08:24UTC — CONTROL still active at bounded observation
 
 [The same exact CONTROL invocation was active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0824Z/README.md) at08:24:56UTC, one populated owned GPUworker/no new own or parent memoryevents. Five completed epoch records give cumulative37,300updates/3,730batches/zero skips/nonfinite0. Later ep5batch300 is not a synchronous current total, actual native terminal44,760 or quality. All run tensors remain stat-only; existing reviewed checker remains local/unadmitted. Next is actual typed native exit0 capture and fresh cappedCPU integrity admission, not a new preparation cycle or changing checkpoint read. No newfit/support/restart/stop/grade; completed stages remain untouched.

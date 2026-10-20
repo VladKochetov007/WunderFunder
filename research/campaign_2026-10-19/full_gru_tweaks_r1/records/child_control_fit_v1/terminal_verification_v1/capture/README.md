@@ -1,0 +1,5 @@
+# Actual CONTROL verifier V1 capture
+
+Root captured the exact support invocation `b8ac3cf78bfd4a38a9cf899305fe0582` after native exit1 at09:12:58UTC. [Raw bytes](STDOUT.raw.json), [transport](TRANSPORT.json), [bounded reader](REMOTE.py), exact [admission](VERIFIER_ADMISSION.json), [launch](VERIFIER_LAUNCH.json) and [traceback](unit.log) are preserved. Raw25,106B/SHAd641bed097563c664573c4d37e50a68e0638f33ac63c28e3320c8ee3d4a88f68 persisted before parsing; no VERIFICATION output exists. Four staged checker module hashes match their pins.
+
+[Root failure](../FAILURE.json) distinguishes the missing launch metadata field from native fitting or quality. Actual CONTROL training remains completed/exited and unchanged; the failed support is preserved and excluded from all stops/retries. This capture reads compact metadata/code/logs only, no model/array payloads. Empty own terminal cgroup means unavailable own files, never host-root fallback. [Resource reconciliation](../RESOURCE_RECONCILIATION.json) keeps CPU/wall and the small reported service MemoryPeak scopes separate.

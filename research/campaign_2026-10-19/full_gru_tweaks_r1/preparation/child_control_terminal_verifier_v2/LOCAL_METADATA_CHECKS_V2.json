@@ -1,0 +1,36 @@
+{
+  "schema": "child_control_terminal_verifier_v2.local_metadata_checks.v1",
+  "status": "PASS_ACTUAL_METADATA_ONLY_AND_COLD_IMPORT",
+  "checker": {
+    "path": "child_control_terminal_check_v2.py",
+    "bytes": 71144,
+    "sha256": "cbaff895c6d451a671b14ff77d9c4b26dad69dcaa5c4ab0a8a642129cc3c7c9e"
+  },
+  "rendered_body": {
+    "path": "REMOTE_SUBMISSION.py",
+    "bytes": 461527,
+    "sha256": "6014b5189541efbecaaee095209b99ba09135c32b551f233830056dd33c96d1e"
+  },
+  "test_command": ".venv/bin/python -m unittest discover -s research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v2 -p 'test_*.py' -v",
+  "test_count": 7,
+  "tests": [
+    "Actual native terminal evidence, actual admission/launch receipts, worker caps, and all six retained predecessor receipts pass early metadata predicates.",
+    "Actual accepted cache receipt and exact-stop metadata satisfy the gate schema without opening or hashing arrays.",
+    "Original CONTROL LAUNCH bytes retain their actual schema and exact digest; native body identity is joined separately through the exact pinned LAUNCH_ACCEPTANCE bytes.",
+    "A negative binding fixture rejects a mismatched native body/acceptance identity.",
+    "The launch/acceptance helper is called on the real terminal verification path before later terminal gates.",
+    "The rendered wrapper's 12 exact embedded code/metadata inputs pass payload_bytes() pins, including the V2 checker SHA, service unit, and output directory.",
+    "An isolated import resolves only the four exact staged checker dependencies; CLI help exposes all required receipt arguments without running verification."
+  ],
+  "lint": {
+    "ruff_format": "PASS; 3 Python files unchanged",
+    "ruff_check": "PASS; 3 Python files"
+  },
+  "safety_scope": {
+    "remote_actions": false,
+    "native_control_unit_changed_or_stopped": false,
+    "model_state_cache_array_or_dictionary_payloads_opened_or_hashed": false,
+    "checker_or_wrapper_main_executed_locally": false,
+    "notes": "Fixtures use exact locally saved bounded receipt bytes and metadata/stat predicates. The body test executes definitions only and calls payload_bytes(); it does not execute main(). No B/SSH/network action was performed."
+  }
+}

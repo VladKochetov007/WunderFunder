@@ -1,0 +1,76 @@
+{
+  "schema": "fg19-child-control-terminal-verifier-failure-review.v2",
+  "reviewed_utc": "2026-10-20T12:26:38Z",
+  "status": "PASS_METADATA_FAILURE_ONLY",
+  "scope": "Independent local review of the single root-captured CONTROL verifier V2 failure and static source provenance for the rejected pathlib value. No B query or action, source/model import, test, payload load, stop, retry, or native replay was performed.",
+  "attempt": {
+    "version": "V2",
+    "support_unit": "computer-vision-homework-fg19-child-control-verify-v2.service",
+    "support_invocation_id": "c890ef75142844a9a8f61ae21e38a97f",
+    "submission_returncode": 0,
+    "support_exit_utc": "2026-10-20T12:20:35Z",
+    "captured_status": {
+      "LoadState": "loaded",
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "MainPID": "0",
+      "ExecMainCode": "1",
+      "ExecMainStatus": "1",
+      "Result": "exit-code",
+      "InvocationID": "c890ef75142844a9a8f61ae21e38a97f"
+    },
+    "native_unit": "computer-vision-homework-fg19-child-control-fit-v1.service",
+    "native_invocation_id": "e66e0d0703314e4fb5d47dcdbfcaf202"
+  },
+  "capture": {
+    "directory": "records/child_control_fit_v1/terminal_verification_v2/capture",
+    "raw_file": "STDOUT.raw.json",
+    "raw_bytes": 26978,
+    "raw_sha256": "d7f81c3773ee27c48611623689eda482b41dfc6ddee7776c61f905db8e76f7d2",
+    "transport_sha256": "5ecd13e4c1d129a9512fccb6a998cabaa316babd32da08c4301aaaeea31aec00",
+    "transport_returncode": 0,
+    "transport_body_sha256": "8834466c4d29871247116a01918de7fcfde0d75f1f05f1a41540a53acd0b4111",
+    "persisted_before_parse": true,
+    "launch_sha256": "3251a2a778908678e4aa73d9cdacbb7e6ac7fe3bc3ebfc6df3cf6e53788d91ea",
+    "admission_sha256": "ed966d77e1ecc19ed1ccf592310ae83cd6d8ae512b5296a196b3165bfea71681",
+    "unit_log_sha256": "d2971a5ee4344a3f666a6bd3685aeaa6a38c534d3b7039e2f3d96033912f81e6",
+    "captured_files": [
+      "VERIFIER_ADMISSION.json",
+      "VERIFIER_LAUNCH.json",
+      "unit.log"
+    ],
+    "verification_output_present": false
+  },
+  "failure": {
+    "type": "restricted weights-only state-load rejection",
+    "traceback_boundary": "The pinned child checker reached child_control_terminal_check_v2.py:1667 and called parent_fit_terminal_check_v3.py:_load_checkpoint for training_state.pt. torch.load used weights_only=True and raised _pickle.UnpicklingError for unsupported GLOBAL pathlib._local.PosixPath; no state object was returned and no VERIFICATION.json was captured.",
+    "checker_sha256": "cbaff895c6d451a671b14ff77d9c4b26dad69dcaa5c4ab0a8a642129cc3c7c9e",
+    "parent_helper_sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41",
+    "pinned_source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "interpretation": "The checker call order reaches state loading only after its earlier receipt, source, cache, predecessor, dictionary, model and normalizer checks returned. Their intermediate values were not persisted as a verification report. The V2 failure does not establish complete state, optimizer, scheduler, loader, RNG, counter, or tensor integrity acceptance; it is not evidence of native-fit corruption or quality. The traceback identifies the first unsupported global, not proof that no further unknown globals exist."
+  },
+  "source_qualified_path_provenance": {
+    "producer_source": "At source commit 68ff682977b822f38351aac0f621146f5f13b440, src/wnn/training/cli_features.py registers --representation-cache with type=Path. The captured CONTROL unit.log serialized argument pins its exact value to /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt.",
+    "state_path": "src/wnn/training/checkpoints.py::resume_contract retains representation_cache in contract.options; src/wnn/training_state.py::capture_training_state stores that contract unchanged, _cpu_copy deep-copies non-tensors, and atomic_save_training_state calls torch.save. setup_lineage converts the active split-manifest argument to str; other Path-typed CLI arguments are null, excluded, or converted to str for this child. The source-qualified producer field for the rejected PosixPath is therefore contract.options.representation_cache at the exact dictionary path above.",
+    "checker_expectation": "The pinned _launch_cli_args normalizes argparse Path values to str. The current _check_args_and_contract compares contract.options directly to those string-valued expected options. If a safe decoder returns PosixPath, a narrow local comparison view must normalize only the already-validated contract.options.representation_cache to str; the loaded state, receipt bytes, and all other comparisons remain unchanged.",
+    "compatibility_boundary": "A narrowly mapped, inert decoder for only GLOBAL pathlib._local.PosixPath can preserve weights_only=True while rejecting every unregistered value, provided it requires the exact one-element tuple containing the canonical full path string, verifies the constructed result's .parts against the canonical expected path, performs no filesystem operations, and is scoped to the training_state load. After load, recursively require exactly one Path at contract.options.representation_cache with that exact value and reject any other Path. A local Python 3.13.11 benign fixture reported by the root/actor produced a single full-path-string reducer argument; this review did not inspect or deserialize training_state.pt to recover pickle arguments.",
+    "policy_note": "This tuple-mapped callable is not a generic PosixPath class allowlist and does not use weights_only=False. It is nevertheless an additional allowed-global mapping for this one pickle name. If the instruction to keep the NumPy RNG plus TorchVersion allowlist literally exclusive forbids any extra mapping, there is no ordinary weights_only route to reconstruct this source-produced state; retain the failure and do not claim full verification rather than silently broaden loading."
+  },
+  "preservation": {
+    "native_fit_replayed": false,
+    "native_unit_stopped_or_restarted": false,
+    "failed_verifier_v1_or_v2_retried": false,
+    "scientific_fits_added": 0,
+    "native_and_failed_supports": "Preserve the completed native CONTROL invocation and both failed verifier attempts; no stop, restart, retry, or replacement output directory was created."
+  },
+  "reviewer_actions": {
+    "B_queries_or_actions": 0,
+    "source_or_model_imports": 0,
+    "tests_run": 0,
+    "state_or_tensor_payload_reads": 0,
+    "remote_payloads_loaded": 0,
+    "metadata_review": "Recomputed local byte counts and SHA-256 values for the captured raw transport, launch, admission and unit-log metadata; reconciled the exact invocation/status/traceback and stat-only receipt values; inspected pinned source text only."
+  },
+  "decision": "PASS_METADATA_FAILURE_ONLY. The single actual V2 support failure is confirmed at the restricted state-load boundary. This review is not terminal artifact verification, model/state integrity acceptance, or scientific quality evidence."
+}
