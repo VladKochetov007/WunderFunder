@@ -4,6 +4,8 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [NLL continuation decision review](NLL_CONTINUATION_DECISION_REVIEW_20261021_R1.md) — independent Luna/max metadata review before the F0 grade. It distinguishes the matched seven-endpoint screen from the all-data/unknown-ancestry TL3 diagnostic, recommends conditional F1 robustness work, and identifies the target/head differences that must be resolved for production training. No new quality result or job admission.
+
 - [Overnight submission input audit](OVERNIGHT_SUBMISSION_INPUT_AUDIT_20261020_R1.md) — independent Luna/max source and metadata review of completed FG19 control/EMA and local clean-T3 alternatives. Distinguishes accepted fits from missing scores, pins local AMP ancestry and target scale, corrects the NLL-only input-width requirement, and reviews native EMA reset/layout. No new fit or score; actual checkpoint parity and server weight access remain pending.
 
 - [Large teacher design criticism](LARGE_TEACHER_DESIGN_REVIEW_20261019_R2.md) — independent fresh-context Luna/max scout and specification critic assess the new scale direction and count migration. Records4–6 TOTAL fits, causal summary visibility, DDP normalization, Muon semantics, memory lower bounds and the need to measure GRU transfer. Criticism and proposed mitigations, not empirical approval or a B300 profile; related H/E IDs and primary sources are linked.

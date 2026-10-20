@@ -111,3 +111,20 @@ Transformer/runtime handoffs. They do not add a measured model-selection result.
 Root is preparing a conditional F1/seed4 matched pair and production pathway
 while this fit completes; these are not admitted jobs and preserve the15-hour
 allocation. See the frozen F0 plan and fold catalog before spending follow-up.
+
+## First NLL epoch optimization diagnostics
+
+The [matched epoch0 receipt](nll_epoch0_diagnostics_r1.json) records NLL epoch0
+completion in2255.2seconds with7460successful updates, no nonfinite gradients
+and no skipped updates. Serialized sample-order and normalization identities
+match the control exactly. NLL preclip norm median33.75702,p95was91.06715; all
+updates clipped, with mean factor0.0418, versus control0.9866. The head accounts
+for95.78%of squared gradient norm on average, but this aggregate includes mean,
+auxiliary and variance rows and cannot identify which rows cause the change.
+Negative NLL loss is mathematically permitted and is not a quality score.
+
+This diagnoses a substantial objective/clipping interaction. The current
+comparison remains frozen through epoch1 and validation; no LR, clipping,
+variance constraint or checkpoint rule was changed. If endpoint evidence is
+weak, distinguish an optimization limitation of this recipe from a rejection
+of heteroscedastic learning before allocating follow-up.
