@@ -61,6 +61,8 @@ def _validate_member(
         raise ValueError("exported checkpoint tensors must be FP32")
     if any(not np.isfinite(value).all() for value in state.values()):
         raise ValueError("exported checkpoint contains nonfinite tensors")
+    if np.any(state["std"] <= 0):
+        raise ValueError("input normalization std must be strictly positive")
     shapes = {name: tuple(value.shape) for name, value in state.items()}
     architecture = infer_architecture(shapes)
     if architecture != EXPECTED_ARCHITECTURE:
