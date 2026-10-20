@@ -4,6 +4,8 @@ External writeups and literature provenance; external results do not establish l
 
 ## Current navigation
 
+- [NLL variance-gradient weighting](NLL_GRADIENT_WEIGHTING_20261021_R1.md) — primary ICLR2022 beta-NLL paper and pinned author implementation, connected to measured strong clipping in the current GRU fit. Derives how a detached variance factor changes our bounded mean gradients; conditional diagnostic only, with no implementation or admitted fit.
+
 - [Teacher-scaling source assessment](../ideas/TEACHER_QUALITY_SCALING_20261019_R1.md#sources-and-what-transfers) — primary abstracts for Chinchilla, repeated-data scaling, two time-series scaling studies and muP; separates useful study designs from inapplicable token ratios and unverified Muon transfer. No imported weights/data or local gain.
 
 - [Large B300 teacher primary-source register](TRANSFORMER_B300_SCALE_SOURCES_20261019_R2.md) — actual October19 inspection of the user's2606.30634 gradient-delay paper and later2602.23784 TradeFM event-modeling paper, NVIDIA B300 hardware, Muon source/API, FP32 attention/DDP, numeric encoders, WSD, dynamics pretraining and teacher/student limits. Records the upstream Muon BF16 cast and the gap between external LLM results and this unrun time-series proposal; no imported data or weights.
