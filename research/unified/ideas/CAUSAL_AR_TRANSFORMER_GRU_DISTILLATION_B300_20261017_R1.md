@@ -612,3 +612,7 @@ The explicitly invoked arxiv-search skill was read at /home/vlad/src/agent-syste
 
 Navigation and ledger links: [ideas](README.md), [sources](../sources/README.md), [hypotheses](../../hypotheses.jsonl), [experiments](../../experiments.jsonl), [research methods](../../RESEARCH_METHODS.md). No model weights, source datasets, or private credentials are embedded.
 
+
+## 2026-10-20 prospective runtime amendment — teacher transfer
+
+The historical CP30 design for [PR #28](https://github.com/VladKochetov007/WunderFunder/pull/28) is retained in that packet's `PR_CP30_FROZEN.md` and unchanged `recipe.json`. Its future admission panel is prospectively amended to six fits in two cells: F0/s1001 and F2/s1002; each cell fits one T768×24 teacher, a GRU256 label control and a GRU256 output-KD student. The amended source depends on [runtime PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32) at executable source SHA `d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6`; runtime code is shared and not copied into PR #28. Raw112 sliding KV, three fixed epochs, strict FP32 AdamW and additive weighted-MSE objectives replace the old anchored4096/alpha=0.9 proposal. This is a prospective panel only: receiving-host checks, actual-device profiles, fits and grades are pending; no B300 performance is claimed.

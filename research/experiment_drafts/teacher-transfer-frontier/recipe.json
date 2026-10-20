@@ -1,0 +1,430 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-TEACHER-TRANSFER-FRONTIER-20261019",
+  "hypothesis_id": "H-TEACHER-TRANSFER-FRONTIER-20261019",
+  "status": "proposal_not_launch_ready",
+  "objective_mode": "competition",
+  "evidence_tier": "design and primary-source review; no new empirical result",
+  "launch_ready": false,
+  "training_authorized": false,
+  "pr_url": "https://github.com/VladKochetov007/WunderFunder/pull/28",
+  "base_branch": "research-team",
+  "inspected_team_source_sha": "3cebc9f0a0e375c71651115ca43bad129af857e8",
+  "inspected_main_sha": "e8c688e3d2693b9122194c6d361b5d50bb80b472",
+  "implementation_source_sha": null,
+  "source_note": "research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md",
+  "source_section": "22",
+  "arms": [
+    {
+      "id": "labels_256",
+      "target": "labels",
+      "student": {
+        "arch": "gru",
+        "encoder": 256,
+        "hidden": 256,
+        "layers": 2,
+        "readout": 256,
+        "readout_semantics": "canonical RNNModel: concatenate final-layer GRU output and input projection skip, Linear(encoder+hidden,readout)->GELU->Linear(readout,2); head_layers1"
+      },
+      "kd_alpha": 0
+    },
+    {
+      "id": "labels_512",
+      "target": "labels",
+      "student": {
+        "arch": "gru",
+        "encoder": 512,
+        "hidden": 512,
+        "layers": 2,
+        "readout": 512,
+        "readout_semantics": "canonical RNNModel: concatenate final-layer GRU output and input projection skip, Linear(encoder+hidden,readout)->GELU->Linear(readout,2); head_layers1"
+      },
+      "kd_alpha": 0
+    },
+    {
+      "id": "clean_gru_256",
+      "target": "clean_gru",
+      "student": {
+        "arch": "gru",
+        "encoder": 256,
+        "hidden": 256,
+        "layers": 2,
+        "readout": 256,
+        "readout_semantics": "canonical RNNModel: concatenate final-layer GRU output and input projection skip, Linear(encoder+hidden,readout)->GELU->Linear(readout,2); head_layers1"
+      },
+      "kd_alpha": 0.9
+    },
+    {
+      "id": "clean_gru_512",
+      "target": "clean_gru",
+      "student": {
+        "arch": "gru",
+        "encoder": 512,
+        "hidden": 512,
+        "layers": 2,
+        "readout": 512,
+        "readout_semantics": "canonical RNNModel: concatenate final-layer GRU output and input projection skip, Linear(encoder+hidden,readout)->GELU->Linear(readout,2); head_layers1"
+      },
+      "kd_alpha": 0.9
+    },
+    {
+      "id": "L207_256",
+      "target": "L207",
+      "student": {
+        "arch": "gru",
+        "encoder": 256,
+        "hidden": 256,
+        "layers": 2,
+        "readout": 256,
+        "readout_semantics": "canonical RNNModel: concatenate final-layer GRU output and input projection skip, Linear(encoder+hidden,readout)->GELU->Linear(readout,2); head_layers1"
+      },
+      "kd_alpha": 0.9
+    },
+    {
+      "id": "L207_512",
+      "target": "L207",
+      "student": {
+        "arch": "gru",
+        "encoder": 512,
+        "hidden": 512,
+        "layers": 2,
+        "readout": 512,
+        "readout_semantics": "canonical RNNModel: concatenate final-layer GRU output and input projection skip, Linear(encoder+hidden,readout)->GELU->Linear(readout,2); head_layers1"
+      },
+      "kd_alpha": 0.9
+    },
+    {
+      "id": "XL682_256",
+      "target": "XL682",
+      "student": {
+        "arch": "gru",
+        "encoder": 256,
+        "hidden": 256,
+        "layers": 2,
+        "readout": 256,
+        "readout_semantics": "canonical RNNModel: concatenate final-layer GRU output and input projection skip, Linear(encoder+hidden,readout)->GELU->Linear(readout,2); head_layers1"
+      },
+      "kd_alpha": 0.9
+    },
+    {
+      "id": "XL682_512",
+      "target": "XL682",
+      "student": {
+        "arch": "gru",
+        "encoder": 512,
+        "hidden": 512,
+        "layers": 2,
+        "readout": 512,
+        "readout_semantics": "canonical RNNModel: concatenate final-layer GRU output and input projection skip, Linear(encoder+hidden,readout)->GELU->Linear(readout,2); head_layers1"
+      },
+      "kd_alpha": 0.9
+    }
+  ],
+  "student_fit_count": 240,
+  "primary_contrasts": [
+    "XL682_256 - L207_256",
+    "XL682_512 - L207_512",
+    "(XL682_512-L207_512)-(XL682_256-L207_256)",
+    "L207_256 - labels_256",
+    "L207_512 - labels_512",
+    "XL682_256 - labels_256",
+    "XL682_512 - labels_512"
+  ],
+  "cp30": [
+    {
+      "fold": "F0",
+      "seed": 1001,
+      "teacher_seed": 101001
+    },
+    {
+      "fold": "F0",
+      "seed": 1002,
+      "teacher_seed": 101002
+    },
+    {
+      "fold": "F0",
+      "seed": 1003,
+      "teacher_seed": 101003
+    },
+    {
+      "fold": "F0",
+      "seed": 1004,
+      "teacher_seed": 101004
+    },
+    {
+      "fold": "F0",
+      "seed": 1005,
+      "teacher_seed": 101005
+    },
+    {
+      "fold": "F0",
+      "seed": 1006,
+      "teacher_seed": 101006
+    },
+    {
+      "fold": "F0",
+      "seed": 1007,
+      "teacher_seed": 101007
+    },
+    {
+      "fold": "F0",
+      "seed": 1008,
+      "teacher_seed": 101008
+    },
+    {
+      "fold": "F1",
+      "seed": 1001,
+      "teacher_seed": 101001
+    },
+    {
+      "fold": "F1",
+      "seed": 1002,
+      "teacher_seed": 101002
+    },
+    {
+      "fold": "F1",
+      "seed": 1003,
+      "teacher_seed": 101003
+    },
+    {
+      "fold": "F1",
+      "seed": 1004,
+      "teacher_seed": 101004
+    },
+    {
+      "fold": "F1",
+      "seed": 1005,
+      "teacher_seed": 101005
+    },
+    {
+      "fold": "F1",
+      "seed": 1006,
+      "teacher_seed": 101006
+    },
+    {
+      "fold": "F1",
+      "seed": 1007,
+      "teacher_seed": 101007
+    },
+    {
+      "fold": "F1",
+      "seed": 1008,
+      "teacher_seed": 101008
+    },
+    {
+      "fold": "F2",
+      "seed": 1001,
+      "teacher_seed": 101001
+    },
+    {
+      "fold": "F2",
+      "seed": 1002,
+      "teacher_seed": 101002
+    },
+    {
+      "fold": "F2",
+      "seed": 1003,
+      "teacher_seed": 101003
+    },
+    {
+      "fold": "F2",
+      "seed": 1004,
+      "teacher_seed": 101004
+    },
+    {
+      "fold": "F2",
+      "seed": 1005,
+      "teacher_seed": 101005
+    },
+    {
+      "fold": "F2",
+      "seed": 1006,
+      "teacher_seed": 101006
+    },
+    {
+      "fold": "F2",
+      "seed": 1007,
+      "teacher_seed": 101007
+    },
+    {
+      "fold": "F3",
+      "seed": 1001,
+      "teacher_seed": 101001
+    },
+    {
+      "fold": "F3",
+      "seed": 1002,
+      "teacher_seed": 101002
+    },
+    {
+      "fold": "F3",
+      "seed": 1003,
+      "teacher_seed": 101003
+    },
+    {
+      "fold": "F3",
+      "seed": 1004,
+      "teacher_seed": 101004
+    },
+    {
+      "fold": "F3",
+      "seed": 1005,
+      "teacher_seed": 101005
+    },
+    {
+      "fold": "F3",
+      "seed": 1006,
+      "teacher_seed": 101006
+    },
+    {
+      "fold": "F3",
+      "seed": 1007,
+      "teacher_seed": 101007
+    }
+  ],
+  "precision": {
+    "parameters": "float32",
+    "activations": "float32",
+    "states": "float32",
+    "gradients": "float32",
+    "optimizer": "float32",
+    "autocast": false,
+    "GradScaler": false,
+    "TF32": false,
+    "quantization": false
+  },
+  "student_common": {
+    "input": "112 raw features; fitting-only per-column mean/std; std floor 1e-6; no input clipping",
+    "initialization": "cold; student seed s; common normalizer and sequence order within cell",
+    "epochs": 8,
+    "checkpoint": "terminal epoch7; no outer selection",
+    "global_sequence_batch": 32,
+    "core_rows": 500,
+    "optimizer_updates": "one per500-row core; reset completed slots only",
+    "optimizer": {
+      "name": "AdamW",
+      "lr": 0.001,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "matrix_weight_decay": 0.01,
+      "bias_norm_weight_decay": 0,
+      "grad_clip": 1.0
+    },
+    "schedule": {
+      "name": "linear_warmup_cosine",
+      "warmup_fraction": 0.02,
+      "minimum_warmup_steps": 100,
+      "cap": "strictly below total steps",
+      "final_lr_fraction": 0.1
+    },
+    "ema": false,
+    "propensity": false,
+    "extra_features": false,
+    "loss": {
+      "supervised": "per-target normalized weighted squared error to clip(y,-2,2); mean2targets",
+      "weight": "0.05+abs(clip(y,-2,2))",
+      "kd": "same label-derived weights/mask, squared error to raw frozen teacher outputs",
+      "alpha": 0.9,
+      "label_only_alpha": 0,
+      "mask": "eligible fitting rows excluding warmup0..98/padding; all rows still update state"
+    },
+    "partial_batches": "common deterministic terminal batches; exact valid-row denominators; no duplicated padded sequence loss",
+    "gru_dropout": 0
+  },
+  "metric": "global_wp_clip2_v1",
+  "statistics": {
+    "estimand": "equal quarter-weight mean of within-fold paired per-fit official WP deltas",
+    "resamples": 10000,
+    "rng": 19019,
+    "seed_bootstrap": "same eight seed identity multiplicities across folds, within-fold renormalization, redraw empty fold",
+    "component_bootstrap": "whole source-qualified components per fold; fixed fits; shared multiplicities all arms/seeds",
+    "marginal_interval": 0.95,
+    "portfolio_primary_contrasts": 16,
+    "portfolio_adjusted_marginal_interval": 0.996875,
+    "coverage": "approximate conditional intervals; eight seed IDs and exposed folds; not calibrated p-values",
+    "useful_delta": 0.0005,
+    "threshold_status": "prospective allocation criterion, not estimated power",
+    "useful_delta_scope": "direct endpoint-versus-control WP contrasts only; not interactions",
+    "interaction_practical_margin": 0.0005,
+    "interaction_interpretation": "signed mechanism contrast; abs(D)>=0.0005 motivates capacity/architecture followup if compatible endpoint gains; never alone promotes a student"
+  },
+  "bindings": {
+    "data_sha256": null,
+    "component_manifest_sha256": null,
+    "normalizer_sha256_by_fold": null,
+    "teacher_registry_sha256": null,
+    "teacher_cache_manifest_sha256": null,
+    "dependency_lock_or_container_digest": null,
+    "hardware_profile_receipt": null,
+    "validated_launch_command": null,
+    "teacher_served_target_mapping_and_transform": null
+  },
+  "teacher_target_exposure": "outer-fitting in-sample teacher targets; outer components excluded by all ancestors",
+  "before_launch": [
+    "canonical model/state/checkpoint/export integration",
+    "source-qualified component and full ancestor audit",
+    "FP32 causal/reset/chunk/cache parity on receiving host",
+    "freeze data/cache/source/environment and exact update counts",
+    "actual-device memory/time and CPU release feasibility profile",
+    "independent source review and per-cell ownership"
+  ],
+  "result": null,
+  "clean_gru_recipe_and_ancestry": null,
+  "teacher_recipe": {
+    "families": {
+      "L207": {
+        "layers": 16,
+        "width": 1024,
+        "heads": 16,
+        "head_dim": 64,
+        "swiglu": 2816
+      },
+      "XL682": {
+        "layers": 24,
+        "width": 1536,
+        "heads": 24,
+        "head_dim": 64,
+        "swiglu": 4096
+      }
+    },
+    "input": "complete normalized112-feature row; MLP112->d->d; pre-RMSNorm; RoPE actual row position",
+    "attention": "causal anchored raw-prefix recomputation,1024new core+3072prefix; up to4096rows",
+    "output": "direct two-target linear head; output AR off; auxiliary off",
+    "dropout": 0.05,
+    "attention_dropout": 0,
+    "epochs": 12,
+    "checkpoint": "terminal epoch11",
+    "global_core_batch": 8,
+    "new_rows_per_update": 8192,
+    "optimizer": {
+      "name": "AdamW",
+      "lr": 0.0001,
+      "betas": [
+        0.9,
+        0.95
+      ],
+      "eps": 1e-08,
+      "matrix_weight_decay": 0.05,
+      "bias_norm_weight_decay": 0,
+      "grad_clip": 1
+    },
+    "schedule": "2% linear warmup (min100 capped belowtotal),78% stable,20% cosine cooldown to0.1peak; fixed12epoch route",
+    "loss": "same supervised target/weight/mask as student; no KD",
+    "interpretation": "same LR/horizon isolates this fixed architecture recipe; no claim each scale is optimally tuned; cost is measured not matched"
+  },
+  "clean_gru_recipe_reference": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/REBUILD_RECIPE_BINDING_R2.json",
+    "source_sha": "3cebc9f0a0e375c71651115ca43bad129af857e8",
+    "sha256": "4a107af9189935f8f9732b0b2e6822e7883fbde2c44e00f5dda5eb73ae3abe39",
+    "scope": "new clean F0 H384x2 reconstruction recipe reference only; seed3 running, not one of CP30 seeds; no eligible checkpoint/cache or otherfold ancestry claimed"
+  },
+  "active_teacher_families": [
+    "clean_gru",
+    "L207",
+    "XL682"
+  ],
+  "team_base_sha": "135c403ac1d929580ab783fcddfa19b78db98bde"
+}
