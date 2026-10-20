@@ -1,3 +1,19 @@
+[NLL startup metadata audit22:10UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/startup_health_v1/METADATA_REVIEW.json) passes exact raw/transport/three receipt joins, literal-only reader substitution, ownership and memory-event deltas. It establishes no completed epoch, native terminal or quality result. [Lifecycle publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_DICTIONARY_NLL.json) binds all new source/results/reviews and preserves historical bytes.
+
+---
+
+[Dictionary actual launch audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_verification_v1/ACTUAL_LAUNCH_METADATA_REVIEW.json) and [actual result/acceptance/stop audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_verification_v1/ACTUAL_RESULT_METADATA_REVIEW.json) pass metadata-only. [CPU V2 exact-body source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v2/FINAL_BODY_SOURCE_REVIEW_V2.json) binds root stdin authority after the preserved local V1 blocker. [NLL final actual-receipt-bound body review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/FINAL_BODY_SOURCE_REVIEW_V2.json) pins all twelve receipts and the exact NLL recipe; [actual launch audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/ACTUAL_LAUNCH_METADATA_REVIEW.json) is indexed separately. None establishes predictive-quality gain or repeats observer tensors.
+
+---
+
+[Dictionary native metadata audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_native_capture_v1/METADATA_REVIEW.json) joins one exact exit0 raw/typed capture and six native histories. [Dictionary checker source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/CHILD_DICTIONARY_TERMINAL_SOURCE_REVIEW_V1.json) passes six-code/import/runtime-bound source scope. [Local CPU V1 body rejection](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v1/FINAL_BODY_SOURCE_REVIEW_V1.json) occurred before B action. [NLL V1 source negative](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_SOURCE_REVIEW_V1.json) and [V2 narrow source PASS](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_SOURCE_REVIEW_V2.json) retain the exact launch-acceptance gate correction. These reviews are not independent tensor replay or quality evidence.
+
+---
+
+[Dictionary21:14 metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2114Z/METADATA_REVIEW.json) verifies exact raw/transport/receipt joins, five completed epoch records, one-worker ownership and zero event deltas from stored20:16bytes. Metadata only; no source-content rehash, terminal, tensor integrity or quality claim. Local terminal source preparation will be separately reviewed before any B admission.
+
+---
+
 [Dictionary20:16 metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2016Z/METADATA_REVIEW.json) joins exact raw/receipts/reader/ownership, three completed epoch records and event deltas from stored bytes. No payload/test/SSH action by the reviewer or quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_2016.json) preserves new links, historical suffixes and unchanged ledgers; no new scientific fits or unchanged model/source/profile suites.
 
 ---

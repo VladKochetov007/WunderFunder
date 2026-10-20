@@ -1,0 +1,79 @@
+{
+  "schema": "fg19-child-nll-fit-local-checks.v1",
+  "status": "PASS_LOCAL_UNBOUND_TEMPLATE_ONLY",
+  "checked_utc": "2026-10-20T21:44:10Z",
+  "checks": [
+    {
+      "name": "bind_nll_fit.py --check",
+      "status": "PASS",
+      "scope": "Re-derived the unbound template from the pinned dictionary admission body in memory; checked exact changed argv indices [1,48,54], protected parent initializer, representation cache path, wmse compatibility flags, unbound acceptance/stop sentinels, early fail-closed main guard, source-manifest pins, and absence of final body/binding outputs."
+    },
+    {
+      "name": "ruff format bind_nll_fit.py",
+      "status": "PASS"
+    },
+    {
+      "name": "ruff check bind_nll_fit.py",
+      "status": "PASS"
+    }
+  ],
+  "source": {
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "file_count": 167,
+    "manifest_bytes": 27569,
+    "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "selected_cli_objective_representation_pins_checked_from_manifest": true
+  },
+  "argv_binding": {
+    "dictionary_child_argv_sha256": "096b036c8af6220512e51b2002f3598729274b482d5db4b1df8099b26f91ab6d",
+    "nll_template_argv_sha256": "51905d5ecd65117ec0b0c8ab7a4f8aa4f24795015ac29a4af57dd9da781c4b90",
+    "changed_value_indices_zero_based": [1, 48, 54],
+    "--mean-variance-objective": ["wmse", "nll"],
+    "--representation-mode": ["sparse", "base"],
+    "run_name": ["fg19_child_dictionary_f0_s1001_fit_v1", "fg19_child_nll_f0_s1001_fit_v1"],
+    "--mean-variance-head": 1,
+    "--loss": "wmse",
+    "--loss-norm": "chunk",
+    "--init": "fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3",
+    "--representation-cache": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt"
+  },
+  "frozen_inputs": {
+    "dictionary_body": {
+      "path": "preparation/child_dictionary_fit_v1/REMOTE_SUBMISSION.py",
+      "bytes": 196111,
+      "sha256": "9f545489dd80c13831b1a02c75dddf4059f3cbfb84311b2400db4830b4fdd77e"
+    },
+    "recipe": {
+      "path": "NLL_RECIPE_BINDING_V1.json",
+      "bytes": 11391,
+      "sha256": "51f753f6f2163d162eb10776258ec794770c243fe4b627b0c6f033d02b83ec43"
+    },
+    "admission_template_record": {
+      "path": "NLL_ADMISSION_TEMPLATE_V1.json",
+      "bytes": 4231,
+      "sha256": "96a8422463a24f3d772e18f07fedb20e35eeb746180f35c6cfc0aded168021c6"
+    },
+    "unbound_python_template": {
+      "path": "NLL_LAUNCH_TEMPLATE.py",
+      "bytes": 203526,
+      "sha256": "7f75525a14527c9cc11e0b44da7969846120fe5231ed2d4da0f6169d82fd8dc3"
+    }
+  },
+  "current_predecessor_binding": {
+    "dictionary_child_run": "fg19_child_dictionary_f0_s1001_fit_v1",
+    "dictionary_child_unit": "computer-vision-homework-fg19-child-dictionary-fit-v1.service",
+    "dictionary_child_invocation_id": "73b10b699e034a1b9952b2377b845095",
+    "actual_terminal_acceptance_sha256": "UNBOUND_PENDING_ACTUAL_DICTIONARY_CHILD_TERMINAL_ACCEPTANCE",
+    "actual_exact_stop_sha256": "UNBOUND_PENDING_ACTUAL_DICTIONARY_CHILD_EXACT_STOP",
+    "final_remote_submission_body_exists": false,
+    "actual_render_attempted": false
+  },
+  "not_performed": [
+    "B staging, SSH, admission, training, stopping, or remote querying",
+    "model/state/cache/dictionary/data payload reads or hashes",
+    "source/model/profile suite reruns or new geometry profile",
+    "evaluation, inference, or quality checks",
+    "commit, push, or index/ledger edits"
+  ],
+  "caveat": "The 21:14UTC dictionary health in the campaign continuation is a dated snapshot only. This local packet does not infer current native status or completion; root must provide the actual accepted terminal and exact-stop receipts before final rendering."
+}

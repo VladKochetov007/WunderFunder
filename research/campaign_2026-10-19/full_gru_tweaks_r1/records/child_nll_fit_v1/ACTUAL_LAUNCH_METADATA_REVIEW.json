@@ -1,0 +1,216 @@
+{
+  "schema": "fg19.child-nll-fit-actual-launch-metadata-review.v1",
+  "status": "PASS_METADATA_ONLY",
+  "reviewed_utc": "2026-10-20T22:10:03Z",
+  "scope": {
+    "local_saved_metadata_only": true,
+    "SSH_or_B_action_by_reviewer": false,
+    "tests_or_source_suites_run": false,
+    "body_or_remote_entrypoint_executed_by_reviewer": false,
+    "claim_limit": "This review binds the saved NLL launch transport, receipts, source-review and admission metadata. It does not establish current process state, terminal completion, tensor integrity, or model quality.",
+    "model_or_data_payload_read_by_reviewer": false,
+    "bounded_code_and_receipt_metadata_inspected": true
+  },
+  "identity": {
+    "fit_run": "fg19_child_nll_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+    "invocation_id": "c833c613fb92426981ab255a5faf4452",
+    "pid_at_launch": 1537702,
+    "launch_receipt_utc": "2026-10-20T22:07:20.840571+00:00",
+    "launch_acceptance_utc": "2026-10-20T22:07:20.840811+00:00",
+    "initial_systemd_snapshot": "The post-submit receipt records this same invocation active/running with MainPID 1537702. This is the launch-time sample only."
+  },
+  "reviewed_artifacts": {
+    "body": {
+      "path": "records/child_nll_fit_v1/REMOTE_SUBMISSION.py",
+      "bytes": 227746,
+      "sha256": "893e06d9f17ee75450251bb3f8918312041ca6f147cf1cd30312335889843f15"
+    },
+    "prepared_body_copy": {
+      "path": "preparation/child_nll_fit_v1/REMOTE_SUBMISSION_V2.py",
+      "bytes": 227746,
+      "sha256": "893e06d9f17ee75450251bb3f8918312041ca6f147cf1cd30312335889843f15"
+    },
+    "body_source_review": {
+      "path": "preparation/child_nll_fit_v1/FINAL_BODY_SOURCE_REVIEW_V2.json",
+      "bytes": 14660,
+      "sha256": "7354aeb1c1980a11f0aa67ecac03e1f2ecca8e853052ac778e349fcf84fae081",
+      "status": "PASS_SOURCE_ONLY"
+    },
+    "root_admission_preparation": {
+      "path": "records/child_nll_fit_v1/ROOT_ADMISSION_PREPARATION.json",
+      "bytes": 2622,
+      "sha256": "50eef2910b740d5481a28893dcf3ae5c231c81f106149eab2a643d5345485138"
+    },
+    "admission": {
+      "path": "records/child_nll_fit_v1/ADMISSION.json",
+      "bytes": 11750,
+      "sha256": "54b97021a829d1352e9b48a7a6a64fa97a5d1d69c81883bd6518c514858a356c"
+    },
+    "launch": {
+      "path": "records/child_nll_fit_v1/LAUNCH.json",
+      "bytes": 8787,
+      "sha256": "2b313f148559b12379f5c98ffd8e94805c5d1f8c33de18145ee4d3fa6efc7738"
+    },
+    "launch_acceptance": {
+      "path": "records/child_nll_fit_v1/LAUNCH_ACCEPTANCE.json",
+      "bytes": 2931,
+      "sha256": "44a708fc5a32b101c97a8a28c22e3b15e815059582de564e17f528f5369dc7a5"
+    },
+    "transport": {
+      "path": "records/child_nll_fit_v1/TRANSPORT.json",
+      "bytes": 1213,
+      "sha256": "5864d2ecacb9d8287002e061598560e71c65a73d49054eadc81c3842e101f7a3"
+    },
+    "raw_stdout": {
+      "path": "records/child_nll_fit_v1/STDOUT.raw.json",
+      "bytes": 27426,
+      "sha256": "90c7fcd2a916ffd6a1fa63ee9a7192f6cbc439f989bb7ade25435ecd1902efbb"
+    },
+    "empty_stderr": {
+      "path": "records/child_nll_fit_v1/STDERR.raw.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "render_binding_receipt": {
+      "path": "preparation/child_nll_fit_v1/NLL_FINAL_BINDING_RECEIPT_V2.json",
+      "bytes": 757,
+      "sha256": "b80a87745d6b363b831b43e7457df62fda00f1ca88a651e2467cc70dc9aa6f75",
+      "note": "This earlier local rendering receipt retains its pre-review status label; the exact final body/source-review pins are separately bound in ROOT_ADMISSION_PREPARATION, TRANSPORT, and LAUNCH_ACCEPTANCE."
+    }
+  },
+  "joins_verified": {
+    "raw_transport": {
+      "transport_schema": "fg19.raw-ssh-transport.v1",
+      "ssh_returncode": 0,
+      "timed_out": false,
+      "raw_persisted_before_parse": true,
+      "retry_performed": false,
+      "unknown_outcome": false,
+      "stdout_sha_and_size_match_transport": true,
+      "stderr_is_empty_and_matches_transport": true,
+      "raw_base64_decode": "The two raw fields are flat base64 strings. Decoded ADMISSION.json is exactly 11750 bytes / SHA-256 54b97021a829d1352e9b48a7a6a64fa97a5d1d69c81883bd6518c514858a356c; decoded LAUNCH.json is exactly 8787 bytes / SHA-256 2b313f148559b12379f5c98ffd8e94805c5d1f8c33de18145ee4d3fa6efc7738. Both match the persisted local files byte-for-byte.",
+      "started_utc": "2026-10-20T22:07:19.709246+00:00",
+      "finished_utc": "2026-10-20T22:07:20.839760+00:00"
+    },
+    "body_and_source_review": {
+      "actual_body_matches_prepared_copy": true,
+      "transport_body_pin_matches_actual_body": true,
+      "root_preparation_body_and_source_review_pins_match": true,
+      "acceptance_body_and_source_review_pins_match": true,
+      "source_review_status": "PASS_SOURCE_ONLY",
+      "reviewed_body_and_review_sha256_bound_in_outer_launch_acceptance": true
+    },
+    "launch_identity": {
+      "admission_launch_acceptance_unit_and_run_match": true,
+      "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+      "invocation_id_matches_submit_receipt_and_systemd_snapshot": true,
+      "pid_matches_systemd_snapshot": true,
+      "systemd_run_returncode": 0,
+      "initial_systemd_snapshot": "ActiveState=active; SubState=running; MainPID=1537702; InvocationID=c833c613fb92426981ab255a5faf4452"
+    },
+    "predecessor_receipts": {
+      "all_12_staged_receipt_sha256_values_match_archived_receipt_bytes": true,
+      "receipt_names_and_sha256": {
+        "PARENT_TERMINAL_ACCEPTANCE.json": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+        "PARENT_EXACT_STOP.json": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+        "DICTIONARY_ACCEPTANCE.json": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+        "DICTIONARY_EXACT_STOP.json": "2eb44a4381de06f28ed3d7438ace320ef3274eae37c89074fc481f58f5d88158",
+        "PROFILE_TERMINAL_ACCEPTANCE.json": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045",
+        "PROFILE_EXACT_STOP.json": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce",
+        "CONTROL_TERMINAL_ACCEPTANCE.json": "92aaf5eeed156aaad25c4adbb6700d41b0527600b520dd051657a43a50bbb6d2",
+        "CONTROL_EXACT_STOP.json": "600cb3c4a56c7d0731ed2bf6174d47f5b09623c7ca22a7e5fce77d4d358ae012",
+        "EMA_TERMINAL_ACCEPTANCE.json": "0aea6295b64670bb02ac008fdfece6ee430b8f68b84904a14c39dd816c0161a8",
+        "EMA_EXACT_STOP.json": "548fe9876947345d4ac443601e478341bdfe165d5670d7397d50b401b93cc2bf",
+        "DICTIONARY_CHILD_TERMINAL_ACCEPTANCE.json": "283c447b86a9cc50c2ffab849a0d0839307accade1083ba53dcc7217a9da82b1",
+        "DICTIONARY_CHILD_EXACT_STOP.json": "f1a73fc1bf13943e1dcc9cf018ebd4225986c4cfcdccea1b71c5ee961a54a5a3"
+      },
+      "dictionary_child_acceptance_and_exact_stop_match_launch_acceptance": true,
+      "dictionary_child_remains_sequential_prerequisite_and_initializer_remains_parent_ep3": true,
+      "metadata_json_sha256_pins_match_archived_local_bytes": true,
+      "metadata_json_sha256_pins": {
+        "preparation/TEACHER_CACHE_EXECUTION_CONTRACT_R1.json": "dbcbe194f3ceb16d499f1c68bc8d862a16c32af54a13f57db75284691d8aabb9",
+        "records/teacher_s3_v1/TERMINAL_ACCEPTANCE.json": "7c5ce63b087a15c309eeada24f0dd8df983d28f9931e86862347ca87b04282cc",
+        "records/teacher_s4_v1/TERMINAL_ACCEPTANCE.json": "37e484f2ca507c11f45cb67299e6ba093046caffa3380a37dc0c84c53110a9e3",
+        "records/teacher_s5_v1/TERMINAL_ACCEPTANCE.json": "8d22151187a5d64ecd13cab15d10dc8fc320faddf02cdc5dac23ac3cba64411a"
+      }
+    },
+    "fresh_admission_and_resource_gates": {
+      "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "source_files_verified": 167,
+      "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "source_review_records_fresh_pre_mutation_checks_for": "167-file source/commit and canonical split; cache, dictionary, parent checkpoint, registered inputs and 12 predecessor receipts; profile/runtime evidence; descendant population and parent cgroup/headroom; selected-GPU ownership/free memory with foreign GPU processes preserved; physical ext4 scratch device and minimum free-space; new run/output and unit absence; durable exclusive output staging before the single systemd-run submission.",
+      "admission_records": "Exact source/split pins, cache and registered-input stat identities, dictionary and parent checkpoint identities, predecessor receipts, selected GPU snapshot, population, cgroup/resource snapshot, physical scratch identity/free-space, and worker caps.",
+      "unit_and_run_output_absence_boundary": "Fresh unit/output absence checks are present in the pinned reviewed body/source review. Their specific not-found/absent results are not serialized in ADMISSION.json; this review does not present them as separately recorded launch evidence.",
+      "admission_unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+      "run_name": "fg19_child_nll_f0_s1001_fit_v1",
+      "source_file_payloads_or_training_payloads_read_by_reviewer": false
+    }
+  },
+  "recipe_and_limits": {
+    "trainer_argv_count": 92,
+    "trainer_argv_sha256": "51905d5ecd65117ec0b0c8ab7a4f8aa4f24795015ac29a4af57dd9da781c4b90",
+    "trainer_argv_digest_matches_actual_launch_command": true,
+    "run_name": "fg19_child_nll_f0_s1001_fit_v1",
+    "seed": 1001,
+    "initializer": "fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 with inherited preprocessing",
+    "representation_mode": "base",
+    "objective": "mean-variance head 1, NLL objective",
+    "required_loss_flags": "--loss wmse --loss-norm chunk",
+    "schedule": "6 epochs; fixed selected checkpoint epoch 5; seeded batch order; batch 16; chunk 2000; AdamW; LR 0.0001; weight decay 0.01; beta2 0.999; OneCycle; warmup fraction 0.05; clip 1; FP32; no evaluation during fit.",
+    "input_to_target": "467 features to 25 outputs",
+    "one_gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "launch_resource_limits": {
+      "CPUQuota": "100%",
+      "MemoryHigh_bytes": 7500000000,
+      "MemoryMax_bytes": 8000000000,
+      "MemorySwapMax_bytes": 0,
+      "RuntimeMaxSec": 86400,
+      "allocator_bytes": 4294967296,
+      "free_memory_reserve_bytes": 1000000000,
+      "loader_workers": 0,
+      "loader_ram_gb": 1,
+      "BLAS_and_torch_threads": 1,
+      "CUDA_VISIBLE_DEVICES": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944"
+    },
+    "admission_snapshot": {
+      "gpu_free_mib": 10924,
+      "gpu_total_mib": 16376,
+      "foreign_gpu_processes_preserved": [
+        {
+          "uid": 1026,
+          "pid": "521754",
+          "used_memory": "490 MiB"
+        },
+        {
+          "uid": 1117,
+          "pid": "964460",
+          "used_memory": "4542 MiB"
+        }
+      ],
+      "populated": {},
+      "parent_cgroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+      "parent_memory_current_bytes": 7661834240,
+      "parent_memory_high_bytes": 18000000000,
+      "parent_memory_max_bytes": 20000000000,
+      "parent_cpu_quota_per_sec": "2s",
+      "parent_memory_events_local_at_admission": "all zero in recorded snapshot",
+      "scratch_filesystem": "ext4",
+      "scratch_mount": "/",
+      "scratch_source": "/dev/mapper/vg0-lv--0",
+      "scratch_and_project_device": 64512,
+      "scratch_free_bytes": 88133161107456,
+      "source_reviewed_campaign_committed_target_headroom_gate": "17,000,000,000 bytes"
+    }
+  },
+  "launch_status_limit": {
+    "status": "ACTUAL_ONE_GPU_LAUNCH_BOUND_NO_COMPLETION_OR_QUALITY",
+    "scientific_fits_started": 1,
+    "expected_updates_not_observed": 44760,
+    "expected_updates_are_arithmetic_not_observed": true,
+    "quality_score": null,
+    "unknown_outcome_policy": "Never retry, restart, or resubmit on an unknown result; inspect the exact unit and durable output."
+  },
+  "findings": []
+}

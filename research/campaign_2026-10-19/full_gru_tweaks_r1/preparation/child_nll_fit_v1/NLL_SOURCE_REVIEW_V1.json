@@ -1,0 +1,142 @@
+{
+  "final_binding_state": {
+    "body_may_be_rendered_only_after": [
+      "a V2 fix is independently reviewed against exact frozen bytes",
+      "actual dictionary native exit-0 evidence is accepted",
+      "actual dictionary TERMINAL_ACCEPTANCE and separately recorded exact-stop are present and joined to the original LAUNCH_ACCEPTANCE digest",
+      "the concrete receipt-bound body receives a separate source review"
+    ],
+    "nll_final_binding_receipt_present": false,
+    "nll_remote_submission_present": false,
+    "render_authorized_by_this_review": false
+  },
+  "findings": {
+    "ancestry_and_terminal_gates": {
+      "detail": "The NLL template requires the accepted dictionary predecessor and exact-stop receipt before proceeding, and keeps the independent parent initializer pinned to parent@ep3. These remain future actual evidence; this review did not inspect terminal payloads or accept an NLL body.",
+      "status": "CONDITIONAL_PENDING_ACTUAL_DICTIONARY_ACCEPTANCE_AND_EXACT_STOP"
+    },
+    "blocking_finding": {
+      "detail": "Both V1 validators check dictionary terminal acceptance identity, recipe, counters, selected file pins, and exact-stop linkage, but neither compares the actual acceptance object field launch_acceptance_sha256 with NLL_DICTIONARY_CHILD_LAUNCH_ACCEPTANCE_SHA256. The embedded helper instead places the expected constant into its returned predecessor map, which does not validate the recorded acceptance field. The accepted dictionary terminal checker returns this field, and the root states the forthcoming TERMINAL_ACCEPTANCE will include it joined to the original launch acceptance SHA 33fa4fd4cb37c16374e615c2eb6d698f5f3065b252803377260fdae6dd913a95.",
+      "id": "dictionary_launch_acceptance_digest_not_joined",
+      "locations": [
+        "bind_nll_fit.py::_validate_child_receipts (around line 552)",
+        "NLL_LAUNCH_TEMPLATE.py::_dictionary_child_terminal_predecessor (around line 1143)"
+      ],
+      "required_v2_fix": "In both the local pre-render validator and embedded first-main predecessor validator, require acceptance.get(\"launch_acceptance_sha256\") == the pinned original dictionary LAUNCH_ACCEPTANCE SHA before accepting the predecessor. Add a focused mismatch/missing-field regression. Preserve V1 bytes and all other identity, exact-stop, recipe, and resource checks.",
+      "severity": "blocker"
+    },
+    "recipe_source_review": {
+      "argv": {
+        "changed_indices": [
+          1,
+          48,
+          54
+        ],
+        "changes": {
+          "1": [
+            "fg19_child_dictionary_f0_s1001_fit_v1",
+            "fg19_child_nll_f0_s1001_fit_v1"
+          ],
+          "48": [
+            "sparse",
+            "base"
+          ],
+          "54": [
+            "wmse",
+            "nll"
+          ]
+        },
+        "dictionary_argv_elements": 92,
+        "nll_argv_elements": 92,
+        "unchanged_recipe": "The 467-to-25 geometry, H256x2 model, seed, data/cache and batching, parent@ep3 initialization, optimizer/schedule, and other trainer arguments are byte-for-byte the same in the two literal argv lists."
+      },
+      "nll_compatibility": "The frozen source68 mean_variance configuration requires objective=nll with head=1 and also requires --loss wmse --loss-norm chunk. The NLL template preserves those compatibility flags while changing only the objective. Source68 base representation supplies zero-valued appended slots; the changed command does not initialize from an EMA child checkpoint.",
+      "source_pins": [
+        {
+          "bytes": 5445,
+          "path": "src/wnn/training/mean_variance.py",
+          "sha256": "e4a067bb9d467d121720854876cfffb083ab803a4ed440ec96025779553e15c5"
+        },
+        {
+          "bytes": 11714,
+          "path": "src/wnn/training/input_representation.py",
+          "sha256": "934bac99544c04ac3b77f0b9f78fa4b40ce5782a785fee04d9450d9d568b116f"
+        },
+        {
+          "bytes": 12302,
+          "path": "src/wnn/training/setup_model.py",
+          "sha256": "cec9748ad67c995a3c73f6b0288780ba52d0952445251c410113f6670c79fe33"
+        },
+        {
+          "bytes": 1790,
+          "path": "scripts/train_rnn.py",
+          "sha256": "74530d3499bba1b5647e459105cb263bfc7205d7f3aa928684dfb279c2677345"
+        },
+        {
+          "bytes": 1992,
+          "path": "scripts/fit_input_representation.py",
+          "sha256": "1f47b498b4be33d4c385a3e18b1abacfc754785eb6dffe83d0ff62a0f0f594cc"
+        }
+      ],
+      "source_scope_note": "Selected recipe-source files above are pinned by the 167-file source manifest; source semantics review is not a runtime or fit result.",
+      "status": "PASS_SOURCE_ONLY"
+    }
+  },
+  "review_scope": {
+    "B_or_SSH_or_network_action": false,
+    "actual_dictionary_terminal_acceptance_or_stop_reviewed": false,
+    "model_state_dictionary_cache_array_or_dataset_payload_read": false,
+    "rendered_final_body_exists_or_reviewed": false,
+    "source_and_template_only": true,
+    "static_method": "Read-only source inspection and AST literal comparison of the two frozen TRAINER_ARGV lists; no application imports or helper/test execution.",
+    "template_or_renderer_executed": false,
+    "tests_run": false
+  },
+  "reviewed_artifacts": {
+    "admission_template": {
+      "bytes": 4231,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_ADMISSION_TEMPLATE_V1.json",
+      "sha256": "96a8422463a24f3d772e18f07fedb20e35eeb746180f35c6cfc0aded168021c6"
+    },
+    "binder": {
+      "bytes": 40287,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/bind_nll_fit.py",
+      "sha256": "54ef01de5b5c7af4e77a37f40400320aaa1674445a9a4ad80a37b65de4ad9f41"
+    },
+    "dictionary_launch_body": {
+      "bytes": 196111,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/REMOTE_SUBMISSION.py",
+      "sha256": "9f545489dd80c13831b1a02c75dddf4059f3cbfb84311b2400db4830b4fdd77e"
+    },
+    "launch_template": {
+      "bytes": 203526,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_LAUNCH_TEMPLATE.py",
+      "sha256": "7f75525a14527c9cc11e0b44da7969846120fe5231ed2d4da0f6169d82fd8dc3"
+    },
+    "local_checks_snapshot": {
+      "bytes": 3754,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_LOCAL_CHECKS_V1.json",
+      "reviewer_reran_checks": false,
+      "sha256": "662883eb9b7b211577084ddef93eb728b7540f43fab5940eee7874aafb865e57"
+    },
+    "readme": {
+      "bytes": 5398,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/README.md",
+      "sha256": "dde2827f71c3b59d6f7a20e2f7d2c1007eb77c31fd21173bb95d4d7bd66b73e2"
+    },
+    "recipe_binding": {
+      "bytes": 11391,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_RECIPE_BINDING_V1.json",
+      "sha256": "51f753f6f2163d162eb10776258ec794770c243fe4b627b0c6f033d02b83ec43"
+    },
+    "source_manifest": {
+      "bytes": 27569,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_cache_cpu_repair_v2/SOURCE_MANIFEST.json",
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "source_commit": "68ff682977b822f38351aac0f621146f5f13b440"
+    }
+  },
+  "reviewed_utc": "2026-10-20T21:47:30Z",
+  "schema": "fg19.child-nll-fit-source-review.v1",
+  "status": "BLOCKED_SOURCE_ONLY_MISSING_DICTIONARY_LAUNCH_ACCEPTANCE_JOIN"
+}

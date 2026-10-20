@@ -1,3 +1,15 @@
+[NLL-only actual launch22:07UTC](child_nll_fit_v1/README.md), after [dictionary accepted](child_dictionary_fit_v1/TERMINAL_ACCEPTANCE.json) and [exact stopped22:02UTC](child_dictionary_fit_v1/exact_stop/README.md). One GPU worker, fifth comparison fit started, fourth completed including parent; allthree pending. [Actual dictionary support metadata audit](child_dictionary_fit_v1/terminal_verification_v1/ACTUAL_RESULT_METADATA_REVIEW.json) joins PASS/acceptance/stop. No predictive-quality score/gain.
+
+---
+
+[Dictionary native exit0 captured21:50UTC](child_dictionary_fit_v1/terminal_native_capture_v1/README.md): six complete histories/44,760updates/4476batches/zero skips/nonfinite, exact invocation and typed raw proof independently audited. Native exit21:33:50UTC; allpop empty, ownCG unavailable. No model/state payload read/hash, integrity acceptance or exact stop at this snapshot; no quality claim. One actual SSH capture, locally duplicated canonical consumer bytes.
+
+---
+
+[Dictionary rare health21:14UTC](child_dictionary_fit_v1/health_20261020T2114Z/README.md): same active invocation, five completed epochs/37,300updates/3730batches/zero skips/nonfinite. Later ep5batch420 is not synchronous current totals/native terminal/quality. One owned worker, events unchanged and tensors stat-only; no B integrity support, new fit/restart/stop/inference.
+
+---
+
 [Dictionary direct-request health20:16UTC](child_dictionary_fit_v1/health_20261020T2016Z/README.md): same active invocation, three completed epochs/22,380updates/2238batches/zero skips/nonfinite. Later ep3batch620 is not synchronous current totals, terminal or quality. One owned worker, unchanged memoryevents and stat-only tensors; no new job/restart/stop or checker preparation.
 
 ---

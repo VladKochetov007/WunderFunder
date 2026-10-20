@@ -1,0 +1,83 @@
+{
+  "schema": "fg19.child-dictionary-terminal-verifier-body-source-review.v1",
+  "status": "BLOCKED_SOURCE_ONLY",
+  "reviewed_utc": "2026-10-20T21:52:10Z",
+  "review_scope": {
+    "exact_rendered_body_source_only": true,
+    "body_imported_or_executed": false,
+    "tests_run": false,
+    "SSH_or_B_action": false,
+    "model_state_dictionary_cache_array_or_dataset_payload_read": false,
+    "native_metadata_review": "Recorded separately at records/child_dictionary_fit_v1/terminal_native_capture_v1/METADATA_REVIEW.json"
+  },
+  "reviewed_artifacts": {
+    "rendered_body": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v1/REMOTE_SUBMISSION.py",
+      "bytes": 558636,
+      "sha256": "f49a618e3102b52756c68ec049630019360add5fb0ddb26da704af7515846f91"
+    },
+    "template": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v1/REMOTE_SUBMISSION_TEMPLATE.py",
+      "bytes": 54045,
+      "sha256": "51064b217c77b79a85512f15486d99ff3b749712ffb0c73168e662edbd663b87"
+    },
+    "renderer": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v1/render_child_dictionary_terminal_verifier_v1.py",
+      "bytes": 24831,
+      "sha256": "ca7a03c45e0c90e6e855387c083547be8342eaa40990b919cbe275aa4be7e8a6"
+    },
+    "root_preparation": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/ROOT_PREPARATION.json",
+      "bytes": 10685,
+      "sha256": "0d9087aaa23057ec90825e3611556914b92d69277103e2cc5e2e9acabf966303"
+    },
+    "checker_source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/CHILD_DICTIONARY_TERMINAL_SOURCE_REVIEW_V1.json",
+      "bytes": 8964,
+      "sha256": "ac67f3d24d916440c8a26a204571afa73ce8a816fa832c3ee4aa74168fb3ba64",
+      "status": "PASS_SOURCE_ONLY"
+    },
+    "root_body_payload_check": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/ROOT_RENDERED_BODY_CHECK.json",
+      "bytes": 2314,
+      "sha256": "2fbb67be9e4292876b1b5f2b8a7f1e99a5c307aa5faed17dca91456bc4fc0213"
+    },
+    "rendered_body_integrity_check": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/DICTIONARY_RENDERED_BODY_LOCAL_CHECKS_V2.json",
+      "bytes": 1990,
+      "sha256": "c238520fb138dda633befdb7980d0b637d96a3962aeeb51befeea507762e7fba"
+    }
+  },
+  "body_bindings_verified": {
+    "render_binding": "The literal FINAL_REVIEW_BINDING binds checker d0681864…, source review ac67f3d2…, root preparation 0d9087aa…, native typed evidence b2e85ce5…, native raw capture 6944ee9f…, and 24 root metadata/proof pins.",
+    "payload_map": {
+      "count": 10,
+      "exact_embedded_bytes_match_local_pinned_files": true,
+      "files": [
+        "six exact private checker/helper files",
+        "SOURCE_MANIFEST.json",
+        "LAUNCH_ACCEPTANCE.json",
+        "TERMINAL_EVIDENCE.json",
+        "NATIVE_STDOUT.raw.json"
+      ],
+      "all_24_root_preparation_metadata_proof_pins_match": true
+    },
+    "native_join": "The rendered binding exactly matches the typed/raw terminal hashes and byte counts. The body gate joins exact captured raw identity, unit exit, admission/launch/log receipt bytes, and a fresh exact native unit state; the native unit need not already be stopped.",
+    "fresh_gates_before_output_mutation": "Static source shows fixed payload size/SHA checks and current source-167, split, registered-path, native terminal/stat-only inventory, predecessor receipt, profile, parent/dictionary stat, cache stat-only, cgroup/headroom, and physical ext4/device/free-space gates occur before D.mkdir. Existing B receipts are read-only.",
+    "caps_and_one_shot": "The bounded checker inputs retain model 32 MB, state 64 MB, metadata 16 MB, and aggregate run artifacts 128 MB. Support settings are 50% CPU, 1.4 GB high, 1.5 GB max, swap 0, 600 seconds, CUDA hidden, BLAS/thread count 1. Exclusive output/admission/intent/launch writes and the unknown-outcome never-retry policy are present.",
+    "native_stop": "No native stop action or already-stopped prerequisite exists in this admission body."
+  },
+  "blocking_findings": [
+    {
+      "id": "BODY_SELF_READ_PATH_AND_CAP",
+      "severity": "BLOCKER",
+      "location": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v1/REMOTE_SUBMISSION.py",
+        "line": 1149
+      },
+      "finding": "Before creating D, the body calls stable_file(Path(__file__), 250_000) and requires that body file to exist and be no larger than 250,000 bytes. The exact rendered body is 558,636 bytes. Under the established SSH-stdin transport, __file__ is '<stdin>', so the read targets a nonexistent path; even if materialized at a path, the fixed cap rejects this exact body. The verifier cannot reach D creation/submission as currently transported.",
+      "required_resolution": "Use a narrow, explicit root-reviewed transport authority for the exact submitted body bytes/hash, or another source-qualified bounded mechanism that works with stdin and the 558,636-byte body. Do not relax the cap blindly or stage a body in B. Re-render and independently review exact V2 bytes before any admission."
+    }
+  ],
+  "status_limit": "The native metadata join and literal payload pins pass, but this body is not executable through the prepared transport. No support admission was attempted by this review; actual checker execution, tensor integrity, and quality remain unestablished."
+}

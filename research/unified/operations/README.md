@@ -1,3 +1,15 @@
+[Dictionary full acceptance and exact owned stop22:02UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/exact_stop/README.md) preceded [actual NLL-only launch22:07UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/README.md). One serial GPU worker/aggregate2CPU, common parent and target; comparison5started/4completed of6, allthree unadmitted. [Continuation](../../campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs raw-first lifecycle/resource gates and quiet rare health. No quality comparison yet.
+
+---
+
+[Dictionary native completion21:33UTC, captured21:50](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_native_capture_v1/README.md): one raw-first exact-invocation observation/strict typed exit0/six histories44,760updates, independently metadata-audited. Actual CPU integrity acceptance and exact owned stop pending; local V1 body blocker never reached B. [Continuation](../../campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs narrow V2 repair/fresh CPU gates and later NLL-only serial admission. No quality endpoint.
+
+---
+
+[Dictionary rare health21:14UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2114Z/README.md): same owned active worker, five complete epochs/37,300updates/3730batches/zero skips/nonfinite. Later line not current totals, terminal or quality; events unchanged, tensor files stat-only. Needed LOCAL thin checker/conditional admission preparation is distinct from B execution; actual typed native exit0 remains required, no new fit/support/restart/stop/inference.
+
+---
+
 [Dictionary direct-request health20:16UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2016Z/README.md): three completed epochs/22,380updates/2238batches/zero skips/nonfinite; the later line is not synchronous current totals, terminal or quality. Same owned worker, no new memoryevents, tensors stat-only. [Validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_2016.json) preserves one raw transport and navigation with zero ledger rows/fits/supports. Checker stays unprepared; no early B staging/payload reads.
 
 ---

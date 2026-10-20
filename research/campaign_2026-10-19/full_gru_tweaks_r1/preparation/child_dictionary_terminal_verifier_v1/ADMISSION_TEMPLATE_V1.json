@@ -1,0 +1,377 @@
+{
+  "schema": "fg19.child-dictionary-terminal-verifier-admission-template.v1",
+  "status": "CONDITIONAL_WAITING_FOR_ACTUAL_NATIVE_EXIT0_PROOF",
+  "scope": {
+    "local_only": true,
+    "remote_staging_performed": false,
+    "support_submission_performed": false,
+    "terminal_verifier_executed": false,
+    "native_unit_stopped": false,
+    "source_tree_content_rehashed_locally": false,
+    "model_state_cache_array_dictionary_payload_read_or_hashed_locally": false
+  },
+  "fresh_gate_baseline": {
+    "path": "preparation/child_ema_terminal_verifier_v3/REMOTE_SUBMISSION_TEMPLATE.py",
+    "bytes": 59676,
+    "sha256": "31bc9986f3d6e0728d36a723cc954899727150afc9d965cf91993c7c0d3f1a12",
+    "use": "Reviewed fresh-gate mechanics reference only; the dictionary packet must bind its own identity, native evidence, checker closure, and predecessor set.",
+    "copied_trainer_or_fit_logic": false
+  },
+  "original_fit": {
+    "run_name": "fg19_child_dictionary_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-dictionary-fit-v1.service",
+    "invocation_id": "73b10b699e034a1b9952b2377b845095",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_manifest": {
+      "path": "preparation/teacher_cache_cpu_repair_v2/SOURCE_MANIFEST.json",
+      "source_files": 167,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "source_root": "/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829",
+    "portable_data_registry_sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378",
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "recipe": {
+      "representation_mode": "sparse",
+      "objective": "wmse",
+      "seed": 1001,
+      "input_width": 467,
+      "hidden_widths": [
+        256,
+        256
+      ],
+      "output_width": 25,
+      "batch_size": 16,
+      "chunk_rows": 2000,
+      "epochs": 6,
+      "fixed_checkpoint_epoch_zero_based": 5,
+      "expected_optimizer_updates": 44760,
+      "expected_updates_are_admission_arithmetic_not_terminal_evidence": true,
+      "inherited_initializer": "fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3",
+      "inherited_normalization": "parent prefix preserved; dictionary suffix zero mean / unit standard deviation",
+      "dictionary": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt"
+    },
+    "ancestor_stat_only_pins": {
+      "parent_checkpoint": {
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_parent_h256x2_f0_s1001_fit_r2_v1/model_ep3.pt",
+        "bytes": 3988711,
+        "device": 64512,
+        "inode": 779788689,
+        "mtime_ns": 1792467480736078967,
+        "sha256": "6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45"
+      },
+      "dictionary_artifact": {
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt",
+        "bytes": 22557,
+        "device": 64512,
+        "inode": 733618561,
+        "sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659",
+        "mtime_ns_recorded": false,
+        "stat_schema_source": "original dictionary ADMISSION.json"
+      },
+      "cache": {
+        "metadata_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1/metadata.json",
+        "metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+        "train_array_stat_only": {
+          "bytes": 1685600128,
+          "device": 64512,
+          "inode": 739677840,
+          "mtime_ns": 1792458365441028881
+        },
+        "valid_array_stat_only": {
+          "bytes": 224800128,
+          "device": 64512,
+          "inode": 739677841,
+          "mtime_ns": 1792458385154390137
+        },
+        "array_payload_bytes_read_or_hashed": false
+      },
+      "registered_path_names": [
+        "cache/chain_folds.npz",
+        "cache/chains.npz",
+        "cache/train_targets.npz",
+        "cache/valid_targets.npz",
+        "datasets/train.parquet",
+        "datasets/valid.parquet"
+      ],
+      "stat_authority": "Compare fresh remote stats to the original accepted ADMISSION.json; do not synthesize missing stats or reject the six known aliases broadly."
+    },
+    "original_receipts": {
+      "ADMISSION.json": {
+        "bytes": 10937,
+        "sha256": "b13ccf5834fd210ce02ca6c3aea7251d8dcae3f63823341da15a77abcbc75063"
+      },
+      "LAUNCH.json": {
+        "bytes": 8072,
+        "sha256": "9cbcc8b4df3886620429cae42d678d2e281aff980402f5b19d63d9f515b6ad3c"
+      },
+      "LAUNCH_ACCEPTANCE.json": {
+        "bytes": 2674,
+        "sha256": "33fa4fd4cb37c16374e615c2eb6d698f5f3065b252803377260fdae6dd913a95"
+      },
+      "body_identity_source": "nested body object in LAUNCH_ACCEPTANCE.json",
+      "remote_submission_body": {
+        "bytes": 196111,
+        "sha256": "9f545489dd80c13831b1a02c75dddf4059f3cbfb84311b2400db4830b4fdd77e"
+      },
+      "launch_json_body_sha256_assumed": false
+    }
+  },
+  "native_terminal_gate": {
+    "typed_evidence_path": "records/child_dictionary_fit_v1/TERMINAL_EVIDENCE.json",
+    "raw_capture_path": "records/child_dictionary_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+    "schema": "fg19.child-dictionary-fit-native-terminal-evidence.v1",
+    "run_name": "fg19_child_dictionary_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-dictionary-fit-v1.service",
+    "invocation_id": "73b10b699e034a1b9952b2377b845095",
+    "required_active_state": "active",
+    "required_sub_state": "exited",
+    "required_strict_integer_fields": {
+      "main_pid": 0,
+      "exec_main_code": 1,
+      "exec_main_status": 0
+    },
+    "expected_raw_bytes": null,
+    "expected_raw_sha256": null,
+    "note": "Raw size and digest bind only after root captures actual exit evidence; no prior progress snapshot can satisfy this gate.",
+    "requires_native_unit_already_stopped": false
+  },
+  "original_launch_acceptance": {
+    "schema": "fg19-child-dictionary-fit-launch-acceptance.v1",
+    "status": "ACCEPTED_ACTUAL_ONE_LAUNCH_ONLY",
+    "native_exit_observed": false,
+    "expected_terminal_updates_not_observed": 44760,
+    "quality_score": null,
+    "body_link": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/REMOTE_SUBMISSION.py",
+      "bytes": 196111,
+      "sha256": "9f545489dd80c13831b1a02c75dddf4059f3cbfb84311b2400db4830b4fdd77e"
+    }
+  },
+  "predecessors_read_only": {
+    "PARENT_TERMINAL_ACCEPTANCE.json": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+    "PARENT_EXACT_STOP.json": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+    "DICTIONARY_ACCEPTANCE.json": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+    "DICTIONARY_EXACT_STOP.json": "2eb44a4381de06f28ed3d7438ace320ef3274eae37c89074fc481f58f5d88158",
+    "PROFILE_TERMINAL_ACCEPTANCE.json": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045",
+    "PROFILE_EXACT_STOP.json": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce",
+    "CONTROL_TERMINAL_ACCEPTANCE.json": "92aaf5eeed156aaad25c4adbb6700d41b0527600b520dd051657a43a50bbb6d2",
+    "CONTROL_EXACT_STOP.json": "600cb3c4a56c7d0731ed2bf6174d47f5b09623c7ca22a7e5fce77d4d358ae012",
+    "EMA_TERMINAL_ACCEPTANCE.json": "0aea6295b64670bb02ac008fdfece6ee430b8f68b84904a14c39dd816c0161a8",
+    "EMA_EXACT_STOP.json": "548fe9876947345d4ac443601e478341bdfe165d5670d7397d50b401b93cc2bf",
+    "cache_acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "cache_exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "profile_evidence": {
+      "ADMISSION.json": "908d066878b6a5b69549077a0002c6d6f1ed306bc10f5b059fa6ca423d2da2c5",
+      "LAUNCH.json": "df171f46017dbb4b4b7bdfaaeb374db651d6d972eb11e8ffcebe917a4b464d44",
+      "unit.log": "b4480cd8529ecbb0d5ec1cf840f0c9a312b541f9598cc4cd4cfa19084350c289",
+      "initial_state_sha256": "254b29510a93a689ef3f259e65890fb6be76cfe112b483b15fd91763ea74c2cd"
+    },
+    "existing_receipts_are_never_recreated_or_restaged": true
+  },
+  "checker": {
+    "source_path": "preparation/child_dictionary_terminal_check_v1/child_dictionary_terminal_check_v1.py",
+    "status": "PASS_SOURCE_ONLY",
+    "sha256": "d06818648362d571e3b06637bc026b97190476a6b59474f4a57ec84c349e4d82",
+    "bytes": 34164,
+    "cli_flags": [
+      "--run-dir",
+      "--source-root",
+      "--source-manifest",
+      "--split",
+      "--evidence-root",
+      "--profile-evidence-root",
+      "--admission",
+      "--launch",
+      "--launch-acceptance",
+      "--terminal-evidence",
+      "--cache-root",
+      "--cache-acceptance",
+      "--cache-exact-stop",
+      "--output"
+    ],
+    "private_code_closure": {
+      "child_dictionary_terminal_check_v1.py": {
+        "bytes": 34164,
+        "sha256": "d06818648362d571e3b06637bc026b97190476a6b59474f4a57ec84c349e4d82",
+        "status": "source_reviewed"
+      },
+      "child_control_terminal_check_v3.py": {
+        "bytes": 79972,
+        "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+      },
+      "parent_fit_terminal_check_v3.py": {
+        "bytes": 64550,
+        "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+      },
+      "propensity_terminal_support.py": {
+        "bytes": 13107,
+        "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+      },
+      "teacher_s5_terminal_check_v1.py": {
+        "bytes": 37448,
+        "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+      },
+      "child_ema_terminal_check_v3.py": {
+        "bytes": 38267,
+        "sha256": "676d548c1cd25c3c1379548999cca1300ef135dd41b4a8f73689ef8e59de3b5d"
+      }
+    },
+    "outer_builder_requirement": "Verify each exact helper length/SHA before starting the checker subprocess; checker-side import-time closure validation is a second gate, not a substitute."
+  },
+  "support": {
+    "unit": "computer-vision-homework-fg19-child-dictionary-verify-v1.service",
+    "create_only_output": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_dictionary_verify_v1",
+    "canonical_python": "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+    "python_flags": [
+      "-E",
+      "-B",
+      "-u"
+    ],
+    "project_root_environment": "WNN_PROJECT_ROOT=/home/grinchenkoeg/computer-vision-homework-20261018/data",
+    "required_environment": {
+      "CUDA_VISIBLE_DEVICES": "",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "TMPDIR": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "WNN_THREADS": "1",
+      "RAYON_NUM_THREADS": "1",
+      "FG19_APPROVED_PATH_COMPAT_EXCEPTION": "pathlib._local.PosixPath:exact-dictionary-path-only"
+    },
+    "checker_cli": [
+      "--run-dir",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_child_dictionary_f0_s1001_fit_v1",
+      "--source-root",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829",
+      "--source-manifest",
+      "{D}/SOURCE_MANIFEST.json",
+      "--split",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json",
+      "--evidence-root",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_dictionary_fit_v1",
+      "--profile-evidence-root",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_profile_v1",
+      "--admission",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_dictionary_fit_v1/ADMISSION.json",
+      "--launch",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_dictionary_fit_v1/LAUNCH.json",
+      "--launch-acceptance",
+      "{D}/LAUNCH_ACCEPTANCE.json",
+      "--terminal-evidence",
+      "{D}/TERMINAL_EVIDENCE.json",
+      "--cache-root",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1",
+      "--cache-acceptance",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/research/full_gru_tweaks_r1/cache_cpu_v2/TERMINAL_ACCEPTANCE.json",
+      "--cache-exact-stop",
+      "/home/grinchenkoeg/computer-vision-homework-20261018/research/full_gru_tweaks_r1/cache_cpu_v2/EXACT_STOP.json",
+      "--output",
+      "{D}/VERIFICATION.json"
+    ],
+    "systemd_run_properties": [
+      "Type=exec",
+      "RemainAfterExit=yes",
+      "Slice=wnn-campaign.slice",
+      "CPUQuota=50%",
+      "MemoryHigh=1400000000",
+      "MemoryMax=1500000000",
+      "MemorySwapMax=0",
+      "RuntimeMaxSec=600",
+      "TimeoutStopSec=45",
+      "StandardOutput=append:{D}/unit.log",
+      "StandardError=append:{D}/unit.log",
+      "WorkingDirectory={D}"
+    ],
+    "submission_timeout_seconds": 25,
+    "raw_response_policy": "Persist stdout/stderr bytes exactly as base64 before JSON parsing; unknown outcome is never retried.",
+    "resources": {
+      "cpu_quota": "50%",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "swap_max_bytes": 0,
+      "runtime_max_seconds": 600,
+      "cuda_visible_devices": "",
+      "blas_threads": 1
+    },
+    "headroom": {
+      "parent_cpu_quota": "2s",
+      "parent_memory_high_bytes": 18000000000,
+      "parent_memory_max_bytes": 20000000000,
+      "parent_swap_max_bytes": 0,
+      "target_bytes": 17000000000,
+      "single_support_reservation_bytes": 1500000000,
+      "reserve_bytes": 1000000000,
+      "formula": "fresh parent current + 1500000000 + 1000000000 < 17000000000"
+    },
+    "physical_scratch": {
+      "filesystem": "ext4",
+      "device": 64512,
+      "minimum_free_bytes": 26843545600
+    },
+    "path_compatibility_exception": {
+      "already_directly_granted": true,
+      "environment_variable": "FG19_APPROVED_PATH_COMPAT_EXCEPTION",
+      "value": "pathlib._local.PosixPath:exact-dictionary-path-only",
+      "scope": "training_state.pt only; one exact dictionary path constructor; weights_only=True"
+    },
+    "payload_caps_bytes": {
+      "model": 32000000,
+      "training_state": 64000000,
+      "metadata_file": 16000000,
+      "aggregate_run_artifacts": 128000000
+    },
+    "unknown_submit_outcome": "Persist original small raw response before parsing; never retry or recreate output."
+  },
+  "fresh_gates_before_any_remote_write": [
+    "All populated campaign descendants empty; no host-root fallback when cgroup identity is empty.",
+    "Exact parent resource envelope, current headroom formula, and single support reservation.",
+    "Exact 167-file source tree content pins and source manifest; no tree restage.",
+    "Exact split and registered data/cache aliases with current resolved paths and stat identity.",
+    "Cache metadata, acceptance, exact stop, array stats only; never read or hash cache arrays.",
+    "Parent checkpoint stat and SHA metadata plus exact dictionary path/stat/SHA metadata; no payload reads here.",
+    "Read-only parent, dictionary, profile, CONTROL, and EMA acceptance/stop joins; no receipt recreation.",
+    "Native typed exit-0 evidence, exact current run identity and stat-only terminal inventory; no stop prerequisite.",
+    "New support unit absent; exact private output absent; known output/data aliases validated narrowly.",
+    "Physical campaign research_tmp is ext4 on device 64512 with at least 25 GiB free."
+  ],
+  "render_policy": {
+    "body_rendered": false,
+    "requires_actual_typed_native_exit0": true,
+    "requires_final_checker_source_review": true,
+    "requires_root_binding_review_before_admission": true,
+    "no_fake_terminal_or_acceptance_fixtures": true,
+    "native_exit": "never inferred from elapsed time, progress records, expected update arithmetic, or original launch acceptance"
+  },
+  "conditional_body_template": {
+    "path": "preparation/child_dictionary_terminal_verifier_v1/REMOTE_SUBMISSION_TEMPLATE.py",
+    "bytes": 54045,
+    "sha256": "51064b217c77b79a85512f15486d99ff3b749712ffb0c73168e662edbd663b87",
+    "payload_slot_empty": true,
+    "final_review_binding_slot_empty": true,
+    "production_body_emitted": false
+  },
+  "conditional_renderer": {
+    "path": "preparation/child_dictionary_terminal_verifier_v1/render_child_dictionary_terminal_verifier_v1.py",
+    "bytes": 24831,
+    "sha256": "ca7a03c45e0c90e6e855387c083547be8342eaa40990b919cbe275aa4be7e8a6",
+    "requires_root_preparation_and_source_review": true,
+    "requires_actual_typed_and_raw_exit0_proof": true,
+    "renders_create_only": true,
+    "remote_or_B_action": false
+  },
+  "template_builder": {
+    "path": "preparation/child_dictionary_terminal_verifier_v1/build_dictionary_terminal_body_template_v1.py",
+    "bytes": 33002,
+    "sha256": "ca15c8842cb3dc0414c53656d88a9637465d887439af9ea513277b8299c15f0d",
+    "uses_reviewed_ema_v3_fresh_gates_only": true,
+    "executes_or_submits": false
+  },
+  "final_checker_source_review": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/CHILD_DICTIONARY_TERMINAL_SOURCE_REVIEW_V1.json",
+    "bytes": 8964,
+    "sha256": "ac67f3d24d916440c8a26a204571afa73ce8a816fa832c3ee4aa74168fb3ba64",
+    "status": "PASS_SOURCE_ONLY"
+  }
+}

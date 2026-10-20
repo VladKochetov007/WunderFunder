@@ -1,0 +1,68 @@
+{
+  "schema": "fg19-child-nll-fit-v2-local-checks.v1",
+  "status": "PASS_LOCAL_V2_UNBOUND_ONLY",
+  "checked_utc": "2026-10-20T21:49:47Z",
+  "source_gate": {
+    "frozen_v1_binder": {
+      "path": "bind_nll_fit.py",
+      "bytes": 40287,
+      "sha256": "54ef01de5b5c7af4e77a37f40400320aaa1674445a9a4ad80a37b65de4ad9f41"
+    },
+    "frozen_v1_template": {
+      "path": "NLL_LAUNCH_TEMPLATE.py",
+      "bytes": 203526,
+      "sha256": "7f75525a14527c9cc11e0b44da7969846120fe5231ed2d4da0f6169d82fd8dc3"
+    },
+    "v2_template_is_exact_v1_plus_single_receipt_gate": true
+  },
+  "fix": {
+    "field": "launch_acceptance_sha256",
+    "required_value": "33fa4fd4cb37c16374e615c2eb6d698f5f3065b252803377260fdae6dd913a95",
+    "remote_template_validator_enforces": true,
+    "local_receipt_validator_enforces": true,
+    "missing_field_rejected": true,
+    "mismatched_field_rejected": true
+  },
+  "artifacts": {
+    "bind_nll_fit_v2.py": {
+      "bytes": 10089,
+      "sha256": "c369d2446d1360a08db95c13a931bd743aa968b296796f9f42d150def577436f"
+    },
+    "NLL_LAUNCH_TEMPLATE_V2.py": {
+      "bytes": 203735,
+      "sha256": "366598622361efac4bb69f1145e5cb4f8349bb5c7ba56484738dff608563483b"
+    },
+    "test_bind_nll_fit_v2.py": {
+      "bytes": 1562,
+      "sha256": "83c87be82a4424b1b7e648d8c21d64d43e7d956dcb02a8066accda607511a4b0"
+    }
+  },
+  "checks": [
+    {
+      "name": "bind_nll_fit_v2.py --check",
+      "status": "PASS",
+      "scope": "Reproduced the exact V2 unbound template from the pinned V1 template and verified no V2 body or binding output exists."
+    },
+    {
+      "name": "test_bind_nll_fit_v2.py",
+      "status": "PASS",
+      "tests": 4,
+      "scope": "Exact-value positive fixture, missing-field negative fixture, mismatched-field negative fixture, and remote-template gate presence."
+    },
+    {
+      "name": "ruff format --check",
+      "status": "PASS"
+    },
+    {
+      "name": "ruff check",
+      "status": "PASS"
+    }
+  ],
+  "not_performed": [
+    "actual dictionary acceptance or exact-stop receipt reads",
+    "actual body render",
+    "B staging, SSH, admission, training, or remote querying",
+    "unchanged source/model/profile suite reruns"
+  ],
+  "caveat": "V1 files remain frozen and retain their previous review. V2 is a local unbound repair packet; it does not authorize or perform launch."
+}

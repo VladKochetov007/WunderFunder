@@ -1,3 +1,19 @@
+[Dictionary closure and NLL launch publication validation](PUBLICATION_VALIDATION_20261020_DICTIONARY_NLL.json) binds the new raw transports, exact source/receipt pins, append-only costs and local preparation history; the independent final staged audit follows root validation.
+
+---
+
+**20October22:07UTC:** [NLL-only full GRU fit launched once](records/child_nll_fit_v1/README.md) after [dictionary full integrity acceptance](records/child_dictionary_fit_v1/TERMINAL_ACCEPTANCE.json) and [exact owned stop](records/child_dictionary_fit_v1/exact_stop/README.md). Parent+CONTROL+EMA+dictionary accepted/closed; comparison5started/4completed of6, allthree unadmitted; shared prerequisitefits5 separate. NLL is base representation/coupled mean-logvariance objective with common parent/norm/order/target; no completed NLL total or predictive-quality result. [Continuation](CONTINUATION.md) governs new startup/rare health and actual terminal gates.
+
+---
+
+**20October21:50UTC actual native completion:** [Dictionary child exited0](records/child_dictionary_fit_v1/terminal_native_capture_v1/README.md), six actual epochs/44,760updates/4476batches/zero skips/nonfinite. [Independent metadata audit](records/child_dictionary_fit_v1/terminal_native_capture_v1/METADATA_REVIEW.json) joins exact raw/typed proof. Integrity acceptance and exact stop remain pending; local CPU V1 self-read blocker is preserved before any B attempt, narrow V2 repair required. [Checker/root preparation](preparation/child_dictionary_terminal_check_v1/README.md) and [conditional NLL V2](preparation/child_nll_fit_v1/README_V2.md) are local only. [Continuation](CONTINUATION.md) governs actual CPU and later serial gates; no quality score/gain.
+
+---
+
+**Latest actual20October21:14UTC:** [Same dictionary invocation active](records/child_dictionary_fit_v1/health_20261020T2114Z/README.md), five completed epochs/37,300updates/3730batches/zero skips/nonfinite. Later ep5batch420 is not current totals, terminal, integrity or quality. One owned worker, events unchanged, tensors stat-only. Needed thin dictionary checker/conditional admission preparation is LOCAL/in progress, no B action or new fit. [Continuation](CONTINUATION.md) governs actual-exit gates and next focused21:50UTC+ observation.
+
+---
+
 **Latest actual20October20:16UTC (23:16MSK):** [Direct-request dictionary health](records/child_dictionary_fit_v1/health_20261020T2016Z/README.md) found the same invocation active, with three completed epochs/22,380updates/2238batches/zero skips/nonfinite. The later ep3batch620 line is not current totals, terminal or quality. One owned worker, no new memoryevents, tensor files stat-only; no new job/restart/stop/inference. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_2016.json) govern dated evidence and the actual-exit gate; next rare follow-up21:05UTC+.
 
 ---

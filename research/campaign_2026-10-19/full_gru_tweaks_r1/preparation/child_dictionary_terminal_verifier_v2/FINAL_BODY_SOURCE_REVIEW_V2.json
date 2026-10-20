@@ -1,0 +1,100 @@
+{
+  "schema": "fg19.child-dictionary-terminal-verifier-body-source-review.v2",
+  "status": "PASS_SOURCE_ONLY",
+  "reviewed_utc": "2026-10-20T21:56:49Z",
+  "review_scope": {
+    "exact_rendered_body_source_only": true,
+    "body_imported_or_executed": false,
+    "tests_run_by_reviewer": false,
+    "SSH_or_B_action": false,
+    "model_state_dictionary_cache_array_or_dataset_payload_read": false,
+    "native_metadata_review": "Recorded separately at records/child_dictionary_fit_v1/terminal_native_capture_v1/METADATA_REVIEW.json; this review binds its already-reviewed typed/raw pins only."
+  },
+  "reviewed_artifacts": {
+    "rendered_body": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v2/REMOTE_SUBMISSION.py",
+      "bytes": 559170,
+      "sha256": "290cb213b0725b704dd08cc9f16ff0d8de995280903f03766f438d806e4b772d"
+    },
+    "v1_body_source": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v1/REMOTE_SUBMISSION.py",
+      "bytes": 558636,
+      "sha256": "f49a618e3102b52756c68ec049630019360add5fb0ddb26da704af7515846f91"
+    },
+    "renderer": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v2/build_dictionary_terminal_body_v2.py",
+      "bytes": 3029,
+      "sha256": "5107553a504230fdb2688d6ef99926635b3d7834f910431a088562c75a8e7d23"
+    },
+    "binding": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v2/V2_BINDING.json",
+      "bytes": 1940,
+      "sha256": "dd955dd7bc84287847b4fde15e615afb276d834f5113d0ab23f11a861edc9007"
+    },
+    "local_checks": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v2/LOCAL_CHECKS_V2.json",
+      "bytes": 2161,
+      "sha256": "79b41cd9089db41807a6b528d2268edd94550f755073705c976541ead62277fe"
+    },
+    "focused_ast_fixture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v2/test_child_dictionary_terminal_verifier_v2.py",
+      "bytes": 3527,
+      "sha256": "68cc0b860270deda47e0c2ba19b109565a2264784feb2b191d0b1d33be8f3936",
+      "recorded_result": "2 focused AST tests passed in the packet checks; not rerun by this reviewer."
+    },
+    "checker_source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/CHILD_DICTIONARY_TERMINAL_SOURCE_REVIEW_V1.json",
+      "bytes": 8964,
+      "sha256": "ac67f3d24d916440c8a26a204571afa73ce8a816fa832c3ee4aa74168fb3ba64",
+      "status": "PASS_SOURCE_ONLY"
+    },
+    "root_preparation": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/ROOT_PREPARATION.json",
+      "bytes": 10685,
+      "sha256": "0d9087aaa23057ec90825e3611556914b92d69277103e2cc5e2e9acabf966303",
+      "status": "PASS_LOCAL_PREPARATION_ONLY_NOT_STAGED_ADMITTED_OR_EXECUTED"
+    },
+    "native_typed_terminal": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/TERMINAL_EVIDENCE.json",
+      "bytes": 725,
+      "sha256": "b2e85ce5cd051968f6a938ba151f6e8a66f2fafa21c6860da4d9ca202243f872"
+    },
+    "native_raw_capture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+      "bytes": 77591,
+      "sha256": "6944ee9fcbaee3a697dcad1c351a3df00f40a4014a9644ce253bd668f0746de2"
+    },
+    "payload_check": {
+      "method": "Static AST literal extraction and bounded-byte comparison; body was not imported or executed.",
+      "embedded_inputs": 10,
+      "exact_embedded_sizes_and_sha256_match_local_pinned_files": true,
+      "files": "Six code dependencies, SOURCE_MANIFEST.json, LAUNCH_ACCEPTANCE.json, TERMINAL_EVIDENCE.json, and NATIVE_STDOUT.raw.json.",
+      "root_preparation_metadata_proof_pins": 24,
+      "all_24_pins_match_local_files": true
+    }
+  },
+  "body_change_review": {
+    "v1_to_v2_diff": "Exactly two anchored changes; all other rendered-body lines are unchanged from the pinned V1 body.",
+    "removed_self_read": {
+      "v1": "main read Path(__file__) with stable_file(..., 250_000), before output creation.",
+      "v2": "No __file__ reference, body_raw/body_stat variable, or 250,000-byte self-read remains; AST parse succeeds."
+    },
+    "replacement_authority": "The V2 worker admission record now states that root owns the exact stdin raw-transport binding, records the checker-review/root-preparation pins, explicitly says the V2 body review remains a root prelaunch gate, and makes no worker self-read or body-digest claim. This is descriptive metadata, not proof of transport identity."
+  },
+  "source_gates_reviewed": {
+    "unchanged_from_reviewed_v1": "The byte diff leaves the six-file checker closure, literal payload guards, fresh source-167/split/registered-path gates, exact native receipt/unit/invocation and run-stat checks, readonly predecessor/profile/parent/dictionary/cache metadata gates, physical scratch/device/free-space and cgroup/headroom checks, limits, and launch flow unchanged.",
+    "before_mutation": "Static main flow performs the root binding and explicit Path-exception checks, fixed payload validation, and fresh identity/resource gates before creating the private output directory or staging verifier inputs.",
+    "native_gate": "Pins exact native typed/raw evidence and checks current native unit identity/state without requiring it to be stopped before verification.",
+    "bounded_cpu_support": "50% CPU; 1,400,000,000-byte MemoryHigh; 1,500,000,000-byte MemoryMax; swap 0; 600 seconds; CUDA_VISIBLE_DEVICES empty; BLAS/thread settings 1.",
+    "path_exception": "Carries forward the existing explicit first-F0 exact dictionary-path-only PosixPath exception with weights_only=True and state-only scope; it does not broaden that decoder.",
+    "one_shot": "Private create-only output writes, durable submission/launch records, and unknown-outcome never-retry policy remain present; no native stop action or already-stopped prerequisite."
+  },
+  "prelaunch_condition": {
+    "required": true,
+    "owner": "root",
+    "condition": "Before submitting this body on stdin, root must persist an outer admission/transport manifest that binds the exact submitted raw bytes, byte count 559170, and SHA-256 290cb213b0725b704dd08cc9f16ff0d8de995280903f03766f438d806e4b772d to this review and the one intended support invocation. The V2 worker record alone does not satisfy this condition.",
+    "current_state": "No V2 support admission has been attempted in this review; V2_BINDING remains local rendered/pending."
+  },
+  "findings": [],
+  "status_limit": "The exact V2 source is compatible with stdin transport after removal of the V1 self-read blocker. This is source-only approval conditioned on the root-owned exact-byte raw-transport binding and fresh admission gates. It is not evidence of support execution, tensor integrity, training result acceptance, or quality."
+}

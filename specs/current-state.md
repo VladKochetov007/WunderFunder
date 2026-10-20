@@ -1,3 +1,21 @@
+## 20October22:07UTC — dictionary accepted; NLL-only child launched
+
+[Dictionary integrity acceptance and exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/exact_stop/README.md) completed. [NLL-only full fit](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/README.md) launched once under fresh one-GPU gates; same source/parent/norm/order/target, base representation and coupled mean-logvariance NLL. Comparison5started/4completed of6 including parent; final allthree arm unadmitted, shared prerequisitefits5 separate. No predictive-quality endpoint/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs one startup then rare23:00UTC+ and actual exit/integrity/acceptance/stop gates.
+
+---
+
+## 20October21:50UTC — dictionary native training complete
+
+[Actual native capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_native_capture_v1/README.md) establishes six epochs/44,760updates/4476batches/zero skips/nonfinite and exit0 at21:33:50UTC. Integrity acceptance and exact stop are pending. A local CPU body self-read blocker was caught before remote admission; its narrow versioned repair remains source-review gated. NLL-only V2 is conditional/local; no next arm admitted or quality score. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs exact current gates and preserves dated history.
+
+---
+
+## 20 October21:14UTC — dictionary child active; terminal consumer preparation local
+
+[Bounded dictionary health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2114Z/README.md) records five complete epochs/37,300updates/3730batches/zero skips/nonfinite. The later ep5batch420 line is not current totals/native44,760 terminal/integrity/quality. One owned worker, zero new events, stat-only tensor files and no B action. Needed thin dictionary terminal checker/conditional CPU admission are LOCAL/in progress; no fake terminal evidence or early staging/admission. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs actual-exit gates and next focused21:50UTC+ observation. No predictive-quality endpoint/gain.
+
+---
+
 ## 20 October20:16UTC — direct-request dictionary status
 
 [Bounded observation](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2016Z/README.md) at23:16MSK found the same dictionary worker active, with three completed epochs/22,380updates/2238batches/zero skips/nonfinite. Later ep3batch620 is not current totals, terminal, integrity or quality. One owned GPU, no new memoryevents, stat-only outputs and no new job/action. Parent+CONTROL+EMA completed/accepted/stopped; dictionary third child running, NLL-only/allthree pending. No predictive-quality score/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare21:05UTC+ and actual native-exit/integrity/acceptance/exact-stop gates.

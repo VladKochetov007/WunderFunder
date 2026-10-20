@@ -1,0 +1,166 @@
+{
+  "schema": "fg19.child-dictionary-native-resource-reconciliation.v1",
+  "captured_utc": "2026-10-20T21:50:08.745659+00:00",
+  "native_exit_utc": "2026-10-20T21:33:50+00:00",
+  "unit": "computer-vision-homework-fg19-child-dictionary-fit-v1.service",
+  "invocation_id": "73b10b699e034a1b9952b2377b845095",
+  "native_service_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "CPUUsageNSec": "12178410865000",
+    "ControlGroup": "",
+    "ExecMainCode": "1",
+    "ExecMainExitTimestamp": "Tue 2026-10-20 21:33:50 UTC",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 18:10:38 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_child_dictionary_f0_s1001_fit_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode sparse --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective wmse --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --grad-stats --save-training-state --no-eval-during-fit ; ignore_errors=no ; start_time=[Tue 2026-10-20 18:10:38 UTC] ; stop_time=[Tue 2026-10-20 21:33:50 UTC] ; pid=1179783 ; code=exited ; status=0 }",
+    "InvocationID": "73b10b699e034a1b9952b2377b845095",
+    "LoadState": "loaded",
+    "MainPID": "0",
+    "MemoryCurrent": "[not set]",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "2859028480",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "exited"
+  },
+  "own_cgroup_state": null,
+  "own_cgroup_unavailable_because_control_group_empty": true,
+  "parent_sample": {
+    "memory.current": "7661277184",
+    "memory.current_truncated": false,
+    "memory.events": "low 0\nhigh 38355\nmax 561\noom 0\noom_kill 0\noom_group_kill 0",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0",
+    "memory.events.local_truncated": false,
+    "memory.events_truncated": false,
+    "populated_descendants": {}
+  },
+  "gpu_sample": {
+    "memory": {
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 16376 MiB, 5051 MiB, 10924 MiB\n",
+      "timed_out": false
+    },
+    "process_ownership": [
+      {
+        "cgroup": "0::/user.slice/user-1026.slice/user@1026.service/tmux-spawn-7f677d27-6fac-4c20-9e97-48fd3d2d86a9.scope",
+        "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+        "pid": 521754,
+        "uid": 1026,
+        "used_memory": "490 MiB"
+      },
+      {
+        "cgroup": "0::/user.slice/user-1117.slice/session-141326.scope",
+        "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+        "pid": 964460,
+        "uid": 1117,
+        "used_memory": "4542 MiB"
+      }
+    ],
+    "processes": {
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "521754, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 490 MiB\n964460, GPU-ec74220d-78d7-cc47-69fc-0de1fb580944, 4542 MiB\n",
+      "timed_out": false
+    }
+  },
+  "run_directory_stat_only": {
+    "entries": [
+      {
+        "bytes": 16353,
+        "device": 64512,
+        "inode": 780771866,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792532028716332565,
+        "name": "history.json"
+      },
+      {
+        "bytes": 4279254,
+        "device": 64512,
+        "inode": 780771867,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792532028530319688,
+        "name": "model.pt"
+      },
+      {
+        "bytes": 4276002,
+        "device": 64512,
+        "inode": 780767115,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792522284692762291,
+        "name": "model_ep0.pt"
+      },
+      {
+        "bytes": 4276834,
+        "device": 64512,
+        "inode": 780767130,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792524125015261929,
+        "name": "model_ep1.pt"
+      },
+      {
+        "bytes": 4277602,
+        "device": 64512,
+        "inode": 780771726,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792525919072876866,
+        "name": "model_ep2.pt"
+      },
+      {
+        "bytes": 4278370,
+        "device": 64512,
+        "inode": 780771864,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792527670190405922,
+        "name": "model_ep3.pt"
+      },
+      {
+        "bytes": 4279202,
+        "device": 64512,
+        "inode": 780771808,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792529444532084185,
+        "name": "model_ep4.pt"
+      },
+      {
+        "bytes": 4279970,
+        "device": 64512,
+        "inode": 780771865,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792532028510318304,
+        "name": "model_ep5.pt"
+      },
+      {
+        "bytes": 194101,
+        "device": 64512,
+        "inode": 780767116,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792532028542320519,
+        "name": "provenance.json"
+      },
+      {
+        "bytes": 12659235,
+        "device": 64512,
+        "inode": 780771868,
+        "is_symlink": false,
+        "mode": 33152,
+        "mtime_ns": 1792532028564322042,
+        "name": "training_state.pt"
+      }
+    ],
+    "exists": true,
+    "symlink": false
+  },
+  "limits": "ServiceMemoryPeak/CPUUsageNSec, own/parent cgroup, GPU, wall and FIT time are separate samples; no atomic equality, full RAM, cause or performance inference. No tensor/array payload read/hash. Native completion is not integrity or predictive quality."
+}

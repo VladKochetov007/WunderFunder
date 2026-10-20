@@ -1,0 +1,122 @@
+{
+  "conditions_for_later_render_and_admission": [
+    "Use actual accepted dictionary TERMINAL_ACCEPTANCE and separately recorded exact-stop bytes; validate the acceptance field against the pinned original launch-acceptance SHA.",
+    "Run the binder only after its source has been independently reviewed and actual predecessor receipts are present; bind the resulting body to those exact bytes.",
+    "Review the exact rendered body and binding receipt separately before any later staging or admission."
+  ],
+  "findings": {
+    "blocking_findings": [],
+    "focused_regression_design": {
+      "caveat": "The positive fixture tests the exact-field helper with a metadata object, not a fabricated full terminal receipt. The missing/mismatch fixtures fail at the new gate before the unchanged V1 validator; no actual native acceptance/stop bytes are represented or claimed.",
+      "reported_cases": [
+        "exact original digest is accepted by the local exact-field helper",
+        "missing launch_acceptance_sha256 is rejected through the local validator",
+        "mismatched launch_acceptance_sha256 is rejected through the local validator",
+        "derived remote template contains the same exact-field check"
+      ],
+      "status": "SOURCE_REVIEWED_NOT_EXECUTED_BY_REVIEWER"
+    },
+    "missing_lineage_join_repaired_in_both_layers": {
+      "local_validator": "bind_nll_fit_v2.py::_validate_receipts parses the actual acceptance object and calls _require_exact_launch_acceptance before invoking the unchanged V1 full receipt validator. The helper requires an object and a string value exactly equal to the pinned 33fa... digest; missing, non-string, and mismatched values raise ValueError.",
+      "pinned_original_dictionary_launch_acceptance_sha256": "33fa4fd4cb37c16374e615c2eb6d698f5f3065b252803377260fdae6dd913a95",
+      "remote_validator": "NLL_LAUNCH_TEMPLATE_V2.py::_dictionary_child_terminal_predecessor checks the decoded acceptance field against NLL_DICTIONARY_CHILD_LAUNCH_ACCEPTANCE_SHA256 before continuing to exact-stop and receipt validation.",
+      "scope_of_fix": "The V2 remote template is exactly the pinned V1 template plus one contextual condition at the dictionary-child acceptance parse point. The original launch-acceptance digest is already pinned in the template. No other source/template bytes differ.",
+      "status": "PASS_SOURCE_ONLY"
+    },
+    "recipe_and_existing_gates_preserved": {
+      "argv": {
+        "compatibility_flags_preserved": [
+          "--mean-variance-head 1",
+          "--loss wmse",
+          "--loss-norm chunk"
+        ],
+        "dictionary_argv_elements": 92,
+        "dictionary_to_nll_changes_only": {
+          "index_1": [
+            "fg19_child_dictionary_f0_s1001_fit_v1",
+            "fg19_child_nll_f0_s1001_fit_v1"
+          ],
+          "index_48": [
+            "sparse",
+            "base"
+          ],
+          "index_54": [
+            "wmse",
+            "nll"
+          ]
+        },
+        "initializer": "parent run @ ep3; dictionary child remains a sequential receipt predecessor only",
+        "nll_v1_and_v2_argv_identical": true,
+        "nll_v1_argv_elements": 92,
+        "nll_v2_argv_elements": 92,
+        "other_arguments_unchanged": true
+      },
+      "gate_preservation": "Exact derivation establishes that every V1 remote gate, identity, resource cap, receipt check, and first-main predecessor call remains unchanged apart from the new acceptance-field equality condition. The V2 local render path delegates to the pinned V1 full receipt validator after the added field check.",
+      "status": "PASS_SOURCE_ONLY"
+    },
+    "remaining_execution_boundary": {
+      "detail": "The NLL V2 body and final binding receipt were absent when checked. The dictionary acceptance/exact-stop receipts were not read as part of this source review. Parent-reported native exit capture is not this review and does not establish the predecessor terminal acceptance, exact stop, or body binding.",
+      "status": "PENDING_ACTUAL_RECEIPTS_AND_FINAL_BODY_REVIEW"
+    }
+  },
+  "review_scope": {
+    "B_or_SSH_or_network_action": false,
+    "actual_dictionary_terminal_acceptance_or_exact_stop_read": false,
+    "model_state_dictionary_cache_array_or_dataset_payload_read": false,
+    "rendered_final_body_exists_or_reviewed": false,
+    "source_and_template_only": true,
+    "static_method": "Read-only code inspection, SHA/length verification, and AST literal comparison of frozen trainer argument lists. The saved local-check receipt was inspected as a report, not rerun.",
+    "template_or_renderer_executed": false,
+    "tests_run_by_reviewer": false
+  },
+  "reviewed_artifacts": {
+    "focused_test_source": {
+      "bytes": 1562,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/test_bind_nll_fit_v2.py",
+      "reviewer_executed": false,
+      "sha256": "83c87be82a4424b1b7e648d8c21d64d43e7d956dcb02a8066accda607511a4b0"
+    },
+    "frozen_v1_binder": {
+      "bytes": 40287,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/bind_nll_fit.py",
+      "sha256": "54ef01de5b5c7af4e77a37f40400320aaa1674445a9a4ad80a37b65de4ad9f41"
+    },
+    "frozen_v1_source_review": {
+      "bytes": 7565,
+      "left_unchanged": true,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_SOURCE_REVIEW_V1.json",
+      "sha256": "83508a8fa73fb6f968754b241ed1aca1c13973e76dd0e2155e47532aa7d8006e",
+      "status": "BLOCKED_SOURCE_ONLY_MISSING_DICTIONARY_LAUNCH_ACCEPTANCE_JOIN"
+    },
+    "frozen_v1_template": {
+      "bytes": 203526,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_LAUNCH_TEMPLATE.py",
+      "sha256": "7f75525a14527c9cc11e0b44da7969846120fe5231ed2d4da0f6169d82fd8dc3"
+    },
+    "local_checks_report": {
+      "bytes": 2340,
+      "independently_reproduced": false,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_V2_LOCAL_CHECKS.json",
+      "reports_four_focused_tests_and_lint_as_passed": true,
+      "sha256": "ddf6973f9c0ea47b7d0991bd4c704147dd7ef47892037d3a2b195664d45e9106"
+    },
+    "v2_binder": {
+      "bytes": 10089,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/bind_nll_fit_v2.py",
+      "sha256": "c369d2446d1360a08db95c13a931bd743aa968b296796f9f42d150def577436f"
+    },
+    "v2_readme": {
+      "bytes": 2870,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/README_V2.md",
+      "sha256": "01452c7da56a08a5b7c22f800a94b7fa328ef3708228039887fe6680b74d5009"
+    },
+    "v2_remote_template": {
+      "bytes": 203735,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_LAUNCH_TEMPLATE_V2.py",
+      "sha256": "366598622361efac4bb69f1145e5cb4f8349bb5c7ba56484738dff608563483b"
+    }
+  },
+  "reviewed_utc": "2026-10-20T21:51:10Z",
+  "schema": "fg19.child-nll-fit-source-review.v2",
+  "status": "PASS_SOURCE_ONLY_V2_PATCH_PENDING_ACTUAL_DICTIONARY_RECEIPTS_AND_FINAL_BODY_REVIEW"
+}

@@ -1,3 +1,19 @@
+## Fully accepted and exact-stopped20October22:02UTC
+
+[One actual cappedCPU check](terminal_verification_v1/README.md) passed full finiteFP32/model/state/AdamW/schedule/RNG/normalizer/dictionary/cache/source167/ancestry integrity. [Acceptance](TERMINAL_ACCEPTANCE.json)283c447b preceded [exact own exited stop](exact_stop/README.md)f1a73fc1; [independent actual audit](terminal_verification_v1/ACTUAL_RESULT_METADATA_REVIEW.json) passes metadata-only. Native completion counted once; one engineering support/science0. Selectedep5b840d9c8; no quality result. [NLL successor actual launch](../child_nll_fit_v1/README.md) uses parent@ep3, never this child's weights. Local V1 body rejection and clarified root support-launch hash label remain preserved, no remote retry.
+
+---
+
+## Native completion captured20October21:50UTC
+
+[Exact native evidence](terminal_native_capture_v1/README.md) establishes exit0 at21:33:50UTC, six actual histories/44,760updates/4476batches/zero skips/nonfinite. [Typed proof](TERMINAL_EVIDENCE.json) and [independent metadata review](terminal_native_capture_v1/METADATA_REVIEW.json) bind one raw-first SSH capture. Allpop empty/ownCG unavailable; [resource reconciliation](NATIVE_RESOURCE_RECONCILIATION.json) keeps samples separate. Model/state integrity acceptance and exact stop remain pending; no fit replay or quality endpoint. [Continuation](../../CONTINUATION.md) governs the locally repaired CPU consumer and later NLL gate.
+
+---
+
+**Latest actual21:14UTC:** [One rare same-invocation health](health_20261020T2114Z/README.md) records five completed epochs/37,300updates/3730batches/zero skips/nonfinite. Later ep5batch420 is not current totals, terminal or quality. One owned worker, zero new events and stat-only tensors. Needed local terminal preparation is in progress; actual strict typed native exit0 gates all B support. Next focused21:50UTC+, no immediate repeat poll.
+
+---
+
 **Latest actual20:16UTC (23:16MSK):** [Direct-request health](health_20261020T2016Z/README.md) records three complete epochs/22,380updates/2238batches/zero skips/nonfinite. Later ep3batch620 is not current totals, terminal or quality. One owned worker, no new memoryevents and stat-only tensors. Checker remains unprepared/unadmitted; actual typed native exit0 gates B integrity. Next rare follow-up21:05UTC+.
 
 ---

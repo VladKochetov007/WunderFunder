@@ -1,0 +1,28 @@
+{
+  "schema": "fg19.child-dictionary-exact-owned-exited-stop-binding.v1",
+  "status": "DURABLE_ACCEPTANCE_AND_EXACT_OWNED_EXITED_UNITS_BOUND",
+  "acceptance": {
+    "bytes": 14914,
+    "sha256": "283c447b86a9cc50c2ffab849a0d0839307accade1083ba53dcc7217a9da82b1"
+  },
+  "source_reader": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/exact_stop/REMOTE.py",
+    "bytes": 20724,
+    "sha256": "072e420314cefde47b88bbd779ed578445e521e63d56942787fbe64637cfe3b1"
+  },
+  "body": {
+    "bytes": 23349,
+    "sha256": "10ab8fad6c3dd3970ae2e13ba74db6883222ba635cb837329e3fd0915a4ab7ee"
+  },
+  "scope": "Exact two owned accepted exited units only, fresh unit/invocation/status and emptyALLpop before stop; local V1 rejected body was never admitted, no failed dictionary support exists. Bounded verification/source/provenance metadata only; no model/state/array payload.",
+  "identity_substitutions": {
+    "U='computer-vision-homework-fg19-child-ema-fit-v1.service';I='da5baf82d22b4f02890e184193b8caf7'": "U='computer-vision-homework-fg19-child-dictionary-fit-v1.service';I='73b10b699e034a1b9952b2377b845095'",
+    "V='computer-vision-homework-fg19-child-ema-verify-v3.service';VI='ec6c35dc46214528a666cba052a78f43'": "V='computer-vision-homework-fg19-child-dictionary-verify-v1.service';VI='889e4d723af548dd8df831ed1b5d8685'",
+    "D=B/'research_tmp/fg19_child_ema_verify_v3'": "D=B/'research_tmp/fg19_child_dictionary_verify_v1'",
+    "D/'child_ema_terminal_check_v3.py'": "D/'child_dictionary_terminal_check_v1.py'",
+    "s=show(u);assert (s['InvocationID']": "s=show(u);assert s['LoadState']=='loaded' and s['Result']=='success';assert (s['InvocationID']",
+    "One exact stop of accepted native EMA plus successful integrity verifier V3 only; failed EMA verifierV1/V2 and all prior completed/foreign units excluded.": "One exact stop of accepted native dictionary fit plus its one successful integrity verifier only; all prior completed, failed, foreign and other units excluded."
+  },
+  "additional_gate": "Fresh both LoadState loaded and Result success before exact stop",
+  "actual_B_or_SSH_action_yet": false
+}
