@@ -64,3 +64,7 @@ A warm parent without that head does not load strictly today: `setup_model.load_
 ## Scope and remaining limits
 
 This catalog used small JSON receipts, provenance and source files only. It did not load tensors or prediction/data arrays, run tests, fit models, or choose a mechanism. Cache metadata pins source claims but is not a substitute for a fresh preflight of each actual checkpoint, source tree, membership, target and propensity artifact. The conditional four-fit allocation and treatment decision remain owned by the root controller under the accepted plan.
+
+## Existing continuation cost anchor
+
+The completed F0 WMSE continuation `overnight_nll_f0_s3_wmse_e2_r1` records 4240 fitting seconds for two full-membership epochs, 1,492 B16 batches and 14,920 completed updates, with zero skips. Its [provenance](../../../artifacts/runs/overnight_nll_f0_s3_wmse_e2_r1/provenance.json), SHA256 `227c4ebf934b34dc20b93dfe9a5b19387073c7594015ef07d21231adb659da29`, records H256×2, chunk2000, strict FP32, AdamW LR3e-5 and the F0 parent in this catalog. This existing fit is not a reused control for the new mechanism panel; that still requires four new fits. Four times this historical fitting duration is 16,960 seconds, before new-feature cost, profiles, exports and other overhead. It is a useful measured cost anchor for the eight-hour conditional stage, not a current hot-throughput profile or admission. F1 data/cache and history preprocessing costs must still be measured; source exposure and parent ancestry remain unchanged.
