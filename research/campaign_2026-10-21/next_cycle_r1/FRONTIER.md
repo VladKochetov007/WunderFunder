@@ -172,3 +172,7 @@ Root source inspection and independent dynamics_builder review confirm that C ac
 ## Full-fit cost exceeds the initial profile median
 
 [Cost extrapolation update](SUSTAINED_COST_EXTRAPOLATION_R1.json) records full F0/C at5.2647seconds per B8 batch and F2/B at5.2522, versus the earlier C-profile median4.3612. Current F2/C first epoch averages5.3472. These20–23% differences do not isolate thermals from data/runtime effects, but show that even110batches did not provide a hard bound. The dynamics admission must include its own full-wall profile/statistics scan, complete export/grade costs and a conservative allowance for sustained slowdown. Its four-fit panel may need deferral within the fixed three-hour ceiling; no new fit or reserve transfer is admitted here.
+
+## Idea progression preserved — 2026-10-22 Kyiv
+
+The user requested durable tracking of intermediate reasoning. The [idea-progression note](../../unified/ideas/I1_HISTORY_IDEA_PROGRESSION_20261022_R1.md) links repeated i1-removal losses, F0 fixed-blend complementarity, the clipping diagnostic and the effective-initial-function confound to a conditional zero-extension warm test. F2 C has completed training/export/score (WP0.6802047933; C−B−0.0039034215); complete-panel mixture/uncertainty grading is pending at this snapshot. Warm code commit cc9af1c68745289a71e30aa45e5242af87a3f5bf is isolated, statically checked and awaiting tests/independent source review; no warm fit admission. Earlier pending-code statements remain dated history.
