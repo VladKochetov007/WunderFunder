@@ -1,0 +1,126 @@
+{
+  "authorization": {
+    "conditional_fit_admitted_only_after_profile_cost_gate": true,
+    "dual_device_allocated_seconds_bound_factor": 2.0,
+    "finalizer_reserve_seconds": 300,
+    "outer_wall_cap_seconds": 15500,
+    "paid_compute": false,
+    "profile_launch_admitted": true,
+    "provider_charge_factor": 1.0,
+    "retry_authorized": false,
+    "root_admission": {
+      "path": "/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-68ff/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/root_admission.json",
+      "sha256": "ed3391a02551e807bf4360175c144b0f8bfa3436c10f214222f6e7e8a65dd3cf",
+      "size_bytes": 1542
+    },
+    "safety_reserve_seconds": 1200,
+    "status": "ROOT_REVIEWED_CONDITIONAL_ADMISSION",
+    "worker_cap_seconds": 15200
+  },
+  "bundle": {
+    "archive": {
+      "path": "/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-code-bundle-20261021-r2/bundle.wnn",
+      "sha256": "366d5271a70e367f226b18400189c5d184a3ddb2926afcedae60b1db1fe78c6f",
+      "size_bytes": 841659
+    },
+    "archive_bytes_in_manifest": 841659,
+    "archive_sha256_in_manifest": "366d5271a70e367f226b18400189c5d184a3ddb2926afcedae60b1db1fe78c6f",
+    "bootstrap_deadline_seconds": 15500,
+    "bootstrap_patch": "generated kernel/kernel.py changed KERNEL_PROCESS_WALL_SECONDS_MAX 43200 to 15500; pinned producer source/archive remain unchanged",
+    "dataset_id": "vladkochetov07/wnn-h512-f1-b16-conditional-20261021-r2",
+    "dataset_metadata": {
+      "path": "/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-code-bundle-20261021-r2/dataset-metadata.json",
+      "sha256": "ccb6e8860678807f4c10e579a1d71e11f5a56190d5ae12817a22d18c2364b5f3",
+      "size_bytes": 199
+    },
+    "directory": "/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-code-bundle-20261021-r2",
+    "enable_gpu": true,
+    "enable_internet": false,
+    "enable_tpu": false,
+    "expanded_bytes": 5292505,
+    "external_mounts": {
+      "datasets/train.parquet": "train.parquet",
+      "datasets/valid.parquet": "valid.parquet"
+    },
+    "kernel_bootstrap": {
+      "path": "/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-code-bundle-20261021-r2/kernel/kernel.py",
+      "sha256": "57332cf02a9f4b20dcea444f7b776251d9505aa7f53d6ce7343ab3e54b4632b3",
+      "size_bytes": 9963
+    },
+    "kernel_id": "vladkochetov07/wnn-h512-f1-b16-conditional-20261021-r2-runner",
+    "kernel_metadata": {
+      "path": "/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-code-bundle-20261021-r2/kernel/kernel-metadata.json",
+      "sha256": "b2846a9e073c899e37960d1c2fdfeee7684c177c00e8798778509976f48cf854",
+      "size_bytes": 525
+    },
+    "machine_shape": "NvidiaTeslaT4",
+    "manifest": {
+      "path": "/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-code-bundle-20261021-r2/bundle-manifest.json",
+      "sha256": "baa2e27ae7ae0fbd43a76e7fe9bee7e993ad6481eafbc5355ed53b94ae0b6cb6",
+      "size_bytes": 30408
+    },
+    "private": true,
+    "spec_paths": [
+      "kaggle_specs/h512_f1_b16_seed1004_profile_then_conditional_fit_r2.json"
+    ]
+  },
+  "bundle_built": true,
+  "created_at_utc": "2026-10-21T01:04:20+00:00",
+  "execution_spec": {
+    "path": "/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-68ff/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/KAGGLE_F1_B16_CONDITIONAL_EXECUTION_SPEC_R2.json",
+    "sha256": "f39923b5615b28e2de170254f50939452e38d06a74bbe2c22459987ba11bb53d",
+    "size_bytes": 31713
+  },
+  "input_audit": {
+    "all_archived_local_payloads_verified_against_pins": true,
+    "assets_manifest_in_bundle": true,
+    "both_chain_cache_files_in_bundle": true,
+    "declared_input_count": 11,
+    "locally_staged_and_archive_verified_count": 9,
+    "raw_parquet_external_mount_count": 2,
+    "raw_parquet_payloads_copied_or_read": false
+  },
+  "launched": false,
+  "provider_id_search": {
+    "accountwide_unregistered_reservations": "Not observable through these list calls; admission records provider reserved seconds zero and the root-owned visibility caveat.",
+    "conclusion": "Candidate slugs were absent from authenticated owner-scoped SDK search results; this is an availability check, not a reservation.",
+    "dataset_exact_match_visible": false,
+    "dataset_id": "vladkochetov07/wnn-h512-f1-b16-conditional-20261021-r2",
+    "dataset_search_result_count": 0,
+    "kernel_exact_match_visible": false,
+    "kernel_id": "vladkochetov07/wnn-h512-f1-b16-conditional-20261021-r2-runner",
+    "kernel_search_result_count": 0,
+    "observed_at_utc": "2026-10-21T01:03:59+00:00",
+    "read_only": true,
+    "schema": "wnn.kaggle-b16-id-availability-readiness.v1"
+  },
+  "provider_poll": {
+    "kernel_status_subcall_error": "HTTPError",
+    "mutation_performed": false,
+    "observed_at_utc": "2026-10-21T01:02:10+00:00",
+    "source": "read-only Kaggle SDK quota/status calls; no resubmit or cancel"
+  },
+  "quota": {
+    "helper_campaign_headroom_ignored_as_legacy": 2834.7590000000127,
+    "observed_at_utc": "2026-10-21T01:02:10+00:00",
+    "provider_reserved_seconds": 0.0,
+    "provider_total_allowed_seconds": 108000.0,
+    "provider_used_seconds": 90993.078,
+    "refresh_at_utc": "2026-10-24T00:00:00",
+    "remaining_unreserved_provider_gpu_seconds": 17006.922000000006,
+    "root_admission_quota_observation_utc": "2026-10-21T01:01:11.472326+00:00",
+    "status_subcall": "403 from GetKernelSessionStatus; quota call succeeded; do not interpret as kernel occupancy"
+  },
+  "schema": "wnn.kaggle-h512-f1-b16-bundle-handoff.v1",
+  "source": {
+    "code_closure_aggregate_sha256": "7e5ddb948d8b3e0d86ca7c8d05ba3a37879b81bb5142c585be3d43fefe949ecd",
+    "commit": "33588ef26f1bcfc065f6c546a062327ce992eb6b",
+    "producer_worktree_metadata_changes_only": [
+      "research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/KAGGLE_F1_B16_CONDITIONAL_EXECUTION_SPEC_R2.json",
+      "research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/root_admission.json"
+    ],
+    "root": "/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-68ff"
+  },
+  "upload_authority": "Await root byte review; no provider mutation made.",
+  "uploaded": false
+}

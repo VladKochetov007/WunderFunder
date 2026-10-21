@@ -19,3 +19,7 @@ The root-owned paired grader is being prepared separately in research/campaign_2
 ## Final source and evaluation handoff
 
 Clean execution source is commit `33588ef26f1bcfc065f6c546a062327ce992eb6b`, based on unchanged canonical68ff trainer. Independent review caught two preparation path mismatches (proposal filename and required worker receipt); both were corrected before any launch and the170file closure was resealed. The [separate B16 fixed grader](../kaggle_h512_b16_f1_endpoint_grade_r2/README.md) pins the final proposal and44,760update contract, and requires root acceptance of actual downloaded checkpoints and exports. It preserves the unused B8grader unchanged. Root owns fresh quota review, private bundle sealing and any admission; none is implied by these source files.
+
+## Exact bundle verified; one upload/launch authorized
+
+Root independently checked the [bundle handoff](B16_BUNDLE_HANDOFF_R2.json) and wrote [exact-byte verification](ROOT_BUNDLE_VERIFICATION_R2.json): 841,659-byte archive SHA366d5271a70e367f226b18400189c5d184a3ddb2926afcedae60b1db1fe78c6f, all170codefiles and9localinputs, real admission, runtime-spec identity and private T4bootstrap with15,500secondcap. The two rawparquets remain external. Operator is authorized exactly one private dataset upload, remote hash verification and kernel push; no retry, paid compute or competition submission. Provider state and finite profile/fit progress remain to be observed.

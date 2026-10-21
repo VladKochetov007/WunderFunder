@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+# JSON receipts and checkpoints carry heterogeneous metadata.
+
 import numpy as np
 from f1_grade_contract import (
     DERIVED_SHA,
