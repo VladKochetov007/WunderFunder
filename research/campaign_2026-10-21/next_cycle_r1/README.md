@@ -37,3 +37,7 @@ completion is implied by this packet.
 [Draft PR #33](https://github.com/VladKochetov007/WunderFunder/pull/33) publishes the cycle implementation/recovery handoff against research-team. [Publication receipt](PUBLICATION_R1.json) records the isolated merge preserving both histories; no branch integration or quality promotion. Active fits keep their frozen source. Generated-tree refresh and merged-source checks remain pending a spare CPU slot.
 
 - [Finite dynamics packet review](DYNAMICS_PACKET_REVIEW_R1.json): exact4fit/profile/consumer/pairedgrader wiring passed independent static review. Missing target-cachebyte binding was repaired in both screen graders before any screen quality result; reviewer confirmed the fix. Runtime verification remains pending.
+
+## Completed native endpoint recovery
+
+[Exact recovered grade](NATIVE_GRADE_R3.json) completes both468-sequence native replays and the fixed official comparison: originalTL3 **0.70181812**, H512CP5replacement **0.69445462** (delta−0.00736350), H512SWA345replacement **0.69444908** (delta−0.00736904). SWA−CP5 is−0.00000553, conditional95%component interval[−0.00029533,+0.00026122]. Both targets decline versusTL3. Replacement-versusTL3 intervals are[−0.00961812,−0.00557526] and[−0.00952880,−0.00564847]. These are exposedF0fitted diagnostics over141components; two retainedTL3members haveunknownancestry, so this is not cleanCV or a public-score forecast. The native source-restoration observer completed successfully. No newpackagepromotion.
