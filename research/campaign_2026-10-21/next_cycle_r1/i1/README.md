@@ -1,9 +1,11 @@
 # i1 causal-history A/B/C screen
 
 This folder prepares the amended six-fit i1 memory screen in the October21
-allocation. It contains no scientific fit results. The parent measured the
-sustained profile and projected the complete panel below the five GPU-hour
-ceiling; final execution admission and ordering remain parent-owned.
+allocation. The sustained profile passed, and the first F0/seed1001 A/B/C
+cell has completed. The original F0 A/B-only interim result remains frozen;
+the new [A/B/C interim grade](interim_f0_abc/README.md) is prepared but has
+not been run. The parent owns fit ordering, CPU admissions and the complete
+panel grade.
 
 The panel has two paired fold/seed cells: A/B/C on F0 with seed1001 and A/B/C
 on F2 with seed1002. Each arm has two fits, for six new fits total; there are
@@ -89,8 +91,12 @@ The panel files are:
   names and complete-fold prediction and scoring steps.
 - [`grade_i1_panel.py`](grade_i1_panel.py): fixed two-fold grade using the
   repository's row-group alignment, official scorer, and component bootstrap.
-- [`interim_f0_ab/`](interim_f0_ab/README.md): reviewable, memory-gated grader for
-  the first matched F0 A/B cell only; F2 and C remain pending.
+- [`interim_f0_ab/`](interim_f0_ab/README.md): preserved first matched F0 A/B
+  grade and its fixed 90%B/10%A comparison; it predates arm C completion.
+- [`interim_f0_abc/`](interim_f0_abc/README.md): new memory-gated F0 A/B/C
+  wrapper with all five fixed contrasts, point scores in four time bins, and
+  paired component intervals for whole-fold comparisons; no F2 result or
+  full-panel promotion claim.
 - [`tests/test_i1_history.py`](../../../../tests/test_i1_history.py):
   synthetic causal, reset, mask, restoration, initialization-equivalence, and
   profile-argv validation checks.
