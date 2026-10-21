@@ -79,12 +79,19 @@ public transfer claim follows from this screen. The practical `+0.0003` mean
 official improvement is a follow-up target, not an automatic stop rule.
 
 The auxiliary head and its target-normalization buffers remain in the training
-checkpoint for restoration and provenance. `scripts/package_submission.py` and
-`scripts/export_native_weights.py` remove the auxiliary head and buffers before
-serving export. Improved auxiliary prediction alone does not earn follow-up;
-target quality and fixed complete-endpoint contribution must support it. Any
-strong-parent continuation requires a new recipe and explicit compatibility
-work before it can be run.
+checkpoint for restoration and provenance. The package exporter removes those
+training-only tensors, but that does not make this screen's 367-input model
+directly packageable: the native exporter and callback currently reject the
+all-zero-history B control and active-history C. A narrowly gated 367-to-211
+projection is algebraically possible for B because its history coordinates are
+zeroed after normalization; the conversion, package-level parity, and serving
+cost are not implemented or measured. C needs a causal history input path in
+serving. See the source-only
+[compatibility review](../../unified/reviews/I1_DYNAMICS_NATIVE_SERVING_COMPATIBILITY_REVIEW_20261022_R1.md).
+Improved auxiliary prediction alone does not earn follow-up; target quality
+and fixed complete-endpoint contribution must support it. Any strong-parent
+continuation requires a new recipe and explicit compatibility work before it
+can be run.
 
 The focused CPU command `uv run pytest tests/test_dynamics_auxiliary.py -q`
 previously passed all four tests in2.35s under root's serialized 1-core/1.8-GB
