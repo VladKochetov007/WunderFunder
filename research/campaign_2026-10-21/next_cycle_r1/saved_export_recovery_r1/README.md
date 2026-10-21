@@ -6,8 +6,9 @@ derivation, coefficient search, source mutation, or provider work. The root
 operator owns the later fresh resource admission and execution. The plans have
 not been launched and make no quality claim.
 
-The combined recovery stage is capped at 7,200 seconds from the first export
-through fixed grading: at most 900 seconds for the projected-mean full-valid
+The combined recovery stage has an operator-enforced 7,200-second ceiling,
+measured from the first export through fixed grading. Allocate at most 900
+seconds for the projected-mean full-valid
 export, at most 3,600 seconds for both B16 exports together, 2,500 seconds for
 fixed CPU acceptance/scoring, and 200 seconds for sequence transitions and
 handoff overhead. These are proposed hard limits, not measured durations. Run
@@ -147,9 +148,16 @@ systemd-run --user --wait --collect \
 The CPU acceptance sequence has a 2,500-second ceiling and uses one CPU core, a
 3,000,000,000-byte RAM limit, and no swap. Keep transitions and handoff within
 the 200-second reserve. The combined measured elapsed time, including
-preflight and transitions, must remain at or below 7,200 seconds. Stop at the first failed gate, nonzero exit,
-partial output, memory/VRAM stop, or exhausted time allowance; preserve the
-report and artifacts for diagnosis.
+preflight and transitions, must remain at or below 7,200 seconds. Stop at the
+first failed gate, nonzero exit, partial output, memory/VRAM stop, or exhausted
+time allowance; preserve the
+report and artifacts for diagnosis. The sequence runner enforces each unit's
+individual runtime cap, not the combined 7,200-second budget; the operator must
+track elapsed time across all three units and stop at the combined cap. The B16
+acceptance and grade steps set `WNN_PROJECT_ROOT` to the staged recovery root
+and `WNN_PORTABLE_DATA_MANIFEST` to the frozen F1 registry in each child
+process. The projected-mean screen keeps the root project's existing
+environment.
 
 ## Outputs and navigation
 
