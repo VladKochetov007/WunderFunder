@@ -53,3 +53,9 @@ python "$PROJECT/$PACKET/prepare_b16_cloud_export.py" patch-kernel-deadline \
 ## Expected outputs and grading
 
 Each worker is serial on the single T4 and writes one NPY plus sidecar under the runner output tree: `cache/pred_r01_h512_f1_s1004_kaggle_fit_r2_valid.npy/.json` and `cache/pred_r01_h512_f1_s1004_kaggle_swa345_r2_valid.npy/.json`. The fixed export contract is `(457, 20000, 2)`, `float32`, C-contiguous. Downloaded files must be copied into the local recovery root's `cache/` under these exact names, then pass `accept_h512_f1_b16_offline.py` and `grade_h512_f1_b16_offline.py` from the linked recovery packet. The latter reuses the frozen R2 score panel for the same five endpoints; it does not loosen the old grader. F1 evaluation groups are exposed robustness evidence, not a fresh holdout or public-score forecast.
+
+Root resource amendment before staging: each export worker is capped at4,000,000,000bytes RAM and GPU allocation, with5,000,000,000bytes VRAM stop threshold. The RAM headroom covers the supervisor/collection process within the5GBtask allocation. Both exports use identical limits; no fitting or numerical recipe change.
+
+## Actual preparation and launch
+
+The private input dataset is ready at version1; a downloaded copy exactly matches archiveSHA1802af9b…e095. FreshquotaR5was2345.378seconds/reserved0. The provider accepted the [exact launch source](launch_r1/README.md) as private kernelversion1 and reports RUNNING. Root added a one-CPU inherited-affinity guard after discovering that the generic runner could otherwise admit two T4workers simultaneously. Both4GBexports must run serially on its first enumerated GPU; source-only independent review passed. No fits or quality outputs yet. [Cyclefrontier](../next_cycle_r1/FRONTIER.md) holds actualadmission/transport/patch/statusreceipts; original localdeadlinepatch ispreserved as pre-affinityhistory.
