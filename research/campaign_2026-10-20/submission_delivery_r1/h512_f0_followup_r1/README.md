@@ -94,3 +94,11 @@ The separate [complete native endpoint protocol](../tl3_h512_endpoint_screen_r1/
 ### First epoch completed — October21
 
 [Epoch0progress](EPOCH0_PROGRESS_R1.json) records the actual first full pass:6,549.8seconds,14,920/14,920completedupdates, zero AMPskips/nonfinitegradientsteps, mean pre-update windowobjective1.3793423, median preclip gradientnorm1.48872 andcliprate86.37%. These are training diagnostics, not a validation score. The fit continues into epoch1of zero-based0–5; the fixedCP5recipe and withheldevaluation remain unchanged.
+
+## Completed fit and page-alignment recovery, October21
+
+The six-epoch fit completed successfully at13:29:06Kyiv. [Terminal acceptance](FIT_TERMINAL_ACCEPTANCE_R1.json) verifies the original frozen recipe and actual artifacts; [SWA source manifest](SWA345_SOURCE_MANIFEST_R1.json) records the three-checkpoint derivative. No validation result yet.
+
+The original postfit launcher stopped before GPU work: Linux rounded the configured5,000,000,000byte cgroup cap down to4,999,999,488bytes. Its exact equality guard incorrectly rejected that effective limit. [Recovery amendment](POSTFIT_PAGE_ALIGNMENT_RECOVERY_R2.json) preserves the cause, original/recovery hashes and cumulative budget. The separate [recovery launcher](run_postfit_page_aligned_recovery_r2.py) checks the exact page-rounded limit and retains all original scientific pins, output guards and budget checks. The original source and failed logs remain unchanged.
+
+Recovery unit `wnn-h512-postfit-recovery-r2-20261021.service` launched the original bounded postfit sequence. At15:21Kyiv, checkpoint acceptance/SWA derivation completed and CP5 prediction export was running, using about3GBRAM without OOM. [Recovery log](postfit_recovery_r2.log) and [sequence log](postfit_r1.log) are mutable operational records, not quality evidence.

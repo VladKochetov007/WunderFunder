@@ -1,5 +1,9 @@
 # Current project state
 
+## October21 15:21Kyiv: fit completed, postfit recovery active
+
+Local H512 six-epoch fit succeeded at13:29Kyiv. The original launcher failed on Linux page-rounding of the5GBcap; a separate recovery now passes acceptance, has derived SWA and is exporting predictions. Native endpoint waiter is rebound to the exact recovery invocation. See the [recovery packet](../research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#completed-fit-and-page-alignment-recovery-october21). No validation score or new ZIP yet; earlier ETA missed. Kaggle weights remain collected after a separate producer/validator digest mismatch.
+
 ## October21 monitoring and Kaggle terminal recovery
 
 Local H512 continues its fifth of six epochs; automatic postfit/native evaluation waiters remain active under5GBRAM/twoCPU/noSwap. Kaggle B16 completed training and saved checkpoints but failed the postfit initial-parameter identity gate before exports. See the [terminal packet](../research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/README.md#version2-terminal-fit-saved-postfit-provenance-gate-failed). Root is investigating metadata-only recovery; no new fit or provider launch. No new quality grade/submission yet. Older RUNNING snapshots below are historical.
