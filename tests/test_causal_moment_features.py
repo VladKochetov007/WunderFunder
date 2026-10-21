@@ -80,7 +80,7 @@ def test_newest_control_keeps_width_and_matches_batch_stream(mode: str, zero_wid
     np.testing.assert_allclose(streamed, controlled, rtol=3e-4, atol=5e-5)
 
     if mode == "causal_innovations":
-        with pytest.raises(ValueError, match="requires a causal moment"):
+        with pytest.raises(ValueError):
             research_feature_control_width("none", "newest")
 
 

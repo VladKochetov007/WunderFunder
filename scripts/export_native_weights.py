@@ -62,12 +62,17 @@ def write_wbin(sd: dict[str, np.ndarray], path: Path) -> None:
         order += ["head.extra.weight", "head.extra.bias"]
     order += ["head.2.weight", "head.2.bias"]
     legacy = encoder == recurrent == readout and head_layers == 1
-    dims = (n_in, recurrent, layers, readout, n_out) if legacy else (
-        n_in, encoder, recurrent, layers, readout, head_layers, n_out
+    dims = (
+        (n_in, recurrent, layers, readout, n_out)
+        if legacy
+        else (n_in, encoder, recurrent, layers, readout, head_layers, n_out)
     )
     with path.open("wb") as out:
-        out.write((b"WNNWTS01" + struct.pack("<5I", *dims)) if legacy else
-                  (b"WNNWTS02" + struct.pack("<7I", *dims)))
+        out.write(
+            (b"WNNWTS01" + struct.pack("<5I", *dims))
+            if legacy
+            else (b"WNNWTS02" + struct.pack("<7I", *dims))
+        )
         for key in order:
             if key not in sd:
                 raise ValueError(f"checkpoint is missing {key}")
@@ -76,7 +81,9 @@ def write_wbin(sd: dict[str, np.ndarray], path: Path) -> None:
 
 def main() -> None:
     run, path = sys.argv[1], Path(sys.argv[2])
-    write_wbin(state_dict(run, Path(os.environ.get("WNN_RUNS_DIR", ROOT / "artifacts" / "runs"))), path)
+    write_wbin(
+        state_dict(run, Path(os.environ.get("WNN_RUNS_DIR", ROOT / "artifacts" / "runs"))), path
+    )
     print(f"wrote {path} ({path.stat().st_size} bytes)")
 
 

@@ -1,0 +1,58 @@
+{"step": "format_changed_python", "event": "starting"}
+1 file reformatted, 17 files left unchanged
+{"step": "check_changed_python", "event": "starting"}
+All checks passed!
+{"step": "check_training_structure", "event": "starting"}
+{"files": 63, "errors": 0, "max_module_lines": 300, "max_function_lines": 200}
+{"step": "bounded_training_compatibility", "event": "starting"}
+..................................................F.................     [100%]
+=================================== FAILURES ===================================
+_ test_newest_control_keeps_width_and_matches_batch_stream[causal_innovations-16] _
+
+mode = 'causal_innovations', zero_width = 16
+
+    @pytest.mark.parametrize(
+        ("mode", "zero_width"),
+        [("causal_moments", 64), ("causal_innovations", 16)],
+    )
+    def test_newest_control_keeps_width_and_matches_batch_stream(mode: str, zero_width: int) -> None:
+        prior = fit_causal_moment_prior([_raw(256, 39)])
+        rows = _raw(120, 40)
+        candidate = research_features_numpy(rows, mode, prior)
+        controlled = research_features_numpy(rows, mode, prior, control="newest")
+    
+        assert research_feature_control_width(mode, "newest") == zero_width
+        assert controlled.shape == candidate.shape == (len(rows), len(research_feature_names(mode)))
+        if zero_width < controlled.shape[-1]:
+            np.testing.assert_array_equal(controlled[..., :-zero_width], candidate[..., :-zero_width])
+        np.testing.assert_array_equal(controlled[..., -zero_width:], 0.0)
+    
+        torch_controlled = research_features_torch(
+            torch.from_numpy(rows[None]), mode, prior, control="newest"
+        )[0].numpy()
+        np.testing.assert_allclose(torch_controlled, controlled, rtol=3e-4, atol=5e-5)
+        stream = StreamingResearchFeatures(mode, prior, control="newest")
+        streamed = np.stack([stream.update(row) for row in rows])
+        np.testing.assert_allclose(streamed, controlled, rtol=3e-4, atol=5e-5)
+    
+        if mode == "causal_innovations":
+>           with pytest.raises(ValueError, match="requires a causal moment"):
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E             Expected regex: 'requires a causal moment'
+E             Actual message: 'feature control is unsupported for this research feature mode'
+
+tests/test_causal_moment_features.py:83: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_causal_moment_features.py::test_newest_control_keeps_width_and_matches_batch_stream[causal_innovations-16]
+1 failed, 67 passed in 45.75s
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_sequence.py", line 61, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_sequence.py", line 57, in main
+    run(args.plan)
+    ~~~^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_sequence.py", line 47, in run
+    raise RuntimeError(f"Sealed step failed: {step['name']}")
+RuntimeError: Sealed step failed: bounded_training_compatibility

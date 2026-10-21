@@ -1,0 +1,30 @@
+{
+  "schema": "wnn.endpoint-diagnosis-plan.v1",
+  "status": "frozen_before_new_array_analysis",
+  "owner": "root",
+  "hypothesis_ids": [
+    "H-H512-ENDPOINT-GAP-20261021-R1"
+  ],
+  "experiment_id": "E-H512-ENDPOINT-DIAGNOSIS-20261021-R1",
+  "basis": "The user requested continued research and an investigation of overlooked implications of replicated standalone H512 quality versus worse complete native replacement.",
+  "prior_evidence": "NATIVE_GRADE_R3.json",
+  "comparison": "Existing exact TL3, CP5 replacement, SWA345 replacement, and cached FP32 H512 predictions on the same 468 F0 groups.",
+  "observables": [
+    "Reproduce all three native official scores within 1e-7.",
+    "Per-target label-magnitude-weighted covariance, standard deviation, clipping fraction, and H512 partial correlation with the target conditional on TL3.",
+    "Exact covariance and variance factor decomposition of the replacement correlation ratio.",
+    "Official per-target scores in fixed position bins [99,500), [500,2000), [2000,10000), [10000,20000).",
+    "Differential native parity against 0.34 times the FP32 member prediction difference, with raw and individually clipped member outputs. No latent member inference unless the identity holds."
+  ],
+  "selection": "No new coefficients, scale optimization, checkpoint selection, or submission. This is a post hoc diagnostic of fixed predictions.",
+  "resources": {
+    "cpu_cores": 1,
+    "memory_max_bytes": 1400000000,
+    "gpu_seconds": 0,
+    "new_fits": 0,
+    "runtime_cap_seconds": 900,
+    "task_swap_bytes": 0
+  },
+  "exposure": "Exposed F0 fitted diagnostic; TL3 fitting, teacher, and initializer ancestry remains unknown. Conditional statistics do not establish a causal mechanism or public transfer.",
+  "next_test": "A separately frozen eight-component native FP32 versus int8 probe, intended to diagnose the current serving path."
+}
