@@ -9,3 +9,5 @@
   i1 and future-input-dynamics plans and their current execution status. The
   dynamics packet has finite four-fit, prediction, scoring and grading recipes;
   its 110-batch F0 aux005 profile is prepared but not run.
+
+- [B16 local F1 prediction fallback](kaggle_h512_b16_offline_recovery_r1/LOCAL_FALLBACK_R1.md): finite local FP32 export of the already recovered CP5 and SWA345 checkpoints after the Kaggle export timed out. It uses the exact clean predictor, frozen 457-group evaluation membership, write-once path preflight and existing acceptance/grader. Root owns the post-panel GPU admission; no local prediction or score ran during preparation.
