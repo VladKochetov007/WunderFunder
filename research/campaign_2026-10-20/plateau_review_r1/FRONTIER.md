@@ -188,3 +188,7 @@ Local fit succeeded at13:29:06Kyiv. Original downstream admission failed on a512
 ### Correction: PR25 matched endpoint reproduced
 
 Root extracted the exact historic F0/seed1003 wideCP5 score0.6737706304503658; local0.6737706291771555 differs by−1.27e−9. [Audit and grade](../submission_delivery_r1/h512_f0_followup_r1/README.md#correction-matched-b300-endpoint-successfully-reproduced) correct earlier chat claims of unsuccessful replication. Four-fold mean0.68409111 was not the correct comparator. Successful score replication is separate from stronger serving endpoint: fixed oldZ4/H512 remains below existing oldZ4/WMSE onF0; native coverage guard failed after replay, quality result absent. No newfits admitted.
+
+### User-authorized exploratory H512 CP5 ZIP released
+
+[Release/provenance/checks](../submission_delivery_r1/h512_f0_followup_r1/README.md#user-authorized-exploratory-cp5-submission):17.106MB, exact replicated B300-trained local CP5 replacement at0.34 plus unchangedTL3pair. ABI and actualPython3.11 two-sequence/A-B-A passed. User overrides strongest-local-only selection for this one exploratory attempt; no portal upload. Full native coverage failure traced to omitted128byteNPYheader, cache deleted, complete served-endpoint grade absent.
