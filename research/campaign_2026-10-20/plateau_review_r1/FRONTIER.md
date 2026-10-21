@@ -142,3 +142,9 @@ Main delivery implementation and archived Kaggle closeout are pushed as `38ae303
 ### F1 prelaunch review finding
 
 [Source closure incident](../../unified/operations/KAGGLE_F1_SOURCE_CLOSURE_INCIDENT_20261021_R1.json): preparationworktree differs fromrequested68ffin60canonicalfiles;5of6declared pins mismatch. No thirdKagglejob admitted. `kaggle_delivery_readiness` now owns clean68ffcheckout+wrapper/packet transplant and final seal. Rootowns actualdeadline/quota gates and collection; `overnight_evidence_audit` must recheck final source. IndependentF1grader logic passes; importedhelperhashtrackingfixed in40e6db03, finalproposalpin remainspendinguntilsealedsource/proposalexist. LocalFP32 audit confirms correctsource+env; do notrestarthealthyF0fit.
+
+### Clean source recovery verified by root
+
+Root checked `/home/vlad/development/wunder/research_tmp/kaggle-delivery-readiness-68ff`: all6canonicalproposal source pins match, and `git diff68ff --src/wnn scripts/train_rnn.py utils.py` is empty. Actual bundle sealing and final runtime/import-path review remain pending; no thirdcloudjob. Operatormusthandoffthiscleanexecutiontree, nottheearlierpreparationcheckout. The fixedF1grader is stageduntracked inrootfrom789702574 plus40e6db03helperhashfix; finalproposalpin is notyetreconciled.
+
+The older `poll_provider.py` accounting cap (budget56,780.516 minus SDKused90,722.348 lessbaseline37,047.321 =3,105.489remaining) belongs to the previous campaign. Latest acceptedOct20plan authorizes all verified availableKagglequota for this cycle; currentAPIremaining17,277.652seconds is the prospective ceiling, with1,200sproviderreserve and16,000soutercap. Preserve oldledger/history, use a new scoped admission, verify no competing reservation and refreshactualquota beforelaunch. A collector for the new cycle must not silently abort at that historicalcap.
