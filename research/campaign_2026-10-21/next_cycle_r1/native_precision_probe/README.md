@@ -27,3 +27,15 @@ After reviewing the exact eight membership rows and `selected_membership_sha256`
 ```
 
 Expected files are `member_predictions.npz`, `outputs_manifest.json`, `prelabel_validation.json`, and `precision_probe_result.json`. The runner accepts only an output directory containing the reviewed plan and creates all later files exclusively. It is designed for the supplied Python 3.11 binary with NumPy and PyArrow; it uses no Torch, GPU, provider, or new fit. Source/format checks are the only builder verification. Runtime native parity and score execution remain pending root’s bounded run, and the result is an exposed F0 diagnostic rather than clean CV evidence.
+
+## Source navigation and actual admission
+
+- [Selection builder](prepare_selection.py) freezes eight distinct components without reading labels or predictions.
+- [Runner](run_precision_probe.py) owns inference, output preservation, construction-parity gating and subsequent scoring.
+- [Native helpers](probe_native.py) load the exact binary, materialize FP32 weight dictionaries and stream complete sequences with resets.
+- [Preparation helpers](probe_prepare.py) bind archives/caches, preserve shared v3 library identity and construct the five fixed tracks.
+- [Scoring helpers](probe_grade.py) reuse official clipped weighted moments and report scale diagnostics.
+- [Frozen configuration](probe_config.py) names source archives, caches, hashes and approved disk scratch.
+- [Root admission](../NATIVE_PRECISION_ADMISSION_R1.json) records the exact selected membership and source hashes, one CPU/1.2 GB/no-swap/600-second bound, and zero new fits/GPU time. [Runtime log](../native_precision_r1.log) belongs to this one attempt. Inference is running; no result or promotion is implied.
+
+[Execution receipt](../NATIVE_PRECISION_EXECUTION_R1.json), [prelabel validation](prelabel_validation.json), [output manifest](outputs_manifest.json) and [log](../native_precision_r1.log) preserve completed feature-only inference. The original TL3 reconstruction failed the unchanged1e-5 gate (max0.002090), while CP5 reconstruction passed(2.1e-7). No targets were accessed and no precision score was computed. Native FP32 H512 matches Torch to1.10e-6RMS; dynamic-int8 differs by0.002655RMS on need-prediction rows. Root assigned source-only diagnosis; saved outputs remain immutable in physical scratch.

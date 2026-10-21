@@ -84,8 +84,8 @@ def extract_packages(
 
 def load_probe_native(old_package: Path, cp5_package: Path) -> tuple[Any, Any, str, str]:
     """Verify extension identity, then import the pinned candidate native module."""
-    old_extensions = list(old_package.rglob("wnn_cpp*.so"))
-    cp5_extensions = list(cp5_package.rglob("wnn_cpp*.so"))
+    old_extensions = list((old_package / "v3").glob("wnn_cpp*.so"))
+    cp5_extensions = list((cp5_package / "v3").glob("wnn_cpp*.so"))
     if (
         len(old_extensions) != 1
         or len(cp5_extensions) != 1
@@ -93,6 +93,8 @@ def load_probe_native(old_package: Path, cp5_package: Path) -> tuple[Any, Any, s
     ):
         raise ValueError("native v3 extension bytes differ between frozen ZIPs")
     module, native, native_path, backend = load_native_module(cp5_package)
+    if backend != "2":
+        raise ValueError("native backend differs from the completed endpoint replays")
     return module, native, digest_file(native_path), backend
 
 

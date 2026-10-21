@@ -314,7 +314,7 @@ def main() -> int:
             for a, b in BINS:
                 bm = mask & (pos >= a) & (pos < b)
                 bins[a, b][name].add(y[None], p[None], bm[None])
-                if name in ("R", "S"):
+                if name in ("R", "S") and bm.any():
                     candidate_moments, reference_moments = paired_component_moments(
                         y[None], p[None], pred["B"][None], bm[None]
                     )
