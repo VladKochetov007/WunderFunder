@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "experiment_id": "E-OVERNIGHT-NLL-ADAPTATION-R1",
+  "amendment_id": "serving-projected-parent-wmse-mean-r1",
+  "status": "prepared_code_only_no_tensor_load_or_quality_read",
+  "purpose": "Derive one exposed-F0 descendant by equal-averaging the canonical two-output serving projections of the frozen parent CP5 and the WMSE child CP0/CP1. This does not alter or retroactively validate the blocked full-state mean.",
+  "fit_budget": {
+    "new_fits": 0,
+    "new_teacher_fits": 0,
+    "reused_parent": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5",
+    "reused_child_trajectory": "overnight_nll_f0_s3_wmse_e2_r1@ep0, @ep1",
+    "evaluation": "repeatedly exposed F0: 468 valid-source groups / 141 components"
+  },
+  "source_roots": {
+    "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "training_worktree": "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020",
+    "training_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "required_scratch_parent": "/home/vlad/development/wunder/research_tmp"
+  },
+  "checkpoints": [
+    {
+      "role": "parent_cp5",
+      "run": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1",
+      "epoch": 5,
+      "path": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/model_ep5.pt",
+      "sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "provenance_path": "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/provenance.json",
+      "provenance_sha256": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+      "epoch_expected": 5,
+      "output_rows_expected": 23,
+      "initial_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+      "args_init_expected": "c20261003_combo_s3_f0@ep3"
+    },
+    {
+      "role": "wmse_cp0",
+      "run": "overnight_nll_f0_s3_wmse_e2_r1",
+      "epoch": 0,
+      "path": "artifacts/runs/overnight_nll_f0_s3_wmse_e2_r1/model_ep0.pt",
+      "sha256": "35e277641a3d5da0c66c5b873fc494e603d589126167a7e27227350886276538",
+      "provenance_path": "artifacts/runs/overnight_nll_f0_s3_wmse_e2_r1/provenance.json",
+      "provenance_sha256": "227c4ebf934b34dc20b93dfe9a5b19387073c7594015ef07d21231adb659da29",
+      "epoch_expected": 0,
+      "output_rows_expected": 25,
+      "initial_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "args_init_expected": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5"
+    },
+    {
+      "role": "wmse_cp1",
+      "run": "overnight_nll_f0_s3_wmse_e2_r1",
+      "epoch": 1,
+      "path": "artifacts/runs/overnight_nll_f0_s3_wmse_e2_r1/model_ep1.pt",
+      "sha256": "ff359a362432c5f68b0b40e9c5e7d875ceeeddea73718cb5bd17ed53edf80dec",
+      "provenance_path": "artifacts/runs/overnight_nll_f0_s3_wmse_e2_r1/provenance.json",
+      "provenance_sha256": "227c4ebf934b34dc20b93dfe9a5b19387073c7594015ef07d21231adb659da29",
+      "epoch_expected": 1,
+      "output_rows_expected": 25,
+      "initial_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "args_init_expected": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5"
+    }
+  ],
+  "common_fitting_identity": {
+    "n_in": 211,
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "fit_membership_identity": {
+      "train": {
+        "count": 10535,
+        "ordered_int64_le_sha256": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9"
+      },
+      "valid": {
+        "count": 1405,
+        "ordered_int64_le_sha256": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75"
+      },
+      "valid_repeat": 1,
+      "dataset_length": 11940
+    },
+    "normalization_identity": {
+      "mean": {
+        "shape": [211],
+        "dtype": "torch.float32",
+        "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8"
+      },
+      "std": {
+        "shape": [211],
+        "dtype": "torch.float32",
+        "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+      }
+    },
+    "propensity_checkpoint_sha256": "b243b9d44a71bcaa02589be0a38b19477f448f9da98a02e16495af6730b517a7",
+    "distillation_cache": {
+      "metadata_sha256": "1e4c5c4915b643352494558efc17996a11900224231405fa4ab05698f2be3dc8",
+      "verified_files": {
+        "main_homogeneous_train": "6a19f7ac45c6e8a02d3b89c0ac4986ffab4885ab7a4ebc5fb4599b3047f4e7b3",
+        "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
+      },
+      "homogeneous_family": "strong",
+      "family_order": ["strong"],
+      "source_coefficients": [
+        {"run": "clean_t3_f0_muonall_h384_e3_s3_r5", "epoch": 2, "coefficient": 0.1},
+        {"run": "clean_t3_f0_muonall_h384_e3_s4_r5", "epoch": 2, "coefficient": 0.1},
+        {"run": "clean_t3_f0_muonall_h384_e3_s5_r5", "epoch": 2, "coefficient": 0.1}
+      ]
+    },
+    "layout_args": {
+      "hidden": 256,
+      "layers": 2,
+      "dropout": 0.0,
+      "arch": "gru",
+      "cell": "gru",
+      "enc": "linear",
+      "research_features": "none",
+      "research_feature_control": [null, "none"],
+      "representation_mode": null,
+      "online_norm": false,
+      "raw_only": false,
+      "heuristics": false,
+      "privileged_mode": "none",
+      "readout_activation": "gelu",
+      "seed": 3,
+      "valid_fold": 0,
+      "loss": "wmse",
+      "distill_alpha": 0.9,
+      "distill_cache_variant": "homogeneous",
+      "distill_family_weight": 0.0,
+      "aux_next": 0.3,
+      "aux_struct": 0.3,
+      "propensity": "c20260929_prop_f0",
+      "prop_power": 2.0,
+      "prop_eps": 0.03,
+      "train_source": "train+valid",
+      "include_heldout_valid": false
+    }
+  },
+  "projection": {
+    "canonical_predict_semantics": "first two output columns are returned as mean predictions; loss code uses out[..., :2] for WMSE and out[..., :2] / out[..., -2:] for NLL mean/logvariance",
+    "canonical_native_semantics": "strip training-only dynamics auxiliary state, then retain head.2.weight[:2] and head.2.bias[:2]",
+    "equal_mean": "apply canonical three-state float64-accumulate mean to each checkpoint after serving projection; cast back to source dtype",
+    "normalization": "mean/std must be bitwise equal and are preserved by canonical mean_state",
+    "parity_gate": {
+      "model_space_input": [2, 4097, 211],
+      "normalized_distribution": "fixed-seed standard-normal model inputs mapped through shared mean/std buffers",
+      "sequence_reset": "state starts at None independently for each generated sequence",
+      "chunk_rows": 2000,
+      "precision": "CPU FP32, autocast disabled",
+      "maximum_absolute_tolerance": 0.00001,
+      "applies_to": "each original full head first-two output versus its exported two-output projection; before averaging"
+    }
+  },
+  "derivation": {
+    "output_run": "overnight_nll_f0_s3_wmse_projected_mean_r1",
+    "epoch": 1,
+    "weights": {
+      "parent_cp5": 0.3333333333333333,
+      "wmse_cp0": 0.3333333333333333,
+      "wmse_cp1": 0.3333333333333333
+    },
+    "output_head_rows": 2,
+    "new_fit": false,
+    "coefficient_search": false,
+    "quality_evaluated": false,
+    "scratch_only": true
+  },
+  "grading": {
+    "frozen_metric": "global_wp_clip2_v1",
+    "valid_export_rows": 1873,
+    "evaluation_groups": 468,
+    "evaluation_components": 141,
+    "reused_endpoints": [
+      "overnight_nll_f0_s3_wmse_e2_r1@ep1",
+      "oldz4_h230_student_f0_s3_r3@ep1"
+    ],
+    "fixed_candidate_mixture": {
+      "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1": 0.75,
+      "overnight_nll_f0_s3_wmse_projected_mean_r1": 0.25
+    },
+    "comparisons": [
+      ["projected_mean_cp1", "wmse_cp1"],
+      ["oldz4_075_projected_mean_025", "oldz4_cp1_fp32"],
+      ["oldz4_075_projected_mean_025", "oldz4_075_wmse_025"]
+    ],
+    "bootstrap_replicates": 2000,
+    "bootstrap_seed": 271828,
+    "statistics": "paired fixed-prediction component uncertainty; does not include fit variation or public transfer",
+    "exposure": "F0 is repeatedly exposed; no pristine holdout or public forecast claim"
+  },
+  "source_pins": {
+    "training": {
+      "scripts/average_trajectory_checkpoints.py": "8646ccc12b537a1bf2f2544dffd85d10287076451e5bab86a4b2d6379e39bbb3",
+      "scripts/export_native_weights.py": "ef9cb378cbe1de21d5833dc3245a389cc0e8a68298e503e0d98757938bf050aa",
+      "scripts/predict_run.py": "904ddc9a2cafd194dc8d6ab9bdf1524120d6a089b83e33e2eb731e67abed6754",
+      "src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+      "src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+      "src/wnn/training/losses.py": "5859a4d40f13e91f50d34dfaed42d12dcfa2e229a85721ffc68bb5d69e1cfa66",
+      "src/wnn/training/mean_variance.py": "e4a067bb9d467d121720854876cfffb083ab803a4ed440ec96025779553e15c5"
+    },
+    "serving": {
+      "scripts/export_native_weights.py": "ae58684ca782131d193bad251284f6e1f861a74f8fd365b7cfb50398711c5d2f",
+      "scripts/package_submission.py": "7882ad0a8b06b7eb9fe83968f6c61fbb7ae15863672ed3ae2f3ec7a70833644c",
+      "src/wnn/native_representation.py": "93d323e5e7abfb077ceff56a24f3056c430cdf923264e30895c9f77794c6ff80",
+      "src/wnn/training/dynamics_auxiliary.py": "b0b13362af5dd089dbef1afd1936064062826fbf633eb58a0cf6727e42076a97"
+    }
+  }
+}

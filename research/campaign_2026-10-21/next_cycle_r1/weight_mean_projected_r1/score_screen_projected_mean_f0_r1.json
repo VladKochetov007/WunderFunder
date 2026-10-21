@@ -1,0 +1,28 @@
+{
+  "folds": [0],
+  "arms": {
+    "wmse_cp1": {
+      "overnight_nll_f0_s3_wmse_e2_r1": 1.0
+    },
+    "projected_mean_cp1": {
+      "overnight_nll_f0_s3_wmse_projected_mean_r1": 1.0
+    },
+    "oldz4_cp1_fp32": {
+      "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1": 1.0
+    },
+    "oldz4_075_wmse_025": {
+      "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1": 0.75,
+      "overnight_nll_f0_s3_wmse_e2_r1": 0.25
+    },
+    "oldz4_075_projected_mean_025": {
+      "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1": 0.75,
+      "overnight_nll_f0_s3_wmse_projected_mean_r1": 0.25
+    }
+  },
+  "comparisons": [
+    ["projected_mean_cp1", "wmse_cp1"],
+    ["oldz4_075_projected_mean_025", "oldz4_cp1_fp32"],
+    ["oldz4_075_projected_mean_025", "oldz4_075_wmse_025"]
+  ],
+  "n_boot": 2000
+}
