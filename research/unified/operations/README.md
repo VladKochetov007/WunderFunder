@@ -2,6 +2,7 @@
 
 - [October21 next local/Kaggle cycle](../../campaign_2026-10-21/next_cycle_r1/README.md) — accepted new 30-hour allocation and durable frontier, saved-artifact recovery then six-fit i1 and four-fit dynamics screens; conditional strong-parent/production work, no new result at entry. Supersedes prospective priorities, preserves prior costs/evidence.
 
+- [B16 offline F1 artifact recovery](../../campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/README.md) — code-only recovery for the completed 44,760-update fit whose R2 postfit helper expected an initialization digest absent from pinned trainer source 68ff. It preserves that digest as unavailable, revalidates cold-start/source/membership/checkpoint evidence, derives SWA345 from immutable CP3/4/5, then reuses the frozen five-endpoint score panel through a separate acceptance and grade. No recovery or score has run.
 
 - [Replicated B300 CP5 exploratory submission](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#user-authorized-exploratory-cp5-submission) — user-authorized17.106MBH512-in-TL3 ZIP released with staticABI and actualPython3.11 finite/reset checks. Matching B300 score reproduced; lower component-blend evidence and absent full served-endpoint grade remain explicit. Earlier native guard omitted the128byteNPYheader. No portal upload/public result.
 
