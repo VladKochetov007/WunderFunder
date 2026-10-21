@@ -6,6 +6,7 @@ import torch
 
 from wnn.i1_history import I1_HISTORY_MODE, I1_INPUT_WIDTH
 from wnn.training.i1_inputs import validate_i1_input_configuration
+from wnn.training.i1_warm_normalization import validate_i1_warm_normalization
 from wnn.training.inheritance import inherit_init_arguments
 from wnn.training.model_validation import apply_block_memory_defaults, block_memory_rejection
 from wnn.training.state import TrainingRun
@@ -264,4 +265,8 @@ def validate_distillation(run: TrainingRun) -> None:
             weights_only=False,
         )
         inherit_init_arguments(args, init_checkpoint, run.environment.argv)
+    try:
+        validate_i1_warm_normalization(args, init_checkpoint)
+    except ValueError as exc:
+        ap.error(str(exc))
     run.options.init_checkpoint = init_checkpoint
