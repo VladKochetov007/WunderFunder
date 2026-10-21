@@ -1,0 +1,129 @@
+{
+  "schema": "wnn.endpoint-diagnosis-source-binding.v1",
+  "frozen_plan": {
+    "path": "research/campaign_2026-10-21/next_cycle_r1/ENDPOINT_DIAGNOSIS_PLAN_R1.json",
+    "sha256": "9066b72851ec401b2f0a4dc67de998f132874e8479f5f8ea04345e2b5e642ebf"
+  },
+  "root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "default_output": "/home/vlad/development/wunder/research_tmp/h512_tl3_replacement_diagnosis_r1.json",
+  "reference_files": {
+    "native_grade": {
+      "path": "research/campaign_2026-10-21/next_cycle_r1/NATIVE_GRADE_R3.json",
+      "sha256": "872ae52f0c83611d390e778d9666f910773e8d24e6494c12cb56fd8384788e35"
+    },
+    "endpoint_screen_plan": {
+      "path": "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/ENDPOINT_SCREEN_PLAN_R1.json",
+      "sha256": "852f64507fb9d96caa6ad7f8e82f7b7cc00a02eb7a046d7627d56eb42709bc94"
+    }
+  },
+  "source_pins": {
+    "endpoint_score_inputs": {
+      "path": "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/endpoint_score_inputs.py",
+      "sha256": "d25fb63a4bbdb77939174bc4b85867c31cb3058c8ba8c70c8a89a774d0140552"
+    },
+    "endpoint_contract": {
+      "path": "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/endpoint_contract.py",
+      "sha256": "9eb26991546ce3560b5e6d223c3e99882c625b4c175e26c9c9ae5fc35e2ad394"
+    },
+    "endpoint_grade_producer": {
+      "path": "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/grade_h512_tl3_endpoints.py",
+      "sha256": "d530746c0beba2a04741f309f93a21596209df863db68e851eaf31085d5fb562"
+    },
+    "f0_source": {
+      "path": "research/campaign_2026-10-18/online_features_r1/tl3_replay/f0_source.py",
+      "sha256": "c9e8b186515595dc4de68e8fe72a47d68f6080a8c1d71704fcc31dd67d9b1c2a"
+    },
+    "target_mapper": {
+      "path": "research/campaign_2026-09-30/audit/campaign_score.py",
+      "sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39"
+    },
+    "split_loader": {
+      "path": "src/wnn/splits.py",
+      "sha256": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe"
+    },
+    "metric": {
+      "path": "src/wnn/gmetric.py",
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    },
+    "fold0_split": {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    "evaluation_manifest": {
+      "path": "research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/evaluation_manifest.json",
+      "sha256": "94d2226849ec0822bce5cf53890bda6aa41a0677f7d77da231a9b6495f22069b"
+    }
+  },
+  "target_cache": {
+    "path": "cache/valid_targets.npz",
+    "bytes": 337186198,
+    "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "index_sha256": "ed030f767a6c650db666844ecffef21f0e96cc9fa2d7e77a0872bdf26c5bed38"
+  },
+  "baseline": {
+    "path": "cache/pred_tl3_unknown_ancestry_f0_valid.npy",
+    "sha256": "3a7456f0a2e294a852618535b9e3f2551fc15c5b70fd033824bddb10be83bbe3",
+    "sidecar": "cache/pred_tl3_unknown_ancestry_f0_valid.json",
+    "sidecar_sha256": "b9d8b7371dbff016d48e155da154cd87d85c887cb08921e86caabba082059910",
+    "shape": [
+      468,
+      20000,
+      2
+    ],
+    "dtype": "float32"
+  },
+  "native_endpoints": {
+    "cp5": {
+      "path": "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0.npy",
+      "sha256": "2a4d95a332f12f7787a75fbe0acc66811d938d614c203fee28dcc7735611cfe2",
+      "sidecar": "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0.json",
+      "sidecar_sha256": "0055bbfc4fc8c9bf4537746b1e2f86b82b8e6e8838b787ebc906705d96b34696",
+      "shape": [
+        468,
+        20000,
+        2
+      ],
+      "dtype": "float32"
+    },
+    "swa345": {
+      "path": "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_swa345_f0.npy",
+      "sha256": "5689dacb4964c22de83ec962ec4c1a1191e93bdf174a48065955fc3ead74697c",
+      "sidecar": "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_swa345_f0.json",
+      "sidecar_sha256": "57cb34816b3468c781b8d7a85fecf755e863786b2fdbcfdcef980d032464dabc",
+      "shape": [
+        468,
+        20000,
+        2
+      ],
+      "dtype": "float32"
+    }
+  },
+  "h512_member_predictions": {
+    "cp5": {
+      "path": "cache/pred_r01_h512_f0_s1003_local_cp5_r1_valid.npy",
+      "sha256": "14cf538ee27dd44420f3b682dc449766bda1fe37bcc377f21ff81d10aa59f240",
+      "sidecar": "cache/pred_r01_h512_f0_s1003_local_cp5_r1_valid.json",
+      "sidecar_sha256": "f9c41bb2264bbd519b0c1f3df42ed3826a388c177d0e159fa2f35ad13ae17a4c",
+      "checkpoint_sha256": "4311fbb71d1ba121a285fefe06b431f9fa2c16f7fabd23f18b72135180bffe2f",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "dtype": "float32"
+    },
+    "swa345": {
+      "path": "cache/pred_r01_h512_f0_s1003_local_swa345_r1_valid.npy",
+      "sha256": "c933a644ce66ac43975a3ab9f68a8228a1b68968829aa53f296c1f4a0e1fd2e4",
+      "sidecar": "cache/pred_r01_h512_f0_s1003_local_swa345_r1_valid.json",
+      "sidecar_sha256": "7217989dbce0a5a5dadb2d6a689a467a7fdc9306e489a3709bb65b7283a36938",
+      "checkpoint_sha256": "e9587e08255ef6aa935e93660966e5cf31f5b2f0613a164ab209a3c40e1b30a3",
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "dtype": "float32"
+    }
+  }
+}
