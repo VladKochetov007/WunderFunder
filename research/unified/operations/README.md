@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [B16 resource-adapted F1 preparation](../../campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/README.md) — uses the successful B8 profile cost evidence to propose a fresh batch-16 profile and conditional six-epoch fit. Exact clean source, raw/cache identities and 15,500-second cap are prepared; no launch admitted yet. Batch and update-clock differences preclude an identical-arm cross-fold claim.
+
 - [Kaggle F1 successful profile / cost skip](../../campaign_2026-10-21/kaggle_h512_conditional_f1_r1/README.md#terminal-profile-result--supersedes-running-snapshot) —40finite strictFP32updates and exactinput checks passed; B8sixepochrecipe projects19,429seconds beyond16,000cap, so nofitstarted. ProviderERROR is wrappermissingartifacts, notprofilefailure ornegativequality. Actualworkerreceipt and independent staticreview retained; B16adaptation preparation is separate and unadmitted.
 
 - [Admitted Kaggle F1 execution](../../campaign_2026-10-21/kaggle_h512_conditional_f1_r1/README.md) — clean68ff worker, exact R2 bundle downloaded and hash-verified after private dataset upload; kernel version1 provider-confirmed RUNNING at00:43:43UTC. One profile-first attempt under16,000seconds and refreshed quota; no fit progress or quality established. Preserves original proposal/preparation and separate actual admission/reseal/launch observation.

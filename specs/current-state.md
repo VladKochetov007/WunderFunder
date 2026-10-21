@@ -1,5 +1,9 @@
 # Current project state
 
+## October21 B16 conditional admission
+
+The [separate B16 F1 packet](../research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/README.md) passed independent source/recipe review and root refreshed quota (17,006.922seconds,zero reserved). One profile-first conditional sixepochfit is admitted; exact bundle verification remains beforeupload. B16means44,760updates, not a matched B8replication. No R2model/quality result yet; the healthy local F0B8fit continues unchanged.
+
 ## October21 Kaggle profile terminal update
 
 The exactF1B8profile succeeded40finiteupdates, then intentionally skipped the sixepoch fit on measured cost:19,429.399projectedseconds exceeds16,000cap. ProviderERROR reflects missing unproduced fitoutputs; no qualityfit or negativequalityevidence. See [terminal interpretation](../research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/TERMINAL_INTERPRETATION_R1.json). Root is preparing explicitB16amendment, not admitted. LocalF0fit and automaticpostfit/nativewaiters continue unchanged. Older RUNNINGcloudsnapshot below is historical.

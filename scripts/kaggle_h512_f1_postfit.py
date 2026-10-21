@@ -53,7 +53,7 @@ def validate_fit(
         "hidden": 512,
         "layers": 1,
         "valid_fold": 1,
-        "batch": 8,
+        "batch": 16,
         "chunk": 2000,
         "epochs": 6,
         "checkpoint_policy": "fixed",
@@ -110,7 +110,7 @@ def validate_fit(
             counts.get("optimizer_attempts") != EPOCH_CHUNK_UPDATES
             or counts.get("optimizer_completed_updates") != EPOCH_CHUNK_UPDATES
             or counts.get("amp_skipped_updates") != 0
-            or counts.get("completed_batches") != 1493
+            or counts.get("completed_batches") != 746
         ):
             raise ValueError(f"Unexpected optimizer update count at epoch {epoch}")
     cumulative = provenance.get("cumulative_updates", {})
@@ -119,7 +119,7 @@ def validate_fit(
         or cumulative.get("optimizer_completed_updates") != TOTAL_CHUNK_UPDATES
         or cumulative.get("amp_skipped_updates") != 0
     ):
-        raise ValueError("Cumulative optimizer count differs from 89,580 finite updates")
+        raise ValueError("Cumulative optimizer count differs from 44,760 finite updates")
     checkpoint_path = run_dir / "model_ep5.pt"
     if not checkpoint_path.is_file():
         raise ValueError("Fixed CP5 checkpoint is missing")
@@ -199,7 +199,7 @@ def derive_swa345(root: Path, fit_audit: dict[str, Any]) -> dict[str, Any]:
             for epoch, path, digest in zip((3, 4, 5), paths, hashes, strict=True)
         ],
         "input_manifest": {
-            "path": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/fold1_profile_view.json",
+            "path": "research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_profile_view.json",
             "sha256": fit_audit["split_manifest_sha256"],
         },
         "original_canonical_manifest": {

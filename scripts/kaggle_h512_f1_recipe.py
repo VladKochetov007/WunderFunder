@@ -49,7 +49,7 @@ def validate_recipe(proposal: dict[str, Any]) -> tuple[list[str], list[str]]:
         "--cell": "gru",
         "--enc": "linear",
         "--dropout": "0",
-        "--batch": "8",
+        "--batch": "16",
         "--chunk": "2000",
         "--epochs": "6",
         "--checkpoint-policy": "fixed",

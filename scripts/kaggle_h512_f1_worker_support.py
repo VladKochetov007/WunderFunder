@@ -12,24 +12,24 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-PACKET = Path("research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1")
-PROPOSAL = PACKET / "H512_F1_CONDITIONAL_PROFILE_FIT_PROPOSAL_20261021_R1.json"
+PACKET = Path("research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2")
+PROPOSAL = PACKET / "H512_F1_B16_CONDITIONAL_PROFILE_FIT_PROPOSAL_20261021_R2.json"
 ADMISSION = PACKET / "root_admission.json"
 ORIGINAL = Path("research/campaign_2026-09-29/artifacts/splits/fold1.json")
 DERIVED = PACKET / "fold1_profile_view.json"
 REGISTRY = PACKET / "fold1_portable_inputs.json"
-PROFILE_NAME = "r01_h512_f1_s1004_kaggle_profile_r1"
-FIT_NAME = "r01_h512_f1_s1004_kaggle_fit_r1"
-SWA_NAME = "r01_h512_f1_s1004_kaggle_swa345_r1"
+PROFILE_NAME = "r01_h512_f1_s1004_kaggle_profile_r2"
+FIT_NAME = "r01_h512_f1_s1004_kaggle_fit_r2"
+SWA_NAME = "r01_h512_f1_s1004_kaggle_swa345_r2"
 PROFILE_UPDATES = 40
-FIT_BATCHES = 8_958
-EPOCH_CHUNK_UPDATES = 14_930
-TOTAL_CHUNK_UPDATES = 89_580
+FIT_BATCHES = 4_476
+EPOCH_CHUNK_UPDATES = 7_460
+TOTAL_CHUNK_UPDATES = 44_760
 PROFILE_SLOWDOWN = 1.25
 EXPORT_RESERVE_SECONDS = 2_700
 FINALIZER_RESERVE_SECONDS = 300
 PROVIDER_SAFETY_SECONDS = 1_200
-OUTER_WALL_CAP_SECONDS = 16_000
+OUTER_WALL_CAP_SECONDS = 15_500
 WORKER_WALL_CAP_SECONDS = OUTER_WALL_CAP_SECONDS - FINALIZER_RESERVE_SECONDS
 EXPECTED = {
     "original_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
@@ -37,7 +37,7 @@ EXPECTED = {
     "registry_sha256": "2dcd5cee727d1299f1fdab86b71116dc4a70008160c9495be8bf6f5c00b9dc67",
     "chains_sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766",
     "chain_folds_sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f",
-    "proposal_sha256": "b90a46cdaa3e7593d88d3aa95f6dc574ffa99c6646909cf99c84d12d1fb90fbf",
+    "proposal_sha256": "dc519df5c7f6a182bfe3d34c1d580580b3b8dad55e4144a8117f24e16208ad09",
 }
 CACHE_IDENTITIES = {
     Path("cache/chains.npz"): (650_142, EXPECTED["chains_sha256"]),
@@ -53,7 +53,7 @@ RAW_IDENTITIES = {
         "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
     ),
 }
-RECEIPT_PATH = PACKET / "conditional_worker_receipt_r1.json"
+RECEIPT_PATH = PACKET / "conditional_worker_receipt_r2.json"
 
 
 def sha256(path: Path) -> str:

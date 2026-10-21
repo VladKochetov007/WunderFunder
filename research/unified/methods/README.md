@@ -1,5 +1,7 @@
 # Methods, sampling, and metric
 
+- [Separate B16 F1 endpoint and acceptance contract](../../campaign_2026-10-21/kaggle_h512_b16_f1_endpoint_grade_r2/README.md) — freezes five endpoints, 44,760 updates, canonical/derived identities and exposed-fold limits. Root acceptance checks actual finite exports, all six epoch/update records, optimizer arguments, cold ancestry and recomputed SWA tensors. Prepared, not executed or promoted; preserves the prior unused B8 contract.
+
 - [Fixed H512 F1 endpoint grader](../../campaign_2026-10-21/kaggle_h512_f1_endpoint_grade_r1/README.md) — freezes five endpoints and component uncertainty for457evaluation groups; aligns new FP32 exports to legacy oldZ4FP16 reference. Requires separate root terminal acceptance and exact producer/manifest/source identities. Prepared and statically reviewed, not executed; exposed fold and precision asymmetry remain explicit.
 
 
