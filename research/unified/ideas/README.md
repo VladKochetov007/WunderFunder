@@ -9,6 +9,8 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 
 ## Current navigation
 
+- [i1 history idea progression](I1_HISTORY_IDEA_PROGRESSION_20261022_R1.md) — records the move from repeated standard-i1 usefulness, through weaker history models with a positive fixed F0 mixture, to clipping checks and the initial-function confound. Proposes a function-preserving warm test; F2 mixture grading, implementation tests and independent review remain pending at this snapshot. Links raw evidence and serving/ancestry limits; no warm fit or production promotion. H-I1-HISTORY-FUNCTION-PRESERVING-20261022-R1.
+
 - [Conditional NLL gradient-weighting hypothesis](../sources/NLL_GRADIENT_WEIGHTING_20261021_R1.md) — H-NLL-GRADIENT-WEIGHTING-20261021-R1: distinguish variance weighting/global-clipping interactions from the broader heteroscedastic-learning idea after the frozen WMSE/NLL grade. Primary-source assessment and analytical gradient bounds; not a tested model gain or admitted follow-up.
 
 - [Future-input dynamics auxiliary head](FUTURE_INPUT_DYNAMICS_AUXILIARY_20261021_R1.md) — H-FUTURE-INPUT-DYNAMICS-20261021-R1 / E-FUTURE-INPUT-DYNAMICS-20261021-R1: code implements an optional 52-target future-input head and serving removal for the accepted four-fit cold screen. The packet now has literal four-run fit/predict/score plans, a 110-batch F0 aux005 profile plan, the exact F2 membership copy, and a fixed paired full-fold grader for both targets, position bins, initialization/normalization/head/target-stat identity, NPY coverage, and the unsearched 90/10 mixture. CPU tests and static checks passed earlier; profile and fits remain pending. Strong-parent continuation needs a separate extension.
