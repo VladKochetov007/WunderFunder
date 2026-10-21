@@ -100,3 +100,13 @@ Sources: [F0 A/B/C interim grade](../../campaign_2026-10-21/next_cycle_r1/i1/int
 [F2 B score record](../../../artifacts/runs/i1_f2_s1002_b_r1/score.json),
 [prior endpoint interpretation](H512_ENDPOINT_INTERPRETATION_REVIEW_20261021_R1.md),
 and the [accepted cycle plan](../../../specs/plans/2026-10-21-next-local-kaggle-cycle.md).
+
+## Source-based follow-up interpretation
+
+After the fixed geometry diagnostic, root proposed and dynamics_builder independently checked a narrower optimization explanation using source and metadata only. Both cold B and C have identical stored initial parameters and normalization. B masks the 156 appended inputs after normalization, while C activates their existing random, nonzero input-projection weights. Their effective initial functions therefore differ. The cold treatment changes history exposure and its resulting optimization path together; it does not change parameter count or establish a measured conditioning/variance effect.
+
+The [measured F0 geometry](../../campaign_2026-10-21/next_cycle_r1/i1/fixed_mix_geometry_r1/RESULT_R1.json) excludes clipping-only and pure scalar shrinkage accounts for its small positive point gain, while remaining conditional on the same exposed fits. It cannot determine whether the corrective direction arose from useful history information or the changed training trajectory. No added confidence interval or independent replication follows from this decomposition.
+
+The already conditional strong-parent comparison offers a useful falsifier. Extend both control and treatment to the same 367-slot input, initialize appended projection weights to zero, preserve the original 211 input statistics, use one explicit shared normalization choice for new slots, and verify identical parent predictions before fitting. Then only the treatment receives unmasked history inputs and their gradients. Failure to improve the paired strong controls or the fixed endpoint contribution would weaken the explanation that a cold initialization/short schedule obscured useful history. This is an interpretation of the existing four-fit follow-up, not another admitted panel or a changed cold recipe.
+
+The [warm-parent catalog](STRONG_PARENT_F0_F1_WARM_INIT_CATALOG_20261022_R1.md) records two necessary implementation gates: `none` to `i1_history` is currently rejected, and generic inheritance assigns new slots mean0/std1 while cold C fits their statistics. The separate 64-group i1 prior normalizes only the energy feature construction; it is not a replacement for those input statistics. Historical parent FP16/AMP and distinct initializer/cache ancestry remain explicit. Root still waits for the existing F2 cell before selecting a mechanism; no warm code or fits were added by this review.
