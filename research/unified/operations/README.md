@@ -1,162 +1,321 @@
 **21 October13:29UTC — fixed first-cell comparison completed and stopped:** [Final five-arm report](../../campaign_2026-10-19/full_gru_tweaks_r1/FIRST_CELL_COMPARISON_20261021.md) records all five fixedep5 scores on468 fit-excluded EXPOSED development groups. CONTROL WP0.674830; EMA0.674779; Sparse0.674935; NLL0.675569; AllThree0.675909. AllThree−CONTROL+0.001078, unadjusted paired95% component CI[+0.000069,+0.002245]; the other three intervals cross zero. These intervals are conditional on the fixed models, not fit-seed/public-transfer uncertainty. [ROOT acceptance](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/SCORE_ACCEPTANCE.json) was durable13:23UTC before [Exact stop](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/exact_stop/README.md)13:29UTC of only successful score-v3; both failed score units remain preserved/excluded. All6scientificfits and5separate prerequisites are closed, no further fits/re-export/retuning. [Independent metadata audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/ACTUAL_SCORE_ACCEPTANCE_METADATA_REVIEW.json) verifies original RESULT/scalar/source joins without ROOT array reads. [Final source/recovery index](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021_V6.md) preserves versioned source gates and negatives. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_FIRST_CELL_SCORED.json) records final local publication checks.
 
+
+
 ---
+
+
 
 **21 October12:57UTC — third actual CPU scorer launched once:** [V14 admission and original receipts](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/README.md) bind new score-v3/inv9bd64d6759e8462bb40985b06a9a0ad6 under fresh serial gates. [V7 source-pair review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v7/SCORE_SOURCE_REVIEW_V7.json) qualifies exact selected-index/header preflight while fixed metric/bootstrap, five accepted exports and all six accepted/stopped fits remain unchanged. Both failed score workers are preserved/excluded forever; preceding outer preflight and provisional local input gates created zero units. Actual CPU score units3=2failed+new unit3; no scalar quality yet. Next bounded exact-unit capture13:04UTC+, ROOT acceptance before successful-only exact stop; no further scientific fits/re-export/retuning.
 
+
+
 ---
+
+
 
 **21 October12:35UTC — second scorer failed before quality; archive guard repair local:** [One bounded capture](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/status_capture_v1/README.md) observed score-v2/inv489586b4 failed12:27:41UTC with no RESULT read. Its pinned preflight passes2 as a BYTE cap and incorrectly bounds unused target members. [Bounded archive metadata](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/npz_index_diagnostic_v2/README.md) confirms small row_group/seq_ix indexes inside large target NPZs; y/mask payloads remain unopened. Both failed score units are permanently excluded from queries/stop/retry/restart. New thin V7 selective-index/header guard plus focused compatibility/source gates is the concrete next dependency; no re-export/newfit/scalar quality. Six scientific fits remain accepted/exact-stopped,5prerequisites separately.
 
+
+
 ---
+
+
 
 **21 October12:27UTC — second actual CPU score worker launched once:** [V13 admission and original receipts](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/README.md) bind new score-v2/inv489586b467d7475cb51d570ed706a16f after fresh serial gates. [Scorer V6 source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v6/SCORE_SOURCE_REVIEW_V6.json) qualifies the registered-parent metadata repair while exact leaf identities, metric/bootstrap and five accepted exports remain fixed. Failed score-v1 is permanently excluded from queries/stop/retry/restart; no re-export/newfit. This is actual CPU score unit2, with1failed predecessor and1zero-unit outer preflight. Next bounded exact-unit capture12:32UTC+; no scalar quality yet. All6scientificfits remain accepted/exact-stopped,5prerequisites separately; ROOT acceptance must precede successful-only exact stop.
 
+
+
 ---
+
+
 
 **21 October12:22UTC — first score worker failed before scoring; metadata repair source-qualified:** [Captured failure](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/status_capture_v1/README.md) and [independent failure audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/status_capture_v1/ACTUAL_FAILURE_METADATA_REVIEW.json) preserve score-v1/invfbc58e9d failed11:59:31UTC with no RESULT read. A [stat-only parent/leaf diagnostic](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/alias_parent_diagnostic_v1/README.md) confirms physical cache parent plus exact admitted leaf targets. [Scorer V6 source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v6/SCORE_SOURCE_REVIEW_V6.json) and [ROOT helper V2 review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v2/HELPER_SOURCE_REVIEW_V2.json) pass the narrow removal of unsupported parent-target assumptions; exact leaf identities, metric/bootstrap and five accepted prediction exports remain fixed. New unit-v2/D2/ROOTscore_v3 requires exact V13 body/driver/reader gates before fresh admission; failed unit-v1/D1 is permanently excluded from query/stop/retry/restart. [Source/recovery index](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021.md) preserves original bytes and all preceding negatives. All6scientificfits remain accepted/exact-stopped,5prerequisites separate; no re-export/newfit, scalar quality or public forecast.
 
+
+
 ---
+
+
 
 **21 October11:59UTC — first actual CPU score unit launched once:** [V12 actual admission and original receipts](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/README.md) bind invocation fbc58e9d2a7e47629c6a8feb6302aae8 after fresh gates. The preceding [V11 preflight](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v1/README.md) created zero units and is preserved; score_v2 is the second ROOT attempt, first actual score unit-v1. Worker.5CPU/high1.4e9/max1.5e9/swap0/600s/CUDAhidden/BLAS1 streams five fixedep5 arms/468 fit-excluded EXPOSED c09f development groups, official clip2 WP/four paired component intervals. Prediction export is accepted and exact-stopped; no further fits or actual scalar quality yet. Next bounded exact-unit capture12:02UTC+; accept original RESULT before exact stop of only successful scorer, no blind retry or old-unit query. [Source/recovery navigation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021.md) preserves versioned guards and raw failures.
 
+
+
 ---
+
+
 
 **21 October11:16UTC — five prediction exports accepted and successful GPU worker exact-stopped:** [Terminal capture](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/status_20261021T1107Z/README.md) and [independent metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/status_20261021T1107Z/METADATA_REVIEW.json) join the original invocation and fixed five468×20000×2FP32 outputs without ROOT array payload reads. [Export acceptance](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/EXPORT_ACCEPTANCE.json) is durable before the [one exact successful-unit stop](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/exact_stop/README.md); failed units remain preserved/excluded. This closes prediction export, with zero new fits and no scalar quality yet. All6scientificfits remain integrity accepted/exact-stopped;5prerequisites separate. Next is one freshly admitted serial capped CPU score of all five fixedep5 arms on fit-excluded EXPOSED c09f development groups, official clip2 WP and four paired component intervals. Current raw receipts supersede earlier dated running snapshots.
 
+
+
 ---
+
+
 
 **21 October10:32UTC — fixed five-arm evaluation:** [Execution and source-packet index](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/EVALUATION_EXECUTION_INDEX_20261021_V2.md) traces two zero-unit preflights, two preserved failed inference units, and [the third exact export launch](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/README.md). [One dated read-only observation](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/startup_health_v1/README.md) finds that invocation active with one owned GPU process and stat-only partial output inventory; [independent metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/startup_health_v1/METADATA_REVIEW.json) is metadata-only PASS. No completed prediction panel, score or predictive-quality gain is established. All6scientificfits remain integrity accepted/exact-stopped and5prerequisites separate; no further fits. Fixedep5/468c09f fit-excluded EXPOSED development groups/FP32/official clip2 WP/four paired contrasts remain unchanged. [Current continuation](../../campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs rare11:00UTC+ observation, terminal acceptance-before-exact-own-stop, and later serial CPU scoring. Failed units/earlier dated snapshots are preserved.
 
+
+
 ---
+
+
 
 **AllThree closure byte preservation:** [Exact eight EOF-only Git findings and original pre-staging validation archive](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_PRESERVED_EOF_NOTE_20261021_ALLTHREE_CLOSURE.json) preserve source-review, metadata-review and navigation bytes; the regenerated publication manifest records these findings explicitly. No frozen evidence was sanitized.
 
+
+
 ---
+
+
 
 **21 October07:11UTC:** [AllThree final closure/actual index](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_INDEX.md), [print-only-result protocol recovery](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v3/ROOT_PRINT_ONLY_RESULT_RECOVERY_NOTE.json), [exact accepted-pair stop](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/exact_stop/README.md), and [source-qualified next-scoring discovery](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_v1/SUPPLEMENT_INDEX.md) are indexed. All6first-cellfits integrityaccepted/exactstopped,5prerequisites separate; failedsupport and source/preflight/reader negatives preserved, no further fits/qualityendpoint/gain. [Lifecycle validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_TERMINAL_PREP_0518.json) covers this closure, excluding parallelunreviewedexportWIP.
 
+
+
 ---
+
+
 
 ## 21 October05:52UTC — AllThree native completion and local integrity gates
 
+
+
 [Canonical native capture](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_native_capture_v1/README.md) and [independent metadata review](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_native_capture_v1/METADATA_REVIEW.json) bind one raw-first SSH/exactLOCALcopy/typed14keys/strict0-1-0/sixhist44760-4476-zero, no tensor or quality replay. [Local root preparation](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/ROOT_PREPARATION.json) and [pin audit](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/ROOT_PREPARATION_METADATA_REVIEW_V1.json) preserve sevencode/58metadata. [Exact V1 CPU source rejection](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v1/FINAL_BODY_SOURCE_REVIEW_V1.json) caught missing explicit Path marker forwarding before any B action. Narrow V2/freshCPU/fullacceptance/exactstop remain next; no new scientific fit/quality. [Continuation](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) and [validation](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_TERMINAL_PREP_0518.json) govern the current lifecycle.
 
+
+
 ---
+
+
 
 [AllThree rare health05:18UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0517Z/README.md) records the same active owned worker, five complete epochs/37300updates/3730batches/zero skips/nonfinite; later progress is not current totals/native terminal/quality. Events unchanged, tensors stat-only. Thin local terminal consumer/conditional CPU preparation is a separate concrete dependency, no B stage/support/payload read/hash before actual exit proof. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_TERMINAL_PREP_0518.json) binds dated metadata and scoped preparation; next focused05:50UTC+, zero new scientific fits or quality endpoints.
 
+
+
 ---
+
+
 
 [AllThree rare health04:18UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0417Z/README.md) records the same active owned worker, three completed epochs/22380updates/2238batches/zero skips/nonfinite. Later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only; no support/newfit/restart/stop/new checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0418.json) binds exact raw/navigation and unchanged ledgers; next rare05:10UTC+. Metadata only, no predictive-quality endpoint/gain.
 
+
+
 ---
+
+
 
 [AllThree rare health03:18UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0317Z/README.md) records the same active owned worker, completed epoch0/7460updates/746batches/zero skips/nonfinite; later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only; no support/newfit/restart/stop/new checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0318.json) binds exact raw/navigation and unchanged ledgers. Next rare observation04:10UTC+; metadata only, no quality endpoint/gain.
 
+
+
 ---
+
+
 
 [Prepublication navigation EOF correction](../../campaign_2026-10-19/full_gru_tweaks_r1/NAVIGATION_EOF_CORRECTION_NOTE_20261021_NLL_ALLTHREE.json) preserves exact original bytes of four new root-authored index files while removing one extra terminal LF in each. The staged audit caught this editorial issue before publication; raw/source/recipes/reviews/receipts and scientific counts are unchanged.
 
+
+
 ---
+
+
 
 [NLL lifecycle and actual CPU/stop index](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/terminal_verification_v1/ACTUAL_INDEX.md) records native44760 completion once, one cappedCPU integrity PASS and durable acceptance before exact own exited stop. [Local source-only V1 negative/V2 repair](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/ACTUAL_INDEX.md) adds no fit/support beyond that actual one. [AllThree exact binding/source/launch](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/ACTUAL_INDEX.md) is the final authorized fit;14actual predecessor receipts, parent@ep3-only initializer and fresh serial gates. [Early startup](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/README.md) preserves setup fields without claiming owned VRAM/completion/quality. [Continuation](../../campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) and [publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_NLL_ALLTHREE.json) join evidence and append-only costs. Comparison6started/5completed, prerequisites5 separate; no further fitting queue.
 
+
+
 ---
+
+
 
 [Conditional NLL CPU packet](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/SUPPLEMENT_INDEX.md) is locally source-reviewed with eight focused gate fixtures, accepted six-code root binding and literal-interpreter V2 proof. [Final fixed allthree packet](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/SUPPLEMENT_INDEX.md) is locally source-reviewed with four focused fixtures, actual-NLL accepted-stop gates and only runname/base→ema_sparse argv changes. Actual terminal evidence and both executable bodies are absent; no B staging/support/newfit/queue/quality. [Continuation](../../campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) owns strict exit→CPU acceptance→exact stop→serial final-arm admission.
 
+
+
 ---
+
+
 
 [NLL terminal consumer preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/SUPPLEMENT_INDEX.md): exact six-file closure, source-only review, root dependency binding and narrow V2 literal-interpreter import proof are local; actual native exit/admission/acceptance/stop remain pending. V1 resolved-interpreter provenance gap is preserved, no B action/extra fit/quality. The conditional CPU packet is being finalized without early staging or unchanged suite replay.
 
+
+
 ---
+
+
 
 [NLL rare status01:01UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/status_20261021T0101Z/README.md): five native complete epochs/37300updates/3730batches/zero skips/nonfinite, same active owned GPU; later progress is not terminal or quality. Own/parent events unchanged, runfiles stat-only. Needed thin terminal consumer/conditional cappedCPU packet is LOCAL/in progress, no B staging/support/newfit/restart/stop. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_NLL_HEALTH_TERMINAL_PREP_0101.json) preserves metadata/source-review scope; next focused exact-unit observation01:40UTC+.
 
+
+
 ---
+
+
 
 [NLL rare health00:01UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261021T0001Z/README.md): same active owned worker, completed epochs0–2 / 22380updates / 2238batches / zero skips/nonfinite; later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only, no support/newfit/restart/stop/checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_NLL_HEALTH_0001.json) binds exact raw/navigation with zero ledger rows/fits/quality; next rare observation21October00:50UTC+.
 
+
+
 ---
+
+
 
 [NLL rare health23:02UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261020T2301Z/README.md): same active owned worker, completed epoch0 / 7460updates / 746batches / zero skips/nonfinite; later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only, no support/newfit/restart/stop/checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_NLL_HEALTH_2302.json) binds exact raw/navigation with zero ledger rows/fits/quality; next rare observation21October00:00UTC+.
 
+
+
 ---
+
+
 
 [Dictionary full acceptance and exact owned stop22:02UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/exact_stop/README.md) preceded [actual NLL-only launch22:07UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/README.md). One serial GPU worker/aggregate2CPU, common parent and target; comparison5started/4completed of6, allthree unadmitted. [Continuation](../../campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs raw-first lifecycle/resource gates and quiet rare health. No quality comparison yet.
 
+
+
 ---
+
+
 
 [Dictionary native completion21:33UTC, captured21:50](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_native_capture_v1/README.md): one raw-first exact-invocation observation/strict typed exit0/six histories44,760updates, independently metadata-audited. Actual CPU integrity acceptance and exact owned stop pending; local V1 body blocker never reached B. [Continuation](../../campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs narrow V2 repair/fresh CPU gates and later NLL-only serial admission. No quality endpoint.
 
+
+
 ---
+
+
 
 [Dictionary rare health21:14UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2114Z/README.md): same owned active worker, five complete epochs/37,300updates/3730batches/zero skips/nonfinite. Later line not current totals, terminal or quality; events unchanged, tensor files stat-only. Needed LOCAL thin checker/conditional admission preparation is distinct from B execution; actual typed native exit0 remains required, no new fit/support/restart/stop/inference.
 
+
+
 ---
+
+
 
 [Dictionary direct-request health20:16UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2016Z/README.md): three completed epochs/22,380updates/2238batches/zero skips/nonfinite; the later line is not synchronous current totals, terminal or quality. Same owned worker, no new memoryevents, tensors stat-only. [Validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_2016.json) preserves one raw transport and navigation with zero ledger rows/fits/supports. Checker stays unprepared; no early B staging/payload reads.
 
+
+
 ---
+
+
 
 [Dictionary rare health19:31UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T1913Z/README.md): same active owned worker, two complete epochs/14,920updates/1492batches/zero skips/nonfinite; later line not current totals/native terminal/quality. Memoryevents unchanged, tensor files stat-only, no new job/action/checker preparation or unchanged source/model/profile test. [Health validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_1931.json) preserves raw bytes/navigation with zero ledger rows/fits; actual typed-exit gate unchanged.
 
+
+
 ---
+
+
 
 **20 October18:10UTC:** [Dictionary-only third child actually launched](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/README.md) once on the selected GPU, after [EMA full integrity acceptance](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/TERMINAL_ACCEPTANCE.json) and [exact owned stop](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/exact_stop/README.md). Parent@ep3 remains the initializer; only name and EMA→sparse input representation change, shared dictionary is reused. One owned GPU/aggregate2CPU, two later arms unadmitted; no quality endpoint/gain or automatic queue. [Current continuation](../../campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) controls startup/rare health and strict native-exit gates. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_EMA_DICTIONARY.json) binds raw transports, failures, actual PASS/stop/launch, append-only accounting and navigation.
 
+
+
 ---
+
+
 
 [EMA rare health16:51UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/README.md): same active worker, completed epochs0–4/37,300updates/3,730batches/zero skips/nonfinite; later line not current totals/native terminal/quality. Memoryevents unchanged, tensors stat-only, no new job/action or unchanged checker/source/model/profile test. [Health validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1651.json) preserves raw bytes/navigation with zero ledger rows/fits; existing local checker and actual-exit gate are unchanged.
 
+
+
 ---
+
+
 
 [EMA rare health15:51UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1551Z/README.md): same active worker, completed epochs0–3/29,840updates/2,984batches/zero skips/nonfinite; later line not current totals/native terminal/quality. Memoryevents unchanged, tensors stat-only, no new job/action or unchanged checker/source/model/profile test. [Health validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1551.json) preserves raw bytes/navigation with zero ledger rows/fits; existing local checker and actual-exit gate are unchanged.
 
+
+
 ---
+
+
 
 [EMA health14:40UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1440Z/README.md): same active worker, completed epochs0/1 totals14,920updates/1,492batches/zero skips/nonfinite; later log line is not current totals/terminal/quality. [EMA-specific terminal checker](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/README.md) and [root closure binding](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/ROOT_PREPARATION.json) are local-only; actual typed exit0 and fresh reviewed cappedCPU gates precede B staging/execution, acceptance and exact stop. [Validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_EMA_HEALTH_TERMINAL_PREP_1440.json) adds no ledger rows/fits; unchanged suites were not repeated.
 
+
+
 ---
+
+
 
 [EMA rare health, 20 October13:51UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1351Z/README.md): same active worker, completed epoch0 counters/7,460updates/zero skips/nonfinite, later line not current or terminal totals/quality. Memoryevents unchanged; tensor files stat-only, no new job/action. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1351.json) preserves new raw metadata/navigation with zero ledger changes or fits; unchanged model/source/profile checks were not repeated.
 
+
+
 [EMA32 second child actual launch, 20 October 13:04 UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/README.md): one owned GPU worker after full CONTROL acceptance/exact stop, fresh gates and [independent source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_EMA_FIT_SOURCE_REVIEW_V1.json). Same parent/norm/dictionary/seeded batches/T3 target; only causal input history changes. Expected six-epoch counters are not completion or quality; three later fixed arms remain unadmitted.
+
+
 
 [CONTROL full integrity acceptance and closure, 20 October 12:58 UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/README.md): the [direct human exception](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/HUMAN_PATH_COMPAT_EXCEPTION_AUTHORITY_V1.json) preceded one [successful V3](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_verification_v3/README.md). [Durable acceptance](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/TERMINAL_ACCEPTANCE.json) precedes the [later exact stop](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/exact_stop/README.md); failed supports remain preserved. Actual44,760updates/finiteFP32/AdamW/RNG/source/ancestry passed; observer metadata audit is not model replication or quality. EMA-only binding is local at this snapshot.
 
+
+
 ---
+
+
 
 [Final CONTROL integrity gate, 20 October 12:48 UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/README.md): actual native completion and two preserved support failures; the final exact-path decoder retains weights_only=True and all checks. [Independent source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_VERIFIER_SOURCE_REVIEW_V3.json) passes local source only, conditional on the [one pending direct-human exception](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/HUMAN_EXCEPTION_REQUEST_PENDING_V1.json). No V3 B staging/execution, full model/state acceptance, native stop, successor or quality endpoint. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_CONTROL_INTEGRITY_PATH_GATE.json) binds raw receipts, local proposal and append-only accounting.
 
+
+
 ---
+
+
 
 [CONTROL V2 safe-unpickler failure](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_verification_v2/README.md) preserves actual exit1 and source-qualified canonical PosixPath origin. Native44,760-update training is unchanged; full state integrity remains unaccepted. Failed supports stay preserved and no successor has run. A local exact-path primitive compatibility proposal must explicitly state its one-name safe-global exception; weights_only=False and generic Path allowance remain excluded.
 
+
+
 [CONTROL verifier V1 metadata-contract failure](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_verification_v1/README.md): one actual fresh CPU admission passed; the checker then exited1 before tensor loading because body identity lives in separate root acceptance, not the launch receipt. Native fitting/weights are unchanged, failed source/unit/receipts preserved. Narrow source-qualified repair is required before full acceptance/exact stop/EMA admission; no quality conclusion.
+
+
 
 [CONTROL post-exit CPU admission packet](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v1/README.md) binds actual native exit evidence to the unchanged restricted checker and fresh source/ownership/resource gates. Focused adapter fixtures pass; execution status belongs to actual records. [EMA successor preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_fit_v1/README.md) remains conditional on actual CONTROL acceptance/exact stop, preserving the fixed comparison and all shared inputs.
 
+
+
 [CONTROL native completion captured20October08:54UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_native_capture_v1/README.md): exact native exit0 at08:40:45UTC, six epochs/44,760updates/4,476batches/zero native skips/nonfinite. [Resource reconciliation](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/NATIVE_RESOURCE_RECONCILIATION.json) separates serviceCPU/MemoryPeak and unavailable terminal own cgroup. Model/state integrity and exact stop are pending; no quality endpoint.
+
+
 
 [CONTROL bounded health20October08:24UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0824Z/README.md): same active invocation, five completed epochs/37,300updates, one owned worker and zero new memoryevents. Later log progress does not establish terminal or quality; tensors are stat-only. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_CONTROL_HEALTH_0825.json) adds zero fits/supports/ledger rows; checker/source/model/profile checks were not repeated.
 
+
+
 [CONTROL bounded health20October07:25UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0724Z/README.md): same active invocation, three completed epoch records/22,380updates, one owned GPU worker and no new memoryevents. Later log progress is not a current update total or quality endpoint; real run files were stat-only. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_CONTROL_HEALTH_0725.json) adds no fit/support/ledger rows. Existing checker/source/profile tests were not repeated.
+
+
 
 [Needed CONTROL terminal integrity preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/README_CHILD_CONTROL_TERMINAL_CHECK_V1.md) is local/source-reviewed only, with [root dependency binding](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_ROOT_PREPARATION_V1.json). The same CONTROL fit remains untouched; no support job, model read or exact stop was performed. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_CONTROL_HEALTH_TERMINAL_PREP.json) adds no ledger rows/scientific fits.
 
+
+
 [Full-GRU parent accepted and exact-stopped,20October05:00UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/README.md): actual29,840updates/2,984batches, finiteFP32model+AdamW/loader/RNG/source167/cache/normalizer and clean ancestry passed restricted V3 verification; [exact stop](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/exact_stop/README.md) excludes preserved failed supports. [Resource reconciliation](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/RESOURCE_RECONCILIATION.json) separates service CPU/wall/MemoryPeak scopes. No child/control/tweak quality endpoint or gain.
+
+
 
 - [Full CONTROL bounded health06:15UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0614Z/README.md): dated completed epoch0 counters and one owned GPU worker; no terminal, payload read or quality claim.
 
+
+
 - [Parent completion and CONTROL launch publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_PARENT_CONTROL.json): raw byte integrity, source/review bindings, new links and append-only ledger costs.
+
+
 
 - [First full CONTROL GRU fit launch](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/README.md): parent/profile accepted and stopped, one new child fit active; no quality endpoint.
 
+
+
 - [Accepted all-three child shape profile](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/README.md): one GPU, accepted shared parent, 60 finite updates, exact inheritance/zero-extension, accepted and exact-stopped; no quality score.
 
+
+
 # Execution, incidents, and preservation
+
 
 
 [CPU cache V1 failure and versioned repair](../../campaign_2026-10-19/full_gru_tweaks_r1/records/README.md) preserve the pre-payload 166,192-byte provenance-cap failure (not OOM), the source-only review, and the create-only 167-file source stage. [CPU cache V2 actual records](../../campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_cpu_build_v2/README.md) group the raw response/transport with byte-matched decoded [ADMISSION](../../campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_cpu_build_v2/capture/ADMISSION.json), [LAUNCH](../../campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_cpu_build_v2/capture/LAUNCH.json), [unit log](../../campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_cpu_build_v2/capture/unit.log), and [metadata](../../campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_cpu_build_v2/capture/METADATA.json), then the root acceptance, resource reconciliation, exact stop, and independent terminal audit. The capped CPU builder completed the six input integrity checks and fit-only cache construction under the recorded limits; output arrays remain B-only/producer-hash/stat-only, with zero scientific fits or quality score.
@@ -192,7 +351,6 @@
 [R7 exact CPU pair execution](../../campaign_2026-10-19/idea_screens_r7/records/README.md) records one successful invocation, durable raw capture then exact stop01:54:16UTC,0new parent/F3 events and untouched existing deep continuation. [Resources](../../campaign_2026-10-19/idea_screens_r7/RESOURCE_RECONCILIATION.json) distinguish unit CPU/MemoryPeak from helper/RSS observations. Empty terminal ControlGroup correctly has no own-unit evidence; NPZ is stat/producer-bound only, never read/copied to Mac.
 
 [R6 exact CPU execution](../../campaign_2026-10-19/idea_screens_r6/records/README.md) preserves two pre-gradient startup failures and the corrected successful16window invocation. Raw receipts precede exact exited-unit stop;0new parent/F3memory events. An empty terminal ControlGroup produced one invalid unscoped root-cgroup object, explicitly excluded from own-unit event inference. No arrays/model/gradient payloads moved to the Mac. [Resource reconciliation](../../campaign_2026-10-19/idea_screens_r6/RESOURCE_RECONCILIATION.json) separates the memory scopes.
-
 
 [R2 V2 completed capture](../../campaign_2026-10-19/idea_screens_r2/records/attempt_v2/terminal_capture/README.md) preserves159.873s wall/79.903s CPU,745152KiB process maxRSS, all six completed views and exact exit0/stop after capture. [V1 failure](../../campaign_2026-10-19/idea_screens_r2/records/r2-terminal-capture-20261018T2232Z/README.md) was import-only from an incomplete package copy; no data/fit or OOM. Scientific sources and caps were unchanged in the corrected full-closure staging.
 
@@ -234,7 +392,6 @@
 
 [F1/seed1001 completed pair and accepted collection](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json): independently verified endpoints and canonical grade, wide 0.66132919 versus deep 0.66169479 with conditional interval crossing zero. R2 collection, final-path verification and independent acceptance are complete; the R1 source-map failure remains preserved. This is the second cell, not CP30 or public evidence. The later [accepted strong-control result](../../campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r4/records/RESULTS.md) closes the earlier preflight/export/grade work; do not rerun it.
 
-
 - [Beleriand access restored and bounded diagnostic completed](../../campaign_2026-10-18/quality_gap_r1/CONTINUATION_20261018T1440Z.md): SSH works again; existing F1 deep training continued without restart and reaches epoch 5 with zero new memory events. The residual analysis, historical plot capture and exact propensity recovery all exited zero and were collected before their own units were stopped. The 14:40 note said compatibility preflight waited for F1; that snapshot was superseded by the CPU preflight started at 15:22 UTC ([run packet](../../campaign_2026-10-18/quality_gap_r1/export_preparation/preflight_execution_r2/README.md)).
 
 - [Quality-gap follow-up and Beleriand access incident](../../campaign_2026-10-18/quality_gap_r1/README.md) — completed 35 MB checkpoint recovery and additional propensity restoration, collected plot and measured CPU residual diagnostic, preserved F1 training and historical post-13:49 SSH banner timeout evidence. Access is now restored; current health is tied to the new raw observation.
@@ -264,11 +421,9 @@
 - [Rank1 F0 paired result and archive](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F0_S1001_RESULT.json): six epochs per arm,89,520 successful updates each, independently verified checkpoints and hash-bound predictions/grade. Wide leads by0.001466984 on one exposed fold; conditional CI crosses zero, so no CP30/convergence/transfer claim. [Detailed evidence index](../../campaign_2026-10-18/priority25_execution_r4/receipts/README.md) links raw grade, sidecars, independent interpretation, helper sources and preserved support failures.
 - [F1 admission and actual initial optimizer progress](../../campaign_2026-10-18/priority25_execution_r4/receipts/F1_INITIAL_PROGRESS_20261018T0805Z.json): wide stage1 reaches epoch0 batch140/1493 on one campaign GPU worker. Full data/source/runtime preflight and reviewed F1 checkpoint tooling support the same-provider pair. The [admission](../../campaign_2026-10-18/priority25_execution_r4/receipts/F1_BELERIAND_ADMISSION_V1.json) binds plan/resource/cell claims; [provider reconciliation](../../campaign_2026-10-18/priority25_execution_r4/receipts/PROVIDER_CELL_RECONCILIATION_20261018T0740Z.json) keeps DataSphere retries closed while its incident persists and leaves F2 requested at issue16.
 
-
 - [07:10UTC ranked25 heartbeat](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0710Z.json): healthy deep epoch5 batch1020/1492 with zero memory events. Latest archive remains epoch4; no provider recovery, cluster claim, duplicate job or new quality result.
 
 - [F1 checkpoint support preparation](../../campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/checkpoints/README.md) and [independent review/testing receipt](../../campaign_2026-10-18/priority25_execution_r4/receipts/F1_CHECKPOINT_SUPPORT_REVIEW_20261018.json): separate F1 counters, source/data identity, Adam and continuation checks are prepared. All12 root-local synthetic tests pass; a CUDA-hidden server fixture also passes under50%CPU/1.5GB/120s. This is helper validation only; no F1 checkpoint, fit, score or CP30 result. Frozen F0 training continues unchanged.
-
 
 - [Deep epoch3 collection and epoch4 progress](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0610Z.json), with [raw artifact hashes](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_DEEP_F0_S1001_E6_EP3_COLLECTION.json):59,680 producer-reported updates and zero skips/nonfinite; stable generation/source-copy hashes pass. No repeated tensor check. Healthy one-GPU training continues, cloud/cluster access shows no new capacity and paired quality remains pending.
 
@@ -282,7 +437,6 @@
 - [Rank1 wide terminal endpoint and deep handoff](../../campaign_2026-10-18/priority25_execution_r4/receipts/WIDE_TERMINAL_HANDOFF_20261018T0410Z.json): wide completed six epochs and independent structural checks at89,520 successful updates with zero skips/nonfinite. Seven evidence/artifact files are archived; deep continuation starts automatically under the frozen plan. Prediction grading, paired quality and CP30 remain pending.
 
 - [Rank1 terminal endpoint preparation](../../campaign_2026-10-18/priority25_execution_r4/receipts/TERMINAL_ENDPOINT_PREPARATION.json): reviewed collector/verifier and pinned dependencies are staged with bounded future commands;14 local tests passed. No actual terminal checkpoint check or quality result is claimed.
-
 
 - [Wide epoch3 archive and03:10UTC continuation](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0310Z.json): source/copy checks preserve the next continuation generation, with59,680 producer-reported updates and no skips/nonfinite. Epoch4 remains healthy on the sole campaign GPU; no repeated structural check, quality claim, paid retry or cluster admission. The linked [collection receipt](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_WIDE_F0_S1001_E6_EP3_COLLECTION.json) binds all three archived artifacts and the unchanged collector.
 
@@ -308,10 +462,71 @@
 
 - [F1 DataSphere adapter preparation](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_F1_ADAPTER_PREPARATION.json) — canonical six-epoch pair adapter with bounded collection, partial state and embedded SHA verification;15 offline checks pass. No F1 cloud run is admitted. [Full v2 error reconciliation](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_PROFILE_V2_FULL_ERROR_RECONCILIATION.json) finds no further server detail and motivates a separate no-op diagnostic.
 
+- [October21 next local/Kaggle cycle](../../campaign_2026-10-21/next_cycle_r1/README.md) — accepted new 30-hour allocation and durable frontier, saved-artifact recovery then six-fit i1 and four-fit dynamics screens; conditional strong-parent/production work, no new result at entry. Supersedes prospective priorities, preserves prior costs/evidence.
+
+- [B16 offline F1 artifact recovery](../../campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/README.md) — code-only recovery for the completed 44,760-update fit whose R2 postfit helper expected an initialization digest absent from pinned trainer source 68ff. It preserves that digest as unavailable, revalidates cold-start/source/membership/checkpoint evidence, derives SWA345 from immutable CP3/4/5, then reuses the frozen five-endpoint score panel through a separate acceptance and grade. No recovery or score has run.
+
+- [Replicated B300 CP5 exploratory submission](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#user-authorized-exploratory-cp5-submission) — user-authorized17.106MBH512-in-TL3 ZIP released with staticABI and actualPython3.11 finite/reset checks. Matching B300 score reproduced; lower component-blend evidence and absent full served-endpoint grade remain explicit. Earlier native guard omitted the128byteNPYheader. No portal upload/public result.
+
+- [Postfit Linux page-alignment recovery](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#completed-fit-and-page-alignment-recovery-october21) — six-epoch local fit succeeded; original launcher rejected a512byte page-rounded cgroup-cap difference before exports. Separate pinned recovery now exports predictions and rebinds the fixed native evaluation waiter. No new fit, increased allocation or quality result. Original failure retained.
+
+- [B16 completed fit and postfit identity failure](../../campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/README.md#version2-terminal-fit-saved-postfit-provenance-gate-failed) — actual provenance records44,760 completed optimizer updates, zero AMP skips and saved checkpoints. Terminal collection preserves206files/95.2MB. Export stopped because the frozen trainer did not emit the initial-parameter identity required by its postfit validator; root is diagnosing a source-qualified offline recovery. No prediction exports, validation score or new submission yet; no new provider run.
+
+- [Legacy timer admission closure](LEGACY_TIMER_ADMISSION_CLOSE_20261021_R1.json) — source/receipt review identified six completed or stopped polling/queue timers and an old Vast tick capable of admitting new work. Root verified inactive child services, stopped and disabled all seven, and preserved the current fit and collectors. This reduces background work and enforces the no-paid-compute cycle; it does not certify remote Vast ownership/collection teardown. Parent limits remain two CPUs,5GBRAM,zero task swap.
+
+- [B16 upload omission and transport correction](../../campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/README.md#transport-failure-and-explicit-correction) — source upload omitted the required bundle manifest; kernel v1 failed before profile after1.29seconds, consuming7.673providerseconds. Root diagnosed the exact missing file and authorized one separate repair requiring remote hash verification of both archive and manifest. No negative model-quality evidence.
+
+- [B16 resource-adapted F1 preparation](../../campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/README.md) — uses the successful B8 profile cost evidence to propose a fresh batch-16 profile and conditional six-epoch fit. Exact clean source, raw/cache identities and 15,500-second cap are prepared; no launch admitted yet. Batch and update-clock differences preclude an identical-arm cross-fold claim.
+
+- [Kaggle F1 successful profile / cost skip](../../campaign_2026-10-21/kaggle_h512_conditional_f1_r1/README.md#terminal-profile-result--supersedes-running-snapshot) —40finite strictFP32updates and exactinput checks passed; B8sixepochrecipe projects19,429seconds beyond16,000cap, so nofitstarted. ProviderERROR is wrappermissingartifacts, notprofilefailure ornegativequality. Actualworkerreceipt and independent staticreview retained; B16adaptation preparation is separate and unadmitted.
+
+- [Admitted Kaggle F1 execution](../../campaign_2026-10-21/kaggle_h512_conditional_f1_r1/README.md) — clean68ff worker, exact R2 bundle downloaded and hash-verified after private dataset upload; kernel version1 provider-confirmed RUNNING at00:43:43UTC. One profile-first attempt under16,000seconds and refreshed quota; no fit progress or quality established. Preserves original proposal/preparation and separate actual admission/reseal/launch observation.
+
+- [Kaggle F1 prelaunch source drift](KAGGLE_F1_SOURCE_CLOSURE_INCIDENT_20261021_R1.json) — independent review found5of6declared source pins mismatched in the preparation checkout (60changed canonical files overall), including the strict-FP32 runtime branch. No third cloud job had launched. Operator is rebuilding from clean68ff; the healthy local fit uses the correct frozen source and remains active. This is preparation evidence, not a model-quality result.
+
+- [Kaggle H512 terminal setup evidence](../../campaign_2026-10-21/kaggle_h512_profile_r1/README.md) — two bounded private engineering attempts ended before model setup: the first timed out during input preparation; the second verified both raw files then found missing structural split caches. Zero finite training updates, no quality evidence. Combined provider charge798.775seconds;17,277.652seconds remain. Both terminal collections, machine allocation and exact repair are preserved; no third run admitted.
+
+- [H512 12-hour runtime amendment](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/THERMAL_BUDGET_AMENDMENT_R2.json) — sustained1.9sequences/s and thermal throttling make9hcap insufficient. Extends the same live invocation, preserving six-epochCP5 and15haggregate budget including25minpostfit plus stop grace. No all-data fit admitted.
+
+- [Runtime memory-limit reload repair](../../campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/AGGREGATE_LIMIT_RELOAD_REPAIR_R2.json) — a daemon reload restored the legacy20GB ceiling after immediate runtime enforcement; cache-inclusive usage briefly reached5.87GB. Root reclaimed inactive cache and installed a later-named runtime override. The5GBcap now survives reload; no task swap, OOM or kill occurred.
+
+- [H512 sustained thermal limit](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#sustained-thermal-limitation) — NVIDIA reports software thermal throttling at 89°C and approximately 400 MHz during the admitted local fit. Short-profile estimates are optimistic; root is reassessing sustained cost and final-fit capacity. No GPU settings changed.
+
+- [Aggregate allocation enforcement](../../campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/AGGREGATE_LIMIT_ENFORCEMENT_R1.json) — runtime parent research slice now enforces the latest5GBRAM, twoCPU, zero-task-swap contract; stale20GBceiling reduced after inactive-cache reclaim. No processkill/globalswapchange; applies to active local jobs.
+
+- [Kaggle delivery readiness, October21](../../campaign_2026-10-21/kaggle_delivery_readiness_r1/README.md) —5.0212GPU-hours unreserved, matching public dataset sizes and local F1assets. T4 bundle requests two devices; single-device availability and charging unverified. No cloud job admitted; private asset staging and actual-shape cost remain prerequisites.
+
+- [Completed local WMSE/NLL fits and corrected export](../../campaign_2026-10-20/submission_delivery_r1/nll_adaptation/README.md#both-fits-completed-corrected-export-attempt) — both fixed fits succeeded,14920updates each, matched sampling/normalization, no nonfinite gradients/skips. Records the pre-export path-binding failure and corrected R2 actual preflight pass; quality scores remain pending.
+
+- [Conditional H512 local cost profile](../../campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/README.md) — exact derived R01 wide-arm profile, declared source adaptation and unresolved local cost. Uses partial B300 width evidence; NOT_ADMITTED, with zero quality fits and no unsupported4h+4h budget assumption.
+
+- [Refreshed Kaggle quota, October21Kyiv](../../campaign_2026-10-20/submission_delivery_r1/KAGGLE_QUOTA_REFRESH_20261021_R1.json) — read-only provider evidence of5.02unreserved GPU-hours and zero provider reservations, refreshingOctober24UTC. No cloud job or upload; device/billing/other-owner checks remain before admission.
+
+- [Conditional F1 NLL follow-up](../../campaign_2026-10-20/submission_delivery_r1/nll_followup_f1/README.md) — exact prospective seed4 WMSE/NLL commands, two total new fits, compatible parent/cache metadata and source pins. NOT_ADMITTED pending F0 results; distinguishes full-data target/head adaptations and unmeasured export cost.
+
+- [Overnight submission delivery](../../campaign_2026-10-20/submission_delivery_r1/README.md) — user authorizes completed-model evaluation, useful bounded training and a new ZIP. Latest user steering selects a local H256×2 WMSE/NLL pair; two profiles passed, and the [WMSE control completion receipt](../../campaign_2026-10-20/submission_delivery_r1/nll_adaptation/control_terminal_progress_r1.json) records two epochs in4249.17seconds with14920completed updates and no nonfinite gradients. The [first NLL epoch diagnostics](../../campaign_2026-10-20/submission_delivery_r1/nll_adaptation/nll_epoch0_diagnostics_r1.json) confirm matching sampling/normalization identities and finite updates, but substantially stronger clipping (mean factor0.0418). NLL fitting remains active; predictive scores are pending. Native EMA/precision support and v2/v3 binaries are prepared. No new quality score or submission claim. Existing local resource limits and 15 GPU-hour ceiling remain.
+
+- [October 19 Kaggle readiness](PLATEAU_KAGGLE_READINESS_20261019_R1.md) — read-only account snapshot from the existing project SDK: about 5.02 GPU quota-hours remain, zero provider reservations, and no running/queued kernels among 29 recent runs. Records working environment and existing bundle/worker paths; no install, upload or job. Availability and separate agent reservations must be rechecked at actual admission.
+
+
 
 Execution status, storage locations, preservation receipts and operational incidents.
 
+
+
+- [Research stop and graceful drain (2026-10-18)](RESEARCH_STOP_20261018_R1.md) — records the user's no-new-jobs instruction, the closed local admission barrier and completed drain, no terminated healthy process, the one remote run last seen active, and the terminal-collection-only rule. It supersedes the earlier overnight continuation authority.
+
+
+
+- [Groupwise fast/slow Kalman feature profile](GROUPWISE_FAST_SLOW_FEATURE_PROFILE_20261018_R1.md): exact one-sequence feature/ridge profile completed with a 1.122 GB worker peak under a 2 GB no-swap reservation, 5.02 seconds, and zero worker or parent memory-event deltas. It contains no score; the full cross-fit requires fresh aggregate admission.
+
+- [Recurrent groupwise-state profile and execution](../../campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/README.md): exact B8/20k profile peaked at 4.052 GB under a 4.5 GB cap and logged high-water pressure, with zero max/OOM/kill deltas; serialized paired fits and prediction exports completed under the current caps. The packet binds all controller attempts and checkpoint/prediction hashes. This resource record supports safe reproduction, not model quality.
+
+
+
 ## Current navigation
+
+
 
 - [DataSphere pre-execution incident and collection](../../campaign_2026-10-18/priority25_execution_r4/receipts/DATASPHERE_PROFILE_V2_TERMINAL_INCIDENT.json) — the first admitted A100 profile endedERROR with server code13 before a reported start/instance allocation. Provider file manifests are empty; the controller's COMPLETE phase means the collection command ended, not a successful profile. Historical CPU/GPU failures support withholding an unchanged retry; numeric spending authority remains granted. The credential was removed and no v3 job started. [Beleriand health](../../campaign_2026-10-18/priority25_execution_r4/receipts/HEARTBEAT_20261018T0005Z_BELERIAND.json) preserves actual batch progress and the one-GPU limit.
 
@@ -335,246 +550,500 @@ Execution status, storage locations, preservation receipts and operational incid
 
 - [R1 no-fit research publication](../../campaign_2026-10-17/research_reset_r1/publication/README.md) — dated receipt of shared repair/evidence on research-team and25proposal branches with exact refs. That session lacked gh API authentication. Subsequent upstream0f479660 incorporated R1 into main/research-team; the later [R2 publication record](../../campaign_2026-10-17/research_reset_r2/PUBLICATION.md) records the updated integration boundary.
 
+- [Research admission resume review (2026-10-18)](RESEARCH_RESUME_REVIEW_20261018_R1.md) records the later user instruction that resumes local research, the audit of 535 historical attempts with no active or unresolved jobs, and the unchanged two-core/5 GB/no-swap/no-paid-compute limits. The earlier October 15 stop is retained as an archived barrier, not treated as current authorization.
+
+- [Local train Parquet metadata OOM (2026-10-18)](LOCAL_TRAIN_PARQUET_METADATA_OOM_20261018_R1.md) records a real OOM in a 1 GB bounded child scope while parsing the unknown-size train footer, the propagated campaign-slice counter increase from 3/3 to 4/4, and the no-retry rule for this screen. No row group, target, mask, or feature payload was read by the failed command.
+- [P2 innovation-clock source audit (2026-10-18)](P2_INNOVATION_CLOCK_SOURCE_AUDIT_20261018_R1.md) records that available caches contain only first-99-row summaries or a plot, not a full row-level feature stream. It preserves a bounded, size/footer-pinned future route without retrying the OOM path; no feature payload, target or mask was read by the audit.
+
+- [Local probe / B300 scope change](../../campaign_2026-10-18/quick_geometry_probe_r1/README.md) — latest user cancels the multi-day local matrix, requires a newly trained ZIP within two hours, and moves deep confirmation to a teammate 8×B300 draft PR. R4 is stopped with history preserved; bounded short-pair admission and delivery are owned by root.
+
+- [No-fit research publication](../../campaign_2026-10-17/research_reset_r1/publication/README.md) — shared repair/evidence published on research-team and25proposal branches; exact refs verified. GitSSH succeeds, while gh API authentication is absent; main promotion PR remains prepared.
+
+
+
 - [Prediction/cache repair and deployment](../../campaign_2026-10-17/research_reset_r1/bugfix/README.md) — four legacy files deployed on beleriand with hash-bound backups, full-cache provenance/finite checks and canonical-metric four-sequence replay. Seven new regression tests; no competition-data fits. E-RR17-ZERO-I1-REPLAY establishes a specific export failure, not leaderboard uplift.
 
+
+
 - [Storage map](STORAGE_MAP.md) — local, GitHub, beleriand, archive and private Hub locations, with coverage and identity limits.
+
 - [Research pause closeout](RESEARCH_PAUSE_20261015_R1.md) — the latest recorded research pause; no fitting is resumed by repository maintenance.
+
 - [Main maintenance receipt](MAIN_MAINTENANCE_20261017.md) — structural changes, compatibility fixes and the exact scope of code verification.
+
+- [R4 local admission and monitor budget](R4_LOCAL_ADMISSION_AND_MONITOR_BUDGET_20261018_R1.md) — records the transient two-core admission collision with the periodic read-only monitor and its reduction to a 20% CPU quota while retaining five-minute status checks. No R4 fit had started when recorded.
+
 - [Maintenance verification data](MAIN_MAINTENANCE_20261017.json) — commands, software versions, source hashes, test results and limits for the integrated change.
+
 - [Maintenance check log](MAIN_MAINTENANCE_20261017.log) — full local check output, with checkout paths normalized; includes two data-dependent skips and NumPy warnings.
 
+
+
 For active status, start with [current state](../../../specs/current-state.md).
+
 The dated entries below retain their original descriptions and links. Their
+
 “pending”, “active” and authorization statements reflect their recording time;
+
 use a later result receipt or the current audit to establish final status.
 
+
+
 <details>
+
 <summary>Dated index preserved before the October 17 maintenance</summary>
+
+
 
 - [Student profile overlap authority R3](../../campaign_2026-10-15/student_shape_pair_f0_r1/PROFILE_OVERLAP_AUTHORITY_R3.json) removes an internal all-peer-idle gate for the already-budgeted R4 resource profiles while an unrelated CASMI kernel runs. Fresh5400-second available quota/private-source checks remain; no unrelated cancellation, paid action or full-fit admission. Record contention rather than treating it as architecture evidence.
 
+
+
 ## Stable Git evidence during live replays
+
+
 
 [Versioned replay snapshot](../../campaign_2026-10-13/team_models_r1/runtime_snapshot_r1/README.md) preserves the current useful telemetry while four admitted CPU replays keep running. Mutable logs/progress and pending output staging are excluded from Git; completed scores and source contracts remain tracked. This implements the user's request for a clean working tree without stopping jobs or discarding evidence. The [score index](../../campaign_2026-10-13/team_models_r1/scores/README.md) identifies completed and pending receipts; root owns terminal collection.
 
+
+
 # Execution, incidents, and preservation
+
+
 
 This domain preserves run delivery, resource safety, incident diagnosis, historical stops and subsequent explicit resumes.
 
+
+
 - [Storage-retention audit (2026-10-17)](STORAGE_RETENTION_AUDIT_20261017_R1.md) measures the ~700.5 GB project tree, distinguishes unique research caches from hard-linked upload staging, inventories 113 Kaggle datasets and their recent kernel references, and ranks what to preserve or consider removing. Its read-only snapshot was followed by the authorized [old prediction-cache prune](CACHE_PRUNE_20261017_R1.md): 463 dated prediction arrays were removed, the best-endpoint/control examples and source data were retained, and `df` showed 111.24 GB more free space. Remote Kaggle/HF objects were untouched; Btrfs snapshot references remain unverified.
 
+
+
 - [QAT delivery preparation R1](../../campaign_2026-10-13/qat_renewable_r1/delivery_r1/README.md) freezes the source-qualified clean-T3 F0 seed-3 CP5 ancestry, nested whole-component fit subsets, matched one-epoch FP32/W4/mixed-W4-W8 profile and fit vectors, and fresh full-valid feature-only evaluation commands. The 10%/30% runs are adaptation diagnostics because parent and teachers saw the complete fit membership; no fits or profiles were run by this actor. Its receipt preserves the TPU V7 unsupported dataset_ref failure and exact narrow V8 repair requirement.
+
 - [Private Kaggle F0 seed-4 QAT cohort packet R1](../../campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r1/README.md) packages matched full-membership FP32, recurrent-W4, and mixed-W4/W8 continuations from audited clean-T3 CP5, with exact F0/cache/propensity pins and a fail-closed actual-mount preflight. The 22 staged asset files (1.972 GB) passed bounded streaming SHA-256 and hardlink identity checks; offline profile/fit bundles are ready for root-owned provider review. No upload, profile, fit or score is claimed.
+
 - [Cloud delivery monitor handoff R1](../../campaign_2026-10-13/qat_renewable_r1/cloud_operator_r1/README.md) binds read-only provider status and typed quota observations to the root-pushed seed4 profile and TPU V8 bridge, with bounded terminal collection paths. The most recent state is profile RUNNING / TPU QUEUED; there are no terminal outputs or scientific findings yet.
+
 - [Seed-4 QAT Kaggle profile recovery R2](../../campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/README.md) preserves R1's actual-input preflight and pre-worker `ERROR`, then records the reviewed R2 cache handoff while retaining the same8GiB reservations and1GB headroom gate. Root has since authorized exactly one private R2 profile attempt after typed quota, cgroup-resource, staged-byte and READY dataset-version checks passed; [admission](../../campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/ROOT_ADMISSION_R2.json) and [push/terminal handoff](../../campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/ROOT_KERNEL_PUSH_R2.json) record provider state. R1 remains preserved; no fit or quality result is implied.
 
+
+
 - [Seed-4 QAT Kaggle profile recovery R2](../../campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/README.md) records the sole root-authorized R2 attempt, actual-data preflight/cache-handoff success, terminal artifact hashes and typed quota correction. FP32 and uniform-W4 both failed cache-root containment before profile updates; mixed-W4/W8 was not started. It gives the exact hash-verified cache materialization correction. This is an execution-path failure, not QAT quality evidence or authority for another attempt.
+
 - [Cloud delivery monitor handoff R1](../../campaign_2026-10-13/qat_renewable_r1/cloud_operator_r1/README.md) preserves the earlier read-only R2 RUNNING / TPU QUEUED snapshot. The later [R2 terminal receipt](../../campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/PROFILE_TERMINAL_R2.json) records the GPU kernel's terminal ERROR, while the [TPU V8 follow-up](../../campaign_2026-10-13/qat_renewable_r1/kaggle_f0_s4_r2/TPU_STATUS_POLL_002.json) remains QUEUED; neither indicates a successful profile or TPU allocation.
+
+
 
 - [October 13 shared-runtime resume](../../campaign_2026-10-13/strategy_execution_r1/RESOURCE_RESUME_R1.json) records the user's renewed authority, original GPU-lock reuse and preserved barrier history. [Independent resource review R2](../../campaign_2026-10-13/strategy_execution_r1/reviews/resource_r2/README.md) passed the first zero-active-worker admission and 55 tests. Active-worker/support overlap uses conservative full reservations because sequential cgroup samples have a remaining race. No model result is implied.
 
+
+
 ## Read these sources
 
+
+
 - [Private HF model archive transfer](../models/huggingface/README.md) — user-authorized private model uploads only, actual access checks, exact-byte verification and per-batch completion receipts; no research admission or new training.
+
 - [October 12 strategy review contract](../../campaign_2026-10-12/strategy_review_r1/CONTRACT.json) — records the retrospective review's deliverable, independent role allocation, evidence limits and zero training/spending budget. It authorizes the review and proposed plan only; experimental admission remains closed.
+
 - [Execution, incidents, and durable preservation](../archive/2026-10-12/pages/08-execution-and-preservation.md)
+
 - [Historical stop authority](../../campaign_2026-10-12/STOP_NEW_RESEARCH_AND_FINAL_ARCHIVE_20261012_R1.json) and [preserved barrier history](../../campaign_2026-10-06/bandit_continuation/runtime/barriers/); the October 13 user resume supersedes new-admission closure for the reviewed strategy campaign.
+
 - [Kill prevention plan](../../campaign_2026-10-12/KILL_PREVENTION_PLAN_20261012.md)
+
 - [Temporary artifact preservation receipts](../../campaign_2026-10-12/research_archive_inventory_r1/)
+
 - [Approved October 13 strategy execution](../../campaign_2026-10-13/strategy_execution_r1/PLAN.md) and [first-cohort F3 clean-T3 teacher packet](../../campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r1/README.md) — identifies the missing exact F3 H384/Muon-all teachers, binds the canonical split and F3 propensity inputs, and stages seed 3 as a locally sealed profile→fit→export Kaggle packet. Its [entrypoint binding](../../campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r1/ENTRYPOINT_BINDING_R1.json) fixes the exact kernel/archive hashes and title-derived slug; the [offline bootstrap fixture](../../../tests/test_f3_teacher_packet_entrypoint.py) executes the real bootstrap against temporary mounts without GPU/data loading. Current quota and resource estimate are recorded in the packet README. R1 was preserved without dispatch and superseded by R2. The predecessor October 12 stop was explicitly superseded by this newer user authorization, which does not authorize paid capacity or change local resource bounds.
+
 - [Quota-bound seed-3 F3 teacher packet successor](../../campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r2/README.md) — preserves the unlaunched R1 packet while correcting seed-level FP32 export arithmetic, binding a quota-derived wall deadline with finite profile/fit/export reserves, and testing the exact generated bootstrap against nested dataset-qualified mounts and the actual split loader. R2 passed root review and was dispatched; its [terminal receipt](../../campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r2/TERMINAL_RECEIPT_R2.json) records a successful ten-batch Tesla T4 profile (4.491GB peak RSS, 3.497GB allocated VRAM) and a subsequent pre-fit reservation rejection. The collected inventory has no weights or predictions; the operator is preparing an operational successor, with no scientific result yet.
+
+
 
 The October12 stop and its terminal-state archive remain preserved as historical records. The user explicitly resumed the strategy campaign on October13; current admission state is owned by the shared resource controller and linked campaign receipts below.
 
+
+
 ## Resumed strategy execution — 2026-10-13
+
+
 
 [Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Amplitude P1 and P2 have finished; the P2 `next_epoch=4` state passed full continuation checks and P3 has fresh shared admission and has advanced through epoch 4 batch 60/746. The [P2→P3 resume gate](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/P2_P3_RESUME_GATE_R1.json), [bounded P2/P3 validator](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/inspect_amplitude_resume_boundary.py), [prepared P3 CP5 validator](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/inspect_amplitude_cp5_boundary.py), [validator failure receipt](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/P2_P3_RESUME_VALIDATOR_FAILURE_R1.json), [P3 input binding](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/P3_PRELAUNCH_INPUT_BINDING_R1.json), [P3 attempt receipt](../../campaign_2026-10-06/bandit_continuation/runtime/attempts/clean-t3-f0-amplitude1-s3-a9-r3-p3-20261013.json) and [P3 worker log](../../campaign_2026-10-06/bandit_continuation/runtime/logs/clean-t3-f0-amplitude1-s3-a9-r3-p3-20261013.log) bind this transition. P1 and P2 ended successfully at validated epoch boundaries. The earlier P1 worker-local receipt and P2 worker-local OOM counters are zero; the one aggregate hierarchical OOM event remains attributed to the separate 400MB S38 metadata-only support-scope failure in its [execution receipt](../../campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/EXECUTION_RECEIPT_R1.json). No amplitude score exists yet. Existing folds remain exposed.
 
+
+
 - [Custom-output prediction alias workflow R2](../../campaign_2026-10-13/strategy_execution_r1/PREDICTION_ALIAS_WORKFLOW_R2.json), [actual producer verification](../../campaign_2026-10-13/strategy_execution_r1/PREDICTION_ALIAS_VERIFICATION_R2.json), [oversized-header regression receipt](../../campaign_2026-10-13/strategy_execution_r1/PREDICTION_ALIAS_HEADER_REGRESSION_R1.json), and [validation helper](../../../scripts/alias_grade_prediction.py) — the full-valid exporter writes under its custom `--output-name`, while the frozen grader consumes a run-name path and checks `sidecar.run`. R2 reads the NPY fixed prefix and declared header length, enforces the bound before reading the header body, then validates the actual NPY, streamed prediction hash, CP5 checkpoint hash, split hash and FP32 metadata before creating no-overwrite hardlinks for the NPY and identical sidecar. Verify-only passed against the actual matched-control producer and its existing aliases; the regression test proves an oversized 10,001-byte header is rejected after exactly12 bytes are read. R1 remains preserved as the superseded helper binding because NumPy's `max_header_size` did not prevent its declared-length read. The new amplitude/S14 outputs still require their own post-export checks.
+
 - [S14 profile-vector correction R2→R3](../../campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_PROFILE_CORRECTION_R2_TO_R3.json) — an exact-command audit found the R2 standalone worker vector still differed from the corrected controller suffix, even though R2's controller parser passed. The R3 packet derives all copies from one worker vector, verifies both trainer-parser paths and binds a 900-second actual-worker timeout; both R2 IDs were absent from shared runtime and remain unused. R3 is still preparation-only pending root review and fresh admission.
+
+
 
 - [Scoped S37 support admission](../../campaign_2026-10-13/strategy_execution_r1/SUPPORT_ADMISSION_BRACKET_R1.json) — five rapid parent/worker cgroup brackets bounded the completed independent averaging verifier at14.976GB, including unused worker reservation, other support and extra1GB uncertainty margin. This implements the existing no-double-counting rule for one coherent observation; unknown worker identity or incoherent samples still require full-reservation fallback. No controller, RAM cap or running source changed.
 
+
+
 - [S14 R3 root profile release](../../campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/ROOT_PROFILE_RELEASE_R3.json) — independently binds both coherent66-file profiles to their matched fit equations. Permits two short actual-device profiles after amplitude and S37 export priorities, conditional on fresh6.5GB/shared-lock admission; no full fit or quality result is authorized by this receipt.
+
+
 
 - [Preserved F3 R3 packet](../../campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r3/README.md) — sealed fit/fit-train recovery plan using the completed R2 T4 profile. Root review withheld dispatch over added inactive-file admission credit; the conservative R4 successor removes it. No R3 provider action or scientific result.
 
+
+
 - [First-wave delivery/cost review](../reviews/STRATEGY_PROGRESS_AND_REALLOCATION_20261013.md) and [quota/inventory](../../campaign_2026-10-13/strategy_execution_r1/README.md) — records the6.74hour fit/export handoff gap after native usage exhaustion, guarded cache handoffs, and a429 from excessive historical status reads. Reuses completed artifacts and narrows provider checks; no score/CPU/RAM caps changed.
+
+
 
 - [Conservative F3 R4 packet](../../campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r4/README.md) — freezes exact code/bootstrap/mount bindings and a6GBfit/fit-train tranche after root rejected R3's inactive-file credit. The84-file archive and82-entry job source bindings passrootchecks; no R4dispatchyet. No science/providergain claimed; rootowns delivery afternativeusage exhaustion.
 
+
+
 - [F3 terminal status correction](../../campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r2/PROVIDER_PIPELINE_STATUS_CORRECTION_R1.json) — preserves the original R2 receipt and separates actual providerERROR from driverblocked_or_failed. The sealed R3/R4 copies already bind that correction; raw inventory/payloads are unchanged.
+
 [Renewable QAT compute authority](../../campaign_2026-10-13/qat_renewable_r1/CONTRACT.json) and [implementation plan](../../campaign_2026-10-13/qat_renewable_r1/PLAN.md), accepted in [ADR0036](../../../specs/adr/0036-qat-renewable-capacity.md), remove proposed 4/2/2-hour allocations and campaign GPU-hour limits. Local/Kaggle execution continues across renewals with5CPU,17GB committed/18-20GB RAM/no swap, one localGPU worker and no paid actions. New quota/resource checks still precede admission; this is authorization, not a run result.
+
+
 
 [QAT entry resource and quota checks](../../campaign_2026-10-13/qat_renewable_r1/README.md) include an open shared runtime with no active attempts and [corrected Kaggle quota](../../campaign_2026-10-13/qat_renewable_r1/KAGGLE_QUOTA_ENTRY_R2.json):9.57GPU/20TPU hours available. The SDK string drops timedelta days; typed `total_seconds()` corrects the initial decision before admission. No new provider job or paid action at this checkpoint.
 
+
+
 [QAT cache handoff](../../campaign_2026-10-13/qat_renewable_r1/COMPLETED_EXPORT_CACHE_HANDOFF_R1.json) reclaimed3.77GB of completed-export file cache using the existing GPU-lock helper, reducing parent memory from12.27GB to8.48GB before profile admission. CPU/RAM/no-swap limits and healthy processes were unchanged; this is execution headroom, not scientific evidence.
+
+
 
 [Actual-data TPU bridge V8 packet](../../campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/README.md) is a source-only successor to the preserved V7 failure. It removes the unsupported portable-registry dataset_ref comparison, retains exact registry/split/file/footer identities and raw Kaggle owner/slug mount checks, and adds an updated-EMA 20,000-row prediction export plus staged-input cleanup. The packet is offline-tested and indexed; TPU runtime/HBM and actual update outputs remain unmeasured until root admits a provider run.
 
+
+
 [QAT actual-data GPU delivery](../../campaign_2026-10-13/qat_renewable_r1/LOCAL_10PCT_EXECUTION_R1.json) binds three successful B16/C1000 FP32 optimizer profiles (100 finite updates each), measured host/VRAM peaks and admitted matched10% commands. The [campaign receipt index](../../campaign_2026-10-13/qat_renewable_r1/README.md) preserves RAM pre-start refusals, the bounded cache handoff and integration checks. Floating continuation is running; W4/mixed follow through one local GPU worker. E-QAT-DEPLOYMENT-20261013-R1; execution evidence only, no QAT gain.
+
+
 
 [QAT TPU V8 admission and push](../../campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/DISPATCH_R1.md) binds the corrected actual-data bridge to fresh20-hour TPU allowance, private version1 kernel, a1,500-second worker/1,650-second parent/1,800-second provider bound and100MB terminal collection. Root owns monitoring and artifacts; shared provider targets include the new handle. Provider QUEUED status is not update/reload evidence.
 
+
+
 [QAT terminal execution receipts](../../campaign_2026-10-13/qat_renewable_r1/RUNTIME_RECEIPTS_R1.md) link original measured GPU profiles, fixed-checkpoint fits and pre-start RAM refusals. The [campaign index](../../campaign_2026-10-13/qat_renewable_r1/README.md) also describes cache handoffs after completed fits. Healthy jobs and physical limits are preserved; completed optimization does not establish a QAT gain.
+
+
 
 ## October 15 per-field age transform profile
 
+
+
 - [Per-field age fixture transform profile](../../campaign_2026-10-15/vast_a_cpu_probe_r1/per_field_age_r1/README.md) records one CPU-only NumPy full-sequence transform pass over the existing hash-pinned runtime fixture, with source-qualified slots and per-output hashes. It does not measure the serving callback, establish a stable comparative throughput result, read targets, or support a prediction-quality claim; no fit or GPU profile was launched.
+
+
 
 ## QAT actual GPU wave and 30% scale follow-up
 
+
+
 - [LOCAL_30PCT_EXECUTION_R1.json](../../campaign_2026-10-13/qat_renewable_r1/LOCAL_30PCT_EXECUTION_R1.json): Frozen matched 30% fit vectors transfer measured B16/C1000 profiles; 219 batches and 4,380 updates per arm, with full sequences and the unchanged final-partial-batch omission.
+
 - [LOCAL_100PCT_EXECUTION_R1.json](../../campaign_2026-10-13/qat_renewable_r1/LOCAL_100PCT_EXECUTION_R1.json): Prepared full-data vectors retain identical recipe and 5.5GB reservation; 746 batches and 14,920 updates. Fresh admission is still required.
+
 - [LOCAL_30PCT_FLOAT_ADMISSION_R2.json](../../campaign_2026-10-13/qat_renewable_r1/LOCAL_30PCT_FLOAT_ADMISSION_R2.json): Diagnoses the first pre-start CPU quota refusal; the unchanged floating command was admitted under a new attempt ID after transient support work ended.
+
 - [ALLOCATION_30PCT_W4_R1.json](../../campaign_2026-10-13/qat_renewable_r1/ALLOCATION_30PCT_W4_R1.json): Admits the preplanned uniform-W4 scale follow-up while the primary 10% grade was finishing; no benefit was assumed.
+
 - [ALLOCATION_30PCT_MIXED_R1.json](../../campaign_2026-10-13/qat_renewable_r1/ALLOCATION_30PCT_MIXED_R1.json): Admits the mixed scale follow-up after a small positive but uncertain 10% matched effect; zero-crossing uncertainty is not a stop rule.
+
 - [CACHE_HANDOFF_AFTER_MIXED_FIT_R1.json](../../campaign_2026-10-13/qat_renewable_r1/CACHE_HANDOFF_AFTER_MIXED_FIT_R1.json): Reclaims only file cache after the completed 10% mixed fit, using the historical completed S37 export as the helper prerequisite.
+
 - [CACHE_HANDOFF_AFTER_30PCT_FLOAT_R1.json](../../campaign_2026-10-13/qat_renewable_r1/CACHE_HANDOFF_AFTER_30PCT_FLOAT_R1.json): Restores measured parent headroom after the 30% floating fit with no limit or healthy-worker change.
+
 - [CACHE_HANDOFF_AFTER_30PCT_W4_R1.json](../../campaign_2026-10-13/qat_renewable_r1/CACHE_HANDOFF_AFTER_30PCT_W4_R1.json): Restores parent headroom after the completed 30% W4 fit before export and next GPU admission; no swap or process termination.
+
 - [PREPARE_30PCT_R2.json](../../campaign_2026-10-13/qat_renewable_r1/PREPARE_30PCT_R2.json): Records a failed preparer invocation that passed an ELF file instead of the required library directory, then the corrected actual epoch-0 floating/W4 archive commands. The guard failed before output creation.
+
 - [NATIVE_SEQUENCE_A_R1.json](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_SEQUENCE_A_R1.json): Frozen baseline-FP32 then 10% matched floating-PTQ evaluation sequence; all steps completed.
+
 - [NATIVE_SEQUENCE_A_RECEIPT_R1.json](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_SEQUENCE_A_RECEIPT_R1.json): Terminal sequence receipt confirms the final 10% mixed-PTQ control finished; individual artifacts remain in physical storage.
+
 - [NATIVE_SEQUENCE_B_R1.json](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_SEQUENCE_B_R1.json): Frozen 10% QAT and remaining unchanged-parent format sequence; actual sources and manifest hashes are pinned.
+
 - [NATIVE_SEQUENCE_30PCT_R1.json](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_SEQUENCE_30PCT_R1.json): Frozen 30% native comparison sequence for the shared floating control and uniform QAT, with fixed full F0 and one-CPU/1GB workers.
+
+
 
 [Terminal runtime receipts R2](../../campaign_2026-10-13/qat_renewable_r1/RUNTIME_RECEIPTS_R2.md) index completed 10% native comparisons, five-format baselines and completed 30% fits, preserving pre-start refusals separately. [Sequence B completion](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_SEQUENCE_B_RECEIPT_R1.json) confirms the exact packed-Q8 replay landed. These execution receipts accompany the independent matched grades, with no public or final-package claim.
 
+
+
 - [CACHE_HANDOFF_AFTER_30PCT_MIXED_R1.json](../../campaign_2026-10-13/qat_renewable_r1/CACHE_HANDOFF_AFTER_30PCT_MIXED_R1.json): Records bounded file-cache reclaim after all three 30% GPU fits completed, preserving limits and healthy CPU evaluations.
+
 - [NATIVE_30PCT_MIXED_R1.json](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_30PCT_MIXED_R1.json): Pins the selected mixed epoch-0 checkpoint deployment manifest and full-F0 native worker with a measured 1GB host reservation.
+
 - [ALLOCATION_100PCT_FLOAT_R1.json](../../campaign_2026-10-13/qat_renewable_r1/ALLOCATION_100PCT_FLOAT_R1.json): Admits the full-data floating control after the uncertain positive 30% W4 effect, to support matched full-data fixed/learned-scale comparisons.
+
 - [INDEX_VERIFICATION_R2.json](../../campaign_2026-10-13/qat_renewable_r1/INDEX_VERIFICATION_R2.json): Records successful tree generation and local Markdown link checks, plus catalog-only freshness failures caused by changing live operational records; not a full integrity-check pass.
+
+
 
 [First matched adaptation wave](../../campaign_2026-10-13/qat_renewable_r1/MATCHED_ADAPTATION_WAVE_R1.md) compares all six completed local fits and four independently graded native pairs, with target/mask/ancestry checks and exposed-fold limitations. Both 30% QAT deltas are positive but uncertain, while absolute scores fall; subset coverage and update count changed together. [Additional native-Q8 controls](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_FLOAT_Q8_SEQUENCE_R1.json) ensure endpoint ranking includes the original serving precision.
 
+
+
 - [KAGGLE_QUOTA_PRE_PROFILE_R1.json](../../campaign_2026-10-13/qat_renewable_r1/KAGGLE_QUOTA_PRE_PROFILE_R1.json): Typed fresh quota confirms 34,439.317 GPU seconds and 72,000 TPU seconds remaining before the seed4 profile; no capacity used by a new GPU job yet.
+
 - [KAGGLE_S4_ASSET_STAGE_R1.json](../../campaign_2026-10-13/qat_renewable_r1/KAGGLE_S4_ASSET_STAGE_R1.json): Root verifies 22 private seed4 checkpoint/ancestry/teacher-cache payloads totaling1.972GB in a short physical directory, preserving hardlinked source inodes and exact hashes before upload.
+
+
 
 [Private seed4 asset creation](../../campaign_2026-10-13/qat_renewable_r1/KAGGLE_S4_ASSET_CREATE_R1.json) succeeded from the hash-verified short physical stage; provider processing/version readiness remains a separate check. [Learned-scale local execution packet](../../campaign_2026-10-13/qat_renewable_r1/LSQ_LOCAL_EXECUTION_R1.json) freezes two actual-data profiles and a fresh matched10% fixed/learned pair with precise batch/update units, all-selected-matrix scale scope and checkpoint recovery. It is prepared pending GPU admission. [30% native sequence completion](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_SEQUENCE_30PCT_RECEIPT_R1.json) records terminal completion of both PTQ controls and uniformQAT; the separately pinned mixed endpoint is graded in the matched wave.
 
+
+
 [Seed4 asset version1 readiness](../../campaign_2026-10-13/qat_renewable_r1/KAGGLE_S4_ASSET_READY_R1.json) confirms READY and a downloaded version-pinned manifest matching all staged bytes. This private asset check does not dispatch a kernel. [Additional Q8 sequence completion](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_FLOAT_Q8_SEQUENCE_RECEIPT_R1.json) confirms both same-checkpoint native-Q8 controls completed; raw scores are0.681818498 (10%) and0.681391999 (30%), pending independent contextual paired uncertainty.
 
+
+
 - [CACHE_HANDOFF_AFTER_100PCT_FLOAT_R1.json](../../campaign_2026-10-13/qat_renewable_r1/CACHE_HANDOFF_AFTER_100PCT_FLOAT_R1.json): Reclaims file cache after the completed full-data control using the existing completed-export prerequisite, without changing limits or killing jobs.
+
 - [CACHE_HANDOFF_AFTER_LSQ_PROFILES_R1.json](../../campaign_2026-10-13/qat_renewable_r1/CACHE_HANDOFF_AFTER_LSQ_PROFILES_R1.json): Restores measured headroom after both successful LSQ profiles; the historical S37 receipt is the helper prerequisite, while new pressure came from QAT file cache.
+
 - [LSQ_PROFILE_ACCEPTANCE_R1.json](../../campaign_2026-10-13/qat_renewable_r1/LSQ_PROFILE_ACCEPTANCE_R1.json): Pins actual fixed/learned profile logs, 100 finite updates each, resource peaks, and admission of fresh same-source matched10% fits; no quality claim.
+
 - [KAGGLE_S4_PROFILE_STAGE_R1.json](../../campaign_2026-10-13/qat_renewable_r1/KAGGLE_S4_PROFILE_STAGE_R1.json): Verifies short physical private profile staging, exact bundle/bootstrap hashes, and the corrected independent-reviewed100-update recipe.
+
 - [KAGGLE_S4_PROFILE_READY_R1.json](../../campaign_2026-10-13/qat_renewable_r1/KAGGLE_S4_PROFILE_READY_R1.json): Confirms private profile dataset version1 READY and matching downloaded version-pinned bundle manifest.
+
 - [KAGGLE_QUOTA_PRE_S4_PROFILE_R1.json](../../campaign_2026-10-13/qat_renewable_r1/KAGGLE_QUOTA_PRE_S4_PROFILE_R1.json): Records renewed typed GPU/TPU quota before the seed4 profile push; provider-enforced allowance remains binding.
+
 - [KAGGLE_S4_PROFILE_ADMISSION_R1.json](../../campaign_2026-10-13/qat_renewable_r1/KAGGLE_S4_PROFILE_ADMISSION_R1.json): Admits the private seed4 profile only, with reviewed source/assets, provider deadline, aggregate resource bound and collection allowance.
+
 - [KAGGLE_S4_PROFILE_PUSH_R1.json](../../campaign_2026-10-13/qat_renewable_r1/KAGGLE_S4_PROFILE_PUSH_R1.json): Records successful version1 private GPU profile push; actual device allocation and update evidence await collection.
+
 - [NATIVE_100PCT_FLOAT_SEQUENCE_R1.json](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_100PCT_FLOAT_SEQUENCE_R1.json): Pins the full-data fixed-epoch0 deployment manifest and sequential nativeQ8/W4/mixed PTQ controls across the same468 exposedF0 groups.
+
 - [COMPUTE_WAVE_PROGRESS_R2.md](../../campaign_2026-10-13/qat_renewable_r1/COMPUTE_WAVE_PROGRESS_R2.md): Summarizes completed full-data control, successful LSQ profiles, fresh matched fits and seed4 private dispatch, separating execution from unestablished quality claims.
+
 - [CACHE_HANDOFF_AFTER_LSQ_FIXED_R1.json](../../campaign_2026-10-13/qat_renewable_r1/CACHE_HANDOFF_AFTER_LSQ_FIXED_R1.json): Reclaims file cache after successful1440-update fixedscale fit before admitting learnedscale; no runningworker source or limit changes.
+
 - [LSQ_EXPORT_RECOVERY_R2.json](../../campaign_2026-10-13/qat_renewable_r1/LSQ_EXPORT_RECOVERY_R2.json): Preserves failed evaluator preparation due missing rootutils.py; separate complete same-revision export snapshot and explicit import pin repair packaging without changing the active trainer.
+
 - [TERMINAL_EXECUTION_SNAPSHOT_R2.json](../../campaign_2026-10-13/qat_renewable_r1/TERMINAL_EXECUTION_SNAPSHOT_R2.json): Pins terminal attempts and logs for completed first-wave native evaluation, full-data floating fit and LSQ profile/control execution, including measured resources. Raw files remain in the shared runtime.
+
+
 
 [Terminal raw attempt/log navigation](../../campaign_2026-10-13/qat_renewable_r1/README.md) describes the source runtime files pinned by the execution snapshot, preserving finite-update, sampling and complete-evaluation evidence separately from scientific grading.
 
+
+
 [Full-data W4/mixed allocation](../../campaign_2026-10-13/qat_renewable_r1/ALLOCATION_100PCT_QAT_R1.json) admits one complete matched weight-only cohort after the LSQ pair, based on uncertain positive30% effects and scale-dependent information value. It preserves14920 updates, the frozen control, one GPU and fresh resource admission; no benefit or package promotion is claimed.
 
+
+
 - [CACHE_HANDOFF_AFTER_LSQ_LEARNED_R1.json](../../campaign_2026-10-13/qat_renewable_r1/CACHE_HANDOFF_AFTER_LSQ_LEARNED_R1.json): Restoresheadroom after successfullearnedfit before boundedexports andfull-dataW4admission, withoutchanginglimits.
+
 - [EXPORT_IMPORT_IDENTITY_VERIFICATION_R2.json](../../campaign_2026-10-13/qat_renewable_r1/EXPORT_IMPORT_IDENTITY_VERIFICATION_R2.json): Repreparesfull-datafloat with explicitly frozenimports; fullmanifest andallfourarchives exactlymatch priorpreparation, validating currentnativeevaluations.
+
 - [LSQ_PAIRED_FIT_COMPLETION_R1.json](../../campaign_2026-10-13/qat_renewable_r1/LSQ_PAIRED_FIT_COMPLETION_R1.json): Records both1440-update fixed/learnedfits completed in152.9/164.9seconds, identical sampler/normalization andmeasuredpeaks; nativequalitypending.
+
 - [NATIVE_LSQ_10PCT_SEQUENCE_R1.json](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_LSQ_10PCT_SEQUENCE_R1.json): Binds exactselectedepoch0 codes/scales tofull-F0 nativeW4 comparison usingcompleteimmutableLSQ exports; no latentfloatingevaluation.
+
+
 
 [Full-data GPU handoff sequence](../../campaign_2026-10-13/qat_renewable_r1/FULL_QAT_GPU_SEQUENCE_R1.json) waits for the healthy uniformW4 fit, uses the existing bounded cache helper and then freshly admits the allocated mixedW4/W8 fit. Commands are frozen, stop markers and failed receipts block new admission, and no failed job is retried. Root retains checkpoint/evaluation ownership.
 
+
+
 [Learned-scale evaluation admission recovery](../../campaign_2026-10-13/qat_renewable_r1/NATIVE_LSQ_LEARNED_RECOVERY_R2.json) preserves the pre-start17.11GB committed-memory refusal and waits for the other native replay to finish before a fresh attempt. The same checkpoint, code, 1GB worker bound and17GB target are retained; this is an execution guard, not a scientific failure.
+
+
 
 [Navigation verification R3](../../campaign_2026-10-13/qat_renewable_r1/INDEX_VERIFICATION_R3.json) records successful tree generation and six-file local link validation. The subsequent check reached the freshness test and reported stale generated catalogs during live execution; this is not represented as a complete integrity-check pass.
 
+
+
 [Terminal execution snapshot R3](../../campaign_2026-10-13/qat_renewable_r1/TERMINAL_EXECUTION_SNAPSHOT_R3.json) and [raw-file navigation](../../campaign_2026-10-13/qat_renewable_r1/README.md) pin successful full-data controls and the completed LSQ pair, while preserving the diagnosed17GB pre-start refusal as operational evidence. The active GPU worker remains live.
+
+
 
 [Full-data uniform-W4 QAT result](../../campaign_2026-10-13/qat_renewable_r1/full_uniform_results_r1/README.md) records the completed 14,920-update fit and full-F0 native WP 0.681362789, versus matched W4 PTQ 0.680741171. It indexes checkpoint/export/resource receipts; independent uncertainty review is pending and no cross-seed or public gain is established. H-QAT-W4-20261013; E-QAT-WEIGHT-100PCT-F0S3-20261013-R1.
 
+
+
 [Full-data QAT terminal runtime receipts R3](../../campaign_2026-10-13/qat_renewable_r1/RUNTIME_RECEIPTS_R3.md) index the successful uniform-W4 fit, native replay and [between-fit cache handoff](../../campaign_2026-10-13/qat_renewable_r1/CACHE_HANDOFF_BETWEEN_100PCT_QAT_R1.json). The mixed fit continues under the existing single-worker sequence. [Root cloud status R2](../../campaign_2026-10-13/qat_renewable_r1/CLOUD_STATUS_ROOT_R2.json) observes Kaggle seed4 profile ERROR and TPU QUEUED; logs are being collected before attributing a cause.
+
+
 
 [Small compiled activation probe admission](../../campaign_2026-10-13/qat_renewable_r1/ACTIVATION_SYNTHETIC_ADMISSION_R1.json) freezes the reviewed scan backend at60daafba in a sparse isolated worktree. The [guarded sequence](../../campaign_2026-10-13/qat_renewable_r1/ACTIVATION_SYNTHETIC_SEQUENCE_R1.json) waits for the healthy full-data mixed fit and releases file cache before a one-CPU/4GB/300-second B2/T32 synthetic probe. It tests compiler execution only; actual-data/full-shape profiling and any fit require later measured admission. H-QAT-A8-20261013; E-QAT-A8-BACKEND-20261013-R1.
 
+
+
 [QAT index verification R4](../../campaign_2026-10-13/qat_renewable_r1/INDEX_VERIFICATION_R4.json) confirms zero missing links across15 entry-point/topic/campaign READMEs after two path repairs. Tree build succeeded; the check still reports mutable catalog/integrity freshness during active execution, so it is not a full check pass.
+
+
 
 [QAT actual-data activation profile R2](../../campaign_2026-10-13/qat_renewable_r1/ACTIVATION_ACTUAL_ADMISSION_R2.json) records the independently reviewed four-update B16/C1000 engineering admission, immutable source and8GB host reservation. The [cache handoff](../../campaign_2026-10-13/qat_renewable_r1/CACHE_HANDOFF_ACTUAL_A8_POST_CLOUD_R1.json) reclaimed1.20GB idle file cache without changing limits; the [runtime attempt](../../campaign_2026-10-06/bandit_continuation/runtime/attempts/qat-a8-actual-first-chunk-r2.json), [log](../../campaign_2026-10-06/bandit_continuation/runtime/logs/qat-a8-actual-first-chunk-r2.log), and [profile receipt](../../campaign_2026-10-13/qat_renewable_r1/ACTIVATION_ACTUAL_GPU_R2.json) preserve exit1 at35s,3.40GB measured host and3.59GB sampled VRAM. Both modes reported finite updates, but validation failed; cause under diagnosis, no model-quality conclusion. H-QAT-A8-20261013 / E-QAT-A8-BACKEND-20261013-R1.
 
+
+
 Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1/ACTIVATION_ACTUAL_GPU_R2_a8.log) and [FP32-recurrence log](../../campaign_2026-10-13/qat_renewable_r1/ACTIVATION_ACTUAL_GPU_R2_no_a8.log) preserve the two successful trainer subprocesses and failing wrapper invariant. Both report unchanged tensor version counters despite changed represented weights; the actor is preparing an actual-value update check for independent review. This is a profile-validation defect diagnosis, not evidence of a trained activation-aware quality gain.
+
+
 
 - [QAT terminal archive — October14](../../campaign_2026-10-13/qat_renewable_r1/TERMINAL_ARCHIVE_20261014_R1.md): completed local profiles/fits/native exports plus preserved refusals/compiler failures and original small Kaggle collections, individually linked and hash-bound. Frozen commands/resources retained; no new fit or weights/arrays committed. The tracked provider-target addition registers the already attempted R2 profile with no automatic retry/fit authority.
 
+
+
 - [File-cache guard historical log](../../campaign_2026-10-06/bandit_continuation/controller_claude_20261008/slice_filecache_guard_v1.log): persisted the October13 19:56:36Z entry alongside terminal QAT records, showing parent usage15.866GB reduced to14.174GB by file-cache reclamation. This is an operational observation, not a model experiment or resource-cap change.
+
+
 
 - [CPU student campaign entry and cloud recovery](../../campaign_2026-10-14/cpu_student_frontier_r1/OPERATIONS_ENTRY_R1.md): live typed quota33,306GPU/72,000TPU seconds, TPU queued, knownR2 failure; parent5CPU/18–20GB/no swap. [R3 recovery](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r3/README.md) copies exact verified targets into the registered root and preserves containment/ancestry checks. Nine bounded checks pass; independent review/provider execution pending. Infrastructure evidence, no model-quality result. H-STUDENT-LADDER-20261014.
 
+
+
 - CPU campaign R3 provider receipts: [root admission](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r3/ROOT_ADMISSION_R3.json), [fresh quota](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r3/QUOTA_PRE_CREATE_R3.json), [private create](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r3/DATASET_CREATE_R3.json), [READY version1](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r3/DATASET_READY_R3.json), [kernel version1 push](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r3/KERNEL_PUSH_R3.json), [sealed source binding](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r3/BUNDLE_BINDING_R3.json), [packet](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r3/PACKET_R3.json), and [specifications](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r3/specs/README.md). These bind the independently reviewed cache-containment repair to one1800s Kaggle profile; RUNNING is provider status only, with no update/quality claim.
+
+
 
 - [R3 final offline tests](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r3/OFFLINE_TESTS_R3.xml):9bounded checks pass for preflight sequencing, immutable input advice, contained byte-identical copy, mismatches, deadlines and cleanup. Validates execution code on reduced producer-shaped fixtures, not GPU fitting.
 
+
+
 - [October14 Kaggle R3 failure and R4 successor](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r4/README.md): collected R3 logs prove correct cache copy but rejection by a stale deferred-symlink predicate before any GPU update. R4 removes only the three copied paths from that list; real producer-byte checks reproduce the old failure and pass all corrected candidate gates. No scientific or cloud-profile result yet; root owns private dispatch and collection. H-STUDENT-LADDER-20261014 operational support.
+
+
 
 - [October14 real trainer consumer preflight failure](../../campaign_2026-10-14/cpu_student_frontier_r1/profiles/README.md): the first actual CLI call rejected teacher metadata before updates, exposing consumer-vs-producer path-field names despite matching hashes. Terminal attempt, traceback and admission are preserved; a narrow explicit mapping and JSON-serializable CLI path successor are being prepared. The eight-shape custom resource results remain valid within their own scope; this is an execution failure, not a scientific negative.
 
+
+
 - [Clean F3 teacher checkpoint tranche R5](../../campaign_2026-10-14/cpu_student_frontier_r1/f3_teacher_fit_r5/DRAFT_STATUS_R5.md) preserves the exact existing three-epoch H384 seed3 teacher fit and successful R2 device profile, while deferring prediction exports under the reduced renewable quota. Current draft verifies83 archive files/82 code hashes and actual intercepted bootstrap; the original rebuild guard failure is retained. Quota refresh, independent review, dispatch and all fit/prediction results remain pending. No scientific result or complete teacher-cache claim.
+
+
 
 - [Actual trainer profile and first matched control fit](../../campaign_2026-10-14/cpu_student_frontier_r1/profiles/README.md): corrected source/teacher/order consumer completes ten finite actual CLI updates, exit0 and2.465GB host peak. Root then admits the unchanged H256×2 B8/C2000 F0 seed3 fixed-checkpoint fit under5GB host/3.5GB allocator/5,400s; a linked progress receipt records finite batches and no OOM. Full checkpoint/export/grade remain pending, and no other shape or quality promotion follows from this observation. H-STUDENT-LADDER-20261014.
 
+
+
 - [F3 R5 bounded terminal collector](../../campaign_2026-10-14/cpu_student_frontier_r1/f3_teacher_fit_r5/DRAFT_STATUS_R5.md): prepared before dispatch, with hash-pinned streaming support, pre-download length inventory, physical-disk and one-GB bounds, and no overwrite/retry. Six offline checks pass. This is collection implementation evidence only; no remote checkpoint or teacher cache exists from R5 yet.
+
+
 
 - [Kaggle seed4 precision profile repair completed](../../campaign_2026-10-14/cpu_student_frontier_r1/kaggle_profile_r4/README.md): R4 actual copied-cache/identity/runner path succeeds; FP32/W4/mixed each execute100 finite updates. Thirty result files plus log are collected and31payload hashes verified; no full fit or quality output. Terminal GPU quota31,561.292seconds remains. Earlier failed attempts remain operational evidence, not scientific negatives.
 
+
+
 - [F3 seed3 teacher R5 private release](../../campaign_2026-10-14/cpu_student_frontier_r1/f3_teacher_fit_r5/DRAFT_STATUS_R5.md): unchanged reviewed three-epoch teacher fit released after complete owned-GPU inventory,31,561.292 remaining GPU-seconds, final83-file seal, private READY version1 and remote manifest verification. Kernel version1 accepted02:12UTC with10,000-second ceiling and no automatic retry. Collection is prepared; fit/checkpoints and all three exports remain pending. Pre-release draft bytes and read-only API diagnosis are preserved.
+
+
 
 - [F3 owner-inventory correction](../../campaign_2026-10-14/cpu_student_frontier_r1/f3_teacher_fit_r5/OWNER_INVENTORY_CORRECTION_R1.json), explained in [live dispatch status](../../campaign_2026-10-14/cpu_student_frontier_r1/f3_teacher_fit_r5/DRAFT_STATUS_R5.md): the earlier GPU filter used a field absent from Kaggle list metadata. The direct174-ref scan confirms current F3/TPU statuses but is incomplete after429 responses on older jobs and two anonymized refs. No new cloud admission; frozen preseal history remains intact.
 
+
+
 - [Student handoff environment repair](../../campaign_2026-10-14/cpu_student_frontier_r1/recipes/README.md#r6-user-bus-environment-repair): actual R5 after-profile failure came from the controller child environment omitting user-bus variables, before any reclaim. The bounded diagnosis and seven R6 exact-delta plans preserve all fitted-model/profile/scorer commands and add only same-user bus routing plus fresh attempt/receipt identities. Root delivery continues from completed H256×1 profile; no duplicate fit.
 
+
+
 - [October15 teacher collection](../../campaign_2026-10-14/cpu_student_frontier_r1/f3_teacher_fit_r5/DRAFT_STATUS_R5.md#completed-and-collected-on-october15): completed cleanF3H384teacherCP2, full hash/finite/ancestry checks and staged physical checkpoint; the HEAD404/GET200 repair is preserved. PeakT4VRAM5.309GB is below the cloud12GiB recipe, above the local5GB target. Three exports/grade remain pending.
+
 - [TPUV8 terminal collection](../../campaign_2026-10-13/qat_renewable_r1/tpu_bridge_v8/README.md#october15-terminal-collection): actual-data update, checkpoint/reload and causal/export receipts collected and rehashed; independent/native checks pending. [Fresh quota](../../campaign_2026-10-14/cpu_student_frontier_r1/QUOTA_RESUME_20261015_R1.json) has a mistaken exhaustion note corrected by the SDK diagnosis below; its typed GPU fields are108000allowed/81372.611used, with~19.8TPUhours.
+
+
 
 - [Kaggle duration serialization diagnosis](../../campaign_2026-10-14/cpu_student_frontier_r1/QUOTA_SERIALIZATION_DIAGNOSIS_20261015_R3.json) resolves [R2 conflicting representations](../../campaign_2026-10-14/cpu_student_frontier_r1/QUOTA_RECONCILIATION_20261015_R2.json): installedSDK uses`timedelta.seconds`when serializing, dropping days. Typed totals show7.40GPUhours/19.84TPUhours remaining at the snapshot. Earlier exhaustion commentary/admission note is withdrawn; no quota/billing change occurred.
 
+
+
 - [Vast-A Zen4 CPU benchmark proposal](../../campaign_2026-10-15/vast_a_cpu_probe_r1/README.md) records the user-selected `vastai` credential, successful read-only access, sanitized live offer50293333/EPYC9354P at $0.672/hour including20GB disk, and a proposed two-hour/$2 controlled benchmark. Explicit rental approval is pending; no instance, benchmark result, top-up or fallback rental is authorized. It links the repeated-control kernel/shape protocol and competition-transfer limitations.
+
+
 
 - [ExactEPYC9224 access and short-run protocol](../../campaign_2026-10-15/vast_a_cpu_probe_r1/PROTOCOL_AND_MARKET_R2.md) supersedes the9354Pproposal with the user-approved$3Vast-A scope and sameCPU requirement. Live API finds only an exactCPU H200bundle; zeroGPU results are disk volumes. No rental/spend; GPUbundle clarification pending. The plan freezes complete-sequence fitting samples, randomized paired repetitions, separate within/between-sequence timing variability, and final fixed confirmation, with source/API failure receipts and transfer limitations.
 
+
+
 - [ADR0038 paidCPU scope](../../../specs/adr/0038-vast-a-exact-cpu-benchmark-budget.md) preserves the new$3Vast-Aexception, exact9224requirement and latest noGPU clarification; other paidcapacity remains unauthorized. Rental action is pending legitimateCPUaccess or user clarification, not blocked local research.
+
+
 
 - [CPU-only authority and alternative-provider search](../../campaign_2026-10-15/vast_a_cpu_probe_r1/README.md#explicit-cpu-only-clarification) records the user excluding GPUbundles after clarification. The [bounded public scout R7](../../campaign_2026-10-15/vast_a_cpu_probe_r1/OTHER_PROVIDER_SEARCH_R7.json) confirms no qualified exact9224 CPU-only hourly offer under$3 in the inspected public listings: Contabo is monthly, TensorDock's exactSKU is unverified, and FireVM/NexSpire matches bundle GPUs. All spendzero; no provider action, signup or CPU substitution.
 
+
+
 - [InitializerR2 actual-profile failure](../../campaign_2026-10-14/cpu_student_frontier_r1/README.md#october15-initializer-r2-actual-profile-failure) links rootadmission and pre-update deviceassertion receipt/loghash. The successful source checks did not establish CUDAdevice-indexcomparison correctness; R3source diagnosis is assigned, no fit/quality result or blind retry.
+
 - [Prepared Vast-A CPU timing fixture](../../campaign_2026-10-15/vast_a_cpu_probe_r1/CPU_TIMING_FIXTURE_R1.json), its [campaign note](../../campaign_2026-10-15/vast_a_cpu_probe_r1/README.md), [preparation receipt](../../campaign_2026-10-15/vast_a_cpu_probe_r1/PREPARATION_RECEIPT_R1.json) and [builder](../../../scripts/prepare_vast_a_cpu_probe_fixture.py) pin eight complete, source-qualified F0 fit sequences and raw feature hashes for runtime-only measurement. The payload contains no targets, official scoring mask, teacher outputs or cache values. A later user instruction approved the exact-CPU Vast-A scope up to$3; this preparation step performs no rental/provider action and makes no prediction-quality claim.
+
+
 
 - [H384×2nextscreen and initializerR3 actualprofile](../../campaign_2026-10-14/cpu_student_frontier_r1/README.md#next-matched-screen-and-repaired-initializer-actual-profile) links separate rootadmissions: H384×2fixedrecipefit is active, and R3completed25.24s/3.719GBhost/.875GBobservedVRAM withthreefiniteupdates and zeroOOMdeltas. Nativeinitializergate/subsetquality remainpending; this does not admit a finalsubmission.
 
+
+
 - [IntegratedCPUprobe validation snapshot](../../campaign_2026-10-15/vast_a_cpu_probe_r1/README.md#integrated-validation-snapshot) links successful navigationbuild, strictfreshnessfailure on livecatalog/integrity, integratedPy3.11A/Bcompletecallbacksmoke and independentprotocolreview. No graph/ledgercoveragefailure was reported; fullstrictcheckdoesnotpassduringmutabletelemetry. No remotehost/rental/timingranking.
+
+
 
 # October 15 F3 teacher export packet
 
+
+
 - [Restart-safety closeout, October15 18:39UTC](RESEARCH_PAUSE_20261015_R1.md#restart-safety-closeout-october15-1839utc) records terminal G fit/export/grade receipts, the near-tied exposed-F0 comparison, stopped pollers, empty campaign slice/GPU and pushed Git handoff. It establishes that the laptop is safe to restart while the research admission barrier remains closed.
+
+
 
 - [October15 user-requested pause and bounded G drain](RESEARCH_PAUSE_20261015_R1.md) supersedes continuous research and queued fit/profile authorities. G's previously admitted fit, CP1 FP32 export and independent official grade completed; F/W/S, initializer experiments and cloud retries remain held until explicit resume. The note records the controller barrier, available CPU submission ZIPs, cloud cache-symlink failure and final restart-safety check.
 
+
+
 - [F3 CP2 export-only packet R1](../../campaign_2026-10-15/f3_teacher_export_r1/README.md) binds the completed F3 seed3 H384 epoch2 checkpoint/provenance to the frozen causal predictor, three source-qualified scopes, an offline private bundle and bounded terminal collection plan. This is an operational prediction-export recipe only; no new Kaggle provider action, model fit or quality score is recorded.
 
+
+
 - [October15 quality-delivery conditional authority](../../campaign_2026-10-15/student_quality_tradeoff_r1/ROOT_QUALITY_DELIVERY_AUTHORITY_R1.json) assigns CPU/student delivery of one matched alpha0 continuation after H384 completion and independent input review, plus private Kaggle export-only delivery after a corrected21600s outer deadline and fresh quota. It fixes resource, source-delta, failure and collection boundaries; it does not establish launch or authorize paid spending. Related H-KD-CONTINUATION-VALUE-20261015; root remains controller and the critic independently checks successors.
+
 - [Matched alpha0 continuation P1/P2/P3 terminal delivery](../../campaign_2026-10-15/student_quality_tradeoff_r1/README.md) records all three successful stages, trusted resume states, the CP1 paired grade, P2's corrected zero-based epoch metadata, the P3 input-gate ctime failure/recovery, and terminal FP32 CP3/CP5 exports. Root reports independent paired grades A0/A9 of0.6722203242/0.6809640574 at CP3 and0.6668425394/0.6811553603 at fixed CP5. These are exposed F0 comparisons; a bounded clipping diagnostic is admitted before any subsequent profile. No source/recipe change or provider action.
+
 - [F3 CP2 export-only packet R2 and R3 collector repair](../../campaign_2026-10-15/f3_teacher_export_r2/README.md) preserves the R1 export recipe with a 21,600-second kernel cap and 18,000-second worker timeout. The private R2 kernel version 1 reached `COMPLETE`; its bounded 15-file inventory totals 2,209,101,352 bytes including session-log and manifest reserve. The first collector failed before downloading output because R2 omitted the pinned runner's 502-byte heartbeat. The [failure receipt](../../campaign_2026-10-15/f3_teacher_export_r2/COLLECTOR_INVENTORY_FAILURE_R1.json) and [complete header inventory](../../campaign_2026-10-15/f3_teacher_export_r2/REMOTE_OUTPUT_INVENTORY_R1.json) preserve the evidence; the frozen [R3 collector](../../campaign_2026-10-15/f3_teacher_export_r2/collect_terminal_r3.py) admits only this standard metadata file under a strict size/schema check. The [R3 terminal receipt](../../campaign_2026-10-15/f3_teacher_export_r2/TERMINAL_COLLECTION_R3.json) confirms all three causal FP32 prediction arrays were streamed and finite-checked; their NPY files total 2,204,800,384 bytes including headers and contain 551,200,000 finite float32 values. The full-valid payload and small sidecar remain available for the root-owned official F3 grade, which is pending. This export run contains no fit or score claim.
+
+
 
 - [Two-core local budget and disk scratch](../../../specs/adr/0039-two-core-local-budget-and-disk-scratch.md) records the October15 user reduction, actual200% parent cap, physical temp/cache paths through service and child environments, roughly210MiB moved with compatibility links, eight paused redundant timers and actual bounded checks. Earlier full /tmp was not reproduced; GPU research resumes under the fresh two-core gate. No desktop-wide freeze diagnosis or model-quality claim.
 
+
+
 - [Matched F0 student shape-pair T4 profile packet R1](../../campaign_2026-10-15/student_shape_pair_f0_r1/README.md) pins two serial actual-trainer five-batch profiles for fresh H256×2 and H512×1 students, the strict current F0 clean-T3 cache and source-qualified B16 order, and a CP5 normalization-only asset. The generic kernel deadline is explicitly reduced to 1,800 seconds in a generated-source patch plan. Critic review and fresh quota/resource admission are required before private creation/push; no profile, fit or quality result is claimed.
+
+
 
 - [GRU warm-mechanism R3/R4 bounded profile packet](../../campaign-2026-10-15/gru_parent_growth_r1/README.md) preserves the C parser failure and the later R3 post-parse continuation-state guard failure. Immutable source proves four removed default-valued options are identities; R4 also removes only `--save-training-state` from profile-worker vectors, leaving the full-fit commands unchanged. The [R4 controller contract](../../campaign-2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_CONTROLLER_PREP_R4.json) uses the original source/data/recipe, serial 50-update scope, 4.3GB allocator setting and 5GB observed-VRAM stop threshold. C/G now completed 50/50 finite updates each with zero AMP skips. C peaked at 4,953,374,720B host / 2,178,940,928B VRAM; G at 3,612,647,424B / 2,669,674,496B. Their [C](../../campaign-2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_C_RESULT_R1.json) and [G](../../campaign-2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_G_RESULT_R1.json) receipts are resource/rate evidence only. The [reservation erratum](../../campaign-2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_RESERVATION_ERRATUM_R1.json) records the 5.5GB descriptor versus 6.5GB CLI/admission mismatch for G/F. F completed under its frozen 6.5GB outer reserve (peak host 4,267,720,704B / VRAM 3,263,168,512B); see its [result receipt](../../campaign-2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_F_RESULT_R1.json). W completed the final serial resource profile at 3,460,964,352B host / 2,327,838,720B VRAM; see its [result](../../campaign-2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_W_RESULT_R1.json) and the [C/G/F/W summary](../../campaign-2026-10-15/gru_parent_growth_r1/WARM_MECHANISM_PROFILE_WAVE_SUMMARY_R1.json). All profiles completed 50/50 finite updates with zero AMP skips/OOM; only resource/rate is established.
 
+
+
 - [Continuous research and bounded delivery checks](CONTINUOUS_RESEARCH_DELIVERY_20261015_R1.md) records the user's explicit continue-until-pause instruction, active local/cloud/critic owners and the root's exact-target preflight correction after incomplete/unstable inventory listings delayed the reviewed T4 profile. R9 is live; six filename corrections preserve hashes. No scientific negative, resource increase or full-fit admission follows.
+
+
 
 - [C/G/F/W fit and export delivery](../../campaign_2026-10-15/gru_parent_growth_r1/README.md#current-delivery-state--october-15) records C's completed fit, trusted `next_epoch=2` state gate, full-valid FP32 CP1 export and independent paired grade (WP 0.6812265 versus matched parent 0.6809412; component-paired 95% CI crosses zero on exposed F0). The separate reviewed S direct-parent profile completed 50/50 finite updates with no OOM delta and produced no quality output; its [terminal receipt](../../campaign_2026-10-15/student_quality_tradeoff_r1/frozen_parent_anchor_r1/S_PROFILE_TERMINAL_RESULT_R1.json) is indexed in the recipe README. G/F/W remain in the authorized serial fit/export/grade sequence and require fresh per-arm identity/resource checks.
 
+
+
 - [Opt-in Q8 readout skipping triage](../../campaign_2026-10-15/q8_need_prediction_readout_r1/README.md) preserves the original R1 implementation proposal and adds the official callback-frequency check in [R2](../../campaign_2026-10-15/q8_need_prediction_readout_r1/TRIAGE_R2.md). Since only 99/20,000 rows omit predictions and the separate scoring mask is not exposed to the callback, estimated avoidable work is at most 0.081% of matrix coefficients. No build or implementation was launched; this is a low-priority decision for this workload, not a general kernel result.
+
 - [Matched F0 student shape-pair T4 profile R3](../../campaign_2026-10-15/student_shape_pair_f0_r3/README.md) fixes the two CP5 normalization mount filenames against the already-created private READY v1 asset and reuses the reviewed R2 code closure. Its later private kernel run stopped before CUDA updates because the frozen fold0 split's train target-index cache was not mounted; the [terminal receipt](../../campaign_2026-10-15/student_shape_pair_f0_r3/PROVIDER_TERMINAL_R3.json) records zero GPU allocation and the H512 job not started. This is input-delivery evidence only.
+
 - [Matched F0 student shape-pair T4 profile R4](../../campaign_2026-10-15/student_shape_pair_f0_r4/README.md) restores both frozen fold0 target-index cache mounts from the existing content-addressed fold0 asset version1 while preserving the profile CLI vectors. Its source dataset and existing kernel were versioned to v2 after fresh preflights, but the exact v2 bootstrap stopped before runner launch because the two external cache paths were absent from `manifest.files`; the [terminal receipt](../../campaign_2026-10-15/student_shape_pair_f0_r4/PROVIDER_TERMINAL_R4.json) records this infrastructure error and no model evidence.
+
 - [Matched F0 student shape-pair T4 profile R5](../../campaign_2026-10-15/student_shape_pair_f0_r5/README.md) adds only the two producer-bound target-cache descriptors to the bundle manifest and passes both actual-bootstrap fixtures. Source/kernel v3 were pushed after exact preflights; the version-qualified run then failed before optimizer updates because the mounted homogeneous-cache symlinks resolve outside the registered cache root. The terminal receipt binds all 86 collected output files, the exact v3 status and typed-quota delta; this is delivery-path evidence, not model evidence.
+
+
 
 </details>
 
+
+
 - [Main/research-team and 14 draft synchronization](../../experiment_drafts/BRANCH_SYNC_20261017_R2.json) records the shared target, before/after branch SHAs, resolved append-only journal/navigation conflicts and GitHub head/draft/base/mergeability checks. All draft branches retain their own packets and exactly match the target CLI/training/geometry implementation. No experiment PR was merged; CI states are a snapshot, and this maintenance does not establish full numerical/performance parity.
+
+
 
 - [Rank1 F1/seed1001 Beleriand fallback preparation](../../campaign_2026-10-18/priority25_execution_r4/f1_beleriand_fallback/README.md), [live metadata](../../campaign_2026-10-18/priority25_execution_r4/receipts/F1_BELERIAND_FALLBACK_METADATA_20261018.json) and [independent review](../../campaign_2026-10-18/priority25_execution_r4/receipts/F1_BELERIAND_FALLBACK_REVIEW_20261018.json): seven existing-runner commands preserve the frozen recipe and bind canonical fold1. Counts imply89,580 updates, so F0 checkpoint verifiers cannot be reused unchanged. The plan is unadmitted and unstaged; F0 remains active, and no F1 quality or provider allocation is claimed.
 
@@ -646,3 +1115,15 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 [Parent-fit RNG diagnostic V1](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/rng_diagnostic_v1/READONLY_REJECTION.json) was rejected before output creation or submission. Its V2 successor produced a successful, accepted diagnostic-only capture of RNG metadata under the same parent-state stat; see the [record](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/rng_diagnostic_v2/README.md) and [metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/rng_diagnostic_v2/METADATA_REVIEW.json). This does not accept the parent fit or establish quality, and the exact-stop adapter is limited to the V2 diagnostic unit.
 
 [Parent terminal-checker root preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_ROOT_PREPARATION_V1.json): pins the final local checker, tests, source review and all sibling helper dependencies for the exact source68ff/seed1001 H256×2 parent. Nine synthetic checks and cold import/read sentinels pass; preparation adds zero fits and no remote admission, checkpoint read, terminal acceptance or quality result. Typed native exit0 has since been captured; fresh capped CPU support gates and root acceptance/exact stop remain required before use.
+
+- [TL3 external-container resource split](../../campaign_2026-10-18/online_features_r1/EXTERNAL_DOCKER_RESOURCE_SPLIT.json): runtime inspection found Docker outside the campaign slice. Its separately capped 1 CPU/2 GiB allocation is explicitly counted; internal CPU quota is temporarily 1 CPU to preserve the aggregate two-core limit. No concurrent GPU fit. Restore receipt required after container exit; no memory cap raised.
+
+- [Continuous online-feature execution receipts](../../campaign_2026-10-18/online_features_r1/runtime/README.md): new autonomous-authority runtime; target-only adapter admitted after actual-shape finite-update/resource profile, preserving earlier stop receipts and one-GPU/no-swap boundaries.
+
+- [Undersized Parquet metadata preflight incident](../../campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/preflight_memory_incident_r1.json): a 1.0 GB transient scope killed PyArrow's full-footer metadata parse; the parent-local OOM counter stayed at zero. A corrected 1.5 GB metadata-only profile completed at 1,036,624 KiB process RSS, and an earlier matching sequence-reader worker peaked at 1.126 GB cgroup memory with no OOM. New readers reserve 1.5 GB and stream one complete group at a time.
+- [Causal proxy exact-fit-path profile](../../campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/profile_receipt_r1.json): the corrected ridge fitter completed on one selected 20,000-row train group at a 1.067 GB cgroup peak inside a 1.5 GB cap, with zero OOM delta. This is resource-only evidence. A first controller launch was rejected before worker start because its outer wrapper consumed a full reserved core; the second used a 20% wrapper quota.
+- [Causal proxy full execution receipt](../../campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/execution_receipt_r1.json): fit, grade, and independent regrade completed in three durable CPU-only jobs with 2 GB or lower reservations and zero new OOM events. The fit peak was 1.345 GB. The prior undersized metadata preflight OOM remains preserved as a separate incident.
+- [Causal proxy gate execution receipt](../../campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/execution_receipt_r1.json) binds the frozen recipe, scratch prediction cache, official grade and three durable CPU attempts. The one-group profile, 32-group label-blind prediction build, and independent grader used 1.5/1.5/2.0 GB reservations and peaked at 36.5/71.8/333.7 MB. All exited successfully with zero worker-local OOM/max deltas; parent-hierarchical `max` increased by 7,090 during the build window, with zero parent OOM delta and no isolated attribution. No GPU was used. The [results note](../../campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/RESULTS_R1.md) reports the screen's negligible conditional gain and does not promote broader online learning.
+- [TL3/R3 F2 replay execution receipt](../../campaign_2026-10-18/online_features_r1/tl3_fixed_blend_f2_r1/replay_execution_receipt.json) records the sequential external Docker CPU split, restored 200% parent quota, unchanged parent OOM counters, and actual memory peaks: 2.99 GB TL3 under a 3.22 GB cap, then 0.37 GB R3 under an adjusted 3.5 GB cap. Combined task reservations were 4.72 GB and 4.50 GB respectively, below the 5 GB limit; the prediction payloads stayed on physical scratch and no GPU or paid compute was used.
+
+- [Bounded all-channel innovation-clock execution](../../campaign_2026-10-18/online_features_r1/innovation_clock_r1/README.md): admitted at one CPU/1.5 GB/no swap after exact metadata-only and one-row-group profiles. The worker verified the pinned 60,437,285-byte train footer before PyArrow opened metadata and completed 32 input-only sequences at a 1,351,356,416-byte peak. Worker `memory.high` delta was 87, parent-hierarchical `high` delta 117; worker max/OOM/OOM-kill and parent-local OOM/OOM-kill deltas were zero. Exact receipt and feature summaries are linked in the packet.

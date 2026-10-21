@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-20",
+  "scope": "Skills/discovery only; no scientific fits or provider account work.",
+  "sources": {
+    "ponytail": {
+      "url": "https://github.com/DietrichGebert/ponytail",
+      "revision": "09c434ab73ca43761c5d8b0c5d341926c2fba710",
+      "version": "5.3.2",
+      "license": "MIT"
+    },
+    "marimo-pair": {
+      "url": "https://github.com/marimo-team/marimo-pair",
+      "revision": "2f1d7fffa50607dc9d8660cb931f4470707f8697",
+      "version": "0.0.20",
+      "license": "Apache-2.0"
+    }
+  },
+  "adaptations": [
+    "Ponytail help describes skills-only import; gain links pinned upstream benchmark and labels claims unreplicated.",
+    "No global hooks, installers, telemetry, session import or plugin configuration.",
+    "arxiv-search content moved into .agents/skills, former skills/arxiv-search is a relative compatibility alias.",
+    "Every nested skill entrypoint has Claude and Grok relative discovery links; CLAUDE.md/GROK.md point to AGENTS.md."
+  ],
+  "files": {
+    ".agents/skills/ponytail/SKILL.md": "9badd22a32e19cb884e46dfa8d3aae82bb81dfa5484105b8b4f0262df823a509",
+    ".agents/skills/ponytail/LICENSE": "fb1bc6909ac3ef82d5c22106e32ef682b0cff66788fa915fb9b53b15c9d2f3ab",
+    ".agents/skills/ponytail-audit/SKILL.md": "2b3223a02c386d1263e1b08343cb8eb3a53e444cdafb1d79e26c8ec2a8fcad28",
+    ".agents/skills/ponytail-audit/LICENSE": "fb1bc6909ac3ef82d5c22106e32ef682b0cff66788fa915fb9b53b15c9d2f3ab",
+    ".agents/skills/ponytail-debt/SKILL.md": "b5ec2762f6ba8c4af9ea7173aa6c9f91b88655a25e43f9de0264f6ce8722b25f",
+    ".agents/skills/ponytail-debt/LICENSE": "fb1bc6909ac3ef82d5c22106e32ef682b0cff66788fa915fb9b53b15c9d2f3ab",
+    ".agents/skills/ponytail-gain/SKILL.md": "22ae1667ca50e2400d22813585c0d53423241120000db5bc89a4fc63337d5dea",
+    ".agents/skills/ponytail-gain/LICENSE": "fb1bc6909ac3ef82d5c22106e32ef682b0cff66788fa915fb9b53b15c9d2f3ab",
+    ".agents/skills/ponytail-help/SKILL.md": "a4499e18ab0e76bf1e310e81dda956bb2cd34fd91fdea68911b5f20341f6aab4",
+    ".agents/skills/ponytail-help/LICENSE": "fb1bc6909ac3ef82d5c22106e32ef682b0cff66788fa915fb9b53b15c9d2f3ab",
+    ".agents/skills/ponytail-review/SKILL.md": "33fe4ebe22a460924e5d4a261e223df22e409cc94ab76182bee9fb91a3ef022e",
+    ".agents/skills/ponytail-review/LICENSE": "fb1bc6909ac3ef82d5c22106e32ef682b0cff66788fa915fb9b53b15c9d2f3ab",
+    ".agents/skills/marimo-pair/SKILL.md": "25dcf596397f5cf5c8f91dc53fd403c81be640b3fec02faa4cc26570e9ccc26c",
+    ".agents/skills/marimo-pair/LICENSE": "07f61e4a692aed015072f62f7605e80b80f0c77bf97e8e76f5fcf66d448e5bc1",
+    ".agents/skills/marimo-pair/reference/execution-context.md": "8917b93b999e946f71e00a48fb8bcddb92cb000eb769c093fec935231f92dfc1",
+    ".agents/skills/marimo-pair/reference/finding-marimo.md": "d5c9eea955b178998f83e0607874c001716481ec8287aca3c6d0686820f893f5",
+    ".agents/skills/marimo-pair/reference/gotchas.md": "a22e9128f5a8cd2fd80def69a296eb3f2a089a1cc6251644e9febc6ec15e7a3e",
+    ".agents/skills/marimo-pair/reference/notebook-improvements.md": "23fede1b18f5b354b022bc6f33eeb94ec381bdd5c8c99f60bf274affa70218e6",
+    ".agents/skills/marimo-pair/reference/rich-representations.md": "7bf9a66f2a669fc66e4303c5c9c92495c0c0ab32bd7fc7ad13259b51f38344cf",
+    ".agents/skills/marimo-pair/scripts/discover-servers.sh": "e0b43ba5effe5f7e66e3c60fda4db7950b76feed8a72c082d5f8ded9769dc090",
+    ".agents/skills/marimo-pair/scripts/execute-code.sh": "fb7e4d3a0e94af53a065b5fd5f4a7601d19db25a0ddeef74ea8b73ab09274631"
+  },
+  "limits": "Static checks only; no notebook runtime, provider calls or benchmark reproduction."
+}

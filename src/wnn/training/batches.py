@@ -6,8 +6,9 @@ import time
 import numpy as np
 import torch
 
-from wnn.data import TARGET_QUANTA
+from wnn.data import N_FEATURES, TARGET_QUANTA
 from wnn.outcomes import N_SP_AUX, outcome_codes, sequence_class, structure_labels
+from wnn.training.dynamics_auxiliary import dynamics_targets_torch
 from wnn.training.inputs import build_inputs
 from wnn.training.state import TrainingRun
 from wnn.training.targets import (
@@ -29,6 +30,8 @@ def prepare_batch(run: TrainingRun) -> None:
     batch = run.batch.batch
     device = run.options.device
     family_targets = run.batch.family_targets
+    dynamics_targets = run.batch.dynamics_targets
+    dynamics_valid = run.batch.dynamics_valid
     initializer_teacher = run.network.initializer_teacher
     inputs = run.batch.inputs
     main_valid = run.batch.main_valid
@@ -93,11 +96,25 @@ def prepare_batch(run: TrainingRun) -> None:
         valid = valid & (
             kept_len if args.thin_mode == "retained-mass" else steps < kept_len[:, None]
         )
+    dynamics_targets = dynamics_valid = None
+    if args.dynamics_aux_head:
+        raw_targets, dynamics_valid = dynamics_targets_torch(
+            x[..., :N_FEATURES],
+            run.network.model.mean[:N_FEATURES],
+            run.network.model.std[:N_FEATURES],
+            valid,
+            lengths=kept_len if kept_len is not None and kept_len.ndim == 1 else None,
+        )
+        dynamics_targets = (
+            raw_targets - run.network.model.dynamics_target_mean
+        ) / run.network.model.dynamics_target_std
     main_valid = main_row_weights(
         inputs, y, valid, scored_dev, prop_model, prop_cached, args, x, environment=environment
     )
     timer.mark("weights")
     run.batch.family_targets = family_targets
+    run.batch.dynamics_targets = dynamics_targets
+    run.batch.dynamics_valid = dynamics_valid
     run.batch.inputs = inputs
     run.batch.main_valid = main_valid
     run.batch.profile_batch_started = profile_batch_started

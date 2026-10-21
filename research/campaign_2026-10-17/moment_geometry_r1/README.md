@@ -87,3 +87,14 @@ An independent read-only builder review confirms all four channel masks and fit-
 R1/R2controls have different input widths/fan-in and seeded initialization draws; comparisons across stages are not paired. Each stage/capacity has exactly matched initial weights across its arms. This investigation retains the discrete/heuristic direction after heterogeneous early results.
 - [Independent numerical grade R2](independent_grade_r2.json) reproduces all24endpoint and18fixed-mixture pooled/fold scores, contrasts and interactions within1e-12. Frozen source/data receipt hashes, score-input hashes,880update clocks and within-capacity paired initializations pass. This independent verification conditions on the same exposed tiny-data experiment; it does not supply fresh generalization evidence.
 - [Separate weight/prediction handoff archives](handoff_archives.json) pin approved local archive paths, sizes and hashes. Checkpoints contain fitted weights/config and require the recorded preprocessing and source; they are research artifacts, not native submission packages or full optimizer-resume states.
+
+## R3 longer-budget follow-up
+
+The [R3 continuation](../geometry_continuation_r3/README.md) repeats the four
+feature arms at H128×2 for eight epochs on the same 43 fitting and 46 exposed
+evaluation sequences. The all-feature arm remains below the raw/event control,
+while dictionary-only is near zero mean difference across three seeds. A
+predeclared control/dictionary half-mixture scores +0.007337 over control on
+this panel. The result does not reject the family; it motivates the user's
+requested higher-capacity, much larger component-complete from-scratch
+comparison.

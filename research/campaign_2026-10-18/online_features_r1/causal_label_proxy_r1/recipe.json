@@ -1,0 +1,377 @@
+{
+  "features": "All 112 current raw features followed by their one-step differences; no sequence ID, future row, target, or mask is an input.",
+  "hypothesis_id": "H-ONLINE-DELAYED-PROXY-20261018-R1",
+  "id": "E-ONLINE-LAGGED-TARGET-PROXY-20261018-R1",
+  "interpretation": {
+    "success": "A useful positive lagged-proxy WP would justify a separate frozen test of a proxy-driven expert-weight update; it would not establish mature feedback or a competition score gain.",
+    "uncertainty": "Component bootstrap is conditional on one proxy fit and 32 exposed evaluation components; it does not cover training variation or public transfer.",
+    "weak_result": "Defer this exact proxy-weighting route, but keep covariate-only online adaptation and learned feature extraction open."
+  },
+  "metric_id": "global_wp_clip2_v1",
+  "model": {
+    "evaluation_step_stride": 1,
+    "fit_step_stride": 10,
+    "kind": "two-output weighted ridge regression",
+    "ridge_alpha": 0.1,
+    "sample_weight": "abs(clip(y[t-1], -2, 2)) separately per target",
+    "standardization": "weighted fit-sample mean and standard deviation, fit groups only; use stable centered weighted batch moments",
+    "target": "clip(y[t-1], -2, 2)"
+  },
+  "question": "Can current observable features predict the previous-row label as a feature-only lagged pseudo-label? Target maturity is unknown, and no expert reweighting is tested here.",
+  "resources": {
+    "cpu_cores": 1,
+    "fit_endpoints": 1,
+    "gpu": false,
+    "memory_reservation_bytes": 1500000000,
+    "physical_output_root": "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_label_proxy_r1",
+    "swap_bytes": 0
+  },
+  "schema_version": 1,
+  "selection": {
+    "eligible_eval_component_count": 141,
+    "eligible_fit_component_count": 2777,
+    "evaluation_data_identity": {
+      "bytes": 5615509128,
+      "footer_bytes": 10686926,
+      "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+      "mtime_ns": 1577826000000000000
+    },
+    "evaluation_groups": [
+      {
+        "component": 943,
+        "row_group": 571,
+        "seq_ix": 648503247
+      },
+      {
+        "component": 1384,
+        "row_group": 891,
+        "seq_ix": 1028944459
+      },
+      {
+        "component": 2156,
+        "row_group": 120,
+        "seq_ix": 123222696
+      },
+      {
+        "component": 2719,
+        "row_group": 57,
+        "seq_ix": 56616349
+      },
+      {
+        "component": 2800,
+        "row_group": 5,
+        "seq_ix": 2308749
+      },
+      {
+        "component": 2812,
+        "row_group": 18,
+        "seq_ix": 24654613
+      },
+      {
+        "component": 2813,
+        "row_group": 19,
+        "seq_ix": 25927382
+      },
+      {
+        "component": 2840,
+        "row_group": 53,
+        "seq_ix": 52382536
+      },
+      {
+        "component": 2852,
+        "row_group": 69,
+        "seq_ix": 66820630
+      },
+      {
+        "component": 2862,
+        "row_group": 83,
+        "seq_ix": 84471721
+      },
+      {
+        "component": 2874,
+        "row_group": 96,
+        "seq_ix": 101467520
+      },
+      {
+        "component": 2917,
+        "row_group": 160,
+        "seq_ix": 165866973
+      },
+      {
+        "component": 2927,
+        "row_group": 174,
+        "seq_ix": 175014415
+      },
+      {
+        "component": 2934,
+        "row_group": 186,
+        "seq_ix": 184483079
+      },
+      {
+        "component": 2940,
+        "row_group": 203,
+        "seq_ix": 199233023
+      },
+      {
+        "component": 2947,
+        "row_group": 213,
+        "seq_ix": 215406350
+      },
+      {
+        "component": 2972,
+        "row_group": 261,
+        "seq_ix": 274036192
+      },
+      {
+        "component": 2979,
+        "row_group": 281,
+        "seq_ix": 294536984
+      },
+      {
+        "component": 3004,
+        "row_group": 338,
+        "seq_ix": 368464725
+      },
+      {
+        "component": 3007,
+        "row_group": 344,
+        "seq_ix": 375371612
+      },
+      {
+        "component": 3011,
+        "row_group": 354,
+        "seq_ix": 384964812
+      },
+      {
+        "component": 3032,
+        "row_group": 405,
+        "seq_ix": 443640466
+      },
+      {
+        "component": 3041,
+        "row_group": 434,
+        "seq_ix": 484140611
+      },
+      {
+        "component": 3050,
+        "row_group": 466,
+        "seq_ix": 526592466
+      },
+      {
+        "component": 3108,
+        "row_group": 674,
+        "seq_ix": 767346819
+      },
+      {
+        "component": 3148,
+        "row_group": 859,
+        "seq_ix": 988735507
+      },
+      {
+        "component": 3161,
+        "row_group": 924,
+        "seq_ix": 1060963979
+      },
+      {
+        "component": 3169,
+        "row_group": 947,
+        "seq_ix": 1078692510
+      },
+      {
+        "component": 3194,
+        "row_group": 1113,
+        "seq_ix": 1281984063
+      },
+      {
+        "component": 3205,
+        "row_group": 1141,
+        "seq_ix": 1319107671
+      },
+      {
+        "component": 3206,
+        "row_group": 1143,
+        "seq_ix": 1320471544
+      },
+      {
+        "component": 3267,
+        "row_group": 1643,
+        "seq_ix": 1886816286
+      }
+    ],
+    "evaluation_seed": 20261019,
+    "exposure": "F0 fit groups are train-only; F0 evaluation components have been repeatedly inspected and are exposed development data.",
+    "fit_data_identity": {
+      "bytes": 29240219011,
+      "footer_bytes": 60437285,
+      "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+      "mtime_ns": 1577826000000000000
+    },
+    "fit_groups": [
+      {
+        "component": 6,
+        "row_group": 6,
+        "seq_ix": 644043
+      },
+      {
+        "component": 52,
+        "row_group": 54,
+        "seq_ix": 10989178
+      },
+      {
+        "component": 84,
+        "row_group": 87,
+        "seq_ix": 19139325
+      },
+      {
+        "component": 94,
+        "row_group": 97,
+        "seq_ix": 20545957
+      },
+      {
+        "component": 176,
+        "row_group": 187,
+        "seq_ix": 41665941
+      },
+      {
+        "component": 329,
+        "row_group": 361,
+        "seq_ix": 78060981
+      },
+      {
+        "component": 428,
+        "row_group": 480,
+        "seq_ix": 104112084
+      },
+      {
+        "component": 435,
+        "row_group": 488,
+        "seq_ix": 105274071
+      },
+      {
+        "component": 688,
+        "row_group": 840,
+        "seq_ix": 178788086
+      },
+      {
+        "component": 958,
+        "row_group": 1313,
+        "seq_ix": 276483702
+      },
+      {
+        "component": 1070,
+        "row_group": 1496,
+        "seq_ix": 315269977
+      },
+      {
+        "component": 1133,
+        "row_group": 1646,
+        "seq_ix": 344181861
+      },
+      {
+        "component": 1258,
+        "row_group": 1926,
+        "seq_ix": 404318744
+      },
+      {
+        "component": 1277,
+        "row_group": 1972,
+        "seq_ix": 412867931
+      },
+      {
+        "component": 1287,
+        "row_group": 2005,
+        "seq_ix": 419274945
+      },
+      {
+        "component": 1615,
+        "row_group": 2879,
+        "seq_ix": 589102932
+      },
+      {
+        "component": 1739,
+        "row_group": 3323,
+        "seq_ix": 682860323
+      },
+      {
+        "component": 1851,
+        "row_group": 3745,
+        "seq_ix": 765304818
+      },
+      {
+        "component": 1919,
+        "row_group": 4039,
+        "seq_ix": 827189972
+      },
+      {
+        "component": 1923,
+        "row_group": 4051,
+        "seq_ix": 829274389
+      },
+      {
+        "component": 1947,
+        "row_group": 4162,
+        "seq_ix": 849993167
+      },
+      {
+        "component": 2023,
+        "row_group": 4522,
+        "seq_ix": 922189925
+      },
+      {
+        "component": 2033,
+        "row_group": 4587,
+        "seq_ix": 937832783
+      },
+      {
+        "component": 2135,
+        "row_group": 5089,
+        "seq_ix": 1048546018
+      },
+      {
+        "component": 2180,
+        "row_group": 5354,
+        "seq_ix": 1099700562
+      },
+      {
+        "component": 2322,
+        "row_group": 6211,
+        "seq_ix": 1274027123
+      },
+      {
+        "component": 2381,
+        "row_group": 6598,
+        "seq_ix": 1356154926
+      },
+      {
+        "component": 2406,
+        "row_group": 6768,
+        "seq_ix": 1386210565
+      },
+      {
+        "component": 2419,
+        "row_group": 6872,
+        "seq_ix": 1407738222
+      },
+      {
+        "component": 2420,
+        "row_group": 6888,
+        "seq_ix": 1409581041
+      },
+      {
+        "component": 2574,
+        "row_group": 8126,
+        "seq_ix": 1661236787
+      },
+      {
+        "component": 2696,
+        "row_group": 9340,
+        "seq_ix": 1904558911
+      }
+    ],
+    "fit_seed": 20261018,
+    "selection_rule": "Uniformly sample 32 distinct eligible component IDs with NumPy default_rng, then use the lowest row-group ID within each sampled component.",
+    "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "target_alignment": "At current step t >= 100, predict clipped previous-row label y[t-1] from x[t] and x[t]-x[t-1]. This is a one-row proxy alignment only: the target horizon and maturity at t are undocumented. The predictor never reads target or scoring mask at inference."
+}

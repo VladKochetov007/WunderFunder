@@ -27,8 +27,10 @@ from wnn.data import N_FEATURES, SEQUENCE_LENGTH, SequenceFile
 from wnn.propensity import load_propensity
 from wnn.research_features import (
     MOMENT_FEATURE_MODES,
+    PRIOR_FEATURE_MODES,
     research_feature_control_width,
     validate_causal_moment_prior,
+    validate_research_feature_prior,
 )
 from wnn.resources import configure_strict_fp32, configure_torch, dataloader_budget
 from wnn.sentinel import SentinelPreprocessor
@@ -230,12 +232,19 @@ def main():
         }
     train_rnn.RESEARCH_FEATURES = ck["args"].get("research_features", "none")
     train_rnn.RESEARCH_FEATURE_CONTROL = ck["args"].get("research_feature_control", "none")
-    research_feature_control_width(train_rnn.RESEARCH_FEATURES, train_rnn.RESEARCH_FEATURE_CONTROL)
-    if train_rnn.RESEARCH_FEATURES in MOMENT_FEATURE_MODES:
+    research_feature_control_width(
+        train_rnn.RESEARCH_FEATURES, train_rnn.RESEARCH_FEATURE_CONTROL
+    )
+    if train_rnn.RESEARCH_FEATURES in PRIOR_FEATURE_MODES:
         prior = ck.get("research_feature_prior")
         if not isinstance(prior, dict):
-            raise ValueError("causal moment checkpoint lacks its fitting-only feature prior")
-        train_rnn.RESEARCH_FEATURE_PRIOR = validate_causal_moment_prior(prior)
+            raise ValueError("prior-based research checkpoint lacks its fitting-only feature prior")
+        if train_rnn.RESEARCH_FEATURES in MOMENT_FEATURE_MODES:
+            train_rnn.RESEARCH_FEATURE_PRIOR = validate_causal_moment_prior(prior)
+        else:
+            train_rnn.RESEARCH_FEATURE_PRIOR = validate_research_feature_prior(
+                train_rnn.RESEARCH_FEATURES, prior
+            )
     else:
         train_rnn.RESEARCH_FEATURE_PRIOR = None
     input_propensity = ck["args"].get("prop_input")

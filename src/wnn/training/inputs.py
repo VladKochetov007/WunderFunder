@@ -9,15 +9,20 @@ import torch
 
 from wnn.data import N_FEATURES, SequenceFile
 from wnn.features import event_features_torch, online_zscore_torch
+from wnn.i1_history import I1_HISTORY_MODE, I1_INPUT_WIDTH
+from wnn.kalman_group_features import MODE as KALMAN_GROUP_MODE
 from wnn.privileged import privileged_inputs
 from wnn.research_features import (
+    GEOMETRY_DISCRETE_MODE,
     MOMENT_FEATURE_MODES,
-    fit_causal_moment_prior,
+    PRIOR_FEATURE_MODES,
+    fit_research_feature_constants,
     research_feature_names,
     research_features_torch,
-    validate_causal_moment_prior,
+    validate_research_feature_prior,
 )
 from wnn.training.environment import TrainingEnvironment
+from wnn.training.i1_inputs import validate_i1_input_configuration
 
 
 def build_inputs(
@@ -39,11 +44,28 @@ def build_inputs(
     """
     environment = environment if environment is not None else TrainingEnvironment()
     raw, extra = (x[..., :N_FEATURES], x[..., N_FEATURES:])
+    if environment.inputs.research_features == I1_HISTORY_MODE:
+        if extra.shape[-1]:
+            raise ValueError("i1_history requires exactly the fixed-width raw/event/history input")
+        validate_i1_input_configuration(
+            {
+                "research_features": I1_HISTORY_MODE,
+                "research_feature_control": environment.inputs.research_feature_control,
+                "online_norm": environment.inputs.online_norm,
+                "heuristics": environment.inputs.heuristics,
+                "raw_only": environment.inputs.raw_only,
+                "prop_input": bool(environment.inputs.propensity_model),
+                "privileged_mode": environment.inputs.privileged_mode,
+                "sentinel_base_width": bool(environment.inputs.sentinel_preprocessor),
+            },
+            I1_INPUT_WIDTH,
+        )
     ev = event_features_torch(raw)
     if environment.inputs.raw_only:
         ev = torch.zeros_like(ev)
     if (
-        environment.inputs.research_features in MOMENT_FEATURE_MODES
+        environment.inputs.research_features
+        in (*MOMENT_FEATURE_MODES, KALMAN_GROUP_MODE, I1_HISTORY_MODE)
         and (not environment.inputs.online_norm)
         and (not environment.inputs.heuristics)
         and (environment.inputs.privileged_mode == "none")
@@ -62,7 +84,7 @@ def build_inputs(
             environment.inputs.research_features,
             environment.inputs.research_feature_prior,
             output=inputs[..., base_width:],
-            control=environment.inputs.research_feature_control,
+            control=_input_research_control(environment),
         )
         return inputs
     if x.requires_grad:
@@ -79,7 +101,7 @@ def build_inputs(
                 raw,
                 environment.inputs.research_features,
                 environment.inputs.research_feature_prior,
-                control=environment.inputs.research_feature_control,
+                control=_input_research_control(environment),
             )
         )
     if environment.inputs.privileged_mode != "none":
@@ -128,7 +150,7 @@ def _build_staged_inputs(
                     raw,
                     environment.inputs.research_features,
                     environment.inputs.research_feature_prior,
-                    control=environment.inputs.research_feature_control,
+                    control=_input_research_control(environment),
                 ),
             ],
             dim=-1,
@@ -162,6 +184,13 @@ def _build_staged_inputs(
     return inputs
 
 
+def _input_research_control(environment: TrainingEnvironment) -> str:
+    """Keep i1 features unmasked until the model applies masks after normalization."""
+    if environment.inputs.research_features == I1_HISTORY_MODE:
+        return "none"
+    return environment.inputs.research_feature_control
+
+
 def fit_research_feature_prior(
     train_split: str,
     train_groups: np.ndarray,
@@ -178,9 +207,13 @@ def fit_research_feature_prior(
     members = sorted(set(members))
     if not members:
         raise ValueError("causal feature prior needs at least one fitting group")
+    mode = environment.inputs.research_features
+    if mode not in PRIOR_FEATURE_MODES:
+        raise ValueError(f"feature mode {mode!r} does not use a fitted prior")
     rng = np.random.default_rng(seed + 20261012)
-    if len(members) > 32:
-        selected_indices = np.sort(rng.choice(len(members), size=32, replace=False))
+    sample_size = 64 if mode in (GEOMETRY_DISCRETE_MODE, I1_HISTORY_MODE) else 32
+    if len(members) > sample_size:
+        selected_indices = np.sort(rng.choice(len(members), size=sample_size, replace=False))
         selected = [members[int(index)] for index in selected_indices]
     else:
         selected = members
@@ -195,11 +228,11 @@ def fit_research_feature_prior(
                 )
             yield files[split].read(group, targets=False, mask=False).features
 
-    prior = fit_causal_moment_prior(fitting_sequences())
+    prior = fit_research_feature_constants(mode, fitting_sequences())
     encoded_members = [{"split": split, "row_group": group} for split, group in selected]
     member_text = json.dumps(encoded_members, sort_keys=True, separators=(",", ":"))
     prior["fit_members"] = encoded_members
     prior["fit_members_sha256"] = hashlib.sha256(member_text.encode("ascii")).hexdigest()
-    prior["sample_policy"] = "uniform_seeded_source_qualified_32_groups_v1"
+    prior["sample_policy"] = f"uniform_seeded_source_qualified_{len(selected)}_groups_v1"
     prior["sample_seed"] = seed + 20261012
-    return validate_causal_moment_prior(prior)
+    return validate_research_feature_prior(mode, prior)

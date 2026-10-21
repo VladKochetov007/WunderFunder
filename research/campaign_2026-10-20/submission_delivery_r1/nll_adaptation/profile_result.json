@@ -1,0 +1,151 @@
+{
+  "status": "passed_loss_gradient_update_gate",
+  "scientific_fits": 0,
+  "arms": [
+    {
+      "arm": "wmse_profile",
+      "gradient_statistics": {
+        "epoch": 0,
+        "steps": 60,
+        "nonfinite_steps": 0,
+        "clip": 1.0,
+        "total_q05_q50_q95": [
+          0.45735,
+          0.60401,
+          1.18678
+        ],
+        "clip_rate": 0.1167,
+        "mean_clip_factor": 0.9817,
+        "family_median": {
+          "rnn_hh": 0.15951,
+          "rnn_ih": 0.30692,
+          "inp": 0.20624,
+          "head": 0.44678,
+          "bias": 0.06016
+        },
+        "family_sq_share_mean": {
+          "rnn_hh": 0.0748,
+          "rnn_ih": 0.264,
+          "inp": 0.1118,
+          "head": 0.5387,
+          "bias": 0.0107
+        }
+      },
+      "timings_ms_per_full_batch": {
+        "backward": 556.78,
+        "forward": 560.89,
+        "gpu_total": 1135.91,
+        "h2d": 0.01,
+        "inputs": 9.26,
+        "labels": 1.87,
+        "loss": 3.17,
+        "optimizer": 3.17,
+        "weights": 0.32,
+        "loader_wait": 555.6,
+        "step_wall": 1680.35,
+        "seq_per_s": 9.52,
+        "syncs_per_step": 0.5
+      },
+      "update_evidence": {
+        "optimizer_attempts": 60,
+        "optimizer_completed_updates": 60,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 60,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 60,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      }
+    },
+    {
+      "arm": "nll_profile",
+      "gradient_statistics": {
+        "epoch": 0,
+        "steps": 60,
+        "nonfinite_steps": 0,
+        "clip": 1.0,
+        "total_q05_q50_q95": [
+          5.31956,
+          5.68656,
+          6.13938
+        ],
+        "clip_rate": 1.0,
+        "mean_clip_factor": 0.176,
+        "family_median": {
+          "rnn_hh": 0.15967,
+          "rnn_ih": 0.30742,
+          "inp": 0.20647,
+          "head": 5.62451,
+          "bias": 0.69769
+        },
+        "family_sq_share_mean": {
+          "rnn_hh": 0.0012,
+          "rnn_ih": 0.0042,
+          "inp": 0.0016,
+          "head": 0.9779,
+          "bias": 0.0152
+        }
+      },
+      "timings_ms_per_full_batch": {
+        "backward": 594.98,
+        "forward": 593.82,
+        "gpu_total": 1207.14,
+        "h2d": 0.01,
+        "inputs": 9.25,
+        "labels": 1.88,
+        "loss": 3.55,
+        "optimizer": 3.33,
+        "weights": 0.3,
+        "loader_wait": 548.05,
+        "step_wall": 1681.82,
+        "seq_per_s": 9.51,
+        "syncs_per_step": 0.5
+      },
+      "update_evidence": {
+        "optimizer_attempts": 60,
+        "optimizer_completed_updates": 60,
+        "amp_skipped_updates": 0,
+        "grad_scaler_enabled": false,
+        "loss_checks": 60,
+        "loss_finite": true,
+        "gradient_finite": true,
+        "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+        "gradient_stats_steps": 60,
+        "gradient_stats_nonfinite_steps": 0,
+        "counts_consistent": true,
+        "valid_for_throughput": true
+      }
+    }
+  ],
+  "sequence_report": {
+    "status": "complete",
+    "steps": [
+      {
+        "name": "wmse_profile",
+        "returncode": 0,
+        "wall_seconds": 19.617420023001614
+      },
+      {
+        "name": "nll_profile",
+        "returncode": 0,
+        "wall_seconds": 21.650797066999075
+      }
+    ]
+  },
+  "worker_peak_rss_bytes": 3491184640,
+  "job_wall_seconds": 41.3,
+  "swap_operations": 0,
+  "cuda_peak_allocated_bytes": null,
+  "cuda_peak_reserved_bytes": null,
+  "limitations": [
+    "No final parameter/optimizer-state finiteness check.",
+    "Generic profile path did not emit CUDA peak memory; allocator cap was4.5GB; total-device memory must be observed at fit start.",
+    "Four measured batches per arm; full-epoch throughput may differ."
+  ],
+  "projection_seconds_per_two_epoch_fit": 2509.544,
+  "gpu_budget_used_seconds_conservative": 41.3
+}

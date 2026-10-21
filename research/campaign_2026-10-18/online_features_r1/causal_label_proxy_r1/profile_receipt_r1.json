@@ -1,0 +1,64 @@
+{
+  "id": "OPS-ONLINE-LAGGED-PROXY-FIT-PROFILE-20261018-R1",
+  "status": "completed_actual_one_group_fit_profile",
+  "attempt_id": "online-proxy-fit-profile-20261018-r2",
+  "attempt_record": "../runtime/attempts/online-proxy-fit-profile-20261018-r2.json",
+  "started_utc": "2026-10-18T01:14:07.529947+00:00",
+  "finished_utc": "2026-10-18T01:14:12.561916+00:00",
+  "scope": "Resource profile only: exact proxy fitter, train Parquet metadata and one selected complete fit sequence. No evaluation groups or quality score.",
+  "selected_profile_group": {
+    "component": 6,
+    "row_group": 6,
+    "seq_ix": 644043,
+    "rows": 20000,
+    "fit_sampled_rows_per_target": 1990,
+    "step_stride": 10
+  },
+  "profile_recipe_sha256": "7252c8156a8907b46696af5d591394107cd56f2813154e09fdb8254b85b07700",
+  "full_recipe_sha256": "86100bbce50cf7378d50a27fb94b75c83bced6c0fcee1b58a41fd0e503a7c798",
+  "runner_sha256": "685ba6b0d9ab62ee04cc300c6554b60af822f105514e7559642f01e38ee0bd30",
+  "weighted_moment_source_sha256": "af4066876d8a115cc0662187e29fecc34ac2acbf87eb24c61def46908f062ea0",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "controller_source_manifest_sha256": "b8ebf1d0d8c650f1227b12e6d3c281391c1bf02d89c7be551513a5424e1184b4",
+  "resources": {
+    "cpu_reservation_cores": 1,
+    "memory_reservation_bytes": 1500000000,
+    "worker_cgroup_peak_bytes": 1067388928,
+    "worker_memory_max_bytes": 1500000000,
+    "process_peak_rss_kib": 1077704,
+    "peak_parent_memory_bytes": 5632331776,
+    "parent_working_target_bytes": 17000000000,
+    "observed_gpu_memory_bytes": 0,
+    "worker_oom_delta": 0,
+    "parent_hierarchical_oom_delta": 0,
+    "elapsed_wall_seconds": 5.0313936449965695,
+    "swap_bytes": 0
+  },
+  "fit_receipt_in_scratch": "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_label_proxy_r1/profile_output_r1/fit_receipt.json",
+  "profile_model_sha256": "54e8b828999e26c3ecc1ec14f98025a91b3756fced3ddf032b701ff549d063d6",
+  "profile_model_bytes": 11205,
+  "scale_diagnostics": [
+    {
+      "target": "t0",
+      "min": 0.005185853103073092,
+      "median": 0.08802505038706543,
+      "max": 1.8416821382072934,
+      "floored_count": 0
+    },
+    {
+      "target": "t1",
+      "min": 0.005274655167343298,
+      "median": 0.07668537489651533,
+      "max": 1.8427074116490116,
+      "floored_count": 0
+    }
+  ],
+  "admission_history": [
+    {
+      "attempt_id": "online-proxy-fit-profile-20261018-r1",
+      "status": "not_started",
+      "reason": "The full-core support wrapper was counted alongside the one-core worker, exceeding the aggregate CPU cap. No worker or payload access occurred. The subsequent launch used a 20% support-wrapper quota."
+    }
+  ],
+  "interpretation": "This confirms the selected-group data path and stable-ridge numerical execution fit within the measured reservation. It is not a full 32-group profile, validation score, or scientific result."
+}

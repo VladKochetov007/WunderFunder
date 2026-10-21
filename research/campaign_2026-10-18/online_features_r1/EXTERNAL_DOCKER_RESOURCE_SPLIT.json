@@ -1,0 +1,17 @@
+{
+  "reason": "Dockerdaemon places fullTL3replay in separate system.slice cgroup, so campaign counters do not include it. No GPUfit admitted until it drains.",
+  "external_container": "c2c95553e6b6b593bbd7da91e1681e39695d6373e81456c8676ad42115d45acd",
+  "external_cgroup": "/system.slice/docker-c2c95553e6b6b593bbd7da91e1681e39695d6373e81456c8676ad42115d45acd.scope",
+  "external_cpu_cap_cores": 1,
+  "external_memory_max_bytes": 2147483648,
+  "external_swap_max_bytes": 0,
+  "temporary_internal_cpu_quota_percent": 100,
+  "previous_internal_cpu_quota_percent": 200,
+  "aggregate_cpu_cap_cores": 2,
+  "internal_support_reservation_bytes": 1500000000,
+  "aggregate_task_reserved_bytes": 3647483648,
+  "parent_memory_current_observed_bytes": 1463000000,
+  "no_gpu_fit_admitted": true,
+  "restore_action": "Afterexternalcontainerstops, root restoreswnn-campaign.slice CPUQuota200% beforeGPUprofile/fit; recordterminalrestore receipt. No memorylimitsraised orhealthyjobskilled.",
+  "scope": "Temporaryinternalquota reduction preserveslatest2aggregateCPUlimit; externalmemory is addedseparately toconservativeparentcommitment."
+}

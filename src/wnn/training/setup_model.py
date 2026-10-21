@@ -13,6 +13,7 @@ from wnn.sentinel import SentinelPreprocessor
 from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
 from wnn.splits import file_sha256
 from wnn.spread_aux import validate_spread_parent
+from wnn.training.i1_inputs import configure_i1_input_mask
 from wnn.training.inheritance import (
     can_extend_research_features,
     expand_research_feature_state,
@@ -28,6 +29,7 @@ def build_model(run: TrainingRun) -> None:
     ap = run.options.ap
     args = run.options.args
     device = run.options.device
+    dynamics_at = run.network.dynamics_at
     family_at = run.network.family_at
     init = run.network.init
     ks = run.network.ks
@@ -103,7 +105,13 @@ def build_model(run: TrainingRun) -> None:
     base_n_out = n_out
     if args.distill_family_weight > 0:
         n_out += 8
+    if args.dynamics_aux_head and (
+        args.arch != "gru" or args.cell != "gru" or args.enc != "linear" or n_out != 2
+    ):
+        ap.error("the dynamics auxiliary head requires a plain main-only GRU with linear encoding")
+    dynamics_at = n_out if args.dynamics_aux_head else None
     model = environment.make_model(vars(args), n_in, base_n_out)
+    configure_i1_input_mask(model, vars(args), n_in)
     if args.distill_family_weight > 0:
         model = append_family_output_head(model)
     model = model.to(device)
@@ -114,6 +122,7 @@ def build_model(run: TrainingRun) -> None:
     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
     init = None
     run.network.family_at = family_at
+    run.network.dynamics_at = dynamics_at
     run.network.init = init
     run.network.ks = ks
     run.network.mask_at = mask_at

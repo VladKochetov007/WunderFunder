@@ -22,6 +22,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from grade_prediction_bank import SCORED_FROM_ROW, Lazy, aligned, score, sha256  # noqa: E402
 
 from wnn.data import market_class  # noqa: E402
+from wnn.gmetric import METRIC_ID  # noqa: E402
 
 
 def main() -> int:
@@ -29,8 +30,20 @@ def main() -> int:
     parser.add_argument("--run", required=True)
     parser.add_argument("--split", type=Path, required=True)
     parser.add_argument("--epoch", type=int, required=True)
-    parser.add_argument("--cleanup", action="store_true", help="delete intermediate checkpoints and training state")
-    parser.add_argument("--drop-predictions", action="store_true", help="also delete the prediction array (default: keep it as a blend candidate)")
+    parser.add_argument(
+        "--prediction",
+        type=Path,
+        default=None,
+        help="explicit archived prediction NPY; defaults to the run's cache export",
+    )
+    parser.add_argument(
+        "--cleanup", action="store_true", help="delete intermediate checkpoints and training state"
+    )
+    parser.add_argument(
+        "--drop-predictions",
+        action="store_true",
+        help="also delete the prediction array (default: keep it as a blend candidate)",
+    )
     args = parser.parse_args()
     run_dir = ROOT / "artifacts/runs" / args.run
     split = json.loads(args.split.read_text())
@@ -41,8 +54,18 @@ def main() -> int:
         y = np.asarray(cache["y"][index], dtype=np.float32)
         mask = np.asarray(cache["mask"][index], dtype=bool)
     mask &= (np.arange(y.shape[1]) >= SCORED_FROM_ROW)[None, :]
-    prediction = ROOT / "cache" / f"pred_{args.run}_valid.npy"
-    result = aligned({"prediction": str(prediction.relative_to(ROOT))}, groups, sha256(args.split))
+    prediction = (
+        args.prediction.resolve()
+        if args.prediction is not None
+        else ROOT / "cache" / f"pred_{args.run}_valid.npy"
+    )
+    try:
+        prediction_relative = prediction.relative_to(ROOT)
+    except ValueError as error:
+        parser.error(f"prediction must be inside the repository: {prediction}")
+        raise AssertionError("unreachable") from error
+    split_sha256 = sha256(args.split)
+    result = aligned({"prediction": prediction_relative.as_posix()}, groups, split_sha256)
     if isinstance(result, str):
         raise SystemExit(f"{args.run}: {result}")
     array, order = result
@@ -62,10 +85,26 @@ def main() -> int:
     attempts = 0
     if history:
         cumulative = history[-1].get("update_diagnostics", {}).get("cumulative", {})
-        skipped, attempts = cumulative.get("amp_skipped_updates", 0), cumulative.get("optimizer_attempts", 0)
-    payload = {"schema": "wnn.hpo-score.v1", "run": args.run, "wp": overall["wp"], "t0": overall["t0"], "t1": overall["t1"],
-               "class_wp": by_class, "finite_fraction": finite, "amp_skipped": skipped, "optimizer_attempts": attempts,
-               "train_seconds": round(sum(row.get("train_seconds", 0) for row in history), 1), "epoch": args.epoch}
+        skipped, attempts = (
+            cumulative.get("amp_skipped_updates", 0),
+            cumulative.get("optimizer_attempts", 0),
+        )
+    payload = {
+        "schema": "wnn.hpo-score.v1",
+        "metric_id": METRIC_ID,
+        "run": args.run,
+        "split_manifest_sha256": split_sha256,
+        "prediction_sha256": sha256(prediction),
+        "wp": overall["wp"],
+        "t0": overall["t0"],
+        "t1": overall["t1"],
+        "class_wp": by_class,
+        "finite_fraction": finite,
+        "amp_skipped": skipped,
+        "optimizer_attempts": attempts,
+        "train_seconds": round(sum(row.get("train_seconds", 0) for row in history), 1),
+        "epoch": args.epoch,
+    }
     (run_dir / "score.json").write_text(json.dumps(payload))
     print(json.dumps(payload), flush=True)
     if args.drop_predictions:

@@ -1,0 +1,85 @@
+{
+  "id": "OPS-ONLINE-LAGGED-PROXY-EXECUTION-20261018-R1",
+  "status": "fit_grade_and_independent_regrade_completed",
+  "recipe": "recipe.json",
+  "recipe_sha256": "86100bbce50cf7378d50a27fb94b75c83bced6c0fcee1b58a41fd0e503a7c798",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "code": {
+    "runner_sha256": "685ba6b0d9ab62ee04cc300c6554b60af822f105514e7559642f01e38ee0bd30",
+    "weighted_moment_source_sha256": "af4066876d8a115cc0662187e29fecc34ac2acbf87eb24c61def46908f062ea0",
+    "independent_grader_sha256": "0e1dbf51bcbbefb2eef463c45f3ff4003c6ee845b5d588bed759cece8ecca435"
+  },
+  "fit": {
+    "attempt_id": "online-proxy-fit-20261018-r1",
+    "status": "finished",
+    "exit_status": 0,
+    "elapsed_seconds": 5.025545694996254,
+    "peak_worker_cgroup_bytes": 1344704512,
+    "reservation_bytes": 2000000000,
+    "peak_parent_memory_bytes": 5845008384,
+    "oom_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "receipt": "fit_receipt_r1.json",
+    "model_path": "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_label_proxy_r1/fit_r1/model.npz",
+    "model_sha256": "9ef7d8bed5e87040f61d873c1f5dab59a51993650a064df26eaafb94da02500a"
+  },
+  "grade": {
+    "attempt_id": "online-proxy-grade-20261018-r1",
+    "status": "finished",
+    "exit_status": 0,
+    "elapsed_seconds": 5.035935859996243,
+    "peak_worker_cgroup_bytes": 663388160,
+    "reservation_bytes": 2000000000,
+    "peak_parent_memory_bytes": 6087557120,
+    "oom_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "receipt": "grade_receipt_r1.json",
+    "prediction_path": "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_label_proxy_r1/fit_r1/evaluation_proxy_predictions.npy",
+    "prediction_sha256": "5e2919c30e9f467d7b4c5f06f8bed37a52663a1b0c899fe4fba278ef93f985d4",
+    "prediction_shape": [
+      636800,
+      2
+    ],
+    "score": 0.521679445011028,
+    "conditional_component_bootstrap_95_interval": [
+      0.44885780473201514,
+      0.5768614458381042
+    ]
+  },
+  "independent_regrade": {
+    "attempt_id": "online-proxy-independent-grade-20261018-r1",
+    "status": "independent_metric_regrade_passed",
+    "exit_status": 0,
+    "elapsed_seconds": 5.031575216999045,
+    "peak_worker_cgroup_bytes": 336158720,
+    "reservation_bytes": 1500000000,
+    "oom_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0,
+      "sock_throttled": 0
+    },
+    "receipt": "independent_grade_r1.json",
+    "score": 0.521679445011028,
+    "absolute_difference": 0.0
+  },
+  "parent_hierarchical_oom_delta": 0,
+  "gpu_used": false
+}

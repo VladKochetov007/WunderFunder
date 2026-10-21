@@ -1,0 +1,36 @@
+{
+  "commands": [
+    "WNN_SLICE=wnn-campaign.slice WNN_MEM_MAX=450M WNN_CPU_QUOTA=20% WNN_THREADS=1 WNN_TMP_ROOT=/home/vlad/development/wunder/research_tmp WNN_RUNTIME_MAX=180s scripts/limited .venv/bin/python research/campaign_2026-10-18/online_features_r1/tl3_diagnostics_r1/grade_fixed_mixtures.py --repo-root . --mode preflight --output research/campaign_2026-10-18/online_features_r1/tl3_diagnostics_r1/preflight.json",
+    "WNN_SLICE=wnn-campaign.slice WNN_MEM_MAX=450M WNN_CPU_QUOTA=20% WNN_THREADS=1 WNN_TMP_ROOT=/home/vlad/development/wunder/research_tmp WNN_RUNTIME_MAX=300s scripts/limited .venv/bin/python research/campaign_2026-10-18/online_features_r1/tl3_diagnostics_r1/grade_fixed_mixtures.py --repo-root . --mode score --preflight-receipt research/campaign_2026-10-18/online_features_r1/tl3_diagnostics_r1/preflight.json --recipe research/campaign_2026-10-18/online_features_r1/tl3_diagnostics_r1/recipe.json --output research/campaign_2026-10-18/online_features_r1/tl3_diagnostics_r1/result.json"
+  ],
+  "evaluation_components": 141,
+  "evaluation_groups": 468,
+  "exit_code": 0,
+  "notes": "Preflight validates the frozen split, sidecar and prediction identities, finite F0 predictions, and target-cache schema; it does not read target values. The subsequent score command reads exposed F0 target values under the unchanged official metric.",
+  "observed_in_flight": {
+    "cgroup_memory_current_bytes": 270979072,
+    "cpu_percent": 19.9,
+    "elapsed_at_observation_seconds": 63,
+    "note": "One in-flight observation, not peak memory or runtime.",
+    "pid": 2498470
+  },
+  "preflight_fingerprint": "202a195a289eaaabd70c9871f1de4b71c1721ec93677bef5aa358cb7d4605276",
+  "resource_limits": {
+    "cpu_quota": "20%",
+    "memory_max_bytes": 471859200,
+    "physical_tmp_root": "/home/vlad/development/wunder/research_tmp",
+    "slice": "wnn-campaign.slice",
+    "swap_max_bytes": 0,
+    "threads": 1
+  },
+  "result_hashes": {
+    "research/campaign_2026-10-18/online_features_r1/tl3_diagnostics_r1/grade_fixed_mixtures.py": "d7b39aec6166a2496272beeca5a16497f9d7abcaabfe1b3bf4e7b415e4b567dd",
+    "research/campaign_2026-10-18/online_features_r1/tl3_diagnostics_r1/preflight.json": "6991d856b6528af95d75f13904cdd1b13fcbe5e15a4a8d10ef0b031439289722",
+    "research/campaign_2026-10-18/online_features_r1/tl3_diagnostics_r1/recipe.json": "30296eb5f7e7a8e608d3e181c1d6bfd43074b8dae8ff056f6967387b695d7f76",
+    "research/campaign_2026-10-18/online_features_r1/tl3_diagnostics_r1/result.json": "10a42eefcda3d6703ddee2006ebfc7bd69915830d34b9cfcf0a160dad8ae9451"
+  },
+  "runtime_peak_claimed": false,
+  "schema": "wnn.tl3_fixed_mixture_execution_receipt.v1",
+  "selected_rows": 808863,
+  "status": "completed"
+}

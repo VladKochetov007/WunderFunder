@@ -1,5 +1,13 @@
 # Extendable bandit research tree
 
+## Publication merge snapshot — 2026-10-21
+
+The generated `INDEX.md`, catalog, integrity record and tree are retained from
+`origin/research-team` while the parallel branch's append-only journal/config
+entries are integrated. They do not include the merged local additions yet.
+This generated view is intentionally stale for the merge snapshot; regenerate
+and check it after the journal/config conflicts are finalized.
+
 ## Interactive view
 
 Open [the HTML research explorer](generated/view.html). It works offline, embeds

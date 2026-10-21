@@ -1,0 +1,21 @@
+{
+  "id": "E-GEOMETRY-CORRECTION-SCALE-20261018-R3S",
+  "basis": "postfit_scaling_plan.json",
+  "scope": "Four inference-only exports; no fit or optimizer state update. Run after R3 fits and exports drain.",
+  "worker": {
+    "cpu_cores": 1,
+    "memory_reservation_bytes": 4500000000,
+    "gpu_workers": 1,
+    "no_swap": true
+  },
+  "profile_basis": "Completed R2 and R3 complete271-input FP32 exports at B16/chunk4000, identical dimensions; checkpoint alias creation precedes exports serially. R3 measured worker peak4.052GB.",
+  "source_checkpoint_sha256": "f03785c3dbc364d3d12a0ad0cbe1969a50a95bdc3a95d1f4bd0f4758f654df19",
+  "alpha_values": [
+    -0.5,
+    -0.25,
+    0.25,
+    0.5
+  ],
+  "deadline_utc": "2026-10-17T23:50:00Z",
+  "completion": "All four full468-sequence prediction caches and official scores, independently graded after GPU worker drain; at most one fixed native endpoint replay."
+}

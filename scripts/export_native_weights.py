@@ -19,6 +19,8 @@ from pathlib import Path
 
 import numpy as np
 
+from wnn.training.dynamics_auxiliary import strip_dynamics_auxiliary_state
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
@@ -32,7 +34,9 @@ def state_dict(run: str, runs_dir: Path) -> dict[str, np.ndarray]:
     ck = torch.load(runs_dir / name / ckpt, map_location="cpu", weights_only=False)
     if ck.get("args", {}).get("readout_activation", "gelu") != "gelu":
         raise ValueError("non-GELU readout is not supported by the native engine")
-    sd = {k: np.ascontiguousarray(v.float().numpy()) for k, v in ck["model"].items()}
+    sd = strip_dynamics_auxiliary_state(
+        {k: np.ascontiguousarray(v.float().numpy()) for k, v in ck["model"].items()}
+    )
     sd["head.2.weight"] = np.ascontiguousarray(sd["head.2.weight"][:2])
     sd["head.2.bias"] = np.ascontiguousarray(sd["head.2.bias"][:2])
     return sd

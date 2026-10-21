@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/run_geometry_r4_matrix.py", line 11, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/geometry_r4/runner.py", line 214, in main
+    plan, admission = verify_frozen_inputs(verify_data=True)
+                      ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/geometry_r4/contract.py", line 94, in verify_frozen_inputs
+    raise ValueError(f"frozen experiment input changed: {relative}")
+ValueError: frozen experiment input changed: datasets/train.parquet

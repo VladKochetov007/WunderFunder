@@ -1,0 +1,122 @@
+{
+  "schema": "wnn.adapter-target-only-implementation-review.v1",
+  "status": "v2_static_guard_pass_conditional",
+  "review_scope": "Independent source-only critique of the proposed target-only adapter objective and its relevant training consumers.",
+  "reviewed_at_utc": "2026-10-17T23:49:14Z",
+  "first_findings_precede_actor_fidelity_conclusions": true,
+  "disposition": "v1_blocked_v2_static_guard_pass_conditional",
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "blocking",
+      "summary": "distill_cache_root and final_distill_initializer can still feed teach into main_loss despite the auxiliary_loss early return; distill_family_weight can add a family target loss and output head."
+    },
+    {
+      "id": "F2",
+      "severity": "operational",
+      "summary": "Objective compatibility is checked after cache, loader, model and preprocessing setup; it is still before optimizer creation and fit updates."
+    },
+    {
+      "id": "F3",
+      "severity": "scope",
+      "summary": "loss_norm=running remains accepted and selects a different main WMSE normalization branch; decide whether target-only pins the inherited chunk objective."
+    }
+  ],
+  "v1_source_and_patch_sha256": {
+    "src/wnn/training/cli_features.py": "5786a2483b2a9d5992afacb84ac16536510a77b15d957ace8efb5a80ee5506ff",
+    "src/wnn/training/feature_adapter.py": "57caa5b43124a56b37e2ff6f9a9f4f6f21764339c57db78953f083bc70388b98",
+    "src/wnn/training/losses.py": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+    "src/wnn/training/batches.py": "c0b252cbd48028f874763dbaaaaa60aef1a38a148241f11f6e4e8433e3b02b21",
+    "src/wnn/training/setup_model.py": "52f8bd9a173550d9423d0d3528525454cf6f2ff48f468bda1e03d3378b2eb9bb",
+    "src/wnn/training/setup_preprocessing.py": "883cc10259ef77dd8d94ab241ce91620716bb4bc7e90df1287265540c2682833",
+    "src/wnn/training/runner.py": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+    "src/wnn/training/setup_model_runtime.py": "b2148c700558081f1a5cd9865ff3c82d8a0e514dd702e980d1becbfc1ed42ef6",
+    "src/wnn/training/inheritance.py": "de440a1948e92d9a34b11d0f14ec6db3393bb286ad1e5ad0359912a245b3dea2",
+    "research/campaign_2026-10-18/online_features_r1/CONTRACT.json": "66d746031e9bbb3e8c4d3d3617e99dc3fa04735554266e8c7868e169d03a5a01",
+    "research/campaign_2026-10-18/online_features_r1/DATA_AUDIT.md": "58120576f89cc3e737493ebcf543758b534951823b7bfc0678b7409a383f9469",
+    "research/campaign_2026-10-18/online_features_r1/data_audit_receipt.json": "ebb60da769994cc830521e743d583effcaa7bcf5fd98e14424c541db583d4a52",
+    "/home/vlad/development/wunder/research_tmp/adapter-objective-20261018/deliverables/adapter_objective.patch": "cca728e71c366d2edb6e68bb2782c1d5e124ab7719e6996b7647ff6a5a61194e"
+  },
+  "execution": {
+    "mode": "read-only source/JSON reads plus standard-library AST/mock checks",
+    "torch_imported": false,
+    "dataset_or_model_payloads_read": false,
+    "fit_or_native_execution": false,
+    "slice": "wnn-campaign.slice",
+    "cpu_quota": "20%",
+    "memory_max_bytes": 524288000,
+    "swap_max_bytes": 0,
+    "scratch": "/home/vlad/development/wunder/research_tmp",
+    "v1_counterexample_check": {
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_MEM_MAX=500M WNN_CPU_QUOTA=20% WNN_THREADS=1 scripts/limited .venv/bin/python -I research/campaign_2026-10-18/online_features_r1/adapter_target_only_review/check_target_only_guard.py --repo-root . --patch /home/vlad/development/wunder/research_tmp/adapter-objective-20261018/deliverables/adapter_objective.patch",
+      "status": "pass",
+      "findings": "cache, initializer teacher, and family-loss counterexamples pass the V1 gate; main_loss AST contains teacher/family routes",
+      "torch_imported": false,
+      "payloads_read": false
+    },
+    "v2_guard_recheck": {
+      "reviewed_at_utc": "2026-10-17T23:52:57Z",
+      "command": "WNN_SLICE=wnn-campaign.slice WNN_MEM_MAX=500M WNN_CPU_QUOTA=20% WNN_THREADS=1 scripts/limited .venv/bin/python -I research/campaign_2026-10-18/online_features_r1/adapter_target_only_review/check_target_only_v2.py --repo-root . --patch research/campaign_2026-10-18/online_features_r1/adapter_target_only/adapter_objective_v2.patch --integration research/campaign_2026-10-18/online_features_r1/adapter_target_only/integration_v2.json",
+      "status": "pass",
+      "blocked_option_exception_types": {
+        "ce_mse": "ValueError",
+        "distill": "ValueError",
+        "distill_cache_root": "ValueError",
+        "distill_family_weight": "ValueError",
+        "ema_teacher": "ValueError",
+        "final_distill_initializer": "ValueError",
+        "loss": "ValueError",
+        "td_alpha": "ValueError"
+      },
+      "valid_target_only_accepted": true,
+      "target_only_without_adapter_rejected": true,
+      "inherited_default_accepted": true,
+      "default_auxiliary_gate_false": true,
+      "inherited_adapter_gate_false": true,
+      "target_only_auxiliary_gate_true": true,
+      "auxiliary_guard_precedes_loss_state_reads": true,
+      "v2_patch_changes_only_auxiliary_loss_gate": true,
+      "integration_source_pins_match": true,
+      "integration_fit_admitted": false,
+      "torch_imported": false,
+      "payloads_read": false
+    }
+  },
+  "artifacts": {
+    "README.md": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/online_features_r1/adapter_target_only_review/README.md",
+    "REVIEW.md": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/online_features_r1/adapter_target_only_review/REVIEW.md",
+    "receipt.json": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/online_features_r1/adapter_target_only_review/receipt.json",
+    "v1_counterexample_checker": "check_target_only_guard.py",
+    "v2_guard_checker": "check_target_only_v2.py"
+  },
+  "v2_source_sha256": {
+    "src/wnn/training/cli_features.py": "4d3a7444f8ece1d093c0db0221e4de6811c85fd15868ed47452341dc4cfbc02c",
+    "src/wnn/training/feature_adapter.py": "f95815e88d25d3d0dd0f8474e5551012f5125a4df371f5f980bdda0ba4a61b0d",
+    "src/wnn/training/losses.py": "2fc9bd1ff046ed734aaa6050c9765f86b36b098858bb21d8e9e4ee3a1e081b1b"
+  },
+  "v2_artifact_sha256": {
+    "adapter_objective_v2.patch": "2aa041df92473c2fc9320e0dd7a3bac5f62f03a7e237b64191ecd47498694cd5",
+    "integration_v2.json": "80722c264bf07eb42b4ddbf9b8e1df49cbcadd0f2031a0b323c1122d6d8a54d5",
+    "check_target_only_guard.py": "28d515d0e194215a65c4fb000778db35a8811709d2395ec2b8566e8cbbc37f1f",
+    "check_target_only_v2.py": "e5cadcb3e33683df328e82c1cb235cc57bf005dd3f9cb95df7680fb188045d43"
+  },
+  "frozen_candidate_scope": {
+    "experiment_id": "E-ADAPTER-TARGETONLY-20261018-R1",
+    "recipe": "research/campaign_2026-10-18/online_features_r1/adapter_target_only/recipe_target_only.json",
+    "recipe_sha256": "7e102b8aaa4bd6c929b3b983fc7908e6d2359a018de4147c7b14865ea11625a6",
+    "status": "frozen_recipe_code_only_not_admitted",
+    "parent_run": "warm_mechanism_f0_s3_c_r3@ep1",
+    "parent_checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+    "loss": "wmse",
+    "loss_norm": "chunk (parser default; recipe omits --loss-norm)",
+    "candidate_command_guarded": true,
+    "candidate_fit_or_profile_performed": false
+  },
+  "remaining_review_conditions": [
+    "loss_norm=running is not rejected and selects a different WMSE normalizer; the frozen candidate uses parser-default chunk mode.",
+    "ce_mse nonzero is explicitly rejected by the guard, although it is inactive for WMSE; this is a conservative configuration restriction, not an active teacher path.",
+    "Objective compatibility rejects before optimizer/fit but after cache, loader, model and preprocessing setup.",
+    "No fit, serving parity, runtime, or scientific quality is established by this implementation review."
+  ],
+  "fit_admitted_by_review": false
+}

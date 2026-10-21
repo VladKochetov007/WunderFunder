@@ -1,0 +1,157 @@
+{
+  "schema": "wnn.adapter_objective_recipe.v1",
+  "experiment_id": "E-ADAPTER-TARGETONLY-20261018-R1",
+  "status": "frozen_recipe_code_only_not_admitted",
+  "owner": {
+    "implementation": "adapter_objective_actor",
+    "profile_admission_fit_and_grade": "root"
+  },
+  "question": "Does training the 60 appended geometry input columns from the primary label WMSE alone avoid auxiliary-gradient conflict seen in R2?",
+  "hypothesis": "A hypothesized objective conflict exists between primary WMSE and inherited aux_next/aux_struct gradients on the only trainable input suffix; no gradient direction measurements exist yet. Removing those terms may improve the fixed-alpha adapter relative to R2.",
+  "mechanistic_prediction": {
+    "direction": "Expected comparison is a positive exposed-F0 WP delta versus matched R2; the delta is unquantified. Recovery to or beyond the frozen parent is secondary and has no numerical expectation.",
+    "falsifier": "The target-only endpoint does not improve on R2 under the same parent, seed, feature columns, sampler draws and fixed checkpoint. This would fail the proposed treatment on this panel, without rejecting the geometry feature family.",
+    "mechanism_status": "hypothesis only; auxiliary/main gradient directions were not measured"
+  },
+  "parent": {
+    "run": "warm_mechanism_f0_s3_c_r3@ep1",
+    "checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+    "architecture": {
+      "hidden": 256,
+      "layers": 2,
+      "architecture": "gru",
+      "output_heads": "all inherited output tensors retained"
+    },
+    "inherited_auxiliary_flags": {
+      "aux_next": 0.3,
+      "aux_struct": 0.3,
+      "aux_tier": 0.0,
+      "aux_mask": 0.0,
+      "aux_sign": 0.0,
+      "aux_quote": 0.0,
+      "aux": ""
+    }
+  },
+  "intervention": {
+    "cli": "--research-feature-adapter-objective target-only",
+    "allowed_only_with": "--research-feature-adapter-only",
+    "primary_objective": "plain wmse on labels; no distillation, temporal distillation or EMA teacher consistency",
+    "auxiliary_flags": "remain inherited exactly; auxiliary_loss returns before all auxiliary terms are added",
+    "architecture_and_state": "unchanged; model factory, output layout, checkpoint keys and pretrained head tensors are untouched",
+    "feature_layout": "211 parent input columns plus 60 causal_geometry_discrete columns; all 60 active; alpha fixed at implicit 1.0; no alpha grid"
+  },
+  "command": [
+    ".venv/bin/python",
+    "-u",
+    "scripts/train_rnn.py",
+    "--device",
+    "cuda",
+    "--init",
+    "warm_mechanism_f0_s3_c_r3@ep1",
+    "--inherit-init-preprocessing",
+    "--research-features",
+    "causal_geometry_discrete",
+    "--batch",
+    "8",
+    "--chunk",
+    "2000",
+    "--epochs",
+    "1",
+    "--epoch-samples",
+    "4096",
+    "--checkpoint-policy",
+    "fixed",
+    "--checkpoint-epoch",
+    "0",
+    "--no-eval-during-fit",
+    "--save-training-state",
+    "--loss",
+    "wmse",
+    "--optim",
+    "adamw",
+    "--sched",
+    "onecycle",
+    "--lr",
+    "0.00003",
+    "--wd",
+    "0",
+    "--clip",
+    "1.0",
+    "--precision",
+    "fp32",
+    "--grad-stats",
+    "--deterministic",
+    "--seed",
+    "3",
+    "--split-manifest",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "--train-source",
+    "train+valid",
+    "--train-seqs",
+    "10607",
+    "--name",
+    "geometry_adapter_f0_s3_target_only_r1",
+    "--research-feature-control",
+    "none",
+    "--research-feature-adapter-only",
+    "--research-feature-adapter-objective",
+    "target-only"
+  ],
+  "only_scientific_command_difference_from_r2": [
+    "run name changed for artifact identity",
+    "--research-feature-adapter-objective target-only added"
+  ],
+  "comparison": {
+    "r2_run": "geometry_adapter_f0_s3_r2@ep0",
+    "r2_score": 0.6804499040245768,
+    "parent_score": 0.6812265132215476,
+    "r2_minus_parent": -0.0007766091969707567,
+    "r2_conditional_component_ci95": [
+      -0.0013528215113578629,
+      -0.0002791334374793622
+    ],
+    "metric": "global_wp_clip2_v1",
+    "panel": "same source-qualified F0, 468 sequences and 141 components; exposed and adaptively selected",
+    "interpretation": "valid matched development comparison; no seed, fresh-holdout, family-rejection or public-transfer claim"
+  },
+  "resource_estimate": {
+    "user_scope": {
+      "aggregate_cpu_cores": 2,
+      "task_ram_bytes": 5000000000,
+      "observed_vram_cap_bytes": 5000000000,
+      "one_gpu_worker": true,
+      "new_paid_compute": false
+    },
+    "candidate_reservation_to_consider": {
+      "cpu_cores": 1,
+      "ram_bytes": 4500000000,
+      "fit_timeout_seconds": 1200,
+      "gpu_workers": 1
+    },
+    "historical_basis": {
+      "matched_r2_memory_limit_bytes": "4500000000",
+      "same_shape_r3_profile": {
+        "cgroup_memory_peak_bytes": 2844332032,
+        "cuda_peak_reserved_bytes": 1101004800,
+        "updates": 60,
+        "oom_kills": 0
+      },
+      "matched_r2_training_seconds": 693.0,
+      "matched_r2_total_recipe_seconds": 738.9335947369982
+    },
+    "status": "estimate only; root must profile/admit against current parent commitment and caps before fitting",
+    "admission_precondition": "Wait for the TL3 native profile/replay reservation capped at 2GB to drain. Root owns actual-shape profiling, admission, fit and grade under the 5GB task cap."
+  },
+  "no_fit_or_payload_load_performed": true,
+  "exposure_and_uncertainty": "F0 is exposed and adaptively selected. A component interval conditions on fixed endpoints and does not cover seed variation, selection or public transfer.",
+  "hypothesis_id": "H-ADAPTER-TARGETONLY-20261018-R1",
+  "parent_experiment": "E-GEOMETRY-ADAPTER-PROBE-20261018-R2",
+  "prospective_expected_comparison": {
+    "primary_control": "R2 full-feature adapter, same exposed F0 and fitting recipe",
+    "expected_direction_vs_r2": "positive, but unquantified",
+    "expected_score_delta": null,
+    "parent_reference_wp": 0.6812265132215476,
+    "r2_reference_wp": 0.6804499040245768,
+    "interpretation": "Directional prediction only. No result exists for this recipe, and no public-score forecast is supported."
+  }
+}

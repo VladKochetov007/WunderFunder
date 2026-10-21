@@ -20,6 +20,9 @@ from pathlib import Path
 
 import numpy as np
 
+from wnn.native_representation import native_input_metadata
+from wnn.training.dynamics_auxiliary import strip_dynamics_auxiliary_state
+
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RUNS_DIR = ROOT / "artifacts" / "runs"
 DEFAULT_OUT_ROOT = ROOT / "submissions"
@@ -85,6 +88,8 @@ def load_checkpoint_member(
 
     checkpoint = torch.load(path, map_location="cpu", weights_only=False)
     args = checkpoint.get("args", {})
+    if not isinstance(args, dict):
+        raise ValueError(f"{run}: checkpoint arguments are malformed")
     if args.get("readout_activation", "gelu") != "gelu":
         raise ValueError(f"{run}: non-GELU readout is not supported by this native runtime")
     if checkpoint.get("sentinel_preprocessing"):
@@ -103,6 +108,8 @@ def load_checkpoint_member(
         name: np.ascontiguousarray(tensor.detach().cpu().float().numpy())
         for name, tensor in model.items()
     }
+    state = strip_dynamics_auxiliary_state(state)
+    input_layout = native_input_metadata(args, state, checkpoint.get("n_in"))
     if "head.2.weight" not in state or "head.2.bias" not in state:
         raise ValueError(f"{run}: checkpoint lacks the expected two-layer output head")
     if state["head.2.weight"].shape[0] < 2 or state["head.2.bias"].shape[0] < 2:
@@ -118,6 +125,7 @@ def load_checkpoint_member(
         "checkpoint_bytes": path.stat().st_size,
         "checkpoint_sha256": sha256_file(path),
         "provenance": provenance_record,
+        "input_layout": input_layout,
         "exported_tensors": tensor_manifest(state),
     }
     return state, record
@@ -139,6 +147,9 @@ def load_member(
     ]
     states = [item[0] for item in loaded]
     base = states[0]
+    layouts = [item[1].get("input_layout") for item in loaded]
+    if any(layout != layouts[0] for layout in layouts[1:]):
+        raise ValueError("merged-head members must use the same native input layout")
     for reference, state in zip(references[1:], states[1:], strict=True):
         for name, value in base.items():
             if not name.startswith("head.") and not np.array_equal(value, state[name]):
@@ -185,9 +196,13 @@ def export_member(
     else:
         arrays, sources = load_member(run, runs_dir, require_provenance)
         np.savez(output, **arrays)
+    input_layout = sources[0].get("input_layout")
+    if not isinstance(input_layout, dict):
+        input_layout = native_input_metadata({}, arrays, int(arrays["mean"].shape[0]))
     return {
         "run_reference": run,
         "sources": sources,
+        "input_layout": input_layout,
         "weights_path_in_zip": output.name,
         "weights_bytes": output.stat().st_size,
         "weights_sha256": sha256_file(output),
@@ -231,8 +246,23 @@ def add_package_files(
     spec: list[dict[str, object]] = []
     for index, (run, coefficient) in enumerate(members):
         filename = f"weights_{index}.npz"
-        member_records.append(export_member(run, package / filename, runs_dir, require_provenance))
-        spec.append({"weights": filename, "coef": coefficient, "source": run})
+        record = export_member(run, package / filename, runs_dir, require_provenance)
+        member_records.append(record)
+        spec.append(
+            {
+                "weights": filename,
+                "coef": coefficient,
+                "source": run,
+                "input_layout": record.get(
+                    "input_layout",
+                    {
+                        "schema": "wnn.native_input_layout.v1",
+                        "representation_mode": "none",
+                        "input_width": None,
+                    },
+                ),
+            }
+        )
     (package / "members.json").write_text(json.dumps(spec, indent=1) + "\n")
 
     library_hashes: dict[str, str] = {}

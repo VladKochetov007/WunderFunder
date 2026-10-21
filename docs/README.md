@@ -21,6 +21,11 @@ owns project status and authority.
 - [Repository map](REPOSITORY_MAP.md)
 - [Native Q8 inference notes](native_q8.md)
 
+- [Skill imports and discovery receipt](skill-imports-20261020.json) — pinned Ponytail
+  5.3.2 and marimo-pair 0.0.20 source/license identities, skills-only adaptations,
+  canonical arXiv helper and complete Claude/Grok relative discovery. Static
+  inspection only; no training, runtime/API validation or provider work.
+
 ## Historical execution guides
 
 - [Campaign runner](campaign_runner.md) and

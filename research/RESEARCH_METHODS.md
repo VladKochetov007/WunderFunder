@@ -20,6 +20,12 @@ Research should produce inspectable artifacts and evidence, not just persuasive
 conversations. Ambitious ideas deserve a way to be tried. Uncertainty should guide
 the next experiment rather than become a reason to dismiss a whole direction.
 
+The user's [plateau guideline](unified/methods/AUTORESEARCH_PLATEAU_GUIDELINE_20261019_R1.md)
+is preserved verbatim with its source hash. Apply its useful questions about
+operator diversity, measurement, memory and screen fidelity; distinguish its
+external claims from verified evidence. The current concrete allocation is the
+[October 20 local/Kaggle plan](../specs/plans/2026-10-20-plateau-review-local-kaggle.md).
+
 ## A common contract, several independent ways of thinking
 
 Give every research stream a compact common contract: the actual objective,

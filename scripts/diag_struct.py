@@ -1,6 +1,6 @@
 """Accuracy of auxiliary structure heads (spread ticks, branch, class) on scored devB rows.
 
-    scripts/limited .venv/bin/python scripts/diag_struct.py RUN [n_seqs]
+scripts/limited .venv/bin/python scripts/diag_struct.py RUN [n_seqs]
 """
 
 from __future__ import annotations
@@ -11,10 +11,12 @@ from pathlib import Path
 
 import numpy as np
 import torch
+import train_rnn
 from sklearn.metrics import roc_auc_score
 from train_rnn import Sequences, build_inputs, forward_chunk, make_model
 
 from wnn.outcomes import N_SP_AUX, sequence_class, structure_labels
+from wnn.research_features import PRIOR_FEATURE_MODES, validate_research_feature_prior
 from wnn.splits import dev_halves
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,7 +26,9 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     name = sys.argv[1]
     n = int(sys.argv[2]) if len(sys.argv) > 2 else 200
-    ck = torch.load(ROOT / "artifacts" / "runs" / name / "model.pt", map_location="cpu", weights_only=False)
+    ck = torch.load(
+        ROOT / "artifacts" / "runs" / name / "model.pt", map_location="cpu", weights_only=False
+    )
     a = ck["args"]
     head = ck["model"]["head.2.weight"].shape[0]
     at = head - (N_SP_AUX + 7)
@@ -32,7 +36,19 @@ def main():
     model = make_model(a, ck["n_in"], head).to(device)
     model.load_state_dict(ck["model"])
     model.eval()
-    groups = np.random.default_rng(12345).permutation(dev_halves(ROOT / "datasets" / "valid.parquet")[1])[:n]
+    train_rnn.RESEARCH_FEATURES = a.get("research_features", "none")
+    train_rnn.RESEARCH_FEATURE_CONTROL = a.get("research_feature_control", "none")
+    train_rnn.RESEARCH_FEATURE_PRIOR = None
+    if train_rnn.RESEARCH_FEATURES in PRIOR_FEATURE_MODES:
+        prior = ck.get("research_feature_prior")
+        if not isinstance(prior, dict):
+            raise ValueError("prior-based checkpoint lacks its fitting-only feature prior")
+        train_rnn.RESEARCH_FEATURE_PRIOR = validate_research_feature_prior(
+            train_rnn.RESEARCH_FEATURES, prior
+        )
+    groups = np.random.default_rng(12345).permutation(
+        dev_halves(ROOT / "datasets" / "valid.parquet")[1]
+    )[:n]
     ds = Sequences("valid", groups)
     rows = {k: [] for k in ("cls", "sp", "sp_hat", "br", "br_p", "cl_hat")}
     for i in range(len(ds)):
@@ -50,18 +66,24 @@ def main():
         sel = m.numpy().astype(bool)
         rows["cls"].append(np.full(sel.sum(), int(cls[0])))
         rows["sp"].append(sp[0].cpu().numpy()[sel])
-        rows["sp_hat"].append(o[:, at:at + N_SP_AUX].argmax(-1).cpu().numpy()[sel])
+        rows["sp_hat"].append(o[:, at : at + N_SP_AUX].argmax(-1).cpu().numpy()[sel])
         rows["br"].append(br[0].cpu().numpy()[sel])
-        rows["br_p"].append(torch.softmax(o[:, at + N_SP_AUX:at + N_SP_AUX + 3], -1).cpu().numpy()[sel])
-        rows["cl_hat"].append(o[:, at + N_SP_AUX + 3:at + N_SP_AUX + 7].argmax(-1).cpu().numpy()[sel])
+        rows["br_p"].append(
+            torch.softmax(o[:, at + N_SP_AUX : at + N_SP_AUX + 3], -1).cpu().numpy()[sel]
+        )
+        rows["cl_hat"].append(
+            o[:, at + N_SP_AUX + 3 : at + N_SP_AUX + 7].argmax(-1).cpu().numpy()[sel]
+        )
     r = {k: np.concatenate(v) for k, v in rows.items()}
     out = {}
     for k in range(4):
         s = r["cls"] == k
-        out[k] = {"sp_acc": round(float((r["sp_hat"][s] == r["sp"][s]).mean()), 4),
-                  "class_acc": round(float((r["cl_hat"][s] == k).mean()), 4),
-                  "auc_above": round(float(roc_auc_score(r["br"][s] == 2, r["br_p"][s][:, 2])), 4),
-                  "auc_below": round(float(roc_auc_score(r["br"][s] == 0, r["br_p"][s][:, 0])), 4)}
+        out[k] = {
+            "sp_acc": round(float((r["sp_hat"][s] == r["sp"][s]).mean()), 4),
+            "class_acc": round(float((r["cl_hat"][s] == k).mean()), 4),
+            "auc_above": round(float(roc_auc_score(r["br"][s] == 2, r["br_p"][s][:, 2])), 4),
+            "auc_below": round(float(roc_auc_score(r["br"][s] == 0, r["br_p"][s][:, 0])), 4),
+        }
     print(json.dumps({"run": name, "seqs": n, "by_class": out}))
 
 

@@ -1,0 +1,81 @@
+{
+  "id": "E-ONLINE-INNOVATION-CLOCK-FEATURE-20261018-R1",
+  "hypothesis_id": "H-ONLINE-INNOVATION-CLOCK-20261018-R1",
+  "parent_hypothesis_ids": ["H-240"],
+  "mechanism_family": "family:online-learning",
+  "question": "Does a causal, diagonal Kalman innovation summary over all 112 inputs produce a nondegenerate sequence-local change clock worth testing as a GRU input?",
+  "status_before_run": "admitted_feature_only_diagnostic_no_quality_fit",
+  "metric_id": null,
+  "endpoint_fit": false,
+  "features": {
+    "raw_width": 112,
+    "warmup_rows": 99,
+    "warmup_center": "per-sequence mean of input rows 0..98",
+    "warmup_scale": "per-sequence sample standard deviation of input rows 0..98, floored at 1e-6",
+    "filter": "independent scalar random-walk Kalman filter per standardized input channel",
+    "process_variance_q": 0.001,
+    "observation_variance_r": 1.0,
+    "initial_level": "zero in warmup-standardized coordinates",
+    "initial_state_variance": 1.0,
+    "innovation": "pre-update residual divided by sqrt(predicted state variance + R), clipped to [-8, 8]",
+    "row_summary": "sqrt(mean(clipped standardized innovation squared across 112 channels))",
+    "clock": "CUSUM c_t = clip(max(0, 0.95*c_(t-1) + row_summary - 1), 0, 20); appended candidate is log1p(c_t)",
+    "sequence_reset": "all level, variance and CUSUM state is initialized inside each sequence transform",
+    "retained_raw_inputs": true,
+    "uses_targets_or_masks": false
+  },
+  "selection": {
+    "split_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "data_path": "datasets/train.parquet",
+    "data_identity": {
+      "bytes": 29240219011,
+      "mtime_ns": 1577826000000000000,
+      "footer_bytes": 60437285,
+      "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb"
+    },
+    "membership": "one complete row group from each of 32 distinct components in fold0 fit.train; no evaluation groups",
+    "seed": 20261018,
+    "excluded_corrupt_row_groups": [528],
+    "time_bins": [[99, 500], [500, 2000], [2000, 10000], [10000, 20000]],
+    "semantic_feature_groups": {
+      "i0_bid_price_like": [0, 11],
+      "i0_ask_price_like": [11, 22],
+      "i0_bid_volume_like": [22, 33],
+      "i0_ask_volume_like": [33, 44],
+      "i0_trade_price": [44, 48],
+      "i0_trade_volume": [48, 52],
+      "i1_bid_price_like": [52, 63],
+      "i1_ask_price_like": [63, 74],
+      "i1_bid_volume_like": [74, 85],
+      "i1_ask_volume_like": [85, 96],
+      "i1_trade_price": [96, 100],
+      "i1_trade_volume": [100, 104],
+      "additional": [104, 112]
+    }
+  },
+  "invariants": {
+    "source_footer_and_split_pins_verified_before_parquet_open": true,
+    "feature_columns_only": true,
+    "prefix_truncation_and_future_perturbation_invariance": true,
+    "actual_sequence_a_b_a_reset": true,
+    "all_features_finite": true
+  },
+  "interpretation": {
+    "success": "A stable, nondegenerate clock with meaningful time- or feature-group variation may justify a separate matched supervised endpoint screen; this feature-only diagnostic is not quality evidence.",
+    "weak_result": "Defer this exact all-channel scalarization; keep richer per-channel learned Kalman state and other causal feature arms open.",
+    "uncertainty": "Only 32 fit-side components are sampled. No labels, masks, endpoint fit, scored validation or clean-fold claim is included."
+  },
+  "resources": {
+    "kind": "cpu",
+    "cpu_cores": 1,
+    "memory_reservation_bytes": 1500000000,
+    "gpu": false,
+    "swap_bytes": 0,
+    "scratch_root": "/home/vlad/development/wunder/research_tmp/online_features_r1/innovation_clock_r1"
+  },
+  "source_hashes": {
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "timestamp_utc": "2026-10-20T21:09:44.593724+00:00",
+  "run": "overnight_nll_f0_s3_wmse_e2_r1",
+  "scope": "First control epoch progress only; fixed CP1 not complete and no evaluation performed.",
+  "raw_fit_log_line_sha256": "1bb3d8f5c5b90062dec11c05377c5882723097f2c018d4a027927aa226422e7b",
+  "diagnostics": {
+    "epoch": 0,
+    "train_seconds": 2100.9,
+    "evaluation": "withheld",
+    "update_diagnostics": {
+      "epoch": {
+        "optimizer_attempts": 7460,
+        "amp_skipped_updates": 0,
+        "optimizer_completed_updates": 7460,
+        "ema_updates": 0,
+        "completed_batches": 746
+      },
+      "cumulative": {
+        "optimizer_attempts": 7460,
+        "amp_skipped_updates": 0,
+        "optimizer_completed_updates": 7460,
+        "ema_updates": 0,
+        "completed_batches": 746
+      },
+      "sample_order_identity": {
+        "sampler_class": "RandomSampler",
+        "batch_size": 16,
+        "drop_last": true,
+        "loader_generator": "global CPU RNG",
+        "loader_rng": {
+          "shape": [
+            5056
+          ],
+          "dtype": "torch.uint8",
+          "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9"
+        },
+        "sampler_generator": "global CPU RNG",
+        "sampler_rng": {
+          "shape": [
+            5056
+          ],
+          "dtype": "torch.uint8",
+          "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9"
+        },
+        "num_workers": 0,
+        "persistent_workers": false,
+        "sampler_replacement": false,
+        "sampler_num_samples": 11940
+      },
+      "normalization_identity": {
+        "mean": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8"
+        },
+        "std": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+        }
+      },
+      "grad_stats": {
+        "epoch": 0,
+        "steps": 7460,
+        "nonfinite_steps": 0,
+        "clip": 1.0,
+        "total_q05_q50_q95": [
+          0.43279,
+          0.61539,
+          1.10824
+        ],
+        "clip_rate": 0.0757,
+        "mean_clip_factor": 0.9866,
+        "family_median": {
+          "rnn_hh": 0.16278,
+          "rnn_ih": 0.30648,
+          "inp": 0.19594,
+          "head": 0.45458,
+          "bias": 0.06257
+        },
+        "family_sq_share_mean": {
+          "rnn_hh": 0.0723,
+          "rnn_ih": 0.2555,
+          "inp": 0.1067,
+          "head": 0.5548,
+          "bias": 0.0107
+        }
+      }
+    },
+    "fit_summary": {
+      "objective_mean": 0.5564000843037868,
+      "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+      "optimizer_windows": 7460,
+      "learning_rate_by_group": [
+        {
+          "group": 0,
+          "first": 1.1999999999999987e-06,
+          "last": 1.6244194706012153e-05,
+          "mean": 2.4101708504830283e-05
+        }
+      ],
+      "optimizer_updates": {
+        "optimizer_attempts": 7460,
+        "amp_skipped_updates": 0,
+        "optimizer_completed_updates": 7460,
+        "ema_updates": 0,
+        "completed_batches": 746
+      }
+    }
+  }
+}

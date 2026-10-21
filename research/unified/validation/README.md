@@ -1,5 +1,7 @@
 # Validation and public transfer
 
+
+
 [R2 measured result and selection limits](../../campaign_2026-10-19/idea_screens_r2/RESULTS.md) report every fit-selected and predeclared alpha1 endpoint, including positive diagnostics that disagree with inner-fit selection. Fixed-prediction drop-one concentration is separate from training variation; all six outer components remain exposed. A larger frozen component panel and matched feature-block/data-size controls are the next allocation questions, not completed tests.
 
 [R2 fixed exploratory protocol](../../campaign_2026-10-19/idea_screens_r2/README.md) chooses one alpha per view only within three fitting-component folds, preserves full held masks and canonical pooled WP, and reports the existing exposed outer panel plus a predeclared alpha1 diagnostic. i0-only jointly removes i1 and eight tail channels; it cannot isolate an instrument effect.
@@ -8,86 +10,193 @@
 
 [TL3 exact production-source closure](../../campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/README.md): the incumbent comprises a warm-initialized distilled member and two tied-lead members whose logs resolve an empty weight initializer. All production members include supplied-valid fitting; they cannot be scored as clean F0 controls. The reviewed partial graph preserves missing teacher/cache/propensity memberships and source-time identity, rather than substituting an uncertified ancestor.
 
+- [Complete H512-in-TL3 endpoint screen](../../campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/README.md) — prepared fixed native callback replays forCP5 andSWA345 replacement at unchanged0.34/0.33/0.33 coefficients versus cached originalTL3. Uses468F0groups/141components and808,863official selectedrows; no replay/score yet. RetainedTL3ancestryunknown, so complete endpoint results will be fitted diagnostics, distinct from the coldH512fold comparison. Independent static review passes; the conditional CPU worker waits on the exact accepted GPU handoff, with Python3.11 native replays. No native quality result yet.
+
+- [October 20 plateau-review campaign](../../campaign_2026-10-20/plateau_review_r1/README.md) — accepted matched i0/standard/i1-history GRU investigation, with complete-component fitting subsets and full exposed-fold evaluation. The linked spec fixes source-qualified pairing, official scoring and uncertainty limits; its frontier tracks implementation. No new quality result is available yet.
+
+
+
 Metric, data membership, exposure, uncertainty and transfer to the public leaderboard.
+
+
 
 ## Current navigation
 
+
+
 - [R2 exception impact, output policies and residual dynamics](../../campaign_2026-10-17/research_reset_r2/README.md) — E-RR17-R2-EXCEPTIONS/OUTPUTS/DECOMPOSITION/RESIDUALS: full selected-column 249.6M-row census makes the rare exceptions practically tiny (0.003172% of scored valid target weight; reconstruction mismatches 0.001953%). Three frozen arrays on467 exposed sequences show all36 causal output-transform deltas negative, despite +0.029–0.030 noncausal oracle deltas. Exact sequence covariance decomposition and correlated within-run fluctuations (~0.96) change interpretation; no fit, new inference or public forecast. See the [figure and renderer](../../campaign_2026-10-17/research_reset_r2/plots/README.md), [alignment/corrections](../../campaign_2026-10-17/research_reset_r2/prediction_audit/README.md), and explicit producer-lineage limits.
 
+- [Causal lagged-label proxy R1](../../campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/RESULTS_R1.md) — a weighted ridge proxy trained on 32 source-qualified components scores 0.521679 WP for y[t−1] from x[t] and its one-step change on 32 disjoint but exposed F0 components; independent grade is exact. This is a different shifted task from the competition endpoint and does not show labels mature at t or improve a served model. The follow-up adaptive gate is separately preregistered.
+- [Causal pseudo-label expert gate R1](../../campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/RESULTS_R1.md) — three preregistered causal timescales were essentially tied with fixed 75/25 on 32 repeatedly exposed F0 components; the best paired delta was +0.00004795 WP [−0.00003098,+0.00012853]. All gates remained below TL3, source ancestry is partly unknown, and target maturity is undocumented. The prediction cache was reconstructed before labels/masks were scored; this narrows one pseudo-label gate, not online learning broadly.
+- [Gate official grade artifact](../../campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/grade_r1.json) records all six official metric scores, 2,000-draw conditional component comparisons, exact group IDs and exposure limits. [Recipe/code audit](../../campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/RECIPE_AUDIT_R1.md) checks implementation fidelity, and the [execution receipt](../../campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/execution_receipt_r1.json) binds hashes, command vectors, resource peaks and zero OOM deltas. These are the artifacts behind the result above; their intervals do not include seed, fold or transfer uncertainty.
+
 - [Fixed causal Kalman frozen-GRU grade](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/RESULTS_R2.md), [actor receipt](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/grade_r2.json) and [independent CPU regrade](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/independent_regrade_r3.json): the separate scorer reproduces all three endpoint scores and paired component intervals on 31,338 rows in 16 selected exposed-F0 groups. Local-trend replacement is +0.000338 WP and random walk +0.000119 versus raw; the 12-component conditional intervals are [−0.000019,+0.000716] and [−0.000507,+0.000654]. `p_le_0` is a bootstrap tail fraction, not a two-sided significance result. One frozen checkpoint, post-selection diagnostics, no fit-seed/fold/public uncertainty; not a clean-CV or online-learning claim.
+
+- [Expanded fixed-GRU Kalman input replay](../../campaign_2026-10-18/online_features_r1/kalman_input_panel_r2/README.md) and [result receipt](../../campaign_2026-10-18/online_features_r1/kalman_input_panel_r2/result_r1.json): on the first 141 exposed F0 groups (82 components, 228,976 scored rows), posterior replacement scores 0.7219990 versus 0.7218827 raw, delta +0.0001163 WP; paired component-bootstrap 95% interval [−0.0000749,+0.0002879]. The prefix was selected after seeing the first-16 point, and the checkpoint was trained on raw inputs. Independent evidence review passes the exact source, mask, metric and receipt chain; no teacher/student, online update or transfer claim follows.
+
+- [Groupwise Kalman states in a recurrent input path](../../campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/RESULTS_R1.md) — a matched active-vs-zero 39-state fine-tune scores 0.67986413 vs 0.67981250 WP on exposed F0 (Δ +0.00005163; paired 141-component conditional 95% interval [−0.00013143,+0.00027018]). Temporal bins are mixed. This is one seed and one exposed fold on a common trained parent; the independent [screen review](../reviews/GROUPWISE_FAST_SLOW_RECURRENT_SCREEN_REVIEW_20261018_R1.md) confirms the narrow score lineage and claim limits. It is not a robust improvement or public-transfer estimate.
+
+- [Early-to-late sequence expert preference R1](SEQUENCE_EXPERT_PREFERENCE_PERSISTENCE_20261018_R1.md) — on 468 repeatedly exposed F0 groups/141 components, the early label-informed TL3/R3 selector scores 0.693871 late, −0.003798 versus TL3 (conditional 95% component interval [−0.005690,−0.001453]) and −0.000587 versus fixed 75/25 ([−0.002360,+0.001586]). Its 68.16% early/late choice agreement does not exceed the marginal-rate expectation (70.16%/68.64%). This narrows the frozen router recipe on this endpoint, not online learning broadly; independent source and result reviews, archive-loading caveat, and zero-OOM receipts are linked in the note.
+
+- [Remaining-hour geometry variations R3](../../campaign_2026-10-18/geometry_variations_r3/README.md) — two moments-only/dictionary-only frozen-parent adapters and a predeclared R2 input-column scale grid on exposed F0. Independent full-F0 grading ranks the inference-only alpha−0.5 R2 alias first at0.6814221, +0.0001956 vs parent (conditional component interval crosses zero); the two R3 fits score0.6808680/0.6806169. The alpha aliases share R2's single fit and selection is adaptive. The exact v2 ZIP passes offline Python 3.11 synthetic feature/callback parity and A-B-A reset checks ([receipt](../../campaign_2026-10-18/geometry_variations_r3/geometry_r3_reverse_half_q16x_20261018_v2_python311_smoke.json)); full native q16 replay is a separate serving gate. No public-gain claim; the existing ZIP remains fallback.
+
+
+
+- [Frozen-backbone geometry adapter](../../campaign_2026-10-18/geometry_adapter_probe_r2/README.md) — separately identified short follow-up after feature/control scored 0.6804165/0.6804784 below parent 0.6812265. Only 60 new input-weight columns train, with old-gradient masks and zero AdamW decay. Completed in 693 seconds: adapter 0.6804499 versus parent 0.6812265, conditional component delta interval [−0.00135282, −0.00027913]. All old parameters remain bitwise fixed, while all appended weights learned. This exact short recipe is negative; one exposed F0, no robust/public gain. Exploratory quota packaging is separate.
+
+
+
+- [Two-hour local geometry probe and submission](../../campaign_2026-10-18/quick_geometry_probe_r1/README.md) — E-GEOMETRY-QUICK-PROBE-20261018-R1 replaces the local 30-pair matrix with one short warm H256×2 feature/control pair. Both fits and official grades completed: feature 0.6804165 versus zero control 0.6804784, parent 0.6812265; conditional paired component interval is negative for this exact short recipe. Training curves and uncertainty plot are linked. Causal submission parity is separate work. Exposed F0 and one seed are exploratory, not significance or public-transfer evidence.
+
+
+
 - [October17 measured EDA and clock correction](../../campaign_2026-10-17/research_reset_r1/eda/README.md) — E-RR17-EVENT-CENSUS refutes universal H-001 with1,253exceptions; four-column census covers249.6Mrows, separate full-feature sample5.12Mrows and lag-control sample1.28Mrows. Retrospective strata and magnitude weight are not serving gates or additive score contributions.
 
+
+
 - [Validation protocols](VALIDATION_PROTOCOLS.md) — official metric and a side-by-side map of creative/Main panels; highlights fitted diagnostics, exposed folds and invalid historical comparisons.
+
 - [Audit evidence](../reviews/audit-2026-10-17/README.md) — Parquet counts, RG528 inspection and dated public observations.
 
+
+
 For active status, start with [current state](../../../specs/current-state.md).
+
 The dated entries below retain their original descriptions and links. Their
+
 “pending”, “active” and authorization statements reflect their recording time;
+
 use a later result receipt or the current audit to establish final status.
 
+
+
 <details>
+
 <summary>Dated index preserved before the October 17 maintenance</summary>
+
+
 
 [Original callback results](../../campaign_2026-10-13/team_models_r1/scores/README.md) now record all 1,873 supplied-valid sequences for C=0.712560467, E=0.712065318, pair_ftt2=0.712026560 and xteam_h4=0.712654817. Final-fit/unknown validation overlap makes these diagnostics, not clean CV or public forecasts. [Immutable runtime snapshot](../../campaign_2026-10-13/team_models_r1/runtime_snapshot_r1/README.md) preserves current complete-line logs and progress for all eight admitted replays. Four remaining runs continue; live staging is ignored by Git, with terminal collection still owned by root. E-TEAM-ARCHIVE-REPLAY-20261013-R1.
 
+
+
 # Validation and public transfer
+
+
 
 - [Raw train and validation EDA notebook](../../../notebooks/raw_train_valid_eda_20261017.py) opens in marimo and shows all 112 state positions with raw values, per-column quantiles, grouped train/validation histograms, target distributions, short sequence traces, and wide raw rows. It reads the canonical `datasets/train.parquet` and `datasets/valid.parquet` files and uses four complete row groups per file with seed `20261017`: train `5383, 5840, 8776, 8799`; validation `723, 1298, 1571, 1636`. Known corrupt train group `528` is excluded. All sampled rows, including warmup and unscored rows, are retained. This is descriptive sample EDA only, not a full-file estimate or validation score; no hypothesis or experiment ledger entry applies.
 
+
+
 - [Individual team prediction bank](../../campaign_2026-10-13/team_models_r1/member_bank/README.md) deduplicates fourteen predictive weights and fixes nine mixtures before full FP32 export. Source/hash/sequence-aware grading will compare individual and complete endpoints diagnostically; fitted/unknown overlap and GPU/native numerical differences remain explicit. Actual profile and independent implementation review support admission, not candidate selection.
+
+
 
 - [Official-team diagnostic comparison](../../campaign_2026-10-13/team_models_r1/README.md) binds seven original ZIPs and the same-weight Rust conversion to the pooled official metric over1,873 complete supplied-valid sequences. [Live marimo artifact](../../campaign_2026-10-13/team_models_r1/team_model_comparison.py) reads saved evidence; final-fit overlap prevents clean-CV claims. Source-qualified teammate fold counterparts remain missing. E-TEAM-ARCHIVE-REPLAY-20261013-R1.
 
+
+
 This domain distinguishes clean held-out evidence, exposed validation, all-data fitting, and public leaderboard observations.
+
+
 
 ## Interactive results dashboard
 
+
+
 Open the [October 12 results dashboard](RESULTS_DASHBOARD_20261012.html) for a self-contained, searchable view of the public-score climb, local/public comparisons, runtime plot, recorded confidence intervals, and all 798 experiment and 483 hypothesis entries. It was built by [build_results_dashboard.py](build_results_dashboard.py) from the append-only [experiment ledger](../../experiments.jsonl) and [hypothesis ledger](../../hypotheses.jsonl), the [preserved portal roster](../../campaign_2026-10-12/public_score_regression_r1/raw_portal_roster.tsv), its [endpoint map](../../campaign_2026-10-12/public_score_regression_r1/endpoint_coverage_r1.csv), and the [October 12 A/B/C score record](../../campaign_2026-10-12/public_runtime_quality_r1/PUBLIC_RUNTIME_QUALITY_R1.csv). Its local/public and runtime figures embed the frozen [protocol-separated R2 plot](../../campaign_2026-10-12/public_validation_plot_r2/PUBLIC_VS_LOCAL_BY_PROTOCOL_R2.svg) and [runtime/score plot](../../campaign_2026-10-12/public_runtime_quality_r1/PUBLIC_RUNTIME_VS_SCORE_R1.svg). The HTML embeds its data for offline viewing; receipt links open the source files in the repository.
+
+
 
 This is a dated snapshot, not a live view. Rebuild it after the ledgers or score records change; the command below reads their current contents while the frozen source plots remain as cited.
 
+
+
 The visible public climb has **41 scored outcomes in 45 detailed portal records**. Three older attempts are absent from the preserved roster, so the page explicitly reports 48 known total attempts and does not plot or infer the missing outcomes. The highest recorded score is C, **0.6671**, reported by the user; A/B/C each have one public outcome and no public confidence interval. Their packages change blend composition, so the runtime plot is descriptive rather than a causal runtime or model-count comparison.
+
+
 
 For local/public transfer, the dashboard plots only the 11 source rows with both metrics and separates their validation protocols. It does not fit a pooled score-conversion line. One key warning is the exposed fold-1 pair: its local blend scored 0.67329 versus 0.67103 for the student, yet public scores were 0.6650 versus 0.6652. For fixed blending, the equal teacher trio scored 0.680902 against a distinct-seed mean of 0.679018; adding that trio at 50% to the stronger student scored 0.683167 versus 0.683142 for the student alone. The conditional gain was +0.00002562 (paired 95% component interval [−0.00138485, +0.00139836]; 141 exposed components, 800 bootstrap draws). The interval reflects resampling of exposed components, not variation across training seeds or public-transfer uncertainty. Across the ledgers, 53 experiment records contain explicitly named CI fields; missing intervals are labeled as unrecorded.
 
+
+
 Use the findings cards for the current interpretation, then filter the ledgers by model, hypothesis, result, status, or CI and follow the linked receipt/report paths. The archive remains descriptive: it does not promote candidates, forecast public scores, or turn local deltas into public points. Related records include the qualified public-gap hypotheses [H-382–H-386](../../hypotheses.jsonl#L426-L430), blend-quality hypotheses [H-387](../../hypotheses.jsonl#L438) and [H-390](../../hypotheses.jsonl#L441), and experiments [E-PUBLIC-REG-MODELS-20261012-R1-R2](../../experiments.jsonl#L755), [E-CLEAN-T3-F0-EQUAL-TRIO-FIXED-CONDITIONAL-20261012-R1](../../experiments.jsonl#L778), and [E-CLEAN-T3-F0-CONTROL-S3-OLDZ4-FIXED-HALF-20261012-R1](../../experiments.jsonl#L796). H-381 occurs twice in the preserved ledger after a recorded ID collision; see the [original row](../../hypotheses.jsonl#L425) and [corrected seed-count qualification](../../hypotheses.jsonl#L431). The underlying package and method assessment is in the [SOTA submission reflection](../../campaign_2026-10-12/SOTA_SUBMISSION_REFLECTION_20261012_R2.md).
+
+
 
 Rebuild the HTML with the repository's bounded command:
 
+
+
 ```sh
+
 WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=100% WNN_THREADS=1 \
+
 WNN_MEM_MAX=1500000000 WNN_RUNTIME_MAX=120s \
+
 scripts/limited .venv/bin/python research/unified/validation/build_results_dashboard.py
+
 ```
+
+
 
 ## Read these sources
 
+
+
 - [Data, metric, and validation protocol](../archive/2026-10-12/pages/01-data-and-validation.md)
+
 - [Public calibration and plots](../archive/2026-10-12/pages/05-public-transfer.md)
+
 - [Protocol-separated public/local plot](../../campaign_2026-10-12/public_validation_plot_r2/README.md)
+
 - [Runtime versus public score plot](../../campaign_2026-10-12/public_runtime_quality_r1/README_R1.md)
+
 - [Current competition state](../../../specs/current-state.md)
+
+
 
 Keep fold, fitting membership, ancestry, selection exposure, and score uncertainty attached to every point. Public results are transfer observations; they are not a replacement for reliable cross-validation or a basis for adding local deltas to public scores.
 
+
+
 ## Resumed strategy execution — 2026-10-13
+
+
 
 [Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.
 
+
+
 - [Evaluator precheck R1](../../campaign_2026-10-13/strategy_execution_r1/EVALUATOR_PRECHECK_R1.json) records 43 passing scorer, bootstrap, mask and component-crossfit tests, with source hashes frozen before new outcomes; it establishes engineering correctness only.
+
 - [Domain-summary producer audit](../../campaign_2026-10-13/strategy_execution_r1/DOMAIN_CACHE_SCHEMA_OBSERVATION_R1.json) finds partial training coverage and target-derived fields in existing sequence summaries. Reuse requires observable-column whitelisting and fitting-only membership; no stress result is claimed.
+
 - [Initial frozen strategy stress panels](../../campaign_2026-10-13/strategy_execution_r1/DOMAIN_PANELS_R1.md) and [machine-readable cutoffs/membership](../../campaign_2026-10-13/strategy_execution_r1/DOMAIN_PANELS_R1.json) implement S30 activity, instrument-1 frequency and feature-support panels with valid-fit-only cutpoints, at least 60 components per stratum and fixed 25/75 component-frequency mixtures. Source-qualified coverage and input-column whitelisting are explicit; three correctness tests passed. Remaining panel families and independent review are pending; this is preparation evidence, not a fitted improvement.
+
 - [Independent stress-evaluator review](../../campaign_2026-10-13/strategy_execution_r1/reviews/domain_stress_r1/README.md) verifies the frozen panels and pooled-mixture calculation, then identifies an equal-moment/different-mask counterexample. The reviewed correction constructs both prediction moments from one shared mask. S30 remains partial, with three of six panel families; source/group/mask hashes must accompany scores.
+
 # October13 complete team member diagnostics
+
+
 
 [Full14-member /9-mixture grade](../../campaign_2026-10-13/team_models_r1/scores/member_bank_fp32_r1/README.md) uses the official metric on1,873 supplied-valid groups and verifies terminal provenance plus complete prediction-file hashes. Original xteam_h4 FP32 is0.712660191 versus E0.712082246 and pair_ftt20.712025385; own H390 seed3 alone is0.713414409. Final-fit/unknown validation overlap and FP32-versus-Q8 arithmetic limit these to diagnostics. The exploratory seed6 ZIP is not assigned a score by this grade. E-TEAM-MEMBER-BANK-20261013-R1; the linked terminal receipt, grade JSON and execution log preserve all results and prediction/residual correlations.
 
+
+
 </details>
+
+
 
 ## Current sequence-moment investigation
 
+
+
 - [Sequence moment geometry investigation](../../campaign_2026-10-17/moment_geometry_r1/README.md) registers the user's mean/std arc EDA and bounded causal normalization/early-inference experiments on main. Status: input geometry measured and33tiny local endpoints completed, screenshot provenance stillunknown;5GB aggregate task RAM and no Kaggle job changes.
+
 - [Sequence moment geometry: arcs and causal representations](SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) reports128train/128valid raw-input scans, all112visually inspected mean/std plots, near-arc multi-value support and prefix reconstruction errors. Explains point-mass mixture arcs, future-leakage risks, source/component provenance and the preregistered matched causal-feature pilot. The appended33-endpoint pilot reports heterogeneous paired feature effects and fixed-mixture complementarity; no production/KD/public transfer claim.
+
+
 
 - [Autonomous local geometry continuation](../../campaign_2026-10-17/geometry_continuation_r3/README.md) registers the longer-budget four-arm comparison and subsequent function-preserving continuation after R2. Same source-qualified tiny fitting pool and exposed evaluation; results pending, not a production or KD claim.
 
@@ -97,3 +206,13 @@ Keep fold, fitting membership, ancestry, selection exposure, and score uncertain
 [R3 frozen sampling and comparison contract](../../campaign_2026-10-19/idea_screens_r3/CONTRACT.md) samples one complete eligible sequence per selected component, retains zero-scored selections and uses fit-only pooled selection. It records inclusion probabilities without claiming an unbiased full-fold metric; nested fit size also changes composition. [Schema clarification](../../campaign_2026-10-19/idea_screens_r3/SCHEMA_CLARIFICATION.md) preserves a pre-array metadata failure rather than silently omitting canonical exclusions.
 
 [R3 measured contrasts](../../campaign_2026-10-19/idea_screens_r3/RESULTS.md) preserve both selected and predeclared alpha1 endpoints. Selected signed EMA is positive under all32leave-one-component exclusions; i1-presence contrasts are near-zero and change sign. More fitting data also changes component composition, while CV/outer regularization rankings still disagree for absolute EMA. These fixed-prediction sensitivities are not independent training repetitions or proof of full-fold improvement.
+
+- [Autonomous local geometry continuation](../../campaign_2026-10-17/geometry_continuation_r3/README.md) records the completed longer-budget four-arm comparison: 43 fitting / 46 exposed evaluation sequences, three seeds, H128×2, with the all-feature arm below control and a small conditional control/dictionary mixture signal. This is a low-power screen, not a production, significance or distillation claim; a larger from-scratch H512×1 comparison is being prepared.
+
+- [From-scratch geometry/discrete comparison R4](GEOMETRY_FROM_SCRATCH_R4_20261017.md) preregisters a 30-pair, four-fold H512×1 comparison. Attempt R4 passed admission and started pair 0's fold-0 control fit after verifying sources, inputs and splits; no score is available yet. The [independent runner audit](../reviews/R4_INDEPENDENT_ADMISSION_AUDIT_20261018_R1.md), [campaign README](../../campaign_2026-10-17/geometry_from_scratch_r4/README.md) and [monitor-quota note](../operations/R4_LOCAL_ADMISSION_AND_MONITOR_BUDGET_20261018_R1.md) preserve the receipts and limits.
+
+- [Online campaign prediction geometry](../../campaign_2026-10-18/online_features_r1/prediction_geometry/README.md): independently inspected five fixed adapter caches and position bins; high weighted correlations quantify limited diversity. F0 is exposed and one fitting seed does not establish transfer or a gradient-conflict mechanism.
+- [Target-only adapter objective ablation](../../campaign_2026-10-18/online_features_r1/adapter_target_only/README.md): independent exact-hash regrade of the frozen target-only adapter, matched R2 control and inherited parent on 468 exposed F0 groups. Target-only scores0.6801455 versus R2 0.6804499 and parent 0.6812265; fixed-prediction component intervals are conditional and do not cover seed or selection uncertainty. Old-head bitwise invariance is not verified by saved artifacts.
+- [TL3 fixed-mixture diagnostics R1](../../campaign_2026-10-18/online_features_r1/tl3_diagnostics_r1/README.md): exact-hash, source-group-aligned grades of TL3, the warm parent, R3 native q16x and two preregistered fixed blends under `global_wp_clip2_v1`. TL3 is 0.7018181 on exposed F0; its exact training ancestry is unknown, so this is potentially fitted diagnostic evidence. Neither mixture reaches the TL3 point score; component bootstrap intervals condition on cached predictions and say nothing about seed or public-transfer uncertainty.
+- [TL3/R3 fixed-mixture robustness replay on F2](../../campaign_2026-10-18/online_features_r1/tl3_fixed_blend_f2_r1/README.md): exact package predictions and fixed mixtures on 443 previously inspected groups/144 components. TL3 scored 0.723887; R3, 75/25 and 50/50 scored 0.715413, 0.722678 and 0.720950. Paired conditional component intervals versus TL3 were [−0.011844, −0.005776], [−0.001915, −0.000643] and [−0.004429, −0.001736], respectively. The first grader attempt failed after reading the first target/mask and is preserved; a separate code-hash amendment preceded the successful preflight and grade. The independent review found no scoring mismatch, but imported `gmetric.py`/`evaluation.py` hashes were missing from the preflight. Unknown TL3 ancestry and exposed F2 mean this is not clean-CV, seed-level or transfer evidence.
+- [Kalman parent normalization provenance](../../campaign_2026-10-18/online_features_r1/kalman_parent_normalization.json): exact trusted-parent normalization for raw columns 0/3/52/55, pinned to checkpoint SHA78357eca; inherited fitting provenance, not a new evaluation-fitted normalization.

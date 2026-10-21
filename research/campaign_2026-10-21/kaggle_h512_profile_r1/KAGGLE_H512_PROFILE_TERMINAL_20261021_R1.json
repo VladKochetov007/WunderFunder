@@ -1,0 +1,293 @@
+{
+  "schema": "wnn.kaggle-h512-engineering-profile-terminal.v1",
+  "recorded_at_utc": "2026-10-20T23:49:51Z",
+  "status": "two engineering profile attempts failed before training; no scientific fit admitted",
+  "scope": {
+    "campaign": "root WNN Challenge2 plateau review",
+    "source_revision_requested": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_revision_bundled": "d3055423a185d2ecfe7baf1c20206abeb743ad8b",
+    "source_semantic_diff": "No diff in scripts/kaggle_bundle.py, scripts/kaggle_gpu_runner.py, scripts/kaggle_common.py, scripts/kaggle_kernel.py, scripts/train_rnn.py, or src/wnn between the requested source and bundled checkout.",
+    "authorized_work": "One bounded H512 engineering profile on verified free Kaggle quota, then one diagnosed second engineering profile attempt; no scientific fit.",
+    "outer_attempt_2_cap_seconds": 1200,
+    "attempt_2_worker_deadline_seconds": 898,
+    "attempt_2_finalizer_reserve_seconds": 300,
+    "local_resource_bound": {
+      "cpu_quota": "20%",
+      "memory_max_bytes": 314572800,
+      "swap_max_bytes": 0,
+      "tmpdir": "/home/vlad/development/wunder/research_tmp"
+    },
+    "not_performed": [
+      "No scientific training fit, model-quality comparison, score, or submission claim.",
+      "No paid compute, credential transfer, local training-job change, or local source/data modification.",
+      "No third profile launch after the diagnosed second attempt."
+    ]
+  },
+  "provider": {
+    "account": "vladkochetov07",
+    "existing_raw_dataset": {
+      "ref": "vladkochetov07/wunder-funder",
+      "visibility": "public",
+      "files": [
+        "train.parquet",
+        "valid.parquet",
+        "valid_mask.parquet"
+      ],
+      "campaign_inputs_exact_size_match": true,
+      "f1_initializer_target_cache_and_propensity_assets_present": false,
+      "prior_inventory_receipt": "../kaggle_delivery_readiness_r1/KAGGLE_DELIVERY_READINESS_20261021_R1.json"
+    },
+    "machine_shape": {
+      "attempt_1_requested": "NvidiaTeslaP100",
+      "attempt_1_actual": [
+        "Tesla T4",
+        "Tesla T4"
+      ],
+      "attempt_2_requested": "NvidiaTeslaT4",
+      "attempt_2_actual": [
+        "Tesla T4",
+        "Tesla T4"
+      ],
+      "worker_device_index": 0,
+      "worker_gpu_uuid_attempt_1": "GPU-7ef730af-c1a6-29d0-7139-6c36ce575642",
+      "worker_gpu_uuid_attempt_2": "GPU-6741d8fb-6947-bd63-3d4d-d7f12896127f",
+      "device_count": 2,
+      "interpretation": "Both jobs ran on a provider-canonicalized dual-T4 shape. P100 allocation was not observed. The worker used GPU index 0 only; quota was measured directly per session and conservative budget bounds count both allocated devices."
+    },
+    "quota": {
+      "allowed_seconds": 108000.0,
+      "reserved_seconds": 0.0,
+      "refresh_utc": "2026-10-24T00:00:00",
+      "before_attempt_1": {
+        "observed_at_utc": "2026-10-20T23:22:32Z",
+        "used_seconds": 89923.573,
+        "remaining_unreserved_seconds": 18076.427
+      },
+      "after_attempt_1_before_attempt_2": {
+        "observed_at_utc": "2026-10-20T23:31:55Z",
+        "used_seconds": 90229.376,
+        "remaining_unreserved_seconds": 17770.624
+      },
+      "before_attempt_2": {
+        "observed_at_utc": "2026-10-20T23:38:07Z",
+        "used_seconds": 90229.376,
+        "reserved_seconds": 0.0,
+        "remaining_unreserved_seconds": 17770.624
+      },
+      "after_attempt_2": {
+        "observed_at_utc": "2026-10-20T23:49:51Z",
+        "used_seconds": 90722.348,
+        "reserved_seconds": 0.0,
+        "remaining_unreserved_seconds": 17277.652,
+        "refresh_utc": "2026-10-24T00:00:00"
+      },
+      "observed_provider_charge_seconds": {
+        "attempt_1": 305.803,
+        "attempt_2": 492.972,
+        "combined": 798.775,
+        "note": "Quota deltas are aggregate provider GPU seconds; the API exposes no device multiplier. The measured attempt-2 session delta was 492.972 seconds. Future dual-device billing is not inferred from this one observation.",
+        "attempt_2_worker_wall_seconds": 482.874,
+        "attempt_2_quota_delta_minus_worker_wall_seconds": 10.098
+      },
+      "conservative_two_device_bound_seconds": {
+        "attempt_1": 611.606,
+        "attempt_1_original_cap_seconds": 600,
+        "attempt_1_original_cap_overrun_seconds": 11.606,
+        "attempt_2": 985.944,
+        "attempt_2_amended_authorized_bound_seconds": 2400,
+        "combined_actual_bound": 1597.55,
+        "combined_amended_authorized_bound_seconds": 3011.606
+      },
+      "campaign_cap_headroom_after_attempt_2_seconds": 3105.489
+    },
+    "status_handle": {
+      "attempt_2_kernel_ref": "vladkochetov07/wnn-h512-profile-20261021-r2-runner/1",
+      "exact_status_poll": "GetKernelSessionStatus for user_name=vladkochetov07 and kernel_slug=wnn-h512-profile-20261021-r2-runner, with version_label omitted",
+      "terminal_status": "KernelWorkerStatus.ERROR",
+      "terminal_observed_at_utc": "2026-10-20T23:46:58Z",
+      "provider_session_id": null,
+      "session_id_note": "Kaggle status response did not expose a kernel_session_id. Supplying version_label produced HTTP 404; the exact owner+slug query without version returned the terminal status."
+    },
+    "availability_and_reservations": {
+      "installed_sdk_supported_shapes": [
+        "NvidiaTeslaT4",
+        "NvidiaTeslaP100",
+        "Tpu1VmV38"
+      ],
+      "current_cli_docs_shape_drift": "The installed SDK does not list NvidiaL4, while current CLI metadata documentation does; provider metadata/query APIs do not report current shape availability.",
+      "confirmed_by_execution": "NvidiaTeslaT4 is currently launchable and was canonicalized to two Tesla T4s on both attempts.",
+      "p100_allocation_observed": false,
+      "single_gpu_shape_verified_available": false,
+      "account_wide_active_or_queued_kernel_inventory": "Not available through the installed SDK interface; zero reserved quota is not proof that every account kernel is terminal.",
+      "current_cycle_planned_reservations_located": false,
+      "reservation_interpretation": "No current-cycle planned reservation record was located; the provider quota snapshot reports zero reserved GPU seconds but cannot establish undocumented plans.",
+      "read_only_readiness_source": "../kaggle_delivery_readiness_r1/KAGGLE_DELIVERY_READINESS_20261021_R1.json"
+    }
+  },
+  "canonical_input_identity": {
+    "original_manifest": {
+      "path": "terminal_collection_attempt2/outputs/experiment/research/campaign_2026-10-21/kaggle_h512_profile_r1/canonical_fold0_original.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "size_bytes": 1388846
+    },
+    "profile_manifest": {
+      "path": "fold0_profile_view.json",
+      "sha256": "60bc2897b88da6da784bf79fbc301f195f27fee182e0447547e4cc9512e17624",
+      "size_bytes": 1388096,
+      "source_entries": [
+        "datasets/train.parquet",
+        "datasets/valid.parquet"
+      ],
+      "membership_and_evaluation_fields_bit_for_bit_equal_to_original": true,
+      "original_manifest_bytes_modified": false
+    },
+    "portable_registry": {
+      "path": "terminal_collection_attempt2/outputs/experiment/research/campaign_2026-10-04/portable_inputs.json",
+      "sha256": "90d26c7063050092eeda774c7c6298897a8fb133e4804ac13d0a281bd328ff8c",
+      "size_bytes": 2104
+    },
+    "raw_inputs": {
+      "train": {
+        "path": "datasets/train.parquet",
+        "size_bytes": 29240219011,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "footer_bytes": 60437285,
+        "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb"
+      },
+      "valid": {
+        "path": "datasets/valid.parquet",
+        "size_bytes": 5615509128,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "footer_bytes": 10686926,
+        "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+      }
+    },
+    "structural_loader_inputs_required_outside_profile_sources": {
+      "cache/chains.npz": {
+        "size_bytes": 650142,
+        "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+      },
+      "cache/chain_folds.npz": {
+        "size_bytes": 550072,
+        "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+      },
+      "note": "These are small canonical membership/evaluation graph caches required by wnn.splits.load_campaign_split, not profile source-membership entries. Preserve the profile manifest's exact two-raw-parquet source list; stage and hash-check these structural files at the expected root paths before any future profile."
+    }
+  },
+  "profile_recipe": {
+    "profile_name_attempt_1": "r01_h512_f0_s1003_kaggle_profile_r1",
+    "profile_name_attempt_2": "r01_h512_f0_s1003_kaggle_profile_r2",
+    "architecture": "GRU H512 x 1, batch 8, chunk 2000, FP32, seed 1003, fold 0",
+    "profile_steps": 3,
+    "profile_warmup_steps": 1,
+    "planned_chunk_updates": 40,
+    "quality_fit": false,
+    "original_spec_sha256": "754dd9e8a48745655ee016e8fb9227a2f845751444a86c4b4faeeb373fab4faaf",
+    "attempt_2_spec_sha256": "3ea31932a8dad516dd7c4e709389f02434a9035d360a2fd9bba21b29663e4953",
+    "attempt_2_wrapper_sha256": "21d2ff66ee8f01d32874f697c6bcae79397d86a54bf5054f373d55d12b7a20ac",
+    "attempt_2_bundle_archive_sha256": "50e6a22930d5704edecbb312eb6ad7d4fae17586ad2f7eac111cea2806c0eb5c",
+    "attempt_2_bundle_archive_bytes": 665376,
+    "attempt_2_expanded_bundle_bytes": 3973487,
+    "attempt_2_profile_wrapper_sha256": "21d2ff66ee8f01d32874f697c6bcae79397d86a54bf5054f373d55d12b7a20ac"
+  },
+  "attempts": [
+    {
+      "attempt": 1,
+      "kernel_ref": "vladkochetov07/wnn-h512-profile-20261021-r1-runner/1",
+      "requested_machine_shape": "NvidiaTeslaP100",
+      "actual_machine_shape": "2x Tesla T4",
+      "terminal_status": "KernelWorkerStatus.ERROR",
+      "effective_worker_deadline_seconds": 297,
+      "effective_outer_deadline_seconds": 600,
+      "terminal_worker_elapsed_seconds": 270.556,
+      "peak_ram_bytes": 555872256,
+      "peak_gpu_bytes": 0,
+      "worker_log_bytes": 0,
+      "raw_sha256_preflight": "not_observed; runner timed out before worker input identity completed",
+      "finite_profile_updates": 0,
+      "quota_delta_seconds": 305.803,
+      "conservative_two_device_bound_seconds": 611.606,
+      "terminal_collection": {
+        "path": "terminal_collection",
+        "collected_at_utc": "2026-10-20T23:29:47.059399Z",
+        "file_count": 174,
+        "total_bytes": 4115541,
+        "manifest_sha256": "062c6fcca96d2870e0f9067ce2b27be978e5e72d920019bb8b623b2b0cff72f2"
+      }
+    },
+    {
+      "attempt": 2,
+      "kernel_ref": "vladkochetov07/wnn-h512-profile-20261021-r2-runner/1",
+      "requested_machine_shape": "NvidiaTeslaT4",
+      "actual_machine_shape": "2x Tesla T4",
+      "terminal_status": "KernelWorkerStatus.ERROR",
+      "effective_worker_deadline_seconds": 898,
+      "effective_outer_deadline_seconds": 1200,
+      "finalizer_reserve_seconds": 300,
+      "terminal_worker_wall_seconds": 482.873656021,
+      "worker_exit_code": 1,
+      "worker_device_index": 0,
+      "worker_gpu_uuid": "GPU-6741d8fb-6947-bd63-3d4d-d7f12896127f",
+      "peak_ram_bytes": 69308416,
+      "peak_gpu_bytes": 0,
+      "phase_events": [
+        {
+          "event": "profile_wrapper_started",
+          "elapsed_seconds": 0.0,
+          "observed_at_utc": "2026-10-20T23:38:24.199Z"
+        },
+        {
+          "event": "profile_manifest_checks_passed",
+          "elapsed_seconds": 0.046,
+          "observed_at_utc": "2026-10-20T23:38:24.245Z",
+          "original_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+          "profile_manifest_sha256": "60bc2897b88da6da784bf79fbc301f195f27fee182e0447547e4cc9512e17624",
+          "non_source_fields_equal": true
+        },
+        {
+          "event": "raw_source_preflight_started",
+          "elapsed_seconds": 0.669,
+          "observed_at_utc": "2026-10-20T23:38:24.868Z"
+        }
+      ],
+      "diagnosis": "Canonical load_campaign_split verified portable identities for the raw train and valid parquet sources, then failed opening the first structural graph cache: /kaggle/working/experiment/cache/chains.npz (FileNotFoundError at src/wnn/splits.py:168). The worker spent 482.874 seconds in the canonical preflight call before this failure; no trainer/model/profile steps ran. Exact per-file hash durations were not logged.",
+      "finite_profile_updates": 0,
+      "quota_delta_seconds": 492.972,
+      "conservative_two_device_bound_seconds": 985.944,
+      "terminal_collection": {
+        "path": "terminal_collection_attempt2",
+        "collected_at_utc": "2026-10-20T23:48:15.262932Z",
+        "file_count": 175,
+        "total_bytes": 4133145,
+        "manifest_sha256": "75d46fd0f023a92e223efd422c8740d0a6c75457522c6ff47b1ca69dbbb53cea"
+      }
+    }
+  ],
+  "execution_outcome": {
+    "actual_h512_profile_measurements": false,
+    "finite_profile_updates": 0,
+    "scientific_fits": 0,
+    "scores": null,
+    "fit_admission": "none",
+    "reason": "The canonical split loader requires cache/chains.npz and cache/chain_folds.npz. The profile-only code bundle carried the exact raw parquet sources and unchanged membership/evaluation fields but omitted these structural graph caches. The first was missing after both raw identity checks succeeded."
+  },
+  "next_blocking_requirements": [
+    "Before a newly authorized engineering attempt, stage the two existing structural graph caches named in canonical_input_identity with their exact recorded bytes and hashes. Keep them outside the derived manifest's sources entries and verify them explicitly before entering load_campaign_split.",
+    "Retain the exact original manifest, profile manifest membership, raw parquet SHA checks, bundled canonical trainer, and strict FP32/profile argv. Add a flushed completion/failure timestamp around the raw-source preflight so phase duration is explicit.",
+    "Set a worker deadline that covers observed raw-source verification (~483 seconds on this dual-T4 session) plus profile setup/updates/serialization and finalizer reserve; do not count verification as model throughput.",
+    "A fit remains uncosted and unadmitted until a genuine finite profile completes, actual quota delta is reconciled, and the controller explicitly reviews the evidence."
+  ],
+  "artifact_index": {
+    "attempt_1_collected_output_log": "terminal_collection/outputs/wnn-h512-profile-20261021-r1-runner.log",
+    "attempt_1_worker_heartbeat": "terminal_collection/outputs/results/heartbeat.json",
+    "attempt_1_input_identity": "terminal_collection/outputs/results/r01_h512_f0_s1003_kaggle_profile_r1.input_identity.json",
+    "attempt_2_worker_log": "terminal_collection_attempt2/outputs/results/r01_h512_f0_s1003_kaggle_profile_r2/worker.log",
+    "attempt_2_result": "terminal_collection_attempt2/outputs/results/r01_h512_f0_s1003_kaggle_profile_r2/result.json",
+    "attempt_2_input_identity": "terminal_collection_attempt2/outputs/results/r01_h512_f0_s1003_kaggle_profile_r2.input_identity.json",
+    "attempt_2_collected_output_log": "terminal_collection_attempt2/outputs/wnn-h512-profile-20261021-r2-runner.log",
+    "attempt_2_poll_log": "provider_polls_attempt2.jsonl",
+    "attempt_2_exact_kernel_push_receipt": "kernel_push_attempt2.log",
+    "attempt_2_private_code_bundle": "bundle_attempt2",
+    "attempt_2_profile_wrapper_source": "terminal_collection_attempt2/outputs/experiment/scripts/kaggle_profile_wrapper.py"
+  }
+}

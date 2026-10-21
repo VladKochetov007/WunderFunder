@@ -1,0 +1,13 @@
+{
+  "id": "H-ONLINE-DELAYED-PROXY-20261018-R1",
+  "mechanism_family": "causal_online_learning",
+  "status": "proposed",
+  "statement": "At inference step t, current feature state x[t] may predict the previous-row label y[t-1]. Whether that label is mature or observable by step t is undocumented, so this is a lagged pseudo-label feasibility question, not evidence of realized-label feedback.",
+  "mechanism": "A training-only weighted ridge proxy maps current raw features and one-step feature changes to the previous-row label. A separate experiment would need to evaluate any proxy-driven per-sequence expert-weight update as a complete endpoint.",
+  "predicted_observation": "The fixed proxy achieves positive out-of-component global_wp_clip2_v1 when predicting y[t-1] from x[t] and x[t]-x[t-1].",
+  "cheapest_discriminating_test": "One weighted ridge fit on 32 distinct F0 fit components and a frozen evaluation on 32 distinct, previously exposed F0 evaluation components; score shifted targets with the official mask and metric.",
+  "falsifier_scope": "A weak or unstable lagged-target proxy narrows this pseudo-label route only; it does not reject input-only online state updates, rolling statistics, or other learned representations.",
+  "leakage_contract": "The predictor consumes only current and previous state rows from the same sequence. Evaluation targets and is_scored are read only by the offline grader. All per-sequence state resets at sequence boundaries.",
+  "evidence_limit": "Before execution: one planned ridge fit; F0 is exposed development data; target maturity is unknown; no label availability, online-update benefit, public transfer, or competition-endpoint gain is claimed.",
+  "source": "research/campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/recipe.json"
+}

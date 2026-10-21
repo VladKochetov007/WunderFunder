@@ -1,0 +1,278 @@
+{
+  "commands": {
+    "cpu_quota": "20%",
+    "interpreter": "/usr/bin/python3.11",
+    "memory_max_bytes": 1500000000,
+    "scope": "wnn-campaign.slice",
+    "swap_max_bytes": 0,
+    "threads": 1
+  },
+  "files": {
+    "cache/valid_targets.npz": {
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "size_bytes": 337186198
+    },
+    "research/campaign_2026-09-29/artifacts/splits/fold0.json": {
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "size_bytes": 1388846
+    },
+    "research/campaign_2026-10-18/online_features_r1/adapter_target_only/execution_phases.json": {
+      "sha256": "f45e4332b360778284424f4754249d01399bcfd489c837a5ba57646e1ddefc84",
+      "size_bytes": 2454
+    },
+    "research/campaign_2026-10-18/online_features_r1/adapter_target_only/recipe_target_only.json": {
+      "sha256": "7e102b8aaa4bd6c929b3b983fc7908e6d2359a018de4147c7b14865ea11625a6",
+      "size_bytes": 6180
+    },
+    "src/wnn/evaluation.py": {
+      "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+      "size_bytes": 8080
+    },
+    "src/wnn/gmetric.py": {
+      "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+      "size_bytes": 8902
+    }
+  },
+  "fold0": {
+    "component_count": 579,
+    "evaluation_group_count": 468,
+    "evaluation_group_order_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+    "evaluation_membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+    "fold": 0,
+    "metric_id": "global_wp_clip2_v1",
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "scored_from_row": 99,
+    "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "pre_score_validation": {
+    "all_checkpoints_bound": true,
+    "all_fits_disjoint_from_fold0": false,
+    "all_prediction_hashes_bound": false,
+    "all_split_hashes_equal": true,
+    "parent_sidecar_covers_fold0": true,
+    "r2_sidecar_groups_equal_fold0": true,
+    "target_only_sidecar_groups_equal_fold0": true
+  },
+  "recipe_sha256": "7e102b8aaa4bd6c929b3b983fc7908e6d2359a018de4147c7b14865ea11625a6",
+  "runs": {
+    "candidate": {
+      "checkpoint": {
+        "path": "artifacts/runs/geometry_adapter_f0_s3_target_only_r1/model_ep0.pt",
+        "provenance_bound": true,
+        "sha256": "1cacafc098480f6575f25c13004529399c25202f1013ee93023008f65ab0e800",
+        "sidecar_bound": true
+      },
+      "prediction": {
+        "path": "cache/pred_geometry_adapter_f0_s3_target_only_r1_valid.npy",
+        "score_bound": true,
+        "sha256": "b12cc6a2b42306b1deba9881093f5185c0176ad94cbf6a25570dee5b2260f8b1",
+        "sidecar_bound": true,
+        "size_bytes": 74880128
+      },
+      "provenance": {
+        "fit_eval_overlap_count": 463,
+        "fit_eval_overlap_first20": [
+          4,
+          5,
+          7,
+          9,
+          12,
+          18,
+          19,
+          22,
+          26,
+          35,
+          39,
+          41,
+          42,
+          50,
+          51,
+          53,
+          55,
+          57,
+          59,
+          65
+        ],
+        "fit_row_group_counts": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "initial_checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+        "path": "artifacts/runs/geometry_adapter_f0_s3_target_only_r1/provenance.json",
+        "score": {
+          "epoch": 0,
+          "metric_id": "global_wp_clip2_v1",
+          "prediction_sha256": "b12cc6a2b42306b1deba9881093f5185c0176ad94cbf6a25570dee5b2260f8b1",
+          "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+          "t0": 0.6728906300544198,
+          "t1": 0.6874003352596156,
+          "wp": 0.6801454826570177
+        },
+        "score_file": "artifacts/runs/geometry_adapter_f0_s3_target_only_r1/score.json",
+        "score_file_sha256": "a694ea66b2208b307e833d6a2f4062b5809dcfa6f0b89e582a1cbacb85e8ae31",
+        "selected_epoch": 0,
+        "sha256": "3536e38bf71670630ecee3313c4654a9bc3a8f22158ae787d91280144ac7c54c",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "run": "geometry_adapter_f0_s3_target_only_r1",
+      "sidecar": {
+        "campaign_export_scope": "evaluation",
+        "covers_fold0_exactly": true,
+        "epoch": 0,
+        "evaluation_group_order_equals_fold0": true,
+        "evaluation_membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+        "inference_precision": "fp32",
+        "path": "cache/pred_geometry_adapter_f0_s3_target_only_r1_valid.json",
+        "row_group_count": 468,
+        "row_group_order_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+        "run": "geometry_adapter_f0_s3_target_only_r1",
+        "sha256": "1a9c657e1643928a8648838d0c8ef84fcb754f82727c622d39072c083149e4ca",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      }
+    },
+    "parent": {
+      "checkpoint": {
+        "path": "artifacts/runs/warm_mechanism_f0_s3_c_r3/model_ep1.pt",
+        "provenance_bound": true,
+        "sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+        "sidecar_bound": true
+      },
+      "prediction": {
+        "path": "cache/pred_warm_mechanism_f0_s3_c_r3_valid.npy",
+        "score_bound": false,
+        "sha256": "c45c8d260d011fcc0c5900a4d11ee10d8261799716775ee6b26dd2cb6dd84482",
+        "sidecar_bound": true,
+        "size_bytes": 299680128
+      },
+      "provenance": {
+        "fit_eval_overlap_count": 463,
+        "fit_eval_overlap_first20": [
+          4,
+          5,
+          7,
+          9,
+          12,
+          18,
+          19,
+          22,
+          26,
+          35,
+          39,
+          41,
+          42,
+          50,
+          51,
+          53,
+          55,
+          57,
+          59,
+          65
+        ],
+        "fit_row_group_counts": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "initial_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
+        "path": "artifacts/runs/warm_mechanism_f0_s3_c_r3/provenance.json",
+        "score": null,
+        "score_file": null,
+        "score_file_sha256": null,
+        "selected_epoch": 1,
+        "sha256": "8989f1b3015e822765db8016645739f6c4d2452f4d2d84d4f04ab05f98491d3a",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "run": "warm_mechanism_f0_s3_c_r3",
+      "sidecar": {
+        "campaign_export_scope": "full-valid-feature-only",
+        "covers_fold0_exactly": true,
+        "epoch": 1,
+        "evaluation_group_order_equals_fold0": false,
+        "evaluation_membership_sha256": "008f12e284e0f72ff423fee68f34c37054759bc4a345e9581620c1fe9b2acdf7",
+        "inference_precision": "fp32",
+        "path": "cache/pred_warm_mechanism_f0_s3_c_r3_valid.json",
+        "row_group_count": 1873,
+        "row_group_order_sha256": "73e879bb572abbab3d4b1af9bb6ab179c54c8b2c2ee8485242bbb153fe5ef84e",
+        "run": "warm_mechanism_f0_s3_c_r3",
+        "sha256": "d341f340fd0987a15f5dc3b8e30b049e4ab2a924c47e096e3043f58d89f86300",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      }
+    },
+    "r2_control": {
+      "checkpoint": {
+        "path": "artifacts/runs/geometry_adapter_f0_s3_r2/model_ep0.pt",
+        "provenance_bound": true,
+        "sha256": "f03785c3dbc364d3d12a0ad0cbe1969a50a95bdc3a95d1f4bd0f4758f654df19",
+        "sidecar_bound": true
+      },
+      "prediction": {
+        "path": "cache/pred_geometry_adapter_f0_s3_r2_valid.npy",
+        "score_bound": true,
+        "sha256": "b86574111adb85cbd1a4de564f4a91f3efc2d455c20ff932312eafbae1a21f0d",
+        "sidecar_bound": true,
+        "size_bytes": 74880128
+      },
+      "provenance": {
+        "fit_eval_overlap_count": 463,
+        "fit_eval_overlap_first20": [
+          4,
+          5,
+          7,
+          9,
+          12,
+          18,
+          19,
+          22,
+          26,
+          35,
+          39,
+          41,
+          42,
+          50,
+          51,
+          53,
+          55,
+          57,
+          59,
+          65
+        ],
+        "fit_row_group_counts": {
+          "train": 10535,
+          "valid": 1405
+        },
+        "initial_checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+        "path": "artifacts/runs/geometry_adapter_f0_s3_r2/provenance.json",
+        "score": {
+          "epoch": 0,
+          "metric_id": "global_wp_clip2_v1",
+          "prediction_sha256": "b86574111adb85cbd1a4de564f4a91f3efc2d455c20ff932312eafbae1a21f0d",
+          "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+          "t0": 0.6731815447936998,
+          "t1": 0.687718263255454,
+          "wp": 0.680449904024577
+        },
+        "score_file": "artifacts/runs/geometry_adapter_f0_s3_r2/score.json",
+        "score_file_sha256": "45adb73f56a37f0a6463cef4a66687a42c79249c712e53ba165163cff5427521",
+        "selected_epoch": 0,
+        "sha256": "10402ba5f435e92d242e2f701606325952cfd87c9262eb930679a1daa29de080",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      },
+      "run": "geometry_adapter_f0_s3_r2",
+      "sidecar": {
+        "campaign_export_scope": "evaluation",
+        "covers_fold0_exactly": true,
+        "epoch": 0,
+        "evaluation_group_order_equals_fold0": true,
+        "evaluation_membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+        "inference_precision": "fp32",
+        "path": "cache/pred_geometry_adapter_f0_s3_r2_valid.json",
+        "row_group_count": 468,
+        "row_group_order_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+        "run": "geometry_adapter_f0_s3_r2",
+        "sha256": "d4a8c1ecdb5f67567b9b7eed9b365c9f23ff1cefaed5fc791ee747c39fb17eb7",
+        "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+      }
+    }
+  },
+  "schema": "wnn.adapter_target_only_independent_grade_frozen_inputs.v1",
+  "stage": "pre-score artifact identity freeze; no target or prediction arrays evaluated"
+}

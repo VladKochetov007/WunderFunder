@@ -1,0 +1,134 @@
+{
+  "analysis_amendment": {
+    "amendment_id": "A-GRADE-ARRAY-KEYS-20261018-R1",
+    "changed_source": {
+      "amended_sha256": "9c4e7a9bdb47af7fe3da53ab952b0f0d80bee158de753148032e2c67da4206ba",
+      "change": "Allocate paired sufficient-statistic arrays by the three frozen comparison IDs.",
+      "parent_sha256": "f65b47bc9f099f1d19bfafa2fa43ae92a87bc32a0a8e6285fc073f25c29fa868",
+      "path": "grade_f2.py"
+    },
+    "created_utc": "2026-10-18T02:53:40Z",
+    "label_exposure": "The failed initial score attempt read the first group target and mask; all F2 evidence remains exposed and diagnostic.",
+    "new_preflight_required": true,
+    "parent_recipe_path": "recipe.json",
+    "parent_recipe_sha256": "5b804705b8b43ad81fce46065286d6cf5a0b65069b5d23d20a6da0a1f5952a18",
+    "reason": "The initial score attempt read the first F2 target/mask and failed with KeyError because paired-stat arrays were keyed by endpoint names but indexed by comparison names.",
+    "unchanged": [
+      "candidate ZIPs and prediction caches",
+      "fold membership and group order",
+      "metric, target transform, masks, clipping, and fixed blend coefficients",
+      "paired component bootstrap unit, replicate count, seed, and interval method"
+    ]
+  },
+  "ancestry": {
+    "r3": "Inference-only derivative of the R2 checkpoint; adaptively selected on exposed F0.",
+    "tl3": "Official team ZIP; exact training, teacher and initializer membership unknown; package metadata calls parents all-data."
+  },
+  "bootstrap": {
+    "replicates": 10000,
+    "seed": 20261019,
+    "unit": "source-qualified connected component"
+  },
+  "candidate_zip_sha256": {
+    "r3": "27f01f53ba32f7256ce1663e8b163b382e673fc96e7870fdebdf310d4886f98e",
+    "tl3": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569"
+  },
+  "code_sha256": {
+    "campaign_score.py": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39",
+    "f2_candidates.py": "252afc17125ac43d7118ad7c534a9cb8ab7d9d5de79a0a22c6cebdac25d4c77e",
+    "f2_grade_preflight.py": "eb487f4c9458ce9c95dc9d046d5da072ddfc5ee06e4a3dc89caeec94e3966267",
+    "f2_native_runtime.py": "b33b558fc9586c4104aa38616c8853e99e0627e53d84d46d9808530849ae0147",
+    "f2_receipts.py": "b033be750eab2f889c312fdc02ae8e1f790624cb59868e751c861effcbee2da2",
+    "f2_replay_engine.py": "235a92355f0975bc1da4f70458dcb189e1b43cfce694f97628939425953ca934",
+    "f2_source.py": "8260453a330dba4583dcef95970c3664c1c0f77010c82cb39499d7f37603a620",
+    "grade_f2.py": "9c4e7a9bdb47af7fe3da53ab952b0f0d80bee158de753148032e2c67da4206ba",
+    "replay_f2.py": "687b0dea597983790051397a788a470fbadfb8aa6e3ee29b86bd99b481de02a1",
+    "tl3_replay/f0_replay.py": "c7c173fc8f7804de04b9b96b65906ec6cad89a035f485a5ddc45141a297ef1b3",
+    "tl3_replay/native_runtime.py": "47e5e7c77a0c56c9bb597602daaea20aa9b81e418bb815ff8097c602bd921f05"
+  },
+  "comparisons": [
+    {
+      "candidate": "r3",
+      "reference": "tl3"
+    },
+    {
+      "candidate": "blend_75_25",
+      "reference": "tl3"
+    },
+    {
+      "candidate": "blend_50_50",
+      "reference": "tl3"
+    }
+  ],
+  "created_utc": "2026-10-18T02:19:23Z",
+  "decision_interpretation": {
+    "negative": "A blend below TL3 narrows only this exact pair and fixed coefficient on this fold. It does not reject other models or conditional ensemble mechanisms.",
+    "promising": "A fixed blend gains at least 0.0005 WP over TL3 and its conditional component interval is above zero. This only warrants another fixed, source-qualified confirmation with known ancestry; it does not select a submission or establish a large direction.",
+    "small_effect": "A blend delta inside +/-0.0005 is operationally small for this pair and fold; preserve it as a diagnostic.",
+    "uncertain_positive": "A point gain of at least 0.0005 whose interval crosses zero keeps complementarity open for a bounded confirmation; do not select the blend from this result."
+  },
+  "direction_scope": "Endpoint combination evidence only. It is not a test of online learning, a new training recipe, or a teacher/student relationship.",
+  "evaluation_components": 144,
+  "evaluation_exposure": "F2 was inspected before. TL3 metadata describes all-data parents, but exact training, teacher, initializer, and sequence membership is unknown; all scores are potentially fitted cross-fold robustness diagnostics, not clean-CV evidence.",
+  "evaluation_groups": 443,
+  "experiment_id": "E-TL3-R3-F2-FIXED-MIXTURE-20261018-R1",
+  "fixed_blends": {
+    "blend_50_50": {
+      "r3": 0.5,
+      "tl3": 0.5
+    },
+    "blend_75_25": {
+      "r3": 0.25,
+      "tl3": 0.75
+    }
+  },
+  "grader_sha256": "9c4e7a9bdb47af7fe3da53ab952b0f0d80bee158de753148032e2c67da4206ba",
+  "hypothesis_id": "H-TL3-R3-F2-COMPLEMENTARITY-20261018-R1",
+  "mechanism_family": "fixed_model_complementarity",
+  "metric": {
+    "id": "global_wp_clip2_v1",
+    "mask": "official cached target mask and row position >= 99",
+    "prediction_clip": [
+      -2.0,
+      2.0
+    ],
+    "weight": "absolute clipped target magnitude"
+  },
+  "question": "Does the selected R3 endpoint add useful complementary signal to the exact TL3 package on a different, previously inspected fold?",
+  "replay": {
+    "input_columns": "seq_ix, step_in_seq, need_prediction, and the current raw feature state[112].",
+    "labels_or_scoring_mask_read": false,
+    "profiles": "Replay the first 8 complete groups for each ZIP with A-B-A reset verification before admitting either full replay.",
+    "scope": "All 443 complete F2 evaluation sequences per exact ZIP, in CampaignSplit order.",
+    "state_reset": "Reset naturally on sequence ID change and verify exact A-B-A replay on the first sequence.",
+    "warmup": "Process the first 99 rows of every sequence and require no prediction there."
+  },
+  "resource_admission": {
+    "aggregate_cpu_cores": 2,
+    "combined_task_reservation_bytes": 4721225472,
+    "docker_cpu_cores": 1,
+    "docker_memory_max_bytes": 3221225472,
+    "docker_swap_max_bytes": 0,
+    "gpu_worker": false,
+    "new_paid_compute": false,
+    "outer_limited_scope_cpu_quota": "100%",
+    "outer_limited_scope_memory_max_bytes": 1500000000,
+    "parent_memory_commitment_target_bytes": 17000000000,
+    "scratch": "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2",
+    "scratch_filesystem": "/dev/nvme0n1p7 physical disk",
+    "task_memory_cap_bytes": 5000000000
+  },
+  "schema": "wnn.fixed_endpoint_f2_complementarity_recipe.v1",
+  "split_path": "research/campaign_2026-09-29/artifacts/splits/fold2.json",
+  "split_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+  "status": "grade_only_amendment_frozen_after_replay_and_failed_initial_grade_before_retry",
+  "target_cache_path": "cache/valid_targets.npz",
+  "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+  "uncertainty_scope": "Conditional on fixed predictions; does not include fitting-seed, ancestry, or public-transfer uncertainty.",
+  "valid_parquet": {
+    "bytes": 5615509128,
+    "footer_sha256_from_split": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+    "path": "datasets/valid.parquet"
+  },
+  "why_it_might_work": "F0 diagnostics show that TL3 and R3 have distinct corrections, but both predeclared fixed mixtures underperformed TL3 there. A fixed F2 replay checks whether that observation repeats on a different fold without fitting mixture weights."
+}
