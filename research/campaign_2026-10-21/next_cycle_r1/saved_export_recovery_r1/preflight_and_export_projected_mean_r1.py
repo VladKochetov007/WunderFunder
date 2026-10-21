@@ -19,6 +19,7 @@ DERIVATION_PATH = SCRATCH_ROOT / "receipts/PROJECTED_MEAN_DERIVATION_R1.json"
 PREDICTOR_PATH = TRAINING_ROOT / "scripts/predict_run.py"
 EXPECTED_PLAN_SHA256 = "3b0e0e7b072be59d6125e518b3f84443f011d6bb2713e7f6463940ce4d2115f1"
 EXPECTED_TRAINING_HEAD = "d3055423a185d2ecfe7baf1c20206abeb743ad8b"
+EXPECTED_SERVING_SOURCE_COMMIT = "c2e2fb57ebb9fb513701d5cd39b9be19505dd35b"
 EXPECTED_DERIVE_SCRIPT_SHA256 = "a3cac2ee7040837f0e91ee7e7303d6d3a46d114e8e332cdfb765bd664376f923"
 EXPECTED_CHECKPOINT_SHA256 = "fc5e432eff521ad4829a6d1e0aefa6325a3d706b4dc02e17f602d3b33cf26a55"
 EXPECTED_DERIVATION_RECEIPT_SHA256 = (
@@ -70,18 +71,38 @@ def verify_clean_training_source() -> None:
     require(not status, "NLL predictor worktree is dirty")
 
 
-def verify_projected_mean_pins() -> dict[str, str]:
+def verify_projected_mean_pins() -> tuple[dict[str, str], dict[str, dict[str, str | bool]]]:
     """Verify frozen source, checkpoint, derivation and split identities without loading tensors."""
     verify_clean_training_source()
     require(sha256(PLAN_PATH) == EXPECTED_PLAN_SHA256, "projected-mean plan bytes changed")
     plan = read_json(PLAN_PATH)
     source_checked: dict[str, str] = {}
-    source_roots = {"training": TRAINING_ROOT, "serving": PROJECT_ROOT}
+    current_serving_source: dict[str, dict[str, str | bool]] = {}
     for role, entries in plan["source_pins"].items():
-        root = source_roots[role]
         for relative, expected in entries.items():
-            path = root / relative
-            actual = sha256(path)
+            if role == "training":
+                actual = sha256(TRAINING_ROOT / relative)
+            elif role == "serving":
+                completed = subprocess.run(
+                    [
+                        "git",
+                        "-C",
+                        str(PROJECT_ROOT),
+                        "show",
+                        f"{EXPECTED_SERVING_SOURCE_COMMIT}:{relative}",
+                    ],
+                    check=True,
+                    capture_output=True,
+                )
+                actual = hashlib.sha256(completed.stdout).hexdigest()
+                current_actual = sha256(PROJECT_ROOT / relative)
+                current_serving_source[relative] = {
+                    "historical_git_blob_sha256": actual,
+                    "current_project_file_sha256": current_actual,
+                    "current_file_differs": current_actual != actual,
+                }
+            else:
+                raise ValueError(f"unexpected source pin role: {role}")
             require(actual == expected, f"source pin mismatch for {role}:{relative}")
             source_checked[f"{role}:{relative}"] = actual
 
@@ -152,7 +173,7 @@ def verify_projected_mean_pins() -> dict[str, str]:
         sha256(PREDICTOR_PATH) == plan["source_pins"]["training"]["scripts/predict_run.py"],
         "NLL predictor bytes differ from the frozen source pin",
     )
-    return source_checked
+    return source_checked, current_serving_source
 
 
 def reserve_alias_and_check_outputs() -> Path:
@@ -182,7 +203,21 @@ def reserve_alias_and_check_outputs() -> Path:
 
 def main() -> None:
     """Pin, safely alias, and export the full-valid feature-only projected-mean predictions."""
-    checked = verify_projected_mean_pins()
+    checked, current_serving_source = verify_projected_mean_pins()
+    sys.stdout.write(
+        json.dumps(
+            {
+                "status": "source_pins_verified",
+                "training_head": EXPECTED_TRAINING_HEAD,
+                "source_code_sha256": checked,
+                "historical_serving_source_commit": EXPECTED_SERVING_SOURCE_COMMIT,
+                "historical_serving_source_current_file_comparison": current_serving_source,
+            },
+            indent=2,
+        )
+        + "\n"
+    )
+    sys.stdout.flush()
     alias = reserve_alias_and_check_outputs()
     environment = os.environ.copy()
     environment.update(
