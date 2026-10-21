@@ -29,3 +29,5 @@ completion is implied by this packet.
 - [B16 independent review](B16_RECOVERY_REVIEW_R1.json): identified missing metadata byte binding, fixed with exact provenance/historySHA pins verified against terminalcollectionmanifest; reviewer confirmed resolution. Remaining source/mean/coverage/fixedgrade checks passed statically; execution pending.
 
 - [One-off native source restoration](finish_native_source_restore.sh): waits for the exact native invocation to terminate, checks both old and committed exporterSHA hashes, and restores the committed dynamics exporter. CPU5%/RAM50MB/swap0, no model/data work. [Execution log](native_source_restore.log) records completion or refusal; shell syntax check passed.
+
+- [First i1 epoch](I1_FIRST_EPOCH_R1.json): F0/B completed1,540updates in635.1seconds with finite gradients, zero skips and successful checkpoint/trainingstate save, OOM0. Execution evidence only; fixedCP2notyetcomplete.

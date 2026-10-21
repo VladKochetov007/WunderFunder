@@ -45,3 +45,5 @@ The [new design packet](https://github.com/VladKochetov007/WunderFunder/tree/exp
 ## Future-input dynamics auxiliary — October21 R1
 
 The local [cold-screen packet](dynamics-aux-20261021/README.md) implements an optional training-only 52-output head for mean standardized change and log change energy over 13 raw feature groups and horizons 16/256. Its four-fit plan matches weight 0 and 0.05 on F0/seed1001 and F2/seed1002, with the B-control 367-slot i1 representation zeroed. Exact equations, frozen subset hashes and usage are documented; four focused CPU tests and static checks pass, while profile remains pending. No scientific fits or quality claims exist. The current implementation rejects strong-parent initialization, so any parent continuation needs a separate extension.
+
+- [October21 next local/Kaggle cycle](next-local-kaggle-cycle-20261021/README.md): staged30h implementation/recovery draft, live six-fit i1 panel, canonical dynamics auxiliary code and conditional follow-up; no new score or release promotion.
