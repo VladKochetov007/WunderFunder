@@ -312,7 +312,19 @@ def derive(plan_path: Path, project_root: Path, scratch_root: Path) -> dict[str,
     if any(layout != layouts[0] for layout in layouts[1:]):
         raise ValueError("projected sources have different native input layouts")
     cache_identities = [entry[0]["provenance"]["distillation_cache"] for entry in loaded]
-    if any(cache != cache_identities[0] for cache in cache_identities[1:]):
+    annotation_keys = ("main_target_scale", "main_target_scale_applied_before_training_clip")
+    cache_annotations = []
+    cache_bases = []
+    for cache in cache_identities:
+        if cache.get("main_target_scale", 1.0) != 1.0:
+            raise ValueError("teacher-cache scale is not the identity")
+        if cache.get("main_target_scale_applied_before_training_clip", True) is not True:
+            raise ValueError("teacher-cache scale order annotation differs")
+        cache_annotations.append({key: cache[key] for key in annotation_keys if key in cache})
+        cache_bases.append(
+            {key: value for key, value in cache.items() if key not in annotation_keys}
+        )
+    if any(cache != cache_bases[0] for cache in cache_bases[1:]):
         raise ValueError("parent and WMSE child checkpoints do not share the exact teacher cache")
     states = [entry[2] for entry in loaded]
     parities = []
@@ -395,6 +407,8 @@ def derive(plan_path: Path, project_root: Path, scratch_root: Path) -> dict[str,
         "source_projection_parity": parities,
         "native_input_layout": layouts[0],
         "normalization_bitwise_equal": True,
+        "original_teacher_cache_annotations": cache_annotations,
+        "teacher_cache_identity_excluding_identity_annotations_equal": True,
         "mean_method": derivation["method"],
         "output_checkpoint": str(checkpoint_path),
         "output_checkpoint_sha256": checkpoint_digest,
@@ -404,6 +418,7 @@ def derive(plan_path: Path, project_root: Path, scratch_root: Path) -> dict[str,
             "F0 is an exposed diagnostic panel and does not estimate fit-seed or public-transfer uncertainty.",
             "This amendment preserves the historical full-state mean block; only its serving-projected descendant is derived.",
             "This receipt does not grade the checkpoint or establish a production candidate.",
+            "Parent trainer-source metadata is absent; its unscaled-cache path is legacy-consistent, not independently proven.",
         ],
     }
     receipt_path.parent.mkdir(parents=True, exist_ok=True)
