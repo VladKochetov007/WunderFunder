@@ -1,3 +1,7 @@
+**Latest dated observation21October03:18UTC:** [AllThree same invocation active/running](records/child_allthree_fit_v1/health_20261021T0317Z/README.md), completed epoch0/7460updates/746batches/zero skips/nonfinite. Later ep1batch680 is not current totals/native44760/integrity/quality. One owned GPU, unchanged own/parent events, three stat-only artifacts; no new job/action/checker preparation or unchanged suites. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0318.json) govern next rare04:10UTC+ and actual-exit gates. Comparison6started/5completed of6, shared prerequisites5 separate; no quality endpoint/gain.
+
+---
+
 [NLL accepted and exact-stopped](records/child_nll_fit_v1/terminal_verification_v1/ACTUAL_INDEX.md); [final AllThree child launched once](records/child_allthree_fit_v1/README.md) at21October01:58:58UTC. Comparison6started/5completed of6 including parent; shared prerequisites5 separate. Exact14predecessor receipts and parent@ep3-only initializer are bound by the actual final body. [Early02:00 startup](records/child_allthree_fit_v1/startup_health_v1/README.md) is running setup metadata only, not a current GPU allocation/completion/quality claim. [Continuation](CONTINUATION.md) governs rare03:00UTC+ observation and future strict terminal gates. [Lifecycle validation](PUBLICATION_VALIDATION_20261021_NLL_ALLTHREE.json) preserves one native completion, one CPU support, exact stop and one final fit start.
 
 ---

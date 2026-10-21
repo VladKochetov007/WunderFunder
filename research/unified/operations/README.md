@@ -1,3 +1,7 @@
+[AllThree rare health03:18UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0317Z/README.md) records the same active owned worker, completed epoch0/7460updates/746batches/zero skips/nonfinite; later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only; no support/newfit/restart/stop/new checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0318.json) binds exact raw/navigation and unchanged ledgers. Next rare observation04:10UTC+; metadata only, no quality endpoint/gain.
+
+---
+
 [Prepublication navigation EOF correction](../../campaign_2026-10-19/full_gru_tweaks_r1/NAVIGATION_EOF_CORRECTION_NOTE_20261021_NLL_ALLTHREE.json) preserves exact original bytes of four new root-authored index files while removing one extra terminal LF in each. The staged audit caught this editorial issue before publication; raw/source/recipes/reviews/receipts and scientific counts are unchanged.
 
 ---

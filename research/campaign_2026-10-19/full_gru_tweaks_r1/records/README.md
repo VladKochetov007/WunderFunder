@@ -1,3 +1,7 @@
+[AllThree rare health03:18UTC](child_allthree_fit_v1/health_20261021T0317Z/README.md): same active invocation, completed epoch0/7460updates/746batches/zero skips/nonfinite. Later ep1batch680 is progress only, not current totals/native terminal/quality. One owned worker, events unchanged, three stat-only run files; no support/newfit/restart/stop/inference/checker preparation. Next rare04:10UTC+.
+
+---
+
 [NLL native proof](child_nll_fit_v1/terminal_native_capture_v1/README.md), [CPU PASS/full acceptance](child_nll_fit_v1/terminal_verification_v1/ACTUAL_INDEX.md), and [exact stop](child_nll_fit_v1/exact_stop/README.md) are durable. [Final AllThree actual launch](child_allthree_fit_v1/README.md) and [one early startup capture](child_allthree_fit_v1/startup_health_v1/README.md) are the current stage; dated setup fields do not prove completed updates or quality. Comparison6started/5completed, prerequisites5 separate; next rare03:00UTC+. Earlier records remain frozen.
 
 ---
