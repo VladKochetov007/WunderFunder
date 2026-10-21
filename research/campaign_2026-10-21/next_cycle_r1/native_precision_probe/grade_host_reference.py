@@ -313,14 +313,14 @@ def frozen_predictions(
         root / "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1"
     )
     sys.path[:0] = [str(packet), str(root / "src")]
-    from endpoint_score_inputs import _load_candidate, _load_prediction
+    from endpoint_score_inputs import _load_prediction
 
     values: dict[str, np.ndarray] = {}
     receipts: dict[str, Any] = {}
     paths: dict[str, Path] = {}
     base = binding["baseline"]
     base_path, side_path = resolve(root, base["path"]), resolve(root, base["sidecar"])
-    values["legacy_cached_tl3"], side = _load_prediction(
+    _, side = _load_prediction(
         base_path,
         side_path,
         {"prediction_sha256": base["sha256"], "row_groups": groups, "sequence_ids": sequence_ids},
@@ -335,6 +335,7 @@ def frozen_predictions(
         and side.get("split_manifest_sha256") == binding["source_pins"]["fold0_split"]["sha256"],
         "legacy sidecar source differs",
     )
+    values["legacy_cached_tl3"] = load_npy(base_path, base["sha256"], (468, 20_000, 2))
     receipts["legacy_cached_tl3"] = {
         "prediction_sha256": base["sha256"],
         "sidecar_sha256": base["sidecar_sha256"],
@@ -343,31 +344,83 @@ def frozen_predictions(
     for endpoint, name in (("cp5", "h512_cp5_replacement"), ("swa345", "h512_swa345_replacement")):
         rec, prior = binding["native_endpoints"][endpoint], grade["endpoint_sources"][endpoint]
         runtime = plan["runtime_paths"][endpoint]
+        package = prior["package_binding"]
         expected = {
             "predictions": rec["path"],
             "sidecar": rec["sidecar"],
             "replay_receipt": prior["replay_receipt"],
+            "zip": package["zip_path"],
+            "build_receipt": package["build_receipt_path"],
         }
-        for field, raw_path in expected.items():
+        endpoint_paths = {field: resolve(root, raw_path) for field, raw_path in expected.items()}
+        for field in expected:
             need(
-                Path(runtime[field]).resolve(strict=True) == resolve(root, raw_path),
+                Path(runtime[field]).resolve(strict=True) == endpoint_paths[field],
                 f"{endpoint} {field} path differs",
             )
-        array, receipt = _load_candidate(root, endpoint, runtime, groups, sequence_ids)
-        for field, raw_path, digest in (
-            ("predictions", rec["path"], rec["sha256"]),
-            ("sidecar", rec["sidecar"], rec["sidecar_sha256"]),
-            ("replay_receipt", prior["replay_receipt"], prior["replay_receipt_sha256"]),
-        ):
-            need(sha(resolve(root, raw_path)) == digest, f"{endpoint} {field} hash differs")
+        expected_hashes = {
+            "predictions": rec["sha256"],
+            "sidecar": rec["sidecar_sha256"],
+            "replay_receipt": prior["replay_receipt_sha256"],
+            "zip": package["zip_sha256"],
+            "build_receipt": package["build_receipt_sha256"],
+        }
+        for field, path in endpoint_paths.items():
+            need(sha(path) == expected_hashes[field], f"{endpoint} {field} hash differs")
         need(
-            tuple(array.shape) == (468, 20_000, 2) and array.dtype == np.float32,
-            f"{endpoint} cache shape differs",
+            Path(prior["prediction_sidecar"]).resolve(strict=True) == endpoint_paths["sidecar"]
+            and prior["prediction_sidecar_sha256"] == rec["sidecar_sha256"]
+            and package["endpoint"] == endpoint,
+            f"{endpoint} historical grade binding differs",
         )
-        values[name], receipts[name] = array, receipt
-        paths.update(
-            {f"{endpoint}_{field}": resolve(root, raw_path) for field, raw_path in expected.items()}
+        side = read_json(endpoint_paths["sidecar"])
+        receipt = read_json(endpoint_paths["replay_receipt"])
+        need(
+            receipt.get("schema") == "wnn.h512-tl3-f0-endpoint-replay.v1"
+            and receipt.get("status") == "REPLAY_COMPLETE"
+            and receipt.get("endpoint") == endpoint
+            and receipt.get("package_binding") == package
+            and receipt.get("split_manifest_sha256")
+            == binding["source_pins"]["fold0_split"]["sha256"]
+            and receipt.get("prediction_path") == str(endpoint_paths["predictions"])
+            and receipt.get("prediction_sha256") == rec["sha256"],
+            f"{endpoint} immutable replay receipt differs from the frozen grade",
         )
+        need(
+            side.get("schema") == "wnn.h512-tl3-f0-endpoint-predictions.v1"
+            and side.get("endpoint") == endpoint
+            and side.get("candidate") == f"h512_{endpoint}_tl3_fixed034"
+            and side.get("evidence_classification") == package["evidence_classification"]
+            and side.get("zip_sha256") == package["zip_sha256"]
+            and side.get("prediction_path") == str(endpoint_paths["predictions"])
+            and side.get("prediction_sha256") == rec["sha256"]
+            and side.get("replay_receipt_path") == str(endpoint_paths["replay_receipt"])
+            and side.get("replay_receipt_sha256") == prior["replay_receipt_sha256"]
+            and side.get("shape") == [468, 20_000, 2]
+            and side.get("dtype") == "float32"
+            and list(map(int, side.get("row_groups", []))) == groups
+            and list(map(int, side.get("sequence_ids", []))) == sequence_ids,
+            f"{endpoint} immutable prediction sidecar differs from the frozen grade",
+        )
+        _, verified_side = _load_prediction(
+            endpoint_paths["predictions"],
+            endpoint_paths["sidecar"],
+            {
+                "prediction_sha256": rec["sha256"],
+                "row_groups": groups,
+                "sequence_ids": sequence_ids,
+            },
+        )
+        need(verified_side == side, f"{endpoint} sidecar changed while loading predictions")
+        values[name] = load_npy(endpoint_paths["predictions"], rec["sha256"], (468, 20_000, 2))
+        receipts[name] = {
+            "prediction_sidecar": str(endpoint_paths["sidecar"]),
+            "prediction_sidecar_sha256": rec["sidecar_sha256"],
+            "replay_receipt": str(endpoint_paths["replay_receipt"]),
+            "replay_receipt_sha256": prior["replay_receipt_sha256"],
+            "package_binding": package,
+        }
+        paths.update({f"{endpoint}_{field}": path for field, path in endpoint_paths.items()})
     return values, receipts, paths
 
 
