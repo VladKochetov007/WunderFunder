@@ -71,3 +71,5 @@ OUT2=/home/vlad/development/wunder/research_tmp/native-h512-precision-host-refer
 ```
 
 Root review and its admitted one-CPU/1.4-GB run are pending. The adapter was not executed during preparation; it produces no new predictions and uses no GPU or fit. Any resulting score covers eight already-exposed F0 groups from distinct components and is a fitted diagnostic only, with no CI or promotion claim.
+
+The [fresh-host precision grade now passes](../NATIVE_HOST_PRECISION_PROBE_R2.json). Reconstruction errors are1.55e-7(original) and2.10e-7(CP5). FrozenFP32counterfactual endpoint+0.00004035 leaves−0.00328280versusTL3 on10,988scoredrows/eightcomponents. [Execution](../NATIVE_HOST_PRECISION_EXECUTION_R2.json) used5.39seconds/382380KiB/zeroGPU/fits. The failedR2importlauncher ispreserved; R3onlyadds repositoryroottoPYTHONPATH. No extrapolation, new coefficient orreleasecandidate.
