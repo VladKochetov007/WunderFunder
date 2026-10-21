@@ -64,3 +64,5 @@ The one-off `wnn-next-native-source-restore-20261021.service` / invocation`4f484
 ## Grader review amendment before quality outputs
 
 [Independent packet review](DYNAMICS_PACKET_REVIEW_R1.json) passed exactplans, producer/consumer coverage and pairedstatistics. Root addedthe existing immutabletargetcacheSHA to both i1/dynamics graders andchecks itbefore/aftergrading; reviewerconfirmedresolution. No metric/blend/fitsourcechange and noqualityresultseen. Dynamics finitepacket integrated as b7ac5e5c5; runtime/profile/fits remainpending.
+
+The tiny source-restoration observer was restarted alone as invocation`ded13f33b9164006ac063e02ecb5d8ed` after adding the successful-transient-unit collection case: if systemd has removed the unit, it requires all three native steps complete/returncode0 before restoring. No model/native worker was restarted. Shell syntax and missing-unit query behavior checked; observer uses about1MB RAM.
