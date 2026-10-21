@@ -1,3 +1,7 @@
+[NLL rare status01:01UTC](child_nll_fit_v1/status_20261021T0101Z/README.md): same active invocation, five complete epochs/37300updates/3730batches/zero skips/nonfinite; later ep5batch280 is progress only. One owned GPU, own/parent events unchanged, seven stat-only runfiles, no terminal/support/fit/restart/stop/inference. Needed terminal consumer preparation is separate/local and actual typed native exit0 remains prerequisite for B integrity work.
+
+---
+
 [NLL rare health00:01UTC](child_nll_fit_v1/health_20261021T0001Z/README.md): same active invocation, three completed epochs / 22380updates / 2238batches / zero skips/nonfinite. Later ep3batch660 is not current totals/native terminal/quality. One owned worker, no new memoryevents, stat-only run artifacts; no B support, newfit, restart, stop, inference or checker preparation. Next rare check21October00:50UTC+.
 
 ---

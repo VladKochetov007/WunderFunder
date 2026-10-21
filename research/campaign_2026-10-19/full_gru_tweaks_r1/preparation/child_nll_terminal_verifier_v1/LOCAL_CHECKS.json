@@ -1,0 +1,56 @@
+{
+  "schema": "fg19.child-nll-terminal-verifier-local-checks.v1",
+  "status": "PASS_CONDITIONAL_LOCAL_TEMPLATE_ONLY",
+  "root_preparation": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/ROOT_PREPARATION.json",
+    "bytes": 14840,
+    "sha256": "0bacf907d10db7a1adaf2811df4d5618262a10c117d2e20ac117200beeb40b24",
+    "accepted_import_boundary_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/IMPORT_BOUNDARY_PROOF_V2.json",
+      "bytes": 11291,
+      "sha256": "2855c3710c1275df71d659392e26b70b617b55aa00243bf3a1f7e7b2b368259e"
+    }
+  },
+  "packet_files": {
+    "REMOTE_SUBMISSION_TEMPLATE.py": {
+      "bytes": 58896,
+      "sha256": "afc61d97ee559338344aa35f32765c826c0d148bd5f9f80c03fa63e988ded10e"
+    },
+    "render_child_nll_terminal_verifier_v1.py": {
+      "bytes": 27467,
+      "sha256": "e3b2209f9a42424296ed7db149fcd3eb9764e52dca3418a755589f912451efd0"
+    },
+    "test_render_child_nll_terminal_verifier_v1.py": {
+      "bytes": 7192,
+      "sha256": "8ee6ac2b56b058b47d19850df8379c24bd33f24ce504c53339a8e784e3fb9b01"
+    }
+  },
+  "checks": {
+    "focused_renderer_tests": {
+      "passed": 8,
+      "failed": 0,
+      "command": ".venv/bin/python -m unittest research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/test_render_child_nll_terminal_verifier_v1.py",
+      "scope": "Malformed synthetic native metadata only; exact root-preparation/import-proof pin validation. No valid fake terminal proof."
+    },
+    "ruff_format": "PASS",
+    "ruff_check": "PASS",
+    "py_compile": "PASS",
+    "renderer_default_readiness": {
+      "status": "WAITING_FOR_FINAL_ROOT_PREPARATION_AND_NATIVE_EXIT0_PROOF",
+      "body_rendered": false,
+      "missing_inputs": [
+        "records/child_nll_fit_v1/TERMINAL_EVIDENCE.json",
+        "records/child_nll_fit_v1/terminal_native_capture_v1/STDOUT.raw.json"
+      ]
+    }
+  },
+  "execution_scope": {
+    "body_rendered_or_executed": false,
+    "checker_or_fit_entrypoint_invoked": false,
+    "model_state_dictionary_cache_or_dataset_payloads_read": false,
+    "remote_or_B_operations": false,
+    "native_stop_or_retry": false,
+    "worker_runtime_proven": false,
+    "native_terminal_evidence_present": false
+  }
+}

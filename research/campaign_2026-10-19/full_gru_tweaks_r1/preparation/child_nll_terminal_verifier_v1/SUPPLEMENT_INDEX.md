@@ -1,0 +1,7 @@
+# Conditional CPU packet source review
+
+The [packet README](README.md) describes the unrendered, local-only NLL CPU consumer. Its [template](REMOTE_SUBMISSION_TEMPLATE.py), [renderer](render_child_nll_terminal_verifier_v1.py), [dependency manifest](DEPENDENCY_MANIFEST.json), [eight focused fixtures](test_render_child_nll_terminal_verifier_v1.py), and [local checks](LOCAL_CHECKS.json) are independently assessed in [the conditional source review](CONDITIONAL_SOURCE_REVIEW_V1.json). The review passes conditional source only: actual typed native evidence is absent and no body, B staging, support admission, payload read, or native stop exists.
+
+The review also preserves one reporting error in the original checker source review: its manifest length says12,729B; the actual manifest is12,953B with the stated SHA `dd86968c57b824ac6c18d4d459ece37ac8b9b0e098b7bdbb61b3716aacfc01d4`. Root preparation and the renderer pin the actual12,953B length. Original review and manifest bytes stay unchanged; this is a report-length discrepancy, not a failed B support or a weakened execution gate.
+
+Actual native active/exited with strict integer0/1/0 and durable raw proof must precede local body rendering. That exact rendered stdin body needs a new independent review and root binding before one fresh cappedCPU admission. The original NLL fit launch acceptance44a708fc, typed terminal hash and raw capture hash remain distinct. The native unit must not already be stopped as a checker prerequisite. The accepted Path exception is already authorized; no new permission is needed.

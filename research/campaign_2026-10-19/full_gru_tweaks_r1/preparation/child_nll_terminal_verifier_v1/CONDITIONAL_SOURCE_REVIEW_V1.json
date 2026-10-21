@@ -1,0 +1,110 @@
+{
+  "schema": "fg19.child-nll-terminal-verifier-conditional-source-review.v1",
+  "status": "PASS_CONDITIONAL_SOURCE_ONLY",
+  "scope": {
+    "review_kind": "source and bounded metadata review of the conditional CPU admission template/renderer",
+    "body_rendered": false,
+    "body_executed": false,
+    "B_or_SSH_action": false,
+    "imports_or_tests_run_by_reviewer": false,
+    "model_state_dictionary_cache_array_or_dataset_payload_read_by_reviewer": false,
+    "native_terminal_evidence_present_in_packet": false,
+    "actual_admission_or_completion_claim": false
+  },
+  "reviewed_files": {
+    "REMOTE_SUBMISSION_TEMPLATE.py": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/REMOTE_SUBMISSION_TEMPLATE.py",
+      "bytes": 58896,
+      "sha256": "afc61d97ee559338344aa35f32765c826c0d148bd5f9f80c03fa63e988ded10e"
+    },
+    "render_child_nll_terminal_verifier_v1.py": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/render_child_nll_terminal_verifier_v1.py",
+      "bytes": 27467,
+      "sha256": "e3b2209f9a42424296ed7db149fcd3eb9764e52dca3418a755589f912451efd0"
+    },
+    "test_render_child_nll_terminal_verifier_v1.py": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/test_render_child_nll_terminal_verifier_v1.py",
+      "bytes": 7192,
+      "sha256": "8ee6ac2b56b058b47d19850df8379c24bd33f24ce504c53339a8e784e3fb9b01"
+    },
+    "README.md": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/README.md",
+      "bytes": 2769,
+      "sha256": "030efa2c3f9e3ded30e1cd56b4f94188678039f25a2959379c158b75c494d725"
+    },
+    "LOCAL_CHECKS.json": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/LOCAL_CHECKS.json",
+      "bytes": 2324,
+      "sha256": "0a54f0d357df518169a88d98e1092cd0b8df41c703b89ce61477f25716a64891"
+    },
+    "DEPENDENCY_MANIFEST.json": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/DEPENDENCY_MANIFEST.json",
+      "bytes": 6794,
+      "sha256": "88fa33f2b2e7e4d2a5d1c73621716c8ab3a4f0797b668ebcab2ef547ddd63157"
+    }
+  },
+  "root_bindings_reviewed": {
+    "root_preparation": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/ROOT_PREPARATION.json",
+      "bytes": 14840,
+      "sha256": "0bacf907d10db7a1adaf2811df4d5618262a10c117d2e20ac117200beeb40b24",
+      "status": "PASS_LOCAL_PREPARATION_ONLY_NOT_STAGED_ADMITTED_OR_EXECUTED",
+      "static_native_terminal_evidence_present": false,
+      "static_B_staging_admission_or_execution": false
+    },
+    "checker_source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/CHILD_NLL_TERMINAL_SOURCE_REVIEW_V1.json",
+      "bytes": 6875,
+      "sha256": "262e7f29e5e2a39ad533270d3e0f42bff7811277aca4646ab2fcdb628a820e9d",
+      "status": "PASS_SOURCE_ONLY",
+      "checker": {
+        "bytes": 40474,
+        "sha256": "a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2"
+      }
+    },
+    "accepted_import_boundary_proof_v2": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/IMPORT_BOUNDARY_PROOF_V2.json",
+      "bytes": 11291,
+      "sha256": "2855c3710c1275df71d659392e26b70b617b55aa00243bf3a1f7e7b2b368259e",
+      "status": "PASS_NARROW_NLL_PRIVATE_IMPORT_BOUNDARY_V2",
+      "worker_runtime_proven": false
+    },
+    "private_code_closure": {
+      "file_count": 6,
+      "exact_dependency_paths_and_hashes_are_bound_by_root_preparation": true,
+      "renderer_rehashes_all_six_before_body_render": true,
+      "body_prechecks_and_stages_all_six_before_checker_import": true
+    }
+  },
+  "review_findings": {
+    "blocking_findings": [],
+    "non_blocking_findings": [
+      {
+        "id": "source_review_dependency_manifest_reported_length",
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/CHILD_NLL_TERMINAL_SOURCE_REVIEW_V1.json",
+        "referenced_file": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/DEPENDENCY_MANIFEST.json",
+        "source_review_reported_bytes": 12729,
+        "actual_bytes": 12953,
+        "sha256": "dd86968c57b824ac6c18d4d459ece37ac8b9b0e098b7bdbb61b3716aacfc01d4",
+        "root_preparation_pinned_bytes": 12953,
+        "assessment": "The embedded source-review length is 224 bytes low. Its SHA-256 is correct, and the frozen root preparation pins the actual length and digest; the renderer independently rechecks that root pin. This is a preserved reporting-length error, not a code-closure mismatch."
+      }
+    ]
+  },
+  "conditional_gates_reviewed": {
+    "original_fit_binding": "Exact NLL ADMISSION and LAUNCH hashes are checked separately from the exact root LAUNCH_ACCEPTANCE; original launch body_sha256 is not assumed. The root acceptance binds the original fit body and receipts, including SHA-256 44a708fc5a32b101c97a8a28c22e3b15e815059582de564e17f528f5369dc7a5.",
+    "recipe_and_ancestry": "The original NLL admission schema, recipe fields and trainer argv digest are pinned; all twelve existing predecessor acceptance/stop receipts, the profile metadata trio, parent checkpoint stat and dictionary's actual no-mtime stat shape are checked read-only. Parent@ep3 remains the initializer. No predecessor is restaged or polled.",
+    "native_terminal_gate": "Renderer requires exact NLL unit/run/invocation, active/exited, strict integer MainPID=0/ExecMainCode=1/ExecMainStatus=0, exact typed/raw byte and SHA join, capture timestamp consistency, and captured original admission/launch receipts. Worker body rechecks the exact current native unit and run artifact stats. It does not require native to already be stopped.",
+    "fresh_gates_before_mutation": "Before creating private output, the template requires support unit not-found and output absent; checks exact 167-file source inventory and content pins, split, six registered data-path identities/stats, predecessor/profile receipts, cache receipts/metadata/array stats, native evidence, parent resource envelope, empty populated descendants, one-time headroom reservation, ext4 scratch device and 25 GiB floor.",
+    "support_envelope": "One support unit is capped at 50% CPU, 1.4 GB memory-high, 1.5 GB memory-max, swap=0 and 600 seconds, with CUDA hidden and one BLAS thread. Scratch is pinned to research_tmp/ext4/device 64512.",
+    "payload_and_loader_boundary": "The admission body embeds only the six code files and bounded launch/native metadata; source files may be hashed, while model/state/dictionary/cache-array/data payloads are not opened or hashed by admission. It preserves the exact approved PosixPath exception, weights_only=True loader, and O_NOFOLLOW checks in the pinned checker path.",
+    "interpreter_and_imports": "The reviewed V2 proof binds the literal maintenance .venv/bin/python spelling and does not resolve the interpreter symlink. The -E worker flag is compatible because the pinned S5 helper inserts and origin-checks source/src before the checker imports representation modules.",
+    "output_and_transport": "Support metadata files are create-only and fsynced; original fit stdout/transport bytes are embedded without JSON-number reserialization. Submission stdout/stderr are preserved as base64; timeout/unknown outcomes are durable and never retried. The stdin body neither reads __file__ nor claims a worker-computed body SHA; root retains exact raw-transport binding authority.",
+    "rendering": "Renderer refuses body creation while typed native evidence/raw capture are absent; template and source/code/proof inputs are exact-pinned. Root preparation's native-present and staged/admitted/executed flags remain false and are not rewritten by this conditional packet."
+  },
+  "review_limits": [
+    "The local checks report eight focused renderer tests, Ruff and py_compile passing; these were not rerun in this source review.",
+    "No actual native terminal proof or rendered CPU body was available in this packet, so this does not authorize or approve any future rendered body, B staging, CPU support admission, or checker result.",
+    "The V2 import-boundary proof is narrow and explicitly does not prove worker runtime; Torch 2.14.0+cu130 remains a fresh worker gate."
+  ]
+}

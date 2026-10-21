@@ -1,3 +1,11 @@
+[Conditional NLL cappedCPU source review and file index](child_nll_terminal_verifier_v1/SUPPLEMENT_INDEX.md) passes source only and preserves the manifest-length reporting discrepancy without changing original bytes. [Final allthree source review and packet index](child_allthree_fit_v1/SUPPLEMENT_INDEX.md) binds only runname/base→ema_sparse argv changes and an actual NLL acceptance+exact-stop gate. Both actual bodies remain absent; no B admission, profile replay or queue. Their exact future rendered bodies require independent review after actual receipts exist.
+
+---
+
+[NLL terminal checker and import-boundary supplement](child_nll_terminal_check_v1/SUPPLEMENT_INDEX.md) records the exact40474B/a3cf3b10 checker, independent source review, six-code root dependency binding and accepted literal-interpreter V2 import proof. Five original fixtures passed and were not rerun after the narrow new harness fix; V1 interpreter-binding gap is preserved. This is local preparation only, no actual native exit, B staging/support, tensor acceptance or quality score. [Conditional NLL cappedCPU packet](child_nll_terminal_verifier_v1/README.md) remains gated on actual strict native evidence and exact body review.
+
+---
+
 # Actual dictionary closure and NLL launch bindings
 
 [Dictionary CPU V2 repair](child_dictionary_terminal_verifier_v2/README.md), [root exact payload check](child_dictionary_terminal_verifier_v2/ROOT_PAYLOAD_CHECK.json), and [final exact-body review](child_dictionary_terminal_verifier_v2/FINAL_BODY_SOURCE_REVIEW_V2.json) were used for the first and only actual dictionary support. [Actual PASS/acceptance/exactstop](../records/child_dictionary_fit_v1/terminal_verification_v1/README.md) supersedes older local-only snapshots below. The local V1 negative is retained and was not a failed remote unit. Existing checker six-code closure/root/proof remain frozen.

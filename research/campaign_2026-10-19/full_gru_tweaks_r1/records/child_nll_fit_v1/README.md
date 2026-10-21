@@ -1,3 +1,7 @@
+**Latest dated status01:01UTC:** [One rare same-invocation capture](status_20261021T0101Z/README.md) records completed epochs0–4/37300updates/3730batches/zero skips/nonfinite. Later ep5batch280 is not synchronous totals/native44760/integrity/quality. One owned worker, no new events, seven stat-only artifactfiles. Needed thin terminal consumer/conditional CPU preparation is LOCAL/in progress, not B staging/admission. Next focused exact-unit observation01:40UTC+; no completion inference from timing.
+
+---
+
 **Latest dated health00:01UTC:** [One rare same-invocation capture](health_20261021T0001Z/README.md) records completed epochs0–2 / 22380successfulupdates / 2238batches / zero skips/nonfinite. Later ep3batch660 is not current totals, terminal44760, integrity or quality. One owned GPU worker, no new events, five stat-only artifact files; no new job/action/checker preparation. Next rare check21October00:50UTC+; actual typed native exit0 remains prerequisite for B integrity checking.
 
 ---

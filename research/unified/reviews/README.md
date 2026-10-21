@@ -1,3 +1,15 @@
+[Conditional CPU source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/CONDITIONAL_SOURCE_REVIEW_V1.json) passes template/renderer/root closure/native/raw/resource/read-only predecessor gates; it records the original checker review's incorrect manifest length while root/renderer use the actual size and correct SHA. [Allthree conditional source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/ALLTHREE_SOURCE_REVIEW_V1.json) passes fixed recipe derivation and future NLL accepted-stop/original44a708fc join. Both reviews are source-only, not rendered-body approval or actual execution/tensor/quality evidence. [CPU index](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/SUPPLEMENT_INDEX.md) and [allthree index](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/SUPPLEMENT_INDEX.md) link exact code, fixture receipts and limitations.
+
+---
+
+[NLL terminal source review and import-proof supplement](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/SUPPLEMENT_INDEX.md) passes exact checker40474/a3cf3b10 producer-schema/recipe/ancestry/restricted-load gates. Root binds the independent6875/262e7f29 review and accepted11291/2855c371 V2 proof. The original V1 literal-interpreter binding gap is retained; five frozen fixtures were not rerun after new proof correction. Scope remains source/import boundary only, not actual worker runtime, loaded integrity or predictive quality.
+
+---
+
+[NLL01:01 metadata audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/status_20261021T0101Z/METADATA_REVIEW.json) passes stored raw/transport/three extract joins, exact invocation and sampled ownership, five native completed-epoch records and event deltas against00:01. Scope is metadata only, no terminal, payload integrity, performance or quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_NLL_HEALTH_TERMINAL_PREP_0101.json) retains frozen history/ledgers and separates subsequent LOCAL NLL terminal-consumer preparation from actual B admission.
+
+---
+
 [NLL00:01 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261021T0001Z/METADATA_REVIEW.json) checks exact stored raw/transport/three extracts, unchanged reader, three completed epochs and sampled invocation/ownership/resources; parent event deltas are recomputed against23:02 health. Metadata only, no B access, tensor replay, current-total/terminal/quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_NLL_HEALTH_0001.json) preserves frozen baseline bytes and ledgers, adds zero fits/supports/quality and reruns no unchanged source/model/profile/cold suite.
 
 ---

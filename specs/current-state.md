@@ -1,3 +1,13 @@
+[NLL terminal consumer and conditional CPU](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/SUPPLEMENT_INDEX.md) and [final allthree conditional packet](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/SUPPLEMENT_INDEX.md) are locally source-reviewed. This is preparation only: latest actual01:01 NLL capture is still dated active/running; strict native exit proof and actual CPU/full acceptance/exact stop remain required before the sole remaining allthree admission. No new fit/support/quality endpoint or unchanged source/model/profile/cold suite replay. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next focused01:40UTC+; no immediate repeat poll.
+
+---
+
+## 21 October01:01UTC — NLL active; terminal consumer preparation local
+
+[Bounded NLL status](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/status_20261021T0101Z/README.md) records five complete epochs/37300updates/3730batches/zero skips/nonfinite. Later ep5batch280 is not current totals/native44760/integrity/quality. One owned GPU, unchanged event counters, stat-only artifacts. Needed NLL terminal checking and conditional CPU admission are being prepared locally; no B staging/payload read/support before actual typed native exit0. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next focused01:40UTC+ and fresh integrity/acceptance/exact-stop gates. Comparison5started/4completed of6 including parent, allthree unadmitted, shared prerequisitefits5 separate; no quality endpoint/gain.
+
+---
+
 ## 21 October00:01UTC — NLL child active at rare observation
 
 [Bounded NLL health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261021T0001Z/README.md) records three completed epochs / 22380updates / 2238batches / zero skips/nonfinite. Later ep3batch660 is not synchronous current totals, native44760, integrity or predictive quality; NLL loss is not a WMSE quality comparison. One owned GPU, own/parent event deltas0, tensor files stat-only; no new support/fit/restart/stop/inference/checker preparation. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare21October00:50UTC+ and actual native-exit gates. Comparison5started/4completed of6 including parent; allthree unadmitted, shared prerequisitefits5 separate.

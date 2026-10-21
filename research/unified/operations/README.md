@@ -1,3 +1,15 @@
+[Conditional NLL CPU packet](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/SUPPLEMENT_INDEX.md) is locally source-reviewed with eight focused gate fixtures, accepted six-code root binding and literal-interpreter V2 proof. [Final fixed allthree packet](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/SUPPLEMENT_INDEX.md) is locally source-reviewed with four focused fixtures, actual-NLL accepted-stop gates and only runname/base→ema_sparse argv changes. Actual terminal evidence and both executable bodies are absent; no B staging/support/newfit/queue/quality. [Continuation](../../campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) owns strict exit→CPU acceptance→exact stop→serial final-arm admission.
+
+---
+
+[NLL terminal consumer preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/SUPPLEMENT_INDEX.md): exact six-file closure, source-only review, root dependency binding and narrow V2 literal-interpreter import proof are local; actual native exit/admission/acceptance/stop remain pending. V1 resolved-interpreter provenance gap is preserved, no B action/extra fit/quality. The conditional CPU packet is being finalized without early staging or unchanged suite replay.
+
+---
+
+[NLL rare status01:01UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/status_20261021T0101Z/README.md): five native complete epochs/37300updates/3730batches/zero skips/nonfinite, same active owned GPU; later progress is not terminal or quality. Own/parent events unchanged, runfiles stat-only. Needed thin terminal consumer/conditional cappedCPU packet is LOCAL/in progress, no B staging/support/newfit/restart/stop. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_NLL_HEALTH_TERMINAL_PREP_0101.json) preserves metadata/source-review scope; next focused exact-unit observation01:40UTC+.
+
+---
+
 [NLL rare health00:01UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261021T0001Z/README.md): same active owned worker, completed epochs0–2 / 22380updates / 2238batches / zero skips/nonfinite; later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only, no support/newfit/restart/stop/checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_NLL_HEALTH_0001.json) binds exact raw/navigation with zero ledger rows/fits/quality; next rare observation21October00:50UTC+.
 
 ---

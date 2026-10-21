@@ -1,3 +1,11 @@
+[NLL terminal consumer](preparation/child_nll_terminal_check_v1/SUPPLEMENT_INDEX.md), [conditional CPU source review](preparation/child_nll_terminal_verifier_v1/SUPPLEMENT_INDEX.md), and [final allthree conditional packet](preparation/child_allthree_fit_v1/SUPPLEMENT_INDEX.md) are locally finalized/source-reviewed. Actual native NLL exit proof, CPU body/admission and allthree acceptance/stop/body remain absent. Five/eight/four new focused fixture groups and the narrow V2 private-import proof are engineering preparation, with zero new B supports/fits/quality results. [Continuation](CONTINUATION.md) preserves next focused01:40UTC+ and strict serial gates; no elapsed-time completion inference.
+
+---
+
+**Latest dated observation21October01:01UTC:** [Same NLL invocation active/running](records/child_nll_fit_v1/status_20261021T0101Z/README.md), five complete epochs/37300updates/3730batches/zero skips/nonfinite. Later ep5batch280 is not synchronous current totals/native44760/integrity/quality. One owned GPU, unchanged events, seven stat-only runfiles. Needed thin NLL checker/conditional cappedCPU preparation is LOCAL/in progress, no B action. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261021_NLL_HEALTH_TERMINAL_PREP_0101.json) govern actual-exit gates and next focused01:40UTC+; NLL loss is not a WMSE quality comparison.
+
+---
+
 **Latest dated observation, 21 October00:01UTC:** [NLL same invocation active/running](records/child_nll_fit_v1/health_20261021T0001Z/README.md), three completed epochs / 22380updates / 2238batches / zero skips/nonfinite. Later ep3batch660 is not synchronous current totals, terminal44760, integrity or quality. One owned GPU, unchanged event counters, tensors stat-only; no support/newfit/restart/stop or checker preparation. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261021_NLL_HEALTH_0001.json) govern next rare21October00:50UTC+ and actual-exit gates. NLL loss is not a WMSE quality comparison.
 
 ---
