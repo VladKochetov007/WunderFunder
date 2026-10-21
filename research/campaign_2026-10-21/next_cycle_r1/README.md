@@ -27,3 +27,5 @@ completion is implied by this packet.
 - [Memory-safety correction](MEMORY_SAFETY_CORRECTION_R1.json): user warning, exact R1kill diagnosis and correctedR2/native counters. Additional heavy admissions held while both active; host pressure remains a material constraint.
 
 - [B16 independent review](B16_RECOVERY_REVIEW_R1.json): identified missing metadata byte binding, fixed with exact provenance/historySHA pins verified against terminalcollectionmanifest; reviewer confirmed resolution. Remaining source/mean/coverage/fixedgrade checks passed statically; execution pending.
+
+- [One-off native source restoration](finish_native_source_restore.sh): waits for the exact native invocation to terminate, checks both old and committed exporterSHA hashes, and restores the committed dynamics exporter. CPU5%/RAM50MB/swap0, no model/data work. [Execution log](native_source_restore.log) records completion or refusal; shell syntax check passed.
