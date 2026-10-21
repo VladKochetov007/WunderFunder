@@ -190,6 +190,8 @@ def grade(root: Path, output: Path) -> dict[str, Any]:
             "oldz4_checkpoint": pinned(root, plan["baseline"]["checkpoint"]),
             "oldz4_provenance": pinned(root, plan["baseline"]["provenance"]),
             "grader_source": Path(__file__).resolve(),
+            "grader_contract_source": (root / PACKET / "f1_grade_contract.py").resolve(strict=True),
+            "grader_outputs_source": (root / PACKET / "f1_grade_outputs.py").resolve(strict=True),
         }
     )
     for source, digest in plan["scorer_sources"].items():
