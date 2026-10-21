@@ -1,8 +1,15 @@
 # Imported sources
 
+- [Verified primary-source scope for the October21 cycle](../../../specs/plans/2026-10-21-next-local-kaggle-cycle.md#primary-source-scope) — SWAv3, CPCv2 and test-time-trainingv3 abstracts checked through arXiv; separates AdamW averaging and52-summary Huber adaptations from original methods. TTT remains deferred; no dataset-specific evidence or imported assets.
+
+- [October21 user-reported public receipt](../../campaign_2026-10-21/next_cycle_r1/PUBLIC_RECEIPT_R1.json) — latest package 0.66667/53m47s versus TL3 0.66832/39m12s. Public transfer counterevidence supplied in accepted plan; exact ZIP hash unresolved, not independently queried or clean CV.
+
+
 External writeups and literature provenance; external results do not establish local model gains.
 
 ## Current navigation
+
+- [SWA primary paper](https://arxiv.org/abs/1803.05407) and [model soups primary paper](https://arxiv.org/abs/2203.05482) — abstracts inspected for the [zero-fit WMSE weight-mean proposal](../../campaign_2026-10-20/submission_delivery_r1/wmse_weight_mean_r1/README.md). They motivate averaging compatible checkpoints without adding inference models. Original cyclic/constant SGD and large-model fine-tuning settings differ from our two-epoch AdamW continuation; no local gain follows from these papers.
 
 - [NLL variance-gradient weighting](NLL_GRADIENT_WEIGHTING_20261021_R1.md) — primary ICLR2022 beta-NLL paper and pinned author implementation, connected to measured strong clipping in the current GRU fit. Derives how a detached variance factor changes our bounded mean gradients; conditional diagnostic only, with no implementation or admitted fit.
 

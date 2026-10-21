@@ -1,0 +1,46 @@
+{
+  "schema": "wnn.next-cycle-budget.v1",
+  "local_ceiling_seconds": 108000,
+  "stages": {
+    "artifact_recovery": {
+      "ceiling_seconds": 7200,
+      "fits": 0,
+      "gpu_seconds_completed": 0,
+      "cpu_only_native_replay": true
+    },
+    "i1": {
+      "ceiling_seconds": 18000,
+      "fits_admitted": 0,
+      "planned_fits_per_arm": 2,
+      "planned_fits_total": 6,
+      "new_teacher_fits": 0,
+      "reused_exact_fit_controls": 0,
+      "completed_attempt_seconds": 454.9531692069868,
+      "active_profile": null,
+      "active_profile_max_seconds": 0,
+      "provisional_complete_panel_seconds": 16996.938479999997
+    },
+    "dynamics": {
+      "ceiling_seconds": 10800,
+      "planned_fits_per_arm": 2,
+      "planned_fits_total": 4,
+      "new_teacher_fits": 0,
+      "reused_exact_fit_controls": 0,
+      "fits_admitted": 0
+    },
+    "strong_parent": {
+      "ceiling_seconds": 28800,
+      "planned_fits_per_arm": 2,
+      "planned_fits_total": 4,
+      "new_teacher_fits": 0,
+      "fits_admitted": 0,
+      "conditional": true
+    },
+    "production": {
+      "ceiling_seconds": 43200,
+      "conditional": true,
+      "fits_admitted": 0
+    }
+  },
+  "accounting": "Count full GPU worker wall time including preprocessing/profiles/failures/exports. CPU-only native recovery has zeroGPUcharge. Prior cycle is separately archived. Full panels require sustained projection plus export/recovery reserve."
+}

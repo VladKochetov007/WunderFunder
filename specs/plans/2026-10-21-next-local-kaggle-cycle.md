@@ -98,3 +98,7 @@ failures in [the cycle frontier](../../research/campaign_2026-10-21/next_cycle_r
 and amend [the previous frontier](../../research/campaign_2026-10-20/plateau_review_r1/FRONTIER.md).
 Index hypotheses, public receipt, failures and artifacts through unified READMEs.
 Draft publication remains authorized under the existing research-team workflow.
+
+## Primary-source scope
+
+Root verified the primary abstracts on October21: [SWA](https://arxiv.org/abs/1803.05407v3) averages points on cyclical/constant-SGD trajectories; the present AdamW checkpoint proposal is an adaptation. [CPC](https://arxiv.org/abs/1807.03748v2) predicts future latent information with a contrastive objective and negative sampling; our52summary Huber objective borrows predictive supervision, not that method. [Test-time training](https://arxiv.org/abs/1909.13231v3) adapts parameters using self-supervision on test samples; it motivates only deferred research cards here. None establishes a gain on this dataset. No external weights or data were imported.

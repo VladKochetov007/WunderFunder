@@ -1,5 +1,10 @@
 # Ideas and hypotheses
 
+- [October21 accepted representation cycle](../../../specs/plans/2026-10-21-next-local-kaggle-cycle.md) — fixed checkpoint mean, matched six-fit i1 and four-fit future-dynamics screens, conditional four-fit strong-parent transfer. 30 local GPU-hours plus verified Kaggle; B300 deferred. Proposed comparisons, no measured gain. [Execution packet](../../campaign_2026-10-21/next_cycle_r1/README.md).
+
+
+- [Mean of parent and WMSE continuation weights](../../campaign_2026-10-20/submission_delivery_r1/wmse_weight_mean_r1/README.md) — proposes one zero-fit, fixed three-checkpoint mean and its fixed oldZ4 blend. Compatibility review only; requires identical buffers/topology and complete endpoint evidence. SWA/model-soups primary abstracts motivate the idea but their training settings differ; no gain is measured and F0 is exposed. H-WMSE-WEIGHT-MEAN-20261021-R1.
+
 Existing proposals and their evidence; a proposal is not an admitted or completed fit.
 
 ## Current navigation
