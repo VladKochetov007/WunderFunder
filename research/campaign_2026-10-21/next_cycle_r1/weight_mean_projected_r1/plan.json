@@ -29,7 +29,11 @@
       "epoch_expected": 5,
       "output_rows_expected": 23,
       "initial_checkpoint_sha256": "d4a1e50b1892b4d9edd7c255908b68073a760c059ca80223e98a63c7e023371e",
-      "args_init_expected": "c20261003_combo_s3_f0@ep3"
+      "args_init_expected": "c20261003_combo_s3_f0@ep3",
+      "mean_variance_args_expected": {
+        "mean_variance_head": null,
+        "mean_variance_objective": null
+      }
     },
     {
       "role": "wmse_cp0",
@@ -42,7 +46,11 @@
       "epoch_expected": 0,
       "output_rows_expected": 25,
       "initial_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
-      "args_init_expected": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5"
+      "args_init_expected": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5",
+      "mean_variance_args_expected": {
+        "mean_variance_head": 1,
+        "mean_variance_objective": "wmse"
+      }
     },
     {
       "role": "wmse_cp1",
@@ -55,7 +63,11 @@
       "epoch_expected": 1,
       "output_rows_expected": 25,
       "initial_checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
-      "args_init_expected": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5"
+      "args_init_expected": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5",
+      "mean_variance_args_expected": {
+        "mean_variance_head": 1,
+        "mean_variance_objective": "wmse"
+      }
     }
   ],
   "common_fitting_identity": {
@@ -75,12 +87,16 @@
     },
     "normalization_identity": {
       "mean": {
-        "shape": [211],
+        "shape": [
+          211
+        ],
         "dtype": "torch.float32",
         "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8"
       },
       "std": {
-        "shape": [211],
+        "shape": [
+          211
+        ],
         "dtype": "torch.float32",
         "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
       }
@@ -93,11 +109,28 @@
         "main_homogeneous_valid": "d1cd78537f3b6aaa830861ac771cf5c4621f1f2c1f19a73f6affb813c33ca3a2"
       },
       "homogeneous_family": "strong",
-      "family_order": ["strong"],
+      "family_order": [
+        "strong"
+      ],
       "source_coefficients": [
-        {"run": "clean_t3_f0_muonall_h384_e3_s3_r5", "epoch": 2, "coefficient": 0.1},
-        {"run": "clean_t3_f0_muonall_h384_e3_s4_r5", "epoch": 2, "coefficient": 0.1},
-        {"run": "clean_t3_f0_muonall_h384_e3_s5_r5", "epoch": 2, "coefficient": 0.1}
+        {
+          "run": "clean_t3_f0_muonall_h384_e3_s3_r5",
+          "epoch": 2,
+          "coefficient": 0.1,
+          "family": "strong"
+        },
+        {
+          "run": "clean_t3_f0_muonall_h384_e3_s4_r5",
+          "epoch": 2,
+          "coefficient": 0.1,
+          "family": "strong"
+        },
+        {
+          "run": "clean_t3_f0_muonall_h384_e3_s5_r5",
+          "epoch": 2,
+          "coefficient": 0.1,
+          "family": "strong"
+        }
       ]
     },
     "layout_args": {
@@ -108,7 +141,10 @@
       "cell": "gru",
       "enc": "linear",
       "research_features": "none",
-      "research_feature_control": [null, "none"],
+      "research_feature_control": [
+        null,
+        "none"
+      ],
       "representation_mode": null,
       "online_norm": false,
       "raw_only": false,
@@ -136,12 +172,16 @@
     "equal_mean": "apply canonical three-state float64-accumulate mean to each checkpoint after serving projection; cast back to source dtype",
     "normalization": "mean/std must be bitwise equal and are preserved by canonical mean_state",
     "parity_gate": {
-      "model_space_input": [2, 4097, 211],
+      "model_space_input": [
+        2,
+        4097,
+        211
+      ],
       "normalized_distribution": "fixed-seed standard-normal model inputs mapped through shared mean/std buffers",
       "sequence_reset": "state starts at None independently for each generated sequence",
       "chunk_rows": 2000,
       "precision": "CPU FP32, autocast disabled",
-      "maximum_absolute_tolerance": 0.00001,
+      "maximum_absolute_tolerance": 1e-05,
       "applies_to": "each original full head first-two output versus its exported two-output projection; before averaging"
     }
   },
@@ -173,9 +213,18 @@
       "overnight_nll_f0_s3_wmse_projected_mean_r1": 0.25
     },
     "comparisons": [
-      ["projected_mean_cp1", "wmse_cp1"],
-      ["oldz4_075_projected_mean_025", "oldz4_cp1_fp32"],
-      ["oldz4_075_projected_mean_025", "oldz4_075_wmse_025"]
+      [
+        "projected_mean_cp1",
+        "wmse_cp1"
+      ],
+      [
+        "oldz4_075_projected_mean_025",
+        "oldz4_cp1_fp32"
+      ],
+      [
+        "oldz4_075_projected_mean_025",
+        "oldz4_075_wmse_025"
+      ]
     ],
     "bootstrap_replicates": 2000,
     "bootstrap_seed": 271828,

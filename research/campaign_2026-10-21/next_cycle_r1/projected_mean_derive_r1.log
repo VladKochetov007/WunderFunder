@@ -1,0 +1,24 @@
+1 file left unchanged
+All checks passed!
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/weight_mean_projected_r1/derive_projected_mean.py", line 425, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/weight_mean_projected_r1/derive_projected_mean.py", line 421, in main
+    print(json.dumps(derive(args.plan, args.project_root, args.scratch_root), indent=2))
+                     ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/weight_mean_projected_r1/derive_projected_mean.py", line 307, in derive
+    checkpoint, sidecar, projected, layout = _load_source(
+                                             ~~~~~~~~~~~~^
+        project_root, item, plan, dependencies
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/weight_mean_projected_r1/derive_projected_mean.py", line 213, in _load_source
+    args, _ = _check_args_and_provenance(checkpoint, sidecar, item, plan)
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/weight_mean_projected_r1/derive_projected_mean.py", line 182, in _check_args_and_provenance
+    raise ValueError(
+        f"{item['role']}: distillation cache identity differs: {cache_field}"
+    )
+ValueError: parent_cp5: distillation cache identity differs: source_coefficients

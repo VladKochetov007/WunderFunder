@@ -43,3 +43,5 @@ rm "$ROOT/artifacts/runs/$RUN"
 ```
 
 The alias lets the pinned predictor load the scratch checkpoint while it reads the main repository's source data and writes to its canonical prediction cache. The command exports all 1,873 valid groups; the scorer uses the frozen 468-group F0 evaluation membership. Remove the symlink after scoring. No numerical score, package, or production readiness is claimed by this preparation note.
+
+[Independent source review](REVIEW_R1.json) passes after root added explicit `--epoch 1` for the derived checkpoint and bound the parent/child variance-head arguments in the executable plan. All11sourcepins andthreeprovenancesidecarhashes matched. No tensors/targets were read by the reviewer; runtime/parity/quality remain pending.
