@@ -48,9 +48,9 @@ def _block_local_window_sum(values: torch.Tensor, window_size: int) -> torch.Ten
         values = F.pad(values, (0, 0, 0, padded_length - time_length))
     blocks = values.reshape(batch_size, block_count, window_size, channels)
     prefix = blocks.cumsum(dim=2).reshape(batch_size, padded_length, channels)
-    suffix = torch.flip(
-        torch.flip(blocks, dims=(2,)).cumsum(dim=2), dims=(2,)
-    ).reshape(batch_size, padded_length, channels)
+    suffix = torch.flip(torch.flip(blocks, dims=(2,)).cumsum(dim=2), dims=(2,)).reshape(
+        batch_size, padded_length, channels
+    )
 
     starts = torch.arange(window_count, device=values.device)
     left = suffix.index_select(1, starts)

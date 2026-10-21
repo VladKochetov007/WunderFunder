@@ -124,3 +124,11 @@ The projected mean passed source/checkpoint metadata gates but has not yet reach
 ## Auxiliary target numerical guard failed before any fitting
 
 [CPU fixture](DYNAMICS_NUMERICAL_PROBE_R1.json) confirms history-dependent cancellation in globalFP32energy-prefix subtraction: an early large pulse erases real later0.01changes, causing9.21044log-unit target error forbothhorizons. [Execution](DYNAMICS_NUMERICAL_EXECUTION_R1.json) used5.74seconds/657476KiBpeak, noGPU/fits. This is an implementation counterexample, not a measured dataset quality result. Dynamics profile admission is held for a stableFP32 mathematical repair and independent tests/review; i1_recipe owns isolated code, recovery_audit independent math review, root verification/admission. Active i1 source/recipe unchanged.
+
+## Auxiliary numerical repair verified
+
+[Verification](DYNAMICS_NUMERICAL_VERIFICATION_R1.json) passes six direct-window/causality/head-removal tests plus six checker tests, Ruff and canonical structure checks. Independent recovery_audit source/math review passes. [Original fixture rerun](DYNAMICS_NUMERICAL_PROBE_R2.json) error is5.76e−8log units after repair. Mathematical targets unchanged; no auxiliary fit/profile yet. Root owns corrected source freezing and sustained full-cost profile after the current GPU panel and fixed saved-artifact exports.
+
+## Local saved-artifact preparation complete
+
+[CPU stageR2](B16_LOCAL_CPU_STAGE_REPORT_R2.json) completed correctedfixture, clean exact68ffsource checkout, source verification and input symlink preparation in14.29seconds. R1sequence-only launcher error is preserved; no step ran before repair. BothsavedF1exports are ready for a later singleGPU admission; no inference orfit started. Source/model/score plan unchanged, and further Kaggle launches remain closed.
