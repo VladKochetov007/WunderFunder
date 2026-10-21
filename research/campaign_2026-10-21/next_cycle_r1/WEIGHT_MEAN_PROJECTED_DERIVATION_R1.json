@@ -1,0 +1,107 @@
+{
+  "schema": "wnn.serving_projected_weight_mean_derivation.v1",
+  "status": "derived_cpu_projection_parity_passed_quality_not_evaluated",
+  "plan_sha256": "3b0e0e7b072be59d6125e518b3f84443f011d6bb2713e7f6463940ce4d2115f1",
+  "derive_script_sha256": "a3cac2ee7040837f0e91ee7e7303d6d3a46d114e8e332cdfb765bd664376f923",
+  "source_code_sha256": {
+    "training:scripts/average_trajectory_checkpoints.py": "8646ccc12b537a1bf2f2544dffd85d10287076451e5bab86a4b2d6379e39bbb3",
+    "training:scripts/export_native_weights.py": "ef9cb378cbe1de21d5833dc3245a389cc0e8a68298e503e0d98757938bf050aa",
+    "training:scripts/predict_run.py": "904ddc9a2cafd194dc8d6ab9bdf1524120d6a089b83e33e2eb731e67abed6754",
+    "training:src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+    "training:src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+    "training:src/wnn/training/losses.py": "5859a4d40f13e91f50d34dfaed42d12dcfa2e229a85721ffc68bb5d69e1cfa66",
+    "training:src/wnn/training/mean_variance.py": "e4a067bb9d467d121720854876cfffb083ab803a4ed440ec96025779553e15c5",
+    "serving:scripts/export_native_weights.py": "ae58684ca782131d193bad251284f6e1f861a74f8fd365b7cfb50398711c5d2f",
+    "serving:scripts/package_submission.py": "7882ad0a8b06b7eb9fe83968f6c61fbb7ae15863672ed3ae2f3ec7a70833644c",
+    "serving:src/wnn/native_representation.py": "93d323e5e7abfb077ceff56a24f3056c430cdf923264e30895c9f77794c6ff80",
+    "serving:src/wnn/training/dynamics_auxiliary.py": "b0b13362af5dd089dbef1afd1936064062826fbf633eb58a0cf6727e42076a97",
+    "sidecar:parent_cp5": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+    "sidecar:wmse_cp0": "227c4ebf934b34dc20b93dfe9a5b19387073c7594015ef07d21231adb659da29",
+    "sidecar:wmse_cp1": "227c4ebf934b34dc20b93dfe9a5b19387073c7594015ef07d21231adb659da29"
+  },
+  "source_checkpoints": [
+    {
+      "role": "parent_cp5",
+      "sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda"
+    },
+    {
+      "role": "wmse_cp0",
+      "sha256": "35e277641a3d5da0c66c5b873fc494e603d589126167a7e27227350886276538"
+    },
+    {
+      "role": "wmse_cp1",
+      "sha256": "ff359a362432c5f68b0b40e9c5e7d875ceeeddea73718cb5bd17ed53edf80dec"
+    }
+  ],
+  "source_projection_parity": [
+    {
+      "role": "parent_cp5",
+      "status": "passed",
+      "max_abs_difference": 0.0,
+      "tolerance": 1e-05,
+      "scored_values_compared": 16388,
+      "sequences": 2,
+      "rows_per_sequence": 4097,
+      "chunk_rows": 2000,
+      "sequence_state_reset": "state=None for each independent sequence",
+      "precision": "CPU float32; autocast disabled"
+    },
+    {
+      "role": "wmse_cp0",
+      "status": "passed",
+      "max_abs_difference": 0.0,
+      "tolerance": 1e-05,
+      "scored_values_compared": 16388,
+      "sequences": 2,
+      "rows_per_sequence": 4097,
+      "chunk_rows": 2000,
+      "sequence_state_reset": "state=None for each independent sequence",
+      "precision": "CPU float32; autocast disabled"
+    },
+    {
+      "role": "wmse_cp1",
+      "status": "passed",
+      "max_abs_difference": 0.0,
+      "tolerance": 1e-05,
+      "scored_values_compared": 16388,
+      "sequences": 2,
+      "rows_per_sequence": 4097,
+      "chunk_rows": 2000,
+      "sequence_state_reset": "state=None for each independent sequence",
+      "precision": "CPU float32; autocast disabled"
+    }
+  ],
+  "native_input_layout": {
+    "schema": "wnn.native_input_layout.v1",
+    "representation_mode": "none",
+    "input_width": 211,
+    "layout": [
+      "raw112",
+      "event99"
+    ]
+  },
+  "normalization_bitwise_equal": true,
+  "original_teacher_cache_annotations": [
+    {},
+    {
+      "main_target_scale": 1.0,
+      "main_target_scale_applied_before_training_clip": true
+    },
+    {
+      "main_target_scale": 1.0,
+      "main_target_scale_applied_before_training_clip": true
+    }
+  ],
+  "teacher_cache_identity_excluding_identity_annotations_equal": true,
+  "mean_method": "equal_parameter_mean_after_canonical_two_output_serving_projection",
+  "output_checkpoint": "/home/vlad/development/wunder/research_tmp/overnight-nll-projected-mean-f0-r1/artifacts/runs/overnight_nll_f0_s3_wmse_projected_mean_r1/model_ep1.pt",
+  "output_checkpoint_sha256": "fc5e432eff521ad4829a6d1e0aefa6325a3d706b4dc02e17f602d3b33cf26a55",
+  "fit_count": 0,
+  "official_quality_read": false,
+  "limitations": [
+    "F0 is an exposed diagnostic panel and does not estimate fit-seed or public-transfer uncertainty.",
+    "This amendment preserves the historical full-state mean block; only its serving-projected descendant is derived.",
+    "This receipt does not grade the checkpoint or establish a production candidate.",
+    "Parent trainer-source metadata is absent; its unscaled-cache path is legacy-consistent, not independently proven."
+  ]
+}
