@@ -72,3 +72,5 @@ A [bounded CPU counterexample](../DYNAMICS_NUMERICAL_PROBE_R1.json) found that g
 Root holds the dynamics profile until a stable FP32 window calculation passes direct-window, boundary, mask, and long-sequence tests plus independent review. No auxiliary profile or scientific fit ran with the faulty construction. The52 mathematical targets, four-fit panel, weight0/.05, and main metric remain unchanged. This is an implementation repair, not a new scientific arm; the active frozen i1 panel is unaffected.
 
 The [numerical gate now passes](../DYNAMICS_NUMERICAL_VERIFICATION_R1.json). Six CPU oracle/causality/export tests, six checker tests, Ruff and structure checks pass. The [same original fixture](../DYNAMICS_NUMERICAL_PROBE_R2.json) now has5.76e−8log-unit error; no auxiliary profile/fit has run. See the [independent repair review](../../../unified/reviews/DYNAMICS_AUXILIARY_FP32_WINDOW_STABILITY_20261022_R1.md).
+
+- [Corrected source freeze](../DYNAMICS_CORRECTED_SOURCE_R1.json): clean781deb6a5 worktree, canonical source and profile/membership hashes pinned. No GPU profile queued or admitted; root owns hot full-cost profiling after current work drains.
