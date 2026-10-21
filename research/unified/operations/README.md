@@ -1,5 +1,8 @@
 # Execution, incidents, and preservation
 
+- [Admitted Kaggle F1 execution](../../campaign_2026-10-21/kaggle_h512_conditional_f1_r1/README.md) — clean68ff worker, exact R2 bundle downloaded and hash-verified after private dataset upload; kernel version1 provider-confirmed RUNNING at00:43:43UTC. One profile-first attempt under16,000seconds and refreshed quota; no fit progress or quality established. Preserves original proposal/preparation and separate actual admission/reseal/launch observation.
+
+
 - [Kaggle F1 prelaunch source drift](KAGGLE_F1_SOURCE_CLOSURE_INCIDENT_20261021_R1.json) — independent review found5of6declared source pins mismatched in the preparation checkout (60changed canonical files overall), including the strict-FP32 runtime branch. No third cloud job had launched. Operator is rebuilding from clean68ff; the healthy local fit uses the correct frozen source and remains active. This is preparation evidence, not a model-quality result.
 
 

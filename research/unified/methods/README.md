@@ -1,5 +1,8 @@
 # Methods, sampling, and metric
 
+- [Fixed H512 F1 endpoint grader](../../campaign_2026-10-21/kaggle_h512_f1_endpoint_grade_r1/README.md) — freezes five endpoints and component uncertainty for457evaluation groups; aligns new FP32 exports to legacy oldZ4FP16 reference. Requires separate root terminal acceptance and exact producer/manifest/source identities. Prepared and statically reviewed, not executed; exposed fold and precision asymmetry remain explicit.
+
+
 Reusable metric, causal data handling, statistical and implementation contracts.
 
 ## Current navigation

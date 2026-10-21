@@ -1,0 +1,44 @@
+{
+  "schema": "wnn.kaggle-h512-f1-quota-readiness.v1",
+  "observed_at_utc": "2026-10-21T00:23:46+00:00",
+  "source": "Read-only Kaggle SDK v2.2.4 quota and exact-kernel status calls through research/campaign_2026-10-06/cloud_preflight/poll_provider.py; no kernel mutation, upload, launch, reserve, or cancel.",
+  "provider_quota": {
+    "gpu_total_allowed_seconds": 108000.0,
+    "gpu_used_seconds": 90722.348,
+    "gpu_reserved_seconds": 0.0,
+    "gpu_remaining_unreserved_seconds": 17277.652,
+    "refresh_at_utc": "2026-10-24T00:00:00"
+  },
+  "campaign_budget_context": {
+    "legacy_poll_helper_cap_seconds": 56780.516,
+    "legacy_poll_helper_baseline_used_seconds": 37047.321,
+    "legacy_poll_helper_used_seconds": 53675.027,
+    "legacy_poll_helper_headroom_seconds": 3105.489,
+    "authority": "These are historical helper-specific constants, not provider quota API available seconds and not the current cycle cap. Root confirmed the accepted 2026-10-20 plan authorizes all verified available Kaggle quota in this cycle, subject to fresh provider evidence, the 1,200-second safety reserve, 16,000-second outer worker cap, and root admission. Preserve the 3,105.489-second helper headroom as history; do not use it to abort an admitted worker.",
+    "source_path": "research/campaign_2026-10-06/cloud_preflight/poll_provider.py"
+  },
+  "known_kernel_status": [
+    {
+      "kernel": "vladkochetov07/wnn-h512-profile-20261021-r1-runner/1",
+      "status_call": "HTTP 404",
+      "current_state": "unknown"
+    },
+    {
+      "kernel": "vladkochetov07/wnn-h512-profile-20261021-r2-runner/1",
+      "status_call": "HTTP 404",
+      "current_state": "unknown"
+    }
+  ],
+  "reservation_and_queue_visibility": {
+    "quota_api_reserved_gpu_seconds": 0.0,
+    "planned_reservations_reported_by_helper": "not queried or recorded by the helper",
+    "account_wide_active_or_queued_kernel_roster": "not exposed by the existing poll helper; exact status endpoint returned 404 for both known attempts",
+    "no_competing_reservation_claim": false
+  },
+  "scope": {
+    "fit_admitted": false,
+    "profile_admitted": false,
+    "upload_or_launch_authorized": false,
+    "no_paid_compute": true
+  }
+}

@@ -1,5 +1,9 @@
 # Current project state
 
+## October21 Kaggle launch update
+
+One clean-source conditional F1 attempt is now admitted and provider-confirmed RUNNING: [execution packet](../research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/README.md). Private dataset v1/R2 bundle hashes verified; kernel v1 profiles first and fits only if measured cost fits refreshed quota and16,000second cap. No profile/fit progress or quality result yet. Local H512 F0 continues healthy; postfit and native endpoint waiters remain active. Earlier no-third-attempt-admitted statements below preserve prelaunch history.
+
 ## October21 sustained execution update
 
 The same H512F0/seed1003 six-epoch fit remains active;89°Cthermal throttling reduced sustained throughput to~1.9sequences/s. Its [runtime-only amendment](../research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/THERMAL_BUDGET_AMENDMENT_R2.json) allows12h plus reserved25minpostfit within15hcumulative; no extra production fit. Postfit seven-step automation and fixed actual-TL3nativeendpoint evaluation are prepared, not executed. Engineering17.09MBZIP/resetchecks pass using weak fixture weights; never submit that fixture. KaggleR1/R2 both failed before training (R2missingstructuralcaches after raw hash verification);4.79935providerhours remain, no third attempt admitted. See the frontier and live unit; historical statements below are superseded.
