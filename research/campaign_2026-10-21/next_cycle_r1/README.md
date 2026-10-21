@@ -91,3 +91,5 @@ completion is implied by this packet.
 - [BudgetR4](BUDGET_PROGRESS_R4.json): four ofsix i1 fits complete; F2/B officialWP0.68410821, with A/C pending and no second-cell treatment conclusion. [Merged verificationR2](MERGED_SOURCE_VERIFICATION_R2.json) and [log](merged_quality_r2.log): numerical repair passes publication-source static/structure and six auxiliary plus six checker tests; generated-navigation strict freshness remains unverified.
 
 - [Corrected source freeze](DYNAMICS_CORRECTED_SOURCE_R1.json): clean781deb6a5 worktree, canonical source and profile/membership hashes pinned. No GPU profile queued or admitted; root owns hot full-cost profiling after current work drains.
+
+- [Draft publication updateR2](PUBLICATION_R2.json): PR33 pushed through second-control/merged numerical verification and body updated with first-cell fixed-mixture gain, same-host endpoint loss and failed cloud export. Later documentation at the snapshot remains pending nextpush; generated navigation freshness is not claimed.
