@@ -1,0 +1,103 @@
+{
+  "status": "F2_AB_POINTS_VERIFIED_C_AND_FULL_PANEL_UNCERTAINTY_PENDING",
+  "observed_utc": "2026-10-21T22:15:23.832981+00:00",
+  "metric_id": "global_wp_clip2_v1",
+  "fold": 2,
+  "seed": 1002,
+  "scores": {
+    "A": {
+      "schema": "wnn.hpo-score.v1",
+      "metric_id": "global_wp_clip2_v1",
+      "run": "i1_f2_s1002_a_r1",
+      "split_manifest_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+      "prediction_sha256": "c3810af469334372c882e025d5cc77a5117b71882e6e7dd11577e98ed18b3aac",
+      "wp": 0.6729997747506055,
+      "t0": 0.6734057127715073,
+      "t1": 0.6725938367297036,
+      "class_wp": {
+        "0": 0.7709334378568224,
+        "1": 0.7597137475863922,
+        "2": 0.6479139783445729,
+        "3": 0.44542547723144965
+      },
+      "finite_fraction": 1.0,
+      "amp_skipped": 0,
+      "optimizer_attempts": 4830,
+      "train_seconds": 2494.5,
+      "epoch": 2
+    },
+    "B": {
+      "schema": "wnn.hpo-score.v1",
+      "metric_id": "global_wp_clip2_v1",
+      "run": "i1_f2_s1002_b_r1",
+      "split_manifest_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+      "prediction_sha256": "3f411b75bf53385a97bcb7d048f55029a8dd7da40cf934427519514ed9e72e79",
+      "wp": 0.684108214809019,
+      "t0": 0.6838011873878901,
+      "t1": 0.6844152422301477,
+      "class_wp": {
+        "0": 0.7908047849399956,
+        "1": 0.7687752796192803,
+        "2": 0.7095445033294924,
+        "3": 0.4456671289191368
+      },
+      "finite_fraction": 1.0,
+      "amp_skipped": 0,
+      "optimizer_attempts": 4830,
+      "train_seconds": 2536.8,
+      "epoch": 2
+    }
+  },
+  "A_minus_B": {
+    "wp": -0.011108440058413493,
+    "t0": -0.010395474616382794,
+    "t1": -0.011821405500444082
+  },
+  "matched_metadata_keys": [
+    "initial_parameter_sha256",
+    "normalization_identity",
+    "fit_membership_identity",
+    "fit_subset_manifest_sha256",
+    "fit_subset_members_sha256",
+    "trainer_implementation",
+    "causal_feature_prior"
+  ],
+  "initial_parameter_sha256": "16477cee478922a1fcd7ac5735a8f4da4451626239be1141849d8c4d476ab70e",
+  "normalization_identity": {
+    "mean": {
+      "shape": [
+        367
+      ],
+      "dtype": "torch.float32",
+      "bytes_sha256": "2576b5154a3beaf167f8011b2d07f263d3b8056a40b5e87fc4c47c498c28b392"
+    },
+    "std": {
+      "shape": [
+        367
+      ],
+      "dtype": "torch.float32",
+      "bytes_sha256": "8887b686a428f123ec4d946f2fcb5aa5ea327cc0db0fb901a352beb045bca96e"
+    }
+  },
+  "only_argument_differences": {
+    "name": {
+      "A": "i1_f2_s1002_a_r1",
+      "B": "i1_f2_s1002_b_r1"
+    },
+    "drop_i1": {
+      "A": true,
+      "B": false
+    }
+  },
+  "input_sha256": {
+    "A": {
+      "artifacts/runs/i1_f2_s1002_a_r1/score.json": "88ba8aefd554b41ce6d8b9ce2d67d303e803f1be9e3e8710c48bdd6d29fa2625",
+      "artifacts/runs/i1_f2_s1002_a_r1/provenance.json": "1ea7c63b8754c62bdcb8a4bfc4aafb7328b5e9757065267aafca1eec08c52900"
+    },
+    "B": {
+      "artifacts/runs/i1_f2_s1002_b_r1/score.json": "93e7a19d3aa0802ae0e311afaa53347525b92e6a5362a676395d862cae05e9de",
+      "artifacts/runs/i1_f2_s1002_b_r1/provenance.json": "98496894ae77b78ccd6e912ae3068a7173a11f700da484b7e8a861364bcc8cc2"
+    }
+  },
+  "limitation": "Exposed F2/seed1002,10% fitting components. Full matched panel grader and paired component uncertainty after C completes. Distinct fold and seed move together; no significance/transfer or history mechanism conclusion."
+}
