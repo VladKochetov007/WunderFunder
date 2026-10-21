@@ -162,9 +162,9 @@ def make_worker_spec(
         "inputs": inputs,
         "limits": {
             "cpus": 1,
-            "ram_bytes": 5_000_000_000,
-            "gpu_memory_bytes": 4 * 1024**3,
-            "gpu_stop_bytes": 5 * 1024**3,
+            "ram_bytes": 4_000_000_000,
+            "gpu_memory_bytes": 4_000_000_000,
+            "gpu_stop_bytes": 5_000_000_000,
             "timeout_seconds": timeout_seconds,
         },
         "environment": {
