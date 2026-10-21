@@ -1,5 +1,8 @@
 # Project specifications
 
+**Latest accepted cycle:** [October21 next local/Kaggle cycle](plans/2026-10-21-next-local-kaggle-cycle.md), **30 new local GPU-hours plus verified Kaggle**, B300 deferred. Start with its [frontier](../research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md). Earlier15h and B300-priority entries below preserve historical context and are superseded within this cycle.
+
+
 Use these files to understand the objective, current authority and durable
 decisions. They summarize policy; campaign folders and linked receipts contain
 the evidence for individual results.

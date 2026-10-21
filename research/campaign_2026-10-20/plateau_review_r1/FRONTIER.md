@@ -1,5 +1,10 @@
 # Plateau review frontier
 
+## October21 successor: new 30-hour cycle
+
+The accepted [successor spec](../../../specs/plans/2026-10-21-next-local-kaggle-cycle.md) and [frontier](../../campaign_2026-10-21/next_cycle_r1/FRONTIER.md) now own prospective work. Earlier recipes/results and costs remain unchanged. The i1 successor explicitly expands the screen to F0/1001 and F2/1002 at 10% fitting components (six total fits); B300 is deferred.
+
+
 ## Complete endpoint automation — October21
 
 [The actual-native endpoint packet](../submission_delivery_r1/tl3_h512_endpoint_screen_r1/README.md#conditional-cpu-execution-admitted) now has a live conditionalCPUwaiter, `wnn-h512-native-screen-r1-20261021.service`/invocation4d978659258144ca80b409f3ea5ec188. It waits for exact GPUpostfit completion, then executes2fixedpackagebuilds,2native replays underPython3.11 and the paired official grade. OneCPU/1.8GBRAM/noSwap/CUDAhidden; no fit or automaticrelease. Root corrected the planABI mismatch before any replay and obtained a second independent static review. No native endpoint result exists yet.

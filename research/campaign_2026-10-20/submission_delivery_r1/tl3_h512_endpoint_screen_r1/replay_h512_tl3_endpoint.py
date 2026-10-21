@@ -8,6 +8,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+import numpy as np
+
 # F0Source is imported dynamically from the frozen replay packet.
 from endpoint_contract import (
     ENDPOINTS,
@@ -24,7 +26,20 @@ EXPECTED_GROUPS = 468
 EXPECTED_ROWS = 9_360_000
 EXPECTED_WARMUP_ROWS = 46_332
 EXPECTED_PREDICTED_ROWS = 9_313_668
-EXPECTED_CACHE_BYTES = 74_880_000
+EXPECTED_CACHE_PAYLOAD_BYTES = 74_880_000
+
+
+def validate_prediction_encoding(path: Path) -> None:
+    """Require the exact NPY shape, dtype and payload, accounting for its header."""
+    values = np.load(path, mmap_mode="r", allow_pickle=False)
+    if (
+        values.shape != (EXPECTED_GROUPS, 20_000, 2)
+        or values.dtype != np.dtype("float32")
+        or not values.flags.c_contiguous
+        or values.nbytes != EXPECTED_CACHE_PAYLOAD_BYTES
+        or path.stat().st_size != values.offset + values.nbytes
+    ):
+        raise ValueError("native prediction NPY encoding or coverage differs")
 
 
 def _parse_args() -> argparse.Namespace:
@@ -95,12 +110,12 @@ def replay(args: argparse.Namespace) -> dict[str, Any]:
         if binding_after != binding_before:
             raise ValueError("candidate source binding changed during replay")
         prediction_sha = replay_sha256(predictions)
+        validate_prediction_encoding(predictions)
         if (
             result.rows != EXPECTED_ROWS
             or result.warmup_rows != EXPECTED_WARMUP_ROWS
             or result.predicted_rows != EXPECTED_PREDICTED_ROWS
             or result.reset_aba_equal is not True
-            or predictions.stat().st_size != EXPECTED_CACHE_BYTES
         ):
             raise ValueError("native replay did not cover the frozen full-F0 endpoint")
         source_path = root / SPLIT_PATH

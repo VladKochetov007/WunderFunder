@@ -1,5 +1,10 @@
 # Current project state
 
+## October21: new 30-hour local/Kaggle cycle
+
+The user accepted and requested execution of the [new cycle](plans/2026-10-21-next-local-kaggle-cycle.md): 30 new local GPU-hours plus verified available Kaggle, B300 deferred. Start with saved-artifact recovery and the six-fit i1 screen; dynamics has four fits and strong-parent/production spending is conditional. [Live frontier](../research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md). Historical costs and stops below remain history.
+
+
 ## Matched B300 endpoint replication correction
 
 Local H512 F0/seed1003/CP5 reproduces exact historic PR25 score within1.28e−9 (0.6737706291771555 vs0.6737706304503658). Earlier non-replication chat conclusion confused a four-fold mean with this single fold. [Audit](../research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#correction-matched-b300-endpoint-successfully-reproduced). Postfit grading succeeded; existing oldZ4/WMSE still beats fixed oldZ4/H512. Native replay stopped at coverage guard; no accepted new submission.
