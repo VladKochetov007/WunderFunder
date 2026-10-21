@@ -14,6 +14,10 @@ Run only after the root has admitted the recovery within its separate two-GPU-ho
 
 ```sh
 set -euo pipefail
+export WNN_LOADER_WORKERS=0 WNN_LOADER_RAM_GB=0.6 WNN_THREADS=1
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 ARROW_NUM_THREADS=1
+export NVIDIA_TF32_OVERRIDE=0 WNN_GPU_MEMORY_BYTES=4000000000
+export TMPDIR=/home/vlad/development/wunder/research_tmp
 PROJECT=/home/vlad/development/wunder/wnn_connectome_starterpack
 INFERENCE_ROOT=/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff
 ARTIFACT_ROOT=/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-conditional-input-stage-20261021-r2/B16_TERMINAL_COLLECTION_V2_R3/outputs/results/h512_f1_b16_seed1004_profile_then_conditional_fit_r2/artifacts
