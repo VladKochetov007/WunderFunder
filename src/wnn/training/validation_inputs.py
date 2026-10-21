@@ -4,7 +4,7 @@ import math
 
 import torch
 
-from wnn.i1_history import I1_INPUT_WIDTH
+from wnn.i1_history import I1_HISTORY_MODE, I1_INPUT_WIDTH
 from wnn.training.i1_inputs import validate_i1_input_configuration
 from wnn.training.inheritance import inherit_init_arguments
 from wnn.training.model_validation import apply_block_memory_defaults, block_memory_rejection
@@ -23,6 +23,44 @@ def validate_inputs(run: TrainingRun) -> None:
         ap.error(str(exc))
     if args.profile_steps:
         args.max_batches = args.profile_warmup + args.profile_steps
+    if not math.isfinite(args.dynamics_aux_weight) or args.dynamics_aux_weight < 0:
+        ap.error("--dynamics-aux-weight must be finite and nonnegative")
+    if args.dynamics_aux_weight > 0 and not args.dynamics_aux_head:
+        ap.error("--dynamics-aux-weight requires --dynamics-aux-head")
+    if args.dynamics_aux_head:
+        if (
+            args.precision != "fp32"
+            or args.loss != "wmse"
+            or args.init
+            or args.distill
+            or args.distill_cache_root
+        ):
+            ap.error(
+                "the dynamics auxiliary screen requires cold FP32 WMSE training without teacher targets"
+            )
+        torch.backends.cuda.matmul.allow_tf32 = False
+        torch.backends.cudnn.allow_tf32 = False
+        if (
+            args.research_features != I1_HISTORY_MODE
+            or args.research_feature_control != "all"
+            or args.drop_i1
+        ):
+            ap.error(
+                "the dynamics auxiliary screen requires the 367-slot all-zero i1_history control"
+            )
+        if (
+            args.ema_teacher > 0
+            or args.aux
+            or args.aux_struct > 0
+            or args.aux_next > 0
+            or args.aux_tier > 0
+            or args.aux_mask > 0
+            or args.aux_sign > 0
+            or args.aux_quote > 0
+            or args.distill_family_weight > 0
+            or args.research_feature_adapter_only
+        ):
+            ap.error("the dynamics auxiliary screen supports only the two main WMSE outputs")
     if args.final_model_adaptation and (
         not args.init
         or not args.inherit_init_preprocessing

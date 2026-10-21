@@ -75,6 +75,8 @@ class BatchState:
     cl_lab: torch.Tensor | None = None
     codes: torch.Tensor | None = None
     donor_masses: torch.Tensor | None = None
+    dynamics_targets: torch.Tensor | None = None
+    dynamics_valid: torch.Tensor | None = None
     family_targets: torch.Tensor | None = None
     h: Any | None = None
     h_ema: Any | None = None

@@ -7,6 +7,7 @@ from wnn.distillation import four_family_weighted_mse
 from wnn.nn import weighted_mse_loss
 from wnn.outcomes import N_CODES, N_SP_AUX, readout, sequence_class
 from wnn.spread_aux import structural_loss
+from wnn.training.dynamics_auxiliary import dynamics_huber_loss
 from wnn.training.initializer import final_initializer_distillation_target
 from wnn.training.state import TrainingRun
 from wnn.training_controls import blended_target
@@ -133,6 +134,7 @@ def auxiliary_loss(run: TrainingRun) -> None:
     mask_at = run.network.mask_at
     mask_rows = run.batch.mask_rows
     n_out = run.network.n_out
+    dynamics_at = run.network.dynamics_at
     next_at = run.network.next_at
     nw = run.batch.nw
     nx_rows = run.batch.nx_rows
@@ -239,4 +241,10 @@ def auxiliary_loss(run: TrainingRun) -> None:
         loss = loss + args.ema_teacher * consistency_scale * (
             cw * (out[..., :2].float() - out_ema[..., :2].float()) ** 2
         ).sum() / cw.sum().clamp_min(1e-08)
+    if args.dynamics_aux_weight > 0:
+        loss = loss + args.dynamics_aux_weight * dynamics_huber_loss(
+            out[..., dynamics_at : dynamics_at + 52],
+            run.batch.dynamics_targets[:, sl],
+            run.batch.dynamics_valid[:, sl],
+        )
     run.batch.loss = loss

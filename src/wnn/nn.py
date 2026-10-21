@@ -85,6 +85,7 @@ class RNNModel(nn.Module):
         recurrent_width: int | None = None,
         readout_width: int | None = None,
         head_layers: int = 1,
+        dynamics_aux_head: bool = False,
     ):
         super().__init__()
         if readout_activation not in ("gelu", "fixed_mix"):
@@ -157,6 +158,10 @@ class RNNModel(nn.Module):
             head_layers,
             nn.GELU() if readout_activation == "gelu" else FixedReadoutMixture(),
         )
+        self.dynamics_aux_head = nn.Linear(recurrent_width, 52) if dynamics_aux_head else None
+        if dynamics_aux_head:
+            self.register_buffer("dynamics_target_mean", torch.zeros(52))
+            self.register_buffer("dynamics_target_std", torch.ones(52))
 
     def encode(self, xn):
         if self.numeric_feature_map is not None:
@@ -194,7 +199,11 @@ class RNNModel(nn.Module):
     def forward(self, x, h=None):
         z = self.encode(self._normalized_inputs(x))
         o, h = self.gru(z, h)
-        return self.head(torch.cat([o, z], dim=-1)), h
+        features = torch.cat([o, z], dim=-1)
+        output = self.head(features)
+        if self.training and self.dynamics_aux_head is not None:
+            output = torch.cat((output, self.dynamics_aux_head(o)), dim=-1)
+        return output, h
 
 
 class GatedRNNModel(RNNModel):

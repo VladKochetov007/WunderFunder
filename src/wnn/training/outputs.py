@@ -180,6 +180,7 @@ def save_epoch(run: TrainingRun) -> None:
             auxiliary={
                 "norm_ema": norm_ema,
                 "dynamics": dynamics.state_dict(),
+                "dynamics_auxiliary": provenance.get("dynamics_auxiliary"),
                 "pool_memory": None if pool_memory is None else pool_memory.memory,
                 "readout_moments": None
                 if moments is None

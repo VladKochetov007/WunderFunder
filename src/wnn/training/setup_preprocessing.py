@@ -13,6 +13,7 @@ from wnn.research_features import (
     validate_research_feature_prior,
 )
 from wnn.splits import file_sha256
+from wnn.training.dynamics_auxiliary import fit_dynamics_target_normalization
 from wnn.training.initializer import final_initializer_state_sha256, make_final_initializer_teacher
 from wnn.training.inputs import fit_research_feature_prior
 from wnn.training.normalization import fit_e540_numeric_preprocessing, fit_normalization
@@ -124,6 +125,15 @@ def fit_preprocessing(run: TrainingRun) -> None:
             )
             student_frontier.install_normalization(model, mean, std)
             provenance["student_frontier"]["normalization_source"] = normalization_source
+    if args.dynamics_aux_head and saved_training is None:
+        provenance["dynamics_auxiliary"] = fit_dynamics_target_normalization(
+            model,
+            train_split,
+            np.asarray(train_idx),
+            None if extra_valid is None else np.asarray(extra_valid),
+            environment.warmup,
+            environment=environment,
+        )
     if args.numeric_map != "none":
         fit_groups_train = train_idx.tolist() if train_split == "train" else []
         fit_groups_valid = (
