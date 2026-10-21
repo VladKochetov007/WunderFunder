@@ -321,6 +321,11 @@ def main() -> None:
     args = parser.parse_args()
     if args.output.exists():
         raise FileExistsError(f"refusing to overwrite {args.output}")
+    target_path = ROOT / "cache/valid_targets.npz"
+    target_sha = sha256(target_path)
+    # Same immutable cache already pinned by the native and B16 endpoint plans.
+    if target_sha != "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955":
+        raise ValueError("official target cache differs from the frozen source bytes")
     names = {
         0: {"A": "i1_f0_s1001_a_r1", "B": "i1_f0_s1001_b_r1", "C": "i1_f0_s1001_c_r1"},
         2: {"A": "i1_f2_s1002_a_r1", "B": "i1_f2_s1002_b_r1", "C": "i1_f2_s1002_c_r1"},
@@ -337,6 +342,7 @@ def main() -> None:
             "seed": BOOTSTRAP_SEED,
         },
         "source_sha256": {
+            "valid_targets": target_sha,
             "grader": sha256(Path(__file__)),
             "scorer": sha256(ROOT / "scripts/grade_prediction_bank.py"),
             "metric": sha256(ROOT / "src/wnn/gmetric.py"),
@@ -344,6 +350,8 @@ def main() -> None:
         },
         "folds": {str(fold): _grade_fold(fold, names[fold]) for fold in (0, 2)},
     }
+    if sha256(target_path) != target_sha:
+        raise ValueError("official target cache changed during grading")
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("x", encoding="utf-8") as output:
         json.dump(report, output, indent=2, sort_keys=True, allow_nan=False)

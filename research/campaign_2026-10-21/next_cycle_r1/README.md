@@ -35,3 +35,5 @@ completion is implied by this packet.
 - [Future-input dynamics finite packet](dynamics/README.md): four exact cold-fit/full-fold-export/score plans, sustained F0aux005 profile and fixed paired grader. Setup-cost accounting includes the full fitting-target normalization scan. Static checks pass; runtime/profile/fits pending.
 
 [Draft PR #33](https://github.com/VladKochetov007/WunderFunder/pull/33) publishes the cycle implementation/recovery handoff against research-team. [Publication receipt](PUBLICATION_R1.json) records the isolated merge preserving both histories; no branch integration or quality promotion. Active fits keep their frozen source. Generated-tree refresh and merged-source checks remain pending a spare CPU slot.
+
+- [Finite dynamics packet review](DYNAMICS_PACKET_REVIEW_R1.json): exact4fit/profile/consumer/pairedgrader wiring passed independent static review. Missing target-cachebyte binding was repaired in both screen graders before any screen quality result; reviewer confirmed the fix. Runtime verification remains pending.
