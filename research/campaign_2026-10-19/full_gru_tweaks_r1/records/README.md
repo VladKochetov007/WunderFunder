@@ -1,3 +1,7 @@
+[NLL rare health00:01UTC](child_nll_fit_v1/health_20261021T0001Z/README.md): same active invocation, three completed epochs / 22380updates / 2238batches / zero skips/nonfinite. Later ep3batch660 is not current totals/native terminal/quality. One owned worker, no new memoryevents, stat-only run artifacts; no B support, newfit, restart, stop, inference or checker preparation. Next rare check21October00:50UTC+.
+
+---
+
 [NLL rare health23:02UTC](child_nll_fit_v1/health_20261020T2301Z/README.md): same active invocation, one completed epoch / 7460updates / 746batches / zero skips/nonfinite. Later ep1batch580 is not current totals/native terminal/quality. One owned worker, no new memoryevents, stat-only run artifacts; no B support, newfit, restart, stop, inference or checker preparation. Next rare check21October00:00UTC+.
 
 ---

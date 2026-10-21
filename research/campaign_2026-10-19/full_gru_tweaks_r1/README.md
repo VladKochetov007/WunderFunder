@@ -1,3 +1,7 @@
+**Latest dated observation, 21 October00:01UTC:** [NLL same invocation active/running](records/child_nll_fit_v1/health_20261021T0001Z/README.md), three completed epochs / 22380updates / 2238batches / zero skips/nonfinite. Later ep3batch660 is not synchronous current totals, terminal44760, integrity or quality. One owned GPU, unchanged event counters, tensors stat-only; no support/newfit/restart/stop or checker preparation. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261021_NLL_HEALTH_0001.json) govern next rare21October00:50UTC+ and actual-exit gates. NLL loss is not a WMSE quality comparison.
+
+---
+
 **Latest dated observation, 20 October23:02UTC:** [NLL same invocation active/running](records/child_nll_fit_v1/health_20261020T2301Z/README.md), one completed epoch / 7460updates / 746batches / zero skips/nonfinite. Later ep1batch580 is not synchronous current totals, terminal44760, integrity or quality. One owned GPU, unchanged event counters, tensors stat-only; no support/newfit/restart/stop or checker preparation. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261020_NLL_HEALTH_2302.json) govern next rare21October00:00UTC+ and actual-exit gates. NLL loss is not a WMSE quality comparison.
 
 ---

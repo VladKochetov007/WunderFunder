@@ -1,3 +1,7 @@
+[NLL00:01 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261021T0001Z/METADATA_REVIEW.json) checks exact stored raw/transport/three extracts, unchanged reader, three completed epochs and sampled invocation/ownership/resources; parent event deltas are recomputed against23:02 health. Metadata only, no B access, tensor replay, current-total/terminal/quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_NLL_HEALTH_0001.json) preserves frozen baseline bytes and ledgers, adds zero fits/supports/quality and reruns no unchanged source/model/profile/cold suite.
+
+---
+
 [NLL23:02 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261020T2301Z/METADATA_REVIEW.json) checks exact stored raw/transport/three extracts, unchanged reader, one completed epoch and sampled invocation/ownership/resources; parent event deltas are recomputed against22:10 startup. Metadata only, no B access, tensor replay, current-total/terminal/quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_NLL_HEALTH_2302.json) preserves frozen baseline bytes and ledgers, adds zero fits/supports/quality and reruns no unchanged source/model/profile/cold suite.
 
 ---

@@ -1,3 +1,9 @@
+## 21 October00:01UTC — NLL child active at rare observation
+
+[Bounded NLL health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261021T0001Z/README.md) records three completed epochs / 22380updates / 2238batches / zero skips/nonfinite. Later ep3batch660 is not synchronous current totals, native44760, integrity or predictive quality; NLL loss is not a WMSE quality comparison. One owned GPU, own/parent event deltas0, tensor files stat-only; no new support/fit/restart/stop/inference/checker preparation. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare21October00:50UTC+ and actual native-exit gates. Comparison5started/4completed of6 including parent; allthree unadmitted, shared prerequisitefits5 separate.
+
+---
+
 ## 20 October23:02UTC — NLL child active at rare observation
 
 [Bounded NLL health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261020T2301Z/README.md) records one completed epoch / 7460updates / 746batches / zero skips/nonfinite. Later ep1batch580 is not synchronous current totals, native44760, integrity or predictive quality; NLL loss is not a WMSE quality comparison. One owned GPU, own/parent event deltas0, tensor files stat-only; no new support/fit/restart/stop/inference/checker preparation. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare21October00:00UTC+ and actual native-exit gates. Comparison5started/4completed of6 including parent; allthree unadmitted, shared prerequisitefits5 separate.

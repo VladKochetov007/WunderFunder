@@ -1,3 +1,7 @@
+**Latest dated health00:01UTC:** [One rare same-invocation capture](health_20261021T0001Z/README.md) records completed epochs0–2 / 22380successfulupdates / 2238batches / zero skips/nonfinite. Later ep3batch660 is not current totals, terminal44760, integrity or quality. One owned GPU worker, no new events, five stat-only artifact files; no new job/action/checker preparation. Next rare check21October00:50UTC+; actual typed native exit0 remains prerequisite for B integrity checking.
+
+---
+
 **Latest dated health23:02UTC:** [One rare same-invocation capture](health_20261020T2301Z/README.md) records completed epoch0 / 7460successfulupdates / 746batches / zero skips/nonfinite. Later ep1batch580 is not current totals, terminal44760, integrity or quality. One owned GPU worker, no new events, three stat-only artifact files; no new job/action/checker preparation. Next rare check21October00:00UTC+; actual typed native exit0 remains prerequisite for B integrity checking.
 
 ---

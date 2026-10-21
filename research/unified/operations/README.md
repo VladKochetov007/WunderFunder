@@ -1,3 +1,7 @@
+[NLL rare health00:01UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261021T0001Z/README.md): same active owned worker, completed epochs0–2 / 22380updates / 2238batches / zero skips/nonfinite; later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only, no support/newfit/restart/stop/checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_NLL_HEALTH_0001.json) binds exact raw/navigation with zero ledger rows/fits/quality; next rare observation21October00:50UTC+.
+
+---
+
 [NLL rare health23:02UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261020T2301Z/README.md): same active owned worker, completed epoch0 / 7460updates / 746batches / zero skips/nonfinite; later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only, no support/newfit/restart/stop/checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_NLL_HEALTH_2302.json) binds exact raw/navigation with zero ledger rows/fits/quality; next rare observation21October00:00UTC+.
 
 ---
