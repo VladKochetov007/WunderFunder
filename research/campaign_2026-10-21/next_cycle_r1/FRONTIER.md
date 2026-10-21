@@ -168,3 +168,7 @@ Root source inspection and independent dynamics_builder review confirm that C ac
 ## Five i1 fits complete; input-removal loss repeats
 
 [F2 A/B points and metadata](I1_F2_AB_POINTS_R1.json): A0.67299977 versus B0.68410821, A−B−0.01110844 (t0−0.01039547, t1−0.01182141). Initial parameters, normalization, fitting subset/membership, feature prior and trainer source match; only name and drop_i1 differ in arguments. Both complete4,830updates with zero skips. This repeats the loss from removing standard i1, while explicit-history benefit is still unresolved. Final C now runs. Paired component uncertainty and fixed-mixture comparisons await the unchanged complete-panel grader. [BudgetR5](BUDGET_PROGRESS_R5.json) charges five completed fits/exports/scores plus earlier profile/failure time; active C is additional. No new work admitted by this snapshot.
+
+## Full-fit cost exceeds the initial profile median
+
+[Cost extrapolation update](SUSTAINED_COST_EXTRAPOLATION_R1.json) records full F0/C at5.2647seconds per B8 batch and F2/B at5.2522, versus the earlier C-profile median4.3612. Current F2/C first epoch averages5.3472. These20–23% differences do not isolate thermals from data/runtime effects, but show that even110batches did not provide a hard bound. The dynamics admission must include its own full-wall profile/statistics scan, complete export/grade costs and a conservative allowance for sustained slowdown. Its four-fit panel may need deferral within the fixed three-hour ceiling; no new fit or reserve transfer is admitted here.
