@@ -1,0 +1,32 @@
+{"step": "format_diagnostic", "event": "starting"}
+1 file reformatted, 1 file left unchanged
+{"step": "check_diagnostic", "event": "starting"}
+All checks passed!
+{"step": "independent_dense_moment_oracle", "event": "starting"}
+.                                                                        [100%]
+1 passed in 0.38s
+{"step": "stream_saved_prediction_diagnosis", "event": "starting"}
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/endpoint_diagnosis/diagnose_native_h512.py", line 459, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/endpoint_diagnosis/diagnose_native_h512.py", line 318, in main
+    candidate_moments, reference_moments = paired_component_moments(
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~^
+        y[None], p[None], pred["B"][None], bm[None]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/evaluation.py", line 31, in paired_component_moments
+    raise ValueError("no selected rows")
+ValueError: no selected rows
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_sequence.py", line 61, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_sequence.py", line 57, in main
+    run(args.plan)
+    ~~~^^^^^^^^^^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/kaggle_sequence.py", line 47, in run
+    raise RuntimeError(f"Sealed step failed: {step['name']}")
+RuntimeError: Sealed step failed: stream_saved_prediction_diagnosis
