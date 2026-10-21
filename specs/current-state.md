@@ -1,5 +1,9 @@
 # Current project state
 
+## Matched B300 endpoint replication correction
+
+Local H512 F0/seed1003/CP5 reproduces exact historic PR25 score within1.28e−9 (0.6737706291771555 vs0.6737706304503658). Earlier non-replication chat conclusion confused a four-fold mean with this single fold. [Audit](../research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#correction-matched-b300-endpoint-successfully-reproduced). Postfit grading succeeded; existing oldZ4/WMSE still beats fixed oldZ4/H512. Native replay stopped at coverage guard; no accepted new submission.
+
 ## October21 15:21Kyiv: fit completed, postfit recovery active
 
 Local H512 six-epoch fit succeeded at13:29Kyiv. The original launcher failed on Linux page-rounding of the5GBcap; a separate recovery now passes acceptance, has derived SWA and is exporting predictions. Native endpoint waiter is rebound to the exact recovery invocation. See the [recovery packet](../research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#completed-fit-and-page-alignment-recovery-october21). No validation score or new ZIP yet; earlier ETA missed. Kaggle weights remain collected after a separate producer/validator digest mismatch.

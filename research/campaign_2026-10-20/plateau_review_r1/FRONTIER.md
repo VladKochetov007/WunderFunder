@@ -184,3 +184,7 @@ Local H512 F0 remains healthy in epoch4 (fifth of six), batch560/1492 at the las
 ### October21 fit complete; postfit recovery running
 
 Local fit succeeded at13:29:06Kyiv. Original downstream admission failed on a512byte Linux page-rounding difference in memory.max, not on memory pressure. At15:19root diagnosed and admitted [separate recovery](../submission_delivery_r1/h512_f0_followup_r1/README.md#completed-fit-and-page-alignment-recovery-october21), retaining original source/recipe pins and15hbudget. Terminal fit acceptance and SWA derivation now completed; CP5export running. The [rebound native waiter](../submission_delivery_r1/tl3_h512_endpoint_screen_r1/README.md#recovery-binding-after-launcher-page-alignment-failure) is active. No score/ZIP yet; earlier14:30–15:00ETA missed due launcher failure. Kaggle remains terminal with collected weights and the separately diagnosed initial-digest contract mismatch.
+
+### Correction: PR25 matched endpoint reproduced
+
+Root extracted the exact historic F0/seed1003 wideCP5 score0.6737706304503658; local0.6737706291771555 differs by−1.27e−9. [Audit and grade](../submission_delivery_r1/h512_f0_followup_r1/README.md#correction-matched-b300-endpoint-successfully-reproduced) correct earlier chat claims of unsuccessful replication. Four-fold mean0.68409111 was not the correct comparator. Successful score replication is separate from stronger serving endpoint: fixed oldZ4/H512 remains below existing oldZ4/WMSE onF0; native coverage guard failed after replay, quality result absent. No newfits admitted.

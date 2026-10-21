@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+- [Matched B300/local score replication and reporting correction](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#correction-matched-b300-endpoint-successfully-reproduced) — exact PR25 F0/seed1003/CP5 scores agree within1.28e−9. Earlier non-replication interpretation confused the four-fold mean with a single-fold endpoint. Local grade/source receipt pinned; score agreement does not establish tensor parity or superiority over the existing ensemble.
+
 Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
