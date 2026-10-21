@@ -1,5 +1,13 @@
 # Current project state
 
+## October 22: fixed-history geometry and native precision diagnosis
+
+The first i1 cell’s fixed 90%B/10%C gain is +0.00036506 before clipping and +0.00035953 with official clipping. The correction has positive residual covariance with both targets after accounting for B; clipping slightly reduces the gain. This is descriptive evidence of a complementary prediction direction on the same exposed F0 fits, not independent confirmation or proof that history information caused it. F2/B completed at 0.68410821; A is fitting and C remains pending. [Geometry and limits](../research/campaign_2026-10-21/next_cycle_r1/i1/fixed_mix_geometry_r1/README.md).
+
+[Eight-component precision diagnosis](../research/campaign_2026-10-21/next_cycle_r1/NATIVE_HOST_PRECISION_PROBE_R2.json) passes same-host original and CP5 reconstruction before targets. The saved FP32 counterfactual improves the complete CP5 endpoint by only +0.00004035 and still trails TL3 by 0.00328280 on this sample. Precision does not explain that sample gap; no full-fold or public extrapolation follows. No new model was fitted.
+
+The dynamics target numerical repair passes six oracle/causality/export tests and six checker tests on merged source; a clean corrected checkout is frozen. Its four-fit panel still requires a sustained full-cost profile. Saved mean and B16 exports remain next after the single active GPU panel. Corrected i1 worker OOM counters remain zero. [Live frontier](../research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md).
+
 ## October22 00:06 Kyiv: first complete i1 cell and recovered endpoint diagnosis
 
 The accepted30-local-GPU-hour cycle is active. The first F0/seed1001 i1 cell scores B0.65907416, A0.64317272, C0.65553705. History C loses standalone (−0.00353711), but the predeclared90%B/10%C blend gains+0.00035953 on both targets; its conditional component95%interval [−0.00001187,+0.00070893] leaves repeatability unresolved. F2/seed1002 is running under the unchanged six-fit panel; no new OOM events in the corrected worker. [Full interim grade](../research/campaign_2026-10-21/next_cycle_r1/i1/interim_f0_abc/RESULT_R1.json).
