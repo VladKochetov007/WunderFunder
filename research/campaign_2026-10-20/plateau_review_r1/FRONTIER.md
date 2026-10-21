@@ -176,3 +176,7 @@ The upload staging folder accidentally omitted the reviewed bundle manifest. Ker
 ### Local first epoch complete and corrected Kaggle version2 running
 
 [Local epoch0](../submission_delivery_r1/h512_f0_followup_r1/EPOCH0_PROGRESS_R1.json) completed6549.8seconds/14920updates, zero skips/nonfinitegradientsteps. It continues epoch1 (secondof6); no qualityscore. Operator verified remote datasetversion2contains both exactarchive+manifest then pushed kernelversion2beforefreshnessdeadline; providerRUNNING at01:11:10.367UTC andliveinputvalidation logs. [Actual v2receipt](../../campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/B16_V2_OPERATOR_SNAPSHOT_R3.json) distinguishes this from terminalbootstrapfailurev1. No newprofile/fullfitclaim yet.
+
+### October21 10:24 Kyiv monitoring and recovery
+
+Local H512 F0 remains healthy in epoch4 (fifth of six), batch560/1492 at the last log inspection; campaign memory about3.68GB, no swap, GPU1.45GB. Both frozen automatic postfit and native endpoint waiters remain active. No source pins or running recipes changed. The [Kaggle B16 terminal packet](../../campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/README.md#version2-terminal-fit-saved-postfit-provenance-gate-failed) now preserves collected checkpoints and the post-training identity-gate failure. Root owns offline recovery admission; the cloud operator is diagnosing metadata/source only, without Torch loads, GPU jobs or provider calls. No new ZIP or quality claim. ETA remains conditional on the healthy local fit plus exports and native evaluation.

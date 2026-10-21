@@ -1,5 +1,9 @@
 # Current project state
 
+## October21 monitoring and Kaggle terminal recovery
+
+Local H512 continues its fifth of six epochs; automatic postfit/native evaluation waiters remain active under5GBRAM/twoCPU/noSwap. Kaggle B16 completed training and saved checkpoints but failed the postfit initial-parameter identity gate before exports. See the [terminal packet](../research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/README.md#version2-terminal-fit-saved-postfit-provenance-gate-failed). Root is investigating metadata-only recovery; no new fit or provider launch. No new quality grade/submission yet. Older RUNNING snapshots below are historical.
+
 ## October21 actual execution at01:13UTC
 
 Local H512 completed its first epoch (14,920 finite-gradient updates, no skips) and continues epoch two of six. Corrected [Kaggle kernel version2](../research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/README.md#corrected-version2-running) is RUNNING and reached input validation after both uploaded files were remotely hash-verified. Version1 failed before profiling due to an omitted manifest; its evidence and separate transport-repair admission are preserved. No Kaggle profile/fit result or new submission quality is established.

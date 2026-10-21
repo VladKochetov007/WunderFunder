@@ -33,3 +33,9 @@ Root issued a [separate one-attempt transport repair admission](TRANSPORT_REPAIR
 ## Corrected version2 running
 
 The [local upload file receipt](B16_DATASET_V2_LOCAL_FILES_R3.json) and [remote dataset verification](B16_REMOTE_V2_VERIFICATION_R3.json) establish both required files in datasetversion2 with exact reviewed hashes. [Version2 operator snapshot](B16_V2_OPERATOR_SNAPSHOT_R3.json) binds the one corrected kernelpush and providerRUNNING state at01:11:10.367UTC. Live logs reached inputvalidation; profile and fit results remain unestablished. No recipe/code/archive changes or further retry authorization.
+
+## Version2 terminal: fit saved, postfit provenance gate failed
+
+The [worker terminal receipt](B16_WORKER_TERMINAL_R3.json) records a successful finite 40-update profile and a passed cost gate. The operator reports all six epochs and 44,760 updates completed; CP3/4/5, history and provenance were collected. Postfit validation then failed with `Missing fresh initial parameter identity`, before SWA derivation or prediction exports. This is not a negative quality result and no validation score is available. Root is checking the actual metadata and frozen initialization source before proposing an explicit offline recovery; no identity will be invented and no retraining is admitted.
+
+[Collection receipt](B16_COLLECTION_R3.json): 206 files, 95,199,834 bytes, manifest SHA256 b45a283af8d55a292d1f211bb389fe945581086c0c45c67437563f601438af86. Checkpoints remain in the private physical-disk collection path recorded there. [Terminal quota reconciliation](B16_QUOTA_TERMINAL_R3.json) records 2,345.378 GPU-seconds remaining; no further provider run is launched. Historical RUNNING statements above are superseded.
