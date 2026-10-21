@@ -1,0 +1,53 @@
+{
+  "schema": "wnn.i1-fixed-mixture-geometry-plan.v1",
+  "status": "code_only_preparation",
+  "experiment_id": "E-PLATEAU-I1-20261021-R1",
+  "scope": {
+    "fold": "F0",
+    "seed": 1001,
+    "exposure": "Previously inspected development fold; diagnostic is posthoc and conditional on the fitted cell.",
+    "frozen_result_path": "research/campaign_2026-10-21/next_cycle_r1/i1/interim_f0_abc/RESULT_R1.json",
+    "frozen_result_sha256": "d28a0c4fff38adac931ada71a970dc99536e1549094efee8cb304cc542997419",
+    "arms": {
+      "A": "i1_f0_s1001_a_r1",
+      "B": "i1_f0_s1001_b_r1",
+      "C": "i1_f0_s1001_c_r1"
+    },
+    "evaluation_groups": 468,
+    "evaluation_components": 141
+  },
+  "fixed_endpoints": {
+    "control": "B",
+    "candidate_mix": {"B": 0.9, "C": 0.1},
+    "raw_i1_control_mix": {"B": 0.9, "A": 0.1},
+    "mixture_implementation": "Apply the existing float64 weighted sum and cast the result to float32, then apply official clipping for scored geometry.",
+    "coefficient_search": false
+  },
+  "analysis": {
+    "metric_id": "global_wp_clip2_v1",
+    "weight": "abs(clip(target, -2, 2))",
+    "raw_geometry": "Use raw float32 predictions with clipped-label weights.",
+    "scored_geometry": "Clip the blended float32 prediction to [-2, 2] after mixing; compare it with clipped B.",
+    "fixed_position_bins": [[99, 500], [500, 2000], [2000, 10000], [10000, 20000]],
+    "reported": [
+      "Per-target weighted means, variances, covariance and correlation for B, C, fixed B/C mixture and fixed B/A mixture.",
+      "Unweighted raw-output means and standard deviations; per-target scored-row prediction clipping fractions.",
+      "For each fixed mixture, D=M-B weighted covariance with target and B, residual covariance after linear projection on B, and covariance/variance decomposition identities.",
+      "Official score, target scores, and reconstruction from clipped weighted moments by overall scope and fixed position bin."
+    ],
+    "empty_bin_policy": "Keep zero-row or zero-weight targets explicit; return null geometry and retain the official zero score where the metric defines it.",
+    "uncertainty": "No interval: this is descriptive geometry on already graded fitted endpoints."
+  },
+  "integrity": {
+    "frozen_target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "prediction_contract": "Re-run the frozen panel validator for each arm before loading target arrays; compare all prediction identities and NPY coverage to the frozen F0 grade.",
+    "memory_limit_bytes": 1400000000,
+    "access": "Read-only prediction memory maps; stream one full sequence at a time.",
+    "output": "Create-only JSON beneath /home/vlad/development/wunder/research_tmp; include before/after hashes for all bound inputs."
+  },
+  "limitations": [
+    "No independent-fold, seed, or public-transfer claim.",
+    "No causal claim about representation complementarity or standalone C quality.",
+    "F2 is excluded until the complete frozen A/B/C panel grader certifies all predictions."
+  ]
+}
