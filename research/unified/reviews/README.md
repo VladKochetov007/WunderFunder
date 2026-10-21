@@ -6,6 +6,8 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [i1 and dynamics native-serving compatibility](I1_DYNAMICS_NATIVE_SERVING_COMPATIBILITY_REVIEW_20261022_R1.md) — source-only trace confirms that stripping the dynamics head leaves 367-wide inputs, which the canonical exporter and native callback reject. It identifies a possible 367-to-211 projection for the post-normalization all-zero-history control, but no conversion, parity, complete-endpoint cost, or active-history native path is implemented or measured.
+
 - [Fixed F0 i1 mixture-geometry adapter](../../campaign_2026-10-21/next_cycle_r1/i1/fixed_mix_geometry_r1/README.md) — code-only, create-only NumPy diagnostic for the already-frozen 90/10 B/C mixture and same-weight B/A control. It binds the prior full-coverage F0 A/B/C grade, reports raw/clipped weighted covariance and fixed-bin score reconstruction, and preserves exposed-fold limits. No arrays, labels, tests, fits, or scores were read or produced during preparation.
 
 - [I1 history standalone and fixed-mixture interpretation](I1_HISTORY_FIXED_MIX_GEOMETRY_REVIEW_20261022_R1.md) — interprets the exposed F0 result where C loses alone but the frozen 90/10 B/C blend is slightly positive, separates a complementary-correction hypothesis from clipping/distribution or optimization effects, and records that F2/B alone cannot resolve the contrast. Proposes one no-fit score-geometry readout from already saved predictions if it would change allocation; no arrays, fits, or new admission were used.
