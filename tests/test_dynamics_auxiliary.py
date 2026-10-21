@@ -7,15 +7,41 @@ import torch
 from scripts.package_submission import load_checkpoint_member
 from wnn.data import N_FEATURES
 from wnn.features import N_EVENT_FEATURES
+from wnn.kalman_group_features import FEATURE_GROUPS
 from wnn.nn import RNNModel
 from wnn.training.dynamics_auxiliary import (
     DYNAMICS_TARGET_WIDTH,
+    HORIZONS,
+    LOG_EPSILON,
+    TARGETS_PER_HORIZON,
     dynamics_huber_loss,
     dynamics_targets_torch,
     strip_dynamics_auxiliary_state,
 )
 from wnn.training.environment import TrainingEnvironment
 from wnn.training.inputs import build_inputs
+
+
+def _direct_group_targets(
+    raw: torch.Tensor,
+    input_mean: torch.Tensor,
+    input_std: torch.Tensor,
+    start: int,
+    horizon: int,
+) -> torch.Tensor:
+    """Compute one horizon directly in float64 as a small-window oracle."""
+    normalized = (raw[..., :N_FEATURES].double() - input_mean.double()) / input_std.double()
+    changes = normalized[start + 1 : start + horizon + 1] - normalized[start : start + horizon]
+    values: list[torch.Tensor] = []
+    for _, feature_start, feature_stop in FEATURE_GROUPS:
+        group_changes = changes[:, feature_start:feature_stop]
+        values.extend(
+            (
+                group_changes.mean(),
+                torch.log(group_changes.square().mean() + LOG_EPSILON),
+            )
+        )
+    return torch.stack(values)
 
 
 def test_future_targets_have_exact_group_values_and_endpoint_masks() -> None:
@@ -47,6 +73,95 @@ def test_future_targets_have_exact_group_values_and_endpoint_masks() -> None:
     assert not compressed_mask[0, 264, 0]
     assert compressed_mask[0, 23, 1]
     assert not compressed_mask[0, 24, 1]
+
+
+def test_late_small_energy_survives_an_early_large_pulse() -> None:
+    sequence_length = 20_000
+    raw = torch.zeros(1, sequence_length, N_FEATURES)
+    raw[:, 1, :] = 1_000.0
+    late_steps = torch.arange(sequence_length - 10_000, dtype=torch.float32)
+    raw[:, 10_000:, :] = (late_steps.remainder(2) * 0.01)[None, :, None]
+    input_mean = torch.zeros(N_FEATURES)
+    input_std = torch.ones(N_FEATURES)
+    valid_rows = torch.ones(1, sequence_length, dtype=torch.bool)
+
+    target, mask = dynamics_targets_torch(raw, input_mean, input_std, valid_rows)
+
+    position = 16_000
+    for horizon_index, horizon in enumerate(HORIZONS):
+        assert mask[0, position, horizon_index]
+        expected = _direct_group_targets(raw[0], input_mean, input_std, position, horizon)
+        start = horizon_index * TARGETS_PER_HORIZON
+        stop = start + TARGETS_PER_HORIZON
+        torch.testing.assert_close(
+            target[0, position, start:stop].double(), expected, atol=2e-6, rtol=2e-6
+        )
+
+
+def test_local_window_sums_match_direct_oracle_at_block_and_mask_boundaries() -> None:
+    sequence_length = 541
+    generator = torch.Generator(device="cpu").manual_seed(7301)
+    raw = torch.randn(2, sequence_length, N_FEATURES, generator=generator)
+    feature_scale = torch.linspace(0.25, 2.5, N_FEATURES)
+    raw *= feature_scale
+    input_mean = torch.linspace(-0.4, 0.6, N_FEATURES)
+    input_std = torch.linspace(0.35, 1.8, N_FEATURES)
+    valid_rows = torch.ones(2, sequence_length, dtype=torch.bool)
+    valid_rows[0, 17] = False
+    valid_rows[1, 40] = False
+    lengths = torch.tensor([sequence_length, 300])
+
+    target, mask = dynamics_targets_torch(
+        raw, input_mean, input_std, valid_rows, lengths=lengths
+    )
+    positions = torch.arange(sequence_length)
+
+    for horizon_index, horizon in enumerate(HORIZONS):
+        expected_mask = valid_rows & (positions[None, :] + horizon < sequence_length)
+        expected_mask &= positions[None, :] + horizon < lengths[:, None]
+        assert torch.equal(mask[..., horizon_index], expected_mask)
+        start = horizon_index * TARGETS_PER_HORIZON
+        stop = start + TARGETS_PER_HORIZON
+        for batch_index, length in enumerate(lengths.tolist()):
+            boundary = length - horizon - 1
+            if boundary >= 0:
+                assert mask[batch_index, boundary, horizon_index]
+                assert not mask[batch_index, boundary + 1, horizon_index]
+            selected = {
+                0,
+                horizon - 1,
+                horizon,
+                horizon + 1,
+                2 * horizon - 1,
+                2 * horizon,
+                sequence_length - horizon - 1,
+                boundary,
+            }
+            for position in selected:
+                if (
+                    position < 0
+                    or position + horizon >= length
+                    or not valid_rows[batch_index, position]
+                ):
+                    continue
+                expected = _direct_group_targets(
+                    raw[batch_index], input_mean, input_std, position, horizon
+                )
+                torch.testing.assert_close(
+                    target[batch_index, position, start:stop].double(),
+                    expected,
+                    atol=2e-6,
+                    rtol=2e-6,
+                )
+
+    short_target, short_mask = dynamics_targets_torch(
+        raw[:1, :12],
+        input_mean,
+        input_std,
+        valid_rows[:1, :12],
+    )
+    assert not short_mask.any()
+    assert torch.isfinite(short_target).all()
 
 
 def test_future_changes_do_not_change_causal_inputs_or_model_prefix() -> None:
