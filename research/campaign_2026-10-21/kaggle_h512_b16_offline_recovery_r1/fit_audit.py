@@ -243,6 +243,12 @@ def validate_fit_artifacts(
     fit_dir = artifact_root / "artifacts/runs" / FIT_NAME
     provenance_path = fit_dir / "provenance.json"
     history_path = fit_dir / "history.json"
+    # Bind metadata to the hash-verified terminal collection, not just to itself.
+    for path, digest in (
+        (provenance_path, "b9c398296ecee12e75dc49c9391c4f42796be5af3749f33ec563662604dcabef"),
+        (history_path, "caa55fa9e38788121225d1d4a48bef73f10af2fd7e5163fe5961851ba4cb9bea"),
+    ):
+        require(sha256(path) == digest, f"Collected fit metadata changed: {path.name}")
     provenance = read_json(provenance_path)
     history = json.loads(history_path.read_text(encoding="utf-8"))
     require(isinstance(history, list) and len(history) == 6, "Expected six saved epoch records")

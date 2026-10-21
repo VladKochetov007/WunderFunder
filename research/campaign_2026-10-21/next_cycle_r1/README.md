@@ -25,3 +25,5 @@ completion is implied by this packet.
 - [B16 offline recovery](../kaggle_h512_b16_offline_recovery_r1/README.md): separate source-pinned saved-weight mean/export/grade adapter, preserving missing initialization digest and original failed acceptance. Independent review pending; zero new fits.
 
 - [Memory-safety correction](MEMORY_SAFETY_CORRECTION_R1.json): user warning, exact R1kill diagnosis and correctedR2/native counters. Additional heavy admissions held while both active; host pressure remains a material constraint.
+
+- [B16 independent review](B16_RECOVERY_REVIEW_R1.json): identified missing metadata byte binding, fixed with exact provenance/historySHA pins verified against terminalcollectionmanifest; reviewer confirmed resolution. Remaining source/mean/coverage/fixedgrade checks passed statically; execution pending.
