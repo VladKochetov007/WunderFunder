@@ -146,3 +146,11 @@ Correction to the cloud terminal paragraph above: the combined raw Parquet size 
 [Fresh-host precision grade](NATIVE_HOST_PRECISION_PROBE_R2.json) passes both unchanged1e-5 reconstruction gates (original1.55e-7, CP5 2.10e-7) and actual feature-only need masks before targets. On eight preselected distinct exposed components/10,988scoredrows, TL3WP0.77775359 versusCP5 0.77443044. The frozenFP32counterfactual gains only+0.00004035 (t0+0.00003550,t1+0.00004520), leaving−0.00328280 versusTL3. FP32fast/exact agree to7.8e-10WP. Precision is measurable but doesnotexplainthissamplegap; nofullfold/publicextrapolation ornewpackagepromotion. Retainedpair/member scores arepredeclared diagnostics, notablationselection.
 
 [Execution](NATIVE_HOST_PRECISION_EXECUTION_R2.json) used5.39wallseconds/382380KiBpeak/zeroSwap/GPU/fits. FirstlauncherR2failedbeforearrays/targets/outputbecause rootutils wasabsentfromPYTHONPATH; [corrected import admissionR3](NATIVE_HOST_PRECISION_ADMISSION_R3.json) preserves thesamesource/gates/outputpath andearlierfailedlog. No oldreceiptwasrewritten.
+
+## Fixed history blend gain is not created by clipping
+
+[Posthoc F0 geometry](i1/fixed_mix_geometry_r1/RESULT_R1.json) reproduces official scores to 2.22e-16, with covariance identity error below 1.64e-12 and variance error below 5.74e-13. The frozen 90%B/10%C mixture gains +0.00036506 in raw weighted correlation and +0.00035953 with official clipping. Clipping reduces the gain by 0.00000553. Overall covariance of the correction with the target after accounting for B is positive for both targets (0.000713004 / 0.000338789).
+
+This supports a complementary prediction direction over pure scalar shrinkage or clipping-only explanations on these exposed fits. It does not distinguish useful history information from a changed optimization path, establish repeatability, or add independent evidence to the existing interval. Early t1 bins lose; the two later t1 bins improve. No coefficients were searched and no new models were fitted. F2 remains the next decision-changing comparison.
+
+[Execution](I1_FIXED_MIX_GEOMETRY_EXECUTION_R1.json) used 20.04 CPU wall seconds, peaked at 441052 KiB, and used no swap or GPU. Independent dynamics_builder source/math review and root inspection passed before execution.
