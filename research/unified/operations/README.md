@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Legacy timer admission closure](LEGACY_TIMER_ADMISSION_CLOSE_20261021_R1.json) — source/receipt review identified six completed or stopped polling/queue timers and an old Vast tick capable of admitting new work. Root verified inactive child services, stopped and disabled all seven, and preserved the current fit and collectors. This reduces background work and enforces the no-paid-compute cycle; it does not certify remote Vast ownership/collection teardown. Parent limits remain two CPUs,5GBRAM,zero task swap.
+
 - [B16 upload omission and transport correction](../../campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/README.md#transport-failure-and-explicit-correction) — source upload omitted the required bundle manifest; kernel v1 failed before profile after1.29seconds, consuming7.673providerseconds. Root diagnosed the exact missing file and authorized one separate repair requiring remote hash verification of both archive and manifest. No negative model-quality evidence.
 
 - [B16 resource-adapted F1 preparation](../../campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/README.md) — uses the successful B8 profile cost evidence to propose a fresh batch-16 profile and conditional six-epoch fit. Exact clean source, raw/cache identities and 15,500-second cap are prepared; no launch admitted yet. Batch and update-clock differences preclude an identical-arm cross-fold claim.
