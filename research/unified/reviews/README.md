@@ -6,6 +6,8 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [H512 endpoint interpretation review](H512_ENDPOINT_INTERPRETATION_REVIEW_20261021_R1.md) — independent source/JSON interpretation of the completed same-host replay, TL3 exposure receipt, H512 prediction geometry and first F0 i1 A/B/C cell. It rules out a material current-host replay explanation for the fixed endpoint gap, ranks exposure/objective mismatch above architectural explanations, and treats the small fixed history mixture as unresolved. No arrays, tests, fits, or provider work. E-H512-ENDPOINT-DIAGNOSIS-20261021-R1 / E-PLATEAU-I1-20261021-R1.
+
 - [NLL continuation decision review](NLL_CONTINUATION_DECISION_REVIEW_20261021_R1.md) — independent Luna/max metadata review before the F0 grade. It distinguishes the matched seven-endpoint screen from the all-data/unknown-ancestry TL3 diagnostic, recommends conditional F1 robustness work, and identifies the target/head differences that must be resolved for production training. No new quality result or job admission.
 
 - [Overnight submission input audit](OVERNIGHT_SUBMISSION_INPUT_AUDIT_20261020_R1.md) — independent Luna/max source and metadata review of completed FG19 control/EMA and local clean-T3 alternatives. Distinguishes accepted fits from missing scores, pins local AMP ancestry and target scale, corrects the NLL-only input-width requirement, and reviews native EMA reset/layout. No new fit or score; actual checkpoint parity and server weight access remain pending.
