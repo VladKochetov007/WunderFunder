@@ -168,3 +168,11 @@ The final independent review passed after correcting both wire paths and strengt
 ### B16 exact bundle verified; operator launch authorized
 
 At01:05:17UTC root independently verified841,659archivebytes/SHA366d5271..., all170sourcepins,9localinputs, real admission, runtime-spec identity and15,500secondprivateT4bootstrap. [Bundle receipt](../../campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/ROOT_BUNDLE_VERIFICATION_R2.json) preserves the evidence. Operator now owns one upload, remote archive hash check and kernelpush, then actual-phase monitoring/terminalcollection. No retry/paidroute/competitionupload. Modeltraining not established by this authorization.
+
+### B16 v1 transport terminal; exact correction authorized
+
+The upload staging folder accidentally omitted the reviewed bundle manifest. Kernelv1 stopped inbootstrap at1.29seconds; no profile/fit. Charge7.673providerseconds. Rootdirectquota01:09:06UTC=16999.249remaining/zeroreserved. [R3transport admission](../../campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/TRANSPORT_REPAIR_ADMISSION_R3.json) authorizes one corrected datasetversion with both byte-identical files, mandatory remote listing/downloadhash checks and an earlypushdeadline preserving embeddedadmissionfreshness. No scientific recipe/source/weights changed; no blind retry. Operator owns exact correction; localfit healthy unchanged.
+
+### Local first epoch complete and corrected Kaggle version2 running
+
+[Local epoch0](../submission_delivery_r1/h512_f0_followup_r1/EPOCH0_PROGRESS_R1.json) completed6549.8seconds/14920updates, zero skips/nonfinitegradientsteps. It continues epoch1 (secondof6); no qualityscore. Operator verified remote datasetversion2contains both exactarchive+manifest then pushed kernelversion2beforefreshnessdeadline; providerRUNNING at01:11:10.367UTC andliveinputvalidation logs. [Actual v2receipt](../../campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/B16_V2_OPERATOR_SNAPSHOT_R3.json) distinguishes this from terminalbootstrapfailurev1. No newprofile/fullfitclaim yet.

@@ -1,0 +1,124 @@
+{
+  "schema": "wnn.h512-f0-epoch-progress.v1",
+  "recorded_at_utc": "2026-10-21T01:12:08.966927+00:00",
+  "status": "FIRST_EPOCH_COMPLETED_FIT_CONTINUES",
+  "fit_unit": "wnn-h512-f0-fit-r1-20261021.service",
+  "observed_epoch": {
+    "epoch": 0,
+    "train_seconds": 6549.8,
+    "evaluation": "withheld",
+    "update_diagnostics": {
+      "epoch": {
+        "optimizer_attempts": 14920,
+        "amp_skipped_updates": 0,
+        "optimizer_completed_updates": 14920,
+        "ema_updates": 0,
+        "completed_batches": 1492
+      },
+      "cumulative": {
+        "optimizer_attempts": 14920,
+        "amp_skipped_updates": 0,
+        "optimizer_completed_updates": 14920,
+        "ema_updates": 0,
+        "completed_batches": 1492
+      },
+      "sample_order_identity": {
+        "sampler_class": "EpochOrderSampler",
+        "batch_size": 8,
+        "drop_last": true,
+        "loader_generator": "global CPU RNG",
+        "loader_rng": {
+          "shape": [
+            5056
+          ],
+          "dtype": "torch.uint8",
+          "bytes_sha256": "b05d26ad21e69e102cbd9e52dd9f6fa8bb44402af9530f1743777a8d9aa74f1c"
+        },
+        "sampler_generator": "global CPU RNG",
+        "sampler_rng": {
+          "shape": [
+            5056
+          ],
+          "dtype": "torch.uint8",
+          "bytes_sha256": "b05d26ad21e69e102cbd9e52dd9f6fa8bb44402af9530f1743777a8d9aa74f1c"
+        },
+        "num_workers": 0,
+        "persistent_workers": false,
+        "sampler_replacement": null,
+        "sampler_num_samples": null,
+        "seeded_order": {
+          "seed": 1003,
+          "epoch": 0,
+          "antithetic": false,
+          "shared_dropped_tail": true
+        }
+      },
+      "normalization_identity": {
+        "mean": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "2cd511f94fddf5da7fd5d8d1d3379af5a31142344a255c02232c0eeab3d8e938"
+        },
+        "std": {
+          "shape": [
+            211
+          ],
+          "dtype": "torch.float32",
+          "bytes_sha256": "f3c21f438359ac44c9f42b7753b56be3aa4b0add6fe08871c010d67e3083f40a"
+        }
+      },
+      "grad_stats": {
+        "epoch": 0,
+        "steps": 14920,
+        "nonfinite_steps": 0,
+        "clip": 1.0,
+        "total_q05_q50_q95": [
+          0.83838,
+          1.48872,
+          3.18347
+        ],
+        "clip_rate": 0.8637,
+        "mean_clip_factor": 0.6759,
+        "family_median": {
+          "rnn_hh": 0.242,
+          "rnn_ih": 0.42433,
+          "inp": 0.88613,
+          "head": 0.95396,
+          "bias": 0.32522
+        },
+        "family_sq_share_mean": {
+          "rnn_hh": 0.0287,
+          "rnn_ih": 0.0954,
+          "inp": 0.377,
+          "head": 0.439,
+          "bias": 0.0599
+        }
+      }
+    },
+    "fit_summary": {
+      "objective_mean": 1.3793422995559652,
+      "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+      "optimizer_windows": 14920,
+      "learning_rate_by_group": [
+        {
+          "group": 0,
+          "first": 4.000000000000002e-06,
+          "last": 9.632617347939579e-05,
+          "mean": 8.473837472342971e-05
+        }
+      ],
+      "optimizer_updates": {
+        "optimizer_attempts": 14920,
+        "amp_skipped_updates": 0,
+        "optimizer_completed_updates": 14920,
+        "ema_updates": 0,
+        "completed_batches": 1492
+      }
+    }
+  },
+  "quality_score": null,
+  "evaluation": "Withheld by frozen six-epoch fixedCP5 recipe; training objective is not official quality",
+  "resource_observation": "Parent taskmemory4.3GB, zero taskswap; actual service active. No checkpoint/model restart."
+}

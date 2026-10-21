@@ -23,3 +23,13 @@ Clean execution source is commit `33588ef26f1bcfc065f6c546a062327ce992eb6b`, bas
 ## Exact bundle verified; one upload/launch authorized
 
 Root independently checked the [bundle handoff](B16_BUNDLE_HANDOFF_R2.json) and wrote [exact-byte verification](ROOT_BUNDLE_VERIFICATION_R2.json): 841,659-byte archive SHA366d5271a70e367f226b18400189c5d184a3ddb2926afcedae60b1db1fe78c6f, all170codefiles and9localinputs, real admission, runtime-spec identity and private T4bootstrap with15,500secondcap. The two rawparquets remain external. Operator is authorized exactly one private dataset upload, remote hash verification and kernel push; no retry, paid compute or competition submission. Provider state and finite profile/fit progress remain to be observed.
+
+## Transport failure and explicit correction
+
+The [upload-source diagnosis](B16_UPLOAD_SOURCE_DIAGNOSIS_R2.json) and [version1 terminal receipt](B16_OPERATOR_TERMINAL_R2.json) record a concrete operator staging error: only `bundle.wnn` was copied to the upload folder, omitting `bundle-manifest.json`. The bootstrap stopped after1.29seconds, before profile/fit; provider charge7.673seconds. This is transport evidence, not a model result.
+
+Root issued a [separate one-attempt transport repair admission](TRANSPORT_REPAIR_ADMISSION_R3.json) after fresh direct quota showed16,999.249seconds/zero reserved. Scientific code/recipe/archive remain unchanged. The corrected private dataset must contain both byte-verified files, with remote listing and download hashes checked before a new push; an early push deadline preserves embedded admission freshness. This does not authorize a blind retry.
+
+## Corrected version2 running
+
+The [local upload file receipt](B16_DATASET_V2_LOCAL_FILES_R3.json) and [remote dataset verification](B16_REMOTE_V2_VERIFICATION_R3.json) establish both required files in datasetversion2 with exact reviewed hashes. [Version2 operator snapshot](B16_V2_OPERATOR_SNAPSHOT_R3.json) binds the one corrected kernelpush and providerRUNNING state at01:11:10.367UTC. Live logs reached inputvalidation; profile and fit results remain unestablished. No recipe/code/archive changes or further retry authorization.

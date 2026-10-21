@@ -90,3 +90,7 @@ The [finite seven-step sequence](POSTFIT_SEQUENCE_R1.json) runs terminal accepta
 The separate [complete native endpoint protocol](../tl3_h512_endpoint_screen_r1/README.md) comparesCP5/SWA345replacements to originalTL3. Its unknown legacy ancestry is explicit; it is not cleanCV.
 
 [Independent static review](POSTFIT_AND_NATIVE_STATIC_REVIEW_R1.json) passed after concrete producer/path/hash corrections; a second canonicalCLI review found no remaining operational mismatch. [Actual watcher start](POSTFIT_WATCHER_START_R1.json) records the live stdlib supervisor, unit `wnn-h512-postfit-watcher-r1-20261021.service`, invocationeff981027d664a728e18b8e0e582471a. Admission is conditional on this exact fit succeeding and all pins/resource/budget/absent-output gates passing. This is a running waiter, not evidence of any completed postfit step.
+
+### First epoch completed — October21
+
+[Epoch0progress](EPOCH0_PROGRESS_R1.json) records the actual first full pass:6,549.8seconds,14,920/14,920completedupdates, zero AMPskips/nonfinitegradientsteps, mean pre-update windowobjective1.3793423, median preclip gradientnorm1.48872 andcliprate86.37%. These are training diagnostics, not a validation score. The fit continues into epoch1of zero-based0–5; the fixedCP5recipe and withheldevaluation remain unchanged.
