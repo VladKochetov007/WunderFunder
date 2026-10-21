@@ -54,3 +54,7 @@ Native CP5/SWA replay/grade remains live under1CPU/1.8GB. The root `scripts/pack
 User warned about killed processes. [Safety correction](MEMORY_SAFETY_CORRECTION_R1.json) identifies the two R1loader-launch kills, records correctedR2/native OOM0, and closes additional heavy/test/GPU admission until native completes. R2has reachedbatch40 with synchronousloading. Hostavailable~6.83GB and hostswap almostfull; taskswap remains0. Do not kill unrelated processes or useOOMto sizejobs.
 
 The one-off `wnn-next-native-source-restore-20261021.service` / invocation`4f484f67a5784ba3bfbd005050304805` now owns restoring the temporarily pinned exporter after exactnativeinvocationtermination. It checks old/newSHA beforewrite, uses50MB/CPU5%/swap0 underparent2cores, and cannot launch computation. See [script](finish_native_source_restore.sh) and [log](native_source_restore.log). This keeps cleanupdurable while longfitscontinue.
+
+## First i1 epoch and checkpoint verified
+
+[I1 F0/B epoch0](I1_FIRST_EPOCH_R1.json) completed635.1seconds/1,540finiteupdates, zero skips/nonfinitegradients. Both8.8MBcheckpoint and27MBtrainingstate saved; post-saveOOM0. Epoch1isactive. CP2remainsfixed, no interimqualityselection. No additionalheavyjobadmitted.
