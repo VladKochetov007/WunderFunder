@@ -89,6 +89,8 @@ The panel files are:
   names and complete-fold prediction and scoring steps.
 - [`grade_i1_panel.py`](grade_i1_panel.py): fixed two-fold grade using the
   repository's row-group alignment, official scorer, and component bootstrap.
+- [`interim_f0_ab/`](interim_f0_ab/README.md): reviewable, memory-gated grader for
+  the first matched F0 A/B cell only; F2 and C remain pending.
 - [`tests/test_i1_history.py`](../../../../tests/test_i1_history.py):
   synthetic causal, reset, mask, restoration, initialization-equivalence, and
   profile-argv validation checks.
