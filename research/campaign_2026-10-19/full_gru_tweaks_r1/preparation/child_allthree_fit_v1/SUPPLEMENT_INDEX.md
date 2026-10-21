@@ -1,3 +1,7 @@
+[Actual NLL receipt binding, exact-body review and final AllThree launch](ACTUAL_INDEX.md) supersede the older conditional status below. Root rendered once only after actual NLL acceptedstop; the launched body must not be rerendered or replayed. Predictive quality remains unmeasured.
+
+---
+
 # Final fixed arm: conditional local preparation
 
 The [original packet README](README.md), [recipe binding](ALLTHREE_RECIPE_BINDING_V1.json), [binder](bind_allthree_fit_v1.py), [template](ALLTHREE_LAUNCH_TEMPLATE_V1.py), [focused fixtures](test_bind_allthree_fit_v1.py), and [local check receipt](LOCAL_CHECKS_V1.json) describe a conditional source packet. The [independent source review](ALLTHREE_SOURCE_REVIEW_V1.json) assesses those exact bytes without invoking a fit or renderer.

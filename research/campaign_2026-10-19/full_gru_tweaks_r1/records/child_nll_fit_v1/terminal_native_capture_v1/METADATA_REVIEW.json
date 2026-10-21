@@ -1,0 +1,122 @@
+{
+  "schema": "fg19.child-nll-native-terminal-metadata-review.v1",
+  "status": "PASS_METADATA_ONLY",
+  "scope": "Independent local metadata audit of the single 2026-10-21 01:40 UTC native NLL capture. No B, SSH, tests, imports, or model/state/cache/dataset payload reads were performed.",
+  "capture_identity": {
+    "run_name": "fg19_child_nll_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+    "invocation_id": "c833c613fb92426981ab255a5faf4452",
+    "native_exit_utc": "2026-10-21T01:26:10+00:00",
+    "captured_utc": "2026-10-21T01:40:07.650773+00:00",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "source_authority": "Original actual NLL admission, SHA-256 54b97021a829d1352e9b48a7a6a64fa97a5d1d69c81883bd6518c514858a356c. The unchanged reader records the source identity; this capture does not rehash current source files."
+  },
+  "raw_and_transport": {
+    "status_raw": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/status_20261021T0140Z/STDOUT.raw.json",
+      "bytes": 79903,
+      "sha256": "f3efe3369cfed72ef12b57a7e86290edd195867635ac93468427973a2b777d6e"
+    },
+    "canonical_raw": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+      "bytes": 79903,
+      "sha256": "f3efe3369cfed72ef12b57a7e86290edd195867635ac93468427973a2b777d6e",
+      "byte_identical_to_status_raw": true
+    },
+    "transport": {
+      "path": "TRANSPORT.json",
+      "bytes": 545,
+      "sha256": "90549a5f738650994f569454a2119d74fc75bf3bfa8b402ce851db08197c5035",
+      "ssh_returncode": 0,
+      "raw_stdout_bytes": 79903,
+      "raw_stdout_sha256": "f3efe3369cfed72ef12b57a7e86290edd195867635ac93468427973a2b777d6e",
+      "persisted_before_parse": true,
+      "retry_performed": false,
+      "timed_out": false,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "reader": {
+      "path": "REMOTE.py",
+      "bytes": 12963,
+      "sha256": "cffc39769f4d16212216816498f7d6d6dc83db152cebaf73b0820b123b88beaf",
+      "same_as_startup_and_0140_status_reader": true,
+      "reader_scope": "One bounded read-only capture of the exact NLL invocation, receipt metadata, systemd properties, cgroup population/current/events, selected GPU process ownership, and stat-only run-directory entries."
+    }
+  },
+  "receipt_joins": {
+    "method": "Compared each exact base64-decoded receipt in the raw capture byte-for-byte with both its status-folder copy and its canonical original where applicable.",
+    "admission": {
+      "name": "ADMISSION.json",
+      "bytes": 11750,
+      "sha256": "54b97021a829d1352e9b48a7a6a64fa97a5d1d69c81883bd6518c514858a356c",
+      "joins_exactly": true,
+      "run_name": "fg19_child_nll_f0_s1001_fit_v1",
+      "source_file_count": 167,
+      "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "launch": {
+      "name": "LAUNCH.json",
+      "bytes": 8787,
+      "sha256": "2b313f148559b12379f5c98ffd8e94805c5d1f8c33de18145ee4d3fa6efc7738",
+      "joins_exactly": true,
+      "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+      "command_identity_matches_native_invocation": true
+    },
+    "unit_log": {
+      "name": "unit.log",
+      "bytes": 32838,
+      "sha256": "e6f3d82d6de050d1539916c498bfdfaf6227f2eb24cede70478bab447e2b9a78",
+      "joins_exactly": true
+    }
+  },
+  "typed_native_evidence": {
+    "path_from_records_root": "TERMINAL_EVIDENCE.json",
+    "bytes": 697,
+    "sha256": "ba7db247e84183695181e84a751f222f5b92366019466295388abaf9ca9150e1",
+    "schema": "fg19.child-nll-fit-native-terminal-evidence.v1",
+    "raw_path_bytes_sha256_match": true,
+    "identity_matches_raw_and_launch": true,
+    "active_state": "active",
+    "sub_state": "exited",
+    "main_pid": 0,
+    "exec_main_code": 1,
+    "exec_main_status": 0,
+    "three_numeric_fields_are_strict_json_integers": true,
+    "systemd_result": "success",
+    "interpretation": "Native service exit evidence only; it is not a terminal tensor-integrity acceptance or exact-stop receipt."
+  },
+  "native_log_summary": {
+    "path": "NATIVE_RECORD_SUMMARY.json",
+    "bytes": 28007,
+    "sha256": "d645fcf6470b8d60e52fbf7cba11b796e1631e764dc1a7fb5db0cd9a75ec250d",
+    "FIT_records": 6,
+    "GRAD_STATS_records": 6,
+    "completed_epochs": [0, 1, 2, 3, 4, 5],
+    "successful_updates": 44760,
+    "completed_batches": 4476,
+    "amp_skips": 0,
+    "gradient_nonfinite_steps": 0,
+    "evaluation": "withheld",
+    "run_directory_entries": "Ten named artifacts were inspected by stat only; none were opened or hashed."
+  },
+  "resource_reconciliation": {
+    "path_from_records_root": "NATIVE_RESOURCE_RECONCILIATION.json",
+    "bytes": 6514,
+    "sha256": "2c674f12e4285941051a430f20846a011f6f0fb61ed8c5c23caaa6c9040b1e1d",
+    "own_cgroup_state": null,
+    "no_host_root_fallback": true,
+    "parent_event_and_local_event_deltas_vs_0101": "All counters unchanged; historical memory.events high=38355 and max=561 are nonzero, while both deltas are zero.",
+    "foreign_gpu_identity": "The two non-owned PIDs and cgroups match the 01:01 capture; no foreign process was acted on. Small VRAM sample differences have no attributed cause.",
+    "measurement_limits": "Service MemoryPeak 3010449408 B and CPUUsageNSec 11898073714000, parent MemoryCurrent 7432208384 B, parent cgroup events, and GPU/RSS/FIT/wall measurements are separate scopes or samples. The native timestamp has second-level precision; no exact wall duration, full-host-RAM equality, or performance claim is made."
+  },
+  "conclusion": {
+    "status": "PASS_METADATA_ONLY",
+    "native_exit_proof_matches": true,
+    "tensor_integrity_or_quality_claim": false,
+    "support_verifier_acceptance_or_exact_stop_claim": false,
+    "next_step_boundary": "Root may continue the separately reviewed conditional CPU verifier preparation. Any future integrity acceptance still requires its own exact actual result and receipt joins; this metadata audit does not stage or admit it."
+  }
+}

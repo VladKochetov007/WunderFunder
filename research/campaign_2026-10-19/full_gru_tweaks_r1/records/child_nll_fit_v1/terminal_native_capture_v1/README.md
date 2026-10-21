@@ -1,0 +1,11 @@
+# NLL native terminal capture — 21 October 2026, 01:40 UTC
+
+This folder preserves one read-only capture of `computer-vision-homework-fg19-child-nll-fit-v1.service`, invocation `c833c613fb92426981ab255a5faf4452`. The native process exited at 01:26:10 UTC; the capture was taken at 01:40:07.650773 UTC. The service reports `Result=success`, `ActiveState=active`, `SubState=exited`, `MainPID=0`, `ExecMainCode=1`, and `ExecMainStatus=0`. This is native exit evidence, not a stopped-unit observation.
+
+[Raw capture](STDOUT.raw.json) is 79,903 B, SHA-256 `f3efe3369cfed72ef12b57a7e86290edd195867635ac93468427973a2b777d6e`. The [transport receipt](TRANSPORT.json) records SSH return code 0, durable persistence before parsing, no retry, and empty stderr. [The reader](REMOTE.py) is the same 12,963 B body used for startup, SHA-256 `cffc39769f4d16212216816498f7d6d6dc83db152cebaf73b0820b123b88beaf`.
+
+The raw capture's three base64 receipts join byte-for-byte to [ADMISSION](ADMISSION.json), [LAUNCH](LAUNCH.json), and [unit.log](unit.log). The typed [native evidence](../TERMINAL_EVIDENCE.json) preserves strict integer `0/1/0` terminal fields. Six FIT and six GRAD_STATS records report 44,760 successful updates, 4,476 batches, zero AMP skips, and zero nonfinite gradient steps, with evaluation withheld. The ten run-directory artifacts were inspected by stat only.
+
+[Independent metadata review](METADATA_REVIEW.json) and [resource reconciliation](../NATIVE_RESOURCE_RECONCILIATION.json) reconcile the capture to the prior 01:01 observation. The own service cgroup was unavailable after exit; no host-root cgroup fallback was used. Parent event counters did not change, and the two foreign GPU process identities were unchanged. Service memory peak, service CPU counter, parent memory, GPU memory, and FIT log timings are distinct measurements; no wall-duration, integrity, or performance inference is made.
+
+This capture does not accept tensors or optimizer state and does not establish predictive quality. No payloads were read or hashed. The [dated raw source observation](../status_20261021T0140Z/README.md) is the origin copy; the raw file here is a byte-identical local copy, not another SSH capture.

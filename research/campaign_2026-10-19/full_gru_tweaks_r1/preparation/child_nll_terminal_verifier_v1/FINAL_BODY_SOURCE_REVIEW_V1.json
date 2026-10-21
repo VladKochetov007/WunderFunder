@@ -1,0 +1,146 @@
+{
+  "binding": {
+    "checker": {
+      "bytes": 40474,
+      "sha256": "a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2",
+      "source_review_sha256": "262e7f29e5e2a39ad533270d3e0f42bff7811277aca4646ab2fcdb628a820e9d",
+      "source_review_status": "PASS_SOURCE_ONLY"
+    },
+    "native_terminal": {
+      "raw_capture_bytes": 79903,
+      "raw_capture_sha256": "f3efe3369cfed72ef12b57a7e86290edd195867635ac93468427973a2b777d6e",
+      "strict_exit_fields": {
+        "exec_main_code": 1,
+        "exec_main_status": 0,
+        "main_pid": 0
+      },
+      "typed_evidence_bytes": 697,
+      "typed_evidence_sha256": "ba7db247e84183695181e84a751f222f5b92366019466295388abaf9ca9150e1"
+    },
+    "root_preparation": {
+      "bytes": 14840,
+      "metadata_and_proof_pin_count": 29,
+      "sha256": "0bacf907d10db7a1adaf2811df4d5618262a10c117d2e20ac117200beeb40b24",
+      "status": "PASS_LOCAL_PREPARATION_ONLY_NOT_STAGED_ADMITTED_OR_EXECUTED"
+    }
+  },
+  "blocking_findings": [
+    {
+      "evidence": "Static search of the exact body shows no GPU, gpu, nvidia, ownership, or process-ownership gate (the only GPU occurrence is the historical launch acceptance status string).",
+      "finding": "The exact rendered body contains no fresh GPU inventory or ownership/availability check before mutation. Its native capture is historical, and check_parent() checks the campaign cgroup, parent resources/headroom and disk, but neither check_native() nor check_parent() queries current GPU state or proves the selected GPU remains appropriately owned/available. This fails the explicitly required fresh ownership/GPU gate.",
+      "id": "missing_fresh_gpu_ownership_gate",
+      "required_resolution": "Produce a versioned body with a bounded fresh selected-GPU UUID and current PID/UID/cgroup ownership observation, preserving the existing no-GPU-use claim and all other gates; then obtain a new exact-body review before admission."
+    }
+  ],
+  "embedded_payload_joins": [
+    {
+      "bytes": 2931,
+      "name": "LAUNCH_ACCEPTANCE.json",
+      "sha256": "44a708fc5a32b101c97a8a28c22e3b15e815059582de564e17f528f5369dc7a5"
+    },
+    {
+      "bytes": 79903,
+      "name": "NATIVE_STDOUT.raw.json",
+      "sha256": "f3efe3369cfed72ef12b57a7e86290edd195867635ac93468427973a2b777d6e"
+    },
+    {
+      "bytes": 27426,
+      "name": "NLL_LAUNCH_STDOUT.raw.json",
+      "sha256": "90c7fcd2a916ffd6a1fa63ee9a7192f6cbc439f989bb7ade25435ecd1902efbb"
+    },
+    {
+      "bytes": 1213,
+      "name": "NLL_TRANSPORT.json",
+      "sha256": "5864d2ecacb9d8287002e061598560e71c65a73d49054eadc81c3842e101f7a3"
+    },
+    {
+      "bytes": 27569,
+      "name": "SOURCE_MANIFEST.json",
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    {
+      "bytes": 697,
+      "name": "TERMINAL_EVIDENCE.json",
+      "sha256": "ba7db247e84183695181e84a751f222f5b92366019466295388abaf9ca9150e1"
+    },
+    {
+      "bytes": 79972,
+      "name": "child_control_terminal_check_v3.py",
+      "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+    },
+    {
+      "bytes": 38267,
+      "name": "child_ema_terminal_check_v3.py",
+      "sha256": "676d548c1cd25c3c1379548999cca1300ef135dd41b4a8f73689ef8e59de3b5d"
+    },
+    {
+      "bytes": 40474,
+      "name": "child_nll_terminal_check_v1.py",
+      "sha256": "a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2"
+    },
+    {
+      "bytes": 64550,
+      "name": "parent_fit_terminal_check_v3.py",
+      "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+    },
+    {
+      "bytes": 13107,
+      "name": "propensity_terminal_support.py",
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    },
+    {
+      "bytes": 37448,
+      "name": "teacher_s5_terminal_check_v1.py",
+      "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+    }
+  ],
+  "review_limits": [
+    "The source-only review does not authorize staging, admission, execution, completion, or quality claims.",
+    "The separately noted 224-byte-low dependency-manifest length in the earlier frozen checker source review is not an execution gate here: the exact SHA is correct and ROOT_PREPARATION pins the actual 12,953-byte file."
+  ],
+  "reviewed_body": {
+    "bytes": 613694,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/REMOTE_SUBMISSION.py",
+    "sha256": "e0cc26f822762a96758bb88046440fc04dc7c9a4651bcc4db3509c072295f3f5"
+  },
+  "schema": "fg19.child-nll-terminal-verifier-final-body-source-review.v1",
+  "scope": {
+    "B_or_SSH_action": false,
+    "actual_CPU_admission_attempted": false,
+    "body_executed": false,
+    "model_state_dictionary_cache_array_or_dataset_payload_read": false,
+    "native_fit_or_support_unit_changed": false,
+    "project_modules_imported": false,
+    "review_kind": "independent exact rendered-body source and bounded metadata review",
+    "tests_run": false
+  },
+  "source_observed_gates": {
+    "all_populated_cgroup_headroom_ext4_device_and_25_gib_checks_precede_output_creation": true,
+    "native_is_exact_active_exited_invocation_without_already_stopped_prerequisite": true,
+    "original_fit_admission_launch_and_root_acceptance_are_separately_bound": true,
+    "original_launch_body_sha256_is_not_assumed": true,
+    "resource_envelope": {
+      "blas_threads": 1,
+      "cpu_quota": "50%",
+      "cuda_visible_devices": "",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "runtime_seconds": 600,
+      "swap_max_bytes": 0
+    },
+    "root_retains_exact_stdin_transport_and_body_hash_authority": true,
+    "source167_split_cache_dictionary_parent_profile_and_registered_data_gates_precede_output_creation": true,
+    "support_output_absence_and_unit_not_found_precede_output_creation": true,
+    "twelve_predecessor_receipts_are_read_only": true,
+    "worker_body_self_read": false,
+    "worker_computed_body_sha256_claim": false
+  },
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "template_comparison": {
+    "bytes": 58896,
+    "logic_drift_observed": false,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/REMOTE_SUBMISSION_TEMPLATE.py",
+    "result": "PASS_AFTER_NORMALIZING_ONLY_PAYLOAD_FINAL_BINDING_AND_PIN_CONSTANTS",
+    "sha256": "afc61d97ee559338344aa35f32765c826c0d148bd5f9f80c03fa63e988ded10e"
+  }
+}

@@ -1,3 +1,11 @@
+[Final AllThree full GRU child launched once](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/README.md)21October01:58:58UTC after [NLL full integrity acceptance and exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/terminal_verification_v1/ACTUAL_INDEX.md). Comparison6started/5completed including parent of6; shared prerequisitefits5 separate. [Early02:00 startup](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/README.md) is dated active setup metadata, not native completion, owned VRAM or quality. Only final AllThree is active; no predictive-quality endpoint/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs rare03:00UTC+ observation, strict native→CPU integrity→exact stop gates and no additional fits/queue/unchanged-suite replay.
+
+---
+
+[Actual NLL native exit0](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/TERMINAL_EVIDENCE.json) was captured once21October01:40UTC, native exit01:26:10UTC. Six histories44760updates/4476batches/zero skips/nonfinite; integrity and predictive quality still pending. The first exact CPU body was source-rejected before any B attempt because its fresh GPU ownership gate was missing; V2 narrow local repair is required. No native stop/allthree admission. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) and durable raw receipts govern current serial gates.
+
+---
+
 [NLL terminal consumer and conditional CPU](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/SUPPLEMENT_INDEX.md) and [final allthree conditional packet](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/SUPPLEMENT_INDEX.md) are locally source-reviewed. This is preparation only: latest actual01:01 NLL capture is still dated active/running; strict native exit proof and actual CPU/full acceptance/exact stop remain required before the sole remaining allthree admission. No new fit/support/quality endpoint or unchanged source/model/profile/cold suite replay. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next focused01:40UTC+; no immediate repeat poll.
 
 ---

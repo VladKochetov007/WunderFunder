@@ -1,3 +1,7 @@
+[Exact rendered V1 review](FINAL_BODY_SOURCE_REVIEW_V1.json) rejected a missing fresh GPU ownership gate before any B attempt. The [narrow V2 repair and actual-use index](../child_nll_terminal_verifier_v2/ACTUAL_INDEX.md) supersedes this conditional preparation without rewriting its frozen bytes. Root rendered V1 once, never executed it; one actual support used reviewed V2/checkerV1.
+
+---
+
 # Conditional CPU packet source review
 
 The [packet README](README.md) describes the unrendered, local-only NLL CPU consumer. Its [template](REMOTE_SUBMISSION_TEMPLATE.py), [renderer](render_child_nll_terminal_verifier_v1.py), [dependency manifest](DEPENDENCY_MANIFEST.json), [eight focused fixtures](test_render_child_nll_terminal_verifier_v1.py), and [local checks](LOCAL_CHECKS.json) are independently assessed in [the conditional source review](CONDITIONAL_SOURCE_REVIEW_V1.json). The review passes conditional source only: actual typed native evidence is absent and no body, B staging, support admission, payload read, or native stop exists.

@@ -1,0 +1,152 @@
+{
+  "V1_comparison": {
+    "base_body_bytes": 613694,
+    "base_body_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/REMOTE_SUBMISSION.py",
+    "base_body_sha256": "e0cc26f822762a96758bb88046440fc04dc7c9a4651bcc4db3509c072295f3f5",
+    "changes": [
+      "Adds bounded selectors-based nvidia-smi output collection.",
+      "Pins and queries the selected GPU UUID from the original NLL admission identity.",
+      "Adds stable PID directory inode/UID/starttime checks and bounded cgroup/same-UID command-line identity reads.",
+      "Runs the fresh ownership check after existing gates and immediately before create-only D.mkdir.",
+      "Records selected_gpu_ownership in VERIFIER_ADMISSION.json."
+    ],
+    "other_logic_drift": false,
+    "result": "PASS_EXACT_BASE_PLUS_SELECTED_GPU_GATE"
+  },
+  "blocking_findings": [],
+  "fresh_selected_gpu_gate": {
+    "VRAM_reserved_or_allocated": false,
+    "campaign_owner_gate": "Fails closed for a wnn-campaign.slice cgroup owner or same-UID command line containing the project path.",
+    "device_query": "Requires one matching UUID/name row and parses current free/total MiB with nonzero total and free<=total.",
+    "empty_device_required": false,
+    "foreign_process_behavior": "Records/preserves unrelated owners and performs no signal or termination.",
+    "minimum_free_vram_bytes": 0,
+    "per_process_identity": "No-follow bounded /proc reads; captures UID and cgroup, reads command line only for same-UID PIDs, and requires PID directory inode/UID/starttime to remain stable across observation.",
+    "position": "Runs after all existing fresh checks and before D.mkdir/output mutation.",
+    "process_query": "Read-only compute-app query capped at 64 KiB per output stream, 15 seconds, and 256 process rows; rejects malformed/duplicate PID or mismatched UUID.",
+    "selected_gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "source": "Pinned GPU identity string in the original NLL ADMISSION.json.",
+    "worker_cuda_hidden": true
+  },
+  "local_checks": {
+    "author_reported_ast_fixtures": {
+      "failed": 0,
+      "passed": 5
+    },
+    "bytes": 4443,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/V2_LOCAL_CHECKS.json",
+    "reviewer_reran_tests": false,
+    "sha256": "ee6e4cb4b4f53879b325cc30477f2aff8368588aa2f37221c04e1f7aebd8011a"
+  },
+  "native_and_original_launch_bindings": {
+    "native_invocation_id": "c833c613fb92426981ab255a5faf4452",
+    "native_raw_capture": {
+      "bytes": 79903,
+      "sha256": "f3efe3369cfed72ef12b57a7e86290edd195867635ac93468427973a2b777d6e"
+    },
+    "native_typed_evidence": {
+      "bytes": 697,
+      "sha256": "ba7db247e84183695181e84a751f222f5b92366019466295388abaf9ca9150e1"
+    },
+    "native_unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+    "original_fit_launch_acceptance": {
+      "bytes": 2931,
+      "sha256": "44a708fc5a32b101c97a8a28c22e3b15e815059582de564e17f528f5369dc7a5"
+    },
+    "strict_terminal_tuple": {
+      "active_state": "active",
+      "exec_main_code": 1,
+      "exec_main_status": 0,
+      "main_pid": 0,
+      "sub_state": "exited"
+    },
+    "worker_requires_native_already_stopped": false
+  },
+  "non_blocking_notes": [
+    {
+      "finding": "The inherited rendered_body_authority.source_review_scope string still says \u201cexact rendered V1 stdin body remains a root prelaunch gate.\u201d It is a metadata prose label, not an executable gate or body-SHA claim. Root will externally bind this exact V2 body and interpret the inherited string as referring to the V1 base.",
+      "id": "inherited_v1_scope_label"
+    },
+    {
+      "finding": "At the theoretical 256-row and 32-KiB-per-cgroup-read caps, the generated admission could exceed the result-capture reader\u2019s 1-MB per-file limit. The result remains conditionally compatible; root must enforce the actual admission <=1 MB and capture aggregate <=4 MB before using that reader, or prepare a narrow bounded-reader cap update if actual bytes exceed the bound. This review makes no prediction that the actual receipt will be oversized.",
+      "id": "result_capture_admission_size_bound"
+    }
+  ],
+  "patch_inputs": {
+    "AST_fixtures": {
+      "bytes": 4337,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/test_v2_gate_ast.py",
+      "sha256": "f3ded424d88407049daa83049a0f9cc8a23243a8edf92044e839a5373584f370"
+    },
+    "GPU_gate_fragment": {
+      "bytes": 7236,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/GPU_OWNERSHIP_GATE.pyfrag",
+      "sha256": "c130c1ff0b90927786cc3d8481c9b64c7dea97fa2cb8b23a2348f9ee79822e8a"
+    },
+    "renderer": {
+      "bytes": 8609,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/prepare_v2.py",
+      "sha256": "a9f7cb459e8f39eb9d2efbc6155cd536d93de62120023018663945594e991a9b"
+    }
+  },
+  "payload_review": {
+    "comparison": "V2 embedded payload literals equal V1 literals; each decoded local bounded code/metadata input matches its exact local bytes, byte count, and SHA-256.",
+    "model_or_training_payloads_read": false,
+    "original_launch_body_sha256_assumption": false,
+    "payload_count": 12
+  },
+  "preserved_existing_gates": {
+    "empty_populated_campaign_cgroup_headroom_ext4_device_and_25_gib_floor": true,
+    "original_fit_admission_launch_and_acceptance_bound_separately": true,
+    "resource_envelope": {
+      "blas_threads": 1,
+      "cpu_quota": "50%",
+      "cuda_visible_devices": "",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "runtime_seconds": 600,
+      "swap_max_bytes": 0
+    },
+    "source167_split_cache_dictionary_parent_profile_registered_data_and_terminal_run_stats_before_mutation": true,
+    "support_unit_absent_and_create_only_output_absent_before_mutation": true,
+    "timeout_or_unknown_submission_durable_never_retry": true,
+    "twelve_predecessor_receipts_read_only": true,
+    "weights_only_true_exact_path_exception_and_loader_caps_unchanged": true
+  },
+  "render_binding": {
+    "checker_bytes": 40474,
+    "checker_sha256": "a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2",
+    "checker_source_review_status": "PASS_SOURCE_ONLY",
+    "root_authority": "Exact V2 stdin body/raw transport remains externally bound by root; worker does not read __file__ or claim a worker-computed body SHA-256.",
+    "root_metadata_proof_pin_count": 29,
+    "root_preparation_bytes": 14840,
+    "root_preparation_sha256": "0bacf907d10db7a1adaf2811df4d5618262a10c117d2e20ac117200beeb40b24"
+  },
+  "review_limits": [
+    "PASS_SOURCE_ONLY does not authorize B staging, support admission, submission, result capture, or a checker result.",
+    "No GPU state was queried in this review; only the exact gate source and pinned identity were inspected.",
+    "The actual V2 support admission and launch receipts/invocation do not yet exist and are not bound in this candidate."
+  ],
+  "reviewed_body": {
+    "bytes": 621112,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/REMOTE_SUBMISSION_V2.py",
+    "sha256": "15e6057ebe946aa15e9fea9d24fdf1755f55db57772ccabdf690bcef965fd3bf"
+  },
+  "schema": "fg19.child-nll-terminal-verifier-final-body-source-review.v2",
+  "scope": {
+    "B_or_SSH_action": false,
+    "GPU_observation_performed": false,
+    "actual_CPU_admission_attempted": false,
+    "body_executed": false,
+    "model_state_dictionary_cache_array_or_dataset_payload_read": false,
+    "project_modules_imported": false,
+    "review_kind": "independent exact-body source and bounded payload-pin review",
+    "tests_run": false
+  },
+  "status": "PASS_SOURCE_ONLY",
+  "v2_binding": {
+    "bytes": 5591,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/V2_BINDING.json",
+    "sha256": "d6301a98e30fdbdf190c999d8b1ec5af279cc67813dd82fd4a6f2389196fa316"
+  }
+}

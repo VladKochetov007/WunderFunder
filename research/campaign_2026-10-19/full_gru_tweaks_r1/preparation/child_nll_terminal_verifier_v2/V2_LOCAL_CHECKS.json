@@ -1,0 +1,86 @@
+{
+  "schema": "fg19.child-nll-terminal-verifier-v2-local-checks.v1",
+  "status": "PASS_SOURCE_TRANSFORM_AND_AST_ONLY_NOT_SUBMITTED",
+  "utc_date": "2026-10-21",
+  "base_v1_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/REMOTE_SUBMISSION.py",
+    "bytes": 613694,
+    "sha256": "e0cc26f822762a96758bb88046440fc04dc7c9a4651bcc4db3509c072295f3f5"
+  },
+  "v2_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/REMOTE_SUBMISSION_V2.py",
+    "bytes": 621112,
+    "sha256": "15e6057ebe946aa15e9fea9d24fdf1755f55db57772ccabdf690bcef965fd3bf"
+  },
+  "inputs": {
+    "gpu_gate_fragment": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/GPU_OWNERSHIP_GATE.pyfrag",
+      "bytes": 7236,
+      "sha256": "c130c1ff0b90927786cc3d8481c9b64c7dea97fa2cb8b23a2348f9ee79822e8a"
+    },
+    "renderer_and_byte_checker": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/prepare_v2.py",
+      "bytes": 8609,
+      "sha256": "a9f7cb459e8f39eb9d2efbc6155cd536d93de62120023018663945594e991a9b"
+    },
+    "ast_fixtures": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/test_v2_gate_ast.py",
+      "bytes": 4337,
+      "sha256": "f3ded424d88407049daa83049a0f9cc8a23243a8edf92044e839a5373584f370"
+    }
+  },
+  "focused_checks": {
+    "renderer_check": {
+      "command": ".venv/bin/python research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/prepare_v2.py check",
+      "status": "PASS",
+      "assertions": [
+        "V2 equals exact pinned-V1-plus-gate renderer output",
+        "inverse patch restores the exact pinned V1 body bytes",
+        "V2 AST parses",
+        "GPU ownership query occurs before D.mkdir",
+        "selected_gpu_ownership is included in verifier admission",
+        "no minimum VRAM reservation threshold is applied"
+      ]
+    },
+    "new_ast_fixtures": {
+      "command": ".venv/bin/python research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/test_v2_gate_ast.py",
+      "status": "PASS",
+      "passed": 5,
+      "failed": 0,
+      "coverage": [
+        "exact selected UUID and query fields",
+        "fresh gate before create-only output mutation and admission field binding",
+        "foreign owner preservation and same-UID-only command-line read",
+        "bounded process inventory/metadata reads and stable PID identity",
+        "no VRAM reservation threshold"
+      ]
+    },
+    "ruff": {
+      "status": "PASS",
+      "commands": [
+        ".venv/bin/ruff format research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/prepare_v2.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/test_v2_gate_ast.py",
+        ".venv/bin/ruff check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/prepare_v2.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/test_v2_gate_ast.py"
+      ]
+    }
+  },
+  "actual_nll_predecessor_pins": {
+    "typed_native_terminal_evidence": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/TERMINAL_EVIDENCE.json",
+      "bytes": 697,
+      "sha256": "ba7db247e84183695181e84a751f222f5b92366019466295388abaf9ca9150e1"
+    },
+    "raw_native_capture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+      "bytes": 79903,
+      "sha256": "f3efe3369cfed72ef12b57a7e86290edd195867635ac93468427973a2b777d6e"
+    },
+    "original_fit_launch_acceptance": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/LAUNCH_ACCEPTANCE.json",
+      "bytes": 2931,
+      "sha256": "44a708fc5a32b101c97a8a28c22e3b15e815059582de564e17f528f5369dc7a5"
+    },
+    "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+    "invocation_id": "c833c613fb92426981ab255a5faf4452"
+  },
+  "scope": "Metadata/body bytes and static AST only. No V1 entrypoint, terminal checker, SSH, B staging, support submission, or GPU observation was performed. Independent source review and root-owned actual admission remain pending."
+}

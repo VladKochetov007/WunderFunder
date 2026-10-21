@@ -1,3 +1,7 @@
+[Actual NLL CPU V1 source rejection and successful V2](child_nll_terminal_verifier_v2/ACTUAL_INDEX.md) preserve the missing fresh GPU gate and its narrow repair before the first B support. [Reviewed result reader](child_nll_terminal_result_capture_v1/ROOT_INDEX.md) was bound by five actual receipt/invocation literals and executed once within its caps. [NLL acceptance/stop](../records/child_nll_fit_v1/terminal_verification_v1/ACTUAL_INDEX.md) precedes [actual AllThree binding/source review/launch](child_allthree_fit_v1/ACTUAL_INDEX.md). AllThree changed only runname/base→ema_sparse from NLL, parent@ep3-only initializer and remaining recipe fixed; no queue/retuning/profile replay. Frozen conditional snapshots below remain history.
+
+---
+
 [Conditional NLL cappedCPU source review and file index](child_nll_terminal_verifier_v1/SUPPLEMENT_INDEX.md) passes source only and preserves the manifest-length reporting discrepancy without changing original bytes. [Final allthree source review and packet index](child_allthree_fit_v1/SUPPLEMENT_INDEX.md) binds only runname/base→ema_sparse argv changes and an actual NLL acceptance+exact-stop gate. Both actual bodies remain absent; no B admission, profile replay or queue. Their exact future rendered bodies require independent review after actual receipts exist.
 
 ---

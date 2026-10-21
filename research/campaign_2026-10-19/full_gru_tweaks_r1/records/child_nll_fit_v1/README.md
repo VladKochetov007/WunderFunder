@@ -1,3 +1,7 @@
+[Full NLL acceptance](TERMINAL_ACCEPTANCE.json) and [one actual CPU support](terminal_verification_v1/ACTUAL_INDEX.md) passed all44760/state/model/source/ancestry gates; [exact owned exited stop](exact_stop/README.md) followed durable acceptance at01:54:50UTC. Native completion is counted once, support is engineering only. The [final AllThree arm](../child_allthree_fit_v1/README.md) now owns the sole GPU stage. No NLL predictive-quality result, replay, further poll or healthy stop. [Original native proof](terminal_native_capture_v1/README.md) and [local derived capture summary](capture/README.md) preserve raw/provenance and resource limits.
+
+---
+
 **Latest dated status01:01UTC:** [One rare same-invocation capture](status_20261021T0101Z/README.md) records completed epochs0–4/37300updates/3730batches/zero skips/nonfinite. Later ep5batch280 is not synchronous totals/native44760/integrity/quality. One owned worker, no new events, seven stat-only artifactfiles. Needed thin terminal consumer/conditional CPU preparation is LOCAL/in progress, not B staging/admission. Next focused exact-unit observation01:40UTC+; no completion inference from timing.
 
 ---

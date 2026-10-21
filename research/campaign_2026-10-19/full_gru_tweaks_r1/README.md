@@ -1,3 +1,7 @@
+[NLL accepted and exact-stopped](records/child_nll_fit_v1/terminal_verification_v1/ACTUAL_INDEX.md); [final AllThree child launched once](records/child_allthree_fit_v1/README.md) at21October01:58:58UTC. Comparison6started/5completed of6 including parent; shared prerequisites5 separate. Exact14predecessor receipts and parent@ep3-only initializer are bound by the actual final body. [Early02:00 startup](records/child_allthree_fit_v1/startup_health_v1/README.md) is running setup metadata only, not a current GPU allocation/completion/quality claim. [Continuation](CONTINUATION.md) governs rare03:00UTC+ observation and future strict terminal gates. [Lifecycle validation](PUBLICATION_VALIDATION_20261021_NLL_ALLTHREE.json) preserves one native completion, one CPU support, exact stop and one final fit start.
+
+---
+
 [NLL terminal consumer](preparation/child_nll_terminal_check_v1/SUPPLEMENT_INDEX.md), [conditional CPU source review](preparation/child_nll_terminal_verifier_v1/SUPPLEMENT_INDEX.md), and [final allthree conditional packet](preparation/child_allthree_fit_v1/SUPPLEMENT_INDEX.md) are locally finalized/source-reviewed. Actual native NLL exit proof, CPU body/admission and allthree acceptance/stop/body remain absent. Five/eight/four new focused fixture groups and the narrow V2 private-import proof are engineering preparation, with zero new B supports/fits/quality results. [Continuation](CONTINUATION.md) preserves next focused01:40UTC+ and strict serial gates; no elapsed-time completion inference.
 
 ---

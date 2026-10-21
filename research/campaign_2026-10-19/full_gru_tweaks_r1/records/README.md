@@ -1,3 +1,7 @@
+[NLL native proof](child_nll_fit_v1/terminal_native_capture_v1/README.md), [CPU PASS/full acceptance](child_nll_fit_v1/terminal_verification_v1/ACTUAL_INDEX.md), and [exact stop](child_nll_fit_v1/exact_stop/README.md) are durable. [Final AllThree actual launch](child_allthree_fit_v1/README.md) and [one early startup capture](child_allthree_fit_v1/startup_health_v1/README.md) are the current stage; dated setup fields do not prove completed updates or quality. Comparison6started/5completed, prerequisites5 separate; next rare03:00UTC+. Earlier records remain frozen.
+
+---
+
 [NLL rare status01:01UTC](child_nll_fit_v1/status_20261021T0101Z/README.md): same active invocation, five complete epochs/37300updates/3730batches/zero skips/nonfinite; later ep5batch280 is progress only. One owned GPU, own/parent events unchanged, seven stat-only runfiles, no terminal/support/fit/restart/stop/inference. Needed terminal consumer preparation is separate/local and actual typed native exit0 remains prerequisite for B integrity work.
 
 ---

@@ -1,0 +1,304 @@
+{
+  "acceptance": {
+    "accepted_utc": "2026-10-21T01:53:54.727296+00:00",
+    "amp_skipped_updates": 0,
+    "completed_batches": 4476,
+    "epochs": 6,
+    "historical_stop_status": "PENDING_EXACT_STOP at acceptance time; the later exact-stop record is separate and does not rewrite the frozen acceptance.",
+    "native_completion_counted_already": true,
+    "next_epoch": 6,
+    "nonfinite_updates": 0,
+    "quality_score": null,
+    "receipt": {
+      "bytes": 15860,
+      "path": "records/child_nll_fit_v1/TERMINAL_ACCEPTANCE.json",
+      "sha256": "d94457b11ce22a368cdc93df02e473c9a82cde6ddebd26cc6957bafc143750c5"
+    },
+    "selected_epoch": 5,
+    "status": "ACCEPTED",
+    "successful_updates": 44760,
+    "verification_raw_sha256": "62688aa0f92ac8933f11745a32ecb8b2f461869c71b366a9ca7fa7def3819be7",
+    "verification_sha256": "85149a470e270102d3ac5ddb50455f9414a6bbd6feef38dfd04798f7b7938d65"
+  },
+  "capture": {
+    "decoded_file_joins": [
+      {
+        "base64_matches_saved_bytes": true,
+        "bytes": 12737,
+        "name": "VERIFICATION.json",
+        "sha256": "85149a470e270102d3ac5ddb50455f9414a6bbd6feef38dfd04798f7b7938d65"
+      },
+      {
+        "base64_matches_saved_bytes": true,
+        "bytes": 23750,
+        "name": "VERIFIER_ADMISSION.json",
+        "sha256": "1c8f209b8fa36a40d70a5f90603472f4aa7cd99e9cf00edb532b262ba26bf9b2"
+      },
+      {
+        "base64_matches_saved_bytes": true,
+        "bytes": 1289,
+        "name": "VERIFIER_LAUNCH.json",
+        "sha256": "33b4cba370c01e18a2f1b2532bb448e6ce11a492d35b176168f50658f548268e"
+      },
+      {
+        "base64_matches_saved_bytes": true,
+        "bytes": 0,
+        "name": "unit.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "persisted_before_parse": true,
+    "raw": {
+      "bytes": 54641,
+      "path": "records/child_nll_fit_v1/terminal_verification_v1/capture/STDOUT.raw.json",
+      "sha256": "62688aa0f92ac8933f11745a32ecb8b2f461869c71b366a9ca7fa7def3819be7"
+    },
+    "reader": {
+      "bytes": 15348,
+      "path": "records/child_nll_fit_v1/terminal_verification_v1/capture/REMOTE.py",
+      "sha256": "b1abf6ba721a900d2e8e8c6e4f578c881633afe3945411f46746a901cd73ea29"
+    },
+    "retry_performed": false,
+    "root_binding": {
+      "bytes": 2066,
+      "path": "records/child_nll_fit_v1/terminal_verification_v1/capture/ROOT_CAPTURE_BINDING.json",
+      "sha256": "241f1357148d947c3f666f7f1c225a8cd81ea609d868a13817c75f937f593fec"
+    },
+    "ssh_returncode": 0,
+    "stderr_bytes": 0,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 54641,
+    "stdout_sha256": "62688aa0f92ac8933f11745a32ecb8b2f461869c71b366a9ca7fa7def3819be7",
+    "transport": {
+      "bytes": 545,
+      "path": "records/child_nll_fit_v1/terminal_verification_v1/capture/TRANSPORT.json",
+      "sha256": "ebb90bacb0d67c820ef831c1243df9905fb6dcedbfed15467a431a2b527b5b1e"
+    }
+  },
+  "checks": {
+    "167-file source identity and six fit/gradient records": "PASS",
+    "acceptance counters and verification raw join": "PASS",
+    "acceptance durable before exact stop": "PASS",
+    "five-literal reader binding and exact invocation": "PASS",
+    "four base64 extracts join saved bytes/size/SHA": "PASS",
+    "native typed/raw and original fit receipt joins": "PASS",
+    "only exact native and successful verifier stopped": "PASS",
+    "post-stop dead/not-found states and empty populated map": "PASS",
+    "raw transport and empty stderr": "PASS",
+    "service/parent/GPU scopes remain distinct": "PASS",
+    "strict support terminal tuple": "PASS"
+  },
+  "exact_stop": {
+    "acceptance_sha256": "d94457b11ce22a368cdc93df02e473c9a82cde6ddebd26cc6957bafc143750c5",
+    "native_after": {
+      "ActiveState": "inactive",
+      "CPUUsageNSec": "[not set]",
+      "ControlGroup": "",
+      "ExecMainCode": "0",
+      "ExecMainStatus": "0",
+      "InvocationID": "",
+      "LoadState": "not-found",
+      "MainPID": "0",
+      "MemoryCurrent": "[not set]",
+      "MemoryPeak": "[not set]",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "native_before": {
+      "ActiveState": "active",
+      "CPUUsageNSec": "11898073714000",
+      "ControlGroup": "",
+      "ExecMainCode": "1",
+      "ExecMainStatus": "0",
+      "InvocationID": "c833c613fb92426981ab255a5faf4452",
+      "LoadState": "loaded",
+      "MainPID": "0",
+      "MemoryCurrent": "[not set]",
+      "MemoryPeak": "3010449408",
+      "Result": "success",
+      "SubState": "exited"
+    },
+    "parent_events_unchanged": true,
+    "populated_after": {},
+    "populated_before": {},
+    "raw": {
+      "bytes": 3140,
+      "path": "records/child_nll_fit_v1/exact_stop/STDOUT.raw.json",
+      "sha256": "c63be79b27d131acb0a38d2ad641fa7d72344cc344c26ab94ca77faf3b4a74f1"
+    },
+    "returncode": 0,
+    "root_binding": {
+      "bytes": 941,
+      "path": "records/child_nll_fit_v1/exact_stop/ROOT_STOP_BINDING.json",
+      "sha256": "04cb4197f82818afcf20b5a3c0ce83aa98de7aba532b26e7f8b493db0db6be91"
+    },
+    "scope": "The exact accepted native NLL fit and its successful verifier only.",
+    "transport": {
+      "bytes": 544,
+      "path": "records/child_nll_fit_v1/exact_stop/TRANSPORT.json",
+      "sha256": "a20a83f1f17a5a7424792359502d1bc2e641e54c7f92310e8eca0483bedd72c5"
+    },
+    "typed": {
+      "bytes": 3140,
+      "path": "records/child_nll_fit_v1/exact_stop/EXACT_STOP.json",
+      "sha256": "c63be79b27d131acb0a38d2ad641fa7d72344cc344c26ab94ca77faf3b4a74f1"
+    },
+    "utc": "2026-10-21T01:54:50.161896+00:00",
+    "verifier_after": {
+      "ActiveState": "inactive",
+      "CPUUsageNSec": "[not set]",
+      "ControlGroup": "",
+      "ExecMainCode": "0",
+      "ExecMainStatus": "0",
+      "InvocationID": "",
+      "LoadState": "not-found",
+      "MainPID": "0",
+      "MemoryCurrent": "[not set]",
+      "MemoryPeak": "[not set]",
+      "Result": "success",
+      "SubState": "dead"
+    },
+    "verifier_before": {
+      "ActiveState": "active",
+      "CPUUsageNSec": "5873334000",
+      "ControlGroup": "",
+      "ExecMainCode": "1",
+      "ExecMainStatus": "0",
+      "InvocationID": "91948e17c5e74cefa32ab2a546a1b46c",
+      "LoadState": "loaded",
+      "MainPID": "0",
+      "MemoryCurrent": "[not set]",
+      "MemoryPeak": "2465792",
+      "Result": "success",
+      "SubState": "exited"
+    }
+  },
+  "limitations": [
+    "Metadata audit only; no tensor, state, cache-array, or dataset payload was read or hashed.",
+    "No predictive-quality conclusion.",
+    "Service peak, parent cgroup counters, CPU timestamps and GPU process rows are separate scopes/samples; no total-RAM, performance or causal inference.",
+    "The checker/runtime gate is represented in the acceptance authority; the compact result does not separately serialize a current worker runtime version."
+  ],
+  "native_and_original_fit_joins": {
+    "native_raw": {
+      "bytes": 79903,
+      "path": "records/child_nll_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+      "sha256": "f3efe3369cfed72ef12b57a7e86290edd195867635ac93468427973a2b777d6e"
+    },
+    "original_fit_acceptance_status": "ACTUAL_ONE_GPU_LAUNCH_BOUND_NO_COMPLETION_OR_QUALITY",
+    "original_fit_launch": {
+      "bytes": 8787,
+      "path": "records/child_nll_fit_v1/LAUNCH.json",
+      "sha256": "2b313f148559b12379f5c98ffd8e94805c5d1f8c33de18145ee4d3fa6efc7738"
+    },
+    "original_fit_launch_acceptance": {
+      "bytes": 2931,
+      "path": "records/child_nll_fit_v1/LAUNCH_ACCEPTANCE.json",
+      "sha256": "44a708fc5a32b101c97a8a28c22e3b15e815059582de564e17f528f5369dc7a5"
+    },
+    "typed_terminal_evidence": {
+      "bytes": 697,
+      "path": "records/child_nll_fit_v1/TERMINAL_EVIDENCE.json",
+      "sha256": "ba7db247e84183695181e84a751f222f5b92366019466295388abaf9ca9150e1"
+    },
+    "typed_tuple": {
+      "active_state": "active",
+      "exec_main_code": 1,
+      "exec_main_status": 0,
+      "invocation_id": "c833c613fb92426981ab255a5faf4452",
+      "main_pid": 0,
+      "raw_bytes": 79903,
+      "raw_sha256": "f3efe3369cfed72ef12b57a7e86290edd195867635ac93468427973a2b777d6e",
+      "run_name": "fg19_child_nll_f0_s1001_fit_v1",
+      "schema": "fg19.child-nll-fit-native-terminal-evidence.v1",
+      "sub_state": "exited",
+      "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service"
+    }
+  },
+  "reviewed_utc": "2026-10-21T01:58:38.277365+00:00",
+  "schema": "fg19.nll-terminal-actual-result-metadata-review.v1",
+  "scope": "Independent local metadata-only audit of the actual NLL verifier terminal capture, extracted receipts, full acceptance and later exact-stop record. No SSH, tests, imports, source rehash, or model/state/cache/dataset payload reads.",
+  "status": "PASS_METADATA_ONLY",
+  "support_terminal": {
+    "gpu_sample": {
+      "foreign_owner_action": "none",
+      "processes": [
+        {
+          "cgroup": "0::/user.slice/user-1026.slice/user@1026.service/tmux-spawn-7f677d27-6fac-4c20-9e97-48fd3d2d86a9.scope",
+          "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+          "pid": 521754,
+          "uid": 1026,
+          "used_memory": "490 MiB"
+        },
+        {
+          "cgroup": "0::/user.slice/user-1117.slice/session-141326.scope",
+          "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+          "pid": 964460,
+          "uid": 1117,
+          "used_memory": "4544 MiB"
+        }
+      ],
+      "selected_gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944"
+    },
+    "invocation_id": "91948e17c5e74cefa32ab2a546a1b46c",
+    "limits_and_service_metrics": {
+      "CPUQuotaPerSecUSec": "500ms",
+      "ControlGroup": "",
+      "MemoryCurrent": "[not set]",
+      "MemoryHigh": "1400000000",
+      "MemoryMax": "1500000000",
+      "MemoryPeak": "2465792",
+      "MemorySwapMax": "0"
+    },
+    "own_cgroup_note": "ControlGroup is empty and own_files is null/unavailable; no host-root fallback. The service MemoryPeak is a service metric; MemoryCurrent is not set.",
+    "parent_events_at_capture": {
+      "memory.current": "7432462336\n",
+      "memory.events": "low 0\nhigh 38355\nmax 561\noom 0\noom_kill 0\noom_group_kill 0\n",
+      "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n"
+    },
+    "parent_metrics": {
+      "CPUUsageNSec": "182428992483000",
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+      "MemoryCurrent": "7432462336",
+      "MemoryPeak": "11418365952"
+    },
+    "strict_state": {
+      "ActiveState": "active",
+      "ExecMainCode": "1",
+      "ExecMainExitTimestamp": "Wed 2026-10-21 01:52:40 UTC",
+      "ExecMainStartTimestamp": "Wed 2026-10-21 01:52:28 UTC",
+      "ExecMainStatus": "0",
+      "MainPID": "0",
+      "Result": "success",
+      "SubState": "exited"
+    },
+    "unit": "computer-vision-homework-fg19-child-nll-verify-v1.service"
+  },
+  "verification": {
+    "fit_records": 6,
+    "gradient_records": 6,
+    "native_invocation_id": "c833c613fb92426981ab255a5faf4452",
+    "next_epoch": 6,
+    "note": "Typed result metadata only; this review did not reload tensors or independently establish model quality.",
+    "optimizer_step": 44760,
+    "quality_score": null,
+    "receipt": {
+      "bytes": 12737,
+      "path": "records/child_nll_fit_v1/terminal_verification_v1/capture/VERIFICATION.json",
+      "sha256": "85149a470e270102d3ac5ddb50455f9414a6bbd6feef38dfd04798f7b7938d65"
+    },
+    "run_name": "fg19_child_nll_f0_s1001_fit_v1",
+    "selected_epoch": 5,
+    "source": {
+      "bytes_hashed": 1629413,
+      "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "files": 167,
+      "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "source_set_sha256": "9c461bcc5883572a071d41a86e18b9a91136099cf8fa87371ce7c3ee41445bd8"
+    },
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "status": "PASS",
+    "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+    "updates": 44760
+  }
+}

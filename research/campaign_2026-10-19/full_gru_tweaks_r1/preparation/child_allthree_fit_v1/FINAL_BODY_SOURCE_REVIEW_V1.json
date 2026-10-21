@@ -1,0 +1,112 @@
+{
+  "derivation": {
+    "no_executable_logic_drift_from_template": true,
+    "only_changed_assignments": [
+      "ALLTHREE_NLL_CHILD_ACCEPTANCE_B64",
+      "ALLTHREE_NLL_CHILD_ACCEPTANCE_SHA256",
+      "ALLTHREE_NLL_CHILD_EXACT_STOP_B64",
+      "ALLTHREE_NLL_CHILD_EXACT_STOP_SHA256"
+    ],
+    "static_diff_hunks": 1,
+    "template_bytes": 238232,
+    "template_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/ALLTHREE_LAUNCH_TEMPLATE_V1.py",
+    "template_sha256": "a35fff5323849edea130db297daf549e968f33ad8b4fdf6d3688daac00bdaa6f"
+  },
+  "fresh_gate_and_resource_review": {
+    "before_first_output_mutation": true,
+    "gates": [
+      "Exact B/data/source roots, source commit and all 167 source-content pins, F0 split, registered data alias/stat identities, cache receipt/metadata and array stat-only identities, accepted dictionary artifact, parent checkpoint, profile receipts/run-directory proof, and all required accepted predecessor receipts are checked before OUTPUT.mkdir.",
+      "Campaign parent slice is checked for exact 200% CPU, 18/20 GB memory high/max, zero swap, required headroom, and an empty populated-cgroup scan.",
+      "Fixed selected GPU UUID and free-memory reserve are freshly queried. Existing GPU processes are observed for PID/UID/cgroup ownership; another campaign-owned process fails closed, foreign processes are preserved, and no empty-card requirement is imposed.",
+      "The exact physical research_tmp path is required on ext4 device 64512 matching the project device, with at least 25 GiB free.",
+      "Both private output/run paths are checked absent and the exact new AllThree systemd unit is checked not-found, then rechecked before create-only output staging."
+    ],
+    "submission": "One direct systemd-run submission; no queue or automatic retry. Timeout/unknown outcomes are represented in durable submission metadata.",
+    "worker": {
+      "blas_threads": 1,
+      "cpu_quota": "100% within 200% campaign parent quota",
+      "cuda_allocator_bytes": 4294967296,
+      "cuda_free_reserve_bytes": 1000000000,
+      "loader_workers": 0,
+      "memory_high_bytes": 7500000000,
+      "memory_max_bytes": 8000000000,
+      "owned_gpu_max": 1,
+      "runtime_max_seconds": 86400,
+      "swap_max_bytes": 0
+    }
+  },
+  "nll_predecessor_receipts": {
+    "exact_stop": {
+      "bytes": 3140,
+      "embedded_body_bytes_equal_local_receipt": true,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/exact_stop/EXACT_STOP.json",
+      "sha256": "c63be79b27d131acb0a38d2ad641fa7d72344cc344c26ab94ca77faf3b4a74f1"
+    },
+    "gate_findings": [
+      "The local and embedded remote validators pin the original actual NLL launch-acceptance SHA separately from the actual terminal acceptance and exact-stop hashes.",
+      "The actual NLL terminal receipt binds run/unit/invocation, source commit, 167-file manifest, split, base representation and NLL objective; strict integer counters and native MainPID/ExecMainCode/ExecMainStatus 0/1/0; six epochs, selected epoch 5, 44,760 successful updates, 4,476 batches, zero skipped/nonfinite updates, and selected model_ep5 metadata.",
+      "The exact-stop receipt binds acceptance and invocation, requires the pre-stop native unit active/exited with MainPID 0 and code/status 1/0, empty populated snapshots, successful exact stop, and post-stop not-found/inactive/dead with MainPID 0 and empty invocation; the nested verifier is also exactly stopped.",
+      "NLL is only a sequential accepted-and-exact-stopped prerequisite. The AllThree argv initializer remains the parent @ep3 checkpoint; no NLL checkpoint is used for initialization."
+    ],
+    "original_fit_launch_acceptance_sha256": "44a708fc5a32b101c97a8a28c22e3b15e815059582de564e17f528f5369dc7a5",
+    "terminal_acceptance": {
+      "bytes": 15860,
+      "embedded_body_bytes_equal_local_receipt": true,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/TERMINAL_ACCEPTANCE.json",
+      "sha256": "d94457b11ce22a368cdc93df02e473c9a82cde6ddebd26cc6957bafc143750c5"
+    }
+  },
+  "nonblocking_inherited_text": [
+    "The body retains the template module docstring calling itself an unbound template and some inherited diagnostic wording mentioning NLL. These are not executable guards or body-hash claims; actual AllThree run/unit/argv and receipt bindings are correct."
+  ],
+  "recipe_derivation": {
+    "all_other_argv_values_equal": true,
+    "allthree_argv_sha256": "7bc0f3e81095a7a08b06758f655467d26a06d96d84cebdb2c321e31c0dec7ee5",
+    "changed_indices_zero_based": {
+      "1": [
+        "fg19_child_nll_f0_s1001_fit_v1",
+        "fg19_child_allthree_f0_s1001_fit_v1"
+      ],
+      "48": [
+        "base",
+        "ema_sparse"
+      ]
+    },
+    "comparison": "Static TRAINER_ARGV values in the rendered AllThree body versus the actual NLL launch body.",
+    "fixed_recipe": {
+      "initializer": "fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 only",
+      "model": "467 inputs, two-layer hidden-256 GRU, one fixed 25-output mean/logvariance head",
+      "objective_and_compatibility_flags": [
+        "--mean-variance-head 1",
+        "--mean-variance-objective nll",
+        "--loss wmse",
+        "--loss-norm chunk"
+      ],
+      "representation": "ema_sparse; signed top-four-of-sixteen frozen dictionary code plus retained 112-wide residual, followed by causal signed innovation EMA half-life 32; not parameter EMA",
+      "schedule": "seed 1001, seeded batch order, batch 16, chunk 2000, six epochs, fixed epoch 5, no evaluation, strict fp32; AdamW lr 1e-4/wd .01/beta2 .999, OneCycle warmup .05",
+      "target_and_cache": "existing F0 split and homogeneous T3 cache; dictionary remains the accepted shared artifact"
+    },
+    "nll_argv_sha256": "51905d5ecd65117ec0b0c8ab7a4f8aa4f24795015ac29a4af57dd9da781c4b90"
+  },
+  "render_binding": {
+    "body_pin_matches_actual_file": true,
+    "nll_predecessor_fields_match_reviewed_receipts": true,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/ALLTHREE_FINAL_BINDING_RECEIPT_V1.json",
+    "sha256": "a9ce69e217c8dedb175577cf3ac3f26c65523fba2a0757df6f4e1381b07642b7"
+  },
+  "review_boundary": {
+    "actual_admission_or_launch_approved": false,
+    "b_or_ssh_action": false,
+    "body_executed_or_imported": false,
+    "model_state_dictionary_cache_array_or_dataset_payload_read": false,
+    "tests_run": false
+  },
+  "reviewed_body": {
+    "bytes": 263545,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/REMOTE_SUBMISSION.py",
+    "sha256": "c2961ef594953c5885a948bd3433e9deeadd376010b60064d9a556b842ab655a"
+  },
+  "schema": "fg19.child-allthree-final-body-source-review.v1",
+  "scope": "Independent static source and small-receipt review of the exact rendered AllThree submission body before any B-side staging/admission. No body execution, B/SSH operation, or model/cache/data payload read.",
+  "status": "PASS_SOURCE_ONLY"
+}
