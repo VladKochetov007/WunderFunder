@@ -35,7 +35,7 @@ ln -s "$SCRATCH/artifacts/runs/$RUN" "$ROOT/artifacts/runs/$RUN"
 cd "$TRAINING_ROOT"
 WNN_PROJECT_ROOT="$ROOT" uv run --no-sync python scripts/predict_run.py "$RUN" valid \
   --campaign-split-manifest "$FOLD" --campaign-full-valid-feature-only \
-  --device cuda --inference-precision fp32 --loader-workers 0
+  --device cuda --inference-precision fp32 --loader-workers 0 --epoch 1
 cd "$ROOT"
 "$ROOT/.venv/bin/python" scripts/screen_score.py "$PKT/score_screen_projected_mean_f0_r1.json" \
   --output "$SCRATCH/receipts/SCORE_PROJECTED_MEAN_F0_R1.json"
