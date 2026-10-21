@@ -116,3 +116,5 @@ scripts/limited /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/b
 
 The parent cycle README and frontier should link this folder; root owns those
 files and the execution, admission, review, and final evidence update.
+
+Packet/grader label `E-PLATEAU-I1-20261021-R1` and the ledger amendment `E-PLATEAU-I1-20261021-R2` refer to this same six-fit continuation panel; they do not count separate fits. The original fitting-subset label `E-PLATEAU-I1-20261020-R1` remains frozen provenance.

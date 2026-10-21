@@ -88,3 +88,15 @@ A conditional interval extension failed on sequences with no scored rows in an e
 [R3 diagnostic](endpoint_diagnosis/RESULT_R3.json) completed35.96seconds under1CPU/1.4GB; format/check and independent dense-moment oracle passed. CP5 loses in every bin; earliest−0.016978conditional95%CI[−0.027560,−0.007647], latest−0.005931[−0.008317,−0.004246]. Early hasonly17,198of808,863scoredrows; the gap is not confined to initialization. F0exposure/unequalancestry remain unchanged.
 
 [Precision execution](NATIVE_PRECISION_EXECUTION_R1.json) used383.82CPU seconds/0GPU/~0.504GBpeak. Feature-only outputs saved, CP5reconstruction passes2.1e-7, originalTL3fails0.002090versus1e-5. Targets were not accessed. H512nativeFP32 matchesTorch1.10e-6RMS; currentint8differs0.002655RMS. Root owns correction after dynamics_builder source-only diagnosis; no tolerance relaxation or scored claim. I1healthywithOOM0, F0/A finalepochbatch100lastobserved. FreshquotaR2still2,345.378seconds; recovery_audit now checks export-only B16 feasibility and repository reservations, no provider mutation.
+
+## First matched i1 cell completed
+
+[Interim F0/1001](I1_FIRST_MATCHED_CELL_R1.json): B0.65907416 versusA0.64317272; A−B−0.01590144,t0−0.01442246,t1−0.01738042. Rootmetadata confirms sameinitializer,normalization,fitmembership/subset; both4620updates/skips0. Cnowruns; F2andcomponentintervals pending. Sixfitpanelunchanged.
+
+ExactoriginalcallbackR2completed24.21CPU seconds but againfailsoldbaselineparity0.002089739. CP5reconstructionstillpasses. Preservebothfailedgatesandallarrays; splitconstructiondoesnotexplainmismatch. HistoricalbaselinewasDockerPython3.11.16/NumPy2.2.6/PyArrow19.0.1/glibc2.36; currenthostruntimeclosureunder review. No labelaccess, precisiongrade, or tolerance relaxation. Mergedpublication source staticchecks and boundedCPU suites passed66+13tests with2data-dependent skips; receiptintegrationpending.
+
+## Runtime sensitivity demonstrated; host reference replay admitted
+
+[ContainerR3](native_precision_probe/container_original_endpoint_prelabel_validation.json) exactlyreproducesoldTL3cache(max0.0) onthefixed8groups, sameZIP/native/backend. This version-matchedimage isnotprovenhistoricalimageID, andnodependencycauseisisolated. HostR2differs0.002089739; neitherfailedgaterewritten. [Onefreshfullhostreference](NATIVE_HOST_REFERENCE_AMENDMENT_R1.json) nowrunsunitwnn-tl3-host-reference-r1-20261021/invocation9db1568a85b74074abd019e81c47fe29 at1CPU/1.4GB/2000sec/0GPU, resetABArequested, same468F0order. Independenti1_recipeLuna/maxreviewagreeswithseparatereference/grade andexplicitruntime/coveragegates. Rootownscompletionandgrader; oldcacheandgradesfrozen.
+
+[InterimA/Bgrade](i1/interim_f0_ab/RESULT_R1.json) passed: A−B−0.01590144CI[−0.019737,−0.011972]; fixed90B10A−B−0.00002308CI[−0.000309,+0.000266]. EverypositionbinfavorsB; thissupportsstandardi1signal, notyetexplicithistorybenefit. No mixedendpointpromotion.

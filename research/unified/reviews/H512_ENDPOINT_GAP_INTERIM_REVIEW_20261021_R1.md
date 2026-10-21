@@ -15,8 +15,8 @@ evidence_paths:
 ## Question or claim
 
 Why does H512 reproduce its earlier standalone score yet lose when replacing
-TL3's student at the same fixed coefficient? The completed native endpoint
-comparison is real, but it combines differences in fitting exposure, learning
+TL3's student at the same fixed coefficient? The completed comparison of saved native predictions
+is reproducible, but it combines differences in fitting exposure, learning
 objective, output scale, and serving precision. It does not isolate capacity.
 
 ## Mechanism and method
@@ -91,8 +91,15 @@ The [feature-only precision probe](../../campaign_2026-10-21/next_cycle_r1/NATIV
 finds native FP32 H512 within1.10e-6RMS of Torch, versus0.002655RMS for current
 int8 serving. Its CP5 endpoint reconstruction passes, but original TL3 reconstruction
 fails the unchanged1e-5gate(max0.002090), so it stops before label access. No
-precision score or conclusion about quality is available. The immutable outputs
-and source-only diagnosis preserve this unresolved adapter issue.
+precision score or conclusion about quality is available. The
+[exact-wrapper correction](../../campaign_2026-10-21/next_cycle_r1/native_precision_probe/original_endpoint_prelabel_validation.json)
+also fails at0.002089739max, so splitting the native ensembles does not explain
+the mismatch. The old baseline was produced in a Docker runtime; the version-matched container subsequently reproduces that old cache bitwise
+onall8selected sequences. This demonstrates a runtime effect without singling
+out a dependency or proving the old imageID. A separate fullcurrent-host
+reference replay is now admitted with explicit coverage/reset/parity gates. The immutable saved-prediction
+comparison remains a description of those fixed caches, and must not be called
+a newly verified same-runtime comparison of the current native endpoints.
 
 ## Limits and validity
 
@@ -109,6 +116,13 @@ errors correlated about 0.984 and its fixed mixtures lost. The present analysis
 must measure conditional target information rather than repeat a diversity claim.
 
 ## Decision and next step
+
+The [first matched F0 cell](../../campaign_2026-10-21/next_cycle_r1/I1_FIRST_MATCHED_CELL_R1.json)
+shows i1 removal A−B−0.01590144, with both targets declining, matched initializer,
+normalization, membership and4,620updates. Its conditional component95%interval
+is[−0.019737,−0.011972]; the fixed90B10A mixture is approximately flat
+(−0.00002308, interval[−0.000309,+0.000266]). This supports useful existing i1 signal
+under this small-screen recipe; C/F2 and paired uncertainty remain pending.
 
 Keep the frozen i1 A/B/C screen running. Judge it by matched cells, not by its
 absolute score against TL3. Diagnose H512 native precision and ensemble scale

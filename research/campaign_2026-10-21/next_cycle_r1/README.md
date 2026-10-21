@@ -57,3 +57,14 @@ completion is implied by this packet.
 - [Fresh Kaggle quota](KAGGLE_QUOTA_R2.json) and [read log](quota_read_r2.log): read-only19:56UTCcheck again finds2,345.378free GPU seconds, providerreserved0, refreshOctober24; repository reservations and complete-task admission remain required.
 
 - [B16 CPU derivation admission](B16_DERIVATION_ADMISSION_R1.json), [receipt](B16_DERIVATION_RECEIPT_R1.json) and [log](b16_derive_r1.log): verified saved CP3/4/5 and derived the frozen equal-parameter mean in a new scratch root. Zero newfits/GPUtime, initial tensor digest remains unavailable; exports/quality pending.
+
+- [First i1 matched cell](I1_FIRST_MATCHED_CELL_R1.json): F0/1001 A−B−0.01590144, both targets negative when i1 is removed; identical initializer/normalization/membership/update counts. C/F2 and paired-component intervals pending; no promotion.
+- [Exact-wrapper correction admission](NATIVE_PRECISION_CORRECTION_ADMISSION_R2.json), [receipt](native_precision_probe/original_endpoint_prelabel_validation.json) and [log](native_precision_r2.log): exact originalcallback again differs fromoldcache by0.002090max; targets remain unopened. This rules down the split-topology explanation, and runtime/source closure is under review.
+
+- [Interim F0 A/B paired grade](i1/interim_f0_ab/RESULT_R1.json), [admission](I1_INTERIM_GRADE_ADMISSION_R1.json) and [log](i1_interim_grade_r1.log): removal loss persists under141-component resampling; fixed90B10A mixture is approximately flat. C/F2 pending.
+- [Version-matched container admission](NATIVE_PRECISION_CONTAINER_ADMISSION_R3.json), [receipt](native_precision_probe/container_original_endpoint_prelabel_validation.json) and [log](native_precision_container_r3.log): oldTL3cache reproduced bitwise onall8selected sequences, implicating runtime differences rather than input/order changes; individualdependencynotisolated, exacthistoricalimageIDunrecorded.
+- [Host-reference amendment](NATIVE_HOST_REFERENCE_AMENDMENT_R1.json) and [live log](native_host_reference_r1.log): one fresh complete468-sequence original reference replay oncurrenthost, CPU1/1.4GB/2000sec/0GPU, preservesoldcache andold1e-5gate; evaluatedsame-runtime endpoint deltas pending.
+
+- [Merged-source verification](MERGED_SOURCE_VERIFICATION_R1.json), [finite sequence](MERGED_QUALITY_SEQUENCE_R1.json), [report](MERGED_QUALITY_REPORT_R1.json) and [log](merged_quality_r1.log): publication source passes Ruff/63-file training structure and66+13boundedCPUtests;2data-dependent tests skip withoutrawdata. No measured parity claim; generatedtree refresh pending.
+
+- [Budget progress snapshot](BUDGET_PROGRESS_R2.json): two ofsixfits complete;4,736.31seconds completedphase/profile charges, plusactiveCtime. The5hour stage ceiling and12hour conditionalproduction reserve remain unchanged.
