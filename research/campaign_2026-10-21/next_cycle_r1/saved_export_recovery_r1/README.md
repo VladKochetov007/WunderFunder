@@ -51,9 +51,12 @@ The four serving-role source pins preserve derivation provenance from historical
 commit `c2e2fb57ebb9fb513701d5cd39b9be19505dd35b`; the adapter verifies those
 exact Git blobs and separately records each current project-file hash and its
 difference from the historical blob in a flushed stdout source-check receipt.
-The projected checkpoint export itself uses only the clean d305 predictor and
-its training source tree. These serving-role files are not imported by the
-export. In particular, the current `dynamics_auxiliary.py` differs after its
+The subsequent full-valid prediction export uses the clean d305 predictor and
+its training source tree. These historical serving files are not imported by
+that prediction export. The earlier mean derivation had a distinct import
+split: it loaded `native_representation.py` from the historical project source,
+while its exporter, model and averaging helpers came from d305. The original
+derivation receipt preserves those executed identities. In particular, the current `dynamics_auxiliary.py` differs after its
 later numerical correction; the historical plan, receipt, checkpoint, and
 source hashes remain unchanged. The temporary run alias and prediction/cache
 outputs still live under the canonical project root.
