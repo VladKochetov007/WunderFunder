@@ -64,3 +64,9 @@ for official scores and paired uncertainty plus
 [`dynamics_panel_artifacts.py`](dynamics_panel_artifacts.py) for checkpoint,
 target-statistics, prediction-identity and NPY-header checks. Both are grading
 code only; neither contains or copies training orchestration.
+
+## Numerical gate before profiling
+
+A [bounded CPU counterexample](../DYNAMICS_NUMERICAL_PROBE_R1.json) found that global FP32 cumulative-energy subtraction can erase later small changes after an early large pulse. At sequence position16000, both horizons should have log energy−9.21024 but return−18.42068 (the epsilon floor). This verifies a target-construction bug on a valid synthetic fixture; its prevalence in supplied data is unmeasured. The [fixture source](precision_probe_r1.py), [execution receipt](../DYNAMICS_NUMERICAL_EXECUTION_R1.json), and [log](../dynamics_numeric_probe_r1.log) preserve the check:5.74seconds/657476KiBpeak, zero swaps, no dataset arrays/GPU/fits.
+
+Root holds the dynamics profile until a stable FP32 window calculation passes direct-window, boundary, mask, and long-sequence tests plus independent review. No auxiliary profile or scientific fit ran with the faulty construction. The52 mathematical targets, four-fit panel, weight0/.05, and main metric remain unchanged. This is an implementation repair, not a new scientific arm; the active frozen i1 panel is unaffected.
