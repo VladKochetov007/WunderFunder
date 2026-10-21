@@ -10,6 +10,12 @@ The collected source files are under `.../artifacts/artifacts/runs/r01_h512_f1_s
 
 ## Bounded recovery commands
 
+The command block below preserves the original full recovery sequence. Its
+`derive` step has since completed and must not be repeated. For the current
+local prediction-only path, use the [finite local fallback recipe](LOCAL_FALLBACK_R1.md),
+which runs the remaining `verify-source` and `stage` checks before two serial
+exports and the existing acceptance/grader.
+
 Run only after the root has admitted the recovery within its separate two-GPU-hour allowance. These commands do not retrain. The derivation loads three small checkpoint files on CPU; staging creates symlinks to the existing raw data and two structural caches. The canonical predictor then writes two 457-group FP32 feature-only exports under the new recovery root. Use a detached, clean checkout of the exact producer commit with its pinned `pyproject.toml` and `uv.lock`; the current working branch's prediction code has changed since B16 ran.
 
 ```sh
@@ -57,4 +63,6 @@ uv run --project "$INFERENCE_ROOT" python "$PROJECT/$PACKET/grade_h512_f1_b16_of
 
 The acceptance and grade write create-only receipts under `RECOVERY_ROOT`. The new grader calls the frozen R2 `score_panel()` and pins the same five endpoints, coefficients, bootstrap seed, official metric, F1 memberships, target cache and scorer sources. It records a recovery-specific grade; it does not weaken or overwrite the frozen R2 grader or its original acceptance contract. The mixture rows are fixed output-space blends of the two prediction columns.
 
-The F1 evaluation groups have prior exposure. Any resulting score is robustness evidence, not a clean holdout, public-score forecast or automatic promotion. No recovery, prediction export or grade has run in this code-only packet. A read-only run of `fit_audit.validate_fit_artifacts` against the collected metadata and checkpoint byte hashes passed: six withheld epochs, 44,760 updates, exact train/valid/evaluation membership, source-map match to 68ff and no emitted initialization digest. It did not load checkpoint tensors, target arrays or prediction arrays.
+The F1 evaluation groups have prior exposure. Any resulting score is robustness evidence, not a clean holdout, public-score forecast or automatic promotion. The offline artifact derivation has since completed, as recorded in the recovery receipt. At local-fallback preparation on 2026-10-22, no prediction export or grade had run. A read-only run of `fit_audit.validate_fit_artifacts` against the collected metadata and checkpoint byte hashes passed: six withheld epochs, 44,760 updates, exact train/valid/evaluation membership, source-map match to 68ff and no emitted initialization digest. It did not load checkpoint tensors, target arrays or prediction arrays.
+
+- [Finite B16 local prediction fallback](LOCAL_FALLBACK_R1.md) — prepares the two saved-checkpoint FP32 exports over the same 457 F1 evaluation groups, then invokes the frozen acceptance and grading path. Root admission is required after the six-fit panel; no GPU or scoring work ran during preparation.
