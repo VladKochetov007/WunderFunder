@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Any
 
 PACKET = Path("research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2")
-PROPOSAL = PACKET / "H512_F1_CONDITIONAL_PROFILE_FIT_PROPOSAL_20261021_R1.json"
+PROPOSAL = PACKET / "H512_F1_B16_CONDITIONAL_PROFILE_FIT_PROPOSAL_20261021_R2.json"
 ADMISSION = PACKET / "root_admission.json"
 ORIGINAL = Path("research/campaign_2026-09-29/artifacts/splits/fold1.json")
 DERIVED = PACKET / "fold1_profile_view.json"
