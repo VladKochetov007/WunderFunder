@@ -33,3 +33,5 @@ completion is implied by this packet.
 - [First i1 epoch](I1_FIRST_EPOCH_R1.json): F0/B completed1,540updates in635.1seconds with finite gradients, zero skips and successful checkpoint/trainingstate save, OOM0. Execution evidence only; fixedCP2notyetcomplete.
 
 - [Future-input dynamics finite packet](dynamics/README.md): four exact cold-fit/full-fold-export/score plans, sustained F0aux005 profile and fixed paired grader. Setup-cost accounting includes the full fitting-target normalization scan. Static checks pass; runtime/profile/fits pending.
+
+[Draft PR #33](https://github.com/VladKochetov007/WunderFunder/pull/33) publishes the cycle implementation/recovery handoff against research-team. [Publication receipt](PUBLICATION_R1.json) records the isolated merge preserving both histories; no branch integration or quality promotion. Active fits keep their frozen source. Generated-tree refresh and merged-source checks remain pending a spare CPU slot.
