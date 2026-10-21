@@ -148,7 +148,10 @@ def verify_projected_mean_pins() -> dict[str, str]:
         sha256(FOLD_PATH) == plan["common_fitting_identity"]["split_manifest_sha256"],
         "F0 split manifest hash changed",
     )
-    require(sha256(PREDICTOR_PATH) == plan["source_pins"]["training"]["scripts/predict_run.py"])
+    require(
+        sha256(PREDICTOR_PATH) == plan["source_pins"]["training"]["scripts/predict_run.py"],
+        "NLL predictor bytes differ from the frozen source pin",
+    )
     return source_checked
 
 
