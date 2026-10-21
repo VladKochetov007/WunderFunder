@@ -67,3 +67,11 @@ later submission decision.
 Independent review found that bare run references would package `model.pt` while the protocol binds `model_ep5.pt`. Before any package/replay/score, package commands and member metadata were corrected to explicit `run@ep5` references; canonical run directories remain unchanged. The original TL3 ZIP hash transcription in the prepared plan was also corrected to the pinned source archive hash, and the grader plan digest was updated. No fitted endpoint or outcome was changed.
 
 The [independent static review](../h512_f0_followup_r1/POSTFIT_AND_NATIVE_STATIC_REVIEW_R1.json) passes after these corrections. Prepared commands remain unexecuted; root retains package/replay/grade admission and promotion ownership.
+
+### Native interpreter correction
+
+Before execution, the two replay commands were corrected to `.venv-py311-profile/bin/python`: originalTL3 contains Python3.11native extensions; the root packaging environment is Python3.13. Packaging and target-only grading continue using the root environment. This changes only the serving interpreter, with plan/grader digest repinned; no model/metric/output changed. The fixture already exercised these libraries underPython3.11.
+
+## Conditional CPU execution admitted
+
+The [fixed CPU handoff](run_native_when_ready.py) now waits on the exact live GPU postfit watcher and requires its complete accepted fit/export/score chain. [Execution admission](NATIVE_EXECUTION_ADMISSION_R1.json) pins21source inputs and all new output locations. [Independent static recheck](NATIVE_STATIC_REVIEW_R2.json) passes, including the3.11native interpreter correction; the earlierR1review remains a historical snapshot. [Actual waiter start](NATIVE_WAITER_START_R1.json) records unit `wnn-h512-native-screen-r1-20261021.service`, invocation4d978659258144ca80b409f3ea5ec188, oneCPU/1.8GBRAM/zeroSwap/CUDAhidden and16hcap including waiting. Its [mutable log](native_worker_r1.log) will show two package builds, two complete native replays and the fixed paired grade after upstream success. No step has run yet. No model fit, automatic quality promotion, external upload or submission release is admitted by this worker. Root owns actual evidence review and release selection.

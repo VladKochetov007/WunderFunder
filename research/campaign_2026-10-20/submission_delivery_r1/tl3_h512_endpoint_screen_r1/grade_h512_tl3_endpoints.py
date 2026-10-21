@@ -15,7 +15,7 @@ from endpoint_contract import SCRATCH_ROOT, physical_scratch, read_json, sha256_
 from endpoint_score_inputs import load_screen_inputs
 
 PACKET = Path("research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1")
-PLAN_SHA256 = "d181de820f933e6a368d52fa32e21fada1f8f4d8d4c8e3b09f1699789981b882"
+PLAN_SHA256 = "852f64507fb9d96caa6ad7f8e82f7b7cc00a02eb7a046d7627d56eb42709bc94"
 
 
 def _compare(

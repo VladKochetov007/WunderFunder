@@ -1,5 +1,10 @@
 # Plateau review frontier
 
+## Complete endpoint automation — October21
+
+[The actual-native endpoint packet](../submission_delivery_r1/tl3_h512_endpoint_screen_r1/README.md#conditional-cpu-execution-admitted) now has a live conditionalCPUwaiter, `wnn-h512-native-screen-r1-20261021.service`/invocation4d978659258144ca80b409f3ea5ec188. It waits for exact GPUpostfit completion, then executes2fixedpackagebuilds,2native replays underPython3.11 and the paired official grade. OneCPU/1.8GBRAM/noSwap/CUDAhidden; no fit or automaticrelease. Root corrected the planABI mismatch before any replay and obtained a second independent static review. No native endpoint result exists yet.
+
+
 ## Latest execution handoff — October21
 
 Owner root. Live fit `wnn-h512-f0-fit-r1-20261021.service`, invocationc2b99b3c2b944edaa05156537655b04c, remains healthy; six-epochCP5recipe unchanged. [12hceiling](../submission_delivery_r1/h512_f0_followup_r1/THERMAL_BUDGET_AMENDMENT_R2.json) +25minpostfitreserve fits15hbudget; sustainedthermalclock~337MHz,1.9sequences/sbybatch560. AggregateRAM5GB,zeroTaskSwap,OOMcounters0.
