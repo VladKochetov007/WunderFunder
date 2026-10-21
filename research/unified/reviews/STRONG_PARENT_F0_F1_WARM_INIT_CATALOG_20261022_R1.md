@@ -1,3 +1,14 @@
+---
+kind: review
+status: complete
+created_utc: 2026-10-21T21:03:19Z
+updated_utc: 2026-10-21T21:26:48Z
+hypothesis_ids: []
+experiment_ids: []
+evidence_paths:
+  - specs/plans/2026-10-21-next-local-kaggle-cycle.md
+---
+
 # Conditional F0/F1 parent catalog and warm-initialization compatibility
 
 **Status: metadata-only preparation; no follow-up is admitted.** The accepted

@@ -1,0 +1,42 @@
+{
+  "status": "PASS_CORRECTED_FP32_TARGETS_BEFORE_PROFILE",
+  "invocation_id": "2c3024c5c40f48c998f9a0b81726b46d",
+  "limits": {
+    "cpu_cores": 1,
+    "memory_max_bytes": 1400000000,
+    "swap_bytes": 0,
+    "runtime_max_seconds": 300
+  },
+  "checks": {
+    "ruff_format": "PASS;2filesreflowed",
+    "ruff_check": "PASS",
+    "training_structure": {
+      "files": 63,
+      "errors": 0,
+      "max_module_lines": 300,
+      "max_function_lines": 200
+    },
+    "make_quality": "PASS;70filesformatted",
+    "make_quality_tests": "PASS;6stdlibchecker tests",
+    "dynamics_cpu_oracles": "PASS;6tests9.51seconds"
+  },
+  "pytest_process": {
+    "wall_seconds": 11.34,
+    "user_cpu_seconds": 4.81,
+    "system_cpu_seconds": 0.98,
+    "max_rss_kib": 791508,
+    "swaps": 0
+  },
+  "reviewer": "recovery_audit Luna/max independent source/math review PASS on3c1524388; normalizedmath/grouporder/windowboundaries/tails/masks andtestoracles checked, no targetarrays opened byreviewer.",
+  "executed_formatted_source_sha256": {
+    "src/wnn/training/dynamics_auxiliary.py": "9794dfd4a7490e71389c47b30c61ac17f549b367f401fd6f1583718640f4912e",
+    "tests/test_dynamics_auxiliary.py": "397346ec1c111914bb881c06396fff3bf461a48f25ae8ddbcdf52336272fcb6f"
+  },
+  "formatter_ast_equivalent_to_reviewed_commit": true,
+  "original_fixture_error_log_units": 9.210440578080997,
+  "corrected_same_fixture_error_log_units": 5.760015575617672e-08,
+  "fixture_result": "DYNAMICS_NUMERICAL_PROBE_R2.json",
+  "new_fits": 0,
+  "gpu_seconds": 0,
+  "scientific_scope": "Mathematical52targetdefinition unchanged; finiteprecisionimplementationcorrected. No auxiliaryqualityfit/profile; activei1frozen sourceunaffected."
+}

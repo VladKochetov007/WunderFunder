@@ -111,9 +111,7 @@ def test_local_window_sums_match_direct_oracle_at_block_and_mask_boundaries() ->
     valid_rows[1, 40] = False
     lengths = torch.tensor([sequence_length, 300])
 
-    target, mask = dynamics_targets_torch(
-        raw, input_mean, input_std, valid_rows, lengths=lengths
-    )
+    target, mask = dynamics_targets_torch(raw, input_mean, input_std, valid_rows, lengths=lengths)
     positions = torch.arange(sequence_length)
 
     for horizon_index, horizon in enumerate(HORIZONS):
