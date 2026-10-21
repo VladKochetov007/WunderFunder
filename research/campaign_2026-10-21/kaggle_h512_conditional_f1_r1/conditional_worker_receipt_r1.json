@@ -1,0 +1,113 @@
+{
+  "derived_manifest_sha256": "548b42f06710a0f7c06377b8f2aaf7241469d75f0dad9de05bd4fbc29448d0c3",
+  "device": {
+    "actual_device_name": "Tesla T4",
+    "cuda_visible_devices": "GPU-a284d68f-aef2-042e-0728-43d2093f8f14",
+    "provider_deadline_monotonic": "16209.396774874",
+    "requested_machine_shape": "NvidiaTeslaT4",
+    "visible_count": 1
+  },
+  "dual_device_allocated_seconds_bound_factor": 2.0,
+  "gate": {
+    "dual_T4_allocated_device_seconds_conservative_bound": 38858.798,
+    "elapsed_worker_seconds_at_profile_gate": 260.064,
+    "export_reserve_seconds_for_CP5_and_SWA345": 2700,
+    "fit_projection_seconds_with_1_25_margin": 16169.335,
+    "fits_actual_kernel_deadline": false,
+    "full_fit_batches": 8958,
+    "kernel_deadline_remaining_seconds_at_gate": 15738.776,
+    "outer_wall_cap_seconds": 16000,
+    "predicted_outer_wall_seconds": 19429.399,
+    "predicted_remaining_outer_seconds": 19169.335,
+    "predicted_worker_seconds": 19129.399,
+    "preflight_seconds": 227.239,
+    "profile_elapsed_seconds": 24.571,
+    "profile_step_wall_seconds": 1.44127,
+    "provider_charge_estimate_1x_session_wall_seconds": 19429.399,
+    "provider_quota_available_after_safety_reserve": 16077.652000000002,
+    "runner_finalizer_reserve_seconds": 300,
+    "worker_wall_cap_seconds": 15700
+  },
+  "input_identity": {
+    "cache_files": {
+      "cache/chain_folds.npz": {
+        "bytes": 550072,
+        "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+      },
+      "cache/chains.npz": {
+        "bytes": 650142,
+        "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+      }
+    },
+    "derived_manifest_sha256": "548b42f06710a0f7c06377b8f2aaf7241469d75f0dad9de05bd4fbc29448d0c3",
+    "original_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "proposal_sha256": "b90a46cdaa3e7593d88d3aa95f6dc574ffa99c6646909cf99c84d12d1fb90fbf",
+    "raw_sources": {
+      "datasets/train.parquet": {
+        "bytes": 29240219011,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "sha256_check": "passed canonical load_campaign_split portable SHA verification before Torch import"
+      },
+      "datasets/valid.parquet": {
+        "bytes": 5615509128,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "sha256_check": "passed canonical load_campaign_split portable SHA verification before Torch import"
+      }
+    },
+    "registry_sha256": "2dcd5cee727d1299f1fdab86b71116dc4a70008160c9495be8bf6f5c00b9dc67"
+  },
+  "original_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+  "precision_audit": {
+    "flags_after_profile": {
+      "cudnn_tf32": false,
+      "matmul_tf32": false
+    },
+    "nvidia_tf32_override": "0"
+  },
+  "preflight_seconds": 227.23887672700002,
+  "profile": {
+    "profile": {
+      "backward": 806.45,
+      "forward": 609.74,
+      "gpu_total": 1444.93,
+      "h2d": 19.28,
+      "inputs": 7.66,
+      "labels": 0.0,
+      "loader_wait": 0.0,
+      "loss": 0.58,
+      "optimizer": 5.46,
+      "seq_per_s": 5.55,
+      "step_wall": 1441.27,
+      "syncs_per_step": 0.67,
+      "weights": 0.01
+    },
+    "updates": {
+      "amp_skipped_updates": 0,
+      "counts_consistent": true,
+      "grad_scaler_enabled": false,
+      "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+      "gradient_finite": true,
+      "gradient_stats_nonfinite_steps": 0,
+      "gradient_stats_steps": 40,
+      "loss_checks": 40,
+      "loss_finite": true,
+      "optimizer_attempts": 40,
+      "optimizer_completed_updates": 40,
+      "valid_for_throughput": true
+    }
+  },
+  "provider_admission": {
+    "gpu_reserved_seconds": 0.0,
+    "outer_wall_cap_seconds": 16000,
+    "provider_charge_factor": 1.0,
+    "quota_observed_at_utc": "2026-10-21T00:36:09.001659+00:00",
+    "quota_refresh_at_utc": "2026-10-24T00:00:00+00:00",
+    "remaining_unreserved_provider_gpu_seconds": 17277.652000000002,
+    "runner_finalizer_reserve_seconds": 300,
+    "safety_reserve_seconds": 1200
+  },
+  "provider_billing_factor": 1.0,
+  "quality_fit_claim": null,
+  "schema": "wnn.kaggle-h512-f1-conditional-worker-receipt.v1",
+  "status": "PROFILE_COMPLETE_FIT_SKIPPED_COST_GATE"
+}

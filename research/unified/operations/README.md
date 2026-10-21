@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Kaggle F1 successful profile / cost skip](../../campaign_2026-10-21/kaggle_h512_conditional_f1_r1/README.md#terminal-profile-result--supersedes-running-snapshot) —40finite strictFP32updates and exactinput checks passed; B8sixepochrecipe projects19,429seconds beyond16,000cap, so nofitstarted. ProviderERROR is wrappermissingartifacts, notprofilefailure ornegativequality. Actualworkerreceipt and independent staticreview retained; B16adaptation preparation is separate and unadmitted.
+
 - [Admitted Kaggle F1 execution](../../campaign_2026-10-21/kaggle_h512_conditional_f1_r1/README.md) — clean68ff worker, exact R2 bundle downloaded and hash-verified after private dataset upload; kernel version1 provider-confirmed RUNNING at00:43:43UTC. One profile-first attempt under16,000seconds and refreshed quota; no fit progress or quality established. Preserves original proposal/preparation and separate actual admission/reseal/launch observation.
 
 

@@ -1,5 +1,9 @@
 # Current project state
 
+## October21 Kaggle profile terminal update
+
+The exactF1B8profile succeeded40finiteupdates, then intentionally skipped the sixepoch fit on measured cost:19,429.399projectedseconds exceeds16,000cap. ProviderERROR reflects missing unproduced fitoutputs; no qualityfit or negativequalityevidence. See [terminal interpretation](../research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/TERMINAL_INTERPRETATION_R1.json). Root is preparing explicitB16amendment, not admitted. LocalF0fit and automaticpostfit/nativewaiters continue unchanged. Older RUNNINGcloudsnapshot below is historical.
+
 ## October21 Kaggle launch update
 
 One clean-source conditional F1 attempt is now admitted and provider-confirmed RUNNING: [execution packet](../research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/README.md). Private dataset v1/R2 bundle hashes verified; kernel v1 profiles first and fits only if measured cost fits refreshed quota and16,000second cap. No profile/fit progress or quality result yet. Local H512 F0 continues healthy; postfit and native endpoint waiters remain active. Earlier no-third-attempt-admitted statements below preserve prelaunch history.
