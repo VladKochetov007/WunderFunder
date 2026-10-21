@@ -132,3 +132,11 @@ The projected mean passed source/checkpoint metadata gates but has not yet reach
 ## Local saved-artifact preparation complete
 
 [CPU stageR2](B16_LOCAL_CPU_STAGE_REPORT_R2.json) completed correctedfixture, clean exact68ffsource checkout, source verification and input symlink preparation in14.29seconds. R1sequence-only launcher error is preserved; no step ran before repair. BothsavedF1exports are ready for a later singleGPU admission; no inference orfit started. Source/model/score plan unchanged, and further Kaggle launches remain closed.
+
+## Second control complete; merged numerical repair checked
+
+F2/seed1002 B completed all4,830updates, skipped0, full443-group export/score: officialWP0.684108214809019 (t0 0.6838011873878901,t1 0.6844152422301477). A now runs; C remains pending. This is not a paired treatment result, and the absolute F0/F2 scores cannot identify fold versus seed effects. [BudgetR4](BUDGET_PROGRESS_R4.json) records four completed fits/exports/scores plus earlier profiles/failures, with active work additional.
+
+[Publication-source verificationR2](MERGED_SOURCE_VERIFICATION_R2.json) passes merged corrected dynamics source Ruff, 63-file structure check, six checker tests and six auxiliary tests. The publication merge preserved all research-team README entries and retained its generated snapshot rather than replacing it with root-only generated navigation; merged tree freshness is not claimed. Corrected dynamics source is being frozen for a later profile, not admitted to GPU yet.
+
+Correction to the cloud terminal paragraph above: the combined raw Parquet size is34,855,728,139bytes, as recorded in the exact input manifests; the earlier narrative total was a transcription error. No identity check or diagnosis changes.
