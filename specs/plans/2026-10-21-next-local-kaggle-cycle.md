@@ -81,6 +81,19 @@ release. TL3 comparisons remain ancestry-qualified diagnostics. Preserve
 masks, checkpoint restore, head removal, exact cache coverage including NPY
 headers, native quality/runtime and source/teacher/initializer ancestry.
 
+## Local memory correction after the first launcher failure
+
+The user warned about killed processes. The first i1 launcher omitted the
+profile's synchronous-loader setting and exceeded its task cgroup at startup.
+For this cycle, explicitly set `WNN_LOADER_WORKERS=0` and capture the complete
+runtime environment alongside source and argv. A profile does not authorize a
+launcher with different loader, prefetch, precision or resource settings.
+Do not use OOM failures to size jobs. Hold additional heavy support/GPU work
+while the current native replay and i1 fit share the allocation. Preserve the
+failed attempt and its charge; the corrected worker passed a complete epoch
+and checkpoint save with zero OOM events. See the
+[memory receipt](../../research/campaign_2026-10-21/next_cycle_r1/MEMORY_SAFETY_CORRECTION_R1.json).
+
 ## Deferred work
 
 Defer more circle/geometry bundles, output Kalman smoothing, warmup routers,
