@@ -65,6 +65,35 @@ ensemble. Prediction scale matters here: positive rescaling can preserve a
 standalone Pearson score while changing a member's effective contribution to a
 fixed weighted sum. Its size and direction must be measured in these caches.
 
+## Measured saved-prediction checks
+
+The [streamed R3 diagnosis](../../campaign_2026-10-21/next_cycle_r1/endpoint_diagnosis/RESULT_R3.json)
+reproduces all three native endpoint scores within1e-15. Standalone SWA improves
+H512 by0.00022538, yet its native endpoint changes by−0.00000553. The replacement
+raises target-weighted clipped-prediction standard deviation by1.07%/1.48%, while
+label covariance changes−0.185%/+0.613%. This algebra explains the correlation
+loss as a variance cost exceeding covariance benefit; it does not establish a
+calibration treatment or an optimal blend weight. H512's weighted partial target
+correlations conditional on TL3 are negative(−0.1615/−0.1249), descriptive on the
+same exposed predictions.
+
+Every fixed position bin loses. The earliest CP5 delta is−0.016978 with conditional
+component95%interval[−0.027560,−0.007647]; the latest is−0.005931,
+[−0.008317,−0.004246]. Only17,198of808,863scored rows lie in the earliest bin,
+whereas412,135lie in the latest. Pooled correlation is not an additive average
+of bin correlations, but these results weaken a pure early-state explanation.
+The bootstrap captures evaluation-component variation conditional on fixed fits,
+not training variation, a fresh holdout, or public transfer. Its resampling
+population is all141fixed evaluation components, including zero contributors in
+a given bin; it does not condition on that bin having observations in a component.
+
+The [feature-only precision probe](../../campaign_2026-10-21/next_cycle_r1/NATIVE_PRECISION_EXECUTION_R1.json)
+finds native FP32 H512 within1.10e-6RMS of Torch, versus0.002655RMS for current
+int8 serving. Its CP5 endpoint reconstruction passes, but original TL3 reconstruction
+fails the unchanged1e-5gate(max0.002090), so it stops before label access. No
+precision score or conclusion about quality is available. The immutable outputs
+and source-only diagnosis preserve this unresolved adapter issue.
+
 ## Limits and validity
 
 Final production fitting on supplied validation data is permitted; the exposure
