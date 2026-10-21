@@ -14,6 +14,7 @@ from wnn.research_features import (
 )
 from wnn.splits import file_sha256
 from wnn.training.dynamics_auxiliary import fit_dynamics_target_normalization
+from wnn.training.i1_warm_normalization import fit_i1_appended_normalization
 from wnn.training.initializer import final_initializer_state_sha256, make_final_initializer_teacher
 from wnn.training.inputs import fit_research_feature_prior
 from wnn.training.normalization import fit_e540_numeric_preprocessing, fit_normalization
@@ -116,7 +117,17 @@ def fit_preprocessing(run: TrainingRun) -> None:
             "zeroed_feature_indices": list(zeroed_indices),
             "effective_capacity": "matched_full_width" if zeroed_indices else "full_features",
         }
-    if not args.init and saved_training is None:
+    if args.i1_warm_normalization == "fit-appended":
+        provenance["i1_warm_normalization"] = fit_i1_appended_normalization(
+            model,
+            train_loader,
+            device,
+            environment=environment,
+        )
+        provenance["research_feature_extension"]["normalization"] = (
+            "inherited_parent_prefix_and_fitting_only_appended_slots"
+        )
+    elif not args.init and saved_training is None:
         if frontier_contract is None:
             fit_normalization(model, train_loader, device, environment=environment)
         else:

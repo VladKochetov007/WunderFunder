@@ -96,6 +96,12 @@ def add_features_arguments(ap: argparse.ArgumentParser) -> None:
         help="append causal volume, moment, Kalman, geometry, field-age, or i1-history features before TBPTT",
     )
     ap.add_argument(
+        "--i1-warm-normalization",
+        choices=("inherit", "fit-appended"),
+        default="inherit",
+        help="optionally fit only appended i1_history normalization slots when extending a standard parent",
+    )
+    ap.add_argument(
         "--research-feature-adapter-only",
         action="store_true",
         help="freeze a zero-extended parent except the appended input-weight columns; requires wd=0",

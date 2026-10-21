@@ -4,6 +4,7 @@ import argparse
 
 import torch
 
+from wnn.i1_history import I1_HISTORY_MODE
 from wnn.kalman_group_features import MODE as KALMAN_GROUP_MODE
 from wnn.moment_geometry.online import MODE as GEOMETRY_DISCRETE_MODE
 from wnn.research_features import (
@@ -83,11 +84,16 @@ def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: 
 
 def can_extend_research_features(parent_mode: str, child_mode: str) -> bool:
     """Allow an append-only causal representation to extend a matching parent."""
+    if child_mode == I1_HISTORY_MODE and parent_mode != "none":
+        return False
+    if parent_mode == I1_HISTORY_MODE:
+        return False
     appendable_modes = (
         *MOMENT_FEATURE_MODES,
         *FIELD_AGE_FEATURE_MODES,
         GEOMETRY_DISCRETE_MODE,
         KALMAN_GROUP_MODE,
+        I1_HISTORY_MODE,
     )
     if child_mode not in appendable_modes or parent_mode not in ("none", *appendable_modes):
         return False
