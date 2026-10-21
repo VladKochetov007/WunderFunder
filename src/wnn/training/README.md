@@ -48,6 +48,7 @@ from wnn.training.runner import run_training
 | [forward](forward.py) | Architecture-specific chunk dispatch and recurrent-state detachment. |
 | [forward_backward](forward_backward.py) | Original student/EMA forward and scaled backward execution. |
 | [inheritance](inheritance.py) | Parent preprocessing, feature expansion and clean-fold checkpoint ancestry. |
+| [i1_warm_normalization](i1_warm_normalization.py) | Opt-in none-to-i1 warm-start guards and fitting-only normalization for appended history slots, preserving parent buffers. |
 | [initializer](initializer.py) | Frozen teacher cloning, fingerprinting and causal target replacement. |
 | [inputs](inputs.py) | Causal input assembly and fitting-only research-feature priors. |
 | [i1_inputs](i1_inputs.py) | Fixed-width i1 mask validation and post-normalization model configuration; feature state is implemented in [i1_history](../i1_history.py), [i1_history_scan](../i1_history_scan.py) and [i1_history_streaming](../i1_history_streaming.py). |

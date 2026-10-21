@@ -197,7 +197,11 @@ def load_initializer(run: TrainingRun) -> None:
                 "added_columns": len(research_feature_names(environment.inputs.research_features))
                 - len(research_feature_names(parent_mode)),
                 "input_weights": "zero_initialized",
-                "normalization": "mean_zero_std_one",
+                "normalization": (
+                    "pending_fit_appended_only"
+                    if args.i1_warm_normalization == "fit-appended"
+                    else "mean_zero_std_one"
+                ),
             }
         if args.distill_family_weight > 0:
             model.load_state_dict(extend_family_output_head(parent_state, model.state_dict()))
