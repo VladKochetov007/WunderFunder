@@ -1,3 +1,7 @@
+**Latest dated observation21October04:18UTC:** [Same AllThree invocation active/running](records/child_allthree_fit_v1/health_20261021T0417Z/README.md), three completed epochs0–2/cumulative22380updates/2238batches/zero skips/nonfinite. Later ep3batch560 is progress only, not synchronous current totals/native terminal/integrity/quality. One owned GPU, unchanged events, five stat-only artifacts; no new support/fit/action/checker preparation or unchanged suites. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0418.json) govern next rare05:10UTC+ and strict terminal gates. Comparison6started/5completed of6, prerequisites5 separate; no quality endpoint/gain.
+
+---
+
 **Latest dated observation21October03:18UTC:** [AllThree same invocation active/running](records/child_allthree_fit_v1/health_20261021T0317Z/README.md), completed epoch0/7460updates/746batches/zero skips/nonfinite. Later ep1batch680 is not current totals/native44760/integrity/quality. One owned GPU, unchanged own/parent events, three stat-only artifacts; no new job/action/checker preparation or unchanged suites. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0318.json) govern next rare04:10UTC+ and actual-exit gates. Comparison6started/5completed of6, shared prerequisites5 separate; no quality endpoint/gain.
 
 ---

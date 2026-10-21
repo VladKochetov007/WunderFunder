@@ -1,3 +1,7 @@
+[AllThree rare health04:18UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0417Z/README.md) records the same active owned worker, three completed epochs/22380updates/2238batches/zero skips/nonfinite. Later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only; no support/newfit/restart/stop/new checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0418.json) binds exact raw/navigation and unchanged ledgers; next rare05:10UTC+. Metadata only, no predictive-quality endpoint/gain.
+
+---
+
 [AllThree rare health03:18UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0317Z/README.md) records the same active owned worker, completed epoch0/7460updates/746batches/zero skips/nonfinite; later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only; no support/newfit/restart/stop/new checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0318.json) binds exact raw/navigation and unchanged ledgers. Next rare observation04:10UTC+; metadata only, no quality endpoint/gain.
 
 ---

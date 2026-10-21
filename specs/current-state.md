@@ -1,3 +1,9 @@
+## 21 October04:18UTC — AllThree active at rare observation
+
+[Bounded AllThree health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0417Z/README.md) records completed epochs0–2/cumulative22380updates/2238batches/zero skips/nonfinite. Later ep3batch560 is progress only, not synchronous current totals/native44760/integrity/quality; NLL objective is not a WMSE quality comparison. One owned GPU, events unchanged, five stat-only artifacts; no new support/fit/restart/stop/inference/checker preparation or unchanged suites. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare05:10UTC+ and strict terminal gates. Comparison6started/5completed of6 including parent, prerequisites5 separate; no further scientific fits.
+
+---
+
 ## 21 October03:18UTC — AllThree active at rare observation
 
 [Bounded AllThree health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0317Z/README.md) records completed epoch0/7460updates/746batches/zero skips/nonfinite. Later ep1batch680 is progress only, not current totals/native44760/integrity/quality; NLL objective is not a WMSE quality comparison. One owned GPU, events unchanged, three stat-only artifacts; no new support/fit/restart/stop/inference/checker preparation or unchanged suites. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare04:10UTC+ and strict terminal gates. Comparison6started/5completed of6 including parent, prerequisites5 separately; no new fits beyond this final arm.

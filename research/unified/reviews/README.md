@@ -1,3 +1,7 @@
+[AllThree04:18 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0417Z/METADATA_REVIEW.json) joins exact stored raw/transport/three extracts, original admission/launch, unchanged reader, three completed epochs and sampled invocation/ownership/resources. Parent event deltas use03:18 health. Metadata only: no B access/tensor replay/current-total/native-terminal/quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0418.json) preserves historical bytes and ledgers, adds zero fits/supports/quality and reruns no unchanged suite.
+
+---
+
 [AllThree03:18 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0317Z/METADATA_REVIEW.json) joins exact stored raw/transport/three extracts, original admission/launch, unchanged reader, completed epoch0 counters and sampled invocation/ownership/resources. Parent event deltas use the02:00 startup baseline. Metadata only: no B access, tensor replay, current-total/native-terminal/quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0318.json) preserves historical bytes/ledgers, adds zero fits/supports/quality and reruns no unchanged suite.
 
 ---

@@ -1,3 +1,7 @@
+[AllThree rare health04:18UTC](child_allthree_fit_v1/health_20261021T0417Z/README.md): same active invocation, three completed epochs0–2/22380updates/2238batches/zero skips/nonfinite. Later ep3batch560 is not synchronous current totals/native terminal/quality. One owned worker, events unchanged, five stat-only run files; no support/newfit/restart/stop/inference/checker preparation. Next rare05:10UTC+.
+
+---
+
 [AllThree rare health03:18UTC](child_allthree_fit_v1/health_20261021T0317Z/README.md): same active invocation, completed epoch0/7460updates/746batches/zero skips/nonfinite. Later ep1batch680 is progress only, not current totals/native terminal/quality. One owned worker, events unchanged, three stat-only run files; no support/newfit/restart/stop/inference/checker preparation. Next rare04:10UTC+.
 
 ---
