@@ -36,3 +36,19 @@ R2 also exited before data (1.832seconds): `--save-training-state` is invalid fo
 ## Sustained profile complete
 
 [R3](I1_SUSTAINED_PROFILE_R3.json) passed,1100finiteupdates,4.36124s/batch,0OOM. Total profile charges454.953s. Complete six-fit stage provisionally17452s including profiles,20%fitmargin,360ssetup and1800sexport/grade reserve; no panel admitted until malformed amendedargv and evaluation-only grading are checked. CPUtests now allowed serially in spare1CPU/1.8GB; native replay continues.
+
+## Six-fit i1 panel admitted and running
+
+The [i1 packet](i1/README.md), [source-sealed admission](I1_PANEL_ADMISSION_R1.json) and [R2 finite sequence](I1_PANEL_SEQUENCE_R2.json) now own six fits (two per A/B/C arm), zero teacher fits, no reused fit controls. Source is clean isolated b1b680d4a, excluding later dynamics changes. Prior H512 full1873sequence exports took294–397seconds; this panel exports443/468groups, supporting the reserved1800seconds for all exports/grade. Projection remains17,452/18,000seconds, not a runtime guarantee.
+
+R1 launcher omitted the profiled zero-worker loader setting and failed at startup with a cgroupOOM; no checkpoint/fit result. [Repair receipt](I1_PANEL_LAUNCH_REPAIR_R2.json) preserves the12second charge and explicit synchronous-loader correction. R2 `wnn-next-i1-panel-r2-20261021.service`, invocation`b1cf6f061ac04873a9f5cf3a56333e44`, is live at1CPU/3GB/noSwap/17,533secondcap. Log confirms workers0/prefetch0 and4,620scheduledF0updates. Same source/recipe/batch, strictFP32. Root owns monitoring and results; no quality score yet.
+
+## Dynamics and offline recovery implemented
+
+[Independent dynamics review](DYNAMICS_REVIEW_R1.json) passes the frozen four-fit recipe; four root CPU tests pass. Full target-statistics preprocessing must enter the upcoming cost profile. See [implementation/recipe](../../experiment_drafts/dynamics-aux-20261021/README.md); code is integrated, profiles/fits pending and optional features default off. [B16 offline recovery](../kaggle_h512_b16_offline_recovery_r1/README.md) is integrated and undergoing independent review. It preserves the absent historical initial tensor digest rather than inventing it. No additional Kaggle launch.
+
+Native CP5/SWA replay/grade remains live under1CPU/1.8GB. The root `scripts/package_submission.py` temporarily retains its pre-dynamics bytes (SHA51468297...) because both replay and grader bind that historical exporter. Restore its committed HEAD version only after the entire native sequence finishes; actual ZIPs are unchanged.
+
+## User memory steering
+
+User warned about killed processes. [Safety correction](MEMORY_SAFETY_CORRECTION_R1.json) identifies the two R1loader-launch kills, records correctedR2/native OOM0, and closes additional heavy/test/GPU admission until native completes. R2has reachedbatch40 with synchronousloading. Hostavailable~6.83GB and hostswap almostfull; taskswap remains0. Do not kill unrelated processes or useOOMto sizejobs.

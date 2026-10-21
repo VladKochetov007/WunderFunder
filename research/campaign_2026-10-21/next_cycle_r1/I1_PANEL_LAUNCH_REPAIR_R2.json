@@ -1,0 +1,12 @@
+{
+  "status": "R1_TERMINAL_OOM_R2_EXPLICIT_LOADER_REPAIR",
+  "r1_service": "wnn-next-i1-panel-r1-20261021.service",
+  "r1_invocation": "fdaebec525914da4a8ff373a559ec94f",
+  "r1_wall_seconds_charged": 12.0,
+  "evidence": "systemd journal: spawned pt_data_worker and cgroupOOM at startup; no stdout trainer metadata/checkpoint. Empty run directory. Prior sustained profile logs explicitly loader workers0 prefetch0.",
+  "cause": "Launcher omitted WNN_LOADER_WORKERS=0, allowing default worker/prefetch allocations outside the measured synchronous-loader recipe.",
+  "repair": "Set WNN_LOADER_WORKERS=0 and WNN_LOADER_RAM_GB=0.6 explicitly for every panel subprocess. Same source/recipe/batch/memory cap. Set allocator4GB and NVIDIA_TF32_OVERRIDE=0.",
+  "r2_worker_ceiling_seconds": 17533,
+  "stage_remaining_seconds": 17533.046830793013,
+  "no_checkpoint_or_scientific_result": true
+}
