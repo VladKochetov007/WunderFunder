@@ -1,0 +1,159 @@
+{
+  "schema": "fg19.child-allthree-terminal-body-source-review.v3",
+  "status": "PASS_SOURCE_ONLY",
+  "reviewed_utc": "2026-10-21T06:11:00Z",
+  "scope": "Independent static source review of the exact frozen V3 body, the single check_fit_receipts repair, and the root V3 payload audit. No tests/imports/body or checker execution/B/network action, and no model-state, array, dictionary, cache, or dataset payload reads were performed by this reviewer.",
+  "body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v3/REMOTE_SUBMISSION_V3.py",
+    "bytes": 707678,
+    "sha256": "12f357f2127abded88b0e89d5ba08323310bcc5337a980f89a2ce90b4ec57151"
+  },
+  "v3_binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v3/V3_BINDING.json",
+    "bytes": 18346,
+    "sha256": "1d3677bc4efcaa25cfc7dd57c1ad5ba248dbd1140906e293ab4f4f162010a170",
+    "status": "PREPARED_LOCAL_NARROW_RECEIPT_SOURCE_REPAIR_PENDING_INDEPENDENT_EXACT_BODY_REVIEW_AND_ROOT_OUTER_BINDING",
+    "actual_v3_remote_action": false
+  },
+  "root_payload_check": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v3/ROOT_PAYLOAD_CHECK.json",
+    "bytes": 9991,
+    "sha256": "f18279e7fbb834efb784e32f8381df7a837f237f87b1a3dfd5b4da4c0271f6f3",
+    "status": "PASS_STATIC_EXACT_BODY_PAYLOAD_BINDING_ONLY",
+    "payload_count": 15,
+    "exact_base64_byte_joins": 15,
+    "private_code_count": 7,
+    "typed_native_exact_key_count": 14,
+    "typed_native_exact_key_set_verified": true,
+    "strict_integer_native_0_1_0_verified": true,
+    "inverse_byte_identity_to_v1": true,
+    "inverse_byte_identity_to_v2_after_check_fit_receipts_replacement": true,
+    "operational_ast_equal_v1_after_only_path_marker_and_receipt_source_classification_repairs": true,
+    "no_B_or_SSH_action": true,
+    "no_body_or_checker_import_or_execution": true,
+    "no_model_state_or_array_payload_reads": true
+  },
+  "changed_function_review": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v3/REMOTE_SUBMISSION_V3.py",
+    "lines": "429-543",
+    "function": "check_fit_receipts",
+    "verification": [
+      "The five names are partitioned exactly into native_names={ADMISSION.json, LAUNCH.json} and root_only_names={ALLTHREE_LAUNCH_STDOUT.raw.json, LAUNCH_ACCEPTANCE.json, TRANSPORT.json}; the code requires the two sets to be disjoint and to cover the five fixed receipts.",
+      "Each of the five embedded payloads must be bytes with the exact fixed byte count and SHA-256 before classification.",
+      "Only ADMISSION.json and LAUNCH.json are read from the B-side EVIDENCE directory via stable_file; both must match the pinned embedded payload bytes and hash.",
+      "The three root-only receipts are validated against their exact fixed embedded payload pins and are not read from or written into the native EVIDENCE directory.",
+      "The root-only LAUNCH_ACCEPTANCE.json remains passed downstream from the private verifier D path, which is populated from the reviewed embedded payloads only after preflight; the checker signature explicitly receives admission_path, launch_path, and launch_acceptance_path.",
+      "Root's exact V3 payload audit independently maps all 15 embedded payloads to local source paths and confirms exact joins, including the five receipt payloads."
+    ],
+    "native_receipt_reads": [
+      "ADMISSION.json",
+      "LAUNCH.json"
+    ],
+    "root_only_receipts": [
+      "ALLTHREE_LAUNCH_STDOUT.raw.json",
+      "LAUNCH_ACCEPTANCE.json",
+      "TRANSPORT.json"
+    ],
+    "root_only_native_evidence_directory_reads": false,
+    "root_only_native_evidence_directory_writes": false,
+    "downstream_launch_acceptance_path": "D/LAUNCH_ACCEPTANCE.json"
+  },
+  "exact_change_proof": {
+    "v1_body": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v1/REMOTE_SUBMISSION.py",
+      "bytes": 706653,
+      "sha256": "1b5f60799dded8e4086da3059e45ba6ea97455d14a4f6f3d8b74348d3f804baf"
+    },
+    "v2_body": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v2/REMOTE_SUBMISSION_V2.py",
+      "bytes": 706761,
+      "sha256": "37f70c0814e11c3ece637735d4db0b2dbf376bc85ded99d2370baba63104f8c3"
+    },
+    "v2_source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v2/FINAL_BODY_SOURCE_REVIEW_V2.json",
+      "bytes": 6926,
+      "sha256": "eea413dff3f2a0dd47b2d92a87a5649ce1175317697a83c46d68f45c46578d3d",
+      "status": "PASS_SOURCE_ONLY"
+    },
+    "v2_failed_preflight_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v1/ACTUAL_PREFLIGHT_FAILURE_METADATA_REVIEW.json",
+      "bytes": 8412,
+      "sha256": "9a5598b280b3b332b1666405466e0692e3f4ca2e752ad2fad04166dc8c7ec61f",
+      "status": "PASS_METADATA_ONLY"
+    },
+    "normalized_diffs": [
+      "Replacing only V3 check_fit_receipts with the V2 function yields byte-identical V2 outside that function; verified independently by masking only that function and comparing the remaining body streams.",
+      "The root V3 payload audit independently confirms the exact inverse byte relation to V2 after replacing only check_fit_receipts, the inverse relation through the prior one-line Path-marker repair to V1, and operational AST equality after normalizing only the declared repairs."
+    ]
+  },
+  "retained_bindings": {
+    "root_preparation": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/ROOT_PREPARATION.json",
+      "bytes": 20096,
+      "sha256": "7a441c3c512a209fa3361429bb10d1c9b6d1ea0d59dbe9c4497c78e9cd20f276",
+      "status": "PASS_LOCAL_PREPARATION_ONLY_NOT_STAGED_ADMITTED_OR_EXECUTED"
+    },
+    "checker": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/child_allthree_terminal_check_v1.py",
+      "bytes": 40442,
+      "sha256": "f4e9b7a2ed6798edf7ac0fbd30517687606494f6aacc44dddc96a0bba1f544dd"
+    },
+    "checker_source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/CHILD_ALLTHREE_TERMINAL_SOURCE_REVIEW_V1.json",
+      "bytes": 12882,
+      "sha256": "f89ae622cd7fdf5d3fc0dacbe1baaf7dfd7f121566d7d96df731ac316578eb0e",
+      "status": "PASS_SOURCE_ONLY"
+    },
+    "import_boundary_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/PRIVATE_IMPORT_BOUNDARY_PROOF_V1.json",
+      "bytes": 12712,
+      "sha256": "1456ca8e051aa44ca39c836e1d6a531deecd0cac87307e1be2aae982aba7ba93"
+    },
+    "typed_native_evidence": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/TERMINAL_EVIDENCE.json",
+      "bytes": 717,
+      "sha256": "da91b782652e98843fdadeadcb41ab2c3f67492ead0e95c108ef18c85916f27a"
+    },
+    "native_raw_capture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+      "bytes": 82591,
+      "sha256": "0d9ba24a1e241ee22090247711f5e875def72faf5b052cf149d227cdca2f262a"
+    },
+    "original_fit_launch_acceptance": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/LAUNCH_ACCEPTANCE.json",
+      "bytes": 2933,
+      "sha256": "2afbba374ea2e332766368087490660198110027784924c69d03a5656c924346"
+    },
+    "path_exception_environment_argument": "--setenv=FG19_APPROVED_PATH_COMPAT_EXCEPTION=pathlib._local.PosixPath:exact-dictionary-path-only",
+    "path_exception_argument_occurrences": 1,
+    "support_unit": "computer-vision-homework-fg19-child-allthree-verify-v1.service",
+    "native_invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+    "native_state": {
+      "active_state": "active",
+      "sub_state": "exited",
+      "main_pid": 0,
+      "exec_main_code": 1,
+      "exec_main_status": 0,
+      "native_exit_utc": "2026-10-21T05:31:17+00:00",
+      "captured_utc": "2026-10-21T05:52:14.368945+00:00"
+    }
+  },
+  "retained_operational_gates": [
+    "All source outside check_fit_receipts is byte-identical to V2, including explicit Path-marker --setenv, strict typed/raw native and current unit gates, no circular prior-stop prerequisite, original fit recipe/acceptance checks, all 14 predecessor receipt pins, fresh 167-file source/split/registered-data/stat-only checks, cache/parent resource and physical-scratch headroom, selected-GPU ownership, seven-code pre-import hashes/origins, and fail-closed single-attempt/no-retry support submission.",
+    "The isolated support unit remains capped at 50% CPU, 1.4 GB MemoryHigh, 1.5 GB MemoryMax, zero swap, 600 seconds, hidden CUDA, and one BLAS/OpenMP thread; the 13 Path values passed to verify_terminal remain in the frozen checker API order."
+  ],
+  "v3_source_receipt": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v3/V3_BINDING.json",
+    "bytes": 18346,
+    "sha256": "1d3677bc4efcaa25cfc7dd57c1ad5ba248dbd1140906e293ab4f4f162010a170",
+    "prior_v2_failure_review_bound": true,
+    "root_outer_v3_manifest_present": false,
+    "actual_v3_staging_or_execution": false
+  },
+  "blockers": [],
+  "limitations": [
+    "This is a source-only pass and does not authorize V3 admission, staging, or execution; root must still complete its separate outer stdin/admission binding.",
+    "The root payload audit was inspected as bounded metadata. This reviewer did not decode embedded payload contents or read model, array, cache, dictionary, or dataset state."
+  ]
+}
+

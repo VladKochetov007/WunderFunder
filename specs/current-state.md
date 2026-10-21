@@ -1,3 +1,19 @@
+**21 October07:11UTC:** [Final AllThree full integrity acceptance and exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_INDEX.md) close all6first-cell scientificfits includingparent;5sharedprerequisites separate. TwoAllThreeengineeringCPUunits(1failedpreserved/1successful); originalsuccessfulcompactJSON was recovered fromunit.log via reviewedreadonlyreader, no fit/checker replay. No further fits or quality/gain. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs nextfixed468exposed-development evaluation/exportpreparation and pendingpublication; older dated snapshots below remain history.
+
+---
+
+## 21 October05:52UTC — final AllThree native complete; integrity pending
+
+[Exact native evidence](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_native_capture_v1/README.md) confirms six epochs44760updates/4476batches/zero skips/nonfinite; no quality endpoint. Local V1 CPU body source rejection occurred before any B action; only explicit already-granted Path marker forwarding needs a reviewed V2. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs actualCPU→fullacceptance→exactownstop and later existing scoring protocol. Comparison6nativecompleted/5integrityaccepted of6; prerequisites5 separate; no further scientific fits.
+
+---
+
+## 21 October05:18UTC — AllThree active; terminal preparation local
+
+[Bounded AllThree health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0517Z/README.md) records five completed epochs/37300updates/3730batches/zero skips/nonfinite. Later ep5batch440 is progress only, not synchronous current totals/native44760/integrity/quality. One owned GPU, unchanged events, seven stat-only artifacts. Needed thin AllThree checker/conditional cappedCPU preparation is separate LOCAL work; no B staging/support/payload read/hash before actual strict typed native exit0. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs focused05:50UTC+ and root acceptance-before-exactstop. Comparison6started/5completed of6 including parent, prerequisites5 separate; no new scientific fits beyond this final arm.
+
+---
+
 ## 21 October04:18UTC — AllThree active at rare observation
 
 [Bounded AllThree health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0417Z/README.md) records completed epochs0–2/cumulative22380updates/2238batches/zero skips/nonfinite. Later ep3batch560 is progress only, not synchronous current totals/native44760/integrity/quality; NLL objective is not a WMSE quality comparison. One owned GPU, events unchanged, five stat-only artifacts; no new support/fit/restart/stop/inference/checker preparation or unchanged suites. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare05:10UTC+ and strict terminal gates. Comparison6started/5completed of6 including parent, prerequisites5 separate; no further scientific fits.

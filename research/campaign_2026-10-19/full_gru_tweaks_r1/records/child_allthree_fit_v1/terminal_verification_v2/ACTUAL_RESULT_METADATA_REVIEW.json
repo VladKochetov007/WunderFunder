@@ -1,0 +1,273 @@
+{
+  "schema": "fg19.child-allthree-actual-first-support-result-metadata-review.v1",
+  "status": "PASS_METADATA_ONLY_FIRST_SUPPORT_FAILED_SCHEMA_GATE",
+  "reviewed_utc": "2026-10-21T06:17:56Z",
+  "scope": "Independent local audit of the first V3 CPU support launch, its bounded read-only receipt recovery, and its bounded read-only result capture. No tests, checker/source imports or execution, B actions, retry/stop, network action, or model/state/dictionary/cache-array/dataset payload reads.",
+  "v3_submission_and_empty_reply": {
+    "body": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/REMOTE_SUBMISSION.py",
+      "bytes": 707678,
+      "sha256": "12f357f2127abded88b0e89d5ba08323310bcc5337a980f89a2ce90b4ec57151"
+    },
+    "root_admission_manifest": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/ROOT_ADMISSION_MANIFEST.json",
+      "bytes": 5316,
+      "sha256": "e76dbf531a9c227953593c013090c8eb00e93670f0efe17a0251ab20af6e3abd",
+      "actual_engineering_support_unit_attempt_index_if_submitted": 1,
+      "scientific_fits": 0,
+      "native_unit_stop_requested": false
+    },
+    "source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v3/FINAL_BODY_SOURCE_REVIEW_V3.json",
+      "bytes": 9894,
+      "sha256": "cf5b9f778e8507f7db1b0058e1a8b550b4d8f58ba183fbfdbe03ac98a1e659e7",
+      "status": "PASS_SOURCE_ONLY"
+    },
+    "transport": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/TRANSPORT.json",
+      "bytes": 921,
+      "sha256": "767058f68a62850d57e02bf23770cb852251346fafb0cda058c9850fb571aefd",
+      "started_utc": "2026-10-21T06:11:14.544054+00:00",
+      "finished_utc": "2026-10-21T06:11:16.112107+00:00",
+      "ssh_returncode": 0,
+      "timed_out": false,
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "persisted_before_parse": true,
+      "retry_performed": false
+    },
+    "empty_reply_protocol_note": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/ROOT_EMPTY_REPLY_PROTOCOL_NOTE.json",
+      "bytes": 4002,
+      "sha256": "221e28bdb7c892a9dc2c66e42c33f5f2e78c3ca82719bc311dc35c3402daeb14",
+      "finding": "The reviewed main captures systemd-run streams and persists VERIFIER_LAUNCH.json but emits no outer JSON response. Its only print call is in the unit-runner string; unit stdout/stderr are redirected to unit.log. Thus empty outer stdout and the root-reported local JSON parse error did not establish the support unit's result."
+    },
+    "initial_raw_streams": {
+      "stdout": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/STDOUT.raw.json",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/STDERR.raw.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  },
+  "readonly_launch_receipt_recovery": {
+    "reader_source": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/launch_receipt_recovery/REMOTE.py",
+      "bytes": 2404,
+      "sha256": "00ee75d2d3a9a18ff054196d5a0dea248d393c275882400eb8a3aba389fd46da",
+      "reviewed_scope": "Checks the exact support-directory owner and reads only VERIFIER_ADMISSION.json and VERIFIER_LAUNCH.json with bounded O_NOFOLLOW file reads, then performs one exact-unit systemctl show query. No mutation, stop, restart, or payload read is present in the reviewed source."
+    },
+    "transport": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/launch_receipt_recovery/TRANSPORT.json",
+      "bytes": 544,
+      "sha256": "2fc3e9b8b88458b8b47b0688e9a75821b1f233df3cdc1601407f868579dc7025",
+      "started_utc": "2026-10-21T06:13:25.122724+00:00",
+      "finished_utc": "2026-10-21T06:13:25.534691+00:00",
+      "ssh_returncode": 0,
+      "timed_out": false,
+      "stdout_bytes": 45815,
+      "stdout_sha256": "f118d8976a118c5d97a1c80349801565f4a3dbd1dabfe0ce48d5fb73d2410ae3",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "persisted_before_parse": true,
+      "retry_performed": false
+    },
+    "capture_utc": "2026-10-21T06:13:25.687653+00:00",
+    "exact_unit": "computer-vision-homework-fg19-child-allthree-verify-v1.service",
+    "support_invocation_id": "f0c857aa1a68498cb4be237d423281cf",
+    "native_unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+    "native_invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+    "unit_properties": {
+      "LoadState": "loaded",
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "MainPID": "0",
+      "InvocationID": "f0c857aa1a68498cb4be237d423281cf",
+      "Result": "exit-code",
+      "ExecMainCode": "1",
+      "ExecMainStatus": "1",
+      "ExecMainStartTimestamp": "Wed 2026-10-21 06:11:16 UTC",
+      "ExecMainExitTimestamp": "Wed 2026-10-21 06:11:22 UTC"
+    },
+    "recovered_receipts": {
+      "VERIFIER_ADMISSION.json": {
+        "bytes": 25213,
+        "sha256": "1c452fc8d0e6a769016089feebc3f1a3dde9750c85cf680709e3d93cc8865bcd",
+        "embedded_base64_join_verified": true
+      },
+      "VERIFIER_LAUNCH.json": {
+        "bytes": 8304,
+        "sha256": "0b24099a53e000bccda24a5425bdd7d7f4a65fe446c907a7a955611c9fb25927",
+        "embedded_base64_join_verified": true
+      }
+    }
+  },
+  "root_launch_acceptance_not_fit_acceptance": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/LAUNCH_ACCEPTANCE.json",
+    "bytes": 3658,
+    "sha256": "4c99613796fc911b02c9871b12d6ac9c6339d89abd9f7ec1e7f1bdbc1a9953b1",
+    "status": "ACTUAL_ONE_SUPPORT_LAUNCH_RECOVERED_FROM_DURABLE_RECEIPTS_NOT_FIT_ACCEPTANCE",
+    "classification": "This local root receipt binds the empty-reply protocol note, root manifest, transport, and exact recovered support receipts. It does not mean the terminal checker passed or provide fit acceptance."
+  },
+  "readonly_result_capture": {
+    "root_capture_binding": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/capture/ROOT_CAPTURE_BINDING.json",
+      "bytes": 2154,
+      "sha256": "6264c0b6b84407601fff3b297d0ea2d17920b161b2eebe42a75bf869c1fea430",
+      "status": "PASS_ONLY_FIVE_ACTUAL_SUPPORT_LITERAL_BINDINGS",
+      "template": {
+        "bytes": 15545,
+        "sha256": "2fc1060ea7996b2b48341af3ac2f970f0daf2a0ee69d647f32108180b2b7162c"
+      },
+      "conditional_source_review": {
+        "bytes": 10064,
+        "sha256": "0aa4bce3814ba398861da684c64ed5503b049f1c6967c5ad4ff5c4d60c1c3685",
+        "status": "PASS_CONDITIONAL_SOURCE_ONLY"
+      },
+      "actual_reader": {
+        "bytes": 15577,
+        "sha256": "dd894ec17d6528d3a1a569d25c2eda8edcf93475b4e6d461db5c53f64ee2f85b"
+      },
+      "source_diff_review": "Comparing actual reader to frozen template showed exactly five substitutions: admission bytes/SHA, launch bytes/SHA, and support invocation ID. The binding records operational_AST_unchanged=true and no local reader/checker import or execution."
+    },
+    "transport": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/capture/TRANSPORT.json",
+      "bytes": 545,
+      "sha256": "fe709907aa8fba0b61ee7ca68f2235597103b705068febd1ef8d4b778bad3a7f",
+      "started_utc": "2026-10-21T06:14:08.939337+00:00",
+      "finished_utc": "2026-10-21T06:14:09.611620+00:00",
+      "ssh_returncode": 0,
+      "timed_out": false,
+      "stdout_bytes": 52674,
+      "stdout_sha256": "04e34429bd45c1f434c735e35b5cec33285d865db14e473517fbba1f10f906b0",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "persisted_before_parse": true,
+      "retry_performed": false
+    },
+    "raw_capture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/capture/STDOUT.raw.json",
+      "bytes": 52674,
+      "sha256": "04e34429bd45c1f434c735e35b5cec33285d865db14e473517fbba1f10f906b0",
+      "captured_utc": "2026-10-21T06:14:09.761093+00:00",
+      "support_unit": "computer-vision-homework-fg19-child-allthree-verify-v1.service",
+      "support_invocation_id": "f0c857aa1a68498cb4be237d423281cf",
+      "native_unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+      "native_invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+      "terminal_success": false,
+      "unit": {
+        "ActiveState": "failed",
+        "SubState": "failed",
+        "MainPID": "0",
+        "ExecMainCode": "1",
+        "ExecMainStatus": "1",
+        "Result": "exit-code",
+        "ExecMainExitTimestamp": "Wed 2026-10-21 06:11:22 UTC"
+      },
+      "three_embedded_files": {
+        "VERIFIER_ADMISSION.json": {
+          "bytes": 25213,
+          "sha256": "1c452fc8d0e6a769016089feebc3f1a3dde9750c85cf680709e3d93cc8865bcd",
+          "base64_join_verified": true
+        },
+        "VERIFIER_LAUNCH.json": {
+          "bytes": 8304,
+          "sha256": "0b24099a53e000bccda24a5425bdd7d7f4a65fe446c907a7a955611c9fb25927",
+          "base64_join_verified": true
+        },
+        "unit.log": {
+          "bytes": 2761,
+          "sha256": "553a4157d07326bc1c23a70e419f6e5cf9e439698fea8b77cc6a1addd3634bfb",
+          "base64_join_verified": true
+        }
+      },
+      "verification_result_file": "Not captured because terminal_success was false; no successful checker result is claimed.",
+      "native_state_query": "The capture source binds the native unit and invocation identity but performs no native-unit poll; this audit does not infer a newer native state from this capture."
+    }
+  },
+  "exact_private_code_closure": {
+    "verified_local_source_pins_match_capture": true,
+    "count": 7,
+    "files": {
+      "child_allthree_terminal_check_v1.py": {
+        "bytes": 40442,
+        "sha256": "f4e9b7a2ed6798edf7ac0fbd30517687606494f6aacc44dddc96a0bba1f544dd"
+      },
+      "child_nll_terminal_check_v1.py": {
+        "bytes": 40474,
+        "sha256": "a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2"
+      },
+      "child_control_terminal_check_v3.py": {
+        "bytes": 79972,
+        "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+      },
+      "child_ema_terminal_check_v3.py": {
+        "bytes": 38267,
+        "sha256": "676d548c1cd25c3c1379548999cca1300ef135dd41b4a8f73689ef8e59de3b5d"
+      },
+      "parent_fit_terminal_check_v3.py": {
+        "bytes": 64550,
+        "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+      },
+      "propensity_terminal_support.py": {
+        "bytes": 13107,
+        "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+      },
+      "teacher_s5_terminal_check_v1.py": {
+        "bytes": 37448,
+        "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+      }
+    }
+  },
+  "failure_analysis": {
+    "unit_log": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/capture/unit.log",
+      "bytes": 2761,
+      "sha256": "553a4157d07326bc1c23a70e419f6e5cf9e439698fea8b77cc6a1addd3634bfb",
+      "exception": "ValueError: predecessor stop schema differs"
+    },
+    "traceback": {
+      "allthree_checker_function": "_check_native_predecessor",
+      "allthree_checker_line": 323,
+      "strict_schema_passed": "fg19.child-nll-exact-owned-stop.v1",
+      "comparison_helper": "child_control_terminal_check_v3.py:_check_stop_receipt line 923",
+      "native_fit_verifier_call": "verify_terminal line 814",
+      "later_parent_dictionary_model_gates": "verify_terminal lines 818-822, after the failing call"
+    },
+    "pinned_nll_stop_receipt": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/exact_stop/EXACT_STOP.json",
+      "bytes": 3140,
+      "sha256": "c63be79b27d131acb0a38d2ad641fa7d72344cc344c26ab94ca77faf3b4a74f1",
+      "actual_schema": "fg19-child-nll-exact-owned-stop.v1",
+      "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+      "invocation_id": "c833c613fb92426981ab255a5faf4452",
+      "acceptance_sha256": "d94457b11ce22a368cdc93df02e473c9a82cde6ddebd26cc6957bafc143750c5",
+      "matches_checker_pinned_receipt_bytes_sha": true
+    },
+    "classification": "The first actual CPU support unit reached the AllThree checker and failed on a strict schema-string mismatch: the pinned NLL stop receipt uses the hyphenated schema, while AllThree passes the dotted schema literal. The traceback occurs before the later parent/dictionary-stat and parent-checkpoint gates. This is an engineering integration failure, not a model-quality result or successful terminal verification."
+  },
+  "attempt_accounting_and_limits": {
+    "first_actual_engineering_support_unit": "computer-vision-homework-fg19-child-allthree-verify-v1.service/f0c857aa1a68498cb4be237d423281cf",
+    "initial_v3_ssh_returncode_zero_empty_reply_is_not_unit_success_or_failure": true,
+    "later_readonly_capture_establishes_unit_failed": true,
+    "prior_v2_preflight_failed_before_any_support_unit": true,
+    "support_unit_attempts_started": 1,
+    "retries_or_restarts": 0,
+    "unit_stop_or_mutation_by_reviewer": false,
+    "native_stop_requested": false,
+    "fit_or_quality_claim": false,
+    "native_current_state_claim_from_result_capture": false
+  },
+  "limitations": [
+    "The launch-receipt recovery is a bounded read-only observation at 06:13:25.687653 UTC; the result capture is a bounded read-only observation at 06:14:09.761093 UTC. These records do not establish later unit state.",
+    "The result reader intentionally omitted VERIFICATION.json because the observed unit did not satisfy its exact terminal-success tuple; no checker success receipt exists in this capture.",
+    "Only receipt metadata, bounded unit log text, source pins, unit state, and process/cgroup metadata were audited. No model/state/dictionary/cache-array/dataset payload contents were accessed, and no scientific fit was started by this review."
+  ]
+}

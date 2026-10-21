@@ -1,0 +1,130 @@
+{
+  "schema": "fg19.child-allthree-terminal-result-capture-source-review.v2",
+  "status": "PASS_CONDITIONAL_SOURCE_ONLY",
+  "review_kind": "Static source and exact adaptation review of the inert AllThree support-result reader template; no runtime capture was performed.",
+  "reviewed_utc": "2026-10-21T06:25:28Z",
+  "scope": {
+    "B_or_SSH_accessed": false,
+    "remote_queries_attempted": 0,
+    "actual_support_receipts_or_invocation_bound": false,
+    "template_or_checker_imported_or_executed": false,
+    "tests_run": false,
+    "model_state_dictionary_cache_array_dataset_source_or_trainer_payload_read_or_hashed": false,
+    "root_preparation_hash_bound": false,
+    "rendered_v4_producer_body_reviewed": false,
+    "root_outer_four_key_stdout_envelope_reviewed": false
+  },
+  "reviewed_files": {
+    "parent_allthree_v1_template": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v1/RESULT_CAPTURE_TEMPLATE.py",
+      "bytes": 15545,
+      "sha256": "2fc1060ea7996b2b48341af3ac2f970f0daf2a0ee69d647f32108180b2b7162c"
+    },
+    "candidate_allthree_v2_template": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v2/RESULT_CAPTURE_TEMPLATE.py",
+      "bytes": 15545,
+      "sha256": "00b7d9c2cf6a6fe0cad9da5c2196d3637f3821395dfe13963e0841b76d52fef7"
+    },
+    "adaptation_receipt": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v2/AST_LITERAL_ADAPTATION_V2.json",
+      "bytes": 1812,
+      "sha256": "be9848c2453c0eaff030873c652da2e125d64940e96af6b9c19dfbdef25892fd"
+    },
+    "inherited_v1_conditional_source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v1/SOURCE_REVIEW_V1.json",
+      "bytes": 10064,
+      "sha256": "0aa4bce3814ba398861da684c64ed5503b049f1c6967c5ad4ff5c4d60c1c3685",
+      "status": "PASS_CONDITIONAL_SOURCE_ONLY"
+    },
+    "checker_literal_target": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/child_allthree_terminal_check_v2.py",
+      "bytes": 40442,
+      "sha256": "6ff4ba93a4020a4b34ade46a2512ac77b871328e95c47f2ca4561b8dcbd435b5"
+    }
+  },
+  "source_adaptation": {
+    "direct_text_diff_review": "PASS_EXACTLY_FOUR_LITERAL_SUBSTITUTIONS_NO_OTHER_SOURCE_CHANGES",
+    "substitutions": [
+      {
+        "purpose": "private support output directory",
+        "from": "research_tmp/fg19_child_allthree_verify_v1",
+        "to": "research_tmp/fg19_child_allthree_verify_v2"
+      },
+      {
+        "purpose": "support systemd unit",
+        "from": "computer-vision-homework-fg19-child-allthree-verify-v1.service",
+        "to": "computer-vision-homework-fg19-child-allthree-verify-v2.service"
+      },
+      {
+        "purpose": "checker filename",
+        "from": "child_allthree_terminal_check_v1.py",
+        "to": "child_allthree_terminal_check_v2.py"
+      },
+      {
+        "purpose": "checker SHA-256",
+        "from": "f4e9b7a2ed6798edf7ac0fbd30517687606494f6aacc44dddc96a0bba1f544dd",
+        "to": "6ff4ba93a4020a4b34ade46a2512ac77b871328e95c47f2ca4561b8dcbd435b5"
+      }
+    ],
+    "literal_count": 4,
+    "candidate_and_parent_bytes_equal": true,
+    "normalized_operational_ast_equality_claim": {
+      "declared_by_pinned_adaptation_receipt": true,
+      "receipt_value": true,
+      "ast_procedure_executed_by_this_reviewer": false,
+      "direct_diff_independently_showed_only_the_four_declared_textual_changes": true
+    },
+    "checker_and_six_helper_code_closure": "The candidate points to the exact V2 checker source pin above. The six helper filenames, sizes and hashes are unchanged from the reviewed V1 reader contract.",
+    "receipt_protocol_schemas_unchanged": [
+      "fg19.child-allthree-terminal-verifier-admission.v1",
+      "fg19.child-allthree-terminal-verifier-launch.v1"
+    ]
+  },
+  "reader_contract": {
+    "native_identity": {
+      "run_name": "fg19_child_allthree_f0_s1001_fit_v1",
+      "native_unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+      "native_invocation_id": "94d3a7132a434d448345b0206bd3daa3"
+    },
+    "admission_required_fields": [
+      "schema=fg19.child-allthree-terminal-verifier-admission.v1",
+      "status=FRESH_GATES_PASSED_SUPPORT_SUBMISSION_PENDING",
+      "run_name",
+      "native_unit",
+      "native_invocation_id"
+    ],
+    "launch_required_fields": [
+      "schema=fg19.child-allthree-terminal-verifier-launch.v1",
+      "unit=computer-vision-homework-fg19-child-allthree-verify-v2.service",
+      "invocation_id=SUPPORT_INVOCATION_ID",
+      "native_unit",
+      "native_invocation_id"
+    ],
+    "unbound_support_constants": {
+      "SUPPORT_ADMISSION_BYTES": null,
+      "SUPPORT_ADMISSION_SHA256": "UNBOUND_ROOT_AFTER_ACTUAL_SUPPORT_ADMISSION",
+      "SUPPORT_LAUNCH_BYTES": null,
+      "SUPPORT_LAUNCH_SHA256": "UNBOUND_ROOT_AFTER_ACTUAL_SUPPORT_ADMISSION",
+      "SUPPORT_INVOCATION_ID": "UNBOUND_ROOT_AFTER_ACTUAL_SUPPORT_ADMISSION"
+    },
+    "unbound_constants_fail_before_remote_query": true
+  },
+  "review_findings": {
+    "blocking_findings_in_reader_template_adaptation": [],
+    "verified_properties": [
+      "The V2 template is an exact four-literal adaptation of the reviewed V1 reader: support directory, support unit, checker filename and checker SHA. The direct text diff showed no other changed source lines.",
+      "The five support admission/launch byte, SHA and invocation constants remain explicit unbound sentinels; actual values must come only from the exact future support receipts.",
+      "The reader still requires V1 admission and launch receipt schemas and exact native/support identity fields. V4 producer source must be separately reviewed against those requirements before any capture.",
+      "The reader source itself remains a read-only result-capture boundary; this review does not validate producer submission behavior or the root-side four-key stdout envelope."
+    ],
+    "conditionality": [
+      "This source review intentionally does not bind ROOT_PREPARATION.json, native raw or typed evidence, actual support receipt bytes, a support invocation ID, or a rendered V4 body, so no circular root-preparation binding is introduced.",
+      "The review status applies only to the reader template and four-literal source adaptation. Producer-consumer pairing, any future actual support receipts and invocation, outer root response validation, and exact rendered body review remain separate gates."
+    ]
+  },
+  "limitations": [
+    "No actual support receipt pins or invocation were available or bound. The five sentinels must be explicitly bound after a future actual support admission and launch; they are not optional inputs to a live capture.",
+    "The future V4 producer/body has not been reviewed here; confirm it emits the reader-required V1 receipt schemas and exact identity fields before capture.",
+    "This is not approval for B staging, admission or execution, does not establish native model/state integrity or quality, and does not validate the separate root-side stdout-envelope consumer."
+  ]
+}

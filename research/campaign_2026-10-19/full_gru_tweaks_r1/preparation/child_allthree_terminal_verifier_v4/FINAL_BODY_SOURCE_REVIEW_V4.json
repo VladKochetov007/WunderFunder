@@ -1,0 +1,47 @@
+{
+  "schema": "fg19.child-allthree-terminal-verifier-source-review.v4",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "reviewed_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v4/REMOTE_SUBMISSION_V4.py",
+    "bytes": 710826,
+    "sha256": "c186e7b4473bc11681f61c55a741f17b2fdab828c7906090ef10574a8aa2df90"
+  },
+  "render_binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v4/V4_RENDER_BINDING.json",
+    "bytes": 2823,
+    "sha256": "cb550e86822130554117eea257802398fa0c1c5589d4380dff962a0436c460d8",
+    "status": "RENDERED_CREATE_ONLY_LOCAL_BODY_NOT_STAGED_ADMITTED_OR_EXECUTED"
+  },
+  "blocking_findings": [
+    {
+      "id": "ADMISSION_UNIT_SELF_BINDING_MISMATCH",
+      "severity": "BLOCKER_REQUIRES_CORRECTION_BEFORE_SUPPORT_SUBMISSION",
+      "evidence": [
+        {
+          "body_lines": "1243-1264",
+          "finding": "The `admission` dictionary serialized to D/VERIFIER_ADMISSION.json contains schema, created_utc, status, run_name, native_unit, native_invocation_id, terminal hashes, gates, staged files, resource limits, and policy fields, but no `unit` key."
+        },
+        {
+          "body_lines": "1432-1451",
+          "finding": "After the systemd submission, invocation check, and durable VERIFIER_LAUNCH.json write, the outer process parses both durable receipts and requires durable_admission.get(\"unit\") == UNIT. The admission object produced above cannot satisfy this requirement, so `require` raises before the four-key JSON response is printed."
+        }
+      ],
+      "impact": "A valid preflight can pass, create the fresh output directory, persist admission, and submit the CPU support unit before the deterministic admission self-binding check fails. The promised result transport then fails even if the checker itself completes. This is a source-level contradiction; it must be corrected and independently reviewed before any B submission.",
+      "related_detail": "make_launch_record adds the support unit to VERIFIER_LAUNCH.json, but it does not add the missing unit to the independently serialized admission record."
+    }
+  ],
+  "other_source_review_observations": {
+    "target": "The frozen body targets the new computer-vision-homework-fg19-child-allthree-verify-v2.service and research_tmp/fg19_child_allthree_verify_v2; it does not target the failed V1 support unit or its private directory.",
+    "source_and_checker_binding": "The body binds checker V2 at 40442 bytes / 6ff4ba93a4020a4b34ade46a2512ac77b871328e95c47f2ca4561b8dcbd435b5, the V2 source review and narrow import proof, and the native typed/raw terminal identities recorded in V4_RENDER_BINDING.json.",
+    "native_gate": "Static source review confirms strict integer checks for main_pid=0, exec_main_code=1, exec_main_status=0, exact active/exited identity and invocation, positive exact raw byte count/hash/path, and timezone-aware ordered exit/capture timestamps.",
+    "preflight_order": "The body performs source, split, registered-data, native, receipt, cache/stat, parent/profile, GPU-ownership and resource checks before D.mkdir; the old failed V1 support is not queried or stopped. It prehashes the seven private code files before import, uses the six helper closure and 13 Path arguments, and retains the restricted weights-only state decoder and bounded one-attempt systemd envelope.",
+    "receipt_classification": "The source has a five-receipt partition: ADMISSION.json and LAUNCH.json are read-only native-D receipts; LAUNCH_ACCEPTANCE.json, ALLTHREE_LAUNCH_STDOUT.raw.json and TRANSPORT.json are fixed root-only payloads. The V3 payload joins and explicit approved pathlib path-compatibility environment marker are retained.",
+    "result_protocol": "The intended outer response is exactly four keys (unit, outcome, admission_base64, launch_base64), emitted only after durable receipt reads and successful-submission identity checks; however, the blocker above prevents this path from being reached with the generated admission. The body does not self-read stdin or claim its own body hash."
+  },
+  "review_limits": {
+    "method": "Read-only source and metadata inspection of the exact frozen body and render binding; no code imports, tests, renderer execution, remote query, B action, or embedded payload decoding.",
+    "separate_gates": "This verdict does not replace root's independent payload-join audit or any later corrected-body review. It is not an admission to stage, submit, execute, or consume the verifier."
+  },
+  "reviewed_utc": "2026-10-21",
+  "reviewer_action": "No B action; no tests or imports; no other files edited."
+}

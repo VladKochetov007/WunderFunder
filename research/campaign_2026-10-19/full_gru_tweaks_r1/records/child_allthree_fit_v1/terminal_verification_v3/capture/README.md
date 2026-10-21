@@ -1,0 +1,3 @@
+# Failed readonly result reader V2 — 21 October06:43UTC
+
+The one exact reader attempt returned SSH1, stdout0B and stderr696B when the successful-exit branch tried to open a nonexistent B `VERIFICATION.json`. [Transport](TRANSPORT.json) and [stderr](STDERR.raw.txt) preserve the original outcome. No checker/support/fit was re-executed and no output was recreated. The reviewed V5 worker prints its compact JSON only to `unit.log`; it does not create that file. [Corrected V3 capture](../capture_v3/README.md) reads the original log and explicitly records the missing file. This failure is a reader protocol mismatch, not a failed CPU support or scientific fit. No quality result is created here.

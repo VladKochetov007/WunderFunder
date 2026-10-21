@@ -1,0 +1,191 @@
+{
+  "audit_scope": {
+    "B_or_remote_actions": false,
+    "model_state_data_or_cache_payloads_read_or_inspected": false,
+    "native_terminal_evidence_parsed_or_interpreted": false,
+    "private_or_checker_code_imported": false,
+    "rendered_verifier_body_read_or_created": false,
+    "tests_run": false
+  },
+  "checks": {
+    "all_89_metadata_paths_and_actual_byte_sha": "PASS",
+    "fourteen_receipt_map_matches_original_admission": "PASS",
+    "full_repo_relative_unique_paths": "PASS",
+    "native_evidence_present_but_new_B_action_false": "PASS",
+    "profile_cache_and_fixed_metadata_anchors": "PASS",
+    "root_preparation_proof_and_source_review_bindings": "PASS",
+    "seven_code_dependency_paths_and_actual_byte_sha": "PASS",
+    "v2_private_import_proof_is_narrow_and_current": "PASS",
+    "v4_body_not_bound_and_no_prep_cycle": "PASS"
+  },
+  "findings": [],
+  "interpretation": "Local ROOT_PREPARATION metadata and proof-pin audit only. The native typed evidence is pinned as present, but this review does not revalidate its content or establish model/state integrity, worker execution, terminal acceptance, or predictive quality.",
+  "local_only_flags": {
+    "actual_B_staging_admission_or_execution": false,
+    "dependency_binding_condition_satisfied": true,
+    "native_terminal_evidence_present": true
+  },
+  "reviewed_utc": "2026-10-21T06:25:28Z",
+  "root_preparation": {
+    "bytes": 30221,
+    "identity": {
+      "invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+      "run_name": "fg19_child_allthree_f0_s1001_fit_v1",
+      "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "source_files": 167,
+      "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service"
+    },
+    "metadata_and_proof_pin_count": 89,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/ROOT_PREPARATION.json",
+    "schema": "fg19.child-allthree-terminal-root-preparation.v2",
+    "sha256": "60d864c978699b912a4cab1d09989e9e536e5506960ec89ef985103b6739accc",
+    "source_review": {
+      "bytes": 8298,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/CHILD_ALLTHREE_TERMINAL_SOURCE_REVIEW_V2.json",
+      "sha256": "ed093f41ee2b8073ed25c9b065a6fd7370dffed962b76a20f60e152e8837863a",
+      "status": "PASS_SOURCE_ONLY"
+    },
+    "status": "PASS_LOCAL_PREPARATION_ONLY_NOT_STAGED_ADMITTED_OR_EXECUTED"
+  },
+  "schema": "fg19.child-allthree-root-preparation-metadata-review.v2",
+  "status": "PASS_ROOT_PREPARATION_METADATA_AND_PROOF_PINS_ONLY",
+  "temporal_notes": [
+    "The V2 checker source review predates this ROOT_PREPARATION and says root-owned preparation was pending at that time. This review confirms the subsequently created root-preparation pin; the earlier wording is historical, not a current missing-binding finding."
+  ],
+  "verified_bindings": {
+    "cache_evidence": {
+      "accepted_and_exact_stop_receipts": 2,
+      "paths": [
+        "research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_cpu_build_v2/TERMINAL_ACCEPTANCE.json",
+        "research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_cpu_build_v2/exact_stop/STDOUT.raw.json"
+      ]
+    },
+    "code_dependencies": {
+      "count": 7,
+      "full_repo_relative_paths": true,
+      "pins": [
+        {
+          "bytes": 40442,
+          "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/child_allthree_terminal_check_v2.py",
+          "sha256": "6ff4ba93a4020a4b34ade46a2512ac77b871328e95c47f2ca4561b8dcbd435b5"
+        },
+        {
+          "bytes": 40474,
+          "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/child_nll_terminal_check_v1.py",
+          "sha256": "a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2"
+        },
+        {
+          "bytes": 79972,
+          "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/child_control_terminal_check_v3.py",
+          "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+        },
+        {
+          "bytes": 38267,
+          "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_verifier_v3/child_ema_terminal_check_v3.py",
+          "sha256": "676d548c1cd25c3c1379548999cca1300ef135dd41b4a8f73689ef8e59de3b5d"
+        },
+        {
+          "bytes": 64550,
+          "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/parent_fit_terminal_check_v3.py",
+          "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+        },
+        {
+          "bytes": 13107,
+          "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/propensity_terminal_support.py",
+          "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+        },
+        {
+          "bytes": 37448,
+          "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_s5_terminal_check_v1.py",
+          "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+        }
+      ],
+      "actual_bytes_and_sha_rechecked": true
+    },
+    "import_boundary_proof": {
+      "bytes": 12712,
+      "child_preloaded_module_names": [],
+      "code_closure_count": 7,
+      "entrypoint_scope": {
+        "checker_functions_called": [
+          "assert_helper_closure"
+        ],
+        "main_or_cli_called": false,
+        "verify_terminal_called": false,
+        "wnn_source_modules_loaded": 0
+      },
+      "interpreter_binding": {
+        "bytecode_absent_after_import": true,
+        "bytecode_absent_before_import": true,
+        "dont_write_bytecode": true,
+        "flags": [
+          "-E",
+          "-B",
+          "-I"
+        ],
+        "pycache_prefix": null
+      },
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/PRIVATE_IMPORT_BOUNDARY_PROOF_V2.json",
+      "schema": "fg19.child-allthree-terminal-import-boundary-proof.v2",
+      "sha256": "d590fccb9c001791cdd3656a423e424a8d0042cf3a33e2415c381b5a1d306a11",
+      "status": "PASS_NARROW_ALLTHREE_PRIVATE_IMPORT_BOUNDARY_V2",
+      "protected_open_attempts": 0,
+      "guarded_cuda_action_attempts": 0,
+      "cuda_initialized_before_and_after": false
+    },
+    "metadata_and_proof_pins": {
+      "actual_bytes_sha256_rechecked": true,
+      "count": 89,
+      "fixed_native_terminal_evidence_pinned": true,
+      "native_raw_and_typed_evidence_hashes_rechecked_as_metadata": true,
+      "full_repo_relative_unique_paths": true
+    },
+    "native_and_support_state": {
+      "actual_B_staging_admission_or_execution": false,
+      "native_terminal_evidence_present": true,
+      "prior_failed_support": {
+        "action": "PRESERVE_FAILED_NEVER_STOP_RETRY_RESTART_POLL",
+        "invocation_id": "f0c857aa1a68498cb4be237d423281cf",
+        "unit": "computer-vision-homework-fg19-child-allthree-verify-v1.service"
+      },
+      "successor_support": {
+        "private_directory": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v2",
+        "unit": "computer-vision-homework-fg19-child-allthree-verify-v2.service"
+      }
+    },
+    "payload_caps": {
+      "aggregate_bytes": 128000000,
+      "metadata_bytes": 16000000,
+      "model_bytes": 32000000,
+      "state_bytes": 64000000
+    },
+    "profile_evidence": {
+      "additional_readonly_log_and_stop_pins": 2,
+      "paths": [
+        "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/ADMISSION.json",
+        "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/LAUNCH.json",
+        "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/TERMINAL_ACCEPTANCE.json",
+        "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/capture/unit.log",
+        "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_profile_v1/exact_stop/STDOUT.raw.json"
+      ],
+      "primary_metadata_receipts": 3,
+      "verified_entries": 5
+    },
+    "readonly_ancestry_receipts": {
+      "count": 14,
+      "exact_map_matches_original_allthree_admission_staged_receipt_sha256": true,
+      "all_receipt_hashes_are_in_the_89_actual_metadata_checks": true
+    },
+    "resource_envelope": {
+      "aggregate_campaign_cpu_cores": 2,
+      "blas_threads": 1,
+      "cpu_quota_percent": 50,
+      "cuda_visible_devices": "",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "runtime_max_seconds": 600,
+      "swap_max_bytes": 0
+    }
+  }
+}

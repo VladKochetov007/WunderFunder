@@ -1,3 +1,21 @@
+**AllThree closure byte preservation:** [Exact eight EOF-only Git findings and original pre-staging validation archive](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_PRESERVED_EOF_NOTE_20261021_ALLTHREE_CLOSURE.json) preserve source-review, metadata-review and navigation bytes; the regenerated publication manifest records these findings explicitly. No frozen evidence was sanitized.
+
+---
+
+**21 October07:11UTC:** [AllThree final closure/actual index](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_INDEX.md), [print-only-result protocol recovery](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v3/ROOT_PRINT_ONLY_RESULT_RECOVERY_NOTE.json), [exact accepted-pair stop](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/exact_stop/README.md), and [source-qualified next-scoring discovery](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_v1/SUPPLEMENT_INDEX.md) are indexed. All6first-cellfits integrityaccepted/exactstopped,5prerequisites separate; failedsupport and source/preflight/reader negatives preserved, no further fits/qualityendpoint/gain. [Lifecycle validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_TERMINAL_PREP_0518.json) covers this closure, excluding parallelunreviewedexportWIP.
+
+---
+
+## 21 October05:52UTC — AllThree native completion and local integrity gates
+
+[Canonical native capture](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_native_capture_v1/README.md) and [independent metadata review](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_native_capture_v1/METADATA_REVIEW.json) bind one raw-first SSH/exactLOCALcopy/typed14keys/strict0-1-0/sixhist44760-4476-zero, no tensor or quality replay. [Local root preparation](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/ROOT_PREPARATION.json) and [pin audit](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/ROOT_PREPARATION_METADATA_REVIEW_V1.json) preserve sevencode/58metadata. [Exact V1 CPU source rejection](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v1/FINAL_BODY_SOURCE_REVIEW_V1.json) caught missing explicit Path marker forwarding before any B action. Narrow V2/freshCPU/fullacceptance/exactstop remain next; no new scientific fit/quality. [Continuation](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) and [validation](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_TERMINAL_PREP_0518.json) govern the current lifecycle.
+
+---
+
+[AllThree rare health05:18UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0517Z/README.md) records the same active owned worker, five complete epochs/37300updates/3730batches/zero skips/nonfinite; later progress is not current totals/native terminal/quality. Events unchanged, tensors stat-only. Thin local terminal consumer/conditional CPU preparation is a separate concrete dependency, no B stage/support/payload read/hash before actual exit proof. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_TERMINAL_PREP_0518.json) binds dated metadata and scoped preparation; next focused05:50UTC+, zero new scientific fits or quality endpoints.
+
+---
+
 [AllThree rare health04:18UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0417Z/README.md) records the same active owned worker, three completed epochs/22380updates/2238batches/zero skips/nonfinite. Later progress is not current totals/native terminal/quality. Own/parent events unchanged, tensors stat-only; no support/newfit/restart/stop/new checker preparation or unchanged suites. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0418.json) binds exact raw/navigation and unchanged ledgers; next rare05:10UTC+. Metadata only, no predictive-quality endpoint/gain.
 
 ---

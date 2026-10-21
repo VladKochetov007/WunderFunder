@@ -1,3 +1,23 @@
+**21 October07:11UTC:** [CheckerV2](child_allthree_terminal_check_v2/SUPPLEMENT_INDEX.md), [V4 source-negative](child_allthree_terminal_verifier_v4/SUPPLEMENT_INDEX.md), [actualV5packet](child_allthree_terminal_verifier_v5/SUPPLEMENT_INDEX.md), [readerV2](child_allthree_terminal_result_capture_v2/SUPPLEMENT_INDEX.md), and [readerV3 print-only-result repair](child_allthree_terminal_result_capture_v3/README.md) are indexed. [Actual closure](../records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_INDEX.md) is complete. [Source-qualified scoring discovery/corrected navigation](first_cell_evaluation_v1/SUPPLEMENT_INDEX.md) is preparation only, no quality result; a new exportadapter is LOCAL/unreviewed and outside this closure publication.
+
+---
+
+## AllThree verifier V3 and first-cell evaluation discovery
+
+[The V3 supplement index](child_allthree_terminal_verifier_v3/SUPPLEMENT_INDEX.md) links the local V3 body, binding, focused fixtures, and static payload check. The V2 attempt is preserved in [the actual preflight-failure record](../records/child_allthree_fit_v1/terminal_verification_v1/README.md): one failed SSH preflight at 06:01:57 UTC reached the missing root-only receipt before `D.mkdir` or support-unit submission. A separate read-only capture found the exact support unit and private directory absent, recording zero actual verifier CPU units. No blind retry is implied.
+
+V3 is a narrow local repair with a static payload-binding pass for fifteen payloads and seven private code files. Its focused AST/inverse-byte fixtures and Ruff checks pass, but independent exact-body review and root's outer stdin/transport binding remain pending. No V3 staging, admission, execution, new fit, or quality result is claimed; any later action remains subject to fresh root-owned gates.
+
+[The first-cell evaluation discovery](first_cell_evaluation_v1/README.md) links a static source-qualified note of 16,085 bytes / SHA-256 `bb10d31ba96593a2770b4fe3cda8e1c38f4bef6399c8b7cd5d73d84bf537a982`, which pins fourteen source files at commit `68ff682977b822f38351aac0f621146f5f13b440`. It creates no prediction, evaluation, score, quality endpoint, or fit. Before any later evaluation, a compatible export/scorer binding must resolve the evaluation-only 468-group output against the scorer's full-valid input shape and order, and bind the current split, fixed `model_ep5`, representation state, membership, dtype/shape/hash, sidecar, and checkpoint-loading boundary. The discovery itself does not authorize implementation or evaluation.
+
+---
+
+## AllThree terminal-verifier navigation
+
+These [checker and root-preparation](child_allthree_terminal_check_v1/SUPPLEMENT_INDEX.md), [V1 conditional packet and rejected exact body](child_allthree_terminal_verifier_v1/SUPPLEMENT_INDEX.md), [V2 narrow repair and independent source-only pass](child_allthree_terminal_verifier_v2/SUPPLEMENT_INDEX.md), and [conditional result reader](child_allthree_terminal_result_capture_v1/SUPPLEMENT_INDEX.md) indexes describe the current local record. The checker has a seven-code closure, source-only review, and root preparation with 58 metadata/proof pins. V1's conditional review passed, but its rendered body was rejected for omitting the explicit path-compatibility environment argument. V2 adds that single argument and has an independent exact-body `PASS_SOURCE_ONLY` review; its three focused checks were invoked twice as recorded in its index. The result reader remains conditional and has five unbound support-receipt constants; its historical producer-schema negative applies to an unarchived pre-correction draft. These artifacts establish no verifier support staging/admission/execution, new fit, or quality result. The first-cell evaluation discovery is not present in this preparation tree yet and is omitted until root adds it.
+
+---
+
 [Actual NLL CPU V1 source rejection and successful V2](child_nll_terminal_verifier_v2/ACTUAL_INDEX.md) preserve the missing fresh GPU gate and its narrow repair before the first B support. [Reviewed result reader](child_nll_terminal_result_capture_v1/ROOT_INDEX.md) was bound by five actual receipt/invocation literals and executed once within its caps. [NLL acceptance/stop](../records/child_nll_fit_v1/terminal_verification_v1/ACTUAL_INDEX.md) precedes [actual AllThree binding/source review/launch](child_allthree_fit_v1/ACTUAL_INDEX.md). AllThree changed only runname/base→ema_sparse from NLL, parent@ep3-only initializer and remaining recipe fixed; no queue/retuning/profile replay. Frozen conditional snapshots below remain history.
 
 ---

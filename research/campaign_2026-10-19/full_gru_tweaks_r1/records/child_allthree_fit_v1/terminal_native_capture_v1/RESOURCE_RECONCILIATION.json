@@ -1,0 +1,87 @@
+{
+  "schema": "fg19.child-allthree-native-resource-reconciliation.v1",
+  "status": "METADATA_ONLY_NO_PAYLOAD_OR_CAUSAL_PERFORMANCE_CLAIM",
+  "captured_utc": "2026-10-21T05:52:14.368945+00:00",
+  "native_exit_utc": "2026-10-21T05:31:17+00:00",
+  "native_unit_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "CPUUsageNSec": "12636010538000",
+    "ControlGroup": "",
+    "ExecMainCode": "1",
+    "ExecMainExitTimestamp": "Wed 2026-10-21 05:31:17 UTC",
+    "ExecMainStartTimestamp": "Wed 2026-10-21 01:58:58 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_child_allthree_f0_s1001_fit_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode ema_sparse --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective nll --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --grad-stats --save-training-state --no-eval-during-fit ; ignore_errors=no ; start_time=[Wed 2026-10-21 01:58:58 UTC] ; stop_time=[Wed 2026-10-21 05:31:17 UTC] ; pid=1875143 ; code=exited ; status=0 }",
+    "InvocationID": "94d3a7132a434d448345b0206bd3daa3",
+    "LoadState": "loaded",
+    "MainPID": "0",
+    "MemoryCurrent": "[not set]",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "3278077952",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "exited"
+  },
+  "own_cgroup_state": null,
+  "own_cgroup_unavailable_no_hostroot_fallback": true,
+  "parent_current_bytes": 7302496256,
+  "parent_events": {
+    "low": 0,
+    "high": 38355,
+    "max": 561,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_events_local": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_event_delta_basis": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0517Z/STDOUT.raw.json",
+  "parent_event_deltas": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_event_local_deltas": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "all_populated_descendants": {},
+  "selected_gpu_ownership": [
+    {
+      "cgroup": "0::/user.slice/user-1026.slice/user@1026.service/tmux-spawn-7f677d27-6fac-4c20-9e97-48fd3d2d86a9.scope",
+      "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "pid": 521754,
+      "uid": 1026,
+      "used_memory": "490 MiB"
+    },
+    {
+      "cgroup": "0::/user.slice/user-1117.slice/session-167258.scope",
+      "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "pid": 1893608,
+      "uid": 1117,
+      "used_memory": "4544 MiB"
+    }
+  ],
+  "foreign_jobs_observed_only_untouched": true,
+  "limits": [
+    "Service MemoryPeak3278077952B, earlier own-CG peak, RSS, parent-current, GPU process MiB, CPUUsageNSec, wall and FIT trainseconds are separate scopes/samples, not an atomic equality or full-runtime RAM reconstruction.",
+    "Own ControlGroup is empty after native exit; own cgroup metadata is unavailable and never replaced by host root.",
+    "All10 run entries are stat-only; no tensor/state/cache/dictionary/data payload read/hash or predictive-quality scoring.",
+    "Host receipt/capture/transport clocks are separate samples; captureUTC and root transport-finish differ and do not establish physical microsecond ordering."
+  ]
+}

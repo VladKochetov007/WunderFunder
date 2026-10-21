@@ -1,0 +1,7 @@
+# AllThree terminal result capture template
+
+This local template adapts the reviewed NLL metadata reader for the exact final AllThree unit and seven private code files. [AST adaptation](AST_LITERAL_ADAPTATION_V1.json) proves operational syntax-tree identity after reversing the declared identity/prose constants and the one additional AllThree checker pin; the six existing helper pins remain unchanged. No reader entrypoint or remote command ran.
+
+[RESULT_CAPTURE_TEMPLATE.py](RESULT_CAPTURE_TEMPLATE.py) refuses all queries until root supplies five actual support admission/launch byte, SHA and invocation constants. After one actual support launch, root may make only those literal substitutions and retain exact transport bytes before parsing. It reads bounded verifier metadata/log and private code pins, own/parent unit/cgroup/GPU ownership metadata, and stat-only unit state. It reads no model/state/dictionary/cache-array/dataset/trainer payload and never stops or restarts a job. Empty own cgroups remain unavailable, with no host-root fallback. Running Resultsuccess/Status0 is not native exit.
+
+File cap1MB/aggregate4MB and strict receipt/unit/native identities remain fixed. Before use, the separately reviewed final conditional CPU producer schemas must agree with the reader. [Independent source review](SOURCE_REVIEW_V1.json) is required before root binds and submits it. This is local source preparation only, without AllThree native-terminal, integrity, acceptance or quality evidence.

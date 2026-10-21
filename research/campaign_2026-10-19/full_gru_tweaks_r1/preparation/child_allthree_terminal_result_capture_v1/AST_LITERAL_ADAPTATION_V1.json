@@ -1,0 +1,53 @@
+{
+  "schema": "fg19.child-allthree-result-capture-literal-adaptation.v1",
+  "status": "PASS_AST_LITERAL_ADAPTATION_ONLY_NOT_EXECUTED",
+  "source": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_result_capture_v1/RESULT_CAPTURE_TEMPLATE.py",
+    "bytes": 15316,
+    "sha256": "bf67c8a043e3c2607d773487096d363babad30530c3e4f49ee27afbddbad43b2"
+  },
+  "template": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v1/RESULT_CAPTURE_TEMPLATE.py",
+    "bytes": 15545,
+    "sha256": "2fc1060ea7996b2b48341af3ac2f970f0daf2a0ee69d647f32108180b2b7162c"
+  },
+  "literal_replacements": [
+    {
+      "from": "NLL",
+      "to": "AllThree"
+    },
+    {
+      "from": "six-code",
+      "to": "seven-code"
+    },
+    {
+      "from": "six exact",
+      "to": "seven exact"
+    },
+    {
+      "from": "fg19_child_nll_",
+      "to": "fg19_child_allthree_"
+    },
+    {
+      "from": "child-nll-",
+      "to": "child-allthree-"
+    },
+    {
+      "from": "c833c613fb92426981ab255a5faf4452",
+      "to": "94d3a7132a434d448345b0206bd3daa3"
+    }
+  ],
+  "one_added_code_pin": {
+    "name": "child_allthree_terminal_check_v1.py",
+    "bytes": 40442,
+    "sha256": "f4e9b7a2ed6798edf7ac0fbd30517687606494f6aacc44dddc96a0bba1f544dd"
+  },
+  "operational_ast_identical_after_declared_normalization": true,
+  "private_code_files": 7,
+  "unbound_support_receipt_constants": 5,
+  "B_queries_or_payload_reads": 0,
+  "scope": "Only identity/prose literal substitutions plus exact new checker pin; all original six helper pins remain. No remote/reader main invocation, source/model/profile/cold-suite test or payload access. Root may bind five support receipt/invocation literals only after actual support launch.",
+  "ruff_format": "PASS_AFTER_FORMATTING_ONLY_OPERATIONAL_AST_UNCHANGED",
+  "ruff_check": "PASS_WITH_EXPLICIT_PY310_TARGET_MATCHING_STDLIB_READER_COMPATIBILITY",
+  "compatibility_note": "Default project target suggested datetime.UTC; this existing stdlib reader deliberately retains datetime.timezone.utc for Python3.10 compatibility. Scoped Ruff py310 check passes; no frozen parent changes."
+}

@@ -1,0 +1,62 @@
+{
+  "schema": "fg19.child-allthree-fit-rare-health-metadata-review.v1",
+  "status": "PASS_METADATA_ONLY",
+  "reviewed_utc": "2026-10-21T05:21:49Z",
+  "scope": "Independent local metadata audit of the final AllThree fit health capture only. No B access, network, tests, imports, canonical-source content rehash, or model/array/data payload access. Separate locally dispatched AllThree checker and conditional CPU preparation are in progress, outside this review, and remain unreviewed/unadmitted.",
+  "evidence": {
+    "STDOUT.raw.json": {
+      "bytes": 79090,
+      "sha256": "cbda4266bed890f74313d1d511851606edc2b83d92acd36b02b3af13c4ee9175"
+    },
+    "STDERR.raw.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TRANSPORT.json": {
+      "bytes": 545,
+      "sha256": "de3d282be6eb8151cd3a10504458024b18704d0d0b6863c92fcbafd733478bdd"
+    },
+    "REMOTE.py": {
+      "bytes": 13018,
+      "sha256": "0df25d26ba9e3c1eda9a2a82cf6b7940577fb8b25b81002fdfd7c27f15341b9b"
+    },
+    "ADMISSION.json": {
+      "bytes": 12912,
+      "sha256": "5312ae5feffc67d7a33051379afabb9c134dd946f1f97315d839c7d6f10d5540"
+    },
+    "LAUNCH.json": {
+      "bytes": 9594,
+      "sha256": "ec9d8dc819894e148753838ba33ba95080c192bacd5ac53413bd6847568fd538"
+    },
+    "unit.log": {
+      "bytes": 29435,
+      "sha256": "8a53f1ec54f130ed6f5ee7cba46739b84bf53ef6d2df1afde756f61c6c06bf7f"
+    },
+    "OBSERVATION.json": {
+      "bytes": 27661,
+      "sha256": "8ccba8e27380c91e83ed5dc47533dd4827836487ea01ac2cd6db18957737cfeb"
+    },
+    "README.md": {
+      "bytes": 3060,
+      "sha256": "42253b6914f2e6ea46114c241ca1e714c7fc40911bf7c7fdd7144b5e487128ad"
+    }
+  },
+  "checks": {
+    "transport": "Raw byte count and SHA256 match TRANSPORT.json; SSH returned 0, stderr was empty, capture is marked persisted before parsing, with no timeout or retry.",
+    "identity": "Raw capture time is 2026-10-21T05:18:13.269941+00:00 and binds run fg19_child_allthree_f0_s1001_fit_v1, unit computer-vision-homework-fg19-child-allthree-fit-v1.service, invocation 94d3a7132a434d448345b0206bd3daa3, PID 1875143.",
+    "receipt_joins": "All three base64 fields decode canonically and compare byte-for-byte with the local extracts. ADMISSION and LAUNCH extracts also equal their original root receipts and startup copies. Extract lengths and SHA256 values match raw receipt metadata.",
+    "reader": "The 13018-byte reader is byte-identical to startup_health_v1/REMOTE.py at SHA256 0df25d26ba9e3c1eda9a2a82cf6b7940577fb8b25b81002fdfd7c27f15341b9b; its startup schema and wording are unchanged.",
+    "command": "The native unit ExecStart trainer argv exactly matches the Python argv suffix in original LAUNCH.json. OBSERVATION unit_properties and raw identity pins match the raw capture.",
+    "progress": "Exactly five completed FIT records, epochs 0–4, each report 7460 optimizer attempts/completed updates and 746 completed batches with zero AMP-skipped updates. Each corresponding GRAD_STATS record reports 7460 steps and zero nonfinite steps. Cumulative totals are 37300 updates and 3730 batches. The final ep 5 batch 440/746 line is progress only; no epoch 5 FIT/GRAD_STATS or terminal/quality claim is present.",
+    "ownership_and_resources": "The unit is loaded/active/running with the pinned invocation and PID. The only populated campaign descendant is this unit cgroup containing PID 1875143. The owned GPU process is PID 1875143, UID 1061, exact unit cgroup, 3762 MiB; foreign GPU processes match the prior 04:18 observation and were only observed. Own memory.events and memory.events.local are zero. Parent event and local-event deltas from 04:18 are zero; historical parent high=38355 and max=561 remain nonzero. Seven run-directory entries are stat-only. Cgroup, service, process RSS, GPU, CPU, and wall/FIT-time values remain separate samples/scopes.",
+    "source_authority": "OBSERVATION correctly says canonical source contents were not rehashed by the reader. The exact ADMISSION extract declares 167 source files verified under commit 68ff682977b822f38351aac0f621146f5f13b440 and manifest SHA256 a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621; this fresh admission remains content authority. No source contents were rehashed in this review.",
+    "preparation_scope": "The README correctly records separate local checker/conditional CPU preparation as in progress, unreviewed, and unadmitted. This review does not describe the whole turn as having no local preparation; the OBS limits refer to the health capture itself."
+  },
+  "limitations": [
+    "This dated snapshot is not native completion, tensor integrity, or predictive-quality evidence.",
+    "The seven run-directory files were checked only through stat metadata; no payload was read or hashed.",
+    "The later logged batch is not a synchronous live update total or terminal count.",
+    "Separate local checker and conditional CPU preparation are outside this review."
+  ],
+  "blockers": []
+}

@@ -1,3 +1,15 @@
+**21 October07:11UTC — All first-cell fits closed:** [Actual successful CPU2 result/full acceptance/exact native+successful-support stop](records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_INDEX.md). All6comparisonfits completed/integrityaccepted/exactstopped includingparent;5prerequisites separately. Firstfailedsupport preserved; print-only result recovered from originalunit.log without checker replay. No further fits, predictive-quality endpoint or gain. Current continuation governs fixed five-arm evaluation preparation.
+
+---
+
+**21 October05:52UTC:** [AllThree native exit0](records/child_allthree_fit_v1/terminal_native_capture_v1/README.md) is confirmed:6histories/44760updates/4476batches/zero skips/nonfinite. Integrity pending after local V1 CPU source rejection before B; narrow explicit Path-marker forwarding V2 is next. [Continuation](CONTINUATION.md) governs review/freshCPU/fullacceptance/exactstop. Comparison6nativecompleted/5integrityaccepted of6, prerequisites5 separate; no new fits or quality gain.
+
+---
+
+**Latest dated observation21October05:18UTC:** [Same AllThree invocation active/running](records/child_allthree_fit_v1/health_20261021T0517Z/README.md), five completed epochs0–4/37300updates/3730batches/zero skips/nonfinite. Later ep5batch440 is progress only, not current totals/native terminal/integrity/quality. One owned GPU, unchanged events, seven stat-only artifacts. Needed thin checker/conditional CPU preparation is LOCAL/in progress; no B support/newfit/restart/stop/inference/quality or unchanged suites. [Continuation](CONTINUATION.md) governs focused05:50UTC+ and strict gates. Comparison6started/5completed of6, prerequisites5 separately.
+
+---
+
 **Latest dated observation21October04:18UTC:** [Same AllThree invocation active/running](records/child_allthree_fit_v1/health_20261021T0417Z/README.md), three completed epochs0–2/cumulative22380updates/2238batches/zero skips/nonfinite. Later ep3batch560 is progress only, not synchronous current totals/native terminal/integrity/quality. One owned GPU, unchanged events, five stat-only artifacts; no new support/fit/action/checker preparation or unchanged suites. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0418.json) govern next rare05:10UTC+ and strict terminal gates. Comparison6started/5completed of6, prerequisites5 separate; no quality endpoint/gain.
 
 ---

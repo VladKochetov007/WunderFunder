@@ -1,3 +1,15 @@
+**21 October07:11UTC — AllThree accepted and exact-stopped:** [Actual successful CPU2 result/full acceptance/exact native+successful-support stop](terminal_verification_v3/ACTUAL_INDEX.md). All6comparisonfits completed/integrityaccepted/exactstopped includingparent;5prerequisites separately. Firstfailedsupport preserved; print-only result recovered from originalunit.log without checker replay. No further fits, predictive-quality endpoint or gain. Current continuation governs fixed five-arm evaluation preparation.
+
+---
+
+**21 October05:52UTC:** [Actual native exit0](terminal_native_capture_v1/README.md) captured05:52UTC binds exactinv94d3...,6histories44760/4476/zero. Native remains exited/notstopped; integrity/quality pending. Local CPU V1 body rejected before B for missing explicit already-granted Path marker in worker argv; V2 narrow repair next. [Current continuation](../../CONTINUATION.md) supersedes dated active snapshots.
+
+---
+
+**Latest dated health05:18UTC:** [One rare same-invocation capture](health_20261021T0517Z/README.md) records completed epochs0–4/37300successfulupdates/3730batches/zero skips/nonfinite; later ep5batch440 is not current totals/native44760/integrity/quality. One owned GPU3762MiB at the sample, events unchanged, seven stat-only artifacts. Thin local checker/conditional CPU preparation is now the concrete next dependency, separate from this capture; no B support/fit/restart/stop/inference. Next focused05:50UTC+, strict typed actual native exit0 remains prerequisite for B integrity work.
+
+---
+
 **Latest dated health04:18UTC:** [One rare same-invocation capture](health_20261021T0417Z/README.md) records completed epochs0–2/22380successful updates/2238batches/zero skips/nonfinite. Later ep3batch560 is progress only, not current totals/native44760/integrity/quality. One owned GPU3762MiB at the sample, events unchanged, five stat-only artifacts. No terminal/new support/fit/restart/stop/inference/checker preparation; next rare05:10UTC+. Actual strict typed native exit0 remains prerequisite for B integrity work.
 
 ---

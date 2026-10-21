@@ -1,0 +1,155 @@
+{
+  "schema": "fg19.child-allthree-terminal-preflight-failure-metadata-review.v1",
+  "status": "PASS_METADATA_ONLY",
+  "reviewed_utc": "2026-10-21T06:04:51Z",
+  "scope": "Independent local metadata audit of the first V2 remote preflight failure and its one read-only outcome capture. No tests/imports/B action, retries, checker execution, or model-state/array/dataset payload reads were performed by this review.",
+  "remote_body_source": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v1/REMOTE_SUBMISSION.py",
+    "bytes": 706761,
+    "sha256": "37f70c0814e11c3ece637735d4db0b2dbf376bc85ded99d2370baba63104f8c3",
+    "matches_reviewed_v2_body": true,
+    "reviewed_v2_source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v2/FINAL_BODY_SOURCE_REVIEW_V2.json",
+      "bytes": 6926,
+      "sha256": "eea413dff3f2a0dd47b2d92a87a5649ce1175317697a83c46d68f45c46578d3d",
+      "status": "PASS_SOURCE_ONLY"
+    }
+  },
+  "root_admission_manifest": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v1/ROOT_ADMISSION_MANIFEST.json",
+    "bytes": 4189,
+    "sha256": "c1499abc9928819ad0e9640bed97af9cc4063fb19cd5a60134468051f96bd341",
+    "created_utc": "2026-10-21T06:01:57.029809+00:00",
+    "status": "REVIEWED_ROOT_ONE_ADMISSION_INTENT",
+    "body_bytes": 706761,
+    "body_sha256": "37f70c0814e11c3ece637735d4db0b2dbf376bc85ded99d2370baba63104f8c3",
+    "source_review_bytes": 6926,
+    "source_review_sha256": "eea413dff3f2a0dd47b2d92a87a5649ce1175317697a83c46d68f45c46578d3d",
+    "one_actual_attempt_intended": true,
+    "no_worker_self_body_hash_claim": true,
+    "native_unit_stop_requested": false,
+    "scientific_fits": 0
+  },
+  "first_remote_preflight_transport": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v1/TRANSPORT.json",
+    "bytes": 923,
+    "sha256": "87b88c7e2fc1944bbd750931dcf9fef603473318039e6b06f2e50c6946737787",
+    "started_utc": "2026-10-21T06:01:57.030650+00:00",
+    "finished_utc": "2026-10-21T06:01:57.731628+00:00",
+    "ssh_returncode": 1,
+    "timed_out": false,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 745,
+    "stderr_sha256": "dac39c589164e93bbd3590babdb2c6f460fe2289205c848449bc9ad46908c54d",
+    "persisted_before_parse": true,
+    "retry_performed": false,
+    "approved_path_compatibility_exception": "pathlib._local.PosixPath:exact-dictionary-path-only"
+  },
+  "raw_first_attempt_streams": {
+    "stderr": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v1/STDERR.raw.txt",
+      "bytes": 745,
+      "sha256": "dac39c589164e93bbd3590babdb2c6f460fe2289205c848449bc9ad46908c54d",
+      "observed_error": "FileNotFoundError at check_fit_receipts (line 441): missing /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_fit_v1/LAUNCH_ACCEPTANCE.json"
+    },
+    "stdout": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v1/STDOUT.raw.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "preflight_failure_analysis": {
+    "failure_site": "check_fit_receipts iterates over five receipt names and stable_file(EVIDENCE / name) reaches the root-only LAUNCH_ACCEPTANCE.json.",
+    "body_source_line": 441,
+    "preflight_call_line": 1124,
+    "output_directory_creation_line": 1202,
+    "ordering_verified": "main obtains payload bytes and calls preflight(payload); D.mkdir occurs only after preflight returns. The FileNotFoundError is inside preflight, so D.mkdir and subsequent staging/submission were not reached.",
+    "preflight_execution": "The transmitted V2 body did execute its local read-only preflight path, including decoding and validating its bounded embedded receipt/code bytes in memory. The private checker import, support-unit runner, D.mkdir, and systemd-run submission occur later and were not reached.",
+    "native_directory_receipt_observation": "The follow-up read-only capture found B-side ADMISSION.json and LAUNCH.json present, while LAUNCH_ACCEPTANCE.json, ALLTHREE_LAUNCH_STDOUT.raw.json, and TRANSPORT.json were absent from the native evidence directory. Those three are root-provided, pinned payloads."
+  },
+  "read_only_outcome_capture": {
+    "remote_query_source": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v1/preflight_outcome/REMOTE.py",
+      "bytes": 1659,
+      "sha256": "e33f03bf5c4df2344066a39d102572a7c4ea2ba391f90705f2dcf5372b95001b",
+      "scope": "systemctl --user show queries for the exact support/native units plus lstat-only queries for the support directory and five fit receipt paths."
+    },
+    "transport": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v1/preflight_outcome/TRANSPORT.json",
+      "bytes": 543,
+      "sha256": "78b960ac219118a19696550d6d6a0b378419f717d530bf7abd55eedc424da5d3",
+      "started_utc": "2026-10-21T06:03:43.540032+00:00",
+      "finished_utc": "2026-10-21T06:03:44.020904+00:00",
+      "ssh_returncode": 0,
+      "timed_out": false,
+      "stdout_bytes": 1634,
+      "stdout_sha256": "1959c48612d53ce85b3ba31bf409f12f774cdd1f7b5a22f373ca9e9fb846ef4b",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "persisted_before_parse": true,
+      "retry_performed": false
+    },
+    "raw_capture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v1/preflight_outcome/STDOUT.raw.json",
+      "bytes": 1634,
+      "sha256": "1959c48612d53ce85b3ba31bf409f12f774cdd1f7b5a22f373ca9e9fb846ef4b",
+      "captured_utc": "2026-10-21T06:03:44.316647+00:00",
+      "support_directory_exists": false,
+      "support_unit": {
+        "load_state": "not-found",
+        "active_state": "inactive",
+        "sub_state": "dead",
+        "main_pid": "0",
+        "invocation_id": ""
+      },
+      "native_unit": {
+        "load_state": "loaded",
+        "active_state": "active",
+        "sub_state": "exited",
+        "main_pid": "0",
+        "invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+        "exec_main_code": "1",
+        "exec_main_status": "0",
+        "result": "success"
+      },
+      "native_receipts_stat_only": {
+        "ADMISSION.json": {
+          "exists": true,
+          "bytes": 12912,
+          "device": 64512,
+          "inode": 739549263
+        },
+        "LAUNCH.json": {
+          "exists": true,
+          "bytes": 9594,
+          "device": 64512,
+          "inode": 739549265
+        },
+        "LAUNCH_ACCEPTANCE.json": {
+          "exists": false
+        },
+        "ALLTHREE_LAUNCH_STDOUT.raw.json": {
+          "exists": false
+        },
+        "TRANSPORT.json": {
+          "exists": false
+        }
+      },
+      "reported_scope": "One readonly exact-outcome query after failed preflight; no unit action, mutation, payload read/hash, source/checker execution or admission.",
+      "reviewer_interpretation": "The query script itself executed only systemctl show and lstat metadata operations; it did not import the private checker, run the fit source, stage output, or submit a support unit."
+    }
+  },
+  "conclusion": {
+    "classification": "One failed remote preflight SSH; zero systemd-run support submissions/units; one read-only outcome capture afterward.",
+    "no_retry_or_restart": true,
+    "no_native_stop": true,
+    "no_support_output_directory_mutation": true,
+    "native_fit_remained_active_exited": true
+  },
+  "limitations": [
+    "This review verifies the persisted local source, transport, stderr/stdout, root admission manifest, and single read-only post-failure snapshot. It establishes the state reported at the snapshot time, not later state.",
+    "Only bounded metadata/error evidence was read; no model, array, dictionary, cache, or dataset payload contents were accessed. The V2 body did not reach output creation or systemd-run submission."
+  ]
+}
+

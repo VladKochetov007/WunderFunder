@@ -1,3 +1,15 @@
+**21 October07:11UTC — AllThree full integrity closure:** [Actual successful CPU2 result/full acceptance/exact native+successful-support stop](child_allthree_fit_v1/terminal_verification_v3/ACTUAL_INDEX.md). All6comparisonfits completed/integrityaccepted/exactstopped includingparent;5prerequisites separately. Firstfailedsupport preserved; print-only result recovered from originalunit.log without checker replay. No further fits, predictive-quality endpoint or gain. Current continuation governs fixed five-arm evaluation preparation.
+
+---
+
+**21 October05:52UTC:** [Final AllThree native completion](child_allthree_fit_v1/terminal_native_capture_v1/README.md), captured05:52UTC/nativeexit05:31:17UTC, is counted once. Exact14-key typedproof/6hist44760/4476/zero. CPU V1 source-only rejected before B, V2 narrow environment forwarding next; full integrity acceptance and exact stop still pending. No quality result.
+
+---
+
+[AllThree rare health05:18UTC](child_allthree_fit_v1/health_20261021T0517Z/README.md): same active invocation, completed epochs0–4/37300updates/3730batches/zero skips/nonfinite. Later ep5batch440 is progress only. One owned worker, unchanged events, seven stat-only files. Needed thin terminal consumer/conditional CPU preparation is separate LOCAL work, no B staging/support/payload reads or native stop. Next focused05:50UTC+; no predictive-quality endpoint/gain.
+
+---
+
 [AllThree rare health04:18UTC](child_allthree_fit_v1/health_20261021T0417Z/README.md): same active invocation, three completed epochs0–2/22380updates/2238batches/zero skips/nonfinite. Later ep3batch560 is not synchronous current totals/native terminal/quality. One owned worker, events unchanged, five stat-only run files; no support/newfit/restart/stop/inference/checker preparation. Next rare05:10UTC+.
 
 ---

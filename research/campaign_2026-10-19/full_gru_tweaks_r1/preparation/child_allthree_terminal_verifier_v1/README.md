@@ -1,0 +1,19 @@
+# AllThree terminal verifier preparation
+
+This folder contains a conditional local packet for one bounded CPU-only check of the already admitted AllThree fit. It does not stage or run anything on B. The worker file is intentionally absent until both the root-owned preparation and strict native terminal evidence exist.
+
+The evidence flow is acyclic. First, the seven-file checker closure and its private-import proof are pinned and reviewed without calling `verify_terminal`, training code, or model/source entrypoints. A conditional source review then binds the exact checker, wrapper template, and renderer while explicitly remaining a static-only review. Root owns `preparation/child_allthree_terminal_check_v1/ROOT_PREPARATION.json`; it pins those local inputs, the helper/import/path-authority evidence, the original AllThree and NLL anchors, and the read-only predecessor receipts. Its dated local-only record has `native_terminal_evidence_present=false`. Separately, the renderer requires a typed native terminal record and its matching raw-first capture for this exact run, unit, and invocation. That separate input prevents a circular “already stopped” prerequisite.
+
+After those inputs exist, `render_child_allthree_terminal_verifier_v1.py --render` can create `REMOTE_SUBMISSION.py` once, without executing or importing it. The generated stdin worker contains no self-read or body-hash claim. Root independently reviews the exact rendered bytes and binds their transport before any B execution. The renderer's ordinary readiness command only reports missing prerequisites:
+
+```sh
+./.venv/bin/python -B render_child_allthree_terminal_verifier_v1.py
+```
+
+The worker's fresh gates run before it creates its output directory or submits its user service. They include the exact 167-file source tree and split, registered paths, cache metadata/stat receipts, parent/dictionary identities, AllThree run artifact stats, the fourteen accepted predecessor receipts plus profile metadata, exact exited-native identity, parent aggregate cgroup and disk headroom, and the selected physical GPU's UUID/PID/UID/cgroup snapshot. Foreign GPU owners are only observed and preserved; zero free GPU memory is acceptable. The repaired NLL V2 GPU gate is copied byte-for-byte and runs before any output mutation.
+
+The support service uses the literal project `.venv/bin/python` with isolated `-E -B -I`, 50% CPU, 1.4 GB `MemoryHigh`, 1.5 GB `MemoryMax`, no swap, a 600-second limit, hidden CUDA, and one BLAS thread inside the existing two-core campaign slice. It prehashes exactly seven staged `.py` files through no-follow stable reads before import, rejects private bytecode caches and preloaded private modules, checks all seven import origins and hashes after import, then calls only `assert_helper_closure()` and the 13-path `verify_terminal(...)` API with `Path` arguments. The checker applies its exact restricted state-only `Path` decoder and bounded `weights_only=True` load; the worker does not read model or state payloads during preflight.
+
+After its single `systemd-run` submission attempt, the worker queries only its exact support unit once and writes the observed support invocation ID together with the native AllThree unit/invocation and submission outcome. The read-only result capturer requires those producer fields and independently checks the live support invocation. If submission or that query is uncertain, the worker retains the one durable receipt and does not retry.
+
+The separate root-owned preparation binds the checker source review with `PASS_SOURCE_ONLY`, the static wrapper review with `PASS_CONDITIONAL_SOURCE_ONLY`, the original AllThree launch acceptance and fit body/source review/transport, the NLL launch acceptance, the exact fourteen receipt names and hashes, profile/cache receipts, and the fixed human path-compatibility authority. No predecessor receipt is staged or recreated.
