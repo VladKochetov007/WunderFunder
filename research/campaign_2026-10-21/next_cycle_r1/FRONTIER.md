@@ -66,3 +66,7 @@ The one-off `wnn-next-native-source-restore-20261021.service` / invocation`4f484
 [Independent packet review](DYNAMICS_PACKET_REVIEW_R1.json) passed exactplans, producer/consumer coverage and pairedstatistics. Root addedthe existing immutabletargetcacheSHA to both i1/dynamics graders andchecks itbefore/aftergrading; reviewerconfirmedresolution. No metric/blend/fitsourcechange and noqualityresultseen. Dynamics finitepacket integrated as b7ac5e5c5; runtime/profile/fits remainpending.
 
 The tiny source-restoration observer was restarted alone as invocation`ded13f33b9164006ac063e02ecb5d8ed` after adding the successful-transient-unit collection case: if systemd has removed the unit, it requires all three native steps complete/returncode0 before restoring. No model/native worker was restarted. Shell syntax and missing-unit query behavior checked; observer uses about1MB RAM.
+
+## Native recovery complete; i1 first control in final epoch
+
+[Recovered native grade](NATIVE_GRADE_R3.json): originalTL3 0.70181812; CP5replacement 0.69445462 (−0.00736350); SWA345replacement 0.69444908 (−0.00736904). SWA−CP5 −0.00000553, interval[−0.00029533,+0.00026122]. Bothfullreplays/grade succeeded and temporaryexporterpin restored. Evidence is exposedF0fitteddiagnostic, unknownretainedTL3ancestry; no promotion. CPU-only native work charged0GPUseconds. I1F0/B has3,080completedupdates andlastobservedfinalepochbatch120/154; correctedworker OOM0/skips0. No complete paired screen result yet. No newheavyjobadmittedbythisstatuscheck.
