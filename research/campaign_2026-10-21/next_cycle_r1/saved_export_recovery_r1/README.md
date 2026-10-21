@@ -180,3 +180,5 @@ environment.
 The detailed command and budget handoff is indexed in the
 [next-cycle packet](../README.md) and the unified
 [operations index](../../../unified/operations/README.md).
+
+[Read-only preflightR2](../SAVED_EXPORT_READONLY_PREFLIGHT_R2.json) now passes all source/checkpoint/receipt checks in 0.15 seconds / 25440 KiB, with no alias, tensors, targets or inference. [R1](../saved_mean_readonly_preflight_r1.log) rejected the changed current auxiliary file before any write. [R2 log](../saved_mean_readonly_preflight_r2.log) preserves the historical serving hashes and current-file comparison separately. Actual GPU export remains unadmitted pending the single active worker.
