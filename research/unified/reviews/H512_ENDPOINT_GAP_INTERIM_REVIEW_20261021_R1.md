@@ -137,3 +137,9 @@ control. No width grid, blend search or new production fit is admitted here.
 - [Older candidate manifest](../../campaign_2026-10-06/bandit_continuation/reviews/maxim_replication_20261007/candidate-manifest.json): matching seed-5 payload and final-training description.
 - [H230 recipe audit](../../campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_MAXIM_RECIPE_AUDIT_V1_20261008.md): exact source command, target construction and unresolved teacher ancestry.
 - [Current frontier](../../campaign_2026-10-21/next_cycle_r1/FRONTIER.md): owner, resource allocation and execution status.
+
+## Same-runtime result and first complete history cell
+
+The [separately gated host grade](../../campaign_2026-10-21/next_cycle_r1/NATIVE_HOST_GRADE_R1.json) now closes the runtime comparison. The unchanged TL3 package scores0.70181753 on the current host, only0.00000059 below its legacy cache. CP5 replacement remains0.00736292 worse (conditional component95%interval [−0.00961758,−0.00557430]). Thus the numerical runtime difference does not account for the quality gap. It does not isolate a dependency or remove ancestry/exposure differences.
+
+The [first complete i1 cell](../../campaign_2026-10-21/next_cycle_r1/i1/interim_f0_abc/RESULT_R1.json) separates standalone quality from ensemble contribution. Explicit history C loses0.00353711 versus standard B, yet the predeclared90%B/10%C blend gains0.00035953, with improvements on both targets. Its interval [−0.00001187,+0.00070893] conditions on these fixed fitted models; F2 is pending. This supports preserving a bounded history follow-up option if the fixed contribution repeats, without choosing coefficients or claiming a useful production member. The existing strong continuation control remains the gate before production.

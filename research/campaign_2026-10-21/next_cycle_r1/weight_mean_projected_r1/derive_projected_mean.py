@@ -139,6 +139,9 @@ def _check_args_and_provenance(
     provenance = dict(_require_mapping(checkpoint.get("provenance"), "checkpoint provenance"))
     side_args = dict(_require_mapping(sidecar.get("args"), "sidecar args"))
     side_provenance = sidecar
+    for field, expected in item["mean_variance_args_expected"].items():
+        if args.get(field) != expected or side_args.get(field) != expected:
+            raise ValueError(f"{item['role']}: variance-head treatment differs: {field}")
     layout_args = plan["common_fitting_identity"]["layout_args"]
     for field, expected in layout_args.items():
         if field == "research_feature_control":
