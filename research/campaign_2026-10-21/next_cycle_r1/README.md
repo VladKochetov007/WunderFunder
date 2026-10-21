@@ -93,3 +93,7 @@ completion is implied by this packet.
 - [Corrected source freeze](DYNAMICS_CORRECTED_SOURCE_R1.json): clean781deb6a5 worktree, canonical source and profile/membership hashes pinned. No GPU profile queued or admitted; root owns hot full-cost profiling after current work drains.
 
 - [Draft publication updateR2](PUBLICATION_R2.json): PR33 pushed through second-control/merged numerical verification and body updated with first-cell fixed-mixture gain, same-host endpoint loss and failed cloud export. Later documentation at the snapshot remains pending nextpush; generated navigation freshness is not claimed.
+
+- [Fresh-host saved-track precision admissionR2](NATIVE_HOST_PRECISION_ADMISSION_R2.json) and [log](native_host_precision_r2.log): one CPU1/1.4GB/300second diagnostic on immutable eight-component tracks, requiring both original/CP5 reconstruction gates before targets. No inference or scientific fits; runtime outcome pending.
+
+- [Fixed eight-component native precision result](NATIVE_HOST_PRECISION_PROBE_R2.json), [prelabel gates](NATIVE_HOST_PRECISION_PRELABEL_R2.json), [execution](NATIVE_HOST_PRECISION_EXECUTION_R2.json), [corrected-launch admission](NATIVE_HOST_PRECISION_ADMISSION_R3.json) and [log](native_host_precision_r3.log): original/CP5 reconstruction passes before targets; FP32counterfactual helps endpoint only+0.00004035, leaving−0.00328280 versusTL3 on10,988scoredrows. No fullfold, CI orreleaseclaim; initial importfailure retained.

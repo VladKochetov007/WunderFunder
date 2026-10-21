@@ -140,3 +140,9 @@ F2/seed1002 B completed all4,830updates, skipped0, full443-group export/score: o
 [Publication-source verificationR2](MERGED_SOURCE_VERIFICATION_R2.json) passes merged corrected dynamics source Ruff, 63-file structure check, six checker tests and six auxiliary tests. The publication merge preserved all research-team README entries and retained its generated snapshot rather than replacing it with root-only generated navigation; merged tree freshness is not claimed. Corrected dynamics source is being frozen for a later profile, not admitted to GPU yet.
 
 Correction to the cloud terminal paragraph above: the combined raw Parquet size is34,855,728,139bytes, as recorded in the exact input manifests; the earlier narrative total was a transcription error. No identity check or diagnosis changes.
+
+## Native precision effect is small on the fixed diagnostic sample
+
+[Fresh-host precision grade](NATIVE_HOST_PRECISION_PROBE_R2.json) passes both unchanged1e-5 reconstruction gates (original1.55e-7, CP5 2.10e-7) and actual feature-only need masks before targets. On eight preselected distinct exposed components/10,988scoredrows, TL3WP0.77775359 versusCP5 0.77443044. The frozenFP32counterfactual gains only+0.00004035 (t0+0.00003550,t1+0.00004520), leaving−0.00328280 versusTL3. FP32fast/exact agree to7.8e-10WP. Precision is measurable but doesnotexplainthissamplegap; nofullfold/publicextrapolation ornewpackagepromotion. Retainedpair/member scores arepredeclared diagnostics, notablationselection.
+
+[Execution](NATIVE_HOST_PRECISION_EXECUTION_R2.json) used5.39wallseconds/382380KiBpeak/zeroSwap/GPU/fits. FirstlauncherR2failedbeforearrays/targets/outputbecause rootutils wasabsentfromPYTHONPATH; [corrected import admissionR3](NATIVE_HOST_PRECISION_ADMISSION_R3.json) preserves thesamesource/gates/outputpath andearlierfailedlog. No oldreceiptwasrewritten.
