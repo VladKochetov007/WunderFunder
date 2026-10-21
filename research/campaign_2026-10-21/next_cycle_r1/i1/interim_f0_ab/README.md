@@ -40,3 +40,5 @@ The expected output directory is created on first run; existing output files
 are never overwritten. The report records source hashes and both run
 identities so it can be compared with the root-owned panel ledger.
 
+
+Root executed [RESULT_R1.json](RESULT_R1.json) under the [1CPU/1.4GB admission](../../I1_INTERIM_GRADE_ADMISSION_R1.json) ([log](../../i1_interim_grade_r1.log)). A−B−0.01590144, conditional component95%interval[−0.019737,−0.011972]; fixed90B10A−B−0.00002308,[−0.000309,+0.000266]. No useful mixture improvement is established. All four fixed bins favor B. C/F2 remain pending and this is not training-variation uncertainty.
