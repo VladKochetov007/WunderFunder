@@ -1,0 +1,11 @@
+Independent [actual failure metadata audit](ACTUAL_FAILURE_METADATA_REVIEW.json), 14887 bytes / `ecc08aef8871050c71046e44041022162d27d0706d759f54e58fa4a0fad29905`, confirms exact raw/receipt joins, the metadata-shape cause and failure before model loading. No new B query or payload replay.
+
+---
+
+# Actual export worker failed before model loading — 21 October09:18UTC capture
+
+One planned startup capture found the exact first export invocation `da6c9e1f5897478f9f3f686de58e39cc` failed: native start/exit09:12:28UTC, MainPID0/ExecMainCode1/ExecMainStatus1/Result exit-code. [Raw](STDOUT.raw.json)44429 bytes / `18124f5744d2e2edc031d94819718d0a6a6745c2bd38886db5d902fbbc16ea05` and [transport](TRANSPORT.json) record one SSH0/empty stderr, raw fsynced before parsing. [Original log tail](unit.log.tail)827 bytes / `d7779f1d24a84204577c27a351fe3e4fc813d8c460e12953c606a13806f1be42` is preserved exactly. [Observation](OBSERVATION.json) and [five-literal AST binding](AST_BINDING.json) join exact unit/invocation and both original launch receipts.
+
+The traceback is at exporterV2 `_verify_source_tree` line276 before `_verify_receipts_and_models`, project imports, runtime setup, split loading or prediction. All eight API byte/hash pairs actually match the canonical167-file manifest. The checker compared full manifest entries containing `path` to two-field `{bytes,sha256}` entries, so dictionary-shape inequality caused the rejection. This is an adapter metadata-shape failure, not source corruption or model quality evidence. No terminal manifest/sidecar was captured; prediction/data/model array payloads were not read or hashed by the observer.
+
+Parent campaign descendants were empty. Own cgroup unavailable/null; no host-root fallback. Service MemoryPeak2195456B is not full-process RAM; parent current7302172672B, historical parent high38355/max561, CPU, service and GPU observations have distinct scopes/samples. Foreign jobs were observed only and untouched. Keep this failed unit/private directory, never stop/restart/retry/poll it. Any corrected exporter must use a new unit/directory and new independently reviewed exact source/body/fresh gates. All6 scientific fits remain accepted/exact-stopped, prerequisites5 separate; zero new fits and no quality score.

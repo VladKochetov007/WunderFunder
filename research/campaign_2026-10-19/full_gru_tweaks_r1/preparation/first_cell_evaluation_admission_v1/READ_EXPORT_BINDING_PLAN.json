@@ -1,0 +1,64 @@
+{
+  "schema": "fg19.first-cell-export-reader-binding-plan.v1",
+  "status": "UNBOUND_LOCAL_READER_REVIEW_REQUEST",
+  "created_utc": "2026-10-21T08:13:45.512912+00:00",
+  "reader": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_TEMPLATE.py",
+    "bytes": 13695,
+    "sha256": "08a7e0d0ddc26377ca7860fded2b3976b806beeae67c4f4c12f815e6f01de657"
+  },
+  "actual_literal_changes_later": [
+    "INVOCATION",
+    "ADMISSION_BYTES",
+    "ADMISSION_SHA256",
+    "LAUNCH_BYTES",
+    "LAUNCH_SHA256"
+  ],
+  "pure_leaf_source": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v5/REMOTE_SUBMISSION_V5.py",
+    "sha256": "4d555fd69954d94415c135e467eadd081aa6fd915686197e5c7e628e935b9374"
+  },
+  "pure_leaf_AST_joins": {
+    "_bounded_gpu_query": {
+      "original": {
+        "start_line": 872,
+        "end_line": 916
+      },
+      "current": {
+        "start_line": 146,
+        "end_line": 190
+      },
+      "AST_identical": true
+    },
+    "_bounded_proc_read": {
+      "original": {
+        "start_line": 929,
+        "end_line": 936
+      },
+      "current": {
+        "start_line": 193,
+        "end_line": 200
+      },
+      "AST_identical": true
+    },
+    "_proc_starttime": {
+      "original": {
+        "start_line": 939,
+        "end_line": 946
+      },
+      "current": {
+        "start_line": 203,
+        "end_line": 210
+      },
+      "AST_identical": true
+    }
+  },
+  "read_boundary": "original two receipts, bounded log tail, scoped cgroups/proc/GPU metadata, fixed output stat-only; only successful exact native export yields manifest and sidecar metadata reads; never NPY/model/state/data payloads",
+  "negative_template_guard": "INVOCATION UNBOUND rejected before D access",
+  "local_tests": {
+    "count": 4,
+    "status": "PASS before later added D-redirect guard; unchanged unbound guard precedes added D guard"
+  },
+  "ruff": "format --check/check PASS after D guard",
+  "B_actions": 0
+}

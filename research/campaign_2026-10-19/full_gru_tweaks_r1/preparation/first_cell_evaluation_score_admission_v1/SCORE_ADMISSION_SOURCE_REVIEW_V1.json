@@ -1,0 +1,53 @@
+{
+  "schema": "fg19.first-cell-score-admission-source-review.v1",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "reviewed_at_utc": "2026-10-21T08:41:00Z",
+  "scope": "Static local review of the unbound CPU score-admission template, renderer, and binding plan. No imports, tests, remote actions, B action, data/model/prediction payload reads, scoring, or quality evaluation were performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v1/SCORE_ADMISSION_BODY_TEMPLATE_V1.py",
+    "bytes": 66584,
+    "sha256": "5a7312fd74b182c530ee71d22ede8565e74245f2c3e7e23eacc33acd16bd989a"
+  },
+  "renderer": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v1/render_score_admission_v1.py",
+    "bytes": 11413,
+    "sha256": "720d713610cc5ec0f3fff149c07a15508c378505ed9561ce0d424abf3123829d"
+  },
+  "binding_plan": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v1/SCORE_ADMISSION_BINDING_PLAN_V1.json",
+    "bytes": 5857,
+    "sha256": "9e65bd8d64c8e278602ef5c45c519217ddacf695210246e0ddb7ea06b199a5b8",
+    "status": "LOCAL_CONDITIONAL_TEMPLATE_ONLY_UNBOUND_NOT_REVIEWED_OR_ADMITTED"
+  },
+  "related_source_contract": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v1/EXPORT_SOURCE_REVIEW_V1.json",
+    "bytes": 9633,
+    "sha256": "cf44af7624e81ee99e9705bf08e69b359f7048354df069cad35b26c7ec927c15",
+    "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+  },
+  "finding": {
+    "id": "SCORE-ADMISSION-V1-001",
+    "severity": "blocker",
+    "location": "SCORE_ADMISSION_BODY_TEMPLATE_V1.py:1007-1072",
+    "summary": "The selected-GPU preflight reads /proc/<pid>/cmdline for every reported GPU process, including processes owned by foreign UIDs.",
+    "details": "The check already records each PID's UID and cgroup. It should preserve all owners and reject campaign-cgroup membership for all UIDs, while reading command lines only for the current UID to detect a same-user project process. Reading foreign argv is unnecessary, can disclose unrelated process arguments, and may fail under proc permissions before any admission mutation.",
+    "required_resolution": "Version the score-admission template with the same narrow own-UID-only cmdline boundary; retain all-UID cgroup observations, process identity checks, and no-action handling for foreign owners. Then review the exact rendered body after root acceptance and exact-stop pins are available."
+  },
+  "reviewed_properties": {
+    "root_export_acceptance_and_exact_stop_pins_required_before_render": true,
+    "all_read_only_source_receipt_cache_profile_disk_cgroup_and_unit_gates_precede_score_staging": true,
+    "five_fixed_prediction_and_sidecar_membership_is_rechecked_without_root_array_reads": true,
+    "score_worker_is_cpu_only_with_bounded_memory_disk_runtime_and_threads": true,
+    "one_submit_unknown_outcome_never_retry_and_durable_four_key_reply": true,
+    "model_or_checkpoint_payload_load_by_score_worker": false,
+    "quality_or_scoring_claim_by_this_admission": false,
+    "rendered_body": "Not rendered: root acceptance and exact-stop byte/SHA pins are deliberately unbound."
+  },
+  "execution_state": {
+    "template_rendered": false,
+    "body_executed": false,
+    "b_attempted": false,
+    "data_model_or_prediction_payload_read": false,
+    "quality_claimed": false
+  }
+}

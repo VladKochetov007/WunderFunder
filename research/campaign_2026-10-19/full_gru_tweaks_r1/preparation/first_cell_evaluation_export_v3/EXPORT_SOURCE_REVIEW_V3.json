@@ -1,0 +1,125 @@
+{
+  "schema": "fg19.first-cell-export-source-review.v3",
+  "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR",
+  "scope": "Independent static review of the frozen feature-only exporter V3 and scorer V3 producer/consumer bindings. This is source-only: no B query/action, test/import execution, model or data payload read, prediction export, score, or quality claim was made by the reviewer.",
+  "review_method": {
+    "read_current_exporter_binding_manifest_fixture_and_scorer_sources": true,
+    "compare_exporter_v2_to_v3_source_and_binding_diffs": true,
+    "compare_scorer_v2_to_v3_source_diffs": true,
+    "verify_dependency_manifest_code_and_binding_pins_against_files": true,
+    "run_tests_or_imports": false,
+    "perform_B_or_network_action": false,
+    "read_model_checkpoint_data_cache_or_prediction_payload": false
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/export_first_cell_v3.py",
+      "bytes": 66080,
+      "sha256": "9bfcd5110d200212bff45d2188f04e2eb094fbaf5cd78831ed03db5a130af8cb"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_BINDING_V3.json",
+      "bytes": 15798,
+      "sha256": "372ec16016517baa510cc1899f140cd0978a35b83f96a4a5fa1ff4bda8b39730"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/test_export_v3_source_manifest_api_pins.py",
+      "bytes": 11832,
+      "sha256": "759cd0f0a578c0fe1fa11ac5cf43f1205fd5cc0d21c20bc7d030ff2d164603fc"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_SOURCE_REVIEW_V2.json",
+      "bytes": 10250,
+      "sha256": "f736f60a6b5481e94be380a183ba840aad850958c9b863b439bc708e65e997af",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v3/first_cell_score_contract.py",
+      "bytes": 19485,
+      "sha256": "7784c91713dbfd7d11ec3cfd276eb8a62607289067999f4ecd5c03a3f9a18038"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v3/first_cell_score_core.py",
+      "bytes": 27226,
+      "sha256": "ffe8a6e7aad38b131a78783504ef55c761d4e8037c13bac279f20c5e55f6249e"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v3/first_cell_score_predictions.py",
+      "bytes": 11056,
+      "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v3/score_first_cell.py",
+      "bytes": 10630,
+      "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v3/dependency_manifest.json",
+      "bytes": 6495,
+      "sha256": "2bff7842f8c6e9be3920458cc575cd216444ccb97b23570765a63c591387705e"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v3/test_score_v3_binding_metadata.py",
+      "bytes": 6399,
+      "sha256": "a755bbeb082be953961e3c0c0b6c0a16da6ddfc09afb74b4985f8eaa10843368"
+    }
+  ],
+  "producer_consumer_join": {
+    "exporter_declared_pin_matches_exact_source_file": true,
+    "exporter_source_manifest_pin_matches_exact_file": true,
+    "exporter_binding_pin_matches_exact_file": true,
+    "score_dependency_manifest_producer_path_bytes_and_sha_match_exporter": true,
+    "score_dependency_manifest_binding_filename_bytes_and_sha_match_binding_v3": true,
+    "score_core_binding_bytes_and_sha_match_binding_v3": true,
+    "score_contract_requires_evaluation_v2_root_and_EXPORT_BINDING_V3_json": true,
+    "binding_evidence_root_and_output_dir_match_score_contract_paths": true,
+    "five_arm_order_shapes_dtype_and_complete_export_status_are_consistent": true
+  },
+  "change_scope": {
+    "exporter_v2_to_v3": [
+      "Bind the V3 binding filename and exact binding digest.",
+      "Add strict canonical API pin validation against complete source-manifest rows both while loading the binding and after the 167-file source-tree verification; the exact eight expected paths and exact bytes/SHA fields are enforced.",
+      "Accept absent or null CONTROL input-representation mode only for the fixed base CONTROL arm; non-CONTROL arms retain exact mode checks.",
+      "Bind the new evaluation_v2 evidence/output root."
+    ],
+    "binding_v2_to_v3": {
+      "only_changed_fields": [
+        "arms[4].exact_stop.absolute_path",
+        "arms[4].terminal_acceptance.absolute_path",
+        "evidence_root",
+        "output_dir"
+      ],
+      "all_other_fields_equal": true
+    },
+    "scorer_v2_to_v3": {
+      "core_change": "Only the expected binding SHA-256 literal changes; expected byte count is unchanged.",
+      "contract_changes": [
+        "EXPORT_BINDING_V1.json becomes EXPORT_BINDING_V3.json at the two exact binding-path checks.",
+        "The private evidence-root basename changes from evaluation_v1 to evaluation_v2."
+      ],
+      "prediction_module_byte_identical": true,
+      "CLI_module_byte_identical": true,
+      "scoring_and_prediction_io_logic_changed": false
+    }
+  },
+  "focused_fixture_scope": {
+    "exporter_focused_fixture_count_reported": 5,
+    "exporter_fixture_reads": "Pinned local binding and source-manifest metadata plus ten exact small accepted-fit/exact-stop receipts; it substitutes fake digest results for source-tree, split, and model payload checks.",
+    "score_focused_fixture_count_reported": 3,
+    "score_fixture_reads": "Small V2/V3 binding JSON and source/manifest text only.",
+    "reviewer_reran_fixtures": false,
+    "reported_ruff": "Exporter Ruff format/check passed; scorer V3 narrow Ruff/check reported by author.",
+    "producer_code_and_manifest_file_pins_are_asserted_against_exact_local_files": true
+  },
+  "limitations": [
+    "The source manifest's producer_contract source-review field still records its preparation-time pending label; this review resolves the source-only pair gate without changing any frozen manifest bytes.",
+    "The review covers code and bindings only. It does not establish current B path/state, fresh preflight results, successful export, or scored results.",
+    "The fixed models are selected at epoch 5 and the comparison uses fit-excluded but exposed development data; it is not a fresh/public holdout or a quality result."
+  ],
+  "reviewer_conclusion": "The frozen exporter/scorer V3 pair binds the same V3 binding, source manifest, V2 private evidence root, fixed five-arm output contract, and exact producer code pin. The previous API manifest row-shape failure is corrected without changing inference, prediction generation, or scoring logic."
+}

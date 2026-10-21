@@ -1,0 +1,98 @@
+{
+  "schema": "fg19.first-cell-score-result-capture-source-review.v4",
+  "status": "PASS_SOURCE_ONLY_READER_V4_HARD_BOUNDED_UNBOUND",
+  "reviewed_at_utc": "2026-10-21T10:42:51Z",
+  "scope": "Independent static review of the V4 capture source and its V3 relationship. The reviewer did not import or execute the template or fixture, query or act on B/systemd/GPU/cgroups, read receipts or RESULT.json, inspect predictions/model/data/cache/checkpoint payloads, or make a score or quality claim.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/SCORE_RESULT_CAPTURE_TEMPLATE_V4.py",
+    "bytes": 26354,
+    "sha256": "88968f6dd73d4b489c4fc57308906c5e390137a49389ab991408408f353b9be6"
+  },
+  "focused_fixture": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/test_score_result_capture_v4_bounded_metadata.py",
+    "bytes": 7770,
+    "sha256": "59da8db634549cef182234b5fc230053e8c7f52013024e83bd1eb36358ef2783",
+    "reported_result": "Packet LOCAL_CHECKS.md reports eight new focused synthetic tests and Ruff format/check passed; not rerun by this reviewer."
+  },
+  "documentation": {
+    "readme": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/README.md",
+      "bytes": 1870,
+      "sha256": "738150c6efe634c3655eb819490b838de2ec35885e6761d9e4579291b9fb7fee"
+    },
+    "local_checks": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/LOCAL_CHECKS.md",
+      "bytes": 1014,
+      "sha256": "2f21fb80521617efb89a92f94826444995b68e350d1629c17af1ad9fba4eb909"
+    }
+  },
+  "predecessor": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v3/SCORE_RESULT_CAPTURE_TEMPLATE_V3.py",
+    "bytes": 20781,
+    "sha256": "44ba4410a20805e1a468c97a5c4cf4577bece6a4cd8092ab1da9350b86d678ec",
+    "source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v3/INDEPENDENT_SOURCE_REVIEW_V3.json",
+      "bytes": 6463,
+      "sha256": "60349f291fee9d998e824f80b875fd63adaa7ebb1805c7da25266a861edb2e96"
+    }
+  },
+  "v4_delta_review": {
+    "scope": [
+      "Adds selectors and monotonic-time support for bounded subprocess capture.",
+      "Replaces systemctl and nvidia-smi subprocess.run(capture_output=True) calls with a selector loop that reads at most one 4 KiB chunk per event, enforces separate stdout/stderr byte caps while reading, and applies a monotonic deadline.",
+      "Replaces unbounded cgroup.procs read_text/rglob traversal with explicit scandir traversal; rejects encountered symlinks and caps total visited directories, entries per directory, bytes per process file, and aggregate process-file bytes.",
+      "Reads finite named cgroup metadata and /proc/PID/cgroup files through lstat, regular-file/no-follow opens, fixed-size chunks, and per-file byte caps.",
+      "Leaves the rest of the V3 AST, including identity, receipt, unit, result, and output gates, unchanged according to the frozen focused fixture's normalization contract."
+    ],
+    "limits": {
+      "systemctl_show_timeout_seconds": 10,
+      "systemctl_stdout_bytes": 65536,
+      "systemctl_stderr_bytes": 4096,
+      "nvidia_smi_device_stdout_bytes": 4096,
+      "nvidia_smi_process_stdout_bytes": 65536,
+      "nvidia_smi_stderr_bytes_per_command": 4096,
+      "selected_gpu_process_rows": 64,
+      "cgroup_directories": 128,
+      "cgroup_entries_per_directory": 256,
+      "cgroup_procs_file_bytes": 32768,
+      "cgroup_procs_aggregate_bytes": 262144,
+      "cgroup_metadata_file_bytes": 4096,
+      "proc_cgroup_bytes": 4096,
+      "reader_chunk_bytes": 4096,
+      "unit_log_tail_bytes": 262144,
+      "capture_file_bytes": 1000000,
+      "raw_capture_aggregate_bytes": 4000000
+    },
+    "preserved_gates": {
+      "unbound_receipt_pins_fail_before_path_or_process_queries": true,
+      "exact_systemd_unit_Id_and_pinned_invocation_required": true,
+      "exact_admission_launch_export_identity_and_scorer_code_pins_checked": true,
+      "empty_or_root_unit_cgroup_has_no_host_root_fallback": true,
+      "result_file_read_only_after_strict_terminal_success": true,
+      "nonterminal_or_failed_unit_does_not_open_result_file": true,
+      "result_bytes_captured_without_metric_parsing": true
+    }
+  },
+  "conditional_state": {
+    "score_admission_bytes": null,
+    "score_admission_sha256": "UNBOUND_ROOT_AFTER_ACTUAL_SCORE_ADMISSION",
+    "score_launch_bytes": null,
+    "score_launch_sha256": "UNBOUND_ROOT_AFTER_ACTUAL_SCORE_ADMISSION",
+    "score_invocation_id": "UNBOUND_ROOT_AFTER_ACTUAL_SCORE_ADMISSION",
+    "reader_executed": false,
+    "unit_queried": false,
+    "result_file_read": false,
+    "actual_capture_authorized": false,
+    "quality_claimed": false
+  },
+  "reviewer_actions": {
+    "source_and_packet_metadata_read": true,
+    "static_v3_v4_diff_reviewed": true,
+    "tests_or_imports_executed": false,
+    "b_or_ssh_attempted": false,
+    "systemd_gpu_or_cgroup_queries_performed": false,
+    "receipt_or_result_bytes_read": false,
+    "payloads_read": false
+  },
+  "assessment": "V4 replaces the V3 post-read subprocess and cgroup limits with explicit read-time byte, traversal, and deadline bounds while retaining the reviewed identity and strict-success-only result gates. This is a conditional source review only: its five admission/launch/invocation literals remain unbound, so it is not evidence of an actual capture or score."
+}

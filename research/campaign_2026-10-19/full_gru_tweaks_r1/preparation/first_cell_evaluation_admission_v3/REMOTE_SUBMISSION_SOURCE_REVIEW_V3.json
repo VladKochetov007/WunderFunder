@@ -1,0 +1,165 @@
+{
+  "schema": "fg19.first-cell-export-admission-source-review.v3",
+  "status": "PASS_SOURCE_ONLY_ADMISSION_V3",
+  "reviewed_utc": "2026-10-21T08:56:50Z",
+  "scope": "Independent exact-source review of the V3 stdin body and five-payload binding for one first-cell F0/seed-1001 feature-only prediction export. This is source preparation only; it is not staging, admission, execution approval, score, quality conclusion, or authorization to act on B.",
+  "review_method": {
+    "read_source_and_metadata": true,
+    "verify_candidate_bytes_and_sha256": true,
+    "compare_non_payload_body_bytes_to_reviewed_failed_v2": true,
+    "verify_embedded_payload_names_and_pins_against_binding": true,
+    "check_exporter_source_review_join": true,
+    "run_imports_or_tests": false,
+    "read_model_checkpoint_dataset_cache_or_prediction_payloads": false,
+    "perform_b_query_or_action": false
+  },
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/REMOTE_SUBMISSION_V3.py",
+    "bytes": 243576,
+    "sha256": "d7e2ca4852da54d8d1554ff3271dd3d4f369575a6c26c7dc19990a2ca54cb509"
+  },
+  "source_binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/ADMISSION_SOURCE_BINDING_V3.json",
+    "bytes": 13771,
+    "sha256": "6d1d599d688590f492a07b129ccea0080d38847130e0df420d3e562dd4a17d30",
+    "schema": "fg19.first-cell-export-admission-source-binding.v3"
+  },
+  "narrow_source_delta": {
+    "inverse_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/ADMISSION_V3_INVERSE_PROOF.json",
+      "bytes": 3638,
+      "sha256": "07afd545eb5658db0ea1454ff2632b3096095631a172669cc7d1de1b7d033977",
+      "status": "PASS_EXACT_V2_BODY_INVERSE_OUTSIDE_FIVE_PAYLOAD_CONSTANTS",
+      "inverse_assignments": [
+        "EXPORT_BINDING_SHA256",
+        "EXPORTER_SHA256",
+        "PAYLOAD_B64",
+        "PAYLOAD_PINS"
+      ]
+    },
+    "independent_diff_finding": "A zero-context comparison shows only the exporter-binding SHA, exporter SHA, two embedded payload rows (exporter and binding), and the binding payload byte-count row differ from the failed V2 body. Replacing the four named assignments reconstructs V2 byte-for-byte; all operational code bytes remain identical.",
+    "failed_v2_body": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v2/REMOTE_SUBMISSION_V2.py",
+      "bytes": 243608,
+      "sha256": "a15b2cec55657f3f630fcd18a4fe20037fe08c3186bb0f046aac5480c6e0aeab",
+      "source_review": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v2/REMOTE_SUBMISSION_SOURCE_REVIEW_V2.json",
+        "bytes": 3289,
+        "sha256": "314a374db0bd20f963b331213111639dda1181ce4ee12f32968324ab9936bf65",
+        "status": "PASS_SOURCE_ONLY_ADMISSION_V2"
+      }
+    }
+  },
+  "fixed_payloads": {
+    "export_first_cell_v1.py": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/export_first_cell_v1.py",
+      "bytes": 64315,
+      "sha256": "1587a29b2269f6592a6487fc48765a8e86d4cc23aab4951f00966d970ca3dfa1"
+    },
+    "EXPORT_BINDING_V1.json": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_BINDING_V1.json",
+      "bytes": 15798,
+      "sha256": "6cd8c46f31214623d97e54c32bac9395608bfc918b9b44e879e44ad2548f0eb9"
+    },
+    "EXPORT_SOURCE_MANIFEST.json": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "ALLTHREE_TERMINAL_ACCEPTANCE.json": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/TERMINAL_ACCEPTANCE.json",
+      "bytes": 20208,
+      "sha256": "fada500ede63a175d7d055d38fbef5d38110aef481a91771ae3c5717c1e7026f"
+    },
+    "ALLTHREE_EXACT_STOP.json": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/exact_stop/EXACT_STOP.json",
+      "bytes": 3208,
+      "sha256": "0154b3f35c4fb849d0db7e7b60ce1f4ce2fa01ab2203c17db65877f89353f13d"
+    }
+  },
+  "producer_review_join": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_SOURCE_REVIEW_V2.json",
+    "bytes": 10250,
+    "sha256": "f736f60a6b5481e94be380a183ba840aad850958c9b863b439bc708e65e997af",
+    "schema": "fg19.first-cell-export-source-review.v2",
+    "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR",
+    "joined_payloads": [
+      "export_first_cell_v1.py",
+      "EXPORT_BINDING_V1.json",
+      "EXPORT_SOURCE_MANIFEST.json"
+    ]
+  },
+  "preserved_failed_preflight": {
+    "transport": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/TRANSPORT.json",
+      "bytes": 729,
+      "sha256": "1abf3a11a02e3ea6ba7ef959b08c5d84a5eb3a3f052f9ae3d1dd2ae68cd2afb1",
+      "ssh_returncode": 1,
+      "retry_performed": false
+    },
+    "stderr": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/STDERR.raw.txt",
+      "bytes": 769,
+      "sha256": "6aab5654e7568faf1e59db72f8870aa9427127807fa9da590d7b21191ddf4245"
+    },
+    "one_read_only_outcome_capture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/preflight_outcome_v1/STDOUT.raw.json",
+      "bytes": 1509,
+      "sha256": "40a55d9e1c2d251627e6208775c0736699e3f1aa0378cdbc2ba7b126acd126c2",
+      "captured_utc": "2026-10-21T08:42:16.285843+00:00",
+      "reports_export_unit_not_found": true,
+      "reports_export_evidence_directory_absent": true,
+      "reports_flat_support_helper_stats": true
+    },
+    "failure_cause": "The V2 binding used two nonexistent nested preparation/ helper paths; the failure occurred in preflight before evidence-directory creation or systemd-run. V3 preserves this historical failure and does not treat the earlier absence snapshot as a current admission gate."
+  },
+  "worker_and_admission_contract": {
+    "same_unit": "computer-vision-homework-fg19-first-cell-export-v1.service",
+    "same_evidence_directory": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v1",
+    "fresh_dynamic_gates_before_create_only_payload_staging": true,
+    "fresh_unit_and_evidence_output_absence_checked": true,
+    "all_six_registered_source_identities_checked_before_and_after_split_load": true,
+    "five_arm_receipts_models_source_tree_split_profile_cache_and_disk_gates_precede_mutation": true,
+    "selected_gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "gpu_ownership_check_retained_from_reviewed_v2": true,
+    "strict_fp32_autocast_disabled_tf32_disabled": true,
+    "cpu_quota": "100%",
+    "memory_high_bytes": 7500000000,
+    "memory_max_bytes": 8000000000,
+    "memory_swap_max_bytes": 0,
+    "runtime_seconds": 7200,
+    "worker_gpu_allocator_bytes": 4294967296,
+    "blas_threads": 1,
+    "loader_workers": 0,
+    "unknown_outcome_policy": "Never retry or recreate the evidence directory or unit. Inspect only the exact recorded unit and outputs.",
+    "no_worker_stdin_body_self_hash_claim": true,
+    "four_key_bounded_root_reply_contract": [
+      "unit",
+      "outcome",
+      "admission_base64",
+      "launch_base64"
+    ]
+  },
+  "execution_state": {
+    "body_staged_or_executed": false,
+    "b_attempted_for_v3": false,
+    "model_checkpoint_dataset_cache_or_prediction_payload_read_by_reviewer": false,
+    "new_fits": 0,
+    "quality_claimed": false
+  },
+  "reported_local_validation": {
+    "focused_fixture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/test_admission_v3_payload_contract.py",
+      "bytes": 2398,
+      "sha256": "4af31b60e8a590f23c23dee1865bc580abddaa9ee5dd9d34981bb77a73bf50d3",
+      "actor_reported_result": "Three new source/metadata checks passed; reviewer did not execute them."
+    },
+    "ruff": "Actor reports Ruff format/check passed on the V3-only packet; reviewer did not run it."
+  },
+  "limitations": [
+    "The prior read-only diagnostic establishes absent unit and evidence directory only at its capture time. The V3 body itself requires new source, data, filesystem, process/GPU ownership, unit-absence, and output-absence checks before any mutation.",
+    "This source review neither rechecks B state nor approves a later actual action. Root must bind the exact body/review/transport and execute its separate fresh admission gates.",
+    "The candidate contains an exporter, not a scorer. No predictions, score, comparative quality, new fit, fresh holdout, or public-transfer result is asserted."
+  ],
+  "findings": []
+}

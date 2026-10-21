@@ -1,0 +1,208 @@
+{
+  "api_manifest_join": {
+    "binding_api_pin_shape": [
+      "bytes",
+      "sha256"
+    ],
+    "checks": [
+      "exact compact leaf key set",
+      "strict positive integer byte count",
+      "lowercase SHA-256 shape",
+      "matching bytes and SHA by exact manifest path"
+    ],
+    "expected_api_file_count": 8,
+    "fixture": "test_score_v5_api_manifest_gate.py calls the actual _read_export_bundle gate with exact V4 binding and canonical source manifest; completion metadata and roots are synthetic and no prediction arrays are opened.",
+    "source_manifest_row_shape": [
+      "path",
+      "bytes",
+      "sha256"
+    ]
+  },
+  "binding_delta": {
+    "core_predictions_cli_byte_identical_to_score_v4": true,
+    "only_changed_score_contract_behavior": "Compare each binding source.api_files {bytes,sha256} leaf to the same source-manifest path row after selecting {bytes,sha256}; require exact leaf keys and strict types.",
+    "producer_binding": {
+      "bytes": 15796,
+      "path": "../first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+      "runtime_filename": "EXPORT_BINDING_V4.json",
+      "schema": "fg19.first-cell-evaluation-export-binding.v1",
+      "sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    "producer_exporter_and_binding_unchanged_from_score_v4": true
+  },
+  "boundary": {
+    "no_actual_b_scoring": true,
+    "no_dataset_or_cache_payload_read_on_local_host": true,
+    "no_fit_or_export_run": true,
+    "no_model_or_checkpoint_payload_read_on_local_host": true,
+    "prediction_payloads_are_b_only": true,
+    "report_contains_large_arrays": false,
+    "score_report_is_create_only": true
+  },
+  "fixed_comparison": {
+    "arms": [
+      [
+        "control",
+        "base"
+      ],
+      [
+        "ema",
+        "ema"
+      ],
+      [
+        "sparse",
+        "sparse"
+      ],
+      [
+        "nll",
+        "base"
+      ],
+      [
+        "allthree",
+        "ema_sparse"
+      ]
+    ],
+    "bootstrap": {
+      "centered_moments": true,
+      "replicates": 2000,
+      "scope": "conditional paired successor-component resampling for these fixed models",
+      "seed": 271828
+    },
+    "exposure": "fit-excluded but exposed development data; not a fresh or public holdout",
+    "inference": "strict_fp32; autocast=false; tf32=false",
+    "official_mask": "is_scored AND (t >= 99)",
+    "ordered_groups": 468,
+    "selected_epoch": 5,
+    "sequence_rows": 20000,
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "successful_updates": 44760,
+    "valid_row_group_count": 1873
+  },
+  "packet_documentation": [
+    {
+      "bytes": 1456,
+      "path": "README.md",
+      "sha256": "54c30086eae58fd35dac51c5143ca68cdee743a0add5653173f97b9e43466258"
+    },
+    {
+      "bytes": 1329,
+      "path": "LOCAL_CHECKS.md",
+      "sha256": "f46456cc563d9a7af57ac259cb9abeefb60e5595fe5f0a361e6a09058a9d675b"
+    }
+  ],
+  "prior_v4_rejection": {
+    "bytes": 5510,
+    "path": "../first_cell_evaluation_score_v4/SCORE_V4_CONTRACT_SOURCE_ROW_REJECTION_V1.json",
+    "sha256": "3ff0858cb85c45efb6e447957d2a8db0a542ce94bb6b1946a84bb58c6ab7a727",
+    "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT"
+  },
+  "producer_contract": {
+    "binding": {
+      "bytes": 15796,
+      "path": "../first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+      "runtime_filename": "EXPORT_BINDING_V4.json",
+      "schema": "fg19.first-cell-evaluation-export-binding.v1",
+      "sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    "bytes": 66790,
+    "output_status": "COMPLETE_PREDICTION_EXPORTS_NOT_SCORED",
+    "path": "../first_cell_evaluation_export_v4/export_first_cell_v4.py",
+    "prediction_data_bytes_each": 74880000,
+    "prediction_dtype": "<f4",
+    "prediction_shape": [
+      468,
+      20000,
+      2
+    ],
+    "sha256": "87b6d3626bdafe6353865d95b1d8116bd187cb4da46888815658db6fc192738e",
+    "source_manifest": {
+      "bytes": 27569,
+      "path": "../first_cell_evaluation_export_v4/EXPORT_SOURCE_MANIFEST.json",
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "source_review": {
+      "path": "../first_cell_evaluation_export_v4/EXPORT_SOURCE_REVIEW_V4.json",
+      "status": "PENDING_SOURCE_ONLY_PRODUCER_CONSUMER_REVIEW"
+    }
+  },
+  "review_scope": "Pending independent source-only producer/consumer review. V5 preserves the frozen exporter V4 binding and all score behavior; its sole operational change normalizes the eight compact source.api_files rows against the corresponding canonical 167-row source-manifest rows. The full metadata-gate fixture uses exact V4 binding/source-manifest bytes and synthetic completion metadata only. No B action or score was performed.",
+  "schema": "fg19.first-cell-score-dependency-manifest.v5",
+  "score_consumer_files": [
+    {
+      "bytes": 27226,
+      "path": "first_cell_score_core.py",
+      "sha256": "30c456e7db875e2c075a6200c857c375087b18d9c952c354ae9bd3dceb0a0143"
+    },
+    {
+      "bytes": 20165,
+      "path": "first_cell_score_contract.py",
+      "sha256": "b6e3f7a9f9663f519037c54a2077f70d83fbf0b2ba54dc3e158eb5e3b173479d"
+    },
+    {
+      "bytes": 11056,
+      "path": "first_cell_score_predictions.py",
+      "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+    },
+    {
+      "bytes": 10630,
+      "path": "score_first_cell.py",
+      "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+    },
+    {
+      "bytes": 10537,
+      "path": "test_score_v5_api_manifest_gate.py",
+      "sha256": "d2c9c3279eaa742bbcaca21336316262d56829a9ed838cba718a6746b2a838b6"
+    }
+  ],
+  "source_authority": {
+    "canonical_metric": "global_wp_clip2_v1",
+    "canonical_source_files": [
+      {
+        "bytes": 63,
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+      },
+      {
+        "bytes": 4000,
+        "path": "src/wnn/data.py",
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      {
+        "bytes": 8902,
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      },
+      {
+        "bytes": 8080,
+        "path": "src/wnn/evaluation.py",
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+      },
+      {
+        "bytes": 2239,
+        "path": "src/wnn/portability.py",
+        "sha256": "a35f84ee5c95fd45cd76aa5f34f7013c8e1c5963a6306b0e4049386515589a44"
+      },
+      {
+        "bytes": 9000,
+        "path": "src/wnn/splits.py",
+        "sha256": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe"
+      }
+    ],
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "helper_contract": {
+      "metric": "GlobalAccumulator",
+      "paired_uncertainty": "paired_component_moments + paired_component_bootstrap",
+      "portable_data_manifest_environment": {
+        "bytes": 2157,
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_SOURCES.json",
+        "sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378"
+      },
+      "reader": "SequenceFile.read(row_group, targets=True, mask=True)",
+      "split": "load_campaign_split",
+      "warmup": 99
+    },
+    "repository": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019",
+    "source_set_sha256": "9c461bcc5883572a071d41a86e18b9a91136099cf8fa87371ce7c3ee41445bd8"
+  },
+  "status": "LOCAL_SOURCE_PREPARATION_ONLY_NOT_EXECUTED"
+}

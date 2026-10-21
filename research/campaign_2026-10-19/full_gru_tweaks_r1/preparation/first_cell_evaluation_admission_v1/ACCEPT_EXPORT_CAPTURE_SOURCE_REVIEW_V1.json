@@ -1,0 +1,64 @@
+{
+  "schema": "fg19.first-cell-export-acceptance-source-review.v1",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "reviewed_at_utc": "2026-10-21T08:23:02Z",
+  "scope": "Static local source review only. No imports, tests, remote actions, payload reads, array reads, or acceptance execution were performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE.py",
+    "bytes": 11526,
+    "sha256": "46d27179019e8dc77a66005925845b654e7e0a270133bb8494d3eccae4cd0afe"
+  },
+  "contract_sources": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v1/first_cell_score_contract.py",
+      "bytes": 19485,
+      "sha256": "09155537feec1d9cd398f6a729ab88201b82e814c1a8c4ac796fe4283940a90d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v1/first_cell_score_predictions.py",
+      "bytes": 11056,
+      "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+    }
+  ],
+  "findings": [
+    {
+      "id": "ACCEPT-V1-001",
+      "severity": "blocker",
+      "location": "ACCEPT_EXPORT_CAPTURE.py:81-95",
+      "finding": "The acceptor does not validate the scorer-required observed_before_sequence_open and observed_after_export valid.parquet leaf-plus-parent snapshots. For the six observed_sources entries it checks only keys that happen to be present; an empty object for each of the six names passes because the outer membership check succeeds and the inner any() over observed keys is false.",
+      "impact": "The acceptor can write an acceptance without complete fresh source observations, and can accept a manifest that the pinned scorer rejects."
+    },
+    {
+      "id": "ACCEPT-V1-002",
+      "severity": "blocker",
+      "location": "ACCEPT_EXPORT_CAPTURE.py:65-159",
+      "finding": "Manifest and sidecar validation is weaker than the pinned scorer contract. The acceptor omits exact manifest/data_identity and sidecar field-set checks, the sidecar schema/status and membership_encoding checks, row directory/prediction_path/sidecar_path joins, and exact prediction metadata field-set/type checks. It also does not require evaluation group IDs to lie in the scorer's 0..19999 range.",
+      "impact": "A malformed or scorer-incompatible five-arm bundle can be recorded as ACCEPTED_FIXED_FIVE_PREDICTION_EXPORTS_NOT_SCORED and only fail at the later scorer gate."
+    },
+    {
+      "id": "ACCEPT-V1-003",
+      "severity": "high",
+      "location": "ACCEPT_EXPORT_CAPTURE.py:21-29, 188-199",
+      "finding": "Local metadata reads use a symlink check followed by stat()/read_bytes(), without O_NOFOLLOW, stable fstat identity, or bounded streaming. Original ADMISSION.json and LAUNCH.json are read with unbounded read_bytes().",
+      "impact": "Path replacement between the checks and reads is not excluded, and the local receipt reads do not have an enforced size cap."
+    },
+    {
+      "id": "ACCEPT-V1-004",
+      "severity": "high",
+      "location": "ACCEPT_EXPORT_CAPTURE.py:178-205",
+      "finding": "The raw observation and ROOT launch-acceptance objects are not checked against their exact schema/status contracts. The launch-acceptance join in this file checks only unit and invocation_id; the raw reader schema is not checked before its systemd and metadata fields are consumed.",
+      "impact": "This acceptor itself does not establish that the supplied parsed capture and root acceptance satisfy the reviewed protocol schemas."
+    }
+  ],
+  "review_basis": {
+    "scorer_data_identity_contract": "first_cell_score_contract.py requires exact registered-data identity fields, both six-source snapshots, and exact valid.parquet before/after leaf-plus-parent observations.",
+    "scorer_manifest_and_sidecar_contract": "first_cell_score_contract.py and first_cell_score_predictions.py require fixed top-level and sidecar schemas, exact arm-row fields and paths, strict membership range/encoding, and exact prediction metadata joins."
+  },
+  "execution_and_quality_claims": {
+    "acceptance_executed": false,
+    "b_action_attempted": false,
+    "payload_or_prediction_arrays_read": false,
+    "quality_score_claimed": false,
+    "source_pass_granted": false
+  }
+}

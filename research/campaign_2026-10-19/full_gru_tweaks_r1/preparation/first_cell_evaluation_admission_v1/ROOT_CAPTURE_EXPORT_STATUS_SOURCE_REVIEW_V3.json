@@ -1,0 +1,51 @@
+{
+  "schema": "fg19.first-cell-export-status-capture-source-review.v3",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "scope": "Independent static review of ROOT's one-shot V3 status capture driver. No B query, remote read, test, import, or model/data/array read by this reviewer.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V3.py",
+    "bytes": 7998,
+    "sha256": "806e5d0a88cccd772e107f0e8dbc4f50b1f7853a0bac61891647d002ca495aef"
+  },
+  "identity_fork_proof": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V3_PROOF.json",
+    "bytes": 1012,
+    "sha256": "5cc50d37054457439470568d0d9bf17da1ccdd5f9ce0e20c24a1a30d807f5553",
+    "status": "LOCAL_FOUR_SOURCE_PIN_LITERALS_ONLY_NOT_EXECUTED",
+    "scope": "Rebinds the exact V4 reader/template and combined source-review pins; otherwise preserves the V2 driver."
+  },
+  "bound_reader": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_TEMPLATE_V4.py",
+    "bytes": 14786,
+    "sha256": "208a185c19b3a7fa4fb620192d0dae22bd701a8856dc3f44aa0951ddb7b4254d"
+  },
+  "findings": [
+    {
+      "id": "STATUS-V3-1",
+      "severity": "blocking",
+      "finding": "After receiving the terminal metadata map, the driver writes each entry using `write(record / name, raw)`. The allowed map includes nested paths such as `control/PREDICTION_SIDECAR.json`, but `write()` only opens the final path and `main()` creates only the top-level `record` directory. It creates no arm subdirectories, so a successful response fails with `FileNotFoundError` when the first nested sidecar is written."
+    }
+  ],
+  "positive_source_observations": {
+    "raw_stdout_and_stderr_persisted_before_parse": true,
+    "transport_directory_fsynced_before_parse": true,
+    "single_ssh_attempt_and_no_retry": true,
+    "exact_new_unit_v3_bound": true,
+    "reviewed_reader_v4_and_combined_review_pins_bound": true,
+    "outer_stdout_bounded_to_four_megabytes": true
+  },
+  "review_method": {
+    "read_exact_source_and_small_saved_proof": true,
+    "verified_candidate_and_proof_file_pins": true,
+    "read_remote_or_prediction_payloads": false,
+    "run_imports_or_tests": false,
+    "perform_b_query_or_action": false
+  },
+  "execution_state": {
+    "status_driver_executed": false,
+    "remote_action_by_reviewer": false,
+    "raw_capture_created": false,
+    "quality_claimed": false
+  },
+  "required_resolution": "A versioned driver should create the exact validated arm directories before writing nested metadata, then fsync the created directory entries; preserve one-shot capture and raw-first transport behavior."
+}

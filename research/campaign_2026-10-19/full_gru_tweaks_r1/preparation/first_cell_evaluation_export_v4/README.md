@@ -1,0 +1,9 @@
+# First-cell F0 evaluation export V4 source packet
+
+V4 keeps the fixed five-arm, feature-only export recipe and repairs two argument checks that disagreed with the pinned CONTROL trainer and serving metadata. The CONTROL training command has no `input_lead` option; the canonical predictor uses `args.get("input_lead", 0)`, so a missing field means integer zero. V4 accepts the field when absent or when it is the strict integer `0`; it rejects `None`, booleans, strings, and nonzero values. The canonical `--prop-input` default is the empty string, and serialized checkpoint arguments preserve that value. The V4 binding therefore pins `prop_input` to `""`; serving treats it as no propensity input.
+
+V4 creates a fresh private evidence root at `fg19_first_cell_f0_s1001_evaluation_v3` for the next export attempt. Its binding retains the same five accepted epoch-5 checkpoints, source, split, output shape, representation modes, and control inputs as V3. The only binding changes are the new private-root paths and the canonical `prop_input` default. The 167-file source manifest is byte-identical to V3.
+
+The exporter source is checked against exact CONTROL admission and launch metadata and the pinned source commit. The fixture verifies the trainer argv digest, confirms the absence of an input-lead flag, checks the canonical serving default and CLI serialization/defaults, and exercises every required/default argument in the pure checkpoint metadata validator. The fixture does not load a checkpoint or read model, cache, parquet, target, prediction, or array payloads.
+
+This is source-only preparation. V4 has not been rendered, staged, admitted, or run on B. The previous export unit failed during checkpoint metadata validation; that unit and its private directory are preserved and are not reused. No prediction export, scoring, or quality result is claimed. Independent review of these exact source and binding bytes is required before any new B action.

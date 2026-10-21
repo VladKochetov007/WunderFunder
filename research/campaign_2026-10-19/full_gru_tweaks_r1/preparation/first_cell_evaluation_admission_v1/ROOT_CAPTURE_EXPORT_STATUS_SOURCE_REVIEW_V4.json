@@ -1,0 +1,43 @@
+{
+  "schema": "fg19.first-cell-export-status-capture-source-review.v4",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "reviewed_utc": "2026-10-21T10:27:00Z",
+  "scope": "Static source review only. No B query/action, import, test, or payload read was performed.",
+  "candidate": {
+    "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V4.py",
+    "bytes": 9456,
+    "sha256": "af914d1dec67853768569237f8500cad75db4d0fe2d0f8e1e7cc55553c77e040"
+  },
+  "bound_reader": {
+    "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_TEMPLATE_V4.py",
+    "bytes": 14786,
+    "sha256": "208a185c19b3a7fa4fb620192d0dae22bd701a8856dc3f44aa0951ddb7b4254d"
+  },
+  "findings": [
+    {
+      "id": "STATUS-V4-LIFECYCLE-1",
+      "severity": "blocking",
+      "finding": "The reviewed reader deliberately returns `terminal_metadata: {}` unless the exact unit properties show successful exit. The V4 root driver then calls `write_terminal_metadata(record, observation['terminal_metadata'])` unconditionally. That helper requires the exact six metadata names, so a valid active or failed-unit observation raises before writing OBSERVATION.json and before returning the status capture. The raw transport and earlier captured files remain, but the one-shot reader cannot complete its intended diagnostic for those lifecycle states.",
+      "source_locations": [
+        "ROOT_CAPTURE_EXPORT_STATUS_V4.py:46-52",
+        "ROOT_CAPTURE_EXPORT_STATUS_V4.py:210-235",
+        "READ_EXPORT_TEMPLATE_V4.py:347-367"
+      ],
+      "required_resolution": "Branch on the captured strict terminal-success tuple: require and write exactly the six metadata files only on successful exit; for a non-success observation require the metadata mapping to be empty and complete the bounded status capture; reject partial or unexpected metadata in either branch."
+    }
+  ],
+  "positive_observations": {
+    "raw_stdout_and_stderr_persisted_before_parse": true,
+    "single_ssh_attempt_and_no_retry": true,
+    "nested_directory_creation_is_explicit_and_bounded": true,
+    "created_directory_entries_are_fsynced": true,
+    "successful_metadata_branch_requires_exact_six_names": true,
+    "fixed_unit_identity_is_bound": true
+  },
+  "execution_state": {
+    "candidate_executed": false,
+    "remote_action_by_reviewer": false,
+    "payloads_read": false,
+    "quality_claimed": false
+  }
+}

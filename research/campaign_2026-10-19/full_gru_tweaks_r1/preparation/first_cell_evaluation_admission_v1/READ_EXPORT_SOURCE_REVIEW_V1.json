@@ -1,0 +1,66 @@
+{
+  "schema": "fg19.first-cell-export-reader-source-review.v1",
+  "status": "REJECT_SOURCE_ONLY_UNBOUNDED_CGROUP_AND_SYMLINK_INVENTORY",
+  "scope": "Read-only source review of the unbound metadata reader template and its fixed source plan. This review does not authorize binding, admission, B access, or execution.",
+  "review_method": {
+    "static_source_and_metadata_read": true,
+    "verify_current_file_pins": true,
+    "run_imports_or_tests": false,
+    "perform_B_or_network_action": false,
+    "read_export_payload_or_score": false
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_TEMPLATE.py",
+      "bytes": 13695,
+      "sha256": "08a7e0d0ddc26377ca7860fded2b3976b806beeae67c4f4c12f815e6f01de657"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_BINDING_PLAN.json",
+      "bytes": 2036,
+      "sha256": "88724d26b5a4bd13dff1d176390c32195b2d59ad67c68ebf74b816e2b5c10910"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/test_read_export_contract.py",
+      "bytes": 2830,
+      "sha256": "7da1c000d4a6c43d69126978444f1b56e1280ffb8a96c2f61a2a4c767f06de78"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_LOCAL_CHECKS.json",
+      "bytes": 1168,
+      "sha256": "f62d72ca4667cc230db7a561a952c07a9a096d366d8f0645360a11054c1e9bc2"
+    }
+  ],
+  "positive_source_observations": {
+    "unbound_invocation_rejected_before_D_access": true,
+    "fixed_unit_and_invocation_checked_against_original_receipts_and_systemd": true,
+    "successful_exact_native_exit_is_required_before_terminal_manifest_and_sidecar_reads": true,
+    "failed_run_branch_captures_bounded_log_tail_without_demanding_completion_marker": true,
+    "selected_gpu_queries_and_proc_identity_reads_have_explicit_limits": true,
+    "array_payloads_are_not_opened_or_hashed": true,
+    "producer_helper_ast_joins_match_the_pinned_V5_helpers": [
+      "_bounded_gpu_query",
+      "_bounded_proc_read",
+      "_proc_starttime"
+    ],
+    "author_reported_four_local_fixture_passes_and_final_ruff_clean": true,
+    "author_validation_independently_reexecuted": false
+  },
+  "findings": [
+    {
+      "id": "READ-EXPORT-001",
+      "severity": "blocker_for_bounded_inventory",
+      "location": "READ_EXPORT_TEMPLATE.py: output_inventory",
+      "detail": "The inventory calls Path.exists() before lstat()/is_symlink(). Path.exists() returns false for a dangling symlink, so a fixed export path can be reported as absent without exposing or rejecting the symlink. This makes the stated stat-only inventory incomplete for partial/failure states.",
+      "required_repair": "Use lstat-first existence detection; report or fail on every symlink, including dangling symlinks, before recording absence. Add a focused dangling-symlink fixture."
+    },
+    {
+      "id": "READ-EXPORT-002",
+      "severity": "blocker_for_bounded_capture",
+      "location": "READ_EXPORT_TEMPLATE.py: cgroup_snapshot",
+      "detail": "The function fully enumerates root.rglob('cgroup.procs') before enforcing the 128-file limit and uses unbounded Path.read_text() for every populated cgroup.procs and cgroup counter. A large cgroup subtree or process list can consume unbounded traversal time and memory and can make the emitted JSON stdout unbounded.",
+      "required_repair": "Bound descendant enumeration while walking, read each cgroup metadata file through a no-follow bounded reader with per-file and aggregate byte ceilings, and fail closed when any bound is exceeded. Add focused synthetic fixtures for traversal/file/aggregate limits."
+    }
+  ],
+  "decision": "Do not bind or run this template. Preserve this review as a negative snapshot; review any versioned repair against its own exact source pin."
+}

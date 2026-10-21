@@ -1,0 +1,91 @@
+{
+  "schema": "fg19.first-cell-score-result-capture-source-proof.v1",
+  "status": "PASS_NARROW_LOCAL_SOURCE_AND_SYNTHETIC_BOUNDARY_FIXTURE",
+  "scope": {
+    "B_or_SSH_accessed": false,
+    "remote_queries_attempted": 0,
+    "score_admission_or_launch_receipts_available_or_bound": false,
+    "capture_template_or_scorer_executed": false,
+    "model_data_cache_prediction_or_checkpoint_payloads_read_or_hashed": false,
+    "actual_result_captured": false,
+    "quality_claim": false
+  },
+  "template": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/SCORE_RESULT_CAPTURE_TEMPLATE_V1.py",
+    "bytes": 20480,
+    "sha256": "2fd94213540b55e6dfa7c39b8eaf55fb8928f739f1093cc3fbc3aae37d4e4e22"
+  },
+  "fixture": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/test_score_result_capture_v1.py",
+    "bytes": 8240,
+    "sha256": "3d33d8253d7d015b32c25bb2955c34ea22842c1b395b47430998c8d0b209b6b7",
+    "result": "6 synthetic tests passed"
+  },
+  "reviewed_pattern_reference": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v2/RESULT_CAPTURE_TEMPLATE.py",
+    "bytes": 15545,
+    "sha256": "00b7d9c2cf6a6fe0cad9da5c2196d3637f3821395dfe13963e0841b76d52fef7",
+    "source_review_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v2/SOURCE_REVIEW_V2.json",
+    "source_review_bytes": 7242,
+    "source_review_sha256": "b6aa35feb60d996260039338f16d21dd948bcd00793065c7e92f6eab5acfb4d7",
+    "source_review_status": "PASS_CONDITIONAL_SOURCE_ONLY"
+  },
+  "score_admission_binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v4/SCORE_ADMISSION_BINDING_PLAN_V4.json",
+    "bytes": 6234,
+    "sha256": "f60f915b2a7ca2f2a627bec1f474c58783f4227815dd99cf38c732854872bc9f",
+    "conditional_status": "LOCAL_CONDITIONAL_TEMPLATE_ONLY_UNBOUND_NOT_REVIEWED_OR_ADMITTED_V4",
+    "score_unit": "computer-vision-homework-fg19-first-cell-score-v1.service",
+    "score_directory": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_score_v1",
+    "result_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v1/RESULT.json"
+  },
+  "scorer_code_pins": {
+    "first_cell_score_contract.py": {
+      "bytes": 19485,
+      "sha256": "09155537feec1d9cd398f6a729ab88201b82e814c1a8c4ac796fe4283940a90d"
+    },
+    "first_cell_score_core.py": {
+      "bytes": 27226,
+      "sha256": "1b624ad568b436615f01f50e60567ece4a483ae9cc1def69ab2277aa0a392604"
+    },
+    "first_cell_score_predictions.py": {
+      "bytes": 11056,
+      "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+    },
+    "score_first_cell.py": {
+      "bytes": 10630,
+      "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+    }
+  },
+  "unbound_actual_receipt_literals": [
+    "SCORE_ADMISSION_BYTES",
+    "SCORE_ADMISSION_SHA256",
+    "SCORE_LAUNCH_BYTES",
+    "SCORE_LAUNCH_SHA256",
+    "SCORE_INVOCATION_ID"
+  ],
+  "verified_boundaries": {
+    "unbound_gate_precedes_path_or_query_access": true,
+    "only_exact_score_unit_and_campaign_parent_are_queried": true,
+    "score_receipt_schema_unit_result_path_invocation_and_admission_digest_join": true,
+    "four_staged_score_module_byte_sha_pins_are_rechecked_without_import": true,
+    "unit_log_tail_is_bounded_stable_and_final_symlink_rejected": true,
+    "result_json_opened_only_after_exact_invocation_and_strict_active_exited_0_1_0_success": true,
+    "result_bytes_are_returned_only_as_bounded_base64_without_metric_parsing": true,
+    "failure_status_captures_log_without_accessing_result_path": true,
+    "no_stdin_no_systemd_submission_no_stop_no_old_unit_query": true,
+    "no_numpy_torch_wnn_model_data_cache_prediction_or_moment_import": true
+  },
+  "reused_operational_ast_helpers": [
+    "_read_regular",
+    "_checked_cgroup",
+    "_cgroup_populated",
+    "_cgroup_text",
+    "_gpu_identity"
+  ],
+  "limitations": [
+    "The fixture uses only synthetic receipts, a synthetic JSON result, a synthetic unit log, and source ASTs; it does not validate any actual score result.",
+    "Cgroup tree traversal/read and subprocess output caps are post-read checks inherited from the reviewed reader pattern; they are not hard operating-system budgets.",
+    "The exact actual score admission/launch literals, independent source review, ROOT extraction, full scalar acceptance, and exact stop remain future root-owned gates."
+  ]
+}

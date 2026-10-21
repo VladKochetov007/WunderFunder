@@ -1,0 +1,43 @@
+{
+  "blockers": [
+    {
+      "finding": "The binding split.row_group_count is 20000, which is the per-sequence time-axis row count. Comparing it with len(SequenceFile) is incorrect: the registered F0 split has 1405 fit-valid plus 468 evaluation valid row groups, total 1873.",
+      "id": "ROW_GROUP_COUNT_SEMANTIC_COLLISION",
+      "required_repair": "Bind a distinct sequence_rows=20000 and valid_row_group_count=1873; derive the full-valid count from the canonical split components/nodes, validate fit-valid/evaluation membership against it, and compare SequenceFile length to the valid-row-group count before output mutation.",
+      "source_lines": [
+        983,
+        984
+      ]
+    },
+    {
+      "finding": "The blanket symlink checks reject the already registered data alias. The exact pinned AllThree fit admission records the lexical valid.parquet path, resolved path, islink=false, bytes, device, inode, mtime_ns, and registered hash; the lexical path resolves through the approved data alias.",
+      "id": "REGISTERED_DATA_ALIAS_REJECTED",
+      "required_repair": "Bind the exact fit admission bytes/SHA and its data_identity_stats_only entry. Before split loading or SequenceFile access, require exact lexical path, exact expected resolved file and parent paths, a non-symlink regular leaf, and fresh stat identity matching registered bytes/device/inode/mtime. Permit only that exact registered alias; reject any other traversal.",
+      "source_lines": [
+        974,
+        979
+      ]
+    }
+  ],
+  "decision": "Do not stage or execute this frozen draft; repair only the two findings and request a new independent source review.",
+  "frozen_inputs": {
+    "binding": {
+      "bytes": 11852,
+      "path": "EXPORT_BINDING_V1.json",
+      "sha256": "9966dd7ff5cf33dc276ea0a9fccf7a0e3e7d0c6df0323524f10be2d8f33f9bc2"
+    },
+    "exporter": {
+      "bytes": 45869,
+      "path": "export_first_cell_v1.py",
+      "sha256": "c9231903fc6846fcb654a1c53168f57f11eb947115895c5455ec3d78b18a328b"
+    },
+    "registered_fit_admission": {
+      "bytes": 12912,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/ADMISSION.json",
+      "sha256": "5312ae5feffc67d7a33051379afabb9c134dd946f1f97315d839c7d6f10d5540"
+    }
+  },
+  "review_scope": "Frozen local exporter and binding metadata only; no tests, imports, model/array/data payloads, B staging, or remote action performed by this review.",
+  "schema": "fg19.first-cell-export-source-only-blockers.v1",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT"
+}

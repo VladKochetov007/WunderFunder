@@ -1,0 +1,122 @@
+{
+  "schema": "fg19.first-cell-score-admission-source-review.v8",
+  "status": "PASS_CONDITIONAL_SOURCE_ONLY_UNBOUND_V8",
+  "reviewed_at_utc": "2026-10-21T10:36:36Z",
+  "scope": "Independent static review of the V8 conditional CPU score-admission template, its renderer, source-binding plan, and the exact V4 exporter/V5 scorer source review. Both actual root export acceptance and exact-stop remain unbound. This review did not render or execute a body, query or act on B, run imports or tests, read dataset/cache/model/prediction/result payloads, or make a score or quality claim.",
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/SCORE_ADMISSION_BODY_TEMPLATE_V8.py",
+      "bytes": 73741,
+      "sha256": "a576e348bd3ab9b479adb19d6d94c7214c309f5dc3d764a91c7a999d7e76e974"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/render_score_admission_v8.py",
+      "bytes": 18270,
+      "sha256": "cbc360d6fc3797de08f6adbef8ee12bea71d852997a788faf2fe6d7939f6baeb"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/SCORE_ADMISSION_BINDING_PLAN_V8.json",
+      "bytes": 6730,
+      "sha256": "bae7c4b57f9035eb4218704549094bce95f3dac3bd1989f6515559a6ba69e07f",
+      "status": "LOCAL_CONDITIONAL_TEMPLATE_ONLY_UNBOUND_NOT_REVIEWED_OR_ADMITTED_V8"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/test_score_admission_v8_pair_binding.py",
+      "bytes": 9090,
+      "sha256": "65216701b5c50e0f6c09712c517d8f5adeab2d949c234f6657368757bfacb821"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/README.md",
+      "bytes": 1041,
+      "sha256": "1931e9b9e37e822ef08673e75933eddb7ecf9094449de9aa81b552b65710aad5"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/LOCAL_CHECKS.md",
+      "bytes": 927,
+      "sha256": "8adc4cbf2d00597b3eea3c852a6310c836df10672b3000c611e9f5a482584ca2"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_SOURCE_REVIEW_V4.json",
+      "bytes": 8712,
+      "sha256": "64c93d8279a2daeb15f2750e6366a0fe94a268c7b8e9a04dbdb28e4a36a56e73",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    }
+  ],
+  "producer_consumer_review_binding": {
+    "review_schema": "fg19.first-cell-export-source-review.v4",
+    "reviewed_file_count": 12,
+    "all_12_reviewed_files_match_local_bytes_and_sha256": true,
+    "producer_consumer_join_count": 9,
+    "all_producer_consumer_joins_true": true,
+    "export_binding": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+      "bytes": 15796,
+      "sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    "scorer_contract": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/first_cell_score_contract.py",
+      "bytes": 20165,
+      "sha256": "b6e3f7a9f9663f519037c54a2077f70d83fbf0b2ba54dc3e158eb5e3b173479d"
+    },
+    "scorer_core": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/first_cell_score_core.py",
+      "bytes": 27226,
+      "sha256": "30c456e7db875e2c075a6200c857c375087b18d9c952c354ae9bd3dceb0a0143"
+    },
+    "export_unit": "computer-vision-homework-fg19-first-cell-export-v3.service",
+    "export_evidence_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v3",
+    "score_unit": "computer-vision-homework-fg19-first-cell-score-v1.service",
+    "result_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v3/RESULT.json"
+  },
+  "reviewed_gates": {
+    "source_tree_exact_inventory_precedes_file_hashing": true,
+    "registered_six_source_paths_are_stat_only_before_worker": true,
+    "all_14_fit_ancestry_receipts_and_cache_receipts_are_pinned_before_staging": true,
+    "five_export_outputs_are_metadata_checked_and_array_paths_are_stat_only": true,
+    "root_export_acceptance_and_exact_stop_are_strictly_joined_before_staging": true,
+    "parent_cgroup_resource_and_empty-population_gates_precede_mutation": true,
+    "selected_gpu_process_owners_are_observed_without_actions": true,
+    "score_directory_and_result_absence_are_gated_before_mutation": true,
+    "four_exact_scorer_modules_and_two_root_receipts_are_staged_create_only": true,
+    "worker_cpu_memory_swap_runtime_cuda_and_blas_caps_are_explicit": true,
+    "admission_and_launch_receipts_are_written_and_directory_fsynced_before_reply": true,
+    "renderer_checks_exact_12_reviewed_file_rows_and_all_9_join_flags": true,
+    "renderer_checks_exact_v4_binding_and_v5_scorer_pins": true,
+    "renderer_rejects_actual_receipts_until_root_pins_are_bound": true,
+    "v8_body_has_only_v7_source-rebind_changes": true
+  },
+  "body_delta_from_v7": {
+    "only_paths_or_literals_changed": [
+      "evaluation_v2 to evaluation_v3 root",
+      "export-v2 unit to export-v3 unit",
+      "V3 exporter binding name/pin to V4 binding name/pin",
+      "V3 source review pin to exact V4 source review pin",
+      "V3 scorer contract/core pins to V5 contract/core pins"
+    ],
+    "operational_body_logic_changed": false
+  },
+  "actual_authority_and_render_state": {
+    "actual_export_acceptance_path": null,
+    "actual_export_acceptance_bytes": null,
+    "actual_export_acceptance_sha256": null,
+    "actual_export_exact_stop_path": null,
+    "actual_export_exact_stop_bytes": null,
+    "actual_export_exact_stop_sha256": null,
+    "plan_is_renderable_for_actual_score_admission": false,
+    "rendered_v8_body_exists": false,
+    "score_unit_or_score_directory_created": false,
+    "required_future_gate": "Bind only the actual root-owned export-v3 acceptance and matching exact-stop after successful export capture, then re-review the exact rendered score body and root transport binding before any score admission."
+  },
+  "reviewer_actions": {
+    "source_and_json_metadata_read": true,
+    "exact_v4_review_rows_rehashed_and_join_flags_checked": true,
+    "static_diff_v7_to_v8": true,
+    "rendered_body_or_local_renderer_executed": false,
+    "imports_or_tests_executed": false,
+    "b_or_ssh_attempted": false,
+    "systemd_or_gpu_queries_performed": false,
+    "model_data_cache_prediction_result_or_target_payload_accessed": false,
+    "score_or_quality_claimed": false
+  },
+  "reviewer_conclusion": "V8 is a conditional source-only pass for the exact V4 exporter/V5 scorer pair and export-v3 paths. Its read-only preflight, ancestry, source closure, resource, output, and receipt gates precede create-only staging and one bounded CPU submission. The V4/V5 source review's 12 exact rows and nine join flags match local bytes. V8 remains unrenderable and unadmitted because its actual root acceptance and exact-stop pins are null; this review does not authorize renderer use, score execution, or a quality claim."
+}

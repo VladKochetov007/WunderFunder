@@ -1,0 +1,60 @@
+{
+  "schema": "fg19.first-cell-export-acceptance-source-review.v7",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "scope": "Independent static review of ROOT's metadata-only export acceptor V7 and its three-literal consumer-pin proof. This review does not inspect a current export result or perform any B action.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V7.py",
+    "bytes": 19962,
+    "sha256": "a6785a05849aa177d8b76a84731b9db06a605d870512258b3ea13cfcdc124154"
+  },
+  "consumer_pin_proof": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V7_PROOF.json",
+    "bytes": 951,
+    "sha256": "c8d4128011d5ac7534a92dd5aeee9d98c1ca3cb8dac8207aa7b85950faad2d68",
+    "status": "LOCAL_THREE_LITERAL_CONSUMER_PIN_REBIND_ONLY_NOT_EXECUTED",
+    "scope": "Rebinds only the score V5 directory, contract byte count, and contract SHA from the V6 consumer base."
+  },
+  "input_and_output_contract": {
+    "export_source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_SOURCE_REVIEW_V4.json",
+      "bytes": 8712,
+      "sha256": "64c93d8279a2daeb15f2750e6366a0fe94a268c7b8e9a04dbdb28e4a36a56e73",
+      "schema": "fg19.first-cell-export-source-review.v4",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR",
+      "actual_reviewed_files": 12
+    },
+    "acceptance_output": "Create-only ROOT metadata after native terminal capture; the source contains no prediction-array open or hash operation."
+  },
+  "findings": [
+    {
+      "id": "V7-1",
+      "severity": "blocking",
+      "finding": "The scorer metadata helper import is not bytecode-read safe. `validate_scorer_data_identity` checks that the two module names are absent from `sys.modules`, rejects local `__pycache__`/`.pyc`, and sets `sys.dont_write_bytecode = True`, but it does not require `sys.pycache_prefix is None` or otherwise disable/reject cached bytecode reads. `dont_write_bytecode` prevents writes, not reads; a cached module can retain the reviewed `.py` origin and pass the post-import source hash check while executing cached code."
+    },
+    {
+      "id": "V7-2",
+      "severity": "blocking",
+      "finding": "The acceptor does not join ROOT launch acceptance's `body`, `source_review`, or `raw_transport` pins to the current V6 body, V6 review, and actual transport. `ROOT_CAPTURE_EXPORT_ADMISSION_V4.py` writes all three fields. V7 checks launch-acceptance schema/status, receipt hashes, unit, and invocation, but then accepts whichever locally read V4 review/binding is present. A successful metadata result could therefore be recorded without proving the run was launched from this reviewed stdin body and review."
+    },
+    {
+      "id": "V7-3",
+      "severity": "blocking",
+      "finding": "`reviewed_binding_pin` accepts any nonempty reviewed-file list and checks only that it contains one binding row. It does not require the actual V4 12-row review contract or compare the currently read review's byte/SHA pin against `launch_acceptance.source_review`. This leaves the producer-review gate mutable between launch and acceptance."
+    }
+  ],
+  "review_method": {
+    "read_exact_source_and_small_saved_proofs": true,
+    "verified_candidate_and_proof_file_pins": true,
+    "read_predecessor_model_data_prediction_or_score_payloads": false,
+    "run_imports_or_tests": false,
+    "run_ruff": false,
+    "perform_b_query_or_action": false
+  },
+  "execution_state": {
+    "acceptor_executed": false,
+    "root_acceptance_written": false,
+    "array_payloads_read_or_hashed": false,
+    "quality_claimed": false
+  },
+  "required_resolution": "Versioned source repair should bind the actual launch-acceptance body, source-review, and transport pins to the expected current V6 inputs, enforce the full unique 12-row producer-review contract, and close the scorer import bytecode-read path before importing the pure metadata leaf."
+}

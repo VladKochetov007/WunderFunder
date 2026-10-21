@@ -1,0 +1,238 @@
+{
+  "schema": "fg19.first-cell-export-startup-failure-metadata-review.v2",
+  "status": "PASS_METADATA_ONLY_ACTUAL_CHECKPOINT_RECIPE_FAILURE_CONFIRMED_NO_QUALITY",
+  "reviewed_at_utc": "2026-10-21T09:52:59Z",
+  "scope": "Independent local reconciliation of the one root-captured export-v2 failure. This review used saved metadata and source text only. It made no B query, poll, stop, restart, SSH, test, import, model/data/cache/prediction payload read, or quality evaluation. The recorded unit state is the historical observation at 2026-10-21T09:50:23.406966Z, not a new current-state assertion.",
+  "capture": {
+    "directory": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v4/startup_health_v1",
+    "transport": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v4/startup_health_v1/TRANSPORT.json",
+      "bytes": 608,
+      "sha256": "f0884b78e415337e7389fc2f52353c21c561f406528a86c314365b24dd004ed5",
+      "schema": "fg19.first-cell-export-status-root-transport.v1",
+      "ssh_returncode": 0,
+      "timed_out": false,
+      "persisted_before_parse": true,
+      "retry_performed": false,
+      "started_utc": "2026-10-21T09:50:22.820617+00:00",
+      "finished_utc": "2026-10-21T09:50:23.676873+00:00",
+      "body_bytes": 14883,
+      "body_sha256": "411200c19b2304122eab5224adb79b4f1630aca58441a4e108eeeedd9a4f049f",
+      "stdout_bytes": 45026,
+      "stdout_sha256": "a1b1799aa1024cc7e8d721dbca2edefa7e5e605dc68314de31f44a1c4ccc4638",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_stdout": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v4/startup_health_v1/STDOUT.raw.json",
+      "bytes": 45026,
+      "sha256": "a1b1799aa1024cc7e8d721dbca2edefa7e5e605dc68314de31f44a1c4ccc4638",
+      "transport_bytes_and_sha_match": true,
+      "schema": "fg19.first-cell-export-bounded-status.v1"
+    },
+    "raw_stderr": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v4/startup_health_v1/STDERR.raw.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "worker_log_tail": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v4/startup_health_v1/unit.log.tail",
+      "bytes": 1200,
+      "sha256": "1a33f07c4337fe8837bb5a227148f51f6893de7e6e7878954b5fbc0e5d2f7c5b",
+      "raw_stdout_base64_decodes_to_exact_local_bytes": true,
+      "traceback_end": "ValueError: checkpoint recipe argument differs: input_lead"
+    },
+    "normalized_observation": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v4/startup_health_v1/OBSERVATION.json",
+      "bytes": 1539,
+      "sha256": "536940b9f9afde989e669213233c4a5d29ee6ade7052f681f39ff22dd95c722d",
+      "unit_invocation_and_systemd_fields_match_raw_stdout": true,
+      "terminal_metadata_files": [],
+      "array_payloads_read_or_hashed_by_status_reader": false
+    },
+    "actual_reader": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v4/startup_health_v1/REMOTE.py",
+      "bytes": 14883,
+      "sha256": "411200c19b2304122eab5224adb79b4f1630aca58441a4e108eeeedd9a4f049f",
+      "ast_binding": {
+        "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v4/startup_health_v1/AST_BINDING.json",
+        "bytes": 858,
+        "sha256": "682deea54bab699100e13058be91a528729e5ee27be166b4d260fc7d378315e4",
+        "schema": "fg19.first-cell-export-reader-actual-binding.v1",
+        "status": "EXACT_FIVE_LITERAL_BINDING_AST_OTHERWISE_IDENTICAL",
+        "all_other_AST_identical": true,
+        "actual_literals": {
+          "invocation": "555122f41c884850a6bd4e847c14e82f",
+          "admission_bytes": 24660,
+          "admission_sha256": "00e24339145b43c921f0f7ea3ce2de2b58f76cb49bebbb42ac9e0231c28b1b09",
+          "launch_bytes": 4130,
+          "launch_sha256": "47d39b3657a8486ddac3210ad9ed86ccf00fd913b8fb850798d43804f95c2df8"
+        }
+      },
+      "conditional_template": {
+        "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_TEMPLATE_V3.py",
+        "bytes": 14786,
+        "sha256": "375ceed4f5dfaa3204b946a5ac395ce55084a1448326f8e8150546e5df696e90"
+      },
+      "source_review": {
+        "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_SOURCE_REVIEW_V3.json",
+        "bytes": 3537,
+        "sha256": "38a1dbd8edc8395b4cc38234cf9ee2f9aa0caab11cb6a9fad3051a77f76b04af",
+        "status": "PASS_SOURCE_ONLY_READER_V3_UNBOUND"
+      }
+    }
+  },
+  "receipt_reconciliation": {
+    "admission": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v4/startup_health_v1/ADMISSION.json",
+      "bytes": 24660,
+      "sha256": "00e24339145b43c921f0f7ea3ce2de2b58f76cb49bebbb42ac9e0231c28b1b09",
+      "raw_stdout_base64_decodes_to_exact_local_bytes": true,
+      "schema": "fg19.first-cell-export-admission.v1",
+      "status": "FRESH_GATES_PASSED_SUBMISSION_PENDING",
+      "unit": "computer-vision-homework-fg19-first-cell-export-v2.service",
+      "native_unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+      "native_invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+      "binding_sha256": "372ec16016517baa510cc1899f140cd0978a35b83f96a4a5fa1ff4bda8b39730",
+      "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "exporter_sha256": "9bfcd5110d200212bff45d2188f04e2eb094fbaf5cd78831ed03db5a130af8cb",
+      "pre_mutation_unit_absence_gate": true,
+      "quality_score": null,
+      "checkpoint_payloads_read_or_hashed_during_preflight": false,
+      "staged_files": {
+        "EXPORT_BINDING_V3.json": {
+          "bytes": 15798,
+          "sha256": "372ec16016517baa510cc1899f140cd0978a35b83f96a4a5fa1ff4bda8b39730"
+        },
+        "EXPORT_SOURCE_MANIFEST.json": {
+          "bytes": 27569,
+          "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+        },
+        "accepted_receipts/ALLTHREE_TERMINAL_ACCEPTANCE.json": {
+          "bytes": 20208,
+          "sha256": "fada500ede63a175d7d055d38fbef5d38110aef481a91771ae3c5717c1e7026f"
+        },
+        "accepted_receipts/ALLTHREE_EXACT_STOP.json": {
+          "bytes": 3208,
+          "sha256": "0154b3f35c4fb849d0db7e7b60ce1f4ce2fa01ab2203c17db65877f89353f13d"
+        },
+        "export_first_cell_v3.py": {
+          "bytes": 66080,
+          "sha256": "9bfcd5110d200212bff45d2188f04e2eb094fbaf5cd78831ed03db5a130af8cb"
+        }
+      }
+    },
+    "launch": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v4/startup_health_v1/LAUNCH.json",
+      "bytes": 4130,
+      "sha256": "47d39b3657a8486ddac3210ad9ed86ccf00fd913b8fb850798d43804f95c2df8",
+      "raw_stdout_base64_decodes_to_exact_local_bytes": true,
+      "admission_sha256_matches_local_admission": true,
+      "schema": "fg19.first-cell-export-launch.v1",
+      "unit": "computer-vision-homework-fg19-first-cell-export-v2.service",
+      "invocation_id": "555122f41c884850a6bd4e847c14e82f",
+      "native_unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+      "native_invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+      "submission_outcome": "submitted",
+      "submission_returncode": 0,
+      "post_submission_properties": {
+        "Id": "computer-vision-homework-fg19-first-cell-export-v2.service",
+        "InvocationID": "555122f41c884850a6bd4e847c14e82f",
+        "ActiveState": "active",
+        "SubState": "running",
+        "MainPID": "2545061",
+        "Result": "success"
+      },
+      "retry_performed": false
+    }
+  },
+  "captured_native_observation": {
+    "captured_utc": "2026-10-21T09:50:23.406966+00:00",
+    "unit": "computer-vision-homework-fg19-first-cell-export-v2.service",
+    "invocation_id": "555122f41c884850a6bd4e847c14e82f",
+    "systemd": {
+      "Id": "computer-vision-homework-fg19-first-cell-export-v2.service",
+      "LoadState": "loaded",
+      "ActiveState": "failed",
+      "SubState": "failed",
+      "MainPID": "0",
+      "ExecMainCode": "1",
+      "ExecMainStatus": "1",
+      "Result": "exit-code",
+      "InvocationID": "555122f41c884850a6bd4e847c14e82f",
+      "ExecMainStartTimestamp": "Wed 2026-10-21 09:45:24 UTC",
+      "ExecMainExitTimestamp": "Wed 2026-10-21 09:47:39 UTC",
+      "ControlGroup": "",
+      "MemoryPeak": "2465792",
+      "CPUUsageNSec": "125972319000"
+    },
+    "strict_success_tuple_matched": false,
+    "parent_cgroup_populated": {},
+    "terminal_metadata": {},
+    "output_inventory": {
+      "paths_checked": 17,
+      "exports_directory_exists": true,
+      "other_paths_absent": 16,
+      "includes_absent_success_manifest": true,
+      "includes_absent_five_arm_directories_prediction_arrays_and_sidecars": true,
+      "scope": "Stat-only output inventory from the saved status capture."
+    }
+  },
+  "failure_classification": {
+    "worker_source": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/export_first_cell_v3.py",
+      "bytes": 66080,
+      "sha256": "9bfcd5110d200212bff45d2188f04e2eb094fbaf5cd78831ed03db5a130af8cb"
+    },
+    "export_binding": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_BINDING_V3.json",
+      "bytes": 15798,
+      "sha256": "372ec16016517baa510cc1899f140cd0978a35b83f96a4a5fa1ff4bda8b39730"
+    },
+    "source_manifest": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "file_count": 167
+    },
+    "source_review": {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_SOURCE_REVIEW_V3.json",
+      "bytes": 7284,
+      "sha256": "ee53ce06a6119152866e8f39801e7575e59fb42bc09515d102db4c8df5d9c37a",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    },
+    "execution_order": {
+      "preflight_and_source_manifest_gate_passed_before_submission": true,
+      "worker_reached_first_arm": "control",
+      "worker_model_path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_child_control_f0_s1001_fit_v1/model_ep5.pt",
+      "worker_model_stat_before_launch": {
+        "bytes": 4279970,
+        "expected_sha256_from_binding": "d3f25e52aa590029593e5af6ea06c6d4f460bc6131ffa85d4cf1cb09c36b3b3f"
+      },
+      "source_order": "The main loop enters the first CONTROL arm; _export_arm calls the pinned restricted loader, compares its returned digest to the admitted CONTROL checkpoint digest, then calls _validate_checkpoint. The captured traceback originates inside _validate_checkpoint, so the digest-equality guard was passed. The recipe-argument loop raises before head/state shape checks, later checkpoint loads, per-arm prediction directory creation, and inference.",
+      "failure_location": "export_first_cell_v3.py:_validate_checkpoint, required argument loop; captured worker line 985",
+      "failure_message": "ValueError: checkpoint recipe argument differs: input_lead",
+      "expected_input_lead_from_binding": 0,
+      "actual_checkpoint_argument_value": "Not read by this local reviewer; the worker reports only that it differs from the bound expected value.",
+      "classification": "First CONTROL checkpoint was read by the worker through the pinned restricted loader and its digest matched the binding, but the worker rejected a recipe argument before completing checkpoint-state validation or inference. This is not a completed five-arm export, source-integrity acceptance, or quality result."
+    },
+    "reviewer_boundary": {
+      "reviewer_read_or_rehashed_model_payload": false,
+      "reviewer_read_or_hashed_prediction_payload": false,
+      "reviewer_queried_B_or_current_unit_state": false,
+      "reviewer_tested_or_imported_code": false
+    }
+  },
+  "execution_state": {
+    "single_export_v2_submission_captured": true,
+    "retry_performed": false,
+    "stop_or_restart_performed_by_reviewer": false,
+    "one_control_checkpoint_load_reached_recipe_validation": true,
+    "remaining_four_checkpoint_loads_reached": false,
+    "prediction_arrays_or_sidecars_observed": false,
+    "complete_export_manifest_or_acceptance": false,
+    "native_success_or_exact_stop": false,
+    "score_or_quality_result": false,
+    "new_fit_or_training": false
+  }
+}

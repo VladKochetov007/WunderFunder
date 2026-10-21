@@ -1,0 +1,107 @@
+{
+  "schema": "fg19.first-cell-score-root-status-driver-source-review.v1",
+  "status": "PASS_SOURCE_ONLY_SCORE_STATUS_DRIVER_V1_PINNED_READER_V2",
+  "reviewed_at_utc": "2026-10-21T09:38:39Z",
+  "scope": "Independent static review of the root-side one-shot score status/result capture driver and its pinned reader V2. No imports, tests, B/SSH actions, systemd queries, score receipt reads, result reads, prediction/model/data payload reads, or quality evaluation were performed.",
+  "review_method": {
+    "read_current_driver_and_its_pair_proof": true,
+    "compare_driver_source_to_reviewed_export_status_driver": true,
+    "inspect_bound_reader_and_source_review_contract": true,
+    "verify_exact_declared_file_sizes_and_sha256": true,
+    "run_tests_or_imports": false,
+    "perform_B_or_network_action": false
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_CAPTURE_SCORE_STATUS_V1.py",
+      "bytes": 8895,
+      "sha256": "cf357eabe5d563fc98899fae6ee1131bffd80c7d412f2b104e9c612afb950ba1"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_SCORE_STATUS_DRIVER_PROOF_V1.json",
+      "bytes": 1140,
+      "sha256": "95eb50991565a8cda3cfa3599dd5d9fd99dd509fc8a6b2ccf3be116799c425fc"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/SCORE_RESULT_CAPTURE_TEMPLATE_V2.py",
+      "bytes": 20781,
+      "sha256": "a71cd3b61890a686138f98e4b2592b7e5c96d64dfdcb14118d93c8aaecc5d708"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/INDEPENDENT_SOURCE_REVIEW_V2.json",
+      "bytes": 5154,
+      "sha256": "ebe43469e30b98309ca6fc6ad4b4cb7fc6bbfca5e753fac4919875a6a202dafa",
+      "status": "PASS_SOURCE_ONLY_READER_V2_UNIT_ID_GUARD_UNBOUND"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v6/SCORE_ADMISSION_BINDING_PLAN_V6.json",
+      "bytes": 6077,
+      "sha256": "337eb86830e0de924fb55fb4917b8100eda6e712122796580a0dff5f89a6f5d5",
+      "status": "LOCAL_CONDITIONAL_TEMPLATE_ONLY_UNBOUND_NOT_REVIEWED_OR_ADMITTED_V6"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V2.py",
+      "bytes": 7988,
+      "sha256": "9acca527b711a876bbd14dfb275d76577c3bc985b2e611b1bef5364780dcb66e"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_SOURCE_REVIEW_V2.json",
+      "bytes": 3655,
+      "sha256": "0111b8cf5cda45f713877202644e6033bae51a1e0cef48a5e5fc716a972d8f0d",
+      "status": "PASS_SOURCE_ONLY_ROOT_STATUS_DRIVER_V2_REBIND"
+    }
+  ],
+  "reader_binding": {
+    "template_sha256_checked_before_receipt_read": true,
+    "source_review_sha256_checked_before_receipt_read": true,
+    "actual_literal_names": [
+      "SCORE_ADMISSION_BYTES",
+      "SCORE_ADMISSION_SHA256",
+      "SCORE_INVOCATION_ID",
+      "SCORE_LAUNCH_BYTES",
+      "SCORE_LAUNCH_SHA256"
+    ],
+    "literal_substitution_count_must_equal_five": true,
+    "bound_body_ast_must_match_template_after_reversing_only_five_literals": true,
+    "body_is_sent_via_single_stdin_python_e_b_invocation": true
+  },
+  "response_contract": {
+    "schema_is_required": true,
+    "unit_name_and_systemd_Id_join_to_original_launch_unit": true,
+    "response_invocation_and_systemd_InvocationID_join_to_original_launch_invocation": true,
+    "files_allowlist_is_exact_receipts_log_optional_result": true,
+    "admission_and_launch_base64_bytes_sha_join_to_local_originals": true,
+    "log_tail_base64_captured_bytes_and_sha_join": true,
+    "result_is_accepted_only_with_strict_native_active_exited_pid0_code1_status0_success_tuple": true,
+    "result_base64_is_written_as_exact_raw_bytes_without_reserialization": true,
+    "failed_or_unsuccessful_status_has_no_result_file_path_in_consumer_branch": true
+  },
+  "transport_and_retry": {
+    "one_batchmode_ssh_stdin_call": true,
+    "timeout_seconds": 85,
+    "stdout_stderr_and_transport_written_and_directory_fsynced_before_parse": true,
+    "nonzero_timeout_stderr_oversized_or_malformed_outcome_is_preserved": true,
+    "retry_performed": false
+  },
+  "v6_contract_alignment": {
+    "score_unit": "computer-vision-homework-fg19-first-cell-score-v1.service",
+    "export_unit": "computer-vision-homework-fg19-first-cell-export-v2.service",
+    "result_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v2/RESULT.json",
+    "planned_admission_and_launch_schema_fields_match_reader_v2": true,
+    "actual_score_admission_and_launch_receipts_remain_unbound": true
+  },
+  "limitations": [
+    "The driver checks its 4 MB stdout/stderr ceiling after subprocess output has already been buffered. A valid reader response near its 4 MB raw aggregate limit may exceed 4 MB after base64 and JSON overhead, so this can preserve and reject an otherwise valid large response; it does not accept malformed data or trigger a retry.",
+    "The driver takes the record directory and capture tag from caller arguments. The root operator must supply the designated private score record directory and a fresh private tag; the source does not enforce one canonical output parent.",
+    "This is a single status/result query. It does not wait or poll for terminal completion. If invoked before the score unit exits, it preserves a non-success observation without a result; the source review does not authorize another query or retry.",
+    "The driver review does not establish that a score unit or result exists. Exact V6 actual receipt binding and the root's timing decision remain future gates."
+  ],
+  "execution_state": {
+    "driver_executed_by_reviewer": false,
+    "score_unit_queried_by_reviewer": false,
+    "ssh_or_b_action_by_reviewer": false,
+    "actual_receipts_or_result_read_by_reviewer": false,
+    "payloads_read_by_reviewer": false,
+    "quality_claimed": false
+  }
+}

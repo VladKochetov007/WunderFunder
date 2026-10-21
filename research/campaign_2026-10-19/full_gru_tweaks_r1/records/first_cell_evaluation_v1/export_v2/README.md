@@ -1,0 +1,7 @@
+# Second export preflight — 21 October08:58UTC
+
+One newly reviewed admission V3 was sent at ROOT08:58:38.039166–08:58:38.672125UTC. [Transport](TRANSPORT.json)729B/f1d6c833 binds body243576B/d7e2ca48 and independent exact source review9040B/959414c4, SSH1/no timeout, [stdout](STDOUT.raw.json)0B and [stderr](STDERR.raw.txt)298B/f8d4b724. Raw streams and transport were fsynced before parse. The pre-mutation `check_fit_receipts` predicate incorrectly expected a top-level original-LAUNCH invocation field.
+
+The legacy original AllThree LAUNCHec9 has `systemctl_after_submission.stdout_b64`; strictly decoded property lines bind InvocationID94d3, originalPID1875143 and active/running startup state. There is no top-level invocation_id or nested properties dictionary. Existing receipt bytes remain unchanged. New admissionV4 must correct only this parser/join and pass a full new actual-local-receipt metadata fixture for all five acceptance/stop pairs and original ADMISSION/LAUNCH before another exact-source review/admission.
+
+One [read-only exact outcome](preflight_outcome_v1/README.md) confirms new unit not-found/inactive/dead/MainPID0/emptyinv and private evidence directory absent. No helper-stat replay or old unit query occurred. This second preflight created zero inference/GPU/support units, scientific fits or quality results. Never resend this V3 packet. Same workerunit/D may be admitted only through a newly reviewed packet with fresh serial gates because actual absence was confirmed.

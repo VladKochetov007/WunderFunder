@@ -1,0 +1,7 @@
+# First-cell streaming scorer V5
+
+V5 fixes one producer/consumer metadata join in the frozen V4 scorer contract. The export binding stores each of its eight `source.api_files` entries as `{bytes, sha256}`, while the canonical 167-file source manifest stores `{path, bytes, sha256}` rows. V5 looks up each API row by its exact path, requires the compact two-key shape and strict values, then compares the byte count and digest. The existing V4 rejection record preserves the incompatible prior comparison.
+
+The focused fixture calls the actual `_read_export_bundle` gate with the exact V4 binding and source-manifest files. It supplies only synthetic completion metadata and filesystem observations, verifies all eight source API rows, and rejects wrong bytes, wrong digest, an unlisted path, and an unexpected row field. No prediction arrays are opened. The other three scorer modules are byte-identical to V4; the contract differs only in the API-row comparison block.
+
+The fixed comparison remains the five accepted epoch-5 models on 468 ordered exposed development groups, with canonical strict-FP32 prediction scoring and paired component bootstrap. This packet is local source preparation only. It does not execute scoring, access B, or make a quality claim. See [`dependency_manifest.json`](dependency_manifest.json) for exact source, producer, consumer, and boundary pins, and [`LOCAL_CHECKS.md`](LOCAL_CHECKS.md) for the focused validation record.

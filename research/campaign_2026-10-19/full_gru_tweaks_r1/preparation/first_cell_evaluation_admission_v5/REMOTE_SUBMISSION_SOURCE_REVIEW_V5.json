@@ -1,0 +1,183 @@
+{
+  "schema": "fg19.first-cell-export-admission-source-review.v5",
+  "status": "PASS_SOURCE_ONLY_ADMISSION_V5",
+  "reviewed_utc": "2026-10-21T09:42:14Z",
+  "scope": "Independent static review of the exact V5 stdin body, its V4 inverse proof, fixed-payload binding, V3 producer/consumer review pin, and focused fixture source. This records local source preparation only; it is not B staging, admission, execution approval, an export result, a score, or a quality conclusion.",
+  "review_method": {
+    "read_exact_body_and_small_metadata": true,
+    "verify_candidate_bytes_and_sha256": true,
+    "compare_v5_body_to_frozen_v4_and_inspect_inverse_proof": true,
+    "inspect_payload_and_producer_review_joins": true,
+    "inspect_focused_fixture_sources_without_executing": true,
+    "run_imports_or_tests": false,
+    "run_ruff": false,
+    "read_source_tree_model_checkpoint_dataset_cache_or_prediction_payloads": false,
+    "perform_b_query_or_action": false
+  },
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v5/REMOTE_SUBMISSION_V5.py",
+    "bytes": 248948,
+    "sha256": "e24a6fc87e72a43056d30e1b4edf2cb12e410a37f549a858e89420e54cdb38c0"
+  },
+  "source_binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v5/ADMISSION_SOURCE_BINDING_V5.json",
+    "bytes": 17800,
+    "sha256": "76359e9a889ed9f0647d4aeb901c01e1b7cfa9b44bf885481bf1cd7c87b7fd1c",
+    "schema": "fg19.first-cell-export-admission-source-binding.v5",
+    "rendered_body_pin_matches": true,
+    "exactly_five_payloads_and_embedded_pins_match": true,
+    "producer_consumer_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_SOURCE_REVIEW_V3.json",
+      "bytes": 7284,
+      "sha256": "ee53ce06a6119152866e8f39801e7575e59fb42bc09515d102db4c8df5d9c37a",
+      "schema": "fg19.first-cell-export-source-review.v3",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR",
+      "reviewed_file_count": 11
+    }
+  },
+  "narrow_source_delta_from_v4": {
+    "inverse_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v5/ADMISSION_V5_INVERSE_PROOF.json",
+      "bytes": 4645,
+      "sha256": "030c9d58e9ca89e3775ed93e790ec664e1cce2883c01234fd4cf4146b40f5d05",
+      "status": "PASS_EXACT_V4_BODY_INVERSE_OUTSIDE_FIXED_PAYLOAD_AND_IDENTITY_SLOTS",
+      "frozen_v4_body": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v4/REMOTE_SUBMISSION_V4.py",
+        "bytes": 246596,
+        "sha256": "abe3251d9d65200b8e0c745db287e76f77e2dcb2a6524f3de7cd2f31c0cfa9ec"
+      }
+    },
+    "independent_diff_finding": "The V5 body differs from the pinned V4 body only in the evidence-root suffix (evaluation_v1 to evaluation_v2), the export unit (export-v1 to export-v2), the V3 exporter and binding payload pins/names/byte count in the embedded payload and staging references, and the corresponding exporter/binding SHA constants. All executable gate and worker-submission logic is byte-identical to V4.",
+    "identity_slots": {
+      "unit": "computer-vision-homework-fg19-first-cell-export-v2.service",
+      "evidence_root": "research_tmp/fg19_first_cell_f0_s1001_evaluation_v2",
+      "output_root": "research_tmp/fg19_first_cell_f0_s1001_evaluation_v2/exports"
+    },
+    "payload_pins": {
+      "export_first_cell_v3.py": {
+        "bytes": 66080,
+        "sha256": "9bfcd5110d200212bff45d2188f04e2eb094fbaf5cd78831ed03db5a130af8cb"
+      },
+      "EXPORT_BINDING_V3.json": {
+        "bytes": 15798,
+        "sha256": "372ec16016517baa510cc1899f140cd0978a35b83f96a4a5fa1ff4bda8b39730"
+      },
+      "EXPORT_SOURCE_MANIFEST.json": {
+        "bytes": 27569,
+        "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+      },
+      "ALLTHREE_TERMINAL_ACCEPTANCE.json": {
+        "bytes": 20208,
+        "sha256": "fada500ede63a175d7d055d38fbef5d38110aef481a91771ae3c5717c1e7026f"
+      },
+      "ALLTHREE_EXACT_STOP.json": {
+        "bytes": 3208,
+        "sha256": "0154b3f35c4fb849d0db7e7b60ce1f4ce2fa01ab2203c17db65877f89353f13d"
+      }
+    },
+    "no_body_self_hash_or_path_claim": true,
+    "no_change_to_preflight_or_submission_operations": true
+  },
+  "source_gate_and_execution_boundary": {
+    "preflight_precedes_evidence_mutation": true,
+    "preflight_checks": [
+      "exact binding and five embedded payload hashes",
+      "fresh six registered data-path stat identities and pinned portable registry",
+      "all 167 source files, exact manifest inventory, per-file no-follow stable hashing, and 128 MB aggregate cap",
+      "restricted support helper code pins",
+      "14 read-only fit/support receipts, five accepted terminal/stop pairs, and checkpoint stat-only identities",
+      "source, split, cache, profile, parent cgroup, disk headroom, selected GPU, process ownership, unit absence, and evidence/output absence"
+    ],
+    "payload_or_checkpoint_contents_read_before_mutation": false,
+    "predecessor_models_only_stat_checked": true,
+    "selected_gpu_observation": {
+      "uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "owner_process_action": "none",
+      "foreign_uid_cmdline_read": false,
+      "all_uid_campaign_cgroup_checked": true,
+      "campaign_process_on_selected_gpu_rejected": true
+    },
+    "worker_launch": {
+      "python_flags": ["-E", "-B", "-I"],
+      "selected_gpu_uuid_bound_in_environment": true,
+      "fp32_and_tf32_policy_pinned": true,
+      "cpu_quota": "100%",
+      "memory_high_bytes": 7500000000,
+      "memory_max_bytes": 8000000000,
+      "memory_swap_max_bytes": 0,
+      "runtime_seconds": 7200,
+      "gpu_allocator_bytes": 4294967296,
+      "blas_threads": 1,
+      "loader_workers": 0,
+      "submission_attempts": "at most one",
+      "unknown_outcome_policy": "Never retry or recreate the evidence directory or unit; inspect only the exact recorded unit and outputs."
+    },
+    "durability_and_reply": {
+      "exclusive_payload_writes_and_directory_fsync": true,
+      "admission_and_launch_durable_before_reply": true,
+      "bounded_four_key_reply": ["unit", "outcome", "admission_base64", "launch_base64"]
+    },
+    "quality_score": null
+  },
+  "focused_fixtures": {
+    "actual_receipts": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v5/test_admission_v5_actual_receipts.py",
+      "bytes": 13121,
+      "sha256": "cedbf8a6f330e34b655862d0bff141cdc7cd41de791346839977410529aa08bf",
+      "actor_reported_result": "3 focused tests passed; reviewer inspected source only.",
+      "scope": "Extracts only the receipt-check function and uses exact small receipt bytes, fake POSIX paths, and fake checkpoint-stat responses; no model/project import or model/data payload access.",
+      "coverage": [
+        "positive join of original AllThree admission/launch and all five acceptance/stop pairs",
+        "rejects a nested invocation mismatch",
+        "rejects misleading top-level launch fields"
+      ]
+    },
+    "producer_review_contract": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v5/test_admission_v5_export_review_contract.py",
+      "bytes": 5776,
+      "sha256": "ec5d30aef7a9ea4cbb5c9e5e86467146a1be2d86cedf749fd28de3841a6bbaa8",
+      "actor_reported_result": "4 focused tests passed; reviewer inspected source only.",
+      "coverage": [
+        "exact actual 11-row V3 producer review join",
+        "rejects duplicate or malformed review rows",
+        "rejects a producer pin mismatch",
+        "pins the prior actual failed unit as root-only historical evidence"
+      ]
+    },
+    "local_validation": "Actor reported Ruff format/check passed for the standalone V5 scripts and rendered body; reviewer did not run Ruff or tests."
+  },
+  "historical_attempt_boundary": {
+    "prior_actual_failed_export": {
+      "unit": "computer-vision-homework-fg19-first-cell-export-v1.service",
+      "invocation_id": "da6c9e1f5897478f9f3f686de58e39cc",
+      "historical_only": true,
+      "root_only_not_staged_to_B": true,
+      "old_unit_must_not_be_queried_stopped_or_retried": true,
+      "failure_review": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v3/startup_health_v1/ACTUAL_FAILURE_METADATA_REVIEW.json",
+        "bytes": 14887,
+        "sha256": "ecc08aef8871050c71046e44041022162d27d0706d759f54e58fa4a0fad29905"
+      }
+    },
+    "earlier_v2_v3_preflights_created_no_worker_unit": true,
+    "current_v5_action_by_reviewer": false,
+    "new_fresh_admission_required": true
+  },
+  "reported_local_validation": {
+    "ruff_format_and_check": "Actor reported pass; reviewer did not run Ruff.",
+    "focused_new_fixtures": "Actor reported 7 focused tests passed total; reviewer inspected fixture sources but did not execute them.",
+    "historical_or_unchanged_suites_replayed": false
+  },
+  "execution_state": {
+    "body_staged_or_executed_by_reviewer": false,
+    "remote_action_by_reviewer": false,
+    "checkpoint_dataset_cache_or_prediction_payload_read_by_reviewer": false,
+    "new_fits_or_quality_score_claimed": false
+  },
+  "limitations": [
+    "This is a static review. Root must bind the exact body, this review, and a fresh transport, then repeat all live preflight checks before any action.",
+    "Actor-reported Ruff and focused fixture results were not independently executed by this reviewer.",
+    "The packet admits one feature-only export for a downstream scorer. It does not establish an evaluation score, comparative quality, a new fit, or a public-transfer result."
+  ],
+  "findings": []
+}

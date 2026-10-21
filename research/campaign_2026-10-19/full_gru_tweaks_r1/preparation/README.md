@@ -1,3 +1,23 @@
+[Evaluation publication packet](PUBLICATION_OVERVIEW_20261021_FIRST_CELL_EVALUATION.md) links exact source gates, actual launch/dated health, immutable negative evidence, validation and the pending terminal-export-to-serial-score lifecycle; no scalar quality result exists.
+
+[Evaluation evidence-preservation notes](PUBLICATION_EVIDENCE_NOTES_20261021.md) classify historical pin/path defects, the observer review typo, and exact BASE-suffix restoration without rewriting frozen evidence or replaying a worker.
+
+**21 October10:32UTC — fixed five-arm evaluation:** [Execution and source-packet index](EVALUATION_EXECUTION_INDEX_20261021_V2.md) traces two zero-unit preflights, two preserved failed inference units, and [the third exact export launch](../records/first_cell_evaluation_v1/export_v5/README.md). [One dated read-only observation](../records/first_cell_evaluation_v1/export_v5/startup_health_v1/README.md) finds that invocation active with one owned GPU process and stat-only partial output inventory; [independent metadata review](../records/first_cell_evaluation_v1/export_v5/startup_health_v1/METADATA_REVIEW.json) is metadata-only PASS. No completed prediction panel, score or predictive-quality gain is established. All6scientificfits remain integrity accepted/exact-stopped and5prerequisites separate; no further fits. Fixedep5/468c09f fit-excluded EXPOSED development groups/FP32/official clip2 WP/four paired contrasts remain unchanged. [Current continuation](../CONTINUATION.md) governs rare11:00UTC+ observation, terminal acceptance-before-exact-own-stop, and later serial CPU scoring. Failed units/earlier dated snapshots are preserved.
+
+---
+
+[Current first-cell evaluation lifecycle index](EVALUATION_ACTUAL_LIFECYCLE_INDEX_20261021.md) records the two failed preflights, the V1-unit first export failure, and pending export-V5/unit-V2/D2 and score-admission-V6 gates; no score or quality result exists.
+
+[First-cell evaluation preparation index](FIRST_CELL_EVALUATION_PREPARATION_INDEX_20261021.md) collects the source discovery, export/scorer, admission and capture materials. It now links two independently audited failed preflights and the reviewed V4 admission; root reports its current export_v3 driver session is still running with no result captured yet.
+
+[Fixed first-cell streaming score consumer](first_cell_evaluation_score_v1/README.md) is a prospective, local-only scorer for the five fixed epoch-5 F0/seed-1001 exports. It reuses source68's official metric and component-bootstrap helpers, streams one validation row group at a time, and records narrow synthetic parity checks. No actual export, data, checkpoint, prediction, or score was read or produced on the local host; root retains separate review and execution ownership.
+
+[Conditional first-cell score admission](first_cell_evaluation_score_admission_v1/README.md) prepares a one-shot 0.5-CPU score launch after ROOT binds an accepted prediction-only export and its exact stop. The receipt validator matches the actual producer schemas, while the render gate remains closed because those receipts are not yet present; this packet records only synthetic metadata tests and has no B query, staging, scoring, or quality claim.
+
+[Navigation suffix preservation](PREPARATION_NAVIGATION_SUFFIX_CORRECTION_20261021.json) archives the exact earlier local README and moves only newly added end paragraphs above the unchanged BASE text.
+
+---
+
 **21 October07:11UTC:** [CheckerV2](child_allthree_terminal_check_v2/SUPPLEMENT_INDEX.md), [V4 source-negative](child_allthree_terminal_verifier_v4/SUPPLEMENT_INDEX.md), [actualV5packet](child_allthree_terminal_verifier_v5/SUPPLEMENT_INDEX.md), [readerV2](child_allthree_terminal_result_capture_v2/SUPPLEMENT_INDEX.md), and [readerV3 print-only-result repair](child_allthree_terminal_result_capture_v3/README.md) are indexed. [Actual closure](../records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_INDEX.md) is complete. [Source-qualified scoring discovery/corrected navigation](first_cell_evaluation_v1/SUPPLEMENT_INDEX.md) is preparation only, no quality result; a new exportadapter is LOCAL/unreviewed and outside this closure publication.
 
 ---

@@ -1,0 +1,106 @@
+{
+  "schema": "fg19.first-cell-score-result-capture-source-review.v3",
+  "status": "PASS_SOURCE_ONLY_READER_V3_UNIT_ID_GUARD_UNBOUND_WITH_INHERITED_LIMITATION",
+  "reviewed_at_utc": "2026-10-21T10:37:25Z",
+  "scope": "Independent static review of the unbound V3 score-result reader. V3 is an identity-only rebind of V2 to exporter-v3 and scorer V5. This review did not execute the reader or tests, run imports, query or act on B/systemd/GPU/cgroups, read receipts or RESULT.json, inspect prediction/model/data/cache payloads, or make a score or quality claim.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v3/SCORE_RESULT_CAPTURE_TEMPLATE_V3.py",
+    "bytes": 20781,
+    "sha256": "44ba4410a20805e1a468c97a5c4cf4577bece6a4cd8092ab1da9350b86d678ec"
+  },
+  "focused_fixture": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v3/test_score_result_capture_v3_identity.py",
+    "bytes": 7607,
+    "sha256": "6c014bd20312af4da80a58e98e6637bd54fbaf26bb9d0044ed3e6f168da10002",
+    "executed_by_reviewer": false
+  },
+  "readme": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v3/README.md",
+    "bytes": 680,
+    "sha256": "69d7819dd15a1f2a04018f4e92bee561a41f5e2e93568698049108b8bcf32ab1"
+  },
+  "local_checks": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v3/LOCAL_CHECKS.md",
+    "bytes": 694,
+    "sha256": "a7bb1f7cafdf896cd71cf343ebe411efc035ee2cdeaf9e1ec204d270edc1e9b9"
+  },
+  "preserved_v2_review": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/INDEPENDENT_SOURCE_REVIEW_V2.json",
+    "bytes": 5154,
+    "sha256": "ebe43469e30b98309ca6fc6ad4b4cb7fc6bbfca5e753fac4919875a6a202dafa",
+    "status": "PASS_SOURCE_ONLY_READER_V2_UNIT_ID_GUARD_UNBOUND",
+    "existing_limitation": "The V2 reviewer explicitly documented that cgroup scan and subprocess-output limits are checked after reads, not hard operating-system resource budgets."
+  },
+  "frozen_producer_consumer_identity": {
+    "export_unit": "computer-vision-homework-fg19-first-cell-export-v3.service",
+    "export_evidence_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v3",
+    "result_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v3/RESULT.json",
+    "score_unit": "computer-vision-homework-fg19-first-cell-score-v1.service",
+    "scorer_code_pins": {
+      "first_cell_score_contract.py": {
+        "bytes": 20165,
+        "sha256": "b6e3f7a9f9663f519037c54a2077f70d83fbf0b2ba54dc3e158eb5e3b173479d"
+      },
+      "first_cell_score_core.py": {
+        "bytes": 27226,
+        "sha256": "30c456e7db875e2c075a6200c857c375087b18d9c952c354ae9bd3dceb0a0143"
+      },
+      "first_cell_score_predictions.py": {
+        "bytes": 11056,
+        "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+      },
+      "score_first_cell.py": {
+        "bytes": 10630,
+        "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+      }
+    }
+  },
+  "reviewed_properties": {
+    "five_actual_score_receipt_literals_remain_unbound": true,
+    "unbound_guard_precedes_path_process_and_systemd_queries": true,
+    "exact_score_unit_Id_is_required_before_invocation_or_result_checks": true,
+    "live_invocation_must_match_pinned_score_launch": true,
+    "admission_and_launch_schema_unit_result_path_and_admission_sha_are_joined": true,
+    "one_confirmed_submission_is_required": true,
+    "all_four_v5_scorer_code_pins_are_checked_without_importing_them": true,
+    "strict_terminal_success_tuple_gates_result_file_access": true,
+    "failed_or_nonterminal_unit_never_opens_result_path": true,
+    "result_bytes_are_returned_raw_without_metric_parsing": true,
+    "log_tail_cap_is_262144_bytes": true,
+    "individual_capture_file_cap_is_1000000_bytes": true,
+    "reported_capture_aggregate_cap_is_4000000_bytes": true,
+    "v3_diff_from_v2_is_only_export_root_unit_and_scorer_contract_core_pins": true,
+    "v3_adds_no_new_dynamic_reader_logic": true
+  },
+  "inherited_resource_limitations": {
+    "cgroup_walk_uses_path_rglob_without_a_directory_or_entry_cap": true,
+    "cgroup_process_file_count_cap_is_checked_after_traversal": true,
+    "cgroup_procs_are_read_with_unbounded_read_text": true,
+    "systemctl_and_nvidia_smi_output_caps_are_checked_after_capture_output": true,
+    "origin": "These behaviors are inherited unchanged from V2 and were explicitly described in the prior independent V2 review; they are not new V3 regressions.",
+    "future_capture_requirement": "The V4 reader is planned to add hard-bounded cgroup traversal and reads before any actual result capture."
+  },
+  "actual_use_and_capture_state": {
+    "score_admission_bytes": null,
+    "score_admission_sha256": "UNBOUND_ROOT_AFTER_ACTUAL_SCORE_ADMISSION",
+    "score_launch_bytes": null,
+    "score_launch_sha256": "UNBOUND_ROOT_AFTER_ACTUAL_SCORE_ADMISSION",
+    "score_invocation_id": "UNBOUND_ROOT_AFTER_ACTUAL_SCORE_ADMISSION",
+    "reader_executed": false,
+    "unit_queried": false,
+    "result_file_read": false,
+    "actual_capture_authorized": false,
+    "required_future_version": "Use a separately reviewed hard-bounded V4 reader, bound to actual V5 score admission/launch receipts only after those receipts exist."
+  },
+  "reviewer_actions": {
+    "source_text_and_metadata_read": true,
+    "static_diff_v2_v3": true,
+    "tests_or_imports_executed": false,
+    "b_or_ssh_attempted": false,
+    "systemd_gpu_or_cgroup_queries_performed": false,
+    "receipt_or_result_bytes_read": false,
+    "payloads_read": false,
+    "quality_claimed": false
+  },
+  "reviewer_conclusion": "The V3 identity rebind is source-consistent with export-v3 and the exact scorer V5 module pins. Its Id guard, actual invocation binding, strict-success-only result access, and raw capped result capture remain as reviewed in V2. The cgroup traversal and subprocess-output bounds remain post-read/non-hard limitations already documented for V2; V3 introduces no new operational code. V3 is unbound and not approved for actual capture. Root plans to use and separately review a hard-bounded V4 reader before any future capture."
+}

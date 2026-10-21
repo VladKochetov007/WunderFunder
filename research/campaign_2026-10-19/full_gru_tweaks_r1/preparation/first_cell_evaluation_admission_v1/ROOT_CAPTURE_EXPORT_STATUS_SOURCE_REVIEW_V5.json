@@ -1,0 +1,67 @@
+{
+  "schema": "fg19.first-cell-export-status-capture-source-review.v5",
+  "status": "PASS_SOURCE_ONLY",
+  "reviewed_utc": "2026-10-21T10:31:38Z",
+  "scope": "Independent static source review only. No B query/action, import, test, payload read, or unit-state query was performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V5.py",
+    "bytes": 10396,
+    "sha256": "874a8aa14cb6be6284d8899ac4266e41b70e0f7e6d94bce0d882b58130f36c2a"
+  },
+  "bound_reader": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_TEMPLATE_V4.py",
+    "bytes": 14786,
+    "sha256": "208a185c19b3a7fa4fb620192d0dae22bd701a8856dc3f44aa0951ddb7b4254d",
+    "unit": "computer-vision-homework-fg19-first-cell-export-v3.service",
+    "private_directory": "fg19_first_cell_f0_s1001_evaluation_v3"
+  },
+  "change_from_v4": {
+    "scope": "Adds strict systemd terminal-success classification and passes it to terminal metadata capture.",
+    "inverse_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V5_INVERSE_PROOF.json",
+      "bytes": 934,
+      "sha256": "8abe137400fc6454e99749f9eea7f679c696ce9e930332eddbf641b5ae356c1a",
+      "status": "PASS_EXACT_V4_INVERSE_WITH_NONTERMINAL_EMPTY_METADATA_FIX"
+    }
+  },
+  "behavior_reviewed": {
+    "strict_success_tuple": [
+      "ActiveState=active",
+      "SubState=exited",
+      "MainPID=0",
+      "ExecMainCode=1",
+      "ExecMainStatus=0",
+      "Result=success"
+    ],
+    "success_requires_exact_manifest_and_five_sidecars": true,
+    "partial_or_unexpected_success_metadata_rejected_before_arm_directory_creation": true,
+    "nonterminal_requires_empty_metadata_and_completes_status_capture": true,
+    "nonempty_metadata_on_nonterminal_observation_rejected": true,
+    "raw_stdout_and_stderr_persisted_before_parse": true,
+    "single_ssh_attempt_no_retry_and_bounded_stdout_retained": true,
+    "create_only_metadata_writes_and_directory_entries_fsynced": true,
+    "terminal_success_is_not_inferred_from_outcome_alone": true
+  },
+  "focused_fixture": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/test_root_capture_export_status_v5_terminal_metadata.py",
+    "bytes": 4206,
+    "sha256": "1427c7c71d18d990d5529410c7c294b2846b6a57e26cbf2ad3dc19755304b1cb",
+    "source_cases": [
+      "active observation with empty terminal metadata",
+      "failed observation with empty terminal metadata",
+      "successful observation with exact six files",
+      "partial metadata rejected before mutation"
+    ],
+    "reported_result": "4 focused cases passed and Ruff format/check passed; reported by packet author and not rerun by this reviewer."
+  },
+  "findings": [],
+  "execution_state": {
+    "source_review_only": true,
+    "candidate_executed": false,
+    "remote_action_by_reviewer": false,
+    "unit_state_queried": false,
+    "payloads_read": false,
+    "quality_claimed": false
+  },
+  "assessment": "The V5 branch resolves the V4 lifecycle blocker: it accepts an empty terminal-metadata map only when the captured unit is not at the strict terminal-success tuple, and writes the exact six metadata files only for strict success. Partial or unexpected metadata fails before sidecar-directory creation. This is a source review of the capture driver, not evidence that the export unit completed."
+}

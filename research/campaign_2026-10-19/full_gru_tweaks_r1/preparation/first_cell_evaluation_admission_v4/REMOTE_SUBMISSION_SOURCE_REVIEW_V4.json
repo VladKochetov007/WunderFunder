@@ -1,0 +1,139 @@
+{
+  "schema": "fg19.first-cell-export-admission-source-review.v4",
+  "status": "PASS_SOURCE_ONLY_ADMISSION_V4",
+  "reviewed_utc": "2026-10-21T09:09:47Z",
+  "scope": "Independent exact-source review of the V4 stdin body, actual-receipt fixture, and five-payload binding for one first-cell F0/seed-1001 feature-only prediction export. This is source preparation only; it is not staging, admission, execution approval, score, quality conclusion, or authorization to act on B.",
+  "review_method": {
+    "read_source_and_small_metadata": true,
+    "verify_candidate_bytes_and_sha256": true,
+    "compare_v4_to_frozen_v3": true,
+    "inspect_inverse_proof_and_binding": true,
+    "inspect_focused_actual_receipt_fixture_without_executing": true,
+    "run_imports_or_tests": false,
+    "read_model_checkpoint_dataset_cache_or_prediction_payloads": false,
+    "perform_b_query_or_action": false
+  },
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v4/REMOTE_SUBMISSION_V4.py",
+    "bytes": 246596,
+    "sha256": "abe3251d9d65200b8e0c745db287e76f77e2dcb2a6524f3de7cd2f31c0cfa9ec"
+  },
+  "source_binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v4/ADMISSION_SOURCE_BINDING_V4.json",
+    "bytes": 15637,
+    "sha256": "44c1ac96154add0465079d854f4c7f376b8effc43206055c2d9708cd2cb21460",
+    "schema": "fg19.first-cell-export-admission-source-binding.v4",
+    "rendered_body_pin_matches": true,
+    "all_five_payload_pins_match_binding": true,
+    "producer_source_review_join": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_SOURCE_REVIEW_V2.json",
+      "bytes": 10250,
+      "sha256": "f736f60a6b5481e94be380a183ba840aad850958c9b863b439bc708e65e997af",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    }
+  },
+  "narrow_source_delta": {
+    "changed_function": "check_fit_receipts",
+    "independent_diff_finding": "A direct source diff shows the only body change from frozen V3 is the check_fit_receipts function. It strictly validates the original launch submission fields and return codes, decodes the submitted-unit stderr and captured systemctl stdout with base64 validation, rejects malformed or duplicate property lines, requires the exact six captured property names, joins the nested invocation ID/native unit/run name, and records the captured launch PID/state/control group. All subsequent five-arm receipt and stat-only checks remain byte-identical to V3.",
+    "inverse_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v4/ADMISSION_V4_INVERSE_PROOF.json",
+      "bytes": 4488,
+      "sha256": "5bd746a4e53eb946dd3568b5a5513d2b6ed2abbe99aa2310d434d2228c399fb1",
+      "status": "PASS_EXACT_V3_BODY_INVERSE_OUTSIDE_CHECK_FIT_RECEIPTS",
+      "only_replaced_function": "check_fit_receipts",
+      "frozen_v3_body": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/REMOTE_SUBMISSION_V3.py",
+        "bytes": 243576,
+        "sha256": "d7e2ca4852da54d8d1554ff3271dd3d4f369575a6c26c7dc19990a2ca54cb509"
+      }
+    },
+    "actual_receipt_join": {
+      "original_launch_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/LAUNCH.json",
+      "original_launch_bytes": 9594,
+      "original_launch_sha256": "ec9d8dc819894e148753838ba33ba95080c192bacd5ac53413bd6847568fd538",
+      "top_level_unit_binds_native_unit": true,
+      "top_level_invocation_id_or_properties_required": false,
+      "strict_nested_systemctl_stdout_fields": [
+        "MainPID",
+        "ExecStart",
+        "ControlGroup",
+        "ActiveState",
+        "SubState",
+        "InvocationID"
+      ],
+      "captured_invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+      "captured_main_pid": "1875143",
+      "captured_active_state": "active",
+      "captured_sub_state": "running",
+      "actual_saved_property_output_has_exact_six_unique_keys": true,
+      "actual_saved_submission_stderr_joins_unit_and_invocation": true
+    },
+    "five_arm_gate_retained": {
+      "arms_in_order": ["control", "ema", "sparse", "nll", "allthree"],
+      "all_five_acceptance_and_exact_stop_documents_checked": true,
+      "all_five_epoch_5_models_receive_fake_or_stat_only_size_checks": true,
+      "checkpoint_bytes_are_not_read_or_hashed": true,
+      "quality_score_must_be_null": true,
+      "historical_unit_queries_performed": false
+    }
+  },
+  "focused_fixture": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v4/test_admission_v4_actual_receipts.py",
+    "bytes": 13121,
+    "sha256": "7a1069f9476bb88147d05c489d8f6a037c4c9199b4c42c42f97b680426fd65b6",
+    "actor_reported_result": "3 focused tests passed; reviewer did not execute them.",
+    "scope_observed_in_source": "The fixture extracts only check_fit_receipts via AST, supplies exact small local admission/launch and five-arm acceptance/stop receipt bytes, substitutes fake POSIX paths and stat-only checkpoint metadata, and contains no project/model import or checkpoint/data/prediction payload read.",
+    "positive_case_checks_all_receipts_and_five_fake_stats": true,
+    "negative_case_rejects_nested_invocation_mismatch": true,
+    "negative_case_rejects_misleading_top_level_invocation_and_properties": true
+  },
+  "preserved_v3_failure": {
+    "metadata_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v2/ACTUAL_PREFLIGHT_FAILURE_METADATA_REVIEW_V2.json",
+      "bytes": 9078,
+      "sha256": "1d96f2eb90d74f26c336bba606c067117df4dd34b117aa91d128298cf420b9b6",
+      "status": "PASS_METADATA_ONLY"
+    },
+    "classification": "One failed V3 preflight before evidence/output mutation or systemd-run; the one subsequent read-only outcome capture reported the exact export unit not-found and the evidence path absent at capture time. V4 does not treat that old snapshot as a current gate and repeats fresh admission checks.",
+    "no_retry_or_recreation": true
+  },
+  "worker_and_admission_contract": {
+    "same_exact_export_unit_and_evidence_directory": true,
+    "fresh_source_split_registered_data_receipt_profile_cache_disk_process_gpu_unit_and_output_gates_precede_mutation": true,
+    "selected_gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "strict_fp32_autocast_disabled_tf32_disabled": true,
+    "cpu_quota": "100%",
+    "memory_high_bytes": 7500000000,
+    "memory_max_bytes": 8000000000,
+    "memory_swap_max_bytes": 0,
+    "runtime_seconds": 7200,
+    "worker_gpu_allocator_bytes": 4294967296,
+    "blas_threads": 1,
+    "loader_workers": 0,
+    "unknown_outcome_policy": "Never retry or recreate the evidence directory or unit. Inspect only the exact recorded unit and outputs.",
+    "no_worker_stdin_body_self_hash_claim": true,
+    "four_key_bounded_root_reply_contract": [
+      "unit",
+      "outcome",
+      "admission_base64",
+      "launch_base64"
+    ]
+  },
+  "reported_local_validation": {
+    "ruff_format_and_check": "Actor reported pass for the V4-only packet; reviewer did not run Ruff.",
+    "historical_fixtures_or_model_source_suites_replayed": false
+  },
+  "execution_state": {
+    "body_staged_or_executed": false,
+    "b_attempted_for_v4": false,
+    "checkpoint_dataset_cache_or_prediction_payload_read_by_reviewer": false,
+    "new_fits": 0,
+    "quality_claimed": false
+  },
+  "limitations": [
+    "This review is static and does not establish current B unit/evidence state. The source body must still be bound by root to the exact body, this review, and a new transport before any action.",
+    "The positive fixture and Ruff results are actor-reported; this reviewer inspected their source and pins but did not execute them.",
+    "The candidate is an exporter admission body, not a scorer. No predictions, score, comparative quality, fresh holdout result, or public-transfer result is asserted."
+  ],
+  "findings": []
+}

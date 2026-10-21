@@ -1,0 +1,64 @@
+{
+  "schema": "fg19.first-cell-export-acceptance-source-review.v4",
+  "status": "PASS_SOURCE_ONLY_ACCEPTOR_V4",
+  "reviewed_at_utc": "2026-10-21T09:16:54Z",
+  "scope": "Static local source review of the ROOT metadata acceptor only. This review did not query B, execute the acceptor, inspect an actual export result, read prediction/model/data payloads, or create an acceptance or exact-stop receipt.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V4.py",
+    "bytes": 18674,
+    "sha256": "cd6bc1392113451f0c000034fac40a21c23668401f3b810cb51bde668945f64e"
+  },
+  "producer_inputs": {
+    "binding": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_BINDING_V1.json",
+      "bytes": 15798,
+      "sha256": "6cd8c46f31214623d97e54c32bac9395608bfc918b9b44e879e44ad2548f0eb9"
+    },
+    "source_manifest": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_SOURCE_REVIEW_V2.json",
+      "bytes": 10250,
+      "sha256": "f736f60a6b5481e94be380a183ba840aad850958c9b863b439bc708e65e997af",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    }
+  },
+  "reviewed_properties": {
+    "raw_capture_transport_bytes_sha_and_persisted_before_parse_join": true,
+    "original_admission_and_launch_capture_matches_root_receipt_pins": true,
+    "native_observation_unit_invocation_and_systemd_Id_join": true,
+    "strict_successful_terminal_tuple_active_exited_pid0_code1_status0": true,
+    "fixed_five_arm_metadata_and_sidecar_membership_checked": true,
+    "prediction_paths_shapes_dtypes_lengths_and_sha_format_checked_without_array_reads": true,
+    "source_and_split_producer_consumer_join_checked_by_pinned_pure_metadata_leaf": true,
+    "pure_helper_import_rejects_preloaded_modules_and_bytecode_and_checks_origin_and_prehash_posthash": true,
+    "acceptance_output_is_exclusive_and_fsynced_file_then_parent": true,
+    "quality_result_null_and_stop_pending": true,
+    "prediction_payloads_read_or_hashed_by_acceptor": false
+  },
+  "limitations_and_findings": [
+    {
+      "severity": "hardening",
+      "location": "ACCEPT_EXPORT_CAPTURE_V4.py:pinned_json/decode_capture/validate_metadata",
+      "finding": "Metadata parsing uses the default json.loads behavior, which accepts duplicate object keys and non-finite numeric constants. Exact byte pins and downstream schema/value checks constrain accepted data, but strict duplicate-key and constant rejection would make the metadata interpretation unambiguous.",
+      "impact": "The receipt records retain exact bytes and hashes, while the parsed acceptance object represents only the parser's selected duplicate-key values. This is a parser-hardening opportunity, not an observed mismatch in a captured result."
+    },
+    {
+      "severity": "scope",
+      "location": "ACCEPT_EXPORT_CAPTURE_V4.py:main",
+      "finding": "The script accepts record-root and capture-root as caller-provided paths and does not enforce a single canonical allowed parent directory before writing EXPORT_ACCEPTANCE.json.",
+      "impact": "The root operator must pass the designated record and capture directories. The final output file is still create-only, no-follow, and fsynced."
+    }
+  ],
+  "execution_state": {
+    "acceptor_executed_by_reviewer": false,
+    "actual_export_state_queried_by_reviewer": false,
+    "acceptance_or_exact_stop_created_by_reviewer": false,
+    "b_or_ssh_attempted_by_reviewer": false,
+    "prediction_or_model_payloads_read": false,
+    "quality_claimed": false
+  }
+}

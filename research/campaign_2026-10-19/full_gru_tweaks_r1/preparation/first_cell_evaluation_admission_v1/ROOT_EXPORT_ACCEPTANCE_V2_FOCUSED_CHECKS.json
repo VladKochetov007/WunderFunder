@@ -1,0 +1,85 @@
+{
+  "schema": "fg19.root-export-acceptance-v2-focused-checks.v1",
+  "status": "PASS_SYNTHETIC_METADATA_COMPATIBILITY_ONLY",
+  "scope": "Local synthetic metadata fixture for the frozen ROOT-owned acceptance capture V2 and the scorer's pure registered-data identity validator. No actual export capture, B machine, WNN module, model, source-tree payload, data/cache payload, prediction array, or score result was accessed.",
+  "source_pins": {
+    "root_acceptance_capture_v2": {
+      "path": "ACCEPT_EXPORT_CAPTURE_V2.py",
+      "bytes": 18187,
+      "sha256": "dd009a0ff018e4541934aad27811ae3b3aa65b1f44456cf93932306c0e8abdc2"
+    },
+    "export_binding": {
+      "path": "../first_cell_evaluation_export_v1/EXPORT_BINDING_V1.json",
+      "bytes": 15822,
+      "sha256": "fcb3ee7934a19d023f29090e527be1d151dde23ae9fae3e0e3a911cea1bd809c"
+    },
+    "scorer_pure_metadata_modules": {
+      "first_cell_score_core.py": {
+        "bytes": 27226,
+        "sha256": "e115d12868b8d9c6ac85e1b497b0bc514559d78fff5dada0b0c350e18b69669a"
+      },
+      "first_cell_score_contract.py": {
+        "bytes": 19485,
+        "sha256": "09155537feec1d9cd398f6a729ab88201b82e814c1a8c4ac796fe4283940a90d"
+      }
+    },
+    "fixture": {
+      "path": "test_root_export_acceptance_v2.py",
+      "bytes": 12531,
+      "sha256": "23d82ebc98578be0344a33661e67c00aef01e22f8d836f993724e54afc10bdf6"
+    }
+  },
+  "synthetic_fixture": {
+    "groups": 468,
+    "group_ids": "strict integers 0 through 467, synthetic only",
+    "arms": ["control", "ema", "sparse", "nll", "allthree"],
+    "capture_metadata_files": 6,
+    "prediction_arrays_created_or_opened": false,
+    "prediction_sha_values": "synthetic metadata markers only",
+    "source_identities": "six entries copied from the pinned export binding and projected to the declared stat-only observation fields",
+    "valid_parquet_parent_inode": 1234567890,
+    "valid_parquet_parent_inode_is_synthetic": true,
+    "capture_base64_length_sha256_joins": true
+  },
+  "tests": {
+    "command": ".venv/bin/python -B research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/test_root_export_acceptance_v2.py",
+    "python": "3.13.11",
+    "passed": 4,
+    "failed": 0,
+    "elapsed_seconds": 0.063,
+    "cases": [
+      {
+        "name": "complete_synthetic_five_arm_capture_passes_scorer_leaf",
+        "result": "PASS",
+        "detail": "Root validate_metadata accepted the synthetic capture and its call to scorer _validate_data_identity returned successfully; both scorer import origins and byte/SHA pins matched."
+      },
+      {
+        "name": "empty_per_source_observation_is_rejected",
+        "result": "PASS",
+        "expected_error": "observed_sources_before_split membership differs"
+      },
+      {
+        "name": "missing_registered_valid_parent_is_rejected",
+        "result": "PASS",
+        "expected_error": "export manifest observed_before_sequence_open fields differ"
+      },
+      {
+        "name": "sidecar_membership_tamper_is_rejected",
+        "result": "PASS",
+        "expected_error": "metadata-only capture membership differs"
+      }
+    ],
+    "wnn_modules_imported": 0
+  },
+  "ruff": {
+    "format_command": ".venv/bin/ruff format --check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/test_root_export_acceptance_v2.py",
+    "format_output": "1 file already formatted",
+    "check_command": ".venv/bin/ruff check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/test_root_export_acceptance_v2.py",
+    "check_output": "All checks passed!"
+  },
+  "limits": [
+    "The group IDs, current parent inode, JSON captures, sidecar hashes, and prediction hashes are synthetic; this is not an actual export or acceptance review.",
+    "The fixture validates only local metadata compatibility and selected negative boundaries; it does not read or validate prediction arrays or any model/data payload.",
+    "Independent review and actual ROOT acceptance remain separate gates."
+  ]
+}

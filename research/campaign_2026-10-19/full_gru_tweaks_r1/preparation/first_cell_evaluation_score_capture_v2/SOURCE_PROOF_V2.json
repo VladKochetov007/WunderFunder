@@ -1,0 +1,75 @@
+{
+  "binding": {
+    "actual_score_receipt_literals_remain_unbound": true,
+    "export_unit": "computer-vision-homework-fg19-first-cell-export-v2.service",
+    "result_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v2/RESULT.json",
+    "score_private_directory": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_score_v1",
+    "score_unit": "computer-vision-homework-fg19-first-cell-score-v1.service"
+  },
+  "candidate_template": {
+    "bytes": 20781,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/SCORE_RESULT_CAPTURE_TEMPLATE_V2.py",
+    "sha256": "a71cd3b61890a686138f98e4b2592b7e5c96d64dfdcb14118d93c8aaecc5d708"
+  },
+  "focused_fixture": {
+    "bytes": 2801,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/test_score_result_capture_v2_unit_id.py",
+    "result": "3 synthetic tests passed",
+    "sha256": "78bed95c9d4c7a0905095b879f7cd71702cabfaf5f37227764ff9d70d91dafda"
+  },
+  "inverse_proof": {
+    "bytes": 2502,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/SCORE_RESULT_CAPTURE_V2_INVERSE_PROOF.json",
+    "sha256": "4905a149575cad76d6acd67325fa147775a1a6d6e02e467feb1086fc82935583"
+  },
+  "inverse_proof_script": {
+    "bytes": 7743,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/prove_score_result_capture_v2_inverse.py",
+    "sha256": "d2476bc396bc9bd7b3040b8e0cbd5d4e6d0cff1d6678486860429c5bd36eb3ad"
+  },
+  "limitations": [
+    "The fixture uses synthetic property maps and source ASTs only; it does not query systemd or validate an actual score result.",
+    "The actual score admission and launch receipts are not present or bound; root must supply them from the reviewed V6 admission only after export acceptance and exact stop.",
+    "Independent source review, strict root result extraction, full scalar-result acceptance, and exact score-unit stop remain future gates."
+  ],
+  "preserved_v1_rejection": {
+    "finding": "systemd Id was not requested or required before result access",
+    "independent_review": {
+      "bytes": 3588,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/INDEPENDENT_SOURCE_REVIEW_V1.json",
+      "sha256": "5d80a5f1e8611ad28435a2b18a8018a2a64817f6040aab77627760171e7802d4"
+    },
+    "source_proof": {
+      "bytes": 4698,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/SOURCE_PROOF_V1.json",
+      "sha256": "152f7aeeb7604065a222f61ab0d1220fd82557adcd54c8ce9d25903a1256b271"
+    },
+    "status": "REJECT_SOURCE_ONLY_NO_SCORE_RESULT_CAPTURE",
+    "template": {
+      "bytes": 20480,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/SCORE_RESULT_CAPTURE_TEMPLATE_V1.py",
+      "sha256": "2fd94213540b55e6dfa7c39b8eaf55fb8928f739f1093cc3fbc3aae37d4e4e22"
+    }
+  },
+  "schema": "fg19.first-cell-score-result-capture-source-proof.v2",
+  "scope": {
+    "B_or_SSH_accessed": false,
+    "actual_result_captured": false,
+    "capture_template_or_scorer_executed": false,
+    "model_data_cache_prediction_or_checkpoint_payloads_read_or_hashed": false,
+    "quality_claim": false,
+    "remote_queries_attempted": 0,
+    "score_admission_or_launch_receipts_available_or_bound": false,
+    "systemd_unit_queried": false
+  },
+  "status": "PASS_NARROW_LOCAL_SOURCE_AND_UNIT_ID_FIXTURE_NOT_INDEPENDENTLY_REVIEWED",
+  "verified_boundaries": {
+    "Id_in_requested_unit_properties": true,
+    "exact_Id_guard_runs_immediately_after_unit_query": true,
+    "exact_v1_to_v2_delta_proven": true,
+    "failed_unit_captures_log_without_reading_result": true,
+    "result_capture_still_gated_by_exact_invocation_and_strict_active_exited_0_1_0_success": true,
+    "score_code_pins_match_score_v3_packet": true,
+    "wrong_or_missing_Id_rejected_by_synthetic_fixture": true
+  }
+}

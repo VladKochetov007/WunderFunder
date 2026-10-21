@@ -1,0 +1,53 @@
+{
+  "schema": "fg19.first-cell-export-root-admission-capture-source-review.v2",
+  "status": "PASS_SOURCE_ONLY_ROOT_CAPTURE_V2_NEW_UNIT_FORK",
+  "scope": "Independent static review of the root-side raw-first one-attempt capture driver fork. This review does not perform SSH/B or authorize a submission.",
+  "review_method": {
+    "read_driver_and_inverse_identity_proof": true,
+    "compare_v1_to_v2_source_diff": true,
+    "check_exact_current_size_and_sha256": true,
+    "run_imports_or_tests": false,
+    "perform_B_or_network_action": false
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_ADMISSION_V2.py",
+      "bytes": 6507,
+      "sha256": "0e8076cc212cd21a35a7eb625c1b5de880a5749315c0d6fd96b821d8318b873d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_ADMISSION_V2_PROOF.json",
+      "bytes": 589,
+      "sha256": "debca15415ddee4c371f3d967fbf0ea09002e6604c5bcf0cbb0eff7ee8e89a25"
+    }
+  ],
+  "change_scope": {
+    "base_bytes": 6507,
+    "base_sha256": "d773302b5c8f100ab083824b9b6263b5594a5ee832a273b03886f39af542699f",
+    "only_literal_substitution": {
+      "unit": [
+        "computer-vision-homework-fg19-first-cell-export-v1.service",
+        "computer-vision-homework-fg19-first-cell-export-v2.service"
+      ]
+    },
+    "inverse_bytes_identical": true,
+    "inverse_AST_identical": true,
+    "driver_logic_changed": false
+  },
+  "review_findings": {
+    "reviewed_body_and_review_are_exact_size_and_sha_pinned_before_submission": true,
+    "remote_action_is_single_batchmode_ssh_stdin_invocation_without_retry": true,
+    "transport_and_raw_stdout_stderr_are_fsynced_before_json_parse": true,
+    "nonzero_timeout_stderr_or_malformed_outer_reply_is_preserved_and_fails_closed": true,
+    "only_exact_four_key_unit_submitted_reply_is_accepted": true,
+    "admission_and_launch_receipts_are_create_only_and_joined_by_exact_sha": true,
+    "launch_acceptance_is_written_only_after_receipt_and_invocation_validation": true,
+    "root_acceptance_records_quality_result_null_and_no_worker_stdin_body_sha_claim": true
+  },
+  "limitations": [
+    "This review is source-only and does not verify current B state or whether the v2 unit/private directory has been used.",
+    "The caller must still bind the exact newly reviewed worker body and review receipt and perform all fresh preflight gates before any one-attempt launch.",
+    "Failure or unknown transport outcomes are not permission to retry."
+  ],
+  "reviewer_conclusion": "The V2 capture driver is byte- and AST-identical to V1 except for the exact service-unit literal. The unchanged raw-first, fsync, exact-reply, and create-only acceptance safeguards remain in place."
+}

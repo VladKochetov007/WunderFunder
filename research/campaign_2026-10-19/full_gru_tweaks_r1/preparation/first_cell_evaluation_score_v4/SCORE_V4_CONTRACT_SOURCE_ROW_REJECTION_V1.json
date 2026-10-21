@@ -1,0 +1,96 @@
+{
+  "schema": "fg19.first-cell-score-contract-source-row-rejection.v1",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "scope": "Static local review of the V4 scorer source contract and its exact V4 binding/source-manifest shapes. This records a deterministic source-level rejection before scoring; it is not an export or quality result.",
+  "finding": {
+    "id": "SCORE_V4_API_PIN_ROW_SHAPE_MISMATCH",
+    "severity": "blocking",
+    "consumer_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v4/first_cell_score_contract.py",
+    "consumer_lines": [
+      311,
+      316
+    ],
+    "consumer_expression": "source_file_pins = {item.get(\"path\"): item for item in source_manifest[\"files\"] if isinstance(item, dict)}; any(item != source_file_pins.get(relative) for relative, item in api_files.items())",
+    "binding_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+    "source_manifest_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_SOURCE_MANIFEST.json",
+    "binding_api_file_count": 8,
+    "binding_api_value_keys": [
+      [
+        "bytes",
+        "sha256"
+      ]
+    ],
+    "manifest_row_keys": [
+      [
+        "bytes",
+        "path",
+        "sha256"
+      ]
+    ],
+    "all_eight_binding_values_equal_full_manifest_rows": false,
+    "effect": "The V4 consumer compares each {bytes, sha256} binding value against a full {path, bytes, sha256} source-manifest row. Every canonical API comparison is false, so _read_export_bundle rejects the binding before scoring.",
+    "exporter_contract_note": "The V4 exporter correctly validates the compact binding row against {\"path\": relative, **expected}; the mismatch is in the V4 score consumer normalization, not a corrupt source manifest.",
+    "repair_condition": "Rebase the consumer comparison to normalize the full manifest row to the compact binding shape, or version the producer binding and all pins to carry the full row consistently; add a focused full _read_export_bundle metadata fixture before claiming a producer/consumer PASS."
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v4/first_cell_score_contract.py",
+      "bytes": 19485,
+      "sha256": "2967bca1ff2d32e47674927d89e0d2a658a57fa5afb3d8c70867720c979f6c80"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v4/first_cell_score_core.py",
+      "bytes": 27226,
+      "sha256": "30c456e7db875e2c075a6200c857c375087b18d9c952c354ae9bd3dceb0a0143"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v4/dependency_manifest.json",
+      "bytes": 6568,
+      "sha256": "6d39349af38ca4c5ef12f14208c4ea9591ff520940e899d3ae24a011491e187e"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v4/test_score_v4_binding_metadata.py",
+      "bytes": 6941,
+      "sha256": "c4af3b28227ec49a2b683c59e21b6897fd7b60340db7950db1da0f611958fd81"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/export_first_cell_v4.py",
+      "bytes": 66790,
+      "sha256": "87b6d3626bdafe6353865d95b1d8116bd187cb4da46888815658db6fc192738e"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+      "bytes": 15796,
+      "sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_SOURCE_REVIEW_V3.json",
+      "bytes": 7284,
+      "sha256": "ee53ce06a6119152866e8f39801e7575e59fb42bc09515d102db4c8df5d9c37a"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v3/first_cell_score_contract.py",
+      "bytes": 19485,
+      "sha256": "7784c91713dbfd7d11ec3cfd276eb8a62607289067999f4ecd5c03a3f9a18038"
+    }
+  ],
+  "review_method": {
+    "read_source_and_small_metadata_json_only": true,
+    "compared_binding_api_rows_to_source_manifest_rows": true,
+    "read_model_checkpoint_or_prediction_payload": false,
+    "read_dataset_or_cache_payload": false,
+    "run_tests_or_import_project_modules": false,
+    "perform_B_or_network_action": false
+  },
+  "limitations": [
+    "No scorer fixture, import, export, or scoring run was performed by this reviewer.",
+    "This rejection does not assess current B state, successful prediction export, metrics, or model quality.",
+    "The V3 source-review snapshot is included as historical context; it does not override the exact V4 consumer expression and row shapes inspected here."
+  ],
+  "reviewer_conclusion": "Do not treat the current frozen V4 producer/consumer pair as compatible. The V4 exporter\u2019s source checks accept the compact API pin objects, but the scorer contract compares them to full source-manifest rows without normalization and therefore rejects them."
+}

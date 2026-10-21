@@ -1,0 +1,105 @@
+{
+  "schema": "fg19.first-cell-export-acceptance-source-review.v5",
+  "status": "PASS_SOURCE_ONLY_ACCEPTOR_V5_REVIEWED_V3_PIN",
+  "reviewed_at_utc": "2026-10-21T09:34:11Z",
+  "scope": "Independent static review of the ROOT metadata acceptor V5 and its V3 source-review binding. No imports, tests, B/SSH actions, native-unit queries, actual export result/receipt reads, prediction/model/data payload reads, or quality evaluation were performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V5.py",
+    "bytes": 19962,
+    "sha256": "26bcbdf75002dd575afe451306247fe047e51065c135a50401c935dec40f56ac"
+  },
+  "base_v4": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V4.py",
+    "bytes": 18674,
+    "sha256": "cd6bc1392113451f0c000034fac40a21c23668401f3b810cb51bde668945f64e",
+    "review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_SOURCE_REVIEW_V4.json",
+      "bytes": 3942,
+      "sha256": "a352bf7e36112188508d1fd7da2d66e570f1d0aa1e63157d7e0fb494cceae172"
+    }
+  },
+  "local_proof": {
+    "inverse_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V5_PROOF.json",
+      "bytes": 1247,
+      "sha256": "50432233061f12b6b579b45e229e75833af7734f3701ac5086c81ff6faa476ca",
+      "status": "LOCAL_SOURCE_ONLY_NOT_EXECUTED"
+    },
+    "focused_fixture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/test_accept_export_v5_review_shape.py",
+      "bytes": 1902,
+      "sha256": "33d2fd3b46f6797a0145acb73d7b70770f13c7a15e83551ccacf2ce31b247650",
+      "actor_reported_result": "4 metadata-only cases passed; not executed by this reviewer"
+    },
+    "focused_check_record": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V5_FOCUSED_CHECKS.json",
+      "bytes": 755,
+      "sha256": "267620bbb690e58629368c1e50dfc975bfd50035d098a1aceaeed3ebafb03dd5",
+      "status": "PASS_NEW_ACTUAL_REVIEW_METADATA_FIXTURE_ONLY"
+    }
+  },
+  "reviewed_v3_dependencies": {
+    "exporter": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/export_first_cell_v3.py",
+      "bytes": 66080,
+      "sha256": "9bfcd5110d200212bff45d2188f04e2eb094fbaf5cd78831ed03db5a130af8cb"
+    },
+    "binding": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_BINDING_V3.json",
+      "bytes": 15798,
+      "sha256": "372ec16016517baa510cc1899f140cd0978a35b83f96a4a5fa1ff4bda8b39730"
+    },
+    "source_manifest": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_SOURCE_REVIEW_V3.json",
+      "bytes": 7284,
+      "sha256": "ee53ce06a6119152866e8f39801e7575e59fb42bc09515d102db4c8df5d9c37a",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    },
+    "scorer_code": {
+      "first_cell_score_core.py": {
+        "bytes": 27226,
+        "sha256": "ffe8a6e7aad38b131a78783504ef55c761d4e8037c13bac279f20c5e55f6249e"
+      },
+      "first_cell_score_contract.py": {
+        "bytes": 19485,
+        "sha256": "7784c91713dbfd7d11ec3cfd276eb8a62607289067999f4ecd5c03a3f9a18038"
+      }
+    }
+  },
+  "reviewed_properties": {
+    "v5_diff_is_scoped_to_v3_paths_and_pins_plus_reviewed_binding_pin_join": true,
+    "pure_scorer_metadata_import_rebinds_to_exact_v3_files": true,
+    "reviewed_binding_pin_requires_v3_review_schema_and_pass_status": true,
+    "reviewed_binding_pin_requires_unique_file_paths": true,
+    "reviewed_binding_pin_requires_strict_positive_integer_bytes_and_lowercase_sha256": true,
+    "reviewed_binding_pin_joins_exact_repository_relative_v3_binding_path": true,
+    "actual_v3_review_contains_one_exact_binding_pin_row_matching_local_binding": true,
+    "metadata_acceptance_retains_raw_capture_transport_launch_and_native_identity_joins": true,
+    "metadata_acceptance_uses_only_terminal_manifest_and_five_sidecars_not_prediction_arrays": true,
+    "acceptance_is_create_only_and_fsynced": true,
+    "quality_result_remains_null_and_exact_stop_remains_pending": true
+  },
+  "v4_findings_inherited": [
+    {
+      "severity": "hardening",
+      "finding": "Metadata json.loads calls retain the default duplicate-key/non-finite-constant behavior. The review/binding row and downstream exact-field checks constrain accepted data, but a strict JSON parser would make interpretation more explicit."
+    },
+    {
+      "severity": "scope",
+      "finding": "The acceptor accepts caller-provided record-root and capture-root paths rather than enforcing one canonical output parent. The root operator must pass the designated directories; output remains create-only, no-follow, and fsynced."
+    }
+  ],
+  "execution_state": {
+    "acceptor_executed_by_reviewer": false,
+    "actual_export_state_queried_by_reviewer": false,
+    "acceptance_or_exact_stop_created_by_reviewer": false,
+    "b_or_ssh_attempted_by_reviewer": false,
+    "prediction_or_model_payloads_read": false,
+    "quality_claimed": false
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "fg19.first-cell-score-result-capture-source-review.v1",
+  "status": "REJECT_SOURCE_ONLY_NO_SCORE_RESULT_CAPTURE",
+  "reviewed_at_utc": "2026-10-21T09:16:54Z",
+  "scope": "Independent static review of the unbound score result-capture template and its local source proof. No imports, tests, B/SSH actions, score-unit queries, receipt reads, result reads, or quality evaluation were performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/SCORE_RESULT_CAPTURE_TEMPLATE_V1.py",
+    "bytes": 20480,
+    "sha256": "2fd94213540b55e6dfa7c39b8eaf55fb8928f739f1093cc3fbc3aae37d4e4e22"
+  },
+  "source_proof": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/SOURCE_PROOF_V1.json",
+    "bytes": 4698,
+    "sha256": "152f7aeeb7604065a222f61ab0d1220fd82557adcd54c8ce9d25903a1256b271",
+    "status": "PASS_NARROW_LOCAL_SOURCE_AND_SYNTHETIC_BOUNDARY_FIXTURE"
+  },
+  "focused_fixture": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/test_score_result_capture_v1.py",
+    "bytes": 8240,
+    "sha256": "3d33d8253d7d015b32c25bb2955c34ea22842c1b395b47430998c8d0b209b6b7",
+    "actor_reported_result": "6 synthetic tests passed; not executed by this reviewer"
+  },
+  "score_admission_contract": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v4/SCORE_ADMISSION_BINDING_PLAN_V4.json",
+    "bytes": 6234,
+    "sha256": "f60f915b2a7ca2f2a627bec1f474c58783f4227815dd99cf38c732854872bc9f",
+    "status": "LOCAL_CONDITIONAL_TEMPLATE_ONLY_UNBOUND_NOT_REVIEWED_OR_ADMITTED_V4"
+  },
+  "finding": {
+    "id": "SCORE-CAPTURE-V1-001",
+    "severity": "blocker",
+    "location": "SCORE_RESULT_CAPTURE_TEMPLATE_V1.py:57-78, 423-437",
+    "finding": "The native systemd query does not request the Id property, and main() validates only InvocationID before treating the queried unit as the pinned score unit. The receipt join binds the expected unit string, but the live systemd observation is not explicitly required to report Id == SCORE_UNIT.",
+    "impact": "The capture does not prove that the native property map belongs to the exact named unit before its successful terminal tuple can authorize reading RESULT.json. Add Id to UNIT_PROPERTIES and require exact Id equality before result access."
+  },
+  "reviewed_properties": {
+    "five_actual_receipt_literals_fail_closed_before_paths_or_queries": true,
+    "admission_and_launch_bytes_sha_unit_invocation_and_admission_digest_join": true,
+    "four_scorer_module_pins_rechecked_without_import": true,
+    "result_file_opened_only_after_strict_active_exited_pid0_code1_status0_and_success": true,
+    "failure_branch_captures_log_without_reading_result": true,
+    "bounded_result_capture_returns_bytes_without_metric_parsing": true,
+    "no_submit_stop_old_unit_or_quality_evaluation": true
+  },
+  "limitations": [
+    "The source proof correctly states that cgroup-tree and subprocess-output caps are checked after reads; they are not hard OS resource budgets.",
+    "The source proof's synthetic fixtures do not establish any actual score result or native unit state."
+  ],
+  "execution_state": {
+    "template_executed": false,
+    "receipt_pins_bound": false,
+    "score_unit_queried_by_reviewer": false,
+    "result_json_read": false,
+    "b_or_ssh_attempted_by_reviewer": false,
+    "prediction_or_model_payloads_read": false,
+    "quality_claimed": false
+  }
+}

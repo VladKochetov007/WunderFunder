@@ -1,0 +1,189 @@
+{
+  "schema": "fg19.first-cell-export-status-metadata-review.v1",
+  "status": "PASS_METADATA_ONLY_ACTIVE_CAPTURE_NO_TERMINAL_RESULT",
+  "reviewed_utc": "2026-10-21T10:35:34Z",
+  "scope": "Independent local review of the already-persisted 10:32 UTC status-capture metadata, raw transport, receipt joins, source pins, ownership/counter summary, and stat-only output inventory. No B query, SSH, systemd query, test, import, payload read/hash, or export-quality evaluation was performed.",
+  "capture_identity": {
+    "captured_utc": "2026-10-21T10:32:05.786909+00:00",
+    "unit": "computer-vision-homework-fg19-first-cell-export-v3.service",
+    "invocation_id": "78fa25d0abc44d199e3696d172dbc4f9",
+    "native_unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+    "native_invocation_id": "94d3a7132a434d448345b0206bd3daa3"
+  },
+  "artifacts": {
+    "raw_stdout": {
+      "path": "records/first_cell_evaluation_v1/export_v5/startup_health_v1/STDOUT.raw.json",
+      "bytes": 45082,
+      "sha256": "5e5db580657428a15b277059217d1474c895f2d1aa165f705437e64c31db06cc"
+    },
+    "raw_stderr": {
+      "path": "records/first_cell_evaluation_v1/export_v5/startup_health_v1/STDERR.raw.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "transport": {
+      "path": "records/first_cell_evaluation_v1/export_v5/startup_health_v1/TRANSPORT.json",
+      "bytes": 608,
+      "sha256": "725780cba2483930dc107cf9e8d905dc2117ad92c8e35e75c7bc1ed0fe0430b7",
+      "schema": "fg19.first-cell-export-status-root-transport.v1",
+      "ssh_returncode": 0,
+      "timed_out": false,
+      "stdout_bytes": 45082,
+      "stdout_sha256": "5e5db580657428a15b277059217d1474c895f2d1aa165f705437e64c31db06cc",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "body_bytes": 14883,
+      "body_sha256": "4e35e6211f668ad6ae4f9466119f99544f42e3fca45ba91337c6098da54ff329",
+      "persisted_before_parse": true,
+      "retry_performed": false
+    },
+    "root_observation": {
+      "path": "records/first_cell_evaluation_v1/export_v5/startup_health_v1/OBSERVATION.json",
+      "bytes": 1654,
+      "sha256": "c4aa2c370348423dc7e0e1f7a6e3fc02e168458318d213629b6988d018d35037",
+      "systemd_snapshot_matches_raw_stdout": true
+    },
+    "actual_capture_body": {
+      "path": "records/first_cell_evaluation_v1/export_v5/startup_health_v1/REMOTE.py",
+      "bytes": 14883,
+      "sha256": "4e35e6211f668ad6ae4f9466119f99544f42e3fca45ba91337c6098da54ff329",
+      "matches_transport_body_pin": true
+    },
+    "ast_binding": {
+      "path": "records/first_cell_evaluation_v1/export_v5/startup_health_v1/AST_BINDING.json",
+      "bytes": 858,
+      "sha256": "1c2208f199ed7d9875bdf88fe5d823f9a91cc2f764e510f8a072cdcf32e55666",
+      "status": "EXACT_FIVE_LITERAL_BINDING_AST_OTHERWISE_IDENTICAL",
+      "all_other_AST_identical": true,
+      "literal_count": 5,
+      "literal_values_match_actual_capture_source": true,
+      "template_pin_matches": true,
+      "source_review_pin_matches": true
+    }
+  },
+  "receipt_joins": {
+    "exact_base64_join_count": 3,
+    "all_base64_joins_match_saved_bytes": true,
+    "joins": [
+      {
+        "raw_field": "ADMISSION.json.base64",
+        "saved_path": "records/first_cell_evaluation_v1/export_v5/startup_health_v1/ADMISSION.json",
+        "bytes": 24660,
+        "sha256": "26ac9c08c8ba632a8163407584b9fc6ef9dfe0345bc5359dd6f5ddd74510aba1",
+        "matches_sibling_original_export_receipt": true
+      },
+      {
+        "raw_field": "LAUNCH.json.base64",
+        "saved_path": "records/first_cell_evaluation_v1/export_v5/startup_health_v1/LAUNCH.json",
+        "bytes": 4130,
+        "sha256": "3e984761005c6c56efb0558f43297b5d30c0ae0fb07fa85958951c4ebf3e2b37",
+        "matches_sibling_original_export_receipt": true
+      },
+      {
+        "raw_field": "log_tail.base64",
+        "saved_path": "records/first_cell_evaluation_v1/export_v5/startup_health_v1/unit.log.tail",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "admission_launch_join": {
+      "launch_admission_sha256_matches": true,
+      "unit_matches": true,
+      "export_invocation_matches": true,
+      "native_unit_and_invocation_match": true,
+      "launch_submission_outcome": "submitted",
+      "launch_submission_returncode": 0,
+      "post_submission_systemd_id_and_invocation_match": true
+    }
+  },
+  "source_bindings": {
+    "reader_template_v4": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_TEMPLATE_V4.py",
+      "bytes": 14786,
+      "sha256": "208a185c19b3a7fa4fb620192d0dae22bd701a8856dc3f44aa0951ddb7b4254d"
+    },
+    "reader_source_review_v3": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_SOURCE_REVIEW_V3.json",
+      "bytes": 3537,
+      "sha256": "38a1dbd8edc8395b4cc38234cf9ee2f9aa0caab11cb6a9fad3051a77f76b04af",
+      "status": "PASS_SOURCE_ONLY_READER_V3_NEW_UNIT_FORK_UNBOUND"
+    },
+    "third_unit_reader_and_root_tools_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/THIRD_UNIT_ROOT_TOOLS_SOURCE_REVIEW_V1.json",
+      "bytes": 7363,
+      "sha256": "8a548c071bac10223bfcbb3de327161d19bed123cd48ee35e03a371cddb8fc0f",
+      "status": "PASS_SOURCE_ONLY_THIRD_UNIT_ROOT_TOOLS_UNBOUND"
+    },
+    "status_driver_v5": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V5.py",
+      "bytes": 10396,
+      "sha256": "874a8aa14cb6be6284d8899ac4266e41b70e0f7e6d94bce0d882b58130f36c2a"
+    },
+    "status_driver_source_review_v5": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_SOURCE_REVIEW_V5.json",
+      "bytes": 3564,
+      "sha256": "d214f775aa71de962b9af5b1b5707ccb339b5132ae67e004e082f5fc22040ecd",
+      "status": "PASS_SOURCE_ONLY",
+      "candidate_pin_matches": true,
+      "bound_reader_pin_matches": true
+    }
+  },
+  "native_snapshot": {
+    "systemd_id_matches_unit": true,
+    "systemd_invocation_matches_capture": true,
+    "active_state": "active",
+    "sub_state": "running",
+    "main_pid": 2595398,
+    "result": "success",
+    "exec_main_code": "0",
+    "exec_main_status": "0",
+    "exec_main_exit_timestamp": "",
+    "terminal_metadata_files": [],
+    "strict_terminal_success": false,
+    "classification": "active running capture; not an exited worker result"
+  },
+  "process_and_memory_scope": {
+    "exact_unit_cgroup_process_count": 1,
+    "exact_unit_cgroup_pids": [2595398],
+    "owned_gpu_process": {
+      "pid": 2595398,
+      "uid": 1061,
+      "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+      "used_memory": "394 MiB",
+      "cgroup_matches_exact_unit": true,
+      "process_action": "none"
+    },
+    "other_gpu_owners_preserved_and_untouched": true,
+    "own_cgroup_memory_current_bytes": 1162252288,
+    "own_cgroup_memory_peak_bytes": 1162252288,
+    "own_cgroup_events_all_zero": true,
+    "parent_cgroup_memory_current_bytes": 8989696000,
+    "parent_memory_events_unchanged_from_actual_admission": true,
+    "parent_memory_events_historical_high_count": 38355,
+    "parent_memory_events_historical_max_count": 561,
+    "parent_memory_events_local_all_zero": true
+  },
+  "output_inventory": {
+    "method": "stat-only root capture metadata; reviewer did not open or hash array payloads",
+    "array_payloads_read_or_hashed": false,
+    "common_export_manifest_exists": false,
+    "control_prediction": {"exists": true, "bytes": 74880128},
+    "control_sidecar": {"exists": true, "bytes": 9958},
+    "ema_prediction": {"exists": true, "bytes": 74880128},
+    "ema_sidecar_exists": false,
+    "sparse_prediction_and_sidecar_exist": false,
+    "nll_prediction_and_sidecar_exist": false,
+    "allthree_prediction_and_sidecar_exist": false
+  },
+  "conclusion_and_limits": {
+    "review_scope": "metadata-only receipt, source-pin, active-state, cgroup/GPU ownership, and stat-only inventory joins",
+    "result": "The 10:32 UTC capture is internally bound to the submitted third export invocation and records an active/running process with one owned GPU process. It is not a terminal-success capture.",
+    "stat_sizes_do_not_establish_array_completeness_or_integrity": true,
+    "no_export_acceptance_or_exact_stop_is_established": true,
+    "no_score_or_quality_result_is_established": true,
+    "capture_time_is_the_only_state_time_asserted": true,
+    "reviewer_performed_B_or_systemd_query": false,
+    "reviewer_ran_tests_or_imported_project_code": false,
+    "reviewer_read_or_hashed_payloads": false
+  }
+}

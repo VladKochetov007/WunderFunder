@@ -1,0 +1,147 @@
+{
+  "schema": "fg19.first-cell-export-preflight-failure-metadata-review.v2",
+  "status": "PASS_METADATA_ONLY",
+  "reviewed_utc": "2026-10-21T09:02:54Z",
+  "scope": "Independent local metadata-only audit of the failed admission V3 attempt and its one bounded read-only exact-unit outcome capture. This review made no B query, SSH request, retry, import, test, checker execution, or model/data/prediction payload read.",
+  "candidate_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/REMOTE_SUBMISSION_V3.py",
+    "bytes": 243576,
+    "sha256": "d7e2ca4852da54d8d1554ff3271dd3d4f369575a6c26c7dc19990a2ca54cb509",
+    "source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/REMOTE_SUBMISSION_SOURCE_REVIEW_V3.json",
+      "bytes": 9040,
+      "sha256": "959414c45fb4965993f6968d9fa33310faec95d0e3b2c354c0e12bddcf654269",
+      "status": "PASS_SOURCE_ONLY_ADMISSION_V3"
+    },
+    "binding": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/ADMISSION_SOURCE_BINDING_V3.json",
+      "bytes": 13771,
+      "sha256": "6d1d599d688590f492a07b129ccea0080d38847130e0df420d3e562dd4a17d30"
+    },
+    "inverse_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/ADMISSION_V3_INVERSE_PROOF.json",
+      "bytes": 3638,
+      "sha256": "07afd545eb5658db0ea1454ff2632b3096095631a172669cc7d1de1b7d033977"
+    }
+  },
+  "failed_preflight_transport": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v2/TRANSPORT.json",
+    "bytes": 729,
+    "sha256": "f1d6c833909f0897d7adfd8ce456eb4cd9bfbdfe9ce42d536aaf9489bf087955",
+    "started_utc": "2026-10-21T08:58:38.039166+00:00",
+    "finished_utc": "2026-10-21T08:58:38.672125+00:00",
+    "body_bytes": 243576,
+    "body_sha256": "d7e2ca4852da54d8d1554ff3271dd3d4f369575a6c26c7dc19990a2ca54cb509",
+    "source_review_bytes": 9040,
+    "source_review_sha256": "959414c45fb4965993f6968d9fa33310faec95d0e3b2c354c0e12bddcf654269",
+    "ssh_returncode": 1,
+    "timed_out": false,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 298,
+    "stderr_sha256": "f8d4b72462ed5bda5533c593c9dee7dfdcfa5ae6fa538853620abe6640a833e3",
+    "persisted_before_parse": true,
+    "retry_performed": false
+  },
+  "failed_attempt_streams": {
+    "stdout": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v2/STDOUT.raw.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v2/STDERR.raw.txt",
+      "bytes": 298,
+      "sha256": "f8d4b72462ed5bda5533c593c9dee7dfdcfa5ae6fa538853620abe6640a833e3",
+      "observed_error": "RuntimeError: original AllThree launch receipt differs, raised by check_fit_receipts."
+    }
+  },
+  "failure_ordering": {
+    "failing_predicate": "REMOTE_SUBMISSION_V3.py:678-685 requires launch.invocation_id to equal the native invocation ID.",
+    "actual_launch_metadata": "The exact pinned 9,594-byte original LAUNCH.json has schema fg19-child-allthree-fit-launch.v1, the correct native unit at top level, and submitted/returncode 0. It has no top-level invocation_id. Its captured systemctl stdout, base64-encoded under systemctl_after_submission.stdout_b64, contains InvocationID=94d3a7132a434d448345b0206bd3daa3, ActiveState=active, SubState=running, and MainPID=1875143. The saved ACTUAL_LAUNCH_METADATA_REVIEW.json independently records this launch identity.",
+    "ordering": "The reviewed source calls payload_bytes(), then the read-only preflight(), then write_payloads(); check_fit_receipts() raises inside preflight. The evidence-directory creation, exclusive staged writes, admission writes, and submit_once() all occur only after preflight returns. Therefore this attempt did not reach output/evidence mutation or unit submission.",
+    "interpretation": "The failure is a consumer/schema assumption mismatch with the exact accepted original launch receipt: invocation identity is present in the captured systemctl property output, not as a top-level LAUNCH.json field. The receipt itself remains exactly pinned; no receipt rewrite is warranted."
+  },
+  "original_allthree_launch_receipt": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/LAUNCH.json",
+    "bytes": 9594,
+    "sha256": "ec9d8dc819894e148753838ba33ba95080c192bacd5ac53413bd6847568fd538",
+    "top_level_invocation_id_present": false,
+    "top_level_unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+    "submission_outcome": "submitted",
+    "submission_returncode": 0,
+    "captured_systemd_properties": {
+      "InvocationID": "94d3a7132a434d448345b0206bd3daa3",
+      "ActiveState": "active",
+      "SubState": "running",
+      "MainPID": "1875143"
+    },
+    "metadata_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/ACTUAL_LAUNCH_METADATA_REVIEW.json",
+      "bytes": 13748,
+      "sha256": "ad647a642d0ba86ec44e1b2ec9d3b7673e0f09013a806556da32d0e96b6ca3d8",
+      "status": "PASS_METADATA_ONLY"
+    }
+  },
+  "single_read_only_outcome_capture": {
+    "remote_query_source": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v2/preflight_outcome_v1/REMOTE.py",
+      "bytes": 872,
+      "sha256": "fb74367c069e9d69d4c6895be121e2071c3b6dbc1f607eac14c91a34addd5595",
+      "scope": "One systemctl --user show --all query for the exact export unit and a lexists observation for the exact export evidence path; it performs no helper stat replay or payload reads/hashes."
+    },
+    "transport": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v2/preflight_outcome_v1/TRANSPORT.json",
+      "bytes": 593,
+      "sha256": "6f5f5bcaaf50bf370191f7e6186b09bedf6599107c51fadefbd4f6100802ae99",
+      "started_utc": "2026-10-21T09:01:17.825229+00:00",
+      "finished_utc": "2026-10-21T09:01:18.275296+00:00",
+      "ssh_returncode": 0,
+      "timed_out": false,
+      "stdout_bytes": 586,
+      "stdout_sha256": "0b5e67d8b840c47683a3df79c5d4f692a04f48b6786d017860b1e1c60ad058c0",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "persisted_before_parse": true,
+      "retry_performed": false
+    },
+    "raw_capture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v2/preflight_outcome_v1/STDOUT.raw.json",
+      "bytes": 586,
+      "sha256": "0b5e67d8b840c47683a3df79c5d4f692a04f48b6786d017860b1e1c60ad058c0",
+      "captured_utc": "2026-10-21T09:01:18.390903+00:00",
+      "unit": "computer-vision-homework-fg19-first-cell-export-v1.service",
+      "unit_properties": {
+        "Id": "computer-vision-homework-fg19-first-cell-export-v1.service",
+        "LoadState": "not-found",
+        "ActiveState": "inactive",
+        "SubState": "dead",
+        "MainPID": "0",
+        "InvocationID": ""
+      },
+      "evidence_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v1",
+      "evidence_lexists": false,
+      "no_mutations": true,
+      "payloads_read_or_hashed": false
+    },
+    "stderr": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v2/preflight_outcome_v1/STDERR.raw.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "conclusion": {
+    "classification": "One failed admission V3 preflight followed by one read-only exact-unit outcome capture; no retry or second launch.",
+    "export_unit_submissions": 0,
+    "export_evidence_directory_created": false,
+    "new_gpu_evaluation_units": 0,
+    "new_training_fits": 0,
+    "new_quality_claims": 0,
+    "prior_campaign_context": "The six existing fit jobs are closed; no evaluation unit or quality computation has been completed. This audit makes no quality assessment."
+  },
+  "limitations": [
+    "The local review validates saved transport/stream bytes, candidate body and review pins, the exact local original LAUNCH metadata, and the single recorded outcome snapshot. The outcome snapshot is point-in-time at 2026-10-21T09:01:18.390903+00:00 and does not establish later state.",
+    "The read-only outcome script queried only the exact new export unit and exact evidence-path existence; no helper stats, old-unit queries, payload reads, or payload hashes were performed by that capture.",
+    "Zero new fits and zero quality claims refer to this failed admission attempt; no model-quality conclusion is made."
+  ]
+}
