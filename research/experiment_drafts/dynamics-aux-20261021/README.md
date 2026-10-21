@@ -6,6 +6,9 @@ auxiliary profile or scientific fit has run. This packet is cold-screen only.
 A strong-parent continuation would need a separate conditional extension; the
 current CLI rejects `--init` for this head.
 
+Implementation source: `b83147cf3264df68d6fe77b827fcedbca0be6a50`, based on
+`3eeb2a9c2a0f456112f76175122deab376c764b3`.
+
 The accepted [October 21 local/Kaggle plan](../../../specs/plans/2026-10-21-next-local-kaggle-cycle.md)
 allocates four new cold fits: auxiliary-loss weight 0 and 0.05 on matched
 F0/seed1001 and F2/seed1002 cells. Both arms allocate the same 52-output head
@@ -51,8 +54,9 @@ evaluation has 443 groups. F0 binds split SHA-256
 `09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d` and has
 1,118 train plus 118 valid fitting sequences; its evaluation has 468 groups.
 The F2 membership file is frozen in sibling branch
-`experiment/i1-screen-20261021`; root must integrate that exact artifact before
-running F2. Do not regenerate it.
+`experiment/i1-screen-20261021`, commit
+`b1b680d4a700d353f3e6db4f761f6670bd02fc7f`; root must integrate that exact
+artifact before running F2. Do not regenerate it.
 No model fit is reused. There are two new fits per arm, four total, and zero
 teacher or student fits.
 
