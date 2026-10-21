@@ -26,6 +26,8 @@ completion is implied by this packet.
 - [Dynamics review](DYNAMICS_REVIEW_R1.json): independent source audit passes the frozen recipe, with setup-cost and general-validator limitations; four CPU tests pass. [Canonical implementation/recipe](../../experiment_drafts/dynamics-aux-20261021/README.md) has no completed profile/fit.
 - [B16 offline recovery](../kaggle_h512_b16_offline_recovery_r1/README.md): separate source-pinned saved-weight mean/export/grade adapter, preserving missing initialization digest and original failed acceptance. Independent review pending; zero new fits.
 
+- [Serial saved-model local export plan](saved_export_recovery_r1/README.md): prepared-only sequence for the derived projected-mean full-valid feature export and recovered B16 CP5/SWA345 457-group exports, followed by the existing fixed CPU grades. Binds exact source/checkpoint identities, create-only guards, one-CPU/3GB/no-swap GPU limits, and a combined 7,200-second cap after i1 releases the GPU; no export or grade ran from this plan.
+
 - [Memory-safety correction](MEMORY_SAFETY_CORRECTION_R1.json): user warning, exact R1kill diagnosis and correctedR2/native counters. Additional heavy admissions held while both active; host pressure remains a material constraint.
 
 - [B16 independent review](B16_RECOVERY_REVIEW_R1.json): identified missing metadata byte binding, fixed with exact provenance/historySHA pins verified against terminalcollectionmanifest; reviewer confirmed resolution. Remaining source/mean/coverage/fixedgrade checks passed statically; execution pending.
