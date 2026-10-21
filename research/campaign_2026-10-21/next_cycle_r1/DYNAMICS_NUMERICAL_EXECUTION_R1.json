@@ -1,0 +1,24 @@
+{
+  "status": "CONFIRMED_PRE_FIT_NUMERICAL_BUG_ON_SYNTHETIC_FIXTURE",
+  "owner": "root",
+  "invocation_id": "09a57f7a7b2a45fdbc44dbb566e1da2b",
+  "cpu_cores": 1,
+  "memory_max_bytes": 1400000000,
+  "swap_bytes": 0,
+  "gpu_seconds": 0,
+  "new_fits": 0,
+  "wall_seconds": 5.74,
+  "user_cpu_seconds": 2.81,
+  "system_cpu_seconds": 1.27,
+  "maximum_rss_kib": 657476,
+  "swaps": 0,
+  "fixture_script_sha256": "8b5a5b7b063ca863c24cc958da96c992ba895026092e1662381777791867ab85",
+  "original_target_module_sha256": "b0b13362af5dd089dbef1afd1936064062826fbf633eb58a0cf6727e42076a97",
+  "reference_precision": "Float64 direct-window oracle only; target under test is strictFP32. No training or dataset arrays used.",
+  "finding": "GlobalFP32 cumulativeenergy subtraction erases later0.01changes afteranearly10000pulse; both horizons16/256 reportlogepsilon ratherthan actualfutureenergy. Logtarget error9.21044.",
+  "scope_limitations": [
+    "Synthetic counterexample verifies an implementation error; actualdataset error prevalence is unmeasured.",
+    "No auxiliary profiles or scientific fits have run. Active i1 uses independent frozen source.",
+    "Fix must preserve52target mathematical definition andFP32, valid-row/horizon masks and prediction causality."
+  ]
+}

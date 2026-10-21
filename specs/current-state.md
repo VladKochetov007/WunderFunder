@@ -1,5 +1,13 @@
 # Current project state
 
+## October22 00:06 Kyiv: first complete i1 cell and recovered endpoint diagnosis
+
+The accepted30-local-GPU-hour cycle is active. The first F0/seed1001 i1 cell scores B0.65907416, A0.64317272, C0.65553705. History C loses standalone (−0.00353711), but the predeclared90%B/10%C blend gains+0.00035953 on both targets; its conditional component95%interval [−0.00001187,+0.00070893] leaves repeatability unresolved. F2/seed1002 is running under the unchanged six-fit panel; no new OOM events in the corrected worker. [Full interim grade](../research/campaign_2026-10-21/next_cycle_r1/i1/interim_f0_abc/RESULT_R1.json).
+
+The [same-runtime native grade](../research/campaign_2026-10-21/next_cycle_r1/NATIVE_HOST_GRADE_R1.json) leaves CP5 replacement0.00736292 below TL3; the host-versus-legacy score difference is only−0.00000059. Runtime mismatch does not explain this gap, while unequal training exposure/objectives prevent an architecture ranking. TL3 remains an exposed ancestry-qualified diagnostic, not clean CV. The [fixed projected checkpoint mean](../research/campaign_2026-10-21/next_cycle_r1/WEIGHT_MEAN_PROJECTED_DERIVATION_R1.json) passes exact output parity and normalization checks; full-fold quality is pending localGPU availability.
+
+The B16 F1 cloud export hit its700-second limit before observed GPU use, with no prediction arrays or OOM. [Terminal evidence](../research/campaign_2026-10-21/next_cycle_r1/B16_CLOUD_TERMINAL_COLLECTION_R1.json) and [fresh quota](../research/campaign_2026-10-21/next_cycle_r1/KAGGLE_QUOTA_R6.json) are preserved:1635.575seconds unreserved, refreshOctober24. No further provider launch is admitted; root will recover both saved exports locally after the current panel. No new submission is promoted. [Frontier](../research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md) owns subsequent state; older snapshots below are history.
+
 ## October21: new 30-hour local/Kaggle cycle
 
 The user accepted and requested execution of the [new cycle](plans/2026-10-21-next-local-kaggle-cycle.md): 30 new local GPU-hours plus verified available Kaggle, B300 deferred. Start with saved-artifact recovery and the six-fit i1 screen; dynamics has four fits and strong-parent/production spending is conditional. [Live frontier](../research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md). Historical costs and stops below remain history.

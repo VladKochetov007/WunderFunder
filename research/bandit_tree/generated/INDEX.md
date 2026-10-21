@@ -6,7 +6,7 @@ Generated navigational index. Original ledgers and legacy bandit remain archived
 
 Statuses are displayed as recorded or curated and have not been independently verified by this index. Validation, holdout, and fold data remain exposed. Links describe recorded relationships, not causal effects. Unknown priors and costs remain unknown; no score is inferred.
 
-Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1613 · raw hypothesis rows 574 · raw experiment rows 992 · legacy arms 18 · catalog files 92497.
+Root: **Wunder Connectome Challenge2 research** · metric `global_wp_clip2_v1` · nodes 1624 · raw hypothesis rows 577 · raw experiment rows 1009 · legacy arms 18 · catalog files 92859.
 
 Config snapshot: [research/bandit_tree/generated/snapshots/config-ea93166c38b45e481d18666a4c4fbad43e9457228c9823063116e858aa3099d9.json](<snapshots/config-ea93166c38b45e481d18666a4c4fbad43e9457228c9823063116e858aa3099d9.json>).
 
@@ -1653,7 +1653,10 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | hypothesis:H-TEACHER-QUALITY-SCALING-20261019-R1 | Increasing capacity, useful causal history and training at a measured data-reuse frontier can improve official held-out teacher quality; distillation is optional. | hypothesis · proposed | family:teacher | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L570>) | — |
 | hypothesis:H-NLL-STRONG-GRU-20261020-R1 | Learning conditional target variance can reduce harmful gradient emphasis and improve a strong GRU mean prediction or complementary fixed blend. | hypothesis · two_fit_directional_screen_running | family:objective | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L571>) | — |
 | hypothesis:H-NLL-GRADIENT-WEIGHTING-20261021-R1 | Attenuating inverse-variance mean gradients with detached variance weighting may preserve useful mean learning under global clipping. | hypothesis · not_tested_conditional_on_current_grade | family:optimization | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L572>) | — |
-| hypothesis:H-R01-H512-LOCAL-20261021-R1 | H-R01-H512-LOCAL-20261021-R1 | hypothesis | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L573>), [research/hypotheses.jsonl](<../../hypotheses.jsonl#L574>) | — |
+| hypothesis:H-R01-H512-LOCAL-20261021-R1 | H-R01-H512-LOCAL-20261021-R1 | hypothesis | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L573>), [research/hypotheses.jsonl](<../../hypotheses.jsonl#L575>) | — |
+| hypothesis:H-FUTURE-INPUT-DYNAMICS-20261021-R1 | H-FUTURE-INPUT-DYNAMICS-20261021-R1 | hypothesis · proposed_code_implemented | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L574>) | — |
+| hypothesis:H-WMSE-WEIGHT-MEAN-20261021-R1 | H-WMSE-WEIGHT-MEAN-20261021-R1 | hypothesis | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L576>) | — |
+| hypothesis:H-H512-ENDPOINT-GAP-20261021-R1 | H-H512-ENDPOINT-GAP-20261021-R1 | hypothesis | family:unclassified | [research/hypotheses.jsonl](<../../hypotheses.jsonl#L577>) | — |
 | experiment:E-001 | data forensics | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1>) | — |
 | experiment:E-002 | guard test | experiment | hypothesis:H-002 | [research/experiments.jsonl](<../../experiments.jsonl#L2>) | — |
 | experiment:E-003 | baseline | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L3>) | — |
@@ -2531,6 +2534,14 @@ Each raw ledger event appears as its own source link, including repeated IDs and
 | experiment:E-R01-H512-LOCAL-F0-20261021-R1 | E-R01-H512-LOCAL-F0-20261021-R1 | experiment · same_fit_running | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L989>), [research/experiments.jsonl](<../../experiments.jsonl#L990>) | — |
 | experiment:E-KAGGLE-H512-PROFILE-20261021-R1 | E-KAGGLE-H512-PROFILE-20261021-R1 | experiment · execution_failure_not_scientific_result | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L991>) | — |
 | experiment:E-TL3-H512-PACKAGER-20261021-R1 | E-TL3-H512-PACKAGER-20261021-R1 | experiment · engineering_fixture_not_submission | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L992>) | — |
+| experiment:E-TL3-H512-NATIVE-ENDPOINTS-20261021-R1 | E-TL3-H512-NATIVE-ENDPOINTS-20261021-R1 | experiment · waiting_exact_gpu_postfit_success | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L993>) | — |
+| experiment:E-WMSE-WEIGHT-MEAN-20261021-R1 | E-WMSE-WEIGHT-MEAN-20261021-R1 | experiment · quality_pending_full_fold_export | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L994>), [research/experiments.jsonl](<../../experiments.jsonl#L997>), [research/experiments.jsonl](<../../experiments.jsonl#L1005>), [research/experiments.jsonl](<../../experiments.jsonl#L1009>) | — |
+| experiment:E-KAGGLE-H512-F1-PROFILE-20261021-R1 | E-KAGGLE-H512-F1-PROFILE-20261021-R1 | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L995>) | — |
+| experiment:E-KAGGLE-H512-F1-B16-20261021-R2 | E-KAGGLE-H512-F1-B16-20261021-R2 | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L996>) | — |
+| experiment:E-PLATEAU-I1-20261021-R2 | E-PLATEAU-I1-20261021-R2 | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L998>), [research/experiments.jsonl](<../../experiments.jsonl#L999>), [research/experiments.jsonl](<../../experiments.jsonl#L1002>), [research/experiments.jsonl](<../../experiments.jsonl#L1004>), [research/experiments.jsonl](<../../experiments.jsonl#L1008>) | — |
+| experiment:E-FUTURE-INPUT-DYNAMICS-20261021-R1 | E-FUTURE-INPUT-DYNAMICS-20261021-R1 | experiment · profile_and_fits_pending | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1000>) | — |
+| experiment:E-H512-ENDPOINT-DIAGNOSIS-20261021-R1 | E-H512-ENDPOINT-DIAGNOSIS-20261021-R1 | experiment | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1001>), [research/experiments.jsonl](<../../experiments.jsonl#L1003>), [research/experiments.jsonl](<../../experiments.jsonl#L1007>) | — |
+| experiment:E-PLATEAU-I1-20261021-R1 | E-PLATEAU-I1-20261021-R1 | experiment · code_only_no_array_or_label_read | family:unclassified | [research/experiments.jsonl](<../../experiments.jsonl#L1006>) | — |
 | legacy:target_stopped_bootstrap | target_stopped_bootstrap | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_lstm_student | arch_lstm_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |
 | legacy:arch_tcn_student | arch_tcn_student | legacy_arm · historical_needs_refresh | root | [research/bandit/arms.json](<../../bandit/arms.json>) | — |

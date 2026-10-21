@@ -59,3 +59,9 @@ Root resource amendment before staging: each export worker is capped at4,000,000
 ## Actual preparation and launch
 
 The private input dataset is ready at version1; a downloaded copy exactly matches archiveSHA1802af9b…e095. FreshquotaR5was2345.378seconds/reserved0. The provider accepted the [exact launch source](launch_r1/README.md) as private kernelversion1 and reports RUNNING. Root added a one-CPU inherited-affinity guard after discovering that the generic runner could otherwise admit two T4workers simultaneously. Both4GBexports must run serially on its first enumerated GPU; source-only independent review passed. No fits or quality outputs yet. [Cyclefrontier](../next_cycle_r1/FRONTIER.md) holds actualadmission/transport/patch/statusreceipts; original localdeadlinepatch ispreserved as pre-affinityhistory.
+
+## Terminal result: no prediction exports
+
+Kernelversion1 timed out in the first CP5 worker at705.03seconds (700-second cap); SWA never started. Serialization was verified (`concurrency_admitted=1`), with onlyGPU0assigned. Observed peak GPU use was zero and worker RAM566,816,768bytes. The empty worker log cannot locate the stalled line. Both34.86GBraw-input hash checks were deferred to worker preflight, making slow remote hashing a plausible explanation, not a proven cause. No OOM or scientific comparison resulted.
+
+The [terminal collection receipt](../next_cycle_r1/B16_CLOUD_TERMINAL_COLLECTION_R1.json) indexes187files/23.86MB and immutable manifestSHA `d08726db…0d63`. Provider quota consumption was709.803seconds; [R6quota](../next_cycle_r1/KAGGLE_QUOTA_R6.json) leaves1635.575seconds unreserved. Root chose local recovery of the same two frozen exports after the active localGPU panel, rather than another cloud launch. Both saved models and the five-endpoint grade remain unchanged. No further cloud job is admitted.

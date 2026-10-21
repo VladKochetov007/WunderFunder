@@ -120,3 +120,7 @@ The projected mean passed source/checkpoint metadata gates but has not yet reach
 ## Fixed projected mean derived without fitting
 
 [Derivation](WEIGHT_MEAN_PROJECTED_DERIVATION_R1.json) passes exact first-two-output parity for allthree sources and bitwise normalization checks. One equal serving-projected mean checkpoint now exists, SHA256 `fc5e432e…26a55`; [execution](WEIGHT_MEAN_PROJECTED_EXECUTION_R1.json) used9.86CPU-wallseconds/753480KiBpeak/zero swaps, noGPU ornewfits. Original full-state block and failedmetadataattempts remain historical. Full-fold export and frozen WMSE/oldZ4 comparisons wait for the single localGPU worker; no quality claim.
+
+## Auxiliary target numerical guard failed before any fitting
+
+[CPU fixture](DYNAMICS_NUMERICAL_PROBE_R1.json) confirms history-dependent cancellation in globalFP32energy-prefix subtraction: an early large pulse erases real later0.01changes, causing9.21044log-unit target error forbothhorizons. [Execution](DYNAMICS_NUMERICAL_EXECUTION_R1.json) used5.74seconds/657476KiBpeak, noGPU/fits. This is an implementation counterexample, not a measured dataset quality result. Dynamics profile admission is held for a stableFP32 mathematical repair and independent tests/review; i1_recipe owns isolated code, recovery_audit independent math review, root verification/admission. Active i1 source/recipe unchanged.
