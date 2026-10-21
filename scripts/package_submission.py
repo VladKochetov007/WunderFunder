@@ -21,6 +21,7 @@ from pathlib import Path
 import numpy as np
 
 from wnn.native_representation import native_input_metadata
+from wnn.training.dynamics_auxiliary import strip_dynamics_auxiliary_state
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RUNS_DIR = ROOT / "artifacts" / "runs"
@@ -107,6 +108,7 @@ def load_checkpoint_member(
         name: np.ascontiguousarray(tensor.detach().cpu().float().numpy())
         for name, tensor in model.items()
     }
+    state = strip_dynamics_auxiliary_state(state)
     input_layout = native_input_metadata(args, state, checkpoint.get("n_in"))
     if "head.2.weight" not in state or "head.2.bias" not in state:
         raise ValueError(f"{run}: checkpoint lacks the expected two-layer output head")

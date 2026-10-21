@@ -26,6 +26,7 @@ from wnn.training.runner import run_training
 | [checkpoints](checkpoints.py) | Serialized arguments, inference representations, selection and strict continuation contract. |
 | [cli](cli.py) | Assemble the unchanged CLI from reusable registration groups. |
 | [cli_data](cli_data.py) | Ordered CLI registration for data options, preserving original declarations. |
+| [cli_dynamics_auxiliary](cli_dynamics_auxiliary.py) | Optional future-input auxiliary head and loss-weight flags, defaulting off. |
 | [cli_features](cli_features.py) | Ordered CLI registration for features options, preserving original declarations. |
 | [cli_model](cli_model.py) | Ordered CLI registration for model options, preserving original declarations. |
 | [cli_normalization](cli_normalization.py) | Ordered CLI registration for normalization options, preserving original declarations. |
@@ -39,6 +40,7 @@ from wnn.training.runner import run_training
 | [data_loaders](data_loaders.py) | Loader memory admission, sampling order, pinning and drop-tail behavior. |
 | [data_membership](data_membership.py) | Deterministic fitting/evaluation membership and sampling selection. |
 | [datasets](datasets.py) | Lazy complete-sequence reading and memory-mapped teacher/auxiliary targets. |
+| [dynamics_auxiliary](dynamics_auxiliary.py) | Fit-only future-change targets, masked Huber objective, target normalization, and training-state removal for serving exports. |
 | [environment](environment.py) | Explicit per-run input/readout configuration, source roots and injected I/O/model/backend hooks. |
 | [epoch](epoch.py) | Epoch sampling identity, batch completion and gradient diagnostics. |
 | [evaluation](evaluation.py) | Reusable prediction and official validation diagnostics. |

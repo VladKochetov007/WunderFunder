@@ -182,6 +182,7 @@ def _make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Mo
         recurrent_width=args_dict.get("recurrent_width"),
         readout_width=args_dict.get("readout_width"),
         head_layers=args_dict.get("head_layers", 1),
+        dynamics_aux_head=bool(args_dict.get("dynamics_aux_head", False)),
     )
     if args_dict.get("sentinel_indicators", "none") != "none":
         model.inp = SentinelInputProjection(model.inp, args_dict["sentinel_base_width"])
