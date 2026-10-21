@@ -1,5 +1,8 @@
 # Execution, incidents, and preservation
 
+- [Kaggle F1 prelaunch source drift](KAGGLE_F1_SOURCE_CLOSURE_INCIDENT_20261021_R1.json) — independent review found5of6declared source pins mismatched in the preparation checkout (60changed canonical files overall), including the strict-FP32 runtime branch. No third cloud job had launched. Operator is rebuilding from clean68ff; the healthy local fit uses the correct frozen source and remains active. This is preparation evidence, not a model-quality result.
+
+
 - [Kaggle H512 terminal setup evidence](../../campaign_2026-10-21/kaggle_h512_profile_r1/README.md) — two bounded private engineering attempts ended before model setup: the first timed out during input preparation; the second verified both raw files then found missing structural split caches. Zero finite training updates, no quality evidence. Combined provider charge798.775seconds;17,277.652seconds remain. Both terminal collections, machine allocation and exact repair are preserved; no third run admitted.
 
 - [H512 12-hour runtime amendment](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/THERMAL_BUDGET_AMENDMENT_R2.json) — sustained1.9sequences/s and thermal throttling make9hcap insufficient. Extends the same live invocation, preserving six-epochCP5 and15haggregate budget including25minpostfit plus stop grace. No all-data fit admitted.
