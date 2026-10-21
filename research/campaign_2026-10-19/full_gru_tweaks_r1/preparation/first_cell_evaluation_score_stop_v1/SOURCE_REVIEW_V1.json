@@ -1,0 +1,37 @@
+{
+  "focused_fixture": {
+    "bytes": 4752,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v1/test_stop_score_template_v1.py",
+    "scope_observed": "Synthetic acceptance validation, strict before/after predicates, exact-unit scope, cgroup path boundaries, and bounded cgroup scan. Fixture result (11 cases) and Ruff pass are packet-owner reported and were not rerun.",
+    "sha256": "ac798b12cf027791de504ff1f880e0109604a3e9a37625710fc88af1824ae5bd"
+  },
+  "limitations": [
+    "This is a conditional template with the four actual invocation/acceptance literals deliberately unbound; it is not an executable actual stop body and grants no stop action.",
+    "A future rendered body still needs exact acceptance bytes, exact invocation, source review, and an independent exact-body review before use.",
+    "No B/systemd/SSH command, tests/imports, actual score receipt, or model/prediction payload was accessed by this reviewer."
+  ],
+  "review_findings": [
+    "The future embedded ROOT receipt is gated by exact schema/status/unit/invocation, PENDING_EXACT_STOP, and strict integer native active/exited PID=0, code=1, status=0 fields. Its result must match the fixed score-result schema/status, positive strict integer byte count, lowercase SHA-256, and a nonempty path.",
+    "Before mutation the body requires the exact score unit to be the accepted successful exited invocation and the campaign slice inventory to be empty. It issues only one systemctl stop for that score-v1 unit, with no retry path; it then checks exact not-found/inactive/dead/PID-zero/empty-invocation state and an empty second campaign inventory.",
+    "The cgroup path is required to be absolute, non-root, non-redirected, and rooted at /wnn-campaign.slice. Traversal rejects symlinks and is capped at 128 directories, 256 entries per directory, 32 KiB per cgroup.procs file, and 256 KiB aggregate. It does not fall back to a host-wide process listing.",
+    "systemd show and stop commands use selector-driven bounded stdout/stderr reads, 4 KiB chunks, explicit byte caps, and deadlines. On an output-cap or timeout exception the child is killed and the exception propagates without another stop attempt.",
+    "The template contains no prediction-array, checkpoint, model, or training access. Its only local imports are standard-library modules needed for JSON, hashing, strict bounded process pipes, and cgroup metadata."
+  ],
+  "reviewed_at_utc": "2026-10-21T11:17:45Z",
+  "schema": "fg19.first-cell-score-stop-source-review.v1",
+  "scope": "Local static review of the conditional stop template and focused fixture source only; no test or module execution.",
+  "status": "PASS_CONDITIONAL_SOURCE_ONLY_STOP_TEMPLATE_UNBOUND",
+  "template": {
+    "bytes": 11984,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v1/STOP_SCORE_TEMPLATE_V1.py",
+    "sha256": "c9647858157b4c1d33e104a89321556a5ce67dfa19e26cae53ad7972faad03ef"
+  },
+  "unbound_actual_identity": {
+    "acceptance_base64": "UNBOUND_ROOT_SCORE_ACCEPTANCE_BASE64",
+    "acceptance_bytes": 0,
+    "acceptance_sha256": "UNBOUND_ROOT_SCORE_ACCEPTANCE_SHA256",
+    "required_literal_binding_count": 4,
+    "score_invocation": "UNBOUND_ROOT_SCORE_INVOCATION",
+    "score_unit": "computer-vision-homework-fg19-first-cell-score-v1.service"
+  }
+}

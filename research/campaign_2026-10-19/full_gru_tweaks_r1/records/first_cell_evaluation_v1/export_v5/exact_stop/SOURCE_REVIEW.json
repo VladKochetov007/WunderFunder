@@ -1,0 +1,61 @@
+{
+  "ast_binding": {
+    "bytes": 3185,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/exact_stop/AST_BINDING.json",
+    "sha256": "2390a566963c67bd685836614b3f7df23154466fd49d8a13f47e7c5b92c6333a",
+    "status": "EXACT_FOUR_LITERAL_BINDING_AST_OTHERWISE_IDENTICAL"
+  },
+  "body": {
+    "bytes": 18079,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/exact_stop/REMOTE.py",
+    "sha256": "a0664d02eb40f30fce479aae36e6354d8f639afb0d7910bb38fe1867c1ee6bc1"
+  },
+  "limitations": [
+    "This is a source-only gate, not evidence that the stop ran or succeeded.",
+    "No B/systemd/SSH or cgroup query, test/import, checkpoint/model/prediction-array read, or payload hashing was performed by this reviewer.",
+    "The current ROOT acceptance still records PENDING_EXACT_STOP; stop outcome and any changed acceptance status remain separate future evidence."
+  ],
+  "native_terminal_basis": {
+    "bytes": 1762,
+    "invocation_id": "78fa25d0abc44d199e3696d172dbc4f9",
+    "native_tuple": {
+      "ActiveState": "active",
+      "ExecMainCode": "1",
+      "ExecMainStatus": "0",
+      "Id": "computer-vision-homework-fg19-first-cell-export-v3.service",
+      "InvocationID": "78fa25d0abc44d199e3696d172dbc4f9",
+      "MainPID": "0",
+      "Result": "success",
+      "SubState": "exited"
+    },
+    "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/status_20261021T1107Z/OBSERVATION.json",
+    "sha256": "f99e802a3fbfef4b44e4c869c6a1f2a802b802b4c9296b86e1035622c0c2816e",
+    "unit": "computer-vision-homework-fg19-first-cell-export-v3.service"
+  },
+  "review_findings": [
+    "The body binds the exact already-durable ROOT acceptance bytes and verifies their schema, accepted-not-scored status, unit, invocation, and null quality result before mutation.",
+    "It checks the same exact unit and invocation against the current native successful-exit tuple before stopping; no earlier failed export unit or support/fit unit is named.",
+    "Before and after the one stop call, it enumerates the bounded /sys/fs/cgroup subtree rooted at the reported wnn-campaign.slice ControlGroup. It rejects redirected/symlinked cgroup directories, caps traversal at 128 directories and 256 entries per directory, caps each cgroup.procs read at 32 KiB and aggregate reads at 256 KiB, and requires both process inventories empty. There is no host-wide process-list fallback.",
+    "The only stop mutation is one `systemctl --user stop` for the exact export-v3 unit. It makes no retry; success requires the exact post-stop not-found/inactive/dead/PID-zero/empty-invocation tuple and an empty second campaign process inventory.",
+    "The AST binding pins exactly four values (invocation, acceptance bytes, acceptance SHA-256, acceptance base64) and records inverse restoration of the reviewed template bytes with all other AST identical."
+  ],
+  "review_scope": "Local static source and metadata review only. Exact-stop body was not executed.",
+  "reviewed_at_utc": "2026-10-21T11:11:34Z",
+  "root_acceptance": {
+    "bytes": 8833,
+    "invocation_id": "78fa25d0abc44d199e3696d172dbc4f9",
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/EXPORT_ACCEPTANCE.json",
+    "quality_result": null,
+    "schema": "fg19.first-cell-export-acceptance.v1",
+    "sha256": "5a9a99121f80eb7fa07e4591318bea81078ca8b2db1032f150cc33afcc728d0d",
+    "status": "ACCEPTED_FIXED_FIVE_PREDICTION_EXPORTS_NOT_SCORED",
+    "unit": "computer-vision-homework-fg19-first-cell-export-v3.service"
+  },
+  "schema": "fg19.first-cell-export-exact-stop-source-review.v1",
+  "status": "PASS_SOURCE_ONLY_EXACT_STOP",
+  "template": {
+    "bytes": 6299,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/STOP_EXPORT_TEMPLATE_V3.py",
+    "sha256": "31f27013fd881fd0b5db8ded63d4b81203444e26f56b26e96e725bb03dd83365"
+  }
+}

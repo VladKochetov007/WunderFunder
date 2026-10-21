@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_score_v2/score_first_cell.py", line 241, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_score_v2/score_first_cell.py", line 208, in main
+    result = _score_bundle(args)
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_score_v2/score_first_cell.py", line 63, in _score_bundle
+    _preflight_split_inputs(split_path, data_root, registered_sources)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_score_v2/first_cell_score_core.py", line 296, in _preflight_split_inputs
+    _preflight_npz_members(source_path, {"row_group", "seq_ix"}, 2)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_score_v2/first_cell_score_core.py", line 321, in _preflight_npz_members
+    raise ValueError(f"membership archive contains an unsafe expanded member: {path}")
+ValueError: membership archive contains an unsafe expanded member: /home/grinchenkoeg/computer-vision-homework-20261018/data/cache/train_targets.npz

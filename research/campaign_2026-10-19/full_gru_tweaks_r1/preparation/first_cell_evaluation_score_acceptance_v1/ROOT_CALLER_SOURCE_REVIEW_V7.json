@@ -1,0 +1,82 @@
+{
+  "schema": "fg19.first-cell-score-root-acceptance-caller-review.v7",
+  "status": "REJECT_SOURCE_ONLY_EMPTY_STDERR_INPUTS",
+  "reviewed_at_utc": "2026-10-21",
+  "scope": "Independent source-only review of the exact V7 ROOT score-result caller, namespace proof, and its fixed helper, capture reader, status driver, and actual V14 admission bindings. This review does not validate or accept any score result.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_ACCEPT_SCORE_RESULT_V7.py",
+    "bytes": 32281,
+    "sha256": "811e44d27f1e6c798d11f26d450b7aed76c6c6a6cbd888de047e91cbb25a4c2e"
+  },
+  "namespace_proof": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_CALLER_V7_NAMESPACE_PROOF_V2.json",
+    "bytes": 4057,
+    "sha256": "05255742a24f08687913aed40846e8f10db9e012ebca758e317ad551b13742d5",
+    "proof_script": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/prove_root_score_acceptance_v7_namespace_v2.py",
+      "bytes": 11502,
+      "sha256": "bb15bfabbaa9104bd6ad579275b729e3ee0b9e970451f79cffdf733d2f192ae7"
+    }
+  },
+  "reviewed_dependencies": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v3/score_result_acceptance_v3.py",
+      "bytes": 46448,
+      "sha256": "72f25104d5a338e55d3d7667df79882cd699d0798c7d8fc19638fea392ad0e8c"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v6/SCORE_RESULT_CAPTURE_TEMPLATE_V6.py",
+      "bytes": 26354,
+      "sha256": "049e2e9245356a4ac5f39596348e186d7af9a1e04aeb747255b7f62843324de0"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v6/INDEPENDENT_SOURCE_REVIEW_V6.json",
+      "bytes": 9525,
+      "sha256": "844fb16d236a6778179f55edfe37a553809097691b19060869309c0c07bbeeec"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_CAPTURE_SCORE_STATUS_V5.py",
+      "bytes": 8895,
+      "sha256": "7367fa5000d43f4ca66ea8fae06d250cec54dde0f8ef58fa5d5287cad869747c"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_SCORE_STATUS_DRIVER_SOURCE_REVIEW_V5.json",
+      "bytes": 6932,
+      "sha256": "fad67e3759f7c115842766d782eecf9d67088b60b97063761a62356638d21181"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v14/REMOTE_SUBMISSION_V14.py",
+      "bytes": 193262,
+      "sha256": "fea0734c5485fa984e0bb961db58dafc01950c1308a3893dd400d15d7c332670"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v14/ACTUAL_SCORE_ADMISSION_SOURCE_REVIEW_V14.json",
+      "bytes": 18342,
+      "sha256": "4cd8c964d4bfb59032e9e6b79cfd63777417d0f96d0031ae9f2cd01f21227a82"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "blocker",
+      "source_lines": [129, 637, 643],
+      "finding": "The shared read() helper rejects zero-byte files (`not raw`). main() uses it to read both the score launch STDERR.raw.txt and the score status-capture STDERR.raw.txt. The caller's launch and status validators require stderr to be empty, so the normal successful no-stderr path cannot reach acceptance creation.",
+      "required_narrow_repair": "Permit empty bytes only for these two stderr inputs while preserving regular-file, O_NOFOLLOW, stable-stat and 4 KiB cap checks; leave all other metadata reads nonempty.",
+      "execution_attempted": false
+    }
+  ],
+  "other_source_checks": {
+    "fixed_helper_reader_driver_and_V14_source_pins_checked": true,
+    "receipt_unit_invocation_and_raw_transport_joins_checked": true,
+    "five_literal_reader_binding_AST_check_present": true,
+    "exclusive_output_preflight_and_one_shot_policy_present": true,
+    "helper_compiled_from_exact_pinned_bytes_in_memory": true
+  },
+  "execution_state": {
+    "caller_executed": false,
+    "helper_imported_or_executed": false,
+    "tests_run_by_reviewer": false,
+    "B_or_SSH_attempted": false,
+    "result_or_payload_read": false,
+    "quality_claimed": false
+  }
+}

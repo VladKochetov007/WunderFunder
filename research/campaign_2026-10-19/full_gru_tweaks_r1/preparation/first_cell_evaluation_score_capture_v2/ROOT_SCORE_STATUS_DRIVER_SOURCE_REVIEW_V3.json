@@ -1,0 +1,96 @@
+{
+  "capture_limits": {
+    "driver_stdout_check": "The 4,000,000-byte stdout check is applied after subprocess.run has captured output. The exact V5 reader has internal command/file/aggregate bounds; this driver is reviewed only under the trusted ROOT invocation boundary and is not a generic adversarial-output sandbox.",
+    "reader_systemctl_and_gpu_cgroup_bounds": "As source-reviewed in the exact V5 reader review; five receipt/invocation literals remain unbound until actual capture."
+  },
+  "driver_rebase": {
+    "all_other_ast_identical": true,
+    "changed_assignments": [
+      "REVIEW",
+      "REVIEW_SHA",
+      "TEMPLATE",
+      "TEMPLATE_SHA"
+    ],
+    "parent_bytes": 8895,
+    "parent_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_CAPTURE_SCORE_STATUS_V2.py",
+    "parent_sha256": "e7b479e8237e6ca1f23417ce7a685c3e08fc4bb772fcfc33775634e680f8748c",
+    "proof_status": "LOCAL_V3_REBASED_TO_REVIEWED_SCORE_CAPTURE_V5_NOT_EXECUTED"
+  },
+  "execution_state": {
+    "driver_imported_or_executed": false,
+    "model_data_cache_prediction_target_or_label_payload_read": false,
+    "reader_main_called": false,
+    "score_or_quality_claimed": false,
+    "score_receipts_or_result_read": false,
+    "ssh_or_b_action_by_reviewer": false,
+    "tests_run_by_reviewer": false,
+    "unit_queried": false
+  },
+  "reader_review_contract": {
+    "bytes": 9206,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v5/INDEPENDENT_SOURCE_REVIEW_V5.json",
+    "reader_template_bytes": 26354,
+    "reader_template_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v5/SCORE_RESULT_CAPTURE_TEMPLATE_V5.py",
+    "reader_template_sha256": "8d3c37f89376a23db1a548001989c11dd7eb5b83720061c4b229e59f75d1f69c",
+    "schema": "fg19.first-cell-score-result-capture-source-review.v5",
+    "sha256": "6be421f63040c941368af2c08670b22ce1699434a8b264c4f100dd253e229b95",
+    "status": "PASS_SOURCE_ONLY_READER_V5_HARD_BOUNDED_UNBOUND"
+  },
+  "reviewed_files": [
+    {
+      "bytes": 8895,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_CAPTURE_SCORE_STATUS_V3.py",
+      "sha256": "c540db668e371355dd11851f828e8d34b394037fe106d97bcd9477e30db0f03d"
+    },
+    {
+      "bytes": 8895,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_CAPTURE_SCORE_STATUS_V2.py",
+      "sha256": "e7b479e8237e6ca1f23417ce7a685c3e08fc4bb772fcfc33775634e680f8748c"
+    },
+    {
+      "bytes": 26354,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v5/SCORE_RESULT_CAPTURE_TEMPLATE_V5.py",
+      "sha256": "8d3c37f89376a23db1a548001989c11dd7eb5b83720061c4b229e59f75d1f69c"
+    },
+    {
+      "bytes": 9206,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v5/INDEPENDENT_SOURCE_REVIEW_V5.json",
+      "sha256": "6be421f63040c941368af2c08670b22ce1699434a8b264c4f100dd253e229b95"
+    },
+    {
+      "bytes": 1691,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_SCORE_STATUS_DRIVER_PROOF_V3.json",
+      "sha256": "ef26098694bffdcbdd0393a40f5cd38ba1975567b7179df98233edb261f4dcad"
+    },
+    {
+      "bytes": 3949,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/test_root_score_status_driver_v3_rebase.py",
+      "sha256": "626e297c04b8e2f2d49f31d4388ab2df21e144e93ae5c8f99e7e7d9cc3d55ea5"
+    }
+  ],
+  "reviewer_conclusion": "The V3 driver is an exact four-assignment rebase from its reviewed V2 predecessor to the independently source-reviewed V5 bounded reader. The review pins the reader template and review, preserves five actual receipt literals as future inputs, and approves only a ROOT-owned invocation with the exact score_v3 record path and a fresh tag. It does not authorize arbitrary paths, a unit query outside that invocation, or a score/quality conclusion.",
+  "schema": "fg19.first-cell-score-root-status-driver-source-review.v3",
+  "scope": "Independent local source and proof review of the root-owned V3 status capture driver and its exact V5 reader/review pins. The review does not run the driver or reader, query a unit, read score receipts/results, or claim a score/quality result.",
+  "source_checks": {
+    "admission_launch_bytes_sha_and_exact_original_receipt_joins_required": true,
+    "exact_reader_template_and_review_hardcoded": true,
+    "five_literal_count_and_ast_identity_checked_before_remote_call": true,
+    "log_tail_base64_length_sha_checked": true,
+    "native_unit_id_and_invocation_identity_required": true,
+    "no_retry_on_unknown_or_failed_capture": true,
+    "private_tag_single_component_guard": true,
+    "raw_stdout_stderr_and_transport_written_before_parsing": true,
+    "reader_bounds_observation_and_capture_sizes": true,
+    "receipt_constants_are_read_from_trusted_record_then_substituted_as_five_literals": true,
+    "record_directory_fsynced_before_response_parse": true,
+    "result_bytes_saved_unmodified_without_metric_parsing": true,
+    "result_captured_only_after_exact_native_active_exited_zero_one_zero_success_tuple": true,
+    "strict_file_membership_admission_launch_log_optional_result": true
+  },
+  "status": "PASS_SOURCE_ONLY_ROOT_STATUS_DRIVER_V3_REBASED_TO_REVIEWED_V5",
+  "trusted_invocation_boundary": {
+    "limitation": "The driver accepts --record and --tag arguments and does not itself pin the record directory. PASS is conditional on ROOT supplying the exact absolute score_v3 record path and a fresh private tag. The review does not endorse arbitrary caller paths or tags.",
+    "required_record": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3",
+    "required_tag": "one fresh private tag selected by ROOT"
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "schema": "fg19.first-cell-score-admission-actual-source-review.v12",
+  "status": "PASS_SOURCE_ONLY_ACTUAL_SCORE_BODY_V12",
+  "reviewed_at_utc": "2026-10-21",
+  "scope": "Independent metadata-only and source-only review of the exact V12 score-admission stdin body, its binding, the V11 source review chain, and the narrow cache receipt schema correction. V12 repairs the V11 preflight mismatch between the actual cache metadata and terminal acceptance schemas. This review does not authorize or claim a score launch, result, or quality outcome.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v12/REMOTE_SUBMISSION_V12.py",
+    "bytes": 188838,
+    "sha256": "133bb309b5b3ebba238ce4f40a9e9efa60c6813a0fcd208ab90ff4bd7bba799e"
+  },
+  "binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v12/SCORE_ADMISSION_SOURCE_BINDING_V12.json",
+    "bytes": 8761,
+    "sha256": "f177f935578639e8ee1933750d85e9d610e27def44842dc7a3685c986e743241"
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v11/REMOTE_SUBMISSION_V11.py",
+      "bytes": 188823,
+      "sha256": "9dc1f04741609cb4e80e84308439187f5bef5d82d2808057d92fe11eca4379d5",
+      "role": "Exact V12 parent; unified diff is confined to one check_cache predicate and message."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v11/ACTUAL_SCORE_ADMISSION_SOURCE_REVIEW_V11.json",
+      "bytes": 9627,
+      "sha256": "8c703bae70226ac4665e7a7fc4e3bfe321e3c32b255228fbb034aea138a9c573",
+      "schema": "fg19.first-cell-score-admission-actual-source-review.v11",
+      "status": "PASS_SOURCE_ONLY_ACTUAL_SCORE_BODY_V11"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v12/ACTUAL_SCORE_ADMISSION_V12_CACHE_SCHEMA_PROOF.json",
+      "bytes": 3073,
+      "sha256": "139a52715eeec7ca7460a85b1a9c52629e77e5b32918c9e7f3a6e8a0b9b70db6",
+      "status": "PASS_V12_ACTUAL_CACHE_SCHEMA_AND_EXACT_INVERSE"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v12/test_score_admission_v12_cache_schema.py",
+      "bytes": 8955,
+      "sha256": "4c3852fd83bb9b041771b4ed84710d03d8f7ffa313ef734758fd82922b2bb9c3",
+      "role": "Inspected only; the focused fixture uses actual small JSON receipts and synthetic stat observations, never opens cache array payloads."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v12/V11_CACHE_SCHEMA_NEGATIVE_V1.json",
+      "bytes": 2521,
+      "sha256": "d900ecebe7078b85a6a7a8d13cb8c646c36d6b947ed6d1f6bce875e6e92feb8d",
+      "status": "PRESERVED_PRE_D_PREFLIGHT_FAILURE_NO_RETRY"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_cpu_build_v2/capture/METADATA.json",
+      "bytes": 324242,
+      "sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+      "role": "Metadata-only inspection; split_manifest_sha256 equals the fixed split pin."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_cpu_build_v2/TERMINAL_ACCEPTANCE.json",
+      "bytes": 3496,
+      "sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+      "role": "Metadata-only inspection; accepted v2 receipt has metadata_sha256 and no split_manifest_sha256 field."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_cache_cpu_build_v2/exact_stop/STDOUT.raw.json",
+      "bytes": 1086,
+      "sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+      "role": "Pinned stop capture bytes; joined through the exact AllThree fit admission cache map."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/ADMISSION.json",
+      "bytes": 12912,
+      "sha256": "5312ae5feffc67d7a33051379afabb9c134dd946f1f97315d839c7d6f10d5540",
+      "role": "Metadata-only inspection; cache receipt hashes, unit/invocation, and train/valid stat-only observations match the pinned cache records."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_SOURCE_REVIEW_V4.json",
+      "bytes": 8712,
+      "sha256": "64c93d8279a2daeb15f2750e6366a0fe94a268c7b8e9a04dbdb28e4a36a56e73",
+      "schema": "fg19.first-cell-export-source-review.v4",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR",
+      "reviewed_file_count": 12
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+      "bytes": 15796,
+      "sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "row_count": 167,
+      "aggregate_file_bytes": 1629413
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/dependency_manifest.json",
+      "bytes": 7638,
+      "sha256": "d7dd24836c01543afeb80cbdd6d6b58ee8f4d464805f763fd9bd76e5083fbd61"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/first_cell_score_contract.py",
+      "bytes": 20165,
+      "sha256": "b6e3f7a9f9663f519037c54a2077f70d83fbf0b2ba54dc3e158eb5e3b173479d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/first_cell_score_core.py",
+      "bytes": 27226,
+      "sha256": "30c456e7db875e2c075a6200c857c375087b18d9c952c354ae9bd3dceb0a0143"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/first_cell_score_predictions.py",
+      "bytes": 11056,
+      "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/score_first_cell.py",
+      "bytes": 10630,
+      "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/EXPORT_ACCEPTANCE.json",
+      "bytes": 8833,
+      "sha256": "5a9a99121f80eb7fa07e4591318bea81078ca8b2db1032f150cc33afcc728d0d",
+      "status": "ACCEPTED_FIXED_FIVE_PREDICTION_EXPORTS_NOT_SCORED",
+      "quality_result": null
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/exact_stop/EXACT_STOP.json",
+      "bytes": 1140,
+      "sha256": "695e06c60452e969349b64356dcd795bcbb45892328261136f105b5f8673b72f",
+      "schema": "fg19-first-cell-export-exact-owned-stop.v1",
+      "unit": "computer-vision-homework-fg19-first-cell-export-v3.service",
+      "invocation_id": "78fa25d0abc44d199e3696d172dbc4f9"
+    }
+  ],
+  "cache_schema_review": {
+    "v11_blocker": "The bound cache terminal acceptance schema has no split_manifest_sha256; it binds the cache metadata through metadata_sha256. The metadata itself carries and pins split_manifest_sha256.",
+    "v12_predicate": "metadata.split_manifest_sha256 == SPLIT_SHA256 and acceptance.metadata_sha256 == CACHE_METADATA_SHA256",
+    "actual_metadata_relationships": {
+      "metadata_split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "acceptance_metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+      "acceptance_has_split_manifest_sha256": false,
+      "fit_admission_cache_metadata_sha256": "03d9cf1fbd20b8bb3ad7b7d0c4513293fd1d5128e816256e4bf3cdfbfa4b43e3",
+      "fit_admission_cache_acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+      "fit_admission_cache_exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+      "cache_unit": "computer-vision-homework-fg19-teacher-cache-cpu-build-v2.service",
+      "cache_invocation_id": "a358e89cd6fe42118e426a954ee897f0"
+    },
+    "array_contracts": {
+      "train": {"bytes": 1685600128, "shape": [10535, 20000, 2], "dtype": "float32"},
+      "valid": {"bytes": 224800128, "shape": [1405, 20000, 2], "dtype": "float32"}
+    },
+    "effect": "The actual pinned metadata/acceptance relationship now passes the pre-mutation schema check. The remaining receipt hashes, output metadata, and inode/device/size/mtime checks are unchanged from V11."
+  },
+  "preserved_prior_gate_bindings": {
+    "v11_incremental_source_hash_cap_review_retained": true,
+    "v11_launch_and_unknown_receipt_directory_fsync_retained": true,
+    "six_scorer_payload_b64_values_unchanged": true,
+    "all_other_body_bytes_equal_v11": true,
+    "v4_export_pair_and_12_row_source_review_retained": true,
+    "accepted_export_and_exact_stop_separately_pinned": true,
+    "ancestral_helper_source_note": "The V12 binding's helper_source pin is inherited extraction provenance, not an exact identity claim for the current V11-derived file_hash/check_source_tree implementation; the current implementation is pinned by the exact V12 body and inverse proof.",
+    "resource_limits_unchanged": {
+      "cpu_quota": "50%",
+      "memory_high_bytes": 1400000000,
+      "memory_max_bytes": 1500000000,
+      "memory_swap_max_bytes": 0,
+      "runtime_seconds": 600,
+      "blas_threads": 1,
+      "cuda_visible_devices": ""
+    }
+  },
+  "execution_state": {
+    "body_imported_or_executed": false,
+    "tests_run_by_reviewer": false,
+    "B_or_SSH_action": false,
+    "model_or_prediction_array_payload_read_or_hashed": false,
+    "score_unit_action": false,
+    "quality_claimed": false
+  }
+}

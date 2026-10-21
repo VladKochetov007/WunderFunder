@@ -1,0 +1,135 @@
+{
+  "export_authority": {
+    "acceptance": {
+      "bytes": 8833,
+      "expected_schema": "fg19.first-cell-export-acceptance.v1",
+      "expected_status": "ACCEPTED_FIXED_FIVE_PREDICTION_EXPORTS_NOT_SCORED",
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/EXPORT_ACCEPTANCE.json",
+      "sha256": "5a9a99121f80eb7fa07e4591318bea81078ca8b2db1032f150cc33afcc728d0d"
+    },
+    "binding_policy": "Root-owned acceptance and exact-stop for the one export-v3 D3 invocation must be captured, reviewed, and pinned in a later local version before actual renderer use. The exact-stop must bind the accepted export digest and same native unit/invocation. Both receipts remain unbound here.",
+    "exact_stop": {
+      "bytes": 1140,
+      "expected_schema": "fg19-first-cell-export-exact-owned-stop.v1",
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/exact_stop/EXACT_STOP.json",
+      "sha256": "695e06c60452e969349b64356dcd795bcbb45892328261136f105b5f8673b72f"
+    },
+    "expected_unit": "computer-vision-homework-fg19-first-cell-export-v3.service"
+  },
+  "fixed_worker": {
+    "blas_threads": 1,
+    "cpu_quota": "50%",
+    "cuda_visible_devices": "",
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "memory_swap_max_bytes": 0,
+    "parent_cpu_quota": "2s",
+    "runtime_seconds": 600,
+    "score_unit": "computer-vision-homework-fg19-first-cell-score-v1.service",
+    "scratch_filesystem": "ext4 device 64512"
+  },
+  "frozen_inputs": {
+    "export_binding": {
+      "bytes": 15796,
+      "path": "../first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+      "sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    "export_source_manifest": {
+      "bytes": 27569,
+      "path": "../first_cell_evaluation_export_v4/EXPORT_SOURCE_MANIFEST.json",
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "score_dependency_manifest": {
+      "bytes": 7638,
+      "path": "../first_cell_evaluation_score_v5/dependency_manifest.json",
+      "sha256": "d7dd24836c01543afeb80cbdd6d6b58ee8f4d464805f763fd9bd76e5083fbd61"
+    },
+    "score_modules": [
+      {
+        "bytes": 20165,
+        "path": "../first_cell_evaluation_score_v5/first_cell_score_contract.py",
+        "sha256": "b6e3f7a9f9663f519037c54a2077f70d83fbf0b2ba54dc3e158eb5e3b173479d"
+      },
+      {
+        "bytes": 27226,
+        "path": "../first_cell_evaluation_score_v5/first_cell_score_core.py",
+        "sha256": "30c456e7db875e2c075a6200c857c375087b18d9c952c354ae9bd3dceb0a0143"
+      },
+      {
+        "bytes": 11056,
+        "path": "../first_cell_evaluation_score_v5/first_cell_score_predictions.py",
+        "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+      },
+      {
+        "bytes": 10630,
+        "path": "../first_cell_evaluation_score_v5/score_first_cell.py",
+        "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+      }
+    ],
+    "source_review": {
+      "bytes": 8712,
+      "path": "../first_cell_evaluation_export_v4/EXPORT_SOURCE_REVIEW_V4.json",
+      "reviewed_file_count": 12,
+      "schema": "fg19.first-cell-export-source-review.v4",
+      "sha256": "64c93d8279a2daeb15f2750e6366a0fe94a268c7b8e9a04dbdb28e4a36a56e73",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    },
+    "stdlib_helper_source": {
+      "bytes": 8065,
+      "path": "../first_cell_evaluation_admission_v1/V5_STDLIB_HELPERS_EXTRACTED.py",
+      "sha256": "f82fca9bc56125433b8255aa2d1f85a438cc93e6e64f7a6634ace90a2735a9ce"
+    }
+  },
+  "limits": [
+    "V7 remains preserved as the earlier source-inventory packet bound to export-v2/V3 scorer pins; V8 does not reuse its stale producer or scorer identity.",
+    "The frozen V4 exporter / V5 scorer pair has a PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR review with 12 exact reviewed_files rows. This is source review only, not actual export acceptance.",
+    "Export-v3 acceptance and exact-stop paths, byte counts, and hashes remain null. No renderer output or admitted score body is produced here.",
+    "The one CPU score unit and score directory remain conditional; fresh source inventory, runtime gates, current export receipts, and root-controlled admission are required later.",
+    "No fit, inference, export, score, model payload, prediction payload, dataset, cache, or B operation is performed by this packet.",
+    "Root owns later actual export acceptance/stop binding, conditional source review, renderer use, and any actual score admission and result interpretation."
+  ],
+  "previous_packet": {
+    "path": "first_cell_evaluation_score_admission_v7/SCORE_ADMISSION_BINDING_PLAN_V7.json",
+    "producer_identity_stale_for_v8": true,
+    "status": "LOCAL_CONDITIONAL_TEMPLATE_ONLY_UNBOUND_NOT_REVIEWED_OR_ADMITTED_V7"
+  },
+  "read_only_export_paths": {
+    "binding": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v3/EXPORT_BINDING_V4.json",
+    "evidence_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v3",
+    "export_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v3/exports",
+    "source_manifest": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v3/EXPORT_SOURCE_MANIFEST.json"
+  },
+  "schema": "fg19.first-cell-score-admission-binding-plan.v8",
+  "scope": "V8 carries forward the reviewed V7 exact source-inventory gate and rebinds the frozen exporter V4 / scorer V5 pair. The V4/V5 producer-consumer review is source-only; actual export acceptance and exact-stop remain null. This packet is not renderable or admissible and performs no B action or score execution.",
+  "score_identity": {
+    "invocation_id": "UNBOUND_ACTUAL_SCORE_INVOCATION",
+    "result_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v3/RESULT.json",
+    "score_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_score_v1",
+    "unit": "computer-vision-homework-fg19-first-cell-score-v1.service"
+  },
+  "staging": {
+    "export_binding_or_source_manifest_copied": false,
+    "result_absence_gated_before_mutation": true,
+    "result_is_create_only": true,
+    "root_export_acceptance_and_stop_copies": 2,
+    "score_directory_created_only_after_all_gates": true,
+    "scorer_code_files": 4
+  },
+  "status": "LOCAL_CONDITIONAL_TEMPLATE_ONLY_UNBOUND_NOT_REVIEWED_OR_ADMITTED_V8",
+  "worker_arguments": [
+    "--evidence-root",
+    "EXPORT_D",
+    "--export-root",
+    "EXPORT_D/exports",
+    "--binding",
+    "EXPORT_D/EXPORT_BINDING_V4.json",
+    "--source-manifest",
+    "EXPORT_D/EXPORT_SOURCE_MANIFEST.json",
+    "--source-root",
+    "B/source-fg19-cache-68ff6829",
+    "--data-root",
+    "B/data",
+    "--out",
+    "EXPORT_D/RESULT.json"
+  ]
+}

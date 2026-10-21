@@ -1,3 +1,7 @@
+**21 October11:16UTC:** [Five fixed prediction exports accepted](EXPORT_ACCEPTANCE.json) after [strict native completion](status_20261021T1107Z/README.md); [successful export-v3 exact-stopped](exact_stop/README.md). ROOT arrays remain B-only; no scalar quality yet. Serial CPU scoring next.
+
+---
+
 **Latest dated10:32UTC:** [Same third export active at one bounded observation](startup_health_v1/README.md), one ownedGPUprocess, stat-onlyCONTROLprediction+sidecar/EMAprediction. No terminal manifest/acceptance/quality. Next routine11:00UTC+.
 
 ---

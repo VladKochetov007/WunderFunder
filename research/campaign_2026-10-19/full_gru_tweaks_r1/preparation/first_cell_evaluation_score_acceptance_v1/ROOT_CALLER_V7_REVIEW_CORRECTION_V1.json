@@ -1,0 +1,33 @@
+{
+  "schema": "fg19.first-cell-score-root-caller-review-correction.v1",
+  "status": "CORRECTS_V7_SOURCE_FINDING_MISATTRIBUTION",
+  "reviewed_at_utc": "2026-10-21",
+  "original_review": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_CALLER_SOURCE_REVIEW_V7.json",
+    "bytes": 4460,
+    "sha256": "68347d111eebd4c63bdaaa3ea6173083db512f1f930dcf3a0f42285dd8259b29",
+    "status": "REJECT_SOURCE_ONLY_EMPTY_STDERR_INPUTS"
+  },
+  "reviewed_candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_ACCEPT_SCORE_RESULT_V7.py",
+    "bytes": 32281,
+    "sha256": "811e44d27f1e6c798d11f26d450b7aed76c6c6a6cbd888de047e91cbb25a4c2e"
+  },
+  "correction": {
+    "finding_invalid": true,
+    "details": "The rejection review attributed the `not raw` check at candidate line 129 to `read()`. In the exact pinned candidate, line 129 belongs to `json_object()`. The `read()` function starts at line 144 and accepts a zero-byte regular file: its lstat size check permits size zero, the read loop returns b'', the length check accepts 0 == st_size, stable fstat identity is checked, and b'' is returned. The two stderr call sites use read(), so V7 can read the expected empty launch/status stderr files. The V7 review's only blocker is therefore based on a source-location misread and must not be used to reject V7.",
+    "scope": "This note corrects the independent review classification only. It does not change, rerun, or re-review V7 source, proof, caller, helper, reader, driver, receipts, or any result."
+  },
+  "preserved_V8_initial_draft": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_CALLER_SOURCE_REVIEW_V8_INITIAL_DRAFT.json",
+    "bytes": 5977,
+    "sha256": "64b6608c337f774699c9eb4a0d7dd20ff0de0f1771a9393740ec32db992f2ea9"
+  },
+  "reviewer_actions": {
+    "V7_or_V8_caller_executed": false,
+    "helper_imported_or_executed": false,
+    "tests_run": false,
+    "B_or_SSH_attempted": false,
+    "result_or_payload_read": false
+  }
+}

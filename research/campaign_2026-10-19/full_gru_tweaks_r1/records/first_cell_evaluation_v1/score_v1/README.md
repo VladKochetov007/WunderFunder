@@ -1,0 +1,7 @@
+# First CPU score admission preflight failed — zero units
+
+V11 exact body188823B/9dc1f047 plus independent review9627B/8c703bae was sent once at21October11:48:05.830805–06.573669UTC. [Original stdout](STDOUT.raw.json) is empty; [stderr](STDERR.raw.txt),305B/710c9b76, reports `homogeneous cache split identity differs` in `check_cache`, before SCORE_D.mkdir or systemd-run. [Transport](TRANSPORT.json) was fsynced with both raw streams before parse and records SSH1/no retry. This is one actual remote preflight, zero scientific fits and zero CPU score units. No ADMISSION/LAUNCH/score result was created.
+
+[One bounded read-only outcome](preflight_outcome_v1/README.md) confirms the exact score-v1 unit not-found/inactive/dead/PID0/empty invocation, B score directory absent, and RESULT absent. Old units and array payloads were not queried/read/hashed. Preserve all failed raw/body/review bytes; never rerun this body. The actual accepted cache metadata contains split_manifest_sha256; its accepted terminal receipt joins metadata_sha256 and has no standalone split_manifest_sha256. A new version must use the real metadata join, retain all hashes/stat/output checks and all six payloads, pass source-qualified metadata fixtures and exact source review, then enter one fresh admission. Root record score_v2 is reserved for that next attempt; B score-v1/D1 remain available because absence and zero units are confirmed.
+
+All six scientific fits and successful prediction export remain accepted/exact-stopped. No scalar quality exists.

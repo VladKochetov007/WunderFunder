@@ -1,0 +1,101 @@
+{
+  "schema": "fg19.first-cell-score-root-acceptance-caller-review.v5",
+  "status": "PASS_SOURCE_ONLY_ROOT_SCORE_ACCEPTANCE_CALLER_V5",
+  "reviewed_at_utc": "2026-10-21",
+  "scope": "Independent source-only review of the exact V5 ROOT caller and its V4 one-shot output preflight, helper, reader, status-driver, and future V12 review contract. V5 is a literal-only rebase to a separate score_v2 record and V12 admission review identity. It has not been run against any score capture.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_ACCEPT_SCORE_RESULT_V5.py",
+    "bytes": 31750,
+    "sha256": "35ddb4711f267eaf05f1df10c92acf613ab33d1868f57c43fd59abcf98ea2858"
+  },
+  "literal_rebase_proof": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_CALLER_V5_LITERAL_REBASE_PROOF.json",
+    "bytes": 2036,
+    "sha256": "5a0a4af01b66435309efde58aa4116b6e2dcce04450720d8a10b6d11e739e614",
+    "schema": "fg19.first-cell-score-root-caller-v5-literal-rebase.v1",
+    "status": "PASS_EXACT_SCORE_RECORD_AND_V12_SOURCE_REBASE"
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_ACCEPT_SCORE_RESULT_V4.py",
+      "bytes": 31750,
+      "sha256": "074cb822cbcb16a5b25ec28cbeb7f8dbd4d2395340c125ed8ee298b2a0584e17",
+      "role": "Reviewed base with symlink-aware output preflight and one-shot partial-write policy."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_CALLER_SOURCE_REVIEW_V4.json",
+      "bytes": 7666,
+      "sha256": "5ebc3e35cfa135ebb105d3fdce62a85aef2b3a40b61cf452425f375023329209",
+      "schema": "fg19.first-cell-score-root-acceptance-caller-review.v4",
+      "status": "PASS_SOURCE_ONLY_ROOT_SCORE_ACCEPTANCE_CALLER_V4"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_CALLER_V4_PREFLIGHT_PROOF.json",
+      "bytes": 1349,
+      "sha256": "0b008c38a11aa9487d8d2cd3e0fc93cab9fc42d12826263fe8e7fc0d65560644",
+      "status": "PASS_EXACT_SYMLINK_AWARE_PREFLIGHT_AND_ONE_SHOT_POLICY_PATCH"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/score_result_acceptance.py",
+      "bytes": 45795,
+      "sha256": "5987d527382f0ce33e72b4c17ae020d03485df3057b398ae285940ead29d528b"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/SOURCE_REVIEW_V1.json",
+      "bytes": 5695,
+      "sha256": "31dd246873448a214f772be5793b13cff12b7fcb1d79d4cdc64009fcaf8a56f0",
+      "schema": "fg19.first-cell-score-result-acceptance-source-review.v1",
+      "status": "PASS_SOURCE_ONLY_ROOT_RESULT_ACCEPTANCE_V1"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/SCORE_RESULT_CAPTURE_TEMPLATE_V4.py",
+      "bytes": 26354,
+      "sha256": "88968f6dd73d4b489c4fc57308906c5e390137a49389ab991408408f353b9be6"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/INDEPENDENT_SOURCE_REVIEW_V4.json",
+      "bytes": 5655,
+      "sha256": "b05b06a6e56888348e30ebe0ded0272a5e9f3ca709037feb975b938b4d0bb7d0",
+      "status": "PASS_SOURCE_ONLY_READER_V4_HARD_BOUNDED_UNBOUND"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_CAPTURE_SCORE_STATUS_V2.py",
+      "bytes": 8895,
+      "sha256": "e7b479e8237e6ca1f23417ce7a685c3e08fc4bb772fcfc33775634e680f8748c"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_SCORE_STATUS_DRIVER_SOURCE_REVIEW_V2.json",
+      "bytes": 5662,
+      "sha256": "ae7d68b74b61423d4ef15f93ca9e1c30581287229fd03d9028c2a80ee54b264e",
+      "status": "PASS_SOURCE_ONLY_SCORE_STATUS_DRIVER_V2_PINNED_READER_V4_CALLER_PATH_CONSTRAINED"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "resolved_by_rebase",
+      "finding": "V5 changes exactly five top-level literals from V4: RECORD to score_v2, admission body path to V12, admission review path to V12, and matching review schema/status. The rebase proof reports the normalized AST otherwise identical. The earlier score_v1 preflight failure is not queried, stopped, or retried by V5."
+    }
+  ],
+  "source_contract": {
+    "target_record": "records/first_cell_evaluation_v1/score_v2",
+    "required_admission_body": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v12/REMOTE_SUBMISSION_V12.py",
+    "required_admission_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v12/ACTUAL_SCORE_ADMISSION_SOURCE_REVIEW_V12.json",
+      "schema": "fg19.first-cell-score-admission-actual-source-review.v12",
+      "status": "PASS_SOURCE_ONLY_ACTUAL_SCORE_BODY_V12"
+    },
+    "exact_helper_and_reader_provenance_checks_retained": true,
+    "reader_five_literal_ast_and_raw_transport_joins_retained": true,
+    "score_launch_receipt_and_four_key_base64_joins_retained": true,
+    "dangling_symlink_preflight_for_both_outputs_retained": true,
+    "one_shot_partial_write_policy_retained": true
+  },
+  "execution_state": {
+    "caller_executed": false,
+    "helper_imported_or_executed": false,
+    "tests_run_by_reviewer": false,
+    "B_or_SSH_attempted": false,
+    "score_result_or_payload_read": false,
+    "quality_claimed": false
+  }
+}

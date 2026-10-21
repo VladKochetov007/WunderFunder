@@ -1,0 +1,101 @@
+{
+  "actions": {
+    "model_data_cache_prediction_payload_read": false,
+    "remote_or_B_action": false,
+    "retry_performed": false,
+    "source_import_or_test": false,
+    "unit_query_or_stop": false
+  },
+  "attempt": {
+    "actual_plan": {
+      "bytes": 7184,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/ACTUAL_BINDING_PLAN_V8.json",
+      "sha256": "3f01d788083a340e4a35b1a311626f7e72da6f1024891cba756090071f90823f"
+    },
+    "body_or_binding_written": false,
+    "command": ".venv/bin/python -E -B preparation/first_cell_evaluation_score_admission_v8/ACTUAL_RENDER_SCORE_ADMISSION_V8.py",
+    "configured_binding_output": {
+      "exists": false,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/SCORE_ADMISSION_SOURCE_BINDING_V8.json"
+    },
+    "configured_body_output": {
+      "exists": false,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/REMOTE_SUBMISSION_TEMPLATE_V8.py"
+    },
+    "failed_gate": "The V8 renderer checks the helper byte/hash pin before reading scorer source payloads, ROOT receipts, or importing its body template.",
+    "failure": "ValueError: V5 stdlib helper extraction pin differs",
+    "renderer": {
+      "bytes": 18261,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/ACTUAL_RENDER_SCORE_ADMISSION_V8.py",
+      "sha256": "b01ef376c9a9cf131485123c5fea8bf7af436b8e7cc62e761753c4408801b7b6"
+    }
+  },
+  "authority_receipts": {
+    "note": "These authority receipts were already present before the renderer attempt; the renderer failed at the helper-pin check before reading them.",
+    "root_exact_stop": {
+      "bytes": 1140,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/exact_stop/EXACT_STOP.json",
+      "sha256": "695e06c60452e969349b64356dcd795bcbb45892328261136f105b5f8673b72f"
+    },
+    "root_export_acceptance": {
+      "bytes": 8833,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/EXPORT_ACCEPTANCE.json",
+      "sha256": "5a9a99121f80eb7fa07e4591318bea81078ca8b2db1032f150cc33afcc728d0d"
+    }
+  },
+  "lineage": {
+    "extracted_function_count": 12,
+    "extracted_helper_names": [
+      "require",
+      "digest",
+      "json_object",
+      "stable_file",
+      "file_hash",
+      "_bounded_gpu_query",
+      "_memory_bytes",
+      "_bounded_proc_read",
+      "_proc_starttime",
+      "show",
+      "write_exclusive",
+      "write_json_exclusive"
+    ],
+    "extraction_method": "exact UTF-8 source spans selected by top-level AST FunctionDef names; no ast.unparse or transformation",
+    "extraction_output": {
+      "bytes": 8125,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/V5_STDLIB_HELPERS_EXTRACTED.py",
+      "sha256": "c8d3b5b6645446f183dec84e79154c94dcdcb7e3dcc4f641685d39b88a26fa43"
+    },
+    "successful_v6_admission_source_binding": {
+      "bytes": 22263,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v6/ADMISSION_SOURCE_BINDING_V6.json",
+      "sha256": "1175c095fa21b0cf2d26544ea9817f943fb5270b6539813a7b78353220c645c9"
+    },
+    "v5_extraction_record": {
+      "bytes": 5559,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/V5_STDLIB_HELPER_EXTRACTION_V1.json",
+      "sha256": "3e99ae10722ae99b190dc9b349e925db8be52a5bec1176a36aa985cc8343a1ad"
+    },
+    "v6_embedded_provenance_equals_v5_extraction_record": true,
+    "v6_helper_source_pin": {
+      "bytes": 8125,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/V5_STDLIB_HELPERS_EXTRACTED.py",
+      "sha256": "c8d3b5b6645446f183dec84e79154c94dcdcb7e3dcc4f641685d39b88a26fa43"
+    }
+  },
+  "pin_comparison": {
+    "current_helper": {
+      "bytes": 8125,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/V5_STDLIB_HELPERS_EXTRACTED.py",
+      "sha256": "c8d3b5b6645446f183dec84e79154c94dcdcb7e3dcc4f641685d39b88a26fa43"
+    },
+    "frozen_renderer_expected_helper": {
+      "bytes": 8065,
+      "sha256": "f82fca9bc56125433b8255aa2d1f85a438cc93e6e64f7a6634ace90a2735a9ce"
+    },
+    "result": "The frozen renderer expectation is stale relative to exact source-qualified helper metadata; do not retry this renderer or mutate the frozen source."
+  },
+  "recorded_at_utc": "2026-10-21T11:20:44.776791+00:00",
+  "schema": "fg19.first-cell-score-admission-render-v8-helper-pin-negative.v1",
+  "scope": "One local renderer attempt only. No B/network/SSH/systemd action, no model/data/cache/prediction payload access, and no tests or old suites.",
+  "status": "FAIL_CLOSED_LOCAL_RENDER_NO_OUTPUT_HELPER_PIN_MISMATCH"
+}

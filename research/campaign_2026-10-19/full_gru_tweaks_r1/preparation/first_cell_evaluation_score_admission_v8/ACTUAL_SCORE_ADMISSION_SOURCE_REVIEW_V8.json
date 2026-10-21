@@ -1,0 +1,34 @@
+{
+  "schema": "fg19.first-cell-score-admission-source-review.v8",
+  "status": "REJECT_SOURCE_ONLY_ZERO_B",
+  "reviewed_utc": "2026-10-21T11:34:45+00:00",
+  "subject": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/REMOTE_SUBMISSION_TEMPLATE_V8.py",
+    "bytes": 187541,
+    "sha256": "cbb339e6225152e12fb044ce60a6c7cf3f7d58d00f395790097ea7a2e037fd11"
+  },
+  "binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/SCORE_ADMISSION_SOURCE_BINDING_V8.json",
+    "bytes": 5422,
+    "sha256": "b23d12daa1cb1a4d43f84507e1799ef045c0a9c105a5cf04bf3374005482b9e2"
+  },
+  "finding": {
+    "id": "launch-receipt-parent-directory-not-fsynced-before-reply",
+    "severity": "blocking",
+    "source_location": {
+      "submit_once_launch_write_line": 1817,
+      "main_pre_submit_directory_fsync_lines": [1874, 1882],
+      "main_launch_reread_line": 1884
+    },
+    "description": "The body creates and fsyncs LAUNCH.json after systemd submission, then returns to main. The only SCORE_D directory fsync occurs before submit_once, after ADMISSION.json and unit.log creation. main subsequently rereads LAUNCH.json and returns the four-key reply without fsyncing SCORE_D after the LAUNCH directory entry was created. File fsync alone does not durably commit that directory entry, so the required durable launch receipt is not established before the reply.",
+    "required_correction": "Add a narrowly scoped fsync of the already-created SCORE_D directory after successful submit_once/LAUNCH.json creation and before the launch reread or outer reply. Preserve the existing unknown-outcome/no-retry branch and all other body bytes."
+  },
+  "review_scope": {
+    "source_only": true,
+    "b_action": false,
+    "imports_or_tests_run": false,
+    "payload_or_array_reads": false,
+    "no_quality_or_fit_claim": true
+  },
+  "decision": "This exact body is not authorized by this review for an actual score-unit admission. Preserve it and its binding as historical source; any corrected body requires a new versioned source review."
+}

@@ -1,0 +1,34 @@
+{
+  "schema": "fg19.first-cell-score-admission-v8-durability-negative.v1",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ACTION",
+  "scope": "Preserve the exact V8 rendered body/binding and its source review; record one pre-B durability finding for a versioned source-only correction.",
+  "prior_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/REMOTE_SUBMISSION_TEMPLATE_V8.py",
+    "bytes": 187541,
+    "sha256": "cbb339e6225152e12fb044ce60a6c7cf3f7d58d00f395790097ea7a2e037fd11"
+  },
+  "prior_binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/SCORE_ADMISSION_SOURCE_BINDING_V8.json",
+    "bytes": 5422,
+    "sha256": "b23d12daa1cb1a4d43f84507e1799ef045c0a9c105a5cf04bf3374005482b9e2"
+  },
+  "prior_renderer_source_review": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/ACTUAL_RENDER_SCORE_ADMISSION_V9_SOURCE_REVIEW.json",
+    "bytes": 7893,
+    "sha256": "224f145a5488a5efbe1ea1031d54117aa2010950260a8ffa96d7a547acaf52ee"
+  },
+  "finding": {
+    "location": "main after launch = submit_once(admission), before stable_file(SCORE_D / \"LAUNCH.json\") and the bounded four-key reply",
+    "details": "write_json_exclusive(LAUNCH.json, launch) fsyncs the file, but the parent SCORE_D directory entry is not fsynced after successful submission before the durable launch reread and four-key reply.",
+    "required_narrow_correction": "Fsync SCORE_D using the same open/fsync/finally-close block as the pre-submit directory durability block, immediately after submit_once returns and before stable_file rereads LAUNCH.json."
+  },
+  "preservation": {
+    "prior_body_mutated": false,
+    "prior_binding_mutated": false,
+    "prior_source_review_mutated": false,
+    "new_body_rendered": false,
+    "B_or_network_action": false,
+    "score_unit_action": false,
+    "model_or_array_payload_read": false
+  }
+}

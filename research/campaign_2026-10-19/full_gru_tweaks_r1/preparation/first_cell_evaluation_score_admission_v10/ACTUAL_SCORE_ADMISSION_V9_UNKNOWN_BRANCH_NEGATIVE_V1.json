@@ -1,0 +1,16 @@
+{
+  "schema": "fg19.first-cell-score-admission-source-negative.v1",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "rejected_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v9/REMOTE_SUBMISSION_V9.py",
+    "bytes": 187751,
+    "sha256": "039d52fc297ddfe7b537baab905dbb23933df780f2a815d0ed48aa862c7bd662"
+  },
+  "binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v9/SCORE_ADMISSION_SOURCE_BINDING_V9.json",
+    "bytes": 5516,
+    "sha256": "2798dc1cee7279425fc4d69c9ef5adcedd8736f3a619392abe40fdab4d448e68"
+  },
+  "finding": "The post-submit SCORE_D directory fsync was only in main after submit_once returned. submit_once writes LAUNCH_UNRESOLVED.json and raises on unresolved invocation, and writes LAUNCH.json before checking failed-or-unknown submission outcomes; those receipt branches therefore bypassed the main fsync. V10 moves the successful LAUNCH directory fsync into submit_once immediately after LAUNCH.json creation and adds the same fsync after LAUNCH_UNRESOLVED.json creation before raising. The original pre-submit directory fsync remains.",
+  "scope": "Metadata-only source finding. No worker was submitted and no B action, import, test execution, or model/payload access occurred for this finding. Preserve V9 source and binding bytes unchanged."
+}

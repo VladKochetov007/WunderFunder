@@ -1,0 +1,3 @@
+# Third scorer: dated running observation
+
+The one bounded [raw observation](STDOUT.raw.json), [transport](TRANSPORT.json), [derived metadata](OBSERVATION.json), [bound reader](REMOTE.py) and [literal-binding proof](AST_BINDING.json) record score-v3/invocation9bd64d6759e8462bb40985b06a9a0ad6 at 13:04:50.478023 UTC, active/running. RESULT was not read. This snapshot is historical, superseded by the [terminal capture](../status_capture_v2/README.md), [ROOT acceptance](../SCORE_ACCEPTANCE.json) and [exact stop](../exact_stop/README.md). Admission and launch copies retain the original bytes. No prediction, model or data arrays were read by this observation.

@@ -1,0 +1,3 @@
+# Source-only diagnostic failure — 21 October12:34UTC
+
+One read-only diagnostic [source](REMOTE.py) failed before central-directory observation: its bounded wrapper rejected stdlib zipfile's EOF read(-1). [Raw stdout](STDOUT.raw.json) is empty; [stderr](STDERR.raw.txt),512B/e9491d8b, and [transport](TRANSPORT.json) preserve SSH1 with raw-first persistence. No unit query, mutation, array decoding or quality result. The separate [V2 diagnostic](../npz_index_diagnostic_v2/README.md) changes only wrapper handling of a negative read size to a bounded EOF remainder; original bytes remain frozen. This diagnostic is not a CPU worker or scientific fit.

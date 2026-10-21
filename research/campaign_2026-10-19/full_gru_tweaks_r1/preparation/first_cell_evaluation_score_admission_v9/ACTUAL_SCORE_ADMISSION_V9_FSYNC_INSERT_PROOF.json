@@ -1,0 +1,43 @@
+{
+  "builder": {
+    "bytes": 4564,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v9/build_score_admission_v9_from_v8.py",
+    "sha256": "b5f5942ed85f25d4848b489e17eeca9c1598bbe0a381f1a3136e289b0f4e56eb"
+  },
+  "new_binding": {
+    "bytes": 5516,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v9/SCORE_ADMISSION_SOURCE_BINDING_V9.json",
+    "sha256": "2798dc1cee7279425fc4d69c9ef5adcedd8736f3a619392abe40fdab4d448e68"
+  },
+  "new_body": {
+    "bytes": 187751,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v9/REMOTE_SUBMISSION_V9.py",
+    "sha256": "039d52fc297ddfe7b537baab905dbb23933df780f2a815d0ed48aa862c7bd662"
+  },
+  "prior_binding": {
+    "bytes": 5422,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/SCORE_ADMISSION_SOURCE_BINDING_V8.json",
+    "sha256": "b23d12daa1cb1a4d43f84507e1799ef045c0a9c105a5cf04bf3374005482b9e2"
+  },
+  "prior_body": {
+    "bytes": 187541,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/REMOTE_SUBMISSION_TEMPLATE_V8.py",
+    "sha256": "cbb339e6225152e12fb044ce60a6c7cf3f7d58d00f395790097ea7a2e037fd11"
+  },
+  "schema": "fg19.first-cell-score-admission-v9-fsync-insert-proof.v1",
+  "scope": "Local byte/AST/metadata proof only; no body execution, imports, tests, B action, or model/array payload access.",
+  "single_change": {
+    "ast_inverse_restores_v8": true,
+    "byte_inverse_restores_v8": true,
+    "inserted_block": "    directory_fd = os.open(\n        SCORE_D, os.O_RDONLY | getattr(os, \"O_DIRECTORY\", 0) | getattr(os, \"O_NOFOLLOW\", 0)\n    )\n    try:\n        os.fsync(directory_fd)\n    finally:\n        os.close(directory_fd)\n",
+    "position": "immediately after successful submit_once(admission), before stable_file rereads LAUNCH.json",
+    "same_embedded_payload_b64_mapping": true,
+    "unchanged_binding_contract_and_six_payload_pins": true
+  },
+  "source_negative": {
+    "bytes": 2014,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v9/ACTUAL_SCORE_ADMISSION_V8_DURABILITY_NEGATIVE_V1.json",
+    "sha256": "a4395fea3c52117dd5240086faacd109a555a42d252c912038fad8ffb48200ec"
+  },
+  "status": "PASS_EXACT_ONE_BLOCK_INVERSE_AND_SIX_PAYLOAD_PINS"
+}

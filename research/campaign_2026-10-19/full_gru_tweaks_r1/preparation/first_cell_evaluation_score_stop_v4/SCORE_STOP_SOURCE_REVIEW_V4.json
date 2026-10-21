@@ -1,0 +1,89 @@
+{
+  "schema": "fg19.first-cell-score-stop-source-review.v4",
+  "status": "PASS_SOURCE_ONLY_SCORE_STOP_V4_UNIT_V3_UNBOUND",
+  "reviewed_at_utc": "2026-10-21",
+  "scope": "Independent source-only review of the conditional unit-v3 score-stop template and ROOT raw-first capture driver. The actual score acceptance, body/review pins, invocation, and stop are not bound or executed by this review.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v4/STOP_SCORE_TEMPLATE_V3.py",
+    "bytes": 11984,
+    "sha256": "34383a33d3d8c4efa1bdf84d2c22769ef55934b59b35b1d3f9a27c08effbb10c"
+  },
+  "root_driver": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v4/ROOT_CAPTURE_SCORE_STOP_V4.py",
+    "bytes": 12159,
+    "sha256": "848e1573059dd2c3e829166fed018e750f6d8a312d0c6497262967ec0d96d160"
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v4/STOP_SCORE_TEMPLATE_V3.py",
+      "bytes": 11984,
+      "sha256": "34383a33d3d8c4efa1bdf84d2c22769ef55934b59b35b1d3f9a27c08effbb10c"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v4/ROOT_CAPTURE_SCORE_STOP_V4.py",
+      "bytes": 12159,
+      "sha256": "848e1573059dd2c3e829166fed018e750f6d8a312d0c6497262967ec0d96d160"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v4/SCORE_STOP_V4_NAMESPACE_PROOF.json",
+      "bytes": 1775,
+      "sha256": "1e6fb20e082b14931f5fe3163150da9739d9927d3ef9b22f2f3caeec8c54b2a2",
+      "schema": "fg19.first-cell-score-stop-v4-namespace-proof.v1",
+      "status": "PASS_NARROW_SCORE_V3_STOP_NAMESPACE_FORK"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v3/STOP_SCORE_TEMPLATE_V2.py",
+      "bytes": 11984,
+      "sha256": "88166701e24daa43b8a06244d5b0712eaeaba01c078afb569c43d81db17b49f5"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v3/ROOT_CAPTURE_SCORE_STOP_V3.py",
+      "bytes": 12159,
+      "sha256": "ce9220dcf37ccf1fc96e184e90d9feaf47dffe2ff16c60d55a2832034fb0d055"
+    }
+  ],
+  "source_review": {
+    "method": "Compared the exact candidate template and ROOT driver against their frozen predecessors and inspected the namespace-fork proof. No template import or main call, SSH/systemd/cgroup query, stop action, ROOT acceptance/result read, test, or model/prediction/data/cache payload access was performed.",
+    "namespace_delta": {
+      "template_changed_literal_only": "SCORE_UNIT score-v2 to score-v3",
+      "driver_changed_literals_only": [
+        "private stop directory score_v3/exact_stop to score_v4/exact_stop",
+        "SCORE_UNIT score-v2 to score-v3",
+        "unit identity guard and diagnostic text score-v2 to score-v3"
+      ],
+      "other_template_and_driver_code_unchanged": true,
+      "target_unit": "computer-vision-homework-fg19-first-cell-score-v3.service",
+      "target_private_stop_directory": "records/first_cell_evaluation_v1/score_v4/exact_stop"
+    },
+    "remote_stop_gates": {
+      "acceptance_schema_and_status_exact": true,
+      "acceptance_unit_and_invocation_join_required": true,
+      "strict_native_success_exit_required_before_stop": true,
+      "before_process_cgroup_must_be_empty": true,
+      "only_exact_score_unit_stop_submitted": true,
+      "after_state_must_be_not_found_inactive_dead_pid_zero_empty_invocation": true,
+      "after_process_cgroup_must_be_empty": true,
+      "systemctl_and_cgroup_reads_bounded": true,
+      "unknown_or_failed_outcome_is_preserved_and_never_retried": true
+    },
+    "root_capture_gates": {
+      "actual_body_review_acceptance_and_invocation_pins_must_be_bound": true,
+      "exact_existing_score_v4_stop_directory_required": true,
+      "acceptance_and_remote_body_are_stable_sha_pinned_before_ssh": true,
+      "previous_stop_outcome_files_reject_before_ssh": true,
+      "one_ssh_attempt_only": true,
+      "raw_stdout_stderr_and_transport_saved_before_parse": true,
+      "stop_stdout_written_verbatim_as_exact_stop_after_validation": true,
+      "create_only_files_and_per_file_directory_fsync": true
+    },
+    "acceptance_path_dependency": "The local stop driver reads records/first_cell_evaluation_v1/score_v4/SCORE_ACCEPTANCE.json. ROOT must provide the exact successful result acceptance at that path, and the body/review/invocation literals remain unbound. The remote template checks that the result path is nonempty but relies on the exact ROOT acceptance producer and its pin to establish the fixed evaluation-v3 RESULT.json path.",
+    "execution_state": {
+      "acceptance_or_result_read_by_reviewer": false,
+      "stop_template_or_driver_executed": false,
+      "systemd_or_cgroup_queried": false,
+      "ssh_or_stop_action_by_reviewer": false,
+      "tests_run_by_reviewer": false,
+      "quality_claim": false
+    }
+  }
+}

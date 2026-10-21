@@ -1,0 +1,9 @@
+# First-cell streaming scorer V7
+
+V7 is a local source repair for the score-v2 worker’s metadata preflight failure. V6 gave `_preflight_npz_members` a two-byte limit for the registered train/valid target archives. The captured metadata shows the selected `row_group.npy` and `seq_ix.npy` members are 84,976 bytes for train and 15,112 bytes for validation, while unrelated `y.npy` and `mask.npy` members are large and are not needed to validate those indexes.
+
+V7 changes only `first_cell_score_core.py`. For target/index archives it now selects only the exact, unique `row_group.npy` and `seq_ix.npy` members, enforces the existing 64 MB expanded-size bound, and reads only their bounded NPY v1.0 headers. Headers must describe one-dimensional, non-object little-endian int64 arrays whose payload size matches the ZIP directory size. The existing graph/fold cache preflight remains unchanged and continues to bound every member. The canonical split loader remains responsible for content hashes, index digests, components, and folds.
+
+The source proof binds the persisted ZIP-metadata diagnostic and its independent review, then reverses the V7 source delta byte-for-byte to the frozen V6 core. Synthetic fixtures use fabricated archive metadata and small NPY byte strings; they do not open the four real NPZ files or read their arrays. The failed score-v2 attempt and D2 remain historical and untouched. This packet contains no new admission, worker run, score result, or quality claim; it does not authorize querying, stopping, retrying, or restarting the failed unit.
+
+See [`dependency_manifest.json`](dependency_manifest.json), [`SCORE_V7_NPZ_INDEX_PREFLIGHT_PROOF.json`](SCORE_V7_NPZ_INDEX_PREFLIGHT_PROOF.json), [`prove_score_v7_npz_index_preflight.py`](prove_score_v7_npz_index_preflight.py), and [`test_score_v7_npz_index_preflight.py`](test_score_v7_npz_index_preflight.py) for exact pins and scope.

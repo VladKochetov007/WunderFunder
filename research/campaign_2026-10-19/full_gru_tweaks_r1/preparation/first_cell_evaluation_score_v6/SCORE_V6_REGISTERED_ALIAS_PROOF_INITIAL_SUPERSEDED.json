@@ -1,0 +1,113 @@
+{
+  "actual_metadata_inputs": {
+    "alias_parent_diagnostic": {
+      "bytes": 3218,
+      "path": "records/first_cell_evaluation_v1/score_v2/alias_parent_diagnostic_v1/STDOUT.raw.json",
+      "sha256": "e6c08c71185d34c8763ec4fc983d72a91003d3626e6dc2da6a53926c49cb8380"
+    },
+    "export_binding_v4": {
+      "bytes": 15796,
+      "path": "preparation/first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+      "sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    "fit_admission": {
+      "bytes": 12912,
+      "path": "records/child_allthree_fit_v1/ADMISSION.json",
+      "sha256": "5312ae5feffc67d7a33051379afabb9c134dd946f1f97315d839c7d6f10d5540"
+    },
+    "score_v2_admission": {
+      "bytes": 69650,
+      "path": "records/first_cell_evaluation_v1/score_v2/ADMISSION.json",
+      "sha256": "1252b2f1d39ef255fac83c722cfc1a380705963a0b2f9dede35dcabed45ba631"
+    }
+  },
+  "actual_metadata_joins": {
+    "actual_parent_resolutions": {
+      "cache": {
+        "device": 64512,
+        "inode": 725819756,
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache",
+        "resolved": "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache"
+      },
+      "datasets": {
+        "device": 64512,
+        "inode": 743836258,
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/datasets",
+        "resolved": "/home/grinchenkoeg/WunderFunder/datasets"
+      }
+    },
+    "export_binding_registered_six_sources_equals_fit_admission": true,
+    "no_historical_parent_inode_or_resolution_baseline_claimed": true,
+    "parent_diagnostic_before_equals_after": true,
+    "score_v2_fresh_six_leaf_stats_equal_registered_leaf_stats": true
+  },
+  "boundary": {
+    "no_b_access": true,
+    "no_checkpoint_model_or_prediction_payload_access": true,
+    "no_scorer_execution": true,
+    "only_bounded_local_json_metadata_read": true
+  },
+  "schema": "fg19.first-cell-score-v6-registered-alias-source-proof.v1",
+  "source_delta": {
+    "changed_behavior": "Retain exact registered leaf target and full leaf stat/link identity; compare fresh parent resolution and parent device/inode across the bounded observation instead of requiring an unsupported hardcoded parent target.",
+    "core_ast_inverse_restores_v5": true,
+    "core_exact_inverse_restores_v5_bytes": true,
+    "inverse_block_count": 3,
+    "only_changed_staged_module": "first_cell_score_core.py"
+  },
+  "staged_modules": {
+    "first_cell_score_contract.py": {
+      "byte_identical": true,
+      "v5": {
+        "bytes": 20165,
+        "path": "preparation/first_cell_evaluation_score_v5/first_cell_score_contract.py",
+        "sha256": "b6e3f7a9f9663f519037c54a2077f70d83fbf0b2ba54dc3e158eb5e3b173479d"
+      },
+      "v6": {
+        "bytes": 20165,
+        "path": "preparation/first_cell_evaluation_score_v6/first_cell_score_contract.py",
+        "sha256": "b6e3f7a9f9663f519037c54a2077f70d83fbf0b2ba54dc3e158eb5e3b173479d"
+      }
+    },
+    "first_cell_score_core.py": {
+      "byte_identical": false,
+      "v5": {
+        "bytes": 27226,
+        "path": "preparation/first_cell_evaluation_score_v5/first_cell_score_core.py",
+        "sha256": "30c456e7db875e2c075a6200c857c375087b18d9c952c354ae9bd3dceb0a0143"
+      },
+      "v6": {
+        "bytes": 26965,
+        "path": "preparation/first_cell_evaluation_score_v6/first_cell_score_core.py",
+        "sha256": "961f566eaeec0cd7e9ab48788666d03da9b0482810a11f16a019b083cfc65005"
+      }
+    },
+    "first_cell_score_predictions.py": {
+      "byte_identical": true,
+      "v5": {
+        "bytes": 11056,
+        "path": "preparation/first_cell_evaluation_score_v5/first_cell_score_predictions.py",
+        "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+      },
+      "v6": {
+        "bytes": 11056,
+        "path": "preparation/first_cell_evaluation_score_v6/first_cell_score_predictions.py",
+        "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+      }
+    },
+    "score_first_cell.py": {
+      "byte_identical": true,
+      "v5": {
+        "bytes": 10630,
+        "path": "preparation/first_cell_evaluation_score_v5/score_first_cell.py",
+        "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+      },
+      "v6": {
+        "bytes": 10630,
+        "path": "preparation/first_cell_evaluation_score_v6/score_first_cell.py",
+        "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+      }
+    }
+  },
+  "status": "PASS_LOCAL_SOURCE_PROOF_NO_SCORE_EXECUTION"
+}

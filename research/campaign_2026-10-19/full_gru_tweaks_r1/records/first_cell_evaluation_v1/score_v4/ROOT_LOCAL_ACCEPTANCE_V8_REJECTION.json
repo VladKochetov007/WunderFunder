@@ -1,0 +1,27 @@
+{
+  "schema": "fg19.first-cell-score-root-local-v8-acceptance-rejection.v1",
+  "status": "LOCAL_METADATA_VALIDATOR_REJECTED_BEFORE_OUTPUT_WRITES",
+  "source_caller": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_ACCEPT_SCORE_RESULT_V8.py",
+    "bytes": 32463,
+    "sha256": "5a0c984140e227933db5c94ca7c6b02ad4278ade2542dc920173c940da31b8ec"
+  },
+  "actual_result": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/status_capture_v2/RESULT.json",
+    "bytes": 33852,
+    "sha256": "1646d8656a042ce49b355f22521134206d601c1dbac3697991fcd308aa1a94d5"
+  },
+  "reported_exception": "ValueError: score report five fixed model/receipt identities differ from the binding; helperV3 build_root_acceptance line951",
+  "source_cause": "HelperV3 _expected_fixed_models added checkpoint.loaded_sha256, whereas actual scorer fixed_models serializes dict(arm[model]) with bytes,relative_path,sha256 only. The CPU scorer consumes accepted predictions and never loads checkpoints. Existing export authority binds loaded models.",
+  "outputs_absent_after_rejection": [
+    "SCORE_ACCEPTANCE.json",
+    "ROOT_ACCEPTANCE_BINDING.json"
+  ],
+  "attempts": 1,
+  "B_actions": 0,
+  "new_worker_units": 0,
+  "scientific_fits": 0,
+  "score_replay": false,
+  "result_bytes_unchanged": true,
+  "next": "New source-reviewed helperV4 expected checkpoint shape and callerV9; full actual-metadata in-memory fixture before next ROOT application. Original helpers/callers/result remain unchanged."
+}

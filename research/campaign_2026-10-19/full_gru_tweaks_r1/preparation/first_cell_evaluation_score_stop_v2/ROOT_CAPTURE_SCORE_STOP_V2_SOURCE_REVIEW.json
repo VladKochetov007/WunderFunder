@@ -1,0 +1,65 @@
+{
+  "schema": "fg19.first-cell-score-stop-root-driver-review.v2",
+  "status": "PASS_CONDITIONAL_SOURCE_ONLY_ROOT_CAPTURE_DRIVER_V2_UNBOUND",
+  "scope": "Static source and metadata review only; no import, test, SSH, B query, unit action, acceptance read, or score/model/array payload access.",
+  "reviewed_at_utc": "2026-10-21T11:53:28Z",
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v2/ROOT_CAPTURE_SCORE_STOP_V2.py",
+      "bytes": 12159,
+      "sha256": "4f8dd6387460acf94d69af8d5a9de92dfd2552e1961c216e535d41f13b8f857a"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v2/ROOT_CAPTURE_SCORE_STOP_V2_REBASE_PROOF.json",
+      "bytes": 1092,
+      "sha256": "6cba30292c05ccfcf5bb52c1c8eecedd087564eb0161b82904077933bf6e51bc"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v2/prove_root_capture_score_stop_v2_rebase.py",
+      "bytes": 3904,
+      "sha256": "8d542fb055621798a760f218245f6b281ee6a1fc8b99aa5c2d72f6ecb326c937"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v1/ROOT_CAPTURE_SCORE_STOP_V1.py",
+      "bytes": 12159,
+      "sha256": "ad36cac11a2dc67cde3fe61463742537430e97683f63530cb7ce8fe30e75c39d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v1/ROOT_CAPTURE_SCORE_STOP_V1_PROOF.json",
+      "bytes": 3304,
+      "sha256": "568c2a4521a8dcbe2fc8e6ac3f3ec81090e61ad754cc7748770e5c4c0ccc39f8"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v1/STOP_SCORE_TEMPLATE_V1.py",
+      "bytes": 11984,
+      "sha256": "c9647858157b4c1d33e104a89321556a5ce67dfa19e26cae53ad7972faad03ef"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v1/SOURCE_REVIEW_V1.json",
+      "bytes": 3396,
+      "sha256": "318080c49975eb6ccb61692a9d9861caca2d76b8dad38484869846b7f120396a"
+    }
+  ],
+  "review_findings": [
+    "The V2 ROOT driver changes only the local stop-record path from score_v1/exact_stop to score_v2/exact_stop. Its inverse AST proof passes, and the exact systemd unit remains computer-vision-homework-fg19-first-cell-score-v1.service because that is the accepted unit identity.",
+    "Before its single SSH invocation, the driver requires its fixed stop directory, an existing non-symlink ROOT acceptance file, positive exact body/review/acceptance pins, a strict 32-character invocation ID, and absence of all four raw/transport/stop outputs including dangling symlinks.",
+    "The embedded acceptance is checked for the exact schema/status/unit/invocation and pending-stop state; native terminal values are strict integers 0/1/0, and the result has the fixed schema/status and positive byte count plus SHA-256. The remote stop response is checked against the exact 14-key contract and joins the acceptance and result hashes.",
+    "The driver submits one exact pinned body with one SSH attempt and no retry path. It writes raw stdout and stderr create-only and fsyncs them before transport validation or stop-response parsing. The remote template's independent review and frozen proof cover the exact-unit stop, strict before/after states, empty campaign cgroup snapshots, selector-driven bounded child-process pipes, cgroup traversal limits, and one bounded JSON response.",
+    "The prior conditional template review covers STOP_SCORE_TEMPLATE_V1.py and its fixture; it does not review the ROOT capture driver. This artifact supplies the separate source-only review of the V2 ROOT driver and binds the V1 remote template review/proof as its conditional remote-boundary evidence."
+  ],
+  "limitations": [
+    "ROOT uses subprocess.run(capture_output=True, timeout=60) and checks stdout/stderr byte limits after return. This is a time-bounded transport with post-capture size validation, not a hard pre-capture local memory cap. The approval is conditional on the exact remote template's reviewed output bounds and makes no ROOT-side precapture memory claim.",
+    "The actual score body, independent body review, score acceptance, and invocation pins remain deliberately unbound; this source review is not an actual stop authorization or receipt.",
+    "Raw output files are separate create-only writes. If any write fails after the remote stop may have run, preserve all paths and inspect the exact local source and raw files read-only; never rerun or blindly retry."
+  ],
+  "conditional_boundary": {
+    "unit": "computer-vision-homework-fg19-first-cell-score-v1.service",
+    "record_directory": "records/first_cell_evaluation_v1/score_v2/exact_stop",
+    "actual_body_review_acceptance_invocation_bound": false,
+    "remote_template_review": {
+      "schema": "fg19.first-cell-score-stop-source-review.v1",
+      "status": "PASS_CONDITIONAL_SOURCE_ONLY_STOP_TEMPLATE_UNBOUND",
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_stop_v1/SOURCE_REVIEW_V1.json"
+    }
+  }
+}

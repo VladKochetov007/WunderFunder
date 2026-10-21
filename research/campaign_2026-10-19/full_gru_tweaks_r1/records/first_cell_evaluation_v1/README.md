@@ -1,3 +1,19 @@
+**21 October13:29UTC — fixed first-cell comparison completed and stopped:** [Final five-arm report](../../FIRST_CELL_COMPARISON_20261021.md) records all five fixedep5 scores on468 fit-excluded EXPOSED development groups. CONTROL WP0.674830; EMA0.674779; Sparse0.674935; NLL0.675569; AllThree0.675909. AllThree−CONTROL+0.001078, unadjusted paired95% component CI[+0.000069,+0.002245]; the other three intervals cross zero. These intervals are conditional on the fixed models, not fit-seed/public-transfer uncertainty. [ROOT acceptance](score_v4/SCORE_ACCEPTANCE.json) was durable13:23UTC before [Exact stop](score_v4/exact_stop/README.md)13:29UTC of only successful score-v3; both failed score units remain preserved/excluded. All6scientificfits and5separate prerequisites are closed, no further fits/re-export/retuning. [Independent metadata audit](score_v4/ACTUAL_SCORE_ACCEPTANCE_METADATA_REVIEW.json) verifies original RESULT/scalar/source joins without ROOT array reads. [Final source/recovery index](../../preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021_V6.md) preserves versioned source gates and negatives. [Publication validation](../../PUBLICATION_VALIDATION_20261021_FIRST_CELL_SCORED.json) records final local publication checks.
+
+---
+
+**21 October12:22UTC:** [First actual score worker failed before scoring](score_v2/status_capture_v1/README.md); [physical parent/leaf layout observed stat-only](score_v2/alias_parent_diagnostic_v1/README.md). Scorer/helper parent-metadata repair source-qualified; new worker-v2/D2 pending fresh admission. No scalar quality; failed worker-v1 preserved forever.
+
+---
+
+**21 October11:59UTC:** [First actual serial CPU score unit admitted](score_v2/README.md), separate from [zero-unit first preflight](score_v1/README.md). Launch only, no scalar quality yet; next bounded capture12:02UTC+.
+
+---
+
+**21 October11:16UTC:** [Third export terminal accepted and exact-stopped](export_v5/status_20261021T1107Z/README.md). All five fixed outputs accepted; no score yet. Failed units preserved; no new fits.
+
+---
+
 **21 October10:32UTC:** [Third export remains active at one bounded observation](export_v5/startup_health_v1/README.md), one ownedGPUprocess/stat-onlyoutputinventory. No terminal acceptance or quality; next routine11:00UTC+.
 
 ---
