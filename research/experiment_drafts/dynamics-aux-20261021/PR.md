@@ -2,9 +2,11 @@
 
 1. **Status, lineage and owner.** `H-FUTURE-INPUT-DYNAMICS-20261021-R1` /
    `E-FUTURE-INPUT-DYNAMICS-20261021-R1`. Code is implemented on local branch
-   `experiment/dynamics-aux-20261021`; four focused CPU tests and static checks
-   pass. No profile, scientific fit, export grade, or result review has run.
-   The screen is cold-initialized and cold-screen-only.
+   `experiment/dynamics-aux-20261021`, implementation commit
+   `b83147cf3264df68d6fe77b827fcedbca0be6a50` based on
+   `3eeb2a9c2a0f456112f76175122deab376c764b3`; four focused CPU tests and
+   static checks pass. No profile, scientific fit, export grade, or result
+   review has run. The screen is cold-initialized and cold-screen-only.
    Owner: root for profile, fits, predictions and evidence integration. A
    strong-parent continuation requires a separately reviewed extension because
    the current auxiliary CLI validation rejects `--init`.
@@ -34,7 +36,8 @@
 5. **Bounded fitting panel.** Two fits per arm, four new scientific fits total:
    F0/seed1001 control and treatment; F2/seed1002 control and treatment. The
    frozen F0 subset is reused byte-for-byte (1,118 train/118 valid); F2 uses the
-   frozen sibling-generated subset (1,148 train/141 valid). These are membership
+   frozen sibling-generated subset (1,148 train/141 valid), from commit
+   `b1b680d4a700d353f3e6db4f761f6670bd02fc7f`. These are membership
    artifacts, not reused model fits. There are0 reused exact model/control
    fits,0 teachers, and0 students. Root admits the entire panel only after
    sustained actual-shape profiling under the accepted three-GPU-hour screen
