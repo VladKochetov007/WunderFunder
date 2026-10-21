@@ -58,3 +58,5 @@ The one-off `wnn-next-native-source-restore-20261021.service` / invocation`4f484
 ## First i1 epoch and checkpoint verified
 
 [I1 F0/B epoch0](I1_FIRST_EPOCH_R1.json) completed635.1seconds/1,540finiteupdates, zero skips/nonfinitegradients. Both8.8MBcheckpoint and27MBtrainingstate saved; post-saveOOM0. Epoch1isactive. CP2remainsfixed, no interimqualityselection. No additionalheavyjobadmitted.
+
+[Draft PR #33](https://github.com/VladKochetov007/WunderFunder/pull/33) publishes the cycle implementation/recovery handoff against research-team. [Publication receipt](PUBLICATION_R1.json) records the isolated merge preserving both histories; no branch integration or quality promotion. Active fits keep their frozen source. Generated-tree refresh and merged-source checks remain pending a spare CPU slot.
