@@ -53,15 +53,25 @@ subset ID `E-PLATEAU-I1-20261021-R1`). The F2 manifest binds split SHA-256
 evaluation has 443 groups. F0 binds split SHA-256
 `09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d` and has
 1,118 train plus 118 valid fitting sequences; its evaluation has 468 groups.
-The F2 membership file is frozen in sibling branch
-`experiment/i1-screen-20261021`, commit
-`b1b680d4a700d353f3e6db4f761f6670bd02fc7f`; root must integrate that exact
-artifact before running F2. Do not regenerate it.
+The F2 membership file is included at the canonical i1 path as an exact copy
+from sibling branch `experiment/i1-screen-20261021`, commit
+`b1b680d4a700d353f3e6db4f761f6670bd02fc7f`; its SHA remains
+`841576ddd469befa98b37d1a567e47462979f298314b2a4cf4a399beb5ddc908`. The
+root must preserve that hash when integrating the i1 and dynamics branches. Do
+not regenerate it.
 No model fit is reused. There are two new fits per arm, four total, and zero
 teacher or student fits.
 
-[recipe.json](recipe.json) carries the four exact fit commands and full-fold
-prediction/official-score commands. [PR.md](PR.md) is the review handoff.
+[recipe.json](recipe.json) indexes four literal fit/predict/score plans and a
+110-batch F0/seed1001 aux005 profile plan. The profile omits
+`--save-training-state`; all fits include it. Launch plans with
+`WNN_LOADER_WORKERS=0` so the loader cannot auto-spawn workers. The profile
+subprocess wall recorded by `scripts/kaggle_sequence.py` includes the full
+feature-only target-statistics pass over unique selected fitting groups, input
+normalization, loader setup and all110 batches; the trainer's per-batch profile
+does not include setup. [The campaign folder](../../campaign_2026-10-21/next_cycle_r1/dynamics/README.md)
+contains the exact invocations and the fixed paired full-fold grader.
+[PR.md](PR.md) is the review handoff.
 Prediction comparison must retain each paired F0/F2 cell and the fixed 90/10
 control/candidate mixture; two fold/seed cells cannot separate fold
 from seed variation or establish significance. All folds are exposed, and no
@@ -77,7 +87,9 @@ strong-parent continuation requires a new recipe and explicit compatibility
 work before it can be run.
 
 The focused CPU command `uv run pytest tests/test_dynamics_auxiliary.py -q`
-passed all four tests in2.35s under root's serialized 1-core/1.8-GB CPU slot,
-with `PYTHONPATH` pointed at this worktree's `src`. Ruff check and
+previously passed all four tests in2.35s under root's serialized 1-core/1.8-GB
+CPU slot, with `PYTHONPATH` pointed at this worktree's `src`. This continuation
+did not rerun tests or import project modules because root reserved current CPU
+resources for other work. Ruff check and
 `scripts/check_training_structure.py` also pass. No model-quality, runtime,
 B300 profile, parity, or export-grade result is claimed here.
