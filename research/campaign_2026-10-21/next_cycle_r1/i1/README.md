@@ -97,6 +97,7 @@ The panel files are:
   wrapper with all five fixed contrasts, point scores in four time bins, and
   paired component intervals for whole-fold comparisons; no F2 result or
   full-panel promotion claim.
+- [`fixed_mix_geometry_r1/`](fixed_mix_geometry_r1/README.md): code-only, source-bound F0 diagnostic for the fixed 90/10 B/C mixture with the same 90/10 B/A control. It streams existing complete-fold predictions and reports raw/clipped weighted geometry; root review and execution are pending.
 - [`tests/test_i1_history.py`](../../../../tests/test_i1_history.py):
   synthetic causal, reset, mask, restoration, initialization-equivalence, and
   profile-argv validation checks.
