@@ -6,6 +6,8 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [Conditional F0/F1 parent catalog and warm-initialization compatibility](STRONG_PARENT_F0_F1_WARM_INIT_CATALOG_20261022_R1.md) — metadata-only inventory for the accepted conditional four-fit follow-up. It pins source-qualified F0/F1 parents, target caches, propensity assets and prior two-epoch controls, and identifies the exact current inheritance gates for `i1_history` and the dynamics head. Treatment remains unselected; no tensors, arrays, tests or fits were used.
+
 - [H512 endpoint interpretation review](H512_ENDPOINT_INTERPRETATION_REVIEW_20261021_R1.md) — independent source/JSON interpretation of the completed same-host replay, TL3 exposure receipt, H512 prediction geometry and first F0 i1 A/B/C cell. It rules out a material current-host replay explanation for the fixed endpoint gap, distinguishes full-fold six-epoch H512 fitting from the separate 10% i1 screen, ranks exposure/objective mismatch above architectural explanations, and treats the small fixed history mixture as unresolved. No arrays, tests, fits, or provider work. E-H512-ENDPOINT-DIAGNOSIS-20261021-R1 / E-PLATEAU-I1-20261021-R1.
 
 - [NLL continuation decision review](NLL_CONTINUATION_DECISION_REVIEW_20261021_R1.md) — independent Luna/max metadata review before the F0 grade. It distinguishes the matched seven-endpoint screen from the all-data/unknown-ancestry TL3 diagnostic, recommends conditional F1 robustness work, and identifies the target/head differences that must be resolved for production training. No new quality result or job admission.
