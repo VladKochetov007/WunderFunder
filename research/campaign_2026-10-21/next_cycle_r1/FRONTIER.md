@@ -70,3 +70,9 @@ The tiny source-restoration observer was restarted alone as invocation`ded13f33b
 ## Native recovery complete; i1 first control in final epoch
 
 [Recovered native grade](NATIVE_GRADE_R3.json): originalTL3 0.70181812; CP5replacement 0.69445462 (−0.00736350); SWA345replacement 0.69444908 (−0.00736904). SWA−CP5 −0.00000553, interval[−0.00029533,+0.00026122]. Bothfullreplays/grade succeeded and temporaryexporterpin restored. Evidence is exposedF0fitteddiagnostic, unknownretainedTL3ancestry; no promotion. CPU-only native work charged0GPUseconds. I1F0/B has3,080completedupdates andlastobservedfinalepochbatch120/154; correctedworker OOM0/skips0. No complete paired screen result yet. No newheavyjobadmittedbythisstatuscheck.
+
+## User-directed interpretation and next diagnostics
+
+The user requested continued research and reconsideration of overlooked explanations. Root froze [the no-fit diagnostic plan](ENDPOINT_DIAGNOSIS_PLAN_R1.json); two independent source-only reviews found no mask, order, wrapper, or native-backend mismatch. R3 closes the older replay-source discrepancy. The leading unresolved explanations are conditional member utility, H512-specific native precision/scale effects, and unequal unknown TL3 exposure. Separate NumPy covariance/time-bin analysis and an eight-component native FP32/int8 probe are being prepared in isolated worktrees; neither is a coefficient search or a new scientific fit. Root owns bounded execution and interpretation.
+
+I1 F0/B completed all 4,620 updates and the full-fold export in 2,053.26 seconds; official WP0.65907416 (t0 0.64821999, t1 0.66992832), finite coverage1.0/skips0. This is the 10%-component small-screen control, not a comparison with full-data TL3. F0/A now runs. CPU checks passed after removing a stale error-text regex in a pre-existing rejection test; see [verification receipt](QUALITY_RECEIPT_R2.json). No numerical/model change was needed.
