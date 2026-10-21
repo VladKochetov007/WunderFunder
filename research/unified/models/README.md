@@ -1,5 +1,7 @@
 # Model families and training
 
+- [TL3 H512 member packager](../../campaign_2026-10-20/submission_delivery_r1/tl3_member_packager_r1/README.md) — reuses checkpoint/archive helpers to replace only the plain student, preserving original native libraries, tied members and coefficients. Static review and a17.1MBengineering fixture pass. Python3.11 native reset checks pass; a bounded alternating panel costs1.303×originalTL3. The fixture uses weak historical weights and must not be submitted; actual candidate quality/runtime remain unmeasured.
+
 - [Active H512 follow-up](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md) — one admitted coldF0/seed1003 strict-FP32 six-epoch fit derived from partial PR25width evidence; fixedCP5 and predeclaredSWA345 endpoints/75–25blends. Current model is running, no score; all-data final training remains conditional.
 
 - [Actual matched GRU continuation results](../../campaign_2026-10-20/submission_delivery_r1/nll_adaptation/RESULTS_F0_R1.md) — two completed strict-FP32 continuation fits, seven fixed exposed-F0 endpoints. OldZ4/WMSE blend gains+.00035747WP at the point estimate; NLL has no matched advantage. Component intervals remain broad; one seed/fold, historical mixed-precision ancestry, no TL3/new-public-best claim.

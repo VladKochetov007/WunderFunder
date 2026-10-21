@@ -1,0 +1,267 @@
+{
+  "schema": "wnn.tl3-h512-endpoint-screen.v1",
+  "status": "NOT_ADMITTED",
+  "purpose": "Prepare a fixed native full-endpoint replay and paired grade for the admitted H512 F0 checkpoint and its predeclared SWA345 mean.",
+  "scope": {
+    "new_scientific_fits": 0,
+    "new_teacher_fits": 0,
+    "new_coefficients_or_endpoint_search": 0,
+    "current_fit_authority": "The H512 CP5 fit is governed only by H512_FIT_AND_PRODUCTION_PLAN_R1.json, FIT_ADMISSION_R1.json, and FIT_TERMINAL_ACCEPTANCE_R1.json.",
+    "this_packet_admits_quality_or_submission": false,
+    "output": "Two fixed replacement packages plus the already cached original TL3 endpoint; root reviews replay and grade evidence before promotion."
+  },
+  "source_pins": {
+    "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "source_archive": {
+      "path": "submissions/team_tl3_original_20261018.zip",
+      "sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569"
+    },
+    "fold0_split": {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "valid_parquet_footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+    },
+    "evaluation_manifest": {
+      "path": "research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/evaluation_manifest.json",
+      "sha256": "94d2226849ec0822bce5cf53890bda6aa41a0677f7d77da231a9b6495f22069b"
+    },
+    "valid_targets": {
+      "path": "cache/valid_targets.npz",
+      "bytes": 337186198,
+      "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "index_sha256": "ed030f767a6c650db666844ecffef21f0e96cc9fa2d7e77a0872bdf26c5bed38",
+      "shape": {
+        "y": [
+          1873,
+          20000,
+          2
+        ],
+        "mask": [
+          1873,
+          20000
+        ],
+        "row_group": [
+          1873
+        ],
+        "seq_ix": [
+          1873
+        ]
+      },
+      "grading": "Reuse campaign_score.mmap_stored_npz for stored-array memory maps; copy only the 468 selected sequences into scoring buffers."
+    },
+    "official_metric": {
+      "id": "global_wp_clip2_v1",
+      "implementation": "src/wnn/gmetric.py::global_wp",
+      "implementation_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+    },
+    "paired_bootstrap": {
+      "implementation": "src/wnn/evaluation.py::paired_component_moments and paired_component_bootstrap",
+      "implementation_sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+      "unit": "connected component",
+      "n_boot": 2000,
+      "seed": 271828
+    },
+    "target_cache_mapper": {
+      "path": "research/campaign_2026-09-30/audit/campaign_score.py::mmap_stored_npz",
+      "sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39"
+    },
+    "reused_native_replay_sources": {
+      "f0_source.py": "c9e8b186515595dc4de68e8fe72a47d68f6080a8c1d71704fcc31dd67d9b1c2a",
+      "f0_replay.py": "c7c173fc8f7804de04b9b96b65906ec6cad89a035f485a5ddc45141a297ef1b3",
+      "native_runtime.py": "47e5e7c77a0c56c9bb597602daaea20aa9b81e418bb815ff8097c602bd921f05"
+    },
+    "package_source": {
+      "scripts/package_tl3_h512_member.py": "14dac5e42f57595043cd773ff6cbe8ba987d50b79a6265757e69d51e627f869a",
+      "scripts/package_submission.py": "51468297d2da604d8f3c8236fb7d6722b8b0d57a637eace94ccb1810b03cf4c4",
+      "scripts/tl3_source_archive.py": "4960d4b77419a717503fd5f1b0dc2f214881bf6010e576ce59511068bf36ee46",
+      "scripts/team_member_export_lib.py": "d7d27a1debe2ec5354c60d0adf7a119b0d6321c334b55a74f7222de4b3252775",
+      "src/wnn/native_representation.py": "93d323e5e7abfb077ceff56a24f3056c430cdf923264e30895c9f77794c6ff80"
+    },
+    "fit_source": {
+      "run": "r01_h512_f0_s1003_local_cp5_r1",
+      "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "plan_sha256": "51d797d1d568d98b0d9553c934721aab2826ba5d4d61b96a24e496ce514c7ec9",
+      "screen_sha256": "f6b3b954cd2253a9eac10032c9a053f7abcd55e359c41c2062ed3bdeff2920d8",
+      "accepted_receipt": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/FIT_TERMINAL_ACCEPTANCE_R1.json",
+      "accepted_receipt_producer_sha256": "64bb60c2661a8d402fe8561c149b2eaf944da7b6df50d3f58b9af6e9faffc502"
+    }
+  },
+  "endpoints": {
+    "original_tl3": {
+      "kind": "cached_reference",
+      "zip": "submissions/team_tl3_original_20261018.zip",
+      "zip_sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569",
+      "predictions": "cache/pred_tl3_unknown_ancestry_f0_valid.npy",
+      "predictions_sha256": "3a7456f0a2e294a852618535b9e3f2551fc15c5b70fd033824bddb10be83bbe3",
+      "sidecar": "cache/pred_tl3_unknown_ancestry_f0_valid.json",
+      "sidecar_sha256": "b9d8b7371dbff016d48e155da154cd87d85c887cb08921e86caabba082059910",
+      "ancestry": "Unknown; potentially trained on F0 or validation."
+    },
+    "h512_cp5_replacement": {
+      "endpoint_key": "cp5",
+      "h512_run": "r01_h512_f0_s1003_local_cp5_r1",
+      "checkpoint": "artifacts/runs/r01_h512_f0_s1003_local_cp5_r1/model_ep5.pt",
+      "package_output_dir": "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-cp5",
+      "fixed_members": [
+        {
+          "weights": "weights_s5.npz",
+          "name": "r01_h512_f0_s1003_local_cp5_r1@ep5",
+          "coefficient": 0.34
+        },
+        {
+          "weights": "weights_tl5.npz",
+          "name": "fttall_tlead_s5@ep3",
+          "coefficient": 0.33
+        },
+        {
+          "weights": "weights_tl6.npz",
+          "name": "fttall_tlead_s6@ep3",
+          "coefficient": 0.33
+        }
+      ],
+      "preserve_original_cpp_and_wrapper": true,
+      "source_gate": "Must match accepted CP5 terminal receipt, run provenance/checkpoint hashes, pinned package code, source ZIP hash, all protected ZIP entry hashes, and exact members.json. artifact_role alone is insufficient."
+    },
+    "h512_swa345_replacement": {
+      "endpoint_key": "swa345",
+      "h512_run": "r01_h512_f0_s1003_local_swa345_r1",
+      "checkpoint": "artifacts/runs/r01_h512_f0_s1003_local_swa345_r1/model_ep5.pt",
+      "derivation": "equal parameter mean of source epochs 3, 4, and 5; deterministic derivation, no new fit",
+      "package_output_dir": "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-swa345",
+      "fixed_members": [
+        {
+          "weights": "weights_s5.npz",
+          "name": "r01_h512_f0_s1003_local_swa345_r1@ep5",
+          "coefficient": 0.34
+        },
+        {
+          "weights": "weights_tl5.npz",
+          "name": "fttall_tlead_s5@ep3",
+          "coefficient": 0.33
+        },
+        {
+          "weights": "weights_tl6.npz",
+          "name": "fttall_tlead_s6@ep3",
+          "coefficient": 0.33
+        }
+      ],
+      "preserve_original_cpp_and_wrapper": true,
+      "source_gate": "Must match accepted CP5 receipt, fixed SWA345 derivation receipt/output hashes/provenance, pinned package code, source ZIP hash, all protected ZIP entry hashes, and exact members.json. artifact_role alone is insufficient."
+    }
+  },
+  "evaluation": {
+    "split": "F0 source-qualified complete valid sequences; 468 groups and 141 connected components.",
+    "selected_rows": 808863,
+    "official_score_mask": "cached valid_targets.npz is_scored mask AND need_prediction rows starting at WARMUP=99",
+    "comparisons": [
+      [
+        "h512_cp5_replacement",
+        "original_tl3"
+      ],
+      [
+        "h512_swa345_replacement",
+        "original_tl3"
+      ],
+      [
+        "h512_swa345_replacement",
+        "h512_cp5_replacement"
+      ]
+    ],
+    "interpretation": "All three scores use the complete three-member serving endpoint. The baseline has unknown ancestry and is F0 exposed; replacing its student does not repair the two retained members' unknown ancestry. Treat every endpoint score and delta as a fitted diagnostic, not clean CV."
+  },
+  "runtime_paths": {
+    "cp5": {
+      "zip": "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-cp5/submission.zip",
+      "build_receipt": "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-cp5/BUILD_RECEIPT.json",
+      "predictions": "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0.npy",
+      "sidecar": "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0.json",
+      "replay_receipt": "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0_replay.json"
+    },
+    "swa345": {
+      "zip": "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-swa345/submission.zip",
+      "build_receipt": "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-swa345/BUILD_RECEIPT.json",
+      "predictions": "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_swa345_f0.npy",
+      "sidecar": "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_swa345_f0.json",
+      "replay_receipt": "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_swa345_f0_replay.json"
+    },
+    "grade": "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_screen_grade_r1.json"
+  },
+  "commands": {
+    "after_root_accepts_fit_and_before_replay": [
+      [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "scripts/package_tl3_h512_member.py",
+        "--run-reference",
+        "r01_h512_f0_s1003_local_cp5_r1@ep5",
+        "--runs-dir",
+        "artifacts/runs",
+        "--output-dir",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-cp5",
+        "--artifact-role",
+        "production_candidate"
+      ],
+      [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "scripts/package_tl3_h512_member.py",
+        "--run-reference",
+        "r01_h512_f0_s1003_local_swa345_r1@ep5",
+        "--runs-dir",
+        "artifacts/runs",
+        "--output-dir",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-swa345",
+        "--artifact-role",
+        "production_candidate"
+      ]
+    ],
+    "replay": [
+      [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/replay_h512_tl3_endpoint.py",
+        "cp5",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "--zip",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-cp5/submission.zip",
+        "--build-receipt",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-cp5/BUILD_RECEIPT.json",
+        "--output-predictions",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0.npy",
+        "--output-sidecar",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0.json",
+        "--output-receipt",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0_replay.json"
+      ],
+      [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/replay_h512_tl3_endpoint.py",
+        "swa345",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "--zip",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-swa345/submission.zip",
+        "--build-receipt",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-swa345/BUILD_RECEIPT.json",
+        "--output-predictions",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_swa345_f0.npy",
+        "--output-sidecar",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_swa345_f0.json",
+        "--output-receipt",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_swa345_f0_replay.json"
+      ]
+    ],
+    "grade": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/grade_h512_tl3_endpoints.py",
+      "--root",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "--output",
+      "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_screen_grade_r1.json"
+    ]
+  },
+  "limitations": [
+    "The CP5 fit has 96.2% of usable source sequences and F0 is already exposed; the screen is a one-fold, one-seed local endpoint comparison.",
+    "The other two retained TL3 members have unknown ancestry, so complete endpoint deltas cannot be presented as clean CV gains.",
+    "SWA345 is an adaptive descendant of the same CP5 fit, not an independent fit or replication.",
+    "A successful replay and grade establish output compatibility and a local fitted diagnostic only; root separately decides quality promotion and submission admission."
+  ]
+}

@@ -10047,8 +10047,8 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 978,
-      "hypotheses": 570,
+      "experiments": 992,
+      "hypotheses": 574,
       "journal": 159
     }
   },
@@ -47389,6 +47389,134 @@
         }
       ],
       "title": "Increasing capacity, useful causal history and training at a measured data-reuse frontier can improve official held-out teacher quality; distillation is optional.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:objective",
+        "matches": [
+          "family:objective"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-NLL-STRONG-GRU-20261020-R1",
+      "latest_recorded_status": "two_fit_directional_screen_running",
+      "parent_id": "family:objective",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"H-NLL-STRONG-GRU-20261020-R1\",\"parent_ids\":[],\"mechanism_family\":\"heteroscedastic target likelihood\",\"statement\":\"Learning conditional target variance can reduce harmful gradient emphasis and improve a strong GRU mean prediction or complementary fixed blend.\",\"predicted_observable\":\"NLL continuation improves official WP versus matched WMSE or improves fixed50/50 parent-NLL endpoint.\",\"falsifier\":\"The matched NLL child and fixed blend both lose without useful target/position behavior; narrows this objective/clipping/initialization recipe.\",\"status\":\"two_fit_directional_screen_running\",\"source\":\"research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/README.md\",\"timestamp_utc\":\"2026-10-20T20:34:36.068571+00:00\"}\n",
+          "record": {
+            "falsifier": "The matched NLL child and fixed blend both lose without useful target/position behavior; narrows this objective/clipping/initialization recipe.",
+            "id": "H-NLL-STRONG-GRU-20261020-R1",
+            "mechanism_family": "heteroscedastic target likelihood",
+            "parent_ids": [],
+            "predicted_observable": "NLL continuation improves official WP versus matched WMSE or improves fixed50/50 parent-NLL endpoint.",
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/README.md",
+            "statement": "Learning conditional target variance can reduce harmful gradient emphasis and improve a strong GRU mean prediction or complementary fixed blend.",
+            "status": "two_fit_directional_screen_running",
+            "timestamp_utc": "2026-10-20T20:34:36.068571+00:00"
+          },
+          "source": {
+            "line": 571,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "04825b80ab42cf217590cf7a8b33997d58936fa5b962ff2c13bab033fee7ee23"
+          }
+        }
+      ],
+      "title": "Learning conditional target variance can reduce harmful gradient emphasis and improve a strong GRU mean prediction or complementary fixed blend.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:optimization",
+        "matches": [
+          "family:optimization"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-NLL-GRADIENT-WEIGHTING-20261021-R1",
+      "latest_recorded_status": "not_tested_conditional_on_current_grade",
+      "parent_id": "family:optimization",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-NLL-GRADIENT-WEIGHTING-20261021-R1\", \"parent_ids\": [\"H-NLL-STRONG-GRU-20261020-R1\"], \"mechanism_family\": \"heteroscedastic objective optimization\", \"statement\": \"Attenuating inverse-variance mean gradients with detached variance weighting may preserve useful mean learning under global clipping.\", \"predicted_observable\": \"A fixed beta0.5 treatment changes gradient/clipping distribution and improves the mean endpoint against compatible beta0/WMSE controls.\", \"falsifier\": \"No useful mean/blend gain despite reduced gradient scaling, conditional on complete matched comparison.\", \"status\": \"not_tested_conditional_on_current_grade\", \"new_fits_admitted\": 0, \"source\": \"research/unified/sources/NLL_GRADIENT_WEIGHTING_20261021_R1.md\", \"timestamp_utc\": \"2026-10-20T22:27:45.435277+00:00\"}\n",
+          "record": {
+            "falsifier": "No useful mean/blend gain despite reduced gradient scaling, conditional on complete matched comparison.",
+            "id": "H-NLL-GRADIENT-WEIGHTING-20261021-R1",
+            "mechanism_family": "heteroscedastic objective optimization",
+            "new_fits_admitted": 0,
+            "parent_ids": [
+              "H-NLL-STRONG-GRU-20261020-R1"
+            ],
+            "predicted_observable": "A fixed beta0.5 treatment changes gradient/clipping distribution and improves the mean endpoint against compatible beta0/WMSE controls.",
+            "source": "research/unified/sources/NLL_GRADIENT_WEIGHTING_20261021_R1.md",
+            "statement": "Attenuating inverse-variance mean gradients with detached variance weighting may preserve useful mean learning under global clipping.",
+            "status": "not_tested_conditional_on_current_grade",
+            "timestamp_utc": "2026-10-20T22:27:45.435277+00:00"
+          },
+          "source": {
+            "line": 572,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "167755c3a5532eef0f40fcead63bc7ca9f3e38f50c44ac49f9a6bdf24b13e26a"
+          }
+        }
+      ],
+      "title": "Attenuating inverse-variance mean gradients with detached variance weighting may preserve useful mean learning under global clipping.",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:temporal",
+          "family:optimization",
+          "family:ensemble"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-R01-H512-LOCAL-20261021-R1",
+      "latest_recorded_status": null,
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-R01-H512-LOCAL-20261021-R1\", \"parent_hypothesis\": \"PR25width-depthpartial12pairs\", \"status\": \"testing\", \"mechanism\": \"A wider single GRU recurrent state may preserve useful dynamics better than a narrower stackedstate; test standalone and fixedblend contribution. SWA345 is a separate zero-fit interaction endpoint.\", \"prior_evidence\": \"12 B300matchedpairs/4folds/3seeds; widewins9/12; sourceadaptationdisclosed\", \"decision\": \"Runone localF0 fit afteractualprofile; finalall-data ifendpoint/costsupport\", \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md\", \"timestamp_utc\": \"2026-10-20T23:20:47.148805+00:00\"}\n",
+          "record": {
+            "decision": "Runone localF0 fit afteractualprofile; finalall-data ifendpoint/costsupport",
+            "id": "H-R01-H512-LOCAL-20261021-R1",
+            "mechanism": "A wider single GRU recurrent state may preserve useful dynamics better than a narrower stackedstate; test standalone and fixedblend contribution. SWA345 is a separate zero-fit interaction endpoint.",
+            "parent_hypothesis": "PR25width-depthpartial12pairs",
+            "prior_evidence": "12 B300matchedpairs/4folds/3seeds; widewins9/12; sourceadaptationdisclosed",
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md",
+            "status": "testing",
+            "timestamp_utc": "2026-10-20T23:20:47.148805+00:00"
+          },
+          "source": {
+            "line": 573,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "75b9ed5dfb7b8ee142bf1276e25b2b600a907dbbb7e0906ef94cd1d6f7b054d8"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"H-R01-H512-LOCAL-20261021-R1\", \"event\": \"lineage_clarification\", \"parent_ids\": [], \"mechanism_family\": \"recurrent_capacity_and_trajectory_averaging\", \"clarification\": \"The previous parent_hypothesis string is a prose reference to PR25, not a registered hypothesis ID. The precise sources and partial prior panel are bound by the recipe; no fabricated parent node is claimed.\", \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md\"}\n",
+          "record": {
+            "clarification": "The previous parent_hypothesis string is a prose reference to PR25, not a registered hypothesis ID. The precise sources and partial prior panel are bound by the recipe; no fabricated parent node is claimed.",
+            "event": "lineage_clarification",
+            "id": "H-R01-H512-LOCAL-20261021-R1",
+            "mechanism_family": "recurrent_capacity_and_trajectory_averaging",
+            "parent_ids": [],
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md"
+          },
+          "source": {
+            "line": 574,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "21fefa1f1dbe01b7132efd8963836380fba1271100607638d3ddc0c645bb8fae"
+          }
+        }
+      ],
+      "title": "H-R01-H512-LOCAL-20261021-R1",
       "type": "hypothesis"
     },
     {
@@ -91490,6 +91618,441 @@
       "type": "experiment"
     },
     {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-OVERNIGHT-NLL-ADAPTATION-R1",
+      "latest_recorded_status": "inconclusive",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\":\"E-OVERNIGHT-NLL-ADAPTATION-R1\",\"hypothesis_ids\":[\"H-NLL-STRONG-GRU-20261020-R1\"],\"event\":\"two_profiles_passed_two_fits_admitted\",\"status\":\"running\",\"new_fits_total\":2,\"new_fits_per_arm\":1,\"new_teacher_fits\":0,\"quality_result\":null,\"exposure\":\"exposedF0 single seed3; historicalFP16 initializer/teacher ancestry\",\"source\":\"research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/README.md\",\"admission\":\"research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/fit_admission.json\",\"local_gpu_seconds_completed\":41.3,\"timestamp_utc\":\"2026-10-20T20:34:36.068571+00:00\"}\n",
+          "record": {
+            "admission": "research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/fit_admission.json",
+            "event": "two_profiles_passed_two_fits_admitted",
+            "exposure": "exposedF0 single seed3; historicalFP16 initializer/teacher ancestry",
+            "hypothesis_ids": [
+              "H-NLL-STRONG-GRU-20261020-R1"
+            ],
+            "id": "E-OVERNIGHT-NLL-ADAPTATION-R1",
+            "local_gpu_seconds_completed": 41.3,
+            "new_fits_per_arm": 1,
+            "new_fits_total": 2,
+            "new_teacher_fits": 0,
+            "quality_result": null,
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/README.md",
+            "status": "running",
+            "timestamp_utc": "2026-10-20T20:34:36.068571+00:00"
+          },
+          "source": {
+            "line": 979,
+            "path": "research/experiments.jsonl",
+            "sha256": "423d3779967d4108fedec9cd12ec27b47f2fbcc9518f42a5f2d42a11650eae79"
+          }
+        },
+        {
+          "raw_record": "{\"id\":\"E-OVERNIGHT-NLL-ADAPTATION-R1\",\"event\":\"pre_outcome_endpoint_amendment\",\"status\":\"fits_running_no_new_score\",\"endpoints_total\":7,\"new_fits_total\":2,\"fixed_additions\":[\"oldZ4FP32\",\"0.75oldZ4+0.25WMSE\",\"0.75oldZ4+0.25NLL\"],\"rationale\":\"Evaluate contribution to the stronger saved endpoint under commonFP32 inference.\",\"source\":\"research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/score_plan_r1.json\",\"independent_ancestry_review\":\"overnight_evidence_audit,13run records,8teacher sources; source-qualifiedF0membership exclusions verified\",\"timestamp_utc\":\"2026-10-20T20:45:27.085102+00:00\"}\n",
+          "record": {
+            "endpoints_total": 7,
+            "event": "pre_outcome_endpoint_amendment",
+            "fixed_additions": [
+              "oldZ4FP32",
+              "0.75oldZ4+0.25WMSE",
+              "0.75oldZ4+0.25NLL"
+            ],
+            "id": "E-OVERNIGHT-NLL-ADAPTATION-R1",
+            "independent_ancestry_review": "overnight_evidence_audit,13run records,8teacher sources; source-qualifiedF0membership exclusions verified",
+            "new_fits_total": 2,
+            "rationale": "Evaluate contribution to the stronger saved endpoint under commonFP32 inference.",
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/score_plan_r1.json",
+            "status": "fits_running_no_new_score",
+            "timestamp_utc": "2026-10-20T20:45:27.085102+00:00"
+          },
+          "source": {
+            "line": 980,
+            "path": "research/experiments.jsonl",
+            "sha256": "57dc8e3be15f9a4f55bed1efe22a873c2892676bbea7077caa347dbcd2ec6e3b"
+          }
+        },
+        {
+          "raw_record": "{\"id\":\"E-OVERNIGHT-NLL-ADAPTATION-R1\",\"event\":\"bounded_post_fit_delivery_admitted\",\"status\":\"waiting_for_exact_pair_success\",\"new_fits\":0,\"new_prediction_exports\":3,\"fixed_endpoints\":7,\"worker_cap_seconds\":2700,\"source\":\"research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/post_fit_admission.json\",\"control_epoch0\":{\"train_seconds\":2100.9,\"completed_updates\":7460,\"nonfinite_steps\":0,\"clip_rate\":0.0757},\"independent_review\":\"overnight_evidence_audit static pass through d3055423a; runtime results ungraded\",\"timestamp_utc\":\"2026-10-20T21:15:53.066377+00:00\"}\n",
+          "record": {
+            "control_epoch0": {
+              "clip_rate": 0.0757,
+              "completed_updates": 7460,
+              "nonfinite_steps": 0,
+              "train_seconds": 2100.9
+            },
+            "event": "bounded_post_fit_delivery_admitted",
+            "fixed_endpoints": 7,
+            "id": "E-OVERNIGHT-NLL-ADAPTATION-R1",
+            "independent_review": "overnight_evidence_audit static pass through d3055423a; runtime results ungraded",
+            "new_fits": 0,
+            "new_prediction_exports": 3,
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/post_fit_admission.json",
+            "status": "waiting_for_exact_pair_success",
+            "timestamp_utc": "2026-10-20T21:15:53.066377+00:00",
+            "worker_cap_seconds": 2700
+          },
+          "source": {
+            "line": 981,
+            "path": "research/experiments.jsonl",
+            "sha256": "ed0fa06f19d8b279c9fbc33533d146ffd688a8f8c6119094c1679dc6bf182413"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-OVERNIGHT-NLL-ADAPTATION-R1\", \"event\": \"pair_complete_export_path_repair_r2\", \"status\": \"FITS_COMPLETE_EXPORT_RUNNING\", \"new_fits\": 0, \"completed_scientific_fits_total\": 2, \"fit_wall_seconds\": 8640.565179, \"matching_per_epoch\": {\"0\": {\"sample_order_identity\": true, \"normalization_identity\": true}, \"1\": {\"sample_order_identity\": true, \"normalization_identity\": true}}, \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/fit_terminal_r1.json\", \"repaired_attempt\": \"post_fit_admission_r2.json\", \"quality_result\": null, \"timestamp_utc\": \"2026-10-20T23:00:43.061090+00:00\"}\n",
+          "record": {
+            "completed_scientific_fits_total": 2,
+            "event": "pair_complete_export_path_repair_r2",
+            "fit_wall_seconds": 8640.565179,
+            "id": "E-OVERNIGHT-NLL-ADAPTATION-R1",
+            "matching_per_epoch": {
+              "0": {
+                "normalization_identity": true,
+                "sample_order_identity": true
+              },
+              "1": {
+                "normalization_identity": true,
+                "sample_order_identity": true
+              }
+            },
+            "new_fits": 0,
+            "quality_result": null,
+            "repaired_attempt": "post_fit_admission_r2.json",
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/fit_terminal_r1.json",
+            "status": "FITS_COMPLETE_EXPORT_RUNNING",
+            "timestamp_utc": "2026-10-20T23:00:43.061090+00:00"
+          },
+          "source": {
+            "line": 985,
+            "path": "research/experiments.jsonl",
+            "sha256": "1f4c89866ff43855b2c1da4e468d32bbaa4c100ce4b95f060f26eee29ba12ce9"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-OVERNIGHT-NLL-ADAPTATION-R1\", \"event\": \"actual_seven_endpoint_grade\", \"status\": \"inconclusive\", \"new_fits\": 0, \"completed_fits_total\": 2, \"scores\": {\"parent_cp5\": {\"t0\": 0.6743770243809774, \"t1\": 0.687933696285696, \"wp\": 0.6811553603333367}, \"wmse_cp1\": {\"t0\": 0.6745435088037746, \"t1\": 0.6880828081395953, \"wp\": 0.6813131584716849}, \"nll_cp1\": {\"t0\": 0.6745773105921254, \"t1\": 0.6879617845316383, \"wp\": 0.6812695475618818}, \"parent_nll_50_50\": {\"t0\": 0.674581565039295, \"t1\": 0.688045634713781, \"wp\": 0.6813135998765381}, \"oldz4_cp1_fp32\": {\"t0\": 0.6772253659443269, \"t1\": 0.6891032947659542, \"wp\": 0.6831643303551406}, \"oldz4_075_wmse_025\": {\"t0\": 0.6774060608703649, \"t1\": 0.6896375453568968, \"wp\": 0.6835218031136309}, \"oldz4_075_nll_025\": {\"t0\": 0.6774179010734597, \"t1\": 0.6896180010384321, \"wp\": 0.6835179510559459}}, \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/RESULTS_F0_R1.md\", \"decision\": \"NLLF1 deferred for opportunity cost; preserve modest blend contribution; prioritize H512 cost-supported route\", \"independent_actual_review\": \"pending\", \"timestamp_utc\": \"2026-10-20T23:13:33.900524+00:00\"}\n",
+          "record": {
+            "completed_fits_total": 2,
+            "decision": "NLLF1 deferred for opportunity cost; preserve modest blend contribution; prioritize H512 cost-supported route",
+            "event": "actual_seven_endpoint_grade",
+            "id": "E-OVERNIGHT-NLL-ADAPTATION-R1",
+            "independent_actual_review": "pending",
+            "new_fits": 0,
+            "scores": {
+              "nll_cp1": {
+                "t0": 0.6745773105921254,
+                "t1": 0.6879617845316383,
+                "wp": 0.6812695475618818
+              },
+              "oldz4_075_nll_025": {
+                "t0": 0.6774179010734597,
+                "t1": 0.6896180010384321,
+                "wp": 0.6835179510559459
+              },
+              "oldz4_075_wmse_025": {
+                "t0": 0.6774060608703649,
+                "t1": 0.6896375453568968,
+                "wp": 0.6835218031136309
+              },
+              "oldz4_cp1_fp32": {
+                "t0": 0.6772253659443269,
+                "t1": 0.6891032947659542,
+                "wp": 0.6831643303551406
+              },
+              "parent_cp5": {
+                "t0": 0.6743770243809774,
+                "t1": 0.687933696285696,
+                "wp": 0.6811553603333367
+              },
+              "parent_nll_50_50": {
+                "t0": 0.674581565039295,
+                "t1": 0.688045634713781,
+                "wp": 0.6813135998765381
+              },
+              "wmse_cp1": {
+                "t0": 0.6745435088037746,
+                "t1": 0.6880828081395953,
+                "wp": 0.6813131584716849
+              }
+            },
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/RESULTS_F0_R1.md",
+            "status": "inconclusive",
+            "timestamp_utc": "2026-10-20T23:13:33.900524+00:00"
+          },
+          "source": {
+            "line": 986,
+            "path": "research/experiments.jsonl",
+            "sha256": "996d2500c882fe1a15a404b6aae514d82c9fa683bd463cc00def0c47a92634c1"
+          }
+        }
+      ],
+      "title": "E-OVERNIGHT-NLL-ADAPTATION-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-OVERNIGHT-NLL-ADAPTATION-F1-FOLLOWUP-R1",
+      "latest_recorded_status": "NOT_ADMITTED",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-OVERNIGHT-NLL-ADAPTATION-F1-FOLLOWUP-R1\", \"hypothesis_id\": \"H-NLL-STRONG-GRU-20261020-R1\", \"event\": \"conditional_recipe_prepared_not_admitted\", \"status\": \"NOT_ADMITTED\", \"new_fits\": 2, \"fits_per_arm\": 1, \"new_teacher_fits\": 0, \"fit_seed\": 4, \"fold\": 1, \"fixed_epoch\": 1, \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/nll_followup_f1/README.md\", \"actor_revision\": \"c9ea0b2b680f5a75aa9b5396ae8211ddd4c48ab4\", \"scoring\": \"Frozen two-endpoint NLL-WMSE;457exposedgroups/149components;2000pairedcomponentresamples,seed271828\", \"admission_gate\": \"Current F0 grade, decision value, execution-host input/ancestry/resource preflight and remaining15hbudget. No launch from this recipe.\", \"timestamp_utc\": \"2026-10-20T22:33:30.163810+00:00\"}\n",
+          "record": {
+            "actor_revision": "c9ea0b2b680f5a75aa9b5396ae8211ddd4c48ab4",
+            "admission_gate": "Current F0 grade, decision value, execution-host input/ancestry/resource preflight and remaining15hbudget. No launch from this recipe.",
+            "event": "conditional_recipe_prepared_not_admitted",
+            "fit_seed": 4,
+            "fits_per_arm": 1,
+            "fixed_epoch": 1,
+            "fold": 1,
+            "hypothesis_id": "H-NLL-STRONG-GRU-20261020-R1",
+            "id": "E-OVERNIGHT-NLL-ADAPTATION-F1-FOLLOWUP-R1",
+            "new_fits": 2,
+            "new_teacher_fits": 0,
+            "scoring": "Frozen two-endpoint NLL-WMSE;457exposedgroups/149components;2000pairedcomponentresamples,seed271828",
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/nll_followup_f1/README.md",
+            "status": "NOT_ADMITTED",
+            "timestamp_utc": "2026-10-20T22:33:30.163810+00:00"
+          },
+          "source": {
+            "line": 982,
+            "path": "research/experiments.jsonl",
+            "sha256": "0a820b53b0516da62cce53280a49c4373eb1fcb19e2ead76e2844941a98426a0"
+          }
+        }
+      ],
+      "title": "E-OVERNIGHT-NLL-ADAPTATION-F1-FOLLOWUP-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-TL3-STUDENT-MEMBER-NLL-ADAPTATION-R1",
+      "latest_recorded_status": "transport_pass_training_not_admitted",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-TL3-STUDENT-MEMBER-NLL-ADAPTATION-R1\", \"event\": \"production_path_prepared_not_admitted\", \"status\": \"NOT_ADMITTED\", \"hypothesis_id\": \"H-NLL-STRONG-GRU-20261020-R1\", \"potential_production_fits\": 1, \"new_fits_admitted\": 0, \"new_teacher_fits\": 0, \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/tl3_member_adaptation/README.md\", \"actor_revision\": \"c7346959eb14ca3117b597cfcdb0ff9bffa2a386\", \"ancestry\": \"Original team NPZ starter fit/teacher/initializer membership unknown; production only, no held-out claim.\", \"serving\": \"Preserve three-model graph and fixed0.34/0.33/0.33coefficients; replace only plain211-input member if supported.\", \"missing\": \"Measured conversion/state parity; explicit production membership/cache validator; frozen exact final recipe from fold evidence; fit, native package replay and quality evidence.\", \"timestamp_utc\": \"2026-10-20T22:38:08.537399+00:00\"}\n",
+          "record": {
+            "actor_revision": "c7346959eb14ca3117b597cfcdb0ff9bffa2a386",
+            "ancestry": "Original team NPZ starter fit/teacher/initializer membership unknown; production only, no held-out claim.",
+            "event": "production_path_prepared_not_admitted",
+            "hypothesis_id": "H-NLL-STRONG-GRU-20261020-R1",
+            "id": "E-TL3-STUDENT-MEMBER-NLL-ADAPTATION-R1",
+            "missing": "Measured conversion/state parity; explicit production membership/cache validator; frozen exact final recipe from fold evidence; fit, native package replay and quality evidence.",
+            "new_fits_admitted": 0,
+            "new_teacher_fits": 0,
+            "potential_production_fits": 1,
+            "serving": "Preserve three-model graph and fixed0.34/0.33/0.33coefficients; replace only plain211-input member if supported.",
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/tl3_member_adaptation/README.md",
+            "status": "NOT_ADMITTED",
+            "timestamp_utc": "2026-10-20T22:38:08.537399+00:00"
+          },
+          "source": {
+            "line": 983,
+            "path": "research/experiments.jsonl",
+            "sha256": "a7b217a0a118ff20baa5d08162f589790b4e471273292cd42d1bcf7ec853ea7c"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-TL3-STUDENT-MEMBER-NLL-ADAPTATION-R1\", \"event\": \"converter_implemented_static_review_pass\", \"status\": \"CPU_CONVERSION_PENDING_CHAIN_DRAIN\", \"new_fits_admitted\": 0, \"actor_revision\": \"1a2c6259fc02f0e88b9aae6a91448783092c3de0\", \"independent_review\": \"overnight_evidence_audit Luna/max final static pass; no numeric conversion/model run\", \"checks\": [\"Ruff format/check\", \"Torch-free CLI help\", \"actual imported model source path/hash binding\"], \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/tl3_member_adaptation/README.md\", \"limits\": \"Converted NPZ initializer remains unknown ancestry/production only/training_admission false. Separate forward transport acceptance, final-training adapter and exact native package checks remain.\", \"timestamp_utc\": \"2026-10-20T22:51:12.951155+00:00\"}\n",
+          "record": {
+            "actor_revision": "1a2c6259fc02f0e88b9aae6a91448783092c3de0",
+            "checks": [
+              "Ruff format/check",
+              "Torch-free CLI help",
+              "actual imported model source path/hash binding"
+            ],
+            "event": "converter_implemented_static_review_pass",
+            "id": "E-TL3-STUDENT-MEMBER-NLL-ADAPTATION-R1",
+            "independent_review": "overnight_evidence_audit Luna/max final static pass; no numeric conversion/model run",
+            "limits": "Converted NPZ initializer remains unknown ancestry/production only/training_admission false. Separate forward transport acceptance, final-training adapter and exact native package checks remain.",
+            "new_fits_admitted": 0,
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/tl3_member_adaptation/README.md",
+            "status": "CPU_CONVERSION_PENDING_CHAIN_DRAIN",
+            "timestamp_utc": "2026-10-20T22:51:12.951155+00:00"
+          },
+          "source": {
+            "line": 984,
+            "path": "research/experiments.jsonl",
+            "sha256": "ffb304e7a23b800a5f9a9fccbdac6752b60681d80117082b0315a0d862d4a4c3"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-TL3-STUDENT-MEMBER-NLL-ADAPTATION-R1\", \"event\": \"cpu_conversion_and_forward_transport_complete\", \"status\": \"transport_pass_training_not_admitted\", \"new_fits\": 0, \"checkpoint_sha256\": \"4e91c705b43d9dfcf279592089162d4c7147188491d58ca13cf90dd4cecbfb2b\", \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/tl3_member_adaptation/README.md\", \"timestamp_utc\": \"2026-10-20T23:14:48.034368+00:00\"}\n",
+          "record": {
+            "checkpoint_sha256": "4e91c705b43d9dfcf279592089162d4c7147188491d58ca13cf90dd4cecbfb2b",
+            "event": "cpu_conversion_and_forward_transport_complete",
+            "id": "E-TL3-STUDENT-MEMBER-NLL-ADAPTATION-R1",
+            "new_fits": 0,
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/tl3_member_adaptation/README.md",
+            "status": "transport_pass_training_not_admitted",
+            "timestamp_utc": "2026-10-20T23:14:48.034368+00:00"
+          },
+          "source": {
+            "line": 988,
+            "path": "research/experiments.jsonl",
+            "sha256": "6ae354e2a2d6187509f19491e6997beb6197c48e4a138f41c7277cf6df0f84f6"
+          }
+        }
+      ],
+      "title": "E-TL3-STUDENT-MEMBER-NLL-ADAPTATION-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-R01-H512-LOCAL-PROFILE-20261021-R1",
+      "latest_recorded_status": "profile_pass",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-R01-H512-LOCAL-PROFILE-20261021-R1\", \"event\": \"engineering_profile_complete\", \"status\": \"profile_pass\", \"new_fits\": 0, \"elapsed_seconds\": 15.172549, \"batch_wall_ms\": 1893.04, \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/PROFILE_RESULT_R1.json\", \"timestamp_utc\": \"2026-10-20T23:13:33.900524+00:00\"}\n",
+          "record": {
+            "batch_wall_ms": 1893.04,
+            "elapsed_seconds": 15.172549,
+            "event": "engineering_profile_complete",
+            "id": "E-R01-H512-LOCAL-PROFILE-20261021-R1",
+            "new_fits": 0,
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/PROFILE_RESULT_R1.json",
+            "status": "profile_pass",
+            "timestamp_utc": "2026-10-20T23:13:33.900524+00:00"
+          },
+          "source": {
+            "line": 987,
+            "path": "research/experiments.jsonl",
+            "sha256": "f49de784b213e3a12b25bba55357bf1bb3b1f909223c4a7e8aec4809fb45d91c"
+          }
+        }
+      ],
+      "title": "E-R01-H512-LOCAL-PROFILE-20261021-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-R01-H512-LOCAL-F0-20261021-R1",
+      "latest_recorded_status": "same_fit_running",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-R01-H512-LOCAL-F0-20261021-R1\", \"event\": \"one_cold_fit_admitted_started\", \"hypothesis_id\": \"H-R01-H512-LOCAL-20261021-R1\", \"status\": \"running\", \"new_fits\": 1, \"teacher_fits\": 0, \"final_production_fit_admitted\": false, \"fold\": 0, \"seed\": 1003, \"epochs\": 6, \"checkpoint_epoch\": 5, \"fixed_extra_endpoints\": \"equal3/4/5parametermean; fixed75/25oldZ4mixtures\", \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/FIT_ADMISSION_R1.json\", \"timestamp_utc\": \"2026-10-20T23:20:47.148805+00:00\"}\n",
+          "record": {
+            "checkpoint_epoch": 5,
+            "epochs": 6,
+            "event": "one_cold_fit_admitted_started",
+            "final_production_fit_admitted": false,
+            "fixed_extra_endpoints": "equal3/4/5parametermean; fixed75/25oldZ4mixtures",
+            "fold": 0,
+            "hypothesis_id": "H-R01-H512-LOCAL-20261021-R1",
+            "id": "E-R01-H512-LOCAL-F0-20261021-R1",
+            "new_fits": 1,
+            "seed": 1003,
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/FIT_ADMISSION_R1.json",
+            "status": "running",
+            "teacher_fits": 0,
+            "timestamp_utc": "2026-10-20T23:20:47.148805+00:00"
+          },
+          "source": {
+            "line": 989,
+            "path": "research/experiments.jsonl",
+            "sha256": "dd236ceb77229fafcdb9e41710bcf583a3431269f927c030a245f45b936e3c6e"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-R01-H512-LOCAL-F0-20261021-R1\", \"event\": \"thermal_runtime_cap_amended_12h\", \"status\": \"same_fit_running\", \"new_fits\": 0, \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/THERMAL_BUDGET_AMENDMENT_R2.json\", \"timestamp_utc\": \"2026-10-20T23:59:48.140112+00:00\"}\n",
+          "record": {
+            "event": "thermal_runtime_cap_amended_12h",
+            "id": "E-R01-H512-LOCAL-F0-20261021-R1",
+            "new_fits": 0,
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/THERMAL_BUDGET_AMENDMENT_R2.json",
+            "status": "same_fit_running",
+            "timestamp_utc": "2026-10-20T23:59:48.140112+00:00"
+          },
+          "source": {
+            "line": 990,
+            "path": "research/experiments.jsonl",
+            "sha256": "526df51ada8ab1689a6252d3ddb0d9705a54b1467a38e3b97023d48732fee62b"
+          }
+        }
+      ],
+      "title": "E-R01-H512-LOCAL-F0-20261021-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-KAGGLE-H512-PROFILE-20261021-R1",
+      "latest_recorded_status": "execution_failure_not_scientific_result",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-KAGGLE-H512-PROFILE-20261021-R1\", \"event\": \"two_engineering_attempts_terminal_before_training\", \"status\": \"execution_failure_not_scientific_result\", \"finite_training_updates\": 0, \"provider_charged_seconds\": 798.775, \"remaining_provider_seconds\": 17277.652, \"source\": \"research/campaign_2026-10-21/kaggle_h512_profile_r1/README.md\", \"timestamp_utc\": \"2026-10-20T23:59:48.140112+00:00\"}\n",
+          "record": {
+            "event": "two_engineering_attempts_terminal_before_training",
+            "finite_training_updates": 0,
+            "id": "E-KAGGLE-H512-PROFILE-20261021-R1",
+            "provider_charged_seconds": 798.775,
+            "remaining_provider_seconds": 17277.652,
+            "source": "research/campaign_2026-10-21/kaggle_h512_profile_r1/README.md",
+            "status": "execution_failure_not_scientific_result",
+            "timestamp_utc": "2026-10-20T23:59:48.140112+00:00"
+          },
+          "source": {
+            "line": 991,
+            "path": "research/experiments.jsonl",
+            "sha256": "9bb5d2d32995b10ea0bfa7d48e9946f74374e35d0526568f44a698455e6adc2f"
+          }
+        }
+      ],
+      "title": "E-KAGGLE-H512-PROFILE-20261021-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-TL3-H512-PACKAGER-20261021-R1",
+      "latest_recorded_status": "engineering_fixture_not_submission",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-TL3-H512-PACKAGER-20261021-R1\", \"event\": \"engineering_build_and_native_reset_cost_checks_complete\", \"status\": \"engineering_fixture_not_submission\", \"new_fits\": 0, \"zip_bytes\": 17091324, \"relative_callback_median_ratio\": 1.3028647933, \"source\": \"research/campaign_2026-10-20/submission_delivery_r1/tl3_member_packager_r1/README.md\", \"timestamp_utc\": \"2026-10-20T23:59:48.140112+00:00\"}\n",
+          "record": {
+            "event": "engineering_build_and_native_reset_cost_checks_complete",
+            "id": "E-TL3-H512-PACKAGER-20261021-R1",
+            "new_fits": 0,
+            "relative_callback_median_ratio": 1.3028647933,
+            "source": "research/campaign_2026-10-20/submission_delivery_r1/tl3_member_packager_r1/README.md",
+            "status": "engineering_fixture_not_submission",
+            "timestamp_utc": "2026-10-20T23:59:48.140112+00:00",
+            "zip_bytes": 17091324
+          },
+          "source": {
+            "line": 992,
+            "path": "research/experiments.jsonl",
+            "sha256": "5926452f9e949d8a789921a8436bea0c8ddafc638af15b00d2bbc2a27f0688cd"
+          }
+        }
+      ],
+      "title": "E-TL3-H512-PACKAGER-20261021-R1",
+      "type": "experiment"
+    },
+    {
       "allocation": {
         "eligible": false,
         "launch_authorized": false,
@@ -95151,6 +95714,17 @@
       },
       "source_id": "hypothesis:H-TEACHER-QUALITY-SCALING-20261019-R1",
       "target_id": "hypothesis:H-LARGE-DYNAMICS-TEACHER-20261019-R2"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 572,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "167755c3a5532eef0f40fcead63bc7ca9f3e38f50c44ac49f9a6bdf24b13e26a"
+      },
+      "source_id": "hypothesis:H-NLL-GRADIENT-WEIGHTING-20261021-R1",
+      "target_id": "hypothesis:H-NLL-STRONG-GRU-20261020-R1"
     },
     {
       "relation": "ledger_hypothesis_reference",

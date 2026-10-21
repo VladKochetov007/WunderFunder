@@ -1,0 +1,99 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "name": "accept_exact_fit_terminal",
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/record_h512_fit_terminal.py",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "--service",
+        "wnn-h512-f0-fit-r1-20261021.service"
+      ]
+    },
+    {
+      "name": "materialize_swa_sources",
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/materialize_h512_swa_manifest.py",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack"
+      ]
+    },
+    {
+      "name": "derive_fixed_swa345",
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/derive_h512_swa345.py",
+        "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/SWA345_SOURCE_MANIFEST_R1.json",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack"
+      ]
+    },
+    {
+      "name": "export_cp5_fp32",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
+        "r01_h512_f0_s1003_local_cp5_r1",
+        "valid",
+        "--epoch",
+        "5",
+        "--campaign-split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--campaign-full-valid-feature-only",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "fp32",
+        "--loader-workers",
+        "0",
+        "--output-name",
+        "r01_h512_f0_s1003_local_cp5_r1"
+      ]
+    },
+    {
+      "name": "export_swa345_fp32",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
+        "r01_h512_f0_s1003_local_swa345_r1",
+        "valid",
+        "--epoch",
+        "5",
+        "--campaign-split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--campaign-full-valid-feature-only",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "fp32",
+        "--loader-workers",
+        "0",
+        "--output-name",
+        "r01_h512_f0_s1003_local_swa345_r1"
+      ]
+    },
+    {
+      "name": "bind_finite_export_artifacts",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/audit_h512_exports.py",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack"
+      ]
+    },
+    {
+      "name": "official_frozen_seven_endpoint_grade",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/screen_score.py",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/H512_F0_SCORE_SCREEN_R1.json",
+        "--output",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/grades/F0_H512_GRADE_POSTFIT_R1.json"
+      ]
+    }
+  ],
+  "report": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/POSTFIT_SEQUENCE_REPORT_R1.json"
+}

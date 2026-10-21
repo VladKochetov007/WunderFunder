@@ -1,5 +1,10 @@
 # Current project state
 
+## October21 sustained execution update
+
+The same H512F0/seed1003 six-epoch fit remains active;89°Cthermal throttling reduced sustained throughput to~1.9sequences/s. Its [runtime-only amendment](../research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/THERMAL_BUDGET_AMENDMENT_R2.json) allows12h plus reserved25minpostfit within15hcumulative; no extra production fit. Postfit seven-step automation and fixed actual-TL3nativeendpoint evaluation are prepared, not executed. Engineering17.09MBZIP/resetchecks pass using weak fixture weights; never submit that fixture. KaggleR1/R2 both failed before training (R2missingstructuralcaches after raw hash verification);4.79935providerhours remain, no third attempt admitted. See the frontier and live unit; historical statements below are superseded.
+
+
 ## Active H512 fit — October21
 
 [The H512 delivery packet](../research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md) records one admitted cold label-only H512×1 F0seed1003 fit, running since23:18:35UTC under `wnn-h512-f0-fit-r1-20261021.service`. Six epochs, fixedCP5; SWA345 and fixedblends declared before outcomes. Core source/recipe static review passed and actual profile measured1.893s/batch. Full-data production remains conditional after actual scoring and budget reassessment. No new ZIP. Local15hbudget cumulative, parent5GBRAM/twoCPU/noSwap now enforced. Older no-running-job statements below are historical.

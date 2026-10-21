@@ -1,0 +1,16 @@
+{
+  "timestamp_utc": "2026-10-20T23:31:26.792516+00:00",
+  "incident": "Earlier systemctl --runtime set-property applied immediately but daemon-reload for service timeout restored legacy persistent user.control/50-MemoryMax.conf (20GB), which has higher precedence than same-named runtime control. Observed cache-inclusive parent memory briefly exceeded5GB.",
+  "observed_before_repair_bytes": 5814104064,
+  "previous_max_observed_bytes": 5867085824,
+  "anon_bytes_at_observation": 2324631552,
+  "file_bytes_at_observation": 3443662848,
+  "repair": "Reclaimed only inactive file cache with swappiness0, then installed later-named99-current-cycle-allocation.conf in runtime slice drop-ins; daemon-reload verifies5GB limit. No kills, no global swap change, model invocation preserved.",
+  "runtime_dropin": "/run/user/1000/systemd/user/wnn-campaign.slice.d/99-current-cycle-allocation.conf",
+  "properties_after": "DropInPaths=/usr/lib/systemd/user/slice.d/10-oomd-per-slice-defaults.conf /home/vlad/.config/systemd/user.control/wnn-campaign.slice.d/50-CPUQuota.conf /home/vlad/.config/systemd/user.control/wnn-campaign.slice.d/50-CPUWeight.conf /home/vlad/.config/systemd/user.control/wnn-campaign.slice.d/50-MemoryHigh.conf /home/vlad/.config/systemd/user.control/wnn-campaign.slice.d/50-MemoryMax.conf /home/vlad/.config/systemd/user.control/wnn-campaign.slice.d/50-MemorySwapMax.conf /run/user/1000/systemd/user/wnn-campaign.slice.d/99-current-cycle-allocation.conf\nMemoryHigh=4400000000\nMemoryMax=5000000000\nMemorySwapMax=0\n",
+  "memory_after_bytes": 3798491136,
+  "swap_after_bytes": 0,
+  "memory_events_before": "low 0\nhigh 1943923\nmax 3704364\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 73\n",
+  "memory_events_after": "low 0\nhigh 1943923\nmax 3704364\noom 0\noom_kill 0\noom_group_kill 0\nsock_throttled 73\n",
+  "scope": "Allocation enforcement correction, not scientific evidence; all configuration changes runtime-only."
+}

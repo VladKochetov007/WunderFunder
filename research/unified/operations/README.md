@@ -1,5 +1,12 @@
 # Execution, incidents, and preservation
 
+- [Kaggle H512 terminal setup evidence](../../campaign_2026-10-21/kaggle_h512_profile_r1/README.md) — two bounded private engineering attempts ended before model setup: the first timed out during input preparation; the second verified both raw files then found missing structural split caches. Zero finite training updates, no quality evidence. Combined provider charge798.775seconds;17,277.652seconds remain. Both terminal collections, machine allocation and exact repair are preserved; no third run admitted.
+
+- [H512 12-hour runtime amendment](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/THERMAL_BUDGET_AMENDMENT_R2.json) — sustained1.9sequences/s and thermal throttling make9hcap insufficient. Extends the same live invocation, preserving six-epochCP5 and15haggregate budget including25minpostfit plus stop grace. No all-data fit admitted.
+
+
+- [Runtime memory-limit reload repair](../../campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/AGGREGATE_LIMIT_RELOAD_REPAIR_R2.json) — a daemon reload restored the legacy20GB ceiling after immediate runtime enforcement; cache-inclusive usage briefly reached5.87GB. Root reclaimed inactive cache and installed a later-named runtime override. The5GBcap now survives reload; no task swap, OOM or kill occurred.
+
 - [H512 sustained thermal limit](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#sustained-thermal-limitation) — NVIDIA reports software thermal throttling at 89°C and approximately 400 MHz during the admitted local fit. Short-profile estimates are optimistic; root is reassessing sustained cost and final-fit capacity. No GPU settings changed.
 
 - [Aggregate allocation enforcement](../../campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/AGGREGATE_LIMIT_ENFORCEMENT_R1.json) — runtime parent research slice now enforces the latest5GBRAM, twoCPU, zero-task-swap contract; stale20GBceiling reduced after inactive-cache reclaim. No processkill/globalswapchange; applies to active local jobs.

@@ -1,5 +1,12 @@
 # Plateau review frontier
 
+## Latest execution handoff — October21
+
+Owner root. Live fit `wnn-h512-f0-fit-r1-20261021.service`, invocationc2b99b3c2b944edaa05156537655b04c, remains healthy; six-epochCP5recipe unchanged. [12hceiling](../submission_delivery_r1/h512_f0_followup_r1/THERMAL_BUDGET_AMENDMENT_R2.json) +25minpostfitreserve fits15hbudget; sustainedthermalclock~337MHz,1.9sequences/sbybatch560. AggregateRAM5GB,zeroTaskSwap,OOMcounters0.
+
+The stdlib supervisor `wnn-h512-postfit-watcher-r1-20261021.service` is live and conditionally admits the reviewed [seven-step postfit automation](../submission_delivery_r1/h512_f0_followup_r1/README.md#latest-runtime-and-automated-handoff). Next after actual postfit evidence: evaluate [actualTL3replacement endpoints](../submission_delivery_r1/tl3_h512_endpoint_screen_r1/README.md). No new trained ZIP. [Kaggle terminal packet](../../campaign_2026-10-21/kaggle_h512_profile_r1/README.md) preserves two setup failures, no scientificupdates; corrected boundedwarmcohort proposal owned bykaggle_delivery_readiness, no third launch admitted. H512 prior evidence remains12matchedpairs/fourfolds, localcurrentoneexposedcell.
+
+
 Updated: 2026-10-20T22:19:10.294283+00:00. Owner: root/controller.
 
 ## Resume instruction
@@ -10,6 +17,9 @@ workers and Git status. Continue the first unfinished gate without reopening the
 Record changes and receipts here before context compaction or handoff.
 
 ## Actual stage
+
+- [H512 TL3 packaging route](../submission_delivery_r1/tl3_member_packager_r1/README.md) now passes an engineering-only17.1MBZIP build and Python3.11native finite/warmup/reset checks. Alternating two-group/three-repeat cost is1.303×originalTL3; this is not official runtime or model quality. Do not submit the weak historical fixture.
+
 
 - **Cost caveat:** the healthy H512 fit is thermally throttled at 89°C / roughly400MHz. Short-profile4.7h estimate is optimistic; use sustained epoch timings before any final-fit admission. Optional physical cooling requested, no settings changed. [Thermal record](../submission_delivery_r1/h512_f0_followup_r1/README.md#sustained-thermal-limitation).
 

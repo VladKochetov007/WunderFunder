@@ -1,5 +1,10 @@
 # Overnight submission delivery, 20 October 2026
 
+## Latest delivery state — October21
+
+The [cold H512 fit](h512_f0_followup_r1/README.md) is running under the same admitted invocation, six epochs/fixedCP5. Sustained thermal throttling led to a12hruntime ceiling within the unchanged15hbudget; final all-data fitting is not admitted. [Native member packaging](tl3_member_packager_r1/README.md) passes engineering checks only. The [complete endpoint protocol](tl3_h512_endpoint_screen_r1/README.md) prepares actualTL3 comparisons; no new trained candidate ZIP exists. The completed [NLL comparison](nll_adaptation/RESULTS_F0_R1.md) shows no matched NLL advantage. [Kaggle setup failures](../../campaign_2026-10-21/kaggle_h512_profile_r1/README.md) occurred before model updates; they are execution evidence only.
+
+
 ## Latest instruction: train locally
 
 After the SSH address remained unavailable, the user explicitly selected local

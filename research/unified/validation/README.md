@@ -1,5 +1,8 @@
 # Validation and public transfer
 
+- [Complete H512-in-TL3 endpoint screen](../../campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/README.md) — prepared fixed native callback replays forCP5 andSWA345 replacement at unchanged0.34/0.33/0.33 coefficients versus cached originalTL3. Uses468F0groups/141components and808,863official selectedrows; no replay/score yet. RetainedTL3ancestryunknown, so complete endpoint results will be fitted diagnostics, distinct from the coldH512fold comparison. Independent review pending.
+
+
 - [October 20 plateau-review campaign](../../campaign_2026-10-20/plateau_review_r1/README.md) — accepted matched i0/standard/i1-history GRU investigation, with complete-component fitting subsets and full exposed-fold evaluation. The linked spec fixes source-qualified pairing, official scoring and uncertainty limits; its frontier tracks implementation. No new quality result is available yet.
 
 Metric, data membership, exposure, uncertainty and transfer to the public leaderboard.

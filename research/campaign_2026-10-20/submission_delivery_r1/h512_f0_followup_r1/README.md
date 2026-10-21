@@ -53,3 +53,40 @@ admission from observed epoch timing. The job remains healthy; no power,
 clock or fan settings were changed.
 
 [The thermal budget amendment](THERMAL_BUDGET_AMENDMENT_R1.json) extends the healthy fold worker runtime ceiling from six to nine hours within the unchanged 15-hour allocation. Model updates and the fixed six-epoch endpoint are unchanged. At the ceiling, about 3.46 GPU-hours remain; final training and exports require separate admission against actual elapsed time. A shorter all-data continuation is a conditional alternative to the original cold six-epoch production proposal.
+
+## Prepared post-fit execution
+
+[The separate delivery plan](H512_POSTFIT_DELIVERY_PLAN_R1.json) records exact
+commands for terminal acceptance, source-manifest materialization, CPU parameter
+averaging, two FP32 exports and the frozen score. It admits no additional fit.
+
+- [Live command binding](FIT_COMMAND_BINDING_R1.json) captures the actual running
+  Python process argv, exactly equal to the frozen recipe, and all 191 resolved
+  arguments. This prevents accepting a run with optimizer or schedule drift.
+- [Terminal receipt producer](record_h512_fit_terminal.py) requires the exact
+  user-manager invocation to finish successfully, six completed epochs, fixed
+  CP5, complete argument equality, source identity and checkpoint hashes.
+- [Manifest template](SWA345_SOURCE_MANIFEST_TEMPLATE_R1.json) and
+  [materializer](materialize_h512_swa_manifest.py) fill actual hashes only after
+  terminal acceptance, with create-only output.
+- [SWA derivation](derive_h512_swa345.py) and its
+  [input validator](h512_swa345_validation.py) reuse the canonical arithmetic
+  helper, require identical preprocessing and preserve cold-fold ancestry.
+  Embedded source checkpoint hashes are removed before writing derived bytes.
+
+These scripts are prepared and statically checked. They have not accepted this
+still-running fit, derived weights or produced its quality score. The optional
+production recipe is one two-epoch all-data continuation, independently admitted
+only if quality and actual remaining compute justify it. Direct packaging of a
+supported fold-trained endpoint is also eligible; another full-data fit is not
+a prerequisite for delivery.
+
+## Latest runtime and automated handoff
+
+[Runtime amendment R2](THERMAL_BUDGET_AMENDMENT_R2.json) replaces only the9hceiling with12hafter sustained throughput declined to1.9sequences/s. Previous completedGPUjob time9,158.249398seconds plus12hfit,25minpostfit and90secondsstopgrace total53,948.249398seconds, below54,000. No new fit is admitted.
+
+The [finite seven-step sequence](POSTFIT_SEQUENCE_R1.json) runs terminal acceptance, source-manifest materialization, fixedSWAderivation, twoFP32exports, [finite artifact audit](audit_h512_exports.py), and official frozen grading. The [supervisor](run_postfit_when_ready.py) waits for the exact invocation and checks source pins, new outputs, resource limits and cumulative budget. [Execution admission](POSTFIT_EXECUTION_ADMISSION_R1.json) records its conditional status; it admits no final fit or submission. The [service query check](SERVICE_QUERY_CHECK_R1.json) exercised actual user-manager properties without accepting a fit. [Grades](grades/README.md) remain absent until real execution.
+
+The separate [complete native endpoint protocol](../tl3_h512_endpoint_screen_r1/README.md) comparesCP5/SWA345replacements to originalTL3. Its unknown legacy ancestry is explicit; it is not cleanCV.
+
+[Independent static review](POSTFIT_AND_NATIVE_STATIC_REVIEW_R1.json) passed after concrete producer/path/hash corrections; a second canonicalCLI review found no remaining operational mismatch. [Actual watcher start](POSTFIT_WATCHER_START_R1.json) records the live stdlib supervisor, unit `wnn-h512-postfit-watcher-r1-20261021.service`, invocationeff981027d664a728e18b8e0e582471a. Admission is conditional on this exact fit succeeding and all pins/resource/budget/absent-output gates passing. This is a running waiter, not evidence of any completed postfit step.
