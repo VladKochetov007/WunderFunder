@@ -1,0 +1,34 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import runpy,json; m=runpy.run_path("research/campaign_2026-10-21/next_cycle_r1/saved_export_recovery_r1/preflight_and_export_projected_mean_r1.py"); r=m["verify_projected_mean_pins"](); print(json.dumps({"status":"READONLY_PINS_PASS_NO_ALIAS_NO_INFERENCE","pin_count":len(r),"pins":r},sort_keys=True))
+                                                                                                                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "research/campaign_2026-10-21/next_cycle_r1/saved_export_recovery_r1/preflight_and_export_projected_mean_r1.py", line 85, in verify_projected_mean_pins
+    require(actual == expected, f"source pin mismatch for {role}:{relative}")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "research/campaign_2026-10-21/next_cycle_r1/saved_export_recovery_r1/preflight_and_export_projected_mean_r1.py", line 52, in require
+    raise RuntimeError(message)
+RuntimeError: source pin mismatch for serving:src/wnn/training/dynamics_auxiliary.py
+Command exited with non-zero status 1
+	Command being timed: "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -c import runpy,json; m=runpy.run_path("research/campaign_2026-10-21/next_cycle_r1/saved_export_recovery_r1/preflight_and_export_projected_mean_r1.py"); r=m["verify_projected_mean_pins"](); print(json.dumps({"status":"READONLY_PINS_PASS_NO_ALIAS_NO_INFERENCE","pin_count":len(r),"pins":r},sort_keys=True))"
+	User time (seconds): 0.11
+	System time (seconds): 0.02
+	Percent of CPU this job got: 97%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.13
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 25584
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 6169
+	Voluntary context switches: 22
+	Involuntary context switches: 30
+	Swaps: 0
+	File system inputs: 176
+	File system outputs: 72
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
