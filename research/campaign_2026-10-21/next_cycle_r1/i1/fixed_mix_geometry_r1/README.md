@@ -18,3 +18,5 @@ scripts/limited \
 ```
 
 The command writes a create-only result under physical scratch. This packet itself is preparation only; execution remains with the root operator.
+
+- [Measured F0 geometry](RESULT_R1.json), [admission](../../I1_FIXED_MIX_GEOMETRY_ADMISSION_R1.json), [execution](../../I1_FIXED_MIX_GEOMETRY_EXECUTION_R1.json), and [log](../../i1_fixed_mix_geometry_r1.log): frozen history mixture raw correlation gain+0.00036506, official gain+0.00035953. Clipping slightly reduces the gain; residual correction covariance is positive overall for both targets. Descriptive exposed F0 only, same fits and original uncertainty; no new training or coefficient search.
