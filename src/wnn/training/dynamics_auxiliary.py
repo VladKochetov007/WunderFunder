@@ -24,6 +24,43 @@ HUBER_DELTA = 1.0
 T = TypeVar("T")
 
 
+def _block_local_window_sum(values: torch.Tensor, window_size: int) -> torch.Tensor:
+    """Sum each full window without subtracting long-running FP32 prefixes.
+
+    ``values`` has shape ``(batch, time, channels)`` and is nonnegative for
+    the dynamics-energy caller. Windows are split at multiples of their own
+    length: an unaligned window is the current block's suffix plus the next
+    block's prefix. Both sums start inside the requested window, so an earlier
+    large pulse cannot erase later small positive values.
+    """
+    if values.ndim != 3:
+        raise ValueError("window sums need batch, time, and channel dimensions")
+    if window_size < 1:
+        raise ValueError("window size must be positive")
+    batch_size, time_length, channels = values.shape
+    window_count = time_length - window_size + 1
+    if window_count <= 0:
+        return values.new_empty((batch_size, 0, channels))
+
+    block_count = (time_length + window_size - 1) // window_size
+    padded_length = block_count * window_size
+    if padded_length != time_length:
+        values = F.pad(values, (0, 0, 0, padded_length - time_length))
+    blocks = values.reshape(batch_size, block_count, window_size, channels)
+    prefix = blocks.cumsum(dim=2).reshape(batch_size, padded_length, channels)
+    suffix = torch.flip(
+        torch.flip(blocks, dims=(2,)).cumsum(dim=2), dims=(2,)
+    ).reshape(batch_size, padded_length, channels)
+
+    starts = torch.arange(window_count, device=values.device)
+    left = suffix.index_select(1, starts)
+    right_indices = starts + window_size - 1
+    right = prefix.index_select(1, right_indices)
+    crosses_block = (starts.remainder(window_size) != 0)[None, :, None]
+    right = torch.where(crosses_block, right, torch.zeros_like(right))
+    return left + right
+
+
 def dynamics_targets_torch(
     raw: torch.Tensor,
     input_mean: torch.Tensor,
@@ -49,29 +86,26 @@ def dynamics_targets_torch(
 
     normalized = (raw[..., :N_FEATURES].float() - input_mean) / input_std
     changes = normalized[:, 1:] - normalized[:, :-1]
-    change_prefix = torch.cat(
-        (changes.new_zeros((batch_size, 1, N_FEATURES)), changes.cumsum(dim=1)), dim=1
-    )
-    energy_prefix = torch.cat(
-        (
-            changes.new_zeros((batch_size, 1, N_FEATURES)),
-            changes.square().cumsum(dim=1),
-        ),
-        dim=1,
+    grouped_step_energy = torch.stack(
+        [changes[..., start:stop].square().mean(dim=-1) for _, start, stop in FEATURE_GROUPS],
+        dim=-1,
     )
     positions = torch.arange(sequence_length, device=raw.device)
     targets_by_horizon: list[torch.Tensor] = []
     masks_by_horizon: list[torch.Tensor] = []
     for horizon in HORIZONS:
-        endpoints = (positions + horizon).clamp_max(sequence_length - 1)
-        change_sum = change_prefix[:, endpoints] - change_prefix
-        energy_sum = energy_prefix[:, endpoints] - energy_prefix
+        window_count = max(sequence_length - horizon, 0)
+        endpoint_change = normalized[:, horizon:] - normalized[:, :-horizon]
+        energy_sum = _block_local_window_sum(grouped_step_energy, horizon)
         group_targets: list[torch.Tensor] = []
-        for _, start, stop in FEATURE_GROUPS:
+        for group_index, (_, start, stop) in enumerate(FEATURE_GROUPS):
             width = horizon * (stop - start)
-            mean_change = change_sum[..., start:stop].sum(dim=-1) / width
-            log_energy = torch.log(energy_sum[..., start:stop].sum(dim=-1) / width + LOG_EPSILON)
-            group_targets.append(torch.stack((mean_change, log_energy), dim=-1))
+            mean_change = endpoint_change[..., start:stop].sum(dim=-1) / width
+            log_energy = torch.log(energy_sum[..., group_index] / horizon + LOG_EPSILON)
+            group_target = torch.stack((mean_change, log_energy), dim=-1)
+            if window_count < sequence_length:
+                group_target = F.pad(group_target, (0, 0, 0, sequence_length - window_count))
+            group_targets.append(group_target)
         targets_by_horizon.append(torch.cat(group_targets, dim=-1))
         horizon_valid = valid_rows.bool() & (positions[None, :] + horizon < sequence_length)
         if lengths is not None:
