@@ -23,7 +23,11 @@ test command are recorded in the [implementation packet](../../experiment_drafts
 The component implementation reuses the canonical modular trainer. Both
 serving exporters strip the auxiliary head and normalization buffers, while
 training checkpoints retain them for provenance and restoration. Four focused
-CPU tests and static checks pass; sustained profiling, fits, prediction grades,
-and quality interpretation remain pending. This packet supports the cold
+CPU tests and static checks pass. The isolated branch now has literal
+fit→full-fold-predict→score plans for all four runs, a 10-warmup/100-measured
+F0 aux005 profile plan, an exact-hash F2 manifest copy, and a fixed paired
+full-fold grader that checks head/target-statistics identity, complete NPY
+coverage, per-target and position-bin deltas, and the unsearched 90/10 mixture.
+The profile and fits remain pending. This packet supports the cold
 screen only; strong-parent continuation is currently rejected and requires a
 separate extension. No target-only or public gain is claimed.

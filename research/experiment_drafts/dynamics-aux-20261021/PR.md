@@ -67,19 +67,19 @@
    fixed-mixture contribution may earn a conditional follow-up. Mixed results
    require diagnosis; an interval crossing zero alone does not reject the
    direction. Auxiliary loss reduction alone does not justify a larger run.
-9. **How to run.** From repository root, use the `fits` list and exact template
-   in [recipe.json](recipe.json), substituting the frozen split and subset
-   manifests for each fold. The implementation requires the canonical
-   `uv` project environment and supplied local parquet data. Before any fit,
-   root must complete and admit the sustained B-control profile within the
-   accepted 3-hour dynamics allocation and shared resource limits. Export each
-   fixed CP2 full evaluation fold with `predict_run.py`; score using the
-   unchanged official command in the recipe. No fitting is authorized by this
-   code-only handoff.
+9. **How to run.** The packet contains five sealed `kaggle_sequence.py`
+   plans: a 10-warmup/100-measured B8 F0/seed1001 aux005 profile without
+   `--save-training-state`, followed by four exact fit→full-fold-predict→score
+   plans with fixed CP2. Launch under root's admitted resource scope with
+   `WNN_LOADER_WORKERS=0`; exact invocations and profile-cost accounting are
+   indexed in the [campaign packet](../../campaign_2026-10-21/next_cycle_r1/dynamics/README.md).
+   Root must review the sustained profile and full-panel projection against the
+   accepted three-GPU-hour allocation before admitting any fit. Preparation of
+   these commands does not itself admit or launch the profile or fits.
 10. **Evidence to return.** For each cell preserve source/config/args hashes,
     exact split and subset hashes, per-fit target-normalization membership/hash
-    and settings, head initialization identity, progress and preclip gradient
-    norm, optimizer attempts/steps, LR, fixed checkpoint, full-fold prediction
+    and settings, paired initialization and trained auxiliary-head identities,
+    progress and preclip gradient norm, optimizer attempts/steps, LR, fixed checkpoint, full-fold prediction
     sidecar/header hashes, official scores, paired component uncertainty,
     wall time and peak RAM/VRAM. Keep evidence and weights archives separate.
     The training checkpoint retains auxiliary state for restoration and
@@ -88,8 +88,10 @@
     leaderboard results yet. Focused test command:
     `uv run pytest tests/test_dynamics_auxiliary.py -q` passed 4 tests in2.35s
     under root's serialized 1-core/1.8-GB slot; Ruff and the structure checker
-    pass. The current limitation is no strong-parent continuation support. The
-    F2 fit subset is frozen in sibling branch `experiment/i1-screen-20261021`
-    and must be integrated by exact hash before running. Link any
+    pass. This delivery continuation performed only documentation and static
+    inspection; it ran no project imports, tests, data reads, or training. The
+    current limitation is no strong-parent continuation support. The exact F2
+    subset copy is present at the canonical i1 path and retains the frozen
+    SHA-256 in [recipe.json](recipe.json). Link any
     execution receipts and resulting grade from the packet and unified ideas
     README; do not infer quality from this implementation.
