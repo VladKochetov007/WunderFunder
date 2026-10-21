@@ -125,3 +125,11 @@ the recipe/budget. Root owns integration and later resource admission.
 
 Do not launch a broad loss/history/sampling sweep, restart the old R4 matrix,
 count draft PRs as results, or delete historical stop receipts.
+
+## Next bounded Kaggle delivery owners — October21
+
+After the two terminal setup failures, `kaggle_delivery_readiness` is implementing a code-only corrected same-process profile → conditional F1seed1004 six-epochCP5 fit → fixedCP5/SWA345 exports. No third upload/launch or fit is admitted yet. Its isolated worktree is `/home/vlad/development/wunder/research_tmp/kaggle-delivery-readiness-20261021`; proposal commit `a8c8e5c7f` preserves canonicalF1SHA31b9dc... and derivedview548b42f... separately, plus both small structural caches. The controller uses the two observed provider deductions (~1×sessionwall) for actual quota admission while reporting2×allocated-device time separately; remaining17,277.652providerseconds. Prospective worker wallcap<=16,000seconds includes setup/profile/export/finalizer, and measured40finiteprofileupdates must justify all89,580fitupdates with1.25timingmargin before fitting. This is an explicit accounting amendment to the proposal conservative2×provider gate, not new paid authority.
+
+`nll_followup_recipe` owns a code-only F1 official grader in `/home/vlad/development/wunder/research_tmp/nll-followup-f1-20261021`. Frozen5endpoints: oldZ4studentF1 historicalFP16 reference, H512CP5, SWA345, and fixed75/25oldZ4/H512CP5 orSWA. New run names `r01_h512_f1_s1004_kaggle_fit_r1` and `r01_h512_f1_s1004_kaggle_swa345_r1`. Precision asymmetry and exposedF1 remain explicit; never forge canonicalSHAs. Root owns independent review, actual quota/reservation check, admission, download and scientific interpretation. No additional localGPUfit is admitted.
+
+Main delivery implementation and archived Kaggle closeout are pushed as `38ae303fd`. Research-tree navigation rebuilt under a512MB/half-core scope (202,484KiBpeakRSS,42.18swall); mutable fit logs can make the generated snapshot stale. The H512 fit and postfit watcher are both live; this entry records preparation rather than a new result.
