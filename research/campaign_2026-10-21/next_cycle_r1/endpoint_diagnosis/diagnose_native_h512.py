@@ -136,6 +136,14 @@ def raw_update(s: np.ndarray, values: np.ndarray) -> np.ndarray:
     )
 
 
+def raw_summary(state: np.ndarray) -> dict[str, list[float]]:
+    """Read stored means and population variances from a merged raw state."""
+    return {
+        "mean": state[1:3].tolist(),
+        "std": np.sqrt(state[3:5] / state[0]).tolist(),
+    }
+
+
 def load_prediction(
     path: Path, sidecar_path: Path, rec: dict[str, Any]
 ) -> tuple[np.ndarray, dict[str, Any]]:
@@ -208,6 +216,7 @@ def main() -> int:
     sys.path[:0] = [str(packet), str(root / "src")]
     from endpoint_score_inputs import load_campaign_split, load_targets
 
+    from wnn.evaluation import paired_component_bootstrap, paired_component_moments
     from wnn.gmetric import GlobalAccumulator
 
     source = load_campaign_split(root)
@@ -264,6 +273,9 @@ def main() -> int:
 
     scores = {n: GlobalAccumulator() for n in NAMES}
     bins = {(a, b): {n: GlobalAccumulator() for n in NAMES} for a, b in BINS}
+    bin_moments = {
+        (a, b): {n: np.zeros((len(groups), 2, 6)) for n in ("B", "R", "S")} for a, b in BINS
+    }
     moments = {n: [np.zeros(6) for _ in range(2)] for n in NAMES}
     cross = {n: [np.zeros(6) for _ in range(2)] for n in ("H", "Hswa")}
     raw = {n: np.zeros(5) for n in NAMES}
@@ -302,6 +314,12 @@ def main() -> int:
             for a, b in BINS:
                 bm = mask & (pos >= a) & (pos < b)
                 bins[a, b][name].add(y[None], p[None], bm[None])
+                if name in ("R", "S"):
+                    candidate_moments, reference_moments = paired_component_moments(
+                        y[None], p[None], pred["B"][None], bm[None]
+                    )
+                    bin_moments[a, b][name][i] = candidate_moments[0]
+                    bin_moments[a, b]["B"][i] = reference_moments[0]
         for name in ("H", "Hswa"):
             for k in range(2):
                 cross[name][k] = pair(
@@ -310,6 +328,8 @@ def main() -> int:
         delta = pred["R"].astype(np.float64) - pred["S"].astype(np.float64)
         for label, hp, hsp in (("raw", pred["H"], pred["Hswa"]), ("clipped", pc["H"], pc["Hswa"])):
             resid = delta - 0.34 * (hp.astype(np.float64) - hsp.astype(np.float64))
+            # Native caches contain zeros where the callback returns no prediction.
+            resid = resid[99:]
             parity_sum[label] += float(np.square(resid).sum(dtype=np.float64))
             parity_max[label] = max(parity_max[label], float(np.abs(resid).max(initial=0)))
             if label == "raw":
@@ -336,6 +356,17 @@ def main() -> int:
         vals = {n: acc.result() for n, acc in accs.items()}
         bin_report[f"{a}_{b}"] = {
             "scores": vals,
+            "conditional_component_uncertainty": {
+                n: paired_component_bootstrap(
+                    bin_moments[a, b][n],
+                    bin_moments[a, b]["B"],
+                    components,
+                    n_boot=2000,
+                    seed=271828,
+                    centered=True,
+                )
+                for n in ("R", "S")
+            },
             "deltas_vs_B": {
                 n: {k: vals[n][k] - vals["B"][k] for k in ("wp", "t0", "t1")}
                 for n in NAMES
@@ -392,17 +423,8 @@ def main() -> int:
         "position_bins": bin_report,
         "clipped_weighted_moments": weighted,
         "raw_selected_stats": {
-            "target": {
-                "mean": (target_raw[1:3] / target_raw[0]).tolist(),
-                "std": np.sqrt(target_raw[3:5] / target_raw[0]).tolist(),
-            },
-            **{
-                n: {
-                    "mean": (raw[n][1:3] / raw[n][0]).tolist(),
-                    "std": np.sqrt(raw[n][3:5] / raw[n][0]).tolist(),
-                }
-                for n in NAMES
-            },
+            "target": raw_summary(target_raw),
+            **{n: raw_summary(raw[n]) for n in NAMES},
         },
         "clipping_fraction": {
             "target": (target_clipped / target_raw[0]).tolist(),
@@ -417,6 +439,7 @@ def main() -> int:
             "rms": {k: math.sqrt(v / parity_count) for k, v in parity_sum.items()},
             "max_abs": parity_max,
             "cells": parity_count,
+            "rows": "All need_prediction rows; first 99 callback warmup rows excluded.",
             "interpretation": "Arithmetic diagnostic only; infer no retained-member identity unless package identities match.",
         },
         "limits": "F0 is exposed; TL3 ancestry is unknown. Descriptive fitted diagnostics do not establish causality or public transfer.",
