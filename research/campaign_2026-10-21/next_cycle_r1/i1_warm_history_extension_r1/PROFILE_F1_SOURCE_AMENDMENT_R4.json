@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "amendment_id": "WARM_F1_PROFILE_SOURCE_AMENDMENT_R4",
+  "profile_id": "i1warm_profile_f1_seed4_r2",
+  "base_plan": {
+    "path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/STRONG_PARENT_WARM_I1_PLAN_R1.json",
+    "sha256": "eeec65c1982cda52cbc5260643d9d58bc39bdee264543a85ca6170682f7bc1e1"
+  },
+  "base_profile_recipe": {
+    "path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F0_WARM_R2.json",
+    "sha256": "ba13ead87fdad5c97d3ea12e7843a733342a7e05630e5fa60548a0995dc71d34"
+  },
+  "source": {
+    "root": "/home/vlad/development/wunder/research_tmp/i1-warm-source-repaired-20261022",
+    "commit": "81f47a3fd94e4209e47b1f3815af2907e8f0b5d7",
+    "required_additions_sha256": {
+      "src/wnn/distillation_cache.py": "1c9eed9537e2fbc10173860dbd19ba99d722ad85995db3d7c2e2cf579ba16136"
+    },
+    "only_commit_path_changed_from_prior_source": "src/wnn/distillation_cache.py",
+    "prior_source_root": "/home/vlad/development/wunder/research_tmp/i1-warm-source-frozen-20261022",
+    "prior_source_commit": "66959b920ba25de1d2f2911d8c5508d22d3eb4d0",
+    "prior_cache_reader_sha256": "008fd6615ac5b627273f419072933cb95dc85fcd6c30eaffd6f1fb2df53ab0eb",
+    "scope": "Only the bounded distillation-cache metadata reader cap changes from 512000 to 1048576 bytes; all 41 frozen source pins and the R1 training argv remain unchanged."
+  },
+  "prior_attempt": {
+    "admission_path": "research/campaign_2026-10-21/next_cycle_r1/WARM_F1_PROFILE_ADMISSION_R3.json",
+    "admission_sha256": "b37cdb521938de081f4a6238f55bf89669e2815a4fdfe52ce04acacd4b8419a5",
+    "execution_path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F1_LOCAL_EXECUTION_R3.json",
+    "execution_sha256": "5df66a2543355034036c920a91ef184a4ad8063b4da51c2167d9c3c03dbe478e",
+    "source_commit": "66959b920ba25de1d2f2911d8c5508d22d3eb4d0",
+    "source_root": "/home/vlad/development/wunder/research_tmp/i1-warm-source-frozen-20261022",
+    "adapter_sha256": "5625ce22b867812c0103b81963ea0531675e21327330d0a21d162bdf17dc0685",
+    "log_path": "research/campaign_2026-10-21/next_cycle_r1/warm_f1_profile_r3.log",
+    "log_sha256": "568e41a74ee2f43d889e0ee44833b57755f5c6150a852e516ba674d2c6b1ae37",
+    "status": "failed",
+    "wall_seconds": 5.879722407000372,
+    "failure": "metadata read bound rejected the pinned 842417-byte F1 metadata.json at the old 512000-byte cap before training updates",
+    "metadata_path": "cache/h230_four_family_fold1_source_20261009_r1/metadata.json",
+    "metadata_bytes": 842417,
+    "metadata_sha256": "8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703",
+    "training_updates": 0
+  },
+  "profile": {
+    "id": "i1warm_profile_f1_seed4_r2",
+    "fold": 1,
+    "profile_steps": 100,
+    "profile_warmup": 10,
+    "unchanged_argv_sha256": "242364de6fd83db8d174c02890ef0796c853829d7df0e77b0e424fd9d2bfd330",
+    "argv_hash_encoding": "SHA-256 of ASCII bytes from json.dumps(plan profile argv[1:], separators=(',', ':'), ensure_ascii=True); only the training script path at argv[0] is replaced by the repaired source root.",
+    "expected_optimizer_updates": 1100,
+    "scientific_fit_performed": false
+  },
+  "preserved_f0": {
+    "execution_path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F0_LOCAL_EXECUTION_R2.json",
+    "execution_sha256": "b25793c46f4d524a43066db4e80e2cdd3d522baa1e7fb92dcc1b0cd659492cf0",
+    "log_path": "research/campaign_2026-10-21/next_cycle_r1/warm_f0_profile_r2.log",
+    "log_sha256": "c4447fa4826651ed3c1299b4beeac9b30c8d292bdbf6dfc1ebb014f0461e6f52",
+    "source_commit": "66959b920ba25de1d2f2911d8c5508d22d3eb4d0",
+    "status": "complete",
+    "wall_seconds": 304.76052887600963,
+    "profile_batches": 110,
+    "optimizer_updates": 1100,
+    "scientific_fit_performed": false
+  }
+}

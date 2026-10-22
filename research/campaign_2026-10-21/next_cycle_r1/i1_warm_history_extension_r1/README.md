@@ -103,7 +103,8 @@ parent-tensor check, or profile result. Ruff, the training-structure checker,
 and `tests/test_distillation.py` pass (12 tests). The test command explicitly
 sets `PYTHONPATH` to the isolated worktree's `src`, because the shared virtual
 environment otherwise resolves its editable package from the root checkout.
-Root owns the source-bound retry amendment and execution.
+The source-bound amendment and R4 profile adapter are now prepared below;
+root review and execution remain pending.
 
 [`PREFLIGHT_R2.json`](PREFLIGHT_R2.json) and its create-only helper prepare those actual-parent and paired-initialization gates. The helper has not been run in this worktree. Root reports that the F0 warm profile completed 1,100 finite updates with no skips; this is throughput evidence only. The F1 profile stopped before updates because its actual cache metadata is 842,417 bytes while the frozen canonical reader allows 512,000. Preserve that failure and the frozen R1 source/plan hashes: F1 remains blocked until the narrow metadata-bound repair is integrated and a separate source/plan amendment is frozen. No metadata validation is disabled.
 
@@ -150,3 +151,24 @@ physical-disk scratch; it masks GPUs. The report path is create-only. Keep the
 fold-specific results separate: F0 and F1 change seed, parent, target cache,
 teacher ancestry and propensity together, so they are not clean replications
 and provide no training-seed uncertainty or public-score estimate.
+
+## F1 profile retry prepared (R4)
+
+[`PROFILE_F1_SOURCE_AMENDMENT_R4.json`](PROFILE_F1_SOURCE_AMENDMENT_R4.json)
+binds the repaired clean source at `81f47a3fd94e4209e47b1f3815af2907e8f0b5d7`.
+Relative to the preserved R3 source `66959b920ba25de1d2f2911d8c5508d22d3eb4d0`,
+the only changed file is `src/wnn/distillation_cache.py`, pinned at
+`1c9eed9537e2fbc10173860dbd19ba99d722ad85995db3d7c2e2cf579ba16136`. The
+original 41 source pins, frozen plan, F1 profile argv after its script path,
+data/cache membership, and the completed F0 R2 receipt/log are preserved. R3's
+5.88-second failure remains pinned as a metadata-read rejection before training
+updates; no scientific fit was performed.
+
+[`run_warm_f1_profile_r4.py`](run_warm_f1_profile_r4.py) verifies those source,
+recipe, prior-attempt, and data-file hashes before it creates the R4 receipt and
+starts the unchanged 110-batch F1 engineering profile. It reuses the canonical
+trainer from the clean repaired source; the adapter adds no training logic.
+The exact CPU1/RAM4GB/no-swap/one-GPU-lock/900-second command and create-only
+paths are recorded in the [R4 admission](../WARM_F1_PROFILE_ADMISSION_R4.json).
+This is prepared for root review only: the adapter has not been run, no output
+receipt or model was created, and there is no F1 profile measurement or fit.
