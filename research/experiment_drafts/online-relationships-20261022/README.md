@@ -2,6 +2,8 @@
 
 ## Current execution: all twelve fits admitted and delivery running
 
+[Pinned-parent readout metadata](PARENT_READOUT_METADATA_R1.json) supports no extra outcome-readout table in either checkpoint, using hash-verified zip/pickle-opcode inspection with no tensor load. This resolves one native-serving preparation question; it establishes no prediction parity, target quality or native runtime.
+
 [Unapproved revised budget proposal](BUDGET_EXTENSION_PROPOSAL_R2.json) supersedes the [earlier 30-minute proposal](BUDGET_EXTENSION_PROPOSAL_R1.json). Additional epoch observations make the earlier estimate insufficient; R2 proposes moving up to one hour of unused strong-parent allocation to a 3.5-hour inclusive ceiling, keeping the original total and production reserve. This is not authorization: original time limits remain binding pending an explicit user answer.
 
 [Both parent caches published](PARENT_CACHE_MILESTONE_R1.json), with F0 1,236 fitting/468 evaluation sequences and F1 1,243/457. The frozen fitting command began after F1 publication at 02:02:56 Kyiv. The actor receipt hashes JSON sidecars only; all-candidate coverage and target quality remain pending independent grading.

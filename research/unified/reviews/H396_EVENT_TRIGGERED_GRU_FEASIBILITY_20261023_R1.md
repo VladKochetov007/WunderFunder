@@ -2,7 +2,7 @@
 kind: review
 status: complete
 created_utc: 2026-10-22T22:39:48Z
-updated_utc: 2026-10-22T22:59:50Z
+updated_utc: 2026-10-22T23:26:57Z
 hypothesis_ids: [H-396]
 experiment_ids: []
 evidence_paths:
@@ -38,6 +38,8 @@ The two exact reusable parent endpoints are already pinned in the online recipe 
 `load_parent` verifies these identities, loads strict state, sets inference FP32 and records the backend (`src/wnn/training/online_relationship_sources.py:24-83`). The recipe records historical training precision as fp16 and fp16_amp respectively, so these are strict-FP32 **inference** endpoints, not independent FP32 training replications. Root's metadata-only follow-up verifies the pinned F1 provenance SHA `8312a897d59fbeedf65e0c0da824e51ae33b84d25315a621c15b7158f9a139f5`: `args.init` is empty and the fitting seed is 3. Thus the recipe's null initializer does not establish unknown checkpoint initialization. That provenance also declares eight source-cache members and `clean_fold_fit` membership; this note does not independently audit their complete ancestry. `evaluation.predict` builds inputs, uses the strict-FP32 inference flag and applies a stored outcome readout when present (`src/wnn/training/evaluation.py:21-46`). `PyPredictor` returns the native head directly and has no outcome-readout API. Before using the PyTorch parent prediction caches as native endpoint references, resolve whether each pinned parent's readout is present and verify/export an identical mapping; the safer matched runtime control for H-396 is the same checkpoint through the same native F32 path with gating disabled.
 
 ## Limits and validity
+
+Root's later [metadata-only check of both pinned checkpoints](../../experiment_drafts/online-relationships-20261022/PARENT_READOUT_METADATA_R1.json) finds the sole serialized `readout` entry followed by `NONE`, consistent with no extra outcome-readout tables in these two endpoints. This narrows the mapping question above without establishing native numerical parity; the strict-FP32 same-backend control remains required.
 
 No runtime savings, skip frequency, quality effect or endpoint parity has been measured. Zero new fits is not zero execution cost: a full replay still reads each sequence, builds the 211 inputs and position state, calculates novelty, input projection and readout, and grades predictions. Branch overhead can erase recurrent savings. Parent prediction caches contain parent outputs, not a reusable 211-column stream, so a gate replay still needs raw sequences and event-feature construction. The existing frozen 12-cell grader is not an H-396 grader and must not be edited to admit this arm. All folds are exposed; any resulting score is discovery/robustness evidence, not fresh confirmation.
 

@@ -1,0 +1,36 @@
+{
+  "schema": "wnn.online-relationships.parent-readout-metadata.v1",
+  "recorded_utc": "2026-10-22T23:26:57Z",
+  "owner": "root",
+  "method": "Verify each pinned checkpoint SHA256, read its sole zip data.pkl member, inspect pickletools.genops without deserializing, find exact readout string occurrences and the next opcode excluding memo bookkeeping.",
+  "parents": [
+    {
+      "fold": 0,
+      "checkpoint_sha256": "e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda",
+      "metadata_member_bytes": 54357,
+      "readout_string_occurrences": 1,
+      "following_opcode": "NONE"
+    },
+    {
+      "fold": 1,
+      "checkpoint_sha256": "be2273cc96027295c19133504354a262cd1a2066fa5ae3df7d6be64ed0a1ad8e",
+      "metadata_member_bytes": 51191,
+      "readout_string_occurrences": 1,
+      "following_opcode": "NONE"
+    }
+  ],
+  "producer_consumer_basis": {
+    "producer": "src/wnn/training/outputs.py stores readout=None when no fitted readout tables exist.",
+    "consumer": "src/wnn/training/online_relationship_sources.py uses checkpoint.get('readout'); evaluation.py takes out[..., :2] when those tables are None.",
+    "source_freeze": "17470a770f2a6aa25be232c017bff45b5d56ad97"
+  },
+  "finding": "Both actual serialized checkpoints have the sole readout entry followed by NONE, consistent with no additional outcome-readout table for these pinned endpoints. Native serving still needs first-two-output and strict-FP32 numerical parity checks.",
+  "resources": {
+    "cpu_quota_percent": 5,
+    "memory_max_bytes": 150000000,
+    "swap_bytes": 0,
+    "runtime_cap_seconds": 30,
+    "observed_command_wall_seconds": 0.963523313
+  },
+  "limits": "Standard-library serialization-format inspection only: no Torch import, tensor deserialization, predictions, labels, new fit, quality score or native execution. It is not a full independent pickle parser or numerical parity test."
+}
