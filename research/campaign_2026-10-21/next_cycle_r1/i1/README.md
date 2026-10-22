@@ -1,11 +1,14 @@
 # i1 causal-history A/B/C screen
 
-This folder prepares the amended six-fit i1 memory screen in the October21
-allocation. The sustained profile passed, and the first F0/seed1001 A/B/C
-cell has completed. The original F0 A/B-only interim result remains frozen;
-the new [A/B/C interim grade](interim_f0_abc/README.md) is prepared but has
-not been run. The parent owns fit ordering, CPU admissions and the complete
-panel grade.
+This folder records the amended six-fit i1 memory screen in the October21
+allocation. The sustained profile and all six fits completed; the terminal
+[fixed grade](runtime/GRADE_R1.json) covers F0/seed1001 and F2/seed1002. The
+original F0 A/B-only interim result remains frozen, and the separate new
+[F0 A/B/C interim wrapper](interim_f0_abc/README.md) was not needed for the
+complete panel grade. The independent [grade review](../../../unified/reviews/I1_SIX_FIT_HISTORY_GRADE_REVIEW_20261022_R1.md)
+records the small exposed fixed-mixture signal, its conditional uncertainty,
+and the native-serving and initial-function limits; root owns follow-up
+allocation and promotion decisions.
 
 The panel has two paired fold/seed cells: A/B/C on F0 with seed1001 and A/B/C
 on F2 with seed1002. Each arm has two fits, for six new fits total; there are
