@@ -1,0 +1,48 @@
+{
+  "status": "service_started_in_CPU_preparation; GPU fits not yet verified at this receipt",
+  "unit": "tabdata-next4h-20261022-r2.service",
+  "start_unix": 1792693855.4927282,
+  "deadline_unix": 1792708255.4927282,
+  "start_utc": "2026-10-22T18:30:55.492728Z",
+  "deadline_utc": "2026-10-22T22:30:55.492728Z",
+  "sealed_plan_sha256": "dcae1bbaf32e3122227c2dc078d8f41b38eb0178e01ebdac36db9c8ad25f7970",
+  "planned_fits": {
+    "PR35_numeric": 6,
+    "PR37_cold_NLL": 4,
+    "PR36_mask": 0
+  },
+  "mask_skip": "exact pinned parents not available; no substitution",
+  "epochs": 3,
+  "fixed_epoch": 2,
+  "files": {
+    "delivery.py": "7dc5dde8c4f0c2eb5cdf8714cc4422f6ee33a1f03ac242a60f3e2b7ae90225a6",
+    "cohort.py": "3b7435478f0d0a729157b427da29d0f4f29e888f66da781be0b329192ced59e1",
+    "publish.py": "010554f242bfedad313a8fe2d8289cebeaa588fef2cb4c264c328a63d3101219",
+    "setup_cohort.py": "a3c0d151da5f4927dedf41f5fc550c97f8e1cea412f2bcbe425c8e2fac080f8c",
+    "nll_profile.py": "38a844048b26ac5c011fe22e619327abd1aedcf2929572227a6a706756e1ef4d",
+    "nll_grade.py": "773dc37f4606836317f9318b9c0b7118b3e2082b9fc14c416161c4a881087240"
+  },
+  "runtime_bound": {
+    "RuntimeMaxSec": 13500,
+    "TimeoutStopSec": 120,
+    "KillMode": "control-group",
+    "Restart": "no",
+    "ExecStopPost_timeout_seconds": 110
+  },
+  "validation": {
+    "numeric_CPU_tests": "29 passed",
+    "NLL_CPU_tests": "4 passed after head-interface test fix",
+    "mask_receiver_CPU_tests": "6 passed",
+    "timeout_test": "signal-ignoring descendant killed; initial asynchronous assertion failure preserved",
+    "grader": "canonical dependency imports pass; full fixed-artifact grading not yet executed"
+  },
+  "source_commits": {
+    "numeric": "20faaa1abddb79f342a3b66ba0e5623a15c65a25",
+    "nll": "6577b88e",
+    "mask": "eceb95c0536bf03ff260379e8f86a52cb4f5d56b"
+  },
+  "live_updates": {
+    "PR35": "https://github.com/VladKochetov007/WunderFunder/pull/35#issuecomment-6348255634",
+    "PR37": "https://github.com/VladKochetov007/WunderFunder/pull/37#issuecomment-6348256256"
+  }
+}
