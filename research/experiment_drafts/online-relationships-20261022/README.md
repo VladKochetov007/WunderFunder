@@ -1,5 +1,11 @@
 # Online relationship screen — October22 amendment
 
+## Resumed engineering after the user pause
+
+The user explicitly resumes experiments. The strict serial compiled stream passes 35 exactness tests and its [independent code/math review](../../unified/reviews/ONLINE_RELATIONSHIP_NUMBA_FP32_REVIEW_20261022_R1.md). The [new feature profile](FEATURE_PROFILE_COMPILED_RESULT_R1.json) projects 523.40 seconds for one pass and 1,286.24 seconds for three-epoch recomputation, compared with the preserved Python projection of 15,818.88 seconds. Its [execution/accounting receipt](FEATURE_PROFILE_COMPILED_EXECUTION_R1.json) records 9.53 wall seconds, 534,920 KiB peak RSS and zero swaps. Parent inference, complete fitting-only normalization, updates, disk I/O and grading are still omitted; zero scientific fits are admitted.
+
+The [canonical readout fitter receipt](../../unified/reviews/ONLINE_RELATIONSHIP_READOUT_FIT_RECEIPT_20261022_R1.md) records three passing bounded CPU tests and the in-sample parent-cache API. Data/export/profile orchestration and an independent artifact grader are being completed. The earlier deferral and pause below remain historical records; full delivery must still fit 9,000 inclusive worker seconds. [Thermal resume](../../unified/operations/THERMAL_RESUME_20261022_R1.md) records the active CPU-only saved-model export and shared resource constraints.
+
 Status: core/head/profile implemented and verified; entire12-fit panel deferred at the measured cost gate. No new fit admitted and no online quality result.
 The user requested both backward lags after accepting the original six-fit plan: **12 new readout fits**, A/B/C × lags1/16 × F0/1001,F1/1002, zero GRU/teacher fits. The complete panel must fit the unchanged2.5-hour inclusive ceiling after the active warm-history panel finishes. Production keeps12hours.
 

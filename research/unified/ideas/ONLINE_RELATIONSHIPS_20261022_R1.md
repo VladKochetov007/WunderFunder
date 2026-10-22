@@ -1,6 +1,6 @@
 ---
 kind: experiment
-status: complete
+status: running
 created_utc: 2026-10-22
 updated_utc: 2026-10-22
 hypothesis_ids: [H-ONLINE-RELATIONSHIPS-20261022-R1]
@@ -8,6 +8,10 @@ experiment_ids: [E-ONLINE-RELATIONSHIPS-20261022-R1]
 ---
 
 # Online input relationships with a task-trained residual readout
+
+## Resumed implementation profile
+
+After the user resumes, exact serial compiled features pass the [new cost profile](../../experiment_drafts/online-relationships-20261022/FEATURE_PROFILE_COMPILED_RESULT_R1.json): one pass projects 523.40 seconds and three-epoch recomputation 1,286.24 seconds, using eight complete fitting-valid sequences per fold. Its [execution receipt](../../experiment_drafts/online-relationships-20261022/FEATURE_PROFILE_COMPILED_EXECUTION_R1.json) records 9.53 wall seconds and zero swaps. These optimistic feature-only estimates reopen the full cost profile, with zero scientific fits admitted. The [independent source review](../reviews/ONLINE_RELATIONSHIP_NUMBA_FP32_REVIEW_20261022_R1.md) and [fitter test receipt](../reviews/ONLINE_RELATIONSHIP_READOUT_FIT_RECEIPT_20261022_R1.md) establish implementation checks, not target gains. Parent-cache creation and complete delivery cost remain unmeasured. The historical Python deferral below is preserved.
 
 ## Question and progression
 

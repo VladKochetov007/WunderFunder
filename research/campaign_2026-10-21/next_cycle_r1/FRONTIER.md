@@ -262,3 +262,13 @@ Finalonlineimplementation/core/profilechecks andindependentcostreview are locall
 Furtherthermalcaution: afterreaching86°Cduring25%CPUdrain, rootloweredthecurrentworker to**10%CPU**. Epoch1batch500/746observed, supervisorstillsuspended, observeractive~10MB. HostmemoryPSIavg10fellto0.04; noothercomputationadmitted. The10%ceiling supersedes25%above; completiontimeisnotpromised.
 
 [User-applied disk swap verified](SWAP_TMP_APPLIED_R2.json):16GiBSSD swap priority200 active/persisted; tmp.mount masked and zram default disabled fornextboot. Currenttmpfs/zrampages retained untilreboot, memorypressure0.00. Currentfit lastobservedepoch1batch580/746,78°C, taskswap0; drainobserver active. Userpause/noadditionaladmission remainsbinding.
+
+## User resume after thermal pause
+
+Latestuser asks **continueexperiments**. [Resumeauthority/admission](RESUME_AFTER_THERMAL_R1.json) supersedesthepause, retaininglaptopsafety. [Terminaldrainreceipt](WARM_GRACEFUL_DRAIN_RESULT_R1.json) confirms F0control CP1landed,14920finiteupdates/zeroskips; workerunitsignalexitwasintentionalafterchildsuccess. Onecompletedfit9038seconds+689.262priorengineering leave19072.738seconds ofstrong8hstagebeforeexports. Rootfirstexportscompletedcontrol throughfrozenpredictor under50%CPU/4GB/noSwap/thermal83pause78resume; remaining3fitsrequirefreshcomplete-remainder costgate.12hproductionreserve retained. Pythononline12fitcostdeferral remainshistory; code-onlyexactcompiledrepair assignedLuna/max, nofitadmission.
+
+## Thermal export repair and compiled online gate
+
+[Operational record](../../unified/operations/THERMAL_RESUME_20261022_R1.md) preserves R3 GPU export cancellation after 900.128 wall seconds: paused CUDA context could not cool. R4 uses the same frozen CP1 predictor on CPU, one core/4 GB/no task swap, one-second thermal polling, 30-minute cap. At 236.5 CPU seconds its untrusted partial has 256 diagnostic nonzero last-row markers out of 1,873; this is throughput only, not accepted coverage. GPU 71–73°C. Remaining three warm fits still lack complete safe cost admission.
+
+[Compiled feature profile](../../experiment_drafts/online-relationships-20261022/FEATURE_PROFILE_COMPILED_RESULT_R1.json) completes in 9.53 seconds, 534,920 KiB peak RSS, zero swaps: empirical one-pass 523.40 seconds, three-epoch recompute 1,286.24 seconds. Strict serial kernel passes exactness tests and independent source review. Fitter contract tests pass; finite guards and cache/export/grader integration are being completed. Zero online fits admitted; full inclusive 9,000-second delivery profile remains mandatory. CPU-only inference is being measured to avoid CUDA thermal load.

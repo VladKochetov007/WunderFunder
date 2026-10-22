@@ -18,6 +18,7 @@ def main() -> None:
     parser.add_argument("--output", type=Path)
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--samples-per-fold", type=int, default=8)
+    parser.add_argument("--backend", choices=("reference", "compiled"), default="reference")
     args = parser.parse_args()
     output = args.output or SCRATCH_ROOT / "online-relationships-20261022" / "feature-profile.json"
     report = profile_feature_floor(
@@ -25,6 +26,7 @@ def main() -> None:
         output,
         root=args.root,
         samples_per_fold=args.samples_per_fold,
+        backend=args.backend,
     )
     print(json.dumps(report, indent=2, sort_keys=True))
 

@@ -1,5 +1,13 @@
 # Current project state
 
+## October22: thermal recovery and compiled online cost profile
+
+The [resume operation](../research/unified/operations/THERMAL_RESUME_20261022_R1.md) preserves the completed warm F0 control and stops its thermally stalled GPU export. The same fixed CP1 now exports on CPU, with GPU hidden and a one-core/4 GB/no-swap bound; full coverage is pending. Remaining three warm fits still need a safe complete-panel projection. Exact compiled online features reduce the one-pass cost projection to 523.40 seconds; full parent-cache/head/grade profiling is pending, with zero online fits admitted. The earlier Python deferral and thermal pause remain history. Production reserve stays 12 hours.
+
+## October22: user resumes experiments after thermal pause
+
+[Resume receipt](../research/campaign_2026-10-21/next_cycle_r1/RESUME_AFTER_THERMAL_R1.json) supersedes priorpause. F0warmcontrol completed2epochs/14920finiteupdates andsavedfixedCP1; rootfirstexportsitwiththermal/memoryguardanddiskTMPDIR. Remaining3warmfits require refreshedcomplete-panelcostadmission withinremaining8hstage. SSDswapactive, tasknoSwap; production12hreserve preserved. Optionalcompiledonlinefeatureengineering hasnoqualityfitadmission.
+
 ## October22 user-directed thermal pause after current fit
 
 The user reports laptop freezes/overheating and asks to let the current fit land gracefully, then pause. [Drain receipt](../research/campaign_2026-10-21/next_cycle_r1/THERMAL_GRACEFUL_PAUSE_R1.json): only currentF0warmcontrol drains at10%CPU; its supervisor is suspended and cannot start further fits/exports. A bounded observer records checkpoint hashes afterexit and releasesworker resources. Completion is pending; no automaticresume or additionalheavywork. Researchtask swap is0, buthostswap is7.9/8GB. The online12fitpanel was already deferred by its4.394h featurecostprojection against2.5hcap.

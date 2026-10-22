@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Thermal resume and CPU export recovery, October22](THERMAL_RESUME_20261022_R1.md) — user resumes after the warm control lands. GPU export was cancelled after a paused CUDA context prevented cooling; the same checkpoint now exports on CPU under explicit thermal/memory bounds. Compiled exact online features pass the feature cost gate; full-panel profiling and remaining-fit admission are pending. No new quality result.
+
 - [October21 next local/Kaggle cycle](../../campaign_2026-10-21/next_cycle_r1/README.md) — accepted new 30-hour allocation and durable frontier, saved-artifact recovery then six-fit i1 and four-fit dynamics screens; conditional strong-parent/production work, no new result at entry. Supersedes prospective priorities, preserves prior costs/evidence.
 
 - [Current-host native precision R2 adapter](../../campaign_2026-10-21/next_cycle_r1/native_precision_probe/README.md#current-host-precision-r2-adapter) — source-only eight-group grader preparation. It preserves the old failed parity receipts, gates the frozen reconstructions against the newly graded full-host TL3 reference and CP5 cache before labels, then reuses the fixed scorer. Root review and its one-CPU/1.4-GB run are pending; no new inference or fit ran during preparation.

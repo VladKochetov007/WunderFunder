@@ -34,6 +34,7 @@ def profile_feature_floor(
     *,
     root: Path,
     samples_per_fold: int = 8,
+    backend: str = "reference",
 ) -> dict[str, Any]:
     """Measure six-stream CPU cost on eight complete fit-valid sequences per fold.
 
@@ -44,6 +45,8 @@ def profile_feature_floor(
     """
     if samples_per_fold < 2 or samples_per_fold % 2:
         raise ValueError("samples_per_fold must be an even integer of at least two")
+    if backend not in ("reference", "compiled"):
+        raise ValueError("backend must be reference or compiled")
     root = root.resolve()
     recipe_path = _resolve(root, recipe_path)
     output_path = output_path.resolve()
@@ -61,7 +64,7 @@ def profile_feature_floor(
     projected_streaming_seconds = 0.0
     for fold in recipe["folds"]:
         _log(f"fold={fold['fold']} phase=begin")
-        report, generation, streaming = _profile_fold(root, recipe, fold, samples_per_fold)
+        report, generation, streaming = _profile_fold(root, recipe, fold, samples_per_fold, backend)
         report_folds.append(report)
         projected_generation_seconds += generation
         projected_streaming_seconds += streaming
@@ -69,6 +72,7 @@ def profile_feature_floor(
     exceeds = projected_generation_seconds > ceiling
     result = {
         "schema": PROFILE_SCHEMA,
+        "backend": backend,
         "recipe_id": recipe["recipe_id"],
         "recipe_path": str(recipe_path),
         "recipe_sha256": file_sha256(recipe_path),
@@ -80,6 +84,9 @@ def profile_feature_floor(
             "sequence_reader": file_sha256(Path(__file__).resolve().parents[1] / "data.py"),
             "split_loader": file_sha256(Path(__file__).resolve().parents[1] / "splits.py"),
             "subset_loader": file_sha256(Path(__file__).resolve().parent / "membership.py"),
+            "compiled_kernel": file_sha256(
+                Path(__file__).resolve().parents[1] / "online_relationship_numba.py"
+            ),
         },
         "measurement": "CPU-only, valid.parquet only, complete 20,000-row sequences",
         "valid_source_memory_receipt": (
@@ -113,7 +120,11 @@ def profile_feature_floor(
 
 
 def _profile_fold(
-    root: Path, recipe: dict[str, Any], fold: dict[str, Any], samples_per_fold: int
+    root: Path,
+    recipe: dict[str, Any],
+    fold: dict[str, Any],
+    samples_per_fold: int,
+    backend: str,
 ) -> tuple[dict[str, Any], float, float]:
     split_path = _resolve(root, Path(fold["split_manifest"]))
     subset_path = _resolve(root, Path(fold["subset"]["path"]))
@@ -150,15 +161,32 @@ def _profile_fold(
     row_times: list[dict[str, Any]] = []
     state_seconds = 0.0
     sample_read_seconds = 0.0
+    compilation_seconds = 0.0
     for split, group in refs:
         _log(f"fold={fold['fold']} phase=feature_stream group={split}:{group}")
         read_started = time.perf_counter()
         raw = valid_file.read(group, targets=False, mask=False).features
         sample_read_seconds += time.perf_counter() - read_started
+        if backend == "compiled" and not row_times:
+            compile_started = time.perf_counter()
+            for lag in LAGS:
+                for arm in ARMS:
+                    reference = OnlineRelationshipState(arm, lag, normalizers[lag]).transform(
+                        raw[:256]
+                    )
+                    compiled = OnlineRelationshipState(
+                        arm, lag, normalizers[lag]
+                    ).transform_compiled(raw[:256])
+                    if not np.array_equal(reference, compiled):
+                        raise ValueError("actual-data compiled prefix differs from reference")
+            compilation_seconds = time.perf_counter() - compile_started
         started = time.perf_counter()
         for lag in LAGS:
             for arm in ARMS:
-                features = OnlineRelationshipState(arm, lag, normalizers[lag]).transform(raw)
+                state = OnlineRelationshipState(arm, lag, normalizers[lag])
+                features = (
+                    state.transform_compiled(raw) if backend == "compiled" else state.transform(raw)
+                )
                 if features.shape != (len(raw), 208) or not np.isfinite(features).all():
                     raise ValueError("online relationship transform returned malformed features")
                 del features
@@ -179,6 +207,7 @@ def _profile_fold(
     return (
         {
             "fold": int(fold["fold"]),
+            "compilation_and_actual_prefix_parity_seconds": compilation_seconds,
             "seed": int(fold["seed"]),
             "split_manifest_sha256": campaign.sha256,
             "subset_sha256": file_sha256(subset_path),
