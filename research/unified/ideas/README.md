@@ -1,5 +1,8 @@
 # Ideas and hypotheses
 
+[Mask-aligned readout child](../../experiment_drafts/mask-aligned-readout/README.md) specifies four total prospective head-only fits on matched fitting-side valid components. Child of H-023/H-030/H-035; actual fold-clean parent artifacts and launch arguments remain unbound. No fits or evaluations run.
+
+
 [Published distillation drafts #28–30](PUBLISHED_GPU_PACKETS_20261018.md#дистилляция-сильных-учителей-и-streaming-студенты) link the exact source snapshots for teacher-capacity transfer, representation hints and streaming students. All target `research-team`; implementation/cache/CPU admission remains pending.
 
 [Transformer teacher transfer and CPU-student continuation](CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md#22-select-the-best-transferable-teacher-not-the-largest-checkpoint) adds three explicit comparisons: L207/XL682 teacher scale × H256/H512 student capacity, aligned versus permuted hidden hints, and streaming D128 Transformer versus GRU with/without KD. CP30, sixteen contrasts, clean cache lineage and CPU handoff are specified;510planned student fits are not launches or results. The [team/teacher audit](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md) distinguishes new team evidence from these proposals.

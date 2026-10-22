@@ -1,0 +1,135 @@
+{
+  "id": "E-MASK-ALIGNED-READOUT-20261022-R1",
+  "status": "blocked_pre_admission",
+  "completed_new_fits": 0,
+  "lineage": {
+    "hypotheses": [
+      "H-023",
+      "H-030",
+      "H-035"
+    ],
+    "relation": "child_of_existing_mask_propensity_finetuning",
+    "source_branch": "experiment/mask-aligned-readout",
+    "source_commit": "c452e8cf4f8ef57e5c07c6801a6e10fc7616251d"
+  },
+  "question": "Does scored-row-only head fine-tuning improve official weighted Pearson over all-valid-need_prediction head fine-tuning on the same frozen fold parent?",
+  "budget": {
+    "new_parent_fits": 0,
+    "new_head_fits": 4,
+    "total_new_fits": 4
+  },
+  "cells": [
+    {
+      "fold": "F0",
+      "seed": 1001,
+      "parent_candidate": "oldz4_h230_parent_f0_s3_r3",
+      "provenance_url": "https://github.com/VladKochetov007/WunderFunder/blob/c452e8cf4f8ef57e5c07c6801a6e10fc7616251d/artifacts/runs/oldz4_h230_parent_f0_s3_r3/provenance.json",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "checkpoint_sha256": null
+    },
+    {
+      "fold": "F2",
+      "seed": 1002,
+      "parent_candidate": "h382_muonall256prop0_f2_s3_e4",
+      "provenance_url": "https://github.com/VladKochetov007/WunderFunder/blob/c452e8cf4f8ef57e5c07c6801a6e10fc7616251d/artifacts/runs/h382_muonall256prop0_f2_s3_e4/provenance.json",
+      "split_manifest_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+      "checkpoint_sha256": null
+    }
+  ],
+  "arms": [
+    {
+      "id": "all_valid",
+      "fits_per_cell": 1,
+      "fit_rows": "fitting-side valid components with need_prediction",
+      "mask_weight": false
+    },
+    {
+      "id": "is_scored_weighted",
+      "fits_per_cell": 1,
+      "fit_rows": "same fitting-side valid components",
+      "mask_weight": "actual is_scored from valid-side data"
+    }
+  ],
+  "fit": {
+    "train_source": "valid",
+    "freeze": [
+      "inp",
+      "gru"
+    ],
+    "loss": "wmse",
+    "inherited_targets_and_preprocessing": "bind exact per-parent hashes before admission; unchanged within each pair",
+    "aux_next": 0.3,
+    "aux_struct": 0.3,
+    "since_weight": 32.0,
+    "since_floor": 0.25,
+    "episode_weight": 0.0,
+    "class_weight": "",
+    "propensity": "",
+    "valid_true_mask": -1.0,
+    "optimizer": "AdamW",
+    "lr": 0.0005,
+    "weight_decay": 0.01,
+    "scheduler": "onecycle",
+    "epochs": 1,
+    "batch": 32,
+    "chunk": 2000,
+    "fresh_optimizer_each_fit": true,
+    "new_child_forward_backward_and_optimizer": "fp32",
+    "frozen_parent_loaded_as": "fp32_tensors",
+    "autocast": false,
+    "tf32": false,
+    "historical_parent_precision": "preserve provenance; no end-to-end FP32-history claim",
+    "pre_admission_parameter_audit": "only head parameters trainable; inp/gru tensors and input/preprocessing identities unchanged",
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch": 0,
+    "outer_score_selection": false
+  },
+  "metrics": {
+    "primary": {
+      "metric_id": "global_wp_clip2_v1",
+      "clip": [
+        -2,
+        2
+      ],
+      "row_mask": "need_prediction & is_scored",
+      "coverage": "all held-out components in F0 and F2",
+      "aggregation": "equal-cell mean of F0 and F2 treatment-minus-control deltas",
+      "useful_delta": 0.0003
+    },
+    "uncertainty": {
+      "method": "paired component bootstrap conditional on fixed predictions",
+      "replicates": 10000,
+      "seed": 221022,
+      "resample_unit": "whole component within each fold",
+      "pairing": "same component multiplicities for control and treatment",
+      "fold_rng": "independent fold substreams from master seed"
+    },
+    "secondary": {
+      "weight_search": false,
+      "report": [
+        "unchanged parent",
+        "0.75*parent+0.25*control",
+        "0.75*parent+0.25*treatment"
+      ],
+      "deltas": "each blend vs unchanged parent and treatment-blend vs control-blend"
+    },
+    "exposure": "all folds previously exposed; 2 cells confound parent, fold, and fitting seed",
+    "mixed_sign": "uncertain_continue_not_kill"
+  },
+  "admission": {
+    "execution_authorized": false,
+    "candidate_parent_artifacts_bound": false,
+    "independent_f2_required": true,
+    "clone_f0_for_f2": false,
+    "historical_parent_precision_eligibility": "receiving owner resolves before admission",
+    "blockers": [
+      "Bind actual source-clean F0 and independent F2 checkpoint artifacts and hashes",
+      "Bind and verify complete split manifests",
+      "Bind exact inherited loss, targets, preprocessing, input schema, and normalization identities per parent and verify each arm pair matches",
+      "Record pre-admission parameter-name audit; confirm only head parameters train and frozen inp/gru/input/preprocessing identities remain unchanged"
+    ],
+    "commands": null
+  },
+  "slug": "mask-aligned-readout",
+  "hypothesis_id": "H-MASK-ALIGNED-READOUT-20261022"
+}
