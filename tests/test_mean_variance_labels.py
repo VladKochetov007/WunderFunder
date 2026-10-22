@@ -137,12 +137,13 @@ def test_labels_mode_is_explicit_and_preserves_teacher_default() -> None:
 
 def test_output_head_appends_zero_log_variance_rows() -> None:
     torch.manual_seed(4)
-    model = torch.nn.Sequential(torch.nn.Identity(), torch.nn.Linear(3, 2))
+    model = torch.nn.Module()
+    model.head = torch.nn.Sequential(torch.nn.Identity(), torch.nn.Linear(3, 2))
     inputs = torch.randn(2, 3)
-    original = model(inputs).detach().clone()
+    original = model.head(inputs).detach().clone()
 
     append_log_variance_output_head(model)
-    extended = model(inputs)
+    extended = model.head(inputs)
 
     torch.testing.assert_close(extended[..., :2], original)
     torch.testing.assert_close(extended[..., -2:], torch.zeros((2, 2)))
