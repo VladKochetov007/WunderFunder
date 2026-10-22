@@ -1,0 +1,329 @@
+diff --git a/scripts/thermal_guard.py b/scripts/thermal_guard.py
+index 47cee85..99aee0c 100644
+--- a/scripts/thermal_guard.py
++++ b/scripts/thermal_guard.py
+@@ -1,4 +1,4 @@
+-"""Run one admitted command with temperature and host-memory cooling pauses."""
++"""Run one admitted command with thermal and host-memory cooling pauses."""
+ 
+ from __future__ import annotations
+ 
+@@ -18,12 +18,24 @@ class Reading(NamedTuple):
+     temperature: int
+     available_bytes: int
+     memory_stall: float
++    cpu_package_temperature: float | None = None
++
++
++CPU_HWMON_ROOT = Path("/sys/class/hwmon")
+ 
+ 
+ def pause_reason(reading: Reading, paused: bool) -> str | None:
+     """Apply hysteresis so a warm or pressured laptop gets a cooling interval."""
+     if reading.temperature >= (75 if paused else 80):
+         return "temperature"
++    if reading.cpu_package_temperature is not None:
++        cpu_is_hot = (
++            reading.cpu_package_temperature > 90.0
++            if paused
++            else reading.cpu_package_temperature >= 97.0
++        )
++        if cpu_is_hot:
++            return "cpu_package_temperature"
+     if reading.available_bytes < (10_000_000_000 if paused else 8_000_000_000):
+         return "host_available_memory"
+     if reading.memory_stall >= (0.2 if paused else 2.0):
+@@ -31,8 +43,32 @@ def pause_reason(reading: Reading, paused: bool) -> str | None:
+     return None
+ 
+ 
+-def read_resources() -> Reading:
+-    """Read GPU0 temperature and host pressure without importing a GPU framework."""
++def read_cpu_package_temperature(hwmon_root: Path | None = None) -> float:
++    """Return the hottest readable Linux hwmon CPU package temperature in Celsius."""
++    root = CPU_HWMON_ROOT if hwmon_root is None else hwmon_root
++    temperatures: list[float] = []
++    for label_path in sorted(root.glob("hwmon*/temp*_label")):
++        try:
++            label = label_path.read_text().strip()
++        except OSError as error:
++            raise RuntimeError(f"cannot read CPU temperature sensor label {label_path}") from error
++        if not label.startswith("Package id "):
++            continue
++        input_path = label_path.with_name(f"{label_path.name.removesuffix('_label')}_input")
++        try:
++            temperatures.append(int(input_path.read_text().strip()) / 1000.0)
++        except (OSError, ValueError) as error:
++            raise RuntimeError(f"cannot read CPU package temperature {input_path}") from error
++    if not temperatures:
++        raise RuntimeError(
++            f"CPU package temperature guard is enabled, but no readable Package id sensor was found under {root}"
++        )
++    return max(temperatures)
++
++
++def read_resources(*, include_cpu_package_temperature: bool = False) -> Reading:
++    """Read GPU0, optional CPU-package temperature and host pressure without a GPU framework."""
++    cpu_temperature = read_cpu_package_temperature() if include_cpu_package_temperature else None
+     result = subprocess.run(
+         ["nvidia-smi", "--id=0", "--query-gpu=temperature.gpu", "--format=csv,noheader,nounits"],
+         capture_output=True,
+@@ -51,7 +87,7 @@ def read_resources() -> Reading:
+         if line.startswith("full ")
+     )
+     average = float(next(field[6:] for field in full.split() if field.startswith("avg10=")))
+-    return Reading(int(result.stdout.strip()), available, average)
++    return Reading(int(result.stdout.strip()), available, average, cpu_temperature)
+ 
+ 
+ def write_report(path: Path, report: dict[str, object]) -> None:
+@@ -61,7 +97,7 @@ def write_report(path: Path, report: dict[str, object]) -> None:
+     temporary.replace(path)
+ 
+ 
+-def run_command(spec_path: Path) -> int:
++def run_command(spec_path: Path, *, cpu_package_temperature_guard: bool = False) -> int:
+     """Execute exactly one explicit argv while preserving its numeric recipe."""
+     spec = json.loads(spec_path.read_text())
+     if set(spec) != {"argv", "cwd", "report"}:
+@@ -87,8 +123,15 @@ def run_command(spec_path: Path) -> int:
+     events: list[dict[str, object]] = []
+     report["events"] = events
+     write_report(report_path, report)
+-    while pause_reason(read_resources(), True):
+-        time.sleep(1)
++    try:
++        while pause_reason(
++            read_resources(include_cpu_package_temperature=cpu_package_temperature_guard), True
++        ):
++            time.sleep(1)
++    except RuntimeError as error:
++        report.update(status="guard_failed", error=str(error))
++        write_report(report_path, report)
++        raise
+     child = subprocess.Popen(argv, cwd=spec["cwd"], start_new_session=True)
+     report.update(status="running", pid=child.pid)
+     write_report(report_path, report)
+@@ -98,7 +141,7 @@ def run_command(spec_path: Path) -> int:
+     last_heartbeat = 0.0
+     try:
+         while child.poll() is None:
+-            reading = read_resources()
++            reading = read_resources(include_cpu_package_temperature=cpu_package_temperature_guard)
+             reason = pause_reason(reading, paused)
+             if bool(reason) != paused:
+                 os.killpg(child.pid, signal.SIGSTOP if reason else signal.SIGCONT)
+@@ -115,12 +158,17 @@ def run_command(spec_path: Path) -> int:
+                     "available_bytes": reading.available_bytes,
+                     "host_memory_stall_avg10": reading.memory_stall,
+                 }
++                if cpu_package_temperature_guard:
++                    event["cpu_package_temperature_celsius"] = reading.cpu_package_temperature
+                 events.append(event)
+                 print(json.dumps(event), flush=True)
+                 report["status"] = "cooling" if paused else "running"
+                 write_report(report_path, report)
+             if time.monotonic() - last_heartbeat >= 60:
+-                print(json.dumps({"guard": reading._asdict(), "paused": paused}), flush=True)
++                snapshot = reading._asdict()
++                if not cpu_package_temperature_guard:
++                    snapshot.pop("cpu_package_temperature")
++                print(json.dumps({"guard": snapshot, "paused": paused}), flush=True)
+                 last_heartbeat = time.monotonic()
+             time.sleep(1)
+         if paused:
+@@ -151,8 +199,15 @@ def main() -> None:
+     """Run the root-admitted single command described by a small JSON spec."""
+     parser = argparse.ArgumentParser(description=__doc__)
+     parser.add_argument("--spec", type=Path, required=True)
++    parser.add_argument(
++        "--cpu-package-temperature-guard",
++        action="store_true",
++        help="pause at 97 C and resume at or below 90 C using CPU package hwmon sensors",
++    )
+     args = parser.parse_args()
+-    raise SystemExit(run_command(args.spec))
++    raise SystemExit(
++        run_command(args.spec, cpu_package_temperature_guard=args.cpu_package_temperature_guard)
++    )
+ 
+ 
+ if __name__ == "__main__":
+diff --git a/tests/test_thermal_guard.py b/tests/test_thermal_guard.py
+new file mode 100644
+index 0000000..2324c4d
+--- /dev/null
++++ b/tests/test_thermal_guard.py
+@@ -0,0 +1,172 @@
++"""Unit tests for the optional CPU-package thermal guard."""
++
++from __future__ import annotations
++
++import importlib.util
++import json
++import sys
++from pathlib import Path
++from types import ModuleType, SimpleNamespace
++
++import pytest
++
++GUARD_SCRIPT = Path(__file__).parent.parent / "scripts/thermal_guard.py"
++
++
++def load_guard() -> ModuleType:
++    """Load the standalone guard without invoking its CLI."""
++    spec = importlib.util.spec_from_file_location("thermal_guard_under_test", GUARD_SCRIPT)
++    assert spec is not None and spec.loader is not None
++    module = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(module)
++    return module
++
++
++def write_sensor(root: Path, hwmon: str, index: int, label: str, milli_celsius: int) -> None:
++    """Create one hwmon temperature label and reading."""
++    sensor = root / hwmon
++    sensor.mkdir(exist_ok=True)
++    (sensor / "name").write_text("coretemp\n")
++    (sensor / f"temp{index}_label").write_text(f"{label}\n")
++    (sensor / f"temp{index}_input").write_text(f"{milli_celsius}\n")
++
++
++def test_reads_max_package_temperature_and_ignores_core_sensor(tmp_path: Path) -> None:
++    guard = load_guard()
++    write_sensor(tmp_path, "hwmon0", 1, "Package id 0", 93_000)
++    write_sensor(tmp_path, "hwmon0", 2, "Core 0", 99_000)
++    write_sensor(tmp_path, "hwmon1", 1, "Package id 1", 95_000)
++
++    assert guard.read_cpu_package_temperature(tmp_path) == 95.0
++
++
++def test_cpu_temperature_hysteresis_pauses_at_97_and_resumes_at_90() -> None:
++    guard = load_guard()
++
++    assert guard.pause_reason(guard.Reading(70, 30_000_000_000, 0.0, 96.999), False) is None
++    assert (
++        guard.pause_reason(guard.Reading(70, 30_000_000_000, 0.0, 97.0), False)
++        == "cpu_package_temperature"
++    )
++    assert (
++        guard.pause_reason(guard.Reading(70, 30_000_000_000, 0.0, 90.001), True)
++        == "cpu_package_temperature"
++    )
++    assert guard.pause_reason(guard.Reading(70, 30_000_000_000, 0.0, 90.0), True) is None
++
++
++def test_gpu_and_cpu_reasons_remain_independent() -> None:
++    guard = load_guard()
++
++    both_hot = guard.Reading(80, 30_000_000_000, 0.0, 98.0)
++    assert guard.pause_reason(both_hot, False) == "temperature"
++    assert (
++        guard.pause_reason(guard.Reading(70, 30_000_000_000, 0.0, 98.0), True)
++        == "cpu_package_temperature"
++    )
++    assert guard.pause_reason(guard.Reading(80, 30_000_000_000, 0.0, 90.0), False) == "temperature"
++
++
++def test_enabled_cpu_guard_fails_when_package_sensor_is_missing(
++    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    guard = load_guard()
++    monkeypatch.setattr(guard, "CPU_HWMON_ROOT", tmp_path)
++
++    with pytest.raises(RuntimeError, match="no readable Package id sensor"):
++        guard.read_resources(include_cpu_package_temperature=True)
++
++
++def test_run_command_reports_missing_enabled_sensor_without_spawning_child(
++    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
++) -> None:
++    guard = load_guard()
++    hwmon_root = tmp_path / "hwmon-root"
++    hwmon_root.mkdir()
++    monkeypatch.setattr(guard, "CPU_HWMON_ROOT", hwmon_root)
++    monkeypatch.setattr(
++        guard.subprocess,
++        "Popen",
++        lambda *_args, **_kwargs: pytest.fail("child spawned without a readable CPU sensor"),
++    )
++    report_path = tmp_path / "report.json"
++    spec_path = tmp_path / "spec.json"
++    spec_path.write_text(
++        json.dumps({"argv": ["/bin/true"], "cwd": str(tmp_path), "report": str(report_path)})
++    )
++
++    with pytest.raises(RuntimeError, match="no readable Package id sensor"):
++        guard.run_command(spec_path, cpu_package_temperature_guard=True)
++
++    report = json.loads(report_path.read_text())
++    assert report["status"] == "guard_failed"
++    assert "no readable Package id sensor" in report["error"]
++
++
++@pytest.mark.parametrize(
++    ("available_bytes", "memory_stall", "expected_reason"),
++    [
++        (9_999_999_999, 0.0, "host_available_memory"),
++        (10_000_000_000, 0.2, "host_memory_pressure"),
++    ],
++)
++def test_cool_cpu_does_not_clear_hot_host_pressure_reason(
++    available_bytes: int, memory_stall: float, expected_reason: str
++) -> None:
++    guard = load_guard()
++    reading = guard.Reading(70, available_bytes, memory_stall, 90.0)
++
++    assert guard.pause_reason(reading, paused=True) == expected_reason
++
++
++def test_unreadable_cpu_package_input_fails_clearly(tmp_path: Path) -> None:
++    guard = load_guard()
++    sensor = tmp_path / "hwmon0"
++    sensor.mkdir()
++    (sensor / "temp1_label").write_text("Package id 0\n")
++
++    with pytest.raises(RuntimeError, match="cannot read CPU package temperature"):
++        guard.read_cpu_package_temperature(tmp_path)
++
++
++def test_default_resource_read_does_not_probe_cpu_sensor(monkeypatch: pytest.MonkeyPatch) -> None:
++    guard = load_guard()
++    monkeypatch.setattr(
++        guard,
++        "read_cpu_package_temperature",
++        lambda *_args, **_kwargs: pytest.fail("CPU sensor read without explicit opt-in"),
++    )
++    monkeypatch.setattr(
++        guard.subprocess,
++        "run",
++        lambda *_args, **_kwargs: SimpleNamespace(stdout="72\n"),
++    )
++
++    def read_proc(path: Path) -> str:
++        if path == Path("/proc/meminfo"):
++            return "MemAvailable: 1000 kB\n"
++        if path == Path("/proc/pressure/memory"):
++            return "full avg10=0.00 avg60=0.00 avg300=0.00 total=1\n"
++        raise AssertionError(f"unexpected path {path}")
++
++    monkeypatch.setattr(Path, "read_text", read_proc)
++    reading = guard.read_resources()
++
++    assert reading == guard.Reading(72, 1_024_000, 0.0, None)
++
++
++def test_cli_without_cpu_flag_keeps_default_behavior(monkeypatch: pytest.MonkeyPatch) -> None:
++    guard = load_guard()
++    calls: list[tuple[Path, bool]] = []
++
++    def run_command(path: Path, *, cpu_package_temperature_guard: bool = False) -> int:
++        calls.append((path, cpu_package_temperature_guard))
++        return 0
++
++    monkeypatch.setattr(guard, "run_command", run_command)
++    monkeypatch.setattr(sys, "argv", [str(GUARD_SCRIPT), "--spec", "guard.json"])
++    with pytest.raises(SystemExit) as error:
++        guard.main()
++
++    assert error.value.code == 0
++    assert calls == [(Path("guard.json"), False)]
