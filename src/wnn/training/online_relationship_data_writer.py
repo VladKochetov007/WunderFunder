@@ -13,7 +13,7 @@ from typing import Any
 import numpy as np
 import torch
 
-from wnn.data import SEQUENCE_LENGTH, SequenceFile
+from wnn.data import SEQUENCE_LENGTH, Sequence, SequenceFile
 from wnn.splits import file_sha256
 from wnn.training.environment import TrainingEnvironment
 from wnn.training.evaluation import predict
@@ -107,14 +107,12 @@ def write_scope(
             record[:, RAW] = raw
             record[:, PARENT] = parent_prediction
             if fitting:
-                if sequence.targets is None or sequence.scored is None:
-                    raise ValueError("fit sequence read omitted canonical targets or score mask")
-                target = np.asarray(sequence.targets, dtype=np.float32)
+                target, score_mask = fit_sequence_targets_and_mask(sequence)
                 raw_tensor = torch.from_numpy(raw[None])
                 with torch.inference_mode():
                     inputs = build_inputs(raw_tensor, environment=weights_environment)
                     y = torch.from_numpy(target[None])
-                    scored = torch.from_numpy(np.asarray(sequence.scored, dtype=np.bool_)[None])
+                    scored = torch.from_numpy(score_mask[None])
                     valid = torch.arange(ROWS)[None] >= weights_environment.warmup
                     row_weight = main_row_weights(
                         inputs,
@@ -265,6 +263,23 @@ def temporary_path(directory: Path, stem: str) -> Path:
 def write_json_to_temp(path: Path, value: dict[str, object]) -> None:
     """Write deterministic JSON into a temporary file before publication."""
     path.write_text(json.dumps(value, sort_keys=True, indent=2, allow_nan=False) + "\n")
+
+
+def fit_sequence_targets_and_mask(sequence: Sequence) -> tuple[np.ndarray, np.ndarray]:
+    """Require fitting labels and default an absent score mask to all false.
+
+    This matches the canonical ``Sequences`` dataset behavior for train rows,
+    where the parquet has targets but no ``is_scored`` column.
+    """
+    if sequence.targets is None:
+        raise ValueError("fit sequence read omitted canonical targets")
+    target = np.asarray(sequence.targets, dtype=np.float32)
+    score_mask = (
+        np.asarray(sequence.scored, dtype=np.bool_)
+        if sequence.scored is not None
+        else np.zeros(len(sequence.features), dtype=np.bool_)
+    )
+    return target, score_mask
 
 
 def _close_sequence_file(source: SequenceFile) -> None:
