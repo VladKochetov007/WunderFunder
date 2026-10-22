@@ -1,0 +1,38 @@
+{
+  "status": "USER_TMP_MOVED_TO_SSD_SYSTEM_SWAP_TMP_PENDING_ADMIN",
+  "observed": {
+    "only_swap": "/dev/zram0,8GiB logical,full",
+    "zram_actual_ram_bytes": 1921404928,
+    "tmp": "tmpfs,about70MiBused",
+    "dev_shm": "tmpfs,about218MiBused",
+    "root_and_home": "Btrfs on NVMe,117GiBfree",
+    "research_ram_gib_approx": 3.8,
+    "research_swap_bytes": 0,
+    "large_scope_gib_approx": {
+      "VSCode": 14.8,
+      "GNOME_Shell": 7.1,
+      "Telegram": 7.0
+    }
+  },
+  "applied": {
+    "directory": "/home/vlad/.cache/tmp",
+    "mode": "0700",
+    "persistent_config": "/home/vlad/.config/environment.d/90-disk-tmp.conf",
+    "user_manager_environment": {
+      "TMPDIR": "/home/vlad/.cache/tmp",
+      "TMP": "/home/vlad/.cache/tmp",
+      "TEMP": "/home/vlad/.cache/tmp"
+    },
+    "verification": "new systemd user process tempfile.mkstemp created/deleted a file under the SSD directory",
+    "existing_research_TMPDIR": "/home/vlad/development/wunder/research_tmp/i1-history-warm-20261022; already disk backed"
+  },
+  "pending_admin_helper": {
+    "path": "/home/vlad/development/wunder/research_tmp/enable-disk-swap-tmp.sh",
+    "archive": "research/campaign_2026-10-21/next_cycle_r1/enable_disk_swap_tmp.sh",
+    "sha256": "04f9dbeed6261737c233c099b9aeeeb716afa3740c469c62987a8d6421fe50e6",
+    "action": "Create16GiB Btrfs swapfile in isolated/var/lib/local-disk-swap subvolume; activatepriority200; persistfstab. Masktmp.mount fornextboot; disablezramgeneratorfornextboot. No currentunmount/swapoff/reboot.",
+    "reason_unexecuted": "sudo -n -l reports a password is required; agenthasnoadministratorauthentication",
+    "validation": "bash -n pass; installed btrfs tool supports mkswapfile; directroot writes notexecuted"
+  },
+  "limits": "No complete attribution of21GiB systemsharedmemory; tmp70MiB isnotdominant. Scope memory includeschildren/sharedmemory/cache, not onlymainprocessRSS. Existing processenvironments unchanged; future user services inherit newTMPDIR. Fit continues10%CPU/noSwap, supervisorpaused."
+}
