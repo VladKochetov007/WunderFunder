@@ -1,0 +1,83 @@
+{
+  "schema": "wnn.online-relationships.rolling-cost-review.v1",
+  "observed_at_utc": "2026-10-22T22:29:42Z",
+  "observed_at_local": "2026-10-23T01:29:42+03:00",
+  "review_role": "Independent grader; read-only cost assessment during the admitted delivery run.",
+  "inputs": {
+    "profile_path": "/home/vlad/development/wunder/research_tmp/online-full-profile-postboot-r1-20261023/profile.json",
+    "profile_sha256": "dcbfb56e10ddef133eb9c6c19c5c20068571051416d8d96b8dc7a1c24ba3597e",
+    "profile_recipe_sha256": "308465a8483ab95656edf153d3611f8685f44b8571bebc684ccea58e7ac90ecc",
+    "execution_recipe_sha256": "edc873c813de77f55859d1a13180d907004e5f18fcc537e64eda7af1308e2508",
+    "root_phase_update": "F0 full parent cache published 2026-10-23 01:26:50 Kyiv; F1 parent cache began then. Root reported service start 01:00:31 Kyiv and current time 01:29:42 Kyiv."
+  },
+  "observed_clock_and_phases": {
+    "service_elapsed_seconds": 1751,
+    "delivery_service_cap_seconds": 7800,
+    "inclusive_ceiling_seconds": 9000,
+    "grade_allowance_seconds": 600,
+    "prior_profile_fixture_and_engineering_charges_seconds": 504.985,
+    "stop_grace_seconds": 5,
+    "f0_parent_cache_seconds": {
+      "fit_cache": 1243.283193,
+      "evaluation_cache": 334.063442,
+      "publish": 0.116100,
+      "total": 1577.462735
+    },
+    "f1_cache_elapsed_at_snapshot_seconds": 172,
+    "observed_elapsed_not_in_reported_cache_phases_seconds": 1.537265
+  },
+  "frozen_projection_recalculation": {
+    "method": "For each fold, fixed membership/dependency/publish phases and one-time source opens are added to (sample fit-cache time minus fit-source-open) scaled by full_fit_sequences/sample_fit_sequences and (sample evaluation-cache time minus evaluation-source-open) scaled by full_eval_sequences/sample_eval_sequences. This matches project_full_panel in the frozen profile source.",
+    "f0_cache_projection_seconds": 1074.589169,
+    "f1_cache_projection_seconds": 1181.075439,
+    "both_fold_cache_projection_seconds": 2255.664608,
+    "f0_actual_over_projection_seconds": 502.873566,
+    "other_known_profile_phases_seconds": 2499.714828,
+    "f1_cache_projected_remainder_after_172s_elapsed_seconds": 1009.075439,
+    "remaining_known_profile_phases_seconds": 3508.790267
+  },
+  "reserve_accounting": {
+    "full_scale_io_reserve_seconds": 1500,
+    "full_scale_io_reserve_spent_by_repeated_cache_passes_at_snapshot_seconds": 0,
+    "full_scale_io_reserve_remaining_seconds": 1500,
+    "reason": "The reported work so far is parent-cache construction. The reserve separately covers later repeated cache validation, normalization, fit/evaluation reads, and grader scans; none of those full-panel reread passes had run at this snapshot.",
+    "profile_thermal_margin_seconds": 951.075887,
+    "phase_overrun_treatment": "The F0 cache phase exceeded its frozen scaled share by 502.874 s. This is charged as delivery-service variance, not deducted from the separate repeated-cache I/O reserve."
+  },
+  "current_projection": {
+    "remaining_delivery_service_seconds": 5959.866154,
+    "calculation": "3508.790267 remaining known phases +1500.000 I/O reserve +951.075887 thermal/profile margin.",
+    "projected_total_delivery_service_seconds": 7710.866154,
+    "delivery_service_headroom_seconds": 89.133846,
+    "grade_allowance_seconds": 600,
+    "prior_charges_and_engineering_seconds": 504.985,
+    "stop_grace_seconds": 5,
+    "projected_inclusive_total_seconds": 8820.851154,
+    "inclusive_headroom_seconds": 179.148846,
+    "worst_case_if_delivery_uses_full_7800s_cap_seconds": 8909.985,
+    "worst_case_cap_headroom_seconds": 90.015
+  },
+  "sensitivity": {
+    "if_f1_cache_matches_f0_actual": {
+      "additional_cache_time_vs_frozen_f1_projection_seconds": 396.387296,
+      "projected_total_delivery_service_seconds": 8107.253450,
+      "delivery_service_overrun_seconds": 307.253450,
+      "projected_inclusive_total_seconds": 9217.238450,
+      "inclusive_overrun_seconds": 217.238450
+    },
+    "alternate_charge_if_f0_overrun_is_drawn_from_io_reserve": {
+      "io_reserve_remaining_seconds": 997.126434,
+      "repeated_cache_read_estimate_bytes": 597055680000,
+      "required_seconds_at_500000000_bytes_per_second": 1194.111360,
+      "shortfall_seconds": 196.984926,
+      "required_sustained_rate_bytes_per_second": 598776303.315,
+      "interpretation": "This alternate accounting would make the conservative 500 MB/s I/O assumption insufficient. The prior 300 MB advisory probe is not evidence of sustained full-cache rate."
+    }
+  },
+  "decision": {
+    "conclusion": "Conditional cost fit under the unchanged caps, with little remaining delivery margin. The frozen projection still fits if F1 cache and all later phases remain near their projected durations and the separate I/O reserve covers repeated cache passes.",
+    "risk": "If F1 cache takes F0-like time, the 7800-second service cap and 9000-second inclusive ceiling are both exceeded by the sensitivity amounts above.",
+    "control": "Keep the 7800-second delivery cap, separate 600-second grade allowance, 9000-second inclusive ceiling, and existing stop policy unchanged. Do not extend or launch any additional work.",
+    "scope": "No payload arrays, candidate predictions, or evaluation targets were read. No source, recipe, outputs, profiles, or execution controls were changed."
+  }
+}
