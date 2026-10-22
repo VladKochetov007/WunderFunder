@@ -6,6 +6,13 @@ import argparse
 def add_targets_arguments(ap: argparse.ArgumentParser) -> None:
     """Register targets options in their historical order."""
     ap.add_argument(
+        "--mean-variance-head",
+        type=int,
+        choices=(0, 1),
+        default=0,
+        help="append two dormant trailing outputs for matched WMSE checkpoint compatibility",
+    )
+    ap.add_argument(
         "--loss",
         choices=[
             "corr",
