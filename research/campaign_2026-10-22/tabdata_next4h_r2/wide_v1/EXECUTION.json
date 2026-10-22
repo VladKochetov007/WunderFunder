@@ -1,0 +1,126 @@
+{
+  "status": "all16H512scientific_fits_observed_active; total38fits",
+  "observed_unix": 1792696802.8643534,
+  "plan_sha256": "ad51c9daf43103571cf22059b4f97813e9ce377bb1960201559f88cc6814bef0a",
+  "base_plan_sha256": "d76774e58d8d8c06c52bac701bde97ea2aa704f2536ac2f4815775e6a5e1eefd",
+  "original_start_unix": 1792693855.4927282,
+  "hard_deadline_unix": 1792708255.4927282,
+  "source_files": {
+    "wide.py": "c3361a86014d6148018321398a15fa8a68010008970837d647235cb6257ac504",
+    "wide_publish.py": "c52f7a794fa1465759b265896727942371861fdaeb25dc3e0db1971bf8a05a96",
+    "prepare_wide.py": "08f5f60348d3d192401f15ee12e8fcbdae01fb016a050457c7ae9730f81cabd7"
+  },
+  "architecture": {
+    "hidden": 512,
+    "layers": 2,
+    "parameters": 3798041,
+    "head_width": 25,
+    "precision": "strictFP32",
+    "batch": 32
+  },
+  "cells": [
+    [
+      0,
+      1201,
+      0
+    ],
+    [
+      2,
+      1202,
+      1
+    ],
+    [
+      0,
+      1301,
+      2
+    ],
+    [
+      0,
+      1302,
+      3
+    ],
+    [
+      0,
+      1303,
+      4
+    ],
+    [
+      2,
+      1401,
+      5
+    ],
+    [
+      2,
+      1402,
+      6
+    ],
+    [
+      2,
+      1403,
+      7
+    ]
+  ],
+  "arms": [
+    "wmse",
+    "nll"
+  ],
+  "CPUs": "128-255; eight per worker; checked against actual cpuset",
+  "service": {
+    "unit": "tabdata-next4h-20261022-wide.service",
+    "active_enter_utc": "2026-10-22T19:15:39Z",
+    "RuntimeMaxSec": 10786,
+    "timer_expiry_utc": "2026-10-22T22:15:25Z",
+    "TimeoutStopSec": 120,
+    "KillMode": "control-group",
+    "Restart": "no",
+    "finalizer_timeout_seconds": 110
+  },
+  "profiles": {
+    "count": 16,
+    "all_passed": true,
+    "peak_reserved_bytes_each": 6692012032,
+    "finite_loss_gradients": true,
+    "successful_optimizer_updates_each": 60
+  },
+  "actual_fit_progress": "every H512cell had reached epoch0/batch20 of373 at observation",
+  "GPU_busy_percent": [
+    98,
+    98,
+    97,
+    98,
+    98,
+    97,
+    97,
+    98
+  ],
+  "GPU_memory_used_MiB": [
+    23759,
+    23758,
+    26983,
+    27125,
+    27125,
+    26983,
+    27125,
+    27125
+  ],
+  "GPU_power_W": [
+    310.78,
+    320.2,
+    331.28,
+    329.12,
+    332.61,
+    336.45,
+    334.39,
+    338.27
+  ],
+  "quality_claim": null,
+  "publication_url": "https://github.com/VladKochetov007/WunderFunder/pull/37#issuecomment-6349180290",
+  "independent_review": [
+    "remote import and manifest/grader paths checked",
+    "only hidden CLI change confirmed for profile/fit; evaluation unchanged",
+    "generic official grader accepts H512 and validates matching arms",
+    "GPU UUID now checked against base device index",
+    "CPU affinity membership checked before GPU admission",
+    "shared project and fresh artifact namespace explicitly disclosed"
+  ]
+}

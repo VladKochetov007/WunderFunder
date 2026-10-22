@@ -11,3 +11,5 @@ The initial cold NLL unit test used a bare Sequential instead of the canonical m
 [Continuation V2](continuation_v2/README.md) supersedes the initial preparation receipt with actual ten-fit execution, the preserved pre-GPU cgroup failure, prospective NLL command correction and the original absolute deadline.
 
 [Separate twelve-fit NLL scaleout](scaleout_v1/README.md) records additional paired seeds, profile admission, measured lane headroom and the same original deadline; its live receipt initially precedes scientific-fit admission.
+
+[H512 capacity screen](wide_v1/README.md) adds16 actual fits, reaching38 concurrent trainings after all real-shape profiles passed. [Private MPS probe](mps_probe_v1/README.md) records the conditional0.79x added-pair result and complete probe cleanup; no aggregate-speed or quality claim.
