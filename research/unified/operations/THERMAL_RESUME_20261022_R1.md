@@ -24,6 +24,8 @@ The first resumed GPU export could not cool while paused: its resident CUDA cont
 
 The [R4 export amendment](../../campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/F0_CONTROL_EXPORT_ADMISSION_R4.json) uses the same frozen predictor and FP32 checkpoint on CPU, GPU hidden. It starts at half a core and increases to one core after observing 72–74°C; the guard polls each second, pauses at 80°C and resumes at 74°C or below. Its 30-minute wall cap includes pauses. Future paired exports must use the same backend; FP32 device rounding can differ. Exact full-file coverage and sidecar acceptance remain pending.
 
+The [R5 runtime amendment](../../campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/F0_CONTROL_EXPORT_RUNTIME_AMENDMENT_R5.json) extends only this healthy running CPU export to 40 minutes after its observed throughput projects 32–35 minutes. No fit or process restart is added. The entire extension remains charged to the same eight-hour strong-parent stage. A runtime systemd override and daemon reload preserve the invocation, one-core/4 GB bounds and aggregate two-core/5 GB/no-swap limits, all rechecked. The predictor has one DataLoader subprocess: the attempted `WNN_DATALOADER_WORKERS=0` variable is unused by the frozen source, whose actual setting is `WNN_LOADER_WORKERS`; the whole service remains within the aggregate CPU/RAM caps.
+
 ## Limits and validity
 
 Earlier strong-parent throughput is not a safe current projection. Cooling pauses count toward the budget. No remaining strong-parent fit or online scientific fit has been admitted. Root does not treat a zero-filled or partly written NPY file as prediction coverage.
