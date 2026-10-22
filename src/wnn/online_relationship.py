@@ -30,7 +30,7 @@ FEATURE_CLIP = np.float32(8.0)
 _DECAY = np.float32(math.exp2(-1.0 / 512.0))
 _UPDATE = np.float32(1.0 - float(_DECAY))
 _VARIANCE_EPSILON = np.float32(0.1)
-_SCHEMA = "online_i1_i0_relationship_v2"
+_SCHEMA = "online_i1_i0_relationship_v3"
 _I0_CHANNELS = slice(I0.bid_px.start, I0.trade_vol.stop)
 _I1_CHANNELS = slice(I1.bid_px.start, I1.trade_vol.stop)
 
@@ -94,10 +94,10 @@ def fit_online_relationship_normalizer(
     earlier matured pairs (16 of its 83 B updates when lag is 16).
     """
     _validate_lag(lag)
-    u_total = np.zeros(CHANNELS, dtype=np.float64)
-    u_squared_total = np.zeros(CHANNELS, dtype=np.float64)
-    v_total = np.zeros(CHANNELS, dtype=np.float64)
-    v_squared_total = np.zeros(CHANNELS, dtype=np.float64)
+    u_mean = np.zeros(CHANNELS, dtype=np.float32)
+    u_m2 = np.zeros(CHANNELS, dtype=np.float32)
+    v_mean = np.zeros(CHANNELS, dtype=np.float32)
+    v_m2 = np.zeros(CHANNELS, dtype=np.float32)
     u_count = 0
     v_count = 0
     sequence_count = 0
@@ -108,27 +108,23 @@ def fit_online_relationship_normalizer(
         sequence_count += 1
         if len(sequence) > lag:
             u = sequence[lag:, _I1_CHANNELS] - sequence[:-lag, _I1_CHANNELS]
-            widened_u = u.astype(np.float64)
-            u_total += widened_u.sum(axis=0, dtype=np.float64)
-            u_squared_total += np.square(widened_u).sum(axis=0, dtype=np.float64)
+            u_mean, u_m2 = _merge_centered_moments(u_mean, u_m2, u_count, u)
             u_count += len(u)
         if len(sequence) > HORIZON:
             v = sequence[HORIZON:, _I0_CHANNELS] - sequence[:-HORIZON, _I0_CHANNELS]
-            widened_v = v.astype(np.float64)
-            v_total += widened_v.sum(axis=0, dtype=np.float64)
-            v_squared_total += np.square(widened_v).sum(axis=0, dtype=np.float64)
+            v_mean, v_m2 = _merge_centered_moments(v_mean, v_m2, v_count, v)
             v_count += len(v)
     if sequence_count == 0 or u_count == 0 or v_count == 0:
         raise ValueError(
             "cannot fit relationship normalization without fitting u and v differences"
         )
-    u_mean, u_scale = _mean_scale(u_total, u_squared_total, u_count)
-    v_mean, v_scale = _mean_scale(v_total, v_squared_total, v_count)
+    u_scale = np.maximum(np.sqrt(u_m2 / np.float32(u_count)), NORMALIZER_FLOOR)
+    v_scale = np.maximum(np.sqrt(v_m2 / np.float32(v_count)), NORMALIZER_FLOOR)
     return OnlineRelationshipNormalizer(u_mean, u_scale, v_mean, v_scale, lag)
 
 
 class OnlineRelationshipState:
-    """Maintain causal one-row i1-to-i0 statistics within one sequence."""
+    """Maintain lagged causal i1-to-i0 statistics within one sequence."""
 
     def __init__(
         self,
@@ -146,7 +142,7 @@ class OnlineRelationshipState:
         self.reset()
 
     def reset(self) -> None:
-        """Clear the rolling 16-row history and coefficient state."""
+        """Clear lagged input history and the online coefficient state."""
         self.rows = 0
         self.i1_history = np.zeros((self.lag, CHANNELS), dtype=np.float32)
         self.i0_history = np.zeros((HORIZON, CHANNELS), dtype=np.float32)
@@ -204,11 +200,12 @@ class OnlineRelationshipState:
         return output
 
     def state_dict(self) -> dict[str, object]:
-        """Copy all causal state needed for exact continuation after a chunk."""
+        """Copy causal state and normalizer content for exact chunk continuation."""
         return {
             "schema": _SCHEMA,
             "arm": self.arm,
             "lag": self.lag,
+            "normalizer": None if self.normalizer is None else self.normalizer.to_dict(),
             "rows": self.rows,
             "i1_history": self.i1_history.copy(),
             "i0_history": self.i0_history.copy(),
@@ -227,6 +224,9 @@ class OnlineRelationshipState:
             or value.get("lag") != self.lag
         ):
             raise ValueError("relationship state schema, arm, or lag does not match")
+        expected_normalizer = None if self.normalizer is None else self.normalizer.to_dict()
+        if value.get("normalizer") != expected_normalizer:
+            raise ValueError("relationship state normalizer content does not match")
         rows = value.get("rows")
         if not isinstance(rows, int) or rows < 0:
             raise ValueError("relationship state row count must be a nonnegative integer")
@@ -294,13 +294,23 @@ def _validate_lag(lag: int) -> None:
         raise ValueError("relationship backward lag must be 1 or 16")
 
 
-def _mean_scale(
-    total: np.ndarray, squared_total: np.ndarray, count: int
+def _merge_centered_moments(
+    mean: np.ndarray, m2: np.ndarray, count: int, values: np.ndarray
 ) -> tuple[np.ndarray, np.ndarray]:
-    mean = total / count
-    variance = np.maximum(squared_total / count - np.square(mean), 0.0)
-    scale = np.maximum(np.sqrt(variance), float(NORMALIZER_FLOOR))
-    return mean.astype(np.float32), scale.astype(np.float32)
+    """Merge one fitting sequence's FP32 centered moments into the running totals."""
+    batch_count = len(values)
+    batch_mean = values.mean(axis=0, dtype=np.float32)
+    centered = values - batch_mean
+    batch_m2 = np.sum(centered * centered, axis=0, dtype=np.float32)
+    if count == 0:
+        return batch_mean, batch_m2
+    old_count = np.float32(count)
+    new_count = np.float32(batch_count)
+    total_count = old_count + new_count
+    delta = batch_mean - mean
+    merged_mean = mean + delta * (new_count / total_count)
+    correction = (delta * delta) * ((old_count * new_count) / total_count)
+    return merged_mean, m2 + batch_m2 + correction
 
 
 def _validate_sequence(raw: np.ndarray) -> np.ndarray:

@@ -59,6 +59,8 @@ from wnn.training.runner import run_training
 | [model_validation](model_validation.py) | Architecture/width restrictions and block-memory defaults. |
 | [models](models.py) | Reusable architecture factory with the original constructor order. |
 | [normalization](normalization.py) | Fitting-only normalization and numeric-map calibration. |
+| [online_relationship](online_relationship.py) | Opt-in zero-output tanh residual head around frozen parent predictions; causal input-only state and fitting-only difference statistics live in [online_relationship](../online_relationship.py). |
+| [online_relationship_profile](online_relationship_profile.py) | Complete-sequence CPU feature-cost screen for the frozen two-lag panel; no fitting or scientific admission. |
 | [optimization](optimization.py) | Optimizer/scheduler/objective/averaging construction and preflight exits. |
 | [outputs](outputs.py) | Evaluation, fixed/best checkpoint selection and terminal/resume recovery artifacts. |
 | [prefetch](prefetch.py) | Original pinned-memory CUDA stream prefetch. |
