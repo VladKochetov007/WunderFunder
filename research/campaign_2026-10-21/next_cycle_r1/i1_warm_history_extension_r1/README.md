@@ -79,3 +79,28 @@ The historical cost projection is 7.92h using a 900-second ceiling for each of t
 The [root admission](../WARM_F0_PROFILE_ADMISSION_R2.json) runs the exact real-parent F0 profile through a small [identity/profile adapter](run_warm_f0_profile_r2.py) that verifies 49 source, plan, parent, cache, propensity and provenance pins before canonical setup. The executed source is a clean worktree at `66959b920ba25de1d2f2911d8c5508d22d3eb4d0`; its code matches the packet's source hashes. The adapter changes the entrypoint/import path to that frozen source, with root data/output. It does not implement training.
 
 Operator limits are 4 GB RAM and a 4 GB CUDA allocator, replacing the packet's proposed 3 GB RAM / 4.5 GB allocator. This preserves one GB of parent RAM headroom and uses zero loader workers. One GPU/CPU, no swap and a 900-second cap remain binding. Actual-parent pair parity, shared normalization and sampler checks are still required before the scientific panel. Profile completion is engineering evidence only.
+
+## F1 cache metadata-bound correction
+
+The root-run F1 warm profile R3 stopped after 5.88 seconds at the metadata
+read-bound check in `src/wnn/distillation_cache.py`. Its pinned producer file,
+`cache/h230_four_family_fold1_source_20261009_r1/metadata.json`, is 842,417
+bytes with SHA-256
+`8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703`; the
+previous 512,000-byte cap rejected it before JSON/schema, membership, source,
+array-header, value, or payload-hash validation. The comparable F0 metadata is
+323,404 bytes and passed that bound. This was an undersized consumer bound, not
+evidence of malformed cache contents or a scientific result.
+
+The repair raises only the reader cap to 1,048,576 bytes. All existing schema,
+membership, source/coefficient, NPY geometry/coverage/value, and digest checks
+remain in their original path. A synthetic regression fixture pads valid
+metadata to the producer's exact byte count and exercises those checks; another
+case confirms that the existing pre-read refusal still applies above the new
+cap. The frozen F1 metadata was not rewritten or copied into tests. The failed
+R3 attempt remains history; this change admits no automatic retry, new fit,
+parent-tensor check, or profile result. Ruff, the training-structure checker,
+and `tests/test_distillation.py` pass (12 tests). The test command explicitly
+sets `PYTHONPATH` to the isolated worktree's `src`, because the shared virtual
+environment otherwise resolves its editable package from the root checkout.
+Root owns the source-bound retry amendment and execution.
