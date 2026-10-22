@@ -28,6 +28,6 @@ Swaps: 0
 Exit status: 0
 ```
 
-This run used `MemoryMax=1,100,000,000`, `MemorySwapMax=0`, `CPUQuota=25%`, one CPU affinity, hidden GPU, and the same physical scratch/thread settings described above.
+The prior run annotation reported `MemoryMax=1,100,000,000`, `MemorySwapMax=0`, `CPUQuota=25%`, one CPU affinity, hidden GPU, and physical scratch/thread settings. The receipt does not preserve the exact launch command, transient scope identity, or terminal cgroup counters needed to verify those limits. Treat its resource-boundary claims as unverified; the recorded process-level `/usr/bin/time` measurements remain the available evidence.
 
 Delivery confirmed that its in-progress cache iterator yields a four-field sequence with matching attribute names: `raw`, `target`, `row_weight`, and `parent_prediction`; the fitter's evaluation path uses only `raw` and `parent_prediction`. Its sidecar will bind ordered source references. This was an interface review, not a validation of the unfinished cache writer or CLI. No model fit, accelerator profile, full data-cache read, grade, or quality claim was made.
