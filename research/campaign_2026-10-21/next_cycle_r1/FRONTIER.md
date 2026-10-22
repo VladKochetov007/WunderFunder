@@ -2,6 +2,8 @@
 
 ## Online complete twelve-fit panel running, October23
 
+[Both parent caches published; fitting command started](../../experiment_drafts/online-relationships-20261022/PARENT_CACHE_MILESTONE_R1.json), October23 02:02:56 Kyiv. F0 reports 1,236 fitting/468 evaluation sequences; F1 1,243/457. The receipt hashes sidecars only and does not establish candidate coverage or quality. Worker remains at 100% CPU with unchanged deadline and no new admission.
+
 [Cycle accounting snapshot](CYCLE_ACCOUNTING_POSTBOOT_R1.json) reconciles 28,796.470 completed measured seconds with active online elapsed and all reserved/unused balances inside the original 108,000-second allocation. The 43,200-second production reserve stays protected; no reallocation or new grant.
 
 [CPU thermal correction at 01:38:41 Kyiv](../../experiment_drafts/online-relationships-20261022/CPU_THERMAL_CORRECTION_R1.json): research quota reduced from 190% to 100% after CPU-package readings of 93–94°C despite GPU 72°C. The source/recipe, memory/swap caps and deadline stay fixed. Earlier cost forecasts are historical; remaining duration at the lower quota is unmeasured. No quality result.

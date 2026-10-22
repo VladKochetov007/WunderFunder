@@ -2,6 +2,8 @@
 
 ## Current execution: all twelve fits admitted and delivery running
 
+[Both parent caches published](PARENT_CACHE_MILESTONE_R1.json), with F0 1,236 fitting/468 evaluation sequences and F1 1,243/457. The frozen fitting command began after F1 publication at 02:02:56 Kyiv. The actor receipt hashes JSON sidecars only; all-candidate coverage and target quality remain pending independent grading.
+
 [CPU safety correction at 01:38:41 Kyiv](CPU_THERMAL_CORRECTION_R1.json) lowers the running worker's CPU quota from 190% to 100% after CPU-package readings of 93–94°C. The GPU-only guard read 72°C. Scientific settings, frozen sources, memory/swap caps and deadline remain unchanged. The earlier cost forecasts assume the old quota and are historical; complete-panel delivery is at risk, with no extra admission or quality claim.
 
 [Draft PR #38](https://github.com/VladKochetov007/WunderFunder/pull/38) targets `research-team`; the [publication receipt](PUBLICATION_RECEIPT_R1.json) records the focused code/evidence handoff. Its HEAD preserves four shared dependency differences and is not the executed checkout. Exact reproduction uses root packet commit `33c6e33830a89187aaaf08116850864250feed56`; no PR-branch execution or parity is claimed.
