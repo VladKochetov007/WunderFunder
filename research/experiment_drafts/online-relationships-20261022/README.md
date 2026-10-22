@@ -2,7 +2,7 @@
 
 ## Current execution: all twelve fits admitted and delivery running
 
-[Unapproved budget-extension proposal](BUDGET_EXTENSION_PROPOSAL_R1.json): the observed one-core pace exceeds the original complete-panel envelope. The proposal moves 30 minutes of unused strong-parent allocation to this panel, keeping the overall ceiling and production reserve. It is not authorization: original time limits remain binding pending an explicit user answer.
+[Unapproved revised budget proposal](BUDGET_EXTENSION_PROPOSAL_R2.json) supersedes the [earlier 30-minute proposal](BUDGET_EXTENSION_PROPOSAL_R1.json). Additional epoch observations make the earlier estimate insufficient; R2 proposes moving up to one hour of unused strong-parent allocation to a 3.5-hour inclusive ceiling, keeping the original total and production reserve. This is not authorization: original time limits remain binding pending an explicit user answer.
 
 [Both parent caches published](PARENT_CACHE_MILESTONE_R1.json), with F0 1,236 fitting/468 evaluation sequences and F1 1,243/457. The frozen fitting command began after F1 publication at 02:02:56 Kyiv. The actor receipt hashes JSON sidecars only; all-candidate coverage and target quality remain pending independent grading.
 
