@@ -1,5 +1,7 @@
 # Research-team experiment catalogue
 
+- [Online relationships, draft PR #38](https://github.com/VladKochetov007/WunderFunder/pull/38) — [packet](online-relationships-20261022/README.md) and [publication receipt](online-relationships-20261022/PUBLICATION_RECEIPT_R1.json). Twelve readout fits are admitted on the separately pinned root checkout; quality is pending. The focused draft preserves four shared dependency differences and is not the executed source.
+
 The original fourteen draft PRs were published with base **research-team**; the table preserves their historical publication SHAs. Draft PR #17 is a newer Kalman teacher/student handoff recorded below. The [latest synchronization receipt](BRANCH_SYNC_20261017_R2.json) covers only the original fourteen branches. No experiment has been merged or fitted by publication. The [unified inventory](../unified/ideas/EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) records the original portfolio's provenance and limitations. Shared-policy main base: `18407ecfa3b02d4db70cfb3c34abbacd6653e79d`.
 
 - [Machine catalogue](CATALOG_20261017_R1.json) contains branch/source/base SHAs, exact PR links and publication status. It is navigation, not quality evidence.

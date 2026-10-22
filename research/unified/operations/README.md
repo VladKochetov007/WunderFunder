@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Online panel rolling cost review](../../experiment_drafts/online-relationships-20261022/ROLLING_COST_REVIEW_R1.json) — independent review at 01:29:42 Kyiv: F0 parent caches took 1,577.463 seconds, 502.874 above their profile share. The conditional inclusive forecast is 8,820.851/9,000 seconds, leaving only 89.134 seconds under the delivery cap. F1 and repeated-cache costs remain unmeasured; completion is at risk. The 7,800-second worker cap and production reserve stay unchanged; no quality result.
+
 - [Online panel live execution](../../experiment_drafts/online-relationships-20261022/PANEL_EXECUTION_R1.json), [frozen admission](../../experiment_drafts/online-relationships-20261022/PANEL_ADMISSION_R1.json) and [warm remainder cost deferral](../../campaign_2026-10-21/next_cycle_r1/WARM_REMAINDER_COST_DEFERRAL_R1.json) — all12onlineheads admitted after independentcompletecost review; one guardedCPUworker builds fullcaches before fitting, with no quality read yet. Remaining3warmfitsdeferredintact, completedcontrol retained and12hproduction reserveprotected.
 
 - [Postboot research resume and B8 profile](POSTBOOT_RESEARCH_RESUME_20261023_R1.md) — explicit continuous-research resume, verified disk /tmp/SSDswap, persistent repair of boot-reverted20GBcap to5GB. Actual12-head cost profile completes71.032seconds and projects79.26minutes before coldIO/grading/margins; independent admission pending, zero scientific fits. Includes fresh quota and separate reframe contract.

@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+- [Online relationship draft PR #38](https://github.com/VladKochetov007/WunderFunder/pull/38) and [publication receipt](../../experiment_drafts/online-relationships-20261022/PUBLICATION_RECEIPT_R1.json) — focused implementation/evidence handoff for H/E-ONLINE-RELATIONSHIPS-20261022-R1. The root panel is running with no grade. PR HEAD differs in four canonical dependencies and fails the exact frozen-source preflight; root packet commit `33c6e3383` is the reproduction checkout, with no PR-branch parity claim.
+
 - [Admitted complete online-relationship screen](../../experiment_drafts/online-relationships-20261022/README.md#current-execution-all-twelve-fits-admitted-and-delivery-running) — the independent8,311.440/9,000second cost gate admits all12heads across bothlags andfold/seedcells. Immutable recipe/source/graderpins, fullparents+candidatecoverage gate and boundedCPU-only delivery are active; no target-quality result or native release yet.
 
 - [Online input relationships: reboot handoff](../../experiment_drafts/online-relationships-20261022/README.md#current-status-paused-for-reboot) — implemented strict-FP32 causal core/cache/residual fitter and independent grader; bounded verification passes. R2 complete-panel cost exceeds the 2.5-hour ceiling; B8 R3 preparation source-reviewed but unstarted. User pause, zero scientific fits and no target-quality result.

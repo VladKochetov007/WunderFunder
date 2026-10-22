@@ -2,6 +2,8 @@
 
 ## Online complete twelve-fit panel running, October23
 
+[Rolling cost review at 01:29:42 Kyiv](../../experiment_drafts/online-relationships-20261022/ROLLING_COST_REVIEW_R1.json): F0 parent caches complete in 1,577.463 seconds; F1 is building. The conditional forecast is now 8,820.851/9,000 inclusive seconds with 89.134 seconds under the delivery cap; F1-like-F0 sensitivity exceeds the envelope. Completion is at risk. Keep the existing hard caps and production reserve; no quality result or partial-panel promotion.
+
 [Independent costpass](../../experiment_drafts/online-relationships-20261022/ONLINE_RELATIONSHIP_POSTBOOT_COST_REVIEW_R1.json) projects8,311.440seconds inclusive against9,000. [Frozenadmission](../../experiment_drafts/online-relationships-20261022/PANEL_ADMISSION_R1.json) binds recipeSHA`edc873c813de77f55859d1a13180d907004e5f18fcc537e64eda7af1308e2508`, unchanged scientificparameters, allsource/graderpins, CPU190%/4GB/Swap0/GPUhidden/FP32,7,800second deliverycap plus600grading. Unit`wnn-online-panel-r1-20261023.service`, invocation`1e64dd46f5294caba4977275e6c91feb`, builds fullparents thenall12heads. No targetqualityread/result yet. [Livepacket](../../experiment_drafts/online-relationships-20261022/README.md) and [snapshot](../../experiment_drafts/online-relationships-20261022/PANEL_EXECUTION_R1.json) own progress.
 
 [Warmremaining3deferral](WARM_REMAINDER_COST_DEFERRAL_R1.json) preserves all3intact; current evidencecannotdeliver3fits+3exports+gradewithin16,235.769stage seconds. CompletedF0controlCP1/fullCPUexport retained; no4fitpairedclaim. Userreportedhostsuspend00:34–00:53Kyivoccurredbeforeactivepanelstart, losingnofit. Researchcontinuesunderexplicitresume, production12hprotected.
