@@ -1,0 +1,249 @@
+{
+  "admission": "not_admitted_by_feature_only_profile",
+  "backend": "compiled",
+  "decision": "feature_generation_fits_ceiling_full_profile_required",
+  "excluded_costs": [
+    "fit-only normalizer scan over every selected fitting sequence",
+    "parent prediction cache creation for selected-fit and evaluation groups",
+    "train.parquet row-group read and train-footer memory",
+    "GPU readout forward/backward/AdamW updates",
+    "full-fold candidate prediction export and grading",
+    "checkpoint, sidecar, provenance and cache I/O"
+  ],
+  "feature_cache_generation_empirical_floor_seconds": 523.4015742794145,
+  "folds": [
+    {
+      "compilation_and_actual_prefix_parity_seconds": 2.13975219198619,
+      "complete_sequence_rows": 20000,
+      "evaluation_sequences": 468,
+      "feature_cache_generation_empirical_floor_seconds": 219.44052875158377,
+      "feature_cost_extrapolation": "same-shape operation count for train/evaluation; source-specific read cost omitted",
+      "fit_normalizer_sample_read_seconds_by_lag": {
+        "1": 0.7576898539846297,
+        "16": 0.2988315790134948
+      },
+      "fit_normalizer_sample_total_seconds_by_lag": {
+        "1": 0.8815396020072512,
+        "16": 0.41969878401141614
+      },
+      "fit_sequences": 1236,
+      "fit_train_sequences": 1118,
+      "fit_valid_sequences": 118,
+      "fold": 0,
+      "projected_feature_generation_sequence_passes": 1704,
+      "sample_group_refs": [
+        {
+          "row_group": 6,
+          "split": "valid"
+        },
+        {
+          "row_group": 279,
+          "split": "valid"
+        },
+        {
+          "row_group": 534,
+          "split": "valid"
+        },
+        {
+          "row_group": 757,
+          "split": "valid"
+        },
+        {
+          "row_group": 1028,
+          "split": "valid"
+        },
+        {
+          "row_group": 1268,
+          "split": "valid"
+        },
+        {
+          "row_group": 1592,
+          "split": "valid"
+        },
+        {
+          "row_group": 1863,
+          "split": "valid"
+        }
+      ],
+      "sample_read_seconds_eight_sequences": 0.44500171404797584,
+      "sample_sequence_timings": [
+        {
+          "row_group": 6,
+          "six_stream_seconds": 0.19725065701641142,
+          "split": "valid"
+        },
+        {
+          "row_group": 279,
+          "six_stream_seconds": 0.13345191700500436,
+          "split": "valid"
+        },
+        {
+          "row_group": 534,
+          "six_stream_seconds": 0.12974493100773543,
+          "split": "valid"
+        },
+        {
+          "row_group": 757,
+          "six_stream_seconds": 0.1287796530232299,
+          "split": "valid"
+        },
+        {
+          "row_group": 1028,
+          "six_stream_seconds": 0.1292026870069094,
+          "split": "valid"
+        },
+        {
+          "row_group": 1268,
+          "six_stream_seconds": 0.18426972802262753,
+          "split": "valid"
+        },
+        {
+          "row_group": 1592,
+          "six_stream_seconds": 0.18487482899217866,
+          "split": "valid"
+        },
+        {
+          "row_group": 1863,
+          "six_stream_seconds": 0.13010900901281275,
+          "split": "valid"
+        }
+      ],
+      "sample_source": "valid",
+      "seed": 1001,
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "state_seconds_per_sample_sequence_fastest": 0.1287796530232299,
+      "state_seconds_per_sample_sequence_median": 0.13178046300890855,
+      "state_transform_seconds_eight_sequences_six_streams": 1.2176834110869095,
+      "subset_sha256": "8dfd94041500876a75ebd8cc30d044fb00e2dd55762fbedce78bf14e40eef120",
+      "three_epoch_streaming_recompute_estimate_seconds": 537.7838310250081,
+      "three_epoch_streaming_recompute_sequence_passes": 4176
+    },
+    {
+      "compilation_and_actual_prefix_parity_seconds": 0.1647298989992123,
+      "complete_sequence_rows": 20000,
+      "evaluation_sequences": 457,
+      "feature_cache_generation_empirical_floor_seconds": 303.9610455278307,
+      "feature_cost_extrapolation": "same-shape operation count for train/evaluation; source-specific read cost omitted",
+      "fit_normalizer_sample_read_seconds_by_lag": {
+        "1": 0.346708645025501,
+        "16": 0.27333490701857954
+      },
+      "fit_normalizer_sample_total_seconds_by_lag": {
+        "1": 0.4116334469872527,
+        "16": 0.38344035198679194
+      },
+      "fit_sequences": 1243,
+      "fit_train_sequences": 1071,
+      "fit_valid_sequences": 172,
+      "fold": 1,
+      "projected_feature_generation_sequence_passes": 1700,
+      "sample_group_refs": [
+        {
+          "row_group": 16,
+          "split": "valid"
+        },
+        {
+          "row_group": 203,
+          "split": "valid"
+        },
+        {
+          "row_group": 446,
+          "split": "valid"
+        },
+        {
+          "row_group": 825,
+          "split": "valid"
+        },
+        {
+          "row_group": 1105,
+          "split": "valid"
+        },
+        {
+          "row_group": 1384,
+          "split": "valid"
+        },
+        {
+          "row_group": 1651,
+          "split": "valid"
+        },
+        {
+          "row_group": 1833,
+          "split": "valid"
+        }
+      ],
+      "sample_read_seconds_eight_sequences": 0.14478892495390028,
+      "sample_sequence_timings": [
+        {
+          "row_group": 16,
+          "six_stream_seconds": 0.1996080039825756,
+          "split": "valid"
+        },
+        {
+          "row_group": 203,
+          "six_stream_seconds": 0.18904424499487504,
+          "split": "valid"
+        },
+        {
+          "row_group": 446,
+          "six_stream_seconds": 0.18359152198536322,
+          "split": "valid"
+        },
+        {
+          "row_group": 825,
+          "six_stream_seconds": 0.178800615016371,
+          "split": "valid"
+        },
+        {
+          "row_group": 1105,
+          "six_stream_seconds": 0.1795898370037321,
+          "split": "valid"
+        },
+        {
+          "row_group": 1384,
+          "six_stream_seconds": 0.1859312799933832,
+          "split": "valid"
+        },
+        {
+          "row_group": 1651,
+          "six_stream_seconds": 0.1824345320055727,
+          "split": "valid"
+        },
+        {
+          "row_group": 1833,
+          "six_stream_seconds": 0.18942377000348642,
+          "split": "valid"
+        }
+      ],
+      "sample_source": "valid",
+      "seed": 1002,
+      "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "state_seconds_per_sample_sequence_fastest": 0.178800615016371,
+      "state_seconds_per_sample_sequence_median": 0.18476140098937321,
+      "state_transform_seconds_eight_sequences_six_streams": 1.4884238049853593,
+      "subset_sha256": "2dfd5153327d774e3a752a57e5804d1c9b917996a748d9081e2f2c6cfd1804ce",
+      "three_epoch_streaming_recompute_estimate_seconds": 748.459374458529,
+      "three_epoch_streaming_recompute_sequence_passes": 4186
+    }
+  ],
+  "inclusive_ceiling_seconds": 9000.0,
+  "measurement": "CPU-only, valid.parquet only, complete 20,000-row sequences",
+  "recipe_id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+  "recipe_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/experiment_drafts/online-relationships-20261022/PROFILE_RECIPE_R2.json",
+  "recipe_sha256": "1448f204364abc183ad31d3770ce534dd7dc245107c7064c0e467948f4a38f3a",
+  "samples_per_fold": 8,
+  "schema": "wnn.online-relationships.feature-profile.v1",
+  "source_sha256": {
+    "compiled_kernel": "3a89591cd0d0fa36d9bd54ace165502b5b7ca6c55045df6a3c690857de9caaf9",
+    "feature_module": "e6cf32e4b260b60a7fab0efc32beec4ec74c750d79634de8aad3be82471dcb59",
+    "profile": "7de9ba22aadd7b4be427c705a6da48761913b7fc4f83ac50ae132f525b43109c",
+    "sequence_reader": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "split_loader": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe",
+    "subset_loader": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238"
+  },
+  "three_epoch_streaming_recompute_estimate_seconds": 1286.2432054835372,
+  "train_source_memory_claim": "not measured; train.parquet is never opened",
+  "valid_source_memory_receipt": "research/unified/operations/LOCAL_TRAIN_PARQUET_METADATA_OOM_20261018_R1.md",
+  "worker_config": {
+    "WNN_THREADS": "1"
+  }
+}

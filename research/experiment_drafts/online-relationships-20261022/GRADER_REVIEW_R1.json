@@ -1,0 +1,45 @@
+{
+  "schema": "wnn.online-relationships-grader-review.v1",
+  "experiment_id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+  "reviewer": "online_grader",
+  "review_type": "independent_recipe_and_endpoint_contract_review",
+  "reviewed_recipe": "recipe.json",
+  "reviewed_recipe_sha256": "ab9a47e7fe5c3234ac7ef0289fa77e6a68bddd94236236379e02cc12e9290cd2",
+  "reviewed_status": "deferred_entire_panel_after_feature_cost_profile",
+  "data_graded": false,
+  "findings": [
+    {
+      "severity": "interpretation_limit",
+      "finding": "Fold, seed, parent checkpoint, propensity ancestry and component subsample all vary together between F0/1001 and F1/1002.",
+      "consequence": "Keep every contrast fold-local. Do not pool the two cells as a seed estimate or attribute cross-fold score differences to the head arm."
+    },
+    {
+      "severity": "interpretation_limit",
+      "finding": "The parent predictions used on selected fitting groups are in-sample, while parent predictions on the full evaluation fold are held out by the split.",
+      "consequence": "Label the fit cache explicitly in-sample and never compare it as an evaluation endpoint; the evaluation parent cache must be a separate complete endpoint."
+    },
+    {
+      "severity": "interpretation_limit",
+      "finding": "The two full validation folds are already exposed development evidence, and only two fold/seed cells are present.",
+      "consequence": "Component intervals quantify conditional evaluation-unit uncertainty for fixed fitted endpoints, not training-seed variation, a fresh holdout, or generalization to unseen folds."
+    },
+    {
+      "severity": "artifact_gate",
+      "finding": "The reviewed recipe freezes 12 proposed cells but records zero admitted fits and a deferred status.",
+      "consequence": "The grader must not treat the code, profile, or a partial artifact set as a completed quality panel. It must require a root-frozen runnable recipe and all 14 verified endpoints before opening the target cache."
+    },
+    {
+      "severity": "artifact_gate",
+      "finding": "A permissive row-alignment helper can accept a prediction superset and reorder rows.",
+      "consequence": "Require exact source-qualified evaluation refs, exact ordered row-group membership and little-endian int64 membership digest, plus NPY header/payload coverage, before scoring."
+    }
+  ],
+  "planned_grade": {
+    "endpoints": 14,
+    "contrasts": 26,
+    "primary_intervals": "Overall global_wp_clip2_v1 only, paired by dependency component within each fold.",
+    "conditional_points": "Both target correlations and four fixed position-bin scores for every contrast.",
+    "resampling_scope": "Fixed-endpoint component resampling; no seed/fold pooling or best-lag significance claim."
+  },
+  "limitations": "Code-only review of the frozen recipe and grading contract. No candidate outputs existed and no targets or quality scores were read."
+}

@@ -1,0 +1,44 @@
+{
+  "status": "ADMITTED_ENGINEERING_PROFILE_ONLY",
+  "recipe": "PROFILE_RECIPE_R3.json",
+  "recipe_sha256": "308465a8483ab95656edf153d3611f8685f44b8571bebc684ccea58e7ac90ecc",
+  "source_commit": "af952697f",
+  "integrated_tests": {
+    "count": 46,
+    "wall_seconds": 7.14,
+    "max_rss_kib": 994720,
+    "swap_count": 0,
+    "exit_code": 0,
+    "scope": "wnn-online-integrated-tests-r3-20261022.scope"
+  },
+  "sample": {
+    "fit_sequences_per_fold": 16,
+    "eval_sequences_per_fold": 8,
+    "disposable_heads": 12,
+    "epochs": 3,
+    "scientific_fits_admitted": 0,
+    "quality_scoring": false
+  },
+  "resource_contract": {
+    "cpu_quota": "190%",
+    "threads": 2,
+    "memory_max_bytes": 4000000000,
+    "swap_max_bytes": 0,
+    "runtime_max_seconds": 900,
+    "gpu_hidden": true,
+    "thermal_pause_celsius": 80,
+    "thermal_resume_at_most_celsius": 74,
+    "poll_seconds": 1
+  },
+  "guard_sha256": "f62e983eb0364d1d6042b87a29d013d695ea91dac62cda4aad17bb62c1ac2c16",
+  "production_reserve_seconds": 43200,
+  "inclusive_online_ceiling_seconds": 9000,
+  "prior_known_online_charge_seconds": 313.953,
+  "decision": "Admit only engineering sample. No scientific fits/quality scoring. Entirepanel including priorcharges, fullcoldIO, validation, grading and reserve must fit9000sec.",
+  "supersedes_failed_attempt": null,
+  "repair": "Parent batch8 canonical inference; fixed source-open costs and one-time compiled/optimizer warmup. Final sequence/raw_tensor references released before next batch.",
+  "prior_additional_engineering_reservation_seconds": 120,
+  "reservation_reason": "Conservativebudgetallowance for failednewcheckoutcleanup, smallsupportchecks and twoactorrepairtestruns whose exactwallreceiptpending; not an actual runtime claim.",
+  "independent_review": "online_actor source greenlight 2026-10-22; B8 order/reset/fit-label boundary and raw-buffer lifetime reviewed, durable receipt pending",
+  "batch_sequences": 8
+}

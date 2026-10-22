@@ -1,5 +1,7 @@
 # Research-team experiment catalogue
 
+- [Online input relationships with a frozen-parent residual head](online-relationships-20261022/README.md) — focused 12-readout-fit draft for H-ONLINE-RELATIONSHIPS-20261022-R1 / E-ONLINE-RELATIONSHIPS-20261022-R1. Root has admitted the panel; the dated snapshot has zero completed fits and quality grading is pending. The executed source freeze is root commit `17470a770f2a6aa25be232c017bff45b5d56ad97`; the packet/recipe commit is `33c6e33830a89187aaaf08116850864250feed56`. This integration preserves four canonical dependency differences, so its PR branch is not the executed checkout and exact preflight refuses it.
+
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.

@@ -1,0 +1,51 @@
+{
+  "schema": "wnn.research_evidence_review.v1",
+  "review_id": "ONLINE_RELATIONSHIP_R3_SOURCE_REVIEW_R1",
+  "experiment_id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+  "reviewer_role": "independent_source_reviewer",
+  "reviewer": "online_actor",
+  "review_date": "2026-10-22",
+  "review_scope": "Exact-source review of the R3 B8 parent-cache path and profile contract; no data or execution review",
+  "reviewed_source": {
+    "integrated_commit": "af952697f35792966148a73998f9ebb889aaee28",
+    "delivery_commit": "fcbc5a9b9dbf5767e6d293edb81e2a19fc978f5d",
+    "recipe": "research/experiment_drafts/online-relationships-20261022/PROFILE_RECIPE_R3.json",
+    "recipe_sha256": "308465a8483ab95656edf153d3611f8685f44b8571bebc684ccea58e7ac90ecc"
+  },
+  "profile_contract": {
+    "status": "source_only_profile_greenlight",
+    "fit_sequences_per_fold": 16,
+    "evaluation_sequences_per_fold": 8,
+    "disposable_heads": 12,
+    "scientific_fits": 0,
+    "execution_status": "paused_before_profile_by_user_stop",
+    "profile_started": false
+  },
+  "checks": [
+    {
+      "check": "Ordered B8 parent inference and sequence reset",
+      "result": "pass",
+      "detail": "The writer batches consecutive frozen source-qualified refs, invokes canonical predict once per B8 batch, and stores each output at start+offset. Each predict call initializes fresh sequence state; chunks carry state only within that call."
+    },
+    {
+      "check": "Fit-only targets and canonical row weights",
+      "result": "pass",
+      "detail": "Targets and masks are read only for fitting sequences. main_row_weights is called once per complete sequence, preserving sequence-local scaling. Evaluation target and weight columns remain zero."
+    },
+    {
+      "check": "Common cache identity and batch lifetime",
+      "result": "pass",
+      "detail": "The B8 helper is included in the source/cache identity. The cleanup deletes raw_tensor and sequence views before the next batch allocation, avoiding overlap with the prior raw buffer. All arms consume the same cache."
+    },
+    {
+      "check": "Profile scope",
+      "result": "pass",
+      "detail": "R3 separates one-time warmup and source-open timing from projected profile work. The planned 16-fit/8-evaluation sequences per fold and twelve disposable head cells do not constitute scientific fits."
+    }
+  ],
+  "limitations": [
+    "Source-only review: no Parquet data, cache payloads, labels, predictions, tests, runtime profile, scientific fit, score, or resource receipt was read or produced by this reviewer.",
+    "The profile had not started when the user stopped new compute. This receipt does not authorize restarting it; a later explicit resume and fresh resource admission are required."
+  ],
+  "decision": "The exact R3 source passed the requested profile-readiness review. User stop superseded execution; profile remains unstarted and scientific fit count is zero."
+}

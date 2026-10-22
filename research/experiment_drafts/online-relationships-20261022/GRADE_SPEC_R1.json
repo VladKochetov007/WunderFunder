@@ -1,0 +1,64 @@
+{
+  "schema": "wnn.online-relationships.grade-spec.v1",
+  "created_local_date": "2026-10-23",
+  "owner": "online_grader",
+  "launch_owner": "root",
+  "status": "prepared_not_launched",
+  "authorization": "Root admitted the 12-fit panel and reserved a separate 600-second grade allowance. Root launches grading only after delivery confirms all artifacts and verifies the actual remaining cost clock.",
+  "recipe": {
+    "path_from_repository_root": "research/experiment_drafts/online-relationships-20261022/EXECUTION_RECIPE_R1.json",
+    "sha256": "edc873c813de77f55859d1a13180d907004e5f18fcc537e64eda7af1308e2508",
+    "status": "admitted_for_execution",
+    "panel_admission_path": "research/experiment_drafts/online-relationships-20261022/PANEL_ADMISSION_R1.json"
+  },
+  "preconditions": [
+    "Delivery confirms both parent endpoints and all twelve candidate checkpoints, provenance files, prediction sidecars, and exact NPY files are complete.",
+    "The runner's output manifest confirms complete fold membership and the root verifies actual eligible grade time remains within the separate 600-second allowance.",
+    "No recipe or grader-source changes occur after PANEL_ADMISSION_R1 froze their hashes.",
+    "Artifact validation completes for both parents and all twelve candidates before load_targets reads any evaluation labels or masks."
+  ],
+  "command": {
+    "cwd": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "executable_argv": [
+      "scripts/limited",
+      ".venv/bin/python",
+      "research/experiment_drafts/online-relationships-20261022/grade_online_relationships.py",
+      "--recipe",
+      "research/experiment_drafts/online-relationships-20261022/EXECUTION_RECIPE_R1.json",
+      "--recipe-sha256",
+      "edc873c813de77f55859d1a13180d907004e5f18fcc537e64eda7af1308e2508",
+      "--output",
+      "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/grade_online_relationships_execution_r1_20261023.json"
+    ],
+    "environment": {
+      "CUDA_VISIBLE_DEVICES": "",
+      "PYTHONPATH": "src",
+      "WNN_MEM_MAX": "4000000000",
+      "WNN_CPU_QUOTA": "190%",
+      "WNN_THREADS": "2",
+      "WNN_RUNTIME_MAX": "600",
+      "WNN_SCOPE_UNIT": "wnn-online-grade-r1-20261023",
+      "OMP_NUM_THREADS": "2",
+      "MKL_NUM_THREADS": "2",
+      "OPENBLAS_NUM_THREADS": "2",
+      "NUMBA_NUM_THREADS": "1",
+      "POLARS_MAX_THREADS": "1",
+      "ARROW_NUM_THREADS": "1"
+    },
+    "swap": "scripts/limited sets MemorySwapMax=0",
+    "launch_guard": "Root wraps this command in the admitted thermal and runtime guard; WNN_RUNTIME_MAX is 600 seconds.",
+    "output_mode": "The grader opens the report path with mode x; it fails if the report already exists.",
+    "expected_report": {
+      "endpoints": 14,
+      "fold_local_contrasts": 26,
+      "metric": "global_wp_clip2_v1"
+    }
+  },
+  "interpretation_limits": [
+    "Both validation folds are previously exposed development evidence.",
+    "Fold and seed are confounded across the two cells.",
+    "Parent predictions on selected fitting groups are in-sample and are not graded as endpoints.",
+    "Component bootstrap intervals are conditional on the fitted endpoints; they do not estimate training-seed uncertainty.",
+    "Fixed-bin and both-target points are conditional comparisons; the secondary lag contrast does not establish a universal best lag."
+  ]
+}

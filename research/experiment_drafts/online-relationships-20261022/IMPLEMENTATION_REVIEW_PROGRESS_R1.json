@@ -1,0 +1,31 @@
+{
+  "status": "review_in_progress_no_fit_admitted",
+  "core_source_commit": "e4b3760a21bb82c0fc823f9303fb5671aeea524f",
+  "root_integration_commit": "3e4f8a945",
+  "core_checks_reported_by_actor": {
+    "numpy_feature_tests": 20,
+    "torch_head_tests": 1,
+    "ruff": "pass",
+    "structure_files": 66,
+    "structure_errors": 0,
+    "torch_test_maxrss_kib": 689800,
+    "task_swap": 0
+  },
+  "findings": [
+    {
+      "issue": "Draft normalized208stateoutputs rather than raw inputdifferences before EWupdates",
+      "status": "corrected_before_first_commit",
+      "cost": "no researchdata/profile/fit executed"
+    },
+    {
+      "issue": "state restoration does not bind fittingnormalizer identity",
+      "status": "actor_repair_requested_before_execution"
+    },
+    {
+      "issue": "normalizer usedfloat64 raw moments understrictFP32 contract",
+      "status": "stableFP32 centeredmomentrepair requested"
+    }
+  ],
+  "independent_review_owner": "online_grader",
+  "limitations": "These checks validate code behavior only, not taskquality or wholepanel throughput. No grade/runtime/release claimed."
+}
