@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "receipt_id": "warm_i1_resume_panel_resource_review_r1",
+  "review_date": "2026-10-22",
+  "reviewer_role": "independent_resource_admission",
+  "reviewed_checkout_head": "4af5b6b6981d0b320c33f71d54bae0c486bbf8d0",
+  "scope": "Resource and admission audit only. No GPU work, profiles, fits, predictions, grading, or model/data loading were performed.",
+  "decision": {
+    "status": "HOLD_THREE_REMAINING_FITS_PENDING_SUSTAINED_SAFE_PROFILE",
+    "allow_next_action": "Export the already-completed F0 control CP1 with the frozen predictor, under the active thermal/resource guard.",
+    "hold_reason": "The admitted four-fit cost model is no longer supported by the first full-fit duration. Require an actual sustained profile under the resumed reduced-CPU/no-task-swap/thermal-guard setup, then project all three remaining fits, four full-fold exports, the paired grade, and unspent reserves against the same 8-hour cap before admitting any further fit.",
+    "panel_integrity": "Keep the remaining matched panel whole. The completed F0 control is the first of four newly admitted fits; the frozen admission records zero reused fit controls. Do not relabel it as a pre-existing reused control or shrink the panel into a tranche.",
+    "quality_status": "No quality result or scientific rejection is made."
+  },
+  "frozen_panel": {
+    "stage_ceiling_seconds": 28800,
+    "original_projected_complete_stage_seconds": 21584.64596817564,
+    "original_projected_training_seconds_four_fits": 18975.38398093864,
+    "original_projected_mean_fit_seconds": 4743.84599523466,
+    "prior_engineering_seconds": 689.2619872369964,
+    "fit_count": 4,
+    "fit_count_complete": 1,
+    "fit_count_remaining": 3,
+    "export_count": 4,
+    "export_count_complete": 0,
+    "grade_count_remaining": 1,
+    "reused_fit_controls": 0,
+    "new_teacher_fits": 0,
+    "precision": "FP32",
+    "resource_contract": {
+      "worker_cpu_cores": 1,
+      "worker_swap_bytes": 0,
+      "loader_workers": 0,
+      "vram_ceiling_bytes": 5000000000
+    }
+  },
+  "observed_first_fit": {
+    "run": "i1warm_f0_control_seed3_e2_cp1_r1",
+    "status": "completed_successfully",
+    "epochs": 2,
+    "successful_optimizer_updates": 14920,
+    "nonfinite_updates": 0,
+    "selected_checkpoint_epoch": 1,
+    "checkpoint_landed": true,
+    "operator_reported_wall_seconds": 9038,
+    "log_train_seconds_by_epoch": [2758.8, 6244.8],
+    "epoch1_to_epoch0_train_time_ratio": 2.2635928664644,
+    "fit_export_status": "CP1 export not started as of the root's 2026-10-22 clarification; no export receipt is claimed here.",
+    "log_path": "/home/vlad/development/wunder/research_tmp/warm-i1-panel-r2.log",
+    "log_sha256": "54b48b2e0032d8d0675d9fc2ff1e5d6aa061dadbb7cbff5b41e44414ea66d828",
+    "drain_receipt": "research/campaign_2026-10-21/next_cycle_r1/WARM_GRACEFUL_DRAIN_RESULT_R1.json",
+    "drain_receipt_sha256": "34d486833384fff198edd09c7b7ae5913b929fbcad3853d2509e2b66869f078e",
+    "interpretation": "The user-requested drain intentionally stopped the old sequencer after the healthy fit landed. Its SIGKILL/unit termination is not a failed fit; the drain receipt has wait_status 0 and pins CP0, CP1, training state, and provenance. Its old paused next_steps are superseded by the explicit user resume."
+  },
+  "remaining_stage_arithmetic": {
+    "elapsed_basis_seconds": "prior engineering plus completed fit wall time",
+    "elapsed_seconds": 9727.261987236996,
+    "remaining_seconds": 19072.738012763004,
+    "remaining_reserves_seconds": {
+      "four_exports": 960,
+      "paired_grade": 180,
+      "transition": 300,
+      "setup_if_unspent": 480
+    },
+    "max_mean_seconds_per_remaining_fit_if_all_listed_reserves_are_retained": 5717.579337587667,
+    "max_mean_seconds_per_remaining_fit_if_setup_reserve_is_already_spent": 5877.579337587667,
+    "three_fits_at_observed_wall_seconds": 27114,
+    "overrun_seconds_at_observed_fit_rate_including_all_listed_reserves": 9961.261987236996,
+    "illustration_if_each_remaining_fit_matches_original_projected_mean_seconds": 25878.799972941,
+    "illustration_remaining_headroom_seconds_at_original_projected_mean": 2921.200027059
+  },
+  "resource_guard": {
+    "operator_reported_idle_gpu_temperature_c": 74,
+    "operator_reported_host_memory_available_gb": 15,
+    "operator_reported_memory_pressure_psi": 0,
+    "operator_reported_task_swap_bytes": 0,
+    "operator_reported_ssd_scratch_gb": 16,
+    "operator_reported_host_swap_used_gb": 10,
+    "thermal_policy": "Keep active work below the 82-85 C ceiling range, with the thermal guard and safe drain enabled; current idle temperature alone does not clear another fit.",
+    "reviewer_measurement": false,
+    "requirements_before_next_fit": [
+      "Measure a representative sustained profile on the exact frozen source and planned fit path under the resumed reduced-CPU setup; include the late-epoch slowdown regime rather than extrapolating the earlier short profile median.",
+      "Keep the one-GPU-worker, one-worker-CPU, zero-task-swap contract; use physical SSD scratch and monitor host memory, thermal headroom, and safe-drain behavior.",
+      "Charge profile and subsequent execution time to the same 28,800-second stage; subtract actual CP1 export time and preserve the complete remaining fit/export/grade panel.",
+      "Admit the three fits only if conservative full-panel projection including all unspent setup, transition, four-export and grade reserves remains within the stage cap and the thermal guard is sustainable. Otherwise defer the remaining panel intact."
+    ]
+  },
+  "reconciliation": {
+    "stale_panel_status": "LOCAL_PANEL_EXECUTION_R2 still says RUNNING_FIRST_FIT; LOCAL_SEQUENCE_EXECUTION_REPORT_R2 still says running with no steps. Neither is a terminal/resume receipt.",
+    "resume_receipt": "Not present among the consulted durable inputs at audit time; root reported it will supersede the stale paused execution state. Reconcile the next admission against that receipt and actual export artifacts.",
+    "prior_stage_budget": "BUDGET_PROGRESS_R6 is the separate completed six-fit i1 screen (18,000-second stage ceiling; 15,296.581836440979 seconds charged including prior profile/failed-launch engineering). It is not warm-extension progress or additional headroom for this 8-hour stage.",
+    "cycle_reserve": "This review does not alter the active 30-local-GPU-hour cycle or the protected 12-hour production reserve."
+  },
+  "input_sha256": {
+    "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/LOCAL_PANEL_ADMISSION_R2.json": "49c11c7a56300a8669c8e0f99ea3462fcdb8691ad06b0b3bcd12f3cee7704cc8",
+    "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/LOCAL_SEQUENCE_PLAN_R2.json": "03584298f954428ffaebac8cf4509e2aa7b84c15508902c83cd5289c1b2213e0",
+    "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/LOCAL_PANEL_EXECUTION_R2.json": "a0239713db6f5c73ab4e359374de67550e9f9184eaeb74ab567277ca6cc8a0f4",
+    "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/LOCAL_SEQUENCE_EXECUTION_REPORT_R2.json": "ce1a1029d73d33f5f960a75c2c5942a5f3b84812bd9914070170ab7799ada68e",
+    "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F0_LOCAL_EXECUTION_R2.json": "b25793c46f4d524a43066db4e80e2cdd3d522baa1e7fb92dcc1b0cd659492cf0",
+    "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F1_LOCAL_EXECUTION_R6.json": "8903afa8d765b602f22d84c09ac10a33beaea5835d22d72d73732527d47444da",
+    "research/campaign_2026-10-21/next_cycle_r1/BUDGET_PROGRESS_R6.json": "c28b07b12a4a0434a9fec3699e97ef3894e82d0ff0fd3f81b4cd86050614a31f",
+    "research/campaign_2026-10-21/next_cycle_r1/WARM_GRACEFUL_DRAIN_RESULT_R1.json": "34d486833384fff198edd09c7b7ae5913b929fbcad3853d2509e2b66869f078e",
+    "/home/vlad/development/wunder/research_tmp/warm-i1-panel-r2.log": "54b48b2e0032d8d0675d9fc2ff1e5d6aa061dadbb7cbff5b41e44414ea66d828"
+  },
+  "limitations": [
+    "The 9,038-second fit wall and hardware snapshot were supplied by the operator/root; this review verified the matching fit log's two epoch durations, completed update counts, and file hashes, but did not independently sample hardware telemetry.",
+    "The fit slowdown is observed; its cause is not established. Do not attribute it to thermal throttling, disk I/O, or another bottleneck without phase telemetry.",
+    "The full-panel cost projection is conditional on future fit, export and grade durations. This receipt is an admission gate, not a mathematical runtime bound or a scientific quality grade."
+  ]
+}
