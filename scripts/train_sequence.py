@@ -16,6 +16,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--split-manifest", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--teacher-cache", type=Path)
+    parser.add_argument("--input-artifact", type=Path)
     parser.add_argument("--resume", type=Path)
     parser.add_argument("--profile-updates", type=int, default=0)
     parser.add_argument("--profile-receipt", type=Path)
@@ -42,6 +43,7 @@ def main() -> None:
         resume=args.resume,
         profile_updates=args.profile_updates,
         profile_receipt=args.profile_receipt,
+        input_artifact=args.input_artifact,
     )
 
 

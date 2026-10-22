@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
@@ -19,3 +20,29 @@ def pytest_collection_modifyitems(config, items):
     for item in items:
         if "data" in item.keywords:
             item.add_marker(skip)
+
+
+@pytest.fixture(autouse=True)
+def strict_sequence_precision(request: pytest.FixtureRequest) -> Iterator[None]:
+    """Give sequence-runtime receiver tests the same explicit precision baseline as fitting."""
+    filename = request.node.path.name
+    if not (
+        filename.startswith("test_b300_")
+        or filename
+        in {
+            "test_sequence_numeric.py",
+            "test_numeric_sequence_integration.py",
+        }
+    ):
+        yield
+        return
+    import torch
+
+    matmul, cudnn = torch.backends.cuda.matmul.allow_tf32, torch.backends.cudnn.allow_tf32
+    precision = torch.get_float32_matmul_precision()
+    torch.set_float32_matmul_precision("highest")
+    torch.backends.cuda.matmul.allow_tf32 = False
+    torch.backends.cudnn.allow_tf32 = False
+    yield
+    torch.set_float32_matmul_precision(precision)
+    torch.backends.cuda.matmul.allow_tf32, torch.backends.cudnn.allow_tf32 = matmul, cudnn

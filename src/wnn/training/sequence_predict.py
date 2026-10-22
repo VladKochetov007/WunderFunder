@@ -94,7 +94,13 @@ def export_predictions(args: argparse.Namespace) -> None:
     collective_output_setup(args.output, False, runtime)
     if world > 1:
         dist.barrier()
-    dataset = SequenceRecords(args.data_root, members, 0)
+    dataset = SequenceRecords(
+        args.data_root,
+        members,
+        0,
+        input_encoding=payload["config"]["model"].get("input_encoding", "raw112"),
+        training_mask="need_prediction" if args.membership == "fit" else "is_scored",
+    )
     entries = []
     for index in range(rank, len(dataset), world):
         source, group = members[index]

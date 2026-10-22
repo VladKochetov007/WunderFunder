@@ -5,6 +5,7 @@ import json
 import math
 import os
 import platform
+import subprocess
 from collections.abc import Mapping
 from pathlib import Path
 
@@ -13,6 +14,21 @@ import torch.distributed as dist
 
 from wnn.research_reporting import RunMetadata, RunRecorder
 from wnn.training.sequence_distributed import DistributedContext
+
+
+def gpu_driver_version() -> str:
+    """Capture the receiver's actual NVIDIA driver for hardware-bound profiles."""
+    result = subprocess.run(
+        ["nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    versions = {line.strip() for line in result.stdout.splitlines() if line.strip()}
+    if len(versions) != 1:
+        raise RuntimeError("could not establish one NVIDIA driver identity")
+    return versions.pop()
 
 
 def json_value(value: object) -> object:

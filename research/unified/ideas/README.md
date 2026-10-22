@@ -1,6 +1,6 @@
 # Ideas and hypotheses
 
-[Concrete numerical-basis child](../../experiment_drafts/typed-bin-feature-encoding/README.md) specifies six total prospective fits, matched uniform/quantile knots and a raw reference. Source preparation only; encoder/trainer integration and receiver acceptance pending. [October22 source and candidate triage](../sources/CONNECTOME_PUBLIC_SEARCH_20261022.md) distinguishes current-task public artifacts from earlier HF competitions.
+[Concrete numerical-basis child](../../experiment_drafts/typed-bin-feature-encoding/README.md) specifies six total prospective fits, matched uniform/quantile knots and a raw reference. Encoder/trainer integration, six launch configs and pooled panel grading are implemented; receiver checks and B300 profiles remain unexecuted. [October22 source and candidate triage](../sources/CONNECTOME_PUBLIC_SEARCH_20261022.md) distinguishes current-task public artifacts from earlier HF competitions.
 
 [B300 Transformer and distillation runtime](../../experiment_drafts/b300-transformer-distillation-runtime/README.md)
 implements a strict-FP32 causal raw112 teacher, source-qualified fitting caches,

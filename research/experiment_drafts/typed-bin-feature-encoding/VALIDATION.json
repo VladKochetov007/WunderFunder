@@ -1,0 +1,42 @@
+{
+  "schema": "research-static-validation-v1",
+  "status": "static_checks_passed_receiver_acceptance_pending",
+  "recorded_utc": "2026-10-22T15:08:38.071391+00:00",
+  "reviewed_dependency_commit": "d7559e94008c0d658898b59290785ae457b1b7bb",
+  "checks": {
+    "ruff_lint": "passed",
+    "ruff_format": "passed",
+    "python_ast": "21 changed/new Python files parsed; no imports",
+    "json": "8 packet JSON files and both JSONL ledgers parsed",
+    "config_schema": "keys checked against literal runtime defaults without importing runtime",
+    "training_structure": "81 modules, zero errors; 300-line modules / 200-line functions",
+    "git_diff_check": "passed",
+    "source_review": "two independent read-only reviews; score schema/arm identity/calibration disclosure fixed; explicit B300 gate and driver identity added"
+  },
+  "local_tests_run": 0,
+  "local_training_run": 0,
+  "local_inference_run": 0,
+  "gpu_profiles_run": 0,
+  "scientific_fits_run": 0,
+  "quality_score": null,
+  "receiver_tests": [
+    "tests/test_sequence_numeric.py",
+    "tests/test_numeric_sequence_integration.py",
+    "tests/test_b300_sequence_models.py"
+  ],
+  "receiver_pending": [
+    "source data and split bindings",
+    "dependency install on Linux B300",
+    "causal prefix/chunk/row/checkpoint checks",
+    "six real-shape strict-FP32 memory profiles",
+    "six full fits and fixed-final scores"
+  ],
+  "configs_sha256": {
+    "f0_quantile16.json": "2ca5c01018dbb4c76511468b03491764051a420dfcd0a9dc3f4ac9532b114c9b",
+    "f0_raw_events.json": "7d84ffa616b2d25734b411510b262e65020482636e62ceb7fc0d92e2853cca2a",
+    "f0_uniform16.json": "96649a5f96008f634c091882bbc64f63f23c28c26ab83ca2566891e32c4c377f",
+    "f2_quantile16.json": "9e47db62d2a4424702ac31d5e214b3725bab0e1e7a18d37c88dbcf9d28352471",
+    "f2_raw_events.json": "57106ba2c0ed706b0f77387aea3c939e4f220b69b58462b4ef546b646272c599",
+    "f2_uniform16.json": "8688ac737f446f634c1d55bdd4e361f158ef9ac22d1b5b3f1e481873b92cbd90"
+  }
+}

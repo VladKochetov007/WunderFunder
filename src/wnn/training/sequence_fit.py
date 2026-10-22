@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 from pathlib import Path
 from typing import Any, cast
 
@@ -27,6 +28,7 @@ from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_profile import run_profile
 from wnn.training.sequence_provenance import (
     assert_same_identity,
+    gpu_driver_version,
     recorder_for_run,
     run_identity,
     runtime_identity,
@@ -53,15 +55,16 @@ def _prepare_model(
     mean, std = data.normalization()
     mean = mean.to(device=context.device, dtype=torch.float32).reshape(-1)
     std = std.to(device=context.device, dtype=torch.float32).reshape(-1)
+    width = 112 if config["model"].get("input_encoding", "raw112") == "raw112" else 323
     valid_normalization = (
-        mean.shape == (112,)
-        and std.shape == (112,)
+        mean.shape == (width,)
+        and std.shape == (width,)
         and bool(torch.isfinite(mean).all())
         and bool(torch.isfinite(std).all())
         and bool((std > 0).all())
     )
     if not valid_normalization:
-        raise ValueError("normalization must contain 112 finite means and positive FP32 scales")
+        raise ValueError("normalization must match the input width with finite FP32 means/scales")
     model_mean = getattr(model, "mean", None)
     model_std = getattr(model, "std", None)
     if not isinstance(model_mean, torch.Tensor) or not isinstance(model_std, torch.Tensor):
@@ -69,6 +72,16 @@ def _prepare_model(
     with torch.no_grad():
         model_mean.copy_(mean)
         model_std.copy_(std)
+    basis = getattr(model, "numeric_basis", None)
+    if basis is not None:
+        if data.input_artifact is None:
+            raise ValueError("numeric basis requires its fitting-only input artifact")
+        basis.install_knots(
+            torch.tensor(
+                data.input_artifact["knots"][config["model"]["input_encoding"]],
+                dtype=torch.float32,
+            )
+        )
     if any(parameter.dtype != torch.float32 for parameter in model.parameters()):
         raise TypeError("all trainable and frozen model parameters must use strict FP32")
     if any(
@@ -89,6 +102,7 @@ def run_sequence_fit(
     resume: Path | None = None,
     profile_updates: int = 0,
     profile_receipt: Path | None = None,
+    input_artifact: Path | None = None,
 ) -> None:
     """Execute one torchrun fit or a non-scientific bounded profile on supplied data."""
     config = _mapping(load_config(config_path), "config")
@@ -103,10 +117,16 @@ def run_sequence_fit(
         raise ValueError("a full fit requires --profile-receipt with explicit approval")
     context = initialize_distributed()
     try:
+        if config["required_world_size"] not in (None, context.world_size):
+            raise ValueError("rank count would change the frozen global batch")
+        if config["required_device"] and config[
+            "required_device"
+        ] not in torch.cuda.get_device_name(context.local_rank):
+            raise ValueError("device does not match the frozen hardware recipe")
         collective_output_setup(output, resume_path is not None, context)
         seed_worker(int(config["seed"]), 0)
         data = coordinated_call(
-            lambda: build_data(config, data_root, split_manifest, teacher_cache),
+            lambda: build_data(config, data_root, split_manifest, teacher_cache, input_artifact),
             "sequence data construction",
             context,
         )
@@ -125,6 +145,8 @@ def run_sequence_fit(
         source = source_identity(root, entrypoint)
         runtime = runtime_identity(context)
         identity = run_identity(config, data.provenance, source, runtime, context.world_size)
+        if config["required_device"]:
+            identity["nvidia_driver_version"] = gpu_driver_version()
         identity["model_parameters"] = {
             "total": sum(parameter.numel() for parameter in base_model.parameters()),
             "trainable": sum(
@@ -133,6 +155,12 @@ def run_sequence_fit(
                 if parameter.requires_grad
             ),
         }
+        common = hashlib.sha256()
+        for name, parameter in base_model.named_parameters():
+            if not name.startswith("numeric_basis."):
+                common.update(name.encode())
+                common.update(parameter.detach().cpu().contiguous().numpy().tobytes())
+        identity["initial_common_parameters_sha256"] = common.hexdigest()
         assert_same_identity(identity, context)
         if receipt_path is None:
             profile_hash = None

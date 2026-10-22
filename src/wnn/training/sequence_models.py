@@ -1,4 +1,4 @@
-"""Causal Transformer and canonical GRU adapters for raw-112 sequence training."""
+"""Causal Transformer numerical-input and canonical raw-112 GRU adapters."""
 
 from __future__ import annotations
 
@@ -6,66 +6,19 @@ import math
 
 import torch
 from torch import Tensor, nn
-from torch.nn import functional as F
 from torch.utils.checkpoint import checkpoint
 
 from wnn.nn import RNNModel
 from wnn.training.sequence_attention import CausalTransformerBlock, TransformerState
+from wnn.training.sequence_model_support import (
+    _check_fp32_environment,
+    _check_input_shape,
+    _HintProjector,
+)
+from wnn.training.sequence_numeric import NumericBasis
 
 RAW_INPUT_WIDTH = 112
 SequenceState = Tensor | TransformerState | None
-
-
-class _HintProjector(nn.Module):
-    """Produce learned hints or a fixed, normalized random representation."""
-
-    def __init__(self, hidden: int, hint_dim: int, mode: str) -> None:
-        super().__init__()
-        self.hint_dim = hint_dim
-        self.linear: nn.Linear | None = None
-        self.normalizer: nn.LayerNorm | None = None
-        self.register_buffer("fixed_projection", None)
-        if hint_dim == 0:
-            return
-        if mode == "learned":
-            self.linear = nn.Linear(hidden, hint_dim)
-            return
-        self.normalizer = nn.LayerNorm(hidden, elementwise_affine=False)
-        generator = torch.Generator(device="cpu").manual_seed(1729)
-        projection = torch.randn(hint_dim, hidden, generator=generator, dtype=torch.float32)
-        self.fixed_projection = projection / math.sqrt(hidden)
-
-    def forward(self, hidden: Tensor) -> Tensor:
-        """Project hidden row vectors when hints are enabled."""
-        if self.hint_dim == 0:
-            return hidden.new_empty((*hidden.shape[:-1], 0))
-        if self.linear is not None:
-            return self.linear(hidden)
-        if self.normalizer is None or self.fixed_projection is None:
-            raise RuntimeError("fixed hint projection was not initialized")
-        return F.linear(self.normalizer(hidden), self.fixed_projection)
-
-
-def _check_fp32_environment(model: nn.Module, values: Tensor) -> None:
-    if values.dtype != torch.float32:
-        raise TypeError("sequence models require float32 inputs")
-    if any(parameter.dtype != torch.float32 for parameter in model.parameters()):
-        raise TypeError("sequence models require float32 parameters")
-    if any(buffer is not None and buffer.dtype != torch.float32 for buffer in model.buffers()):
-        raise TypeError("sequence models require float32 buffers")
-    if torch.is_autocast_enabled("cuda") or torch.is_autocast_enabled("cpu"):
-        raise RuntimeError("sequence models require autocast to be disabled")
-    if torch.backends.cuda.matmul.allow_tf32 or torch.backends.cudnn.allow_tf32:
-        raise RuntimeError("sequence models require CUDA matmul and cuDNN TF32 to be disabled")
-    if torch.get_float32_matmul_precision() != "highest":
-        raise RuntimeError("sequence models require float32 matmul precision 'highest'")
-
-
-def _check_input_shape(values: Tensor) -> None:
-    if values.ndim != 3 or values.shape[-1] != RAW_INPUT_WIDTH:
-        raise ValueError("sequence models accept only raw input shaped [batch, rows, 112]")
-    if values.shape[0] <= 0 or values.shape[1] <= 0:
-        raise ValueError("sequence batches and row chunks must be non-empty")
 
 
 class _GRUSequenceAdapter(RNNModel):
@@ -111,23 +64,31 @@ class _TransformerSequenceAdapter(nn.Module):
         checkpoint_blocks: bool,
         hint_dim: int,
         hint_mode: str,
+        input_encoding: str = "raw112",
     ) -> None:
         super().__init__()
+        self.input_encoding = input_encoding
+        self.input_width = 112 if input_encoding == "raw112" else 323
         self.hidden = hidden
         self.heads = heads
         self.head_dim = hidden // heads
         self.context_rows = context_rows
         self.dropout = dropout
         self.checkpoint_blocks = checkpoint_blocks
-        self.register_buffer("mean", torch.zeros(RAW_INPUT_WIDTH, dtype=torch.float32))
-        self.register_buffer("std", torch.ones(RAW_INPUT_WIDTH, dtype=torch.float32))
-        self.input_projection = nn.Linear(RAW_INPUT_WIDTH, hidden)
+        self.register_buffer("mean", torch.zeros(self.input_width, dtype=torch.float32))
+        self.register_buffer("std", torch.ones(self.input_width, dtype=torch.float32))
+        self.input_projection = nn.Linear(self.input_width, hidden)
         self.blocks = nn.ModuleList(
             CausalTransformerBlock(hidden, heads, ff_width, dropout) for _ in range(layers)
         )
         self.output_norm = nn.LayerNorm(hidden)
         self.output_head = nn.Linear(hidden, 2)
         self.hint_projector = _HintProjector(hidden, hint_dim, hint_mode)
+        self.numeric_basis = (
+            NumericBasis(hidden, input_encoding)
+            if input_encoding in ("uniform16", "quantile16")
+            else None
+        )
 
     def _state_for_batch(self, values: Tensor, state: TransformerState | None) -> TransformerState:
         if state is None:
@@ -166,11 +127,14 @@ class _TransformerSequenceAdapter(nn.Module):
         state: TransformerState | None = None,
     ) -> tuple[Tensor, Tensor, TransformerState]:
         """Predict each raw row using only current and bounded past sequence rows."""
-        _check_input_shape(values)
+        _check_input_shape(values, self.input_width)
         _check_fp32_environment(self, values)
         previous = self._state_for_batch(values, state)
         position = previous.next_position
-        hidden = self.input_projection((values - self.mean) / self.std)
+        normalized = (values - self.mean) / self.std
+        hidden = self.input_projection(normalized)
+        if self.numeric_basis is not None:
+            hidden = hidden + self.numeric_basis(normalized[..., :112])
         dropout_p = self.dropout if self.training else 0.0
         next_keys: list[Tensor] = []
         next_values: list[Tensor] = []
@@ -243,6 +207,9 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     """
     if torch.get_default_dtype() != torch.float32:
         raise TypeError("sequence model construction requires the default dtype to be float32")
+    input_encoding = config.get("input_encoding", "raw112")
+    if input_encoding not in ("raw112", "raw_events", "uniform16", "quantile16"):
+        raise ValueError("unsupported input encoding")
     architecture = config.get("architecture")
     if architecture not in ("transformer", "gru"):
         raise ValueError("model config architecture must be 'transformer' or 'gru'")
@@ -266,6 +233,8 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     if not 0.0 <= dropout < 1.0 or ff_multiplier <= 0.0:
         raise ValueError("dropout must be in [0, 1) and ff_multiplier must be positive")
     if architecture == "gru":
+        if input_encoding != "raw112":
+            raise ValueError("numerical encoders require a Transformer")
         return _GRUSequenceAdapter(hidden, layers, dropout, hint_dim, hint_mode)
     if hidden % heads != 0 or (hidden // heads) % 2 != 0:
         raise ValueError("Transformer hidden width must divide evenly into even rotary head widths")
@@ -282,6 +251,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         checkpoint_blocks,
         hint_dim,
         hint_mode,
+        str(input_encoding),
     )
 
 

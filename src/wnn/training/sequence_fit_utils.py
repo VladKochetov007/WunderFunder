@@ -63,7 +63,7 @@ def collate_sequences(dataset: SequenceDataset, indices: Sequence[int]) -> Seque
 
 
 def move_and_validate_batch(
-    batch: SequenceItem, device: torch.device, hint_dim: int
+    batch: SequenceItem, device: torch.device, hint_dim: int, input_width: int = FEATURE_COUNT
 ) -> SequenceItem:
     """Move one batch and enforce canonical FP32 row, target, mask, and hint shapes."""
     moved = {key: value.to(device=device, non_blocking=True) for key, value in batch.items()}
@@ -75,8 +75,8 @@ def move_and_validate_batch(
         moved["hints"],
     )
     expected_rows = (x.shape[0], SEQUENCE_ROWS)
-    if x.shape != (*expected_rows, FEATURE_COUNT):
-        raise ValueError(f"expected x[B,20000,112], received {tuple(x.shape)}")
+    if x.shape != (*expected_rows, input_width):
+        raise ValueError(f"expected x[B,20000,{input_width}], received {tuple(x.shape)}")
     if target.shape != (*expected_rows, TARGET_COUNT) or teacher.shape != target.shape:
         raise ValueError("label and teacher batches must have shape [B,20000,2]")
     if mask.shape != expected_rows or mask.dtype != torch.bool:
@@ -106,6 +106,10 @@ def make_optimizer(
         """Return the declared learning-rate factor for one optimizer step."""
         if warmup_updates > 0 and step < warmup_updates:
             return (step + 1) / warmup_updates
+        if config.get("schedule", "cosine") == "wsd":
+            cooldown = max(1, math.ceil(total_updates * float(config["cooldown_fraction"])))
+            progress = min(1.0, max(0.0, (step + 1 - (total_updates - cooldown)) / cooldown))
+            return 1.0 - progress * (1.0 - float(config["min_lr_ratio"]))
         cosine_updates = max(1, total_updates - warmup_updates)
         progress = min(1.0, max(0.0, (step - warmup_updates + 1) / cosine_updates))
         return 0.5 * (1.0 + math.cos(math.pi * progress))

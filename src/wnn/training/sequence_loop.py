@@ -227,6 +227,7 @@ def train_epoch(
                 collate_sequences(dataset, batch_ids),
                 context.device,
                 int(config["model"]["hint_dim"]),
+                112 if config["model"].get("input_encoding", "raw112") == "raw112" else 323,
             ),
             "sequence batch load and validation",
             context,

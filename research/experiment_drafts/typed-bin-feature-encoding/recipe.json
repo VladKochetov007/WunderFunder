@@ -2,14 +2,14 @@
   "schema": "research_recipe_v1_not_trainer_config",
   "id": "E-TYPED-BIN-ENCODING-20261022-R1",
   "hypothesis_id": "H-TYPED-BIN-ENCODING-20261022",
-  "status": "proposal_not_launch_ready",
+  "status": "implemented_unvalidated_on_B300",
   "training_authorized": false,
-  "local_execution": "none",
+  "local_execution": "static_source_checks_only",
   "base_sha": "c452e8cf4f8ef57e5c07c6801a6e10fc7616251d",
   "trainer_dependency": {
     "pr": 32,
     "sha": "d7559e94008c0d658898b59290785ae457b1b7bb",
-    "integrated": false
+    "integrated": true
   },
   "parent_prs": [
     8,
@@ -27,7 +27,7 @@
   ],
   "arms": [
     {
-      "id": "raw",
+      "id": "raw_events",
       "basis": null
     },
     {
@@ -38,7 +38,7 @@
     {
       "id": "quantile16",
       "basis": "per_field_piecewise_linear",
-      "knots": "17 fitting quantiles at k/16"
+      "knots": "priority reservoir 131072 rows seed221022; quantiles k/16 with full-fitting min/max endpoints"
     }
   ],
   "primary_contrast": [
@@ -48,11 +48,11 @@
   "secondary_contrasts": [
     [
       "quantile16",
-      "raw"
+      "raw_events"
     ],
     [
       "uniform16",
-      "raw"
+      "raw_events"
     ]
   ],
   "planned_new_fits": {
@@ -72,7 +72,7 @@
     "basis_projection": "flatten112x16 then linear1792->256 and add to raw/event token projection",
     "uniform_quantile_same_parameters": true,
     "raw_comparison_capacity_confounded": true,
-    "nonfinite": "same finite indicator and fixed fill in all arms; schema binding pending",
+    "nonfinite": "zero imputation then event99, plus missing112 indicator; 323 common inputs",
     "empty_interval": "zero without division",
     "fit_membership": "cell fitting components only",
     "knots_frozen_for_evaluation": true
@@ -87,7 +87,8 @@
     "chunk": 256,
     "dropout": 0.05,
     "targets": 2,
-    "positional_mode": null
+    "positional_mode": "causal RoPE",
+    "context_semantics": "256 per layer; effective receptive field up to 1021"
   },
   "optimizer": {
     "name": "AdamW",
@@ -99,7 +100,8 @@
     "warmup_fraction": 0.02,
     "cooldown_fraction": 0.2,
     "min_lr_ratio": 0.1,
-    "selection": "final_epoch"
+    "selection": "final_epoch",
+    "schedule": "WSD linear warmup / stable / linear cooldown"
   },
   "precision": {
     "parameters": "float32",
@@ -123,22 +125,22 @@
       "seed": 221022,
       "scope": "conditional on fixed fitted predictions",
       "fold_rng": "independent fold substreams from master seed"
-    }
+    },
+    "targets_clip": [
+      -2,
+      2
+    ]
   },
   "practical_effect_threshold": 0.0003,
   "all_folds_exposed": true,
   "partition_hashes": null,
   "data_hashes": null,
-  "launch_command": null,
+  "launch_command": "uv run --locked python scripts/run_numeric_experiment.py <prepare|profile|fit|evaluate> --fold <0|2> --arm <raw_events|uniform16|quantile16> --data-root <root> --split-manifest <split> --output-root <output>",
   "result": null,
   "blocking_dependencies": [
-    "integrate pinned canonical trainer dependency",
-    "implement basis/config/checkpoint and inference adapters",
-    "bind source-clean full fitting and eval memberships",
-    "seal loss, target normalization, finite indicators, positional mode, event schema and context/cache semantics before outcomes",
-    "seal shared RNG mapping and initialization for common parameters",
-    "profile actual FP32 memory and seal identical effective batch/update counts",
-    "receiver prefix, full/chunk/row parity and artifact checks"
+    "receiver source/data/split bindings and dependencies",
+    "receiver parity/causality/artifact checks (written; not executed locally)",
+    "six real-shape strict-FP32 B300 profiles with memory headroom and accepted receipts"
   ],
   "sources": [
     "https://arxiv.org/abs/2203.05556",
@@ -151,5 +153,20 @@
     "base_branch": "research-team",
     "draft": true,
     "initial_published_content_sha": "24cc53eae9e7904a0bcaac8e07bcb4109f455e52"
+  },
+  "implementation_amendment": {
+    "date": "2026-10-22",
+    "pre_outcome": true,
+    "numeric_schema": "raw112-event99-missing112-v1",
+    "normalization": "all fitting sequences; FP64 moments to FP32 mean/std; scale floor0.001; missing indicators identity",
+    "quantile_estimator": "bounded uniform priority reservoir; sample identity hashed",
+    "common_initialization": "zero basis projection; RNG preserved; parameter hash checked",
+    "training_mask": "row>=99; source train lacks is_scored",
+    "loss": "WMSE target clipped[-2,2], absolute clipped-target weights, no target normalization",
+    "evaluation_mask": "need_prediction AND is_scored",
+    "fixed_endpoint": 11,
+    "world_size": 1,
+    "configs": "configs/f{0,2}_{raw_events,uniform16,quantile16}.json",
+    "required_device": "B300"
   }
 }
