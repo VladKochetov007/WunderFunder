@@ -1,5 +1,9 @@
 # Current project state
 
+## October22 user-directed thermal pause after current fit
+
+The user reports laptop freezes/overheating and asks to let the current fit land gracefully, then pause. [Drain receipt](../research/campaign_2026-10-21/next_cycle_r1/THERMAL_GRACEFUL_PAUSE_R1.json): only currentF0warmcontrol drains at25%CPU; its supervisor is suspended and cannot start further fits/exports. A bounded observer records checkpoint hashes afterexit and releasesworker resources. Completion is pending; no automaticresume or additionalheavywork. Researchtask swap is0, buthostswap is7.9/8GB. The online12fitpanel was already deferred by its4.394h featurecostprojection against2.5hcap.
+
 ## October22: two-parent public receipt and online amendment
 
 The user reports [two-parent portal0r4h74xw](../research/campaign_2026-10-22/quota_retained_pair_r1/PUBLIC_RECEIPT_R1.json):0.66771,28m31s,643MB. This is−0.00061 versus reportedTL3 0.66832 but10m41s faster, and+0.00104 versus the H512 replacement. The exposed local sample advantage did not transfer in this descriptive comparison; TL3 remains the stronger public reference. Portal payload hash remains unverified. The unchanged warm-history panel continues. The [online input-relationship amendment](../research/unified/ideas/ONLINE_RELATIONSHIPS_20261022_R1.md) is now deferred intact: user-requested backward lags1and16 require12readout fits, but measured one-pass featuregeneration projects4.394h against the unchanged2.5h inclusive ceiling, before fitting/export. Core/profile verified, no onlinefit admitted or productionreserve spent.

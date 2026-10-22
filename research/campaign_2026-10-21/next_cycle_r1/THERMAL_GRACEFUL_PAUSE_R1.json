@@ -1,0 +1,35 @@
+{
+  "status": "CURRENT_FIT_DRAINING_THEN_PAUSE_USER_DIRECTED",
+  "user_instruction": "some jobs overheating laptop and it freezes; too much memory and swap used. Then: Let it land gracefully and we will pause at this point.",
+  "active_fit": "i1warm_f0_control_seed3_e2_cp1_r1",
+  "last_observed_progress": "epoch1 batch480/746; epoch0checkpoint andtraining_state already saved",
+  "unit": "wnn-warm-i1-panel-r2-20261022.service",
+  "invocation": "04c1ee399eb84328a0da28c10cf8102d",
+  "training_pid": 3384439,
+  "training_start_ticks": "18816570",
+  "supervisor_pid": 3384438,
+  "supervisor_state": "SIGSTOP; cannot start exports ornextfits",
+  "training_state": "SIGCONT aftercoolingpause; CPUquota reducedfrom100%to25%",
+  "existing_limits": "4GBchildRAM,5GBaggregateRAM,noSwap unchanged; originalruntimecapunchanged",
+  "drain_observer": {
+    "unit": "wnn-warm-graceful-drain-20261022.service",
+    "invocation": "f0ab2c332f8c4225b12b098b236b5f34",
+    "script": "drain_current_warm_fit.py",
+    "limits": "CPU5%,64MB,noSwap,6hmaximum,poll15s",
+    "action": "Waitonlypinnedchildexit; recordstatus/checkpointhashes; terminatepausedsupervisorunit toreleaseallresources. No nextjob."
+  },
+  "terminal_receipt_expected": "WARM_GRACEFUL_DRAIN_RESULT_R1.json",
+  "resource_observation": {
+    "gpu_initial_celsius": 87,
+    "gpu_after_cooling_celsius": 83,
+    "research_cgroup_ram_bytes_approx": 3900000000,
+    "research_cgroup_swap_bytes": 0,
+    "host_swap_used_mib": 7902,
+    "host_swap_total_mib": 8191,
+    "host_memory_available_mib": 11043,
+    "host_memory_pressure_full_avg60_initial": 4.16,
+    "host_io_pressure_full_avg60_initial": 19.39
+  },
+  "admission": "Closed toallnewfits,exports,profiles,catalogrebuilds andotherheavywork. Online12fitpanel alreadydeferredatcostgate. Noautomaticresume.",
+  "preservation": "Pausedcurrentfitretains~3GBRSS untilcompletion; nohostswapconfiguration or unrelatedprocesses changed. Originalfirstepochcheckpoint retained. Originalfullpanel timingprojection no longerapplies at25%CPU."
+}

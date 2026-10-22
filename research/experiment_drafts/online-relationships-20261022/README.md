@@ -38,3 +38,5 @@ WNN_MEM_MAX=800000000 WNN_CPU_QUOTA=100% WNN_RUNTIME_MAX=300 CUDA_VISIBLE_DEVICE
 The profile opens only valid.parquet, reads selected fitting groups with targets=False/mask=False, and streams full20,000-row sequences. Train-source metadata/read memory remains unmeasured here. Independent review and final verification/publication receipts are linked below when complete.
 
 [Root verification](VERIFICATION_R1.json) and [raw test log](root_verification_r1.log): all23focused tests pass on integrated source, Ruffformat/check pass, canonicalstructure67files/zeroerrors,605004KiBpeakRSS/zeroSwap. The independent scalarreview is separate.
+
+[Independent cost review](../../unified/reviews/receipts/ONLINE_RELATIONSHIP_PROFILE_DEFERRAL_REVIEW_R1.json) confirms exact source/fit-only sample membership and arithmetic; it supports cost deferral only. Subsequent userthermalwarning closes allheavyadmission and requests gracefulcurrentfitdrainthenpause; [live authority](../../campaign_2026-10-21/next_cycle_r1/THERMAL_GRACEFUL_PAUSE_R1.json). Draftpublication is prepared locally on experiment/online-relationships-20261022 but **not pushed/created as a PR** before thispause.
