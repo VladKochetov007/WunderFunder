@@ -2,6 +2,8 @@
 
 ## October23: online-learning screen admitted and running
 
+Both complete parent caches are published and the twelve-head fitting command is active. The [CPU safety correction](../research/experiment_drafts/online-relationships-20261022/CPU_THERMAL_CORRECTION_R1.json) reduces the worker to one CPU core; a [single-invocation observer](../research/experiment_drafts/online-relationships-20261022/CPU_OBSERVER_EXECUTION_R1.json) adds 97°C/90°C cooling with zero task swap. The original 7,800-second service deadline (03:10:31 Kyiv) and 9,000-second inclusive ceiling remain binding. The [updated timing review](../research/experiment_drafts/online-relationships-20261022/ROLLING_COST_REVIEW_R2.json) projects beyond that ceiling; the proposed one-hour transfer from unused strong-parent allocation is unanswered and unapproved. No partial-panel quality grading or native release is authorized by these operational findings.
+
 The [full twelve-head panel](../research/experiment_drafts/online-relationships-20261022/README.md) passes an independent8,311.440-second inclusive cost gate against9,000seconds. Immutable recipe/source/grader pins are frozen; CPU-only full parent caches and then all12fixedCP2heads are running under two-core/5GBaggregate/noSwap constraints. No scientific quality result yet. Remaining3warm-historyfits are [deferred intact](../research/campaign_2026-10-21/next_cycle_r1/WARM_REMAINDER_COST_DEFERRAL_R1.json), completedcontrol/export preserved, production12hreserve untouched. Fresh reframecards and an independent critique are recorded separately with no extra fits.
 
 ## October23: postboot research resume
