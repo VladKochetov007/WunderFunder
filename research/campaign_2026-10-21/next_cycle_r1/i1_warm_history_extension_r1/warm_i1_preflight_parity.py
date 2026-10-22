@@ -65,7 +65,9 @@ def compare_parent_parity(
                     raise ValueError(f"child output is nonfinite for {split} group {group}")
                 error = float((parent_prediction - child_prediction).abs().max().item())
                 if not np.isfinite(error):
-                    raise ValueError(f"parent/child parity error is nonfinite for {split} group {group}")
+                    raise ValueError(
+                        f"parent/child parity error is nonfinite for {split} group {group}"
+                    )
                 maximum = max(maximum, error)
             if maximum > tolerance:
                 raise ValueError(f"parent/child parity failed for {split} group {group}: {maximum}")
