@@ -1,5 +1,9 @@
 # Methods, sampling, and metric
 
+- [Harness² research-workflow integration](../../../tools/harness2/README.md) —
+  pinned upstream Propose–Probe–Compose, reflection and full-harness process lessons;
+  bounded task adapter, offline regression fixture and separate scientific authority.
+
 [Canonical tiedlead implementation](../../campaign_2026-10-18/quality_gap_r1/tiedlead_capability_publication_r1/README.md) preserves sequence-wide causal lead gathering, raw-scale shared branch encoding, per-call delta reset and carried recurrent state. The isolated branch supports canonical checkpoint prediction/evaluation; actual-data/GPU and native ZIP/ONNX behavior are unmeasured.
 
 [Strict propensity V3 engineering publication](../../campaign_2026-10-18/quality_gap_r1/propensity_capability_publication_r2/README.md) adds optimizer diagnostics and exact epoch-boundary state recovery to the opt-in strict path;33tinyCPUtests and independent review pass. Branch235db75a is published, not staged on B or merged into the running source. Recovery retains failures and unknown in-flight step calls, with journal-corruption and runtime/GPU limits explicit. This supplies an engineering component for the modified final-supervision experiment, not a quality result or admission.
