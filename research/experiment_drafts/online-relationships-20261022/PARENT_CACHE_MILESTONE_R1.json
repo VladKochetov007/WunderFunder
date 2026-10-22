@@ -1,0 +1,91 @@
+{
+  "schema": "wnn.online-relationships.parent-cache-milestone.v1",
+  "observed_at_utc": "2026-10-22T23:04:27Z",
+  "experiment_id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+  "status": "both_full_parent_caches_published_fit_panel_started",
+  "execution": {
+    "unit": "wnn-online-panel-r1-20261023.service",
+    "invocation_id": "1e64dd46f5294caba4977275e6c91feb",
+    "recipe_path": "research/experiment_drafts/online-relationships-20261022/EXECUTION_RECIPE_R1.json",
+    "recipe_sha256": "edc873c813de77f55859d1a13180d907004e5f18fcc537e64eda7af1308e2508",
+    "source_revision": "17470a770f2a6aa25be232c017bff45b5d56ad97",
+    "delivery_started_local": "2026-10-23 01:00:31 EEST",
+    "fit_panel_phase": "observed immediately after F1 cache publication; no per-head epoch completion was yet logged at receipt time"
+  },
+  "runtime_resource_adjustment": {
+    "receipt_path": "research/experiment_drafts/online-relationships-20261022/CPU_THERMAL_CORRECTION_R1.json",
+    "observed_utc": "2026-10-22T22:38:41Z",
+    "service_cpu_quota_percent": {
+      "before": 190,
+      "after": 100
+    },
+    "reason": "CPU package readings reached 93-94 C while the GPU-only guard was 72 C; root reduced this service quota at runtime.",
+    "scope": "The admitted recipe, model, 4 GB memory limit, zero swap, two numerical threads, service deadline, and scientific parameters were unchanged."
+  },
+  "parent_caches": {
+    "0": {
+      "directory": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/parents/f0",
+      "fold": 0,
+      "fit_sequences": 1236,
+      "evaluation_sequences": 468,
+      "phase_seconds": {
+        "dependency_load": 0.014894162000018696,
+        "evaluation_cache": 334.06344174900005,
+        "evaluation_cache_source_open": 0.18807177099961336,
+        "fit_cache": 1243.2831932100003,
+        "fit_cache_source_open": 0.7580751640000472,
+        "membership_validation": 0.05670729600001323,
+        "publish_and_parent_sidecar": 0.1160998320001454
+      },
+      "sidecars": {
+        "fit_sequences.json": {
+          "path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/parents/f0/fit_sequences.json",
+          "sha256": "6a85239cd177343154442feab1b4a1c94e5a22b4ace9630ac362b01bffd12c85"
+        },
+        "evaluation_sequences.json": {
+          "path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/parents/f0/evaluation_sequences.json",
+          "sha256": "35094325e4bbf7849d78df504f8016f8b93c244c2e291fbe718795928d506cee"
+        },
+        "evaluation_predictions.json": {
+          "path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/parents/f0/evaluation_predictions.json",
+          "sha256": "f3124a95074ae1338531b51e11d0060c35c512274f4c604ec2e02d83a6b4b946"
+        }
+      }
+    },
+    "1": {
+      "directory": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/parents/f1",
+      "fold": 1,
+      "fit_sequences": 1243,
+      "evaluation_sequences": 457,
+      "phase_seconds": {
+        "dependency_load": 0.03297703199996249,
+        "evaluation_cache": 461.33183775900034,
+        "evaluation_cache_source_open": 0.2006726620002155,
+        "fit_cache": 1704.4946802869995,
+        "fit_cache_source_open": 1.2324640880005973,
+        "membership_validation": 0.14049453000006906,
+        "publish_and_parent_sidecar": 0.1414824960002079
+      },
+      "sidecars": {
+        "fit_sequences.json": {
+          "path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/parents/f1/fit_sequences.json",
+          "sha256": "27dba0ad2ef0b8721c998de2ca10ca843433914646aa2b47b596b8e0aca1386c"
+        },
+        "evaluation_sequences.json": {
+          "path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/parents/f1/evaluation_sequences.json",
+          "sha256": "b4b7e235d109e2893b63f49d3085fe1e36e644a850778edbfad9570311a7b7c3"
+        },
+        "evaluation_predictions.json": {
+          "path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/parents/f1/evaluation_predictions.json",
+          "sha256": "bc36215be632641bcb8b36b8145718196fdcb0f41f12f2960af8c04cc13f7cbd"
+        }
+      }
+    }
+  },
+  "validation_boundary": {
+    "array_payloads_scanned": false,
+    "targets_or_quality_metrics_read": false,
+    "candidate_endpoint_coverage_claimed": false,
+    "independent_grader_owns_final_validation": true
+  }
+}
