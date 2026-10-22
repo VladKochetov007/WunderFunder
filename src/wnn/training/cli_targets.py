@@ -16,7 +16,13 @@ def add_targets_arguments(ap: argparse.ArgumentParser) -> None:
         "--mean-variance-objective",
         choices=("wmse", "nll"),
         default="wmse",
-        help="use canonical blended-target wMSE or bounded diagonal Gaussian NLL",
+        help="use canonical wMSE or bounded diagonal Gaussian NLL",
+    )
+    ap.add_argument(
+        "--mean-variance-target-source",
+        choices=("main_t3_blend", "labels"),
+        default="main_t3_blend",
+        help="NLL target: historical MainT3 blend or clipped observed labels only",
     )
     ap.add_argument(
         "--loss",

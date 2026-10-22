@@ -15,6 +15,11 @@ def configuration_error(args: argparse.Namespace, controlled_loss: bool) -> str 
     """Return why the opt-in mean/logvariance recipe is incompatible with this run."""
     enabled = bool(args.mean_variance_head)
     objective = args.mean_variance_objective
+    target_source = getattr(args, "mean_variance_target_source", "main_t3_blend")
+    if target_source not in ("main_t3_blend", "labels"):
+        return "--mean-variance-target-source must be main_t3_blend or labels"
+    if target_source == "labels" and objective != "nll":
+        return "--mean-variance-target-source labels requires --mean-variance-objective nll"
     if objective == "nll" and not enabled:
         return "--mean-variance-objective nll requires --mean-variance-head 1"
     if not enabled:
@@ -31,9 +36,11 @@ def configuration_error(args: argparse.Namespace, controlled_loss: bool) -> str 
         has_teacher = bool(
             args.distill or args.distill_cache_root or args.final_distill_initializer
         )
-        if not has_teacher:
+        if target_source == "labels" and (has_teacher or args.distill_family_weight):
+            return "label-only mean/logvariance NLL forbids teacher targets and family distillation"
+        if target_source == "main_t3_blend" and not has_teacher:
             return "the mean/logvariance NLL requires the fixed MainT3 blended teacher target"
-        if (
+        if target_source == "main_t3_blend" and (
             args.distill_alpha != 0.9
             or args.distill_alpha_far is not None
             or args.distill_boot_h != 0
@@ -42,6 +49,18 @@ def configuration_error(args: argparse.Namespace, controlled_loss: bool) -> str 
         ):
             return "the mean/logvariance NLL requires the fixed 0.9 teacher / 0.1 label target"
     return None
+
+
+def weighted_label_diagonal_gaussian_nll(
+    mean: torch.Tensor,
+    labels: torch.Tensor,
+    log_variance: torch.Tensor,
+    valid: torch.Tensor,
+) -> torch.Tensor:
+    """Compute canonical clipped-label weighted NLL without any teacher target."""
+    target = labels.float().clamp(-2, 2)
+    weights = target.abs() * valid.float()[..., None]
+    return weighted_diagonal_gaussian_nll(mean, target, log_variance, weights)
 
 
 def weighted_diagonal_gaussian_nll(

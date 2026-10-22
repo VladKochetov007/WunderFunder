@@ -2,15 +2,18 @@ from __future__ import annotations
 
 import torch
 import torch.nn.functional as F
-
 from wnn.distillation import four_family_weighted_mse
 from wnn.nn import weighted_mse_loss
 from wnn.outcomes import N_CODES, N_SP_AUX, readout, sequence_class
 from wnn.spread_aux import structural_loss
-from wnn.training.initializer import final_initializer_distillation_target
-from wnn.training.mean_variance import weighted_diagonal_gaussian_nll
-from wnn.training.state import TrainingRun
 from wnn.training_controls import blended_target
+
+from wnn.training.initializer import final_initializer_distillation_target
+from wnn.training.mean_variance import (
+    weighted_diagonal_gaussian_nll,
+    weighted_label_diagonal_gaussian_nll,
+)
+from wnn.training.state import TrainingRun
 
 
 def main_loss(run: TrainingRun) -> None:
@@ -38,9 +41,16 @@ def main_loss(run: TrainingRun) -> None:
     td_a = run.batch.td_a
     teach = run.batch.teach
     y = run.batch.y
-    if mean_variance_objective == "nll" and teach is None:
+    target_source = getattr(args, "mean_variance_target_source", "main_t3_blend")
+    if mean_variance_objective == "nll" and target_source == "labels":
+        if teach is not None or initializer_teacher is not None:
+            raise RuntimeError("label-only mean/logvariance NLL received a teacher target")
+        loss = weighted_label_diagonal_gaussian_nll(
+            out[..., :2], y[:, sl], out[..., -2:], main_valid[:, sl]
+        )
+    elif mean_variance_objective == "nll" and teach is None:
         raise RuntimeError("mean/logvariance NLL requires the fixed MainT3 blended teacher target")
-    if moments is not None:
+    elif moments is not None:
         ce = F.cross_entropy(
             out.float().reshape(-1, N_CODES), codes[:, sl].reshape(-1), reduction="none"
         )
