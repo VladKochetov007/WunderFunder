@@ -7,3 +7,5 @@ The node unit started at 2026-10-22 18:30:55 UTC. Its absolute four-hour deadlin
 The source files here match the reviewed deployment scripts. Runtime PLAN, command receipts, source/data identities, profiles, logs, checkpoints, prediction arrays, official grades and cleanup proofs remain in the node's `state/next4h-20261022-r2` directory. GitHub comments carry observed progress and results. Do not infer GPU activity or completion from this source archive; consult the dated live execution receipts.
 
 The initial cold NLL unit test used a bare Sequential instead of the canonical model.head interface; that fixture was repaired and all four tests pass on the node. Numeric tests require the existing conftest strict-FP32 fixture, which was included before rerunning all 29 checks. No scientific source change was made to resolve either packaging/test issue.
+
+[Continuation V2](continuation_v2/README.md) supersedes the initial preparation receipt with actual ten-fit execution, the preserved pre-GPU cgroup failure, prospective NLL command correction and the original absolute deadline.

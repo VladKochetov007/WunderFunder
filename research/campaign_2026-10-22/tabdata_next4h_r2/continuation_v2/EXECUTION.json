@@ -1,0 +1,59 @@
+{
+  "status": "all_ten_scientific_fits_observed_active",
+  "observed_unix": 1792695562.0809367,
+  "start_unix": 1792693855.4927282,
+  "hard_deadline_unix": 1792708255.4927282,
+  "plan_sha256": "d76774e58d8d8c06c52bac701bde97ea2aa704f2536ac2f4815775e6a5e1eefd",
+  "files": {
+    "delivery.py": "0a7c922aca985a2706dde152080d5008c12ac9d02efbf501d930a8b24a28d36d",
+    "cohort.py": "357f4d226644ff4120843377e02d7e9d0f904ca14dcfe14b26a6564fa650bcb7",
+    "continue_cohort.py": "3c621fbcc2d27a57a4b5ee6219d3a5806ed75b95e084c621c2a48cd4271d373b",
+    "continue_remaining.py": "f23cc6f3fbf09c4d02d597656315515d2ee67070b31b5851f647bdcd212d64a3",
+    "publish.py": "010554f242bfedad313a8fe2d8289cebeaa588fef2cb4c264c328a63d3101219",
+    "nll_profile.py": "38a844048b26ac5c011fe22e619327abd1aedcf2929572227a6a706756e1ef4d",
+    "nll_grade.py": "773dc37f4606836317f9318b9c0b7118b3e2082b9fc14c416161c4a881087240"
+  },
+  "preserved_failed_attempt": {
+    "phase": "pre_GPU_cgroup_migration",
+    "error": "PermissionError(13, Permission denied)",
+    "retained_at": "runtime/next4h-20261022-r2/failed-cgroup-migration",
+    "old_unit_stopped": true,
+    "calibration_both_folds_complete_and_reused": true
+  },
+  "service": {
+    "unit": "tabdata-next4h-20261022-remaining.service",
+    "InvocationID": "2e974bb8f3f3e4ef6b25bbf895a6515d4",
+    "active_enter_utc": "2026-10-22T18:56:42Z",
+    "RuntimeMaxSec": 11922,
+    "timer_expiry_utc": "2026-10-22T22:15:24Z",
+    "TimeoutStopSec": 120,
+    "KillMode": "control-group",
+    "Restart": "no",
+    "finalizer_timeout": 110
+  },
+  "prospective_NLL_command_fix": {
+    "loss": "wmse",
+    "loss_norm": "chunk",
+    "aux_struct": 0.3,
+    "aux_next": 0.3,
+    "head_width": 25,
+    "removed_unsupported_training_flag": "loader-workers",
+    "canonical_CLI_four_arm_preflight": "passed before first GPU work"
+  },
+  "profiles": {
+    "numeric": 6,
+    "nll": 4,
+    "all_passed": true,
+    "NLL_each_successful_optimizer_updates": 60,
+    "numeric_each_successful_optimizer_updates": 4,
+    "NLL_finite_loss_gradients": true,
+    "numeric_peak_reserved_GiB": [
+      1.61,
+      1.75
+    ],
+    "nll_peak_reserved_GiB": 3.8,
+    "quality_result": null
+  },
+  "planned_scaleout": "12 additional separately sealed paired NLL fits on GPUs2-7; not yet admitted at this receipt",
+  "cleanup_scope": "each exact owned service cgroup only"
+}
