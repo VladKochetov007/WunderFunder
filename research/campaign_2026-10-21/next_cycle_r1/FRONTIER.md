@@ -214,3 +214,9 @@ To avoid making an independent mean grade wait on unrelated B16 recovery, the or
 ## Immediate quota probe — October22
 
 The latest user request explicitly authorizes one exploratory public package now. [Fixed two-parent TL3 packet](../../campaign_2026-10-22/quota_retained_pair_r1/README.md) is built and independently technically reviewed, with zero new fits. Source/ABI/Python3.11/eight complete-sequence parity/reset checks pass. Equal0.5/0.5 coefficients differ from earlier raw0.33/0.33 diagnostic; no exact candidate-quality gain claimed. ZIP handed off for upload because no authenticated portal session is available; no portal receipt/live quota/public result. This narrow exception does not promote the model or reopen regular production allocation.
+
+## Real-parent profile terminal and narrow F1 repair
+
+[F0 execution](i1_warm_history_extension_r1/PROFILE_F0_LOCAL_EXECUTION_R2.json) completed110batches/1,100finiteupdates with zero skips/OOM:2.60397s median/B16batch,304.76053s fullwall, peakRSS3.75861GB/CUDAreserved2.96328GB. [F0 raw log](warm_f0_profile_r2.log) preserves all resource/update evidence. This is throughput only.
+
+[F1 admission](WARM_F1_PROFILE_ADMISSION_R3.json), [failed execution](i1_warm_history_extension_r1/PROFILE_F1_LOCAL_EXECUTION_R3.json) and [raw log](warm_f1_profile_r3.log) preserve5.87972seconds before any updates: actual842,417byte producer metadata exceeds512,000byte consumer bound. Integrated81f47a3fd increases only the bounded metadata allowance to1MiB (other source diff is formatting); all schema/hash/ancestry/NPY/value checks remain. [Root verification](WARM_REPAIR_VERIFICATION_R1.json) passes29 focused tests, Ruff and65file structure. Clean repaired source is frozen at81f47a3fd under physicalscratch; original66959b920 source and R1 recipe bytes retained. Explicit retry/source amendment and actualpair parity remain before scientificfit admission.

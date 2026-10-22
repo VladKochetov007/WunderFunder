@@ -1,5 +1,11 @@
 # Current project state
 
+## October22: immediate exploratory quota package and warm follow-up preparation
+
+The user explicitly requested one submission now for public evidence. The [fixed two-parent TL3 package](../submissions/tl3_two_parents_20261022/README.md) is technically checked and independently reviewed:8.90MB, unchanged native libraries, two teachers at0.5 each, no new fits. Its exact quality is unmeasured; an earlier positive diagnostic used0.33/0.33 and does not grade this ZIP. No authenticated portal session is available, so it is handed off for human upload; no quota use, portal ID or public score is claimed. This narrow exploratory exception does not promote a champion.
+
+The actual F0 strong-parent profile passes1,100finiteupdates at2.604s median/B16batch and304.76s fullwall with zeroOOM/skips. F1 stopped before updates because its valid cache metadata exceeded the bounded reader cap. The narrow1MiBcap repair passes29focusedtests and staticchecks; source-pinned retry and paired actual-parent parity remain before four scientific continuations. See the [live frontier](../research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md). Earlier snapshots below are history.
+
 ## October 22: complete i1 screen and saved-model recovery
 
 The six-fit i1 panel is complete. The fixed 90% B / 10% C mixture improves F0/1001 by +0.00035953 and F2/1002 by +0.00027145, averaging +0.00031549. Both targets improve, while C alone loses in both cells. Conditional component 95% intervals are [−0.00001187,+0.00070893] and [+0.00008223,+0.00043398]. A's fixed mixture also helps F2, so complementarity does not uniquely establish a temporal-memory mechanism. The [independent review](../research/unified/reviews/I1_SIX_FIT_HISTORY_GRADE_REVIEW_20261022_R1.md) supports the existing conditional four-fit strong-parent comparison, with initial-function parity, shared normalization and native-serving checks. All folds remain exposed; no stronger complete submission is established.

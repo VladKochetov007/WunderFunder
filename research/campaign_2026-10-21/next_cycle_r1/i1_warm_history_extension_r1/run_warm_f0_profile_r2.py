@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
@@ -26,6 +27,9 @@ def sha256(path: Path) -> str:
 
 def main() -> None:
     """Fail closed on frozen identity/output collisions before running canonical training."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--fold", type=int, choices=(0, 1), default=0)
+    fold = parser.parse_args().fold
     started = time.monotonic()
     recipe = json.loads((PACKET / "PROFILE_F0_WARM_R2.json").read_text())
     assert (
@@ -49,40 +53,32 @@ def main() -> None:
     for name, expected in manifest["canonical_source_sha256"].items():
         checked["source/" + name] = sha256(SOURCE / name)
         assert checked["source/" + name] == expected, name
-    parent = recipe["actual_parent"]
+    plan = json.loads((ROOT / manifest["plan"]).read_text())
+    cell = next(item for item in plan["cells"] if item["fold"] == fold)
+    profile = next(item for item in plan["profiles"] if item["fold"] == fold)
+    parent, cache, propensity = cell["parent"], cell["target_cache"], cell["propensity"]
+    variant = cache["variant"]
     pins = {
         parent["checkpoint"]: parent["checkpoint_sha256"],
-        "research/campaign_2026-09-29/artifacts/splits/fold0.json": parent["split_manifest_sha256"],
-        parent["target_cache_root"] + "/metadata.json": parent["target_cache_metadata_sha256"],
-        parent["target_cache_root"] + "/main_homogeneous_train.npy": parent[
-            "target_main_train_sha256"
-        ],
-        parent["target_cache_root"] + "/main_homogeneous_valid.npy": parent[
-            "target_main_valid_sha256"
-        ],
-        "artifacts/runs/" + parent["propensity_run"] + "/model.pt": parent[
-            "propensity_checkpoint_sha256"
-        ],
+        cell["split"]["path"]: cell["split"]["sha256"],
+        cache["root"] + "/metadata.json": cache["metadata_sha256"],
+        cache["root"] + f"/main_{variant}_train.npy": cache["main_train_sha256"],
+        cache["root"] + f"/main_{variant}_valid.npy": cache["main_valid_sha256"],
+        "artifacts/runs/" + propensity["run"] + "/model.pt": propensity["checkpoint_sha256"],
+        "artifacts/runs/" + parent["run"] + "/provenance.json": parent["provenance_sha256"],
+        "artifacts/runs/" + propensity["run"] + "/provenance.json": propensity["provenance_sha256"],
     }
-    plan = json.loads((ROOT / manifest["plan"]).read_text())
-    cell = plan["cells"][0]
-    pins["artifacts/runs/" + parent["run"] + "/provenance.json"] = cell["parent"][
-        "provenance_sha256"
-    ]
-    pins["artifacts/runs/" + parent["propensity_run"] + "/provenance.json"] = cell["propensity"][
-        "provenance_sha256"
-    ]
     for name, expected in pins.items():
         checked[name] = sha256(ROOT / name)
         assert checked[name] == expected, name
-    argv = list(recipe["argv"])
+    argv = list(profile["argv"])
     argv[0] = str(SOURCE / "scripts/train_rnn.py")
     assert "--save-training-state" not in argv and "--resume-state" not in argv
     assert argv[argv.index("--profile-steps") + 1] == "100"
     assert argv[argv.index("--profile-warmup") + 1] == "10"
     name = argv[argv.index("--name") + 1]
     assert not os.path.lexists(ROOT / "artifacts/runs" / name), name
-    receipt = PACKET / "PROFILE_F0_LOCAL_EXECUTION_R2.json"
+    receipt = PACKET / f"PROFILE_F{fold}_LOCAL_EXECUTION_R{2 if fold == 0 else 3}.json"
     assert not receipt.exists()
     environment = os.environ.copy()
     environment.update(
@@ -93,6 +89,8 @@ def main() -> None:
     )
     evidence = {
         "source_head": source_head,
+        "adapter_sha256": sha256(Path(__file__)),
+        "fold": fold,
         "source_root": str(SOURCE),
         "pins": checked,
         "argv": argv,
