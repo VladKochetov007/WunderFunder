@@ -1,0 +1,112 @@
+{
+  "schema": "wnn.online-relationships-independent-cost-review.v1",
+  "experiment_id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+  "review_id": "ONLINE-RELATIONSHIP-COST-REVIEW-R2",
+  "reviewer": "online_grader",
+  "review_type": "independent_resource_cost_and_admission_review",
+  "source_commit": "76d076e51",
+  "recipe": {
+    "path": "research/experiment_drafts/online-relationships-20261022/PROFILE_RECIPE_R3.json",
+    "sha256": "308465a8483ab95656edf153d3611f8685f44b8571bebc684ccea58e7ac90ecc"
+  },
+  "profile": {
+    "path": "/home/vlad/development/wunder/research_tmp/online-full-profile-r2-20261022/profile.json",
+    "sha256": "8d055a5840b9c2b409229f058e0c738469314af65c882384c57e52ce8841b1ba",
+    "service_wall_seconds": 40.923,
+    "guard_wall_seconds": 40.77005,
+    "profile_internal_wall_seconds": 37.90048790400033,
+    "peak_rss_reported": "approximately 1.8 GB",
+    "swap_bytes": 0,
+    "thermal_pause_seconds": 0,
+    "resource_contract": {
+      "cpu_quota": "190%",
+      "memory_max_bytes": 4000000000,
+      "memory_swap_max_bytes": 0,
+      "gpu_hidden": true
+    },
+    "sample": {
+      "fit_sequences_per_fold": 4,
+      "evaluation_sequences_per_fold": 2,
+      "disposable_heads": 12,
+      "epochs_per_head": 3,
+      "fit_membership": "real sampled fitting groups; labels and weights used only for fit cache construction",
+      "evaluation_labels_or_masks_read": false,
+      "quality_scoring": false
+    }
+  },
+  "admission": {
+    "decision": "DEFER_COMPLETE_PANEL",
+    "scientific_fits_admitted": 0,
+    "inclusive_ceiling_seconds": 9000,
+    "quality_result": false,
+    "reason": "The projected complete-panel known cost exceeds the frozen ceiling before grading and remaining delivery costs."
+  },
+  "projected_panel_cost_seconds": {
+    "basis": "Profile R2 linearly scales sampled cache sequences, normalizer sequences, fit batches, and evaluation groups to the full two-fold recipe.",
+    "cache_generation": 6548.532735677436,
+    "readout_fit_three_epochs": 3919.263497814111,
+    "evaluation_prediction": 279.1415500248695,
+    "fit_normalizers": 54.138711078456254,
+    "full_prediction_export": 3.164312079359661,
+    "known_cost_sum": 10804.253577669264,
+    "over_ceiling": 1804.253577669264,
+    "first_epoch_jit_sensitivity": {
+      "observed_first_cell_epoch_seconds": [
+        3.1872167009860277,
+        0.271590043004835,
+        0.2767138449999038
+      ],
+      "full_batch_to_sample_batch_scale": 301.8,
+      "assumption": "Treat the first epoch's excess over the mean of its later epochs as one-time JIT overhead that is not repeated in the full-panel production path.",
+      "estimated_projection_reduction_seconds": 879.162943657668,
+      "adjusted_known_cost_seconds": 9925.090634011596,
+      "adjusted_over_ceiling_seconds": 925.090634011596
+    }
+  },
+  "accounting": {
+    "prior_known_online_charge_seconds": 269.22,
+    "prior_engineering_reserve_seconds": 120,
+    "missing_mask_fixture_seconds": 3.81,
+    "r2_profile_service_wall_seconds": 40.923,
+    "known_prior_plus_review_work_seconds": 433.953,
+    "adjusted_panel_projection_plus_known_prior_seconds": 10359.043634011596,
+    "limitation": "The adjusted panel projection is an optimistic sensitivity calculation. R2 did not directly measure the cost of JIT warmup in the production process topology."
+  },
+  "storage_and_io": {
+    "full_sequence_cache_bytes": 31861440000,
+    "parent_evaluation_prediction_bytes": 148000000,
+    "candidate_prediction_bytes": 888000000,
+    "combined_payload_bytes": 32897440000,
+    "full_cache_cold_io_measured": false,
+    "finding": "The full cache plus parent and candidate predictions is about 32.90 GB. Available disk capacity was adequate at review time, but the cache projection extrapolates from only 4 fit and 2 evaluation groups per fold; cold full-cache I/O was not observed."
+  },
+  "unmeasured_costs": [
+    "Full official target grading, including component bootstrap intervals",
+    "Candidate provenance and sidecar serialization beyond the sampled export analogue",
+    "Cold full-cache I/O and complete-cache hashing at scale",
+    "Thermal scheduling overhead during the eventual full run"
+  ],
+  "review_findings": [
+    {
+      "severity": "blocking_admission",
+      "finding": "The profile's projected known cost is 10804.25 seconds, already 1804.25 seconds over the 9000-second ceiling. Even the optimistic one-time-JIT adjustment leaves 9925.09 seconds before unmeasured costs.",
+      "consequence": "Do not admit any scientific head fits from R2; preserve the complete panel intact."
+    },
+    {
+      "severity": "cost_uncertainty",
+      "finding": "The largest projected phase is full cache generation at 6548.53 seconds. It is scaled from 12 sampled sequence groups to 3404 full fit/evaluation groups and about 31.86 GB of sequence caches.",
+      "consequence": "Treat cold full-cache I/O as unverified until a revised profile measures the source-open, parent-batch, and cache-write phases with adequate sample coverage."
+    },
+    {
+      "severity": "unmeasured_delivery",
+      "finding": "Grading, production provenance, full-cache hash traffic, and thermal scheduling are absent from the known-cost sum.",
+      "consequence": "Reserve these costs explicitly in the next admission calculation; do not spend the full 9000 seconds on the projected phases alone."
+    }
+  ],
+  "follow_up": {
+    "status": "R3 cost profile pending",
+    "planned_changes": "Measure parent inference with the common sequence batch size of 8, isolate fixed source-footer opens, record one-time JIT warmup separately, and use 16 fit plus 8 evaluation sequences per fold.",
+    "admission_condition": "Reconcile the revised full-panel projection with prior charges and conservative grading, provenance, I/O, and thermal reserves; otherwise defer the complete panel."
+  },
+  "limitations": "Read-only resource and arithmetic review. No candidate artifacts, target labels for evaluation, official scores, scientific fits, or GPU work were inspected or run. The projection is empirical and sample-derived, not a mathematical lower bound or a quality result."
+}
