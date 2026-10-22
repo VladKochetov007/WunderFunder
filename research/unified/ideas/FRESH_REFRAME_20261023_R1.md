@@ -2,6 +2,8 @@
 kind: idea
 status: proposal
 date: 2026-10-23
+hypothesis_ids: [H-395, H-396, H-397, H-PER-FIELD-AGE-20261022-R1]
+experiment_ids: []
 ---
 
 # Fresh reframe: low-cost input representations for the recurrent endpoint
@@ -13,6 +15,8 @@ The contract supplied only: about 20,000 rows, 112 anonymous inputs, two continu
 The cards below were drafted from that contract and the cited primary sources. A broad `rg` run accidentally exposed fragments of old idea notes before these cards were committed. I did not open the online residual-fit implementation, and I do not claim a fully blind first proposal set. The exposure is recorded so later duplicate checks and interpretation can account for it.
 
 ## 1. Shared pair-set encoder with a raw bypass
+
+**Hypothesis:** H-395, a child of H-182's bounded interaction family.
 
 - **Source component:** Deep Sets characterizes permutation-invariant set functions with a shared element map followed by pooling and a downstream map; the paper also derives equivariant layers. The theorem requires the target function to have the relevant symmetry.
 - **Structural analogy:** If the proposed 52 channel correspondences identify exchangeable pairs, each pair can be processed with a shared small map. Pair-order-neutral statistics (`sum`, absolute difference, product) can feed a pooled interaction summary, while the existing raw-input path preserves channel-specific information.
@@ -29,6 +33,8 @@ The seeded competition passage below reinforces a guardrail for this card: treat
 
 ## 2. Per-channel age since last meaningful change
 
+**Existing hypothesis:** H-PER-FIELD-AGE-20261022-R1. This is a GRU-D-grounded source addition and a more explicit matching recipe for that already retained arm; it does not create a duplicate H entry.
+
 - **Source component:** GRU-D feeds a per-feature mask and elapsed-time vector to a recurrent model and learns decay rates; its evidence concerns irregular and missing clinical measurements.
 - **Structural analogy:** The 112 inputs are observed at each row, so missingness itself does not transfer. A different observable may: causal time since each channel last changed beyond a train-derived tolerance. This can describe active versus stale channels without labels or a target-fitted online head.
 - **Intervention:** Retain raw inputs and append a clipped, per-channel age-since-change feature, reset at each sequence boundary. Estimate scales/tolerances from fitting data only; do not impute missing values or read validation targets to define events.
@@ -42,18 +48,22 @@ The seeded competition passage below reinforces a guardrail for this card: treat
 
 ## 3. Event-triggered recurrent state updates
 
+**Hypothesis:** H-396, a compute-focused child of H-231's event-time state family. The trigger skips a recurrent update; it is distinct from adding an event clock or fitting an output residual.
+
 - **Source component:** Skip RNN learns when to skip recurrent state updates and studies an update-budget constraint; its results on other sequence tasks do not predict this endpoint.
 - **Structural analogy:** Some rows may repeat or weakly perturb the observed population state. A deterministic input-novelty trigger could leave recurrent state unchanged on those rows while still reading out a prediction at every required time.
 - **Intervention:** Use a frozen, causal novelty score from standardized `x_t - x_{t-1}` to decide whether to run the recurrent update; preserve the normal update path at sequence start and reset all gate state at boundaries. Compare a small fixed threshold ladder, not label-dependent routing.
-- **Assumptions:** Target-relevant state changes arrive with input novelty, and skipped updates are sparse enough to reduce actual recurrent work. A held state must remain accurate for rows whose inputs are uninformative.
+- **Assumptions:** Target-relevant state changes arrive with input novelty, and skipped updates are sparse enough to reduce actual recurrent work. This is a strong assumption: unchanged raw inputs do not establish unchanged targets or unchanged useful recurrent state, especially across long quiet runs.
 - **Predicted observable:** At least one nonzero threshold skips a material share of updates, reduces measured end-to-end inference time, and retains the full official endpoint near the zero-threshold parent.
-- **Cheapest informative test:** Replay a frozen parent on an already admitted exposed fold over predeclared thresholds, scoring the complete output and measuring actual serving runtime. This uses zero optimizer fits but is only an inference-time screen; a positive result would still need a train-time learned/fixed-gate comparison before a recipe claim.
-- **Falsifier:** Few updates can be skipped, score falls with the first useful skip rate, or the gate's own work erases recurrent savings.
+- **Cheapest informative test:** Only after root admits a frozen-checkpoint replay on an exposed fold, compare a zero threshold with predeclared thresholds. Before any fit, report skipped-row count and fraction, the share of official `need_prediction AND is_scored` rows and clipped-label magnitude weight inside skipped regions, and per-target weighted score contribution/delta by quiet-run length and position; also report the complete official endpoint and measured serving runtime. Long quiet runs must be explicit buckets because errors and state effects can accumulate there. This is an inference-time screen, not a train-time recipe claim.
+- **Falsifier:** The first threshold with useful runtime savings loses meaningful official-score weight or degrades weighted contribution in long quiet runs; alternatively, few updates can be skipped or gate overhead erases recurrent savings. A rowwise bucket diagnostic supplements, but never replaces, the complete endpoint score because skipped state can affect later predictions too.
 - **Approximate cost:** A few complete parent replays; no new teacher or optimizer fits for the first screen. Do not run this replay until separately admitted under the shared resource cap.
 - **Reusable artifact:** Fixed threshold/normalization spec, exact skip mask, runtime trace, and causal parity fixture.
 - **Mechanism family:** `temporal_control/event_triggered_state`.
 
 ## 4. TensorSketch of row-wise channel interactions
+
+**Hypothesis:** H-397, a cost-reduction child of H-210's existing bounded polynomial-interaction proposal. It does not create a second top-level interaction family.
 
 - **Source component:** Pham and Pagh's TensorSketch uses CountSketch and convolution to approximate polynomial-kernel features without explicitly materializing the tensor product, with a reported near-linear feature-map cost.
 - **Structural analogy:** A recurrent model can miss a useful same-row interaction between anonymous channels unless it learns it from hidden capacity. A low-dimensional degree-two sketch offers a cheap interaction basis without creating all 6,216 channel pairs.
@@ -72,4 +82,4 @@ The random draw selected [Semenov's competition transcript](../sources/competiti
 
 ## Allocation and follow-up
 
-These are four distinct proposals; they should not all be fitted automatically. The current online screen and leading warm/history delivery retain their existing ownership and admission. Choose a challenger only after source and cost review. The novelty-trigger replay offers the cheapest potential information, while the pair encoder and age representation have direct input-side paths to quality. TensorSketch is the most speculative approximate-interaction arm. Since all folds are exposed, any result remains discovery/robustness evidence; report paired deltas and separate model-seed variation from conditional component resampling. Public transfer remains unmeasured.
+The post-commit duplicate check found that per-channel age is already H-PER-FIELD-AGE-20261022-R1 and that degree-bounded recurrent interactions are already H-210. The former remains a source-grounded elaboration with no new ledger arm; TensorSketch is registered only as H-210's cost-focused child. The pair-set encoder and input-novelty skip rule have unique IDs H-395 and H-396. These proposals should not all be fitted automatically. The current online screen and leading warm/history delivery retain their existing ownership and admission. Choose a challenger only after source and cost review. The novelty-trigger replay offers the cheapest potential information, while the pair encoder and age representation have direct input-side paths to quality. TensorSketch is the most speculative approximate-interaction arm. Since all folds are exposed, any result remains discovery/robustness evidence; report paired deltas and separate model-seed variation from conditional component resampling. Public transfer remains unmeasured.

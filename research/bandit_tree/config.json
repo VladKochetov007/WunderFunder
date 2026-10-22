@@ -5694,6 +5694,102 @@
       },
       "numeric_prior": null,
       "cost_h": null
+    },
+    {
+      "id": "arm:permutation-shared-pair-encoder",
+      "parent_id": "family:representation",
+      "title": "Shared pair-set encoder with raw bypass",
+      "kind": "arm",
+      "status": "not_tested",
+      "hypothesis_ids": [
+        "H-395"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/unified/ideas/FRESH_REFRAME_20261023_R1.md",
+        "research/unified/sources/FRESH_REFRAME_SOURCES_20261023_R1.md"
+      ],
+      "related_nodes": [
+        "arm:stagewise-interaction-grower"
+      ],
+      "next_test": "After cost admission, compare raw-only, the proposed shared pair map, and a fixed deranged pairing on two matched fold/seed cells (six fits if controls are not reusable); score complete endpoints.",
+      "allocation": {
+        "eligible": false,
+        "priority": 3,
+        "launch_authorized": false,
+        "reason": "No fit admitted by the reframe task; root must fit it within remaining mechanism allocation."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "unit": "absolute_global_wp_delta"
+      }
+    },
+    {
+      "id": "arm:input-novelty-state-skip",
+      "parent_id": "arm:event-time-slow-delay",
+      "title": "Input-novelty recurrent update skipping",
+      "kind": "arm",
+      "status": "not_tested",
+      "hypothesis_ids": [
+        "H-396"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/unified/ideas/FRESH_REFRAME_20261023_R1.md",
+        "research/unified/sources/FRESH_REFRAME_SOURCES_20261023_R1.md"
+      ],
+      "related_nodes": [
+        "arm:event-clock"
+      ],
+      "next_test": "Only after root admission, replay a frozen parent on an exposed fold over a fixed threshold ladder. Before any fit, report skipped rows and the official scored-row/label-weight coverage inside skipped regions, plus per-target weighted contribution by quiet-run length/position, complete official score, and measured runtime.",
+      "allocation": {
+        "eligible": false,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "No data replay or fit admitted by the reframe task; root owns resource admission."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "unit": "absolute_global_wp_delta"
+      }
+    },
+    {
+      "id": "arm:tensorsketch-interaction-child",
+      "parent_id": "arm:stagewise-interaction-grower",
+      "title": "TensorSketch cost-reduction child of H-210",
+      "kind": "arm",
+      "status": "not_tested",
+      "hypothesis_ids": [
+        "H-397"
+      ],
+      "experiment_ids": [],
+      "artifacts": [
+        "research/unified/ideas/FRESH_REFRAME_20261023_R1.md",
+        "research/unified/sources/FRESH_REFRAME_SOURCES_20261023_R1.md"
+      ],
+      "related_nodes": [
+        "arm:permutation-shared-pair-encoder"
+      ],
+      "next_test": "After inclusive-cost admission, compare raw-only and a fixed 32/64-dimensional strict-FP32 TensorSketch on two matched fold/seed cells (four fits if controls are not reusable).",
+      "allocation": {
+        "eligible": false,
+        "priority": 4,
+        "launch_authorized": false,
+        "reason": "H-210 child only; no fit admitted by the reframe task."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "reviewed": false,
+        "unit": "absolute_global_wp_delta"
+      }
     }
   ],
   "links": [],

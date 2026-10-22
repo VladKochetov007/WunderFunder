@@ -24,6 +24,10 @@ The associated [idea cards](../ideas/FRESH_REFRAME_20261023_R1.md) state how eac
 
 The transcript is an imported competition discussion, not a controlled comparison or a general feature-selection result. Its line segmentation is noisy. The card uses only the procedural possibility of reversing a greedy feature-removal order and rechecking excluded variables, as a reason to keep raw bypasses and compare the proposed pairing against a negative pairing.
 
+## Post-commit duplicate check and mapping
+
+The comparison was performed only after the first proposal/source commit (`34381bc38`). Per-channel time-since-change matches the already retained [H-PER-FIELD-AGE-20261022-R1](../ideas/PER_FIELD_AGE_20261022_R1.md), so this round adds GRU-D provenance and a matched test description but no new hypothesis ID. Degree-bounded polynomial sidecars are already represented by H-210 under H-182; TensorSketch is recorded only as child H-397, whose distinct question is whether hashing lowers the cost of that existing interaction representation. H-395's pooled shared-pair encoder adds pair-permutation sharing and a raw bypass; targeted searches found no prior permutation/set-encoder arm. H-396 tests input-novelty-triggered recurrent-update skipping for compute value; it is linked to the related H-231 event-time state family but changes update execution rather than adding a clock/delay representation. No tested result was interpreted as a negative for these proposals.
+
 ## Independence and exposure receipt
 
 This was a fresh-context assignment with no access to the residual-fit implementation. However, before the proposal cards were committed, a broad `rg` search accidentally displayed fragments of older idea notes. This output contaminates the blind-proposal condition; the cards remain useful source-grounded hypotheses but must not be described as a fully independent blind round. The exact model/provider for this task was the assigned native Codex agent session; no external model or additional provider route was invoked. Web research used primary paper pages/PDFs linked above. No data, fits, tests, training, profiling, or external weights were accessed.
