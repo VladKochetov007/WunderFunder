@@ -40,3 +40,7 @@ The profile opens only valid.parquet, reads selected fitting groups with targets
 [Root verification](VERIFICATION_R1.json) and [raw test log](root_verification_r1.log): all23focused tests pass on integrated source, Ruffformat/check pass, canonicalstructure67files/zeroerrors,605004KiBpeakRSS/zeroSwap. The independent scalarreview is separate.
 
 [Independent cost review](../../unified/reviews/receipts/ONLINE_RELATIONSHIP_PROFILE_DEFERRAL_REVIEW_R1.json) confirms exact source/fit-only sample membership and arithmetic; it supports cost deferral only. Subsequent userthermalwarning closes allheavyadmission and requests gracefulcurrentfitdrainthenpause; [live authority](../../campaign_2026-10-21/next_cycle_r1/THERMAL_GRACEFUL_PAUSE_R1.json). Draftpublication is prepared locally on experiment/online-relationships-20261022 but **not pushed/created as a PR** before thispause.
+
+## Postboot delivery preparation
+
+[RUN_DELIVERY_R1.md](RUN_DELIVERY_R1.md) and [its sealed launcher](RUN_DELIVERY_R1.sh) preserve the two-command, create-only delivery contract after the explicit October23 resume. Root's independent cost review passes at 8,311.440/9,000 seconds. The launcher checks the measured source/profile pins and refuses to run without the root's separate admitted 12-fit recipe. It has not been invoked; this preparation contains no new caches, fits or quality grades.
