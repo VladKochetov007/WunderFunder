@@ -80,3 +80,5 @@ The independent pre-fit source audit found and repaired a runner/grader status m
 ## Postboot delivery preparation
 
 [RUN_DELIVERY_R1.md](RUN_DELIVERY_R1.md) and [its sealed launcher](RUN_DELIVERY_R1.sh) preserve the two-command, create-only delivery contract after the explicit October23 resume. Root's independent cost review passes at 8,311.440/9,000 seconds. The launcher checks the measured source/profile pins and refuses to run without the root's separate admitted 12-fit recipe. It has not been invoked; this preparation contains no new caches, fits or quality grades.
+
+The [frozen grade specification](GRADE_SPEC_R1.json) records the root-owned launch preconditions, exact recipe SHA, create-only report path, and worker limits (4,000,000,000-byte memory cap, 190% CPU, GPU hidden, swap disabled, and a 600-second runtime ceiling). It remains prepared, not launched; grading waits for delivery's complete two-parent/twelve-candidate coverage and root's actual cost-clock confirmation.
