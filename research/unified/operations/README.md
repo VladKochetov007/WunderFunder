@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Online panel live execution](../../experiment_drafts/online-relationships-20261022/PANEL_EXECUTION_R1.json), [frozen admission](../../experiment_drafts/online-relationships-20261022/PANEL_ADMISSION_R1.json) and [warm remainder cost deferral](../../campaign_2026-10-21/next_cycle_r1/WARM_REMAINDER_COST_DEFERRAL_R1.json) — all12onlineheads admitted after independentcompletecost review; one guardedCPUworker builds fullcaches before fitting, with no quality read yet. Remaining3warmfitsdeferredintact, completedcontrol retained and12hproduction reserveprotected.
+
 - [Postboot research resume and B8 profile](POSTBOOT_RESEARCH_RESUME_20261023_R1.md) — explicit continuous-research resume, verified disk /tmp/SSDswap, persistent repair of boot-reverted20GBcap to5GB. Actual12-head cost profile completes71.032seconds and projects79.26minutes before coldIO/grading/margins; independent admission pending, zero scientific fits. Includes fresh quota and separate reframe contract.
 
 - [Preserved H512 fit/postfit records](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#october22-preservation-snapshot) and [native initial failure/recovery records](../../campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/README.md#october22-preservation-snapshot) — saves previously unstaged terminal logs and failed original report at the user reboot boundary. Historical execution evidence; all workers exited, with later next-cycle recovery interpretation linked separately.

@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+- [Admitted complete online-relationship screen](../../experiment_drafts/online-relationships-20261022/README.md#current-execution-all-twelve-fits-admitted-and-delivery-running) — the independent8,311.440/9,000second cost gate admits all12heads across bothlags andfold/seedcells. Immutable recipe/source/graderpins, fullparents+candidatecoverage gate and boundedCPU-only delivery are active; no target-quality result or native release yet.
+
 - [Online input relationships: reboot handoff](../../experiment_drafts/online-relationships-20261022/README.md#current-status-paused-for-reboot) — implemented strict-FP32 causal core/cache/residual fitter and independent grader; bounded verification passes. R2 complete-panel cost exceeds the 2.5-hour ceiling; B8 R3 preparation source-reviewed but unstarted. User pause, zero scientific fits and no target-quality result.
 
 

@@ -1,5 +1,11 @@
 # Online relationship screen — October22 amendment
 
+## Current execution: all twelve fits admitted and delivery running
+
+[Immutable execution recipe](EXECUTION_RECIPE_R1.json), SHA `edc873c813de77f55859d1a13180d907004e5f18fcc537e64eda7af1308e2508`, and [root admission](PANEL_ADMISSION_R1.json) freeze the complete A/B/C × lag1/16 × F0/1001,F1/1002 panel, zero new GRU/teacher fits. The cost estimate is8,311.440/9,000inclusive seconds; delivery has7,800seconds and separate grading600seconds under exact CPU190%/4GB/noSwap, GPUhidden, strictFP32 and thermalguard80/74. [Sealed command](PANEL_SPEC_R1.json), [live guard](PANEL_GUARD_R1.json), [execution snapshot](PANEL_EXECUTION_R1.json), [finite launcher](RUN_DELIVERY_R1.sh) and [independent cost/contract audit](ONLINE_RELATIONSHIP_POSTBOOT_COST_REVIEW_R1.json) trace the active worker. Both parent caches are built first, then all12heads are fitted/exported; the independent grader validates all14endpoints before targets. No quality result yet. The mutable recipe.json is a navigation pointer and is deliberately not the executable recipe.
+
+The [remaining warm3fits are deferred together](../../campaign_2026-10-21/next_cycle_r1/WARM_REMAINDER_COST_DEFERRAL_R1.json), preserving their original scientific recipe and completed control; they cannot safely fit their remainingstage. No productionreserve isborrowed. All earlier pause/preparation statuses below remain history.
+
 ## October23 explicit resume and postboot profile
 
 The [new resume](../../campaign_2026-10-21/next_cycle_r1/POSTBOOT_RESUME_R1.json) supersedes the pause below. [Profile-only admission](POSTBOOT_PROFILE_ADMISSION_R1.json), [sealed command](POSTBOOT_PROFILE_SPEC_R1.json), [guard](POSTBOOT_PROFILE_GUARD_R1.json), [exact result](POSTBOOT_PROFILE_RESULT_R1.json), [terminal accounting](POSTBOOT_PROFILE_EXECUTION_R1.json) and [raw log](postboot_profile_r1.log) record the actual reviewedB8/once-warmed profile. All12disposable heads complete; known full-panel cost4,755.379seconds. No evaluation labels or target-quality scoring. Independent coldIO/validation/grading/thermal-inclusive cost decision pending; no scientific admission yet.

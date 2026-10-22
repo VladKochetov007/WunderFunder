@@ -1,5 +1,9 @@
 # Current project state
 
+## October23: online-learning screen admitted and running
+
+The [full twelve-head panel](../research/experiment_drafts/online-relationships-20261022/README.md) passes an independent8,311.440-second inclusive cost gate against9,000seconds. Immutable recipe/source/grader pins are frozen; CPU-only full parent caches and then all12fixedCP2heads are running under two-core/5GBaggregate/noSwap constraints. No scientific quality result yet. Remaining3warm-historyfits are [deferred intact](../research/campaign_2026-10-21/next_cycle_r1/WARM_REMAINDER_COST_DEFERRAL_R1.json), completedcontrol/export preserved, production12hreserve untouched. Fresh reframecards and an independent critique are recorded separately with no extra fits.
+
 ## October23: postboot research resume
 
 The explicit user resume supersedes the reboot pause, retaining the original budget. Disk /tmp and SSD swap are verified; zram is absent. The boot-reverted20GB research cap is repaired persistently to5GB/twoCPUs/noSwap before execution. Reviewed B8 online cost profiling and separate fresh-context reframing resume; no new scientific fit admitted yet. [Resume](../research/campaign_2026-10-21/next_cycle_r1/POSTBOOT_RESUME_R1.json), [contract](../research/campaign_2026-10-21/next_cycle_r1/REFRAME_CONTRACT_R1.json).

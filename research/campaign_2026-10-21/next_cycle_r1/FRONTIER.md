@@ -1,5 +1,11 @@
 # Next cycle frontier
 
+## Online complete twelve-fit panel running, October23
+
+[Independent costpass](../../experiment_drafts/online-relationships-20261022/ONLINE_RELATIONSHIP_POSTBOOT_COST_REVIEW_R1.json) projects8,311.440seconds inclusive against9,000. [Frozenadmission](../../experiment_drafts/online-relationships-20261022/PANEL_ADMISSION_R1.json) binds recipeSHA`edc873c813de77f55859d1a13180d907004e5f18fcc537e64eda7af1308e2508`, unchanged scientificparameters, allsource/graderpins, CPU190%/4GB/Swap0/GPUhidden/FP32,7,800second deliverycap plus600grading. Unit`wnn-online-panel-r1-20261023.service`, invocation`1e64dd46f5294caba4977275e6c91feb`, builds fullparents thenall12heads. No targetqualityread/result yet. [Livepacket](../../experiment_drafts/online-relationships-20261022/README.md) and [snapshot](../../experiment_drafts/online-relationships-20261022/PANEL_EXECUTION_R1.json) own progress.
+
+[Warmremaining3deferral](WARM_REMAINDER_COST_DEFERRAL_R1.json) preserves all3intact; current evidencecannotdeliver3fits+3exports+gradewithin16,235.769stage seconds. CompletedF0controlCP1/fullCPUexport retained; no4fitpairedclaim. Userreportedhostsuspend00:34–00:53Kyivoccurredbeforeactivepanelstart, losingnofit. Researchcontinuesunderexplicitresume, production12hprotected.
+
 ## Current authority: resumed after reboot, October23
 
 [Explicit user resume](POSTBOOT_RESUME_R1.json) supersedes the pause below. Storage verified: /tmp physicalbtrfs, SSDswap0used, no activezram. Persistent aggregatecaps repaired beforework to2CPUs/5GB/noSwap. [Fresh reframe contract](REFRAME_CONTRACT_R1.json) separates new source-grounded hypotheses from the reviewed B8 costprofile; no extra fit authority. Original stageceilings/12hproductionreserve remain.
