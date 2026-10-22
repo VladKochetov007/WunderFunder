@@ -17,7 +17,13 @@ from wnn.distillation import (
     extend_family_output_head,
     four_family_weighted_mse,
 )
-from wnn.distillation_cache import CACHE_FORMAT, CACHE_VERSION, FAMILY_ORDER, row_groups_sha256
+from wnn.distillation_cache import (
+    CACHE_FORMAT,
+    CACHE_VERSION,
+    FAMILY_ORDER,
+    MAX_CACHE_METADATA_BYTES,
+    row_groups_sha256,
+)
 from wnn.splits import CampaignSplit
 
 
@@ -187,6 +193,32 @@ def test_preweighted_cache_validates_membership_alignment_and_bytes(tmp_path: Pa
     main_path = cache_root / "main_source_train.npy"
     np.save(main_path, np.zeros((1, SEQUENCE_LENGTH, 2), dtype=np.float32), allow_pickle=False)
     with pytest.raises(ValueError, match="bytes disagree"):
+        validate_cache(cache_root, data_root, split)
+
+
+def test_cache_metadata_bound_accepts_producer_sized_json_and_stays_bounded(
+    tmp_path: Path,
+) -> None:
+    data_root, cache_root, split = _tiny_cache(tmp_path)
+    metadata_path = cache_root / "metadata.json"
+    original = metadata_path.read_bytes()
+    producer_metadata_bytes = 842_417
+    assert len(original) < producer_metadata_bytes < MAX_CACHE_METADATA_BYTES
+
+    producer_sized = original + b" " * (producer_metadata_bytes - len(original))
+    metadata_path.write_bytes(producer_sized)
+    result = validate_cache(cache_root, data_root, split)
+
+    assert metadata_path.stat().st_size == producer_metadata_bytes
+    assert set(result["verified_files"]) == {
+        "main_source_train",
+        "main_source_valid",
+        "families_train",
+        "families_valid",
+    }
+
+    metadata_path.write_bytes(b" " * (MAX_CACHE_METADATA_BYTES + 1))
+    with pytest.raises(ValueError, match="read bound"):
         validate_cache(cache_root, data_root, split)
 
 
