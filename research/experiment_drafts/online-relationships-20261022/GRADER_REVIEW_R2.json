@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.online-relationships-grader-review.v1",
+  "experiment_id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+  "reviewer": "online_grader",
+  "review_type": "independent_current_recipe_and_source_contract_review",
+  "reviewed_recipe": "research/experiment_drafts/online-relationships-20261022/recipe.json",
+  "reviewed_recipe_sha256": "308465a8483ab95656edf153d3611f8685f44b8571bebc684ccea58e7ac90ecc",
+  "reviewed_status": "deferred_entire_panel_after_feature_cost_profile",
+  "admitted_new_fits": 0,
+  "data_graded": false,
+  "targets_read": false,
+  "source_review": {
+    "root_revision": "804ab6644",
+    "producer_revision": "6d63b179ed89371b0332270fb6855891b2963c6e",
+    "finding": "The source matches the frozen causal recipe: FP32 raw i1 lag and i0-16 differences are standardized and clipped before updates; B updates through row 98 inclusive; the base retains the parent 211-wide normalization; the 208 added features are clipped to 8; the head returns parent plus 0.1 times its residual.",
+    "limitation": "Source review only; no fit, output prediction, or quality grade was inspected."
+  },
+  "findings": [
+    {
+      "severity": "blocking_admission",
+      "finding": "The current recipe remains deferred with zero admitted fits, and the full execution/admission gate has not passed.",
+      "consequence": "The grader rejects this recipe before opening candidate artifacts or the official target cache. Code, cache profiles, and partial endpoints cannot be reported as a completed screen."
+    },
+    {
+      "severity": "interpretation_limit",
+      "finding": "Fold, seed, parent checkpoint, propensity ancestry, and selected fit components vary together between F0/1001 and F1/1002.",
+      "consequence": "Keep all 26 contrasts fold-local; do not estimate a seed effect or attribute cross-fold differences to the head arm."
+    },
+    {
+      "severity": "interpretation_limit",
+      "finding": "Selected-parent fit predictions are in-sample; evaluation parent predictions are separate full-fold endpoints, and both folds are exposed development evidence.",
+      "consequence": "Never grade fit-scope parent outputs as endpoints. Component intervals are conditional on fixed endpoints, not training-seed variance, a fresh holdout, or public transfer."
+    },
+    {
+      "severity": "artifact_gate",
+      "finding": "Prediction rows can be misaligned if a permissive superset is accepted or NPY trailing bytes are ignored.",
+      "consequence": "Require exact ordered source-qualified refs, complete fold coverage, little-endian FP32 NPY header/payload coverage, and matching checkpoint, provenance, parent-cache, normalizer, source, and prediction hashes before loading targets."
+    },
+    {
+      "severity": "reproducibility_limit",
+      "finding": "The planned grader validates exported prediction bytes against their sidecars and provenance but does not independently rerun all candidate checkpoints.",
+      "consequence": "Interpret graded predictions as the producer's fixed exported endpoints; no independent inference parity claim is made."
+    }
+  ],
+  "planned_grade": {
+    "endpoints": 14,
+    "contrasts": 26,
+    "primary_intervals": "Overall global_wp_clip2_v1 only, paired by dependency component within each fold.",
+    "conditional_points": "Both target correlations and four fixed position-bin scores for every contrast.",
+    "resampling_scope": "Fixed-endpoint component resampling; no seed/fold pooling or best-lag significance claim.",
+    "multiplicity": "No multiplicity adjustment; intervals are descriptive fixed-panel uncertainty summaries."
+  },
+  "limitations": "Current-recipe and source review only. No candidate predictions, official targets, or quality scores were read."
+}
