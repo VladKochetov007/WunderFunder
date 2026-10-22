@@ -93,7 +93,7 @@
     or native encoder needs exact-ZIP Python3.11 offline/one-core acceptance.
 
 11. **Results and trace.** No measured gain, GPU profile, ZIP or public forecast.
-    [recipe.json](recipe.json), [README.md](README.md) and the linked source triage
+    [recipe.json](https://github.com/VladKochetov007/WunderFunder/blob/experiment/typed-bin-feature-encoding/research/experiment_drafts/typed-bin-feature-encoding/recipe.json), [README.md](https://github.com/VladKochetov007/WunderFunder/blob/experiment/typed-bin-feature-encoding/research/experiment_drafts/typed-bin-feature-encoding/README.md) and the linked source triage
     form the handoff. Independent static criticism will be retained in REVIEW.md;
     it cannot substitute for empirical acceptance. Preserve failed/negative cells
     and publish the actual PR link after creation.

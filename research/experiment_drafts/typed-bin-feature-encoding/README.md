@@ -1,5 +1,7 @@
 # Fixed numerical bases for a causal Transformer
 
+Published as [draft PR #35](https://github.com/VladKochetov007/WunderFunder/pull/35), targeting `research-team`. No execution.
+
 Compare raw inputs, uniform-bin and quantile-bin scalar encodings while keeping
 one temporal token per row. This is a concrete child of [PR #8](https://github.com/VladKochetov007/WunderFunder/pull/8)
 and the numerical-basis ladder in [PR #31](https://github.com/VladKochetov007/WunderFunder/pull/31),
