@@ -119,8 +119,9 @@ def test_row_batches_cross_sequence_boundaries_and_retain_the_tail(
         for raw, value in ((first_raw, 1.0), (second_raw, 2.0))
     ]
     counts = {"sequences": 0, "rows": 0, "batches": 0}
-    batches = list(
-        fit_component._iter_row_batches(
+    batches = [
+        tuple(value.clone() for value in batch)
+        for batch in fit_component._iter_row_batches(
             lambda: fit_rows,
             "A",
             1,
@@ -130,7 +131,7 @@ def test_row_batches_cross_sequence_boundaries_and_retain_the_tail(
             torch.device("cpu"),
             counts,
         )
-    )
+    ]
 
     assert fit_component.BATCH_ROWS == 8
     assert [len(batch[1]) for batch in batches] == [8, 4]
