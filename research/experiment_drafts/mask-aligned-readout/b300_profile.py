@@ -18,7 +18,9 @@ from receiver_assets import (
     load_json,
     output_root,
     recipe_cells,
+    select_cells,
 )
+from receiver_lock import claim_receiver_stage
 
 PACKET = Path(__file__).resolve().parent
 RECIPE_PATH = PACKET / "recipe.json"
@@ -30,6 +32,11 @@ PROFILE_WARMUP = int(PROFILE_CONFIG["warmup_steps"])
 def profile_receipt_path(root: Path, cell: Cell) -> Path:
     """Return the immutable receipt path for one fold's B300 shape profile."""
     return output_root(root) / "profiles" / f"{cell.fold}.json"
+
+
+def profile_run_name(cell: Cell) -> str:
+    """Return the R2 profile run name bound to the selected fit endpoint."""
+    return f"mask_readout_r2_e{cell.epochs}_ep{cell.checkpoint_epoch}_profile_{cell.fold.lower()}"
 
 
 def _write_receipt(path: Path, record: dict[str, Any]) -> None:
@@ -156,9 +163,7 @@ def _require_receipt(assets: ReceiverAssets, cell: Cell) -> dict[str, Any]:
     }
     if any(receipt.get(key) != value for key, value in expected.items()):
         raise ValueError(f"{cell.fold} profile receipt does not match its pinned receiver cell")
-    expected_command = profile_command(
-        cell, assets.split_paths[cell.fold], f"mask_readout_profile_{cell.fold.lower()}"
-    )
+    expected_command = profile_command(cell, assets.split_paths[cell.fold], profile_run_name(cell))
     if receipt.get("command") != expected_command:
         raise ValueError(f"{cell.fold} profile was not produced by the canonical bounded command")
     if not receipt.get("profile_evidence", {}).get("valid_for_throughput"):
@@ -226,74 +231,72 @@ def _require_receipt(assets: ReceiverAssets, cell: Cell) -> dict[str, Any]:
 
 
 def require_profile_receipts(assets: ReceiverAssets, cells: tuple[Cell, ...]) -> dict[str, Any]:
-    """Fail closed before fitting unless both parent-width B300 profiles passed."""
+    """Fail closed unless the selected cell workers have passed B300 profiles."""
     return {cell.fold: _require_receipt(assets, cell) for cell in cells}
 
 
-def run_profiles(assets: ReceiverAssets) -> None:
-    """Run one bounded treatment-shaped profile for each distinct parent width."""
+def run_profiles(assets: ReceiverAssets, fold: str | None = None) -> None:
+    """Run bounded treatment-shaped profiles for selected paired-fit workers."""
     from audit import require_b300_runtime, require_same_device
     from receiver import command_environment, ensure_unwritten
-
     from wnn.training.environment import TrainingEnvironment
     from wnn.training.source_identity import training_source_identity
 
     recipe = load_json(RECIPE_PATH)
-    cells = recipe_cells(recipe)
-    paths = [profile_receipt_path(assets.root, cell) for cell in cells]
-    profile_names = [f"mask_readout_profile_{cell.fold.lower()}" for cell in cells]
-    run_dirs = [assets.root / "artifacts" / "runs" / name for name in profile_names]
-    ensure_unwritten(paths + run_dirs)
+    cells = select_cells(recipe_cells(recipe), fold)
     environment = command_environment(assets.root)
     source_identity = training_source_identity(
         TrainingEnvironment(source_root=REPO_ROOT, root=assets.root)
     )
-    for cell, name, run_dir, receipt_path in zip(
-        cells, profile_names, run_dirs, paths, strict=True
-    ):
-        hardware_before = require_b300_runtime()
-        command = profile_command(cell, assets.split_paths[cell.fold], name)
-        completed = subprocess.run(
-            command,
-            check=True,
-            capture_output=True,
-            text=True,
-            env=environment,
-        )
-        metrics, evidence, execution_runtime = _record(completed.stdout)
-        hardware_after = require_b300_runtime()
-        require_same_device(execution_runtime["process_start"], hardware_before)
-        require_same_device(execution_runtime["process_end"], hardware_after)
-        if not run_dir.is_dir() or any(run_dir.iterdir()):
-            raise ValueError(f"profile {cell.fold} unexpectedly wrote run artifacts: {run_dir}")
-        run_dir.rmdir()
-        recipe_cell = next(item for item in recipe["cells"] if item["fold"] == cell.fold)
-        record = {
-            "schema_version": 1,
-            "stage": "bounded_profile_only_no_checkpoint_or_score",
-            "fold": cell.fold,
-            "parent_run": cell.parent_run,
-            "parent_checkpoint_sha256": file_sha256(assets.parent_checkpoints[cell.fold]),
-            "parent_provenance_sha256": file_sha256(assets.parent_provenance[cell.fold]),
-            "split_manifest_sha256": recipe_cell["split_manifest_sha256"],
-            "recipe_sha256": file_sha256(RECIPE_PATH),
-            "trainer_implementation": source_identity,
-            "device": "cuda",
-            "mask_arm": "is_scored_weighted",
-            "batch_size": 32,
-            "chunk_rows": 2000,
-            "profile_batches": PROFILE_BATCHES,
-            "profile_warmup": PROFILE_WARMUP,
-            "minimum_free_memory_fraction": PROFILE_CONFIG["minimum_free_memory_fraction"],
-            "maximum_peak_reserved_fraction": PROFILE_CONFIG["maximum_peak_reserved_fraction"],
-            "profile_optimizer_attempts": evidence["optimizer_attempts"],
-            "canonical_metrics": metrics,
-            "profile_evidence": evidence,
-            "execution_runtime": execution_runtime,
-            "hardware_before": hardware_before,
-            "hardware_after": hardware_after,
-            "stdout_sha256": hashlib.sha256(completed.stdout.encode("utf-8")).hexdigest(),
-            "stderr_sha256": hashlib.sha256(completed.stderr.encode("utf-8")).hexdigest(),
-            "command": command,
-        }
-        _write_receipt(receipt_path, record)
+    for cell in cells:
+        name = profile_run_name(cell)
+        run_dir = assets.root / "artifacts" / "runs" / name
+        receipt_path = profile_receipt_path(assets.root, cell)
+        with claim_receiver_stage(assets.root, "profile", cell.fold):
+            ensure_unwritten([receipt_path, run_dir])
+            hardware_before = require_b300_runtime()
+            command = profile_command(cell, assets.split_paths[cell.fold], name)
+            completed = subprocess.run(
+                command,
+                check=True,
+                capture_output=True,
+                text=True,
+                env=environment,
+            )
+            metrics, evidence, execution_runtime = _record(completed.stdout)
+            hardware_after = require_b300_runtime()
+            require_same_device(execution_runtime["process_start"], hardware_before)
+            require_same_device(execution_runtime["process_end"], hardware_after)
+            if not run_dir.is_dir() or any(run_dir.iterdir()):
+                raise ValueError(f"profile {cell.fold} unexpectedly wrote run artifacts: {run_dir}")
+            run_dir.rmdir()
+            recipe_cell = next(item for item in recipe["cells"] if item["fold"] == cell.fold)
+            record = {
+                "schema_version": 1,
+                "stage": "bounded_profile_only_no_checkpoint_or_score",
+                "fold": cell.fold,
+                "parent_run": cell.parent_run,
+                "parent_checkpoint_sha256": file_sha256(assets.parent_checkpoints[cell.fold]),
+                "parent_provenance_sha256": file_sha256(assets.parent_provenance[cell.fold]),
+                "split_manifest_sha256": recipe_cell["split_manifest_sha256"],
+                "recipe_sha256": file_sha256(RECIPE_PATH),
+                "trainer_implementation": source_identity,
+                "device": "cuda",
+                "mask_arm": "is_scored_weighted",
+                "batch_size": 32,
+                "chunk_rows": 2000,
+                "profile_batches": PROFILE_BATCHES,
+                "profile_warmup": PROFILE_WARMUP,
+                "minimum_free_memory_fraction": PROFILE_CONFIG["minimum_free_memory_fraction"],
+                "maximum_peak_reserved_fraction": PROFILE_CONFIG["maximum_peak_reserved_fraction"],
+                "profile_optimizer_attempts": evidence["optimizer_attempts"],
+                "canonical_metrics": metrics,
+                "profile_evidence": evidence,
+                "execution_runtime": execution_runtime,
+                "hardware_before": hardware_before,
+                "hardware_after": hardware_after,
+                "stdout_sha256": hashlib.sha256(completed.stdout.encode("utf-8")).hexdigest(),
+                "stderr_sha256": hashlib.sha256(completed.stderr.encode("utf-8")).hexdigest(),
+                "command": command,
+            }
+            _write_receipt(receipt_path, record)

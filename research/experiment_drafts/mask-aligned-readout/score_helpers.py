@@ -11,6 +11,7 @@ import numpy as np
 from receiver_assets import (
     Cell,
     ReceiverAssets,
+    child_checkpoint,
     file_sha256,
     load_json,
 )
@@ -107,13 +108,13 @@ def validated_prediction(
             f"missing held-out {role} prediction for {cell.fold}: {prediction_path}"
         )
     metadata = load_json(metadata_path)
-    checkpoint_path = (
-        assets.root
-        / "artifacts"
-        / "runs"
-        / run
-        / ("model_ep3.pt" if role == "parent" else "model_ep0.pt")
-    )
+    if role == "parent":
+        checkpoint_path = assets.parent_checkpoints[cell.fold]
+    else:
+        child_arms = {"control": "all_valid", "treatment": "is_scored_weighted"}
+        if role not in child_arms:
+            raise ValueError(f"unknown prediction role {role!r}")
+        checkpoint_path = child_checkpoint(assets.root, cell, child_arms[role])
     checkpoint_hash = file_sha256(checkpoint_path)
     provenance_path = checkpoint_path.with_name("provenance.json")
     provenance = load_json(provenance_path)
@@ -136,7 +137,7 @@ def validated_prediction(
         ):
             raise ValueError(f"{cell.fold}/{role} child lacks exact trainer source identity")
         source_binding = source_identity
-    expected_epoch = 3 if role == "parent" else 0
+    expected_epoch = 3 if role == "parent" else cell.checkpoint_epoch
     expected_membership_sha = hashlib.sha256(
         np.asarray(assets.splits[cell.fold].evaluation_groups, dtype="<i8").tobytes()
     ).hexdigest()

@@ -1,5 +1,28 @@
 {
-  "id": "E-MASK-ALIGNED-READOUT-20261022-R1",
+  "id": "E-MASK-ALIGNED-READOUT-20261022-R2",
+  "recipe_revision": 2,
+  "amendment": {
+    "amends": "E-MASK-ALIGNED-READOUT-20261022-R1",
+    "baseline_source_commit": "716dbde5451726c0d01790638fded6d23a99de05",
+    "prior_recipe_path": "recipe-r1.json",
+    "prior_recipe_sha256": "68614cc26e2f3d2b8be3332388943ffdf39951ce02bdbf175d454986c309ada2",
+    "authorized_before_outcomes": true,
+    "prior_outcomes": {
+      "new_head_fits": 0,
+      "profiles": 0,
+      "predictions": 0
+    },
+    "changes": {
+      "epochs": {
+        "from": 1,
+        "to": 3
+      },
+      "checkpoint_epoch": {
+        "from": 0,
+        "to": 2
+      }
+    }
+  },
   "status": "executable_code_unvalidated_on_B300",
   "completed_new_fits": 0,
   "lineage": {
@@ -9,15 +32,19 @@
       "H-035"
     ],
     "relation": "child_of_existing_mask_propensity_finetuning",
-    "source_branch": "experiment/mask-aligned-readout",
-    "source_commit": "5de72bc3d2137f5564d51fcc67992845ae0c089d",
+    "source_branch": "experiment/mask-aligned-readout-e3-20261022",
+    "source_commit": "716dbde5451726c0d01790638fded6d23a99de05",
     "parent_artifact_hashes": "recorded_and_pinned_from_committed_provenance; receiver files remain unverified"
   },
   "question": "Does applying the actual scored-row mask to the shared main and configured auxiliary head objectives improve official weighted Pearson over all-valid head fitting on the same frozen fold parent?",
   "budget": {
     "new_parent_fits": 0,
     "new_head_fits": 4,
-    "total_new_fits": 4
+    "total_new_fits": 4,
+    "full_epochs_per_head_fit": 3,
+    "total_new_head_fit_epochs": 12,
+    "receiver_node_wall_limit_hours": 4,
+    "wall_limit_action": "operator stops only the owned GPU and collects/publishes all resulting evidence"
   },
   "cells": [
     {
@@ -87,7 +114,7 @@
     "lr": 0.0005,
     "weight_decay": 0.01,
     "scheduler": "onecycle",
-    "epochs": 1,
+    "epochs": 3,
     "batch": 32,
     "chunk": 2000,
     "fresh_optimizer_each_fit": true,
@@ -98,7 +125,7 @@
     "historical_parent_precision": "preserve provenance; no end-to-end FP32-history claim",
     "pre_admission_parameter_audit": "only head parameters trainable; inp/gru tensors and input/preprocessing identities unchanged",
     "checkpoint_policy": "fixed",
-    "checkpoint_epoch": 0,
+    "checkpoint_epoch": 2,
     "outer_score_selection": false,
     "inherit_init_preprocessing": true,
     "canonical_fit_invocation": "research/experiment_drafts/mask-aligned-readout/receiver.py fit"
@@ -145,7 +172,7 @@
     "mixed_sign": "uncertain_continue_not_kill"
   },
   "admission": {
-    "execution_authorized": false,
+    "execution_authorized": true,
     "candidate_parent_artifacts_bound": false,
     "candidate_parent_hashes_pinned": true,
     "receiver_assets_present_and_verified": false,
@@ -153,10 +180,10 @@
     "independent_f2_required": true,
     "clone_f0_for_f2": false,
     "historical_parent_precision_eligibility": "exact pinned historical FP16 parents are eligible for this head-only FP32 diagnostic; preserve unknown or mixed ancestry and make no end-to-end FP32 claim",
-    "snapshot_semantics": "execution_authorized and artifact/profile flags describe this delivery snapshot; they are not runtime permission gates. Explicit receiver commands run only after operator supplies exact assets and profile receipt.",
+    "snapshot_semantics": "The user authorized the R2 three-epoch screen before outcomes. Receiver assets and device-specific B300 profiles remain unverified; fit workers require the exact pinned assets and their own passing profile receipts.",
     "blockers": [
       "Supply receiver-side F0/F2 model_ep3.pt checkpoints, provenance, canonical split manifests, and the data/cache files required by canonical split, fit, and scoring guards; exact pinned hashes must match",
-      "Run a treatment-shaped canonical profile on the target B300 for each parent width; persist trainer-process UUID/driver/strict-FP32 evidence and confirm at least 10% memory headroom before fitting",
+      "Run one treatment-shaped canonical profile per selected cell worker on its assigned B300; persist trainer-process UUID/driver/strict-FP32 evidence and confirm at least 10% memory headroom before fitting",
       "Run prefit and post-fit receipts on the same B300; confirm only output-head parameters are trainable and every non-head tensor and preprocessing identity is unchanged",
       "Run the four fits and six common-FP32 held-out predictions, then record the complete source-pinned score report"
     ],
@@ -164,8 +191,10 @@
       "export WNN_PROJECT_ROOT=/absolute/path/to/receiver/project",
       "export WNN_MASK_READOUT_ASSETS=/absolute/path/to/receiver-assets.json",
       "python research/experiment_drafts/mask-aligned-readout/receiver.py preflight",
-      "python research/experiment_drafts/mask-aligned-readout/receiver.py profile",
-      "python research/experiment_drafts/mask-aligned-readout/receiver.py fit",
+      "python research/experiment_drafts/mask-aligned-readout/receiver.py profile --fold F0",
+      "python research/experiment_drafts/mask-aligned-readout/receiver.py profile --fold F2",
+      "python research/experiment_drafts/mask-aligned-readout/receiver.py fit --fold F0",
+      "python research/experiment_drafts/mask-aligned-readout/receiver.py fit --fold F2",
       "python research/experiment_drafts/mask-aligned-readout/receiver.py predict",
       "python research/experiment_drafts/mask-aligned-readout/score.py"
     ]

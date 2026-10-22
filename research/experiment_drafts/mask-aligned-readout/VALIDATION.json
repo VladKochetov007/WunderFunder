@@ -1,63 +1,62 @@
 {
   "schema_version": 1,
-  "status": "static_source_checks_passed_receiver_validation_pending",
+  "status": "r2_local_static_checks_passed_receiver_validation_pending",
   "recorded_date": "2026-10-22",
-  "branch": "experiment/mask-aligned-readout",
-  "base_commit": "5de72bc3d2137f5564d51fcc67992845ae0c089d",
+  "branch": "experiment/mask-aligned-readout-e3-20261022",
+  "base_commit": "716dbde5451726c0d01790638fded6d23a99de05",
+  "r1_recipe_sha256": "68614cc26e2f3d2b8be3332388943ffdf39951ce02bdbf175d454986c309ada2",
   "static_checks": [
     {
+      "name": "Receiver command and lock smoke",
+      "command": "uv run --python 3.12 --offline --no-sync python -c <bounded receiver contract assertions>",
+      "status": "passed",
+      "result": "Validated both recipe cells, three-epoch/fixed-epoch-2 fit and profile commands, R2 run/prediction names, fold selection, duplicate-lock rejection, and lock release."
+    },
+    {
       "name": "Ruff lint",
-      "command": "uvx --offline ruff check on the 20 changed Python files",
+      "command": "uvx --offline ruff check on the 9 changed Python files",
       "status": "passed",
       "result": "All checks passed."
     },
     {
       "name": "Ruff format",
-      "command": "uvx --offline ruff format --check on the 20 changed Python files",
+      "command": "uvx --offline ruff format --check on the 9 changed Python files",
       "status": "passed",
-      "result": "20 files already formatted."
+      "result": "9 files already formatted."
     },
     {
-      "name": "Training source structure",
-      "command": "python3 scripts/check_training_structure.py",
+      "name": "Focused receiver unit tests",
+      "command": "python -m pytest -q tests/test_mask_aligned_readout_receiver.py",
+      "status": "passed",
+      "result": "6 passed in 1.77 seconds; this bounded test file does not load a model or require GPU execution."
+    },
+    {
+      "name": "Python syntax, packet JSON, and frozen R1 binding",
+      "method": "Python 3.12 standard-library AST and JSON parsing; verify canonical-LF recipe-r1.json bytes against the original Git blob and R2 recipe SHA-256",
       "status": "passed",
       "result": {
-        "files": 60,
-        "errors": 0,
-        "max_module_lines": 300,
-        "max_function_lines": 200
+        "python_files_ast_parsed": 9,
+        "packet_json_files_parsed": 4,
+        "r1_recipe_sha256": "68614cc26e2f3d2b8be3332388943ffdf39951ce02bdbf175d454986c309ada2"
       }
-    },
-    {
-      "name": "Python syntax and local import symbol inspection",
-      "method": "Python standard-library AST parsing and static resolution of packet-local imports",
-      "status": "passed",
-      "python_files": 20,
-      "local_import_errors": 0
-    },
-    {
-      "name": "Packet JSON parsing",
-      "method": "Python standard-library JSON parser",
-      "status": "passed",
-      "json_files": 3
     },
     {
       "name": "Tracked diff whitespace",
       "command": "git diff --check",
-      "status": "passed"
+      "status": "passed",
+      "result": "No whitespace errors."
     }
   ],
   "not_run": [
-    "pytest or other local tests",
-    "model imports, training, inference, profile, or receiver commands",
-    "B300 hardware or receiver asset checks",
-    "provider, SSH, paid compute, scheduler, or submission operations"
+    "Model imports, training, inference, B300 profile, or receiver commands",
+    "Receiver asset checks, provider/SSH/paid compute/scheduler operations, and submission operations"
   ],
   "receiver_status": {
-    "asset_manifest_and_receiver_assets_verified": false,
+    "receiver_assets_verified": false,
     "B300_profile_receipts": 0,
     "new_head_fits": 0,
     "predictions_and_grade": false,
-    "readiness": "requires the pinned receiver-side parent checkpoints, provenance, split/data/cache assets, and passing profiles on the target B300"
+    "readiness": "requires exact pinned parent checkpoints and provenance, canonical split manifests, datasets/valid.parquet, cache/valid_targets.npz, cache/chains.npz, cache/chain_folds.npz, and passing per-cell B300 profiles",
+    "wall_limit": "four-hour owned-node hard limit remains; owner stops only the owned GPU and collects/publishes all resulting evidence"
   }
 }

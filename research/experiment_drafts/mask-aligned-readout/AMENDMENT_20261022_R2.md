@@ -1,0 +1,9 @@
+# Pre-outcome R2 amendment
+
+This amendment records the authorized change to draft PR #36 before any R2 profile, fit, prediction, or score outcome. The source is the exact PR36 revision `716dbde5451726c0d01790638fded6d23a99de05`. R1 remains frozen in [recipe-r1.json](recipe-r1.json), canonical-LF SHA-256 `68614cc26e2f3d2b8be3332388943ffdf39951ce02bdbf175d454986c309ada2`. R2 binds that digest in `recipe.json` and reports zero prior R2 fits, profiles, and predictions.
+
+The amendment changes the four paired head fits from one full epoch with fixed checkpoint epoch 0 to three full epochs with fixed checkpoint epoch 2. All four fits use the canonical trainer, fresh optimizer state, fixed epoch 2 selection, and no evaluation during fitting. The expected head-fit budget is 12 full fit epochs total; the per-epoch audit requires the full canonical batch/update count, no skipped optimizer updates, and three withheld-evaluation history records. Missing epochs, incomplete update diagnostics, or a checkpoint/provenance endpoint other than epoch 2 fail closed.
+
+R2 uses a new recipe ID, evidence root, run names, prediction names, profile names, and fit/profile stage locks. `receiver.py profile --fold F0|F2` and `receiver.py fit --fold F0|F2` let two cell workers operate independently. Each worker profiles and then fits its selected cell on its assigned device, running that cell's control and treatment sequentially. Shared parent, split, and data assets are read and hash-checked; per-fold locks and distinct outputs prevent duplicate workers from racing on receipts or run directories. Prediction and scoring run once after both workers finish.
+
+The fixed four-hour owned-node wall limit remains. The owner stops only the owned GPU at that limit and collects/publishes all resulting evidence. No runtime estimate is claimed. Receiver assets and B300 profiles remain unverified, and no model execution or R2 outcome is included in this code amendment.

@@ -27,6 +27,7 @@ from receiver_assets import (  # noqa: E402
     RECIPE_PATH,
     REPO_ROOT,
     Cell,
+    child_checkpoint,
     file_sha256,
     load_json,
     load_receiver_assets,
@@ -40,7 +41,7 @@ def compare_pair(cell: Cell, assets: Any, treatment: dict[str, Any]) -> None:
     import torch
 
     root = assets.root
-    control_path = root / "artifacts" / "runs" / cell.run_name("all_valid") / "model_ep0.pt"
+    control_path = child_checkpoint(root, cell, "all_valid")
     control_prov_path = control_path.with_name("provenance.json")
     if not control_path.is_file() or not control_prov_path.is_file():
         raise FileNotFoundError("paired all-valid control checkpoint/provenance is missing")
@@ -87,14 +88,14 @@ def after_fit(cell: Cell, arm: str, assets_path: Path, receipt_path: Path) -> No
     assets = load_receiver_assets(assets_path)
     recipe = load_json(RECIPE_PATH)
     cell_recipe = next(value for value in recipe["cells"] if value["fold"] == cell.fold)
-    child_path = assets.root / "artifacts" / "runs" / cell.run_name(arm) / "model_ep0.pt"
+    child_path = child_checkpoint(assets.root, cell, arm)
     provenance_path = child_path.with_name("provenance.json")
     if not child_path.is_file() or not provenance_path.is_file():
         raise FileNotFoundError(
             f"completed child checkpoint/provenance missing for {cell.fold}/{arm}"
         )
     if file_sha256(child_path) != load_json(provenance_path).get("checkpoint_sha256", {}).get(
-        "model_ep0.pt"
+        child_path.name
     ):
         raise ValueError("child checkpoint bytes differ from its provenance record")
     parent_path = assets.parent_checkpoints[cell.fold]
@@ -124,8 +125,8 @@ def after_fit(cell: Cell, arm: str, assets_path: Path, receipt_path: Path) -> No
     training_runtime = validate_training_runtime(cell, provenance)
     fit_endpoint = validate_fixed_endpoint(cell, arm, assets, child, provenance)
     compare_inherited_identity(cell, assets, parent, child, provenance)
-    if child.get("epoch") != 0:
-        raise ValueError("child checkpoint is not fixed epoch zero")
+    if child.get("epoch") != cell.checkpoint_epoch:
+        raise ValueError(f"child checkpoint is not fixed epoch {cell.checkpoint_epoch}")
     if child.get("args", {}).get("device") != "cuda":
         raise ValueError("child checkpoint was not configured to train on CUDA")
     hardware = require_b300_runtime()

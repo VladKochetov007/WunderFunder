@@ -10,6 +10,7 @@ from receiver_assets import (
     REPO_ROOT,
     Cell,
     ReceiverAssets,
+    child_checkpoint,
     file_sha256,
     load_json,
     output_root,
@@ -79,7 +80,7 @@ def check_audit_receipts(
             raise FileNotFoundError(f"missing post-fit audit receipt: {path}")
         receipt = load_json(path)
         child_name = cell.run_name(arm)
-        child_path = root / "artifacts" / "runs" / child_name / "model_ep0.pt"
+        child_path = child_checkpoint(root, cell, arm)
         provenance_path = child_path.with_name("provenance.json")
         if not child_path.is_file() or not provenance_path.is_file():
             raise FileNotFoundError(f"{cell.fold}/{arm} checkpoint or provenance is missing")

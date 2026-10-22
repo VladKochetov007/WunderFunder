@@ -102,11 +102,11 @@ def validate_child_args(
         "lr": 0.0005,
         "wd": 0.01,
         "sched": "onecycle",
-        "epochs": 1,
+        "epochs": cell.epochs,
         "batch": 32,
         "chunk": 2000,
         "checkpoint_policy": "fixed",
-        "checkpoint_epoch": 0,
+        "checkpoint_epoch": cell.checkpoint_epoch,
         "resume_state": None,
         "save_training_state": False,
         "no_eval_during_fit": True,
@@ -147,19 +147,21 @@ def validate_fixed_endpoint(
     checkpoint: dict[str, Any],
     provenance: dict[str, Any],
 ) -> dict[str, int]:
-    """Verify the complete one-epoch fixed endpoint and its optimizer update budget."""
+    """Verify every full fit epoch and the recipe-selected fixed checkpoint."""
     args = checkpoint.get("args", {})
     if (
-        checkpoint.get("epoch") != 0
-        or provenance.get("selected_epoch") != 0
+        checkpoint.get("epoch") != cell.checkpoint_epoch
+        or provenance.get("selected_epoch") != cell.checkpoint_epoch
         or args.get("checkpoint_policy") != "fixed"
-        or args.get("checkpoint_epoch") != 0
-        or args.get("epochs") != 1
+        or args.get("checkpoint_epoch") != cell.checkpoint_epoch
+        or args.get("epochs") != cell.epochs
         or args.get("max_batches") != 0
         or args.get("profile_steps") != 0
         or args.get("no_eval_during_fit") is not True
     ):
-        raise ValueError(f"{cell.fold}/{arm} checkpoint is not the complete fixed epoch-zero fit")
+        raise ValueError(
+            f"{cell.fold}/{arm} checkpoint is not the complete fixed epoch-{cell.checkpoint_epoch} fit"
+        )
     split = assets.splits[cell.fold]
     expected_batches = len(split.valid_groups) // 32
     if expected_batches <= 0:
@@ -168,41 +170,52 @@ def validate_fixed_endpoint(
     sequence_rows = 20_000
     if update_rows != 2_000 or sequence_rows % update_rows:
         raise ValueError(f"{cell.fold} update clock differs from the fixed 2,000-row recipe")
-    expected_attempts = expected_batches * (sequence_rows // update_rows)
+    expected_attempts_per_epoch = expected_batches * (sequence_rows // update_rows)
+    expected_total_attempts = expected_attempts_per_epoch * cell.epochs
     diagnostics = provenance.get("update_diagnostics", [])
-    if len(diagnostics) != 1 or diagnostics[0].get("epoch_index") != 0:
-        raise ValueError(f"{cell.fold}/{arm} provenance lacks exactly one completed fit epoch")
-    epoch = diagnostics[0].get("epoch", {})
-    if (
-        epoch.get("optimizer_attempts") != expected_attempts
-        or epoch.get("optimizer_completed_updates") != expected_attempts
-        or epoch.get("amp_skipped_updates") != 0
-        or epoch.get("completed_batches") != expected_batches
-        or diagnostics[0].get("normalization_identity") != provenance.get("normalization_identity")
-    ):
-        raise ValueError(
-            f"{cell.fold}/{arm} fit did not complete its fixed full-data update budget"
-        )
+    if not isinstance(diagnostics, list) or len(diagnostics) != cell.epochs:
+        raise ValueError(f"{cell.fold}/{arm} provenance lacks all {cell.epochs} fit epochs")
+    for epoch_index, diagnostic in enumerate(diagnostics):
+        epoch = diagnostic.get("epoch", {})
+        if (
+            diagnostic.get("epoch_index") != epoch_index
+            or epoch.get("optimizer_attempts") != expected_attempts_per_epoch
+            or epoch.get("optimizer_completed_updates") != expected_attempts_per_epoch
+            or epoch.get("amp_skipped_updates") != 0
+            or epoch.get("completed_batches") != expected_batches
+            or diagnostic.get("normalization_identity") != provenance.get("normalization_identity")
+        ):
+            raise ValueError(
+                f"{cell.fold}/{arm} epoch {epoch_index} missed its full-data update budget"
+            )
     history = json.loads(
         (assets.root / "artifacts" / "runs" / cell.run_name(arm) / "history.json").read_text(
             encoding="utf-8"
         )
     )
-    if not isinstance(history, list) or len(history) != 1:
-        raise ValueError(f"{cell.fold}/{arm} fit history does not contain exactly epoch zero")
-    record = history[0]
-    summary = record.get("fit_summary", {})
-    updates = summary.get("optimizer_updates", {})
-    if (
-        record.get("epoch") != 0
-        or record.get("evaluation") != "withheld"
-        or summary.get("optimizer_windows") != expected_attempts
-        or updates.get("optimizer_attempts") != expected_attempts
-        or updates.get("optimizer_completed_updates") != expected_attempts
-        or updates.get("amp_skipped_updates") != 0
-    ):
-        raise ValueError(f"{cell.fold}/{arm} fit history does not prove the fixed no-eval endpoint")
-    return {"expected_batches": expected_batches, "expected_optimizer_attempts": expected_attempts}
+    if not isinstance(history, list) or len(history) != cell.epochs:
+        raise ValueError(f"{cell.fold}/{arm} fit history does not contain all {cell.epochs} epochs")
+    for epoch_index, record in enumerate(history):
+        summary = record.get("fit_summary", {})
+        updates = summary.get("optimizer_updates", {})
+        if (
+            record.get("epoch") != epoch_index
+            or record.get("evaluation") != "withheld"
+            or summary.get("optimizer_windows") != expected_attempts_per_epoch
+            or updates.get("optimizer_attempts") != expected_attempts_per_epoch
+            or updates.get("optimizer_completed_updates") != expected_attempts_per_epoch
+            or updates.get("amp_skipped_updates") != 0
+        ):
+            raise ValueError(
+                f"{cell.fold}/{arm} history fails the full no-eval epoch {epoch_index} endpoint"
+            )
+    return {
+        "epochs": cell.epochs,
+        "checkpoint_epoch": cell.checkpoint_epoch,
+        "expected_batches_per_epoch": expected_batches,
+        "expected_optimizer_attempts_per_epoch": expected_attempts_per_epoch,
+        "expected_total_optimizer_attempts": expected_total_attempts,
+    }
 
 
 def compare_inherited_identity(

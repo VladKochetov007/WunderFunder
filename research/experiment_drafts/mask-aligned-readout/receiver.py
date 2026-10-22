@@ -19,7 +19,9 @@ from receiver_assets import (
     prediction_name,
     recipe_cells,
     run_preflight,
+    select_cells,
 )
+from receiver_lock import claim_receiver_stage
 
 AUDIT_PATH = PACKET / "audit.py"
 RECIPE_PATH = PACKET / "recipe.json"
@@ -70,7 +72,7 @@ def fit_command(cell: Cell, arm: str, split_path: Path) -> list[str]:
         "--sched",
         "onecycle",
         "--epochs",
-        "1",
+        str(cell.epochs),
         "--batch",
         "32",
         "--chunk",
@@ -81,7 +83,7 @@ def fit_command(cell: Cell, arm: str, split_path: Path) -> list[str]:
         "--checkpoint-policy",
         "fixed",
         "--checkpoint-epoch",
-        "0",
+        str(cell.checkpoint_epoch),
         "--no-eval-during-fit",
         "--seed",
         str(cell.seed),
@@ -138,56 +140,55 @@ def _fit_outputs(assets: ReceiverAssets, cells: tuple[Cell, ...]) -> tuple[list[
     return child_dirs, receipts
 
 
-def run_fit(assets_path: Path) -> None:
-    """Run exactly four cleanly paired, fixed-epoch canonical child fits in order."""
+def run_fit(assets_path: Path, fold: str | None = None) -> None:
+    """Run both arms for each selected cell, holding its B300 between fits."""
     assets = run_preflight(assets_path)
-    cells = recipe_cells(load_json(RECIPE_PATH))
+    cells = select_cells(recipe_cells(load_json(RECIPE_PATH)), fold)
     from b300_profile import profile_receipt_path, require_profile_receipts
 
     profiles = require_profile_receipts(assets, cells)
-    run_paths, receipt_paths = _fit_outputs(assets, cells)
-    after_receipts = [
-        output_root(assets.root) / "audit" / f"after_{cell.fold}_{arm}.json"
-        for cell in cells
-        for arm in ("all_valid", "is_scored_weighted")
-    ]
-    ensure_unwritten(run_paths + receipt_paths + after_receipts)
     environment = command_environment(assets.root)
-    for index, cell in enumerate(cells):
-        subprocess.run(
-            audit_command(
-                assets.manifest_path,
-                "prefit",
-                cell,
-                receipt=receipt_paths[index],
-                profile_receipt=profile_receipt_path(assets.root, cell),
-            ),
-            check=True,
-            env=environment,
-        )
     for cell in cells:
-        for arm in ("all_valid", "is_scored_weighted"):
-            from audit import require_b300_runtime, require_same_device
+        with claim_receiver_stage(assets.root, "fit", cell.fold):
+            run_paths, receipt_paths = _fit_outputs(assets, (cell,))
+            after_receipts = [
+                output_root(assets.root) / "audit" / f"after_{cell.fold}_{arm}.json"
+                for arm in ("all_valid", "is_scored_weighted")
+            ]
+            ensure_unwritten(run_paths + receipt_paths + after_receipts)
+            subprocess.run(
+                audit_command(
+                    assets.manifest_path,
+                    "prefit",
+                    cell,
+                    receipt=receipt_paths[0],
+                    profile_receipt=profile_receipt_path(assets.root, cell),
+                ),
+                check=True,
+                env=environment,
+            )
+            for arm in ("all_valid", "is_scored_weighted"):
+                from audit import require_b300_runtime, require_same_device
 
-            current_hardware = require_b300_runtime()
-            expected_runtime = profiles[cell.fold]["execution_runtime"]["process_end"]
-            require_same_device(expected_runtime, current_hardware)
-            subprocess.run(
-                fit_command(cell, arm, assets.split_paths[cell.fold]),
-                check=True,
-                env=environment,
-            )
-            receipt = output_root(assets.root) / "audit" / f"after_{cell.fold}_{arm}.json"
-            subprocess.run(
-                audit_command(assets.manifest_path, "after", cell, arm, receipt),
-                check=True,
-                env=environment,
-            )
+                current_hardware = require_b300_runtime()
+                expected_runtime = profiles[cell.fold]["execution_runtime"]["process_end"]
+                require_same_device(expected_runtime, current_hardware)
+                subprocess.run(
+                    fit_command(cell, arm, assets.split_paths[cell.fold]),
+                    check=True,
+                    env=environment,
+                )
+                receipt = output_root(assets.root) / "audit" / f"after_{cell.fold}_{arm}.json"
+                subprocess.run(
+                    audit_command(assets.manifest_path, "after", cell, arm, receipt),
+                    check=True,
+                    env=environment,
+                )
 
 
 def prediction_command(cell: Cell, role: str, run: str, split_path: Path) -> list[str]:
     """Build a canonical feature-only held-out prediction command in FP32."""
-    epoch = "3" if role == "parent" else "0"
+    epoch = "3" if role == "parent" else str(cell.checkpoint_epoch)
     return [
         sys.executable,
         str(REPO_ROOT / "scripts" / "predict_run.py"),
@@ -265,14 +266,18 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("command", choices=("preflight", "profile", "fit", "predict"))
     parser.add_argument("--assets", type=Path, default=os.environ.get("WNN_MASK_READOUT_ASSETS"))
+    parser.add_argument("--fold", choices=("F0", "F2"), help="select one profile/paired-fit worker")
     return parser
 
 
 def main() -> int:
     """Validate assets, fit the panel, or export the fixed checkpoints."""
-    args = build_parser().parse_args()
+    parser = build_parser()
+    args = parser.parse_args()
     if args.assets is None:
         raise SystemExit("pass --assets or set WNN_MASK_READOUT_ASSETS")
+    if args.fold and args.command not in ("profile", "fit"):
+        parser.error("--fold is only supported by profile and fit workers")
     if args.command == "preflight":
         assets = run_preflight(args.assets)
         print(json.dumps({"status": "preflight_passed", "project_root": str(assets.root)}))
@@ -280,9 +285,9 @@ def main() -> int:
         assets = run_preflight(args.assets)
         from b300_profile import run_profiles
 
-        run_profiles(assets)
+        run_profiles(assets, fold=args.fold)
     elif args.command == "fit":
-        run_fit(args.assets)
+        run_fit(args.assets, fold=args.fold)
     else:
         run_predict(args.assets)
     return 0

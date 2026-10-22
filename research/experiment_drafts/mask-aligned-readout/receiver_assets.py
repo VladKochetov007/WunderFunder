@@ -24,12 +24,22 @@ class Cell:
     fold_index: int
     seed: int
     parent_run: str
+    epochs: int
+    checkpoint_epoch: int
+
+    @property
+    def checkpoint_name(self) -> str:
+        """Return the recipe-selected child checkpoint filename."""
+        return f"model_ep{self.checkpoint_epoch}.pt"
 
     def run_name(self, arm: str) -> str:
         """Return the stable artifact name for one member of the pair."""
         if arm not in ("all_valid", "is_scored_weighted"):
             raise ValueError(f"unknown arm {arm!r}")
-        return f"mask_aligned_readout_{self.fold.lower()}_s{self.seed}_{arm}"
+        return (
+            f"mask_aligned_readout_r2_{self.fold.lower()}_s{self.seed}_"
+            f"e{self.epochs}_ep{self.checkpoint_epoch}_{arm}"
+        )
 
 
 @dataclass(frozen=True)
@@ -62,19 +72,56 @@ def file_sha256(path: Path) -> str:
 
 
 def recipe_cells(recipe: dict[str, Any]) -> tuple[Cell, ...]:
-    """Read the two pinned cells and reject changes to the four-fit design."""
+    """Read R2's pinned cells and its shared fixed epoch endpoint."""
+    amendment = recipe.get("amendment")
+    if (
+        recipe.get("id") != "E-MASK-ALIGNED-READOUT-20261022-R2"
+        or recipe.get("recipe_revision") != 2
+        or not isinstance(amendment, dict)
+        or amendment.get("amends") != "E-MASK-ALIGNED-READOUT-20261022-R1"
+    ):
+        raise ValueError("recipe is not the explicit pre-outcome R2 amendment")
+    frozen_recipe = PACKET / "recipe-r1.json"
+    frozen_recipe_sha = (
+        hashlib.sha256(frozen_recipe.read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+        if frozen_recipe.is_file()
+        else None
+    )
+    if amendment.get(
+        "prior_recipe_path"
+    ) != frozen_recipe.name or frozen_recipe_sha != amendment.get("prior_recipe_sha256"):
+        raise ValueError("canonical-LF frozen R1 recipe does not match the R2 amendment binding")
     raw_cells = recipe.get("cells")
     budget = recipe.get("budget", {})
     if not isinstance(raw_cells, list) or len(raw_cells) != 2:
         raise ValueError("recipe must contain exactly F0 and F2")
-    if budget.get("new_parent_fits") != 0 or budget.get("new_head_fits") != 4:
+    if (
+        budget.get("new_parent_fits") != 0
+        or budget.get("new_head_fits") != 4
+        or budget.get("total_new_fits") != 4
+        or budget.get("full_epochs_per_head_fit") != 3
+        or budget.get("total_new_head_fit_epochs") != 12
+        or budget.get("receiver_node_wall_limit_hours") != 4
+    ):
         raise ValueError("recipe must preserve zero new parents and four child fits")
+    fit = recipe.get("fit", {})
+    epochs = fit.get("epochs")
+    checkpoint_epoch = fit.get("checkpoint_epoch")
+    if (
+        type(epochs) is not int
+        or type(checkpoint_epoch) is not int
+        or epochs != 3
+        or checkpoint_epoch != 2
+    ):
+        raise ValueError("R2 must declare three full epochs and fixed checkpoint epoch two")
     cells = tuple(
         Cell(
             fold=str(value["fold"]),
             fold_index=int(value["fold_index"]),
             seed=int(value["seed"]),
             parent_run=str(value["parent_candidate"]),
+            epochs=epochs,
+            checkpoint_epoch=checkpoint_epoch,
         )
         for value in raw_cells
     )
@@ -84,6 +131,16 @@ def recipe_cells(recipe: dict[str, Any]) -> tuple[Cell, ...]:
     ]:
         raise ValueError("recipe cell identity differs from the admitted F0/F2 panel")
     return cells
+
+
+def select_cells(cells: tuple[Cell, ...], fold: str | None) -> tuple[Cell, ...]:
+    """Select a complete cell pair for one isolated receiver worker."""
+    if fold is None:
+        return cells
+    selected = tuple(cell for cell in cells if cell.fold == fold)
+    if not selected:
+        raise ValueError(f"fold {fold!r} is not present in the receiver recipe")
+    return selected
 
 
 def resolve_path(value: Any, *, label: str, base: Path) -> Path:
@@ -246,20 +303,25 @@ def load_receiver_assets(path: Path) -> ReceiverAssets:
 
 def output_root(root: Path) -> Path:
     """Return the ignored evidence folder used by future receiver runs."""
-    return root / "artifacts" / "experiment_evidence" / "E-MASK-ALIGNED-READOUT-20261022-R1"
+    experiment_id = load_json(RECIPE_PATH).get("id")
+    if not isinstance(experiment_id, str) or not experiment_id.startswith("E-"):
+        raise ValueError("recipe experiment id is invalid")
+    if "/" in experiment_id or "\\" in experiment_id:
+        raise ValueError("recipe experiment id must be a path component")
+    return root / "artifacts" / "experiment_evidence" / experiment_id
 
 
 def child_checkpoint(root: Path, cell: Cell, arm: str) -> Path:
-    """Return the fixed epoch-zero checkpoint path for a child fit."""
-    return root / "artifacts" / "runs" / cell.run_name(arm) / "model_ep0.pt"
+    """Return the recipe-selected fixed checkpoint path for a child fit."""
+    return root / "artifacts" / "runs" / cell.run_name(arm) / cell.checkpoint_name
 
 
 def prediction_name(cell: Cell, role: str) -> str:
     """Return a collision-resistant cache output name for one cell prediction."""
     names = {
-        "parent": f"mask_readout_{cell.fold.lower()}_parent",
-        "control": f"mask_readout_{cell.fold.lower()}_control",
-        "treatment": f"mask_readout_{cell.fold.lower()}_treatment",
+        "parent": f"mask_readout_r2_e{cell.epochs}_ep{cell.checkpoint_epoch}_{cell.fold.lower()}_parent",
+        "control": f"mask_readout_r2_e{cell.epochs}_ep{cell.checkpoint_epoch}_{cell.fold.lower()}_control",
+        "treatment": f"mask_readout_r2_e{cell.epochs}_ep{cell.checkpoint_epoch}_{cell.fold.lower()}_treatment",
     }
     try:
         return names[role]
