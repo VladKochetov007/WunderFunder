@@ -210,3 +210,7 @@ To avoid making an independent mean grade wait on unrelated B16 recovery, the or
 ## Exact F0 warm-parent profile running
 
 [Admission](WARM_F0_PROFILE_ADMISSION_R2.json) uses the clean66959b920 executed source and [root adapter](i1_warm_history_extension_r1/run_warm_f0_profile_r2.py), with49source/plan/actual-parent/cache/propensity/provenance pins passing in3.43seconds. It retains actualF0initializer, homogeneousteacher cache, fullfit membership, inheritedprefix/fit-appended normalization, WMSE/aux objectives andhistoricalrandom sampler;110batches only. CPU1/RAM4GB/noSwap/allocator4GB/900seconds, oneGPUlock. Noqualityfit yet; actual-parentpairparity andF1profile remain gates.
+
+## Immediate quota probe — October22
+
+The latest user request explicitly authorizes one exploratory public package now. [Fixed two-parent TL3 packet](../../campaign_2026-10-22/quota_retained_pair_r1/README.md) is built and independently technically reviewed, with zero new fits. Source/ABI/Python3.11/eight complete-sequence parity/reset checks pass. Equal0.5/0.5 coefficients differ from earlier raw0.33/0.33 diagnostic; no exact candidate-quality gain claimed. ZIP handed off for upload because no authenticated portal session is available; no portal receipt/live quota/public result. This narrow exception does not promote the model or reopen regular production allocation.
