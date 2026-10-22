@@ -150,3 +150,7 @@ physical-disk scratch; it masks GPUs. The report path is create-only. Keep the
 fold-specific results separate: F0 and F1 change seed, parent, target cache,
 teacher ancestry and propensity together, so they are not clean replications
 and provide no training-seed uncertainty or public-score estimate.
+
+## F0 actual-parent parity passes
+
+[AdmissionR3](PREFLIGHT_F0_ADMISSION_R3.json), [full result](PREFLIGHT_F0_RESULT_R3.json) and [execution](PREFLIGHT_F0_EXECUTION_R3.json): bothzeroextended367/25children reproduce the real211/23parent with exact0.0maximum first-two-output error on onecomplete20k fittingtrain and onecomplete20k fittingvalidsequence each, usingstateful2kchunks andexplicitfinitechecks. Parentprefixnormalization, initialparameters, appendedstats, featureprior andsampler/RNGidentities match acrossarms. CPU1/RAM4GB/noSwap/GPUhidden;40.919wallseconds,37.074CPUseconds,rounded3.7Gmemorypeak. This removes the intended initialfunctionconfound for this CPUsetup gate; nooptimizer/qualityevidence. F1parity/profile andcompletepanelcost remainbeforefits. Original669source andR1plan unchanged.

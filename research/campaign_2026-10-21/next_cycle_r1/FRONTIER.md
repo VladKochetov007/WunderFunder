@@ -224,3 +224,7 @@ The latest user request explicitly authorizes one exploratory public package now
 ## Fixed normalized quota-pair diagnostic
 
 [Subsequent sample grade](../../campaign_2026-10-22/quota_retained_pair_r1/FIXED_SAMPLE_GRADE_R2.json) resolves the scale caveat on the existing eight-component sample: equalpair0.78032713 versus sourceTL3 0.77775359, delta+0.00257354, both targets positive. No payload changes/search/newfits. Same adaptive/fitted/unknownancestry exposure, no fullfold/public forecast. [F0 actual-parent parity admission](i1_warm_history_extension_r1/PREFLIGHT_F0_ADMISSION_R3.json) now runs CPU1/RAM4GB/noSwap/GPUhidden against original669frozen source; no optimizer or evaluationfoldtargets.
+
+## F0 function-preserving warm initialization verified
+
+[Actualparentresult](i1_warm_history_extension_r1/PREFLIGHT_F0_RESULT_R3.json) and [execution](i1_warm_history_extension_r1/PREFLIGHT_F0_EXECUTION_R3.json): twochildren eachmatchparentfirsttwooutputs exactly onfull20k fittingtrain/valid sequences (stateful2kchunks), finitechecksPASS. Sharedappendednormalization, inheritedprefix, initialparameters andsampler/RNG match.40.919wallseconds/rounded3.7Gpeak CPUsetup, nooptimizer/qualityfit. F1stillrequiresamendedsource/profile/parity; nofourfitadmissionyet.
