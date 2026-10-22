@@ -9,7 +9,7 @@
   "training_start_ticks": "18816570",
   "supervisor_pid": 3384438,
   "supervisor_state": "SIGSTOP; cannot start exports ornextfits",
-  "training_state": "SIGCONT aftercoolingpause; CPUquota reducedfrom100%to25%",
+  "training_state": "SIGCONT aftercoolingpause; CPUquota firstreduced100%to25%, then10% afterGPUreached86C duringdrain",
   "existing_limits": "4GBchildRAM,5GBaggregateRAM,noSwap unchanged; originalruntimecapunchanged",
   "drain_observer": {
     "unit": "wnn-warm-graceful-drain-20261022.service",
@@ -31,5 +31,6 @@
     "host_io_pressure_full_avg60_initial": 19.39
   },
   "admission": "Closed toallnewfits,exports,profiles,catalogrebuilds andotherheavywork. Online12fitpanel alreadydeferredatcostgate. Noautomaticresume.",
-  "preservation": "Pausedcurrentfitretains~3GBRSS untilcompletion; nohostswapconfiguration or unrelatedprocesses changed. Originalfirstepochcheckpoint retained. Originalfullpanel timingprojection no longerapplies at25%CPU."
+  "preservation": "Pausedcurrentfitretains~3GBRSS untilcompletion; nohostswapconfiguration or unrelatedprocesses changed. Originalfirstepochcheckpoint retained. Originalfullpanel timingprojection no longerapplies at25%CPU.",
+  "final_cpu_quota": "10%"
 }

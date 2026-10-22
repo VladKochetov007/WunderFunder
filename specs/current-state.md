@@ -2,7 +2,7 @@
 
 ## October22 user-directed thermal pause after current fit
 
-The user reports laptop freezes/overheating and asks to let the current fit land gracefully, then pause. [Drain receipt](../research/campaign_2026-10-21/next_cycle_r1/THERMAL_GRACEFUL_PAUSE_R1.json): only currentF0warmcontrol drains at25%CPU; its supervisor is suspended and cannot start further fits/exports. A bounded observer records checkpoint hashes afterexit and releasesworker resources. Completion is pending; no automaticresume or additionalheavywork. Researchtask swap is0, buthostswap is7.9/8GB. The online12fitpanel was already deferred by its4.394h featurecostprojection against2.5hcap.
+The user reports laptop freezes/overheating and asks to let the current fit land gracefully, then pause. [Drain receipt](../research/campaign_2026-10-21/next_cycle_r1/THERMAL_GRACEFUL_PAUSE_R1.json): only currentF0warmcontrol drains at10%CPU; its supervisor is suspended and cannot start further fits/exports. A bounded observer records checkpoint hashes afterexit and releasesworker resources. Completion is pending; no automaticresume or additionalheavywork. Researchtask swap is0, buthostswap is7.9/8GB. The online12fitpanel was already deferred by its4.394h featurecostprojection against2.5hcap.
 
 ## October22: two-parent public receipt and online amendment
 
