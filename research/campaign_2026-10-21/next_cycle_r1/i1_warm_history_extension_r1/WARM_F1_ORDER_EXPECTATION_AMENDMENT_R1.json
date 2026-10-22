@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "amendment_id": "I1_WARM_F1_CANONICAL_ORDER_EXPECTATION_R1",
+  "status": "PREPARED_ROOT_REVIEW_NOT_RUN",
+  "purpose": "Correct the F1 warm-child setup expectation: frozen R1 records the inherited parent training order, while the new seed-4 child deterministically selects a different ordered membership from the same complete fitting groups.",
+  "frozen_plan": {
+    "path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/STRONG_PARENT_WARM_I1_PLAN_R1.json",
+    "sha256": "eeec65c1982cda52cbc5260643d9d58bc39bdee264543a85ca6170682f7bc1e1",
+    "modified": false
+  },
+  "source": {
+    "root": "/home/vlad/development/wunder/research_tmp/i1-warm-source-repaired-20261022",
+    "commit": "81f47a3fd94e4209e47b1f3815af2907e8f0b5d7",
+    "path": "src/wnn/training/data_membership.py",
+    "sha256": "7516c374cbfd57cbb395eac8d47de6a8eafbc6da47baf9bd29e8270bbb1f6daf",
+    "role": "Pinned canonical select_membership implementation used by the F1 fit."
+  },
+  "split": {
+    "path": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+    "sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+    "fold": 1,
+    "fit_train_groups": 10533,
+    "fit_valid_groups": 1416,
+    "evaluation_groups_excluded": 457
+  },
+  "cell": {
+    "fold": 1,
+    "seed": 4,
+    "run_ids": [
+      "i1warm_f1_control_seed4_e2_cp1_r1",
+      "i1warm_f1_history_seed4_e2_cp1_r1"
+    ],
+    "train_seqs_argument": 10607,
+    "valid_repeat": 1
+  },
+  "membership_order": {
+    "train": {
+      "R1_parent_order_sha256": "0d0791b38ab83c3afd025fd8423b6f14d2e2f29a1cbec4aa6c80341d1b82af4e",
+      "child_expected_order_sha256": "35e122415b780c10092b215af19108ddc224726bee33970520636cd24d85bd5f",
+      "child_expected_count": 10533,
+      "derivation": "np.random.default_rng(seed=4).permutation(campaign_split.train_groups)[:train_seqs], where train_seqs=10607 and the source split contains 10533 eligible train groups; hash the resulting values as contiguous little-endian int64 bytes using group_identity.",
+      "interpretation": "The R1 hash is retained as the actual parent historical order. It is not the expected order of either new F1 child, because the frozen fit argv seed is 4."
+    },
+    "valid": {
+      "R1_expected_order_sha256": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8",
+      "child_expected_order_sha256": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8",
+      "expected_count": 1416,
+      "derivation": "campaign_split.valid_groups in frozen split order; valid_repeat=1."
+    },
+    "dataset_length": 11949
+  },
+  "derivation_check": {
+    "method": "Metadata-only reproduction of canonical select_membership ordering from the frozen split JSON and pinned source; no dataset payloads, targets, model tensors, predictions, or optimizer steps read.",
+    "F0_control_seed3_train_hash_reproduced": "98a3e8da248f52e307af61efaeab845a76cf8e89e005ea5630c0af9a133508a9",
+    "F0_control_seed3_valid_hash_reproduced": "0ef790f8c27723b8f0ca1ebe045c2dcbebb4c4531a17952985802382c9568d75",
+    "F1_seed4_valid_hash_reproduced": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8",
+    "F1_expected_fit_membership_counts": "10533 train + 1416 fit-valid; 457 evaluation groups excluded"
+  },
+  "scope": {
+    "training_argv_changed": false,
+    "objective_or_seed_changed": false,
+    "R1_plan_or_history_rewritten": false,
+    "F0_expectation_overridden": false,
+    "only_override": "F1 child train ordered-membership expectation for the two seed-4 runs; retain F1 valid order and all membership counts."
+  },
+  "execution": {
+    "fits_performed": 0,
+    "setup_or_model_run": false,
+    "status": "Metadata derivation only; root must verify amendment bytes and parent provenance before the next bounded F1 preflight."
+  }
+}

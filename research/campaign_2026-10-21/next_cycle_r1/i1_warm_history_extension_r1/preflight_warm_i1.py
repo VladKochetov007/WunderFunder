@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 from typing import cast
 
+from warm_i1_order_amendment import verify_f1_order_expectation
 from warm_i1_preflight_amendment import verify_f1_source_amendment
 
 
@@ -54,6 +55,7 @@ def main() -> None:
     parser.add_argument("--source-root", type=Path)
     parser.add_argument("--source-sha")
     parser.add_argument("--source-amendment", type=Path)
+    parser.add_argument("--order-amendment", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
@@ -68,9 +70,12 @@ def main() -> None:
         raise ValueError("project root differs from the source-qualified plan")
     source_hashes = _verify_source(plan, source_root)
     amendment_record: dict[str, object] | None = None
+    order_record: dict[str, object] | None = None
     if args.fold == 1:
         if args.source_amendment is None or args.source_sha is None:
             raise ValueError("F1 preflight requires the exact R4 source amendment and commit")
+        if args.order_amendment is None:
+            raise ValueError("F1 preflight requires the exact seed-4 order expectation amendment")
         amendment_record = verify_f1_source_amendment(
             args.source_amendment,
             args.source_sha,
@@ -79,8 +84,15 @@ def main() -> None:
             plan_path,
             plan,
         )
-    elif args.source_amendment is not None or args.source_sha is not None:
-        raise ValueError("F0 preflight uses the frozen R1 source path without an amendment")
+        order_record = verify_f1_order_expectation(
+            args.order_amendment, source_root, project_root, plan_path, plan
+        )
+    elif (
+        args.source_amendment is not None
+        or args.source_sha is not None
+        or args.order_amendment is not None
+    ):
+        raise ValueError("F0 preflight uses the frozen R1 source path without amendments")
 
     helper_dir = Path(__file__).resolve().parent
     helper_paths = {
@@ -90,6 +102,7 @@ def main() -> None:
         "parity": helper_dir / "warm_i1_preflight_parity.py",
         "pair": helper_dir / "warm_i1_preflight_pair.py",
         "source_amendment": helper_dir / "warm_i1_preflight_amendment.py",
+        "order_amendment": helper_dir / "warm_i1_order_amendment.py",
     }
     helper_hashes = {name: _sha256(path) for name, path in helper_paths.items()}
 
@@ -117,8 +130,9 @@ def main() -> None:
         "source_root": str(source_root),
         "canonical_source_sha256": source_hashes,
         "source_amendment": amendment_record,
+        "order_expectation_amendment": order_record,
         "preflight_helper_sha256": helper_hashes,
-        "checks": run_fold_preflight(plan, args.fold, project_root, source_root),
+        "checks": run_fold_preflight(plan, args.fold, project_root, source_root, order_record),
         "execution_limits": {"device": "cpu", "torch_threads": 1},
     }
     with output.open("x", encoding="utf-8") as stream:

@@ -133,13 +133,16 @@ def setup_arm(
     source_root: Path,
     plan: dict[str, object],
     cell: dict[str, object],
+    order_expectation: dict[str, object] | None = None,
 ) -> tuple[dict[str, object], TrainingRun]:
     """Run create-only canonical setup and remove its required empty run directory."""
     out_dir = project_root / "artifacts" / "runs" / run_name
     if out_dir.exists():
         raise FileExistsError(f"create-only preflight run directory already exists: {out_dir}")
     try:
-        return _setup_arm_body(argv, run_name, project_root, source_root, plan, cell)
+        return _setup_arm_body(
+            argv, run_name, project_root, source_root, plan, cell, order_expectation
+        )
     finally:
         if out_dir.is_dir():
             if any(out_dir.iterdir()):
@@ -154,6 +157,7 @@ def _setup_arm_body(
     source_root: Path,
     plan: dict[str, object],
     cell: dict[str, object],
+    order_expectation: dict[str, object] | None = None,
 ) -> tuple[dict[str, object], TrainingRun]:
     """Run source-bound canonical setup and return identities before fitting."""
     run = _new_run(argv, project_root, source_root)
@@ -171,6 +175,7 @@ def _setup_arm_body(
         split_spec,
         parent_record,
         run,
+        order_expectation,
     )
     tensor_layout = _verify_zero_extension(run, parent_spec)
     provenance = run.data.provenance
