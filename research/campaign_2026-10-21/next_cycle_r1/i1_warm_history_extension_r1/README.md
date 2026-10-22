@@ -73,3 +73,9 @@ any profile or fit admission.
 [`PROFILE_F0_WARM_R2.json`](PROFILE_F0_WARM_R2.json) is the separately source-pinned F0 profile handoff for immediate review. It preserves the real strong F0 parent and every target/propensity/feature/objective path. The profile is not a scientific fit and does not replace the actual-parent tensor, shared-normalization or parent-output parity gates before the four-fit panel.
 
 The historical cost projection is 7.92h using a 900-second ceiling for each of two profiles, 15% margin on four 1,492-batch fits, and explicit export/grade reserves. It leaves little slack. Replace historical fit/export estimates with observed phases before admission; preserve the complete four-fit panel and all full-fold predictions. No fit, profile, tensor read or quality grade has been run from this packet.
+
+## Root F0 engineering admission
+
+The [root admission](../WARM_F0_PROFILE_ADMISSION_R2.json) runs the exact real-parent F0 profile through a small [identity/export adapter](run_warm_f0_profile_r2.py) that verifies 49 source, plan, parent, cache, propensity and provenance pins before canonical setup. The executed source is a clean worktree at `66959b920ba25de1d2f2911d8c5508d22d3eb4d0`; its code matches the packet's source hashes. The adapter changes the entrypoint/import path to that frozen source, with root data/output. It does not implement training.
+
+Operator limits are 4 GB RAM and a 4 GB CUDA allocator, replacing the packet's proposed 3 GB RAM / 4.5 GB allocator. This preserves one GB of parent RAM headroom and uses zero loader workers. One GPU/CPU, no swap and a 900-second cap remain binding. Actual-parent pair parity, shared normalization and sampler checks are still required before the scientific panel. Profile completion is engineering evidence only.

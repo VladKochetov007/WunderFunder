@@ -206,3 +206,7 @@ To avoid making an independent mean grade wait on unrelated B16 recovery, the or
 [WMSE head verification](WMSE_HEAD_VERIFICATION_R1.json) passes independent historical-source review and17synthetic warm/head tests plus Ruff/65file structure. The restored defaultoff rows are dormant atWMSE; actual-parent parity/normalization/profile gates still precede any warmfit.
 
 [Separate archive manifest](I1_ARCHIVE_MANIFEST_R1.json) preserves allsixrun checkpoints/trainingstates in a386,037,760byte weightsTAR and fullpredictions/sidecars/provenance/terminalgrade/logs/frozenexecutedsource in a439,592,960byte evidenceTAR. Archives are on physicalscratch, streamed with0.4GBRAM/noSwap/oneCPU in3.56seconds; every input hash is checked before/after archive addition and originalfiles retained. No labels/rawdata copied and no new fit.
+
+## Exact F0 warm-parent profile running
+
+[Admission](WARM_F0_PROFILE_ADMISSION_R2.json) uses the clean66959b920 executed source and [root adapter](i1_warm_history_extension_r1/run_warm_f0_profile_r2.py), with49source/plan/actual-parent/cache/propensity/provenance pins passing in3.43seconds. It retains actualF0initializer, homogeneousteacher cache, fullfit membership, inheritedprefix/fit-appended normalization, WMSE/aux objectives andhistoricalrandom sampler;110batches only. CPU1/RAM4GB/noSwap/allocator4GB/900seconds, oneGPUlock. Noqualityfit yet; actual-parentpairparity andF1profile remain gates.
