@@ -135,7 +135,7 @@ def build_parent_caches(
     try:
         _LOG.info("online_relationship_cache fold=%d phase=write_fit_scope", fold_index)
         phase_start = time.perf_counter()
-        fit_data_temp, _, fit_meta_temp = write_scope(
+        fit_data_temp, _, fit_meta_temp, fit_open_seconds = write_scope(
             destination,
             fit_refs,
             "in_sample_fit",
@@ -158,10 +158,11 @@ def build_parent_caches(
             sample_mode,
         )
         phase_seconds["fit_cache"] = time.perf_counter() - phase_start
+        phase_seconds["fit_cache_source_open"] = fit_open_seconds
         temporary.extend((fit_data_temp, fit_meta_temp))
         _LOG.info("online_relationship_cache fold=%d phase=write_evaluation_scope", fold_index)
         phase_start = time.perf_counter()
-        eval_data_temp, parent_prediction_temp, eval_meta_temp = write_scope(
+        eval_data_temp, parent_prediction_temp, eval_meta_temp, eval_open_seconds = write_scope(
             destination,
             eval_refs,
             "feature_only_eval",
@@ -187,6 +188,7 @@ def build_parent_caches(
         if parent_prediction_temp is None:
             raise RuntimeError("evaluation cache build omitted the parent prediction payload")
         phase_seconds["evaluation_cache"] = time.perf_counter() - phase_start
+        phase_seconds["evaluation_cache_source_open"] = eval_open_seconds
         temporary.extend((eval_data_temp, parent_prediction_temp, eval_meta_temp))
         _LOG.info("online_relationship_cache fold=%d phase=publish_cache", fold_index)
         phase_start = time.perf_counter()

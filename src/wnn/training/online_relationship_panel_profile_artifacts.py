@@ -11,12 +11,34 @@ from typing import Any
 
 import numpy as np
 import torch
+from torch.nn.utils import clip_grad_norm_
 
+from wnn.conditional_readout import primary_pair_wmse
 from wnn.data import SEQUENCE_LENGTH
+from wnn.online_relationship import MODEL_INPUT_WIDTH, OnlineRelationshipState
 from wnn.splits import file_sha256
+from wnn.training.online_relationship import OnlineRelationshipResidualHead
 from wnn.training.online_relationship_cache import SequenceCache
+from wnn.training.online_relationship_fit import (
+    BATCH_ROWS,
+    GRADIENT_CLIP,
+    LEARNING_RATE,
+    WEIGHT_DECAY,
+)
 
 _BATCH_ROWS = 8192
+
+
+def profile_cell(recipe: dict[str, Any], fold: int, lag: int, arm: str) -> dict[str, Any]:
+    """Resolve exactly one frozen profile cell by its source axes."""
+    matches = [
+        cell
+        for cell in recipe["cells"]
+        if int(cell["fold"]) == fold and int(cell["lag"]) == lag and cell["arm"] == arm
+    ]
+    if len(matches) != 1:
+        raise ValueError(f"recipe must define one fold={fold}, lag={lag}, arm={arm} profile cell")
+    return matches[0]
 
 
 def time_profile_exports(output_dir: Path, run: str, result: Any) -> dict[str, object]:
@@ -88,6 +110,7 @@ def project_full_panel(
     normalizer_records: list[dict[str, Any]],
     cell_records: list[dict[str, Any]],
     export_seconds: dict[str, list[float]],
+    warmup_seconds: float,
 ) -> dict[str, object]:
     """Scale measured phase times by complete recipe group and row-batch counts."""
     cache_seconds = 0.0
@@ -98,11 +121,16 @@ def project_full_panel(
             phases[key]
             for key in ("membership_validation", "dependency_load", "publish_and_parent_sidecar")
         )
+        fit_open = phases["fit_cache_source_open"]
+        eval_open = phases["evaluation_cache_source_open"]
+        cache_seconds += fit_open + eval_open
         cache_seconds += (
-            phases["fit_cache"] / data["cache_build"]["fit_sequences"] * data["fit_sequences"]
+            max(0.0, phases["fit_cache"] - fit_open)
+            / data["cache_build"]["fit_sequences"]
+            * data["fit_sequences"]
         )
         cache_seconds += (
-            phases["evaluation_cache"]
+            max(0.0, phases["evaluation_cache"] - eval_open)
             / data["cache_build"]["evaluation_sequences"]
             * data["evaluation_sequences"]
         )
@@ -150,9 +178,11 @@ def project_full_panel(
         + evaluation_seconds
         + checkpoint_exports
         + prediction_exports
+        + warmup_seconds
     )
     return {
         "basis": "sample wall time scaled by full cache sequence counts, fit batches, and evaluation sequence counts",
+        "profile_warmup_seconds_once": warmup_seconds,
         "cache_generation_seconds": cache_seconds,
         "fit_only_normalizer_seconds": normalizer_seconds,
         "three_epoch_readout_fit_seconds": training_seconds,
@@ -162,4 +192,51 @@ def project_full_panel(
         "full_prediction_payload_bytes": output_prediction_bytes,
         "known_cost_sum_seconds": known_cost,
         "cell_projections": cell_projections,
+    }
+
+
+def warm_profile_kernels(
+    raw_strided: np.ndarray, normalizers: dict[tuple[int, int], Any]
+) -> dict[str, object]:
+    """Warm the actual compiled feature prefix and one disposable fixed-size update."""
+    if raw_strided.ndim != 2 or raw_strided.shape[1] != 112 or not len(raw_strided):
+        raise ValueError("profile warmup needs one actual raw sequence from the fit cache")
+    started = time.perf_counter()
+    prefix = raw_strided[: min(len(raw_strided), BATCH_ROWS)]
+    warmed_lags = {}
+    for (_, lag), normalizer in normalizers.items():
+        if lag in warmed_lags:
+            continue
+        warmed_lags[lag] = normalizer
+        OnlineRelationshipState("C", lag, normalizer).transform_compiled(prefix)
+    kernel_seconds = time.perf_counter() - started
+
+    step_started = time.perf_counter()
+    with torch.random.fork_rng(devices=[]):
+        torch.manual_seed(0)
+        head = OnlineRelationshipResidualHead().cpu()
+        optimizer = torch.optim.AdamW(
+            head.parameters(), lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY
+        )
+        features = torch.zeros((BATCH_ROWS, MODEL_INPUT_WIDTH), dtype=torch.float32)
+        parent = torch.zeros((BATCH_ROWS, 2), dtype=torch.float32)
+        target = torch.zeros((BATCH_ROWS, 2), dtype=torch.float32)
+        row_weight = torch.ones((BATCH_ROWS,), dtype=torch.float32)
+        prediction = head(features, parent)
+        loss = primary_pair_wmse(prediction[None], target[None], row_weight[None], target[None])
+        optimizer.zero_grad(set_to_none=True)
+        loss.backward()
+        clip_grad_norm_(head.parameters(), GRADIENT_CLIP, error_if_nonfinite=True)
+        optimizer.step()
+    step_seconds = time.perf_counter() - step_started
+    return {
+        "relationship_kernel_seconds": kernel_seconds,
+        "optimizer_step_seconds": step_seconds,
+        "seconds": time.perf_counter() - started,
+        "relationship_lags": sorted(warmed_lags),
+        "prefix_rows": len(prefix),
+        "raw_strides_bytes": list(raw_strided.strides),
+        "raw_was_strided": not raw_strided.flags.c_contiguous,
+        "disposable_optimizer_rows": BATCH_ROWS,
+        "optimizer_step_count": 1,
     }

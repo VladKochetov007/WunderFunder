@@ -203,6 +203,7 @@ def module_hashes(root: Path) -> dict[str, str]:
     paths = (
         root / "src/wnn/training/online_relationship_data.py",
         root / "src/wnn/training/online_relationship_data_writer.py",
+        root / "src/wnn/training/online_relationship_parent_batch.py",
         root / "src/wnn/splits.py",
         root / "src/wnn/training/membership.py",
         root / "src/wnn/training/online_relationship_cache.py",

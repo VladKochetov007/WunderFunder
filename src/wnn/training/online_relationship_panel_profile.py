@@ -19,8 +19,10 @@ from wnn.training.online_relationship_exports import canonical_json_sha256, sour
 from wnn.training.online_relationship_fit import fit_online_relationship_head
 from wnn.training.online_relationship_panel_profile_artifacts import (
     cache_receipts,
+    profile_cell,
     project_full_panel,
     time_profile_exports,
+    warm_profile_kernels,
     write_profile_report,
 )
 from wnn.training.online_relationship_sources import find_fold, read_json, resolve
@@ -104,11 +106,13 @@ def profile_online_relationship_panel(
             "cache_receipts": cache_receipts(fit_cache, eval_cache, parent_manifest),
         }
 
-    normalizer_records, cell_records, export_seconds = _profile_heads(
+    normalizer_records, cell_records, export_seconds, warmup = _profile_heads(
         fold_data, recipe, output_dir, sample_fit, sample_eval
     )
 
-    projection = project_full_panel(fold_data, normalizer_records, cell_records, export_seconds)
+    projection = project_full_panel(
+        fold_data, normalizer_records, cell_records, export_seconds, float(warmup["seconds"])
+    )
     source_manifest = source_hashes(root)
     profile_seconds = time.perf_counter() - started
     report = {
@@ -142,6 +146,7 @@ def profile_online_relationship_panel(
         ],
         "cache_receipts": [data["cache_receipts"] for data in fold_data.values()],
         "normalizers": normalizer_records,
+        "profile_warmup": warmup,
         "head_fits": cell_records,
         "measured_profile_wall_seconds": profile_seconds,
         "projection": projection,
@@ -162,8 +167,13 @@ def _profile_heads(
     output_dir: Path,
     sample_fit: int,
     sample_eval: int,
-) -> tuple[list[dict[str, Any]], list[dict[str, Any]], dict[str, list[float]]]:
-    """Fit sample-only scalers and all twelve heads while timing every epoch."""
+) -> tuple[
+    list[dict[str, Any]],
+    list[dict[str, Any]],
+    dict[str, list[float]],
+    dict[str, object],
+]:
+    """Fit sample-only scalers, warm once, then time all twelve heads."""
     normalizers = {}
     normalizer_records = []
     for fold_index, data in fold_data.items():
@@ -189,6 +199,12 @@ def _profile_heads(
             )
             normalizers[(fold_index, lag)] = normalizer
 
+    first_raw = next(iter(fold_data[0]["fit_cache"].iter_sequences())).raw
+    warmup = warm_profile_kernels(first_raw, normalizers)
+    _LOG.info(
+        "online_relationship_profile phase=one_time_warmup %s", json.dumps(warmup, sort_keys=True)
+    )
+
     cell_records = []
     export_seconds = {"checkpoint": [], "prediction": []}
     for fold_index, data in fold_data.items():
@@ -208,7 +224,7 @@ def _profile_heads(
                 cell_records.append(record)
                 export_seconds["checkpoint"].append(exports["checkpoint_seconds"])
                 export_seconds["prediction"].append(exports["prediction_seconds"])
-    return normalizer_records, cell_records, export_seconds
+    return normalizer_records, cell_records, export_seconds, warmup
 
 
 def _profile_one_cell(
@@ -224,7 +240,7 @@ def _profile_one_cell(
 ) -> tuple[dict[str, Any], dict[str, object]]:
     """Fit and disposable-export one sample head, returning phase timings."""
     fold = data["fold"]
-    run = _cell(recipe, fold_index, lag, arm)["run"]
+    run = profile_cell(recipe, fold_index, lag, arm)["run"]
     _LOG.info("online_relationship_profile phase=fit_sample_head run=%s", run)
     timer = _EpochTimer(run)
     fit_start = time.perf_counter()
@@ -278,14 +294,3 @@ class _EpochTimer:
             "online_relationship_profile_epoch %s",
             json.dumps({"run": self.run, **record}, sort_keys=True),
         )
-
-
-def _cell(recipe: dict[str, Any], fold: int, lag: int, arm: str) -> dict[str, Any]:
-    matches = [
-        cell
-        for cell in recipe["cells"]
-        if int(cell["fold"]) == fold and int(cell["lag"]) == lag and cell["arm"] == arm
-    ]
-    if len(matches) != 1:
-        raise ValueError(f"recipe must define one fold={fold}, lag={lag}, arm={arm} profile cell")
-    return matches[0]

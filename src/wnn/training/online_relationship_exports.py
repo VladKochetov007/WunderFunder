@@ -219,6 +219,7 @@ def source_hashes(root: Path) -> dict[str, str]:
         "src/wnn/training/online_relationship_fit.py",
         "src/wnn/training/online_relationship_data.py",
         "src/wnn/training/online_relationship_data_writer.py",
+        "src/wnn/training/online_relationship_parent_batch.py",
         "src/wnn/training/online_relationship_sources.py",
         "src/wnn/training/online_relationship_cache.py",
         "src/wnn/training/online_relationship_cache_validation.py",
