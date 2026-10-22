@@ -1,0 +1,98 @@
+{
+  "schema": "wnn.research_evidence_review.v1",
+  "review_id": "ONLINE_RELATIONSHIP_PROFILE_DEFERRAL_REVIEW_R1",
+  "experiment_id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+  "reviewer_role": "independent_grader",
+  "reviewer": "online_grader",
+  "review_date": "2026-10-22",
+  "review_scope": "Independent source, sample-membership, execution-evidence and cost-projection review for the CPU-only R2 feature profile",
+  "profile_identity": {
+    "source_commit": "aa77d8c1a51cd2605c76e275821f52daab376c0d",
+    "frozen_recipe": "research/experiment_drafts/online-relationships-20261022/PROFILE_RECIPE_R2.json",
+    "frozen_recipe_sha256": "1448f204364abc183ad31d3770ce534dd7dc245107c7064c0e467948f4a38f3a",
+    "source_sha256": {
+      "feature_module": "ae3ade08bef46a9be8ae44ccc778da78196b81b4ec9da89cd22d7f5b8815504b",
+      "profile_module": "81ba280f70fad7b099f3c9e8fb8f72ffd814ef28b5fdc96fd06282382ec2b00a",
+      "profile_entrypoint": "c1aba212928928a8e4d4bbe74ec5753c747fca580209725373b46ccdd2e6cae6",
+      "sequence_reader": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+      "split_loader": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe",
+      "subset_loader": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238"
+    },
+    "profile_result": {
+      "path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/feature-profile-r2.json",
+      "sha256": "d59f57c2fd9ebb755076eb2a56f47ec9c0afc0ec80c2ef926df654f087a25955"
+    },
+    "durable_artifacts": {
+      "admission": {
+        "path": "research/experiment_drafts/online-relationships-20261022/FEATURE_PROFILE_ADMISSION_R2.json",
+        "sha256": "949ac676f44f81f84116c65c5c7aa372886a1c6fef8b44b9af580812bc9e6720"
+      },
+      "execution_result": {
+        "path": "research/experiment_drafts/online-relationships-20261022/EXECUTION_RESULT_R2.json",
+        "sha256": "71687d1eb8e1e78437abdd853882d75c09c28df2bd62ed0d41a5eaca2b64bfea"
+      },
+      "raw_log": {
+        "path": "research/experiment_drafts/online-relationships-20261022/feature_profile_r2.log",
+        "sha256": "31da8f2ac50e20179dcd646e2d69e4b8e343039afff3eef9d05cf860fceda64c"
+      },
+      "result_copy": {
+        "path": "research/experiment_drafts/online-relationships-20261022/FEATURE_PROFILE_RESULT_R2.json",
+        "sha256": "d59f57c2fd9ebb755076eb2a56f47ec9c0afc0ec80c2ef926df654f087a25955"
+      }
+    }
+  },
+  "independent_checks": [
+    {
+      "check": "Frozen source and recipe binding",
+      "result": "pass",
+      "detail": "The admission hashes bind the profile module, feature module, entrypoint and historical recipe bytes. The emitted profile result repeats the recipe SHA and all feature/source hashes. The current recipe file can advance to a deferred status without changing the bytes preserved in PROFILE_RECIPE_R2.json."
+    },
+    {
+      "check": "Selected fit membership and evaluation exclusion",
+      "result": "pass",
+      "detail": "Independently checked all eight sampled row groups in each fold against the frozen subset and split SHA. F0 samples are [6,279,534,757,1028,1268,1592,1863] and all belong to its 118 selected fit-valid groups, disjoint from 468 evaluation groups. F1 samples are [16,203,446,825,1105,1384,1651,1833] and all belong to its 172 selected fit-valid groups, disjoint from 457 evaluation groups. The recipe evaluation order matches both split manifests."
+    },
+    {
+      "check": "Feature-only access and label exclusion",
+      "result": "pass",
+      "detail": "The frozen profile opens valid.parquet and calls SequenceFile.read with targets=false and mask=false for normalizer samples and feature streams. It reads raw 112-wide features only, never opens train.parquet as a ParquetFile, and computes no prediction, loss or score. Split/subset validation uses manifests and feature-only connectivity/index metadata."
+    },
+    {
+      "check": "Projection arithmetic and budget comparison",
+      "result": "pass",
+      "detail": "For each fold, verified the one-pass projection as the fastest of eight observed six-stream times multiplied by complete fit-plus-evaluation sequence passes: F0 4.571106707 s × 1,704 = 7,789.165829 s; F1 4.723362395 s × 1,700 = 8,029.716071 s. The sum is 15,818.881900 s, which exceeds the unchanged 9,000 s inclusive ceiling by 6,818.881900 s (75.8%). The three-epoch recompute estimate independently sums to 38,860.936594 s."
+    },
+    {
+      "check": "Bounded execution receipt",
+      "result": "pass",
+      "detail": "The immutable execution result and raw /usr/bin/time log agree on 92.16 seconds wall time, 386,316 KiB maximum RSS, zero swaps and exit code 0. The admitted one-CPU scope was capped at 800,000,000 bytes; the controller observed a 506,081,280-byte cgroup peak while the transient scope was live and recorded why that peak is not available after exit."
+    }
+  ],
+  "profile_measurements": {
+    "samples_per_fold": 8,
+    "rows_per_sequence": 20000,
+    "streams_per_sequence": 6,
+    "f0_sequence_passes": 1704,
+    "f1_sequence_passes": 1700,
+    "one_pass_empirical_feature_generation_seconds": 15818.88190021913,
+    "three_epoch_recompute_estimate_seconds": 38860.936593880004,
+    "inclusive_budget_seconds": 9000,
+    "profile_wall_seconds": 92.16,
+    "profile_maxrss_kib": 386316,
+    "observed_live_cgroup_peak_bytes": 506081280,
+    "swap_count": 0,
+    "exit_code": 0,
+    "new_scientific_fits": 0
+  },
+  "findings": {
+    "blocking": [],
+    "budget_gate": "The unchanged 12-fit panel is deferred intact under the frozen 9,000-second ceiling. The measured implementation's optimistic one-pass feature projection alone is above budget, before fitting normalizers over all members, train/evaluation reads, parent prediction caches, GPU updates, exports, checkpoints, sidecars, grading or native delivery.",
+    "quality": "No fitted endpoint or prediction was produced. This is cost evidence, not a negative online-learning result and not a grader result."
+  },
+  "limitations": [
+    "The observed timing is a one-CPU NumPy profile using eight complete fit-valid sequences per fold from valid.parquet. It is an empirical optimistic projection from each fold's fastest sample, not a mathematical lower bound on every future implementation or machine state.",
+    "The projection extrapolates identical per-sequence feature work to train and evaluation groups; it omits source-specific read costs and all fit, parent-cache, export and grading costs. The full train parquet reader and train-footer memory were not measured in R2; R1's separate 800 MB OOM remains an infrastructure failure, not scientific evidence.",
+    "An explicitly revised and measured optimized feature implementation could change the cost estimate. This receipt does not authorize a new recipe or a fit; any reopening remains under root-owned admission and the unchanged panel/cost policy."
+  ],
+  "decision": "Independent review supports deferring the current complete panel for cost only. Preserve the 12-fit design and all prior records; make no quality inference."
+}
