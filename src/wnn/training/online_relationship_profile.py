@@ -2,10 +2,11 @@
 
 from __future__ import annotations
 
+import gc
 import hashlib
 import json
 import os
-import gc
+import sys
 import time
 from collections.abc import Iterator
 from pathlib import Path
@@ -34,7 +35,7 @@ def profile_feature_floor(
     root: Path,
     samples_per_fold: int = 8,
 ) -> dict[str, Any]:
-    """Measure the actual six-stream CPU transform on eight complete fit sequences.
+    """Measure six-stream CPU cost on eight complete fit-valid sequences per fold.
 
     The empirical floor uses each fold's fastest sampled six-stream sequence
     once for feature-cache generation. A separate estimate shows recomputing
@@ -49,14 +50,17 @@ def profile_feature_floor(
     if not output_path.is_relative_to(SCRATCH_ROOT):
         raise ValueError(f"profile output must be under physical scratch {SCRATCH_ROOT}")
     recipe = _read_json(recipe_path)
-    if recipe.get("schema_version") != 1 or recipe.get("resource_contract", {}).get(
-        "total_new_fits"
-    ) != 12:
+    if (
+        recipe.get("schema_version") != 1
+        or recipe.get("resource_contract", {}).get("total_new_fits") != 12
+    ):
         raise ValueError("recipe is not the frozen 12-fit online-relationships panel")
+    _log(f"profile-start recipe={recipe['recipe_id']} samples_per_fold={samples_per_fold}")
     report_folds = []
     projected_generation_seconds = 0.0
     projected_streaming_seconds = 0.0
     for fold in recipe["folds"]:
+        _log(f"fold={fold['fold']} phase=begin")
         report, generation, streaming = _profile_fold(root, recipe, fold, samples_per_fold)
         report_folds.append(report)
         projected_generation_seconds += generation
@@ -74,8 +78,15 @@ def profile_feature_floor(
                 Path(__file__).resolve().parents[1] / "online_relationship.py"
             ),
             "sequence_reader": file_sha256(Path(__file__).resolve().parents[1] / "data.py"),
+            "split_loader": file_sha256(Path(__file__).resolve().parents[1] / "splits.py"),
+            "subset_loader": file_sha256(Path(__file__).resolve().parent / "membership.py"),
         },
-        "measurement": "CPU-only, complete 20,000-row sequences, one worker thread",
+        "measurement": "CPU-only, valid.parquet only, complete 20,000-row sequences",
+        "valid_source_memory_receipt": (
+            "research/unified/operations/LOCAL_TRAIN_PARQUET_METADATA_OOM_20261018_R1.md"
+        ),
+        "train_source_memory_claim": "not measured; train.parquet is never opened",
+        "worker_config": {"WNN_THREADS": os.environ.get("WNN_THREADS", "not_set")},
         "samples_per_fold": samples_per_fold,
         "folds": report_folds,
         "feature_cache_generation_empirical_floor_seconds": projected_generation_seconds,
@@ -90,6 +101,7 @@ def profile_feature_floor(
         "excluded_costs": [
             "fit-only normalizer scan over every selected fitting sequence",
             "parent prediction cache creation for selected-fit and evaluation groups",
+            "train.parquet row-group read and train-footer memory",
             "GPU readout forward/backward/AdamW updates",
             "full-fold candidate prediction export and grading",
             "checkpoint, sidecar, provenance and cache I/O",
@@ -109,6 +121,7 @@ def _profile_fold(
         raise ValueError(f"fold {fold['fold']} split manifest hash changed")
     if file_sha256(subset_path) != fold["subset"]["sha256"]:
         raise ValueError(f"fold {fold['fold']} subset manifest hash changed")
+    _log(f"fold={fold['fold']} phase=validate_split_subset")
     campaign = load_campaign_split(split_path, root)
     if campaign.fold != int(fold["fold"]):
         raise ValueError("recipe fold disagrees with frozen campaign split")
@@ -117,21 +130,20 @@ def _profile_fold(
     )
     if list(campaign.evaluation_groups) != list(fold["evaluation_groups"]):
         raise ValueError("recipe evaluation group order differs from campaign split")
-    train_groups = sorted(map(int, subset["train_groups"]))
     valid_groups = sorted(map(int, subset["valid_groups"]))
-    refs = _sample_refs(train_groups, valid_groups, samples_per_fold)
-    files = {
-        split: SequenceFile(root / "datasets" / f"{split}.parquet")
-        for split in ("train", "valid")
-    }
+    sample_groups = _sample_groups(valid_groups, samples_per_fold)
+    refs = [("valid", group) for group in sample_groups]
+    _log(f"fold={fold['fold']} phase=open_valid_parquet groups={sample_groups}")
+    valid_file = SequenceFile(root / "datasets" / "valid.parquet")
     normalizers = {}
     norm_total_seconds = {}
     norm_read_seconds = {}
     for lag in LAGS:
+        _log(f"fold={fold['fold']} phase=sample_normalizer lag={lag}")
         started = time.perf_counter()
         reads = {"seconds": 0.0}
         normalizers[lag] = fit_online_relationship_normalizer(
-            _raw_sample_stream(files, refs, reads), lag
+            _raw_sample_stream(valid_file, sample_groups, reads), lag
         )
         norm_total_seconds[str(lag)] = time.perf_counter() - started
         norm_read_seconds[str(lag)] = reads["seconds"]
@@ -139,8 +151,9 @@ def _profile_fold(
     state_seconds = 0.0
     sample_read_seconds = 0.0
     for split, group in refs:
+        _log(f"fold={fold['fold']} phase=feature_stream group={split}:{group}")
         read_started = time.perf_counter()
-        raw = files[split].read(group, targets=False, mask=False).features
+        raw = valid_file.read(group, targets=False, mask=False).features
         sample_read_seconds += time.perf_counter() - read_started
         started = time.perf_counter()
         for lag in LAGS:
@@ -153,10 +166,11 @@ def _profile_fold(
         state_seconds += elapsed
         row_times.append({"split": split, "row_group": group, "six_stream_seconds": elapsed})
         del raw
-    del files
+    del valid_file
     gc.collect()
     sample_fastest = min(row["six_stream_seconds"] for row in row_times)
-    total_fit_sequences = len(train_groups) + len(valid_groups)
+    train_fit_sequences = len(subset["train_groups"])
+    total_fit_sequences = train_fit_sequences + len(valid_groups)
     evaluation_sequences = len(campaign.evaluation_groups)
     generation_passes = total_fit_sequences + evaluation_sequences
     streaming_passes = 3 * total_fit_sequences + evaluation_sequences
@@ -169,18 +183,23 @@ def _profile_fold(
             "split_manifest_sha256": campaign.sha256,
             "subset_sha256": file_sha256(subset_path),
             "fit_sequences": total_fit_sequences,
-            "fit_train_sequences": len(train_groups),
+            "fit_train_sequences": train_fit_sequences,
             "fit_valid_sequences": len(valid_groups),
             "evaluation_sequences": len(campaign.evaluation_groups),
-            "sample_group_refs": [
-                {"split": split, "row_group": group} for split, group in refs
-            ],
+            "sample_group_refs": [{"split": split, "row_group": group} for split, group in refs],
             "complete_sequence_rows": 20_000,
+            "sample_source": "valid",
+            "feature_cost_extrapolation": (
+                "same-shape operation count for train/evaluation; source-specific read cost omitted"
+            ),
             "sample_read_seconds_eight_sequences": sample_read_seconds,
             "fit_normalizer_sample_read_seconds_by_lag": norm_read_seconds,
             "fit_normalizer_sample_total_seconds_by_lag": norm_total_seconds,
             "state_transform_seconds_eight_sequences_six_streams": state_seconds,
             "state_seconds_per_sample_sequence_fastest": sample_fastest,
+            "state_seconds_per_sample_sequence_median": float(
+                np.median([row["six_stream_seconds"] for row in row_times])
+            ),
             "projected_feature_generation_sequence_passes": generation_passes,
             "feature_cache_generation_empirical_floor_seconds": generation_floor,
             "three_epoch_streaming_recompute_sequence_passes": streaming_passes,
@@ -192,29 +211,29 @@ def _profile_fold(
     )
 
 
-def _sample_refs(
-    train_groups: list[int], valid_groups: list[int], sample_count: int
-) -> list[tuple[str, int]]:
-    per_split = sample_count // 2
-    if len(train_groups) < per_split or len(valid_groups) < per_split:
-        raise ValueError("each fit split must contain half of the complete-sequence profile sample")
-    train_ix = np.linspace(0, len(train_groups) - 1, per_split, dtype=np.int64)
-    valid_ix = np.linspace(0, len(valid_groups) - 1, per_split, dtype=np.int64)
-    return [("train", train_groups[int(i)]) for i in train_ix] + [
-        ("valid", valid_groups[int(i)]) for i in valid_ix
-    ]
+def _sample_groups(groups: list[int], sample_count: int) -> list[int]:
+    """Choose evenly spaced complete fit-valid groups in their frozen order."""
+    if len(groups) < sample_count:
+        raise ValueError("fit-valid subset is smaller than the requested sequence sample")
+    indexes = np.linspace(0, len(groups) - 1, sample_count, dtype=np.int64)
+    return [groups[int(index)] for index in indexes]
 
 
 def _raw_sample_stream(
-    files: dict[str, SequenceFile], refs: list[tuple[str, int]], read_timing: dict[str, float]
+    valid_file: SequenceFile, groups: list[int], read_timing: dict[str, float]
 ) -> Iterator[np.ndarray]:
-    """Yield one raw sequence at a time and account for parquet read time."""
-    for split, group in refs:
+    """Yield one validation-source raw sequence at a time and time its read."""
+    for group in groups:
         started = time.perf_counter()
-        sequence = files[split].read(group, targets=False, mask=False)
+        sequence = valid_file.read(group, targets=False, mask=False)
         read_timing["seconds"] += time.perf_counter() - started
         yield sequence.features
         del sequence
+
+
+def _log(message: str) -> None:
+    """Flush phase markers so bounded-scope failures identify their last stage."""
+    print(message, file=sys.stderr, flush=True)
 
 
 def _resolve(root: Path, path: Path) -> Path:
