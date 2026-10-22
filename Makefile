@@ -5,6 +5,12 @@ TEST_PYTHON ?= .venv/bin/python
 QUALITY_PATHS = \
 	src/wnn/training \
 	scripts/train_rnn.py \
+	scripts/train_sequence.py \
+	scripts/predict_sequence.py \
+	scripts/score_sequence.py \
+	scripts/check_sequence_ddp.py \
+	tests/test_b300_sequence_models.py \
+	tests/test_b300_sequence_contracts.py \
 	scripts/e540_cli_preflight.py \
 	scripts/check_training_structure.py \
 	tests/test_training_structure_checker.py \

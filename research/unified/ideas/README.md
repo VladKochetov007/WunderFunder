@@ -2,6 +2,13 @@
 
 [Concrete numerical-basis child](../../experiment_drafts/typed-bin-feature-encoding/README.md) specifies six total prospective fits, matched uniform/quantile knots and a raw reference. Source preparation only; encoder/trainer integration and receiver acceptance pending. [October22 source and candidate triage](../sources/CONNECTOME_PUBLIC_SEARCH_20261022.md) distinguishes current-task public artifacts from earlier HF competitions.
 
+[B300 Transformer and distillation runtime](../../experiment_drafts/b300-transformer-distillation-runtime/README.md)
+implements a strict-FP32 causal raw112 teacher, source-qualified fitting caches,
+GRU/Transformer students, hidden-hint controls, DDP and official pooled scoring.
+It explicitly amends PR28–30 with separate six/four/four-fit screens while
+preserving historical CP30 and anchored-window recipes. Code and static review
+are delivered; receiving-host numerical checks, B300 profiles and all quality
+results remain pending. No jobs are launched by this packet.
 
 [Published distillation drafts #28–30](PUBLISHED_GPU_PACKETS_20261018.md#дистилляция-сильных-учителей-и-streaming-студенты) link the exact source snapshots for teacher-capacity transfer, representation hints and streaming students. All target `research-team`; implementation/cache/CPU admission remains pending.
 
@@ -54,6 +61,8 @@
 [Modified TL3 reconstruction design R1](../../campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/README.md) specifies all clean ancestors and fixed members but remains unadmitted. [Independent criticism](../../campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/INDEPENDENT_REVIEW_V1.json) rejects treating its unequal-budget comparison with frozen rank1 as matched CP30. A successor will isolate final-stage teacher supervision at matching member budgets; no scientific recipe or active rank1 source changed.
 
 Existing proposals and their evidence; a proposal is not an admitted or completed fit.
+
+- Published executable runtime [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32) — Transformer/DDP, fit-only teacher caches, output/hint distillation and official scoring; implementation `d2e6263a`. Static checks passed; B300 acceptance and scientific results remain pending.
 
 ## Current navigation
 
