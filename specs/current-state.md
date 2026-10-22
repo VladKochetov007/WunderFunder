@@ -1,5 +1,9 @@
 # Current project state
 
+## October22: two-parent public receipt and online amendment
+
+The user reports [two-parent portal0r4h74xw](../research/campaign_2026-10-22/quota_retained_pair_r1/PUBLIC_RECEIPT_R1.json):0.66771,28m31s,643MB. This is−0.00061 versus reportedTL3 0.66832 but10m41s faster, and+0.00104 versus the H512 replacement. The exposed local sample advantage did not transfer in this descriptive comparison; TL3 remains the stronger public reference. Portal payload hash remains unverified. The unchanged warm-history panel continues. The [online input-relationship amendment](../research/unified/ideas/ONLINE_RELATIONSHIPS_20261022_R1.md) is in implementation; user-requested backward lags1and16 expand it to12readout fits under the unchanged2.5h inclusive ceiling, conditional on a sustained complete-panel profile. No onlinefit admitted or productionreserve spent.
+
 ## October22: immediate exploratory quota package and warm follow-up preparation
 
 The user explicitly requested one submission now for public evidence. The [fixed two-parent TL3 package](../submissions/tl3_two_parents_20261022/README.md) is technically checked and independently reviewed:8.90MB, unchanged native libraries, two teachers at0.5 each, no new fits. Its full-fold quality is unmeasured; the subsequent fixed0.5/0.5 sample grade gains+0.00257354 over sourceTL3 on eight adaptively exposed components, both targets positive. This is ancestry-qualified diagnostic evidence, not a public forecast. No authenticated portal session is available, so it is handed off for human upload; no quota use, portal ID or public score is claimed. This narrow exploratory exception does not promote a champion.
