@@ -1,5 +1,17 @@
 # Project agent instructions
 
+## Harness² workflow improvement — user instruction, 2026-10-22
+
+Use the [Harness² adapter](tools/harness2/README.md) to refine research handoff
+instructions and skills through bounded Propose–Probe–Compose probes and a
+source-qualified process-lesson library. Start with its offline `plan` and `smoke`
+commands; model-backed execution requires an explicit worker and model configuration.
+Keep scientific contracts, data membership, official grading, compute permissions
+and the current stop/resume state outside the editable harness. A selected workflow
+composition does not establish WP improvement or authorize model training. Keep
+negative probes, hash-bound identities, pending stages and observed facts. This
+integration instruction does not resume the stopped remote experiments.
+
 ## Prospective experiment policy — user instruction, 2026-10-19
 
 Future experiment drafts use **4–6 total new scientific fits for an initial idea

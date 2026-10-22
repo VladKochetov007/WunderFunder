@@ -1,5 +1,13 @@
 # Development setup
 
+## Optional Harness² workflow tooling
+
+[Harness² setup and verification](../tools/harness2/README.md) uses an isolated
+Python 3.12/3.13 environment and a pinned upstream revision. It does not add a
+dependency to submissions or change the main lockfile. Its focused offline tests
+cover actual recursion/reflection, task and source identity, budget failures and
+process preservation. Model-backed tests and ML fitting are not part of this suite.
+
 The repository pins Python 3.13 for research development. Submission code must
 remain compatible with the scorer's Python 3.11 environment. See
 [pyproject.toml](../pyproject.toml), [.python-version](../.python-version)

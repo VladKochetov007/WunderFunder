@@ -1,5 +1,16 @@
 # Research pipeline and portfolio renewal
 
+## Harness² process refinement
+
+The [bounded Harness² integration](../tools/harness2/README.md) supplies task-level
+Propose–Probe–Compose refinement and persistent harness-level process lessons for
+research handoffs. Use selected process evidence and isolate each probe; keep the
+scientific recipe, immutable metric and execution admission outside the editable
+harness. Start with `python scripts/harness2_workflow.py plan`. The deterministic
+smoke exercises the actual pinned upstream core without model calls or training.
+Model-backed refinement and official scientific assessment are separate operations.
+No current stop, resource allocation or external-provider permission is changed.
+
 This is the compact controller entry point. [Research methods](../research/RESEARCH_METHODS.md)
 remain the reusable methodology; [AGENTS.md](../AGENTS.md) supplies current tools,
 models, ownership boundaries and execution rules. The live frontier and current
