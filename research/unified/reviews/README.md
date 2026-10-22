@@ -6,6 +6,8 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [Completed six-fit i1 history grade and warm-start review](I1_SIX_FIT_HISTORY_GRADE_REVIEW_20261022_R1.md) — the fixed 90/10 B/C endpoint is slightly positive in both exposed fold/seed cells although C loses standalone; the mean point delta is +0.00031549 with conditional component intervals, no training-seed uncertainty, and no current native 367-input serving path. Source review supports retaining the existing conditional four-fit warm-parent screen as research only, with initial-function parity and random-sampler handling still required. No arrays, models, tests, fits, or provider work were used here.
+
 - [i1 and dynamics native-serving compatibility](I1_DYNAMICS_NATIVE_SERVING_COMPATIBILITY_REVIEW_20261022_R1.md) — source-only trace confirms that stripping the dynamics head leaves 367-wide inputs, which the canonical exporter and native callback reject. It identifies a possible 367-to-211 projection for the post-normalization all-zero-history control, but no conversion, parity, complete-endpoint cost, or active-history native path is implemented or measured.
 
 - [Fixed F0 i1 mixture-geometry adapter](../../campaign_2026-10-21/next_cycle_r1/i1/fixed_mix_geometry_r1/README.md) — code-only, create-only NumPy diagnostic for the already-frozen 90/10 B/C mixture and same-weight B/A control. It binds the prior full-coverage F0 A/B/C grade, reports raw/clipped weighted covariance and fixed-bin score reconstruction, and preserves exposed-fold limits. No arrays, labels, tests, fits, or scores were read or produced during preparation.
