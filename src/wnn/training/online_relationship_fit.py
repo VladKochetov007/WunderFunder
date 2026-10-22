@@ -94,7 +94,8 @@ def fit_online_relationship_head(
     parent_mean_tensor = torch.tensor(mean, device=target_device)
     parent_std_tensor = torch.tensor(std, device=target_device)
     head = OnlineRelationshipResidualHead().to(target_device)
-    optimizer = torch.optim.AdamW(head.parameters(), lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
+    parameters = tuple(head.parameters())
+    optimizer = torch.optim.AdamW(parameters, lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
     records: list[dict[str, float | int]] = []
     with torch.autocast(device_type=target_device.type, enabled=False):
         for epoch in range(EPOCHS):
@@ -111,17 +112,16 @@ def fit_online_relationship_head(
                 counts,
             ):
                 prediction = head(features, parent)
-                loss = primary_pair_wmse(
-                    prediction[None], target[None], weights[None], target[None]
-                )
+                loss_inputs = (prediction[None], target[None], weights[None], target[None])
+                loss = primary_pair_wmse(*loss_inputs)
                 if not bool(torch.isfinite(loss)):
                     raise FloatingPointError("online relationship loss became nonfinite")
                 optimizer.zero_grad(set_to_none=True)
                 loss.backward()
-                gradient_norm = clip_grad_norm_(
-                    head.parameters(), GRADIENT_CLIP, error_if_nonfinite=True
-                )
+                gradient_norm = clip_grad_norm_(parameters, GRADIENT_CLIP, error_if_nonfinite=True)
                 optimizer.step()
+                if not torch.stack([torch.isfinite(p).all() for p in parameters]).all().item():
+                    raise FloatingPointError("online relationship parameters became nonfinite")
                 totals[0] += loss.detach()
                 totals[1] += gradient_norm.detach()
                 totals[2] = torch.maximum(totals[2], gradient_norm.detach())
@@ -143,8 +143,7 @@ def fit_online_relationship_head(
             if progress is not None:
                 progress(record)
 
-    selected = checkpoint_selected(FIXED_EPOCH, "fixed", FIXED_EPOCH, None, float("-inf"))
-    if not selected:
+    if not checkpoint_selected(FIXED_EPOCH, "fixed", FIXED_EPOCH, None, float("-inf")):
         raise RuntimeError("fixed final-epoch checkpoint was not selected")
     predictions = _predict_evaluation(
         head,
@@ -171,7 +170,7 @@ def fit_online_relationship_head(
         "parent_std": std.tolist(),
         "relationship_normalizer": relationship_normalizer.to_dict(),
         "input_width": MODEL_INPUT_WIDTH,
-        "checkpoint_selected": selected,
+        "checkpoint_selected": True,
     }
     return OnlineRelationshipFitResult(state_dict, predictions, tuple(records), metadata)
 
@@ -250,6 +249,8 @@ def _predict_evaluation(
             )
             parent = _parent_tensor(item.parent_prediction, len(item.raw), device)
             prediction = head(features, parent)
+            if not bool(torch.isfinite(prediction).all()):
+                raise FloatingPointError("online relationship prediction became nonfinite")
             predictions.append(prediction.cpu().numpy().copy())
     if not predictions:
         raise ValueError("online relationship evaluation stream is empty")
