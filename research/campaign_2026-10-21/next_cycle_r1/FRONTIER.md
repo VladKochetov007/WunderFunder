@@ -196,3 +196,13 @@ To avoid making an independent mean grade wait on unrelated B16 recovery, the or
 [Acceptance](B16_LOCAL_ACCEPTANCE_R1.json) and [fixed F1 grade](B16_LOCAL_FIXED_GRADE_R1.json) pass exact checkpoint/cache/source gates including NPYheaders. CP5WP0.66028308, SWA0.66032474, oldZ40.67037585. Fixed75%oldZ4/25%CP5 loses−0.00098286 (conditional95%CI[−0.00165569,−0.00032340]); SWAblend loses−0.00098265 ([−0.00161973,−0.00040936]). SWA−CP5 is+0.00004167 standalone and+0.00000020 inblend. The FP16historicaloldZ4/FP32candidate and unavailableinitialtensorhash caveats remain; no new fit or submission promotion. [Stage completion](SAVED_EXPORT_COMPLETION_R1.json) charges all local recovery phases within2hours.
 
 [Dynamics profile admission](DYNAMICS_PROFILE_ADMISSION_R2.json) starts the unchanged110batch test from clean781deb6 frozen source under CPU1/RAM4GB/noSwap/oneGPU/1800seconds; no concurrent heavyCPU work. The absolute-entrypoint [local plan](dynamics/PROFILE_LOCAL_SEQUENCE_R2.json) keeps rootdata/output and frozenimports. Fullfourfitpanel still conditional on10800second inclusive ceiling with sustained slowdown allowance.
+
+## Dynamics engineering passes; full panel deferred for cost
+
+[Hot profile result](DYNAMICS_PROFILE_RESULT_R2.json):110batches/1,100finiteupdates, zeroOOM/skips, 4.61122seconds median perbatch, fullwall550.67seconds including setup. PeakRSS3.52GB, CUDAallocated1.05GB/reserved1.22GB. With20%sustained allowance supported by earlier full-fit slowdown and explicit setup/export/grade reserves, the wholefourfitpanel projects3.366hours versus3hourceiling. No scientific fit admitted; defer allfour without changing recipe or borrowing production reserve. This is a resource decision, not evidence against predictive supervision. The positive i1fixedmixture result remains the basis for the conditional strong-parent path.
+
+## Head compatibility tested and i1 artifacts archived
+
+[WMSE head verification](WMSE_HEAD_VERIFICATION_R1.json) passes independent historical-source review and17synthetic warm/head tests plus Ruff/65file structure. The restored defaultoff rows are dormant atWMSE; actual-parent parity/normalization/profile gates still precede any warmfit.
+
+[Separate archive manifest](I1_ARCHIVE_MANIFEST_R1.json) preserves allsixrun checkpoints/trainingstates in a386,037,760byte weightsTAR and fullpredictions/sidecars/provenance/terminalgrade/logs/frozenexecutedsource in a439,592,960byte evidenceTAR. Archives are on physicalscratch, streamed with0.4GBRAM/noSwap/oneCPU in3.56seconds; every input hash is checked before/after archive addition and originalfiles retained. No labels/rawdata copied and no new fit.
