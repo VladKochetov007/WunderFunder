@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_ROOT_REVIEW_NOT_RUN",
+  "purpose": "Retry only the F1 canonical setup and parent-output parity gate after the R4 preflight exposed the frozen parent-order hash being used as the seed-4 child-order expectation.",
+  "scientific_fits_admitted": 0,
+  "optimizer_steps_by_this_preflight": 0,
+  "frozen_plan": {
+    "path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/STRONG_PARENT_WARM_I1_PLAN_R1.json",
+    "sha256": "eeec65c1982cda52cbc5260643d9d58bc39bdee264543a85ca6170682f7bc1e1",
+    "modified": false
+  },
+  "source_amendment": {
+    "path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F1_SOURCE_AMENDMENT_R4.json",
+    "sha256": "bfec8f4c915495be238820a754cfae851344eb9e918475950ded244689db3008",
+    "source_commit": "81f47a3fd94e4209e47b1f3815af2907e8f0b5d7"
+  },
+  "order_expectation_amendment": {
+    "path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/WARM_F1_ORDER_EXPECTATION_AMENDMENT_R1.json",
+    "sha256": "54810ff226495470562423919ccd5e0c62de5f71ddb2fcac3192b37839dcd0f5",
+    "parent_order_sha256": "0d0791b38ab83c3afd025fd8423b6f14d2e2f29a1cbec4aa6c80341d1b82af4e",
+    "expected_child_train_order_sha256": "35e122415b780c10092b215af19108ddc224726bee33970520636cd24d85bd5f",
+    "expected_child_valid_order_sha256": "087c48ccdd86649d56923b0755a9f909d6ee5270158f2027fc38f0ddae81c6a8"
+  },
+  "prior_attempt": {
+    "status": "failed_before_parent_child_outputs_or_optimizer_steps",
+    "source_commit": "81f47a3fd94e4209e47b1f3815af2907e8f0b5d7",
+    "failure": "The F1 seed-4 canonical child train-order hash differs from the frozen R1 parent train-order hash; no training argv or selected fitting groups changed."
+  },
+  "helper_sha256": {
+    "entrypoint": "a1ec07d8c2505c1547364e906f25ee74861cfa30630286025fe9bb5d5c10f763",
+    "identity": "bd6498831d46e2b74537506a4f85522db1132f76296d03e384d71463c3ae893c",
+    "setup": "043d1aebe90681458a83e6a07a7be9c25040966e115a398130bc927b754778ad",
+    "pair": "f028fb26cc3338f99b1bc594753d58b268400aeff9f35a2822b9ab8535617505",
+    "parity": "b45ab412532b3b860990da3f10b21a5760f5ff1ca3c65217fcf9990f78a20f0e",
+    "source_amendment": "3f48e904254992aa29519e94250f38ecb149c62339795d075baff31c60635826",
+    "order_amendment_helper": "6afb9a0f60c6ae4dd972c9f8b6c9f6be6a6dde864bed3024da4b25b9fc4903c2"
+  },
+  "expected_gates": {
+    "source_and_amendment_bytes_verified_before_import": true,
+    "parent_provenance_train_hash_matches_R1_parent_order": true,
+    "canonical_seed4_child_train_hash_matches_order_amendment": true,
+    "valid_order_matches_R1": true,
+    "f0_order_expectation_unchanged": true,
+    "matched_control_history_appended_normalization_and_sampler_identity": true,
+    "zero_extension_and_23_to_25_readout": true,
+    "finite_parent_child_outputs_full_sequences_and_stateful_2000_row_chunks": true,
+    "max_abs_output_error_tolerance": 1e-05
+  },
+  "command": ".venv/bin/python research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/preflight_warm_i1.py --plan research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/STRONG_PARENT_WARM_I1_PLAN_R1.json --fold 1 --project-root /home/vlad/development/wunder/wnn_connectome_starterpack --source-root /home/vlad/development/wunder/research_tmp/i1-warm-source-repaired-20261022 --source-sha 81f47a3fd94e4209e47b1f3815af2907e8f0b5d7 --source-amendment research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F1_SOURCE_AMENDMENT_R4.json --order-amendment research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/WARM_F1_ORDER_EXPECTATION_AMENDMENT_R1.json --output /home/vlad/development/wunder/research_tmp/i1-history-warm-20261022/preflight-f1-order-r1.json",
+  "output": {
+    "path": "/home/vlad/development/wunder/research_tmp/i1-history-warm-20261022/preflight-f1-order-r1.json",
+    "create_only": true,
+    "physical_disk": true
+  },
+  "execution": "Prepared only. Root owns source review, bounded CPU admission, execution, and result recording. No model/data load or parity rerun was performed by this actor."
+}

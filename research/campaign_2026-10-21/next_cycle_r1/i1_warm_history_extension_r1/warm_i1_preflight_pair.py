@@ -39,7 +39,11 @@ def _cpu_argv(argv: list[str], run_name: str) -> list[str]:
 
 
 def run_fold_preflight(
-    plan: dict[str, object], fold: int, project_root: Path, source_root: Path
+    plan: dict[str, object],
+    fold: int,
+    project_root: Path,
+    source_root: Path,
+    order_expectation: dict[str, object] | None = None,
 ) -> dict[str, object]:
     """Require paired setup identities, exact initialization, and parent parity."""
     cells = cast(list[dict[str, object]], plan["cells"])
@@ -51,7 +55,9 @@ def run_fold_preflight(
         record = next(item for item in runs if item["fold"] == fold and item["arm"] == arm)
         run_name = f"preflight_{record['run_id']}"
         argv = _cpu_argv(cast(list[str], record["fit_argv"]), run_name)
-        setup, run = setup_arm(argv, run_name, project_root, source_root, plan, cell)
+        setup, run = setup_arm(
+            argv, run_name, project_root, source_root, plan, cell, order_expectation
+        )
         if setup["arm"] != control:
             raise ValueError(f"feature control mismatch for {arm}: {setup['arm']}")
         prepared.append(setup)
@@ -78,6 +84,7 @@ def run_fold_preflight(
             raise ValueError(f"matched control/history setup identity differs: {key}")
     return {
         "fold": fold,
+        "order_expectation_amendment": order_expectation,
         "parent_checkpoint_sha256": left["initial_checkpoint_sha256"],
         "matched_setup_identity_sha256": _identity(
             {key: left[key] for key in left if key not in ("run_name", "arm")}

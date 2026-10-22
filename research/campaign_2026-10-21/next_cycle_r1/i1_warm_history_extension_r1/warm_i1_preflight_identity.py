@@ -155,6 +155,7 @@ def verify_setup_provenance(
     split_spec: dict[str, object],
     parent_record: dict[str, object],
     run: TrainingRun,
+    order_expectation: dict[str, object] | None = None,
 ) -> tuple[dict[str, object], dict[str, str]]:
     """Recheck actual fold, target cache, feature code and fitting membership."""
     split = run.data.campaign_split
@@ -201,12 +202,35 @@ def verify_setup_provenance(
     membership = cast(dict[str, object], provenance["fit_membership_identity"])
     train_identity = cast(dict[str, object], membership["train"])
     valid_identity = cast(dict[str, object], membership["valid"])
+    expected_train_order = split_spec["fit_train_order_sha256"]
+    if order_expectation is not None:
+        parent_membership = cast(dict[str, object], parent_record["fit_membership_identity"])
+        parent_train = cast(dict[str, object], parent_membership["train"])
+        if (
+            run.options.args.valid_fold != 1
+            or run.options.args.seed != 4
+            or order_expectation.get("fold") != 1
+            or order_expectation.get("seed") != 4
+            or split_spec["fit_train_order_sha256"]
+            != order_expectation.get("R1_parent_order_sha256")
+            or parent_train.get("ordered_int64_le_sha256")
+            != order_expectation.get("R1_parent_order_sha256")
+            or parent_train.get("count") != split_spec["train_fit_groups"]
+            or split_spec["fit_valid_order_sha256"]
+            != order_expectation.get("child_expected_valid_order_sha256")
+        ):
+            raise ValueError("F1 order amendment does not match the frozen parent and split")
+        expected_train_order = order_expectation.get("child_expected_order_sha256")
+    elif run.options.args.valid_fold != 0:
+        raise ValueError("F1 membership cannot use the unamended parent-order expectation")
     if (
-        train_identity.get("ordered_int64_le_sha256") != split_spec["fit_train_order_sha256"]
+        train_identity.get("ordered_int64_le_sha256") != expected_train_order
         or valid_identity.get("ordered_int64_le_sha256") != split_spec["fit_valid_order_sha256"]
         or membership.get("valid_repeat") != 1
         or membership.get("dataset_length")
         != split_spec["train_fit_groups"] + split_spec["valid_fit_groups"]
     ):
-        raise ValueError("selected fitting order or dataset length differs from the frozen plan")
+        raise ValueError(
+            "selected fitting order or dataset length differs from the amended contract"
+        )
     return cache, prior_sources

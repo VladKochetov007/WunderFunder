@@ -25,7 +25,6 @@ SOURCE_ROOT = Path("/home/vlad/development/wunder/research_tmp/i1-warm-source-re
 SOURCE_COMMIT = "81f47a3fd94e4209e47b1f3815af2907e8f0b5d7"
 ADDITION_SHA256 = "1c9eed9537e2fbc10173860dbd19ba99d722ad85995db3d7c2e2cf579ba16136"
 PROFILE_ARGV_SHA256 = "242364de6fd83db8d174c02890ef0796c853829d7df0e77b0e424fd9d2bfd330"
-
 PRIOR_ADMISSION_RELATIVE = Path(
     "research/campaign_2026-10-21/next_cycle_r1/WARM_F1_PROFILE_ADMISSION_R3.json"
 )
