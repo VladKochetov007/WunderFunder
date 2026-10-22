@@ -184,3 +184,9 @@ The user requested durable tracking of intermediate reasoning. The [idea-progres
 ## Resume and bounded delivery — October22
 
 User explicitly requested continuous work until stopped. The saved mean export is admitted under [recovery admission](SAVED_EXPORT_ADMISSION_R1.json), one GPU/one CPU/3GB RAM/no swap/900seconds, with fixed sources and no-overwrite outputs. [Final i1 budget](BUDGET_PROGRESS_R6.json) accounts for the complete six-fit panel within its5hour ceiling. [Warm verification](I1_WARM_VERIFICATION_R1.json) passes12 focused tests, Ruff and structure after correcting two test-fixture errors; no warm fit or actual-parent parity yet.
+
+## Fixed weight mean evaluated
+
+[Mean grade](WEIGHT_MEAN_PROJECTED_GRADE_R1.json): on exposed F0, projected mean0.68135472 versus WMSE0.68131316, delta+0.00004156, conditional95% component interval[−0.00034123,+0.00045978]. The frozen75%oldZ4/25%mean blend scores0.68353276 versus0.68352180 with WMSE, delta+0.00001096, interval[−0.00008301,+0.00011324]. Both blend target deltas are positive but tiny. The blend versus oldZ4 gains+0.00036843; almost all of that was already provided by WMSE. No submission promotion or checkpoint search follows. Mean export157.42seconds, grade15.10seconds, no new fits.
+
+To avoid making an independent mean grade wait on unrelated B16 recovery, the original CPU sequence is split into [mean-only](saved_export_recovery_r1/SAVED_MEAN_CPU_GRADE_SEQUENCE_R1.json) and [B16 acceptance/grade](saved_export_recovery_r1/B16_CPU_ACCEPTANCE_SEQUENCE_R2.json), with identical literal scorer steps and unchanged combined CPU/recovery ceilings. Mean-only has completed; original combined sequence is preserved and will not also be run. [B16 admission](B16_LOCAL_EXPORT_ADMISSION_R1.json) passed allten no-overwrite guards and started serial saved CP5/SWA exports.
