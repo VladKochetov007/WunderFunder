@@ -105,7 +105,7 @@ sets `PYTHONPATH` to the isolated worktree's `src`, because the shared virtual
 environment otherwise resolves its editable package from the root checkout.
 Root owns the source-bound retry amendment and execution.
 
-[`PREFLIGHT_R2.json`](PREFLIGHT_R2.json) and its create-only helper prepare those actual-parent and paired-initialization gates. The helper has not been run in this worktree. Root reports that the F0 warm profile completed 1,100 finite updates with no skips; this is throughput evidence only. The F1 profile stopped before updates because its actual cache metadata is 842,417 bytes while the frozen canonical reader allows 512,000. Preserve that failure and the frozen R1 source/plan hashes: F1 remains blocked until the narrow metadata-bound repair is integrated and a separate source/plan amendment is frozen. No metadata validation is disabled.
+[`PREFLIGHT_R2.json`](PREFLIGHT_R2.json) and its create-only helper prepare those actual-parent and paired-initialization gates. The helper has not been run in this worktree. Root reports that the F0 warm profile completed 1,100 finite updates with no skips; this is throughput evidence only. The F1 profile stopped before updates because its actual cache metadata is 842,417 bytes while the frozen canonical reader allows 512,000. The [R4 source amendment](PROFILE_F1_SOURCE_AMENDMENT_R4.json) pins the narrow 1 MiB reader-bound repair and its added source hash while preserving all 41 R1 pins and the plan bytes. F1 still has no successful repaired-source profile or quality fit. No metadata validation is disabled.
 
 The frozen R1 cost projection is 7.92h using a 900-second ceiling for each of two profiles, 15% margin on four 1,492-batch fits, and explicit export/grade reserves. It predates the measured F0 profile and is not an admission decision; recompute the complete-panel cost from observed phases before admission. Preserve all four fits and full-fold predictions if the panel is admitted. No quality fit, actual-parent parity preflight, or quality grade has been run from this packet.
 ## Conditional paired grade
@@ -123,6 +123,14 @@ F0/F1. The output includes each target, the four fixed position bins and
 2,000 paired component resamples; no coefficients are searched. It also records
 the 25-row checkpoint topology, verifies the two dormant trailing output rows,
 and reports the control/history appended input-projection diagnostic.
+
+The grader also requires the exact R4 amendment. It verifies the R1 plan SHA,
+all 41 original source pins, the single `distillation_cache.py` addition in
+clean source commit `81f47a3fd94e4209e47b1f3815af2907e8f0b5d7`, the failed R3
+receipts and unchanged F1 profile argv. Canonical `trainer_implementation.files`
+does not include `distillation_cache.py`; the grade verifies the canonical root
+and amended source file against the direct pin and records that per-run
+provenance does not separately emit this module hash.
 
 This is preparation only: the grader has not loaded any run checkpoints or
 arrays, graded labels, or authorized execution. Root must first confirm the
@@ -142,7 +150,7 @@ systemd-run --user --scope --slice=wnn-campaign.slice \
     WNN_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
     /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python \
     /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/grade_strong_parent_warm_i1.py \
-    --output /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/GRADE_STRONG_PARENT_WARM_I1_R1.json
+    --output /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/GRADE_STRONG_PARENT_WARM_I1_R2.json
 ```
 
 The command uses one CPU, a 2,000,000,000-byte memory limit, no swap and

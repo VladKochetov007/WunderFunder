@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -14,6 +15,21 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[4]
 PACKET = Path(__file__).resolve().parent
 PLAN_PATH = PACKET / "STRONG_PARENT_WARM_I1_PLAN_R1.json"
+SOURCE_AMENDMENT_PATH = PACKET / "PROFILE_F1_SOURCE_AMENDMENT_R4.json"
+FROZEN_PLAN_SHA256 = "eeec65c1982cda52cbc5260643d9d58bc39bdee264543a85ca6170682f7bc1e1"
+SOURCE_AMENDMENT_SHA256 = "bfec8f4c915495be238820a754cfae851344eb9e918475950ded244689db3008"
+PROFILE_F0_RECIPE_SHA256 = "ba13ead87fdad5c97d3ea12e7843a733342a7e05630e5fa60548a0995dc71d34"
+AMENDED_SOURCE_ROOT = Path(
+    "/home/vlad/development/wunder/research_tmp/i1-warm-source-repaired-20261022"
+)
+AMENDED_SOURCE_COMMIT = "81f47a3fd94e4209e47b1f3815af2907e8f0b5d7"
+PRIOR_SOURCE_ROOT = Path(
+    "/home/vlad/development/wunder/research_tmp/i1-warm-source-frozen-20261022"
+)
+PRIOR_SOURCE_COMMIT = "66959b920ba25de1d2f2911d8c5508d22d3eb4d0"
+ADDITIONAL_SOURCE_PINS = {
+    "src/wnn/distillation_cache.py": "1c9eed9537e2fbc10173860dbd19ba99d722ad85995db3d7c2e2cf579ba16136"
+}
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "research/campaign_2026-10-21/next_cycle_r1/i1"))
@@ -51,6 +67,17 @@ def json_sha256(value: object) -> str:
     """Hash canonical JSON using the training provenance convention."""
     raw = json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return hashlib.sha256(raw).hexdigest()
+
+
+def git_output(repository: Path, *arguments: str) -> str:
+    """Read one Git metadata value without importing or executing project code."""
+    result = subprocess.run(
+        ["git", "-C", str(repository), *arguments],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return result.stdout.strip()
 
 
 def groups_sha256(groups: list[int]) -> str:
@@ -102,14 +129,242 @@ def verify_explicit_args(run: str, argv: list[str], actual: dict[str, Any]) -> N
     )
 
 
-def verify_sources(plan: dict[str, Any]) -> dict[str, str]:
-    """Verify all byte pins frozen in the plan; no training module is imported."""
+def verify_source_amendment(plan: dict[str, Any], plan_sha: str) -> dict[str, Any]:
+    """Verify the explicit F1 metadata-reader amendment and its old failed attempt."""
+    amendment_raw = SOURCE_AMENDMENT_PATH.read_bytes()
+    amendment_sha = hashlib.sha256(amendment_raw).hexdigest()
+    require(
+        amendment_sha == SOURCE_AMENDMENT_SHA256,
+        "F1 source amendment bytes differ from the reviewed R4 receipt",
+    )
+    amendment = json.loads(amendment_raw)
+    require(
+        amendment.get("schema_version") == 1
+        and amendment.get("amendment_id") == "WARM_F1_PROFILE_SOURCE_AMENDMENT_R4",
+        "unsupported F1 source amendment schema or identity",
+    )
+    require(
+        amendment.get("base_plan")
+        == {"path": str(PLAN_PATH.relative_to(ROOT)), "sha256": FROZEN_PLAN_SHA256}
+        and plan_sha == FROZEN_PLAN_SHA256,
+        "F1 source amendment does not preserve the exact R1 plan bytes",
+    )
+    profile_recipe = amendment.get("base_profile_recipe", {})
+    expected_recipe_path = "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F0_WARM_R2.json"
+    require(
+        profile_recipe == {"path": expected_recipe_path, "sha256": PROFILE_F0_RECIPE_SHA256}
+        and sha256(ROOT / expected_recipe_path) == PROFILE_F0_RECIPE_SHA256,
+        "F1 source amendment does not bind the frozen base profile recipe",
+    )
+
+    source = amendment.get("source", {})
+    require(
+        Path(source.get("root", "")).resolve() == AMENDED_SOURCE_ROOT.resolve()
+        and source.get("commit") == AMENDED_SOURCE_COMMIT
+        and source.get("required_additions_sha256") == ADDITIONAL_SOURCE_PINS
+        and source.get("prior_source_root") == str(PRIOR_SOURCE_ROOT)
+        and source.get("prior_source_commit") == PRIOR_SOURCE_COMMIT
+        and source.get("prior_cache_reader_sha256")
+        == "008fd6615ac5b627273f419072933cb95dc85fcd6c30eaffd6f1fb2df53ab0eb",
+        "F1 source amendment source pins differ from the reviewed repair",
+    )
+    require(
+        git_output(AMENDED_SOURCE_ROOT, "rev-parse", "HEAD") == AMENDED_SOURCE_COMMIT
+        and not git_output(AMENDED_SOURCE_ROOT, "status", "--porcelain", "--untracked-files=all"),
+        "amended F1 source root is not the exact clean pinned commit",
+    )
+    require(
+        git_output(PRIOR_SOURCE_ROOT, "rev-parse", "HEAD") == PRIOR_SOURCE_COMMIT
+        and not git_output(PRIOR_SOURCE_ROOT, "status", "--porcelain", "--untracked-files=all"),
+        "prior F1 source root is not the exact clean pinned commit",
+    )
+    plan_pins = plan["source"]["current_source_sha256"]
+    require(len(plan_pins) == 41, "frozen R1 plan source pin count changed")
+    for relative, expected in plan_pins.items():
+        amended_file = (AMENDED_SOURCE_ROOT / relative).resolve(strict=True)
+        amended_file.relative_to(AMENDED_SOURCE_ROOT.resolve())
+        prior_file = (PRIOR_SOURCE_ROOT / relative).resolve(strict=True)
+        prior_file.relative_to(PRIOR_SOURCE_ROOT.resolve())
+        require(
+            sha256(amended_file) == expected and sha256(prior_file) == expected,
+            f"F1 amendment changed original frozen source pin: {relative}",
+        )
+    for relative, expected in ADDITIONAL_SOURCE_PINS.items():
+        canonical_file = (ROOT / relative).resolve(strict=True)
+        canonical_file.relative_to(ROOT.resolve())
+        amended_file = (AMENDED_SOURCE_ROOT / relative).resolve(strict=True)
+        amended_file.relative_to(AMENDED_SOURCE_ROOT.resolve())
+        prior_file = (PRIOR_SOURCE_ROOT / relative).resolve(strict=True)
+        prior_file.relative_to(PRIOR_SOURCE_ROOT.resolve())
+        require(
+            sha256(canonical_file) == expected
+            and sha256(amended_file) == expected
+            and sha256(prior_file) == source["prior_cache_reader_sha256"],
+            f"canonical or amended F1 metadata-reader source bytes differ: {relative}",
+        )
+    changed_code = git_output(
+        AMENDED_SOURCE_ROOT,
+        "diff",
+        "--name-only",
+        f"{PRIOR_SOURCE_COMMIT}..{AMENDED_SOURCE_COMMIT}",
+        "--",
+        "src",
+        "scripts",
+    ).splitlines()
+    require(
+        changed_code == ["src/wnn/distillation_cache.py"]
+        and source.get("only_commit_path_changed_from_prior_source")
+        == "src/wnn/distillation_cache.py",
+        "F1 source amendment includes an unapproved code change",
+    )
+
+    prior = amendment.get("prior_attempt", {})
+    admission_path = "research/campaign_2026-10-21/next_cycle_r1/WARM_F1_PROFILE_ADMISSION_R3.json"
+    execution_path = "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F1_LOCAL_EXECUTION_R3.json"
+    admission_sha = "b37cdb521938de081f4a6238f55bf89669e2815a4fdfe52ce04acacd4b8419a5"
+    execution_sha = "5df66a2543355034036c920a91ef184a4ad8063b4da51c2167d9c3c03dbe478e"
+    old_adapter_sha = "5625ce22b867812c0103b81963ea0531675e21327330d0a21d162bdf17dc0685"
+    require(
+        prior.get("admission_path") == admission_path
+        and prior.get("admission_sha256") == admission_sha
+        and prior.get("execution_path") == execution_path
+        and prior.get("execution_sha256") == execution_sha
+        and prior.get("source_commit") == PRIOR_SOURCE_COMMIT
+        and prior.get("source_root") == str(PRIOR_SOURCE_ROOT)
+        and prior.get("adapter_sha256") == old_adapter_sha
+        and prior.get("status") == "failed"
+        and prior.get("wall_seconds") == 5.879722407000372
+        and prior.get("training_updates") == 0,
+        "F1 source amendment does not bind the exact failed R3 attempt",
+    )
+    admission = load_json(ROOT / admission_path)
+    execution = load_json(ROOT / execution_path)
+    require(
+        sha256(ROOT / admission_path) == admission_sha
+        and admission.get("source_commit") == PRIOR_SOURCE_COMMIT
+        and admission.get("source_root") == str(PRIOR_SOURCE_ROOT)
+        and admission.get("profile_id") == "i1warm_profile_f1_seed4_r2"
+        and admission.get("optimizer_updates_expected") == 1_100,
+        "prior F1 admission receipt does not match the R4 amendment",
+    )
+    require(
+        sha256(ROOT / execution_path) == execution_sha
+        and execution.get("source_head") == PRIOR_SOURCE_COMMIT
+        and execution.get("source_root") == str(PRIOR_SOURCE_ROOT)
+        and execution.get("adapter_sha256") == old_adapter_sha
+        and execution.get("fold") == 1
+        and execution.get("status") == "failed"
+        and execution.get("returncode") == 1
+        and execution.get("wall_seconds") == 5.879722407000372,
+        "prior F1 execution receipt does not match the R4 amendment",
+    )
+    prior_log_path = "research/campaign_2026-10-21/next_cycle_r1/warm_f1_profile_r3.log"
+    prior_log_sha = "568e41a74ee2f43d889e0ee44833b57755f5c6150a852e516ba674d2c6b1ae37"
+    prior_log = (ROOT / prior_log_path).read_text(encoding="utf-8")
+    require(
+        prior.get("log_path") == prior_log_path
+        and prior.get("log_sha256") == prior_log_sha
+        and sha256(ROOT / prior_log_path) == prior_log_sha
+        and "ValueError: distillation cache metadata exceeds its 512000-byte read bound"
+        in prior_log
+        and "PROFILE_UPDATE_EVIDENCE" not in prior_log,
+        "prior F1 profile log does not bind the pre-update metadata-bound failure",
+    )
+    expected_failure = (
+        "metadata read bound rejected the pinned 842417-byte F1 metadata.json at the old "
+        "512000-byte cap before training updates"
+    )
+    metadata_path = "cache/h230_four_family_fold1_source_20261009_r1/metadata.json"
+    require(
+        prior.get("failure") == expected_failure
+        and prior.get("metadata_path") == metadata_path
+        and prior.get("metadata_bytes") == 842_417
+        and prior.get("metadata_sha256")
+        == "8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703"
+        and (ROOT / metadata_path).stat().st_size == 842_417
+        and sha256(ROOT / metadata_path)
+        == "8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703",
+        "prior F1 cache metadata identity differs from the R4 amendment",
+    )
+
+    profiles = {item["profile_id"]: item for item in plan.get("profiles", [])}
+    profile = amendment.get("profile", {})
+    f1_profile = profiles.get("i1warm_profile_f1_seed4_r2", {})
+    expected_argv = json.dumps(
+        f1_profile.get("argv", [])[1:], separators=(",", ":"), ensure_ascii=True
+    ).encode("ascii")
+    require(
+        profile.get("id") == "i1warm_profile_f1_seed4_r2"
+        and profile.get("fold") == 1
+        and profile.get("profile_steps") == 100
+        and profile.get("profile_warmup") == 10
+        and profile.get("unchanged_argv_sha256") == hashlib.sha256(expected_argv).hexdigest()
+        and profile.get("expected_optimizer_updates") == 1_100
+        and profile.get("scientific_fit_performed") is False
+        and execution.get("argv", [])[1:] == f1_profile.get("argv", [])[1:],
+        "F1 amended profile changes the frozen R1 command or profile boundary",
+    )
+    preserved_f0 = amendment.get("preserved_f0", {})
+    f0_path = "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F0_LOCAL_EXECUTION_R2.json"
+    f0_sha = "b25793c46f4d524a43066db4e80e2cdd3d522baa1e7fb92dcc1b0cd659492cf0"
+    f0_log_path = "research/campaign_2026-10-21/next_cycle_r1/warm_f0_profile_r2.log"
+    f0_log_sha = "c4447fa4826651ed3c1299b4beeac9b30c8d292bdbf6dfc1ebb014f0461e6f52"
+    f0_execution = load_json(ROOT / f0_path)
+    f0_log = (ROOT / f0_log_path).read_text(encoding="utf-8")
+    f0_update_line = next(
+        (line for line in f0_log.splitlines() if line.startswith("PROFILE_UPDATE_EVIDENCE ")),
+        "",
+    )
+    require(bool(f0_update_line), "preserved F0 profile log omits update evidence")
+    f0_update = json.loads(f0_update_line.removeprefix("PROFILE_UPDATE_EVIDENCE "))
+    require(
+        preserved_f0.get("execution_path") == f0_path
+        and preserved_f0.get("execution_sha256") == f0_sha
+        and preserved_f0.get("log_path") == f0_log_path
+        and preserved_f0.get("log_sha256") == f0_log_sha
+        and preserved_f0.get("source_commit") == PRIOR_SOURCE_COMMIT
+        and preserved_f0.get("status") == "complete"
+        and preserved_f0.get("wall_seconds") == 304.76052887600963
+        and sha256(ROOT / f0_path) == f0_sha
+        and f0_execution.get("source_head") == PRIOR_SOURCE_COMMIT
+        and f0_execution.get("source_root") == str(PRIOR_SOURCE_ROOT)
+        and f0_execution.get("status") == "complete"
+        and f0_execution.get("wall_seconds") == 304.76052887600963
+        and sha256(ROOT / f0_log_path) == f0_log_sha
+        and f0_update.get("optimizer_attempts") == 1_100
+        and f0_update.get("optimizer_completed_updates") == 1_100
+        and f0_update.get("amp_skipped_updates") == 0
+        and f0_update.get("valid_for_throughput") is True,
+        "F0 completed profile receipt was not preserved exactly",
+    )
+    return {
+        "amendment_id": amendment["amendment_id"],
+        "amendment_sha256": amendment_sha,
+        "base_profile_recipe_sha256": PROFILE_F0_RECIPE_SHA256,
+        "amended_source_commit": AMENDED_SOURCE_COMMIT,
+        "added_source_pins": ADDITIONAL_SOURCE_PINS,
+        "verified_original_plan_source_pins": len(plan_pins),
+        "prior_f1_execution_sha256": execution_sha,
+        "prior_f1_log_sha256": prior_log_sha,
+        "preserved_f0_execution_sha256": f0_sha,
+        "preserved_f0_log_sha256": f0_log_sha,
+        "runtime_source_identity_limit": (
+            "Canonical trainer_implementation.files omits src/wnn/distillation_cache.py; "
+            "the canonical root and amended clean source commit are checked against the direct pin, "
+            "but per-run provenance does not separately emit this module hash."
+        ),
+    }
+
+
+def verify_sources(plan: dict[str, Any], plan_sha: str) -> tuple[dict[str, str], dict[str, Any]]:
+    """Verify frozen plan pins and the explicit one-file R4 source amendment."""
     pins = plan["source"]["current_source_sha256"]
     for relative, expected in pins.items():
         path = (ROOT / relative).resolve(strict=True)
         path.relative_to(ROOT.resolve())
         require(sha256(path) == expected, f"source pin differs: {relative}")
-    return dict(pins)
+    amendment = verify_source_amendment(plan, plan_sha)
+    return {**pins, **ADDITIONAL_SOURCE_PINS}, amendment
 
 
 def verify_paired_plan(plan: dict[str, Any]) -> None:
@@ -753,7 +1008,7 @@ def main() -> int:
     raw_plan = PLAN_PATH.read_bytes()
     plan = json.loads(raw_plan)
     plan_sha = hashlib.sha256(raw_plan).hexdigest()
-    pins = verify_sources(plan)
+    pins, source_amendment = verify_sources(plan, plan_sha)
     verify_paired_plan(plan)
 
     splits: dict[int, dict[str, Any]] = {}
@@ -841,7 +1096,7 @@ def main() -> int:
         for run in runs.values():
             run.pop("_updates", None)
     report = {
-        "schema": "wnn.i1-strong-parent-warm-history-grade.v1",
+        "schema": "wnn.i1-strong-parent-warm-history-grade.v2",
         "experiment_id": plan["experiment_id"],
         "plan_status": plan["status"],
         "plan_sha256": plan_sha,
@@ -861,6 +1116,7 @@ def main() -> int:
             "per_target_method": "reuse canonical helper with selected target duplicated in both slots",
         },
         "source_sha256_verified": pins,
+        "source_amendment": source_amendment,
         "scorer_source_sha256": {
             "grade_prediction_bank": sha256(ROOT / "scripts/grade_prediction_bank.py"),
             "gmetric": sha256(ROOT / "src/wnn/gmetric.py"),
