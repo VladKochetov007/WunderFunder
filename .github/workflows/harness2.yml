@@ -20,6 +20,7 @@ jobs:
   offline-integration:
     timeout-minutes: 10
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
@@ -28,6 +29,16 @@ jobs:
       PYTHONDONTWRITEBYTECODE: "1"
     steps:
       - uses: actions/checkout@v4
+        with:
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /src/wnn/harness2_workflow/
+            /src/wnn/gmetric.py
+            /scripts/harness2_workflow.py
+            /tests/test_harness2_task.py
+            /tests/test_harness2_workflow.py
+            /tools/harness2/
+            /pyproject.toml
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
