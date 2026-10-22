@@ -57,7 +57,15 @@ def compare_parent_parity(
                 child_output, child_hidden = environment.forward_chunk(
                     child_model, child_input, window, child_hidden
                 )
-                error = float((parent_output[..., :2] - child_output[..., :2]).abs().max().item())
+                parent_prediction = parent_output[..., :2]
+                child_prediction = child_output[..., :2]
+                if not bool(torch.isfinite(parent_prediction).all()):
+                    raise ValueError(f"parent output is nonfinite for {split} group {group}")
+                if not bool(torch.isfinite(child_prediction).all()):
+                    raise ValueError(f"child output is nonfinite for {split} group {group}")
+                error = float((parent_prediction - child_prediction).abs().max().item())
+                if not np.isfinite(error):
+                    raise ValueError(f"parent/child parity error is nonfinite for {split} group {group}")
                 maximum = max(maximum, error)
             if maximum > tolerance:
                 raise ValueError(f"parent/child parity failed for {split} group {group}: {maximum}")
