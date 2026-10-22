@@ -20,7 +20,7 @@ AMENDMENT_RELATIVE = Path(
     "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/"
     "PROFILE_F1_SOURCE_AMENDMENT_R4.json"
 )
-AMENDMENT_SHA256 = "5ad97fbc5711281089284424a3e0252dbb1a48d6d06f92baf7bc927eed79186b"
+AMENDMENT_SHA256 = "bfec8f4c915495be238820a754cfae851344eb9e918475950ded244689db3008"
 SOURCE_ROOT = Path("/home/vlad/development/wunder/research_tmp/i1-warm-source-repaired-20261022")
 SOURCE_COMMIT = "81f47a3fd94e4209e47b1f3815af2907e8f0b5d7"
 ADDITION_SHA256 = "1c9eed9537e2fbc10173860dbd19ba99d722ad85995db3d7c2e2cf579ba16136"
@@ -165,6 +165,8 @@ def verify_f1_source_amendment(
         "admission_sha256": PRIOR_ADMISSION_SHA256,
         "execution_path": str(PRIOR_EXECUTION_RELATIVE),
         "execution_sha256": PRIOR_EXECUTION_SHA256,
+        "log_path": "research/campaign_2026-10-21/next_cycle_r1/warm_f1_profile_r3.log",
+        "log_sha256": "568e41a74ee2f43d889e0ee44833b57755f5c6150a852e516ba674d2c6b1ae37",
         "source_commit": "66959b920ba25de1d2f2911d8c5508d22d3eb4d0",
         "source_root": "/home/vlad/development/wunder/research_tmp/i1-warm-source-frozen-20261022",
         "adapter_sha256": "5625ce22b867812c0103b81963ea0531675e21327330d0a21d162bdf17dc0685",
@@ -184,6 +186,10 @@ def verify_f1_source_amendment(
     for relative, expected in (
         (PRIOR_ADMISSION_RELATIVE, PRIOR_ADMISSION_SHA256),
         (PRIOR_EXECUTION_RELATIVE, PRIOR_EXECUTION_SHA256),
+        (
+            Path(str(prior["log_path"])),
+            "568e41a74ee2f43d889e0ee44833b57755f5c6150a852e516ba674d2c6b1ae37",
+        ),
     ):
         if _sha256(project_root / relative) != expected:
             raise ValueError(f"preserved R3 attempt bytes differ: {relative}")
@@ -220,6 +226,8 @@ def verify_f1_source_amendment(
             "PROFILE_F0_LOCAL_EXECUTION_R2.json"
         ),
         "execution_sha256": "b25793c46f4d524a43066db4e80e2cdd3d522baa1e7fb92dcc1b0cd659492cf0",
+        "log_path": "research/campaign_2026-10-21/next_cycle_r1/warm_f0_profile_r2.log",
+        "log_sha256": "c4447fa4826651ed3c1299b4beeac9b30c8d292bdbf6dfc1ebb014f0461e6f52",
         "source_commit": "66959b920ba25de1d2f2911d8c5508d22d3eb4d0",
         "status": "complete",
         "wall_seconds": 304.76052887600963,
@@ -229,11 +237,9 @@ def verify_f1_source_amendment(
     }
     if preserved_f0 != expected_f0:
         raise ValueError("preserved F0 profile evidence differs from its frozen receipt")
-    if (
-        _sha256(project_root / str(expected_f0["execution_path"]))
-        != expected_f0["execution_sha256"]
-    ):
-        raise ValueError("preserved F0 profile receipt bytes differ from R2")
+    for key in ("execution", "log"):
+        if _sha256(project_root / str(expected_f0[f"{key}_path"])) != expected_f0[f"{key}_sha256"]:
+            raise ValueError(f"preserved F0 profile {key} bytes differ from R2")
 
     return {
         "path": str(amendment_path),
