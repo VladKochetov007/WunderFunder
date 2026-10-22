@@ -99,10 +99,33 @@ def test_chunk_restore_matches_uninterrupted_scan(arm: str, lag: int) -> None:
 
     first_state = OnlineRelationshipState(arm, lag, normalizer)
     first = first_state.transform(raw[:37])
-    restored = OnlineRelationshipState(arm, lag, normalizer)
+    restored_normalizer = OnlineRelationshipNormalizer.from_dict(normalizer.to_dict())
+    restored = OnlineRelationshipState(arm, lag, restored_normalizer)
     restored.load_state_dict(first_state.state_dict())
     second = restored.transform(raw[37:])
     np.testing.assert_array_equal(np.concatenate((first, second)), complete)
+
+
+def test_state_restore_rejects_different_normalizer_content() -> None:
+    """A matching arm and lag cannot restore state under different u/v moments."""
+    raw = _sequence(64)
+    normalizer = fit_online_relationship_normalizer([raw], 1)
+    state = OnlineRelationshipState("C", 1, normalizer)
+    state.transform(raw[:40])
+    saved = state.state_dict()
+
+    changed_u_mean = normalizer.u_mean.copy()
+    changed_u_mean[0] += np.float32(0.01)
+    changed = OnlineRelationshipNormalizer(
+        changed_u_mean,
+        normalizer.u_scale,
+        normalizer.v_mean,
+        normalizer.v_scale,
+        normalizer.lag,
+    )
+    restored = OnlineRelationshipState("C", 1, changed)
+    with pytest.raises(ValueError, match="normalizer content"):
+        restored.load_state_dict(saved)
 
 
 def test_arm_b_freezes_after_row_98_and_constant_inputs_stay_finite() -> None:
@@ -177,3 +200,21 @@ def test_fitting_normalizer_uses_only_available_raw_differences(lag: int) -> Non
     np.testing.assert_allclose(
         normalizer.v_scale, np.maximum(expected_v.std(axis=0), 0.001), rtol=1e-6, atol=1e-6
     )
+
+
+def test_normalizer_moments_stay_fp32_and_stable_at_large_levels() -> None:
+    """Centered FP32 moments retain the variation in differences around a large level."""
+    time = np.arange(2_000, dtype=np.float32)
+    raw = np.zeros((len(time), 112), dtype=np.float32)
+    u_step = np.float32(0.5) + np.float32(0.01) * np.sin(time * np.float32(0.17))
+    v_step = np.float32(0.25) + np.float32(0.01) * np.cos(time * np.float32(0.13))
+    raw[:, 52:104] = np.float32(10_000.0) + np.cumsum(u_step)[:, None]
+    raw[:, :52] = np.float32(5_000.0) + np.cumsum(v_step)[:, None]
+
+    normalizer = fit_online_relationship_normalizer([raw], 1)
+    assert normalizer.u_mean.dtype == np.float32
+    assert normalizer.u_scale.dtype == np.float32
+    assert normalizer.v_mean.dtype == np.float32
+    assert normalizer.v_scale.dtype == np.float32
+    assert normalizer.u_scale[0] > np.float32(0.005)
+    assert normalizer.v_scale[0] > np.float32(0.005)
