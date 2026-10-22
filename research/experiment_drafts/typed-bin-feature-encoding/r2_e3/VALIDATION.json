@@ -1,0 +1,41 @@
+{
+  "schema": "research-static-validation-v1",
+  "status": "source_checks_passed_receiver_acceptance_pending",
+  "recorded_utc": "2026-10-22T17:03:27Z",
+  "base_head": "eed60073e8b1a656fe91dd397498b2b8843163ad",
+  "checks": {
+    "python_ast": "4 modified/new Python files parsed with Python 3.11; no imports or execution",
+    "json": "R2 recipe, validation record, and six configs parsed; normalized R1 recipe hash and all R2 config hashes verified",
+    "config_semantics": "all six R2 configs match R1 except epochs 12 to 3",
+    "runner_cli": "passed --help with the r1 and r2_e3 revisions",
+    "git_diff_check": "passed",
+    "ruff_lint": "not run; Ruff is not installed in the available Python environment",
+    "pytest": "not run; pytest and project dependencies are not installed in the available Python environment"
+  },
+  "local_tests_run": 0,
+  "local_training_run": 0,
+  "local_inference_run": 0,
+  "gpu_profiles_run": 0,
+  "scientific_fits_run": 0,
+  "quality_score": null,
+  "receiver_tests": [
+    "tests/test_sequence_numeric.py",
+    "tests/test_numeric_sequence_integration.py",
+    "tests/test_numeric_panel_receiver.py",
+    "tests/test_b300_sequence_models.py"
+  ],
+  "receiver_pending": [
+    "source data and split bindings",
+    "Linux B300 dependency setup and receiver tests",
+    "six unique real-shape strict-FP32 profiles using the matching R2 configs",
+    "six full three-epoch fits and fixed-final scores, subject to the four-hour wall"
+  ],
+  "configs_sha256": {
+    "f0_quantile16.json": "e09c2e75d2e82b1859299526012c14d4e010d9d99d6fb2b4a8816dbd8768805c",
+    "f0_raw_events.json": "c74afe77d1506adadbe3c2493de78a55b1e100a7709a5cf3992dfb83de4d34fb",
+    "f0_uniform16.json": "8d1743c5926f7f2cb48a09e00ca25b9402ea00eac23d2d13e47724cd92bc22ac",
+    "f2_quantile16.json": "7263545054a8c04284b0e7b258bb6412c25f94bd18a19b907cc5788f7b3b1a82",
+    "f2_raw_events.json": "811c9d91f436bbbae622de8420744312b505209904db7543d04d908436ef46b8",
+    "f2_uniform16.json": "20bc86cfe9ee32ec1a94552c909d5ee66b0feb6d97afbd9eb59b197ab50a4c12"
+  }
+}

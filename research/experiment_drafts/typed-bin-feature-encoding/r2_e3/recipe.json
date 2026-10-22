@@ -1,0 +1,194 @@
+{
+  "schema": "research_recipe_v1_not_trainer_config",
+  "id": "E-TYPED-BIN-ENCODING-20261022-R2-E3",
+  "hypothesis_id": "H-TYPED-BIN-ENCODING-20261022",
+  "status": "implemented_unvalidated_on_B300",
+  "training_authorized": true,
+  "local_execution": "code_only_no_model_or_gpu_execution",
+  "supersedes": {
+    "id": "E-TYPED-BIN-ENCODING-20261022-R1",
+    "path": "../recipe.json",
+    "sha256": "98a8b3a1a9acc8601c2cd14c0a84624ac0237fa6c9711550f4eb764a66456a0f",
+    "head_sha": "eed60073e8b1a656fe91dd397498b2b8843163ad"
+  },
+  "amendment_reason": "The user-authorized node wall is strictly four hours, while receiver throughput is unmeasured. This preregistered three-epoch screen preserves several complete epochs and leaves margin for receiver acceptance, evaluation, cleanup, and publication.",
+  "amendment_scope": {
+    "only_changed_recipe_field": "optimizer.epochs",
+    "r1_epochs": 12,
+    "r2_epochs": 3,
+    "completed_epoch_indices": [
+      0,
+      1,
+      2
+    ],
+    "fixed_endpoint": 2,
+    "selection": "configured-final-epoch",
+    "interpretation": "reduced optimization budget; not an R1 twelve-epoch result",
+    "learning_rate_schedule": "same WSD schedule and warmup/cooldown fractions over the shorter configured horizon"
+  },
+  "cells": [
+    {
+      "fold": 0,
+      "seed": 1001
+    },
+    {
+      "fold": 2,
+      "seed": 1002
+    }
+  ],
+  "arms": [
+    {
+      "id": "raw_events",
+      "basis": null
+    },
+    {
+      "id": "uniform16",
+      "basis": "per_field_piecewise_linear",
+      "knots": "17 uniform from fitting min to max"
+    },
+    {
+      "id": "quantile16",
+      "basis": "per_field_piecewise_linear",
+      "knots": "priority reservoir 131072 rows seed221022; quantiles k/16 with full-fitting min/max endpoints"
+    }
+  ],
+  "primary_contrast": [
+    "quantile16",
+    "uniform16"
+  ],
+  "secondary_contrasts": [
+    [
+      "quantile16",
+      "raw_events"
+    ],
+    [
+      "uniform16",
+      "raw_events"
+    ]
+  ],
+  "planned_new_fits": {
+    "teacher": 6,
+    "student": 0,
+    "cached_controls": 0,
+    "total": 6
+  },
+  "completed_fits": 0,
+  "membership": {
+    "fit": "all eligible whole fitting components from the existing full fold manifests",
+    "evaluation": "unchanged complete evaluation components from each same fold manifest",
+    "subset_amendment": false
+  },
+  "representation": {
+    "raw_feature_count": 112,
+    "event_feature_count": 99,
+    "one_token_per_row": true,
+    "raw_skip": true,
+    "basis_input": "raw112 after shared fitting-only scaling",
+    "basis_per_field": 16,
+    "basis_projection": "flatten112x16 then linear1792->256 and add to raw/event token projection",
+    "uniform_quantile_same_parameters": true,
+    "raw_comparison_capacity_confounded": true,
+    "nonfinite": "zero imputation then event99, plus missing112 indicator; 323 common inputs",
+    "empty_interval": "zero without division",
+    "knots_frozen_for_evaluation": true
+  },
+  "backbone": {
+    "family": "causal_transformer",
+    "width": 256,
+    "layers": 4,
+    "heads": 4,
+    "ffn": 1024,
+    "context": 256,
+    "chunk": 256,
+    "dropout": 0.05,
+    "targets": 2,
+    "positional_mode": "causal RoPE",
+    "context_semantics": "256 per layer; effective receptive field up to 1021"
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.0002,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "epochs": 3,
+    "global_sequence_batch": 32,
+    "warmup_fraction": 0.02,
+    "cooldown_fraction": 0.2,
+    "min_lr_ratio": 0.1,
+    "selection": "final_epoch",
+    "schedule": "WSD linear warmup / stable / linear cooldown"
+  },
+  "update_budget": {
+    "world_size": 1,
+    "chunks_per_sequence": 79,
+    "updates_per_epoch": "79 * ceil(fit_sequence_count / 32)",
+    "three_epoch_updates": "237 * ceil(fit_sequence_count / 32)",
+    "actual_fit_sequence_count": null,
+    "measured_runtime_seconds": null
+  },
+  "precision": {
+    "parameters": "float32",
+    "activations": "float32",
+    "optimizer_state": "float32",
+    "autocast": false,
+    "tf32": false
+  },
+  "metric": {
+    "id": "global_wp_clip2_v1",
+    "predictions_clip": [
+      -2,
+      2
+    ],
+    "mask": "need_prediction AND is_scored",
+    "aggregation": "full components, full fold; equal cell mean",
+    "bootstrap": {
+      "unit": "component",
+      "paired": true,
+      "draws": 10000,
+      "seed": 221022,
+      "scope": "conditional on fixed fitted predictions",
+      "fold_rng": "independent fold substreams from master seed"
+    },
+    "targets_clip": [
+      -2,
+      2
+    ]
+  },
+  "practical_effect_threshold": 0.0003,
+  "all_folds_exposed": true,
+  "partition_hashes": null,
+  "data_hashes": null,
+  "required_profiles": {
+    "count": 6,
+    "identity": "one unique approved strict-FP32 B300 four-update receipt for every R2 cell/config",
+    "world_size": 1,
+    "profile_command_revision": "r2_e3",
+    "fit_must_consume_same_revision_config": true
+  },
+  "output_layout": {
+    "preprocessing": "preprocessing_r2_e3",
+    "profiles": "profiles_r2_e3",
+    "runs": "runs_r2_e3",
+    "panel": "panel_r2_e3.json"
+  },
+  "config_sha256": {
+    "f0_quantile16.json": "e09c2e75d2e82b1859299526012c14d4e010d9d99d6fb2b4a8816dbd8768805c",
+    "f0_raw_events.json": "c74afe77d1506adadbe3c2493de78a55b1e100a7709a5cf3992dfb83de4d34fb",
+    "f0_uniform16.json": "8d1743c5926f7f2cb48a09e00ca25b9402ea00eac23d2d13e47724cd92bc22ac",
+    "f2_quantile16.json": "7263545054a8c04284b0e7b258bb6412c25f94bd18a19b907cc5788f7b3b1a82",
+    "f2_raw_events.json": "811c9d91f436bbbae622de8420744312b505209904db7543d04d908436ef46b8",
+    "f2_uniform16.json": "20bc86cfe9ee32ec1a94552c909d5ee66b0feb6d97afbd9eb59b197ab50a4c12"
+  },
+  "launch_command": "uv run --locked python scripts/run_numeric_experiment.py <prepare|profile|fit|evaluate> --revision r2_e3 --fold <0|2> --arm <raw_events|uniform16|quantile16> --data-root <root> --split-manifest <split> --output-root <output>",
+  "result": null,
+  "blocking_dependencies": [
+    "bind actual receiver source data and F0/F2 split hashes",
+    "pass documented non-ML receiver tests and exact-config real-device profiles",
+    "verify all six fitted/evaluated cells fit within the remaining strict node wall"
+  ],
+  "scientific_contract": {
+    "all_unmodified_recipe_semantics": "identical to R1: full fitting components, preprocessing, seed/cell membership, model inputs, objective, masks, global batch, one-GPU world size, FP32 precision, metric, paired bootstrap and decision threshold",
+    "epoch_change": "the sole scientific budget change is twelve to three complete epochs",
+    "do_not_claim": "R1 equivalence, twelve-epoch quality, measured runtime, unseen-fold generalization, significance, or public score"
+  }
+}

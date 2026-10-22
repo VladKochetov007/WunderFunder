@@ -81,16 +81,30 @@ def test_numeric_full_chunk_row_prefix_and_checkpoint_parity(arm: str, tmp_path:
 
 
 def test_all_published_configs_are_consumable_and_fixed() -> None:
-    """Every panel cell has a valid runtime schema and the intended endpoint/budget."""
-    directory = (
+    """R1 and R2 configs share the same panel except for their declared horizons."""
+    packet = (
         Path(__file__).resolve().parents[1]
-        / "research/experiment_drafts/typed-bin-feature-encoding/configs"
+        / "research/experiment_drafts/typed-bin-feature-encoding"
     )
-    paths = list(directory.glob("*.json"))
-    assert len(paths) == 6
-    for path in paths:
-        config = load_config(path)
-        assert config["epochs"] == 12 and config["batch_size"] == 32
-        assert config["required_world_size"] == 1 and config["schedule"] == "wsd"
-        assert config["expected_fold"] in (0, 2)
-        assert config["training_mask"] == "need_prediction"
+    revisions = {
+        "r1": (packet / "configs", 12),
+        "r2_e3": (packet / "r2_e3/configs", 3),
+    }
+    loaded: dict[str, dict[str, dict[str, object]]] = {}
+    for revision, (directory, epochs) in revisions.items():
+        paths = list(directory.glob("*.json"))
+        assert len(paths) == 6
+        loaded[revision] = {}
+        for path in paths:
+            config = load_config(path)
+            assert config["epochs"] == epochs and config["batch_size"] == 32
+            assert config["required_world_size"] == 1 and config["schedule"] == "wsd"
+            assert config["expected_fold"] in (0, 2)
+            assert config["training_mask"] == "need_prediction"
+            loaded[revision][path.name] = config
+
+    assert loaded["r1"].keys() == loaded["r2_e3"].keys()
+    for name, full_config in loaded["r1"].items():
+        short_config = loaded["r2_e3"][name].copy()
+        short_config["epochs"] = full_config["epochs"]
+        assert short_config == full_config

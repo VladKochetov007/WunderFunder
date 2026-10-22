@@ -38,7 +38,7 @@ def _read_cell(root: Path, configs: Path, fold: int, seed: int) -> dict[str, Any
             raise ValueError(f"config differs from the frozen panel: {path}")
         provenance = producer["provenance"]
         if (
-            provenance["completed_epochs"] != 12
+            provenance["completed_epochs"] != config["epochs"]
             or provenance["fixed_checkpoint_policy"] != "configured-final-epoch"
         ):
             raise ValueError("panel accepts only completed fixed-final endpoints")

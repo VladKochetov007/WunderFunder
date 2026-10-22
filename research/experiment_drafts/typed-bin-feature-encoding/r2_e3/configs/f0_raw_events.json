@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "epochs": 3,
+  "batch_size": 32,
+  "accumulate_chunks": 1,
+  "chunk_rows": 256,
+  "seed": 1001,
+  "lr": 0.0002,
+  "weight_decay": 0.01,
+  "grad_clip": 1.0,
+  "warmup_fraction": 0.02,
+  "schedule": "wsd",
+  "cooldown_fraction": 0.2,
+  "min_lr_ratio": 0.1,
+  "required_world_size": 1,
+  "training_mask": "need_prediction",
+  "kd_weight": 0.0,
+  "hint_weight": 0.0,
+  "model": {
+    "architecture": "transformer",
+    "hidden": 256,
+    "layers": 4,
+    "heads": 4,
+    "ff_multiplier": 4,
+    "context_rows": 256,
+    "dropout": 0.05,
+    "checkpoint_blocks": true,
+    "hint_dim": 0,
+    "input_encoding": "raw_events"
+  },
+  "expected_fold": 0,
+  "required_device": "B300"
+}
