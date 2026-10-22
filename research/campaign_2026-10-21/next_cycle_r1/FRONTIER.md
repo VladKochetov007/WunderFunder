@@ -176,3 +176,7 @@ Root source inspection and independent dynamics_builder review confirm that C ac
 ## Idea progression preserved — 2026-10-22 Kyiv
 
 The user requested durable tracking of intermediate reasoning. The [idea-progression note](../../unified/ideas/I1_HISTORY_IDEA_PROGRESSION_20261022_R1.md) links repeated i1-removal losses, F0 fixed-blend complementarity, the clipping diagnostic and the effective-initial-function confound to a conditional zero-extension warm test. F2 C has completed training/export/score (WP0.6802047933; C−B−0.0039034215); complete-panel mixture/uncertainty grading is pending at this snapshot. Warm code commit cc9af1c68745289a71e30aa45e5242af87a3f5bf is isolated, statically checked and awaiting tests/independent source review; no warm fit admission. Earlier pending-code statements remain dated history.
+
+## Complete six-fit i1 panel
+
+[Terminal grade](i1/runtime/GRADE_R1.json): fixed history mixture gains +0.00035953/+0.00027145 (mean +0.00031549), both targets and all overall bins positive in both cells. C alone loses −0.00353711/−0.00390342. The A mixture is mixed across cells (−0.00002308/+0.00054446), so error diversity is not unique to history. [Idea-progression update](../../unified/ideas/I1_HISTORY_IDEA_PROGRESSION_20261022_R1.md#complete-panel-update--2026-10-22) records uncertainty, alternative explanation and conditional warm-test implications. Service exited successfully; no follow-up fit started.

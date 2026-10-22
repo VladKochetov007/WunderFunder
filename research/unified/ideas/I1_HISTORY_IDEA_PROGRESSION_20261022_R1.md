@@ -119,3 +119,11 @@ does not earn a larger dynamics run.
 
 Append subsequent panel grades and interpretation changes as dated evidence;
 do not silently replace this intermediate reasoning or historical recipes.
+
+## Complete-panel update — 2026-10-22
+
+The [terminal six-fit grade](../../campaign_2026-10-21/next_cycle_r1/i1/runtime/GRADE_R1.json) is now complete; the service exited successfully. Fixed 90%B/10%C gains +0.00035953 on F0 and +0.00027145 on F2, an unweighted mean paired point gain of +0.00031549. Both targets and all four overall position bins improve in each cell. Conditional component 95% intervals are [−0.00001187,+0.00070893] and [+0.00008223,+0.00043398]. No across-cell confidence interval is inferred. C alone loses −0.00353711 and −0.00390342.
+
+An important alternative remains: removing i1 also produces complementary errors on F2. Fixed 90%B/10%A gains +0.00054446 there, versus −0.00002308 on F0 (mean +0.00026069). Thus history has the more consistent two-cell mixture pattern, but complementarity is not uniquely evidence for memory; altered information access and optimization can both diversify errors. This supports a bounded function-preserving strong-parent comparison, not immediate production or proof of a temporal mechanism. Both cells remain exposed and fold/seed effects confounded.
+
+Independent source review of warm commit cc9af1c68745289a71e30aa45e5242af87a3f5bf found no blocker for the intended extension; tests and artifact parity remain unrun. Its normalization pass consumes loader sampling. The eventual matched recipe must explicitly control the statistics pass and epoch order in both arms; seeded order is a reviewed option, while a change from historical random sampling must be declared. No warm fit has started.
