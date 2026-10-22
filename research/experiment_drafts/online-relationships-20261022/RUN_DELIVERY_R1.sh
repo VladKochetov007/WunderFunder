@@ -64,7 +64,7 @@ while IFS= read -r dir; do
     scratch_path "$dir"
     [[ ! -e "$dir" ]] || fail "readout output already exists: $dir"
 done < <(jq -r '.cells[].output' "$RECIPE")
-free="$(df -PB1 --output=avail "$SCRATCH" | tail -n 1 | tr -d '[:space:]')"
+free="$(df -B1 --output=avail "$SCRATCH" | tail -n 1 | tr -d '[:space:]')"
 [[ "$free" =~ ^[0-9]+$ ]] && (( free >= 40000000000 )) || fail 'less than 40 GB physical scratch is available'
 
 # The outer thermal guard owns the shared gpu.lock and enforces CPU/RAM/swap/temperature/time limits.
