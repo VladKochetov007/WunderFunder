@@ -18,24 +18,31 @@ def read_parent_input_batch(
     *,
     fitting: bool,
 ) -> tuple[list[Sequence], np.ndarray]:
-    """Read up to eight complete groups in frozen order and stack only raw inputs."""
+    """Read up to eight complete groups in order into one raw-input buffer."""
     if start < 0 or start >= len(row_refs):
         raise ValueError("parent batch start is outside the source-qualified membership")
     stop = min(start + PARENT_BATCH_SEQUENCES, len(row_refs))
+    raw_batch = np.empty((stop - start, SEQUENCE_LENGTH, 112), dtype=np.float32)
     sequences = []
-    for ref in row_refs[start:stop]:
+    for offset, ref in enumerate(row_refs[start:stop]):
         split = str(ref["split"])
         if split not in files:
             raise ValueError(f"parent batch has no open reader for split {split!r}")
-        sequence = files[split].read(int(ref["row_group"]), targets=fitting, mask=fitting)
-        if not fitting and (sequence.targets is not None or sequence.scored is not None):
+        source = files[split].read(int(ref["row_group"]), targets=fitting, mask=fitting)
+        if not fitting and (source.targets is not None or source.scored is not None):
             raise ValueError("evaluation parent reads must omit targets and score masks")
-        if sequence.features.shape != (SEQUENCE_LENGTH, 112):
+        if source.features.shape != (SEQUENCE_LENGTH, 112):
             raise ValueError("parent batch encountered a noncanonical sequence feature shape")
-        sequences.append(sequence)
-    raw_batch = np.stack([sequence.features for sequence in sequences]).astype(
-        np.float32, copy=False
-    )
+        raw_batch[offset] = source.features
+        sequences.append(
+            Sequence(
+                source.seq_ix,
+                raw_batch[offset],
+                source.targets,
+                source.scored,
+            )
+        )
+        del source
     return sequences, raw_batch
 
 
