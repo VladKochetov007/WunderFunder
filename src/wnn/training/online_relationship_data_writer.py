@@ -7,13 +7,14 @@ import json
 import logging
 import os
 import tempfile
+import time
 from pathlib import Path
 from typing import Any
 
 import numpy as np
 import torch
 
-from wnn.data import SEQUENCE_LENGTH, Sequence, SequenceFile
+from wnn.data import SequenceFile
 from wnn.splits import file_sha256
 from wnn.training.environment import TrainingEnvironment
 from wnn.training.evaluation import predict
@@ -27,6 +28,11 @@ from wnn.training.online_relationship_cache import (
     WIDTH,
     row_refs_sha256,
     sequence_cache_paths,
+)
+from wnn.training.online_relationship_parent_batch import (
+    PARENT_BATCH_SEQUENCES,
+    fit_sequence_targets_and_mask,
+    read_parent_input_batch,
 )
 from wnn.training.online_relationship_sources import (
     cache_metadata,
@@ -59,7 +65,7 @@ def write_scope(
     sample_mode: bool,
     *,
     parent_prediction_path: bool = False,
-) -> tuple[Path, Path | None, Path]:
+) -> tuple[Path, Path | None, Path, float]:
     """Stream one cache scope into private temporary NPY files and a sidecar."""
     data_path, _ = sequence_cache_paths(destination, scope)
     data_temp = temporary_path(destination, data_path.name)
@@ -80,63 +86,72 @@ def write_scope(
         else None
     )
     files: dict[str, SequenceFile] = {}
+    source_open_seconds = 0.0
     weights_environment = TrainingEnvironment(root=root)
     args = argparse.Namespace(**row_weight_args)
+    fitting = scope == "in_sample_fit"
     try:
-        for index, ref in enumerate(refs):
-            split, group = str(ref["split"]), int(ref["row_group"])
-            if split not in files:
-                _LOG.info("online_relationship_cache phase=open_parquet split=%s", split)
-                files[split] = SequenceFile(root / "datasets" / f"{split}.parquet")
-            fitting = scope == "in_sample_fit"
-            sequence = files[split].read(group, targets=fitting, mask=fitting)
-            raw = np.asarray(sequence.features, dtype=np.float32)
-            parent_prediction = predict(
+        for start in range(0, len(refs), PARENT_BATCH_SEQUENCES):
+            for ref in refs[start : start + PARENT_BATCH_SEQUENCES]:
+                split = str(ref["split"])
+                if split not in files:
+                    _LOG.info("online_relationship_cache phase=open_parquet split=%s", split)
+                    open_started = time.perf_counter()
+                    files[split] = SequenceFile(root / "datasets" / f"{split}.parquet")
+                    source_open_seconds += time.perf_counter() - open_started
+            sequences, raw_batch = read_parent_input_batch(files, refs, start, fitting=fitting)
+            parent_predictions = predict(
                 parent_model,
-                torch.from_numpy(raw[None]),
+                torch.from_numpy(raw_batch),
                 int(parent_model._online_parent_chunk),
                 torch.device(device),
                 environment=parent_environment,
-            )[0]
+            )
             if (
-                parent_prediction.shape != (SEQUENCE_LENGTH, 2)
-                or not np.isfinite(parent_prediction).all()
+                parent_predictions.shape != (len(sequences), ROWS, 2)
+                or not np.isfinite(parent_predictions).all()
             ):
-                raise ValueError(f"parent returned invalid predictions for {split}:{group}")
-            record = np.zeros((ROWS, WIDTH), dtype="<f4")
-            record[:, RAW] = raw
-            record[:, PARENT] = parent_prediction
-            if fitting:
-                target, score_mask = fit_sequence_targets_and_mask(sequence)
-                raw_tensor = torch.from_numpy(raw[None])
-                with torch.inference_mode():
-                    inputs = build_inputs(raw_tensor, environment=weights_environment)
-                    y = torch.from_numpy(target[None])
-                    scored = torch.from_numpy(score_mask[None])
-                    valid = torch.arange(ROWS)[None] >= weights_environment.warmup
-                    row_weight = main_row_weights(
-                        inputs,
-                        y,
-                        valid,
-                        scored,
-                        propensity_model,
-                        None,
-                        args,
-                        raw_tensor,
-                        environment=weights_environment,
-                    )[0]
-                if (
-                    target.shape != (ROWS, 2)
-                    or not np.isfinite(target).all()
-                    or not torch.isfinite(row_weight).all()
-                ):
-                    raise ValueError("canonical labels or row weights are invalid")
-                record[:, TARGET] = target
-                record[:, WEIGHT] = row_weight.numpy().astype(np.float32, copy=False)
-            array[index] = record
-            if predictions is not None:
-                predictions[index] = parent_prediction
-            del sequence, raw, record, parent_prediction
+                raise ValueError("parent returned invalid predictions for one source batch")
+            for offset, (sequence, parent_prediction) in enumerate(
+                zip(sequences, parent_predictions, strict=True)
+            ):
+                index = start + offset
+                raw = np.asarray(sequence.features, dtype=np.float32)
+                record = np.zeros((ROWS, WIDTH), dtype="<f4")
+                record[:, RAW] = raw
+                record[:, PARENT] = parent_prediction
+                if fitting:
+                    target, score_mask = fit_sequence_targets_and_mask(sequence)
+                    raw_tensor = torch.from_numpy(raw[None])
+                    with torch.inference_mode():
+                        inputs = build_inputs(raw_tensor, environment=weights_environment)
+                        y = torch.from_numpy(target[None])
+                        scored = torch.from_numpy(score_mask[None])
+                        valid = torch.arange(ROWS)[None] >= weights_environment.warmup
+                        row_weight = main_row_weights(
+                            inputs,
+                            y,
+                            valid,
+                            scored,
+                            propensity_model,
+                            None,
+                            args,
+                            raw_tensor,
+                            environment=weights_environment,
+                        )[0]
+                    if (
+                        target.shape != (ROWS, 2)
+                        or not np.isfinite(target).all()
+                        or not torch.isfinite(row_weight).all()
+                    ):
+                        raise ValueError("canonical labels or row weights are invalid")
+                    record[:, TARGET] = target
+                    record[:, WEIGHT] = row_weight.numpy().astype(np.float32, copy=False)
+                array[index] = record
+                if predictions is not None:
+                    predictions[index] = parent_prediction
+                del raw, record, parent_prediction
+            del sequences, raw_batch, parent_predictions
         array.flush()
         if predictions is not None:
             predictions.flush()
@@ -169,7 +184,7 @@ def write_scope(
             root,
         )
         write_json_to_temp(meta_temp, metadata)
-        return data_temp, prediction_temp, meta_temp
+        return data_temp, prediction_temp, meta_temp, source_open_seconds
     except BaseException:
         if array is not None:
             array._mmap.close()
@@ -263,23 +278,6 @@ def temporary_path(directory: Path, stem: str) -> Path:
 def write_json_to_temp(path: Path, value: dict[str, object]) -> None:
     """Write deterministic JSON into a temporary file before publication."""
     path.write_text(json.dumps(value, sort_keys=True, indent=2, allow_nan=False) + "\n")
-
-
-def fit_sequence_targets_and_mask(sequence: Sequence) -> tuple[np.ndarray, np.ndarray]:
-    """Require fitting labels and default an absent score mask to all false.
-
-    This matches the canonical ``Sequences`` dataset behavior for train rows,
-    where the parquet has targets but no ``is_scored`` column.
-    """
-    if sequence.targets is None:
-        raise ValueError("fit sequence read omitted canonical targets")
-    target = np.asarray(sequence.targets, dtype=np.float32)
-    score_mask = (
-        np.asarray(sequence.scored, dtype=np.bool_)
-        if sequence.scored is not None
-        else np.zeros(len(sequence.features), dtype=np.bool_)
-    )
-    return target, score_mask
 
 
 def _close_sequence_file(source: SequenceFile) -> None:
