@@ -2,12 +2,17 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pytest
 import torch
 
 import wnn.training.online_relationship_fit as fit_component
-from wnn.online_relationship import fit_online_relationship_normalizer
+from wnn.online_relationship import (
+    OnlineRelationshipNormalizer,
+    fit_online_relationship_normalizer,
+)
 from wnn.training.online_relationship import OnlineRelationshipResidualHead
 from wnn.training.online_relationship_fit import (
     OnlineRelationshipSequence,
@@ -40,7 +45,7 @@ def test_zero_output_head_returns_the_parent_exactly() -> None:
     assert torch.equal(head(features, parent), parent)
 
 
-def test_fit_uses_three_fixed_epochs_and_keeps_eval_labels_unread() -> None:
+def test_fit_uses_three_fixed_epochs_and_keeps_eval_labels_unread(tmp_path: Path) -> None:
     """The CPU fit returns cp2 and ordered predictions without reading eval labels."""
     raw_one = _sequence(21)
     raw_two = _sequence(19, 0.3)
@@ -100,6 +105,31 @@ def test_fit_uses_three_fixed_epochs_and_keeps_eval_labels_unread() -> None:
     assert all(record["finite_updates"] == 1 for record in result.epoch_records)
     assert all(record["fit_rows"] == len(raw_one) + len(raw_two) for record in result.epoch_records)
     assert progress == list(result.epoch_records)
+
+    checkpoint = tmp_path / "fixed_cp2.pt"
+    torch.save({"model": result.state_dict, "metadata": result.metadata}, checkpoint)
+    saved = torch.load(checkpoint, weights_only=True)
+    restored = OnlineRelationshipResidualHead().eval()
+    restored.load_state_dict(saved["model"], strict=True)
+    assert torch.count_nonzero(restored.output.weight).item() > 0
+    metadata = saved["metadata"]
+    restored_normalizer = OnlineRelationshipNormalizer.from_dict(
+        metadata["relationship_normalizer"]
+    )
+    features = fit_component._sequence_features(
+        eval_raw,
+        metadata["arm"],
+        metadata["lag"],
+        restored_normalizer,
+        torch.tensor(metadata["parent_mean"], dtype=torch.float32),
+        torch.tensor(metadata["parent_std"], dtype=torch.float32),
+        torch.device("cpu"),
+    )
+    with torch.no_grad():
+        prediction = restored(features, torch.from_numpy(eval_rows[0].parent_prediction))
+    torch.testing.assert_close(
+        prediction, torch.from_numpy(result.evaluation_predictions[0]), rtol=0.0, atol=0.0
+    )
 
 
 def test_row_batches_cross_sequence_boundaries_and_retain_the_tail(

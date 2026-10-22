@@ -163,7 +163,21 @@
     "objective": "canonical fitting row weights and WMSE",
     "distillation": false,
     "auxiliary_losses": false,
-    "precision": "strict FP32, autocast and TF32 off"
+    "precision": "strict FP32, autocast and TF32 off",
+    "row_weight_args": {
+      "mask_weight": false,
+      "prop_power": 2.0,
+      "prop_eps": 0.03,
+      "valid_true_mask": 0.03,
+      "since_weight": 0.0,
+      "since_floor": 0.1,
+      "episode_weight": 0.0,
+      "episode_floor": 0.1,
+      "class_weight": null,
+      "sync_free": false,
+      "prop_cache": false
+    },
+    "row_weight_batch_semantics": "one complete sequence per main_row_weights call; true-mask mass scale is sequence-local"
   },
   "evaluation": {
     "metric": "global_wp_clip2_v1",
@@ -1258,5 +1272,21 @@
     "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
   },
   "execution_result": "EXECUTION_RESULT_R2.json",
-  "admitted_new_fits": 0
+  "admitted_new_fits": 0,
+  "parent_reference_contract": {
+    "weights_and_normalization": "unchanged recipe-pinned checkpoint",
+    "endpoint_precision": "strict_fp32",
+    "historical_precision": "training ancestry only; historical FP16 caches are not comparison references",
+    "backend": "CPU for resumed cost profile; scientific backend must be frozen at whole-panel admission",
+    "paired_reference": "fit parent predictions, evaluation parent reference and corrected endpoints must share inference backend",
+    "fit_predictions": "in_sample_fit; not out-of-fold"
+  },
+  "resumed_engineering": {
+    "authority": "User continue experiments after graceful thermal pause",
+    "status": "compiled_feature_gate_pass_full_delivery_profile_pending",
+    "original_recipe_snapshot": "PROFILE_RECIPE_R2.json",
+    "compiled_feature_profile": "FEATURE_PROFILE_COMPILED_RESULT_R1.json",
+    "static_delivery_source_commit": "804ab6644",
+    "scientific_fits_admitted": 0
+  }
 }

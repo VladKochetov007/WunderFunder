@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Btrfs metadata pressure and cache cleanup](BTRFS_METADATA_PRESSURE_20261022_R1.md) — Ruff hit ENOSPC despite 99 GB free data space; metadata was 20.49/21.00 GiB with 1 MiB unallocated. Unused package-cache pruning and removal of the actor's failed new checkout restored writes. Models, datasets and checkpoints were preserved; large-cache admission still needs fresh headroom checks.
+
 - [Thermal resume and CPU export recovery, October22](THERMAL_RESUME_20261022_R1.md) — user resumes after the warm control lands. GPU export was cancelled after a paused CUDA context prevented cooling; the same checkpoint now exports on CPU under explicit thermal/memory bounds. Compiled exact online features pass the feature cost gate; full-panel profiling and remaining-fit admission are pending. No new quality result.
 
 - [October21 next local/Kaggle cycle](../../campaign_2026-10-21/next_cycle_r1/README.md) — accepted new 30-hour allocation and durable frontier, saved-artifact recovery then six-fit i1 and four-fit dynamics screens; conditional strong-parent/production work, no new result at entry. Supersedes prospective priorities, preserves prior costs/evidence.
