@@ -180,3 +180,7 @@ The user requested durable tracking of intermediate reasoning. The [idea-progres
 ## Complete six-fit i1 panel
 
 [Terminal grade](i1/runtime/GRADE_R1.json): fixed history mixture gains +0.00035953/+0.00027145 (mean +0.00031549), both targets and all overall bins positive in both cells. C alone loses −0.00353711/−0.00390342. The A mixture is mixed across cells (−0.00002308/+0.00054446), so error diversity is not unique to history. [Idea-progression update](../../unified/ideas/I1_HISTORY_IDEA_PROGRESSION_20261022_R1.md#complete-panel-update--2026-10-22) records uncertainty, alternative explanation and conditional warm-test implications. Service exited successfully; no follow-up fit started.
+
+## Resume and bounded delivery — October22
+
+User explicitly requested continuous work until stopped. The saved mean export is admitted under [recovery admission](SAVED_EXPORT_ADMISSION_R1.json), one GPU/one CPU/3GB RAM/no swap/900seconds, with fixed sources and no-overwrite outputs. [Final i1 budget](BUDGET_PROGRESS_R6.json) accounts for the complete six-fit panel within its5hour ceiling. [Warm verification](I1_WARM_VERIFICATION_R1.json) passes12 focused tests, Ruff and structure after correcting two test-fixture errors; no warm fit or actual-parent parity yet.
