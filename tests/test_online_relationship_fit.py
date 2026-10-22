@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 import torch
 
 import wnn.training.online_relationship_fit as fit_component
@@ -141,3 +142,67 @@ def test_row_batches_cross_sequence_boundaries_and_retain_the_tail(
     np.testing.assert_array_equal(batches[0][3][:5].numpy(), 10.0)
     np.testing.assert_array_equal(batches[0][3][5:].numpy(), 20.0)
     assert counts == {"sequences": 2, "rows": 12, "batches": 2}
+
+
+def test_fit_rejects_nonfinite_parameters_after_update(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The fitter stops immediately if an optimizer update corrupts model weights."""
+    raw = _sequence(21)
+    normalizer = fit_online_relationship_normalizer([raw], 1)
+    item = OnlineRelationshipSequence(
+        raw,
+        np.full((len(raw), 2), 0.4, dtype=np.float32),
+        np.ones(len(raw), dtype=np.float32),
+        np.full((len(raw), 2), 0.1, dtype=np.float32),
+    )
+    optimizer_step = torch.optim.AdamW.step
+
+    def corrupt_parameters(
+        optimizer: torch.optim.Optimizer, *args: object, **kwargs: object
+    ) -> None:
+        optimizer_step(optimizer, *args, **kwargs)
+        with torch.no_grad():
+            optimizer.param_groups[0]["params"][0][0, 0] = float("nan")
+
+    monkeypatch.setattr(torch.optim.AdamW, "step", corrupt_parameters)
+    with pytest.raises(FloatingPointError, match="parameters became nonfinite"):
+        fit_online_relationship_head(
+            lambda: [item],
+            lambda: [item],
+            arm="A",
+            lag=1,
+            seed=1001,
+            parent_mean=np.zeros(211, dtype=np.float32),
+            parent_std=np.ones(211, dtype=np.float32),
+            relationship_normalizer=normalizer,
+            device="cpu",
+        )
+
+
+def test_evaluation_rejects_nonfinite_predictions(monkeypatch: pytest.MonkeyPatch) -> None:
+    """No nonfinite prediction is returned for later masked export rows."""
+    raw = _sequence(21)
+    normalizer = fit_online_relationship_normalizer([raw], 1)
+    item = OnlineRelationshipSequence(
+        raw,
+        _UnreadEvaluationArray(),
+        _UnreadEvaluationArray(),
+        np.zeros((len(raw), 2), dtype=np.float32),
+    )
+    head = OnlineRelationshipResidualHead()
+
+    def nonfinite_forward(features: torch.Tensor, parent: torch.Tensor) -> torch.Tensor:
+        del features
+        return torch.full_like(parent, float("nan"))
+
+    monkeypatch.setattr(head, "forward", nonfinite_forward)
+    with pytest.raises(FloatingPointError, match="prediction became nonfinite"):
+        fit_component._predict_evaluation(
+            head,
+            lambda: [item],
+            "A",
+            1,
+            normalizer,
+            torch.zeros(211),
+            torch.ones(211),
+            torch.device("cpu"),
+        )
