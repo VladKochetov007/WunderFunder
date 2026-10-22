@@ -121,8 +121,12 @@ def test_fit_appended_normalization_preserves_prefix_and_records_fitting_stats(m
         model, loader, torch.device("cpu"), environment=TrainingEnvironment()
     )
     sampled = torch.cat([rows[index].reshape(-1, I1_INPUT_WIDTH)[::7] for index in range(2)])
-    torch.testing.assert_close(model.mean[PARENT_INPUT_WIDTH:], sampled.mean(0))
-    torch.testing.assert_close(model.std[PARENT_INPUT_WIDTH:], sampled.std(0).clamp_min(0.001))
+    torch.testing.assert_close(
+        model.mean[PARENT_INPUT_WIDTH:], sampled.mean(0)[PARENT_INPUT_WIDTH:]
+    )
+    torch.testing.assert_close(
+        model.std[PARENT_INPUT_WIDTH:], sampled.std(0).clamp_min(0.001)[PARENT_INPUT_WIDTH:]
+    )
     assert torch.equal(model.mean[:PARENT_INPUT_WIDTH], old_mean)
     assert torch.equal(model.std[:PARENT_INPUT_WIDTH], old_std)
     assert metadata["parent_mean_identity"] == tensor_identity(old_mean)
@@ -200,6 +204,6 @@ def test_default_i1_warm_normalization_is_inherit_and_requires_no_parent() -> No
     """The opt-in has an inert default for every existing non-warm recipe."""
     from wnn.training.cli import build_parser
 
-    args = build_parser().parse_args([])
+    args = build_parser().parse_args(["--name", "warm-normalization-default-test"])
     assert args.i1_warm_normalization == "inherit"
     validate_i1_warm_normalization(args, None)
