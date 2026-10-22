@@ -1,0 +1,20 @@
+{
+  "status": "PASS_PINNED_CONTRACT_COMPATIBILITY",
+  "reviewer": "online_grader",
+  "recorded_by": "root_from_independent_review_message",
+  "recorded_utc": "2026-10-22T23:57:45.646639+00:00",
+  "reviewed_root_commit": "4a6a1a995",
+  "collector_sha256": "39967091d6e4942a28bbde1e33d123e5e5b0bcc5b2ae69149105e16b1ea468fe",
+  "scope": "Source-only review against frozen execution, admission, recipe, observer and producer contracts; no collector invocation, live artifact inventory, prediction values or evaluator labels/masks.",
+  "findings": [
+    "Execution receipt supplies the exact recipe path/hash and unit/invocation fields consumed by the collector.",
+    "Admission, twelve-cell recipe, candidate output filenames/sidecar fields, little-endian float32 C-order headers and observer identity fields agree.",
+    "Collector gates on the exact invocation becoming inactive or failed and never hashes or reads prediction payload values."
+  ],
+  "non_blocking_limits": [
+    "Collector does not separately compare admission.recipe.sha256 with execution.recipe.sha256; reviewer checked that current frozen hashes agree.",
+    "Collector does not validate every sidecar fold/seed/lag/arm/group against each recipe cell. Exact coverage and prediction digests remain the independent all-fourteen-endpoint grader responsibility."
+  ],
+  "quality_claim": null,
+  "new_fits": 0
+}

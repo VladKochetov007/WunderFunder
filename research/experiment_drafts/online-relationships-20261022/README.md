@@ -6,6 +6,8 @@
 
 The [terminal collector](../../../scripts/collect_online_panel_terminal.py), builder commits `136a95988`/`cd2168dec`, is prepared for after this exact worker invocation stops. It refuses a running or changed invocation and records timestamps, source-pin comparisons, checkpoint/sidecar hashes and NPY headers with exact payload-byte accounting, without reading prediction values or targets. Ruff and three bounded synthetic tests pass; no live collection has run. It cannot validate prediction digests or replace the independent all-fourteen-endpoint grader.
 
+The [independent source-only contract review](TERMINAL_COLLECTOR_CONTRACT_REVIEW_R1.json) finds no blocker for those pinned inputs. It preserves two limits: recipe-hash agreement between the admission and execution receipts was checked by the reviewer rather than this helper, and exact per-cell identity/group coverage remains a grader responsibility. No live artifact inventory or target access occurred.
+
 [Pinned-parent readout metadata](PARENT_READOUT_METADATA_R1.json) supports no extra outcome-readout table in either checkpoint, using hash-verified zip/pickle-opcode inspection with no tensor load. This resolves one native-serving preparation question; it establishes no prediction parity, target quality or native runtime.
 
 [Unapproved revised budget proposal](BUDGET_EXTENSION_PROPOSAL_R2.json) supersedes the [earlier 30-minute proposal](BUDGET_EXTENSION_PROPOSAL_R1.json). Additional epoch observations make the earlier estimate insufficient; R2 proposes moving up to one hour of unused strong-parent allocation to a 3.5-hour inclusive ceiling, keeping the original total and production reserve. This is not authorization: original time limits remain binding pending an explicit user answer.
