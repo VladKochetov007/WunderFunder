@@ -9,3 +9,5 @@ The source files here match the reviewed deployment scripts. Runtime PLAN, comma
 The initial cold NLL unit test used a bare Sequential instead of the canonical model.head interface; that fixture was repaired and all four tests pass on the node. Numeric tests require the existing conftest strict-FP32 fixture, which was included before rerunning all 29 checks. No scientific source change was made to resolve either packaging/test issue.
 
 [Continuation V2](continuation_v2/README.md) supersedes the initial preparation receipt with actual ten-fit execution, the preserved pre-GPU cgroup failure, prospective NLL command correction and the original absolute deadline.
+
+[Separate twelve-fit NLL scaleout](scaleout_v1/README.md) records additional paired seeds, profile admission, measured lane headroom and the same original deadline; its live receipt initially precedes scientific-fit admission.

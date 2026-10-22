@@ -1,0 +1,66 @@
+{
+  "status": "sidecar_started_and_profiles_running; additional_fits_not_yet_verified_at_this_receipt",
+  "observed_unix": 1792695985.900785,
+  "original_start_unix": 1792693855.4927282,
+  "hard_deadline_unix": 1792708255.4927282,
+  "base_plan_sha256": "d76774e58d8d8c06c52bac701bde97ea2aa704f2536ac2f4815775e6a5e1eefd",
+  "side_plan_sha256": "8e7d46ea652a9c793dcea6e57c8232e515908fbb49b78baa27b12a6046f02cf3",
+  "additional_fits": 12,
+  "additional_paired_cells": 6,
+  "seeds": {
+    "F0": [
+      1301,
+      1302,
+      1303
+    ],
+    "F2": [
+      1401,
+      1402,
+      1403
+    ]
+  },
+  "service": {
+    "unit": "tabdata-next4h-20261022-scaleout.service",
+    "RuntimeMaxSec": 11350,
+    "active_enter_utc": "2026-10-22T19:06:15Z",
+    "timer_expiry_utc": "2026-10-22T22:15:25Z",
+    "TimeoutStopSec": 120,
+    "KillMode": "control-group",
+    "Restart": "no",
+    "finalizer_timeout_seconds": 110
+  },
+  "resources": {
+    "GPUs0-1": "two existing NLL workers each",
+    "GPUs2-7": "one existing Transformer plus two prospective sidecar NLL workers each",
+    "CPUs": "64-111, four per added worker",
+    "shared_project_output_root": "state/next4h-20261022-r2/nll_project",
+    "disjoint_output_ids": "scaleout_f{fold}_s{seed}_{arm}; preexisting run/profile/prediction/log paths forbidden"
+  },
+  "validation": [
+    "local Ruff formatting/lint pass",
+    "node py_compile pass",
+    "actual source/side allocation verifier CPU preflight passed before systemd launch",
+    "self cgroup and exclusive ownership checked before profiles",
+    "all original ten fits healthy at sidecar admission"
+  ],
+  "independent_review": {
+    "role": "next_b300_pr36_audit",
+    "findings_fixed": [
+      "side plan filename mismatch",
+      "remote delivery import path",
+      "canonical grader path",
+      "run/profile/prediction namespace collision guard"
+    ],
+    "remaining_limitations": [
+      "shared project root is explicitly used for uniquely named artifacts; base fit code/config/receipts remain untouched",
+      "resource profiles are engineering evidence, not quality endpoints",
+      "two exposed folds and bounded seeds do not complete CP30 or establish public transfer"
+    ]
+  },
+  "publication_url": "https://github.com/VladKochetov007/WunderFunder/pull/37#issuecomment-6348984002",
+  "files": {
+    "scaleout.py": "f690d425cc97774f2449562850867e0ddc8eda06ef4a189b90d65fdd41cb13e7",
+    "scaleout_publish.py": "7d2066cb3c85b33e29802abfb68d2f1b138028a21e207f9e5af7c3dfb20414fc",
+    "prepare_scaleout.py": "8dc99501988eb1f377619d49019114e5cda8a61c03a48824b0dc37f7c0d8ae98"
+  }
+}
