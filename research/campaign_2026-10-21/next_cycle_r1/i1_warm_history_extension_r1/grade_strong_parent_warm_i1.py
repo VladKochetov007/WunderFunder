@@ -16,9 +16,11 @@ ROOT = Path(__file__).resolve().parents[4]
 PACKET = Path(__file__).resolve().parent
 PLAN_PATH = PACKET / "STRONG_PARENT_WARM_I1_PLAN_R1.json"
 SOURCE_AMENDMENT_PATH = PACKET / "PROFILE_F1_SOURCE_AMENDMENT_R4.json"
+ORDER_AMENDMENT_PATH = PACKET / "WARM_F1_ORDER_EXPECTATION_AMENDMENT_R1.json"
 FROZEN_PLAN_SHA256 = "eeec65c1982cda52cbc5260643d9d58bc39bdee264543a85ca6170682f7bc1e1"
 SOURCE_AMENDMENT_SHA256 = "bfec8f4c915495be238820a754cfae851344eb9e918475950ded244689db3008"
 PROFILE_F0_RECIPE_SHA256 = "ba13ead87fdad5c97d3ea12e7843a733342a7e05630e5fa60548a0995dc71d34"
+ORDER_AMENDMENT_SHA256 = "54810ff226495470562423919ccd5e0c62de5f71ddb2fcac3192b37839dcd0f5"
 AMENDED_SOURCE_ROOT = Path(
     "/home/vlad/development/wunder/research_tmp/i1-warm-source-repaired-20261022"
 )
@@ -367,6 +369,202 @@ def verify_sources(plan: dict[str, Any], plan_sha: str) -> tuple[dict[str, str],
     return {**pins, **ADDITIONAL_SOURCE_PINS}, amendment
 
 
+def verify_order_expectation_amendment(
+    plan: dict[str, Any], plan_sha: str, pins: dict[str, str]
+) -> dict[str, Any]:
+    """Verify the metadata-only F1 child order correction without changing R1."""
+    raw = ORDER_AMENDMENT_PATH.read_bytes()
+    amendment_sha = hashlib.sha256(raw).hexdigest()
+    require(
+        amendment_sha == ORDER_AMENDMENT_SHA256,
+        "F1 order-expectation amendment bytes differ from the reviewed receipt",
+    )
+    amendment = json.loads(raw)
+    require(
+        amendment.get("schema_version") == 1
+        and amendment.get("amendment_id") == "I1_WARM_F1_CANONICAL_ORDER_EXPECTATION_R1"
+        and amendment.get("status") == "PREPARED_ROOT_REVIEW_NOT_RUN",
+        "unsupported or executed F1 order-expectation amendment",
+    )
+    require(
+        amendment.get("frozen_plan")
+        == {
+            "path": str(PLAN_PATH.relative_to(ROOT)),
+            "sha256": FROZEN_PLAN_SHA256,
+            "modified": False,
+        }
+        and plan_sha == FROZEN_PLAN_SHA256,
+        "order amendment does not preserve the exact R1 plan",
+    )
+
+    source = amendment.get("source", {})
+    source_path = "src/wnn/training/data_membership.py"
+    require(
+        source.get("root") == str(AMENDED_SOURCE_ROOT)
+        and source.get("commit") == AMENDED_SOURCE_COMMIT
+        and source.get("path") == source_path
+        and source.get("sha256") == pins[source_path]
+        and sha256(AMENDED_SOURCE_ROOT / source_path) == pins[source_path]
+        and sha256(ROOT / source_path) == pins[source_path],
+        "order amendment is not bound to the pinned canonical membership selector",
+    )
+
+    f1_cell = next((cell for cell in plan["cells"] if int(cell["fold"]) == 1), None)
+    require(f1_cell is not None, "frozen plan omits F1")
+    f1_split = f1_cell["split"]
+    split_record = amendment.get("split", {})
+    require(
+        split_record
+        == {
+            "path": f1_split["path"],
+            "sha256": f1_split["sha256"],
+            "fold": 1,
+            "fit_train_groups": 10_533,
+            "fit_valid_groups": 1_416,
+            "evaluation_groups_excluded": 457,
+        }
+        and sha256(ROOT / f1_split["path"]) == f1_split["sha256"],
+        "order amendment changed the source-qualified F1 split or counts",
+    )
+    split = load_json(ROOT / f1_split["path"])
+    require(int(split.get("fold", -1)) == 1, "F1 order amendment uses a different split")
+
+    f1_runs = [spec for spec in plan["runs"] if int(spec["fold"]) == 1]
+    run_ids = [spec["run_id"] for spec in f1_runs]
+    cell_record = amendment.get("cell", {})
+    require(
+        cell_record.get("fold") == 1
+        and cell_record.get("seed") == 4
+        and cell_record.get("run_ids") == run_ids
+        and cell_record.get("train_seqs_argument") == 10_607
+        and cell_record.get("valid_repeat") == 1
+        and len(f1_runs) == 2
+        and {int(spec["seed"]) for spec in f1_runs} == {4},
+        "order amendment does not bind both frozen F1 seed-4 child runs",
+    )
+    f1_args = [planned_args(spec["fit_argv"]) for spec in f1_runs]
+    require(
+        all(
+            args.get("train_source") == "train+valid"
+            and args.get("valid_train_fraction") == "1.0"
+            and args.get("valid_fold") == "1"
+            and args.get("train_seqs") == "10607"
+            and args.get("seed") == "4"
+            and args.get("valid_repeat") == "1"
+            for args in f1_args
+        ),
+        "F1 frozen argv no longer matches canonical seed-4 membership selection",
+    )
+
+    membership_order = amendment.get("membership_order", {})
+    train_order = membership_order.get("train", {})
+    valid_order = membership_order.get("valid", {})
+    original_train_hash = f1_split["fit_train_order_sha256"]
+    original_valid_hash = f1_split["fit_valid_order_sha256"]
+    require(
+        train_order.get("R1_parent_order_sha256") == original_train_hash
+        and train_order.get("child_expected_count") == 10_533
+        and valid_order.get("R1_expected_order_sha256") == original_valid_hash
+        and valid_order.get("child_expected_order_sha256") == original_valid_hash
+        and valid_order.get("expected_count") == 1_416,
+        "order amendment does not preserve the R1 parent and valid-order expectations",
+    )
+
+    expected_orders: dict[str, dict[str, str]] = {}
+    derivation_checks = amendment.get("derivation_check", {})
+    for cell in plan["cells"]:
+        fold = int(cell["fold"])
+        split_spec = cell["split"]
+        split_path = ROOT / split_spec["path"]
+        split_sha = sha256(split_path)
+        split_value = split if fold == 1 else load_json(split_path)
+        train_groups = list(map(int, split_value["fit"]["train"]))
+        valid_groups = list(map(int, split_value["fit"]["valid"]))
+        args = planned_args(
+            next(spec for spec in plan["runs"] if int(spec["fold"]) == fold)["fit_argv"]
+        )
+        seed = int(cell["fit_seed"])
+        train_seqs = int(str(args["train_seqs"]))
+        selected_train = np.random.default_rng(seed).permutation(
+            np.asarray(train_groups, dtype=np.int64)
+        )[:train_seqs]
+        derived_train_hash = groups_sha256(selected_train.tolist())
+        derived_valid_hash = groups_sha256(valid_groups)
+        require(
+            split_sha == split_spec["sha256"]
+            and len(train_groups) == split_spec["train_fit_groups"]
+            and len(valid_groups) == split_spec["valid_fit_groups"]
+            and derived_valid_hash == split_spec["fit_valid_order_sha256"],
+            f"F{fold}: split membership/order differs from frozen R1",
+        )
+        if fold == 0:
+            require(
+                derived_train_hash == split_spec["fit_train_order_sha256"]
+                and derivation_checks.get("F0_control_seed3_train_hash_reproduced")
+                == derived_train_hash
+                and derivation_checks.get("F0_control_seed3_valid_hash_reproduced")
+                == derived_valid_hash,
+                "F0 seed-3 train/valid order was changed by the F1 amendment",
+            )
+            expected_train_hash = split_spec["fit_train_order_sha256"]
+        else:
+            require(
+                train_order.get("child_expected_order_sha256") == derived_train_hash
+                and derivation_checks.get("F1_seed4_valid_hash_reproduced") == derived_valid_hash
+                and derivation_checks.get("F1_expected_fit_membership_counts")
+                == "10533 train + 1416 fit-valid; 457 evaluation groups excluded",
+                "derived F1 seed-4 child order differs from the amendment",
+            )
+            parent_checkpoint = ROOT / f1_cell["parent"]["checkpoint"]
+            parent_provenance = load_json(parent_checkpoint.parent / "provenance.json")
+            parent_groups = parent_provenance.get("fit_row_groups", {})
+            parent_train = list(map(int, parent_groups.get("train", [])))
+            parent_valid = list(map(int, parent_groups.get("valid", [])))
+            require(
+                groups_sha256(parent_train) == original_train_hash
+                and groups_sha256(parent_valid) == original_valid_hash
+                and set(parent_train) == set(train_groups)
+                and set(parent_valid) == set(valid_groups),
+                "R1 F1 train-order hash is not the pinned parent's actual historical order",
+            )
+            expected_train_hash = derived_train_hash
+        expected_orders[str(fold)] = {
+            "train": expected_train_hash,
+            "valid": split_spec["fit_valid_order_sha256"],
+        }
+
+    scope = amendment.get("scope", {})
+    execution = amendment.get("execution", {})
+    require(
+        scope.get("training_argv_changed") is False
+        and scope.get("objective_or_seed_changed") is False
+        and scope.get("R1_plan_or_history_rewritten") is False
+        and scope.get("F0_expectation_overridden") is False
+        and scope.get("only_override")
+        == "F1 child train ordered-membership expectation for the two seed-4 runs; retain F1 valid order and all membership counts."
+        and execution.get("fits_performed") == 0
+        and execution.get("setup_or_model_run") is False,
+        "F1 order amendment exceeds its metadata-only scope",
+    )
+    return {
+        "amendment_id": amendment["amendment_id"],
+        "amendment_sha256": amendment_sha,
+        "source_commit": AMENDED_SOURCE_COMMIT,
+        "membership_source_sha256": pins[source_path],
+        "f1_parent_historical_train_order_sha256": original_train_hash,
+        "f1_child_expected_train_order_sha256": train_order["child_expected_order_sha256"],
+        "f1_valid_order_sha256_unchanged": original_valid_hash,
+        "expected_fit_order_sha256_by_fold": expected_orders,
+        "r1_plan_modified": False,
+        "scientific_fits_performed_for_amendment": 0,
+        "interpretation": (
+            "The R1 F1 train-order hash remains the actual seed-3 parent order. "
+            "Both new seed-4 children use the canonical seed-4 permutation of the same exact train set; "
+            "all train/valid counts and sets, the F1 valid order, and both F0 order checks remain fixed."
+        ),
+    }
+
+
 def verify_paired_plan(plan: dict[str, Any]) -> None:
     """Confirm each pair differs only in its cache name and history visibility."""
     for cell in plan["cells"]:
@@ -381,7 +579,9 @@ def verify_paired_plan(plan: dict[str, Any]) -> None:
         require(control == history, f"F{fold}: frozen fit commands differ beyond the intended arm")
 
 
-def verify_cell_inputs(cell: dict[str, Any], split: dict[str, Any]) -> dict[str, Any]:
+def verify_cell_inputs(
+    cell: dict[str, Any], split: dict[str, Any], expected_order: dict[str, str]
+) -> dict[str, Any]:
     """Bind split, parent, target cache, teachers and propensity to the plan."""
     fold = int(cell["fold"])
     source = cell["split"]
@@ -467,6 +667,7 @@ def verify_cell_inputs(cell: dict[str, Any], split: dict[str, Any]) -> dict[str,
         f"F{fold}: propensity checkpoint/provenance differs",
     )
     return {
+        "fit_order_expectation": expected_order,
         "direct_parent": {
             "run": parent["run"],
             "checkpoint_sha256": parent_sha,
@@ -493,7 +694,11 @@ def verify_cell_inputs(cell: dict[str, Any], split: dict[str, Any]) -> dict[str,
 
 
 def verify_membership(
-    run: str, provenance: dict[str, Any], split: dict[str, Any], cell: dict[str, Any]
+    run: str,
+    provenance: dict[str, Any],
+    split: dict[str, Any],
+    cell: dict[str, Any],
+    expected_order: dict[str, str],
 ) -> dict[str, Any]:
     """Require exact fit-order digests and exclusion of the complete eval fold."""
     recorded = provenance.get("fit_row_groups", {})
@@ -513,8 +718,7 @@ def verify_membership(
     )
     train_hash, valid_hash = groups_sha256(train), groups_sha256(valid)
     require(
-        train_hash == expected["fit_train_order_sha256"]
-        and valid_hash == expected["fit_valid_order_sha256"],
+        train_hash == expected_order["train"] and valid_hash == expected_order["valid"],
         f"{run}: fit row-group order differs",
     )
     require(not (set(train + valid) & set(eval_groups)), f"{run}: fit/eval overlap")
@@ -546,6 +750,7 @@ def verify_training_receipt(
     cell: dict[str, Any],
     split: dict[str, Any],
     pins: dict[str, str],
+    expected_order: dict[str, str],
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     """Check fit recipe, source-qualified prior/cache and exact update clocks."""
     run, args = run_spec["run_id"], provenance.get("args", {})
@@ -734,7 +939,7 @@ def verify_training_receipt(
         "teacher_checkpoint_refs": refs,
         "trainer_source_identity_sha256": runtime["sha256"],
         "trainer_source_files": len(files),
-        "fit_membership": verify_membership(run, provenance, split, cell),
+        "fit_membership": verify_membership(run, provenance, split, cell, expected_order),
     }, summary
 
 
@@ -1010,6 +1215,8 @@ def main() -> int:
     plan_sha = hashlib.sha256(raw_plan).hexdigest()
     pins, source_amendment = verify_sources(plan, plan_sha)
     verify_paired_plan(plan)
+    order_amendment = verify_order_expectation_amendment(plan, plan_sha, pins)
+    expected_orders = order_amendment["expected_fit_order_sha256_by_fold"]
 
     splits: dict[int, dict[str, Any]] = {}
     cell_receipts: dict[int, dict[str, Any]] = {}
@@ -1018,7 +1225,7 @@ def main() -> int:
         split = load_json(ROOT / cell["split"]["path"])
         require(int(split["fold"]) == fold, f"F{fold}: split fold differs")
         splits[fold] = split
-        cell_receipts[fold] = verify_cell_inputs(cell, split)
+        cell_receipts[fold] = verify_cell_inputs(cell, split, expected_orders[str(fold)])
 
     predictions: dict[int, dict[str, np.ndarray]] = {}
     identities: dict[int, dict[str, dict[str, Any]]] = {}
@@ -1032,7 +1239,9 @@ def main() -> int:
             run = spec["run_id"]
             provenance_path = ROOT / "artifacts/runs" / run / "provenance.json"
             provenance = load_json(provenance_path)
-            receipt, updates = verify_training_receipt(spec, provenance, plan, cell, split, pins)
+            receipt, updates = verify_training_receipt(
+                spec, provenance, plan, cell, split, pins, expected_orders[str(fold)]
+            )
             checkpoint = ROOT / spec["checkpoint"]
             checkpoint_sha = sha256(checkpoint)
             require(
@@ -1096,7 +1305,7 @@ def main() -> int:
         for run in runs.values():
             run.pop("_updates", None)
     report = {
-        "schema": "wnn.i1-strong-parent-warm-history-grade.v2",
+        "schema": "wnn.i1-strong-parent-warm-history-grade.v3",
         "experiment_id": plan["experiment_id"],
         "plan_status": plan["status"],
         "plan_sha256": plan_sha,
@@ -1117,6 +1326,7 @@ def main() -> int:
         },
         "source_sha256_verified": pins,
         "source_amendment": source_amendment,
+        "order_expectation_amendment": order_amendment,
         "scorer_source_sha256": {
             "grade_prediction_bank": sha256(ROOT / "scripts/grade_prediction_bank.py"),
             "gmetric": sha256(ROOT / "src/wnn/gmetric.py"),

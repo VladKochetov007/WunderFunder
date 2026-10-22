@@ -124,13 +124,25 @@ F0/F1. The output includes each target, the four fixed position bins and
 the 25-row checkpoint topology, verifies the two dormant trailing output rows,
 and reports the control/history appended input-projection diagnostic.
 
-The grader also requires the exact R4 amendment. It verifies the R1 plan SHA,
-all 41 original source pins, the single `distillation_cache.py` addition in
-clean source commit `81f47a3fd94e4209e47b1f3815af2907e8f0b5d7`, the failed R3
-receipts and unchanged F1 profile argv. Canonical `trainer_implementation.files`
-does not include `distillation_cache.py`; the grade verifies the canonical root
-and amended source file against the direct pin and records that per-run
-provenance does not separately emit this module hash.
+The grader requires the exact R4 source amendment and the metadata-only
+[`WARM_F1_ORDER_EXPECTATION_AMENDMENT_R1.json`](WARM_F1_ORDER_EXPECTATION_AMENDMENT_R1.json)
+(SHA-256 `54810ff226495470562423919ccd5e0c62de5f71ddb2fcac3192b37839dcd0f5`).
+R1's F1 `fit_train_order_sha256` is retained as the seed-3 parent's historical
+order; the pinned parent provenance confirms that order. Both new F1 children
+use seed 4, so the grader reproduces their expected train-order digest from the
+same exact 10,533-group set using the pinned canonical `data_membership.py`
+selector. It preserves F1's 1,416-group valid order and all membership counts,
+and leaves both F0 order checks unchanged. The R1 bytes, argv, seed, objective,
+sampler and fit membership sets are unchanged. The amendment records no setup or
+fit; the R4 profile was never executed and produced no scientific checkpoint.
+The grader verifies
+the R1 plan SHA, all 41 original source pins, the single `distillation_cache.py`
+addition in clean source commit `81f47a3fd94e4209e47b1f3815af2907e8f0b5d7`,
+the failed R3 receipts and unchanged F1 profile argv. Canonical
+`trainer_implementation.files` does not include `distillation_cache.py`; the
+grade verifies the canonical root and amended source file against the direct
+pin and records that per-run provenance does not separately emit this module
+hash.
 
 This is preparation only: the grader has not loaded any run checkpoints or
 arrays, graded labels, or authorized execution. Root must first confirm the
