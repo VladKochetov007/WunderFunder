@@ -3,11 +3,17 @@
 from __future__ import annotations
 
 import struct
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import Mock, patch
 
-from scripts.collect_online_panel_terminal import read_npy_header
+from scripts.collect_online_panel_terminal import (
+    prediction_header_errors,
+    read_npy_header,
+    systemd_status,
+)
 
 
 class NpyHeaderTests(unittest.TestCase):
@@ -17,7 +23,7 @@ class NpyHeaderTests(unittest.TestCase):
         self.temporary_directory = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary_directory.cleanup)
 
-    def test_reads_v1_header_and_reports_payload_bytes(self) -> None:
+    def test_flags_truncated_float32_payload(self) -> None:
         header = self._write_npy(
             1, b"{'descr': '<f4', 'fortran_order': False, 'shape': (2, 3),}", b"1234"
         )
@@ -26,6 +32,10 @@ class NpyHeaderTests(unittest.TestCase):
         self.assertEqual(result["descr"], "<f4")
         self.assertEqual(result["shape"], [2, 3])
         self.assertEqual(result["payload_bytes"], 4)
+        self.assertIn(
+            "prediction NPY payload has 4 bytes; expected 24",
+            prediction_header_errors(result),
+        )
 
     def test_reads_v2_header(self) -> None:
         header = self._write_npy(
@@ -35,6 +45,16 @@ class NpyHeaderTests(unittest.TestCase):
         self.assertEqual(result["version"], [2, 0])
         self.assertEqual(result["shape"], [1])
         self.assertEqual(result["payload_bytes"], 1)
+
+    @patch("scripts.collect_online_panel_terminal.subprocess.run")
+    def test_refuses_active_or_wrong_invocation(self, run: Mock) -> None:
+        for invocation, active_state in (("wanted", "active"), ("other", "inactive")):
+            with self.subTest(invocation=invocation, active_state=active_state):
+                run.return_value = subprocess.CompletedProcess(
+                    [], 0, f"InvocationID={invocation}\nActiveState={active_state}\n", ""
+                )
+                with self.assertRaises(RuntimeError):
+                    systemd_status("panel.service", "wanted", terminal=True)
 
     def _write_npy(self, major: int, header: bytes, payload: bytes) -> Path:
         prefix_bytes = 10 if major == 1 else 12
