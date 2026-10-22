@@ -2,6 +2,8 @@
 
 ## Current execution: all twelve fits admitted and delivery running
 
+[Unapproved budget-extension proposal](BUDGET_EXTENSION_PROPOSAL_R1.json): the observed one-core pace exceeds the original complete-panel envelope. The proposal moves 30 minutes of unused strong-parent allocation to this panel, keeping the overall ceiling and production reserve. It is not authorization: original time limits remain binding pending an explicit user answer.
+
 [Both parent caches published](PARENT_CACHE_MILESTONE_R1.json), with F0 1,236 fitting/468 evaluation sequences and F1 1,243/457. The frozen fitting command began after F1 publication at 02:02:56 Kyiv. The actor receipt hashes JSON sidecars only; all-candidate coverage and target quality remain pending independent grading.
 
 [CPU safety correction at 01:38:41 Kyiv](CPU_THERMAL_CORRECTION_R1.json) lowers the running worker's CPU quota from 190% to 100% after CPU-package readings of 93–94°C. The GPU-only guard read 72°C. Scientific settings, frozen sources, memory/swap caps and deadline remain unchanged. The earlier cost forecasts assume the old quota and are historical; complete-panel delivery is at risk, with no extra admission or quality claim.
