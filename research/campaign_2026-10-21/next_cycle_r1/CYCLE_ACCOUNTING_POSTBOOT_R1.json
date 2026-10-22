@@ -1,0 +1,137 @@
+{
+  "schema": "wnn.cycle-accounting-postboot.v1",
+  "observation": {
+    "as_of_local": "2026-10-23 01:47:19 Europe/Kyiv",
+    "online_service_started_local": "2026-10-23 01:00:31 Europe/Kyiv",
+    "online_service_elapsed_seconds_at_snapshot": 2808,
+    "online_status_at_snapshot": "F1 fit-valid cache pass; no quality grading started",
+    "quota_note": "Research worker quota had been reduced from 190% to 100% at 01:38:41 Europe/Kyiv. No remaining-runtime forecast is made."
+  },
+  "scope": "Scalar local GPU-worker wall accounting for the 108000-second postboot cycle. CPU-only native recovery is zero GPU charge under the budget contract. No data, targets, or prediction payloads were read.",
+  "sources": [
+    "research/campaign_2026-10-21/next_cycle_r1/BUDGET_R1.json",
+    "research/campaign_2026-10-21/next_cycle_r1/BUDGET_PROGRESS_R6.json",
+    "research/campaign_2026-10-21/next_cycle_r1/POSTBOOT_RESUME_R1.json",
+    "research/campaign_2026-10-21/next_cycle_r1/RESUME_AFTER_THERMAL_R1.json",
+    "research/campaign_2026-10-21/next_cycle_r1/WARM_REMAINDER_COST_DEFERRAL_R1.json",
+    "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/F0_CONTROL_EXPORT_CANCEL_R3.json",
+    "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/F0_CONTROL_EXPORT_ACCEPTANCE_R4.json",
+    "research/campaign_2026-10-21/next_cycle_r1/DYNAMICS_PROFILE_RESULT_R2.json",
+    "research/experiment_drafts/online-relationships-20261022/EXECUTION_RECIPE_R1.json",
+    "research/experiment_drafts/online-relationships-20261022/PANEL_ADMISSION_R1.json",
+    "research/experiment_drafts/online-relationships-20261022/POSTBOOT_PROFILE_EXECUTION_R1.json"
+  ],
+  "budget": {
+    "cycle_ceiling_seconds": 108000,
+    "production_reserve_seconds": 43200,
+    "production_reserve_protected": true,
+    "stage_allocations_seconds": {
+      "artifact_recovery": 7200,
+      "i1": 18000,
+      "dynamics": 10800,
+      "strong_parent": 28800,
+      "production": 43200
+    },
+    "stage_allocations_sum_seconds": 108000
+  },
+  "completed_measured_charges": {
+    "i1_panel_seconds": {
+      "value": 15296.581836440979,
+      "basis": "BUDGET_PROGRESS_R6 total_charged_seconds; this already includes the earlier profile and failed launch."
+    },
+    "dynamics_profile_seconds": {
+      "value": 550.6719196400081,
+      "basis": "DYNAMICS_PROFILE_RESULT_R2 profile_wall_seconds; engineering profile, no scientific fits."
+    },
+    "warm_strong_stage_seconds": {
+      "value": 12564.230987236996,
+      "components": {
+        "prior_strong_engineering": 689.2619872369964,
+        "completed_control_fit_worker_wall": 9038,
+        "cancelled_incomplete_export_worker_wall": 900.128,
+        "accepted_cpu_export_service_wall": 1936.841
+      },
+      "basis": "RESUME_AFTER_THERMAL_R1 plus the R3 cancellation and R4 accepted export receipts. The R3 partial cache is not evaluation evidence, but its elapsed worker time is charged."
+    },
+    "online_prior_known_seconds": {
+      "value": 384.985,
+      "components": {
+        "known_through_r2": 313.953,
+        "postboot_profile_service_wall": 71.032
+      },
+      "basis": "POSTBOOT_PROFILE_EXECUTION_R1 cumulative known charge; its separate 120-second engineering allowance is not measured time."
+    },
+    "total_completed_measured_seconds": 28796.469743317983
+  },
+  "online_panel": {
+    "funding": "Frozen recipe assigns the panel to deferred dynamics after its 550.6719196400081-second historical profile; no production borrowing.",
+    "inclusive_ceiling_seconds": 9000,
+    "delivery_service_cap_seconds": 7800,
+    "grade_cap_seconds": 600,
+    "prior_known_measured_seconds": 384.985,
+    "additional_engineering_allowance_seconds": 120,
+    "stop_grace_seconds": 5,
+    "worst_caps_plus_prior_seconds": 8909.985,
+    "inclusive_ceiling_slack_seconds": 90.015,
+    "snapshot_accounting": {
+      "elapsed_current_delivery_service_seconds": 2808,
+      "remaining_delivery_cap_seconds": 4992,
+      "remaining_grade_cap_seconds": 600,
+      "unspent_engineering_allowance_seconds": 120,
+      "stop_grace_seconds": 5,
+      "remaining_admitted_panel_budget_after_prior_charge_and_live_elapsed_seconds": 5807.015,
+      "future_explicit_caps_allowance_and_grace_seconds": 5717,
+      "remaining_inclusive_ceiling_slack_seconds": 90.015
+    },
+    "interpretation": "The 2808-second service elapsed is an in-flight snapshot, not a completed terminal charge. Remaining cost is not forecast after the quota reduction."
+  },
+  "stage_reconciliation": {
+    "artifact_recovery": {
+      "allocation_seconds": 7200,
+      "measured_gpu_charge_seconds": 0,
+      "remaining_allocation_seconds": 7200,
+      "basis": "BUDGET_R1 records zero completed GPU seconds and CPU-only native replay; CPU-only time is outside this GPU-wall ledger."
+    },
+    "i1": {
+      "allocation_seconds": 18000,
+      "completed_measured_seconds": 15296.581836440979,
+      "remaining_allocation_seconds": 2703.418163559021
+    },
+    "dynamics_and_funded_online_panel": {
+      "allocation_seconds": 10800,
+      "completed_dynamics_profile_seconds": 550.6719196400081,
+      "completed_online_prior_known_seconds": 384.985,
+      "online_in_flight_elapsed_snapshot_seconds": 2808,
+      "online_remaining_reserved_panel_budget_seconds": 5807.015,
+      "remaining_uncommitted_stage_headroom_seconds": 1249.3280803599919,
+      "accounting_equation": "550.6719196400081 + 384.985 + 2808 + 5807.015 + 1249.3280803599919 = 10800"
+    },
+    "strong_parent": {
+      "allocation_seconds": 28800,
+      "measured_charges_seconds": 12564.230987236996,
+      "remaining_stage_seconds": 16235.769012763001,
+      "status": "Three remaining fits and three exports stay deferred intact; no reallocation."
+    },
+    "production": {
+      "allocation_seconds": 43200,
+      "charged_seconds": 0,
+      "protected_remaining_seconds": 43200
+    }
+  },
+  "cycle_snapshot_reconciliation": {
+    "completed_measured_seconds_excluding_live_service": 28796.469743317983,
+    "current_online_in_flight_elapsed_snapshot_seconds": 2808,
+    "measured_plus_live_snapshot_seconds": 31604.469743317983,
+    "remaining_or_reserved_stage_seconds_including_protected_production": 76395.53025668202,
+    "equation": "28796.469743317983 + 2808 + 76395.53025668202 = 108000",
+    "note": "The remaining figure includes 5807.015 seconds of current online panel reservation, 1249.3280803599919 seconds of uncommitted dynamics headroom, deferred stage balances, and the protected production reserve. It is not all spendable for new work."
+  },
+  "non_double_counting_and_limits": [
+    "Do not add BUDGET_PROGRESS_R6 component fields to its total_charged_seconds; that total already includes them.",
+    "Do not add earlier nested online receipts separately to the 384.985-second cumulative known total.",
+    "Do not count the 120-second online engineering allowance as measured elapsed time.",
+    "Count the cancelled R3 export's 900.128 worker seconds, but do not treat its partial cache as a complete endpoint.",
+    "The active online service elapsed is only a timestamped snapshot. The later 100% quota and thermal state make remaining runtime uncertain; no cap extension, panel shrink, or production borrowing is implied.",
+    "The 16235.769012763001-second strong-stage remainder is the accepted deferral receipt value; the three remaining fits/exports were not admitted."
+  ]
+}
