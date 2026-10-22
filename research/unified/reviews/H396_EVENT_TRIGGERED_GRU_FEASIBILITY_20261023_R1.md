@@ -2,7 +2,7 @@
 kind: review
 status: complete
 created_utc: 2026-10-22T22:39:48Z
-updated_utc: 2026-10-22T22:39:48Z
+updated_utc: 2026-10-22T22:59:50Z
 hypothesis_ids: [H-396]
 experiment_ids: []
 evidence_paths:
@@ -35,7 +35,7 @@ The two exact reusable parent endpoints are already pinned in the online recipe 
 - F0 / readout-panel cell seed 1001: `clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5`, checkpoint SHA-256 `e30577ffb39d061bc40043f68a90285965bd2cf790f6ba5947ba78c60b776eda`; mean/std identities `bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8` / `b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5`.
 - F1 / readout-panel cell seed 1002: `oldz4_h230_parent_f1_s3_r4@ep3`, checkpoint SHA-256 `be2273cc96027295c19133504354a262cd1a2066fa5ae3df7d6be64ed0a1ad8e`; mean/std identities `bae7ab6474b4bb6d5ab35f796a140382b5d3aa39532b3d75f6e7d5fffc74d2ea` / `e0e1b2a5c89941f5da0c9138bb5c1163d0aafdf7f963ebd55cde404917f176b6`.
 
-`load_parent` verifies these identities, loads strict state, sets inference FP32 and records the backend (`src/wnn/training/online_relationship_sources.py:24-83`). The recipe records historical training precision as fp16 and fp16_amp respectively, so these are strict-FP32 **inference** endpoints, not independent FP32 training replications; F1's initial ancestor is unknown. `evaluation.predict` builds inputs, uses the strict-FP32 inference flag and applies a stored outcome readout when present (`src/wnn/training/evaluation.py:21-46`). `PyPredictor` returns the native head directly and has no outcome-readout API. Before using the PyTorch parent prediction caches as native endpoint references, resolve whether each pinned parent's readout is present and verify/export an identical mapping; the safer matched runtime control for H-396 is the same checkpoint through the same native F32 path with gating disabled.
+`load_parent` verifies these identities, loads strict state, sets inference FP32 and records the backend (`src/wnn/training/online_relationship_sources.py:24-83`). The recipe records historical training precision as fp16 and fp16_amp respectively, so these are strict-FP32 **inference** endpoints, not independent FP32 training replications. Root's metadata-only follow-up verifies the pinned F1 provenance SHA `8312a897d59fbeedf65e0c0da824e51ae33b84d25315a621c15b7158f9a139f5`: `args.init` is empty and the fitting seed is 3. Thus the recipe's null initializer does not establish unknown checkpoint initialization. That provenance also declares eight source-cache members and `clean_fold_fit` membership; this note does not independently audit their complete ancestry. `evaluation.predict` builds inputs, uses the strict-FP32 inference flag and applies a stored outcome readout when present (`src/wnn/training/evaluation.py:21-46`). `PyPredictor` returns the native head directly and has no outcome-readout API. Before using the PyTorch parent prediction caches as native endpoint references, resolve whether each pinned parent's readout is present and verify/export an identical mapping; the safer matched runtime control for H-396 is the same checkpoint through the same native F32 path with gating disabled.
 
 ## Limits and validity
 
