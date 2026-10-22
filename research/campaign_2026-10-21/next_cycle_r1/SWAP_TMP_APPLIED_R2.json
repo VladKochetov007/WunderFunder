@@ -1,0 +1,25 @@
+{
+  "status": "SSD_SWAP_ACTIVE_USER_APPLIED_ADMIN_HELPER",
+  "source": "User terminal output and independent read-only /proc/swaps/fstab/systemd verification",
+  "verified": {
+    "disk_swap_path": "/var/lib/local-disk-swap/swapfile",
+    "disk_swap_size_kib": 16777212,
+    "disk_swap_used_kib": 4,
+    "disk_swap_priority": 200,
+    "zram_priority": 100,
+    "zram_used_kib": 8382596,
+    "fstab_entry": "/var/lib/local-disk-swap/swapfile none swap defaults,pri=200 0 0",
+    "tmp_mount_state": "masked; current active tmpfs preserved until reboot",
+    "zram_generator_override": "/etc/systemd/zram-generator.conf exists, root-owned, empty",
+    "new_user_service_tmpdir": "/home/vlad/.cache/tmp"
+  },
+  "fit_status": {
+    "state": "still draining",
+    "last_log": "epoch1 batch580/746",
+    "task_swap_bytes": 0,
+    "gpu_temperature_celsius": 78,
+    "observer": "active"
+  },
+  "memory_pressure_avg10_avg60_avg300": "0.00 at read",
+  "next_step": "Wait for current fit to land before reboot. Boot will use disk /tmp and omit default zram. No new jobs admitted."
+}

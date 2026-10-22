@@ -27,3 +27,7 @@ Reboot only after the current fit lands. The privileged helper has not been runt
 ## Sources
 
 [Official Btrfs swapfile documentation](https://btrfs.readthedocs.io/en/latest/Swapfile.html) and installed help support mkswapfile, dedicated-subvolume isolation and active-swap snapshot restrictions. [systemd environment.d](https://www.freedesktop.org/software/systemd/man/latest/environment.d.html) describes new user-service inheritance; [temporary directory guidance](https://systemd.io/TEMPORARY_DIRECTORIES/) explains TMPDIR and RAM/swap-backed tmpfs. The local vendor zram-generator config explicitly documents disabling defaults through an empty `/etc/systemd/zram-generator.conf`.
+
+## Administrator setup applied
+
+[Verified applied receipt](../../campaign_2026-10-21/next_cycle_r1/SWAP_TMP_APPLIED_R2.json): user ran the prepared helper successfully.16GiB SSD swap is active at priority200 above zram100 and persisted in fstab. tmp.mount is masked and the root-owned zram-generator override is empty, so system `/tmp` and zram boot changes are scheduled. Current zram pages and tmpfs remain active until reboot. New user-service TMPDIR is verified on SSD. Memory pressure averages are0.00; current fit still drains, epoch1batch580/746,78°C, taskswap0. Reboot only after completion. Earlier pending-admin paragraphs preserve pre-execution history.
