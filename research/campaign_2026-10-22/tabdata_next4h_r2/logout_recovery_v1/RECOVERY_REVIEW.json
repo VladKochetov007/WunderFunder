@@ -1,0 +1,19 @@
+{
+  "reviewer": "/root/next_b300_pr36_audit",
+  "reviewed_file": "nllfixed_setup.py",
+  "verdict": "No launch-blocking defect found; live execution still needs verification",
+  "checks": [
+    "State-saving flag omitted from profile and evaluation, present once in fit",
+    "Per-width operator import precedes original base packet",
+    "Original pinned training source retained; output namespace is fresh",
+    "H256 CPUs 32-95, four per worker; H512 CPUs 128-255, eight per worker",
+    "Independent state, service, run IDs, publication markers and source hashes",
+    "Both width pairs each capped at 32 GiB measured reserved memory; common 64 GiB admission reserve plus observed residents must pass available-memory and 90-percent GPU limits",
+    "Original absolute four-hour deadline retained"
+  ],
+  "live_ram_followup": "Node free -h: 2.0 TiB total, 1.8 TiB available; 32 trainer loader budgets at default 6 GiB fit within measured headroom",
+  "limitations": [
+    "Source review is not a completed training or quality result",
+    "Fresh retries reuse existing fold/seed cells and are not extra independent replications"
+  ]
+}

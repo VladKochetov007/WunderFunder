@@ -1,0 +1,839 @@
+{
+  "observed_unix": 1792698047.0423267,
+  "original_start_unix": 1792693855.4927282,
+  "hard_deadline_unix": 1792708255.4927282,
+  "fit_cutoff_unix": 1792704955.4927282,
+  "linger": "yes",
+  "gpu_csv": "0, 25 %, 6310 MiB\n1, 1 %, 4450 MiB\n2, 18 %, 4602 MiB\n3, 69 %, 4744 MiB\n4, 2 %, 4790 MiB\n5, 2 %, 4624 MiB\n6, 1 %, 4792 MiB\n7, 0 %, 4884 MiB\n",
+  "meminfo": [
+    "MemTotal:       2112860060 kB",
+    "MemFree:        777817424 kB",
+    "MemAvailable:   1936463620 kB",
+    "Buffers:            2116 kB",
+    "Cached:         1163822880 kB"
+  ],
+  "attempts": {
+    "next4h-20261022-recovery": {
+      "profiles": 6,
+      "jobs": {
+        "numeric_f0_raw_events": "fitting",
+        "numeric_f0_quantile16": "fitting",
+        "numeric_f0_uniform16": "fitting",
+        "numeric_f2_raw_events": "fitting",
+        "numeric_f2_uniform16": "fitting",
+        "numeric_f2_quantile16": "fitting"
+      },
+      "START.json": {
+        "start_unix": 1792693855.4927282,
+        "deadline_unix": 1792708255.4927282,
+        "service": "tabdata-next4h-20261022-recovery.service",
+        "first_phase": "fitting_only_numeric_preparation",
+        "recovery_started_unix": 1792697620.5209424,
+        "linger_verified": "yes"
+      },
+      "ADMISSION.json": {
+        "families": {
+          "nll": [],
+          "numeric": [
+            "numeric_f0_raw_events",
+            "numeric_f0_uniform16",
+            "numeric_f0_quantile16",
+            "numeric_f2_raw_events",
+            "numeric_f2_uniform16",
+            "numeric_f2_quantile16"
+          ]
+        },
+        "admitted": [
+          "numeric_f0_raw_events",
+          "numeric_f0_uniform16",
+          "numeric_f0_quantile16",
+          "numeric_f2_raw_events",
+          "numeric_f2_uniform16",
+          "numeric_f2_quantile16"
+        ],
+        "profile_failures": {
+          "nll_f0_s1201_nll": "RuntimeError('Phase exit 2: /data/epanov_s/tabdata/state/next4h-20261022-recovery/logs/nll_f0_s1201_nll/profile.log')",
+          "nll_f0_s1201_wmse": "RuntimeError('Phase exit 2: /data/epanov_s/tabdata/state/next4h-20261022-recovery/logs/nll_f0_s1201_wmse/profile.log')",
+          "nll_f2_s1202_wmse": "RuntimeError('Phase exit 2: /data/epanov_s/tabdata/state/next4h-20261022-recovery/logs/nll_f2_s1202_wmse/profile.log')",
+          "nll_f2_s1202_nll": "RuntimeError('Phase exit 2: /data/epanov_s/tabdata/state/next4h-20261022-recovery/logs/nll_f2_s1202_nll/profile.log')"
+        },
+        "original_deadline_unix": 1792708255.4927282,
+        "partial_endpoints_allowed": true,
+        "partial_is_quality_endpoint": false
+      },
+      "PUBLICATION_LATEST.json": {
+        "results": [
+          {
+            "pr": 35,
+            "url": "https://github.com/VladKochetov007/WunderFunder/pull/35#issuecomment-6349536431",
+            "body_sha256": "e83ee262a1b583ccba915bc4e2bebd818a3df8aa634895c264641d4cb32160c8",
+            "final": false
+          },
+          {
+            "pr": 37,
+            "url": "https://github.com/VladKochetov007/WunderFunder/pull/37#issuecomment-6349537094",
+            "body_sha256": "5ea4a72dad5e6f9cc69c3614b844e0c47fc7b3a1e55cd2f4d104cc69efc7b0b2",
+            "final": false
+          },
+          {
+            "pr": 36,
+            "url": "https://github.com/VladKochetov007/WunderFunder/pull/36#issuecomment-6349537869",
+            "body_sha256": "b292a1c3d60ea0fda9e8ba2b29494ff225be26ecaaf9294bf3c8472a0e390c96",
+            "final": false
+          }
+        ],
+        "gpu_proof": {
+          "observed_unix": 1792697641.3544528,
+          "owned_cuda_clients": [],
+          "final": false
+        },
+        "observed_unix": 1792697646.7983131
+      },
+      "PLAN.json": {
+        "jobs": [
+          {
+            "id": "numeric_f0_raw_events",
+            "family": "numeric",
+            "fold": 0,
+            "seed": 1001,
+            "arm": "raw_events",
+            "gpu_index": 2,
+            "gpu_uuid": "GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67",
+            "cpus": [
+              0,
+              1
+            ]
+          },
+          {
+            "id": "numeric_f0_uniform16",
+            "family": "numeric",
+            "fold": 0,
+            "seed": 1001,
+            "arm": "uniform16",
+            "gpu_index": 3,
+            "gpu_uuid": "GPU-76951d88-add3-0d6b-5bee-c0390915ca47",
+            "cpus": [
+              2,
+              3
+            ]
+          },
+          {
+            "id": "numeric_f0_quantile16",
+            "family": "numeric",
+            "fold": 0,
+            "seed": 1001,
+            "arm": "quantile16",
+            "gpu_index": 4,
+            "gpu_uuid": "GPU-e6d65cb1-aba4-14f5-d4e5-bf24ef1ee3d8",
+            "cpus": [
+              4,
+              5
+            ]
+          },
+          {
+            "id": "numeric_f2_raw_events",
+            "family": "numeric",
+            "fold": 2,
+            "seed": 1002,
+            "arm": "raw_events",
+            "gpu_index": 5,
+            "gpu_uuid": "GPU-1fc4d921-dc78-6711-c2a8-ec0589b7f106",
+            "cpus": [
+              6,
+              7
+            ]
+          },
+          {
+            "id": "numeric_f2_uniform16",
+            "family": "numeric",
+            "fold": 2,
+            "seed": 1002,
+            "arm": "uniform16",
+            "gpu_index": 6,
+            "gpu_uuid": "GPU-2913ac69-eccb-63b0-1112-e09ea9598b57",
+            "cpus": [
+              8,
+              9
+            ]
+          },
+          {
+            "id": "numeric_f2_quantile16",
+            "family": "numeric",
+            "fold": 2,
+            "seed": 1002,
+            "arm": "quantile16",
+            "gpu_index": 7,
+            "gpu_uuid": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+            "cpus": [
+              10,
+              11
+            ]
+          },
+          {
+            "id": "nll_f0_s1201_wmse",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1201,
+            "arm": "wmse",
+            "gpu_index": 0,
+            "gpu_uuid": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e",
+            "cpus": [
+              12,
+              13
+            ]
+          },
+          {
+            "id": "nll_f0_s1201_nll",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1201,
+            "arm": "nll",
+            "gpu_index": 0,
+            "gpu_uuid": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e",
+            "cpus": [
+              14,
+              15
+            ]
+          },
+          {
+            "id": "nll_f2_s1202_wmse",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1202,
+            "arm": "wmse",
+            "gpu_index": 1,
+            "gpu_uuid": "GPU-25ae492c-db98-e1ae-0f5e-c56365a422c7",
+            "cpus": [
+              16,
+              17
+            ]
+          },
+          {
+            "id": "nll_f2_s1202_nll",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1202,
+            "arm": "nll",
+            "gpu_index": 1,
+            "gpu_uuid": "GPU-25ae492c-db98-e1ae-0f5e-c56365a422c7",
+            "cpus": [
+              18,
+              19
+            ]
+          }
+        ],
+        "files_sha256": "dae21d40cb34ddefe2a072acb6a3ea697ed60fc3aae4d52093da13003ef883e8",
+        "hidden": null,
+        "unit": "tabdata-next4h-20261022-recovery.service",
+        "runtime_max_seconds": 9704
+      }
+    },
+    "next4h-20261022-nllfixed-h256": {
+      "profiles": 8,
+      "jobs": {},
+      "START.json": {
+        "start_unix": 1792693855.4927282,
+        "sidecar_started_unix": 1792697985.478147,
+        "deadline_unix": 1792708255.4927282,
+        "service": "tabdata-next4h-20261022-nllfixed-h256.service",
+        "base_plan_sha256": "d76774e58d8d8c06c52bac701bde97ea2aa704f2536ac2f4815775e6a5e1eefd",
+        "wide_plan_sha256": "d8ed37df765cff3c972cdbcfb2657eb90489d131fb4b431605e827b75bb1e7ab",
+        "partial_endpoints_allowed": true
+      },
+      "PUBLICATION_LATEST.json": {
+        "url": "https://github.com/VladKochetov007/WunderFunder/pull/37#issuecomment-6349650897",
+        "body_sha256": "f980ef1ff2a4692211a5d94b47a369b091e957e29542916ca19e3c64cdbaa621",
+        "proof": {
+          "observed_unix": 1792697986.4320626,
+          "owned_cuda_clients": [],
+          "final": false
+        },
+        "created_unix": 1792697988.2995417
+      },
+      "SIDEPLAN.json": {
+        "jobs": [
+          {
+            "id": "fixedh256_f0_s1201_wmse",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1201,
+            "arm": "wmse",
+            "gpu_index": 0,
+            "gpu_uuid": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e",
+            "cpus": [
+              32,
+              33,
+              34,
+              35
+            ]
+          },
+          {
+            "id": "fixedh256_f0_s1201_nll",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1201,
+            "arm": "nll",
+            "gpu_index": 0,
+            "gpu_uuid": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e",
+            "cpus": [
+              36,
+              37,
+              38,
+              39
+            ]
+          },
+          {
+            "id": "fixedh256_f2_s1202_wmse",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1202,
+            "arm": "wmse",
+            "gpu_index": 1,
+            "gpu_uuid": "GPU-25ae492c-db98-e1ae-0f5e-c56365a422c7",
+            "cpus": [
+              40,
+              41,
+              42,
+              43
+            ]
+          },
+          {
+            "id": "fixedh256_f2_s1202_nll",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1202,
+            "arm": "nll",
+            "gpu_index": 1,
+            "gpu_uuid": "GPU-25ae492c-db98-e1ae-0f5e-c56365a422c7",
+            "cpus": [
+              44,
+              45,
+              46,
+              47
+            ]
+          },
+          {
+            "id": "fixedh256_f0_s1301_wmse",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1301,
+            "arm": "wmse",
+            "gpu_index": 2,
+            "gpu_uuid": "GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67",
+            "cpus": [
+              48,
+              49,
+              50,
+              51
+            ]
+          },
+          {
+            "id": "fixedh256_f0_s1301_nll",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1301,
+            "arm": "nll",
+            "gpu_index": 2,
+            "gpu_uuid": "GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67",
+            "cpus": [
+              52,
+              53,
+              54,
+              55
+            ]
+          },
+          {
+            "id": "fixedh256_f0_s1302_wmse",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1302,
+            "arm": "wmse",
+            "gpu_index": 3,
+            "gpu_uuid": "GPU-76951d88-add3-0d6b-5bee-c0390915ca47",
+            "cpus": [
+              56,
+              57,
+              58,
+              59
+            ]
+          },
+          {
+            "id": "fixedh256_f0_s1302_nll",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1302,
+            "arm": "nll",
+            "gpu_index": 3,
+            "gpu_uuid": "GPU-76951d88-add3-0d6b-5bee-c0390915ca47",
+            "cpus": [
+              60,
+              61,
+              62,
+              63
+            ]
+          },
+          {
+            "id": "fixedh256_f0_s1303_wmse",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1303,
+            "arm": "wmse",
+            "gpu_index": 4,
+            "gpu_uuid": "GPU-e6d65cb1-aba4-14f5-d4e5-bf24ef1ee3d8",
+            "cpus": [
+              64,
+              65,
+              66,
+              67
+            ]
+          },
+          {
+            "id": "fixedh256_f0_s1303_nll",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1303,
+            "arm": "nll",
+            "gpu_index": 4,
+            "gpu_uuid": "GPU-e6d65cb1-aba4-14f5-d4e5-bf24ef1ee3d8",
+            "cpus": [
+              68,
+              69,
+              70,
+              71
+            ]
+          },
+          {
+            "id": "fixedh256_f2_s1401_wmse",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1401,
+            "arm": "wmse",
+            "gpu_index": 5,
+            "gpu_uuid": "GPU-1fc4d921-dc78-6711-c2a8-ec0589b7f106",
+            "cpus": [
+              72,
+              73,
+              74,
+              75
+            ]
+          },
+          {
+            "id": "fixedh256_f2_s1401_nll",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1401,
+            "arm": "nll",
+            "gpu_index": 5,
+            "gpu_uuid": "GPU-1fc4d921-dc78-6711-c2a8-ec0589b7f106",
+            "cpus": [
+              76,
+              77,
+              78,
+              79
+            ]
+          },
+          {
+            "id": "fixedh256_f2_s1402_wmse",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1402,
+            "arm": "wmse",
+            "gpu_index": 6,
+            "gpu_uuid": "GPU-2913ac69-eccb-63b0-1112-e09ea9598b57",
+            "cpus": [
+              80,
+              81,
+              82,
+              83
+            ]
+          },
+          {
+            "id": "fixedh256_f2_s1402_nll",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1402,
+            "arm": "nll",
+            "gpu_index": 6,
+            "gpu_uuid": "GPU-2913ac69-eccb-63b0-1112-e09ea9598b57",
+            "cpus": [
+              84,
+              85,
+              86,
+              87
+            ]
+          },
+          {
+            "id": "fixedh256_f2_s1403_wmse",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1403,
+            "arm": "wmse",
+            "gpu_index": 7,
+            "gpu_uuid": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+            "cpus": [
+              88,
+              89,
+              90,
+              91
+            ]
+          },
+          {
+            "id": "fixedh256_f2_s1403_nll",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1403,
+            "arm": "nll",
+            "gpu_index": 7,
+            "gpu_uuid": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+            "cpus": [
+              92,
+              93,
+              94,
+              95
+            ]
+          }
+        ],
+        "files_sha256": "7bfde5b0eda9d736467f5df7ac23c1d5df74b078b896898b5680ef7fff4b23f5",
+        "hidden": 256,
+        "unit": "tabdata-next4h-20261022-nllfixed-h256.service",
+        "runtime_max_seconds": 9340
+      }
+    },
+    "next4h-20261022-nllfixed-h512": {
+      "profiles": 8,
+      "jobs": {},
+      "START.json": {
+        "start_unix": 1792693855.4927282,
+        "sidecar_started_unix": 1792697985.9631517,
+        "deadline_unix": 1792708255.4927282,
+        "service": "tabdata-next4h-20261022-nllfixed-h512.service",
+        "base_plan_sha256": "d76774e58d8d8c06c52bac701bde97ea2aa704f2536ac2f4815775e6a5e1eefd",
+        "wide_plan_sha256": "28901910dd9fc7a6f32fb4c4aefc4db9b2ddf7d10b083fb51b8a5808c211aa43",
+        "partial_endpoints_allowed": true
+      },
+      "PUBLICATION_LATEST.json": {
+        "url": "https://github.com/VladKochetov007/WunderFunder/pull/37#issuecomment-6349651002",
+        "body_sha256": "e75e4adb9e8116ed3fd1cd6135289fab29df36a833d402066016c83763cc0ddb",
+        "proof": {
+          "observed_unix": 1792697986.8456068,
+          "owned_cuda_clients": [],
+          "final": false
+        },
+        "created_unix": 1792697988.6102278
+      },
+      "SIDEPLAN.json": {
+        "jobs": [
+          {
+            "id": "fixedh512_f0_s1201_wmse",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1201,
+            "arm": "wmse",
+            "gpu_index": 0,
+            "gpu_uuid": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e",
+            "cpus": [
+              128,
+              129,
+              130,
+              131,
+              132,
+              133,
+              134,
+              135
+            ]
+          },
+          {
+            "id": "fixedh512_f0_s1201_nll",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1201,
+            "arm": "nll",
+            "gpu_index": 0,
+            "gpu_uuid": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e",
+            "cpus": [
+              136,
+              137,
+              138,
+              139,
+              140,
+              141,
+              142,
+              143
+            ]
+          },
+          {
+            "id": "fixedh512_f2_s1202_wmse",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1202,
+            "arm": "wmse",
+            "gpu_index": 1,
+            "gpu_uuid": "GPU-25ae492c-db98-e1ae-0f5e-c56365a422c7",
+            "cpus": [
+              144,
+              145,
+              146,
+              147,
+              148,
+              149,
+              150,
+              151
+            ]
+          },
+          {
+            "id": "fixedh512_f2_s1202_nll",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1202,
+            "arm": "nll",
+            "gpu_index": 1,
+            "gpu_uuid": "GPU-25ae492c-db98-e1ae-0f5e-c56365a422c7",
+            "cpus": [
+              152,
+              153,
+              154,
+              155,
+              156,
+              157,
+              158,
+              159
+            ]
+          },
+          {
+            "id": "fixedh512_f0_s1301_wmse",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1301,
+            "arm": "wmse",
+            "gpu_index": 2,
+            "gpu_uuid": "GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67",
+            "cpus": [
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166,
+              167
+            ]
+          },
+          {
+            "id": "fixedh512_f0_s1301_nll",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1301,
+            "arm": "nll",
+            "gpu_index": 2,
+            "gpu_uuid": "GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67",
+            "cpus": [
+              168,
+              169,
+              170,
+              171,
+              172,
+              173,
+              174,
+              175
+            ]
+          },
+          {
+            "id": "fixedh512_f0_s1302_wmse",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1302,
+            "arm": "wmse",
+            "gpu_index": 3,
+            "gpu_uuid": "GPU-76951d88-add3-0d6b-5bee-c0390915ca47",
+            "cpus": [
+              176,
+              177,
+              178,
+              179,
+              180,
+              181,
+              182,
+              183
+            ]
+          },
+          {
+            "id": "fixedh512_f0_s1302_nll",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1302,
+            "arm": "nll",
+            "gpu_index": 3,
+            "gpu_uuid": "GPU-76951d88-add3-0d6b-5bee-c0390915ca47",
+            "cpus": [
+              184,
+              185,
+              186,
+              187,
+              188,
+              189,
+              190,
+              191
+            ]
+          },
+          {
+            "id": "fixedh512_f0_s1303_wmse",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1303,
+            "arm": "wmse",
+            "gpu_index": 4,
+            "gpu_uuid": "GPU-e6d65cb1-aba4-14f5-d4e5-bf24ef1ee3d8",
+            "cpus": [
+              192,
+              193,
+              194,
+              195,
+              196,
+              197,
+              198,
+              199
+            ]
+          },
+          {
+            "id": "fixedh512_f0_s1303_nll",
+            "family": "nll",
+            "fold": 0,
+            "seed": 1303,
+            "arm": "nll",
+            "gpu_index": 4,
+            "gpu_uuid": "GPU-e6d65cb1-aba4-14f5-d4e5-bf24ef1ee3d8",
+            "cpus": [
+              200,
+              201,
+              202,
+              203,
+              204,
+              205,
+              206,
+              207
+            ]
+          },
+          {
+            "id": "fixedh512_f2_s1401_wmse",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1401,
+            "arm": "wmse",
+            "gpu_index": 5,
+            "gpu_uuid": "GPU-1fc4d921-dc78-6711-c2a8-ec0589b7f106",
+            "cpus": [
+              208,
+              209,
+              210,
+              211,
+              212,
+              213,
+              214,
+              215
+            ]
+          },
+          {
+            "id": "fixedh512_f2_s1401_nll",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1401,
+            "arm": "nll",
+            "gpu_index": 5,
+            "gpu_uuid": "GPU-1fc4d921-dc78-6711-c2a8-ec0589b7f106",
+            "cpus": [
+              216,
+              217,
+              218,
+              219,
+              220,
+              221,
+              222,
+              223
+            ]
+          },
+          {
+            "id": "fixedh512_f2_s1402_wmse",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1402,
+            "arm": "wmse",
+            "gpu_index": 6,
+            "gpu_uuid": "GPU-2913ac69-eccb-63b0-1112-e09ea9598b57",
+            "cpus": [
+              224,
+              225,
+              226,
+              227,
+              228,
+              229,
+              230,
+              231
+            ]
+          },
+          {
+            "id": "fixedh512_f2_s1402_nll",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1402,
+            "arm": "nll",
+            "gpu_index": 6,
+            "gpu_uuid": "GPU-2913ac69-eccb-63b0-1112-e09ea9598b57",
+            "cpus": [
+              232,
+              233,
+              234,
+              235,
+              236,
+              237,
+              238,
+              239
+            ]
+          },
+          {
+            "id": "fixedh512_f2_s1403_wmse",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1403,
+            "arm": "wmse",
+            "gpu_index": 7,
+            "gpu_uuid": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+            "cpus": [
+              240,
+              241,
+              242,
+              243,
+              244,
+              245,
+              246,
+              247
+            ]
+          },
+          {
+            "id": "fixedh512_f2_s1403_nll",
+            "family": "nll",
+            "fold": 2,
+            "seed": 1403,
+            "arm": "nll",
+            "gpu_index": 7,
+            "gpu_uuid": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+            "cpus": [
+              248,
+              249,
+              250,
+              251,
+              252,
+              253,
+              254,
+              255
+            ]
+          }
+        ],
+        "files_sha256": "51b4ee2e8d3a8db15e7511c89a43a209d92eb4850554037a88c3304db147eead",
+        "hidden": 512,
+        "unit": "tabdata-next4h-20261022-nllfixed-h512.service",
+        "runtime_max_seconds": 9339
+      }
+    }
+  },
+  "incident_journal": "Oct 23 00:23:45 ml-app100-lp1.hq.bc systemd[815088]: Activating special unit Exit the Session...\nOct 23 00:23:45 ml-app100-lp1.hq.bc systemd[815088]: Removed slice User Background Tasks Slice.\nOct 23 00:23:45 ml-app100-lp1.hq.bc systemd[815088]: Stopped target Main User Target.\nOct 23 00:23:45 ml-app100-lp1.hq.bc systemd[815088]: Stopping /data/epanov_s/tabdata/.venv/bin/python -u /data/epanov_s/tabdata/runtime/tabdata-batch-probe-20261022/batch_probe.py...\nOct 23 00:23:45 ml-app100-lp1.hq.bc systemd[815088]: Stopping /data/epanov_s/tabdata/.venv/bin/python -u /data/epanov_s/tabdata/runtime/next4h-20261022-r2/continue_remaining.py...\nOct 23 00:23:45 ml-app100-lp1.hq.bc systemd[815088]: Stopping /data/epanov_s/tabdata/.venv/bin/python -u /data/epanov_s/tabdata/runtime/next4h-20261022-scaleout/scaleout.py...\nOct 23 00:23:45 ml-app100-lp1.hq.bc systemd[815088]: Stopping /data/epanov_s/tabdata/.venv/bin/python -u /data/epanov_s/tabdata/runtime/next4h-20261022-wide/wide.py...\nOct 23 00:23:46 ml-app100-lp1.hq.bc timeout[983316]: {\"observed_unix\": 1792697026.009817, \"unit\": \"tabdata-batch-probe-20261022.service\", \"remaining_owned_cuda_clients\": []}\nOct 23 00:23:46 ml-app100-lp1.hq.bc systemd[815088]: tabdata-batch-probe-20261022.service: Killing process 981429 (pt_data_worker) with signal SIGKILL.\nOct 23 00:23:46 ml-app100-lp1.hq.bc systemd[815088]: tabdata-batch-probe-20261022.service: Killing process 981450 (pt_data_worker) with signal SIGKILL.\nOct 23 00:23:46 ml-app100-lp1.hq.bc systemd[815088]: tabdata-batch-probe-20261022.service: Killing process 981595 (pt_data_worker) with signal SIGKILL.\nOct 23 00:23:46 ml-app100-lp1.hq.bc systemd[815088]: tabdata-batch-probe-20261022.service: Killing process 982016 (pt_data_worker) with signal SIGKILL.\nOct 23 00:23:46 ml-app100-lp1.hq.bc systemd[815088]: tabdata-batch-probe-20261022.service: Killing process 982281 (pt_data_worker) with signal SIGKILL.\nOct 23 00:23:46 ml-app100-lp1.hq.bc systemd[815088]: tabdata-batch-probe-20261022.service: Killing process 982462 (pt_data_worker) with signal SIGKILL.\nOct 23 00:23:46 ml-app100-lp1.hq.bc systemd[815088]: tabdata-batch-probe-20261022.service: Killing process 982482 (pt_data_worker) with signal SIGKILL.\nOct 23 00:23:46 ml-app100-lp1.hq.bc systemd[815088]: tabdata-batch-probe-20261022.service: Killing process 982899 (pt_data_worker) with signal SIGKILL.\nOct 23 00:23:49 ml-app100-lp1.hq.bc timeout[983263]: {\"url\": \"https://github.com/VladKochetov007/WunderFunder/pull/37#issuecomment-6349180290\", \"body_sha256\": \"81f40f021d820c146bd6aa4c09c65eb3db62ae752c77b65b52e1a432bc4ffd83\", \"proof\": {\"observed_unix\": 1792697026.6977582, \"owned_cuda_clients\": [], \"final\": true}, \"created_unix\": 1792697029.9509726}\n"
+}

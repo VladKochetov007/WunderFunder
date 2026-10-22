@@ -13,3 +13,5 @@ The initial cold NLL unit test used a bare Sequential instead of the canonical m
 [Separate twelve-fit NLL scaleout](scaleout_v1/README.md) records additional paired seeds, profile admission, measured lane headroom and the same original deadline; its live receipt initially precedes scientific-fit admission.
 
 [H512 capacity screen](wide_v1/README.md) adds16 actual fits, reaching38 concurrent trainings after all real-shape profiles passed. [Private MPS probe](mps_probe_v1/README.md) records the conditional0.79x added-pair result and complete probe cleanup; no aggregate-speed or quality claim.
+
+[Logout incident and recovery](logout_recovery_v1/README.md) supersedes earlier live activity: user-manager logout stopped the original services; corrected retries restored38 fits without renewing the four-hour wall. Original partial results and the failed first NLL recovery profiles remain preserved.
