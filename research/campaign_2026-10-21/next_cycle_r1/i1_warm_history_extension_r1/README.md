@@ -73,3 +73,46 @@ any profile or fit admission.
 [`PROFILE_F0_WARM_R2.json`](PROFILE_F0_WARM_R2.json) is the separately source-pinned F0 profile handoff for immediate review. It preserves the real strong F0 parent and every target/propensity/feature/objective path. The profile is not a scientific fit and does not replace the actual-parent tensor, shared-normalization or parent-output parity gates before the four-fit panel.
 
 The historical cost projection is 7.92h using a 900-second ceiling for each of two profiles, 15% margin on four 1,492-batch fits, and explicit export/grade reserves. It leaves little slack. Replace historical fit/export estimates with observed phases before admission; preserve the complete four-fit panel and all full-fold predictions. No fit, profile, tensor read or quality grade has been run from this packet.
+
+## Conditional paired grade
+
+[`grade_strong_parent_warm_i1.py`](grade_strong_parent_warm_i1.py) is a
+code-only, create-only grader for the predeclared four-fit screen. Before it
+opens the official target cache, it checks the frozen plan and source hashes,
+direct parent and cache metadata, teacher and propensity ancestry, exact fit
+membership and update clocks, paired initialization/normalization/prior/sampler
+identities, and all four full-valid prediction sidecars, hashes, NPY headers,
+dtype, C-order and row-group coverage. It then uses the existing
+`global_wp_clip2_v1` scorer and i1 component-bootstrap helpers to report both
+history-minus-control and fixed 90/10 control/history-minus-control on exposed
+F0/F1. The output includes each target, the four fixed position bins and
+2,000 paired component resamples; no coefficients are searched. It also records
+the 25-row checkpoint topology, verifies the two dormant trailing output rows,
+and reports the control/history appended input-projection diagnostic.
+
+This is preparation only: the grader has not loaded any run checkpoints or
+arrays, graded labels, or authorized execution. Root must first confirm the
+four-fit outputs and current resource admission. After integration into the
+canonical project root, the bounded CPU-only invocation is:
+
+```sh
+systemd-run --user --scope --slice=wnn-campaign.slice \
+  --property=CPUQuota=100% \
+  --property=MemoryMax=2000000000 \
+  --property=MemorySwapMax=0 \
+  /usr/bin/env \
+    CUDA_VISIBLE_DEVICES= \
+    WNN_PROJECT_ROOT=/home/vlad/development/wunder/wnn_connectome_starterpack \
+    PYTHONPATH=/home/vlad/development/wunder/wnn_connectome_starterpack/src \
+    TMPDIR=/home/vlad/development/wunder/research_tmp/i1-warm-grade-20261022 \
+    WNN_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
+    /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python \
+    /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/grade_strong_parent_warm_i1.py \
+    --output /home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/GRADE_STRONG_PARENT_WARM_I1_R1.json
+```
+
+The command uses one CPU, a 2,000,000,000-byte memory limit, no swap and
+physical-disk scratch; it masks GPUs. The report path is create-only. Keep the
+fold-specific results separate: F0 and F1 change seed, parent, target cache,
+teacher ancestry and propensity together, so they are not clean replications
+and provide no training-seed uncertainty or public-score estimate.
