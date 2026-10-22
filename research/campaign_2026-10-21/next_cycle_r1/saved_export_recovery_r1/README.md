@@ -185,3 +185,14 @@ The detailed command and budget handoff is indexed in the
 [operations index](../../../unified/operations/README.md).
 
 [Read-only preflightR2](../SAVED_EXPORT_READONLY_PREFLIGHT_R2.json) now passes all source/checkpoint/receipt checks in 0.15 seconds / 25440 KiB, with no alias, tensors, targets or inference. [R1](../saved_mean_readonly_preflight_r1.log) rejected the changed current auxiliary file before any write. [R2 log](../saved_mean_readonly_preflight_r2.log) preserves the historical serving hashes and current-file comparison separately. Actual GPU export remains unadmitted pending the single active worker.
+
+## Terminal local execution, October 22
+
+The preparation statements above are historical. All saved exports and fixed grades are now complete; [completion receipt](../SAVED_EXPORT_COMPLETION_R1.json) binds each terminal sequence report. No new fit ran and no model was promoted.
+
+- [Mean export log](../saved_mean_export_r1.log): all fourteen source/sidecar pins pass, full-valid export succeeds and the temporary alias is removed.
+- [Mean grade log](../saved_mean_cpu_grade_r1.log): the unchanged fixed grade adds only +0.00001096 over the oldZ4/WMSE mixture; [complete result](../WEIGHT_MEAN_PROJECTED_GRADE_R1.json).
+- [B16 export log](../b16_local_export_r1.log): the exact clean source gate and both serial feature-only exports pass.
+- [B16 acceptance/grade log](../b16_cpu_accept_grade_r2.log): missing initial-digest limitation is retained, acceptance passes, both fixed mixtures lose about 0.000983; [complete result](../B16_LOCAL_FIXED_GRADE_R1.json).
+
+The CPU work was split into the [mean-only sequence](SAVED_MEAN_CPU_GRADE_SEQUENCE_R1.json) and [B16 sequence](B16_CPU_ACCEPTANCE_SEQUENCE_R2.json), retaining the original scorer arguments and combined ceiling. The original combined sequence was not also executed.
