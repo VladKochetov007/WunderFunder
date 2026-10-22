@@ -43,7 +43,7 @@ the actual NVIDIA driver is recorded in profile/fit identity. No queue manager i
 
 ## Receiver commands (Linux B300 only; not run locally)
 
-Use Python3.11 and the repository's locked environment: `uv sync --locked --group research`.
+Use the Python version in `.python-version` and the repository's locked environment: `uv sync --locked --group research`.
 Check the actual device/driver with `nvidia-smi`. Transfer the complete canonical
 source data, chains/folds caches and frozen split manifests. Do not edit split
 membership or fake original mtimes. For changed transfer mtimes, build a content
