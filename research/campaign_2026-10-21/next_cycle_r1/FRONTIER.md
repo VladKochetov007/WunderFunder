@@ -228,3 +228,7 @@ The latest user request explicitly authorizes one exploratory public package now
 ## F0 function-preserving warm initialization verified
 
 [Actualparentresult](i1_warm_history_extension_r1/PREFLIGHT_F0_RESULT_R3.json) and [execution](i1_warm_history_extension_r1/PREFLIGHT_F0_EXECUTION_R3.json): twochildren eachmatchparentfirsttwooutputs exactly onfull20k fittingtrain/valid sequences (stateful2kchunks), finitechecksPASS. Sharedappendednormalization, inheritedprefix, initialparameters andsampler/RNG match.40.919wallseconds/rounded3.7Gpeak CPUsetup, nooptimizer/qualityfit. F1stillrequiresamendedsource/profile/parity; nofourfitadmissionyet.
+
+## F1 metadata-bound profile retry prepared — October 22
+
+The [R4 source amendment](i1_warm_history_extension_r1/PROFILE_F1_SOURCE_AMENDMENT_R4.json) and [create-only adapter](i1_warm_history_extension_r1/run_warm_f1_profile_r4.py) bind clean repaired source `81f47a3fd94e4209e47b1f3815af2907e8f0b5d7`, preserving all 41 R1 source pins and adding only the 1 MiB-bounded `distillation_cache.py` digest. The unchanged 110-batch F1 profile retry has a [CPU1/RAM4GB/no-swap/one-GPU-lock admission](WARM_F1_PROFILE_ADMISSION_R4.json); its exact invocation is recorded there. R3's metadata-size failure and completed F0 R2 receipt/log remain pinned. This packet has not been executed: root review and the later bounded profile run are pending, with no new scientific fit or quality claim.

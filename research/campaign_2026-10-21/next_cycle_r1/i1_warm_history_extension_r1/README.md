@@ -156,3 +156,24 @@ and provide no training-seed uncertainty or public-score estimate.
 [AdmissionR3](PREFLIGHT_F0_ADMISSION_R3.json), [full result](PREFLIGHT_F0_RESULT_R3.json) and [execution](PREFLIGHT_F0_EXECUTION_R3.json): bothzeroextended367/25children reproduce the real211/23parent with exact0.0maximum first-two-output error on onecomplete20k fittingtrain and onecomplete20k fittingvalidsequence each, usingstateful2kchunks andexplicitfinitechecks. Parentprefixnormalization, initialparameters, appendedstats, featureprior andsampler/RNGidentities match acrossarms. CPU1/RAM4GB/noSwap/GPUhidden;40.919wallseconds,37.074CPUseconds,rounded3.7Gmemorypeak. This removes the intended initialfunctionconfound for this CPUsetup gate; nooptimizer/qualityevidence. F1parity/profile andcompletepanelcost remainbeforefits. Original669source andR1plan unchanged.
 
 - [F1 repaired-source parity preparation](PREFLIGHT_R3.json): sourcebound helper accepts only the exactR4amendment, clean81f47source, all41priorpins pluscache-readerpin andpreservedR3/F0receipts. Preparedonly; rootownssequentialCPUexecution. FrozenR1 bytes unchanged.
+
+## F1 profile retry prepared (R4)
+
+[`PROFILE_F1_SOURCE_AMENDMENT_R4.json`](PROFILE_F1_SOURCE_AMENDMENT_R4.json)
+binds the repaired clean source at `81f47a3fd94e4209e47b1f3815af2907e8f0b5d7`.
+Relative to the preserved R3 source `66959b920ba25de1d2f2911d8c5508d22d3eb4d0`,
+the only changed file is `src/wnn/distillation_cache.py`, pinned at
+`1c9eed9537e2fbc10173860dbd19ba99d722ad85995db3d7c2e2cf579ba16136`. The
+original 41 source pins, frozen plan, F1 profile argv after its script path,
+data/cache membership, and the completed F0 R2 receipt/log are preserved. R3's
+5.88-second failure remains pinned as a metadata-read rejection before training
+updates; no scientific fit was performed.
+
+[`run_warm_f1_profile_r4.py`](run_warm_f1_profile_r4.py) verifies those source,
+recipe, prior-attempt, and data-file hashes before it creates the R4 receipt and
+starts the unchanged 110-batch F1 engineering profile. It reuses the canonical
+trainer from the clean repaired source; the adapter adds no training logic.
+The exact CPU1/RAM4GB/no-swap/one-GPU-lock/900-second command and create-only
+paths are recorded in the [R4 admission](../WARM_F1_PROFILE_ADMISSION_R4.json).
+This is prepared for root review only: the adapter has not been run, no output
+receipt or model was created, and there is no F1 profile measurement or fit.
