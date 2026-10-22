@@ -62,3 +62,5 @@ Every comparison should name independent weights, teacher and initializer ancest
 </details>
 
 - [Official TL3 endpoint import](../../campaign_2026-10-18/geometry_variations_r3/TL3_IMPORT.json): user-provided best-public ZIP moved unchanged from Downloads, SHA d80e69d3…, three fixed int8 recurrent members, reported0.66832/39m12s. Source labels suggest all-data parent ancestry, not yet verified; useful for serving/complementarity research after the current deadline release, with local fitting exposure explicit.
+
+- [Six-fit i1 weights and evidence archives](../../campaign_2026-10-21/next_cycle_r1/I1_ARCHIVE_MANIFEST_R1.json) — separate386MB weights/training-state and440MB evidence archives on approved physicalscratch, with everyfile/wholearchiveSHA256, executedb1b680dsource, fullpredictioncoverage andoriginalsretained. These are complete research artifacts, not promoted servingmodels; exposedfolds andconditionalmixture evidence remain. [Warm/head verification](../../campaign_2026-10-21/next_cycle_r1/WMSE_HEAD_VERIFICATION_R1.json) passes17synthetic tests andhistoricalsource review, butactualparentparity andwarmfits remain pending.
