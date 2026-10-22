@@ -1,5 +1,13 @@
 # Current project state
 
+## October22: complete i1 screen and saved-model recovery
+
+The six-fit i1 panel is complete. Fixed90%B/10%C improves F0/1001 by+0.00035953 and F2/1002 by+0.00027145 (meanpairedpoint+0.00031549), bothtargets positive; C alone loses inbothcells. Conditional component95%intervals are[−0.00001187,+0.00070893] and[+0.00008223,+0.00043398]. A’s fixedblend also helpsF2, so complementarity is not uniquely evidence for temporal memory. [Independent review](../research/unified/reviews/I1_SIX_FIT_HISTORY_GRADE_REVIEW_20261022_R1.md) supports the existing conditional four-fit strong-parent comparison, with function-preserving initialization, explicit shared normalization and native-serving gates. Allfolds remain exposed; no stronger complete submission is established.
+
+Saved-artifact recovery is complete without newfits. [Fixed checkpoint mean](../research/campaign_2026-10-21/next_cycle_r1/WEIGHT_MEAN_PROJECTED_GRADE_R1.json) adds only+0.00001096 over the existing oldZ4/WMSE blend. [Recovered Kaggle CP5/SWA grade](../research/campaign_2026-10-21/next_cycle_r1/B16_LOCAL_FIXED_GRADE_R1.json) shows bothfixedblends lose about0.000983 versus their historicalFP16reference; ancestry/initial-digest limits remain. No model from this recovery is promoted.
+
+The user requests continuation until explicitly stopped, within the accepted30-hour allocation. Corrected dynamics source is running a bounded110-batch profile under4GBRAM/noSwap/oneGPU; the fullfour-fit panel requires inclusive3-hour cost admission. Warm-history focusedtests pass12/12 onroot andpublication, but actual-parent parity and restoration of the historical optional output-head compatibility path remain before fits. Broader compatibility checks have one recorded preexisting class-monkeypatch failure. [Frontier](../research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md) tracks subsequent execution; older snapshots below are history.
+
 ## October 22: fixed-history geometry and native precision diagnosis
 
 The first i1 cell’s fixed 90%B/10%C gain is +0.00036506 before clipping and +0.00035953 with official clipping. The correction has positive residual covariance with both targets after accounting for B; clipping slightly reduces the gain. This is descriptive evidence of a complementary prediction direction on the same exposed F0 fits, not independent confirmation or proof that history information caused it. F2/B completed at 0.68410821; A is fitting and C remains pending. [Geometry and limits](../research/campaign_2026-10-21/next_cycle_r1/i1/fixed_mix_geometry_r1/README.md).
