@@ -77,3 +77,6 @@ The official metric and fold membership are part of every scored claim. Training
 - [Modular RNN trainer refactor](MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md) records semantic components, explicit per-run state, preserved172-option CLI, source/portable-packet handling and Sol6.1/medium independent corrections. Ruff and structural checks pass; no fits, tests, numeric parity or throughput evidence. The [component map](../../../src/wnn/training/README.md) documents reusable APIs and every module.
 
 </details>
+
+
+[Four-hour B300 short-screen amendment](../../campaign_2026-10-22/tabdata_short4h_r1/README.md) records 24 new subset-matched PR26/PR27 fits across two data fidelities, strict node deadline/owned-GPU cleanup and automatic SemyonEpanov result comments. Startup, source, independent-review, all24profile and admission receipts are preserved; final scores remain pending in the linked live comments.
