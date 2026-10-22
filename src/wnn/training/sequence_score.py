@@ -10,6 +10,7 @@ from wnn.data import SEQUENCE_LENGTH, WARMUP, SequenceFile
 from wnn.gmetric import GlobalAccumulator
 from wnn.splits import file_sha256, load_campaign_split
 from wnn.training.sequence_cache import validate_export_schema, validate_producer
+from wnn.training.sequence_provenance import source_identity
 
 
 def score_export(root: Path, split_manifest: Path, predictions: Path, output: Path) -> None:
@@ -55,6 +56,10 @@ def score_export(root: Path, split_manifest: Path, predictions: Path, output: Pa
             seq.targets, values[:, :2], mask, group=component_map[("valid", entry["row_group"])]
         )
     receipt = {
+        "evaluator": source_identity(
+            Path(__file__).resolve().parents[3],
+            Path(__file__).resolve().parents[3] / "scripts/score_sequence.py",
+        ),
         "score": accumulator.result(),
         "split_sha256": split.sha256,
         "predictions_manifest_sha256": file_sha256(manifest_path),

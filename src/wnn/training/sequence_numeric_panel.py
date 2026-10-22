@@ -12,7 +12,7 @@ import numpy as np
 from wnn.evaluation import paired_component_bootstrap
 from wnn.training.sequence_checkpoint import atomic_write_json
 from wnn.training.sequence_config import load_config
-from wnn.training.sequence_provenance import file_sha256
+from wnn.training.sequence_provenance import file_sha256, source_identity
 
 ARMS = ("raw_events", "uniform16", "quantile16")
 CELLS = ((0, 1001), (2, 1002))
@@ -21,9 +21,13 @@ CELLS = ((0, 1001), (2, 1002))
 def _read_cell(root: Path, configs: Path, fold: int, seed: int) -> dict[str, Any]:
     receipts: dict[str, Any] = {}
     shared: dict[str, Any] | None = None
+    repository = Path(__file__).resolve().parents[3]
+    evaluator = source_identity(repository, repository / "scripts/score_sequence.py")
     for arm in ARMS:
         path = root / f"f{fold}_{arm}" / "score.json"
         grade = json.loads(path.read_text())
+        if grade.get("evaluator") != evaluator:
+            raise ValueError("score evaluator source differs from the current comparison checkout")
         if grade.get("score", {}).get("metric_id") != "global_wp_clip2_v1":
             raise ValueError(f"invalid canonical grade receipt: {path}")
         producer = grade["producer"]
@@ -134,6 +138,14 @@ def grade_numeric_panel(root: Path, configs: Path, output: Path) -> None:
     atomic_write_json(
         {
             "schema": "wnn.numeric-panel.v1",
+            "evaluator": source_identity(
+                Path(__file__).resolve().parents[3],
+                Path(__file__).resolve().parents[3] / "scripts/score_numeric_panel.py",
+            ),
+            "recipe_sha256": file_sha256(configs.parent / "recipe.json"),
+            "configs_sha256": {
+                path.name: file_sha256(path) for path in sorted(configs.glob("*.json"))
+            },
             "metric_id": "global_wp_clip2_v1",
             "primary": "quantile16-minus-uniform16",
             "contrasts": contrasts,
