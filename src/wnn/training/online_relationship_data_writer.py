@@ -147,10 +147,11 @@ def write_scope(
                         raise ValueError("canonical labels or row weights are invalid")
                     record[:, TARGET] = target
                     record[:, WEIGHT] = row_weight.numpy().astype(np.float32, copy=False)
+                    del raw_tensor
                 array[index] = record
                 if predictions is not None:
                     predictions[index] = parent_prediction
-                del raw, record, parent_prediction
+                del sequence, raw, record, parent_prediction
             del sequences, raw_batch, parent_predictions
         array.flush()
         if predictions is not None:
