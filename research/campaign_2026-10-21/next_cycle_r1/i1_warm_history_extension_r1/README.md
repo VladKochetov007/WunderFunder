@@ -104,3 +104,7 @@ and `tests/test_distillation.py` pass (12 tests). The test command explicitly
 sets `PYTHONPATH` to the isolated worktree's `src`, because the shared virtual
 environment otherwise resolves its editable package from the root checkout.
 Root owns the source-bound retry amendment and execution.
+
+[`PREFLIGHT_R2.json`](PREFLIGHT_R2.json) and its create-only helper prepare those actual-parent and paired-initialization gates. The helper has not been run in this worktree. Root reports that the F0 warm profile completed 1,100 finite updates with no skips; this is throughput evidence only. The F1 profile stopped before updates because its actual cache metadata is 842,417 bytes while the frozen canonical reader allows 512,000. Preserve that failure and the frozen R1 source/plan hashes: F1 remains blocked until the narrow metadata-bound repair is integrated and a separate source/plan amendment is frozen. No metadata validation is disabled.
+
+The frozen R1 cost projection is 7.92h using a 900-second ceiling for each of two profiles, 15% margin on four 1,492-batch fits, and explicit export/grade reserves. It predates the measured F0 profile and is not an admission decision; recompute the complete-panel cost from observed phases before admission. Preserve all four fits and full-fold predictions if the panel is admitted. No quality fit, actual-parent parity preflight, or quality grade has been run from this packet.
