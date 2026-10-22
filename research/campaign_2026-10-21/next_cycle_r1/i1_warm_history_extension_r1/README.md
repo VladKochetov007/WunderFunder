@@ -1,5 +1,9 @@
 # Conditional warm start for i1 history
 
+## October22 reboot pause: F0 control export complete
+
+[CPU acceptance](F0_CONTROL_EXPORT_ACCEPTANCE_R4.json) verifies exact CP1, all1,873 groups, finite full predictions and all42 source pins; [terminal guard](F0_CONTROL_EXPORT_GUARD_R4.json) records1,936.787guardseconds/no pauses. [Latest pause](../PAUSE_FOR_REBOOT_R2.json) supersedes old live statuses. The [R2 sequence report](LOCAL_SEQUENCE_EXECUTION_REPORT_R2.json) is an empty stale supervisor snapshot (`running`, no steps), not a live worker; use the graceful-drain and export acceptance receipts. Three remaining fits are unadmitted; no paired quality grade.
+
 This packet prepares a narrow checkpoint continuation for a possible later
 matched F0/F1 follow-up. It extends only a standard 211-input GRU parent with
 `research_features=none` to the fixed 367-input `i1_history` child, with

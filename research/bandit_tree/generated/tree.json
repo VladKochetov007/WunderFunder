@@ -10047,8 +10047,8 @@
       "title": "Wunder Connectome Challenge2 research"
     },
     "source_rows": {
-      "experiments": 1009,
-      "hypotheses": 577,
+      "experiments": 1022,
+      "hypotheses": 584,
       "journal": 159
     }
   },
@@ -47188,16 +47188,18 @@
     },
     {
       "classification": {
-        "family_id": "family:temporal",
+        "family_id": "family:unclassified",
         "matches": [
-          "family:temporal"
+          "family:temporal",
+          "family:ensemble",
+          "family:deployment"
         ],
-        "rule": "keyword_match"
+        "rule": "ambiguous_keyword_match"
       },
       "evidence_refs": [],
       "id": "hypothesis:H-PLATEAU-I1-HISTORY-20261020-R1",
-      "latest_recorded_status": "implementation_in_progress_no_fit",
-      "parent_id": "family:temporal",
+      "latest_recorded_status": "consistent_small_fixed_blend_gain_not_standalone_gain",
+      "parent_id": "family:unclassified",
       "raw_rows": [
         {
           "raw_record": "{\"id\":\"H-PLATEAU-I1-HISTORY-20261020-R1\",\"parent_ids\":[\"H-PLATEAU-I1-INCREMENTALITY-20261020-R1\"],\"mechanism_family\":\"causal_source_specific_history\",\"statement\":\"Explicit prior-EMA residuals and slow RMS-change channels can make i1 temporal information easier for a cold GRU to use than the standard raw/event block alone.\",\"prediction_if_true\":\"C improves over equal-width zero-history B or contributes in fixed0.9B+0.1C, with interpretable target/position behavior.\",\"falsifier\":\"Prefix/reset/mask invariants fail, or the tested representation has no useful standalone or fixed-mixture contribution under the declared comparison; this does not refute all history representations.\",\"status\":\"implementation_in_progress_no_fit\",\"source\":\"specs/plans/2026-10-20-plateau-review-local-kaggle.md\",\"experiment_ids\":[\"E-PLATEAU-I1-B-20261020-R1\",\"E-PLATEAU-I1-C-20261020-R1\"],\"numerical_gain_prior\":null,\"timestamp_utc\":\"2026-10-18T22:46:16.350678+00:00\"}\n",
@@ -47224,9 +47226,29 @@
             "path": "research/hypotheses.jsonl",
             "sha256": "b0241efde371ba132de9245b4ffa9e6152f915c99b5710ddd7bec15081c1c166"
           }
+        },
+        {
+          "raw_record": "{\"id\": \"H-PLATEAU-I1-HISTORY-20261020-R1\", \"event\": \"evidence_update\", \"source\": \"research/unified/ideas/I1_HISTORY_IDEA_PROGRESSION_20261022_R1.md\", \"status\": \"consistent_small_fixed_blend_gain_not_standalone_gain\", \"paired_blend_deltas\": [0.0003595287882067755, 0.0002714522155150556], \"interpretation\": \"Usefulcorrection repeats, initialfunctionandgenericerrordiversity remainalternativeexplanations. Conditionalfunctionpreservingstrongfollowup; no productiongain.\", \"timestamp_utc\": \"2026-10-22T09:37:27.854857+00:00\"}\n",
+          "record": {
+            "event": "evidence_update",
+            "id": "H-PLATEAU-I1-HISTORY-20261020-R1",
+            "interpretation": "Usefulcorrection repeats, initialfunctionandgenericerrordiversity remainalternativeexplanations. Conditionalfunctionpreservingstrongfollowup; no productiongain.",
+            "paired_blend_deltas": [
+              0.0003595287882067755,
+              0.0002714522155150556
+            ],
+            "source": "research/unified/ideas/I1_HISTORY_IDEA_PROGRESSION_20261022_R1.md",
+            "status": "consistent_small_fixed_blend_gain_not_standalone_gain",
+            "timestamp_utc": "2026-10-22T09:37:27.854857+00:00"
+          },
+          "source": {
+            "line": 579,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "3a426090219be602236ca83f7566d495ebf667a628382e60c1361972fd3aea98"
+          }
         }
       ],
-      "title": "Explicit prior-EMA residuals and slow RMS-change channels can make i1 temporal information easier for a cold GRU to use than the standard raw/event block alone.",
+      "title": "H-PLATEAU-I1-HISTORY-20261020-R1",
       "type": "hypothesis"
     },
     {
@@ -47632,6 +47654,188 @@
         }
       ],
       "title": "H-H512-ENDPOINT-GAP-20261021-R1",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:temporal",
+        "matches": [
+          "family:temporal"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-I1-HISTORY-FUNCTION-PRESERVING-20261022-R1",
+      "latest_recorded_status": null,
+      "parent_id": "family:temporal",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-I1-HISTORY-FUNCTION-PRESERVING-20261022-R1\", \"event\": \"proposed\", \"timestamp_utc\": \"2026-10-21T22:57:52Z\", \"parent_ids\": [\"H-PLATEAU-I1-HISTORY-20261020-R1\"], \"mechanism_family\": \"causal_source_specific_history\", \"claim\": \"Zero-extension of a strong parent may reveal useful incremental history without changing its initial prediction function; cold B/C activate different random input projections despite identical parameter hashes.\", \"falsifier\": \"No paired target or fixed endpoint contribution against matched strong continuations after initial function and shared normalization are controlled.\", \"status\": \"conditional_code_prepared_tests_and_independent_review_pending_no_fit_admission\", \"source\": \"research/unified/ideas/I1_HISTORY_IDEA_PROGRESSION_20261022_R1.md\", \"new_teacher_fits\": 0, \"conditional_total_new_fits\": 4}\n",
+          "record": {
+            "claim": "Zero-extension of a strong parent may reveal useful incremental history without changing its initial prediction function; cold B/C activate different random input projections despite identical parameter hashes.",
+            "conditional_total_new_fits": 4,
+            "event": "proposed",
+            "falsifier": "No paired target or fixed endpoint contribution against matched strong continuations after initial function and shared normalization are controlled.",
+            "id": "H-I1-HISTORY-FUNCTION-PRESERVING-20261022-R1",
+            "mechanism_family": "causal_source_specific_history",
+            "new_teacher_fits": 0,
+            "parent_ids": [
+              "H-PLATEAU-I1-HISTORY-20261020-R1"
+            ],
+            "source": "research/unified/ideas/I1_HISTORY_IDEA_PROGRESSION_20261022_R1.md",
+            "status": "conditional_code_prepared_tests_and_independent_review_pending_no_fit_admission",
+            "timestamp_utc": "2026-10-21T22:57:52Z"
+          },
+          "source": {
+            "line": 578,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "6052bf81cb5b7e64c03cb730d27b781cf37899e763043cf21d0072bc77f92228"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"H-I1-HISTORY-FUNCTION-PRESERVING-20261022-R1\", \"event\": \"actual_parent_engineering_gates_pass_scientific_panel_running\", \"source\": \"research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/README.md\", \"interpretation\": \"ExactCPUparentparity/sharedinitialization/norm/sampler remove plannedinitialfunctionconfound for bothcells; no quality inference from profiles. Fournewfits admitted.\"}\n",
+          "record": {
+            "event": "actual_parent_engineering_gates_pass_scientific_panel_running",
+            "id": "H-I1-HISTORY-FUNCTION-PRESERVING-20261022-R1",
+            "interpretation": "ExactCPUparentparity/sharedinitialization/norm/sampler remove plannedinitialfunctionconfound for bothcells; no quality inference from profiles. Fournewfits admitted.",
+            "source": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/README.md"
+          },
+          "source": {
+            "line": 581,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "dab96c4711b6f8aa79d09586c342c1756afb01210a82604a66c15ec914b3f257"
+          }
+        }
+      ],
+      "title": "H-I1-HISTORY-FUNCTION-PRESERVING-20261022-R1",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:unclassified",
+        "matches": [
+          "family:teacher",
+          "family:temporal"
+        ],
+        "rule": "ambiguous_keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-TL3-TWO-PARENT-TRANSFER-20261022-R1",
+      "latest_recorded_status": null,
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-TL3-TWO-PARENT-TRANSFER-20261022-R1\", \"event\": \"proposed\", \"timestamp_utc\": \"2026-10-22T10:25:00Z\", \"claim\": \"The fixed equal-weight TL3 teacher pair may transfer usefully as an exploratory quota probe.\", \"source\": \"research/campaign_2026-10-22/quota_retained_pair_r1/README.md\", \"limits\": \"Exposed adaptive selection, no exact local quality, unmatched public reference; not a student-marginal claim.\"}\n",
+          "record": {
+            "claim": "The fixed equal-weight TL3 teacher pair may transfer usefully as an exploratory quota probe.",
+            "event": "proposed",
+            "id": "H-TL3-TWO-PARENT-TRANSFER-20261022-R1",
+            "limits": "Exposed adaptive selection, no exact local quality, unmatched public reference; not a student-marginal claim.",
+            "source": "research/campaign_2026-10-22/quota_retained_pair_r1/README.md",
+            "timestamp_utc": "2026-10-22T10:25:00Z"
+          },
+          "source": {
+            "line": 580,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "4ac41b3a2fbb99ece65fc34aa1b4571e99e86301da53b537ec4b7fd488d61265"
+          }
+        }
+      ],
+      "title": "H-TL3-TWO-PARENT-TRANSFER-20261022-R1",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:temporal",
+        "matches": [
+          "family:temporal"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-ONLINE-RELATIONSHIPS-20261022-R1",
+      "latest_recorded_status": "not_tested",
+      "parent_id": "family:temporal",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-ONLINE-RELATIONSHIPS-20261022-R1\", \"event\": \"proposed_user_amended_both_lags\", \"source\": \"research/unified/ideas/ONLINE_RELATIONSHIPS_20261022_R1.md\", \"claim\": \"Online learned relationships can improve task endpoint beyond means and initial calibration\", \"status\": \"not_tested\"}\n",
+          "record": {
+            "claim": "Online learned relationships can improve task endpoint beyond means and initial calibration",
+            "event": "proposed_user_amended_both_lags",
+            "id": "H-ONLINE-RELATIONSHIPS-20261022-R1",
+            "source": "research/unified/ideas/ONLINE_RELATIONSHIPS_20261022_R1.md",
+            "status": "not_tested"
+          },
+          "source": {
+            "line": 582,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "d4f34fd56ced3ff05918ece1943aef7a44332edefffc9133a40d307413da4135"
+          }
+        }
+      ],
+      "title": "H-ONLINE-RELATIONSHIPS-20261022-R1",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:temporal",
+        "matches": [
+          "family:temporal"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-PER-FIELD-AGE-20261022-R1",
+      "latest_recorded_status": null,
+      "parent_id": "family:temporal",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-PER-FIELD-AGE-20261022-R1\", \"event\": \"retained_unallocated\", \"source\": \"research/unified/ideas/PER_FIELD_AGE_20261022_R1.md\", \"new_fits\": 0}\n",
+          "record": {
+            "event": "retained_unallocated",
+            "id": "H-PER-FIELD-AGE-20261022-R1",
+            "new_fits": 0,
+            "source": "research/unified/ideas/PER_FIELD_AGE_20261022_R1.md"
+          },
+          "source": {
+            "line": 583,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "7d390b83f3b5a4e94409a22f788faa663dd1c96adb8eeafe50a38c55996a74ae"
+          }
+        }
+      ],
+      "title": "H-PER-FIELD-AGE-20261022-R1",
+      "type": "hypothesis"
+    },
+    {
+      "classification": {
+        "family_id": "family:temporal",
+        "matches": [
+          "family:temporal"
+        ],
+        "rule": "keyword_match"
+      },
+      "evidence_refs": [],
+      "id": "hypothesis:H-BURSTINESS-20261022-R1",
+      "latest_recorded_status": null,
+      "parent_id": "family:temporal",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"H-BURSTINESS-20261022-R1\", \"event\": \"proposed_unallocated\", \"source\": \"research/unified/ideas/BURSTINESS_20261022_R1.md\", \"new_fits\": 0}\n",
+          "record": {
+            "event": "proposed_unallocated",
+            "id": "H-BURSTINESS-20261022-R1",
+            "new_fits": 0,
+            "source": "research/unified/ideas/BURSTINESS_20261022_R1.md"
+          },
+          "source": {
+            "line": 584,
+            "path": "research/hypotheses.jsonl",
+            "sha256": "0723a8c2c52649f5c9373d5240c024331f5605ea292beb62f76e095422d3e4b9"
+          }
+        }
+      ],
+      "title": "H-BURSTINESS-20261022-R1",
       "type": "hypothesis"
     },
     {
@@ -92481,7 +92685,7 @@
         "rule": "multiple_or_missing_linked_hypotheses"
       },
       "id": "experiment:E-FUTURE-INPUT-DYNAMICS-20261021-R1",
-      "latest_recorded_status": "profile_and_fits_pending",
+      "latest_recorded_status": "Resourcecost deferral, no target quality tested",
       "parent_id": "family:unclassified",
       "raw_rows": [
         {
@@ -92529,6 +92733,48 @@
             "line": 1000,
             "path": "research/experiments.jsonl",
             "sha256": "f847ba64dc31b01ae217457a592ec60bb999b502f1dd5ec5d5b467c4ddecc2ef"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-FUTURE-INPUT-DYNAMICS-20261021-R1\", \"event\": \"fp32_target_numerical_repair_verified_before_profile\", \"hypothesis_id\": \"H-FUTURE-INPUT-DYNAMICS-20261021-R1\", \"new_fits\": 0, \"new_teachers\": 0, \"gpu_seconds\": 0, \"tests\": {\"dynamics_oracles\": 6, \"checker\": 6, \"ruff_structure\": \"pass\"}, \"original_fixture_max_log_error\": 9.210440578080997, \"repaired_fixture_max_log_error\": 5.760015575617672e-08, \"source\": \"research/campaign_2026-10-21/next_cycle_r1/DYNAMICS_NUMERICAL_VERIFICATION_R1.json\", \"scope\": \"Synthetic numerical correctness only; mathematicaltargetdefinition unchanged; no auxiliaryqualityprofile/fit yet.\", \"timestamp_utc\": \"2026-10-21T21:26:48Z\"}\n",
+          "record": {
+            "event": "fp32_target_numerical_repair_verified_before_profile",
+            "gpu_seconds": 0,
+            "hypothesis_id": "H-FUTURE-INPUT-DYNAMICS-20261021-R1",
+            "id": "E-FUTURE-INPUT-DYNAMICS-20261021-R1",
+            "new_fits": 0,
+            "new_teachers": 0,
+            "original_fixture_max_log_error": 9.210440578080997,
+            "repaired_fixture_max_log_error": 5.760015575617672e-08,
+            "scope": "Synthetic numerical correctness only; mathematicaltargetdefinition unchanged; no auxiliaryqualityprofile/fit yet.",
+            "source": "research/campaign_2026-10-21/next_cycle_r1/DYNAMICS_NUMERICAL_VERIFICATION_R1.json",
+            "tests": {
+              "checker": 6,
+              "dynamics_oracles": 6,
+              "ruff_structure": "pass"
+            },
+            "timestamp_utc": "2026-10-21T21:26:48Z"
+          },
+          "source": {
+            "line": 1010,
+            "path": "research/experiments.jsonl",
+            "sha256": "c7343fcb49b8246130fd64796b691b88d316b5468f4264a2385bb4704d85afc9"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-FUTURE-INPUT-DYNAMICS-20261021-R1\", \"event\": \"engineering_profile_pass_scientific_panel_deferred_cost\", \"new_scientific_fits\": 0, \"profile_updates\": 1100, \"source\": \"research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md\", \"status\": \"Resourcecost deferral, no target quality tested\"}\n",
+          "record": {
+            "event": "engineering_profile_pass_scientific_panel_deferred_cost",
+            "id": "E-FUTURE-INPUT-DYNAMICS-20261021-R1",
+            "new_scientific_fits": 0,
+            "profile_updates": 1100,
+            "source": "research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md",
+            "status": "Resourcecost deferral, no target quality tested"
+          },
+          "source": {
+            "line": 1015,
+            "path": "research/experiments.jsonl",
+            "sha256": "6f811c6f18c4f9bcfbc4b6c8fc23de70c689ee9f0d92fa190a078356fa838bac"
           }
         }
       ],
@@ -92598,6 +92844,28 @@
             "path": "research/experiments.jsonl",
             "sha256": "4b4037633c2f89be520a2f27613d52b56cc68102d8f9b4a176a6cde8c71a9a5a"
           }
+        },
+        {
+          "raw_record": "{\"id\": \"E-H512-ENDPOINT-DIAGNOSIS-20261021-R1\", \"event\": \"fixed_eight_component_precision_counterfactual_scored_after_host_parity\", \"timestamp_utc\": \"2026-10-21T21:44:36.724151+00:00\", \"new_fits\": 0, \"new_teachers\": 0, \"gpu_seconds\": 0, \"source\": \"research/campaign_2026-10-21/next_cycle_r1/NATIVE_HOST_PRECISION_PROBE_R2.json\", \"fp32_counterfactual_minus_cp5\": 4.035256781653729e-05, \"fp32_counterfactual_minus_original\": -0.0032828032150034048, \"scored_rows\": 10988, \"components\": 8, \"limitation\": \"Exposed F0 saved-track diagnostic; no CI orfullfold/publicextrapolation, actualFP32package notbuilt.\"}\n",
+          "record": {
+            "components": 8,
+            "event": "fixed_eight_component_precision_counterfactual_scored_after_host_parity",
+            "fp32_counterfactual_minus_cp5": 4.035256781653729e-05,
+            "fp32_counterfactual_minus_original": -0.0032828032150034048,
+            "gpu_seconds": 0,
+            "id": "E-H512-ENDPOINT-DIAGNOSIS-20261021-R1",
+            "limitation": "Exposed F0 saved-track diagnostic; no CI orfullfold/publicextrapolation, actualFP32package notbuilt.",
+            "new_fits": 0,
+            "new_teachers": 0,
+            "scored_rows": 10988,
+            "source": "research/campaign_2026-10-21/next_cycle_r1/NATIVE_HOST_PRECISION_PROBE_R2.json",
+            "timestamp_utc": "2026-10-21T21:44:36.724151+00:00"
+          },
+          "source": {
+            "line": 1011,
+            "path": "research/experiments.jsonl",
+            "sha256": "a254051cf5799d67983c9a9e6a2a9a248ed0b62a5203267948f7304e5f0ff33f"
+          }
         }
       ],
       "title": "E-H512-ENDPOINT-DIAGNOSIS-20261021-R1",
@@ -92609,7 +92877,7 @@
         "rule": "multiple_or_missing_linked_hypotheses"
       },
       "id": "experiment:E-PLATEAU-I1-20261021-R1",
-      "latest_recorded_status": "code_only_no_array_or_label_read",
+      "latest_recorded_status": null,
       "parent_id": "family:unclassified",
       "raw_rows": [
         {
@@ -92636,9 +92904,254 @@
             "path": "research/experiments.jsonl",
             "sha256": "442035abe7975e04edba186215a74ac36e84fbd6f006ae3d9883146551c869c1"
           }
+        },
+        {
+          "raw_record": "{\"id\": \"E-PLATEAU-I1-20261021-R1\", \"event\": \"posthoc_f0_fixed_mixture_geometry\", \"timestamp_utc\": \"2026-10-21T21:49:35.463220+00:00\", \"source\": \"research/campaign_2026-10-21/next_cycle_r1/i1/fixed_mix_geometry_r1/RESULT_R1.json\", \"raw_wp_delta\": 0.00036505551789584034, \"official_wp_delta\": 0.0003595287882063314, \"residual_covariance\": {\"t0\": 0.0007130038302885556, \"t1\": 0.00033878906724994036}, \"new_fits\": 0, \"gpu_seconds\": 0, \"limitation\": \"Descriptive sameexposedF0fits; no newindependentuncertainty orcausalhistoryclaim.\"}\n",
+          "record": {
+            "event": "posthoc_f0_fixed_mixture_geometry",
+            "gpu_seconds": 0,
+            "id": "E-PLATEAU-I1-20261021-R1",
+            "limitation": "Descriptive sameexposedF0fits; no newindependentuncertainty orcausalhistoryclaim.",
+            "new_fits": 0,
+            "official_wp_delta": 0.0003595287882063314,
+            "raw_wp_delta": 0.00036505551789584034,
+            "residual_covariance": {
+              "t0": 0.0007130038302885556,
+              "t1": 0.00033878906724994036
+            },
+            "source": "research/campaign_2026-10-21/next_cycle_r1/i1/fixed_mix_geometry_r1/RESULT_R1.json",
+            "timestamp_utc": "2026-10-21T21:49:35.463220+00:00"
+          },
+          "source": {
+            "line": 1012,
+            "path": "research/experiments.jsonl",
+            "sha256": "6c5a5fe10ae8dd685724727f595160ecf5f1dbd198c66addb6a14602897729b6"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-PLATEAU-I1-20261021-R1\", \"event\": \"complete\", \"source\": \"research/campaign_2026-10-21/next_cycle_r1/i1/runtime/GRADE_R1.json\", \"new_fits\": 6, \"per_arm_fits\": 2, \"new_teacher_fits\": 0, \"mean_fixed_history_blend_delta\": 0.00031549050186091554, \"allocation\": \"Conditional four-fit strong-parent screen retained; actualparentparity/profile/sourcegates remain. No production promotion.\", \"exposure\": \"Previously inspected folds0/2, seedfoldconfounded, componentintervals conditional.\", \"timestamp_utc\": \"2026-10-22T09:37:27.854857+00:00\"}\n",
+          "record": {
+            "allocation": "Conditional four-fit strong-parent screen retained; actualparentparity/profile/sourcegates remain. No production promotion.",
+            "event": "complete",
+            "exposure": "Previously inspected folds0/2, seedfoldconfounded, componentintervals conditional.",
+            "id": "E-PLATEAU-I1-20261021-R1",
+            "mean_fixed_history_blend_delta": 0.00031549050186091554,
+            "new_fits": 6,
+            "new_teacher_fits": 0,
+            "per_arm_fits": 2,
+            "source": "research/campaign_2026-10-21/next_cycle_r1/i1/runtime/GRADE_R1.json",
+            "timestamp_utc": "2026-10-22T09:37:27.854857+00:00"
+          },
+          "source": {
+            "line": 1014,
+            "path": "research/experiments.jsonl",
+            "sha256": "a9b801f3d0ed51700d4e26cf8811e16e14309b7ae347653e8b700b85b3387339"
+          }
         }
       ],
       "title": "E-PLATEAU-I1-20261021-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-SAVED-ARTIFACT-RECOVERY-20261022-R1",
+      "latest_recorded_status": null,
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-SAVED-ARTIFACT-RECOVERY-20261022-R1\", \"event\": \"complete\", \"new_fits\": 0, \"source\": \"research/campaign_2026-10-21/next_cycle_r1/SAVED_EXPORT_COMPLETION_R1.json\", \"results\": \"mean fixedblend+0.00001096 vsWMSE; B16CP5/SWAblends about-0.000983 vslegacyoldZ4; noendpointpromoted\", \"timestamp_utc\": \"2026-10-22T09:34:42.907890+00:00\"}\n",
+          "record": {
+            "event": "complete",
+            "id": "E-SAVED-ARTIFACT-RECOVERY-20261022-R1",
+            "new_fits": 0,
+            "results": "mean fixedblend+0.00001096 vsWMSE; B16CP5/SWAblends about-0.000983 vslegacyoldZ4; noendpointpromoted",
+            "source": "research/campaign_2026-10-21/next_cycle_r1/SAVED_EXPORT_COMPLETION_R1.json",
+            "timestamp_utc": "2026-10-22T09:34:42.907890+00:00"
+          },
+          "source": {
+            "line": 1013,
+            "path": "research/experiments.jsonl",
+            "sha256": "a48354a8341da75af6fba9d58a3c54f5e11ef79762930a5b2a61a00bf12419c5"
+          }
+        }
+      ],
+      "title": "E-SAVED-ARTIFACT-RECOVERY-20261022-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-TL3-TWO-PARENT-QUOTA-20261022-R1",
+      "latest_recorded_status": null,
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-TL3-TWO-PARENT-QUOTA-20261022-R1\", \"event\": \"technical_handoff\", \"timestamp_utc\": \"2026-10-22T10:25:00Z\", \"new_fits\": 0, \"source\": \"research/campaign_2026-10-22/quota_retained_pair_r1/README.md\", \"zip_sha256\": \"7a76f1cb90c8140a20d29b0566c1d0b9e3037511d22dc3b9c79881f4c84ba23f\", \"status\": \"ready_no_authenticated_upload\", \"quality\": \"Unmeasured normalized pair; earlier raw pair delta inapplicable\"}\n",
+          "record": {
+            "event": "technical_handoff",
+            "id": "E-TL3-TWO-PARENT-QUOTA-20261022-R1",
+            "new_fits": 0,
+            "quality": "Unmeasured normalized pair; earlier raw pair delta inapplicable",
+            "source": "research/campaign_2026-10-22/quota_retained_pair_r1/README.md",
+            "status": "ready_no_authenticated_upload",
+            "timestamp_utc": "2026-10-22T10:25:00Z",
+            "zip_sha256": "7a76f1cb90c8140a20d29b0566c1d0b9e3037511d22dc3b9c79881f4c84ba23f"
+          },
+          "source": {
+            "line": 1016,
+            "path": "research/experiments.jsonl",
+            "sha256": "7500196464fe4558779bb2f4f5914cbf54ca820d60ec7d9fe29534eb429d242f"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-TL3-TWO-PARENT-QUOTA-20261022-R1\", \"event\": \"fixed_normalized_pair_exposed_sample_grade\", \"source\": \"research/campaign_2026-10-22/quota_retained_pair_r1/FIXED_SAMPLE_GRADE_R2.json\", \"new_fits\": 0, \"paired_wp_delta\": 0.002573538827285171, \"both_targets_positive\": true, \"quality_scope\": \"Eight previously exposed selected components, 10988scoredrows, fitted/unknownancestry; notCV or publicforecast\"}\n",
+          "record": {
+            "both_targets_positive": true,
+            "event": "fixed_normalized_pair_exposed_sample_grade",
+            "id": "E-TL3-TWO-PARENT-QUOTA-20261022-R1",
+            "new_fits": 0,
+            "paired_wp_delta": 0.002573538827285171,
+            "quality_scope": "Eight previously exposed selected components, 10988scoredrows, fitted/unknownancestry; notCV or publicforecast",
+            "source": "research/campaign_2026-10-22/quota_retained_pair_r1/FIXED_SAMPLE_GRADE_R2.json"
+          },
+          "source": {
+            "line": 1017,
+            "path": "research/experiments.jsonl",
+            "sha256": "e0d90b1a8d101d904a0fb5f40ca41471333266b18c2fc29c2940674d90340959"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-TL3-TWO-PARENT-QUOTA-20261022-R1\", \"event\": \"user_reported_public_transfer\", \"source\": \"research/campaign_2026-10-22/quota_retained_pair_r1/PUBLIC_RECEIPT_R1.json\", \"score\": 0.66771, \"portal_id\": \"0r4h74xw\", \"new_fits\": 0, \"delta_vs_user_reported_tl3\": -0.00061, \"interpretation\": \"faster but weaker public point; no clean causal ablation\"}\n",
+          "record": {
+            "delta_vs_user_reported_tl3": -0.00061,
+            "event": "user_reported_public_transfer",
+            "id": "E-TL3-TWO-PARENT-QUOTA-20261022-R1",
+            "interpretation": "faster but weaker public point; no clean causal ablation",
+            "new_fits": 0,
+            "portal_id": "0r4h74xw",
+            "score": 0.66771,
+            "source": "research/campaign_2026-10-22/quota_retained_pair_r1/PUBLIC_RECEIPT_R1.json"
+          },
+          "source": {
+            "line": 1020,
+            "path": "research/experiments.jsonl",
+            "sha256": "108b8c1521ab681a5c31313e59a0f02cb7c54dd4878bdac1ba8daab23e9a0b5e"
+          }
+        }
+      ],
+      "title": "E-TL3-TWO-PARENT-QUOTA-20261022-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-I1-WARM-STRONG-PARENTS-20261022-R1",
+      "latest_recorded_status": null,
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-I1-WARM-STRONG-PARENTS-20261022-R1\", \"event\": \"admitted_and_running\", \"new_fits\": 4, \"new_fits_per_arm\": 2, \"reused_controls\": 0, \"new_teacher_fits\": 0, \"source\": \"research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/LOCAL_PANEL_ADMISSION_R2.json\", \"unit\": \"wnn-warm-i1-panel-r2-20261022\", \"stage_ceiling_hours\": 8, \"inclusive_projection_hours\": 5.9957349911599, \"exposure\": \"Previously inspected F0/F1; seed,parent,cache andfold confounded. No quality result yet.\"}\n",
+          "record": {
+            "event": "admitted_and_running",
+            "exposure": "Previously inspected F0/F1; seed,parent,cache andfold confounded. No quality result yet.",
+            "id": "E-I1-WARM-STRONG-PARENTS-20261022-R1",
+            "inclusive_projection_hours": 5.9957349911599,
+            "new_fits": 4,
+            "new_fits_per_arm": 2,
+            "new_teacher_fits": 0,
+            "reused_controls": 0,
+            "source": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/LOCAL_PANEL_ADMISSION_R2.json",
+            "stage_ceiling_hours": 8,
+            "unit": "wnn-warm-i1-panel-r2-20261022"
+          },
+          "source": {
+            "line": 1018,
+            "path": "research/experiments.jsonl",
+            "sha256": "460a09dd5432a66dc176b76962c6eb441e43fa4995f374e15fb367cf0c9af440"
+          }
+        }
+      ],
+      "title": "E-I1-WARM-STRONG-PARENTS-20261022-R1",
+      "type": "experiment"
+    },
+    {
+      "classification": {
+        "matches": [],
+        "rule": "multiple_or_missing_linked_hypotheses"
+      },
+      "id": "experiment:E-ONLINE-RELATIONSHIPS-20261022-R1",
+      "latest_recorded_status": "screen_failed",
+      "parent_id": "family:unclassified",
+      "raw_rows": [
+        {
+          "raw_record": "{\"id\": \"E-ONLINE-RELATIONSHIPS-20261022-R1\", \"event\": \"implementation_amendment_not_fit_admission\", \"source\": \"research/experiment_drafts/online-relationships-20261022/recipe.json\", \"planned_new_fits\": 12, \"fits_per_arm_per_lag\": 2, \"backward_lags\": [1, 16], \"new_gru_teacher_fits\": 0, \"reused_parent_endpoints\": 2, \"inclusive_ceiling_seconds\": 9000, \"amendment_basis\": \"User explicitly requested both backward lags after original six-fit plan\", \"fits_admitted\": 0}\n",
+          "record": {
+            "amendment_basis": "User explicitly requested both backward lags after original six-fit plan",
+            "backward_lags": [
+              1,
+              16
+            ],
+            "event": "implementation_amendment_not_fit_admission",
+            "fits_admitted": 0,
+            "fits_per_arm_per_lag": 2,
+            "id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+            "inclusive_ceiling_seconds": 9000,
+            "new_gru_teacher_fits": 0,
+            "planned_new_fits": 12,
+            "reused_parent_endpoints": 2,
+            "source": "research/experiment_drafts/online-relationships-20261022/recipe.json"
+          },
+          "source": {
+            "line": 1019,
+            "path": "research/experiments.jsonl",
+            "sha256": "1a9c45879cf6f67ea6531fea74ae5771c5e63dd5273bf15e88c7b42b195a52fa"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-ONLINE-RELATIONSHIPS-20261022-R1\", \"event\": \"feature_profile_support_cgroup_oom\", \"source\": \"research/experiment_drafts/online-relationships-20261022/FEATURE_PROFILE_FAILURE_R1.json\", \"wall_seconds\": 9.183, \"scientific_fits\": 0, \"interpretation\": \"execution failure before throughput evidence, not negative quality\"}\n",
+          "record": {
+            "event": "feature_profile_support_cgroup_oom",
+            "id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+            "interpretation": "execution failure before throughput evidence, not negative quality",
+            "scientific_fits": 0,
+            "source": "research/experiment_drafts/online-relationships-20261022/FEATURE_PROFILE_FAILURE_R1.json",
+            "wall_seconds": 9.183
+          },
+          "source": {
+            "line": 1021,
+            "path": "research/experiments.jsonl",
+            "sha256": "c563a146d4ba462ab23b7e1a1d3a6eca8b6dee21976bcb73fb34141f547f7852"
+          }
+        },
+        {
+          "raw_record": "{\"id\": \"E-ONLINE-RELATIONSHIPS-20261022-R1\", \"event\": \"complete_panel_deferred_feature_cost\", \"source\": \"research/experiment_drafts/online-relationships-20261022/EXECUTION_RESULT_R2.json\", \"planned_fits\": 12, \"admitted_fits\": 0, \"one_pass_feature_seconds\": 15818.88190021913, \"ceiling_seconds\": 9000, \"charged_seconds\": 101.343, \"status\": \"screen_failed\", \"claim_scope\": \"implementation cost admission only; scientific hypothesis not_tested\"}\n",
+          "record": {
+            "admitted_fits": 0,
+            "ceiling_seconds": 9000,
+            "charged_seconds": 101.343,
+            "claim_scope": "implementation cost admission only; scientific hypothesis not_tested",
+            "event": "complete_panel_deferred_feature_cost",
+            "id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+            "one_pass_feature_seconds": 15818.88190021913,
+            "planned_fits": 12,
+            "source": "research/experiment_drafts/online-relationships-20261022/EXECUTION_RESULT_R2.json",
+            "status": "screen_failed"
+          },
+          "source": {
+            "line": 1022,
+            "path": "research/experiments.jsonl",
+            "sha256": "3d22bdeb05fbb40ef63a9939d4bced6f23a81b86d566eaf06a468d1dcbfa5c09"
+          }
+        }
+      ],
+      "title": "E-ONLINE-RELATIONSHIPS-20261022-R1",
       "type": "experiment"
     },
     {
@@ -96325,6 +96838,17 @@
       },
       "source_id": "hypothesis:H-H512-ENDPOINT-GAP-20261021-R1",
       "target_id": "hypothesis:H-R01-H512-LOCAL-20261021-R1"
+    },
+    {
+      "relation": "ledger_parent_id",
+      "resolved": true,
+      "source": {
+        "line": 578,
+        "path": "research/hypotheses.jsonl",
+        "sha256": "6052bf81cb5b7e64c03cb730d27b781cf37899e763043cf21d0072bc77f92228"
+      },
+      "source_id": "hypothesis:H-I1-HISTORY-FUNCTION-PRESERVING-20261022-R1",
+      "target_id": "hypothesis:H-PLATEAU-I1-HISTORY-20261020-R1"
     },
     {
       "relation": "ledger_hypothesis_reference",

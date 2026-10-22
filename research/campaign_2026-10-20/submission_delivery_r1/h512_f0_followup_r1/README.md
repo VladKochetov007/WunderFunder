@@ -1,5 +1,9 @@
 # H512 local follow-up and production path
 
+## October22 preservation snapshot
+
+The [completed fit log](fit_r1.log), [postfit observer](postfit_watcher_r1.log), [initial postfit log](postfit_r1.log) and [recovery log](postfit_recovery_r2.log) are preserved at the reboot pause. These are historical execution records, not active jobs or a new quality comparison. The latest [pause](../../../campaign_2026-10-21/next_cycle_r1/PAUSE_FOR_REBOOT_R2.json) requires explicit resume; terminal experiment conclusions elsewhere in this packet remain unchanged.
+
 ## Active fit
 
 One cold H512×1 GRU fit started at 23:18:35 UTC on October 20 under

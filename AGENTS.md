@@ -1,5 +1,9 @@
 # Project agent instructions
 
+## Active pause — user instruction, 2026-10-22
+
+Research is **paused for reboot** by the latest user instruction. No new fits, exports or engineering profiles until an explicit user resume. Completed checkpoint/export, unstarted R3 profile and disabled research observers are recorded in [pause receipt](research/campaign_2026-10-21/next_cycle_r1/PAUSE_FOR_REBOOT_R2.json) and [frontier](research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md). Commit/push preservation is authorized; reboot is performed by the user. Older resume/allocation entries below remain history.
+
 ## Active cycle amendment — user instruction, 2026-10-21
 
 Implement the [accepted next-cycle plan](specs/plans/2026-10-21-next-local-kaggle-cycle.md) and resume from its [frontier](research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md). This is a new **30-local-GPU-hour** allocation plus verified available Kaggle, local/Kaggle only; **B300 deferred**. Recover saved artifacts, then six total i1 fits (A/B/C × F0/1001,F2/1002), four total dynamics fits; strong-parent follow-up and production are conditional. Preserve previous15hcycle costs and frozen evidence. Retain oneGPUworker,twoaggregateCPUcores,5GBtaskRAM/VRAM,noTaskSwap,diskScratch,strictFP32. Recheck shared quota; admit complete panels using sustained throughput. No paid compute or competition upload. The dated earlier strategy and stop records below remain history.

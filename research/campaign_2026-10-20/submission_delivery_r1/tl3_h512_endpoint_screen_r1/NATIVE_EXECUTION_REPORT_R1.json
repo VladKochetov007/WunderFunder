@@ -1,0 +1,76 @@
+{
+  "status": "failed",
+  "started_at_utc": "2026-10-21T12:32:35.201272+00:00",
+  "admission_sha256": "98de242c33ddd7eece4a2b6e6ba12d0021c40331d2405cdecace4d7c7dddc989",
+  "accepted_fit_receipt_sha256": "da8e0c5437246411be9cdac6cd261d569382caa3148b2d630111aaf0aa290469",
+  "gpu_postfit_service": {
+    "ActiveState": "active",
+    "SubState": "exited",
+    "InvocationID": "40c17af3fca84d6ca3db48e7ee1c741d",
+    "MainPID": "0",
+    "Result": "success",
+    "ExecMainStartTimestampMonotonic": "106854205960",
+    "ExecMainExitTimestampMonotonic": "107570920635",
+    "ExecMainStatus": "0"
+  },
+  "steps": [
+    {
+      "name": "package_cp5",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "scripts/package_tl3_h512_member.py",
+        "--run-reference",
+        "r01_h512_f0_s1003_local_cp5_r1@ep5",
+        "--runs-dir",
+        "artifacts/runs",
+        "--output-dir",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-cp5",
+        "--artifact-role",
+        "production_candidate"
+      ],
+      "returncode": 0,
+      "wall_seconds": 3.9056130289973225
+    },
+    {
+      "name": "package_swa345",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "scripts/package_tl3_h512_member.py",
+        "--run-reference",
+        "r01_h512_f0_s1003_local_swa345_r1@ep5",
+        "--runs-dir",
+        "artifacts/runs",
+        "--output-dir",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-swa345",
+        "--artifact-role",
+        "production_candidate"
+      ],
+      "returncode": 0,
+      "wall_seconds": 3.71559499099385
+    },
+    {
+      "name": "native_cp5",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python",
+        "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/replay_h512_tl3_endpoint.py",
+        "cp5",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "--zip",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-cp5/submission.zip",
+        "--build-receipt",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-cp5/BUILD_RECEIPT.json",
+        "--output-predictions",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0.npy",
+        "--output-sidecar",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0.json",
+        "--output-receipt",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0_replay.json"
+      ],
+      "returncode": 1,
+      "wall_seconds": 1501.9856201640068
+    }
+  ],
+  "new_fits": 0,
+  "submission_release_admitted": false
+}

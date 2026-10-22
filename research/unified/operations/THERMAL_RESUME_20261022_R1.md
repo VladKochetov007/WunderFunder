@@ -1,6 +1,6 @@
 ---
 kind: incident
-status: running
+status: superseded
 created_utc: 2026-10-22T19:33:37Z
 updated_utc: 2026-10-22T19:33:37Z
 hypothesis_ids: [H-ONLINE-RELATIONSHIPS-20261022-R1]
@@ -9,6 +9,8 @@ evidence_paths: [research/campaign_2026-10-21/next_cycle_r1/RESUME_AFTER_THERMAL
 ---
 
 # Resuming after the laptop thermal pause
+
+Latest status: [paused for reboot](REBOOT_PAUSE_20261022_R2.md). CPU export completed and [full acceptance passed](../../campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/F0_CONTROL_EXPORT_ACCEPTANCE_R4.json). Earlier running/pending descriptions below are the resume history.
 
 ## Question or claim
 

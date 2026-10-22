@@ -1,5 +1,9 @@
 # Next cycle frontier
 
+## Current authority: paused for reboot, October22
+
+[Latest user stop and exact handoff](PAUSE_FOR_REBOOT_R2.json) supersede all earlier live/resume snapshots below. No fit/export/profile is running; research observers/timers are stopped and disabled across boot. Root saves and pushes useful code/evidence only. [Completed warm CPU export](i1_warm_history_extension_r1/F0_CONTROL_EXPORT_ACCEPTANCE_R4.json) passes full coverage; no quality grade, remaining three warm fits unadmitted (16,235.769 stage seconds remain). Online R2 full-path known cost is 10,804.254 seconds >9,000. B8/warmup R3 is source-reviewed but NOT STARTED. Zero online scientific fits. See [pause operation](../../unified/operations/REBOOT_PAUSE_20261022_R2.md). Resume only on explicit user instruction; inspect post-boot storage, resource caps, thermal state and fresh complete-panel cost. Keep 12-hour production reserve.
+
 Owner root; accepted October21. The [spec](../../../specs/plans/2026-10-21-next-local-kaggle-cycle.md)
 is the current authority: 30 new local GPU-hours, plus verified Kaggle quota;
 local/Kaggle only. Historical prior-cycle usage stays in its original receipts.

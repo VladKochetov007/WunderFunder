@@ -1,0 +1,65 @@
+{
+  "status": "PAUSED_BY_USER_FOR_REBOOT",
+  "timestamp_utc": "2026-10-22T20:29:02Z",
+  "authority": "User: Gracefully pause research now. I will reboot. Git add commit push everything useful",
+  "supersedes": "RESUME_AFTER_THERMAL_R1.json",
+  "active_fit_export_or_profile_processes": 0,
+  "new_r3_profile_started": false,
+  "r3_prepared_only": {
+    "source_commit": "af952697f",
+    "sample_fit_sequences_per_fold": 16,
+    "sample_evaluation_sequences_per_fold": 8,
+    "admission": "../../experiment_drafts/online-relationships-20261022/FULL_PROFILE_ADMISSION_R3.json",
+    "spec": "../../experiment_drafts/online-relationships-20261022/FULL_PROFILE_SPEC_R3.json"
+  },
+  "online_scientific_fits_admitted": 0,
+  "warm_control": {
+    "checkpoint": "artifacts/runs/i1warm_f0_control_seed3_e2_cp1_r1/model_ep1.pt",
+    "checkpoint_sha256": "589285f6d084648896d8e2984f1273e6321ab1b98b3fb5cbb161f4d1f76af5e0",
+    "prediction": "cache/pred_i1warm_f0_control_seed3_e2_cp1_r1_valid.npy",
+    "acceptance": "i1_warm_history_extension_r1/F0_CONTROL_EXPORT_ACCEPTANCE_R4.json",
+    "full_prediction_coverage_verified": true,
+    "quality_scored": false,
+    "remaining_three_fits_admitted": false,
+    "strong_stage_remaining_seconds": 16235.769012763001
+  },
+  "budget": {
+    "production_reserve_seconds": 43200,
+    "online_ceiling_seconds": 9000,
+    "online_known_charge_through_r2_seconds": 313.953,
+    "additional_unmeasured_engineering_allowance_seconds": 120,
+    "known_plus_allowance_seconds": 433.953,
+    "caveat": "Small R3 source-review/repair/static checks and stop/publication support remain separately unmeasured; allowance is conservative reservation, not measured elapsed time. No R3 worker charge."
+  },
+  "stopped_and_disabled_units": [
+    "wnn-codex-research-watch.service",
+    "wnn-slice-filecache-guard.service",
+    "wnn-research-monitor.timer",
+    "wnn-watchdog.timer"
+  ],
+  "unit_status": {
+    "wnn-codex-research-watch.service": [
+      "ActiveState=inactive",
+      "SubState=dead",
+      "UnitFileState=disabled"
+    ],
+    "wnn-slice-filecache-guard.service": [
+      "ActiveState=inactive",
+      "SubState=dead",
+      "UnitFileState=disabled"
+    ],
+    "wnn-research-monitor.timer": [
+      "ActiveState=inactive",
+      "SubState=dead",
+      "UnitFileState=disabled"
+    ],
+    "wnn-watchdog.timer": [
+      "ActiveState=inactive",
+      "SubState=dead",
+      "UnitFileState=disabled"
+    ]
+  },
+  "resume_policy": "Explicit user resume required; reboot does not resume research. Recheck disk/tmp/zram, caps/thermals, frozen sources and complete-panel cost gates first.",
+  "large_payload_policy": "Existing weights/predictions stay on physical disk, excluded from Git; hashes and coverage/provenance receipts are committed.",
+  "no_reboot_performed_by_agent": true
+}

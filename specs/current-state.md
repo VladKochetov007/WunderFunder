@@ -1,5 +1,9 @@
 # Current project state
 
+## October22: research paused for reboot
+
+The latest user stop supersedes the resume. [Pause handoff](../research/unified/operations/REBOOT_PAUSE_20261022_R2.md): no active fit/export/profile, completed F0 CP1 and full CPU prediction export preserved. Research observers/timers are stopped and disabled across reboot. Online R2 costs exceed the ceiling; B8 R3 source is reviewed but its profile never started. Zero online scientific fits; remaining three warm fits unadmitted. Explicit user resume required; production reserve remains 12 hours.
+
 ## October22: thermal recovery and compiled online cost profile
 
 The [resume operation](../research/unified/operations/THERMAL_RESUME_20261022_R1.md) preserves the completed warm F0 control and stops its thermally stalled GPU export. The same fixed CP1 now exports on CPU, with GPU hidden and a one-core/4 GB/no-swap bound; full coverage is pending. Remaining three warm fits still need a safe complete-panel projection. Exact compiled online features reduce the one-pass cost projection to 523.40 seconds; full parent-cache/head/grade profiling is pending, with zero online fits admitted. The earlier Python deferral and thermal pause remain history. Production reserve stays 12 hours.

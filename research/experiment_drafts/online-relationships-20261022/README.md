@@ -1,5 +1,17 @@
 # Online relationship screen — October22 amendment
 
+## Current status: paused for reboot
+
+The [latest user stop](../../campaign_2026-10-21/next_cycle_r1/PAUSE_FOR_REBOOT_R2.json) supersedes all resume statements below. Zero scientific fits; no current worker. R2 completed its cost profile and failed the full-panel budget gate. R3 code passed independent source review, but its profile never started. All recipes/specs here require explicit user resume and fresh admission before execution.
+
+- [R1 admission](FULL_PROFILE_ADMISSION_R1.json), [sealed command](FULL_PROFILE_SPEC_R1.json), [guard](FULL_PROFILE_GUARD_R1.json), [failure](FULL_PROFILE_FAILURE_R1.json) and [log](full_profile_r1.log) preserve the train-file missing-mask failure before any head. Canonical all-false fallback repaired the boundary; this was execution failure, not scientific evidence.
+- [R2 admission](FULL_PROFILE_ADMISSION_R2.json), [sealed command](FULL_PROFILE_SPEC_R2.json), [guard](FULL_PROFILE_GUARD_R2.json), [exact profile result](FULL_PROFILE_RESULT_R2.json), [terminal execution/accounting](FULL_PROFILE_EXECUTION_R2.json) and [log](full_profile_r2.log) preserve 12 disposable heads, 4 fit/2 evaluation sequences per fold and 40.923 service seconds. Known full-panel cost projects 10,804.254 seconds >9,000; outer evaluation labels/masks and target quality were not accessed.
+- [Independent R2 cost review](ONLINE_RELATIONSHIP_COST_REVIEW_R2.json) confirms no scientific admission, even after an optimistic adjustment of one-time compilation. Full cold-cache I/O and grading remain unmeasured.
+- [R3 engineering preparation](FULL_PROFILE_ADMISSION_R3.json) and [unstarted sealed command](FULL_PROFILE_SPEC_R3.json) propose 16 fit/8 evaluation sequences per fold, B8 parent prediction batches and separately timed startup. These files are historical preparation under the user pause, not a queued worker or current authorization. The [source-only review](../../unified/reviews/receipts/ONLINE_RELATIONSHIP_R3_SOURCE_REVIEW_R1.json) checks raw-buffer release/order/reset and label boundaries; no R3 throughput result exists.
+- [Root bounded verification](VERIFICATION_R3.json), [46-test raw log](root_integrated_tests_r3.log) and [two missing-mask fixture log](root_data_writer_tests_r2.log) record passing causal/core/compiled/head/fitter/cache and nonzero-checkpoint-restoration checks. These tests do not establish full-panel quality or native serving.
+
+The canonical full delivery CLI and independent artifact grader are implemented; native endpoint implementation, actual native runtime and scientific outcomes are still absent. Older paragraphs below preserve the state at their recording time.
+
 ## Resumed engineering after the user pause
 
 Current code stage: the canonical streaming cache builder, twelve-cell runner, sampled full-path cost profile and independent grader are implemented and source-reviewed. No full scientific panel is admitted. [R3 frozen profile recipe](PROFILE_RECIPE_R3.json) declares the common per-sequence row-weight contract and fresh strict-FP32 parent reference; the historical FP16 precision remains ancestry metadata. Fitting parent predictions remain in-sample.
@@ -35,7 +47,7 @@ The canonical component sampler produced [F0/1001](fit_f0_10pct_s1001.json):315c
 
 [Independent core review](../../unified/reviews/receipts/ONLINE_RELATIONSHIP_CORE_REVIEW_R1.json) binds corrected sourceed09f19b,23passing tests and a separate scalaroracle across bothlags/allarms. It supports causal core/normalizer behavior only; fulltrainer, artifactgrader and nativeendpoint are not implemented by that source.
 
-## Terminal cost decision
+## Historical Python feature cost decision
 
 **Entire12-fit panel deferred; zero scientific fits.** The [successful R2 profile](FEATURE_PROFILE_RESULT_R2.json), [raw log](feature_profile_r2.log) and [execution/accounting receipt](EXECUTION_RESULT_R2.json) project **15,818.88 seconds (4.394h)** for a single feature-generation pass over fitting and evaluation sequences. This uses the fastest of8 complete fitting-valid sequences per fold and already exceeds the9,000second ceiling before parent inference, readout updates, disk I/O, export or grading. Three-epoch recomputation projects38,860.94seconds. This is an empirical cost estimate for the current one-CPU implementation, not a mathematical lower bound or a negative scientific result. No panel truncation or production-reserve borrowing.
 

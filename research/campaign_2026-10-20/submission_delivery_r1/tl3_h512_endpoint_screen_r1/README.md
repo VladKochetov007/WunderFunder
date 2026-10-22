@@ -1,5 +1,9 @@
 # H512 replacement in the complete TL3 endpoint
 
+## October22 preservation snapshot
+
+The [native worker log](native_worker_r1.log), [failed initial sequence report](NATIVE_EXECUTION_REPORT_R1.json) and [recovery log](native_recovery_r2.log) are preserved as historical delivery evidence. Initial native replay returned1 after1,501.986seconds; later recovery and quality interpretation live in the [next-cycle frontier](../../../campaign_2026-10-21/next_cycle_r1/FRONTIER.md). No native worker is running at the reboot pause; the initial report does not describe the final recovered outcome.
+
 **Status: NOT_ADMITTED.** This packet prepares a code path and fixed screen; it
 does not fit a model, grade a candidate, or admit a submission. Root must first
 accept the H512 CP5 terminal receipt and review each package/replay result.

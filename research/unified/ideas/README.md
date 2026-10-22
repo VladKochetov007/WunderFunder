@@ -1,5 +1,8 @@
 # Ideas and hypotheses
 
+- [Online input relationships: reboot handoff](../../experiment_drafts/online-relationships-20261022/README.md#current-status-paused-for-reboot) — implemented strict-FP32 causal core/cache/residual fitter and independent grader; bounded verification passes. R2 complete-panel cost exceeds the 2.5-hour ceiling; B8 R3 preparation source-reviewed but unstarted. User pause, zero scientific fits and no target-quality result.
+
+
 - [October21 accepted representation cycle](../../../specs/plans/2026-10-21-next-local-kaggle-cycle.md) — fixed checkpoint mean, matched six-fit i1 and four-fit future-dynamics screens, conditional four-fit strong-parent transfer. 30 local GPU-hours plus verified Kaggle; B300 deferred. Proposed comparisons, no measured gain. [Execution packet](../../campaign_2026-10-21/next_cycle_r1/README.md).
 
 
