@@ -2,6 +2,8 @@
 
 ## Online complete twelve-fit panel running, October23
 
+[Cycle accounting snapshot](CYCLE_ACCOUNTING_POSTBOOT_R1.json) reconciles 28,796.470 completed measured seconds with active online elapsed and all reserved/unused balances inside the original 108,000-second allocation. The 43,200-second production reserve stays protected; no reallocation or new grant.
+
 [CPU thermal correction at 01:38:41 Kyiv](../../experiment_drafts/online-relationships-20261022/CPU_THERMAL_CORRECTION_R1.json): research quota reduced from 190% to 100% after CPU-package readings of 93–94°C despite GPU 72°C. The source/recipe, memory/swap caps and deadline stay fixed. Earlier cost forecasts are historical; remaining duration at the lower quota is unmeasured. No quality result.
 
 [Rolling cost review at 01:29:42 Kyiv](../../experiment_drafts/online-relationships-20261022/ROLLING_COST_REVIEW_R1.json): F0 parent caches complete in 1,577.463 seconds; F1 is building. The conditional forecast is now 8,820.851/9,000 inclusive seconds with 89.134 seconds under the delivery cap; F1-like-F0 sensitivity exceeds the envelope. Completion is at risk. Keep the existing hard caps and production reserve; no quality result or partial-panel promotion.
