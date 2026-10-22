@@ -31,6 +31,7 @@ ROW_WEIGHT_CONTRACT = {
     "episode_weight": 0.0,
     "episode_floor": 0.1,
 }
+ADMITTED_RECIPE_STATUSES = {"admitted_for_execution", "admitted", "completed"}
 
 
 @dataclass(frozen=True)
@@ -79,7 +80,7 @@ def validate_recipe(
         raise ValueError("unsupported online relationship recipe")
     if recipe.get("experiment_id") != "E-ONLINE-RELATIONSHIPS-20261022-R1":
         raise ValueError("unexpected online relationship experiment identity")
-    if recipe.get("status") not in {"admitted", "completed"}:
+    if recipe.get("status") not in ADMITTED_RECIPE_STATUSES:
         raise ValueError("recipe is not root-admitted for quality grading")
     cells = recipe.get("cells", [])
     if recipe.get("admitted_new_fits") != 12 or len(cells) != 12:
