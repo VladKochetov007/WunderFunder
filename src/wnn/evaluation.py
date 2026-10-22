@@ -59,15 +59,10 @@ def _score_component_moments(moments: np.ndarray, counts: np.ndarray) -> float:
         dp = moments[:, k, 2] - anchor_p
         mean_y = np.sum(weight[:, k] * dy) / total[k]
         mean_p = np.sum(weight[:, k] * dp) / total[k]
-        variance_y = np.sum(
-            counts * moments[:, k, 3] + weight[:, k] * (dy - mean_y) ** 2
-        )
-        variance_p = np.sum(
-            counts * moments[:, k, 4] + weight[:, k] * (dp - mean_p) ** 2
-        )
+        variance_y = np.sum(counts * moments[:, k, 3] + weight[:, k] * (dy - mean_y) ** 2)
+        variance_p = np.sum(counts * moments[:, k, 4] + weight[:, k] * (dp - mean_p) ** 2)
         covariance = np.sum(
-            counts * moments[:, k, 5]
-            + weight[:, k] * (dy - mean_y) * (dp - mean_p)
+            counts * moments[:, k, 5] + weight[:, k] * (dy - mean_y) * (dp - mean_p)
         )
         if np.sqrt(variance_y / total[k]) > 1e-8 and np.sqrt(variance_p / total[k]) > 1e-8:
             result[k] = np.clip(covariance / np.sqrt(variance_y * variance_p), -1, 1)
@@ -93,6 +88,7 @@ def paired_component_bootstrap(
     n_boot: int = 2000,
     seed: int = 0,
     centered: bool = False,
+    return_draws: bool = False,
 ) -> dict:
     """Resample complete components and recompute both pooled correlations.
 
@@ -105,6 +101,8 @@ def paired_component_bootstrap(
         centered: True when inputs are Welford moments from
             ``paired_component_moments``. Raw statistics are refused when
             near-constant variance is ambiguous.
+        return_draws: Include the ordered bootstrap differences for a
+            prespecified stratified aggregation across independent folds.
     """
     a = np.asarray(candidate, dtype=np.float64)
     b = np.asarray(reference, dtype=np.float64)
@@ -149,7 +147,7 @@ def paired_component_bootstrap(
                 wp_from_sums(ca[selected].sum(axis=0)).mean()
                 - wp_from_sums(cb[selected].sum(axis=0)).mean()
             )
-    return {
+    result = {
         "candidate_wp": score_a,
         "reference_wp": score_b,
         "mean_diff": score_a - score_b,
@@ -163,6 +161,9 @@ def paired_component_bootstrap(
         "metric_id": "global_wp_clip2_v1",
         "centered_moments": centered,
     }
+    if return_draws:
+        result["bootstrap_deltas"] = deltas.tolist()
+    return result
 
 
 def paired_bootstrap(a, b, strata=None, n_boot: int = 2000, seed: int = 0) -> dict:

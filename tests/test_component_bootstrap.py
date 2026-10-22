@@ -39,6 +39,39 @@ def test_component_bootstrap_is_paired_and_deterministic() -> None:
     assert result == paired_component_bootstrap(stats, stats, np.arange(5), n_boot=20)
 
 
+def test_component_bootstrap_exposes_draws_for_independent_fold_aggregation() -> None:
+    rng = np.random.default_rng(71)
+    y = rng.normal(size=(6, 80, 2)).astype(np.float32)
+    candidate = (y + 0.2 * rng.normal(size=y.shape)).astype(np.float32)
+    reference = (y + 0.8 * rng.normal(size=y.shape)).astype(np.float32)
+    mask = np.ones(y.shape[:2], dtype=bool)
+    candidate_moments, reference_moments = paired_component_moments(y, candidate, reference, mask)
+    result = paired_component_bootstrap(
+        candidate_moments,
+        reference_moments,
+        np.arange(6),
+        n_boot=25,
+        seed=221022,
+        centered=True,
+        return_draws=True,
+    )
+    draws = result["bootstrap_deltas"]
+    assert isinstance(draws, list)
+    assert len(draws) == 25
+    assert (
+        draws
+        == paired_component_bootstrap(
+            candidate_moments,
+            reference_moments,
+            np.arange(6),
+            n_boot=25,
+            seed=221022,
+            centered=True,
+            return_draws=True,
+        )["bootstrap_deltas"]
+    )
+
+
 def test_component_bootstrap_rejects_misalignment() -> None:
     with pytest.raises(ValueError, match="aligned"):
         paired_component_bootstrap(np.zeros((2, 2, 6)), np.zeros((3, 2, 6)), np.arange(2))
@@ -70,6 +103,8 @@ def test_centered_bootstrap_handles_opposite_component_means() -> None:
     moments_a, moments_b = paired_component_moments(
         y, y, reference, np.ones(y.shape[:2], dtype=bool)
     )
-    result = paired_component_bootstrap(moments_a, moments_b, np.arange(2), n_boot=50, centered=True)
+    result = paired_component_bootstrap(
+        moments_a, moments_b, np.arange(2), n_boot=50, centered=True
+    )
     assert result["mean_diff"] == pytest.approx(1.0)
     assert result["ci95"] == pytest.approx([1.0, 1.0])

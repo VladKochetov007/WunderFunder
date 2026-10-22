@@ -1,6 +1,6 @@
 # Ideas and hypotheses
 
-[Mask-aligned readout child](../../experiment_drafts/mask-aligned-readout/README.md) specifies four total prospective head-only fits on matched fitting-side valid components. Child of H-023/H-030/H-035; actual fold-clean parent artifacts and launch arguments remain unbound. No fits or evaluations run.
+[Mask-aligned readout child](../../experiment_drafts/mask-aligned-readout/README.md) now has a canonical receiver for four paired head fits over F0/1001 and F2/1002, with exact historical parent/checkpoint/provenance/split hashes pinned in the recipe. Actual receiver assets and B300 profiles remain unverified; status is executable code, unvalidated on B300, with zero fits, profiles or evaluations. The existing FP16 parent history is preserved without an end-to-end FP32 claim.
 
 
 [Published distillation drafts #28–30](PUBLISHED_GPU_PACKETS_20261018.md#дистилляция-сильных-учителей-и-streaming-студенты) link the exact source snapshots for teacher-capacity transfer, representation hints and streaming students. All target `research-team`; implementation/cache/CPU admission remains pending.

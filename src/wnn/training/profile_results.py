@@ -25,6 +25,16 @@ def report_profile(run: TrainingRun) -> None:
     scaler = run.optimization.scaler
     timer = run.progress.timer
     med = timer.report(args.profile_warmup, args.batch)
+    if device.type == "cuda":
+        free_bytes, total_bytes = torch.cuda.mem_get_info(device)
+        med.update(
+            {
+                "cuda_peak_allocated_bytes": torch.cuda.max_memory_allocated(device),
+                "cuda_peak_reserved_bytes": torch.cuda.max_memory_reserved(device),
+                "cuda_free_memory_bytes": free_bytes,
+                "cuda_total_memory_bytes": total_bytes,
+            }
+        )
     emit("PROFILE", json.dumps({k: round(v, 2) for k, v in med.items()}), flush=True)
     update_counts = epoch_counter.finish(cumulative_updates)
     loss_finite = bool(profile_losses and torch.isfinite(torch.stack(profile_losses)).all().item())
@@ -40,6 +50,16 @@ def report_profile(run: TrainingRun) -> None:
         None if epoch_grad_stats is None else epoch_grad_stats.get("nonfinite_steps"),
     )
     emit("PROFILE_UPDATE_EVIDENCE", json.dumps(evidence), flush=True)
+    if args.capture_execution_runtime:
+        from wnn.training.runtime_provenance import capture_execution_runtime
+
+        runtime_start = run.data.provenance["execution_runtime"]
+        runtime_end = capture_execution_runtime(device, args.precision, "profile_process_end")
+        emit(
+            "PROFILE_EXECUTION_RUNTIME",
+            json.dumps({"process_start": runtime_start, "process_end": runtime_end}),
+            flush=True,
+        )
     if args.activation_backend != "none":
         import torch._dynamo.utils as dynamo_utils
 

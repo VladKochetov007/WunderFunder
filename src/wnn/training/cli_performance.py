@@ -55,6 +55,11 @@ def add_performance_arguments(ap: argparse.ArgumentParser) -> None:
     )
     perf.add_argument("--profile-warmup", type=int, default=5)
     perf.add_argument(
+        "--capture-execution-runtime",
+        action="store_true",
+        help="persist trainer-process CUDA, driver and precision evidence in provenance",
+    )
+    perf.add_argument(
         "--parity-dump", default="", help="save per-step losses and final weights here, then exit"
     )
     perf.add_argument(

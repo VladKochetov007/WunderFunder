@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "status": "static_source_checks_passed_receiver_validation_pending",
+  "recorded_date": "2026-10-22",
+  "branch": "experiment/mask-aligned-readout",
+  "base_commit": "5de72bc3d2137f5564d51fcc67992845ae0c089d",
+  "static_checks": [
+    {
+      "name": "Ruff lint",
+      "command": "uvx --offline ruff check on the 20 changed Python files",
+      "status": "passed",
+      "result": "All checks passed."
+    },
+    {
+      "name": "Ruff format",
+      "command": "uvx --offline ruff format --check on the 20 changed Python files",
+      "status": "passed",
+      "result": "20 files already formatted."
+    },
+    {
+      "name": "Training source structure",
+      "command": "python3 scripts/check_training_structure.py",
+      "status": "passed",
+      "result": {
+        "files": 60,
+        "errors": 0,
+        "max_module_lines": 300,
+        "max_function_lines": 200
+      }
+    },
+    {
+      "name": "Python syntax and local import symbol inspection",
+      "method": "Python standard-library AST parsing and static resolution of packet-local imports",
+      "status": "passed",
+      "python_files": 20,
+      "local_import_errors": 0
+    },
+    {
+      "name": "Packet JSON parsing",
+      "method": "Python standard-library JSON parser",
+      "status": "passed",
+      "json_files": 3
+    },
+    {
+      "name": "Tracked diff whitespace",
+      "command": "git diff --check",
+      "status": "passed"
+    }
+  ],
+  "not_run": [
+    "pytest or other local tests",
+    "model imports, training, inference, profile, or receiver commands",
+    "B300 hardware or receiver asset checks",
+    "provider, SSH, paid compute, scheduler, or submission operations"
+  ],
+  "receiver_status": {
+    "asset_manifest_and_receiver_assets_verified": false,
+    "B300_profile_receipts": 0,
+    "new_head_fits": 0,
+    "predictions_and_grade": false,
+    "readiness": "requires the pinned receiver-side parent checkpoints, provenance, split/data/cache assets, and passing profiles on the target B300"
+  }
+}

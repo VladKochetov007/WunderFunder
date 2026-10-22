@@ -53,6 +53,12 @@ def record_provenance(run: TrainingRun) -> None:
         "evaluation_row_groups": valid_idx.tolist(),
         "checkpoint_sha256": {},
     }
+    if args.capture_execution_runtime:
+        from wnn.training.runtime_provenance import capture_execution_runtime
+
+        provenance["execution_runtime"] = capture_execution_runtime(
+            device, args.precision, "trainer_process_start"
+        )
     provenance["trainer_implementation"] = training_source_identity(environment)
     if fit_subset is not None:
         provenance["fit_subset_manifest_sha256"] = args.fit_subset_manifest_sha256

@@ -24,7 +24,7 @@ def training_source_identity(environment: TrainingEnvironment) -> dict[str, obje
     dependency_paths = [root / "pyproject.toml", root / "uv.lock"]
     missing_dependencies = [path.name for path in dependency_paths if not path.is_file()]
     paths.extend(path for path in dependency_paths if path.is_file())
-    paths.extend(sorted((root / "src/wnn/training").glob("*.py")))
+    paths.extend(sorted((root / "src").rglob("*.py")))
     files = {path.relative_to(root).as_posix(): file_sha256(path) for path in paths}
     encoded = json.dumps(files, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return {
