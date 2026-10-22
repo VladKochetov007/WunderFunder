@@ -21,6 +21,21 @@ from online_relationship_grade_parent import verify_parent_prediction_metadata
 
 
 class GraderContractTests(unittest.TestCase):
+    def test_runner_execution_status_is_accepted_without_target_access(self) -> None:
+        root = Path(__file__).resolve().parents[3]
+        template_path = (
+            root / "research/experiment_drafts/online-relationships-20261022/recipe.json"
+        )
+        recipe = json.loads(template_path.read_text(encoding="utf-8"))
+        recipe["status"] = "admitted_for_execution"
+        recipe["admitted_new_fits"] = 12
+        recipe["target_cache"]["path"] = str(root / "missing-target-cache-not-opened.npz")
+        with tempfile.TemporaryDirectory() as directory:
+            recipe_path = Path(directory) / "execution-recipe.json"
+            recipe_path.write_text(json.dumps(recipe), encoding="utf-8")
+            loaded, _ = validate_recipe(recipe_path, root, sha256_file(recipe_path))
+        self.assertEqual(loaded["status"], "admitted_for_execution")
+
     def test_npy_header_must_cover_exact_payload(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "pred.npy"
