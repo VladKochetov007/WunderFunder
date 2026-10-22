@@ -6,6 +6,8 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
+- [Online relationship R2 cost review](../../experiment_drafts/online-relationships-20261022/ONLINE_RELATIONSHIP_COST_REVIEW_R2.json) — independently reviews the source-pinned CPU profile and complete-panel cost projection. The projected known cost exceeds the 9,000-second ceiling even after an optimistic one-time-JIT adjustment; cold full-cache I/O, target grading and remaining delivery costs are still unmeasured. No scientific fit or quality claim was admitted.
+
 - [Completed six-fit i1 history grade and warm-start review](I1_SIX_FIT_HISTORY_GRADE_REVIEW_20261022_R1.md) — the fixed 90/10 B/C endpoint is slightly positive in both exposed fold/seed cells although C loses standalone; the mean point delta is +0.00031549 with conditional component intervals, no training-seed uncertainty, and no current native 367-input serving path. Source review supports retaining the existing conditional four-fit warm-parent screen as research only, with initial-function parity and random-sampler handling still required. No arrays, models, tests, fits, or provider work were used here.
 
 - [i1 and dynamics native-serving compatibility](I1_DYNAMICS_NATIVE_SERVING_COMPATIBILITY_REVIEW_20261022_R1.md) — source-only trace confirms that stripping the dynamics head leaves 367-wide inputs, which the canonical exporter and native callback reject. It identifies a possible 367-to-211 projection for the post-normalization all-zero-history control, but no conversion, parity, complete-endpoint cost, or active-history native path is implemented or measured.
