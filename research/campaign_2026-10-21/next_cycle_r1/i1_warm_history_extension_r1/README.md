@@ -185,3 +185,11 @@ The exact CPU1/RAM4GB/no-swap/one-GPU-lock/900-second command and create-only
 paths are recorded in the [R4 admission](../WARM_F1_PROFILE_ADMISSION_R4.json).
 This is prepared for root review only: the adapter has not been run, no output
 receipt or model was created, and there is no F1 profile measurement or fit.
+
+## Root F1 retry integration and execution
+
+[Prepared R4 admission](../WARM_F1_PROFILE_ADMISSION_R4.json) was never executed. Root preexecution review found the source-diff check also counted research documentation/tests, and the suggested caller log redirection would create the path before the adapter's create-only check. [R5 adapter](run_warm_f1_profile_r5.py)/[admission](../WARM_F1_PROFILE_ADMISSION_R5.json) restrict the diff to runtime code/config paths and exclusively own the child log after identity checks. Its [failure receipt](PROFILE_F1_R5_ADAPTER_FAILURE.json) records a further actual-producer mismatch: original F0 R2 has no standalone `fold` field. It failed before importing/running the canonical trainer, with no updates or profile result.
+
+[R6 adapter](run_warm_f1_profile_r6.py)/[admission](../WARM_F1_PROFILE_ADMISSION_R6.json) instead verify the original F0 receipt's frozen `--valid-fold 0` argument. The R4 source-amendment bytes and F1 scientific/profile argv remain unchanged. Empty R3 profile directory removal is recorded; no checkpoint or payload was removed. Actual R6 unit `wnn-warm-f1-profile-r6-20261022`, invocation `af5d26cc25324f9ea6ad396efadafbfa`, now runs under CPU1/RAM4GB/noSwap/oneGPUlock/900seconds. Early observation: GPU98%/2629MiB, taskRAM3.70GB, perunitOOM0. This is engineering throughput only; terminal update evidence remains pending.
+
+[F1 CPU preflight failure](PREFLIGHT_F1_FAILURE_R4.json) independently caught the frozen expected membership-order hash copied from the seed3 parent while the frozen continuation argv requests seed4. Full group sets/counts are unchanged. An explicit expected-order amendment must bind the canonical seed4 permutation before rerunning this gate; no optimizer or quality fit occurred.

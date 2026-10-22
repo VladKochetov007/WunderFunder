@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "status": "admitted_for_execution",
+  "admission_id": "wnn-warm-f1-profile-r5-20261022",
+  "scope": "One F1 real-parent engineering profile retry after R3 stopped before updates at the undersized cache-metadata read bound. No scientific fits are admitted.",
+  "source_commit": "81f47a3fd94e4209e47b1f3815af2907e8f0b5d7",
+  "source_root": "/home/vlad/development/wunder/research_tmp/i1-warm-source-repaired-20261022",
+  "source_amendment_path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F1_SOURCE_AMENDMENT_R4.json",
+  "source_amendment_sha256": "bfec8f4c915495be238820a754cfae851344eb9e918475950ded244689db3008",
+  "adapter_path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/run_warm_f1_profile_r5.py",
+  "adapter_sha256": "9a41efc00b09911c5b2ae322fbc999b9a2857c459a1dd8cbb53fb7c6a0cf12d3",
+  "plan_path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/STRONG_PARENT_WARM_I1_PLAN_R1.json",
+  "plan_sha256": "eeec65c1982cda52cbc5260643d9d58bc39bdee264543a85ca6170682f7bc1e1",
+  "profile_recipe_path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F0_WARM_R2.json",
+  "profile_recipe_sha256": "ba13ead87fdad5c97d3ea12e7843a733342a7e05630e5fa60548a0995dc71d34",
+  "profile_id": "i1warm_profile_f1_seed4_r2",
+  "fold": 1,
+  "profile_warmup_batches": 10,
+  "profile_measured_batches": 100,
+  "expected_optimizer_updates": 1100,
+  "unchanged_argv_sha256": "242364de6fd83db8d174c02890ef0796c853829d7df0e77b0e424fd9d2bfd330",
+  "argv_hash_encoding": "SHA-256 of ASCII bytes from compact json.dumps(plan profile argv[1:], ensure_ascii=True); only argv[0] changes to the repaired source scripts/train_rnn.py.",
+  "prior_r3": {
+    "source_commit": "66959b920ba25de1d2f2911d8c5508d22d3eb4d0",
+    "admission_path": "research/campaign_2026-10-21/next_cycle_r1/WARM_F1_PROFILE_ADMISSION_R3.json",
+    "admission_sha256": "b37cdb521938de081f4a6238f55bf89669e2815a4fdfe52ce04acacd4b8419a5",
+    "execution_path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F1_LOCAL_EXECUTION_R3.json",
+    "execution_sha256": "5df66a2543355034036c920a91ef184a4ad8063b4da51c2167d9c3c03dbe478e",
+    "failure_log_path": "research/campaign_2026-10-21/next_cycle_r1/warm_f1_profile_r3.log",
+    "failure_log_sha256": "568e41a74ee2f43d889e0ee44833b57755f5c6150a852e516ba674d2c6b1ae37",
+    "status": "failed before training updates after 5.879722407 seconds: 842417-byte F1 metadata exceeded the 512000-byte reader bound"
+  },
+  "preserved_f0_r2": {
+    "execution_path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F0_LOCAL_EXECUTION_R2.json",
+    "execution_sha256": "b25793c46f4d524a43066db4e80e2cdd3d522baa1e7fb92dcc1b0cd659492cf0",
+    "profile_log_path": "research/campaign_2026-10-21/next_cycle_r1/warm_f0_profile_r2.log",
+    "profile_log_sha256": "c4447fa4826651ed3c1299b4beeac9b30c8d292bdbf6dfc1ebb014f0461e6f52",
+    "status": "complete",
+    "wall_seconds": 304.76052887600963,
+    "profile_batches": 110,
+    "finite_optimizer_updates": 1100,
+    "scientific_fit_performed": false
+  },
+  "receipt_path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F1_LOCAL_EXECUTION_R5.json",
+  "log_path": "research/campaign_2026-10-21/next_cycle_r1/warm_f1_profile_r5.log",
+  "output_run_path": "artifacts/runs/i1warm_profile_f1_seed4_r2",
+  "scratch_root": "/home/vlad/development/wunder/research_tmp",
+  "runtime_environment": {
+    "CUDA_VISIBLE_DEVICES": "0",
+    "TMPDIR": "/home/vlad/development/wunder/research_tmp/i1-history-warm-f1-r5-20261022",
+    "WNN_THREADS": "1",
+    "WNN_LOADER_WORKERS": "0",
+    "WNN_LOADER_RAM_GB": "0.5",
+    "WNN_GPU_MEMORY_BYTES": "4000000000"
+  },
+  "resource_limits": {
+    "cpu_quota_percent": 100,
+    "ram_bytes": 4000000000,
+    "swap_bytes": 0,
+    "gpu_allocator_bytes": 4000000000,
+    "vram_stop_bytes": 5000000000,
+    "max_wall_seconds": 900,
+    "loader_workers": 0,
+    "physical_disk_scratch": true,
+    "gpu_lock": "research/campaign_2026-10-06/bandit_continuation/runtime/gpu.lock"
+  },
+  "invocation_shell": "Root launches asynchronous systemd unit CPU1/RAM4GB/noSwap/900s/GPU lock. Adapter owns create-only profile log. Wrapper output uses separate physical-scratch warm-f1-profile-r5-adapter.log. Exact invocation recorded in root execution receipt.",
+  "operator_limits": "Run only after root source freeze/review and while holding the shared GPU lock. One CPU core, 4,000,000,000-byte RAM cgroup, no swap, 4,000,000,000-byte WNN allocator cap, 5,000,000,000-byte VRAM hard stop and 900-second unit limit. The external VRAM stop is an operator monitor. No worker, cache, recipe, target, or parent changes are included.",
+  "scientific_fits": 0,
+  "new_teacher_fits": 0,
+  "new_student_fits": 0,
+  "fit_authority": "none",
+  "preexecution_corrections": {
+    "prepared_r4_not_executed": true,
+    "scope": "Limit source-diff gate to src/scripts/pyproject/uv files; research documents and cache tests are expected other commit changes. Own child stdout/stderr log exclusively after guards rather than caller redirection before existence checks. No scientific argv or source-amendment byte change."
+  },
+  "empty_r3_directory_recovery": {
+    "path": "artifacts/runs/i1warm_profile_f1_seed4_r2",
+    "previous_failure": "R3 stopped at metadata bound before updates/checkpoints",
+    "observed_entries": [],
+    "action": "rmdir only if empty; preserve R3 execution and log"
+  }
+}
