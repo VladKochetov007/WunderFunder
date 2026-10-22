@@ -1,0 +1,148 @@
+{
+  "schema": "research_recipe_v1_not_trainer_config",
+  "id": "E-TYPED-BIN-ENCODING-20261022-R1",
+  "hypothesis_id": "H-TYPED-BIN-ENCODING-20261022",
+  "status": "proposal_not_launch_ready",
+  "training_authorized": false,
+  "local_execution": "none",
+  "base_sha": "c452e8cf4f8ef57e5c07c6801a6e10fc7616251d",
+  "trainer_dependency": {
+    "pr": 32,
+    "sha": "d7559e94008c0d658898b59290785ae457b1b7bb",
+    "integrated": false
+  },
+  "parent_prs": [
+    8,
+    31
+  ],
+  "cells": [
+    {
+      "fold": 0,
+      "seed": 1001
+    },
+    {
+      "fold": 2,
+      "seed": 1002
+    }
+  ],
+  "arms": [
+    {
+      "id": "raw",
+      "basis": null
+    },
+    {
+      "id": "uniform16",
+      "basis": "per_field_piecewise_linear",
+      "knots": "17 uniform from fitting min to max"
+    },
+    {
+      "id": "quantile16",
+      "basis": "per_field_piecewise_linear",
+      "knots": "17 fitting quantiles at k/16"
+    }
+  ],
+  "primary_contrast": [
+    "quantile16",
+    "uniform16"
+  ],
+  "secondary_contrasts": [
+    [
+      "quantile16",
+      "raw"
+    ],
+    [
+      "uniform16",
+      "raw"
+    ]
+  ],
+  "planned_new_fits": {
+    "teacher": 6,
+    "student": 0,
+    "cached_controls": 0,
+    "total": 6
+  },
+  "completed_fits": 0,
+  "representation": {
+    "raw_feature_count": 112,
+    "event_feature_count": 99,
+    "one_token_per_row": true,
+    "raw_skip": true,
+    "basis_input": "raw112 after shared fitting-only scaling",
+    "basis_per_field": 16,
+    "basis_projection": "flatten112x16 then linear1792->256 and add to raw/event token projection",
+    "uniform_quantile_same_parameters": true,
+    "raw_comparison_capacity_confounded": true,
+    "nonfinite": "same finite indicator and fixed fill in all arms; schema binding pending",
+    "empty_interval": "zero without division",
+    "fit_membership": "cell fitting components only",
+    "knots_frozen_for_evaluation": true
+  },
+  "backbone": {
+    "family": "causal_transformer",
+    "width": 256,
+    "layers": 4,
+    "heads": 4,
+    "ffn": 1024,
+    "context": 256,
+    "chunk": 256,
+    "dropout": 0.05,
+    "targets": 2,
+    "positional_mode": null
+  },
+  "optimizer": {
+    "name": "AdamW",
+    "lr": 0.0002,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "epochs": 12,
+    "global_sequence_batch": 32,
+    "warmup_fraction": 0.02,
+    "cooldown_fraction": 0.2,
+    "min_lr_ratio": 0.1,
+    "selection": "final_epoch"
+  },
+  "precision": {
+    "parameters": "float32",
+    "activations": "float32",
+    "optimizer_state": "float32",
+    "autocast": false,
+    "tf32": false
+  },
+  "metric": {
+    "id": "global_wp_clip2_v1",
+    "predictions_clip": [
+      -2,
+      2
+    ],
+    "mask": "need_prediction AND is_scored",
+    "aggregation": "full components, full fold; equal cell mean",
+    "bootstrap": {
+      "unit": "component",
+      "paired": true,
+      "draws": 10000,
+      "seed": 221022,
+      "scope": "conditional on fixed fitted predictions"
+    }
+  },
+  "practical_effect_threshold": 0.0003,
+  "all_folds_exposed": true,
+  "partition_hashes": null,
+  "data_hashes": null,
+  "launch_command": null,
+  "result": null,
+  "blocking_dependencies": [
+    "integrate pinned canonical trainer dependency",
+    "implement basis/config/checkpoint and inference adapters",
+    "bind source-clean full fitting and eval memberships",
+    "seal loss, target normalization, finite indicators, positional mode, event schema and context/cache semantics before outcomes",
+    "seal shared RNG mapping and initialization for common parameters",
+    "profile actual FP32 memory and seal identical effective batch/update counts",
+    "receiver prefix, full/chunk/row parity and artifact checks"
+  ],
+  "sources": [
+    "https://arxiv.org/abs/2203.05556",
+    "https://arxiv.org/abs/2602.23784v1",
+    "https://github.com/yandex-research/rtdl-num-embeddings/tree/a8fc25025c83f2321c63ff127a3bcef83bb1bfb5"
+  ],
+  "inference_followup": "Separate later student/native acceptance; no quantization in this comparison."
+}

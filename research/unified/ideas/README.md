@@ -1,5 +1,8 @@
 # Ideas and hypotheses
 
+[Concrete numerical-basis child](../../experiment_drafts/typed-bin-feature-encoding/README.md) specifies six total prospective fits, matched uniform/quantile knots and a raw reference. Source preparation only; encoder/trainer integration and receiver acceptance pending. [October22 source and candidate triage](../sources/CONNECTOME_PUBLIC_SEARCH_20261022.md) distinguishes current-task public artifacts from earlier HF competitions.
+
+
 [Published distillation drafts #28–30](PUBLISHED_GPU_PACKETS_20261018.md#дистилляция-сильных-учителей-и-streaming-студенты) link the exact source snapshots for teacher-capacity transfer, representation hints and streaming students. All target `research-team`; implementation/cache/CPU admission remains pending.
 
 [Transformer teacher transfer and CPU-student continuation](CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md#22-select-the-best-transferable-teacher-not-the-largest-checkpoint) adds three explicit comparisons: L207/XL682 teacher scale × H256/H512 student capacity, aligned versus permuted hidden hints, and streaming D128 Transformer versus GRU with/without KD. CP30, sixteen contrasts, clean cache lineage and CPU handoff are specified;510planned student fits are not launches or results. The [team/teacher audit](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md) distinguishes new team evidence from these proposals.
