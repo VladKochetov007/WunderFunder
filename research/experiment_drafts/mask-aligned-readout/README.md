@@ -1,5 +1,7 @@
 # Mask-aligned readout fine-tuning
 
+Published as [draft PR #36](https://github.com/VladKochetov007/WunderFunder/pull/36), targeting `research-team`. No execution.
+
 **Status: BLOCKED PRE-ADMISSION.** This is a docs-only child of the existing H-023/H-030/H-035 mask/propensity fine-tuning line. It proposes four matched, head-only fits; completed new fits: **0**. No new parent fits, run results, or execution approval are included.
 
 The comparison tests whether weighting the head's fitting loss by the actual `is_scored` mask improves the challenge weighted-Pearson score over fitting on all valid `need_prediction` rows. Both arms share one frozen, fold-clean GRU parent per cell; the mask is a loss weight only and never an input. `train.parquet` has no `is_scored`, so fitting must use the valid-side fitting components and their real mask.
