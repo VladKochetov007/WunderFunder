@@ -1,0 +1,39 @@
+{
+  "folds": [0],
+  "arms": {
+    "parent_cp5": {
+      "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1": 1.0
+    },
+    "wmse_cp1": {
+      "overnight_nll_f0_s3_wmse_e2_r1": 1.0
+    },
+    "nll_cp1": {
+      "overnight_nll_f0_s3_nll_e2_r1": 1.0
+    },
+    "parent_nll_50_50": {
+      "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1": 0.5,
+      "overnight_nll_f0_s3_nll_e2_r1": 0.5
+    },
+    "oldz4_cp1_fp32": {
+      "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1": 1.0
+    },
+    "oldz4_075_wmse_025": {
+      "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1": 0.75,
+      "overnight_nll_f0_s3_wmse_e2_r1": 0.25
+    },
+    "oldz4_075_nll_025": {
+      "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1": 0.75,
+      "overnight_nll_f0_s3_nll_e2_r1": 0.25
+    }
+  },
+  "comparisons": [
+    ["nll_cp1", "wmse_cp1"],
+    ["wmse_cp1", "parent_cp5"],
+    ["nll_cp1", "parent_cp5"],
+    ["parent_nll_50_50", "parent_cp5"],
+    ["oldz4_075_wmse_025", "oldz4_cp1_fp32"],
+    ["oldz4_075_nll_025", "oldz4_cp1_fp32"],
+    ["oldz4_075_nll_025", "oldz4_075_wmse_025"]
+  ],
+  "n_boot": 2000
+}

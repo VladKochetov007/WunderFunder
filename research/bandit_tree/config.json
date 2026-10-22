@@ -452,7 +452,7 @@
     {
       "id": "arm:supervision-frontier",
       "parent_id": "family:objective",
-      "title": "Distillation alpha \u00d7 bootstrap horizon",
+      "title": "Distillation alpha × bootstrap horizon",
       "kind": "arm",
       "hypothesis_ids": [
         "H-180",
@@ -1008,7 +1008,7 @@
     {
       "id": "arm:transformer-reanchor-interaction",
       "parent_id": "arm:transformer-student",
-      "title": "Attention-teacher transfer \u00d7 origin-label reanchor",
+      "title": "Attention-teacher transfer × origin-label reanchor",
       "kind": "arm",
       "status": "not_tested",
       "hypothesis_ids": [],
@@ -1037,7 +1037,7 @@
     {
       "id": "arm:cadence-denominator-interaction",
       "parent_id": "arm:cadence",
-      "title": "Gradient cadence \u00d7 measured denominator",
+      "title": "Gradient cadence × measured denominator",
       "kind": "arm",
       "status": "not_tested",
       "hypothesis_ids": [],
@@ -2289,7 +2289,7 @@
         "eligible": true,
         "priority": 3,
         "launch_authorized": false,
-        "reason": "Compute time-independent B\u00d7T inputprojection as one dense operation, preserve reset-after hidden recurrence and chunkstate.",
+        "reason": "Compute time-independent B×T inputprojection as one dense operation, preserve reset-after hidden recurrence and chunkstate.",
         "authorization_scope": "Sourcegroundedidea only; preservequeuedE463 andfreezeactualproductionrecipe/resources beforefits."
       }
     },
@@ -2611,7 +2611,7 @@
     {
       "id": "arm:wide-baseline-heterogeneous",
       "parent_id": "family:teacher",
-      "title": "Wide own baseline family \u00d7 heterogeneous student distillation",
+      "title": "Wide own baseline family × heterogeneous student distillation",
       "kind": "arm",
       "hypothesis_ids": [
         "H-230"
@@ -2656,7 +2656,7 @@
     {
       "id": "arm:wide-event-feature-teacher",
       "parent_id": "family:teacher",
-      "title": "Own teacher capacity \u00d7 live causal event features",
+      "title": "Own teacher capacity × live causal event features",
       "kind": "arm",
       "hypothesis_ids": [
         "H-232"
@@ -2939,6 +2939,9 @@
       "scientific_parent_hypotheses": [
         "H-205",
         "H-240"
+      ],
+      "related_nodes": [
+        "arm:online-gate-cached-tl3-r3-20261018-r1"
       ]
     },
     {
@@ -3158,7 +3161,7 @@
     {
       "id": "arm:feature-context-teacher-interaction",
       "parent_id": "family:ensemble",
-      "title": "Causal feature regime context \u00d7 complementary teacher",
+      "title": "Causal feature regime context × complementary teacher",
       "kind": "arm",
       "hypothesis_ids": [
         "H-252"
@@ -4793,7 +4796,7 @@
     {
       "id": "arm:optimizer-loss-diversity",
       "parent_id": "lineage:diverse-model-combinations",
-      "title": "Optimizer \u00d7 robust-loss interaction and conditional blend value",
+      "title": "Optimizer × robust-loss interaction and conditional blend value",
       "kind": "arm",
       "hypothesis_ids": [
         "H-291"
@@ -5495,6 +5498,202 @@
         "unit": "unmeasured",
         "reviewed": false
       }
+    },
+    {
+      "id": "arm:online-gate-cached-tl3-r3-20261018-r1",
+      "parent_id": "arm:online-expert-reliability",
+      "title": "Lagged proxy gate over cached TL3/R3 predictions",
+      "kind": "arm",
+      "mechanism_kind": "interaction",
+      "hypothesis_ids": [
+        "H-ONLINE-DELAYED-PROXY-20261018-R1"
+      ],
+      "scientific_parent_hypotheses": [
+        "H-243"
+      ],
+      "experiment_ids": [
+        "E-ONLINE-CAUSAL-PROXY-GATE-20261018-R1"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/README.md",
+        "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/RESULTS_R1.md",
+        "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/RECIPE_AUDIT_R1.md",
+        "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/execution_receipt_r1.json",
+        "research/unified/reviews/CAUSAL_PROXY_GATE_EVIDENCE_REVIEW_20261018_R1.md"
+      ],
+      "status": "screened_no_reliable_gain_on_exposed_f0_panel",
+      "claim_scope": "One fitted feature-only lagged-target proxy and two cached expert prediction streams on 32 repeatedly exposed F0 components; target maturity and TL3 ancestry unresolved.",
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta_vs_matched_fixed_blend",
+        "reviewed": false,
+        "update_rule": "No numerical lineage prior from this exposed single-proxy/single-cache screen."
+      },
+      "numeric_prior": null,
+      "cost_h": null,
+      "next_test": "Do not tune this exposed gate. First estimate sequence-level oracle complementarity as a non-deployable upper-bound diagnostic; reopen only with a materially different causal signal, verified mature feedback, or source-qualified expert cohort and fresh folds/seeds.",
+      "related_nodes": [
+        "arm:online-expert-reliability",
+        "arm:online-robust-statistics",
+        "arm:causal-state-init-20261014"
+      ],
+      "allocation": {
+        "eligible": true,
+        "priority": 1,
+        "launch_authorized": false,
+        "reason": "The completed gate adds only +0.00004795 WP over fixed 75/25 and all gates remain below TL3 on exposed F0. Preserve broader online mechanisms; spend next on a bounded complementarity diagnostic rather than retuning these constants.",
+        "authorization_scope": "User-authorized local research continues; each fit or replay still requires exact resource admission."
+      }
+    },
+    {
+      "id": "arm:all-channel-kalman-innovation-clock-20261018-r1",
+      "parent_id": "arm:online-feature-dynamics",
+      "title": "All-channel causal Kalman innovation clock",
+      "kind": "arm",
+      "hypothesis_ids": [
+        "H-ONLINE-INNOVATION-CLOCK-20261018-R1"
+      ],
+      "experiment_ids": [
+        "E-ONLINE-INNOVATION-CLOCK-FEATURE-20261018-R1"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-18/online_features_r1/innovation_clock_r1/recipe.json",
+        "research/campaign_2026-10-18/online_features_r1/innovation_clock_r1/README.md",
+        "research/campaign_2026-10-18/online_features_r1/innovation_clock_r1/innovation_features.py",
+        "research/campaign_2026-10-18/online_features_r1/innovation_clock_r1/screen.py"
+      ],
+      "status": "feature_only_screen_completed_iterate_representation",
+      "claim_scope": "Causal feature distribution on 32 fit-side components; no task-quality or public-transfer claim.",
+      "next_test": "Replace the saturated scalar CUSUM with group-aware fast/slow innovation summaries and test their incremental signal against raw inputs on a bounded, fixed component split before any full recurrent endpoint comparison.",
+      "related_nodes": [
+        "arm:online-feature-dynamics",
+        "arm:raw-context-causal-innovation"
+      ],
+      "allocation": {
+        "eligible": true,
+        "priority": 4,
+        "launch_authorized": false,
+        "reason": "The 32-component feature-only screen found nondegenerate time/group structure, but no target association or endpoint score. Iterate the representation before assigning quality belief or server compute.",
+        "authorization_scope": "One CPU, 1.5 GB RAM, no swap, no GPU, 32 fit-only components. Any supervised follow-up needs a separate allocation and exact resource profile."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta",
+        "reviewed": false,
+        "update_rule": "Feature distributions do not update endpoint-quality beliefs."
+      },
+      "cost_h": null
+    },
+    {
+      "id": "arm:groupwise-fast-slow-kalman-innovation-20261018-r1",
+      "parent_id": "arm:all-channel-kalman-innovation-clock-20261018-r1",
+      "title": "Groupwise fast/slow Kalman innovation incrementality",
+      "kind": "arm",
+      "mechanism_kind": "causal_feature_incrementality",
+      "hypothesis_ids": [
+        "H-GROUP-FAST-SLOW-INNOVATIONS-20261018-R1"
+      ],
+      "experiment_ids": [
+        "E-GROUP-FAST-SLOW-INCREMENTALITY-20261018-R1"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/README.md",
+        "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/recipe.json",
+        "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/profile_receipt_r1.json",
+        "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/run_cv.py",
+        "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/grade_cv.py",
+        "research/unified/operations/GROUPWISE_FAST_SLOW_FEATURE_PROFILE_20261018_R1.md",
+        "research/campaign_2026-10-18/online_features_r1/runtime/attempts/group-fast-slow-profile-20261018-r1.json",
+        "research/unified/reviews/GROUPWISE_FAST_SLOW_SCREEN_RECIPE_REVIEW_20261018_R1.md",
+        "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/grade_result_train_proxy_r1.json",
+        "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/grade_receipt_train_proxy_r1.json",
+        "research/unified/reviews/GROUPWISE_FAST_SLOW_PROXY_RESULT_REVIEW_20261018_R1.md",
+        "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/grade_train_proxy_r1.py",
+        "research/campaign_2026-10-18/online_features_r1/runtime/attempts/group-fast-slow-crossfit-20261018-r1.json",
+        "research/campaign_2026-10-18/online_features_r1/runtime/attempts/group-fast-slow-train-proxy-grade-20261018-r1.json",
+        "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/README.md",
+        "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/recipe_r1.json",
+        "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/profile_receipt_r1.json",
+        "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/preflight_result_r1.json",
+        "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/grade_result_r1.json",
+        "research/unified/reviews/GROUPWISE_FAST_SLOW_RECURRENT_SCREEN_REVIEW_20261018_R1.md"
+      ],
+      "status": "additive_proxy_negative_recurrent_screen_tiny_exposed_gain_uncertain",
+      "claim_scope": "The nonofficial exposed train-row additive ridge proxy loses -0.013093 WP. The matched one-seed recurrent fine-tune scores +0.00005163 WP versus its zero-feature control on exposed F0; the conditional 141-component 95% interval is [-0.00013143,+0.00027018] and temporal bins are mixed. Keep the recurrent feature family open; neither result establishes clean validation or public transfer.",
+      "next_test": "Potential local follow-up: compare fit-only scaling/bounding of the 39 appended states or an independent fit seed against the exact zero-feature control, only after fresh source, shape-profile, memory and controller admission. Do not promote or map this exposed screen to B300 quality.",
+      "related_nodes": [
+        "arm:all-channel-kalman-innovation-clock-20261018-r1",
+        "arm:groupwise-fast-slow-recurrent-interaction-20261018-r1",
+        "arm:online-feature-dynamics",
+        "arm:raw-context-causal-innovation"
+      ],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "The additive ridge proxy loses on its exposed nonofficial train-row objective; one matched recurrent fine-tune is nearly tied to zero with a broad conditional interval and mixed temporal bins. Keep the recurrent family open, but this result does not justify a separate B300 draft.",
+        "authorization_scope": "No follow-up is admitted by this result. Any local scaling or seed comparison requires complete source-qualified membership, the official fixed mask, a fresh actual-shape profile and controller admission within current caps."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta_vs_raw",
+        "reviewed": false,
+        "update_rule": "Keep the additive proxy and recurrent fine-tune as distinct estimands. Do not update quality beliefs from the tiny exposed one-seed recurrent delta; retain selection, fold, fitting-seed and transfer uncertainty."
+      },
+      "numeric_prior": null,
+      "cost_h": null
+    },
+    {
+      "id": "arm:groupwise-fast-slow-recurrent-interaction-20261018-r1",
+      "parent_id": "arm:groupwise-fast-slow-kalman-innovation-20261018-r1",
+      "title": "Recurrent interaction with groupwise fast/slow Kalman states",
+      "kind": "arm",
+      "mechanism_kind": "recurrent_feature_interaction",
+      "hypothesis_ids": [
+        "H-KALMAN-GROUP-RECURRENT-INTERACTION-20261018-R1"
+      ],
+      "experiment_ids": [
+        "E-KALMAN-GROUP-RECURRENT-INTERACTION-20261018-R1"
+      ],
+      "artifacts": [
+        "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/README.md",
+        "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/recipe_r1.json",
+        "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/profile_receipt_r1.json",
+        "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/preflight_result_r1.json",
+        "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/grade_result_r1.json",
+        "research/unified/reviews/GROUPWISE_FAST_SLOW_RECURRENT_SCREEN_REVIEW_20261018_R1.md"
+      ],
+      "status": "screen_completed_tiny_exposed_gain_uncertain",
+      "claim_scope": "One seed, exposed F0, 32-component incremental fine-tune from a shared trained parent: active 0.67986413 WP, zero control 0.67981250, delta +0.00005163; conditional 141-component 95% interval [-0.00013143,+0.00027018]. Position effects are mixed. No seed, fold or public-transfer claim.",
+      "next_test": "If expected information value warrants it, screen one fit-only standardized or bounded state variant and/or an independent fit seed against the frozen zero control under fresh local resource admission. A larger B300 draft needs a materially distinct, reproducible direction rather than this tiny point delta.",
+      "related_nodes": [
+        "arm:groupwise-fast-slow-kalman-innovation-20261018-r1",
+        "arm:all-channel-kalman-innovation-clock-20261018-r1",
+        "arm:raw-context-causal-innovation"
+      ],
+      "allocation": {
+        "eligible": true,
+        "priority": 2,
+        "launch_authorized": false,
+        "reason": "The recurrent interaction remains unresolved beyond this small exposed one-seed screen; another fit needs explicit value and fresh resource admission. No new B300 draft is warranted.",
+        "authorization_scope": "No fit admitted. Preserve current CPU/RAM/GPU caps and serialize any follow-up after actual-shape profiling."
+      },
+      "belief": {
+        "mu": null,
+        "sd": null,
+        "noise_sd": null,
+        "unit": "absolute_global_wp_delta_active_vs_zero",
+        "reviewed": true,
+        "update_rule": "The conditional component bootstrap fixes both trained endpoints and exposed F0; it excludes fit-seed, fold, model-selection and public-transfer uncertainty. Do not use it as the family prior."
+      },
+      "numeric_prior": null,
+      "cost_h": null
     }
   ],
   "links": [],

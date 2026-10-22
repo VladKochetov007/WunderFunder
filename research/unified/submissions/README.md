@@ -6,6 +6,8 @@ Exact releases, public feedback, packaging and release decisions.
 
 ## Current navigation
 
+- [Geometry adapter R2 quota package](../../campaign_2026-10-18/geometry_adapter_probe_r2/README.md) — selected q16 endpoint is 5,323,200 bytes, exact tested SHA `955bff715…`, independently passed offline Python 3.11 smoke and all 468 source-qualified F0 sequences. Served WP 0.680452 preserves fitted FP32 quality; measured callback/full-replay row costs project roughly 40–45 minutes on this CPU, with complete competition runtime unmeasured. The training recipe is negative versus parent 0.681227; this is the user's requested directional quota probe, not a demonstrated public/local gain. Follow final parity/release receipts in the linked note.
+
 - [October18 F0 exploratory release and public feedback](../../campaign_2026-10-18/f0_submission_r1/README.md) — user reports `0897egiv` at0.65839,45m47s/653MB; below prior team best. Exact local ZIP passed full F0 at0.67382636; portal payload SHA remains unverified. [Quality-gap diagnosis](../reviews/QUALITY_GAP_DIAGNOSIS_20261018_R1.md).
 
 - [Model and submission catalog](../models/CURRENT_MODEL_CATALOG.md) — current team packages, model/engine naming and source-qualified public results.
@@ -51,3 +53,13 @@ The latest reported public reference in the archive is 0.6671 for candidate C. D
 - [QAT public transfer review — October14](../../campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/PUBLIC_TRANSFER_REVIEW_20261014_R1.md) and [user-reported scored receipt](../../campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/PUBLIC_RESULT_20261014_R1.json): selectedZIP0.6680 versus original0.6681;54m26s/655MB,4m10s slower and5MBhigher. Package17.46% smaller but no quality/runtime/RAM winner; publicprobecompleted, notpromoted. One rounded/transcribed public comparison, no causal/statistical family rejection or payloadhashverification. E-QAT-FINAL-SELF-DISTILL-20261013-R2.
 
 </details>
+
+- [R2 geometry public result](../../campaign_2026-10-18/geometry_adapter_probe_r2/PUBLIC_RESULT.json): user-reported portal ID14s6l2z7, WP0.66428,30m47s/626MB for frozen SHA955bff…; quality trails team best0.66832 by0.00404. Exact-endpoint transfer evidence, not a verdict on the feature family.
+
+- [R3 reversed-half correction release](../../campaign_2026-10-18/geometry_variations_r3/RELEASE.json) and [user-reported public result](../../campaign_2026-10-18/geometry_variations_r3/PUBLIC_RESULT.json): exactZIP SHA27f01f53…,5,323,608bytes; local native q16 F0 WP0.68142340 over468groups/9.36Mrows, selected adaptively on exposed F0. Public portal ID1wmshmaz scored **0.66456**,30m32s/627MB, which is0.00376 below TL3's reported0.66832 and0.00028 above R2. This is transfer evidence for this package; it neither validates the adaptive local selection nor settles all geometry features. Callback-only fullrowprojection38.09min is not measured competition runtime. Preserves failedv1basenamepackage and earlierR2nativetolerancefailure evidence.
+
+The user's portal screenshot accompanying these results showed 99 total team submissions and 2/5 used today; this count is user-reported and time-specific.
+
+- [October22 two-parent TL3 quota probe](../../campaign_2026-10-22/quota_retained_pair_r1/README.md): explicitly user-authorized exploratory ZIP removes the distilled student and retains two teachers at0.5 each; 8.90MB, source/ABI/Python3.11/full-sequence reset checks and independent technical audit pass. Earlier positive diagnostic used0.33/0.33 and does not grade this ZIP. No exact complete-fold quality, authenticated upload, live quota or public result yet. All-data ancestry/exposure explicit; E-TL3-TWO-PARENT-QUOTA-20261022-R1.
+
+  The same packet’s subsequent [normalized-pair sample grade](../../campaign_2026-10-22/quota_retained_pair_r1/FIXED_SAMPLE_GRADE_R2.json) gives+0.00257354 versus sourceTL3 on eight adaptively exposed components/10,988scoredrows, both targets positive. This resolves the0.33/0.33 versus0.5/0.5 interpretation caveat on that sample only; fullfold/public transfer still unestablished. It preserves the first harness failure and unchanged candidate hash.

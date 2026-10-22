@@ -1,0 +1,153 @@
+{
+  "schema": "wnn.kaggle-h512-f1-fixed-screen.v1",
+  "status": "FROZEN_SCREEN_NOT_GRADED",
+  "purpose": "Grade one fixed five-endpoint panel on the previously exposed F1 evaluation groups after root accepts the completed conditional Kaggle fit.",
+  "fit_admission": "The Kaggle worker receipt is insufficient by itself. Require the independent root terminal acceptance receipt before reading model predictions.",
+  "identity": {
+    "canonical_manifest": {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+      "sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+    },
+    "derived_execution_manifest": {
+      "path": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/fold1_profile_view.json",
+      "sha256": "548b42f06710a0f7c06377b8f2aaf7241469d75f0dad9de05bd4fbc29448d0c3",
+      "allowed_difference": "sources only; dataset source identity values must equal the canonical manifest"
+    },
+    "portable_registry": {
+      "path": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/fold1_portable_inputs.json",
+      "sha256": "2dcd5cee727d1299f1fdab86b71116dc4a70008160c9495be8bf6f5c00b9dc67"
+    },
+    "proposal": {
+      "path": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/H512_F1_CONDITIONAL_PROFILE_FIT_PROPOSAL_20261021_R1.json",
+      "sha256": "b90a46cdaa3e7593d88d3aa95f6dc574ffa99c6646909cf99c84d12d1fb90fbf"
+    },
+    "membership": {
+      "fold": 1,
+      "n_folds": 4,
+      "fit_train_groups": 10533,
+      "fit_valid_groups": 1416,
+      "evaluation_groups": 457,
+      "evaluation_components": 149,
+      "exposure": "Previously inspected F1 evaluation panel; not a fresh holdout."
+    }
+  },
+  "acceptance": {
+    "path": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/F1_FIT_TERMINAL_ACCEPTANCE_R1.json",
+    "schema": "wnn.kaggle-h512-f1-terminal-acceptance.v1",
+    "status": "FIT_COMPLETE_ACCEPTED",
+    "fit_run": "r01_h512_f1_s1004_kaggle_fit_r1",
+    "artifact_root": "Root acceptance must declare a project-root or physical research_tmp directory; accepted output paths are relative to it.",
+    "worker_receipt_path": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/conditional_worker_receipt_r1.json",
+    "required_bindings": [
+      "worker_receipt_sha256",
+      "fit_provenance_sha256",
+      "checkpoint_sha256",
+      "swa_derivation_receipt_path",
+      "swa_derivation_receipt_sha256",
+      "exports"
+    ],
+    "export_identity_keys": [
+      "checkpoint_path",
+      "checkpoint_sha256",
+      "prediction_path",
+      "prediction_sha256",
+      "sidecar_path",
+      "sidecar_sha256"
+    ]
+  },
+  "targets": {
+    "path": "cache/valid_targets.npz",
+    "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "row_index_sha256": "ed030f767a6c650db666844ecffef21f0e96cc9fa2d7e77a0872bdf26c5bed38",
+    "sequence_shape": [
+      1873,
+      20000,
+      2
+    ],
+    "official_selection": "row index >= 99 AND valid_mask is true"
+  },
+  "baseline": {
+    "name": "oldz4_h230_student_f1_s3_r4",
+    "run": "oldz4_h230_student_f1_s3_r4",
+    "epoch": 1,
+    "inference_precision": "fp16",
+    "interpretation": "Legacy FP16 inference reference with previously fitted ancestry; comparisons to the new FP32 endpoints are not a pure precision ablation and do not establish clean CV.",
+    "prediction": {
+      "path": "cache/pred_oldz4_h230_student_f1_s3_r4_valid.npy",
+      "sha256": "ac02c0d9984819753149e281b4754c82885c876bed2b32eca87fe007457a40ce",
+      "size_bytes": 299680128,
+      "shape": [
+        1873,
+        20000,
+        2
+      ],
+      "dtype": "float32"
+    },
+    "sidecar": {
+      "path": "cache/pred_oldz4_h230_student_f1_s3_r4_valid.json",
+      "sha256": "f86d09613568dc3dab84fc64f04998d0b116a32ede35632d97ae1dda60932906"
+    },
+    "checkpoint": {
+      "path": "artifacts/runs/oldz4_h230_student_f1_s3_r4/model_ep1.pt",
+      "sha256": "cd8886589e8664082da1f27aee4f2c4925b61c41da8c740598831ab2f774bbd6"
+    },
+    "provenance": {
+      "path": "artifacts/runs/oldz4_h230_student_f1_s3_r4/provenance.json",
+      "sha256": "8aa0e2af944a52a34d0c0622705071e7ca60a978ec429dc71269fa67b40354da"
+    },
+    "original_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+  },
+  "endpoints": {
+    "oldz4": "oldz4_h230_student_f1_s3_r4",
+    "cp5": "r01_h512_f1_s1004_kaggle_fit_r1",
+    "swa345": "r01_h512_f1_s1004_kaggle_swa345_r1",
+    "oldz4_075_cp5_025": {
+      "oldz4": 0.75,
+      "cp5": 0.25
+    },
+    "oldz4_075_swa345_025": {
+      "oldz4": 0.75,
+      "swa345": 0.25
+    }
+  },
+  "comparisons": [
+    [
+      "cp5",
+      "oldz4"
+    ],
+    [
+      "swa345",
+      "cp5"
+    ],
+    [
+      "oldz4_075_cp5_025",
+      "oldz4"
+    ],
+    [
+      "oldz4_075_swa345_025",
+      "oldz4"
+    ],
+    [
+      "oldz4_075_swa345_025",
+      "oldz4_075_cp5_025"
+    ]
+  ],
+  "bootstrap": {
+    "method": "wnn.evaluation.paired_component_bootstrap on canonical scorer centered moments",
+    "n_boot": 2000,
+    "seed": 271828
+  },
+  "scorer_sources": {
+    "research/campaign_2026-09-30/audit/campaign_score.py": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "src/wnn/metric.py": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc"
+  },
+  "output": "research/campaign_2026-10-21/kaggle_h512_f1_endpoint_grade_r1/F1_FIXED_SCREEN_GRADE_R1.json",
+  "claim_boundaries": [
+    "One fixed F1 panel; no coefficient search or new fit.",
+    "The baseline and all derived comparisons inherit prior F1 exposure and oldZ4 ancestry.",
+    "The oldZ4 baseline used FP16 inference; this panel does not isolate precision.",
+    "The grade is local evidence, not a public-score prediction or automatic submission promotion."
+  ]
+}

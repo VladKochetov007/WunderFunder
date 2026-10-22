@@ -1,0 +1,191 @@
+{
+  "schema": "wnn.kaggle-h512-b16-cloud-export-staging-spec.v1",
+  "status": "CODE_ONLY_PREPARATION_NO_PROVIDER_ACTION",
+  "purpose": "Export the already-derived F1 B16 CP5 and SWA345 endpoints to exact 457-group FP32 evaluation predictions; no training command is included.",
+  "source": {
+    "source_base_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_reference_dataset": "vladkochetov07/wnn-h512-f1-b16-conditional-20261021-r2",
+    "source_reference_archive_sha256": "366d5271a70e367f226b18400189c5d184a3ddb2926afcedae60b1db1fe78c6f",
+    "source_reference_archive_bytes": 841659,
+    "source_reference_manifest_sha256": "baa2e27ae7ae0fbd43a76e7fe9bee7e993ad6481eafbc5355ed53b94ae0b6cb6",
+    "source_reference_code_sha256": "7e5ddb948d8b3e0d86ca7c8d05ba3a37879b81bb5142c585be3d43fefe949ecd",
+    "bundle_producer_commit": "33588ef26f1bcfc065f6c546a062327ce992eb6b",
+    "new_export_dataset_slug": "vladkochetov07/wnn-h512-f1-b16-export-20261021-r1",
+    "predictor_sha256": "904ddc9a2cafd194dc8d6ab9bdf1524120d6a089b83e33e2eb731e67abed6754",
+    "trainer_compatibility_import_sha256": "74530d3499bba1b5647e459105cb263bfc7205d7f3aa928684dfb279c2677345",
+    "dependency_files": {
+      "pyproject.toml": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+      "uv.lock": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+    },
+    "execution_boundary": "The predictor imports helper symbols from scripts/train_rnn.py, whose main is guarded. Generated bundle specs whitelist predict_run.py, the required runtime and src/wnn modules, and exclude every scripts/kaggle_h512_f1_* fit worker and the original fit spec. Both argv vectors execute scripts/predict_run.py only."
+  },
+  "recovery_evidence": {
+    "receipt_schema": "wnn.kaggle-h512-b16-offline-recovery.v1",
+    "receipt_status": "OFFLINE_ARTIFACT_RECOVERY_COMPLETE_NOT_GRADED",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "training_run": false,
+    "quality_evaluated": false,
+    "initial_parameter_sha256": null,
+    "initialization_identity_status": "not_emitted_by_pinned_trainer_source",
+    "initialization_limitation": "The pinned B16 trainer did not emit the initialization tensor digest. The source recovery receipt preserves it as unavailable and makes no reconstructed-as-observed claim.",
+    "collection_receipt_sha256": "217f62251d22c5e93a85f5c6bdc9de874135fe86b9998699a2c0b665aac98783",
+    "collection_manifest_path": "/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-conditional-input-stage-20261021-r2/B16_TERMINAL_COLLECTION_V2_R3/MANIFEST.json",
+    "collection_manifest_sha256": "b45a283af8d55a292d1f211bb389fe945581086c0c45c67437563f601438af86",
+    "fit_membership": {
+      "train_groups": 10533,
+      "valid_fit_groups": 1416,
+      "evaluation_groups": 457
+    },
+    "optimizer_chunk_updates": 44760,
+    "fit_checkpoint": {
+      "run": "r01_h512_f1_s1004_kaggle_fit_r2",
+      "epoch": 5,
+      "path": "artifacts/runs/r01_h512_f1_s1004_kaggle_fit_r2/model_ep5.pt",
+      "size_bytes": 8905703,
+      "sha256": "82cfa6662d7e8f2b61700253070f38e9f7ff0272aa26380049334306567840a9"
+    },
+    "swa_endpoint": {
+      "run": "r01_h512_f1_s1004_kaggle_swa345_r2",
+      "method": "equal_parameter_mean_epochs_3_4_5",
+      "path": "artifacts/runs/r01_h512_f1_s1004_kaggle_swa345_r2/model_ep5.pt",
+      "size_bytes": 8908131,
+      "sha256": "cc604820981478cea0eaa4a59f300c3d33f7acda23c1c1e37937c18fa8324cc6",
+      "derivation_receipt_sha256": "5102c071e42489955f9c82d7b689e4faf9f6b13f6f0f040ddd4050dd44a96f41"
+    },
+    "recovery_scope": "Verify and stage selected checkpoints and provenance only. CP3/CP4 and history remain in the local recovery archive; the derivation receipt and original collection manifest bind their hashes."
+  },
+  "inputs": {
+    "split_manifest_path": "research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_profile_view.json",
+    "split_manifest_sha256": "548b42f06710a0f7c06377b8f2aaf7241469d75f0dad9de05bd4fbc29448d0c3",
+    "portable_registry_path": "research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_portable_inputs.json",
+    "portable_registry_sha256": "2dcd5cee727d1299f1fdab86b71116dc4a70008160c9495be8bf6f5c00b9dc67",
+    "private_structural_caches": {
+      "cache/chains.npz": {
+        "size_bytes": 650142,
+        "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+      },
+      "cache/chain_folds.npz": {
+        "size_bytes": 550072,
+        "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+      }
+    },
+    "raw_dataset_mounts": {
+      "datasets/train.parquet": {
+        "dataset": "vladkochetov07/wunder-funder",
+        "size_bytes": 29240219011,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+      },
+      "datasets/valid.parquet": {
+        "dataset": "vladkochetov07/wunder-funder",
+        "size_bytes": 5615509128,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      }
+    },
+    "raw_data_policy": "Mount the existing private raw dataset. The portable registry verifies byte identities inside each export; the runner checks mounted file sizes before launching."
+  },
+  "workers": [
+    {
+      "spec_name": "export_fit_cp5",
+      "run": "r01_h512_f1_s1004_kaggle_fit_r2",
+      "epoch": 5,
+      "outputs": [
+        "cache/pred_r01_h512_f1_s1004_kaggle_fit_r2_valid.npy",
+        "cache/pred_r01_h512_f1_s1004_kaggle_fit_r2_valid.json"
+      ],
+      "arguments": [
+        "scripts/predict_run.py",
+        "r01_h512_f1_s1004_kaggle_fit_r2",
+        "valid",
+        "--campaign-split-manifest",
+        "research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_profile_view.json",
+        "--campaign-evaluation-only",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "fp32",
+        "--output-name",
+        "r01_h512_f1_s1004_kaggle_fit_r2",
+        "--epoch",
+        "5",
+        "--loader-workers",
+        "0"
+      ]
+    },
+    {
+      "spec_name": "export_swa345",
+      "run": "r01_h512_f1_s1004_kaggle_swa345_r2",
+      "epoch": 5,
+      "outputs": [
+        "cache/pred_r01_h512_f1_s1004_kaggle_swa345_r2_valid.npy",
+        "cache/pred_r01_h512_f1_s1004_kaggle_swa345_r2_valid.json"
+      ],
+      "arguments": [
+        "scripts/predict_run.py",
+        "r01_h512_f1_s1004_kaggle_swa345_r2",
+        "valid",
+        "--campaign-split-manifest",
+        "research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_profile_view.json",
+        "--campaign-evaluation-only",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "fp32",
+        "--output-name",
+        "r01_h512_f1_s1004_kaggle_swa345_r2",
+        "--epoch",
+        "5",
+        "--loader-workers",
+        "0"
+      ]
+    }
+  ],
+  "resource_deadlines": {
+    "serial_workers": true,
+    "per_worker_timeout_seconds": 700,
+    "aggregate_worker_cap_seconds": 1400,
+    "kaggle_kernel_wall_seconds": 1700,
+    "finalization_collection_reserve_seconds": 300,
+    "worker_limits": {
+      "cpus": 1,
+      "ram_bytes": 5000000000,
+      "gpu_memory_bytes": 4294967296,
+      "gpu_stop_bytes": 5368709120,
+      "loader_workers": 0
+    },
+    "timing_basis": {
+      "measured_local_f0_full_valid_export_seconds": {
+        "cp5": 293.71708000799117,
+        "swa345": 397.11985977999575,
+        "receipt": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/POSTFIT_SEQUENCE_REPORT_R1.json"
+      },
+      "measured_groups": 1873,
+      "target_groups": 457,
+      "fixed_preflight_seconds_per_worker": 253,
+      "cloud_inference_sensitivity_multiplier": 2,
+      "planning_seconds": {
+        "fixed_preflight_twice": 506,
+        "scaled_pair_inference_with_2x_cloud_sensitivity": 337,
+        "finalization_reserve": 300,
+        "total_before_minor_stage": 1143,
+        "outer_cap": 1700,
+        "remaining_within_outer_cap_after_planning_estimate": 557,
+        "quota_headroom_after_outer_cap_at_minimum_gate": 645
+      },
+      "limitations": "The prior export times are local F0 full-valid observations, not Kaggle F1 measurements. The fixed per-worker cost deliberately charges both exports separately, including a full portable raw-input identity scan on each worker. The estimate supports bounded admission review; it is not a measured cloud runtime or a guarantee."
+    },
+    "timeout_behavior": "Existing kaggle_kernel and kaggle_gpu_runner enforce the outer monotonic deadline, per-worker cap, resource watchdog and finalization reserve. One T4 means the two fixed exports are queued serially; each is capped at 700 seconds and late work shrinks to remaining headroom. The generated kernel bootstrap's internal wall cap must be patched to 1700 seconds and recorded by KERNEL_DEADLINE_PATCH_R1.json before provider submission."
+  },
+  "local_collection_and_grade": {
+    "run_local_acceptance": "Use research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/accept_h512_f1_b16_offline.py on the downloaded predictions and local immutable checkpoints.",
+    "run_local_grade": "Use research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/grade_h512_f1_b16_offline.py, which calls the frozen R2 score_panel over the same five endpoints.",
+    "prediction_contract": "457 source-qualified groups, shape (457, 20000, 2), float32 C-contiguous NPY; local acceptance checks payload offset plus nbytes, finite values, sidecar/source/checkpoint identities and exact group order.",
+    "evidence_limit": "F1 evaluation groups are exposed robustness evidence, not a fresh holdout or public-score forecast. The initial training tensor digest and post-fit training runtime-flag snapshot remain unavailable."
+  },
+  "admission": {
+    "provider_mutation_performed": false,
+    "upload_or_launch_authorized_by_this_packet": false,
+    "next_step_owner": "root",
+    "quota_gate": "Latest root observation was 2,345 seconds remaining at 2026-10-21 19:56 UTC with no other reservation. This is a planning floor only: refresh direct Kaggle quota and reservation state immediately before provider action, require at least 2,345 seconds and no other reservation, and stage a fresh cap receipt first.",
+    "source_slug_note": "The output dataset slug is a proposed unique ID only; root must confirm owner-scoped availability before using it."
+  }
+}

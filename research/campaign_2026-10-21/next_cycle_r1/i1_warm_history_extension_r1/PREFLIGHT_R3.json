@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "status": "PREPARED_NOT_RUN_ROOT_OWNED",
+  "purpose": "Source-bound F1 actual-parent, normalization-sharing, and initialization-parity gate after the bounded cache-metadata reader repair.",
+  "scientific_fits_admitted": 0,
+  "profile_or_optimizer_steps_by_this_helper": 0,
+  "frozen_plan": {
+    "path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/STRONG_PARENT_WARM_I1_PLAN_R1.json",
+    "sha256": "eeec65c1982cda52cbc5260643d9d58bc39bdee264543a85ca6170682f7bc1e1",
+    "modified": false
+  },
+  "source_amendment": {
+    "path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F1_SOURCE_AMENDMENT_R4.json",
+    "sha256": "bfec8f4c915495be238820a754cfae851344eb9e918475950ded244689db3008",
+    "profile_id": "i1warm_profile_f1_seed4_r2",
+    "unchanged_plan_argv_tail_sha256": "242364de6fd83db8d174c02890ef0796c853829d7df0e77b0e424fd9d2bfd330",
+    "repair_scope": "One additional source file pin; bounded metadata read cap rises from 512000 to 1048576 bytes, with all 41 R1 source pins retained.",
+    "added_source_file": "src/wnn/distillation_cache.py",
+    "added_source_sha256": "1c9eed9537e2fbc10173860dbd19ba99d722ad85995db3d7c2e2cf579ba16136"
+  },
+  "source": {
+    "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "root": "/home/vlad/development/wunder/research_tmp/i1-warm-source-repaired-20261022",
+    "commit": "81f47a3fd94e4209e47b1f3815af2907e8f0b5d7",
+    "clean_checkout_required": true,
+    "legacy_source_pin_count": 41,
+    "legacy_plan_pins_verified_before_import": true
+  },
+  "preserved_failure": {
+    "path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F1_LOCAL_EXECUTION_R3.json",
+    "sha256": "5df66a2543355034036c920a91ef184a4ad8063b4da51c2167d9c3c03dbe478e",
+    "log_path": "research/campaign_2026-10-21/next_cycle_r1/warm_f1_profile_r3.log",
+    "log_sha256": "568e41a74ee2f43d889e0ee44833b57755f5c6150a852e516ba674d2c6b1ae37",
+    "status": "failed_before_training_updates",
+    "wall_seconds": 5.879722407000372,
+    "metadata_bytes": 842417,
+    "old_reader_cap_bytes": 512000,
+    "training_updates": 0
+  },
+  "preflight": {
+    "complete_sequence_rows": 20000,
+    "stateful_chunk_rows": 2000,
+    "fit_only_sequences": [
+      "first selected train fitting group",
+      "first selected extra-valid fitting group"
+    ],
+    "official_score_targets_accessed_by_parity": false,
+    "parity_sequence_read_mode": "feature-only complete sequences",
+    "parent_child_outputs_must_be_finite": true,
+    "max_abs_output_error_tolerance": 1e-05,
+    "both_arms_share_appended_normalization_and_sampler_state": true,
+    "create_only_json_output_under_physical_research_tmp": true
+  },
+  "preserved_f0_profile": {
+    "receipt_path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F0_LOCAL_EXECUTION_R2.json",
+    "receipt_sha256": "b25793c46f4d524a43066db4e80e2cdd3d522baa1e7fb92dcc1b0cd659492cf0",
+    "log_path": "research/campaign_2026-10-21/next_cycle_r1/warm_f0_profile_r2.log",
+    "log_sha256": "c4447fa4826651ed3c1299b4beeac9b30c8d292bdbf6dfc1ebb014f0461e6f52"
+  },
+  "command": ".venv/bin/python research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/preflight_warm_i1.py --plan research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/STRONG_PARENT_WARM_I1_PLAN_R1.json --fold 1 --project-root /home/vlad/development/wunder/wnn_connectome_starterpack --source-root /home/vlad/development/wunder/research_tmp/i1-warm-source-repaired-20261022 --source-sha 81f47a3fd94e4209e47b1f3815af2907e8f0b5d7 --source-amendment research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/PROFILE_F1_SOURCE_AMENDMENT_R4.json --output /home/vlad/development/wunder/research_tmp/i1-history-warm-20261022/preflight-f1-r4.json",
+  "execution": "Prepared only. Root owns the bounded CPU run after integrating the exact R4 amendment artifact and reviewing the command. This receipt records no parent tensor load, dataset access, parity result, fit, or quality score."
+}

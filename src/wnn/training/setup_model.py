@@ -13,10 +13,18 @@ from wnn.sentinel import SentinelPreprocessor
 from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
 from wnn.splits import file_sha256
 from wnn.spread_aux import validate_spread_parent
+from wnn.training.i1_inputs import configure_i1_input_mask
 from wnn.training.inheritance import (
     can_extend_research_features,
     expand_research_feature_state,
     validate_campaign_checkpoint,
+)
+from wnn.training.mean_variance import (
+    append_log_variance_output_head,
+    extend_mean_variance_state,
+)
+from wnn.training.mean_variance import (
+    configuration_error as mean_variance_configuration_error,
 )
 from wnn.training.state import TrainingRun
 from wnn.training_sampling import init_qmc_
@@ -28,6 +36,10 @@ def build_model(run: TrainingRun) -> None:
     ap = run.options.ap
     args = run.options.args
     device = run.options.device
+    mean_variance_error = mean_variance_configuration_error(args, run.options.controlled_loss)
+    if mean_variance_error is not None:
+        ap.error(mean_variance_error)
+    dynamics_at = run.network.dynamics_at
     family_at = run.network.family_at
     init = run.network.init
     ks = run.network.ks
@@ -103,7 +115,13 @@ def build_model(run: TrainingRun) -> None:
     base_n_out = n_out
     if args.distill_family_weight > 0:
         n_out += 8
+    if args.dynamics_aux_head and (
+        args.arch != "gru" or args.cell != "gru" or args.enc != "linear" or n_out != 2
+    ):
+        ap.error("the dynamics auxiliary head requires a plain main-only GRU with linear encoding")
+    dynamics_at = n_out if args.dynamics_aux_head else None
     model = environment.make_model(vars(args), n_in, base_n_out)
+    configure_i1_input_mask(model, vars(args), n_in)
     if args.distill_family_weight > 0:
         model = append_family_output_head(model)
     model = model.to(device)
@@ -111,9 +129,13 @@ def build_model(run: TrainingRun) -> None:
         init_qmc_(model, args.seed)
     if args.rnn_init != "default" and (not args.init):
         rnn_init_(model, args.rnn_init, args.chrono_tmax, args.seed)
+    if args.mean_variance_head:
+        model = append_log_variance_output_head(model)
+        n_out += 2
     moments = ReadoutMoments(device) if args.loss == "ce_joint" else None
     init = None
     run.network.family_at = family_at
+    run.network.dynamics_at = dynamics_at
     run.network.init = init
     run.network.ks = ks
     run.network.mask_at = mask_at
@@ -188,12 +210,30 @@ def load_initializer(run: TrainingRun) -> None:
                 "added_columns": len(research_feature_names(environment.inputs.research_features))
                 - len(research_feature_names(parent_mode)),
                 "input_weights": "zero_initialized",
-                "normalization": "mean_zero_std_one",
+                "normalization": (
+                    "pending_fit_appended_only"
+                    if args.i1_warm_normalization == "fit-appended"
+                    else "mean_zero_std_one"
+                ),
             }
-        if args.distill_family_weight > 0:
-            model.load_state_dict(extend_family_output_head(parent_state, model.state_dict()))
-        else:
-            model.load_state_dict(parent_state)
+        if args.mean_variance_head:
+            if init.get("args", {}).get("mean_variance_head", 0):
+                ap.error("mean/logvariance head extension requires a parent without that head")
+            parent_has_family = init.get("args", {}).get("distill_family_weight", 0.0) > 0
+            child_has_family = args.distill_family_weight > 0
+            if parent_has_family != child_has_family:
+                ap.error("mean/logvariance warm start requires matching family-head layouts")
+            parent_rows = parent_state["head.2.weight"].shape[0]
+            child_rows = model.state_dict()["head.2.weight"].shape[0]
+            parent_state = extend_mean_variance_state(parent_state, model.state_dict())
+            provenance["mean_variance_head_extension"] = {
+                "parent_output_rows": int(parent_rows),
+                "child_output_rows": int(child_rows),
+                "added_rows": "zero initialized",
+            }
+        elif args.distill_family_weight > 0:
+            parent_state = extend_family_output_head(parent_state, model.state_dict())
+        model.load_state_dict(parent_state)
         sentinel_metadata = init.get("sentinel_preprocessing")
         if bool(sentinel_metadata) != bool(args.sentinel_base_width):
             ap.error("sentinel metadata requires matching inherited preprocessing options")

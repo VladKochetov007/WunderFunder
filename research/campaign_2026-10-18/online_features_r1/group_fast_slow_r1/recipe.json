@@ -1,0 +1,149 @@
+{
+  "cv": {
+    "assignment": "sort component IDs, NumPy default_rng(seed) permutation, then np.array_split into four balanced component folds",
+    "bootstrap_draws": 2000,
+    "bootstrap_seed": 20261020,
+    "bootstrap_unit": "paired component resampling, conditional on the four fixed cross-fit models",
+    "component_count": 32,
+    "components_per_fold": 8,
+    "fit_rule": "fit each fold model on the other 24 components; predict every row of its eight held-out components with targets and masks disabled",
+    "fold_count": 4,
+    "fold_seed": 20261019,
+    "position_bins_in_input_row_coordinates": [
+      [
+        99,
+        500
+      ],
+      [
+        500,
+        2000
+      ],
+      [
+        2000,
+        10000
+      ],
+      [
+        10000,
+        20000
+      ]
+    ]
+  },
+  "experiment_id": "E-GROUP-FAST-SLOW-INCREMENTALITY-20261018-R1",
+  "features": {
+    "arms": {
+      "raw": {
+        "features": "current raw inputs",
+        "width": 112
+      },
+      "raw_plus_clock": {
+        "features": "current raw inputs plus frozen scalar CUSUM clock",
+        "width": 113
+      },
+      "raw_plus_group_states": {
+        "features": "current raw inputs plus three fast/slow state features for each of 13 groups",
+        "width": 151
+      }
+    },
+    "ema_initialization": "both EMA states initialize from the first post-warmup group-energy observation; each row updates state with that row before emitting its features",
+    "filter": "independent scalar random-walk Kalman filter per standardized input channel",
+    "group_energy": "mean squared clipped standardized innovation within each of the 13 fixed input groups",
+    "initial_level": 0.0,
+    "initial_state_variance": 1.0,
+    "innovation": "pre-update residual divided by sqrt(predicted state variance + R), clipped to [-8, 8]",
+    "inputs_to_transform": "features only; no target, scoring mask, sequence identifier, or future row",
+    "kalman_observation_variance_r": 1.0,
+    "kalman_process_variance_q": 0.001,
+    "raw_inputs": "all 112 current features, retained unchanged",
+    "reference_scalar_clock": "the frozen all-channel CUSUM clock from innovation_clock_r1, appended to raw inputs only in the reference arm",
+    "sequence_reset": "Kalman and EMA states initialize independently inside every sequence",
+    "state_features": [
+      "log1p(fast_ema(group_energy, span=20))",
+      "log1p(slow_ema(group_energy, span=200))",
+      "log(fast_ema+1e-8)-log(slow_ema+1e-8)"
+    ],
+    "warmup_normalization": "per-sequence mean and sample standard deviation on input rows 0..98; scale floor 1e-6",
+    "warmup_rows": 99
+  },
+  "grading": {
+    "claim_limit": "No endpoint, student, competition validation, public leaderboard, online target-feedback, or long-sequence generalization claim.",
+    "labels_and_masks": "read only by the separate grader after all label-blind OOF predictions and their hashes are frozen",
+    "metric_id": "global_wp_clip2_v1",
+    "negative_result": "Defer this exact fast/slow linear representation but retain other causal Kalman state encodings and recurrent interactions as open hypotheses.",
+    "primary": "pooled OOF official weighted Pearson score over the held-out component predictions",
+    "secondary": [
+      "four-fold scores",
+      "four predeclared position-bin scores",
+      "component win rate vs raw"
+    ],
+    "success": "Group-state arm has a repeatable practical increment over raw across the four folds and component resampling, sufficient to justify a small recurrent representation test; a tiny/noisy linear delta alone is not a B300 direction.",
+    "uncertainty": "Bootstrap conditions on one fixed 32-component fit-side sample and its four CV fits; it does not include training-seed, sequence-selection, clean-validation, or public-transfer uncertainty."
+  },
+  "hypothesis_id": "H-GROUP-FAST-SLOW-INNOVATIONS-20261018-R1",
+  "mechanism_family": "causal_kalman_state_features",
+  "model": {
+    "evaluation_step_stride": 1,
+    "fit_row_stride": 10,
+    "intercept": "weighted target mean minus weighted feature mean dot unstandardized coefficients",
+    "kind": "two-output weighted standardized ridge linear model",
+    "ridge_alpha": 0.1,
+    "sample_weight": "abs(clip(y[t], -2, 2)), separately per target, matching the official metric's label weights",
+    "standardization": "weighted fit-sample mean and standard deviation using stable centered weighted batch moments; feature scales floored at 1e-6",
+    "target_alignment": "same input row x[t] to target y[t] for t >= 99",
+    "target_clip": 2.0
+  },
+  "parent_hypothesis_ids": [
+    "H-ONLINE-INNOVATION-CLOCK-20261018-R1"
+  ],
+  "question": "Do causal groupwise fast/slow Kalman-innovation energy states add held-out predictive signal beyond the current 112 raw inputs, and does a single scalar innovation clock add any linear signal as a reference?",
+  "resources": {
+    "aggregate_working_target_bytes": 17000000000,
+    "cpu_cores": 1,
+    "gpu": false,
+    "memory_reservation_bytes": 2000000000,
+    "physical_output_roots": [
+      "/home/vlad/development/wunder/research_tmp/online_features_r1/group_fast_slow_r1/profile_one_r1",
+      "/home/vlad/development/wunder/research_tmp/online_features_r1/group_fast_slow_r1/fit_predict_r1",
+      "/home/vlad/development/wunder/research_tmp/online_features_r1/group_fast_slow_r1/grade_r1"
+    ],
+    "profile_source": "research/campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/profile_receipt_r1.json (same Parquet reader and weighted-ridge family at 1.5 GB); a separate exact-feature one-sequence profile is required before the full cross-fit fit",
+    "swap_bytes": 0,
+    "worker_kind": "cpu"
+  },
+  "schema_version": 1,
+  "selection": {
+    "component_count": 32,
+    "data_identity": {
+      "bytes": 29240219011,
+      "footer_bytes": 60437285,
+      "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+      "mtime_ns": 1577826000000000000
+    },
+    "data_path": "datasets/train.parquet",
+    "excluded_corrupt_row_groups": [
+      528
+    ],
+    "exposure": "Previously inspected fit-side development sample. Four-fold component cross-fitting is internal incrementality evidence only, not a fresh validation split.",
+    "fit_membership": "one complete row group from each of 32 distinct fold0.fit.train components; no valid, test, or evaluation group is read",
+    "row_groups": 10607,
+    "sample_source": {
+      "path": "research/campaign_2026-10-18/online_features_r1/innovation_clock_r1/feature_only_receipt_r1.json",
+      "selection": "the exact 32 complete component groups previously used in the feature-only innovation-clock screen; all are in fold0.fit.train and have already been exposed during development",
+      "sha256": "f1f082ca58ca23631649d654e28fa84b1c8567e100f460dd8c53bd1cafa792ae"
+    },
+    "split_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  },
+  "source_hashes": {
+    "research/campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/weighted_ridge.py": "af4066876d8a115cc0662187e29fecc34ac2acbf87eb24c61def46908f062ea0",
+    "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/grade_cv.py": "2b503789b5748cf8c47e42849962f8fed8ad332a16b799d251f24da67696e456",
+    "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/group_features.py": "e00bca0baaaaa2be9fcb39efa00117660f15c951b73bb82de75dd067a5f4ced8",
+    "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/profile_one.py": "894470e1126a871919170798ecfeac9dc6aa4ced6e510797ef2088eb8f853a6b",
+    "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/ridge_model.py": "54f62e5949351028fc2d08c2747dcf46893b704ab9930b121936b0f13c7e7d84",
+    "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/run_cv.py": "cd70f57bf36892978b0c85227c7564db3ef050e77dd82a528dbe4cfccffb8b56",
+    "research/campaign_2026-10-18/online_features_r1/group_fast_slow_r1/source_utils.py": "dac415c94bb159b7b990c804f66ae28c9880cc1a9e5757d34f241972915c36ee",
+    "research/campaign_2026-10-18/online_features_r1/innovation_clock_r1/innovation_features.py": "19e72834668d095f2b4f2fde5164957d3ecb1b4b6153a27df12cef89d9a04526",
+    "src/wnn/data.py": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "why_it_might_work": "The scalar CUSUM clock reached its cap early and collapsed distinct channel families. Per-group fast and slow exponentially weighted innovation energies may preserve local surprise and persistence at different timescales while retaining the raw inputs."
+}

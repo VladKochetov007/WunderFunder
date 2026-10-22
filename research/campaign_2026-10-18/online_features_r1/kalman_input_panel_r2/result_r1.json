@@ -1,0 +1,153 @@
+{
+  "claim_limits": [
+    "One fixed checkpoint; no training-seed variation or learned feature path was tested.",
+    "The frozen GRU was trained on raw inputs; replacing four channels creates a train/inference representation mismatch.",
+    "A positive or negative result here does not settle the retained-raw learned Kalman feature teacher/student direction in draft PR #17.",
+    "No public score or competition transfer is inferred."
+  ],
+  "component_order_sha256": "0c89ba23918f5211c6626b3d109580df86368050940990e7b2cf138b8676b8ad",
+  "components": 82,
+  "created_utc": "2026-10-18T05:02:36.419254+00:00",
+  "execution_receipt_sha256": "eee3651d351f14394bf11b88f3311949e23c175d71e7386f20631908b55cf263",
+  "experiment_id": "E-KALMAN-INPUT-EXPANDED-F0-20261018-R1",
+  "exposure_and_selection": "Previously exposed F0. The deterministic 141-group prefix expands the first-16 panel only after its small positive point was seen; the larger estimate is discovery evidence, not independent or clean-fold confirmation.",
+  "fold": 0,
+  "grade_preflight_sha256": "b20bf673ea5ba0b1eaab98efa96380ff22de52f36ef191229ac317b412740e18",
+  "group_order_sha256": "756c6e39b3fb410a8baf05f656c905f9736362c9bd072fdd340aea85400ba76f",
+  "groups": 141,
+  "hypothesis_id": "H-KALMAN-CAUSAL-INPUT-20261018-R1",
+  "local_trend_delta_vs_raw": 0.00011632401842798235,
+  "mask": "need_prediction AND is_scored; need_prediction verified equal to row >= 99",
+  "metric_id": "global_wp_clip2_v1",
+  "paired_component_bootstrap": {
+    "bootstrap_sd": 9.234822136162322e-05,
+    "candidate_wp": 0.721999009554347,
+    "centered_moments": true,
+    "ci95": [
+      -7.494594763962081e-05,
+      0.0002878877816606173
+    ],
+    "mean_diff": 0.00011632401842798235,
+    "metric_id": "global_wp_clip2_v1",
+    "n_boot": 10000,
+    "n_components": 82,
+    "n_sequences": 141,
+    "p_le_0": 0.1221,
+    "reference_wp": 0.721882685535919,
+    "seed": 20261020
+  },
+  "parent_checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+  "post_hoc_temporal_diagnostics": {
+    "interpretation": "Descriptive bins on this exposed, after-first-16 follow-up panel; they do not establish online adaptation or a causal long-horizon effect.",
+    "scores": {
+      "rows_10000_15000": {
+        "local_trend_posterior": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 55387,
+          "t0": 0.7379936758501444,
+          "t1": 0.727503635236849,
+          "wp": 0.7327486555434968
+        },
+        "raw": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 55387,
+          "t0": 0.7376145409077371,
+          "t1": 0.7271672407363428,
+          "wp": 0.73239089082204
+        }
+      },
+      "rows_15000_20000": {
+        "local_trend_posterior": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 63731,
+          "t0": 0.7394795636106667,
+          "t1": 0.6666800845827091,
+          "wp": 0.7030798240966879
+        },
+        "raw": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 63731,
+          "t0": 0.7391815257293761,
+          "t1": 0.6666877941400412,
+          "wp": 0.7029346599347086
+        }
+      },
+      "rows_5000_10000": {
+        "local_trend_posterior": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 53950,
+          "t0": 0.7190924587667037,
+          "t1": 0.697860801826309,
+          "wp": 0.7084766302965064
+        },
+        "raw": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 53950,
+          "t0": 0.719322353301512,
+          "t1": 0.6982169775913487,
+          "wp": 0.7087696654464304
+        }
+      },
+      "rows_99_5000": {
+        "local_trend_posterior": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 55908,
+          "t0": 0.74515864912773,
+          "t1": 0.7429160261979066,
+          "wp": 0.7440373376628183
+        },
+        "raw": {
+          "metric_id": "global_wp_clip2_v1",
+          "selected_rows": 55908,
+          "t0": 0.7451381719047623,
+          "t1": 0.7425683701771968,
+          "wp": 0.7438532710409795
+        }
+      }
+    },
+    "windows": [
+      [
+        99,
+        5000
+      ],
+      [
+        5000,
+        10000
+      ],
+      [
+        10000,
+        15000
+      ],
+      [
+        15000,
+        20000
+      ]
+    ]
+  },
+  "prediction_cache_sha256": {
+    "local_trend_posterior": "bf7938425b571b31f51461f37e635c50b72a054d21a1b701cf80f13ab910e4f0",
+    "raw": "a39385f982d70308381423cb34c318b69629cbcc3067e1025b78be58e7e97246"
+  },
+  "preflight_sha256": "9984586b0822c89a545603725d9f739e8c1f6556f29bf57cdefce8da77fe51cf",
+  "recipe_sha256": "371d398096741abc5924cf0b116c3f9a0d2e8ec70daa091cdd782bfa264a1793",
+  "schema": "wnn.kalman_input_panel_result.v1",
+  "scores": {
+    "local_trend_posterior": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 228976,
+      "t0": 0.7359985065594653,
+      "t1": 0.7079995125492281,
+      "wp": 0.7219990095543467
+    },
+    "raw": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 228976,
+      "t0": 0.7358638918925111,
+      "t1": 0.7079014791793263,
+      "wp": 0.7218826855359187
+    }
+  },
+  "selected_rows": 228976,
+  "sequence_id_order_sha256": "13bf861f2ec5757fd8d0918e4f2984b063c278d2f18bb66dda9fe3fdf89c3129",
+  "status": "complete"
+}

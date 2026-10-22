@@ -1,0 +1,727 @@
+{
+  "schema": "wnn.kaggle-h512-f1-fixed-screen-grade-offline-recovery.v1",
+  "status": "GRADED_NOT_PROMOTED",
+  "plan_sha256": "2ab85601f8bd7d99c52df036d7f7dbed32310e594dab7bca580564a81249c29e",
+  "inference_source": {
+    "source_revision": "68ff682977b822f38351aac0f621146f5f13b440",
+    "working_tree_clean": true,
+    "project_manifest_path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/pyproject.toml",
+    "project_manifest_sha256": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278",
+    "dependency_lock_path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/uv.lock",
+    "dependency_lock_sha256": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173",
+    "predictor_path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/scripts/predict_run.py",
+    "predictor_sha256": "904ddc9a2cafd194dc8d6ab9bdf1524120d6a089b83e33e2eb731e67abed6754",
+    "trainer_entrypoint_path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/scripts/train_rnn.py",
+    "trainer_entrypoint_sha256": "74530d3499bba1b5647e459105cb263bfc7205d7f3aa928684dfb279c2677345"
+  },
+  "offline_acceptance_sha256": "b07aace905619f1c70594b229960e5c5f6b47a8faab2d489e374c4b7e653111a",
+  "recovery_receipt_sha256": "79c34ffd47daeb4b722852e7ebd0358bbb0a8d623c39ed604b0fd9e7299a10cd",
+  "initial_parameter_sha256": null,
+  "initialization_identity_status": "not_emitted_by_pinned_trainer_source",
+  "initialization_limitation": "The pinned trainer records no initial_parameter_sha256. Cold-start arguments, no parent checkpoint, no resume state, and the pinned source are auditable; the initial tensor digest itself is unavailable and is not reconstructed.",
+  "fit": {
+    "run": "r01_h512_f1_s1004_kaggle_fit_r2",
+    "source_revision": "68ff682977b822f38351aac0f621146f5f13b440",
+    "seed": 1004,
+    "membership": "frozen F1 fit train+valid; 457 component-disjoint evaluation groups",
+    "optimizer_chunk_updates": 44760,
+    "cp5_sha256": "82cfa6662d7e8f2b61700253070f38e9f7ff0272aa26380049334306567840a9",
+    "swa_derivation_sha256": "5102c071e42489955f9c82d7b689e4faf9f6b13f6f0f040ddd4050dd44a96f41",
+    "worker_quality_fit_claim": null
+  },
+  "comparison": {
+    "metric_id": "global_wp_clip2_v1",
+    "evaluation_groups": 457,
+    "evaluation_components": 149,
+    "actual_official_scored_rows": 812167,
+    "group_order_sha256": "6f03815cd3dd1362818ba22a2d3ea9e13c0e8548cfb6153734049408c3639dd8",
+    "exact_global_wp": {
+      "oldz4": {
+        "t0": 0.6642897310764572,
+        "t1": 0.6764619783281172,
+        "wp": 0.6703758547022871
+      },
+      "cp5": {
+        "t0": 0.6525278044542556,
+        "t1": 0.668038345995788,
+        "wp": 0.6602830752250218
+      },
+      "swa345": {
+        "t0": 0.6524756831404012,
+        "t1": 0.6681737990338399,
+        "wp": 0.6603247410871205
+      },
+      "oldz4_075_cp5_025": {
+        "t0": 0.6629575249992936,
+        "t1": 0.6758284679604338,
+        "wp": 0.6693929964798637
+      },
+      "oldz4_075_swa345_025": {
+        "t0": 0.6629396657505052,
+        "t1": 0.6758467367449711,
+        "wp": 0.6693932012477382
+      }
+    },
+    "paired_component_bootstrap": {
+      "cp5_minus_oldz4": {
+        "candidate_wp": 0.6602830752250212,
+        "reference_wp": 0.6703758547022869,
+        "mean_diff": -0.010092779477265723,
+        "bootstrap_sd": 0.001302863092150852,
+        "ci95": [
+          -0.012820022716382287,
+          -0.00769153247064422
+        ],
+        "p_le_0": 1.0,
+        "n_sequences": 457,
+        "n_components": 149,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      },
+      "swa345_minus_cp5": {
+        "candidate_wp": 0.6603247410871206,
+        "reference_wp": 0.6602830752250212,
+        "mean_diff": 4.166586209941592e-05,
+        "bootstrap_sd": 0.00029627346781994495,
+        "ci95": [
+          -0.0005578237112802114,
+          0.0005935937637289584
+        ],
+        "p_le_0": 0.419,
+        "n_sequences": 457,
+        "n_components": 149,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      },
+      "oldz4_075_cp5_025_minus_oldz4": {
+        "candidate_wp": 0.6693929964798637,
+        "reference_wp": 0.6703758547022869,
+        "mean_diff": -0.0009828582224231663,
+        "bootstrap_sd": 0.0003352876214185144,
+        "ci95": [
+          -0.0016556915985018405,
+          -0.00032340407850411923
+        ],
+        "p_le_0": 0.998,
+        "n_sequences": 457,
+        "n_components": 149,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      },
+      "oldz4_075_swa345_025_minus_oldz4": {
+        "candidate_wp": 0.6693932012477382,
+        "reference_wp": 0.6703758547022869,
+        "mean_diff": -0.000982653454548732,
+        "bootstrap_sd": 0.0003069204073685308,
+        "ci95": [
+          -0.001619730862859789,
+          -0.000409356958206128
+        ],
+        "p_le_0": 0.999,
+        "n_sequences": 457,
+        "n_components": 149,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      },
+      "oldz4_075_swa345_025_minus_oldz4_075_cp5_025": {
+        "candidate_wp": 0.6693932012477382,
+        "reference_wp": 0.6693929964798637,
+        "mean_diff": 2.0476787443435285e-07,
+        "bootstrap_sd": 8.156507228153312e-05,
+        "ci95": [
+          -0.00016719533779005203,
+          0.0001496848093697292
+        ],
+        "p_le_0": 0.4695,
+        "n_sequences": 457,
+        "n_components": 149,
+        "n_boot": 2000,
+        "seed": 271828,
+        "metric_id": "global_wp_clip2_v1",
+        "centered_moments": true
+      }
+    },
+    "by_class": {
+      "0": {
+        "oldz4": {
+          "t0": 0.8155689570944366,
+          "t1": 0.8109181900600231,
+          "wp": 0.8132435735772299
+        },
+        "cp5": {
+          "t0": 0.8076196671050818,
+          "t1": 0.8041515242439463,
+          "wp": 0.8058855956745141
+        },
+        "swa345": {
+          "t0": 0.8076200756282408,
+          "t1": 0.8043252467433878,
+          "wp": 0.8059726611858142
+        },
+        "oldz4_075_cp5_025": {
+          "t0": 0.8152689088520392,
+          "t1": 0.810810391860607,
+          "wp": 0.8130396503563231
+        },
+        "oldz4_075_swa345_025": {
+          "t0": 0.8152232970671612,
+          "t1": 0.8107884834102049,
+          "wp": 0.8130058902386831
+        }
+      },
+      "1": {
+        "oldz4": {
+          "t0": 0.772783594952571,
+          "t1": 0.7781589512466233,
+          "wp": 0.7754712730995972
+        },
+        "cp5": {
+          "t0": 0.7625452812675207,
+          "t1": 0.7678110092770043,
+          "wp": 0.7651781452722626
+        },
+        "swa345": {
+          "t0": 0.7633353568773275,
+          "t1": 0.7683096320634604,
+          "wp": 0.765822494470394
+        },
+        "oldz4_075_cp5_025": {
+          "t0": 0.7717819264820299,
+          "t1": 0.7772584291346109,
+          "wp": 0.7745201778083204
+        },
+        "oldz4_075_swa345_025": {
+          "t0": 0.771974123714079,
+          "t1": 0.7773637686255006,
+          "wp": 0.7746689461697898
+        }
+      },
+      "2": {
+        "oldz4": {
+          "t0": 0.7381651731951475,
+          "t1": 0.7463478650147757,
+          "wp": 0.7422565191049616
+        },
+        "cp5": {
+          "t0": 0.7315988824474268,
+          "t1": 0.7372144252428792,
+          "wp": 0.734406653845153
+        },
+        "swa345": {
+          "t0": 0.7317132290306865,
+          "t1": 0.7376126461814602,
+          "wp": 0.7346629376060734
+        },
+        "oldz4_075_cp5_025": {
+          "t0": 0.7380228578252259,
+          "t1": 0.7456503363874794,
+          "wp": 0.7418365971063526
+        },
+        "oldz4_075_swa345_025": {
+          "t0": 0.7380311675100226,
+          "t1": 0.7457021690566596,
+          "wp": 0.7418666682833411
+        }
+      },
+      "3": {
+        "oldz4": {
+          "t0": 0.45429124847230085,
+          "t1": 0.4347790062225614,
+          "wp": 0.4445351273474311
+        },
+        "cp5": {
+          "t0": 0.4321432853158933,
+          "t1": 0.42161309473728037,
+          "wp": 0.42687819002658683
+        },
+        "swa345": {
+          "t0": 0.43227539401543286,
+          "t1": 0.42160087872382684,
+          "wp": 0.42693813636962985
+        },
+        "oldz4_075_cp5_025": {
+          "t0": 0.4513822362496079,
+          "t1": 0.433848571814008,
+          "wp": 0.44261540403180794
+        },
+        "oldz4_075_swa345_025": {
+          "t0": 0.4514416797409806,
+          "t1": 0.433852920680228,
+          "wp": 0.4426473002106043
+        }
+      }
+    },
+    "softened_mask_sensitivity_not_official": {
+      "0.02": {
+        "oldz4": {
+          "t0": 0.6435828970347366,
+          "t1": 0.6557311985202527,
+          "wp": 0.6496570477774947
+        },
+        "cp5": {
+          "t0": 0.6319815606920226,
+          "t1": 0.6471258544984652,
+          "wp": 0.6395537075952439
+        },
+        "swa345": {
+          "t0": 0.631975129114693,
+          "t1": 0.6473353137355491,
+          "wp": 0.639655221425121
+        },
+        "oldz4_075_cp5_025": {
+          "t0": 0.6424134525125913,
+          "t1": 0.6551799646653894,
+          "wp": 0.6487967085889903
+        },
+        "oldz4_075_swa345_025": {
+          "t0": 0.6423953031077494,
+          "t1": 0.6552092681518636,
+          "wp": 0.6488022856298066
+        }
+      },
+      "0.05": {
+        "oldz4": {
+          "t0": 0.6199696660949185,
+          "t1": 0.6319173322856901,
+          "wp": 0.6259434991903043
+        },
+        "cp5": {
+          "t0": 0.6085362622284164,
+          "t1": 0.6230575774456867,
+          "wp": 0.6157969198370515
+        },
+        "swa345": {
+          "t0": 0.608582992304744,
+          "t1": 0.6233585312196085,
+          "wp": 0.6159707617621762
+        },
+        "oldz4_075_cp5_025": {
+          "t0": 0.6189886677748894,
+          "t1": 0.6314574603376593,
+          "wp": 0.6252230640562744
+        },
+        "oldz4_075_swa345_025": {
+          "t0": 0.6189700684032923,
+          "t1": 0.631500914984978,
+          "wp": 0.6252354916941352
+        }
+      }
+    },
+    "legacy_sequence_mean_not_official": {
+      "oldz4": {
+        "eligible_sequences": 457,
+        "wp": 0.6506092257776809
+      },
+      "cp5": {
+        "eligible_sequences": 457,
+        "wp": 0.6365356191099887
+      },
+      "swa345": {
+        "eligible_sequences": 457,
+        "wp": 0.6368376387956415
+      },
+      "oldz4_075_cp5_025": {
+        "eligible_sequences": 457,
+        "wp": 0.6489219129653537
+      },
+      "oldz4_075_swa345_025": {
+        "eligible_sequences": 457,
+        "wp": 0.6490039076453608
+      }
+    }
+  },
+  "baseline_interpretation": "Legacy FP16 inference reference with previously fitted ancestry; comparisons to the new FP32 endpoints are not a pure precision ablation and do not establish clean CV.",
+  "exposure_and_boundaries": [
+    "One fixed F1 panel; no coefficient search or new fit.",
+    "The baseline and all derived comparisons inherit prior F1 exposure and oldZ4 ancestry.",
+    "The oldZ4 baseline used FP16 inference; this panel does not isolate precision.",
+    "The grade is local evidence, not a public-score prediction or automatic submission promotion.",
+    "B16 uses44760updates,746batches/epoch and drops13of11949groups each epoch. Effectivebatch, Adamupdatecount and OneCyclesteps differ from F0B8; report per-fold results separately, no pooled identical-arm estimate."
+  ],
+  "input_hashes_before_and_after": {
+    "before": {
+      "plan": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_f1_endpoint_grade_r2/F1_FIXED_SCREEN_R2.json",
+        "sha256": "2ab85601f8bd7d99c52df036d7f7dbed32310e594dab7bca580564a81249c29e"
+      },
+      "acceptance": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/B16_OFFLINE_RECOVERY_ACCEPTANCE_R1.json",
+        "sha256": "b07aace905619f1c70594b229960e5c5f6b47a8faab2d489e374c4b7e653111a"
+      },
+      "recovery_receipt": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/B16_OFFLINE_RECOVERY_RECEIPT_R1.json",
+        "sha256": "79c34ffd47daeb4b722852e7ebd0358bbb0a8d623c39ed604b0fd9e7299a10cd"
+      },
+      "stage_receipt": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/B16_OFFLINE_RECOVERY_STAGE_R1.json",
+        "sha256": "fd99f3b38e011bf41ebab93ca694f64d3a8e205316d5a98f4d0a1904f8f4aad9"
+      },
+      "worker_terminal": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/B16_WORKER_TERMINAL_R3.json",
+        "sha256": "9b94418f06652e78ae7cdd4c02d7113b568c1f7fbece40ff3db4899b1c0dd57f"
+      },
+      "collection_receipt": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/B16_COLLECTION_R3.json",
+        "sha256": "217f62251d22c5e93a85f5c6bdc9de874135fe86b9998699a2c0b665aac98783"
+      },
+      "canonical_manifest": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json",
+        "sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+      },
+      "derived_manifest": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_profile_view.json",
+        "sha256": "548b42f06710a0f7c06377b8f2aaf7241469d75f0dad9de05bd4fbc29448d0c3"
+      },
+      "portable_registry": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_portable_inputs.json",
+        "sha256": "2dcd5cee727d1299f1fdab86b71116dc4a70008160c9495be8bf6f5c00b9dc67"
+      },
+      "proposal": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/H512_F1_B16_CONDITIONAL_PROFILE_FIT_PROPOSAL_20261021_R2.json",
+        "sha256": "dc519df5c7f6a182bfe3d34c1d580580b3b8dad55e4144a8117f24e16208ad09"
+      },
+      "targets": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_targets.npz",
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+      },
+      "oldz4_prediction": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_oldz4_h230_student_f1_s3_r4_valid.npy",
+        "sha256": "ac02c0d9984819753149e281b4754c82885c876bed2b32eca87fe007457a40ce"
+      },
+      "oldz4_sidecar": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_oldz4_h230_student_f1_s3_r4_valid.json",
+        "sha256": "f86d09613568dc3dab84fc64f04998d0b116a32ede35632d97ae1dda60932906"
+      },
+      "oldz4_checkpoint": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f1_s3_r4/model_ep1.pt",
+        "sha256": "cd8886589e8664082da1f27aee4f2c4925b61c41da8c740598831ab2f774bbd6"
+      },
+      "oldz4_provenance": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f1_s3_r4/provenance.json",
+        "sha256": "8aa0e2af944a52a34d0c0622705071e7ca60a978ec429dc71269fa67b40354da"
+      },
+      "fit_cp3": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_fit_r2/model_ep3.pt",
+        "sha256": "9bc7d51731bb0312b2789e9d59e170d042c12c6c01a68ddad2bee36b3d5b0899"
+      },
+      "fit_cp4": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_fit_r2/model_ep4.pt",
+        "sha256": "d08c39fb4a93b3d7683aaa183b9e759df8eda04fba730fd46e1aeb241a7ffd14"
+      },
+      "fit_cp5": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_fit_r2/model_ep5.pt",
+        "sha256": "82cfa6662d7e8f2b61700253070f38e9f7ff0272aa26380049334306567840a9"
+      },
+      "fit_provenance": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_fit_r2/provenance.json",
+        "sha256": "b9c398296ecee12e75dc49c9391c4f42796be5af3749f33ec563662604dcabef"
+      },
+      "fit_history": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_fit_r2/history.json",
+        "sha256": "caa55fa9e38788121225d1d4a48bef73f10af2fd7e5163fe5961851ba4cb9bea"
+      },
+      "swa_checkpoint": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_swa345_r2/model_ep5.pt",
+        "sha256": "cc604820981478cea0eaa4a59f300c3d33f7acda23c1c1e37937c18fa8324cc6"
+      },
+      "swa_model_link": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_swa345_r2/model.pt",
+        "sha256": "cc604820981478cea0eaa4a59f300c3d33f7acda23c1c1e37937c18fa8324cc6"
+      },
+      "swa_provenance": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_swa345_r2/provenance.json",
+        "sha256": "b85dcdd9ff81570996955a4f24683109a77aad98edd209b1d2aa54e5d314b289"
+      },
+      "swa_derivation": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_swa345_r2/weight_derivation_receipt.json",
+        "sha256": "5102c071e42489955f9c82d7b689e4faf9f6b13f6f0f040ddd4050dd44a96f41"
+      },
+      "cp5_prediction": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/cache/pred_r01_h512_f1_s1004_kaggle_fit_r2_valid.npy",
+        "sha256": "d08c7318bd78bb71b698fa83c36ee5d7cfb35a62019f7487969bad923b3fb6ab"
+      },
+      "cp5_sidecar": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/cache/pred_r01_h512_f1_s1004_kaggle_fit_r2_valid.json",
+        "sha256": "e64879501d444d4c77ac32d57541e0b7cd6d2ad5138376558cc1b8a93394ea2f"
+      },
+      "swa345_prediction": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/cache/pred_r01_h512_f1_s1004_kaggle_swa345_r2_valid.npy",
+        "sha256": "ce2c05ad6da5bfc2ce25dd6a388b00b98cff88906ad1e531395a019a7340c655"
+      },
+      "swa345_sidecar": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/cache/pred_r01_h512_f1_s1004_kaggle_swa345_r2_valid.json",
+        "sha256": "662d95b314e1b18e1ab1b3d4e91fe62b8dd2696d75ab85667ae9d20299f99a91"
+      },
+      "recovery_contract": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/recovery_contract.py",
+        "sha256": "ececf1d452d0850b34e5ed5908d2babb6df19a56bfb87866467ad76e5138f7af"
+      },
+      "checkpoint_io": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/checkpoint_io.py",
+        "sha256": "2ec8552d75354e8d8e058dc250cb449f1808f1a62d0c60f983b1e1584117d562"
+      },
+      "fit_audit": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/fit_audit.py",
+        "sha256": "d0fdf050129410f441d0e27f0e582c11ad3da8ca9647bd171cc076cbc34c6045"
+      },
+      "recovery_checks": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/recovery_checks.py",
+        "sha256": "60d0bcf3bb0ca356f01f993eb41938c3c739dafca64b2e1f3a3a9b945636d224"
+      },
+      "recovery_script": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/recover_h512_f1_b16_offline.py",
+        "sha256": "675d512a279c7f38b95d4a67259d094ebf007bdf1b2fe058278d224c7b7df429"
+      },
+      "acceptance_script": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/accept_h512_f1_b16_offline.py",
+        "sha256": "7a36d3e11625c711f7a8985f02f4acfff291a43e629cb77672e05344fcaee5b5"
+      },
+      "grade_script": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/grade_h512_f1_b16_offline.py",
+        "sha256": "60749193928970314626e4cdc27e44633de4756344c1b2f04b773a6d67633b69"
+      },
+      "inference_project_manifest": {
+        "path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/pyproject.toml",
+        "sha256": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278"
+      },
+      "inference_dependency_lock": {
+        "path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/uv.lock",
+        "sha256": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+      },
+      "inference_predictor": {
+        "path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/scripts/predict_run.py",
+        "sha256": "904ddc9a2cafd194dc8d6ab9bdf1524120d6a089b83e33e2eb731e67abed6754"
+      },
+      "inference_trainer_entrypoint": {
+        "path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/scripts/train_rnn.py",
+        "sha256": "74530d3499bba1b5647e459105cb263bfc7205d7f3aa928684dfb279c2677345"
+      },
+      "frozen_grade_script": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_f1_endpoint_grade_r2/grade_h512_f1_screen.py",
+        "sha256": "7e2bb8ebed36b693f935d7247c455f4340b2acff735234ae28998a9491ed33be"
+      },
+      "frozen_grade_contract": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_f1_endpoint_grade_r2/f1_grade_contract.py",
+        "sha256": "87330be5429dca896365d786720c48252618f251d6984b194cbde67ecf085c90"
+      },
+      "frozen_grade_outputs": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_f1_endpoint_grade_r2/f1_grade_outputs.py",
+        "sha256": "a94c34b0e7acd1bb7270ea6def5843316b98d6a458573b4c2d22944cd56ad934"
+      },
+      "scorer:research/campaign_2026-09-30/audit/campaign_score.py": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-30/audit/campaign_score.py",
+        "sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39"
+      },
+      "scorer:src/wnn/gmetric.py": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      },
+      "scorer:src/wnn/evaluation.py": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/evaluation.py",
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+      },
+      "scorer:src/wnn/metric.py": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/metric.py",
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc"
+      }
+    },
+    "after": {
+      "plan": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_f1_endpoint_grade_r2/F1_FIXED_SCREEN_R2.json",
+        "sha256": "2ab85601f8bd7d99c52df036d7f7dbed32310e594dab7bca580564a81249c29e"
+      },
+      "acceptance": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/B16_OFFLINE_RECOVERY_ACCEPTANCE_R1.json",
+        "sha256": "b07aace905619f1c70594b229960e5c5f6b47a8faab2d489e374c4b7e653111a"
+      },
+      "recovery_receipt": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/B16_OFFLINE_RECOVERY_RECEIPT_R1.json",
+        "sha256": "79c34ffd47daeb4b722852e7ebd0358bbb0a8d623c39ed604b0fd9e7299a10cd"
+      },
+      "stage_receipt": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/B16_OFFLINE_RECOVERY_STAGE_R1.json",
+        "sha256": "fd99f3b38e011bf41ebab93ca694f64d3a8e205316d5a98f4d0a1904f8f4aad9"
+      },
+      "worker_terminal": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/B16_WORKER_TERMINAL_R3.json",
+        "sha256": "9b94418f06652e78ae7cdd4c02d7113b568c1f7fbece40ff3db4899b1c0dd57f"
+      },
+      "collection_receipt": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/B16_COLLECTION_R3.json",
+        "sha256": "217f62251d22c5e93a85f5c6bdc9de874135fe86b9998699a2c0b665aac98783"
+      },
+      "canonical_manifest": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold1.json",
+        "sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae"
+      },
+      "derived_manifest": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_profile_view.json",
+        "sha256": "548b42f06710a0f7c06377b8f2aaf7241469d75f0dad9de05bd4fbc29448d0c3"
+      },
+      "portable_registry": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_portable_inputs.json",
+        "sha256": "2dcd5cee727d1299f1fdab86b71116dc4a70008160c9495be8bf6f5c00b9dc67"
+      },
+      "proposal": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/H512_F1_B16_CONDITIONAL_PROFILE_FIT_PROPOSAL_20261021_R2.json",
+        "sha256": "dc519df5c7f6a182bfe3d34c1d580580b3b8dad55e4144a8117f24e16208ad09"
+      },
+      "targets": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_targets.npz",
+        "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+      },
+      "oldz4_prediction": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_oldz4_h230_student_f1_s3_r4_valid.npy",
+        "sha256": "ac02c0d9984819753149e281b4754c82885c876bed2b32eca87fe007457a40ce"
+      },
+      "oldz4_sidecar": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_oldz4_h230_student_f1_s3_r4_valid.json",
+        "sha256": "f86d09613568dc3dab84fc64f04998d0b116a32ede35632d97ae1dda60932906"
+      },
+      "oldz4_checkpoint": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f1_s3_r4/model_ep1.pt",
+        "sha256": "cd8886589e8664082da1f27aee4f2c4925b61c41da8c740598831ab2f774bbd6"
+      },
+      "oldz4_provenance": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/artifacts/runs/oldz4_h230_student_f1_s3_r4/provenance.json",
+        "sha256": "8aa0e2af944a52a34d0c0622705071e7ca60a978ec429dc71269fa67b40354da"
+      },
+      "fit_cp3": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_fit_r2/model_ep3.pt",
+        "sha256": "9bc7d51731bb0312b2789e9d59e170d042c12c6c01a68ddad2bee36b3d5b0899"
+      },
+      "fit_cp4": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_fit_r2/model_ep4.pt",
+        "sha256": "d08c39fb4a93b3d7683aaa183b9e759df8eda04fba730fd46e1aeb241a7ffd14"
+      },
+      "fit_cp5": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_fit_r2/model_ep5.pt",
+        "sha256": "82cfa6662d7e8f2b61700253070f38e9f7ff0272aa26380049334306567840a9"
+      },
+      "fit_provenance": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_fit_r2/provenance.json",
+        "sha256": "b9c398296ecee12e75dc49c9391c4f42796be5af3749f33ec563662604dcabef"
+      },
+      "fit_history": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_fit_r2/history.json",
+        "sha256": "caa55fa9e38788121225d1d4a48bef73f10af2fd7e5163fe5961851ba4cb9bea"
+      },
+      "swa_checkpoint": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_swa345_r2/model_ep5.pt",
+        "sha256": "cc604820981478cea0eaa4a59f300c3d33f7acda23c1c1e37937c18fa8324cc6"
+      },
+      "swa_model_link": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_swa345_r2/model.pt",
+        "sha256": "cc604820981478cea0eaa4a59f300c3d33f7acda23c1c1e37937c18fa8324cc6"
+      },
+      "swa_provenance": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_swa345_r2/provenance.json",
+        "sha256": "b85dcdd9ff81570996955a4f24683109a77aad98edd209b1d2aa54e5d314b289"
+      },
+      "swa_derivation": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/artifacts/runs/r01_h512_f1_s1004_kaggle_swa345_r2/weight_derivation_receipt.json",
+        "sha256": "5102c071e42489955f9c82d7b689e4faf9f6b13f6f0f040ddd4050dd44a96f41"
+      },
+      "cp5_prediction": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/cache/pred_r01_h512_f1_s1004_kaggle_fit_r2_valid.npy",
+        "sha256": "d08c7318bd78bb71b698fa83c36ee5d7cfb35a62019f7487969bad923b3fb6ab"
+      },
+      "cp5_sidecar": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/cache/pred_r01_h512_f1_s1004_kaggle_fit_r2_valid.json",
+        "sha256": "e64879501d444d4c77ac32d57541e0b7cd6d2ad5138376558cc1b8a93394ea2f"
+      },
+      "swa345_prediction": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/cache/pred_r01_h512_f1_s1004_kaggle_swa345_r2_valid.npy",
+        "sha256": "ce2c05ad6da5bfc2ce25dd6a388b00b98cff88906ad1e531395a019a7340c655"
+      },
+      "swa345_sidecar": {
+        "path": "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1/cache/pred_r01_h512_f1_s1004_kaggle_swa345_r2_valid.json",
+        "sha256": "662d95b314e1b18e1ab1b3d4e91fe62b8dd2696d75ab85667ae9d20299f99a91"
+      },
+      "recovery_contract": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/recovery_contract.py",
+        "sha256": "ececf1d452d0850b34e5ed5908d2babb6df19a56bfb87866467ad76e5138f7af"
+      },
+      "checkpoint_io": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/checkpoint_io.py",
+        "sha256": "2ec8552d75354e8d8e058dc250cb449f1808f1a62d0c60f983b1e1584117d562"
+      },
+      "fit_audit": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/fit_audit.py",
+        "sha256": "d0fdf050129410f441d0e27f0e582c11ad3da8ca9647bd171cc076cbc34c6045"
+      },
+      "recovery_checks": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/recovery_checks.py",
+        "sha256": "60d0bcf3bb0ca356f01f993eb41938c3c739dafca64b2e1f3a3a9b945636d224"
+      },
+      "recovery_script": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/recover_h512_f1_b16_offline.py",
+        "sha256": "675d512a279c7f38b95d4a67259d094ebf007bdf1b2fe058278d224c7b7df429"
+      },
+      "acceptance_script": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/accept_h512_f1_b16_offline.py",
+        "sha256": "7a36d3e11625c711f7a8985f02f4acfff291a43e629cb77672e05344fcaee5b5"
+      },
+      "grade_script": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/grade_h512_f1_b16_offline.py",
+        "sha256": "60749193928970314626e4cdc27e44633de4756344c1b2f04b773a6d67633b69"
+      },
+      "inference_project_manifest": {
+        "path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/pyproject.toml",
+        "sha256": "18d727bb46bbe5e1d09164616555029dd7f13f362128ec4fcc424c76389cd278"
+      },
+      "inference_dependency_lock": {
+        "path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/uv.lock",
+        "sha256": "6776378c6216d219e58e24f006416c11aa0f9d9e1d8e5e080d7e25d67b07e173"
+      },
+      "inference_predictor": {
+        "path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/scripts/predict_run.py",
+        "sha256": "904ddc9a2cafd194dc8d6ab9bdf1524120d6a089b83e33e2eb731e67abed6754"
+      },
+      "inference_trainer_entrypoint": {
+        "path": "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff/scripts/train_rnn.py",
+        "sha256": "74530d3499bba1b5647e459105cb263bfc7205d7f3aa928684dfb279c2677345"
+      },
+      "frozen_grade_script": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_f1_endpoint_grade_r2/grade_h512_f1_screen.py",
+        "sha256": "7e2bb8ebed36b693f935d7247c455f4340b2acff735234ae28998a9491ed33be"
+      },
+      "frozen_grade_contract": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_f1_endpoint_grade_r2/f1_grade_contract.py",
+        "sha256": "87330be5429dca896365d786720c48252618f251d6984b194cbde67ecf085c90"
+      },
+      "frozen_grade_outputs": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_f1_endpoint_grade_r2/f1_grade_outputs.py",
+        "sha256": "a94c34b0e7acd1bb7270ea6def5843316b98d6a458573b4c2d22944cd56ad934"
+      },
+      "scorer:research/campaign_2026-09-30/audit/campaign_score.py": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-30/audit/campaign_score.py",
+        "sha256": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39"
+      },
+      "scorer:src/wnn/gmetric.py": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      },
+      "scorer:src/wnn/evaluation.py": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/evaluation.py",
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+      },
+      "scorer:src/wnn/metric.py": {
+        "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/metric.py",
+        "sha256": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc"
+      }
+    }
+  },
+  "resources": {
+    "wall_seconds": 13.035,
+    "peak_rss_kib": 478940
+  }
+}

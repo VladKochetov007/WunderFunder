@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "name": "corrected_long_fixture",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/research_tmp/dynamics-prefix-precision-probe-r2.py"
+      ]
+    },
+    {
+      "name": "create_clean_frozen_predictor_checkout",
+      "argv": [
+        "git",
+        "-c",
+        "checkout.workers=1",
+        "-c",
+        "pack.threads=1",
+        "worktree",
+        "add",
+        "--detach",
+        "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff",
+        "68ff682977b822f38351aac0f621146f5f13b440"
+      ]
+    },
+    {
+      "name": "verify_frozen_source",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/recover_h512_f1_b16_offline.py",
+        "verify-source",
+        "--inference-source-root",
+        "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff"
+      ]
+    },
+    {
+      "name": "stage_existing_saved_prediction_inputs",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/recover_h512_f1_b16_offline.py",
+        "stage",
+        "--recovery-root",
+        "/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1",
+        "--data-root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack"
+      ]
+    }
+  ],
+  "report": "research/campaign_2026-10-21/next_cycle_r1/B16_LOCAL_CPU_STAGE_REPORT_R1.json"
+}

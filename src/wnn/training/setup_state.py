@@ -80,6 +80,7 @@ class NetworkState:
     """Network state owned by one training run; tensors are never copied here."""
 
     family_at: int | None = None
+    dynamics_at: int | None = None
     init: dict[str, Any] | None = None
     initializer_teacher: torch.nn.Module | None = None
     ks: list[int] | None = None

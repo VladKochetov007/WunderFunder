@@ -1,0 +1,65 @@
+{
+  "completed_utc": "2026-10-18T04:13:18.167160+00:00",
+  "experiment_id": "E-WARMUP-EXPERT-GATE-20261018-R1",
+  "final_attempt": {
+    "campaign_parent_after_bytes": 5641670656,
+    "campaign_parent_before_bytes": 5684072448,
+    "campaign_parent_memory_events_after": {
+      "high": 892811,
+      "max": 2236540,
+      "oom": 4,
+      "oom_group_kill": 0,
+      "oom_kill": 4
+    },
+    "campaign_parent_memory_events_before": {
+      "high": 892811,
+      "max": 2236540,
+      "oom": 4,
+      "oom_group_kill": 0,
+      "oom_kill": 4
+    },
+    "command": "scripts/limited .venv/bin/python research/campaign_2026-10-18/online_features_r1/warmup_expert_gate_r1/grade_gate.py --root . --features /home/vlad/development/wunder/research_tmp/online_features_r1/warmup_gate_r1/extract_r2/warmup_features.npy --features-receipt /home/vlad/development/wunder/research_tmp/online_features_r1/warmup_gate_r1/extract_r2/warmup_features_receipt.json --preflight-output research/campaign_2026-10-18/online_features_r1/warmup_expert_gate_r1/preflight_r1.json --output research/campaign_2026-10-18/online_features_r1/warmup_expert_gate_r1/result_r1.json",
+    "exit_code": 0,
+    "gpu_fit": false,
+    "gpu_observation_before": "0% utilization, 75 MiB used",
+    "limits": {
+      "cpu_quota": "50%",
+      "memory_max_bytes": 1500000000,
+      "runtime_max_seconds": 900,
+      "swap": "disabled",
+      "temporary_storage": "/home/vlad/development/wunder/research_tmp",
+      "threads": 1
+    },
+    "peak_task_memory_bytes": null,
+    "peak_task_memory_note": "The transient scope completed successfully but did not retain a peak value; the configured 1.5 GB cap is not reported as a measured peak.",
+    "status": "success"
+  },
+  "preflight_failures": [
+    {
+      "attempt": 1,
+      "cause": "The grader duplicated the correct recipe sidecar hash with one missing character (63 characters instead of 64).",
+      "error": "parent prediction or sidecar differs from frozen recipe",
+      "preflight_written": false,
+      "status": "failed_before_preflight",
+      "target_or_mask_numeric_values_decoded_or_used": false
+    },
+    {
+      "attempt": 2,
+      "cause": "The guard incorrectly required every candidate prediction sidecar to declare all 1,873 validation row groups. Three geometry predictions correctly declare exactly the frozen 468-group F0 evaluation order.",
+      "error": "r2_full_geometry sidecar does not declare the exact full-validation row order",
+      "preflight_written": false,
+      "status": "failed_before_preflight",
+      "target_or_mask_numeric_values_decoded_or_used": false
+    }
+  ],
+  "preflight_fingerprint": "a6cb2fd74e3ff870c690c51b35d29f7cd8fc5028a76d4b3e34ecc7ace41b2b2c",
+  "preflight_sha256": "80c13fcb2410883430a0a5acd5700317f1c1fd39911e6000c9859a3779943f78",
+  "result_sha256": "337ba5b01e7865efe514a3865cfc4c3035e8a2048428779431358e03f0dd6105",
+  "result_sha_note": "This receipt is referenced by the packet README and not embedded in result_r1.json, avoiding a circular hash.",
+  "review": {
+    "record": "research/campaign_2026-10-18/online_features_r1/warmup_expert_gate_r1/independent_review_r1.md",
+    "scope": "static source and metadata review; no numeric target, mask, or prediction payloads opened",
+    "verdict": "pass"
+  },
+  "schema": "wnn.warmup_expert_gate.execution_receipt.v1"
+}

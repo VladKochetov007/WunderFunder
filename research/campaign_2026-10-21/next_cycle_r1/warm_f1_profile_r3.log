@@ -1,0 +1,25 @@
+{"status": "pins_passed_profile_starting", "pins_verified": 49, "preflight_seconds": 3.277393744996516}
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/research_tmp/i1-warm-source-frozen-20261022/scripts/train_rnn.py", line 53, in <module>
+    main()
+    ~~~~^^
+  File "/home/vlad/development/wunder/research_tmp/i1-warm-source-frozen-20261022/scripts/train_rnn.py", line 49, in main
+    _api.main()
+    ~~~~~~~~~^^
+  File "/home/vlad/development/wunder/research_tmp/i1-warm-source-frozen-20261022/src/wnn/training/compatibility.py", line 298, in main
+    run_training(environment=self.environment())
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vlad/development/wunder/research_tmp/i1-warm-source-frozen-20261022/src/wnn/training/runner.py", line 46, in run_training
+    bind_caches(run)
+    ~~~~~~~~~~~^^^^^
+  File "/home/vlad/development/wunder/research_tmp/i1-warm-source-frozen-20261022/src/wnn/training/data_caches.py", line 146, in bind_caches
+    distill_cache_validation = validate_distillation_cache(
+        cache_root,
+    ...<3 lines>...
+        require_families=args.distill_family_weight > 0,
+    )
+  File "/home/vlad/development/wunder/research_tmp/i1-warm-source-frozen-20261022/src/wnn/distillation_cache.py", line 134, in validate_distillation_cache
+    raise ValueError(
+        f"distillation cache metadata exceeds its {MAX_CACHE_METADATA_BYTES}-byte read bound"
+    )
+ValueError: distillation cache metadata exceeds its 512000-byte read bound

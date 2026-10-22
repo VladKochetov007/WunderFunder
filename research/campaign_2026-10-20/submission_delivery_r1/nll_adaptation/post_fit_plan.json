@@ -1,0 +1,116 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "name": "pre_export_artifact_binding",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/validate_prediction_artifacts.py",
+        "--phase",
+        "preflight",
+        "--plan",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/score_plan_r1.json",
+        "--evaluation-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/evaluation_manifest.json",
+        "--receipt",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/prediction_preflight_r1.json",
+        "--post-receipt",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/prediction_post_export_r1.json"
+      ]
+    },
+    {
+      "name": "export_wmse_cp1",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
+        "overnight_nll_f0_s3_wmse_e2_r1",
+        "valid",
+        "--epoch",
+        "1",
+        "--campaign-split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--campaign-full-valid-feature-only",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "fp32",
+        "--loader-workers",
+        "0",
+        "--output-name",
+        "overnight_nll_f0_s3_wmse_e2_r1"
+      ]
+    },
+    {
+      "name": "export_nll_cp1",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
+        "overnight_nll_f0_s3_nll_e2_r1",
+        "valid",
+        "--epoch",
+        "1",
+        "--campaign-split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--campaign-full-valid-feature-only",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "fp32",
+        "--loader-workers",
+        "0",
+        "--output-name",
+        "overnight_nll_f0_s3_nll_e2_r1"
+      ]
+    },
+    {
+      "name": "export_oldz4_cp1_fp32",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
+        "oldz4_h230_student_f0_s3_r3",
+        "valid",
+        "--epoch",
+        "1",
+        "--campaign-split-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+        "--campaign-full-valid-feature-only",
+        "--device",
+        "cuda",
+        "--inference-precision",
+        "fp32",
+        "--loader-workers",
+        "0",
+        "--output-name",
+        "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1"
+      ]
+    },
+    {
+      "name": "post_export_artifact_audit",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/validate_prediction_artifacts.py",
+        "--phase",
+        "post-export",
+        "--plan",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/score_plan_r1.json",
+        "--evaluation-manifest",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/evaluation_manifest.json",
+        "--preflight-receipt",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/prediction_preflight_r1.json",
+        "--receipt",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/prediction_post_export_r1.json"
+      ]
+    },
+    {
+      "name": "official_f0_seven_endpoint_score",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/screen_score.py",
+        "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/score_screen_f0_r1.json",
+        "--output",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/grades/f0_seven_endpoints_r1.json"
+      ]
+    }
+  ],
+  "report": "research/campaign_2026-10-20/submission_delivery_r1/nll_adaptation/post_fit_plan_report.json"
+}

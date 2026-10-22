@@ -1,0 +1,87 @@
+--- a/src/wnn/training/cli_features.py
++++ b/src/wnn/training/cli_features.py
+@@ -101,6 +101,12 @@
+         help="freeze a zero-extended parent except the appended input-weight columns; requires wd=0",
+     )
+     ap.add_argument(
++        "--research-feature-adapter-objective",
++        choices=("inherited", "target-only"),
++        default="inherited",
++        help="for feature-adapter-only runs, keep inherited losses or use the primary target loss only",
++    )
++    ap.add_argument(
+         "--research-feature-control",
+         choices=("none", "newest", "all", "moments_only", "dictionary_only"),
+         default="none",
+--- a/src/wnn/training/feature_adapter.py
++++ b/src/wnn/training/feature_adapter.py
+@@ -11,9 +11,23 @@
+ 
+ 
+ def configure_feature_adapter(run: TrainingRun) -> None:
+-    """Mask old input gradients and freeze every other parent parameter."""
++    """Freeze the parent backbone, mask old input gradients, and record objective provenance."""
+     args = run.options.args
+-    if not getattr(args, "research_feature_adapter_only", False):
++    adapter_only = bool(getattr(args, "research_feature_adapter_only", False))
++    objective = getattr(args, "research_feature_adapter_objective", "inherited")
++    if objective not in ("inherited", "target-only"):
++        raise ValueError("feature-adapter objective must be inherited or target-only")
++    if objective == "target-only" and not adapter_only:
++        raise ValueError("target-only objective requires --research-feature-adapter-only")
++    if objective == "target-only" and (
++        args.loss != "wmse"
++        or bool(getattr(args, "distill", ""))
++        or float(getattr(args, "td_alpha", 0.0)) != 0.0
++        or float(getattr(args, "ema_teacher", 0.0)) != 0.0
++        or float(getattr(args, "ce_mse", 0.0)) != 0.0
++    ):
++        raise ValueError("target-only objective requires plain WMSE without added teacher losses")
++    if not adapter_only:
+         return
+     extension = run.data.provenance.get("research_feature_extension")
+     if not args.init or not isinstance(extension, dict):
+@@ -66,3 +80,29 @@
+         "all_other_parameters": "requires_grad=False",
+         "purpose": "isolate learned causal features from parent-backbone continuation drift",
+     }
++    run.data.provenance["feature_adapter_objective"] = {
++        "mode": objective,
++        "main_loss": args.loss,
++        "distillation": getattr(args, "distill", ""),
++        "main_loss_modifiers": {
++            name: getattr(args, name, None) for name in ("ce_mse", "td_alpha", "loss_norm")
++        },
++        "auxiliary_terms": "inherited" if objective == "inherited" else "skipped",
++        "inherited_auxiliary_flags": {
++            name: getattr(args, name, None)
++            for name in (
++                "aux",
++                "aux_weight",
++                "aux_next",
++                "aux_next_k",
++                "aux_struct",
++                "aux_tier",
++                "aux_mask",
++                "aux_sign",
++                "aux_quote",
++                "gate_ce",
++                "ema_teacher",
++            )
++        },
++        "output_heads": "retained from parent; all parameters except appended input columns frozen",
++    }
+--- a/src/wnn/training/losses.py
++++ b/src/wnn/training/losses.py
+@@ -119,6 +119,11 @@
+ def auxiliary_loss(run: TrainingRun) -> None:
+     """Add the declared auxiliary objectives in the original reduction and summation order."""
+     args = run.options.args
++    if (
++        getattr(args, "research_feature_adapter_only", False)
++        and getattr(args, "research_feature_adapter_objective", "inherited") == "target-only"
++    ):
++        return
+     aux = run.batch.aux
+     br_lab = run.batch.br_lab
+     cl_lab = run.batch.cl_lab

@@ -26,6 +26,7 @@ from wnn.training.runner import run_training
 | [checkpoints](checkpoints.py) | Serialized arguments, inference representations, selection and strict continuation contract. |
 | [cli](cli.py) | Assemble the unchanged CLI from reusable registration groups. |
 | [cli_data](cli_data.py) | Ordered CLI registration for data options, preserving original declarations. |
+| [cli_dynamics_auxiliary](cli_dynamics_auxiliary.py) | Optional future-input auxiliary head and loss-weight flags, defaulting off. |
 | [cli_features](cli_features.py) | Ordered CLI registration for features options, preserving original declarations. |
 | [cli_model](cli_model.py) | Ordered CLI registration for model options, preserving original declarations. |
 | [cli_normalization](cli_normalization.py) | Ordered CLI registration for normalization options, preserving original declarations. |
@@ -39,6 +40,7 @@ from wnn.training.runner import run_training
 | [data_loaders](data_loaders.py) | Loader memory admission, sampling order, pinning and drop-tail behavior. |
 | [data_membership](data_membership.py) | Deterministic fitting/evaluation membership and sampling selection. |
 | [datasets](datasets.py) | Lazy complete-sequence reading and memory-mapped teacher/auxiliary targets. |
+| [dynamics_auxiliary](dynamics_auxiliary.py) | Fit-only future-change targets, masked Huber objective, target normalization, and training-state removal for serving exports. |
 | [environment](environment.py) | Explicit per-run input/readout configuration, source roots and injected I/O/model/backend hooks. |
 | [epoch](epoch.py) | Epoch sampling identity, batch completion and gradient diagnostics. |
 | [evaluation](evaluation.py) | Reusable prediction and official validation diagnostics. |
@@ -46,11 +48,14 @@ from wnn.training.runner import run_training
 | [forward](forward.py) | Architecture-specific chunk dispatch and recurrent-state detachment. |
 | [forward_backward](forward_backward.py) | Original student/EMA forward and scaled backward execution. |
 | [inheritance](inheritance.py) | Parent preprocessing, feature expansion and clean-fold checkpoint ancestry. |
+| [i1_warm_normalization](i1_warm_normalization.py) | Opt-in none-to-i1 warm-start guards and fitting-only normalization for appended history slots, preserving parent buffers. |
 | [initializer](initializer.py) | Frozen teacher cloning, fingerprinting and causal target replacement. |
 | [inputs](inputs.py) | Causal input assembly and fitting-only research-feature priors. |
+| [i1_inputs](i1_inputs.py) | Fixed-width i1 mask validation and post-normalization model configuration; feature state is implemented in [i1_history](../i1_history.py), [i1_history_scan](../i1_history_scan.py) and [i1_history_streaming](../i1_history_streaming.py). |
 | [losses](losses.py) | Main and auxiliary objectives with unchanged reduction/summation order. |
 | [macro_updates](macro_updates.py) | Controlled macro losses and carried recurrent/initializer state. |
 | [membership](membership.py) | Bounded component-subset manifests and membership validation. |
+| [mean_variance](mean_variance.py) | Optional two-row WMSE checkpoint-layout extension; the trailing rows remain dormant and the flag is disabled by default. |
 | [model_validation](model_validation.py) | Architecture/width restrictions and block-memory defaults. |
 | [models](models.py) | Reusable architecture factory with the original constructor order. |
 | [normalization](normalization.py) | Fitting-only normalization and numeric-map calibration. |
@@ -83,6 +88,7 @@ from wnn.training.runner import run_training
 - Sequence state resets, prefix replay/discard, initializer-teacher state, teacher-target clone isolation, source-qualified folds and fixed checkpoint policy remain explicit.
 - CLI defaults are preserved, including the legacy FP16 default. Strict-FP32 research recipes must still pass `--precision fp32`; this refactor does not rewrite numerical recipes.
 - Strict resume hashes the public entrypoint and implementation sources. An old checkpoint cannot claim exact continuation after a code change. Existing parent initialization remains supported with its ancestry checks.
+- The optional mean/logvariance compatibility head appends two dormant rows after existing outputs. It is disabled by default, and the existing WMSE calculation continues to use only the original first two outputs.
 - Portable source packets can omit pyproject/uv.lock; provenance names these missing metadata files instead of failing or claiming a locked environment. Present sources are hashed and actual attrs version is recorded.
 
 ## Quality checks

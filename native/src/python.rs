@@ -1582,20 +1582,69 @@ impl PyEnsemblePredictor {
     }
 }
 
-/// Streaming predictor: event features + FastRnn, one row per call, no per-row allocation
-/// besides the returned 2-element array.
+/// Streaming predictor for raw/event, online-normalized, and supported 467-wide inputs.
+/// One row is processed per call; the 2-element output is the scored target pair.
 #[pyclass(name = "Predictor")]
 struct PyPredictor {
     features: crate::stream::StreamFeatures,
+    ema: Option<crate::stream::CausalDeltaEma>,
+    norm: Option<crate::stream::OnlineNorm>,
     model: FastRnn,
     input: Vec<f32>,
+    representation_mode: crate::stream::RepresentationMode,
+    ema_features: [f32; crate::stream::N_RAW],
     out: [f32; 2],
+}
+
+impl PyPredictor {
+    fn build_input(&mut self, row: &[f32]) -> PyResult<()> {
+        use crate::stream::{N_EVENT, N_RAW, RepresentationMode};
+
+        if row.len() != N_RAW {
+            return Err(PyValueError::new_err(format!(
+                "expected {N_RAW} features, got {}",
+                row.len()
+            )));
+        }
+        let Self {
+            features,
+            input,
+            representation_mode,
+            ema,
+            norm,
+            ema_features,
+            ..
+        } = self;
+        let (raw, rest) = input.split_at_mut(N_RAW);
+        let (event, suffix) = rest.split_at_mut(N_EVENT);
+        raw.copy_from_slice(row);
+        features.sanitize(raw);
+        features.update(raw, event);
+        if *representation_mode == RepresentationMode::None {
+            if !suffix.is_empty() {
+                let norm = norm.as_mut().ok_or_else(|| {
+                    PyValueError::new_err("online normalization state is missing")
+                })?;
+                norm.update(raw, suffix);
+            }
+        } else {
+            if *representation_mode == RepresentationMode::Ema {
+                let ema = ema.as_mut().ok_or_else(|| {
+                    PyValueError::new_err("EMA representation state is missing")
+                })?;
+                ema.update(raw, ema_features);
+            }
+            crate::stream::fill_representation_suffix(*representation_mode, ema_features, suffix)
+                .map_err(PyValueError::new_err)?;
+        }
+        Ok(())
+    }
 }
 
 #[pymethods]
 impl PyPredictor {
     #[new]
-    #[pyo3(signature = (weights, fast_activations=true, precision="f32", q8_codes=None, factors=None))]
+    #[pyo3(signature = (weights, fast_activations=true, precision="f32", q8_codes=None, factors=None, feature_mode="none"))]
     fn new(
         py: Python<'_>,
         weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
@@ -1603,12 +1652,24 @@ impl PyPredictor {
         precision: &str,
         q8_codes: Option<Q8Codes>,
         factors: Option<FactorTensors>,
+        feature_mode: &str,
     ) -> PyResult<Self> {
         let rnn_weights = weights_from_dict(weights)?;
         let n_in = rnn_weights.mean.len();
-        if n_in != crate::stream::N_RAW + crate::stream::N_EVENT {
+        let representation_mode = crate::stream::RepresentationMode::parse(feature_mode)
+            .map_err(PyValueError::new_err)?;
+        let base_width = crate::stream::N_RAW + crate::stream::N_EVENT;
+        let is_valid = match representation_mode {
+            crate::stream::RepresentationMode::None => {
+                n_in == base_width || n_in == base_width + crate::stream::N_RAW
+            }
+            crate::stream::RepresentationMode::Base | crate::stream::RepresentationMode::Ema => {
+                n_in == base_width + crate::stream::N_REPRESENTATION
+            }
+        };
+        if !is_valid {
             return Err(PyValueError::new_err(format!(
-                "model expects {n_in} inputs, predictor provides 211"
+                "feature mode {feature_mode:?} is incompatible with model input width {n_in}"
             )));
         }
         let act = if fast_activations {
@@ -1626,14 +1687,25 @@ impl PyPredictor {
         }
         Ok(Self {
             features: Default::default(),
+            ema: (representation_mode == crate::stream::RepresentationMode::Ema)
+                .then(Default::default),
+            norm: (n_in == base_width + crate::stream::N_RAW).then(Default::default),
             model,
             input: vec![0.0; n_in],
+            representation_mode,
+            ema_features: [0.0; crate::stream::N_RAW],
             out: [0.0; 2],
         })
     }
 
     fn reset(&mut self) {
         self.features.reset();
+        if let Some(ema) = &mut self.ema {
+            ema.reset();
+        }
+        if let Some(norm) = &mut self.norm {
+            norm.reset();
+        }
         self.model.reset();
     }
 
@@ -1673,16 +1745,7 @@ impl PyPredictor {
         let row = row
             .as_slice()
             .map_err(|e| PyValueError::new_err(e.to_string()))?;
-        if row.len() != crate::stream::N_RAW {
-            return Err(PyValueError::new_err(format!(
-                "expected 112 features, got {}",
-                row.len()
-            )));
-        }
-        let (raw, event) = self.input.split_at_mut(crate::stream::N_RAW);
-        raw.copy_from_slice(row);
-        self.features.sanitize(raw);
-        self.features.update(raw, event);
+        self.build_input(row)?;
         let n_out = self.model.n_out();
         if n_out == 2 {
             self.model.step(&self.input, &mut self.out);
@@ -1704,16 +1767,7 @@ impl PyPredictor {
         let row = row
             .as_slice()
             .map_err(|e| PyValueError::new_err(e.to_string()))?;
-        if row.len() != crate::stream::N_RAW {
-            return Err(PyValueError::new_err(format!(
-                "expected 112 features, got {}",
-                row.len()
-            )));
-        }
-        let (raw, event) = self.input.split_at_mut(crate::stream::N_RAW);
-        raw.copy_from_slice(row);
-        self.features.sanitize(raw);
-        self.features.update(raw, event);
+        self.build_input(row)?;
         let mut full = vec![0.0f32; self.model.n_out()];
         self.model.step(&self.input, &mut full);
         Ok(PyArray1::from_slice(py, &full))

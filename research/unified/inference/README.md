@@ -6,6 +6,8 @@ Serving implementations, quantization, package identity and measured runtime.
 
 ## Current navigation
 
+- [Exact geometry-adapter ZIP replay](../../campaign_2026-10-18/geometry_adapter_probe_r2/README.md#exact-q8-serving-replay) — the corrected native raw112/event99/geometry60 callback replayed all 468 exposed-F0 groups, 9.36M rows, from the hash-bound 5.32 MB q8 ZIP. Served WP 0.6803848 versus FP32 0.6804499; measured callback-only one-core row cost projects to 17.74 minutes for 39.4M rows, with complete competition runtime unmeasured. Native source-order defect was caught by execution parity and corrected before packaging. The selected q16 endpoint separately passed full F0, offline Python3.11 and uint32 native-cache replay; its local row-cost proxy is40–45minutes. Tight Torch/native FP32 equivalence failed and is disclosed; no target runtime or numerical-equivalence guarantee is claimed. Follow the linked hash-bound release receipt.
+
 - [Checkpoint preprocessing and teacher-cache safety](../../campaign_2026-10-17/research_reset_r1/bugfix/README.md) — restored zero_groups and other saved modes; complete cache identity/membership enforcement and selected-NaN rejection in legacy server paths. Existing-checkpoint CPU replay matches manual inputs/predictions bitwise on4groups; full-panel and GPU parity remain unmeasured.
 
 - [Model and engine distinctions](../models/CURRENT_MODEL_CATALOG.md#keep-serving-policies-separate-from-model-names) — separates Main ensemble labels from CPU policy variants using the same xteam weights.

@@ -1,0 +1,69 @@
+{
+  "schema_version": 2,
+  "status": "F0_PREFLIGHT_PREPARED_F1_BLOCKED_PENDING_SOURCE_AMENDMENT",
+  "purpose": "Source-bound actual-parent setup and initialization-parity preflight before any conditional warm-history quality fit.",
+  "scientific_fits_admitted": 0,
+  "profile_or_optimizer_steps_by_this_helper": 0,
+  "input_plan": {
+    "path": "research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/STRONG_PARENT_WARM_I1_PLAN_R1.json",
+    "sha256": "eeec65c1982cda52cbc5260643d9d58bc39bdee264543a85ca6170682f7bc1e1",
+    "frozen_bytes_modified": false
+  },
+  "project_root": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+  "canonical_source_root": "/scratch/i1-warm-source-frozen-20261022",
+  "canonical_source_snapshot": "66959b920ba25de1d2f2911d8c5508d22d3eb4d0",
+  "helper_sha256": {
+    "preflight_warm_i1.py": "b4e7182a5a8632091895c9a013d727633cd8f0b1045dbddf2c3b5003ab2891ec",
+    "warm_i1_preflight_identity.py": "885ab8eeae97169eb2c08530ee80143e06284d7e2c222cf50967c83f2c200440",
+    "warm_i1_preflight_setup.py": "ae1b8849451c9b8b248829377e6c60c2d1913da14f4ba5745d4ebffbf0f76ea3",
+    "warm_i1_preflight_parity.py": "f0bc957ecfda742ee4101e904ef63ec0dc2933a30b5784f4eaffd9d55bd6febf",
+    "warm_i1_preflight_pair.py": "a3c973f28409df84ae573f6512414033316bbf50f69d3694cc356f816a70f422"
+  },
+  "known_profile_evidence": {
+    "f0": {
+      "status": "PROFILE_COMPLETED_ROOT_REPORTED",
+      "source_snapshot": "66959b920ba25de1d2f2911d8c5508d22d3eb4d0",
+      "warmup_batches": 10,
+      "measured_batches": 100,
+      "finite_updates": 1100,
+      "skips": 0,
+      "median_step_seconds": 2.60397,
+      "wall_seconds": 304.76,
+      "peak_rss_bytes": 3758600000,
+      "cuda_reserved_bytes": 2963000000,
+      "quality_fit": false
+    },
+    "f1": {
+      "status": "PROFILE_FAILED_BEFORE_UPDATES_ON_METADATA_SIZE_GUARD",
+      "actual_valid_cache_metadata_bytes": 842417,
+      "canonical_guard_bytes": 512000,
+      "interpretation": "The actual frozen F1 producer metadata exceeds the current bounded-reader cap. This is producer-consumer compatibility evidence, not a scientific failure. Keep the validation; a narrow source repair and new source/plan amendment are required before F1 preflight or profiling."
+    }
+  },
+  "preflight_commands": [
+    {
+      "fold": 0,
+      "status": "PREPARED_NOT_RUN_BY_THIS_ACTOR_ROOT_ADMISSION_REQUIRED",
+      "argv": ".venv/bin/python research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/preflight_warm_i1.py --plan research/campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/STRONG_PARENT_WARM_I1_PLAN_R1.json --fold 0 --project-root /home/vlad/development/wunder/wnn_connectome_starterpack --source-root /scratch/i1-warm-source-frozen-20261022 --output /home/vlad/development/wunder/research_tmp/i1-history-warm-20261022/preflight-f0-r2.json"
+    },
+    {
+      "fold": 1,
+      "status": "BLOCKED_UNDER_FROZEN_R1_SOURCE",
+      "argv": null,
+      "blocker": "Canonical distillation-cache metadata guard is 512000 bytes while the actual frozen F1 producer metadata is 842417 bytes. Do not run this helper against F1 until the narrow guard repair has been integrated, source hashes are repinned, and a separate plan amendment binds that new source. Preserve the failed profile and frozen R1 bytes."
+    }
+  ],
+  "checks": [
+    "hash every canonical source file from the frozen plan before importing training modules",
+    "verify exact parent checkpoint and provenance bytes, ancestor identity and fitting membership",
+    "verify propensity checkpoint/provenance and actual target-cache metadata/array hashes through canonical setup",
+    "verify split, ordered train/fit-valid memberships, row-group counts and cache lineage",
+    "require 211-to-367 input and 23-to-25 readout exact zero-extension; preserve the parent normalization prefix bitwise",
+    "fit only the appended history normalization with the canonical first-two-loader-batch estimator for both arms; require equal appended identities and sampler state",
+    "compare each control/treatment child against its exact parent on one full train and one full fit-valid sequence using 2,000-row stateful chunks and 1e-5 maximum absolute tolerance",
+    "create only a JSON receipt under physical research_tmp; remove each empty temporary run directory"
+  ],
+  "cpu_setup_amendment": "The CPU-only preflight converts --fast to --prop-cache, preserving propensity-cache inputs while omitting GPU-only pinned-memory/fused-optimizer/sync-free settings; it removes --save-training-state and changes only device and temporary run name. No optimizer is constructed.",
+  "execution": "Root-owned sequential CPU admission. The F0 command is prepared only; F1 is blocked until source and plan amendment. No tests or preflight run by this actor turn.",
+  "result_contract": "Setup/parity evidence only; not a fit, score, profile, scientific result, or approval to run the four-fit panel."
+}

@@ -1,0 +1,153 @@
+{
+  "schema": "wnn.h512-postfit-delivery.v1",
+  "status": "NOT_ADMITTED",
+  "purpose": "Post-fit derivation, existing official score screen, and conditional production continuation recipe.",
+  "scope": {
+    "new_quality_fits_admitted_by_this_file": 0,
+    "current_f0_fit": "unchanged; governed by FIT_ADMISSION_R1.json and the frozen F0 score screen",
+    "swa345": "one deterministic CPU checkpoint derivation; no fit, no evaluation, no endpoint search",
+    "root_owns": ["fit terminal acceptance", "score interpretation", "production fit admission", "submission packaging"]
+  },
+  "pins": {
+    "training_source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "training_source_root": "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020",
+    "trainer_sha256": "74530d3499bba1b5647e459105cb263bfc7205d7f3aa928684dfb279c2677345",
+    "fold0_manifest": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "fold0_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "admission_sha256": "a17a468f5d0d247db92cbaac0e3d4f0800536c46d6682f2665abb4b781e776f1",
+    "fit_plan_sha256": "51d797d1d568d98b0d9553c934721aab2826ba5d4d61b96a24e496ce514c7ec9",
+    "score_screen_sha256": "f6b3b954cd2253a9eac10032c9a053f7abcd55e359c41c2062ed3bdeff2920d8",
+    "metric": "global_wp_clip2_v1",
+    "metric_implementation_sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+  },
+  "terminal_receipt": {
+    "producer": "record_h512_fit_terminal.py",
+    "command_binding_path": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/FIT_COMMAND_BINDING_R1.json",
+    "command_binding_sha256": "5d3de903226714bb9ce824a1ce263338110a8ed96c6951fd984eacfb07726964",
+    "argv": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/record_h512_fit_terminal.py",
+      "--root", "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "--service", "wnn-h512-f0-fit-r1-20261021.service"
+    ],
+    "output": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/FIT_TERMINAL_ACCEPTANCE_R1.json",
+    "condition": "Run after the admitted process completes; producer pins the live command binding, requires its argv to equal the frozen F0 argv, matches the unit InvocationID, and requires full provenance.args equality with the captured resolved namespace. It accepts retained active/exited or inactive-compatible completion only with MainPID 0, success/0 status, and monotonic exit after start. It also verifies six FIT epoch records, SELECTED_FIXED 5, source pins, trainer closure, provenance and checkpoint hashes. Root reviews the receipt before use."
+  },
+  "swa345": {
+    "source_run": "r01_h512_f0_s1003_local_cp5_r1",
+    "destination_run": "r01_h512_f0_s1003_local_swa345_r1",
+    "source_epochs_zero_based": [3, 4, 5],
+    "method": "equal parameter mean using scripts/average_trajectory_checkpoints.py mean_state",
+    "normalization": "mean/std must be bit-identical; canonical helper preserves them",
+    "other_buffers": "non-floating tensors must be bit-identical",
+    "input_manifest_template": "SWA345_SOURCE_MANIFEST_TEMPLATE_R1.json",
+    "manifest_materialization": {
+      "condition": "After root accepts FIT_TERMINAL_ACCEPTANCE_R1.json and before derivation.",
+      "argv": [
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+        "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/materialize_h512_swa_manifest.py",
+        "--root", "/home/vlad/development/wunder/wnn_connectome_starterpack"
+      ],
+      "output": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/SWA345_SOURCE_MANIFEST_R1.json",
+      "template_sha256": "284c4ead1f78546f13883c054019356964fc9ae0f6e00e3b55a9eea3aec07fa7",
+      "checks": "Pins the template bytes; binds the accepted terminal receipt and source provenance hashes; verifies each CP3/4/5 file against both checkpoint-hash maps before writing create-only READY_FOR_DERIVATION metadata. No Torch or tensor loading."
+    },
+    "command": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/derive_h512_swa345.py",
+      "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/SWA345_SOURCE_MANIFEST_R1.json",
+      "--root", "/home/vlad/development/wunder/wnn_connectome_starterpack"
+    ],
+    "outputs": [
+      "artifacts/runs/r01_h512_f0_s1003_local_swa345_r1/model_ep5.pt",
+      "artifacts/runs/r01_h512_f0_s1003_local_swa345_r1/model.pt",
+      "artifacts/runs/r01_h512_f0_s1003_local_swa345_r1/provenance.json",
+      "artifacts/runs/r01_h512_f0_s1003_local_swa345_r1/weight_derivation_receipt.json"
+    ]
+  },
+  "prediction_exports": {
+    "environment": {
+      "WNN_PROJECT_ROOT": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+      "PYTHONPATH": "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/src",
+      "WNN_GPU_MEMORY_BYTES": "4500000000",
+      "WNN_LOADER_RAM_GB": "1",
+      "WNN_LOADER_WORKERS": "0",
+      "NVIDIA_TF32_OVERRIDE": "0",
+      "CUBLAS_WORKSPACE_CONFIG": ":4096:8",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "TMPDIR": "/home/vlad/development/wunder/research_tmp"
+    },
+    "commands": [
+      ["/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python", "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py", "r01_h512_f0_s1003_local_cp5_r1", "valid", "--epoch", "5", "--campaign-split-manifest", "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json", "--campaign-full-valid-feature-only", "--device", "cuda", "--inference-precision", "fp32", "--loader-workers", "0", "--output-name", "r01_h512_f0_s1003_local_cp5_r1"],
+      ["/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python", "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py", "r01_h512_f0_s1003_local_swa345_r1", "valid", "--epoch", "5", "--campaign-split-manifest", "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json", "--campaign-full-valid-feature-only", "--device", "cuda", "--inference-precision", "fp32", "--loader-workers", "0", "--output-name", "r01_h512_f0_s1003_local_swa345_r1"]
+    ],
+    "expected_prediction": {"shape": [1873, 20000, 2], "dtype": "float32", "bytes": 299680128},
+    "existing_baselines": [
+      {"run": "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1", "prediction": "cache/pred_oldz4_h230_student_f0_s3_r3_fp32_reexport_r1_valid.npy", "prediction_sha256": "64ea43591689713137bab71670618ad7a26c476b7a7f0d394efa882d36f12a3d", "checkpoint_sha256": "664643b2653a85d192f74a976d76afa933ae56c02b2621387d2f576fd61695eb"},
+      {"run": "overnight_nll_f0_s3_wmse_e2_r1", "prediction": "cache/pred_overnight_nll_f0_s3_wmse_e2_r1_valid.npy", "prediction_sha256": "b65acff45ca1af8324539942d4841179c61d617b452f8788246a4e97e9d51547", "checkpoint_sha256": "ff359a362432c5f68b0b40e9c5e7d875ceeeddea73718cb5bd17ed53edf80dec"}
+    ],
+    "score_command": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/screen_score.py",
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/H512_F0_SCORE_SCREEN_R1.json",
+      "--output", "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/grades/F0_H512_GRADE_POSTFIT_R1.json"
+    ],
+    "frozen_comparison": "The existing seven-arm, 2,000 paired component-bootstrap screen compares oldZ4, WMSE CP1, H512 CP5, SWA345, and the predeclared fixed 0.75/0.25 blends. No new coefficient or endpoint selection."
+  },
+  "conditional_production": {
+    "status": "NOT_ADMITTED",
+    "fit_count_if_root_admits": 1,
+    "teacher_fits": 0,
+    "parent": "r01_h512_f0_s1003_local_cp5_r1@ep5; SWA345 is eligible only if its local screen supports it",
+    "membership": {
+      "train_source": "train+valid",
+      "include_heldout_valid": true,
+      "valid_fold": -1,
+      "split_manifest": null,
+      "fit_time_evaluation": false,
+      "claim": "production-only; no heldout or clean-CV claim"
+    },
+    "semantics": "Generic inherited-preprocessing warm continuation. Do not pass --final-model-adaptation: that current mode requires a fit-subset manifest and a fixed all-data initializer, and conflicts with include-heldout-valid. Do not pass a split manifest: the trainer rejects it with include-heldout-valid.",
+    "recipe": {
+      "epochs": 2,
+      "checkpoint_policy": "fixed",
+      "checkpoint_epoch_zero_based": 1,
+      "precision": "strict FP32; autocast/TF32 off",
+      "loss": "wmse chunk normalization, label-only",
+      "optimizer": "AdamW, LR 1e-5, beta2 .999, weight_decay .01",
+      "scheduler": "OneCycleLR warmup fraction .05",
+      "batch": 8,
+      "chunk_rows": 2000,
+      "seed": 1003,
+      "no_fit_time_evaluation": true
+    },
+    "argv": [
+      "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+      "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/train_rnn.py",
+      "--name", "r01_h512_all_data_from_f0_s1003_e2_cp1_r1",
+      "--init", "r01_h512_f0_s1003_local_cp5_r1@ep5",
+      "--inherit-init-preprocessing",
+      "--hidden", "512", "--layers", "1",
+      "--device", "cuda", "--arch", "gru", "--cell", "gru", "--enc", "linear", "--dropout", "0",
+      "--train-seqs", "10607", "--train-source", "train+valid", "--include-heldout-valid", "--valid-fold", "-1",
+      "--valid-train-fraction", "1", "--valid-repeat", "1",
+      "--batch", "8", "--chunk", "2000", "--epochs", "2",
+      "--checkpoint-policy", "fixed", "--checkpoint-epoch", "1", "--no-eval-during-fit",
+      "--seed", "1003", "--precision", "fp32", "--loss", "wmse", "--loss-norm", "chunk",
+      "--batch-order", "seeded", "--deterministic", "--sync-free", "--fused-adam", "--grad-stats",
+      "--optim", "adamw", "--lr", "0.00001", "--beta2", "0.999", "--wd", "0.01",
+      "--sched", "onecycle", "--warmup-frac", "0.05", "--head-lr-mult", "1", "--clip", "1"
+    ],
+    "budget_rule": "Root rechecks actual epoch timing, remaining campaign budget, and export/grade reserve before any admission. A one-epoch CP0 variant requires a separate explicit amendment; do not silently shorten this recipe.",
+    "direct_endpoint_route": "If the fit is not admitted, an accepted F0 endpoint may still be considered as the TL3 member after score evidence and packaging/runtime checks. It trained on 11,940 of 12,408 usable sequences (~96.2%); label its fold exposure and membership honestly."
+  },
+  "resource_envelope": {"aggregate_ram_bytes": 5000000000, "worker_ram_bytes": 4200000000, "cpu_cores": 2, "gpu_workers": 1, "gpu_allocator_bytes": 4500000000, "swap_bytes": 0, "scratch": "/home/vlad/development/wunder/research_tmp"},
+  "limitations": [
+    "F0 is an exposed fold and one local seed; its score does not establish replication across local folds or seeds.",
+    "The production warm continuation uses the fold-trained initializer and all valid labels; it is not an evaluation endpoint.",
+    "TL3 training ancestry is unknown. A replacement member is not a clean-CV claim.",
+    "No quality score, final-fit outcome, submission package, or public forecast is present in this preparation packet."
+  ]
+}

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import os
@@ -9,6 +10,7 @@ import torch
 from wnn.quantization import policy_metadata
 from wnn.run_identity import group_identity, normalization_identity, scaler_source_identity
 from wnn.splits import file_sha256
+from wnn.training.feature_adapter import configure_feature_adapter
 from wnn.training.reporting import emit
 from wnn.training.state import TrainingRun
 from wnn.training_qat import scale_learning_metadata
@@ -72,8 +74,12 @@ def record_model_identity(run: TrainingRun) -> None:
     train_ds = run.data.train_ds
     train_loader = run.data.train_loader
     update_rows = run.options.update_rows
+    # The pairing identity is the seeded initialization, not the weights at a
+    # later resume boundary.  Capture it before restoring the saved parameters.
+    initial_parameter_sha256 = parameter_sha256(model)
     if saved_training is not None:
         model.load_state_dict(saved_training["model"])
+    provenance["initial_parameter_sha256"] = initial_parameter_sha256
     if args.qat != "none":
         provenance["qat"] = {
             **policy_metadata(args.qat),
@@ -117,6 +123,7 @@ def record_model_identity(run: TrainingRun) -> None:
             json.dumps(
                 {
                     "initial_checkpoint_sha256": provenance.get("initial_checkpoint_sha256"),
+                    "initial_parameter_sha256": provenance["initial_parameter_sha256"],
                     "split_manifest_sha256": provenance.get("split_manifest_sha256"),
                     "fit_subset_manifest_sha256": provenance.get("fit_subset_manifest_sha256"),
                     "fit_subset_members_sha256": provenance.get("fit_subset_members_sha256"),
@@ -136,9 +143,21 @@ def record_model_identity(run: TrainingRun) -> None:
     for pname, prm in model.named_parameters():
         if frozen and pname.startswith(frozen):
             prm.requires_grad_(False)
+    configure_feature_adapter(run)
     if args.qat_learn_scales:
         parameters = dict(model.named_parameters())
         for position, (name, _, _) in enumerate(model._qat_scale_keys):
             model._qat_scale_params[position].requires_grad_(parameters[name].requires_grad)
     total = len(train_loader) * math.ceil(environment.sequence_length / update_rows) * args.epochs
     run.network.total = total
+
+
+def parameter_sha256(model: torch.nn.Module) -> str:
+    """Hash ordered model parameters before fitting to audit paired initialization."""
+    digest = hashlib.sha256()
+    for name, parameter in model.named_parameters():
+        value = parameter.detach().cpu().contiguous()
+        digest.update(name.encode("utf-8"))
+        digest.update(str(tuple(value.shape)).encode("ascii"))
+        digest.update(value.numpy().tobytes())
+    return digest.hexdigest()

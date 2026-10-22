@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "record_type": "fresh_context_research_reframe_source_log",
+  "created_at_utc": "2026-10-17T23:49:34.154881+00:00",
+  "assignment_scope": {
+    "repository": "/home/vlad/development/wunder/wnn_connectome_starterpack",
+    "campaign_contract": "research/campaign_2026-10-18/online_features_r1/CONTRACT.json",
+    "data_audit": "research/campaign_2026-10-18/online_features_r1/DATA_AUDIT.md",
+    "read_restrictions_observed": [
+      "Did not read PREVIOUS_COMPETITION_REFLECTION.md.",
+      "Did not read controller proposals/reflections, other-agent notes, or current actor path.",
+      "Did not inspect payloads, predictions, checkpoint files, or model implementation."
+    ],
+    "work_performed": "Literature/source review and proposal writing only; no data/model execution, fit, native code, or B300 execution."
+  },
+  "search_method": {
+    "tool": "web__run",
+    "source_policy": "Primary arXiv/venue paper pages and author or official GitHub code pages where available. Third-party/reimplementation code is labeled as such. No code was executed.",
+    "queries": [
+      "Bayesian online changepoint detection Adams MacKay 2007",
+      "SWA Izmailov paper and implementation",
+      "ROCKET and N-BEATS sources as comparators",
+      "chrono initialization recurrent neural networks",
+      "time-series teacher-student distillation and masked pretraining",
+      "time-series data augmentation for global recurrent forecasting"
+    ]
+  },
+  "random_library_passage": {
+    "selection_seed": 20261018,
+    "selection_procedure": "Curated six non-personal research PDFs from the user's Trading library in the explicit order below; Python random.Random(20261018).randrange(6) selects the document, then the next randrange(1, 11) selects a PDF page after confirming the selected PDF has 10 pages.",
+    "pool_order": [
+      "N-BEATS.pdf",
+      "VPIN.pdf",
+      "Barra_2004.pdf",
+      "Random Matrix Theory.pdf",
+      "Heteroscedasticity.pdf",
+      "CryptoMMStoikov.pdf"
+    ],
+    "selected_path": "/home/vlad/Documents/Trading/VPIN.pdf",
+    "selected_page": 6,
+    "selected_document_sha256": "0492ea7db605dba354f3aaf8afb0482c5249bf1d7ffbb4e3f12e14c9b9bead3b",
+    "actual_short_passage": "Because the losses associated with underestimating PIN are so much greater than the potential profit when it is correctly estimated",
+    "use_and_limit": "This secondary market-education passage was used only as a low-weight analogy for shrinking a sequence gate toward a fixed blend when conditional expert quality is uncertain. Challenge 2 has a symmetric clipped weighted squared-error metric; no asymmetric market-risk behavior or PIN semantics are inferred."
+  },
+  "sources": [
+    {
+      "id": "S1_MOE",
+      "citation": "Jacobs, Jordan, Nowlan, and Hinton (1991), Adaptive Mixtures of Local Experts.",
+      "primary_urls": [
+        "https://direct.mit.edu/neco/article/3/1/79/5560/Adaptive-Mixtures-of-Local-Experts",
+        "https://www.cs.toronto.edu/~fritz/absps/jjnh91.pdf"
+      ],
+      "official_code": "No author-maintained implementation located during this search.",
+      "source_component": "Supervised gate assigning cases to specialist predictors.",
+      "learned_objective_and_feedback": "The abstract reports supervised learning on a vowel-discrimination task; labels and gate/expert training feedback are available in that task.",
+      "transfer_boundary": "Supports conditional routing as a mechanism, not Challenge 2 accuracy, sequence-level generalization, or test-time error access.",
+      "used_for": [
+        "P1"
+      ]
+    },
+    {
+      "id": "S2_BOCPD",
+      "citation": "Adams and MacKay (2007), Bayesian Online Changepoint Detection, arXiv:0710.3742.",
+      "primary_url": "https://arxiv.org/abs/0710.3742",
+      "code_reference_not_author_verified": "https://github.com/hildensia/bayesian_changepoint_detection",
+      "source_component": "Recursive posterior over run length from current observation likelihood and a change-point hazard.",
+      "learned_objective_and_feedback": "Unsupervised sequential observation likelihood; the algorithm consumes the observed stream and maintains run-length beliefs, without downstream target labels.",
+      "transfer_boundary": "Only the input-only innovation/run-length signal is proposed. No semantic event, instrument, venue, or target interpretation is made.",
+      "used_for": [
+        "P2"
+      ]
+    },
+    {
+      "id": "S3_NBEATS",
+      "citation": "Oreshkin et al. (2019/2020), N-BEATS: Neural basis expansion analysis for interpretable time series forecasting, arXiv:1905.10437.",
+      "primary_url": "https://arxiv.org/abs/1905.10437",
+      "official_code": "https://github.com/ServiceNow/N-BEATS",
+      "source_component": "Doubly residual backcast connection with partial forecasts accumulated across blocks.",
+      "learned_objective_and_feedback": "Supervised point forecasting on M3, M4, and Tourism data with true training targets and forecast evaluation.",
+      "transfer_boundary": "Multivariate anonymous indicators and the fixed weighted clip2 metric differ. The proposal transfers staged residual correction only. The code repository states CC BY-NC; no code is copied or executed.",
+      "used_for": [
+        "P3"
+      ]
+    },
+    {
+      "id": "S4_SimMTM",
+      "citation": "Dong et al. (2023), SimMTM: A Simple Pre-Training Framework for Masked Time-Series Modeling, arXiv:2302.00861.",
+      "primary_url": "https://arxiv.org/abs/2302.00861",
+      "official_code": "https://github.com/thuml/SimMTM",
+      "source_component": "Masked input reconstruction via aggregation of complementary masked views and time-series neighborhood structure.",
+      "learned_objective_and_feedback": "Self-supervised raw-series reconstruction during pretraining; downstream fine-tuning/evaluation uses forecasting/classification labels in reported benchmarks.",
+      "transfer_boundary": "Proposal uses only a fit-group causal reconstruction objective and discards decoder/retrieval at inference; it does not reproduce full SimMTM or transfer published benchmark gains.",
+      "used_for": [
+        "P4"
+      ]
+    },
+    {
+      "id": "S5_CHRONO",
+      "citation": "Tallec and Ollivier (2018), Can recurrent neural networks warp time?, arXiv:1804.11188 / ICLR 2018.",
+      "primary_url": "https://arxiv.org/abs/1804.11188",
+      "community_code_not_author_verified": "https://github.com/0h-n0/chrono_initialization",
+      "source_component": "Gate-bias initialization encodes a spread of time constants for GRU/LSTM memory.",
+      "learned_objective_and_feedback": "Paper studies supervised sequence-prediction/long-delay and time-warping tasks with training/validation sequence feedback.",
+      "transfer_boundary": "Its tasks and sequence scales differ from Challenge 2; exact gate signs must follow the canonical model implementation, and no local gain is presumed.",
+      "used_for": [
+        "P5"
+      ]
+    },
+    {
+      "id": "S6_TIMEKD",
+      "citation": "Liu et al. (2025), Efficient Multivariate Time Series Forecasting via Calibrated Language Models with Privileged Knowledge Distillation, arXiv:2505.02138.",
+      "primary_url": "https://arxiv.org/abs/2505.02138",
+      "official_code": "https://github.com/ChenxiLiu-HNU/TimeKD",
+      "source_component": "Teacher-to-student transfer with prediction/correlation and feature discrepancy objectives.",
+      "learned_objective_and_feedback": "Reported forecasting uses dataset targets and teacher-generated information; the teacher receives future ground-truth prompts as privileged inputs, while evaluation scores forecasts against targets.",
+      "transfer_boundary": "Future prompts, external pretrained language models, external market data, and any future test input are excluded. Only offline prediction/feature distillation from a strictly causal last-60 input window is considered.",
+      "used_for": [
+        "P6"
+      ]
+    },
+    {
+      "id": "S7_SWA_TRIAGE",
+      "citation": "Izmailov et al. (2018), Averaging Weights Leads to Wider Optima and Better Generalization, arXiv:1803.05407.",
+      "primary_url": "https://arxiv.org/abs/1803.05407",
+      "author_group_code": "https://github.com/timgaripov/swa",
+      "source_component": "Average parameters sampled along one SGD trajectory under a constant or cyclical learning-rate schedule.",
+      "learned_objective_and_feedback": "Supervised cross-entropy training with labeled CIFAR/ImageNet evaluation in the paper; no downstream test labels are consumed by the averaging rule.",
+      "transfer_boundary": "Different architecture/task. Cheap only if compatible same-run snapshots already exist; unrelated seeds are not parameter-aligned.",
+      "used_for": [
+        "triage_only"
+      ]
+    },
+    {
+      "id": "S8_TS_AUGMENTATION_TRIAGE",
+      "citation": "Bandara et al. (2020), Improving the Accuracy of Global Forecasting Models using Time Series Data Augmentation, arXiv:2008.02663.",
+      "primary_url": "https://arxiv.org/abs/2008.02663",
+      "official_code": "No paper-author official repository verified in this search.",
+      "source_component": "GRATIS, moving-block bootstrap, and DTW barycentric averaging to augment series for global recurrent forecasting.",
+      "learned_objective_and_feedback": "Supervised forecast-window fitting and sMAPE/MASE-style evaluation on energy, NN3/NN5/AusGrid and related forecasting sets.",
+      "transfer_boundary": "Its series-generation assumptions and forecast metrics differ; independent perturbations of anonymous Challenge 2 channels are not supported by the paper.",
+      "used_for": [
+        "triage_only"
+      ]
+    }
+  ],
+  "first_commit_boundary": "This artifact was committed before reading any competing proposal, controller reflection, other-agent note, or current actor path."
+}

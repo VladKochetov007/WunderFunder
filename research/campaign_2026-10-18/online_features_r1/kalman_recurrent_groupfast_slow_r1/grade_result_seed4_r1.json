@@ -1,0 +1,134 @@
+{
+  "bootstrap": {
+    "draws": 2000,
+    "scope": "conditional on these two fixed checkpoints and the repeatedly inspected F0 panel; excludes fit-seed, fold, and public-transfer uncertainty",
+    "seed": 20261018,
+    "timing": "computed in this grade after the seed-4 prediction pair was frozen; no seed-4 score was inspected before target/mask access",
+    "unit": "source-qualified connected evaluation component"
+  },
+  "checkpoint_identity": {
+    "kalman_groupfast_active_f0_s4_r1": "158893b501ad67642f9deed3dbf87639374a11b3684aed14fc0d69566e224e93",
+    "kalman_groupfast_zero_f0_s4_r1": "981ddddfbd7552622dc5144ba2e860f5c7e859f2c4a2f1b255b26542eade08a7"
+  },
+  "comparison": {
+    "active": {
+      "t0": 0.6732079098977765,
+      "t1": 0.6875512572853053,
+      "wp": 0.6803795835915409
+    },
+    "delta": -1.3873265553798753e-05,
+    "paired_component_bootstrap": {
+      "bootstrap_sd": 7.502409218220823e-05,
+      "candidate_wp": 0.680379583591541,
+      "centered_moments": true,
+      "ci95": [
+        -0.00017548133107993802,
+        0.00012404211281685226
+      ],
+      "mean_diff": -1.3873265554242842e-05,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 0.5805,
+      "reference_wp": 0.6803934568570953,
+      "seed": 20261018
+    },
+    "time_bins": {
+      "10000:20000": {
+        "active": {
+          "t0": 0.696434627944393,
+          "t1": 0.6925914730419571,
+          "wp": 0.6945130504931751
+        },
+        "delta": -4.714598217303578e-05,
+        "scored_rows": 412135,
+        "zero_control": {
+          "t0": 0.6964521028836443,
+          "t1": 0.692668290067052,
+          "wp": 0.6945601964753482
+        }
+      },
+      "2000:10000": {
+        "active": {
+          "t0": 0.66312230303243,
+          "t1": 0.6787640632686539,
+          "wp": 0.6709431831505419
+        },
+        "delta": 6.737010076030003e-05,
+        "scored_rows": 316788,
+        "zero_control": {
+          "t0": 0.663007696101994,
+          "t1": 0.6787439299975692,
+          "wp": 0.6708758130497816
+        }
+      },
+      "500:2000": {
+        "active": {
+          "t0": 0.5752964551736934,
+          "t1": 0.6952984881909914,
+          "wp": 0.6352974716823424
+        },
+        "delta": -7.293859401058533e-05,
+        "scored_rows": 62742,
+        "zero_control": {
+          "t0": 0.5753879305758525,
+          "t1": 0.6953528899768535,
+          "wp": 0.635370410276353
+        }
+      },
+      "99:500": {
+        "active": {
+          "t0": 0.7200028209788724,
+          "t1": 0.6984304335523066,
+          "wp": 0.7092166272655895
+        },
+        "delta": -0.0004506449064933804,
+        "scored_rows": 17198,
+        "zero_control": {
+          "t0": 0.7201115519583576,
+          "t1": 0.6992229923858081,
+          "wp": 0.7096672721720829
+        }
+      }
+    },
+    "zero_control": {
+      "t0": 0.6731799031882153,
+      "t1": 0.6876070105259742,
+      "wp": 0.6803934568570947
+    }
+  },
+  "experiment_id": "E-KALMAN-GROUP-RECURRENT-SEED4-20261018-R1",
+  "exposure": "F0 is repeatedly inspected development evidence, not clean validation",
+  "groups": 468,
+  "hypothesis_id": "H-KALMAN-GROUP-RECURRENT-INTERACTION-20261018-R1",
+  "mask": "cached is_scored AND position >= 99; predictions frozen before target/mask access",
+  "metric_id": "global_wp_clip2_v1",
+  "prediction_freeze": {
+    "path": "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/prediction_freeze_seed4_r1.json",
+    "sha256": "5a2d62de6974e2b207265e492dd6aca3117210f203b0abebc1f458d75dc92451"
+  },
+  "prediction_identity": {
+    "active": {
+      "membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+      "path": "cache/pred_kalman_groupfast_active_f0_s4_r1_valid.npy",
+      "sha256": "132df658a7767a48df4922d35230ebce07bd3b221da9a80e0d8898a72c337139",
+      "sidecar_sha256": "56fb8dfe217eaffefaf6eb4100c2471f37d8392a058bb2ace30ab2ae5527084a"
+    },
+    "zero_control": {
+      "membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+      "path": "cache/pred_kalman_groupfast_zero_f0_s4_r1_valid.npy",
+      "sha256": "7f41ad6f33bf6c424f679031895869b4420c2fc4f99706be631b6f77ff65511f",
+      "sidecar_sha256": "b1e8f1f7882f4da90d515d1b7f9a63fd9ec0ddd77e7473aef762c0c74c69ff2a"
+    }
+  },
+  "schema": "wnn.kalman_group_recurrent_interaction_grade.v1",
+  "source_sha256": {
+    "prediction_freeze": "5a2d62de6974e2b207265e492dd6aca3117210f203b0abebc1f458d75dc92451",
+    "script": "8fe7133dda6b5176cf2e3f79e44937d429f8f4cbad1be7ae335ef4545d2f2a29",
+    "split": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "targets_cache": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "unique_components": 141
+}

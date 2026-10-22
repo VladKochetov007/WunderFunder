@@ -1,0 +1,25 @@
+{
+  "user_steering": "Some processes got killed. be careful, do not cause OOM",
+  "observed_failure": "R1 launcher at21:50:17Kyiv killed pythonPID801142 and loaderPID801572 inside3GB task cgroup; not the corrected R2.",
+  "current_r2": {
+    "oom": 0,
+    "oom_kill": 0,
+    "memory_current_bytes": 2881339392,
+    "memory_max_bytes": 2999996416,
+    "loader_workers": 0,
+    "prefetch": 0
+  },
+  "current_native": {
+    "oom": 0,
+    "oom_kill": 0,
+    "memory_current_bytes": 467599360,
+    "memory_peak_bytes": 1022210048
+  },
+  "host_observation": {
+    "available_bytes": 6832439296,
+    "host_swap_used_bytes": 8589893632,
+    "note": "Host swap belongs to broader system; task cgroups have MemorySwapMax0. Do not alter unrelated processes."
+  },
+  "action": "No additional heavy/test/GPU admission while both current workers active. Keep oneGPUworker,2aggregateCPUs,parent5GB,taskswap0. R2has reachedactualbatch40withOOM0. Agentsrestrictedtosmallsource/gitreads/edits. Futurelauncherexplicitloaderworkers0 andmemoryallocationmustmatchprofile.",
+  "resource_claim": "Runtime snapshot, not a guarantee against future memory peaks."
+}

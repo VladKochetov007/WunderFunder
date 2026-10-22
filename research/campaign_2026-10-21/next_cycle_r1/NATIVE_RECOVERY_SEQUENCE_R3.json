@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "name": "native_cp5",
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/replay_h512_tl3_endpoint.py",
+        "cp5",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "--zip",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-cp5/submission.zip",
+        "--build-receipt",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-cp5/BUILD_RECEIPT.json",
+        "--output-predictions",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0.npy",
+        "--output-sidecar",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0.json",
+        "--output-receipt",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_cp5_f0_replay.json"
+      ]
+    },
+    {
+      "name": "native_swa345",
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/replay_h512_tl3_endpoint.py",
+        "swa345",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "--zip",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-swa345/submission.zip",
+        "--build-receipt",
+        "/home/vlad/development/wunder/research_tmp/h512-tl3-endpoint-screen-r1-package-swa345/BUILD_RECEIPT.json",
+        "--output-predictions",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_swa345_f0.npy",
+        "--output-sidecar",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_swa345_f0.json",
+        "--output-receipt",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_swa345_f0_replay.json"
+      ]
+    },
+    {
+      "name": "paired_native_grade",
+      "argv": [
+        "{python}",
+        "research/campaign_2026-10-20/submission_delivery_r1/tl3_h512_endpoint_screen_r1/grade_h512_tl3_endpoints.py",
+        "--root",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack",
+        "--output",
+        "/home/vlad/development/wunder/research_tmp/h512_tl3_endpoint_screen_grade_r1.json"
+      ]
+    }
+  ],
+  "report": "research/campaign_2026-10-21/next_cycle_r1/NATIVE_RECOVERY_REPORT_R3.json"
+}

@@ -1,0 +1,84 @@
+{
+  "schema": "wnn.kalman_output_filter.execution_receipt.v1",
+  "status": "complete",
+  "profile": {
+    "scope_unit": "wnn-kalman-output-profile-20261018-r1.scope",
+    "exit_status": 0,
+    "wall_seconds": 0.784,
+    "groups": 1,
+    "output_path": "/home/vlad/development/wunder/research_tmp/online_features_r1/kalman_output_filter_r1/profile_r1/predictions.npy",
+    "output_bytes": 320128,
+    "output_sha256": "db751dc47e5eecbedf8684b14de46a5bbbcdf6259fc2f0e5923eb06b2fe195b7",
+    "resource_limits": {
+      "cpu_quota": "50%",
+      "threads": 1,
+      "task_memory_cap_bytes": 1500000000,
+      "runtime_cap_seconds": 120,
+      "swap_bytes": 0,
+      "scratch_root": "/home/vlad/development/wunder/research_tmp"
+    },
+    "target_or_mask_numeric_values_read": false
+  },
+  "generation": {
+    "scope_unit": "wnn-kalman-output-generate-20261018-r1.scope",
+    "status": "success",
+    "completed_utc": "2026-10-18T04:29:35.402499+00:00",
+    "groups": 468,
+    "output_path": "/home/vlad/development/wunder/research_tmp/online_features_r1/kalman_output_filter_r1/predictions_r1.npy",
+    "receipt_path": "/home/vlad/development/wunder/research_tmp/online_features_r1/kalman_output_filter_r1/predictions_r1.json",
+    "output_bytes": 149760128,
+    "output_sha256": "897bbe21238cd5259e7b4b2cdc2ff4e31cc4bdce2dde7228d859bc9afaf24fed",
+    "resource_limits": {
+      "cpu_quota": "50%",
+      "threads": 1,
+      "task_memory_cap_bytes": 1500000000,
+      "runtime_cap_seconds": 900,
+      "swap_bytes": 0,
+      "scratch_root": "/home/vlad/development/wunder/research_tmp"
+    },
+    "scope_memory_peak_observed_bytes": 170700800,
+    "scope_cpu_usage_observed_ns": 59447782000,
+    "elapsed_wall_seconds": null,
+    "elapsed_note": "The exact generator wall time was not captured; RuntimeMaxSec=900 was enforced by the scope, which exited successfully.",
+    "target_or_mask_numeric_values_read": false
+  },
+  "grading": {
+    "scope_unit": "wnn-kalman-output-grade-20261018-r1.scope",
+    "status": "success",
+    "exit_status": 0,
+    "preflight_path": "research/campaign_2026-10-18/online_features_r1/kalman_output_filter_r1/preflight_r1.json",
+    "preflight_sha256": "71317c8763d72f3e2c363d90e82057405743bfea065283c55ed651ad110da834",
+    "result_path": "research/campaign_2026-10-18/online_features_r1/kalman_output_filter_r1/result_r1.json",
+    "result_sha256": "575345ae162d4cb9000e152e7c506b0b898d3f957eee14d0d80c9e307dceb142",
+    "result_created_utc": "2026-10-18T04:30:14.667052+00:00",
+    "resource_limits": {
+      "cpu_quota": "50%",
+      "threads": 1,
+      "task_memory_cap_bytes": 1500000000,
+      "runtime_cap_seconds": 900,
+      "swap_bytes": 0,
+      "scratch_root": "/home/vlad/development/wunder/research_tmp"
+    },
+    "scope_memory_peak_observed_lower_bound_bytes": 62451712,
+    "scope_cpu_usage_observed_ns": 6346164000,
+    "scope_peak_note": "These were sampled while the scope was active shortly before it exited; systemd did not retain terminal peak properties after deactivation, so this is not claimed as the exact terminal peak.",
+    "target_or_mask_values_used_only_after_preflight": true
+  },
+  "campaign_parent_observations": {
+    "memory_current_snapshots_bytes": [
+      5688020992,
+      5724815360,
+      5918527488
+    ],
+    "oom_events_before_after": [4, 4],
+    "oom_kill_events_before_after": [4, 4],
+    "oom_event_delta": 0,
+    "oom_kill_event_delta": 0
+  },
+  "limits": [
+    "The screen used CPU only; no model was fitted and no GPU or paid compute was used.",
+    "Memory current snapshots are aggregate campaign-cgroup observations, not task peaks.",
+    "The generation scope memory value is the maximum observed during live sampling; the grading scope value is explicitly only a sampled lower bound.",
+    "All evaluated endpoints and F0 labels were previously exposed."
+  ]
+}

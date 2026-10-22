@@ -6,17 +6,55 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
+from wnn.i1_history import (
+    I1_HISTORY_MODE,
+    fit_i1_history_prior,
+    i1_history_feature_names,
+    validate_i1_history_prior,
+)
+from wnn.i1_history_scan import i1_history_features_numpy, i1_history_features_torch_chunk
+from wnn.i1_history_streaming import StreamingI1History
+from wnn.kalman_group_features import FEATURE_NAMES as KALMAN_GROUP_FEATURE_NAMES
+from wnn.kalman_group_features import MODE as KALMAN_GROUP_MODE
+from wnn.kalman_group_features import StreamingKalmanGroupFeatures
+from wnn.kalman_group_features import features_numpy as kalman_group_features_numpy
+from wnn.kalman_group_features import features_torch as kalman_group_features_torch
+from wnn.moment_geometry.online import (
+    FEATURE_NAMES as GEOMETRY_DISCRETE_NAMES,
+)
+from wnn.moment_geometry.online import (
+    MODE as GEOMETRY_DISCRETE_MODE,
+)
+from wnn.moment_geometry.online import (
+    features_numpy as geometry_discrete_features_numpy,
+)
+from wnn.moment_geometry.online import (
+    features_torch as geometry_discrete_features_torch,
+)
+from wnn.moment_geometry.online import (
+    fit_prior as fit_geometry_discrete_prior,
+)
+from wnn.moment_geometry.online import (
+    validate_prior as validate_geometry_discrete_prior,
+)
+
 if TYPE_CHECKING:
     import torch
 
 ENDPOINT = np.float32(-5.199337482452393)
 MOMENT_FEATURE_MODES = ("causal_moments", "causal_innovations")
 FIELD_AGE_FEATURE_MODES = ("group_age", "field_age")
+PRIOR_FEATURE_MODES = (*MOMENT_FEATURE_MODES, GEOMETRY_DISCRETE_MODE, I1_HISTORY_MODE)
+GEOMETRY_DISCRETE_WIDTH = 60
+GEOMETRY_STATISTICS_WIDTH = 20
 RESEARCH_FEATURE_MODES = (
     "none",
     "volume28",
     "volume28_current",
     *MOMENT_FEATURE_MODES,
+    GEOMETRY_DISCRETE_MODE,
+    I1_HISTORY_MODE,
+    KALMAN_GROUP_MODE,
     *FIELD_AGE_FEATURE_MODES,
 )
 MOMENT_PROJECTION_WIDTH = 16
@@ -59,6 +97,12 @@ def research_feature_names(mode: str) -> tuple[str, ...]:
                 f"innovation_{index}" for index in range(MOMENT_PROJECTION_WIDTH)
             )
         return moment_names
+    if mode == GEOMETRY_DISCRETE_MODE:
+        return GEOMETRY_DISCRETE_NAMES
+    if mode == I1_HISTORY_MODE:
+        return i1_history_feature_names()
+    if mode == KALMAN_GROUP_MODE:
+        return KALMAN_GROUP_FEATURE_NAMES
     if mode in FIELD_AGE_FEATURE_MODES:
         return tuple(f"{mode}_{index}" for index in range(112))
     return tuple(f"currentV_{index}" for index in range(22)) + (
@@ -72,14 +116,42 @@ def research_feature_names(mode: str) -> tuple[str, ...]:
 
 
 def research_feature_control_width(mode: str, control: str = "none") -> int:
-    """Return the feature suffix width zeroed by a matched-capacity control."""
+    """Return the number of feature columns zeroed by a matched-width control."""
+    return len(research_feature_control_indices(mode, control))
+
+
+def research_feature_control_indices(mode: str, control: str = "none") -> tuple[int, ...]:
+    """Return feature columns masked by a fixed-width representation control."""
     if control == "none":
-        return 0
+        return ()
+    if mode == I1_HISTORY_MODE:
+        if control == "all":
+            return tuple(range(len(i1_history_feature_names())))
+        raise ValueError("i1 history control must be none or all")
+    if mode == GEOMETRY_DISCRETE_MODE:
+        if control == "all":
+            return tuple(range(GEOMETRY_DISCRETE_WIDTH))
+        if control == "moments_only":
+            return tuple(range(GEOMETRY_STATISTICS_WIDTH, GEOMETRY_DISCRETE_WIDTH))
+        if control == "dictionary_only":
+            return tuple(range(GEOMETRY_STATISTICS_WIDTH))
+        raise ValueError(
+            "geometry/discrete control must be none, all, moments_only, or dictionary_only"
+        )
+    if mode == KALMAN_GROUP_MODE:
+        if control == "all":
+            return tuple(range(len(KALMAN_GROUP_FEATURE_NAMES)))
+        raise ValueError("Kalman group-state control must be none or all")
     if control != "newest" or mode not in MOMENT_FEATURE_MODES:
-        raise ValueError("the newest feature control requires a causal moment feature mode")
+        raise ValueError("feature control is unsupported for this research feature mode")
     if mode == "causal_moments":
-        return len(research_feature_names(mode))
-    return MOMENT_PROJECTION_WIDTH
+        return tuple(range(len(research_feature_names(mode))))
+    return tuple(
+        range(
+            len(research_feature_names(mode)) - MOMENT_PROJECTION_WIDTH,
+            len(research_feature_names(mode)),
+        )
+    )
 
 
 def _raw_array(raw: np.ndarray) -> tuple[np.ndarray, bool]:
@@ -182,6 +254,30 @@ def validate_causal_moment_prior(prior: Mapping[str, object]) -> dict[str, objec
     result["mean"] = mean.tolist()
     result["scale"] = scale.tolist()
     return result
+
+
+def validate_research_feature_prior(mode: str, prior: Mapping[str, object]) -> dict[str, object]:
+    """Validate checkpoint-bound fitted constants for a prior-based feature mode."""
+    if mode in MOMENT_FEATURE_MODES:
+        return validate_causal_moment_prior(prior)
+    if mode == GEOMETRY_DISCRETE_MODE:
+        return validate_geometry_discrete_prior(prior)
+    if mode == I1_HISTORY_MODE:
+        return validate_i1_history_prior(prior)
+    raise ValueError(f"research feature mode {mode!r} has no fitted prior")
+
+
+def fit_research_feature_constants(
+    mode: str, raw_sequences: Iterable[np.ndarray]
+) -> dict[str, object]:
+    """Fit constants for supported prior-based feature modes from fitting rows only."""
+    if mode == GEOMETRY_DISCRETE_MODE:
+        return fit_geometry_discrete_prior(raw_sequences)
+    if mode in MOMENT_FEATURE_MODES:
+        return fit_causal_moment_prior(raw_sequences)
+    if mode == I1_HISTORY_MODE:
+        return fit_i1_history_prior(raw_sequences)
+    raise ValueError(f"research feature mode {mode!r} has no fitting procedure")
 
 
 def fit_causal_moment_prior(raw_sequences: Iterable[np.ndarray]) -> dict[str, object]:
@@ -510,6 +606,31 @@ def research_features_numpy(
         if zero_width:
             output[..., -zero_width:] = 0.0
         return output[0] if squeeze else output
+    if mode == I1_HISTORY_MODE:
+        if prior is None:
+            raise ValueError("i1 history features require a fitting-only prior")
+        output = i1_history_features_numpy(x, prior)
+        if zero_width:
+            output[..., list(research_feature_control_indices(mode, control))] = 0.0
+        return output[0] if squeeze else output
+    if mode == KALMAN_GROUP_MODE:
+        if squeeze:
+            return kalman_group_features_numpy(x[0], control)
+        return np.stack([kalman_group_features_numpy(sequence, control) for sequence in x], axis=0)
+    if mode == GEOMETRY_DISCRETE_MODE:
+        if prior is None:
+            raise ValueError("geometry/discrete features require a fitting-only prior")
+        validate_geometry_discrete_prior(prior)
+        masked = research_feature_control_indices(mode, control)
+        if len(masked) == len(GEOMETRY_DISCRETE_NAMES):
+            output = np.zeros((*x.shape[:2], len(names)), dtype=np.float32)
+            return output[0] if squeeze else output
+        output = np.stack(
+            [geometry_discrete_features_numpy(sequence, prior) for sequence in x], axis=0
+        )
+        if masked:
+            output[..., list(masked)] = 0.0
+        return output[0] if squeeze else output
     if mode in FIELD_AGE_FEATURE_MODES:
         output = _field_age_features_numpy(x, mode)
         return output[0] if squeeze else output
@@ -554,6 +675,32 @@ def research_features_torch(
         features = _causal_moment_features_torch(raw, mode, prior, output)
         if zero_width:
             features[..., -zero_width:].zero_()
+        return features
+    if mode == I1_HISTORY_MODE:
+        if prior is None:
+            raise ValueError("i1 history features require a fitting-only prior")
+        features, _ = i1_history_features_torch_chunk(raw, prior, output=output)
+        if zero_width:
+            features[..., list(research_feature_control_indices(mode, control))] = 0.0
+        return features
+    if mode == KALMAN_GROUP_MODE:
+        return kalman_group_features_torch(raw, output=output, control=control)
+    if mode == GEOMETRY_DISCRETE_MODE:
+        if prior is None:
+            raise ValueError("geometry/discrete features require a fitting-only prior")
+        validate_geometry_discrete_prior(prior)
+        masked = research_feature_control_indices(mode, control)
+        if len(masked) == len(GEOMETRY_DISCRETE_NAMES):
+            if output is None:
+                return raw.new_zeros((*raw.shape[:2], len(names)))
+            expected = (*raw.shape[:2], len(names))
+            if output.shape != expected or output.dtype != raw.dtype or output.device != raw.device:
+                raise ValueError("feature output must match the raw batch, dtype and device")
+            output.zero_()
+            return output
+        features = geometry_discrete_features_torch(raw, prior, output)
+        if masked:
+            features[..., list(masked)] = 0.0
         return features
     if mode in FIELD_AGE_FEATURE_MODES:
         return _field_age_features_torch(raw, mode, output)
@@ -713,6 +860,10 @@ class StreamingResearchFeatures:
         prior: Mapping[str, object] | None = None,
         control: str = "none",
     ) -> None:
+        if mode == GEOMETRY_DISCRETE_MODE:
+            raise ValueError(
+                "geometry/discrete features are fit-only; streaming support is not implemented"
+            )
         self.mode = mode
         self.control = control
         research_feature_control_width(mode, control)
@@ -722,11 +873,21 @@ class StreamingResearchFeatures:
             if mode in MOMENT_FEATURE_MODES and prior is not None
             else None
         )
+        self.i1_history = (
+            StreamingI1History(prior, control)
+            if mode == I1_HISTORY_MODE and prior is not None
+            else None
+        )
         self.field_ages = (
             StreamingFieldAgeFeatures(mode) if mode in FIELD_AGE_FEATURE_MODES else None
         )
+        self.kalman_group = (
+            StreamingKalmanGroupFeatures(control) if mode == KALMAN_GROUP_MODE else None
+        )
         if mode in MOMENT_FEATURE_MODES and self.causal_moments is None:
             raise ValueError("causal moment features require a fitting-only prior")
+        if mode == I1_HISTORY_MODE and self.i1_history is None:
+            raise ValueError("i1 history features require a fitting-only prior")
         self.reset()
 
     def reset(self) -> None:
@@ -734,8 +895,14 @@ class StreamingResearchFeatures:
         if self.causal_moments is not None:
             self.causal_moments.reset()
             return
+        if self.i1_history is not None:
+            self.i1_history.reset()
+            return
         if self.field_ages is not None:
             self.field_ages.reset()
+            return
+        if self.kalman_group is not None:
+            self.kalman_group.reset()
             return
         self.previous: np.ndarray | None = None
         self.origin: np.ndarray | None = None
@@ -748,8 +915,12 @@ class StreamingResearchFeatures:
             raise ValueError("Expected one finite float32 raw row of width112")
         if self.causal_moments is not None:
             return self.causal_moments.update(raw)
+        if self.i1_history is not None:
+            return self.i1_history.update(raw)
         if self.field_ages is not None:
             return self.field_ages.update(raw)
+        if self.kalman_group is not None:
+            return self.kalman_group.update(raw)
         if not self.names:
             return np.empty(0, dtype=np.float32)
         volume = raw[22:44]

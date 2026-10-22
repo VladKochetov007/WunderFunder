@@ -1,3 +1,7 @@
+> Latest user amendment: optimize teacher quality and empirical scaling;
+> distillation is optional. See [teacher-scaling programme](TEACHER_QUALITY_SCALING_20261019_R1.md).
+> Historical sections below retain the earlier proposed transfer path.
+
 ---
 kind: idea
 status: proposed
@@ -38,6 +42,19 @@ The old [AR teacher proposal](CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_202610
 supplies earlier equations and source history. This R2 supersedes its prospective
 replication count and makes the larger-model/optimization choices concrete; it
 does not rewrite its frozen recipes or claim its proposed trainer already exists.
+
+## Latest user source: TradeFM and observable transition likelihood
+
+The user supplied [TradeFM](https://arxiv.org/abs/2602.23784) after the initial
+scale design. Its event-modeling mechanism motivates our proposed
+[observable-event adaptation](https://github.com/VladKochetov007/WunderFunder/blob/experiment/large-dynamics-teacher-b300-r2/research/experiment_drafts/large-dynamics-teacher-b300-r2/TRADEFM_ADAPTATION.md):
+retain raw rows and supervised targets, add next-change survival and mark losses,
+and test them at fixed0.68B capacity before spending on the whole scale ladder.
+This comparison costs four new fits; the0.68B/1.65B capacity screen is a separate
+four-fit allocation. The source's distributional generation results do not
+establish weighted-Pearson or GRU transfer. Anonymous columns do not justify
+copying price/volume/timestamp formulas. The addendum preserves the actual
+source inspection, our censoring/causality adaptation and independent scout review.
 
 ## What the B300 results tell us
 
@@ -422,3 +439,5 @@ The controller's synthesis is a proposal, not independent experimental approval.
 records the actual paper/docs lookups, API caveats and transfer limits. Related
 H/E ledger entries register this unrun scale/dynamics design. No supplied data,
 weights or external pretrained payloads were imported for this task.
+
+Published handoff: [draft PR #31](https://github.com/VladKochetov007/WunderFunder/pull/31) targets research-team. Its publication receipt names the initial source/base commits and recipe hashes. No B300 fit is admitted.

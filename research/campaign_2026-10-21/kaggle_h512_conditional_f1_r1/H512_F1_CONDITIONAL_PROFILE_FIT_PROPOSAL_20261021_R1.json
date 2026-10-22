@@ -1,0 +1,502 @@
+{
+  "schema": "wnn.kaggle-h512-conditional-profile-fit-proposal.v1",
+  "recorded_at_utc": "2026-10-21T00:03:28Z",
+  "status": "PREPARED_NOT_ADMITTED",
+  "purpose": "Sealed one-worker same-process profile and conditionally admitted H512 F1 seed-1004 fit with fixed CP5 and SWA345 feature-only exports. One read-only SDK quota query is recorded separately; no provider mutation, upload, launch, Torch import, array load, or scientific fit occurred while preparing this packet.",
+  "scope": {
+    "scientific_fits_started": 0,
+    "profile_launches_started": 0,
+    "fit_admission": false,
+    "third_profile_launch_authorized": false,
+    "paid_compute": false,
+    "provider_mutations": false,
+    "torch_or_array_loading_performed": false,
+    "local_training_jobs_or_source_data_modified": false,
+    "next_gate_owner": "Root controller; independent static review, current provider quota/reservation read, no-competing-reservation check, and explicit profile plus conditional-fit admission."
+  },
+  "lineage": {
+    "experiment": "E-RR18-01-LABELS; frozen RANK01 wide GRU arm",
+    "hypothesis": "H-RR17-01",
+    "reference_revision": "835f35ef64ea9f661fa99bcccb3d02a71aa18a16",
+    "reference_recipe": "research/campaign_2026-10-18/priority25_execution_r4/RANK01_RECIPE.json",
+    "reference_recipe_sha256": "9292b545fd088df40c4cc54066a745025ee4d30c2bf1574bdb4df341eb16937c",
+    "reference_commands": "research/campaign_2026-10-18/priority25_execution_r4/RANK01_COMMANDS.json",
+    "reference_commands_sha256": "19647dad46f70ccc21ee9bd2f478f5ddbd645c65ad4942ca99a1c7a265abd8a8",
+    "execution_source_revision_requested": "68ff682977b822f38351aac0f621146f5f13b440",
+    "execution_source_checkout": "Clean detached worktree at 68ff682977b822f38351aac0f621146f5f13b440; verified git diff against that commit is empty for src/wnn, scripts/train_rnn.py, and utils.py before adding only the packet and worker modules.",
+    "last_profile_bundle_checkout": "d3055423a185d2ecfe7baf1c20206abeb743ad8b",
+    "source_relationship": "Reuse the canonical trainer, training package, Kaggle bundle/runner/kernel/common components. Do not fork or copy the trainer. The prior bundled checkout had no semantic diff in scripts/kaggle_bundle.py, scripts/kaggle_gpu_runner.py, scripts/kaggle_common.py, scripts/kaggle_kernel.py, scripts/train_rnn.py, or src/wnn versus the requested revision. Re-seal a fresh closure for any future wrapper/spec change.",
+    "canonical_source_pins": {
+      "scripts/train_rnn.py": "74530d3499bba1b5647e459105cb263bfc7205d7f3aa928684dfb279c2677345",
+      "src/wnn/training/runner.py": "306e0619daa5bb2171063a0e766f064281281fcee4379ae120477ec1b849da7d",
+      "src/wnn/training/validation_inputs.py": "8ebfa7252933c05824f62044cd75ea82599e55e9404b5495605f6228694f5989",
+      "src/wnn/training/validation_training.py": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+      "src/wnn/training/setup_lineage.py": "859650a4467ee5a404846af4c71d9f2874016722e4c3c844f29cf82dcf527973",
+      "src/wnn/training/setup_model.py": "cec9748ad67c995a3c73f6b0288780ba52d0952445251c410113f6670c79fe33"
+    },
+    "inputs_and_recipe": "cold H512x1 GRU; raw112 plus canonical99 causal event features (211 inputs); original WMSE labels, chunk normalization; no teacher, initializer, propensity, target cache, distillation, or auxiliary target assets. Do not pass --raw-only: that flag zeros the event-feature inputs and changes RANK01."
+  },
+  "fold_identity": {
+    "original_manifest": {
+      "path": "research/campaign_2026-09-29/artifacts/splits/fold1.json",
+      "sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "size_bytes": 1388742,
+      "preserved_unchanged": true
+    },
+    "derived_execution_view": {
+      "path": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/fold1_profile_view.json",
+      "sha256": "548b42f06710a0f7c06377b8f2aaf7241469d75f0dad9de05bd4fbc29448d0c3",
+      "size_bytes": 1387992,
+      "only_changed_field": "sources",
+      "sources": [
+        "datasets/train.parquet",
+        "datasets/valid.parquet"
+      ],
+      "all_non_source_fields_equal_original": true,
+      "membership_counts": {
+        "fit_train_groups": 10533,
+        "fit_valid_groups": 1416,
+        "evaluation_valid_groups": 457,
+        "evaluation_components": 149
+      },
+      "evaluation_exposure": "Previously inspected fold 1 robustness panel; not a fresh holdout."
+    },
+    "grading_identity_rule": "The trainer checkpoint and prediction sidecar bind to the derived execution-view SHA. Grade with that same derived view; preserve and report both original and derived hashes in the grade receipt. Never call the derived hash the canonical original hash."
+  },
+  "source_assets": {
+    "portable_registry": {
+      "path": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/fold1_portable_inputs.json",
+      "sha256": "2dcd5cee727d1299f1fdab86b71116dc4a70008160c9495be8bf6f5c00b9dc67",
+      "size_bytes": 846,
+      "bound_to_original_fold1_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "source_names": [
+        "datasets/train.parquet",
+        "datasets/valid.parquet"
+      ],
+      "raw_identity_entries_match_canonical_fold1": true
+    },
+    "raw_sources": {
+      "datasets/train.parquet": {
+        "size_bytes": 29240219011,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+        "footer_bytes": 60437285,
+        "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb"
+      },
+      "datasets/valid.parquet": {
+        "size_bytes": 5615509128,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+        "footer_bytes": 10686926,
+        "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b"
+      }
+    },
+    "structural_cache_bundle": {
+      "local_private_path": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/structural-cache-private-bundle.tar.gz",
+      "private_only": true,
+      "uploaded": false,
+      "archive_size_bytes": 143911,
+      "archive_sha256": "86f1c7af0d40c95923d82f8d3ad078b38943169f5bc087f14c8b03649675b324",
+      "files": {
+        "cache/chains.npz": {
+          "size_bytes": 650142,
+          "sha256": "39aba46fad7b717830e90687e1c4a6991794864cd2cf621b0bbf341f2d9a7766"
+        },
+        "cache/chain_folds.npz": {
+          "size_bytes": 550072,
+          "sha256": "a2cfe843a7ce3085d383524a9d1438154fba4f2e0af6df48ee1e1b015e5c942f"
+        }
+      },
+      "role": "Structural graph inputs required by canonical load_campaign_split; not membership source entries. Stage them at the expected root paths and hash-check before canonical split preflight."
+    }
+  },
+  "provider_evidence": {
+    "fresh_quota_receipt": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/KAGGLE_QUOTA_READINESS_20261021_R1.json",
+    "last_verified_snapshot": {
+      "path": "research/campaign_2026-10-21/kaggle_h512_profile_r1/KAGGLE_H512_PROFILE_TERMINAL_20261021_R1.json",
+      "observed_at_utc": "2026-10-20T23:49:51Z",
+      "gpu_allowed_seconds": 108000.0,
+      "gpu_used_seconds": 90722.348,
+      "gpu_reserved_seconds": 0.0,
+      "gpu_remaining_unreserved_seconds": 17277.652,
+      "refresh_utc": "2026-10-24T00:00:00"
+    },
+    "previous_exact_kernel_ref": "vladkochetov07/wnn-h512-profile-20261021-r2-runner/1",
+    "previous_request_and_actual_shape": {
+      "requested": "NvidiaTeslaT4",
+      "actual": [
+        "Tesla T4",
+        "Tesla T4"
+      ],
+      "worker_gpu_index": 0,
+      "session_wall_seconds": 482.874,
+      "provider_quota_delta_seconds": 492.972,
+      "profile_updates": 0,
+      "diagnosis": "Raw input identity checks passed; canonical split loading then failed because the two structural graph caches were absent. No training import or profile update ran."
+    },
+    "shape_limit": "The prior R2 canonicalized request used two Tesla T4 devices, with one worker pinned to GPU 0; the provider API reports aggregate quota. Request NvidiaTeslaT4, record the actual worker-visible GPU, and expose exactly one assigned UUID to the worker. The controller observed approximately 1x provider quota charge per session-wall second in both prior dual-T4 sessions. Gate provider charge at 1x measured outer session wall, and record the conservative 2x allocated-device-seconds bound separately. Do not claim a P100 allocation or a verified single-GPU machine shape. Fresh quota/reservation evidence and root admission remain required.",
+    "campaign_allocation_authority": {
+      "current_cycle_allocation": "Root confirmed that the accepted 2026-10-20 local/Kaggle plan authorizes all verified available Kaggle quota for this cycle, subject to fresh quota/reservation evidence and root admission.",
+      "current_provider_snapshot": {
+        "path": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/KAGGLE_QUOTA_READINESS_20261021_R1.json",
+        "observed_at_utc": "2026-10-21T00:23:46+00:00",
+        "remaining_unreserved_provider_gpu_seconds": 17277.652,
+        "reserved_provider_gpu_seconds": 0.0,
+        "refresh_at_utc": "2026-10-24T00:00:00"
+      },
+      "legacy_campaign_cap": {
+        "source_path": "research/campaign_2026-10-06/cloud_preflight/poll_provider.py",
+        "fields": {
+          "GPU_BUDGET_SECONDS": 56780.516,
+          "GPU_BASELINE_SECONDS": 37047.321,
+          "poll_helper_used_seconds": 53675.027,
+          "poll_helper_headroom_seconds": 3105.489
+        },
+        "authority": "Historical helper-specific accounting only; root confirmed it is not the current cycle provider-quota cap. Do not abort a future admitted worker at 3105.489 seconds. Preserve the historical values without mutating their source ledger."
+      },
+      "worker_admission_budget": {
+        "provider_charge_factor": 1.0,
+        "provider_safety_reserve_seconds": 1200,
+        "worker_wall_cap_seconds": 15700,
+        "outer_wall_cap_seconds": 16000,
+        "runner_finalizer_reserve_seconds": 300,
+        "two_T4_allocated_device_seconds_bound_factor": 2.0,
+        "root_admission_required": true
+      }
+    }
+  },
+  "recipe": {
+    "model": "GRU, hidden 512, one layer, linear encoder, dropout 0; 2,210,306 trainable-parameter reference",
+    "fit_seed": 1004,
+    "batch": 8,
+    "chunk_rows": 2000,
+    "epochs": 6,
+    "fixed_checkpoint_epoch_zero_based": 5,
+    "precision": "strict FP32; autocast and TF32 off",
+    "objective": "WMSE, chunk normalization",
+    "optimizer_schedule": "AdamW lr=1e-4, beta2=0.999, wd=0.01, OneCycleLR warmup 0.05, clip=1.0",
+    "order_and_execution": "seeded batches; deterministic; sync-free; fused Adam; grad stats; one loader worker count 0; pin-memory off",
+    "profile": {
+      "warmup_batches": 1,
+      "measured_batches": 3,
+      "expected_optimizer_chunk_updates": 40,
+      "output_name": "r01_h512_f1_s1004_kaggle_profile_r1",
+      "result_is_engineering_only": true,
+      "checkpoint_or_quality_score_expected": false
+    },
+    "fit": {
+      "output_name": "r01_h512_f1_s1004_kaggle_fit_r1",
+      "new_model_and_optimizer": true,
+      "seed_reset_to_1004": true,
+      "no_profile_flags": true,
+      "no_resume_or_initializer": true
+    },
+    "exact_profile_trainer_argv": [
+      "scripts/train_rnn.py",
+      "--name",
+      "r01_h512_f1_s1004_kaggle_profile_r1",
+      "--hidden",
+      "512",
+      "--layers",
+      "1",
+      "--valid-fold",
+      "1",
+      "--split-manifest",
+      "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/fold1_profile_view.json",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--enc",
+      "linear",
+      "--dropout",
+      "0",
+      "--train-seqs",
+      "10607",
+      "--train-source",
+      "train+valid",
+      "--valid-train-fraction",
+      "1",
+      "--valid-repeat",
+      "1",
+      "--n-valid-folds",
+      "4",
+      "--full-valid",
+      "--eval-source",
+      "vfold",
+      "--batch",
+      "8",
+      "--chunk",
+      "2000",
+      "--epochs",
+      "6",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "5",
+      "--no-eval-during-fit",
+      "--seed",
+      "1004",
+      "--precision",
+      "fp32",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--batch-order",
+      "seeded",
+      "--deterministic",
+      "--sync-free",
+      "--fused-adam",
+      "--grad-stats",
+      "--optim",
+      "adamw",
+      "--lr",
+      "0.0001",
+      "--beta2",
+      "0.999",
+      "--wd",
+      "0.01",
+      "--sched",
+      "onecycle",
+      "--warmup-frac",
+      "0.05",
+      "--head-lr-mult",
+      "1",
+      "--clip",
+      "1",
+      "--profile-steps",
+      "3",
+      "--profile-warmup",
+      "1"
+    ],
+    "exact_conditional_fit_trainer_argv": [
+      "scripts/train_rnn.py",
+      "--name",
+      "r01_h512_f1_s1004_kaggle_fit_r1",
+      "--hidden",
+      "512",
+      "--layers",
+      "1",
+      "--valid-fold",
+      "1",
+      "--split-manifest",
+      "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/fold1_profile_view.json",
+      "--device",
+      "cuda",
+      "--arch",
+      "gru",
+      "--cell",
+      "gru",
+      "--enc",
+      "linear",
+      "--dropout",
+      "0",
+      "--train-seqs",
+      "10607",
+      "--train-source",
+      "train+valid",
+      "--valid-train-fraction",
+      "1",
+      "--valid-repeat",
+      "1",
+      "--n-valid-folds",
+      "4",
+      "--full-valid",
+      "--eval-source",
+      "vfold",
+      "--batch",
+      "8",
+      "--chunk",
+      "2000",
+      "--epochs",
+      "6",
+      "--checkpoint-policy",
+      "fixed",
+      "--checkpoint-epoch",
+      "5",
+      "--no-eval-during-fit",
+      "--seed",
+      "1004",
+      "--precision",
+      "fp32",
+      "--loss",
+      "wmse",
+      "--loss-norm",
+      "chunk",
+      "--batch-order",
+      "seeded",
+      "--deterministic",
+      "--sync-free",
+      "--fused-adam",
+      "--grad-stats",
+      "--optim",
+      "adamw",
+      "--lr",
+      "0.0001",
+      "--beta2",
+      "0.999",
+      "--wd",
+      "0.01",
+      "--sched",
+      "onecycle",
+      "--warmup-frac",
+      "0.05",
+      "--head-lr-mult",
+      "1",
+      "--clip",
+      "1"
+    ],
+    "evaluation_export_argv": [
+      "scripts/predict_run.py",
+      "r01_h512_f1_s1004_kaggle_fit_r1",
+      "valid",
+      "--epoch",
+      "5",
+      "--campaign-split-manifest",
+      "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/fold1_profile_view.json",
+      "--campaign-evaluation-only",
+      "--output-name",
+      "r01_h512_f1_s1004_kaggle_fit_r1",
+      "--inference-precision",
+      "fp32"
+    ],
+    "offline_grading_argv_after_collection": [
+      "scripts/score_run.py",
+      "--run",
+      "r01_h512_f1_s1004_kaggle_fit_r1",
+      "--split",
+      "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/fold1_profile_view.json",
+      "--epoch",
+      "5",
+      "--prediction",
+      "cache/pred_r01_h512_f1_s1004_kaggle_fit_r1_valid.npy"
+    ],
+    "evaluation_only_export_groups": 457,
+    "official_metric_id": "global_wp_clip2_v1",
+    "offline_score_receipt_must_record_original_and_derived_manifest_hashes": true,
+    "swa345": {
+      "grader_run_name": "r01_h512_f1_s1004_kaggle_swa345_r1",
+      "source_run_name": "r01_h512_f1_s1004_kaggle_fit_r1",
+      "source_epochs_zero_based": [
+        3,
+        4,
+        5
+      ],
+      "method": "scripts.average_trajectory_checkpoints.mean_state; FP64 accumulation, cast back to parameter dtype, fixed mean/std buffers must compare equal",
+      "new_training_run": false,
+      "quality_evaluated_during_derivation": false,
+      "historical_checkpoints_or_sidecars_modified": false
+    },
+    "swa345_evaluation_export_argv": [
+      "scripts/predict_run.py",
+      "r01_h512_f1_s1004_kaggle_swa345_r1",
+      "valid",
+      "--epoch",
+      "5",
+      "--campaign-split-manifest",
+      "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/fold1_profile_view.json",
+      "--campaign-evaluation-only",
+      "--output-name",
+      "r01_h512_f1_s1004_kaggle_swa345_r1",
+      "--inference-precision",
+      "fp32"
+    ],
+    "grader_panel": {
+      "fit_cp5": "r01_h512_f1_s1004_kaggle_fit_r1",
+      "derived_swa345": "r01_h512_f1_s1004_kaggle_swa345_r1",
+      "historical_controls_unchanged": [
+        "oldz4_h230_student_f1_s3_r4",
+        "oldz4_075_h512_f1_cp5_025",
+        "oldz4_075_h512_f1_swa345_025"
+      ],
+      "fixed_comparisons": [
+        "CP5 vs oldZ4",
+        "SWA345 vs CP5",
+        "CP5 blend vs oldZ4",
+        "SWA345 blend vs oldZ4",
+        "SWA345 blend vs CP5 blend"
+      ],
+      "manifest_binding": "New checkpoints and prediction sidecars use derived F1 view SHA; grader records original canonical F1 SHA separately."
+    }
+  },
+  "work_estimate_and_gate": {
+    "fit_membership": {
+      "train_sequences": 10533,
+      "valid_sequences": 1416,
+      "sequences_per_epoch": 11949,
+      "batch_size": 8,
+      "drop_last": true,
+      "batches_per_epoch": 1493,
+      "epochs": 6,
+      "full_fit_batches": 8958,
+      "chunk_updates_per_batch": 10,
+      "full_fit_optimizer_chunk_updates": 89580,
+      "profile_updates": 40
+    },
+    "measured_profile_field": "Canonical PROFILE.step_wall (milliseconds per start-to-start batch interval), after one warmup and three measured batches; use step_wall/1000 seconds as the observed 8-sequence batch time.",
+    "projection_rule": "Let S=PROFILE.step_wall/1000 seconds, P=profile CLI wall seconds, and E=actual worker elapsed at the post-profile gate (including packet validation, canonical raw preflight, and the completed profile). Project the fresh full-fit setup and 8,958 batches as fit_projection=1.25*(P+S*8958). Require E+fit_projection+2700 export-reserve seconds <=15700 worker seconds; adding the fixed 300-second runner finalizer reserve gives <=16000 total outer wall seconds. This is a planning gate, not measured full-fit cost.",
+    "export_allowance_seconds": 2700,
+    "export_allowance_interpretation": "Declared reserved window for fixed CP5 and SWA345 derivation plus two 457-group FP32 evaluation-only feature exports. It is not a measured H512 export duration; root may amend before admission.",
+    "runner_finalizer_reserve_seconds": 300,
+    "actual_kernel_deadline_gate": "Parse WNN_KERNEL_DEADLINE_MONOTONIC as a finite future timestamp. After the profile, require projected fit with 1.25 margin, the 2,700-second export reserve, and the 300-second finalizer to fit in the measured remaining kernel deadline.",
+    "quota_gate": "Require fresh provider quota/reservation evidence in root_admission.json, no competing reservation, and at least 1200 provider GPU-seconds of explicit safety headroom after the estimated 1x session-wall charge. The controller observed approximately 1x charge for both previous dual-T4 sessions. Separately record 2x predicted total outer wall as the conservative two-device allocated-seconds bound; do not use it as provider quota charge.",
+    "deadline_gate": "Admission receipt must cap the worker at 15700 seconds and the total outer session including the 300-second finalizer at 16000 seconds. Require the profile gate projection plus export allowance to fit inside both limits and the live provider quota after safety reserve.",
+    "current_snapshot_reference_only": {
+      "remaining_unreserved_provider_gpu_seconds": 17277.652,
+      "provider_charge_factor_used_for_planning": 1.0,
+      "provider_safety_reserve_seconds": 1200,
+      "outer_wall_cap_seconds": 16000,
+      "worker_wall_cap_seconds": 15700,
+      "dual_device_allocated_seconds_bound_factor": 2.0,
+      "refresh_required_before_any_future_launch": true
+    },
+    "profile_pass_requirements": [
+      "Canonical split preflight passes after exact original/derived/registry identities and both structural cache hashes pass.",
+      "PROFILE_UPDATE_EVIDENCE has valid_for_throughput=true, optimizer_attempts=40, optimizer_completed_updates=40, amp_skipped_updates=0, loss_checks=40, finite losses, and finite gradient statistics.",
+      "PROFILE.step_wall is finite and positive; actual GPU inventory and the one visible worker UUID are recorded.",
+      "Controller has explicitly admitted this conditional fit before the job is launched. A finite profile alone does not grant fit admission.",
+      "The post-profile quota gate uses the actual remaining worker wall plus fit projection, both fixed exports, and finalizer; root admission must explicitly authorize the conditional full fit before launch."
+    ],
+    "fail_closed": "If the profile, shape, cache, membership, cost projection, provider quota, root admission, or deadline gate fails, retain the profile evidence and stop before the scientific fit. Do not silently use P100 estimates or change machine shape."
+  },
+  "execution_contract": {
+    "one_worker": true,
+    "worker_gpu": 0,
+    "cuda_visible_devices": "exactly the assigned GPU 0 UUID",
+    "requested_machine_shape": "NvidiaTeslaT4",
+    "actual_shape_recording_required": true,
+    "same_process_profile_then_fit": true,
+    "canonical_preflight_before_torch_import": true,
+    "raw_source_sha_cache": "Call canonical load_campaign_split before trainer imports in the same process. The portable verifier's content digest LRU cache then permits the canonical trainer's repeated split load without another full raw-file SHA pass; preserve file stat identity and do not bypass checks.",
+    "model_rng_isolation": "Run the canonical profile CLI, then invoke the frozen fit CLI in the same process. Canonical run construction creates a fresh TrainingRun/model/optimizer and resets torch.manual_seed(1004); no profile weights, optimizer state, checkpoint, resume state or initializer are reused. Profile-versus-fit tensor identity is not measured; the full fit records its fresh initial parameter hash and normalization identity.",
+    "no_new_trainer_or_dependency": true,
+    "no_teacher_or_target_cache": true,
+    "private_code_dataset_only_after_root_admission": true,
+    "root_admission_receipt_required": true,
+    "fixed_exports": [
+      "CP5 evaluation-only FP32 feature export",
+      "SWA345 equal-mean evaluation-only FP32 feature export"
+    ],
+    "worker_wall_cap_seconds": 15700,
+    "outer_wall_cap_seconds_including_finalizer": 16000,
+    "provider_quota_safety_reserve_seconds": 1200,
+    "provider_billing_factor": 1.0,
+    "dual_device_allocated_seconds_bound_factor": 2.0,
+    "strict_fp32_environment": {
+      "NVIDIA_TF32_OVERRIDE": "0",
+      "runtime_flags_set_false_before_profile_and_fit": [
+        "torch.backends.cuda.matmul.allow_tf32",
+        "torch.backends.cudnn.allow_tf32"
+      ],
+      "runtime_observation": "Worker records and checks both runtime flags after profile, immediately before and after fit, and after exports. The canonical inference checkpoint and provenance do not store these flags for this recipe; no canonical output is rewritten."
+    },
+    "worker_entrypoint": "scripts/kaggle_h512_f1_conditional_worker.py",
+    "worker_receipt_path": "research/campaign_2026-10-21/kaggle_h512_conditional_f1_r1/conditional_worker_receipt_r1.json",
+    "worker_receipt_schema": "wnn.kaggle-h512-f1-conditional-worker-receipt.v1",
+    "worker_success_status": "CONDITIONAL_FIT_AND_EXPORT_COMPLETE",
+    "swa_weight_derivation_receipt_path": "artifacts/runs/r01_h512_f1_s1004_kaggle_swa345_r1/weight_derivation_receipt.json",
+    "swa_weight_derivation_receipt_schema": "wnn.kaggle-h512-swa345-weight-derivation.v1"
+  },
+  "evidence_limit": "No finite H512 profile measurement exists. The last two F0 attempts ended before training; their provider time is delivery/preflight evidence only. This proposal carries no quality result, expected-score claim, or fit authorization."
+}

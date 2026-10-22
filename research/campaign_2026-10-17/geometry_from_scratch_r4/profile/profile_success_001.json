@@ -1,0 +1,75 @@
+{
+  "schema": "wnn.r4.profile-admission.v1",
+  "experiment_id": "E-GEOMETRY-FROM-SCRATCH-20261017-R4",
+  "timestamp_utc": "2026-10-17T20:51:43Z",
+  "status": "passed",
+  "training_profile": {
+    "log": "train_profile_f0_s42000_r3.log",
+    "fold": 0,
+    "seed": 42000,
+    "feature_mode": "causal_geometry_discrete",
+    "hidden": 512,
+    "layers": 1,
+    "precision": "fp32",
+    "batch": 8,
+    "chunk_rows": 2000,
+    "warmup_batches": 1,
+    "measured_batches": 5,
+    "optimizer_updates": 60,
+    "finite_updates": 60,
+    "nonfinite_gradients": 0,
+    "gradient_clip_rate": 0.4667,
+    "median_step_wall_ms": 1525.76,
+    "median_gpu_ms": 1153.3,
+    "sequences_per_second": 5.24,
+    "cgroup": {
+      "memory_peak_bytes": 2711056384,
+      "memory_max_bytes": 4999999488,
+      "memory_swap_max_bytes": 0,
+      "memory_events": {
+        "low": 0,
+        "high": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    "cuda": {
+      "peak_allocated_bytes": 910822400,
+      "peak_reserved_bytes": 1285554176,
+      "device": "NVIDIA GeForce RTX 3060 Laptop GPU",
+      "total_memory_mib": 6144
+    }
+  },
+  "prediction_smoke": {
+    "train_log": "train_predict_smoke_f0_s42000.log",
+    "prediction_log": "predict_smoke_f0_s42000.log",
+    "checkpoint": "artifacts/runs/geometry_r4_predict_smoke_f0_s42000/model_ep0.pt",
+    "prediction": "prediction_smoke/fold0_seed42000_epoch0.npy",
+    "sidecar": "prediction_smoke/fold0_seed42000_epoch0.json",
+    "evaluation_groups": 468,
+    "prediction_shape": [468, 20000, 2],
+    "dtype": "float32",
+    "all_finite": true,
+    "campaign_export_scope": "evaluation",
+    "scientific_score": null
+  },
+  "oom_counters": {
+    "campaign_parent_before": 2,
+    "campaign_parent_after": 2,
+    "scope_profile_oom_kill": 0
+  },
+  "runtime_estimate": {
+    "optimizer_updates_per_fit": 44760,
+    "approximate_full_batches_per_fit": 4476,
+    "median_seconds_per_batch": 1.52576,
+    "estimated_gpu_hours_for_60_fits": 113.8,
+    "note": "Training estimate only; add feature-prior setup and per-fit evaluation exports. All 30 pairs are still planned regardless of interim scores."
+  },
+  "limitations": [
+    "The profile is a throughput/resource screen, not a quality result.",
+    "The epoch-0 smoke checkpoint trained one batch and is excluded from R4 score analysis.",
+    "All campaign folds are exposed or potentially exposed development evidence."
+  ]
+}

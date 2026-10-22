@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "name": "accept_saved_b16_fit_and_feature_exports",
+      "argv": [
+        "{python}",
+        "-c",
+        "import os, subprocess, sys; env=os.environ.copy(); env.update({'WNN_PROJECT_ROOT':'/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1','WNN_PORTABLE_DATA_MANIFEST':'/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_portable_inputs.json'}); subprocess.run([sys.executable,'/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/accept_h512_f1_b16_offline.py','--artifact-root','/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-conditional-input-stage-20261021-r2/B16_TERMINAL_COLLECTION_V2_R3/outputs/results/h512_f1_b16_seed1004_profile_then_conditional_fit_r2/artifacts','--recovery-root','/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1','--inference-source-root','/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff','--project-root','/home/vlad/development/wunder/wnn_connectome_starterpack'],env=env,check=True)"
+      ]
+    },
+    {
+      "name": "unchanged_five_endpoint_b16_f1_grade",
+      "argv": [
+        "{python}",
+        "-c",
+        "import os, subprocess, sys; env=os.environ.copy(); env.update({'WNN_PROJECT_ROOT':'/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1','WNN_PORTABLE_DATA_MANIFEST':'/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_portable_inputs.json'}); subprocess.run([sys.executable,'/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/grade_h512_f1_b16_offline.py','--artifact-root','/home/vlad/development/wunder/research_tmp/kaggle-h512-f1-b16-conditional-input-stage-20261021-r2/B16_TERMINAL_COLLECTION_V2_R3/outputs/results/h512_f1_b16_seed1004_profile_then_conditional_fit_r2/artifacts','--recovery-root','/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1','--inference-source-root','/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff','--project-root','/home/vlad/development/wunder/wnn_connectome_starterpack'],env=env,check=True)"
+      ]
+    }
+  ],
+  "report": "research/campaign_2026-10-21/next_cycle_r1/saved_export_recovery_r1/B16_CPU_ACCEPTANCE_REPORT_R2.json"
+}

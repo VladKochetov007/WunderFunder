@@ -1,0 +1,13 @@
+{
+  "schema": "wnn.b16-serial-affinity-patch.v1",
+  "status": "PATCHED_NO_GPU_KERNEL_LAUNCHED",
+  "before_sha256": "51f1ebbaf1863783ac2c7b528ecb6cc8404c93782d2b1305254a6052ac422684",
+  "after_sha256": "5ad37f0cb131ad893fecf491918ae254de1630ea8bfd79224a52eddde42e8aa0",
+  "archive_sha256": "1802af9b02281097da72c15594ace7c2d5b694218ac19387e10e72e14e5be095",
+  "kernel_wall_seconds": 1700,
+  "worker_wall_seconds_each": 700,
+  "worker_ram_bytes_each": 4000000000,
+  "worker_cpus_each": 1,
+  "proof": "Popen inherits one-CPU affinity. Sealed runner host_inventory sees one CPU, admit_specs rejects sum(1,1)>1 and admits concurrency1. With no overlap both jobs choose first enumerated physical GPU. Bootstrap restores its prior affinity in finally. Prediction source/archive unchanged.",
+  "independent_review": "i1_recipe Luna/max source-only PASS; per-worker4GBcaps verified by root separately; live runner inventory must confirm concurrency1."
+}

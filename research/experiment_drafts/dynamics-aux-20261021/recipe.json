@@ -1,0 +1,198 @@
+{
+  "schema": "wnn.future-input-dynamics-auxiliary-screen.v1",
+  "hypothesis_id": "H-FUTURE-INPUT-DYNAMICS-20261021-R1",
+  "experiment_id": "E-FUTURE-INPUT-DYNAMICS-20261021-R1",
+  "status": "finite_fit_profile_prediction_score_plans_and_paired_grader_prepared; profile_and_fits_pending",
+  "scope": "cold_screen_only",
+  "source": {
+    "branch": "experiment/dynamics-aux-20261021",
+    "base_commit": "3eeb2a9c2a0f456112f76175122deab376c764b3",
+    "implementation_commit": "b83147cf3264df68d6fe77b827fcedbca0be6a50"
+  },
+  "allocation": {
+    "cells": [
+      {
+        "fold": 0,
+        "seed": 1001
+      },
+      {
+        "fold": 2,
+        "seed": 1002
+      }
+    ],
+    "arms": [
+      {
+        "name": "control",
+        "dynamics_aux_weight": 0.0
+      },
+      {
+        "name": "dynamics",
+        "dynamics_aux_weight": 0.05
+      }
+    ],
+    "fits_per_arm": 2,
+    "total_new_scientific_fits": 4,
+    "reused_exact_model_fits": 0,
+    "reused_exact_controls": 0,
+    "reused_frozen_fit_memberships": 2,
+    "teacher_fits": 0,
+    "student_fits": 0,
+    "conditional_followup": "Any strong-parent continuation requires a separate extension; current --init validation rejects this auxiliary screen."
+  },
+  "common_recipe": {
+    "architecture": "plain GRU, H512 x 1, linear encoder, one-layer readout",
+    "input_control": "367-slot i1_history representation; --research-feature-control all zeroes all history slots; --drop-i1 remains false",
+    "objective": "unchanged weighted MSE plus dynamics_aux_weight times mean Huber loss (delta=1)",
+    "precision": "strict FP32, autocast off, TF32 off",
+    "batch": 8,
+    "chunk": 2000,
+    "epochs": 3,
+    "checkpoint_policy": "fixed checkpoint epoch 2; no in-fit evaluation",
+    "optimizer": "AdamW, OneCycle, lr=0.001, weight_decay=0.01, beta2=0.999, clip=1",
+    "normalization": "existing fitting-only input normalization; target statistics fit on exact unique selected fit sequences",
+    "seed_pairing": "control and dynamics arms share the same seed within each fold; both allocate the auxiliary head so base weights and head initialization match",
+    "future_input_policy": "future observations are labels only; full raw sequences are read before TBPTT slicing and never added to model inputs",
+    "targets": {
+      "raw_channel_count": 112,
+      "group_registry": "wnn.kalman_group_features.FEATURE_GROUPS",
+      "group_count": 13,
+      "horizons": [
+        16,
+        256
+      ],
+      "outputs_per_group_horizon": [
+        "mean standardized one-step change",
+        "log mean squared standardized one-step change"
+      ],
+      "change": "z[t+k]-z[t+k-1] for k=1..h, z=(raw-model.mean[:112])/model.std[:112]",
+      "energy_epsilon": 1e-08,
+      "validity": "t >= existing warmup-valid boundary and t+h < complete sequence length",
+      "target_standardization": "per output, fitting-membership mean and population standard deviation floored at 1e-3",
+      "reader": "SequenceFile.read(targets=False, mask=False)"
+    }
+  },
+  "membership": {
+    "f0": {
+      "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "fit_subset_manifest": "research/campaign_2026-10-20/plateau_review_r1/fit_f0_10pct_s1001.json",
+      "fit_subset_sha256": "706181dbb9a096653b9c63af58f8f66b70ffea9b3f522a3467ff3fd6f720d313",
+      "fit_subset_experiment_id": "E-PLATEAU-I1-20261020-R1",
+      "train_groups": 1118,
+      "valid_groups": 118,
+      "evaluation_groups": 468
+    },
+    "f2": {
+      "split_manifest": "research/campaign_2026-09-29/artifacts/splits/fold2.json",
+      "split_manifest_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+      "fit_subset_manifest": "research/campaign_2026-10-21/next_cycle_r1/i1/fit_f2_10pct_s1002.json",
+      "fit_subset_sha256": "841576ddd469befa98b37d1a567e47462979f298314b2a4cf4a399beb5ddc908",
+      "fit_subset_experiment_id": "E-PLATEAU-I1-20261021-R1",
+      "train_groups": 1148,
+      "valid_groups": 141,
+      "evaluation_groups": 443,
+      "source_branch": "experiment/i1-screen-20261021",
+      "source_commit": "b1b680d4a700d353f3e6db4f761f6670bd02fc7f",
+      "manifest_in_this_branch": true,
+      "integration_rule": "This branch carries the exact frozen artifact copied from i1 commit b1b680d4a700d353f3e6db4f761f6670bd02fc7f; verify SHA-256 before fit."
+    }
+  },
+  "commands": {
+    "fits": [
+      {
+        "run": "dynamics_f0_s1001_control_r1",
+        "fold": 0,
+        "seed": 1001,
+        "weight": 0.0
+      },
+      {
+        "run": "dynamics_f0_s1001_aux005_r1",
+        "fold": 0,
+        "seed": 1001,
+        "weight": 0.05
+      },
+      {
+        "run": "dynamics_f2_s1002_control_r1",
+        "fold": 2,
+        "seed": 1002,
+        "weight": 0.0
+      },
+      {
+        "run": "dynamics_f2_s1002_aux005_r1",
+        "fold": 2,
+        "seed": 1002,
+        "weight": 0.05
+      }
+    ],
+    "fixed_mixture": "0.9 control + 0.1 dynamics candidate within each matched fold/seed cell; no coefficient search",
+    "focused_test_command": "uv run pytest tests/test_dynamics_auxiliary.py -q",
+    "static_checks": [
+      "uv run ruff format <changed Python files>",
+      "uv run ruff check <changed Python files>",
+      "uv run python scripts/check_training_structure.py"
+    ],
+    "profile_plan": "profile_f0_s1001_aux005_r1.json",
+    "fit_predict_score_plans": [
+      "recipes/dynamics_f0_s1001_control_r1.json",
+      "recipes/dynamics_f0_s1001_aux005_r1.json",
+      "recipes/dynamics_f2_s1002_control_r1.json",
+      "recipes/dynamics_f2_s1002_aux005_r1.json"
+    ],
+    "paired_grader": "research/campaign_2026-10-21/next_cycle_r1/dynamics/grade_dynamics_panel.py",
+    "derived_schedule_counts": {
+      "tbptt_windows_per_b8_batch": 10,
+      "f0": {
+        "selected_fit_sequences": 1236,
+        "fit_batches_per_epoch": 154,
+        "optimizer_updates_per_epoch": 1540,
+        "fit_batches_per_run": 462,
+        "optimizer_updates_per_run": 4620
+      },
+      "f2": {
+        "selected_fit_sequences": 1289,
+        "fit_batches_per_epoch": 161,
+        "optimizer_updates_per_epoch": 1610,
+        "fit_batches_per_run": 483,
+        "optimizer_updates_per_run": 4830
+      },
+      "four_fit_panel": {
+        "new_fit_batches": 1890,
+        "optimizer_updates": 18900,
+        "target_statistics_full_scans": 4
+      },
+      "profile": {
+        "total_b8_batches": 110,
+        "warmup_batches": 10,
+        "measured_batches": 100,
+        "target_statistics_full_scans": 1
+      }
+    },
+    "profile_accounting": "The kaggle_sequence step wall includes the actual fitting-only dynamics-target full scan (SequenceFile.read(targets=False, mask=False) over unique selected train+valid groups), model/input-normalization setup, loader setup, 10 warm-up and 100 measured B8 batches. The trainer PROFILE step_wall is per-batch only; retain both values and use the wrapper wall in panel admission."
+  },
+  "serving": {
+    "evaluation_outputs": 2,
+    "strip_auxiliary_head_and_target_normalization": [
+      "scripts/package_submission.py",
+      "scripts/export_native_weights.py"
+    ]
+  },
+  "results": {
+    "scientific_fits": 0,
+    "sustained_profile": false,
+    "tests": {
+      "status": "passed",
+      "passed": 4,
+      "failed": 0,
+      "elapsed_seconds": 2.35,
+      "execution": "root serialized CPU slot, 1 core/1.8 GB, PYTHONPATH pointed to this worktree src"
+    },
+    "ruff_check": "passed",
+    "training_structure_check": {
+      "status": "passed",
+      "files": 63,
+      "errors": 0
+    },
+    "quality_claim": false,
+    "public_transfer_claim": false
+  }
+}

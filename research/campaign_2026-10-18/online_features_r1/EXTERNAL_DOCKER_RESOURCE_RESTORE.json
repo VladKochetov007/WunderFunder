@@ -1,0 +1,27 @@
+{
+  "schema": "wnn.external-docker-resource-restore.v1",
+  "initial_resource_receipt": "EXTERNAL_DOCKER_RESOURCE_SPLIT.json",
+  "container_id": "c2c95553e6b6b593bbd7da91e1681e39695d6373e81456c8676ad42115d45acd",
+  "container_host_cgroup": "/system.slice/docker-c2c95553e6b6b593bbd7da91e1681e39695d6373e81456c8676ad42115d45acd.scope",
+  "container_exit_code": 0,
+  "container_limits": {
+    "cpu.max": "100000 100000",
+    "memory.max_bytes": 2147483648,
+    "memory.swap.max_bytes": 0,
+    "memory.peak_bytes": 2049712128
+  },
+  "python_process_max_rss_kib": 400876,
+  "full_replay_wall_seconds": 897.8818659880053,
+  "full_replay_process_cpu_seconds": 890.9397426190001,
+  "campaign_slice": "/user.slice/user-1000.slice/user@1000.service/wnn.slice/wnn-campaign.slice",
+  "campaign_memory_current_before_launch_bytes": 1450463232,
+  "campaign_memory_current_midrun_bytes": 1510662144,
+  "campaign_memory_current_after_replay_bytes": 3436052480,
+  "campaign_memory_sample_after_replay_utc": "2026-10-18T00:05:01Z",
+  "internal_cpu_quota_percent_during_replay": 100,
+  "internal_cpu_quota_percent_restored": 200,
+  "restore_verified_utc": "2026-10-18T00:03:59Z",
+  "aggregate_cpu_policy": "One CPU for the external Docker replay plus one CPU for the internal campaign slice; two cores total.",
+  "memory_interpretation": "Docker cgroup peak includes container-accounted memory and was 2,049,712,128 bytes near the 2 GiB limit. Python process RSS is separate and lower. The host parent-slice memory values do not include the Docker child cgroup.",
+  "no_gpu_fit_admitted_during_replay": true
+}

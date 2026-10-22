@@ -62,4 +62,9 @@ def add_performance_arguments(ap: argparse.ArgumentParser) -> None:
         action="store_true",
         help="cudnn deterministic, no benchmark (parity runs)",
     )
+    perf.add_argument(
+        "--save-eval-predictions",
+        action="store_true",
+        help="save predictions, labels, masks and row groups for the fixed selected checkpoint",
+    )
     add_dynamics_arguments(ap)

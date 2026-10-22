@@ -1,0 +1,39 @@
+{
+  "schema": "wnn.fixed_endpoint_f2_grade_failure.v1",
+  "experiment_id": "E-TL3-R3-F2-FIXED-MIXTURE-20261018-R1",
+  "recorded_utc": "2026-10-18T02:53:40Z",
+  "status": "failed_no_grade_written",
+  "original_recipe_sha256": "5b804705b8b43ad81fce46065286d6cf5a0a65069b5d23d20a6da0a1f5952a18",
+  "preflight_sha256": "404591c8b836ac81e884c6214c061c75c8d7151ba71075d446e4ed10dd347093",
+  "preflight_input_fingerprint": "023207a517c664eabdfe255228b13d9943a451be7cc9fccdb80c45ce481f8dee",
+  "execution": {
+    "command": "grade_f2.py --mode score",
+    "outer_cpu_quota": "100%",
+    "outer_memory_max_bytes": 1500000000,
+    "exit_code": 1,
+    "error": "KeyError: 'r3_vs_tl3'",
+    "failure_location": "grade_f2.py attempted candidate_stats['r3_vs_tl3']; the arrays were keyed by endpoint name rather than comparison name."
+  },
+  "label_access": {
+    "target_and_mask_values_accessed": true,
+    "groups_processed_before_failure": 1,
+    "details": "The first sequence target and mask were read and its endpoint accumulators updated before paired-stat storage raised KeyError. The attempt produced no result.json. F2 was already exposed; this failed attempt adds no clean-validation evidence."
+  },
+  "resource_observation": {
+    "campaign_memory_events_before": {
+      "oom": 3,
+      "oom_kill": 3
+    },
+    "campaign_memory_events_after": {
+      "oom": 3,
+      "oom_kill": 3
+    },
+    "campaign_oom_event_delta": 0,
+    "campaign_cpu_quota_after": "200%",
+    "result_file_written": false
+  },
+  "repair": {
+    "scope": "Initialize paired sufficient-statistic arrays by comparison key. Preserve the original recipe and this failure receipt; freeze a separate grade-only analysis amendment before retrying label-blind preflight.",
+    "metric_or_endpoint_change": false
+  }
+}

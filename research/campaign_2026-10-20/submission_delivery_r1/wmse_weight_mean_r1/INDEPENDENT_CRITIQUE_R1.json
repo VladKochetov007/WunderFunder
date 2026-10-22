@@ -1,0 +1,30 @@
+{
+  "schema": "wnn.wmse-weight-mean-independent-critique.v1",
+  "status": "VIABLE_BOUNDED_COMPATIBILITY_PROBE_NOT_QUALITY_APPROVAL",
+  "reviewer": "overnight_evidence_audit",
+  "recorded_at_utc": "2026-10-21T01:32:54.904281+00:00",
+  "mechanism": "One shared path weight interpolation; not standardSWA replication or independent ensemble",
+  "positive_case": "May smooth a locally useful optimization path at unchanged architecture cost",
+  "counter_case": "Parent anchoring may pull back toward a weaker initializer after an optimizer/objective restart",
+  "concrete_checks": [
+    "Pin parentCP5 andchildCP0/CP1 exactly; childinitialhash mustequalparentSHA",
+    "Require identicaltensor topology/dtype,finiteweights,bitwiseidenticalfixedbuffers",
+    "Usecanonicalmean_state only; its derivewrapper assumesepochs3/4/5and identicalscientificargs andisnotappropriate",
+    "Recordderivedancestry andexplicitCP0hash absentfromtop-levelterminalselectedfiles",
+    "Compareonefixed.75oldZ4+.25meantoexistingfixed.75oldZ4+.25WMSECP1; do nottunecoefficients",
+    "Fullserved/native endpoint andcrossfoldrobustness neededbeforepromotion"
+  ],
+  "metadata_evidence": {
+    "child_cp0_sha256": "35e277641a3d5da0c66c5b873fc494e603d589126167a7e27227350886276538",
+    "child_cp1_sha256": "ff359a362432c5f68b0b40e9c5e7d875ceeeddea73718cb5bd17ed53edf80dec",
+    "child_run": "overnight_nll_f0_s3_wmse_e2_r1",
+    "parent_run_reference": "clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1@ep5",
+    "initial_parent_hash_matches_selected_parent": true
+  },
+  "limits": [
+    "Metadata/sourceonly; noTensors/arraysloaded",
+    "ExposedF0,dependentparent/child,legacyAMPparentthenFP32continuation",
+    "ExistingblendconditionalCIcrosseszero; neitherconfirmsgain norrejectsfamily"
+  ],
+  "allocation": "Deprioritizethisfixedmeanifnomaterialpointgainforitstargetendpoint; differentinteractionsrequireconcretenewbasis,notfamilyrejection"
+}

@@ -1,0 +1,45 @@
+{
+  "schema": "wnn.prelaunch-source-closure-review.v1",
+  "timestamp_utc": "2026-10-21T00:30:09.556279+00:00",
+  "status": "SOURCE_DRIFT_BLOCKS_PREPARATION_CHECKOUT",
+  "operator_worktree": "/home/vlad/development/wunder/research_tmp/kaggle-delivery-readiness-20261021",
+  "operator_head": "a8c8e5c7f2c4b8a464197e968a1deaa055e88dce",
+  "requested_execution_source": "68ff682977b822f38351aac0f621146f5f13b440",
+  "files": {
+    "scripts/train_rnn.py": {
+      "expected_68ff_sha256": "74530d3499bba1b5647e459105cb263bfc7205d7f3aa928684dfb279c2677345",
+      "observed_operator_sha256": "1f6d980a91643ae692f952f92e7c0a8ef2741a9f8e1877525478302adbede872",
+      "match": false
+    },
+    "src/wnn/training/runner.py": {
+      "expected_68ff_sha256": "306e0619daa5bb2171063a0e766f064281281fcee4379ae120477ec1b849da7d",
+      "observed_operator_sha256": "35d12b4b0d21fb34948a08a20273a4a8b9fbee65527527ddbec4d2073aeae1e3",
+      "match": false
+    },
+    "src/wnn/training/validation_inputs.py": {
+      "expected_68ff_sha256": "8ebfa7252933c05824f62044cd75ea82599e55e9404b5495605f6228694f5989",
+      "observed_operator_sha256": "eafb7f4145cdd14ab5110376f12298e68978944eb42c0dc0327e882c426dae7c",
+      "match": false
+    },
+    "src/wnn/training/validation_training.py": {
+      "expected_68ff_sha256": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+      "observed_operator_sha256": "d0352105d27881ee1857311b14cb78066ea24cbb361dba8f60832d3c368bd370",
+      "match": true
+    },
+    "src/wnn/training/setup_lineage.py": {
+      "expected_68ff_sha256": "859650a4467ee5a404846af4c71d9f2874016722e4c3c844f29cf82dcf527973",
+      "observed_operator_sha256": "ef36a306ae0616ab85cea5f28c810eecca30d54effb67d257ceec58be2107f3c",
+      "match": false
+    },
+    "src/wnn/training/setup_model.py": {
+      "expected_68ff_sha256": "cec9748ad67c995a3c73f6b0288780ba52d0952445251c410113f6670c79fe33",
+      "observed_operator_sha256": "4c0eff71d4e2e6e27fe310cddd1b409b0fcdf41e639410ee1f422f0ae42d6aa9",
+      "match": false
+    }
+  },
+  "canonical_diff_stat": " scripts/train_rnn.py                               |   2 -\n src/wnn/cleanfold_t3_cache.py                      | 101 -----\n src/wnn/i1_history.py                              | 136 +++++++\n src/wnn/i1_history_scan.py                         | 206 +++++++++++\n src/wnn/i1_history_streaming.py                    |  73 ++++\n src/wnn/kalman_group_features.py                   | 410 +++++++++++++++++++++\n src/wnn/moment_geometry/online.py                  | 212 +++++++++++\n src/wnn/native_representation.py                   | 102 +++++\n src/wnn/nn.py                                      | 153 ++++++--\n src/wnn/optim.py                                   | 150 ++------\n src/wnn/prediction_profile.py                      | 199 ----------\n src/wnn/propensity.py                              | 165 +--------\n src/wnn/propensity_cli.py                          |  50 ---\n src/wnn/propensity_failure.py                      |  26 --\n src/wnn/propensity_fit.py                          | 183 ---------\n src/wnn/propensity_fit_checkpoint.py               |  87 -----\n src/wnn/propensity_fit_setup.py                    | 193 ----------\n src/wnn/propensity_fit_update.py                   | 208 -----------\n src/wnn/propensity_progress.py                     | 246 -------------\n src/wnn/propensity_recovery.py                     | 287 ---------------\n src/wnn/propensity_recovery_validation.py          |  76 ----\n src/wnn/research_features.py                       | 181 ++++++++-\n src/wnn/resources.py                               |   8 -\n src/wnn/streaming.py                               |  29 +-\n src/wnn/training/README.md                         |  11 +-\n src/wnn/training/checkpoints.py                    |  21 +-\n src/wnn/training/cli_features.py                   |  30 +-\n src/wnn/training/cli_optimizer.py                  |  15 +-\n src/wnn/training/cli_performance.py                |   5 +\n src/wnn/training/cli_targets.py                    |  13 -\n src/wnn/training/compatibility.py                  |   2 -\n src/wnn/training/environment.py                    |   7 +-\n src/wnn/training/epoch.py                          |  55 ---\n src/wnn/training/evaluation.py                     |  14 +\n src/wnn/training/feature_adapter.py                | 111 ++++++\n src/wnn/training/fit_state.py                      |   5 -\n src/wnn/training/i1_inputs.py                      |  68 ++++\n src/wnn/training/inheritance.py                    |  10 +-\n src/wnn/training/input_representation.py           | 260 -------------\n .../training/input_representation_dictionary.py    | 169 ---------\n src/wnn/training/input_representation_fit.py       | 207 -----------\n src/wnn/training/input_representation_job.py       |  84 -----\n src/wnn/training/inputs.py                         |  81 ++--\n src/wnn/training/losses.py                         |  14 +-\n src/wnn/training/mean_variance.py                  | 126 -------\n src/wnn/training/models.py                         |  10 +-\n src/wnn/training/muon_precision.py                 |  55 ---\n src/wnn/training/outputs.py                        |  34 +-\n src/wnn/training/profile_capture.py                | 272 --------------\n src/wnn/training/profile_results.py                |  61 ++-\n src/wnn/training/representation_validation.py      |  35 --\n src/wnn/training/runner.py                         |   3 +-\n src/wnn/training/setup_lineage.py                  |   7 +-\n src/wnn/training/setup_model.py                    |  65 +---\n src/wnn/training/setup_model_runtime.py            |  19 +\n src/wnn/training/setup_preprocessing.py            | 179 +++------\n src/wnn/training/setup_progress.py                 |   6 -\n src/wnn/training/source_identity.py                |  11 +\n src/wnn/training/validation_inputs.py              |  10 +-\n src/wnn/training_dynamics.py                       |  14 +-\n 60 files changed, 1973 insertions(+), 3599 deletions(-)\n",
+  "independent_confirmation": "overnight_evidence_audit confirmed5of6proposalsourcepins differ; pins themselves match68ff.",
+  "action": "Operator creating a separate clean68ff worktree and transplanting only new packet/wrappers/structural inputs before sealing. No live local source/process is modified.",
+  "scientific_scope": "Prelaunch source fidelity finding; no thirdKagglejob, scientificfit or negativequalityresult. Prior R1/R2archivedbundles have separate sourceidentities; thisfindingdoesnotretroactivelychange them.",
+  "local_fp32_audit": "Separate nll_followup_recipe source/env audit confirms frozen68ffcalls configure_strict_fp32 forprecisionfp32; livePID1784604 has NVIDIA_TF32_OVERRIDE0 and CUBLAS_WORKSPACE_CONFIG4096:8. Existingfiniteprofiledoesnotserializeactualbackendbooleans. Currentlocalfitnotaffected."
+}

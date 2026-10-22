@@ -1,0 +1,126 @@
+{
+  "ancestry": {
+    "r3": "inference-only derivative of R2, adaptively selected on exposed F0",
+    "tl3": "unknown; package metadata calls its parents all-data"
+  },
+  "claim_limit": "cross-fold robustness diagnostic only; no clean-CV, causal-complementarity, seed, or public-transfer claim",
+  "clip": [
+    -2.0,
+    2.0
+  ],
+  "created_utc": "2026-10-18T02:54:22.972626+00:00",
+  "descriptive_ranking": [
+    "tl3",
+    "blend_75_25",
+    "blend_50_50",
+    "r3"
+  ],
+  "evaluation_components": 144,
+  "evaluation_groups": 443,
+  "exposure": "F2 was inspected before; TL3 ancestry is unknown and may include F2",
+  "fixed_blends": {
+    "blend_50_50": {
+      "r3": 0.5,
+      "tl3": 0.5
+    },
+    "blend_75_25": {
+      "r3": 0.25,
+      "tl3": 0.75
+    }
+  },
+  "input_fingerprint": "8de37a5a332b0590d61a3bff46b5c4f118a1518e5b46aa5b292f6d69939b3fe8",
+  "mask": "official cached valid target mask AND sequence row >=99",
+  "metric_id": "global_wp_clip2_v1",
+  "paired_component_bootstrap": {
+    "comparisons": {
+      "blend_50_50_vs_tl3": {
+        "bootstrap_sd": 0.0006899472759749947,
+        "candidate_wp": 0.7209502127533621,
+        "centered_moments": true,
+        "ci95": [
+          -0.0044291419474890405,
+          -0.001736452846890152
+        ],
+        "mean_diff": -0.0029367707071915605,
+        "metric_id": "global_wp_clip2_v1",
+        "n_boot": 10000,
+        "n_components": 144,
+        "n_sequences": 443,
+        "p_le_0": 1.0,
+        "reference_wp": 0.7238869834605537,
+        "seed": 20261019
+      },
+      "blend_75_25_vs_tl3": {
+        "bootstrap_sd": 0.0003260045975077642,
+        "candidate_wp": 0.722677914586275,
+        "centered_moments": true,
+        "ci95": [
+          -0.0019149172974869482,
+          -0.0006425035975664017
+        ],
+        "mean_diff": -0.0012090688742787403,
+        "metric_id": "global_wp_clip2_v1",
+        "n_boot": 10000,
+        "n_components": 144,
+        "n_sequences": 443,
+        "p_le_0": 1.0,
+        "reference_wp": 0.7238869834605537,
+        "seed": 20261019
+      },
+      "r3_vs_tl3": {
+        "bootstrap_sd": 0.001556881889804076,
+        "candidate_wp": 0.7154127889390132,
+        "centered_moments": true,
+        "ci95": [
+          -0.011843959599069767,
+          -0.005775574299055359
+        ],
+        "mean_diff": -0.008474194521540523,
+        "metric_id": "global_wp_clip2_v1",
+        "n_boot": 10000,
+        "n_components": 144,
+        "n_sequences": 443,
+        "p_le_0": 1.0,
+        "reference_wp": 0.7238869834605537,
+        "seed": 20261019
+      }
+    },
+    "replicates": 10000,
+    "scope": "conditional on fixed package predictions and previously inspected F2 components; not seed, ancestry, or transfer uncertainty",
+    "seed": 20261019
+  },
+  "preflight_sha256": "fea4d8af2f9c55cd0a101ce7925d56c60d97fb0c5a91ff8d1a5f9e28e7d5a622",
+  "recipe_sha256": "76511d5ac5abdea9f45f1c78217c40be991dc1c0b35639abd198ed9a48061217",
+  "schema": "wnn.tl3-fixed-blend-f2-grade.v1",
+  "scores": {
+    "blend_50_50": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 903071,
+      "t0": 0.7212657717556435,
+      "t1": 0.720634653751081,
+      "wp": 0.7209502127533622
+    },
+    "blend_75_25": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 903071,
+      "t0": 0.7229974252758161,
+      "t1": 0.722358403896733,
+      "wp": 0.7226779145862745
+    },
+    "r3": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 903071,
+      "t0": 0.7157012498470328,
+      "t1": 0.7151243280309925,
+      "wp": 0.7154127889390126
+    },
+    "tl3": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 903071,
+      "t0": 0.7242079030253793,
+      "t1": 0.7235660638957278,
+      "wp": 0.7238869834605535
+    }
+  },
+  "selected_rows": 903071
+}

@@ -5,12 +5,16 @@ from pathlib import Path
 import numpy as np
 
 from wnn import student_frontier
+from wnn.i1_history import I1_HISTORY_MODE, i1_history_input_mask_indices
 from wnn.research_features import (
-    MOMENT_FEATURE_MODES,
+    PRIOR_FEATURE_MODES,
+    research_feature_control_indices,
     research_feature_control_width,
-    validate_causal_moment_prior,
+    validate_research_feature_prior,
 )
 from wnn.splits import file_sha256
+from wnn.training.dynamics_auxiliary import fit_dynamics_target_normalization
+from wnn.training.i1_warm_normalization import fit_i1_appended_normalization
 from wnn.training.initializer import final_initializer_state_sha256, make_final_initializer_teacher
 from wnn.training.inputs import fit_research_feature_prior
 from wnn.training.normalization import fit_e540_numeric_preprocessing, fit_normalization
@@ -36,15 +40,18 @@ def fit_preprocessing(run: TrainingRun) -> None:
     train_idx = run.data.train_idx
     train_loader = run.data.train_loader
     train_split = run.data.train_split
-    if environment.inputs.research_features in MOMENT_FEATURE_MODES:
+    if environment.inputs.research_features in PRIOR_FEATURE_MODES:
         if (
             init is not None
-            and init.get("args", {}).get("research_features", "none") in MOMENT_FEATURE_MODES
+            and init.get("args", {}).get("research_features", "none")
+            == environment.inputs.research_features
         ):
             parent_prior = init.get("research_feature_prior")
             if not isinstance(parent_prior, dict):
-                ap.error("causal moment initializer lacks its fitting-only feature prior")
-            environment.inputs.research_feature_prior = validate_causal_moment_prior(parent_prior)
+                ap.error("feature initializer lacks its fitting-only prior")
+            environment.inputs.research_feature_prior = validate_research_feature_prior(
+                environment.inputs.research_features, parent_prior
+            )
         else:
             environment.inputs.research_feature_prior = fit_research_feature_prior(
                 train_split,
@@ -54,18 +61,73 @@ def fit_preprocessing(run: TrainingRun) -> None:
                 environment=environment,
             )
         provenance["causal_feature_prior"] = environment.inputs.research_feature_prior
-        provenance["causal_feature_prior_source_sha256"] = file_sha256(
-            environment.source_root / "src/wnn/research_features.py"
-        )
+        prior_sources = [environment.source_root / "src/wnn/research_features.py"]
+        if environment.inputs.research_features == "causal_geometry_discrete":
+            prior_sources.append(environment.source_root / "src/wnn/moment_geometry/online.py")
+        if environment.inputs.research_features == I1_HISTORY_MODE:
+            prior_sources.extend(
+                (
+                    environment.source_root / "src/wnn/i1_history.py",
+                    environment.source_root / "src/wnn/i1_history_scan.py",
+                    environment.source_root / "src/wnn/i1_history_streaming.py",
+                    environment.source_root / "src/wnn/features.py",
+                    environment.source_root / "src/wnn/training/inputs.py",
+                )
+            )
+        provenance["causal_feature_prior_source_sha256"] = {
+            str(path.relative_to(environment.source_root)): file_sha256(path)
+            for path in prior_sources
+        }
         zero_width = research_feature_control_width(
             environment.inputs.research_features, environment.inputs.research_feature_control
         )
+        zeroed_indices = research_feature_control_indices(
+            environment.inputs.research_features, environment.inputs.research_feature_control
+        )
+        if environment.inputs.research_features == I1_HISTORY_MODE:
+            model_input_indices = i1_history_input_mask_indices(
+                environment.inputs.research_feature_control, bool(args.drop_i1)
+            )
+            provenance["causal_feature_control"] = {
+                "kind": environment.inputs.research_feature_control,
+                "drop_i1": bool(args.drop_i1),
+                "zeroed_feature_count": len(model_input_indices),
+                "zeroed_feature_indices": list(zeroed_indices),
+                "zeroed_model_input_indices": list(model_input_indices),
+                "mask_point": "after stored model normalization",
+                "effective_capacity": (
+                    "matched_full_width" if model_input_indices else "full_features"
+                ),
+            }
+        else:
+            provenance["causal_feature_control"] = {
+                "kind": environment.inputs.research_feature_control,
+                "zeroed_feature_count": zero_width,
+                "zeroed_feature_indices": list(zeroed_indices),
+                "effective_capacity": "matched_full_width" if zero_width else "full_features",
+            }
+    elif environment.inputs.research_features != "none":
+        mode = environment.inputs.research_features
+        zeroed_indices = research_feature_control_indices(
+            mode, environment.inputs.research_feature_control
+        )
         provenance["causal_feature_control"] = {
             "kind": environment.inputs.research_feature_control,
-            "zeroed_suffix_width": zero_width,
-            "effective_capacity": "reduced" if zero_width else "full",
+            "zeroed_feature_count": len(zeroed_indices),
+            "zeroed_feature_indices": list(zeroed_indices),
+            "effective_capacity": "matched_full_width" if zeroed_indices else "full_features",
         }
-    if not args.init and saved_training is None:
+    if args.i1_warm_normalization == "fit-appended":
+        provenance["i1_warm_normalization"] = fit_i1_appended_normalization(
+            model,
+            train_loader,
+            device,
+            environment=environment,
+        )
+        provenance["research_feature_extension"]["normalization"] = (
+            "inherited_parent_prefix_and_fitting_only_appended_slots"
+        )
+    elif not args.init and saved_training is None:
         if frontier_contract is None:
             fit_normalization(model, train_loader, device, environment=environment)
         else:
@@ -74,6 +136,15 @@ def fit_preprocessing(run: TrainingRun) -> None:
             )
             student_frontier.install_normalization(model, mean, std)
             provenance["student_frontier"]["normalization_source"] = normalization_source
+    if args.dynamics_aux_head and saved_training is None:
+        provenance["dynamics_auxiliary"] = fit_dynamics_target_normalization(
+            model,
+            train_split,
+            np.asarray(train_idx),
+            None if extra_valid is None else np.asarray(extra_valid),
+            environment.warmup,
+            environment=environment,
+        )
     if args.numeric_map != "none":
         fit_groups_train = train_idx.tolist() if train_split == "train" else []
         fit_groups_valid = (

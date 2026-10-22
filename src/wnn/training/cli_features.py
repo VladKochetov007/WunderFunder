@@ -93,13 +93,35 @@ def add_features_arguments(ap: argparse.ArgumentParser) -> None:
         "--research-features",
         choices=RESEARCH_FEATURE_MODES,
         default="none",
-        help="append causal volume, moment, or raw-field age features before TBPTT",
+        help="append causal volume, moment, Kalman, geometry, field-age, or i1-history features before TBPTT",
+    )
+    ap.add_argument(
+        "--i1-warm-normalization",
+        choices=("inherit", "fit-appended"),
+        default="inherit",
+        help="optionally fit only appended i1_history normalization slots when extending a standard parent",
+    )
+    ap.add_argument(
+        "--research-feature-adapter-only",
+        action="store_true",
+        help="freeze a zero-extended parent except the appended input-weight columns; requires wd=0",
+    )
+    ap.add_argument(
+        "--research-feature-adapter-objective",
+        choices=("inherited", "target-only"),
+        default="inherited",
+        help="for feature-adapter-only runs, keep inherited losses or use the primary target loss only",
     )
     ap.add_argument(
         "--research-feature-control",
-        choices=("none", "newest"),
+        choices=("none", "newest", "all", "moments_only", "dictionary_only"),
         default="none",
-        help="newest zeros the newest moment-feature block while keeping input width fixed",
+        help="newest masks the newest moment block; all masks a fitted research block at fixed width",
+    )
+    ap.add_argument(
+        "--drop-i1",
+        action="store_true",
+        help="zero raw, event, and history i1 inputs after shared-width normalization",
     )
     ap.add_argument(
         "--privileged-mode",

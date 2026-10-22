@@ -1,0 +1,141 @@
+{
+  "schema": "wnn.kaggle-delivery-readiness.v1",
+  "observed_at_utc": "2026-10-20T23:09:10+00:00",
+  "status": "read-only readiness; no fit admission",
+  "scope": {
+    "allowed": [
+      "Kaggle quota, kernel metadata/status, and dataset metadata queries",
+      "reuse of the authenticated root virtual environment and poll_provider helpers",
+      "one receipt and README in an isolated worktree under physical-disk research_tmp"
+    ],
+    "not_performed": [
+      "no local job, source, or source-data changes",
+      "no array/tensor/model loads or model tests",
+      "no Kaggle dataset upload, kernel push, session launch, reservation, cancellation, or paid compute",
+      "no package installation"
+    ],
+    "resource_bound": {
+      "cpu_quota": "20%",
+      "memory_max_bytes": 314572800,
+      "swap_max_bytes": 0,
+      "tmpdir": "/home/vlad/development/wunder/research_tmp"
+    },
+    "kaggle_package_version": "2.2.4"
+  },
+  "campaign_context": {
+    "current_local_state_from_assignment": "Matched F0 WMSE/NLL fits complete; corrected R2 exports and scoring still running.",
+    "f1_gate": "F1 remains NOT_ADMITTED until F0 is graded and the controller records remaining value and a complete resource reservation.",
+    "local_plan": "15 local GPU-hours plus verified free Kaggle quota in parallel; no paid compute.",
+    "source_documents": [
+      "specs/plans/2026-10-20-plateau-review-local-kaggle.md",
+      "research/campaign_2026-10-20/plateau_review_r1/FRONTIER.md",
+      "research/campaign_2026-10-20/submission_delivery_r1/nll_followup_f1/F1_FOLLOWUP_PLAN_R1.json",
+      "research/campaign_2026-10-20/submission_delivery_r1/h512_replication_profile/PROFILE_PLAN_R1.json"
+    ]
+  },
+  "provider": {
+    "source": "Read-only authenticated Kaggle SDK calls through the existing poll_provider._bounded_client helper.",
+    "quota": {
+      "gpu_used_seconds": 89923.573,
+      "gpu_reserved_seconds": 0.0,
+      "gpu_allowed_seconds": 108000.0,
+      "gpu_remaining_unreserved_seconds": 18076.427,
+      "gpu_remaining_unreserved_hours": 5.0212297222,
+      "refresh_utc": "2026-10-24T00:00:00",
+      "quota_api_has_per_machine_gpu_multiplier": false
+    },
+    "kernels": {
+      "account": "vladkochetov07",
+      "wnn_search_page_size": 100,
+      "wnn_refs_containing_20261020_or_20261021": [],
+      "exact_status_polls": [
+        {"kernel": "vladkochetov07/wnn-hardware-probe", "status": "KernelWorkerStatus.COMPLETE"},
+        {"kernel": "vladkochetov07/wnn-tpu-probe-20261004", "status": "KernelWorkerStatus.COMPLETE"},
+        {"kernel": "vladkochetov07/wnn-t4-trainer-20261004-runner", "status": "KernelWorkerStatus.COMPLETE"}
+      ],
+      "account_wide_live_session_inventory": "The installed SDK exposes list_kernels and get_kernel_session_status for an exact kernel reference, but no account-wide active-session listing method. The quota response reports zero reserved GPU seconds; the sampled WNN refs are historical. This does not prove that every account kernel is terminal.",
+      "planned_reservations": "No current-cycle planned reservation record was located. The existing quota receipt explicitly says other-agent planned reservations are not established by its provider snapshot."
+    },
+    "dataset_inventory": {
+      "rows_returned_on_owner_filtered_first_page": 1,
+      "dataset": "vladkochetov07/wunder-funder",
+      "is_private": false,
+      "version": 1,
+      "files": [
+        {"name": "train.parquet", "bytes": 29240219011, "expected_root_bytes": 29240219011, "exact_match": true},
+        {"name": "valid.parquet", "bytes": 5615509128, "expected_root_bytes": 5615509128, "exact_match": true},
+        {"name": "valid_mask.parquet", "bytes": 91972846}
+      ],
+      "detail_file_sum_bytes": 34947700985,
+      "dataset_file_summary_bytes": 34947700985,
+      "dataset_list_endpoint_total_bytes": 33761236515,
+      "list_vs_detail_discrepancy_bytes": -1186464470,
+      "interpretation": "The two exact training inputs match their expected root bytes. Dataset detail and file-summary totals agree with the three file sizes; the list endpoint aggregate total differs and should not be used for input identity."
+    }
+  },
+  "assets": {
+    "kaggle_existing_dataset_contents": ["train.parquet", "valid.parquet", "valid_mask.parquet"],
+    "f1_assets_found_in_kaggle_dataset_inventory": false,
+    "f1_assets_local_metadata": {
+      "parent_checkpoint": {
+        "path": "artifacts/runs/oldz4_h230_parent_f1_s3_r4/model_ep3.pt",
+        "sha256": "be2273cc96027295c19133504354a262cd1a2066fa5ae3df7d6be64ed0a1ad8e",
+        "architecture": "H256x2, 23 output rows; historical AMP ancestor"
+      },
+      "teacher_target_cache": {
+        "path": "cache/h230_four_family_fold1_source_20261009_r1/metadata.json",
+        "metadata_sha256": "8bd3854d867c47eacbeed56528ea9712f7598cc7eb21a46f5c85e7a0f2fba703",
+        "size_estimate_from_assignment": "about 2 GB",
+        "teacher_source_count": 8,
+        "evaluation_overlap_recorded": 0
+      },
+      "propensity": {
+        "provenance_path": "artifacts/runs/c20260929_prop_f1/provenance.json",
+        "checkpoint_sha256": "1fbf412df8823c703fdf79263830f341269a68e769bc4a7258d93cdf8e40dc5c",
+        "train_valid_arrays_and_sidecars_recorded_locally": true
+      }
+    },
+    "staging": "The root Kaggle dataset contains only raw parquet inputs. F1 parent, target arrays/metadata, and propensity assets would need to be staged through the existing private bundle/asset flow before a cloud fit; no upload was made in this audit."
+  },
+  "machine_shape": {
+    "existing_bundle_request": "scripts/kaggle_bundle.py sets machine_shape=NvidiaTeslaT4.",
+    "current_cli_metadata_docs": "Identify NvidiaTeslaT4 as GPU T4 x2 and list NvidiaL4; see https://github.com/Kaggle/kaggle-cli/blob/main/docs/kernels_metadata.md.",
+    "installed_root_sdk_supported_options": ["NvidiaTeslaT4", "NvidiaTeslaP100", "Tpu1VmV38"],
+    "sdk_docs_vs_current_cli_docs": "The installed SDK list differs from current CLI docs: SDK lists P100 and TPU v3 but omits L4; current docs list L4 and TPU v5e-8. Treat this as interface-version drift, not evidence of current capacity.",
+    "checked_kernel_api_methods": ["list_kernels", "get_kernel", "get_kernel_session_status", "create_kernel_session", "cancel_kernel_session"],
+    "single_gpu_availability": "Not established. The checked SDK/provider endpoints do not list currently available machine shapes. NvidiaTeslaP100 is an accepted installed-SDK identifier, but no current availability result was returned; NvidiaL4 device count is not specified in the metadata doc. T4 availability is also unverified.",
+    "billing": "The quota endpoint reports aggregate GPU seconds, not a per-device multiplier. T4 x2 wall-time billing was not inferred or measured."
+  },
+  "candidate_lanes": {
+    "matched_f1_wmse_nll": {
+      "status": "conditional candidate; NOT_ADMITTED",
+      "new_fits": 2,
+      "fits_per_arm": 1,
+      "expected_student_fit_wall_hours": 2.5,
+      "expected_exports_wall_minutes": 45,
+      "plan_estimated_total_wall_hours": 3.25,
+      "conditional_margin_hours_if_quota_is_one_per_session_wall_hour": 1.7712297222,
+      "scenario_if_quota_counts_two_devices_independently_hours": 6.5,
+      "cost_status": "Both values are planning arithmetic only; actual Kaggle profile, startup/collection cost, and quota billing factor are unmeasured.",
+      "blockers": [
+        "Wait for R2 exports, official scoring, and independent F0 grade.",
+        "Stage the local F1 initializer, approximately 2 GB target cache, and propensity assets into a private Kaggle input using existing bundle tooling.",
+        "Select a machine shape with confirmed current access; standard repo T4 request is dual T4, while no single-GPU availability was confirmed.",
+        "Run a bounded actual-shape profile and reconcile before/after quota seconds to establish delivered throughput and billing treatment.",
+        "Admit the two fits only if profile plus both fits, exports, collection, and recovery margin fit the observed unreserved quota."
+      ]
+    },
+    "cold_h512": {
+      "status": "not costed on Kaggle; NOT_ADMITTED",
+      "recipe": "Cold H512x1, six epochs, batch 8, chunk 2000; profile plan has one warmup plus three measured batches and 40 chunk updates.",
+      "plan_profile_budget_seconds": 360,
+      "kaggle_actual_shape_profile": false,
+      "fit_cost": "Unmeasured on Kaggle; the existing H512 profile plan is a local source adaptation, not a Kaggle throughput measurement.",
+      "blockers": [
+        "Prepare the exact sealed profile/fit plan using scripts/kaggle_bundle.py, scripts/kaggle_gpu_runner.py, and scripts/kaggle_common.py; reuse the canonical trainer.",
+        "Profile the selected available machine shape, including quota delta, before reserving a six-epoch fit and complete endpoint delivery."
+      ]
+    }
+  },
+  "decision": "No cloud fit is admitted by this read-only audit. F1 is the nearest conditional lane on its 3.25-hour planning estimate, but exact asset staging, actual machine shape, quota charging, full-profile cost, and F0 grade remain unresolved. H512 has no Kaggle fit estimate."
+}

@@ -1,0 +1,73 @@
+{
+  "schema": "wnn.b300-local-matched-score-replication.v1",
+  "created_utc": "2026-10-21T14:20:03.608138+00:00",
+  "finding": "The local wide-arm official score reproduces the matching B300 F0 seed1003 endpoint to ~1.3e-9 absolute score difference. Earlier non-replication interpretation was incorrect.",
+  "reference_commit": "967f2f342e919e69f4f6cee39373b3b01b25c16a",
+  "reference_path": "research/campaign_2026-10-18/b300_execution_r1/stop_20261019_r1/STOP_CONFIRMED.json",
+  "reference_packet_sha256": "e0f86ca64259d54f2398b929c21739ebf6a5da9f962d15652669506802a0fe1e",
+  "reference_pair": {
+    "classification": "previously exposed fold; screening evidence, not held-out confirmation",
+    "delta_deep_minus_wide": -0.0035906113573629383,
+    "fold": 0,
+    "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1003/fold0/grade.json",
+    "grade_sha256": "903a745370de9ffcbf8c11da305d0243fb33d3f21a2433b9d043d7f235a88d56",
+    "paired_component_bootstrap": {
+      "bootstrap_sd": 0.001169004781131467,
+      "candidate_wp": 0.6701800190930032,
+      "centered_moments": true,
+      "ci95": [
+        -0.005974652489859478,
+        -0.00155514691691873
+      ],
+      "components": 141,
+      "mean_diff": -0.0035906113573629383,
+      "method": "paired whole-component bootstrap using centered moments",
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 1.0,
+      "reference_wp": 0.6737706304503661,
+      "resamples": 2000,
+      "seed": 271828
+    },
+    "receipt": {
+      "candidate": "tabdata_b300_r01_v1_deep_f0_s1003",
+      "command_sha256": "749af9ebc36e23d00da5478d0c377403661d69e22a86589e97606b137367c168",
+      "elapsed_seconds": 4.429554224014282,
+      "fold": 0,
+      "grade_path": "/data/epanov_s/tabdata/state/r01-delivery-recovery-v2/grades/seed1003/fold0/grade.json",
+      "grade_sha256": "903a745370de9ffcbf8c11da305d0243fb33d3f21a2433b9d043d7f235a88d56",
+      "metric_id": "global_wp_clip2_v1",
+      "old_fit_outputs_modified": false,
+      "reference": "tabdata_b300_r01_v1_wide_f0_s1003",
+      "schema": "tabdata-r01-delivery-grade.v2",
+      "score": {
+        "deep_wp": 0.6701800190930028,
+        "wide_wp": 0.6737706304503658
+      },
+      "seed": 1003,
+      "status": "graded",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "score": {
+      "deep_wp": 0.6701800190930028,
+      "wide_wp": 0.6737706304503658
+    },
+    "seed": 1003
+  },
+  "local_grade_path": "research/campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/grades/F0_H512_GRADE_POSTFIT_R1.json",
+  "local_grade_sha256": "af7b6331db3683d79b33b25f67cc5bac19e8dfe030b2989bbb011f9cc46fbf7e",
+  "local_run": "r01_h512_f0_s1003_local_cp5_r1",
+  "fold": 0,
+  "seed": 1003,
+  "checkpoint_epoch": 5,
+  "b300_wide_wp": 0.6737706304503658,
+  "local_wide_wp": 0.6737706291771555,
+  "local_minus_b300_wp": -1.2732103149559748e-09,
+  "b300_equal_fold_wide_mean": 0.68409111,
+  "interpretation": "Matched-cell endpoint score replication supported. Not bitwise tensor/prediction parity, not a new independent validation fold, not replication of wide-vs-deep effect because no local deep fit, and not superiority over the stronger legacy local ensemble.",
+  "cause_of_prior_reporting_error": "Compared a single F0 score to the four-fold average without first extracting the exact corresponding historical cell.",
+  "further_fits_needed_to_establish_this_score_match": 0
+}

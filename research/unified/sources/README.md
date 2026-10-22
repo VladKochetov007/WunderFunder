@@ -1,5 +1,10 @@
 # Imported sources
 
+- [Verified primary-source scope for the October21 cycle](../../../specs/plans/2026-10-21-next-local-kaggle-cycle.md#primary-source-scope) — SWAv3, CPCv2 and test-time-trainingv3 abstracts checked through arXiv; separates AdamW averaging and52-summary Huber adaptations from original methods. TTT remains deferred; no dataset-specific evidence or imported assets.
+
+- [October21 user-reported public receipt](../../campaign_2026-10-21/next_cycle_r1/PUBLIC_RECEIPT_R1.json) — latest package 0.66667/53m47s versus TL3 0.66832/39m12s. Public transfer counterevidence supplied in accepted plan; exact ZIP hash unresolved, not independently queried or clean CV.
+
+
 [Transformer distillation primary sources](../ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md#source-records) now connect teacher/student capacity (Cho–Hariharan; teacher assistants), FitNets/RKD hints and ensemble distillation to explicit experiments. The [CPU design](../inference/TRANSFORMER_DISTILLATION_CPU_PATH.md) links official serving/backend documentation. These sources motivate comparisons, not market-data score or CPU speed claims.
 
 [R15 source-bound dictionary pipeline](../../campaign_2026-10-19/idea_screens_r15/README.md) reuses canonical data/WMSE/global metric and pinned R1/R3/R7 components. Its [31-pin manifest](../../campaign_2026-10-19/idea_screens_r15/PREPARATION_MANIFEST.json) binds25runtime modules; [selection history](../../campaign_2026-10-19/idea_screens_r15/SELECTION_HISTORY.json) predates code/outcomes. Signed top-four coding, unit decoder columns, retained residual and frozen learned dictionaries are explicit. Preserved V1/V2 source candidates were corrected before any remote action; V3 alone executed. This is no historical-method replication or factor-identification proof.
@@ -20,6 +25,14 @@ External writeups and literature provenance; external results do not establish l
 
 ## Current navigation
 
+- [SWA primary paper](https://arxiv.org/abs/1803.05407) and [model soups primary paper](https://arxiv.org/abs/2203.05482) — abstracts inspected for the [zero-fit WMSE weight-mean proposal](../../campaign_2026-10-20/submission_delivery_r1/wmse_weight_mean_r1/README.md). They motivate averaging compatible checkpoints without adding inference models. Original cyclic/constant SGD and large-model fine-tuning settings differ from our two-epoch AdamW continuation; no local gain follows from these papers.
+
+- [NLL variance-gradient weighting](NLL_GRADIENT_WEIGHTING_20261021_R1.md) — primary ICLR2022 beta-NLL paper and pinned author implementation, connected to measured strong clipping in the current GRU fit. Derives how a detached variance factor changes our bounded mean gradients; conditional diagnostic only, with no implementation or admitted fit.
+
+- [Teacher-scaling source assessment](../ideas/TEACHER_QUALITY_SCALING_20261019_R1.md#sources-and-what-transfers) — primary abstracts for Chinchilla, repeated-data scaling, two time-series scaling studies and muP; separates useful study designs from inapplicable token ratios and unverified Muon transfer. No imported weights/data or local gain.
+
+- [Large B300 teacher primary-source register](TRANSFORMER_B300_SCALE_SOURCES_20261019_R2.md) — actual October19 inspection of the user's2606.30634 gradient-delay paper and later2602.23784 TradeFM event-modeling paper, NVIDIA B300 hardware, Muon source/API, FP32 attention/DDP, numeric encoders, WSD, dynamics pretraining and teacher/student limits. Records the upstream Muon BF16 cast and the gap between external LLM results and this unrun time-series proposal; no imported data or weights.
+
 - [Large B300 teacher primary-source register](TRANSFORMER_B300_SCALE_SOURCES_20261019_R2.md) — actual October19 inspection of the user's2606.30634 gradient-delay paper, NVIDIA B300 hardware, Muon source/API, FP32 attention/DDP, numeric encoders, WSD, dynamics pretraining and teacher/student limits. Records the upstream Muon BF16 cast and the gap between external LLM results and this unrun time-series proposal; no imported data or weights.
 - [Adaptive TBPTT and current-moment gradient replay](GRADIENT_ESTIMATOR_LITERATURE_20261018.md) — primary Aicher/Foti/Fox and Gradient Cache methods, an abstract-only SCGD context check, and deduplication against H-RR17-19 / H-055 / E-291. Distinguishes published mechanisms from our unimplemented GRU transfer; no local quality or speed claim.
 
@@ -28,6 +41,7 @@ External writeups and literature provenance; external results do not establish l
 - [R2 mechanism sources](../../campaign_2026-10-17/research_reset_r2/reflection/SOURCE_MANIFEST.md) and [state-clock/query transfer](../../campaign_2026-10-17/research_reset_r2/theory/STATE_CLOCKS_AND_PREDICTIVE_QUERIES.md) — scoped primary-source checks covering semi-Markov/sticky-state/point-process/Rao–Blackwell/compressed-memory mechanisms, Phased LSTM, Skip RNN, hierarchical recurrence, predictive states and Chronos-2. Abstract/formulation inspection and local transfer inferences are separated; no pretrained weights or published gains are imported. Old-code overlap is linked before retaining a proposal.
 
 - [October17 no-fit source register](../../campaign_2026-10-17/research_reset_r1/sources/README.md) — 32 primary works, independent R1 searches and live official-rule checks; inspection depth and transfer limits are explicit, no imported external market data or measured model gain.
+- [KalmanNet-inspired innovation-gain GRU source assessment](KALMANNET_INNOVATION_GAIN_GRU_20261018_R1.md) — summarizes three primary learned-filtering papers and limits their transfer to this anonymous time-series task. They motivate a causal latent gain operator; they provide no local score, calibrated covariance claim, or online-weight-learning evidence.
 
 - [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — existing project evidence, separate from outside proposals.
 - [Storage and source map](../operations/STORAGE_MAP.md) — source histories and physical artifact locations.
@@ -92,3 +106,9 @@ Keep provenance and source links with each imported item. Generated idea cards d
 ## Current sequence-moment investigation
 
 - [RevIN official implementation and its causal-use limitation](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) records the ICLR2022authors' [repository](https://github.com/ts-kim/RevIN) and inspected RevIN.py reduction over the supplied temporal axis. Relevant to mean/variance normalization: a whole-current-sequence call would leak future observations in this competition; the local expanding-prefix treatment is an adaptation, with no imported performance claim.
+
+- [User-supplied previous competition discussion and reflection](../../campaign_2026-10-18/online_features_r1/PREVIOUS_COMPETITION_REFLECTION.md): December2025–March2026 participant reports of SWA, featureextractors, recurrent/attention hybrids, boosting and diversity, contrasted with current callback/metric/data differences and measuredgeometry results. No source URL/figures provided; anecdotes and causal explanations are unverified, numerical gains not transferable.
+
+- [Seed-5 production payload manifest](../../campaign_2026-10-06/bandit_continuation/reviews/maxim_replication_20261007/candidate-manifest.json) and [preserved final-student recipe audit](../../campaign_2026-10-06/bandit_continuation/wide_baseline_heterogeneous_H230/H230_MAXIM_RECIPE_AUDIT_V1_20261008.md): the payload hash matches TL3's replaced student, and the source command includes supplied validation rows with 70% teacher supervision and family targets. Reused in the [October21 exposure receipt](../../campaign_2026-10-21/next_cycle_r1/TL3_STUDENT_EXPOSURE_RECOVERY_R1.json); exact recursive teacher/initializer hashes and execution group receipts remain incomplete.
+
+- [Online relationship source record](ONLINE_RELATIONSHIP_SOURCES_20261022_R1.md): inspected TTT/GRU-D primary abstracts, bipower source identity and reproducible seeded Santander passage. Records motivation/limits and failed originalPDF access; none establishes a Challenge2 gain. H-ONLINE-RELATIONSHIPS, H-PER-FIELD-AGE, H-BURSTINESS.

@@ -1,0 +1,21 @@
+{
+  "revision": "controller-v2",
+  "basis": "Independent implementation critic found cached/final-initializer/family teacher channels were not covered by v1 target-only guard.",
+  "source_sha256": {
+    "src/wnn/training/cli_features.py": "4d3a7444f8ece1d093c0db0221e4de6811c85fd15868ed47452341dc4cfbc02c",
+    "src/wnn/training/feature_adapter.py": "f95815e88d25d3d0dd0f8474e5551012f5125a4df371f5f980bdda0ba4a61b0d",
+    "src/wnn/training/losses.py": "2fc9bd1ff046ed734aaa6050c9765f86b36b098858bb21d8e9e4ee3a1e081b1b"
+  },
+  "blocked_teacher_paths": [
+    "distill",
+    "distill_cache_root",
+    "final_distill_initializer",
+    "distill_family_weight",
+    "td_alpha",
+    "ema_teacher"
+  ],
+  "architecture_loss_note": "No head removal or inheritance override. Main WMSE and default inherited auxiliary path unchanged. Target-only auxiliary early return retained.",
+  "recipe_scientific_command_unchanged": true,
+  "independent_recheck": "pending",
+  "fit_admitted": false
+}

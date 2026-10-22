@@ -1,0 +1,38 @@
+{
+  "schema": "wnn.fixed_endpoint_f2_execution_resource_adjustment.v1",
+  "experiment_id": "E-TL3-R3-F2-FIXED-MIXTURE-20261018-R1",
+  "observed_utc": "2026-10-18T02:42:40Z",
+  "status": "admitted_for_r3_full_replay",
+  "scientific_recipe_sha256": "5b804705b8b43ad81fce46065286d6cf5a0a65069b5d23d20a6da0a1f5952a18",
+  "reason": "The completed TL3 full replay used 2,992,173,056 bytes of its 3,221,225,472-byte Docker memory cap. It exited successfully with no OOM counter increment, but the observed margin was too narrow to reuse blindly for R3.",
+  "triggering_tl3_receipt": {
+    "path": "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2/receipts/tl3_f2.replay.json",
+    "sha256": "8bcdb3a09ed10e0a190ea5abf63fedf9e94fbffac2f3eea28b01552fc8c7bd14",
+    "docker_memory_peak_bytes": 2992173056,
+    "docker_memory_max_bytes": 3221225472,
+    "exit_code": 0,
+    "passed": true
+  },
+  "r3_execution_bounds": {
+    "outer_limited_scope_cpu_quota": "100%",
+    "outer_limited_scope_memory_max_bytes": 1000000000,
+    "docker_cpu_cores": 1,
+    "docker_memory_max_bytes": 3500000000,
+    "docker_memory_swap_max_bytes": 0,
+    "combined_task_memory_reservation_bytes": 4500000000,
+    "task_memory_cap_bytes": 5000000000,
+    "parent_cpu_quota_during_docker": "100%",
+    "parent_cpu_quota_to_restore": "200%",
+    "parent_memory_current_before_launch_bytes": 4703678464,
+    "conservative_parent_commitment_after_reservations_bytes": 9203678464,
+    "parent_commitment_target_bytes": 17000000000,
+    "host_memavailable_before_launch_bytes": 37311799296,
+    "parent_memory_events_before_launch": {
+      "oom": 3,
+      "oom_kill": 3
+    },
+    "scratch": "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2",
+    "new_paid_compute": false
+  },
+  "scope": "This changes only the bounded execution memory split. Frozen model archives, folds, prediction recipe, label-blind replay, fixed blend weights, metric, and grader remain unchanged. The combined reservation remains below the 5 GB task cap."
+}

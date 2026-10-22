@@ -1,0 +1,159 @@
+{
+  "created_utc": "2026-10-18T04:30:14.667052+00:00",
+  "delta_vs_raw_wp": {
+    "fixed_q_over_r_025": -0.005705850395656853,
+    "prefix_moments_q_over_r": -0.016464513358008803
+  },
+  "descriptive_folds": {
+    "assigner": "research/campaign_2026-10-18/online_features_r1/warmup_expert_gate_r1/grade_gate.py",
+    "count": 4,
+    "seed": 20261018
+  },
+  "evaluation_components": 141,
+  "evaluation_groups": 468,
+  "experiment_id": "E-KALMAN-OUTPUT-FILTER-20261018-R1",
+  "exposure": "Previously inspected F0 endpoints and labels; discovery screen only, not clean validation",
+  "filter_parameter_summary": {
+    "gain_quantiles": [
+      0.09512492197250393,
+      0.09512492197250393,
+      0.5091340123122868,
+      0.8284271247461903,
+      0.8284271247461903
+    ],
+    "prefix_groups": 468,
+    "q_over_r_quantiles": [
+      0.01,
+      0.01,
+      0.5280819085914381,
+      4.0,
+      4.0
+    ]
+  },
+  "filter_prediction_sha256": "897bbe21238cd5259e7b4b2cdc2ff4e31cc4bdce2dde7228d859bc9afaf24fed",
+  "fold_results": [
+    {
+      "components": 36,
+      "delta_vs_raw_wp": {
+        "fixed_q_over_r_025": -0.005526576399985217,
+        "prefix_moments_q_over_r": -0.01575649437049753
+      },
+      "fold": 0,
+      "groups": 136,
+      "scores_wp": {
+        "fixed_q_over_r_025": 0.6767099018793874,
+        "prefix_moments_q_over_r": 0.6664799839088751,
+        "raw_parent": 0.6822364782793726
+      }
+    },
+    {
+      "components": 35,
+      "delta_vs_raw_wp": {
+        "fixed_q_over_r_025": -0.007281890898026888,
+        "prefix_moments_q_over_r": -0.01792860272000385
+      },
+      "fold": 1,
+      "groups": 108,
+      "scores_wp": {
+        "fixed_q_over_r_025": 0.6143166134437128,
+        "prefix_moments_q_over_r": 0.6036699016217358,
+        "raw_parent": 0.6215985043417397
+      }
+    },
+    {
+      "components": 35,
+      "delta_vs_raw_wp": {
+        "fixed_q_over_r_025": -0.0051119869690936515,
+        "prefix_moments_q_over_r": -0.017735459980499746
+      },
+      "fold": 2,
+      "groups": 115,
+      "scores_wp": {
+        "fixed_q_over_r_025": 0.7102477149431357,
+        "prefix_moments_q_over_r": 0.6976242419317296,
+        "raw_parent": 0.7153597019122293
+      }
+    },
+    {
+      "components": 35,
+      "delta_vs_raw_wp": {
+        "fixed_q_over_r_025": -0.0051171475072459005,
+        "prefix_moments_q_over_r": -0.014967548280708898
+      },
+      "fold": 3,
+      "groups": 109,
+      "scores_wp": {
+        "fixed_q_over_r_025": 0.6965086011624431,
+        "prefix_moments_q_over_r": 0.6866582003889801,
+        "raw_parent": 0.701625748669689
+      }
+    }
+  ],
+  "hypothesis_id": "H-KALMAN-OUTPUT-FILTER-20261018-R1",
+  "limitations": [
+    "All F0 endpoints and labels were previously exposed; these are fixed-prediction diagnostics, not clean-CV or public-transfer evidence.",
+    "Component bootstrap conditions on one fitted parent checkpoint and does not estimate training-seed or unseen-regime uncertainty.",
+    "The adaptive arm estimates Q/R from the model's own first-99 predictions; it does not use observed labels or demonstrate feedback-based learning.",
+    "A positive postprocessing screen would need separate causal serving, reset, runtime and cross-fold checks before release."
+  ],
+  "metric_id": "global_wp_clip2_v1",
+  "paired_component_bootstrap_vs_raw": {
+    "fixed_q_over_r_025": {
+      "bootstrap_sd": 0.0004045535922088002,
+      "candidate_wp": 0.6755206628258896,
+      "centered_moments": true,
+      "ci95": [
+        -0.006591791760294769,
+        -0.005008789280556836
+      ],
+      "mean_diff": -0.005705850395657963,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 10000,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 1.0,
+      "reference_wp": 0.6812265132215476,
+      "seed": 20261019
+    },
+    "prefix_moments_q_over_r": {
+      "bootstrap_sd": 0.0011998178318527249,
+      "candidate_wp": 0.6647619998635372,
+      "centered_moments": true,
+      "ci95": [
+        -0.019076786869699745,
+        -0.014406883992040032
+      ],
+      "mean_diff": -0.016464513358010358,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 10000,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 1.0,
+      "reference_wp": 0.6812265132215476,
+      "seed": 20261019
+    }
+  },
+  "prediction_receipt_path": "/home/vlad/development/wunder/research_tmp/online_features_r1/kalman_output_filter_r1/predictions_r1.json",
+  "prediction_receipt_sha256": "d9208ad178dcbaa9b64fe8710e48a770b2215a432425367fd55fcf740649ff43",
+  "preflight_fingerprint": "68977b4303f13428c8889c6db40327c14557ba63f3bda24dad32ab29b823c444",
+  "preflight_path": "research/campaign_2026-10-18/online_features_r1/kalman_output_filter_r1/preflight_r1.json",
+  "preflight_sha256": "71317c8763d72f3e2c363d90e82057405743bfea065283c55ed651ad110da834",
+  "recipe_sha256": "f39edf2b58333e8715c1c911a242d21ec00ce7ccb38bcd1db5612ecd540456c5",
+  "schema": "wnn.kalman_output_filter.result.v1",
+  "scores_wp": {
+    "fixed_q_over_r_025": 0.6755206628258896,
+    "prefix_moments_q_over_r": 0.6647619998635377,
+    "raw_parent": 0.6812265132215465
+  },
+  "scoring_rows": 808863,
+  "source_hashes": {
+    "component_evaluation": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "descriptive_fold_assigner": "a5ba5c760843e10e726192458e368971810a5ba36a047ad1ea3e5b02fd8aad13",
+    "official_metric": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "prediction_generator": "f9e3d2890dd06794105221292e7411b737603cc82eb4e0473c6e13ad46189c47",
+    "prediction_grader": "4140481d5cc08f2b8992d1fb3e9e615a592c2560d05adbd7bf633894ab72dea2"
+  },
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "status": "complete",
+  "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+}

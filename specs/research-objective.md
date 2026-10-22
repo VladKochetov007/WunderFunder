@@ -10,7 +10,7 @@ Preserve exploration alongside deepening a promising lineage. An individually we
 
 Requirements:
 
-- Future idea screens initially budget4–6 total new fits with explicit matched cells, reused controls and teacher/student costs; no mandatory30-per-arm replication matrix. See [ADR0043](adr/0043-fast-screens-and-transformer-teacher-scale.md). Large Transformer teachers and GRU transfer are the latest strategic priority; scale remains an empirical choice rather than a memory-filling goal.
+- Future idea screens initially budget4–6 total new fits with explicit matched cells, reused controls and teacher/student costs; no mandatory30-per-arm replication matrix. See [ADR0043](adr/0043-fast-screens-and-transformer-teacher-scale.md). Latest steering prioritizes large Transformer teacher quality and empirical scaling; distillation is optional; scale remains an empirical choice rather than a memory-filling goal.
 - Reuse official team code and weights, including teachers and initializers, under [ADR0035](adr/0035-official-team-code-and-weight-sharing.md). Record source and fitting ancestry; shared assets do not count as independent replications.
 - Use permitted supplied data and declared training membership. Keep final all-data training separate from held-out evaluation claims.
 - Preserve official metric and submission requirements. Training-target clipping is an experimental choice; official scoring clipping stays fixed.
