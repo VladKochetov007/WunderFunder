@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 from pathlib import Path
 from types import ModuleType, SimpleNamespace
@@ -74,6 +75,48 @@ def test_enabled_cpu_guard_fails_when_package_sensor_is_missing(
 
     with pytest.raises(RuntimeError, match="no readable Package id sensor"):
         guard.read_resources(include_cpu_package_temperature=True)
+
+
+def test_run_command_reports_missing_enabled_sensor_without_spawning_child(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    guard = load_guard()
+    hwmon_root = tmp_path / "hwmon-root"
+    hwmon_root.mkdir()
+    monkeypatch.setattr(guard, "CPU_HWMON_ROOT", hwmon_root)
+    monkeypatch.setattr(
+        guard.subprocess,
+        "Popen",
+        lambda *_args, **_kwargs: pytest.fail("child spawned without a readable CPU sensor"),
+    )
+    report_path = tmp_path / "report.json"
+    spec_path = tmp_path / "spec.json"
+    spec_path.write_text(
+        json.dumps({"argv": ["/bin/true"], "cwd": str(tmp_path), "report": str(report_path)})
+    )
+
+    with pytest.raises(RuntimeError, match="no readable Package id sensor"):
+        guard.run_command(spec_path, cpu_package_temperature_guard=True)
+
+    report = json.loads(report_path.read_text())
+    assert report["status"] == "guard_failed"
+    assert "no readable Package id sensor" in report["error"]
+
+
+@pytest.mark.parametrize(
+    ("available_bytes", "memory_stall", "expected_reason"),
+    [
+        (9_999_999_999, 0.0, "host_available_memory"),
+        (10_000_000_000, 0.2, "host_memory_pressure"),
+    ],
+)
+def test_cool_cpu_does_not_clear_hot_host_pressure_reason(
+    available_bytes: int, memory_stall: float, expected_reason: str
+) -> None:
+    guard = load_guard()
+    reading = guard.Reading(70, available_bytes, memory_stall, 90.0)
+
+    assert guard.pause_reason(reading, paused=True) == expected_reason
 
 
 def test_unreadable_cpu_package_input_fails_clearly(tmp_path: Path) -> None:
