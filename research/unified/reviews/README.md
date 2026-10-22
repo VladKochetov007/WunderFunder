@@ -7,6 +7,7 @@ Source-qualified audits, independent reviews and evidence assessments.
 ## Current navigation
 
 - [Strict-FP32 Numba online relationship stream code/math review](ONLINE_RELATIONSHIP_NUMBA_FP32_REVIEW_20261022_R1.md) — independent source check of the compiled recurrence against the Python reference. I found no ordering or state mismatch by inspection; root reports 35 bitwise tests, which I did not rerun. This is not a throughput or fit result, and the earlier feature profile used the Python path.
+- [Online i1-to-i0 readout fitter implementation receipt](ONLINE_RELATIONSHIP_READOUT_FIT_RECEIPT_20261022_R1.md) — records the canonical 419-input fixed-epoch fitter, its three bounded CPU contract tests and resource receipt, plus the delivery cache attribute contract. No fit, accelerator profile, or quality claim is included.
 
 - [Completed six-fit i1 history grade and warm-start review](I1_SIX_FIT_HISTORY_GRADE_REVIEW_20261022_R1.md) — the fixed 90/10 B/C endpoint is slightly positive in both exposed fold/seed cells although C loses standalone; the mean point delta is +0.00031549 with conditional component intervals, no training-seed uncertainty, and no current native 367-input serving path. Source review supports retaining the existing conditional four-fit warm-parent screen as research only, with initial-function parity and random-sampler handling still required. No arrays, models, tests, fits, or provider work were used here.
 
