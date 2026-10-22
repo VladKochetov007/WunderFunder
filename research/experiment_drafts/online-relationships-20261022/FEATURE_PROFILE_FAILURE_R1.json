@@ -1,0 +1,30 @@
+{
+  "status": "FAILED_SUPPORT_CGROUP_OOM_BEFORE_TIMING_RECEIPT",
+  "source_commit": "f6da950d6",
+  "admission": "FEATURE_PROFILE_ADMISSION_R1.json",
+  "unit": "wnn-online-feature-profile-r1-20261022.scope",
+  "started_display": "2026-10-22 15:01:18 EEST",
+  "ended_display": "2026-10-22 15:01:27 EEST",
+  "systemd_result": "oom-kill",
+  "systemd_wall_seconds": 9.183,
+  "cpu_seconds": 7.741,
+  "memory_peak_bytes": 799997952,
+  "command_returncode": 143,
+  "output_report_exists": false,
+  "raw_log": "/home/vlad/development/wunder/research_tmp/online-feature-profile-r1.log",
+  "raw_log_bytes": 0,
+  "scientific_fits": 0,
+  "quality_claim": null,
+  "diagnosis_status": "source inspection ongoing; profile creates train and valid ParquetFile objects together before timing. Large decoded train footer suspected, exact stalled phase unobserved. No blind retry or cap increase.",
+  "budget_charge_online_seconds": 9.183,
+  "warm_gpu_worker": "unchanged andactive; no restart",
+  "diagnosis_followup": {
+    "source": "research/unified/operations/LOCAL_TRAIN_PARQUET_METADATA_OOM_20261018_R1.md",
+    "finding": "Existing indexedOctober18receipt documented fulltrainfooter OOM under1GB; root had not consulted it beforeR1. R1 exactphase notobserved, sourcepath opens samefulltrainfooter. Preserve repeatfailure honestly.",
+    "safe_alternative_basis": [
+      "validfooter10686926bytes vs train60437285bytes",
+      "NATIVE_HOST_REFERENCE_REPLAY_R1.json measuredvalidreader/native peak373800KiB",
+      "R2 may usefit-validonly sourcequalifiedsequences forfeaturecost, neverfulltrainopen; nofitadmission"
+    ]
+  }
+}

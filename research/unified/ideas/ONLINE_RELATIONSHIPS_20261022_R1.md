@@ -1,6 +1,6 @@
 ---
 kind: experiment
-status: proposed
+status: complete
 created_utc: 2026-10-22
 updated_utc: 2026-10-22
 hypothesis_ids: [H-ONLINE-RELATIONSHIPS-20261022-R1]
@@ -38,3 +38,9 @@ Root controls admission; online_actor owns causal features/model, online_deliver
 [Test-Time Training](https://arxiv.org/abs/1909.13231) motivates learning from unlabeled test inputs; its image results do not establish task alignment here. The [source note](../sources/ONLINE_RELATIONSHIP_SOURCES_20261022_R1.md) records primary literature and a reproducible random library passage. Separate [per-field age](PER_FIELD_AGE_20261022_R1.md) and [burstiness](BURSTINESS_20261022_R1.md) cards receive no fits. Percentile encoding stays within the existing quantile lineage.
 
 Implementation, verification, profile, fit, native serving and grade are distinct stages. Follow the [packet](../../experiment_drafts/online-relationships-20261022/README.md) and [campaign frontier](../../campaign_2026-10-21/next_cycle_r1/FRONTIER.md) for actual state; this proposal asserts no measured online gain.
+
+## Measured implementation cost and terminal disposition
+
+The [R2 receipt](../../experiment_drafts/online-relationships-20261022/EXECUTION_RESULT_R2.json) defers the complete12-fit panel: fastest-sample one-pass feature-generation projection15,818.88seconds(4.394h) exceeds9,000seconds before all other delivery costs. Three-epoch recomputation projects38,860.94seconds. Actual cost probe92.16seconds,386,316KiBpeakRSS, zeroswap; earlier contained supportOOM9.183seconds preserved. Samples are8complete fitting-valid sequences per fold; trainreader overhead is unmeasured. This is an optimistic empirical estimate for this implementation, not a mathematical lower bound.
+
+The causal state/head have23passing focused tests and an independent scalaroracle. No readout fits, scientific scores, completefit/export runner, artifactgrader, or nativeendpoint were produced. A faster implementation could earn a new profile; no new allocation is inferred. The scientific hypothesis remains **not_tested**, while this implementation is deferred for opportunity cost. The warm-history panel continues under its separate frozen admission.
