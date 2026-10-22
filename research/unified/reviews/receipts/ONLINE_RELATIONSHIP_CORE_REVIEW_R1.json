@@ -1,0 +1,63 @@
+{
+  "schema": "wnn.research_evidence_review.v1",
+  "review_id": "ONLINE_RELATIONSHIP_CORE_REVIEW_R1",
+  "experiment_id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+  "reviewer_role": "independent_grader",
+  "reviewer": "online_grader",
+  "review_date": "2026-10-22",
+  "review_scope": "Corrected causal online relationship feature and normalizer core only",
+  "reviewed_source": {
+    "repository": "wnn_connectome_starterpack",
+    "branch": "experiment/online-rel-screen-20261022",
+    "commit": "ed09f19b5eb9885a90c4acc427f129065059fff3",
+    "files": {
+      "src/wnn/online_relationship.py": "ae3ade08bef46a9be8ae44ccc778da78196b81b4ec9da89cd22d7f5b8815504b",
+      "tests/test_online_relationship.py": "9444a13bcd96ff68a5de5f2eff353ed84be75e845b36f1a28ff5e533aeb9112b"
+    }
+  },
+  "methods": [
+    {
+      "check": "Corrected actor-worktree focused CPU suite",
+      "result": "pass",
+      "detail": "23 tests passed in 7.10 seconds; the run used PYTHONPATH pointed at the actor worktree src and a one-CPU, 800 MB bounded scope. An earlier run without that path imported the root editable package and is excluded from this result."
+    },
+    {
+      "check": "Independent scalar oracle",
+      "result": "pass",
+      "detail": "Compared fitted FP32 means/scales and independently indexed scalar stream features for both lags and arms A/B/C on separate synthetic fitting and evaluation sequences. All six streams and all four normalizer vectors matched within rtol 2e-5, atol 3e-6."
+    },
+    {
+      "check": "Source-level timing and channel review",
+      "result": "pass",
+      "detail": "Confirmed canonical I0 channels 0:52 and I1 channels 52:104, horizon-16 maturation at zero-based row 16, lag ring alignment, sequence reset, pre-update error, post-update forecast, and B updates only at rows 16 through 98 inclusive."
+    }
+  ],
+  "confirmed_behavior": {
+    "warmup_updates": 83,
+    "real_regressor_updates": {
+      "lag1": 82,
+      "lag16": 67
+    },
+    "unavailable_u": "zero placeholder after standardization; placeholder matured pairs are retained in the online update stream",
+    "normalizer": "fit-only raw u and v differences, separate centered FP32 moments, standard-deviation floor 0.001; standardized differences clipped to +/-8 before the online state update",
+    "checkpoint_binding": "state dictionary serializes exact normalizer content and rejects restore under different normalizer values"
+  },
+  "findings": {
+    "blocking": [],
+    "nonblocking": [
+      {
+        "severity": "low",
+        "finding": "load_state_dict accepts bool for the rows field because bool is an int subclass in Python.",
+        "evidence": "The current validation checks isinstance(rows, int) and rows >= 0.",
+        "consequence": "A malformed external state with rows=true can be restored as row count 1; internally produced checkpoints use ordinary integers.",
+        "suggested_resolution": "Also reject isinstance(rows, bool) if serialized state may be externally supplied. This does not block the reviewed experiment core."
+      }
+    ]
+  },
+  "limitations": [
+    "This receipt reviews the corrected feature/normalizer core and synthetic invariants, not trainer or data-loader integration, fit membership, output provenance, candidate prediction caches, or any fitted endpoint.",
+    "No candidate or parent outputs were graded, and no fit or quality claim follows from these checks.",
+    "Evaluation folds remain exposed; any later paired component bootstrap is conditional on fixed endpoints and does not identify seed and fold effects separately."
+  ],
+  "decision": "Core source review passes with no blocking finding; continue only under root-owned resource admission and artifact preflight."
+}
