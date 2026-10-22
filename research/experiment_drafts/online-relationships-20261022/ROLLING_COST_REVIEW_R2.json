@@ -1,0 +1,202 @@
+{
+  "schema": "wnn.online-relationships.rolling-cost-review.v2",
+  "observed_at_local": "2026-10-23T02:17:01.683+03:00",
+  "role": "Independent scalar-only cost review; no payload, target, source, or execution-control access.",
+  "authority": {
+    "currently_binding": "Original 9000-second inclusive ceiling, 7800-second delivery cap, and 600-second grade cap.",
+    "proposed_change": {
+      "status": "UNADMITTED_PENDING_EXPLICIT_USER_PERMISSION",
+      "inclusive_ceiling_seconds": 10800,
+      "delivery_cap_seconds": 9600,
+      "grade_cap_seconds": 600,
+      "transfer_seconds": 1800,
+      "from_stage": "strong_parent",
+      "to_stage": "dynamics",
+      "strong_parent_after_seconds": 27000,
+      "dynamics_after_seconds": 12600,
+      "production_reserve_seconds": 43200,
+      "overall_cycle_ceiling_seconds": 108000
+    }
+  },
+  "evidence_scope": {
+    "sources": [
+      "research/experiment_drafts/online-relationships-20261022/EXECUTION_RECIPE_R1.json",
+      "research/experiment_drafts/online-relationships-20261022/PANEL_ADMISSION_R1.json",
+      "research/experiment_drafts/online-relationships-20261022/PROFILE_RECIPE_R3.json",
+      "research/experiment_drafts/online-relationships-20261022/POSTBOOT_PROFILE_ADMISSION_R1.json",
+      "research/experiment_drafts/online-relationships-20261022/POSTBOOT_PROFILE_SPEC_R1.json",
+      "research/experiment_drafts/online-relationships-20261022/POSTBOOT_PROFILE_GUARD_R1.json",
+      "research/experiment_drafts/online-relationships-20261022/BUDGET_R1.json",
+      "research/experiment_drafts/online-relationships-20261022/BUDGET_PROGRESS_R6.json",
+      "live scalar timestamps reported by the delivery owner through 2026-10-23T02:17:01.683+03:00"
+    ],
+    "frozen_postboot_profile": {
+      "source_revision": "af952 plus review revision 2159",
+      "service_wall_seconds": 71.032,
+      "guard_wall_seconds": 70.995,
+      "cpu_seconds": 119.705,
+      "peak_rss_gib_approx": 2.7,
+      "swap_or_guard_events": 0,
+      "known_projected_delivery_seconds": 4755.3794,
+      "phase_seconds": {
+        "cache": 2255.665,
+        "fit": 2201.192,
+        "evaluation": 200.036,
+        "normalization": 33.461,
+        "exports": 63.352,
+        "warmup": 1.673
+      },
+      "limitation": "Engineering profile used a different CPU quota and is only a phase-cost sensitivity reference, not a current-rate measurement."
+    }
+  },
+  "snapshot_history": [
+    {
+      "observed_at_local": "2026-10-23T02:14:43.612+03:00",
+      "service_elapsed_seconds": 4452.612,
+      "completed_epochs": 4,
+      "state": "A had completed and published its output; B epoch0 had completed.",
+      "superseded_interpretation": "The 129.286-second interval from A output publication through B epoch0 completion was initially treated as an epoch-rate observation. It spans a head boundary and may include setup/normalization; the later evidence review excludes it from the full-epoch mean."
+    }
+  ],
+  "snapshot": {
+    "service_started_local": "2026-10-23T01:00:31+03:00",
+    "service_elapsed_seconds": 4590.683,
+    "delivery_remaining_original_seconds": 3209.317,
+    "delivery_remaining_proposed_seconds": 5009.317,
+    "cpu_quota": "100%",
+    "package_temperature_celsius": "about 91",
+    "both_parent_caches_completed_local": "2026-10-23 02:02:56 Europe/Kyiv",
+    "first_f0_lag1_normalizer_published_local": "2026-10-23 02:03:53.580 Europe/Kyiv",
+    "panel_state": "A completed all three epochs and published its prediction/provenance; B completed epochs0 and1. Five of36 fit epochs are complete; 31 remain."
+  },
+  "observed_fit_intervals_seconds": {
+    "head_A_epoch0_from_normalizer_publication": 166.718,
+    "head_A_epoch1": 129.299,
+    "head_A_epoch2": 188.073,
+    "head_A_fit_total_from_normalizer_publication": 484.090,
+    "cross_head_interval_A_output_to_B_epoch0_completion": 129.286,
+    "head_B_epoch1_after_epoch0": 138.071,
+    "full_epoch_intervals_used_for_rate_sensitivity": {
+      "head_A_epoch1": 129.299,
+      "head_A_epoch2": 188.073,
+      "head_B_epoch1": 138.071
+    },
+    "mean_of_full_epoch_intervals": 151.814333,
+    "median_of_full_epoch_intervals": 138.071,
+    "range_of_full_epoch_intervals": 58.774,
+    "remaining_epochs": 31,
+    "remaining_fit_sensitivities_seconds": {
+      "at_full_interval_mean_151_814333": 4706.244,
+      "at_head_A_postwarm_mean_158_686": 4919.266,
+      "at_head_B_epoch1_rate_138_071": 4280.201,
+      "at_head_A_epoch2_rate_188_073": 5830.263
+    },
+    "interval_scope_note": "A epoch0 is retained as an observed startup-affected interval but omitted from the later-epoch mean. The A-output-to-B-epoch0 interval spans a head boundary and is not counted as a clean epoch interval."
+  },
+  "observed_postfit_output": {
+    "head_A_epoch2_end_local": "2026-10-23T02:11:57.670+03:00",
+    "head_A_prediction_provenance_published_local": "2026-10-23T02:12:34.326+03:00",
+    "elapsed_seconds": 36.656,
+    "scope": "Combined candidate evaluation plus artifact writing/publication; no real-time subphase durations are available.",
+    "accounting": "Already included in service_elapsed_seconds. For future-cost sensitivity this combined interval substitutes for, and must not be added to, a separate evaluation estimate.",
+    "profile_comparison": "The different-quota profile projected63.352 seconds for12 candidate exports (5.279 seconds each), with evaluation measured separately. The current36.656-second combined interval has a different scope and quota, so direct rate comparison is not valid."
+  },
+  "startup_and_variance": {
+    "one_time_warmup_separately_measured": false,
+    "interpretation": "A epoch0 took166.718 seconds from normalizer publication, A1 took129.299, and A2 took188.073. B epoch0 completed129.286 seconds after A's output publication, but that cross-head interval may include setup; B1 then took138.071 seconds. B1 is close to A1 and below A2, so the evidence does not show a repeatable per-head epoch0 penalty. A2 remains a large later-epoch spike, and the sample mixes different arms and potentially setup time.",
+    "next_head_diagnostic": "Record B epoch2 and the next head's epoch0/epoch1/epoch2 boundaries plus its combined evaluation-to-publication interval. Similar later epochs around B1 would favor transient scatter over a repeated startup penalty; repeated first-epoch overhead with stable later epochs would support startup. A repeat of the36.656-second combined output interval suggests recurring downstream cost. These timestamps alone cannot attribute variation to storage without existing scalar I/O/wait counters."
+  },
+  "remaining_phases": {
+    "parent_cache": {
+      "status": "Both complete; elapsed cost is already inside service_elapsed_seconds and must not be charged again."
+    },
+    "normalization": {
+      "completed_outputs": 1,
+      "remaining_fold_lag_outputs_assumed": 3,
+      "first_output_wall_seconds_approx": 57.580,
+      "remaining_projection_seconds": 172.740,
+      "basis": "One normalization publication followed cache completion by about57.58 seconds. Applying that single observation to the other three outputs is a rough placeholder; it is unclear from this scalar snapshot how much is included in intervening head-boundary intervals."
+    },
+    "candidate_evaluation_and_artifact_publication": {
+      "completed_outputs": 1,
+      "remaining_outputs": 11,
+      "observed_combined_interval_seconds": 36.656,
+      "repeat_observed_interval_sensitivity_seconds": 403.216,
+      "basis": "One same-quota combined phase from fit completion through prediction/provenance publication. Repeating it11 times is a sensitivity, not an established steady cost. Do not add a separate evaluation estimate to this scenario."
+    },
+    "different_quota_profile_phase_sensitivity": {
+      "remaining_evaluation_seconds": 183.366,
+      "remaining_export_seconds": 58.073,
+      "remaining_normalization_seconds": 172.740,
+      "combined_seconds": 414.179,
+      "basis": "Eleven-twelfths of the prior profile's separated evaluation and export totals, plus the normalization placeholder. This removes one evaluation/export output already completed, but is not measured at the current quota."
+    },
+    "pregrade_validation_and_grade": {
+      "reserved_cap_seconds": 600,
+      "separate_validation_measurement_seconds": null,
+      "basis": "All parent/candidate headers, coverage, hashes and provenance must validate before target access; validation and scoring/bootstrap fit inside the600-second grade cap. No separate current-quota timing exists."
+    }
+  },
+  "inclusive_accounting": {
+    "prior_charge_and_reserved_allowance_seconds": 504.985,
+    "allowance_component_seconds": 120,
+    "allowance_status": "Reserved/unmeasured; actual use is unknown and must not be represented as measured idle time.",
+    "grade_cap_seconds": 600,
+    "grace_seconds": 5,
+    "total_added_to_delivery_elapsed_for_inclusive_projection_seconds": 1109.985
+  },
+  "cost_projection": {
+    "scenarios": {
+      "repeat_current_combined_evaluation_publication_interval": {
+        "remaining_downstream_seconds": 575.956,
+        "remaining_delivery_at_full_epoch_mean_seconds": 5282.200,
+        "delivery_total_from_service_start_seconds": 9872.883,
+        "inclusive_total_with_prior_charge_grade_and_grace_seconds": 10982.868,
+        "original_delivery_overrun_seconds": 2072.883,
+        "original_inclusive_overrun_seconds": 1982.868,
+        "proposed_delivery_overrun_seconds": 272.883,
+        "proposed_inclusive_overrun_seconds": 182.868,
+        "assessment": "Does not fit the original caps or the unadmitted proposal at the mean of the three measured later full-epoch intervals."
+      },
+      "different_quota_profile_phase_sensitivity": {
+        "remaining_downstream_seconds": 414.179,
+        "remaining_delivery_at_full_epoch_mean_seconds": 5120.423,
+        "delivery_total_from_service_start_seconds": 9711.106,
+        "inclusive_total_with_prior_charge_grade_and_grace_seconds": 10821.091,
+        "original_delivery_overrun_seconds": 1911.106,
+        "original_inclusive_overrun_seconds": 1821.091,
+        "proposed_delivery_overrun_seconds": 111.106,
+        "proposed_inclusive_overrun_seconds": 21.091,
+        "assessment": "Does not meet either proposed limit at the full-epoch mean: delivery exceeds its9600-second stage cap and inclusive cost exceeds10800 seconds."
+      },
+      "head_A_postwarm_rate_with_current_combined_downstream": {
+        "remaining_delivery_seconds": 5495.222,
+        "proposed_delivery_overrun_seconds": 485.905,
+        "inclusive_total_seconds": 11195.890,
+        "proposed_inclusive_overrun_seconds": 395.890,
+        "assessment": "Does not fit the proposal."
+      },
+      "head_B_epoch1_rate_with_current_combined_downstream": {
+        "remaining_delivery_seconds": 4856.157,
+        "proposed_delivery_margin_seconds": 153.160,
+        "inclusive_total_seconds": 10556.825,
+        "proposed_inclusive_margin_seconds": 243.175,
+        "assessment": "Would fit the proposal if this single full-epoch interval generalized to all remaining epochs and the downstream placeholder held. The interval sample is too small to support that assumption."
+      }
+    },
+    "mean_epoch_thresholds_for_remaining_31": {
+      "under_proposed_cap_with_current_combined_downstream": 143.01165,
+      "under_proposed_cap_with_profile_phase_sensitivity": 148.23026,
+      "under_original_cap_with_current_combined_downstream": 84.94713,
+      "under_original_cap_with_profile_phase_sensitivity": 90.16574,
+      "calculation": "Remaining delivery-stage budget minus the selected downstream placeholder, divided by31. Prior charge/reserved allowance, grade cap and grace are outside the delivery-stage cap and included only in inclusive totals."
+    },
+    "conclusion": "The original7800-second delivery cap remains binding and the current evidence projects an overrun. The unapproved +1800-second proposal also misses both proposed limits at the mean of the three later full-epoch intervals; the B1-only sensitivity fits but is not a reliable panel-rate estimate."
+  },
+  "next_measurements_to_reduce_uncertainty": {
+    "next_epoch": "Record B epoch2. Once it is known, compare the remaining30-epoch mean against (5009.317 - 575.956 - t_B2) / 30 seconds for the repeated-composite scenario, and (5009.317 - 414.179 - t_B2) / 30 for the different-quota phase sensitivity. These are conditional proposal gates only; the current original cap remains binding.",
+    "next_output": "Record the next head's epoch2-to-prediction/provenance publication interval. The A observation36.656 seconds already combines evaluation and artifact writing. A repeat estimates whether this composite cost recurs; do not add separate evaluation time to it.",
+    "interpretation_limit": "The epoch intervals mix CPU work, cell differences, scheduling and possible setup. The output interval combines evaluation and artifact publication. Scalar timestamps do not identify storage variance as the cause without existing phase counters."
+  },
+  "decision": "Keep the original cap binding. Current mean-rate projections exceed the original delivery ceiling. The unapproved proposal also exceeds its delivery-stage and inclusive limits at the mean of observed later full epochs. Do not extend service, alter allocation, access targets, grade a partial panel, or infer quality from incomplete heads."
+}
