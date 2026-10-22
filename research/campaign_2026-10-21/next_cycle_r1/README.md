@@ -111,3 +111,5 @@ completion is implied by this packet.
 - [F2 input-removal comparison](I1_F2_AB_POINTS_R1.json): matched A−B−0.01110844, both targets lose; exact metadata/argument checks pass and both runs complete4,830updates/skips0. C and paired uncertainty remain pending. [BudgetR5](BUDGET_PROGRESS_R5.json) records five ofsix completed fits and their finite-phase costs; active work remains additional.
 
 - [Sustained cost extrapolation](SUSTAINED_COST_EXTRAPOLATION_R1.json): completed H512 fits average20–21% above the initial110-batch profile median; current C epoch0 is23% above. Data/runtime/thermal causes are not isolated. This informs conservative dynamics profiling and the existing whole-panel deferral rule, not a new fit or budget allocation.
+
+- [Dynamics local profile and cost decision](dynamics/README.md#terminal-local-profile-october-22): corrected source passes 110 batches and 1,100 finite updates without OOM, but the full four-fit panel is deferred under the three-hour ceiling; no scientific quality result.

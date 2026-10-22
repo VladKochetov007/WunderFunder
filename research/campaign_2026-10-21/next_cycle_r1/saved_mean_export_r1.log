@@ -1,0 +1,68 @@
+{"step": "pinned_full_valid_projected_mean_export", "event": "starting"}
+{
+  "status": "source_pins_verified",
+  "training_head": "d3055423a185d2ecfe7baf1c20206abeb743ad8b",
+  "source_code_sha256": {
+    "training:scripts/average_trajectory_checkpoints.py": "8646ccc12b537a1bf2f2544dffd85d10287076451e5bab86a4b2d6379e39bbb3",
+    "training:scripts/export_native_weights.py": "ef9cb378cbe1de21d5833dc3245a389cc0e8a68298e503e0d98757938bf050aa",
+    "training:scripts/predict_run.py": "904ddc9a2cafd194dc8d6ab9bdf1524120d6a089b83e33e2eb731e67abed6754",
+    "training:src/wnn/training/models.py": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473",
+    "training:src/wnn/training/evaluation.py": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345",
+    "training:src/wnn/training/losses.py": "5859a4d40f13e91f50d34dfaed42d12dcfa2e229a85721ffc68bb5d69e1cfa66",
+    "training:src/wnn/training/mean_variance.py": "e4a067bb9d467d121720854876cfffb083ab803a4ed440ec96025779553e15c5",
+    "serving:scripts/export_native_weights.py": "ae58684ca782131d193bad251284f6e1f861a74f8fd365b7cfb50398711c5d2f",
+    "serving:scripts/package_submission.py": "7882ad0a8b06b7eb9fe83968f6c61fbb7ae15863672ed3ae2f3ec7a70833644c",
+    "serving:src/wnn/native_representation.py": "93d323e5e7abfb077ceff56a24f3056c430cdf923264e30895c9f77794c6ff80",
+    "serving:src/wnn/training/dynamics_auxiliary.py": "b0b13362af5dd089dbef1afd1936064062826fbf633eb58a0cf6727e42076a97",
+    "sidecar:parent_cp5": "bdf643043884b1344564b636a2972ad52b8202ee30cf22598b1afd90405dd961",
+    "sidecar:wmse_cp0": "227c4ebf934b34dc20b93dfe9a5b19387073c7594015ef07d21231adb659da29",
+    "sidecar:wmse_cp1": "227c4ebf934b34dc20b93dfe9a5b19387073c7594015ef07d21231adb659da29"
+  },
+  "historical_serving_source_commit": "c2e2fb57ebb9fb513701d5cd39b9be19505dd35b",
+  "historical_serving_source_current_file_comparison": {
+    "scripts/export_native_weights.py": {
+      "historical_git_blob_sha256": "ae58684ca782131d193bad251284f6e1f861a74f8fd365b7cfb50398711c5d2f",
+      "current_project_file_sha256": "ae58684ca782131d193bad251284f6e1f861a74f8fd365b7cfb50398711c5d2f",
+      "current_file_differs": false
+    },
+    "scripts/package_submission.py": {
+      "historical_git_blob_sha256": "7882ad0a8b06b7eb9fe83968f6c61fbb7ae15863672ed3ae2f3ec7a70833644c",
+      "current_project_file_sha256": "7882ad0a8b06b7eb9fe83968f6c61fbb7ae15863672ed3ae2f3ec7a70833644c",
+      "current_file_differs": false
+    },
+    "src/wnn/native_representation.py": {
+      "historical_git_blob_sha256": "93d323e5e7abfb077ceff56a24f3056c430cdf923264e30895c9f77794c6ff80",
+      "current_project_file_sha256": "93d323e5e7abfb077ceff56a24f3056c430cdf923264e30895c9f77794c6ff80",
+      "current_file_differs": false
+    },
+    "src/wnn/training/dynamics_auxiliary.py": {
+      "historical_git_blob_sha256": "b0b13362af5dd089dbef1afd1936064062826fbf633eb58a0cf6727e42076a97",
+      "current_project_file_sha256": "9794dfd4a7490e71389c47b30c61ac17f549b367f401fd6f1583718640f4912e",
+      "current_file_differs": true
+    }
+  }
+}
+{
+  "status": "predictor_returned_successfully",
+  "argv": [
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python",
+    "/home/vlad/development/wunder/research_tmp/overnight-nll-adaptation-20261020/scripts/predict_run.py",
+    "overnight_nll_f0_s3_wmse_projected_mean_r1",
+    "valid",
+    "--campaign-split-manifest",
+    "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "--campaign-full-valid-feature-only",
+    "--device",
+    "cuda",
+    "--inference-precision",
+    "fp32",
+    "--loader-workers",
+    "0",
+    "--epoch",
+    "1"
+  ],
+  "training_head": "d3055423a185d2ecfe7baf1c20206abeb743ad8b",
+  "verified_source_and_sidecar_pin_count": 14,
+  "alias_removed": true,
+  "prediction_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_overnight_nll_f0_s3_wmse_projected_mean_r1_valid.npy"
+}

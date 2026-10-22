@@ -74,3 +74,12 @@ Root holds the dynamics profile until a stable FP32 window calculation passes di
 The [numerical gate now passes](../DYNAMICS_NUMERICAL_VERIFICATION_R1.json). Six CPU oracle/causality/export tests, six checker tests, Ruff and structure checks pass. The [same original fixture](../DYNAMICS_NUMERICAL_PROBE_R2.json) now has5.76e−8log-unit error; no auxiliary profile/fit has run. See the [independent repair review](../../../unified/reviews/DYNAMICS_AUXILIARY_FP32_WINDOW_STABILITY_20261022_R1.md).
 
 - [Corrected source freeze](../DYNAMICS_CORRECTED_SOURCE_R1.json): clean781deb6a5 worktree, canonical source and profile/membership hashes pinned. No GPU profile queued or admitted; root owns hot full-cost profiling after current work drains.
+
+## Terminal local profile, October 22
+
+Preparation statements above are historical. The corrected source at `781deb6a580e618c7d5acd862b8123272b8e0d6b` completed the fixed 110-batch profile with 1,100 finite updates and zero OOM/skips. No scientific fit or target-quality comparison ran.
+
+- [Absolute-entrypoint plan](PROFILE_LOCAL_SEQUENCE_R2.json) preserves the frozen profile arguments while using root data/output and the clean executed source.
+- [Admission](../DYNAMICS_PROFILE_ADMISSION_R2.json) bounds one GPU/CPU, 4 GB RAM, no swap and 1,800 seconds.
+- [Terminal report](runtime/README.md) and [raw log](../dynamics_profile_local_r2.log) preserve all resource/update evidence.
+- [Cost decision](../DYNAMICS_PROFILE_RESULT_R2.json) defers the entire four-fit panel: the inclusive conservative projection is 3.366 hours versus its three-hour ceiling. This is not negative scientific evidence about the mechanism and does not transfer production reserve.
