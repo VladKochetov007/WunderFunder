@@ -199,6 +199,47 @@ class OnlineRelationshipState:
             output[index] = self.update(row)
         return output
 
+    def transform_compiled(self, raw_rows: np.ndarray) -> np.ndarray:
+        """Process a chunk with the strict-FP32 serial Numba kernel."""
+        from wnn.online_relationship_numba import transform_relationship_rows
+
+        sequence = _validate_sequence(raw_rows)
+        if self.normalizer is None:
+            u_mean = np.zeros(CHANNELS, dtype=np.float32)
+            u_scale = np.ones(CHANNELS, dtype=np.float32)
+            v_mean = np.zeros(CHANNELS, dtype=np.float32)
+            v_scale = np.ones(CHANNELS, dtype=np.float32)
+            normalized = False
+        else:
+            u_mean = self.normalizer.u_mean
+            u_scale = self.normalizer.u_scale
+            v_mean = self.normalizer.v_mean
+            v_scale = self.normalizer.v_scale
+            normalized = True
+        output, self.rows = transform_relationship_rows(
+            sequence,
+            self.rows,
+            0 if self.arm == "A" else 1 if self.arm == "B" else 2,
+            self.lag,
+            normalized,
+            u_mean,
+            u_scale,
+            v_mean,
+            v_scale,
+            _DECAY,
+            _UPDATE,
+            _VARIANCE_EPSILON,
+            FEATURE_CLIP,
+            self.i1_history,
+            self.i0_history,
+            self.u_history,
+            self.mx,
+            self.my,
+            self.variance,
+            self.covariance,
+        )
+        return output
+
     def state_dict(self) -> dict[str, object]:
         """Copy causal state and normalizer content for exact chunk continuation."""
         return {
