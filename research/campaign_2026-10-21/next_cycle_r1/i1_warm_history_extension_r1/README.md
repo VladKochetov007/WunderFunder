@@ -22,3 +22,45 @@ review. No tensors from research checkpoints, dataset arrays, model fits, GPU
 work, new recipes, or scientific selection were performed here. The mechanism
 remains conditional on completion and interpretation of the active i1 and
 dynamics screens.
+
+## WMSE checkpoint-layout compatibility restoration
+
+The frozen prior F0/F1 child commands include `--mean-variance-head 1` because
+their 23-row parents were continued with a 25-row model. The current canonical
+trainer branch had lost that optional path, so the old commands could not parse
+and a direct 23-to-25 state load would fail. This isolated code change restores
+only the dormant WMSE layout contract: the flag defaults off, two zero rows are
+appended after existing outputs under `torch.random.fork_rng`, and the initializer
+copies all parent tensors while retaining the child’s two zero rows. The
+initializer records parent and child output-row counts. It rejects incompatible
+architecture, precision, loss, averaging, control, QAT, rank, or dynamics-head
+settings and any state-dict difference beyond those two rows.
+
+The implementation source was recovered from the pinned prior trainer at
+commit `68ff682977b822f38351aac0f621146f5f13b440`; its original
+`src/wnn/training/mean_variance.py` SHA256 is
+`e4a067bb9d467d121720854876cfffb083ab803a4ed440ec96025779553e15c5`. The
+current canonical change reuses its output appender and shape-copy semantics,
+with a fail-closed guard for the current dynamics head. The main loss module is
+unchanged. The selected `--loss wmse` calculation and evaluation use only the
+first two outputs, so these rows receive no gradient and no variance is learned.
+Both arms carry the same 25-row topology solely to preserve checkpoint
+compatibility. This interpretation is independently confirmed by a source audit
+of the pinned loss, initializer, and evaluation paths.
+
+Five data-free tests cover unchanged readout values, zero added rows, preserved
+RNG state, 23-to-25 state copying, the default-off guard, and fail-closed shape
+validation. They are prepared for root’s bounded
+CPU test slot and have not been run here. The actual parent tensors, appended
+normalization identities, and parent-output parity remain mandatory pre-fit
+gates; this note does not claim they have been checked.
+
+Current isolated source hashes for this restoration are `mean_variance.py`
+`729cb7d8f9d48f751cc8bca269b4e60acfce5432460398ed63d97c23a49e93d5`,
+`cli_targets.py` `5ca705b8a9cb88835e9a15d223813495ae72d2698872da60e2bf8ed7ed5d4fa8`,
+and `setup_model.py`
+`12b537612b5c9bbd2e17b279054d4f93ad367aea74a455e6c965275673e2c7b1`.
+`losses.py` is unmodified in this code change (snapshot SHA256
+`19c301948734373e706c3b59e784cdb65f33d899f011a33aacd59e2db34f3f2a`). The
+source-specific command plan will bind the complete trainer source tree before
+any profile or fit admission.

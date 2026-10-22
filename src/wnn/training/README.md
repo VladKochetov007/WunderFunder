@@ -55,6 +55,7 @@ from wnn.training.runner import run_training
 | [losses](losses.py) | Main and auxiliary objectives with unchanged reduction/summation order. |
 | [macro_updates](macro_updates.py) | Controlled macro losses and carried recurrent/initializer state. |
 | [membership](membership.py) | Bounded component-subset manifests and membership validation. |
+| [mean_variance](mean_variance.py) | Optional two-row WMSE checkpoint-layout extension; the trailing rows remain dormant and the flag is disabled by default. |
 | [model_validation](model_validation.py) | Architecture/width restrictions and block-memory defaults. |
 | [models](models.py) | Reusable architecture factory with the original constructor order. |
 | [normalization](normalization.py) | Fitting-only normalization and numeric-map calibration. |
@@ -87,6 +88,7 @@ from wnn.training.runner import run_training
 - Sequence state resets, prefix replay/discard, initializer-teacher state, teacher-target clone isolation, source-qualified folds and fixed checkpoint policy remain explicit.
 - CLI defaults are preserved, including the legacy FP16 default. Strict-FP32 research recipes must still pass `--precision fp32`; this refactor does not rewrite numerical recipes.
 - Strict resume hashes the public entrypoint and implementation sources. An old checkpoint cannot claim exact continuation after a code change. Existing parent initialization remains supported with its ancestry checks.
+- The optional mean/logvariance compatibility head appends two dormant rows after existing outputs. It is disabled by default, and the existing WMSE calculation continues to use only the original first two outputs.
 - Portable source packets can omit pyproject/uv.lock; provenance names these missing metadata files instead of failing or claiming a locked environment. Present sources are hashed and actual attrs version is recorded.
 
 ## Quality checks
