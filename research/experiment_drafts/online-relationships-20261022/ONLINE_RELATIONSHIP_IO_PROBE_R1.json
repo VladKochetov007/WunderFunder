@@ -1,0 +1,57 @@
+{
+  "schema": "wnn.online-relationships.io-probe.v1",
+  "recorded_local_date": "2026-10-23",
+  "purpose": "Bounded no-label read probe to ground the postboot complete-panel cold-I/O reserve.",
+  "authorization": {
+    "scope": "Exactly four sequential reads of one already accepted warm-control prediction NPY; no global cache drop, target access, GPU work, payload mutation, or new artifact generation.",
+    "limits": {
+      "cpu_quota": "190%",
+      "memory_max": "500MB",
+      "swap": "0",
+      "runtime_max_seconds": 30,
+      "unit": "wnn-online-io-probe-r1-20261023"
+    },
+    "wrapper": "scripts/limited"
+  },
+  "input": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_i1warm_f0_control_seed3_e2_cp1_r1_valid.npy",
+    "acceptance_receipt": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/next_cycle_r1/i1/runtime/F0_CONTROL_EXPORT_ACCEPTANCE_R4.json",
+    "acceptance_receipt_sha256": "af2c5601d186b849abe590301c3ce54274322b45ed7161c05d6c55ef1a84606d",
+    "bytes_per_pass": 299680128,
+    "acceptance_header": {
+      "shape": [1873, 20000, 2],
+      "dtype": "<f4",
+      "npy_header_bytes": 128
+    },
+    "payload_sha256_rechecked_during_probe": false
+  },
+  "method": {
+    "passes": 4,
+    "access": "Read-only sequential 4 MiB chunks.",
+    "cache_advisory": "Opened a file-specific read-only descriptor and requested POSIX_FADV_DONTNEED before each pass.",
+    "device": {
+      "stat_device_id": 57,
+      "mount_target": "/home",
+      "mount_source": "/dev/nvme0n1p7[/home]",
+      "filesystem": "btrfs",
+      "mount_options_include": ["compress=zstd:1", "ssd"]
+    }
+  },
+  "measurements": {
+    "pass_wall_seconds": [0.156479956, 0.127507078, 0.141578501, 0.167739210],
+    "pass_mib_per_second": [1826.414, 2241.423, 2018.649, 1703.819],
+    "wall_seconds_min_median_max": [0.127507078, 0.1490292285, 0.167739210],
+    "mib_per_second_min_median_max": [1703.819, 1922.531, 2241.423],
+    "total_bytes_read": 1198720512,
+    "process_cpu_seconds": 0.192838,
+    "wrapper_wall_seconds": 0.504227,
+    "exit_code": 0,
+    "gpu_used": false,
+    "evaluation_labels_or_masks_read": false
+  },
+  "limitations": [
+    "POSIX_FADV_DONTNEED is advisory; successful eviction and physical cold-read status were not verified.",
+    "This four-pass 300 MB artifact probe does not establish sustained throughput for the approximately 31.86 GB sequence caches or their repeated full-panel scans.",
+    "The accepted artifact digest was pinned from its acceptance receipt and was not recomputed as an extra data pass."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "scope": "CPU-only empirical feature throughput profile, no labels/fit/GPU/cacheconstruction",
+  "source_commit": "f6da950d643ad35684242e9f68f7eda54eb6cfce",
+  "files": {
+    "src/wnn/online_relationship.py": "ae3ade08bef46a9be8ae44ccc778da78196b81b4ec9da89cd22d7f5b8815504b",
+    "src/wnn/training/online_relationship_profile.py": "2fcb774e7397d95086efcd228a3066220ca2f0b290455350d0a7282b098aecee",
+    "scripts/profile_online_relationship.py": "c1aba212928928a8e4d4bbe74ec5753c747fca580209725373b46ccdd2e6cae6",
+    "research/experiment_drafts/online-relationships-20261022/recipe.json": "1448f204364abc183ad31d3770ce534dd7dc245107c7064c0e467948f4a38f3a"
+  },
+  "sample": "8complete fittingsequences per fold,4train4valid spaced acrossselectedmembership, all6lag/arm paths",
+  "limits": {
+    "cpu_quota": "100%",
+    "memory_max_bytes": 800000000,
+    "swap_max_bytes": 0,
+    "wall_seconds": 300,
+    "parent_slice": "wnn-campaign.slice",
+    "parent_cpu_cores": 2,
+    "parent_ram_bytes": 5000000000
+  },
+  "output": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/feature-profile-r1.json",
+  "cost_policy": "Charge actual walltime conservatively to9000second online envelope evenCPUonly. Can defer intact if optimisticfeaturegeneration alone exceedsceiling; cannot admit fits from thisprofile. WarmGPUjob unchanged.",
+  "scientific_fits_admitted": 0
+}

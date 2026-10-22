@@ -1,0 +1,295 @@
+profile-start recipe=E-ONLINE-RELATIONSHIPS-20261022-R1 samples_per_fold=8
+fold=0 phase=begin
+fold=0 phase=validate_split_subset
+fold=0 phase=open_valid_parquet groups=[6, 279, 534, 757, 1028, 1268, 1592, 1863]
+fold=0 phase=sample_normalizer lag=1
+fold=0 phase=sample_normalizer lag=16
+fold=0 phase=feature_stream group=valid:6
+fold=0 phase=feature_stream group=valid:279
+fold=0 phase=feature_stream group=valid:534
+fold=0 phase=feature_stream group=valid:757
+fold=0 phase=feature_stream group=valid:1028
+fold=0 phase=feature_stream group=valid:1268
+fold=0 phase=feature_stream group=valid:1592
+fold=0 phase=feature_stream group=valid:1863
+fold=1 phase=begin
+fold=1 phase=validate_split_subset
+fold=1 phase=open_valid_parquet groups=[16, 203, 446, 825, 1105, 1384, 1651, 1833]
+fold=1 phase=sample_normalizer lag=1
+fold=1 phase=sample_normalizer lag=16
+fold=1 phase=feature_stream group=valid:16
+fold=1 phase=feature_stream group=valid:203
+fold=1 phase=feature_stream group=valid:446
+fold=1 phase=feature_stream group=valid:825
+fold=1 phase=feature_stream group=valid:1105
+fold=1 phase=feature_stream group=valid:1384
+fold=1 phase=feature_stream group=valid:1651
+fold=1 phase=feature_stream group=valid:1833
+{
+  "admission": "not_admitted_by_feature_only_profile",
+  "decision": "defer_entire_panel_feature_generation_exceeds_ceiling",
+  "excluded_costs": [
+    "fit-only normalizer scan over every selected fitting sequence",
+    "parent prediction cache creation for selected-fit and evaluation groups",
+    "train.parquet row-group read and train-footer memory",
+    "GPU readout forward/backward/AdamW updates",
+    "full-fold candidate prediction export and grading",
+    "checkpoint, sidecar, provenance and cache I/O"
+  ],
+  "feature_cache_generation_empirical_floor_seconds": 15818.88190021913,
+  "folds": [
+    {
+      "complete_sequence_rows": 20000,
+      "evaluation_sequences": 468,
+      "feature_cache_generation_empirical_floor_seconds": 7789.165828741388,
+      "feature_cost_extrapolation": "same-shape operation count for train/evaluation; source-specific read cost omitted",
+      "fit_normalizer_sample_read_seconds_by_lag": {
+        "1": 1.2232353869767394,
+        "16": 0.2421240309777204
+      },
+      "fit_normalizer_sample_total_seconds_by_lag": {
+        "1": 1.3484503430081531,
+        "16": 0.3488107379816938
+      },
+      "fit_sequences": 1236,
+      "fit_train_sequences": 1118,
+      "fit_valid_sequences": 118,
+      "fold": 0,
+      "projected_feature_generation_sequence_passes": 1704,
+      "sample_group_refs": [
+        {
+          "row_group": 6,
+          "split": "valid"
+        },
+        {
+          "row_group": 279,
+          "split": "valid"
+        },
+        {
+          "row_group": 534,
+          "split": "valid"
+        },
+        {
+          "row_group": 757,
+          "split": "valid"
+        },
+        {
+          "row_group": 1028,
+          "split": "valid"
+        },
+        {
+          "row_group": 1268,
+          "split": "valid"
+        },
+        {
+          "row_group": 1592,
+          "split": "valid"
+        },
+        {
+          "row_group": 1863,
+          "split": "valid"
+        }
+      ],
+      "sample_read_seconds_eight_sequences": 0.35177477303659543,
+      "sample_sequence_timings": [
+        {
+          "row_group": 6,
+          "six_stream_seconds": 6.789742356981151,
+          "split": "valid"
+        },
+        {
+          "row_group": 279,
+          "six_stream_seconds": 6.013025181018747,
+          "split": "valid"
+        },
+        {
+          "row_group": 534,
+          "six_stream_seconds": 6.4271748430037405,
+          "split": "valid"
+        },
+        {
+          "row_group": 757,
+          "six_stream_seconds": 5.18612565897638,
+          "split": "valid"
+        },
+        {
+          "row_group": 1028,
+          "six_stream_seconds": 4.571106707007857,
+          "split": "valid"
+        },
+        {
+          "row_group": 1268,
+          "six_stream_seconds": 4.932932044990594,
+          "split": "valid"
+        },
+        {
+          "row_group": 1592,
+          "six_stream_seconds": 5.675917810993269,
+          "split": "valid"
+        },
+        {
+          "row_group": 1863,
+          "six_stream_seconds": 5.759386972000357,
+          "split": "valid"
+        }
+      ],
+      "sample_source": "valid",
+      "seed": 1001,
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "state_seconds_per_sample_sequence_fastest": 4.571106707007857,
+      "state_seconds_per_sample_sequence_median": 5.717652391496813,
+      "state_transform_seconds_eight_sequences_six_streams": 45.355411574972095,
+      "subset_sha256": "8dfd94041500876a75ebd8cc30d044fb00e2dd55762fbedce78bf14e40eef120",
+      "three_epoch_streaming_recompute_estimate_seconds": 19088.94160846481,
+      "three_epoch_streaming_recompute_sequence_passes": 4176
+    },
+    {
+      "complete_sequence_rows": 20000,
+      "evaluation_sequences": 457,
+      "feature_cache_generation_empirical_floor_seconds": 8029.716071477742,
+      "feature_cost_extrapolation": "same-shape operation count for train/evaluation; source-specific read cost omitted",
+      "fit_normalizer_sample_read_seconds_by_lag": {
+        "1": 0.3986483440094162,
+        "16": 0.33716943400213495
+      },
+      "fit_normalizer_sample_total_seconds_by_lag": {
+        "1": 0.5091158260183875,
+        "16": 0.4473251450108364
+      },
+      "fit_sequences": 1243,
+      "fit_train_sequences": 1071,
+      "fit_valid_sequences": 172,
+      "fold": 1,
+      "projected_feature_generation_sequence_passes": 1700,
+      "sample_group_refs": [
+        {
+          "row_group": 16,
+          "split": "valid"
+        },
+        {
+          "row_group": 203,
+          "split": "valid"
+        },
+        {
+          "row_group": 446,
+          "split": "valid"
+        },
+        {
+          "row_group": 825,
+          "split": "valid"
+        },
+        {
+          "row_group": 1105,
+          "split": "valid"
+        },
+        {
+          "row_group": 1384,
+          "split": "valid"
+        },
+        {
+          "row_group": 1651,
+          "split": "valid"
+        },
+        {
+          "row_group": 1833,
+          "split": "valid"
+        }
+      ],
+      "sample_read_seconds_eight_sequences": 0.26074177701957524,
+      "sample_sequence_timings": [
+        {
+          "row_group": 16,
+          "six_stream_seconds": 5.647962519025896,
+          "split": "valid"
+        },
+        {
+          "row_group": 203,
+          "six_stream_seconds": 5.3304031760198995,
+          "split": "valid"
+        },
+        {
+          "row_group": 446,
+          "six_stream_seconds": 4.723362394986907,
+          "split": "valid"
+        },
+        {
+          "row_group": 825,
+          "six_stream_seconds": 4.82344815300894,
+          "split": "valid"
+        },
+        {
+          "row_group": 1105,
+          "six_stream_seconds": 4.93853749500704,
+          "split": "valid"
+        },
+        {
+          "row_group": 1384,
+          "six_stream_seconds": 5.441179786983412,
+          "split": "valid"
+        },
+        {
+          "row_group": 1651,
+          "six_stream_seconds": 5.734479951002868,
+          "split": "valid"
+        },
+        {
+          "row_group": 1833,
+          "six_stream_seconds": 4.783234316011658,
+          "split": "valid"
+        }
+      ],
+      "sample_source": "valid",
+      "seed": 1002,
+      "split_manifest_sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae",
+      "state_seconds_per_sample_sequence_fastest": 4.723362394986907,
+      "state_seconds_per_sample_sequence_median": 5.13447033551347,
+      "state_transform_seconds_eight_sequences_six_streams": 41.42260779204662,
+      "subset_sha256": "2dfd5153327d774e3a752a57e5804d1c9b917996a748d9081e2f2c6cfd1804ce",
+      "three_epoch_streaming_recompute_estimate_seconds": 19771.994985415193,
+      "three_epoch_streaming_recompute_sequence_passes": 4186
+    }
+  ],
+  "inclusive_ceiling_seconds": 9000.0,
+  "measurement": "CPU-only, valid.parquet only, complete 20,000-row sequences",
+  "recipe_id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+  "recipe_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/experiment_drafts/online-relationships-20261022/recipe.json",
+  "recipe_sha256": "1448f204364abc183ad31d3770ce534dd7dc245107c7064c0e467948f4a38f3a",
+  "samples_per_fold": 8,
+  "schema": "wnn.online-relationships.feature-profile.v1",
+  "source_sha256": {
+    "feature_module": "ae3ade08bef46a9be8ae44ccc778da78196b81b4ec9da89cd22d7f5b8815504b",
+    "profile": "81ba280f70fad7b099f3c9e8fb8f72ffd814ef28b5fdc96fd06282382ec2b00a",
+    "sequence_reader": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00",
+    "split_loader": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe",
+    "subset_loader": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238"
+  },
+  "three_epoch_streaming_recompute_estimate_seconds": 38860.936593880004,
+  "train_source_memory_claim": "not measured; train.parquet is never opened",
+  "valid_source_memory_receipt": "research/unified/operations/LOCAL_TRAIN_PARQUET_METADATA_OOM_20261018_R1.md",
+  "worker_config": {
+    "WNN_THREADS": "1"
+  }
+}
+	Command being timed: ".venv/bin/python scripts/profile_online_relationship.py --recipe research/experiment_drafts/online-relationships-20261022/recipe.json --output /home/vlad/development/wunder/research_tmp/online-relationships-20261022/feature-profile-r2.json"
+	User time (seconds): 87.61
+	System time (seconds): 2.28
+	Percent of CPU this job got: 97%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:32.16
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 386316
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 328
+	Minor (reclaiming a frame) page faults: 199464
+	Voluntary context switches: 2111
+	Involuntary context switches: 6007
+	Swaps: 0
+	File system inputs: 804104
+	File system outputs: 480
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

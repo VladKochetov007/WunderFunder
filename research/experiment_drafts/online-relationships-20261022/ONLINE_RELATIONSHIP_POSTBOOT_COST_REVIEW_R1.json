@@ -1,0 +1,127 @@
+{
+  "schema": "wnn.online-relationships.postboot-cost-review.v1",
+  "recorded_local_date": "2026-10-23",
+  "review_role": "Independent grader and resource reviewer; no fitting, artifact generation, or target grading.",
+  "decision": {
+    "online_panel": "conditional_inclusive_cost_pass",
+    "projected_inclusive_seconds": 8311.440323,
+    "ceiling_seconds": 9000,
+    "headroom_seconds": 688.559677,
+    "quality_status": "No scientific fit outputs or quality results exist; this is a resource decision only.",
+    "authority": "Root retains immutable recipe status and admission authority. This review does not mutate recipe.json or admit fits.",
+    "warm_remaining_three_fits": "defer_intact_on_cost_gate"
+  },
+  "bindings": {
+    "profile_path": "/home/vlad/development/wunder/research_tmp/online-full-profile-postboot-r1-20261023/profile.json",
+    "profile_sha256": "dcbfb56e10ddef133eb9c6c19c5c20068571051416d8d96b8dc7a1c24ba3597e",
+    "profile_source_commit": "af952697f35792966148a73998f9ebb889aaee28",
+    "frozen_profile_recipe_sha256": "308465a8483ab95656edf153d3611f8685f44b8571bebc684ccea58e7ac90ecc",
+    "execution_receipt_sha256": "c635a3e372af9757fac4da534c22ba8cdf35708fb56908f77f940227498be854",
+    "grader_prechange_commit": "413f96a34983dee5736a1cb495acfad841f66516",
+    "io_probe": "ONLINE_RELATIONSHIP_IO_PROBE_R1.json"
+  },
+  "profile_observation": {
+    "service_wall_seconds": 71.032,
+    "guard_wall_seconds": 70.995,
+    "cpu_seconds": 119.705,
+    "peak_memory": "2.7 GB",
+    "swap_bytes": 0,
+    "thermal_or_guard_events": 0,
+    "sample": "16 selected fitting sequences and 8 evaluation sequences per fold; 12 disposable heads, three epochs each.",
+    "evaluation_target_labels_or_masks_loaded": false,
+    "known_scaled_phase_seconds": {
+      "cache_generation": 2255.664608,
+      "head_fit": 2201.191957,
+      "evaluation_prediction": 200.036268,
+      "fit_normalizers": 33.461486,
+      "candidate_prediction_export": 63.343732,
+      "one_time_warmup": 1.672880,
+      "total": 4755.379436
+    },
+    "interpretation": "The profile used the producer's eight-sequence parent-inference batch path and measured its one-time warmup. It did not execute scientific heads or grade targets."
+  },
+  "full_panel_estimate": {
+    "cells": 12,
+    "endpoints_including_parents": 14,
+    "folds": [0, 1],
+    "lags": [1, 16],
+    "arms": ["A", "B", "C"],
+    "selected_fit_groups": 2479,
+    "evaluation_groups": 925,
+    "sequence_cache_bytes": {
+      "fit": 23203440000,
+      "evaluation": 8658000000,
+      "total": 31861440000
+    },
+    "estimated_repeated_cache_read_bytes": {
+      "runner_hash_fit_and_eval": 31861440000,
+      "runner_parent_equality_eval": 8658000000,
+      "two_lag_normalizers": 46406880000,
+      "six_heads_per_fold_times_three_epochs_fit": 417661920000,
+      "six_heads_per_fold_evaluation": 51948000000,
+      "grader_hash_fit_and_eval": 31861440000,
+      "grader_eval_finite_zero_and_parent_scan": 8658000000,
+      "total": 597055680000
+    },
+    "notes": [
+      "Cache traffic is a transparent conservative pass-count reconstruction from the frozen source flow; it is not a measured 597 GB run.",
+      "The 31.861 GB cache payloads and repeated cache scans are not fully represented by the 24-sequence timing sample.",
+      "Source Parquet reads, candidate/parent output hashing, metadata and small artifact reads add I/O beyond the enumerated sequence-cache passes."
+    ]
+  },
+  "inclusive_budget_seconds": {
+    "prior_profile_and_fixture_charges": 313.953,
+    "current_postboot_profile_service_wall": 71.032,
+    "engineering_allowance": 120.0,
+    "measured_panel_phase_projection": 4755.379436,
+    "full_scale_io_reserve": 1500.0,
+    "grade_and_report_reserve": 600.0,
+    "thermal_and_projection_margin_20pct_of_profile": 951.075887,
+    "total": 8311.440323,
+    "ceiling": 9000.0,
+    "remaining_headroom": 688.559677
+  },
+  "reserve_basis": {
+    "full_scale_io_seconds": "1500 s covers the estimated 597.056 GB of repeated sequence-cache reads at an assumed 500 MB/s (approximately 398 MB/s required), leaving additional room for source reads, artifact hashes, writes, and small-file/metadata work. The assumption is deliberately below the probe's observed 1703.819 MiB/s minimum; the probe does not establish cold full-cache throughput.",
+    "grading_seconds": "600 s is reserved for validating and scoring all 14 endpoints, 26 fold-local contrasts, component bootstrap intervals, outputs, and provenance. A historical six-fit panel grade took 60.611 s; scaling is workload-different, so the tenfold reserve is explicit rather than treated as a measurement.",
+    "thermal_margin_seconds": "20% of the scaled profile projection is reserved for throughput variation and thermal throttling. The postboot profile itself had no thermal pauses; this margin is a planning reserve, not an observed loss rate.",
+    "engineering_allowance_seconds": "The 120 s allowance is retained for already identified bounded fixture, validation, and handoff overhead. The four-pass probe and six grader-contract tests remained under five seconds combined and fit within this allowance."
+  },
+  "disk_capacity": {
+    "base_cache_and_prediction_payload_bytes": 32897440000,
+    "base_payload_description": "31.861 GB sequence caches + 148 MB parent evaluation predictions + 888 MB candidate predictions.",
+    "available_space_at_review": "approximately 100.41 GiB",
+    "btrfs_metadata_used_allocated": "20.42/21 GiB",
+    "risk": "Payload capacity is adequate by the recorded free-space snapshot; metadata pressure remains a live operational constraint and must be rechecked during writes."
+  },
+  "pre_fit_contract_review": {
+    "finding": "The shared execution contract had a blocking status-name mismatch: the runner requires recipe status admitted_for_execution, while the grader previously accepted only admitted/completed.",
+    "repair": "The grader now accepts admitted_for_execution while retaining admitted and completed compatibility; a focused test uses the full frozen recipe, asserts 12-fit panel status, and points the target-cache path at a nonexistent file to demonstrate recipe validation does not open it.",
+    "producer_consumer_source_audit": "Reviewed delivery write_candidate against candidate, provenance, parent-cache, and panel validators. Candidate NPY/sidecar fields, provenance hash timing, parent evaluation-prediction JSON hash, source/cache identities, exact group ordering, and explicit in_sample_fit versus feature_only_eval scopes align by source inspection. No other mismatch was found.",
+    "evidence_limit": "This is a source audit plus a synthetic status test. No candidate or parent output artifacts existed, so it is not a runtime producer-to-grader handshake."
+  },
+  "warm_panel_cost_gate": {
+    "remaining_fit_and_export_budget_seconds": 16235.769,
+    "remaining_fits": 3,
+    "remaining_exports": 3,
+    "observed_prior_single_fit_wall_seconds": 9038.0,
+    "observed_prior_export_wall_seconds": 1936.841,
+    "three_exports_at_observed_wall_seconds": 5810.523,
+    "one_fit_plus_three_exports_seconds": 14848.523,
+    "three_fits_at_observed_single_fit_wall_plus_three_exports_seconds": 32924.523,
+    "excess_over_remaining_budget_at_three_fit_rate_seconds": 16688.754,
+    "decision_basis": "The observed single-fit wall is thermally confounded and is not a sustained-safe profile. Even one such fit plus three measured exports consumes 14,848.523 s before two more fits, grade, or engineering. Do not truncate the complete panel or borrow the 12-hour production reserve; defer all three remaining fits intact until a complete safe cost profile supports them."
+  },
+  "verification": {
+    "bounded_command": "scripts/limited timeout ... .venv/bin/python -m unittest test_online_relationship_grader -v",
+    "cpu_quota": "25%",
+    "memory_max": "700MB",
+    "threads": 1,
+    "tests_passed": 6,
+    "test_wall_seconds": 1.218,
+    "exit_code": 0,
+    "ruff": "format and check passed under scripts/limited at 25% CPU and 700 MB.",
+    "target_grading": false,
+    "source_or_recipe_mutation": false
+  }
+}

@@ -1,0 +1,35 @@
+{"guard": {"temperature": 72, "available_bytes": 22771290112, "memory_stall": 0.0}, "paused": false}
+2026-10-22 23:05:40,851 INFO online_relationship_profile phase=prepare_real_sample_caches
+2026-10-22 23:05:40,851 INFO online_relationship_cache fold=0 phase=validate_membership
+2026-10-22 23:05:40,925 INFO online_relationship_cache fold=0 phase=load_dependencies
+2026-10-22 23:05:40,962 INFO online_relationship_cache fold=0 phase=write_fit_scope
+2026-10-22 23:05:40,965 INFO online_relationship_cache phase=open_parquet split=train
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/online_relationships.py", line 87, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/scripts/online_relationships.py", line 72, in main
+    result = profile_online_relationship_panel(
+        args.recipe,
+    ...<3 lines>...
+        sample_eval=args.sample_eval,
+    )
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/training/online_relationship_panel_profile.py", line 70, in profile_online_relationship_panel
+    cache_build = build_parent_caches(
+        recipe_path,
+    ...<5 lines>...
+        sample_eval=sample_eval,
+    )
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/training/online_relationship_data.py", line 138, in build_parent_caches
+    fit_data_temp, _, fit_meta_temp = write_scope(
+                                      ~~~~~~~~~~~^
+        destination,
+        ^^^^^^^^^^^^
+    ...<18 lines>...
+        sample_mode,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/src/wnn/training/online_relationship_data_writer.py", line 111, in write_scope
+    raise ValueError("fit sequence read omitted canonical targets or score mask")
+ValueError: fit sequence read omitted canonical targets or score mask
