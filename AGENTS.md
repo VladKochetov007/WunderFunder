@@ -1,5 +1,9 @@
 # Project agent instructions
 
+## Active resume — user instruction, 2026-10-23
+
+The user explicitly resumes research and requests continuous work until explicitly stopped, invoking conduct-creative-research and research-reframe. This supersedes the reboot pause below while preserving its record. Original allocation/resource limits and production reserve remain binding. See [postboot resume](research/campaign_2026-10-21/next_cycle_r1/POSTBOOT_RESUME_R1.json) and [frontier](research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md).
+
 ## Active pause — user instruction, 2026-10-22
 
 Research is **paused for reboot** by the latest user instruction. No new fits, exports or engineering profiles until an explicit user resume. Completed checkpoint/export, unstarted R3 profile and disabled research observers are recorded in [pause receipt](research/campaign_2026-10-21/next_cycle_r1/PAUSE_FOR_REBOOT_R2.json) and [frontier](research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md). Commit/push preservation is authorized; reboot is performed by the user. Older resume/allocation entries below remain history.

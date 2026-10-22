@@ -1,5 +1,9 @@
 # Next cycle frontier
 
+## Current authority: resumed after reboot, October23
+
+[Explicit user resume](POSTBOOT_RESUME_R1.json) supersedes the pause below. Storage verified: /tmp physicalbtrfs, SSDswap0used, no activezram. Persistent aggregatecaps repaired beforework to2CPUs/5GB/noSwap. [Fresh reframe contract](REFRAME_CONTRACT_R1.json) separates new source-grounded hypotheses from the reviewed B8 costprofile; no extra fit authority. Original stageceilings/12hproductionreserve remain.
+
 ## Current authority: paused for reboot, October22
 
 [Latest user stop and exact handoff](PAUSE_FOR_REBOOT_R2.json) supersede all earlier live/resume snapshots below. No fit/export/profile is running; research observers/timers are stopped and disabled across boot. Root saves and pushes useful code/evidence only. [Completed warm CPU export](i1_warm_history_extension_r1/F0_CONTROL_EXPORT_ACCEPTANCE_R4.json) passes full coverage; no quality grade, remaining three warm fits unadmitted (16,235.769 stage seconds remain). Online R2 full-path known cost is 10,804.254 seconds >9,000. B8/warmup R3 is source-reviewed but NOT STARTED. Zero online scientific fits. See [pause operation](../../unified/operations/REBOOT_PAUSE_20261022_R2.md). Resume only on explicit user instruction; inspect post-boot storage, resource caps, thermal state and fresh complete-panel cost. Keep 12-hour production reserve.

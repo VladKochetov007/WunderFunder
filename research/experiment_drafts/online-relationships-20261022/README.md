@@ -1,5 +1,10 @@
 # Online relationship screen — October22 amendment
 
+## October23 explicit resume and postboot profile
+
+The [new resume](../../campaign_2026-10-21/next_cycle_r1/POSTBOOT_RESUME_R1.json) supersedes the pause below. [Profile-only admission](POSTBOOT_PROFILE_ADMISSION_R1.json), [sealed command](POSTBOOT_PROFILE_SPEC_R1.json), [guard](POSTBOOT_PROFILE_GUARD_R1.json), [exact result](POSTBOOT_PROFILE_RESULT_R1.json), [terminal accounting](POSTBOOT_PROFILE_EXECUTION_R1.json) and [raw log](postboot_profile_r1.log) record the actual reviewedB8/once-warmed profile. All12disposable heads complete; known full-panel cost4,755.379seconds. No evaluation labels or target-quality scoring. Independent coldIO/validation/grading/thermal-inclusive cost decision pending; no scientific admission yet.
+
+
 ## Current status: paused for reboot
 
 The [latest user stop](../../campaign_2026-10-21/next_cycle_r1/PAUSE_FOR_REBOOT_R2.json) supersedes all resume statements below. Zero scientific fits; no current worker. R2 completed its cost profile and failed the full-panel budget gate. R3 code passed independent source review, but its profile never started. All recipes/specs here require explicit user resume and fresh admission before execution.

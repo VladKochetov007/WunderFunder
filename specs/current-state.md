@@ -1,5 +1,9 @@
 # Current project state
 
+## October23: postboot research resume
+
+The explicit user resume supersedes the reboot pause, retaining the original budget. Disk /tmp and SSD swap are verified; zram is absent. The boot-reverted20GB research cap is repaired persistently to5GB/twoCPUs/noSwap before execution. Reviewed B8 online cost profiling and separate fresh-context reframing resume; no new scientific fit admitted yet. [Resume](../research/campaign_2026-10-21/next_cycle_r1/POSTBOOT_RESUME_R1.json), [contract](../research/campaign_2026-10-21/next_cycle_r1/REFRAME_CONTRACT_R1.json).
+
 ## October22: research paused for reboot
 
 The latest user stop supersedes the resume. [Pause handoff](../research/unified/operations/REBOOT_PAUSE_20261022_R2.md): no active fit/export/profile, completed F0 CP1 and full CPU prediction export preserved. Research observers/timers are stopped and disabled across reboot. Online R2 costs exceed the ceiling; B8 R3 source is reviewed but its profile never started. Zero online scientific fits; remaining three warm fits unadmitted. Explicit user resume required; production reserve remains 12 hours.
