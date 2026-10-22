@@ -1,0 +1,49 @@
+{
+  "status": "RUNNING_SAFETY_OBSERVER",
+  "observed_utc": "2026-10-22T23:42:36.300404+00:00",
+  "owner": "root",
+  "builder_commit": "443b956c57e87ef2d89252264e82f688e1dd98ad",
+  "observer": {
+    "ActiveState": "active",
+    "FreezerState": "running",
+    "ActiveEnterTimestamp": "Fri 2026-10-23 02:41:29 EEST",
+    "InvocationID": "646569804e2342f4a19ad96b32124ac9",
+    "RuntimeMaxUSec": "30min",
+    "CPUQuotaPerSecUSec": "50ms",
+    "MemoryMax": "157286400",
+    "MemorySwapMax": "0"
+  },
+  "target": {
+    "ActiveState": "active",
+    "FreezerState": "running",
+    "ActiveEnterTimestamp": "Fri 2026-10-23 01:00:31 EEST",
+    "InvocationID": "1e64dd46f5294caba4977275e6c91feb",
+    "RuntimeMaxUSec": "2h 10min",
+    "CPUQuotaPerSecUSec": "1s",
+    "MemoryMax": "4000000000",
+    "MemorySwapMax": "0"
+  },
+  "observer_unit": "wnn-online-cpu-observer-r1-20261023.service",
+  "target_unit": "wnn-online-panel-r1-20261023.service",
+  "source_sha256": {
+    "scripts/observe_online_panel_cpu_temperature.py": "193b8e07254c0dd0a44cbc346a8800624ba61844c5c6b48da62de40692ac8054",
+    "tests/test_observe_online_panel_cpu_temperature.py": "bb960739eaa52222a165ce45b627f11b668e7765786166e3d988199c04086ad0"
+  },
+  "log": "/home/vlad/development/wunder/research_tmp/online-cpu-observer-r1-20261023.log",
+  "thresholds_celsius": {
+    "freeze_at_or_above": 97,
+    "thaw_owned_freeze_at_or_below": 90
+  },
+  "poll_seconds": 1,
+  "verification": {
+    "builder_mock_tests_passed": 9,
+    "builder_mock_test_seconds": 2.2,
+    "root_read_only_host_identity_and_freezer_state_probe": "passed",
+    "root_cpu_package_probe_celsius": 91,
+    "runtime_pins_matched": 27,
+    "grader_pins_matched": 15
+  },
+  "scope": "Only freeze/thaw the pinned active invocation; no admission, restart, source/recipe/model/grader mutation, quota or deadline extension. An existing external freeze is not adopted.",
+  "limits": "Identity check and systemctl action are separate calls; no systemd freeze ownership token. Sensor failure requests freeze then exits. Live hot-threshold transition has not been exercised.",
+  "budget_authority": "Original service 7800 seconds and online inclusive 9000 seconds remain binding; extension proposals unanswered."
+}

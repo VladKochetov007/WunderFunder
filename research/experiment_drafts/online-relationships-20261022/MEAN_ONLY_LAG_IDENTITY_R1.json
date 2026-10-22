@@ -1,0 +1,51 @@
+{
+  "status": "PRODUCER_SIDECAR_IDENTITY_OBSERVED",
+  "observed_utc": "2026-10-22T23:42:36.300404+00:00",
+  "owner": "root",
+  "experiment_id": "E-ONLINE-RELATIONSHIPS-20261022-R1",
+  "endpoints": [
+    {
+      "lag": 1,
+      "sidecar_path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag1_a_r1/prediction.json",
+      "sidecar_sha256": "af7400ac85d2689f3b3d96be0cdd2d938cd684c3a1e2fc9adc988d2957067f1c",
+      "producer_prediction_sha256": "ef7d7ec3d0e3aa3fca12cb9dd36bb989c4c7d00ee052ed96a70922acd0552f69",
+      "shape": [
+        468,
+        20000,
+        2
+      ],
+      "dtype": "<f4",
+      "fold": 0,
+      "seed": 1001,
+      "epoch": 2,
+      "parent_cache_manifest_sha256": "f3124a95074ae1338531b51e11d0060c35c512274f4c604ec2e02d83a6b4b946",
+      "recipe_sha256": "edc873c813de77f55859d1a13180d907004e5f18fcc537e64eda7af1308e2508"
+    },
+    {
+      "lag": 16,
+      "sidecar_path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag16_a_r1/prediction.json",
+      "sidecar_sha256": "a5555f9b4deb529f0b1bc2595b36ccd0caac15e0d11e12da44e2f4fd6e3d5c58",
+      "producer_prediction_sha256": "ef7d7ec3d0e3aa3fca12cb9dd36bb989c4c7d00ee052ed96a70922acd0552f69",
+      "shape": [
+        468,
+        20000,
+        2
+      ],
+      "dtype": "<f4",
+      "fold": 0,
+      "seed": 1001,
+      "epoch": 2,
+      "parent_cache_manifest_sha256": "f3124a95074ae1338531b51e11d0060c35c512274f4c604ec2e02d83a6b4b946",
+      "recipe_sha256": "edc873c813de77f55859d1a13180d907004e5f18fcc537e64eda7af1308e2508"
+    }
+  ],
+  "finding": "F0 mean-only A exports for backward lags 1 and 16 report the same complete prediction digest. Inspection of the pinned feature kernel agrees: zero slope removes u and mean_y uses only the shared standardized i0 changes.",
+  "limitations": [
+    "Compared hash-verified JSON sidecars; prediction arrays were not independently rehashed, loaded, graded or checked for full coverage here.",
+    "Both head fits actually ran; no fits or frozen recipe are skipped or changed.",
+    "The identical control is not an independent training replication. F1 identity remains untested.",
+    "Future screens may reuse one A endpoint per fold/seed after their own identity and coverage checks; no new allocation or fit is admitted."
+  ],
+  "kernel_path": "src/wnn/online_relationship_numba.py",
+  "kernel_sha256": "3a89591cd0d0fa36d9bd54ace165502b5b7ca6c55045df6a3c690857de9caaf9"
+}

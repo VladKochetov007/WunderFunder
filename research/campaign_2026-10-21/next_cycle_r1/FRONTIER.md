@@ -2,6 +2,8 @@
 
 ## Online complete twelve-fit panel running, October23
 
+[Single-invocation CPU observer](../../experiment_drafts/online-relationships-20261022/CPU_OBSERVER_EXECUTION_R1.json) is active from 02:41 Kyiv, freezing research at 97°C and thawing its own freeze at 90°C. Worker quota stays one core; no deadline or allocation extension. Four F0 head exports are present; [A lag1/16 sidecars report identical prediction digests](../../experiment_drafts/online-relationships-20261022/MEAN_ONLY_LAG_IDENTITY_R1.json). This is a target-free future control-reuse observation, not quality evidence or permission to alter the panel.
+
 [R2 timing review](../../experiment_drafts/online-relationships-20261022/ROLLING_COST_REVIEW_R2.json) projects beyond the original cap at the safer one-core setting. [Unapproved revised proposal](../../experiment_drafts/online-relationships-20261022/BUDGET_EXTENSION_PROPOSAL_R2.json) asks for up to one hour of unused strong-parent allocation, keeping the original total and production reserve. It replaces the earlier insufficient30-minute request. No answer or authority yet: original 7,800-second service /9,000-second inclusive limits stay in effect; no partial-panel quality promotion.
 
 [Both parent caches published; fitting command started](../../experiment_drafts/online-relationships-20261022/PARENT_CACHE_MILESTONE_R1.json), October23 02:02:56 Kyiv. F0 reports 1,236 fitting/468 evaluation sequences; F1 1,243/457. The receipt hashes sidecars only and does not establish candidate coverage or quality. Worker remains at 100% CPU with unchanged deadline and no new admission.

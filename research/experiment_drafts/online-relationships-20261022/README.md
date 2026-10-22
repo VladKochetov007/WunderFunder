@@ -2,6 +2,8 @@
 
 ## Current execution: all twelve fits admitted and delivery running
 
+[CPU observer launched at 02:41 Kyiv](CPU_OBSERVER_EXECUTION_R1.json) adds whole-unit cooling at 97°C/90°C for the pinned invocation, under 5% CPU/150 MiB/no swap. It preserves the one-core worker, frozen sources and original deadline. Four F0 heads have published; the two completed mean-only lag variants report [identical prediction digests](MEAN_ONLY_LAG_IDENTITY_R1.json), a target-free finding without independent array validation or quality grading. The remaining panel is unchanged.
+
 [Pinned-parent readout metadata](PARENT_READOUT_METADATA_R1.json) supports no extra outcome-readout table in either checkpoint, using hash-verified zip/pickle-opcode inspection with no tensor load. This resolves one native-serving preparation question; it establishes no prediction parity, target quality or native runtime.
 
 [Unapproved revised budget proposal](BUDGET_EXTENSION_PROPOSAL_R2.json) supersedes the [earlier 30-minute proposal](BUDGET_EXTENSION_PROPOSAL_R1.json). Additional epoch observations make the earlier estimate insufficient; R2 proposes moving up to one hour of unused strong-parent allocation to a 3.5-hour inclusive ceiling, keeping the original total and production reserve. This is not authorization: original time limits remain binding pending an explicit user answer.
