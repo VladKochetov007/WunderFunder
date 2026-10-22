@@ -29,3 +29,9 @@ Selection followed the exposed eight-component [earlier diagnostic](../../campai
 ## Delivery and next step
 
 The ZIP is ready for human upload at https://wundernn.io/connectome/submit. No authenticated connector/browser session was available; no upload, portal ID, live quota or public score is claimed. Bind any returned receipt to the exact SHA above. Research continues under the existing local allocation; public evidence will update this package's transfer assessment without becoming a leaderboard blend sweep.
+
+## Subsequent fixed normalized-pair sample grade
+
+[Canonical sample grade](FIXED_SAMPLE_GRADE_R2.json) now scores the already-frozen0.5/0.5 pair via saved predictions verified against the actual ZIP to2.384e-7. On the same eight exposed components/10,988 scored rows, normalized pairWP0.78032713 (t0.76960816/t1.79104611) versus sourceTL3WP0.77775359 (t0.76714528/t1.78836190), delta+0.00257354. Both targets improve. Normalization changes the earlier raw-pair score by only+0.00001975, so its advantage on this sample survives that scale correction. The [fixed grader](grade_fixed_sample.py) uses canonical `GlobalAccumulator`, original targets/mask/±2 clipping and no coefficient search. Its raw-pair self-check reproduces the earlier grade within1e-12. This is a diagnostic on adaptively exposed, ancestry-qualified data, not a public forecast, complete-fold result or independent replication.
+
+[First sample-grade harness failure](SAMPLE_GRADE_R1_FAILURE.json) preserves a method-name error before any score (targets mapped; no payload change). R2 corrects `update` to the canonical `add`; CPU1/RAM1.2GB/noSwap/GPUhidden unit `wnn-quota-pair-grade-sample-r2-20261022`, invocation54673c90a1fc4db0a25d060cd2fa44e7, log `/home/vlad/development/wunder/research_tmp/quota-pair-grade-sample-r2.log`, terminal success. These subsequent numbers do not retroactively alter the earlier independent technical-only review.
