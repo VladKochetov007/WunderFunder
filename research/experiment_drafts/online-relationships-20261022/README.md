@@ -2,6 +2,8 @@
 
 ## Current execution: all twelve fits admitted and delivery running
 
+[CPU safety correction at 01:38:41 Kyiv](CPU_THERMAL_CORRECTION_R1.json) lowers the running worker's CPU quota from 190% to 100% after CPU-package readings of 93–94°C. The GPU-only guard read 72°C. Scientific settings, frozen sources, memory/swap caps and deadline remain unchanged. The earlier cost forecasts assume the old quota and are historical; complete-panel delivery is at risk, with no extra admission or quality claim.
+
 [Draft PR #38](https://github.com/VladKochetov007/WunderFunder/pull/38) targets `research-team`; the [publication receipt](PUBLICATION_RECEIPT_R1.json) records the focused code/evidence handoff. Its HEAD preserves four shared dependency differences and is not the executed checkout. Exact reproduction uses root packet commit `33c6e33830a89187aaaf08116850864250feed56`; no PR-branch execution or parity is claimed.
 
 The [independent rolling cost review](ROLLING_COST_REVIEW_R1.json), observed at 01:29:42 Kyiv, records the complete F0 parent caches at 1,577.463 seconds and F1 cache construction in progress. The conditional inclusive forecast has risen to 8,820.851/9,000 seconds; a similarly slow F1 would exceed the forecast envelope. Completion is at risk, with no cap extension, extra fits or quality result. The original admission and execution snapshot below preserve their earlier observations.

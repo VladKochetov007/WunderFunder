@@ -1,0 +1,37 @@
+{
+  "schema": "wnn.online-relationships.cpu-thermal-correction.v1",
+  "observed_utc": "2026-10-22T22:38:41Z",
+  "owner": "root",
+  "unit": "wnn-online-panel-r1-20261023.service",
+  "invocation_id": "1e64dd46f5294caba4977275e6c91feb",
+  "basis": "User reports prior laptop overheating/freezes; CPU-package readings reveal heat not represented by the existing GPU-only guard.",
+  "observations": {
+    "cpu_package_celsius_before": [93, 94],
+    "cpu_reported_high_and_critical_celsius": 100,
+    "gpu_guard_celsius": 72,
+    "external_editor_indexer": {
+      "command": "cpptools",
+      "pid": 15398,
+      "ps_cpu_percent": 325,
+      "rss_kib": 7192832,
+      "ownership": "Outside this research unit; unchanged. CPU percentage is the process lifetime average, not an instantaneous measurement."
+    },
+    "task_oom_events": 0,
+    "task_swap_bytes": 0
+  },
+  "action": {
+    "command": "systemctl --user set-property --runtime wnn-online-panel-r1-20261023.service CPUQuota=100%",
+    "previous_worker_cpu_quota_percent": 190,
+    "new_worker_cpu_quota_percent": 100,
+    "verified_CPUQuotaPerSecUSec": "1s",
+    "unchanged": ["7800-second service deadline", "9000-second inclusive ceiling", "4000000000-byte worker memory cap", "zero task swap", "two numerical threads", "model and scientific recipe", "frozen source and grader", "production reserve"]
+  },
+  "followup_observation": {
+    "observed_utc": "2026-10-22T22:39:40Z",
+    "cpu_package_celsius": 90,
+    "interpretation": "A subsequent reading is lower; this does not establish a sustained thermal limit or isolate the indexer's effect."
+  },
+  "cost_consequence": "The earlier rolling forecast assumes 190% CPU and is now historical. No measured remaining-phase forecast exists at the lower quota. Full-panel completion remains at risk; no cap extension or additional fit admission.",
+  "monitoring_limit": "The running guard reads GPU temperature and host memory/PSI. Root and delivery actor also inspect CPU-package temperature; the frozen worker code is not rewritten.",
+  "quality_result": null
+}

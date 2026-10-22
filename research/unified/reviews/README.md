@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+- [H-396 event-triggered GRU feasibility](H396_EVENT_TRIGGERED_GRU_FEASIBILITY_20261023_R1.md) — independent source review finds no skip-state API in the current PyTorch/native paths. A compiled native branch could retain hidden state while current features/projection/readout still advance. Defines zero-mode parity, reset, novelty and backend/readout requirements; identifies exact reused parents and distinguishes readout cell seeds from parent ancestry. No data, builds, fits, replays, runtime or quality measurements; zero new fits does not imply cheap execution.
+
 - [Independent critique of the October23 reframe](FRESH_REFRAME_CARDS_CRITIQUE_20261023_R1.md) — source-only review of H-395/396/397 and existing per-channel age. Corrects the full raw/proposed/deranged comparison to six fits, ranks the zero-fit replay by cost, and identifies required controls, causal/deterministic-serving checks and official-score limitations. No data scan, replay, fit or runtime result.
 
 - [Matched B300/local score replication and reporting correction](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#correction-matched-b300-endpoint-successfully-reproduced) — exact PR25 F0/seed1003/CP5 scores agree within1.28e−9. Earlier non-replication interpretation confused the four-fold mean with a single-fold endpoint. Local grade/source receipt pinned; score agreement does not establish tensor parity or superiority over the existing ensemble.
