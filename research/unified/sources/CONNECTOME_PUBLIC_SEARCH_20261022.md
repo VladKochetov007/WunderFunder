@@ -52,10 +52,12 @@ width or provide an optimization target for a leaderboard weight sweep.
 1. **Numerical basis, teacher representation.** [Typed-bin packet](../../experiment_drafts/typed-bin-feature-encoding/README.md):
    six total fits, uniform versus quantile spacing as the primary matched contrast,
    raw reference as secondary. Child of existing PR8/31, not a new family.
-2. **Mask-aligned readout, student objective.** `experiment/mask-aligned-readout`:
+2. **Mask-aligned readout, student objective.** [Draft PR36](https://github.com/VladKochetov007/WunderFunder/pull/36):
    four head-only fits over the same fitting-side valid components, changing only
    mask weighting. Child of H-023/H-030/H-035; direct actual mask is never an input.
-   Clean F2 parent and mask-aware loss integration are blocking dependencies.
+   Actual parent checkpoint/ancestry bindings and exact commands remain missing.
+   Canonical freeze/mask flags already exist; disable inherited propensity in both
+   arms because it overrides the mask branch.
 3. **Strong-parent i1 complementarity.** Continue [PR33](https://github.com/VladKochetov007/WunderFunder/pull/33)
    rather than create a duplicate: preserve the fixed blend and compare the full
    endpoint on source-qualified cells. Better small-model mixture quality is not

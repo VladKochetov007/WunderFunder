@@ -57,7 +57,7 @@
    official `global_wp_clip2_v1`, with unchanged scored mask and clipping.
    Report each cell, equal-cell mean, both target scores and secondary contrasts
    against raw. Paired component bootstrap:10,000 draws, seed221022, common
-   multiplicities. Intervals condition on fixed fitted predictions; two cells
+   multiplicities within each pair and independent per-fold RNG substreams. Intervals condition on fixed fitted predictions; two cells
    confound seed/fold and establish neither significance nor fresh validation.
    All current folds are exposed. Audit source/age/activity and out-of-range
    strata as diagnostics without selecting a winning subgroup.
