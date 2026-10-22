@@ -6,7 +6,7 @@ Source-qualified audits, independent reviews and evidence assessments.
 
 ## Current navigation
 
-- [Online i1-to-i0 readout fitter implementation receipt](ONLINE_RELATIONSHIP_READOUT_FIT_RECEIPT_20261022_R1.md) — records the canonical 419-input fixed-epoch fitter, its three bounded CPU contract tests and resource receipt, plus the delivery cache attribute contract. No fit, accelerator profile, or quality claim is included.
+- [Online i1-to-i0 readout fitter implementation receipt](ONLINE_RELATIONSHIP_READOUT_FIT_RECEIPT_20261022_R1.md) — records the canonical 419-input fixed-epoch fitter, five bounded CPU contract tests and resource receipts, plus the delivery cache attribute contract. No fit, accelerator profile, or quality claim is included.
 
 - [Completed six-fit i1 history grade and warm-start review](I1_SIX_FIT_HISTORY_GRADE_REVIEW_20261022_R1.md) — the fixed 90/10 B/C endpoint is slightly positive in both exposed fold/seed cells although C loses standalone; the mean point delta is +0.00031549 with conditional component intervals, no training-seed uncertainty, and no current native 367-input serving path. Source review supports retaining the existing conditional four-fit warm-parent screen as research only, with initial-function parity and random-sampler handling still required. No arrays, models, tests, fits, or provider work were used here.
 
