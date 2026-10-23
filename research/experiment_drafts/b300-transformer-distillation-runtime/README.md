@@ -1,5 +1,11 @@
 # B300 Transformer teacher and distillation runtime
 
+**24 October compute update:** [High-compute continuation](HIGH_COMPUTE_PLAN_20261024.md)
+treats the four R3 fits as the first panel. The conditional route covers LR/warmup,
+context, gradient horizon, a 3.15B teacher, crossed seed/fold robustness and student
+transfer: 40 total proposed fits including R3. Follow-up execution is not yet
+materialized or launched; R3's four frozen configs are unchanged.
+
 **23 October amendment:** [Large teacher R3 — Muon / 30 epochs](large_teacher_r3_muon30/README.md)
 is the current four-fit preparation for eight B300s. [All parameters and schedule](large_teacher_r3_muon30/PARAMETERS.md)
 include strict-FP32 Muon, 5% warmup, cosine-to-10%, accumulation8 and remote
@@ -25,11 +31,12 @@ This change neither starts jobs nor resumes the separately running GRU campaign.
   [official scorer](../../../scripts/score_sequence.py).
   Components live in `src/wnn/training/sequence_*.py`; the legacy trainer is unchanged.
 
-Published [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32) targets `research-team`. Executable source
+Published [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32) targets `research-team` and is ready for code review.
+The following R1 implementation/history is frozen; R3 above is the current teacher recipe. R1 executable source
 is frozen at `d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6`; later publication/base-sync commits preserve that
 implementation. [Validation record](VALIDATION.json) records static checks only.
 
-## What is implemented
+## Historical R1 implementation
 
 Raw112 causal pre-norm Transformer, RoPE, GELU FFN, per-layer sliding KV state,
 math SDPA, activation checkpointing, and canonical `RNNModel` GRU adapters.

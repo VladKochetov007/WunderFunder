@@ -11,6 +11,15 @@ and [complete parameters and rationale](research/experiment_drafts/b300-transfor
 Historical R1/R2 packets remain unchanged. No local tests, model imports,
 training, inference or GPU profiles ran; no jobs have been dispatched.
 
+**24 October compute update:** The user reports abundant compute. The
+[conditional high-compute continuation](research/experiment_drafts/b300-transformer-distillation-runtime/HIGH_COMPUTE_PLAN_20261024.md)
+adds a proposed route through LR/warmup, context, backward horizon, 3.15B capacity,
+crossed seed/fold robustness and student transfer. It totals 40 fits including
+the four below (34 teachers, 6 students), conditional on exact control reuse.
+Only the four R3 cells currently have the frozen launch packet. Follow-up cell
+manifests/adapters and ensemble-cache support remain preparation work; no extra
+launches or fixed GPU-hour allocation are implied.
+
 1. **Status and lineage.** E/H-B300-LARGE-TEACHER-R3-MUON30-20261023 replaces the
    four unlaunched R2 cells, not four additional fits. Implementation is prepared;
    `launch_ready=false` pending receiving-host acceptance. No inherited checkpoint.

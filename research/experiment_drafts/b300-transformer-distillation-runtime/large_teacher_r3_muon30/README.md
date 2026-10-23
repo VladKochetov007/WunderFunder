@@ -1,9 +1,13 @@
 # Large causal Transformer teacher, R3 — Muon / 30 epochs
 
-Implemented for [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32),
+Implemented for [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32),
 targeting `research-team`. **No fit, inference, GPU profile or test has been run for
 this packet. Receiving-host acceptance is pending.** This is a new, explicit
 four-fit amendment; the historical R1 and R2 configs/panels remain unchanged.
+
+The [24 October high-compute continuation](../HIGH_COMPUTE_PLAN_20261024.md)
+plans broader search and replication beyond these four fits. It does not change
+this frozen panel or make the proposed follow-up cells executable.
 
 ## The exact four fits
 

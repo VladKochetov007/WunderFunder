@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[High-compute B300 continuation](../../experiment_drafts/b300-transformer-distillation-runtime/HIGH_COMPUTE_PLAN_20261024.md) — [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32). Conditional 40-fit route including the four R3 teachers: LR/warmup, context/horizon, 3.15B capacity, crossed seed/fold robustness and student transfer. Proposed follow-ups, no new launches; R3 remains frozen.
+
 [Large teacher R3 — Muon, 30 epochs, complete parameters](../../experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/README.md) — [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32); replaces four unlaunched R2 cells. Includes FP32 Muon groups, 5% warmup/cosine schedule, accumulation8, parameter rationale and receiver peak-LR/recovery/DDP checks. Code/static preparation only; no GPU, fit, optimum or quality evidence.
 
 [Large causal teacher R2: 630M versus 1.54B on eight B300s](../../experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/README.md) — [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32); historical four-fit six-epoch AdamW proposal, superseded prospectively by R3; no GPU results.
