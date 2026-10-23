@@ -10,9 +10,11 @@ from torch.utils.checkpoint import checkpoint
 
 from wnn.nn import RNNModel
 from wnn.training.sequence_attention import CausalTransformerBlock, TransformerState
+from wnn.training.sequence_compile import compile_transformer_blocks
 from wnn.training.sequence_model_helpers import HintProjector as _HintProjector
 from wnn.training.sequence_model_helpers import detach_state as detach_state
 from wnn.training.sequence_precision import (
+    PRECISION_MODES,
     checkpoint_context_fn,
     configure_precision_mode,
     validate_forward_state,
@@ -246,12 +248,15 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     hint_mode = config.get("hint_projection", "learned")
     precision_mode = config.get("precision_mode", "fp32")
     attention_backend = config.get("attention_backend", "math")
+    compile_blocks = config.get("compile_blocks", False)
     if type(checkpoint_blocks) is not bool:
         raise TypeError("model config 'checkpoint_blocks' must be boolean")
     if hint_mode not in ("learned", "fixed"):
         raise ValueError("model config hint_projection must be 'learned' or 'fixed'")
-    if precision_mode not in ("fp32", "tf32", "bf16", "fp32_bf16x9"):
+    if precision_mode not in PRECISION_MODES:
         raise ValueError("unsupported sequence precision mode")
+    if type(compile_blocks) is not bool:
+        raise TypeError("model config 'compile_blocks' must be boolean")
     configure_precision_mode(str(precision_mode))
     if attention_backend not in ("math", "efficient", "flex"):
         raise ValueError("unsupported sequence attention backend")
@@ -262,6 +267,8 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     if not 0.0 <= dropout < 1.0 or ff_multiplier <= 0.0:
         raise ValueError("dropout must be in [0, 1) and ff_multiplier must be positive")
     if architecture == "gru":
+        if compile_blocks:
+            raise ValueError("compile_blocks requires a Transformer model")
         if attention_backend != "math":
             raise ValueError("attention backend selection requires a Transformer model")
         return _GRUSequenceAdapter(hidden, layers, dropout, hint_dim, hint_mode, precision_mode)
@@ -270,7 +277,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     ff_width = int(hidden * ff_multiplier)
     if ff_width <= 0:
         raise ValueError("Transformer feed-forward width must be positive")
-    return _TransformerSequenceAdapter(
+    model = _TransformerSequenceAdapter(
         hidden,
         layers,
         heads,
@@ -283,3 +290,5 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         precision_mode,
         attention_backend,
     )
+    compile_transformer_blocks(model.blocks, enabled=compile_blocks)
+    return model

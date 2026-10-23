@@ -13,8 +13,8 @@ from typing import Literal
 
 import torch
 
-PrecisionMode = Literal["fp32", "tf32", "bf16", "fp32_bf16x9"]
-PRECISION_MODES = ("fp32", "tf32", "bf16", "fp32_bf16x9")
+PrecisionMode = Literal["fp32", "tf32", "bf16", "fp32_bf16x9", "bf16_bf16x9"]
+PRECISION_MODES = ("fp32", "tf32", "bf16", "fp32_bf16x9", "bf16_bf16x9")
 EMULATION_ENV = "CUBLAS_EMULATE_SINGLE_PRECISION"
 
 
@@ -24,9 +24,9 @@ def validate_process_environment(mode: str, environ: Mapping[str, str] | None = 
         raise ValueError(f"unsupported sequence precision mode: {mode!r}")
     environment = os.environ if environ is None else environ
     value = environment.get(EMULATION_ENV)
-    if mode == "fp32_bf16x9":
+    if mode in ("fp32_bf16x9", "bf16_bf16x9"):
         if value != "1":
-            raise ValueError(f"{EMULATION_ENV}=1 is required for fp32_bf16x9")
+            raise ValueError(f"{EMULATION_ENV}=1 is required for {mode}")
     elif value not in (None, "0"):
         raise ValueError(f"{EMULATION_ENV} must be unset or 0 for {mode}")
     return value
@@ -63,7 +63,7 @@ def _tf32_context() -> AbstractContextManager[None]:
 
 def forward_context(mode: str, device_type: str = "cuda") -> AbstractContextManager[object]:
     """Return the precision context for one model forward call."""
-    if mode == "bf16":
+    if mode in ("bf16", "bf16_bf16x9"):
         return torch.autocast(device_type=device_type, dtype=torch.bfloat16)
     if mode == "tf32":
         return _tf32_context()
@@ -76,7 +76,7 @@ def backward_context(mode: str, device_type: str = "cuda") -> AbstractContextMan
     """Return a model-backward context; autocast is intentionally absent for BF16."""
     if mode == "tf32":
         return _tf32_context()
-    if mode in ("fp32", "bf16", "fp32_bf16x9"):
+    if mode in ("fp32", "bf16", "fp32_bf16x9", "bf16_bf16x9"):
         return nullcontext()
     raise ValueError(f"unsupported sequence precision mode: {mode!r}")
 
@@ -85,7 +85,7 @@ def checkpoint_context_fn(
     mode: str, device_type: str = "cuda"
 ) -> tuple[AbstractContextManager[object], AbstractContextManager[object]]:
     """Provide matching precision contexts to non-reentrant checkpoint regions."""
-    if mode == "bf16":
+    if mode in ("bf16", "bf16_bf16x9"):
         return forward_context(mode, device_type), forward_context(mode, device_type)
     if mode in ("fp32", "tf32", "fp32_bf16x9"):
         return nullcontext(), nullcontext()
@@ -95,7 +95,7 @@ def checkpoint_context_fn(
 def validate_forward_state(mode: str, device_type: str = "cuda") -> None:
     """Check that model execution is inside the selected forward precision scope."""
     autocast = torch.is_autocast_enabled(device_type)
-    if mode == "bf16":
+    if mode in ("bf16", "bf16_bf16x9"):
         if not autocast or torch.get_autocast_dtype(device_type) != torch.bfloat16:
             raise RuntimeError("bf16 mode requires a bfloat16 autocast model-forward context")
         if (
@@ -158,6 +158,12 @@ def precision_identity(
             "model_compute": "process-wide cuBLAS single-precision emulation request",
             "model_forward": "FP32 tensor interface; cuBLAS emulation may affect kernels",
             "loss": "FP32",
+            "optimizer": "process-wide cuBLAS emulation may affect Muon operations",
+        },
+        "bf16_bf16x9": {
+            "model_compute": "BF16 autocast plus process-wide cuBLAS single-precision emulation",
+            "model_forward": "FP32 tensor interface with BF16 autocast and cuBLAS emulation",
+            "loss": "FP32 after prediction and hint casts",
             "optimizer": "process-wide cuBLAS emulation may affect Muon operations",
         },
     }

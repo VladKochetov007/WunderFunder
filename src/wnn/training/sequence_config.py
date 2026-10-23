@@ -51,6 +51,7 @@ MODEL_DEFAULTS: dict[str, Any] = {
     "hint_dim": 0,
     "hint_projection": "learned",
     "attention_backend": "math",
+    "compile_blocks": False,
 }
 
 
@@ -112,7 +113,7 @@ def load_config(path: Path) -> dict[str, Any]:
     if config["optimizer"] not in ("adamw", "muon"):
         raise ValueError("optimizer must be adamw or muon")
     if config["precision_mode"] not in PRECISION_MODES:
-        raise ValueError("precision_mode must be fp32, tf32, bf16, or fp32_bf16x9")
+        raise ValueError("precision_mode must be fp32, tf32, bf16, fp32_bf16x9, or bf16_bf16x9")
     validate_process_environment(config["precision_mode"])
     if config["schedule"] not in ("legacy_warmup_cosine", "warmup_cosine_v2"):
         raise ValueError("unsupported sequence learning-rate schedule")
@@ -134,6 +135,10 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("model.attention_backend must be math, efficient, or flex")
     if model["architecture"] == "gru" and model["attention_backend"] != "math":
         raise ValueError("attention backends are supported only by Transformer models")
+    if type(model["compile_blocks"]) is not bool:
+        raise ValueError("model.compile_blocks must be boolean")
+    if model["architecture"] == "gru" and model["compile_blocks"]:
+        raise ValueError("model.compile_blocks requires a Transformer model")
     if config["optimizer"] == "muon" and model["architecture"] != "transformer":
         raise ValueError("sequence Muon currently supports Transformer models only")
     if model["hint_projection"] not in ("fixed", "learned"):
