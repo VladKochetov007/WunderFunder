@@ -1,5 +1,7 @@
 # Submission choices and scores
 
+- [23 October: PR #33 fixed i1 B/C CPU delivery](../../campaign_2026-10-21/next_cycle_r1/i1/submission_r1/README.md) — causal 367-input native path, checkpoint-owned post-normalization masks, exact 90/10 epoch2 recipes for F0/1001 and F2/1002, Linux build and hash-bound FP32 ZIP wrapper. User explicitly requested proceeding without weights; no model ZIP, local inference, tests or training. Local exposed-fold mixture deltas do not establish public transfer. The same note records the live portal snapshot:102 submissions, latest two-parent0.66771, team bestTL3 0.66832.
+
 
 
 [October 18 user-transcribed 100-row submission history](../../campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/README.md) resolves the best to `tl3.zip` / `1lmehfi3` / 0.66832, with independent metadata review. Archive recipe and portal-payload identities remain explicitly separate.
