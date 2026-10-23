@@ -39,6 +39,8 @@ def build_inputs(
     """
     environment = environment if environment is not None else TrainingEnvironment()
     raw, extra = (x[..., :N_FEATURES], x[..., N_FEATURES:])
+    if environment.inputs.research_features == "tl3_lead" and extra.shape[-1] != 0:
+        raise ValueError("tl3_lead requires the canonical 112 raw input columns without extras")
     ev = event_features_torch(raw)
     if environment.inputs.raw_only:
         ev = torch.zeros_like(ev)
@@ -80,6 +82,7 @@ def build_inputs(
                 environment.inputs.research_features,
                 environment.inputs.research_feature_prior,
                 control=environment.inputs.research_feature_control,
+                event=None if environment.inputs.raw_only else ev,
             )
         )
     if environment.inputs.privileged_mode != "none":
@@ -129,6 +132,7 @@ def _build_staged_inputs(
                     environment.inputs.research_features,
                     environment.inputs.research_feature_prior,
                     control=environment.inputs.research_feature_control,
+                    event=None if environment.inputs.raw_only else event,
                 ),
             ],
             dim=-1,

@@ -71,6 +71,7 @@ from wnn.training.runner import run_training
 | [setup_state](setup_state.py) | Options, source-qualified data and network state records. |
 | [source_identity](source_identity.py) | Public entrypoint plus implementation hashes; missing portable dependency metadata is explicit. |
 | [state](state.py) | Typed ownership of setup, data, network, optimizer, progress and batch state. |
+| [tiedlead](tiedlead.py) | Fixed TL3 profile and labels-only teacher configuration checks. |
 | [targets](targets.py) | Main row weighting, shifted targets and next-change auxiliary labels. |
 | [updates](updates.py) | Optimizer/QAT/scaler/scheduler/SWA/EMA ordering and original synchronization policy. |
 | [validation_inputs](validation_inputs.py) | Input/subset/target compatibility checks. |
@@ -84,6 +85,14 @@ from wnn.training.runner import run_training
 - CLI defaults are preserved, including the legacy FP16 default. Strict-FP32 research recipes must still pass `--precision fp32`; this refactor does not rewrite numerical recipes.
 - Strict resume hashes the public entrypoint and implementation sources. An old checkpoint cannot claim exact continuation after a code change. Existing parent initialization remains supported with its ancestry checks.
 - Portable source packets can omit pyproject/uv.lock; provenance names these missing metadata files instead of failing or claiming a locked environment. Present sources are hashed and actual attrs version is recorded.
+
+## TL3 tiedlead encoder
+
+The canonical teacher adapter is the ordinary GRU architecture with `--enc tiedlead` and `--research-features tl3_lead`. It requires the unmodified 112 raw plus 99 event channels followed by 52 causal lead channels (263 inputs), a 256-wide two-layer GRU, one GELU readout layer, and `--precision fp32`. The plain 211-input student (`--enc linear --research-features none`) is unchanged. This is an architecture-matched direct-teacher ablation; it does not claim the historical TL3 teacher's distillation ancestry.
+
+`tl3_lead` gathers the 52 raw i1 channels at the most recent i0 price event, treating row zero as a sequence-start event. Input assembly computes the gather over the full sequence before TBPTT chunks are passed to the model. The encoder applies one shared `Linear(104,128)-GELU-Linear(128,64)-GELU` map to both raw-scale instrument books and their row-to-row deltas. That same map receives the current i1 book and its difference from the lead snapshot. Zero-initialized `tied_out` and `lead_out` projections add those branches to the normalized 263-to-256 input projection before GELU, then the GRU and `512-to-256-to-2` readout run as usual.
+
+Chunk state is `(GRU hidden, previous raw book[104])`; [`src/wnn/tiedlead.py`](../tiedlead.py) carries the preceding row into the next chunk so the first delta of a chunk is not discarded. Passing `None` resets both states at a sequence boundary. This is an intentional causal boundary repair: the archived implementation zeroed each encode call's first delta, so this adapter does not claim exact historical chunk-boundary parity. The tiedlead validator rejects parent initialization, incompatible preprocessing/encoders, extra inputs or output heads, and non-FP32 precision. `predict_run.py` rebuilds the model from checkpoint arguments and sets the saved research-feature mode before calling the same full-sequence input assembler. Trainer modules are covered by the normal training source identity; tiedlead provenance also hashes `src/wnn/nn.py`, `src/wnn/research_features.py`, and `src/wnn/tiedlead.py`.
 
 ## Quality checks
 

@@ -12,7 +12,9 @@ from wnn.nn import DualClockModel, GatedRNNModel, RNNModel, TCNModel, TwoClockMo
 from wnn.sentinel import SentinelInputProjection
 from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
 from wnn.structured_state import StructuredStateModel
+from wnn.tiedlead import TIEDLEAD_INPUT_WIDTH
 from wnn.training.model_validation import independent_width_configuration_error
+from wnn.training.tiedlead import tiedlead_configuration_error
 
 
 def make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Module:
@@ -33,6 +35,12 @@ def make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Mod
         or args_dict.get("enc", "linear") != "linear"
     ):
         raise ValueError("fixed readout mixture requires a plain GRU and linear encoder")
+    if args_dict.get("enc", "linear") == "tiedlead":
+        error = tiedlead_configuration_error(args_dict)
+        if error is not None:
+            raise ValueError(error)
+        if n_in != TIEDLEAD_INPUT_WIDTH or n_out != 2:
+            raise ValueError("tiedlead requires the canonical 263-input, two-output model shape")
     if args_dict.get("arch") == "specialist":
         if (
             args_dict.get("cell", "gru") != "gru"
@@ -175,6 +183,10 @@ def make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Mod
         readout_width=args_dict.get("readout_width"),
         head_layers=args_dict.get("head_layers", 1),
     )
+    if args_dict.get("enc") == "tiedlead" and any(
+        parameter.dtype != torch.float32 for parameter in model.parameters()
+    ):
+        raise ValueError("tiedlead requires FP32 parameter allocation")
     if args_dict.get("sentinel_indicators", "none") != "none":
         model.inp = SentinelInputProjection(model.inp, args_dict["sentinel_base_width"])
     return model

@@ -10,6 +10,15 @@ from torch import nn
 
 from wnn.event_content import ENDPOINT
 from wnn.numeric_ple import NumericFeatureMap
+from wnn.tiedlead import (
+    TIEDLEAD_BASE_INPUT_WIDTH,
+    TIEDLEAD_BOOK_WIDTH,
+    TIEDLEAD_INPUT_WIDTH,
+    TIEDLEAD_INSTRUMENT_WIDTH,
+    TIED_ENCODER_HIDDEN,
+    TIED_ENCODER_WIDTH,
+    tied_book_deltas,
+)
 
 METRIC_CLIP = 2.0
 
@@ -104,6 +113,25 @@ class RNNModel(nn.Module):
             self.enc_norm = nn.LayerNorm(encoder_width)
             self.enc_up = nn.Linear(encoder_width, 4 * encoder_width)
             self.enc_down = nn.Linear(2 * encoder_width, encoder_width)
+        elif enc == "tiedlead":
+            if n_in != TIEDLEAD_INPUT_WIDTH:
+                raise ValueError(
+                    f"tiedlead requires exactly {TIEDLEAD_INPUT_WIDTH} input channels"
+                )
+            if cell != "gru" or dropout != 0.0 or numeric_map != "none":
+                raise ValueError("tiedlead requires a no-dropout GRU and no numeric map")
+            self.tied = nn.Sequential(
+                nn.Linear(TIEDLEAD_BOOK_WIDTH, TIED_ENCODER_HIDDEN),
+                nn.GELU(),
+                nn.Linear(TIED_ENCODER_HIDDEN, TIED_ENCODER_WIDTH),
+                nn.GELU(),
+            )
+            self.tied_out = nn.Linear(2 * TIED_ENCODER_WIDTH, encoder_width)
+            self.lead_out = nn.Linear(TIED_ENCODER_WIDTH, encoder_width)
+            nn.init.zeros_(self.tied_out.weight)
+            nn.init.zeros_(self.tied_out.bias)
+            nn.init.zeros_(self.lead_out.weight)
+            nn.init.zeros_(self.lead_out.bias)
         elif enc == "tokens":
             self.groups = token_groups(n_in)
             self.tok_in = nn.ModuleList(nn.Linear(b - a, tok_dim) for a, b in self.groups)
@@ -116,7 +144,7 @@ class RNNModel(nn.Module):
             self.conv_k = conv_k
             self.conv_dw = nn.Conv1d(encoder_width, encoder_width, conv_k, groups=encoder_width)
             self.conv_pw = nn.Linear(encoder_width, encoder_width)
-        elif enc != "linear":
+        elif enc not in ("linear", "tiedlead"):
             raise ValueError(enc)
         rnn = {"gru": nn.GRU, "lstm": nn.LSTM}[cell]
         # Attribute name kept as ``gru`` so existing checkpoints and exporters stay valid.
@@ -135,7 +163,10 @@ class RNNModel(nn.Module):
             nn.GELU() if readout_activation == "gelu" else FixedReadoutMixture(),
         )
 
-    def encode(self, xn):
+    def encode(self, xn: torch.Tensor) -> torch.Tensor:
+        if self.enc == "tiedlead":
+            encoded, _ = self._encode_tiedlead(xn, None)
+            return encoded
         if self.numeric_feature_map is not None:
             xn = self.numeric_feature_map(xn)
         u = self.inp(xn)
@@ -155,10 +186,60 @@ class RNNModel(nn.Module):
             z = z + F.gelu(self.conv_pw(self.conv_dw(c).transpose(1, 2)))
         return z
 
-    def forward(self, x, h=None):
-        z = self.encode((x - self.mean) / self.std)
-        o, h = self.gru(z, h)
-        return self.head(torch.cat([o, z], dim=-1)), h
+    def _encode_tiedlead(
+        self, xn: torch.Tensor, previous_book: torch.Tensor | None
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        """Add raw-scale shared book and lead residuals while carrying chunk deltas."""
+        if xn.ndim != 3 or xn.shape[1] == 0 or xn.shape[-1] != TIEDLEAD_INPUT_WIDTH:
+            raise ValueError(
+                f"tiedlead expects a nonempty (batch,time,{TIEDLEAD_INPUT_WIDTH}) tensor"
+            )
+        raw = xn * self.std + self.mean
+        books = raw[..., :TIEDLEAD_BOOK_WIDTH]
+        deltas, next_book = tied_book_deltas(books, previous_book)
+        i0 = torch.cat(
+            (
+                raw[..., :TIEDLEAD_INSTRUMENT_WIDTH],
+                deltas[..., :TIEDLEAD_INSTRUMENT_WIDTH],
+            ),
+            dim=-1,
+        )
+        i1 = torch.cat(
+            (
+                raw[..., TIEDLEAD_INSTRUMENT_WIDTH:TIEDLEAD_BOOK_WIDTH],
+                deltas[..., TIEDLEAD_INSTRUMENT_WIDTH:TIEDLEAD_BOOK_WIDTH],
+            ),
+            dim=-1,
+        )
+        lead = raw[..., TIEDLEAD_BASE_INPUT_WIDTH:TIEDLEAD_INPUT_WIDTH]
+        raw_i1 = raw[..., TIEDLEAD_INSTRUMENT_WIDTH:TIEDLEAD_BOOK_WIDTH]
+        lead_input = torch.cat((raw_i1, raw_i1 - lead), dim=-1)
+        projected = self.inp(xn)
+        projected = projected + self.tied_out(torch.cat((self.tied(i0), self.tied(i1)), dim=-1))
+        projected = projected + self.lead_out(self.tied(lead_input))
+        return F.gelu(projected), next_book
+
+    def forward(
+        self,
+        x: torch.Tensor,
+        h: torch.Tensor | tuple[torch.Tensor, ...] | None = None,
+    ) -> tuple[torch.Tensor, torch.Tensor | tuple[torch.Tensor, ...]]:
+        """Apply the recurrent model and return any architecture-specific chunk state."""
+        normalized = (x - self.mean) / self.std
+        if self.enc == "tiedlead":
+            if h is None:
+                recurrent_state, previous_book = None, None
+            elif isinstance(h, tuple) and len(h) == 2:
+                recurrent_state, previous_book = h
+            else:
+                raise TypeError("tiedlead state must be (GRU hidden, previous raw book) or None")
+            z, next_book = self._encode_tiedlead(normalized, previous_book)
+            recurrent, next_recurrent_state = self.gru(z, recurrent_state)
+            next_state = (next_recurrent_state, next_book)
+        else:
+            z = self.encode(normalized)
+            recurrent, next_state = self.gru(z, h)
+        return self.head(torch.cat([recurrent, z], dim=-1)), next_state
 
 
 class GatedRNNModel(RNNModel):
