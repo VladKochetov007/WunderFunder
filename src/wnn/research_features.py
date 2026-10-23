@@ -7,9 +7,9 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from wnn.tiedlead import (
-    TL3_LEAD_WIDTH,
     TIEDLEAD_BOOK_WIDTH,
     TIEDLEAD_INSTRUMENT_WIDTH,
+    TL3_LEAD_WIDTH,
 )
 
 if TYPE_CHECKING:

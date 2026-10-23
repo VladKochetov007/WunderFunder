@@ -159,3 +159,42 @@ def test_tiedlead_factory_rejects_non_fp32_profile() -> None:
     """Only the fixed strict-FP32 teacher profile can select this encoder."""
     with pytest.raises(ValueError, match="precision"):
         make_model(_teacher_args("fp16"), TIEDLEAD_INPUT_WIDTH, 2)
+
+
+def test_tiedlead_canonical_cli_builds_fixed_teacher_profile() -> None:
+    """Exercise actual CLI defaults and the factory's independent-width admission together."""
+    from wnn.training.cli import build_parser
+
+    args = build_parser().parse_args(
+        [
+            "--name",
+            "tl3_cli_admission",
+            "--arch",
+            "gru",
+            "--cell",
+            "gru",
+            "--enc",
+            "tiedlead",
+            "--research-features",
+            "tl3_lead",
+            "--hidden",
+            "256",
+            "--layers",
+            "2",
+            "--dropout",
+            "0",
+            "--precision",
+            "fp32",
+            "--readout-activation",
+            "gelu",
+            "--head-layers",
+            "1",
+        ]
+    )
+    model = make_model(vars(args), TIEDLEAD_INPUT_WIDTH, 2)
+    assert model.inp.in_features == 263
+    assert model.gru.hidden_size == 256
+    assert model.gru.num_layers == 2
+    args.encoder_width = 384
+    with pytest.raises(ValueError):
+        make_model(vars(args), TIEDLEAD_INPUT_WIDTH, 2)

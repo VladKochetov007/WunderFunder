@@ -89,8 +89,7 @@ def verify_teacher_caches(
                 or metadata.get("row_groups") != target_order
                 or metadata.get("evaluation_membership_sha256") != membership_sha
                 or metadata.get("fitting_only_groups") != fitting_groups
-                or metadata.get("campaign_export_scope")
-                != "fit-only-scattered-to-full-index"
+                or metadata.get("campaign_export_scope") != "fit-only-scattered-to-full-index"
                 or metadata.get("feature_only") is not True
                 or metadata.get("inference_precision") != "fp32"
                 or metadata.get("zeros_outside_fit") is not True

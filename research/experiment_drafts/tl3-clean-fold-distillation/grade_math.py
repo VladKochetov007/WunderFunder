@@ -36,8 +36,19 @@ def fit_pair_gate(records: dict[str, dict[str, Any]], cell_id: str) -> None:
     for args in (left, right):
         args.pop("name", None)
         args.pop("distill_alpha", None)
+        args.pop("resume_state", None)  # Canonical full-state continuation is audited separately.
     if left != right:
         raise ValueError(f"{cell_id} label/KD differ beyond alpha")
+
+
+def runtime_gate(records: dict[str, dict[str, Any]]) -> None:
+    """Permit distinct B300s across cells while retaining each cell's fixed runtime."""
+    for cell in ("F0", "F2"):
+        runtimes = {
+            record["runtime_sha256"] for record in records.values() if record["cell"] == cell
+        }
+        if len(runtimes) != 1:
+            raise ValueError(f"{cell} changed its verified runtime/device identity")
 
 
 def component_bootstrap(

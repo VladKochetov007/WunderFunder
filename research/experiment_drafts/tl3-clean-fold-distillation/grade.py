@@ -26,6 +26,7 @@ from grade_math import (
     component_bootstrap,
     equal_cell_target_means,
     fit_pair_gate,
+    runtime_gate,
     score_cell,
 )
 
@@ -62,6 +63,7 @@ def grade(assets_path: Path, destination: Path | None = None) -> dict[str, Any]:
     import pyarrow.parquet as pq
     from audit import require_fit
     from audit import teacher_targets as audited_teacher_targets
+
     from wnn.data import WARMUP
     from wnn.evaluation import (
         _merge_moments,
@@ -133,8 +135,7 @@ def grade(assets_path: Path, destination: Path | None = None) -> dict[str, Any]:
             records[verified["run"]] = verified
         fit_pair_gate(records, cell_id)
 
-    if len({record["runtime_sha256"] for record in records.values()}) != 1:
-        raise ValueError("screen runs do not share one verified runtime identity")
+    runtime_gate(records)
     if len({record["source_sha256"] for record in records.values()}) != 1:
         raise ValueError("screen runs do not share one verified source identity")
 
