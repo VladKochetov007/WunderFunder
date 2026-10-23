@@ -11,7 +11,11 @@ from torch.nn.attention import SDPBackend, sdpa_kernel
 from wnn.training.sequence_attention import CausalTransformerBlock, _rotate
 from wnn.training.sequence_attention_backends import LocalCausalAttention
 from wnn.training.sequence_attention_capabilities import attention_backend_capabilities
-from wnn.training.sequence_attention_masks import _relative_window_mask, _window_mask
+from wnn.training.sequence_attention_masks import (
+    _additive_window_mask,
+    _relative_window_mask,
+    _window_mask,
+)
 
 
 def _legacy_bounded_math(
@@ -77,6 +81,23 @@ def test_relative_mask_is_exact_for_causal_rolling_window() -> None:
     query_index = torch.arange(3)[:, None]
     key_index = torch.arange(5)[None, :]
     assert torch.equal(_relative_window_mask(query_index, key_index, 2, 3), expected)
+
+
+def test_additive_mask_matches_exact_boolean_rolling_mask() -> None:
+    allowed = _window_mask(3, 5, past_rows=2, context_rows=3, device=torch.device("cpu"))
+
+    additive = _additive_window_mask(
+        3,
+        5,
+        past_rows=2,
+        context_rows=3,
+        device=torch.device("cpu"),
+        dtype=torch.float32,
+    )
+    expected = torch.where(allowed, 0.0, float("-inf"))
+
+    assert torch.equal(additive, expected)
+    assert additive.stride(-2) % 8 == 0
 
 
 def test_rotary_bf16_computes_in_fp32_and_casts_back() -> None:

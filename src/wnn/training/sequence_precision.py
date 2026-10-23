@@ -1,7 +1,7 @@
-"""Explicit sequence-model compute precision controls.
+"""Explicit sequence-model precision controls with process identity binding.
 
-The default and optimizer math remain IEEE float32. Reduced precision is scoped
-to model computation and is recorded as part of the run identity.
+The default path uses IEEE FP32. BF16 autocast is scoped to model computation;
+cuBLAS emulation is process-wide and may also affect Muon matrix operations.
 """
 
 from __future__ import annotations

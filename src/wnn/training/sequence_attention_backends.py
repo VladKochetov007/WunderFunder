@@ -14,7 +14,11 @@ from wnn.training.sequence_attention_capabilities import (
     _efficient_mask_format,
     attention_backend_capabilities,
 )
-from wnn.training.sequence_attention_masks import _relative_window_mask, _trim_window_keys
+from wnn.training.sequence_attention_masks import (
+    _additive_window_mask,
+    _relative_window_mask,
+    _trim_window_keys,
+)
 
 __all__ = ("LocalCausalAttention", "attention_backend_capabilities")
 
@@ -78,7 +82,18 @@ def _efficient_attention(
     key, value, past_rows = _trim_window_keys(
         query, key, value, query_start, key_start, context_rows
     )
-    _, mask = _efficient_mask_format(query, key, value, past_rows, context_rows, dropout_p)
+    if torch.compiler.is_compiling():
+        # Keep OrderedDict capability-cache mutations out of Dynamo's trace.
+        mask = _additive_window_mask(
+            query.shape[-2],
+            key.shape[-2],
+            past_rows,
+            context_rows,
+            query.device,
+            query.dtype,
+        )
+    else:
+        _, mask = _efficient_mask_format(query, key, value, past_rows, context_rows, dropout_p)
     with sdpa_kernel(SDPBackend.EFFICIENT_ATTENTION):
         return F.scaled_dot_product_attention(
             query,

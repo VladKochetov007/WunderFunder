@@ -56,7 +56,7 @@ MODEL_DEFAULTS: dict[str, Any] = {
 
 
 def load_config(path: Path) -> dict[str, Any]:
-    """Read a bounded strict-FP32 recipe; reject silently ignored settings."""
+    """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
     if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | {"model"}):
         raise ValueError("unknown sequence recipe field")
