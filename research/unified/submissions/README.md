@@ -119,3 +119,5 @@ The latest reported public reference in the archive is 0.6671 for candidate C. D
 
 
 The user's portal screenshot accompanying these results showed 99 total team submissions and 2/5 used today; this count is user-reported and time-specific.
+
+- [Exact TL3 portal payload audit,23October](../../campaign_2026-10-21/next_cycle_r1/i1/submission_r1/CHAMPION_PORTAL_AUDIT.json) — downloaded champion and two-parent archives are hash-bound; all common payloads match byte-for-byte. Keeping the distilled student at0.34 gives public+0.00061 versus the same two parents at0.5/0.5. Static inspection only; production weights lack fold-clean lineage metadata. This is the stronger endpoint baseline for follow-up selection, not a new trained result.

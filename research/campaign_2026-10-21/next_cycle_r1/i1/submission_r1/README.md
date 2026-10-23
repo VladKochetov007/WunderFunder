@@ -118,3 +118,9 @@ Team position shown:25/5282. The portal payloads were not downloaded or hashed;
 filenames are not proof of exact checkpoint lineage. No i1 B/C upload is shown.
 The team's private HF archive is still at
 `167452c72a8e994b280446d2fca93f7c08e16f66` (12 October), predating the i1 fits.
+
+## Exact champion payload audit, later on 23 October
+
+[CHAMPION_PORTAL_AUDIT.json](CHAMPION_PORTAL_AUDIT.json) binds direct authenticated portal downloads of TL3 and the latest two-parent ZIP. The full endpoint is0.34 distilled_s5@ep1 +0.33 fttall_tlead_s5@ep3 +0.33 fttall_tlead_s6@ep3; all three are H256×2. The reduced endpoint retains exactly the same parent weight bytes, solution and C++ libraries, with coefficients0.5/0.5. Public scores differ by+0.00061 in favor of fullTL3; portal times are39m12s versus28m31s. This supports preserving the student contribution in this endpoint, not a general claim that distillation always improves parents.
+
+The live leader is0.67387 versus our0.66832, a0.00555gap. PR33 history gains are against a different control and cannot be credited to that gap. Subsequent candidate decisions must include their contribution to the complete strong baseline. Production ZIPs omit fitting memberships/teacher lineage, so source-qualified fold-clean replicas are required for held-out comparisons. The two archives were inspected statically only; no model execution occurred. This later download supersedes only the earlier note that portal payload hashes were unavailable; the historical delivery snapshot remains unchanged.
