@@ -1,6 +1,6 @@
 # TL3 student: labels versus clean-fold distillation
 
-Implementation handoff; **zero fits, GPU profiles, executed tests or inference runs in this delivery**. Target: a draft PR into `research-team`. The user's 23 October request authorizes code preparation/publication and explicitly forbids local tests and training. It does not launch the older local/Kaggle campaign or allocate paid compute.
+Implementation handoff; **zero fits, GPU profiles, executed tests or inference runs in this delivery**. Published as [draft PR #39](https://github.com/VladKochetov007/WunderFunder/pull/39) targeting `research-team`. The user's 23 October request authorizes code preparation/publication and explicitly forbids local tests and training. It does not launch the older local/Kaggle campaign or allocate paid compute.
 
 ## What this experiment measures
 
@@ -91,6 +91,6 @@ Both cell deltas nonnegative and mean ≥ +0.0003 support separately budgeted co
 - `bundle.py`: separate scientific evidence/weights archives with hashes.
 - `PR.md`, `VALIDATION.json`: publication rationale and honest validation status.
 
-Historical architecture sources: `research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/` at commit `999f6af0`; its source-time limitations are recorded in `SOURCE_CLOSURE.json`. Plain student shape is independently visible in the hash-bound portal ZIP. Scientific lineage is the student/teacher connection, with canonical implementation and new fold-specific ancestry. H-TL3-CLEAN-KD-20261023 → E-TL3-CLEAN-KD-20261023-R1; publication link is added after creation.
+Historical architecture sources: `research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/` at commit `999f6af0`; its source-time limitations are recorded in `SOURCE_CLOSURE.json`. Plain student shape is independently visible in the hash-bound portal ZIP. Scientific lineage is the student/teacher connection, with canonical implementation and new fold-specific ancestry. H-TL3-CLEAN-KD-20261023 → E-TL3-CLEAN-KD-20261023-R1; published in [draft PR #39](https://github.com/VladKochetov007/WunderFunder/pull/39).
 
 The mechanism reference is [Hinton, Vinyals and Dean, 2015](https://arxiv.org/abs/1503.02531): ensemble-to-student transfer motivates the experiment but supplies no evidence that this regression recipe will improve the competition metric.

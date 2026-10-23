@@ -1,6 +1,6 @@
 # Ideas and hypotheses
 
-[TL3 clean-fold student KD](../../experiment_drafts/tl3-clean-fold-distillation/README.md) adds a runnable, unrun B300 panel: four new label-only tiedlead teacher prerequisites and four paired plain211 students on F0/F2. Complete-mixture evaluation, source/data/cache lineage and explicit full-state recovery are frozen; no local tests, fitting or measured gain. This new direct-teacher ablation does not claim historical TL3 recipe replay.
+[TL3 clean-fold student KD, draft PR #39](https://github.com/VladKochetov007/WunderFunder/pull/39) ([packet](../../experiment_drafts/tl3-clean-fold-distillation/README.md)) adds a runnable, unrun B300 panel: four new label-only tiedlead teacher prerequisites and four paired plain211 students on F0/F2. Complete-mixture evaluation, source/data/cache lineage and explicit full-state recovery are frozen; no local tests, fitting or measured gain. This new direct-teacher ablation does not claim historical TL3 recipe replay.
 
 [Published distillation drafts #28–30](PUBLISHED_GPU_PACKETS_20261018.md#дистилляция-сильных-учителей-и-streaming-студенты) link the exact source snapshots for teacher-capacity transfer, representation hints and streaming students. All target `research-team`; implementation/cache/CPU admission remains pending.
 
