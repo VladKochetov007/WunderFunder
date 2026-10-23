@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 from wnn.splits import (
+    MAX_CAMPAIGN_SPLIT_BYTES,
     SEQUENCE_INNER_SPLIT_SCHEMA,
     CampaignSplit,
     _read_campaign_manifest,
@@ -228,9 +229,11 @@ def _publish_exclusive(path: Path, payload: bytes) -> None:
     temporary = Path(temporary_name)
     try:
         with os.fdopen(descriptor, "wb") as stream:
-            stream.write(payload)
+            written = stream.write(payload)
             stream.flush()
             os.fsync(stream.fileno())
+        if written != len(payload) or temporary.stat().st_size != len(payload):
+            raise OSError("sequence inner split manifest write was incomplete")
         os.chmod(temporary, 0o644)
         os.link(temporary, path)
     finally:
@@ -275,6 +278,10 @@ def prepare_sequence_inner_split(
         "evaluation": {"valid": list(evaluation)},
     }
     payload = (json.dumps(manifest, sort_keys=True, indent=2, allow_nan=False) + "\n").encode()
+    if len(payload) > MAX_CAMPAIGN_SPLIT_BYTES:
+        raise ValueError(
+            f"sequence inner split manifest exceeds its {MAX_CAMPAIGN_SPLIT_BYTES}-byte read bound"
+        )
     result = load_inner_campaign_split(output, data_root, payload, manifest)
     _publish_exclusive(output, payload)
     return result
