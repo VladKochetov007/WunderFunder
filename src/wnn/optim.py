@@ -96,8 +96,10 @@ class MuonAdamW(torch.optim.Optimizer):
         )
         super().__init__(params, defaults)
         for group in self.param_groups:
-            if group["strict_fp32"] and (
-                group["ns_steps"] < 1 or not math.isfinite(group["ns_eps"]) or group["ns_eps"] <= 0
+            if group.get("strict_fp32", False) and (
+                group["ns_steps"] < 1
+                or not math.isfinite(group.get("ns_eps", 1e-7))
+                or group.get("ns_eps", 1e-7) <= 0
             ):
                 raise ValueError("strict-FP32 Muon needs positive Newton-Schulz steps and epsilon")
             if group["muon"]:
@@ -109,7 +111,7 @@ class MuonAdamW(torch.optim.Optimizer):
 
     @torch.no_grad()
     def step(self, closure: Callable[[], torch.Tensor] | None = None) -> torch.Tensor | None:
-        if any(group["strict_fp32"] for group in self.param_groups):
+        if any(group.get("strict_fp32", False) for group in self.param_groups):
             _require_strict_fp32_environment()
         loss = None
         if closure is not None:
@@ -120,7 +122,8 @@ class MuonAdamW(torch.optim.Optimizer):
             beta1, beta2 = group["betas"]
             for p in group["params"]:
                 state = self.state.get(p)
-                if group["strict_fp32"]:
+                strict_fp32 = group.get("strict_fp32", False)
+                if strict_fp32:
                     if p.dtype != torch.float32 or (
                         p.grad is not None and p.grad.dtype != torch.float32
                     ):
@@ -147,11 +150,11 @@ class MuonAdamW(torch.optim.Optimizer):
                     k = group["blocks"]
                     rows, cols = p.shape[0] // k, p.shape[1]
                     momentum = g.lerp(buf, beta1).reshape(k, rows, cols)
-                    if group["strict_fp32"]:
+                    if strict_fp32:
                         update = orthogonalize(
                             momentum,
                             group["ns_steps"],
-                            group["ns_eps"],
+                            group.get("ns_eps", 1e-7),
                             strict_fp32=True,
                         )
                     else:

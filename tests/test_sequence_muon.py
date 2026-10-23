@@ -189,6 +189,59 @@ def test_strict_optimizer_rejects_reduced_precision_state_without_gradient() -> 
         optimizer.step()
 
 
+def test_muon_loads_legacy_groups_without_strict_fp32_options() -> None:
+    initial = torch.tensor([[0.2, -0.1], [0.3, 0.4]], dtype=torch.float32)
+    reference_parameter = nn.Parameter(initial.clone())
+    reference = MuonAdamW(
+        [
+            {
+                "params": [reference_parameter],
+                "muon": True,
+                "blocks": 1,
+                "betas": (0.95, 0.95),
+            }
+        ],
+        lr=0.002,
+        weight_decay=0.01,
+        ns_steps=2,
+    )
+    reference_parameter.grad = torch.tensor([[0.5, -0.4], [0.1, 0.2]], dtype=torch.float32)
+    reference.step()
+
+    saved_state = reference.state_dict()
+    for group in saved_state["param_groups"]:
+        group.pop("strict_fp32", None)
+        group.pop("ns_eps", None)
+
+    resumed_parameter = nn.Parameter(reference_parameter.detach().clone())
+    resumed = MuonAdamW(
+        [
+            {
+                "params": [resumed_parameter],
+                "muon": True,
+                "blocks": 1,
+                "betas": (0.95, 0.95),
+            }
+        ],
+        lr=0.002,
+        weight_decay=0.01,
+        ns_steps=2,
+    )
+    resumed.load_state_dict(saved_state)
+
+    next_gradient = torch.tensor([[-0.2, 0.3], [0.4, -0.1]], dtype=torch.float32)
+    reference_parameter.grad = next_gradient.clone()
+    resumed_parameter.grad = next_gradient.clone()
+    reference.step()
+    resumed.step()
+
+    torch.testing.assert_close(resumed_parameter, reference_parameter)
+    torch.testing.assert_close(
+        resumed.state[resumed_parameter]["momentum_buffer"],
+        reference.state[reference_parameter]["momentum_buffer"],
+    )
+
+
 def test_default_sequence_optimizer_keeps_legacy_adamw_and_schedule() -> None:
     model = nn.Linear(2, 2)
     optimizer, _ = make_optimizer(
