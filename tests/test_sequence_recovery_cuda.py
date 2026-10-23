@@ -61,9 +61,9 @@ class _StopAfterSavedEpoch(RuntimeError):
     """Model a process loss immediately after the epoch-one safe checkpoint is durable."""
 
 
-def _fit_config() -> dict[str, Any]:
+def _fit_config(optimizer_name: str) -> dict[str, Any]:
     # The runtime config intentionally crosses the same heterogeneous mapping boundary as JSON.
-    return {
+    config: dict[str, Any] = {
         "epochs": 2,
         "batch_size": 1,
         "accumulate_chunks": 1,
@@ -71,6 +71,7 @@ def _fit_config() -> dict[str, Any]:
         "seed": 1234,
         "lr": 1e-4,
         "weight_decay": 0.01,
+        "optimizer": optimizer_name,
         "grad_clip": 1.0,
         "warmup_fraction": 0.25,
         "kd_weight": 0.0,
@@ -88,6 +89,23 @@ def _fit_config() -> dict[str, Any]:
             "hint_projection": "learned",
         },
     }
+    if optimizer_name == "muon":
+        config.update(
+            {
+                "lr": 3e-4,
+                "muon_momentum": 0.95,
+                "muon_ns_steps": 5,
+                "muon_ns_eps": 1e-7,
+                "adamw_beta1": 0.9,
+                "adamw_beta2": 0.95,
+                "adamw_eps": 1e-8,
+                "schedule": "warmup_cosine_v2",
+                "min_lr_ratio": 0.1,
+            }
+        )
+    elif optimizer_name != "adamw":
+        raise ValueError(f"unsupported acceptance optimizer: {optimizer_name}")
+    return config
 
 
 def _new_training_objects(
@@ -119,8 +137,9 @@ def _assert_nested_close(left: object, right: object) -> None:
 
 
 @pytest.mark.skipif(not torch.cuda.is_available(), reason="requires a CUDA receiver")
+@pytest.mark.parametrize("optimizer_name", ["adamw", "muon"])
 def test_transformer_epoch_checkpoint_resume_matches_uninterrupted_fit(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, optimizer_name: str
 ) -> None:
     configure_strict_fp32()
     torch.cuda.set_device(0)
@@ -128,12 +147,16 @@ def test_transformer_epoch_checkpoint_resume_matches_uninterrupted_fit(
     context = DistributedContext(
         rank=0, local_rank=0, world_size=1, device=device, process_group=False
     )
-    config = _fit_config()
+    config = _fit_config(optimizer_name)
     dataset = _SyntheticSequenceDataset()
     profile_receipt = tmp_path / "synthetic-profile.json"
     profile_receipt.write_text('{"fixture":"cuda-recovery"}\n', encoding="utf-8")
     profile_hash = hashlib.sha256(profile_receipt.read_bytes()).hexdigest()
-    identity = {"schema": "synthetic-recovery-test-v1", "world_size": 1}
+    identity = {
+        "schema": "synthetic-recovery-test-v1",
+        "world_size": 1,
+        "optimizer": optimizer_name,
+    }
     normalization = {"mean": [0.0] * 112, "std": [1.0] * 112}
     checkpoint_path = tmp_path / "interrupted" / "training_state.pt"
 
