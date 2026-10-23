@@ -15,6 +15,14 @@ from wnn.splits import MAX_CAMPAIGN_SPLIT_BYTES, CampaignSplit, load_campaign_sp
 from wnn.training.datasets import Sequences
 from wnn.training.environment import InputConfiguration, TrainingEnvironment
 from wnn.training.sequence_cache import TeacherCache
+from wnn.training.sequence_normalization import (
+    NormalizationMoments,
+    build_normalization_identity,
+    compute_population_moments,
+    load_or_compute_full_fit_moments,
+    moments_sha256,
+    normalization_identity_sha256,
+)
 
 # Heterogeneous JSON recipes/provenance are restricted to the public runtime boundary.
 
@@ -29,11 +37,15 @@ class SequenceRecords(Dataset):
         hint_dim: int,
         cache: TeacherCache | None = None,
         hint_members: list[tuple[str, int]] | None = None,
+        training_mask: str = "is_scored",
     ) -> None:
         self.members = members
         self.hint_dim = hint_dim
         self.cache = cache
         self.hint_members = hint_members
+        if training_mask not in ("is_scored", "all_after_warmup"):
+            raise ValueError("unsupported sequence training mask")
+        self.training_mask = training_mask
         env = TrainingEnvironment(root=root, inputs=InputConfiguration(raw_only=True))
         self.sources = {
             split: Sequences(
@@ -51,13 +63,15 @@ class SequenceRecords(Dataset):
         return len(self.members)
 
     def validate_source_schema(self) -> None:
-        """Reject training sources without labels or an explicit scoring mask."""
+        """Require targets and, for scored fitting, the explicit evaluation mask."""
         for source in self.sources.values():
             if not source.indices:
                 continue
             if source._file is None:
                 source._file = source.environment.sequence_file(source.path)
-            if not source._file.has_targets or not source._file.has_mask:
+            if not source._file.has_targets:
+                raise ValueError("fitting sources require t0/t1 target columns")
+            if self.training_mask == "is_scored" and not source._file.has_mask:
                 raise ValueError("fitting sources require t0/t1 and is_scored columns")
 
     def __getitem__(self, index: int) -> dict[str, torch.Tensor]:
@@ -76,7 +90,10 @@ class SequenceRecords(Dataset):
             raise ValueError("raw112/full-sequence training schema mismatch")
         if not torch.isfinite(x).all() or not torch.isfinite(y).all():
             raise ValueError(f"nonfinite source sequence: {split}/{group}")
-        mask = mask.clone()
+        if self.training_mask == "all_after_warmup":
+            mask = torch.ones_like(mask, dtype=torch.bool)
+        else:
+            mask = mask.clone()
         mask[:WARMUP] = False
         teacher = torch.zeros_like(y)
         hints = torch.zeros(SEQUENCE_LENGTH, self.hint_dim)
@@ -99,28 +116,61 @@ class SequenceData:
     normalization_sequences: int
 
     def normalization(self) -> tuple[torch.Tensor, torch.Tensor]:
-        """Estimate raw-input moments from a fixed fitting-only sequence prefix.
+        """Resolve source-bound raw-input moments from fitting members only.
 
         Float64 moment accumulation is preprocessing, not mixed-precision training.
         All model buffers and input tensors are serialized and consumed as FP32.
         """
-        total = np.zeros(N_FEATURES, np.float64)
-        square = np.zeros_like(total)
-        count = 0
-        for index in range(min(len(self.fit), self.normalization_sequences)):
-            split, group = self.fit.members[index]
-            source = self.fit.sources[split]
+        normalization = self.provenance["normalization"]
+        scope = normalization["scope"]
+        if scope == "all_fit":
+            members = list(self.fit.members)
+        elif scope == "prefix":
+            members = self.fit.members[: min(len(self.fit), self.normalization_sequences)]
+        else:
+            raise ValueError("unsupported normalization scope")
+        if len(members) != normalization["sequence_count"]:
+            raise ValueError("normalization membership changed after data construction")
+
+        def read_features(source_name: str, group: int) -> np.ndarray:
+            """Read one selected fitting row group without labels or scoring masks."""
+            source = self.fit.sources[source_name]
             if source._file is None:
                 source._file = source.environment.sequence_file(source.path)
-            x = source._file.read(group, targets=False, mask=False).features.astype(np.float64)
-            if not np.isfinite(x).all():
-                raise ValueError("nonfinite normalization input")
-            total += x.sum(0)
-            square += np.square(x).sum(0)
-            count += len(x)
-        mean = total / count
-        std = np.sqrt(np.maximum(square / count - mean**2, 0)).clip(0.001)
-        return torch.from_numpy(mean.astype(np.float32)), torch.from_numpy(std.astype(np.float32))
+            return source._file.read(group, targets=False, mask=False).features
+
+        source_root = self.fit.sources[members[0][0]].environment.root.resolve()
+        source_fingerprints = normalization["source_fingerprints"]
+        if scope == "all_fit":
+            result = load_or_compute_full_fit_moments(
+                source_root / "cache" / "sequence_normalization",
+                source_fingerprints,
+                self.provenance["split_sha256"],
+                members,
+                read_features,
+                feature_count=N_FEATURES,
+            )
+        else:
+            identity = build_normalization_identity(
+                source_fingerprints,
+                self.provenance["split_sha256"],
+                members,
+                scope,
+                N_FEATURES,
+            )
+            mean, std = compute_population_moments(
+                members, read_features, feature_count=N_FEATURES
+            )
+            result = NormalizationMoments(
+                mean,
+                std,
+                normalization_identity_sha256(identity),
+                moments_sha256(mean, std),
+                len(members),
+            )
+        normalization["identity_sha256"] = result.identity_sha256
+        normalization["moments_sha256"] = result.moments_sha256
+        return torch.from_numpy(result.mean), torch.from_numpy(result.std)
 
 
 def permuted_hint_members(
@@ -173,6 +223,21 @@ def build_data(
         if config["hint_mode"] == "component_permuted"
         else None
     )
+    training_mask = config.get("training_mask", "is_scored")
+    normalization_scope = config.get("normalization_scope", "prefix")
+    if training_mask not in ("is_scored", "all_after_warmup"):
+        raise ValueError("unsupported sequence training mask")
+    if normalization_scope not in ("prefix", "all_fit"):
+        raise ValueError("unsupported normalization scope")
+    normalization_members = (
+        members
+        if normalization_scope == "all_fit"
+        else members[: min(len(members), config.get("normalization_sequences", 32))]
+    )
+    normalization_sources = {
+        f"datasets/{source}.parquet": raw["sources"][f"datasets/{source}.parquet"]
+        for source in sorted({source for source, _ in normalization_members})
+    }
     provenance = {
         "split_sha256": split.sha256,
         "fold": split.fold,
@@ -180,19 +245,40 @@ def build_data(
         "fit_members": [list(member) for member in members],
         "evaluation_members": [["valid", group] for group in split.evaluation_groups],
         "input_schema": "raw112-v1",
-        "mask": "is_scored AND row_index>=99",
+        "mask": (
+            "all_after_warmup AND row_index>=99"
+            if training_mask == "all_after_warmup"
+            else "is_scored AND row_index>=99"
+        ),
+        "training_mask": training_mask,
         "normalization": {
-            "fit_prefix_sequences": min(len(members), config["normalization_sequences"])
+            "scope": normalization_scope,
+            "sequence_count": len(normalization_members),
+            "source_fingerprints": normalization_sources,
+            **(
+                {"fit_prefix_sequences": len(normalization_members)}
+                if normalization_scope == "prefix"
+                else {}
+            ),
         },
         "teacher": None if cache is None else cache.identity,
         "hint_mode": config["hint_mode"],
         "hint_members": None if hint_members is None else [list(member) for member in hint_members],
     }
-    fit = SequenceRecords(data_root, members, hint_dim, cache, hint_members)
+    fit = SequenceRecords(
+        data_root,
+        members,
+        hint_dim,
+        cache,
+        hint_members,
+        training_mask=training_mask,
+    )
     fit.validate_source_schema()
+    evaluation = SequenceRecords(data_root, [("valid", g) for g in split.evaluation_groups], 0)
+    evaluation.validate_source_schema()
     return SequenceData(
         fit,
-        SequenceRecords(data_root, [("valid", g) for g in split.evaluation_groups], 0),
+        evaluation,
         split,
         provenance,
         config["normalization_sequences"],
