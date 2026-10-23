@@ -109,7 +109,13 @@ def load_checkpoint_member(
         for name, tensor in model.items()
     }
     state = strip_dynamics_auxiliary_state(state)
-    input_layout = native_input_metadata(args, state, checkpoint.get("n_in"))
+    input_layout = native_input_metadata(
+        args,
+        state,
+        checkpoint.get("n_in"),
+        checkpoint.get("research_feature_prior"),
+        checkpoint.get("provenance"),
+    )
     if "head.2.weight" not in state or "head.2.bias" not in state:
         raise ValueError(f"{run}: checkpoint lacks the expected two-layer output head")
     if state["head.2.weight"].shape[0] < 2 or state["head.2.bias"].shape[0] < 2:
