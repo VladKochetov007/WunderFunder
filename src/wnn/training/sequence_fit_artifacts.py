@@ -108,7 +108,7 @@ def record_epoch_metrics(
     summary: Mapping[str, int | float | bool],
     epoch: int,
     global_step: int,
-    learning_rate: float,
+    learning_rates: Mapping[str, float],
 ) -> bool:
     """Append one aggregate epoch row after training and before its safe checkpoint."""
     if recorder is None:
@@ -120,7 +120,7 @@ def record_epoch_metrics(
         step=global_step,
         epoch=epoch + 1,
         loss=float(summary["total_loss"]),
-        learning_rates={"adamw": learning_rate},
+        learning_rates=dict(learning_rates),
         throughput={
             "valid_rows_per_second": valid / max(elapsed, 1e-12),
             "forwarded_rows_per_second": forwarded / max(elapsed, 1e-12),

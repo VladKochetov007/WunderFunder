@@ -103,11 +103,13 @@ legacy recurrent CLI or claim parity with historical anchored-window recipes.
 - `sequence_fit`, `sequence_fit_utils`, `sequence_fit_modes`, `sequence_fit_artifacts`,
   `sequence_checkpoint`, `sequence_provenance`, `sequence_profile`: CUDA
   orchestration, approved real-shape profiles, fixed-final checkpoints and safe resume.
+- `sequence_optimizer`, `sequence_fit_utils`, `sequence_optimizer_telemetry`, `sequence_update`: semantic FP32 Muon/AdamW groups, explicit LR schedules, optimizer identity and CUDA-event timing.
 - `sequence_predict`, `sequence_score`: disjoint distributed exports and a
   model-independent official held-out grade from complete immutable predictions.
 
 Prepared checks are in `tests/test_b300_sequence_models.py`,
-`tests/test_b300_sequence_contracts.py` and `scripts/check_sequence_ddp.py`.
+`tests/test_b300_sequence_contracts.py` and `scripts/check_sequence_ddp.py`; R3 adds `tests/test_sequence_muon.py`,
+`tests/test_sequence_recovery_cuda.py` and `scripts/check_sequence_muon_ddp.py`.
 They must run on the receiving host; this delivery executed no local tests or models.
 
 ## Quality checks

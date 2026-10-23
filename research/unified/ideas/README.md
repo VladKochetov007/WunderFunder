@@ -1,6 +1,8 @@
 # Ideas and hypotheses
 
-[Large causal teacher R2: 630M versus 1.54B on eight B300s](../../experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/README.md) — [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32); four fixed six-epoch fits, code prepared, remote acceptance/results pending.
+[Large teacher R3 — Muon, 30 epochs, complete parameters](../../experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/README.md) — [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32); replaces four unlaunched R2 cells. Includes FP32 Muon groups, 5% warmup/cosine schedule, accumulation8, parameter rationale and receiver peak-LR/recovery/DDP checks. Code/static preparation only; no GPU, fit, optimum or quality evidence.
+
+[Large causal teacher R2: 630M versus 1.54B on eight B300s](../../experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/README.md) — [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32); historical four-fit six-epoch AdamW proposal, superseded prospectively by R3; no GPU results.
 
 [B300 Transformer and distillation runtime](../../experiment_drafts/b300-transformer-distillation-runtime/README.md)
 implements a strict-FP32 causal raw112 teacher, source-qualified fitting caches,

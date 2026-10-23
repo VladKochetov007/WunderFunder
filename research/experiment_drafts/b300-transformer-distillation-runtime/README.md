@@ -1,10 +1,11 @@
 # B300 Transformer teacher and distillation runtime
 
-**23 October update:** [Large teacher R2](large_teacher_r2/README.md) is the current
-strong-teacher preparation: 630M versus 1.54B, four full-data six-epoch fits on
-eight B300s, full-fit normalization, corrected training masks and receiver checks.
-The R1 recipes and panels below are historical and remain unchanged. No GPU
-execution or quality result is established for R2.
+**23 October amendment:** [Large teacher R3 — Muon / 30 epochs](large_teacher_r3_muon30/README.md)
+is the current four-fit preparation for eight B300s. [All parameters and schedule](large_teacher_r3_muon30/PARAMETERS.md)
+include strict-FP32 Muon, 5% warmup, cosine-to-10%, accumulation8 and remote
+peak-LR/recovery checks. It replaces the unlaunched [six-epoch AdamW R2](large_teacher_r2/README.md).
+R1/R2 recipes remain historical and unchanged. No GPU execution or quality result
+is established for R3.
 
 Implemented, **not executed on a GPU**. No local tests, model imports, training,
 inference or profiles were run for this delivery. Static review is not a B300

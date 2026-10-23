@@ -30,6 +30,8 @@ from wnn.training.sequence_objectives import (
     scaled_objective,
     window_denominators,
 )
+from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
+from wnn.training.sequence_update import finish_update
 
 
 @dataclass(frozen=True)
@@ -123,37 +125,6 @@ def _window_denominators(
     return global_denominators
 
 
-def _finish_update(
-    model: torch.nn.Module,
-    optimizer: torch.optim.Optimizer,
-    scheduler: torch.optim.lr_scheduler.LambdaLR,
-    context: DistributedContext,
-    gradient_clip: float,
-) -> torch.Tensor:
-    """Agree on finite gradients, measure preclip norm, step, and validate parameters."""
-    gradient_flags = [
-        torch.isfinite(parameter.grad).all()
-        for parameter in model.parameters()
-        if parameter.grad is not None
-    ]
-    gradients_finite = bool(torch.stack(gradient_flags).all()) if gradient_flags else False
-    if not all_ranks_true(gradients_finite, context):
-        raise FloatingPointError("nonfinite gradients detected consistently across torchrun ranks")
-    norm = torch.nn.utils.clip_grad_norm_(
-        model.parameters(), gradient_clip, error_if_nonfinite=False
-    )
-    if not all_ranks_true(bool(torch.isfinite(norm)), context):
-        raise FloatingPointError("nonfinite preclip gradient norm detected across torchrun ranks")
-    optimizer.step()
-    scheduler.step()
-    parameter_flags = [torch.isfinite(parameter).all() for parameter in model.parameters()]
-    parameters_finite = bool(torch.stack(parameter_flags).all()) if parameter_flags else False
-    if not all_ranks_true(parameters_finite, context):
-        raise FloatingPointError("nonfinite model parameter detected after optimizer update")
-    optimizer.zero_grad(set_to_none=True)
-    return norm.detach()
-
-
 def _window_record(
     stats: torch.Tensor,
     denominators: torch.Tensor,
@@ -167,7 +138,7 @@ def _window_record(
     gradient_clip: float,
     kd_weight: float,
     hint_weight: float,
-) -> dict[str, int | float]:
+) -> dict[str, object]:
     """Convert global sufficient sums and this rank's diagnostics into a JSON row."""
     label_denom = float(denominators[0].item())
     hint_denom = float(denominators[1].item())
@@ -247,6 +218,7 @@ def train_epoch(
             intervals = chunk_intervals[window_start : window_start + accumulation]
             denominators = _window_denominators(target, mask, hints, intervals, context)
             optimizer.zero_grad(set_to_none=True)
+            rates = optimizer_learning_rates(optimizer)
             lr = float(optimizer.param_groups[0]["lr"])
             state, local_stats = _backward_window(
                 model,
@@ -263,7 +235,7 @@ def train_epoch(
                 config,
                 context,
             )
-            gradient_norm = _finish_update(
+            gradient_norm, optimizer_seconds = finish_update(
                 model, optimizer, scheduler, context, float(config["grad_clip"])
             )
             updates += 1
@@ -286,6 +258,8 @@ def train_epoch(
                 float(config["kd_weight"]),
                 float(config["hint_weight"]),
             )
+            record["learning_rates"] = rates
+            record["optimizer_seconds"] = optimizer_seconds
             rank_log.write(record)
         state = None
     return EpochResult(updates, True, total_count, time.perf_counter() - started)

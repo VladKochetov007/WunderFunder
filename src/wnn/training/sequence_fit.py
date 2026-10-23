@@ -28,6 +28,7 @@ from wnn.training.sequence_fit_utils import (
     total_updates,
 )
 from wnn.training.sequence_models import build_sequence_model
+from wnn.training.sequence_optimizer_telemetry import optimizer_contract
 from wnn.training.sequence_profile import run_profile
 from wnn.training.sequence_provenance import (
     assert_same_identity,
@@ -151,6 +152,7 @@ def run_sequence_fit(
                 if parameter.requires_grad
             ),
         }
+        identity["optimizer"] = optimizer_contract(optimizer, config, schedule_updates)
         assert_same_identity(identity, context)
         if receipt_path is None:
             profile_hash = None

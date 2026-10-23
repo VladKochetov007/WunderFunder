@@ -34,6 +34,7 @@ from wnn.training.sequence_fit_utils import (
     truncate_with_evidence,
 )
 from wnn.training.sequence_loop import train_epoch
+from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
 
 
 def _load_resume(
@@ -183,8 +184,9 @@ def run_full_fit(
         global_step += result.updates
         summary = epoch_summary(result, config)
         history.append({"epoch": epoch, **summary})
+        epoch_rates = optimizer_learning_rates(optimizer)
         coordinated_call(
-            lambda current_summary=summary, current_epoch=epoch, current_step=global_step, current_rate=float(optimizer.param_groups[0]["lr"]): (
+            lambda current_summary=summary, current_epoch=epoch, current_step=global_step, current_rate=epoch_rates: (
                 record_epoch_metrics(
                     recorder,
                     current_summary,
