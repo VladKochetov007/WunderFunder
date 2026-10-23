@@ -20,6 +20,7 @@ from wnn.training.sequence_fit_utils import (
 )
 from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_optimizer import build_sequence_muon_optimizer
+from wnn.training.sequence_optimizer_telemetry import optimizer_contract
 
 
 def _transformer_config() -> dict[str, object]:
@@ -35,6 +36,18 @@ def _transformer_config() -> dict[str, object]:
         "hint_dim": 0,
         "hint_projection": "learned",
     }
+
+
+def test_optimizer_contract_preserves_identity_across_profile_json() -> None:
+    """A written profile must compare equal to the live full-fit identity."""
+    config = _muon_config() | {"warmup_fraction": 0.05}
+    model = build_sequence_model(_transformer_config())
+    optimizer = build_sequence_muon_optimizer(model, config)
+    contract = optimizer_contract(optimizer, config, 100)
+
+    assert json.loads(json.dumps(contract)) == contract
+    assert all(isinstance(group["betas"], list) for group in contract["groups"])
+    assert all(isinstance(group["betas"], tuple) for group in optimizer.param_groups)
 
 
 def _muon_config() -> dict[str, object]:

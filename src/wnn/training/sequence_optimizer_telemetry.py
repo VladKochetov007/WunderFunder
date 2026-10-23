@@ -5,6 +5,8 @@ from collections.abc import Mapping
 
 import torch
 
+from wnn.training.sequence_provenance import json_value
+
 
 def optimizer_learning_rates(optimizer: torch.optim.Optimizer) -> dict[str, float]:
     """Name every actual hybrid group instead of labelling all rates AdamW."""
@@ -36,7 +38,7 @@ def optimizer_contract(
         "strict_fp32",
     )
     for index, group in enumerate(optimizer.param_groups):
-        record = {field: group[field] for field in fields if field in group}
+        record = {field: json_value(group[field]) for field in fields if field in group}
         record["group_name"] = str(group.get("group_name", f"group_{index}"))
         record["parameter_count"] = sum(parameter.numel() for parameter in group["params"])
         record["matrix_update_scale"] = (
