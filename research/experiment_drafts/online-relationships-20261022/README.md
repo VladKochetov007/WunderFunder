@@ -2,6 +2,8 @@
 
 ## Terminal: original worker cap reached with seven saved heads
 
+[Draft PR #38](https://github.com/VladKochetov007/WunderFunder/pull/38) now reports this terminal status. The [verified publication receipt](TERMINAL_PUBLICATION_R1.json) binds its exact body, unchanged draft/head/base, and pushed root evidence commit. No PR source update, merge, new fit or competition upload occurred.
+
 The worker ended at 03:10:32 Kyiv on October23 with `Result=timeout`, after 7,800.451 service seconds. [Terminal accounting and epoch records](PANEL_TERMINAL_R1.json), [target-free inventory](TERMINAL_COLLECTION_R1.json) and [independent metadata review](TERMINAL_METADATA_REVIEW_R1.json) preserve seven complete head exports: all six F0 heads and F1/lag1/A. F1/lag1/B stopped after epochs0–1 without a checkpoint; four heads never started. Both parent caches remain on approved physical scratch. All 27 runtime/15 grader source hashes match, and the seven NPY headers include exact byte counts. Prediction payload digests, parent endpoint coverage and target quality are not independently validated here.
 
 The complete-panel grader stays closed; there is no scientific quality conclusion or native release. The one-hour allocation proposal remains unanswered and unapproved. Original admission/recipe/snapshot bytes are preserved; no retry or allocation change occurred. A continuation needs that budget decision and fresh bounded recovery admission, with completed files retained and the interrupted head's refitting cost counted. The create-only full-panel CLI cannot simply rerun over these outputs.
