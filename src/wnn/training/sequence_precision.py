@@ -13,6 +13,8 @@ from typing import Literal
 
 import torch
 
+from wnn.training.sequence_compile import COMPILER_RECOMPILE_LIMIT
+
 PrecisionMode = Literal["fp32", "tf32", "bf16", "fp32_bf16x9", "bf16_bf16x9"]
 PRECISION_MODES = ("fp32", "tf32", "bf16", "fp32_bf16x9", "bf16_bf16x9")
 EMULATION_ENV = "CUBLAS_EMULATE_SINGLE_PRECISION"
@@ -187,4 +189,17 @@ def runtime_precision_identity(
     model = config.get("model")
     backend = str(model.get("attention_backend", "math")) if isinstance(model, Mapping) else "math"
     precision = precision_identity(str(config.get("precision_mode", "fp32")), backend)
-    return dict(runtime) | {"attention_backend": backend, "precision": precision}
+    compiled = bool(model.get("compile_blocks", False)) if isinstance(model, Mapping) else False
+    compiler = {
+        "enabled": compiled,
+        "backend": "inductor" if compiled else None,
+        "mode": "default" if compiled else None,
+        "fullgraph": False,
+        "dynamic": None,
+        "recompile_limit": COMPILER_RECOMPILE_LIMIT if compiled else None,
+    }
+    return dict(runtime) | {
+        "attention_backend": backend,
+        "precision": precision,
+        "compiler": compiler,
+    }

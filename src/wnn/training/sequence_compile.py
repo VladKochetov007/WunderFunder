@@ -6,6 +6,8 @@ from collections.abc import Callable
 
 from torch import nn
 
+COMPILER_RECOMPILE_LIMIT = 64
+
 
 def compile_transformer_blocks(blocks: nn.ModuleList, *, enabled: bool) -> bool:
     """Compile blocks in place, preserving module parameter and checkpoint paths.
@@ -20,6 +22,13 @@ def compile_transformer_blocks(blocks: nn.ModuleList, *, enabled: bool) -> bool:
         return False
     if len(blocks) == 0:
         raise RuntimeError("cannot compile an empty Transformer block list")
+
+    # The recipe has three KV lengths, full/tail row chunks, final partial batches,
+    # and train/eval variants. Bound those specializations without the default
+    # eight-frame cap permanently switching a long fit back to eager execution.
+    import torch._dynamo.config as dynamo_config
+
+    dynamo_config.recompile_limit = COMPILER_RECOMPILE_LIMIT
 
     compile_methods: list[Callable[..., object]] = []
     for index, block in enumerate(blocks):
