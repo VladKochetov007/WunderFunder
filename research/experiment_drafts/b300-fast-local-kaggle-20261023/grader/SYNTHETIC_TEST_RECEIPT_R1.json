@@ -1,0 +1,48 @@
+{
+  "schema": "wnn.age-readout-grader-synthetic-test.v1",
+  "status": "passed_synthetic_only",
+  "created_utc": "2026-10-23T09:07:44Z",
+  "grader_source_sha256": "52deddd3272506c5df83e5d7a42bd8a3fe7efc0178d8deb08bf84179fe1aa795",
+  "test_source_sha256": "6b2bc131dfdc2198db7e32f12f40dbd39adea7028108b337bcfa8baebbecb04f",
+  "tests": {
+    "total": 10,
+    "passed": 10,
+    "failed": 0,
+    "coverage": [
+      "actual actor prediction-sidecar/provenance builders validate as a complete synthetic candidate",
+      "source-qualified split membership allows equal numeric group IDs across train and valid",
+      "missing candidate artifact is rejected",
+      "main grade path does not call target loader after candidate-gate failure",
+      "changed candidate bytes are rejected",
+      "Fortran-order prediction arrays are rejected",
+      "changed candidate source bytes are rejected",
+      "bundle symlinks are rejected",
+      "same target bytes with changed transport mtime pass content pin; changed byte count fails",
+      "grade official-score wrapper matches canonical global_wp on synthetic arrays"
+    ]
+  },
+  "resource_bound": {
+    "cpu_cores": 1,
+    "rss_limit_bytes": 1500000000,
+    "peak_observed_rss_bytes": 737390592,
+    "max_observed_swap_kb": 0,
+    "successful_attempt_wall_seconds": 2.967,
+    "total_wall_seconds_including_retry": 3.270
+  },
+  "retry": {
+    "first_attempt_wall_seconds": 0.303,
+    "first_attempt_result": "process address-space RLIMIT_AS could not map libtorch_cpu.so; no test case started",
+    "successful_retry_wall_seconds": 2.967,
+    "successful_retry_result": "all ten synthetic tests passed",
+    "successful_retry_method": "1.5GB RLIMIT_DATA plus an RSS watchdog and one-CPU affinity"
+  },
+  "scope": {
+    "real_cache_opened": false,
+    "real_prediction_opened": false,
+    "real_target_archive_opened": false,
+    "real_labels_decoded": false,
+    "real_grade_run": false,
+    "fit_or_profile_run": false,
+    "scratch": "explicit physical-disk --tmp-root; temporary fixture directories cleaned after each case"
+  }
+}

@@ -1,5 +1,9 @@
 # Next cycle frontier
 
+## October23: age implementation verified; move heavy work toward Kaggle CPU
+
+The six-head age screen is implemented in canonical components and passes root correctness checks; the independent grader passes ten synthetic checks and actual pinned parent metadata. The first CPU profile reaches its60-second thermal-startdeadline before starting any child. The [operational amendment](../../experiment_drafts/b300-fast-local-kaggle-20261023/KAGGLE_CPU_DELIVERY_AMENDMENT_R1.json) prepares the same frozen six fits on KaggleCPU, transporting1.14GBof cached non-raw columns and rebuilding one16GBfold at a time from the original raw dataset with exact full-cache digest checks. No scientific fit or quality result yet. Engineering becomes1,200seconds within the unchanged7,200screen, charging local and remoteCPUtime together; protected production43,200seconds remains untouched. Actor/ops implement portable delivery; an independent critic reviews it before profile/fit admission. No local thermal threshold is weakened.
+
 ## October23: faster B300 ideas on local/Kaggle
 
 Latest user steering requests creative research, fresh reframing, faster local/Kaggle adaptations of B300 ideas, disk-only storage and new best submissions. The [new bounded contract](../../experiment_drafts/b300-fast-local-kaggle-20261023/CONTRACT_R1.json) reserves7200inclusive worker seconds from the unused strong-parent stage, within the original total and protected12hproduction reserve. Source-only independent scouting and fresh Kaggle quota inspection begin; no scientific fit yet. New scratch/cache root is `/home/vlad/development/wunder/research_disk/b300-fast-20261023`. CPU package was92°C while research was idle; require cooling and CPU-aware thermal control before heavy admission. The earlier online timeout and unapproved extension remain unchanged history.

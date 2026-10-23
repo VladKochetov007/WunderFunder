@@ -1,5 +1,9 @@
 # Current project state
 
+## October23: local heat defers the age profile; portable Kaggle CPU delivery under preparation
+
+The [age-screen implementation and independent grader](../research/experiment_drafts/b300-fast-local-kaggle-20261023/README.md) pass their correctness checks. No local profile child started because the laptop stayed above the cooling gate. The [Kaggle CPU amendment](../research/experiment_drafts/b300-fast-local-kaggle-20261023/KAGGLE_CPU_DELIVERY_AMENDMENT_R1.json) keeps the six scientific fits and original recipe unchanged while preparing a small suffix transport and exact reconstructed-cache validation. Engineering allowance increases within the existing7,200seconds; no extra total allocation or production spending. No new quality result or submission yet.
+
 ## October23: faster B300 ideas selected for local/Kaggle research
 
 The latest user steering authorizes a bounded [field-age readout screen](../research/experiment_drafts/b300-fast-local-kaggle-20261023/README.md): six small heads on two exposed fold/seed cells, zero new GRU or teacher fits. Up to 7,200 inclusive seconds are reserved from unused strong-parent allocation; the 30-hour total and 12-hour production reserve remain fixed. All new storage uses physical disk outside `/tmp` and `/dev/shm`. Reused cache bytes and headers pass verification; runtime admission is pending. Kaggle CPU grading is prepared because fresh unreserved GPU quota is only 1,635.575 seconds. No new quality result or submission yet; the earlier incomplete online panel is unchanged.
