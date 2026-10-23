@@ -7,9 +7,8 @@ from dataclasses import dataclass
 import torch
 from torch import Tensor, nn
 from torch.nn import functional as F
-from torch.nn.attention import SDPBackend, sdpa_kernel
 
-ATTENTION_QUERY_ROWS = 256
+from wnn.training.sequence_attention_backends import LocalCausalAttention
 
 
 @dataclass(frozen=True)
@@ -26,47 +25,13 @@ def _rotate(values: Tensor, positions: Tensor, inverse_frequency: Tensor) -> Ten
     angles = positions[:, None] * inverse_frequency[None, :]
     cosine = angles.cos()[None, None, :, :]
     sine = angles.sin()[None, None, :, :]
-    paired = values.reshape(*values.shape[:-1], -1, 2)
+    paired = values.float().reshape(*values.shape[:-1], -1, 2)
     even = paired[..., 0]
     odd = paired[..., 1]
-    return torch.stack((even * cosine - odd * sine, even * sine + odd * cosine), dim=-1).flatten(-2)
-
-
-def _bounded_attention(
-    query: Tensor,
-    key: Tensor,
-    value: Tensor,
-    query_start: int,
-    key_start: int,
-    context_rows: int,
-    dropout_p: float,
-) -> Tensor:
-    """Attend in fixed query blocks with an independent row-distance causal mask."""
-    query_rows = query.shape[-2]
-    key_rows = key.shape[-2]
-    outputs: list[Tensor] = []
-    for query_offset in range(0, query_rows, ATTENTION_QUERY_ROWS):
-        query_end = min(query_offset + ATTENTION_QUERY_ROWS, query_rows)
-        absolute_start = query_start + query_offset
-        absolute_end = query_start + query_end
-        first_key = max(0, absolute_start - (context_rows - 1) - key_start)
-        end_key = min(key_rows, absolute_end - key_start)
-        key_offset = torch.arange(first_key, end_key, device=query.device)
-        query_positions = torch.arange(absolute_start, absolute_end, device=query.device)
-        key_positions = key_offset + key_start
-        distances = query_positions[:, None] - key_positions[None, :]
-        allowed = (distances >= 0) & (distances < context_rows)
-        with sdpa_kernel(SDPBackend.MATH):
-            attended = F.scaled_dot_product_attention(
-                query[..., query_offset:query_end, :],
-                key[..., first_key:end_key, :],
-                value[..., first_key:end_key, :],
-                attn_mask=allowed[None, None, :, :],
-                dropout_p=dropout_p,
-                is_causal=False,
-            )
-        outputs.append(attended)
-    return torch.cat(outputs, dim=-2)
+    rotated = torch.stack((even * cosine - odd * sine, even * sine + odd * cosine), dim=-1).flatten(
+        -2
+    )
+    return rotated.to(dtype=values.dtype)
 
 
 class CausalTransformerBlock(nn.Module):
@@ -78,6 +43,7 @@ class CausalTransformerBlock(nn.Module):
         heads: int,
         ff_width: int,
         dropout: float,
+        attention_backend: str = "math",
     ) -> None:
         super().__init__()
         self.hidden = hidden
@@ -90,6 +56,7 @@ class CausalTransformerBlock(nn.Module):
         self.feedforward_in = nn.Linear(hidden, ff_width)
         self.feedforward_out = nn.Linear(ff_width, hidden)
         self.residual_dropout = nn.Dropout(dropout)
+        self.local_attention = LocalCausalAttention(attention_backend)
         self.register_buffer(
             "rotary_inverse_frequency",
             1.0
@@ -114,11 +81,17 @@ class CausalTransformerBlock(nn.Module):
         positions = torch.arange(start_position, start_position + rows, device=values.device)
         query = _rotate(query, positions, self.rotary_inverse_frequency)
         current_key = _rotate(current_key, positions, self.rotary_inverse_frequency)
-        all_key = torch.cat((past_key, current_key), dim=-2)
-        all_value = torch.cat((past_value, current_value), dim=-2)
+        all_key = torch.cat((past_key.float(), current_key.float()), dim=-2)
+        all_value = torch.cat((past_value.float(), current_value.float()), dim=-2)
         key_start = start_position - past_key.shape[-2]
-        attended = _bounded_attention(
-            query, all_key, all_value, start_position, key_start, context_rows, dropout_p
+        attended = self.local_attention(
+            query,
+            all_key.to(dtype=query.dtype),
+            all_value.to(dtype=query.dtype),
+            start_position,
+            key_start,
+            context_rows,
+            dropout_p,
         )
         attended = attended.transpose(1, 2).reshape(batch, rows, self.hidden)
         values = values + self.residual_dropout(self.attention_output(attended))

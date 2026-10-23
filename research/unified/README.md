@@ -1,5 +1,9 @@
 # Unified research library
 
+October 24 PR32 execution: [Blackwell throughput amendment and measured profiles](../experiment_drafts/b300-transformer-distillation-runtime/BLACKWELL_THROUGHPUT_20261024.md).
+Four 30-epoch teachers are authorized on eight B300s; precision/backend/layout
+comparisons are engineering work and do not count as completed scientific fits.
+
 Start with [current state](../../specs/current-state.md) and the
 [accepted local/Kaggle plan](../../specs/plans/2026-10-20-plateau-review-local-kaggle.md).
 The user requested implementation of the October 20 cycle with 15 local GPU-hours

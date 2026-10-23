@@ -31,6 +31,7 @@ from wnn.training.sequence_objectives import (
     window_denominators,
 )
 from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
+from wnn.training.sequence_precision import backward_context, forward_context
 from wnn.training.sequence_update import finish_update
 
 
@@ -81,9 +82,17 @@ def _backward_window(
             if isinstance(model, DistributedDataParallel) and not final_microchunk
             else nullcontext()
         )
-        with sync_context, sdpa_kernel(SDPBackend.MATH):
-            prediction, hint_prediction, next_state = model(x[:, start:stop], state)
+        attention_backend = str(config["model"].get("attention_backend", "math"))
+        attention_context = (
+            sdpa_kernel(SDPBackend.MATH) if attention_backend == "math" else nullcontext()
+        )
+        mode = str(config.get("precision_mode", "fp32"))
+        with sync_context, attention_context:
+            with forward_context(mode, context.device.type):
+                prediction, hint_prediction, next_state = model(x[:, start:stop], state)
             state = detach_state(next_state)
+            prediction = prediction.float()
+            hint_prediction = hint_prediction.float()
             numerators = objective_numerators(
                 prediction,
                 hint_prediction,
@@ -100,7 +109,8 @@ def _backward_window(
                 float(config["hint_weight"]),
             )
             _check_finite_loss(loss, context)
-            loss.backward()
+            with backward_context(mode, context.device.type):
+                loss.backward()
         local_stats[:5] += detached_sums(numerators, target[:, start:stop], mask[:, start:stop])
         local_stats[5] += real_sequence_count * (stop - start)
     return state, local_stats

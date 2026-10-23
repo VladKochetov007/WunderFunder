@@ -14,6 +14,7 @@ from wnn.data import SEQUENCE_LENGTH
 from wnn.splits import file_sha256, load_campaign_split
 from wnn.training.sequence_data import SequenceRecords
 from wnn.training.sequence_models import build_sequence_model
+from wnn.training.sequence_precision import forward_context
 
 # Checkpoint payloads contain tensors and JSON-compatible provenance, validated on load.
 
@@ -46,11 +47,13 @@ def predict_sequence(
     """Reset once per sequence, forward every warm-up row, and carry bounded causal state."""
     state = None
     outputs = []
+    precision_mode = str(getattr(model, "precision_mode", "fp32"))
     for start in range(0, len(x), chunk_rows):
-        prediction, hints, state = model(
-            x[start : start + chunk_rows].unsqueeze(0).to(device), state
-        )
-        outputs.append(torch.cat((prediction, hints), -1).squeeze(0).cpu().numpy())
+        with forward_context(precision_mode, device.type):
+            prediction, hints, state = model(
+                x[start : start + chunk_rows].unsqueeze(0).to(device), state
+            )
+        outputs.append(torch.cat((prediction.float(), hints.float()), -1).squeeze(0).cpu().numpy())
     values = np.concatenate(outputs).astype(np.float32, copy=False)
     if not np.isfinite(values).all():
         raise ValueError("nonfinite endpoint output")
