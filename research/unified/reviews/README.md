@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+- [Independent online terminal metadata review](../../experiment_drafts/online-relationships-20261022/TERMINAL_METADATA_REVIEW_R1.json) accepts the seven-head inventory for metadata preservation and keeps full-panel grading closed because five candidates are absent. Runtime/grader source pins, twelve cell identities and seven exact NPY headers agree. Parent endpoint validation, prediction payload hashes and target quality remain unmeasured; timeout is an execution stop rather than a scientific failure.
+
 - [H-396 event-triggered GRU feasibility](H396_EVENT_TRIGGERED_GRU_FEASIBILITY_20261023_R1.md) — independent source review finds no skip-state API in the current PyTorch/native paths. A compiled native branch could retain hidden state while current features/projection/readout still advance. Defines zero-mode parity, reset, novelty and backend/readout requirements; identifies exact reused parents and distinguishes readout cell seeds from parent ancestry. No data, builds, fits, replays, runtime or quality measurements; zero new fits does not imply cheap execution.
 
 - [Independent critique of the October23 reframe](FRESH_REFRAME_CARDS_CRITIQUE_20261023_R1.md) — source-only review of H-395/396/397 and existing per-channel age. Corrects the full raw/proposed/deranged comparison to six fits, ranks the zero-fit replay by cost, and identifies required controls, causal/deterministic-serving checks and official-score limitations. No data scan, replay, fit or runtime result.

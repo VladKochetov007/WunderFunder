@@ -1,15 +1,17 @@
 ---
 kind: experiment
-status: running
+status: delivery_incomplete_quality_unmeasured
 created_utc: 2026-10-22
-updated_utc: 2026-10-22
+updated_utc: 2026-10-23
 hypothesis_ids: [H-ONLINE-RELATIONSHIPS-20261022-R1]
 experiment_ids: [E-ONLINE-RELATIONSHIPS-20261022-R1]
 ---
 
 # Online input relationships with a task-trained residual readout
 
-Latest status: [user pause for reboot](../operations/REBOOT_PAUSE_20261022_R2.md); R2 full-path known cost10,804.254seconds exceeds9,000, source-reviewed B8 R3 profile never started, zero scientific fits. See the [packet terminal receipts](../../experiment_drafts/online-relationships-20261022/README.md). Earlier proposals/resume snapshots below remain history.
+Latest status: after the explicit postboot resume and new cost admission, the full panel reached its original worker cap with seven of twelve heads saved. [Terminal receipt](../../experiment_drafts/online-relationships-20261022/PANEL_TERMINAL_R1.json) and independent metadata review preserve complete F0 outputs and F1/lag1/A; the partial panel is ungraded and provides no mechanism conclusion. A budget extension remains unanswered/unapproved. The mean-only F0 lag variants report identical producer prediction digests, consistent with their zero-slope algebra; this suggests future control reuse, without changing the current panel or proving array coverage. See the [packet](../../experiment_drafts/online-relationships-20261022/README.md).
+
+Historical October22 status: [user pause for reboot](../operations/REBOOT_PAUSE_20261022_R2.md); R2 full-path known cost10,804.254seconds exceeded9,000, source-reviewed B8 R3 profile had not started, zero scientific fits at that time. Earlier proposals/resume snapshots below remain history.
 
 
 ## Resumed implementation profile

@@ -1,5 +1,11 @@
 # Next cycle frontier
 
+## Online worker ended at original cap; continuation not admitted
+
+[Terminal receipt](../../experiment_drafts/online-relationships-20261022/PANEL_TERMINAL_R1.json): original service timed out at 03:10:32 Kyiv, after 7,800.451 seconds. Seven head endpoints are saved (six F0 plus F1/lag1/A); F1/lag1/B lost unsaved epochs0–1, four heads never started. [Inventory](../../experiment_drafts/online-relationships-20261022/TERMINAL_COLLECTION_R1.json) and [independent review](../../experiment_drafts/online-relationships-20261022/TERMINAL_METADATA_REVIEW_R1.json) accept metadata only: all source pins and seven exact NPY headers agree, but complete twelve-head/fourteen-endpoint coverage is absent. No target grade, quality conclusion, promotion or retry.
+
+The user resume remains effective; this spending path is closed by its original worker cap. The revised +3,600-second allocation proposal is still unanswered/unapproved, so no transfer, service extension or new fit is admitted. Both caches and seven heads remain on physical scratch, original frozen records are unchanged, and production43,200seconds remain protected. Recovery must verify/reuse finished cells and account for refitting the interrupted head; the existing create-only panel command cannot be rerun over outputs. The CPU observer exited naturally. See [packet](../../experiment_drafts/online-relationships-20261022/README.md) for raw logs and the missed pre-cap resource-snapshot limitation. Earlier running snapshots below are history.
+
 ## Online complete twelve-fit panel running, October23
 
 [Single-invocation CPU observer](../../experiment_drafts/online-relationships-20261022/CPU_OBSERVER_EXECUTION_R1.json) is active from 02:41 Kyiv, freezing research at 97°C and thawing its own freeze at 90°C. Worker quota stays one core; no deadline or allocation extension. Four F0 head exports are present; [A lag1/16 sidecars report identical prediction digests](../../experiment_drafts/online-relationships-20261022/MEAN_ONLY_LAG_IDENTITY_R1.json). This is a target-free future control-reuse observation, not quality evidence or permission to alter the panel.

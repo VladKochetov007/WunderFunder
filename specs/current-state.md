@@ -1,5 +1,9 @@
 # Current project state
 
+## October23: online worker cap reached; incomplete panel
+
+The [terminal receipt](../research/experiment_drafts/online-relationships-20261022/PANEL_TERMINAL_R1.json) records timeout at the original deadline, 03:10:32 Kyiv. Seven of twelve head exports are saved; one head stopped after two unsaved epochs and four never started. Independent metadata review accepts seven exact NPY headers and all frozen source pins, but full-panel grading stays closed. No target-quality result or native release. The proposed one-hour transfer remains unanswered/unapproved; no retry or reallocation occurred. Both parent caches and completed heads are retained, the CPU observer has exited, and the 12-hour production reserve is protected. This is an execution-cost outcome, not evidence against online learning. User research-resume authority remains effective; further spending on this path needs the pending allocation decision.
+
 ## October23: online-learning screen admitted and running
 
 Both complete parent caches are published and the twelve-head fitting command is active. The [CPU safety correction](../research/experiment_drafts/online-relationships-20261022/CPU_THERMAL_CORRECTION_R1.json) reduces the worker to one CPU core; a [single-invocation observer](../research/experiment_drafts/online-relationships-20261022/CPU_OBSERVER_EXECUTION_R1.json) adds 97°C/90°C cooling with zero task swap. The original 7,800-second service deadline (03:10:31 Kyiv) and 9,000-second inclusive ceiling remain binding. The [updated timing review](../research/experiment_drafts/online-relationships-20261022/ROLLING_COST_REVIEW_R2.json) projects beyond that ceiling; the proposed one-hour transfer from unused strong-parent allocation is unanswered and unapproved. No partial-panel quality grading or native release is authorized by these operational findings.

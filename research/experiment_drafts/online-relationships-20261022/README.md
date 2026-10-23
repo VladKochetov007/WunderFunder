@@ -1,5 +1,13 @@
 # Online relationship screen — October22 amendment
 
+## Terminal: original worker cap reached with seven saved heads
+
+The worker ended at 03:10:32 Kyiv on October23 with `Result=timeout`, after 7,800.451 service seconds. [Terminal accounting and epoch records](PANEL_TERMINAL_R1.json), [target-free inventory](TERMINAL_COLLECTION_R1.json) and [independent metadata review](TERMINAL_METADATA_REVIEW_R1.json) preserve seven complete head exports: all six F0 heads and F1/lag1/A. F1/lag1/B stopped after epochs0–1 without a checkpoint; four heads never started. Both parent caches remain on approved physical scratch. All 27 runtime/15 grader source hashes match, and the seven NPY headers include exact byte counts. Prediction payload digests, parent endpoint coverage and target quality are not independently validated here.
+
+The complete-panel grader stays closed; there is no scientific quality conclusion or native release. The one-hour allocation proposal remains unanswered and unapproved. Original admission/recipe/snapshot bytes are preserved; no retry or allocation change occurred. A continuation needs that budget decision and fresh bounded recovery admission, with completed files retained and the interrupted head's refitting cost counted. The create-only full-panel CLI cannot simply rerun over these outputs.
+
+[Raw worker log](panel_execution_r1.log) and [CPU observer log](cpu_observer_r1.log) are preserved. The observer detected the worker ending and exited without a cooling freeze. The [post-terminal resource snapshot](PANEL_TERMINAL_RESOURCE_SNAPSHOT_R1.json) reports unavailable cgroup counters: the intended pre-cap durable capture was missed. Last live reports had zero OOM/swap; retained systemd peak memory is 3,999,997,952 bytes. The 12-hour production reserve remains protected. Earlier running/preparation/pause sections below are historical snapshots.
+
 ## Current execution: all twelve fits admitted and delivery running
 
 [CPU observer launched at 02:41 Kyiv](CPU_OBSERVER_EXECUTION_R1.json) adds whole-unit cooling at 97°C/90°C for the pinned invocation, under 5% CPU/150 MiB/no swap. It preserves the one-core worker, frozen sources and original deadline. Four F0 heads have published; the two completed mean-only lag variants report [identical prediction digests](MEAN_ONLY_LAG_IDENTITY_R1.json), a target-free finding without independent array validation or quality grading. The remaining panel is unchanged.
