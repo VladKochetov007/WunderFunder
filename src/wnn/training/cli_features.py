@@ -93,7 +93,7 @@ def add_features_arguments(ap: argparse.ArgumentParser) -> None:
         "--research-features",
         choices=RESEARCH_FEATURE_MODES,
         default="none",
-        help="append causal volume, moment, or raw-field age features before TBPTT",
+        help="append causal volume, moment, raw-field age, or TL3 lead-snapshot features before TBPTT",
     )
     ap.add_argument(
         "--research-feature-control",

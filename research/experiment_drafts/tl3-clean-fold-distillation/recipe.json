@@ -1,0 +1,105 @@
+{
+  "id": "E-TL3-CLEAN-KD-20261023-R1",
+  "hypothesis": "H-TL3-CLEAN-KD-20261023",
+  "status": "implemented_unrun",
+  "completed_fits": 0,
+  "base_commit": "b4365e01adef57f4a5c9313faecf26952f0f5287",
+  "scope": "New direct-teacher ablation with TL3 student and tied-lead teacher architectures, not historical TL3 recipe replay. All teachers are cold label-only fits; no production weights, warm initializers, propensity or family caches.",
+  "budget": {
+    "teacher_fits": 4,
+    "labels_student_fits": 2,
+    "kd_student_fits": 2,
+    "total_new_fits": 8,
+    "reused_fits": 0,
+    "amendment": "Four paired student fits plus four unavoidable clean teacher prerequisites. Explicit eight-fit panel exceeds the usual 4\u20136 initial screen to retain two teachers on two clean folds without unknown ancestry. No automatic expansion.",
+    "execution_authority": "Preparation only; no local tests/training, no remote fit started, no paid allocation."
+  },
+  "cells": [
+    {
+      "id": "F0",
+      "fold": 0,
+      "seed": 1001,
+      "teachers": [
+        2001,
+        2002
+      ],
+      "split_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+    },
+    {
+      "id": "F2",
+      "fold": 2,
+      "seed": 1002,
+      "teachers": [
+        2003,
+        2004
+      ],
+      "split_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9"
+    }
+  ],
+  "fit": {
+    "teacher_epochs": 4,
+    "student_epochs": 2,
+    "batch": 32,
+    "chunk": 2000,
+    "train_source": "train+valid, all eligible component groups",
+    "precision": "fp32",
+    "autocast": false,
+    "tf32": false,
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.01,
+    "scheduler": "onecycle",
+    "clip": 1,
+    "checkpoint_policy": "fixed_last_epoch",
+    "evaluation_during_fit": false,
+    "quantization": false,
+    "normalization": "canonical fitting-only two-batch estimate; state digest must match within student pair",
+    "order": "seeded epoch permutation; same fitting population, fixed drop-tail and updates within each pair",
+    "student_objective": "For each 2000-row TBPTT window: sum(w*(prediction-target)^2)/sum(w), w=abs(clip(y,-2,2))*valid, target=(1-alpha)*clip(y,-2,2)+alpha*clip(mean(two teachers),-2,2); alpha=0 versus0.5; one update per window; both arms consume identical caches.",
+    "teachers": "263 input, tiedlead encoder, H256 x2, labels-only WMSE; past i1 snapshot at most recent i0 price event",
+    "student": "211 input, linear projection, H256 x2, GELU head; cold paired initialization; no family head"
+  },
+  "metrics": {
+    "primary": "equal-cell mean of KD-minus-labels full-mixture official WP",
+    "full_mixture_weights": {
+      "student": 0.34,
+      "teacher_a": 0.33,
+      "teacher_b": 0.33
+    },
+    "teacher_only_weights": {
+      "teacher_a": 0.5,
+      "teacher_b": 0.5
+    },
+    "secondary": [
+      "standalone student",
+      "teacher-only",
+      "each full mixture vs teacher-only",
+      "per-target WP"
+    ],
+    "useful_delta": 0.0003,
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 231023,
+    "uncertainty": "paired component bootstrap conditional on fixed fits; two cells confound seed and fold; no significance claim",
+    "exposure": "F0/F2 previously inspected, component-disjoint fitting does not make a fresh holdout",
+    "decision": "both cells nonnegative and mean>=0.0003 warrants separately budgeted confirmation; mixed signs or zero-crossing interval remain uncertain; no adaptive coefficients/checkpoint selection"
+  },
+  "profile": {
+    "warmup_batches": 1,
+    "measured_batches": 2,
+    "minimum_free_fraction": 0.1,
+    "maximum_reserved_fraction": 0.9,
+    "device": "one B300 per cell, paired arms on same device/runtime",
+    "profiles_per_cell": [
+      "teacher_a",
+      "labels",
+      "kd"
+    ],
+    "profile_is_scientific_fit": false
+  },
+  "historical_reference": {
+    "portal_zip_sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569",
+    "source_snapshot_commit": "999f6af0",
+    "training_time_source_identity": "unknown; architecture reconstruction only",
+    "production_ancestry": "ineligible for clean-fold use"
+  }
+}

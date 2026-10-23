@@ -54,6 +54,16 @@ def record_provenance(run: TrainingRun) -> None:
         "checkpoint_sha256": {},
     }
     provenance["trainer_implementation"] = training_source_identity(environment)
+    if args.enc == "tiedlead":
+        tiedlead_sources = (
+            environment.source_root / "src/wnn/nn.py",
+            environment.source_root / "src/wnn/research_features.py",
+            environment.source_root / "src/wnn/tiedlead.py",
+        )
+        provenance["tiedlead_implementation"] = {
+            str(path.relative_to(environment.source_root)): file_sha256(path)
+            for path in tiedlead_sources
+        }
     if fit_subset is not None:
         provenance["fit_subset_manifest_sha256"] = args.fit_subset_manifest_sha256
         provenance["fit_subset_members_sha256"] = fit_subset["manifest"]["selected_members_sha256"]

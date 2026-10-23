@@ -139,9 +139,9 @@ def add_architecture_arguments(ap: argparse.ArgumentParser) -> None:
     ap.add_argument("--cell", choices=["gru", "lstm"], default="gru")
     ap.add_argument(
         "--enc",
-        choices=["linear", "mlp", "tokens", "conv"],
+        choices=["linear", "mlp", "tokens", "conv", "tiedlead"],
         default="linear",
-        help="per-row encoder before the recurrent cell (residual on the linear projection)",
+        help="per-row encoder before the recurrent cell; tiedlead requires --research-features tl3_lead",
     )
     ap.add_argument("--tok-dim", type=int, default=32)
     ap.add_argument("--att-layers", type=int, default=1)

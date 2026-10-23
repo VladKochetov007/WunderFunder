@@ -6,18 +6,26 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
+from wnn.tiedlead import (
+    TIEDLEAD_BOOK_WIDTH,
+    TIEDLEAD_INSTRUMENT_WIDTH,
+    TL3_LEAD_WIDTH,
+)
+
 if TYPE_CHECKING:
     import torch
 
 ENDPOINT = np.float32(-5.199337482452393)
 MOMENT_FEATURE_MODES = ("causal_moments", "causal_innovations")
 FIELD_AGE_FEATURE_MODES = ("group_age", "field_age")
+TL3_LEAD_NAMES = tuple(f"tl3_lead_i1_{index}" for index in range(TL3_LEAD_WIDTH))
 RESEARCH_FEATURE_MODES = (
     "none",
     "volume28",
     "volume28_current",
     *MOMENT_FEATURE_MODES,
     *FIELD_AGE_FEATURE_MODES,
+    "tl3_lead",
 )
 MOMENT_PROJECTION_WIDTH = 16
 MOMENT_FAST_HALF_LIFE = 32.0
@@ -61,6 +69,8 @@ def research_feature_names(mode: str) -> tuple[str, ...]:
         return moment_names
     if mode in FIELD_AGE_FEATURE_MODES:
         return tuple(f"{mode}_{index}" for index in range(112))
+    if mode == "tl3_lead":
+        return TL3_LEAD_NAMES
     return tuple(f"currentV_{index}" for index in range(22)) + (
         "current_step_path_first11",
         "current_step_path_last11",
@@ -151,6 +161,58 @@ def _field_age_features_torch(
         output[..., start:end] = (
             encoded if mode == "field_age" else encoded.expand(-1, -1, end - start)
         )
+    return output
+
+
+def _tl3_lead_features_numpy(raw: np.ndarray) -> np.ndarray:
+    """Gather the i1 raw block at each row's most recent causal i0 price event."""
+    from wnn.features import FEATURE_NAMES, event_features
+
+    event = event_features(raw)
+    event_index = FEATURE_NAMES.index("ev_i0px")
+    flags = event[..., event_index] > 0.5
+    flags[:, 0] = True
+    rows = np.broadcast_to(np.arange(raw.shape[1]), raw.shape[:2])
+    last_event = np.maximum.accumulate(np.where(flags, rows, 0), axis=1)
+    return np.take_along_axis(
+        raw[..., TIEDLEAD_INSTRUMENT_WIDTH:TIEDLEAD_BOOK_WIDTH],
+        last_event[..., None].repeat(TL3_LEAD_WIDTH, axis=-1),
+        axis=1,
+    )
+
+
+def _tl3_lead_features_torch(
+    raw: torch.Tensor, event: torch.Tensor | None, output: torch.Tensor | None
+) -> torch.Tensor:
+    """Gather the i1 raw block at the latest i0 price event, before chunking."""
+    import torch
+
+    from wnn.features import FEATURE_NAMES, N_EVENT_FEATURES, event_features_torch
+
+    if event is None:
+        event = event_features_torch(raw)
+    expected_event_shape = (*raw.shape[:2], N_EVENT_FEATURES)
+    if (
+        event.shape != expected_event_shape
+        or event.dtype != raw.dtype
+        or event.device != raw.device
+    ):
+        raise ValueError("TL3 lead event features must match the raw sequence batch")
+    flags = event[..., FEATURE_NAMES.index("ev_i0px")] > 0.5
+    flags = flags.clone()
+    flags[:, 0] = True
+    rows = torch.arange(raw.shape[1], device=raw.device).expand(raw.shape[0], -1)
+    last_event = torch.cummax(torch.where(flags, rows, torch.zeros_like(rows)), dim=1).values
+    lead = torch.gather(
+        raw[..., TIEDLEAD_INSTRUMENT_WIDTH:TIEDLEAD_BOOK_WIDTH],
+        1,
+        last_event[..., None].expand(-1, -1, TL3_LEAD_WIDTH),
+    )
+    if output is None:
+        return lead
+    if output.shape != lead.shape or output.dtype != raw.dtype or output.device != raw.device:
+        raise ValueError("TL3 lead output buffer must match the input batch, dtype, and device")
+    output.copy_(lead)
     return output
 
 
@@ -505,6 +567,9 @@ def research_features_numpy(
     if not names:
         output = np.empty((*x.shape[:2], 0), dtype=np.float32)
         return output[0] if squeeze else output
+    if mode == "tl3_lead":
+        output = _tl3_lead_features_numpy(x)
+        return output[0] if squeeze else output
     if mode in MOMENT_FEATURE_MODES:
         output = _causal_moment_features_numpy(x, mode, prior)
         if zero_width:
@@ -536,6 +601,7 @@ def research_features_torch(
     prior: Mapping[str, object] | None = None,
     output: torch.Tensor | None = None,
     control: str = "none",
+    event: torch.Tensor | None = None,
 ) -> torch.Tensor:
     """Match NumPy on full float32 raw sequences before autocast or TBPTT slicing."""
     import torch
@@ -548,6 +614,8 @@ def research_features_torch(
         raise ValueError("Extract endpoint features from original float32 inputs before autocast")
     if not names:
         return raw.new_empty((*raw.shape[:2], 0))
+    if mode == "tl3_lead":
+        return _tl3_lead_features_torch(raw, event, output)
     if mode in MOMENT_FEATURE_MODES:
         if prior is None:
             raise ValueError("causal moment features require a fitting-only prior")
@@ -704,8 +772,48 @@ class StreamingFieldAgeFeatures:
         return np.stack([self.update(row) for row in raw])
 
 
+class StreamingTL3Lead:
+    """Retain the latest causal i0 price-event snapshot of the i1 raw block."""
+
+    def __init__(self) -> None:
+        from wnn.data import I0, I1
+
+        self._event_columns = (I0.bid_px.start, I0.ask_px.start)
+        self._i1_columns = slice(I1.bid_px.start, I1.trade_vol.stop)
+        self.reset()
+
+    def reset(self) -> None:
+        """Clear the previous raw row and lead snapshot at a sequence boundary."""
+        self.previous: np.ndarray | None = None
+        self.lead: np.ndarray | None = None
+
+    def update(self, row: np.ndarray) -> np.ndarray:
+        """Use this row's i0 event flag, then return the current causal lead snapshot."""
+        raw = np.asarray(row, dtype=np.float32)
+        if raw.shape != (112,) or not np.isfinite(raw).all():
+            raise ValueError("Expected one finite float32 raw row of width112")
+        is_event = self.previous is None or all(
+            raw[column] != self.previous[column] for column in self._event_columns
+        )
+        if is_event:
+            self.lead = raw[self._i1_columns].copy()
+        self.previous = raw.copy()
+        if self.lead is None:
+            raise RuntimeError("TL3 lead snapshot was not initialized at sequence start")
+        return self.lead.copy()
+
+    def update_chunk(self, rows: np.ndarray) -> np.ndarray:
+        """Process a row chunk while carrying the event snapshot into the next chunk."""
+        raw = np.asarray(rows, dtype=np.float32)
+        if raw.ndim != 2 or raw.shape[1] != 112 or not np.isfinite(raw).all():
+            raise ValueError("Expected finite raw rows with shape (T,112)")
+        if not len(raw):
+            return np.empty((0, TL3_LEAD_WIDTH), dtype=np.float32)
+        return np.stack([self.update(row) for row in raw])
+
+
 class StreamingResearchFeatures:
-    """Keep O(1) per-sequence state matching the volume28 training transform."""
+    """Keep O(1) per-sequence state for supported causal research feature modes."""
 
     def __init__(
         self,
@@ -725,6 +833,7 @@ class StreamingResearchFeatures:
         self.field_ages = (
             StreamingFieldAgeFeatures(mode) if mode in FIELD_AGE_FEATURE_MODES else None
         )
+        self.tl3_lead = StreamingTL3Lead() if mode == "tl3_lead" else None
         if mode in MOMENT_FEATURE_MODES and self.causal_moments is None:
             raise ValueError("causal moment features require a fitting-only prior")
         self.reset()
@@ -736,6 +845,9 @@ class StreamingResearchFeatures:
             return
         if self.field_ages is not None:
             self.field_ages.reset()
+            return
+        if self.tl3_lead is not None:
+            self.tl3_lead.reset()
             return
         self.previous: np.ndarray | None = None
         self.origin: np.ndarray | None = None
@@ -750,6 +862,8 @@ class StreamingResearchFeatures:
             return self.causal_moments.update(raw)
         if self.field_ages is not None:
             return self.field_ages.update(raw)
+        if self.tl3_lead is not None:
+            return self.tl3_lead.update(raw)
         if not self.names:
             return np.empty(0, dtype=np.float32)
         volume = raw[22:44]
