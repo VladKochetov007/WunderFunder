@@ -1,0 +1,54 @@
+{
+  "age_invariants": {
+    "aba_exact": true,
+    "cap_exact": true,
+    "field_age": {
+      "batch_stream_exact": true,
+      "prefix_exact": true,
+      "range": [
+        0.0,
+        0.6931471824645996
+      ],
+      "reset_exact": true
+    },
+    "group_age": {
+      "batch_stream_exact": true,
+      "prefix_exact": true,
+      "range": [
+        0.0,
+        0.6931471824645996
+      ],
+      "reset_exact": true
+    },
+    "mask_invariance": "feature API receives only raw inputs and fixed mode"
+  },
+  "delivery_invariants": {
+    "batch_tail_order_exact": true,
+    "checkpoint_next_update_exact": true,
+    "evaluation_target_weight_invariance_exact": true,
+    "prediction_duplicates_and_incomplete_coverage_rejected": true,
+    "storage_root": "/home/vlad/development/wunder/research_disk/b300-fast-20261023/b300_scout/tmp"
+  },
+  "execution": {
+    "cuda_operations_requested": false,
+    "cuda_visible_to_process": true,
+    "root_observed_contemporaneous_cuda_context": "about 110 MiB; attribution to this process was not independently verified",
+    "selected_device": "cpu"
+  },
+  "runtime_invariants": {
+    "cublas_workspace_config": ":4096:8",
+    "cuda_allocator_cap_bytes": "4 GiB configured in CLI; GPU execution not tested",
+    "cuda_peak_memory_fields": "included in runtime receipt; GPU execution not tested",
+    "cuda_peak_stats_reset": "configured before profile or fit; GPU execution not tested",
+    "deterministic_algorithms_enabled": "asserted by the synthetic check"
+  },
+  "schema": "wnn.age-readout-synthetic-invariants.v1",
+  "scope": "synthetic CPU checks only; no cache, target, fit, profile, export, or grade access",
+  "source_manifest": "source/SOURCE_SHA256_R1.json",
+  "timing_seconds": {
+    "system": 0.97,
+    "user": 4.37,
+    "wall": 5.49
+  },
+  "zero_head_parent_parity": true
+}

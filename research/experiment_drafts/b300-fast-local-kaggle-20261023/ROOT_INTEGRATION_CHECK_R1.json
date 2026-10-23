@@ -1,0 +1,88 @@
+{
+  "schema": "wnn.age-readout-root-integration-check.v1",
+  "checks": [
+    {
+      "argv": [
+        "uv",
+        "run",
+        "ruff",
+        "format",
+        "scripts/age_readout_screen.py",
+        "scripts/check_age_readout_invariants.py",
+        "src/wnn/training/age_readout_artifacts.py",
+        "src/wnn/training/age_readout_cache.py",
+        "src/wnn/training/age_readout_checkpoint.py",
+        "src/wnn/training/age_readout_cli.py",
+        "src/wnn/training/age_readout_cohort.py",
+        "src/wnn/training/age_readout_features.py",
+        "src/wnn/training/age_readout_fit.py",
+        "src/wnn/training/age_readout_model.py",
+        "src/wnn/training/age_readout_provenance.py",
+        "src/wnn/training/age_readout_runner.py",
+        "src/wnn/training/age_readout_runtime.py",
+        "src/wnn/training/age_readout_tests.py"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.04740115599997807,
+      "stdout": "14 files left unchanged\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "uv",
+        "run",
+        "ruff",
+        "check",
+        "scripts/age_readout_screen.py",
+        "scripts/check_age_readout_invariants.py",
+        "src/wnn/training/age_readout_artifacts.py",
+        "src/wnn/training/age_readout_cache.py",
+        "src/wnn/training/age_readout_checkpoint.py",
+        "src/wnn/training/age_readout_cli.py",
+        "src/wnn/training/age_readout_cohort.py",
+        "src/wnn/training/age_readout_features.py",
+        "src/wnn/training/age_readout_fit.py",
+        "src/wnn/training/age_readout_model.py",
+        "src/wnn/training/age_readout_provenance.py",
+        "src/wnn/training/age_readout_runner.py",
+        "src/wnn/training/age_readout_runtime.py",
+        "src/wnn/training/age_readout_tests.py"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.03339660500205355,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "uv",
+        "run",
+        "python",
+        "scripts/check_training_structure.py"
+      ],
+      "returncode": 0,
+      "wall_seconds": 0.24609956199856242,
+      "stdout": "",
+      "stderr": "{\"files\": 90, \"errors\": 0, \"max_module_lines\": 300, \"max_function_lines\": 200}\n"
+    },
+    {
+      "argv": [
+        "uv",
+        "run",
+        "python",
+        "scripts/check_age_readout_invariants.py",
+        "--tmp-root",
+        "/home/vlad/development/wunder/research_disk/b300-fast-20261023/scratch/root-age-invariants"
+      ],
+      "returncode": 0,
+      "wall_seconds": 3.677211547001207,
+      "stdout": "{\"age_invariants\": {\"aba_exact\": true, \"cap_exact\": true, \"field_age\": {\"batch_stream_exact\": true, \"prefix_exact\": true, \"range\": [0.0, 0.6931471824645996], \"reset_exact\": true}, \"group_age\": {\"batch_stream_exact\": true, \"prefix_exact\": true, \"range\": [0.0, 0.6931471824645996], \"reset_exact\": true}, \"mask_invariance\": \"feature API receives only raw inputs and fixed mode\"}, \"delivery_invariants\": {\"batch_tail_order_exact\": true, \"checkpoint_next_update_exact\": true, \"evaluation_target_weight_invariance_exact\": true, \"prediction_duplicates_and_incomplete_coverage_rejected\": true, \"storage_root\": \"/home/vlad/development/wunder/research_disk/b300-fast-20261023/scratch/root-age-invariants\"}, \"zero_head_parent_parity\": true}\n",
+      "stderr": ""
+    }
+  ],
+  "source_pins_unchanged": true,
+  "scientific_fits": 0,
+  "target_cache_opened": false,
+  "cuda_visible": false,
+  "wall_seconds": 4.004108870001801
+}

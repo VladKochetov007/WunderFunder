@@ -19,6 +19,10 @@ from wnn.training.runner import run_training
 | Module | Responsibility |
 |---|---|
 | [__init__](__init__.py) | Package marker; no training side effects. |
+| [age_readout_cli](age_readout_cli.py), [runner](age_readout_runner.py) | Opt-in frozen age-screen CLI and per-fold cached-head delivery; no changes to recurrent training defaults. |
+| [age_readout_features](age_readout_features.py), [cohort](age_readout_cohort.py), [model](age_readout_model.py), [fit](age_readout_fit.py) | Canonical base/age assembly, shared sequence batches, zero-output residual heads and matched A/G/F updates. |
+| [age_readout_cache](age_readout_cache.py), [checkpoint](age_readout_checkpoint.py), [artifacts](age_readout_artifacts.py), [provenance](age_readout_provenance.py) | Read-only inherited cache validation, exact resume, complete create-only prediction publication and source/ancestry pins. |
+| [age_readout_runtime](age_readout_runtime.py), [tests](age_readout_tests.py) | Explicit deterministic FP32/CUDA limits and bounded synthetic restoration, coverage and evaluator-column invariants. |
 | [averaging](averaging.py) | Foreach EMA without new host synchronization. |
 | [batches](batches.py) | One-time full-sequence input, mask, label and update-window preparation. |
 | [cache_identity](cache_identity.py) | Source-qualified teacher and propensity-cache provenance. |
