@@ -6,7 +6,7 @@ import os
 import random
 import stat
 import time
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from pathlib import Path
 from typing import Protocol, TypedDict
 
@@ -14,6 +14,7 @@ import numpy as np
 import torch
 from torch.utils.data._utils.collate import default_collate
 
+from wnn.training.sequence_optimizer import build_sequence_muon_optimizer
 from wnn.training.sequence_provenance import json_value
 
 SEQUENCE_ROWS = 20_000
@@ -92,26 +93,89 @@ def move_and_validate_batch(
 def make_optimizer(
     model: torch.nn.Module, config: Mapping[str, object], total_updates: int
 ) -> tuple[torch.optim.Optimizer, torch.optim.lr_scheduler.LambdaLR]:
-    """Create AdamW and a declared warmup-cosine schedule for the complete fit."""
-    parameters = [parameter for parameter in model.parameters() if parameter.requires_grad]
-    if not parameters:
-        raise ValueError("sequence model has no trainable parameters")
-    learning_rate = float(config["lr"])
-    optimizer = torch.optim.AdamW(
-        parameters, lr=learning_rate, weight_decay=float(config["weight_decay"])
+    """Create the configured sequence optimizer and update-indexed LR schedule."""
+    optimizer_name = config.get("optimizer", "adamw")
+    if optimizer_name == "adamw":
+        parameters = [parameter for parameter in model.parameters() if parameter.requires_grad]
+        if not parameters:
+            raise ValueError("sequence model has no trainable parameters")
+        learning_rate = float(config["lr"])
+        betas = (
+            float(config.get("adamw_beta1", 0.9)),
+            float(config.get("adamw_beta2", 0.999)),
+        )
+        optimizer: torch.optim.Optimizer = torch.optim.AdamW(
+            parameters,
+            lr=learning_rate,
+            betas=betas,
+            eps=float(config.get("adamw_eps", 1e-8)),
+            weight_decay=float(config["weight_decay"]),
+        )
+    elif optimizer_name == "muon":
+        optimizer = build_sequence_muon_optimizer(model, config)
+    else:
+        raise ValueError("optimizer must be adamw or muon")
+    multiplier = sequence_lr_multiplier(
+        str(config.get("schedule", "legacy_warmup_cosine")),
+        total_updates,
+        float(config.get("warmup_fraction", 0.05)),
+        float(config.get("min_lr_ratio", 0.0)),
     )
-    warmup_updates = min(total_updates, math.ceil(total_updates * float(config["warmup_fraction"])))
-
-    def multiplier(step: int) -> float:
-        """Return the declared learning-rate factor for one optimizer step."""
-        if warmup_updates > 0 and step < warmup_updates:
-            return (step + 1) / warmup_updates
-        cosine_updates = max(1, total_updates - warmup_updates)
-        progress = min(1.0, max(0.0, (step - warmup_updates + 1) / cosine_updates))
-        return 0.5 * (1.0 + math.cos(math.pi * progress))
-
     scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, multiplier)
     return optimizer, scheduler
+
+
+def sequence_lr_multiplier(
+    schedule: str, total: int, warmup_fraction: float, min_lr_ratio: float
+) -> Callable[[int], float]:
+    """Create a legacy or endpoint-aligned warmup-cosine multiplier.
+
+    Args:
+        schedule: ``legacy_warmup_cosine`` to preserve prior steps or ``warmup_cosine_v2``.
+        total: Number of optimizer updates in the complete fit.
+        warmup_fraction: Fraction of updates reserved for linear warmup.
+        min_lr_ratio: Final fraction of the shared peak learning rate for v2.
+
+    Returns:
+        A callable indexed by ``LambdaLR`` optimizer step number.
+
+    Raises:
+        ValueError: If the schedule name, duration, or floor is invalid.
+    """
+    if total < 1 or not 0 <= warmup_fraction < 1 or not 0 <= min_lr_ratio <= 1:
+        raise ValueError("invalid sequence schedule duration, warmup, or floor")
+    if schedule == "legacy_warmup_cosine":
+        if min_lr_ratio != 0:
+            raise ValueError("legacy_warmup_cosine requires min_lr_ratio=0")
+        warmup_updates = min(total, math.ceil(total * warmup_fraction))
+
+        def legacy_multiplier(step: int) -> float:
+            """Preserve the previous warmup/cosine indexing exactly."""
+            if warmup_updates > 0 and step < warmup_updates:
+                return (step + 1) / warmup_updates
+            cosine_updates = max(1, total - warmup_updates)
+            progress = min(1.0, max(0.0, (step - warmup_updates + 1) / cosine_updates))
+            return 0.5 * (1.0 + math.cos(math.pi * progress))
+
+        return legacy_multiplier
+    if schedule != "warmup_cosine_v2":
+        raise ValueError(f"unknown sequence learning-rate schedule: {schedule}")
+    if total < 2:
+        raise ValueError("warmup_cosine_v2 requires at least two optimizer updates")
+    warmup_updates = math.ceil(total * warmup_fraction)
+    if warmup_updates >= total - 1:
+        raise ValueError("warmup_cosine_v2 requires at least one post-warmup endpoint interval")
+
+    def warmup_cosine_v2_multiplier(step: int) -> float:
+        """Reach the configured floor on the final actual update."""
+        if step < warmup_updates:
+            return (step + 1) / warmup_updates if warmup_updates else 1.0
+        denominator = max(1, total - 1 - warmup_updates)
+        progress = min(1.0, max(0.0, (step - warmup_updates) / denominator))
+        cosine = 0.5 * (1.0 + math.cos(math.pi * progress))
+        return min_lr_ratio + (1.0 - min_lr_ratio) * cosine
+
+    return warmup_cosine_v2_multiplier
 
 
 def total_updates(config: Mapping[str, object], sequence_count: int, world_size: int) -> int:

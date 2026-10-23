@@ -15,8 +15,17 @@ DEFAULTS: dict[str, Any] = {
     "seed": 1001,
     "lr": 0.0001,
     "weight_decay": 0.01,
+    "optimizer": "adamw",
+    "muon_momentum": 0.95,
+    "muon_ns_steps": 5,
+    "muon_ns_eps": 1e-7,
+    "adamw_beta1": 0.9,
+    "adamw_beta2": 0.999,
+    "adamw_eps": 1e-8,
     "grad_clip": 1.0,
     "warmup_fraction": 0.05,
+    "schedule": "legacy_warmup_cosine",
+    "min_lr_ratio": 0.0,
     "kd_weight": 0.0,
     "hint_weight": 0.0,
     "hint_mode": "aligned",
@@ -47,6 +56,9 @@ def load_config(path: Path) -> dict[str, Any]:
     if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | {"model"}):
         raise ValueError("unknown sequence recipe field")
     config = DEFAULTS | raw
+    # Preserve legacy AdamW's .999 while defaulting the Muon-side AdamW groups to .95.
+    if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
+        config["adamw_beta2"] = 0.95
     model = MODEL_DEFAULTS | raw.get("model", {})
     if set(model) - set(MODEL_DEFAULTS):
         raise ValueError("unknown sequence model field")
@@ -65,13 +77,45 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("unsupported schema or chunk length")
     if type(config["seed"]) is not int or not 0 <= config["seed"] < 2**32:
         raise ValueError("seed must be an unsigned 32-bit integer")
-    for key in ("lr", "weight_decay", "grad_clip", "warmup_fraction", "kd_weight", "hint_weight"):
+    for key in (
+        "lr",
+        "weight_decay",
+        "grad_clip",
+        "warmup_fraction",
+        "kd_weight",
+        "hint_weight",
+        "muon_ns_eps",
+        "adamw_eps",
+    ):
         if not isinstance(config[key], (float, int)) or not math.isfinite(config[key]):
             raise ValueError(f"{key} must be finite")
         if config[key] < 0:
             raise ValueError(f"{key} must be nonnegative")
     if config["lr"] == 0 or config["grad_clip"] == 0 or config["warmup_fraction"] >= 1:
         raise ValueError("positive learning rate/clipping and warmup_fraction < 1 required")
+    if type(config["muon_ns_steps"]) is not int or config["muon_ns_steps"] <= 0:
+        raise ValueError("muon_ns_steps must be a positive integer")
+    for key in ("muon_ns_eps", "adamw_eps"):
+        value = config[key]
+        if isinstance(value, bool) or not isinstance(value, (float, int)) or value <= 0:
+            raise ValueError(f"{key} must be a positive number")
+    for key in ("muon_momentum", "adamw_beta1", "adamw_beta2"):
+        value = config[key]
+        if isinstance(value, bool) or not isinstance(value, (float, int)):
+            raise ValueError(f"{key} must be numeric")
+        if not math.isfinite(value) or not 0 <= value < 1:
+            raise ValueError(f"{key} must be finite and in [0, 1)")
+    if config["optimizer"] not in ("adamw", "muon"):
+        raise ValueError("optimizer must be adamw or muon")
+    if config["schedule"] not in ("legacy_warmup_cosine", "warmup_cosine_v2"):
+        raise ValueError("unsupported sequence learning-rate schedule")
+    ratio = config["min_lr_ratio"]
+    if isinstance(ratio, bool) or not isinstance(ratio, (float, int)):
+        raise ValueError("min_lr_ratio must be numeric")
+    if not math.isfinite(ratio) or not 0 <= ratio <= 1:
+        raise ValueError("min_lr_ratio must be finite and in [0, 1]")
+    if config["schedule"] == "legacy_warmup_cosine" and ratio != 0:
+        raise ValueError("legacy_warmup_cosine requires min_lr_ratio=0")
     for key in ("hidden", "layers", "heads", "ff_multiplier", "context_rows"):
         if type(model[key]) is not int or model[key] < 1:
             raise ValueError(f"model.{key} must be a positive integer")
@@ -79,6 +123,8 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("hint_dim must be a nonnegative integer")
     if model["architecture"] not in ("transformer", "gru"):
         raise ValueError("architecture must be transformer or gru")
+    if config["optimizer"] == "muon" and model["architecture"] != "transformer":
+        raise ValueError("sequence Muon currently supports Transformer models only")
     if model["hint_projection"] not in ("fixed", "learned"):
         raise ValueError("hint_projection must be fixed or learned")
     if model["dropout"] != 0 or type(model["checkpoint_blocks"]) is not bool:
