@@ -5,7 +5,11 @@ from typing import Any, cast
 
 import torch
 
-from wnn.training.sequence_config import load_config
+from wnn.training.sequence_config import (
+    load_config,
+    validate_expected_fold,
+    validate_runtime_requirements,
+)
 from wnn.training.sequence_data import SequenceData, build_data
 from wnn.training.sequence_distributed import (
     DistributedContext,
@@ -103,11 +107,25 @@ def run_sequence_fit(
         raise ValueError("a full fit requires --profile-receipt with explicit approval")
     context = initialize_distributed()
     try:
+        coordinated_call(
+            lambda: validate_runtime_requirements(
+                config,
+                context.world_size,
+                torch.cuda.get_device_name(context.local_rank),
+            ),
+            "runtime requirement validation",
+            context,
+        )
         collective_output_setup(output, resume_path is not None, context)
         seed_worker(int(config["seed"]), 0)
         data = coordinated_call(
             lambda: build_data(config, data_root, split_manifest, teacher_cache),
             "sequence data construction",
+            context,
+        )
+        coordinated_call(
+            lambda: validate_expected_fold(config, data.split.fold),
+            "split fold validation",
             context,
         )
         seed_worker(int(config["seed"]), 0)

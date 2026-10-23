@@ -21,6 +21,11 @@ DEFAULTS: dict[str, Any] = {
     "hint_weight": 0.0,
     "hint_mode": "aligned",
     "normalization_sequences": 32,
+    "training_mask": "is_scored",
+    "normalization_scope": "prefix",
+    "required_world_size": None,
+    "required_device": None,
+    "expected_fold": None,
 }
 MODEL_DEFAULTS: dict[str, Any] = {
     "architecture": "transformer",
@@ -88,4 +93,39 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("unsupported hint control")
     if config["hint_mode"] != "aligned" and config["hint_weight"] <= 0:
         raise ValueError("permuted hints require a positive hint loss")
+    if config["training_mask"] not in ("is_scored", "all_after_warmup"):
+        raise ValueError("training_mask must be is_scored or all_after_warmup")
+    if config["normalization_scope"] not in ("prefix", "all_fit"):
+        raise ValueError("normalization_scope must be prefix or all_fit")
+    required_world_size = config["required_world_size"]
+    if required_world_size is not None and (
+        type(required_world_size) is not int or required_world_size < 1
+    ):
+        raise ValueError("required_world_size must be null or a positive integer")
+    required_device = config["required_device"]
+    if required_device not in (None, "B300"):
+        raise ValueError("required_device must be null or B300")
+    expected_fold = config["expected_fold"]
+    if expected_fold is not None and (type(expected_fold) is not int or expected_fold < 0):
+        raise ValueError("expected_fold must be null or a nonnegative integer")
     return config
+
+
+def validate_runtime_requirements(
+    config: dict[str, Any], world_size: int, device_name: str
+) -> bool:
+    """Check the recipe's optional world-size and device requirements on this rank."""
+    required_world_size = config["required_world_size"]
+    if required_world_size is not None and world_size != required_world_size:
+        raise ValueError(f"recipe requires world size {required_world_size}, received {world_size}")
+    if config["required_device"] == "B300" and "B300" not in device_name.upper():
+        raise ValueError(f"recipe requires an NVIDIA B300 device, received {device_name!r}")
+    return True
+
+
+def validate_expected_fold(config: dict[str, Any], actual_fold: int) -> bool:
+    """Check the loaded split's fold against the recipe's optional fold requirement."""
+    expected_fold = config["expected_fold"]
+    if expected_fold is not None and actual_fold != expected_fold:
+        raise ValueError(f"recipe requires fold {expected_fold}, received fold {actual_fold}")
+    return True

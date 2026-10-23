@@ -5,6 +5,7 @@ import json
 import math
 import os
 import platform
+import subprocess
 from collections.abc import Mapping
 from pathlib import Path
 
@@ -68,14 +69,31 @@ def source_identity(source_root: Path, entrypoint: Path) -> dict[str, object]:
 def _local_runtime_identity(context: DistributedContext) -> dict[str, object]:
     """Capture strict-FP32 software, device, and process identity before fitting."""
     properties = torch.cuda.get_device_properties(context.local_rank)
+    driver_result = subprocess.run(
+        ["nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=10,
+    )
+    driver_versions = {line.strip() for line in driver_result.stdout.splitlines() if line.strip()}
+    if len(driver_versions) != 1:
+        raise RuntimeError("could not establish one NVIDIA driver identity")
+    raw_uuid = getattr(properties, "uuid", None)
+    device_uuid = None
+    if raw_uuid is not None:
+        device_uuid = raw_uuid.decode("utf-8") if isinstance(raw_uuid, bytes) else str(raw_uuid)
     return {
         "python": platform.python_version(),
         "platform": platform.platform(),
         "torch": str(torch.__version__),
         "cuda_runtime": torch.version.cuda,
         "cudnn": torch.backends.cudnn.version(),
+        "nvidia_driver": driver_versions.pop(),
         "device": torch.cuda.get_device_name(context.local_rank),
         "capability": [properties.major, properties.minor],
+        "device_uuid": device_uuid,
+        "device_total_memory_bytes": int(properties.total_memory),
         "visible_devices": torch.cuda.device_count(),
         "world_size": context.world_size,
         "rank": context.rank,
@@ -92,30 +110,33 @@ def _local_runtime_identity(context: DistributedContext) -> dict[str, object]:
 
 def runtime_identity(context: DistributedContext) -> dict[str, object]:
     """Collect identical software and per-rank device metadata on every worker."""
-    local = _local_runtime_identity(context)
+    local: dict[str, object] | None = None
+    local_error: str | None = None
+    try:
+        local = _local_runtime_identity(context)
+    except Exception as error:
+        local_error = f"{type(error).__name__}: {error}"
     if context.process_group:
-        gathered: list[dict[str, object] | None] = [None] * context.world_size
-        dist.all_gather_object(gathered, local)
-        workers = [item for item in gathered if item is not None]
+        gathered: list[tuple[dict[str, object] | None, str | None]] = [
+            (None, None)
+        ] * context.world_size
+        dist.all_gather_object(gathered, (local, local_error))
+        failures = [f"rank {rank}: {error}" for rank, (_, error) in enumerate(gathered) if error]
+        if failures:
+            raise RuntimeError("could not collect runtime identity: " + "; ".join(failures))
+        workers = [identity for identity, _ in gathered if identity is not None]
     else:
+        if local is None or local_error is not None:
+            raise RuntimeError(
+                f"could not collect runtime identity: {local_error or 'empty result'}"
+            )
         workers = [local]
     if len(workers) != context.world_size:
         raise RuntimeError("could not collect runtime identity from every rank")
     common_fields = (
-        "python",
-        "platform",
-        "torch",
-        "cuda_runtime",
-        "cudnn",
-        "visible_devices",
-        "world_size",
-        "matmul_precision",
-        "matmul_tf32",
-        "cudnn_tf32",
-        "autocast",
-        "amp_scaler",
-        "attention_backend",
-        "cublas_workspace_config",
+        ("python", "platform", "torch", "cuda_runtime", "cudnn", "nvidia_driver")
+        + ("visible_devices", "world_size", "matmul_precision", "matmul_tf32", "cudnn_tf32")
+        + ("autocast", "amp_scaler", "attention_backend", "cublas_workspace_config")
     )
     baseline = workers[0]
     if any(
@@ -129,6 +150,8 @@ def runtime_identity(context: DistributedContext) -> dict[str, object]:
             "local_rank": worker["local_rank"],
             "name": worker["device"],
             "capability": worker["capability"],
+            "uuid": worker["device_uuid"],
+            "total_memory_bytes": worker["device_total_memory_bytes"],
         }
         for worker in sorted(workers, key=lambda item: int(item["rank"]))
     ]
@@ -241,6 +264,20 @@ def validate_profile_receipt(path: Path, identity: dict[str, object]) -> str:
             raise ValueError("profile resource values must be positive integer byte counts")
         if item["peak_allocated_bytes"] > item["peak_reserved_bytes"]:
             raise ValueError("profile allocated memory cannot exceed reserved memory")
+        if item["peak_reserved_bytes"] > item["device_total_memory_bytes"]:
+            raise ValueError("profile reserved memory cannot exceed total device memory")
+    runtime = identity.get("runtime")
+    if isinstance(runtime, dict) and "devices" in runtime:
+        devices = runtime["devices"]
+        if not isinstance(devices, list) or len(devices) != world_size:
+            raise ValueError("run identity must bind one runtime device per rank")
+        for rank, (device, item) in enumerate(zip(devices, memory, strict=True)):
+            if (
+                not isinstance(device, dict)
+                or device.get("rank") != rank
+                or device.get("total_memory_bytes") != item["device_total_memory_bytes"]
+            ):
+                raise ValueError("profile device memory does not match the runtime identity")
     if value.get("peak_memory_bytes") != max(item["peak_allocated_bytes"] for item in memory):
         raise ValueError("profile aggregate allocated memory does not match per-rank values")
     if value.get("peak_reserved_bytes") != max(item["peak_reserved_bytes"] for item in memory):
