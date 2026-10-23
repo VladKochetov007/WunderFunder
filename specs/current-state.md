@@ -1,5 +1,9 @@
 # Current project state
 
+## October23: faster B300 ideas selected for local/Kaggle research
+
+The latest user steering authorizes a bounded [field-age readout screen](../research/experiment_drafts/b300-fast-local-kaggle-20261023/README.md): six small heads on two exposed fold/seed cells, zero new GRU or teacher fits. Up to 7,200 inclusive seconds are reserved from unused strong-parent allocation; the 30-hour total and 12-hour production reserve remain fixed. All new storage uses physical disk outside `/tmp` and `/dev/shm`. Reused cache bytes and headers pass verification; runtime admission is pending. Kaggle CPU grading is prepared because fresh unreserved GPU quota is only 1,635.575 seconds. No new quality result or submission yet; the earlier incomplete online panel is unchanged.
+
 ## October23: online worker cap reached; incomplete panel
 
 The [terminal receipt](../research/experiment_drafts/online-relationships-20261022/PANEL_TERMINAL_R1.json) records timeout at the original deadline, 03:10:32 Kyiv. Seven of twelve head exports are saved; one head stopped after two unsaved epochs and four never started. Independent metadata review accepts seven exact NPY headers and all frozen source pins, but full-panel grading stays closed. No target-quality result or native release. The proposed one-hour transfer remains unanswered/unapproved; no retry or reallocation occurred. Both parent caches and completed heads are retained, the CPU observer has exited, and the 12-hour production reserve is protected. This is an execution-cost outcome, not evidence against online learning. User research-resume authority remains effective; further spending on this path needs the pending allocation decision.

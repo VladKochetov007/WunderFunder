@@ -1,5 +1,7 @@
 # Imported sources
 
+- [Fast B300 adaptation source assessment](../../experiment_drafts/b300-fast-local-kaggle-20261023/SELECTION_R1.md) and [independent reframe](../../experiment_drafts/b300-fast-local-kaggle-20261023/REFRAME_PROPOSALS_R1.md) — actual B300 result audit, GRU-D observation timing, Transformer-XL segment context and a seeded passage from the user's nonlinear-transform library. Each transfer is scoped as a hypothesis; field ages are selected for a cheap frozen-parent screen, with no quality result yet.
+
 - [Verified primary-source scope for the October21 cycle](../../../specs/plans/2026-10-21-next-local-kaggle-cycle.md#primary-source-scope) — SWAv3, CPCv2 and test-time-trainingv3 abstracts checked through arXiv; separates AdamW averaging and52-summary Huber adaptations from original methods. TTT remains deferred; no dataset-specific evidence or imported assets.
 
 - [October21 user-reported public receipt](../../campaign_2026-10-21/next_cycle_r1/PUBLIC_RECEIPT_R1.json) — latest package 0.66667/53m47s versus TL3 0.66832/39m12s. Public transfer counterevidence supplied in accepted plan; exact ZIP hash unresolved, not independently queried or clean CV.

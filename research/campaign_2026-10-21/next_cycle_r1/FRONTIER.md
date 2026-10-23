@@ -1,5 +1,9 @@
 # Next cycle frontier
 
+## October23: faster B300 ideas on local/Kaggle
+
+Latest user steering requests creative research, fresh reframing, faster local/Kaggle adaptations of B300 ideas, disk-only storage and new best submissions. The [new bounded contract](../../experiment_drafts/b300-fast-local-kaggle-20261023/CONTRACT_R1.json) reserves7200inclusive worker seconds from the unused strong-parent stage, within the original total and protected12hproduction reserve. Source-only independent scouting and fresh Kaggle quota inspection begin; no scientific fit yet. New scratch/cache root is `/home/vlad/development/wunder/research_disk/b300-fast-20261023`. CPU package was92°C while research was idle; require cooling and CPU-aware thermal control before heavy admission. The earlier online timeout and unapproved extension remain unchanged history.
+
 ## Online worker ended at original cap; continuation not admitted
 
 [Terminal receipt](../../experiment_drafts/online-relationships-20261022/PANEL_TERMINAL_R1.json): original service timed out at 03:10:32 Kyiv, after 7,800.451 seconds. Seven head endpoints are saved (six F0 plus F1/lag1/A); F1/lag1/B lost unsaved epochs0–1, four heads never started. [Inventory](../../experiment_drafts/online-relationships-20261022/TERMINAL_COLLECTION_R1.json) and [independent review](../../experiment_drafts/online-relationships-20261022/TERMINAL_METADATA_REVIEW_R1.json) accept metadata only: all source pins and seven exact NPY headers agree, but complete twelve-head/fourteen-endpoint coverage is absent. No target grade, quality conclusion, promotion or retry.

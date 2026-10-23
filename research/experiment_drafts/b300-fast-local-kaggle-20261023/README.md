@@ -1,0 +1,15 @@
+# Faster local/Kaggle adaptations of B300 research
+
+The user requests new competition submissions from a short local/Kaggle research round. The [contract](CONTRACT_R1.json) reserves at most two inclusive local worker hours from the unused strong-parent stage, preserving the original 30-hour total and 12-hour production reserve. It authorizes source investigation and a bounded profile; a scientific panel still needs a frozen recipe and measured complete cost.
+
+Root owns admission and integration. Independent B300 evidence scouting, fresh-context reframing and Kaggle quota/access inspection precede the selected 4–6-fit screen. The earlier online panel remains incomplete and unchanged. No new quality result or submission exists at this stage.
+
+New working files and caches use physical disk at `/home/vlad/development/wunder/research_disk/b300-fast-20261023`; `/tmp` and `/dev/shm` are excluded. Entry CPU temperature was92°C despite no research worker, so heavy admission waits for cooling and a CPU-aware guard.
+
+- [Selection and limitations](SELECTION_R1.md) explains the field-age choice, B300 evidence, deferred alternatives, primary literature and exposed-fold/in-sample-parent limits. [Independent first proposals](REFRAME_PROPOSALS_R1.md) preserve the original width, segment-memory and nonlinear-basis recommendations and seeded local-library source before synthesis.
+- [B300 actor's evidence scout](B300_SCOUT_R1.md) links actual width/depth, geometry, ungraded age and weak Kalman evidence to exact existing local assets. Its source-only implementation status is a historical snapshot, not a quality result.
+- [Frozen recipe](recipe.json) fixes six residual heads, two per A/G/F arm, on F0/1001 and F1/1002; zero new GRU/teacher fits. Profile-selected device and execution source pins are deferred to separate admission receipts, without changing recipe bytes.
+- [Draft PR body](PR.md) records the eleven required experiment questions; publication and execution evidence will be updated as they occur.
+- [Kaggle readiness](KAGGLE_READINESS_R1.json) records actual CLI/API access, 1,635.575 unreserved GPU seconds, raw dataset sizes and a proposed CPU grading route. No launch is established by this receipt.
+- [Local cache verification](LOCAL_CACHE_VERIFICATION_R1.json), [admission](CACHE_VERIFY_ADMISSION_R1.json), [exact invocation](CACHE_VERIFY_SPEC_R1.json), [guard result](CACHE_VERIFY_GUARD_R1.json) and [raw log](cache_verify_r1.log) bind all six reused NPY payloads and headers to their sidecars and producer sources. The [verifier](verify_reused_caches.py) reuses the canonical terminal NPY reader. It reads no target values and does not replace the independent semantic ancestry check.
+- The previously reviewed [CPU thermal patch](../../unified/operations/CPU_PACKAGE_THERMAL_GUARD_PATCH_20261023_R1.diff) is now applied to the root guard with opt-in CPU monitoring; ten focused tests and Ruff pass. Its older proposal receipt is preserved unchanged. A real hot-threshold transition remains untested.

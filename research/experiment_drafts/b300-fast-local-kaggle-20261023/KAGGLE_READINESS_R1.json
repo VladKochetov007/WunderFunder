@@ -1,0 +1,246 @@
+{
+  "schema": "wnn.kaggle-ops-readiness.v1",
+  "observed_window_utc": {
+    "quota": "2026-10-23T08:35:00Z",
+    "kernel_list": "2026-10-23T08:35:00Z",
+    "exact_kernel_status": "2026-10-23T08:35:00Z",
+    "dataset_inventory": "2026-10-23T08:18:39Z",
+    "raw_dataset_files": "2026-10-23T08:21:33Z",
+    "private_dataset_files": "2026-10-23T08:25:18Z"
+  },
+  "scope": {
+    "access": "Read-only authenticated Kaggle API/CLI metadata calls; no credentials printed or changed.",
+    "provider_mutations": {
+      "dataset_uploads": 0,
+      "kernel_pushes_or_launches": 0,
+      "reservations_created": 0,
+      "cancellations": 0
+    },
+    "new_candidate_values_read": false,
+    "large_content_hashes_or_downloads": 0,
+    "packages_installed": 0
+  },
+  "access": {
+    "cli_version": "2.2.4",
+    "cli_warning": "Installed Kaggle CLI reports 2.2.5 is available; no upgrade performed.",
+    "read_only_commands": [
+      "scripts/limited kaggle quota --format json",
+      "scripts/limited .venv/bin/python -c 'KaggleApi().quota_view()'",
+      "scripts/limited kaggle kernels list --mine --page-size 200 --sort-by dateRun --format json",
+      "scripts/limited .venv/bin/python -c 'KaggleApi().kernels_status(ref)' for five exact recent WNN references",
+      "scripts/limited .venv/bin/python -c 'KaggleApi().dataset_list_with_response(user=\"vladkochetov07\", page_size=200, sort_by=\"updated\")'",
+      "scripts/limited .venv/bin/python -c 'KaggleApi().dataset_list_files(ref, page_size=100)' for six existing private WNN datasets and the raw data dataset",
+      "scripts/limited kaggle kernels push --help"
+    ],
+    "authenticated_provider_access": "Quota, owned kernels, dataset list, dataset file metadata, and exact kernel-status calls all returned successfully.",
+    "repository_helper_search": "Targeted source search over scripts/, the new draft, and the 2026-10-21 campaign found no current Kaggle kernel upload/output helper; scripts/cr_scout_fetch.py is the only KaggleApi reference under scripts/."
+  },
+  "quota": {
+    "refresh_at_utc": "2026-10-24T00:00:00Z",
+    "fresh_poll_confirmation": {
+      "observed_utc": "2026-10-23T08:35:00Z",
+      "cli_summary": "GPU 29.55h used / 0.45h remaining / 30h total; TPU 0h used / 20h remaining / 20h total.",
+      "direct_api_normalized": "GPU time_used is timedelta(days=1, seconds=19964, microseconds=425000), total_time_allowed is timedelta(days=1, seconds=21600), reserved=0; normalized to 106364.425 / 108000 / 0 seconds. TPU normalized to 0 / 72000 / 0 seconds.",
+      "interpretation": "The API object repr and CLI agree after retaining the one-day component of timedelta; both show 1635.575 GPU seconds remaining and 72000 TPU seconds remaining."
+    },
+    "gpu": {
+      "used_seconds": 106364.425,
+      "reserved_seconds": 0.0,
+      "allowed_seconds": 108000.0,
+      "remaining_unreserved_seconds": 1635.575,
+      "remaining_unreserved_hours": 0.4543263889,
+      "remaining_unreserved_minutes": 27.2595833333
+    },
+    "tpu": {
+      "used_seconds": 0.0,
+      "reserved_seconds": 0.0,
+      "allowed_seconds": 72000.0,
+      "remaining_unreserved_seconds": 72000.0,
+      "remaining_unreserved_hours": 20.0
+    },
+    "cpu": {
+      "quota_seconds_returned_by_api": false,
+      "account_specific_cpu_availability": "Not exposed by the quota endpoint.",
+      "official_notebook_max_session_seconds": 43200,
+      "official_cpu_shape": "4 CPU cores, 30 GB RAM",
+      "source": "https://www.kaggle.com/docs/notebooks"
+    }
+  },
+  "kernels": {
+    "owner": "vladkochetov07",
+    "list_query": "kaggle kernels list --mine --page-size 200 --sort-by dateRun --format json",
+    "latest_listed_wNN_run_utc": "2026-10-21T20:45:21.807000",
+    "recent_exact_status_polls": [
+      {
+        "kernel": "vladkochetov07/wnn-h512-f1-b16-export-20261021-r1-runner",
+        "status": "KernelWorkerStatus.ERROR"
+      },
+      {
+        "kernel": "vladkochetov07/wnn-h512-f1-b16-conditional-20261021-r2-runner",
+        "status": "KernelWorkerStatus.ERROR"
+      },
+      {
+        "kernel": "vladkochetov07/wnn-h512-f1-conditional-20261021-r1-runner",
+        "status": "KernelWorkerStatus.ERROR"
+      },
+      {
+        "kernel": "vladkochetov07/wnn-h512-profile-20261021-r2-runner",
+        "status": "KernelWorkerStatus.ERROR"
+      },
+      {
+        "kernel": "vladkochetov07/wnn-h512-profile-20261021-r1-runner",
+        "status": "KernelWorkerStatus.ERROR"
+      }
+    ],
+    "reservation_interpretation": "GPU and TPU reserved time are zero. The account API/CLI does not expose an account-wide active/queued session roster or planned reservations; the five exact WNN polls are not proof that every account kernel or CPU-only session is terminal.",
+    "kernel_push_interface": {
+      "installed_cli_help": "kaggle kernels push -p FOLDER [-t TIMEOUT] [--accelerator ACC]",
+      "metadata_supports_cpu": "Set enable_gpu=false, enable_internet=false, machine_shape=\"\", and dataset_sources in kernel-metadata.json.",
+      "no_run_flag_in_installed_cli": true,
+      "mutation_behavior": "kernels push uploads the packet and starts the kernel; it was not invoked."
+    }
+  },
+  "datasets": {
+    "owner_inventory_count": 21,
+    "owner_inventory_has_next_page": false,
+    "raw_dataset": {
+      "ref": "vladkochetov07/wunder-funder",
+      "is_private": false,
+      "current_version_number": 1,
+      "last_updated_utc": "2026-10-04T00:36:57.853000",
+      "listed_total_bytes": 33761236515,
+      "current_file_details": [
+        {
+          "name": "train.parquet",
+          "size_bytes": 29240219011
+        },
+        {
+          "name": "valid.parquet",
+          "size_bytes": 5615509128
+        },
+        {
+          "name": "valid_mask.parquet",
+          "size_bytes": 91972846
+        }
+      ],
+      "file_detail_total_bytes": 34947700985,
+      "list_vs_file_detail_discrepancy_bytes": 1186464470,
+      "use_for_grading": "The selected grader bundle can carry cache/valid_targets.npz, so no raw Kaggle data mount is required. Do not re-upload train.parquet or run a full raw-file hash pass. Keep its original dataset/version identity in source provenance."
+    },
+    "existing_relevant_private_datasets": [
+      {
+        "ref": "vladkochetov07/wnn-h512-f1-b16-export-20261021-r1",
+        "bytes": 17396661,
+        "contents": "bundle.wnn plus manifest and deadline receipt; not the new residual-age grading bundle."
+      },
+      {
+        "ref": "vladkochetov07/wnn-h512-f1-b16-conditional-20261021-r2",
+        "bytes": 782435,
+        "contents": "bundle.wnn plus manifest."
+      },
+      {
+        "ref": "vladkochetov07/wnn-h512-f1-conditional-20261021-r1",
+        "bytes": 782999,
+        "contents": "bundle.wnn plus manifest and reseal receipt."
+      },
+      {
+        "ref": "vladkochetov07/wnn-h512-profile-20261021-r2",
+        "bytes": 634235,
+        "contents": "bundle.wnn plus manifest."
+      },
+      {
+        "ref": "vladkochetov07/wnn-h512-profile-20261021-r1",
+        "bytes": 631533,
+        "contents": "bundle.wnn plus manifest."
+      },
+      {
+        "ref": "vladkochetov07/wnn-f0-h256l2-cp5-norm-20261015-r1",
+        "bytes": 3721909,
+        "contents": "model_ep5.pt, provenance, and asset manifest; F0 asset, not F1 parent."
+      }
+    ],
+    "selected_online_parent_cache_present_in_kaggle_inventory": false
+  },
+  "selected_cpu_grade_path": {
+    "root_selected_design": "Six cached residual-age heads: A zero-age, G group-age, F field-age across F0/seed1001 and F1/seed1002; all six fit locally after root profile/admission.",
+    "kaggle_role": "One independent CPU-only full-fold grade of the six locally fitted heads after root freezes exact inputs and admission; no Kaggle fits or exports.",
+    "cache_transfer": "Do not upload the 32,009,440,768-byte local F0/F1 feature and parent-cache payloads. Root/reviewer must produce a local SHA and complete-coverage receipt binding both old cache payloads to their JSON sidecars. The remote grader records that as provenance attestation, independently hashes the eight prediction NPYs, validates headers/order/membership, then opens targets.",
+    "grading_input_payloads": {
+      "candidate_prediction_arrays": 6,
+      "parent_evaluation_arrays": 2,
+      "fold0_prediction_bytes_each": 74880128,
+      "fold1_prediction_bytes_each": 73120128,
+      "expected_prediction_array_total_bytes": 592001024,
+      "target_npz_bytes": 337186198,
+      "prediction_plus_target_bytes": 929187222,
+      "target_npz_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "additional": "Six head checkpoints/provenance/source maps, two parent sidecars, old cache sidecars plus root cache-verification receipt, frozen grade recipe/admission, grader code and dependency pins. Exact total bundle size awaits root freeze; the <1,000,000,000-byte gate leaves 70,812,778 bytes for all additional files. No in-sample fit-parent predictions."
+    },
+    "phase_costs": {
+      "small_bundle_staging": "Prediction plus target payloads are 929,187,222 bytes; additional source/checkpoint/metadata sizes and upload/mount time are unmeasured. One private dataset upload is required after root admission; none performed.",
+      "kernel_startup": "Time unmeasured; one CPU-only kernel job uses the frozen grader bundle. No 34GB raw data source or 5.6GB valid.parquet mount is needed.",
+      "fits": 0,
+      "new_prediction_exports": 0,
+      "remote_prediction_integrity_and_coverage_validation": "Hash and validate 8 arrays totaling 592,001,024 bytes before target access; runtime not measured.",
+      "target_validation_and_grade": "Validate the transported 337,186,198-byte NPZ through an explicit source-content pin, then run the frozen independent grader on both full folds and both targets. One finite CPU job has an 1,800-second hard cap; runtime not measured.",
+      "artifact_collection": "Return the small grade receipt, logs, and manifests; exact bytes and duration unmeasured."
+    },
+    "storage": {
+      "inputs": "/kaggle/input/<private-grade-bundle> (read-only)",
+      "writable_disk": "/kaggle/working/disk_scratch",
+      "tmp_env": [
+        "TMPDIR",
+        "TMP",
+        "TEMP",
+        "XDG_CACHE_HOME",
+        "TORCHINDUCTOR_CACHE_DIR",
+        "NUMBA_CACHE_DIR",
+        "POLARS_TEMP_DIR"
+      ],
+      "tmp_values": "Set every path under /kaggle/working/disk_scratch; never use /tmp or /dev/shm.",
+      "cpu": "Restrict worker affinity to two CPUs; set math/data-library thread counts to two; monitor task RSS and stop before 4,000,000,000 bytes.",
+      "output_limit": "Kaggle documents up to 20 GB of saved output in /kaggle/working; bundle inputs are gated below 1 GB and grade outputs should remain small."
+    },
+    "current_admission": "None. Root freezes the grade inputs and admission after the six local endpoints exist; this role will not upload or push.",
+    "target_cache_transport": {
+      "frozen_source_path": "cache/valid_targets.npz",
+      "frozen_source_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+      "frozen_source_bytes": 337186198,
+      "frozen_source_mtime_ns": 1790289582906701329,
+      "fold_split_source_bytes_and_mtime_match": true,
+      "private_bundle_relative_path": "target/valid_targets.npz",
+      "remote_path_template": "/kaggle/input/<private-grade-bundle>/target/valid_targets.npz",
+      "transfer_rule": "Record original source identity separately from the transported file path and actual transport mtime. Do not fake the original mtime.",
+      "remote_validation": "Hash before target load and again after scoring; compare size and digest to the frozen source pin via an independently reviewed transport mapping."
+    }
+  },
+  "previous_local_cache_context": {
+    "cache_root": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/parents",
+    "filesystem": "Physical /dev/nvme0n1p7 Btrfs under /home; no payloads copied or hashed for this read-only audit.",
+    "f0_parent_cache_bytes": 16024320384,
+    "f1_parent_cache_bytes": 15985120384,
+    "total_bytes": 32009440768,
+    "f1_cache_build_seconds_local": 2167.574608855,
+    "old_panel_terminal": {
+      "status": "INCOMPLETE_AT_ORIGINAL_DELIVERY_TIME_CAP",
+      "finished_exports": 7,
+      "missing_exports": 5,
+      "service_seconds": 7800.451262,
+      "quality_graded": false
+    },
+    "relevance": "Old parent-cache construction is not needed for the selected remote grading route; its outputs are not a new quality result."
+  },
+  "execution_environment": {
+    "new_storage_root": "/home/vlad/development/wunder/research_disk/b300-fast-20261023/kaggle_ops",
+    "filesystem": "Verified /dev/nvme0n1p7 Btrfs physical disk.",
+    "api_call_bounds": "Authenticated local calls ran through scripts/limited with CPUQuota=25%, MemoryMax=400M, MemorySwapMax=0, RuntimeMaxSec=90s, TMPDIR/TMP/TEMP and XDG_CACHE_HOME under /home/vlad/development/wunder/research_disk/b300-fast-20261023.",
+    "preflight_note": "The initial kaggle --version and kernels list --help queries completed in under one second outside scripts/limited before the constraint was noticed. They made no network/provider changes and printed no credentials; all authenticated calls were subsequently bounded.",
+    "working_tree_changes_by_this_role": "No repository files changed; outputs are confined to this assigned disk directory."
+  },
+  "limitations": [
+    "No account-wide running/queued CPU or kernel roster is exposed by the queried API; zero reserved GPU/TPU seconds does not prove no CPU-only kernel is active.",
+    "Kaggle CPU quota/slot availability is not returned by the quota endpoint; official documentation describes the CPU shape and maximum session duration only.",
+    "The exact private grade bundle and transport mapping await root's six outputs and admission. Existing target loader's original mtime check requires a reviewed content-pin transport fallback; no target values were read.",
+    "No raw Parquet contents, cache payloads, candidate prediction values, or NPZ array values were read, hashed, compressed, uploaded, or downloaded in this role."
+  ]
+}
