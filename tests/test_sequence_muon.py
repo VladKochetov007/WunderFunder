@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -208,7 +209,9 @@ def test_muon_loads_legacy_groups_without_strict_fp32_options() -> None:
     reference_parameter.grad = torch.tensor([[0.5, -0.4], [0.1, 0.2]], dtype=torch.float32)
     reference.step()
 
-    saved_state = reference.state_dict()
+    # Keep an immutable checkpoint snapshot; optimizer.state_dict() returns
+    # references to mutable state tensors that optimizer.step() updates in place.
+    saved_state = deepcopy(reference.state_dict())
     for group in saved_state["param_groups"]:
         group.pop("strict_fp32", None)
         group.pop("ns_eps", None)
