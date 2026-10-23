@@ -13,8 +13,8 @@ from campaign_io import (
     write_bytes_new,
     write_json_new,
 )
-from endpoints import failure_path, validate_completed_endpoint
-from failure_receipts import validate_failure_receipt
+from endpoints import validate_completed_endpoint
+from failure_receipts import failure_path, validate_failure_receipt
 from materialize import load_stage
 from paired_metrics import _paired
 

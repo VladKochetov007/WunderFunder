@@ -84,8 +84,15 @@ def validate_failure_receipt(
         require(
             sha256_file(status_file) == status_binding["sha256"], "terminal failure status changed"
         )
+        status = read_object(status_file)
         require(
-            read_object(status_file).get("status") == "failed", "failure status file is not failed"
+            status.get("status") == "failed"
+            or (receipt["phase"] == "evaluate" and status.get("status") == "completed"),
+            "terminal status does not match the failure phase",
+        )
+        require(
+            not run_path(root, record, "fit/score.json").exists(),
+            "failed attempt cannot also have a completed score",
         )
     return {
         "state": "failed",

@@ -8,9 +8,10 @@ from pathlib import Path
 from typing import Any
 
 from campaign_io import REPO_ROOT, create_campaign, load_campaign, require
+from comparisons import compare_stage
 from failure_receipts import record_failure
 from materialize import SELECTABLE_STAGES, STAGES, get_cell, prepare_stage
-from results import compare_stage, select_variant
+from results import select_variant
 
 
 def _parser() -> argparse.ArgumentParser:

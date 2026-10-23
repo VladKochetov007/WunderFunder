@@ -1,5 +1,12 @@
 # B300 campaign with abundant compute
 
+**Implementation update, 24 October:** [R4 executable packet](high_compute_r4/README.md)
+implements the conditional B–H stages below, including inner manifests, complete
+configs, receiver commands and three-teacher cache composition. The text below
+preserves the original proposal. R4 freezes H students at 30 epochs and adds 180
+student fit-epochs; receiving-host acceptance and every scientific result remain
+pending. The four historical R3 configs are unchanged.
+
 User steering, 24 October 2026: compute is plentiful. Optimize for the strongest
 transferable teacher and final CPU student, with more informative comparisons
 and replication. The four R3 fits are the first capacity panel, not a campaign

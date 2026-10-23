@@ -1,10 +1,11 @@
 # B300 Transformer teacher and distillation runtime
 
-**24 October compute update:** [High-compute continuation](HIGH_COMPUTE_PLAN_20261024.md)
-treats the four R3 fits as the first panel. The conditional route covers LR/warmup,
-context, gradient horizon, a 3.15B teacher, crossed seed/fold robustness and student
-transfer: 40 total proposed fits including R3. Follow-up execution is not yet
-materialized or launched; R3's four frozen configs are unchanged.
+**24 October implementation:** [Executable high-compute R4](high_compute_r4/README.md)
+implements the [expanded plan](HIGH_COMPUTE_PLAN_20261024.md): staged LR/warmup,
+context/horizon and 3.15B teacher configs, crossed seed/fold confirmation and
+labels/single-teacher/three-teacher GRU distillation. Up to 40 conditional fits
+including the original four R3 teachers; exact controls are reused. Source
+preparation is complete; B300 checks and all outcomes remain pending.
 
 **23 October amendment:** [Large teacher R3 — Muon / 30 epochs](large_teacher_r3_muon30/README.md)
 is the current four-fit preparation for eight B300s. [All parameters and schedule](large_teacher_r3_muon30/PARAMETERS.md)

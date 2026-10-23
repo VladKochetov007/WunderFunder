@@ -138,7 +138,6 @@ def test_b_materialization_profiles_hashes_and_ineligible_failure(
     root = campaign_case["root"]
     materialize = packet["materialize"]
     campaign_io = packet["campaign_io"]
-    catalog = packet["catalog"]
     failure_receipts = packet["failure_receipts"]
     prepared = materialize.prepare_stage(root, "B")
     loaded = materialize.load_stage(root, "B")
@@ -162,8 +161,10 @@ def test_b_materialization_profiles_hashes_and_ineligible_failure(
         config = campaign_io.read_object(root / cell["config"])
         one = campaign_io.read_object(root / cell["profile_one"])
         peak = campaign_io.read_object(root / cell["profile_peak"])
-        assert one == catalog.profile_one_config(config)
-        assert peak == catalog.profile_peak_config(config)
+        assert one == config | {"required_world_size": 1}
+        assert peak == config | {"warmup_fraction": 0.0}
+        assert config["epochs"] == 30 and config["optimizer"] == "muon"
+        assert config["required_world_size"] == 8
         assert campaign_io.sha256_file(root / cell["profile_one"]) == cell["profile_one_sha256"]
         assert campaign_io.sha256_file(root / cell["profile_peak"]) == cell["profile_peak_sha256"]
 

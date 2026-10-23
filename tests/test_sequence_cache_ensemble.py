@@ -265,6 +265,19 @@ def test_rejects_duplicate_checkpoint_exports(
         merge_teacher_caches(roots, tmp_path, tmp_path / "split.json", tmp_path / "mean")
 
 
+def test_rejects_two_members_pointing_to_one_array(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    roots = _caches(tmp_path, monkeypatch)
+    path = roots[0] / "manifest.json"
+    manifest = json.loads(path.read_text())
+    first, second = manifest["sequences"]
+    second["file"], second["sha256"] = first["file"], first["sha256"]
+    path.write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match="distinct array files"):
+        merge_teacher_caches(roots, tmp_path, tmp_path / "split.json", tmp_path / "mean")
+
+
 def test_rejects_parent_provenance_copy_mismatch(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

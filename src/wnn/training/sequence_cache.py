@@ -74,6 +74,8 @@ class TeacherCache:
             observed.append((source, group))
         if len(set(observed)) != len(observed) or set(observed) != set(members):
             raise ValueError("teacher cache must cover exactly fitting membership")
+        if len({entry["file"] for entry in sequences}) != len(sequences):
+            raise ValueError("teacher cache members must reference distinct array files")
         producer = meta.get("producer")
         if not isinstance(producer, dict):
             raise ValueError("teacher cache producer is malformed")
