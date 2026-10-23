@@ -1,0 +1,93 @@
+{
+  "schema": "fg19.child-allthree-terminal-verifier-source-review.v5",
+  "status": "PASS_SOURCE_ONLY",
+  "reviewed_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v5/REMOTE_SUBMISSION_V5.py",
+    "bytes": 710848,
+    "sha256": "4d555fd69954d94415c135e467eadd081aa6fd915686197e5c7e628e935b9374"
+  },
+  "binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v5/V5_BINDING.json",
+    "bytes": 9050,
+    "sha256": "c6f89aa6fb00ff483eb839d87261cbd4ad1b83e6bca9cafbedbe7b97b57421c0",
+    "status": "SINGLE_ADMISSION_UNIT_REPAIR_RENDERED_LOCALLY_NOT_STAGED_ADMITTED_OR_EXECUTED"
+  },
+  "root_payload_check": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v5/ROOT_PAYLOAD_CHECK.json",
+    "bytes": 9638,
+    "sha256": "2ead1abb86145473ffd4173ed58a1d36244ee8aeb173ffa28a5734fcb2ccfb4f",
+    "schema": "fg19.child-allthree-terminal-root-payload-check.v5",
+    "status": "PASS_STATIC_EXACT_BODY_PAYLOAD_BINDING_ONLY",
+    "claims_bound": {
+      "payload_join_count": 15,
+      "private_code_file_count": 7,
+      "typed_native_key_count": 14,
+      "strict_native_integer_exit_tuple": [0, 1, 0],
+      "root_preparation_sha256": "60d864c978699b912a4cab1d09989e9e536e5506960ec89ef985103b6739accc",
+      "checker_source_review_sha256": "ed093f41ee2b8073ed25c9b065a6fd7370dffed962b76a20f60e152e8837863a"
+    }
+  },
+  "source_review_findings": [
+    {
+      "id": "ADMISSION_UNIT_REPAIR_MATCHES_DURABLE_REPLY_GUARD",
+      "result": "PASS",
+      "evidence": [
+        {
+          "body_lines": "1243-1266",
+          "finding": "The producer admission object now includes `\"unit\": UNIT` immediately after its schema entry and writes that object durably to VERIFIER_ADMISSION.json."
+        },
+        {
+          "body_lines": "1433-1464",
+          "finding": "The durable-reply guard requires the admission schema/unit, launch unit/native unit/native invocation/support invocation, and successful submission outcome/return code. The producer then emits exactly the four outer keys `unit`, `outcome`, `admission_base64`, and `launch_base64`. The inserted field closes the V4 self-consistency failure."
+        }
+      ]
+    },
+    {
+      "id": "EXACT_SINGLE_INSERTION_AND_PAYLOAD_PRESERVATION",
+      "result": "PASS",
+      "evidence": {
+        "v4_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v4/REMOTE_SUBMISSION_V4.py",
+        "v4_bytes": 710826,
+        "v4_sha256": "c186e7b4473bc11681f61c55a741f17b2fdab828c7906090ef10574a8aa2df90",
+        "insertion": "        \"unit\": UNIT,\n",
+        "insertion_bytes": 22,
+        "byte_offset": 699811,
+        "inserted_span_sha256": "617eb06539a8e18bc1623eb8d4ab772f9817c9c234c5dd6db0a29246491d85a2",
+        "independent_inverse_byte_comparison": "Removing exactly that span from V5 produced a byte-for-byte match to the pinned V4 body.",
+        "payload_consequence": "All embedded source and fixed-payload assignment bytes are unchanged from the V4 body; the separate root payload check binds all fifteen strict joins and seven code files. No payload was decoded or executed in this review."
+      }
+    },
+    {
+      "id": "TARGET_AND_INHERITED_PREFLIGHT_GATES",
+      "result": "PASS",
+      "evidence": {
+        "support_unit": "computer-vision-homework-fg19-child-allthree-verify-v2.service",
+        "private_output_directory": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v2",
+        "checker": {
+          "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/child_allthree_terminal_check_v2.py",
+          "bytes": 40442,
+          "sha256": "6ff4ba93a4020a4b34ade46a2512ac77b871328e95c47f2ca4561b8dcbd435b5"
+        },
+        "retained_contract": "By exact inverse-byte comparison, all V4 logic remains unchanged: fresh source/receipt/native/resource/ownership checks precede D.mkdir; the seven private code files are prehashed before imports; checker V2 uses its six-helper closure and 13 Path arguments; the five fit receipts retain the two native-directory versus three root-only classification; the restricted path marker, bounded one-attempt CPU launch, and no-retry policy are retained.",
+        "failed_v1_support": "The reviewed body targets only the new verify-v2 unit and D_v2; it does not act on the failed verify-v1 invocation or directory."
+      }
+    },
+    {
+      "id": "FOCUSED_CONTRACT_FIXTURE_SOURCE",
+      "result": "REVIEWED_NOT_EXECUTED",
+      "evidence": "The five new static fixtures cover exact V4-plus-insertion bytes, unchanged fifteen payload/pin assignments, producer admission/launch fields against reader requirements, the actual durable reply guard with correct and incorrect synthetic identities/submissions, and exact four-key output plus preserved V4 rejection. No fixture or Ruff command was run by this reviewer."
+    }
+  ],
+  "separate_pending_gate": "The independent producer-consumer pair review and root outer-output admission remain separate execution gates. This source-only verdict does not authorize staging, submission, execution, or result acceptance.",
+  "review_limits": {
+    "method": "Read-only final-source and metadata review; exact byte inverse compared without decoding embedded payloads.",
+    "not_performed": [
+      "imports or body/checker execution",
+      "tests or Ruff",
+      "network or B query/action",
+      "model, state, array, or data payload reads"
+    ]
+  },
+  "reviewed_utc": "2026-10-21",
+  "reviewer_action": "No B action; no tests or imports; only this review file was written."
+}

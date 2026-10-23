@@ -1,0 +1,873 @@
+{
+  "schema": "fg19.child-allthree-fit-rare-health-observation.v1",
+  "status": "ACTIVE_RUNNING_DATED_METADATA_ONLY",
+  "captured_utc": "2026-10-21T05:18:13.269941+00:00",
+  "unit_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "CPUUsageNSec": "11856507713000",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-allthree-fit-v1.service",
+    "ExecMainCode": "0",
+    "ExecMainExitTimestamp": "",
+    "ExecMainStartTimestamp": "Wed 2026-10-21 01:58:58 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_child_allthree_f0_s1001_fit_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode ema_sparse --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective nll --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --grad-stats --save-training-state --no-eval-during-fit ; ignore_errors=no ; start_time=[Wed 2026-10-21 01:58:58 UTC] ; stop_time=[n/a] ; pid=1875143 ; code=(null) ; status=0/0 }",
+    "InvocationID": "94d3a7132a434d448345b0206bd3daa3",
+    "LoadState": "loaded",
+    "MainPID": "1875143",
+    "MemoryCurrent": "2999373824",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "3278077952",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "running"
+  },
+  "invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+  "raw_bytes": 79090,
+  "raw_sha256": "cbda4266bed890f74313d1d511851606edc2b83d92acd36b02b3af13c4ee9175",
+  "reader_sha256": "0df25d26ba9e3c1eda9a2a82cf6b7940577fb8b25b81002fdfd7c27f15341b9b",
+  "completed_epoch_fit_records": [
+    {
+      "epoch": 0,
+      "train_seconds": 2708.0,
+      "evaluation": "withheld",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "cumulative": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "sample_order_identity": {
+          "sampler_class": "EpochOrderSampler",
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "88ef3f1de04244baa8588fdc5119935442c0e007e87f0d772f0534208c21f04f"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "88ef3f1de04244baa8588fdc5119935442c0e007e87f0d772f0534208c21f04f"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": null,
+          "sampler_num_samples": null,
+          "seeded_order": {
+            "seed": 1001,
+            "epoch": 0,
+            "antithetic": false,
+            "shared_dropped_tail": true
+          }
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "72def7c8dee31e2f469e49cb1c6059440669896d4bbded28d61f0cf35e4a41f2"
+          },
+          "std": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "3bf84643202ca8995f8797634d76e34292745914e902c234ee022f94f9258798"
+          }
+        },
+        "grad_stats": {
+          "epoch": 0,
+          "steps": 7460,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            10.30242,
+            40.52706,
+            104.25176
+          ],
+          "clip_rate": 1.0,
+          "mean_clip_factor": 0.0327,
+          "family_median": {
+            "rnn_hh": 3.43389,
+            "rnn_ih": 3.94005,
+            "inp": 5.21612,
+            "head": 39.62411,
+            "bias": 1.79242
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0082,
+            "rnn_ih": 0.0111,
+            "inp": 0.0243,
+            "head": 0.9541,
+            "bias": 0.0023
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": -1.7785191594755363,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 7460,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 4.000000000000002e-06,
+            "last": 9.632617347939579e-05,
+            "mean": 8.473825159427787e-05
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        }
+      }
+    },
+    {
+      "epoch": 1,
+      "train_seconds": 1964.1,
+      "evaluation": "withheld",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "cumulative": {
+          "optimizer_attempts": 14920,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 14920,
+          "ema_updates": 0,
+          "completed_batches": 1492
+        },
+        "sample_order_identity": {
+          "sampler_class": "EpochOrderSampler",
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "051314e55b7af2a26927068cf7b6cb66373ef73fb40ee5880e1bd3eeb180610c"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "051314e55b7af2a26927068cf7b6cb66373ef73fb40ee5880e1bd3eeb180610c"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": null,
+          "sampler_num_samples": null,
+          "seeded_order": {
+            "seed": 1001,
+            "epoch": 1,
+            "antithetic": false,
+            "shared_dropped_tail": true
+          }
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "72def7c8dee31e2f469e49cb1c6059440669896d4bbded28d61f0cf35e4a41f2"
+          },
+          "std": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "3bf84643202ca8995f8797634d76e34292745914e902c234ee022f94f9258798"
+          }
+        },
+        "grad_stats": {
+          "epoch": 1,
+          "steps": 7460,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            14.4454,
+            32.32783,
+            74.31175
+          ],
+          "clip_rate": 1.0,
+          "mean_clip_factor": 0.0348,
+          "family_median": {
+            "rnn_hh": 3.00948,
+            "rnn_ih": 3.59083,
+            "inp": 4.60044,
+            "head": 31.45884,
+            "bias": 1.77302
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0107,
+            "rnn_ih": 0.0157,
+            "inp": 0.0312,
+            "head": 0.9393,
+            "bias": 0.0031
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": -2.1642707722436327,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 7460,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 9.632478379246628e-05,
+            "last": 7.96199179281957e-05,
+            "mean": 8.896279808938511e-05
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        }
+      }
+    },
+    {
+      "epoch": 2,
+      "train_seconds": 1932.4,
+      "evaluation": "withheld",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "cumulative": {
+          "optimizer_attempts": 22380,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 22380,
+          "ema_updates": 0,
+          "completed_batches": 2238
+        },
+        "sample_order_identity": {
+          "sampler_class": "EpochOrderSampler",
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "2ff5c0f63e649e9b5c31ad70b9e602ef7f2f60d3fc9db68db171be5af34fd4fc"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "2ff5c0f63e649e9b5c31ad70b9e602ef7f2f60d3fc9db68db171be5af34fd4fc"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": null,
+          "sampler_num_samples": null,
+          "seeded_order": {
+            "seed": 1001,
+            "epoch": 2,
+            "antithetic": false,
+            "shared_dropped_tail": true
+          }
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "72def7c8dee31e2f469e49cb1c6059440669896d4bbded28d61f0cf35e4a41f2"
+          },
+          "std": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "3bf84643202ca8995f8797634d76e34292745914e902c234ee022f94f9258798"
+          }
+        },
+        "grad_stats": {
+          "epoch": 2,
+          "steps": 7460,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            12.38778,
+            26.49556,
+            62.14898
+          ],
+          "clip_rate": 1.0,
+          "mean_clip_factor": 0.0416,
+          "family_median": {
+            "rnn_hh": 2.82127,
+            "rnn_ih": 3.46569,
+            "inp": 4.3937,
+            "head": 25.59394,
+            "bias": 1.62241
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0134,
+            "rnn_ih": 0.021,
+            "inp": 0.0398,
+            "head": 0.9221,
+            "bias": 0.0038
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": -2.280270033930965,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 7460,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 7.961694247797817e-05,
+            "last": 5.414731568670718e-05,
+            "mean": 6.73221821659321e-05
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        }
+      }
+    },
+    {
+      "epoch": 3,
+      "train_seconds": 1914.6,
+      "evaluation": "withheld",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "cumulative": {
+          "optimizer_attempts": 29840,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 29840,
+          "ema_updates": 0,
+          "completed_batches": 2984
+        },
+        "sample_order_identity": {
+          "sampler_class": "EpochOrderSampler",
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "319993ed7b925207a68484ee7b282e108efa5dd2ffcbf4710807df6e3cd1217a"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "319993ed7b925207a68484ee7b282e108efa5dd2ffcbf4710807df6e3cd1217a"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": null,
+          "sampler_num_samples": null,
+          "seeded_order": {
+            "seed": 1001,
+            "epoch": 3,
+            "antithetic": false,
+            "shared_dropped_tail": true
+          }
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "72def7c8dee31e2f469e49cb1c6059440669896d4bbded28d61f0cf35e4a41f2"
+          },
+          "std": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "3bf84643202ca8995f8797634d76e34292745914e902c234ee022f94f9258798"
+          }
+        },
+        "grad_stats": {
+          "epoch": 3,
+          "steps": 7460,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            11.15738,
+            23.48721,
+            54.77698
+          ],
+          "clip_rate": 1.0,
+          "mean_clip_factor": 0.0467,
+          "family_median": {
+            "rnn_hh": 2.77279,
+            "rnn_ih": 3.46178,
+            "inp": 4.37294,
+            "head": 22.40077,
+            "bias": 1.49931
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0164,
+            "rnn_ih": 0.0264,
+            "inp": 0.0489,
+            "head": 0.9042,
+            "bias": 0.0042
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": -2.3637396845676943,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 7460,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 5.414363568605598e-05,
+            "last": 2.745236275162176e-05,
+            "mean": 4.055733151544271e-05
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        }
+      }
+    },
+    {
+      "epoch": 4,
+      "train_seconds": 1978.8,
+      "evaluation": "withheld",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "cumulative": {
+          "optimizer_attempts": 37300,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 37300,
+          "ema_updates": 0,
+          "completed_batches": 3730
+        },
+        "sample_order_identity": {
+          "sampler_class": "EpochOrderSampler",
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "775afa88e99213f11e13e664187be10640b187dc66fd68c5c330a9c0c6b114c5"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "775afa88e99213f11e13e664187be10640b187dc66fd68c5c330a9c0c6b114c5"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": null,
+          "sampler_num_samples": null,
+          "seeded_order": {
+            "seed": 1001,
+            "epoch": 4,
+            "antithetic": false,
+            "shared_dropped_tail": true
+          }
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "72def7c8dee31e2f469e49cb1c6059440669896d4bbded28d61f0cf35e4a41f2"
+          },
+          "std": {
+            "shape": [
+              467
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "3bf84643202ca8995f8797634d76e34292745914e902c234ee022f94f9258798"
+          }
+        },
+        "grad_stats": {
+          "epoch": 4,
+          "steps": 7460,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            10.17071,
+            21.45391,
+            50.03231
+          ],
+          "clip_rate": 1.0,
+          "mean_clip_factor": 0.0512,
+          "family_median": {
+            "rnn_hh": 2.84305,
+            "rnn_ih": 3.56377,
+            "inp": 4.45982,
+            "head": 20.27506,
+            "bias": 1.39809
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0203,
+            "rnn_ih": 0.0328,
+            "inp": 0.0599,
+            "head": 0.8826,
+            "bias": 0.0043
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": -2.4228264284517427,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 7460,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 2.744906807388073e-05,
+            "last": 7.441067946260419e-06,
+            "mean": 1.6594955951273545e-05
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        }
+      }
+    }
+  ],
+  "completed_epoch_gradient_stats": [
+    {
+      "epoch": 0,
+      "steps": 7460,
+      "nonfinite_steps": 0,
+      "clip": 1.0,
+      "total_q05_q50_q95": [
+        10.30242,
+        40.52706,
+        104.25176
+      ],
+      "clip_rate": 1.0,
+      "mean_clip_factor": 0.0327,
+      "family_median": {
+        "rnn_hh": 3.43389,
+        "rnn_ih": 3.94005,
+        "inp": 5.21612,
+        "head": 39.62411,
+        "bias": 1.79242
+      },
+      "family_sq_share_mean": {
+        "rnn_hh": 0.0082,
+        "rnn_ih": 0.0111,
+        "inp": 0.0243,
+        "head": 0.9541,
+        "bias": 0.0023
+      }
+    },
+    {
+      "epoch": 1,
+      "steps": 7460,
+      "nonfinite_steps": 0,
+      "clip": 1.0,
+      "total_q05_q50_q95": [
+        14.4454,
+        32.32783,
+        74.31175
+      ],
+      "clip_rate": 1.0,
+      "mean_clip_factor": 0.0348,
+      "family_median": {
+        "rnn_hh": 3.00948,
+        "rnn_ih": 3.59083,
+        "inp": 4.60044,
+        "head": 31.45884,
+        "bias": 1.77302
+      },
+      "family_sq_share_mean": {
+        "rnn_hh": 0.0107,
+        "rnn_ih": 0.0157,
+        "inp": 0.0312,
+        "head": 0.9393,
+        "bias": 0.0031
+      }
+    },
+    {
+      "epoch": 2,
+      "steps": 7460,
+      "nonfinite_steps": 0,
+      "clip": 1.0,
+      "total_q05_q50_q95": [
+        12.38778,
+        26.49556,
+        62.14898
+      ],
+      "clip_rate": 1.0,
+      "mean_clip_factor": 0.0416,
+      "family_median": {
+        "rnn_hh": 2.82127,
+        "rnn_ih": 3.46569,
+        "inp": 4.3937,
+        "head": 25.59394,
+        "bias": 1.62241
+      },
+      "family_sq_share_mean": {
+        "rnn_hh": 0.0134,
+        "rnn_ih": 0.021,
+        "inp": 0.0398,
+        "head": 0.9221,
+        "bias": 0.0038
+      }
+    },
+    {
+      "epoch": 3,
+      "steps": 7460,
+      "nonfinite_steps": 0,
+      "clip": 1.0,
+      "total_q05_q50_q95": [
+        11.15738,
+        23.48721,
+        54.77698
+      ],
+      "clip_rate": 1.0,
+      "mean_clip_factor": 0.0467,
+      "family_median": {
+        "rnn_hh": 2.77279,
+        "rnn_ih": 3.46178,
+        "inp": 4.37294,
+        "head": 22.40077,
+        "bias": 1.49931
+      },
+      "family_sq_share_mean": {
+        "rnn_hh": 0.0164,
+        "rnn_ih": 0.0264,
+        "inp": 0.0489,
+        "head": 0.9042,
+        "bias": 0.0042
+      }
+    },
+    {
+      "epoch": 4,
+      "steps": 7460,
+      "nonfinite_steps": 0,
+      "clip": 1.0,
+      "total_q05_q50_q95": [
+        10.17071,
+        21.45391,
+        50.03231
+      ],
+      "clip_rate": 1.0,
+      "mean_clip_factor": 0.0512,
+      "family_median": {
+        "rnn_hh": 2.84305,
+        "rnn_ih": 3.56377,
+        "inp": 4.45982,
+        "head": 20.27506,
+        "bias": 1.39809
+      },
+      "family_sq_share_mean": {
+        "rnn_hh": 0.0203,
+        "rnn_ih": 0.0328,
+        "inp": 0.0599,
+        "head": 0.8826,
+        "bias": 0.0043
+      }
+    }
+  ],
+  "completed_epoch_successful_updates": 37300,
+  "completed_epoch_batches": 3730,
+  "completed_epoch_amp_skipped_updates": 0,
+  "completed_epoch_nonfinite_gradient_steps": 0,
+  "last_recorded_progress_line": "ep 5 batch 440/746 loss -2.3766 lr 1.30e-06 seq/s 6.0",
+  "last_line_is_not_synchronous_live_or_terminal_total": true,
+  "own_cgroup_state": {
+    "cgroup.procs": "1875143\n",
+    "cgroup.procs_bytes_observed": 8,
+    "cgroup.procs_truncated": false,
+    "memory.current": "2999783424\n",
+    "memory.current_bytes_observed": 11,
+    "memory.current_truncated": false,
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local_bytes_observed": 53,
+    "memory.events.local_truncated": false,
+    "memory.events_bytes_observed": 53,
+    "memory.events_truncated": false,
+    "memory.peak": "3278077952\n",
+    "memory.peak_bytes_observed": 11,
+    "memory.peak_truncated": false,
+    "path": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-allthree-fit-v1.service"
+  },
+  "own_process_rss_observation": [
+    "VmHWM:\t 5131832 kB",
+    "VmRSS:\t 4885216 kB"
+  ],
+  "parent_cgroup_current_bytes": 9874620416,
+  "parent_events_delta_from_health_0418": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_local_events_delta_from_health_0418": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_counter_baseline": "health_20261021T0417Z/STDOUT.raw.json at 2026-10-21T04:18:16.341572+00:00; historical parent high/max counts are not zero",
+  "owned_gpu_process": {
+    "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-allthree-fit-v1.service",
+    "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "pid": 1875143,
+    "uid": 1061,
+    "used_memory": "3762 MiB"
+  },
+  "all_populated_descendants": {
+    "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-allthree-fit-v1.service/cgroup.procs": "1875143"
+  },
+  "run_directory_stat_only": {
+    "entries": [
+      {
+        "bytes": 4276002,
+        "device": 64512,
+        "inode": 781785398,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792550910446258944,
+        "name": "model_ep0.pt"
+      },
+      {
+        "bytes": 4276834,
+        "device": 64512,
+        "inode": 781810339,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792552875001120184,
+        "name": "model_ep1.pt"
+      },
+      {
+        "bytes": 4277602,
+        "device": 64512,
+        "inode": 781785400,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792554807578457453,
+        "name": "model_ep2.pt"
+      },
+      {
+        "bytes": 4278370,
+        "device": 64512,
+        "inode": 781810340,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792556722404312089,
+        "name": "model_ep3.pt"
+      },
+      {
+        "bytes": 4279202,
+        "device": 64512,
+        "inode": 781810341,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792558701343016629,
+        "name": "model_ep4.pt"
+      },
+      {
+        "bytes": 191438,
+        "device": 64512,
+        "inode": 781785399,
+        "is_symlink": false,
+        "mode": 33204,
+        "mtime_ns": 1792558701362017970,
+        "name": "provenance.json"
+      },
+      {
+        "bytes": 12657571,
+        "device": 64512,
+        "inode": 781810343,
+        "is_symlink": false,
+        "mode": 33152,
+        "mtime_ns": 1792558701396020368,
+        "name": "training_state.pt"
+      }
+    ],
+    "exists": true,
+    "symlink": false
+  },
+  "canonical_source_content_rehashed_by_reader": false,
+  "source_authority": "Fresh167-file content hashes in the actual AllThree admission; reader source identifier is an expected constant only.",
+  "reader_reuse_note": "The exact frozen AllThree startup reader and fg19-child-allthree-startup-capture.v1 schema are reused for this rare observation; no code or raw label was rewritten.",
+  "limits": "Five completed native epochs only. Later logged batch is not synchronous current totals, terminal44760, tensor integrity or predictive quality. NLL objective cannot be compared with WMSE training loss as quality. CG/service/RSS/GPU/CPU/wall/FITtime are separate samples, no equality/fullRAM/cause/performance inference. No model/state/cache/data payload read/hash, support/newfit/inference/restart/stop/grade or unchanged source/model/profile/cold suite."
+}

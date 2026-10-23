@@ -1,0 +1,154 @@
+{
+  "schema": "fg19.child-allthree-startup-observation.v1",
+  "status": "PASS_METADATA_ONLY",
+  "captured_utc": "2026-10-21T02:00:36.378025+00:00",
+  "scope": "One early read-only startup snapshot. It records unit, process, cgroup, selected-GPU ownership metadata, and three bounded receipt joins. It is not a fit completion, integrity acceptance, or quality result.",
+  "identity": {
+    "run_name": "fg19_child_allthree_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+    "invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+    "unit_start_utc": "2026-10-21T01:58:58+00:00",
+    "source_commit_from_admission": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_files_verified_at_admission": 167,
+    "source_manifest_sha256_at_admission": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "source_authority_note": "The startup capture carries the original admission source identity; it does not rehash source contents."
+  },
+  "capture": {
+    "raw_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/STDOUT.raw.json",
+    "raw_bytes": 38779,
+    "raw_sha256": "a1d5e8c9e53323bdd63f3dc3c03eb8fa0ad057c33a47c109de3823c8487109d6",
+    "transport_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/TRANSPORT.json",
+    "transport_bytes": 545,
+    "transport_sha256": "efd02a42b2dbcdae457d5091e78754bb4d55af770864ccee92486e08cb5e2f32",
+    "ssh_returncode": 0,
+    "stderr_bytes": 0,
+    "persisted_before_parse": true,
+    "retry_performed": false,
+    "reader_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/REMOTE.py",
+    "reader_bytes": 13018,
+    "reader_sha256": "0df25d26ba9e3c1eda9a2a82cf6b7940577fb8b25b81002fdfd7c27f15341b9b",
+    "ast_substitution_receipt_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/AST_SUBSTITUTION_RECEIPT.json",
+    "ast_substitution_receipt_bytes": 4006,
+    "ast_substitution_receipt_sha256": "6eb93586d375a2ebe26fd740e2a6456c79f6b6ed14aa787163a722161f4aa3a6",
+    "ast_substitution_status": "PASS_AST_STRUCTURE_IDENTICAL_ONLY_IDENTITY_RECEIPT_SCHEMA_PROSE_CONSTANTS_CHANGED",
+    "nll_reader_parent": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/startup_health_v1/REMOTE.py",
+      "bytes": 12963,
+      "sha256": "cffc39769f4d16212216816498f7d6d6dc83db152cebaf73b0820b123b88beaf"
+    }
+  },
+  "receipt_joins": {
+    "method": "Strict base64 decode of the three named members in the persisted raw response; each extracted file was create-only written and fsynced, then byte-compared with the decoded source bytes.",
+    "original_bytes_preserved": true,
+    "files": {
+      "ADMISSION.json": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/ADMISSION.json",
+        "bytes": 12912,
+        "sha256": "5312ae5feffc67d7a33051379afabb9c134dd946f1f97315d839c7d6f10d5540"
+      },
+      "LAUNCH.json": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/LAUNCH.json",
+        "bytes": 9594,
+        "sha256": "ec9d8dc819894e148753838ba33ba95080c192bacd5ac53413bd6847568fd538"
+      },
+      "unit.log": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/unit.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "empty_at_capture": true
+      }
+    }
+  },
+  "startup_state": {
+    "unit_active_state": "active",
+    "unit_sub_state": "running",
+    "main_pid": 1875143,
+    "exec_main_code": 0,
+    "exec_main_status": 0,
+    "systemd_result_property": "success",
+    "result_property_note": "The process was still running at capture time; this property is not an exit or fit-completion result.",
+    "own_process_rss_kib": 565152,
+    "own_cgroup_memory_current_bytes": 711725056,
+    "own_cgroup_memory_peak_bytes": 711970816,
+    "own_cgroup_memory_events": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "parent_campaign_memory_current_bytes": 8144412672,
+    "parent_campaign_memory_peak_bytes": 11418365952,
+    "parent_campaign_memory_events": {
+      "low": 0,
+      "high": 38355,
+      "max": 561,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "parent_campaign_memory_events_local": {
+      "low": 0,
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "parent_populated_descendants": {
+      "campaign_fit_process_pid": 1875143
+    },
+    "run_directory_stat_only": {
+      "exists": false,
+      "entry_count": 0,
+      "payloads_read": false
+    },
+    "observed_fit_progress": null,
+    "progress_note": "The joined unit.log was empty and the run directory did not yet exist in this snapshot. No completed updates, batches, epoch, or fit-quality result is evidenced here. Admission's 44,760 update figure is an arithmetic expectation, not an observation."
+  },
+  "recipe_from_admission_not_progress": {
+    "representation_mode": "ema_sparse",
+    "mean_variance_objective": "nll",
+    "seed": 1001,
+    "epochs_planned": 6,
+    "selected_checkpoint_epoch_zero_based": 5,
+    "batch_size": 16,
+    "chunk_rows": 2000,
+    "evaluation_during_fit": false,
+    "expected_optimizer_updates_arithmetic_only": 44760
+  },
+  "gpu_snapshot": {
+    "selected_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "selected_gpu_name": "NVIDIA RTX A4000",
+    "total_mib": 16376,
+    "used_mib_reported": 5916,
+    "free_mib_reported": 10059,
+    "owned_fit_process_observed": false,
+    "ownership_note": "At this early setup snapshot the selected-GPU listing contained three other process owners and no process attributed to the AllThree unit. This is one observation only; it does not establish a fit failure or an owned VRAM amount.",
+    "other_processes_observed_and_preserved": [
+      {
+        "pid": 521754,
+        "uid": 1026,
+        "used_memory": "490 MiB"
+      },
+      {
+        "pid": 964460,
+        "uid": 1117,
+        "used_memory": "4544 MiB"
+      },
+      {
+        "pid": 1870567,
+        "uid": 1117,
+        "used_memory": "858 MiB"
+      }
+    ],
+    "foreign_processes_touched": false
+  },
+  "limitations": [
+    "This is an early startup snapshot while the native unit was active/running, not an exit, terminal verification, acceptance, or exact stop.",
+    "No owned GPU process or fit progress was visible in this snapshot; do not infer a failure or completion from that absence.",
+    "Memory/RSS and GPU values are measurements from distinct scopes at one capture time and are not interchangeable or causal performance claims.",
+    "No model, checkpoint, optimizer, cache, dictionary, dataset, source, or trainer payload was read or hashed."
+  ]
+}

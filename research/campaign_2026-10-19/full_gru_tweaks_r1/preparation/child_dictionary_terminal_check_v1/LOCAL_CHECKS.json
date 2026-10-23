@@ -1,0 +1,150 @@
+{
+  "checks": [
+    {
+      "command": "./.venv/bin/ruff format <checker-and-fixture>",
+      "status": "PASS_FINAL_BYTES_FORMATTED"
+    },
+    {
+      "command": "./.venv/bin/ruff check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1",
+      "status": "PASS"
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 ./.venv/bin/python -m unittest discover -s research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1 -p 'test_*.py' -v",
+      "result": "OK",
+      "status": "PASS",
+      "tests": 7
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 ./.venv/bin/python research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/cold_import_proof_dictionary_terminal_check_v1.py",
+      "status": "PASS_INITIAL_PROOF_SUPERSEDED_BY_GUARDED_CUDA_PROOF",
+      "proof": {
+        "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/COLD_IMPORT_PROOF.json",
+        "bytes": 12901,
+        "sha256": "4568faf518a5a43e01f21b9b812e15a7a59836d4eccccabbb36c7f2a5e1062bc"
+      },
+      "checker_entrypoint_or_fit_eval_called": false,
+      "superseded_reason": "Initial proof observed CUDA initialization state but did not guard/count initialization, allocation, transfer, and device APIs."
+    },
+    {
+      "command": "./.venv/bin/ruff check and ruff format --check <new cold-import proof fixture only>",
+      "status": "PASS",
+      "scope": "cold_import_proof_dictionary_terminal_check_v1.py only; unchanged seven-fixture suite was not rerun"
+    },
+    {
+      "command": "CUDA_VISIBLE_DEVICES='' PYTHONDONTWRITEBYTECODE=1 ./.venv/bin/python research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/cold_import_proof_dictionary_terminal_check_v1.py",
+      "status": "PASS_FOCUSED_COLD_PRIVATE_AND_SOURCE_IMPORT_PROOF",
+      "proof": {
+        "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/COLD_IMPORT_PROOF.json",
+        "bytes": 15284,
+        "sha256": "41c2d2157f6143d287e1c132b5559246c2397ce48e32ad5a58adbf0ecb842d29"
+      },
+      "guarded_cuda_api_name_count": 59,
+      "guarded_cuda_call_attempts": 0,
+      "cuda_initialized_observer_call_count": 3,
+      "observer_and_guarded_calls_reported_separately": true,
+      "checker_trainer_fit_eval_entrypoint_calls": 0
+    }
+  ],
+  "dependency_manifest_sha256": "d506d4a94c728be5c7b4b6010ad5ac2bc3c018ac5ba9ae07f6c9906b8dce9521",
+  "fixture_scope": {
+    "B_staging_or_remote_operation": false,
+    "cuda_initialized_after_import": false,
+    "cuda_visible_devices": "",
+    "model_path_read_sentinel_denied": true,
+    "model_state_dictionary_cache_or_dataset_payload_read_or_hashed": false,
+    "native_evidence_fabricated_or_written": false,
+    "private_six_file_closure_copy_only": true,
+    "source_model_profile_suite_rerun": false,
+    "synthetic_metadata_only": true,
+    "terminal_checker_invoked": false,
+    "cold_proof_fresh_subprocess": true,
+    "cold_proof_private_code_files": 6,
+    "cold_proof_loaded_canonical_wnn_modules": 29,
+    "cold_proof_167_file_manifest_matches": true,
+    "cold_proof_protected_payload_open_attempts": 0,
+    "cold_proof_checker_trainer_fit_eval_calls": 0,
+    "local_torch_version": "2.14.1",
+    "worker_torch_2_14_0_cu130_gate_satisfied_by_local_proof": false,
+    "cold_proof_guarded_cuda_api_names": 59,
+    "cold_proof_guarded_cuda_call_attempts": 0,
+    "cold_proof_cuda_initialized_observer_call_count": 3,
+    "cold_proof_observer_count_is_not_guarded_call_count": true
+  },
+  "native_terminal_evidence": "UNBOUND_NOT_PRESENT",
+  "schema": "fg19.child-dictionary-terminal-check-local-checks.v1",
+  "status": "PASS_PRIOR_SEVEN_FOCUSED_TESTS_PLUS_FINAL_COLD_IMPORT_PROOF",
+  "tested_files": {
+    "checker": {
+      "bytes": 34164,
+      "sha256": "d06818648362d571e3b06637bc026b97190476a6b59474f4a57ec84c349e4d82"
+    },
+    "fixture": {
+      "bytes": 10121,
+      "sha256": "61ccbd52eda5b739b634b93a4cccfb13e519e4317c19a424735041e24af6d003"
+    },
+    "readme": {
+      "bytes": 2761,
+      "sha256": "5f51d8d2bc6a55d2914fc7a2d3cb621af49f69966a6ea9c734901a331c0c00dd"
+    }
+  },
+  "prior_seven_test_snapshot": {
+    "status": "PASS_RECORDED_BEFORE_COLD_PROOF_DOCS_UPDATE; NOT_RERUN",
+    "checker": {
+      "bytes": 34164,
+      "sha256": "d06818648362d571e3b06637bc026b97190476a6b59474f4a57ec84c349e4d82"
+    },
+    "fixture": {
+      "bytes": 10121,
+      "sha256": "61ccbd52eda5b739b634b93a4cccfb13e519e4317c19a424735041e24af6d003"
+    },
+    "readme_at_that_snapshot": {
+      "bytes": 2761,
+      "sha256": "5f51d8d2bc6a55d2914fc7a2d3cb621af49f69966a6ea9c734901a331c0c00dd"
+    },
+    "tests": 7
+  },
+  "final_files": {
+    "child_dictionary_terminal_check_v1.py": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/child_dictionary_terminal_check_v1.py",
+      "bytes": 34164,
+      "sha256": "d06818648362d571e3b06637bc026b97190476a6b59474f4a57ec84c349e4d82"
+    },
+    "test_child_dictionary_terminal_check_v1.py": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/test_child_dictionary_terminal_check_v1.py",
+      "bytes": 10121,
+      "sha256": "61ccbd52eda5b739b634b93a4cccfb13e519e4317c19a424735041e24af6d003"
+    },
+    "cold_import_proof_dictionary_terminal_check_v1.py": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/cold_import_proof_dictionary_terminal_check_v1.py",
+      "bytes": 24128,
+      "sha256": "d09a451ba09a797fae031e1f1db4a7243446b9e970a7b317bd694a5b0ce8c28c"
+    },
+    "COLD_IMPORT_PROOF.json": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/COLD_IMPORT_PROOF.json",
+      "bytes": 15284,
+      "sha256": "41c2d2157f6143d287e1c132b5559246c2397ce48e32ad5a58adbf0ecb842d29"
+    },
+    "README.md": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/README.md",
+      "bytes": 4327,
+      "sha256": "94ac3479b15ffa9b7d7ad64e61df35d4f3cf3bb53ae1c0594836960c07ab259b"
+    },
+    "DEPENDENCY_MANIFEST.json": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/DEPENDENCY_MANIFEST.json",
+      "bytes": 13641,
+      "sha256": "d506d4a94c728be5c7b4b6010ad5ac2bc3c018ac5ba9ae07f6c9906b8dce9521"
+    }
+  },
+  "prior_cold_import_proof_history": {
+    "status": "PASS_SUPERSEDED; CUDA STATE WAS OBSERVED BUT API CALLS WERE NOT GUARDED",
+    "proof": {
+      "bytes": 12901,
+      "sha256": "4568faf518a5a43e01f21b9b812e15a7a59836d4eccccabbb36c7f2a5e1062bc"
+    },
+    "harness": {
+      "bytes": 19749,
+      "sha256": "5071be7e41ab3e5b1b12921d77eb18b678ecb35eb93dd2c45d708edaaae1ed91"
+    },
+    "superseded_because": "Root review required fail-on-call guards/counters for CUDA initialization, allocation, transfer, and device APIs, with is_initialized observations explicitly separate."
+  }
+}

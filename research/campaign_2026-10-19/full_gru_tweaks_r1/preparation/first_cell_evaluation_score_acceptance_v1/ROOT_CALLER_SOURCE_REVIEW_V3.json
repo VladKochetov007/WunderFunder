@@ -1,0 +1,77 @@
+{
+  "schema": "fg19.first-cell-score-root-acceptance-caller-review.v3",
+  "status": "REJECT_SOURCE_ONLY_OUTPUT_COLLISION_PRECHECK",
+  "reviewed_at_utc": "2026-10-21",
+  "scope": "Independent static source and metadata review of ROOT_ACCEPT_SCORE_RESULT_V3.py and its fixed helper, capture-reader, and root-status-driver provenance joins. No import, execution, test, B/SSH/systemd action, result/receipt payload access, or score evaluation was performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_ACCEPT_SCORE_RESULT_V3.py",
+    "bytes": 31177,
+    "sha256": "50851aac67f25d81340143d3f845d837bc773db2ae642f7f8f53cc08af29376d"
+  },
+  "literal_rebase": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_CALLER_V3_LITERAL_REBASE_PROOF.json",
+    "bytes": 2181,
+    "sha256": "68d9d5ede7857b5ee13965391504af90f15bde9091c013e282d287ee91ebb0ff",
+    "status": "PASS_EXACT_FOUR_LITERAL_V10_TO_V11_REBASE"
+  },
+  "pinned_dependencies": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/score_result_acceptance.py",
+      "bytes": 45795,
+      "sha256": "5987d527382f0ce33e72b4c17ae020d03485df3057b398ae285940ead29d528b"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/SOURCE_REVIEW_V1.json",
+      "bytes": 5695,
+      "sha256": "31dd246873448a214f772be5793b13cff12b7fcb1d79d4cdc64009fcaf8a56f0",
+      "schema": "fg19.first-cell-score-result-acceptance-source-review.v1",
+      "status": "PASS_SOURCE_ONLY_ROOT_RESULT_ACCEPTANCE_V1"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/SCORE_RESULT_CAPTURE_TEMPLATE_V4.py",
+      "bytes": 26354,
+      "sha256": "88968f6dd73d4b489c4fc57308906c5e390137a49389ab991408408f353b9be6"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/INDEPENDENT_SOURCE_REVIEW_V4.json",
+      "bytes": 5655,
+      "sha256": "b05b06a6e56888348e30ebe0ded0272a5e9f3ca709037feb975b938b4d0bb7d0",
+      "schema": "fg19.first-cell-score-result-capture-source-review.v4",
+      "status": "PASS_SOURCE_ONLY_READER_V4_HARD_BOUNDED_UNBOUND"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_CAPTURE_SCORE_STATUS_V2.py",
+      "bytes": 8895,
+      "sha256": "e7b479e8237e6ca1f23417ce7a685c3e08fc4bb772fcfc33775634e680f8748c"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_SCORE_STATUS_DRIVER_SOURCE_REVIEW_V2.json",
+      "bytes": 5662,
+      "sha256": "ae7d68b74b61423d4ef15f93ca9e1c30581287229fd03d9028c2a80ee54b264e",
+      "schema": "fg19.first-cell-score-root-status-driver-source-review.v2",
+      "status": "PASS_SOURCE_ONLY_SCORE_STATUS_DRIVER_V2_PINNED_READER_V4_CALLER_PATH_CONSTRAINED"
+    }
+  ],
+  "positive_findings": [
+    "The V3 caller differs from V2 only by the four exact V10-to-V11 path/schema/status literals recorded in its rebase proof.",
+    "It pins and checks the helper source and exact independent review, the bounded V4 reader and review, and the V2 root status driver and review before consuming capture files.",
+    "The caller reconstructs the V4 reader from the pinned template by substituting exactly five score admission/launch/invocation constants, proves all other AST nodes identical, and checks AST_BINDING.json against the actual receipts and review bytes.",
+    "It binds original launch stdout/stderr and transport, exact ADMISSION/LAUNCH receipt bytes and their four-key base64 reply, the score status raw transport/body/capture, and preserves the raw RESULT.json before invoking the reviewed standard-library helper.",
+    "The helper is compiled from pre-read exact pinned bytes, re-read and pin-checked before acceptance creation; the score acceptance and root binding are written create-only and fsynced."
+  ],
+  "finding": {
+    "severity": "blocker",
+    "location": "ROOT_ACCEPT_SCORE_RESULT_V3.py:main, output-existence guard around lines 554-557 and root-binding create around lines 729-730",
+    "details": "The preflight uses Path.exists() for SCORE_ACCEPTANCE.json and ROOT_ACCEPTANCE_BINDING.json. Path.exists() returns false for a dangling symlink. If ROOT_ACCEPTANCE_BINDING.json is a dangling symlink, the preflight proceeds; after the helper writes and fsyncs SCORE_ACCEPTANCE.json, the later O_EXCL|O_NOFOLLOW create for ROOT_ACCEPTANCE_BINDING.json fails. This leaves a partial, non-retryable acceptance. The binding path must be checked with lstat/lexists before any output mutation, and the caller needs a defined recovery path for any failure between the two create-only outputs.",
+    "required_fix": "Before helper output creation, reject any existing directory entry—including dangling symlinks—for both output names. Ensure the two-file create sequence has a preflight/reservation or recovery strategy that cannot leave an unnoticed partial receipt; retain create-only writes and fsync behavior."
+  },
+  "execution_state": {
+    "caller_executed": false,
+    "helper_imported_or_executed": false,
+    "tests_run": false,
+    "B_or_SSH_attempted": false,
+    "systemd_queried": false,
+    "score_result_or_payload_read": false,
+    "quality_claimed": false
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "schema": "fg19.child-allthree-terminal-body-source-review.v2",
+  "status": "PASS_SOURCE_ONLY",
+  "reviewed_utc": "2026-10-21T06:00:59Z",
+  "review_scope": "Independent static review of the exact frozen V2 rendered body, its one-line repair, its root binding, and the independent root payload audit. No tests/imports/body execution/B or network action, and no model-state, array, or dataset payload reads.",
+  "body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v2/REMOTE_SUBMISSION_V2.py",
+    "bytes": 706761,
+    "sha256": "37f70c0814e11c3ece637735d4db0b2dbf376bc85ded99d2370baba63104f8c3"
+  },
+  "v2_binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v2/V2_BINDING.json",
+    "bytes": 10692,
+    "sha256": "7d8d3e6471507c19b02acf7f570d8422c0c1af56a048b8e706ccd3bdaf72e0a0",
+    "status": "PREPARED_LOCAL_NARROW_REPAIR_PENDING_INDEPENDENT_EXACT_BODY_REVIEW_AND_ROOT_OUTER_BINDING"
+  },
+  "root_payload_check": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v2/ROOT_PAYLOAD_CHECK.json",
+    "bytes": 9634,
+    "sha256": "c35946d2b8de6136dff56e1263b57b58bd134009db539e3961b243013a46cbf8",
+    "status": "PASS_STATIC_EXACT_BODY_PAYLOAD_BINDING_ONLY",
+    "payload_count": 15,
+    "exact_payload_joins": 15,
+    "private_code_count": 7,
+    "typed_native_exact_key_count": 14,
+    "typed_native_exact_key_set_verified": true,
+    "strict_integer_native_0_1_0_verified": true,
+    "inverse_byte_identity_to_v1": true,
+    "operational_ast_equal_v1_after_only_explicit_path_marker_argv_insertion": true,
+    "no_B_or_SSH_action": true,
+    "no_body_or_checker_import_or_execution": true,
+    "no_model_state_or_array_payload_reads": true
+  },
+  "root_preparation": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/ROOT_PREPARATION.json",
+    "bytes": 20096,
+    "sha256": "7a441c3c512a209fa3361429bb10d1c9b6d1ea0d59dbe9c4497c78e9cd20f276",
+    "status": "PASS_LOCAL_PREPARATION_ONLY_NOT_STAGED_ADMITTED_OR_EXECUTED",
+    "native_terminal_evidence_present_at_preparation": false,
+    "actual_B_staging_admission_or_execution": false
+  },
+  "native_terminal_binding": {
+    "run_name": "fg19_child_allthree_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+    "invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+    "active_state": "active",
+    "sub_state": "exited",
+    "main_pid": 0,
+    "exec_main_code": 1,
+    "exec_main_status": 0,
+    "native_exit_utc": "2026-10-21T05:31:17+00:00",
+    "captured_utc": "2026-10-21T05:52:14.368945+00:00",
+    "typed_evidence": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/TERMINAL_EVIDENCE.json",
+      "bytes": 717,
+      "sha256": "da91b782652e98843fdadeadcb41ab2c3f67492ead0e95c108ef18c85916f27a"
+    },
+    "raw_capture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+      "bytes": 82591,
+      "sha256": "0d9ba24a1e241ee22090247711f5e875def72faf5b052cf149d227cdca2f262a"
+    }
+  },
+  "prior_v1_negative_review": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v1/FINAL_BODY_SOURCE_REVIEW_V1.json",
+    "bytes": 9560,
+    "sha256": "f211538a0034c3d4f0ca70b1800e25d17908da6a7360ad7f06232dfd9ebad415",
+    "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+    "blocker_fixed": "V1 did not pass FG19_APPROVED_PATH_COMPAT_EXCEPTION into the transient support unit."
+  },
+  "exact_repair_review": {
+    "inserted_argument": "--setenv=FG19_APPROVED_PATH_COMPAT_EXCEPTION=pathlib._local.PosixPath:exact-dictionary-path-only",
+    "occurrences_in_v2_argv": 1,
+    "source_span": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v2/REMOTE_SUBMISSION_V2.py",
+      "line": 1329
+    },
+    "verification": [
+      "The exact argument is present once in the systemd-run command array, immediately after the CUDA_VISIBLE_DEVICES setting and before the single-thread settings.",
+      "The parent still checks the same exact environment variable/value before its output mutation.",
+      "The AllThree checker still calls the helper that requires this exact variable/value before the approved checkpoint decoder.",
+      "Deleting only the inserted argv line yields bytes identical to the frozen V1 body; the resulting stream SHA-256 is 1b5f60799dded8e4086da3059e45ba6ea97455d14a4f6f3d8b74348d3f804baf, and a byte comparison against V1 succeeds.",
+      "The root V2 payload audit reports operational AST equality to the V1 body after normalizing only this explicit argv insertion."
+    ]
+  },
+  "prior_accepted_source_pins": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/CHILD_ALLTHREE_TERMINAL_SOURCE_REVIEW_V1.json",
+      "bytes": 12882,
+      "sha256": "f89ae622cd7fdf5d3fc0dacbe1baaf7dfd7f121566d7d96df731ac316578eb0e",
+      "status": "PASS_SOURCE_ONLY"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v1/CONDITIONAL_SOURCE_REVIEW_V1.json",
+      "bytes": 17431,
+      "sha256": "08912652b8c37f271acbd3b7b6b5a65a55e714d58d037c3da8d5e91b2961e0b0",
+      "status": "PASS_CONDITIONAL_SOURCE_ONLY"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/PRIVATE_IMPORT_BOUNDARY_PROOF_V1.json",
+      "bytes": 12712,
+      "sha256": "1456ca8e051aa44ca39c836e1d6a531deecd0cac87307e1be2aae982aba7ba93"
+    }
+  ],
+  "retained_source_findings": [
+    "All operational source outside the explicit argv insertion is byte-identical to the previously reviewed V1 body. Therefore the V1 source findings on strict native identity/exit gates, original fit receipt joins, the 14 read-only predecessor receipts, source/split/cache/stat-only checks, ownership/resource gates before output mutation, seven-file pre-import closure, exact 13-Path checker call, and single-attempt/no-retry handling remain unchanged.",
+    "The rendered body does not self-read its own source. The prior root payload audit and V2 binding retain the same 15 payload pins, native evidence pins, source-review/root-preparation binding, and original fit-launch acceptance."
+  ],
+  "blockers": [],
+  "limitations": [
+    "This is a source-only pass. It does not perform or authorize B admission, staging, or execution; root's separate outer admission gates remain required.",
+    "The independent root payload check was inspected as bounded metadata; embedded model, array, dataset, dictionary, and checkpoint payload contents were not read by this reviewer."
+  ]
+}
+

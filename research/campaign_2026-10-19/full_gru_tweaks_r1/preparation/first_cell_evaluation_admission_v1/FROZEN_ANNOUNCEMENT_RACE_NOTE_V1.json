@@ -1,0 +1,65 @@
+{
+  "schema": "fg19.first-cell-export-capture-source-announcement-race.v1",
+  "status": "RACE_RECONCILED_WITH_EXACT_RECOVERY_AND_PRESERVED_NONFINAL_BYTES",
+  "recorded_utc": "2026-10-21T10:50:06Z",
+  "scope": "Local source-version reconciliation only. No B action, SSH, model/data/prediction payload access, or remote unit query occurred.",
+  "announcement_history": [
+    {
+      "source_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V9.py",
+      "announced_bytes": 54138,
+      "announced_sha256": "7cce34eca001325a8397f0da70e8086d711297f8b5ad35042d4cfd223f79cd54",
+      "fixture_bytes": 9523,
+      "fixture_sha256": "22a963d09447f03a19337a464134628be1b6c4489231ac2734f221ae1b9cf88e",
+      "recovered": false,
+      "note": "This earlier working snapshot was not archived. Its bytes were not guessed or reconstructed."
+    },
+    {
+      "source_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V9.py",
+      "announced_bytes": 54513,
+      "announced_sha256": "00e96230c85398f5b9d15f1c2aea6e50e9dc685766e7a507a3b36c25329bbe75",
+      "fixture_bytes": 10180,
+      "fixture_sha256": "d814866f9d7269febfa9da3292f4332ddb98e9fde83b9bac97b5be30c9e288a0",
+      "focused_result_before_race": "5 focused synthetic tests passed; literal maintenance .venv Ruff format/check passed",
+      "recovered_exactly": true
+    }
+  ],
+  "later_in_place_change": {
+    "source_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V9.py",
+    "bytes": 54963,
+    "sha256": "4a10af92357d4a470aeb0cabf6033bbe21f591f78de4015b664fba8dd1bb4adf",
+    "classification": "POST_FREEZE_NONFINAL_RACE_EDIT_DO_NOT_USE",
+    "change": "A launch-stderr transport join was started at three sites after the 54513-byte pin was announced; the function call/signature was incomplete. The raced bytes are preserved at this path and are not a candidate.",
+    "behavior_fixtures_run_on_raced_bytes": false
+  },
+  "exact_recovery": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V9_ANNOUNCED_SNAPSHOT.py",
+    "bytes": 54513,
+    "sha256": "00e96230c85398f5b9d15f1c2aea6e50e9dc685766e7a507a3b36c25329bbe75",
+    "method": "Copied the raced bytes, reversed only the three identified stderr-edit byte insertions, and accepted the snapshot only after exact equality to the previously announced 54513-byte SHA-256 pin.",
+    "static_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V10_EXACT_COPY_PROOF.json",
+      "bytes": 1703,
+      "sha256": "42323b6bc680b233e00b4ebae7c4f587d99ac4c70f1110314ab5cb11968478db"
+    }
+  },
+  "v10_candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V10.py",
+    "bytes": 54513,
+    "sha256": "00e96230c85398f5b9d15f1c2aea6e50e9dc685766e7a507a3b36c25329bbe75",
+    "exact_copy_of_recovered_announced_v9": true,
+    "fixture_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/test_accept_export_capture_v10_two_transports.py",
+    "fixture_bytes": 10181,
+    "fixture_sha256": "53473e2cfc6bd31c1f0ee12be02bc3e8f0039f00345203c13fa82e5dc216836f",
+    "fixture_delta": "Only the imported implementation filename changes from ACCEPT_EXPORT_CAPTURE_V9.py to ACCEPT_EXPORT_CAPTURE_V10.py.",
+    "focused_behavior_fixtures_replayed": false,
+    "static_copy_and_ast_proof_status": "PASS_EXACT_V9_RECOVERY_V10_COPY_AND_FIXTURE_IMPORT_FORK",
+    "ruff_format_and_check": "passed on the new proof script and changed V10 fixture"
+  },
+  "prohibited_actions": {
+    "B_or_network_action": false,
+    "production_checker_import": false,
+    "model_data_or_prediction_payload_access": false,
+    "old_behavior_fixture_replay": false,
+    "old_unrecoverable_54138_snapshot_reconstructed": false
+  }
+}

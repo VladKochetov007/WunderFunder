@@ -1,0 +1,13 @@
+# NLL terminal-verifier admission preparation
+
+This packet is a conditional, local-only preparation for verifying the already-run NLL fit. It does not submit a worker, stop the native fit, load model/state/cache/data payloads, or make a completion or quality claim.
+
+The renderer reads the six exact checker/helper files from the NLL root-preparation record, its source-only review, every listed metadata/proof pin, the original NLL launch receipts, and—only once they exist—the strict typed native-exit receipt and its raw-first capture. It verifies that the accepted import-boundary proof is V2. The earlier V1 import-policy record remains pinned as history and is not treated as the accepted proof. The V2 proof covers only the six-file private import boundary; it does not prove worker runtime, source CLI/representation imports, model integrity, or checker completion.
+
+The renderer refuses to emit `REMOTE_SUBMISSION.py` until the exact NLL native unit has strict active/exited evidence (`MainPID=0`, `ExecMainCode=1`, `ExecMainStatus=0`) joined to the matching raw capture, and the root checker preparation binds the exact six-file closure, source review, and metadata/proof pins. At this snapshot those typed and raw native terminal files are absent, so no body is rendered. Run the renderer without `--render` to inspect readiness. The explicit `--render` operation is create-only and remains local; root must independently bind the exact resulting stdin bytes before any later admission.
+
+The eventual support job is bounded to 50% CPU, 1.4 GB memory high, 1.5 GB hard memory, no swap, 600 seconds, hidden CUDA, and one BLAS thread. It checks source, recipe, ownership, ancestry, accepted-stop receipts, physical scratch, and resource headroom before creating one private output directory. It does not require the native unit to be stopped and never stops it. The approved one-name `PosixPath` compatibility mapping remains limited to the exact dictionary-cache path under `weights_only=True`.
+
+The renderer’s `-E` launch flag is intentional. The frozen NLL checker inserts and origin-checks the exact pinned source tree through its pure CLI helper before importing representation modules, so it does not rely on `PYTHONPATH` being honored. Worker Torch `2.14.0+cu130` remains a fresh runtime gate; local proof ran under Torch `2.14.1` and is not a worker-runtime claim.
+
+Focused renderer fixtures cover strict integer exit metadata, mismatched invocation rejection, the root’s local-only status, explicit selection of the V2 import proof, and refusal to emit a body when terminal bytes are missing. Eight tests, Ruff, and Python compilation passed. No fit/checker entrypoint, model/state payload, remote command, or B action was run for this packet.

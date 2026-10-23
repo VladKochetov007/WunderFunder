@@ -1,0 +1,31 @@
+{
+  "schema": "fg19.first-cell-export-status-source-review-pin-correction.v1",
+  "status": "CORRECTION_RECONCILIATION_ONLY",
+  "scope": "This note corrects one fixture SHA-256 transcription in the frozen V5 source-review record. It does not replace or modify that record, rerun tests, or change any execution evidence.",
+  "frozen_source_review": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_SOURCE_REVIEW_V5.json",
+    "bytes": 3564,
+    "sha256": "d214f775aa71de962b9af5b1b5707ccb339b5132ae67e004e082f5fc22040ecd"
+  },
+  "reviewed_executable_subject": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V5.py",
+    "bytes": 10396,
+    "sha256": "874a8aa14cb6be6284d8899ac4266e41b70e0f7e6d94bce0d882b58130f36c2a",
+    "pin_in_frozen_review_correct": true,
+    "reconciliation": "The executable path, byte count, and SHA-256 recorded by the frozen review are correct. Root reports that this exact driver was used for the one actual capture; this note makes no new claim about the captured result."
+  },
+  "fixture_pin_correction": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/test_root_capture_export_status_v5_terminal_metadata.py",
+    "bytes": 4206,
+    "sha256_recorded_in_frozen_review": "1427c7c71d18d990d5529410c7c294b2846b6a57e26cbf2ad3dc19755304b1cb",
+    "sha256_observed_for_exact_path": "1427c7c71d18d990d5529410c7d294b2846b6a57e26cbf2ad3dc19755304b1cb",
+    "correction": "The frozen review contains a one-character SHA-256 transcription error in the fixture pin. The fixture path and byte count match; the observed hash above is the correct hash for that exact file. The fixture was not rerun by this reviewer."
+  },
+  "reconciliation": {
+    "reviewed_executable_source_pin_affected": false,
+    "actual_capture_record_or_raw_transport_modified": false,
+    "original_review_modified": false,
+    "fixture_result_independently_revalidated": false,
+    "quality_or_model_result_claimed": false
+  }
+}

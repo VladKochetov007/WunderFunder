@@ -1,0 +1,147 @@
+{
+  "schema": "fg19.first-cell-export-preflight-failure-metadata-review.v1",
+  "status": "PASS_METADATA_ONLY",
+  "reviewed_utc": "2026-10-21T08:44:51Z",
+  "scope": "Independent local metadata audit of the failed GPU export-admission V2 preflight and its one bounded read-only outcome capture. No B query, retry, import, test, checker execution, or local model/data/prediction payload read was performed by this review.",
+  "candidate_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v2/REMOTE_SUBMISSION_V2.py",
+    "bytes": 243608,
+    "sha256": "a15b2cec55657f3f630fcd18a4fe20037fe08c3186bb0f046aac5480c6e0aeab",
+    "review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v2/REMOTE_SUBMISSION_SOURCE_REVIEW_V2.json",
+      "bytes": 3289,
+      "sha256": "314a374db0bd20f963b331213111639dda1181ce4ee12f32968324ab9936bf65",
+      "status": "PASS_SOURCE_ONLY_ADMISSION_V2"
+    },
+    "binding": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v2/ADMISSION_SOURCE_BINDING_V2.json",
+      "bytes": 12764,
+      "sha256": "ae09b7ca7ced6caafb96a8e0988d641f85728100829561a48274c2ba901f1c5c"
+    }
+  },
+  "failed_preflight_transport": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/TRANSPORT.json",
+    "bytes": 729,
+    "sha256": "1abf3a11a02e3ea6ba7ef959b08c5d84a5eb3a3f052f9ae3d1dd2ae68cd2afb1",
+    "started_utc": "2026-10-21T08:39:54.728693+00:00",
+    "finished_utc": "2026-10-21T08:39:55.373668+00:00",
+    "body_bytes": 243608,
+    "body_sha256": "a15b2cec55657f3f630fcd18a4fe20037fe08c3186bb0f046aac5480c6e0aeab",
+    "source_review_bytes": 3289,
+    "source_review_sha256": "314a374db0bd20f963b331213111639dda1181ce4ee12f32968324ab9936bf65",
+    "ssh_returncode": 1,
+    "timed_out": false,
+    "stdout_bytes": 0,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 769,
+    "stderr_sha256": "6aab5654e7568faf1e59db72f8870aa9427127807fa9da590d7b21191ddf4245",
+    "persisted_before_parse": true,
+    "retry_performed": false
+  },
+  "failed_attempt_streams": {
+    "stdout": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/STDOUT.raw.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/STDERR.raw.txt",
+      "bytes": 769,
+      "sha256": "6aab5654e7568faf1e59db72f8870aa9427127807fa9da590d7b21191ddf4245",
+      "observed_error": "FileNotFoundError in check_support_helpers at line 640 while lstat/hash-checking /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v2/preparation/parent_fit_terminal_check_v3.py."
+    }
+  },
+  "failure_ordering": {
+    "preflight_function": "REMOTE_SUBMISSION_V2.py:1254",
+    "support_helper_check": "REMOTE_SUBMISSION_V2.py:1319",
+    "failed_helper_path_check": "REMOTE_SUBMISSION_V2.py:624-644",
+    "main_preflight_call": "REMOTE_SUBMISSION_V2.py:1512",
+    "payload_staging_after_preflight": "REMOTE_SUBMISSION_V2.py:1513",
+    "interpretation": "The traceback locates failure in check_support_helpers during preflight. main calls write_payloads only after preflight returns, and systemd-run is later still. Therefore this attempt did not reach export evidence-directory creation, payload staging, or unit submission."
+  },
+  "single_read_only_outcome_capture": {
+    "remote_query_source": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/preflight_outcome_v1/REMOTE.py",
+      "bytes": 1404,
+      "sha256": "163f2372037dcb61d03e20cecb757e49dfcd0437d48dbdd4644cb24dacba88d8",
+      "scope": "One systemctl --user show query for the exact export unit and lstat-only observations for the export evidence path and flat support helper files."
+    },
+    "transport": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/preflight_outcome_v1/TRANSPORT.json",
+      "bytes": 595,
+      "sha256": "da45e216e088581234c611e5832f43c0ccad21d0fba290ca7f73d55839a685ca",
+      "started_utc": "2026-10-21T08:42:15.724127+00:00",
+      "finished_utc": "2026-10-21T08:42:16.166025+00:00",
+      "ssh_returncode": 0,
+      "timed_out": false,
+      "stdout_bytes": 1509,
+      "stdout_sha256": "40a55d9e1c2d251627e6208775c0736699e3f1aa0378cdbc2ba7b126acd126c2",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "persisted_before_parse": true,
+      "retry_performed": false
+    },
+    "raw_capture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/preflight_outcome_v1/STDOUT.raw.json",
+      "bytes": 1509,
+      "sha256": "40a55d9e1c2d251627e6208775c0736699e3f1aa0378cdbc2ba7b126acd126c2",
+      "captured_utc": "2026-10-21T08:42:16.285843+00:00",
+      "export_evidence_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v1",
+      "export_evidence_lexists": false,
+      "nested_support_preparation_lexists": false,
+      "export_unit": {
+        "id": "computer-vision-homework-fg19-first-cell-export-v1.service",
+        "load_state": "not-found",
+        "active_state": "inactive",
+        "sub_state": "dead",
+        "main_pid": "0",
+        "invocation_id": ""
+      },
+      "flat_support_helper_stat_only": {
+        "parent_fit_terminal_check_v3.py": {
+          "bytes": 64550,
+          "device": 64512,
+          "inode": 739549298,
+          "mtime_ns": 1792564698525879555,
+          "islink": false,
+          "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v2/parent_fit_terminal_check_v3.py"
+        },
+        "propensity_terminal_support.py": {
+          "bytes": 13107,
+          "device": 64512,
+          "inode": 739549299,
+          "mtime_ns": 1792564698537880386,
+          "islink": false,
+          "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v2/propensity_terminal_support.py"
+        },
+        "teacher_s5_terminal_check_v1.py": {
+          "bytes": 37448,
+          "device": 64512,
+          "inode": 739549300,
+          "mtime_ns": 1792564698557880386,
+          "islink": false,
+          "path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v2/teacher_s5_terminal_check_v1.py"
+        }
+      },
+      "diagnostic_self_report": {
+        "no_mutations": true,
+        "model_state_array_payloads_read_or_hashed": false
+      }
+    }
+  },
+  "conclusion": {
+    "classification": "One failed export-admission V2 preflight SSH followed by one read-only outcome capture; no retry or second launch.",
+    "systemd_export_submission_count": 0,
+    "gpu_execution_unit_submission_count": 0,
+    "export_unit_created": false,
+    "export_evidence_directory_created": false,
+    "new_gpu_fit_count": 0,
+    "new_quality_claims": 0,
+    "outcome_capture_reported_no_mutations": true
+  },
+  "limitations": [
+    "The local review validates the saved transport and streams, exact body/review pins, and the single recorded outcome snapshot. The snapshot reports exact unit and path state at 08:42:16.285843 UTC; it does not establish later state.",
+    "The flat support helper inode/path facts are copied from the bounded stat-only outcome capture; no new remote stat was performed for this review.",
+    "Zero fits and zero quality claims refer to this failed admission attempt; the record makes no model-quality conclusion."
+  ]
+}

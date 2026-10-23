@@ -1,3 +1,167 @@
+**21 October13:29UTC — fixed first-cell comparison completed and stopped:** [Final five-arm report](../research/campaign_2026-10-19/full_gru_tweaks_r1/FIRST_CELL_COMPARISON_20261021.md) records all five fixedep5 scores on468 fit-excluded EXPOSED development groups. CONTROL WP0.674830; EMA0.674779; Sparse0.674935; NLL0.675569; AllThree0.675909. AllThree−CONTROL+0.001078, unadjusted paired95% component CI[+0.000069,+0.002245]; the other three intervals cross zero. These intervals are conditional on the fixed models, not fit-seed/public-transfer uncertainty. [ROOT acceptance](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/SCORE_ACCEPTANCE.json) was durable13:23UTC before [Exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/exact_stop/README.md)13:29UTC of only successful score-v3; both failed score units remain preserved/excluded. All6scientificfits and5separate prerequisites are closed, no further fits/re-export/retuning. [Independent metadata audit](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/ACTUAL_SCORE_ACCEPTANCE_METADATA_REVIEW.json) verifies original RESULT/scalar/source joins without ROOT array reads. [Final source/recovery index](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021_V6.md) preserves versioned source gates and negatives. [Publication validation](../research/campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_FIRST_CELL_SCORED.json) records final local publication checks.
+
+---
+
+**21 October12:57UTC — third actual CPU scorer launched once:** [V14 admission and original receipts](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/README.md) bind new score-v3/inv9bd64d6759e8462bb40985b06a9a0ad6 under fresh serial gates. [V7 source-pair review](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v7/SCORE_SOURCE_REVIEW_V7.json) qualifies exact selected-index/header preflight while fixed metric/bootstrap, five accepted exports and all six accepted/stopped fits remain unchanged. Both failed score workers are preserved/excluded forever; preceding outer preflight and provisional local input gates created zero units. Actual CPU score units3=2failed+new unit3; no scalar quality yet. Next bounded exact-unit capture13:04UTC+, ROOT acceptance before successful-only exact stop; no further scientific fits/re-export/retuning.
+
+---
+
+**21 October12:35UTC — second scorer failed before quality; archive guard repair local:** [One bounded capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/status_capture_v1/README.md) observed score-v2/inv489586b4 failed12:27:41UTC with no RESULT read. Its pinned preflight passes2 as a BYTE cap and incorrectly bounds unused target members. [Bounded archive metadata](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/npz_index_diagnostic_v2/README.md) confirms small row_group/seq_ix indexes inside large target NPZs; y/mask payloads remain unopened. Both failed score units are permanently excluded from queries/stop/retry/restart. New thin V7 selective-index/header guard plus focused compatibility/source gates is the concrete next dependency; no re-export/newfit/scalar quality. Six scientific fits remain accepted/exact-stopped,5prerequisites separately.
+
+---
+
+**21 October12:27UTC — second actual CPU score worker launched once:** [V13 admission and original receipts](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/README.md) bind new score-v2/inv489586b467d7475cb51d570ed706a16f after fresh serial gates. [Scorer V6 source review](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v6/SCORE_SOURCE_REVIEW_V6.json) qualifies the registered-parent metadata repair while exact leaf identities, metric/bootstrap and five accepted exports remain fixed. Failed score-v1 is permanently excluded from queries/stop/retry/restart; no re-export/newfit. This is actual CPU score unit2, with1failed predecessor and1zero-unit outer preflight. Next bounded exact-unit capture12:32UTC+; no scalar quality yet. All6scientificfits remain accepted/exact-stopped,5prerequisites separately; ROOT acceptance must precede successful-only exact stop.
+
+---
+
+**21 October12:22UTC — first score worker failed before scoring; metadata repair source-qualified:** [Captured failure](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/status_capture_v1/README.md) and [independent failure audit](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/status_capture_v1/ACTUAL_FAILURE_METADATA_REVIEW.json) preserve score-v1/invfbc58e9d failed11:59:31UTC with no RESULT read. A [stat-only parent/leaf diagnostic](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/alias_parent_diagnostic_v1/README.md) confirms physical cache parent plus exact admitted leaf targets. [Scorer V6 source review](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v6/SCORE_SOURCE_REVIEW_V6.json) and [ROOT helper V2 review](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v2/HELPER_SOURCE_REVIEW_V2.json) pass the narrow removal of unsupported parent-target assumptions; exact leaf identities, metric/bootstrap and five accepted prediction exports remain fixed. New unit-v2/D2/ROOTscore_v3 requires exact V13 body/driver/reader gates before fresh admission; failed unit-v1/D1 is permanently excluded from query/stop/retry/restart. [Source/recovery index](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021.md) preserves original bytes and all preceding negatives. All6scientificfits remain accepted/exact-stopped,5prerequisites separate; no re-export/newfit, scalar quality or public forecast.
+
+---
+
+**21 October11:59UTC — first actual CPU score unit launched once:** [V12 actual admission and original receipts](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/README.md) bind invocation fbc58e9d2a7e47629c6a8feb6302aae8 after fresh gates. The preceding [V11 preflight](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v1/README.md) created zero units and is preserved; score_v2 is the second ROOT attempt, first actual score unit-v1. Worker.5CPU/high1.4e9/max1.5e9/swap0/600s/CUDAhidden/BLAS1 streams five fixedep5 arms/468 fit-excluded EXPOSED c09f development groups, official clip2 WP/four paired component intervals. Prediction export is accepted and exact-stopped; no further fits or actual scalar quality yet. Next bounded exact-unit capture12:02UTC+; accept original RESULT before exact stop of only successful scorer, no blind retry or old-unit query. [Source/recovery navigation](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021.md) preserves versioned guards and raw failures.
+
+---
+
+**21 October11:16UTC — five prediction exports accepted and successful GPU worker exact-stopped:** [Terminal capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/status_20261021T1107Z/README.md) and [independent metadata review](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/status_20261021T1107Z/METADATA_REVIEW.json) join the original invocation and fixed five468×20000×2FP32 outputs without ROOT array payload reads. [Export acceptance](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/EXPORT_ACCEPTANCE.json) is durable before the [one exact successful-unit stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/exact_stop/README.md); failed units remain preserved/excluded. This closes prediction export, with zero new fits and no scalar quality yet. All6scientificfits remain integrity accepted/exact-stopped;5prerequisites separate. Next is one freshly admitted serial capped CPU score of all five fixedep5 arms on fit-excluded EXPOSED c09f development groups, official clip2 WP and four paired component intervals. Current raw receipts supersede earlier dated running snapshots.
+
+---
+
+**21 October10:32UTC — fixed five-arm evaluation:** [Execution and source-packet index](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/EVALUATION_EXECUTION_INDEX_20261021_V2.md) traces two zero-unit preflights, two preserved failed inference units, and [the third exact export launch](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/README.md). [One dated read-only observation](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/startup_health_v1/README.md) finds that invocation active with one owned GPU process and stat-only partial output inventory; [independent metadata review](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/startup_health_v1/METADATA_REVIEW.json) is metadata-only PASS. No completed prediction panel, score or predictive-quality gain is established. All6scientificfits remain integrity accepted/exact-stopped and5prerequisites separate; no further fits. Fixedep5/468c09f fit-excluded EXPOSED development groups/FP32/official clip2 WP/four paired contrasts remain unchanged. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs rare11:00UTC+ observation, terminal acceptance-before-exact-own-stop, and later serial CPU scoring. Failed units/earlier dated snapshots are preserved.
+
+---
+
+**21 October07:11UTC:** [Final AllThree full integrity acceptance and exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_INDEX.md) close all6first-cell scientificfits includingparent;5sharedprerequisites separate. TwoAllThreeengineeringCPUunits(1failedpreserved/1successful); originalsuccessfulcompactJSON was recovered fromunit.log via reviewedreadonlyreader, no fit/checker replay. No further fits or quality/gain. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs nextfixed468exposed-development evaluation/exportpreparation and pendingpublication; older dated snapshots below remain history.
+
+---
+
+## 21 October05:52UTC — final AllThree native complete; integrity pending
+
+[Exact native evidence](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_native_capture_v1/README.md) confirms six epochs44760updates/4476batches/zero skips/nonfinite; no quality endpoint. Local V1 CPU body source rejection occurred before any B action; only explicit already-granted Path marker forwarding needs a reviewed V2. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs actualCPU→fullacceptance→exactownstop and later existing scoring protocol. Comparison6nativecompleted/5integrityaccepted of6; prerequisites5 separate; no further scientific fits.
+
+---
+
+## 21 October05:18UTC — AllThree active; terminal preparation local
+
+[Bounded AllThree health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0517Z/README.md) records five completed epochs/37300updates/3730batches/zero skips/nonfinite. Later ep5batch440 is progress only, not synchronous current totals/native44760/integrity/quality. One owned GPU, unchanged events, seven stat-only artifacts. Needed thin AllThree checker/conditional cappedCPU preparation is separate LOCAL work; no B staging/support/payload read/hash before actual strict typed native exit0. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs focused05:50UTC+ and root acceptance-before-exactstop. Comparison6started/5completed of6 including parent, prerequisites5 separate; no new scientific fits beyond this final arm.
+
+---
+
+## 21 October04:18UTC — AllThree active at rare observation
+
+[Bounded AllThree health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0417Z/README.md) records completed epochs0–2/cumulative22380updates/2238batches/zero skips/nonfinite. Later ep3batch560 is progress only, not synchronous current totals/native44760/integrity/quality; NLL objective is not a WMSE quality comparison. One owned GPU, events unchanged, five stat-only artifacts; no new support/fit/restart/stop/inference/checker preparation or unchanged suites. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare05:10UTC+ and strict terminal gates. Comparison6started/5completed of6 including parent, prerequisites5 separate; no further scientific fits.
+
+---
+
+## 21 October03:18UTC — AllThree active at rare observation
+
+[Bounded AllThree health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0317Z/README.md) records completed epoch0/7460updates/746batches/zero skips/nonfinite. Later ep1batch680 is progress only, not current totals/native44760/integrity/quality; NLL objective is not a WMSE quality comparison. One owned GPU, events unchanged, three stat-only artifacts; no new support/fit/restart/stop/inference/checker preparation or unchanged suites. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare04:10UTC+ and strict terminal gates. Comparison6started/5completed of6 including parent, prerequisites5 separately; no new fits beyond this final arm.
+
+---
+
+[Final AllThree full GRU child launched once](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/README.md)21October01:58:58UTC after [NLL full integrity acceptance and exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/terminal_verification_v1/ACTUAL_INDEX.md). Comparison6started/5completed including parent of6; shared prerequisitefits5 separate. [Early02:00 startup](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/README.md) is dated active setup metadata, not native completion, owned VRAM or quality. Only final AllThree is active; no predictive-quality endpoint/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs rare03:00UTC+ observation, strict native→CPU integrity→exact stop gates and no additional fits/queue/unchanged-suite replay.
+
+---
+
+[Actual NLL native exit0](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/TERMINAL_EVIDENCE.json) was captured once21October01:40UTC, native exit01:26:10UTC. Six histories44760updates/4476batches/zero skips/nonfinite; integrity and predictive quality still pending. The first exact CPU body was source-rejected before any B attempt because its fresh GPU ownership gate was missing; V2 narrow local repair is required. No native stop/allthree admission. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) and durable raw receipts govern current serial gates.
+
+---
+
+[NLL terminal consumer and conditional CPU](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/SUPPLEMENT_INDEX.md) and [final allthree conditional packet](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/SUPPLEMENT_INDEX.md) are locally source-reviewed. This is preparation only: latest actual01:01 NLL capture is still dated active/running; strict native exit proof and actual CPU/full acceptance/exact stop remain required before the sole remaining allthree admission. No new fit/support/quality endpoint or unchanged source/model/profile/cold suite replay. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next focused01:40UTC+; no immediate repeat poll.
+
+---
+
+## 21 October01:01UTC — NLL active; terminal consumer preparation local
+
+[Bounded NLL status](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/status_20261021T0101Z/README.md) records five complete epochs/37300updates/3730batches/zero skips/nonfinite. Later ep5batch280 is not current totals/native44760/integrity/quality. One owned GPU, unchanged event counters, stat-only artifacts. Needed NLL terminal checking and conditional CPU admission are being prepared locally; no B staging/payload read/support before actual typed native exit0. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next focused01:40UTC+ and fresh integrity/acceptance/exact-stop gates. Comparison5started/4completed of6 including parent, allthree unadmitted, shared prerequisitefits5 separate; no quality endpoint/gain.
+
+---
+
+## 21 October00:01UTC — NLL child active at rare observation
+
+[Bounded NLL health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261021T0001Z/README.md) records three completed epochs / 22380updates / 2238batches / zero skips/nonfinite. Later ep3batch660 is not synchronous current totals, native44760, integrity or predictive quality; NLL loss is not a WMSE quality comparison. One owned GPU, own/parent event deltas0, tensor files stat-only; no new support/fit/restart/stop/inference/checker preparation. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare21October00:50UTC+ and actual native-exit gates. Comparison5started/4completed of6 including parent; allthree unadmitted, shared prerequisitefits5 separate.
+
+---
+
+## 20 October23:02UTC — NLL child active at rare observation
+
+[Bounded NLL health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261020T2301Z/README.md) records one completed epoch / 7460updates / 746batches / zero skips/nonfinite. Later ep1batch580 is not synchronous current totals, native44760, integrity or predictive quality; NLL loss is not a WMSE quality comparison. One owned GPU, own/parent event deltas0, tensor files stat-only; no new support/fit/restart/stop/inference/checker preparation. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare21October00:00UTC+ and actual native-exit gates. Comparison5started/4completed of6 including parent; allthree unadmitted, shared prerequisitefits5 separate.
+
+---
+
+## 20October22:07UTC — dictionary accepted; NLL-only child launched
+
+[Dictionary integrity acceptance and exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/exact_stop/README.md) completed. [NLL-only full fit](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/README.md) launched once under fresh one-GPU gates; same source/parent/norm/order/target, base representation and coupled mean-logvariance NLL. Comparison5started/4completed of6 including parent; final allthree arm unadmitted, shared prerequisitefits5 separate. No predictive-quality endpoint/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs one startup then rare23:00UTC+ and actual exit/integrity/acceptance/stop gates.
+
+---
+
+## 20October21:50UTC — dictionary native training complete
+
+[Actual native capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_native_capture_v1/README.md) establishes six epochs/44,760updates/4476batches/zero skips/nonfinite and exit0 at21:33:50UTC. Integrity acceptance and exact stop are pending. A local CPU body self-read blocker was caught before remote admission; its narrow versioned repair remains source-review gated. NLL-only V2 is conditional/local; no next arm admitted or quality score. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs exact current gates and preserves dated history.
+
+---
+
+## 20 October21:14UTC — dictionary child active; terminal consumer preparation local
+
+[Bounded dictionary health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2114Z/README.md) records five complete epochs/37,300updates/3730batches/zero skips/nonfinite. The later ep5batch420 line is not current totals/native44,760 terminal/integrity/quality. One owned worker, zero new events, stat-only tensor files and no B action. Needed thin dictionary terminal checker/conditional CPU admission are LOCAL/in progress; no fake terminal evidence or early staging/admission. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs actual-exit gates and next focused21:50UTC+ observation. No predictive-quality endpoint/gain.
+
+---
+
+## 20 October20:16UTC — direct-request dictionary status
+
+[Bounded observation](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2016Z/README.md) at23:16MSK found the same dictionary worker active, with three completed epochs/22,380updates/2238batches/zero skips/nonfinite. Later ep3batch620 is not current totals, terminal, integrity or quality. One owned GPU, no new memoryevents, stat-only outputs and no new job/action. Parent+CONTROL+EMA completed/accepted/stopped; dictionary third child running, NLL-only/allthree pending. No predictive-quality score/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs next rare21:05UTC+ and actual native-exit/integrity/acceptance/exact-stop gates.
+
+---
+
+## 20 October19:31UTC — dictionary child remains active at rare observation
+
+[Bounded exact-invocation dictionary health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T1913Z/README.md) records two complete epochs/14,920updates/1492batches/zero skips/nonfinite. Later ep2batch220 is not current totals, terminal44,760, integrity or predictive quality. One owned worker, own/parent events unchanged, tensors stat-only; no support/fit/restart/stop/inference or unchanged source/model/profile tests. Dictionary checker stays unprepared/unadmitted; actual typed native exit0 and fresh CPU integrity/acceptance/exact-stop gates apply. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; next rare20:20UTC+ and routine progress stays quiet.
+
+---
+
+**Latest dictionary startup18:14UTC (dated):** [Exact same invocation active/running](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/startup_health_v1/README.md), one owned GPU worker, own memoryevents0/parent deltas0. Setup+later ep0batch0, no completed epoch/terminal/quality claim; artifacts stat-only. No immediate repeat poll, next rare check19:00UTC or later. Source-content authority remains actual fresh167-file admission; raw reader scope prose-label note and one local parser correction are retained without raw changes or extra remote attempts.
+
+---
+
+**Current20October18:10UTC:** The [dictionary-only full GRU child](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/README.md) actually launched once after full EMA acceptance/exact stop and fresh gates. Invocation73b10b699e034a1b9952b2377b845095/PID1179783 at launch. Same parent@ep3/norm/dictionary/batches/T3target, sparse mode with signed top4-of16+residual; one owned GPU/aggregate2CPU. Parent+CONTROL+EMA complete; third child started, two later fixed arms unadmitted; shared five prerequisite fits separate from six planned comparison fits. No actual dictionary completion or child quality endpoint/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs startup/rare health and strict terminal gates.
+
+---
+
+**Current20October18:01UTC:** EMA passed the actual capped [V3 integrity check](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_verification_v3/README.md). [Full acceptance](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/TERMINAL_ACCEPTANCE.json) preceded the [exact own exited stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/exact_stop/README.md); failed V1/V2 preserved. Parent+CONTROL+EMA completed, next fixed sparse-dictionary arm remains local pending actual-receipt binding and fresh serial gates. Shared prerequisitefits5 separate; no child quality endpoint/gain. [Continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) is authoritative.
+
+---
+
+**Current20October17:50UTC:** [EMA verifier V2](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_verification_v2/README.md) exited1 on an undefined helper constant before payload loads. Native EMA completed six epochs/exited0 and remains untouched; V1/V2 preserved, V3 narrowly versioned repair pending. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs full-integrity acceptance before the dictionary arm. No quality result or fit replay.
+
+---
+
+**Current 20 October17:37UTC:** EMA native exit0/44,760updates is captured, but the [actual integrity support V1](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_verification_v1/README.md) failed on an early dictionary receipt stat-schema expectation, before payload loads. Native fit and failed unit remain untouched; exact versioned correction is local, full acceptance and dictionary-arm admission pending. No quality result or fit replay. [Campaign continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs the next action.
+
+---
+
+## 20 October17:21UTC — EMA native completion, integrity gate pending
+
+[Exact EMA native capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_native_capture_v1/README.md) establishes exit0 at16:55:42UTC, six epochs/44,760updates/4,476batches/zero native skips/nonfinite, evaluation withheld. The native unit is preserved/exited; actual model/state integrity acceptance and exact stop are pending. The existing frozen EMA checker is being bound locally to one fresh cappedCPU admission; no support or scientific successor has been admitted at this snapshot. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs actual gates. No child quality/gain endpoint.
+
+---
+
+## 20 October16:51UTC — EMA remains active at rare observation
+
+[Bounded exact-invocation EMA health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/README.md) records five completed epochs/37,300updates/3,730batches/zero skips/nonfinite. Later ep5batch640 is not current totals, terminal44,760, integrity or quality. One owned worker, own/parent events unchanged, run tensors stat-only, no new support/fit/restart/stop/inference. The existing terminal checker remains frozen/local/unadmitted; actual typed native exit0 then fresh cappedCPU verification/acceptance/exact-stop gates apply. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; routine healthy progress is quiet.
+
+---
+
+## 20 October15:51UTC — EMA remains active at rare observation
+
+[Bounded exact-invocation EMA health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1551Z/README.md) records four completed epochs/29,840updates/2,984batches/zero skips/nonfinite. Later ep4batch300 is not current totals, terminal44,760, integrity or quality. One owned worker, own/parent events unchanged, run tensors stat-only, no new support/fit/restart/stop/inference. The existing terminal checker remains frozen/local/unadmitted; actual typed native exit0 then fresh cappedCPU verification/acceptance/exact-stop gates apply. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; routine healthy progress is quiet.
+
+---
+
+## 20 October14:40UTC — EMA active; terminal checker locally bound
+
+[Rare same-invocation EMA health](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1440Z/README.md) records two completed epochs14,920updates/1,492batches/zero skips/nonfinite; later ep2batch240 is not current totals, actual terminal44,760 or quality. Tensors stat-only, one owned worker, no new memoryevents or action. [EMA-specific checker](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/README.md) is source-reviewed/locally bound with complete private/WNN import sentinels; no B staging/admission/execution before actual strict typed native exit0. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs fresh cappedCPU verification/acceptance/exact-stop gates. No new fits, quality or unchanged suite rerun; routine healthy preparation remains quiet.
+
+---
+
 ## 20 October 13:51 UTC — EMA continues, first epoch recorded
 
 [One rare bounded EMA capture](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1351Z/README.md) found exact invocation active/running, one owned GPU worker and no new own/parent memoryevents. Completed epoch0 has7,460updates/746batches/zero skips/nonfinite in its native records. Later ep1batch20 is not current totals, terminal44,760 or quality. Checkpoint/state/provenance remain stat-only; no support/restart/stop/newfit/inference. [Current continuation](../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) supersedes freshness below; routine healthy progress requires no notification.

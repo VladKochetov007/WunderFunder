@@ -1,0 +1,45 @@
+{
+  "schema": "fg19.first-cell-export-status-source-review-correction.v1",
+  "status": "CORRECTED_FINDING_WITH_REMAINING_DURABILITY_BLOCKER",
+  "reviewed_utc": "2026-10-21T10:23:59Z",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V3.py",
+    "bytes": 7998,
+    "sha256": "806e5d0a88cccd772e107f0e8dbc4f50b1f7853a0bac61891647d002ca495aef"
+  },
+  "superseded_review": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_SOURCE_REVIEW_V3.json",
+    "bytes": 2816,
+    "sha256": "f09205e6d77b52beb531b4f32e87ca111653514ece9dc78d81c27702f89082dd",
+    "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT"
+  },
+  "correction": {
+    "finding_id": "STATUS-V3-1",
+    "prior_claim": "The helper only opens the final path, so nested sidecar writes fail because arm directories do not exist.",
+    "corrected_observation": "That claim is false. `write()` calls `path.parent.mkdir(parents=True, exist_ok=True)` before opening the file, and the metadata loop restricts names to the export manifest and five fixed arm sidecars. The nested paths therefore have their parent directories created before writing.",
+    "source_locations": [
+      "ROOT_CAPTURE_EXPORT_STATUS_V3.py:25-30",
+      "ROOT_CAPTURE_EXPORT_STATUS_V3.py:177-186"
+    ]
+  },
+  "remaining_blocker": {
+    "id": "STATUS-V3-DURABILITY-1",
+    "severity": "blocking_for_durable_terminal_capture",
+    "finding": "The file writer fsyncs each written file, but does not fsync its parent directory after creating file entries. The only `fsync(record)` occurs before response parsing and before terminal metadata files and their arm directories are created. Thus the nested sidecar directories and the manifest/sidecar directory entries are not explicitly made durable before the driver reports a completed capture.",
+    "source_locations": [
+      "ROOT_CAPTURE_EXPORT_STATUS_V3.py:25-30",
+      "ROOT_CAPTURE_EXPORT_STATUS_V3.py:151-155",
+      "ROOT_CAPTURE_EXPORT_STATUS_V3.py:177-197"
+    ],
+    "resolution": "A future version should fsync each affected parent directory after the create-only writes complete, while retaining bounded capture, raw-first transport persistence, and the fixed filename allowlist."
+  },
+  "review_scope": {
+    "source_only": true,
+    "candidate_bytes_unchanged": true,
+    "superseded_review_bytes_unchanged": true,
+    "tests_or_imports_run": false,
+    "B_or_remote_action_performed": false,
+    "payloads_read": false,
+    "quality_claimed": false
+  }
+}

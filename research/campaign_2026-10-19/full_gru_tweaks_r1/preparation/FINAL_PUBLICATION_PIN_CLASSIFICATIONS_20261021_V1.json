@@ -1,0 +1,230 @@
+{
+  "schema": "fg19.first-cell-final-publication-pin-classifications.v1",
+  "status": "CLASSIFIED_LOCAL_METADATA_PIN_MISMATCHES",
+  "scope": {
+    "method": "Read-only local metadata walk over changed/untracked JSON references, local file sizes and SHA-256 values, exact README suffix checks, and repository archive-name checks.",
+    "repo_modules_imported": false,
+    "tests_run": false,
+    "validator_executed": false,
+    "B_network_ssh_unit_or_worker_action": false,
+    "model_array_prediction_cache_or_dataset_payload_read": false,
+    "source_review_or_runtime_file_modified": false
+  },
+  "scan_snapshot": {
+    "validator_source": "/tmp/wunder_first_cell_final_publication_validate.py",
+    "validator_source_bytes": 15983,
+    "validator_source_sha256": "efb2ac1a1365fedb3635a95317d06fe228699d7f8d68a9f8bb207c439d36e05d",
+    "changed_or_untracked_paths_before_this_note": 320,
+    "local_json_files_parsed": 149,
+    "exact_local_file_pin_joins": 762,
+    "metadata_mismatch_rows": 9,
+    "note": "Counts describe the bounded scan before this classification file was created. This file intentionally uses nonstandard field names for historical pin facts so its references cannot be mistaken for live path/bytes/sha256 authority rows."
+  },
+  "mismatch_classifications": [
+    {
+      "id": "acceptance-v4-readme-reference",
+      "owner_json": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_CALLER_SOURCE_REVIEW_V4.json",
+      "referenced_artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/README.md",
+      "recorded_byte_count": 3865,
+      "recorded_sha256": "225fdb3968444421cdb7a8af26d5737e010485a4e073bc6bbdcbd7051c4e209a",
+      "current_byte_count": 5102,
+      "current_sha256": "1bdbf0c07f63dccb66452e9391ddf1f2d68cef002760e4c259861440ffd86f46",
+      "exact_recovery_checks": {
+        "current_file_tracked_at_repository_base": false,
+        "current_file_tail_3865_sha256": "a8f84ae373889f7ec03301e74467faa33eab200ec56e732168068b804da8a479",
+        "current_file_tail_2272_sha256": "b89796d7affc07f5817d1bde247950fbd64d5847f7f235920cfd120bf368d01c",
+        "matching_archived_copy_found_under_preparation": false
+      },
+      "classification": "STALE_REVIEW_DOCUMENT_PIN_NO_EXACT_ARCHIVE_FOUND",
+      "interpretation": "The recorded bytes/hash do not describe the current README. Neither proposed exact suffix reproduces either recorded README digest. No archived exact byte copy was found in the preparation tree. This is an older caller review's documentation reference, not a current source/runtime payload pin."
+    },
+    {
+      "id": "acceptance-v1-readme-reference",
+      "owner_json": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/SOURCE_REVIEW_V1.json",
+      "referenced_artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/README.md",
+      "recorded_byte_count": 2272,
+      "recorded_sha256": "9ff9fcca623644a87d6993d47e56bf5ae22b1e0fef69b80a0014c6fa84ed38a7",
+      "current_byte_count": 5102,
+      "current_sha256": "1bdbf0c07f63dccb66452e9391ddf1f2d68cef002760e4c259861440ffd86f46",
+      "exact_recovery_checks": {
+        "current_file_tracked_at_repository_base": false,
+        "current_file_tail_3865_sha256": "a8f84ae373889f7ec03301e74467faa33eab200ec56e732168068b804da8a479",
+        "current_file_tail_2272_sha256": "b89796d7affc07f5817d1bde247950fbd64d5847f7f235920cfd120bf368d01c",
+        "matching_archived_copy_found_under_preparation": false
+      },
+      "classification": "STALE_REVIEW_DOCUMENT_PIN_NO_EXACT_ARCHIVE_FOUND",
+      "interpretation": "The recorded bytes/hash do not describe the current README. Neither tested exact suffix reproduces the 2,272-byte recorded digest. No archived exact byte copy was found in the preparation tree. This is an older acceptance-helper review's documentation reference, not a current source/runtime payload pin."
+    },
+    {
+      "id": "acceptance-helper-v2-preliminary-source-pin",
+      "owner_json": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v2/HELPER_V2_DELTA_PROOF.json",
+      "referenced_artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v2/score_result_acceptance_v2.py",
+      "recorded_byte_count": 46390,
+      "recorded_sha256": "c93d6f0070034d522727d4d4811cad4bbd102d451625546e789eb0dc021bad03",
+      "current_byte_count": 46448,
+      "current_sha256": "1b8a6e899dcd2c250eecf096bd1797aa77466d32eedd598b063f48249490f446",
+      "superseding_proof": {
+        "artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v2/HELPER_V2_DELTA_PROOF_FINAL.json",
+        "byte_count": 3121,
+        "sha256": "5725b066192f0d2ae6a1d8e7eb00c36ca4fc31b4111f27269ea19902b60a9875",
+        "pins_current_source": true
+      },
+      "exact_recovery": "Checker actor confirmed no exact archived or inverse-verified 46,390-byte candidate; current 46,448-byte file is the only available byte-pinned source.",
+      "classification": "SUPERSEDED_HISTORICAL_PROOF_SOURCE_UNARCHIVED",
+      "interpretation": "The initial proof records the earlier helper bytes; the final proof binds the current helper. The historical candidate is not current scorer/runtime authority."
+    },
+    {
+      "id": "v11-initial-invalid-body-candidate",
+      "owner_json": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v11/SCORE_ADMISSION_SOURCE_BINDING_V11_INITIAL_BAD_DRAFT.json",
+      "referenced_artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v11/REMOTE_SUBMISSION_V11.py",
+      "recorded_byte_count": 188823,
+      "recorded_sha256": "4e0d65aac8919fb07a7698f0b16bd9091129ebc83e4c4806da2192528298ae92",
+      "current_byte_count": 188823,
+      "current_sha256": "9dc1f04741609cb4e80e84308439187f5bef5d82d2808057d92fe11eca4379d5",
+      "exact_archive": {
+        "artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v11/REMOTE_SUBMISSION_V11_INITIAL_BAD_DRAFT.py",
+        "byte_count": 188823,
+        "sha256": "4e0d65aac8919fb07a7698f0b16bd9091129ebc83e4c4806da2192528298ae92",
+        "archive_matches_recorded_candidate": true
+      },
+      "archive_note": {
+        "artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v11/V11_INITIAL_BAD_DRAFT_NOTE.json",
+        "byte_count": 1066,
+        "sha256": "dcede0e72296617d3b03fb48763b6e35c5b601cc61396db0b81df1d65b4bd7ef",
+        "status": "PRESERVED_INVALID_LOCAL_DRAFT_NOT_FOR_REVIEW_OR_EXECUTION",
+        "finding": "Invalid indentation; never submitted or executed."
+      },
+      "classification": "EXACT_ARCHIVE_RECOVERED_INVALID_NEVER_EXECUTED",
+      "interpretation": "The binding row points at the later corrected body path, but the recorded digest is preserved under the explicit INITIAL_BAD_DRAFT filename. The exact candidate is archived and is not a live body."
+    },
+    {
+      "id": "helper-v3-unbound-namespace-candidate",
+      "owner_json": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v6/NAMESPACE_FORK_PROOF_V1.json",
+      "referenced_artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v3/score_result_acceptance_v3.py",
+      "recorded_byte_count": 46408,
+      "recorded_sha256": "b9cce348899c409c7131ffe8117e48bc3f1a2cf6f413e1492a0eb563e6a903d7",
+      "current_byte_count": 46448,
+      "current_sha256": "72f25104d5a338e55d3d7667df79882cd699d0798c7d8fc19638fea392ad0e8c",
+      "superseding_proof": {
+        "artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v6/NAMESPACE_FORK_PROOF_V2.json",
+        "byte_count": 2190,
+        "sha256": "b4f456146ea6838b46ce511fb91a3166690b1d10cdb38f76df5fb26fa3d41990",
+        "status": "PASS_NARROW_UNIT_D3_FORKS_PINNED_V7_CORE",
+        "pins_current_candidate": true
+      },
+      "exact_recovery": "Checker actor confirmed no exact archived or inverse-verified candidate for the recorded 46,408-byte hash.",
+      "classification": "SUPERSEDED_UNBOUND_PRELIMINARY_SOURCE_UNARCHIVED",
+      "interpretation": "The V1 namespace proof explicitly leaves the V7 core unbound. V2 is the later proof for the current helper and core; the old candidate bytes are not current runtime authority."
+    },
+    {
+      "id": "reader-v6-unbound-namespace-candidate",
+      "owner_json": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v6/NAMESPACE_FORK_PROOF_V1.json",
+      "referenced_artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v6/SCORE_RESULT_CAPTURE_TEMPLATE_V6.py",
+      "recorded_byte_count": 26314,
+      "recorded_sha256": "64c5f5f895d0017eaefea8eff4eff70a1d6d8fd0aa277ddf46f5e4b4693e1bae",
+      "current_byte_count": 26354,
+      "current_sha256": "049e2e9245356a4ac5f39596348e186d7af9a1e04aeb747255b7f62843324de0",
+      "superseding_proof": {
+        "artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v6/NAMESPACE_FORK_PROOF_V2.json",
+        "byte_count": 2190,
+        "sha256": "b4f456146ea6838b46ce511fb91a3166690b1d10cdb38f76df5fb26fa3d41990",
+        "pins_current_candidate": true
+      },
+      "review_snapshot_archive": {
+        "artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v6/INDEPENDENT_SOURCE_REVIEW_V6_ANNOUNCED_SNAPSHOT.json",
+        "byte_count": 9673,
+        "sha256": "5e067c1d9972be3f00f462a075084b5ea315e3708bdb18669a0cf52be1a2d8ed",
+        "note": "This archives an old review JSON only; it is not the missing 26,314-byte reader source candidate."
+      },
+      "current_review": {
+        "artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v6/INDEPENDENT_SOURCE_REVIEW_V6.json",
+        "byte_count": 9525,
+        "sha256": "844fb16d236a6778179f55edfe37a553809097691b19060869309c0c07bbeeec"
+      },
+      "exact_recovery": "Checker actor confirmed no exact archived or inverse-verified candidate for the recorded 26,314-byte hash.",
+      "classification": "SUPERSEDED_UNBOUND_PRELIMINARY_SOURCE_UNARCHIVED",
+      "interpretation": "The current reader is pinned by namespace proof V2 and its current source review. The old review snapshot is separately preserved; do not conflate it with the missing old reader source."
+    },
+    {
+      "id": "status-driver-v4-unbound-namespace-candidate",
+      "owner_json": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_SCORE_STATUS_DRIVER_V4_NAMESPACE_PROOF.json",
+      "referenced_artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_CAPTURE_SCORE_STATUS_V4.py",
+      "recorded_byte_count": 8845,
+      "recorded_sha256": "44baf95cbdb7718e8e13fc39d0b5c5cca3ef41f82379cf3a197ae7b2d773d941",
+      "current_byte_count": 8895,
+      "current_sha256": "5741407e72454b3f45d92426d21a70a00303bad30b3de9ebc4be870171c8382a",
+      "superseding_proof": {
+        "artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_SCORE_STATUS_DRIVER_V4_REBASE_PROOF_V2.json",
+        "byte_count": 920,
+        "sha256": "fea235cf6849dff714e545d099de05d56a943e5c0328e4f4178a3f272e807acf",
+        "status": "PASS_V6_READER_AND_REVIEW_PINNED",
+        "pins_current_candidate": true
+      },
+      "exact_recovery": "Checker actor confirmed no exact archived or inverse-verified candidate for the recorded 8,845-byte hash.",
+      "classification": "SUPERSEDED_UNBOUND_PRELIMINARY_SOURCE_UNARCHIVED",
+      "interpretation": "The V1 namespace proof states its reader/review pin is unbound. Rebase proof V2 pins the current driver and review chain; the old candidate is not current runtime authority."
+    },
+    {
+      "id": "caller-v7-unbound-namespace-candidate",
+      "owner_json": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_CALLER_V7_NAMESPACE_PROOF.json",
+      "referenced_artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_ACCEPT_SCORE_RESULT_V7.py",
+      "recorded_byte_count": 31599,
+      "recorded_sha256": "987f46c22b8fe05cbd8bd81ad5f71b2c90ef22609e784ea3fcca0aaf8b47c20d",
+      "current_byte_count": 32281,
+      "current_sha256": "811e44d27f1e6c798d11f26d450b7aed76c6c6a6cbd888de047e91cbb25a4c2e",
+      "superseding_proof": {
+        "artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_CALLER_V7_NAMESPACE_PROOF_V2.json",
+        "byte_count": 4057,
+        "sha256": "108c45851828001b1bca499bdb029013ed3e360c3b7fd345e8f2e9bb09a08644",
+        "status": "PASS_SCORE_V3_CALLER_BINDS_CURRENT_REVIEWED_SOURCE_CHAIN",
+        "pins_current_candidate": true
+      },
+      "exact_recovery": "Checker actor confirmed no exact archived or inverse-verified candidate for the recorded 31,599-byte hash.",
+      "classification": "SUPERSEDED_UNBOUND_PRELIMINARY_SOURCE_UNARCHIVED",
+      "interpretation": "The old proof explicitly says the V7 core and reviews are unbound. The later V2 proof pins the current candidate and source chain. The historical source bytes are not available as an exact archive."
+    }
+  ],
+  "same_digest_different_byte_count": {
+    "id": "v13-driver-proof-length-typo",
+    "owner_json": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v13/ACTUAL_SCORE_ADMISSION_SOURCE_REVIEW_V13.json",
+    "referenced_artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v13/ROOT_CAPTURE_SCORE_ADMISSION_V3_PROOF.json",
+    "recorded_byte_count": 858,
+    "actual_byte_count": 917,
+    "recorded_sha256": "61ca82c4d3f6d24882d04ce35c0d000b8abb6f9885c3cc2c1cbef32701947c92",
+    "actual_sha256": "61ca82c4d3f6d24882d04ce35c0d000b8abb6f9885c3cc2c1cbef32701947c92",
+    "correction_note": {
+      "artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v13/V13_SOURCE_REVIEW_PIN_CORRECTION_V1.json",
+      "byte_count": 1532,
+      "sha256": "e4e13911a676f78a2b37766f04be0f4a8f9882e8270e4803227c4fe01ab43e63",
+      "classification": "CORRECTION_METADATA_ONLY_SOURCE_REVIEW_PRESERVED"
+    },
+    "classification": "RECORDED_LENGTH_TYPO_SAME_BYTES_AND_DIGEST",
+    "interpretation": "This is not a content hash mismatch; the source review's recorded size alone is wrong. Original review bytes remain unchanged."
+  },
+  "previously_known_allowlisted_negative_outside_the_nine_rows": {
+    "id": "v8-stdlib-helper-pin-preflight-negative",
+    "negative_note": {
+      "artifact": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/LOCAL_RENDER_V8_HELPER_PIN_NEGATIVE.json",
+      "classification": "FAIL_CLOSED_LOCAL_RENDER_NO_OUTPUT_HELPER_PIN_MISMATCH"
+    },
+    "renderer_expected_helper_byte_count": 8065,
+    "renderer_expected_helper_sha256": "f82fca9bc56125433b8255aa2d1f85a438cc93e6e64f7a6634ace90a2735a9ce",
+    "current_extracted_helper_byte_count": 8125,
+    "current_extracted_helper_sha256": "c8d3b5b6645446f183dec84e79154c94dcdcb7e3dcc4f641685d39b88a26fa43",
+    "negative_note_claims": {
+      "body_or_binding_written": false,
+      "remote_or_B_action": false,
+      "model_or_data_payload_read": false,
+      "retry_performed": false
+    },
+    "classification": "KNOWN_SOURCE_ONLY_PIN_NEGATIVE_NOT_CURRENT_INPUT"
+  },
+  "current_chain_notes": {
+    "v11_initial_bad_draft_is_not_a_current_body": true,
+    "old_unbound_namespace_candidates_are_not_current_runtime_inputs": true,
+    "reader_review_snapshot_and_reader_source_are_distinct_artifacts": true,
+    "v13_length_correction_does_not_change_review_or_driver_bytes": true,
+    "current_reviewed_payload_bindings_or_accepted_receipts_were_not_modified": true,
+    "scientific_or_quality_result_claimed": false
+  }
+}

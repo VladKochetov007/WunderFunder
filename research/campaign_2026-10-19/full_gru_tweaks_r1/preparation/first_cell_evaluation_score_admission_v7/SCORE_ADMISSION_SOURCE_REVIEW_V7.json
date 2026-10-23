@@ -1,0 +1,127 @@
+{
+  "schema": "fg19.first-cell-score-admission-source-review.v7",
+  "status": "PASS_CONDITIONAL_SOURCE_ONLY_V7_INVENTORY_REPAIR",
+  "reviewed_at_utc": "2026-10-21T09:56:41Z",
+  "scope": "Independent source-only review of the V7 exact source-inventory repair and its conditional CPU score-admission packet. This review did not render a body, query or act on B, run tests or imports, access model/data/cache/prediction payloads, or make a score or quality claim. V7 remains unbound and is not usable for actual admission; the successful future export authority must be rebound in a later version.",
+  "reviewed_files": [
+    {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v7/SCORE_ADMISSION_BODY_TEMPLATE_V7.py",
+      "bytes": 73741,
+      "sha256": "4ef8124679ae69ea53e4ad8e3ec0251610d5c4e86f16c299710b6f823b98acc1"
+    },
+    {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v7/render_score_admission_v7.py",
+      "bytes": 18020,
+      "sha256": "558957c7b9039c13e6d9a75caa7e5ac41921d9941c5c1c2726423b1fb6239747"
+    },
+    {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v7/SCORE_ADMISSION_BINDING_PLAN_V7.json",
+      "bytes": 6335,
+      "sha256": "69a758e000b6fc7fc488ae7da676a63e116b98a3af1a309f9a23e0d80c800a50",
+      "status": "LOCAL_CONDITIONAL_TEMPLATE_ONLY_UNBOUND_NOT_REVIEWED_OR_ADMITTED_V7"
+    },
+    {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v7/test_score_admission_v7_inventory.py",
+      "bytes": 6392,
+      "sha256": "2fe8d5fed460dcd479ea5c7174b3f2f5823219db20a0cd346769dad2a4b30566"
+    },
+    {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v7/V7_INVERSE_PROOF.json",
+      "bytes": 821,
+      "sha256": "c34dd5cde265f7afcb871f00f217bc4341603c0bfc1d9a6b10bb8cb996e21339",
+      "status": "PASS_V6_AST_IDENTICAL_OUTSIDE_SOURCE_INVENTORY_FUNCTIONS"
+    },
+    {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v7/V6_SOURCE_INVENTORY_GAP_NOTE_V1.json",
+      "bytes": 1107,
+      "sha256": "f09f07d911c8f313b6c4e00667c1f34bdbb7e0f0a2a73cc92735a42438a5e436",
+      "status": "PRESERVED_CONDITIONAL_SOURCE_INVENTORY_GAP"
+    },
+    {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v6/SCORE_ADMISSION_BODY_TEMPLATE_V6.py",
+      "bytes": 70643,
+      "sha256": "aecec19975a498174a859228499b2e12a5a24965b0ead94f0b8f78941fdf4e84"
+    },
+    {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_SOURCE_REVIEW_V3.json",
+      "bytes": 7284,
+      "sha256": "ee53ce06a6119152866e8f39801e7575e59fb42bc09515d102db4c8df5d9c37a",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    },
+    {
+      "path": "research/campaign-2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v4/startup_health_v1/ACTUAL_FAILURE_METADATA_REVIEW.json",
+      "bytes": 12980,
+      "sha256": "ce81c21d2dd485ed320978e9f455a1363f9e9567898dffb298538a376067b2fc",
+      "status": "PASS_METADATA_ONLY_ACTUAL_CHECKPOINT_RECIPE_FAILURE_CONFIRMED_NO_QUALITY"
+    }
+  ],
+  "source_inventory_review": {
+    "v6_gap": "V6 checked and hashed each of the 167 manifest entries but did not enumerate the live source tree first, so unlisted files were outside its checked closure.",
+    "v7_change_scope": "The unified source diff confines executable changes to the new inventory_exact_source_files function and check_source_tree; the existing score, receipt, resource, and submission functions are otherwise unchanged. The inverse receipt and local fixture report the same AST equality boundary.",
+    "inventory_algorithm": {
+      "source_root_must_be_real_directory": true,
+      "expected_directories_derived_from_manifest_paths": true,
+      "walk_is_top_down_and_does_not_follow_links": true,
+      "walk_errors_fail_closed": true,
+      "unlisted_directories_rejected": true,
+      "symlink_files_and_directories_rejected": true,
+      "unlisted_files_rejected": true,
+      "non_regular_file_entries_rejected": true,
+      "exact_actual_vs_expected_file_set_required": true,
+      "entry_cap": 4096,
+      "directory_cap": 512,
+      "source_hashes_run_after_inventory": true,
+      "source_files_in_pinned_manifest": 167,
+      "manifest_contains_listed_so_or_pyc_files": false
+    },
+    "execution_order": {
+      "source_inventory_before_first_source_file_hash": true,
+      "source_hashes_before_staging_or_score_unit_submission": true,
+      "inventory_call_in_check_source_tree": true,
+      "body_has_no_source_tree_import": true
+    },
+    "preserved_v6_note_matches_v6_body_pin": true
+  },
+  "focused_fixture_scope": {
+    "fixture_cases": [
+      "A tiny exact manifest file-and-directory tree is accepted.",
+      "Unlisted .py, .so, and .pyc files are rejected.",
+      "File and directory symlinks are rejected.",
+      "The inventory call precedes source file hashing in check_source_tree.",
+      "The V7 plan keeps future export acceptance and exact-stop pins null.",
+      "The body AST is unchanged outside the two inventory functions."
+    ],
+    "reported_fixture_count": 6,
+    "reported_ruff": "V7 actor reports Ruff check and format check passed for the new Python files.",
+    "reviewer_reran_fixture_or_ruff": false
+  },
+  "active_export_concern": {
+    "separate_live_export_unit_query_required": false,
+    "assessment": "The source path uses the bounded campaign-slice descendant cgroup scan and requires the populated-process map to be empty before staging or score submission. The reviewed exporter uses create-only output creation; the score path preserves stable input identity/hash validation and writes its result create-only. Together with root's no-restart execution policy, these gates address the active-export overlap concern without querying an old or stopped export unit.",
+    "decision_source": "Root execution review: ALL-populated-empty slice gate before mutation, create-only export outputs, stable scorer input hashes, and no unit restarts. This review made no live-state assertion."
+  },
+  "actual_authority_and_render_state": {
+    "planned_export_unit": "computer-vision-homework-fg19-first-cell-export-v2.service",
+    "planned_exporter_binding": "EXPORT_BINDING_V3.json",
+    "acceptance_path": null,
+    "acceptance_bytes": null,
+    "acceptance_sha256": null,
+    "exact_stop_path": null,
+    "exact_stop_bytes": null,
+    "exact_stop_sha256": null,
+    "historical_export_v2_failed_before_prediction_outputs": true,
+    "current_v7_plan_is_renderable_for_actual_run": false,
+    "rendered_body_exists": false,
+    "required_future_action": "Create a later versioned score-admission packet that binds the ultimately accepted exporter/scorer pair, its actual export identity, root-owned acceptance, and exact-stop after a successful complete export. Do not bind the failed export-v2 observation as export authority."
+  },
+  "reviewer_actions": {
+    "source_text_and_metadata_read": true,
+    "read_only_diff_v6_v7": true,
+    "actual_render": false,
+    "b_query_or_action": false,
+    "tests_or_import_execution": false,
+    "model_data_cache_prediction_or_target_payload_access": false,
+    "quality_claim": false
+  },
+  "reviewer_conclusion": "V7 closes the reviewed V6 missing-inventory gap: it requires an exact live source file and directory closure, rejects unlisted code/runtime files, symlinks, and non-regular entries before hashing the manifest files, and leaves the remainder of the V6 body unchanged. The active-export concern is addressed by the source-preserving ALL-populated-empty gate plus create-only and stable-hash protections; a separate old-unit query is not required. This is a conditional source review only. V7 remains tied to historical export-v2/V3 producer pins with acceptance and exact-stop null, so it cannot be rendered or used as actual score admission; a future packet must rebind the successful export authority."
+}

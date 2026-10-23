@@ -1,0 +1,16 @@
+{
+  "schema": "fg19.first-cell-score-admission-source-negative.v1",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "rejected_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v10/REMOTE_SUBMISSION_V10.py",
+    "bytes": 187989,
+    "sha256": "24787cf037328baabebe19d4eb6ba5c452740d2b5648dbf478544e3ce33cbd53"
+  },
+  "binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v10/SCORE_ADMISSION_SOURCE_BINDING_V10.json",
+    "bytes": 5602,
+    "sha256": "9767f437d545ee9a6b448a6606be972ea6a7766ea3efebf24cbbb346df56a42e"
+  },
+  "finding": "The source file has a per-file cap but reads each file to EOF before check_source_tree applies its 10 MB aggregate cap. Thus a malformed or concurrently changed pinned manifest/source tree can exceed the intended aggregate read bound during hashing. V11 will pre-sum strict manifest sizes before hashing, check each live file size before open, and pass the smaller expected-file/remaining-aggregate cap to an incrementally bounded read loop.",
+  "scope": "Source-only finding; no worker was submitted and no B action, model/payload access, or old-suite replay occurred. Preserve V10 body and binding unchanged."
+}

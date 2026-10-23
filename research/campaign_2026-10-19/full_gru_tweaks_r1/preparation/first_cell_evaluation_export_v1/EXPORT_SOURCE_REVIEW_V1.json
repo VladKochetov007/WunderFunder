@@ -1,0 +1,152 @@
+{
+  "schema": "fg19.first-cell-export-source-review.v1",
+  "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR",
+  "review_scope": "Static source, fixed metadata, and producer-consumer contract review for the local F0/seed-1001 first-cell prediction exporter and streaming scorer. This is not a B execution approval, score, quality conclusion, or admission.",
+  "review_method": {
+    "read_source_and_metadata": true,
+    "verify_local_file_sizes_and_sha256": true,
+    "compare_canonical_api_source_pins": true,
+    "run_imports_or_tests": false,
+    "read_model_dataset_cache_or_prediction_payloads": false,
+    "perform_prediction_or_scoring": false,
+    "perform_B_staging_admission_SSH_or_execution": false
+  },
+  "scope_authority": {
+    "protocol_discovery": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_v1/SOURCE_QUALIFIED_PROTOCOL_DISCOVERY_V1_LINKED.md",
+      "bytes": 17678,
+      "sha256": "3e46da98f7c272f19a2010c8e787e85d7333bf015bc1c567c817c8749f330cc9"
+    },
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_manifest": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v1/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "file_count": 167,
+      "source_set_sha256": "9c461bcc5883572a071d41a86e18b9a91136099cf8fa87371ce7c3ee41445bd8"
+    },
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "panel": [
+      ["control", "base"],
+      ["ema", "ema"],
+      ["sparse", "sparse"],
+      ["nll", "base"],
+      ["allthree", "ema_sparse"]
+    ],
+    "fixed_endpoint": {
+      "selected_epoch": 5,
+      "successful_updates_per_arm": 44760,
+      "evaluation_group_count": 468,
+      "sequence_rows": 20000,
+      "valid_row_group_count": 1873,
+      "evidence_scope": "fit-excluded but exposed development evidence; not a fresh or public holdout"
+    }
+  },
+  "producer": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v1/export_first_cell_v1.py",
+    "bytes": 64315,
+    "sha256": "5e34aa96762c4bd9db934df6b87666f37b80bc8e1ef7e20e6a74a097d33beb00",
+    "binding": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v1/EXPORT_BINDING_V1.json",
+      "bytes": 15822,
+      "sha256": "fcb3ee7934a19d023f29090e527be1d151dde23ae9fae3e0e3a911cea1bd809c"
+    },
+    "review_findings": {
+      "fixed_acceptance_and_exact_stop_receipts_for_all_five_arms": true,
+      "selected_epoch_checkpoint_hashes_and_representation_normalization_pins": true,
+      "source_tree_167_file_preimport_hash_and_postimport_origin_hash_checks": true,
+      "restricted_weights_only_checkpoint_loader": true,
+      "exact_six_source_portability_registry_and_admission_join": true,
+      "fresh_stat_only_checks_for_all_six_sources_before_and_after_canonical_split_load": true,
+      "registered_valid_parquet_leaf_and_resolved_alias_checked_before_and_after_feature_export": true,
+      "canonical_split_inventory_distinguishes_1873_row_groups_from_20000_rows_per_group": true,
+      "canonical_feature_only_sequence_read_and_prediction_api_used": true,
+      "strict_fp32_no_autocast_no_tf32_and_2000_row_chunks": true,
+      "targets_and_scored_mask_not_read_by_exporter": true,
+      "outputs_create_only_and_hash_bound_before_completion_marker": true,
+      "exporter_performs_no_scoring_or_checkpoint_selection": true
+    },
+    "output_contract": {
+      "files_per_arm": ["predictions.npy", "PREDICTION_SIDECAR.json"],
+      "array_shape": [468, 20000, 2],
+      "dtype": "<f4",
+      "data_bytes_each": 74880000,
+      "completion_marker": "EXPORT_MANIFEST_V1.json",
+      "completion_status": "COMPLETE_PREDICTION_EXPORTS_NOT_SCORED"
+    }
+  },
+  "consumer": {
+    "packet_root": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v1",
+    "dependency_manifest": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v1/dependency_manifest.json",
+      "bytes": 4964,
+      "sha256": "f455e5374d43b5149fa11b3afd1ae8c8ba4b2af20c9111a43d6b0518a169f7a0"
+    },
+    "code": [
+      {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v1/first_cell_score_contract.py",
+        "bytes": 19485,
+        "sha256": "09155537feec1d9cd398f6a729ab88201b82e814c1a8c4ac796fe4283940a90d"
+      },
+      {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v1/first_cell_score_core.py",
+        "bytes": 27226,
+        "sha256": "e115d12868b8d9c6ac85e1b497b0bc514559d78fff5dada0b0c350e18b69669a"
+      },
+      {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v1/first_cell_score_predictions.py",
+        "bytes": 11056,
+        "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+      },
+      {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v1/score_first_cell.py",
+        "bytes": 10630,
+        "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+      }
+    ],
+    "review_findings": {
+      "producer_binding_source_set_hash_and_file_count_are_bound_in_binding_not_manifest": true,
+      "exact_four_key_source_manifest_schema_and_167_rows_are_enforced": true,
+      "derived_sorted_path_and_digest_aggregate_is_checked": true,
+      "all_five_sidecars_and_prediction_hashes_are_checked_before_any_npy_mapping": true,
+      "npy_mappings_are_read_only_and_shape_dtype_order_and_file_identity_checked": true,
+      "canonical_split_and_six_registered_data_stats_are_checked_before_and_after_split_and_scoring": true,
+      "official_global_accumulator_uses_scored_mask_and_t_ge_99": true,
+      "four_contrasts_use_paired_centered_component_bootstrap_2000_replicates_seed_271828": true,
+      "zero_scored_groups_remain_in_the_ordered_component_panel": true,
+      "report_is_create_only_and_fsyncs_file_and_parent_directory": true,
+      "report_scope_limits_exclude_fresh_holdout_fit_seed_and_public_transfer_claims": true
+    }
+  },
+  "canonical_api_review": {
+    "source_worktree": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "reviewed_files": [
+      {"path": "src/wnn/__init__.py", "bytes": 63, "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"},
+      {"path": "src/wnn/data.py", "bytes": 4000, "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"},
+      {"path": "src/wnn/gmetric.py", "bytes": 8902, "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"},
+      {"path": "src/wnn/evaluation.py", "bytes": 8080, "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"},
+      {"path": "src/wnn/portability.py", "bytes": 2239, "sha256": "a35f84ee5c95fd45cd76aa5f34f7013c8e1c5963a6306b0e4049386515589a44"},
+      {"path": "src/wnn/splits.py", "bytes": 9000, "sha256": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe"},
+      {"path": "src/wnn/resources.py", "bytes": 6276, "sha256": "95fdc839ff1561622ac06c465cfc9a01370130d99be1e832b3a33c79bcb37930"},
+      {"path": "src/wnn/training/evaluation.py", "bytes": 3271, "sha256": "015c61a9281e5e31d91179edb4a1020a6978784941715b6a9c0db21149bb8345"},
+      {"path": "src/wnn/training/environment.py", "bytes": 3063, "sha256": "37f431554a20b72ecfd10d41c76c4822379f3b4b15c3c69f8f3c6f5ba0e8125c"},
+      {"path": "src/wnn/training/input_representation.py", "bytes": 11714, "sha256": "934bac99544c04ac3b77f0b9f78fa4b40ce5782a785fee04d9450d9d568b116f"},
+      {"path": "src/wnn/training/inputs.py", "bytes": 9077, "sha256": "b433ad56965e4272f3209e02f9108527fdaeabebefae07616dff61a4bbe5c9ea"},
+      {"path": "src/wnn/training/models.py", "bytes": 8090, "sha256": "95d5bc6cce784448203717c38070c00f2e677ba6d5bc340737d84b03605dd473"}
+    ],
+    "api_match_summary": "The feature exporter uses canonical SequenceFile length/read, load_campaign_split, TrainingEnvironment/InputConfiguration, make_model, and training.evaluation.predict; predict calls model.eval(), chunks sequence history, honors the explicit strict-FP32 model flag, and emits the first two outputs. The scorer uses the pinned SequenceFile, load_campaign_split, GlobalAccumulator, paired_component_moments, and paired_component_bootstrap APIs."
+  },
+  "reported_local_validation": {
+    "producer": "Producer LOCAL_CHECKS.md reports Ruff clean, 15 focused fixtures on the preceding revision and one new six-source stat fixture passed separately; unchanged tests were not replayed after that narrow addition.",
+    "consumer": "Consumer LOCAL_CHECKS.md reports Ruff clean and six focused synthetic tests passed.",
+    "independently_executed_by_reviewer": false
+  },
+  "limitations": [
+    "This review did not stage, admit, or execute either packet and does not authorize a B action.",
+    "The exporter and scorer have not produced or consumed real prediction outputs on this reviewer's host.",
+    "No metric value, comparative gain, new fit, fresh holdout result, or public-transfer conclusion is asserted.",
+    "Root-owned fresh resource, exact path, GPU/process ownership, staging, and one-attempt admission gates remain required before execution."
+  ],
+  "findings": []
+}

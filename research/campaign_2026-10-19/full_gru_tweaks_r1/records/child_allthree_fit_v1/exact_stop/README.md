@@ -1,0 +1,7 @@
+# Exact accepted AllThree pair stopped — 21 October07:11UTC
+
+[Full acceptance](../TERMINAL_ACCEPTANCE.json)20208B/SHAfada500ede63a175d7d055d38fbef5d38110aef481a91771ae3c5717c1e7026f was durable before this operation. [Source-only review](SOURCE_REVIEW.json) accepted the exact two-unit source and metadata-only prehash boundary. [One raw stop](STDOUT.raw.json), exact-equal to [EXACT_STOP.json](EXACT_STOP.json), is3208B/SHA0154b3f35c4fb849d0db7e7b60ce1f4ce2fa01ab2203c17db65877f89353f13d, SSH0/empty stderr/fsynced before parse.
+
+Only native AllThreefit-v1/inv94d3a7132a434d448345b0206bd3daa3 and successful verify-v2/inv08134ba3f458491c951c33cb02ea5bf1 were queried and stopped after exact active/exited0-1-0 identity gates. Both became not-found/inactive/dead/MainPID0/emptyInvocationID; populated campaign descendants were empty before/after and stop returned0. Failed verify-v1/invf0c857aa1a68498cb4be237d423281cf and all foreign/old units are excluded permanently.
+
+The exact original compact result printed to unit.log, checker source and provenance metadata were prehashed using O_NOFOLLOW/stable stats; no B VERIFICATION.json was assumed or recreated and no model/state/array payload was read. B captured utc07:11:47.779579 and ROOT transport07:11:47.068272–.693751 are separate host-clock samples, not physical microsecond launch/stop precision. Historical acceptance PENDING_EXACT_STOP remains frozen; this later receipt supersedes that status without rewriting it. No new fit or quality result.

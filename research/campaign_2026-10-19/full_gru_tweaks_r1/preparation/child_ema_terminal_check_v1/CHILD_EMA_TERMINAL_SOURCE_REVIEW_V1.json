@@ -1,0 +1,93 @@
+{
+  "schema": "fg19.child-ema-terminal-source-review.v1",
+  "status": "PASS_SOURCE_ONLY",
+  "reviewed_scope": "Independent local source, receipt-pin, dependency, and cold-import-proof review for the EMA terminal checker. This review does not authorize or report a live terminal verification.",
+  "reviewed_artifacts": {
+    "checker": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/child_ema_terminal_check_v1.py",
+      "bytes": 36887,
+      "sha256": "a63ec6c4f6b0a3c4ba7e0cb8800e4787c5d89f1a652e0deec15ad84ffc95d30a"
+    },
+    "focused_tests": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/test_child_ema_terminal_check_v1.py",
+      "bytes": 23474,
+      "sha256": "ace32afe10f03ca6e91d2d3f9d9234c4763b2dc6e7122784e73ae44981769773"
+    },
+    "cold_import_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/IMPORT_READ_CUDA_PROOF.json",
+      "bytes": 10136,
+      "sha256": "84fea38fe326d1998a76fffa9c1407daad7fe7aaf545b753fdc43b9fc57c128d"
+    },
+    "dependency_manifest": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/DEPENDENCY_MANIFEST.json",
+      "bytes": 5208,
+      "sha256": "6a6e7843c278568becfbc3dcc2cc3d0175b9606a549a86ae1ce67a98a902cd7e"
+    },
+    "local_checks": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/LOCAL_CHECKS.json",
+      "bytes": 5068,
+      "sha256": "d5da5fdedb092f43ef15ff7b63f679d442c4eb524cf675377f78f27128ef9816"
+    },
+    "readme": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/README.md",
+      "bytes": 3311,
+      "sha256": "155ee4baa5503bd0e0cb6b8e5530b7901d7c3dd627c3aaf83e2a242e1b6d1ba2"
+    },
+    "human_path_compatibility_authority": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/HUMAN_PATH_COMPAT_EXCEPTION_AUTHORITY_V1.json",
+      "bytes": 1862,
+      "sha256": "9d0259675d97856b744abe63030575e38551b58d1fc9ac7adaa1281f535abacb"
+    }
+  },
+  "dependency_pins_verified": [
+    {
+      "module": "child_control_terminal_check_v3",
+      "bytes": 79972,
+      "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+    },
+    {
+      "module": "parent_fit_terminal_check_v3",
+      "bytes": 64550,
+      "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+    },
+    {
+      "module": "propensity_terminal_support",
+      "bytes": 13107,
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    },
+    {
+      "module": "teacher_s5_terminal_check_v1",
+      "bytes": 37448,
+      "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+    }
+  ],
+  "receipt_and_source_pins": {
+    "ema_admission_sha256": "db13e5433cb0a414c1a235806220c53db4ded6c128fc5ffbda5e465dde9fde51",
+    "ema_launch_sha256": "8c43f6fb26d3f6a046304617094e266a3e1940c83a7ea56787781fa176ef133e",
+    "ema_launch_acceptance_sha256": "4fc34f4769da2f08aaf1fcca97d87731dc38b1709a93afa9376be003c28ffb72",
+    "ema_remote_body_sha256": "f83ac3120a2e445f1752fcd026123a0e8a21ba53594d27b398462a5236ffebd6",
+    "control_terminal_acceptance_sha256": "92aaf5eeed156aaad25c4adbb6700d41b0527600b520dd051657a43a50bbb6d2",
+    "control_exact_stop_sha256": "600cb3c4a56c7d0731ed2bf6174d47f5b09623c7ca22a7e5fce77d4d358ae012",
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167
+  },
+  "findings": [
+    "The checker is EMA-specific: it binds the exact EMA admission, launch, root launch acceptance, complete trainer-argv digest, F0 seed-1001 recipe, source-68 identity, accepted CONTROL receipt, exact CONTROL stop, and EMA-native terminal evidence schema. The recipe requires representation_mode=ema; this denotes the source-68 input representation and does not assert optimizer or model-weight EMA.",
+    "The checker reuses only the pinned pure receipt, ancestry, worker/cache, source-identity, tensor-identity, model/state, optimizer, scheduler, RNG, counter, normalization, representation, and log helpers listed in the dependency manifest. It does not call the CONTROL verifier entrypoint or depend on monkeypatched CONTROL identity/receipt inputs.",
+    "The state load remains weights_only=True with the previously approved NumPy RNG and TorchVersion baseline. The only added constructor mapping is pathlib._local.PosixPath for the single source-qualified reducer argument equal to the canonical dictionary path; the decoded Path is checked at training_state.contract.options.representation_cache. No generic Path registration or unsafe loader is introduced.",
+    "The recorded direct-human exception is exact: answer 'Разрешить точный декодер пути', limited to this first F0/seed-1001 comparison and the exact dictionary-path field. Authority receipt SHA-256 is 9d0259675d97856b744abe63030575e38551b58d1fc9ac7adaa1281f535abacb. This review treats that grant as the scope boundary; it does not expand it.",
+    "The final cold-import fixture stages exactly five pinned private modules in a fresh temporary directory, imports them from that directory, and checks each origin, byte count, and digest. It also checks all 29 loaded WNN module files against the 167-file source manifest, blocks model/array/dataset/B-root opens, and denies CUDA probes.",
+    "The cold proof records local PyTorch 2.14.1, CUDA_VISIBLE_DEVICES empty, and torch.cuda._initialized false. That local import-runtime observation is distinct from the expected worker/checker Torch 2.14.0+cu130. EMA calls the pinned CONTROL V3 `_check_args_and_contract`; its exact source checks `contract.runtime.torch == 2.14.0+cu130` and requires the checker runtime `torch.__version__` to match. The proof makes no remote-runtime claim."
+  ],
+  "local_check_history": {
+    "final_candidate": "The final cold-import sentinel passed 1/1 and Ruff lint/format checks passed, as recorded in LOCAL_CHECKS.json.",
+    "prior_candidate": "The eight invariant tests passed on prior test-file SHA-256 cf7704cc87a0ed8a2d7e22f454d1ebd92ca0b8e41fb8d666ba0d81c25143623d. The checker bytes were unchanged; the final test edit was limited to isolated private-module staging and cold-import/runtime observations. LOCAL_CHECKS.json explicitly records that the full suite was not rerun on the final test-file hash.",
+    "reviewer_execution": "This reviewer did not execute tests, import the checker, access SSH/B, invoke the verifier, or read model, training-state, cache-array, or dataset payloads."
+  },
+  "conditions_and_limitations": [
+    "This is a source and local-preparation review only. It does not prove an EMA native exit, terminal VERIFICATION, tensor integrity, fit quality, or a successful live result.",
+    "Before any future run, root-owned preparation must bind the exact checker/dependency/body bytes into the current one-shot admission, and fresh native-exit, unit/resource, output-absence, support, and disk gates must pass. The checker itself requires typed native terminal evidence and does not stop or restart a unit.",
+    "No B-side action, model/state payload access, or live EMA state query was performed for this review."
+  ]
+}

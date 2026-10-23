@@ -1,0 +1,149 @@
+{
+  "schema": "fg19.child-allthree-terminal-check-dependency-manifest.v1",
+  "status": "PINNED_LOCAL_CHECKER_DEPENDENCY_CLOSURE",
+  "repository_root": "research/campaign_2026-10-19/full_gru_tweaks_r1",
+  "checker_api": {
+    "import_safe_assertion": "child_allthree_terminal_check_v1.assert_helper_closure",
+    "full_verification": "child_allthree_terminal_check_v1.verify_terminal",
+    "positional_path_arguments": [
+      "run_dir",
+      "source_root",
+      "source_manifest",
+      "split_path",
+      "evidence_root",
+      "profile_evidence_root",
+      "admission_path",
+      "launch_path",
+      "launch_acceptance_path",
+      "terminal_path",
+      "cache_root",
+      "cache_acceptance_path",
+      "cache_stop_path"
+    ],
+    "cli_or_main": false
+  },
+  "private_code_file_count": 7,
+  "code_dependencies": [
+    {
+      "role": "checker",
+      "module": "child_allthree_terminal_check_v1",
+      "path": "preparation/child_allthree_terminal_check_v1/child_allthree_terminal_check_v1.py",
+      "bytes": 40442,
+      "sha256": "f4e9b7a2ed6798edf7ac0fbd30517687606494f6aacc44dddc96a0bba1f544dd"
+    },
+    {
+      "role": "non_coercing_equality_and_predecessor_leaves",
+      "module": "child_nll_terminal_check_v1",
+      "path": "preparation/child_nll_terminal_check_v1/child_nll_terminal_check_v1.py",
+      "referenced_functions": [
+        "_eq",
+        "_check_ema_predecessor",
+        "_check_dictionary_child_predecessor"
+      ],
+      "entrypoints_called": [],
+      "bytes": 40474,
+      "sha256": "a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2"
+    },
+    {
+      "role": "state_safety_lineage_optimizer_and_counter_leaves",
+      "module": "child_control_terminal_check_v3",
+      "path": "preparation/child_control_terminal_verifier_v3/child_control_terminal_check_v3.py",
+      "referenced_functions": [
+        "_require_path_compatibility_exception",
+        "_reset_safe_globals",
+        "_check_stop_receipt",
+        "_check_predecessor_receipts",
+        "_read_pinned_json",
+        "_check_parent_checkpoint",
+        "_check_representation_payload",
+        "_check_dictionary_artifact",
+        "_check_child_normalizer",
+        "_load_control_training_state",
+        "_check_scheduler",
+        "_check_optimizer",
+        "_check_counters",
+        "_check_loader_and_rng",
+        "_check_args_and_contract"
+      ],
+      "entrypoints_called": [],
+      "bytes": 79972,
+      "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+    },
+    {
+      "role": "registered_data_and_predecessor_leaves",
+      "module": "child_ema_terminal_check_v3",
+      "path": "preparation/child_ema_terminal_verifier_v3/child_ema_terminal_check_v3.py",
+      "referenced_functions": [
+        "_check_registered_data_stats",
+        "_check_control_predecessor",
+        "_check_parent_and_dictionary_stats",
+        "_trainer_argv_sha"
+      ],
+      "entrypoints_called": [],
+      "bytes": 38267,
+      "sha256": "676d548c1cd25c3c1379548999cca1300ef135dd41b4a8f73689ef8e59de3b5d"
+    },
+    {
+      "role": "source_cache_membership_and_checkpoint_leaves",
+      "module": "parent_fit_terminal_check_v3",
+      "path": "preparation/parent_fit_terminal_check_v3.py",
+      "referenced_functions": [
+        "_source_identity",
+        "_check_worker",
+        "_check_cache",
+        "_check_membership",
+        "_check_cache_provenance",
+        "_load_checkpoint"
+      ],
+      "entrypoints_called": [],
+      "bytes": 64550,
+      "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+    },
+    {
+      "role": "stable_bounded_file_helpers",
+      "module": "propensity_terminal_support",
+      "path": "preparation/propensity_terminal_support.py",
+      "referenced_functions": [
+        "_hash_file",
+        "_json_file",
+        "_stable_file"
+      ],
+      "entrypoints_called": [],
+      "bytes": 13107,
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    },
+    {
+      "role": "canonical_launch_and_tensor_identity_leaves",
+      "module": "teacher_s5_terminal_check_v1",
+      "path": "preparation/teacher_s5_terminal_check_v1.py",
+      "referenced_functions": [
+        "_launch_cli_args",
+        "_canonical_tensor_identity"
+      ],
+      "entrypoints_called": [],
+      "bytes": 37448,
+      "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+    }
+  ],
+  "native_gate": {
+    "schema": "fg19.child-allthree-fit-native-terminal-evidence.v1",
+    "run_name": "fg19_child_allthree_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+    "invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+    "state": "active/exited",
+    "main_pid": 0,
+    "exec_main_code": 1,
+    "exec_main_status": 0,
+    "raw_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+    "raw_bytes_type": "positive strict integer",
+    "raw_sha256_format": "64 lowercase hexadecimal characters",
+    "timestamps": "timezone-qualified ISO-8601; native_exit_utc <= captured_utc"
+  },
+  "predecessor_receipt_count": 14,
+  "entrypoint_restrictions": {
+    "nll_main_called": false,
+    "nll_verify_terminal_called": false,
+    "copied_trainer_or_framework": false,
+    "source_representation_imports": "inside verify_terminal after native, path, launch, admission, receipt, source identity and cache gates"
+  }
+}

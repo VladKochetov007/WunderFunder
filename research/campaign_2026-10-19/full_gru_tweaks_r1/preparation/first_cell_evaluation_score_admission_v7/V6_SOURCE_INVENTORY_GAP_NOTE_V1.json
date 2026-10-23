@@ -1,0 +1,12 @@
+{
+  "schema": "fg19.first-cell-score-admission-v6-inventory-gap.v1",
+  "status": "PRESERVED_CONDITIONAL_SOURCE_INVENTORY_GAP",
+  "v6_body": {
+    "path": "first_cell_evaluation_score_admission_v6/SCORE_ADMISSION_BODY_TEMPLATE_V6.py",
+    "bytes": 70643,
+    "sha256": "aecec19975a498174a859228499b2e12a5a24965b0ead94f0b8f78941fdf4e84"
+  },
+  "finding": "V6 validates and hashes each of the 167 manifest rows but does not first enumerate the live source tree and compare its file set with those rows. An unlisted extra source file can therefore remain outside the hashed closure.",
+  "v7_scope": "V7 adds a fresh bounded inventory pass over the canonical source root before the first source-file hash, requiring exact manifest file-set equality and rejecting symbolic links, unlisted files, unlisted directories, and non-regular entries.",
+  "actual_export_v2": "The later actual export-v2 unit failed during checkpoint verification after model loading and before prediction outputs. This note does not change or reinterpret that independent failed run; no export acceptance or exact-stop is bound by V7."
+}

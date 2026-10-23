@@ -1,0 +1,11 @@
+# AllThree terminal checker
+
+This directory contains a thin checker for the single admitted AllThree F0, seed-1001 fit. It is a downstream dependency for a one-shot verifier stage; it does not start, stop, or resubmit a fit.
+
+The import-safe surface is `assert_helper_closure()`. The full entry point is `verify_terminal(...)`, with 13 positional `Path` arguments, in this order: `run_dir`, `source_root`, `source_manifest`, `split_path`, `evidence_root`, `profile_evidence_root`, `admission_path`, `launch_path`, `launch_acceptance_path`, `terminal_path`, `cache_root`, `cache_acceptance_path`, and `cache_stop_path`. The terminal argument must be the exact typed native evidence for run `fg19_child_allthree_f0_s1001_fit_v1`, unit `computer-vision-homework-fg19-child-allthree-fit-v1.service`, invocation `94d3a7132a434d448345b0206bd3daa3`.
+
+The checker accepts only the exact native evidence schema, identity, raw-capture path, positive raw byte count, lowercase SHA-256, and timezone-qualified timestamps. It requires PID 0, exit code 1, exit status 0, `active/exited`, and an exit time no later than capture. It then verifies the pinned launch/admission metadata, all 14 unchanged predecessor receipts, the NLL fit predecessor acceptance and exact stop, capped artifacts, six-epoch histories, optimizer/state, and parent-only initialization ancestry. The sparse representation is the admitted signed top-4-of-16 code plus 112-wide residual and causal innovation EMA with half-life 32; parameter EMA and SWA remain disabled.
+
+The pure helper closure is fixed in `dependency_manifest.json`. The NLL helper is used only for its non-coercing equality and predecessor-check leaves; its terminal verifier and CLI are never called. Source-tree representation modules are imported only inside `verify_terminal`, after strict native terminal metadata and launch/admission gates, to validate the already-produced sparse representation artifact. The existing 14-entry `staged_receipt_sha256` map is checked in place and each receipt is hashed read-only; no receipt is rewritten or restaged.
+
+This packet contains only tiny metadata fixtures. Actual verification requires a distinct native-exit evidence file and the exact staged paths above. It is not authorized while the fit is active, and no fit command is part of this checker.

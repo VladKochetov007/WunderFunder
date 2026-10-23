@@ -1,0 +1,92 @@
+{
+  "schema": "fg19.child-nll-fit-startup-observation.v1",
+  "status": "ACTIVE_RUNNING_DATED_METADATA_ONLY",
+  "captured_utc": "2026-10-20T22:10:57.357950+00:00",
+  "unit_properties": {
+    "ActiveState": "active",
+    "CPUQuotaPerSecUSec": "1s",
+    "CPUUsageNSec": "210235600000",
+    "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-nll-fit-v1.service",
+    "ExecMainCode": "0",
+    "ExecMainExitTimestamp": "",
+    "ExecMainStartTimestamp": "Tue 2026-10-20 22:07:20 UTC",
+    "ExecMainStatus": "0",
+    "ExecStart": "{ path=/home/grinchenkoeg/WunderFunder/.venv/bin/python ; argv[]=/home/grinchenkoeg/WunderFunder/.venv/bin/python -u /home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829/scripts/train_rnn.py --name fg19_child_nll_f0_s1001_fit_v1 --device cuda --seed 1001 --split-manifest /home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json --train-source train+valid --valid-fold 0 --train-seqs 10535 --valid-repeat 1 --valid-train-fraction 1.0 --batch-order seeded --batch 16 --chunk 2000 --epochs 6 --checkpoint-policy fixed --checkpoint-epoch 5 --arch gru --cell gru --enc linear --hidden 256 --layers 2 --head-layers 1 --dropout 0 --init fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 --inherit-init-preprocessing --representation-mode base --representation-cache /home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt --mean-variance-head 1 --mean-variance-objective nll --loss wmse --loss-norm chunk --distill-cache-root /home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1 --distill-cache-variant homogeneous --distill-cache-scale 1.0 --distill-alpha 0.9 --distill-family-weight 0 --aux-struct 0.3 --aux-next 0.3 --optim adamw --lr 0.0001 --wd 0.01 --beta2 0.999 --sched onecycle --warmup-frac 0.05 --clip 1 --precision fp32 --grad-stats --save-training-state --no-eval-during-fit ; ignore_errors=no ; start_time=[Tue 2026-10-20 22:07:20 UTC] ; stop_time=[n/a] ; pid=1537702 ; code=(null) ; status=0/0 }",
+    "InvocationID": "c833c613fb92426981ab255a5faf4452",
+    "LoadState": "loaded",
+    "MainPID": "1537702",
+    "MemoryCurrent": "2704429056",
+    "MemoryHigh": "7500000000",
+    "MemoryMax": "8000000000",
+    "MemoryPeak": "2984996864",
+    "MemorySwapMax": "0",
+    "Result": "success",
+    "SubState": "running"
+  },
+  "invocation_id": "c833c613fb92426981ab255a5faf4452",
+  "raw_bytes": 42948,
+  "raw_sha256": "212e0484e74a9cb436f4bb380d01932f89c4a00fdca2a8ca2453ff7d019f4a38",
+  "reader_sha256": "cffc39769f4d16212216816498f7d6d6dc83db152cebaf73b0820b123b88beaf",
+  "completed_epoch_fit_record_count": 0,
+  "completed_epoch_fit_records": [],
+  "completed_epoch_gradient_records": [],
+  "last_recorded_progress_line": "ep 0 batch 40/746 loss 0.0397 lr 1.17e-05 seq/s 7.3",
+  "last_line_is_not_synchronous_current_or_terminal_or_quality": true,
+  "own_cgroup_state": {
+    "cgroup.procs": "1537702\n",
+    "cgroup.procs_bytes_observed": 8,
+    "cgroup.procs_truncated": false,
+    "memory.current": "2736148480\n",
+    "memory.current_bytes_observed": 11,
+    "memory.current_truncated": false,
+    "memory.events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+    "memory.events.local_bytes_observed": 53,
+    "memory.events.local_truncated": false,
+    "memory.events_bytes_observed": 53,
+    "memory.events_truncated": false,
+    "memory.peak": "2984996864\n",
+    "memory.peak_bytes_observed": 11,
+    "memory.peak_truncated": false,
+    "path": "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-nll-fit-v1.service"
+  },
+  "own_process_rss_observation": [
+    "VmHWM:\t 3422524 kB",
+    "VmRSS:\t 3190332 kB"
+  ],
+  "parent_cgroup_current_bytes": 10365411328,
+  "parent_events_delta_from_admission": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "parent_local_events_delta_from_admission": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "owned_gpu_process": {
+    "cgroup": "0::/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-nll-fit-v1.service",
+    "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "pid": 1537702,
+    "uid": 1061,
+    "used_memory": "3404 MiB"
+  },
+  "all_populated_descendants": {
+    "/sys/fs/cgroup/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-nll-fit-v1.service/cgroup.procs": "1537702"
+  },
+  "run_directory_stat_only": {
+    "entries": [],
+    "exists": true,
+    "symlink": false
+  },
+  "canonical_source_content_rehashed_by_reader": false,
+  "source_authority": "Fresh167-file NLL actual admission; reader source identifier is expected constant only, not fresh content verification.",
+  "limits": "One new-launch startup ownership/resource observation only. No completed native histories at this snapshot unless explicitly listed; setup expected44760/laterprogress are not current totals, terminal, tensor integrity or quality. All service/RSS/CG/GPU/CPU/wall/FITtime samples separate, no equality/fullRAM/cause/performance inference. No model/state/cache/data payload read/hash, support/newfit/inference/restart/stop/grade."
+}

@@ -1,0 +1,59 @@
+{
+  "artifacts": {
+    "ALLTHREE_LAUNCH_TEMPLATE_V1.py": {
+      "bytes": 238232,
+      "sha256": "a35fff5323849edea130db297daf549e968f33ad8b4fdf6d3688daac00bdaa6f"
+    },
+    "ALLTHREE_RECIPE_BINDING_V1.json": {
+      "bytes": 10248,
+      "sha256": "a6fd63357355e56ff22ca5ec6505bb7dabfafd51486e5fd774e213d7d13846fd"
+    },
+    "README.md": {
+      "bytes": 2049,
+      "sha256": "dec9f567c75c15728a7e68039368d12bc551a1b2a954cc0bb60d2c0fabd1021b"
+    },
+    "bind_allthree_fit_v1.py": {
+      "bytes": 39240,
+      "sha256": "bdc111e220f90bb48b51b8c7a36f1a81e1133cdd3ae110ed7b42f26539d99898"
+    },
+    "test_bind_allthree_fit_v1.py": {
+      "bytes": 2471,
+      "sha256": "b3ea4817677feb8d3ab8560cbf0f01706138413b64f4bf99304188e6aac84792"
+    }
+  },
+  "checks": [
+    {
+      "command": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/bind_allthree_fit_v1.py --check",
+      "detail": "Pinned template derivation; NLL terminal acceptance/stop not read; final body absent; argv delta indices [1,48].",
+      "result": "PASS"
+    },
+    {
+      "command": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/python test_bind_allthree_fit_v1.py -v",
+      "detail": "4 focused tests passed: exact argv delta, unbound slots, launch-acceptance scalar fragment rejection, and missing-receipt fail-closed behavior.",
+      "result": "PASS"
+    },
+    {
+      "command": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/ruff format --check <binder-and-test>",
+      "detail": "2 files already formatted.",
+      "result": "PASS"
+    },
+    {
+      "command": "/Users/nb/Documents/wunder/WunderFunder-maintenance/.venv/bin/ruff check <binder-and-test>",
+      "detail": "All checks passed.",
+      "result": "PASS"
+    }
+  ],
+  "nll_terminal_acceptance_or_exact_stop_read": false,
+  "nonblocking_invocation_note": {
+    "attempt": "An initial unittest module-name invocation failed before collection because a hyphenated folder was expressed as an underscore package path.",
+    "code_or_test_failure": false,
+    "resolution": "Reran the test file directly with the literal maintenance/.venv/bin/python; all 4 tests passed."
+  },
+  "remote_action_performed": false,
+  "render_command_invoked": false,
+  "rendered_body_present": false,
+  "schema": "fg19-child-allthree-fit-local-checks.v1",
+  "scope": "Focused local identity, derivation, and fail-closed slot checks for the conditional AllThree packet; no fit, profile, evaluation, source-suite, or model-payload validation.",
+  "status": "PASS_LOCAL_UNBOUND_TEMPLATE_ONLY",
+  "unchanged_source_model_profile_or_cold_suites_rerun": false
+}

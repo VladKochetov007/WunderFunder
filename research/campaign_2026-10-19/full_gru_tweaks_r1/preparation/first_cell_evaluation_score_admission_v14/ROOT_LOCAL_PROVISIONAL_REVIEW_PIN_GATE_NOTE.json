@@ -1,0 +1,28 @@
+{
+  "schema": "fg19.first-cell-score-v14-local-provisional-review-pin-gate.v1",
+  "status": "LOCAL_INPUT_GATE_REJECTED_BEFORE_ANY_REMOTE_ATTEMPT",
+  "scope": "ROOT observed a provisional review while the critic was still completing it. Both the manual local assertion and admission driver exact-input guard rejected the provisional expected review pin before record.mkdir and SSH. The later actual submission used the explicitly frozen final review, unchanged body and corrected binding.",
+  "provisional_observed_review": {
+    "bytes": 17758,
+    "sha256": "8a6999960cfb6ed3b3a275afddaf3ea34e07ce15c5e19eb4e0f318203a8caf91",
+    "exact_old_bytes_archived_by_this_note": false,
+    "not_announced_frozen": true
+  },
+  "final_frozen_review": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v14/ACTUAL_SCORE_ADMISSION_SOURCE_REVIEW_V14.json",
+    "bytes": 18342,
+    "sha256": "4cd8c964d4bfb59032e9e6b79cfd63777417d0f96d0031ae9f2cd01f21227a82"
+  },
+  "unchanged_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v14/REMOTE_SUBMISSION_V14.py",
+    "bytes": 193262,
+    "sha256": "fea0734c5485fa984e0bb961db58dafc01950c1308a3893dd400d15d7c332670"
+  },
+  "local_driver_failure": "ValueError: exact reviewed input pin changed before submission; ROOT_CAPTURE_SCORE_ADMISSION_V4.py line42",
+  "local_failures": 2,
+  "SSH_attempts_created_by_these_local_failures": 0,
+  "CPU_units_created_by_these_local_failures": 0,
+  "scientific_fits": 0,
+  "timing": "Between the provisional local read and the actual12:57UTC submission; no exact local rejection timestamp is asserted.",
+  "subsequent_root_orchestration": "Explicit exit-code guard required local check success before invoking the one actual remote admission."
+}

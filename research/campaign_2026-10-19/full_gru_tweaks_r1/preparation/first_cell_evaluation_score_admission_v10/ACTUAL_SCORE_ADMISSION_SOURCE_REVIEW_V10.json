@@ -1,0 +1,42 @@
+{
+  "schema": "fg19.first-cell-score-admission-actual-source-review.v10",
+  "status": "REJECT_SOURCE_ONLY_ZERO_B",
+  "scope": "Independent source-only review of the exact V10 rendered stdin body and binding. The two receipt branches now fsync SCORE_D before returning or raising; the remaining blocker is the source-tree hashing byte bound.",
+  "body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v10/REMOTE_SUBMISSION_V10.py",
+    "bytes": 187989,
+    "sha256": "24787cf037328baabebe19d4eb6ba5c452740d2b5648dbf478544e3ce33cbd53"
+  },
+  "binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v10/SCORE_ADMISSION_SOURCE_BINDING_V10.json",
+    "bytes": 5602,
+    "sha256": "9767f437d545ee9a6b448a6606be972ea6a7766ea3efebf24cbbb346df56a42e"
+  },
+  "durability_branch_proof": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v10/ACTUAL_SCORE_ADMISSION_V10_FSYNC_BRANCHES_PROOF.json",
+    "bytes": 1194,
+    "sha256": "1be51007ae67474fa2658b83065dc552ead527d6ea52c5be3571f5b3a9c8f5c6",
+    "status": "PASS_EXACT_V9_INVERSE_AND_BOTH_RECEIPT_BRANCH_FSYNC_V10"
+  },
+  "finding": {
+    "locations": [
+      "REMOTE_SUBMISSION_V10.py:file_hash, lines 71-95",
+      "REMOTE_SUBMISSION_V10.py:MAX_SOURCE_BYTES and MAX_SOURCE_AGGREGATE_BYTES, lines 332-333",
+      "REMOTE_SUBMISSION_V10.py:check_source_tree, lines 758-808"
+    ],
+    "details": "file_hash checks the initial stat size against the 128,000,000-byte per-file cap, then reads in 1 MiB blocks until EOF without enforcing a cumulative byte limit. check_source_tree opens and fully hashes each listed file, then applies the 10,000,000-byte aggregate limit only after that file has been consumed. It also does not compare the live file size to the manifest's expected byte count before opening it. Thus a changed/oversized source file can be read past the intended aggregate bound before rejection. The manifest's 167 pinned rows must be summed and bounded before source-file opens, and each live size must match its pinned expected size before hashing; the stream must enforce the remaining permitted bytes while reading and retain the stable post-read stat check. Zero-byte rows should remain valid."
+  },
+  "positive_findings": [
+    "V10 retains the pre-submit SCORE_D directory fsync and fsyncs after both LAUNCH.json and LAUNCH_UNRESOLVED.json create-only writes before returning or raising.",
+    "The focused V10 proof records exact inverse reconstruction to V9 and unchanged six scorer payload pins."
+  ],
+  "preservation": {
+    "body_mutated": false,
+    "binding_mutated": false,
+    "proof_mutated": false,
+    "B_or_network_action": false,
+    "score_unit_action": false,
+    "model_or_array_payload_read": false,
+    "source_or_model_import": false
+  }
+}

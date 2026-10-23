@@ -1,0 +1,9 @@
+# First-cell streaming scorer V2
+
+This versioned scorer packet updates only the expected binding byte count and SHA-256 in `first_cell_score_core.py`. It accepts the new flat-support binding while preserving the four-module scorer's metric, prediction validation, I/O, ordering, and reporting code. The V1 scorer packet and its review remain frozen.
+
+The V2 binding is still named `EXPORT_BINDING_V1.json` and retains schema `fg19.first-cell-evaluation-export-binding.v1`. It changes only `source.restricted_loader.relative_path` to `parent_fit_terminal_check_v3.py` and `source.restricted_loader_support.relative_path` to `propensity_terminal_support.py`, matching the flat worker staging layout. The binding is 15,798 bytes / SHA-256 `6cd8c46f31214623d97e54c32bac9395608bfc918b9b44e879e44ad2548f0eb9`; the source manifest remains byte-identical to V1.
+
+`dependency_manifest.json` pins the V2 binding, exporter, unchanged source manifest, scorer files, and focused metadata fixture. Its `producer_contract.source_review` field records the state when that manifest was frozen. The subsequent independent producer/consumer review is [EXPORT_SOURCE_REVIEW_V2.json](../first_cell_evaluation_export_v2/EXPORT_SOURCE_REVIEW_V2.json), 10,250 bytes / SHA-256 `f736f60a6b5481e94be380a183ba840aad850958c9b863b439bc708e65e997af`, status `PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR`. It pins the exact V2 dependency manifest and scorer files, and confirms only the two binding constants changed in scorer code. The new fixture compares V1/V2 binding objects and scorer ASTs without importing scorer or source modules or reading predictions, checkpoints, targets, data, or cache payloads. The prior six-test scorer suite is not copied or rerun.
+
+This is local source preparation only. No export, score execution, admission, or quality claim is authorized here.

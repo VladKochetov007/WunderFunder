@@ -1,0 +1,5 @@
+# AllThree second-support result reader, local unbound template
+
+[Template](RESULT_CAPTURE_TEMPLATE.py) derives from the [frozen first-support reader](../child_allthree_terminal_result_capture_v1/RESULT_CAPTURE_TEMPLATE.py) by only four exact identity/code-pin literals, proven by [AST adaptation](AST_LITERAL_ADAPTATION_V2.json). It targets new verify-v2/privateD_v2 and checkerV2; the failed verify-v1 is preserved and never queried again. Admission/launch receipt protocol schemas remain v1 because their fields/semantics are unchanged. The five actual receipt-byte/hash/invocation constants are unbound and fail before any query.
+
+Independent source review and exact new producer/consumer binding precede actual use. Later bind only those five actual literals and recheck normalized AST. The ROOT actual-admission consumer separately validates the four-key outer submission reply; this result reader reads durable receipts/log/code pins only. No model/state/data/cache payloads, code import, tests, B query, inference or quality result. Inherited narrow post-read cgroup/subprocess bounds retain the frozen reader scope; no hard OS-resource/atomic/fullRAM claim.

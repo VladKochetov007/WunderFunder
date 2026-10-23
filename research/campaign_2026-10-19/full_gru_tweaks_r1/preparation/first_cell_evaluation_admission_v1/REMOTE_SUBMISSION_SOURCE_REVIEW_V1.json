@@ -1,0 +1,45 @@
+{
+  "schema": "fg19.first-cell-export-admission-source-review.v1",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "reviewed_at_utc": "2026-10-21T08:33:46Z",
+  "scope": "Independent static review of the frozen one-shot GPU export admission stdin body and its local static binding. No imports, tests, B action, data reads, or prediction-array reads were performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/REMOTE_SUBMISSION_TEMPLATE.py",
+    "bytes": 243515,
+    "sha256": "e9f9295605726cbc4ba7a3f702263b70c7022c3878a7cdfdf9485a173c2914aa"
+  },
+  "binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ADMISSION_SOURCE_BINDING_V1.json",
+    "bytes": 10886,
+    "sha256": "f56c67ac18a0a78296cfae1f8667d0ba73a6d7a0e4ce76b57f7786c4b7a55a09"
+  },
+  "related_source_review": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v1/EXPORT_SOURCE_REVIEW_V1.json",
+    "bytes": 9633,
+    "sha256": "cf44af7624e81ee99e9705bf08e69b359f7048354df069cad35b26c7ec927c15",
+    "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+  },
+  "finding": {
+    "id": "ADMISSION-V1-001",
+    "severity": "blocker",
+    "location": "REMOTE_SUBMISSION_TEMPLATE.py:1120-1176",
+    "summary": "gpu_owners reads /proc/<pid>/cmdline for every selected-GPU process, including processes owned by foreign UIDs.",
+    "details": "The code already records each process UID and cgroup and must preserve foreign owners. It can inspect command lines only for the current UID, as the reviewed V5 ownership leaf does, while using the cgroup to reject campaign-owned processes for every UID. Reading foreign command lines is unnecessary, can expose unrelated argv contents to this process, and can fail the pre-mutation gate when /proc access is restricted. The command text is not serialized, but it is read into memory before the ownership decision.",
+    "required_resolution": "Narrow command-line inspection to processes whose observed UID equals os.getuid(); retain the all-UID campaign-cgroup check, process-identity stability checks, GPU free-memory reserve check, and preserve/no-action behavior for foreign owners. Freeze a new body and binding before any B attempt."
+  },
+  "reviewed_properties": {
+    "pinned_single_export_and_payloads": true,
+    "fresh_source_receipt_predecessor_cache_profile_and_path_gates_precede_mutation": true,
+    "worker_uses_literal_canonical_python_with_E_B_I_and_bounded_gpu_cpu_memory_disk": true,
+    "one_submit_unknown_outcome_never_retry": true,
+    "worker_does_not_self_read_or_claim_its_stdin_body_hash": true,
+    "durable_admission_launch_reply_has_four_fixed_keys": true,
+    "quality_or_scoring_claim": false
+  },
+  "execution_state": {
+    "admission_body_executed": false,
+    "b_attempted": false,
+    "payload_or_prediction_arrays_read": false,
+    "quality_claimed": false
+  }
+}

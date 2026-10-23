@@ -1,0 +1,102 @@
+{
+  "schema": "fg19.child-ema-terminal-check-local-checks.v1",
+  "status": "PASS",
+  "checked_utc": "2026-10-20T14:41:29Z",
+  "workspace": "/Users/nb/Documents/wunder/WunderFunder-maintenance",
+  "artifacts": {
+    "checker": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/child_ema_terminal_check_v1.py",
+      "bytes": 36887,
+      "sha256": "a63ec6c4f6b0a3c4ba7e0cb8800e4787c5d89f1a652e0deec15ad84ffc95d30a"
+    },
+    "focused_tests": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/test_child_ema_terminal_check_v1.py",
+      "bytes": 23474,
+      "sha256": "ace32afe10f03ca6e91d2d3f9d9234c4763b2dc6e7122784e73ae44981769773"
+    },
+    "cold_import_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/IMPORT_READ_CUDA_PROOF.json",
+      "bytes": 10136,
+      "sha256": "84fea38fe326d1998a76fffa9c1407daad7fe7aaf545b753fdc43b9fc57c128d"
+    },
+    "dependency_manifest": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/DEPENDENCY_MANIFEST.json",
+      "bytes": 5208,
+      "sha256": "6a6e7843c278568becfbc3dcc2cc3d0175b9606a549a86ae1ce67a98a902cd7e"
+    },
+    "readme": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/README.md",
+      "bytes": 3311,
+      "sha256": "155ee4baa5503bd0e0cb6b8e5530b7901d7c3dd627c3aaf83e2a242e1b6d1ba2"
+    }
+  },
+  "checks": [
+    {
+      "command": ".venv/bin/python -c 'import importlib.util, pathlib, sys, unittest; p=pathlib.Path(\"research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/test_child_ema_terminal_check_v1.py\"); s=importlib.util.spec_from_file_location(\"ema_focused_test\", p); m=importlib.util.module_from_spec(s); s.loader.exec_module(m); suite=unittest.TestSuite([m.ColdClosureSentinelTests(\"test_import_closure_is_payload_read_and_cuda_silent\")]); result=unittest.TextTestRunner(verbosity=2).run(suite); sys.exit(0 if result.wasSuccessful() else 1)'",
+      "result": "PASS",
+      "tests_run": 1,
+      "test_sha256": "ace32afe10f03ca6e91d2d3f9d9234c4763b2dc6e7122784e73ae44981769773"
+    },
+    {
+      "command": ".venv/bin/ruff check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/child_ema_terminal_check_v1.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/test_child_ema_terminal_check_v1.py",
+      "result": "PASS"
+    },
+    {
+      "command": ".venv/bin/ruff format --check research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/child_ema_terminal_check_v1.py research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/test_child_ema_terminal_check_v1.py",
+      "result": "PASS",
+      "files_already_formatted": 2
+    },
+    {
+      "command": "git -C /Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019 rev-parse HEAD && git -C /Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019 status --short",
+      "result": "PASS",
+      "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "working_tree": "clean"
+    }
+  ],
+  "candidate_history": {
+    "full_focused_suite": {
+      "result": "PASS",
+      "tests_run": 8,
+      "failures": 0,
+      "errors": 0,
+      "test_sha256": "cf7704cc87a0ed8a2d7e22f454d1ebd92ca0b8e41fb8d666ba0d81c25143623d",
+      "limitation": "This full suite was run before the final cold-proof isolation-only edit. The checker bytes were unchanged. The final revised cold-import test and lint/format checks were run separately; the other invariant fixtures were not repeated."
+    }
+  },
+  "cold_import_observations": {
+    "private_d_modules_staged_and_origin_checked": 5,
+    "private_module_byte_hashes_checked": true,
+    "private_modules": [
+      "child_ema_terminal_check_v1",
+      "child_control_terminal_check_v3",
+      "parent_fit_terminal_check_v3",
+      "propensity_terminal_support",
+      "teacher_s5_terminal_check_v1"
+    ],
+    "lazy_wnn_modules": [
+      "wnn.training.cli",
+      "wnn.run_identity",
+      "wnn.training.input_representation",
+      "wnn.training.input_representation_fit",
+      "wnn.training.input_representation_dictionary"
+    ],
+    "canonical_wnn_modules_verified": 29,
+    "source_file_manifest_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "blocked_model_array_dataset_or_B_root_reads": 0,
+    "cuda_probe_calls": 0,
+    "local_runtime": {
+      "torch_version": "2.14.1",
+      "cuda_visible_devices": "",
+      "torch_cuda_initialized": false,
+      "remote_worker_runtime_claimed": false
+    }
+  },
+  "scope": {
+    "actual_ema_terminal_checker_invoked": false,
+    "model_or_training_state_payload_read": false,
+    "cache_array_or_dataset_payload_read": false,
+    "remote_or_ssh_action": false,
+    "ema_fit_or_unit_state_changed": false
+  }
+}

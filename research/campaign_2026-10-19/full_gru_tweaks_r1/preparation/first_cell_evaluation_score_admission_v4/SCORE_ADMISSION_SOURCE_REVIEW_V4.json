@@ -1,0 +1,65 @@
+{
+  "schema": "fg19.first-cell-score-admission-source-review.v4",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "reviewed_at_utc": "2026-10-21T09:16:54Z",
+  "scope": "Static source review of the conditional CPU score-admission V4 template, renderer, and binding plan. No import, test, renderer execution, B query/action, score launch, payload read, or quality evaluation was performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v4/SCORE_ADMISSION_BODY_TEMPLATE_V4.py",
+    "bytes": 67133,
+    "sha256": "01dea1d8b3a0bff6043ba31e1d612091cf3f13ab0ba75f07ec7c9d60337fe330"
+  },
+  "renderer": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v4/render_score_admission_v4.py",
+    "bytes": 11414,
+    "sha256": "5076399c05a8e530d0cdf94099fc14642ab5048b4e9a597eab27e33812aa6ae9"
+  },
+  "binding_plan": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v4/SCORE_ADMISSION_BINDING_PLAN_V4.json",
+    "bytes": 6234,
+    "sha256": "f60f915b2a7ca2f2a627bec1f474c58783f4227815dd99cf38c732854872bc9f",
+    "status": "LOCAL_CONDITIONAL_TEMPLATE_ONLY_UNBOUND_NOT_REVIEWED_OR_ADMITTED_V4"
+  },
+  "source_contract": {
+    "export_source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_SOURCE_REVIEW_V2.json",
+      "bytes": 10250,
+      "sha256": "f736f60a6b5481e94be380a183ba840aad850958c9b863b439bc708e65e997af",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    },
+    "export_acceptance_and_exact_stop": "UNBOUND; actual receipt pins are null in the plan"
+  },
+  "findings": [
+    {
+      "id": "SCORE-ADMISSION-V4-001",
+      "severity": "blocker",
+      "location": "SCORE_ADMISSION_BODY_TEMPLATE_V4.py:1161-1172",
+      "finding": "The preflight requires the original AllThree LAUNCH.json to contain a top-level invocation_id equal to 94d3a7132a434d448345b0206bd3daa3. The exact pinned original LAUNCH receipt has no top-level invocation_id; its invocation is in the captured systemctl_after_submission.stdout_b64 properties.",
+      "impact": "After all fresh read-only gates, the score preflight will always reject the valid original receipt before staging. The export V4 admission already demonstrates the correct nested systemctl property join."
+    },
+    {
+      "id": "SCORE-ADMISSION-V4-002",
+      "severity": "blocker",
+      "location": "render_score_admission_v4.py:71-76",
+      "finding": "The renderer opens EXPORT_SOURCE_REVIEW_V1.json under first_cell_evaluation_export_v2, but that directory contains EXPORT_SOURCE_REVIEW_V2.json. The binding plan and V4 fixtures also name V2.",
+      "impact": "The renderer will fail with a missing-file error even after the admission receipt-shape defect is repaired. The renderer's review path and its exact pinned review filename must match the durable V2 source review."
+    }
+  ],
+  "reviewed_properties": {
+    "root_export_acceptance_and_exact_stop_required_before_render": true,
+    "cpu_only_worker_with_50_percent_quota_1_5gb_memory_zero_swap_600s_and_single_threaded_blas": true,
+    "fresh_source_split_receipt_profile_cache_disk_process_gpu_and_unit_gates_precede_staging": true,
+    "accepted_prediction_sidecars_and_outputs_are_metadata_checked_without_array_reads_in_admission": true,
+    "one_submit_unknown_outcome_never_retry_and_bounded_four_key_reply": true,
+    "no_quality_claim_in_admission": true
+  },
+  "execution_state": {
+    "renderer_executed": false,
+    "template_rendered": false,
+    "score_body_executed": false,
+    "score_unit_launched_by_reviewer": false,
+    "b_or_ssh_attempted_by_reviewer": false,
+    "model_data_cache_or_prediction_payloads_read": false,
+    "actual_score_result_captured_or_assessed": false,
+    "quality_claimed": false
+  }
+}

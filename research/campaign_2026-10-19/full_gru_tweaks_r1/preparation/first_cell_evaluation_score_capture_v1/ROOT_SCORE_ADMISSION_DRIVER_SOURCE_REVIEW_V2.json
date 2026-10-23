@@ -1,0 +1,57 @@
+{
+  "schema": "fg19.first-cell-score-root-admission-driver-source-review.v2",
+  "status": "PASS_SOURCE_ONLY_ROOT_SCORE_ADMISSION_DRIVER_V2_INPUT_BOUNDARY",
+  "scope": "Independent static review of the root-side one-shot CPU-score admission capture driver V2. This review does not perform SSH/B, import or execute the score worker, read scoring inputs, or make a result/quality claim.",
+  "review_method": {
+    "read_current_driver_and_inverse_proof": true,
+    "compare_v1_to_v2_source_diff": true,
+    "compare_expected_outer_reply_and_receipt_schema_to_conditional_worker_source": true,
+    "check_exact_current_size_and_sha256": true,
+    "run_imports_or_tests": false,
+    "perform_B_or_network_action": false,
+    "read_model_dataset_cache_or_prediction_payload": false
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/ROOT_CAPTURE_SCORE_ADMISSION_V2.py",
+      "bytes": 6728,
+      "sha256": "965e6352cd56f5f940f501fb5baa0c83699ce7841919795327d0c140d92ee0e4"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/ROOT_SCORE_ADMISSION_DRIVER_PROOF_V2.json",
+      "bytes": 612,
+      "sha256": "5018f7dc9ea59d944f0d5b5e4a9a90178b90f682f2fddccb824d345d560140f4"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v5/SCORE_ADMISSION_BODY_TEMPLATE_V5.py",
+      "bytes": 70644,
+      "sha256": "b47b7269ef352182716627948f4f5bda55ad8780d6a8dcc7c3f3f243e52cafe1",
+      "scope_note": "Conditional template only; it is explicitly not renderable until exporter V3/scorer V3 and final export acceptance/exact-stop pins are rebound."
+    }
+  ],
+  "change_scope": {
+    "base_bytes": 6504,
+    "base_sha256": "98521cbc195ca04eadbede4ac18d7adcd2d10740387421771082f947e5a5b3f0",
+    "change": "Require absolute body and source-review paths, and compute their in-repository relative paths before reading either file, creating the record directory, or invoking SSH; reuse those checked values in root acceptance.",
+    "inverse_bytes_identical": true,
+    "transport_and_receipt_logic_changed": false
+  },
+  "review_findings": {
+    "out_of_repository_or_relative_body_review_paths_fail_before_any_file_read_or_SSH": true,
+    "body_and_review_exact_sha_pins_checked_before_submission": true,
+    "review_must_be_PASS_SOURCE_ONLY_and_contain_body_sha": true,
+    "new_record_directory_is_create_only": true,
+    "single_batchmode_ssh_stdin_call_has_connection_attempts_one_and_no_retry": true,
+    "raw_stdout_stderr_and_transport_are_fsynced_before_parse": true,
+    "only_exact_four_key_submitted_reply_is_accepted": true,
+    "admission_launch_schemas_unit_invocation_and_launch_admission_sha_are_joined": true,
+    "root_acceptance_records_exact_body_review_transport_and_null_quality_result": true,
+    "no_worker_stdin_self_read_or_body_sha_claim": true
+  },
+  "limitations": [
+    "This review covers the root transport/capture layer only. It does not bind or approve a rendered worker body or establish actual export acceptance and exact-stop receipts.",
+    "The V5 score body referenced here remains conditional and unbound; do not launch until its exporter/scorer V3 dependency rebind, exact source review, and actual accepted export/exact-stop inputs are complete.",
+    "The capture driver validates the pinned worker output schemas and identity joins; downstream source/result review remains necessary to interpret admission and score-result contents."
+  ],
+  "reviewer_conclusion": "V2 closes the V1 post-submission relative-path failure by checking both repository-relative paths before any read, directory creation, or SSH. It preserves the one-attempt raw-first, fsynced capture and exact receipt-binding flow."
+}

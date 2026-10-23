@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "<string>", line 57, in <module>
+    result = checker.verify_terminal(*tuple(Path(value) for value in ('/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_child_allthree_f0_s1001_fit_v1', '/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/SOURCE_MANIFEST.json', '/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_fit_v1', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_profile_v1', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/ADMISSION.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/LAUNCH.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/LAUNCH_ACCEPTANCE.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/TERMINAL_EVIDENCE.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1', '/home/grinchenkoeg/computer-vision-homework-20261018/research/full_gru_tweaks_r1/cache_cpu_v2/TERMINAL_ACCEPTANCE.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research/full_gru_tweaks_r1/cache_cpu_v2/EXACT_STOP.json')))
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/child_allthree_terminal_check_v1.py", line 814, in verify_terminal
+    nll = _check_native_predecessor(evidence_root, admission)
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/child_allthree_terminal_check_v1.py", line 323, in _check_native_predecessor
+    control_v3._check_stop_receipt(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        stop,
+        ^^^^^
+    ...<3 lines>...
+        strict_schema="fg19.child-nll-exact-owned-stop.v1",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/child_control_terminal_check_v3.py", line 923, in _check_stop_receipt
+    _eq(stop.get("schema"), strict_schema, "predecessor stop schema")
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/child_control_terminal_check_v3.py", line 148, in _eq
+    raise ValueError(f"{label} differs")
+ValueError: predecessor stop schema differs

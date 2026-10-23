@@ -1,0 +1,96 @@
+{
+  "schema": "fg19.first-cell-score-result-acceptance-source-review.v1",
+  "status": "PASS_SOURCE_ONLY_ROOT_RESULT_ACCEPTANCE_V1",
+  "reviewed_utc": "2026-10-21T11:34:45+00:00",
+  "review_scope": "Static source and metadata review only. The helper was not imported or executed; its fixtures were not rerun. No B, systemd, score result, prediction, target, model, checkpoint, cache, or array payload was accessed.",
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/score_result_acceptance.py",
+      "bytes": 45795,
+      "sha256": "5987d527382f0ce33e72b4c17ae020d03485df3057b398ae285940ead29d528b",
+      "role": "Reviewed standard-library result and receipt validator; no filesystem reads or scorer imports in build_root_acceptance."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/test_score_result_acceptance.py",
+      "bytes": 13145,
+      "sha256": "de11d08bfb0b986bf11b3d68515910121254f105fffba05fab0e9f903713442f",
+      "role": "Focused synthetic metadata fixture; prior actor-reported 7 tests passed, not rerun by this review."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/README.md",
+      "bytes": 2272,
+      "sha256": "9ff9fcca623644a87d6993d47e56bf5ae22b1e0fef69b80a0014c6fa84ed38a7",
+      "role": "Documented helper contract and limits."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/LOCAL_CHECKS.md",
+      "bytes": 2181,
+      "sha256": "6432092048d7b4d14b867ffaa378013078f5becbaa601e699f50f7b5fbb47aa0",
+      "role": "Final local check record; exact final pin confirmed from filesystem."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/SCORE_RESULT_CAPTURE_TEMPLATE_V4.py",
+      "bytes": 26354,
+      "sha256": "88968f6dd73d4b489c4fc57308906c5e390137a49389ab991408408f353b9be6",
+      "role": "Bounded reader whose raw capture is the producer contract for capture_raw."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/INDEPENDENT_SOURCE_REVIEW_V4.json",
+      "bytes": 5655,
+      "sha256": "b05b06a6e56888348e30ebe0ded0272a5e9f3ca709037feb975b938b4d0bb7d0",
+      "role": "PASS_SOURCE_ONLY_READER_V4_HARD_BOUNDED_UNBOUND."
+    }
+  ],
+  "dependencies": {
+    "export_binding": {
+      "bytes": 15796,
+      "sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    "export_acceptance": {
+      "bytes": 8833,
+      "sha256": "5a9a99121f80eb7fa07e4591318bea81078ca8b2db1032f150cc33afcc728d0d"
+    },
+    "export_exact_stop": {
+      "bytes": 1140,
+      "sha256": "695e06c60452e969349b64356dcd795bcbb45892328261136f105b5f8673b72f"
+    },
+    "export_manifest": {
+      "bytes": 23130,
+      "sha256": "6b93cabf0e0b4450a11823682dfeba9396076efbc7b4a2033673fc46b7f04c23"
+    },
+    "score_code_pins": {
+      "first_cell_score_contract.py": {
+        "bytes": 20165,
+        "sha256": "b6e3f7a9f9663f519037c54a2077f70d83fbf0b2ba54dc3e158eb5e3b173479d"
+      },
+      "first_cell_score_core.py": {
+        "bytes": 27226,
+        "sha256": "30c456e7db875e2c075a6200c857c375087b18d9c952c354ae9bd3dceb0a0143"
+      },
+      "first_cell_score_predictions.py": {
+        "bytes": 11056,
+        "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+      },
+      "score_first_cell.py": {
+        "bytes": 10630,
+        "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+      }
+    }
+  },
+  "validated_contract": [
+    "Strict UTF-8 JSON parsing rejects duplicate object keys and NaN/Infinity; bool is not accepted as a numeric score or strict integer.",
+    "The captured status unit must match the exact score unit and invocation and have active/exited with MainPID=0, ExecMainCode=1, ExecMainStatus=0, Result=success.",
+    "Exact bounded base64, byte-count, and SHA-256 joins are enforced for the captured result, ADMISSION.json, LAUNCH.json, unit.log tail, fixed export acceptance/stop, binding, and manifest.",
+    "The score admission and launch records join the exact export unit/invocation, result path, accepted export receipts, scorer-code pins, submission outcome, and score invocation.",
+    "The fixed five-arm model/checkpoint/receipt identities, 468-group export membership, source/split pins, registered-source observations, score schema, metric/mask, four paired contrasts, bootstrap count/seed, finite numeric ranges, and exposure limitations are checked.",
+    "The returned compact ROOT receipt preserves the original RESULT byte count and digest and makes no fit-gain or public-transfer claim. Its exclusive writer uses O_EXCL/O_NOFOLLOW and fsyncs the new file and parent directory."
+  ],
+  "capture_provenance_limit": "The helper checks the reviewed V4 capture schema, exact score unit/invocation, strict native success tuple, bounded file joins, log tail, and scorer code pins. It requires parent, cgroup, and selected-GPU fields to exist at top level but does not semantically revalidate their contents. Callers must supply the direct raw stdout from the separately reviewed V4 bounded reader/driver; this helper alone does not establish those resource observations.",
+  "execution_state": {
+    "actual_score_result_present": false,
+    "actual_score_acceptance_created": false,
+    "quality_claim": false,
+    "fit_or_retraining_claim": false
+  },
+  "findings": []
+}

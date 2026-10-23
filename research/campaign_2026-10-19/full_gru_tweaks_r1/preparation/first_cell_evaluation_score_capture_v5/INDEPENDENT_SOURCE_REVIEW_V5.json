@@ -1,0 +1,159 @@
+{
+  "schema": "fg19.first-cell-score-result-capture-source-review.v5",
+  "status": "PASS_SOURCE_ONLY_READER_V5_HARD_BOUNDED_UNBOUND",
+  "reviewed_at_utc": "2026-10-21",
+  "scope": "Independent conditional source review of the score-v2 result-capture reader. The reader remains unbound to actual score admission and launch receipts; this review does not authorize a unit query or result read and makes no score or quality claim.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v5/SCORE_RESULT_CAPTURE_TEMPLATE_V5.py",
+    "bytes": 26354,
+    "sha256": "8d3c37f89376a23db1a548001989c11dd7eb5b83720061c4b229e59f75d1f69c"
+  },
+  "predecessor": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/SCORE_RESULT_CAPTURE_TEMPLATE_V4.py",
+    "bytes": 26354,
+    "sha256": "88968f6dd73d4b489c4fc57308906c5e390137a49389ab991408408f353b9be6",
+    "source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/INDEPENDENT_SOURCE_REVIEW_V4.json",
+      "bytes": 5655,
+      "sha256": "b05b06a6e56888348e30ebe0ded0272a5e9f3ca709037feb975b938b4d0bb7d0",
+      "schema": "fg19.first-cell-score-result-capture-source-review.v4",
+      "status": "PASS_SOURCE_ONLY_READER_V4_HARD_BOUNDED_UNBOUND"
+    }
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v5/SCORE_RESULT_CAPTURE_TEMPLATE_V5.py",
+      "bytes": 26354,
+      "sha256": "8d3c37f89376a23db1a548001989c11dd7eb5b83720061c4b229e59f75d1f69c"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v5/SCORE_CAPTURE_V5_REBASE_PROOF.json",
+      "bytes": 2107,
+      "sha256": "36239942256f423fc4e571c731eea2fa2ceaa32d7fc5e4dacf9aaeec1edd5781",
+      "schema": "fg19.first-cell-score-reader-v5-literal-rebase.v1",
+      "status": "PASS_EXACT_V4_UNIT_D2_CORE_REBASE"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v5/test_score_result_capture_v5_namespace.py",
+      "bytes": 4886,
+      "sha256": "1c3590daf939220fbc4a7d17dd4f12dfdaf224da2630b270b6626e98996b6777",
+      "role": "Inspected only; the three AST-only cases are reported by the packet and were not rerun here."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/INDEPENDENT_SOURCE_REVIEW_V4.json",
+      "bytes": 5655,
+      "sha256": "b05b06a6e56888348e30ebe0ded0272a5e9f3ca709037feb975b938b4d0bb7d0",
+      "schema": "fg19.first-cell-score-result-capture-source-review.v4",
+      "status": "PASS_SOURCE_ONLY_READER_V4_HARD_BOUNDED_UNBOUND"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v13/REMOTE_SUBMISSION_V13.py",
+      "bytes": 188490,
+      "sha256": "409e2357c71799de1d486914757faf001661722f355602c62122fd32c4336ab5",
+      "schema": "fg19.first-cell-score-admission-actual-source-review.v13",
+      "status": "PASS_SOURCE_ONLY_ACTUAL_SCORE_BODY_V13",
+      "role": "Current reviewed producer body; output unit, directory, result path and four scorer-module byte pins are bound by the reader namespace and V13 source review."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v6/first_cell_score_contract.py",
+      "bytes": 20165,
+      "sha256": "b6e3f7a9f9663f519037c54a2077f70d83fbf0b2ba54dc3e158eb5e3b173479d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v6/first_cell_score_core.py",
+      "bytes": 26965,
+      "sha256": "961f566eaeec0cd7e9ab48788666d03da9b0482810a11f16a019b083cfc65005"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v6/first_cell_score_predictions.py",
+      "bytes": 11056,
+      "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v6/score_first_cell.py",
+      "bytes": 10630,
+      "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+    }
+  ],
+  "source_review": {
+    "method": "Inspected the V5 reader source, V4 predecessor review, exact literal-rebase proof, focused fixture source, and current V13 producer pins. No reader import or main call, tests, systemd/NVIDIA/cgroup query, B action, receipt/result read, or model/data/cache/prediction/target/label payload access was performed.",
+    "exact_v5_delta": {
+      "changed_assignments_only": [
+        "SCORER_CODE_PINS",
+        "SCORE_D",
+        "SCORE_UNIT"
+      ],
+      "all_other_AST_nodes_identical_to_v4": true,
+      "score_directory": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_score_v2",
+      "score_unit": "computer-vision-homework-fg19-first-cell-score-v2.service",
+      "export_unit_unchanged": "computer-vision-homework-fg19-first-cell-export-v3.service",
+      "result_path_unchanged": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v3/RESULT.json",
+      "four_module_pins_match_v13": true
+    },
+    "future_root_bindings": {
+      "admission_bytes": null,
+      "admission_sha256": "UNBOUND_ROOT_AFTER_ACTUAL_SCORE_ADMISSION",
+      "launch_bytes": null,
+      "launch_sha256": "UNBOUND_ROOT_AFTER_ACTUAL_SCORE_ADMISSION",
+      "invocation_id": "UNBOUND_ROOT_AFTER_ACTUAL_SCORE_ADMISSION",
+      "reader_main_called": false,
+      "systemd_or_gpu_queried": false,
+      "result_read": false
+    },
+    "receipt_and_code_checks": {
+      "unbound_values_fail_before_path_or_process_queries": true,
+      "admission_and_launch_bytes_hashes_and_invocation_required": true,
+      "admission_launch_export_unit_result_path_and_staged_code_pins_joined": true,
+      "four_v6_code_files_read_only_and_hashed_before_capture": true,
+      "exact_systemd_Id_and_invocation_required": true,
+      "strict_success_tuple": ["active", "exited", "MainPID=0", "ExecMainCode=1", "ExecMainStatus=0", "Result=success"],
+      "result_file_opened_only_after_strict_success": true,
+      "result_bytes_captured_without_metric_parsing": true
+    },
+    "bounded_observation": {
+      "capture_file_bytes": 1000000,
+      "capture_aggregate_raw_bytes": 4000000,
+      "unit_log_tail_bytes": 262144,
+      "systemctl_timeout_seconds": 10,
+      "systemctl_stdout_bytes": 65536,
+      "systemctl_stderr_bytes": 4096,
+      "gpu_query_stdout_bytes": 65536,
+      "gpu_query_stderr_bytes": 4096,
+      "selected_gpu_process_rows": 64,
+      "cgroup_directories": 128,
+      "cgroup_entries_per_directory": 256,
+      "cgroup_procs_per_file_bytes": 32768,
+      "cgroup_procs_aggregate_bytes": 262144,
+      "cgroup_metadata_file_bytes": 4096,
+      "proc_cgroup_bytes": 4096,
+      "empty_or_root_unit_cgroup_host_fallback": false
+    },
+    "result_handling": {
+      "on_failed_or_nonterminal_unit": "Result path is not opened; metadata/log capture remains conditional on the exact unit and bound receipts.",
+      "on_strict_success_with_missing_result": "Capture reports the result as missing rather than fabricating a result receipt.",
+      "result_value_or_quality_interpreted": false
+    }
+  },
+  "reported_local_checks": {
+    "focused_ast_cases": 3,
+    "focused_fixture_status": "PASS_REPORTED_BY_PACKET_AUTHOR; not rerun by this reviewer",
+    "ruff_status": "PASS_REPORTED_BY_PACKET_AUTHOR; not rerun by this reviewer",
+    "proof_status": "PASS_EXACT_V4_UNIT_D2_CORE_REBASE"
+  },
+  "execution_state": {
+    "reader_imported_or_executed": false,
+    "tests_run_by_reviewer": false,
+    "B_or_SSH_action_by_reviewer": false,
+    "systemd_gpu_or_cgroup_queried": false,
+    "score_receipt_or_result_bytes_read": false,
+    "prediction_model_data_cache_target_or_label_payload_read": false,
+    "actual_score_capture_authorized": false,
+    "score_or_quality_claimed": false
+  },
+  "limitations": [
+    "The reader is conditional only. Its five admission/launch byte, SHA-256, and invocation literals remain unbound and fail before any path or process query.",
+    "The reader reports bounded resource observations; it does not independently accept a score result or interpret a metric.",
+    "This review does not authorize the caller to query the v2 unit or read RESULT.json. ROOT must bind actual receipt bytes and invocation only after the exact admission is durably recorded."
+  ],
+  "reviewer_conclusion": "The frozen V5 capture reader is an exact V4 source fork limited to the score-v2 namespace and V6 core pin. Its future actual receipt constants remain unbound, and its existing bounded systemd/GPU/cgroup observations, exact unit/invocation checks, and strict-success-only result open remain unchanged. PASS_SOURCE_ONLY is conditional template review only; no actual capture or score result is asserted."
+}

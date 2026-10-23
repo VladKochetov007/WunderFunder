@@ -1,0 +1,102 @@
+{
+  "schema": "fg19.child-allthree-terminal-result-capture-source-review.v3",
+  "status": "PASS_CONDITIONAL_SOURCE_ONLY",
+  "reviewed_files": {
+    "parent_v2_template": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v2/RESULT_CAPTURE_TEMPLATE.py",
+      "bytes": 15545,
+      "sha256": "00b7d9c2cf6a6fe0cad9da5c2196d3637f3821395dfe13963e0841b76d52fef7"
+    },
+    "candidate_v3_template": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v3/RESULT_CAPTURE_TEMPLATE.py",
+      "bytes": 16672,
+      "sha256": "b6cc89fc3c671365d918677271649a6948d4637e828d9797d4e2663467823019"
+    },
+    "v3_source_ast_binding": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v3/V3_SOURCE_AST_BINDING.json",
+      "bytes": 4998,
+      "sha256": "3953621a7f508aaa5f9ff49fe657760d7dabfe4cb25933f0f9d0180757c4c09c",
+      "status": "PASS_LOCAL_SOURCE_AST_BINDING_ONLY_NOT_BOUND_TO_ACTUAL_SUPPORT_RECEIPTS"
+    },
+    "focused_ast_fixture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v3/test_result_capture_v3_contract.py",
+      "bytes": 7292,
+      "sha256": "7203812719e31df740f911304e329bdbefa2fe864bf24fb0a4489b3cf95ca02b"
+    },
+    "readme": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v3/README.md",
+      "bytes": 2079,
+      "sha256": "071a168236f0fe302939688e57a30d521f33910cea62a5087dbf3abb8b0d884a"
+    },
+    "local_checks": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v3/LOCAL_CHECKS.md",
+      "bytes": 1814,
+      "sha256": "8ab9641040d0f19119924dc7bbfa989a4ff30f99b0ae98bcb705199555e4c606"
+    },
+    "v5_producer": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v5/REMOTE_SUBMISSION_V5.py",
+      "bytes": 710848,
+      "sha256": "4d555fd69954d94415c135e467eadd081aa6fd915686197e5c7e628e935b9374"
+    }
+  },
+  "producer_reader_pair": {
+    "actual_support_unit": "computer-vision-homework-fg19-child-allthree-verify-v2.service",
+    "actual_support_directory": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v2",
+    "native_unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+    "native_invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+    "actual_support_invocation_id": "08134ba3f458491c951c33cb02ea5bf1",
+    "actual_admission_receipt": {
+      "bytes": 26173,
+      "sha256": "73462dca79ac2bb14ea159fca4af547e2055b3f8ef4cd824ed84c0d778f9a3fb"
+    },
+    "actual_launch_receipt": {
+      "bytes": 8304,
+      "sha256": "81ed5b0c9b70fb89f3e5395667bbce5bd15bfec2b196ee651c6703f61f00e828"
+    },
+    "v3_literal_bindings_remain_unbound": [
+      "support admission byte count and SHA-256",
+      "support launch byte count and SHA-256",
+      "support invocation ID"
+    ]
+  },
+  "findings": [
+    {
+      "id": "OPTIONAL_VERIFICATION_ABSENCE_IS_NARROW_AND_FAIL_CLOSED",
+      "result": "PASS",
+      "details": "The V3-to-V2 diff contains only the documented optional-file handling change plus its local explanatory docstring and directory-identity plumbing. On the existing exact terminal-success branch, V3 tries the same bounded regular-file capture for VERIFICATION.json. It converts only FileNotFoundError into `{\"bytes\":0,\"present\":false,\"absence\":\"not_found\"}` after confirming the output directory remains the same real directory by device/inode and rechecking that the file is still absent. Symlinks, oversize files, permission failures, other I/O errors, directory replacement, and a file that reappears remain errors. The absence contributes zero bytes to the existing aggregate cap."
+    },
+    {
+      "id": "CHANGE_MATCHES_THE_V2_CAPTURE_FAILURE_AND_V5_PRODUCER",
+      "result": "PASS",
+      "details": "The V2 reader required VERIFICATION.json after its terminal-success predicate, while the V5 producer's runner calls checker.verify_terminal(), prints the result as JSON, and does not write VERIFICATION.json. The producer routes both stdout and stderr to D/unit.log. V3 therefore records the optional file's absence and continues capturing the required VERIFIER_ADMISSION.json, VERIFIER_LAUNCH.json, and unit.log. This handles the reported V2 FileNotFoundError after terminal success without labeling it a checker failure."
+    },
+    {
+      "id": "LOG_RESULT_REMAINS_SEPARATE_ROOT_DERIVED_EVIDENCE",
+      "result": "PASS",
+      "details": "V3 captures unit.log as a required bounded file and does not parse its JSON line, create a VERIFICATION.json, or relabel log content as that file. Root must separately pin the captured log and derive any final JSON-line record and offset from those exact bytes. The V3 absence marker alone establishes only that VERIFICATION.json was not found during this capture."
+    },
+    {
+      "id": "SHARED_RECEIPT_CGROUP_GPU_AND_CODE_GATES_RETAINED",
+      "result": "PASS",
+      "details": "Source diff and the pinned AST binding preserve all five root-bound receipt/invocation slots as fail-closed unbound values, admission/launch identity and schema checks, exact support invocation check, parent/own cgroup and selected-GPU observations, seven exact private-code pins, the required three-file capture set, and the 1 MB per-file / 4 MB aggregate caps. No support-unit mutation or model/data payload read is added."
+    },
+    {
+      "id": "FOCUSED_AST_FIXTURE_SOURCE",
+      "result": "REVIEWED_NOT_EXECUTED",
+      "details": "The fixture source checks normalized V2/V3 AST equality, the FileNotFoundError-only absence branch and directory identity check, required captures, the V5 runner's final JSON print, no VERIFICATION.json write, and stdout/stderr redirection to unit.log. It parses source and synthetic AST metadata; I did not execute the fixture, Ruff, or any production module."
+    }
+  ],
+  "review_limits": {
+    "method": "Read-only inspection of frozen V2/V3 reader sources, V3 binding/docs/fixture, and the exact reviewed V5 producer source. No B query/action, imports, tests, renderer, or remote/job action.",
+    "not_claimed": [
+      "the five actual receipt/invocation literals have been bound into this template",
+      "the V3 reader has been executed against the remote unit",
+      "a VERIFICATION.json exists",
+      "the checker result is terminally accepted or scientifically valid",
+      "model/state integrity or predictive quality"
+    ],
+    "next_gate": "Root may bind the exact actual admission/launch receipt sizes, hashes and support invocation into a separately reviewed reader copy. Any parsed checker result must be a root-derived record tied to the exact captured unit.log hash and line offset."
+  },
+  "reviewed_utc": "2026-10-21",
+  "reviewer_action": "No B action, tests, imports, or remote query; only this source-review file was written."
+}

@@ -1,0 +1,160 @@
+{
+  "authority_and_prior_evidence": {
+    "actual_launch_acceptance_sha256": "4fc34f4769da2f08aaf1fcca97d87731dc38b1709a93afa9376be003c28ffb72",
+    "native_metadata_review_sha256": "8b752246f0f872027ab2038b747e33ef680cb950a00655d7a83a54974d798eee",
+    "path_exception_authority_sha256": "9d0259675d97856b744abe63030575e38551b58d1fc9ac7adaa1281f535abacb",
+    "support_not_yet_launched_at_review": true
+  },
+  "decision": "No source blocker found in the exact frozen EMA verifier admission packet. This is source and metadata review only; it is not support submission, terminal integrity acceptance, or a fit-quality claim.",
+  "exact_body_binding": {
+    "all_embedded_inputs_match_current_local_bytes": true,
+    "embedded_code_file_count": 5,
+    "inputs": {
+      "LAUNCH_ACCEPTANCE.json": {
+        "bytes": 4839,
+        "sha256": "4fc34f4769da2f08aaf1fcca97d87731dc38b1709a93afa9376be003c28ffb72"
+      },
+      "NATIVE_STDOUT.raw.json": {
+        "bytes": 75226,
+        "sha256": "f8534769efdfd1949d5570927a0b5804f2819570c6154bac60c38387410a7cad"
+      },
+      "SOURCE_MANIFEST.json": {
+        "bytes": 27569,
+        "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+      },
+      "TERMINAL_EVIDENCE.json": {
+        "bytes": 697,
+        "sha256": "7cb75057155f3582e0493d1f6ca8c88eff475b022215d755f53751495f5c7d0a"
+      }
+    },
+    "method": "Read-only AST literal extraction of PAYLOAD, bounded base64 decode, length/SHA check, and byte-for-byte comparison with the five pinned code files and four pinned metadata inputs. No body execution.",
+    "payload_bytes_total": 340295,
+    "payload_entry_count": 9,
+    "rendered_body_matches_template_after_replacing_only_payload_assignment": true
+  },
+  "frozen_artifacts": {
+    "CONTROL_V3_helper": {
+      "bytes": 79972,
+      "path": "preparation/child_control_terminal_verifier_v3/child_control_terminal_check_v3.py",
+      "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+    },
+    "DEPENDENCY_MANIFEST.json": {
+      "bytes": 6300,
+      "sha256": "5d834586f537692ca33391476d1499ecc8540d33108fa7ba8645bf088f30f2e0"
+    },
+    "EMA_checker": {
+      "bytes": 36887,
+      "path": "preparation/child_ema_terminal_check_v1/child_ema_terminal_check_v1.py",
+      "sha256": "a63ec6c4f6b0a3c4ba7e0cb8800e4787c5d89f1a652e0deec15ad84ffc95d30a"
+    },
+    "LOCAL_CHECKS.json": {
+      "bytes": 4612,
+      "sha256": "935818057c6b53dcac741895976d3b8fb06a8ba3ca0339906b77003604966ade"
+    },
+    "README.md": {
+      "bytes": 2977,
+      "sha256": "a476fd19d1f9a8a86280d476a0b8768fbbf0ab724d30a808a9487c43cd913bbc"
+    },
+    "REMOTE_SUBMISSION.py": {
+      "bytes": 503514,
+      "sha256": "03879ea709e48a93a7c11fcfd204d2dabb5c2039a48dde872177860bb157b35f"
+    },
+    "REMOTE_SUBMISSION_TEMPLATE.py": {
+      "bytes": 48511,
+      "sha256": "b5a98fc64e3abd75006e56d40e4490120fa2d4531193c86d7c058b16b83b52ab"
+    },
+    "ROOT_BINDING.json": {
+      "bytes": 3734,
+      "sha256": "6888060aec7380d3740629a9ec106de434c68a5a3aebc0dbcf719bd5d668a1d7"
+    },
+    "ROOT_PAYLOAD_CHECK.json": {
+      "bytes": 3421,
+      "sha256": "60144625dd38f509c908b1069854918e126595b5e4d48bd5a71d25c52b8dceb3"
+    },
+    "S5_helper": {
+      "bytes": 37448,
+      "path": "preparation/teacher_s5_terminal_check_v1.py",
+      "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+    },
+    "focused_fixture": {
+      "actor_reported_tests_passed": 5,
+      "bytes": 3319,
+      "path": "test_child_ema_terminal_verifier_v1.py",
+      "reviewer_reran": false,
+      "sha256": "684f14c887fcbe3f3d6dee95412b7bad2da342eb343126e3ff7c5a690b87b0cd"
+    },
+    "generator": {
+      "bytes": 39110,
+      "path": "prepare_child_ema_terminal_verifier_v1.py",
+      "sha256": "00b6760486d5d5da9898763b0620251d449e1419bd8816d47b2352814f9c6365"
+    },
+    "parent_V3_helper": {
+      "bytes": 64550,
+      "path": "preparation/parent_fit_terminal_check_v3.py",
+      "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+    },
+    "support_helper": {
+      "bytes": 13107,
+      "path": "preparation/propensity_terminal_support.py",
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    }
+  },
+  "limitations": [
+    "No checker entrypoint, model/state/cache/dictionary payload, remote service, or SSH operation was run by this review.",
+    "The PASS covers exact frozen source and local metadata bindings only. Before any support launch, root must still perform its one fresh admission using this body and actual live native/source/cgroup/disk/unit gates; root owns that action.",
+    "No terminal VERIFICATION result, full integrity acceptance, scientific quality evaluation, or native stop is asserted here.",
+    "This packet uses existing pinned receipts; any changed source, receipt, invocation, output/unit state, capacity, or authority invalidates the relevant gates and requires a new review."
+  ],
+  "reviewed_controls": [
+    {
+      "control": "Exact reviewed launch/capture identity",
+      "evidence": "Template lines 254-469 joins original ADMISSION/LAUNCH hashes and bytes to raw base64 receipts, exact root launch acceptance/body/source-review receipt map, exact EMA run/unit/invocation, typed integer MainPID/ExecMainCode/ExecMainStatus, captured and fresh systemd invocation state, and exact captured/current unit.log bytes. Raw native capture and typed evidence pins match the independently reviewed native metadata receipt."
+    },
+    {
+      "control": "Fresh source, split, data and output gates before mutation",
+      "evidence": "Template lines 990-1030 checks exact root/output directories, canonical interpreter, absent output directory and absent support unit before payload decoding and gates. Lines 553-674 verify source commit+167 files by content hash and inventory, canonical split, exact six registered data aliases/stat identities; lines 482-550 compare the exact ten-file run inventory/stat identities and per-file plus 128 MB aggregate caps without payload reads."
+    },
+    {
+      "control": "Read-only lineage and cache pins",
+      "evidence": "Template lines 674-900 verify eight existing parent/dictionary/profile/CONTROL receipts by fixed hashes, profile ADMISSION/LAUNCH/log bytes, accepted parent and dictionary stats, cache acceptance/stop and metadata pins, and cache-array stats only. No predecessor receipt is restaged and no array/dictionary payload is hashed in admission."
+    },
+    {
+      "control": "Resource, ownership and storage gates",
+      "evidence": "Template lines 903-980 require the exact 2-core/18 GB high/20 GB max/zero-swap parent envelope, scoped campaign cgroup, no populated descendants, fresh headroom formula `current + 1.5 GB + 1 GB < 17 GB`, at least 25 GiB free, same project/scratch device, and non-tmpfs/non-ramfs scratch. There is no host-root cgroup fallback."
+    },
+    {
+      "control": "One CPU-only verifier submission",
+      "evidence": "Template lines 1075-1110 bind the unique support unit, 50% CPU, 1.4 GB high, 1.5 GB max, zero swap, 600-second runtime, CUDA_VISIBLE_DEVICES empty, one thread, and the EMA checker entrypoint (not CONTROL entrypoint). Lines 1110-1206 durably write admission and intent, submit once, preserve unknown outcomes and never retry; no stop command is present."
+    },
+    {
+      "control": "Exact Path exception",
+      "evidence": "Template lines 31-32 and 114-118 require the exact granted marker as the first main action; lines 1061-1067 record the scope. The pinned CONTROL V3 helper limits the inert mapping to one `pathlib._local.PosixPath` constructor with the exact dictionary path argument, performs static unknown-global audit under the unchanged baseline, keeps `weights_only=True`, requires exactly one Path at `contract.options.representation_cache`, rejects other Path locations including object/structured arrays, and normalizes only a local comparison copy. Human authority SHA-256 `9d0259675d97856b744abe63030575e38551b58d1fc9ac7adaa1281f535abacb` grants this exact scope."
+    },
+    {
+      "control": "EMA recipe and full integrity verifier",
+      "evidence": "Pinned EMA checker lines 150-230 bind original launch arguments, root acceptance and predecessor; lines 232-390 bind exact source/split/recipe/ancestry/resources; lines 540-640 require F0 seed 1001, EMA mode, six epochs, epoch 5, GRU/256x2, AdamW/OneCycle, fp32, no evaluation during fit, and exact registered paths; lines 660-844 call pinned source/cache/lineage/parent/dictionary/weights-only loaders, model/state/norm/optimizer/RNG/counter/sample-log checks. The shared worker/runtime checks enforce PyTorch 2.14.0+cu130 against source provenance and the verifier runtime; the cold proof\u2019s local torch 2.14.1 is recorded only as local proof environment, not a worker-runtime claim."
+    }
+  ],
+  "reviewed_utc": "2026-10-20T17:34:00Z",
+  "schema": "fg19.child-ema-terminal-verifier-source-review.v1",
+  "scope": {
+    "actual_native_exit_required": {
+      "active_state": "active",
+      "exec_main_code": 1,
+      "exec_main_status": 0,
+      "main_pid": 0,
+      "sub_state": "exited"
+    },
+    "admission_unit": "computer-vision-homework-fg19-child-ema-verify-v1.service",
+    "campaign": "research/campaign_2026-10-19/full_gru_tweaks_r1",
+    "native_invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+    "native_unit": "computer-vision-homework-fg19-child-ema-fit-v1.service",
+    "no_b_or_ssh_action": true,
+    "no_checker_or_model_tests_run_by_reviewer": true,
+    "no_model_training_state_dictionary_cache_array_or_dataset_payload_read_or_hashed_by_reviewer": true,
+    "no_native_stop_command": true,
+    "no_native_stop_prerequisite": true,
+    "run": "fg19_child_ema_f0_s1001_fit_v1"
+  },
+  "status": "PASS_SOURCE_ONLY_PENDING_ROOT_OWNED_ADMISSION"
+}

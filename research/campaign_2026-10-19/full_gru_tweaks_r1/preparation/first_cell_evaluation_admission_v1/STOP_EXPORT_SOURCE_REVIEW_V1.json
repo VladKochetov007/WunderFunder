@@ -1,0 +1,30 @@
+{
+  "schema": "fg19.first-cell-export-stop-source-review.v1",
+  "status": "PASS_SOURCE_ONLY_TEMPLATE_UNBOUND",
+  "reviewed_at_utc": "2026-10-21T08:42:00Z",
+  "scope": "Static local review of the conditional exact-stop template only. No imports, tests, remote actions, B action, acceptance execution, or payload reads were performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/STOP_EXPORT_TEMPLATE.py",
+    "bytes": 6299,
+    "sha256": "033e0d9ba36672f2ad2b506c9f675655c700d058498a5379d236508c0fd0a27e"
+  },
+  "conditional_inputs": {
+    "unit": "computer-vision-homework-fg19-first-cell-export-v1.service",
+    "invocation_id": "UNBOUND_ACTUAL_EXPORT_INVOCATION",
+    "acceptance_bytes": 0,
+    "acceptance_sha256": "UNBOUND_ROOT_EXPORT_ACCEPTANCE",
+    "acceptance_base64": "UNBOUND_ROOT_EXPORT_ACCEPTANCE_BASE64"
+  },
+  "reviewed_properties": {
+    "requires_exact_acceptance_bytes_length_and_sha": true,
+    "requires_root_acceptance_schema_status_unit_invocation_and_no_quality_result": true,
+    "queries_only_exact_export_unit_and_campaign_parent_slice": true,
+    "requires_exact_active_exited_native_success_before_stop": true,
+    "checks_all_campaign_descendants_empty_before_and_after": true,
+    "stops_only_exact_export_unit_once": true,
+    "unknown_or_failed_stop_is_not_retried": true,
+    "filesystem_payload_mutation": false,
+    "score_or_quality_claim": false
+  },
+  "review_limit": "This review covers the frozen unbound template only. Any actual acceptance/invocation literal binding creates a different source file and must be pinned and reviewed before that exact stop action."
+}

@@ -1,0 +1,11 @@
+# First-cell F0 evaluation export V3 source packet
+
+V3 is a local source correction for the fixed five-arm, feature-only F0 export. It retains the V2 binding shape and export contract while moving the private evidence root to `fg19_first_cell_f0_s1001_evaluation_v2`. The 27,569-byte, 167-file source manifest is byte-identical to V2.
+
+The exporter corrects the canonical API pin comparison to compare each two-field API pin with the corresponding complete manifest row, including its `path`. This directly addresses the V1 failure where the comparison treated the manifest's extra `path` field as a mismatch even though all eight API byte/SHA pins matched. It also accepts the actual frozen CONTROL acceptance shape, where `input_representation.mode` is absent; CONTROL must still be bound to `base`, and any present non-null mode is rejected. The other four arm modes retain exact string checks.
+
+The binding is 15,798 bytes, SHA-256 `372ec16016517baa510cc1899f140cd0978a35b83f96a4a5fa1ff4bda8b39730`. Its only change from the V2 binding is four exact `evaluation_v1` to `evaluation_v2` path substitutions for the evidence root, output directory, and two AllThree accepted-receipt paths. The source manifest remains 27,569 bytes, SHA-256 `a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621`.
+
+The exporter source is 66,080 bytes, SHA-256 `9bfcd5110d200212bff45d2188f04e2eb094fbaf5cd78831ed03db5a130af8cb`. The new metadata fixture is 11,832 bytes, SHA-256 `759cd0f0a578c0fe1fa11ac5cf43f1205fd5cc0d21c20bc7d030ff2d164603fc`. It exercises the full 167-entry source-tree gate using manifest metadata and a fake digest function, and exercises the full acceptance/stop/model gate using the ten exact local accepted-fit and exact-stop receipt JSONs. Checkpoint and split digest requests are mocked to their pinned metadata, so the fixture does not read model, array, cache, parquet, or prediction payloads. It asserts that the actual CONTROL acceptance omits `mode`.
+
+This is source-only preparation. It has not been rendered, staged, admitted, or run on B. No prediction export, scoring, or quality evaluation has occurred. Independent review of these exact source bytes is required before any B action.

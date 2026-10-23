@@ -1,3 +1,127 @@
+**21 October13:29UTC — fixed first-cell comparison completed and stopped:** [Final five-arm report](FIRST_CELL_COMPARISON_20261021.md) records all five fixedep5 scores on468 fit-excluded EXPOSED development groups. CONTROL WP0.674830; EMA0.674779; Sparse0.674935; NLL0.675569; AllThree0.675909. AllThree−CONTROL+0.001078, unadjusted paired95% component CI[+0.000069,+0.002245]; the other three intervals cross zero. These intervals are conditional on the fixed models, not fit-seed/public-transfer uncertainty. [ROOT acceptance](records/first_cell_evaluation_v1/score_v4/SCORE_ACCEPTANCE.json) was durable13:23UTC before [Exact stop](records/first_cell_evaluation_v1/score_v4/exact_stop/README.md)13:29UTC of only successful score-v3; both failed score units remain preserved/excluded. All6scientificfits and5separate prerequisites are closed, no further fits/re-export/retuning. [Independent metadata audit](records/first_cell_evaluation_v1/score_v4/ACTUAL_SCORE_ACCEPTANCE_METADATA_REVIEW.json) verifies original RESULT/scalar/source joins without ROOT array reads. [Final source/recovery index](preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021_V6.md) preserves versioned source gates and negatives. [Publication validation](PUBLICATION_VALIDATION_20261021_FIRST_CELL_SCORED.json) records final local publication checks.
+
+---
+
+**21 October12:57UTC — third actual CPU scorer launched once:** [V14 admission and original receipts](records/first_cell_evaluation_v1/score_v4/README.md) bind new score-v3/inv9bd64d6759e8462bb40985b06a9a0ad6 under fresh serial gates. [V7 source-pair review](preparation/first_cell_evaluation_score_v7/SCORE_SOURCE_REVIEW_V7.json) qualifies exact selected-index/header preflight while fixed metric/bootstrap, five accepted exports and all six accepted/stopped fits remain unchanged. Both failed score workers are preserved/excluded forever; preceding outer preflight and provisional local input gates created zero units. Actual CPU score units3=2failed+new unit3; no scalar quality yet. Next bounded exact-unit capture13:04UTC+, ROOT acceptance before successful-only exact stop; no further scientific fits/re-export/retuning.
+
+---
+
+**21 October12:35UTC — second scorer failed before quality; archive guard repair local:** [One bounded capture](records/first_cell_evaluation_v1/score_v3/status_capture_v1/README.md) observed score-v2/inv489586b4 failed12:27:41UTC with no RESULT read. Its pinned preflight passes2 as a BYTE cap and incorrectly bounds unused target members. [Bounded archive metadata](records/first_cell_evaluation_v1/score_v3/npz_index_diagnostic_v2/README.md) confirms small row_group/seq_ix indexes inside large target NPZs; y/mask payloads remain unopened. Both failed score units are permanently excluded from queries/stop/retry/restart. New thin V7 selective-index/header guard plus focused compatibility/source gates is the concrete next dependency; no re-export/newfit/scalar quality. Six scientific fits remain accepted/exact-stopped,5prerequisites separately.
+
+---
+
+**21 October12:27UTC — second actual CPU score worker launched once:** [V13 admission and original receipts](records/first_cell_evaluation_v1/score_v3/README.md) bind new score-v2/inv489586b467d7475cb51d570ed706a16f after fresh serial gates. [Scorer V6 source review](preparation/first_cell_evaluation_score_v6/SCORE_SOURCE_REVIEW_V6.json) qualifies the registered-parent metadata repair while exact leaf identities, metric/bootstrap and five accepted exports remain fixed. Failed score-v1 is permanently excluded from queries/stop/retry/restart; no re-export/newfit. This is actual CPU score unit2, with1failed predecessor and1zero-unit outer preflight. Next bounded exact-unit capture12:32UTC+; no scalar quality yet. All6scientificfits remain accepted/exact-stopped,5prerequisites separately; ROOT acceptance must precede successful-only exact stop.
+
+---
+
+**21 October12:22UTC — first score worker failed before scoring; metadata repair source-qualified:** [Captured failure](records/first_cell_evaluation_v1/score_v2/status_capture_v1/README.md) and [independent failure audit](records/first_cell_evaluation_v1/score_v2/status_capture_v1/ACTUAL_FAILURE_METADATA_REVIEW.json) preserve score-v1/invfbc58e9d failed11:59:31UTC with no RESULT read. A [stat-only parent/leaf diagnostic](records/first_cell_evaluation_v1/score_v2/alias_parent_diagnostic_v1/README.md) confirms physical cache parent plus exact admitted leaf targets. [Scorer V6 source review](preparation/first_cell_evaluation_score_v6/SCORE_SOURCE_REVIEW_V6.json) and [ROOT helper V2 review](preparation/first_cell_evaluation_score_acceptance_v2/HELPER_SOURCE_REVIEW_V2.json) pass the narrow removal of unsupported parent-target assumptions; exact leaf identities, metric/bootstrap and five accepted prediction exports remain fixed. New unit-v2/D2/ROOTscore_v3 requires exact V13 body/driver/reader gates before fresh admission; failed unit-v1/D1 is permanently excluded from query/stop/retry/restart. [Source/recovery index](preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021.md) preserves original bytes and all preceding negatives. All6scientificfits remain accepted/exact-stopped,5prerequisites separate; no re-export/newfit, scalar quality or public forecast.
+
+---
+
+**21 October11:59UTC — first actual CPU score unit launched once:** [V12 actual admission and original receipts](records/first_cell_evaluation_v1/score_v2/README.md) bind invocation fbc58e9d2a7e47629c6a8feb6302aae8 after fresh gates. The preceding [V11 preflight](records/first_cell_evaluation_v1/score_v1/README.md) created zero units and is preserved; score_v2 is the second ROOT attempt, first actual score unit-v1. Worker.5CPU/high1.4e9/max1.5e9/swap0/600s/CUDAhidden/BLAS1 streams five fixedep5 arms/468 fit-excluded EXPOSED c09f development groups, official clip2 WP/four paired component intervals. Prediction export is accepted and exact-stopped; no further fits or actual scalar quality yet. Next bounded exact-unit capture12:02UTC+; accept original RESULT before exact stop of only successful scorer, no blind retry or old-unit query. [Source/recovery navigation](preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021.md) preserves versioned guards and raw failures.
+
+---
+
+**21 October11:16UTC — five prediction exports accepted and successful GPU worker exact-stopped:** [Terminal capture](records/first_cell_evaluation_v1/export_v5/status_20261021T1107Z/README.md) and [independent metadata review](records/first_cell_evaluation_v1/export_v5/status_20261021T1107Z/METADATA_REVIEW.json) join the original invocation and fixed five468×20000×2FP32 outputs without ROOT array payload reads. [Export acceptance](records/first_cell_evaluation_v1/export_v5/EXPORT_ACCEPTANCE.json) is durable before the [one exact successful-unit stop](records/first_cell_evaluation_v1/export_v5/exact_stop/README.md); failed units remain preserved/excluded. This closes prediction export, with zero new fits and no scalar quality yet. All6scientificfits remain integrity accepted/exact-stopped;5prerequisites separate. Next is one freshly admitted serial capped CPU score of all five fixedep5 arms on fit-excluded EXPOSED c09f development groups, official clip2 WP and four paired component intervals. Current raw receipts supersede earlier dated running snapshots.
+
+---
+
+**21 October10:32UTC — fixed five-arm evaluation:** [Execution and source-packet index](preparation/EVALUATION_EXECUTION_INDEX_20261021_V2.md) traces two zero-unit preflights, two preserved failed inference units, and [the third exact export launch](records/first_cell_evaluation_v1/export_v5/README.md). [One dated read-only observation](records/first_cell_evaluation_v1/export_v5/startup_health_v1/README.md) finds that invocation active with one owned GPU process and stat-only partial output inventory; [independent metadata review](records/first_cell_evaluation_v1/export_v5/startup_health_v1/METADATA_REVIEW.json) is metadata-only PASS. No completed prediction panel, score or predictive-quality gain is established. All6scientificfits remain integrity accepted/exact-stopped and5prerequisites separate; no further fits. Fixedep5/468c09f fit-excluded EXPOSED development groups/FP32/official clip2 WP/four paired contrasts remain unchanged. [Current continuation](CONTINUATION.md) governs rare11:00UTC+ observation, terminal acceptance-before-exact-own-stop, and later serial CPU scoring. Failed units/earlier dated snapshots are preserved.
+
+---
+
+**21 October07:11UTC — All first-cell fits closed:** [Actual successful CPU2 result/full acceptance/exact native+successful-support stop](records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_INDEX.md). All6comparisonfits completed/integrityaccepted/exactstopped includingparent;5prerequisites separately. Firstfailedsupport preserved; print-only result recovered from originalunit.log without checker replay. No further fits, predictive-quality endpoint or gain. Current continuation governs fixed five-arm evaluation preparation.
+
+---
+
+**21 October05:52UTC:** [AllThree native exit0](records/child_allthree_fit_v1/terminal_native_capture_v1/README.md) is confirmed:6histories/44760updates/4476batches/zero skips/nonfinite. Integrity pending after local V1 CPU source rejection before B; narrow explicit Path-marker forwarding V2 is next. [Continuation](CONTINUATION.md) governs review/freshCPU/fullacceptance/exactstop. Comparison6nativecompleted/5integrityaccepted of6, prerequisites5 separate; no new fits or quality gain.
+
+---
+
+**Latest dated observation21October05:18UTC:** [Same AllThree invocation active/running](records/child_allthree_fit_v1/health_20261021T0517Z/README.md), five completed epochs0–4/37300updates/3730batches/zero skips/nonfinite. Later ep5batch440 is progress only, not current totals/native terminal/integrity/quality. One owned GPU, unchanged events, seven stat-only artifacts. Needed thin checker/conditional CPU preparation is LOCAL/in progress; no B support/newfit/restart/stop/inference/quality or unchanged suites. [Continuation](CONTINUATION.md) governs focused05:50UTC+ and strict gates. Comparison6started/5completed of6, prerequisites5 separately.
+
+---
+
+**Latest dated observation21October04:18UTC:** [Same AllThree invocation active/running](records/child_allthree_fit_v1/health_20261021T0417Z/README.md), three completed epochs0–2/cumulative22380updates/2238batches/zero skips/nonfinite. Later ep3batch560 is progress only, not synchronous current totals/native terminal/integrity/quality. One owned GPU, unchanged events, five stat-only artifacts; no new support/fit/action/checker preparation or unchanged suites. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0418.json) govern next rare05:10UTC+ and strict terminal gates. Comparison6started/5completed of6, prerequisites5 separate; no quality endpoint/gain.
+
+---
+
+**Latest dated observation21October03:18UTC:** [AllThree same invocation active/running](records/child_allthree_fit_v1/health_20261021T0317Z/README.md), completed epoch0/7460updates/746batches/zero skips/nonfinite. Later ep1batch680 is not current totals/native44760/integrity/quality. One owned GPU, unchanged own/parent events, three stat-only artifacts; no new job/action/checker preparation or unchanged suites. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0318.json) govern next rare04:10UTC+ and actual-exit gates. Comparison6started/5completed of6, shared prerequisites5 separate; no quality endpoint/gain.
+
+---
+
+[NLL accepted and exact-stopped](records/child_nll_fit_v1/terminal_verification_v1/ACTUAL_INDEX.md); [final AllThree child launched once](records/child_allthree_fit_v1/README.md) at21October01:58:58UTC. Comparison6started/5completed of6 including parent; shared prerequisites5 separate. Exact14predecessor receipts and parent@ep3-only initializer are bound by the actual final body. [Early02:00 startup](records/child_allthree_fit_v1/startup_health_v1/README.md) is running setup metadata only, not a current GPU allocation/completion/quality claim. [Continuation](CONTINUATION.md) governs rare03:00UTC+ observation and future strict terminal gates. [Lifecycle validation](PUBLICATION_VALIDATION_20261021_NLL_ALLTHREE.json) preserves one native completion, one CPU support, exact stop and one final fit start.
+
+---
+
+[NLL terminal consumer](preparation/child_nll_terminal_check_v1/SUPPLEMENT_INDEX.md), [conditional CPU source review](preparation/child_nll_terminal_verifier_v1/SUPPLEMENT_INDEX.md), and [final allthree conditional packet](preparation/child_allthree_fit_v1/SUPPLEMENT_INDEX.md) are locally finalized/source-reviewed. Actual native NLL exit proof, CPU body/admission and allthree acceptance/stop/body remain absent. Five/eight/four new focused fixture groups and the narrow V2 private-import proof are engineering preparation, with zero new B supports/fits/quality results. [Continuation](CONTINUATION.md) preserves next focused01:40UTC+ and strict serial gates; no elapsed-time completion inference.
+
+---
+
+**Latest dated observation21October01:01UTC:** [Same NLL invocation active/running](records/child_nll_fit_v1/status_20261021T0101Z/README.md), five complete epochs/37300updates/3730batches/zero skips/nonfinite. Later ep5batch280 is not synchronous current totals/native44760/integrity/quality. One owned GPU, unchanged events, seven stat-only runfiles. Needed thin NLL checker/conditional cappedCPU preparation is LOCAL/in progress, no B action. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261021_NLL_HEALTH_TERMINAL_PREP_0101.json) govern actual-exit gates and next focused01:40UTC+; NLL loss is not a WMSE quality comparison.
+
+---
+
+**Latest dated observation, 21 October00:01UTC:** [NLL same invocation active/running](records/child_nll_fit_v1/health_20261021T0001Z/README.md), three completed epochs / 22380updates / 2238batches / zero skips/nonfinite. Later ep3batch660 is not synchronous current totals, terminal44760, integrity or quality. One owned GPU, unchanged event counters, tensors stat-only; no support/newfit/restart/stop or checker preparation. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261021_NLL_HEALTH_0001.json) govern next rare21October00:50UTC+ and actual-exit gates. NLL loss is not a WMSE quality comparison.
+
+---
+
+**Latest dated observation, 20 October23:02UTC:** [NLL same invocation active/running](records/child_nll_fit_v1/health_20261020T2301Z/README.md), one completed epoch / 7460updates / 746batches / zero skips/nonfinite. Later ep1batch580 is not synchronous current totals, terminal44760, integrity or quality. One owned GPU, unchanged event counters, tensors stat-only; no support/newfit/restart/stop or checker preparation. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261020_NLL_HEALTH_2302.json) govern next rare21October00:00UTC+ and actual-exit gates. NLL loss is not a WMSE quality comparison.
+
+---
+
+[Dictionary closure and NLL launch publication validation](PUBLICATION_VALIDATION_20261020_DICTIONARY_NLL.json) binds the new raw transports, exact source/receipt pins, append-only costs and local preparation history; the independent final staged audit follows root validation.
+
+---
+
+**20October22:07UTC:** [NLL-only full GRU fit launched once](records/child_nll_fit_v1/README.md) after [dictionary full integrity acceptance](records/child_dictionary_fit_v1/TERMINAL_ACCEPTANCE.json) and [exact owned stop](records/child_dictionary_fit_v1/exact_stop/README.md). Parent+CONTROL+EMA+dictionary accepted/closed; comparison5started/4completed of6, allthree unadmitted; shared prerequisitefits5 separate. NLL is base representation/coupled mean-logvariance objective with common parent/norm/order/target; no completed NLL total or predictive-quality result. [Continuation](CONTINUATION.md) governs new startup/rare health and actual terminal gates.
+
+---
+
+**20October21:50UTC actual native completion:** [Dictionary child exited0](records/child_dictionary_fit_v1/terminal_native_capture_v1/README.md), six actual epochs/44,760updates/4476batches/zero skips/nonfinite. [Independent metadata audit](records/child_dictionary_fit_v1/terminal_native_capture_v1/METADATA_REVIEW.json) joins exact raw/typed proof. Integrity acceptance and exact stop remain pending; local CPU V1 self-read blocker is preserved before any B attempt, narrow V2 repair required. [Checker/root preparation](preparation/child_dictionary_terminal_check_v1/README.md) and [conditional NLL V2](preparation/child_nll_fit_v1/README_V2.md) are local only. [Continuation](CONTINUATION.md) governs actual CPU and later serial gates; no quality score/gain.
+
+---
+
+**Latest actual20October21:14UTC:** [Same dictionary invocation active](records/child_dictionary_fit_v1/health_20261020T2114Z/README.md), five completed epochs/37,300updates/3730batches/zero skips/nonfinite. Later ep5batch420 is not current totals, terminal, integrity or quality. One owned worker, events unchanged, tensors stat-only. Needed thin dictionary checker/conditional admission preparation is LOCAL/in progress, no B action or new fit. [Continuation](CONTINUATION.md) governs actual-exit gates and next focused21:50UTC+ observation.
+
+---
+
+**Latest actual20October20:16UTC (23:16MSK):** [Direct-request dictionary health](records/child_dictionary_fit_v1/health_20261020T2016Z/README.md) found the same invocation active, with three completed epochs/22,380updates/2238batches/zero skips/nonfinite. The later ep3batch620 line is not current totals, terminal or quality. One owned worker, no new memoryevents, tensor files stat-only; no new job/restart/stop/inference. [Continuation](CONTINUATION.md) and [validation](PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_2016.json) govern dated evidence and the actual-exit gate; next rare follow-up21:05UTC+.
+
+---
+
+**Latest actual20October19:31UTC:** [Same dictionary invocation active/running](records/child_dictionary_fit_v1/health_20261020T1913Z/README.md), two completed epochs/14,920updates/1492batches/zero skips/nonfinite in those records. Later ep2batch220 is not current totals, terminal44,760, integrity or quality. Own/parent events unchanged, tensor files stat-only, no new action/job. Dictionary checker remains unprepared/unadmitted. [Continuation](CONTINUATION.md) and [health validation](PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_1931.json) govern dated evidence and later actual-exit gates; next rare20:20UTC+, no repeated preparation/tests/poll.
+
+---
+
+**Latest dictionary startup18:14UTC:** [Bounded same-invocation capture](records/child_dictionary_fit_v1/startup_health_v1/README.md) confirms one active owned worker and zero new memoryevents; no completed epoch, terminal or quality result. No payload read/hash, immediate repeat poll, or new support. [Current continuation](CONTINUATION.md) governs next rare19:00UTC follow-up.
+
+---
+
+**Current20October18:10UTC:** [Dictionary-only full GRU child actually launched](records/child_dictionary_fit_v1/README.md) after [full EMA acceptance](records/child_ema_fit_v1/TERMINAL_ACCEPTANCE.json) and [exact stop](records/child_ema_fit_v1/exact_stop/README.md), with fresh serial gates. Same accepted parent/norm/dictionary/batches/target, mode sparse/WMSE; one owned GPU/aggregate2CPU. Two remaining arms unadmitted. No quality endpoint/gain.
+
+---
+
+**Current20October18:01UTC:** [EMA V3 actual integrity PASS](records/child_ema_fit_v1/terminal_verification_v3/README.md), [full root acceptance](records/child_ema_fit_v1/TERMINAL_ACCEPTANCE.json) and [later exact owned stop](records/child_ema_fit_v1/exact_stop/README.md) complete the second child. Native44,760updates/4,476batches counted once, finiteFP32/model-state/AdamW/RNG/norm/dictionary/cache/ancestry verified. Failed V1/V2 preserved as engineering errors; no fit replay or quality endpoint/gain. [Next dictionary recipe](preparation/child_dictionary_fit_v1/README.md) remains local at this snapshot.
+
+---
+
+**Current20October17:37UTC:** [EMA native completion](records/child_ema_fit_v1/terminal_native_capture_v1/README.md) establishes exit0 and six complete native records. [Actual verifier V1](records/child_ema_fit_v1/terminal_verification_v1/README.md) is a preserved engineering failure on a missing dictionary receipt `mtime_ns`; it does not reject native training or predictive quality. [Current continuation](CONTINUATION.md) governs a narrow versioned correction and full-integrity gate before the next arm.
+
+---
+
+**Latest actual20October16:51UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1651Z/README.md), five completed epochs/cumulative37,300updates/3,730batches/zero skips/nonfinite in those records. Later ep5batch640 is not current totals, terminal44,760, integrity or quality. Own/parent events unchanged, tensors stat-only, no new action/job. Existing terminal checker is frozen/local/unadmitted. [Continuation](CONTINUATION.md) and [health validation](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1651.json) govern dated evidence and later actual-exit gates; no repeated preparation/tests/poll.
+
+---
+
+**Latest actual20October15:51UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1551Z/README.md), four completed epochs/cumulative29,840updates/2,984batches/zero skips/nonfinite in those records. Later ep4batch300 is not current totals, terminal44,760, integrity or quality. Own/parent events unchanged, tensors stat-only, no new action/job. Existing terminal checker is frozen/local/unadmitted. [Continuation](CONTINUATION.md) and [health validation](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1551.json) govern dated evidence and later actual-exit gates; no repeated preparation/tests/poll.
+
+---
+
+**Latest actual20October14:40UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1440Z/README.md); two completed epoch records14,920updates/1,492batches/zero skips/nonfinite, later ep2batch240 is not current totals/terminal/quality. Tensor files stat-only, no new job/restart/stop. [EMA terminal checker](preparation/child_ema_terminal_check_v1/README.md), [source review](preparation/child_ema_terminal_check_v1/CHILD_EMA_TERMINAL_SOURCE_REVIEW_V1.json) and [root binding](preparation/child_ema_terminal_check_v1/ROOT_PREPARATION.json) are LOCAL ONLY, no B staging/admission before actual typed native exit0. [Continuation](CONTINUATION.md) and [publication validation](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_TERMINAL_PREP_1440.json) bind current gates; no repeated tests/preparation/poll.
+
+---
+
 **Latest actual 20 October 13:51 UTC:** [Same EMA invocation active/running](records/child_ema_fit_v1/health_20261020T1351Z/README.md), one completed epoch record/7,460updates/zero skips/nonfinite in that record. Later ep1batch20 is not current totals, terminal or quality. Own/parent memoryevents unchanged, tensor files stat-only, no new job/support/restart/stop. [Continuation](CONTINUATION.md) and [health publication](PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1351.json) govern the dated observation; no immediate repeat poll.
 
 ---

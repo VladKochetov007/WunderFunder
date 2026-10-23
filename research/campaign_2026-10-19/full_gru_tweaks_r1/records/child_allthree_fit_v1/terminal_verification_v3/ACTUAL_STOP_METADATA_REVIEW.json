@@ -1,0 +1,233 @@
+{
+  "acceptance_before_stop": {
+    "acceptance": {
+      "bytes": 20208,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/TERMINAL_ACCEPTANCE.json",
+      "sha256": "fada500ede63a175d7d055d38fbef5d38110aef481a91771ae3c5717c1e7026f"
+    },
+    "acceptance_stop_status_at_record_time": "PENDING_EXACT_STOP",
+    "quality_score": null,
+    "record_utc": "2026-10-21T07:08:55.998853+00:00",
+    "result_review": {
+      "bytes": 19648,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_RESULT_METADATA_REVIEW.json",
+      "sha256": "1f7afe60aaae1ab70e7a8eef80a379e919cf001d7cd927444dfed2da4bdb6158"
+    },
+    "result_review_status": "PASS_METADATA_ONLY_RESULT_EXTRACTION_AND_ACCEPTANCE_JOIN",
+    "status": "ACCEPTED",
+    "verification_result_sha256": "e74d990073b33fd75abebca460dbedba3909a0e5f85de9f1b96a89af93bcd275"
+  },
+  "checks": {
+    "acceptance_precedes_stop_and_preserves_pre_stop_status": true,
+    "all_population_empty_and_parent_cgroup_unchanged": true,
+    "exact_command_and_transport_completed_once": true,
+    "exact_stop_raw_identical": true,
+    "failed_v1_support_explicitly_excluded": true,
+    "native_fit_after_state_is_stopped_unloaded": true,
+    "native_fit_before_state_is_exact_accepted_run": true,
+    "only_successful_verify_v2_pair_targeted": true,
+    "resource_observations_show_no_oom": true,
+    "separate_transport_and_record_clock_samples": true,
+    "source_binding_and_independent_review_pins": true,
+    "stop_record_bound_to_prior_accepted_result": true
+  },
+  "limitations": [
+    "This review reconciles the frozen exact-stop receipt, raw capture, transport, accepted result and source review through local metadata only. It does not poll units or contact B.",
+    "The result PASS is terminal integrity, not a predictive quality score; quality_score remains null. No model, state, tensor, array or dataset payload was read or hashed."
+  ],
+  "resources_and_population": {
+    "campaign_population_after": {},
+    "campaign_population_before": {},
+    "memory_events_after": {
+      "memory.events": {
+        "high": 38355,
+        "low": 0,
+        "max": 561,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory.events.local": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      }
+    },
+    "memory_events_before": {
+      "memory.events": {
+        "high": 38355,
+        "low": 0,
+        "max": 561,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory.events.local": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      }
+    },
+    "oom_counters_all_zero": true,
+    "parent_cgroup_after": {
+      "ActiveState": "active",
+      "CPUUsageNSec": "195072113533000",
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+      "InvocationID": "094f0d13a2514c0eae71f4c3f5e0bd80",
+      "LoadState": "loaded",
+      "MemoryCurrent": "7301935104",
+      "MemoryPeak": "11418365952",
+      "SubState": "active"
+    },
+    "parent_cgroup_before": {
+      "ActiveState": "active",
+      "CPUUsageNSec": "195072113533000",
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice",
+      "InvocationID": "094f0d13a2514c0eae71f4c3f5e0bd80",
+      "LoadState": "loaded",
+      "MemoryCurrent": "7301935104",
+      "MemoryPeak": "11418365952",
+      "SubState": "active"
+    },
+    "resource_counters_unchanged": true
+  },
+  "reviewed_utc": "2026-10-21T07:18:01Z",
+  "schema": "fg19.child-allthree-actual-stop-metadata-review.v1",
+  "scope": {
+    "B_queries_or_actions": false,
+    "checker_or_stop_source_imported": false,
+    "mode": "local read-only stop metadata audit",
+    "payload_bytes_read_or_hashed": false,
+    "quality_score_computed": false,
+    "remote_stop_action_performed_by_auditor": false,
+    "result_review_immutable": true,
+    "tests_run": false
+  },
+  "source_binding_and_critic": {
+    "root_binding_status_snapshot": "ROOT_ACCEPTANCE_DURABLE_EXACT_EXITED_PAIR_ONLY_PENDING_INDEPENDENT_SOURCE_REVIEW",
+    "root_source_binding": {
+      "bytes": 1432,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/exact_stop/ROOT_SOURCE_BINDING.json",
+      "sha256": "85f2851c04313c111fa9045bf0b09317c8a1219e7198e148c8ae7db69e0ba6a7"
+    },
+    "source_body": {
+      "bytes": 31605,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/exact_stop/REMOTE.py",
+      "sha256": "7a6c7c21e431d32e1244feab0884912392dfb52e603654d0b8b0c8dc9200c405"
+    },
+    "source_review": {
+      "bytes": 4360,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/exact_stop/SOURCE_REVIEW.json",
+      "sha256": "73f978fc76154934410715e98f7b227c184a89a5570623238cd4673739cf9e95"
+    },
+    "source_review_status": "PASS_SOURCE_ONLY"
+  },
+  "status": "PASS_METADATA_ONLY_EXACT_OWNED_STOP_AND_RESOURCE_JOIN",
+  "stop_transport": {
+    "clock_note": "Transport start/end and remote record UTC are separate samples; no physical sub-millisecond ordering is inferred.",
+    "finished_utc": "2026-10-21T07:11:47.693751+00:00",
+    "persisted_before_parse": true,
+    "raw_stdout": {
+      "bytes": 3208,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/exact_stop/STDOUT.raw.json",
+      "sha256": "0154b3f35c4fb849d0db7e7b60ce1f4ce2fa01ab2203c17db65877f89353f13d"
+    },
+    "retry_performed": false,
+    "returncode": 0,
+    "root_record_utc": "2026-10-21T07:11:47.779579+00:00",
+    "started_utc": "2026-10-21T07:11:47.068272+00:00",
+    "stderr": {
+      "bytes": 0,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/exact_stop/STDERR.raw.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "timed_out": false,
+    "transport": {
+      "bytes": 544,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/exact_stop/TRANSPORT.json",
+      "sha256": "e71cc4d3e20e5a9e404a538f3795377fd62ad346e4fe302f8068a2fee2fb673f"
+    },
+    "typed_stop": {
+      "bytes": 3208,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/exact_stop/EXACT_STOP.json",
+      "sha256": "0154b3f35c4fb849d0db7e7b60ce1f4ce2fa01ab2203c17db65877f89353f13d"
+    }
+  },
+  "targeted_units": {
+    "failed_v1_verifier": {
+      "action": "Explicitly excluded and not queried or targeted.",
+      "invocation_id": "f0c857aa1a68498cb4be237d423281cf",
+      "unit": "computer-vision-homework-fg19-child-allthree-verify-v1.service"
+    },
+    "native_fit": {
+      "after": {
+        "ActiveState": "inactive",
+        "CPUUsageNSec": "[not set]",
+        "ControlGroup": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "InvocationID": "",
+        "LoadState": "not-found",
+        "MainPID": "0",
+        "MemoryCurrent": "[not set]",
+        "MemoryPeak": "[not set]",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "before": {
+        "ActiveState": "active",
+        "CPUUsageNSec": "12636010538000",
+        "ControlGroup": "",
+        "ExecMainCode": "1",
+        "ExecMainStatus": "0",
+        "InvocationID": "94d3a7132a434d448345b0206bd3daa3",
+        "LoadState": "loaded",
+        "MainPID": "0",
+        "MemoryCurrent": "[not set]",
+        "MemoryPeak": "3278077952",
+        "Result": "success",
+        "SubState": "exited"
+      },
+      "invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+      "unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service"
+    },
+    "successful_integrity_verifier": {
+      "after": {
+        "ActiveState": "inactive",
+        "CPUUsageNSec": "[not set]",
+        "ControlGroup": "",
+        "ExecMainCode": "0",
+        "ExecMainStatus": "0",
+        "InvocationID": "",
+        "LoadState": "not-found",
+        "MainPID": "0",
+        "MemoryCurrent": "[not set]",
+        "MemoryPeak": "[not set]",
+        "Result": "success",
+        "SubState": "dead"
+      },
+      "before": {
+        "ActiveState": "active",
+        "CPUUsageNSec": "4192212000",
+        "ControlGroup": "",
+        "ExecMainCode": "1",
+        "ExecMainStatus": "0",
+        "InvocationID": "08134ba3f458491c951c33cb02ea5bf1",
+        "LoadState": "loaded",
+        "MainPID": "0",
+        "MemoryCurrent": "[not set]",
+        "MemoryPeak": "1945600",
+        "Result": "success",
+        "SubState": "exited"
+      },
+      "invocation_id": "08134ba3f458491c951c33cb02ea5bf1",
+      "unit": "computer-vision-homework-fg19-child-allthree-verify-v2.service"
+    }
+  }
+}

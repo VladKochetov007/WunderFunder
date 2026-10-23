@@ -1,0 +1,92 @@
+{
+  "schema": "fg19.first-cell-score-result-capture-source-review.v2",
+  "status": "PASS_SOURCE_ONLY_READER_V2_UNIT_ID_GUARD_UNBOUND",
+  "reviewed_at_utc": "2026-10-21T09:31:42Z",
+  "scope": "Independent static review of the unbound score result-capture V2 reader against the preserved V1 rejection. No imports, tests, B/SSH actions, systemd queries, receipt reads, result reads, prediction/model payload reads, or quality evaluation were performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/SCORE_RESULT_CAPTURE_TEMPLATE_V2.py",
+    "bytes": 20781,
+    "sha256": "a71cd3b61890a686138f98e4b2592b7e5c96d64dfdcb14118d93c8aaecc5d708"
+  },
+  "source_proof": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/SOURCE_PROOF_V2.json",
+    "bytes": 4171,
+    "sha256": "ea06eb2384364c09bf676ba6a713a945b0547b8b7822b40e654f72b361efe403",
+    "status": "PASS_NARROW_LOCAL_SOURCE_AND_UNIT_ID_FIXTURE_NOT_INDEPENDENTLY_REVIEWED"
+  },
+  "inverse_proof": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/SCORE_RESULT_CAPTURE_V2_INVERSE_PROOF.json",
+    "bytes": 2502,
+    "sha256": "4905a149575cad76d6acd67325fa147775a1a6d6e02e467feb1086fc82935583",
+    "status": "PASS_EXACT_V1_TO_V2_UNIT_ID_AND_EXPORT_ROOT_DELTA"
+  },
+  "focused_fixture": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/test_score_result_capture_v2_unit_id.py",
+    "bytes": 2801,
+    "sha256": "78bed95c9d4c7a0905095b879f7cd71702cabfaf5f37227764ff9d70d91dafda",
+    "actor_reported_result": "3 synthetic tests passed; not executed by this reviewer"
+  },
+  "preserved_v1_rejection": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/INDEPENDENT_SOURCE_REVIEW_V1.json",
+    "bytes": 3588,
+    "sha256": "5d80a5f1e8611ad28435a2b18a8018a2a64817f6040aab77627760171e7802d4",
+    "status": "REJECT_SOURCE_ONLY_NO_SCORE_RESULT_CAPTURE",
+    "finding": "The V1 systemd show omitted Id and did not require the live unit Id to equal the pinned score unit before result access."
+  },
+  "frozen_dependencies": {
+    "export_unit": "computer-vision-homework-fg19-first-cell-export-v2.service",
+    "result_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v2/RESULT.json",
+    "export_source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_SOURCE_REVIEW_V3.json",
+      "bytes": 7284,
+      "sha256": "ee53ce06a6119152866e8f39801e7575e59fb42bc09515d102db4c8df5d9c37a",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    },
+    "scorer_v3_code_pins": {
+      "first_cell_score_contract.py": {
+        "bytes": 19485,
+        "sha256": "7784c91713dbfd7d11ec3cfd276eb8a62607289067999f4ecd5c03a3f9a18038"
+      },
+      "first_cell_score_core.py": {
+        "bytes": 27226,
+        "sha256": "ffe8a6e7aad38b131a78783504ef55c761d4e8037c13bac279f20c5e55f6249e"
+      },
+      "first_cell_score_predictions.py": {
+        "bytes": 11056,
+        "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+      },
+      "score_first_cell.py": {
+        "bytes": 10630,
+        "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+      }
+    }
+  },
+  "reviewed_properties": {
+    "unit_properties_requests_Id": true,
+    "exact_Id_guard_requires_Id_equal_pinned_score_unit": true,
+    "guard_is_immediately_after_exact_score_unit_query": true,
+    "guard_precedes_invocation_and_terminal_checks_cgroup_gpu_log_and_result_capture": true,
+    "wrong_or_missing_Id_fails_before_result_access": true,
+    "export_unit_and_result_root_match_frozen_export_v2_contract": true,
+    "four_scorer_pins_match_local_score_v3_files": true,
+    "v2_diff_is_limited_to_export_v2_root_and_unit_scorer_v3_pins_and_single_Id_guard": true,
+    "actual_score_admission_launch_bytes_sha_and_invocation_remain_unbound": true,
+    "strict_success_tuple_still_gates_result_open": true,
+    "failure_branch_does_not_open_result": true,
+    "bounded_capture_returns_raw_result_bytes_without_parsing_metrics": true
+  },
+  "limitations": [
+    "The cgroup scan and subprocess-output limits are checked after reads; they are not hard operating-system resource budgets, as already recorded in the V1 review.",
+    "The focused fixture, Ruff, and inverse proof were not executed by this reviewer; their pins and source were inspected statically.",
+    "The actual score admission and launch receipts are unbound sentinels. This source review does not authorize result capture, score execution, or a quality claim."
+  ],
+  "execution_state": {
+    "template_executed": false,
+    "receipt_pins_bound": false,
+    "score_unit_queried_by_reviewer": false,
+    "result_json_read": false,
+    "b_or_ssh_attempted_by_reviewer": false,
+    "prediction_or_model_payloads_read": false,
+    "quality_claimed": false
+  }
+}

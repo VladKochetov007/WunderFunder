@@ -1,0 +1,93 @@
+{
+  "schema": "fg19.first-cell-score-root-status-driver-source-review.v2",
+  "status": "PASS_SOURCE_ONLY_SCORE_STATUS_DRIVER_V2_PINNED_READER_V4_CALLER_PATH_CONSTRAINED",
+  "reviewed_at_utc": "2026-10-21T10:47:59Z",
+  "scope": "Independent static review of the root-side one-shot score status/result capture driver V2 and its exact V4 reader binding. No imports, tests, B/SSH actions, systemd queries, actual score receipt or result reads, payload access, or quality evaluation were performed.",
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_CAPTURE_SCORE_STATUS_V2.py",
+      "bytes": 8895,
+      "sha256": "e7b479e8237e6ca1f23417ce7a685c3e08fc4bb772fcfc33775634e680f8748c"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_SCORE_STATUS_DRIVER_PROOF_V2.json",
+      "bytes": 1534,
+      "sha256": "61c13d4aca79b602b669c7c617822ae7b6700c1a34a9d2f63804d36c913ff10b"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/test_root_score_status_driver_v2_rebase.py",
+      "bytes": 5197,
+      "sha256": "d1e822a5e7e1c98cadce711385bbcce0d95b1ec09966d8db871ad71309fbdf97"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/LOCAL_CHECKS.md",
+      "bytes": 1519,
+      "sha256": "ee58448f941bda80405ed709c945fd7fc89dfe0bd12da98c45c2528c898e29e1"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_SCORE_STATUS_DRIVER_SOURCE_REVIEW_V1.json",
+      "bytes": 6245,
+      "sha256": "a13fde1ab398b1a844b417da174c1ad88f1cd340e384a351c26d421c8db3f5d3"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/SCORE_RESULT_CAPTURE_TEMPLATE_V4.py",
+      "bytes": 26354,
+      "sha256": "88968f6dd73d4b489c4fc57308906c5e390137a49389ab991408408f353b9be6"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v4/INDEPENDENT_SOURCE_REVIEW_V4.json",
+      "bytes": 5655,
+      "sha256": "b05b06a6e56888348e30ebe0ded0272a5e9f3ca709037feb975b938b4d0bb7d0",
+      "status": "PASS_SOURCE_ONLY_READER_V4_HARD_BOUNDED_UNBOUND"
+    }
+  ],
+  "rebase_review": {
+    "predecessor": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/ROOT_CAPTURE_SCORE_STATUS_V1.py",
+      "bytes": 8895,
+      "sha256": "cf357eabe5d563fc98899fae6ee1131bffd80c7d412f2b104e9c612afb950ba1"
+    },
+    "ast_delta_is_exactly": [
+      "TEMPLATE",
+      "TEMPLATE_SHA",
+      "REVIEW",
+      "REVIEW_SHA"
+    ],
+    "reader_and_review_are_the_exact_v4_pins_above": true,
+    "inverse_proof_restores_v1_ast_outside_these_four_assignments": true
+  },
+  "source_gates": {
+    "root_C_paths_are_fixed_absolute_paths": true,
+    "template_and_review_hashes_checked_before_local_receipts_are_read": true,
+    "exactly_five_score_receipt_invocation_literals_are_substituted_into_stdin_body": true,
+    "reversing_only_the_five_literal_values_restores_exact_template_ast": true,
+    "remote_invocation_uses_python_E_B_and_one_batchmode_ssh_attempt": true,
+    "raw_stdout_stderr_and_transport_are_create_only_fsynced_before_parse": true,
+    "stdout_stderr_transport_and_record_directory_are_fsynced_before_parse": true,
+    "native_response_schema_unit_Id_and_invocation_join_to_local_launch": true,
+    "admission_and_launch_base64_bytes_sha_join_to_local_originals": true,
+    "log_tail_bytes_and_sha_are_checked": true,
+    "result_bytes_are_accepted_only_after_strict_terminal_success_tuple": true,
+    "no_retry_on_timeout_nonzero_stderr_oversize_or_parse_failure": true
+  },
+  "caller_path_constraint": {
+    "driver_enforces_record_path_absolute_or_canonical": false,
+    "unchanged_from_v1_reviewed_driver": true,
+    "required_invocation": "Root must pass the designated absolute record path inside research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/ for the new score record, plus one fresh private leaf tag. Do not supply a relative or external --record path.",
+    "tag_is_leaf_name_checked": true
+  },
+  "inherited_driver_limitations": [
+    "The driver uses subprocess.run(capture_output=True) and applies its 4 MB stdout and stderr size check after capture. This was documented in the V1 review and is unchanged in V2; the exact V4 reader supplies the reviewed per-command, metadata, and capture bounds.",
+    "The record path remains a caller-supplied argument and is not canonicalized by the driver. Root must follow the absolute in-repository path constraint above."
+  ],
+  "conditional_state": {
+    "reader_actual_score_receipt_literals_bound": false,
+    "driver_executed": false,
+    "score_unit_queried": false,
+    "actual_score_receipts_or_result_read_by_reviewer": false,
+    "b_or_ssh_action_by_reviewer": false,
+    "payloads_read": false,
+    "quality_claimed": false
+  },
+  "assessment": "V2 changes only the four exact reader/review path and digest assignments from the previously reviewed V1 root driver. Its raw-first, create-only persistence, five-literal AST check, native identity/strict-result joins, single SSH attempt, and no-retry behavior are preserved. Conditional use requires Root to supply the designated absolute in-repository record directory and a fresh leaf tag; no actual score capture is established by this review."
+}

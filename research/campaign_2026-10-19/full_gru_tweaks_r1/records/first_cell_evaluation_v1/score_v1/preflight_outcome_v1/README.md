@@ -1,0 +1,3 @@
+# Read-only preflight outcome — 21 October11:49UTC
+
+After the one failed preflight, [exact bounded reader](REMOTE.py) queried only computer-vision-homework-fg19-first-cell-score-v1.service and stat-only absence of its private directory and fixed RESULT path. [Raw stdout](STDOUT.raw.json),842B/a613c2eb, and [empty stderr](STDERR.raw.txt) were fsynced before parse; [transport](TRANSPORT.json) records one SSH0/no retry. The B captured_utc11:49:19.803684UTC and ROOT transport11:49:19.222630–19.723408UTC are separate clocks/samples. Exact unit is not-found/inactive/dead/PID0/empty invocation; B score directory and RESULT are absent. No CPU unit was created, no old unit or cache/data/model/prediction payload was queried. No stop/restart/retry/mutation.

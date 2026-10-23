@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_ema_verify_v1/child_ema_terminal_check_v1.py", line 933, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_ema_verify_v1/child_ema_terminal_check_v1.py", line 908, in main
+    result = verify_terminal(
+        args.run_dir,
+    ...<11 lines>...
+        args.cache_exact_stop,
+    )
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_ema_verify_v1/child_ema_terminal_check_v1.py", line 702, in verify_terminal
+    _check_parent_and_dictionary_stats(admission, source_root, dictionary_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_ema_verify_v1/child_ema_terminal_check_v1.py", line 528, in _check_parent_and_dictionary_stats
+    _eq(
+    ~~~^
+        (stat_info.st_size, stat_info.st_dev, stat_info.st_ino, stat_info.st_mtime_ns),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+        f"EMA {label} stat identity",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_ema_verify_v1/child_ema_terminal_check_v1.py", line 86, in _eq
+    control_v3._eq(actual, expected, label)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_ema_verify_v1/child_control_terminal_check_v3.py", line 148, in _eq
+    raise ValueError(f"{label} differs")
+ValueError: EMA dictionary stat identity differs

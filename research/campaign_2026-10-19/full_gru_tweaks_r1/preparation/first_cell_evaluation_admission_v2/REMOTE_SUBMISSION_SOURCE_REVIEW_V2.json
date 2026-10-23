@@ -1,0 +1,60 @@
+{
+  "schema": "fg19.first-cell-export-admission-source-review.v2",
+  "status": "PASS_SOURCE_ONLY_ADMISSION_V2",
+  "reviewed_at_utc": "2026-10-21T08:39:00Z",
+  "scope": "Independent static review of the exact V2 stdin body and binding. No imports, tests, remote actions, B action, model/data/prediction payload reads, or quality evaluation were performed by this reviewer.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v2/REMOTE_SUBMISSION_V2.py",
+    "bytes": 243608,
+    "sha256": "a15b2cec55657f3f630fcd18a4fe20037fe08c3186bb0f046aac5480c6e0aeab"
+  },
+  "binding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v2/ADMISSION_SOURCE_BINDING_V2.json",
+    "bytes": 12764,
+    "sha256": "ae09b7ca7ced6caafb96a8e0988d641f85728100829561a48274c2ba901f1c5c"
+  },
+  "narrow_change_proof": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v2/V2_INVERSE_BYTE_PROOF.json",
+    "bytes": 2417,
+    "sha256": "7bae6c281dbdd3ecdead5320d884dfcaa6f892f5f2d09fd39ba4c430048e0fac",
+    "status": "PASS_EXACT_SINGLE_FUNCTION_INVERSE",
+    "independent_diff_finding": "The V2 body differs from the frozen V1 body only in gpu_owners; replacing that function with its frozen V1 counterpart reconstructs the exact V1 body pin."
+  },
+  "resolved_predecessor_finding": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/REMOTE_SUBMISSION_SOURCE_REVIEW_V1.json",
+    "bytes": 3001,
+    "sha256": "b03a098ea6c0df8265979fac40f54b02b3355bfca3fcc4e74d3fdc34ba461330",
+    "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+    "finding": "V1 read /proc/<pid>/cmdline for selected-GPU processes owned by foreign UIDs. V2 resolves this narrow blocker."
+  },
+  "reviewed_gpu_owner_boundary": {
+    "same_uid_cmdline_read_only": true,
+    "all_uid_campaign_cgroup_check_retained": true,
+    "proc_identity_stability_checked": true,
+    "gpu_free_memory_reserve_retained": true,
+    "foreign_process_action": "none",
+    "command_line_serialized": false
+  },
+  "reviewed_admission_properties": {
+    "one_fixed_feature_only_five_arm_export": true,
+    "fresh_source_predecessor_cache_profile_data_and_resource_gates_precede_mutation": true,
+    "strict_fp32_and_bounded_gpu_cpu_memory_disk_worker_limits": true,
+    "private_directory_and_outputs_are_create_only": true,
+    "systemd_submission_is_at_most_once_with_unknown_outcome_never_retry": true,
+    "worker_does_not_self_read_or_claim_its_stdin_body_hash": true,
+    "four_key_bounded_receipt_reply_is_bound": true,
+    "scoring_or_quality_claim": false
+  },
+  "supporting_focused_check": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v2/test_gpu_owner_boundary_v2.py",
+    "bytes": 5304,
+    "sha256": "c250b57f6b0dfcff9aa84c1e7c1a2001fcb12a6d80c8f51e1473c947e2bf6bbc",
+    "actor_reported_result": "3/3 focused checks passed; Ruff format/check passed. This reviewer did not run them."
+  },
+  "execution_state": {
+    "body_executed": false,
+    "b_attempted": false,
+    "model_data_or_prediction_payload_read": false,
+    "quality_claimed": false
+  }
+}

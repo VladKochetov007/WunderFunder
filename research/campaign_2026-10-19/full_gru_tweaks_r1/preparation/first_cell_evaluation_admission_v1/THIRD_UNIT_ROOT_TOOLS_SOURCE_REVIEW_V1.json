@@ -1,0 +1,129 @@
+{
+  "schema": "fg19.first-cell-export-third-unit-root-tools-source-review.v1",
+  "status": "PASS_SOURCE_ONLY_THIRD_UNIT_ROOT_TOOLS_UNBOUND",
+  "scope": "Independent static review of the third-unit conditional reader, exact-stop template, and raw-first root admission driver. This is a source-only local gate for future export-v3/D3 use; it does not authorize B access or establish any current unit state.",
+  "review_method": {
+    "read_exact_current_sources_proofs_and_prior_source_reviews": true,
+    "compare_reader_and_stop_literal_forks_and_root_driver_pre_ssh_patch": true,
+    "verify_current_file_sizes_and_sha256": true,
+    "run_tests_or_imports": false,
+    "perform_B_or_network_action": false,
+    "read_model_data_cache_or_prediction_payload": false
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_TEMPLATE_V4.py",
+      "bytes": 14786,
+      "sha256": "208a185c19b3a7fa4fb620192d0dae22bd701a8856dc3f44aa0951ddb7b4254d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_SOURCE_REVIEW_V3.json",
+      "bytes": 3537,
+      "sha256": "38a1dbd8edc8395b4cc38234cf9ee2f9aa0caab11cb6a9fad3051a77f76b04af",
+      "status": "PASS_SOURCE_ONLY_READER_V3_NEW_UNIT_FORK_UNBOUND"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/THIRD_UNIT_ROOT_IDENTITY_FORK_PROOF_V1.json",
+      "bytes": 2152,
+      "sha256": "d034a59d724f156799f031bed539b4e1d09b3e197eb05dd12a68f770f86ba15c"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/STOP_EXPORT_TEMPLATE_V3.py",
+      "bytes": 6299,
+      "sha256": "31f27013fd881fd0b5db8ded63d4b81203444e26f56b26e96e725bb03dd83365"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/STOP_EXPORT_SOURCE_REVIEW_V2.json",
+      "bytes": 2833,
+      "sha256": "65bcbc6b6d0137c77a08ca2e43ef03671185cc9c22805308b88a319e5acf393a",
+      "status": "PASS_SOURCE_ONLY_STOP_V2_NEW_UNIT_FORK_UNBOUND"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_ADMISSION_V3.py",
+      "bytes": 6507,
+      "sha256": "6ff91bea06c78573abbf4cf8f00c199fb3e970cdac2a9963dd02bd354c040de1"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_ADMISSION_V4.py",
+      "bytes": 6731,
+      "sha256": "dab7b21175a3845df7add49c454d2fff5d8ffaabc5c7641142674862f8fc285d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_ADMISSION_V4_PROOF.json",
+      "bytes": 671,
+      "sha256": "f2608370e17a3f4748de6c8358a5ffa0c2c456e5b17de3d5bca884dcddd8f5f4"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_ADMISSION_SOURCE_REVIEW_V2.json",
+      "bytes": 2857,
+      "sha256": "144cb6e11dd3ffbddd3a4184f3005d264479b4169cbdd68573e1af7e87c635ee",
+      "status": "PASS_SOURCE_ONLY_ROOT_CAPTURE_V2_NEW_UNIT_FORK"
+    }
+  ],
+  "third_unit_identity_forks": {
+    "reader_v3_to_v4": {
+      "only_literal_substitutions": {
+        "unit": [
+          "computer-vision-homework-fg19-first-cell-export-v2.service",
+          "computer-vision-homework-fg19-first-cell-export-v3.service"
+        ],
+        "private_evidence_directory": [
+          "fg19_first_cell_f0_s1001_evaluation_v2",
+          "fg19_first_cell_f0_s1001_evaluation_v3"
+        ]
+      },
+      "inverse_bytes_identical": true,
+      "inverse_AST_identical": true,
+      "reviewed_operational_logic_unchanged": true
+    },
+    "stop_v2_to_v3": {
+      "only_literal_substitution": {
+        "unit": [
+          "computer-vision-homework-fg19-first-cell-export-v2.service",
+          "computer-vision-homework-fg19-first-cell-export-v3.service"
+        ]
+      },
+      "inverse_bytes_identical": true,
+      "inverse_AST_identical": true,
+      "reviewed_stop_logic_unchanged": true
+    },
+    "root_driver_v2_to_v3": {
+      "only_literal_substitution": {
+        "unit": [
+          "computer-vision-homework-fg19-first-cell-export-v2.service",
+          "computer-vision-homework-fg19-first-cell-export-v3.service"
+        ]
+      },
+      "inverse_bytes_identical": true,
+      "inverse_AST_identical": true
+    },
+    "root_driver_v3_to_v4": {
+      "change": "Require absolute body/review paths and compute each repository-relative name before reading either file, creating the record directory, or initiating SSH; use those precomputed names in later acceptance metadata.",
+      "inverse_bytes_identical_to_v3": true,
+      "reviewer_verified_diff_is_limited_to_preflight_path_computation_and_reuse": true,
+      "closes_v3_caller_path_gap": true
+    }
+  },
+  "review_findings": {
+    "reader_requires_exact_unit_and_admission_launch_byte_sha_unit_and_invocation_bindings": true,
+    "reader_requires_success_tuple_before_reading_completion_manifest_or_sidecars": true,
+    "reader_metadata_reads_are_bounded_no_follow_stable_reads": true,
+    "reader_cgroup_and_gpu_observation_are_bounded_and_non_mutating": true,
+    "reader_output_inventory_is_stat_only_and_never_opens_prediction_arrays": true,
+    "stop_requires_durable_exact_root_acceptance_and_matching_invocation": true,
+    "stop_requires_successful_exited_unit_and_empty_campaign_descendant_inventory_before_and_after": true,
+    "stop_scope_is_exactly_the_future_v3_export_unit": true,
+    "root_driver_checks_exact_body_and_source_review_pins_before_single_ssh_submission": true,
+    "root_driver_persists_transport_and_raw_stdout_stderr_before_parsing": true,
+    "root_driver_has_no_retry_and_requires_exact_four_key_reply_and_receipt_joins": true,
+    "root_acceptance_claims_no_worker_stdin_self_read_or_body_sha": true,
+    "actual_invocation_and_receipt_literals_remain_unbound": true
+  },
+  "limitations": [
+    "The earlier V3 root capture driver had a caller-path validation gap: body/review paths were made repo-relative only after the remote attempt. Its V4 pre-SSH path-computation repair closes that gap; use the reviewed V4 driver, not V3.",
+    "Invocation, exact ADMISSION/LAUNCH bytes, root acceptance, and successful native terminal evidence remain unbound in these templates.",
+    "A separate fresh operational preflight must verify the V3 service/private D state and all admission gates before any one-attempt submission. This review does not query that state.",
+    "Failed prior export service units are outside this future V3 unit scope and must not be retried or stopped by these templates."
+  ],
+  "reviewer_conclusion": "The reader and stop forks preserve their previously reviewed bounded metadata-only and exact-owned-stop behavior while naming only the future export-v3 unit/private directory. The reviewed root capture driver V4 incorporates a fail-closed pre-SSH in-repository path boundary and retains raw-first durable capture, exact receipt joins, and no-retry handling. Actual invocation and evidence are still unbound."
+}

@@ -1,0 +1,120 @@
+{
+  "schema": "fg19.first-cell-score-admission-binding-plan.v2",
+  "status": "LOCAL_CONDITIONAL_TEMPLATE_ONLY_UNBOUND_NOT_REVIEWED_OR_ADMITTED_V2",
+  "scope": "V2 changes only selected-GPU owner metadata inspection: read /proc/<pid>/cgroup and cmdline for same-UID processes, while preserving foreign owners using stat metadata only. The fixed five-arm F0/seed-1001 score and all other gates/resources remain unchanged; no B query, staging, scoring, or result claim.",
+  "score_identity": {
+    "unit": "computer-vision-homework-fg19-first-cell-score-v1.service",
+    "invocation_id": "UNBOUND_ACTUAL_SCORE_INVOCATION",
+    "score_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_score_v1",
+    "result_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v1/RESULT.json"
+  },
+  "export_authority": {
+    "acceptance": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/EXPORT_ACCEPTANCE.json",
+      "bytes": null,
+      "sha256": null,
+      "expected_schema": "fg19.first-cell-export-acceptance.v1",
+      "expected_status": "ACCEPTED_FIXED_FIVE_PREDICTION_EXPORTS_NOT_SCORED"
+    },
+    "exact_stop": {
+      "path": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/exact_stop/EXACT_STOP.json",
+      "bytes": null,
+      "sha256": null,
+      "expected_schema": "fg19-first-cell-export-exact-owned-stop.v1"
+    },
+    "binding_policy": "Root-owned actual acceptance and exact-stop files must be pinned after the five prediction-only exports complete; the exact stop must bind the acceptance digest and same native unit/invocation. Both receipts are staged as read-only copies in the new score directory only after every pre-mutation gate passes."
+  },
+  "frozen_inputs": {
+    "export_binding": {
+      "path": "../first_cell_evaluation_export_v1/EXPORT_BINDING_V1.json",
+      "bytes": 15822,
+      "sha256": "fcb3ee7934a19d023f29090e527be1d151dde23ae9fae3e0e3a911cea1bd809c"
+    },
+    "export_source_manifest": {
+      "path": "../first_cell_evaluation_export_v1/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "source_review": {
+      "path": "../first_cell_evaluation_export_v1/EXPORT_SOURCE_REVIEW_V1.json",
+      "bytes": 9633,
+      "sha256": "cf44af7624e81ee99e9705bf08e69b359f7048354df069cad35b26c7ec927c15",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    },
+    "score_modules": [
+      {
+        "path": "../first_cell_evaluation_score_v1/first_cell_score_contract.py",
+        "bytes": 19485,
+        "sha256": "09155537feec1d9cd398f6a729ab88201b82e814c1a8c4ac796fe4283940a90d"
+      },
+      {
+        "path": "../first_cell_evaluation_score_v1/first_cell_score_core.py",
+        "bytes": 27226,
+        "sha256": "e115d12868b8d9c6ac85e1b497b0bc514559d78fff5dada0b0c350e18b69669a"
+      },
+      {
+        "path": "../first_cell_evaluation_score_v1/first_cell_score_predictions.py",
+        "bytes": 11056,
+        "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+      },
+      {
+        "path": "../first_cell_evaluation_score_v1/score_first_cell.py",
+        "bytes": 10630,
+        "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+      }
+    ],
+    "stdlib_helper_source": {
+      "path": "../first_cell_evaluation_admission_v1/V5_STDLIB_HELPERS_EXTRACTED.py",
+      "bytes": 8065,
+      "sha256": "f82fca9bc56125433b8255aa2d1f85a438cc93e6e64f7a6634ace90a2735a9ce"
+    }
+  },
+  "fixed_worker": {
+    "score_unit": "computer-vision-homework-fg19-first-cell-score-v1.service",
+    "cpu_quota": "50%",
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "memory_swap_max_bytes": 0,
+    "runtime_seconds": 600,
+    "cuda_visible_devices": "",
+    "blas_threads": 1,
+    "parent_cpu_quota": "2s",
+    "scratch_filesystem": "ext4 device 64512"
+  },
+  "read_only_export_paths": {
+    "evidence_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v1",
+    "export_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v1/exports",
+    "binding": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v1/EXPORT_BINDING_V1.json",
+    "source_manifest": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v1/EXPORT_SOURCE_MANIFEST.json"
+  },
+  "worker_arguments": [
+    "--evidence-root",
+    "EXPORT_D",
+    "--export-root",
+    "EXPORT_D/exports",
+    "--binding",
+    "EXPORT_D/EXPORT_BINDING_V1.json",
+    "--source-manifest",
+    "EXPORT_D/EXPORT_SOURCE_MANIFEST.json",
+    "--source-root",
+    "B/source-fg19-cache-68ff6829",
+    "--data-root",
+    "B/data",
+    "--out",
+    "EXPORT_D/RESULT.json"
+  ],
+  "staging": {
+    "score_directory_created_only_after_all_gates": true,
+    "scorer_code_files": 4,
+    "export_binding_or_source_manifest_copied": false,
+    "root_export_acceptance_and_stop_copies": 2,
+    "result_absence_gated_before_mutation": true,
+    "result_is_create_only": true
+  },
+  "limits": [
+    "The export acceptance and its exact-stop receipt do not yet exist; only their planned local record paths and schemas are known, so byte and SHA-256 pins remain unbound.",
+    "This local packet has no remote submission body or invocation pin and cannot pass its own render gate.",
+    "No B reads, staging, imports, data/cache/model/prediction payload reads, actual score, or quality claim are authorized by this packet.",
+    "Root owns final receipt binding, independent review, fresh runtime admission, one launch, and score interpretation."
+  ]
+}

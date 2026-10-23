@@ -1,0 +1,181 @@
+{
+  "schema": "fg19.first-cell-score-dependency-manifest.v3",
+  "status": "LOCAL_SOURCE_PREPARATION_ONLY_NOT_EXECUTED",
+  "source_authority": {
+    "repository": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019",
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_set_sha256": "9c461bcc5883572a071d41a86e18b9a91136099cf8fa87371ce7c3ee41445bd8",
+    "canonical_metric": "global_wp_clip2_v1",
+    "canonical_source_files": [
+      {
+        "path": "src/wnn/__init__.py",
+        "bytes": 63,
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+      },
+      {
+        "path": "src/wnn/data.py",
+        "bytes": 4000,
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      {
+        "path": "src/wnn/gmetric.py",
+        "bytes": 8902,
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      },
+      {
+        "path": "src/wnn/evaluation.py",
+        "bytes": 8080,
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+      },
+      {
+        "path": "src/wnn/portability.py",
+        "bytes": 2239,
+        "sha256": "a35f84ee5c95fd45cd76aa5f34f7013c8e1c5963a6306b0e4049386515589a44"
+      },
+      {
+        "path": "src/wnn/splits.py",
+        "bytes": 9000,
+        "sha256": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe"
+      }
+    ],
+    "helper_contract": {
+      "metric": "GlobalAccumulator",
+      "paired_uncertainty": "paired_component_moments + paired_component_bootstrap",
+      "split": "load_campaign_split",
+      "reader": "SequenceFile.read(row_group, targets=True, mask=True)",
+      "warmup": 99,
+      "portable_data_manifest_environment": {
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_SOURCES.json",
+        "bytes": 2157,
+        "sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378"
+      }
+    }
+  },
+  "fixed_comparison": {
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "ordered_groups": 468,
+    "sequence_rows": 20000,
+    "valid_row_group_count": 1873,
+    "arms": [
+      [
+        "control",
+        "base"
+      ],
+      [
+        "ema",
+        "ema"
+      ],
+      [
+        "sparse",
+        "sparse"
+      ],
+      [
+        "nll",
+        "base"
+      ],
+      [
+        "allthree",
+        "ema_sparse"
+      ]
+    ],
+    "selected_epoch": 5,
+    "successful_updates": 44760,
+    "inference": "strict_fp32; autocast=false; tf32=false",
+    "official_mask": "is_scored AND (t >= 99)",
+    "bootstrap": {
+      "replicates": 2000,
+      "seed": 271828,
+      "centered_moments": true,
+      "scope": "conditional paired successor-component resampling for these fixed models"
+    },
+    "exposure": "fit-excluded but exposed development data; not a fresh or public holdout"
+  },
+  "producer_contract": {
+    "path": "../first_cell_evaluation_export_v3/export_first_cell_v3.py",
+    "bytes": 66080,
+    "sha256": "9bfcd5110d200212bff45d2188f04e2eb094fbaf5cd78831ed03db5a130af8cb",
+    "binding": {
+      "path": "../first_cell_evaluation_export_v3/EXPORT_BINDING_V3.json",
+      "bytes": 15798,
+      "sha256": "372ec16016517baa510cc1899f140cd0978a35b83f96a4a5fa1ff4bda8b39730",
+      "runtime_filename": "EXPORT_BINDING_V3.json",
+      "schema": "fg19.first-cell-evaluation-export-binding.v1"
+    },
+    "source_manifest": {
+      "path": "../first_cell_evaluation_export_v3/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "prediction_shape": [
+      468,
+      20000,
+      2
+    ],
+    "prediction_dtype": "<f4",
+    "prediction_data_bytes_each": 74880000,
+    "output_status": "COMPLETE_PREDICTION_EXPORTS_NOT_SCORED",
+    "source_review": {
+      "path": "../first_cell_evaluation_export_v3/EXPORT_SOURCE_REVIEW_V3.json",
+      "status": "PENDING_SOURCE_ONLY_REVIEW"
+    }
+  },
+  "score_consumer_files": [
+    {
+      "path": "first_cell_score_contract.py",
+      "bytes": 19485,
+      "sha256": "7784c91713dbfd7d11ec3cfd276eb8a62607289067999f4ecd5c03a3f9a18038"
+    },
+    {
+      "path": "first_cell_score_core.py",
+      "bytes": 27226,
+      "sha256": "ffe8a6e7aad38b131a78783504ef55c761d4e8037c13bac279f20c5e55f6249e"
+    },
+    {
+      "path": "first_cell_score_predictions.py",
+      "bytes": 11056,
+      "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+    },
+    {
+      "path": "score_first_cell.py",
+      "bytes": 10630,
+      "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+    },
+    {
+      "path": "test_score_v3_binding_metadata.py",
+      "bytes": 6399,
+      "sha256": "a755bbeb082be953961e3c0c0b6c0a16da6ddfc09afb74b4985f8eaa10843368"
+    }
+  ],
+  "boundary": {
+    "no_fit_or_export_run": true,
+    "no_actual_b_scoring": true,
+    "no_model_or_checkpoint_payload_read_on_local_host": true,
+    "no_dataset_or_cache_payload_read_on_local_host": true,
+    "prediction_payloads_are_b_only": true,
+    "score_report_is_create_only": true,
+    "report_contains_large_arrays": false
+  },
+  "binding_delta": {
+    "v2_binding_path": "../first_cell_evaluation_export_v2/EXPORT_BINDING_V1.json",
+    "v2_binding_bytes": 15798,
+    "v2_binding_sha256": "6cd8c46f31214623d97e54c32bac9395608bfc918b9b44e879e44ad2548f0eb9",
+    "v3_binding_path": "../first_cell_evaluation_export_v3/EXPORT_BINDING_V3.json",
+    "v3_binding_bytes": 15798,
+    "v3_binding_sha256": "372ec16016517baa510cc1899f140cd0978a35b83f96a4a5fa1ff4bda8b39730",
+    "only_changed_binding_fields": [
+      "arms[4].exact_stop.absolute_path",
+      "arms[4].terminal_acceptance.absolute_path",
+      "evidence_root",
+      "output_dir"
+    ],
+    "only_changed_score_code_constants_and_paths": [
+      "EXPECTED_BINDING_BYTES",
+      "EXPECTED_BINDING_SHA256",
+      "EXPORT_BINDING_V1.json -> EXPORT_BINDING_V3.json",
+      "evaluation_v1 -> evaluation_v2"
+    ],
+    "scoring_and_prediction_io_logic_unchanged": true,
+    "export_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v2/exports"
+  },
+  "review_scope": "Pending independent source-only review of the V3 producer/scorer binding and fixed evaluation_v2 output-root join. This manifest does not authorize export or scoring execution or make any quality claim."
+}

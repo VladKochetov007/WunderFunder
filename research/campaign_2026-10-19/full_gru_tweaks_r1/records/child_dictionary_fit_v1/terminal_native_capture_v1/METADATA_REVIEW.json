@@ -1,0 +1,93 @@
+{
+  "schema": "fg19.child-dictionary-native-metadata-review.v1",
+  "status": "PASS_METADATA_ONLY",
+  "reviewed_utc": "2026-10-20T21:52:10Z",
+  "scope": {
+    "local_persisted_metadata_only": true,
+    "raw_capture_or_payload_requeried": false,
+    "SSH_or_B_action": false,
+    "model_state_dictionary_cache_array_or_dataset_payload_read": false,
+    "tensor_integrity_or_quality_review": false
+  },
+  "pins": {
+    "origin_status_raw": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/status_20261020T2150Z/STDOUT.raw.json",
+      "bytes": 77591,
+      "sha256": "6944ee9fcbaee3a697dcad1c351a3df00f40a4014a9644ce253bd668f0746de2"
+    },
+    "canonical_raw": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+      "bytes": 77591,
+      "sha256": "6944ee9fcbaee3a697dcad1c351a3df00f40a4014a9644ce253bd668f0746de2"
+    },
+    "typed_evidence": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/TERMINAL_EVIDENCE.json",
+      "bytes": 725,
+      "sha256": "b2e85ce5cd051968f6a938ba151f6e8a66f2fafa21c6860da4d9ca202243f872"
+    },
+    "transport": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_native_capture_v1/TRANSPORT.json",
+      "bytes": 483,
+      "sha256": "ac1a817fe8945a881e0ddd0164c6ea68940ffaeffc8226259fd6702a9e249b9f"
+    },
+    "record_summary": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_native_capture_v1/NATIVE_RECORD_SUMMARY.json",
+      "bytes": 28026,
+      "sha256": "89bdf8d4d27dc9d5942cfbbbabaee7367c124407708d96e3d2e3e3828184150d"
+    },
+    "unit_log": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_native_capture_v1/unit.log",
+      "bytes": 32600,
+      "sha256": "89bdf8d4d27dc9d5942cfbbbabaee7367c124407708d96e3d2e3e3828184150d"
+    }
+  },
+  "joins": {
+    "raw_transport": "PASS: persisted-before-parse is true; SSH transport return code is 0 and timed_out is false; transport stdout byte count/SHA match the raw file. The same raw bytes appear in the original status folder and canonical terminal capture folder. Captured stderr is empty with the empty-byte SHA.",
+    "typed_raw": "PASS: typed evidence binds exact raw path, 77,591 bytes, SHA-256, and capture timestamp. Schema/run/unit/invocation match. MainPID, ExecMainCode, and ExecMainStatus are strict JSON integers 0/1/0; raw unit properties independently report active/exited, MainPID 0, code 1, status 0, Result success. Exit time 2026-10-20T21:33:50Z precedes capture time 2026-10-20T21:50:08.745659Z.",
+    "captured_receipts": {
+      "ADMISSION.json": {
+        "bytes": 10937,
+        "sha256": "b13ccf5834fd210ce02ca6c3aea7251d8dcae3f63823341da15a77abcbc75063",
+        "decoded_base64_matches_canonical_file": true
+      },
+      "LAUNCH.json": {
+        "bytes": 8072,
+        "sha256": "9cbcc8b4df3886620429cae42d678d2e281aff980402f5b19d63d9f515b6ad3c",
+        "decoded_base64_matches_canonical_file": true
+      },
+      "unit.log": {
+        "bytes": 32600,
+        "sha256": "301f81abc533a8289c7b7ad1c82a514efead74a2ce289489fe26028371671558",
+        "decoded_base64_matches_canonical_file": true
+      }
+    },
+    "unit_log": "PASS: raw unit.log receipt decodes byte-for-byte to the canonical captured log. It contains six FIT and six GRAD_STATS epoch records, each through epoch 5."
+  },
+  "native_identity_and_counters": {
+    "run_name": "fg19_child_dictionary_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-dictionary-fit-v1.service",
+    "invocation_id": "73b10b699e034a1b9952b2377b845095",
+    "completed_epochs": [0, 1, 2, 3, 4, 5],
+    "successful_updates": 44760,
+    "completed_batches": 4476,
+    "amp_skips": 0,
+    "gradient_nonfinite_steps": 0,
+    "evaluation": "withheld"
+  },
+  "resource_and_ownership_scope": {
+    "service_unit_fields": "The captured exact service unit reports CPUUsageNSec 12178410865000, MemoryHigh 7500000000, MemoryMax 8000000000, MemoryPeak 2859028480, swap max 0; service-level observations remain distinct from parent, process RSS, and GPU samples.",
+    "own_cgroup": "ControlGroup is empty and own_cgroup_state/own_process_rss are null. Own-cgroup usage is unavailable; no host-root fallback or own-cgroup-zero claim is made.",
+    "parent_cgroup": "The captured parent is the scoped wnn-campaign.slice with CPU quota 2s, MemoryHigh 18000000000, MemoryMax 20000000000, swap max 0, MemoryCurrent 7661277184, and populated_descendants {}. Parent memory.events and memory.events.local are preserved separately; OOM counters are 0 in this capture.",
+    "GPU_snapshot": "The single captured GPU process listing names PID 521754/UID 1026 and PID 964460/UID 1117. These are ownership observations from this capture; no causal or performance attribution is made.",
+    "process_state": "Exact dictionary fit invocation is active/exited with MainPID 0. This evidence is native exit, not an exact-stop receipt."
+  },
+  "limitations_and_discrepancies": [
+    "The raw capture's free-text scope label says 'EMA32 unit invocation'. It conflicts with expected_run, expected_unit, expected_invocation_id, unit properties, and the full ExecStart, all of which identify the dictionary fit. The label is treated as inherited descriptive text and does not override the structured identity fields.",
+    "NATIVE_RECORD_SUMMARY.json records no payload reads or hashes and explicitly makes no tensor-integrity or quality claim. These counters and metadata do not establish model/state integrity or predictive quality."
+  ],
+  "audit_checks": {
+    "transport_raw_typed_and_receipt_joins": true,
+    "counter_summary_matches_six_fit_and_six_gradient_records": true,
+    "no_payload_or_quality_claim_added": true
+  }
+}

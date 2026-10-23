@@ -1,0 +1,119 @@
+{
+  "schema": "fg19.child-allthree-result-capture-producer-pair-review.v4",
+  "status": "REJECT_SOURCE_ONLY_NO_B_ATTEMPT",
+  "reviewed_utc": "2026-10-21T06:28:27Z",
+  "review_kind": "Read-only static producer-consumer contract review for the frozen V4 support producer and V2 result-capture reader.",
+  "scope": {
+    "B_or_SSH_accessed": false,
+    "remote_queries_attempted": 0,
+    "producer_or_reader_imported_or_executed": false,
+    "tests_run": false,
+    "model_state_data_or_cache_array_payload_read_or_hashed": false,
+    "actual_support_receipts_or_invocation_bound": false,
+    "root_preparation_hash_repeated": false,
+    "quality_or_native_fit_acceptance_claimed": false
+  },
+  "reviewed_files": {
+    "result_capture_template_v2": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v2/RESULT_CAPTURE_TEMPLATE.py",
+      "bytes": 15545,
+      "sha256": "00b7d9c2cf6a6fe0cad9da5c2196d3637f3821395dfe13963e0841b76d52fef7"
+    },
+    "result_capture_source_review_v2": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v2/SOURCE_REVIEW_V2.json",
+      "bytes": 7242,
+      "sha256": "b6aa35feb60d996260039338f16d21dd948bcd00793065c7e92f6eab5acfb4d7",
+      "status": "PASS_CONDITIONAL_SOURCE_ONLY"
+    },
+    "producer_body_v4": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v4/REMOTE_SUBMISSION_V4.py",
+      "bytes": 710826,
+      "sha256": "c186e7b4473bc11681f61c55a741f17b2fdab828c7906090ef10574a8aa2df90"
+    },
+    "producer_render_binding_v4": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v4/V4_RENDER_BINDING.json",
+      "bytes": 2823,
+      "sha256": "cb550e86822130554117eea257802398fa0c1c5589d4380dff962a0436c460d8",
+      "schema": "fg19.child-allthree-terminal-verifier-v4-local-render.v1",
+      "status": "RENDERED_CREATE_ONLY_LOCAL_BODY_NOT_STAGED_ADMITTED_OR_EXECUTED",
+      "body_pin_matches": true,
+      "support_unit": "computer-vision-homework-fg19-child-allthree-verify-v2.service",
+      "private_output_directory": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v2",
+      "code_count": 7,
+      "payload_count": 15,
+      "remote_or_B_action": false,
+      "body_executed_or_imported": false
+    },
+    "checker_v2_pin_target": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/child_allthree_terminal_check_v2.py",
+      "bytes": 40442,
+      "sha256": "6ff4ba93a4020a4b34ade46a2512ac77b871328e95c47f2ca4561b8dcbd435b5"
+    }
+  },
+  "producer_consumer_contract": {
+    "support_identity": {
+      "unit": "computer-vision-homework-fg19-child-allthree-verify-v2.service",
+      "private_directory": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v2",
+      "native_unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+      "native_invocation_id": "94d3a7132a434d448345b0206bd3daa3"
+    },
+    "reader_v2_required_admission": [
+      "schema=fg19.child-allthree-terminal-verifier-admission.v1",
+      "status=FRESH_GATES_PASSED_SUPPORT_SUBMISSION_PENDING",
+      "run_name=fg19_child_allthree_f0_s1001_fit_v1",
+      "native_unit=computer-vision-homework-fg19-child-allthree-fit-v1.service",
+      "native_invocation_id=94d3a7132a434d448345b0206bd3daa3"
+    ],
+    "producer_v4_admission_emits_reader_required_fields": true,
+    "reader_v2_required_launch": [
+      "schema=fg19.child-allthree-terminal-verifier-launch.v1",
+      "unit=computer-vision-homework-fg19-child-allthree-verify-v2.service",
+      "invocation_id=post-submit exact-unit InvocationID",
+      "native_unit=computer-vision-homework-fg19-child-allthree-fit-v1.service",
+      "native_invocation_id=94d3a7132a434d448345b0206bd3daa3"
+    ],
+    "producer_v4_launch_emits_reader_required_fields": true,
+    "launch_invocation_capture": "After one systemd-run submission, the producer queries properties of the exact verify-v2 unit, writes the observed InvocationID and submission outcome into VERIFIER_LAUNCH.json, and fails without retry if the invocation ID is absent or malformed.",
+    "private_code_closure": {
+      "count": 7,
+      "checker": "child_allthree_terminal_check_v2.py at the exact V2 pin above",
+      "six_helper_pins": "The embedded fixed payload pins match the six unchanged helpers recorded in the V2 checker ROOT_PREPARATION and V2 import-boundary proof."
+    },
+    "root_outer_reply_contract": {
+      "intended_exact_keys": [
+        "unit",
+        "outcome",
+        "admission_base64",
+        "launch_base64"
+      ],
+      "per_receipt_stable_read_cap_bytes": 1000000,
+      "aggregate_receipt_cap_bytes": 4000000,
+      "reply_occurs_after_durable_receipts_valid_32_hex_support_invocation_and_zero_submission_returncode": true,
+      "outer_consumer_is_separate_from_the_B_result_reader": true
+    }
+  },
+  "blocking_finding": {
+    "location": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v4/REMOTE_SUBMISSION_V4.py",
+      "admission_constructed_at_line": 1243,
+      "admission_written_at_line": 1265,
+      "durable_reply_guard_at_line": 1442
+    },
+    "detail": "The admission object written to VERIFIER_ADMISSION.json contains schema, status, run_name, native_unit, native_invocation_id, and other gates, but it does not contain a `unit` key. After writing both receipts and validating the support invocation and successful submission, the producer requires durable_admission.get(\"unit\") == UNIT before printing the four-key root reply. The requirement therefore cannot pass for the admission object this source creates, so the intended root reply is unreachable as written.",
+    "static_source_evidence": {
+      "admission_keys_include_unit": false,
+      "producer_unit_assignments_found": [
+        "launch record at line 1080",
+        "outer stdout mapping at line 1456"
+      ],
+      "durable_guard_requires_admission_unit": true,
+      "reader_v2_itself_requires_admission_unit": false
+    },
+    "impact": "The V2 reader's stated admission fields and the V4 admission fields otherwise align, and the launch field contract aligns. The separate outer root-response gate fails after a successful submission, before it can return captured receipts to the root consumer. This blocks the current producer-consumer packet from use until an exact source repair and fresh review."
+  },
+  "limitations": [
+    "This review binds only exact local source and render metadata. It does not establish that a support unit was admitted or started, bind actual admission/launch bytes or support invocation, read verification payloads, or prove checker execution or terminal success.",
+    "The V4 body is rendered create-only and the render binding reports no B action. An exact-body source review and repair of the durable admission unit mismatch remain required before any admission.",
+    "The reader's five actual support receipt/invocation constants remain unbound. Root-side response-envelope handling is identified as a separate consumer; this source review does not execute or certify it."
+  ]
+}

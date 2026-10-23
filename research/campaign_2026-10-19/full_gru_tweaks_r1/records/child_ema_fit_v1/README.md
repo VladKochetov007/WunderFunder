@@ -1,3 +1,23 @@
+**Current18:01UTC — accepted and exact-stopped:** [Actual V3](terminal_verification_v3/README.md) passed full source167/finiteFP32/model-state/AdamW/schedule/RNG/seeded sampler/norm/dictionary/cache/ancestry checks. [Full acceptance](TERMINAL_ACCEPTANCE.json) was durable BEFORE [exact stop](exact_stop/README.md) of native EMA and successful V3 only. Failed [V1](terminal_verification_v1/README.md)/[V2](terminal_verification_v2/README.md) remain preserved. Six native histories/44,760updates/4,476batches/zero skips/nonfinite counted once; no predictive quality endpoint/gain.
+
+---
+
+**Current20October17:37UTC:** [Native capture](terminal_native_capture_v1/README.md), [strict typed exit0](TERMINAL_EVIDENCE.json) and [independent native metadata review](terminal_native_capture_v1/METADATA_REVIEW.json) establish six actual epochs/44,760updates/4,476batches/zero skips/nonfinite. [CPU verifier V1](terminal_verification_v1/README.md) failed on dictionary stat-schema compatibility before tensor loading. Native remains exited0, full integrity acceptance and exact stop pending, failed V1 preserved; no quality result.
+
+---
+
+**Latest actual16:51UTC:** [One bounded same-invocation health](health_20261020T1651Z/README.md) records epochs0–4/37,300updates/3,730batches/zero skips/nonfinite; later ep5batch640 is not current totals, terminal44,760 or quality. One owned worker, no new memoryevents, tensor files stat-only. Existing source-reviewed terminal checker stays local/unadmitted until actual native typed exit0, no new preparation or immediate repeat poll.
+
+---
+
+**Latest actual15:51UTC:** [One bounded same-invocation health](health_20261020T1551Z/README.md) records epochs0–3/29,840updates/2,984batches/zero skips/nonfinite; later ep4batch300 is not current totals, terminal44,760 or quality. One owned worker, no new memoryevents, tensor files stat-only. Existing source-reviewed terminal checker stays local/unadmitted until actual native typed exit0, no new preparation or immediate repeat poll.
+
+---
+
+**Latest actual14:40UTC:** [One bounded same-invocation health](health_20261020T1440Z/README.md) records epochs0/1/14,920updates/1,492batches/zero skips/nonfinite; later ep2batch240 is not synchronous current totals/terminal/quality. One owned worker, events unchanged, tensors stat-only. [Needed terminal checker](../../preparation/child_ema_terminal_check_v1/README.md) and [root binding](../../preparation/child_ema_terminal_check_v1/ROOT_PREPARATION.json) are local-only, with no support staging/admission before actual native typed exit0. No immediate repeated poll.
+
+---
+
 **Latest actual13:51UTC:** [One bounded health capture](health_20261020T1351Z/README.md) found the same active/running invocation. Native epoch0 completed7,460updates/746batches/zero skips/nonfinite; later ep1batch20 is only recorded progress, not synchronous current/terminal/quality. Own memoryevents0/parent deltas0, tensor files stat-only. No restart/stop/newfit/support, no immediate repeated poll.
 
 ---

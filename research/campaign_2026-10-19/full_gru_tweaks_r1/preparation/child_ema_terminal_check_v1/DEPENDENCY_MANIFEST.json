@@ -1,0 +1,89 @@
+{
+  "schema": "fg19.child-ema-terminal-check-dependencies.v1",
+  "checker": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/child_ema_terminal_check_v1.py",
+    "bytes": 36887,
+    "sha256": "a63ec6c4f6b0a3c4ba7e0cb8800e4787c5d89f1a652e0deec15ad84ffc95d30a"
+  },
+  "runtime_imports": [
+    {
+      "module": "child_control_terminal_check_v3",
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/child_control_terminal_check_v3.py",
+      "bytes": 79972,
+      "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167",
+      "used_symbols": [
+        "_eq", "_int", "_is_sha256", "_tensor_rng_signature", "POSIXPATH_PICKLE_ARGS",
+        "_require_path_compatibility_exception", "_reset_safe_globals", "_load_control_training_state",
+        "_model_fingerprint", "_check_loader_and_rng", "_check_sample_order", "_check_scheduler",
+        "_check_optimizer", "_check_counters", "_check_profile_initial_state", "_read_pinned_json",
+        "_check_stop_receipt", "_check_predecessor_receipts", "_check_sample_log", "_check_args_and_contract",
+        "_check_parent_checkpoint", "_check_child_normalizer", "_check_representation_payload",
+        "_check_dictionary_artifact", "fixed receipt pins and size limits"
+      ],
+      "purpose": "Reuses reviewed bounded receipt, model/state, optimizer, RNG, ancestry, and training-history checks without calling the CONTROL verifier entrypoint."
+    },
+    {
+      "module": "parent_fit_terminal_check_v3",
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/parent_fit_terminal_check_v3.py",
+      "bytes": 64550,
+      "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41",
+      "used_symbols": [
+        "_source_identity", "_check_worker", "_check_cache", "_check_membership",
+        "_check_cache_provenance", "_load_checkpoint", "CUDA_POLICY_SOURCE_SHA", "PARENT_ACCEPTANCE_SHA"
+      ],
+      "purpose": "Reuses source, worker, cache, membership, checkpoint, and CUDA-policy integrity checks for the same pinned source-68 F0 lineage."
+    },
+    {
+      "module": "propensity_terminal_support",
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/propensity_terminal_support.py",
+      "bytes": 13107,
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409",
+      "used_symbols": ["_hash_file", "_json_file", "_stable_file"],
+      "purpose": "Provides the frozen bounded stable-file, hashing, and JSON readers."
+    },
+    {
+      "module": "teacher_s5_terminal_check_v1",
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_s5_terminal_check_v1.py",
+      "bytes": 37448,
+      "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5",
+      "used_symbols": ["_canonical_tensor_identity", "_launch_cli_args"],
+      "purpose": "Provides reviewed source-qualified tensor identity and launch-argument parsing helpers."
+    }
+  ],
+  "evidence_pins": {
+    "ema_admission_sha256": "db13e5433cb0a414c1a235806220c53db4ded6c128fc5ffbda5e465dde9fde51",
+    "ema_launch_sha256": "8c43f6fb26d3f6a046304617094e266a3e1940c83a7ea56787781fa176ef133e",
+    "ema_root_launch_acceptance_sha256": "4fc34f4769da2f08aaf1fcca97d87731dc38b1709a93afa9376be003c28ffb72",
+    "ema_body_sha256": "f83ac3120a2e445f1752fcd026123a0e8a21ba53594d27b398462a5236ffebd6",
+    "control_terminal_acceptance_sha256": "92aaf5eeed156aaad25c4adbb6700d41b0527600b520dd051657a43a50bbb6d2",
+    "control_exact_stop_sha256": "600cb3c4a56c7d0731ed2bf6174d47f5b09623c7ca22a7e5fce77d4d358ae012",
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+  },
+  "cold_import_source_reference": {
+    "checkout_path": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019",
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "manifest_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/teacher_cache_cpu_repair_v2/SOURCE_MANIFEST.json",
+    "manifest_bytes": 27569,
+    "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "manifest_file_count": 167,
+    "loaded_wnn_module_count": 29,
+    "purpose": "Local cold-import proof only: validate the actual lazy WNN import closure against the source manifest without reading run, model, state, cache-array, or dataset payloads."
+  },
+  "cold_import_private_d": {
+    "staged_module_count": 5,
+    "modules": [
+      "child_ema_terminal_check_v1",
+      "child_control_terminal_check_v3",
+      "parent_fit_terminal_check_v3",
+      "propensity_terminal_support",
+      "teacher_s5_terminal_check_v1"
+    ],
+    "origin_and_hashes_verified": true,
+    "directory_lifetime": "fresh temporary directory scoped to the subprocess",
+    "local_torch_version": "2.14.1",
+    "cuda_visible_devices": "",
+    "torch_cuda_initialized": false,
+    "remote_worker_runtime_claimed": false
+  },
+  "staging_note": "For a future reviewed remote invocation, place only these exact dependency bytes beside the checker. No remote body is prepared or staged by this packet."
+}

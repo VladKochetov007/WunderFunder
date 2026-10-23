@@ -1,0 +1,7 @@
+# Final AllThree actual receipt binding and launch
+
+The [original conditional packet](README.md), [recipe binding](ALLTHREE_RECIPE_BINDING_V1.json), [conditional source review](ALLTHREE_SOURCE_REVIEW_V1.json), and [local checks](LOCAL_CHECKS_V1.json) remain frozen. After actual NLL acceptance and exact stop, root ran the [binder](bind_allthree_fit_v1.py) once to produce the [final binding](ALLTHREE_FINAL_BINDING_RECEIPT_V1.json) and [actual body](REMOTE_SUBMISSION.py)263545B/c2961ef5. Only four NLL receipt SHA/base64 assignments differ from the frozen template; scientific argv differs from actual NLL only at1/48, runname and base→ema_sparse. Parent@ep3 remains sole initializer; NLL child is only a sequential gate.
+
+[Root exact14receipt and source-manifest joins](ROOT_RENDERED_BODY_CHECK.json) and [independent exact-body review](FINAL_BODY_SOURCE_REVIEW_V1.json)1ab84547 pass. Both predecessor validators bind original NLL fit launch44a708fc. Inherited unbound-template/NLL prose labels are classified without changing body bytes; current exact RUN/UNIT/argv/source/receipt gates and outer stdin binding establish actual identity.
+
+[One actual AllThree fit](../../records/child_allthree_fit_v1/README.md) launched after fresh serial source/resource/ownership/ancestry/path/disk/output/unit gates. [Early startup](../../records/child_allthree_fit_v1/startup_health_v1/README.md) is setup metadata only. No profile replay, retuning, queue, completed endpoint or predictive-quality result. Never rerender/reexecute the launched packet.

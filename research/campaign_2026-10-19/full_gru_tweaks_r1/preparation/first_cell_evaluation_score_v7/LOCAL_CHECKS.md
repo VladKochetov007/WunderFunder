@@ -1,0 +1,7 @@
+# Local checks — scorer V7
+
+The new synthetic preflight fixture passed four tests. It accepts the train and validation index-header shapes recorded by the metadata diagnostic while opening only the two requested index members; it rejects oversized selected members, invalid/oversized headers, object and multidimensional arrays, payload-size disagreement, duplicate or nested index names, and encrypted members. A separate fixture confirms the default cache path still applies the all-member expanded-size check without opening members.
+
+The proof script passed its exact inverse check: removing the V7-only `ast` import and header cap, restoring the old two-byte call, and restoring the old preflight helper yields the V6 core byte-for-byte. It also checked the exact raw diagnostic and independent metadata-review pins, four registered archive identities, and the selected header metadata reported for train and validation.
+
+The literal maintenance `.venv/bin/python` ran only the new synthetic fixture and proof script. The literal `.venv/bin/ruff` formatter/checker passed for the changed core, fixture, and proof script. The fixture imports the scorer core (and its NumPy dependency) but does not import WNN, open real NPZ archives, or read model, prediction, target, mask, or cache-array payloads. No unchanged scorer/model/profile/cold suite was rerun. No B access, unit query/action, worker execution, export, fit, result read, or quality claim occurred.

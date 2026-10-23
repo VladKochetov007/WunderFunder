@@ -1,0 +1,50 @@
+{
+  "schema": "fg19.child-dictionary-terminal-verifier-local-checks.v2",
+  "status": "PASS_LOCAL_DERIVATION_AND_FOCUSED_AST_CHECKS_ONLY",
+  "environment": {
+    "python": "repository .venv/bin/python with -B",
+    "ruff": "repository .venv/bin/ruff",
+    "worker_runtime_proof": false
+  },
+  "checks": [
+    {
+      "name": "exact_two_patch_derivation",
+      "command": ".venv/bin/python -B build_dictionary_terminal_body_v2.py --source ../child_dictionary_terminal_verifier_v1/REMOTE_SUBMISSION.py --output REMOTE_SUBMISSION.py --check",
+      "result": "PASS",
+      "source_bytes": 558636,
+      "source_sha256": "f49a618e3102b52756c68ec049630019360add5fb0ddb26da704af7515846f91",
+      "output_bytes": 559170,
+      "output_sha256": "290cb213b0725b704dd08cc9f16ff0d8de995280903f03766f438d806e4b772d"
+    },
+    {
+      "name": "focused_ast_regressions",
+      "command": ".venv/bin/python -B -m unittest -v test_child_dictionary_terminal_verifier_v2",
+      "result": "PASS",
+      "passed": 2,
+      "assertions": [
+        "The rendered body AST has no __file__ reference, body_raw/body_stat self-read variables, or 250000-byte self-read cap in main.",
+        "The verifier_admission AST uses root source-review/raw-transport authority and has no rendered_body hash claim."
+      ]
+    },
+    {
+      "name": "ruff_format_check",
+      "command": ".venv/bin/ruff format --check build_dictionary_terminal_body_v2.py test_child_dictionary_terminal_verifier_v2.py",
+      "result": "PASS"
+    },
+    {
+      "name": "ruff_check",
+      "command": ".venv/bin/ruff check build_dictionary_terminal_body_v2.py test_child_dictionary_terminal_verifier_v2.py",
+      "result": "PASS"
+    }
+  ],
+  "not_run": [
+    "Remote B actions, SSH, unit admission, or support execution",
+    "Unchanged source/model/profile/cold-proof test suites",
+    "Native fit work, model or state payload loading, tensor hashing, dataset/cache/dictionary array reads"
+  ],
+  "remaining_gates": [
+    "Independent source review of the exact V2 body",
+    "Root-owned raw transport binding for the exact V2 body",
+    "Root's later decision to admit one support unit after review"
+  ]
+}

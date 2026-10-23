@@ -1,0 +1,104 @@
+{
+  "code_closure": [
+    {
+      "bytes": 40474,
+      "name": "child_nll_terminal_check_v1.py",
+      "sha256": "a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2"
+    },
+    {
+      "bytes": 79972,
+      "name": "child_control_terminal_check_v3.py",
+      "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+    },
+    {
+      "bytes": 64550,
+      "name": "parent_fit_terminal_check_v3.py",
+      "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+    },
+    {
+      "bytes": 13107,
+      "name": "propensity_terminal_support.py",
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    },
+    {
+      "bytes": 37448,
+      "name": "teacher_s5_terminal_check_v1.py",
+      "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+    },
+    {
+      "bytes": 38267,
+      "name": "child_ema_terminal_check_v3.py",
+      "sha256": "676d548c1cd25c3c1379548999cca1300ef135dd41b4a8f73689ef8e59de3b5d"
+    }
+  ],
+  "identity_and_future_binding": {
+    "native_identity_receipt": {
+      "bytes": 697,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/TERMINAL_EVIDENCE.json",
+      "sha256": "ba7db247e84183695181e84a751f222f5b92366019466295388abaf9ca9150e1"
+    },
+    "native_invocation_id": "c833c613fb92426981ab255a5faf4452",
+    "native_unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+    "run_name": "fg19_child_nll_f0_s1001_fit_v1",
+    "support_admission_and_launch_sizes_hashes_and_invocation": "remain explicit unbound placeholders; _require_bound_pins() rejects before any query",
+    "support_output_directory": "research_tmp/fg19_child_nll_verify_v1",
+    "support_unit": "computer-vision-homework-fg19-child-nll-verify-v1.service"
+  },
+  "review_findings": {
+    "blocking_findings": [],
+    "verified_properties": [
+      "The template fails closed on unbound support admission/launch lengths, hashes, and invocation before checking the output directory or querying systemd/GPU state.",
+      "Read-only systemd/cgroup capture is bounded; parent population and memory-event state is captured, and an unavailable own cgroup remains null without host-root fallback.",
+      "The exact native run/unit/invocation identity is pinned; output verification metadata is captured only after active/exited/MainPID=0/ExecMainCode=1/ExecMainStatus=0.",
+      "The fixed selected GPU UUID is queried as exactly one device row. Compute process rows are capped at 64 and 65,536 stdout characters; malformed/unknown PID, UID, or cgroup identity fails closed.",
+      "The GPU observation is read-only: it neither requires an empty device nor reserves VRAM nor changes GPU state; foreign process identities are recorded for observation.",
+      "Capture files are O_NOFOLLOW bounded regular-file reads, each capped at 1 MB and the aggregate at 4 MB; all six private code files are rechecked against exact size/SHA pins.",
+      "The capture does not invoke a verifier, training or evaluation entrypoint, stop a unit, or read/hash model, training-state, dictionary, cache-array, data, source-tree, or trainer payloads."
+    ]
+  },
+  "review_limits": [
+    "This is a conditional reader source review only. It does not bind future support receipt bytes or invocation, approve a rendered body, authorize remote querying, or establish a verifier result.",
+    "A later exact bound reader must be reviewed separately after root supplies the actual CPU support admission and launch receipts."
+  ],
+  "reviewed_files": {
+    "ast_adaptation": {
+      "bytes": 4797,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_result_capture_v1/AST_LITERAL_ADAPTATION_V1.json",
+      "sha256": "cba4c7510d126ec561a2a356805f8ffac45fa26035bf7768be51e64dece12583"
+    },
+    "readme": {
+      "bytes": 1993,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_result_capture_v1/README.md",
+      "sha256": "bc8cf1b582f8ceb13a4c7d1a346536819d7c684222bf84ad8e66ff85abcbf2b2"
+    },
+    "template": {
+      "bytes": 15316,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_result_capture_v1/RESULT_CAPTURE_TEMPLATE.py",
+      "sha256": "bf67c8a043e3c2607d773487096d363babad30530c3e4f49ee27afbddbad43b2"
+    }
+  },
+  "schema": "fg19.child-nll-terminal-result-capture-source-review.v1",
+  "scope": {
+    "B_or_SSH_accessed": false,
+    "actual_capture_or_admission_performed": false,
+    "actual_support_receipts_bound": false,
+    "model_state_dictionary_cache_array_dataset_or_trainer_payload_read_or_hashed": false,
+    "review_kind": "static source and bounded metadata review of an inert conditional capture template",
+    "template_or_checker_imported_or_executed": false,
+    "tests_run": false
+  },
+  "source_adaptation": {
+    "adaptation_summary": "The adaptation preserves the existing nine function names and adds only _gpu_identity; identity strings and the NLL private-code pin are substituted, with bounded native-identity fields added to the response.",
+    "dictionary_actual_reader_reference": {
+      "bytes": 12034,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_verification_v1/capture/REMOTE.py",
+      "sha256": "9d1c44c6d39b1401d6682edff996d4cece2ca39dc17437056a078db8e89f3df3"
+    },
+    "dictionary_capture_template": {
+      "bytes": 11993,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v1/RESULT_CAPTURE_TEMPLATE.py",
+      "sha256": "08e6cd7276467cd192d0c6ccd7a4de32f44de951a2a8e546ddcdcd622244c913"
+    }
+  },
+  "status": "PASS_SOURCE_ONLY_UNBOUND"
+}

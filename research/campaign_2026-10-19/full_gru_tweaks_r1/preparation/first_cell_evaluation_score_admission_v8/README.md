@@ -1,0 +1,11 @@
+# Actual V9 render supplements
+
+See [ACTUAL_RENDER_INDEX.md](ACTUAL_RENDER_INDEX.md) for the actual receipt-bound render, source gate, helper lineage, and focused fixture record. The original conditional V8 README follows unchanged below.
+
+---
+
+# Conditional score admission V8
+
+V8 carries forward the reviewed V7 exact source-file inventory guard and rebinds its CPU-only score admission to the frozen exporter V4/scorer V5 pair. The local renderer validates the actual V4 producer-consumer review bytes and its 12 ordered `reviewed_files` rows before it can bind a future source body. The focused fixture checks the real review object, rejects altered row and join metadata, verifies the V4/V5 pins, and proves that the V7 inventory functions remain unchanged while the body rebases only the exporter/scorer identity constants.
+
+The V8 plan leaves export acceptance and exact-stop paths, byte counts, and hashes unset. It is not renderable or admissible until root captures and binds those receipts for the successful export-v3 invocation. The score unit remains the not-yet-used score-v1 unit; its result file stays in the private evaluation-v3 evidence root. No B action, score, or quality claim is made. The previous V7 packet and its historical producer binding remain unchanged.

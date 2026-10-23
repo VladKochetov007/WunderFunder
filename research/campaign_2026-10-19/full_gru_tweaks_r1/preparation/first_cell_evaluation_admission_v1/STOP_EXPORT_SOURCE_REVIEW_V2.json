@@ -1,0 +1,53 @@
+{
+  "schema": "fg19.first-cell-export-stop-source-review.v2",
+  "status": "PASS_SOURCE_ONLY_STOP_V2_NEW_UNIT_FORK_UNBOUND",
+  "scope": "Independent static review of the conditional exact-owned-stop source fork. It is an unbound local source result; no B query, stop, unit execution, tests, or imports were performed.",
+  "review_method": {
+    "read_current_stop_source_and_identity_proof": true,
+    "compare_original_stop_to_v2_source_diff": true,
+    "check_exact_current_size_and_sha256": true,
+    "run_imports_or_tests": false,
+    "perform_B_or_network_action": false
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/STOP_EXPORT_TEMPLATE_V2.py",
+      "bytes": 6299,
+      "sha256": "3e4591816313f457926fbb56f0d22dea95a91eb7cca1315d5244469936d5a683"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/SECOND_UNIT_READER_STOP_IDENTITY_PROOF_V1.json",
+      "bytes": 1715,
+      "sha256": "a9b06e92d95b009e62b8cc78291281d7e035a19726a16c285fddf029ac05cc3e"
+    }
+  ],
+  "change_scope": {
+    "base_bytes": 6299,
+    "base_sha256": "033e0d9ba36672f2ad2b506c9f675655c700d058498a5379d236508c0fd0a27e",
+    "only_literal_substitution": {
+      "unit": [
+        "computer-vision-homework-fg19-first-cell-export-v1.service",
+        "computer-vision-homework-fg19-first-cell-export-v2.service"
+      ]
+    },
+    "inverse_bytes_identical": true,
+    "inverse_AST_identical": true,
+    "stop_logic_changed": false
+  },
+  "review_findings": {
+    "invocation_and_ROOT_acceptance_literals_remain_unbound": true,
+    "requires_exact_durable_ROOT_acceptance_bytes_and_sha": true,
+    "acceptance_schema_status_unit_invocation_and_null_quality_are_checked": true,
+    "pre_stop_unit_Id_invocation_and_success_exit_tuple_are_checked": true,
+    "only_the_exact_export_unit_is_stopped": true,
+    "bounded_campaign_cgroup_descendant_inventory_must_be_empty_before_and_after": true,
+    "post_stop_unit_must_be_not_found_inactive_dead_pid_zero_and_empty_invocation": true,
+    "failed_native_fit_and_old_export_v1_unit_are_outside_scope": true
+  },
+  "limitations": [
+    "The actual successful export invocation and root acceptance bytes/SHA have not been bound in this template.",
+    "A separate fresh metadata review must establish the exact successful exited unit and durable ROOT acceptance before any use.",
+    "This source-only review does not authorize a stop or establish that any unit is currently running or stopped."
+  ],
+  "reviewer_conclusion": "The stop template is byte- and AST-identical to the reviewed original after reversing exactly the unit-name literal. Its existing acceptance, success-state, empty-cgroup, no-retry outcome gates remain unchanged."
+}

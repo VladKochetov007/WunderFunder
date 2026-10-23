@@ -1,0 +1,78 @@
+{
+  "schema": "fg19.first-cell-export-reader-source-review.v2",
+  "status": "PASS_SOURCE_ONLY_READER_V2_UNBOUND",
+  "scope": "Static source review of the versioned metadata-only reader repair. This is a conditional source result only; actual invocation/receipt literals are still unbound and no admission or execution is authorized.",
+  "review_method": {
+    "static_source_and_metadata_read": true,
+    "compare_V1_to_V2_diff": true,
+    "verify_current_file_sizes_and_sha256": true,
+    "run_imports_or_tests": false,
+    "perform_B_or_network_action": false,
+    "read_export_array_model_checkpoint_or_dataset_payload": false
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_TEMPLATE_V2.py",
+      "bytes": 14786,
+      "sha256": "8e24873a2b1e9e189b9b9d7fda818332628769afbe49cc37812dc0abb6bdc680"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_V2_FOCUSED_PROOF.json",
+      "bytes": 1796,
+      "sha256": "7c89c91717d528e0ff4847a1e0e8022676198c307dec59aba4da7701c091ac7b"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/test_read_export_v2_boundaries.py",
+      "bytes": 1850,
+      "sha256": "a09d0a6358315ff5348ad7faedf28b6f956b1bb01ade56e64341be1259b72c09"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_SOURCE_REVIEW_V1.json",
+      "bytes": 4007,
+      "sha256": "9658465a3c69cd6c02b032f87cb0be548c3bd077d1313c708d59b9cb9be8c6d9"
+    }
+  ],
+  "change_scope": {
+    "functions_changed_from_V1": [
+      "cgroup_snapshot",
+      "output_inventory"
+    ],
+    "new_function": "read_cgroup_tree",
+    "main_and_five_unbound_literals_AST_identical_to_V1": true,
+    "focused_proof_claim": "All other AST is identical to V1; the V2 proof records the only changed/new function surface and new fixture result."
+  },
+  "review_findings": {
+    "dangling_and_live_output_symlinks_rejected_after_lstat_first": true,
+    "cgroup_directory_walk_bounded_during_scandir": {
+      "directories": 128,
+      "entries_per_directory": 256,
+      "symlinks_rejected": true
+    },
+    "cgroup_process_list_file_bytes_each": 32768,
+    "cgroup_process_list_aggregate_bytes": 262144,
+    "cgroup_counter_file_bytes_each": 4096,
+    "empty_or_root_cgroup_has_no_fallback": true,
+    "selected_GPU_query_and_proc_helpers_are_pinned_to_prior_reviewed_V5_source": true,
+    "log_capture_is_limited_to_262144_bytes": true,
+    "output_inventory_reads_only_stat_metadata": true,
+    "terminal_payload_metadata_read_only_for_exact_native_success": [
+      "EXPORT_MANIFEST_V1.json",
+      "five PREDICTION_SIDECAR.json files"
+    ],
+    "array_and_model_payloads_are_never_opened_or_hashed": true,
+    "actual_invocation_and_receipt_pins_remain_unbound": true
+  },
+  "reported_local_validation": {
+    "new_focused_fixtures": 2,
+    "fixture_status": "PASS",
+    "ruff": "format/check PASS",
+    "old_fixtures_or_cold_suites_replayed": false,
+    "independently_executed_by_reviewer": false
+  },
+  "limitations": [
+    "The actual unit invocation, ADMISSION.json bytes/SHA, and LAUNCH.json bytes/SHA are not bound in this template.",
+    "This source review is not authority to query B, stage files, admit a unit, or execute the reader.",
+    "Root-owned producer/consumer exact-body review and any later actual receipt binding remain separate gates."
+  ],
+  "findings": []
+}

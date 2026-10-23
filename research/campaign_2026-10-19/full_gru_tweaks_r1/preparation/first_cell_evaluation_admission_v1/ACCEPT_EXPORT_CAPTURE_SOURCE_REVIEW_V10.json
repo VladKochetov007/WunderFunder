@@ -1,0 +1,129 @@
+{
+  "schema": "fg19.first-cell-export-acceptance-source-review.v10",
+  "status": "PASS_SOURCE_ONLY_DUAL_TRANSPORT_ACCEPTOR_V10_UNEXECUTED",
+  "reviewed_at_utc": "2026-10-21T10:52:31Z",
+  "scope": "Independent static review of the exact V10 metadata-only acceptor and its separate launch/status capture joins. No imports, behavior fixtures, B/SSH/systemd/GPU/cgroup operations, actual receipt/result reads, payload access, or quality evaluation were performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V10.py",
+    "bytes": 54513,
+    "sha256": "00e96230c85398f5b9d15f1c2aea6e50e9dc685766e7a507a3b36c25329bbe75"
+  },
+  "copy_recovery": {
+    "announced_v9_snapshot": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V9_ANNOUNCED_SNAPSHOT.py",
+      "bytes": 54513,
+      "sha256": "00e96230c85398f5b9d15f1c2aea6e50e9dc685766e7a507a3b36c25329bbe75"
+    },
+    "v10_is_byte_identical_to_announced_snapshot": true,
+    "raced_v9_excluded": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V9.py",
+      "bytes": 54963,
+      "sha256": "4a10af92357d4a470aeb0cabf6033bbe21f591f78de4015b664fba8dd1bb4adf",
+      "used_as_review_subject": false
+    },
+    "exact_copy_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V10_EXACT_COPY_PROOF.json",
+      "bytes": 1703,
+      "sha256": "42323b6bc680b233e00b4ebae7c4f587d99ac4c70f1110314ab5cb11968478db",
+      "announced_v9_recovery_and_v10_copy_asserted": true
+    }
+  },
+  "focused_fixture": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/test_accept_export_capture_v10_two_transports.py",
+    "bytes": 10181,
+    "sha256": "53473e2cfc6bd31c1f0ee12be02bc3e8f0039f00345203c13fa82e5dc216836f",
+    "scope": "Synthetic source-level fixture for the two-root/two-transport joins, status-reader body binding, and wrong-transport rejection. Its source differs from the V9 fixture only in the imported acceptor filename according to the frozen exact-copy proof.",
+    "reported_result": "Actor reported focused fixtures and Ruff passing; not rerun by this reviewer."
+  },
+  "superseded_rejection": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_SOURCE_REVIEW_V8.json",
+    "bytes": 5198,
+    "sha256": "2521ef95fcc74acf167f955e7a95618a4864d5166c898ac9978461f8031fd5a3",
+    "status": "REJECT_SOURCE_ONLY_NO_EXPORT_ACCEPTANCE",
+    "resolution_in_v10": "The original launch root and later tagged status-capture root are separately required and independently validated, with distinct raw transports and body/review pins."
+  },
+  "producer_and_reader_pins": {
+    "original_launch": {
+      "unit": "computer-vision-homework-fg19-first-cell-export-v3.service",
+      "launch_root": "/Users/nb/Documents/wunder/WunderFunder-maintenance/research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5",
+      "stdin_body": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v6/REMOTE_SUBMISSION_V6.py",
+        "bytes": 249896,
+        "sha256": "d963b7df0349fcef3ae4804502d8b4b9430ff667132bd1b91552e73801807d10"
+      },
+      "source_review": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v6/REMOTE_SUBMISSION_SOURCE_REVIEW_V6.json",
+        "bytes": 10614,
+        "sha256": "401f9d217282dd2a3d436e8a541b819e364ac56983f5b3d754adbcd6f4abcf33"
+      }
+    },
+    "exporter_source_pair": {
+      "review_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_SOURCE_REVIEW_V4.json",
+      "review_bytes": 8712,
+      "review_sha256": "64c93d8279a2daeb15f2750e6366a0fe94a268c7b8e9a04dbdb28e4a36a56e73",
+      "schema": "fg19.first-cell-export-source-review.v4",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR",
+      "exact_reviewed_file_rows": 12,
+      "binding_sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    "tagged_status_capture": {
+      "reader_template": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/READ_EXPORT_TEMPLATE_V4.py",
+        "bytes": 14786,
+        "sha256": "208a185c19b3a7fa4fb620192d0dae22bd701a8856dc3f44aa0951ddb7b4254d"
+      },
+      "reader_source_review": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/THIRD_UNIT_ROOT_TOOLS_SOURCE_REVIEW_V1.json",
+        "bytes": 7363,
+        "sha256": "8a548c071bac10223bfcbb3de327161d19bed123cd48ee35e03a371cddb8fc0f"
+      },
+      "status_driver": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V5.py",
+        "bytes": 10396,
+        "sha256": "874a8aa14cb6be6284d8899ac4266e41b70e0f7e6d94bce0d882b58130f36c2a"
+      },
+      "status_driver_review": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_SOURCE_REVIEW_V5.json",
+        "bytes": 3564,
+        "sha256": "d214f775aa71de962b9af5b1b5707ccb339b5132ae67e004e082f5fc22040ecd"
+      },
+      "review_pin_correction": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V5_REVIEW_PIN_CORRECTION_V1.json",
+        "bytes": 2157,
+        "sha256": "9d1737e9a13fe9a5d7ba81a6753198c047301cbd80f259bb2a01bc22564ec2ab"
+      }
+    }
+  },
+  "reviewed_gates": {
+    "fixed_original_launch_root_and_distinct_direct_status_child_required": true,
+    "both_roots_must_be_absolute_real_unredirected_directories": true,
+    "launch_raw_reply_transport_and_launch_acceptance_join_only_to_v6_body_and_review": true,
+    "status_raw_reply_transport_join_only_to_status_reader_body_and_ast_binding": true,
+    "status_reader_body_uses_exact_five_receipt_and_invocation_literals": true,
+    "launch_and_status_transports_have_separate_exact_schemas_paths_and_hash_joins": true,
+    "original_admission_launch_receipts_join_across_both_roots_and_raw_replies": true,
+    "native_unit_Id_invocation_and_strict_success_tuple_required_before_export_acceptance": true,
+    "corrected_status_review_fixture_pin_is_bound_without_mutating_frozen_review": true,
+    "exact_12_row_export_review_and_v4_binding_pin_required": true,
+    "all_five_sidecars_manifest_and_fixed_output_metadata_validated_without_prediction_array_reads": true,
+    "pure_scorer_metadata_leaf_uses_exact_pinned_source_bytes_and_rejects_preloaded_modules_or_bytecode": true,
+    "export_acceptance_written_create_only_with_nofollow_and_fsync_after_all_joins": true,
+    "quality_result_is_null_and_array_payloads_read_or_hashed_by_root_is_false": true
+  },
+  "execution_state": {
+    "acceptor_executed_by_reviewer": false,
+    "export_acceptance_written": false,
+    "status_capture_read": false,
+    "native_unit_queried": false,
+    "prediction_arrays_read_or_hashed": false,
+    "quality_claimed": false
+  },
+  "reviewer_actions": {
+    "source_and_static_metadata_read": true,
+    "source_imports_or_behavior_tests_run": false,
+    "b_or_ssh_attempted": false,
+    "systemd_gpu_or_cgroup_queries_performed": false,
+    "actual_receipts_result_or_payloads_read": false
+  },
+  "assessment": "V10 resolves the V8 producer/consumer mismatch by requiring the original fixed launch record and a distinct direct tagged status-capture child. It independently joins V6 launch body/review/raw transport to the original launch acceptance, then joins the later status-reader body/AST proof/raw transport/status observation and receipts before validating the reviewed five-arm metadata and creating a not-scored export acceptance. The review applies to V10 and the recovered announced V9 snapshot only; the raced V9 file is excluded. This is source-only and establishes no actual acceptance, export result, or quality claim."
+}

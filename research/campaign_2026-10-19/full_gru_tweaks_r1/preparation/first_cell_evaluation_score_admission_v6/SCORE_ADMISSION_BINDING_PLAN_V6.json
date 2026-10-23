@@ -1,0 +1,126 @@
+{
+  "export_authority": {
+    "acceptance": {
+      "bytes": null,
+      "expected_schema": "fg19.first-cell-export-acceptance.v1",
+      "expected_status": "ACCEPTED_FIXED_FIVE_PREDICTION_EXPORTS_NOT_SCORED",
+      "path": null,
+      "sha256": null
+    },
+    "binding_policy": "Root-owned actual acceptance and exact-stop files must be pinned after the five prediction-only exports complete; the exact stop must bind the acceptance digest and same native unit/invocation. Both receipts are staged as read-only copies in the new score directory only after every pre-mutation gate passes.",
+    "exact_stop": {
+      "bytes": null,
+      "expected_schema": "fg19-first-cell-export-exact-owned-stop.v1",
+      "path": null,
+      "sha256": null
+    },
+    "expected_unit": "computer-vision-homework-fg19-first-cell-export-v2.service"
+  },
+  "fixed_worker": {
+    "blas_threads": 1,
+    "cpu_quota": "50%",
+    "cuda_visible_devices": "",
+    "memory_high_bytes": 1400000000,
+    "memory_max_bytes": 1500000000,
+    "memory_swap_max_bytes": 0,
+    "parent_cpu_quota": "2s",
+    "runtime_seconds": 600,
+    "score_unit": "computer-vision-homework-fg19-first-cell-score-v1.service",
+    "scratch_filesystem": "ext4 device 64512"
+  },
+  "frozen_inputs": {
+    "export_binding": {
+      "bytes": 15798,
+      "path": "../first_cell_evaluation_export_v3/EXPORT_BINDING_V3.json",
+      "sha256": "372ec16016517baa510cc1899f140cd0978a35b83f96a4a5fa1ff4bda8b39730"
+    },
+    "export_source_manifest": {
+      "bytes": 27569,
+      "path": "../first_cell_evaluation_export_v3/EXPORT_SOURCE_MANIFEST.json",
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    "score_dependency_manifest": {
+      "bytes": 6495,
+      "path": "../first_cell_evaluation_score_v3/dependency_manifest.json",
+      "sha256": "2bff7842f8c6e9be3920458cc575cd216444ccb97b23570765a63c591387705e"
+    },
+    "score_modules": [
+      {
+        "bytes": 19485,
+        "path": "../first_cell_evaluation_score_v3/first_cell_score_contract.py",
+        "sha256": "7784c91713dbfd7d11ec3cfd276eb8a62607289067999f4ecd5c03a3f9a18038"
+      },
+      {
+        "bytes": 27226,
+        "path": "../first_cell_evaluation_score_v3/first_cell_score_core.py",
+        "sha256": "ffe8a6e7aad38b131a78783504ef55c761d4e8037c13bac279f20c5e55f6249e"
+      },
+      {
+        "bytes": 11056,
+        "path": "../first_cell_evaluation_score_v3/first_cell_score_predictions.py",
+        "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+      },
+      {
+        "bytes": 10630,
+        "path": "../first_cell_evaluation_score_v3/score_first_cell.py",
+        "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+      }
+    ],
+    "source_review": {
+      "bytes": 7284,
+      "path": "../first_cell_evaluation_export_v3/EXPORT_SOURCE_REVIEW_V3.json",
+      "sha256": "ee53ce06a6119152866e8f39801e7575e59fb42bc09515d102db4c8df5d9c37a",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    },
+    "stdlib_helper_source": {
+      "bytes": 8065,
+      "path": "../first_cell_evaluation_admission_v1/V5_STDLIB_HELPERS_EXTRACTED.py",
+      "sha256": "f82fca9bc56125433b8255aa2d1f85a438cc93e6e64f7a6634ace90a2735a9ce"
+    }
+  },
+  "limits": [
+    "The prior actual export V1 attempt failed before checkpoint or prediction payload reads. The corrected exporter/scorer V3 source pair is reviewed, but its future export acceptance and exact stop do not exist yet.",
+    "The next export acceptance and its exact-stop receipt do not yet exist; paths, bytes, and SHA-256 pins remain null and the renderer gate is closed.",
+    "This local packet contains no bound remote body or score invocation, and authorizes no B read, staging, launch, score execution, or quality claim.",
+    "Root owns final dependency rebinding, independent review, fresh runtime admission, any single launch, and interpretation of later scalar results."
+  ],
+  "read_only_export_paths": {
+    "binding": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v2/EXPORT_BINDING_V3.json",
+    "evidence_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v2",
+    "export_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v2/exports",
+    "source_manifest": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v2/EXPORT_SOURCE_MANIFEST.json"
+  },
+  "schema": "fg19.first-cell-score-admission-binding-plan.v6",
+  "scope": "V6 preserves the V5 AllThree fit nested InvocationID join and binds the independently reviewed exporter/scorer V3 pair, export-v2 unit and evaluation_v2 evidence root. Future export acceptance/exact-stop receipts remain null; this packet is not renderable or admissible.",
+  "score_identity": {
+    "invocation_id": "UNBOUND_ACTUAL_SCORE_INVOCATION",
+    "result_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_evaluation_v2/RESULT.json",
+    "score_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_first_cell_f0_s1001_score_v1",
+    "unit": "computer-vision-homework-fg19-first-cell-score-v1.service"
+  },
+  "staging": {
+    "export_binding_or_source_manifest_copied": false,
+    "result_absence_gated_before_mutation": true,
+    "result_is_create_only": true,
+    "root_export_acceptance_and_stop_copies": 2,
+    "score_directory_created_only_after_all_gates": true,
+    "scorer_code_files": 4
+  },
+  "status": "LOCAL_CONDITIONAL_TEMPLATE_ONLY_UNBOUND_NOT_REVIEWED_OR_ADMITTED_V6",
+  "worker_arguments": [
+    "--evidence-root",
+    "EXPORT_D",
+    "--export-root",
+    "EXPORT_D/exports",
+    "--binding",
+    "EXPORT_D/EXPORT_BINDING_V3.json",
+    "--source-manifest",
+    "EXPORT_D/EXPORT_SOURCE_MANIFEST.json",
+    "--source-root",
+    "B/source-fg19-cache-68ff6829",
+    "--data-root",
+    "B/data",
+    "--out",
+    "EXPORT_D/RESULT.json"
+  ]
+}

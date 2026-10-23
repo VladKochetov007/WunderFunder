@@ -1,0 +1,5 @@
+# Reviewed NLL result reader and actual literal binding
+
+[Template](RESULT_CAPTURE_TEMPLATE.py), [AST adaptation record](AST_LITERAL_ADAPTATION_V1.json), [original scope](README.md), and [source review](SOURCE_REVIEW_V1.json) preserve the bounded dictionary-reader adaptation plus a read-only fixed-GPU ownership query. Unknown identities fail closed; no process/device mutation or model/state/data/cache-array read/hash exists.
+
+[Actual root binding](../../records/child_nll_fit_v1/terminal_verification_v1/capture/ROOT_CAPTURE_BINDING.json) changes exactly five support receipt/invocation constants with identical normalized AST. Actual admission23750B and aggregate stayed within the1MB/4MB reader caps before root's one [raw-first capture](../../records/child_nll_fit_v1/terminal_verification_v1/capture/README.md). [NLL full acceptance](../../records/child_nll_fit_v1/TERMINAL_ACCEPTANCE.json) and later [exact stop](../../records/child_nll_fit_v1/exact_stop/README.md) are separate root actions. No observer tensor replay, quality result, extra support or scientific fit.

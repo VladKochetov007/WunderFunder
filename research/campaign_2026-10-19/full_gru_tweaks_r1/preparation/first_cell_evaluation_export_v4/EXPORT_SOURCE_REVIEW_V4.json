@@ -1,0 +1,165 @@
+{
+  "schema": "fg19.first-cell-export-source-review.v4",
+  "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR",
+  "scope": "Independent static source review of the frozen feature-only exporter V4 and scorer V5 producer/consumer bindings. This resolves a local source-pair gate only; it is not B admission, execution, export acceptance, scoring, or a quality claim.",
+  "review_method": {
+    "read_current_exporter_binding_manifest_fixture_and_scorer_sources": true,
+    "compare_exporter_v3_to_v4_source_and_binding_diffs": true,
+    "compare_scorer_v4_to_v5_contract_and_module_diffs": true,
+    "verify_dependency_manifest_code_and_binding_pins_against_files": true,
+    "run_tests_or_imports": false,
+    "perform_B_or_network_action": false,
+    "read_model_checkpoint_data_cache_or_prediction_payload": false
+  },
+  "reviewed_files": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/export_first_cell_v4.py",
+      "bytes": 66790,
+      "sha256": "87b6d3626bdafe6353865d95b1d8116bd187cb4da46888815658db6fc192738e"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+      "bytes": 15796,
+      "sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/test_export_v4_input_lead_metadata.py",
+      "bytes": 11096,
+      "sha256": "bd6d20042ac06ab5f0f368a16a1a9ec711c6af2e0ce09a925286cced38d10569"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v3/EXPORT_SOURCE_REVIEW_V3.json",
+      "bytes": 7284,
+      "sha256": "ee53ce06a6119152866e8f39801e7575e59fb42bc09515d102db4c8df5d9c37a",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/first_cell_score_contract.py",
+      "bytes": 20165,
+      "sha256": "b6e3f7a9f9663f519037c54a2077f70d83fbf0b2ba54dc3e158eb5e3b173479d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/first_cell_score_core.py",
+      "bytes": 27226,
+      "sha256": "30c456e7db875e2c075a6200c857c375087b18d9c952c354ae9bd3dceb0a0143"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/first_cell_score_predictions.py",
+      "bytes": 11056,
+      "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/score_first_cell.py",
+      "bytes": 10630,
+      "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/dependency_manifest.json",
+      "bytes": 7638,
+      "sha256": "d7dd24836c01543afeb80cbdd6d6b58ee8f4d464805f763fd9bd76e5083fbd61"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v5/test_score_v5_api_manifest_gate.py",
+      "bytes": 10537,
+      "sha256": "d2c9c3279eaa742bbcaca21336316262d56829a9ed838cba718a6746b2a838b6"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v4/SCORE_V4_CONTRACT_SOURCE_ROW_REJECTION_V1.json",
+      "bytes": 5510,
+      "sha256": "3ff0858cb85c45efb6e447957d2a8db0a542ce94bb6b1946a84bb58c6ab7a727"
+    }
+  ],
+  "producer_consumer_join": {
+    "exporter_declared_pin_matches_exact_source_file": true,
+    "exporter_source_manifest_pin_matches_exact_file": true,
+    "exporter_binding_pin_matches_exact_file": true,
+    "score_dependency_manifest_producer_path_bytes_and_sha_match_exporter": true,
+    "score_dependency_manifest_binding_filename_bytes_and_sha_match_binding_v4": true,
+    "score_core_binding_bytes_and_sha_match_binding_v4": true,
+    "score_contract_requires_evaluation_v3_root_and_EXPORT_BINDING_V4_json": true,
+    "binding_evidence_root_and_output_dir_match_score_contract_paths": true,
+    "five_arm_order_shapes_dtype_and_complete_export_status_are_consistent": true
+  },
+  "change_scope": {
+    "exporter_v3_to_v4": [
+      "Bind the V4 filename and exact bytes/SHA of EXPORT_BINDING_V4.json.",
+      "Bind the new evaluation_v3 evidence/output root.",
+      "Validate serialized checkpoint input_lead with canonical default semantics: a missing field or strict integer zero is accepted; booleans, null, strings, and nonzero values are rejected. Other fixed checkpoint arguments and state checks remain in the existing validator."
+    ],
+    "binding_v3_to_v4": {
+      "only_changed_fields": [
+        "arms[4].exact_stop.absolute_path",
+        "arms[4].terminal_acceptance.absolute_path",
+        "evidence_root",
+        "expected_checkpoint.prop_input",
+        "output_dir"
+      ],
+      "all_other_fields_equal": true,
+      "input_lead": 0,
+      "prop_input": ""
+    },
+    "scorer_v4_to_v5": {
+      "only_operational_change": "Normalize each compact source.api_files leaf against the matching full source-manifest row by path, then require exact {bytes, sha256} leaf keys, strict positive integer byte count, lowercase 64-character SHA-256, and equal byte/hash values.",
+      "core_byte_identical_to_v4": true,
+      "prediction_module_byte_identical_to_v4": true,
+      "CLI_byte_identical_to_v4": true,
+      "scoring_and_prediction_IO_logic_changed": false,
+      "prior_v4_shape_failure": "The V4 consumer compared compact {bytes,sha256} leaves directly to full {path,bytes,sha256} rows, making the producer/consumer gate reject valid bindings. The separately pinned V4 rejection record preserves that negative; V5 fixes only this row-shape join."
+    }
+  },
+  "fixed_output_contract": {
+    "arms": [
+      [
+        "control",
+        "base"
+      ],
+      [
+        "ema",
+        "ema"
+      ],
+      [
+        "sparse",
+        "sparse"
+      ],
+      [
+        "nll",
+        "base"
+      ],
+      [
+        "allthree",
+        "ema_sparse"
+      ]
+    ],
+    "shape": [
+      468,
+      20000,
+      2
+    ],
+    "dtype": "<f4",
+    "bytes_each_prediction_file": 74880000,
+    "manifest_status": "COMPLETE_PREDICTION_EXPORTS_NOT_SCORED",
+    "score_or_metric_in_exporter": false,
+    "targets_or_scored_mask_read_by_exporter": false
+  },
+  "focused_fixture_scope": {
+    "exporter_fixture_count_reported": 5,
+    "exporter_fixture_scope": "Canonical CLI/checkpoint argument defaults and typed input_lead handling with bounded synthetic metadata; no model/data payloads read by this reviewer.",
+    "score_fixture_count_reported": 3,
+    "score_fixture_scope": "Calls the actual full _read_export_bundle metadata gate with exact V4 binding and canonical 167-row source-manifest bytes plus synthetic completion metadata; rejects mutated API bytes, hashes, paths, and unexpected fields; opens no prediction arrays.",
+    "reviewer_reran_fixtures": false,
+    "reported_ruff": "Exporter V4 and scorer V5 focused Ruff checks reported passing by their authors.",
+    "no_old_suites_or_payload_tests_replayed": true
+  },
+  "limitations": [
+    "The dependency manifest still contains its preparation-time pending source-review label; this report is the local source-pair review receipt and does not rewrite frozen dependency bytes.",
+    "No actual export-v3 unit invocation, export acceptance, prediction files, score, or quality result is established by this review.",
+    "The five fixed epoch-5 models use fit-excluded but exposed development data; they do not provide a fresh/public holdout or a model-selection claim.",
+    "Fresh unit/private-directory absence, admission, transport, execution, and post-capture acceptance are separate root-controlled gates."
+  ],
+  "reviewer_conclusion": "The frozen V4 exporter and V5 scorer now agree on the exact V4 binding, 167-file source manifest and eight compact canonical API pins, evaluation_v3 evidence/output paths, and fixed five-arm feature-only export contract. The V4 consumer row-shape blocker is explicitly preserved and corrected by the V5 metadata gate; model inference, prediction generation, and scoring behavior otherwise remain unchanged."
+}

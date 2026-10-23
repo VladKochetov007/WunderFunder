@@ -1,0 +1,58 @@
+{
+  "created_utc": "2026-10-21T06:11:16Z",
+  "invocation_id": "f0c857aa1a68498cb4be237d423281cf",
+  "native_invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+  "native_unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+  "schema": "fg19.child-allthree-terminal-verifier-launch.v1",
+  "submission": {
+    "argv": [
+      "systemd-run",
+      "--user",
+      "--unit=computer-vision-homework-fg19-child-allthree-verify-v1.service",
+      "--property=Type=exec",
+      "--property=RemainAfterExit=yes",
+      "--property=Slice=wnn-campaign.slice",
+      "--property=CPUQuota=50%",
+      "--property=MemoryHigh=1400000000",
+      "--property=MemoryMax=1500000000",
+      "--property=MemorySwapMax=0",
+      "--property=RuntimeMaxSec=600",
+      "--property=TimeoutStopSec=45",
+      "--property=StandardOutput=append:/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/unit.log",
+      "--property=StandardError=append:/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/unit.log",
+      "--working-directory=/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1",
+      "--setenv=CUDA_VISIBLE_DEVICES=",
+      "--setenv=FG19_APPROVED_PATH_COMPAT_EXCEPTION=pathlib._local.PosixPath:exact-dictionary-path-only",
+      "--setenv=OMP_NUM_THREADS=1",
+      "--setenv=OPENBLAS_NUM_THREADS=1",
+      "--setenv=MKL_NUM_THREADS=1",
+      "--setenv=NUMEXPR_NUM_THREADS=1",
+      "/home/grinchenkoeg/WunderFunder/.venv/bin/python",
+      "-E",
+      "-B",
+      "-I",
+      "-c",
+      "import hashlib, json, os, stat, sys\nfrom pathlib import Path\nroot = Path.cwd()\nif not root.is_dir() or root.is_symlink() or root.resolve(strict=True) != root:\n    raise RuntimeError('verifier working directory is redirected')\nif any(path.name == '__pycache__' for path in root.rglob('__pycache__')):\n    raise RuntimeError('unreviewed bytecode cache exists before checker import')\nif any(path.suffix == '.pyc' for path in root.rglob('*') if path.is_file()):\n    raise RuntimeError('unreviewed bytecode file exists before checker import')\npins = {'child_allthree_terminal_check_v1.py': {'bytes': 40442, 'sha256': 'f4e9b7a2ed6798edf7ac0fbd30517687606494f6aacc44dddc96a0bba1f544dd'}, 'child_nll_terminal_check_v1.py': {'bytes': 40474, 'sha256': 'a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2'}, 'child_control_terminal_check_v3.py': {'bytes': 79972, 'sha256': '618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167'}, 'child_ema_terminal_check_v3.py': {'bytes': 38267, 'sha256': '676d548c1cd25c3c1379548999cca1300ef135dd41b4a8f73689ef8e59de3b5d'}, 'parent_fit_terminal_check_v3.py': {'bytes': 64550, 'sha256': 'f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41'}, 'propensity_terminal_support.py': {'bytes': 13107, 'sha256': '958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409'}, 'teacher_s5_terminal_check_v1.py': {'bytes': 37448, 'sha256': 'cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5'}}\ndef verify_source(name, pin):\n    path = root / name\n    before = path.lstat()\n    if not stat.S_ISREG(before.st_mode) or path.is_symlink() or before.st_size != pin['bytes']:\n        raise RuntimeError('unsafe private source: ' + name)\n    fd = os.open(path, os.O_RDONLY | getattr(os, 'O_CLOEXEC', 0) | getattr(os, 'O_NOFOLLOW', 0))\n    try:\n        opened = os.fstat(fd)\n        if (opened.st_dev, opened.st_ino, opened.st_size) != (before.st_dev, before.st_ino, before.st_size):\n            raise RuntimeError('private source changed before read: ' + name)\n        raw = bytearray()\n        while len(raw) <= pin['bytes']:\n            block = os.read(fd, min(65536, pin['bytes'] + 1 - len(raw)))\n            if not block:\n                break\n            raw.extend(block)\n        after = os.fstat(fd)\n    finally:\n        os.close(fd)\n    if len(raw) != pin['bytes'] or (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns) != (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns) or hashlib.sha256(raw).hexdigest() != pin['sha256']:\n        raise RuntimeError('private source pin differs: ' + name)\n    return path.resolve(strict=True)\norigins = {name: verify_source(name, pin) for name, pin in pins.items()}\nmodule_names = [name[:-3] for name in pins]\nif any(name in sys.modules for name in module_names):\n    raise RuntimeError('private module was loaded before source prehash')\nsys.path.insert(0, str(root))\nsys.dont_write_bytecode = True\nsys.pycache_prefix = None\nimport child_allthree_terminal_check_v1 as checker\nif Path(checker.__file__).resolve(strict=True) != origins['child_allthree_terminal_check_v1.py']:\n    raise RuntimeError('AllThree checker imported from an unexpected source path')\nclosure = checker.assert_helper_closure()\nexpected_helpers = {name: pin for name, pin in pins.items() if name != 'child_allthree_terminal_check_v1.py'}\nif closure != expected_helpers:\n    raise RuntimeError('post-import helper closure differs from pre-import pins')\nfor name, source_path in origins.items():\n    module = sys.modules.get(name[:-3])\n    if module is None or not getattr(module, '__file__', None) or Path(module.__file__).resolve(strict=True) != source_path:\n        raise RuntimeError('private import origin differs from prehash: ' + name)\nif any(path.name == '__pycache__' for path in root.rglob('__pycache__')):\n    raise RuntimeError('bytecode cache appeared during checker import')\nif any(path.suffix == '.pyc' for path in root.rglob('*') if path.is_file()):\n    raise RuntimeError('bytecode file appeared during checker import')\nfor name, pin in pins.items():\n    verify_source(name, pin)\nresult = checker.verify_terminal(*tuple(Path(value) for value in ('/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_child_allthree_f0_s1001_fit_v1', '/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/SOURCE_MANIFEST.json', '/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_fit_v1', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_profile_v1', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/ADMISSION.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/LAUNCH.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/LAUNCH_ACCEPTANCE.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v1/TERMINAL_EVIDENCE.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1', '/home/grinchenkoeg/computer-vision-homework-20261018/research/full_gru_tweaks_r1/cache_cpu_v2/TERMINAL_ACCEPTANCE.json', '/home/grinchenkoeg/computer-vision-homework-20261018/research/full_gru_tweaks_r1/cache_cpu_v2/EXACT_STOP.json')))\nprint(json.dumps(result, sort_keys=True, allow_nan=False))\n"
+    ],
+    "outcome": "submitted",
+    "returncode": 0,
+    "stderr_b64": "UnVubmluZyBhcyB1bml0OiBjb21wdXRlci12aXNpb24taG9tZXdvcmstZmcxOS1jaGlsZC1hbGx0aHJlZS12ZXJpZnktdjEuc2VydmljZTsgaW52b2NhdGlvbiBJRDogZjBjODU3YWExYTY4NDk4Y2I0YmUyMzdkNDIzMjgxY2YK",
+    "stdout_b64": ""
+  },
+  "systemctl_after_submission": {
+    "outcome": "captured",
+    "properties": {
+      "ActiveState": "active",
+      "ControlGroup": "/user.slice/user-1061.slice/user@1061.service/wnn.slice/wnn-campaign.slice/computer-vision-homework-fg19-child-allthree-verify-v1.service",
+      "ExecMainCode": "0",
+      "ExecMainStatus": "0",
+      "InvocationID": "f0c857aa1a68498cb4be237d423281cf",
+      "LoadState": "loaded",
+      "MainPID": "2239385",
+      "Result": "success",
+      "SubState": "running"
+    }
+  },
+  "unit": "computer-vision-homework-fg19-child-allthree-verify-v1.service",
+  "unknown_outcome_policy": "Durably retain this result; inspect exact unit/output; never retry or create another output directory."
+}

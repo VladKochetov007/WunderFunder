@@ -1,0 +1,36 @@
+{
+  "schema": "fg19.nll-import-boundary-v1-literal-interpreter-policy-note.v1",
+  "status": "V1_LOCAL_POLICY_BINDING_NOT_ACCEPTED_BOUNDARY_OBSERVATIONS_RETAINED",
+  "created_utc": "2026-10-21T01:16:45.302373+00:00",
+  "frozen_inputs": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/import_boundary_proof_nll_terminal_check_v1.py",
+      "bytes": 19360,
+      "sha256": "7013b039d814fd8f5cd0ae307d9ba617493759ef71cf14f6e6546264901fdb4d"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/IMPORT_BOUNDARY_PROOF.json",
+      "bytes": 10850,
+      "sha256": "fbb84d1c3226e25b81e395957e5752f185ee772da76768259c4140b8a0010eea"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/IMPORT_BOUNDARY_README.md",
+      "bytes": 2584,
+      "sha256": "28008ae7dd8d8bdc568d80ed71dc203ba0a0c6fcd45a1c79a1a0295a705bb22c"
+    }
+  ],
+  "finding": "The V1 harness compares resolved sys.executable and .venv interpreter paths and records the resolved base path. This violates the explicit literal maintenance/.venv/bin/python and no interpreter-symlink-resolution policy and would admit the base interpreter as equivalent.",
+  "exact_source_evidence": [
+    "if Path(sys.executable).resolve() != (REPO / \".venv/bin/python\").resolve():",
+    "\"local_interpreter\": str(Path(sys.executable).resolve()),"
+  ],
+  "actual_execution_limit": "V1 subprocess argv used unresolved sys.executable. The resolved local_interpreter field does not establish that the base interpreter was actually launched. Preserve the measured six-file closure/open/CUDA boundary observations; they do not satisfy the required literal-interpreter binding.",
+  "required_narrow_successor": "New V2 harness/proof must compare and launch the explicit literal maintenance/.venv/bin/python without resolving interpreter symlinks, record requested and observed unresolved interpreter paths, and retain the same new-checker-only boundary scope. Only the changed V2 proof and its Ruff check may run; frozen five fixtures and source/model/profile/cold suites are not rerun.",
+  "guard_ordering": "Python open audit hook is installed before local Torch import; CUDA initialization observations and CUDA action guards are installed after Torch setup and before private checker import.",
+  "unchanged_checker_sha256": "a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2",
+  "B_or_SSH_or_support_or_fit_or_quality_actions": false,
+  "scientific_fits_added": 0,
+  "actual_B_support_jobs_added": 0,
+  "predictive_quality_endpoint_or_gain": null,
+  "original_bytes_rewritten": false
+}

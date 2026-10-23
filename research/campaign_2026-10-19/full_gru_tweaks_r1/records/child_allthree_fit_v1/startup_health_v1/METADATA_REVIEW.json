@@ -1,0 +1,213 @@
+{
+  "capture_and_reader": {
+    "captured_utc": "2026-10-21T02:00:36.378025+00:00",
+    "raw": {
+      "bytes": 38779,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/STDOUT.raw.json",
+      "sha256": "a1d5e8c9e53323bdd63f3dc3c03eb8fa0ad057c33a47c109de3823c8487109d6"
+    },
+    "reader": {
+      "ast_substitution_receipt": {
+        "bytes": 4006,
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/AST_SUBSTITUTION_RECEIPT.json",
+        "sha256": "6eb93586d375a2ebe26fd740e2a6456c79f6b6ed14aa787163a722161f4aa3a6",
+        "status": "PASS_AST_STRUCTURE_IDENTICAL_ONLY_IDENTITY_RECEIPT_SCHEMA_PROSE_CONSTANTS_CHANGED"
+      },
+      "bytes": 13018,
+      "nll_parent": {
+        "bytes": 12963,
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/startup_health_v1/REMOTE.py",
+        "sha256": "cffc39769f4d16212216816498f7d6d6dc83db152cebaf73b0820b123b88beaf"
+      },
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/REMOTE.py",
+      "sha256": "0df25d26ba9e3c1eda9a2a82cf6b7940577fb8b25b81002fdfd7c27f15341b9b"
+    },
+    "transport": {
+      "bytes": 545,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/TRANSPORT.json",
+      "persisted_before_parse": true,
+      "retry_performed": false,
+      "sha256": "efd02a42b2dbcdae457d5091e78754bb4d55af770864ccee92486e08cb5e2f32",
+      "ssh_returncode": 0,
+      "stderr_bytes": 0
+    }
+  },
+  "gpu_review": {
+    "free_mib": 10059,
+    "interpretation": "This early setup snapshot lists three other process owners and no AllThree-owned GPU process. It neither attributes VRAM to the fit nor indicates failure or lack of progress.",
+    "other_processes_observed_and_preserved": [
+      {
+        "pid": 521754,
+        "uid": 1026,
+        "used_memory": "490 MiB"
+      },
+      {
+        "pid": 964460,
+        "uid": 1117,
+        "used_memory": "4544 MiB"
+      },
+      {
+        "pid": 1870567,
+        "uid": 1117,
+        "used_memory": "858 MiB"
+      }
+    ],
+    "owned_fit_process_observed": false,
+    "selected_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "total_mib": 16376,
+    "used_mib": 5916
+  },
+  "identity_and_receipt_joins": {
+    "expected_run_unit_invocation_match_admission_and_raw": true,
+    "source_identity_matches_actual_admission": {
+      "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "files_verified": 167,
+      "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "startup_source_rehash_performed": false
+    },
+    "strict_raw_receipt_joins": {
+      "all_three_equal": true,
+      "files": {
+        "ADMISSION.json": {
+          "bytes": 12912,
+          "sha256": "5312ae5feffc67d7a33051379afabb9c134dd946f1f97315d839c7d6f10d5540"
+        },
+        "LAUNCH.json": {
+          "bytes": 9594,
+          "sha256": "ec9d8dc819894e148753838ba33ba95080c192bacd5ac53413bd6847568fd538"
+        },
+        "unit.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "method": "Strict base64 decode of the raw response receipt fields; compare decoded bytes, sizes, and SHA-256 with the create-only extracted files."
+    },
+    "submission_and_query": {
+      "captured_unit_state_matches_raw": true,
+      "launch_submission_outcome": "submitted",
+      "launch_submission_returncode": 0,
+      "post_submission_query_outcome": "captured",
+      "post_submission_query_returncode": 0
+    }
+  },
+  "memory_review": {
+    "all_values_reconciled_from_persisted_raw_and_admission": true,
+    "campaign_parent": {
+      "delta_minus_own_cgroup_current_bytes": 225280,
+      "memory_current_at_admission_bytes": 7432462336,
+      "memory_current_at_startup_bytes": 8144412672,
+      "memory_current_delta_bytes": 711950336,
+      "memory_events_at_admission": {
+        "high": 38355,
+        "low": 0,
+        "max": 561,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory_events_at_startup": {
+        "high": 38355,
+        "low": 0,
+        "max": 561,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory_events_delta": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory_events_local_at_admission": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory_events_local_at_startup": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory_events_local_delta": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "own_cgroup_current_bytes": 711725056,
+      "scope_note": "Parent current delta, child cgroup current, process RSS, and GPU memory are distinct scopes; no causal or fit-performance inference is made."
+    },
+    "unit_and_own_cgroup": {
+      "baseline_at_admission": "No child cgroup existed in the admission populated snapshot; these are one startup snapshot, not deltas.",
+      "memory_current_bytes": 711725056,
+      "memory_events": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory_events_local": {
+        "high": 0,
+        "low": 0,
+        "max": 0,
+        "oom": 0,
+        "oom_group_kill": 0,
+        "oom_kill": 0
+      },
+      "memory_peak_bytes": 711970816,
+      "own_process_hwm_kib": 565152,
+      "own_process_rss_kib": 565152
+    }
+  },
+  "observation": {
+    "bytes": 7078,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/OBSERVATION.json",
+    "sha256": "2df49e7f4f49a20a28706ace10d3593d909f0759de97afccf013b128175447ee",
+    "status": "PASS_METADATA_ONLY"
+  },
+  "review_boundary": {
+    "B_or_ssh_action": false,
+    "native_exit_or_terminal_acceptance_claimed": false,
+    "payloads_read_or_hashed": false,
+    "source_content_rehashed": false,
+    "tests_or_project_imports": false
+  },
+  "schema": "fg19.child-allthree-startup-metadata-review.v1",
+  "scope": "Independent read-only audit of the one stored AllThree startup snapshot and its small receipt joins. This records an early running-state observation only; it is not terminal integrity, completion, quality, or an ownership failure.",
+  "state_review": {
+    "active_state": "active",
+    "exec_main_code": 0,
+    "exec_main_status": 0,
+    "interpretation": "The unit was still running. Result=success and status 0 at this point are not an exit or fit-completion result.",
+    "invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+    "main_pid": 1875143,
+    "observed_fit_progress": null,
+    "pid_matches_own_cgroup_and_parent_descendant": true,
+    "quality_or_terminal_claim": false,
+    "result_property": "success",
+    "run_directory_stat_only": {
+      "entries": [],
+      "exists": false,
+      "payloads_read": false
+    },
+    "run_name": "fg19_child_allthree_f0_s1001_fit_v1",
+    "sub_state": "running",
+    "unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+    "unit_log_bytes": 0
+  },
+  "status": "PASS_METADATA_ONLY"
+}

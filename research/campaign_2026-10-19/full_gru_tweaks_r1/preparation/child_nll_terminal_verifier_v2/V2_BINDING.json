@@ -1,0 +1,113 @@
+{
+  "schema": "fg19.child-nll-terminal-verifier-v2-local-binding.v1",
+  "status": "LOCAL_BODY_AND_CHECKS_FROZEN_PENDING_INDEPENDENT_SOURCE_REVIEW",
+  "not_admitted": true,
+  "not_submitted": true,
+  "not_executed": true,
+  "v1_finding": "V1 lacked a fresh selected-GPU UUID/process-ownership check before creating the output directory; V1 files remain unchanged.",
+  "base_v1_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/REMOTE_SUBMISSION.py",
+    "bytes": 613694,
+    "sha256": "e0cc26f822762a96758bb88046440fc04dc7c9a4651bcc4db3509c072295f3f5"
+  },
+  "v2_body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/REMOTE_SUBMISSION_V2.py",
+    "bytes": 621112,
+    "sha256": "15e6057ebe946aa15e9fea9d24fdf1755f55db57772ccabdf690bcef965fd3bf"
+  },
+  "exact_patch": {
+    "renderer_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/prepare_v2.py",
+    "renderer_bytes": 8609,
+    "renderer_sha256": "a9f7cb459e8f39eb9d2efbc6155cd536d93de62120023018663945594e991a9b",
+    "gate_fragment_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/GPU_OWNERSHIP_GATE.pyfrag",
+    "gate_fragment_bytes": 7236,
+    "gate_fragment_sha256": "c130c1ff0b90927786cc3d8481c9b64c7dea97fa2cb8b23a2348f9ee79822e8a",
+    "inverse_patch_restores_exact_v1": true,
+    "changes": [
+      "import selectors for bounded output collection",
+      "selected GPU UUID constant",
+      "bounded nvidia-smi query and PID/cgroup/starttime ownership helpers",
+      "fresh ownership gate call immediately before D.mkdir",
+      "selected_gpu_ownership field in verifier admission"
+    ]
+  },
+  "selected_gpu_gate": {
+    "uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "maximum_query_seconds": 15,
+    "maximum_stdout_or_stderr_bytes": 65536,
+    "maximum_process_rows": 256,
+    "proc_cgroup_max_bytes": 32768,
+    "proc_stat_max_bytes": 8192,
+    "same_uid_cmdline_max_bytes": 8192,
+    "cmdline_read_scope": "same-UID GPU PIDs only",
+    "identity": "proc directory inode, UID, and starttime must remain stable during observation",
+    "unknown_or_disappeared_pid": "fail closed",
+    "campaign_process_match": "reject any wnn-campaign.slice cgroup owner or same-UID command containing project B path",
+    "unrelated_processes": "record and preserve; do not signal or terminate",
+    "minimum_free_vram_bytes": 0,
+    "empty_gpu_required": false
+  },
+  "native_fit_receipts": {
+    "typed_terminal": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/TERMINAL_EVIDENCE.json",
+      "bytes": 697,
+      "sha256": "ba7db247e84183695181e84a751f222f5b92366019466295388abaf9ca9150e1"
+    },
+    "raw_native_capture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/terminal_native_capture_v1/STDOUT.raw.json",
+      "bytes": 79903,
+      "sha256": "f3efe3369cfed72ef12b57a7e86290edd195867635ac93468427973a2b777d6e"
+    },
+    "original_fit_launch_acceptance": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/LAUNCH_ACCEPTANCE.json",
+      "bytes": 2931,
+      "sha256": "44a708fc5a32b101c97a8a28c22e3b15e815059582de564e17f528f5369dc7a5"
+    },
+    "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+    "invocation_id": "c833c613fb92426981ab255a5faf4452"
+  },
+  "unchanged_code_closure": [
+    {
+      "path": "child_nll_terminal_check_v1.py",
+      "bytes": 40474,
+      "sha256": "a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2"
+    },
+    {
+      "path": "child_control_terminal_check_v3.py",
+      "bytes": 79972,
+      "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+    },
+    {
+      "path": "parent_fit_terminal_check_v3.py",
+      "bytes": 64550,
+      "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+    },
+    {
+      "path": "propensity_terminal_support.py",
+      "bytes": 13107,
+      "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+    },
+    {
+      "path": "teacher_s5_terminal_check_v1.py",
+      "bytes": 37448,
+      "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+    },
+    {
+      "path": "child_ema_terminal_check_v3.py",
+      "bytes": 38267,
+      "sha256": "676d548c1cd25c3c1379548999cca1300ef135dd41b4a8f73689ef8e59de3b5d"
+    }
+  ],
+  "local_validation": {
+    "checks_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/V2_LOCAL_CHECKS.json",
+    "checks_bytes": 4443,
+    "checks_sha256": "ee6e4cb4b4f53879b325cc30477f2aff8368588aa2f37221c04e1f7aebd8011a",
+    "ast_fixtures_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/test_v2_gate_ast.py",
+    "ast_fixtures_bytes": 4337,
+    "ast_fixtures_sha256": "f3ded424d88407049daa83049a0f9cc8a23243a8edf92044e839a5373584f370",
+    "readme_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/README.md",
+    "readme_bytes": 2844,
+    "readme_sha256": "b17a4b95aafb6657adac0ca384420bcde697c7c93c5ee613300220e22acc2f18"
+  },
+  "scope": "Local adaptation only. No remote query, file staging, support submission, checker execution, native stop, model/state/cache/dictionary payload read, or GPU observation was performed. Independent V2 source review is still required before any root-owned actual admission."
+}

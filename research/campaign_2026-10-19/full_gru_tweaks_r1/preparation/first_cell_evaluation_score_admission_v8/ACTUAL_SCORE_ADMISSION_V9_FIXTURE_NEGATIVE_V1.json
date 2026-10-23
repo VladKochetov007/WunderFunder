@@ -1,0 +1,33 @@
+{
+  "schema": "fg19.first-cell-score-admission-v9-fixture-negative.v1",
+  "scope": "Local focused-fixture contract correction only. The rendered body and source binding were not changed.",
+  "initial_fixture": {
+    "bytes": 8365,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/test_actual_score_admission_v9_receipts_initial_failed.py",
+    "sha256": "b9b43fdaa72e27a1cbb29a01f4ab2cce6a40d47b92f81c9c9d50ce86b4d750a6"
+  },
+  "first_invocation": {
+    "command": ".venv/bin/python -E -B -m unittest research.campaign_2026_10_19.full_gru_tweaks_r1.preparation.first_cell_evaluation_score_admission_v8.test_actual_score_admission_v9_receipts",
+    "outcome": "FAILED_MODULE_DISCOVERY",
+    "diagnostic": "ModuleNotFoundError: No module named 'research.campaign_2026_10_19'",
+    "scope": "The repository campaign directory contains hyphens, so the guessed dotted unittest module path was invalid; the test module and renderer were not imported by this invocation."
+  },
+  "direct_fixture_invocation": {
+    "command": ".venv/bin/python -E -B research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/test_actual_score_admission_v9_receipts.py",
+    "outcome": "ONE_PASS_ONE_FIXTURE_ASSERTION_FAILURE",
+    "diagnostic": "The fixture incorrectly expected scorer_payloads to omit the two accepted ROOT receipts; the actual renderer binding intentionally includes all six payload pins in scorer_payloads and separately joins the two receipt pins in export_authority.",
+    "body_or_binding_changed": false
+  },
+  "correction": {
+    "current_fixture_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v8/test_actual_score_admission_v9_receipts.py",
+    "correction": "The fixture now requires all six payload rows under scorer_payloads and checks absolute ROOT receipt paths versus repository-relative scorer source paths, matching the generated binding.",
+    "tests": "The corrected focused fixture passed both cases using the literal maintenance .venv Python with -E -B.",
+    "ruff": "Scoped Ruff check passed for the V9 renderer, V9 static proof, and corrected V9 fixture."
+  },
+  "actions": {
+    "B_or_network": false,
+    "model_or_array_payload_read": false,
+    "renderer_rerun": false,
+    "historical_fixture_or_suite_rerun": false
+  }
+}

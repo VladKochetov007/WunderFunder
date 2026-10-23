@@ -1,0 +1,40 @@
+{
+  "schema": "fg19.first-cell-score-root-caller-v4-preflight-proof.v1",
+  "status": "PASS_EXACT_SYMLINK_AWARE_PREFLIGHT_AND_ONE_SHOT_POLICY_PATCH",
+  "base": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_ACCEPT_SCORE_RESULT_V3.py",
+    "bytes": 31177,
+    "sha256": "50851aac67f25d81340143d3f845d837bc773db2ae642f7f8f53cc08af29376d"
+  },
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_ACCEPT_SCORE_RESULT_V4.py",
+    "bytes": 31750,
+    "sha256": "074cb822cbcb16a5b25ec28cbeb7f8dbd4d2395340c125ed8ee298b2a0584e17"
+  },
+  "only_source_edits": [
+    "one-shot policy docstring",
+    "symlink-aware preflight for both create-only receipt paths",
+    "comment documenting partial-write recovery policy"
+  ],
+  "preflight_calls": [
+    {
+      "path": "SCORE_ACCEPTANCE.json",
+      "method": "exists"
+    },
+    {
+      "path": "SCORE_ACCEPTANCE.json",
+      "method": "is_symlink"
+    },
+    {
+      "path": "ROOT_ACCEPTANCE_BINDING.json",
+      "method": "exists"
+    },
+    {
+      "path": "ROOT_ACCEPTANCE_BINDING.json",
+      "method": "is_symlink"
+    }
+  ],
+  "output_mutation_or_helper_execution": false,
+  "b_or_ssh_attempted": false,
+  "historical_v3_bytes_preserved": true
+}

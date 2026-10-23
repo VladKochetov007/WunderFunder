@@ -1,0 +1,195 @@
+{
+  "schema": "fg19.first-cell-export-source-review.v2",
+  "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR",
+  "reviewed_utc": "2026-10-21T08:47:55Z",
+  "review_scope": "Independent static source, metadata, and producer-consumer contract review of the V2 F0/seed-1001 feature-only prediction exporter and streaming scorer. This is not an export or score execution approval, admission, quality conclusion, or B authorization.",
+  "review_method": {
+    "read_source_and_metadata": true,
+    "verify_local_file_sizes_and_sha256": true,
+    "compare_v1_v2_source_deltas_and_pins": true,
+    "check_flat_support_paths_against_read_only_capture": true,
+    "run_imports_or_tests": false,
+    "read_model_checkpoint_dataset_cache_or_prediction_payloads": false,
+    "perform_prediction_or_scoring": false,
+    "perform_b_staging_admission_ssh_or_execution": false
+  },
+  "resolved_preflight_failure": {
+    "review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/failedexport_v1/ACTUAL_PREFLIGHT_FAILURE_METADATA_REVIEW.json",
+      "bytes": 7949,
+      "sha256": "5111276389e8cd1d30dc9242ec4ded912f5607853c6a81b9f7ad4c07d5012f0d",
+      "status": "PASS_METADATA_ONLY"
+    },
+    "read_only_outcome_capture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v1/preflight_outcome_v1/STDOUT.raw.json",
+      "bytes": 1509,
+      "sha256": "40a55d9e1c2d251627e6208775c0736699e3f1aa0378cdbc2ba7b126acd126c2",
+      "findings": "One bounded diagnostic reports the export evidence directory absent and the exact export unit not-found/inactive/dead with PID 0 and empty InvocationID. It records stat-only observations of the flat parent, propensity-support, and S5 helper files."
+    },
+    "failure_cause": "The V2 admission body resolved the two restricted-loader paths under a nonexistent nested preparation directory. The saved traceback fails in check_support_helpers before payload staging or systemd-run. V2 changes only those two relative paths to the flat files shown by the diagnostic."
+  },
+  "scope_authority": {
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_manifest": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_SOURCE_MANIFEST.json",
+      "bytes": 27569,
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "file_count": 167,
+      "source_set_sha256": "9c461bcc5883572a071d41a86e18b9a91136099cf8fa87371ce7c3ee41445bd8",
+      "byte_identical_to_v1": true
+    },
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "fixed_comparison": {
+      "selected_epoch": 5,
+      "successful_updates_per_arm": 44760,
+      "evaluation_group_count": 468,
+      "sequence_rows": 20000,
+      "valid_row_group_count": 1873,
+      "arms": [
+        ["control", "base"],
+        ["ema", "ema"],
+        ["sparse", "sparse"],
+        ["nll", "base"],
+        ["allthree", "ema_sparse"]
+      ],
+      "evidence_scope": "fit-excluded but exposed development evidence; not a fresh or public holdout"
+    }
+  },
+  "producer": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/export_first_cell_v1.py",
+    "bytes": 64315,
+    "sha256": "1587a29b2269f6592a6487fc48765a8e86d4cc23aab4951f00966d970ca3dfa1",
+    "binding": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_BINDING_V1.json",
+      "bytes": 15798,
+      "sha256": "6cd8c46f31214623d97e54c32bac9395608bfc918b9b44e879e44ad2548f0eb9",
+      "schema": "fg19.first-cell-evaluation-export-binding.v1",
+      "support_root": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_allthree_verify_v2",
+      "restricted_loader": {
+        "relative_path": "parent_fit_terminal_check_v3.py",
+        "bytes": 64550,
+        "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+      },
+      "restricted_loader_support": {
+        "relative_path": "propensity_terminal_support.py",
+        "bytes": 13107,
+        "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+      }
+    },
+    "inverse_proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v2/EXPORT_V2_INVERSE_PROOF.json",
+      "bytes": 2553,
+      "sha256": "4b5e1d8fe72bc2f26601573ade2a33146221928328e7d9dd17fb3f7461209acc",
+      "status": "PASS_EXACT_TWO_BINDING_PATH_AND_TWO_PIN_CONSTANT_INVERSE"
+    },
+    "v1_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v1/EXPORT_SOURCE_REVIEW_V1.json",
+      "bytes": 9633,
+      "sha256": "cf44af7624e81ee99e9705bf08e69b359f7048354df069cad35b26c7ec927c15",
+      "status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR"
+    },
+    "v2_delta": {
+      "binding_changes": [
+        {
+          "field": "source.restricted_loader.relative_path",
+          "from": "preparation/parent_fit_terminal_check_v3.py",
+          "to": "parent_fit_terminal_check_v3.py"
+        },
+        {
+          "field": "source.restricted_loader_support.relative_path",
+          "from": "preparation/propensity_terminal_support.py",
+          "to": "propensity_terminal_support.py"
+        }
+      ],
+      "exporter_changes": [
+        "BINDING_BYTES",
+        "BINDING_SHA256"
+      ],
+      "all_other_binding_and_exporter_bytes_reconstruct_v1": true,
+      "canonical_source_manifest_changed": false
+    },
+    "reviewed_output_contract": {
+      "files_per_arm": ["predictions.npy", "PREDICTION_SIDECAR.json"],
+      "array_shape": [468, 20000, 2],
+      "dtype": "<f4",
+      "data_bytes_each": 74880000,
+      "completion_marker": "EXPORT_MANIFEST_V1.json",
+      "completion_status": "COMPLETE_PREDICTION_EXPORTS_NOT_SCORED",
+      "scoring_or_quality_claim": false
+    }
+  },
+  "consumer": {
+    "packet_root": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v2",
+    "dependency_manifest": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v2/dependency_manifest.json",
+      "bytes": 6162,
+      "sha256": "fe1dc97e1d5d4410618b0da9e3e740cd3aa15b692bb65cfd5b2b4aae23a05587",
+      "schema": "fg19.first-cell-score-dependency-manifest.v2",
+      "status": "LOCAL_SOURCE_PREPARATION_ONLY_NOT_EXECUTED"
+    },
+    "code": [
+      {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v2/first_cell_score_contract.py",
+        "bytes": 19485,
+        "sha256": "09155537feec1d9cd398f6a729ab88201b82e814c1a8c4ac796fe4283940a90d"
+      },
+      {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v2/first_cell_score_core.py",
+        "bytes": 27226,
+        "sha256": "1b624ad568b436615f01f50e60567ece4a483ae9cc1def69ab2277aa0a392604"
+      },
+      {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v2/first_cell_score_predictions.py",
+        "bytes": 11056,
+        "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+      },
+      {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v2/score_first_cell.py",
+        "bytes": 10630,
+        "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+      }
+    ],
+    "focused_fixture": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v2/test_score_v2_binding_metadata.py",
+      "bytes": 5416,
+      "sha256": "eed8908c59ad1ed9f2053c225751a51cf5099f37c22f5a553e4d82262f159d64",
+      "scope": "V1/V2 binding metadata, literal pin changes, AST equivalence of scorer core outside the two binding constants, and manifest pins; no scorer/source imports or prediction payload reads."
+    },
+    "v2_delta": {
+      "core_changes": [
+        "EXPECTED_BINDING_BYTES",
+        "EXPECTED_BINDING_SHA256"
+      ],
+      "contract_predictions_and_cli_byte_identical_to_v1": true,
+      "source_manifest_and_source_set_pins_unchanged": true,
+      "producer_binding_join": "Scorer core pins the exact 15,798-byte V2 binding SHA. The V2 dependency manifest points to the matching V2 exporter, binding, and unchanged 27,569-byte source manifest."
+    },
+    "inherited_reviewed_scoring_contract": {
+      "metric": "GlobalAccumulator / global_wp_clip2_v1",
+      "mask": "is_scored AND (t >= 99)",
+      "contrasts": 4,
+      "bootstrap": "paired centered component bootstrap, 2,000 replicates, seed 271828",
+      "ordered_zero_scored_groups_retained": true,
+      "report_create_only_and_fsyncs_parent": true,
+      "source": "V1 producer-consumer review; scorer V2 code changes only the two binding constants"
+    }
+  },
+  "reported_local_validation": {
+    "exporter": "Actor reports three new metadata-only checks passed and Ruff passed; no unchanged fixture suite replayed.",
+    "scorer": "Actor reports the new metadata-only fixture and V2-only Ruff passed; the prior six-test scorer suite was not rerun.",
+    "independently_executed_by_reviewer": false
+  },
+  "execution_state": {
+    "export_body_staged_or_executed": false,
+    "scorer_executed": false,
+    "model_checkpoint_dataset_cache_or_prediction_payload_read": false,
+    "new_fits": 0,
+    "quality_claimed": false
+  },
+  "limitations": [
+    "This V2 review checks the narrow producer/consumer pin and path repair against the frozen V1 source-only review and exact inverse/source deltas. It does not repeat the V1 canonical API source review or execute the source-only fixtures.",
+    "The diagnostic's helper observations are stat-only and establish the captured B state at its timestamp; this local review made no new B observation.",
+    "This source-only review does not authorize staging, admission, export, scoring, or a quality conclusion. Root-owned fresh resource, exact path, GPU/process ownership, and one-attempt admission gates remain separate."
+  ],
+  "findings": []
+}

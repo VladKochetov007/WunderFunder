@@ -1,0 +1,9 @@
+# First-cell score admission V11
+
+V11 fixed the source-hash bound identified by the V10 review. It pre-sums the strict manifest byte counts before opening source files, checks each live file size against its pin, and bounds each hash read by the expected size and remaining aggregate budget. The [narrow source proof](ACTUAL_SCORE_ADMISSION_V11_SOURCE_HASH_CAP_PROOF.json) records the exact V10 inverse and unchanged scorer payload pins. Independent [V11 source review](ACTUAL_SCORE_ADMISSION_SOURCE_REVIEW_V11.json) passed for the exact V11 body and binding.
+
+V11 was then submitted once and failed during preflight in `check_cache`, before worker-directory creation and before `systemd-run`. The actual cache metadata has `split_manifest_sha256`; the cache acceptance instead joins to that metadata with `metadata_sha256` and does not contain its own `split_manifest_sha256`. The exact raw streams and transport are preserved under [the score-v1 record](../../records/first_cell_evaluation_v1/score_v1/README.md). V11 was not retried.
+
+The first local V11 draft is intentionally preserved as invalid and never submitted: see [V11_INITIAL_BAD_DRAFT_NOTE.json](V11_INITIAL_BAD_DRAFT_NOTE.json). The actual submitted candidate is [REMOTE_SUBMISSION_V11.py](REMOTE_SUBMISSION_V11.py) (188,823 bytes; SHA-256 `9dc1f04741609cb4e80e84308439187f5bef5d82d2808057d92fe11eca4379d5`) with [SCORE_ADMISSION_SOURCE_BINDING_V11.json](SCORE_ADMISSION_SOURCE_BINDING_V11.json) (5,554 bytes; SHA-256 `ff325182837288d97fb3b1f705afef4b6c6cc5198950f7db21a9f55d53d01e1f`).
+
+V12 is a versioned, one-predicate correction for the cache receipt schema. Its proof and local fixture use receipt metadata and synthetic stat observations, not array or model payloads. V12 still requires independent exact-body review and has not been submitted. Follow the [source and recovery index](../FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021.md) for current state.

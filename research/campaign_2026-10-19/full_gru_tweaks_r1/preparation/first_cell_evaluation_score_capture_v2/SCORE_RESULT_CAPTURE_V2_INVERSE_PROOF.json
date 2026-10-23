@@ -1,0 +1,59 @@
+{
+  "candidate_template": {
+    "bytes": 20781,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v2/SCORE_RESULT_CAPTURE_TEMPLATE_V2.py",
+    "sha256": "a71cd3b61890a686138f98e4b2592b7e5c96d64dfdcb14118d93c8aaecc5d708"
+  },
+  "exact_changes": [
+    "EXPORT_D evidence root changes from evaluation_v1 to evaluation_v2",
+    "EXPORT_UNIT changes from the failed export-v1 unit to the frozen export-v2 unit",
+    "SCORER_CODE_PINS bind the frozen scorer V3 files",
+    "UNIT_PROPERTIES adds only Id",
+    "one helper requires Id == SCORE_UNIT immediately after the exact systemctl show"
+  ],
+  "limitations": [
+    "This inverse proof compares local source ASTs and reads only code files.",
+    "It does not bind actual score admission or launch receipts, query systemd, access the result, or make a metric claim."
+  ],
+  "prior_template": {
+    "bytes": 20480,
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_capture_v1/SCORE_RESULT_CAPTURE_TEMPLATE_V1.py",
+    "review_status": "REJECT_SOURCE_ONLY_NO_SCORE_RESULT_CAPTURE",
+    "sha256": "2fd94213540b55e6dfa7c39b8eaf55fb8928f739f1093cc3fbc3aae37d4e4e22"
+  },
+  "schema": "fg19.first-cell-score-result-capture-inverse-proof.v2",
+  "scope": {
+    "B_or_SSH_accessed": false,
+    "quality_claim": false,
+    "reader_executed": false,
+    "result_or_prediction_payload_read": false,
+    "unit_queried": false
+  },
+  "scorer_code_pins": {
+    "first_cell_score_contract.py": {
+      "bytes": 19485,
+      "sha256": "7784c91713dbfd7d11ec3cfd276eb8a62607289067999f4ecd5c03a3f9a18038"
+    },
+    "first_cell_score_core.py": {
+      "bytes": 27226,
+      "sha256": "ffe8a6e7aad38b131a78783504ef55c761d4e8037c13bac279f20c5e55f6249e"
+    },
+    "first_cell_score_predictions.py": {
+      "bytes": 11056,
+      "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+    },
+    "score_first_cell.py": {
+      "bytes": 10630,
+      "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+    }
+  },
+  "status": "PASS_EXACT_V1_TO_V2_UNIT_ID_AND_EXPORT_ROOT_DELTA",
+  "verified": {
+    "V2_properties_equal_Id_plus_V1_properties": true,
+    "all_other_operational_AST_matches_V1": true,
+    "export_unit_matches_frozen_export_v2": true,
+    "four_scorer_pins_match_score_v3_sources": true,
+    "one_exact_unit_id_guard_precedes_result_capture": true,
+    "score_private_directory_and_unit_unchanged": true
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "schema": "fg19-child-nll-fit-recipe-binding.v1",
+  "status": "LOCAL_RECIPE_FROZEN_NOT_ADMITTED",
+  "scope": "One immediate fixed F0 seed-1001 mean/logvariance NLL child, conditionally preparable after the actual dictionary child passes terminal acceptance and exact stop. This packet itself performs no B action and does not render a final submission body.",
+  "identity": {
+    "run_name": "fg19_child_nll_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+    "private_evidence_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_nll_fit_v1",
+    "run_artifact_path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_child_nll_f0_s1001_fit_v1",
+    "fold": 0,
+    "seed": 1001
+  },
+  "source": {
+    "canonical_checkout": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019",
+    "b_source_path": "/home/grinchenkoeg/computer-vision-homework-20261018/source-fg19-cache-68ff6829",
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "file_count": 167,
+    "manifest_path": "preparation/teacher_cache_cpu_repair_v2/SOURCE_MANIFEST.json",
+    "manifest_bytes": 27569,
+    "manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "source_file_pins_used_for_semantics": {
+      "scripts/train_rnn.py": {
+        "bytes": 1790,
+        "sha256": "74530d3499bba1b5647e459105cb263bfc7205d7f3aa928684dfb279c2677345"
+      },
+      "src/wnn/training/cli_features.py": {
+        "bytes": 4409,
+        "sha256": "680687de564a7c96ac96296a729ccb6aa37a8ecb913e525153e769fa14abd79a"
+      },
+      "src/wnn/training/cli_targets.py": {
+        "bytes": 5996,
+        "sha256": "ffc05685353085f2ab627d0b4800af81e06520df94f652b6a888e546176c1b57"
+      },
+      "src/wnn/training/input_representation.py": {
+        "bytes": 11714,
+        "sha256": "934bac99544c04ac3b77f0b9f78fa4b40ce5782a785fee04d9450d9d568b116f"
+      },
+      "src/wnn/training/inputs.py": {
+        "bytes": 9077,
+        "sha256": "b433ad56965e4272f3209e02f9108527fdaeabebefae07616dff61a4bbe5c9ea"
+      },
+      "src/wnn/training/losses.py": {
+        "bytes": 10493,
+        "sha256": "5859a4d40f13e91f50d34dfaed42d12dcfa2e229a85721ffc68bb5d69e1cfa66"
+      },
+      "src/wnn/training/mean_variance.py": {
+        "bytes": 5445,
+        "sha256": "e4a067bb9d467d121720854876cfffb083ab803a4ed440ec96025779553e15c5"
+      },
+      "src/wnn/training/outputs.py": {
+        "bytes": 10325,
+        "sha256": "35aab70e8aeb1ddabfa53f0f274ddc7aaa8c34d2e60ee92094a2221fcd20706a"
+      },
+      "src/wnn/training/representation_validation.py": {
+        "bytes": 1418,
+        "sha256": "983e63fecc8886a67ec3452e21ca3637a25588eba02ab225ce5e1b6f9d8fb887"
+      },
+      "src/wnn/training/setup_model.py": {
+        "bytes": 12302,
+        "sha256": "cec9748ad67c995a3c73f6b0288780ba52d0952445251c410113f6670c79fe33"
+      },
+      "src/wnn/training/setup_preprocessing.py": {
+        "bytes": 12381,
+        "sha256": "a02a47186da846c1dbc82d49d5fc0f35f56e7812120576febeda7988e38ce623"
+      }
+    },
+    "qualification_note": "Selected source-file hashes are pinned by the existing exact 167-file manifest. No source suite or profile is rerun by this local packet."
+  },
+  "science": {
+    "frozen_design_path": "DESIGN.json",
+    "frozen_design_bytes": 5593,
+    "frozen_design_sha256": "5b102a6f73490a1d3c84164033192a4fe2e77e68312b36a63d5d3247b5bdcfb4",
+    "frozen_student_recipe_path": "STUDENT_RECIPE_BINDING.json",
+    "frozen_student_recipe_bytes": 1902,
+    "frozen_student_recipe_sha256": "81662d8391fdc327bfe52bb5684533056af71dd467342b1f1c2375d854335171",
+    "arm": "mean_variance",
+    "ema_history": false,
+    "sparse_dictionary_features": false,
+    "representation_mode": "base",
+    "representation_width": 256,
+    "base_mode_feature_semantics": "The canonical representation builder keeps the common 256-wide suffix and emits exact zeros in both 128-wide slots for mode=base. The fixed dictionary artifact is still required and validated as a shared prerequisite; it is not refit and its trained weights are not used to initialize this model.",
+    "objective": "nll",
+    "objective_formula": "sum(w*(exp(-s)*(mu-target)^2+s))/sum(w)",
+    "logvariance_s": "clamp(logvariance,-4,4)",
+    "mean_variance_head": 1,
+    "output_width": 25,
+    "parent_output_width": 23,
+    "initialization": "Initialize only from fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 with inherited preprocessing. The accepted dictionary child is a sequential receipt gate only; never use its weights as the NLL initializer.",
+    "target": ".1*clip(label,-2,2)+.9*clip(0.8125*mean(T3),-2,2)",
+    "cache_construction": "Ordered arithmetic mean of fixed S3/S4/S5 T3, multiplied by 0.8125 exactly once at cache construction; consumer scale 1.0 and homogeneous variant.",
+    "weights": "Original abs(clip(label,-2,2))*canonical main_valid and identical denominator; unchanged for this objective.",
+    "cache_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_t3_fit_homogeneous_cache_v1",
+    "dictionary_artifact_path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt",
+    "dictionary_missing_or_mismatch": "Fail closed before the trainer starts; never fall back to representation fitting or create a replacement dictionary.",
+    "no_eval_during_fit": true,
+    "no_profile_replay": true,
+    "no_retuning_or_outer_selection": true
+  },
+  "only_trainer_argv_changes_from_actual_dictionary_child": {
+    "base_body_path": "preparation/child_dictionary_fit_v1/REMOTE_SUBMISSION.py",
+    "base_body_bytes": 196111,
+    "base_body_sha256": "9f545489dd80c13831b1a02c75dddf4059f3cbfb84311b2400db4830b4fdd77e",
+    "base_trainer_argv_sha256": "096b036c8af6220512e51b2002f3598729274b482d5db4b1df8099b26f91ab6d",
+    "nll_trainer_argv_sha256": "51905d5ecd65117ec0b0c8ab7a4f8aa4f24795015ac29a4af57dd9da781c4b90",
+    "changed_indices_zero_based": [1, 48, 54],
+    "changes": {
+      "1": ["fg19_child_dictionary_f0_s1001_fit_v1", "fg19_child_nll_f0_s1001_fit_v1"],
+      "48": ["sparse", "base"],
+      "54": ["wmse", "nll"]
+    },
+    "compatibility_detail": "Change --mean-variance-objective from wmse to nll. Retain --mean-variance-head 1, --loss wmse, and --loss-norm chunk because the source configuration guard permits NLL only through the mean/logvariance objective while requiring chunk-normalized --loss wmse.",
+    "all_other_argv_values_unchanged": true
+  },
+  "common_fixed_recipe": {
+    "split_manifest": "/home/grinchenkoeg/computer-vision-homework-20261018/splits/fold0.json",
+    "train_source": "train+valid",
+    "valid_fold": 0,
+    "train_sequences": 10535,
+    "valid_fit_sequences": 1405,
+    "held_out_evaluation_groups_excluded": 468,
+    "batch_order": "seeded",
+    "batch_size": 16,
+    "chunk_rows": 2000,
+    "epochs": 6,
+    "fixed_checkpoint_epoch_zero_based": 5,
+    "expected_batches_per_epoch": 746,
+    "expected_updates": 44760,
+    "expected_counts_are_arithmetic_not_observed": true,
+    "architecture": "2-layer GRU, hidden 256, linear encoder, one head layer, dropout 0",
+    "input_width": 467,
+    "precision": "strict fp32; no autocast or TF32",
+    "normalization": "exact inherited parent normalization; do not refit",
+    "optimizer": "AdamW, lr 0.0001, wd 0.01, beta2 0.999",
+    "scheduler": "OneCycle, warmup fraction 0.05",
+    "clip": 1,
+    "aux_struct": 0.3,
+    "aux_next": 0.3,
+    "distill_family_weight": 0,
+    "distill_alpha": 0.9,
+    "loss_norm": "chunk",
+    "loss_compatibility_flag": "--loss wmse remains required by the frozen mean_variance source validator",
+    "grad_stats": true,
+    "save_training_state_each_epoch": true
+  },
+  "accepted_unchanged_ancestry": {
+    "parent_acceptance_sha256": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+    "parent_exact_stop_sha256": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+    "parent_ep3_sha256": "6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45",
+    "control_acceptance_sha256": "92aaf5eeed156aaad25c4adbb6700d41b0527600b520dd051657a43a50bbb6d2",
+    "control_exact_stop_sha256": "600cb3c4a56c7d0731ed2bf6174d47f5b09623c7ca22a7e5fce77d4d358ae012",
+    "ema_acceptance_sha256": "0aea6295b64670bb02ac008fdfece6ee430b8f68b84904a14c39dd816c0161a8",
+    "ema_exact_stop_sha256": "548fe9876947345d4ac443601e478341bdfe165d5670d7397d50b401b93cc2bf",
+    "allthree_profile_acceptance_sha256": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045",
+    "allthree_profile_exact_stop_sha256": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce",
+    "teacher_cache_acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "teacher_cache_exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "dictionary_artifact_acceptance_sha256": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+    "dictionary_artifact_exact_stop_sha256": "2eb44a4381de06f28ed3d7438ace320ef3274eae37c89074fc481f58f5d88158",
+    "dictionary_artifact_bytes": 22557,
+    "dictionary_artifact_sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659",
+    "dictionary_child_launch_acceptance_sha256": "33fa4fd4cb37c16374e615c2eb6d698f5f3065b252803377260fdae6dd913a95",
+    "dictionary_child_run": "fg19_child_dictionary_f0_s1001_fit_v1",
+    "dictionary_child_unit": "computer-vision-homework-fg19-child-dictionary-fit-v1.service",
+    "dictionary_child_invocation_id": "73b10b699e034a1b9952b2377b845095",
+    "dictionary_child_terminal_acceptance_sha256": "UNBOUND_PENDING_ACTUAL_DICTIONARY_CHILD_TERMINAL_ACCEPTANCE",
+    "dictionary_child_exact_stop_sha256": "UNBOUND_PENDING_ACTUAL_DICTIONARY_CHILD_EXACT_STOP"
+  },
+  "resources": {
+    "selected_gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "owned_gpu_workers_max": 1,
+    "worker_cpu_quota": "100%",
+    "worker_memory_high_bytes": 7500000000,
+    "worker_memory_max_bytes": 8000000000,
+    "worker_swap_max_bytes": 0,
+    "cuda_allocator_bytes": 4294967296,
+    "cuda_free_reserve_bytes": 1000000000,
+    "runtime_max_seconds": 86400,
+    "aggregate_local_cpu_cores": 2,
+    "parent_cpu_quota": "200%",
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_memory_target_bytes": 17000000000,
+    "physical_scratch_path": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp",
+    "physical_scratch_min_free_bytes": 26843545600,
+    "loader_workers": 0,
+    "blas_threads": 1
+  },
+  "renderer": {
+    "path": "preparation/child_nll_fit_v1/bind_nll_fit.py",
+    "status": "LOCAL_ONLY_CONDITIONAL_RENDERER",
+    "render_requires": [
+      "actual records/child_dictionary_fit_v1/TERMINAL_ACCEPTANCE.json bytes",
+      "actual records/child_dictionary_fit_v1/exact_stop/EXACT_STOP.json bytes",
+      "acceptance schema/status/recipe/source/invocation and typed terminal fields validated",
+      "exact stop bound to that accepted invocation and unit inactive/dead/not-found with no descendants",
+      "existing parent, CONTROL, EMA, dictionary-artifact, profile and T3-cache gates retained"
+    ],
+    "final_submission_body_present": false,
+    "no_training_or_remote_action": true
+  }
+}

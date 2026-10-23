@@ -1,0 +1,121 @@
+{
+  "conclusion": "The exact invocation failed with exit-code status 1. The preserved log tail shows failure at the pinned V6 preflight membership-archive metadata guard for train_targets.npz. The reader returned only ADMISSION.json, LAUNCH.json, and unit.log; it recorded RESULT capture as not read because native state was not strict success. This metadata audit does not establish score completion or quality.",
+  "execution_state": {
+    "B_or_SSH_action_by_this_reviewer": false,
+    "RESULT_json_read": false,
+    "failed_score_v1_unit_touched": false,
+    "model_cache_prediction_target_or_label_payload_read_or_hashed": false,
+    "score_or_quality_claimed": false,
+    "status_reader_executed_by_this_reviewer": false,
+    "unit_queried_by_this_reviewer": false
+  },
+  "failed_attempt": {
+    "disposition": "Preserve this failed unit and D2. Never query, stop, restart, retry, or reuse it.",
+    "invocation_id": "489586b467d7475cb51d570ed706a16f",
+    "native": {
+      "ActiveState": "failed",
+      "ExecMainCode": "1",
+      "ExecMainExitTimestamp": "Wed 2026-10-21 12:27:41 UTC",
+      "ExecMainStatus": "1",
+      "MainPID": "0",
+      "Result": "exit-code",
+      "SubState": "failed"
+    },
+    "result_capture": {
+      "read": false,
+      "reason": "unit_not_strict_success"
+    },
+    "terminal_success": false,
+    "unit": "computer-vision-homework-fg19-first-cell-score-v2.service"
+  },
+  "receipt_joins": {
+    "admission": {
+      "bytes": 69650,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/ADMISSION.json",
+      "sha256": "992322b65b57f8f0b3bc891fc08dca26becf814d980827efc9a46c0e7b8c3253"
+    },
+    "admission_original_copy_equal": true,
+    "captured_file_membership": [
+      "ADMISSION.json",
+      "LAUNCH.json",
+      "unit.log"
+    ],
+    "launch": {
+      "bytes": 4193,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/LAUNCH.json",
+      "sha256": "6d6adeb779010a90b097e20b9951089f681362ad2c2225ce7a807d433ad95491"
+    },
+    "launch_original_copy_equal": true,
+    "reader_invocation_and_receipt_literals_match": true
+  },
+  "schema": "fg19.first-cell-score-actual-failure-metadata-review.v1",
+  "scope": "Independent local metadata audit of the already captured score-v2 failure. It reads the saved raw status response, transport, receipt copies, reader-binding metadata, and bounded unit.log tail only. No RESULT.json, model/cache/array payload, current unit query, B action, or retry was performed.",
+  "source_and_failure_trace": {
+    "actual_launch_metadata_review": {
+      "bytes": 4804,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/ACTUAL_LAUNCH_METADATA_REVIEW.json",
+      "sha256": "b354dae571d911ad4456c4a874c7097fbcd84c755f94eab2a72493d7f8225c3a"
+    },
+    "actual_source_review_v13": {
+      "bytes": 15305,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_admission_v13/ACTUAL_SCORE_ADMISSION_SOURCE_REVIEW_V13.json",
+      "sha256": "3f4b165f131ddf3ac992aaf7300b8cbd60e9a70ba8ca915546341374b60e510d"
+    },
+    "current_score_core": {
+      "bytes": 26965,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v6/first_cell_score_core.py",
+      "sha256": "961f566eaeec0cd7e9ab48788666d03da9b0482810a11f16a019b083cfc65005"
+    },
+    "exception": "ValueError: membership archive contains an unsafe expanded member: /home/grinchenkoeg/computer-vision-homework-20261018/data/cache/train_targets.npz",
+    "source_review": "The V13 source review binds the exact body and V6 code pins; this failure audit does not infer which NPZ central-directory property triggered the generic unsafe-expanded-member guard.",
+    "trace_gate": "first_cell_score_core._preflight_npz_members, line 321; invoked from _preflight_split_inputs before canonical split loading and before score/prediction/target array decoding or RESULT creation."
+  },
+  "status": "PASS_METADATA_ONLY_FAILURE_CAPTURE_NO_RESULT_READ",
+  "status_capture": {
+    "directory": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/status_capture_v1",
+    "observation": {
+      "bytes": 1933,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/status_capture_v1/OBSERVATION.json",
+      "sha256": "8ed7a91936f5a0611f3e8ab1488cee216fb5796a435959e4714680db323a88a4"
+    },
+    "raw_stderr": {
+      "bytes": 0,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/status_capture_v1/STDERR.raw.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw_stdout": {
+      "bytes": 104334,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/status_capture_v1/STDOUT.raw.json",
+      "sha256": "476e55b07412ba4d29a2eb3cef2e734152ca2aea6027d0c8571a2cd4451017a8"
+    },
+    "reader_ast_binding": {
+      "bytes": 890,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/status_capture_v1/AST_BINDING.json",
+      "sha256": "a444e3f715dd1ff27cda718df3e403a997752cca7778d14055b05d14c49cd6d5"
+    },
+    "reader_body": {
+      "bytes": 26392,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/status_capture_v1/REMOTE.py",
+      "sha256": "4c2437100faf1ee0121c32d8b0bb6a66a53020c74bc7f472bbcf11b32adcf6c6"
+    },
+    "transport": {
+      "bytes": 608,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/status_capture_v1/TRANSPORT.json",
+      "sha256": "6975d7c867d4e09c9c0fb675ee504bd7a1d2b9809fca33399f5dcc1bf8a39df1"
+    },
+    "transport_fields": {
+      "captured_utc": "2026-10-21T12:32:19.344180+00:00",
+      "finished_utc": "2026-10-21T12:32:22.846605+00:00",
+      "persisted_before_parse": true,
+      "retry_performed": false,
+      "ssh_returncode": 0,
+      "started_utc": "2026-10-21T12:32:10.421194+00:00",
+      "timed_out": false
+    },
+    "unit_log_tail": {
+      "bytes": 1438,
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/status_capture_v1/unit.log.tail",
+      "sha256": "b44f1fb1ead8e4428a6bf0f2b17188d2d1cc4a0a92697adfdf42b1f0cef9584f"
+    }
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "schema": "fg19-child-nll-fit-admission-template.v1",
+  "status": "UNBOUND_DICTIONARY_CHILD_ACCEPTANCE_AND_EXACT_STOP__NO_FINAL_BODY",
+  "run_name": "fg19_child_nll_f0_s1001_fit_v1",
+  "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+  "local_launch_template": {
+    "path": "NLL_LAUNCH_TEMPLATE.py",
+    "bytes": 203526,
+    "sha256": "7f75525a14527c9cc11e0b44da7969846120fe5231ed2d4da0f6169d82fd8dc3",
+    "status": "FAIL_CLOSED_UNBOUND_TEMPLATE_ONLY"
+  },
+  "conditional_renderer": {
+    "path": "bind_nll_fit.py",
+    "mode": "render only after actual dictionary child acceptance and exact stop are durably captured and independently confirmed",
+    "outputs": "REMOTE_SUBMISSION.py and NLL_FINAL_BINDING_RECEIPT_V1.json",
+    "no_body_on_unbound_inputs": true
+  },
+  "learned_dictionary_artifact": {
+    "receipt_names": [
+      "DICTIONARY_ACCEPTANCE.json",
+      "DICTIONARY_EXACT_STOP.json"
+    ],
+    "acceptance_sha256": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+    "exact_stop_sha256": "2eb44a4381de06f28ed3d7438ace320ef3274eae37c89074fc481f58f5d88158",
+    "artifact_sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659",
+    "artifact_bytes": 22557,
+    "role": "Shared frozen learned representation artifact; preflight-only for this base-mode fit, never refit or substituted."
+  },
+  "sequential_dictionary_child_predecessor": {
+    "run_name": "fg19_child_dictionary_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-dictionary-fit-v1.service",
+    "invocation_id": "73b10b699e034a1b9952b2377b845095",
+    "launch_acceptance_sha256": "33fa4fd4cb37c16374e615c2eb6d698f5f3065b252803377260fdae6dd913a95",
+    "terminal_acceptance_path": "records/child_dictionary_fit_v1/TERMINAL_ACCEPTANCE.json",
+    "terminal_acceptance_schema": "fg19-child-dictionary-fit-terminal-acceptance.v1",
+    "terminal_acceptance_sha256": "UNBOUND_PENDING_ACTUAL_DICTIONARY_CHILD_TERMINAL_ACCEPTANCE",
+    "exact_stop_path": "records/child_dictionary_fit_v1/exact_stop/EXACT_STOP.json",
+    "exact_stop_sha256": "UNBOUND_PENDING_ACTUAL_DICTIONARY_CHILD_EXACT_STOP",
+    "required_relationship": "Acceptance must describe the exact launched sparse/WMSE dictionary child; exact-stop must bind its acceptance SHA, unit and invocation and show exact stopped/no descendants.",
+    "not_initializer": true,
+    "final_body_receipt_names": [
+      "DICTIONARY_CHILD_TERMINAL_ACCEPTANCE.json",
+      "DICTIONARY_CHILD_EXACT_STOP.json"
+    ]
+  },
+  "shared_gates_retained": [
+    "Parent acceptance/exact stop/checkpoint @ ep3 and inherited normalization",
+    "CONTROL acceptance/exact stop",
+    "EMA acceptance/exact stop",
+    "all-three shape profile acceptance/exact stop",
+    "teacher-cache acceptance/exact stop and exact homogeneous cache identity",
+    "shared learned dictionary artifact acceptance/exact stop and exact file identity",
+    "fresh source167/split/data/cache/dictionary/parent/output/unit/GPU/ownership/disk/headroom checks",
+    "exact physical research_tmp mount/device/ext4/25GiB gate",
+    "one owned GPU worker, serial one-CPU worker, aggregate two-CPU budget, loader0/BLAS1"
+  ],
+  "expected_receipt_semantics": {
+    "acceptance_status": "ACCEPTED",
+    "strict_native_exit": {
+      "main_pid": 0,
+      "exec_main_code": 1,
+      "exec_main_status": 0
+    },
+    "successful_updates": 44760,
+    "completed_batches": 4476,
+    "amp_skipped_updates": 0,
+    "nonfinite_updates": 0,
+    "next_epoch": 6,
+    "selected_epoch": 5,
+    "epochs": 6,
+    "mode": "sparse",
+    "objective": "wmse",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "finite_model_optimizer_and_selected_ep5_training_state_tensor_identity": true
+  },
+  "current_artifacts": {
+    "actual_dictionary_child_acceptance_sha256": "UNBOUND_PENDING_ACTUAL_DICTIONARY_CHILD_TERMINAL_ACCEPTANCE",
+    "actual_dictionary_child_exact_stop_sha256": "UNBOUND_PENDING_ACTUAL_DICTIONARY_CHILD_EXACT_STOP",
+    "final_body_exists": false,
+    "final_binding_receipt_exists": false,
+    "admitted_or_launched": false
+  }
+}

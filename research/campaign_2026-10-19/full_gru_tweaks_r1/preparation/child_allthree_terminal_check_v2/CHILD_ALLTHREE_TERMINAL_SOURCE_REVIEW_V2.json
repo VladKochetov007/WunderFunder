@@ -1,0 +1,144 @@
+{
+  "schema": "fg19.child-allthree-terminal-source-review.v2",
+  "status": "PASS_SOURCE_ONLY",
+  "reviewed_utc": "2026-10-21T06:20:21Z",
+  "scope": "Independent source and bounded artifact review of the V2 AllThree terminal checker repair. No checker imports or execution, tests, B or network actions, model/state/dictionary/cache-array/dataset payload reads, or old-suite reruns were performed by this reviewer.",
+  "checker": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/child_allthree_terminal_check_v2.py",
+    "bytes": 40442,
+    "sha256": "6ff4ba93a4020a4b34ade46a2512ac77b871328e95c47f2ca4561b8dcbd435b5",
+    "frozen_v1_base": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/child_allthree_terminal_check_v1.py",
+      "bytes": 40442,
+      "sha256": "f4e9b7a2ed6798edf7ac0fbd30517687606494f6aacc44dddc96a0bba1f544dd"
+    },
+    "exact_change": {
+      "location": "_check_native_predecessor: strict_schema argument to control_v3._check_stop_receipt",
+      "v1_literal": "fg19.child-nll-exact-owned-stop.v1",
+      "v2_literal": "fg19-child-nll-exact-owned-stop.v1",
+      "one_literal_replacement_only": true,
+      "inverse_replacement_recreates_v1_bytes_exactly": true,
+      "other_operational_changes": 0
+    }
+  },
+  "actual_nll_stop_receipt": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/exact_stop/EXACT_STOP.json",
+    "bytes": 3140,
+    "sha256": "c63be79b27d131acb0a38d2ad641fa7d72344cc344c26ab94ca77faf3b4a74f1",
+    "schema": "fg19-child-nll-exact-owned-stop.v1",
+    "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+    "invocation_id": "c833c613fb92426981ab255a5faf4452",
+    "acceptance_sha256": "d94457b11ce22a368cdc93df02e473c9a82cde6ddebd26cc6957bafc143750c5",
+    "checker_pin_and_receipt_identity_match": true
+  },
+  "api_and_helper_closure": {
+    "manifest": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/dependency_manifest.json",
+      "bytes": 8735,
+      "sha256": "3ecd2c1a45a2df969faa9f0c0257053698f6c0667e47df61e5762ed6a1e16a0e"
+    },
+    "checker_api": "Same import-safe assert_helper_closure() and 13 positional Path arguments to verify_terminal() as V1; no main, CLI, old entrypoint, global spoof, copied trainer, or framework added.",
+    "private_code_file_count": 7,
+    "six_helper_leaves_unchanged": true,
+    "helper_pins": {
+      "child_nll_terminal_check_v1.py": {
+        "bytes": 40474,
+        "sha256": "a3cf3b10515bb16275561a0ab9338227c00661347afbdf081888ec258dd1f7a2"
+      },
+      "child_control_terminal_check_v3.py": {
+        "bytes": 79972,
+        "sha256": "618b9b0fe7c0cf85e94848b24a837a63e27df46f81e35f2f8536c049072e5167"
+      },
+      "child_ema_terminal_check_v3.py": {
+        "bytes": 38267,
+        "sha256": "676d548c1cd25c3c1379548999cca1300ef135dd41b4a8f73689ef8e59de3b5d"
+      },
+      "parent_fit_terminal_check_v3.py": {
+        "bytes": 64550,
+        "sha256": "f2b819c1e105171f0093fae433aec301347645f8f64717effa16917005dbfe41"
+      },
+      "propensity_terminal_support.py": {
+        "bytes": 13107,
+        "sha256": "958d973b17a2180c954ca7e0953ce20d7b5a3120124cd3cf964a97606604f409"
+      },
+      "teacher_s5_terminal_check_v1.py": {
+        "bytes": 37448,
+        "sha256": "cb7b482cc0821421b3c62f87fea1724b4148e8e85f468ae1d65eb6ccf5db41a5"
+      }
+    },
+    "predecessor_receipt_count": 14,
+    "native_gate": {
+      "unit": "computer-vision-homework-fg19-child-allthree-fit-v1.service",
+      "invocation_id": "94d3a7132a434d448345b0206bd3daa3",
+      "identity_and_strict_typed_evidence_gate_retained": true,
+      "already-stopped_circular_prerequisite": false
+    }
+  },
+  "focused_schema_fixture": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/test_child_allthree_terminal_check_v2_nll_stop_schema.py",
+    "bytes": 4442,
+    "sha256": "51ec9f655f7c5aaacfdae1eb5fd4775770a09c94d27859ae88da74881ec971ed",
+    "source_review_finding": "The fixture source checks the one-literal byte inverse, reads only the pinned NLL stop metadata, and rejects a dotted schema or missing strict unit/invocation identity without importing the checker.",
+    "actor_reported_result": "Three focused fixture cases passed in one final invocation; Ruff format/lint passed. An earlier path-only draft fixture failure and its correction are preserved in LOCAL_CHECKS.json.",
+    "rerun_by_reviewer": false
+  },
+  "private_import_boundary_proof": {
+    "harness": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/private_import_boundary_proof_allthree_terminal_check_v2.py",
+      "bytes": 23177,
+      "sha256": "c9da47db67885e569cf18a94eea7266d0733bbbbea8cbbdb20bd8bda6418d512"
+    },
+    "proof": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/PRIVATE_IMPORT_BOUNDARY_PROOF_V2.json",
+      "bytes": 12712,
+      "sha256": "d590fccb9c001791cdd3656a423e424a8d0042cf3a33e2415c381b5a1d306a11",
+      "schema": "fg19.child-allthree-terminal-import-boundary-proof.v2",
+      "status": "PASS_NARROW_ALLTHREE_PRIVATE_IMPORT_BOUNDARY_V2"
+    },
+    "scope_note": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/PRIVATE_IMPORT_BOUNDARY_SCOPE_V2.md",
+      "bytes": 1264,
+      "sha256": "23945c39d8dffcb94645b663780278377478a02769d1a90e02aed8c0c5658ad4"
+    },
+    "reviewed_claims": {
+      "literal_venv_parent_and_child_python": true,
+      "child_flags": ["-E", "-B", "-I"],
+      "interpreter_path_resolution_used": false,
+      "exact_seven_file_pre_and_post_import_pins_and_module_origins": true,
+      "preloaded_private_modules": [],
+      "private_bytecode_absent_before_and_after": true,
+      "checker_functions_called": ["assert_helper_closure"],
+      "verify_terminal_or_cli_called": false,
+      "protected_open_attempts": 0,
+      "guarded_cuda_action_attempts": 0,
+      "cuda_initialized_before_and_after": false,
+      "cuda_init_observer_calls": 2,
+      "wnn_source_modules_loaded": 0
+    },
+    "limits": "This is a narrow import-only proof, not a full verify_terminal run, worker runtime proof, model/state acceptance, payload I/O proof during terminal verification, or exhaustive OS syscall/CUDA monitor. The proof reports local Torch 2.14.1 and explicitly leaves worker Torch 2.14.0+cu130 as a fresh gate.",
+    "harness_or_proof_rerun_by_reviewer": false
+  },
+  "failure_context": {
+    "prior_actual_result_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/ACTUAL_RESULT_METADATA_REVIEW.json",
+      "bytes": 14935,
+      "sha256": "68870a80143ef4db13f5d8049d4d8c367eadf4a1471428d5f379a4b3dd3aaa79",
+      "status": "PASS_METADATA_ONLY_FIRST_SUPPORT_FAILED_SCHEMA_GATE"
+    },
+    "meaning": "The literal repair matches the exact pinned predecessor-stop schema that caused the preserved V1 support-unit failure. This does not alter or retry V1, and does not claim a V2 worker run or terminal success."
+  },
+  "preparation_state": {
+    "local_checks": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v2/LOCAL_CHECKS.json",
+      "bytes": 4113,
+      "sha256": "0eb866450cd4a5054b04f607b862136fae5452c4cbd7b41600e74730b91f9839"
+    },
+    "root_preparation": "Pending root-owned preparation according to dependency manifest; this source review does not authorize staging, admission, or execution.",
+    "separate_successor_wrapper_review_required": true
+  },
+  "limitations": [
+    "The unchanged V1 checker body and six helper files were not retested; byte comparison shows V2 differs only in the repaired strict-schema literal.",
+    "The actor-reported focused fixture and private import proof are recorded from their frozen receipts; the reviewer did not rerun either artifact.",
+    "No B action, full checker execution, new CPU support unit, model/state/array/dataset payload read, or model-quality result is authorized or claimed by this source-only pass."
+  ]
+}

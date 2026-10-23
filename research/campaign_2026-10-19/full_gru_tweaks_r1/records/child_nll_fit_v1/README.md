@@ -1,0 +1,29 @@
+[Full NLL acceptance](TERMINAL_ACCEPTANCE.json) and [one actual CPU support](terminal_verification_v1/ACTUAL_INDEX.md) passed all44760/state/model/source/ancestry gates; [exact owned exited stop](exact_stop/README.md) followed durable acceptance at01:54:50UTC. Native completion is counted once, support is engineering only. The [final AllThree arm](../child_allthree_fit_v1/README.md) now owns the sole GPU stage. No NLL predictive-quality result, replay, further poll or healthy stop. [Original native proof](terminal_native_capture_v1/README.md) and [local derived capture summary](capture/README.md) preserve raw/provenance and resource limits.
+
+---
+
+**Latest dated status01:01UTC:** [One rare same-invocation capture](status_20261021T0101Z/README.md) records completed epochs0–4/37300updates/3730batches/zero skips/nonfinite. Later ep5batch280 is not synchronous totals/native44760/integrity/quality. One owned worker, no new events, seven stat-only artifactfiles. Needed thin terminal consumer/conditional CPU preparation is LOCAL/in progress, not B staging/admission. Next focused exact-unit observation01:40UTC+; no completion inference from timing.
+
+---
+
+**Latest dated health00:01UTC:** [One rare same-invocation capture](health_20261021T0001Z/README.md) records completed epochs0–2 / 22380successfulupdates / 2238batches / zero skips/nonfinite. Later ep3batch660 is not current totals, terminal44760, integrity or quality. One owned GPU worker, no new events, five stat-only artifact files; no new job/action/checker preparation. Next rare check21October00:50UTC+; actual typed native exit0 remains prerequisite for B integrity checking.
+
+---
+
+**Latest dated health23:02UTC:** [One rare same-invocation capture](health_20261020T2301Z/README.md) records completed epoch0 / 7460successfulupdates / 746batches / zero skips/nonfinite. Later ep1batch580 is not current totals, terminal44760, integrity or quality. One owned GPU worker, no new events, three stat-only artifact files; no new job/action/checker preparation. Next rare check21October00:00UTC+; actual typed native exit0 remains prerequisite for B integrity checking.
+
+---
+
+# Actual NLL-only full GRU child
+
+The fourth fixed child launched once20October22:07:20.840571UTC (receipt time; 21October01:07MSK), after the dictionary child passed full integrity and exact owned stop. Unit `computer-vision-homework-fg19-child-nll-fit-v1.service`, invocationc833c613fb92426981ab255a5faf4452, PID1537702 at the launch observation. Expected six epochs/44,760updates are not completed work or quality evidence.
+
+[Exact submitted body](REMOTE_SUBMISSION.py)227746B/SHA893e06d9f17ee75450251bb3f8918312041ca6f147cf1cd30312335889843f15 and [final independent body source review](../../preparation/child_nll_fit_v1/FINAL_BODY_SOURCE_REVIEW_V2.json)14660B/SHA7354aeb1c1980a11f0aa67ecac03e1f2ecca8e853052ac778e349fcf84fae081 bind the twelve exact predecessor receipt documents. [Root admission preparation](ROOT_ADMISSION_PREPARATION.json), [raw launch](STDOUT.raw.json), [transport](TRANSPORT.json), [actual admission](ADMISSION.json), [launch](LAUNCH.json), [root launch acceptance](LAUNCH_ACCEPTANCE.json), and [actual launch metadata audit](ACTUAL_LAUNCH_METADATA_REVIEW.json) preserve one reviewed attempt. Raw27426B/SHA90c7fcd2a916ffd6a1fa63ee9a7192f6cbc439f989bb7ade25435ecd1902efbb, SSH0/empty stderr, was persisted/fsynced before parsing. LAUNCH has no body_sha256; separate root acceptance binds body/review/receipts. Clocks are separate observations, not microsecond physical launch precision.
+
+The trainer keeps common467→25/H256×2/head1/parent@ep3/inheritednorm/seed1001/seeded order/B16C2000/full20k/6epochs/fixed5/AdamW/OneCycle/FP32/T3cache+target+weights. Only runname, representation sparse→base and mean-variance objective wmse→nll change from the dictionary child. `--loss wmse --loss-norm chunk` remain the canonical compatibility pair; the new objective couples mean/logvariance. Dictionary child is a sequential prerequisite only, never initializer. Frozen learned dictionary is validated/reused, not refit. Shared shape profile is reused, not replayed.
+
+Fresh source167/split/cache/dictionary/parent/profile/CONTROL+EMA+dictionary-child acceptedstops/registered aliases/allpop/ownership/selectedGPU/disk/output+unit absence/headroom/physicalscratch gates passed before mutation. Compact ADMISSION omits standalone before-state absence/unit-not-found properties; exact reviewed source enforces them. Worker1CPU/high7.5GB/max8GB/swap0/24h/4GiB allocator+1GB reserve/BLAS1/loader0; parent2CPU/target17GB. Foreignjobs untouched/no empty-card requirement.
+
+[One startup observation](startup_health_v1/README.md) is the next concrete ownership/resource confirmation. No active checkpoint/state/cache/data payload read/hash, inference, restart, stop or quality evaluation is authorized by startup status. Native exit0 must be captured as actual strict INTEGER0/1/0 evidence before any terminal payload checker staging/admission. No NLL-specific terminal checker exists yet; any needed future consumer must be a local thin identity/recipe binding of reviewed pure leaves, not an old checker entrypoint or spoofed recipe.
+
+Parent+CONTROL+EMA+dictionary are completed/accepted/exact-stopped. NLL is the fifth comparison fit started, fourth child; allthree remains the sole unadmitted fixed child. Planned6 comparison fits and5 completed shared prerequisite fits remain separate. No predictive-quality endpoint or gain. No automatic queue/retuning/profile replay; next routine rare observation23:00UTC or later after the one startup confirmation, unless a direct request or failure evidence.

@@ -1,0 +1,69 @@
+{
+  "schema": "fg19.first-cell-export-acceptance-source-review.v8",
+  "status": "REJECT_SOURCE_ONLY_NO_EXPORT_ACCEPTANCE",
+  "reviewed_at_utc": "2026-10-21T10:38:40Z",
+  "scope": "Independent static review of ROOT's metadata-only V8 export acceptor. No current terminal result or prediction payload was read; the acceptor was not executed and no B, SSH, systemd, GPU, or cgroup operation was performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ACCEPT_EXPORT_CAPTURE_V8.py",
+    "bytes": 33108,
+    "sha256": "974826c51bb10f4e1ba2b2e363825f2813539ae7d1e563aa8e394e7f81d70d40"
+  },
+  "focused_fixture": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/test_accept_export_capture_v8_provenance.py",
+    "bytes": 8743,
+    "sha256": "6c0f0985b3f2dab87be547de86e62434a561c4774229cf16b5bc939157ed138f",
+    "actor_reported_result": "6 focused fixtures passed; Ruff check passed",
+    "executed_by_reviewer": false
+  },
+  "frozen_exporter_pair": {
+    "review_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_SOURCE_REVIEW_V4.json",
+    "review_bytes": 8712,
+    "review_sha256": "64c93d8279a2daeb15f2750e6366a0fe94a268c7b8e9a04dbdb28e4a36a56e73",
+    "review_schema": "fg19.first-cell-export-source-review.v4",
+    "review_status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR",
+    "reviewed_file_rows": 12,
+    "binding_path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+    "binding_bytes": 15796,
+    "binding_sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+  },
+  "reviewed_behavior": {
+    "exact_v4_review_file_set_and_pins_required": true,
+    "v6_body_source_review_and_binding_pins_joined": true,
+    "two_original_launch_receipts_joined_to_raw_base64_and_root_launch_acceptance": true,
+    "metadata_only_manifest_five_sidecar_and_fixed_arm_recipe_validation": true,
+    "private_scorer_source_bytes_are_pinned_before_in_memory_compile": true,
+    "only_pure_scorer_data_identity_leaf_is_called": true,
+    "preloaded_private_module_names_and_local_bytecode_are_rejected": true,
+    "prediction_arrays_are_not_opened_or_hashed_by_root": true,
+    "root_acceptance_is_create_only_and_fsynced": true
+  },
+  "findings": [
+    {
+      "id": "V8-1",
+      "severity": "blocking",
+      "finding": "The code conflates the original launch record with the later terminal-status capture. `RECORD_V6` names the launch record directory, and `main()` requires both `--record-root` and `--capture-root` to equal that same path. It then reads `<capture-root>/STDOUT.raw.json` and `TRANSPORT.json` as the terminal observation. Those launch-root files belong to the original V6 launch reply, which contains the bounded four-key unit/outcome/admission/launch response, while `validate_metadata()` requires the later terminal-status object with `systemd` and `terminal_metadata`. The status reader writes its own raw output and transport beneath a tagged child directory, but passing that directory is rejected by the equality guard."
+    },
+    {
+      "id": "V8-2",
+      "severity": "blocking",
+      "finding": "The same transport object is used for two different events. `validate_root_launch_acceptance()` compares the original launch acceptance's `raw_transport` to `transport_path` and requires its body/review pins to be the V6 launch stdin body/review. A later terminal-status capture has a different reader body/review and its own raw stdout. Therefore the launch acceptance cannot validate the status transport supplied to `validate_metadata()`, even if the capture path guard were relaxed."
+    }
+  ],
+  "required_resolution": "Create a versioned acceptor that receives distinct exact launch-record and terminal-capture roots. Validate the original launch raw transport against the V6 body/review and launch acceptance; independently validate the tagged terminal capture raw transport against the exact status-reader body/review and raw status stdout. Preserve exact unit/invocation and original receipt joins across both records before writing the export acceptance.",
+  "execution_state": {
+    "acceptor_executed": false,
+    "export_acceptance_written": false,
+    "native_raw_capture_read": false,
+    "array_payloads_read_or_hashed": false,
+    "quality_claimed": false
+  },
+  "reviewer_actions": {
+    "source_and_saved_metadata_read": true,
+    "source_imports_or_tests_run": false,
+    "b_or_ssh_attempted": false,
+    "systemd_gpu_or_cgroup_queries_performed": false,
+    "source_reviewed_for_exact_path_and_transport_join": true,
+    "model_data_cache_prediction_or_result_payloads_read": false
+  },
+  "reviewer_conclusion": "V8 has a concrete producer/consumer path mismatch: it cannot consume the later terminal-status raw capture while also verifying the original V6 launch acceptance and transport. Preserve this version as a source-only rejection. A separately versioned acceptor must bind launch and terminal transports independently before any export acceptance is written."
+}

@@ -1,0 +1,60 @@
+{
+  "schema": "fg19.child-allthree-fit-rare-health-metadata-review.v1",
+  "status": "PASS_METADATA_ONLY",
+  "reviewed_utc": "2026-10-21T03:21:53Z",
+  "scope": "Independent local metadata audit of the final AllThree fit health capture only. No B access, network, tests, imports, canonical-source content rehash, model/array/data payload access, terminal acceptance, or quality assessment.",
+  "evidence": {
+    "STDOUT.raw.json": {
+      "bytes": 54580,
+      "sha256": "3f4874b8cc83f0f8d0e078f71f47a70577450b47f70c1ddfb9bc2356808fe39b"
+    },
+    "STDERR.raw.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "TRANSPORT.json": {
+      "bytes": 545,
+      "sha256": "8c3324780d97b3fd494bc45fbf1e969978975edfedd24e6118002d22745aca74"
+    },
+    "REMOTE.py": {
+      "bytes": 13018,
+      "sha256": "0df25d26ba9e3c1eda9a2a82cf6b7940577fb8b25b81002fdfd7c27f15341b9b"
+    },
+    "ADMISSION.json": {
+      "bytes": 12912,
+      "sha256": "5312ae5feffc67d7a33051379afabb9c134dd946f1f97315d839c7d6f10d5540"
+    },
+    "LAUNCH.json": {
+      "bytes": 9594,
+      "sha256": "ec9d8dc819894e148753838ba33ba95080c192bacd5ac53413bd6847568fd538"
+    },
+    "unit.log": {
+      "bytes": 11463,
+      "sha256": "dd609ff5a4e3cdd81107ca8068b01356302547eb577d3c89a22db6243b0d6912"
+    },
+    "OBSERVATION.json": {
+      "bytes": 10735,
+      "sha256": "3c5152a1e9de8cb0c47a38c3f7bb0a0f32ba48ff31a40f93a115fd50a453f252"
+    },
+    "README.md": {
+      "bytes": 2844,
+      "sha256": "ed63c7197659fb8e7a797b2c5b3ce431a0a2d625d1b43113e9b7fc11c3f10569"
+    }
+  },
+  "checks": {
+    "transport": "Raw length and SHA256 match TRANSPORT.json; SSH returned 0, stderr was empty, capture was persisted before parsing, with no timeout or retry.",
+    "identity": "Raw capture time is 2026-10-21T03:18:52.813912+00:00 and binds run fg19_child_allthree_f0_s1001_fit_v1, unit computer-vision-homework-fg19-child-allthree-fit-v1.service, invocation 94d3a7132a434d448345b0206bd3daa3, PID 1875143.",
+    "receipt_joins": "All three base64 fields decode canonically and compare byte-for-byte with the local extracts. ADMISSION and LAUNCH extracts also equal their original root receipts and startup copies. The unit.log extract equals the raw receipt. Extract lengths and SHA256 values match raw receipt metadata.",
+    "reader": "The 13018-byte reader is byte-identical to startup_health_v1/REMOTE.py at SHA256 0df25d26ba9e3c1eda9a2a82cf6b7940577fb8b25b81002fdfd7c27f15341b9b; reader schema and startup prose remain unchanged.",
+    "command": "The native unit ExecStart trainer argv exactly matches the Python argv suffix in original LAUNCH.json. OBSERVATION unit_properties equal the raw unit_properties; the pinned run/unit/invocation identities agree.",
+    "progress": "The log has one completed FIT record, epoch 0: 7460 optimizer attempts/completed updates, 746 completed batches, zero AMP-skipped updates; its GRAD_STATS record has 7460 steps and zero nonfinite steps. The final ep 1 batch 680/746 line is progress only, with no second FIT/GRAD_STATS record or terminal/quality claim.",
+    "ownership_and_resources": "The unit is loaded/active/running with the pinned invocation and PID. The only populated campaign descendant is this unit cgroup containing PID 1875143. The owned GPU process is PID 1875143, UID 1061, exact unit cgroup, 3762 MiB; other GPU processes are separately identified and were only observed. Own memory.events and memory.events.local are zero. Parent counter deltas from startup are zero; historical parent high=38355 and max=561 are preserved as nonzero. Three run-directory entries are stat-only.",
+    "source_authority": "OBSERVATION correctly says canonical source content was not rehashed by the reader. The exact ADMISSION extract declares 167 source files verified under commit 68ff682977b822f38351aac0f621146f5f13b440 and manifest SHA256 a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621; this fresh admission remains content authority. No source contents were rehashed in this review."
+  },
+  "limitations": [
+    "This dated snapshot is not native completion, tensor integrity, or predictive-quality evidence.",
+    "Run-directory model, provenance, and training-state files were checked only through stat metadata; no payload was read or hashed.",
+    "Service, process RSS, cgroup, GPU, CPU, and wall-time values remain separate observations."
+  ],
+  "blockers": []
+}

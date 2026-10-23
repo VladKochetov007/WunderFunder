@@ -1,0 +1,259 @@
+{
+  "actual_metadata_findings": {
+    "actual_parent_resolutions": {
+      "cache": {
+        "device": 64512,
+        "inode": 725819756,
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache",
+        "resolved": "/home/grinchenkoeg/computer-vision-homework-20261018/data/cache"
+      },
+      "datasets": {
+        "device": 64512,
+        "inode": 743836258,
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/data/datasets",
+        "resolved": "/home/grinchenkoeg/WunderFunder/datasets"
+      }
+    },
+    "export_binding_registered_six_sources_equals_fit_admission": true,
+    "no_historical_parent_inode_or_resolution_baseline_claimed": true,
+    "parent_diagnostic_before_equals_after": true,
+    "score_v2_fresh_six_leaf_stats_equal_registered_leaf_stats": true
+  },
+  "actual_metadata_inputs": {
+    "alias_parent_diagnostic": {
+      "bytes": 3218,
+      "path": "records/first_cell_evaluation_v1/score_v2/alias_parent_diagnostic_v1/STDOUT.raw.json",
+      "sha256": "e6c08c71185d34c8763ec4fc983d72a91003d3626e6dc2da6a53926c49cb8380"
+    },
+    "export_binding_v4": {
+      "bytes": 15796,
+      "path": "preparation/first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+      "sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    "fit_admission": {
+      "bytes": 12912,
+      "path": "records/child_allthree_fit_v1/ADMISSION.json",
+      "sha256": "5312ae5feffc67d7a33051379afabb9c134dd946f1f97315d839c7d6f10d5540"
+    },
+    "score_v2_admission": {
+      "bytes": 69650,
+      "path": "records/first_cell_evaluation_v1/score_v2/ADMISSION.json",
+      "sha256": "1252b2f1d39ef255fac83c722cfc1a380705963a0b2f9dede35dcabed45ba631"
+    }
+  },
+  "boundary": {
+    "actual_scoring": false,
+    "b_access_or_b_action": false,
+    "checkpoint_model_cache_or_prediction_payload_read_local": false,
+    "fit_or_export_run": false,
+    "metric_or_quality_claim": false,
+    "unchanged_scorer_or_model_suites_rerun": false
+  },
+  "change": {
+    "base_scorer": "first_cell_evaluation_score_v5",
+    "behavior": "observe_registered_source keeps exact registered leaf path, resolved target, symlink status, device, inode, bytes, and mtime checks; parent target is observed before/after and must retain same resolved target and dev/inode within that call, with no unsupported static parent-resolution baseline.",
+    "inverse_proof": {
+      "bytes": 4657,
+      "path": "SCORE_V6_REGISTERED_ALIAS_PROOF.json",
+      "sha256": "351c99aee955db0f3c1cbee9a7477cb15de96faa3e92fa0036af902cc2dcb288"
+    },
+    "only_changed_production_module": "first_cell_score_core.py",
+    "other_three_scorer_modules_byte_identical_to_v5": true,
+    "proof_script": {
+      "bytes": 8845,
+      "path": "prove_score_v6_registered_alias.py",
+      "sha256": "5d4d5aa8d55e978e56112bdf56dfee32614c3ff73ace5bb563dc982c49db4b7e"
+    }
+  },
+  "fixed_comparison": {
+    "arms": [
+      [
+        "control",
+        "base"
+      ],
+      [
+        "ema",
+        "ema"
+      ],
+      [
+        "sparse",
+        "sparse"
+      ],
+      [
+        "nll",
+        "base"
+      ],
+      [
+        "allthree",
+        "ema_sparse"
+      ]
+    ],
+    "bootstrap": {
+      "centered_moments": true,
+      "replicates": 2000,
+      "scope": "conditional paired successor-component resampling for these fixed models",
+      "seed": 271828
+    },
+    "exposure": "fit-excluded but exposed development data; not a fresh or public holdout",
+    "inference": "strict_fp32; autocast=false; tf32=false",
+    "official_mask": "is_scored AND (t >= 99)",
+    "ordered_groups": 468,
+    "selected_epoch": 5,
+    "sequence_rows": 20000,
+    "split_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+    "successful_updates": 44760,
+    "valid_row_group_count": 1873
+  },
+  "focused_fixture": {
+    "bytes": 9496,
+    "cases": [
+      "all six actual registered leaf identities pass with their captured parent layout",
+      "a changed exact leaf resolution is rejected",
+      "a parent resolution change during one observation is rejected"
+    ],
+    "filesystem_observations": "Synthetic only, joined to pinned actual score-admission and root-captured metadata; no source/cache/model/array payload open or hash.",
+    "path": "test_score_v6_registered_alias_gate.py",
+    "sha256": "25c9bc91de4912a85048fbe0cb4e79491178df91947d15968ae66141b460ea5f"
+  },
+  "packet_documents": [
+    {
+      "bytes": 1940,
+      "path": "README.md",
+      "sha256": "e0737a1ea2ef40d3a8ad1212ea48e37683654a976043a31172e6baa3a037472d"
+    },
+    {
+      "bytes": 1344,
+      "path": "LOCAL_CHECKS.md",
+      "sha256": "05b7498f00d54436b968598a88341b13ccee2a574c1d460d6c954c46815e70d3"
+    }
+  ],
+  "prior_actual_score_failure": {
+    "capture_stderr": {
+      "bytes": 0,
+      "path": "records/first_cell_evaluation_v1/score_v2/status_capture_v1/STDERR.raw.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capture_stdout": {
+      "bytes": 103906,
+      "path": "records/first_cell_evaluation_v1/score_v2/status_capture_v1/STDOUT.raw.json",
+      "sha256": "818c905ddcf6277120be5ea7f5d6eb58f6a704a5c1f2c1354afe84a8838ccac2"
+    },
+    "invocation_id": "fbc58e9d2a7e47629c6a8feb6302aae8",
+    "outcome": "FAILED before split-input/index preflight, prediction opening, and score_stream; the result was not read.",
+    "policy": "Preserve the failed unit and D1; do not query, stop, retry, or restart it. Any future attempt requires a fresh versioned admission and D2.",
+    "record_readme": {
+      "bytes": 1762,
+      "path": "records/first_cell_evaluation_v1/score_v2/status_capture_v1/README.md",
+      "sha256": "97683d18e28790fda77faa54fa8a4df7701e6e09d63555e91739fbab56e1d2d8"
+    },
+    "transport": {
+      "bytes": 608,
+      "path": "records/first_cell_evaluation_v1/score_v2/status_capture_v1/TRANSPORT.json",
+      "sha256": "92f448282683ad50d5d51c056803acd41a0a53f1bc8b3845eea57fc9a63fa04b"
+    }
+  },
+  "review_scope": "Pending independent V6 scorer source review. The accepted exporter V4/binding V4/source-manifest V4 producer contract remains unchanged; its existing source-pair review is preserved as upstream provenance and does not review this V6 scorer.",
+  "schema": "fg19.first-cell-score-dependency-manifest.v6",
+  "scorer_files": [
+    {
+      "bytes": 26965,
+      "path": "first_cell_score_core.py",
+      "sha256": "961f566eaeec0cd7e9ab48788666d03da9b0482810a11f16a019b083cfc65005"
+    },
+    {
+      "bytes": 20165,
+      "path": "first_cell_score_contract.py",
+      "sha256": "b6e3f7a9f9663f519037c54a2077f70d83fbf0b2ba54dc3e158eb5e3b173479d"
+    },
+    {
+      "bytes": 11056,
+      "path": "first_cell_score_predictions.py",
+      "sha256": "88c4ffafaa05a02f40825122e425d310ef4376276ecdfb6b0223aacd6f37ec7d"
+    },
+    {
+      "bytes": 10630,
+      "path": "score_first_cell.py",
+      "sha256": "b2546281deb54f944577d4db19a8bd7d903cc0f5b755bdb21b2b962696f56dd6"
+    }
+  ],
+  "source_authority": {
+    "canonical_metric": "global_wp_clip2_v1",
+    "canonical_source_files": [
+      {
+        "bytes": 63,
+        "path": "src/wnn/__init__.py",
+        "sha256": "2dca10ee7e2e8c1139bed2165b322d2077fdbeac8095428e8c796efe47ea66c6"
+      },
+      {
+        "bytes": 4000,
+        "path": "src/wnn/data.py",
+        "sha256": "a93da840137adbd7afdb79a22687fb73150e77107f91ca2adc5211b854bc7e00"
+      },
+      {
+        "bytes": 8902,
+        "path": "src/wnn/gmetric.py",
+        "sha256": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa"
+      },
+      {
+        "bytes": 8080,
+        "path": "src/wnn/evaluation.py",
+        "sha256": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e"
+      },
+      {
+        "bytes": 2239,
+        "path": "src/wnn/portability.py",
+        "sha256": "a35f84ee5c95fd45cd76aa5f34f7013c8e1c5963a6306b0e4049386515589a44"
+      },
+      {
+        "bytes": 9000,
+        "path": "src/wnn/splits.py",
+        "sha256": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe"
+      }
+    ],
+    "commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "helper_contract": {
+      "metric": "GlobalAccumulator",
+      "paired_uncertainty": "paired_component_moments + paired_component_bootstrap",
+      "portable_data_manifest_environment": {
+        "bytes": 2157,
+        "path": "/home/grinchenkoeg/computer-vision-homework-20261018/support-source/terminal-v1/PORTABLE_SOURCES.json",
+        "sha256": "1f39cbf8b242495e18baaf5d36eeac907c0ad655e951b0efa6a48580b7699378"
+      },
+      "reader": "SequenceFile.read(row_group, targets=True, mask=True)",
+      "split": "load_campaign_split",
+      "warmup": 99
+    },
+    "repository": "/Users/nb/Documents/wunder/WunderFunder-strong-gru-tweaks-20261019",
+    "source_set_sha256": "9c461bcc5883572a071d41a86e18b9a91136099cf8fa87371ce7c3ee41445bd8"
+  },
+  "status": "LOCAL_SOURCE_PREPARATION_ONLY_NOT_EXECUTED",
+  "superseded_proof_draft": {
+    "bytes": 4587,
+    "path": "SCORE_V6_REGISTERED_ALIAS_PROOF_INITIAL_SUPERSEDED.json",
+    "sha256": "65dd55747da213ef27005497b741e0f848f469ee72b2b58809f4584402253583"
+  },
+  "upstream_producer": {
+    "accepted_source_pair_review": {
+      "bytes": 8712,
+      "path": "preparation/first_cell_evaluation_export_v4/EXPORT_SOURCE_REVIEW_V4.json",
+      "sha256": "64c93d8279a2daeb15f2750e6366a0fe94a268c7b8e9a04dbdb28e4a36a56e73"
+    },
+    "accepted_source_pair_review_status": "PASS_SOURCE_ONLY_PRODUCER_CONSUMER_PAIR",
+    "binding": {
+      "bytes": 15796,
+      "path": "preparation/first_cell_evaluation_export_v4/EXPORT_BINDING_V4.json",
+      "sha256": "4a8ae22204971ac07d6e5cdfd9f65a62e9f8440831035db7271e4e0da3d83abd"
+    },
+    "exporter": {
+      "bytes": 66790,
+      "path": "preparation/first_cell_evaluation_export_v4/export_first_cell_v4.py",
+      "sha256": "87b6d3626bdafe6353865d95b1d8116bd187cb4da46888815658db6fc192738e"
+    },
+    "scope_note": "The reviewed V4 exporter V5-scorer producer/consumer pair and accepted five-arm exports are reused unchanged. This pin does not imply V6 scorer review or a new export.",
+    "source_manifest": {
+      "bytes": 27569,
+      "path": "preparation/first_cell_evaluation_export_v4/EXPORT_SOURCE_MANIFEST.json",
+      "sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    }
+  }
+}

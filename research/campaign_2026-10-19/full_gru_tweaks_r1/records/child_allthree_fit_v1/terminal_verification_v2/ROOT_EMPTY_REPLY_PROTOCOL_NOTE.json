@@ -1,0 +1,68 @@
+{
+  "schema": "fg19.child-allthree-empty-reply-protocol-note.v1",
+  "status": "OBSERVED_EMPTY_OUTER_REPLY_PROTOCOL_GAP_AWAITING_READONLY_BOOTSTRAP",
+  "review_scope": "Bounded local source and transport metadata review only. No tests, imports, B actions, retries, checker execution, or model/array/dataset payload reads.",
+  "body": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/REMOTE_SUBMISSION.py",
+    "bytes": 707678,
+    "sha256": "12f357f2127abded88b0e89d5ba08323310bcc5337a980f89a2ce90b4ec57151",
+    "matches_reviewed_v3_source": true,
+    "source_review": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v3/FINAL_BODY_SOURCE_REVIEW_V3.json",
+      "bytes": 9894,
+      "sha256": "cf5b9f778e8507f7db1b0058e1a8b550b4d8f58ba183fbfdbe03ac98a1e659e7",
+      "status": "PASS_SOURCE_ONLY"
+    }
+  },
+  "source_observations": {
+    "runner_result_print": {
+      "line": 1335,
+      "scope": "The print statement is part of the runner string executed by the systemd-run child process.",
+      "destination": "The systemd-run command redirects the child unit's stdout and stderr to D/unit.log at source lines 1350-1351."
+    },
+    "outer_submit_capture": {
+      "lines": "1367-1373",
+      "behavior": "The outer main captures systemd-run subprocess stdout/stderr into a submission record."
+    },
+    "durable_launch_receipt": {
+      "lines": "1405-1406",
+      "behavior": "The outer main writes VERIFIER_LAUNCH.json after its post-submission unit query."
+    },
+    "outer_json_reply": {
+      "result": "No outer JSON reply is printed by main; the only print call is the runner-string print described above, and the source ends after main returns.",
+      "basis": "Source lines 1335-1336, 1405-1423; `rg` found one print call, at line 1335."
+    }
+  },
+  "persisted_transport": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v2/TRANSPORT.json",
+    "bytes": 921,
+    "sha256": "767058f68a62850d57e02bf23770cb852251346fafb0cda058c9850fb571aefd",
+    "started_utc": "2026-10-21T06:11:14.544054+00:00",
+    "finished_utc": "2026-10-21T06:11:16.112107+00:00",
+    "ssh_returncode": 0,
+    "timed_out": false,
+    "stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "persisted_before_parse": true,
+    "retry_performed": false
+  },
+  "interpretation": {
+    "root_local_parse_error": "Root reported that local JSON parsing failed after the empty stdout bytes had been durably persisted; no parser-error artifact was independently audited for this note.",
+    "conclusion": "The empty outer SSH stdout and subsequent local parse error are consistent with the V3 body not emitting an outer JSON reply. They do not establish the support unit's execution or terminal state.",
+    "actual_support_unit_state": "Not audited here; requires the planned read-only bootstrap capture of exact-unit VERIFIER_ADMISSION.json and VERIFIER_LAUNCH.json receipts."
+  },
+  "next_evidence_gate": {
+    "operation": "Independently audit the root-provided read-only bootstrap capture and its exact support-unit/source/receipt bindings when received.",
+    "scope_limit": "The bootstrap reader must remain limited to exact unit identity and bounded O_NOFOLLOW reads of VERIFIER_ADMISSION.json and VERIFIER_LAUNCH.json; this note does not authorize another submission or any payload access."
+  },
+  "limitations": [
+    "This note distinguishes outer transport output from the unit's own log and does not claim whether the support unit ran, completed, or failed.",
+    "No remote query, unit action, source execution, checker import, tests, or model-state/array/dataset payload access was performed by this reviewer."
+  ]
+}

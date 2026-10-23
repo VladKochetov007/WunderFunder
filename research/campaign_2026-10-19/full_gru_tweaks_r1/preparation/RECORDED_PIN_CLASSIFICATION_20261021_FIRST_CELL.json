@@ -1,0 +1,48 @@
+{
+  "schema": "fg19.first-cell-evaluation-recorded-pin-classification.v1",
+  "status": "PRESERVED_TWO_HISTORICAL_MISMATCHES_AND_ONE_SEPARATE_REVIEW_TYPO_CORRECTION",
+  "created_utc": "2026-10-21T10:44:01.576258+00:00",
+  "historical_mismatches": [
+    {
+      "owner": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/ADMISSION_SOURCE_BINDING_V3.json",
+        "bytes": 13771,
+        "sha256": "6d1d599d688590f492a07b129ccea0080d38847130e0df420d3e562dd4a17d30"
+      },
+      "recorded_target": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/prove_admission_v3_inverse.py",
+      "recorded_bytes": 7946,
+      "recorded_sha256": "28fa76f7e1b97c29c027195112f4949e72afe4b3fdb1f2aa963608835c58b50c",
+      "actual_target": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v3/prove_admission_v3_inverse.py",
+        "bytes": 8197,
+        "sha256": "48ab4bf87894a75ee57476c4ac5d34e03c7bb93c4abb6ad2c96b24e235f00742"
+      },
+      "classification": "Historical binding records a proof-script pin that does not match the currently saved script. The exact 7946-byte script is not archived in this record; do not reconstruct or assert its bytes. The separate frozen V3 source review binds the exact remote body, source-binding bytes, and 3638-byte inverse proof JSON; the actual V3 preflight transport independently binds the submitted body and failed before mutation/zero units. This script pin is not a current proof of that script and is not executable authority for current V6."
+    },
+    {
+      "owner": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v5/REMOTE_SUBMISSION_SOURCE_REVIEW_V5.json",
+        "bytes": 9829,
+        "sha256": "087d8b92b394328484f31e86e14525e9e2a53b3986f19a17b94a1a9622e0d08b"
+      },
+      "recorded_target": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v5/test_admission_v5_export_review_contract.py",
+      "recorded_bytes": 5776,
+      "recorded_sha256": "ec5d30aef7a9ea4cbb5c9e5e86467146a1be2d86cedf749fd28de3841a6bbaa8",
+      "actual_target": {
+        "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v5/test_admission_v5_export_review_contract.py",
+        "bytes": 5060,
+        "sha256": "ec5d30aef7a9ea4cbb5c9e5e86467146a1be2d86cedf749fd28de3841a6bbaa8"
+      },
+      "classification": "Preserved original V5 review has the old fixture length5776 while current fixture5060 has the same recorded SHA. Separate FINAL review897bea6c binds the corrected fixture length and was used for the actual V5 body admission. Root local-input race note preserves the zero-B early SHA guard rejection; original review bytes were restored and not overwritten. Original length field is historical metadata, not a current fixture size claim."
+    }
+  ],
+  "current_status_review_fixture_typo_correction": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_admission_v1/ROOT_CAPTURE_EXPORT_STATUS_V5_REVIEW_PIN_CORRECTION_V1.json",
+    "bytes": 2157,
+    "sha256": "9d1737e9a13fe9a5d7ba81a6753198c047301cbd80f259bb2a01bc22564ec2ab"
+  },
+  "current_status_executable_pin_unchanged": true,
+  "original_sources_reviews_bindings_raws_changed": false,
+  "tests_replayed_or_B_queried_or_payload_read": false,
+  "quality_result": null
+}

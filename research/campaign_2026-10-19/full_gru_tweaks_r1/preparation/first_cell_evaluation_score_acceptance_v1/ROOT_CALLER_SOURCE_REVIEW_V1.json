@@ -1,0 +1,68 @@
+{
+  "schema": "fg19.first-cell-score-root-acceptance-caller-review.v1",
+  "status": "REJECT_SOURCE_ONLY_CALLER_REVIEW_AND_READER_BINDING_GAPS",
+  "reviewed_at_utc": "2026-10-21",
+  "scope": "Static source review of the ROOT score-result acceptance caller V1 and its compatibility with the reviewed stdlib helper API. No import, execution, test, B/SSH/systemd action, capture/result/receipt payload access, or score evaluation was performed.",
+  "candidate": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/ROOT_ACCEPT_SCORE_RESULT_V1.py",
+    "bytes": 6692,
+    "sha256": "124b19c5950fc28112ad86253d3d7ece67d56c4c8f118da43007cf36bdd35f0b"
+  },
+  "helper": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/score_result_acceptance.py",
+    "bytes": 45795,
+    "sha256": "5987d527382f0ce33e72b4c17ae020d03485df3057b398ae285940ead29d528b"
+  },
+  "reviewed_helper_contract": {
+    "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/score_result_acceptance.py",
+    "api": "build_root_acceptance(*, result_raw, capture_raw, score_admission_raw, score_launch_raw, export_acceptance_raw, export_exact_stop_raw, export_binding_raw, export_manifest_raw, result_path=RESULT_PATH)",
+    "writer": "write_root_acceptance_exclusive(path: pathlib.Path, receipt: dict) -> bytes",
+    "compatibility": "The caller supplies all eight required byte arguments by matching keyword names; the default fixed result path is consistent with the helper; the writer call passes an absolute SCORE_ACCEPTANCE.json path and uses the returned exact receipt bytes for its binding.",
+    "helper_review_expected": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v1/SOURCE_REVIEW_V1.json",
+      "bytes": 5695,
+      "sha256": "31dd246873448a214f772be5793b13cff12b7fcb1d79d4cdc64009fcaf8a56f0",
+      "schema": "fg19.first-cell-score-result-acceptance-source-review.v1",
+      "status": "PASS_SOURCE_ONLY_ROOT_RESULT_ACCEPTANCE_V1"
+    }
+  },
+  "findings": [
+    {
+      "severity": "blocker",
+      "location": "main(): args.helper_review.relative_to(PREP), review status/hash check",
+      "finding": "The review path is not fixed to the independently reviewed SOURCE_REVIEW_V1.json. Path.relative_to is lexical and the caller does not reject .. components, so a path syntactically under PREP can escape. Review validation accepts any status beginning PASS_SOURCE_ONLY and only searches the raw text for the helper SHA; it does not validate the expected review schema/candidate path/byte count/SHA fields. Thus an unrelated or fabricated file can satisfy the gate.",
+      "required_fix": "Require the exact review path and exact schema/status and candidate pin fields, then check the review file SHA against the supplied/bound digest."
+    },
+    {
+      "severity": "blocker",
+      "location": "main(): TRANSPORT.json / REMOTE.py validation",
+      "finding": "The caller only checks that REMOTE.py matches the transport body byte count/SHA. It never reads AST_BINDING.json or proves that the transmitted reader is the reviewed capture V4 template with only the five actual admission/launch/invocation literals substituted. A self-consistent transport can therefore bind an unreviewed reader body while the helper accepts its stdout.",
+      "required_fix": "Bind the exact capture V4 template and its exact independent review; validate the actual AST_BINDING receipt, literal values from the exact score ADMISSION/LAUNCH, and AST equality after normalizing only those five literals. Include strict raw stdout/stderr/body joins and fixed transport schema/type checks."
+    },
+    {
+      "severity": "high",
+      "location": "main(): helper import origin/post-import pin check",
+      "finding": "The pre-import helper bytes are pinned, but after import the code performs two separate read(HELPER) calls to form the post-import length/SHA pair. It does not ensure those two bytes came from one stable read or that the loaded code object came from the same stable file version. A concurrent replacement can make the origin claim ambiguous.",
+      "required_fix": "Use one stable bounded post-import read and compare its full pin to the pre-import bytes; if retaining dynamic execution, bind a stable file identity across the import and post-import check."
+    }
+  ],
+  "reviewed_properties": {
+    "helper_keyword_api_compatible": true,
+    "helper_writer_path_and_return_compatible": true,
+    "fixed_result_and_receipt_paths_present": true,
+    "raw_stdout_stderr_and_reader_body_self_joins_present": true,
+    "helper_review_exact_artifact_bound": false,
+    "reader_body_bound_to_reviewed_v4_ast": false,
+    "helper_loaded_source_stability_proven": false,
+    "acceptance_written_only_after_all_helper_checks": true
+  },
+  "execution_state": {
+    "caller_executed": false,
+    "helper_imported": false,
+    "tests_run": false,
+    "B_or_SSH_attempted": false,
+    "systemd_queried": false,
+    "score_result_or_payload_read": false,
+    "quality_claimed": false
+  }
+}

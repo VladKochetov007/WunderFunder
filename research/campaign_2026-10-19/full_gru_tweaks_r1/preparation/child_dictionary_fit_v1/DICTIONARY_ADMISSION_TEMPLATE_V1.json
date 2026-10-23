@@ -1,0 +1,127 @@
+{
+  "schema": "fg19-child-dictionary-fit-admission-template.v1",
+  "created_utc_date": "2026-10-20",
+  "status": "LOCAL_TEMPLATE_FROZEN__EMA_TERMINAL_RECEIPTS_UNBOUND__NO_BODY",
+  "scope": "One next dictionary-only child. This packet prepares a conditional renderer only; no REMOTE_SUBMISSION.py is rendered and no source is staged or admitted.",
+  "recipe_binding": {
+    "path": "preparation/child_dictionary_fit_v1/DICTIONARY_RECIPE_BINDING_V1.json",
+    "bytes": 28944,
+    "sha256": "fedd5a6fb651acabd081335422648d3549daade4aefeb5113bb5280eb34569a5",
+    "trainer_argv_count": 92,
+    "trainer_argv_sha256": "096b036c8af6220512e51b2002f3598729274b482d5db4b1df8099b26f91ab6d"
+  },
+  "base_template": {
+    "path": "preparation/child_ema_fit_v1/REMOTE_SUBMISSION.py",
+    "bytes": 163040,
+    "sha256": "f83ac3120a2e445f1752fcd026123a0e8a21ba53594d27b398462a5236ffebd6",
+    "final_binding_receipt_path": "preparation/child_ema_fit_v1/EMA_FINAL_BINDING_RECEIPT_V1.json",
+    "final_binding_receipt_sha256": "4c9d5ca5e569660a62c91af53780af2e9c3e8c1aa8b2a9c808bfeda6fe47fc80",
+    "preserve_embedded_control_predecessor": true,
+    "preserve_parent_dictionary_profile_cache_resource_and_ownership_gates": true
+  },
+  "successor": {
+    "run_name": "fg19_child_dictionary_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-dictionary-fit-v1.service",
+    "evidence_path_b": "/home/grinchenkoeg/computer-vision-homework-20261018/research_tmp/fg19_child_dictionary_fit_v1",
+    "run_artifact_path_b": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/runs/fg19_child_dictionary_f0_s1001_fit_v1",
+    "representation_mode": "sparse",
+    "objective": "wmse",
+    "output_body_path": "preparation/child_dictionary_fit_v1/REMOTE_SUBMISSION.py"
+  },
+  "trainer_argv_delta_from_ema": [
+    {
+      "index": 1,
+      "flag": "--name",
+      "from": "fg19_child_ema_f0_s1001_fit_v1",
+      "to": "fg19_child_dictionary_f0_s1001_fit_v1"
+    },
+    {
+      "index": 48,
+      "flag": "--representation-mode",
+      "from": "ema",
+      "to": "sparse"
+    }
+  ],
+  "sequential_predecessor": {
+    "run_name": "fg19_child_ema_f0_s1001_fit_v1",
+    "unit": "computer-vision-homework-fg19-child-ema-fit-v1.service",
+    "invocation_id": "da5baf82d22b4f02890e184193b8caf7",
+    "acceptance_path": "records/child_ema_fit_v1/TERMINAL_ACCEPTANCE.json",
+    "acceptance_sha256": "UNBOUND_PENDING_ROOT_ACTUAL_ACCEPTANCE",
+    "exact_stop_path": "records/child_ema_fit_v1/exact_stop/STDOUT.raw.json",
+    "exact_stop_sha256": "UNBOUND_PENDING_ROOT_ACTUAL_EXACT_STOP",
+    "required_status": "ACCEPTED_AND_EXACT_STOPPED",
+    "native_exit_capture_alone_satisfies_gate": false
+  },
+  "lineage_and_shared_gates": {
+    "initialization": "Always initialize from accepted parent fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 with its exact inherited normalization. EMA is only the sequential acceptance/stop predecessor; never initialize from EMA weights.",
+    "parent_acceptance_sha256": "5b9ddc32f871f4dae29334b4f573d1e38efd9f8435cf2d7fde47e47f97e658b8",
+    "parent_exact_stop_sha256": "15a1e42a90a0962c9b45b6043a7e1e152057848725391fffcd611862e5c6ffa8",
+    "parent_checkpoint_sha256": "6027fc1db38fbc82d7cf1bb8c48dcb89f75bcc57ff91e9a7127f803cea11ef45",
+    "control_acceptance_sha256": "92aaf5eeed156aaad25c4adbb6700d41b0527600b520dd051657a43a50bbb6d2",
+    "control_exact_stop_sha256": "600cb3c4a56c7d0731ed2bf6174d47f5b09623c7ca22a7e5fce77d4d358ae012",
+    "dictionary_acceptance_sha256": "4802815134d09bbbfeb697689a17ac82bcbbd6541e7969d5fec56867ecd3066f",
+    "dictionary_exact_stop_sha256": "2eb44a4381de06f28ed3d7438ace320ef3274eae37c89074fc481f58f5d88158",
+    "dictionary_path_b": "/home/grinchenkoeg/computer-vision-homework-20261018/data/artifacts/research/fg19_dictionary_f0_v1/input_representation.pt",
+    "dictionary_registered_bytes": 22557,
+    "dictionary_registered_sha256": "9cf76503b579d2a88e7342b5f727e1ad5b3945c0938f1ae62d9738442a68b659",
+    "dictionary_fresh_gate_required_before_trainer": true,
+    "dictionary_missing_or_mismatch_action": "Fail closed before trainer invocation; never allow the canonical source cache-missing fallback to fit/create a replacement.",
+    "profile_acceptance_sha256": "9235b1670e80de8e18d322ab6e40dac102a7a8d8c028250f7b08262d8692c045",
+    "profile_exact_stop_sha256": "a0437f4da0b2534721909087bab1ddf40e068c4ba6911870472b7374e4bb7dce",
+    "t3_cache_acceptance_sha256": "88b75986538ecf4c7255705c173d5ac16946dd5ca44e9c4c69c331a381b5bec7",
+    "t3_cache_exact_stop_sha256": "286601bdf82dd19c94226ae06d5bef4841b59061c66e115c6fccb71370788ea4",
+    "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+    "source_file_count": 167,
+    "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+    "cache_scale": 1.0,
+    "target": "0.1*clip(label,-2,2)+0.9*clip(cache,-2,2); cache is ordered S3/S4/S5 mean times 0.8125 once at construction; original clipped-label-magnitude WMSE and canonical main_valid weights.",
+    "fit": "Seeded order, F0 seed1001, B16/C2000, 6 fixed epochs/checkpoint epoch5, no evaluation, AdamW/OneCycle unchanged. 44,760 expected updates are arithmetic only.",
+    "control_receipt_retained": true,
+    "ema_receipt_added_as_sequential_predecessor": true
+  },
+  "resource_and_scope_contract": {
+    "gpu_uuid": "GPU-ec74220d-78d7-cc47-69fc-0de1fb580944",
+    "owned_gpu_workers": 1,
+    "worker_cpu_quota": "100%",
+    "aggregate_cpu_cores": 2,
+    "worker_memory_high_bytes": 7500000000,
+    "worker_memory_max_bytes": 8000000000,
+    "worker_swap_max_bytes": 0,
+    "cuda_allocator_bytes": 4294967296,
+    "cuda_free_reserve_bytes": 1000000000,
+    "parent_memory_target_bytes": 17000000000,
+    "parent_memory_high_bytes": 18000000000,
+    "parent_memory_max_bytes": 20000000000,
+    "parent_swap_max_bytes": 0,
+    "physical_scratch_min_free_bytes": 26843545600,
+    "runtime_max_seconds": 86400,
+    "loader_workers": 0,
+    "fresh_output_and_run_dir_absence_required": true,
+    "fresh_unit_not_found_required": true,
+    "all_populated_cgroups_must_be_empty": true,
+    "foreign_processes_untouched": true,
+    "known_empty_old_allthree_profile_directory_allowed": true,
+    "new_geometry_profile_required": false
+  },
+  "renderer_guard": {
+    "required_explicit_render_flag": true,
+    "required_actual_acceptance_sha256_argument": true,
+    "required_actual_exact_stop_sha256_argument": true,
+    "refuse_unbound_or_malformed_hashes": true,
+    "refuse_receipt_path_or_identity_mismatch": true,
+    "require_actual_ema_status_and_counters_source_model_state_ancestor_checks": true,
+    "require_exact_stop_link_to_acceptance_unit_and_invocation": true,
+    "output_created_exclusively_only_after_all_receipt_and_template_checks": true,
+    "output_overwrite_allowed": false,
+    "b_staging_or_execution_performed_by_renderer": false
+  },
+  "current_artifacts": {
+    "body_rendered": false,
+    "source_staged": false,
+    "admission_performed": false,
+    "worker_action_performed": false,
+    "actual_ema_acceptance_sha256": "UNBOUND_PENDING_ROOT",
+    "actual_ema_exact_stop_sha256": "UNBOUND_PENDING_ROOT"
+  }
+}

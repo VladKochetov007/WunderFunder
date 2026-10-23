@@ -1,0 +1,79 @@
+{
+  "schema": "fg19.child-allthree-source-review.v1",
+  "status": "PASS_CONDITIONAL_SOURCE_ONLY",
+  "scope": "Independent read-only source review of the frozen conditional AllThree binder and unbound launch template. This does not approve a rendered body, B-side staging, admission, or launch.",
+  "reviewed_artifacts": [
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/bind_allthree_fit_v1.py",
+      "bytes": 39240,
+      "sha256": "bdc111e220f90bb48b51b8c7a36f1a81e1133cdd3ae110ed7b42f26539d99898"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/ALLTHREE_LAUNCH_TEMPLATE_V1.py",
+      "bytes": 238232,
+      "sha256": "a35fff5323849edea130db297daf549e968f33ad8b4fdf6d3688daac00bdaa6f"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/ALLTHREE_RECIPE_BINDING_V1.json",
+      "bytes": 10248,
+      "sha256": "a6fd63357355e56ff22ca5ec6505bb7dabfafd51486e5fd774e213d7d13846fd"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/README.md",
+      "bytes": 2049,
+      "sha256": "dec9f567c75c15728a7e68039368d12bc551a1b2a954cc0bb60d2c0fabd1021b"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/test_bind_allthree_fit_v1.py",
+      "bytes": 2471,
+      "sha256": "b3ea4817677feb8d3ab8560cbf0f01706138413b64f4bf99304188e6aac84792"
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/LOCAL_CHECKS_V1.json",
+      "bytes": 2714,
+      "sha256": "63846a017174990b95c5048b130c19e7e26f1b549d8560e11b4033f7a2df7c1c"
+    }
+  ],
+  "original_nll_pins": {
+    "body": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/REMOTE_SUBMISSION_V2.py",
+      "bytes": 227746,
+      "sha256": "893e06d9f17ee75450251bb3f8918312041ca6f147cf1cd30312335889843f15"
+    },
+    "launch_acceptance": {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/LAUNCH_ACCEPTANCE.json",
+      "bytes": 2931,
+      "sha256": "44a708fc5a32b101c97a8a28c22e3b15e815059582de564e17f528f5369dc7a5"
+    },
+    "identity": {
+      "run_name": "fg19_child_nll_f0_s1001_fit_v1",
+      "unit": "computer-vision-homework-fg19-child-nll-fit-v1.service",
+      "invocation_id": "c833c613fb92426981ab255a5faf4452",
+      "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "source_file_count": 167,
+      "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621"
+    }
+  },
+  "findings": {
+    "recipe_derivation": "The binder pins the exact NLL V2 body and original NLL launch-acceptance receipt, derives the AllThree template through exact anchored substitutions, and verifies the resulting argv differs only at zero-based indexes 1 and 48: run name to fg19_child_allthree_f0_s1001_fit_v1 and representation mode base to ema_sparse. The NLL objective, wmse loss, chunk normalization, mean-variance head 1, architecture, seeded fixed six-epoch endpoint, optimizer, scheduler, and parent @ep3 initializer remain bound to the original recipe.",
+    "sequential_nll_gate": "Both the local receipt validator and the embedded remote predecessor gate bind NLL acceptance bytes to their SHA-256 and the exact original launch-acceptance SHA. They require the NLL terminal schema/status, original run/unit/invocation, source commit and 167-file manifest, split, base representation/NLL objective, 44,760 updates/4,476 batches/six epochs/selected epoch 5, zero AMP skips and nonfinite updates, strict integer terminal fields 0/1/0, finite-state verification flags, selected model_ep5 identity, and the existing predecessor ancestry. The exact-stop receipt binds the acceptance hash and invocation, requires the native service to have been active/exited with PID 0 and exit code/status 1/0 before the stop, empty population snapshots and successful stop, then not-found/inactive/dead with PID 0 and empty invocation; the nested verifier is likewise required to be exactly stopped. The NLL child is recorded only as a sequential prerequisite; argv initialization remains the existing parent @ep3 checkpoint.",
+    "other_gates_and_resources": "The added NLL gate is inserted before the existing predecessor and admission flow. Existing source, split, cache, dictionary, profile, parent, registered-data, output/unit-absence, all-population/ownership, selected-GPU, physical ext4 scratch/device and 25 GiB floor checks remain in the pinned NLL-derived template before output creation and submission. The declared worker/aggregate limits remain one owned GPU, 100% worker CPU within a 200% parent quota, 7.5 GB memory-high/8 GB memory-max, zero swap, 4 GB CUDA allocator with 1 GB reserve, 86,400-second runtime, zero loader workers, and one BLAS thread.",
+    "body_state": "The template retains explicit unbound NLL acceptance and exact-stop slots. The local checker refuses rendering while either receipt is absent or invalid, and the current packet contains no rendered REMOTE_SUBMISSION.py or final binding receipt."
+  },
+  "conditional_requirements": [
+    "Do not render or admit until actual NLL terminal acceptance and exact-stop receipts exist and pass both local and embedded remote validators.",
+    "Bind the exact rendered body and its predecessor receipts in a separate source review and root admission manifest before any B-side staging or launch.",
+    "Keep the accepted NLL checkpoint out of initialization; initialize only from the existing parent @ep3 checkpoint."
+  ],
+  "verification_boundary": {
+    "source_reviewed": true,
+    "reviewer_ran_tests_or_imported_candidate": false,
+    "reviewer_read_model_cache_or_dataset_payloads": false,
+    "reviewer_performed_b_or_ssh_action": false,
+    "local_checks_receipt_reports": "Four focused tests and Ruff checks passed; this reviewer did not rerun them.",
+    "actual_nll_terminal_acceptance_bound": false,
+    "actual_nll_exact_stop_bound": false,
+    "actual_body_approved": false,
+    "actual_admission_or_launch_approved": false
+  }
+}

@@ -1,0 +1,11 @@
+# EMA32 bounded health — 20 October16:51UTC trigger
+
+One exact-invocation read-only observation at **2026-10-20T16:51:42.785961+00:00** found `da5baf82d22b4f02890e184193b8caf7` active/running/PID730727, one populated owned selected-GPU worker3408 MiB. Foreign jobs were observed only and untouched. This is dated evidence, not a current live claim.
+
+Native completed epochs[0, 1, 2, 3, 4] report 37,300successful updates/3,730batches/zero AMP skips; completed GRAD_STATS nonfinite totals0. The later recorded line `ep 5 batch 640/746 loss 0.5223 lr 1.90e-07 seq/s 5.0` is not a synchronous current batch/update/nonfinite total, terminal44,760 proof, checkpoint integrity or predictive quality. Logged objective/train seconds are not independent quality/performance evidence.
+
+[Transport](TRANSPORT.json): rootSSH0/raw72,437B/SHAbc7aebb50fc71c350798623aaddab7f1880e32c412c0888aa3a8e0ba0b798f30 persisted and fsynced before parse. [Original raw](STDOUT.raw.json), [unchanged reader](REMOTE.py), exact decoded [ADMISSION](ADMISSION.json), [LAUNCH](LAUNCH.json), [unit log](unit.log), [observation](OBSERVATION.json), [stderr](STDERR.raw.txt). [Independent metadata audit](METADATA_REVIEW.json) is limited to captured bytes.
+
+Own memory.events and memory.events.local counters are all zero; parent event/local-event deltas versus15:51 are all zero. OwnCGcurrent3454963712B/peak3737264128B and parentcurrent10290122752B/service/RSS/GPU are distinct sampled observations, with no atomic equality/fullRAM/cause/performance claim. Run files are stat-only. Reader source identifier is expected constant only; original fresh167-file EMA admission remains source-content authority.
+
+No checkpoint/state/cache/data payload read/hash, native terminal, support/newfit admission, inference, restart or stop. [15:51 evidence](../health_20261020T1551Z/README.md) is retained with freshness superseded. No immediate repeated poll; next focused exact-unit observation around17:10UTC or later may establish actual terminal status unless direct human request/failure evidence. Running success/status0 is not native exit. Existing frozen terminal-checker preparation does not authorize B staging/admission before actual typed exit0. No completion is inferred from the later recorded line or elapsed time.

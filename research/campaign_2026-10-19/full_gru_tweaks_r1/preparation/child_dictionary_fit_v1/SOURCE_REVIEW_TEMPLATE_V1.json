@@ -1,0 +1,129 @@
+{
+  "blocking_findings": [
+    {
+      "evidence": "The frozen EMA body contains the same standalone `\"control_predecessor\": control_predecessor,` line in both ADMISSION and LAUNCH objects (EMA body lines 1072 and 1220). `_render_body()` calls `_replace_once` with that standalone line for each insertion; `_replace_once` requires exactly one match, so the first call sees two matches and raises before a body is created. `_check_unique_patch_anchors()` correctly defines distinct multi-line surrounding contexts for admission and launch, but `_render_body()` does not use those contexts.",
+      "id": "ambiguous_ema_predecessor_link_replacement",
+      "lines": [
+        1175,
+        1185
+      ],
+      "renderer_path": "preparation/child_dictionary_fit_v1/bind_dictionary_fit.py",
+      "required_repair": "Use the two distinct surrounding-context anchors for the respective replacements (or a checked, ordered two-occurrence edit) and add a synthetic-context-only regression that proves both fields are inserted once without fabricating EMA receipts or rendering an executable body.",
+      "severity": "BLOCKING_RENDERER_DEFECT"
+    },
+    {
+      "evidence": "The fresh gate records `findmnt` output, rejects only tmpfs/ramfs, and enforces at least 25 GiB free. It does not assert the scratch mount source/device matches the intended physical B storage or another exact accepted disk identity.",
+      "id": "scratch_device_not_bound",
+      "lines": [
+        1016,
+        1020
+      ],
+      "renderer_path": "inherited EMA REMOTE_SUBMISSION.py",
+      "required_resolution": "Before admission, confirm the intended physical-scratch condition is satisfied by a fresh expected B device/stat identity gate or add the narrow device identity check; otherwise the current code alone proves only non-tmpfs/ramfs plus free-space headroom.",
+      "severity": "REVIEW_GATE_CONDITION"
+    }
+  ],
+  "observations": {
+    "current_template_receipt_placeholders_remain_unbound": true,
+    "no_scientific_recipe_change_requested": true,
+    "render_write_policy": "Creates output with O_EXCL only after receipt validation and refuses overwrite.",
+    "renderer_default_action": "Local static source checks only; actual body requires explicit --render plus both actual EMA acceptance and exact-stop SHA-256 arguments."
+  },
+  "pending_before_final_review": [
+    "Author must repair the two predecessor link patch anchors; review exact updated renderer/template/body pins after repair.",
+    "Root must supply actual accepted EMA terminal acceptance and separate exact-stop receipt; verify exact hashes/status/source/counters/model-state identity/ancestry and exact stopped invocation in the final body.",
+    "Review the final rendered body bytes and emitted acceptance/stop pins before any admission; the current local template is deliberately unbound and contains no REMOTE_SUBMISSION.py.",
+    "Reconfirm fresh source/registered alias/GPU/cgroup/headroom/output/unit/disk gates in the final body and preserve root-only single-admission authority."
+  ],
+  "reviewed_artifacts": {
+    "CONDITIONAL_ADMISSION_README.md": {
+      "bytes": 3095,
+      "sha256": "9c487f5f790e00a37ee174f86774f9bf21f875ffda90f40c905fd3f42c430ed3"
+    },
+    "DICTIONARY_ADMISSION_TEMPLATE_V1.json": {
+      "bytes": 7158,
+      "sha256": "5a701cd38f6a649196d13864e64e95d4f1121b3fc244fbaa1f19d9b2422c95af"
+    },
+    "DICTIONARY_RECIPE_BINDING_V1.json": {
+      "bytes": 28944,
+      "sha256": "fedd5a6fb651acabd081335422648d3549daade4aefeb5113bb5280eb34569a5"
+    },
+    "DICTIONARY_TEMPLATE_LOCAL_CHECKS_V1.json": {
+      "bytes": 4472,
+      "sha256": "df009b7fdfe863ea074106e340b334eb6edfbc69a97540f902dd4f6ce3ffce37"
+    },
+    "EMA_FINAL_BINDING_RECEIPT_V1.json": {
+      "sha256": "4c9d5ca5e569660a62c91af53780af2e9c3e8c1aa8b2a9c808bfeda6fe47fc80"
+    },
+    "base_EMA_REMOTE_SUBMISSION.py": {
+      "bytes": 163040,
+      "sha256": "f83ac3120a2e445f1752fcd026123a0e8a21ba53594d27b398462a5236ffebd6"
+    },
+    "bind_dictionary_fit.py": {
+      "bytes": 58944,
+      "sha256": "67f1693bca3bab00de779c020cba66473b3343818b6e1ad3ef60593ff5e2ae10"
+    }
+  },
+  "reviewed_utc": "2026-10-20T17:49:25Z",
+  "schema": "fg19.child-dictionary-fit-source-review-template.v1",
+  "scope": {
+    "actual_ema_acceptance_or_stop_read": false,
+    "body_rendered": false,
+    "payload_read": false,
+    "read_only": true,
+    "remote_or_B_action": false,
+    "reviewed": "Frozen sparse recipe, unbound admission template, local renderer, inherited EMA body gates, and current local check receipt.",
+    "tests_or_renderer_executed": false
+  },
+  "source_review": {
+    "fresh_gates_inherited_from_EMA_body": {
+      "data": "Registered F0 path/resolution/device/size/inode/mtime/digest identities and exact split/cache/dictionary/parent/profile receipts.",
+      "freshness": "Output/run paths must be absent and new systemd unit LoadState must be not-found, checked before staging and again before output creation.",
+      "ownership": "Campaign cgroup and descendants must be empty; foreign GPU processes are preserved; selected GPU UUID/free reserve and owned-process scan are checked.",
+      "resources": "One owned GPU; worker CPUQuota=100% under campaign parent CPUQuota=200%; worker MemoryHigh 7.5 GB, MemoryMax 8 GB, swap 0; parent target 17 GB/high 18 GB/max 20 GB; headroom includes an 8 GB fit reservation.",
+      "scratch": "Admission checks free space >=25 GiB and rejects tmpfs/ramfs, while recording findmnt FSTYPE/SOURCE/TARGET.",
+      "source": "Fresh source manifest and exact 167-file inventory/content hashes."
+    },
+    "predecessor_gates": {
+      "EMA_acceptance_and_exact_stop": "Required separately as the sequential predecessor; renderer requires explicit supplied SHA-256 values, reads only fixed local receipt paths, validates acceptance/stop identities and ancestry, and embeds their exact bytes after rendering.",
+      "control_acceptance_and_exact_stop": "Existing exact pins retained from the reviewed EMA body.",
+      "final_receipt_review_pending": true,
+      "serialized_model_hashes": "The code validates model.pt and model_ep5.pt pins independently and does not assume their serialized hashes match. It requires the accepted epoch-5/training-state tensor-identity proof and a model tensor fingerprint."
+    },
+    "recipe_and_mode": {
+      "dictionary_is_reused_frozen_shared_fit_artifact": true,
+      "recipe_pins_source_components_and_renderer_checks_their_bytes": true,
+      "representation": "sparse signed stable top-4 of 16 codes plus retained 112-wide normalized-raw residual; unused appended columns 128:256 are exact zeros.",
+      "result": "PASS_SOURCE_ONLY",
+      "source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "source_file_count": 167,
+      "source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "widths": {
+        "appended": 256,
+        "common_input": 467,
+        "output": 25,
+        "parent_prefix": 211
+      }
+    },
+    "shared_fit_and_initializer": {
+      "EMA_is_predecessor_only_never_weight_initializer": true,
+      "all_other_argv_values_pinned": true,
+      "argv_delta_from_EMA": [
+        {
+          "from": "fg19_child_ema_f0_s1001_fit_v1",
+          "index": 1,
+          "to": "fg19_child_dictionary_f0_s1001_fit_v1"
+        },
+        {
+          "from": "ema",
+          "index": 48,
+          "to": "sparse"
+        }
+      ],
+      "initializer": "fg19_parent_h256x2_f0_s1001_fit_r2_v1@ep3 with inherited normalization",
+      "optimizer_schedule_seed_order_and_fit": "Same WMSE, one-layer mean/variance head, AdamW/OneCycle, seed 1001, batch 16, chunk 2000, six fixed epochs, selected checkpoint epoch 5, no evaluation.",
+      "result": "PASS_SOURCE_ONLY"
+    }
+  },
+  "status": "CONDITIONAL_SOURCE_ONLY_PENDING_ACTUAL_EMA_RECEIPTS"
+}
