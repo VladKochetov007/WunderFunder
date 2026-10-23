@@ -1,0 +1,53 @@
+{
+  "schema": "wnn.large-teacher-panel.v2",
+  "status": "implemented_remote_acceptance_pending",
+  "launch_ready": false,
+  "scientific_fits": 4,
+  "new_teacher_fits": 4,
+  "new_student_fits": 0,
+  "reused_endpoints": 0,
+  "world_size": 8,
+  "epochs": 6,
+  "endpoint": "fixed final epoch index 5",
+  "precision": "strict_fp32_no_tf32_no_autocast",
+  "cells": [
+    {
+      "id": "t1280_f0",
+      "fold": 0,
+      "seed": 101001,
+      "config": "configs/t1280_f0.json",
+      "parameters_from_source_formula": 629827842
+    },
+    {
+      "id": "t1280_f2",
+      "fold": 2,
+      "seed": 101002,
+      "config": "configs/t1280_f2.json",
+      "parameters_from_source_formula": 629827842
+    },
+    {
+      "id": "t1792_f0",
+      "fold": 0,
+      "seed": 101001,
+      "config": "configs/t1792_f0.json",
+      "parameters_from_source_formula": 1542548226
+    },
+    {
+      "id": "t1792_f2",
+      "fold": 2,
+      "seed": 101002,
+      "config": "configs/t1792_f2.json",
+      "parameters_from_source_formula": 1542548226
+    }
+  ],
+  "comparison": "1280x32 versus 1792x40, equal complete data passes and update recipe; unequal FLOPs",
+  "profile_updates": 12,
+  "profile_warmup_updates": 2,
+  "objective": "sum(abs(clip(y,2))*(prediction-clip(y,2))^2)/sum(abs(clip(y,2))) per global accumulation window",
+  "training_mask": "all rows >=99",
+  "evaluation_mask": "is_scored AND row>=99",
+  "useful_mean_teacher_delta": 0.001,
+  "student_transfer": "separate later four-fit matched labels versus output KD panel; not launched automatically",
+  "engineering_checks": "remote pytest, 2-rank DDP, 1-rank and 8-rank exact-shape profiles; discarded weights",
+  "historical_recipe": "../recipe.json unchanged; no exact resume from previous source"
+}

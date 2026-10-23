@@ -5,16 +5,17 @@ import json
 import os
 import tempfile
 from collections.abc import Callable, Mapping, Sequence
-from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
 import numpy as np
+from attrs import frozen
 
 # One canonical row group is the fixed upper bound; members are never stacked.
 NORMALIZATION_CHUNK_ROWS = 20_000
 NORMALIZATION_STD_FLOOR = 0.001
-MAX_CACHE_BYTES = 64_000
+# The receipt includes the complete fitting membership (many thousands of rows).
+MAX_CACHE_BYTES = 32_000_000
 ALGORITHM = {
     "name": "float64_population_moments",
     "version": 1,
@@ -24,7 +25,7 @@ ALGORITHM = {
 }
 
 
-@dataclass(frozen=True)
+@frozen
 class NormalizationMoments:
     """Resolved FP32 model moments plus the identities used to produce them."""
 
@@ -83,9 +84,7 @@ def compute_population_moments(
         if features.ndim != 2 or features.shape[1] != feature_count or features.shape[0] == 0:
             raise ValueError("normalization input has an unexpected feature shape")
         for start in range(0, features.shape[0], NORMALIZATION_CHUNK_ROWS):
-            chunk = np.asarray(
-                features[start : start + NORMALIZATION_CHUNK_ROWS], dtype=np.float64
-            )
+            chunk = np.asarray(features[start : start + NORMALIZATION_CHUNK_ROWS], dtype=np.float64)
             if not np.isfinite(chunk).all():
                 raise ValueError(f"nonfinite normalization input: {source}/{group}")
             total += chunk.sum(axis=0)

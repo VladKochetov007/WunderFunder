@@ -158,9 +158,7 @@ class SequenceData:
                 scope,
                 N_FEATURES,
             )
-            mean, std = compute_population_moments(
-                members, read_features, feature_count=N_FEATURES
-            )
+            mean, std = compute_population_moments(members, read_features, feature_count=N_FEATURES)
             result = NormalizationMoments(
                 mean,
                 std,

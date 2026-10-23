@@ -2,12 +2,31 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterator
+
+import pytest
 import torch
 from torch import Tensor
 
 from wnn.nn import RNNModel
 from wnn.training.sequence_attention import TransformerState
+from wnn.training.sequence_distributed import configure_strict_fp32
 from wnn.training.sequence_models import build_sequence_model, detach_state
+
+
+@pytest.fixture(autouse=True)
+def _strict_precision() -> Iterator[None]:
+    """Exercise the same explicit precision contract as fit and prediction setup."""
+    precision = torch.get_float32_matmul_precision()
+    matmul_tf32 = torch.backends.cuda.matmul.allow_tf32
+    cudnn_tf32 = torch.backends.cudnn.allow_tf32
+    configure_strict_fp32()
+    try:
+        yield
+    finally:
+        torch.set_float32_matmul_precision(precision)
+        torch.backends.cuda.matmul.allow_tf32 = matmul_tf32
+        torch.backends.cudnn.allow_tf32 = cudnn_tf32
 
 
 def _config(**overrides: object) -> dict[str, object]:

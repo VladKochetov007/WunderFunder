@@ -1,5 +1,11 @@
 # B300 Transformer teacher and distillation runtime
 
+**23 October update:** [Large teacher R2](large_teacher_r2/README.md) is the current
+strong-teacher preparation: 630M versus 1.54B, four full-data six-epoch fits on
+eight B300s, full-fit normalization, corrected training masks and receiver checks.
+The R1 recipes and panels below are historical and remain unchanged. No GPU
+execution or quality result is established for R2.
+
 Implemented, **not executed on a GPU**. No local tests, model imports, training,
 inference or profiles were run for this delivery. Static review is not a B300
 acceptance result. `recipe.json` keeps `launch_ready=false` until receiving-host

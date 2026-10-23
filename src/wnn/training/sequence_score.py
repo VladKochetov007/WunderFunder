@@ -7,7 +7,8 @@ from pathlib import Path
 import numpy as np
 
 from wnn.data import SEQUENCE_LENGTH, WARMUP, SequenceFile
-from wnn.gmetric import GlobalAccumulator
+from wnn.evaluation import paired_component_moments
+from wnn.gmetric import GlobalAccumulator, _merge_moments
 from wnn.splits import file_sha256, load_campaign_split
 from wnn.training.sequence_cache import validate_export_schema, validate_producer
 
@@ -34,6 +35,7 @@ def score_export(root: Path, split_manifest: Path, predictions: Path, output: Pa
         raise ValueError("held-out prediction coverage is incomplete or duplicated")
     source = SequenceFile(root / "datasets/valid.parquet")
     accumulator = GlobalAccumulator()
+    centered_by_component: dict[int, np.ndarray] = {}
     component_map = {(s, g): c for s, g, c in split.components}
     for entry in meta["sequences"]:
         path = predictions / entry["file"]
@@ -54,6 +56,15 @@ def score_export(root: Path, split_manifest: Path, predictions: Path, output: Pa
         accumulator.add(
             seq.targets, values[:, :2], mask, group=component_map[("valid", entry["row_group"])]
         )
+        if mask.any():
+            moments, _ = paired_component_moments(
+                seq.targets[None], values[None, :, :2], values[None, :, :2], mask[None]
+            )
+            component = component_map[("valid", entry["row_group"])]
+            previous = centered_by_component.get(component, np.zeros((2, 6), dtype=np.float64))
+            centered_by_component[component] = np.stack(
+                [_merge_moments(previous[k], moments[0, k]) for k in range(2)]
+            )
     receipt = {
         "score": accumulator.result(),
         "split_sha256": split.sha256,
@@ -61,6 +72,9 @@ def score_export(root: Path, split_manifest: Path, predictions: Path, output: Pa
         "producer": meta["producer"],
         "sequences": len(members),
         "component_raw_sums": {str(k): v.tolist() for k, v in accumulator.groups.items()},
+        "component_centered_moments": {
+            str(k): v.tolist() for k, v in centered_by_component.items()
+        },
         "interpretation": "Exposed fold; fixed endpoint, not checkpoint selection or public score.",
     }
     with output.open("x") as stream:
