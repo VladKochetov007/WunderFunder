@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+
+
 [Published distillation drafts #28–30](PUBLISHED_GPU_PACKETS_20261018.md#дистилляция-сильных-учителей-и-streaming-студенты) link the exact source snapshots for teacher-capacity transfer, representation hints and streaming students. All target `research-team`; implementation/cache/CPU admission remains pending.
 
 [Transformer teacher transfer and CPU-student continuation](CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md#22-select-the-best-transferable-teacher-not-the-largest-checkpoint) adds three explicit comparisons: L207/XL682 teacher scale × H256/H512 student capacity, aligned versus permuted hidden hints, and streaming D128 Transformer versus GRU with/without KD. CP30, sixteen contrasts, clean cache lineage and CPU handoff are specified;510planned student fits are not launches or results. The [team/teacher audit](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md) distinguishes new team evidence from these proposals.
@@ -11,7 +13,6 @@
 [Fixed positive-lead combination](../../campaign_2026-10-19/idea_combo_r1/DESIGN.md) selects one new CPU NLL predictor on the frozen R15 sparse/residual/EMA representation, compared against stored R15 WMSE endpoints. Source/review preparation only at selection; no joint score yet, no synergy or public forecast. The distinct [R16 conditional-innovation preparation is held](../../campaign_2026-10-19/idea_screens_r16/ALLOCATION_HOLD_20261019.md), with no remote execution.
 
 [R15 user allocation update](../../campaign_2026-10-19/idea_screens_r15/ALLOCATION_UPDATE_20261019.md) retains the measured +0.002568 sparse pipeline as a weakly positive transfer/interaction candidate. The original +.005 gate remains failed; EMA is already shared by R7/R15, so deltas are not additive public forecasts. R16 remote admission is held during the current combination discussion.
-
 
 [R15 explicit sparse-factor pipeline](../../campaign_2026-10-19/idea_screens_r15/RESULTS.md) tests H-NF19-09 with learned top-four-of16 codes versus a same-width dense bottleneck, retaining112residual channels and causal signed EMA. Sparse WP0.482441 vs dense0.479873 (+0.002568) fails the frozen+0.005 gate despite both target deltas being positive. Component signs13+/19− and30/32positive drop-one pooled contrasts are sensitivity, not replications. This exact pipeline is now PARTIAL; factor stability, causal factors and GRU transfer remain untested.
 
@@ -35,7 +36,6 @@
 
 [R6 actual target-gradient diagnostic](../../campaign_2026-10-19/idea_screens_r6/RESULTS.md) moves idea20 beyond input/score proxies: one frozen GRU,8fit components,16fixed windows, no updates. Trunk12positive/4negative windows and pooledcos+0.333540 do not support a universal opposite-direction premise; local conflicts remain. No PCGrad/separate-network or quality comparison was run.
 
-
 [R2 measured regularization/EMA follow-up](../../campaign_2026-10-19/idea_screens_r2/RESULTS.md) completes six source-bound views on the same small exposed panel. Fit-selected lags recover from the initial loss to near-raw; joint EMA becomes near-raw, while alpha1 signed/absolute diagnostics differ and reveal selection/component sensitivity. The52-channel subset remains locally positive but jointly omits i1 and eight tail channels. No mechanism or full-model improvement is confirmed.
 
 [R2 feature-estimation screen](../../campaign_2026-10-19/idea_screens_r2/README.md) separates signed and absolute EMA channels and asks whether fit-only ridge selection changes the raw/subset/history comparisons. Six views and[1,100,10000] grid are fixed; the same six-component outer panel remains exposed. This is a bounded exploratory follow-up, not a new full-model campaign.
@@ -50,9 +50,19 @@
 
 [Modified TL3 reconstruction design R1](../../campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/README.md) specifies all clean ancestors and fixed members but remains unadmitted. [Independent criticism](../../campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/INDEPENDENT_REVIEW_V1.json) rejects treating its unequal-budget comparison with frozen rank1 as matched CP30. A successor will isolate final-stage teacher supervision at matching member budgets; no scientific recipe or active rank1 source changed.
 
+- [October21 accepted representation cycle](../../../specs/plans/2026-10-21-next-local-kaggle-cycle.md) — fixed checkpoint mean, matched six-fit i1 and four-fit future-dynamics screens, conditional four-fit strong-parent transfer. 30 local GPU-hours plus verified Kaggle; B300 deferred. Proposed comparisons, no measured gain. [Execution packet](../../campaign_2026-10-21/next_cycle_r1/README.md).
+
+- [Mean of parent and WMSE continuation weights](../../campaign_2026-10-20/submission_delivery_r1/wmse_weight_mean_r1/README.md) — proposes one zero-fit, fixed three-checkpoint mean and its fixed oldZ4 blend. Compatibility review only; requires identical buffers/topology and complete endpoint evidence. SWA/model-soups primary abstracts motivate the idea but their training settings differ; no gain is measured and F0 is exposed. H-WMSE-WEIGHT-MEAN-20261021-R1.
+
+
+
 Existing proposals and their evidence; a proposal is not an admitted or completed fit.
 
+
+
 ## Current navigation
+
+
 
 - [Large dynamics Transformer teachers on8 B300s](LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md) — H-LARGE-DYNAMICS-TEACHER-20261019-R2; proposed0.68B/1.65B capacity contrast and eligible3.17B extension, numerical/group encoders, future-observation auxiliary tasks, causal dense/local/slow-memory attention, all-FP32 Muon, WSD, DDP and GRU transfer. Includes analytical memory/runtime scenarios, independent criticism and a four-fit draft packet; no runnable trainer, profile, fit, transfer or public gain. Supersedes prospective CP30 counting in the old proposal, preserving its frozen source/history.
 - Published future-experiment draft PRs: [#22 Adaptive TBPTT](https://github.com/VladKochetov007/WunderFunder/pull/22), [#23 current-moment WP replay](https://github.com/VladKochetov007/WunderFunder/pull/23), and [#24 four-arm architecture handoff](https://github.com/VladKochetov007/WunderFunder/pull/24). Each targets research-team; the first two need adapters, the architecture handoff needs a focused port of preserved source. No model execution or run admission follows from publication.
@@ -68,107 +78,261 @@ Existing proposals and their evidence; a proposal is not an admitted or complete
 - [Current 25 ranked ideas, October 18](PRIORITIZED_25_20261018_R3.md) - ordered H-RR17 portfolio after R2 and the separate geometry pilot: width/depth, causal statistics, teacher/student and intermediate hints lead; architecture exploration is retained and duplicated event auxiliaries move down. Each card has rationale, a decisive comparison and qualitative cost. Informed Luna critique and unchanged no-fit authority are explicit; no new measured gains.
 
 - [R2 revised decisions for all25 cards](../../campaign_2026-10-17/research_reset_r2/reflection/ROUND3_EDA_DECISIONS.md) — H-RR17-01–25 retain their identities; three reflection rounds compare mechanism claims with actual Belief/DualClock/bootstrap/auxiliary code and new frozen-output EDA. Rare-exception repair and generic smoothing lose priority; distinct capacity/KD questions remain, event-state proposals need nonduplicated operators. Includes the separately authorized geometry pilot as scoped neighboring evidence, not an R2 fit or full-scale promotion.
+- [i1 history idea progression](I1_HISTORY_IDEA_PROGRESSION_20261022_R1.md) — records the move from repeated standard-i1 usefulness, through weaker history models with a positive fixed F0 mixture, to clipping checks and the initial-function confound. Proposes a function-preserving warm test; F2 mixture grading, implementation tests and independent review remain pending at this snapshot. Links raw evidence and serving/ancestry limits; no warm fit or production promotion. H-I1-HISTORY-FUNCTION-PRESERVING-20261022-R1.
+
+- [Conditional NLL gradient-weighting hypothesis](../sources/NLL_GRADIENT_WEIGHTING_20261021_R1.md) — H-NLL-GRADIENT-WEIGHTING-20261021-R1: distinguish variance weighting/global-clipping interactions from the broader heteroscedastic-learning idea after the frozen WMSE/NLL grade. Primary-source assessment and analytical gradient bounds; not a tested model gain or admitted follow-up.
+
+- [Future-input dynamics auxiliary head](FUTURE_INPUT_DYNAMICS_AUXILIARY_20261021_R1.md) — H-FUTURE-INPUT-DYNAMICS-20261021-R1 / E-FUTURE-INPUT-DYNAMICS-20261021-R1: code implements an optional 52-target future-input head and serving removal for the accepted four-fit cold screen. The packet now has literal four-run fit/predict/score plans, a 110-batch F0 aux005 profile plan, the exact F2 membership copy, and a fixed paired full-fold grader for both targets, position bins, initialization/normalization/head/target-stat identity, NPY coverage, and the unsearched 90/10 mixture. CPU tests and static checks passed earlier; profile and fits remain pending. Strong-parent continuation needs a separate extension.
+
+- [Teacher quality and empirical scaling](TEACHER_QUALITY_SCALING_20261019_R1.md) — latest teacher-first amendment for PR31: distillation optional, proposed six-fit 0.2/0.68/1.65B ladder, equal-data/equal-compute curves, data-reuse saturation, ranked LR/context/objective tuning and failure diagnostics. Proposal only; no trainer, profile, fit or scaling law measured.
+
+- [Large dynamics Transformer teachers on8 B300s](LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md) — H-LARGE-DYNAMICS-TEACHER-20261019-R2; proposed0.68B/1.65B capacity contrast and eligible3.17B extension, numerical/group encoders, future-observation auxiliary tasks, causal dense/local/slow-memory attention, all-FP32 Muon, WSD, DDP and GRU transfer. Includes analytical memory/runtime scenarios, independent criticism and separately counted four-fit capacity/event-objective panels in [draft PR #31](https://github.com/VladKochetov007/WunderFunder/pull/31). The later TradeFM source prioritizes a fixed-scale observable-event likelihood screen before the full ladder; no runnable trainer, profile, fit, transfer or public gain. Supersedes prospective CP30 counting in the old proposal, preserving its frozen source/history.
+
+
 
 - [RR17 published proposal branches](../../campaign_2026-10-17/research_reset_r1/publication/README.md) —25isolated proposal commits from research-team, remote SHA verification and ready PR bodies. No new PR exists without API authentication; no fit is admitted.
 
+
+
 - [Research reset: 25 ideas](../../campaign_2026-10-17/research_reset_r1/IDEAS_25.md) — ranked proposal portfolio with existing-work overlap, counterevidence, no-fit gates and future controls; no training admitted.
+
 - [Current state](../../../specs/current-state.md) — packet-specific authority and active ranked25 progress; historical no-fit records elsewhere are not a global statement about all campaigns.
 - [Fixed causal Kalman screen and retained-raw teacher/student proposal](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/RESULTS_R2.md) — fixed local-trend input replacement adds +0.000338 WP on 16 selected exposed-F0 groups, but its component interval nearly crosses zero and post-hoc temporal bins are mixed. It motivates learned smoother features while retaining raw inputs, evaluated at the student endpoint; code and the 30-cell-per-arm B300 proposal are in [draft PR #17](https://github.com/VladKochetov007/WunderFunder/pull/17). No B300 profile, fit or transfer result exists.
+
+- [Research value loop and fresh reframe](RESEARCH_VALUE_LOOP_AND_REFRAME_20261018_R1.md) — ranks work by expected value of the best complete local endpoint per GPU-hour, checks five fresh proposals against existing lineages, and explains the active R4 decision and its limits. It is a strategy note, not a fitted result.
+- [Teacher-to-student submission combination](TEACHER_STUDENT_SUBMISSION_COMBINATION_20261018_R1.md) — integrates the night's negative TL3/R3 mixture evidence, weak router/proxy gains, and existing Kalman/predictive-state handoffs into one proposed candidate path: transfer one causal representation through a source-clean teacher cache into a standard GRU student. No fit or new package is admitted; the user stop is binding.
+- [Innovation-conditioned latent gain inside a GRU](KALMAN_INNOVATION_GAIN_STATE_GRU_20261018_R1.md) — a KalmanNet-inspired local code draft on unpushed branch `experiment/kalman-innovation-gain-gru-b300`, commit `527d2e985`. It has no PR, B300 profile, synthetic invariant run, teacher registry, fit, or student evidence. Static review found no causality defect by inspection and recorded prefit blockers.
+- [Fixed causal Kalman screens and retained-raw teacher/student proposal](../../campaign_2026-10-18/online_features_r1/kalman_filter_probe/RESULTS_R2.md) — the initial 16-group exposed-F0 replacement screen showed +0.000338 WP, followed by an expanded 141-group/82-component prefix at +0.000116 WP (paired conditional 95% interval [−0.000075,+0.000288]). Independent review passes the score lineage. Both are fixed-input diagnostics on one raw-trained checkpoint; the second is selected after the first and is still discovery evidence, with no learned-feature or student gain established. The larger raw-retaining teacher/student experiment is in [draft PR #17](https://github.com/VladKochetov007/WunderFunder/pull/17); no B300 profile, fit or transfer result exists. See the [expanded packet](../../campaign_2026-10-18/online_features_r1/kalman_input_panel_r2/README.md).
+- [Current state](../../../specs/current-state.md) — bounded local geometry/discrete R4 fitting has separate user authorization; unrelated paused campaigns retain their prior boundary.
+
 - [Repository audit](../reviews/REPOSITORY_AUDIT_20261017.md) — established results and corrections to stale pending statuses.
+
 - [Experiment draft workflow](../methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md) — implementation handoffs are distinct from measured research outcomes.
 
+
+
 For active status, start with [current state](../../../specs/current-state.md).
+
 The dated entries below retain their original descriptions and links. Their
+
 “pending”, “active” and authorization statements reflect their recording time;
+
 use a later result receipt or the current audit to establish final status.
 
+
+
 <details>
+
 <summary>Dated index preserved before the October 17 maintenance</summary>
+
+
 
 Use this page to navigate proposals, mechanism families, and their evidence. An idea is not a result until a source-qualified experiment and evaluation support it.
 
+
+
 ## Core records
+
+
 
 - [Causal AR Transformer teachers, GRU distillation, and eight-B300 training](CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md) gives an English quality-first proposal: learned two-scalar output AR, observable-innovation auxiliary learning, free-running GRU KD, exact weighted-DDP normalization, optimizer/scheduler settings and conditional runtime arithmetic. The user's abundant-compute steering makes 86M/six epochs references; priority teachers are ~207M/~682M, with a ~1.65B arm, up to full-20k context, 12/24/48-epoch comparisons, heterogeneous ensembles and larger/assistant GRU compression paths. Four H-TRANSFORMER-* hypotheses and three E-TRANSFORMER-* comparisons are proposed; the 30-run four-fold design preserves exposure and ancestry. Primary arXiv/PyTorch/kernel sources and actual arxiv-search queries are recorded. Eight user-reported B300 GPUs remain unprofiled; no launch, fit, speedup, quality/public-score claim or campaign resume accompanies this documentation task.
 
+
+
 - [Quality bottleneck and student tradeoffs, October 15](QUALITY_BOTTLENECK_AND_STUDENT_TRADEOFFS_20261015_R1.md), H-KD-CONTINUATION-VALUE-20261015/H-STUDENT-LADDER-20261014, separates matched architecture gains from warm-start inheritance and heterogeneous recipe differences. Primary grades show only +0.000214 current T3 continuation improvement over its exact parent; teacher quality versus distillation remains unresolved. The proposed matched label-only/KD continuation pair has completed P1–P3 under its fixed six-epoch recipe: at CP1 alpha0 scored0.67636773 versus alpha-.9 0.68031459 (paired delta−0.00394686; conditional141-component95% interval [−0.00845201,−0.00010596]). The CP5 training endpoint is complete, but matched CP3/CP5 exports and grades remain pending. The CP1 checkpoint contrast is descriptive, not a final ranking or cross-fold result. The matched packet and terminal/gate evidence are indexed in the [campaign delivery README](../../campaign_2026-10-15/student_quality_tradeoff_r1/README.md). The later Net2Net-inspired H-STUDENT-PARENT-GROWTH-20261015 proposes gate-aware widening that preserves a strong parent's initial function, subject to sequence/reset/gradient falsifiers; unimplemented and unadmitted. Includes quota snapshot, resource scope and primary distillation literature; all local folds remain exposed.
+
+
 
 - [C warm-mechanism checkpoint grade](../reviews/WARM_MECHANISM_C_CP1_GRADE_REVIEW_20261015_R1.md) records a two-epoch FP16 T3 continuation from the original `c20261003_combo_s3_f0@ep3` parent, with a fixed zero-based CP1 FP32 export. On exposed F0 it scores0.681226 versus0.680941 for its starting parent; the paired141-component95% interval crosseszero. Six of14,920 optimizer attempts were AMP-skipped. This endpoint does not isolate distillation value; the exact paired grade and mismatched A9 context are in the review and [machine receipt](../../campaign_2026-10-15/student_quality_tradeoff_r1/WARM_MECHANISM_F0_S3_C_R3_CP1_PAIRED_GRADE_R1.json).
 
+
+
 - [Causal initial-state implementation](../../campaign_2026-10-14/cpu_student_frontier_r1/INITIALIZER_IMPLEMENTATION_R1.md) implements H-STATE-INIT-20261014 with zero, learned constant, first-row and prefix-residual arms around the unchanged GRU. Ten synthetic checks pass for timing, reset, chunk parity and initializer gradients through a frozen backbone. Fitting, actual-data stability, native export and score/position-bin evidence remain pending; this is a nonblocking branch while target-host CPU probes await upload.
+
+
 
 - [Actual-data initial-state decay](../../campaign_2026-10-14/cpu_student_frontier_r1/STATE_DECAY_DIAGNOSTIC_R1.md), E-STATE-DECAY-20261014-R1, observes a random perturbation surviving99-row warmup in the clean-F0 H256×2 control, with second-layer influence through several thousand rows. One fitting sequence/direction provides a mechanism diagnostic, not learned-initializer quality, a Jacobian bound or cross-validation evidence.
 
+
+
 - [Matched F0 causal-innovation pair](../../campaign_2026-10-13/strategy_execution_r1/innovation_f0_s3_r1/README.md) prepares H-STRATEGY-20261012-01/H-238 with equal-width moment controls, explicit source/data roots, real parent extension and source-qualified feature-only exports. The [independent R1 recipe review](../../campaign_2026-10-13/strategy_execution_r1/reviews/innovation_f0_s3_r1/README.md) finds both device profiles and fits stop at a cache-validator schema mismatch: actual metadata describes a homogeneous one-family cache while the frozen consumer requires four families. No model-quality result exists; this is not a negative update on innovations conditional on moments.
+
 - [Fixed epoch-3/4/5 averaging on two clean F0 student seeds](../../campaign_2026-10-13/strategy_execution_r1/trajectory_average_f0_r1/README.md) implements S37/H-STRATEGY-AVERAGING-20261013 without another fit. Both real, hash-bound trajectory averages were constructed with identical normalization and verified continuation ancestry; three correctness tests passed. GPU predictions, paired grading and independent review remain pending. F0 is exposed and both seeds share one teacher cohort; no quality improvement is claimed.
+
 - [First-principles review: evidence assessment and experiment cards](FIRST_PRINCIPLES_EXPERIMENTS_20261013.md) turns the merged static critique into compact-ensemble, EMA/SWA, symmetry, causal cross-fitting and weighting comparisons. It qualifies the old H128 depth and confounded mean-teacher evidence, preserves the active original strategy, and records ancestry, controls, falsifiers and allocation. Proposed experiments; no new model-quality result.
+
 - [S38 / H-317 mirror-symmetry input screen R1](S38_MIRROR_SYMMETRY_DIAGNOSTIC_R1.md) reports a deterministic feature-only check on 32 complete fitting components, with the three maps frozen before inspection. The side swap crosses the predeclared marginal-mismatch cutoff; price reflection and the sign-only control do not, but their continuous measurements still show broad marginal differences. The documentation leaves coordinate and target semantics unknown, so no map is a legal augmentation; this does not reject all H-317 transforms. The linked actual data receipt and execution receipt bind source hashes and preserve a separate 400 MB metadata-only OOM incident, which is resource evidence only.
+
 - [Model artifacts for ideas and runs: private Hugging Face archive](../models/huggingface/README.md) — use its JSON inventory to find each run's description, local checkpoint, Hub path and H/E ledger references. Uploaded historical artifacts retain their original evidence limits; availability does not imply a winning result.
+
 - [October 12 strategy refinements and falsifiers](STRATEGY_REFINEMENTS_20261012.json), with [ranked public and private plans](../reviews/CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md); proposed during the historical stop. The subsequent [October 13 campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) resumes their implementation and experiments under explicit user authority.
+
 - [Causal innovation implementation and long-sequence correction](../../campaign_2026-10-13/strategy_execution_r1/INNOVATION_IMPLEMENTATION_R1.md) implements H-STRATEGY-20261012-01/H-238 with fitting-only priors, function-preserving initialization, matched-width controls and streaming/ONNX integration. A real 20,000-row input exposed a batch/stream rounding mismatch; the corrected recurrence passes the unchanged tolerance. This is engineering evidence only: independent review, GPU profiles and matched fits remain pending.
+
 - [Append-only hypothesis ledger](../../hypotheses.jsonl) and [experiment ledger](../../experiments.jsonl)
+
 - [Generated research tree](../../bandit_tree/generated/INDEX.md), [tree configuration](../../bandit_tree/config.json), and [decision journal](../../bandit_tree/journal.jsonl)
+
 - [October 11 idea ledger](../../IDEA_LEDGER_20261011.md)
+
 - [October 5 elephants review](../../ELEPHANTS_REVIEW_2026-10-05.md)
+
 - [Review file index](../../REVIEW_FILE_INDEX.md) and [second pair of eyes](../../SECOND_PAIR_OF_EYES.md)
+
 - [October 5 stuck-agent review and idea memo](legacy/oct5_ideas.md)
+
 - [Muse Spark transfer hypothesis cards](legacy/muse.txt)
+
+
 
 ## Final archive
 
+
+
 - [Cache-aware two-student compression proposal](../../campaign_2026-10-13/team_models_r1/EPYC_RUNTIME_REFLECTION_R1.md) and [actual-shape byte accounting](../../campaign_2026-10-13/team_models_r1/LOGICAL_Q8_WEIGHT_TRAFFIC_R1.json) motivate H-TEAM-CACHE-STUDENT-20261013: compare matched H192/H224/H256 student pairs because a standard H256 recurrent member approaches Zen4's per-core L2 capacity before metadata. Proposed only; logical matrix bytes are not measured cache traffic, and no quality or EPYC speed gain is established.
+
+
 
 [Ideas tested, deferred, and closed at their exact scope](../archive/2026-10-12/pages/07-ideas.md) preserves the final campaign synthesis. The [dated ledger snapshots](../archive/2026-10-12/ledger-snapshot/README.md) retain the rows as they stood when the archive closed.
 
+
+
 ## Search
+
+
 
 Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg -n -i 'term' research/unified/ideas research/unified/reviews research/IDEA_LEDGER_20261011.md research/ELEPHANTS_REVIEW_2026-10-05.md`.
 
+
+
 ## Resumed strategy execution — 2026-10-13
+
+
 
 [Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.
 
+
+
 - [S14 F0 detach-horizon packet](../../campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/README.md) — measured question: 500 versus 2000-row hidden-state gradient credit at a common 2000-row optimizer window. Exact paired fit commands and the controlled-aux audit are prepared. R1 had a malformed trainer CLI; R2 fixed its controller vector but retained a stale malformed standalone worker copy. Both are preserved and unlaunched. The sealed [R3 packet](../../campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_PROFILE_ONLY_COMMANDS_R3.json) now uses identical standalone/controller-suffix vectors, fresh IDs and a finite worker timeout. The actual-parser receipt checks both copies before CUDA setup, and the exact Main-controller source manifests and timeout executable hash are recorded in its [R3 source preflight](../../campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/S14_PROFILE_SOURCE_PREFLIGHT_R3.json). These remain preparation-only; profiles require root review and fresh shared admission. F3 inputs are incomplete. The CP5 export handoff uses the current [bounded-header alias workflow R2](../../campaign_2026-10-13/strategy_execution_r1/PREDICTION_ALIAS_WORKFLOW_R2.json), verified against the actual control producer and covered by an oversized-header regression.
+
+
 
 - [S37 frozen export delivery](../../campaign_2026-10-13/strategy_execution_r1/trajectory_average_f0_r1/EXPORT_CONTROLLER_COMMANDS_R1.json) and [source-binding receipt](../../campaign_2026-10-13/strategy_execution_r1/trajectory_average_f0_r1/EXPORT_CONTROLLER_PREFLIGHT_R1.json) — bind the two independently verified trajectory means to sequential shared-controller FP32 exports, preserving the amplitude chain priority. Identical completed control exports justify the5.5GB reservation; fresh admission remains required. No prediction or quality result yet.
 
+
+
 - [Innovation pair R2](../../campaign_2026-10-13/strategy_execution_r1/innovation_f0_s3_r2/README.md) preserves S09's matched moments/innovation test while repairing R1's actual cache-consumer rejection. It reuses our executed narrow T3 validator; actual producer metadata, header and row mapping checks plus ten CLI vectors pass. No quality or GPU result yet; root owns remaining delivery.
+
+
 
 - [Distillation capacity and cheap recurrent memory](../../campaign_2026-10-14/cpu_student_frontier_r1/DISTILLATION_AND_RECURRENCE_THEORY_R1.md) uses primary distillation/minGRU sources to frame the fixed-budget ladder, teacher/student interaction, and minGRU timescales. It derives a clipped weighted-correlation mixture diagnostic and identifies a scan/step initial-state semantic trap. Linked independent synthetic arithmetic checks pass; proposals remain untrained. H-STUDENT-LADDER-20261014 / H-STATE-INIT-20261014.
 
+
+
 - [minGRU implementation arm](../../campaign_2026-10-14/cpu_student_frontier_r1/MINGRU_REFERENCE_R1.md): root-owned cheaper-recurrence successor grounded in Feng et al. Appendix B, with actual-zero state and a direct affine scan. Nine synthetic implementation checks pass; equal-matrix-count H384×2 minGRU versus H256×2 GRU is a derived candidate comparison only. Training/native/profile/quality work remains pending. E-MINGRU-REFERENCE-20261014-R1.
+
+
 
 - [Recurrent timescales and initializer gradients](../../campaign_2026-10-14/cpu_student_frontier_r1/RECURRENT_TIMESCALES_AND_INITIALIZER_GRADIENTS_R1.md): chrono initialization (Tallec/Ollivier2018), minLSTM initialization analysis (Feng et al.2024), truncation-bias literature and official checkpointing API inform a distinct minGRU bias arm and complete-sequence initializer training. Six scalar checks and five synthetic gradient tests pass; no fitted-model benefit. H-MINGRU-TIMESCALES-20261014 / H-STATE-INIT-20261014.
 
+
+
 ## October 15 independent quality reframe
+
+
 
 - [F0 initializer-family screen](../../campaign_2026-10-15/initializer_family_f0_r1/README.md), H-STATE-INIT-20261014, recipe `initializer-family-f0-r1`, freezes constant, first-row and 64-hidden-unit 99-row-prefix initial states around the already-fitted clean-T3 CP5 parent. It uses a complete-component fit subset and the frozen homogeneous T3 objective; the F0 panel is repeatedly exposed. This is a static recipe handoff after the user paused new research: no runner preflight, profile, fit, export or grade has run, and it does not establish initializer quality or a teacher ceiling.
 
+
+
 - [Per-field clock screen and pooled-loss rejection audit](EVENT_STATE_AND_METRIC_OBJECTIVE_REFRAME_20261015_R1.md) distinguishes a per-field-age representation child under H-087/H-138 from the older four-clock E-415 residual-head proxy, and keeps H-055's exact E-291 rejection intact. A bounded raw-feature-only screen on the eight-component [CPU fixture](../../campaign_2026-10-15/vast_a_cpu_probe_r1/CPU_TIMING_FIXTURE_R1.json) found 19–48 per-field reset patterns versus seven group patterns, but this is representation evidence only. The [screen finding and receipt](../../campaign_2026-10-15/vast_a_cpu_probe_r1/PER_FIELD_CLOCK_INPUT_SCREEN_20261015_R1.md) preserve hashes, component provenance, parity and limits; no prediction or quality claim follows. E-291 measured pooled-memory minus batch-`gcorr` at −0.001521 two-stage (95% interval [−0.002868, −0.000161]) and −0.000414 head-only ([−0.001260, +0.000463]); a new fit remains deferred unless an official-clipping gradient probe reveals a material distinct mechanism. Its exact recipe is [ftpool_folds.sh](../../campaign_2026-10-01/jobs/ftpool_folds.sh), with [paired grade](../../campaign_2026-10-01/screens/pool_shared_f01_report.json). H-018's per-chunk-correlation failure is separate. All folds are exposed; there is no new prediction-quality or public-transfer result. [R0](EVENT_STATE_AND_METRIC_OBJECTIVE_REFRAME_20261015_R0.md) preserves the pre-index cards; seeded/random and directed source provenance is indexed in [sources](../sources/README.md).
+
+
 
 - [Per-field causal-age implementation and matched C/G/F recipe](../../campaign_2026-10-15/vast_a_cpu_probe_r1/per_field_age_r1/README.md) adds explicit group-age and per-field-age modes while preserving the 211-input default. Its one-pass NumPy fixture timing and four earlier tiny-oracle tests are engineering evidence only. The primary F−G contrast also changes input rank/optimizer geometry; no fit, quality result, native serving path, or submission readiness is claimed.
 
+
+
 - [Inherited capacity and shared-control mechanism wave](../../campaign_2026-10-15/gru_parent_growth_r1/README.md) — H-STUDENT-PARENT-GROWTH-20261015: gate-aware H256×2→H384×2 initializer passes all23-output, complete20k-row FP32 parity (max1.14441e-5) and reset; nine combined growth/field-age tests pass. C/G/F actual50-update resource profiles now pass; W is in delivery. Root conditionally releases the frozen two-epoch C/G/F/W fits after all four profiles pass, with exact vectors/resource limits and owned export/independent grading. No fitted quality improvement or final architecture winner yet.
+
+
 
 - [Parent-update budget audit](../../campaign_2026-10-15/student_quality_tradeoff_r1/PARENT_UPDATE_BUDGET_AUDIT_R1.json), explained in the [quality bottleneck synthesis](QUALITY_BOTTLENECK_AND_STUDENT_TRADEOFFS_20261015_R1.md), pins original provenance showing29,840 versus59,680 optimizer attempts across two nominal four-epoch H256×2 parents. Batch, Muon scope, cache and normalization differ; this is a confound audit, not a teacher/batch causal effect. It preserves a stronger-parent follow-up branch under H-STUDENT-PARENT-GROWTH-20261015 without altering active experiments.
 
+
+
 - [Frozen-parent anchor control](FROZEN_PARENT_ANCHOR_CONTROL_20261015_R1.md) proposes distinguishing external T3 information from preserving the inherited function, reusing a shared matched control. It records calibration/ancestry confounds, a FastEMA first-update-copy trap and bounded cache/fit cost estimates. No fit admitted; H-FROZEN-PARENT-ANCHOR-20261015.
+
 - [Frozen-parent anchor recipe, resource result and fit authority](../../campaign_2026-10-15/student_quality_tradeoff_r1/frozen_parent_anchor_r1/README.md) uses the existing direct-teacher consumer with pinned parent epoch-3 predictions, clean F0 fit membership and the shared two-epoch C vector. The actual50-update profile passed with finite gradients/no skips/OOM; root releases one fixed S fit after primary G/F/W fits/exports, with6.5GB host/4.3GB allocator/5400s limits and owned independent grading. No S quality result yet; calibration, legacy precision and inherited-teacher confounds remain.
+
 - [Fixed parent/T3 endpoint mixture grade](../../campaign_2026-10-15/student_quality_tradeoff_r1/FIXED_PARENT_T3_BLEND_COMPONENT_GRADE_R1.json) evaluates the preregistered 0.5 parent plus 0.5 current scaled-T3 target blend on the repeatedly exposed 468-group F0 panel. The point gain is +0.00124415 with a conditional component interval crossing zero; this measures fixed endpoint complementarity, not student transfer, causal teacher value, or public performance. Exact input hashes, official metric, bounded command and alias cleanup are in the [grade receipt](../../campaign_2026-10-15/student_quality_tradeoff_r1/FIXED_PARENT_T3_BLEND_GRADE_EXECUTION_R1.json).
+
+
 
 - [October17 experiment draft inventory](EXPERIMENT_DRAFT_INVENTORY_20261017_R1.md) maps fifteen local idea branches: interrupted F/W/S/initializers/capacity, earlier innovation/averaging continuations and new B300 teacher/encoding/preprocessing/distillation ideas. Records completed sources and TPU engineering separately; code readiness and missing bindings remain explicit, with no new fits;14 draft PRs are now published in the [catalogue](../../experiment_drafts/README.md).
 
+
+
 - [Research-team branch/commit catalogue](../../experiment_drafts/README.md) records the prepared per-idea source SHAs and PR publication state. It is integration navigation, not merged experiment code or training evidence.
+
+
 
 - [Published draft PR catalogue](../../experiment_drafts/README.md) links all14 English experiment handoffs, exact GitHub draft/base/head verification and the branch/commit JSON manifest. Describes code readiness, shared primitive provenance and missing B300/data bindings; no fits, tests or model-quality claim.
 
+
+
 </details>
+
+
 
 ## Current sequence-moment investigation
 
+
+
+- [Warmup-only expert router screen](WARMUP_EXPERT_ROUTER_20261018_R1.md) tests whether first-99 input summaries can route among four related pinned experts. The gate scores 0.680833 WP versus 0.681227 for the training-selected parent and loses in all four cross-fit folds; its weights remain near uniform. It fails the preregistered B300-admission criteria on exposed F0 and does not narrow richer causal online learning or the existing Kalman teacher/student direction. The full [packet](../../campaign_2026-10-18/online_features_r1/warmup_expert_gate_r1/README.md) contains hashes, failures/corrections, preflight, result and independent review.
+
+- [Early-to-late sequence expert preference result](../validation/SEQUENCE_EXPERT_PREFERENCE_PERSISTENCE_20261018_R1.md) tests whether a per-sequence TL3/R3 choice made from early labels persists. The selector loses to TL3 late, and observed choice agreement does not exceed the marginal base-rate expectation. This narrows the frozen label-informed gate only; it does not establish or reject mature-feedback online learning. No separate B300 draft follows.
+
+
+
+- [Causal Kalman output-filter screen](KALMAN_OUTPUT_FILTER_20261018_R1.md) compared two label-blind local-level filters with the raw model stream on 468 exposed F0 groups/141 components. Both lost in all four descriptive partitions: fixed Q/R=0.25 was −0.005706 WP and first-99 estimated Q/R was −0.016465 WP, each with a wholly negative paired component interval. This narrows these output filters only; learned Kalman features, hidden-state teachers, student transfer and broader online learning remain open. The independent [evidence review](../reviews/KALMAN_OUTPUT_FILTER_EVIDENCE_REVIEW_20261018_R1.md) and packet [execution receipt](../../campaign_2026-10-18/online_features_r1/kalman_output_filter_r1/execution_receipt_r1.json) preserve the limits and resource details. No new B300 draft follows; the separate learned-feature direction is in PR #17.
+
+
+
 - [Discrete occupancy and regime heuristics](DISCRETE_OCCUPANCY_HEURISTICS_20261017_R1.md) turns the user-requested all112 mean/std visual review into six causal representation families for teachers and students: frequent-level identity, row/event occupancy, dwell/transitions, soft branch evidence and level-plus-scale. Input geometry and tiny predictive pilots are measured; teacher/studentdistillation and production transfer remain untested. Explicitly preserves the direction after a weak tiny pilot and evaluates conditional contributions rather than requiring immediate standalone dominance.
+
 [R3 measured block/history screen](../../campaign_2026-10-19/idea_screens_r3/RESULTS.md) finds near-equality of full-budget raw112 and i0+tail60, a larger fitting-budget gain for raw, and selected signed EMA+0.010459WP with positive32/32drop-one contrasts. Fixed-alpha1 absolute EMA remains positive despite the negative fit-selected endpoint. Changed exposed sampling and linear-model limits prevent full-recipe/public or generic i1 claims.
 
 - [R4 fixed nonlinear follow-up](../../campaign_2026-10-19/idea_screens_r4/README.md) tests four matched identity/tanh random-feature cases on the existing R3 panel. Selected endpoints lose0.009039/0.023440WP; the predeclared history alpha1 contrast remains+0.002015 with32positive fixed-prediction drop-one contrasts. No outer retuning, generic nonlinear-family rejection, full-model/public or recurrent-state claim. Results, exact22pin source, tests/reviews, audit and operational evidence are indexed together.
 
 - [Idea12 narrow moment-decoder result](../../campaign_2026-10-19/idea_screens_r5/RESULTS.md): with identical fitted heads, a predicted denominator loses0.025555WP to a constant denominator; all32 fixed-prediction drop-one contrasts are negative. A positive constant-vs-stored-R3 recipe contrast is retained without claiming joint-head causality or general moment-model failure.
+
+- [Published causal geometry/discrete-feature B300 draft PR #15](https://github.com/VladKochetov007/WunderFunder/pull/15) — runnable four-arm baseline/moments/dictionary/combined study targeting `research-team`, with 30 matched seed/fold cells per arm on 8 independent B300 workers, full neural FP32, profile-before-launch, interaction/uncertainty design and artifact logging. Includes the negative local warm-continuation result and causal geometry plots. This is a server proposal/implementation, not B300 performance evidence; local delivery history is in the [18 October campaign](../../campaign_2026-10-18/README.md).
+
+- [Causal online learning and feature research](../../campaign_2026-10-18/online_features_r1/README.md): user-authorized continuous campaign for causal adaptation, learned features and TL3 complementarity. Data audit is complete; target-only fitting was negative within its one-fit screen, TL3 diagnostics show no fixed blend advantage, and Kalman input replacement remains a small inconclusive positive fixed-endpoint screen after an expanded exposed-F0 follow-up. All F0 evidence is exposed; no public gain is inferred.
+
+- [Independent online-learning proposals](../../campaign_2026-10-18/online_features_r1/independent_proposals/README.md): six source-grounded cards committed before reading controller/actor ideas, including an innovation clock and causal-window teacher-to-GRU path. Assumptions, counterexamples and bounded tests are explicit. The first P2 attempt stopped during an unbounded train-footer parse; a later safe 32-component input-only screen completed and found group-wise innovation drift, without target association or endpoint evidence. See the indexed [screen](../../campaign_2026-10-18/online_features_r1/innovation_clock_r1/README.md) and [operational incident](../operations/LOCAL_TRAIN_PARQUET_METADATA_OOM_20261018_R1.md). This result supports a representation follow-up, not a new B300 draft.
+
+- [Causal lagged-target proxy](../../campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/README.md): a completed frozen screen predicts the previous-row label from current features, scoring 0.521679 WP on 32 disjoint but previously exposed F0 evaluation components; an independent regrade matches exactly. Target maturity is undocumented, so this is pseudo-label feasibility, not realized online feedback or endpoint gain. Stable centered weighted moments, the independent source review, and the prior preflight OOM are recorded in the packet.
+
+- [Causal pseudo-label expert gate](../../campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/README.md): a completed label-blind six-endpoint screen compares TL3, R3, fixed 75/25 and proxy gates at 256/2,048/8,192 steps. The best gate adds +0.00004795 WP over the fixed blend with an exposed-component interval crossing zero; TL3 remains ahead by 0.00233. This does not justify a new B300 gate draft and does not close the wider online-learning family. The frozen [gate recipe](../../campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/recipe.json), [recipe/code audit](../../campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/RECIPE_AUDIT_R1.md), [resource receipt](../../campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/execution_receipt_r1.json), and [independent review](../reviews/CAUSAL_PROXY_GATE_EVIDENCE_REVIEW_20261018_R1.md) distinguish measured results from exposed-panel and target-maturity limitations.
+
+- [All-channel causal Kalman innovation clock](../../campaign_2026-10-18/online_features_r1/innovation_clock_r1/README.md): the P2 follow-up verifies the train footer and split before metadata parsing, then reads only 32 fit-side sequences without labels or masks. Innovation summaries rise from 1.79 to 2.63 across four sequence bins and differ by semantic group; the scalar CUSUM upper tail reaches its cap early. This is feature-distribution evidence only; screen it next as group-aware fast/slow inputs before a model-quality or new B300 claim.
+
+- [Groupwise fast/slow Kalman innovation states](GROUPWISE_FAST_SLOW_KALMAN_INNOVATION_INCREMENTALITY_20261018_R1.md) records the negative 32-component exposed train-row ridge proxy (raw+39 states Δ −0.013093 WP) and a two-seed recurrent screen on the same exposed F0 panel. Seed3 is +0.00005163 WP; seed4 is −0.00001387, with separate conditional 141-component intervals both crossing zero. The arithmetic mean paired delta +0.00001888 is descriptive only; the effect changes sign and is much smaller than seed-to-seed movement in endpoint scores. The independent [ridge proxy review](../reviews/GROUPWISE_FAST_SLOW_PROXY_RESULT_REVIEW_20261018_R1.md) and [seed-3 recurrent review](../reviews/GROUPWISE_FAST_SLOW_RECURRENT_SCREEN_REVIEW_20261018_R1.md) preserve the distinct masks, exposures and claim limits. Keep the family open without promoting a stable gain. PR #14 contains context for the additive proxy, and existing [draft #17](https://github.com/VladKochetov007/WunderFunder/pull/17) covers retained-raw local-trend teacher/student work. The separate [innovation-conditioned gain/update proposal](KALMAN_INNOVATION_GAIN_STATE_GRU_20261018_R1.md) remains unpushed, code-only and unmeasured.
+
+- [Independent innovation-clock review](../reviews/INNOVATION_CLOCK_FEATURE_SCREEN_REVIEW_20261018_R1.md) confirms the pinned source membership, input-only reader, causal prefix/reset checks, terminal resource receipt and output hashes. It records a correction to the result JSON's group-ranking wording: the listed three groups are pooled across later bins, while the per-bin top and bottom are `i1_ask_price_like` and `i0_trade_price`.
+
+- [October21 i1 two-cell packet](../../campaign_2026-10-21/next_cycle_r1/i1/README.md): concrete six-fit A/B/C temporal-memory comparison on F0/1001 andF2/1002, exact10%component memberships and complete-fold fixed-mixture grading. Eight CPU checks and sustained profile passed; execution is live, no quality finding yet.
+
+- [Conditional warm-history continuation](../../campaign_2026-10-21/next_cycle_r1/i1_warm_history_extension_r1/README.md): code-only, default-off none-to-i1 checkpoint extension for a future matched strong-parent follow-up. It preserves the old 211 normalization slots and zero-initializes the 156 history weights; optional appended-only fitting uses the canonical two-batch fitting-loader estimator. Focused CPU tests are prepared for root review but were not run; no fits or mechanism selection were admitted.
+
+- [Serving-projected WMSE trajectory mean amendment](../../campaign_2026-10-21/next_cycle_r1/weight_mean_projected_r1/README.md): metadata/source audit shows the previously shape-blocked parent/WMSE mean is viable only after the canonical first-two-output serving projection. The frozen full-state contract remains blocked; a zero-fit derivation/parity adapter and fixed F0 grade screen are prepared, with no checkpoint load or quality result yet.
+
+- [October21 cycle integration draft](../../experiment_drafts/next-local-kaggle-cycle-20261021/README.md): reviewable implementation/execution handoff for the accepted30h local/Kaggle cycle, with six i1 fits running and four dynamics fits pending profile. It preserves the divergent research-team history, exact execution-source separation, failed memory admission and independent recovery review; no new quality improvement is claimed.
+
+- [H512 endpoint-gap diagnostic contract](../../campaign_2026-10-21/next_cycle_r1/ENDPOINT_DIAGNOSIS_PLAN_R1.json): a zero-fit investigation of native precision, scale and conditional ensemble utility after exact standalone reproduction but a worse fixed TL3 replacement. It freezes covariance, time-bin and differential-parity checks; all F0 findings remain exposed diagnostics with unknown TL3 ancestry. Results are pending.
+
+- [Serving-projected parent/WMSE mean, CPU result](../../campaign_2026-10-21/next_cycle_r1/weight_mean_projected_r1/README.md) — exact scored-output parity and normalization compatibility now pass for the same three frozen trajectory checkpoints; a single equal mean is derived with no fits/GPU use. Full-fold export and fixed ensemble quality remain pending. Historical23/25-head full-state incompatibility and missing parent trainer-source are retained.
+
+- [Complete two-cell i1 grade](../../campaign_2026-10-21/next_cycle_r1/i1/runtime/GRADE_R1.json) — six new fits, zero teachers; fixed history mixture +0.00035953/+0.00027145, mean +0.00031549, despite weaker standalone C in both cells. Both targets improve; component intervals are conditional and folds exposed. The A mixture helps only F2, preserving an error-diversity alternative. Interpretation and conditional warm-test progression are in the [dated note](I1_HISTORY_IDEA_PROGRESSION_20261022_R1.md#complete-panel-update--2026-10-22); no production benefit established.

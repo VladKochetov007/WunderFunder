@@ -1,0 +1,121 @@
+{
+  "schema": "wnn.b16-cloud-terminal-collection.v1",
+  "status": "ERROR_NO_PREDICTION_ARTIFACTS",
+  "observed_at_utc": "2026-10-21T21:03:00+00:00",
+  "kernel": "vladkochetov07/wnn-h512-f1-b16-export-20261021-r1-runner",
+  "kernel_version": 1,
+  "launch_admission": "B16_CLOUD_LAUNCH_ADMISSION_R1.json",
+  "launch_kernel_sha256": "5ad37f0cb131ad893fecf491918ae254de1630ea8bfd79224a52eddde42e8aa0",
+  "archive_sha256": "1802af9b02281097da72c15594ace7c2d5b694218ac19387e10e72e14e5be095",
+  "private_dataset_version": 1,
+  "quota_at_launch": "KAGGLE_QUOTA_R5.json",
+  "provider_terminal": {
+    "status": "KernelWorkerStatus.ERROR",
+    "observed_at_utc": "2026-10-21T20:59:50.001087+00:00",
+    "collected_at_utc": "2026-10-21T21:01:08.896828+00:00",
+    "collector_poll_log": "/home/vlad/development/wunder/research_tmp/b16-export-terminal-20261021-r1/poll_log.jsonl"
+  },
+  "worker_outcome": {
+    "concurrency_admitted": 1,
+    "first_worker": "export_fit_cp5",
+    "worker_timeout_seconds": 700,
+    "last_heartbeat_elapsed_seconds": 693.356,
+    "timeout_trace_elapsed_seconds": 705.03,
+    "incident": "RuntimeError: Timeout for export_fit_cp5",
+    "peak_ram_bytes": 566816768,
+    "peak_gpu_bytes": 0,
+    "assigned_gpu_index": 0,
+    "assigned_gpu_name": "Tesla T4",
+    "assigned_gpu_uuid": "GPU-39e6412f-b0e4-e371-bac5-5a682b136cc2",
+    "second_worker": "export_swa345",
+    "second_worker_status": "not_started",
+    "prediction_artifacts": [],
+    "missing_prediction_artifacts": [
+      "cache/pred_r01_h512_f1_s1004_kaggle_fit_r2_valid.npy",
+      "cache/pred_r01_h512_f1_s1004_kaggle_fit_r2_valid.json"
+    ],
+    "worker_log_bytes": 0
+  },
+  "diagnosis": {
+    "last_worker_phase_observed": "No worker phase was logged. The worker log is empty; supervisor heartbeats only establish that the process remained alive until timeout.",
+    "leading_source_based_hypothesis": "The worker was still verifying portable identities for the mounted raw Parquet inputs before prediction/CUDA. The input identity receipt marks both files deferred to worker preflight; together they are 34855770139 bytes. This is not proven as the exact blocking phase because there is no worker trace.",
+    "same_gpu_pair_proven": false,
+    "same_gpu_pair_limitation": "Only CP5 launched on GPU index 0. SWA was not started, so no two-export same-device completion/parity evidence exists.",
+    "scientific_score": null
+  },
+  "collected_artifacts": {
+    "directory": "/home/vlad/development/wunder/research_tmp/b16-export-terminal-20261021-r1",
+    "file_count": 187,
+    "total_bytes": 23859648,
+    "collection_manifest": "MANIFEST.json",
+    "collection_manifest_sha256": "d08726dbe2ff5f8ce2acdb8aa405a37117a431cb36ee5bb8cce745fddfff0d63",
+    "collected_marker_sha256": "e11dbceeb8e54c4b80253b44f9693c88133aa3331aacb2d6aa9d5dcca7d31f2f",
+    "provider_stdout_stderr": {
+      "path": "outputs/wnn-h512-f1-b16-export-20261021-r1-runner.log",
+      "bytes": 15052,
+      "sha256": "06460a952f61b367d26df0a179187e3afddac06d1ae86d0d15d76351b65c61b3"
+    },
+    "worker_spec": {
+      "path": "outputs/runtime_specs/export_fit_cp5.json",
+      "sha256": "47d0ec1e288229971b35a79b72e946d4939279480dce857481ab3f28692550dd"
+    },
+    "not_started_worker_spec": {
+      "path": "outputs/runtime_specs/export_swa345.json",
+      "sha256": "04c0f7350a6811b6189480cf466836b0905b3fa7ec3e2e3d25f6cfff8beea927"
+    },
+    "inventory": {
+      "path": "outputs/results/inventory.json",
+      "sha256": "588b69775ba44a5023ab1af20969d4f5843770db474c5f8b72b43af839a1b640"
+    },
+    "summary": {
+      "path": "outputs/results/summary.json",
+      "sha256": "f0d444f0e1101f30afecfc6e20a0fa4be6f4d24f12ec149302de14148281d37c"
+    },
+    "heartbeat": {
+      "path": "outputs/results/heartbeat.json",
+      "sha256": "899c4a63473ce0122f6b7499b3905639166eb7eae3568a45009df7c385603beb"
+    },
+    "failure": {
+      "path": "outputs/results/export_fit_cp5/failure.json",
+      "sha256": "e76586d2c66734e1f36db9b51bf7f970353a0ea9aa43d3519ad843527ec3b41d"
+    },
+    "timeout_resolution": {
+      "path": "outputs/results/export_fit_cp5/timeout_resolution.json",
+      "sha256": "8cc4ced7b8190d2d653ff01d9e6df99532dee28607f37db1b38d3ad392761efe"
+    },
+    "input_identity": {
+      "path": "outputs/results/export_fit_cp5.input_identity.json",
+      "train_sha256_status": "deferred_to_worker_preflight",
+      "valid_sha256_status": "deferred_to_worker_preflight"
+    },
+    "prediction_npy_count": 0
+  },
+  "local_collection_service": {
+    "unit": "wnn-b16-export-v1-terminal-collection-r1.service",
+    "collector_script": "scripts/kaggle_collect_kernel_output.py",
+    "collector_script_sha256": "d9603c66135afd947429b7fdc1a25819607d4e6441b14c22ce51d7d86c45e36c",
+    "cpu_quota": "10%",
+    "memory_max_bytes": 400000000,
+    "memory_swap_max_bytes": 0,
+    "runtime_max_seconds": 240,
+    "actual_runtime_seconds": 86.185,
+    "actual_cpu_seconds": 4.378,
+    "actual_memory_peak_display": "77.9M (systemd output)",
+    "download_max_bytes": 1200000000,
+    "temporary_directory": "/home/vlad/development/wunder/research_tmp"
+  },
+  "post_failure_quota": {
+    "receipt": "KAGGLE_QUOTA_R6.json",
+    "observed_at_utc": "2026-10-21T21:04:46.541497+00:00",
+    "total_seconds": 108000.0,
+    "used_seconds": 106364.425,
+    "reserved_seconds": 0.0,
+    "remaining_unreserved_seconds": 1635.574999999997,
+    "refresh_at_utc": "2026-10-24T00:00:00",
+    "prior_used_seconds_r5": 105654.622,
+    "provider_seconds_consumed_since_r5": 709.803,
+    "query_unit": "wnn-b16-export-v1-quota-r6-venv.service",
+    "query_source": "root direct read-only SDK quota API; no provider mutation"
+  },
+  "next_action": "No cloud retry or new provider job. Root will wait for the active local GPU worker to finish, then attempt both saved exports locally within the separately admitted two-hour recovery allocation."
+}

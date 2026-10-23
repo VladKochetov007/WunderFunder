@@ -1,5 +1,11 @@
 # Research objective
 
+**Current execution scope, 2026-10-21:** 30 local GPU-hours plus verified
+available Kaggle quota, local/Kaggle only, no paid compute, with B300 deferred.
+The [accepted cycle plan](plans/2026-10-21-next-local-kaggle-cycle.md) and
+[live frontier](../research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md)
+govern current admissions and preserve the earlier 15-hour cycle as history.
+
 Maximize long-term expected competition performance of a valid, deterministic submission. The active objective is top-1 and public score above 0.7000. Pursue this as an achievable research target; current results and missing forecasts do not cap the search or justify pruning a promising family. Report public-score expectations only when supported by appropriate evidence. Useful incremental gains, stronger teachers, complementary models, new representations and better measurement all count as progress when their evidence supports that claim.
 
 Select and form submissions from our research and valid local evaluation evidence. Public leaderboard feedback confirms transfer and is not a prerequisite for packaging a locally supported candidate. Explain any omission of a strong locally evaluated run with a concrete technical or evidence reason. See [ADR0030](adr/0030-local-evidence-selects-submissions.md).
@@ -10,7 +16,7 @@ Preserve exploration alongside deepening a promising lineage. An individually we
 
 Requirements:
 
-- Future idea screens initially budget4–6 total new fits with explicit matched cells, reused controls and teacher/student costs; no mandatory30-per-arm replication matrix. See [ADR0043](adr/0043-fast-screens-and-transformer-teacher-scale.md). Large Transformer teachers and GRU transfer are the latest strategic priority; scale remains an empirical choice rather than a memory-filling goal.
+- Future idea screens initially budget4–6 total new fits with explicit matched cells, reused controls and teacher/student costs; no mandatory30-per-arm replication matrix. See [ADR0043](adr/0043-fast-screens-and-transformer-teacher-scale.md). Latest steering prioritizes large Transformer teacher quality and empirical scaling; distillation is optional; scale remains an empirical choice rather than a memory-filling goal.
 - Reuse official team code and weights, including teachers and initializers, under [ADR0035](adr/0035-official-team-code-and-weight-sharing.md). Record source and fitting ancestry; shared assets do not count as independent replications.
 - Use permitted supplied data and declared training membership. Keep final all-data training separate from held-out evaluation claims.
 - Preserve official metric and submission requirements. Training-target clipping is an experimental choice; official scoring clipping stays fixed.

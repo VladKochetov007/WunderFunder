@@ -1,0 +1,20 @@
+{
+  "status": "PASS_FOR_FROZEN_RECIPE",
+  "reviewer": "i1_recipe, native gpt-6-luna/max, read-only independent review",
+  "implementation_commit": "b83147cf3264df68d6fe77b827fcedbca0be6a50",
+  "reviewed_head": "490aadd0a",
+  "findings": [
+    "Targets use standardized one-step changes t+1..t+h, full sequences before TBPTT, mask t+h<T and existing warmup.",
+    "Target statistics read fitting train and extra_valid members feature-only.",
+    "Auxiliary head reads recurrent state only; main WMSE uses first2columns unchanged; evaluation returns2outputs; exporters strip head/buffers.",
+    "Defaults off; head and target statistics restored in checkpoints.",
+    "Exact frozen recipe safe; general validator does not forbid td_alpha and some other objective-changing flags. Do not generalize this review beyond frozen args."
+  ],
+  "profile_requirement": "Include full fitting-membership CPU target-statistics scan, GPU target construction and actual export costs, not only batch throughput.",
+  "tests_by_reviewer": false,
+  "root_cpu_tests": {
+    "passed": 4,
+    "seconds": 2.35
+  },
+  "scientific_fits": 0
+}

@@ -1,0 +1,73 @@
+{
+  "schema": "wnn.tl3-r3-f2-replay-admission.v1",
+  "experiment_id": "E-TL3-R3-F2-FIXED-MIXTURE-20261018-R1",
+  "observed_utc": "2026-10-18T02:21:47Z",
+  "status": "admitted_for_sequential_8_group_profiles_then_gated_full_replays",
+  "recipe_path": "recipe.json",
+  "recipe_sha256": "5b804705b8b43ad81fce46065286d6cf5a0b65069b5d23d20a6da0a1f5952a18",
+  "admission_authority": "User explicitly resumed long-horizon local research; see the linked resume review and online-feature contract.",
+  "source_preflight": {
+    "fold": 2,
+    "split_sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9",
+    "evaluation_groups": 443,
+    "evaluation_components": 144,
+    "input_width": 112,
+    "sequence_length": 20000,
+    "valid_parquet_bytes": 5615509128,
+    "valid_parquet_footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+    "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955",
+    "preflight_label_values_accessed": false,
+    "zip_and_code_hashes_verified_against_recipe": true,
+    "replay_outputs_clear": true
+  },
+  "resource_snapshot": {
+    "campaign_slice": "wnn-campaign.slice",
+    "cpu_quota_before_split": "200% (systemd CPUQuotaPerSecUSec=2s)",
+    "memory_current_bytes": 5445074944,
+    "memory_high_bytes": 18000000000,
+    "memory_max_bytes": 20000000000,
+    "memory_swap_max_bytes": 0,
+    "conservative_parent_commitment_after_reservations_bytes": 10166300416,
+    "parent_commitment_target_bytes": 17000000000,
+    "gpu_worker": false,
+    "gpu_observation": "RTX 3060 Laptop; 75 MiB used of 6144 MiB, 0% utilization; desktop display only.",
+    "unrelated_jobs_touched": false
+  },
+  "task_reservation": {
+    "aggregate_cpu_cores": 2,
+    "outer_limited_scope_cpu_quota": "100%",
+    "outer_limited_scope_memory_max_bytes": 1500000000,
+    "docker_cpu_cores": 1,
+    "docker_memory_max_bytes": 3221225472,
+    "docker_memory_swap_max_bytes": 0,
+    "combined_task_reservation_bytes": 4721225472,
+    "task_memory_cap_bytes": 5000000000,
+    "docker_image": "wnn-python311-submission-check:latest",
+    "docker_image_id": "sha256:949c72c9cf887a68e25dc00955ab030f1e528c21f1049459330ff022a7d51317",
+    "docker_network": "none",
+    "physical_scratch": "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2",
+    "scratch_filesystem": "btrfs on /dev/nvme0n1p7",
+    "scratch_free_bytes_rounded": "approximately 99 GB",
+    "new_paid_compute": false
+  },
+  "profile_gate": {
+    "groups_per_package": 8,
+    "reset_check": "exact A-B-A on the first full sequence",
+    "full_replay_requires": [
+      "both exact package profiles pass",
+      "A-B-A equality for both packages",
+      "no cgroup OOM events",
+      "each Docker cgroup memory peak below 2500000000 bytes"
+    ],
+    "profile_outputs": [
+      "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2/out/tl3_f2_profile8.npy",
+      "/home/vlad/development/wunder/research_tmp/online-features-tl3-f2/out/r3_f2_profile8.npy"
+    ],
+    "status": "not_started"
+  },
+  "cpu_aggregation": {
+    "during_docker": "Temporarily set wnn-campaign.slice CPUQuota to 100%, run the external Docker child at one CPU, then restore and verify the original 200% parent quota.",
+    "restore_required": true,
+    "external_containers_sequential": true
+  }
+}

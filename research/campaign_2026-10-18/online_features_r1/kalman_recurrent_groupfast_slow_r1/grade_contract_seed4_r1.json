@@ -1,0 +1,31 @@
+{
+  "claim_scope": "One paired optimizer-seed sensitivity screen on the repeatedly inspected F0 panel; not clean validation, independent data replication, public transfer, or a B300 confirmation.",
+  "command": [
+    ".venv/bin/python",
+    "-u",
+    "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/grade_pair_seed4.py"
+  ],
+  "evaluation": "all 468 evaluation groups, source-qualified component bootstrap (2000 draws), fixed time bins; no target access before prediction freeze.",
+  "experiment_id": "E-KALMAN-GROUP-RECURRENT-SEED4-20261018-R1",
+  "freeze_receipt": "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/prediction_freeze_seed4_r1.json",
+  "freeze_sha256": "5a2d62de6974e2b207265e492dd6aca3117210f203b0abebc1f458d75dc92451",
+  "gate": "The grader must verify the feature-only prediction freeze before opening cached targets/masks.",
+  "metric_id": "global_wp_clip2_v1",
+  "output": "research/campaign_2026-10-18/online_features_r1/kalman_recurrent_groupfast_slow_r1/grade_result_seed4_r1.json",
+  "prediction_sha256": {
+    "kalman_groupfast_active_f0_s4_r1": "132df658a7767a48df4922d35230ebce07bd3b221da9a80e0d8898a72c337139",
+    "kalman_groupfast_zero_f0_s4_r1": "7f41ad6f33bf6c424f679031895869b4420c2fc4f99706be631b6f77ff65511f"
+  },
+  "resources": {
+    "gpu_workers": 0,
+    "kind": "cpu",
+    "ram_reservation_bytes": 2000000000,
+    "runtime_limit_seconds": 120,
+    "scratch": "/home/vlad/development/wunder/research_tmp/online_features_r1/kalman_recurrent_groupfast_slow_r1",
+    "swap_bytes": 0,
+    "worker_cpus": 1
+  },
+  "schema": "wnn.kalman_group_recurrent_seed4_grade_contract.v1",
+  "source_script_sha256": "4db0ef52bd3d4eb3730091d1c838dc0c8a3e3378a0615379c965e4e31d5188d5",
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+}

@@ -1,169 +1,335 @@
 [Independent successful-score stop audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/exact_stop/ACTUAL_STOP_METADATA_REVIEW.json) passes local original raw/transport/source/acceptance joins and successful-only stop; no B action, imports, tests or model/data array reads.
 
+
+
 **21 October13:29UTC — fixed first-cell comparison completed and stopped:** [Final five-arm report](../../campaign_2026-10-19/full_gru_tweaks_r1/FIRST_CELL_COMPARISON_20261021.md) records all five fixedep5 scores on468 fit-excluded EXPOSED development groups. CONTROL WP0.674830; EMA0.674779; Sparse0.674935; NLL0.675569; AllThree0.675909. AllThree−CONTROL+0.001078, unadjusted paired95% component CI[+0.000069,+0.002245]; the other three intervals cross zero. These intervals are conditional on the fixed models, not fit-seed/public-transfer uncertainty. [ROOT acceptance](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/SCORE_ACCEPTANCE.json) was durable13:23UTC before [Exact stop](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/exact_stop/README.md)13:29UTC of only successful score-v3; both failed score units remain preserved/excluded. All6scientificfits and5separate prerequisites are closed, no further fits/re-export/retuning. [Independent metadata audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/ACTUAL_SCORE_ACCEPTANCE_METADATA_REVIEW.json) verifies original RESULT/scalar/source joins without ROOT array reads. [Final source/recovery index](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021_V6.md) preserves versioned source gates and negatives. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_FIRST_CELL_SCORED.json) records final local publication checks.
 
+
+
 ---
+
+
 
 **21 October12:57UTC — third actual CPU scorer launched once:** [V14 admission and original receipts](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/README.md) bind new score-v3/inv9bd64d6759e8462bb40985b06a9a0ad6 under fresh serial gates. [V7 source-pair review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v7/SCORE_SOURCE_REVIEW_V7.json) qualifies exact selected-index/header preflight while fixed metric/bootstrap, five accepted exports and all six accepted/stopped fits remain unchanged. Both failed score workers are preserved/excluded forever; preceding outer preflight and provisional local input gates created zero units. Actual CPU score units3=2failed+new unit3; no scalar quality yet. Next bounded exact-unit capture13:04UTC+, ROOT acceptance before successful-only exact stop; no further scientific fits/re-export/retuning.
 
+
+
 ---
+
+
 
 **21 October12:35UTC — second scorer failed before quality; archive guard repair local:** [One bounded capture](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/status_capture_v1/README.md) observed score-v2/inv489586b4 failed12:27:41UTC with no RESULT read. Its pinned preflight passes2 as a BYTE cap and incorrectly bounds unused target members. [Bounded archive metadata](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/npz_index_diagnostic_v2/README.md) confirms small row_group/seq_ix indexes inside large target NPZs; y/mask payloads remain unopened. Both failed score units are permanently excluded from queries/stop/retry/restart. New thin V7 selective-index/header guard plus focused compatibility/source gates is the concrete next dependency; no re-export/newfit/scalar quality. Six scientific fits remain accepted/exact-stopped,5prerequisites separately.
 
+
+
 ---
+
+
 
 **21 October12:27UTC — second actual CPU score worker launched once:** [V13 admission and original receipts](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v3/README.md) bind new score-v2/inv489586b467d7475cb51d570ed706a16f after fresh serial gates. [Scorer V6 source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v6/SCORE_SOURCE_REVIEW_V6.json) qualifies the registered-parent metadata repair while exact leaf identities, metric/bootstrap and five accepted exports remain fixed. Failed score-v1 is permanently excluded from queries/stop/retry/restart; no re-export/newfit. This is actual CPU score unit2, with1failed predecessor and1zero-unit outer preflight. Next bounded exact-unit capture12:32UTC+; no scalar quality yet. All6scientificfits remain accepted/exact-stopped,5prerequisites separately; ROOT acceptance must precede successful-only exact stop.
 
+
+
 ---
+
+
 
 **21 October12:22UTC — first score worker failed before scoring; metadata repair source-qualified:** [Captured failure](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/status_capture_v1/README.md) and [independent failure audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/status_capture_v1/ACTUAL_FAILURE_METADATA_REVIEW.json) preserve score-v1/invfbc58e9d failed11:59:31UTC with no RESULT read. A [stat-only parent/leaf diagnostic](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/alias_parent_diagnostic_v1/README.md) confirms physical cache parent plus exact admitted leaf targets. [Scorer V6 source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_v6/SCORE_SOURCE_REVIEW_V6.json) and [ROOT helper V2 review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/first_cell_evaluation_score_acceptance_v2/HELPER_SOURCE_REVIEW_V2.json) pass the narrow removal of unsupported parent-target assumptions; exact leaf identities, metric/bootstrap and five accepted prediction exports remain fixed. New unit-v2/D2/ROOTscore_v3 requires exact V13 body/driver/reader gates before fresh admission; failed unit-v1/D1 is permanently excluded from query/stop/retry/restart. [Source/recovery index](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021.md) preserves original bytes and all preceding negatives. All6scientificfits remain accepted/exact-stopped,5prerequisites separate; no re-export/newfit, scalar quality or public forecast.
 
+
+
 ---
+
+
 
 **21 October11:59UTC — first actual CPU score unit launched once:** [V12 actual admission and original receipts](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v2/README.md) bind invocation fbc58e9d2a7e47629c6a8feb6302aae8 after fresh gates. The preceding [V11 preflight](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v1/README.md) created zero units and is preserved; score_v2 is the second ROOT attempt, first actual score unit-v1. Worker.5CPU/high1.4e9/max1.5e9/swap0/600s/CUDAhidden/BLAS1 streams five fixedep5 arms/468 fit-excluded EXPOSED c09f development groups, official clip2 WP/four paired component intervals. Prediction export is accepted and exact-stopped; no further fits or actual scalar quality yet. Next bounded exact-unit capture12:02UTC+; accept original RESULT before exact stop of only successful scorer, no blind retry or old-unit query. [Source/recovery navigation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021.md) preserves versioned guards and raw failures.
 
+
+
 ---
+
+
 
 **21 October11:16UTC — five prediction exports accepted and successful GPU worker exact-stopped:** [Terminal capture](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/status_20261021T1107Z/README.md) and [independent metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/status_20261021T1107Z/METADATA_REVIEW.json) join the original invocation and fixed five468×20000×2FP32 outputs without ROOT array payload reads. [Export acceptance](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/EXPORT_ACCEPTANCE.json) is durable before the [one exact successful-unit stop](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/exact_stop/README.md); failed units remain preserved/excluded. This closes prediction export, with zero new fits and no scalar quality yet. All6scientificfits remain integrity accepted/exact-stopped;5prerequisites separate. Next is one freshly admitted serial capped CPU score of all five fixedep5 arms on fit-excluded EXPOSED c09f development groups, official clip2 WP and four paired component intervals. Current raw receipts supersede earlier dated running snapshots.
 
+
+
 ---
+
+
 
 **21 October10:32UTC — fixed five-arm evaluation:** [Execution and source-packet index](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/EVALUATION_EXECUTION_INDEX_20261021_V2.md) traces two zero-unit preflights, two preserved failed inference units, and [the third exact export launch](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/README.md). [One dated read-only observation](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/startup_health_v1/README.md) finds that invocation active with one owned GPU process and stat-only partial output inventory; [independent metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/export_v5/startup_health_v1/METADATA_REVIEW.json) is metadata-only PASS. No completed prediction panel, score or predictive-quality gain is established. All6scientificfits remain integrity accepted/exact-stopped and5prerequisites separate; no further fits. Fixedep5/468c09f fit-excluded EXPOSED development groups/FP32/official clip2 WP/four paired contrasts remain unchanged. [Current continuation](../../campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) governs rare11:00UTC+ observation, terminal acceptance-before-exact-own-stop, and later serial CPU scoring. Failed units/earlier dated snapshots are preserved.
 
+
+
 ---
+
+
 
 **21 October07:11UTC:** Independent [V5 exactbody](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v5/FINAL_BODY_SOURCE_REVIEW_V5.json), [V3reader/producerpair](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_result_capture_v3/SOURCE_REVIEW_V3.json), [actualCPUlaunch](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_LAUNCH_METADATA_REVIEW.json), [result/acceptance metadata](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_RESULT_METADATA_REVIEW.json), [exactstop source](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/exact_stop/SOURCE_REVIEW.json), and [actualstop metadata](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_verification_v3/ACTUAL_STOP_METADATA_REVIEW.json) distinguish source/compactevidence from tensor replay or quality. [Closure validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_TERMINAL_PREP_0518.json) binds originalbytes and negatives; no newqualityclaim.
 
+
+
 ---
+
+
 
 ## 21 October05:52UTC — AllThree native completion and local integrity gates
 
+
+
 [Canonical native capture](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_native_capture_v1/README.md) and [independent metadata review](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/terminal_native_capture_v1/METADATA_REVIEW.json) bind one raw-first SSH/exactLOCALcopy/typed14keys/strict0-1-0/sixhist44760-4476-zero, no tensor or quality replay. [Local root preparation](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/ROOT_PREPARATION.json) and [pin audit](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_check_v1/ROOT_PREPARATION_METADATA_REVIEW_V1.json) preserve sevencode/58metadata. [Exact V1 CPU source rejection](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_terminal_verifier_v1/FINAL_BODY_SOURCE_REVIEW_V1.json) caught missing explicit Path marker forwarding before any B action. Narrow V2/freshCPU/fullacceptance/exactstop remain next; no new scientific fit/quality. [Continuation](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/CONTINUATION.md) and [validation](../../../research/campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_TERMINAL_PREP_0518.json) govern the current lifecycle.
 
+
+
 ---
+
+
 
 [AllThree05:18 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0517Z/METADATA_REVIEW.json) joins exact stored raw/transport/three extracts/original receipts/unchanged reader, five completed epochs and sampled ownership/events/stat-only inventory. It distinguishes separate local terminal preparation from the capture. Metadata only, no B access/tensor replay/terminal/quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_TERMINAL_PREP_0518.json) preserves historical bytes/ledgers and scoped new consumer preparation without unchanged-suite replay.
 
+
+
 ---
+
+
 
 [AllThree04:18 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0417Z/METADATA_REVIEW.json) joins exact stored raw/transport/three extracts, original admission/launch, unchanged reader, three completed epochs and sampled invocation/ownership/resources. Parent event deltas use03:18 health. Metadata only: no B access/tensor replay/current-total/native-terminal/quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0418.json) preserves historical bytes and ledgers, adds zero fits/supports/quality and reruns no unchanged suite.
 
+
+
 ---
+
+
 
 [AllThree03:18 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/health_20261021T0317Z/METADATA_REVIEW.json) joins exact stored raw/transport/three extracts, original admission/launch, unchanged reader, completed epoch0 counters and sampled invocation/ownership/resources. Parent event deltas use the02:00 startup baseline. Metadata only: no B access, tensor replay, current-total/native-terminal/quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_ALLTHREE_HEALTH_0318.json) preserves historical bytes/ledgers, adds zero fits/supports/quality and reruns no unchanged suite.
 
+
+
 ---
+
+
 
 [NLL native audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/terminal_native_capture_v1/METADATA_REVIEW.json), [actual CPU launch audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/terminal_verification_v1/ACTUAL_LAUNCH_METADATA_REVIEW.json), and [actual result/acceptance/stop audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/terminal_verification_v1/ACTUAL_RESULT_METADATA_REVIEW.json) pass metadata joins without tensor replay/quality scoring. [Exact V1 source rejection/V2 source PASS](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v2/ACTUAL_INDEX.md) preserves a missing fresh GPU gate found before B; actual receipt caps and inherited labels are explicitly classified. [Bounded result reader source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_result_capture_v1/SOURCE_REVIEW_V1.json), [AllThree exact body review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/FINAL_BODY_SOURCE_REVIEW_V1.json), [actual launch audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/ACTUAL_LAUNCH_METADATA_REVIEW.json), and [early startup metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/startup_health_v1/METADATA_REVIEW.json) link current evidence. These reviews do not establish predictive quality or a full AllThree completion; fixed recipe changes are only name/representation.
 
+
+
 ---
+
+
 
 [Conditional CPU source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/CONDITIONAL_SOURCE_REVIEW_V1.json) passes template/renderer/root closure/native/raw/resource/read-only predecessor gates; it records the original checker review's incorrect manifest length while root/renderer use the actual size and correct SHA. [Allthree conditional source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/ALLTHREE_SOURCE_REVIEW_V1.json) passes fixed recipe derivation and future NLL accepted-stop/original44a708fc join. Both reviews are source-only, not rendered-body approval or actual execution/tensor/quality evidence. [CPU index](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_verifier_v1/SUPPLEMENT_INDEX.md) and [allthree index](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_allthree_fit_v1/SUPPLEMENT_INDEX.md) link exact code, fixture receipts and limitations.
 
+
+
 ---
+
+
 
 [NLL terminal source review and import-proof supplement](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_terminal_check_v1/SUPPLEMENT_INDEX.md) passes exact checker40474/a3cf3b10 producer-schema/recipe/ancestry/restricted-load gates. Root binds the independent6875/262e7f29 review and accepted11291/2855c371 V2 proof. The original V1 literal-interpreter binding gap is retained; five frozen fixtures were not rerun after new proof correction. Scope remains source/import boundary only, not actual worker runtime, loaded integrity or predictive quality.
 
+
+
 ---
+
+
 
 [NLL01:01 metadata audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/status_20261021T0101Z/METADATA_REVIEW.json) passes stored raw/transport/three extract joins, exact invocation and sampled ownership, five native completed-epoch records and event deltas against00:01. Scope is metadata only, no terminal, payload integrity, performance or quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_NLL_HEALTH_TERMINAL_PREP_0101.json) retains frozen history/ledgers and separates subsequent LOCAL NLL terminal-consumer preparation from actual B admission.
 
+
+
 ---
+
+
 
 [NLL00:01 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261021T0001Z/METADATA_REVIEW.json) checks exact stored raw/transport/three extracts, unchanged reader, three completed epochs and sampled invocation/ownership/resources; parent event deltas are recomputed against23:02 health. Metadata only, no B access, tensor replay, current-total/terminal/quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_NLL_HEALTH_0001.json) preserves frozen baseline bytes and ledgers, adds zero fits/supports/quality and reruns no unchanged source/model/profile/cold suite.
 
+
+
 ---
+
+
 
 [NLL23:02 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/health_20261020T2301Z/METADATA_REVIEW.json) checks exact stored raw/transport/three extracts, unchanged reader, one completed epoch and sampled invocation/ownership/resources; parent event deltas are recomputed against22:10 startup. Metadata only, no B access, tensor replay, current-total/terminal/quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_NLL_HEALTH_2302.json) preserves frozen baseline bytes and ledgers, adds zero fits/supports/quality and reruns no unchanged source/model/profile/cold suite.
 
+
+
 ---
+
+
 
 [NLL startup metadata audit22:10UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/startup_health_v1/METADATA_REVIEW.json) passes exact raw/transport/three receipt joins, literal-only reader substitution, ownership and memory-event deltas. It establishes no completed epoch, native terminal or quality result. [Lifecycle publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_DICTIONARY_NLL.json) binds all new source/results/reviews and preserves historical bytes.
 
+
+
 ---
+
+
 
 [Dictionary actual launch audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_verification_v1/ACTUAL_LAUNCH_METADATA_REVIEW.json) and [actual result/acceptance/stop audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_verification_v1/ACTUAL_RESULT_METADATA_REVIEW.json) pass metadata-only. [CPU V2 exact-body source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v2/FINAL_BODY_SOURCE_REVIEW_V2.json) binds root stdin authority after the preserved local V1 blocker. [NLL final actual-receipt-bound body review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/FINAL_BODY_SOURCE_REVIEW_V2.json) pins all twelve receipts and the exact NLL recipe; [actual launch audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/ACTUAL_LAUNCH_METADATA_REVIEW.json) is indexed separately. None establishes predictive-quality gain or repeats observer tensors.
 
+
+
 ---
+
+
 
 [Dictionary native metadata audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/terminal_native_capture_v1/METADATA_REVIEW.json) joins one exact exit0 raw/typed capture and six native histories. [Dictionary checker source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_check_v1/CHILD_DICTIONARY_TERMINAL_SOURCE_REVIEW_V1.json) passes six-code/import/runtime-bound source scope. [Local CPU V1 body rejection](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_terminal_verifier_v1/FINAL_BODY_SOURCE_REVIEW_V1.json) occurred before B action. [NLL V1 source negative](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_SOURCE_REVIEW_V1.json) and [V2 narrow source PASS](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_nll_fit_v1/NLL_SOURCE_REVIEW_V2.json) retain the exact launch-acceptance gate correction. These reviews are not independent tensor replay or quality evidence.
 
+
+
 ---
+
+
 
 [Dictionary21:14 metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2114Z/METADATA_REVIEW.json) verifies exact raw/transport/receipt joins, five completed epoch records, one-worker ownership and zero event deltas from stored20:16bytes. Metadata only; no source-content rehash, terminal, tensor integrity or quality claim. Local terminal source preparation will be separately reviewed before any B admission.
 
+
+
 ---
+
+
 
 [Dictionary20:16 metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T2016Z/METADATA_REVIEW.json) joins exact raw/receipts/reader/ownership, three completed epoch records and event deltas from stored bytes. No payload/test/SSH action by the reviewer or quality claim. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_2016.json) preserves new links, historical suffixes and unchanged ledgers; no new scientific fits or unchanged model/source/profile suites.
 
+
+
 ---
+
+
 
 [Dictionary19:31 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/health_20261020T1913Z/METADATA_REVIEW.json) joins exact raw/receipts/invocation, two completed epoch records and sampled ownership/resources; parent event deltas are recomputed versus18:14startup. Metadata only, no current-total/terminal/tensor integrity/performance/quality claim. [Health publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_DICTIONARY_HEALTH_1931.json) adds zero scientific fits/ledger rows and reruns no unchanged source/model/profile/checker suites.
 
+
+
 ---
+
+
 
 [Dictionary actual launch audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/ACTUAL_LAUNCH_METADATA_REVIEW.json) and [one startup metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/startup_health_v1/METADATA_REVIEW.json) join exact raw/receipt/invocation/ownership/resource snapshots. The source checks for output/unit absence are not separate serialized before-state samples in compact admission; cross-host timestamps are separate clocks. The reader retains one historical EMA32 scope prose label, with exact dictionary identity fields and guards; no raw mutation or re-poll. No completed epoch/current counter, native terminal, tensor integrity, performance or quality claim.
 
+
+
 ---
+
+
 
 **20 October18:10UTC — EMA accepted, dictionary arm started.** [Native EMA metadata audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_native_capture_v1/METADATA_REVIEW.json), preserved [V1 stat-schema failure audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_verification_v1/capture/METADATA_REVIEW.json) and [V2 undefined-helper failure audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_verification_v2/capture/METADATA_REVIEW.json), [V3 exact source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_verifier_v3/CHILD_EMA_TERMINAL_VERIFIER_SOURCE_REVIEW_V3.json) and [actual V3 result/acceptance/stop audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/terminal_verification_v3/ACTUAL_RESULT_METADATA_REVIEW.json) establish the versioned engineering repair and actual capped B PASS. Failed supports are preserved, no fit replay.
 
+
+
 [Dictionary conditional template review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/DICTIONARY_SOURCE_REVIEW_V2.json), [actual-receipt final body review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/DICTIONARY_FINAL_BODY_SOURCE_REVIEW_V2.json), [root AST receipt/argv check](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/ROOT_RENDERED_BODY_CHECK.json) and [actual launch](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/LAUNCH_ACCEPTANCE.json) bind sparse signed top4-of16+retained residual/WMSE, shared parent and fresh serial gates. [Packet index](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_dictionary_fit_v1/INDEX.md) retains the pre-execution anchor repair and exact pins. Metadata/source review does not independently replay tensors or establish quality; no heldout score/gain exists. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_EMA_DICTIONARY.json) records byte/extract/link/append-only checks.
 
+
+
 ---
+
+
 
 [EMA15:51 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1651Z/METADATA_REVIEW.json) joins exact raw/receipts/invocation, five completed epoch histories and sampled ownership/resources; parent event deltas are recomputed against15:51. Scope is metadata only, with no current-total, terminal, tensor integrity, performance or quality claim. [Health publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1651.json) adds zero scientific fits/ledger rows and reruns no unchanged source/model/profile/checker suites.
 
+
+
 ---
+
+
 
 [EMA15:51 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1551Z/METADATA_REVIEW.json) joins exact raw/receipts/invocation, four completed epoch histories and sampled ownership/resources; parent event deltas are recomputed against14:40. Scope is metadata only, with no current-total, terminal, tensor integrity, performance or quality claim. [Health publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1551.json) adds zero scientific fits/ledger rows and reruns no unchanged source/model/profile/checker suites.
 
+
+
 ---
+
+
 
 [EMA14:40 health audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1440Z/METADATA_REVIEW.json) is metadata only. [EMA terminal source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/CHILD_EMA_TERMINAL_SOURCE_REVIEW_V1.json) and [root binding](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/ROOT_PREPARATION.json) bind the new identity/recipe adapter, four unchanged pure helpers and [full isolated private/WNN cold proof](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_ema_terminal_check_v1/IMPORT_READ_CUDA_PROOF.json). No B checker execution, actual terminal, payload verification or quality is claimed; fresh exit/resource gates remain required.
 
+
+
 ---
+
+
 
 [EMA13:51 health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/health_20261020T1351Z/METADATA_REVIEW.json) joins exact raw/receipt/invocation, completed epoch0 FIT/GRAD_STATS and sampled ownership/resources. Metadata-only scope makes no current-total, native terminal, tensor integrity, performance or quality claim. [Health publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_EMA_HEALTH_1351.json) adds zero fits/ledger rows.
 
+
+
 [EMA actual launch audit](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_EMA_FIT_ACTUAL_LAUNCH_REVIEW_V1.json) and [one startup audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/startup_health_v1/METADATA_REVIEW.json): metadata-only PASS for exact reviewed recipe/CONTROL predecessor, raw bytes/receipt joins, same invocation, one owned GPU worker and zero new memoryevents. No completed epoch/updates, terminal or quality claim.
+
+
 
 [EMA32 second child actual launch, 20 October 13:04 UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/README.md): one owned GPU worker after full CONTROL acceptance/exact stop, fresh gates and [independent source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_EMA_FIT_SOURCE_REVIEW_V1.json). Same parent/norm/dictionary/seeded batches/T3 target; only causal input history changes. Expected six-epoch counters are not completion or quality; three later fixed arms remain unadmitted.
 
+
+
 [Actual successful CONTROL V3 launch](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_VERIFIER_ACTUAL_LAUNCH_REVIEW_V3.json) and [result/acceptance/later-stop audit](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_VERIFIER_ACTUAL_REVIEW_V3.json): exact granted exception, source body, raw transports, restricted VERIFICATION PASS, root acceptance and successful exact stop all join. Scope is compact metadata, not independent fitted-model replay or quality evaluation.
+
+
 
 [CONTROL full integrity acceptance and closure, 20 October 12:58 UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/README.md): the [direct human exception](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/HUMAN_PATH_COMPAT_EXCEPTION_AUTHORITY_V1.json) preceded one [successful V3](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/terminal_verification_v3/README.md). [Durable acceptance](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/TERMINAL_ACCEPTANCE.json) precedes the [later exact stop](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/exact_stop/README.md); failed supports remain preserved. Actual44,760updates/finiteFP32/AdamW/RNG/source/ancestry passed; observer metadata audit is not model replication or quality. EMA-only binding is local at this snapshot.
 
+
+
 ---
+
+
 
 [Final CONTROL source-only review, 20 October 12:48 UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/README.md): actual native completion and two preserved support failures; the final exact-path decoder retains weights_only=True and all checks. [Independent source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_VERIFIER_SOURCE_REVIEW_V3.json) passes local source only, conditional on the [one pending direct-human exception](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/child_control_terminal_verifier_v3/HUMAN_EXCEPTION_REQUEST_PENDING_V1.json). No V3 B staging/execution, full model/state acceptance, native stop, successor or quality endpoint. [Publication validation](../../campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261020_CONTROL_INTEGRITY_PATH_GATE.json) binds raw receipts, local proposal and append-only accounting.
 
+
+
 ---
+
+
 
 [CONTROL V2 failure and producer-schema review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_VERIFIER_FAILURE_REVIEW_V2.json): independently matches exact failed invocation/transport/traceback and traces canonical CLI Path through raw contract/options serialization. It identifies a safe-loader compatibility issue, not model corruption or completed integrity/quality. Any one-name inert decoder is a technically new safe-global mapping and must be explicitly authorized under the exact baseline constraint.
 
+
+
 [CONTROL verifier V2 source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_VERIFIER_V2_SOURCE_REVIEW_V1.json): PASS_SOURCE_ONLY for finalcbaff895 checker/body6014b518. It independently binds original receipt shapes, the profile object/log digest and all12 staged inputs/four exact code files. Local fixtures caught two unlaunched wiring/pin defects before finalization. Numerical/loader/source/resource checks remain unchanged; actual completion and quality are separate evidence.
+
+
 
 [CONTROL actual verifier V1 failure audit](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_VERIFIER_FAILURE_REVIEW_V1.json): PASS_METADATA_FAILURE_ONLY for exact failed invocation/raw transport/traceback and the original launch-versus-root-acceptance schema mismatch, before model loading. [Actual launch audit](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_VERIFIER_ACTUAL_LAUNCH_REVIEW_V1.json) verifies durable one-shot gate/receipt joins and caps; neither establishes artifact acceptance or quality.
 
+
+
 [CONTROL post-exit CPU admission source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_VERIFIER_SOURCE_REVIEW_V1.json): independent PASS_SOURCE_ONLY for the final65488619 one-shot body and exact four-file checker closure, captured native/ancestor/cache pins, fresh unit/source/stat/headroom gates and CPU-only caps. It establishes neither actual checker success nor model acceptance; inherited metadata read/storage-scope caveats remain explicit.
+
+
 
 [CONTROL native terminal metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_NATIVE_TERMINAL_METADATA_REVIEW_V1.json): PASS_NATIVE_METADATA_ONLY for exact raw/base64 launch receipts, strict exit0, six native FIT/GRAD_STATS records/44,760updates and scoped resource accounting. No tensor/source execution or empirical quality replication; actual model/state integrity remains gated on the reviewed cappedCPU support.
 
+
+
 [CONTROL08:24UTC health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0824Z/METADATA_REVIEW.json) binds persisted bytes, exact invocation, completed epochs0–4 counters and separate resource/ownership samples. Metadata-only scope establishes no terminal, checkpoint integrity or quality result.
+
+
 
 [CONTROL07:25UTC health metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0724Z/METADATA_REVIEW.json) checks persisted transport/extracts, exact invocation, completed epochs0–2 counters and separate resource/ownership observations. It is metadata-only, not native terminal, checkpoint integrity or quality replication.
 
+
+
 [CONTROL terminal checker source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_SOURCE_REVIEW_V1.json) is conditional on future actual native exit and fresh admission gates. It records a local LR/beta1 validation gap corrected before execution, exact final four-file closure, three focused scheduler tests and29-module cold-import evidence. [Root binding](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_TERMINAL_ROOT_PREPARATION_V1.json) pins the dependencies and exact launch/ancestry receipts. No current checkpoint/state payload or quality was checked.
+
+
 
 [CONTROL health metadata review, 20 October06:15UTC](../../campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/health_20261020T0614Z/METADATA_REVIEW.json) binds persisted raw bytes, exact admission/launch/log extracts, one completed epoch and the separate ownership/resource samples. The same worker was active; model/state files were stat-only. This is not terminal integrity or quality evidence.
 
+
+
 [Full-GRU actual V3 parent acceptance review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_VERIFIER_ACTUAL_REVIEW_V3.json): metadata-only audit reconciles source-reviewed restricted-verifier PASS, raw transport/extracts, actual counters/FP32 state/source/cache/RNG policy, and root acceptance. [Later exact stop](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/exact_stop/README.md) supersedes its historical pending-stop field. This is not tensor replication or predictive-quality evaluation.
 
+
+
 - [CONTROL source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_FIT_SOURCE_REVIEW_V1.json) and [actual launch review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_CONTROL_FIT_LAUNCH_REVIEW_V1.json): canonical full-fit recipe/source and actual one-worker admission, no quality claim.
+
 - [All-three child profile actual terminal review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/CHILD_ALLTHREE_PROFILE_TERMINAL_REVIEW_V1.json): metadata-only60 finite updates, exact parent extension and later exact stop.
 
+
+
 # Reviews and audit receipts
+
 
 
 [Full-GRU teacher-cache source and terminal reviews](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/README.md) separate the CPU V1 failure finding, V2 source-only admission, source repair publication/stage review, and actual V2 terminal result. The [source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/TEACHER_CACHE_CPU_REPAIR_SOURCE_REVIEW.json) covers the provenance-cap and membership-lookup repair; the [terminal review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/TEACHER_CACHE_CPU_BUILD_V2_TERMINAL_REVIEW.json) binds native exit 0, capture, six accepted input pins, fit-only order and exact stop, with output arrays producer-hash/stat-only and no quality claim. The [S5 valid source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/TEACHER_CACHE_S5_VALID_EXPORT_REVIEW.json) is prelaunch/source-only; separate [train](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/TEACHER_CACHE_S5_TRAIN_EXPORT_TERMINAL_REVIEW.json) and [valid](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/TEACHER_CACHE_S5_VALID_TERMINAL_REVIEW.json) terminal audits reconcile accepted metadata and stops without array/model replay.
@@ -203,7 +369,6 @@
 [R7 independent result audit](../../campaign_2026-10-19/idea_screens_r7/RESULT_AUDIT.json) reconstructs both global endpoints, component/drop-one scores within8e-16 and checks30pins, fit-only normalizer, initialization, counters/caps and exact stop without arrays/refits. [Design](../../campaign_2026-10-19/idea_screens_r7/DESIGN_REVIEW.json), [implementation](../../campaign_2026-10-19/idea_screens_r7/IMPLEMENTATION_REVIEW.json) and [startup](../../campaign_2026-10-19/idea_screens_r7/ROOT_STARTUP_REVIEW.json) reviews distinguish pre-outcome readiness from this actual scalar audit.
 
 [R6 compact gradient audit](../../campaign_2026-10-19/idea_screens_r6/RESULT_AUDIT.json) independently reconstructs window/pool inner-product summaries without backward replay. [V3 source review](../../campaign_2026-10-19/idea_screens_r6/IMPLEMENTATION_REVIEW_V3.json) binds45source/metadata pins and the narrow TorchVersion compatibility path; [startup review](../../campaign_2026-10-19/idea_screens_r6/ROOT_EXEC_STARTUP_V3_REVIEW.json) checks all25canonical source hashes before import, serial read-sentinel smoke and clean exec CLI.
-
 
 [R2 result audit](../../campaign_2026-10-19/idea_screens_r2/RESULT_AUDIT.json) checks compact moment/score and source/sample bindings; [delivery correction review](../../campaign_2026-10-19/idea_screens_r2/STAGING_CORRECTION_REVIEW.json) isolates the seven-file R1 transitive import closure with a raising array-loader sentinel. V1 import failure precedes data/fit; V2 scientific code is unchanged. Prepared README identity belongs to source commit758db928, with later result annotations explicitly marked.
 
@@ -254,197 +419,429 @@
 
 [F1/seed1001 completed pair and accepted collection](../../campaign_2026-10-18/priority25_execution_r4/receipts/RANK01_F1_S1001_RESULT_ACCEPTANCE_V2.json): independently verified endpoints and canonical grade, wide 0.66132919 versus deep 0.66169479 with conditional interval crossing zero. R2 collection, final-path verification and independent acceptance are complete; the R1 source-map failure remains preserved. This is the second cell, not CP30 or public evidence.
 
-
 - [Independent review of the actual F0 residual decomposition](../../campaign_2026-10-18/quality_gap_r1/diagnostics/RESULT_INTERPRETATION_REVIEW_V1.json): full input/output/source and receipt bindings pass; endpoint and additive contribution identities agree within floating-point rounding. The review separates a small local mixture gain from cancellation across components and limits the analysis to the current F0 models; strong-control residuals and public causation remain unmeasured.
 
 - [Concrete quality-gap follow-up](../../campaign_2026-10-18/quality_gap_r1/README.md) — exact student/parent/teacher restoration and source/membership reconciliation; source-bound residual diagnostic independently reviewed and now executed, with exact outputs and independent numerical interpretation linked. Existing KD trajectories remain one-seed exposed-F0 evidence, not a public forecast.
 
+- [Matched B300/local score replication and reporting correction](../../campaign_2026-10-20/submission_delivery_r1/h512_f0_followup_r1/README.md#correction-matched-b300-endpoint-successfully-reproduced) — exact PR25 F0/seed1003/CP5 scores agree within1.28e−9. Earlier non-replication interpretation confused the four-fold mean with a single-fold endpoint. Local grade/source receipt pinned; score agreement does not establish tensor parity or superiority over the existing ensemble.
+
+
+
 Source-qualified audits, independent reviews and evidence assessments.
 
+
+
 ## Current navigation
+
+
 
 - [Repository additions and evidence boundaries](REPOSITORY_DELTA_20261018.md) — audit of research-team sources 1d57ed815/e35220969 and live draft PR metadata: completed F0/F1 width-depth pairs, stronger historical T3 control, user-reported Q8 public result/runtime, and five new proposals. No local execution or provider mutation.
 - [Quality-gap diagnosis after public 0.65839](QUALITY_GAP_DIAGNOSIS_20261018_R1.md) — separates the regression against our own best from the dated leader gap; reconciles matched KD evidence, validation transfer, missing incumbent-relative diagnostics and checked serving paths. No new fits or causal public explanation.
 
 - [R2 iterative mechanism and implementation review](../../campaign_2026-10-17/research_reset_r2/reflection/README.md) — initial proposals preserved before old-code attack, then25 revised dispositions from measured evidence. Independent review prompted complete target/mask alignment and append-only reporting/variance clarifications. [Integration verification](../../campaign_2026-10-17/research_reset_r2/VERIFICATION.json) binds scores, sufficient statistics, numerical checks and limitations; agreement among agents is not independent model replication.
+- [Completed six-fit i1 history grade and warm-start review](I1_SIX_FIT_HISTORY_GRADE_REVIEW_20261022_R1.md) — the fixed 90/10 B/C endpoint is slightly positive in both exposed fold/seed cells although C loses standalone; the mean point delta is +0.00031549 with conditional component intervals, no training-seed uncertainty, and no current native 367-input serving path. Source review supports retaining the existing conditional four-fit warm-parent screen as research only, with initial-function parity and random-sampler handling still required. No arrays, models, tests, fits, or provider work were used here.
+
+- [i1 and dynamics native-serving compatibility](I1_DYNAMICS_NATIVE_SERVING_COMPATIBILITY_REVIEW_20261022_R1.md) — source-only trace confirms that stripping the dynamics head leaves 367-wide inputs, which the canonical exporter and native callback reject. It identifies a possible 367-to-211 projection for the post-normalization all-zero-history control, but no conversion, parity, complete-endpoint cost, or active-history native path is implemented or measured.
+
+- [Fixed F0 i1 mixture-geometry adapter](../../campaign_2026-10-21/next_cycle_r1/i1/fixed_mix_geometry_r1/README.md) — code-only, create-only NumPy diagnostic for the already-frozen 90/10 B/C mixture and same-weight B/A control. It binds the prior full-coverage F0 A/B/C grade, reports raw/clipped weighted covariance and fixed-bin score reconstruction, and preserves exposed-fold limits. No arrays, labels, tests, fits, or scores were read or produced during preparation.
+
+- [I1 history standalone and fixed-mixture interpretation](I1_HISTORY_FIXED_MIX_GEOMETRY_REVIEW_20261022_R1.md) — interprets the exposed F0 result where C loses alone but the frozen 90/10 B/C blend is slightly positive, separates a complementary-correction hypothesis from clipping/distribution or optimization effects, and records that F2/B alone cannot resolve the contrast. Proposes one no-fit score-geometry readout from already saved predictions if it would change allocation; no arrays, fits, or new admission were used.
+
+- [Dynamics auxiliary FP32 window stability](DYNAMICS_AUXILIARY_FP32_WINDOW_STABILITY_20261022_R1.md) — records a reproduced loss of late small-change energy from global FP32 prefix subtraction and the narrow block-local summation amendment. Target equations, masks, loss, and fit plan stay fixed; float64-oracle tests are added, with execution and static checks pending root review. No fit or GPU profile.
+
+- [Conditional F0/F1 parent catalog and warm-initialization compatibility](STRONG_PARENT_F0_F1_WARM_INIT_CATALOG_20261022_R1.md) — metadata-only inventory for the accepted conditional four-fit follow-up. It pins source-qualified F0/F1 parents, target caches, propensity assets and prior two-epoch controls, and identifies the exact current inheritance gates for `i1_history` and the dynamics head. Treatment remains unselected; no tensors, arrays, tests or fits were used.
+
+- [H512 endpoint interpretation review](H512_ENDPOINT_INTERPRETATION_REVIEW_20261021_R1.md) — independent source/JSON interpretation of the completed same-host replay, TL3 exposure receipt, H512 prediction geometry and first F0 i1 A/B/C cell. It rules out a material current-host replay explanation for the fixed endpoint gap, distinguishes full-fold six-epoch H512 fitting from the separate 10% i1 screen, ranks exposure/objective mismatch above architectural explanations, and treats the small fixed history mixture as unresolved. No arrays, tests, fits, or provider work. E-H512-ENDPOINT-DIAGNOSIS-20261021-R1 / E-PLATEAU-I1-20261021-R1.
+
+- [NLL continuation decision review](NLL_CONTINUATION_DECISION_REVIEW_20261021_R1.md) — independent Luna/max metadata review before the F0 grade. It distinguishes the matched seven-endpoint screen from the all-data/unknown-ancestry TL3 diagnostic, recommends conditional F1 robustness work, and identifies the target/head differences that must be resolved for production training. No new quality result or job admission.
+
+- [Overnight submission input audit](OVERNIGHT_SUBMISSION_INPUT_AUDIT_20261020_R1.md) — independent Luna/max source and metadata review of completed FG19 control/EMA and local clean-T3 alternatives. Distinguishes accepted fits from missing scores, pins local AMP ancestry and target scale, corrects the NLL-only input-width requirement, and reviews native EMA reset/layout. No new fit or score; actual checkpoint parity and server weight access remain pending.
+
+- [Large teacher design criticism](LARGE_TEACHER_DESIGN_REVIEW_20261019_R2.md) — independent fresh-context Luna/max scout and specification critic assess the new scale direction and count migration. Records4–6 TOTAL fits, causal summary visibility, DDP normalization, Muon semantics, memory lower bounds and the need to measure GRU transfer. Criticism and proposed mitigations, not empirical approval or a B300 profile; related H/E IDs and primary sources are linked.
+
+- [October 19 B300 PR results and stop review](B300_PR_RUN_UPDATE_REVIEW_20261019_R1.md) — reads the PR15/25/26/27 status and PR25 stop packet. Independently recomputes R01 partial fold/equal-fold means from the preserved 12-pair JSON, while relying on its sealed verifier for grade provenance. Width modestly favors H512×1; partial geometry means favor baseline; age/innovation have no scored pairs. The work was stopped, all folds were exposed, and no complete CP30 or public-transfer result exists.
+
+- [Causal i1 implementation review](PLATEAU_I1_IMPLEMENTATION_REVIEW_20261019_R1.md) — independent Luna/max static review of the equal-width A/B/C code, source-bound to actor commit `3c1936161` and its main integration. Covers complete i1 masking after common normalization, centered causal scans and checkpoint/provenance restoration. Ruff and training-structure checks pass; numerical, restoration and actual-shape resource gates remain. No fit, score or native serving result.
+
+- [Meta-review reconciliation](META_REVIEW_RECONCILIATION_20261019_R1.md) — independent Luna/max audit and root allocation update for the imported student/transfer review. Confirms the missing frozen-parent fit but finds its old T3 control was FP16 and its profile exceeded 5 GB; a fresh FP32 pair is required. Identifies a newer six-epoch F3 wide checkpoint on research-team, so existing results should be collected before repeating capacity work. Preserves the first i1 comparison and defines a conditional representation-to-student interaction; no new fit or score.
+
+- [External plateau review](EXTERNAL_PLATEAU_REVIEW_20261019_R1.md) — verbatim `new.txt` with original SHA-256 and an English scope note. Proposes discriminating representation, state, objective, sampling and transfer experiments. External interpretation, not measured evidence; the accepted local/Kaggle plan narrows the first comparison to matched i1 inputs.
+- [Imported Claude plan](IMPORTED_CLAUDE_PLAN_20261019_R1.md) — verbatim `claude-plan.txt`, source hash and reconciliation with the later 15h allocation. Its large five-day grid is a source proposal; full fits are allowed under the accepted plan, and centered component moments must use their matching merge routine.
+- [External student/transfer meta-review](EXTERNAL_STUDENT_TRANSFER_META_REVIEW_20261019_R1.md) — verbatim `new-meta-review.txt`, source hash and initial interpretation. Proposes frozen-parent anchoring, full wide-student trajectories and controlled gradient horizons. The subsequent reconciliation above corrects control precision, memory and completion status; the imported source itself is preserved and adds no new score.
+
+- [Independent geometry route and release reviews](QUICK_GEOMETRY_ROUTE_REVIEW_20261018_R1.md) — Luna/max review of R1 paired continuation, R2 frozen adapter and selected native-q16 ZIP; includes missed native index defect later caught by execution, exact parameter/hash checks, negative one-fold results, offline Python3.11 and endpoint-specific release interpretation. Tight FP32 Torch/native equivalence failed and remains visible; direct native serving quality is measured separately. The final section reviews R3 block masks and inference-only alpha sensitivity before results, correcting an initial runtime-summary error. E-GEOMETRY-QUICK-PROBE-20261018-R1 / E-GEOMETRY-ADAPTER-PROBE-20261018-R2 / E-GEOMETRY-VARIATIONS-20261018-R3.
+- [Innovation-gain GRU draft review](KALMAN_INNOVATION_GAIN_GRU_DRAFT_REVIEW_20261018_R1.md) — read-only code and design critique on an unpushed local branch. It found no causal/chunk-state issue by inspection, but lists the missing synthetic sequence invariants, actual H512 B300 profile, and clean per-cell teacher registry. No fit, code execution, quality, or runtime claim was reviewed.
+- [TL3_DIAGNOSTICS_R1 skeptic review](TL3_DIAGNOSTICS_SKEPTIC_REVIEW_20261018_R1.md) — an adversarial interpretation of exact F0 identities, unknown TL3 ancestry, exposed selection, fixed-mixture outcomes, and conditional component intervals. It finds no concrete scoring mismatch, does not promote a transfer claim, and names a source-qualified F2 robustness test. The reviewer authored the grader, so this is not an independent regrade.
+- [Online lagged-label proxy claim and implementation review](../../campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/IMPLEMENTATION_AND_CLAIM_REVIEW_R1.md) — independent source-only review of causal inputs, shifted labels/mask, component separation, official metric and fit numerics. It found no alignment blocker, corrected the unsupported realized-feedback interpretation because target horizon/maturity are undocumented, and motivated stable centered weighted covariance. No payload or outcome was reviewed.
+- [Causal proxy-gate evidence review R1](CAUSAL_PROXY_GATE_EVIDENCE_REVIEW_20261018_R1.md) — independent audit of frozen recipe/source hashes, causal timing, reconstruction-before-grading order, paired results and durable receipts. It supports only the narrow finding that this cached-expert gate adds no reliable gain on exposed F0; parent-hierarchical `max` rose during the build window but OOM counters did not. No rerun or payload read.
+- [Kalman output-filter evidence review R1](KALMAN_OUTPUT_FILTER_EVIDENCE_REVIEW_20261018_R1.md) — independent source and result review of the raw-versus-filtered F0 comparison. It confirms both fixed filters lose in all four descriptive partitions with wholly negative conditional component intervals, and limits that result to two output-smoothing recipes on one exposed endpoint. It records the corrected grader/floor issues and the missing exact generation wall time; no new B300 proposal is warranted.
+- [TL3/R3 fixed-mixture F2 evidence review R1](TL3_R3_F2_FIXED_BLEND_EVIDENCE_REVIEW_20261018_R1.md) — independent read-only confirmation of exact endpoint reconstruction, official metric and reported conditional intervals. It finds no scoring mismatch, preserves F2 exposure and unknown TL3 ancestry, and flags the omitted imported metric/bootstrap hashes as a post-hoc reproducibility caveat.
+
+
 
 - [October17 iterative research reviews](../../campaign_2026-10-17/research_reset_r1/reviews/README.md) — independent R2 cross-criticism, R3 EDA/weighted-metric audits, R4 portfolio critique and coordinator resolutions; resulting25cards are proposals, not model results.
 
+
+
 - [Repository audit](REPOSITORY_AUDIT_20261017.md) — reconciled local, live GitHub and beleriand findings, corrected stale statuses and unresolved gaps.
+
 - [Portable audit evidence](audit-2026-10-17/README.md) — five small metadata/public receipts with SHA-256 manifest; no large data or weights.
+
 - [Kalman B300 teacher draft source review](KALMAN_B300_DRAFT_REVIEW_20261018_R1.md) — an initial independent pass caught a source-hash echo that did not bind the current filter/core code; the draft now records and verifies both module hashes across training, prediction and cache building. Follow-up source-only review cleared the fix and bootstrap specification. The B300 full112 profile and per-cell clean-teacher registry remain prerequisites; no run or quality claim was reviewed.
 
+- [Expanded Kalman input-panel evidence review](KALMAN_INPUT_PANEL_EVIDENCE_REVIEW_20261018_R1.md) — independent read-only review confirms the frozen hashes, exact row order, cache ancestry, official mask/metric and paired component bootstrap for the 141-group fixed-GRU screen. It supports only an inconclusive positive discovery result on exposed F0; the raw-trained model's inference-only input replacement does not establish a learned teacher/student gain.
+
+- [Sequence-level expert preference diagnostic static review](SEQUENCE_ORACLE_STATIC_REVIEW_20261018_R1.md) — independent pre-grade PASS on source binding, temporal windows, official scoring and conditional bootstrap. It corrected the claim that compressed target arrays were streamed and limits the result to an exposed, label-informed persistence diagnostic; no payload or scientific outcome was reviewed.
+
+- [Sequence-level expert preference result review](SEQUENCE_ORACLE_RESULT_REVIEW_20261018_R1.md) — independent check confirms score/interval alignment, zero-OOM resource receipts, exposed-label limits, and the no-new-B300-draft decision. It adds the post-hoc marginal-rate agreement baseline so the raw 68.16% selector agreement is not misread as persistence.
+
+- [R4 independent admission audit](R4_INDEPENDENT_ADMISSION_AUDIT_20261018_R1.md) — a read-only critic found seven runner/admission gaps before any scientific fit; the actor recorded corrections and the limits still requiring resource admission. This is process evidence, not model-quality evidence, and the corrected source was not independently re-reviewed.
+
+
+
 For active status, start with [current state](../../../specs/current-state.md).
+
 The dated entries below retain their original descriptions and links. Their
+
 “pending”, “active” and authorization statements reflect their recording time;
+
 use a later result receipt or the current audit to establish final status.
 
+
+
 <details>
+
 <summary>Dated index preserved before the October 17 maintenance</summary>
+
+
 
 - [Root R5 bootstrap reproduction receipt](STUDENT_SHAPE_T4_R5_ROOT_FIXTURE_20261015_R1.json): root compared R4/R5 manifests directly—only the two required target descriptors are added to `files`, with archive and outer kernel byte-identical—then reran the actor's actual-bootstrap fixture in a fresh physical directory. All24 mounts resolve, runtime specs are written, the runner is intercepted before Torch/GPU code, and links are cleaned. Conditional GO for the same bounded provider profile after fresh checks. This corrects the R4 review's missed manifest-allowlist requirement; it is bootstrap evidence, not actual-data/profile/quality evidence.
 
+
+
 - [Root review of queued frozen-parent S profile](FROZEN_PARENT_S_PROFILE_REVIEW_20261015_R1.md) independently compares exact S/C options and reads direct/cached teacher consumer/loss paths. GO for50-update resource smoke after C export and fresh shared admission; full fit remains unadmitted. Target calibration, historical precision and inherited-teacher confounds remain explicit.
+
+
 
 - [Root review of T4 R4 target-cache mount repair](STUDENT_SHAPE_T4_R4_MOUNT_REVIEW_20261015_R1.md): direct job/archive/source comparison confirms only two required input bindings and duplicate-hash deferral change; all training argv/non-job source payloads remain identical. Conditional GO for the same1800s profile rerun after fresh provider checks, no architecture/quality result. Actor packet is isolated pending integration.
 
+
+
 This domain stores independent critiques, strategy reviews, and structured audit receipts. Reviews interpret or challenge evidence; they do not replace the source experiment, score receipt, or append-only ledger row they cite.
+
+
 
 ## Current structure
 
+
+
 - [Receipt index](receipts/README.md) describes machine-readable audit records, including the F1 recipe audit and the strategy plan coverage review.
+
 - [`legacy/`](legacy/) contains historical narrative reviews and critiques moved from the repository root and `writeups/`.
+
 - Operational controller commentary is indexed under [operations](../operations/README.md), and imported external competition writeups are under [sources](../sources/README.md).
+
+
 
 ## Review files
 
+
+
 - [Matched warm-parent alpha0 input-binding review R3](ALPHA0_DATASET_INPUT_BINDING_REVIEW_20261015_R3.md) checks one-time streamed train/valid hashes, A9 endpoint hashes, stage-specific identity gates and output absence. It gives a conditional source/data GO but preserves the missing A9 attempt-time Parquet digest as an ancestry limitation; H384 success and fresh per-stage root admission still gate any fit.
+
 - [F3 teacher export outer-wall review R2](F3_TEACHER_EXPORT_OUTER_WALL_REVIEW_20261015_R2.md) checks the sealed export-only CP2 packet’s total 21,600-second kernel deadline, quota gate, rebuilt source pins and post-download artifact validation. It gives a conditional operational GO only after fresh typed quota and root admission; no provider action, fit or teacher-quality claim was made.
+
 - [Clean T3 teacher/student quality-bottleneck review](CLEAN_T3_TEACHER_STUDENT_BOTTLENECK_REVIEW_20261015_R1.md) compares the three clean T3 teachers, equal trio, exact warm-parent/student grades, target scale and the separate old-Z4 student lineage on exposed F0 metadata. It finds small raw warm-continuation deltas but no matched label-only control or student learning curve; teacher weakness versus student capacity/KD remains unresolved. It recommends a matched GPU/TPU continuation comparison and makes no promotion or public-transfer claim.
+
 - [Matched alpha-zero warm-parent CP3/CP5 grade review](ALPHA0_WARMPARENT_CP3_CP5_GRADE_REVIEW_20261015_R1.md) audits official grades and paired component bootstraps from the same seed-3 warm parent, then adds a streamed in-sample versus exposed-evaluation diagnostic. Alpha zero gains on the fitting-valid groups after CP1 while losing increasingly on exposed F0; its raw prediction excursions beyond ±2 are higher, though rare, and evaluation targets have greater RMS. These observations do not identify overfitting versus target/objective or distribution-shift effects, and do not support a cold-start KD or teacher/student ceiling claim.
+
 - [Alpha-zero next-control ranking](ALPHA0_NEXT_CONTROL_RANKING_20261015_R1.md) reads the diagnostic position bins and ranks a frozen-parent functional anchor first, followed by a stronger old-parent continuation and label-only schedule/regularization rescue. It reports early-bin target shifts and rare, differently located prediction excursions without attributing the grade gap; the proposed parent-target arm still confounds target information with calibration and prior teacher ancestry. No fit or payload read was performed for this review.
+
 - [Complete-sequence initializer profile R3 review](INITIALIZER_COMPLETE_SEQUENCE_PROFILE_R3_REVIEW_20261015_R1.md) checks the sealed CUDA-device repair and source-bound static preflight for the one-sequence resource smoke. Bounded GO is conditional on root verifying the enforced 5 GB cgroup limit; this is not a fit or quality result.
+
 - [H512×1 F0 seed-3 result review](CPU_STUDENT_FRONTIER_H512L1_RESULT_REVIEW_20261015_R1.md) audits the frozen fit, teacher/cache/normalization ancestry, source-qualified membership, matched H256×2 grade and resource receipts. It supports H512×1 as a first-screen candidate on exposed F0 evidence only; no independent regrade, cross-fold/seed confirmation, native serving result or winner claim.
+
 - [Vast-A zero-GPU offer availability review](VAST_A_CPU_ONLY_OFFER_AVAILABILITY_20261015_R1.md) checks root's read-only exact-CPU/zero-GPU search receipts against Vast's public API documentation and the local GPU-only admission code. Current receipts expose only `resource_type=disk` for zero-GPU matches and reject `resource_type=cpu`; no CPU compute rental is established, so the Vast path is held without a provider action. Public docs do not rule out an undocumented/private CPU path.
+
 - [Vast-A CPU policy timing packet review](VAST_A_CPU_POLICY_TIMING_REVIEW_20261015_R1.md) checks the frozen xteam_h4 A/B/C/D runner, source-qualified eight-sequence fixture, balanced paired timing plan and one-sequence local smoke. It passes as an exploratory runtime packet, with a required outer deadline for any metered-host execution; no exact-CPU host, timing ranking, quality result or provider action is established.
+
 - [Complete-sequence initializer training review](INITIALIZER_COMPLETE_SEQUENCE_TRAINING_REVIEW_20261014_R1.md) checks causal row-99 timing, sequence reset, frozen-backbone gradients and non-reentrant checkpointing for the standalone initializer loss. Source-level path passes; global full-sequence normalization and caller-supplied target weights are explicit recipe changes/gates. No actual-data CUDA profile, fit or quality claim.
+
 - [Complete-sequence initializer helper follow-up](INITIALIZER_COMPLETE_SEQUENCE_TRAINING_REVIEW_20261014_R2.md) confirms the loss denominator now uses the trainer's `1e-8` floor and the method note calls out global sequence normalization versus per-chunk normalization. Six reported synthetic tests pass. No actual-data profile or fit was run; caller-side finite/nonnegative supervision and positive-mass checks remain unverified because the helper has no production call site.
+
 - [Initializer B1 resource-profile review R1](INITIALIZER_B1_RESOURCE_PROFILE_REVIEW_20261014_R1.md) checks the sealed actual-data resource-smoke packet's source-qualified B8→B1 sample, frozen teacher/normalization ancestry, target and weighting semantics, full-sequence gradient checks, and resource basis. It finds three launch blockers in the frozen c85 packet: exact cgroup-cap comparison, CPU-resident learned initializer parameters, and bitwise prefix-zero equivalence. No CUDA launch or quality claim was made; a repaired sealed successor needs a fresh admission.
+
 - [Initializer B1 resource-profile review R2](INITIALIZER_B1_RESOURCE_PROFILE_REVIEW_20261015_R2.md) reviews the repaired sealed `92d5ce54` packet and gives a bounded GO for its exact one-sequence resource smoke. The three R1 blockers are repaired; objective, source-qualified row, frozen backbone/norm and ancestry remain pinned. The cgroup reader still accepts an unavailable limit, so terminal admission evidence must come from the controller's verified `MemoryMax`; no profile, fit or quality claim is made here.
+
 - [TPU V8 actual-data bridge review R1](TPU_V8_ACTUAL_DATA_BRIDGE_REVIEW_20261015_R1.md) checks the terminal V8 TPU collection, source/data identity, one real seed-3 B16/C2000 update, checkpoint/EMA/optimizer reload, causal export and bounded HBM report. It passes as backend plumbing evidence only: the update samples only fit-VALID members and one 2,000-row chunk, the full producer-matched sampler/recipe remains untested, and native C++ inference has not loaded the export. No score, quality or public-transfer claim follows.
+
 - [TPU V8 feature-input parity review R1](TPU_V8_FEATURE_INPUT_PARITY_REVIEW_20261015_R1.md) traces the producer's NumPy input loader against the local Torch serving builder after native and PyTorch outputs match but TPU outputs differ. The source definitions and raw-column ordering are pinned, while the local diagnostic did not separately bind raw-row bytes or `seq_ix`; NumPy/Torch recency-feature precision is a plausible but unmeasured hash difference. It keeps the numerical compatibility result unresolved and gives a bounded same-raw-input falsification; no TPU-quality or backend-failure claim is made.
+
 - [H256×2 F0 seed-3 control grade review](CPU_STUDENT_FRONTIER_H256L2_F0_GRADE_REVIEW_20261014_R1.md) checks fit ancestry, source-qualified membership, the full-valid export and official scorer bindings for the first fixed-budget grade. It passes as an exposed development-panel control (0.66977764, 468 groups/141 components); the historical 0.68314181 result remains stronger and unmatched, and a frozen grader-manifest wording error is recorded. No numerical regrade or promotion is claimed.
+
 - [Native Q8 H256×2 grade review](NATIVE_Q8_STUDENT_GRADE_REVIEW_20261015_R1.md) checks the assertion wrapper, frozen scorer, CP0/split ancestry, complete native result and 1 GB CPU receipt. The dynamic `q8vnni` score (0.66978277) is effectively tied with matched FP32 (0.66977764) on exposed F0; it is not a quality promotion or public forecast.
+
 - [F0 student-frontier R5 cache-handoff review](CPU_STUDENT_FRONTIER_R5_CACHE_HANDOFF_REVIEW_20261014_R1.md) checks all seven R5 plans against their frozen R4 worker steps and audits the source-bound handoff/resource guards. It gives a bounded GO for one root-admitted handoff attempt; no live cache reclaim or new fit/profile/grade ran. The 6 GB retained-file floor is a target because Linux `memory.reclaim` may over/under-reclaim, and the helper's in-progress attempt hash is not the later terminal-record hash.
+
 - [F0 student-frontier R6 handoff command repair review](CPU_STUDENT_FRONTIER_R6_HANDOFF_REVIEW_20261014_R1.md) independently normalizes all seven R6 plans back to their R5 bases and verifies only the two user-bus environment assignments, fresh handoff attempt IDs, and result paths changed. It gives a bounded GO for a root-admitted H256×1 handoff attempt; the bus diagnosis did not run reclaim and does not prove a cache-reclaim amount or admit the other plans.
+
 - [F0 student-frontier H256×1 result review](CPU_STUDENT_FRONTIER_H256L1_RESULT_REVIEW_20261014_R1.md) checks the 27-file terminal collection, exact matched H256×2 control ancestry, update/membership and grader identity, uncertainty scope, and actual R6 resource/handoff records. The paired component interval crosses zero on one exposed seed-3 panel; it supports keeping the compact arm in search, not a winner or serving claim.
+
 - [F0 student-frontier H192×2 grade review](CPU_STUDENT_FRONTIER_H192L2_GRADE_REVIEW_20261015_R1.md) checks the terminal grade against fit receipts and matched H256×2 provenance. The 0.6686534 candidate trails the control by 0.0011243 on the repeatedly inspected F0 panel (reported component-bootstrap 95% interval [-0.0023692, -0.0000700]); this is one exposed seed/fold, not a population rejection or public forecast. No numerical regrade or large artifact load was performed.
+
 - [F0 student-frontier R3 post-fit operations review](CPU_STUDENT_FRONTIER_OPS_R3_REVIEW_20261014_R1.md) independently checks the frozen one-shape fit→assert→B16 profile→validated export→grade plans, actual control reuse, provenance/counter and prediction gates, and per-step host/disk reserves. Source/recipe GO only; no new CUDA profile, fit, export, grade, or quality claim is made, and root retains per-shape resource admission.
+
 - [F0 student-frontier R4 actual-trainer fit-gate review](CPU_STUDENT_FRONTIER_FIT_GATE_R4_REVIEW_20261014_R1.md) checks the sealed validator repair against the actual H256×2 producer: beta1 is a source-bound AdamW constructor default, not a serialized CLI argument, and OneCycle changes it to `.95 → .85 → .95`. The canonical receipt validates 14,920 completed updates, counters, recorded finite gradients, ancestry and terminal tensors; it makes no loss-finiteness or quality claim and does not clear the separate B16 export gate.
+
 - [Packed-W4 matrix screen review R1](PACKED_W4_MATRIX_SCREEN_REVIEW_20261014_R1.md) checks the represented-code arithmetic, native blocked layout, `DynQ8` overwrite/accumulation semantics, source and binary hashes, and vectorized VNNI disassembly. It accepts the R3 exactness checks and the observed 1.30–2.34× vectorized-unpack slowdown as local synthetic matrix point estimates; it does not infer model quality, full-callback behavior, AMD performance, deployment size, or a general packed-W4 rejection.
+
 - [CPU student frontier actual-data profile review R1](CPU_STUDENT_PROFILE_EXECUTION_REVIEW_20261014_R1.md) checks the frozen one-sequence H192×2 FP32 update and its producer/normalization bindings. A post-smoke erratum withdraws the exact sampler-source claim: position 10,562 maps to valid group 37, but the B1 reader resolves the overlapping bare group ID as train group 37. The observed finite update/resource result still stands for a fitting train row; it does not prove sampler fidelity, full-cache integrity or batch-16 capacity. The attempt/result remain immutable; no fit or score claim is made.
+
 - [B8 student-ladder resource-profile review R1](B8_STUDENT_LADDER_RESOURCE_PROFILE_REVIEW_20261014_R1.md) independently checks the successful all-eight terminal B8 profile, exact cache/sampler/normalization/source pins, and controller memory/VRAM receipt. All shapes complete three finite updates and one causal export within the hard resource caps; a brief `MemoryHigh` crossing is recorded. The prior CLI failure was before CUDA work. This admits only the bounded resource/rate result, not a full fit or quality/runtime claim.
+
 - [xteam_h4 CPU policy implementation review R1](CPU_POLICY_IMPLEMENTATION_REVIEW_20261014_R1.md) independently checks the original archive, package member/weight identity, strict A/B/C/D dispatch, EVEX256 assembly, source/build hashes, two complete-sequence receipts and fresh-reset behavior. It passes exact parity on those exposed sequences; local Intel timings show no policy speed win, and AMD/competition runtime and quality remain unmeasured. The source package is frozen at `1dcc9e49`; no fit, rebuild, callback rerun or provider action was performed by the reviewer. `H-CPU-POLICY-20261014`.
+
 - [Causal state-initializer and decay review R1](STATE_INITIALIZER_CAUSAL_REVIEW_20261014_R1.md) checks the row-99 prefix timing, reset/TBPTT state, frozen-backbone gradient path and one-sequence finite perturbation diagnostic. No wrapper blocker is found; the decay result supports mechanism exploration only, not initializer quality or population-level memory. The note also points to the B1 sampler-source erratum.
+
 - [Native causal state-initializer implementation review R1](STATE_INITIALIZER_NATIVE_IMPLEMENTATION_REVIEW_20261014_R1.md) audits prefix timing, feature normalization, sequence reset, quantized state-code refresh, zero-versus-omitted parity, exporter arrays and the sealed abi3 build receipts. Synthetic H8×2 checks pass; actual-data quality, production runtime and target-hardware evidence remain separate.
+
 - [Actual-sequence native initializer parity review R1](STATE_INITIALIZER_ACTUAL_NATIVE_PARITY_REVIEW_20261014_R1.md) checks the sealed 20,000-row callback receipt, source/build hashes, first-two-readout projection, prefix injection before row 99, reset replay and FP32 parity. It passes as callback/state evidence on one exposed F0 fitting sequence with deterministic synthetic initializer tensors; it is not initializer quality or a population/runtime result.
+
 - [CPU student theory and accounting audit R1](CPU_STUDENT_THEORY_AUDIT_20261014_R1.md) independently recomputes all eight parameter/native-byte rows and checks prefix-MLP cost, integer bounds, the full-GRU Jacobian/TBPTT caveat, minGRU and low-rank transfer limits against source. Formulae and transfer boundaries pass; it recommends clarifying which two linear matrices scale only 2× and keeping the 1,000-row TBPTT example distinct from the final frozen recipe. No profile, fit, runtime or quality outcome.
+
 - [Kaggle QAT cache materialization R3 review](KAGGLE_CACHE_MATERIALIZATION_R3_REVIEW_20261014_R1.md) independently checks the streaming cache-containment recovery, actual preflight identities, R2-to-R3 spec preservation, sealed bootstrap and cleanup tests. Offline copy tests pass on physical btrfs; the default `/tmp` test location is correctly rejected because it is `tmpfs`. No Kaggle write, full 1.91 GB copy, profile, fit or quality result is claimed.
+
 - [Kaggle R4 cache-gate review](KAGGLE_R4_CACHE_GATE_REVIEW_20261014_R1.md) checks the sealed R4 packet hashes, exact R3-to-R4 spec delta, unchanged preflight, and actual-producer input-gate receipt. Full cache hashes match and worker launch is intercepted after validation; this clears offline gate compatibility only, pending root's fresh resource/quota admission and dispatch decision.
+
 - [CPU student-frontier consumer and CLI profile review R2](CPU_STUDENT_FRONTIER_CONSUMER_R2_REVIEW_20261014_R1.md) checks the actual producer cache, portable teacher-path mapping, source-qualified B8 sampler, shared H256 normalization and terminal ten-update CLI smoke. It clears only the bounded profile and root-admitted H256×2 control fit; the smoke is not a quality result or authorization for the other seven shapes.
+
 - [Clean F3 teacher R5 draft-packet review](F3_TEACHER_R5_DRAFT_REVIEW_20261014_R1.md) verifies the unchanged R4 fit recipe, 83-member sealed archive, exact 13 mount map, deferred parquet hash gate, quota deadline arithmetic and bounded checkpoint collection. Offline checks pass, but the stale quota snapshot keeps the draft closed to dispatch; no cloud or scientific result is claimed.
+
 - [Clean F3 teacher R5 terminal fit review](F3_TEACHER_R5_TERMINAL_FIT_REVIEW_20261015_R1.md) checks the collected R6 payload hashes, exact fold3 source-qualified fit/evaluation membership, freshly initialized seed-3 fit, and fixed epoch-2 checkpoint. It records 22,310 completed updates, 10 AMP skips, the sampled 5.309-GB GPU high-water relative to separate cloud/local limits, and all three still-pending prediction exports. This is a fit/provenance/transport review, not a teacher grade or completed-cache claim.
+
 - [CPU student frontier first-wave specification audit R1](CPU_STUDENT_FRONTIER_SPEC_REVIEW_20261014_R1.md) independently pins the original xteam_h4 package and checks the clean-T3 F0 target ancestry, cache consumer restrictions, architecture-ladder fairness, and the row-99 initializer contract. It finds the current reader rejects new shapes/one-epoch consumers and that the existing prefix adapter is a different treatment; no fit, parity result, score, or runtime claim is made. `H-CPU-POLICY-20261014`, `H-STUDENT-LADDER-20261014`, `H-STATE-INIT-20261014`.
+
 - [Independent QAT implementation, recipe, and ancestry review](QAT_RENEWABLE_R1_INDEPENDENT_REVIEW.md) checks W4/mixed policy placement, exact archive/native code-scale import, parent/teacher/propensity membership, matched fit commands, and two-component actual-profile evidence. It finds no transport blocker, labels subset profiles as exposed adaptation diagnostics, and requires native export plus matched PTQ/QAT endpoint scoring before promotion. `E-QAT-DEPLOYMENT-20261013-R1`; source/recipe hashes and cache-payload limits are recorded.
+
 - [10% QAT fit recipe admission](QAT_RENEWABLE_R1_FIT_ADMISSION.md) records the post-integration frozen source hashes and independently clears the matched seed-3 F0 trio subject to root resource admission. It binds the 315-component subset and explains full-fit-ancestor exposure, update-budget interpretation, cache-payload hash limits and source/data-root launch binding. `E-QAT-DEPLOYMENT-20261013-R1`; no fit outcome or quality claim.
+
 - [E463 TPU V8 actual-data bridge review](QAT_TPU_BRIDGE_V8_INDEPENDENT_REVIEW.md) independently pins the generated probe/bundle, verifies the V7 registry-field repair and retained raw-data/mount identities, and clears one private TPU execution subject to root resource admission. It binds one fit-VALID update plus exact reload and full-sequence prediction export; TPU resources and scientific outcomes remain unmeasured. `E-QAT-TPU-BRIDGE-V8-20261013`.
+
 - [QAT deployment R2 full-fold consumer clearance](QAT_DEPLOYMENT_R2_FULLFOLD_CLEARANCE.md) independently checks the frozen evaluator against actual R2 artifacts, selected-mask semantics, Q8 replay and state traces. It clears the exact 468-group F0 run for controller-owned execution under manifest SHA `8894af70…19556`; this is an execution-validity decision, not a quality or public-transfer claim.
+
 - [QAT deployment component-bootstrap method](QAT_DEPLOYMENT_COMPONENT_BOOTSTRAP_METHOD.md) specifies the paired 141-component F0 resampling grader for fixed deployment endpoints and documents its exposed-fold and raw-six-sum precision limits. It validates the native-Q8 anchor and grades the unchanged-parent quantization baseline plus matched QAT/float-PTQ pairs at 10% and 30%, with a full-cohort uniform-W4 pair added. Code: [`grade_qat_component_bootstrap.py`](../../../scripts/grade_qat_component_bootstrap.py); all indexed receipts are in [the receipt index](receipts/README.md). `E-QAT-DEPLOYMENT-20261013-R1`.
+
 - [Independent FP32-continuation and W4 compression grade](QAT_FLOAT_CONTINUATION_COMPRESSION_GRADE_R1.md) verifies two native-Q8 continuation endpoints and two same-checkpoint W4 PTQ/native-Q8 pairs on the common 468-group F0 panel. Continuation point gains are uncertain; 30% W4 has a small negative conditional paired delta. The raw-sum intervals are descriptive, one-seed exposed-fold evidence, not promotion. [Machine receipt](receipts/QAT_FLOAT_CONTINUATION_COMPRESSION_GRADE_R1.json). `E-QAT-DEPLOYMENT-20261013-R1`.
+
 - [Independent LSQ-inspired learned-row-scale QAT recipe/code review](QAT_LSQ_ROW_SCALE_RECIPE_REVIEW_R1.md) clears a root-admitted bounded actual-data profile and matched 10% fit, without a quality claim. It verifies the LSQ-inspired derivative, optimizer/freeze/resume/export paths, and records that every selected preset matrix scale is learned, including Q8 head blocks; the fixed arm recomputes detached absmax row steps per latent update. SWA continuation integration and measured benefit remain pending. `E-QAT-LSQ-20261013-R1`.
+
 - [10% LSQ-inspired learned-scale deployment grade](QAT_LSQ_10PCT_PAIRED_GRADE_R1.md) grades the matched seed-3 F0 learned-versus-nonlearned per-update-absmax pair and separately labels FP32/PTQ-W4 and FP32/native-Q8 endpoint context. The primary learned-minus-control WP delta is `+0.0001941` with a descriptive raw-sum component interval crossing zero; exact fit ancestry and all 12 learned/fixed code/scale archive hashes were independently checked. [Frozen grade](receipts/QAT_LSQ_10PCT_PAIRED_GRADE_R1.json), [provenance/export audit](receipts/QAT_LSQ_10PCT_MATCHED_GRADE_AUDIT_R1.json). `E-QAT-LSQ-10PCT-F0S3-20261013-R1`; exposed single-seed evidence, not promotion.
+
 - [10% LSQ-inspired learned-scale seed-4 deployment grade](QAT_LSQ_F0S4_PAIRED_GRADE_R1.md) grades the matched learned versus nonlearned per-update-absmax pair after the same source-qualified 315-component subset was fitted from a distinct seed-4 CP5 parent. The WP delta is `+0.0004926` with a descriptive raw-sum component interval crossing zero; fit identity and native code/scale transport were independently audited. Together with seed 3 this is two positive, uncertain paired deltas on the same exposed F0 membership (`n=2`), not cross-fold or public-transfer evidence. [Frozen grade](receipts/QAT_LSQ_F0S4_PAIRED_GRADE_R1.json), [fit/export audit](receipts/QAT_LSQ_F0S4_MATCHED_GRADE_AUDIT_R1.json). `E-QAT-LSQ-10PCT-F0S4-20261013-R1`.
+
 - [Bounded LSQ scale confirmation recommendation R1](QAT_LSQ_SCALE_CONFIRMATION_ALLOCATION_R1.md) is retained as historical allocation context; its F3 seed-4 proposal is superseded because the independent ancestry inventory found no exact clean-T3 F3 seed-4 CP5/cache lineage.
+
 - [Bounded LSQ scale confirmation recommendation R2](QAT_LSQ_SCALE_CONFIRMATION_ALLOCATION_R2.md) redirects the next feasible confirmation to one matched 10% F0 seed-4 learned-versus-nonlearned-per-update-absmax pair, after the root-owned cohort finishes and fresh admission is available. Its addendum records that the frozen S4 manifest deliberately reuses the seed-3 membership, making 1,440 updates exact for that recipe; neither the recommendation nor its source review authorizes fitting. Strict F3 ancestry preparation remains a later broader follow-up.
+
 - [S4 LSQ profile-recipe readiness review](QAT_LSQ_F0S4_PROFILE_RECIPE_REVIEW_R1.md) verifies the exact four profile/fit commands and controller vectors, same-membership S4 subset with its new experiment ID, source hashes, and actual CP5 checkpoint/provenance against the seed-4 input-identity packet. GO is limited to root-controlled actual-shape profiles; both 100-update results and fresh resource admission remain required before fits. [Machine receipt](receipts/QAT_LSQ_F0S4_PROFILE_RECIPE_REVIEW_R1.json); no fit or GPU action was performed.
+
 - [Final-model QAT adaptation profile-recipe review](QAT_FINAL_ADAPTATION_PROFILE_REVIEW_R1.md) audits frozen source `e1ab711c`, the explicit all-data initializer gate, both seed-specific CP5 parents, F0 subset/cache identities and all eight matched command vectors. It clears only four root-admitted 100-update profiles; no fit is cleared. It labels the unavailable original final teacher cache and retained clean-F0 targets as provisional transfer, and records the all-data parents' validation exposure. [Machine receipt](receipts/QAT_FINAL_ADAPTATION_PROFILE_REVIEW_R1.json); no Torch/GPU/profile execution occurred.
+
 - [Final QAT native member-export review](QAT_FINAL_NATIVE_MEMBER_EXPORT_REVIEW_R1.md) statically verifies exact packed-code transport, native callback-step equivalence, full-sequence reset replay, the official F0 score mask, and bounded memmap output for source `3d8b1088`. GO is conditional on root pinning the exact ordered 468-group F0 split and checking cache headroom; no parquet scan, native inference, score, or quality claim was performed. [Machine receipt](receipts/QAT_FINAL_NATIVE_MEMBER_EXPORT_REVIEW_R1.json). `E-QAT-FINAL-ADAPTATION-20261013-R1`.
+
 - [Final stationary-initializer QAT profile-recipe review R2](QAT_FINAL_SELF_DISTILL_PROFILE_REVIEW_R2.md) audits the frozen teacher implementation and matched FP32 versus learned-W4 commands for the 315-component final-adaptation subset. It clears only two bounded actual-shape 100-update profiles; fit admission remains conditional on their finite-update and resource receipts. The all-data CP5 ancestry is explicitly exposed, and no held-out/public-quality claim is made. [Machine receipt](receipts/QAT_FINAL_SELF_DISTILL_PROFILE_REVIEW_R2.json). `E-QAT-FINAL-SELF-DISTILL-20261013-R2`.
+
 - [Stationary-teacher QAT profile acceptance R2](QAT_FINAL_SELF_DISTILL_PROFILE_ACCEPTANCE_R2.md) indexes root's actual 100-update acceptance: both arms were finite with zero AMP skips and roughly 2.18GB observed VRAM, after which root admitted the matched 1,440-update fits. The short profile is not an epoch runtime or quality claim; its high W4 sync counter is retained for throughput interpretation. [Root receipt](../../campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/PROFILE_ACCEPTANCE_FIT_ALLOCATION_R2.json).
+
 - [Stationary-teacher QAT paired-fit audit R2](QAT_FINAL_SELF_DISTILL_FIT_AUDIT_R2.md) independently binds the actual FP32 and learned-W4 checkpoints to the same CP5 parent, frozen teacher, F0 subset/split, caches, normalization and sample order, with only the intended QAT flags differing. Both completed 1,440 updates; valid-source fit/evaluation groups are disjoint. It records all-data-parent exposure and the missing large propensity-cache payload hash; native exports and quality grading remain separate. [Machine receipt](receipts/QAT_FINAL_SELF_DISTILL_FIT_AUDIT_R2.json). `E-QAT-FINAL-SELF-DISTILL-20261013-R2`.
+
 - [Xteam H4 baseline callback benchmark binding R2](QAT_XTEAM_H4_BASELINE_BENCHMARK_BINDING_R2.md) preserves the static repair of the callback consumer fields missing from R1 and the hash audit of the unchanged package. Execution later showed the main `.venv` was Python 3.13.9, so that timing is preserved but excluded from the Python 3.11 comparison. See the separate [Python 3.11 runtime grade](QAT_BASELINE_CALLBACK_RUNTIME_R1.md), [R3 binding](../../campaign_2026-10-13/qat_renewable_r1/final_release_r1/BASELINE_BENCHMARK_BINDING_R3.json) and [runtime receipt](receipts/QAT_BASELINE_CALLBACK_RUNTIME_R1.json).
+
 - [Xteam H4 baseline callback runtime R1](QAT_BASELINE_CALLBACK_RUNTIME_R1.md) records the completed Python 3.11.16 benchmark on two complete sequences and two reset-checked repeats, plus the preserved Python 3.13.9 attempt. The 1 GB worker cap was reached during the full-file hash pass with no OOM/kill; the result is a small runtime reference, not a memory-headroom or quality claim. [Machine receipt](receipts/QAT_BASELINE_CALLBACK_RUNTIME_R1.json) and [result](../../../artifacts/qat_renewable_r1/final_release_r1/BASELINE_CALLBACK_RUNTIME_R3.json).
+
 - [Final selected QAT ZIP release audit R1](QAT_FINAL_SELECTED_ZIP_RELEASE_AUDIT_R1.md) independently binds the release hardlink to the build manifest, confirms all 12 member hashes, ABI receipt, and exact v2/v3 parity for 179,109 required callbacks. The matched local runtime comparison is explicitly limited to two sequences/repeats; the exposed-F0 blend score remains below baseline and matched FP32/native-Q8, with no public-quality claim. [Machine receipt](receipts/QAT_FINAL_SELECTED_ZIP_RELEASE_AUDIT_R1.json), [selected ZIP](../../../submissions/10-14-qat-r1/kotiki_qat_lsq_20261014.zip), and [matched runtime receipt](../../campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/MATCHED_CALLBACK_RUNTIME_R2.json). `E-QAT-FINAL-SELF-DISTILL-20261013-R2-ZIP-AUDIT`.
+
 - [Final stationary-teacher QAT blend grade R3 predeclaration](QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R3.md) freezes five full-F0 mixtures before reading the new stationary-teacher R2 score/prediction outputs: the original baseline, prior R1 seed-3 QAT, and matched stationary-teacher FP32/native-Q8, W4 PTQ, and learned-W4 QAT replacements. All coefficients remain 0.25 in fixed native summation order; export/weight/prediction hashes must be filled from root's frozen admission before the runnable recipe is sealed. [Predeclaration](../../campaign_2026-10-13/qat_renewable_r1/final_release_r1/FINAL_BLEND_GRADE_PREDECLARATION_R3.json), [grader](../../../scripts/grade_qat_final_blends_r3.py), and [machine receipt](receipts/QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R3_PREDECLARATION.json). No new R2 score array was read; all F0 comparisons remain exposed fitted-data diagnostics.
+
 - [R3 admission-schema rejection and R4 compatibility successor](QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R4_COMPATIBILITY.md) preserves the pre-result R3 rejection against the actual operator's `vectors`/`commands` admission shape, then verifies the R4 grader against the original R2 export admission and one-shot CPU-admission repair without opening result or prediction files. The exact five mixtures, coefficients, member order and metric remain unchanged; see the completed [R4 grade](QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R4.md) and [machine receipt](receipts/QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R4.json). [R4 recipe](../../campaign_2026-10-13/qat_renewable_r1/final_release_r1/FINAL_BLEND_GRADE_RECIPE_R4.json), [grader](../../../scripts/grade_qat_final_blends_r4.py), [R3 rejection receipt](receipts/QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R3_SCHEMA_REJECTION_R2.json), and [R4 compatibility receipt](receipts/QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R4_COMPATIBILITY.json). `E-QAT-FINAL-SELF-DISTILL-20261013-R4-GRADE`; exposed fitted-data panel only.
+
 - [Final stationary-teacher blend grade R4](QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R4.md) grades five preregistered fixed mixtures on the same exposed 468-sequence F0 panel. The learned-W4 blend improves slightly on matched FP32/PTQ-W4, but is below the matched FP32/native-Q8 blend and fixed baseline; the five-point grade is descriptive and has no uncertainty interval or public forecast. It cross-checks terminal member result/prediction identities without rereading prediction arrays and leaves final ZIP parity and selection to root. [Machine receipt](receipts/QAT_FINAL_SELF_DISTILL_BLEND_GRADE_R4.json), [frozen recipe](../../campaign_2026-10-13/qat_renewable_r1/final_release_r1/FINAL_BLEND_GRADE_RECIPE_R4.json), [grade output](../../../artifacts/qat_renewable_r1/final_blend_grade_r4/result.json), and [export completion](../../campaign_2026-10-13/qat_renewable_r1/final_self_distill_r2/NATIVE_EXPORT_COMPLETION_R2.json). `E-QAT-FINAL-SELF-DISTILL-20261013-R4-GRADE`.
+
 - [Independent final QAT blend grade R2](QAT_FINAL_BLEND_GRADE_R2.md) grades the three frozen four-member combinations against all six hash-bound native prediction panels on ordered full F0. Both QAT substitutions score below the fixed baseline (`−0.0005020` WP for S3; `−0.0010391` for S4), with no bootstrap or clean-CV claim. It records the R1 missing-group-list failure and R2 recipe-only correction, preserves all blend definitions, and saves actual blend arrays for root-owned ZIP callback parity. [Machine receipt](receipts/QAT_FINAL_BLEND_GRADE_R2.json), [R2 recipe](../../campaign_2026-10-13/qat_renewable_r1/final_release_r1/FINAL_BLEND_GRADE_RECIPE_R2.json). `E-QAT-FINAL-ADAPTATION-20261013-R2`; exposed fitted-data diagnostic, not public-transfer evidence.
+
 - [Kaggle profile R2 targeted cache-handoff packet review](QAT_KAGGLE_PROFILE_R2_CACHE_HANDOFF_REVIEW_R1.md) reviews actor commit `5a0112de` and verifies the generated bundle/bootstrap hashes, unchanged 34 mounted input mappings and profile specs, best-effort `POSIX_FADV_DONTNEED` scope, and preserved 8-GiB-worker/1-GB-headroom admission gate. It clears at most one root-admitted profile attempt after fresh quota/resource admission; no actual Kaggle eviction, provider action, fit, or quality result is claimed. [Machine receipt](receipts/QAT_KAGGLE_PROFILE_R2_CACHE_HANDOFF_REVIEW_R1.json).
+
 - [Activation-aware QAT profile readiness review](QAT_ACTIVATION_AWARE_PROFILE_REVIEW_R1.md) checks native A8/GRU semantics, FP32 recurrent state, fixed/learned weight replacement reuse, and the compiled profile against the frozen CP5 model. It permits only a separately labeled synthetic compile smoke; the reviewed profile is not actual-data or optimizer evidence and does not clear fitting. It records the 112-versus-211 input-shape mismatch, nonfinite-policy divergence, missing trainer integration, and experiment-ID correction required. [Machine receipt](receipts/QAT_ACTIVATION_AWARE_PROFILE_REVIEW_R1.json). `H-QAT-A8-20261013`; actor source `2a5c9c89`.
+
 - [Activation-aware trainer hook and profile readiness review](QAT_ACTIVATION_AWARE_TRAINER_PROFILE_REVIEW_R1.md) reviews final actor source `60daafba` after fixing the eager-import and post-step cache-identity defects and hardening finite-parameter/cache-identity acceptance. It clears only the root-owned, bounded actual-shape first-chunk GPU engineering profile; it does not clear a fit and requires a separate 100-update full-causal profile first. [Machine receipt](receipts/QAT_ACTIVATION_AWARE_TRAINER_PROFILE_REVIEW_R1.json). `E-QAT-A8-BACKEND-20261013-R1`.
+
 - [10% uniform-W4 QAT versus matched float-PTQ deployment grade](QAT_10PCT_UNIFORM_W4_MATCHED_GRADE_R1.md) reports the first actual trained endpoint pair, independently verifies matched seed-3 fit ancestry and exact checkpoint-code transport, and grades all 468 exposed F0 groups. The QAT-minus-PTQ WP point delta is `-0.0001149` with a descriptive raw-sum component-bootstrap interval crossing zero; one seed and the exposed adaptation panel do not establish generalization or public transfer. [Machine receipt](receipts/QAT_10PCT_UNIFORM_W4_PAIRED_GRADE_R1.json). `E-QAT-DEPLOYMENT-20261013-R1`.
+
 - [10% mixed-W4/W8 QAT versus matched float-PTQ deployment grade](QAT_10PCT_MIXED_W4W8_MATCHED_GRADE_R1.md) reports the second actual trained endpoint pair, audits the shared seed-3 recipe and exact 12-field checkpoint-code transport, and grades all 468 exposed F0 groups. The QAT-minus-PTQ WP point delta is `+0.0001390` with a descriptive raw-sum component-bootstrap interval crossing zero; this one-seed, exposed-panel result is not cross-seed or public-transfer evidence. [Machine receipt](receipts/QAT_10PCT_MIXED_W4W8_PAIRED_GRADE_R1.json). `E-QAT-DEPLOYMENT-20261013-R1`.
+
 - [30% uniform-W4 QAT versus matched float-PTQ deployment grade](QAT_30PCT_UNIFORM_W4_MATCHED_GRADE_R1.md) reports the full-fold native-QAT W4 pair, verifies shared 4,380-update seed-3 ancestry and exact checkpoint-code transport, and grades all 468 exposed F0 groups. QAT-minus-PTQ WP is `+0.0002399` with a descriptive raw-sum interval crossing zero; one seed and exposed-F0 selection do not establish generalization or public transfer. [Machine receipt](receipts/QAT_30PCT_UNIFORM_W4_PAIRED_GRADE_R1.json). `E-QAT-DEPLOYMENT-20261013-R1`.
+
 - [30% mixed-W4/W8 QAT versus matched float-PTQ deployment grade](QAT_30PCT_MIXED_W4W8_MATCHED_GRADE_R1.md) reports the full-fold mixed native-QAT pair, verifies shared fit ancestry and exact 12-field checkpoint-code transport, and grades all 468 exposed F0 groups. QAT-minus-PTQ WP is `+0.0002711` with a descriptive raw-sum interval crossing zero; its receipt also preserves an unmatched floating-parent mixed-PTQ versus R2 native-Q8 diagnostic. [Machine receipt](receipts/QAT_30PCT_MIXED_W4W8_PAIRED_GRADE_R1.json). `E-QAT-DEPLOYMENT-20261013-R1`.
+
 - [100% uniform-W4 QAT versus matched float-PTQ deployment grade](QAT_100PCT_UNIFORM_W4_MATCHED_GRADE_R1.md) independently grades full-fold native QAT against same-membership, same-update FP32-fit/PTQ-W4 control and verifies actual checkpoint/archive representation hashes without Torch. QAT-minus-PTQ WP is `+0.0006216`; the descriptive component-bootstrap interval crosses zero. This is one exposed-F0 seed, not a promotion or public-transfer claim. [Machine grade](receipts/QAT_100PCT_UNIFORM_W4_PAIRED_GRADE_R1.json), [fit/export audit](receipts/QAT_100PCT_UNIFORM_W4_MATCHED_GRADE_AUDIT_R1.json). `E-QAT-DEPLOYMENT-20261013-R1`.
+
 - [100% mixed-W4/W8 QAT versus matched float-PTQ deployment grade](QAT_100PCT_MIXED_W4W8_MATCHED_GRADE_R1.md) independently grades the terminal full-fold native-QAT endpoint against same-membership, same-update FP32-fit/PTQ-mixed control and verifies actual checkpoint/archive representation hashes without Torch. QAT-minus-PTQ WP is `+0.0007600`; the descriptive component-bootstrap interval narrowly crosses zero. Together with 10% and 30% mixed pairs, this is positive one-seed evidence across registered subset scales, not a scale-response estimate, promotion, or public-transfer claim. [Machine grade](receipts/QAT_100PCT_MIXED_W4W8_PAIRED_GRADE_R1.json), [fit/export audit](receipts/QAT_100PCT_MIXED_W4W8_MATCHED_GRADE_AUDIT_R1.json). `E-QAT-DEPLOYMENT-20261013-R1`.
 
+
+
 - [Independent four-model submission review](../../../submissions/10-13-team-r1/INDEPENDENT_REVIEW_R1.md) independently streams the delivered16.32MB ZIP and original source-archive entries, verifies intended equal-weight seed6/Z4/H390 membership, and confirms fixed optimized runtime bytes. The [release receipts](../../../submissions/10-13-team-r1/README.md) add successful root-owned ABI, isolated Python3.11 and complete-sequence V2/V3 reset checks. This supports artifact correctness, not predictive improvement. E-TEAM-XTEAM-S6-RELEASE-20261013-R1.
+
 - [Team FP32 member-export review and profiles](../../campaign_2026-10-13/team_models_r1/GPU_MEMBER_REVIEW_R1.md) checks actual merged-head weights, causal features/state, strict loading and recorded code dependencies. B1/B16 actual profiles pass with matched-input rounding below1e-6; root admits fourteen serial diagnostics within measured resource bounds. No native parity or clean-CV quality claim. E-TEAM-MEMBER-BANK-20261013-R1.
+
+
 
 - [Packaged-runtime independent audit](../../campaign_2026-10-13/team_models_r1/INDEPENDENT_RUNTIME_REVIEW_R1.md) checks actual team C++ and Rust ELFs, wrappers and local dispatch. Both contain VNNI and AVX2; xteam/E binaries are identical. Missing host dispatch and matched target timing prevent an EPYC winner claim. It separates binary observations from incompletely bound source/quantizer details; no model inference was run.
 
+
+
 - [Official-team source and scoring audit](../../campaign_2026-10-13/team_models_r1/INDEPENDENT_REVIEW_R1.md): independent Luna roles checked actual members/trunks and reproduced the pair's two-group official metric and content hashes. They found validation-overlap limits and an unverified full-file digest in the short profile; the full-replay successor recomputes it. No clean-CV or EPYC promotion follows from this engineering pass.
 
+
+
 - [S38 independent interpretation review](../../campaign_2026-10-13/strategy_execution_r1/s38_mirror_symmetry_r1/INDEPENDENT_INTERPRETATION_REVIEW_R1.json) verifies stored sample membership and summary arithmetic, then finds two limits: the sign-only negative control changes at most52 coordinates and cannot cross the frozen >56-coordinate gate; within-sequence marginal mismatch also does not falsify population symmetry. Preserve the input measurements, qualify their interpretation, and keep target transformation unresolved. No data reread or new fit.
+
 - [S14 gradient-credit independent preflight](../../campaign_2026-10-13/strategy_execution_r1/gradient_credit_f0_s3_r1/ROOT_PREFLIGHT_R1.json) checks the exact detach-500 versus detach-2000 pair with fixed 500-row microchunks and 2,000-row update windows. Both 66-file source manifests are recomputed and all 14 controlled-loss tests pass against the actual overlay. Device profiles and export-name adaptation remain pending; no fit or quality gain is claimed.
+
 - [F3 teacher seed-3 sealed-packet root release](../../campaign_2026-10-13/strategy_execution_r1/first_cohort_f3_teachers_r2/ROOT_RELEASE_R2.json) verifies all 70 archived descriptors, exact kernel/archive hashes, nested mounts, three independent packet tests and quota/output arithmetic. It releases one clean scratch teacher tranche under a fresh quota check, then profile-gated fitting and terminal collection. Provider and model outcomes are separate; the delivery addendum corrects an overprecise quota threshold without changing the sealed wall-time window.
+
 - [Historical forecasting-auxiliary and chunk-correlation audit](../../campaign_2026-10-13/strategy_execution_r1/HISTORICAL_AUXILIARY_AUDIT_R1.md) completes strategy S25: seven actual three-epoch histories are hash-bound, and forecast weight/horizon negatives are traced to the October10 log. Older loss comparisons disagree across protocols, so the audit preserves their exact scope. No new fit or recomputed score; broader representation and distillation descendants remain eligible.
+
 - [First-principles review plan and verdict (2026-10-12)](FIRST_PRINCIPLES_REVIEW_PLAN_20261012.md) — static critique merged from `claude/stoic-euler-70wff3` at source commit `4737e515`. It challenges campaign throughput, small-effect ranking and the objective, and proposes compact ensembles, averaging, symmetry and cross-fitted teachers. Its capacity ceiling, universal power gate, calendar and stop list are author proposals, not adopted policy or new empirical findings. The promised full review and original idea-card file were absent from this branch. [Our assessment and concrete experiments](../ideas/FIRST_PRINCIPLES_EXPERIMENTS_20261013.md) trace the cited evidence and integrate useful ideas under the current user scope.
+
 - [October 12 critical review and separate public and future private leaderboard plans](CHALLENGE2_PUBLIC_PRIVATE_STRATEGY_20261012.md) — audits recipe comparisons, fold exposure, target assumptions and delivery failures; proposes ranked experiments, scaling ladders and separate public and future-private selection criteria. Source-linked retrospective and proposed plan; no new empirical results.
+
 - [Independent strategy review receipt](../../campaign_2026-10-12/strategy_review_r1/INDEPENDENT_REVIEW.json) — records the validation, model and literature reviewers, material corrections and remaining limitations. Static critique by three Luna roles, not an empirical replication.
+
 - [WNN strategy review and agent execution brief](legacy/WNN_2026-10-11_Strategy_Review_and_Agent_Execution_Brief_EN.md)
+
 - [Unified campaign review](legacy/WNN_Unified_Review_EN.md)
+
 - [Independent critic memo](legacy/critic.md)
+
 - [Literature and modeling review](legacy/review_2.txt)
+
 - [WunderFunder source audit](legacy/WunderFunder_audit_evidence.md)
+
 - [F1 recipe audit receipt](receipts/F1_RECIPE_AUDIT_R4.json)
+
+
 
 The former root `reviews/` and `writeups/` aliases have been removed. New reviews should be saved here and linked from the relevant domain README and source experiment record.
 
+
+
 ## Resumed strategy execution — 2026-10-13
+
+
 
 [Strategy execution campaign](../../campaign_2026-10-13/strategy_execution_r1/README.md) implements the full October12 review under the user's subsequent explicit resume. It links the approved plan, full proposal coverage, resource authority, frozen comparisons and live frontier. All Kaggle allowance and actual local GPU capacity are authorized; CPU/RAM protections and no-paid-spend remain. Initial status is preparation, with no new fitted result. Existing folds remain exposed.
 
+
+
 - [Independent resource-policy review R1](../../campaign_2026-10-13/strategy_execution_r1/reviews/resource_r1/README.md) checks the new GPU allowance against actual launch code and historical records. It confirms the GPU-cap change and identifies unused active-worker RAM reservations missing from admission accounting; a narrow successor is required before concurrent admissions. Its 24 tests are engineering evidence, not scientific gains.
 
+
+
 - [S37 fixed-trajectory-average review](../../campaign_2026-10-13/strategy_execution_r1/reviews/trajectory_average_f0_r1/README.md) independently recomputes both seed-local epoch-3/4/5 means from actual producer checkpoints, validates continuation provenance, and loads the results with the staged CPU predictor. It passes artifact and consumer preflight; there are no candidate predictions or quality scores yet.
+
 - [S09 innovation recipe review R1](../../campaign_2026-10-13/strategy_execution_r1/reviews/innovation_f0_s3_r1/README.md) checks the frozen F0 seed-3 moments/innovation pair, actual parent lineage, commands and homogeneous cache metadata. It finds the candidate validator rejects the actual one-family cache before arrays or device work; R1 is not launchable and no scientific result is produced.
+
 [F0 target-amplitude delivery packet](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/README.md) binds the exact clean-T3 F0 cache, seed-3 initializer, matched control and FP32 CP5 export path. R2 P1 failed before fitting because a relative split manifest resolved under the source-overlay cwd. R3 corrects all fit/export split-manifest paths to the absolute main-project path; the actual-overlay split-loader and exact worker-vector source-manifest preflights passed; root conditionally authorized execution after fresh resource admission. No candidate result exists.
 
+
+
 - [R3 path correction receipt](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/RECIPE_REVIEW_CORRECTION_R3.md) documents the exact R2 no-fit failure, actual producer-loader preflight, safe-path audit and conditional root authorization; it is execution-preparation evidence, not a scientific result.
+
 - [R3 source-manifest preflight](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/SOURCE_MANIFEST_PREFLIGHT_R3.json) records the root controller's manifest hash over the exact P1/P2/P3/export worker vectors before admission.
+
 - [R2 P1 failure receipt](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/P1_ATTEMPT_FAILURE_R2.json) binds the controller attempt and log hashes and records that no treatment fit occurred.
+
 - [R3 exact fit/export/grade commands](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R3.json) gives fresh staged root-controller and worker argv with absolute fit/export split paths, absolute resume paths and pinned live-VRAM safety reserve; root authorization is conditional on exact source-manifest verification and fresh admission.
+
 - [R2 exact fit/export/grade commands](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/FIT_AND_EXPORT_COMMANDS_R2.json) preserves the admitted command that failed before fitting because of relative split-manifest resolution.
+
 - [R2 source/input bindings](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/SOURCE_AND_INPUT_BINDINGS_R2.json) binds the actual F0 teachers, cache, parent, split, propensity, historical control, profile and two explicit source overrides.
+
 - [R2 source delta](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/SOURCE_DELTA_R2.patch) separates the target-scale trainer treatment from the operational resource-policy override; it changes no model/optimizer/schedule target semantics beyond the intended amplitude.
+
 - [R2 complete source manifest](../../campaign_2026-10-13/strategy_execution_r1/target_amplitude_f0_s3_r1/source_overlay_r2/SOURCE_MANIFEST_R2.json) hashes all R3-derived source files and identifies the trainer and resource implementation overrides; no model fit has run from it.
+
+
 
 - [Innovation R2 independent review](../../campaign_2026-10-13/strategy_execution_r1/reviews/innovation_f0_s3_r2/README.md) — independently reviews the cache-schema repair and paired command semantics via a verified free Nemotron route after native Luna usage exhaustion. PASS for operational compatibility; no GPU or quality claim.
 
+
+
 - [First-wave progress and reallocation](STRATEGY_PROGRESS_AND_REALLOCATION_20261013.md) — compares the earlier strategy and Claude plan against actual October13 costs/grades. Fixed averaging produced similar uncertain F0 gains to amplitude at about28times lower incremental worker time. All conditional intervals crosszero; no complete submission improved yet. Records the6.74hour handoff gap and prioritizes reuse, two ready mechanism pairs, compact serving and bounded exploration.
+
+
 
 ## F3 teacher and blend evidence — 2026-10-15
 
+
+
 - [F3 fixed teacher-blend grade review](F3_FIXED_BLEND_F3_EXPLORATORY_GRADE_REVIEW_20261015_R1.md) audits the fold-3 scorer, teacher and H128-distilled older-combo ancestry, and paired component interval. The fixed half blend is +0.000875 WP versus the older model, but its 95% component interval crosses zero and the weight was chosen after seeing the single scores. Treat it as exposed, one-seed exploratory evidence, not a confirmed gain or teacher-family effect.
+
+
 
 ## Event-state input screen — 2026-10-15
 
+
+
 - [Per-field clock input screen review](PER_FIELD_CLOCK_INPUT_SCREEN_REVIEW_20261015_R1.md) confirms that the eight-sequence screen supports added deterministic clock resolution only. Its batch/stream and reset checks cover the existing 99 event features, not the proposed appended ages; the new transform still needs an independent chunk/reset oracle before fitting. It also records that the broadcast G control repeats seven clocks across 112 columns, which changes optimizer geometry and must be described accordingly.
+
 - [Per-field clock implementation review R1](PER_FIELD_CLOCK_IMPLEMENTATION_REVIEW_20261015_R1.md) inspects the frozen causal age transforms, trainer/predictor and function-preserving initializer extension. Source semantics pass, but the production Torch path lacks oracle coverage and the R1 README's 1,405-group export would omit the 468 evaluation groups; a corrected two-epoch R2 contract is required before fitting. No GPU run, score, or native-serving claim was made.
+
+
 
 ## Warm-parent growth and age continuation — 2026-10-15
 
+
+
 - [Warm-parent growth and age wave R3 recipe review](GRU_PARENT_GROWTH_WARM_WAVE_R3_REVIEW_20261015_R1.md) traces the source-bound C/G/F/W vectors through trainer initialization, split membership, seeded sampling, two-epoch OneCycle, and CP1 selection. It gives bounded GO for the four 50-update B16 resource profiles after root parser/source preflight and fresh admission; full fits remain root-admitted after terminal profiles. One inaccurate sampler-order description was corrected before this review. No fit or GPU action was taken.
+
 - [Warm-mechanism C CP1 grade review](WARM_MECHANISM_C_CP1_GRADE_REVIEW_20261015_R1.md) independently grades the source-bound two-epoch C continuation against its exact original parent and a secondary, explicitly non-matched A9 CP5 reference. C scores 0.681227 on exposed F0; both paired component intervals cross zero. The note records the 14,920 attempts / 14,914 completed / six AMP-skipped updates and limits interpretation to this FP32-exported, single-seed endpoint; it does not isolate T3-target value.
+
 - [Warm-mechanism G CP1 grade review](WARM_MECHANISM_G_CP1_GRADE_REVIEW_20261015_R1.md) independently checks the terminal full-valid G export and unchanged official paired scorer against C. G scores0.681256 versus C0.681227 on exposed F0; delta+0.00002956 and the conditional component interval crosses zero. This single-seed two-epoch result neither promotes nor rejects group-age features; the associated pause record closes the drain and restart check.
+
+
 
 ## Student shape-pair T4 profile — 2026-10-15
 
+
+
 - [F0 student shape-pair T4 profile review R1](F0_STUDENT_SHAPE_PAIR_T4_PROFILE_REVIEW_20261015_R1.md) independently rehashes the frozen source closure, both job specs, 22 external mounts, private bundle, and patched T4 kernel. It gives GO only for the two five-batch resource profiles after root checks current provider readiness and quota; no fit or quality claim is supported. It records a stale timeout diagnostic string and a wording caveat about deserializing the CP5 donor checkpoint.
+
+
 
 - [Independent experiment-workflow static review](EXPERIMENT_WORKFLOW_STATIC_REVIEW_20261017_R1.md) records Luna/max conditional pass, two material gaps (estimand/uncertainty and branch SHA pinning), and root fixes. Document review only; no numerical, training or archive-execution evidence.
 
+
+
 - [Independent modular-trainer static review and fixes](../methods/MODULAR_RNN_TRAINER_REFACTOR_20261017_R1.md#independent-review-and-corrections) records the explicitly authorized Sol6.1/medium critic, concrete compatibility/state/packet bugs, corrections and final bounded disposition. Static review only; no empirical parity or speed claim. Canonical description is in methods.
+
+
 
 </details>
 
+
+
 ## Current sequence-moment investigation
+
+
 
 - [Independent causal-geometry pilot grade](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r1.json), interpreted in the [geometry note](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md), verifies all9endpoint official pooled/fold scores, source/initial-state hashes and880updates. Tiny pooled moment gain is opposed across exposed folds; conditional component intervals cross zero. This is integrity evidence and exploratory comparison, not production gain or a rejection of heuristics.
 
+
+
 - [Independent discrete/capacity pilot grade R2](../../campaign_2026-10-17/moment_geometry_r1/independent_grade_r2.json) verifies all24endpoints and18predeclared half-mixtures, their source/data bindings, matched initialization and880-update clocks. It confirms heterogeneous feature effects and negative naive-concatenation interactions at two capacities; no production, teacher-distillation or public-transfer conclusion follows from these exposed tiny-data slices.
+
+
 
 - [TL3 metadata-extractor review](../../campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_r1/INDEPENDENT_REVIEW.json) — independent static PASS for eight exact paths, fresh hash admission, restricted CPU loading, bounded metadata output and create-only receipts; actual execution and its separate acceptance are linked from the execution README.
 
@@ -531,3 +928,26 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 - [Parent-fit terminal-verifier V1 failure metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_VERIFIER_FAILURE_REVIEW_V1.json): one captured CPU-support unit failed at `_check_loader_and_rng` line863 because its combined CUDA RNG guard rejected the saved state. The specific type/shape/count predicate was not inspected; native exit0 metadata remains separate, with no CPU acceptance, retry, OOM, or quality conclusion.
 - [Parent RNG diagnostic V2 source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_RNG_DIAGNOSTIC_SOURCE_REVIEW_V2.json): supersedes V1 after identifying its missed `terminal_success: false` fixture condition. The actual failed fixture passes the V2 gate; RNG shape remains unknown pending diagnostic output, with no fit acceptance or verifier retry claimed.
 - [Parent RNG diagnostic source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_RNG_DIAGNOSTIC_SOURCE_REVIEW_V1.json): conditional review of the separate metadata-only diagnostic and exact frozen inputs; actual RNG shape remains unknown until diagnostic output is inspected. No fit acceptance or retry is claimed.
+
+- [Online-learning data-sentinel audit](../../campaign_2026-10-18/online_features_r1/DATA_AUDIT.md): first independent audit for the continuouscampaign; checks input/label availability, same-sequence causality/reset, exposedF0 source-qualified ancestry and unverifiedTL3membership. Supports deterministicfeature-state research under documentedABI, not blanketpermissionforglobaltestfinetuning; metadata-only review, no payloadexecution. [Receipt](../../campaign_2026-10-18/online_features_r1/data_audit_receipt.json).
+
+- [All-channel innovation-clock feature screen review](INNOVATION_CLOCK_FEATURE_SCREEN_REVIEW_20261018_R1.md): independently confirms the 32-component fit-only membership, input-only columns, extractor causality/reset checks, completed 1.5 GB resource receipt and summary hashes. It corrects the interpretation of pooled top/bottom group lists in the actor's result JSON; it supports representation iteration only, with no target or endpoint-quality evidence.
+
+- [Groupwise fast/slow Kalman screen recipe review](GROUPWISE_FAST_SLOW_SCREEN_RECIPE_REVIEW_20261018_R1.md): an independent static review caught and verified fixes for root resolution, nested recipe fields and arm-width configuration. It passes the corrected code for a bounded one-sequence profile only; no Parquet payload, worker or quality result was reviewed.
+- [Groupwise fast/slow train-proxy grader review](GROUPWISE_FAST_SLOW_PROXY_GRADER_REVIEW_20261018_R1.md): independently checks the explicit all-post-warmup-train-row proxy mask, nonofficial claim label, frozen fit-receipt/source/member/prediction bindings, and paired component-bootstrap logic. Static pass only; no code execution, label read, grade result or full-loop resource profile.
+- [Groupwise fast/slow proxy result review](GROUPWISE_FAST_SLOW_PROXY_RESULT_REVIEW_20261018_R1.md): independently checks copied result/receipt hashes, reported score deltas, fold and position-bin pattern, and the nonofficial all-train-row mask. It supports deferring this exact additive ridge representation while leaving learned recurrent use open. The review did not read Parquet payloads or recompute scores; it records exposed-sample, fixed-fit bootstrap and footer-only identity limits.
+- [Groupwise fast/slow recurrent screen review](GROUPWISE_FAST_SLOW_RECURRENT_SCREEN_REVIEW_20261018_R1.md): independently checks the matched active/zero pair, source and prediction bindings, official F0 score, component bootstrap and high-water profile receipt. It finds no result-changing discrepancy and recommends no new B300 draft; the one-seed exposed-F0 delta remains too small and uncertain to promote, while the wider feature family stays open.
+
+- [Target-only adapter objective implementation review](../../campaign_2026-10-18/online_features_r1/adapter_target_only_review/README.md): V1 exposed cached/final-initializer/family teacher routes that bypassed its auxiliary-loss early return. V2 adds those objective guards and passes source-pinned standard-library mock checks for the frozen code-only R1 recipe; `loss_norm=running` remains a separate accepted variant, while this candidate defaults to chunk WMSE. No fit, serving, or quality claim is made. [Detailed review](../../campaign_2026-10-18/online_features_r1/adapter_target_only_review/REVIEW.md), [receipt](../../campaign_2026-10-18/online_features_r1/adapter_target_only_review/receipt.json).
+
+- [H512 replacement-gap reconsideration](H512_ENDPOINT_GAP_INTERIM_REVIEW_20261021_R1.md): two independent source-only reviews support the fixed native comparison but recover an important exposure asymmetry. The replaced student's exact payload links to a final train+valid distillation recipe, whereas H512 excludes F0. Native precision, scale and conditional utility remain hypotheses under bounded no-fit diagnostics; no architectural or public-gain claim follows.
+
+- [H512 endpoint interpretation update](H512_ENDPOINT_GAP_INTERIM_REVIEW_20261021_R1.md#same-runtime-result-and-first-complete-history-cell) — full same-host grading shows runtime changes do not explain the−0.00736replacement gap. First exposed F0 history cell loses standalone but improves a frozen90/10blend by+0.000360, with a conditional interval spanning zero; F2 and strong-parent benefit remain unresolved.
+
+- [Native precision counterfactual on eight fixed components](../../campaign_2026-10-21/next_cycle_r1/NATIVE_HOST_PRECISION_PROBE_R2.json), [prelabel parity](../../campaign_2026-10-21/next_cycle_r1/NATIVE_HOST_PRECISION_PRELABEL_R2.json), and [execution](../../campaign_2026-10-21/next_cycle_r1/NATIVE_HOST_PRECISION_EXECUTION_R2.json): same-host original/CP5 reconstruction passes before target access; replacing only H512’s int8 contribution with savedFP32 outputs gains+0.00004035 but leaves−0.00328280 versusTL3. Precision does not explain this sample gap; eight exposed components/10,988scoredrows, no CI, fullfold extrapolation oractualnewpackage. E-H512-ENDPOINT-DIAGNOSIS-20261021-R1.
+
+- [Measured F0 history fixed-mixture geometry](../../campaign_2026-10-21/next_cycle_r1/i1/fixed_mix_geometry_r1/RESULT_R1.json), [admission](../../campaign_2026-10-21/next_cycle_r1/I1_FIXED_MIX_GEOMETRY_ADMISSION_R1.json), [execution](../../campaign_2026-10-21/next_cycle_r1/I1_FIXED_MIX_GEOMETRY_EXECUTION_R1.json) and [log](../../campaign_2026-10-21/next_cycle_r1/i1_fixed_mix_geometry_r1.log): gain persists before clipping (+0.00036506 versus official +0.00035953), and overall correction covariance after accounting for B is positive for both targets. Rules out clipping-only or pure scalar shrinkage explanations for this point gain, but cannot separate history signal from optimization or replace repeatability and uncertainty. No new fits or GPU work; E-PLATEAU-I1-20261021-R1.
+
+- [Cold history initialization caveat and conditional falsifier](I1_HISTORY_FIXED_MIX_GEOMETRY_REVIEW_20261022_R1.md#source-based-follow-up-interpretation): source/math review confirms that unmasking history activates existing random input weights, changing the effective initial function without adding parameters. The existing warm-parent follow-up can preserve the starting function with zero appended weights and matched explicit normalization. Interpretation only; F2 and mechanism selection remain pending.
+
+- [Second i1 input-removal cell](../../campaign_2026-10-21/next_cycle_r1/I1_F2_AB_POINTS_R1.json), [budgetR5](../../campaign_2026-10-21/next_cycle_r1/BUDGET_PROGRESS_R5.json): on exposed F2/1002, A0.67299977 versus B0.68410821 (−0.01110844), both targets lose, with shared initializer/normalization/membership/source and only intended argument differences. Standard i1 is useful in both measured cells; explicit-history C, fixed-mixture contribution and full paired uncertainty remain pending. E-PLATEAU-I1-20261021-R1; no mechanism promotion.

@@ -1,0 +1,129 @@
+{
+  "bootstrap": {
+    "draws": 2000,
+    "scope": "conditional on these two fixed checkpoints and the repeatedly inspected F0 panel; excludes fit-seed, fold, and public-transfer uncertainty",
+    "seed": 20261018,
+    "timing": "descriptive post-grade uncertainty; the pooled scores were already observed before this component analysis was written",
+    "unit": "source-qualified connected evaluation component"
+  },
+  "comparison": {
+    "active": {
+      "t0": 0.6723426716145062,
+      "t1": 0.687385587496406,
+      "wp": 0.6798641295554562
+    },
+    "delta": 5.163244812278478e-05,
+    "paired_component_bootstrap": {
+      "bootstrap_sd": 0.0001028239772888969,
+      "candidate_wp": 0.6798641295554564,
+      "centered_moments": true,
+      "ci95": [
+        -0.0001314284287783768,
+        0.00027017570975465527
+      ],
+      "mean_diff": 5.163244812267376e-05,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 0.3125,
+      "reference_wp": 0.6798124971073337,
+      "seed": 20261018
+    },
+    "time_bins": {
+      "10000:20000": {
+        "active": {
+          "t0": 0.6957537717861837,
+          "t1": 0.692457963059945,
+          "wp": 0.6941058674230643
+        },
+        "delta": 4.3913009956986215e-05,
+        "scored_rows": 412135,
+        "zero_control": {
+          "t0": 0.6956612588302735,
+          "t1": 0.6924626499959412,
+          "wp": 0.6940619544131074
+        }
+      },
+      "2000:10000": {
+        "active": {
+          "t0": 0.6617502777714857,
+          "t1": 0.6780543618497186,
+          "wp": 0.6699023198106021
+        },
+        "delta": 0.00012554038843715087,
+        "scored_rows": 316788,
+        "zero_control": {
+          "t0": 0.6614995882522269,
+          "t1": 0.6780539705921032,
+          "wp": 0.669776779422165
+        }
+      },
+      "500:2000": {
+        "active": {
+          "t0": 0.5760472509366344,
+          "t1": 0.6958147734545503,
+          "wp": 0.6359310121955923
+        },
+        "delta": -0.000235413769104742,
+        "scored_rows": 62742,
+        "zero_control": {
+          "t0": 0.5763631758891838,
+          "t1": 0.6959696760402102,
+          "wp": 0.6361664259646971
+        }
+      },
+      "99:500": {
+        "active": {
+          "t0": 0.7202903181943242,
+          "t1": 0.7052428704088054,
+          "wp": 0.7127665943015649
+        },
+        "delta": 0.00022656111911445453,
+        "scored_rows": 17198,
+        "zero_control": {
+          "t0": 0.7198883444498194,
+          "t1": 0.7051917219150814,
+          "wp": 0.7125400331824504
+        }
+      }
+    },
+    "zero_control": {
+      "t0": 0.672219122771962,
+      "t1": 0.6874058714427047,
+      "wp": 0.6798124971073334
+    }
+  },
+  "experiment_id": "E-KALMAN-GROUP-RECURRENT-INTERACTION-20261018-R1",
+  "exposure": "F0 is repeatedly inspected development evidence, not clean validation",
+  "groups": 468,
+  "hypothesis_id": "H-KALMAN-GROUP-RECURRENT-INTERACTION-20261018-R1",
+  "mask": "cached is_scored AND position >= 99; predictions frozen before target/mask access",
+  "metric_id": "global_wp_clip2_v1",
+  "prediction_identity": {
+    "active": {
+      "membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+      "path": "cache/pred_kalman_groupfast_active_f0_s3_r1_valid.npy",
+      "sha256": "8c4fec371df0443464460b3d94f71d47c482d5641ea1ec3ae395dd0aa02ef3c9",
+      "sidecar_sha256": "0e32264bfac745d6b732463181bffe2751d59b63fcadd323541ad1a5699bbe34"
+    },
+    "zero_control": {
+      "membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+      "path": "cache/pred_kalman_groupfast_zero_f0_s3_r1_valid.npy",
+      "sha256": "6850cbb2d972dee2b692f39b6292fc50c42ad3b2a553fff00055c0231017d2f0",
+      "sidecar_sha256": "501eb69ed2de2398372acc4101f942ae1c0d1dc27e411bd8467293b542cebaa4"
+    }
+  },
+  "schema": "wnn.kalman_group_recurrent_interaction_grade.v1",
+  "score_json_identity": {
+    "kalman_groupfast_active_f0_s3_r1": "5a47b911d46b072b210de09d345fd1e2c6255be209b112a8a5b0daac9d763818",
+    "kalman_groupfast_zero_f0_s3_r1": "1177189bc21c0604e0c4db1566e72690e3c2715f45d4cc5d661bd466e7ca2a2d"
+  },
+  "source_sha256": {
+    "script": "aa4888afd5ac6c4b4bba37bdf98b024d3a3c047701dfa0e56fed423aae47503d",
+    "split": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "targets_cache": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "unique_components": 141
+}

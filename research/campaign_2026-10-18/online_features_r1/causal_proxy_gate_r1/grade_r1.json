@@ -1,0 +1,248 @@
+{
+  "bootstrap_scope": "conditional on one frozen pseudo-label proxy and cached expert predictions; resamples 32 exposed components and excludes seed, fold, ancestry, model-selection and public-transfer uncertainty",
+  "evaluation_components": [
+    943,
+    1384,
+    2156,
+    2719,
+    2800,
+    2812,
+    2813,
+    2840,
+    2852,
+    2862,
+    2874,
+    2917,
+    2927,
+    2934,
+    2940,
+    2947,
+    2972,
+    2979,
+    3004,
+    3007,
+    3011,
+    3032,
+    3041,
+    3050,
+    3108,
+    3148,
+    3161,
+    3169,
+    3194,
+    3205,
+    3206,
+    3267
+  ],
+  "evaluation_group_count": 32,
+  "exposure": "32 component-disjoint F0 groups; all have been repeatedly exposed to prior model and feature selection. TL3 fitting ancestry is unknown.",
+  "gate_reconstruction": "independent scalar targetwise recurrence matched label-blind prediction cache within 2e-7; no targets or masks enter this reconstruction",
+  "id": "OPS-ONLINE-CAUSAL-PROXY-GATE-GRADE-20261018-R1",
+  "independent_grader_sha256": "38cd6bdcd17d1e24bd09bb420d54601b16f2423acc121e1d9d3b1cdca8a6e6c0",
+  "interpretation_limits": [
+    "The pseudo-label is y[t-1] predicted from x[t]; label maturity is undocumented and actual feedback is not established.",
+    "The 32 F0 components are repeatedly exposed development data, and TL3 exact training/teacher/initializer ancestry is unknown.",
+    "The experiment tests one fitted linear proxy, two frozen experts and three predeclared half-lives; it does not reject broader online learning if this screen is weak.",
+    "Any positive result requires source-qualified cross-fold/fitting-seed replication and a deterministic callback implementation before a competition claim."
+  ],
+  "mask": "official sequence scoring mask AND row index >= 99",
+  "metric_id": "global_wp_clip2_v1",
+  "paired_component_bootstrap_vs_tl3_and_fixed_control": {
+    "fixed_75_tl3_25_r3_vs_tl3": {
+      "bootstrap_sd": 0.0005510921390474725,
+      "candidate_wp": 0.6782431363540004,
+      "centered_moments": true,
+      "ci95": [
+        -0.0035742578634095105,
+        -0.0014342154749084348
+      ],
+      "mean_diff": -0.002378151652622895,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 32,
+      "n_sequences": 32,
+      "p_le_0": 1.0,
+      "reference_wp": 0.6806212880066232,
+      "seed": 20261020
+    },
+    "proxy_gate_h2048_vs_fixed_75_25": {
+      "bootstrap_sd": 4.006815363533617e-05,
+      "candidate_wp": 0.6782725874131288,
+      "centered_moments": true,
+      "ci95": [
+        -4.2136947947898906e-05,
+        0.0001105398669750234
+      ],
+      "mean_diff": 2.945105912843804e-05,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 32,
+      "n_sequences": 32,
+      "p_le_0": 0.2135,
+      "reference_wp": 0.6782431363540004,
+      "seed": 20261021
+    },
+    "proxy_gate_h2048_vs_tl3": {
+      "bootstrap_sd": 0.0005322707307203162,
+      "candidate_wp": 0.6782725874131288,
+      "centered_moments": true,
+      "ci95": [
+        -0.0035110755729837765,
+        -0.0014168900504177545
+      ],
+      "mean_diff": -0.002348700593494457,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 32,
+      "n_sequences": 32,
+      "p_le_0": 1.0,
+      "reference_wp": 0.6806212880066232,
+      "seed": 20261020
+    },
+    "proxy_gate_h256_vs_fixed_75_25": {
+      "bootstrap_sd": 8.760986374280876e-05,
+      "candidate_wp": 0.6781993492717449,
+      "centered_moments": true,
+      "ci95": [
+        -0.00020916975440017914,
+        0.00013771453818126595
+      ],
+      "mean_diff": -4.3787082255497545e-05,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 32,
+      "n_sequences": 32,
+      "p_le_0": 0.6855,
+      "reference_wp": 0.6782431363540004,
+      "seed": 20261021
+    },
+    "proxy_gate_h256_vs_tl3": {
+      "bootstrap_sd": 0.0005537344081562844,
+      "candidate_wp": 0.6781993492717449,
+      "centered_moments": true,
+      "ci95": [
+        -0.0036381791629796767,
+        -0.0014575885861601223
+      ],
+      "mean_diff": -0.0024219387348783927,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 32,
+      "n_sequences": 32,
+      "p_le_0": 1.0,
+      "reference_wp": 0.6806212880066232,
+      "seed": 20261020
+    },
+    "proxy_gate_h8192_vs_fixed_75_25": {
+      "bootstrap_sd": 4.12502073042697e-05,
+      "candidate_wp": 0.6782910902806558,
+      "centered_moments": true,
+      "ci95": [
+        -3.0983179315005605e-05,
+        0.00012853276644702032
+      ],
+      "mean_diff": 4.795392665546405e-05,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 32,
+      "n_sequences": 32,
+      "p_le_0": 0.1125,
+      "reference_wp": 0.6782431363540004,
+      "seed": 20261021
+    },
+    "proxy_gate_h8192_vs_tl3": {
+      "bootstrap_sd": 0.0005328437589961555,
+      "candidate_wp": 0.6782910902806558,
+      "centered_moments": true,
+      "ci95": [
+        -0.0034901487581163763,
+        -0.001412256182905583
+      ],
+      "mean_diff": -0.002330197725967431,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 32,
+      "n_sequences": 32,
+      "p_le_0": 1.0,
+      "reference_wp": 0.6806212880066232,
+      "seed": 20261020
+    },
+    "r3_vs_tl3": {
+      "bootstrap_sd": 0.0025884247049302827,
+      "candidate_wp": 0.6665986419363661,
+      "centered_moments": true,
+      "ci95": [
+        -0.019684099973924805,
+        -0.009544381001872028
+      ],
+      "mean_diff": -0.014022646070257161,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 2000,
+      "n_components": 32,
+      "n_sequences": 32,
+      "p_le_0": 1.0,
+      "reference_wp": 0.6806212880066232,
+      "seed": 20261020
+    }
+  },
+  "point_ranking_descriptive_only": [
+    "tl3",
+    "proxy_gate_h8192",
+    "proxy_gate_h2048",
+    "fixed_75_tl3_25_r3",
+    "proxy_gate_h256",
+    "r3"
+  ],
+  "prediction_receipt_sha256": "48df8eced107ff1854271a6388300777bdbee53bd814d9362082cbfb5f848d81",
+  "prediction_sha256": "7fc454ecb4eba24602c14d1f7dd86cbafe3eb8abd504041e0bac902aae4508d7",
+  "proxy_prediction_sha256": "5e2919c30e9f467d7b4c5f06f8bed37a52663a1b0c899fe4fba278ef93f985d4",
+  "recipe_sha256": "36de64acff823589ec7d23a384146675abc93e8602c786b1c3a0f4d89c7ca886",
+  "schema": "wnn.causal_proxy_gate_grade.v1",
+  "scores": {
+    "fixed_75_tl3_25_r3": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 62018,
+      "t0": 0.6650844640897823,
+      "t1": 0.6914018086182184,
+      "wp": 0.6782431363540004
+    },
+    "proxy_gate_h2048": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 62018,
+      "t0": 0.6650859840500319,
+      "t1": 0.6914591907762256,
+      "wp": 0.6782725874131288
+    },
+    "proxy_gate_h256": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 62018,
+      "t0": 0.6650352266998634,
+      "t1": 0.6913634718436269,
+      "wp": 0.6781993492717451
+    },
+    "proxy_gate_h8192": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 62018,
+      "t0": 0.6651253096339301,
+      "t1": 0.6914568709273814,
+      "wp": 0.6782910902806558
+    },
+    "r3": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 62018,
+      "t0": 0.6520377724926882,
+      "t1": 0.681159511380044,
+      "wp": 0.6665986419363661
+    },
+    "tl3": {
+      "metric_id": "global_wp_clip2_v1",
+      "selected_rows": 62018,
+      "t0": 0.6678021314508747,
+      "t1": 0.6934404445623717,
+      "wp": 0.6806212880066232
+    }
+  },
+  "selected_rows": 62018,
+  "status": "independently_reconstructed_and_scored",
+  "tl3_ancestry": "unknown; potentially trained on F0/validation, so predictions and any local scores are fitted diagnostics, not clean-CV evidence"
+}

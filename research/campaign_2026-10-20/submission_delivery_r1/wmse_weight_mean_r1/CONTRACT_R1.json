@@ -1,0 +1,55 @@
+{
+  "schema": "wnn.wmse-weight-mean-contract.v1",
+  "status": "PROPOSED_COMPATIBILITY_REVIEW_ONLY",
+  "objective_mode": "competition",
+  "verification_tier": "B empirical, exposed development panel; no fresh holdout",
+  "hypothesis_id": "H-WMSE-WEIGHT-MEAN-20261021-R1",
+  "experiment_id": "E-WMSE-WEIGHT-MEAN-20261021-R1",
+  "question": "Can one fixed mean of parent and two WMSE continuation checkpoints improve the existing recurrent endpoint without increasing inference architecture cost?",
+  "candidate": {
+    "parameters": "equal mean of existing T3 parentCP5, WMSEchildCP0 andWMSEchildCP1; canonical FP64mean/castback",
+    "fixed_buffers": "must match bitwise; no buffer averaging/recalibration",
+    "new_training_fits": 0,
+    "candidate_count": 1,
+    "NLL_checkpoints_included": false,
+    "coefficient_search": false
+  },
+  "evidence_basis": "Completed strictFP32 WMSEcontinuation from declared legacyAMP parent; H512CP3/4/5mean is separate already-frozen path",
+  "primary_comparison": "fixed0.75oldZ4+0.25derivedmean versus existingfixed0.75oldZ4+0.25WMSECP1",
+  "secondary_comparison": "derivedmean versus WMSECP1",
+  "metric": "global_wp_clip2_v1, unchanged mask and clipping",
+  "practical_effect_threshold": 0.0001,
+  "interpretation": "A positive point effect with uncertain interval can justify a bounded followup; zero-crossing does not reject the family. No public-score forecast.",
+  "evaluation": {
+    "fold": "canonicalF0,09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+    "groups": 468,
+    "components": 141,
+    "exposure": "Previously used for initial WMSE/NLL selection; exploratory reuse. Historicalbaseline scores known before this proposal; newmean notscored.",
+    "training_variation": "No new independent seed; dependent derivation from one parent/continuation"
+  },
+  "admission": {
+    "current_scope": "metadata/sourcecompatibility and independentcriticism only",
+    "cpu_per_role": 0.2,
+    "ram_per_role_bytes": 150000000,
+    "gpu_jobs": 0,
+    "paid_compute": false,
+    "arrays_or_torch_loads": false,
+    "no_mutation_paths": [
+      "live producer source",
+      "frozenH512packager/native/postfit code",
+      "grader or existingrun artifacts"
+    ],
+    "execution": "Onlyafteractualcompatibility andresourceadmission; sourceaveraging alone notqualityevidence"
+  },
+  "falsifiers": [
+    "Incompatible tensor topology, encoding or immutable buffers blocks this exactmean",
+    "Nonfinite result or ancestry/membership conflict invalidates derivedendpoint",
+    "No practical endpoint gain deprioritizes this fixedmean, not all averaging approaches"
+  ],
+  "delivery": "Minimal reuse-based derivation recipe plus exact provenance/metric/package path if viable; no new scientificfits",
+  "source_urls": [
+    "https://arxiv.org/abs/1803.05407",
+    "https://arxiv.org/abs/2203.05482"
+  ],
+  "created_at_utc": "2026-10-21T01:29:48.735797+00:00"
+}

@@ -1,0 +1,101 @@
+{
+  "assessment_method": "Read only need_prediction and seq_ix columns from the eight preregistered 20,000-row groups; compare cached native and Torch FP32 outputs at prediction rows using float64 arithmetic for the declared elementwise threshold. No model callback rerun and no full parquet scan.",
+  "atol": 1e-06,
+  "claim_scope": "implementation-level numerical comparison only; no quality conclusion and no claim of a specific numerical cause",
+  "comparison_values": 318416,
+  "different_float32_bit_patterns": 318245,
+  "fraction_out_of_tolerance": 0.9044426159489473,
+  "max_abs_difference": 0.0007533133029937744,
+  "mean_abs_difference": 5.551172550199535e-05,
+  "native_prediction_sha256": "2ffb2a48746b8fe6e3fa2f125e20266e7376e94d9341e9218eb72858b0a64a54",
+  "native_prediction_sidecar_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_geometry_adapter_f0_s3_r2_f32_panel_valid.json",
+  "native_prediction_sidecar_sha256": "f222303e942576cec971a76db656e6967309d1af217622875bcdca30785c6980",
+  "native_zip_sha256": "7b544d2cd215d3ca21d0ad9375c8690b5a6e8dc816d67753d3030db6acb2f49b",
+  "out_of_tolerance_values": 287989,
+  "panel_report_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/geometry_adapter_probe_r2/geometry_adapter_r2_f32_native_torch_panel.json",
+  "panel_report_sha256": "7c905fec4381f984c56054375381df6424161531f88d2c1b3d228312018f313e",
+  "predicate": "abs(native - torch) <= atol + rtol * abs(torch)",
+  "prediction_masks": [
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 4,
+      "rows": 20000,
+      "sequence_id": 1990332
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 5,
+      "rows": 20000,
+      "sequence_id": 2308749
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 7,
+      "rows": 20000,
+      "sequence_id": 6746551
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 9,
+      "rows": 20000,
+      "sequence_id": 9147005
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 12,
+      "rows": 20000,
+      "sequence_id": 11423352
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 18,
+      "rows": 20000,
+      "sequence_id": 24654613
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 19,
+      "rows": 20000,
+      "sequence_id": 25927382
+    },
+    {
+      "need_prediction_rows": 19901,
+      "row_group": 22,
+      "rows": 20000,
+      "sequence_id": 28399078
+    }
+  ],
+  "protocol_declared_before_output_comparison": true,
+  "protocol_id": "geometry_adapter_r2_f32_native_torch_first8_f0_rtol1e-5_atol1e-6",
+  "protocol_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-18/geometry_adapter_probe_r2/geometry_adapter_r2_f32_native_torch_panel_protocol.json",
+  "protocol_sha256": "5d357f94118d0562d9f5f795f2f9e42855dfeea420bb61822ee6dd031249cd0a",
+  "result": "FAIL",
+  "rms_difference": 7.635945364895165e-05,
+  "row_groups": [
+    4,
+    5,
+    7,
+    9,
+    12,
+    18,
+    19,
+    22
+  ],
+  "rtol": 1e-05,
+  "schema": "wnn.geometry-f32-native-torch-tolerance-assessment.v1",
+  "sequence_ids": [
+    1990332,
+    2308749,
+    6746551,
+    9147005,
+    11423352,
+    24654613,
+    25927382,
+    28399078
+  ],
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "torch_reference_prediction_sha256": "b86574111adb85cbd1a4de564f4a91f3efc2d455c20ff932312eafbae1a21f0d",
+  "torch_reference_sidecar_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/pred_geometry_adapter_f0_s3_r2_valid.json",
+  "torch_reference_sidecar_sha256": "d4a8c1ecdb5f67567b9b7eed9b365c9f23ff1cefaed5fc791ee747c39fb17eb7",
+  "within_tolerance_values": 30427
+}

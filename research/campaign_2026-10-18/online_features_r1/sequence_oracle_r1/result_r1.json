@@ -1,0 +1,164 @@
+{
+  "created_utc": "2026-10-18T05:34:33.565037+00:00",
+  "early_window": {
+    "start_inclusive": 99,
+    "stop_exclusive": 5000
+  },
+  "elapsed_seconds": 10.035487548011588,
+  "grader_sha256": "03f9d67765d9e1472bcd4a4066fa4f38c8ce01e2a977f58843337472bdb40499",
+  "hypothesis_id": "H-SEQUENCE-EXPERT-PREFERENCE-PERSISTENCE-20261018-R1",
+  "id": "E-SEQUENCE-ORACLE-PERSISTENCE-20261018-R1",
+  "interpretation_limits": [
+    "F0 is repeatedly exposed and TL3 ancestry is unknown; this is not clean-CV evidence.",
+    "Expert choices use validation labels, which the test callback does not receive. This is not an online method or submission candidate.",
+    "The late-label selector is hindsight on its scoring segment and is not a formal upper bound for globally pooled WP.",
+    "Bootstrap intervals condition on the fixed caches and early selector choices; they do not capture training-seed, fitting, feedback-maturity or public-transfer uncertainty.",
+    "A positive screen would motivate a separate label-blind router or verified-feedback experiment; a weak result does not close the broader online-learning family."
+  ],
+  "late_window": {
+    "start_inclusive": 5000,
+    "stop_exclusive": 20000
+  },
+  "metric_id": "global_wp_clip2_v1",
+  "paired_component_bootstrap": {
+    "early_label_selector_vs_fixed_75_tl3_25_r3": {
+      "bootstrap_sd": 0.0010090824653395123,
+      "candidate_wp": 0.6938706891591055,
+      "centered_moments": true,
+      "ci95": [
+        -0.0023599450262609067,
+        0.0015858630831880663
+      ],
+      "mean_diff": -0.0005867506412102763,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 10000,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 0.7357,
+      "reference_wp": 0.6944574398003158,
+      "seed": 20261025
+    },
+    "early_label_selector_vs_tl3": {
+      "bootstrap_sd": 0.0010683480952544543,
+      "candidate_wp": 0.6938706891591055,
+      "centered_moments": true,
+      "ci95": [
+        -0.005689528535493041,
+        -0.0014529620488108296
+      ],
+      "mean_diff": -0.0037984074254706623,
+      "metric_id": "global_wp_clip2_v1",
+      "n_boot": 10000,
+      "n_components": 141,
+      "n_sequences": 468,
+      "p_le_0": 0.9982,
+      "reference_wp": 0.6976690965845762,
+      "seed": 20261025
+    }
+  },
+  "panel": {
+    "components": 141,
+    "early_scored_rows": 197740,
+    "exposure": "Repeatedly inspected/exposed F0; R3 was selected using F0 and TL3 ancestry is unknown, so scores may be fitted diagnostics and are not clean validation or transfer evidence.",
+    "groups": 468,
+    "late_scored_rows": 611123
+  },
+  "peak_process_rss_bytes": 569810944,
+  "recipe_sha256": "ca27155a305d5a4d87872e4ecd023c899e7878fe6c230f94787a0d9839f75bd1",
+  "schema": "wnn.sequence_oracle.result.v1",
+  "scores": {
+    "early": {
+      "early_label_selector": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 197740,
+        "t0": 0.6943409708075213,
+        "t1": 0.7353438221954847,
+        "wp": 0.7148423965015029
+      },
+      "fixed_75_tl3_25_r3": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 197740,
+        "t0": 0.6882478013659834,
+        "t1": 0.7313000988088505,
+        "wp": 0.709773950087417
+      },
+      "late_hindsight_selector": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 197740,
+        "t0": 0.6889955728591921,
+        "t1": 0.7321538931445777,
+        "wp": 0.7105747330018849
+      },
+      "r3": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 197740,
+        "t0": 0.6592670940841187,
+        "t1": 0.7140013811057453,
+        "wp": 0.6866342375949319
+      },
+      "tl3": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 197740,
+        "t0": 0.6942884566014279,
+        "t1": 0.7349732173815109,
+        "wp": 0.7146308369914693
+      }
+    },
+    "late": {
+      "early_label_selector": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 611123,
+        "t0": 0.6957314518730511,
+        "t1": 0.6920099264451594,
+        "wp": 0.6938706891591052
+      },
+      "fixed_75_tl3_25_r3": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 611123,
+        "t0": 0.6945680297019269,
+        "t1": 0.6943468498987047,
+        "wp": 0.6944574398003158
+      },
+      "late_hindsight_selector": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 611123,
+        "t0": 0.6967288400406486,
+        "t1": 0.6966764467684566,
+        "wp": 0.6967026434045527
+      },
+      "r3": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 611123,
+        "t0": 0.6797137759236375,
+        "t1": 0.6798899033069886,
+        "wp": 0.679801839615313
+      },
+      "tl3": {
+        "metric_id": "global_wp_clip2_v1",
+        "selected_rows": 611123,
+        "t0": 0.6978264034121033,
+        "t1": 0.6975117897570492,
+        "wp": 0.6976690965845762
+      }
+    }
+  },
+  "selector_diagnostics": {
+    "target_0": {
+      "early_late_choice_agreement": 0.6816239316239316,
+      "early_r3_choice_rate": 0.21581196581196582,
+      "early_r3_minus_tl3_local_wp_mean": -0.026556750894119303,
+      "early_r3_minus_tl3_local_wp_median": -0.011614145993128544,
+      "late_r3_choice_rate": 0.1452991452991453,
+      "sequence_count": 468
+    },
+    "target_1": {
+      "early_late_choice_agreement": 0.6816239316239316,
+      "early_r3_choice_rate": 0.24786324786324787,
+      "early_r3_minus_tl3_local_wp_mean": -0.021886518088927817,
+      "early_r3_minus_tl3_local_wp_median": -0.010983001920748907,
+      "late_r3_choice_rate": 0.13034188034188035,
+      "sequence_count": 468
+    }
+  },
+  "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+}

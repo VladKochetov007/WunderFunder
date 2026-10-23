@@ -1,5 +1,10 @@
 # Project agent instructions
 
+## Active cycle amendment — user instruction, 2026-10-21
+
+Implement the [accepted next-cycle plan](specs/plans/2026-10-21-next-local-kaggle-cycle.md) and resume from its [frontier](research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md). This is a new **30-local-GPU-hour** allocation plus verified available Kaggle, local/Kaggle only; **B300 deferred**. Recover saved artifacts, then six total i1 fits (A/B/C × F0/1001,F2/1002), four total dynamics fits; strong-parent follow-up and production are conditional. Preserve previous15hcycle costs and frozen evidence. Retain oneGPUworker,twoaggregateCPUcores,5GBtaskRAM/VRAM,noTaskSwap,diskScratch,strictFP32. Recheck shared quota; admit complete panels using sustained throughput. No paid compute or competition upload. The dated earlier strategy and stop records below remain history.
+
+
 ## Prospective experiment policy — user instruction, 2026-10-19
 
 Future experiment drafts use **4–6 total new scientific fits for an initial idea
@@ -15,14 +20,20 @@ See [ADR0043](specs/adr/0043-fast-screens-and-transformer-teacher-scale.md) and 
 [updated draft workflow](research/unified/methods/EXPERIMENT_DRAFT_WORKFLOW_20261017_R1.md).
 
 The new research priority is a large causal Transformer teacher on the team's
-eight B300 GPUs, followed by measured GRU distillation. Prepare architecture,
+eight B300 GPUs. Latest steering prioritizes teacher quality and empirical
+scaling; distillation is optional and is not a promotion gate. Prepare architecture,
 scale, optimization and profiling handoffs; this instruction does not restart
 the stopped remote jobs or change the existing local start/budget. Strict FP32,
 autocast/TF32 off, causal inputs, clean ancestry and official scoring still apply.
 Large teachers may exceed submission limits. Scale by measured teacher quality
-and student benefit, not by fitting the largest model that memory permits.
+and generalization, with optional later transfer; see the
+[teacher-scaling amendment](research/unified/ideas/TEACHER_QUALITY_SCALING_20261019_R1.md).
 
-## Active continuation plan — user instruction, 2026-10-19
+## Historical 15-hour continuation plan — user instruction, 2026-10-19
+
+This scoped 15-hour allocation was superseded by the active 30-hour local/Kaggle
+cycle amendment above. Keep its original authorization and costs as history; do
+not use it to reduce or expand the current cycle.
 
 After compaction, read the [accepted local/Kaggle plan](specs/plans/2026-10-20-plateau-review-local-kaggle.md)
 and [campaign frontier](research/campaign_2026-10-20/plateau_review_r1/FRONTIER.md)
@@ -35,13 +46,31 @@ task RAM, 5 GB VRAM, no swap and physical-disk scratch. No paid compute. Preserv
 the October 18 stop as history; this scoped authorization does not reopen
 unrelated jobs or consume another agent's Kaggle reservation. Record actual
 progress and evidence links in the frontier before handoff.
-## DataSphere allocation — user instruction, 2026-10-18
 
-The user explicitly authorizes discretionary DataSphere use: "сколько хочешь на датасфере делай". This supersedes the ranked25 campaign's pending numeric-budget question and paid-launch hold. Root may choose useful bounded experiments within the existing project balance and actual provider quotas; a null numeric ceiling no longer means missing approval. Preserve per-attempt runtime/cancellation bounds, cost accounting, artifact collection, same-provider paired comparisons and cell ownership. Do not change billing or top up balance. The Beleriand one-GPU limit remains unchanged. See [ADR0042](specs/adr/0042-discretionary-datasphere-execution.md) and the [current authority](research/campaign_2026-10-18/priority25_execution_r4/AUTHORITY.json).
+## Historical DataSphere allocation — user instruction, 2026-10-18
 
-## Cluster handoffs through GitHub issues — user instruction, 2026-10-18
+At that time the user authorized discretionary DataSphere use: “сколько хочешь
+на датасфере делай”. It superseded the ranked25 campaign's pending numeric-budget
+question and paid-launch hold. The recorded scope allowed root to choose bounded
+experiments within the existing project balance and actual provider quotas, with
+per-attempt runtime/cancellation bounds, cost accounting, artifact collection,
+same-provider paired comparisons and cell ownership. It did not authorize billing
+changes or top-ups; the Beleriand one-GPU limit remained unchanged. This historical
+provider authority is superseded for the current cycle by the local/Kaggle-only,
+no-paid-compute scope above. See [ADR0042](specs/adr/0042-discretionary-datasphere-execution.md)
+and the [dated authority](research/campaign_2026-10-18/priority25_execution_r4/AUTHORITY.json).
 
-The user explicitly authorizes creating issues in this repository for the team's powerful cluster to check research ideas. Use concrete experiment handoffs with pinned source/recipe/data identities, matched controls, bounded initial work, expected outputs and acceptance criteria. Check existing issues before creating duplicates when issue access is available. Record the actual issue URL and a worker/cell claim before describing work as dispatched or running; posting an issue alone is not evidence of automatic execution. Keep both arms of each paired cell on the same provider/runtime and avoid cells already owned by Beleriand or another worker. This does not change the one-GPU Beleriand limit or supply a new DataSphere spending ceiling. If issue API access is unavailable, preserve and publish the prepared handoff via the working Git connection and report the access dependency honestly.
+## Historical cluster handoffs through GitHub issues — user instruction, 2026-10-18
+
+The user then authorized creating repository issues for the team's powerful
+cluster to check research ideas. The handoff contract required pinned
+source/recipe/data identities, matched controls, bounded initial work, expected
+outputs and acceptance criteria; an issue alone did not prove a worker claim or
+execution. Both paired arms had to use the same provider/runtime and avoid cells
+already owned elsewhere. That scope did not change Beleriand's one-GPU limit or
+provide a DataSphere spending ceiling. It is historical authority and does not
+expand the current local/Kaggle-only allocation. If an old issue is revisited,
+check actual status and preserve the distinction between posting and dispatch.
 
 ## Python training architecture — user instruction, 2026-10-17
 

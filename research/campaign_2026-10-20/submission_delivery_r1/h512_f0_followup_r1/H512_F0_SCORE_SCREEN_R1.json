@@ -1,0 +1,39 @@
+{
+  "folds": [0],
+  "arms": {
+    "oldz4_cp1_fp32": {
+      "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1": 1.0
+    },
+    "current_wmse_cp1": {
+      "overnight_nll_f0_s3_wmse_e2_r1": 1.0
+    },
+    "h512_f0_s1003_cp5": {
+      "r01_h512_f0_s1003_local_cp5_r1": 1.0
+    },
+    "h512_swa345": {
+      "r01_h512_f0_s1003_local_swa345_r1": 1.0
+    },
+    "oldz4_075_current_wmse_025": {
+      "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1": 0.75,
+      "overnight_nll_f0_s3_wmse_e2_r1": 0.25
+    },
+    "oldz4_075_h512_cp5_025": {
+      "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1": 0.75,
+      "r01_h512_f0_s1003_local_cp5_r1": 0.25
+    },
+    "oldz4_075_h512_swa345_025": {
+      "oldz4_h230_student_f0_s3_r3_fp32_reexport_r1": 0.75,
+      "r01_h512_f0_s1003_local_swa345_r1": 0.25
+    }
+  },
+  "comparisons": [
+    ["h512_f0_s1003_cp5", "oldz4_cp1_fp32"],
+    ["h512_f0_s1003_cp5", "current_wmse_cp1"],
+    ["h512_swa345", "h512_f0_s1003_cp5"],
+    ["oldz4_075_h512_cp5_025", "oldz4_cp1_fp32"],
+    ["oldz4_075_h512_swa345_025", "oldz4_cp1_fp32"],
+    ["oldz4_075_h512_swa345_025", "oldz4_075_h512_cp5_025"],
+    ["oldz4_075_h512_swa345_025", "oldz4_075_current_wmse_025"]
+  ],
+  "n_boot": 2000
+}

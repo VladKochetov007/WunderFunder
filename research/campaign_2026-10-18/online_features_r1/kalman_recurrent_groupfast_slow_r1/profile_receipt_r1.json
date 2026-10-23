@@ -1,0 +1,86 @@
+{
+  "schema": "wnn.kalman_group_recurrent_interaction_profile.v1",
+  "status": "passed_actual_B8_20k_profile",
+  "attempt_id": "kalman-group-recurrent-profile-20261018-r2",
+  "profile_attempt_status": "finished",
+  "profile_exit_status": 0,
+  "profile_mode": "kalman_group_fast_slow",
+  "research_feature_control": "none",
+  "initializer": "warm_mechanism_f0_s3_c_r3@ep1",
+  "initializer_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+  "profile_loader_batches": {
+    "warmup": 1,
+    "timed": 60,
+    "optimizer_attempts": 610,
+    "optimizer_completed_updates": 610
+  },
+  "resource_reservation_bytes": 4500000000,
+  "observed_vram_cap_bytes": 5000000000,
+  "worker_cpus": 1,
+  "scratch": "/home/vlad/development/wunder/research_tmp/online_features_r1/kalman_recurrent_groupfast_slow_r1",
+  "controller_attempt": {
+    "source_manifest_sha256": "af11114e23ed2e7b9e0d5ea43d5141ceea3b49dfa1633776b5d4203a6e68b1a6",
+    "elapsed_seconds": 65.59600514099293,
+    "peak_ram_bytes": 4052008960,
+    "peak_parent_ram_bytes": 11802378240,
+    "peak_observed_vram_bytes": 1375731712,
+    "memory_event_deltas": {
+      "high": 6060,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "parent_memory_event_deltas": {
+      "high": 0,
+      "max": 0,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    }
+  },
+  "profile_measurements": {
+    "PROFILE": {
+      "backward_ms": 378.35,
+      "forward_ms": 298.29,
+      "gpu_total_ms": 742.09,
+      "input_features_ms": 51.86,
+      "step_wall_ms": 958.14,
+      "sequences_per_second": 8.35,
+      "loader_wait_ms": 0.0,
+      "syncs_per_step": 81.03
+    },
+    "PROFILE_RESOURCE_EVIDENCE": {
+      "cuda_peak_allocated_bytes": 697046016,
+      "cuda_peak_reserved_bytes": 1080033280,
+      "process_peak_rss_bytes": 3172007936,
+      "process_current_rss_bytes": 3060219904,
+      "cgroup_memory_current_bytes": 3932717056,
+      "cgroup_memory_peak_bytes": 4052008960,
+      "cgroup_memory_max_bytes": 4499996672,
+      "cgroup_memory_swap_max_bytes": 0,
+      "cgroup_memory_events": {
+        "high": 6484,
+        "max": 0,
+        "oom": 0,
+        "oom_kill": 0,
+        "oom_group_kill": 0
+      }
+    },
+    "PROFILE_UPDATE_EVIDENCE": {
+      "optimizer_attempts": 610,
+      "optimizer_completed_updates": 610,
+      "amp_skipped_updates": 0,
+      "grad_scaler_enabled": false,
+      "loss_checks": 610,
+      "loss_finite": true,
+      "gradient_finite": true,
+      "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+      "gradient_stats_steps": 610,
+      "gradient_stats_nonfinite_steps": 0,
+      "counts_consistent": true,
+      "valid_for_throughput": true
+    }
+  },
+  "interpretation": "Actual feature-mode shape passed within the 4.5 GB worker cap, with no max/OOM/kill events and finite losses/gradients. This is a short profile, not a quality result; the full fit uses a component subset and will be admitted separately."
+}

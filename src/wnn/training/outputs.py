@@ -60,7 +60,25 @@ def evaluate_epoch(run: TrainingRun) -> None:
         res = {"epoch": epoch, "train_seconds": train_seconds, "evaluation": "withheld"}
     else:
         t_eval = time.time()
-        res = evaluate(eval_model, valid_loader, 4000, device, environment=environment)
+        capture = (
+            args.save_eval_predictions
+            and args.checkpoint_policy == "fixed"
+            and epoch == args.checkpoint_epoch
+        )
+        prediction_archive = (
+            run.options.out_dir / f"evaluation_epoch{epoch}.npz" if capture else None
+        )
+        res = evaluate(
+            eval_model,
+            valid_loader,
+            4000,
+            device,
+            environment=environment,
+            capture_path=prediction_archive,
+            group_ids=run.data.valid_idx if capture else None,
+        )
+        if prediction_archive is not None:
+            res["prediction_archive"] = prediction_archive.name
         res.update(
             epoch=epoch,
             train_seconds=train_seconds,
@@ -164,6 +182,7 @@ def save_epoch(run: TrainingRun) -> None:
             auxiliary={
                 "norm_ema": norm_ema,
                 "dynamics": dynamics.state_dict(),
+                "dynamics_auxiliary": provenance.get("dynamics_auxiliary"),
                 "pool_memory": None if pool_memory is None else pool_memory.memory,
                 "readout_moments": None
                 if moments is None

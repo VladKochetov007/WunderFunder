@@ -1,0 +1,85 @@
+{
+  "status": "THREE_FIXED_F0_CHECKPOINTS_COMPLETE_F2_PENDING",
+  "scores": {
+    "A": {
+      "schema": "wnn.hpo-score.v1",
+      "metric_id": "global_wp_clip2_v1",
+      "run": "i1_f0_s1001_a_r1",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "prediction_sha256": "3323a233cba995ee1ecfc749e1794d89f05fb34cc523bd299a0bb6499f60bbba",
+      "wp": 0.6431727206154976,
+      "t0": 0.633797536650056,
+      "t1": 0.6525479045809391,
+      "class_wp": {
+        "0": 0.7684011846613632,
+        "1": 0.7249120342431904,
+        "2": 0.6548755905951602,
+        "3": 0.3844125843844408
+      },
+      "finite_fraction": 1.0,
+      "amp_skipped": 0,
+      "optimizer_attempts": 4620,
+      "train_seconds": 2087.3,
+      "epoch": 2
+    },
+    "B": {
+      "schema": "wnn.hpo-score.v1",
+      "metric_id": "global_wp_clip2_v1",
+      "run": "i1_f0_s1001_b_r1",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "prediction_sha256": "8c5db7be947b95a1ca8d4173cbaba101ebbba95ec720388a1a433ac52ca10a3c",
+      "wp": 0.6590741589222096,
+      "t0": 0.6482199948253056,
+      "t1": 0.6699283230191136,
+      "class_wp": {
+        "0": 0.7903534994471815,
+        "1": 0.7348507121663512,
+        "2": 0.7238905400264661,
+        "3": 0.39307737860896264
+      },
+      "finite_fraction": 1.0,
+      "amp_skipped": 0,
+      "optimizer_attempts": 4620,
+      "train_seconds": 1952.4,
+      "epoch": 2
+    },
+    "C": {
+      "schema": "wnn.hpo-score.v1",
+      "metric_id": "global_wp_clip2_v1",
+      "run": "i1_f0_s1001_c_r1",
+      "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+      "prediction_sha256": "786d3d3218d823b0737baa13881091f598a196fd7297bc41e5057a720c9af1c1",
+      "wp": 0.6555370510501841,
+      "t0": 0.6461317101180298,
+      "t1": 0.6649423919823385,
+      "class_wp": {
+        "0": 0.7910517931466704,
+        "1": 0.7334200826772039,
+        "2": 0.7252732713045588,
+        "3": 0.3791159013802089
+      },
+      "finite_fraction": 1.0,
+      "amp_skipped": 0,
+      "optimizer_attempts": 4620,
+      "train_seconds": 2432.3,
+      "epoch": 2
+    }
+  },
+  "paired_point_deltas": {
+    "A_minus_B": {
+      "wp": -0.01590143830671198,
+      "t0": -0.014422458175249564,
+      "t1": -0.017380418438174505
+    },
+    "C_minus_B": {
+      "wp": -0.0035371078720254356,
+      "t0": -0.002088284707275734,
+      "t1": -0.0049859310367751375
+    }
+  },
+  "new_fits_completed": 3,
+  "planned_total_new_fits": 6,
+  "teachers": 0,
+  "uncertainty": "A/B intervals in interimABresult; C paired component intervals and fixed90B10C pending. SingleF0seed1001 cannot estimate fold/seed effects.",
+  "interpretation": "Standardi1 improves over maskedA; explicitEMAhistory C currentlyworse thanstandardB, so featureinformation and chosenhistoryrepresentation are different questions. This doesnotestablish no temporalpredictiveinformation or failedGRUmemory. No recipe/fit/checkpoint/mixturechange."
+}

@@ -1,0 +1,236 @@
+{
+  "schema": "wnn.training-progress.v1",
+  "observed_at_utc": "2026-10-20T22:19:10.294283+00:00",
+  "experiment_id": "E-OVERNIGHT-NLL-ADAPTATION-R1",
+  "control_status": "completed_two_epochs",
+  "control_fit_wall_seconds": 4249.174166159995,
+  "history_path": "artifacts/runs/overnight_nll_f0_s3_wmse_e2_r1/history.json",
+  "history_sha256": "7868e0b5e20f50fbd20b221cc7b1cf4e42592b4f4d71512f1d593ea631038bce",
+  "epochs": [
+    {
+      "epoch": 0,
+      "train_seconds": 2100.9,
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "cumulative": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "sample_order_identity": {
+          "sampler_class": "RandomSampler",
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "023e9eb3df688203af231ff5c91efb7cbedd2462f51d6d6bed05968a52de4bc9"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": false,
+          "sampler_num_samples": 11940
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+          }
+        },
+        "grad_stats": {
+          "epoch": 0,
+          "steps": 7460,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            0.43279,
+            0.61539,
+            1.10824
+          ],
+          "clip_rate": 0.0757,
+          "mean_clip_factor": 0.9866,
+          "family_median": {
+            "rnn_hh": 0.16278,
+            "rnn_ih": 0.30648,
+            "inp": 0.19594,
+            "head": 0.45458,
+            "bias": 0.06257
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0723,
+            "rnn_ih": 0.2555,
+            "inp": 0.1067,
+            "head": 0.5548,
+            "bias": 0.0107
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": 0.5564000843037868,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 7460,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 1.1999999999999987e-06,
+            "last": 1.6244194706012153e-05,
+            "mean": 2.4101708504830283e-05
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        }
+      }
+    },
+    {
+      "epoch": 1,
+      "train_seconds": 2139.0,
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        },
+        "cumulative": {
+          "optimizer_attempts": 14920,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 14920,
+          "ema_updates": 0,
+          "completed_batches": 1492
+        },
+        "sample_order_identity": {
+          "sampler_class": "RandomSampler",
+          "batch_size": 16,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "53222b41ea1d1d0aa72682d81bcb394b68672b01978fc176cc130be7680ac7d6"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "53222b41ea1d1d0aa72682d81bcb394b68672b01978fc176cc130be7680ac7d6"
+          },
+          "num_workers": 0,
+          "persistent_workers": false,
+          "sampler_replacement": false,
+          "sampler_num_samples": 11940
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "bb85c72b87656979f97c1786400aec6bc9e43acd337078000eb482c09c5a2da8"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "b730600851e52e246fc638230844d6e4f2828e4972b45db1f0128cce4e4454c5"
+          }
+        },
+        "grad_stats": {
+          "epoch": 1,
+          "steps": 7460,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            0.42447,
+            0.6097,
+            1.07604
+          ],
+          "clip_rate": 0.0698,
+          "mean_clip_factor": 0.9879,
+          "family_median": {
+            "rnn_hh": 0.16859,
+            "rnn_ih": 0.3171,
+            "inp": 0.19822,
+            "head": 0.43732,
+            "bias": 0.06194
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0792,
+            "rnn_ih": 0.2774,
+            "inp": 0.1113,
+            "head": 0.5216,
+            "bias": 0.0107
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": 0.5544483338220509,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 7460,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 1.6240882685174173e-05,
+            "last": 1.2e-08,
+            "mean": 5.967681575598629e-06
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 7460,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 7460,
+          "ema_updates": 0,
+          "completed_batches": 746
+        }
+      }
+    }
+  ],
+  "fit_service_live": "ActiveState=active\nSubState=running\nMainPID=1285799\nMemoryCurrent=3233513472\nMemorySwapCurrent=0\n",
+  "latest_fit_progress_line": "ep 0 batch 680/746 loss -2.3462 lr 1.84e-05 seq/s 5.3",
+  "source_refresh": {
+    "main": "511b9b20f13fd6044d36fbbfe7bf8e42e5a72a9d",
+    "research_team": "835f35ef64ea9f661fa99bcccb3d02a71aa18a16",
+    "finding": "Latest research-team change preserves dictionary-arm health, not a scored terminal endpoint. PR32 runtime has no empirical results; no new quality evidence changes local selection."
+  },
+  "next": "Exact running NLL fit, then already-admitted audited seven-endpoint export and grade; conditional F1 recipe preparation only, no new fit admitted.",
+  "quality_claim": "No validation score yet; training loss and finite updates are optimization diagnostics only."
+}

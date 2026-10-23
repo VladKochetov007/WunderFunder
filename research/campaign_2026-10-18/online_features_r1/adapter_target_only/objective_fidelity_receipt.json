@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "scope": "AST/code-path fidelity only; no model import, checkpoint load, dataset read, or fit",
+  "checks": {
+    "main_loss_ast_unchanged_from_current_source_snapshot": true,
+    "auxiliary_loss_default_path_ast_unchanged_after_removing_target_only_guard": true,
+    "target_only_cli_choice_and_inherited_default": true,
+    "target_only_restricted_to_adapter_only": true,
+    "target_only_rejects_added_ce_teacher_loss": true,
+    "ema_teacher_cli_type_float_default_zero": true,
+    "adapter_freeze_and_appended_column_trainable_policy_retained": true,
+    "parent_auxiliary_inheritance_guard_retained": true
+  },
+  "evidence": {
+    "original_losses_snapshot_sha256": "94e4efaaf71ab8487879e50bd4ffca7d90fb5921aff8482429a0abfa6ce9654a",
+    "modified_losses_sha256": "2fc9bd1ff046ed734aaa6050c9765f86b36b098858bb21d8e9e4ee3a1e081b1b",
+    "modified_feature_adapter_sha256": "a7669055432e4ee85f2fd07d107c806024ecc6e7bca82f1d9a6f8b469b56271b"
+  }
+}

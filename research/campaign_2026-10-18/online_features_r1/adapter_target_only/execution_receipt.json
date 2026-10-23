@@ -1,0 +1,28 @@
+{
+  "scope": "code-only isolated worktree preparation and static checks",
+  "scratch_filesystem": "btrfs at /home/vlad/development/wunder/research_tmp",
+  "initial_worktree_checkout": {
+    "command": "scripts/limited git worktree add --detach <scratch-worktree> HEAD",
+    "duration_seconds": 5.165,
+    "exit_code": 0,
+    "effective_script_defaults": {
+      "slice": "wnn-campaign.slice",
+      "cpu_quota": "100%",
+      "memory_max": "30G",
+      "memory_swap_max": "0",
+      "threads": 1
+    },
+    "measured_peak_memory": null,
+    "peak_memory_note": "No cgroup peak metric was collected for checkout."
+  },
+  "subsequent_static_checks": {
+    "wrapper": "scripts/limited",
+    "slice": "wnn-campaign.slice",
+    "cpu_quota": "20%",
+    "memory_max": "500M",
+    "threads": 1
+  },
+  "model_checkpoint_payload_or_dataset_loaded": false,
+  "fit_or_profile_started": false,
+  "active_child_jobs_at_completion": 0
+}

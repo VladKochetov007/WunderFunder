@@ -203,6 +203,9 @@ def restore_progress(run: TrainingRun) -> None:
             ema=ema_model,
             swa=swa_model,
         )
+        dynamics_auxiliary = saved_training["auxiliary"].get("dynamics_auxiliary")
+        if dynamics_auxiliary is not None:
+            provenance["dynamics_auxiliary"] = dynamics_auxiliary
         dynamics.load_state_dict(saved_dynamics)
         provenance["optimizer_switch_events"] = dynamics.events
         progress = saved_training["progress"]

@@ -1,0 +1,484 @@
+{
+  "alignment": {
+    "first_row_rule": "Use fixed 75% TL3 / 25% R3 because no following feature row is available yet.",
+    "first_scored_row": 99,
+    "labels_and_masks": "Never read by recipe builder or prediction builder; grader-only.",
+    "last_scored_row": 19999,
+    "proxy_prediction": "At row t, proxy output estimates clipped y[t-1] from x[t] and x[t]-x[t-1].",
+    "state_reset": "Reset every gate state at each sequence boundary.",
+    "update": "Compare proxy output at t with each expert prediction at t-1; update before mixing expert predictions for row t."
+  },
+  "code": {
+    "independent_grader_sha256": "38cd6bdcd17d1e24bd09bb420d54601b16f2423acc121e1d9d3b1cdca8a6e6c0",
+    "prediction_builder_sha256": "f75f91f26350d9da2edd877ef2290068adc1efbd0ad7f5b543e0d097dc21ace3",
+    "recipe_builder_sha256": "ffd5ac038f851fe22aa8e44204727fd4f5360478a2a8375d9f6989124292828b"
+  },
+  "controls": {
+    "fixed_75_tl3_25_r3": {
+      "r3_weight": 0.25,
+      "tl3_weight": 0.75
+    }
+  },
+  "endpoints": [
+    "tl3",
+    "r3",
+    "fixed_75_tl3_25_r3",
+    "proxy_gate_h256",
+    "proxy_gate_h2048",
+    "proxy_gate_h8192"
+  ],
+  "expert_sources": {
+    "r3": {
+      "ancestry": "source-qualified exposed F0 callback replay; labels used only for official metric",
+      "prediction_dtype": "float32",
+      "prediction_path": "cache/pred_geometry_r3_reverse_half_q16x_20261018_v2_valid.npy",
+      "prediction_sha256": "e82e1a9844b323b9886927adab4d3d579a6f278654eef322488de7784d4823e6",
+      "prediction_sha256_in_sidecar": "e82e1a9844b323b9886927adab4d3d579a6f278654eef322488de7784d4823e6",
+      "prediction_shape": [
+        468,
+        20000,
+        2
+      ],
+      "sidecar_path": "cache/pred_geometry_r3_reverse_half_q16x_20261018_v2_valid.json",
+      "sidecar_sha256": "483def9df6e480c3a8892ec6657bf47839571516b7135a68554e566a7b06fa3a",
+      "zip_sha256": "27f01f53ba32f7256ce1663e8b163b382e673fc96e7870fdebdf310d4886f98e"
+    },
+    "tl3": {
+      "ancestry": "unknown; potentially trained on F0/validation, so predictions and any local scores are fitted diagnostics, not clean-CV evidence",
+      "prediction_dtype": "float32",
+      "prediction_path": "cache/pred_tl3_unknown_ancestry_f0_valid.npy",
+      "prediction_sha256": "3a7456f0a2e294a852618535b9e3f2551fc15c5b70fd033824bddb10be83bbe3",
+      "prediction_sha256_in_sidecar": "3a7456f0a2e294a852618535b9e3f2551fc15c5b70fd033824bddb10be83bbe3",
+      "prediction_shape": [
+        468,
+        20000,
+        2
+      ],
+      "sidecar_path": "cache/pred_tl3_unknown_ancestry_f0_valid.json",
+      "sidecar_sha256": "b9d8b7371dbff016d48e155da154cd87d85c887cb08921e86caabba082059910",
+      "zip_sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569"
+    }
+  },
+  "gate": {
+    "eta": 2.0,
+    "feedback_prediction": "clip(expert_prediction[t-1], -2, 2)",
+    "feedback_target": "clip(proxy_prediction[t], -2, 2)",
+    "gate_configs": [
+      {
+        "half_life_steps": 256,
+        "id": "proxy_gate_h256"
+      },
+      {
+        "half_life_steps": 2048,
+        "id": "proxy_gate_h2048"
+      },
+      {
+        "half_life_steps": 8192,
+        "id": "proxy_gate_h8192"
+      }
+    ],
+    "initial_r3_weight": 0.25,
+    "loss": "EMA of pseudo_weight * squared_error; divide by EMA(pseudo_weight * max(proxy_target^2, 0.01))",
+    "prior_max_r3_weight": 0.5,
+    "prior_min_r3_weight": 0.05,
+    "pseudo_weight": "abs(clipped_proxy_target)",
+    "target_count": 2,
+    "warmup_observations": 128,
+    "weight_rule": "sigmoid(logit(0.25) - eta * (normalized_R3_loss - normalized_TL3_loss)); clip result to [0.05, 0.50]"
+  },
+  "hypothesis_id": "H-ONLINE-DELAYED-PROXY-20261018-R1",
+  "id": "E-ONLINE-CAUSAL-PROXY-GATE-20261018-R1",
+  "interpretation": {
+    "b300_draft_gate": "Prepare an additional B300 draft only if the fixed endpoint gate shows meaningful causal complementarity and an implementable no-label callback contract. Resolve target maturity and TL3 ancestry before claiming realized online learning.",
+    "negative_or_uncertain": "Retain the broader online-learning direction. This screen tests one linear proxy, two fixed experts, three predeclared timescales, one exposed component panel, and one inherited prediction cache.",
+    "positive": "A useful conditional endpoint improvement justifies cross-fold/source-qualified replication and a causal serving prototype; it is not clean-CV or public-transfer evidence."
+  },
+  "metric_id": "global_wp_clip2_v1",
+  "proxy": {
+    "execution_receipt_path": "research/campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/execution_receipt_r1.json",
+    "execution_receipt_sha256": "0da3c3be5e754fb2afa62f4a6f32f52f0c92d61da0e2e040ff157c137cfaf738",
+    "fit_components": [
+      6,
+      52,
+      84,
+      94,
+      176,
+      329,
+      428,
+      435,
+      688,
+      958,
+      1070,
+      1133,
+      1258,
+      1277,
+      1287,
+      1615,
+      1739,
+      1851,
+      1919,
+      1923,
+      1947,
+      2023,
+      2033,
+      2135,
+      2180,
+      2322,
+      2381,
+      2406,
+      2419,
+      2420,
+      2574,
+      2696
+    ],
+    "fit_membership_sha256": "9265699ad9632eddd637e43e9b358a1105a4f99e4f7c00a64da6597fec193b0d",
+    "fit_receipt_path": "research/campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/fit_receipt_r1.json",
+    "fit_receipt_sha256": "d8a733e8674fa30e3efbbc986a7a8af937c350573fd63d2da27e510d908457e3",
+    "grade_path": "research/campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/independent_grade_r1.json",
+    "grade_sha256": "b0269b219e80179e297305c7fc5f676ed72ab3c4aef74b8c79051cfa5f3a2fec",
+    "predictions_path": "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_label_proxy_r1/fit_r1/evaluation_proxy_predictions.npy",
+    "predictions_sha256": "5e2919c30e9f467d7b4c5f06f8bed37a52663a1b0c899fe4fba278ef93f985d4",
+    "recipe_path": "research/campaign_2026-10-18/online_features_r1/causal_label_proxy_r1/recipe.json",
+    "recipe_sha256": "86100bbce50cf7378d50a27fb94b75c83bced6c0fcee1b58a41fd0e503a7c798",
+    "rows_per_sequence": 19900,
+    "runner_sha256": "685ba6b0d9ab62ee04cc300c6554b60af822f105514e7559642f01e38ee0bd30"
+  },
+  "question": "Does a feature-derived previous-row-label pseudo-target provide useful causal online weighting between frozen TL3 and R3 experts? Target maturity is unknown.",
+  "resources": {
+    "cpu_worker_cores": 1,
+    "gpu": false,
+    "memory_reservation_bytes": 2000000000,
+    "scratch_root": "/home/vlad/development/wunder/research_tmp",
+    "swap_bytes": 0
+  },
+  "schema": "wnn.causal_proxy_gate_recipe.v1",
+  "selection": {
+    "components": [
+      943,
+      1384,
+      2156,
+      2719,
+      2800,
+      2812,
+      2813,
+      2840,
+      2852,
+      2862,
+      2874,
+      2917,
+      2927,
+      2934,
+      2940,
+      2947,
+      2972,
+      2979,
+      3004,
+      3007,
+      3011,
+      3032,
+      3041,
+      3050,
+      3108,
+      3148,
+      3161,
+      3169,
+      3194,
+      3205,
+      3206,
+      3267
+    ],
+    "exposure": "32 component-disjoint F0 groups; all have been repeatedly exposed to prior model and feature selection. TL3 fitting ancestry is unknown.",
+    "groups": [
+      {
+        "component": 943,
+        "proxy_offset": 0,
+        "proxy_rows": 19900,
+        "r3_cache_index": 145,
+        "row_group": 571,
+        "seq_ix": 648503247,
+        "tl3_cache_index": 145
+      },
+      {
+        "component": 1384,
+        "proxy_offset": 19900,
+        "proxy_rows": 19900,
+        "r3_cache_index": 231,
+        "row_group": 891,
+        "seq_ix": 1028944459,
+        "tl3_cache_index": 231
+      },
+      {
+        "component": 2156,
+        "proxy_offset": 39800,
+        "proxy_rows": 19900,
+        "r3_cache_index": 33,
+        "row_group": 120,
+        "seq_ix": 123222696,
+        "tl3_cache_index": 33
+      },
+      {
+        "component": 2719,
+        "proxy_offset": 59700,
+        "proxy_rows": 19900,
+        "r3_cache_index": 17,
+        "row_group": 57,
+        "seq_ix": 56616349,
+        "tl3_cache_index": 17
+      },
+      {
+        "component": 2800,
+        "proxy_offset": 79600,
+        "proxy_rows": 19900,
+        "r3_cache_index": 1,
+        "row_group": 5,
+        "seq_ix": 2308749,
+        "tl3_cache_index": 1
+      },
+      {
+        "component": 2812,
+        "proxy_offset": 99500,
+        "proxy_rows": 19900,
+        "r3_cache_index": 5,
+        "row_group": 18,
+        "seq_ix": 24654613,
+        "tl3_cache_index": 5
+      },
+      {
+        "component": 2813,
+        "proxy_offset": 119400,
+        "proxy_rows": 19900,
+        "r3_cache_index": 6,
+        "row_group": 19,
+        "seq_ix": 25927382,
+        "tl3_cache_index": 6
+      },
+      {
+        "component": 2840,
+        "proxy_offset": 139300,
+        "proxy_rows": 19900,
+        "r3_cache_index": 15,
+        "row_group": 53,
+        "seq_ix": 52382536,
+        "tl3_cache_index": 15
+      },
+      {
+        "component": 2852,
+        "proxy_offset": 159200,
+        "proxy_rows": 19900,
+        "r3_cache_index": 20,
+        "row_group": 69,
+        "seq_ix": 66820630,
+        "tl3_cache_index": 20
+      },
+      {
+        "component": 2862,
+        "proxy_offset": 179100,
+        "proxy_rows": 19900,
+        "r3_cache_index": 27,
+        "row_group": 83,
+        "seq_ix": 84471721,
+        "tl3_cache_index": 27
+      },
+      {
+        "component": 2874,
+        "proxy_offset": 199000,
+        "proxy_rows": 19900,
+        "r3_cache_index": 30,
+        "row_group": 96,
+        "seq_ix": 101467520,
+        "tl3_cache_index": 30
+      },
+      {
+        "component": 2917,
+        "proxy_offset": 218900,
+        "proxy_rows": 19900,
+        "r3_cache_index": 42,
+        "row_group": 160,
+        "seq_ix": 165866973,
+        "tl3_cache_index": 42
+      },
+      {
+        "component": 2927,
+        "proxy_offset": 238800,
+        "proxy_rows": 19900,
+        "r3_cache_index": 46,
+        "row_group": 174,
+        "seq_ix": 175014415,
+        "tl3_cache_index": 46
+      },
+      {
+        "component": 2934,
+        "proxy_offset": 258700,
+        "proxy_rows": 19900,
+        "r3_cache_index": 50,
+        "row_group": 186,
+        "seq_ix": 184483079,
+        "tl3_cache_index": 50
+      },
+      {
+        "component": 2940,
+        "proxy_offset": 278600,
+        "proxy_rows": 19900,
+        "r3_cache_index": 54,
+        "row_group": 203,
+        "seq_ix": 199233023,
+        "tl3_cache_index": 54
+      },
+      {
+        "component": 2947,
+        "proxy_offset": 298500,
+        "proxy_rows": 19900,
+        "r3_cache_index": 55,
+        "row_group": 213,
+        "seq_ix": 215406350,
+        "tl3_cache_index": 55
+      },
+      {
+        "component": 2972,
+        "proxy_offset": 318400,
+        "proxy_rows": 19900,
+        "r3_cache_index": 71,
+        "row_group": 261,
+        "seq_ix": 274036192,
+        "tl3_cache_index": 71
+      },
+      {
+        "component": 2979,
+        "proxy_offset": 338300,
+        "proxy_rows": 19900,
+        "r3_cache_index": 78,
+        "row_group": 281,
+        "seq_ix": 294536984,
+        "tl3_cache_index": 78
+      },
+      {
+        "component": 3004,
+        "proxy_offset": 358200,
+        "proxy_rows": 19900,
+        "r3_cache_index": 90,
+        "row_group": 338,
+        "seq_ix": 368464725,
+        "tl3_cache_index": 90
+      },
+      {
+        "component": 3007,
+        "proxy_offset": 378100,
+        "proxy_rows": 19900,
+        "r3_cache_index": 93,
+        "row_group": 344,
+        "seq_ix": 375371612,
+        "tl3_cache_index": 93
+      },
+      {
+        "component": 3011,
+        "proxy_offset": 398000,
+        "proxy_rows": 19900,
+        "r3_cache_index": 95,
+        "row_group": 354,
+        "seq_ix": 384964812,
+        "tl3_cache_index": 95
+      },
+      {
+        "component": 3032,
+        "proxy_offset": 417900,
+        "proxy_rows": 19900,
+        "r3_cache_index": 108,
+        "row_group": 405,
+        "seq_ix": 443640466,
+        "tl3_cache_index": 108
+      },
+      {
+        "component": 3041,
+        "proxy_offset": 437800,
+        "proxy_rows": 19900,
+        "r3_cache_index": 117,
+        "row_group": 434,
+        "seq_ix": 484140611,
+        "tl3_cache_index": 117
+      },
+      {
+        "component": 3050,
+        "proxy_offset": 457700,
+        "proxy_rows": 19900,
+        "r3_cache_index": 122,
+        "row_group": 466,
+        "seq_ix": 526592466,
+        "tl3_cache_index": 122
+      },
+      {
+        "component": 3108,
+        "proxy_offset": 477600,
+        "proxy_rows": 19900,
+        "r3_cache_index": 172,
+        "row_group": 674,
+        "seq_ix": 767346819,
+        "tl3_cache_index": 172
+      },
+      {
+        "component": 3148,
+        "proxy_offset": 497500,
+        "proxy_rows": 19900,
+        "r3_cache_index": 221,
+        "row_group": 859,
+        "seq_ix": 988735507,
+        "tl3_cache_index": 221
+      },
+      {
+        "component": 3161,
+        "proxy_offset": 517400,
+        "proxy_rows": 19900,
+        "r3_cache_index": 239,
+        "row_group": 924,
+        "seq_ix": 1060963979,
+        "tl3_cache_index": 239
+      },
+      {
+        "component": 3169,
+        "proxy_offset": 537300,
+        "proxy_rows": 19900,
+        "r3_cache_index": 245,
+        "row_group": 947,
+        "seq_ix": 1078692510,
+        "tl3_cache_index": 245
+      },
+      {
+        "component": 3194,
+        "proxy_offset": 557200,
+        "proxy_rows": 19900,
+        "r3_cache_index": 281,
+        "row_group": 1113,
+        "seq_ix": 1281984063,
+        "tl3_cache_index": 281
+      },
+      {
+        "component": 3205,
+        "proxy_offset": 577100,
+        "proxy_rows": 19900,
+        "r3_cache_index": 288,
+        "row_group": 1141,
+        "seq_ix": 1319107671,
+        "tl3_cache_index": 288
+      },
+      {
+        "component": 3206,
+        "proxy_offset": 597000,
+        "proxy_rows": 19900,
+        "r3_cache_index": 289,
+        "row_group": 1143,
+        "seq_ix": 1320471544,
+        "tl3_cache_index": 289
+      },
+      {
+        "component": 3267,
+        "proxy_offset": 616900,
+        "proxy_rows": 19900,
+        "r3_cache_index": 412,
+        "row_group": 1643,
+        "seq_ix": 1886816286,
+        "tl3_cache_index": 412
+      }
+    ],
+    "split_manifest_path": "research/campaign_2026-09-29/artifacts/splits/fold0.json",
+    "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "status": "ADMITTED_CORRECTED_IMPORT_ENVIRONMENT",
+  "observed_utc": "2026-10-21T21:42:49.502790+00:00",
+  "owner": "root",
+  "source_commit": "1dc4d7df7",
+  "script": "research/campaign_2026-10-21/next_cycle_r1/native_precision_probe/grade_host_precision_r2.py",
+  "script_sha256": "f269372079e5ca1511623e9259377d68c12b36b155487c2105132d65eddef9d3",
+  "review": "Root independent source review: existing immutable source/host/NPZ/selection validators, actual feature-only need masks, two unchanged1e-5 full-sequence reconstruction gates, written prelabel before unchanged scorer target access; no inference or coefficients changed. Old failed receipts preserved.",
+  "limits": {
+    "cpu_cores": 1,
+    "ram_bytes": 1400000000,
+    "swap_bytes": 0,
+    "runtime_seconds": 300,
+    "gpu_seconds": 0,
+    "new_fits": 0
+  },
+  "resource_estimate": "Five8x20000x2 FP32 tracks6.4MB; small float64 reconstruction/work arrays, bounded row-group reader and disk-backed full prediction/target maps. No full target/cache copy. Estimate<1GB; source/hash scans within cap.",
+  "output": "/home/vlad/development/wunder/research_tmp/native-h512-precision-host-reference-r2-20261022",
+  "evidence_limit": "Eight exposed F0 components, diagnostic only; no CI, public forecast, coefficient selection or promotion.",
+  "previous_failure": {
+    "unit": "wnn-host-precision-grade-r2-20261022.service",
+    "invocation": "59eff71289224996bb8c28b0d417644b",
+    "cause": "root utils module unavailable without repository root in PYTHONPATH",
+    "wall_seconds": 1.33,
+    "max_rss_kib": 79084,
+    "target_accessed": false,
+    "output_created": false,
+    "gpu_seconds": 0
+  },
+  "repair": "Same source, output path and immutable gates. Set PYTHONPATH to repository/src:repository so frozen F0 validator imports root utils. No retry of inference/fits.",
+  "unit": "wnn-host-precision-grade-r3-20261022.service"
+}

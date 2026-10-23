@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 
 from wnn.training.cli_data import add_fit_arguments, add_membership_arguments
+from wnn.training.cli_dynamics_auxiliary import add_dynamics_auxiliary_arguments
 from wnn.training.cli_features import add_features_arguments, add_weights_arguments
 from wnn.training.cli_model import add_architecture_arguments, add_shape_arguments
 from wnn.training.cli_normalization import add_normalization_arguments
@@ -20,6 +21,7 @@ def build_parser() -> argparse.ArgumentParser:
     add_fit_arguments(ap)
     add_optimizer_arguments(ap)
     add_targets_arguments(ap)
+    add_dynamics_auxiliary_arguments(ap)
     add_architecture_arguments(ap)
     add_membership_arguments(ap)
     add_weights_arguments(ap)

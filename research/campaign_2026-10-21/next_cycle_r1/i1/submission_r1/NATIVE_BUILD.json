@@ -1,0 +1,81 @@
+{
+  "schema": "wnn.i1-native-build.v1",
+  "image_id": "sha256:93a04eb183157292e9c255b83797934e52bd0f6e044ebf667b296e02f33057f5",
+  "platform": "linux/amd64",
+  "source_hashes": {
+    "native/Cargo.toml": "fa085c1000de9b8e398f2c99a4ed7804594542976007f69ab8b8d6cee8639974",
+    "native/Cargo.lock": "16ae2b5a44d048ea32e9c4f7c887e086a5074a3edb9a6f204f61051dd92e73bb",
+    "native/src/approx.rs": "9ccf56716d8416210cab7b6260df12bd30178a8cad6bb289f0b8d3111649f912",
+    "native/src/factorized.rs": "7e3666cceae408e746d171ea2096500f37aa0b1eaafa5974026f2623cd0d6199",
+    "native/src/half.rs": "87035e5569bb7a53295c222026337a4a08661f1d6d821c2b26074fa12b4bb9cc",
+    "native/src/kernels.rs": "fa0bafda9a5d5abc85c2fe693e214afac1f41cda463afa24d46ad1c36bdf0b3d",
+    "native/src/lib.rs": "e723e66179cf3fe25624e3b7a2cdaacb8dd0b98f135bd0df721a20aaa2dd10f4",
+    "native/src/min_gru.rs": "0ce65dada516cb14dc6b3e5f9c9ebe677227bde918012fb0fa5b30cd6382ef81",
+    "native/src/python.rs": "b09fe15259f2b9974db35b9b8810681588e12ea8c270f895cef7b22711e62f32",
+    "native/src/quant8.rs": "07354c7f65deaa145127f359448b5fe1f5648e16fe3034bfdccd2939f91347cc",
+    "native/src/rnn.rs": "b85a52b0f2c68373bc5c11484d7bd044b865cc027165fc2c3c0efb3bec7d7665",
+    "native/src/rnn_fast.rs": "e65dd681690bb290f36b4287cac5ea3e130080fd47b821f1e1f9d98676aab145",
+    "native/src/state_init.rs": "20132e54db3829bf655bc7080217c7aaa59f55f74708cd5371290e7ab51f72ed",
+    "native/src/stream.rs": "6594bbe97b633b29cb185fb2316fddac5d29e85d45b6af55f2291b943031df85",
+    "native/src/vnni.rs": "47cfd8fea80857fe66f81dca119e75661845b9092fe635f7116a4ec7ab18233c",
+    "submission/Dockerfile.build": "f2e013e9656a64c157771be50cd9bc76462f78d6a46e17785596afbbf53f1f11",
+    "scripts/check_submission_abi.py": "cbfe27ea7e1c527ce4d21d5df16ae4561b915785a937b2e5030dccdf3d748559",
+    "scripts/build_i1_history_native.py": "cd9b726f047c84258b0ad03b5400cee5c2c565e98fc84d59758d9e72b40401d5"
+  },
+  "library_hashes": {
+    "v2/wnn_native.abi3.so": "0c4112211c015e1552bacdb307d8c26b0aec53b9290c450564d101546412e0cc",
+    "avx2/wnn_native.abi3.so": "d2b325678b6f96d1e58af213544cd6bc538c40acc2a24c180c62db7acaabf584",
+    "v3/wnn_native.abi3.so": "0085278288639aee8fa96474bbcc9284143eb8b42f22c883360a382f1685344c"
+  },
+  "static_abi": {
+    "artifact": "/artifact",
+    "artifact_sha256": null,
+    "libraries": {
+      "avx2/wnn_native.abi3.so": {
+        "sha256": "d2b325678b6f96d1e58af213544cd6bc538c40acc2a24c180c62db7acaabf584",
+        "elf64_x86_64": true,
+        "needed": [
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "maximum_glibc": "2.34",
+        "errors": [],
+        "passed": true
+      },
+      "v2/wnn_native.abi3.so": {
+        "sha256": "0c4112211c015e1552bacdb307d8c26b0aec53b9290c450564d101546412e0cc",
+        "elf64_x86_64": true,
+        "needed": [
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "maximum_glibc": "2.34",
+        "errors": [],
+        "passed": true
+      },
+      "v3/wnn_native.abi3.so": {
+        "sha256": "0085278288639aee8fa96474bbcc9284143eb8b42f22c883360a382f1685344c",
+        "elf64_x86_64": true,
+        "needed": [
+          "libgcc_s.so.1",
+          "libm.so.6",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "maximum_glibc": "2.34",
+        "errors": [],
+        "passed": true
+      }
+    },
+    "passed": true,
+    "scope": "static ELF dependencies only; offline Python 3.11 callback test also required"
+  },
+  "inference_executed": false,
+  "tests_executed": false,
+  "training_executed": false,
+  "runtime_and_parity": "not_tested"
+}

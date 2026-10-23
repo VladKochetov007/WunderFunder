@@ -16,6 +16,11 @@ def inspect_library(path: Path) -> dict[str, object]:
     This static gate does not establish importability or callback correctness;
     those require the actual ZIP in the offline Python 3.11 scorer environment.
     """
+    with path.open("rb") as library:
+        header = library.read(20)
+    is_x86_64 = (
+        len(header) == 20 and header[:6] == b"\x7fELF\x02\x01" and header[18:20] == b"\x3e\x00"
+    )
     dynamic = subprocess.run(
         ["readelf", "-d", str(path)], capture_output=True, text=True, check=True
     ).stdout
@@ -31,10 +36,13 @@ def inspect_library(path: Path) -> dict[str, object]:
         for name in needed
         if name.startswith("libpython")
     ]
+    if not is_x86_64:
+        errors.append("library must be a little-endian ELF64 x86-64 object")
     if glibc and glibc[-1] > (2, 36):
         errors.append(f"requires GLIBC_{'.'.join(map(str, glibc[-1]))}; scorer provides 2.36")
     return {
         "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+        "elf64_x86_64": is_x86_64,
         "needed": needed,
         "maximum_glibc": ".".join(map(str, glibc[-1])) if glibc else None,
         "errors": errors,

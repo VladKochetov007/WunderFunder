@@ -1,0 +1,109 @@
+{
+  "id": "E-GEOMETRY-FROM-SCRATCH-20261017-R4",
+  "date": "2026-10-17",
+  "status": "profile_passed_runner_audit_corrections_complete",
+  "hypothesis_ids": [
+    "H-DISCRETE-OCCUPANCY-20261017-R1",
+    "H-MOMENT-GEOMETRY-20261017-R1"
+  ],
+  "question": "Do fitting-only causal moment, arc-residual, exact-level occupancy, event-dominance, and dwell features improve a strong from-scratch H512x1 GRU over the same raw/event GRU with the feature suffix zeroed?",
+  "objective_mode": "competition",
+  "verification_tier": "B: paired training seeds and component-level resampling on exposed cross-validation folds",
+  "primary_outcome": "Equal-weight mean across four folds of paired differences in global_wp_clip2_v1 at fixed epoch 2; each model's official metric pools all scored rows in its fold.",
+  "practical_effect_reference": 0.001,
+  "practical_effect_note": "A +0.001 absolute WP improvement is a useful effect to pursue, not a kill threshold. Preserve uncertain or negative results for combinations and representation changes.",
+  "comparator": {
+    "architecture": "GRU H512x1 from scratch",
+    "features": "112 raw columns plus canonical event features; 60 geometry/discrete suffix columns all zero",
+    "capacity_control": "Same model input width, parameter initialization, architecture, data order, optimizer, schedule, and training budget as treatment. The suffix is zeroed only in the comparator."
+  },
+  "treatment": {
+    "architecture": "GRU H512x1 from scratch",
+    "features": "Same raw/event inputs plus 60 causal geometry/discrete channels",
+    "feature_mode": "causal_geometry_discrete",
+    "prior": "Refit deterministically per seed from up to 64 source-qualified fitting sequences only; both arms build the same prior and the comparator masks all 60 channels."
+  },
+  "data": {
+    "train_source": "train+valid",
+    "membership": "All fit groups in each frozen CampaignSplit fold; evaluation-linked components are excluded by the trainer.",
+    "split_manifests": [
+      {"fold": 0, "path": "research/campaign_2026-09-29/artifacts/splits/fold0.json", "sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d", "fit_train": 10535, "fit_valid": 1405, "eval_valid": 468, "eval_components": 141},
+      {"fold": 1, "path": "research/campaign_2026-09-29/artifacts/splits/fold1.json", "sha256": "31b9dc040761dcc81e99bfe69e0bc446f1522b21ab629b2a9c5a03d94bb006ae", "fit_train": 10533, "fit_valid": 1416, "eval_valid": 457, "eval_components": 149},
+      {"fold": 2, "path": "research/campaign_2026-09-29/artifacts/splits/fold2.json", "sha256": "a9973e5798d3109362571c299b2d08eca71d01e92008da39b0d0ddde54c93aa9", "fit_train": 10535, "fit_valid": 1430, "eval_valid": 443, "eval_components": 144},
+      {"fold": 3, "path": "research/campaign_2026-09-29/artifacts/splits/fold3.json", "sha256": "78157b3347b9e9ba6d2c075d0c53df612e67af9ecd5ee8af7fd7957e406b8343", "fit_train": 10539, "fit_valid": 1368, "eval_valid": 505, "eval_components": 145}
+    ],
+    "exposure": "Fold 0/1 were used in earlier geometry experiments. Treat all four folds as exposed or potentially exposed development data; this is not pristine confirmation."
+  },
+  "paired_repetitions": {
+    "pairs": 30,
+    "fits": 60,
+    "seed_for_pair_index": "42000 + pair_index, where pair_index is 0..29",
+    "fold_for_pair_index": "pair_index modulo 4; fold counts are 8, 8, 7, 7",
+    "arm_order": "control first for even pair indices, feature first for odd pair indices",
+    "pairing": "Same fold and seed for both arms; verify equal initial_parameter_sha256 in saved provenance.",
+    "stopping": "Complete all 30 pairs regardless of interim scores; stop only for a concrete execution/resource fault, then diagnose and preserve evidence."
+  },
+  "training": {
+    "evaluation_protocol": "CampaignSplit runs use --no-eval-during-fit; after the fixed epoch-2 checkpoint is written, scripts/predict_run.py predicts only the manifest's component-held-out evaluation_groups and the official global_wp_clip2_v1 grader scores them. Training-time validation metrics are not used for the primary outcome.",
+    "epochs": 3,
+    "expected_optimizer_updates_per_fit_by_fold": {
+      "0": 44760,
+      "1": 44790,
+      "2": 44850,
+      "3": 44640
+    },
+    "expected_batches_per_epoch_by_fold": {
+      "0": 1492,
+      "1": 1493,
+      "2": 1495,
+      "3": 1488
+    },
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch": 2,
+    "resume": "--save-training-state writes an atomic continuation state at every epoch boundary; the matrix runner resumes incomplete fits from that state and preserves every completed endpoint.",
+    "hidden": 512,
+    "layers": 1,
+    "batch": 8,
+    "chunk_rows": 2000,
+    "precision": "fp32",
+    "loss": "wmse",
+    "optimizer": "AdamW",
+    "scheduler": "OneCycle",
+    "learning_rate": 0.001,
+    "weight_decay": 0.01,
+    "gradient_clip": 1.0,
+    "data_order": "trainer's seed-bound shuffled order",
+    "initialization": "new seeded weights; no checkpoint, teacher, or initializer",
+    "diagnostics": ["per-epoch training loss", "learning rate", "gradient norm quantiles and clipping rate", "update counts and sampler-order identity", "training time", "separate official evaluation score", "memory and GPU peaks"]
+  },
+  "compute": {
+    "device": "one local NVIDIA GeForce RTX 3060 Laptop GPU",
+    "cpu_quota": "one core for this task, within the two-core campaign parent",
+    "ram_max": "5,000,000,000 bytes (~4.66 GiB) hard cap for this task, no swap; no array staging",
+    "loader_workers": 0,
+    "scratch": "/home/vlad/development/wunder/research_tmp",
+    "gpu_lock": "research/campaign_2026-10-06/bandit_continuation/runtime/gpu.lock",
+    "profile": "Passed five measured training batches after one warmup batch, plus feature-only prediction over all 468 fold-0 evaluation groups. The measured profile used a 5,000,000,000-byte/one-core/no-swap scope: 2.71 GB cgroup peak, 0.91 GB CUDA allocated peak, 1.29 GB CUDA reserved peak, 1.53 s median wall time per batch of eight 20,000-row sequences, 5.24 sequences/s, 60/60 finite optimizer updates and no new OOM events. Estimated matrix training time is about 114 GPU-hours before setup and evaluation exports; finish all 30 pairs regardless of interim scores."
+  },
+  "significance": {
+    "training_variation": "Report all 30 paired deltas and a fold-stratified paired bootstrap 95% interval over seed-pairs.",
+    "evaluation_sampling": "Report component-cluster bootstrap uncertainty on fixed predictions separately; when feasible, combine resampling of pair IDs and components without treating rows or seeds as independent components.",
+    "selection": "One preregistered model/configuration and fixed epoch; no best-seed selection. Exposed folds remain development evidence.",
+    "interpretation": "Report effect size, both intervals, per-fold and per-seed deltas, and practical size. An interval crossing zero is inconclusive, not a universal reason to stop the family."
+  },
+  "artifacts": [
+    "Per-fit command and complete stdout log",
+    "Checkpoint, optimizer/scheduler continuation state, and provenance",
+    "Fixed-checkpoint predictions and source row-group IDs; targets and masks are read from the hash-bound valid_targets.npz rather than duplicated per fit",
+    "Official global_wp_clip2_v1 score receipt for every endpoint",
+    "Per-epoch gradient and validation traces",
+    "Append-only per-fit and resource ledgers from scripts/run_geometry_r4_matrix.py",
+    "Paired statistical analysis and plots"
+  ],
+  "limits": [
+    "Cross-validation folds are exposed or potentially exposed and overlap in training membership.",
+    "This main-effect comparison does not settle whether the features help a teacher, distillation, residual, or fixed blend.",
+    "The research-only feature mode has no streaming submission implementation; do not package it as a submission until serving parity and runtime are validated.",
+    "No public score forecast follows from local deltas."
+  ]
+}

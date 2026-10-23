@@ -1,0 +1,10 @@
+Started wnn-next-publication-check-r2-20261022.service - [systemd-run] /bin/bash -c "set -e; /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/ruff format --check src/wnn/training/dynamics_auxiliary.py tests/test_dynamics_auxiliary.py; /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/ruff check src/wnn/training/dynamics_auxiliary.py tests/test_dynamics_auxiliary.py; /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python scripts/check_training_structure.py; /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m unittest tests.test_training_structure_checker; /home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/python -m pytest -q tests/test_dynamics_auxiliary.py".
+All checks passed!
+{"files": 63, "errors": 0, "max_module_lines": 300, "max_function_lines": 200}
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.149s
+OK
+......                                                                   [100%]
+6 passed in 5.76s
+wnn-next-publication-check-r2-20261022.service: Consumed 7.409s CPU time over 14.459s wall clock time, 1.2G memory peak.

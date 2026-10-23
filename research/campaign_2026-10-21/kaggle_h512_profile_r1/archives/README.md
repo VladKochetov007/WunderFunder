@@ -1,0 +1,3 @@
+# Frozen Kaggle delivery snapshots
+
+[The lossless archive](raw_delivery_snapshots_r1.tar.gz) preserves both input bundles, both complete terminal collections and the derived split manifest, with original relative paths and bytes. [The manifest](ARCHIVE_MANIFEST_R1.json) records every file size/SHA and the archive SHA; all entries were verified after packing. This avoids tracking hundreds of copies of frozen canonical source as active Python modules. Historical receipt paths identify archive member paths. Original source worktree/commit are retained in the manifest. Neither attempt reached training; see the [parent outcome](../README.md).

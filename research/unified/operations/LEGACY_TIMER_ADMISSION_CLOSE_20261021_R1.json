@@ -1,0 +1,63 @@
+{
+  "schema": "wnn.legacy-timer-admission-close.v1",
+  "recorded_at_utc": "2026-10-21T01:20:37.976061+00:00",
+  "status": "STOPPED_DISABLED_AND_VERIFIED",
+  "reviewer": "overnight_evidence_audit (read-only source/local receipts, no provider calls)",
+  "actual_actions": [
+    "Verified all seven corresponding oneshot services inactive/MainPID0",
+    "Stopped seven timers",
+    "Disabled seven timers to prevent login restart",
+    "Verified current fit/postfit/nativewaiter/B16collector remainactive",
+    "Verified parent5GBRAM/2CPU/noSwap limits survive systemd reload"
+  ],
+  "unit_states": {
+    "wnn-campaign-kaggle-terminal-collector.timer": {
+      "ActiveState": "inactive",
+      "UnitFileState": "disabled"
+    },
+    "wnn-campaign-kaggle-poller.timer": {
+      "ActiveState": "inactive",
+      "UnitFileState": "disabled"
+    },
+    "wnn-collect-capacity-v5r2.timer": {
+      "ActiveState": "inactive",
+      "UnitFileState": "disabled"
+    },
+    "wnn-collect-native-tpu-v4.timer": {
+      "ActiveState": "inactive",
+      "UnitFileState": "disabled"
+    },
+    "wnn-collect-fold-pins.timer": {
+      "ActiveState": "inactive",
+      "UnitFileState": "disabled"
+    },
+    "wnn-local-queue-r1.timer": {
+      "ActiveState": "inactive",
+      "UnitFileState": "disabled"
+    },
+    "wnn-vast-tick-lane-b.timer": {
+      "ActiveState": "inactive",
+      "UnitFileState": "disabled"
+    }
+  },
+  "terminal_collector_basis": [
+    "TPUv7ERROR andR5GPUCOMPLETE terminalreceipts withcompletecollection",
+    "All8legacyKagglepollertargets terminalcollected",
+    "capacityv5r2andnativeTPUv4 COLLECTEDmarkers present",
+    "fold1/2/3pinsalreadyexist"
+  ],
+  "local_queue_basis": "STOPmarker exists,pending0,active0",
+  "vast_timer_basis": "Latestcycle forbids paidcompute. Source tick --cap70 --no-pull --no-auto-collect canstillauto-feednewreadybacklog; stoppingadmissiontimerpreventsfuturefeed. No readyitems currently. Collection/ownershipNOTcertifiedclosed.",
+  "vast_limitations": [
+    "No remote/providercall,cancellation,rental,termination,topuporotherbillingchange",
+    "Missingcontrollercollectionreceipts andopenownershippreserved; do notdeclarefullVastteardown"
+  ],
+  "evidence_paths": [
+    "research/campaign_2026-10-06/cloud_preflight/terminal_collection_targets_20261009_gpu_r5_r1.json",
+    "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/cloud_delivery/provider_targets_active_20261009_r2.json",
+    "research/campaign_2026-10-06/bandit_continuation/vast_teachers_r1/OWNERSHIP_RECEIPT_b.json",
+    "research/campaign_2026-10-06/bandit_continuation/vast_teachers_r1/collected_b/collection_manifest.json",
+    "research/campaign_2026-10-06/bandit_continuation/local_queue_r1/STOP"
+  ],
+  "reversible": "Unit definitions/receipts remain; re-enable only withfutureapplicableauthorization"
+}

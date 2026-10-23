@@ -1,0 +1,99 @@
+{
+  "schema": "wnn.causal_proxy_gate_execution_receipt.v1",
+  "id": "OPS-ONLINE-CAUSAL-PROXY-GATE-20261018-R1",
+  "status": "completed",
+  "recipe_path": "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/recipe.json",
+  "recipe_sha256": "36de64acff823589ec7d23a384146675abc93e8602c786b1c3a0f4d89c7ca886",
+  "source_review": "PASS: current recipe fields and code hashes agree with recipe builder, prediction builder and grader; source-only review, no execution or payload read.",
+  "prediction_artifact": {
+    "path": "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_proxy_gate_r1/run_r1/gate_predictions.npy",
+    "sha256": "7fc454ecb4eba24602c14d1f7dd86cbafe3eb8abd504041e0bac902aae4508d7",
+    "shape": [6, 636832, 2],
+    "dtype": "float32",
+    "size_bytes": 30568064,
+    "receipt_path": "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_proxy_gate_r1/run_r1/prediction_receipt.json",
+    "receipt_sha256": "48df8eced107ff1854271a6388300777bdbee53bd814d9362082cbfb5f848d81"
+  },
+  "grade": {
+    "path": "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/grade_r1.json",
+    "sha256": "e771a97da303b6f833cd5c324f55a4866a3d0ada85ba706dd772b19a202b5c05",
+    "selected_rows": 62018,
+    "metric_id": "global_wp_clip2_v1",
+    "scores": {
+      "tl3": 0.6806212880066232,
+      "r3": 0.6665986419363661,
+      "fixed_75_tl3_25_r3": 0.6782431363540004,
+      "proxy_gate_h256": 0.6781993492717449,
+      "proxy_gate_h2048": 0.6782725874131288,
+      "proxy_gate_h8192": 0.6782910902806558
+    },
+    "best_gate_vs_fixed_75_25": {
+      "delta_wp": 0.000047953926555,
+      "conditional_component_bootstrap_ci95": [-0.000030983179312, 0.000128532766447],
+      "n_components": 32,
+      "n_boot": 2000,
+      "seed": 20261021
+    },
+    "best_gate_vs_tl3": {
+      "delta_wp": -0.002330197725967,
+      "conditional_component_bootstrap_ci95": [-0.003490148758116, -0.001412256182906],
+      "n_components": 32,
+      "n_boot": 2000,
+      "seed": 20261020
+    },
+    "prediction_reconstruction": "independent scalar targetwise recurrence matched all gate outputs within 2e-7 before any validation targets or masks were opened"
+  },
+  "attempts": [
+    {
+      "id": "online-proxy-gate-profile-20261018-r1",
+      "path": "research/campaign_2026-10-18/online_features_r1/runtime/attempts/online-proxy-gate-profile-20261018-r1.json",
+      "sha256": "f1b68024198b85a1efee8e065f79ff85540a2118ac179340a3603c6ef2e8d9cc",
+      "status": "finished",
+      "elapsed_seconds": 5.020331754,
+      "memory_reservation_bytes": 1500000000,
+      "peak_ram_bytes": 36503552,
+      "oom_event_delta": 0,
+      "worker_memory_event_deltas": {"high": 0, "max": 0, "oom": 0, "oom_kill": 0},
+      "parent_hierarchical_memory_event_deltas": {"high": 0, "max": 0, "oom": 0, "oom_kill": 0},
+      "command": [".venv/bin/python", "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/build_predictions.py", "--recipe", "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/recipe.json", "--output-root", "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_proxy_gate_r1/profile_r1", "--limit-groups", "1"]
+    },
+    {
+      "id": "online-proxy-gate-build-20261018-r1",
+      "path": "research/campaign_2026-10-18/online_features_r1/runtime/attempts/online-proxy-gate-build-20261018-r1.json",
+      "sha256": "18aaec8f07a762fa22752127afcba3c538760fcca5754cec29d2b6b4e871b58f",
+      "status": "finished",
+      "elapsed_seconds": 80.47709365,
+      "memory_reservation_bytes": 1500000000,
+      "peak_ram_bytes": 71839744,
+      "oom_event_delta": 0,
+      "worker_memory_event_deltas": {"high": 0, "max": 0, "oom": 0, "oom_kill": 0},
+      "parent_hierarchical_memory_event_deltas": {"high": 0, "max": 7090, "oom": 0, "oom_kill": 0},
+      "command": [".venv/bin/python", "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/build_predictions.py", "--recipe", "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/recipe.json", "--output-root", "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_proxy_gate_r1/run_r1"]
+    },
+    {
+      "id": "online-proxy-gate-grade-20261018-r1",
+      "path": "research/campaign_2026-10-18/online_features_r1/runtime/attempts/online-proxy-gate-grade-20261018-r1.json",
+      "sha256": "1c9d8b907a0aa3e3cf8797f80b092f4120be02ea548f6febc67cf48a24c482dd",
+      "status": "finished",
+      "elapsed_seconds": 15.095763106,
+      "memory_reservation_bytes": 2000000000,
+      "peak_ram_bytes": 333680640,
+      "oom_event_delta": 0,
+      "worker_memory_event_deltas": {"high": 0, "max": 0, "oom": 0, "oom_kill": 0},
+      "parent_hierarchical_memory_event_deltas": {"high": 0, "max": 0, "oom": 0, "oom_kill": 0},
+      "command": [".venv/bin/python", "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/grade_gate.py", "--root", ".", "--recipe", "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/recipe.json", "--predictions", "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_proxy_gate_r1/run_r1/gate_predictions.npy", "--prediction-receipt", "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_proxy_gate_r1/run_r1/prediction_receipt.json", "--proxy-predictions", "/home/vlad/development/wunder/research_tmp/online_features_r1/causal_label_proxy_r1/fit_r1/evaluation_proxy_predictions.npy", "--output", "research/campaign_2026-10-18/online_features_r1/causal_proxy_gate_r1/grade_r1.json"]
+    }
+  ],
+  "resource_scope": {
+    "cpu_cores_per_attempt": 1,
+    "gpu_used": false,
+    "scratch_filesystem": "Btrfs physical /home filesystem at /home/vlad/development/wunder/research_tmp",
+    "swap_bytes": 0,
+    "all_attempt_worker_local_oom_event_deltas": 0,
+    "parent_hierarchical_build_max_event_delta": 7090,
+    "parent_hierarchical_max_event_attribution": "not isolated to the gate worker; no parent OOM or OOM-kill delta occurred",
+    "prior_parent_oom_events_at_build_admission": 3,
+    "prior_oom_events_were_not_caused_by_this_experiment": true
+  },
+  "decision": "Do not create an additional B300 draft for this gate screen. Keep the broader online-learning direction open; the existing causal-state teacher/student draft PR #17 is a separate proposal."
+}

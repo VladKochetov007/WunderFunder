@@ -1,0 +1,101 @@
+{
+  "coefficient_selection": "none; only the two fixed coefficients above are evaluated",
+  "comparisons": [
+    [
+      "tl3",
+      "parent"
+    ],
+    [
+      "r3_native_q16x",
+      "parent"
+    ],
+    [
+      "blend_75_tl3_25_r3",
+      "parent"
+    ],
+    [
+      "blend_50_tl3_50_r3",
+      "parent"
+    ],
+    [
+      "blend_75_tl3_25_r3",
+      "tl3"
+    ],
+    [
+      "blend_75_tl3_25_r3",
+      "r3_native_q16x"
+    ],
+    [
+      "blend_50_tl3_50_r3",
+      "tl3"
+    ],
+    [
+      "blend_50_tl3_50_r3",
+      "r3_native_q16x"
+    ],
+    [
+      "tl3",
+      "r3_native_q16x"
+    ]
+  ],
+  "complementarity_diagnostic": "weighted covariance/correlation of TL3 and R3 corrections relative to parent and their residual errors, per target; descriptive only",
+  "conditional_component_bootstrap": {
+    "centered_moments": true,
+    "components": 141,
+    "replicates": 10000,
+    "seed": 20261018
+  },
+  "evaluation_component_order_sha256": "c285ef4d7ea4002952d22353b5292bcf0fa57095c6da19fe4a8d5e9f57d416dc",
+  "evaluation_group_order_sha256": "4ab44559090390ce57ab53564742e3a1f48b7b774a4024259544492c6df52448",
+  "expected_public_score": null,
+  "exposure_and_ancestry_limits": "F0 has been repeatedly exposed. TL3 exact source, teacher, initializer and fitting membership are unverified; local TL3 scores may be fitted diagnostics. The bootstrap conditions on the fixed prediction caches and does not quantify training-seed or public-transfer uncertainty.",
+  "fixed_blends": {
+    "blend_50_tl3_50_r3": {
+      "r3_native_q16x": 0.5,
+      "tl3": 0.5
+    },
+    "blend_75_tl3_25_r3": {
+      "r3_native_q16x": 0.25,
+      "tl3": 0.75
+    }
+  },
+  "fold": 0,
+  "grader_sha256": "d7b39aec6166a2496272beeca5a16497f9d7abcaabfe1b3bf4e7b415e4b567dd",
+  "mask": "official target-cache mask AND sequence row index >= 99",
+  "members": {
+    "parent": {
+      "checkpoint_sha256": "78357eca2aec188e227544d46887935265720c35e99a1437269b952d01eb88c2",
+      "epoch": 1,
+      "prediction_sha256": "c45c8d260d011fcc0c5900a4d11ee10d8261799716775ee6b26dd2cb6dd84482",
+      "run": "warm_mechanism_f0_s3_c_r3"
+    },
+    "r3_native_q16x": {
+      "archive": "submissions/geometry_r3_reverse_half_q16x_20261018_v2.zip",
+      "archive_sha256": "27f01f53ba32f7256ce1663e8b163b382e673fc96e7870fdebdf310d4886f98e",
+      "lineage": "inference-only reverse-half derivative of R2 checkpoint; not an independent fit",
+      "prediction_sha256": "e82e1a9844b323b9886927adab4d3d579a6f278654eef322488de7784d4823e6"
+    },
+    "tl3": {
+      "ancestry": "unknown; potentially trained on F0/validation",
+      "archive": "submissions/team_tl3_original_20261018.zip",
+      "archive_sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569",
+      "prediction_sha256": "3a7456f0a2e294a852618535b9e3f2551fc15c5b70fd033824bddb10be83bbe3"
+    }
+  },
+  "metric_id": "global_wp_clip2_v1",
+  "preflight_fingerprint": "202a195a289eaaabd70c9871f1de4b71c1721ec93677bef5aa358cb7d4605276",
+  "preflight_receipt_sha256": "6991d856b6528af95d75f13904cdd1b13fcbe5e15a4a8d10ef0b031439289722",
+  "purpose": "Exposed-F0 descriptive diagnostics for a preexisting TL3 endpoint and two fixed mixtures; no clean-CV or transfer claim.",
+  "schema": "wnn.tl3_fixed_mixture_recipe.v1",
+  "source_hashes": {
+    "grade_fixed_mixtures.py": "d7b39aec6166a2496272beeca5a16497f9d7abcaabfe1b3bf4e7b415e4b567dd",
+    "research/campaign_2026-09-30/audit/campaign_score.py": "b6377a0e1d67030115c6d20a64ee00dc97ef15eaad7a806408a76ef70558ab39",
+    "scripts/grade_prediction_bank.py": "fb7a85a5837f61fa6c65cd10a799768006067e87d4c18e92d4b813ba83b9d82e",
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/metric.py": "6c3a8865687f1fca9257a93385c64c62a3ef0173d8ebb972ce3aaea8587ef3cc",
+    "src/wnn/splits.py": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe"
+  },
+  "split_manifest_sha256": "09263ad4fe2b18e2b2f3b79f4562678dce801b067b868134ddc79279f9316a3d",
+  "target_cache_sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+}

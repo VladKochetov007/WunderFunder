@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "name": "verify_exact_clean_68ff_predictor_source",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_offline_recovery_r1/recover_h512_f1_b16_offline.py",
+        "verify-source",
+        "--inference-source-root",
+        "/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff"
+      ]
+    },
+    {
+      "name": "export_saved_cp5_f1_evaluation_features",
+      "argv": [
+        "{python}",
+        "-c",
+        "import os, subprocess, sys; from pathlib import Path; root=Path('/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff'); env=os.environ.copy(); env.update({'WNN_PROJECT_ROOT':'/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1','WNN_PORTABLE_DATA_MANIFEST':'/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_portable_inputs.json','PYTHONPATH':str(root/'src'),'NVIDIA_TF32_OVERRIDE':'0','WNN_GPU_MEMORY_BYTES':'4000000000','WNN_LOADER_WORKERS':'0','WNN_THREADS':'1','OMP_NUM_THREADS':'1','MKL_NUM_THREADS':'1','OPENBLAS_NUM_THREADS':'1','ARROW_NUM_THREADS':'1','TMPDIR':'/home/vlad/development/wunder/research_tmp'}); subprocess.run([sys.executable,str(root/'scripts/predict_run.py'),'r01_h512_f1_s1004_kaggle_fit_r2','valid','--epoch','5','--campaign-split-manifest','/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_profile_view.json','--campaign-evaluation-only','--output-name','r01_h512_f1_s1004_kaggle_fit_r2','--device','cuda','--inference-precision','fp32','--loader-workers','0'],cwd=root,env=env,check=True)"
+      ]
+    },
+    {
+      "name": "export_saved_swa345_f1_evaluation_features",
+      "argv": [
+        "{python}",
+        "-c",
+        "import os, subprocess, sys; from pathlib import Path; root=Path('/home/vlad/development/wunder/research_tmp/b16-inference-source-68ff'); env=os.environ.copy(); env.update({'WNN_PROJECT_ROOT':'/home/vlad/development/wunder/research_tmp/h512-f1-b16-offline-recovery-r1','WNN_PORTABLE_DATA_MANIFEST':'/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_portable_inputs.json','PYTHONPATH':str(root/'src'),'NVIDIA_TF32_OVERRIDE':'0','WNN_GPU_MEMORY_BYTES':'4000000000','WNN_LOADER_WORKERS':'0','WNN_THREADS':'1','OMP_NUM_THREADS':'1','MKL_NUM_THREADS':'1','OPENBLAS_NUM_THREADS':'1','ARROW_NUM_THREADS':'1','TMPDIR':'/home/vlad/development/wunder/research_tmp'}); subprocess.run([sys.executable,str(root/'scripts/predict_run.py'),'r01_h512_f1_s1004_kaggle_swa345_r2','valid','--epoch','5','--campaign-split-manifest','/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-21/kaggle_h512_b16_conditional_f1_r2/fold1_profile_view.json','--campaign-evaluation-only','--output-name','r01_h512_f1_s1004_kaggle_swa345_r2','--device','cuda','--inference-precision','fp32','--loader-workers','0'],cwd=root,env=env,check=True)"
+      ]
+    }
+  ],
+  "report": "research/campaign_2026-10-21/next_cycle_r1/saved_export_recovery_r1/B16_LOCAL_EXPORT_REPORT_R1.json"
+}

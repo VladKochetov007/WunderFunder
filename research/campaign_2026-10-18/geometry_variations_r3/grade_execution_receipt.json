@@ -1,0 +1,34 @@
+{
+  "schema": "wnn.geometry-r3-grading-execution.v1",
+  "status": "completed",
+  "completed_utc": "2026-10-17T23:26:37Z",
+  "exit_code": 0,
+  "command": "env WNN_SLICE=wnn-campaign.slice WNN_CPU_QUOTA=40% WNN_THREADS=1 WNN_MEM_MAX=2000000000 WNN_RUNTIME_MAX=1200s WNN_TMP_ROOT=/home/vlad/development/wunder/research_tmp PYTHONDONTWRITEBYTECODE=1 scripts/limited .venv/bin/python /home/vlad/development/wunder/research_tmp/geometry-r3-grader/grade_geometry_r3.py --repo-root /home/vlad/development/wunder/wnn_connectome_starterpack --output /home/vlad/development/wunder/research_tmp/geometry-r3-grader/geometry_r3_grade.json",
+  "resource_wrapper": {
+    "name": "scripts/limited",
+    "slice": "wnn-campaign.slice",
+    "cpu_quota": "40%",
+    "memory_max_bytes": 2000000000,
+    "memory_swap_max_bytes": 0,
+    "threads": 1,
+    "physical_tmp_root": "/home/vlad/development/wunder/research_tmp"
+  },
+  "grader": {
+    "path": "research/campaign_2026-10-18/geometry_variations_r3/grade_geometry_r3.py",
+    "sha256": "625cf0c8285d420698a38e2f9ab552b09aae2c9c7dbffcf51d922c49ace746b6"
+  },
+  "report": {
+    "path": "research/campaign_2026-10-18/geometry_variations_r3/geometry_r3_grade.json",
+    "sha256": "4f5087c1fe00e59c1a5f9193bc0d5e328b00055b3b0a4afad0ad84760536d47a"
+  },
+  "scope": {
+    "metric": "global_wp_clip2_v1",
+    "fold": 0,
+    "evaluation_groups": 468,
+    "components": 141,
+    "selected_rows_after_row99": 808863,
+    "candidate_count": 8,
+    "alpha_aliases_are_independent_fits": false
+  },
+  "limitations": "Configured resource ceilings are recorded; peak use was not independently sampled. Results are an adaptive exposed-F0 screen. Component intervals condition on fixed predictions and are not selection-adjusted."
+}

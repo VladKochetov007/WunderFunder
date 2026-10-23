@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "name": "format_diagnostic",
+      "argv": [
+        "{python}",
+        "-m",
+        "ruff",
+        "format",
+        "research/campaign_2026-10-21/next_cycle_r1/endpoint_diagnosis/diagnose_native_h512.py",
+        "tests/test_endpoint_diagnosis.py"
+      ]
+    },
+    {
+      "name": "check_diagnostic",
+      "argv": [
+        "{python}",
+        "-m",
+        "ruff",
+        "check",
+        "research/campaign_2026-10-21/next_cycle_r1/endpoint_diagnosis/diagnose_native_h512.py",
+        "tests/test_endpoint_diagnosis.py"
+      ]
+    },
+    {
+      "name": "independent_dense_moment_oracle",
+      "argv": [
+        "{python}",
+        "-m",
+        "pytest",
+        "-q",
+        "tests/test_endpoint_diagnosis.py"
+      ]
+    },
+    {
+      "name": "stream_saved_prediction_diagnosis",
+      "argv": [
+        "{python}",
+        "-u",
+        "research/campaign_2026-10-21/next_cycle_r1/endpoint_diagnosis/diagnose_native_h512.py"
+      ]
+    }
+  ],
+  "report": "research/campaign_2026-10-21/next_cycle_r1/ENDPOINT_DIAGNOSIS_REPORT_R1.json"
+}

@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "steps": [
+    {
+      "name": "refresh_readonly_gpu_quota",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/research_tmp/next-cycle-quota-read-r4.py"
+      ]
+    },
+    {
+      "name": "private_input_processing_status",
+      "argv": [
+        "{python}",
+        "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv/bin/kaggle",
+        "datasets",
+        "status",
+        "vladkochetov07/wnn-h512-f1-b16-export-20261021-r1",
+        "--format",
+        "json"
+      ]
+    }
+  ],
+  "report": "research/campaign_2026-10-21/next_cycle_r1/B16_CLOUD_PREFLIGHT_REPORT_R1.json"
+}
