@@ -1,5 +1,7 @@
 # Reviews and audit receipts
 
+- [Portable age-screen source and archive review](../../experiment_drafts/b300-fast-local-kaggle-20261023/KAGGLE_PORTABLE_CACHE_SOURCE_REVIEW_R1.md) — independent checks find exact source-qualified reconstruction semantics, all 28 integrated source hashes and the expected 60-file upload inventory. It discloses transported fitting targets/weights and leaves actual remote cache parity, profile cost and target quality unmeasured.
+
 - [Age-screen independent source review](../../experiment_drafts/b300-fast-local-kaggle-20261023/INDEPENDENT_SOURCE_REVIEW_R1.md) and [grader verification](../../experiment_drafts/b300-fast-local-kaggle-20261023/grader/README.md) — no scientific actor mismatch after correcting initialization wording; ten synthetic coverage/transport/metric tests and both real parent provenance chains pass. Root caught and fixed source-qualified-ID and producer-schema mismatches before fitting. This verifies correctness and ancestry, not target quality or native serving.
 
 - [Independent online terminal metadata review](../../experiment_drafts/online-relationships-20261022/TERMINAL_METADATA_REVIEW_R1.json) accepts the seven-head inventory for metadata preservation and keeps full-panel grading closed because five candidates are absent. Runtime/grader source pins, twelve cell identities and seven exact NPY headers agree. Parent endpoint validation, prediction payload hashes and target quality remain unmeasured; timeout is an execution stop rather than a scientific failure.

@@ -68,3 +68,9 @@ scripts/limited python /home/vlad/development/wunder/research_disk/b300-fast-202
 ```
 
 The finalized private dataset folder contains `grade_bundle.wnn`, `GRADE_ADMISSION_R1.json` as a separate read-only dataset input, and `dataset-metadata.json`. The manifest remains inside the archive to avoid a manifest/admission hash cycle. The kernel packet pins the archive and admission digests; extraction, temporary files, and caches use `/kaggle/working/disk_scratch`. Finalization is local-only. The documented dataset-create and kernel-push commands remain separate provider mutations and have not been run.
+
+## Portable CPU profile amendment
+
+The [root amendment](../KAGGLE_CPU_DELIVERY_AMENDMENT_R1.json) supersedes the local-fit route above because local thermal admission failed. [Suffix exporter](export_suffix_cache.py) and [profile packet builder](prepare_suffix_profile_bundle.py) provide exact column transport and manifest-first archive preparation. The [prepared bundle receipt](../PROFILE_BUNDLE_PREPARE_R2.json) and [file map](../PROFILE_BUNDLE_MANIFEST_R2.json) record the completed disk-only stage; fitting targets and weights are present only in the fit suffixes. No evaluator-label cache is included. The profile remains separate from scientific admission.
+
+[Profile driver](profile_kernel_driver.py) binds the exact root admission, verifies and safely extracts the opaque archive, rebuilds only F0 and cleans generated large files on either success or failure. [Finalizer R2](prepare_suffix_profile_bundle_r2.py) fixes the original text-marker ambiguity by replacing only the AST-identified admission constant; prepared archive bytes stay unchanged. [Launch packet](../PROFILE_LAUNCH_PACKET_R2.json) pins the rendered kernel and metadata.

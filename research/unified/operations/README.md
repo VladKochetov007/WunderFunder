@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [Age-screen thermal deferral and Kaggle CPU amendment](../../experiment_drafts/b300-fast-local-kaggle-20261023/KAGGLE_CPU_DELIVERY_AMENDMENT_R1.json) — the local profile starts no child before its cooling deadline. The same six heads are prepared for a 1.14 GB suffix transfer and exact one-fold cache reconstruction on Kaggle CPU; no scientific fit yet. Engineering is reallocated within the original 7,200-second screen, with local and remote worker time conservatively charged together. The local heavy-work thermal guard and 12-hour production reserve remain unchanged.
+
 - [Fast B300 adaptation delivery](../../experiment_drafts/b300-fast-local-kaggle-20261023/README.md) — disk-only October23 preparation, six-file/32.0 GB reused-cache verification in 57.877 guarded seconds, applied opt-in CPU thermal patch with ten passing tests, and fresh Kaggle quota/access. Six field-age heads are frozen but not yet admitted; no quality result or new submission.
 
 - [Terminal draft publication verification](../../experiment_drafts/online-relationships-20261022/TERMINAL_PUBLICATION_R1.json) confirms draft PR38 now reports seven saved heads, original-cap timeout, incomplete coverage and no scientific grade. Its body hash and unchanged draft/head/base are checked against the pushed root evidence commit. No source push to that PR, merge, fit or competition upload.

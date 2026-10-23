@@ -31,7 +31,15 @@ SOURCE_FILES = (
     "src/wnn/training/age_readout_provenance.py",
     "src/wnn/training/age_readout_runtime.py",
     "src/wnn/training/age_readout_runner.py",
+    "src/wnn/training/age_readout_portable.py",
+    "src/wnn/training/age_readout_portable_builder.py",
+    "src/wnn/training/age_readout_portable_identity.py",
+    "src/wnn/training/age_readout_portable_paths.py",
+    "src/wnn/training/age_readout_portable_sources.py",
+    "src/wnn/training/age_readout_portable_validate.py",
+    "src/wnn/training/age_readout_recipe.py",
     "src/wnn/training/age_readout_cli.py",
+    "src/wnn/data.py",
     "scripts/age_readout_screen.py",
 )
 

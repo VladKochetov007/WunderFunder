@@ -16,6 +16,7 @@ from .age_readout_checkpoint import restore_panel_checkpoint, save_panel_checkpo
 from .age_readout_cohort import ROWS_PER_SEQUENCE, WIDTH, FitBatch, iter_fit_batches
 from .age_readout_fit import ARMS, _new_totals, _predict_eval, _train_batch
 from .age_readout_model import AgeResidualHead
+from .age_readout_portable_tests import check_portable_rebuild_and_page_release
 from .age_readout_runtime import CUBLAS_WORKSPACE_CONFIG
 
 
@@ -35,11 +36,14 @@ def run_delivery_invariants(tmp_root: Path) -> dict[str, object]:
     _check_batch_tail_order()
     _check_prediction_coverage(resolved)
     _check_eval_column_invariance()
+    check_portable_rebuild_and_page_release(resolved)
     return {
         "checkpoint_next_update_exact": True,
         "batch_tail_order_exact": True,
         "prediction_duplicates_and_incomplete_coverage_rejected": True,
         "evaluation_target_weight_invariance_exact": True,
+        "portable_cache_rebuild_sha_exact": True,
+        "sequence_page_release_preserves_data": True,
         "storage_root": str(resolved),
     }
 
@@ -91,12 +95,14 @@ def _check_batch_tail_order() -> None:
     markers = np.arange(2 * ROWS_PER_SEQUENCE, dtype=np.float32)
     cache[:, :, 112] = markers.reshape(2, ROWS_PER_SEQUENCE)
     cache[:, :, 114] = 1.0
+    released: list[int] = []
     batches = iter_fit_batches(
         cache,
         2,
         torch.zeros(211),
         torch.ones(211),
         torch.device("cpu"),
+        release_sequence=released.append,
     )
     sizes: list[int] = []
     ordered_markers: list[Tensor] = []
@@ -107,6 +113,8 @@ def _check_batch_tail_order() -> None:
         raise AssertionError(f"tail batch sizes changed: {sizes}")
     if not torch.equal(torch.cat(ordered_markers), torch.from_numpy(markers)):
         raise AssertionError("fit batches changed source row order or omitted the tail")
+    if released != [0, 1]:
+        raise AssertionError("fit cache page release did not follow complete sequence boundaries")
 
 
 def _check_prediction_coverage(tmp_root: Path) -> None:

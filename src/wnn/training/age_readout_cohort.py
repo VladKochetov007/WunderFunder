@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from collections.abc import Iterator
+from collections.abc import Callable, Iterator
 from dataclasses import dataclass
 
 import numpy as np
@@ -48,6 +48,7 @@ def iter_fit_batches(
     device: torch.device,
     *,
     batch_rows: int = BATCH_ROWS,
+    release_sequence: Callable[[int], None] | None = None,
 ) -> Iterator[FitBatch]:
     """Read each selected sequence once, then yield common arm batches."""
     if sequence_count < 1 or sequence_count > len(cache) or batch_rows < 1:
@@ -84,12 +85,18 @@ def iter_fit_batches(
             if filled == batch_rows:
                 yield FitBatch(**buffers)
                 filled = 0
+        if release_sequence is not None:
+            release_sequence(sequence_index)
     if filled:
         yield FitBatch(**{name: values[:filled] for name, values in buffers.items()})
 
 
 def iter_eval_sequences(
-    cache: np.ndarray, sequence_count: int, device: torch.device
+    cache: np.ndarray,
+    sequence_count: int,
+    device: torch.device,
+    *,
+    release_sequence: Callable[[int], None] | None = None,
 ) -> Iterator[EvalSequence]:
     """Read only raw and parent columns; never index evaluation target or mask columns."""
     if sequence_count < 1 or sequence_count > len(cache):
@@ -101,6 +108,8 @@ def iter_eval_sequences(
             raw=torch.tensor(row[:, RAW], dtype=torch.float32, device=device),
             parent=torch.tensor(row[:, PARENT], dtype=torch.float32, device=device),
         )
+        if release_sequence is not None:
+            release_sequence(sequence_index)
 
 
 def _buffers(batch_rows: int, device: torch.device) -> dict[str, Tensor]:

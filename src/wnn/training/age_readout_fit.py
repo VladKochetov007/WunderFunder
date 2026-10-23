@@ -46,6 +46,8 @@ def fit_panel_fold(
     max_eval_sequences: int | None = None,
     progress: ProgressCallback | None = None,
     prediction: PredictionCallback | None = None,
+    release_fit_sequence: Callable[[int], None] | None = None,
+    release_eval_sequence: Callable[[int], None] | None = None,
 ) -> dict[str, object]:
     """Fit A/G/F together so each cache sequence and age block is prepared once."""
     torch.use_deterministic_algorithms(True)
@@ -89,7 +91,13 @@ def fit_panel_fold(
         batches = 0
         first_batch = True
         for batch in iter_fit_batches(
-            fit_cache, fit_count, mean, std, device, batch_rows=BATCH_ROWS
+            fit_cache,
+            fit_count,
+            mean,
+            std,
+            device,
+            batch_rows=BATCH_ROWS,
+            release_sequence=release_fit_sequence,
         ):
             if first_batch and epoch == 0:
                 _check_batch_zero_parity(batch, models)
@@ -115,7 +123,16 @@ def fit_panel_fold(
     _synchronize(device)
     fit_seconds = time.perf_counter() - fit_started
     eval_started = time.perf_counter()
-    _predict_eval(eval_cache, eval_count, mean, std, models, device, prediction)
+    _predict_eval(
+        eval_cache,
+        eval_count,
+        mean,
+        std,
+        models,
+        device,
+        prediction,
+        release_eval_sequence,
+    )
     _synchronize(device)
     eval_seconds = time.perf_counter() - eval_started
     return {
@@ -175,13 +192,14 @@ def _predict_eval(
     models: dict[str, AgeResidualHead],
     device: torch.device,
     sink: PredictionCallback | None,
+    release_sequence: Callable[[int], None] | None = None,
 ) -> None:
     """Predict without reading labels, row weights, scoring masks or evaluation flags."""
     for model in models.values():
         model.eval()
     with torch.no_grad(), torch.autocast(device_type=device.type, enabled=False):
         for sequence_index, sequence in enumerate(
-            iter_eval_sequences(cache, sequence_count, device)
+            iter_eval_sequences(cache, sequence_count, device, release_sequence=release_sequence)
         ):
             base = normalized_base(sequence.raw, mean, std)
             inputs = {
