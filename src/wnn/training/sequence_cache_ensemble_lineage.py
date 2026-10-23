@@ -71,7 +71,7 @@ def _validate_ensemble_node(current: dict[str, Any]) -> list[dict[str, Any]]:
             raise ValueError("ensemble parent checkpoint reference mismatch")
         if not is_sha256(manifest_hash):
             raise ValueError("invalid ensemble parent manifest hash")
-        if not isinstance(provenance, dict) or provenance != producer.get("provenance"):
+        if not isinstance(provenance, dict) or provenance != parent.get("provenance"):
             raise ValueError("ensemble parent provenance reference mismatch")
         common_provenances.append(common_provenance(producer, provenance))
         if not is_sha256(parent.get("producer_sha256")) or parent.get(

@@ -265,6 +265,32 @@ def test_rejects_duplicate_checkpoint_exports(
         merge_teacher_caches(roots, tmp_path, tmp_path / "split.json", tmp_path / "mean")
 
 
+def test_rejects_parent_provenance_copy_mismatch(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    roots = _caches(tmp_path, monkeypatch)
+    output = merge_teacher_caches(roots, tmp_path, tmp_path / "split.json", tmp_path / "mean")
+    manifest_path = output / "manifest.json"
+    manifest = json.loads(manifest_path.read_text())
+    manifest["producer"]["parents"][0]["provenance"]["profile_receipt"]["path"] = (
+        "/detached/profile.json"
+    )
+    manifest_path.write_text(json.dumps(manifest))
+
+    with pytest.raises(ValueError, match="provenance reference"):
+        TeacherCache(output, SPLIT, MEMBERS)
+
+
+def test_refuses_manifest_larger_than_consumer_limit(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr(sequence_cache_ensemble, "MAX_CACHE_MANIFEST_BYTES", 64)
+    with pytest.raises(ValueError, match="consumer size limit"):
+        sequence_cache_ensemble._write_manifest(tmp_path, {"payload": "x" * 128})
+    assert not (tmp_path / "manifest.json").exists()
+    assert not (tmp_path / "manifest.json.partial").exists()
+
+
 def test_accepts_distinct_b300_uuids_but_rejects_different_normalizer(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

@@ -13,7 +13,7 @@ import numpy as np
 
 from wnn.data import SEQUENCE_LENGTH
 from wnn.splits import CampaignSplit, file_sha256, load_campaign_split
-from wnn.training.sequence_cache import ENSEMBLE_KIND, TeacherCache
+from wnn.training.sequence_cache import ENSEMBLE_KIND, MAX_CACHE_MANIFEST_BYTES, TeacherCache
 from wnn.training.sequence_cache_ensemble_lineage import common_provenance
 
 PARENT_COUNT = 3
@@ -164,9 +164,14 @@ def _write_sequence(root: Path, member: tuple[str, int], values: np.ndarray) -> 
 
 def _write_manifest(path: Path, manifest: dict[str, Any]) -> None:
     """Publish a cache manifest only after all referenced sequence hashes exist."""
+    payload = (json.dumps(manifest, indent=2, ensure_ascii=False, allow_nan=False) + "\n").encode(
+        "utf-8"
+    )
+    if len(payload) > MAX_CACHE_MANIFEST_BYTES:
+        raise ValueError("merged teacher cache manifest exceeds the consumer size limit")
     temporary = path / "manifest.json.partial"
-    with temporary.open("x", encoding="utf-8") as stream:
-        stream.write(json.dumps(manifest, indent=2, ensure_ascii=False, allow_nan=False) + "\n")
+    with temporary.open("xb") as stream:
+        stream.write(payload)
         stream.flush()
         os.fsync(stream.fileno())
     temporary.replace(path / "manifest.json")
