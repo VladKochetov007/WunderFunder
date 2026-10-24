@@ -1,0 +1,94 @@
+{
+  "schema": "wnn.age-readout-gpu-source-closure-review.v1",
+  "status": "prepared_for_independent_review_and_remote_validation",
+  "review_scope": "Source and metadata comparison only; no import, test, cache read, profile, fit, Kaggle API call or upload.",
+  "parent_r3_closure": {
+    "source_manifest_sha256": "6ce40d6e4980caf5d7b41e47f104e4a845a30f557c151d60c5ca3852024a1e5a",
+    "source_manifest_path": "research/experiment_drafts/b300-fast-local-kaggle-20261023/ACTOR_SOURCE_SHA256_R3.json",
+    "source_pin_count": 66,
+    "remote_validation_pending": true
+  },
+  "gpu_profile_source": {
+    "source_manifest_sha256": "bf034ffc8ac0212f5a52d7d5b9c57a11bb54750275147aa70d601c0a7b9795fc",
+    "source_manifest_path": "SOURCE_SHA256_GPU_R1.json",
+    "recipe_sha256": "0a67fe12c520e56bcf14a3a1efecb5030f3aa7ce932101814c9dd1c675c930fd",
+    "source_pin_count": 66,
+    "changed_existing_source_files": [
+      {
+        "path": "src/wnn/training/age_readout_cli.py",
+        "base_sha256": "f1bfefbc48223781453f5fe7d2dc2131c58b93ca109ee87b3a7fc1494b34bb6d",
+        "profile_sha256": "4962b60511b1f79911f435dcd5190dc3f3a0fc3f58218eb8232ec59bd2d8e4d3",
+        "bytes": 6055,
+        "scope": "portable paths are admitted only in profile mode; CUDA portable profile requires exactly one visible CUDA device"
+      },
+      {
+        "path": "src/wnn/training/age_readout_runner.py",
+        "base_sha256": "5ea391789722a61dbec985f50b2fc1a02964f86a065269dfe05a275518aa9cb3",
+        "profile_sha256": "77e3904c1d289af6e09b49d8062bb38495a308b82d8067869e354b7bef5a5c74",
+        "bytes": 10911,
+        "scope": "existing portable cache reconstruction no longer rejects CUDA for profile mode; fit-fold guard remains CPU-only"
+      }
+    ],
+    "unchanged_scientific_modules": [
+      "src/wnn/training/age_readout_fit.py",
+      "src/wnn/training/age_readout_model.py",
+      "src/wnn/training/age_readout_cohort.py",
+      "src/wnn/training/age_readout_portable.py",
+      "src/wnn/training/age_readout_portable_builder.py",
+      "src/wnn/training/age_readout_runtime.py"
+    ],
+    "strict_fp32_evidence": {
+      "fit_source_sha256": "9053719033c8e3c4b7d9d622e4f9081281566fc11963518b3111fcb5d8a9e76c",
+      "runtime_source_sha256": "e1d8cb833cc6a9a0f146ff706f03da4e7ac86bfcba5bd41aaca8cedf58a7ab57",
+      "fit_path_asserts_tf32_off_and_autocast_disabled": true,
+      "deterministic_algorithms_enabled": true,
+      "cuda_allocator_limit_bytes": 4000000000
+    }
+  },
+  "overlay": {
+    "archive_path": "source_overlay_cuda_r1.wnn",
+    "archive_bytes": 389120,
+    "archive_sha256": "8d5c2567589876855256e7009a5be23a9f4b56ff366956da072daf21a49b2716",
+    "manifest_path": "SOURCE_OVERLAY_MANIFEST_GPU_R1.json",
+    "manifest_sha256": "c977ca865e2e40da4fe7f38d7ab53c533edd8f85dfd4df6266ea2c1a581e3fef",
+    "base_bundle_archive_sha256": "971871550f50be91c5afe1134e1012a3ba3b9c94e2157b4f8b6ed17a62442ef8",
+    "member_file_count": 42,
+    "archive_member_count_with_manifest": 43,
+    "expanded_source_bytes": 339277,
+    "expanded_bytes_ceiling": 500000
+  },
+  "driver": {
+    "template_path": "kernel_driver_template.py",
+    "template_sha256": "8e653edc7370e5be046bae8068cf53dea854e6fc8f19921adba6c5c1ce73473b",
+    "bytes": 47220,
+    "profile_total_wall_cap_seconds": 600,
+    "finalization_reserve_seconds": 45,
+    "child_wall_cap_seconds": 555,
+    "cpu_cores": 1,
+    "rss_ceiling_bytes": 4000000000,
+    "swap_bytes": 0,
+    "gpu_requested": true,
+    "internet": false,
+    "tpu": false,
+    "cache_reuse_claim": false
+  },
+  "scientific_scope": {
+    "engineering_microfits": 3,
+    "epochs_per_microfit": 3,
+    "optimizer_updates_per_microfit": 120,
+    "total_optimizer_updates": 360,
+    "new_scientific_fits": 0,
+    "six_cell_scientific_panel": "unadmitted",
+    "training_labels_used_for_engineering_profile": true,
+    "evaluation_label_columns_read": false,
+    "official_metric_calls": 0,
+    "quality_scoring": false,
+    "weights_or_predictions_published": false
+  },
+  "status_details": [
+    "The generated cache is rebuilt and fully source/hash validated in this same kernel; R3 cleanup means a cache from a separate CPU profile cannot be reused.",
+    "Sixteen fit and eight evaluation sequences are the existing engineering profile sample. Three existing A/G/F arms run three epochs each; this does not replace or complete the unadmitted six-cell scientific panel.",
+    "The 600-second full-kernel cap is not yet supported by measured Kaggle timing. Root should inspect the R3 CPU cache-parity receipt and admit this retry only if cache reconstruction and preflight leave enough wall for the 360 CUDA updates and finalization.",
+    "Independent source review, Kaggle admission, upload, profile and runtime CUDA validation remain pending."
+  ]
+}

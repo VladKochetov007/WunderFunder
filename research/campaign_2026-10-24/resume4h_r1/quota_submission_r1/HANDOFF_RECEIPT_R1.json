@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.exploratory-quota-handoff.v1",
+  "created_utc": "2026-10-24T12:56:23.385868+00:00",
+  "status": "delivered_local_files_not_uploaded",
+  "authority": "research/campaign_2026-10-24/resume4h_r1/QUOTA_SUBMISSION_AUTHORITY_R1.json",
+  "order": [
+    "s3_s4",
+    "s3"
+  ],
+  "basis": "Fixed pair has higher point scores thanS3 inbothsampledstrata/bothtargets, with additionalruntime; pairminusS3 intervals span0. Userexplicitquotaexploration.",
+  "packages": {
+    "baseline": {
+      "native_sha256": {
+        "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "4be7fa2ba2c17dea7d8631d6bb0667fd5a592d23321ebd81ee9f0a297359c7db",
+        "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "3f36627c32e56f0d2f26de66e565f7a88bf58ba1590abb6e8d3094effd17f717",
+        "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "3cb4546229e80cca81cda9cdec1b9c6146b380271077e26f9324d8a4b6ecad9a"
+      },
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/team_tl3_original_20261018.zip",
+      "sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569"
+    },
+    "s3": {
+      "native_sha256": {
+        "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "4be7fa2ba2c17dea7d8631d6bb0667fd5a592d23321ebd81ee9f0a297359c7db",
+        "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "3f36627c32e56f0d2f26de66e565f7a88bf58ba1590abb6e8d3094effd17f717",
+        "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "3cb4546229e80cca81cda9cdec1b9c6146b380271077e26f9324d8a4b6ecad9a"
+      },
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/quota_20261024/tl3_h390_s3_20261024.zip",
+      "sha256": "56ebf18d26187541e539a31078a50dcbeb698e395ca0ecde5e1174aa2e929ded"
+    },
+    "s3_s4": {
+      "native_sha256": {
+        "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "4be7fa2ba2c17dea7d8631d6bb0667fd5a592d23321ebd81ee9f0a297359c7db",
+        "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "3f36627c32e56f0d2f26de66e565f7a88bf58ba1590abb6e8d3094effd17f717",
+        "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": "3cb4546229e80cca81cda9cdec1b9c6146b380271077e26f9324d8a4b6ecad9a"
+      },
+      "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/submissions/quota_20261024/tl3_h390_s3_s4_20261024.zip",
+      "sha256": "8bf614168d97d50b58557db3a1f5befa16f4912b5b8b1fbf609b087f62f96be2"
+    }
+  },
+  "grade_sha256": "a67c728bc08b0256dd7eb0785393461491a27fb1f61325801746397c21c6e56a",
+  "independent_scalar_review_sha256": "3e067e9904e92dd04383acc6a309d2228f7a79debc6001a4d6ab24662f3f2437",
+  "expected_public_gain": null,
+  "clean_cv": false,
+  "competition_upload": false,
+  "new_fits": 0,
+  "limits": [
+    "All supplied validation is repeatedly exposed; this is exploratory evidence, not clean CV.",
+    "H390 S3/S4 were fitted on train and validation; TL3 ancestry is unknown.",
+    "F0 and F2 are source-qualified sampling strata, not pristine holdouts.",
+    "Bootstrap intervals resample 32 components per fold conditional on these fixed predictions.",
+    "The equal-weight F0/F2 mean is descriptive; no pooled significance or public forecast is claimed.",
+    "The candidate coefficients were frozen before scoring; no coefficient search is authorized."
+  ]
+}

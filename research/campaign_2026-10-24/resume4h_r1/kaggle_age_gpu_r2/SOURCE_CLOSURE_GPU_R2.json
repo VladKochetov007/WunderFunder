@@ -1,0 +1,81 @@
+{
+  "cache_cost_gate": "F0 cache inventory from LOCAL_CACHE_VERIFICATION_R1.json: fit sequences 11,568,960,128 B; evaluation sequences 4,380,480,128 B; parent evaluation predictions 74,880,128 B; three-file total 16,024,320,384 B. The driver checks actual free disk before extraction/cache reconstruction against expanded bundle + cache total + 1,000,000,000 B reserve and the 20,000,000,000 B saved-output ceiling. Available provider disk size is not assumed. End-to-end wall cost remains unmeasured.",
+  "created_utc": "2026-10-24T12:09:34Z",
+  "driver": {
+    "normalized_placeholder_occurrences": 2,
+    "path": "kernel_driver_template.py",
+    "sha256": "fc923a9620376beddb3419198b3782d34869b539cbab674738f7aee21cc5ae95"
+  },
+  "independent_review_pending": true,
+  "machine_recipe_sha256": "0a67fe12c520e56bcf14a3a1efecb5030f3aa7ce932101814c9dd1c675c930fd",
+  "overlay": {
+    "bytes": 419840,
+    "expanded_bytes": 365960,
+    "file_count": 45,
+    "local_member_verification": "all members re-read and SHA/size checked against embedded manifest",
+    "manifest_sha256": "415b5ecad01b955dcadda10a3c667d621cf0e347d6e995ae7447428c2c054c25",
+    "path": "/home/vlad/development/wunder/research_tmp/resume4h_20261024/kaggle_age_gpu_r2_upload/dataset_upload/source_overlay_cuda_r2.wnn",
+    "sha256": "3347d9ee699e81ae5281a9dbca6476f7f9f6ba5c903919033c7e20382b5e6b8d"
+  },
+  "provider_mutations_performed": false,
+  "review_scope": "Source and metadata bytes only; no imports, cache/label reads, profile, scientific fit, Kaggle call or upload.",
+  "root_admission_pending": true,
+  "schema": "wnn.age-readout-source-closure-review.v1",
+  "scientific_scope": {
+    "cpu_cores": 1,
+    "cuda_allocator_bytes": 4000000000,
+    "device": "cuda",
+    "engineering_microfits": 3,
+    "evaluation_sequences": 8,
+    "evaluation_targets_and_masks_read": false,
+    "fit_sequences": 16,
+    "fold": 0,
+    "max_wall_seconds": 600,
+    "mode": "profile",
+    "new_scientific_fits": 0,
+    "official_metric_calls": 0,
+    "optimizer_updates": 360,
+    "quality_scores": 0,
+    "rss_watchdog_bytes": 4000000000,
+    "seed": 1001,
+    "swap_bytes": 0
+  },
+  "source_manifest": {
+    "candidate_content_verified_against": "source overlay payloads and current checkout files; the remote 1,143,552,000-byte base archive itself was not downloaded or rehashed here.",
+    "changed_from_parent": {
+      "src/wnn/training/age_readout_cli.py": {
+        "base_sha256": "f1bfefbc48223781453f5fe7d2dc2131c58b93ca109ee87b3a7fc1494b34bb6d",
+        "candidate_sha256": "4962b60511b1f79911f435dcd5190dc3f3a0fc3f58218eb8232ec59bd2d8e4d3"
+      },
+      "src/wnn/training/age_readout_portable_identity.py": {
+        "base_sha256": "262693b50289ff289ea0cea5b06a7880aad637b9ead949aa753b8f708323c18d",
+        "candidate_sha256": "e976c0311e53ce3d022e4ed6646dc28b83a137d18a136f0c3844476a8ec382c5"
+      },
+      "src/wnn/training/age_readout_portable_validate.py": {
+        "base_sha256": "15c0b2ae46538445088278dc78c3c0b9d919333d1cab5d543c5b6dc102e9e028",
+        "candidate_sha256": "a52a4a09bd57f321b89d241f5fad96d6ed6cbe889020187dbba5a6bf55ae21d6"
+      },
+      "src/wnn/training/age_readout_runner.py": {
+        "base_sha256": "5ea391789722a61dbec985f50b2fc1a02964f86a065269dfe05a275518aa9cb3",
+        "candidate_sha256": "77e3904c1d289af6e09b49d8062bb38495a308b82d8067869e354b7bef5a5c74"
+      },
+      "src/wnn/training/age_readout_runtime.py": {
+        "base_sha256": "e1d8cb833cc6a9a0f146ff706f03da4e7ac86bfcba5bd41aaca8cedf58a7ab57",
+        "candidate_sha256": "866ea97fae1ecd1598243e56fc23c112a01b9cf2b3cb70e73009f7ae3126eb6e"
+      }
+    },
+    "fit_source_map_matches": true,
+    "module_count": 66,
+    "path": "SOURCE_SHA256_GPU_R2.json",
+    "sha256": "2a5c006812a363f111db27c8ce2f49ce751c8aabc303c3ad59137e2bd7d3b934"
+  },
+  "status": "prepared_for_root_and_independent_review",
+  "strict_precision": {
+    "autocast": false,
+    "cuda_matmul_tf32": false,
+    "cudnn_tf32": false,
+    "default_dtype": "float32",
+    "deterministic_algorithms": true,
+    "gradient_scaler": false
+  }
+}

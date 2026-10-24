@@ -1,0 +1,84 @@
+{
+  "schema": "wnn.kaggle-profile-terminal-retry.v1",
+  "status": "failed_membership_identity_check_outputs_collected",
+  "recorded_utc": "2026-10-24T11:49:34Z",
+  "kernel": "vladkochetov07/wnn-age-readout-f0-cpu-profile-20261024-r3",
+  "kernel_version": 3,
+  "terminal_provider_status": "KernelWorkerStatus.ERROR",
+  "retry_admission": "PROFILE_F0_CPU_RETRY_R1_ADMISSION.json",
+  "startup_failure_record": "STARTUP_FAILURE_R4.json",
+  "prior_version_2_worker_and_quota_usage": "unknown; not imputed as zero",
+  "source_and_input_integrity": {
+    "source_sha256": "4b8e8f7a00d7d81a06f2e10f875fb10a74a76d4292b8d71667a8a629544ae22a",
+    "source_overlay_archive_sha256": "0b1e3c66bd76ae4f081a508b6bbbc33c31c81c29a80a71027754b7ddbfeabe93",
+    "source_overlay_manifest_sha256": "138dafd2f03e500190c7820a0aac86a4599a32caa7399d2e4421e7e81b2364659",
+    "source_manifest_sha256": "6ce40d6e4980caf5d7b41e47f104e4a845a30f557c151d60c5ca3852024a1e5a",
+    "bundle_archive_sha256": "971871550f50be91c5afe1134e1012a3ba3b9c94e2157b4f8b6ed17a62442ef8",
+    "bundle_manifest_sha256": "ea241506eadd0a34f437c699bab3b7784a69b818b710e3d016c9b3599774f99e",
+    "raw_sources": {
+      "train.parquet": 29240219011,
+      "valid.parquet": 5615509128
+    }
+  },
+  "execution": {
+    "kernel_log_was_empty": false,
+    "driver_receipt_present": true,
+    "driver_status": "failed",
+    "driver_elapsed_seconds": 36.658530117,
+    "archive_extraction_started": true,
+    "archive_expanded_bytes": 1143486298,
+    "archive_file_count": 60,
+    "profile_child_wall_seconds": 18.067465658000003,
+    "profile_peak_process_tree_rss_bytes": 429977600,
+    "cpu_affinity": [0],
+    "torch_threads": 1,
+    "gpu_visible": false,
+    "task_swap_peak_bytes": 0,
+    "target_cache_opened": false,
+    "engineering_micro_fits_completed": 0,
+    "optimizer_steps_completed": 0,
+    "new_scientific_fits": 0,
+    "quality_scoring": false,
+    "evaluation_targets_or_scoring_masks_read": false
+  },
+  "failure": {
+    "type": "CalledProcessError",
+    "message": "ValueError: portable fit cache subset membership identity changed",
+    "source_check": "In fold_metadata, fit sidecar subset_members_sha256 did not equal the selected_members_sha256 in the frozen fit subset metadata. The error arose before target-cache opening and before any profile microfit.",
+    "interpretation": "The retry passed archive, overlay, source-manifest, and raw-source validation and reached the profile subprocess. This is an input/cache membership-identity mismatch, not the previous empty-log startup failure or a source SHA mismatch. No scientific conclusion follows."
+  },
+  "collection": {
+    "command": "WNN_MEM_MAX=200M WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_RUNTIME_MAX=180 scripts/limited .venv/bin/kaggle kernels output vladkochetov07/wnn-age-readout-f0-cpu-profile-20261024-r3/3 -p /home/vlad/development/wunder/research_tmp/resume4h_20261024/kaggle_age_r4_launch/terminal_output_retry_r1 --file-pattern '(?i).*\\.(json|log|txt)$'",
+    "include_regex": "(?i).*\\.(json|log|txt)$",
+    "large_cache_downloaded": false,
+    "admission_collected_with_outputs": "terminal_retry_r1/PROFILE_F0_CPU_R3_ADMISSION.json",
+    "files": [
+      {
+        "path": "terminal_retry_r1/KERNEL_LOG.jsonl",
+        "bytes": 979,
+        "sha256": "765f789ffd53406fb428dee81db8b62b8e0bb8c0a7e1e6024da8c2993643d4d2"
+      },
+      {
+        "path": "terminal_retry_r1/PROFILE_DRIVER_RECEIPT_R3.json",
+        "bytes": 3528,
+        "sha256": "490013a44f8af84b851d6c4ffb6782460def7feb376966fa8e9666f575a8f464"
+      },
+      {
+        "path": "terminal_retry_r1/profile.stderr.log",
+        "bytes": 1496,
+        "sha256": "1ace742d91f1d16e3ede716bd25e720af3336bd3f81a5c3c34f8e31e049a3be2"
+      },
+      {
+        "path": "terminal_retry_r1/profile.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "terminal_retry_r1/PROFILE_F0_CPU_R3_ADMISSION.json",
+        "bytes": 17231,
+        "sha256": "038828d21d6de9edbafda1ba6fc7a111ca7ce3ea5570729b1037fb143f441801"
+      }
+    ]
+  },
+  "follow_up": "No further retry was performed. Root owns any new source/cache repair and admission."
+}

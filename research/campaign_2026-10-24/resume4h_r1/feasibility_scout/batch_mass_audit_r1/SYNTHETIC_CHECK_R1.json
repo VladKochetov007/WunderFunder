@@ -1,0 +1,22 @@
+{
+  "assertions": [
+    "clipped target and raw parent squared error",
+    "target-weight mass and distortion factor formulas",
+    "pooled versus equal-batch normalization including a zero-mass batch",
+    "canonical 1e-8 per-batch denominator clamp for a tiny positive mass",
+    "source-qualified component shares",
+    "a batch crossing a 20,000-row sequence boundary"
+  ],
+  "command": "WNN_MEM_MAX=150M WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_RUNTIME_MAX=60 scripts/limited uv run --no-sync python research/campaign_2026-10-24/resume4h_r1/feasibility_scout/batch_mass_audit_r1/check_batch_mass_synthetic.py",
+  "cpu_cores": 1,
+  "fixture_path": "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/batch_mass_audit_r1/check_batch_mass_synthetic.py",
+  "fixture_sha256": "d737eb55af8dddc30d8fb56c647056b5ddacc11fdc3c6b7c1f70471ee0a41f5a",
+  "memory_limit_bytes": 150000000,
+  "real_arrays_or_targets_read": false,
+  "result": "PASS: synthetic clipping, raw-parent loss, batch mass, and component measures",
+  "runner_path": "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/batch_mass_audit_r1/audit_batch_mass.py",
+  "runner_sha256": "a006abee7639efab27e66cdd0ab96c497699eae73adb5f0ed6f71a70ebc880e4",
+  "runtime_limit_seconds": 60,
+  "schema": "wnn.f0-f1-batch-mass-synthetic-check.v1",
+  "status": "passed"
+}

@@ -1,0 +1,78 @@
+{
+  "schema": "wnn.age-readout-r3-source-closure-review.v1",
+  "status": "manual_source_closure_pass_remote_validation_pending",
+  "review_scope": "Metadata and source review only; no imports, tests, admission, upload, Kaggle API call or execution.",
+  "r2_result": {
+    "status": "failed_before_profile",
+    "elapsed_seconds": 36.87376980199997,
+    "failure_class": "ModuleNotFoundError",
+    "missing_module": "wnn.i1_history",
+    "new_scientific_fits": 0,
+    "quality_grade": null
+  },
+  "base_bundle": {
+    "archive_sha256": "971871550f50be91c5afe1134e1012a3ba3b9c94e2157b4f8b6ed17a62442ef8",
+    "archive_bytes": 1143552000,
+    "manifest_sha256": "ea241506eadd0a34f437c699bab3b7784a69b818b710e3d016c9b3599774f99e",
+    "transport_sha256": "1ff63aaf02cf94176677e19b1bfebdce03404fe9ce8c800669953451dfcb8c6a",
+    "export_receipt_sha256": "c838527f734d7a2b791a704c1fa3ac900457b0d4b0876bf0d0a0d35b281fc40c",
+    "archive_reused_without_local_rebuild": true
+  },
+  "source_closure": {
+    "recipe_sha256": "0a67fe12c520e56bcf14a3a1efecb5030f3aa7ce932101814c9dd1c675c930fd",
+    "r2_manifest_sha256": "939e8a00a003d9299a397cac80753df67a56b65b34ed3bd0e8dce6726b109523",
+    "r2_source_pin_count": 28,
+    "r3_manifest_sha256": "6ce40d6e4980caf5d7b41e47f104e4a845a30f557c151d60c5ca3852024a1e5a",
+    "r3_source_pin_count": 66,
+    "added_dependency_count": 38,
+    "overlay_manifest_sha256": "138dafd2f03e500190c7820a0aac86a4599a32caa7399d2e4421e7e81b2364659",
+    "overlay_archive_sha256": "0b1e3c66bd76ae4f081a508b6bbbc33c31c81c29a80a71027754b7ddbfeabe93",
+    "overlay_archive_bytes": 368640,
+    "overlay_member_count": 40,
+    "overlay_expanded_bytes": 322258,
+    "only_replacement": {
+      "path": "repo/src/wnn/training/age_readout_provenance.py",
+      "base_sha256": "5435e4b57440dacc916d485f585ac3ae23c7ba31cd5453281d386ac2458194e8",
+      "sha256": "7e24081fc8dcae7960400d7c7a526dde6aa123da1ff0b3110553b61149ff9ad7",
+      "bytes": 10426
+    },
+    "independent_review_verdict": "pass_source_delta_only_remote_validation_pending",
+    "scientific_recipe_or_numerical_change": false
+  },
+  "driver_template": {
+    "path": "kernel_driver_template.py",
+    "sha256": "a876d587f1f7d50687879b0b65109a1c336a097f3b8f8ddad0f9ccd90c3b4688",
+    "bytes": 46244,
+    "normalized_admission_marker": "__PROFILE_ADMISSION_SHA256__",
+    "r3_behaviors_inspected": [
+      "R2 base archive remains separately SHA-pinned and streamed from the existing dataset.",
+      "R3 overlay archive and manifest are pinned to admission.",
+      "Overlay requires the exact R2 base archive SHA and R3 source manifest SHA.",
+      "Every overlay member must match its path, byte count and SHA; extra, duplicate, linked or missing members fail.",
+      "The only replacement must match its expected R2 base SHA; all other overlay paths must be absent.",
+      "Full R3 source maps are rehashed before the profile child starts.",
+      "Admission caps total wall at 900 seconds, CPU at two or fewer cores; root recipe requires one core.",
+      "Profile command remains F0 CPU profile-only, and receipt records zero fits and no quality scoring."
+    ],
+    "runtime_or_static_test_performed": false
+  },
+  "required_root_admission_fields": [
+    "bundle_archive_sha256",
+    "bundle_archive_bytes",
+    "bundle_manifest_sha256",
+    "transport_sha256",
+    "export_receipt_sha256",
+    "source_manifest_sha256",
+    "source_overlay_archive_sha256",
+    "source_overlay_archive_bytes",
+    "source_overlay_manifest_sha256",
+    "driver_template_sha256",
+    "max_wall_seconds",
+    "cpu_cores",
+    "ram_bytes",
+    "swap_bytes",
+    "new_scientific_fits",
+    "quality_scoring"
+  ],
+  "provider_mutations_performed": false
+}

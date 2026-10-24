@@ -1,0 +1,305 @@
+{
+  "packages": [
+    {
+      "artifact": {
+        "bytes": 12537972,
+        "path": "submissions/quota_20261024/tl3_h390_s3_20261024.zip",
+        "sha256": "56ebf18d26187541e539a31078a50dcbeb698e395ca0ecde5e1174aa2e929ded",
+        "zip_entries": {
+          "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 874656,
+            "crc32": "04d997e2",
+            "sha256": "4be7fa2ba2c17dea7d8631d6bb0667fd5a592d23321ebd81ee9f0a297359c7db"
+          },
+          "members.json": {
+            "bytes": 304,
+            "crc32": "417d816e",
+            "sha256": "b0aaa8b11f8da7a2067ae95774ce1c32720520510dc30720abbb398014736dca"
+          },
+          "solution.py": {
+            "bytes": 2053,
+            "crc32": "e20d68e1",
+            "sha256": "a3ff1da7bc503634fae75d3418f26f2b6e942ddc537d0c5b4b2561cfe14a41f6"
+          },
+          "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 879032,
+            "crc32": "568fbf8e",
+            "sha256": "3f36627c32e56f0d2f26de66e565f7a88bf58ba1590abb6e8d3094effd17f717"
+          },
+          "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 883320,
+            "crc32": "6a97b380",
+            "sha256": "3cb4546229e80cca81cda9cdec1b9c6146b380271077e26f9324d8a4b6ecad9a"
+          },
+          "weights_s5.npz": {
+            "bytes": 3908280,
+            "crc32": "c2dd31e6",
+            "sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6"
+          },
+          "weights_tl5.npz": {
+            "bytes": 4249448,
+            "crc32": "7eeabbab",
+            "sha256": "f067fe8d462d91ee1b6ec6b6f6182e1fd6e60ec41f95c1c5af2eab936ac92427"
+          },
+          "weights_tl6.npz": {
+            "bytes": 4249448,
+            "crc32": "77609c78",
+            "sha256": "1e674f922ffe3000f5c9c03d16d094315fa58bc5376d8f06be351811c8c38a60"
+          }
+        }
+      },
+      "authority": "research/campaign_2026-10-24/resume4h_r1/QUOTA_SUBMISSION_AUTHORITY_R1.json",
+      "candidate_id": "tl3_h390_s3",
+      "evidence_limits": [
+        "H390 S3/S4 were fitted on train+valid, so their saved validation predictions are exposed.",
+        "Original TL5/TL6 fit provenance and validation exposure are not established by the preserved TL3 ZIP receipt.",
+        "No exact composite grade or expected public-score gain is established.",
+        "Structural NPZ compatibility does not establish parity or runtime under the TL3 wnn_cpp wrapper."
+      ],
+      "members": [
+        {
+          "coef": 0.34,
+          "name": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+          "weights": "weights_s5.npz"
+        },
+        {
+          "coef": 0.33,
+          "name": "fttall_tlead_s5@ep3",
+          "weights": "weights_tl5.npz"
+        },
+        {
+          "coef": 0.33,
+          "name": "fttall_tlead_s6@ep3",
+          "weights": "weights_tl6.npz"
+        }
+      ],
+      "recipe": {
+        "path": "submissions/quota_20261024/BUILD_RECIPE_R1.json",
+        "sha256": "6838151cad4dea2127a84e00dfe17c6932860164c03d94df7074c7b79ca22954"
+      },
+      "schema": "wnn.tl3-h390-fixed-quota-package.v1",
+      "sources": {
+        "authority_sha256": "56f2725ceaeb3d9ff9b375e9a73a84ddf5e5fd42d6368729903ee8f95c18eec1",
+        "base_entries": {
+          "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 874656,
+            "crc32": "04d997e2",
+            "sha256": "4be7fa2ba2c17dea7d8631d6bb0667fd5a592d23321ebd81ee9f0a297359c7db"
+          },
+          "members.json": {
+            "bytes": 283,
+            "crc32": "d410e1f3",
+            "sha256": "7156289855a8b503dd1bd5949055b3461760aabcbf0fcd4800b532b837c5dd58"
+          },
+          "solution.py": {
+            "bytes": 2053,
+            "crc32": "e20d68e1",
+            "sha256": "a3ff1da7bc503634fae75d3418f26f2b6e942ddc537d0c5b4b2561cfe14a41f6"
+          },
+          "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 879032,
+            "crc32": "568fbf8e",
+            "sha256": "3f36627c32e56f0d2f26de66e565f7a88bf58ba1590abb6e8d3094effd17f717"
+          },
+          "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 883320,
+            "crc32": "6a97b380",
+            "sha256": "3cb4546229e80cca81cda9cdec1b9c6146b380271077e26f9324d8a4b6ecad9a"
+          },
+          "weights_s5.npz": {
+            "bytes": 3634530,
+            "crc32": "7fd5b4c7",
+            "sha256": "45ac50f7324b8e26f37eee97b975e2643134e54ab2399077de8778f931abc2bf"
+          },
+          "weights_tl5.npz": {
+            "bytes": 4249448,
+            "crc32": "7eeabbab",
+            "sha256": "f067fe8d462d91ee1b6ec6b6f6182e1fd6e60ec41f95c1c5af2eab936ac92427"
+          },
+          "weights_tl6.npz": {
+            "bytes": 4249448,
+            "crc32": "77609c78",
+            "sha256": "1e674f922ffe3000f5c9c03d16d094315fa58bc5376d8f06be351811c8c38a60"
+          }
+        },
+        "base_receipt_sha256": "73cd201b165424f4b7ec72fe4bf4d9d573f56d93c0501519ed3bc6a3ea11a2bd",
+        "base_zip_sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569",
+        "e_zip_sha256": "2aed2137c347344146e3481c83388d64bd5060b1c13bb66554b0bf9cc0027024",
+        "native_execution_performed": false,
+        "s3_payload_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6",
+        "s3_provenance_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+        "s4_payload_sha256": "9f019d54a147296037b1bb2c6ad8b15b87070bde0402ff5426ce9c4804f52eaf",
+        "s4_provenance_sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb",
+        "source_11_zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+        "source_fit_exposure": "train+valid; 10,606 train + 1,873 valid; no held-out groups"
+      },
+      "status": "built; native ABI/reset/runtime and quality gates pending",
+      "validation": {
+        "S3_and_S4_hash_pins_match": true,
+        "all_source_entry_hashes_match": true,
+        "native_import_or_prediction_run": false,
+        "new_fits": 0,
+        "package_crc_passed": true,
+        "portal_upload": false,
+        "target_reads_or_scores": 0,
+        "under_20_000_000_bytes": true
+      }
+    },
+    {
+      "artifact": {
+        "bytes": 16161940,
+        "path": "submissions/quota_20261024/tl3_h390_s3_s4_20261024.zip",
+        "sha256": "8bf614168d97d50b58557db3a1f5befa16f4912b5b8b1fbf609b087f62f96be2",
+        "zip_entries": {
+          "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 874656,
+            "crc32": "04d997e2",
+            "sha256": "4be7fa2ba2c17dea7d8631d6bb0667fd5a592d23321ebd81ee9f0a297359c7db"
+          },
+          "members.json": {
+            "bytes": 415,
+            "crc32": "d52885cf",
+            "sha256": "e6006fe64e11bdc41f2714380ae395648e7f970c44266b04e278b91f6835a380"
+          },
+          "solution.py": {
+            "bytes": 2053,
+            "crc32": "e20d68e1",
+            "sha256": "a3ff1da7bc503634fae75d3418f26f2b6e942ddc537d0c5b4b2561cfe14a41f6"
+          },
+          "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 879032,
+            "crc32": "568fbf8e",
+            "sha256": "3f36627c32e56f0d2f26de66e565f7a88bf58ba1590abb6e8d3094effd17f717"
+          },
+          "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 883320,
+            "crc32": "6a97b380",
+            "sha256": "3cb4546229e80cca81cda9cdec1b9c6146b380271077e26f9324d8a4b6ecad9a"
+          },
+          "weights_s4.npz": {
+            "bytes": 3908280,
+            "crc32": "b47816c3",
+            "sha256": "9f019d54a147296037b1bb2c6ad8b15b87070bde0402ff5426ce9c4804f52eaf"
+          },
+          "weights_s5.npz": {
+            "bytes": 3908280,
+            "crc32": "c2dd31e6",
+            "sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6"
+          },
+          "weights_tl5.npz": {
+            "bytes": 4249448,
+            "crc32": "7eeabbab",
+            "sha256": "f067fe8d462d91ee1b6ec6b6f6182e1fd6e60ec41f95c1c5af2eab936ac92427"
+          },
+          "weights_tl6.npz": {
+            "bytes": 4249448,
+            "crc32": "77609c78",
+            "sha256": "1e674f922ffe3000f5c9c03d16d094315fa58bc5376d8f06be351811c8c38a60"
+          }
+        }
+      },
+      "authority": "research/campaign_2026-10-24/resume4h_r1/QUOTA_SUBMISSION_AUTHORITY_R1.json",
+      "candidate_id": "tl3_h390_s3_s4",
+      "evidence_limits": [
+        "H390 S3/S4 were fitted on train+valid, so their saved validation predictions are exposed.",
+        "Original TL5/TL6 fit provenance and validation exposure are not established by the preserved TL3 ZIP receipt.",
+        "No exact composite grade or expected public-score gain is established.",
+        "Structural NPZ compatibility does not establish parity or runtime under the TL3 wnn_cpp wrapper."
+      ],
+      "members": [
+        {
+          "coef": 0.17,
+          "name": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+          "weights": "weights_s5.npz"
+        },
+        {
+          "coef": 0.17,
+          "name": "vt_all_h390_ds_homogeneous_s4_r3@ep5",
+          "weights": "weights_s4.npz"
+        },
+        {
+          "coef": 0.33,
+          "name": "fttall_tlead_s5@ep3",
+          "weights": "weights_tl5.npz"
+        },
+        {
+          "coef": 0.33,
+          "name": "fttall_tlead_s6@ep3",
+          "weights": "weights_tl6.npz"
+        }
+      ],
+      "recipe": {
+        "path": "submissions/quota_20261024/BUILD_RECIPE_R1.json",
+        "sha256": "6838151cad4dea2127a84e00dfe17c6932860164c03d94df7074c7b79ca22954"
+      },
+      "schema": "wnn.tl3-h390-fixed-quota-package.v1",
+      "sources": {
+        "authority_sha256": "56f2725ceaeb3d9ff9b375e9a73a84ddf5e5fd42d6368729903ee8f95c18eec1",
+        "base_entries": {
+          "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 874656,
+            "crc32": "04d997e2",
+            "sha256": "4be7fa2ba2c17dea7d8631d6bb0667fd5a592d23321ebd81ee9f0a297359c7db"
+          },
+          "members.json": {
+            "bytes": 283,
+            "crc32": "d410e1f3",
+            "sha256": "7156289855a8b503dd1bd5949055b3461760aabcbf0fcd4800b532b837c5dd58"
+          },
+          "solution.py": {
+            "bytes": 2053,
+            "crc32": "e20d68e1",
+            "sha256": "a3ff1da7bc503634fae75d3418f26f2b6e942ddc537d0c5b4b2561cfe14a41f6"
+          },
+          "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 879032,
+            "crc32": "568fbf8e",
+            "sha256": "3f36627c32e56f0d2f26de66e565f7a88bf58ba1590abb6e8d3094effd17f717"
+          },
+          "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so": {
+            "bytes": 883320,
+            "crc32": "6a97b380",
+            "sha256": "3cb4546229e80cca81cda9cdec1b9c6146b380271077e26f9324d8a4b6ecad9a"
+          },
+          "weights_s5.npz": {
+            "bytes": 3634530,
+            "crc32": "7fd5b4c7",
+            "sha256": "45ac50f7324b8e26f37eee97b975e2643134e54ab2399077de8778f931abc2bf"
+          },
+          "weights_tl5.npz": {
+            "bytes": 4249448,
+            "crc32": "7eeabbab",
+            "sha256": "f067fe8d462d91ee1b6ec6b6f6182e1fd6e60ec41f95c1c5af2eab936ac92427"
+          },
+          "weights_tl6.npz": {
+            "bytes": 4249448,
+            "crc32": "77609c78",
+            "sha256": "1e674f922ffe3000f5c9c03d16d094315fa58bc5376d8f06be351811c8c38a60"
+          }
+        },
+        "base_receipt_sha256": "73cd201b165424f4b7ec72fe4bf4d9d573f56d93c0501519ed3bc6a3ea11a2bd",
+        "base_zip_sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569",
+        "e_zip_sha256": "2aed2137c347344146e3481c83388d64bd5060b1c13bb66554b0bf9cc0027024",
+        "native_execution_performed": false,
+        "s3_payload_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6",
+        "s3_provenance_sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c",
+        "s4_payload_sha256": "9f019d54a147296037b1bb2c6ad8b15b87070bde0402ff5426ce9c4804f52eaf",
+        "s4_provenance_sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb",
+        "source_11_zip_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+        "source_fit_exposure": "train+valid; 10,606 train + 1,873 valid; no held-out groups"
+      },
+      "status": "built; native ABI/reset/runtime and quality gates pending",
+      "validation": {
+        "S3_and_S4_hash_pins_match": true,
+        "all_source_entry_hashes_match": true,
+        "native_import_or_prediction_run": false,
+        "new_fits": 0,
+        "package_crc_passed": true,
+        "portal_upload": false,
+        "target_reads_or_scores": 0,
+        "under_20_000_000_bytes": true
+      }
+    }
+  ],
+  "schema": "wnn.tl3-h390-quota-build-results.v1"
+}

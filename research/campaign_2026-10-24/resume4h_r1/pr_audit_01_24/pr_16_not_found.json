@@ -1,0 +1,18 @@
+{
+  "number": 16,
+  "result": "no_pull_request",
+  "inventory_file": "../ALL_PRS_R1.json",
+  "inventory_entry": false,
+  "queries": [
+    {
+      "command": "gh pr view 16 --repo VladKochetov007/WunderFunder --json number,title,body,headRefName,headRefOid,baseRefName,updatedAt,state,url,isDraft,mergedAt,comments,commits,files,statusCheckRollup,reviews",
+      "exit_code": 1,
+      "stderr": "GraphQL: Could not resolve to a PullRequest with the number of 16. (repository.pullRequest)"
+    },
+    {
+      "command": "gh api repos/VladKochetov007/WunderFunder/pulls/16",
+      "exit_code": 1,
+      "stderr": "gh: Not Found (HTTP 404)"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.pr-artifact-recovery.v1",
+  "status": "verified_from_fetched_branch_without_extraction",
+  "verified_utc": "2026-10-24T11:56:55Z",
+  "pr": 33,
+  "source": {
+    "branch": "origin/experiment/next-cycle-publication-20261021",
+    "archive_path": "research/campaign_2026-10-21/kaggle_h512_profile_r1/archives/raw_delivery_snapshots_r1.tar.gz",
+    "git_blob_oid": "9718bcd268b8dd518b43e296595c9940c7233141",
+    "trusted_manifest_branch_path": "research/campaign_2026-10-21/kaggle_h512_profile_r1/archives/ARCHIVE_MANIFEST_R1.json",
+    "trusted_manifest_local_copy": "PR33_ARCHIVE_ARCHIVE_MANIFEST_R1.json",
+    "trusted_manifest_sha256": "8519822bd2aa9733ec4ce7e4fc7a9fce01d5c2dc76f69ed8ef8307fd5358120d",
+    "manifest_copy_matches_branch": true
+  },
+  "artifact": {
+    "physical_path": "/home/vlad/development/wunder/research_tmp/resume4h_20261024/remote_artifacts/pr33-raw-delivery-snapshots-r1.tar.gz",
+    "bytes": 2887016,
+    "sha256": "b42d4740fd658e369ac534f44b465b868f63e47e81b5aecc02d826ffe9a03d92",
+    "expected_bytes_match": true,
+    "expected_sha256_match": true
+  },
+  "manifest_verification": {
+    "regular_file_count": 368,
+    "directory_count": 36,
+    "expanded_regular_file_bytes": 11134076,
+    "all_manifest_paths_sizes_and_sha256_match": true,
+    "unmanifested_files": 0,
+    "missing_manifest_files": 0,
+    "duplicate_paths": 0,
+    "unsafe_paths": 0,
+    "symlinks_or_nonregular_members": 0,
+    "extracted_to_disk": false,
+    "archive_code_executed": false
+  },
+  "artifact_contents_and_scope": {
+    "archive_is_operational_delivery_snapshot": true,
+    "included_input_bundles": [
+      {"path": "bundle/bundle.wnn", "bytes": 662718},
+      {"path": "bundle_attempt2/bundle.wnn", "bytes": 665376}
+    ],
+    "model_weight_or_checkpoint_payloads": 0,
+    "manifest_paths_matching_model_weight_suffixes": 0,
+    "source_checkpoint_code_files_are_not_weights": true,
+    "archive_readme_says_neither_attempt_reached_training": true,
+    "profile_or_fit_rerun": false,
+    "payloads_are_copied_into_repository": false
+  },
+  "verification_method": "Computed the archive SHA256, then streamed each gzip-tar member through SHA256 and compared every regular-file path, size and digest against the manifest. Rejected path traversal, duplicate paths, links and non-regular entries. No member was extracted and no code was executed.",
+  "related_records": [
+    "PR33_ARCHIVE_ARCHIVE_MANIFEST_R1.json",
+    "PR33_ARCHIVE_README.md",
+    "../ALL_PR_RESEARCH_SUMMARY_R1.md"
+  ]
+}

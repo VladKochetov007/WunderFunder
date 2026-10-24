@@ -1,0 +1,91 @@
+{
+  "schema": "wnn.submission-quota-inventory.v1",
+  "date": "2026-10-24",
+  "scope": "Read-only inventory and source/package feasibility. No ZIP built, no model imported or run, no targets scored, and no portal upload performed.",
+  "authority": "research/campaign_2026-10-24/resume4h_r1/QUOTA_SUBMISSION_AUTHORITY_R1.json",
+  "reported_public_reference": {
+    "score": 0.66832,
+    "portal_id": "1lmehfi3",
+    "receipt": "research/campaign_2026-10-22/quota_retained_pair_r1/PUBLIC_RECEIPT_R1.json",
+    "source_status": "User-provided portal history; not independently re-queried."
+  },
+  "existing_unsubmitted_candidate": {
+    "path": "submissions/10-11-67/11_h390_student_s3_h388_teacher_s5_all_q8vnni.zip",
+    "bytes": 12914019,
+    "sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+    "members": [
+      "vt_all_h390_ds_homogeneous_s3_r3@ep5:0.5",
+      "vt_all_h388_muonall_h384_e3_s5@ep2:0.5"
+    ],
+    "precision": "Q8VNNI",
+    "evidence": {
+      "gate_receipt": "submissions/10-11-exploit-now_r2/h390_student_h388_teacher_pair_q8/PACKAGE_GATE_RECONCILIATION_R2.json",
+      "python311_exact_zip_callback": "pass; 10 complete 20,000-row feature-only sequences; 400,000 callbacks; finite outputs; bitwise reset/replay; 72.61-74.81 us/row on local i9-11900H",
+      "python313_exact_zip_callback": "pass; 10 complete 20,000-row feature-only sequences; 400,000 callbacks; finite outputs; bitwise reset/replay; 67.34-70.42 us/row on local i9-11900H",
+      "static_native_abi": "three packaged ISA variants; GLIBC 2.34 floor; no libpython dependency, as recorded in the package audit",
+      "quality": "No held-out score for these all-data endpoints. The related 0.6725742672 fold1 result uses different members and is only an analogy, not this ZIP's score.",
+      "public_status": "Saved readiness record recommends it as an optional runtime canary and does not record an upload. No live portal query was performed for this inventory."
+    },
+    "assessment": "Best already-packaged optional canary found, but it has no exact matched local grade or supported expected-public gain."
+  },
+  "new_fixed_endpoint_feasibility": {
+    "base_archive": {
+      "path": "submissions/team_tl3_original_20261018.zip",
+      "bytes": 12538394,
+      "sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569",
+      "original_student_member": "weights_s5.npz",
+      "original_student_member_bytes": 3634530,
+      "original_student_member_sha256": "45ac50f7324b8e26f37eee97b975e2643134e54ab2399077de8778f931abc2bf",
+      "wrapper_contract": "members.json supplies arbitrary NPZ member paths and coefficients; solution.py loads each NPZ as a float32 key-to-array mapping into wnn_cpp.Ensemble. Existing TL3 S5 and H390 S3/S4 have identical keys, shapes and dtypes."
+    },
+    "candidate_members": [
+      {
+        "name": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+        "path": "artifacts/team_models_20261013/E/weights_0.npz",
+        "bytes": 3908280,
+        "sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6",
+        "architecture_from_tensor_metadata": "2-layer GRU, hidden 256; 211 inputs; 2 outputs; all 16 arrays float32; mean/std each [211] float32",
+        "same_raw_array_hashes_as_tl3_s5": 0,
+        "normalizer_payloads_equal_tl3_s5": false,
+        "fit_exposure": "All-data train+valid endpoint; cannot support held-out quality claims."
+      },
+      {
+        "name": "vt_all_h390_ds_homogeneous_s4_r3@ep5",
+        "path": "artifacts/team_models_20261013/E/weights_1.npz",
+        "bytes": 3908280,
+        "sha256": "9f019d54a147296037b1bb2c6ad8b15b87070bde0402ff5426ce9c4804f52eaf",
+        "architecture_from_tensor_metadata": "2-layer GRU, hidden 256; 211 inputs; 2 outputs; all 16 arrays float32; mean/std each [211] float32",
+        "same_raw_array_hashes_as_tl3_s5": 0,
+        "same_raw_array_hashes_as_h390_s3": 0,
+        "normalizer_payloads_equal_tl3_s5": false,
+        "fit_exposure": "All-data train+valid endpoint; cannot support held-out quality claims."
+      }
+    ],
+    "proposals": [
+      {
+        "id": "tl3_h390_s3",
+        "coefficients": [0.34, 0.33, 0.33],
+        "members": ["H390 S3", "original TL5", "original TL6"],
+        "estimated_zip_bytes_from_entry_sizes": 12812144,
+        "status": "Structurally feasible as a replacement; exact ZIP, ABI, callback, reset and runtime validation remain to be run by root/packager."
+      },
+      {
+        "id": "tl3_h390_s3_s4",
+        "coefficients": [0.17, 0.17, 0.33, 0.33],
+        "members": ["H390 S3", "H390 S4", "original TL5", "original TL6"],
+        "estimated_zip_bytes_from_entry_sizes": 16720424,
+        "status": "Structurally feasible as a two-entry replacement; exact ZIP, ABI, callback, reset and runtime validation remain to be run by root/packager."
+      }
+    ],
+    "runtime_and_precision_limits": "The source TL3 ZIP carries wnn_cpp CPython 3.11 ISA binaries and dynamically quantizes non-fp32 members. Existing H390 ZIPs use a separate wnn_native ABI and precision path. Structural NPZ compatibility does not establish cross-wrapper prediction parity, quantization error or callback cost. No runtime or scientific score was measured for these two proposals.",
+    "saved_component_predictions": "Member-bank E S3/S4 diagnostics contain FP32 predictions for 1,873 validation row groups each, but these are all-data-trained members and not clean held-out evidence or an exact native TL3 package score. Existing original TL3 cache is a separate exposed diagnostic; no exact composite package prediction/score was found.",
+    "historical_public_exclusions": "Previously reported public results include H390 S3/S4 equal at 0.6656, H390 S3/Z4 at 0.6668, and H390 S3/S4/Z4 at 0.6671 (submissions/10-12-best-r1/PUBLIC_RESULTS_20261012_R1.json). These are different packages and are not repeated bytes. Other saved public comparisons in the Oct 22 receipt do not establish a gain for either proposed endpoint.",
+    "public_gain_forecast": null
+  },
+  "recommendation": {
+    "ranked_existing": ["submissions/10-11-67/11_h390_student_s3_h388_teacher_s5_all_q8vnni.zip"],
+    "ranked_new_exploratory": ["tl3_h390_s3", "tl3_h390_s3_s4"],
+    "reason": "The single replacement is the cheaper fixed endpoint and isolates the H390 S3 insertion under the TL3 scaffold; the two-seed replacement is a distinct follow-up testing S3/S4 contributions at a fixed total 0.34 coefficient. Neither has measured matched local quality or a supported public-score forecast. Root owns all package admission and upload decisions."
+  },
+  "actions_not_taken": ["No weight inference", "No target/label reads", "No new score computation", "No ZIP build", "No provider query", "No upload"]
+}

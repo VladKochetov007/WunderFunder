@@ -1,0 +1,30 @@
+{
+  "schema": "wnn.age-readout-kaggle-r3-independent-followup.v1",
+  "status": "conditional_pass_for_root_controlled_admission",
+  "reviewed_artifacts": {
+    "scope_amendment_r2_sha256": "0e076c47d3794c07ceaa3b4b97a6d03d180d95f17a6d946b5081ead59c4c6e7f",
+    "kernel_recipe_r2_sha256": "2fb1103f1040278d725545746acbb127e4644414eddf431de9770061f1f8cae3",
+    "driver_template_r2_sha256": "20fdd72a4d3d2d260bb7604187e540bc6017abed2798d465a74f55f912aa7484",
+    "r3_source_manifest_sha256": "6ce40d6e4980caf5d7b41e47f104e4a845a30f557c151d60c5ca3852024a1e5a",
+    "r3_overlay_archive_sha256": "0b1e3c66bd76ae4f081a508b6bbbc33c31c81c29a80a71027754b7ddbfeabe93",
+    "r3_overlay_manifest_sha256": "138dafd2f03e500190c7820a0aac86a4599a32caa7399d2e4421e7e81b2364659"
+  },
+  "r1_findings_resolved": {
+    "one_cpu": "R2 admission validation requires cpu_cores == 1.",
+    "ram_admission": "R2 admission requires ram_bytes == 4,000,000,000, matching the fixed RSS watchdog threshold.",
+    "profile_scope": "R2 explicitly records three engineering micro-fits, arms A/G/F, three epochs, 16 fit sequences, 40 batches per epoch, 120 optimizer steps per arm and 360 total steps. It records training target/weight reads and no evaluation target/mask reads, quality scoring, full scientific fits or checkpoint serialization."
+  },
+  "static_validation": {
+    "driver_ast_parse": "passed",
+    "recipe_and_amendment_json_parse": "passed",
+    "source_closure_and_archive_safety": "R1 review remains applicable: 28 R2 source pins match the base bundle manifest; the R3 overlay's 38 additions and one replacement match the R3 source map; all overlay tar members are regular and match the overlay manifest hashes.",
+    "private_no_internet_no_gpu_metadata": "passed",
+    "remote_import_profile_or_provider_mutation": "not performed"
+  },
+  "remaining_conditions": [
+    "Root must create the admitted receipt, confirm the exact private dataset/kernel IDs before create versus version, and render only the PROFILE_ADMISSION_SHA256 assignment marker.",
+    "Collect the exact admission JSON with PROFILE_DRIVER_RECEIPT_R3.json, the profile JSON and logs. The current driver receipt records new_scientific_fits=0 and quality_scoring=false but does not repeat engineering_micro_fits, optimizer_steps_total or training_targets_read; retaining the hashed admission preserves that scope alongside the result.",
+    "Remote import success and actual resource use remain unknown until the root-controlled profile completes. The one-second sampled process-tree RSS watchdog is not cgroup hard containment."
+  ],
+  "not_checked": "No Kaggle API call, upload, remote import, training/profile execution, label read, or prediction/target payload read was performed by this reviewer."
+}

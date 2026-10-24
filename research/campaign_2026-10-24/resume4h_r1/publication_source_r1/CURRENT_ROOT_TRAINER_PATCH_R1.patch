@@ -1,0 +1,98 @@
+diff --git a/src/wnn/training/age_readout_portable_identity.py b/src/wnn/training/age_readout_portable_identity.py
+index 6ed910ead..49cc1a783 100644
+--- a/src/wnn/training/age_readout_portable_identity.py
++++ b/src/wnn/training/age_readout_portable_identity.py
+@@ -14,7 +14,6 @@ from wnn.training.online_relationship_cache import (
+     SequenceCache,
+     row_refs_sha256,
+ )
+-from wnn.training.online_relationship_sources import module_hashes
+ 
+ from .age_readout_portable_paths import PortablePaths
+ 
+@@ -49,6 +48,8 @@ def verify_loaded_cache_metadata(
+     repo_root: Path,
+ ) -> None:
+     """Recheck cache sidecar contracts after exact full-payload reconstruction."""
++    from wnn.training.online_relationship_sources import module_hashes
++
+     if (
+         fit.metadata.get("schema") != CACHE_SCHEMA
+         or evaluation.metadata.get("schema") != CACHE_SCHEMA
+diff --git a/src/wnn/training/age_readout_portable_validate.py b/src/wnn/training/age_readout_portable_validate.py
+index 82b10ae47..9f59bf42d 100644
+--- a/src/wnn/training/age_readout_portable_validate.py
++++ b/src/wnn/training/age_readout_portable_validate.py
+@@ -81,7 +81,13 @@ def fold_metadata(
+         raise ValueError("frozen fit subset metadata SHA changed")
+     subset = _json(subset_path)
+     selected = subset["selected_groups"]
+-    subset_metadata = subset.get("manifest", {})
++    subset_members_sha256 = subset.get("selected_members_sha256")
++    if (
++        not isinstance(subset_members_sha256, str)
++        or len(subset_members_sha256) != 64
++        or any(character not in "0123456789abcdef" for character in subset_members_sha256)
++    ):
++        raise ValueError("frozen fit subset has no selected-membership SHA256")
+     fit_refs = [
+         {"split": split, "row_group": int(group)}
+         for split, groups in (("train", selected["train"]), ("valid", selected["valid"]))
+@@ -103,7 +109,7 @@ def fold_metadata(
+             raise ValueError(f"portable {name} cache split identity changed")
+         if value.get("subset_manifest_sha256") != source_fold["subset"]["sha256"]:
+             raise ValueError(f"portable {name} cache subset identity changed")
+-        if value.get("subset_members_sha256") != subset_metadata.get("selected_members_sha256"):
++        if value.get("subset_members_sha256") != subset_members_sha256:
+             raise ValueError(f"portable {name} cache subset membership identity changed")
+     source_datasets = fit_meta.get("source_datasets", {})
+     if source_datasets.get("campaign_split_sha256") != source_fold["split_manifest_sha256"]:
+diff --git a/src/wnn/training/age_readout_provenance.py b/src/wnn/training/age_readout_provenance.py
+index 72b726bbb..a886f2003 100644
+--- a/src/wnn/training/age_readout_provenance.py
++++ b/src/wnn/training/age_readout_provenance.py
+@@ -41,6 +41,44 @@ SOURCE_FILES = (
+     "src/wnn/training/age_readout_cli.py",
+     "src/wnn/data.py",
+     "scripts/age_readout_screen.py",
++    "src/wnn/block_memory_attention.py",
++    "src/wnn/event_content.py",
++    "src/wnn/gmetric.py",
++    "src/wnn/i1_history.py",
++    "src/wnn/i1_history_scan.py",
++    "src/wnn/i1_history_streaming.py",
++    "src/wnn/kalman_group_features.py",
++    "src/wnn/metric.py",
++    "src/wnn/moment_geometry/analysis.py",
++    "src/wnn/moment_geometry/features.py",
++    "src/wnn/moment_geometry/online.py",
++    "src/wnn/nn.py",
++    "src/wnn/numeric_ple.py",
++    "src/wnn/optim.py",
++    "src/wnn/outcomes.py",
++    "src/wnn/privileged.py",
++    "src/wnn/propensity.py",
++    "src/wnn/quantization.py",
++    "src/wnn/sentinel.py",
++    "src/wnn/specialist.py",
++    "src/wnn/structured_state.py",
++    "src/wnn/training/averaging.py",
++    "src/wnn/training/cache_identity.py",
++    "src/wnn/training/environment.py",
++    "src/wnn/training/evaluation.py",
++    "src/wnn/training/forward.py",
++    "src/wnn/training/i1_inputs.py",
++    "src/wnn/training/inputs.py",
++    "src/wnn/training/membership.py",
++    "src/wnn/training/model_validation.py",
++    "src/wnn/training/models.py",
++    "src/wnn/training/online_relationship_data_writer.py",
++    "src/wnn/training/online_relationship_parent_batch.py",
++    "src/wnn/training/targets.py",
++    "src/wnn/training_dynamics.py",
++    "src/wnn/training_factorized.py",
++    "src/wnn/training_qat.py",
++    "src/wnn/training_state.py",
+ )
+ 
+ 

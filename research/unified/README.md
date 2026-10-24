@@ -1,5 +1,11 @@
 # Unified research library
 
+Active October24 scope: [four-hour research resume and all-PR/artifact recovery](../campaign_2026-10-24/resume4h_r1/README.md). The user explicitly resumes runs via gh/Kaggle/bounded local compute, superseding the October23 stop below; latest local safety caps and earlier production reserve remain binding. Use the new frontier for live work.
+
+Latest outputs: [two technically checked quota ZIPs and fixed sample results](../campaign_2026-10-24/resume4h_r1/quota_submission_r1/RESULTS_AND_HANDOFF_R1.md), [F1's essentially flat fixed-shrink follow-up](../campaign_2026-10-24/resume4h_r1/feasibility_scout/f1_mean_shrink_r1/RESULTS_R2.md), and the [additional one-Astra fundamentals reframe](../campaign_2026-10-24/resume4h_r1/astra_fundamentals_r1/README.md). The packages are exploratory, not clean CV or public-gain forecasts; the completed [direction decomposition](../campaign_2026-10-24/resume4h_r1/feasibility_scout/direction_probe_r1/RESULTS_R2.md) and [fitting-weight audit](../campaign_2026-10-24/resume4h_r1/feasibility_scout/batch_mass_audit_r1/RESULTS_R1.md) test the reframe against actual saved artifacts. The [campaign synthesis](../campaign_2026-10-24/resume4h_r1/CAMPAIGN_SYNTHESIS_R1.md) integrates all results, failures and remaining questions.
+
+Historical October23 scope: experiments were stopped under the preserved user stop. The separately requested [ten-reviewer Astra/ultra audit](reviews/astra_ultra_audit_20261023_r1/README.md) is complete: [comprehensive synthesis](reviews/astra_ultra_audit_20261023_r1/SYNTHESIS.md), forty proposal cards, seventy questions, preserved independent reports and corrected historical evidence. That audit added no fits, evaluations or execution authority. The October24 resume above supersedes its stop scope; use current state for effective authority.
+
 PR32 R4: [batch96/64 selection, batch128 measurement and CPU/transfer costs](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/BATCH_THROUGHPUT_20261024.md).
 
 PR32 execution handoff: [measured Blackwell recipe, startup repair and four-teacher allocation](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/README.md).
@@ -13,7 +19,7 @@ Start with [current state](../../specs/current-state.md) and the
 The user requested implementation of the October 20 cycle with 15 local GPU-hours
 and verified available Kaggle quota, without a mandatory 30-run matrix.
 Preparation is active; the [campaign frontier](../campaign_2026-10-20/plateau_review_r1/FRONTIER.md)
-records actual progress. The [October 18 stop](operations/RESEARCH_STOP_20261018_R1.md)
+records actual progress. The [October 18 stop](https://github.com/VladKochetov007/WunderFunder/blob/c3e208b387ead0ec967f9abc4b14275eb8ba94c5/research/unified/operations/RESEARCH_STOP_20261018_R1.md)
 remains historical authority for unrelated work. This index distinguishes
 measured results, implementation drafts and historical plans.
 
@@ -24,7 +30,7 @@ specifies0.68B/1.65B capacity recipes, optional3.17B scaling, dynamics embedding
 FP32 Muon/WSD/DDP, causal long memory and measured GRU transfer. Sources and
 independent design criticism are indexed; no new fit, B300 profile or gain exists.
 
-Latest broad campaign closeout: [Online-features closeout](../campaign_2026-10-18/online_features_r1/CLOSEOUT_20261018_R1.md)
+Latest broad campaign closeout: [Online-features closeout](https://github.com/VladKochetov007/WunderFunder/blob/c3e208b387ead0ec967f9abc4b14275eb8ba94c5/research/campaign_2026-10-18/online_features_r1/CLOSEOUT_20261018_R1.md)
 — summarizes causal-state, Kalman, gating, model-blend, submission and local code-draft evidence from the closed campaign. The new plan contains no additional quality result yet.
 
 The October 19 [B300 PR review](reviews/B300_PR_RUN_UPDATE_REVIEW_20261019_R1.md)

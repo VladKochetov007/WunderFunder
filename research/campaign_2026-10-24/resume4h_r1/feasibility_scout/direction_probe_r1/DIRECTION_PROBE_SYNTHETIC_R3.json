@@ -1,0 +1,145 @@
+{
+  "assertions": [
+    "float64 one-sided finite differences converge to alpha=0 and alpha=0.1 derivatives",
+    "signed right clip tangents handle exact boundaries and strict saturation",
+    "raw additive full cross-moments and stable centered merges match direct rows",
+    "component-resampled moments match repeated direct rows and expose rank changes",
+    "calibration plus common-A projection reconstructs the derivative with bounded norm share",
+    "official W, target-SD, prediction-SD EPS branches and final rho clip are explicit",
+    "canonical global_wp_clip2_v1 accumulator accepts the synthetic row mask"
+  ],
+  "clip_boundary_derivatives": {
+    "expected": [
+      1.0,
+      0.0,
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      2.0
+    ],
+    "observed": [
+      1.0,
+      0.0,
+      -1.0,
+      0.0,
+      0.0,
+      0.0,
+      2.0
+    ]
+  },
+  "component_and_projection_checks": {
+    "bootstrap_direct_row_checks": {
+      "component0_twice": {
+        "rank_calibration": 1,
+        "rank_calibration_plus_A": 1
+      },
+      "component1_twice": {
+        "rank_calibration": 1,
+        "rank_calibration_plus_A": 2
+      }
+    },
+    "centered_moments_vs_direct_max_abs_error": 2.0816681711721685e-17,
+    "full_rank_calibration_plus_A": 2,
+    "projection_identity_error": -1.3010426069826053e-18,
+    "projection_norm_share": 0.8366606109311377,
+    "rank_histogram_fixture": {
+      "calibration": {
+        "1": 2
+      },
+      "calibration_plus_A": {
+        "1": 1,
+        "2": 1
+      }
+    },
+    "raw_additive_vs_direct_max_abs_error": 2.2204460492503136e-16
+  },
+  "finite_difference_derivatives": {
+    "0.0": {
+      "finite_differences": [
+        {
+          "error_vs_mean_derivative": 3.606501445566025e-06,
+          "finite_difference": -0.0016534486113606306,
+          "step": 0.0001
+        },
+        {
+          "error_vs_mean_derivative": 3.606423085414541e-07,
+          "finite_difference": -0.001650202752223606,
+          "step": 1e-05
+        },
+        {
+          "error_vs_mean_derivative": 3.590207383881265e-08,
+          "finite_difference": -0.0016498780119889034,
+          "step": 1e-06
+        }
+      ],
+      "target_derivatives": [
+        -0.002770068097792365,
+        -0.0005296161220377641
+      ],
+      "wp_mean_derivative": -0.0016498421099150646
+    },
+    "0.1": {
+      "finite_differences": [
+        {
+          "error_vs_mean_derivative": 3.6594832798098748e-06,
+          "finite_difference": -0.008923491200407696,
+          "step": 0.0001
+        },
+        {
+          "error_vs_mean_derivative": 3.6595227633114125e-07,
+          "finite_difference": -0.008920197669404217,
+          "step": 1e-05
+        },
+        {
+          "error_vs_mean_derivative": 3.668233168781232e-08,
+          "finite_difference": -0.008919868399459574,
+          "step": 1e-06
+        }
+      ],
+      "target_derivatives": [
+        -0.011823988504242301,
+        -0.006015674930013471
+      ],
+      "wp_mean_derivative": -0.008919831717127886
+    }
+  },
+  "import_resolution": {
+    "module_bodies_executed": false,
+    "resolved_module_paths": {
+      "f0_grade_preflight": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/feasibility_scout/f0_grade_preflight.py",
+      "f1_grade_preflight_r2": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/feasibility_scout/f1_mean_shrink_r1/f1_grade_preflight_r2.py"
+    }
+  },
+  "official_gate_checks": {
+    "correlation_upper_boundary": {
+      "derivative": 0.0,
+      "status": "upper_correlation_boundary"
+    },
+    "prediction_sd_exact_eps": {
+      "derivative": null,
+      "right_gate": "opens_for_positive_alpha",
+      "status": "prediction_sd_exact_eps_gate_boundary"
+    },
+    "target_sd_exact_eps": {
+      "right_gate": "stays_closed_target_is_fixed",
+      "status": "target_sd_exact_eps_gate_boundary"
+    },
+    "weight_below_eps": "weight_below_eps"
+  },
+  "official_metric_fixture": {
+    "metric_id": "global_wp_clip2_v1",
+    "selected_rows": 3,
+    "t0": 0.9917790736823155,
+    "t1": 0.9964037889581915,
+    "wp": 0.9940914313202536
+  },
+  "real_prediction_or_target_payloads_opened": false,
+  "schema": "wnn.fixed-prediction-direction-probe-synthetic.v3",
+  "source_sha256": {
+    "math": "aaa2ec712c389e14dccf63c893217da1d22222180ea565c3801c35638009f3e6",
+    "runner": "91021dfd231ae9a56e3ccb1a31288ee76cee9c3e335c04cea77b4535ca8bf3a3",
+    "synthetic_checker": "510dc976e2a2454913c2e099b692aebeb14168c23664f3b69d37a60ea794b163"
+  },
+  "status": "passed"
+}

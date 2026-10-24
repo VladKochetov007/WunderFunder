@@ -1,0 +1,174 @@
+{
+  "cache": {
+    "cleanup_after_profile": true,
+    "disk_preflight": {
+      "check": "driver calls shutil.disk_usage(DISK_ROOT) before extraction/cache reconstruction and fails closed if current free space is insufficient",
+      "maximum_saved_output_bytes": 20000000000,
+      "provider_free_space_assumed": false,
+      "runtime_free_space_required_bytes": "extracted_bundle_expanded_bytes + total_f0_cache_file_bytes_expected + 1_000_000_000 output reserve"
+    },
+    "evaluation_cache_contract": "feature_only_eval; evaluation target and scoring-mask columns are not indexed by the profile loop",
+    "evaluation_sequences_bytes_expected": 4380480128,
+    "fit_sequences_bytes_expected": 11568960128,
+    "parent_evaluation_predictions_bytes_expected": 74880128,
+    "reason_not_reused": "The R3 CPU driver removes its generated fold cache during finalization; it does not publish a reusable cache artifact.",
+    "rebuild_and_hash_all_fold_members": true,
+    "rebuild_in_same_kernel": true,
+    "reuse_from_r3_cpu_run": false,
+    "source_of_byte_accounting": "LOCAL_CACHE_VERIFICATION_R1.json, fold-0 NumPy headers and file sizes; total is the sum of fit_sequences, evaluation_sequences, and evaluation_predictions payload files.",
+    "total_f0_cache_file_bytes_expected": 16024320384,
+    "wall_cost": "unknown until the R3 Kaggle CPU cache-parity profile provides a measured cache-open duration"
+  },
+  "commands": {
+    "dataset_create_after_root_authorization": "scripts/limited .venv/bin/kaggle datasets create --path <GPU_R2_OVERLAY_UPLOAD_DIR> --dir-mode skip",
+    "kernel_push_after_root_authorization": "scripts/limited .venv/bin/kaggle kernels push -p <GPU_R2_KERNEL_UPLOAD_DIR>",
+    "kernel_staging": "Render kernel_driver_template.py by replacing only __PROFILE_ADMISSION_SHA256__ with the issued admission file SHA; add kernel-metadata.template.json as kernel-metadata.json.",
+    "overlay_dataset_staging": "If root later admits, stage only dataset-metadata.json, source_overlay_cuda_r2.wnn, and issued admission; reuse the already-published suffix archive and raw-data datasets.",
+    "profile_child": [
+      "python",
+      "scripts/age_readout_screen.py",
+      "profile",
+      "--repo-root",
+      "/kaggle/working/disk_scratch/age_actor_bundle/repo",
+      "--recipe",
+      "research/experiment_drafts/b300-fast-local-kaggle-20261023/recipe.json",
+      "--recipe-sha256",
+      "0a67fe12c520e56bcf14a3a1efecb5030f3aa7ce932101814c9dd1c675c930fd",
+      "--fold",
+      "0",
+      "--device",
+      "cuda",
+      "--admission",
+      "/kaggle/input/wnn-age-gpu-profile-20261024-r2/PROFILE_F0_CUDA_R2_ADMISSION.json",
+      "--source-manifest",
+      "research/experiment_drafts/b300-fast-local-kaggle-20261023/source/SOURCE_SHA256_GPU_R2.json",
+      "--source-manifest-sha256",
+      "2a5c006812a363f111db27c8ce2f49ce751c8aabc303c3ad59137e2bd7d3b934",
+      "--portable-config",
+      "/kaggle/working/disk_scratch/age_actor_bundle/portable_paths.json",
+      "--profile-root",
+      "/kaggle/working/disk_scratch/age_actor_work/profiles"
+    ]
+  },
+  "imports_or_tests_performed": false,
+  "inputs": {
+    "base_suffix_dataset": {
+      "archive_bytes": 1143552000,
+      "archive_name": "age_actor_bundle.wnn",
+      "archive_sha256": "971871550f50be91c5afe1134e1012a3ba3b9c94e2157b4f8b6ed17a62442ef8",
+      "bundle_manifest_sha256": "ea241506eadd0a34f437c699bab3b7784a69b818b710e3d016c9b3599774f99e",
+      "export_receipt_sha256": "c838527f734d7a2b791a704c1fa3ac900457b0d4b0876bf0d0a0d35b281fc40c",
+      "id": "vladkochetov07/wnn-age-cpu-profile-20261023-r2",
+      "reused_without_reupload": true,
+      "transport_sha256": "1ff63aaf02cf94176677e19b1bfebdce03404fe9ce8c800669953451dfcb8c6a"
+    },
+    "gpu_source_overlay_dataset": {
+      "archive_bytes": 419840,
+      "archive_member_count_including_manifest": 46,
+      "archive_name": "source_overlay_cuda_r2.wnn",
+      "archive_path": "/home/vlad/development/wunder/research_tmp/resume4h_20261024/kaggle_age_gpu_r2_upload/dataset_upload/source_overlay_cuda_r2.wnn",
+      "archive_sha256": "3347d9ee699e81ae5281a9dbca6476f7f9f6ba5c903919033c7e20382b5e6b8d",
+      "expanded_source_bytes": 365960,
+      "id": "vladkochetov07/wnn-age-gpu-profile-20261024-r2",
+      "manifest_sha256": "415b5ecad01b955dcadda10a3c667d621cf0e347d6e995ae7447428c2c054c25",
+      "overlay_file_count": 45,
+      "source_manifest_sha256": "2a5c006812a363f111db27c8ce2f49ce751c8aabc303c3ad59137e2bd7d3b934"
+    },
+    "raw_data": {
+      "id": "vladkochetov07/wunder-funder",
+      "reuse_existing": true,
+      "train_valid_parquet_footer_and_size_pins": "from the frozen recipe split manifests"
+    },
+    "root_admission": {
+      "cache_rebuild_cost_gate": "unresolved; do not admit until root has measured CPU cache reconstruction/open cost and decides 600 seconds is sufficient",
+      "filename": "PROFILE_F0_CUDA_R2_ADMISSION.json",
+      "must_authorize_exactly": "one CUDA engineering profile; 3 microfits, 360 optimizer updates, 0 scientific fits, 0 quality scores",
+      "must_pin_driver_sha256": "fc923a9620376beddb3419198b3782d34869b539cbab674738f7aee21cc5ae95",
+      "not_issued": true,
+      "template": "PROFILE_F0_CUDA_R2_ADMISSION.template.json"
+    }
+  },
+  "limits": {
+    "cpu_cores": 1,
+    "driver_finalization_reserve_seconds": 45,
+    "gpu_count": 1,
+    "gpu_memory_allocator_ceiling_bytes": 4000000000,
+    "internet": false,
+    "max_total_wall_seconds": 600,
+    "process_tree_rss_ceiling_bytes": 4000000000,
+    "profile_child_wall_ceiling_seconds": 555,
+    "swap_bytes": 0,
+    "tpu": false,
+    "working_disk_cache_and_scratch": true
+  },
+  "precision": {
+    "autocast": false,
+    "cublas_workspace_config": ":4096:8",
+    "cuda_matmul_tf32": false,
+    "cudnn_tf32": false,
+    "default_dtype": "float32",
+    "deterministic_algorithms": true,
+    "gpu_allocator_limit_bytes": 4000000000,
+    "gradient_scaler": false,
+    "source_of_enforcement": [
+      "src/wnn/training/age_readout_fit.py",
+      "src/wnn/training/age_readout_runtime.py",
+      "src/wnn/training/age_readout_cli.py"
+    ]
+  },
+  "prepared_at_utc": "2026-10-24T12:07:21Z",
+  "profile": {
+    "arms": [
+      "A",
+      "G",
+      "F"
+    ],
+    "device": "cuda",
+    "epochs_per_microfit": 3,
+    "evaluation_predictions": 24,
+    "evaluation_sequences": 8,
+    "evaluation_target_columns_read": false,
+    "fit_rows_per_sequence": 20000,
+    "fit_sequences": 16,
+    "fold": 0,
+    "microfits": 3,
+    "mode": "profile",
+    "new_scientific_fits": 0,
+    "official_metric_calls": 0,
+    "optimizer_updates_per_microfit": 120,
+    "quality_scores": 0,
+    "seed": 1001,
+    "six_cell_scientific_panel": "unadmitted",
+    "total_optimizer_updates": 360,
+    "training_subset_labels_read": true,
+    "visible_cuda_devices": 1
+  },
+  "profile_or_fit_performed": false,
+  "provider_mutations_performed": false,
+  "purpose": "Combined membership-schema and exact CUDA allocator-cap source candidate for one root-gated F0 engineering profile; no scientific fit or quality score.",
+  "quality_grade_performed": false,
+  "schema": "wnn.age-readout-kaggle-gpu-profile-recipe.r2",
+  "source": {
+    "allocator_runtime_source_sha256": "866ea97fae1ecd1598243e56fc23c112a01b9cf2b3cb70e73009f7ae3126eb6e",
+    "driver_template_bytes": 47229,
+    "driver_template_sha256": "fc923a9620376beddb3419198b3782d34869b539cbab674738f7aee21cc5ae95",
+    "gpu_source_manifest_path": "source/SOURCE_SHA256_GPU_R2.json",
+    "gpu_source_manifest_sha256": "2a5c006812a363f111db27c8ce2f49ce751c8aabc303c3ad59137e2bd7d3b934",
+    "machine_recipe_sha256": "0a67fe12c520e56bcf14a3a1efecb5030f3aa7ce932101814c9dd1c675c930fd",
+    "modified_canonical_modules": [
+      "src/wnn/training/age_readout_cli.py",
+      "src/wnn/training/age_readout_runner.py",
+      "src/wnn/training/age_readout_portable_validate.py",
+      "src/wnn/training/age_readout_portable_identity.py",
+      "src/wnn/training/age_readout_runtime.py"
+    ],
+    "r3_source_manifest_sha256": "6ce40d6e4980caf5d7b41e47f104e4a845a30f557c151d60c5ca3852024a1e5a",
+    "source_delta": "Retain the two portable CUDA profile-only guards and add the verified membership metadata reader repair; lower CUDA allocator cap from 4 GiB to exactly 4,000,000,000 bytes. Fit objective, model and optimizer remain unchanged.",
+    "source_manifest_modules": 66,
+    "source_overlay_archive_sha256": "3347d9ee699e81ae5281a9dbca6476f7f9f6ba5c903919033c7e20382b5e6b8d",
+    "source_overlay_manifest_path": "SOURCE_OVERLAY_MANIFEST_GPU_R2.json",
+    "source_overlay_manifest_sha256": "415b5ecad01b955dcadda10a3c667d621cf0e347d6e995ae7447428c2c054c25",
+    "trainer_math_or_recipe_changed": false
+  },
+  "status": "prepared_for_root_admission_review"
+}

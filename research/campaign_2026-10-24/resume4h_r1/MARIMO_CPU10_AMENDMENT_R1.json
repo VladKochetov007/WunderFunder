@@ -1,0 +1,21 @@
+{
+  "schema": "wnn.resource-amendment.v1",
+  "id": "MARIMO-CPU10-20261024-R1",
+  "authority": "User: Make some eda $marimo-pair use up to 10 cpu cores",
+  "scope": "Add live marimo EDA to ongoing four-hour all-PR/artifact/experiment task; not a replacement",
+  "local_aggregate_cpu_cores": 10,
+  "local_memory_max_bytes": 1073741824,
+  "local_memory_swap_max_bytes": 0,
+  "deadline_utc": "2026-10-24T14:38:12Z",
+  "original_resume": "RESUME_R1.json",
+  "allowed": "bounded sampled/streaming EDA in live marimo; useful scientific runs remain within shared limits and inclusive allocation",
+  "not_changed": [
+    "four-hour wall and worker budget",
+    "strictFP32 scientific fits",
+    "no paid compute or competition upload",
+    "frozen comparisons/ancestry",
+    "production reserve"
+  ],
+  "local_control": "systemctl --user set-property wnn-campaign.slice CPUQuota=1000%; observed CPUQuotaPerSecUSec=10s",
+  "initial_resource_repair": "Persistent user.control limits overrode runtime set-property; persistent set-property corrected aggregate limits before delegated work. CPUWeight now10."
+}
