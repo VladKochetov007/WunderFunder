@@ -1,10 +1,26 @@
 # Ideas and hypotheses
 
+**Merged into `research-team`, 24 October 2026:**
+[PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32) at
+[`b0ab07b6`](https://github.com/VladKochetov007/WunderFunder/commit/b0ab07b6632ae74e728ee535b7e3950c6c22b946), then
+[PR #40](https://github.com/VladKochetov007/WunderFunder/pull/40) at
+[`d67fcb69`](https://github.com/VladKochetov007/WunderFunder/commit/d67fcb6915ba4593ad16c6ac8ace42a11adc1ef6).
+The [BF16/BF16x9 amendment](../../experiment_drafts/b300-transformer-distillation-runtime/PRECISION_AMENDMENT_20261024.md)
+and conditional R4 teacher/distillation code coexist with the
+[W2 execution packet](../../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/README.md).
+Its active-fit scientific source remains `f1beeb4c210a9da01735e03b1ff6e27be878b873`;
+merging code does not change those running jobs or establish new evaluated results.
+One add/add conflict was formatting-only in `test_sequence_precision.py` (identical AST).
+The GRU FP32 state cast and ensemble/KD guards were preserved; execution receipts
+were unchanged. Both PR heads passed GitHub's `Training code quality` check.
+Local checks were static only; no local tests, training, inference or profiles ran.
+Fresh receiver acceptance/profiles remain necessary before new R4 fits.
+
 [Executable B300 high-compute R4](../../experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/README.md) — [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32), E/H-B300-HIGH-COMPUTE-R4-20261024. Implements the [earlier plan](../../experiment_drafts/b300-transformer-distillation-runtime/HIGH_COMPUTE_PLAN_20261024.md) with staged complete configs, source-bound commands, inner component selection, exact control reuse, seed/fold confirmation and labels/single/mean3 GRU distillation. Conditional 40 fits including the four R3 teachers, or 34 when G's recipes coincide. [Recipe](../../experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/recipe.json), [scientific contract](../../experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/PR.md), and [static evidence](../../experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/VALIDATION.json) distinguish executable preparation from unexecuted B300 acceptance and unknown teacher/student quality. No new launches; R3 configs stay frozen.
 
-[Large teacher R3 — Muon, 30 epochs, complete parameters](../../experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/README.md) — [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32); replaces four unlaunched R2 cells. Includes FP32 Muon groups, 5% warmup/cosine schedule, accumulation8, parameter rationale and receiver peak-LR/recovery/DDP checks. Code/static preparation only; no GPU, fit, optimum or quality evidence.
+[Historical strict-FP32 R3 — Muon, 30 epochs, complete parameters](../../experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/README.md) — [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32); replaces four unlaunched R2 cells. Includes FP32 Muon groups, 5% warmup/cosine schedule, accumulation8, parameter rationale and receiver peak-LR/recovery/DDP checks. Code/static preparation only; no GPU, fit, optimum or quality evidence.
 
-[Large causal teacher R2: 630M versus 1.54B on eight B300s](../../experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/README.md) — [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32); historical four-fit six-epoch AdamW proposal, superseded prospectively by R3; no GPU results.
+[Large causal teacher R2: 630M versus 1.54B on eight B300s](../../experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/README.md) — [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32); historical four-fit six-epoch AdamW proposal, superseded prospectively by R3; no GPU results.
 
 [B300 Transformer and distillation runtime](../../experiment_drafts/b300-transformer-distillation-runtime/README.md)
 implements a strict-FP32 causal raw112 teacher, source-qualified fitting caches,
