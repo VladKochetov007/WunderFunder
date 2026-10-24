@@ -1,5 +1,21 @@
 # Project agent instructions
 
+## October24 bounded cycle: complete
+
+The four-hour cycle has closed new scientific admission. All admitted diagnostics are terminal and evidence is preserved in draft PR #41; no follow-up fit, provider retry or competition upload is authorized by remaining worker accounting. The user-requested additional single Astra/ultra review is complete. Collection completed before14:38:12UTC; the notebook server is stopped and its app/figures are saved. Final publication commit56f6e369dfa2dd6f172bd0ce7e94c8a3b9dbf857 passes CI. Preserve the original resume below as history and use the [collection receipt](research/campaign_2026-10-24/resume4h_r1/COLLECTION_AND_PUBLICATION_R1.json) and frontier for current status. No new allocation is inferred.
+
+## Active resume — user instruction, 2026-10-24
+
+Latest steering: **"Give me some submissions to utilize submission quota"** requests plural exploratory ZIPs, with honest expected-boost evidence; [release scope](research/campaign_2026-10-24/resume4h_r1/QUOTA_SUBMISSION_AUTHORITY_R1.json). Prepare and technically check fixed endpoints without claiming an established public gain or automatically uploading. After the user's93°C CPU reading, root reduced the operational research CPU cap to one core within the authorized ten-core ceiling; [thermal response](research/campaign_2026-10-24/resume4h_r1/LOCAL_THERMAL_RESPONSE_R1.json). This is not a research stop; the remote profile and bounded packaging continue.
+
+Subsequent steering: **"Make some eda $marimo-pair use up to 10 cpu cores"** raises the aggregate CPU ceiling to ten cores and adds live marimo EDA. The 1-GiB/no-swap limit and four-hour deadline remain unchanged; see [CPU/EDA amendment](research/campaign_2026-10-24/resume4h_r1/MARIMO_CPU10_AMENDMENT_R1.json).
+
+The user explicitly resumes experiments for **four more hours**, requests checking **all updated PRs**, pulling useful remote changes and loading uploaded artifacts, using **gh, Kaggle and local compute**, and invokes conduct-creative-research. This supersedes the October23 stop below. The later CPU amendments above supersede the initial quarter-core cap; 1-GiB/no-swap aggregate limits remain binding. No paid compute or automatic competition upload. Preserve dirty work, frozen evidence, historical allocations and the production reserve. See [resume contract](research/campaign_2026-10-24/resume4h_r1/RESUME_R1.json) and [active frontier](research/campaign_2026-10-24/resume4h_r1/FRONTIER.md). Native delegates revert to Luna/max; the prior ten Astra tasks are complete.
+
+## Active stop — user instruction, 2026-10-23
+
+The latest user explicitly orders: **"stop all the experiments now. it overloads laptop. kill all"**. This supersedes every earlier resume. No fits, profiles, imports/tests, exports, packaging, worktree operations, provider launches or automatic research continuation until an explicit user resume. Root killed/stopped research services, disabled the remaining collector timer, interrupted all helpers and runtime-masked the WNN slices. See [stop receipt](research/experiment_drafts/b300-fast-local-kaggle-20261023/USER_STOP_R1.json). Preserve existing files; do not start cleanup, commit/push or another job as a continuation of the stopped task.
+
 ## Active resume — user instruction, 2026-10-23
 
 The user explicitly resumes research and requests continuous work until explicitly stopped, invoking conduct-creative-research and research-reframe. This supersedes the reboot pause below while preserving its record. Original allocation/resource limits and production reserve remain binding. See [postboot resume](research/campaign_2026-10-21/next_cycle_r1/POSTBOOT_RESUME_R1.json) and [frontier](research/campaign_2026-10-21/next_cycle_r1/FRONTIER.md).

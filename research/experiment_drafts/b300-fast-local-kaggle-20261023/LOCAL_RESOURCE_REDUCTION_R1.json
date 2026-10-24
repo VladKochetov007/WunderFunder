@@ -1,0 +1,33 @@
+{
+  "schema": "wnn.local-resource-incident.v1",
+  "date": "2026-10-23",
+  "authority": "User warns that resource use freezes the laptop. Continuous research remains authorized; local compute and bulk storage operations are halted.",
+  "local_research_limits": {
+    "systemd_slice": "wnn-campaign.slice",
+    "cpu_quota_cores": 0.25,
+    "memory_high_bytes": 536870912,
+    "memory_max_bytes": 1073741824,
+    "memory_swap_max_bytes": 0,
+    "runtime_properties_applied": true
+  },
+  "observations": {
+    "task_memory_before_bytes": 3613241344,
+    "task_memory_after_bytes": 528261120,
+    "task_swap_after_bytes": 0,
+    "host_memory_available_reported": "31 GiB",
+    "host_swap_used_reported": "221 MiB",
+    "unbounded_helper_worktree_processes": [1990877, 1990880],
+    "worktree_path": "/home/vlad/development/wunder/research_disk/b300-fast-20261023/publication-worktree",
+    "worktree_process_state": "Both were blocked in disk I/O; after reducing priority and sending SIGKILL, ps verified both absent.",
+    "other_process": "VS Code cpptools PID15398 showed about399% CPU and6.5GiB RSS; not changed. This is an observation, not a demonstrated cause of the freezes."
+  },
+  "actions": [
+    "Interrupted all three helper agents; status-only handoffs report no remaining local test/fit/profile process.",
+    "Stopped the publication worktree checkout and its orphaned git reset child; incomplete tree and git metadata are preserved for later inspection.",
+    "Lowered the shared local research slice limits and verified resulting memory/swap values.",
+    "No local training, import tests, archive rebuild, full worktree checkout or broad filesystem scan is admitted.",
+    "Any subsequent lightweight source handoff or API transfer must obey the lower local limit. Actual validation/training belongs on Kaggle.",
+    "No unrelated desktop process was terminated or changed."
+  ],
+  "research_state": "R2 Kaggle profile is terminal after an import-bundle failure; no scientific fits. R3 dependency closure and remote retry remain unstarted. Original7200-second screen and43200-second production reserve unchanged."
+}

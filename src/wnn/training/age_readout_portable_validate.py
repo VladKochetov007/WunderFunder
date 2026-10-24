@@ -81,7 +81,13 @@ def fold_metadata(
         raise ValueError("frozen fit subset metadata SHA changed")
     subset = _json(subset_path)
     selected = subset["selected_groups"]
-    subset_metadata = subset.get("manifest", {})
+    subset_members_sha256 = subset.get("selected_members_sha256")
+    if (
+        not isinstance(subset_members_sha256, str)
+        or len(subset_members_sha256) != 64
+        or any(character not in "0123456789abcdef" for character in subset_members_sha256)
+    ):
+        raise ValueError("frozen fit subset has no selected-membership SHA256")
     fit_refs = [
         {"split": split, "row_group": int(group)}
         for split, groups in (("train", selected["train"]), ("valid", selected["valid"]))
@@ -103,7 +109,7 @@ def fold_metadata(
             raise ValueError(f"portable {name} cache split identity changed")
         if value.get("subset_manifest_sha256") != source_fold["subset"]["sha256"]:
             raise ValueError(f"portable {name} cache subset identity changed")
-        if value.get("subset_members_sha256") != subset_metadata.get("selected_members_sha256"):
+        if value.get("subset_members_sha256") != subset_members_sha256:
             raise ValueError(f"portable {name} cache subset membership identity changed")
     source_datasets = fit_meta.get("source_datasets", {})
     if source_datasets.get("campaign_split_sha256") != source_fold["split_manifest_sha256"]:

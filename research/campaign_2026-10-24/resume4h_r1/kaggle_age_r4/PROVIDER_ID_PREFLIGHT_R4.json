@@ -1,0 +1,66 @@
+{
+  "cli": "Kaggle CLI 2.2.4",
+  "created_utc": "2026-10-24T12:20:01Z",
+  "kernel_inputs_are_pinned_in": "kernel-metadata.template.json and root admission",
+  "next_mutations_authorized_by_root": [
+    "create the private overlay dataset from the exact staged directory",
+    "push the existing kernel identity as version 4"
+  ],
+  "observations": {
+    "base_dataset_files": [
+      {
+        "name": "age_actor_bundle.wnn",
+        "size_bytes": 1143552000
+      },
+      {
+        "name": "PROFILE_F0_CPU_R2_ADMISSION.json",
+        "size_bytes": 5043
+      }
+    ],
+    "existing_kernel": {
+      "current_status": "KernelWorkerStatus.ERROR",
+      "last_run_utc": "2026-10-24T11:46:43.783000",
+      "next_version": "4 explicitly authorized by root",
+      "owner_search_ref": "vladkochetov07/wnn-age-readout-f0-cpu-profile-20261024-r3",
+      "prior_version": "3 per root terminal/push receipt"
+    },
+    "new_overlay_slug": {
+      "decision_basis": "authenticated owner search returned no dataset; root admission explicitly authorizes create",
+      "owner_search": "empty (kaggle datasets list --mine -s exact-slug)",
+      "status_query": "returned a CLI request error without an HTTP code; no status/version was inferred from that call"
+    },
+    "raw_dataset_files": [
+      {
+        "name": "train.parquet",
+        "size_bytes": 29240219011
+      },
+      {
+        "name": "valid.parquet",
+        "size_bytes": 5615509128
+      },
+      {
+        "name": "valid_mask.parquet",
+        "size_bytes": 91972846
+      }
+    ]
+  },
+  "parser_note": "The first JSON-listing parser did not unwrap Kaggle CLI escaped-newline output. Its incomplete summary is preserved in PROVIDER_ID_PREFLIGHT_R3.json and superseded by this safe, source-grounded summary.",
+  "payload_downloads_performed": false,
+  "provider_mutations_performed": false,
+  "root_admission_sha256": "bb9a5a3d92401f685719a70abd1bea1a27b8347e0803e1620b462185c1ab73d7",
+  "root_admitted_kernel_version": 4,
+  "schema": "wnn.kaggle-provider-identity-preflight.v4",
+  "source_dataset_version": "Latest files listing for the existing private base slug returned the exact archive filename and size above; no bundle payload was downloaded.",
+  "status": "IDENTITIES_CONFIRMED_FOR_ADMITTED_PRIVATE_PROFILE",
+  "targets": {
+    "existing_kernel": "vladkochetov07/wnn-age-readout-f0-cpu-profile-20261024-r3",
+    "existing_private_base_dataset": "vladkochetov07/wnn-age-cpu-profile-20261023-r2",
+    "new_private_overlay_dataset": "vladkochetov07/wnn-age-cpu-overlay-20261024-r4",
+    "raw_data_dataset": "vladkochetov07/wunder-funder"
+  },
+  "version_evidence": [
+    "PROVIDER_ID_PREFLIGHT_R2.json",
+    "KERNEL_PUSH_RETRY_R1.log",
+    "KERNEL_STATUS_DETAIL_RETRY_R1.json"
+  ]
+}

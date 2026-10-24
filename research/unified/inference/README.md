@@ -4,6 +4,9 @@ Serving implementations, quantization, package identity and measured runtime.
 
 ## Current navigation
 
+- [Two checked October 24 quota ZIPs](../../campaign_2026-10-24/resume4h_r1/quota_submission_r1/RESULTS_AND_HANDOFF_R1.md) — fixed H390 S3/S4 and S3 student replacements in TL3 pass actual Python3.11 native replay, finite/reset/ABI checks, exact shared-input identity and official scoring. Pair point deltas are +0.003742/F0 and +0.000205/F2, with about24% more callback time on this host. H390 was fit on train+valid and TL3 ancestry is unresolved; these are exposed sampled diagnostics, no public forecast or upload. The report links both ZIPs and all provenance/review receipts.
+
+
 - [Exact geometry-adapter ZIP replay](../../campaign_2026-10-18/geometry_adapter_probe_r2/README.md#exact-q8-serving-replay) — the corrected native raw112/event99/geometry60 callback replayed all 468 exposed-F0 groups, 9.36M rows, from the hash-bound 5.32 MB q8 ZIP. Served WP 0.6803848 versus FP32 0.6804499; measured callback-only one-core row cost projects to 17.74 minutes for 39.4M rows, with complete competition runtime unmeasured. Native source-order defect was caught by execution parity and corrected before packaging. The selected q16 endpoint separately passed full F0, offline Python3.11 and uint32 native-cache replay; its local row-cost proxy is40–45minutes. Tight Torch/native FP32 equivalence failed and is disclosed; no target runtime or numerical-equivalence guarantee is claimed. Follow the linked hash-bound release receipt.
 
 - [Checkpoint preprocessing and teacher-cache safety](../../campaign_2026-10-17/research_reset_r1/bugfix/README.md) — restored zero_groups and other saved modes; complete cache identity/membership enforcement and selected-NaN rejection in legacy server paths. Existing-checkpoint CPU replay matches manual inputs/predictions bitwise on4groups; full-panel and GPU parity remain unmeasured.

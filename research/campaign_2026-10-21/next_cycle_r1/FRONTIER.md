@@ -1,5 +1,21 @@
 # Next cycle frontier
 
+## October24: new four-hour resume and complete PR/artifact inspection
+
+The latest user resumes runs and requests all updated PRs, useful remote changes and uploaded artifacts using gh/Kaggle/local compute. Follow the [new frontier](../../campaign_2026-10-24/resume4h_r1/FRONTIER.md) and [contract](../../campaign_2026-10-24/resume4h_r1/RESUME_R1.json). Existing allocations, frozen incomplete panels and production reserve remain preserved. Prior stop entries below are historical; no new scientific result yet.
+
+## Active user stop — October23
+
+The user orders all experiments killed because the laptop overloads. [Stop receipt](../../experiment_drafts/b300-fast-local-kaggle-20261023/USER_STOP_R1.json) records stopped/masked research slices, disabled collector timer and no running helpers or local research workers. Kaggle R2 is already terminal; R3 was never launched. No new scientific fits or submission. All prior resume instructions are superseded; preserve files and wait for an explicit resume.
+
+## October23: laptop safety reduction; remote repair only
+
+The latest user freeze warning stops local heavy work and full worktree checkouts. Root stopped both lingering Git checkout processes and reduced `wnn-campaign.slice` to one quarter CPU core, 512 MiB soft / 1 GiB hard RAM and no swap; accounted memory fell from 3.61 GB to 528 MB. [Incident and allocation correction](../../experiment_drafts/b300-fast-local-kaggle-20261023/RESOURCE_AND_DELIVERY_AMENDMENT_R2.json) conservatively charges the checkout's 18 minutes and preserves the same 7,200-second screen / 12-hour production reserve. A 360 KiB source repair is ready for one final bounded Kaggle profile; no local model imports or runtime tests. No scientific fits, new quality score or new submission yet.
+
+## October23: first remote age profile fails on an incomplete import bundle
+
+The [portable Kaggle CPU attempt](../../experiment_drafts/b300-fast-local-kaggle-20261023/README.md) verifies its uploaded archive and declared source pins, then stops before cache reconstruction because `wnn.i1_history` was omitted from the transitive dependency bundle. The remote worker uses 36.874 seconds, 353 MB peak RSS and zero swap; cleanup succeeds. Root owns a bounded source-closure repair and isolated import check before retry. No scientific fit, score or new submission exists. Local disk staging and private upload are complete; the 7,200-second screen and 12-hour production reserve remain unchanged.
+
 ## October23: age implementation verified; move heavy work toward Kaggle CPU
 
 The six-head age screen is implemented in canonical components and passes root correctness checks; the independent grader passes ten synthetic checks and actual pinned parent metadata. The first CPU profile reaches its60-second thermal-startdeadline before starting any child. The [operational amendment](../../experiment_drafts/b300-fast-local-kaggle-20261023/KAGGLE_CPU_DELIVERY_AMENDMENT_R1.json) prepares the same frozen six fits on KaggleCPU, transporting1.14GBof cached non-raw columns and rebuilding one16GBfold at a time from the original raw dataset with exact full-cache digest checks. No scientific fit or quality result yet. Engineering becomes1,200seconds within the unchanged7,200screen, charging local and remoteCPUtime together; protected production43,200seconds remains untouched. Actor/ops implement portable delivery; an independent critic reviews it before profile/fit admission. No local thermal threshold is weakened.

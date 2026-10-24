@@ -1,0 +1,120 @@
+{
+  "schema": "wnn.age-readout-kaggle-profile-recipe.v1",
+  "status": "prepared_for_root_admission_and_upload",
+  "prepared_at_utc": "2026-10-24T11:13:37.055921+00:00",
+  "purpose": "Retry the interrupted F0 CPU cache profile after adding the audited R3 transitive source closure.",
+  "scientific_scope": {
+    "mode": "profile",
+    "fold": 0,
+    "device": "cpu",
+    "fit_sequences": 16,
+    "evaluation_sequences": 8,
+    "new_scientific_fits": 0,
+    "quality_scoring": false,
+    "target_cache_opened": false,
+    "engineering_micro_fits": 3,
+    "arms": [
+      "A",
+      "G",
+      "F"
+    ],
+    "epochs": 3,
+    "rows_per_sequence": 20000,
+    "batch_size": 8192,
+    "batches_per_epoch": 40,
+    "optimizer_steps_per_arm": 120,
+    "optimizer_steps_total": 360,
+    "training_targets_read": true,
+    "training_weight_channels_read": true,
+    "evaluation_targets_read": false,
+    "evaluation_masks_read": false,
+    "new_full_scientific_fits": 0,
+    "checkpoint_serialization": false
+  },
+  "limits": {
+    "max_wall_seconds": 900,
+    "driver_finalization_reserve_seconds": 45,
+    "profile_child_wall_ceiling_seconds": 855,
+    "cpu_cores": 1,
+    "process_tree_rss_ceiling_bytes": 4000000000,
+    "swap_bytes": 0,
+    "gpu": false,
+    "tpu": false,
+    "internet": false,
+    "working_disk_cache_and_scratch": true
+  },
+  "inputs": {
+    "existing_suffix_dataset": {
+      "id": "vladkochetov07/wnn-age-cpu-profile-20261023-r2",
+      "archive_name": "age_actor_bundle.wnn",
+      "archive_bytes": 1143552000,
+      "archive_sha256": "971871550f50be91c5afe1134e1012a3ba3b9c94e2157b4f8b6ed17a62442ef8",
+      "bundle_manifest_sha256": "ea241506eadd0a34f437c699bab3b7784a69b818b710e3d016c9b3599774f99e",
+      "transport_sha256": "1ff63aaf02cf94176677e19b1bfebdce03404fe9ce8c800669953451dfcb8c6a",
+      "reused_without_reupload": true
+    },
+    "raw_dataset": {
+      "id": "vladkochetov07/wunder-funder",
+      "reuse_existing": true
+    },
+    "source_overlay_dataset": {
+      "id": "vladkochetov07/wnn-age-cpu-overlay-20261024-r3",
+      "archive_name": "source_overlay_r3.wnn",
+      "archive_path": "/home/vlad/development/wunder/research_disk/b300-fast-20261023/source_overlay_r3/source_overlay_r3.wnn",
+      "archive_bytes": 368640,
+      "archive_sha256": "0b1e3c66bd76ae4f081a508b6bbbc33c31c81c29a80a71027754b7ddbfeabe93",
+      "manifest_sha256": "138dafd2f03e500190c7820a0aac86a4599a32caa7399d2e4421e7e81b2364659",
+      "source_manifest_r3_sha256": "6ce40d6e4980caf5d7b41e47f104e4a845a30f557c151d60c5ca3852024a1e5a",
+      "expanded_source_bytes": 322258,
+      "overlay_members": 40
+    },
+    "root_admission": {
+      "required_filename": "PROFILE_F0_CPU_R3_ADMISSION.json",
+      "not_yet_created": true,
+      "must_pin_recipe_sha256": "0a67fe12c520e56bcf14a3a1efecb5030f3aa7ce932101814c9dd1c675c930fd",
+      "must_pin_source_manifest_r3_sha256": "6ce40d6e4980caf5d7b41e47f104e4a845a30f557c151d60c5ca3852024a1e5a",
+      "must_pin_base_archive_and_manifest": true,
+      "must_pin_source_overlay_archive_manifest_and_driver": true,
+      "required_cpu_cores": 1,
+      "required_max_wall_seconds": 900,
+      "required_swap_bytes": 0,
+      "required_new_scientific_fits": 0,
+      "required_quality_scoring": false
+    }
+  },
+  "source": {
+    "recipe_sha256": "0a67fe12c520e56bcf14a3a1efecb5030f3aa7ce932101814c9dd1c675c930fd",
+    "actor_source_manifest_r2_sha256": "939e8a00a003d9299a397cac80753df67a56b65b34ed3bd0e8dce6726b109523",
+    "actor_source_manifest_r3_sha256": "6ce40d6e4980caf5d7b41e47f104e4a845a30f557c151d60c5ca3852024a1e5a",
+    "r2_source_pins": 28,
+    "r3_source_pins": 66,
+    "r3_added_dependencies": 38,
+    "r3_overlay_files": 40,
+    "only_changed_existing_source": "src/wnn/training/age_readout_provenance.py",
+    "source_change_description": "Extend SOURCE_FILES only; no numerical implementation or recipe change.",
+    "driver_template_path": "kernel_driver_template_r2.py",
+    "driver_template_sha256": "20fdd72a4d3d2d260bb7604187e540bc6017abed2798d465a74f55f912aa7484",
+    "driver_template_bytes": 46458,
+    "kernel_metadata_template_sha256": "f3c24f3d70434f01758b976c851085760f0ef80e74f007a694736e153e090818",
+    "dataset_metadata_template_sha256": "284e5ac89ae0d6a8cfff027c2a05c57fafa2b03efe35eba96271854dce42dafc"
+  },
+  "commands": {
+    "overlay_dataset_staging": "Create a fresh upload directory with dataset-metadata.json, source_overlay_r3.wnn, and root-issued PROFILE_F0_CPU_R3_ADMISSION.json. Do not copy or rebuild age_actor_bundle.wnn.",
+    "dataset_create_after_root_authorization": "scripts/limited .venv/bin/kaggle datasets create --path <R3_OVERLAY_UPLOAD_DIR> --dir-mode skip",
+    "kernel_staging": "Render kernel_driver_template_r2.py; replace only the exact PROFILE_ADMISSION_SHA256 assignment marker with admission SHA; leave normalizer string unchanged.",
+    "kernel_push_after_root_authorization": "scripts/limited .venv/bin/kaggle kernels push -p <R3_KERNEL_UPLOAD_DIR>",
+    "profile_child": [
+      "python",
+      "scripts/age_readout_screen.py",
+      "profile",
+      "--fold",
+      "0",
+      "--device",
+      "cpu"
+    ]
+  },
+  "provider_mutations_performed": false,
+  "imports_or_tests_performed": false,
+  "fit_or_quality_grade_performed": false,
+  "scope_amendment_sha256": "0e076c47d3794c07ceaa3b4b97a6d03d180d95f17a6d946b5081ead59c4c6e7f"
+}

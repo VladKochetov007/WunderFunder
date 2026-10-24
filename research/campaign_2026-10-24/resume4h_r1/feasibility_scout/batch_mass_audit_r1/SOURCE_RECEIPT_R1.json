@@ -1,0 +1,158 @@
+{
+  "actual_parent_metadata_check_sha256": "ed540e31b5d79da39e13d624b9c4faadf277d9efe953d7f8c24eecad3e4467c6",
+  "created_date": "2026-10-24",
+  "evaluation_arrays_or_labels_read": false,
+  "export_receipt_sha256": "c838527f734d7a2b791a704c1fa3ac900457b0d4b0876bf0d0a0d35b281fc40c",
+  "header_only_preflight": {
+    "folds": [
+      {
+        "dtype": "<f4",
+        "expected_payload_sha256_from_transport": "a273d2fa5fe30f86c209e2899cceca636480954d7f69daf79fe402b6aaaedb81",
+        "file_bytes": 494400128,
+        "fold": 0,
+        "fortran_order": false,
+        "header_bytes": 128,
+        "path": "/home/vlad/development/wunder/research_disk/b300-fast-20261023/suffix_transport_r1/fold0/fit_suffix5.npy",
+        "payload_bytes_not_read": 494400000,
+        "payload_hash_recomputed": false,
+        "preparation_file_identity": {
+          "device": 54,
+          "inode": 69420442,
+          "mtime_ns": 1792748327554940620
+        },
+        "shape": [
+          1236,
+          20000,
+          5
+        ]
+      },
+      {
+        "dtype": "<f4",
+        "expected_payload_sha256_from_transport": "2dfbd54cb7b26fb628470afe4a013b60302c2ab3d9b4b2d4eb533c100b35ad63",
+        "file_bytes": 497200128,
+        "fold": 1,
+        "fortran_order": false,
+        "header_bytes": 128,
+        "path": "/home/vlad/development/wunder/research_disk/b300-fast-20261023/suffix_transport_r1/fold1/fit_suffix5.npy",
+        "payload_bytes_not_read": 497200000,
+        "payload_hash_recomputed": false,
+        "preparation_file_identity": {
+          "device": 54,
+          "inode": 69420478,
+          "mtime_ns": 1792748357837485094
+        },
+        "shape": [
+          1243,
+          20000,
+          5
+        ]
+      }
+    ],
+    "method": "runner NPY v1 header parser plus stat; read position exactly 128 bytes for each input",
+    "status": "pass"
+  },
+  "input_payloads": [
+    {
+      "bytes": 494400128,
+      "expected_sha256": "a273d2fa5fe30f86c209e2899cceca636480954d7f69daf79fe402b6aaaedb81",
+      "hash_source": "matching transport, export receipt and prepared bundle manifest",
+      "path": "/home/vlad/development/wunder/research_disk/b300-fast-20261023/suffix_transport_r1/fold0/fit_suffix5.npy",
+      "payload_sha256_recomputed": false,
+      "payload_values_read": false
+    },
+    {
+      "bytes": 497200128,
+      "expected_sha256": "2dfbd54cb7b26fb628470afe4a013b60302c2ab3d9b4b2d4eb533c100b35ad63",
+      "hash_source": "matching transport, export receipt and prepared bundle manifest",
+      "path": "/home/vlad/development/wunder/research_disk/b300-fast-20261023/suffix_transport_r1/fold1/fit_suffix5.npy",
+      "payload_sha256_recomputed": false,
+      "payload_values_read": false
+    }
+  ],
+  "local_cache_verification_sha256": "6659cdb989beceb75778e978699a46fede50d6f6661887354279883cbab4e9c1",
+  "local_profile_bundle_manifest_sha256": "ea241506eadd0a34f437c699bab3b7784a69b818b710e3d016c9b3599774f99e",
+  "local_profile_prepare_sha256": "53a82bd4f1204a24618f9546dac23bb6d07127bd7f1f4eff1e4cc87b44579cf8",
+  "metadata_preflight": {
+    "bound": {
+      "cpu_cores": 1,
+      "memory_bytes": 150000000,
+      "runtime_seconds": 60
+    },
+    "checks": [
+      "source and producer-code hashes",
+      "cache sidecar, subset manifest and fold split joins",
+      "exact train-then-valid row-reference membership and order",
+      "selected component membership closure and evaluation disjointness",
+      "fit target/row-weight/parent cache layout and producer ancestry",
+      "transport, export receipt and prepared bundle manifest identity"
+    ],
+    "folds": [
+      {
+        "evaluation_group_count": 468,
+        "evaluation_membership_sha256": "2aac564e257cf5857d20f3a54a44de52e23ba5c9fa79c01df4f59e2d5cdd1ec1",
+        "fit_group_counts": {
+          "train": 1118,
+          "valid": 118
+        },
+        "fold": 0,
+        "membership_sha256": "7ba87b32d41368fc57944f556ed76acee4df03eb55f78044821c760ed93c0c44",
+        "selected_component_count": 315,
+        "selected_members_sha256": "852fbe320fd80a3d1759f6f27fe9e29a90a7b2c72854698f3a89c1e4e1242fb8",
+        "sequence_count": 1236
+      },
+      {
+        "evaluation_group_count": 457,
+        "evaluation_membership_sha256": "6f03815cd3dd1362818ba22a2d3ea9e13c0e8548cfb6153734049408c3639dd8",
+        "fit_group_counts": {
+          "train": 1071,
+          "valid": 172
+        },
+        "fold": 1,
+        "membership_sha256": "2be15f2b35873e151c10e376b27245984916069d40473bea37cdb93fec3b9a9b",
+        "selected_component_count": 314,
+        "selected_members_sha256": "49d71f4678827ffa42086ee66ab9eafa516690120bdc9ab311839f38a8e2911f",
+        "sequence_count": 1243
+      }
+    ],
+    "source_file_count_note": "54 files are the frozen source manifest count including this source receipt and the synthetic receipt; payload records are hash-source metadata only and were not opened.",
+    "source_files_verified": 54,
+    "status": "pass"
+  },
+  "model_or_torch_imports": 0,
+  "new_fits": 0,
+  "parent_cache_milestone_sha256": "0dd9f9cec9bf54a4c2abdaeb835ad13f099e201a4b578714838014e39eb4d11e",
+  "physical_profile_bundle_manifest_sha256": "ea241506eadd0a34f437c699bab3b7784a69b818b710e3d016c9b3599774f99e",
+  "ruff": {
+    "bound": {
+      "cpu_cores": 1,
+      "memory_bytes": 150000000,
+      "runtime_seconds": 60
+    },
+    "check": "pass",
+    "format": "pass"
+  },
+  "runner_path": "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/batch_mass_audit_r1/audit_batch_mass.py",
+  "runner_sha256": "a006abee7639efab27e66cdd0ab96c497699eae73adb5f0ed6f71a70ebc880e4",
+  "schema": "wnn.f0-f1-batch-mass-source-receipt.v1",
+  "source_recipe_path": "research/experiment_drafts/online-relationships-20261022/EXECUTION_RECIPE_R1.json",
+  "source_recipe_sha256": "edc873c813de77f55859d1a13180d907004e5f18fcc537e64eda7af1308e2508",
+  "status": "metadata_and_source_frozen_no_suffix_values_read",
+  "synthetic_check": {
+    "checks": [
+      "clipped target and raw parent squared error",
+      "target-weight mass and distortion factor formulas",
+      "pooled versus equal-batch normalization including a zero-mass batch",
+      "canonical 1e-8 per-batch denominator clamp for a tiny positive mass",
+      "source-qualified component shares",
+      "a batch crossing a 20,000-row sequence boundary"
+    ],
+    "command": "WNN_MEM_MAX=150M WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_RUNTIME_MAX=60 scripts/limited uv run --no-sync python <fixture path>",
+    "real_arrays_or_targets_read": false,
+    "status": "pass"
+  },
+  "synthetic_fixture_path": "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/batch_mass_audit_r1/check_batch_mass_synthetic.py",
+  "synthetic_fixture_sha256": "d737eb55af8dddc30d8fb56c647056b5ddacc11fdc3c6b7c1f70471ee0a41f5a",
+  "training_loss_or_fitter_modified": false,
+  "transport_path": "/home/vlad/development/wunder/research_disk/b300-fast-20261023/suffix_transport_r1/transport.json",
+  "transport_sha256": "1ff63aaf02cf94176677e19b1bfebdce03404fe9ce8c800669953451dfcb8c6a"
+}

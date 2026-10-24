@@ -1,0 +1,48 @@
+{
+  "schema": "wnn.source-only-check.v1",
+  "checks": [
+    {
+      "command": [
+        "uv",
+        "run",
+        "ruff",
+        "format",
+        "src/wnn/training/age_readout_provenance.py"
+      ],
+      "wall_seconds": 0.1532344940060284,
+      "returncode": 0,
+      "stdout": "1 file left unchanged\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "ruff",
+        "check",
+        "src/wnn/training/age_readout_provenance.py"
+      ],
+      "wall_seconds": 0.08236631999898236,
+      "returncode": 0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "uv",
+        "run",
+        "python",
+        "scripts/check_training_structure.py"
+      ],
+      "wall_seconds": 0.7558955989952665,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "{\"files\": 98, \"errors\": 0, \"max_module_lines\": 300, \"max_function_lines\": 200}\n"
+    }
+  ],
+  "cpu_quota_cores": 0.25,
+  "memory_max_bytes": 200000000,
+  "scientific_imports_or_tests": false,
+  "source_pin_unchanged": true,
+  "wall_seconds": 0.9914964130002772
+}

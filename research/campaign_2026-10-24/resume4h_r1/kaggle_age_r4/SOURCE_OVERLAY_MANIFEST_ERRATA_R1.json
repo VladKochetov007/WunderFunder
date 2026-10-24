@@ -1,0 +1,27 @@
+{
+  "canonical_embedded_manifest": {
+    "byte_equal_after_repair": true,
+    "bytes": 8688,
+    "path_in_archive": "overlay_manifest.json",
+    "payload_count": 42,
+    "sha256": "20bf9d69eaab0e512be2e0aefb2d78a78d8b9d5fd4b3d3ab703e331ca3558bcb",
+    "sidecar_path": "SOURCE_OVERLAY_MANIFEST_CPU_R4.json"
+  },
+  "cause": "A later packet build reused a sidecar generated during the first incomplete 40-payload pass. The archive had already been rebuilt with 42 payloads and its embedded manifest was correct; the copied repo sidecar was stale.",
+  "created_utc": "2026-10-24T12:15:39Z",
+  "preserved_old_sidecar": {
+    "bytes": 8130,
+    "last_paths": [
+      "repo/src/wnn/training_factorized.py",
+      "repo/src/wnn/training_qat.py",
+      "repo/src/wnn/training_state.py"
+    ],
+    "path": "SOURCE_OVERLAY_MANIFEST_CPU_R4_COPY_ERRATUM_R1.json",
+    "payload_count": 40,
+    "sha256": "74758b4a8e11a42e75c9177731270c6da4885d95c5dd04f838e2edb11158af35"
+  },
+  "provider_upload_or_root_admission_occurred": false,
+  "schema": "wnn.age-readout-overlay-manifest-copy-erratum.v1",
+  "scientific_or_source_payload_changed": false,
+  "status": "superseded_copy_error"
+}

@@ -14,7 +14,6 @@ from wnn.training.online_relationship_cache import (
     SequenceCache,
     row_refs_sha256,
 )
-from wnn.training.online_relationship_sources import module_hashes
 
 from .age_readout_portable_paths import PortablePaths
 
@@ -49,6 +48,8 @@ def verify_loaded_cache_metadata(
     repo_root: Path,
 ) -> None:
     """Recheck cache sidecar contracts after exact full-payload reconstruction."""
+    from wnn.training.online_relationship_sources import module_hashes
+
     if (
         fit.metadata.get("schema") != CACHE_SCHEMA
         or evaluation.metadata.get("schema") != CACHE_SCHEMA
