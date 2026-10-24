@@ -28,6 +28,10 @@ their validation scores cannot be reconstructed from the online loss log.
   observer cleanup targets only its own child process groups.
 - `report.py` updates diagnostic comments on PR32 and PR40 when new complete
   validation results arrive, using the already configured reporting account.
+- `verify_metrics.py` independently recomputes WP and weighted MSE from the
+  saved arrays and verifies their hashes before a result is published.
+- `archive_evidence.py` appends allowlisted metric/provenance/code receipts to
+  the existing evidence branch. Arrays, weights and credentials are excluded.
 
 The monitor runs in its own cron session and survives SSH disconnection. A
 36-hour watch is bounded; failed checkpoints retain their failure receipt and

@@ -19,6 +19,12 @@ def main() -> None:
     for path in sorted((args.root / "evaluations").glob("*/*/RESULT.json")):
         result = json.loads(path.read_text())
         if result.get("status") == "complete":
+            job = json.loads((args.root / f"{result['cell']}-job.json").read_text())
+            sys.path.insert(0, str(Path(job["source_root"]) / "src"))
+            from verify_metrics import verify
+
+            if not path.with_name("INDEPENDENT_METRIC_CHECK.json").exists():
+                verify(path)
             results.append(result)
     if not results:
         return
@@ -35,6 +41,9 @@ def main() -> None:
     account = api.request("GET", "/user")
     if account["login"].lower() != "semyonepanov":
         raise ValueError("reporting account differs from user-authorized SemyonEpanov")
+    from archive_evidence import publish_evidence
+
+    evidence = publish_evidence(api, args.root, digest)
     body = "<!-- tabdata-pr32-intermediate-validation-20261024 -->\n"
     body += (
         "Intermediate checkpoint diagnostics added at user request. "
@@ -85,6 +94,11 @@ def main() -> None:
         )
     body += "\nProvenance and membership counts:\n```json\n"
     body += json.dumps(summaries, indent=2) + "\n```\n"
+    body += (
+        f"\n[Immutable evidence manifest](https://github.com/VladKochetov007/WunderFunder/"
+        f"blob/{evidence['commit']}/{evidence['manifest_path']}) "
+        f"(archive SHA256 `{evidence['archive_sha256']}`).\n"
+    )
     for pr in ("32", "40"):
         key = f"comment_{pr}"
         if previous.get(key):
