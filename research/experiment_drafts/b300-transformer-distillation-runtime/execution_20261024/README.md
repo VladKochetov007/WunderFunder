@@ -1,5 +1,11 @@
 # PR32: measured Blackwell execution, October 24
 
+The latest continuation is the [R4 batch-throughput amendment](BATCH_THROUGHPUT_20261024.md):
+96/GPU for 630M and 64/GPU for 1.54B, selected from real-data measurements through
+batch 128 and a separate CPU/transfer diagnostic. The R2 attempt described below
+was deliberately superseded at approximately 0.41% of its update budget; its
+historical evidence is preserved. R3 comprised engineering profiles only.
+
 The selected production revision is `pr32-blackwell-compiled-r2`, pinned to
 [`f1beeb4c210a9da01735e03b1ff6e27be878b873`](https://github.com/VladKochetov007/WunderFunder/commit/f1beeb4c210a9da01735e03b1ff6e27be878b873).
 The user authorized the full four-teacher experiment, then explicitly authorized
