@@ -19,6 +19,7 @@ from runner_checks import (
     parent_cache_guards,
     run_checks,
     torchrun,
+    verify_admission_binding,
 )
 
 # Materialized cell records are heterogeneous JSON with separately checked hashes.
@@ -109,6 +110,7 @@ def execute_cell(
             ]
         )
     elif action in {"fit", "resume"}:
+        verify_admission_binding(run, config)
         extra = ["--resume", str(run / "fit/training_state.pt")] if action == "resume" else []
         execute(
             torchrun(8)

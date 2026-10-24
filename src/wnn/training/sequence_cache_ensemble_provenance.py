@@ -6,6 +6,11 @@ import math
 import re
 from typing import Any
 
+LEGACY_STRICT_FP32 = "strict_fp32_no_autocast_no_tf32_math_sdpa"
+BF16_BF16X9 = "bf16_bf16x9"
+SUPPORTED_ATTENTION_BACKENDS = frozenset(("math", "efficient", "flex"))
+COMPILER_RECOMPILE_LIMIT = 64
+
 
 def canonical_sha256(value: object) -> str:
     """Hash JSON-compatible provenance with stable encoding."""
@@ -20,6 +25,83 @@ def canonical_sha256(value: object) -> str:
     except (TypeError, ValueError) as error:
         raise ValueError("teacher provenance is not finite JSON") from error
     return hashlib.sha256(encoded).hexdigest()
+
+
+def _bf16_bf16x9_identity(attention_backend: str) -> dict[str, object]:
+    """Mirror PR40's precision identity for the one accepted nonlegacy mode."""
+    if attention_backend not in SUPPORTED_ATTENTION_BACKENDS:
+        raise ValueError("teacher precision names an unsupported attention backend")
+    return {
+        "mode": BF16_BF16X9,
+        "attention_backend": attention_backend,
+        "cublas_emulate_single_precision": "1",
+        "parameter_dtype": "float32",
+        "gradient_dtype": "float32",
+        "optimizer_state_dtype": "float32",
+        "activation_cache_dtype": "float32",
+        "amp_scaler": False,
+        "model_compute": "BF16 autocast plus process-wide cuBLAS single-precision emulation",
+        "model_forward": "FP32 tensor interface with BF16 autocast and cuBLAS emulation",
+        "loss": "FP32 after prediction and hint casts",
+        "optimizer": "process-wide cuBLAS emulation may affect Muon operations",
+    }
+
+
+def _compiler_identity(enabled: bool) -> dict[str, object]:
+    """Return the PR40 compiler receipt dictated by the producer config."""
+    return {
+        "enabled": enabled,
+        "backend": "inductor" if enabled else None,
+        "mode": "default" if enabled else None,
+        "fullgraph": False,
+        "dynamic": None,
+        "recompile_limit": COMPILER_RECOMPILE_LIMIT if enabled else None,
+    }
+
+
+def _validate_precision_contract(
+    config: dict[str, Any], provenance: dict[str, Any], runtime: dict[str, Any]
+) -> object:
+    """Bind legacy strict-FP32 or PR40 BF16x9 attestations to the config."""
+    model = config.get("model")
+    if not isinstance(model, dict):
+        raise ValueError("teacher precision recipe has no model config")
+    mode = config.get("precision_mode", "fp32")
+    attention_backend = model.get("attention_backend", "math")
+    compile_blocks = model.get("compile_blocks", False)
+    if (
+        not isinstance(mode, str)
+        or not isinstance(attention_backend, str)
+        or type(compile_blocks) is not bool
+    ):
+        raise ValueError("teacher precision recipe is malformed")
+
+    if mode == BF16_BF16X9:
+        if model.get("precision_mode") != mode:
+            raise ValueError("teacher runtime model precision differs from its config")
+        expected = _bf16_bf16x9_identity(attention_backend)
+        if (
+            provenance.get("precision") != expected
+            or runtime.get("precision") != expected
+            or runtime.get("attention_backend") != attention_backend
+        ):
+            raise ValueError("teacher BF16x9 precision provenance does not match its config")
+        if runtime.get("compiler") != _compiler_identity(compile_blocks):
+            raise ValueError("teacher compiler provenance does not match its config")
+        return expected
+
+    if mode == "fp32" and provenance.get("precision") == LEGACY_STRICT_FP32:
+        if (
+            attention_backend != "math"
+            or compile_blocks
+            or "precision" in runtime
+            or "compiler" in runtime
+            or runtime.get("attention_backend") != "math"
+        ):
+            raise ValueError("legacy strict-FP32 provenance does not match its config")
+        return LEGACY_STRICT_FP32
+
+    raise ValueError("teacher precision provenance does not match a supported config")
 
 
 def common_provenance(producer: dict[str, Any], provenance: dict[str, Any]) -> dict[str, Any]:
@@ -106,10 +188,9 @@ def common_provenance(producer: dict[str, Any], provenance: dict[str, Any]) -> d
         or provenance.get("completed_epochs") != config["epochs"]
         or type(provenance.get("global_updates")) is not int
         or provenance["global_updates"] < 1
-        or provenance.get("precision") != "strict_fp32_no_autocast_no_tf32_math_sdpa"
         or provenance.get("fixed_checkpoint_policy") != "configured-final-epoch"
     ):
-        raise ValueError("teacher provenance does not attest a complete fixed strict-FP32 fit")
+        raise ValueError("teacher provenance does not attest a complete fixed fit")
     runtime = identity.get("runtime")
     devices = runtime.get("devices") if isinstance(runtime, dict) else None
     if not isinstance(runtime, dict) or not isinstance(devices, list) or not devices:
@@ -128,9 +209,9 @@ def common_provenance(producer: dict[str, Any], provenance: dict[str, Any]) -> d
         or runtime.get("cudnn_tf32") is not False
         or runtime.get("autocast") is not False
         or runtime.get("amp_scaler") is not False
-        or runtime.get("attention_backend") != "math"
     ):
-        raise ValueError("teacher runtime must use the strict FP32 precision contract")
+        raise ValueError("teacher runtime has incompatible FP32 process controls")
+    precision = _validate_precision_contract(config, provenance, runtime)
     semantic_devices = []
     for device in devices:
         if (
@@ -164,6 +245,6 @@ def common_provenance(producer: dict[str, Any], provenance: dict[str, Any]) -> d
         "normalization": normalization,
         "completed_epochs": provenance.get("completed_epochs"),
         "global_updates": provenance.get("global_updates"),
-        "precision": provenance.get("precision"),
+        "precision": precision,
         "fixed_checkpoint_policy": provenance.get("fixed_checkpoint_policy"),
     }

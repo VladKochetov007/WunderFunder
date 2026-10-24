@@ -33,15 +33,45 @@ def _canonical_sha(value: object) -> str:
     return hashlib.sha256(encoded.encode()).hexdigest()
 
 
+def _bf16_bf16x9_identity(attention_backend: str) -> dict[str, object]:
+    """Represent PR40's BF16x9 precision identity without importing training code."""
+    return {
+        "mode": "bf16_bf16x9",
+        "attention_backend": attention_backend,
+        "cublas_emulate_single_precision": "1",
+        "parameter_dtype": "float32",
+        "gradient_dtype": "float32",
+        "optimizer_state_dtype": "float32",
+        "activation_cache_dtype": "float32",
+        "amp_scaler": False,
+        "model_compute": "BF16 autocast plus process-wide cuBLAS single-precision emulation",
+        "model_forward": "FP32 tensor interface with BF16 autocast and cuBLAS emulation",
+        "loss": "FP32 after prediction and hint casts",
+        "optimizer": "process-wide cuBLAS emulation may affect Muon operations",
+    }
+
+
 def _producer(
     seed: int,
     checkpoint: str,
     members: list[tuple[str, int]],
     recipe_change: dict[str, Any] | None = None,
+    precision_mode: str | None = None,
+    compile_blocks: bool = False,
+    attention_backend: str = "math",
 ) -> dict[str, Any]:
     """Build a complete source-bound fixed-fit producer with seed-local device UUIDs."""
     fit_members = [list(member) for member in members]
     config: dict[str, Any] = {"seed": seed, "epochs": 30, "model": {"hint_dim": 0}}
+    if precision_mode is not None:
+        config["precision_mode"] = precision_mode
+        config["model"].update(
+            {
+                "precision_mode": precision_mode,
+                "attention_backend": attention_backend,
+                "compile_blocks": compile_blocks,
+            }
+        )
     if recipe_change:
         config.update(recipe_change)
     data = {
@@ -94,6 +124,24 @@ def _producer(
         "cublas_workspace_config": ":4096:8",
         "devices": devices,
     }
+    if precision_mode == "bf16_bf16x9":
+        precision = _bf16_bf16x9_identity(attention_backend)
+        runtime.update(
+            {
+                "attention_backend": attention_backend,
+                "precision": precision,
+                "compiler": {
+                    "enabled": compile_blocks,
+                    "backend": "inductor" if compile_blocks else None,
+                    "mode": "default" if compile_blocks else None,
+                    "fullgraph": False,
+                    "dynamic": None,
+                    "recompile_limit": 64 if compile_blocks else None,
+                },
+            }
+        )
+    else:
+        precision = "strict_fp32_no_autocast_no_tf32_math_sdpa"
     identity = {
         "schema": "wnn.sequence-run-identity.v1",
         "config_sha256": _canonical_sha(config),
@@ -115,7 +163,7 @@ def _producer(
         "fixed_checkpoint_policy": "configured-final-epoch",
         "completed_epochs": 30,
         "global_updates": 60,
-        "precision": "strict_fp32_no_autocast_no_tf32_math_sdpa",
+        "precision": precision,
     }
     return {
         "checkpoint_sha256": checkpoint,
@@ -135,10 +183,21 @@ def _write_cache(
     *,
     members: list[tuple[str, int]] = MEMBERS,
     recipe_change: dict[str, Any] | None = None,
+    precision_mode: str | None = None,
+    compile_blocks: bool = False,
+    attention_backend: str = "math",
 ) -> Path:
     """Write a complete minimal canonical fit cache for receiver checks."""
     root.mkdir()
-    producer = _producer(seed, checkpoint, members, recipe_change)
+    producer = _producer(
+        seed,
+        checkpoint,
+        members,
+        recipe_change,
+        precision_mode,
+        compile_blocks,
+        attention_backend,
+    )
     entries = []
     for source, group in MEMBERS:
         path = root / f"{source}-{group}.npy"
@@ -168,6 +227,9 @@ def _caches(
     change: tuple[int, dict[str, Any]] | None = None,
     normalizer_change: bool = False,
     duplicate_checkpoint: bool = False,
+    precision_mode: str | None = None,
+    compile_blocks: bool = False,
+    attention_backend: str = "math",
 ) -> list[Path]:
     """Create three cache roots and bind the canonical split loader for this fixture."""
     monkeypatch.setattr(
@@ -181,7 +243,14 @@ def _caches(
         recipe_change = change[1] if change is not None and change[0] == index else None
         roots.append(
             _write_cache(
-                tmp_path / f"cache-{index}", seed, checkpoint, base, recipe_change=recipe_change
+                tmp_path / f"cache-{index}",
+                seed,
+                checkpoint,
+                base,
+                recipe_change=recipe_change,
+                precision_mode=precision_mode,
+                compile_blocks=compile_blocks,
+                attention_backend=attention_backend,
             )
         )
     if normalizer_change:
@@ -236,6 +305,73 @@ def test_merge_streams_fp32_mean_and_publishes_ensemble_ancestry(
     cache = TeacherCache(output, SPLIT, MEMBERS)
     assert "composition_sha256" in cache.identity
     assert "checkpoint_sha256" not in cache.identity
+
+
+def test_accepts_pr40_bf16_bf16x9_provenance_and_keeps_mean_fp32(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    roots = _caches(
+        tmp_path,
+        monkeypatch,
+        precision_mode="bf16_bf16x9",
+        compile_blocks=True,
+        attention_backend="efficient",
+    )
+    output = merge_teacher_caches(roots, tmp_path, tmp_path / "split.json", tmp_path / "mean")
+
+    values = np.load(output / "train-0.npy", allow_pickle=False)
+    assert values.dtype == np.float32 and np.all(values == 0.0)
+    producer = json.loads((output / "manifest.json").read_text())["producer"]
+    for parent in producer["parents"]:
+        provenance = parent["provenance"]
+        runtime = provenance["identity"]["runtime"]
+        assert provenance["precision"]["mode"] == "bf16_bf16x9"
+        assert runtime["precision"] == provenance["precision"]
+        assert runtime["compiler"] == {
+            "enabled": True,
+            "backend": "inductor",
+            "mode": "default",
+            "fullgraph": False,
+            "dynamic": None,
+            "recompile_limit": 64,
+        }
+
+
+@pytest.mark.parametrize("tamper", ("precision", "compiler", "config", "model_config"))
+def test_rejects_bf16_precision_detached_from_config_or_runtime(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, tamper: str
+) -> None:
+    roots = _caches(
+        tmp_path,
+        monkeypatch,
+        precision_mode="bf16_bf16x9",
+        compile_blocks=True,
+    )
+    if tamper in ("config", "model_config"):
+        for root in roots:
+            manifest_path = root / "manifest.json"
+            manifest = json.loads(manifest_path.read_text())
+            producer = manifest["producer"]
+            config = producer["config"]
+            if tamper == "config":
+                config["precision_mode"] = "fp32"
+            else:
+                config["model"]["precision_mode"] = "fp32"
+            producer["provenance"]["identity"]["config_sha256"] = _canonical_sha(config)
+            manifest_path.write_text(json.dumps(manifest))
+    else:
+        manifest_path = roots[0] / "manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        provenance = manifest["producer"]["provenance"]
+        if tamper == "precision":
+            provenance["precision"]["mode"] = "bf16"
+        else:
+            provenance["identity"]["runtime"]["compiler"]["recompile_limit"] = 63
+        manifest_path.write_text(json.dumps(manifest))
+
+    with pytest.raises(ValueError, match="precision|compiler"):
+        merge_teacher_caches(roots, tmp_path, tmp_path / "split.json", tmp_path / "mean")
+    assert not (tmp_path / "mean").exists()
 
 
 def test_rejects_parent_outer_fold_leak(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

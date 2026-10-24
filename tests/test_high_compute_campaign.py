@@ -22,6 +22,7 @@ def _packet_modules() -> dict[str, Any]:
         "source_bindings",
         "catalog",
         "failure_receipts",
+        "endpoints",
         "materialize",
         "stage_inner",
         "stage_outer",
@@ -165,6 +166,16 @@ def test_b_materialization_profiles_hashes_and_ineligible_failure(
         assert peak == config | {"warmup_fraction": 0.0}
         assert config["epochs"] == 30 and config["optimizer"] == "muon"
         assert config["required_world_size"] == 8
+        assert config["batch_size"] == 2
+        assert config["precision_mode"] == "bf16_bf16x9"
+        assert "precision_mode" not in config["model"]
+        assert config["model"]["attention_backend"] == "efficient"
+        assert config["model"]["compile_blocks"] is True
+        assert config["model"]["checkpoint_blocks"] is False
+        assert (
+            packet["catalog"].normalized_runtime_config(config)["model"]["precision_mode"]
+            == "bf16_bf16x9"
+        )
         assert campaign_io.sha256_file(root / cell["profile_one"]) == cell["profile_one_sha256"]
         assert campaign_io.sha256_file(root / cell["profile_peak"]) == cell["profile_peak_sha256"]
 
@@ -193,6 +204,90 @@ def test_b_materialization_profiles_hashes_and_ineligible_failure(
     profile.write_bytes(profile.read_bytes() + b" ")
     with pytest.raises(ValueError, match="profile config changed"):
         materialize.load_stage(root, "B")
+
+
+def test_endpoint_accepts_loader_normalized_precision_identity(
+    campaign_case: dict[str, Any], packet: dict[str, Any]
+) -> None:
+    """Endpoint provenance binds the loader's injected field while raw config stays unchanged."""
+    root, campaign = campaign_case["root"], campaign_case["campaign"]
+    cell = packet["materialize"].prepare_stage(root, "B")["cells"][0]
+    config = packet["campaign_io"].read_object(root / cell["config"])
+    runtime_config = packet["catalog"].normalized_runtime_config(config)
+    split_path = Path(cell["split_manifest"])
+    split = packet["campaign_io"].read_object(split_path)
+    split_hash = cell["split_sha256"]
+    fit_members = [["train", int(group)] for group in split["fit"]["train"]] + [
+        ["valid", int(group)] for group in split["fit"]["valid"]
+    ]
+    run = root / cell["run_dir"]
+    model_path = run / "fit" / "model.pt"
+    model_path.parent.mkdir(parents=True)
+    model_path.write_bytes(b"fixture checkpoint")
+    weight_hash = packet["campaign_io"].sha256_file(model_path)
+    identity = {
+        "config_sha256": packet["campaign_io"].canonical_sha256(runtime_config),
+        "source_sha256": campaign["runtime_source_sha256"],
+        "world_size": config["required_world_size"],
+        "data": {
+            "fold": cell["fold"],
+            "split_sha256": split_hash,
+            "fit_members": fit_members,
+        },
+    }
+    evaluation_path = run / "evaluation" / "manifest.json"
+    evaluation_entries = [
+        {"split": "valid", "row_group": int(group)} for group in split["evaluation"]["valid"]
+    ]
+    producer = {
+        "checkpoint_sha256": weight_hash,
+        "config": runtime_config,
+        "provenance": {"identity": identity},
+        "split_sha256": split_hash,
+        "fit_members": fit_members,
+    }
+    _write_json(
+        evaluation_path,
+        {
+            "schema": "sequence-predictions-v1",
+            "complete": True,
+            "membership": "evaluation",
+            "split_sha256": split_hash,
+            "producer": producer,
+            "sequences": evaluation_entries,
+        },
+    )
+    components = {
+        str(int(item["component"]))
+        for item in split["sequences"]["valid"]
+        if int(item["row_group"]) in set(split["evaluation"]["valid"])
+    }
+    _write_json(
+        run / "fit" / "terminal_status.json",
+        {
+            "status": "completed",
+            "completed_epochs": config["epochs"],
+            "identity": identity,
+            "model_sha256": weight_hash,
+        },
+    )
+    _write_json(
+        run / "fit" / "score.json",
+        {
+            "score": {"metric_id": "global_wp_clip2_v1", "wp": 0.25},
+            "producer": producer,
+            "split_sha256": split_hash,
+            "sequences": len(evaluation_entries),
+            "predictions_manifest_sha256": packet["campaign_io"].sha256_file(evaluation_path),
+            "component_centered_moments": {
+                component: [[0.0] * 6, [0.0] * 6] for component in components
+            },
+        },
+    )
+
+    endpoint = packet["endpoints"].validate_completed_endpoint(root, campaign, cell)
+    assert endpoint["state"] == "completed"
+    assert endpoint["config_sha256"] == cell["config_sha256"]
 
 
 def test_c_reuses_selected_endpoints_without_rewriting_artifact_bindings(
@@ -287,6 +382,16 @@ def test_g_aliases_identical_reference_and_h_binds_ordered_teacher_caches(
             record
             for record in h_records
             if record["fold"] == fold and record["variant"] == "labels"
+        )
+        student_config = campaign_io.read_object(root / labels["config"])
+        assert student_config["precision_mode"] == "bf16_bf16x9"
+        assert "precision_mode" not in student_config["model"]
+        assert student_config["model"]["architecture"] == "gru"
+        assert student_config["model"]["attention_backend"] == "math"
+        assert student_config["model"]["compile_blocks"] is False
+        assert (
+            catalog.normalized_runtime_config(student_config)["model"]["precision_mode"]
+            == "bf16_bf16x9"
         )
         assert [item["seed"] for item in mean["cache_producers"]] == [301001, 301002, 301003]
         assert mean["cache_inputs"] == [item["path"] for item in mean["cache_producers"]]

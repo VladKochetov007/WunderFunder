@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
@@ -19,6 +20,7 @@ from wnn.training.sequence_fit_utils import (
 )
 from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_optimizer import build_sequence_muon_optimizer
+from wnn.training.sequence_optimizer_telemetry import optimizer_contract
 
 
 def _transformer_config() -> dict[str, object]:
@@ -34,6 +36,18 @@ def _transformer_config() -> dict[str, object]:
         "hint_dim": 0,
         "hint_projection": "learned",
     }
+
+
+def test_optimizer_contract_preserves_identity_across_profile_json() -> None:
+    """A written profile must compare equal to the live full-fit identity."""
+    config = _muon_config() | {"warmup_fraction": 0.05}
+    model = build_sequence_model(_transformer_config())
+    optimizer = build_sequence_muon_optimizer(model, config)
+    contract = optimizer_contract(optimizer, config, 100)
+
+    assert json.loads(json.dumps(contract)) == contract
+    assert all(isinstance(group["betas"], list) for group in contract["groups"])
+    assert all(isinstance(group["betas"], tuple) for group in optimizer.param_groups)
 
 
 def _muon_config() -> dict[str, object]:
@@ -208,7 +222,9 @@ def test_muon_loads_legacy_groups_without_strict_fp32_options() -> None:
     reference_parameter.grad = torch.tensor([[0.5, -0.4], [0.1, 0.2]], dtype=torch.float32)
     reference.step()
 
-    saved_state = reference.state_dict()
+    # Keep an immutable checkpoint snapshot; optimizer.state_dict() returns
+    # references to mutable state tensors that optimizer.step() updates in place.
+    saved_state = deepcopy(reference.state_dict())
     for group in saved_state["param_groups"]:
         group.pop("strict_fp32", None)
         group.pop("ns_eps", None)

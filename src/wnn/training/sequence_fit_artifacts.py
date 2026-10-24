@@ -11,6 +11,7 @@ from wnn.research_reporting import RunRecorder
 from wnn.training.sequence_checkpoint import atomic_write_json, save_final_model
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_loop import EpochResult
+from wnn.training.sequence_precision import precision_identity
 from wnn.training.sequence_provenance import file_sha256, json_value
 
 
@@ -63,7 +64,10 @@ def write_final_outputs(
         "fixed_checkpoint_policy": "configured-final-epoch",
         "completed_epochs": epochs,
         "global_updates": global_step,
-        "precision": "strict_fp32_no_autocast_no_tf32_math_sdpa",
+        "precision": precision_identity(
+            str(config.get("precision_mode", "fp32")),
+            str(config["model"].get("attention_backend", "math")),
+        ),
     }
     if model_path.exists():
         saved = torch.load(model_path, map_location="cpu", weights_only=False)

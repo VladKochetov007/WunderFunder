@@ -27,6 +27,7 @@
   "required_world_size": 8,
   "required_device": "B300",
   "expected_fold": 0,
+  "precision_mode": "bf16_bf16x9",
   "model": {
     "architecture": "gru",
     "hidden": 512,
@@ -37,6 +38,8 @@
     "dropout": 0.0,
     "checkpoint_blocks": true,
     "hint_dim": 0,
-    "hint_projection": "fixed"
+    "hint_projection": "fixed",
+    "attention_backend": "math",
+    "compile_blocks": false
   }
 }

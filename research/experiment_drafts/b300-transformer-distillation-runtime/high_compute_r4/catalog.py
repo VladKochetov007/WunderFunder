@@ -43,6 +43,7 @@ TOP_LEVEL_CONFIG_KEYS = {
     "required_world_size",
     "required_device",
     "expected_fold",
+    "precision_mode",
     "model",
 }
 MODEL_CONFIG_KEYS = {
@@ -56,7 +57,11 @@ MODEL_CONFIG_KEYS = {
     "checkpoint_blocks",
     "hint_dim",
     "hint_projection",
+    "attention_backend",
+    "compile_blocks",
 }
+
+R4_PRECISION_MODE = "bf16_bf16x9"
 
 # Training configs are heterogeneous JSON maps; Any is confined to this boundary.
 
@@ -117,6 +122,10 @@ def validate_config(config: dict[str, Any]) -> None:
         "unsupported execution target",
     )
     require(config["expected_fold"] in (0, 2), "invalid expected fold")
+    require(
+        config["precision_mode"] == R4_PRECISION_MODE,
+        "R4 requires the explicit BF16_BF16x9 precision mode",
+    )
     require(model["architecture"] in ("transformer", "gru"), "unsupported architecture")
     for name in ("hidden", "layers", "heads", "ff_multiplier", "context_rows"):
         require(type(model[name]) is int and model[name] > 0, f"invalid model field {name}")
@@ -125,9 +134,21 @@ def validate_config(config: dict[str, Any]) -> None:
         "R4 freezes hidden-hint distillation off",
     )
     require(
-        model["dropout"] == 0 and model["checkpoint_blocks"] is True,
+        model["dropout"] == 0 and type(model["checkpoint_blocks"]) is bool,
         "unsupported model execution policy",
     )
+    if model["architecture"] == "transformer":
+        require(
+            model["attention_backend"] == "efficient"
+            and model["compile_blocks"] is True
+            and model["checkpoint_blocks"] is False,
+            "R4 teachers require efficient attention, compiled blocks, and no checkpointing",
+        )
+    else:
+        require(
+            model["attention_backend"] == "math" and model["compile_blocks"] is False,
+            "R4 GRU students require the math attention default and no block compilation",
+        )
     require(
         config["optimizer"] != "muon" or model["architecture"] == "transformer",
         "Muon is teacher-only",
@@ -140,11 +161,16 @@ def validate_config(config: dict[str, Any]) -> None:
 
 
 def teacher_base(fold: int, seed: int) -> dict[str, Any]:
-    """Read the exact R3 1.54B config and apply only fold and seed identity."""
+    """Copy the R3 teacher recipe and add the frozen R4 precision/runtime policy."""
     require(fold in R3_BASE_PATHS, "R4 supports outer folds F0 and F2")
     config = read_object(R3_BASE_PATHS[fold])
     config["expected_fold"] = fold
     config["seed"] = seed
+    config["precision_mode"] = R4_PRECISION_MODE
+    config["model"] = config["model"].copy()
+    config["model"].update(
+        {"attention_backend": "efficient", "compile_blocks": True, "checkpoint_blocks": False}
+    )
     validate_config(config)
     return config
 
@@ -157,6 +183,16 @@ def student_base(fold: int, seed: int, kd_weight: float) -> dict[str, Any]:
     config["kd_weight"] = kd_weight
     validate_config(config)
     return config
+
+
+def normalized_runtime_config(config: dict[str, Any]) -> dict[str, Any]:
+    """Mirror load_config's runtime-only nested precision field without changing raw JSON."""
+    validate_config(config)
+    result = config.copy()
+    model = config["model"].copy()
+    model["precision_mode"] = config["precision_mode"]
+    result["model"] = model
+    return result
 
 
 def profile_one_config(config: dict[str, Any]) -> dict[str, Any]:

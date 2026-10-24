@@ -14,6 +14,7 @@ import torch.distributed as dist
 
 from wnn.research_reporting import RunMetadata, RunRecorder
 from wnn.training.sequence_distributed import DistributedContext
+from wnn.training.sequence_precision import runtime_precision_identity
 
 
 def json_value(value: object) -> object:
@@ -103,7 +104,6 @@ def _local_runtime_identity(context: DistributedContext) -> dict[str, object]:
         "cudnn_tf32": torch.backends.cudnn.allow_tf32,
         "autocast": False,
         "amp_scaler": False,
-        "attention_backend": "math",
         "cublas_workspace_config": os.environ.get("CUBLAS_WORKSPACE_CONFIG"),
     }
 
@@ -136,7 +136,7 @@ def runtime_identity(context: DistributedContext) -> dict[str, object]:
     common_fields = (
         ("python", "platform", "torch", "cuda_runtime", "cudnn", "nvidia_driver")
         + ("visible_devices", "world_size", "matmul_precision", "matmul_tf32", "cudnn_tf32")
-        + ("autocast", "amp_scaler", "attention_backend", "cublas_workspace_config")
+        + ("autocast", "amp_scaler", "cublas_workspace_config")
     )
     baseline = workers[0]
     if any(
@@ -174,7 +174,7 @@ def run_identity(
         "data": data_value,
         "source_sha256": source["sha256"],
         "source_files": source["files"],
-        "runtime": runtime,
+        "runtime": runtime_precision_identity(config, runtime),
         "world_size": world_size,
     }
 

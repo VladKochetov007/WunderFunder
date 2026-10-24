@@ -12,6 +12,7 @@ from campaign_io import (
     require,
     sha256_file,
 )
+from catalog import normalized_runtime_config
 
 
 def run_path(root: Path, record: dict[str, Any], relative: str = "") -> Path:
@@ -38,6 +39,7 @@ def validate_completed_endpoint(
     root = campaign_root.resolve(strict=True)
     config_path = (root / str(record["config"])).resolve(strict=True)
     config = read_object(config_path)
+    runtime_config = normalized_runtime_config(config)
     require(
         canonical_sha256(config) == record["config_sha256"],
         f"endpoint config changed: {record['id']}",
@@ -63,7 +65,7 @@ def validate_completed_endpoint(
         f"endpoint is not the fixed final epoch: {record['id']}",
     )
     require(
-        identity.get("config_sha256") == canonical_sha256(config),
+        identity.get("config_sha256") == canonical_sha256(runtime_config),
         f"endpoint config identity mismatch: {record['id']}",
     )
     require(
@@ -113,7 +115,10 @@ def validate_completed_endpoint(
         producer.get("checkpoint_sha256") == weight_hash,
         f"score producer weights mismatch: {record['id']}",
     )
-    require(producer.get("config") == config, f"score producer config mismatch: {record['id']}")
+    require(
+        producer.get("config") == runtime_config,
+        f"score producer config mismatch: {record['id']}",
+    )
     provenance = producer.get("provenance")
     require(
         isinstance(provenance, dict) and provenance.get("identity") == identity,

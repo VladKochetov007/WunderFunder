@@ -5,6 +5,8 @@ import math
 from pathlib import Path
 from typing import Any
 
+from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
+
 # JSON is heterogeneous at this boundary; validated fields are consumed by the runtime.
 DEFAULTS: dict[str, Any] = {
     "schema_version": 1,
@@ -35,6 +37,7 @@ DEFAULTS: dict[str, Any] = {
     "required_world_size": None,
     "required_device": None,
     "expected_fold": None,
+    "precision_mode": "fp32",
 }
 MODEL_DEFAULTS: dict[str, Any] = {
     "architecture": "transformer",
@@ -47,11 +50,13 @@ MODEL_DEFAULTS: dict[str, Any] = {
     "checkpoint_blocks": True,
     "hint_dim": 0,
     "hint_projection": "learned",
+    "attention_backend": "math",
+    "compile_blocks": False,
 }
 
 
 def load_config(path: Path) -> dict[str, Any]:
-    """Read a bounded strict-FP32 recipe; reject silently ignored settings."""
+    """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
     if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | {"model"}):
         raise ValueError("unknown sequence recipe field")
@@ -107,6 +112,9 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError(f"{key} must be finite and in [0, 1)")
     if config["optimizer"] not in ("adamw", "muon"):
         raise ValueError("optimizer must be adamw or muon")
+    if config["precision_mode"] not in PRECISION_MODES:
+        raise ValueError("precision_mode must be fp32, tf32, bf16, fp32_bf16x9, or bf16_bf16x9")
+    validate_process_environment(config["precision_mode"])
     if config["schedule"] not in ("legacy_warmup_cosine", "warmup_cosine_v2"):
         raise ValueError("unsupported sequence learning-rate schedule")
     ratio = config["min_lr_ratio"]
@@ -123,6 +131,14 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("hint_dim must be a nonnegative integer")
     if model["architecture"] not in ("transformer", "gru"):
         raise ValueError("architecture must be transformer or gru")
+    if model["attention_backend"] not in ("math", "efficient", "flex"):
+        raise ValueError("model.attention_backend must be math, efficient, or flex")
+    if model["architecture"] == "gru" and model["attention_backend"] != "math":
+        raise ValueError("attention backends are supported only by Transformer models")
+    if type(model["compile_blocks"]) is not bool:
+        raise ValueError("model.compile_blocks must be boolean")
+    if model["architecture"] == "gru" and model["compile_blocks"]:
+        raise ValueError("model.compile_blocks requires a Transformer model")
     if config["optimizer"] == "muon" and model["architecture"] != "transformer":
         raise ValueError("sequence Muon currently supports Transformer models only")
     if model["hint_projection"] not in ("fixed", "learned"):
@@ -154,6 +170,9 @@ def load_config(path: Path) -> dict[str, Any]:
     expected_fold = config["expected_fold"]
     if expected_fold is not None and (type(expected_fold) is not int or expected_fold < 0):
         raise ValueError("expected_fold must be null or a nonnegative integer")
+    # This runtime-only field lets fit and inference build the same precision-aware model.
+    model["precision_mode"] = config["precision_mode"]
+    config["model"] = model
     return config
 
 

@@ -1,10 +1,16 @@
-# B300 high-compute campaign — executable R4
+# B300 high-compute campaign — BF16/BF16x9 R4 continuation
 
 This implements stages B–H of the [expanded plan](../HIGH_COMPUTE_PLAN_20261024.md)
 in [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32). Each stage
 materializes complete trainer configs and explicit commands. It does not launch
 a queue. **No tests, training, inference or profiles have been run locally. B300
 acceptance and all scientific results are pending.** No hardware has been booked.
+
+**24 October correction:** [Precision amendment](../PRECISION_AMENDMENT_20261024.md).
+New materializations explicitly use `bf16_bf16x9`. Old materializations and
+receiver receipts require a new campaign root at this source revision; they are
+not resumable under the amended configuration. The team’s active four W2 fits
+remain pinned to PR40 source and are not changed by this package.
 
 The four [R3 teachers](../large_teacher_r3_muon30/README.md) remain stage A, with
 their historical configs unchanged. R4 adds up to **30 teacher and six student
@@ -32,12 +38,16 @@ fitting membership. Outer evaluation components never enter either inner pool.
 This is full inner training, not a 10%/30% proxy. G/H return to complete outer
 fitting membership. Inner and outer scores are not interchangeable controls.
 
-All teachers use causal raw112 inputs, strict FP32, Muon with auxiliary AdamW,
-30 epochs and final checkpoint index 29. Start with the R3 1792×40, 28-head,
+All teachers use causal raw112 inputs, BF16 autocast with cuBLAS BF16x9,
+efficient exact-window attention, compiled blocks and no activation recomputation.
+Master weights, gradients, loss, optimizer and carried state remain FP32. Muon
+uses auxiliary AdamW; its FP32 tensor operations may use cuBLAS emulation.
+Every fit runs 30 epochs and uses final checkpoint index 29. Start with the R3 1792×40, 28-head,
 FF×4 model, context1024, chunk512, accumulation8, batch2/rank and eight ranks.
 The larger F teacher is 2560×40 with 40 heads (~3.15B parameters). Muon uses
 momentum .95, five FP32 Newton–Schulz iterations, epsilon1e-7 and independent Q/K/V
-updates in the RMS-matched LR convention. Auxiliary AdamW beta=(.9,.95), eps1e-8;
+updates in the RMS-matched LR convention. This is not IEEE-FP32 equivalence.
+Auxiliary AdamW beta=(.9,.95), eps1e-8;
 matrix decay .01, vector/bias decay0, clip1, dropout0. B starts at warmup5%; every
 schedule ends at .1×peak. See [R3 parameters](../large_teacher_r3_muon30/PARAMETERS.md)
 for exact scheduler indexing and optimizer groups. These are candidates to
@@ -48,7 +58,8 @@ E changes chunk shape, backward horizon and accumulation together. It keeps
 do not attribute its result to backward horizon alone. F transfers the selected
 LR to a larger model; it does not establish that size's optimal LR.
 
-H freezes a raw112 GRU512×2 student: AdamW LR3e-4, beta=(.9,.95), eps1e-8,
+H freezes a raw112 GRU512×2 student with BF16/BF16x9 compute and FP32 carried
+state, without Transformer compilation or attention flags: AdamW LR3e-4, beta=(.9,.95), eps1e-8,
 decay.01, clip1, dropout0, 5% warmup/cosine floor.1, chunk512/accumulation8,
 batch2×8 ranks, 30 epochs, all-fit normalization, all post-warmup label rows,
 two outputs and no hints. Seeds are 401001/F0 and 401002/F2. Labels use KD weight0;
@@ -77,6 +88,7 @@ export WNN_REVIEWER='<receiving operator>'
 export PYTHONPATH="$PWD/src"
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
+export CUBLAS_EMULATE_SINGLE_PRECISION=1
 PACKET=research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4
 INPUTS='/actual/nvme/b300-high-compute-inputs'
 mkdir -p "$INPUTS"
@@ -96,7 +108,8 @@ uv run --no-sync python "$PACKET/campaign.py" prepare \
   --campaign-root "$WNN_CAMPAIGN_ROOT" --stage B
 
 # Once for this exact source: CPU contract tests, actual CUDA recovery,
-# two-rank objective and Muon update/state parity. This executes on B300 only.
+# two-rank objective/Muon parity plus BF16 streaming/backend checks.
+# Legacy checks disable emulation in separate subprocesses. Runs on B300 only.
 bash "$PACKET/run.sh" check --campaign-root "$WNN_CAMPAIGN_ROOT"
 ```
 
@@ -124,7 +137,8 @@ Each profile performs twelve real optimizer updates. One-rank differs only by
 world size; peak stress differs only by warmup0. Admission reuses R3 checks for
 exact source/data/runtime, finite gradients, near-peak LR, 20% GPU headroom,
 conservative host resume memory and disk capacity. It does not prove full-run
-stability. Repeat this sequence for each **new** allocated cell, including H.
+stability. Repeat this sequence for each **new** allocated cell, including H. These W8 batch2 settings are unprofiled starting points; PR40’s
+W2 batches96/64 and measured memory headroom do not transfer to these shapes.
 Reused controls retain their original paths and cannot be relaunched as new fits.
 Disjoint eight-GPU groups can run independent cells concurrently with per-fit
 host budgets; do not change the rank count or global batch to fill idle devices.
@@ -226,7 +240,11 @@ other interactions; those require separately allocated follow-ups.
 Large teachers are research assets. The raw112 GRU student still needs measured
 Python3.11/offline/one-core CPU inference, 16GB RAM, 60-minute runtime and 20MB ZIP
 acceptance before submission. Native211/TL3 is a separate adapter. Quantization
-and submission packaging are outside these full-precision experiments.
+and submission packaging are separate from these mixed-precision experiments.
+
+G reference controls inherit R3 architecture/optimization settings with the same
+BF16/backend/compiler amendment as candidate cells; R3 FP32 endpoints are not
+matched controls. All new source/config identities require fresh admission.
 
 The [recipe](recipe.json), [scientific contract](PR.md) and
 [static validation record](VALIDATION.json) define the current implementation
@@ -240,5 +258,6 @@ Implementation map: `campaign.py` exposes preparation and selection;
 `results.py`, `comparisons.py` and `paired_metrics.py` retain fixed outcomes and
 reasoned choices. `run.sh`/`dispatch.py` execute explicit receiver actions;
 `runner_checks.py`, `admit.py` and `cache_parity.py` enforce their prerequisites.
-The shared inner-split and cache-merge entrypoints live in `scripts/` and reuse
+`parent_cache_config.py` binds single and ensemble KD inputs to the declared G
+producer configs. The shared inner-split and cache-merge entrypoints live in `scripts/` and reuse
 `wnn.splits` and the existing sequence trainer's teacher-cache interface.

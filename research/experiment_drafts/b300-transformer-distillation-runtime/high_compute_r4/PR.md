@@ -4,11 +4,16 @@ The expanded B300 plan previously described experiments without runnable stage
 configs or ensemble targets. R4 now materializes complete source-bound cells,
 uses component-clean inner selection, reuses exact controls, confirms frozen
 recipes on outer folds and trains matched GRU students against labels, one
-teacher or three-teacher means. It reuses PR32's causal trainer, FP32 Muon,
-recovery, canonical scoring and R3 admission rather than adding a training loop.
+teacher or three-teacher means. It reuses PR32's causal trainer, Muon with FP32
+master/update state, recovery, canonical scoring and R3 admission rather than adding a training loop.
+
+[Precision amendment](../PRECISION_AMENDMENT_20261024.md): new R4 cells explicitly
+use the PR40 BF16/BF16x9 runtime. Historical strict-FP32 packets and the active
+four W2 teacher fits retain their source pins; this is a new combined source.
 
 [Receiving-host commands](README.md)
 and [allocation and complete recipe](recipe.json).
+G reference and candidate share the amended precision/backend/compiler settings.
 The existing four-fit R3 packet remains unchanged. No local tests, model imports,
 training, inference or GPU profiling were run. No jobs were dispatched.
 
@@ -21,13 +26,16 @@ training, inference or GPU profiling were run. No jobs were dispatched.
    H tests the teacher–student connection. Better teacher fit or compute alone
    does not establish better CPU student predictions. Sequential coordinate
    search can miss interactions and is not a claim of optimal hyperparameters.
-3. **Compute advantage.** Every fit uses one eight-B300 DDP group in strict FP32,
-   including Muon matrix work. Additional disjoint groups can execute independent
+3. **Compute advantage.** Every new R4 fit uses an eight-B300 DDP group with BF16
+   autocast and process-wide cuBLAS BF16x9 emulation. Master weights, gradients,
+   loss and optimizer state remain FP32; Muon GEMMs are not IEEE-FP32 guaranteed.
+   Teachers use efficient attention and compiled blocks, recomputation off.
+   Additional disjoint groups can execute independent
    cells with separately allocated RAM and scratch. Models/optimizers are fully
    replicated. Larger context/capacity and three-seed teacher means consume
    additional compute; measured GPU-hours and endpoint quality decide whether
    that cost is useful. No performance estimate is presented as measurement.
-4. **Frozen parameters.** Thirty epochs, final index 29, batch 2/rank, clip 1,
+4. **Frozen parameters.** Thirty epochs, final index 29, unprofiled batch 2/rank, clip 1,
    dropout 0, full fitting-only normalization and causal raw112 input. Teachers
    use R3 Muon/auxiliary AdamW, LR candidates 1e-4/3e-4/1e-3, warmup 1%/5%/10%,
    cosine floor .1, contexts 1024/2048/4096, chunk 512/accumulation 8 versus chunk 2048/accumulation 2,
@@ -63,7 +71,8 @@ training, inference or GPU profiling were run. No jobs were dispatched.
 9. **Execution and acceptance.** Immutable materialization, explicit per-cell
    profile-one/eight/peak, admission, fit/resume/evaluate/cache/bundle commands.
    R4 receiver checks extend R3 CUDA recovery and objective/Muon DDP parity with
-   inner-split, ensemble and staged-campaign contracts. Exact 12-update profiles,
+   inner-split, ensemble, staged-campaign and BF16 streaming/backend contracts.
+   Legacy checks disable cuBLAS emulation in separate subprocesses. Exact 12-update profiles,
    finite gradients, peak-LR stress, 20% GPU reserve and conservative host/disk
    admission are prerequisites. No local correctness/performance pass is implied.
 10. **Transfer and artifacts.** One/eight-rank full-fit prediction parity binds

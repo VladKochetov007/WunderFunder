@@ -1,5 +1,10 @@
 # B300 campaign with abundant compute
 
+**Precision correction, 24 October:** [The explicit BF16/BF16x9 amendment](PRECISION_AMENDMENT_20261024.md)
+supersedes the strict-FP32 wording in this historical proposal for every new
+R4 cell, including G reference controls and H students. FP32 master/update state
+remains. The team’s active W2 teacher fits are a separate source-bound execution.
+
 **Implementation update, 24 October:** [R4 executable packet](high_compute_r4/README.md)
 implements the conditional B–H stages below, including inner manifests, complete
 configs, receiver commands and three-teacher cache composition. The text below

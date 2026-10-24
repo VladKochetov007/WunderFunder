@@ -84,6 +84,9 @@ def test_fit_and_resume_require_admitted_profile_arguments(
 ) -> None:
     commands: list[list[str]] = []
     monkeypatch.setattr(dispatcher, "execute", commands.append)
+    monkeypatch.setattr(
+        dispatcher, "verify_admission_binding", lambda run, config: None, raising=False
+    )
     for action in ("fit", "resume"):
         dispatcher.execute_cell(
             action, tmp_path, {"data_root": "/data"}, _cell(), tmp_path / "checks"
@@ -134,35 +137,61 @@ def test_cache_parity_exports_one_rank_before_comparison(
 
 
 def test_parent_cache_requires_unchanged_successful_parity(
-    dispatcher: ModuleType, tmp_path: Path
+    dispatcher: ModuleType, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
+    import catalog
+    import materialize
     import runner_checks
 
     parent = tmp_path / "runs/teacher"
     (parent / "fit").mkdir(parents=True)
     (parent / "teacher-cache").mkdir()
+    raw_config = catalog.teacher_base(0, 301001)
+    config_path = tmp_path / "cells/G_candidate_f0_s301001/config.json"
+    config_path.parent.mkdir(parents=True)
+    config_path.write_text(json.dumps(raw_config))
+    normalized_config = catalog.normalized_runtime_config(raw_config)
+    config_sha256 = catalog.canonical_sha256(raw_config)
+    producer_cell = {
+        "id": "G_candidate_f0_s301001",
+        "kind": "teacher",
+        "fold": 0,
+        "seed": 301001,
+        "config": "cells/G_candidate_f0_s301001/config.json",
+        "config_sha256": config_sha256,
+        "run_dir": "runs/teacher",
+        "teacher_cache": "runs/teacher/teacher-cache",
+    }
+
+    def get_cell(root: Path, stage: str, cell_id: str) -> dict[str, object]:
+        assert root == tmp_path and stage == "G" and cell_id == producer_cell["id"]
+        return producer_cell
+
+    monkeypatch.setattr(materialize, "get_cell", get_cell)
+    identity = {
+        "source_sha256": "source",
+        "config_sha256": catalog.canonical_sha256(normalized_config),
+    }
     (parent / "fit/terminal_status.json").write_text(
         json.dumps(
             {
                 "status": "completed",
                 "model_sha256": "a" * 64,
-                "identity": {"source_sha256": "source"},
+                "identity": identity,
             }
         )
     )
     manifest = parent / "teacher-cache/manifest.json"
-    manifest.write_text(
-        json.dumps(
-            {
-                "complete": True,
-                "split_sha256": "split",
-                "producer": {
-                    "checkpoint_sha256": "a" * 64,
-                    "provenance": {"identity": {"source_sha256": "source"}},
-                },
-            }
-        )
-    )
+    manifest_value = {
+        "complete": True,
+        "split_sha256": "split",
+        "producer": {
+            "checkpoint_sha256": "a" * 64,
+            "config": json.loads(json.dumps(normalized_config)),
+            "provenance": {"identity": identity},
+        },
+    }
+    manifest.write_text(json.dumps(manifest_value))
     one_manifest = parent / "teacher-cache-one/manifest.json"
     one_manifest.parent.mkdir()
     one_manifest.write_text(manifest.read_text())
@@ -181,9 +210,32 @@ def test_parent_cache_requires_unchanged_successful_parity(
     cell = {
         "cache_inputs": ["runs/teacher/teacher-cache"],
         "parent_run_dirs": ["runs/teacher"],
+        "cache_producers": [
+            {
+                "path": "runs/teacher/teacher-cache",
+                "producer_run_dir": "runs/teacher",
+                "producer_cell_id": producer_cell["id"],
+                "producer_config_sha256": config_sha256,
+                "fold": 0,
+                "seed": 301001,
+                "variant": "candidate",
+            }
+        ],
         "split_sha256": "split",
     }
     runner_checks.parent_cache_guards(tmp_path, cell, "source")
+    manifest_value["producer"]["config"]["lr"] = 0.001
+    manifest.write_text(json.dumps(manifest_value))
+    with pytest.raises(ValueError, match="producer config"):
+        runner_checks.parent_cache_guards(tmp_path, cell, "source")
+    manifest_value["producer"]["config"] = json.loads(json.dumps(normalized_config))
+    manifest.write_text(json.dumps(manifest_value))
+    cell["cache_producers"][0]["producer_config_sha256"] = "0" * 64
+    with pytest.raises(ValueError, match="frozen G cell"):
+        runner_checks.parent_cache_guards(tmp_path, cell, "source")
+    cell["cache_producers"][0]["producer_config_sha256"] = config_sha256
+    parity["manifest_sha256"]["eight"] = runner_checks.file_hash(manifest)
+    parity_path.write_text(json.dumps(parity))
     one_manifest.write_text(one_manifest.read_text() + "\n")
     with pytest.raises(ValueError, match="identities"):
         runner_checks.parent_cache_guards(tmp_path, cell, "source")
@@ -225,3 +277,73 @@ def test_mean_cache_rejects_a_different_clean_parent_composition(
     path.write_text(json.dumps(manifest))
     with pytest.raises(ValueError, match="composition"):
         runner_checks.merged_cache_guard(tmp_path, cell)
+
+
+def test_receiver_check_subprocess_environment_disables_cublas_emulation(
+    dispatcher: ModuleType,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    import os
+
+    import runner_checks
+
+    name = "CUBLAS_EMULATE_SINGLE_PRECISION"
+    monkeypatch.setenv(name, "1")
+    environment = runner_checks.receiver_check_environment()
+    assert environment[name] == "0"
+    assert os.environ[name] == "1"
+
+    received: dict[str, object] = {}
+    monkeypatch.setattr(
+        runner_checks.subprocess,
+        "run",
+        lambda command, *, cwd, check, env: received.update(
+            command=command, cwd=cwd, check=check, env=env
+        ),
+    )
+    runner_checks.execute(["python", "-V"], env=environment)
+    assert received["env"][name] == "0"
+    assert received["env"] is not environment
+
+
+def test_fit_admission_binding_requires_unchanged_config_and_profile(
+    dispatcher: ModuleType, tmp_path: Path
+) -> None:
+    import runner_checks
+
+    config_path = tmp_path / "student.json"
+    config_path.write_text((PACKET / "templates/student_gru512.json").read_text())
+    raw_config = runner_checks.read(config_path)
+    normalized = runner_checks.normalized_runtime_config(raw_config)
+    run = tmp_path / "runs/student"
+    run.mkdir(parents=True)
+    normalized_path = run / "admission-normalized-config.json"
+    normalized_path.write_text(json.dumps(normalized, indent=2) + "\n")
+    approved_path = run / "approved_profile.json"
+    approved_path.write_text(
+        json.dumps(
+            {
+                "approved": True,
+                "identity": {"config_sha256": runner_checks.canonical_sha256(normalized)},
+            }
+        )
+    )
+    binding_path = run / "r4_admission_binding.json"
+    binding_path.write_text(
+        json.dumps(
+            {
+                "schema": "wnn.high-compute-r4-admission-binding.v1",
+                "raw_config_path": str(config_path.resolve()),
+                "raw_config_sha256": runner_checks.file_hash(config_path),
+                "normalized_config_path": str(normalized_path.resolve()),
+                "normalized_config_sha256": runner_checks.file_hash(normalized_path),
+                "approved_profile_path": str(approved_path.resolve()),
+                "approved_profile_sha256": runner_checks.file_hash(approved_path),
+            }
+        )
+    )
+
+    runner_checks.verify_admission_binding(run, config_path)
+    approved_path.write_text(approved_path.read_text() + "\n")
+    with pytest.raises(ValueError, match="evidence changed"):
+        runner_checks.verify_admission_binding(run, config_path)

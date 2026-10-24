@@ -7,18 +7,18 @@ labels/single-teacher/three-teacher GRU distillation. Up to 40 conditional fits
 including the original four R3 teachers; exact controls are reused. Source
 preparation is complete; B300 checks and all outcomes remain pending.
 
-**23 October amendment:** [Large teacher R3 — Muon / 30 epochs](large_teacher_r3_muon30/README.md)
-is the current four-fit preparation for eight B300s. [All parameters and schedule](large_teacher_r3_muon30/PARAMETERS.md)
-include strict-FP32 Muon, 5% warmup, cosine-to-10%, accumulation8 and remote
-peak-LR/recovery checks. It replaces the unlaunched [six-epoch AdamW R2](large_teacher_r2/README.md).
-R1/R2 recipes remain historical and unchanged. No GPU execution or quality result
-is established for R3.
+**24 October precision correction:** [The Blackwell amendment](PRECISION_AMENDMENT_20261024.md)
+supersedes strict-FP32 model compute for new R4 cells with explicit BF16/BF16x9.
+The four active W2 teacher fits and their measured batches belong to
+[PR40](https://github.com/VladKochetov007/WunderFunder/pull/40); they run on a separately
+pinned source. This R4 integration does not change them. Its combined runtime
+still needs receiving-host checks/profiles; no local tests, model imports,
+training, inference or GPU profiles were run.
 
-Implemented, **not executed on a GPU**. No local tests, model imports, training,
-inference or profiles were run for this delivery. Static review is not a B300
-acceptance result. `recipe.json` keeps `launch_ready=false` until receiving-host
-checks, source/data bindings, ownership and actual shape profiles are accepted.
-This change neither starts jobs nor resumes the separately running GRU campaign.
+**Historical 23 October recipe:** [Large teacher R3 — Muon / 30 epochs](large_teacher_r3_muon30/README.md)
+records the original strict-FP32 four-fit preparation. Its configs and parameter
+tables remain unchanged as history. Use the current amendment and R4 commands
+for the continuation; do not treat the old R3 source/receipts as BF16 acceptance.
 
 - [PR.md](PR.md): scientific comparisons, limitations and evidence contract.
 - [recipe.json](recipe.json): explicit prospective amendments for PRs 28–30;
@@ -33,7 +33,7 @@ This change neither starts jobs nor resumes the separately running GRU campaign.
   Components live in `src/wnn/training/sequence_*.py`; the legacy trainer is unchanged.
 
 Published [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32) targets `research-team` and is ready for code review.
-The following R1 implementation/history is frozen; R3 above is the current teacher recipe. R1 executable source
+The following R1 implementation/history is frozen. The precision amendment above describes the current continuation. R1 executable source
 is frozen at `d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6`; later publication/base-sync commits preserve that
 implementation. [Validation record](VALIDATION.json) records static checks only.
 
