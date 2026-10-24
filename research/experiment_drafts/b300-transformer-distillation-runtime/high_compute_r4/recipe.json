@@ -1,0 +1,69 @@
+{
+  "schema": "wnn.high-compute-r4-recipe.v1",
+  "status": "conditional_materialization_only",
+  "launch_ready": false,
+  "automatic_fits": false,
+  "selection": "Explicit --variant plus a written reason; no score-based auto-selection.",
+  "source_binding": {
+    "runtime": "All src/**/*.py plus scripts/train_sequence.py, hashed at init and rechecked before every command.",
+    "packet": "All static files in high_compute_r4/, excluding Python caches and runtime outputs.",
+    "R3": "Frozen large_teacher_r3_muon30 recipe and four source configs are separately hash-bound."
+  },
+  "split_contract": {
+    "outer_folds": [0, 2],
+    "inner_schema": "wnn.sequence-inner-split.v1",
+    "inner_fit": "Complete source-qualified fitting membership after component-disjoint validation is reserved from the outer fitting pool.",
+    "inner_evaluation": "Reserved component-disjoint validation from the outer fitting pool; development evidence only.",
+    "outer_evaluation": "F0/F2 are already exposed. G and H are robustness/transfer evidence, not untouched generalization."
+  },
+  "accounting": {
+    "A": {"fits": 4, "new_teachers": 4, "new_students": 0, "teacher_epochs": 120, "status": "Frozen R3 first capacity panel; already planned and not materialized by R4."},
+    "B": {"new_teachers": 6, "reused_teachers": 0, "new_students": 0},
+    "C": {"new_teachers": 4, "reused_teachers": 2, "new_students": 0},
+    "D": {"new_teachers": 4, "reused_teachers": 2, "new_students": 0},
+    "E": {"new_teachers": 2, "reused_teachers": 2, "new_students": 0},
+    "F": {"new_teachers": 2, "reused_teachers": 2, "new_students": 0},
+    "G": {"new_teachers": 12, "new_teachers_if_candidate_equals_reference": 6, "reused_aliases_if_candidate_equals_reference": 6, "new_students": 0},
+    "H": {"new_teachers": 0, "reused_teachers": 0, "new_students": 6},
+    "conditional_route": {"fits_including_A": 40, "teachers_including_A": 34, "students": 6, "teacher_epochs": 1020, "additional_teacher_epochs_after_A": 900, "student_epochs": 180, "interpretation": "Nominal route assumes candidate differs from the R3 reference in G and every exact reuse contract passes."},
+    "extension_after_A": {"new_teachers": 30, "new_students": 6, "new_fits": 36},
+    "cost_units": "Fit counts and epochs are not GPU-hour estimates. Failed attempts are retained and counted separately; profiles, exports, cache parity, merges and packaging are additional engineering work."
+  },
+  "teacher_recipe": {
+    "epochs": 30,
+    "endpoint": "Fixed final epoch index 29.",
+    "optimizer": "Muon with AdamW-matched RMS convention; auxiliary AdamW beta=(0.9,0.95), eps=1e-8.",
+    "precision": "bf16_bf16x9",
+    "precision_contract": "BF16 autocast for model forward plus the process-wide cuBLAS single-precision emulation request; parameters, gradients, optimizer state, and loss remain FP32. The mode requires CUBLAS_EMULATE_SINGLE_PRECISION=1 and may also affect Muon operations.",
+    "transformer_runtime": {"attention_backend": "efficient", "compile_blocks": true, "checkpoint_blocks": false},
+    "weight_decay": 0.01,
+    "grad_clip": 1.0,
+    "batch_size_per_rank": 2,
+    "world_size": 8,
+    "normalization_scope": "all_fit",
+    "training_mask": "all_after_warmup",
+    "profile_variants": ["config.json", "profile_one.json", "profile_peak.json"],
+    "profile_one": "Only required_world_size changes to 1.",
+    "profile_peak": "Only warmup_fraction changes to 0.0; weights are engineering evidence and must not be consumed as endpoints.",
+    "stages": {
+      "B": {"question": "Learning rate on the 1.54B teacher.", "variants": {"lr_1e-4": 0.0001, "lr_3e-4": 0.0003, "lr_1e-3": 0.001}, "warmup_fraction": 0.05, "context_rows": 1024, "chunk_rows": 512, "accumulate_chunks": 8, "fold_seeds": {"0": 201001, "2": 201002}, "new_fits": 6},
+      "C": {"question": "Warmup after selecting B learning rate.", "variants": {"warmup_0.01": 0.01, "warmup_0.05": 0.05, "warmup_0.10": 0.1}, "new_fits": 4, "exact_reuse": "Two selected-LR 5% warmup endpoints from B."},
+      "D": {"question": "Forward attention context; gradient horizon stays 512 rows.", "variants": {"context_1024": 1024, "context_2048": 2048, "context_4096": 4096}, "chunk_rows": 512, "accumulate_chunks": 8, "new_fits": 4, "exact_reuse": "Two selected 1024-context endpoints from B/C."},
+      "E": {"question": "Combined chunk and backward-horizon recipe at selected context.", "variants": {"chunk512_acc8": {"chunk_rows": 512, "accumulate_chunks": 8}, "chunk2048_acc2": {"chunk_rows": 2048, "accumulate_chunks": 2}}, "new_fits": 2, "exact_reuse": "Two selected chunk512/accumulation8 endpoints from D."},
+      "F": {"question": "Targeted teacher capacity follow-up.", "variants": {"teacher_1.54B": {"hidden": 1792, "layers": 40, "heads": 28, "ff_multiplier": 4}, "teacher_3.15B": {"hidden": 2560, "layers": 40, "heads": 40, "ff_multiplier": 4}}, "new_fits": 2, "exact_reuse": "Two selected 1.54B endpoints from E."},
+      "G": {"question": "Three paired seeds on both exposed outer folds: frozen F candidate versus an R3-hyperparameter 1.54B reference using the same R4 BF16_BF16x9 precision/runtime flags.", "variants": ["candidate", "reference"], "folds": [0, 2], "seeds": [301001, 301002, 301003], "nominal_new_fits": 12, "alias_rule": "If candidate config equals the R4-policy-matched reference after removing only expected_fold and seed, candidate reuses the same reference IDs and paths; only six unique fits are declared."},
+      "H": {"question": "Raw112 GRU512x2 transfer with matched labels, single-teacher KD and equal mean of three selected-recipe G caches.", "variants": ["labels", "single_kd", "mean3_kd"], "folds": [0, 2], "fold_seeds": {"0": 401001, "2": 401002}, "new_fits": 6, "student_recipe": "30 epochs, BF16_BF16x9 precision mode, AdamW lr=3e-4 beta=(0.9,0.95), eps=1e-8, warmup=0.05 cosine floor=0.1, weight_decay=0.01, clip=1.0, dropout=0, chunk_rows=512, accumulation=8, per-rank batch=2, world_size=8, all-fit normalization, all-after-warmup labels, hint_dim=0, KD weight=0 for labels and 1 for both KD arms.", "student_runtime": {"attention_backend": "math", "compile_blocks": false}, "single_teacher": "Candidate cache for seed 301001, frozen before any G outer score is read; use that G run's teacher-cache directly.", "mean_teacher": "Equal mean of candidate caches for seeds 301001, 301002 and 301003, within the same fold.", "cache_targets": {"single": "the first frozen G candidate run's teacher-cache (no copy or merge)", "mean3": "caches/g_candidate_f{fold}_mean"}}
+    }
+  },
+  "r3_reference": {
+    "recipe": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/recipe.json",
+    "configs": [
+      "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1280_f0.json",
+      "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1280_f2.json",
+      "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1792_f0.json",
+      "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1792_f2.json"
+    ],
+    "G_reference_configs": "The frozen t1792_f0.json and t1792_f2.json hyperparameter recipes with G fold/seed identity and the same BF16_BF16x9, efficient-attention, compiled-block, no-checkpointing policy as the candidate. The frozen R3 source configs are not edited."
+  },
+  "execution_boundary": "prepare writes manifests and complete configs only. It never queues, launches, retries, or selects fits. Root-owned run.sh/dispatch and receiving-host admission remain separate gates."
+}

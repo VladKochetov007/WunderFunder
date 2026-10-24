@@ -98,9 +98,7 @@ def test_bf16_checkpointed_model_keeps_fp32_parameters_grads_and_cache(
     if mode == "bf16_bf16x9":
         monkeypatch.setenv(EMULATION_ENV, "1")
     torch.manual_seed(17)
-    model = build_sequence_model(
-        _small_model_config(precision_mode=mode, hint_dim=3)
-    )
+    model = build_sequence_model(_small_model_config(precision_mode=mode, hint_dim=3))
     values = torch.randn(2, 5, 112, dtype=torch.float32, requires_grad=True)
     with forward_context(mode, "cpu"):
         prediction, hints, state = model(values)
@@ -144,10 +142,7 @@ def test_config_and_resume_identity_bind_precision_mode(
     combined_identity = run_identity(combined, {}, {"sha256": "source", "files": {}}, {}, 1)
     assert combined["model"]["precision_mode"] == "bf16_bf16x9"
     assert combined_identity["runtime"]["precision"]["mode"] == "bf16_bf16x9"
-    assert (
-        combined_identity["runtime"]["precision"]["cublas_emulate_single_precision"]
-        == "1"
-    )
+    assert combined_identity["runtime"]["precision"]["cublas_emulate_single_precision"] == "1"
     assert combined_identity["config_sha256"] != identity["config_sha256"]
 
 

@@ -12,13 +12,14 @@ import json
 import os
 from collections.abc import Iterable
 from pathlib import Path
-from typing import NamedTuple
+from typing import Any, NamedTuple
 
 import numpy as np
 import pyarrow.parquet as pq
 
 HOLDOUT_MODULUS = 5
 MAX_CAMPAIGN_SPLIT_BYTES = 2_000_000
+SEQUENCE_INNER_SPLIT_SCHEMA = "wnn.sequence-inner-split.v1"
 
 
 def is_holdout(seq_ix: int) -> bool:
@@ -105,13 +106,8 @@ class CampaignSplit(NamedTuple):
             raise ValueError("fit/evaluation component overlap")
 
 
-def load_campaign_split(path: Path, root: Path) -> CampaignSplit:
-    """Validate frozen source identities and return component-disjoint membership.
-
-    Dataset identities use file size, nanosecond mtime and a recorded footer hash;
-    the footer hash is generated once, while fitting checks the immutable file
-    metadata. Small chain caches are also hashed on every read.
-    """
+def _read_campaign_manifest(path: Path) -> tuple[Path, bytes, dict[str, Any]]:
+    """Read one bounded JSON campaign manifest and return its resolved path."""
     path = path.resolve()
     size = path.stat().st_size
     if size <= 0 or size > MAX_CAMPAIGN_SPLIT_BYTES:
@@ -122,6 +118,36 @@ def load_campaign_split(path: Path, root: Path) -> CampaignSplit:
     if len(raw) != size:
         raise ValueError("campaign split manifest changed while being read")
     manifest = json.loads(raw)
+    if not isinstance(manifest, dict):
+        raise ValueError("campaign split manifest must be a JSON object")
+    return path, raw, manifest
+
+
+def load_campaign_split(path: Path, root: Path) -> CampaignSplit:
+    """Validate a canonical or wrapped sequence split before exposing membership."""
+    path, raw, manifest = _read_campaign_manifest(path)
+    if manifest.get("schema") == SEQUENCE_INNER_SPLIT_SCHEMA:
+        from wnn.sequence_inner_splits import load_inner_campaign_split
+
+        return load_inner_campaign_split(path, root, raw, manifest)
+    return _load_canonical_campaign_split(path, root, raw, manifest)
+
+
+def _load_canonical_campaign_split(
+    path: Path,
+    root: Path,
+    raw: bytes | None = None,
+    manifest: dict[str, Any] | None = None,
+) -> CampaignSplit:
+    """Validate frozen source identities and return canonical component membership.
+
+    Dataset identities use file size, nanosecond mtime and a recorded footer hash;
+    the footer hash is generated once, while fitting checks the immutable file
+    metadata. Small chain caches are also hashed on every read.
+    """
+    path = path.resolve()
+    if raw is None or manifest is None:
+        path, raw, manifest = _read_campaign_manifest(path)
     if manifest.get("version") != 1:
         raise ValueError("unsupported campaign split version")
     for name, identity in manifest["sources"].items():
