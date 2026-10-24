@@ -1,5 +1,10 @@
 # B300 high-compute campaign — BF16/BF16x9 R4 continuation
 
+[Stage B receiving-host handoff](stage_b/README.md) publishes the six full LR
+configs and the preparation/execution commands for the next B300 allocation.
+It requires completion and GPU release of the active four W2 fits before any
+receiver checks or profiles. No automatic successor or job modification is installed.
+
 This implements stages B–H of the [expanded plan](../HIGH_COMPUTE_PLAN_20261024.md)
 in [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32). Each stage
 materializes complete trainer configs and explicit commands. It does not launch
@@ -77,7 +82,7 @@ disk, not RAM-backed scratch. Paths below are placeholders for existing data and
 canonical F0/F2 manifests; the preparation commands validate their ancestry.
 
 ```bash
-export WNN_EXPECTED_COMMIT='<reviewed full PR #32 commit SHA>'
+export WNN_EXPECTED_COMMIT='<reviewed full commit containing this R4 handoff>'
 export WNN_DATA_ROOT='/actual/data/root'
 export WNN_SPLIT_F0='/actual/canonical/f0.json'
 export WNN_SPLIT_F2='/actual/canonical/f2.json'

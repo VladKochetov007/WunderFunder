@@ -4,7 +4,7 @@ set -euo pipefail
 packet=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 cd -- "$packet/../../../.."
 [[ $(uname -s) == Linux ]] || { echo 'Receiving Linux B300 host only' >&2; exit 2; }
-: "${WNN_EXPECTED_COMMIT:?pin the reviewed full PR head SHA}"
+: "${WNN_EXPECTED_COMMIT:?pin the reviewed full R4 handoff commit SHA}"
 : "${CUDA_VISIBLE_DEVICES:?bind the exact eight allocated GPU IDs or UUIDs}"
 [[ $(git rev-parse HEAD) == "$WNN_EXPECTED_COMMIT" ]] || { echo 'Source commit mismatch' >&2; exit 2; }
 [[ -z $(git status --porcelain -- src scripts tests "$packet/.." pyproject.toml uv.lock) ]] || {

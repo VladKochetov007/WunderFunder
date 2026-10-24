@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from campaign_io import read_object
+from campaign_io import PACKET_ROOT, read_object, require
 from catalog import teacher_base
 from cell_materialize import _cell_path, _new_cell, _reused_cell
 from stage_support import _load_selected_parent
@@ -22,6 +22,10 @@ def _prepare_b(
             config = teacher_base(fold, seed)
             config["lr"] = lr
             cell_id = f"B_{variant}_f{fold}"
+            require(
+                config == read_object(PACKET_ROOT / "stage_b/configs" / f"{cell_id}.json"),
+                f"Stage B config differs from the committed handoff: {cell_id}",
+            )
             records.append(
                 _new_cell(
                     campaign_root,
