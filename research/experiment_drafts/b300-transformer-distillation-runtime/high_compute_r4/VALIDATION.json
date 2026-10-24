@@ -1,0 +1,173 @@
+{
+  "schema": "wnn.b300-high-compute-static-validation.v1",
+  "date": "2026-10-24",
+  "timezone": "Europe/Moscow",
+  "status": "STATIC_ONLY_REMOTE_ACCEPTANCE_PENDING",
+  "launch_ready": false,
+  "base_published_commit": "500fab90dcdf705237d649d63b91cc2c8dd4daf8",
+  "supersedes_validation": "VALIDATION_PRE_PRECISION_20261024.json",
+  "precision_mode": "bf16_bf16x9",
+  "runtime_source_sha256": "7acc4d14cd247da9e33ab1ccd9895557ce67ea553ee3a466e7cffb436b4f95c6",
+  "upstream_port": {
+    "pr": "https://github.com/VladKochetov007/WunderFunder/pull/40",
+    "scientific_source_commit": "f1beeb4c210a9da01735e03b1ff6e27be878b873",
+    "scope": "18 canonical runtime/test files, no remote operators or process changes. GRU state cast, R4 adapters and ensemble validation are successor changes.",
+    "files": {
+      "src/wnn/training/sequence_attention.py": {
+        "upstream_sha256": "47c595d6b82f542f82cacee94907281064858149bd69873ad7dea2a408a7759d",
+        "current_sha256": "47c595d6b82f542f82cacee94907281064858149bd69873ad7dea2a408a7759d"
+      },
+      "src/wnn/training/sequence_attention_backends.py": {
+        "upstream_sha256": "5d5bcc358381ac102d219d48067890d3e8a7ac91fe398ecd5d4993f9367ea30d",
+        "current_sha256": "5d5bcc358381ac102d219d48067890d3e8a7ac91fe398ecd5d4993f9367ea30d"
+      },
+      "src/wnn/training/sequence_attention_capabilities.py": {
+        "upstream_sha256": "46a9c408fb5343be4a4404de17e546594e90937e0264c92a97f75c722572d497",
+        "current_sha256": "46a9c408fb5343be4a4404de17e546594e90937e0264c92a97f75c722572d497"
+      },
+      "src/wnn/training/sequence_attention_masks.py": {
+        "upstream_sha256": "945a9038e5be649a809a0749a06699650c7689a0add7110462aeae8028c483f3",
+        "current_sha256": "945a9038e5be649a809a0749a06699650c7689a0add7110462aeae8028c483f3"
+      },
+      "src/wnn/training/sequence_compile.py": {
+        "upstream_sha256": "6ef0711f37883a655960dbbe656e65d93039eb276ecd167e1c8fdfcae17fecca",
+        "current_sha256": "6ef0711f37883a655960dbbe656e65d93039eb276ecd167e1c8fdfcae17fecca"
+      },
+      "src/wnn/training/sequence_config.py": {
+        "upstream_sha256": "615bff8b126de7ca126606619f67102e16185693c173845ce422153ecbdf1b9d",
+        "current_sha256": "615bff8b126de7ca126606619f67102e16185693c173845ce422153ecbdf1b9d"
+      },
+      "src/wnn/training/sequence_fit_artifacts.py": {
+        "upstream_sha256": "faaaf2b5bfa2ba72ddeda64ee0780d60b28d4bab077223542cee93f1673b9916",
+        "current_sha256": "faaaf2b5bfa2ba72ddeda64ee0780d60b28d4bab077223542cee93f1673b9916"
+      },
+      "src/wnn/training/sequence_loop.py": {
+        "upstream_sha256": "b58d8d6ce202917f2cb6acdf279ab17be5d7c7e9caea0721d13a86756714aacb",
+        "current_sha256": "b58d8d6ce202917f2cb6acdf279ab17be5d7c7e9caea0721d13a86756714aacb"
+      },
+      "src/wnn/training/sequence_model_helpers.py": {
+        "upstream_sha256": "0ad30c50f9398cbdd43465376e3e8e60a9b93da431ade6ae9213de198f92022a",
+        "current_sha256": "0ad30c50f9398cbdd43465376e3e8e60a9b93da431ade6ae9213de198f92022a"
+      },
+      "src/wnn/training/sequence_models.py": {
+        "upstream_sha256": "0f2d3793015b50df5bb59aecb8ad433efed57d1564c0378576a84dbb2294b294",
+        "current_sha256": "cd6098b73ca9e85f2e69aea37f4c356330ddc109448a28b82d4ec558194a5d27"
+      },
+      "src/wnn/training/sequence_optimizer_telemetry.py": {
+        "upstream_sha256": "28249e47c514d3eda2581b33be8e229adf1fce6ee5e7797c5c8771b4761fc9b0",
+        "current_sha256": "28249e47c514d3eda2581b33be8e229adf1fce6ee5e7797c5c8771b4761fc9b0"
+      },
+      "src/wnn/training/sequence_precision.py": {
+        "upstream_sha256": "aabc6c69500c05252479c48efb76f6b65120e5096a12fd1ff496c365f8242ea0",
+        "current_sha256": "aabc6c69500c05252479c48efb76f6b65120e5096a12fd1ff496c365f8242ea0"
+      },
+      "src/wnn/training/sequence_predict.py": {
+        "upstream_sha256": "84e6bcfce19871a656ab2d523f89734ddb106f9fea99c60a2440b43e4ebbbd6d",
+        "current_sha256": "84e6bcfce19871a656ab2d523f89734ddb106f9fea99c60a2440b43e4ebbbd6d"
+      },
+      "src/wnn/training/sequence_provenance.py": {
+        "upstream_sha256": "cdddaf739d01ea6f94ce96d6979d7f22a5705ae0a09faa2ee7dc69887d2e80f6",
+        "current_sha256": "cdddaf739d01ea6f94ce96d6979d7f22a5705ae0a09faa2ee7dc69887d2e80f6"
+      },
+      "tests/test_sequence_attention_backends.py": {
+        "upstream_sha256": "7f3f1f7914cc45f21c8d1a2c40b666a4d979293ef3ea0b844e16e64a73d355b0",
+        "current_sha256": "7f3f1f7914cc45f21c8d1a2c40b666a4d979293ef3ea0b844e16e64a73d355b0"
+      },
+      "tests/test_sequence_compile.py": {
+        "upstream_sha256": "ea00bf3572cfd556721e11344c06c31699aa2030b35f911a2740a41fee7177b5",
+        "current_sha256": "ea00bf3572cfd556721e11344c06c31699aa2030b35f911a2740a41fee7177b5"
+      },
+      "tests/test_sequence_muon.py": {
+        "upstream_sha256": "ecec118a2e7dbd268dc0eeed565467b4258c194f4de61752cb2bb4b7d72cca24",
+        "current_sha256": "ecec118a2e7dbd268dc0eeed565467b4258c194f4de61752cb2bb4b7d72cca24"
+      },
+      "tests/test_sequence_precision.py": {
+        "upstream_sha256": "74c80566966a397f0fcbe586c043d818ac2c56e6578c294208f649ab8cba8d8d",
+        "current_sha256": "0c89f11c619d45faffb62eee184a1ac6f38d980afcfbcf78163f0e76e9737ec7"
+      }
+    }
+  },
+  "checks": {
+    "ruff_check": "passed",
+    "ruff_format_check": "passed (29 changed/new Python files)",
+    "ast_parse": "passed without project imports",
+    "packet_module_limits": "20 modules <=300 lines; functions <=200 lines",
+    "json_and_complete_config_schema": "passed static JSON/AST field comparison with canonical loader",
+    "bash_n": "passed",
+    "training_structure": "89 files; 0 errors",
+    "git_diff_check": "passed"
+  },
+  "source_reviews": [
+    "R4 teacher and G reference both adopt the explicit BF16/backend/compiler policy; raw config hashes remain distinct from loader-normalized identity hashes.",
+    "Source review caught and corrected R4 profile/endpoint normalized-config mismatch.",
+    "BF16 single/ensemble KD caches bind the frozen normalized G config, precision/compiler identity and unchanged ancestry/membership.",
+    "BF16 GRU state is returned as FP32 for the next chunk; CUDA streaming tests are prepared, not executed.",
+    "Legacy correctness/DDP subprocesses disable global cuBLAS emulation; new cell processes require it. No numerical-parity claim between precision arms."
+  ],
+  "prepared_receiver_test_modules": [
+    "test_sequence_inner_splits",
+    "test_sequence_cache_ensemble",
+    "test_high_compute_campaign",
+    "test_high_compute_runner",
+    "test_sequence_precision",
+    "test_sequence_attention_backends",
+    "test_sequence_compile",
+    "test_sequence_precision_cuda"
+  ],
+  "local_tests_executed": false,
+  "local_training_executed": false,
+  "local_inference_executed": false,
+  "local_project_imports_executed": false,
+  "gpu_jobs_launched": 0,
+  "gpu_profiles_executed": 0,
+  "scientific_fits_completed": 0,
+  "pending": [
+    "Fresh receiver tests, actual BF16 CUDA streaming, legacy CUDA recovery and DDP checks for this combined source",
+    "Exact-shape one/eight-rank and peak-LR BF16x9 profiles for every new configuration; W2 throughput/memory evidence does not admit W8 cells",
+    "Full 30-epoch fits, fixed-final scoring and explicit stage choices",
+    "Whole-cache one/eight-rank parity, three-teacher merge and matched student transfer",
+    "Later offline one-core CPU submission acceptance"
+  ],
+  "limits": "Static source checks do not prove GPU support, memory fit, numerical parity, throughput, convergence, teacher/student improvement or submission quality. Existing team PR40 fits retain their separate pinned source.",
+  "files_sha256": {
+    "AGENTS.md": "7d017f75d634246f3be6cee2d0eb395352c0c7b24c7fd8123aa68468437810fc",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/HIGH_COMPUTE_PLAN_20261024.md": "f164d505d57da515527a9c9a493e1a8987b49bc1e3e3067245f784f349df5215",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/PRECISION_AMENDMENT_20261024.md": "22e266921c85fd85fd753f44f4e34c00f04ec52f55ef5209b690663b8006aedf",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/README.md": "5f5bce926fd32b2c891cf7881a89ceda051a432441b71335b9e9c73608b8c8d1",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/PR.md": "2687147a3b239c7533b3e6fc25c2d4aadb116b21aa2e1dd3d13f4919604390e4",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/README.md": "b01df8e675aaf938edf3c660e19b509d4fad0a61519c5d8155e7fb7a20c22f79",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/VALIDATION_PRE_PRECISION_20261024.json": "f8b40aba1f853ca27af3dd0cece1d3e69d539b992d72181db2be1a3471d50355",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/admit.py": "853af9d46a05f4cee500dc77afcbd315a699bf5f1184be78eb07fabf400f2d3c",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/catalog.py": "0e399a45448be4794fe8e260e49712575155f566fb386c3d2846d0074312ae95",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/dispatch.py": "b330d0b7b64384080b654b2c211d0ae4a625350c5f2ecb371b7d4583dc1ef9cd",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/endpoints.py": "6c48efefe2abddbc686e19eaa5e6e6ddaa6f158a2ac810b8d4f74d174d392d83",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/parent_cache_config.py": "e9fcb91e6657361aa451178796b9aa4c2502307271f5782cfd40ed7b9f525ba6",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/recipe.json": "d2bdd44161d42607d50fe750111cf6408af7cb0afe54ab9fe2ebcf03ffc31454",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/run.sh": "5cf76ed86416bbcd30b91657337522bf3fd495822305f44be5c138c2d7208c84",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/runner_checks.py": "4b5fc1f4d36353660e25de7e27136c7c085baf208e9c337d4d00f6cdec251943",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/templates/student_gru512.json": "df689a8dbb53926764892b6c20d1068f0268ead146e9c704241885c4567a5bbf",
+    "src/wnn/training/sequence_attention.py": "47c595d6b82f542f82cacee94907281064858149bd69873ad7dea2a408a7759d",
+    "src/wnn/training/sequence_attention_backends.py": "5d5bcc358381ac102d219d48067890d3e8a7ac91fe398ecd5d4993f9367ea30d",
+    "src/wnn/training/sequence_attention_capabilities.py": "46a9c408fb5343be4a4404de17e546594e90937e0264c92a97f75c722572d497",
+    "src/wnn/training/sequence_attention_masks.py": "945a9038e5be649a809a0749a06699650c7689a0add7110462aeae8028c483f3",
+    "src/wnn/training/sequence_cache_ensemble_provenance.py": "e1454fe75a5c51bfdb6432d9c687f90407a01174e1fbf6383e53cb98fba2fc26",
+    "src/wnn/training/sequence_compile.py": "6ef0711f37883a655960dbbe656e65d93039eb276ecd167e1c8fdfcae17fecca",
+    "src/wnn/training/sequence_config.py": "615bff8b126de7ca126606619f67102e16185693c173845ce422153ecbdf1b9d",
+    "src/wnn/training/sequence_fit_artifacts.py": "faaaf2b5bfa2ba72ddeda64ee0780d60b28d4bab077223542cee93f1673b9916",
+    "src/wnn/training/sequence_loop.py": "b58d8d6ce202917f2cb6acdf279ab17be5d7c7e9caea0721d13a86756714aacb",
+    "src/wnn/training/sequence_model_helpers.py": "0ad30c50f9398cbdd43465376e3e8e60a9b93da431ade6ae9213de198f92022a",
+    "src/wnn/training/sequence_models.py": "cd6098b73ca9e85f2e69aea37f4c356330ddc109448a28b82d4ec558194a5d27",
+    "src/wnn/training/sequence_optimizer_telemetry.py": "28249e47c514d3eda2581b33be8e229adf1fce6ee5e7797c5c8771b4761fc9b0",
+    "src/wnn/training/sequence_precision.py": "aabc6c69500c05252479c48efb76f6b65120e5096a12fd1ff496c365f8242ea0",
+    "src/wnn/training/sequence_predict.py": "84e6bcfce19871a656ab2d523f89734ddb106f9fea99c60a2440b43e4ebbbd6d",
+    "src/wnn/training/sequence_provenance.py": "cdddaf739d01ea6f94ce96d6979d7f22a5705ae0a09faa2ee7dc69887d2e80f6",
+    "tests/test_high_compute_campaign.py": "b0d676a05ac5dbef81c1176be4af55bbf48fdee34faff3da8ec005c797a04846",
+    "tests/test_high_compute_runner.py": "e1bcc3960cfcda3193d92e4ccb0150d5602c43630fa40c2f18a61222dbcd862b",
+    "tests/test_sequence_attention_backends.py": "7f3f1f7914cc45f21c8d1a2c40b666a4d979293ef3ea0b844e16e64a73d355b0",
+    "tests/test_sequence_cache_ensemble.py": "bcd268e7de232c91dfaf6b2fc19de51507696b83461af47be3807ab2703dd9fa",
+    "tests/test_sequence_compile.py": "ea00bf3572cfd556721e11344c06c31699aa2030b35f911a2740a41fee7177b5",
+    "tests/test_sequence_muon.py": "ecec118a2e7dbd268dc0eeed565467b4258c194f4de61752cb2bb4b7d72cca24",
+    "tests/test_sequence_precision.py": "0c89f11c619d45faffb62eee184a1ac6f38d980afcfbcf78163f0e76e9737ec7",
+    "tests/test_sequence_precision_cuda.py": "6a19d3ae4062498c3ddb9eec26549e9e1171ef9f067645595de05124448ca9c3"
+  }
+}

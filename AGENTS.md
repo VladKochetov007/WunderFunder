@@ -1,5 +1,18 @@
 # Project agent instructions
 
+## B300 precision amendment — user correction, 2026-10-24
+
+For PR32 / the high-compute R4 continuation, mandatory strict-FP32 model compute
+is superseded by explicit `bf16_bf16x9`, following the team runtime in PR40.
+Use BF16 autocast, efficient exact-window attention and compiled Transformer
+blocks; preserve FP32 master weights, gradients, loss and optimizer/state tensors.
+Process-wide cuBLAS BF16x9 may affect Muon GEMMs; this is not IEEE-FP32 parity.
+See [the scoped precision amendment](research/experiment_drafts/b300-transformer-distillation-runtime/PRECISION_AMENDMENT_20261024.md).
+Older strict-FP32 instructions below and in project skills remain historical for
+this scope. Preserve frozen recipes and live source pins; admit new source/configs
+with fresh receiver checks and profiles. Local tests/training/inference remain
+prohibited for this preparation. No running job is changed by this amendment.
+
 ## Prospective experiment policy — user instruction, 2026-10-19
 
 Future experiment drafts use **4–6 total new scientific fits for an initial idea

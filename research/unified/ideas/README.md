@@ -1,5 +1,19 @@
 # Ideas and hypotheses
 
+[Executable B300 high-compute R4](../../experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/README.md) — [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32), E/H-B300-HIGH-COMPUTE-R4-20261024. Implements the [earlier plan](../../experiment_drafts/b300-transformer-distillation-runtime/HIGH_COMPUTE_PLAN_20261024.md) with staged complete configs, source-bound commands, inner component selection, exact control reuse, seed/fold confirmation and labels/single/mean3 GRU distillation. Conditional 40 fits including the four R3 teachers, or 34 when G's recipes coincide. [Recipe](../../experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/recipe.json), [scientific contract](../../experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/PR.md), and [static evidence](../../experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/VALIDATION.json) distinguish executable preparation from unexecuted B300 acceptance and unknown teacher/student quality. No new launches; R3 configs stay frozen.
+
+[Large teacher R3 — Muon, 30 epochs, complete parameters](../../experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/README.md) — [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32); replaces four unlaunched R2 cells. Includes FP32 Muon groups, 5% warmup/cosine schedule, accumulation8, parameter rationale and receiver peak-LR/recovery/DDP checks. Code/static preparation only; no GPU, fit, optimum or quality evidence.
+
+[Large causal teacher R2: 630M versus 1.54B on eight B300s](../../experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/README.md) — [draft PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32); historical four-fit six-epoch AdamW proposal, superseded prospectively by R3; no GPU results.
+
+[B300 Transformer and distillation runtime](../../experiment_drafts/b300-transformer-distillation-runtime/README.md)
+implements a strict-FP32 causal raw112 teacher, source-qualified fitting caches,
+GRU/Transformer students, hidden-hint controls, DDP and official pooled scoring.
+It explicitly amends PR28–30 with separate six/four/four-fit screens while
+preserving historical CP30 and anchored-window recipes. Code and static review
+are delivered; receiving-host numerical checks, B300 profiles and all quality
+results remain pending. No jobs are launched by this packet.
+
 [Published distillation drafts #28–30](PUBLISHED_GPU_PACKETS_20261018.md#дистилляция-сильных-учителей-и-streaming-студенты) link the exact source snapshots for teacher-capacity transfer, representation hints and streaming students. All target `research-team`; implementation/cache/CPU admission remains pending.
 
 [Transformer teacher transfer and CPU-student continuation](CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md#22-select-the-best-transferable-teacher-not-the-largest-checkpoint) adds three explicit comparisons: L207/XL682 teacher scale × H256/H512 student capacity, aligned versus permuted hidden hints, and streaming D128 Transformer versus GRU with/without KD. CP30, sixteen contrasts, clean cache lineage and CPU handoff are specified;510planned student fits are not launches or results. The [team/teacher audit](../reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md) distinguishes new team evidence from these proposals.
@@ -51,6 +65,8 @@
 [Modified TL3 reconstruction design R1](../../campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/README.md) specifies all clean ancestors and fixed members but remains unadmitted. [Independent criticism](../../campaign_2026-10-18/quality_gap_r1/tl3_modified_recipe_design_r1/INDEPENDENT_REVIEW_V1.json) rejects treating its unequal-budget comparison with frozen rank1 as matched CP30. A successor will isolate final-stage teacher supervision at matching member budgets; no scientific recipe or active rank1 source changed.
 
 Existing proposals and their evidence; a proposal is not an admitted or completed fit.
+
+- Published executable runtime [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32) — Transformer/DDP, fit-only teacher caches, output/hint distillation and official scoring; implementation `d2e6263a`. Static checks passed; B300 acceptance and scientific results remain pending.
 
 ## Current navigation
 

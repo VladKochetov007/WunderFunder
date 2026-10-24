@@ -1,0 +1,106 @@
+{
+  "schema_version": 2,
+  "experiment_id": "E-B300-SEQUENCE-RUNTIME-20261020",
+  "status": "implemented_unexecuted",
+  "training_authorized": false,
+  "launch_ready": false,
+  "implementation_ready": true,
+  "base_commit": "4e0626c87a15e707a81e462123208bd83043df13",
+  "cells": [
+    {
+      "id": "f0_s1001",
+      "fold": 0,
+      "student_seed": 1001,
+      "teacher_seed": 101001
+    },
+    {
+      "id": "f2_s1002",
+      "fold": 2,
+      "student_seed": 1002,
+      "teacher_seed": 101002
+    }
+  ],
+  "panels": [
+    {
+      "id": "transfer",
+      "related_pr": 28,
+      "new_teacher_fits": 2,
+      "new_student_fits": 4,
+      "total_new_fits": 6,
+      "variants": [
+        "teacher_t768_l24",
+        "gru256_labels",
+        "gru256_kd"
+      ],
+      "reused": []
+    },
+    {
+      "id": "hints",
+      "related_pr": 29,
+      "new_teacher_fits": 0,
+      "new_student_fits": 4,
+      "total_new_fits": 4,
+      "variants": [
+        "gru256_hint",
+        "gru256_permuted_hint"
+      ],
+      "reused": [
+        "transfer:teacher_t768_l24",
+        "transfer:gru256_kd"
+      ]
+    },
+    {
+      "id": "streaming",
+      "related_pr": 30,
+      "new_teacher_fits": 0,
+      "new_student_fits": 4,
+      "total_new_fits": 4,
+      "variants": [
+        "student_t128_labels",
+        "student_t128_kd"
+      ],
+      "reused": [
+        "transfer:teacher_t768_l24",
+        "transfer:gru256_labels",
+        "transfer:gru256_kd"
+      ]
+    },
+    {
+      "id": "width_followup",
+      "related_pr": 28,
+      "new_teacher_fits": 0,
+      "new_student_fits": 4,
+      "total_new_fits": 4,
+      "variants": [
+        "gru512_labels",
+        "gru512_kd"
+      ],
+      "reused": [
+        "transfer:teacher_t768_l24"
+      ],
+      "automatic": false
+    },
+    {
+      "id": "teacher_scale_followup",
+      "related_pr": 31,
+      "new_teacher_fits": 4,
+      "new_student_fits": 0,
+      "total_new_fits": 4,
+      "variants": [
+        "teacher_t1280_l32",
+        "teacher_t1792_l40"
+      ],
+      "reused": [
+        "transfer:teacher_t768_l24"
+      ],
+      "automatic": false
+    }
+  ],
+  "pending": [
+    "receiving-host data/split bindings and ownership",
+    "remote unit/distributed/causality/resume checks",
+    "actual B300 full-shape memory/precision profile and approval",
+    "full fit and official grade"
+  ],
+  "historical_recipes": "PR28-30 CP30 and PR31 anchored211 designs remain immutable; these are explicit amended raw112 sliding-KV AdamW panels"
+}

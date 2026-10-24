@@ -1,0 +1,54 @@
+{
+  "status": "STATIC_ONLY",
+  "date": "2026-10-23",
+  "checks": {
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "AST": "passed",
+    "frozen_config_schema": "8 configs match literal loader defaults and fold/world bindings",
+    "json_and_append_only_ledgers": "parsed",
+    "bash_syntax": "passed",
+    "training_structure": "77 modules, zero errors, 300 line module / 200 line function limits",
+    "git_diff_check": "passed"
+  },
+  "not_executed": [
+    "pytest",
+    "project/model imports",
+    "training",
+    "inference",
+    "CUDA profiles",
+    "B300 acceptance",
+    "scientific fits"
+  ],
+  "independent_review": {
+    "runtime_and_architecture": "source reviews completed",
+    "finding_training_mask": "fixed canonical train without is_scored via explicit all_after_warmup arm",
+    "finding_normalizer_prefix": "full fitting membership cache with exact source bindings",
+    "finding_large_cache_metadata": "32 MB bounded cache record accommodates full fitting member inventory",
+    "finding_bootstrap_precision": "stable centered component moments now emitted by scorer and used by comparison",
+    "finding_test_precision": "prepared model test fixture enforces and restores strict FP32"
+  },
+  "source_files_sha256": {
+    "src/wnn/training/sequence_config.py": "8089c6eb58dfa0243935a8eaa056965838adffd86f2d778ac9c87ec08aea712a",
+    "src/wnn/training/sequence_data.py": "8ff185282c4afc42a7fe37f105c5c0244aace79bd3031e05c14feb6773d454ad",
+    "src/wnn/training/sequence_fit.py": "79fd4496b0251c9bfaffd1424dd231949a3190ea001aedb9f54ce821ae466f6b",
+    "src/wnn/training/sequence_provenance.py": "0ddefa32176d2bdada47c843e2c93c5d5cb42586bda5d7d1c441f699f24821ff",
+    "src/wnn/training/sequence_normalization.py": "d44117e3b689e97935b81ffe11cb84ad72f1ccef731654bdd10231d30016494e",
+    "src/wnn/training/sequence_score.py": "61d282921ce2225e2d0067de0890702ce7900962b79f4e71006214a33da75863",
+    "tests/test_b300_sequence_models.py": "41ad39322da6740cfcb7708664366d159dca0274150430d249da9b45019f8db7",
+    "tests/test_large_teacher_runtime_guards.py": "b0a7972237e1c2590a064df27daf9349154957589fb691232c2f543904ee249c",
+    "tests/test_sequence_full_fit_data.py": "ebb725f8f7b56d71e58390a6aa86ce372a4a1a54d65b9e42fd43fb638a43a212",
+    "tests/test_sequence_recovery_cuda.py": "287cb0f8d33e428cfa5179d3a3d247244dbabea9b7304a96e7734d67830255ba",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/admission.py": "857f5a7ff9920d8a79d9a0fc1426dccc54d78cbafff2bfb538a73b34ae1f5fd0",
+    "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/compare.py": "1fa31f5787ca13438842dfc6fdb45b8abbf11670623788cefba8899e28cff962"
+  },
+  "remaining_acceptance": [
+    "receiving host/data/split/storage bindings",
+    "unskipped remote unit/CUDA-recovery and two-rank DDP checks",
+    "twelve-update one-/eight-B300 profiles for each cell",
+    "operator resource review with real host-RAM budget",
+    "four completed fixed-six-epoch teacher fits",
+    "single-/multi-rank export parity before downstream distillation",
+    "separate matched student benefit and CPU submission acceptance"
+  ]
+}
