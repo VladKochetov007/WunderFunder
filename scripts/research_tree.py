@@ -107,6 +107,10 @@ def _load_jsonl(data: bytes, path: str, require_id: bool) -> list[dict[str, obje
         if not raw_line.strip():
             continue
         record = _load_json(raw_line, f"{path}:{line_number}")
+        if path == EXPERIMENTS_PATH and "id" not in record:
+            legacy_id = record.get("experiment_id")
+            if isinstance(legacy_id, str) and legacy_id:
+                record = {**record, "id": legacy_id}
         record_id = record.get("id")
         if require_id and (not isinstance(record_id, str) or not record_id):
             raise ValueError(f"Missing non-empty string id in {path}:{line_number}")

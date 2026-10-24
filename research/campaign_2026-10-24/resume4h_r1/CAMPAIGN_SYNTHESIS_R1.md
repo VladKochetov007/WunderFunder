@@ -97,7 +97,7 @@ The October 23 [ten-reviewer Astra synthesis](../../unified/reviews/astra_ultra_
 
 - **Direction R2 independent result review:** complete with bounded pass — point derivatives, moments and projection ranks independently checked; bootstrap interval reconstruction incomplete. Numeric intervals remain actor-produced; see [review](feasibility_scout/direction_probe_r1/RESULT_REVIEW_R2.md).
 - **Batch-mass audit:** complete with bounded pass — both suffix hashes and aggregate arithmetic reviewed; measured training-objective description only, no quality or harm claim. See [review](feasibility_scout/batch_mass_audit_r1/RESULT_REVIEW_R1.md).
-- **Final campaign terminal/budget, public upload status and stop:** pending — root to fill from final campaign collection; the ZIPs remain unuploaded in this record.
+- **Collection/publication:** new scientific admission closed; all diagnostics terminal and no upload. [Draft PR #41](https://github.com/VladKochetov007/WunderFunder/pull/41) is published with passing quality CI. The [collection receipt](COLLECTION_AND_PUBLICATION_R1.json) records2,239.32knownworker seconds plus conservative unknown-version/support/collection allowances; the bounded notebook expires during collection. Final workspace checks follow separately.
 
 ## Source records
 
@@ -113,3 +113,7 @@ The October 23 [ten-reviewer Astra synthesis](../../unified/reviews/astra_ultra_
 ## Later remote refresh
 
 The [third all-PR refresh](PR_REFRESH_INTERPRETATION_R3.md) again finds 38 PRs, unchanged source heads and states. PR32's existing comment advances to 23,725/47,100 updates (50.37%): t1280 at 21/30 epochs and t1792 at 12/30, still zero of four evaluated endpoints. No new PR-text artifact destination appears. Separate [Actions/release queries](ARTIFACT_CHANNEL_REFRESH_R3.json) return zero artifacts and no releases. These are access and progress observations, not new quality evidence.
+
+## Terminal collection
+
+The temporary notebook server is stopped; its saved app and all20PNG/SVG exports are preserved. All scientific workers are terminal, the two submission hashes are reconfirmed, and no portal upload occurred. [Terminal collection](TERMINAL_R1.json) and [notebook receipt](eda/NOTEBOOK_COLLECTION_R1.json) provide the operational handoff. The four-fit Z/A follow-up remains a proposal for a later allocation.

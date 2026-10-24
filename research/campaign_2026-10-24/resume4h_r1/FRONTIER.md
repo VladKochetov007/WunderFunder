@@ -30,3 +30,11 @@ The ten-reviewer [synthesis](../../unified/reviews/astra_ultra_audit_20261023_r1
 ## Latest remote refresh
 
 [PR refresh R3](PR_REFRESH_INTERPRETATION_R3.md) preserves all38 unchanged heads/states and PR32’s50.37%reportedtrainingprogress, with0/4evaluated endpoints. [Artifact-channel check](ARTIFACT_CHANNEL_REFRESH_R3.json) finds no Actions artifacts or GitHub releases. No new remote weights or quality results are available to load.
+
+## Collection only
+
+New scientific admission is closed. All admitted diagnostics are terminal; no follow-up fit or provider retry is authorized by unused worker allocation. [Draft PR #41](https://github.com/VladKochetov007/WunderFunder/pull/41) is published from research-team with passing quality CI. The [collection receipt](COLLECTION_AND_PUBLICATION_R1.json) records actual package identities, provider state and resource accounting. The notebook’s bounded server expires at14:25:46UTC; the saved app and ten figure families remain durable.
+
+## Terminal workspace
+
+The notebook server is stopped and its saved app plus20PNG/SVG files are collected. No training or scoring worker remains. [Terminal receipt](TERMINAL_R1.json) and [notebook receipt](eda/NOTEBOOK_COLLECTION_R1.json) record the outcome. Remaining work is bounded navigation verification and the final publication update; no new experiment is admitted.

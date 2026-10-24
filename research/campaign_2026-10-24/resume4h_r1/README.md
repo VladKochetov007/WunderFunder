@@ -48,3 +48,10 @@ All useful new receipts, comparisons and failures will be described here and lin
 - [Publication review R1](PUBLICATION_REVIEW_R1.md) finds divergent-base link dependencies and verifies the initial credential redaction. The [reference-resolution manifest](publication_source_r1/LINK_ADAPTATION_R1.json) records the subsequent repair without canonical trainer changes; raw root reports and original hashes remain preserved.
 
 - [Publication review R2](PUBLICATION_REVIEW_R2.md) verifies all 62 resolved references, exact snapshots, reversible link-only adaptations and zero remaining credential query values. Navigation is ported onto research-team selectively; this does not establish runtime parity with that branch.
+
+- [Collection and publication receipt](COLLECTION_AND_PUBLICATION_R1.json) closes new scientific admission, records [draft PR #41](https://github.com/VladKochetov007/WunderFunder/pull/41) and its passing quality check, reconfirms both ZIP hashes and Kaggle’s terminal status, and separates worker time, CPU use and mostly idle notebook residency. No scientific worker remains; the bounded notebook expires during collection.
+
+- [Terminal collection record](TERMINAL_R1.json) confirms zero new scientific fits, two delivered packages, completed diagnostics, one newly requested Astra/ultra review, all38 source PRs inspected and no remaining training/scoring/notebook server. [Notebook collection](eda/NOTEBOOK_COLLECTION_R1.json) retains the app and ten exported figure families.
+- [Research-tree verification](../../bandit_tree/generated/RESUME4H_BUILD_CHECK_R2.json) records the final bounded build/check in the full execution checkout. This is source-checkout navigation integrity; the sparse publication branch is not represented as a complete runtime or a full regenerated catalog.
+
+- [Ledger compatibility repair](LEDGER_COMPATIBILITY_R1.md) explains the narrow historical identifier alias, raw-byte preservation, seven passing tests and independent review; no scientific semantics changed.

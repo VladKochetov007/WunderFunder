@@ -21,17 +21,21 @@ def _():
 
 @app.cell
 def research_overview(mo):
+
     mo.md("""
-    # Research EDA: update clocks and learned corrections
+    # October 24 research EDA and diagnostic results
 
-    This notebook explores **96 fixed validation sequences (1.92 million rows)** and saved F0 predictions from the October 24 research cycle. Existing validation is **exposed**; the clock descriptions and separately admitted score diagnostics have different evidential scopes.
+    Ten figure families connect the data geometry, saved online heads, and exact submission packages. These are exposed development diagnostics; none predicts a public-score boost.
 
-    - **Sequence-start censoring is rare:** 0.07438% of scored field–row pairs, with short update ages covering far more rows.
-    - **Grouping changes the age representation:** 112 fields form 65 update-pattern classes in this sample. Seven-group clocks differ from individual ages on 14.39% of scored field–row pairs; nine families reduce that to 11.53%.
-    - **Correction scale changes the F0 result:** all five saved corrections lose against the parent at their original scale, but gain about +0.00013 at one fixed additional scale of 0.1. Mean-only A gains almost as much as the relationship variants; this remains exploratory single-cell evidence.
+    - **Controls:** mean-only A already uses history and ongoing adaptation. The missing matched zero-state control prevents attributing the shared correction gain to the new relationship features.
+    - **Transfer across cells:** fixed A shrink gains +0.0001314 in F0 and is essentially flat at −0.0000047 in F1.
+    - **Prediction geometry:** calibration explains much of the correction variance but less than 0.1% of F0's score slope. B/C largely share A's direction; remaining slope intervals cross zero.
+    - **Fitting measure:** equal-batch normalization changes relative row weights by roughly 0.1×–9.7× and reduces component concentration. Neither fact proves harm.
+    - **Quota packages:** the fixed S3/S4 pair ranks ahead of S3 on the frozen sample. These models used supplied validation data, so the comparison is fitted evidence rather than clean CV.
 
-    Use the field, weight and target selectors to inspect the patterns below. Every plot has a saved PNG and SVG beside this notebook. The official metric and frozen fitting recipes are unchanged. A label-derived slice is an explanatory view, never a serving feature.
+    The complete narrative, source records and limitations are in `CAMPAIGN_SYNTHESIS_R1.md`. Evidence is preserved in [draft PR #41](https://github.com/VladKochetov007/WunderFunder/pull/41). No new scientific fits or competition uploads were performed in this cycle.
     """)
+
     return
 
 
