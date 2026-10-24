@@ -123,3 +123,5 @@ request on October 24. It reports same-checkpoint train-probe and full held-out
 losses plus official WP from retained epoch snapshots. The first available
 snapshots are small-model epoch28 and large-model epoch15. The original fixed
 epoch30 endpoint and immutable scientific source remain unchanged.
+The [first complete validation results](VALIDATION_RESULTS_20261024.md) include
+independently verified train/val diagnostics and immutable evidence links.
