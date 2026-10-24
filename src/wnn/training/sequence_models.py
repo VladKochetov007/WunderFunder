@@ -73,7 +73,9 @@ class _GRUSequenceAdapter(RNNModel):
         encoded = self.encode((values - self.mean) / self.std)
         recurrent, next_state = self.gru(encoded, state)
         prediction = self.head(torch.cat((recurrent, encoded), dim=-1))
-        return prediction, self.hint_projector(recurrent), next_state
+        # Autocast can return BF16 recurrent state; the next chunk's public
+        # streaming interface and saved activation state remain FP32.
+        return prediction, self.hint_projector(recurrent), next_state.float()
 
 
 class _TransformerSequenceAdapter(nn.Module):

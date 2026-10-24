@@ -5,9 +5,11 @@ targeting `research-team`. **No fit, inference, GPU profile or test has been run
 this packet. Receiving-host acceptance is pending.** This is a new, explicit
 four-fit amendment; the historical R1 and R2 configs/panels remain unchanged.
 
-The [24 October high-compute continuation](../HIGH_COMPUTE_PLAN_20261024.md)
-plans broader search and replication beyond these four fits. It does not change
-this frozen panel or make the proposed follow-up cells executable.
+The [24 October high-compute continuation](../HIGH_COMPUTE_PLAN_20261024.md) is now
+implemented in a separate [R4 packet](../high_compute_r4/README.md): staged search,
+seed/fold confirmation and a frozen GRU512×2 labels/single/mean3 transfer panel.
+It does not change this historical four-fit recipe. R4's receiver acceptance
+and all scientific results remain pending.
 
 ## The exact four fits
 
