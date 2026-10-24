@@ -21,10 +21,10 @@ NS_COEFFS = (3.4445, -4.7750, 2.0315)  # quintic Newton-Schulz, K. Jordan's Muon
 def orthogonalize(g: torch.Tensor, steps: int = 5, eps: float = 1e-7) -> torch.Tensor:
     """Approximate U V^T of every trailing (m, n) matrix of ``g`` (singular values pushed into ~[0.7, 1.2]).
 
-    bf16 on CUDA as in Muon; fp32 on CPU (bf16 matmuls there are slow and the tests compare against an SVD).
+    Always fp32: the strict-FP32 policy forbids bf16 casts on any device.
     """
     a, b, c = NS_COEFFS
-    x = g.to(torch.bfloat16 if g.is_cuda else torch.float32)
+    x = g.to(torch.float32)
     tall = x.size(-2) > x.size(-1)
     if tall:
         x = x.mT
@@ -44,16 +44,34 @@ class MuonAdamW(torch.optim.Optimizer):
     ``betas[0]`` is both Adam's beta1 and Muon's momentum.
     """
 
-    def __init__(self, params, lr: float = 1e-3, betas: tuple[float, float] = (0.9, 0.999), eps: float = 1e-8,
-                 weight_decay: float = 1e-2, ns_steps: int = 5, rms: float = 0.2):
-        defaults = dict(lr=lr, betas=betas, eps=eps, weight_decay=weight_decay, ns_steps=ns_steps, rms=rms,
-                        muon=False, blocks=1)
+    def __init__(
+        self,
+        params,
+        lr: float = 1e-3,
+        betas: tuple[float, float] = (0.9, 0.999),
+        eps: float = 1e-8,
+        weight_decay: float = 1e-2,
+        ns_steps: int = 5,
+        rms: float = 0.2,
+    ):
+        defaults = dict(
+            lr=lr,
+            betas=betas,
+            eps=eps,
+            weight_decay=weight_decay,
+            ns_steps=ns_steps,
+            rms=rms,
+            muon=False,
+            blocks=1,
+        )
         super().__init__(params, defaults)
         for group in self.param_groups:
             if group["muon"]:
                 for p in group["params"]:
                     if p.ndim != 2 or p.shape[0] % group["blocks"]:
-                        raise ValueError(f"Muon needs 2-D weights with rows divisible by {group['blocks']}")
+                        raise ValueError(
+                            f"Muon needs 2-D weights with rows divisible by {group['blocks']}"
+                        )
 
     @torch.no_grad()
     def step(self, closure=None):
@@ -76,9 +94,14 @@ class MuonAdamW(torch.optim.Optimizer):
                     buf.lerp_(g, 1 - beta1)
                     k = group["blocks"]
                     rows, cols = p.shape[0] // k, p.shape[1]
-                    update = orthogonalize(g.lerp(buf, beta1).reshape(k, rows, cols), group["ns_steps"])
+                    update = orthogonalize(
+                        g.lerp(buf, beta1).reshape(k, rows, cols), group["ns_steps"]
+                    )
                     p.mul_(1 - lr * wd)
-                    p.add_(update.reshape(p.shape), alpha=-lr * group["rms"] * math.sqrt(max(rows, cols)))
+                    p.add_(
+                        update.reshape(p.shape),
+                        alpha=-lr * group["rms"] * math.sqrt(max(rows, cols)),
+                    )
                     continue
                 if not state:
                     state["step"] = 0
@@ -196,8 +219,8 @@ def rnn_init_(model: nn.Module, mode: str, t_max: float, seed: int) -> None:
             # the memory gate is the second block in both layouts: z of GRU (r, z, n), f of LSTM (i, f, g, o)
             b_ih, b_hh = getattr(rnn, f"bias_ih_l{k}"), getattr(rnn, f"bias_hh_l{k}")
             bias = torch.empty(h).uniform_(1.0, t_max - 1.0, generator=gen).log().to(b_ih)
-            b_ih[h:2 * h] = bias
-            b_hh[h:2 * h] = 0.0
+            b_ih[h : 2 * h] = bias
+            b_hh[h : 2 * h] = 0.0
             if gates == 4:
                 b_ih[:h] = -bias
                 b_hh[:h] = 0.0
@@ -206,7 +229,7 @@ def rnn_init_(model: nn.Module, mode: str, t_max: float, seed: int) -> None:
             for j in range(gates):
                 block = torch.empty(h, h)
                 nn.init.orthogonal_(block, generator=gen)
-                w[j * h:(j + 1) * h] = block.to(w)
+                w[j * h : (j + 1) * h] = block.to(w)
 
 
 class GradStats:
@@ -240,8 +263,11 @@ class GradStats:
         norms = []
         for params in self.families.values():
             grads = [p.grad for p in params if p.grad is not None]
-            norms.append(torch.linalg.vector_norm(torch.stack(torch._foreach_norm(grads)).float())
-                         if grads else torch.zeros((), device=params[0].device))
+            norms.append(
+                torch.linalg.vector_norm(torch.stack(torch._foreach_norm(grads)).float())
+                if grads
+                else torch.zeros((), device=params[0].device)
+            )
         self.rows.append(torch.stack(norms))
 
     def finish(self) -> dict:
@@ -255,9 +281,16 @@ class GradStats:
         t = total[ok]
         if len(t):
             q = torch.quantile(t, torch.tensor([0.05, 0.5, 0.95], dtype=t.dtype)).tolist()
-            out.update(total_q05_q50_q95=[round(v, 5) for v in q], clip_rate=round(float((t > self.clip).double().mean()), 4),
-                       mean_clip_factor=round(float(torch.clamp(self.clip / t, max=1.0).mean()), 4))
-            out["family_median"] = {k: round(float(per[ok, i].median()), 5) for i, k in enumerate(self.families)}
+            out.update(
+                total_q05_q50_q95=[round(v, 5) for v in q],
+                clip_rate=round(float((t > self.clip).double().mean()), 4),
+                mean_clip_factor=round(float(torch.clamp(self.clip / t, max=1.0).mean()), 4),
+            )
+            out["family_median"] = {
+                k: round(float(per[ok, i].median()), 5) for i, k in enumerate(self.families)
+            }
             share = per[ok].pow(2) / t.pow(2)[:, None]
-            out["family_sq_share_mean"] = {k: round(float(share[:, i].mean()), 4) for i, k in enumerate(self.families)}
+            out["family_sq_share_mean"] = {
+                k: round(float(share[:, i].mean()), 4) for i, k in enumerate(self.families)
+            }
         return out
