@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/kaggle/working/disk_scratch/age_actor_bundle/repo/scripts/age_readout_screen.py", line 6, in <module>
+    main()
+    ~~~~^^
+  File "/kaggle/working/disk_scratch/age_actor_bundle/repo/src/wnn/training/age_readout_cli.py", line 70, in main
+    receipt = run_profile(
+        repo_root, recipe, recipe_sha, fold, device, profile_root, portable_paths
+    )
+  File "/kaggle/working/disk_scratch/age_actor_bundle/repo/src/wnn/training/age_readout_runner.py", line 51, in run_profile
+    fit_cache, eval_cache, cache_receipt = load_portable_caches(
+                                           ~~~~~~~~~~~~~~~~~~~~^
+        repo_root, recipe, recipe_sha, fold, fold_id, portable_paths
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/kaggle/working/disk_scratch/age_actor_bundle/repo/src/wnn/training/age_readout_portable.py", line 66, in load_portable_caches
+    fit_refs, eval_refs, parent_sidecar, original_sources = fold_metadata(
+                                                            ~~~~~~~~~~~~~^
+        repo_root,
+        ^^^^^^^^^^
+    ...<6 lines>...
+        paths.bundle_root,
+        ^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/kaggle/working/disk_scratch/age_actor_bundle/repo/src/wnn/training/age_readout_portable_validate.py", line 107, in fold_metadata
+    raise ValueError(f"portable {name} cache subset membership identity changed")
+ValueError: portable fit cache subset membership identity changed

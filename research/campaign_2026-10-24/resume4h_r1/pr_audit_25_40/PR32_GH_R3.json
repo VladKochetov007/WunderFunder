@@ -1,0 +1,1064 @@
+{
+  "body": "# [Experiment] Implement staged B300 teacher search and ensemble distillation\n\nThe expanded B300 plan previously described experiments without runnable stage\nconfigs or ensemble targets. R4 now materializes complete source-bound cells,\nuses component-clean inner selection, reuses exact controls, confirms frozen\nrecipes on outer folds and trains matched GRU students against labels, one\nteacher or three-teacher means. It reuses PR32's causal trainer, Muon with FP32\nmaster/update state, recovery, canonical scoring and R3 admission rather than adding a training loop.\n\n[Precision amendment](https://github.com/VladKochetov007/WunderFunder/blob/e4b3e92bd49307c1c809000f1a1474d98fb828b3/research/experiment_drafts/b300-transformer-distillation-runtime/PRECISION_AMENDMENT_20261024.md): new R4 cells explicitly\nuse the PR40 BF16/BF16x9 runtime. Historical strict-FP32 packets and the active\nfour W2 teacher fits retain their source pins; this is a new combined source.\n\n[Receiving-host commands](https://github.com/VladKochetov007/WunderFunder/blob/e4b3e92bd49307c1c809000f1a1474d98fb828b3/research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/README.md)\nand [allocation and complete recipe](https://github.com/VladKochetov007/WunderFunder/blob/e4b3e92bd49307c1c809000f1a1474d98fb828b3/research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/recipe.json).\nG reference and candidate share the amended precision/backend/compiler settings.\nThe existing four-fit R3 packet remains unchanged. No local tests, model imports,\ntraining, inference or GPU profiling were run. No jobs were dispatched.\n\n1. **Status and lineage.** E/H-B300-HIGH-COMPUTE-R4-20261024 implements the\n   conditional successor to R3 in the same PR targeting `research-team`.\n   `launch_ready=false`: receiving-host correctness and resource acceptance are\n   still required. Preparation is executable; predictive results do not exist.\n2. **Mechanism and family.** Teacher branches test LR, warmup, forward context,\n   chunk/backward horizon and capacity. G tests robustness of a frozen candidate;\n   H tests the teacher–student connection. Better teacher fit or compute alone\n   does not establish better CPU student predictions. Sequential coordinate\n   search can miss interactions and is not a claim of optimal hyperparameters.\n3. **Compute advantage.** Every new R4 fit uses an eight-B300 DDP group with BF16\n   autocast and process-wide cuBLAS BF16x9 emulation. Master weights, gradients,\n   loss and optimizer state remain FP32; Muon GEMMs are not IEEE-FP32 guaranteed.\n   Teachers use efficient attention and compiled blocks, recomputation off.\n   Additional disjoint groups can execute independent\n   cells with separately allocated RAM and scratch. Models/optimizers are fully\n   replicated. Larger context/capacity and three-seed teacher means consume\n   additional compute; measured GPU-hours and endpoint quality decide whether\n   that cost is useful. No performance estimate is presented as measurement.\n4. **Frozen parameters.** Thirty epochs, final index 29, unprofiled batch 2/rank, clip 1,\n   dropout 0, full fitting-only normalization and causal raw112 input. Teachers\n   use R3 Muon/auxiliary AdamW, LR candidates 1e-4/3e-4/1e-3, warmup 1%/5%/10%,\n   cosine floor .1, contexts 1024/2048/4096, chunk 512/accumulation 8 versus chunk 2048/accumulation 2,\n   and 1792×40×28heads versus 2560×40×40heads. H fixes GRU512×2, AdamW 3e-4,\n   beta (.9,.95), eps 1e-8, WD .01, warmup 5%, cosinefloor .1, chunk 512/accumulation 8,\n   hint dimension 0, KD weight 0/1. All concrete configs include every loader field.\n5. **Allocation.** B6 + C4 + D4 + E2 + F2 + G12 teachers and H6 students: 36 additional\n   fits, or 40 including the original four A/R3 teachers. C–F reuse exact\n   completed controls. If the selected recipe equals the G reference, six\n   duplicate teacher fits are aliases: 34 total including A. Nominal cost is\n   1,020 teacher fit-epochs and 180 student fit-epochs; size and membership differ.\n   Failed attempts and all engineering profiles/exports are recorded separately.\n   Stages require explicit advancement; no automatic queue or blind retry.\n6. **Validation and statistics.** B–F use two frozen inner component holdouts\n   from outer fitting pools. G crosses 3 new seeds with F0/F2 on full outer fitting\n   membership; H uses 2 matched student cells. Canonical pooled clip2 weighted Pearson,\n   per-target results and paired component bootstrap accompany fixed-final\n   endpoint receipts. Exposed outer folds and correlated components/seeds do not\n   become untouched data or guarantee significance through repetition.\n7. **Leakage and lineage.** Inner reservation removes whole connected\n   components, including their train rows, from fit. The loader rederives exact\n   membership and parent/source hashes. Normalizers see only the corresponding\n   fit set. Every reused endpoint binds source/config/split/weights/score and\n   prediction manifest. H parents are fixed G candidate seeds 301001/301002/301003;\n   single KD uses 301001 before viewing scores. No best-seed or outer-checkpoint\n   selection, future-label inputs or reused outer-fit controls for inner search.\n8. **Decision.** Retain all arms, including explicit failures; choose only\n   variants with both required completed fold endpoints and give a reason.\n   Mean WP gain ≥.001 without a fold regression is a useful signal considered\n   with variation/cost, not a mechanical significance criterion. Mixed results\n   motivate narrower diagnosis. Intervals crossing zero do not close the family.\n   G/H comparisons do not automatically change recipes or launch follow-ups.\n9. **Execution and acceptance.** Immutable materialization, explicit per-cell\n   profile-one/eight/peak, admission, fit/resume/evaluate/cache/bundle commands.\n   R4 receiver checks extend R3 CUDA recovery and objective/Muon DDP parity with\n   inner-split, ensemble, staged-campaign and BF16 streaming/backend contracts.\n   Legacy checks disable cuBLAS emulation in separate subprocesses. Exact 12-update profiles,\n   finite gradients, peak-LR stress, 20% GPU reserve and conservative host/disk\n   admission are prerequisites. No local correctness/performance pass is implied.\n10. **Transfer and artifacts.** One/eight-rank full-fit prediction parity binds\n    each completed G teacher before KD. Streaming FP32 mean merge requires\n    three distinct same-recipe seeds, preserves original parent provenance and\n    publishes atomically. It creates a composition identity, not a fake model\n    checkpoint. H compares the same student with labels/singleKD/mean3KD.\n    Preserve score/prediction/profile/failure receipts and separate evidence and\n    weights bundles. One-core offline CPU / 20 MB submission acceptance remains a\n    later measured gate; native211/TL3 compatibility and quantization are not\n    asserted by raw112 training code.\n11. **Evidence.** Static Ruff/AST/JSON/shell/module-structure checks and independent\n    source review only, recorded in R4 VALIDATION.json. Tests are prepared for\n    B300 and deliberately unexecuted locally. No empirical LR optimum, full\n    memory fit, convergence, teacher gain, student gain or submission result.\n    Unified index and append-only ledgers link this implementation to the\n    earlier plan without rewriting historical allocations.\n",
+  "comments": [
+    {
+      "id": "IC_kwDOUw2uXs8AAAABfBLn6g",
+      "author": {
+        "login": "SemyonEpanov"
+      },
+      "authorAssociation": "COLLABORATOR",
+      "body": "PR32 receiving-host engineering update (2026-10-24).\n\nThe node is reachable through one persistent SSH transport. Verified hardware: 8 NVIDIA B300 (compute capability 10.3), 275,040 MiB VRAM each, NVSwitch; 256 logical CPUs and approximately 2 TiB RAM. Runtime: PyTorch 2.14.0+cu130, CUDA 13.0, Python 3.12.14.\n\nSource: PR head `9d901dc3bfb6652884c8f82ed61997eb23e24754`, with a test-only correction in local execution commit `faa478aba4f0e8154754a4c07ef85e21a2cbaeb5`. The legacy Muon test reused an aliased optimizer state dict; deep-copying the fixture fixes that test without changing training code/configuration. Receiving-host acceptance: **50 passed, zero skipped**, including CUDA recovery; two-rank objective and Muon checks passed. Exact Git-byte manifests replace unavailable Git/uv binaries on the receiving host.\n\nCompleted strict-FP32 real-data profiles (12 optimizer updates each):\n\n| Model | GPUs | Measured elapsed | Peak reserved VRAM per GPU |\n|---|---:|---:|---:|\n| 630M | 1 | 45.95 s | 10.12 GiB |\n| 630M | 8 | 47.57 s | pending compact receipt collection |\n| 1.54B | 1 | 64.89 s | 22.28 GiB |\n| 1.54B | 8 | 65.77 s | 28.39 GiB |\n\nThese elapsed values cover the bounded training loop and its checks, not cold startup, a complete epoch, evaluation or checkpoint export. They are engineering evidence, **not model-quality results**.\n\nThe user explicitly authorized a new precision/performance amendment today, including Blackwell alternatives. An eight-lane real-data sweep is now running: native FP32 versus requested cuBLAS BF16x9 emulation, batch sizes 2/8/16/32; six updates per lane, 900-second worker bounds. The emulation environment flag is a request, not proof of actual kernel selection. Installed PyTorch rejects the new `bfx9` precision setter, so no unsupported API is assumed. BF16/TF32 and exact-window attention alternatives are being prepared separately. Larger batches/layouts must be recorded as amended recipes, not silently substituted into the frozen control.\n\nScientific scope remains the four declared teachers, two widths × folds F0/F2, 30 epochs each. **No full scientific fit has started yet.** Profiles do not count as completed experiments. No quality gain or completion ETA is claimed before the measured execution recipe is selected.\n",
+      "createdAt": "2026-10-23T23:12:00Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/32#[redacted]",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOUw2uXs8AAAABfBnM_g",
+      "author": {
+        "login": "SemyonEpanov"
+      },
+      "authorAssociation": "COLLABORATOR",
+      "body": "<!-- tabdata-pr32-teachers-20261024 -->\nPR32 full-teacher execution progress (UTC 2026-10-24 13:40:01).\n\nSource: `f1beeb4c210a9da01735e03b1ff6e27be878b873`. Status: `running`.\nAttempt: `pr32-teachers-20261024-r4-batch`; revision `pr32-blackwell-batch-r4`.\nUser-authorized measured batch amendment: four fresh 30-epoch fits from the original seeds, with a recalculated update horizon; LR remains3e-4. The superseded batch16 attempt is preserved separately and is not counted in this attempt's progress. Batch/precision engineering checks do not establish quality equivalence.\n\nEvaluated scientific fits: **0/4**. Completed optimizer updates: **23,725/47,100 (50.37%)**.\n\n| Cell | Global batch | Current epoch | Optimizer updates | Update progress | Last training loss | Official held-out score |\n|---|---:|---:|---:|---:|---:|---|\n| t1280_f0 | 192 | 21/30 | 6,582/9,450 | 69.65% | 0.045954 | not evaluated |\n| t1792_f0 | 128 | 12/30 | 5,293/14,100 | 37.54% | 0.227292 | not evaluated |\n| t1280_f2 | 192 | 21/30 | 6,571/9,450 | 69.53% | 0.051543 | not evaluated |\n| t1792_f2 | 128 | 12/30 | 5,279/14,100 | 37.44% | 0.250622 | not evaluated |\n\nEach cell is one 30-epoch teacher fit. Engineering profiles, warmups and failed starts are not completed experiments. Update progress is not an evaluated quality result. Scores, when present, use the frozen exposed F0/F2 endpoints; no public score is inferred.\n\nRuntime precision, source/config/data identities, resource allocation and deadlines are bound in the execution plan and approved profile receipts. The operator releases each GPU group after its fit and evaluation; it touches only this cohort’s processes.",
+      "createdAt": "2026-10-23T23:48:17Z",
+      "includesCreatedEdit": true,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/32#[redacted]",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOUw2uXs8AAAABfBzSPw",
+      "author": {
+        "login": "SemyonEpanov"
+      },
+      "authorAssociation": "COLLABORATOR",
+      "body": "Runtime implementation and receiving-host evidence are now reviewable in draft #40: https://github.com/VladKochetov007/WunderFunder/pull/40 . The running source is pinned to `f1beeb4c`, with four full W2 teacher fits and hourly/completion progress in the existing marked comment. This is the explicitly authorized Blackwell numerical amendment, not an IEEE-identical reproduction of the original strict-FP32 recipe. The first admission failure completed zero updates and is preserved with its metadata-only repair and regression.",
+      "createdAt": "2026-10-24T00:03:50Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/32#[redacted]",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOUw2uXs8AAAABfB-pGw",
+      "author": {
+        "login": "SemyonEpanov"
+      },
+      "authorAssociation": "COLLABORATOR",
+      "body": "User-authorized batch-size amendment (2026-10-24).\n\nThe four batch-16 full fits in `pr32-teachers-20261024-r2` were deliberately stopped for isolated throughput profiling, with all logs and existing checkpoints retained. The terminal report records 1,842 successful optimizer updates in aggregate (<1% of the planned 448,500); no fit completed and no official score is available. This is a superseded engineering attempt, not a scientific negative.\n\nWe are measuring per-GPU batch8/16/32/64 at W2 on the same pinned source `f1beeb4c`, real fitting data and BF16+BF16x9/efficient-attention/compiled path. Memory estimates may exclude unsafe larger cases, with explicit receipts. Selection uses processed rows/second and resource headroom, not GPU utilization alone.\n\nThe selected successor will contain four fresh 30-epoch fits from the original seeds. A larger global batch changes the optimization regime: retain LR3e-4, recalculate the5% warmup/cosine horizon, preserve source-clean folds/masks/normalization, and report its quality independently. Profiles and partial superseded fits do not count as completed experiments. The existing hourly/completion comment will identify the new attempt once it starts.\n",
+      "createdAt": "2026-10-24T00:18:56Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/32#[redacted]",
+      "viewerDidAuthor": false
+    },
+    {
+      "id": "IC_kwDOUw2uXs8AAAABfCTAGQ",
+      "author": {
+        "login": "SemyonEpanov"
+      },
+      "authorAssociation": "COLLABORATOR",
+      "body": "R4 batch continuation is running on all eight B300s: four fresh 30-epoch teachers, two GPUs each. See updated #40 for the exact code/plan and [batch + CPU measurements](https://github.com/VladKochetov007/WunderFunder/blob/experiment/pr32-blackwell-throughput-20261024/research/experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/BATCH_THROUGHPUT_20261024.md).\n\n- 630M: batch96/GPU, global192; 116,930 rows/s, 196GiB/GPU in confirmation profiles. Batch128 also completed12 updates without OOM, but measured113,551 rows/s and260.8GiB, so96 is faster.\n- 1.54B: batch64/GPU, global128; approximately61k rows/s, 231.4GiB/GPU with13.55% observed headroom on both production folds.\n- All four full fits have successful optimizer updates. The original source remains `f1beeb4c`; LR3e-4, 30epochs, causal masks and fitting-only normalization remain, with revised update horizons totaling47,100. Width and batch co-vary; no quality equivalence or completed endpoint score is claimed.\n- CPU assembly for B64/96/128:1.43/2.05/2.85s; H2D .05/.08/.10s on one training-matched thread. Each batch supplies five updates. Estimated fitting including measured nonwindow overhead is34.85h, with startup/checkpoints/export/evaluation additional.\n- A20-sample observation of actual full fits measured mean GPU activity98.2–99.7% across devices; this is activity, not MFU. The verified evidence snapshot is `7cfea79bb8c037291478ee1949bc77cbd0901661` (546 individually hash-verified files; archive SHA256 `743fafef6f2ee5a02c0a531c459f60d92ccb39e7c36baa323b98431df51cb36b`).\n\nThe controller and hourly/completion publisher run in native cron sessions independent of SSH. An OOM/failure releases only the affected owned GPU pair while other fits continue; logs and safe epoch checkpoints remain. There is no silent batch reduction or automatic retry. [The existing progress comment](https://github.com/VladKochetov007/WunderFunder/pull/32#[redacted]) now identifies the R4 attempt.\n",
+      "createdAt": "2026-10-24T00:49:26Z",
+      "includesCreatedEdit": false,
+      "isMinimized": false,
+      "minimizedReason": "",
+      "reactionGroups": [],
+      "url": "https://github.com/VladKochetov007/WunderFunder/pull/32#[redacted]",
+      "viewerDidAuthor": false
+    }
+  ],
+  "commits": [
+    {
+      "authoredDate": "2026-10-20T11:59:29Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-20T12:00:09Z",
+      "messageBody": "",
+      "messageHeadline": "Add causal B300 sequence model adapters",
+      "oid": "9e10bb3bebe29b3ab5c0627ac1e1e43bedf54a07"
+    },
+    {
+      "authoredDate": "2026-10-20T12:11:06Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-20T12:11:41Z",
+      "messageBody": "",
+      "messageHeadline": "Add remote DDP objective acceptance check",
+      "oid": "0bbd9d7ae7e9797872f11965e6242fb79eaa7194"
+    },
+    {
+      "authoredDate": "2026-10-20T14:41:10Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-20T14:44:16Z",
+      "messageBody": "",
+      "messageHeadline": "Add sequence DDP training runtime",
+      "oid": "5216e7bae69f7e705ebf21f30347ef808542de66"
+    },
+    {
+      "authoredDate": "2026-10-20T14:48:44Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-20T14:48:44Z",
+      "messageBody": "",
+      "messageHeadline": "Wire B300 teacher caches and runnable distillation panels",
+      "oid": "d2e6263af3a0dcb2d35badec8c3fa15da0d91dc6"
+    },
+    {
+      "authoredDate": "2026-10-20T14:51:48Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-20T14:51:48Z",
+      "messageBody": "",
+      "messageHeadline": "Sync research base and preserve both experiment ledgers",
+      "oid": "5f355470246d3231223869e2ad0629f0c08de938"
+    },
+    {
+      "authoredDate": "2026-10-20T14:52:24Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-20T14:52:24Z",
+      "messageBody": "",
+      "messageHeadline": "Record runtime publication and static validation boundaries",
+      "oid": "d7559e94008c0d658898b59290785ae457b1b7bb"
+    },
+    {
+      "authoredDate": "2026-10-23T11:18:45Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T11:18:45Z",
+      "messageBody": "",
+      "messageHeadline": "Sync research base before large Transformer preparation",
+      "oid": "a6a3f61559d5db423bf2ea1a7b0e56f04c41f27c"
+    },
+    {
+      "authoredDate": "2026-10-23T11:30:04Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T11:30:23Z",
+      "messageBody": "",
+      "messageHeadline": "Add large teacher runtime guards",
+      "oid": "562214f5ec08c6c917f471cf75ee5fb98498c7fa"
+    },
+    {
+      "authoredDate": "2026-10-23T11:30:56Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T11:31:14Z",
+      "messageBody": "",
+      "messageHeadline": "Add CUDA sequence recovery acceptance test",
+      "oid": "5f9500edc6d70a71cd3ff4f4c369be94acccc048"
+    },
+    {
+      "authoredDate": "2026-10-23T11:32:06Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T11:34:49Z",
+      "messageBody": "",
+      "messageHeadline": "Add source-bound full-fit sequence normalization",
+      "oid": "012654e86fff83ef08c49f3ffc22a510a196d59e"
+    },
+    {
+      "authoredDate": "2026-10-23T11:43:00Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T11:43:00Z",
+      "messageBody": "",
+      "messageHeadline": "Prepare full-data large Transformer teacher panel for eight B300s",
+      "oid": "54b8fe6eddb0ec19392bdb7e82f4ff3271126c89"
+    },
+    {
+      "authoredDate": "2026-10-23T21:47:36Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T21:48:39Z",
+      "messageBody": "",
+      "messageHeadline": "Add strict FP32 sequence Muon support",
+      "oid": "1b7017409417d7ad23db4943f65b26e7370e580d"
+    },
+    {
+      "authoredDate": "2026-10-23T21:49:06Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T21:49:24Z",
+      "messageBody": "",
+      "messageHeadline": "Preserve legacy Muon optimizer resume",
+      "oid": "5b373edad495661cdab51d9e9a5cd76c10d06bb1"
+    },
+    {
+      "authoredDate": "2026-10-23T21:53:31Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T21:55:15Z",
+      "messageBody": "",
+      "messageHeadline": "Add remote Muon acceptance checks",
+      "oid": "b8eff34367b041c87e79e6f35f4efc466fea0883"
+    },
+    {
+      "authoredDate": "2026-10-23T22:00:26Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T22:00:26Z",
+      "messageBody": "",
+      "messageHeadline": "Prepare thirty-epoch Muon teacher recipe and receiver admission",
+      "oid": "81c4f740b5ce80a5693af9c22af92b8f32558fa6"
+    },
+    {
+      "authoredDate": "2026-10-23T22:17:31Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T22:17:31Z",
+      "messageBody": "",
+      "messageHeadline": "Plan expanded B300 search and teacher-to-student validation",
+      "oid": "9d901dc3bfb6652884c8f82ed61997eb23e24754"
+    },
+    {
+      "authoredDate": "2026-10-23T22:26:22Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T22:26:52Z",
+      "messageBody": "",
+      "messageHeadline": "Add component-clean sequence inner splits",
+      "oid": "e624be580e5ed4a533e373e4c7b65fc56025a42c"
+    },
+    {
+      "authoredDate": "2026-10-23T22:27:39Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T23:03:19Z",
+      "messageBody": "",
+      "messageHeadline": "Bound inner split manifest publication",
+      "oid": "85715ffb86f6edd4b84c4224dfc7fe26fb25d63f"
+    },
+    {
+      "authoredDate": "2026-10-23T23:07:43Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T23:08:09Z",
+      "messageBody": "",
+      "messageHeadline": "Add provenance-bound mean teacher caches",
+      "oid": "c33817e88fd7ed4c9d68006253f7fe5af6cbdd4e"
+    },
+    {
+      "authoredDate": "2026-10-23T23:11:23Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T23:11:41Z",
+      "messageBody": "",
+      "messageHeadline": "Harden ensemble cache provenance checks",
+      "oid": "c3960c7abf201313559ae14631ea4fc5a2addd0c"
+    },
+    {
+      "authoredDate": "2026-10-23T23:17:56Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T23:18:07Z",
+      "messageBody": "",
+      "messageHeadline": "Add staged R4 campaign materializer",
+      "oid": "38b315db962e6bfbdc0d815bc5e2e8247a3a9494"
+    },
+    {
+      "authoredDate": "2026-10-23T23:21:38Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T23:21:52Z",
+      "messageBody": "",
+      "messageHeadline": "Add high-compute campaign acceptance tests",
+      "oid": "c2cc7b3cf279aeed3316af4d11a560d45800a099"
+    },
+    {
+      "authoredDate": "2026-10-23T23:24:31Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-23T23:24:31Z",
+      "messageBody": "",
+      "messageHeadline": "Implement staged B300 execution and teacher transfer guards",
+      "oid": "500fab90dcdf705237d649d63b91cc2c8dd4daf8"
+    },
+    {
+      "authoredDate": "2026-10-24T08:35:49Z",
+      "authors": [
+        {
+          "email": "alfa@MacBook-Pro-Alfa.local",
+          "id": "",
+          "login": "",
+          "name": "Alfa"
+        }
+      ],
+      "committedDate": "2026-10-24T08:35:49Z",
+      "messageBody": "Port precision, attention and compiler runtime from team PR #40 at f1beeb4c. Amend R4 configs, profile admission, endpoint identities and teacher-cache provenance while preserving historical recipes and active run pins. Add receiver-only BF16 streaming checks; no local tests or model execution.",
+      "messageHeadline": "Align B300 continuation with BF16 Blackwell runtime",
+      "oid": "e4b3e92bd49307c1c809000f1a1474d98fb828b3"
+    }
+  ],
+  "files": [
+    {
+      "path": "AGENTS.md",
+      "additions": 13,
+      "deletions": 0,
+      "changeType": "MODIFIED"
+    },
+    {
+      "path": "Makefile",
+      "additions": 6,
+      "deletions": 0,
+      "changeType": "MODIFIED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/HIGH_COMPUTE_PLAN_20261024.md",
+      "additions": 132,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/PR.md",
+      "additions": 58,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/PRECISION_AMENDMENT_20261024.md",
+      "additions": 71,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/README.md",
+      "additions": 227,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/REMOTE_ACCEPTANCE.md",
+      "additions": 45,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/VALIDATION.json",
+      "additions": 25,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru256_hint_f0_s1001.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru256_hint_f2_s1002.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru256_kd_f0_s1001.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru256_kd_f2_s1002.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru256_labels_f0_s1001.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru256_labels_f2_s1002.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru256_permuted_hint_f0_s1001.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru256_permuted_hint_f2_s1002.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru512_kd_f0_s1001.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru512_kd_f2_s1002.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru512_labels_f0_s1001.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/gru512_labels_f2_s1002.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/student_t128_kd_f0_s1001.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/student_t128_kd_f2_s1002.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/student_t128_labels_f0_s1001.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/student_t128_labels_f2_s1002.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/teacher_t1280_l32_f0_s1001.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/teacher_t1280_l32_f2_s1002.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/teacher_t1792_l40_f0_s1001.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/teacher_t1792_l40_f2_s1002.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/teacher_t768_l24_f0_s1001.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/configs/teacher_t768_l24_f2_s1002.json",
+      "additions": 28,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/PR.md",
+      "additions": 92,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/README.md",
+      "additions": 263,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/VALIDATION.json",
+      "additions": 173,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/VALIDATION_PRE_PRECISION_20261024.json",
+      "additions": 84,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/admit.py",
+      "additions": 197,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/cache_parity.py",
+      "additions": 82,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/campaign.py",
+      "additions": 119,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/campaign_io.py",
+      "additions": 280,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/catalog.py",
+      "additions": 229,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/cell_materialize.py",
+      "additions": 169,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/comparisons.py",
+      "additions": 294,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/dispatch.py",
+      "additions": 229,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/endpoints.py",
+      "additions": 202,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/failure_receipts.py",
+      "additions": 181,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/materialize.py",
+      "additions": 144,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/paired_metrics.py",
+      "additions": 69,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/parent_cache_config.py",
+      "additions": 59,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/recipe.json",
+      "additions": 69,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/results.py",
+      "additions": 265,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/run.sh",
+      "additions": 27,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/runner_checks.py",
+      "additions": 276,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/source_bindings.py",
+      "additions": 47,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/split_inputs.py",
+      "additions": 205,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/stage_inner.py",
+      "additions": 184,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/stage_outer.py",
+      "additions": 151,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/stage_support.py",
+      "additions": 78,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/high_compute_r4/templates/student_gru512.json",
+      "additions": 45,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/PR.md",
+      "additions": 73,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/README.md",
+      "additions": 182,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/VALIDATION.json",
+      "additions": 54,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/admission.py",
+      "additions": 266,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/compare.py",
+      "additions": 110,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/configs/t1280_f0.json",
+      "additions": 33,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/configs/t1280_f0_profile_one.json",
+      "additions": 33,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/configs/t1280_f2.json",
+      "additions": 33,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/configs/t1280_f2_profile_one.json",
+      "additions": 33,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/configs/t1792_f0.json",
+      "additions": 33,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/configs/t1792_f0_profile_one.json",
+      "additions": 33,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/configs/t1792_f2.json",
+      "additions": 33,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/configs/t1792_f2_profile_one.json",
+      "additions": 33,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/recipe.json",
+      "additions": 53,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r2/run.sh",
+      "additions": 91,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/PARAMETERS.md",
+      "additions": 139,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/PR.md",
+      "additions": 76,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/README.md",
+      "additions": 218,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/VALIDATION.json",
+      "additions": 68,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/acceptance_receipts.py",
+      "additions": 53,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/admission.py",
+      "additions": 279,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/compare.py",
+      "additions": 110,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1280_f0.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1280_f0_profile_one.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1280_f0_profile_peak.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1280_f2.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1280_f2_profile_one.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1280_f2_profile_peak.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1792_f0.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1792_f0_profile_one.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1792_f0_profile_peak.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1792_f2.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1792_f2_profile_one.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/configs/t1792_f2_profile_peak.json",
+      "additions": 42,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/profile_analysis.py",
+      "additions": 48,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/recipe.json",
+      "additions": 68,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/large_teacher_r3_muon30/run.sh",
+      "additions": 100,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiment_drafts/b300-transformer-distillation-runtime/recipe.json",
+      "additions": 106,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "research/experiments.jsonl",
+      "additions": 6,
+      "deletions": 0,
+      "changeType": "MODIFIED"
+    },
+    {
+      "path": "research/hypotheses.jsonl",
+      "additions": 5,
+      "deletions": 0,
+      "changeType": "MODIFIED"
+    },
+    {
+      "path": "research/unified/ideas/README.md",
+      "additions": 16,
+      "deletions": 0,
+      "changeType": "MODIFIED"
+    },
+    {
+      "path": "scripts/check_sequence_ddp.py",
+      "additions": 297,
+      "deletions": 0,
+      "changeType": "ADDED"
+    },
+    {
+      "path": "scripts/check_sequence_muon_ddp.py",
+      "additions": 343,
+      "deletions": 0,
+      "changeType": "ADDED"
+    }
+  ],
+  "headRefName": "experiment/b300-transformer-distillation-runtime",
+  "headRefOid": "e4b3e92bd49307c1c809000f1a1474d98fb828b3",
+  "number": 32,
+  "reviews": [],
+  "state": "MERGED",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-10-24T08:36:11Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/VladKochetov007/WunderFunder/actions/runs/40078647994/job/120827360044",
+      "name": "lint",
+      "startedAt": "2026-10-24T08:35:43Z",
+      "status": "COMPLETED",
+      "workflowName": "Training code quality"
+    }
+  ],
+  "title": "[Experiment] B300 BF16 teacher search and ensemble distillation",
+  "updatedAt": "2026-10-24T13:40:06Z",
+  "url": "https://github.com/VladKochetov007/WunderFunder/pull/32"
+}

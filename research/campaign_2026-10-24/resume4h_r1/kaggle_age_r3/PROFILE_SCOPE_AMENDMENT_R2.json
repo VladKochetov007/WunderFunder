@@ -1,0 +1,49 @@
+{
+  "schema": "wnn.age-readout-profile-scope-amendment.v1",
+  "created_utc": "2026-10-24T11:13:37.055921+00:00",
+  "owner": "root",
+  "authority": "User resumed research/runs for four hours with Kaggle/local compute; this is within that authorization",
+  "supersedes_description": "R1 no-fit wording was inaccurate: profile executes optimizer updates on fitting labels",
+  "source_behavior": "Unchanged canonical profile numerics",
+  "scope": {
+    "engineering_micro_fits": 3,
+    "arms": [
+      "A",
+      "G",
+      "F"
+    ],
+    "epochs": 3,
+    "fit_sequences": 16,
+    "rows_per_sequence": 20000,
+    "batch_size": 8192,
+    "batches_per_epoch": 40,
+    "optimizer_steps_per_arm": 120,
+    "optimizer_steps_total": 360,
+    "training_targets_read": true,
+    "training_weight_channels_read": true,
+    "evaluation_sequences": 8,
+    "evaluation_targets_read": false,
+    "evaluation_masks_read": false,
+    "quality_scoring": false,
+    "new_full_scientific_fits": 0,
+    "checkpoint_serialization": false
+  },
+  "limits": {
+    "wall_seconds": 900,
+    "cpu_cores": 1,
+    "process_tree_rss_watchdog_bytes": 4000000000,
+    "watchdog_poll_seconds": 1,
+    "hard_cgroup_memory_claim": false,
+    "swap_bytes": 0,
+    "gpu": false
+  },
+  "driver_changes": [
+    "exactly one CPU",
+    "RAM admission must equal implemented 4GB watchdog threshold",
+    "explicit engineering micro-fit and label-use scope fields required"
+  ],
+  "driver_r1_sha256": "a876d587f1f7d50687879b0b65109a1c336a097f3b8f8ddad0f9ccd90c3b4688",
+  "driver_r2_sha256": "20fdd72a4d3d2d260bb7604187e540bc6017abed2798d465a74f55f912aa7484",
+  "production_reserve_seconds_unchanged": 43200,
+  "scientific_six_head_panel_admitted": false
+}

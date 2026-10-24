@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/feasibility_scout/f1_mean_shrink_r1/grade_f1_mean_shrink_r1.py", line 149, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/feasibility_scout/f1_mean_shrink_r1/grade_f1_mean_shrink_r1.py", line 125, in main
+    prepared = prepare_f1_grade(recipe_path, args.recipe_sha256)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/feasibility_scout/f1_mean_shrink_r1/f1_grade_preflight.py", line 611, in prepare_f1_grade
+    ancestry = _verify_f1_ancestry(recipe, split, groups)
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/feasibility_scout/f1_mean_shrink_r1/f1_grade_preflight.py", line 365, in _verify_f1_ancestry
+    _require(
+    ~~~~~~~~^
+        _resolve(source.get("provenance_path", "")),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (ROOT / "artifacts" / "runs" / run / "provenance.json").resolve(),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        f"{run} cache provenance path",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/feasibility_scout/f1_mean_shrink_r1/f1_grade_preflight.py", line 63, in _require
+    raise ValueError(f"{label} differs from the frozen F1 contract")
+ValueError: c20261003_combo_s3_f1 cache provenance path differs from the frozen F1 contract

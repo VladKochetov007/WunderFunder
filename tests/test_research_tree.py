@@ -9,6 +9,31 @@ from pathlib import Path
 from scripts import research_tree
 
 
+def test_legacy_experiment_id_preserves_original_record(tmp_path: Path) -> None:
+    """Index legacy experiment events without changing their append-only bytes."""
+    _fixture(tmp_path)
+    ledger = tmp_path / "research/experiments.jsonl"
+    legacy = b'{"experiment_id":"E-1","status":"legacy_complete"}\r\n'
+    with ledger.open("ab") as stream:
+        stream.write(legacy)
+    original = ledger.read_bytes()
+    assert research_tree.main(_args(tmp_path, "build")) == 0
+    assert research_tree.main(_args(tmp_path, "check")) == 0
+    node = next(n for n in _tree(tmp_path)["nodes"] if n["id"] == "experiment:E-1")
+    assert len(node["raw_rows"]) == 3
+    assert node["latest_recorded_status"] == "legacy_complete"
+    assert node["raw_rows"][-1]["raw_record"].encode("utf-8") == legacy
+    assert node["raw_rows"][-1]["source"]["sha256"] == hashlib.sha256(legacy).hexdigest()
+    assert ledger.read_bytes() == original
+
+
+def test_experiment_id_alias_does_not_replace_a_hypothesis_id(tmp_path: Path) -> None:
+    """Keep malformed hypothesis records invalid despite the experiment-only alias."""
+    _fixture(tmp_path)
+    (tmp_path / "research/hypotheses.jsonl").write_text('{"experiment_id":"H-1"}\n')
+    assert research_tree.main(_args(tmp_path, "build")) == 1
+
+
 def _fixture(root: Path, cyclic: bool = False) -> Path:
     research = root / "research"
     reflect = root / "reflect_05_day"

@@ -1,0 +1,107 @@
+{
+  "schema": "wnn.resume4h-budget-snapshot.v1",
+  "created_utc": "2026-10-24T12:58:41.944241+00:00",
+  "inclusive_ceiling_seconds": 14400,
+  "known_receipted_worker_seconds": 2141.7238781320007,
+  "known_receipts": [
+    {
+      "source": "eda/EDA_MEMORY_INCIDENT_R1.json",
+      "seconds": 587.727,
+      "basis": "Failed original EDA scope; includes idle time conservatively"
+    },
+    {
+      "source": "eda/CENSORING_SAMPLE_R2.json",
+      "seconds": 12.584335497000211,
+      "basis": "Completed validation EDA scan"
+    },
+    {
+      "source": "feasibility_scout/F0_GRADE_EXECUTION_R2.json",
+      "seconds": 32.70949976400016,
+      "basis": "Original F0 saved-prediction grade"
+    },
+    {
+      "source": "feasibility_scout/correction_shrink_r1/EXECUTION_R3.json",
+      "seconds": 48.831295826000314,
+      "basis": "Fixed correction shrink grade"
+    },
+    {
+      "source": "feasibility_scout/clock_eda/EXECUTION_R1.json",
+      "seconds": 10.914052104999428,
+      "basis": "Clock event EDA"
+    },
+    {
+      "source": "feasibility_scout/clock_eda/GEOMETRY_EXECUTION_R1.json",
+      "seconds": 6.973971567999797,
+      "basis": "Clock grouping geometry"
+    },
+    {
+      "source": "REMOTE_ARTIFACT_RECOVERY_R1.json",
+      "seconds": 57.295746998999675,
+      "basis": "PR32 archive verification and safe extraction"
+    },
+    {
+      "source": "kaggle_age_r3/PROFILE_DRIVER_RECEIPT_FAILED_R3.json",
+      "seconds": 0.028565154000034454,
+      "basis": "Kaggle kernel version1 driver failure"
+    },
+    {
+      "source": "kaggle_age_r3/TERMINAL_RETRY_R1.json",
+      "seconds": 36.658530117,
+      "basis": "Kaggle version3 concrete membership failure; reporting-only digest erratum does not change time"
+    },
+    {
+      "source": "kaggle_age_r4/TERMINAL_R4.json",
+      "seconds": 855.521024411,
+      "basis": "Repaired CPU profile version4 terminal timeout"
+    },
+    {
+      "source": "quota_submission_r1/baseline_REPLAY_RECEIPT_R1.json",
+      "seconds": 144.8580554170003,
+      "basis": "Baseline feature-only native replay; startup in support reserve"
+    },
+    {
+      "source": "quota_submission_r1/s3_EXECUTION_R1.json",
+      "seconds": 150.95550406499933,
+      "basis": "S3 complete native worker"
+    },
+    {
+      "source": "quota_submission_r1/s3_s4_EXECUTION_R1.json",
+      "seconds": 176.7362552980012,
+      "basis": "S3/S4 complete native worker"
+    },
+    {
+      "source": "quota_submission_r1/GRADE_EXECUTION_R1.json",
+      "seconds": 3.5446480299997347,
+      "basis": "Exact fixed quota grade"
+    },
+    {
+      "source": "feasibility_scout/f1_mean_shrink_r1/PREFLIGHT_EXECUTION_R2.json",
+      "seconds": 1.3489167500010808,
+      "basis": "F1 successful full label-free preflight"
+    },
+    {
+      "source": "feasibility_scout/f1_mean_shrink_r1/GRADE_EXECUTION_R2.json",
+      "seconds": 15.036477130999629,
+      "basis": "F1 fixed diagnostic grade"
+    }
+  ],
+  "conservative_reservations_seconds": {
+    "unknown_kaggle_version2_charged_full_admission": 900,
+    "local_support_and_live_notebook_overhead_pending_reconciliation": 1800,
+    "protected_terminal_collection": 900,
+    "proposed_direction_probe_not_yet_admitted": 900
+  },
+  "available_after_listed_reservations_seconds": 7758.276121867999,
+  "accounting_limits": [
+    "Known receipts are measured wall time except the failed notebook scope deliberately includes idle.",
+    "The 1800-second support reserve is a conservative allocation, not measured usage; it covers metadata, source verification, small fixtures, PR33 recovery, local API activity and live UI work pending final reconciliation.",
+    "Kaggle version2 has no runtime receipt; its entire900-second admission remains charged.",
+    "Proposed profile/grade reservations are not execution authorization; exact source/ancestry/resource reviews still govern.",
+    "Do not charge an unchanged receipt twice. Old-cycle costs and the43200-second production reserve remain separately preserved.",
+    "Version4 profile admitted; quota3replays admitted under fixed plan. Grade remains gated. F1failedpreflight0.232s and build/static work are covered in support reserve pending reconciliation.",
+    "Completed CPUprofile, native callbacks and F1/quota grades replace their reservations with measured charges. Conditional GPUprofile reservation released: no complete measured science path; no new GPU launch. Directionprobe900s is a proposal reserve, not run admission. Tiny ancestry/synthetic/code-mode work remains covered by support reserve."
+  ],
+  "scientific_fits_started_this_cycle": 0,
+  "competition_uploads": 0,
+  "paid_compute": false
+}

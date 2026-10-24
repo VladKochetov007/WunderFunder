@@ -1,0 +1,392 @@
+{
+  "admission": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/feasibility_scout/correction_shrink_r1/CORRECTION_SHRINK_ADMISSION_R2.json",
+    "required_status": "admitted",
+    "requires_root_authorization_for_target_quality_reads": true,
+    "schema": "wnn.correction-shrink-f0-grade-admission.v1",
+    "target_quality_reads_authorized": true
+  },
+  "alternatives": [
+    "A shrunken correction may recover some parent score if the fitted endpoint correction overshoots or carries high variance.",
+    "Shrinkage may still fail if the learned correction is misaligned or otherwise degrades the parent."
+  ],
+  "base_recipe": {
+    "path": "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/F0_EXPLORATORY_RECIPE_R2.json",
+    "sha256": "0d6cf458a895c322f94dd25ec1d228c5b3bfc5320f0da10c55027f58f84fd059"
+  },
+  "base_source_manifest": {
+    "path": "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/SOURCE_MANIFEST_R2.json",
+    "sha256": "55b6ded533703d3430ecfbdc60d28ccd62d6812b249029028cea549c602d9553"
+  },
+  "baseline_grade": {
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/feasibility_scout/F0_EXPLORATORY_GRADE_R2.json",
+    "sha256": "bfc06c9820f48b5214bd32d13783a268a3e35da8ffc8c61f65b91912352e2899"
+  },
+  "candidate_predictions": {
+    "A_lag1": {
+      "arm": "A",
+      "checkpoint_sha256": "3cfd0a7292441845f6585b28788414bdb35445727d18dcfa659a88b6b31ee775",
+      "dtype": "<f4",
+      "evaluation_membership_sha256": "e10cba0c551ea99d8570820cdccb2c219f478c7080df26069a0faefdac386f13",
+      "lag": 1,
+      "output_directory": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag1_a_r1",
+      "prediction_bytes": 74880128,
+      "prediction_path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag1_a_r1/prediction.npy",
+      "prediction_sha256": "ef7d7ec3d0e3aa3fca12cb9dd36bb989c4c7d00ee052ed96a70922acd0552f69",
+      "provenance_sha256": "498cb8d1a28de9bdff8dd724ca05df43e7dae4928fa7eb1c5e1cc62745cecbd9",
+      "run": "online_rel_f0_s1001_lag1_a_r1",
+      "shape": [
+        468,
+        20000,
+        2
+      ],
+      "sidecar_sha256": "af7400ac85d2689f3b3d96be0cdd2d938cd684c3a1e2fc9adc988d2957067f1c"
+    },
+    "B_lag1": {
+      "arm": "B",
+      "checkpoint_sha256": "0a71e7357ae3e9e5c8f73f2966029a0e2a662852b2406f178b743b77e678d1be",
+      "dtype": "<f4",
+      "evaluation_membership_sha256": "e10cba0c551ea99d8570820cdccb2c219f478c7080df26069a0faefdac386f13",
+      "lag": 1,
+      "output_directory": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag1_b_r1",
+      "prediction_bytes": 74880128,
+      "prediction_path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag1_b_r1/prediction.npy",
+      "prediction_sha256": "7274b2a6af71ca89378fa2bc467f379825e6662811442006c5f5212937788b6a",
+      "provenance_sha256": "0301a2bc4e0079deb4f688a1f2d4d8df1418138ddc0039a986cec6a98c6e688b",
+      "run": "online_rel_f0_s1001_lag1_b_r1",
+      "shape": [
+        468,
+        20000,
+        2
+      ],
+      "sidecar_sha256": "8a7027cae47adac661ec00f54848e457ae171633b57157ba489710ab9fa0d203"
+    },
+    "B_lag16": {
+      "arm": "B",
+      "checkpoint_sha256": "b3f504017686b2d424954086557c1319028b6fa9154319a75ae29e4342f6e5cd",
+      "dtype": "<f4",
+      "evaluation_membership_sha256": "e10cba0c551ea99d8570820cdccb2c219f478c7080df26069a0faefdac386f13",
+      "lag": 16,
+      "output_directory": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag16_b_r1",
+      "prediction_bytes": 74880128,
+      "prediction_path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag16_b_r1/prediction.npy",
+      "prediction_sha256": "71f816689ce597a6fc7e18b9afbb1c6473f17a4742de289d9e19085a1ede4359",
+      "provenance_sha256": "89fbeb51e3a670744fdd7345c184b0fdcd62dec1496fa8f40ae2eff2d0991cc8",
+      "run": "online_rel_f0_s1001_lag16_b_r1",
+      "shape": [
+        468,
+        20000,
+        2
+      ],
+      "sidecar_sha256": "9dafd06c6fa826dc0231ba39821bb400691ba6f8c4d3743dee3c65c01afa6be3"
+    },
+    "C_lag1": {
+      "arm": "C",
+      "checkpoint_sha256": "86fc86ec265915eab685445de36d138cd517461be70dde9917edbc8cbb150e70",
+      "dtype": "<f4",
+      "evaluation_membership_sha256": "e10cba0c551ea99d8570820cdccb2c219f478c7080df26069a0faefdac386f13",
+      "lag": 1,
+      "output_directory": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag1_c_r1",
+      "prediction_bytes": 74880128,
+      "prediction_path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag1_c_r1/prediction.npy",
+      "prediction_sha256": "8c2dd81b2b6c5f1e48a072e6f69ab9a42f0d0599c45c1959da4f335ae11d6f74",
+      "provenance_sha256": "281f200408251002e381afa868e769c1145e2b45b3bf3c86a8dfd176d84fb866",
+      "run": "online_rel_f0_s1001_lag1_c_r1",
+      "shape": [
+        468,
+        20000,
+        2
+      ],
+      "sidecar_sha256": "a576849b9a5fc6709954526f218e7afccba20c1a83c0124f8fb9310e1c3cf22b"
+    },
+    "C_lag16": {
+      "arm": "C",
+      "checkpoint_sha256": "53da9c685c05841d9a6eadbab8942bf84eaa7405b570b252f84c2bc3fff15a36",
+      "dtype": "<f4",
+      "evaluation_membership_sha256": "e10cba0c551ea99d8570820cdccb2c219f478c7080df26069a0faefdac386f13",
+      "lag": 16,
+      "output_directory": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag16_c_r1",
+      "prediction_bytes": 74880128,
+      "prediction_path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag16_c_r1/prediction.npy",
+      "prediction_sha256": "64032e90fbb0928dd9a3b393c5d014f81f28bf5a924cbc6acbf95bdf0cb1d772",
+      "provenance_sha256": "08b0c5b8d11fa157399bc02ee29e28854e064b717ba827d982168577fa11bec1",
+      "run": "online_rel_f0_s1001_lag16_c_r1",
+      "shape": [
+        468,
+        20000,
+        2
+      ],
+      "sidecar_sha256": "063ddf6c515d36a47cd8ef279bba4a79b0d779fd563069f0762cdd0fb53f7205"
+    }
+  },
+  "execution_command_template": "WNN_MEM_MAX=400000000 WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_RUNTIME_MAX=300 scripts/limited .venv/bin/python research/campaign_2026-10-24/resume4h_r1/feasibility_scout/correction_shrink_r1/grade_correction_shrink_r1.py --recipe research/campaign_2026-10-24/resume4h_r1/feasibility_scout/correction_shrink_r1/CORRECTION_SHRINK_RECIPE_R2.json --recipe-sha256 <RECIPE_R2_SHA256> --admission research/campaign_2026-10-24/resume4h_r1/feasibility_scout/correction_shrink_r1/CORRECTION_SHRINK_ADMISSION_R2.json --preflight-receipt /home/vlad/development/wunder/research_tmp/resume4h-r1/f0-online-preflight-r3.json --baseline-grade research/campaign_2026-10-24/resume4h_r1/feasibility_scout/F0_EXPLORATORY_GRADE_R2.json --output research/campaign_2026-10-24/resume4h_r1/feasibility_scout/correction_shrink_r1/CORRECTION_SHRINK_GRADE_R2.json",
+  "limits": [
+    "No fits or prediction generation are performed.",
+    "The task is not admitted or executed by this packet; root owns admission and target-quality reads.",
+    "All results remain one-fold, one-seed exposed development evidence.",
+    "The original panel recipe, grade and frozen grader remain unchanged."
+  ],
+  "mechanism": "The already-existing online relationship architecture is zero-initialized as parent + 0.1 * residual. This diagnostic applies one additional fixed shrink to the exported correction: parent + 0.1 * (raw_endpoint - parent). It tests whether a smaller learned correction helps; it does not test parent preservation, which the model already implements.",
+  "metric": {
+    "clipping": [
+      -2.0,
+      2.0
+    ],
+    "id": "global_wp_clip2_v1",
+    "official_mask": "original supplied evaluation mask AND row index >= 99",
+    "source": "src/wnn/gmetric.py",
+    "time_bins": {
+      "overall": [
+        99,
+        20000
+      ],
+      "rows_10000_20000": [
+        10000,
+        20000
+      ],
+      "rows_2000_10000": [
+        2000,
+        10000
+      ],
+      "rows_500_2000": [
+        500,
+        2000
+      ],
+      "rows_99_500": [
+        99,
+        500
+      ]
+    },
+    "weights": "absolute magnitude of clipped targets"
+  },
+  "new_fit_count": 0,
+  "omitted_duplicate": {
+    "alias": "A_lag1",
+    "arm": "A",
+    "checkpoint_sha256": "65d4efcbd17a22643d2ffe806adefed8c3dee252189c31ef122499af6bf5d9db",
+    "dtype": "<f4",
+    "evaluation_membership_sha256": "e10cba0c551ea99d8570820cdccb2c219f478c7080df26069a0faefdac386f13",
+    "lag": 16,
+    "output_directory": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag16_a_r1",
+    "prediction_bytes": 74880128,
+    "prediction_path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/runs/online_rel_f0_s1001_lag16_a_r1/prediction.npy",
+    "prediction_sha256": "ef7d7ec3d0e3aa3fca12cb9dd36bb989c4c7d00ee052ed96a70922acd0552f69",
+    "provenance_sha256": "e741f4147d5c1b5d2d1ba8740c18167a404d651b434b4dfa44335fb819bb8797",
+    "reason": "The R3 label-free preflight observed exact equality of the full A_lag1 and A_lag16 prediction payload SHA-256 values; execution rechecks this identity before scoring.",
+    "run": "online_rel_f0_s1001_lag16_a_r1",
+    "shape": [
+      468,
+      20000,
+      2
+    ],
+    "sidecar_sha256": "a5555f9b4deb529f0b1bc2595b36ccd0caac15e0d11e12da44e2f4fd6e3d5c58"
+  },
+  "output": {
+    "mode": "create_only",
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/feasibility_scout/correction_shrink_r1/CORRECTION_SHRINK_GRADE_R2.json"
+  },
+  "parent_prediction": {
+    "dtype": "<f4",
+    "evaluation_membership_sha256": "e10cba0c551ea99d8570820cdccb2c219f478c7080df26069a0faefdac386f13",
+    "file_bytes": 74880128,
+    "path": "/home/vlad/development/wunder/research_tmp/online-relationships-20261022/parents/f0/evaluation_predictions.npy",
+    "sha256": "87860ac4fc62d291c1d77164afde3a9823b38e9f6245e727b1602b7b8bcc3d6c",
+    "shape": [
+      468,
+      20000,
+      2
+    ]
+  },
+  "preflight_receipt": {
+    "path": "/home/vlad/development/wunder/research_tmp/resume4h-r1/f0-online-preflight-r3.json",
+    "sha256": "f8fd01dab2226fdc46660e72a1cc25d1da3457429f404d0d0f036e18f01d7692"
+  },
+  "primary_contrasts": [
+    {
+      "candidate": "shrink_A_lag1",
+      "name": "shrink_A_lag1-minus-parent",
+      "reference": "parent",
+      "role": "primary"
+    },
+    {
+      "candidate": "shrink_B_lag1",
+      "name": "shrink_B_lag1-minus-parent",
+      "reference": "parent",
+      "role": "primary"
+    },
+    {
+      "candidate": "shrink_C_lag1",
+      "name": "shrink_C_lag1-minus-parent",
+      "reference": "parent",
+      "role": "primary"
+    },
+    {
+      "candidate": "shrink_B_lag16",
+      "name": "shrink_B_lag16-minus-parent",
+      "reference": "parent",
+      "role": "primary"
+    },
+    {
+      "candidate": "shrink_C_lag16",
+      "name": "shrink_C_lag16-minus-parent",
+      "reference": "parent",
+      "role": "primary"
+    }
+  ],
+  "question": "After the raw learned-residual endpoints all scored below their frozen parent on exposed F0, does applying one fixed additional 0.1 multiplier to each saved correction improve the endpoint relative to both parent and its raw endpoint?",
+  "recipe_id": "correction-shrink-f0-postgrade-20261024-r2",
+  "resource_contract": {
+    "cpu_cores": 1,
+    "max_wall_seconds": 300,
+    "new_profile_measurement": false,
+    "observed_base_grade_peak_bytes": 399998976,
+    "observed_base_grade_seconds": 32.71,
+    "prediction_access": "After admission, verify each full prediction SHA/header/bytes/sidecar/provenance/checkpoint and source-qualified ordering through the pinned F0 preflight helper; score one source-qualified group at a time with memory maps.",
+    "prospective_memory_max_bytes": 400000000,
+    "scratch": "/home/vlad/development/wunder/research_tmp",
+    "swap_bytes": 0,
+    "target_access": "After admission only; verify target archive SHA before first label read and after all endpoint scoring; stream y/mask ZIP members in bounded chunks to physical scratch-backed NPY maps."
+  },
+  "reused_original_grade": {
+    "description": "The prior grade supplies frozen raw endpoint scores/parent comparisons; this adapter re-scores each unique raw endpoint and verifies agreement over every original time band, both targets and selected-row counts before writing output.",
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/feasibility_scout/F0_EXPLORATORY_GRADE_R2.json",
+    "sha256": "bfc06c9820f48b5214bd32d13783a268a3e35da8ffc8c61f65b91912352e2899"
+  },
+  "revision": 2,
+  "schema": "wnn.correction-shrink-f0-recipe.v1",
+  "scope": {
+    "analysis_timing": "Post-original-grade fixed-prediction diagnostic.",
+    "evaluation_components": 141,
+    "evaluation_groups": 468,
+    "evaluation_membership_sha256": "e10cba0c551ea99d8570820cdccb2c219f478c7080df26069a0faefdac386f13",
+    "exposure": "Previously exposed development evidence. No fresh holdout claim.",
+    "fitting_seed": 1001,
+    "fold": 0,
+    "original_panel": "The historical 12-fit / 14-endpoint panel remains incomplete and is not modified by this no-fit analysis."
+  },
+  "secondary_contrasts": [
+    {
+      "candidate": "shrink_A_lag1",
+      "name": "shrink_A_lag1-minus-raw_A_lag1",
+      "reference": "raw_A_lag1",
+      "role": "secondary"
+    },
+    {
+      "candidate": "shrink_B_lag1",
+      "name": "shrink_B_lag1-minus-raw_B_lag1",
+      "reference": "raw_B_lag1",
+      "role": "secondary"
+    },
+    {
+      "candidate": "shrink_C_lag1",
+      "name": "shrink_C_lag1-minus-raw_C_lag1",
+      "reference": "raw_C_lag1",
+      "role": "secondary"
+    },
+    {
+      "candidate": "shrink_B_lag16",
+      "name": "shrink_B_lag16-minus-raw_B_lag16",
+      "reference": "raw_B_lag16",
+      "role": "secondary"
+    },
+    {
+      "candidate": "shrink_C_lag16",
+      "name": "shrink_C_lag16-minus-raw_C_lag16",
+      "reference": "raw_C_lag16",
+      "role": "secondary"
+    },
+    {
+      "candidate": "raw_C_lag1",
+      "name": "raw_C-minus-B_lag1",
+      "reference": "raw_B_lag1",
+      "role": "secondary"
+    },
+    {
+      "candidate": "raw_B_lag1",
+      "name": "raw_B-minus-A_lag1",
+      "reference": "raw_A_lag1",
+      "role": "secondary"
+    },
+    {
+      "candidate": "raw_C_lag16",
+      "name": "raw_C-minus-B_lag16",
+      "reference": "raw_B_lag16",
+      "role": "secondary"
+    },
+    {
+      "candidate": "raw_B_lag16",
+      "name": "raw_B-minus-A_lag16",
+      "reference": "raw_A_lag1",
+      "role": "secondary"
+    },
+    {
+      "candidate": "shrink_C_lag1",
+      "name": "shrink_C-minus-B_lag1",
+      "reference": "shrink_B_lag1",
+      "role": "secondary"
+    },
+    {
+      "candidate": "shrink_B_lag1",
+      "name": "shrink_B-minus-A_lag1",
+      "reference": "shrink_A_lag1",
+      "role": "secondary"
+    },
+    {
+      "candidate": "shrink_C_lag16",
+      "name": "shrink_C-minus-B_lag16",
+      "reference": "shrink_B_lag16",
+      "role": "secondary"
+    },
+    {
+      "candidate": "shrink_B_lag16",
+      "name": "shrink_B-minus-A_lag16",
+      "reference": "shrink_A_lag1",
+      "role": "secondary"
+    }
+  ],
+  "shrink": {
+    "alpha": 0.1,
+    "coefficient_optimization": false,
+    "coefficient_search": false,
+    "dtype": "float32",
+    "extra_prediction_clipping": false,
+    "formula": "parent_f32 + np.float32(0.1) * (raw_endpoint_f32 - parent_f32)",
+    "new_fits": 0,
+    "new_inference_runs": 0,
+    "official_metric_clipping_only": [
+      -2.0,
+      2.0
+    ],
+    "operation_count": 1
+  },
+  "source_manifest": {
+    "path": "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/correction_shrink_r1/CORRECTION_SHRINK_SOURCE_MANIFEST_R2.json",
+    "sha256": "dc1ff7015b06ef24cd20b31dbf1c607e970f71f2b7e7216a1dcbf0ef9f3e7e3f"
+  },
+  "status": "prepared_for_root_admission",
+  "supersedes_preliminary_r1": {
+    "path": "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/correction_shrink_r1/CORRECTION_SHRINK_RECIPE_R1.json",
+    "sha256": "82db6b537f4d48f222cddd88967b28d6566ab0bf80e10d6804b0d01901af5a32",
+    "source_manifest_path": "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/correction_shrink_r1/CORRECTION_SHRINK_SOURCE_MANIFEST_R1.json",
+    "source_manifest_sha256": "579aa0dbdfe7b0acbe08874dd6462b28941bfd1f92c422523181cd392d0cc542",
+    "status": "unadmitted draft; superseded after reviewer findings and synthetic validation"
+  },
+  "synthetic_validation": {
+    "path": "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/correction_shrink_r1/CORRECTION_SHRINK_SYNTHETIC_R2.json",
+    "sha256": "2c45527b2cc5d663e84b98c8e9eb4ef3a8cd1c0af3bf7ee574f47620fae595d7"
+  },
+  "target_cache": {
+    "file_bytes": 337186198,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_targets.npz",
+    "preflight_content_hash_checked": false,
+    "preflight_label_reads": false,
+    "read_allowed_only_after_admission": true,
+    "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  },
+  "uncertainty": {
+    "draws": 2000,
+    "method": "Paired source-qualified component bootstrap using the canonical centered-moment helper.",
+    "scope": "Conditional on the fixed exported predictions; does not estimate fold or training variability and is not a kill gate.",
+    "seed": 271828
+  }
+}

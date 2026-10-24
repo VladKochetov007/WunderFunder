@@ -1,0 +1,19 @@
+{
+  "status": "bounded_worker_oom_preserved_retry_narrowed",
+  "observed_utc": "2026-10-24T10:56:31Z",
+  "unit": "wnn-marimo-eda-20261024.scope",
+  "result": "oom-kill",
+  "worker_peak_bytes": 786432000,
+  "worker_cpu_seconds": 25.866,
+  "scope_wall_seconds_including_idle_notebook": 587.727,
+  "scope": "First 192-sequence two-source EDA attempt; no result file completed and no scientific fit/model grade",
+  "prior_probe": "One valid sequence completed in 0.597 seconds at process peak 360068 KiB",
+  "frozen_failed_notebook": "research_frontier_failed_r1.py",
+  "frozen_failed_notebook_sha256": "c9a6c2d66c40e598e3403f39b28fca9aa1d0018f40dae7c620baeb1b7625f86d",
+  "diagnosis": "The attempt began with the large training Parquet. Notebook/server combined resident memory reached the per-worker cap before a 16-sequence progress message; exact allocation site was not captured. Prior valid-file probe was much smaller. Parent MemoryHigh also caused heavy reclaim stalls before it was adjusted.",
+  "repair": "Preserve failed snapshot; disable the broad scan only after the server is confirmed dead, restart pairing and use a separately declared validation-only sample with smaller worker memory. Leave training-source EDA uncompleted rather than fabricate a result.",
+  "aggregate_memory_hard_limit_bytes": 1073741824,
+  "aggregate_memory_high_bytes_after_repair": 939524096,
+  "aggregate_swap_limit_bytes": 0,
+  "limits_increased": "Only soft reclaim threshold changed from512MiB to896MiB within unchanged1GiB hard limit; user had separately raised CPU ceiling to10cores. No hard RAM increase."
+}

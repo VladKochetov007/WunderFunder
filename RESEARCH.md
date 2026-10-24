@@ -1,5 +1,7 @@
 # Research evidence index
 
+Latest campaign: [October24 research, all-PR recovery and live EDA](research/campaign_2026-10-24/resume4h_r1/README.md). Two [checked exploratory quota ZIPs](research/campaign_2026-10-24/resume4h_r1/quota_submission_r1/RESULTS_AND_HANDOFF_R1.md) are delivered; F1's fixed correction shrink is essentially flat. The requested [additional Astra/ultra fundamentals review](research/campaign_2026-10-24/resume4h_r1/astra_fundamentals_r1/README.md) supplies seven deduplicated cards and an actionable no-fit probe. The earlier [ten-reviewer synthesis](research/unified/reviews/astra_ultra_audit_20261023_r1/SYNTHESIS.md) and [all ten reports](research/unified/reviews/astra_ultra_audit_20261023_r1/README.md) remain preserved. Research is resumed within the current bounded allocation; no public gain is promised.
+
 Use [current project state](specs/current-state.md) for the latest status and
 effective scope. The [unified research library](research/unified/README.md) is
 the maintained topic index for ideas, methods, reviews, sources, models,

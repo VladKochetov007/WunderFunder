@@ -1,0 +1,161 @@
+{
+  "bootstrap": {
+    "draws": 2000,
+    "scope": "conditional on the three fixed replay predictions",
+    "seed": 271828,
+    "unit": "source-qualified connected component within fold"
+  },
+  "coefficient_search": false,
+  "competition_upload": false,
+  "contrasts": {
+    "ordered": [
+      {
+        "candidate": "s3",
+        "name": "s3-baseline",
+        "reference": "baseline",
+        "role": "primary"
+      },
+      {
+        "candidate": "s3_s4",
+        "name": "s3_s4-baseline",
+        "reference": "baseline",
+        "role": "primary"
+      },
+      {
+        "candidate": "s3_s4",
+        "name": "s3_s4-s3",
+        "reference": "s3",
+        "role": "secondary"
+      }
+    ],
+    "primary": [
+      "s3-baseline",
+      "s3_s4-baseline"
+    ],
+    "secondary": [
+      "s3_s4-s3"
+    ]
+  },
+  "created_utc": "2026-10-24T12:47:53Z",
+  "expected_public_gain": null,
+  "exposure": "All suppliedvalidation repeatedlyexposed; H390S3/S4 fittedtrain+valid andTL3ancestryunknown. F0/F2are sourcequalifiedsamplingstrata, NOTcleanheldoutclaims.",
+  "grade_admission": {
+    "path": "research/campaign_2026-10-24/resume4h_r1/quota_submission_r1/GRADE_ADMISSION_R1.json"
+  },
+  "interpretation_limits": [
+    "All supplied validation is repeatedly exposed; this is exploratory evidence, not clean CV.",
+    "H390 S3/S4 were fitted on train and validation; TL3 ancestry is unknown.",
+    "F0 and F2 are source-qualified sampling strata, not pristine holdouts.",
+    "Bootstrap intervals resample 32 components per fold conditional on these fixed predictions.",
+    "The equal-weight F0/F2 mean is descriptive; no pooled significance or public forecast is claimed.",
+    "The candidate coefficients were frozen before scoring; no coefficient search is authorized."
+  ],
+  "metric": {
+    "clip": [
+      -2.0,
+      2.0
+    ],
+    "id": "global_wp_clip2_v1",
+    "row_mask": "official scored mask and row index >= 99",
+    "source": "src/wnn/gmetric.py",
+    "weight": "absolute clipped target magnitude"
+  },
+  "new_fit_count": 0,
+  "output_path": "/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2026-10-24/resume4h_r1/quota_submission_r1/QUOTA_GRADE_R1.json",
+  "python": {
+    "executable": "/home/vlad/development/wunder/wnn_connectome_starterpack/.venv-py311-profile/bin/python",
+    "version": [
+      3,
+      11
+    ]
+  },
+  "replay_plan": {
+    "path": "research/campaign_2026-10-24/resume4h_r1/quota_submission_r1/REPLAY_PLAN_R1.json",
+    "sha256": "1f49103e708ea13695a55c760083b61283a12ff65ca2cab4cdbd36787079bb6d",
+    "status": "admitted"
+  },
+  "replay_receipts": {
+    "baseline": {
+      "prediction_path": "/home/vlad/development/wunder/research_tmp/resume4h_20261024/quota_replays_r1/baseline/predictions.npy",
+      "prediction_sha256": "937ad63b3a46b98bdae57f62067a3603ab8e0b5bee1c0326aad04d5306de9124",
+      "receipt_path": "research/campaign_2026-10-24/resume4h_r1/quota_submission_r1/baseline_REPLAY_RECEIPT_R1.json",
+      "receipt_sha256": "a37f545ad671f0f0ae99b437e70e3247735b16ba8e6bd84ed13ceee5ec297827"
+    },
+    "s3": {
+      "prediction_path": "/home/vlad/development/wunder/research_tmp/resume4h_20261024/quota_replays_r1/s3/predictions.npy",
+      "prediction_sha256": "39afc192d55445a6e3f7e8aa3b2680881cac057f482fc710c38f9887d77d745c",
+      "receipt_path": "research/campaign_2026-10-24/resume4h_r1/quota_submission_r1/s3_REPLAY_RECEIPT_R1.json",
+      "receipt_sha256": "c1ac1162c4929c9ea25886a5d862c9481eb04561e0b877734583458cff934ef5"
+    },
+    "s3_s4": {
+      "prediction_path": "/home/vlad/development/wunder/research_tmp/resume4h_20261024/quota_replays_r1/s3_s4/predictions.npy",
+      "prediction_sha256": "5ae2926c39e47425aacd7c6ed3c00cd82a9d6b1bb67b3ffee947d1f994d87da1",
+      "receipt_path": "research/campaign_2026-10-24/resume4h_r1/quota_submission_r1/s3_s4_REPLAY_RECEIPT_R1.json",
+      "receipt_sha256": "47b5e530cf57ab7504dacc970ae43bcc00808c76fd3f460bf4d5c4d30f0addcb"
+    }
+  },
+  "resources": {
+    "cpu_cores": 1,
+    "max_runtime_seconds": 120,
+    "memory_max_bytes": 400000000,
+    "scratch": "/home/vlad/development/wunder/research_tmp",
+    "swap_bytes": 0
+  },
+  "schema": "wnn.quota-package-grade-recipe.v1",
+  "score_scope": {
+    "component_count_per_fold": 32,
+    "cross_fold_summary": "equal-weight mean of F0 and F2 point deltas; descriptive only",
+    "endpoint_scores": [
+      "baseline",
+      "s3",
+      "s3_s4"
+    ],
+    "folds": [
+      0,
+      2
+    ],
+    "row_group_count": 64,
+    "score_mask": "official target mask AND row index >= 99"
+  },
+  "scoring_basis": {
+    "name": "saved F0 exploratory grader R2 metric and streamed-target contract",
+    "path": "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/F0_EXPLORATORY_RECIPE_R2.json",
+    "sha256": "0d6cf458a895c322f94dd25ec1d228c5b3bfc5320f0da10c55027f58f84fd059"
+  },
+  "selection": {
+    "components_per_fold": 32,
+    "members": 64,
+    "path": "research/campaign_2026-10-24/resume4h_r1/quota_submission_r1/SELECTION_R1.json",
+    "seed": 20261024,
+    "sha256": "48c017d13884d8294cdb21f19cef6be1df4663fa4fc54eb592e651a21bcaff07"
+  },
+  "source_sha256": {
+    "research/campaign_2026-10-18/online_features_r1/tl3_replay/native_runtime.py": "47e5e7c77a0c56c9bb597602daaea20aa9b81e418bb815ff8097c602bd921f05",
+    "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/F0_EXPLORATORY_RECIPE_R2.json": "0d6cf458a895c322f94dd25ec1d228c5b3bfc5320f0da10c55027f58f84fd059",
+    "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/f0_grade_ancestry.py": "bc9718442b0d388ee307c0dfaf0b8bbbc5a4cf6f8e7a371f79c5cbb40b2b4537",
+    "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/f0_grade_preflight.py": "6fa2ef767e089723885f5d228371b8e05a0d7ed7fd467b52567d62a3c768c556",
+    "research/campaign_2026-10-24/resume4h_r1/feasibility_scout/f0_grade_scoring.py": "b1211ffd369367aa5d703dc006dad6b5cbae27b8ab66283ee411e7683887b21d",
+    "research/campaign_2026-10-24/resume4h_r1/quota_submission_r1/grade_packages.py": "d01b4e21ae5ffb6aa6974e4c43209de0f47b51f4b30c9db0886865f86d5a73b1",
+    "research/campaign_2026-10-24/resume4h_r1/quota_submission_r1/replay_package.py": "2a491353e2523f82c398ffcfca32168de0fcbce30a035b60524afd100981a43a",
+    "research/experiment_drafts/online-relationships-20261022/online_relationship_grade_cache.py": "7262f07280767a75dca8b4d3d3b1844132299cbf2ed78e0d8cc269013d531590",
+    "research/experiment_drafts/online-relationships-20261022/online_relationship_grade_contract.py": "204c8110a0f8479ef8be6850ec6a3a34d17be226ab79aff728be8c3a38bef3da",
+    "research/experiment_drafts/online-relationships-20261022/online_relationship_grade_core.py": "b8480f1ac9f9068e076363486076f1965eeb65c364099c891fa25b2dd03533da",
+    "research/experiment_drafts/online-relationships-20261022/online_relationship_grade_fit_contract.py": "8e5265cc1d27217955aaf9b7988c64406886b6223cb716671ca1f70f153c31aa",
+    "research/experiment_drafts/online-relationships-20261022/online_relationship_grade_parent.py": "02ce460c72c8454ecab5882bb651e8c32f0dfb9b962c12e233c3c08c05488fd7",
+    "research/experiment_drafts/online-relationships-20261022/online_relationship_grade_provenance.py": "f8579cb08b817a2b2d67a9602f35c23b96c82093eafc56aff28f3c78ac7b0fdf",
+    "scripts/check_submission_abi.py": "a00bfca90d444c338eb7aff5ac4c99d6693aca552475ba1e6a782c94c9d76f13",
+    "scripts/grade_prediction_bank.py": "fb7a85a5837f61fa6c65cd10a799768006067e87d4c18e92d4b813ba83b9d82e",
+    "src/wnn/evaluation.py": "96cebf2c8d564493f5a3a866b8d879964247f885587a455ebb1449e937230d0e",
+    "src/wnn/gmetric.py": "2cf10e740a831379f62b7d1269456053f5c1f9efa2dbab03156e366972bed5aa",
+    "src/wnn/splits.py": "24024fbb82d33afdc2c709912404f7c1c26504a0816a050428c9f66e04e951fe",
+    "src/wnn/training/membership.py": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238",
+    "utils.py": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6"
+  },
+  "status": "ready_for_grade",
+  "target_cache": {
+    "file_bytes": 337186198,
+    "path": "/home/vlad/development/wunder/wnn_connectome_starterpack/cache/valid_targets.npz",
+    "row_group_count": 1873,
+    "sha256": "dbb7a1a48dd0af9fa524a80c2694008a56cb91d5dae80e8d0d4984c0c5622955"
+  }
+}

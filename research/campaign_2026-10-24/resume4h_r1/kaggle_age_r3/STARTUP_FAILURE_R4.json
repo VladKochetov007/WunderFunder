@@ -1,0 +1,52 @@
+{
+  "schema": "wnn.kaggle-profile-startup-failure.v1",
+  "status": "provider_error_empty_log_no_driver_receipt",
+  "created_utc": "2026-10-24T11:46:16Z",
+  "attempt": "R4 repair, Kaggle kernel version 2",
+  "kernel": "vladkochetov07/wnn-age-readout-f0-cpu-profile-20261024-r3",
+  "provider_status": "ERROR",
+  "failure_message": null,
+  "downloaded_kernel_log": "[]",
+  "downloaded_kernel_log_bytes": 2,
+  "driver_receipt_present": false,
+  "source_and_metadata": {
+    "provider_source_sha256": "4b8e8f7a00d7d81a06f2e10f875fb10a74a76d4292b8d71667a8a629544ae22a",
+    "staged_kernel_sha256": "4b8e8f7a00d7d81a06f2e10f875fb10a74a76d4292b8d71667a8a629544ae22a",
+    "source_match": true,
+    "dataset_sources_match_expected": true
+  },
+  "input_readiness_checks": {
+    "overlay_dataset": "vladkochetov07/wnn-age-cpu-overlay-20261024-r3",
+    "overlay_files": [
+      {"name": "PROFILE_F0_CPU_R3_ADMISSION.json", "bytes": 17231},
+      {"name": "source_overlay_r3.wnn", "bytes": 368640}
+    ],
+    "base_profile_dataset": "vladkochetov07/wnn-age-cpu-profile-20261023-r2",
+    "base_profile_files": [
+      {"name": "PROFILE_F0_CPU_R2_ADMISSION.json", "bytes": 5043},
+      {"name": "age_actor_bundle.wnn", "bytes": 1143552000}
+    ],
+    "raw_data_dataset": "vladkochetov07/wunder-funder",
+    "raw_data_files": [
+      {"name": "train.parquet", "bytes": 29240219011},
+      {"name": "valid.parquet", "bytes": 5615509128},
+      {"name": "valid_mask.parquet", "bytes": 91972846}
+    ]
+  },
+  "interpretation": "A provider ERROR with an empty downloaded log and no driver receipt does not establish whether a worker started or how much quota was consumed. Preserve worker/quota usage as unknown; reserve the full 900 seconds for the authorized retry.",
+  "retry": {
+    "authorized_retry_count": 1,
+    "same_source_and_kernel_code": true,
+    "same_dataset_version_and_inputs": true,
+    "source_or_dataset_mutation": false,
+    "next_kernel_version": 3,
+    "no_further_retry_if_same_empty_log_failure": true
+  },
+  "evidence_paths": [
+    "KERNEL_STATUS_DETAIL_R4.json",
+    "KERNEL_PUSH_R4.log",
+    "COLLECTION_R4.log",
+    "REPAIR_AND_PREFLIGHT_R4.json",
+    "PROFILE_F0_CPU_R4_ADMISSION.json"
+  ]
+}

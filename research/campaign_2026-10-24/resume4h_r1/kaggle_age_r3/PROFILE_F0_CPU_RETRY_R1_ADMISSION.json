@@ -1,0 +1,64 @@
+{
+  "schema": "wnn.kaggle-profile-retry-admission.v1",
+  "status": "admitted_before_push",
+  "created_utc": "2026-10-24T11:46:16Z",
+  "admission_basis": "Root-authorized one exact retry under the explicit four-hour research resume, following the version-2 provider ERROR with empty log and no driver receipt. Root remains owner of all remaining campaign budget.",
+  "kernel": "vladkochetov07/wnn-age-readout-f0-cpu-profile-20261024-r3",
+  "prior_kernel_version": 2,
+  "target_kernel_version": 3,
+  "source": {
+    "staged_code_sha256": "4b8e8f7a00d7d81a06f2e10f875fb10a74a76d4292b8d71667a8a629544ae22a",
+    "provider_source_sha256": "4b8e8f7a00d7d81a06f2e10f875fb10a74a76d4292b8d71667a8a629544ae22a",
+    "source_change": false,
+    "staged_metadata_sha256": "f3e39064e629d581a25e213279bba2a44bb437834d46eb993e9a497120ec9fbe",
+    "provider_metadata_sha256": "cf3ebf58850cf1406fb902e5112c081fb4acf3787be6e3cff599845367236bcc"
+  },
+  "inputs": {
+    "dataset_version_change": false,
+    "dataset_sources": [
+      "vladkochetov07/wnn-age-cpu-profile-20261023-r2",
+      "vladkochetov07/wnn-age-cpu-overlay-20261024-r3",
+      "vladkochetov07/wunder-funder"
+    ],
+    "metadata_flags": {
+      "private": true,
+      "enable_gpu": false,
+      "enable_tpu": false,
+      "enable_internet": false
+    }
+  },
+  "scope": {
+    "mode": "engineering_profile",
+    "remote_cpu_cores": 1,
+    "remote_ram_bytes": 4000000000,
+    "remote_swap_bytes": 0,
+    "remote_wall_seconds": 900,
+    "rss_watchdog": "1-second process-tree RSS watchdog; this is not a hard remote cgroup claim",
+    "engineering_micro_fits_max": 3,
+    "optimizer_steps_max": 360,
+    "new_scientific_fits": 0,
+    "training_target_reads": true,
+    "evaluation_target_reads": false,
+    "evaluation_scoring_mask_reads": false,
+    "quality_scoring": false,
+    "scratch_policy": "Only /kaggle/working/disk_scratch writable; input mounts read-only; clean generated large files on success or failure."
+  },
+  "campaign_budget": {
+    "campaign_inclusive_worker_seconds": 14400,
+    "this_retry_reserved_seconds": 900,
+    "prior_r4_worker_and_quota_usage": "unknown; not imputed as zero",
+    "root_owns_remaining_campaign_budget": true,
+    "stop_condition": "If this exact-code retry again returns an ERROR with an empty log and no driver receipt, stop this path; do not retry again."
+  },
+  "terminal_collection": {
+    "owner": "this operator",
+    "collect_exact_kernel_version": 3,
+    "include": ["json", "log", "txt"],
+    "exclude": ["large caches", "training data", "model weights"],
+    "collect_admission_with_outputs": true
+  },
+  "source_admission": "PROFILE_F0_CPU_R4_ADMISSION.json",
+  "repair_preflight": "REPAIR_AND_PREFLIGHT_R4.json",
+  "startup_failure_record": "STARTUP_FAILURE_R4.json",
+  "retry_authority": "Root message received for this task; no additional approval required."
+}

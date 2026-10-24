@@ -1,0 +1,127 @@
+{
+  "schema": "wnn.age-readout-membership-repair-source-pins.v1",
+  "source_files": {
+    "source_cache_execution_recipe": {
+      "path": "research/experiment_drafts/online-relationships-20261022/EXECUTION_RECIPE_R1.json",
+      "sha256": "edc873c813de77f55859d1a13180d907004e5f18fcc537e64eda7af1308e2508"
+    },
+    "portable_machine_recipe": {
+      "path": "research/experiment_drafts/b300-fast-local-kaggle-20261023/recipe.json",
+      "sha256": "0a67fe12c520e56bcf14a3a1efecb5030f3aa7ce932101814c9dd1c675c930fd"
+    },
+    "kaggle_kernel_recipe": {
+      "path": "research/campaign_2026-10-24/resume4h_r1/kaggle_age_r3/KERNEL_RECIPE_R2.json",
+      "sha256": "2fb1103f1040278d725545746acbb127e4644414eddf431de9770061f1f8cae3"
+    },
+    "failed_r3_source_map": {
+      "path": "research/experiment_drafts/b300-fast-local-kaggle-20261023/ACTOR_SOURCE_SHA256_R3.json",
+      "sha256": "6ce40d6e4980caf5d7b41e47f104e4a845a30f557c151d60c5ca3852024a1e5a"
+    },
+    "failed_r3_overlay_manifest": {
+      "path": "research/experiment_drafts/b300-fast-local-kaggle-20261023/SOURCE_OVERLAY_MANIFEST_R3.json",
+      "sha256": "138dafd2f03e500190c7820a0aac86a459a32caa7399d2e4421e7e81b2364659"
+    },
+    "failed_r3_terminal_receipt": {
+      "path": "research/campaign_2026-10-24/resume4h_r1/kaggle_age_r3/TERMINAL_RETRY_R1.json",
+      "sha256": "de1c68218c9f84b534f9c59cf69dd1a6c931605b87aa7ef7d038ed585e62036c"
+    },
+    "cache_verification_receipt": {
+      "path": "research/experiment_drafts/b300-fast-local-kaggle-20261023/LOCAL_CACHE_VERIFICATION_R1.json",
+      "sha256": "6659cdb989beceb75778e978699a46fede50d6f6661887354279883cbab4e9c1"
+    },
+    "parent_cache_milestone": {
+      "path": "research/experiment_drafts/online-relationships-20261022/PARENT_CACHE_MILESTONE_R1.json",
+      "sha256": "0dd9f9cec9bf54a4c2abdaeb835ad13f099e201a4b578714838014e39eb4d11e"
+    },
+    "subset_loader": {
+      "path": "src/wnn/training/membership.py",
+      "sha256": "b1177de4e953fd08bc13372771bc389e6b1b8dd959db5a0328b32de573382238"
+    },
+    "cache_metadata_producer": {
+      "path": "src/wnn/training/online_relationship_sources.py",
+      "sha256": "f091602296470ee266a88fcc46306e2913608ca311c315ec248d313fb30a29c6"
+    },
+    "cache_sidecar_writer": {
+      "path": "src/wnn/training/online_relationship_data_writer.py",
+      "sha256": "d7cf2d07abecc686af57c2ccda4a8986e23cf9fe7a6f60a972669d5e8cfc5c6b"
+    },
+    "cache_validator": {
+      "path": "src/wnn/training/online_relationship_cache_validation.py",
+      "sha256": "007a702880e21c7df632c64112ac6b79cb668722073e957e50c8df5f1cc00229"
+    },
+    "portable_identity_consumer": {
+      "path": "src/wnn/training/age_readout_portable_identity.py",
+      "sha256": "e976c0311e53ce3d022e4ed6646dc28b83a137d18a136f0c3844476a8ec382c5"
+    },
+    "portable_metadata_consumer": {
+      "path": "src/wnn/training/age_readout_portable_validate.py",
+      "sha256": "a52a4a09bd57f321b89d241f5fad96d6ed6cbe889020187dbba5a6bf55ae21d6"
+    },
+    "fixture_test": {
+      "path": "research/campaign_2026-10-24/resume4h_r1/kaggle_age_r3/membership_repair_r1/test_membership_repair_fixture.py",
+      "sha256": "7d9676319b34de844881756af396773ae8f2a0c7a3cba96e98a0f4450a452198"
+    }
+  },
+  "historical_source_pins": {
+    "portable_metadata_consumer_before_repair_sha256": "15c0b2ae46538445088278dc78c3c0b9d919333d1cab5d543c5b6dc102e9e028",
+    "portable_identity_consumer_before_lazy_import_sha256": "262693b50289ff289ea0cea5b06a7880aad637b9ead949aa753b8f708323c18d"
+  },
+  "folds": {
+    "0": {
+      "fit_subset": {
+        "source_path": "research/experiment_drafts/online-relationships-20261022/fit_f0_10pct_s1001.json",
+        "source_sha256": "8dfd94041500876a75ebd8cc30d044fb00e2dd55762fbedce78bf14e40eef120",
+        "fixture_path": "fixture_fold0_fit_subset.json",
+        "fixture_sha256": "8dfd94041500876a75ebd8cc30d044fb00e2dd55762fbedce78bf14e40eef120"
+      },
+      "sidecars": {
+        "fit_sequences": {
+          "fixture_path": "fixture_fold0_fit_sequences.json",
+          "fixture_sha256": "6a85239cd177343154442feab1b4a1c94e5a22b4ace9630ac362b01bffd12c85",
+          "producer_sha256": "6a85239cd177343154442feab1b4a1c94e5a22b4ace9630ac362b01bffd12c85",
+          "milestone_sha256": "6a85239cd177343154442feab1b4a1c94e5a22b4ace9630ac362b01bffd12c85"
+        },
+        "evaluation_sequences": {
+          "fixture_path": "fixture_fold0_evaluation_sequences.json",
+          "fixture_sha256": "35094325e4bbf7849d78df504f8016f8b93c244c2e291fbe718795928d506cee",
+          "producer_sha256": "35094325e4bbf7849d78df504f8016f8b93c244c2e291fbe718795928d506cee",
+          "milestone_sha256": "35094325e4bbf7849d78df504f8016f8b93c244c2e291fbe718795928d506cee"
+        },
+        "evaluation_predictions": {
+          "fixture_path": "fixture_fold0_evaluation_predictions.json",
+          "fixture_sha256": "f3124a95074ae1338531b51e11d0060c35c512274f4c604ec2e02d83a6b4b946",
+          "producer_sha256": "f3124a95074ae1338531b51e11d0060c35c512274f4c604ec2e02d83a6b4b946",
+          "milestone_sha256": "f3124a95074ae1338531b51e11d0060c35c512274f4c604ec2e02d83a6b4b946"
+        }
+      }
+    },
+    "1": {
+      "fit_subset": {
+        "source_path": "research/experiment_drafts/online-relationships-20261022/fit_f1_10pct_s1002.json",
+        "source_sha256": "2dfd5153327d774e3a752a57e5804d1c9b917996a748d9081e2f2c6cfd1804ce",
+        "fixture_path": "fixture_fold1_fit_subset.json",
+        "fixture_sha256": "2dfd5153327d774e3a752a57e5804d1c9b917996a748d9081e2f2c6cfd1804ce"
+      },
+      "sidecars": {
+        "fit_sequences": {
+          "fixture_path": "fixture_fold1_fit_sequences.json",
+          "fixture_sha256": "27dba0ad2ef0b8721c998de2ca10ca843433914646aa2b47b596b8e0aca1386c",
+          "producer_sha256": "27dba0ad2ef0b8721c998de2ca10ca843433914646aa2b47b596b8e0aca1386c",
+          "milestone_sha256": "27dba0ad2ef0b8721c998de2ca10ca843433914646aa2b47b596b8e0aca1386c"
+        },
+        "evaluation_sequences": {
+          "fixture_path": "fixture_fold1_evaluation_sequences.json",
+          "fixture_sha256": "b4b7e235d109e2893b63f49d3085fe1e36e644a850778edbfad9570311a7b7c3",
+          "producer_sha256": "b4b7e235d109e2893b63f49d3085fe1e36e644a850778edbfad9570311a7b7c3",
+          "milestone_sha256": "b4b7e235d109e2893b63f49d3085fe1e36e644a850778edbfad9570311a7b7c3"
+        },
+        "evaluation_predictions": {
+          "fixture_path": "fixture_fold1_evaluation_predictions.json",
+          "fixture_sha256": "bc36215be632641bcb8b36b8145718196fdcb0f41f12f2960af8c04cc13f7cbd",
+          "producer_sha256": "bc36215be632641bcb8b36b8145718196fdcb0f41f12f2960af8c04cc13f7cbd",
+          "milestone_sha256": "bc36215be632641bcb8b36b8145718196fdcb0f41f12f2960af8c04cc13f7cbd"
+        }
+      }
+    }
+  }
+}

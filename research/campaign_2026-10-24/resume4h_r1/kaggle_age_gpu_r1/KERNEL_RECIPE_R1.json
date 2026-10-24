@@ -1,0 +1,148 @@
+{
+  "schema": "wnn.age-readout-kaggle-gpu-profile-recipe.v1",
+  "status": "prepared_for_root_admission_upload_and_profile",
+  "prepared_at_utc": "2026-10-24T11:21:41Z",
+  "purpose": "Profile the frozen age-readout heads on one Kaggle CUDA device using the same source-qualified F0 cache recipe as R3.",
+  "profile": {
+    "mode": "profile",
+    "fold": 0,
+    "seed": 1201,
+    "device": "cuda",
+    "visible_cuda_devices": 1,
+    "fit_sequences": 16,
+    "evaluation_sequences": 8,
+    "fit_rows_per_sequence": 20000,
+    "arms": ["A", "G", "F"],
+    "microfits": 3,
+    "epochs_per_microfit": 3,
+    "optimizer_updates_per_microfit": 120,
+    "total_optimizer_updates": 360,
+    "evaluation_predictions": 24,
+    "training_subset_labels_read": true,
+    "evaluation_target_columns_read": false,
+    "official_metric_calls": 0,
+    "quality_scores": 0,
+    "new_scientific_fits": 0,
+    "six_cell_scientific_panel": "unadmitted"
+  },
+  "precision": {
+    "default_dtype": "float32",
+    "deterministic_algorithms": true,
+    "autocast": false,
+    "gradient_scaler": false,
+    "cuda_matmul_tf32": false,
+    "cudnn_tf32": false,
+    "cublas_workspace_config": ":4096:8",
+    "gpu_allocator_limit_bytes": 4000000000,
+    "source_of_enforcement": [
+      "src/wnn/training/age_readout_fit.py",
+      "src/wnn/training/age_readout_runtime.py",
+      "src/wnn/training/age_readout_cli.py"
+    ]
+  },
+  "limits": {
+    "max_total_wall_seconds": 600,
+    "driver_finalization_reserve_seconds": 45,
+    "profile_child_wall_ceiling_seconds": 555,
+    "cpu_cores": 1,
+    "process_tree_rss_ceiling_bytes": 4000000000,
+    "swap_bytes": 0,
+    "gpu_count": 1,
+    "gpu_memory_allocator_ceiling_bytes": 4000000000,
+    "internet": false,
+    "tpu": false,
+    "working_disk_cache_and_scratch": true
+  },
+  "cache": {
+    "rebuild_in_same_kernel": true,
+    "reuse_from_r3_cpu_run": false,
+    "reason_not_reused": "The R3 CPU driver removes its generated fold cache during finalization; it does not publish a reusable cache artifact.",
+    "fit_cache_bytes_expected": 16024320384,
+    "rebuild_and_hash_all_fold_members": true,
+    "evaluation_cache_contract": "feature_only_eval; evaluation target and scoring-mask columns are not indexed by the profile loop",
+    "cleanup_after_profile": true,
+    "wall_cost": "unknown until the R3 Kaggle CPU cache-parity profile provides a measured cache-open duration"
+  },
+  "inputs": {
+    "base_suffix_dataset": {
+      "id": "vladkochetov07/wnn-age-cpu-profile-20261023-r2",
+      "archive_name": "age_actor_bundle.wnn",
+      "archive_bytes": 1143552000,
+      "archive_sha256": "971871550f50be91c5afe1134e1012a3ba3b9c94e2157b4f8b6ed17a62442ef8",
+      "bundle_manifest_sha256": "ea241506eadd0a34f437c699bab3b7784a69b818b710e3d016c9b3599774f99e",
+      "transport_sha256": "1ff63aaf02cf94176677e19b1bfebdce03404fe9ce8c800669953451dfcb8c6a",
+      "export_receipt_sha256": "c838527f734d7a2b791a704c1fa3ac900457b0d4b0876bf0d0a0d35b281fc40c",
+      "reused_without_reupload": true
+    },
+    "raw_data": {
+      "id": "vladkochetov07/wunder-funder",
+      "reuse_existing": true,
+      "train_valid_parquet_footer_and_size_pins": "from the frozen recipe split manifests"
+    },
+    "gpu_source_overlay_dataset": {
+      "id": "vladkochetov07/wnn-age-gpu-profile-20261024-r1",
+      "archive_name": "source_overlay_cuda_r1.wnn",
+      "archive_bytes": 389120,
+      "archive_sha256": "8d5c2567589876855256e7009a5be23a9f4b56ff366956da072daf21a49b2716",
+      "manifest_sha256": "c977ca865e2e40da4fe7f38d7ab53c533edd8f85dfd4df6266ea2c1a581e3fef",
+      "source_manifest_sha256": "bf034ffc8ac0212f5a52d7d5b9c57a11bb54750275147aa70d601c0a7b9795fc",
+      "overlay_file_count": 42,
+      "expanded_source_bytes": 339277,
+      "archive_member_count_including_manifest": 43
+    },
+    "root_admission": {
+      "filename": "PROFILE_F0_CUDA_R1_ADMISSION.json",
+      "template": "PROFILE_F0_CUDA_R1_ADMISSION.template.json",
+      "not_issued": true,
+      "must_pin_driver_sha256": "8e653edc7370e5be046bae8068cf53dea854e6fc8f19921adba6c5c1ce73473b",
+      "must_authorize_exactly": "one CUDA profile; three engineering microfits; 360 optimizer updates; zero scientific fits and zero quality scores"
+    }
+  },
+  "source": {
+    "machine_recipe_sha256": "0a67fe12c520e56bcf14a3a1efecb5030f3aa7ce932101814c9dd1c675c930fd",
+    "r3_source_manifest_sha256": "6ce40d6e4980caf5d7b41e47f104e4a845a30f557c151d60c5ca3852024a1e5a",
+    "gpu_source_manifest_sha256": "bf034ffc8ac0212f5a52d7d5b9c57a11bb54750275147aa70d601c0a7b9795fc",
+    "source_manifest_modules": 66,
+    "modified_canonical_modules": [
+      "src/wnn/training/age_readout_cli.py",
+      "src/wnn/training/age_readout_runner.py"
+    ],
+    "trainer_math_or_recipe_changed": false,
+    "source_delta": "Allow portable CUDA in the existing profile-only CLI path, require one visible CUDA device, and keep portable fit-fold unavailable. The canonical age_readout_fit.py remains pinned and unchanged."
+  },
+  "commands": {
+    "overlay_dataset_staging": "Create a new private dataset folder containing dataset-metadata.json, source_overlay_cuda_r1.wnn, and root-issued PROFILE_F0_CUDA_R1_ADMISSION.json. Do not copy or rebuild age_actor_bundle.wnn.",
+    "dataset_create_after_root_authorization": "scripts/limited .venv/bin/kaggle datasets create --path <GPU_OVERLAY_UPLOAD_DIR> --dir-mode skip",
+    "kernel_staging": "Render kernel_driver_template.py by replacing only __PROFILE_ADMISSION_SHA256__ with the issued admission file SHA; add kernel-metadata.template.json as kernel-metadata.json.",
+    "kernel_push_after_root_authorization": "scripts/limited .venv/bin/kaggle kernels push -p <GPU_KERNEL_UPLOAD_DIR>",
+    "profile_child": [
+      "python",
+      "scripts/age_readout_screen.py",
+      "profile",
+      "--repo-root",
+      "/kaggle/working/disk_scratch/age_actor_bundle/repo",
+      "--recipe",
+      "research/experiment_drafts/b300-fast-local-kaggle-20261023/recipe.json",
+      "--recipe-sha256",
+      "0a67fe12c520e56bcf14a3a1efecb5030f3aa7ce932101814c9dd1c675c930fd",
+      "--fold",
+      "0",
+      "--device",
+      "cuda",
+      "--admission",
+      "/kaggle/input/wnn-age-gpu-profile-20261024-r1/PROFILE_F0_CUDA_R1_ADMISSION.json",
+      "--source-manifest",
+      "research/experiment_drafts/b300-fast-local-kaggle-20261023/source/SOURCE_SHA256_GPU_R1.json",
+      "--source-manifest-sha256",
+      "bf034ffc8ac0212f5a52d7d5b9c57a11bb54750275147aa70d601c0a7b9795fc",
+      "--portable-config",
+      "/kaggle/working/disk_scratch/age_actor_bundle/portable_paths.json",
+      "--profile-root",
+      "/kaggle/working/disk_scratch/age_actor_work/profiles"
+    ]
+  },
+  "provider_mutations_performed": false,
+  "imports_or_tests_performed": false,
+  "profile_or_fit_performed": false,
+  "quality_grade_performed": false
+}

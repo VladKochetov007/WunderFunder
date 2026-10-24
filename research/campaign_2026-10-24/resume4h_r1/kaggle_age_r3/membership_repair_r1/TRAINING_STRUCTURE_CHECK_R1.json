@@ -1,0 +1,30 @@
+{
+  "schema": "wnn.training-structure-check-receipt.v1",
+  "executed_at_utc": "2026-10-24 12:01:10 UTC",
+  "command": "WNN_MEM_MAX=150M WNN_CPU_QUOTA=100% WNN_THREADS=1 WNN_RUNTIME_MAX=60 scripts/limited uv run python scripts/check_training_structure.py --root .",
+  "exit_code": 0,
+  "status": "PASS",
+  "checker_scope": "standard-library AST/source structure scan; no module imports or training payload access",
+  "limits": {
+    "memory_max": "150M",
+    "cpu_quota": "100%",
+    "threads": 1,
+    "runtime_seconds": 60
+  },
+  "output_log": {
+    "path": "TRAINING_STRUCTURE_CHECK_R1.log",
+    "sha256": "60c35b2fa464e2055e93a9d4abba7477c3077a550635e701e1751d0149bb8dc6",
+    "exact_output": "{\"files\": 98, \"errors\": 0, \"max_module_lines\": 300, \"max_function_lines\": 200}\n"
+  },
+  "changed_modules": {
+    "src/wnn/training/age_readout_portable_validate.py": "a52a4a09bd57f321b89d241f5fad96d6ed6cbe889020187dbba5a6bf55ae21d6",
+    "src/wnn/training/age_readout_portable_identity.py": "e976c0311e53ce3d022e4ed6646dc28b83a137d18a136f0c3844476a8ec382c5"
+  },
+  "preexisting_failures": [],
+  "result": {
+    "files": 98,
+    "errors": 0,
+    "max_module_lines": 300,
+    "max_function_lines": 200
+  }
+}

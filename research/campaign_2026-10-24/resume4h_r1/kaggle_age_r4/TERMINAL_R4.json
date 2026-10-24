@@ -1,0 +1,112 @@
+{
+  "admission": {
+    "microfit_progress_observed": false,
+    "microfit_scope": "A/G/F; three epochs; 16 fit and 8 target-free eval sequences; 360 optimizer steps maximum",
+    "mode": "cpu_profile_only",
+    "new_scientific_fits": 0,
+    "quality_scoring": false,
+    "recipe_sha256": "0a67fe12c520e56bcf14a3a1efecb5030f3aa7ce932101814c9dd1c675c930fd",
+    "sha256": "bb9a5a3d92401f685719a70abd1bea1a27b8347e0803e1620b462185c1ab73d7"
+  },
+  "collection": {
+    "evidence_files": [
+      {
+        "bytes": 2585,
+        "path": "terminal_r4/PROFILE_DRIVER_RECEIPT_R3.json",
+        "sha256": "2e3bcb729a8328695d4b002fb11a0cce5e28d136580142eafef93b6f975c6579"
+      },
+      {
+        "bytes": 0,
+        "path": "terminal_r4/profile.stderr.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 0,
+        "path": "terminal_r4/profile.stdout.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 986,
+        "path": "terminal_r4/wnn-age-readout-f0-cpu-profile-20261024-r3.log",
+        "sha256": "cfcec32b93b46c9ee51ce70cdb99376fbd9b3fc18b3ad0f59251ff3b56536499"
+      }
+    ],
+    "maximum_download_bytes": 3571,
+    "payload_filter_excluded_cache_and_weights": true,
+    "receipt_path": "KERNEL_COLLECTION_R4.json"
+  },
+  "execution": {
+    "child_stderr_bytes": 0,
+    "child_stdout_bytes": 0,
+    "cleanup_errors": [],
+    "extraction_peak_process_rss_bytes": 56188928,
+    "failure_message": "profile exceeded its root-admitted process deadline",
+    "failure_type": "TimeoutError",
+    "measured_pre_child_phases_sum_seconds": 41.10230340499999,
+    "optimizer_step_count": null,
+    "phase_wall_seconds_recorded": {
+      "archive_hash_seconds": 24.29785131,
+      "safe_extract_seconds": 8.258311574999993,
+      "source_and_raw_validation_seconds": 8.546140519999994
+    },
+    "profile_exit_code": null,
+    "profile_json_emitted": false,
+    "profile_peak_process_tree_rss_field_default_bytes": 0,
+    "profile_peak_process_tree_rss_note": "The driver records the peak only when run_profile returns; timeout interrupted the call, so this zero is a default and not the child peak. The 4-GB watchdog was being sampled while the child ran.",
+    "profile_wall_seconds_field_default": 0.0,
+    "profile_wall_seconds_field_note": "The driver only assigns a measured profile duration when the child returns; timeout interrupted run_profile, so the default 0.0 is not an observed runtime.",
+    "quality_grade": false,
+    "swap_peak_bytes": 0,
+    "target_cache_opened_field": false,
+    "target_cache_opened_field_is_runtime_telemetry": false,
+    "target_cache_opened_field_note": "Static source inspection shows the driver writes this field as the constant false; it does not observe the child cache state.",
+    "unmeasured_remainder_note": "Includes driver overhead and the spawned profile interval; timeout interrupted run_profile before it could return and record profile_seconds, so this is not an isolated cache-rebuild duration.",
+    "unmeasured_remainder_seconds": 814.418721
+  },
+  "integrity": {
+    "bundle_archive_bytes": 1143552000,
+    "bundle_archive_sha256": "971871550f50be91c5afe1134e1012a3ba3b9c94e2157b4f8b6ed17a62442ef8",
+    "bundle_expanded_bytes": 1143486298,
+    "bundle_files": 60,
+    "bundle_manifest_sha256": "ea241506eadd0a34f437c699bab3b7784a69b818b710e3d016c9b3599774f99e",
+    "raw_sources": {
+      "train": {
+        "bytes": 29240219011,
+        "path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/train.parquet"
+      },
+      "valid": {
+        "bytes": 5615509128,
+        "path": "/kaggle/input/datasets/vladkochetov07/wunder-funder/valid.parquet"
+      }
+    },
+    "source_and_input_checks": "driver receipt confirms archive, export bundle, overlay, 66-module map and raw source size/footer checks passed",
+    "source_manifest_modules": 66,
+    "source_manifest_sha256": "fb4f3080d907c4bdf6844e2e7588728f1e15c1c9be2f3ce14aa3b11f27d2e421",
+    "source_overlay_archive_sha256": "f3b21bdb171d689c1bdd3c8e052194cfc97ee9d915d2b4980bb74f6c66f6c097",
+    "source_overlay_files": 42,
+    "source_overlay_manifest_sha256": "20bf9d69eaab0e512be2e0aefb2d78a78d8b9d5fd4b3d3ab703e331ca3558bcb"
+  },
+  "interpretation": [
+    "This is an execution timeout, not a scientific negative or quality observation.",
+    "The timeout arose in the child process wrapper after archive/source/raw checks; exact work after those checks is not logged.",
+    "The child did not emit the final profile JSON. Cache rebuild completion, start and number of engineering optimizer steps cannot be determined from this run.",
+    "The frozen recipe and source were unchanged; no retry is authorized by the push receipt."
+  ],
+  "kernel": {
+    "driver_elapsed_seconds": 855.521024411,
+    "first_running_observation_utc": "2026-10-24T12:22:20Z",
+    "id": "vladkochetov07/wnn-age-readout-f0-cpu-profile-20261024-r3",
+    "private": true,
+    "provider_quota_consumption_measured": false,
+    "reserved_worker_seconds": 900,
+    "seconds_from_push_to_terminal_observation": 880,
+    "submitted_utc": "2026-10-24T12:21:59Z",
+    "terminal_error_observation_utc": "2026-10-24T12:36:39Z",
+    "terminal_status": "vladkochetov07/wnn-age-readout-f0-cpu-profile-20261024-r3/4 has status \"KernelWorkerStatus.ERROR\"",
+    "version": 4
+  },
+  "recorded_utc": "2026-10-24T12:39:37Z",
+  "retry_authorized": false,
+  "schema": "wnn.kaggle-age-cpu-profile-terminal-r1",
+  "status": "terminal_execution_failure_before_profile_receipt"
+}

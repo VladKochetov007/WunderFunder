@@ -1,0 +1,127 @@
+{
+  "schema": "wnn.age-readout-kaggle-r3-independent-review.v1",
+  "status": "conditional_pending_root_amendment",
+  "review_scope": "Independent static review of the prepared R3 Kaggle profile driver, recipe, base R2 archive manifest, R3 source map and overlay. No provider call, upload, import, fit, label read or remote execution was performed.",
+  "pins": {
+    "recipe_r1_sha256": "a91bd580c14c87ce196c5b672b4ba5e5c28234860b89f613184d63c909f5ad92",
+    "driver_template_sha256": "a876d587f1f7d50687879b0b65109a1c336a097f3b8f8ddad0f9ccd90c3b4688",
+    "base_archive_sha256": "971871550f50be91c5afe1134e1012a3ba3b9c94e2157b4f8b6ed17a62442ef8",
+    "base_bundle_manifest_sha256": "ea241506eadd0a34f437c699bab3b7784a69b818b710e3d016c9b3599774f99e",
+    "r3_source_manifest_sha256": "6ce40d6e4980caf5d7b41e47f104e4a845a30f557c151d60c5ca3852024a1e5a",
+    "overlay_archive_sha256": "0b1e3c66bd76ae4f081a508b6bbbc33c31c81c29a80a71027754b7ddbfeabe93",
+    "overlay_manifest_sha256": "138dafd2f03e500190c7820a0aac86a4599a32caa7399d2e4421e7e81b2364659",
+    "kernel_metadata_sha256": "f3c24f3d70434f01758b976c851085760f0ef80e74f007a694736e153e090818",
+    "dataset_metadata_sha256": "284e5ac89ae0d6a8cfff027c2a05c57fafa2b03efe35eba96271854dce42dafc"
+  },
+  "checks": {
+    "source_closure": {
+      "status": "metadata_and_overlay_hashes_match",
+      "r2_pinned_source_files": 28,
+      "r3_pinned_source_files": 66,
+      "new_dependencies": 38,
+      "overlay_members": 40,
+      "base_source_pins_present_with_matching_hashes": 28,
+      "added_source_paths_and_hashes_match_r3_manifest": true,
+      "single_replacement_base_and_new_hashes_match": true,
+      "overlay_tar_regular_members_and_manifest_hashes_match": true,
+      "runtime_import_closure_validated": false
+    },
+    "base_bundle_metadata": {
+      "files": 60,
+      "expanded_bytes": 1143486298,
+      "array_members": [
+        "fold0/evaluation_predictions.npy",
+        "fold0/fit_suffix5.npy",
+        "fold1/evaluation_predictions.npy",
+        "fold1/fit_suffix5.npy"
+      ],
+      "npz_or_parquet_members": 0
+    },
+    "archive_safety": {
+      "status": "static_pass",
+      "guards_checked": [
+        "fresh extraction tree and physical disk scratch",
+        "canonical relative paths with traversal and credential-like names rejected",
+        "regular files only; links, duplicates, extra, missing, and wrong-size members rejected",
+        "per-file manifest hash and byte coverage checked while streaming",
+        "NPZ and Parquet payloads rejected from the portable bundle",
+        "overlay bound to admitted R2 archive and R3 manifest, with absent-path or exact replacement-base checks"
+      ]
+    },
+    "command_and_resources": {
+      "child_command_mode": "profile",
+      "child_script": "scripts/age_readout_screen.py",
+      "fold": 0,
+      "device": "cpu",
+      "child_wall_ceiling_seconds": 855,
+      "driver_wall_ceiling_seconds": 900,
+      "finalization_reserve_seconds": 45,
+      "thread_configuration": 1,
+      "admission_cpu_schema_current": "accepts 1 or 2 cores; recipe requires exactly 1",
+      "rss_guard_bytes": 4000000000,
+      "swap_bytes": 0,
+      "rss_guard_is_sampled_process_tree_watchdog": true
+    },
+    "privacy": {
+      "kernel_private": true,
+      "overlay_dataset_private": true,
+      "gpu": false,
+      "tpu": false,
+      "internet": false,
+      "competition_sources": [],
+      "kernel_sources": []
+    },
+    "missing_preparation_artifacts": {
+      "root_admission_present": false,
+      "rendered_kernel_present": false,
+      "overlay_dataset_uploaded": false,
+      "kernel_uploaded_or_versioned": false
+    },
+    "syntax_metadata_check": "stdlib AST parse of driver and JSON parse of recipe, source-closure review, and metadata templates passed"
+  },
+  "profile_semantics": {
+    "arms": ["A", "G", "F"],
+    "epochs": 3,
+    "fit_sequences_per_epoch": 16,
+    "rows_per_sequence": 20000,
+    "fit_rows_per_epoch": 320000,
+    "batch_rows": 8192,
+    "batches_per_epoch": 40,
+    "optimizer_steps_per_arm": 120,
+    "optimizer_steps_total": 360,
+    "fit_cache_columns_read": ["TARGET (two fitting-target channels)", "WEIGHT (row weights)"],
+    "fit_target_access": "The selected 16 fit-cache sequences are read once per epoch for three epochs. The same fitting labels drive each of the three matched arms.",
+    "evaluation_sequences": 8,
+    "evaluation_behavior": "The three arms predict from raw features and cached parent outputs; the evaluation iterator does not index target, row-weight, or scoring-mask columns.",
+    "quality_grade": false,
+    "checkpoint_written": false,
+    "expected_profile_artifacts": [
+      "bounded profile JSON receipt",
+      "PROFILE_DRIVER_RECEIPT_R3.json",
+      "profile stdout/stderr logs"
+    ],
+    "generated_cache_and_run_trees_removed": true
+  },
+  "required_before_admission": [
+    {
+      "id": "R1-CPU-1",
+      "finding": "Driver currently accepts cpu_cores 1..2 even though recipe requires exactly one.",
+      "required_change": "Root-owned driver revision must reject any value except 1 and bind the amended driver hash in root admission."
+    },
+    {
+      "id": "R1-PROFILE-2",
+      "finding": "Recipe R1 records zero new scientific fits but does not disclose the 360 optimizer steps on cached fitting targets.",
+      "required_change": "Root-owned recipe/admission R2 must explicitly classify three arms x three epochs x 16 sampled fit sequences (40 batches per epoch, 360 arm updates total) as engineering micro-fits; keep quality scoring false, evaluation targets/masks closed, and the six-cell scientific panel unadmitted."
+    },
+    {
+      "id": "R1-RAM-3",
+      "finding": "Driver accepts a ram_bytes value below 4,000,000,000 but runtime RSS checks use the hard-coded 4,000,000,000-byte constant.",
+      "required_change": "Require ram_bytes to equal the stated 4,000,000,000-byte ceiling or use the admitted value in every RSS check."
+    }
+  ],
+  "limits": [
+    "The R2 import failure was ModuleNotFoundError for wnn.i1_history; R3's static source closure includes that dependency, but remote import success remains unverified.",
+    "The RSS guard samples the driver and descendant process RSS once per second; it is watchdog evidence, not a cgroup memory.max enforcement guarantee.",
+    "This review applies to the exact R1 recipe/driver hashes above. Root owns admission, source rendering, upload, execution and result collection."
+  ]
+}

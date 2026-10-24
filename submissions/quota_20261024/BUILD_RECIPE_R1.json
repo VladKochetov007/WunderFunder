@@ -1,0 +1,148 @@
+{
+  "schema": "wnn.tl3-h390-fixed-quota-build-recipe.v1",
+  "recipe_id": "tl3_h390_fixed_quota_r1",
+  "status": "frozen_before_candidate_zip_creation",
+  "created_utc": "2026-10-24T12:25:38Z",
+  "authority": {
+    "path": "research/campaign_2026-10-24/resume4h_r1/QUOTA_SUBMISSION_AUTHORITY_R1.json",
+    "sha256": "56f2725ceaeb3d9ff9b375e9a73a84ddf5e5fd42d6368729903ee8f95c18eec1",
+    "user_scope": "Prepare plural deterministic exploratory ZIPs to utilize submission quota; no automatic portal upload."
+  },
+  "actor_source_inventory": {
+    "path": "submissions/quota_20261024/INVENTORY_R1.json",
+    "sha256": "cac5ba33827aaeeb12357975cbe67b1c3ed2016124d74dd80cc2726c03d60c60"
+  },
+  "builder": {
+    "path": "submissions/quota_20261024/build_packages.py",
+    "sha256": "c1a974a49b051270de9a5e4389e939e769b34a9c86caa1360353e09380c0dd32",
+    "command": "python submissions/quota_20261024/build_packages.py",
+    "dependencies": "Python standard library only; no NumPy, Torch, native imports, model execution, targets, or predictions."
+  },
+  "base_archive": {
+    "path": "submissions/team_tl3_original_20261018.zip",
+    "bytes": 12538394,
+    "sha256": "d80e69d3cb52d8ee45158fc8d0f3a8af232b029b07ca5b313c61cffef029e569",
+    "entry_manifest": {
+      "path": "research/campaign_2026-10-20/submission_delivery_r1/tl3_member_adaptation/SOURCE_ARCHIVE_CONTENTS_R1.json",
+      "sha256": "73cd201b165424f4b7ec72fe4bf4d9d573f56d93c0501519ed3bc6a3ea11a2bd"
+    },
+    "preserve_byte_for_byte": [
+      "solution.py",
+      "avx2/wnn_cpp.cpython-311-x86_64-linux-gnu.so",
+      "v2/wnn_cpp.cpython-311-x86_64-linux-gnu.so",
+      "v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so",
+      "weights_tl5.npz",
+      "weights_tl6.npz"
+    ],
+    "replaced_entry": "weights_s5.npz",
+    "original_member_map_sha256": "7156289855a8b503dd1bd5949055b3461760aabcbf0fcd4800b532b837c5dd58",
+    "original_student": {
+      "name": "distilled_s5@ep1",
+      "bytes": 3634530,
+      "sha256": "45ac50f7324b8e26f37eee97b975e2643134e54ab2399077de8778f931abc2bf"
+    },
+    "original_tl5": {
+      "name": "fttall_tlead_s5@ep3",
+      "member": "weights_tl5.npz",
+      "bytes": 4249448,
+      "sha256": "f067fe8d462d91ee1b6ec6b6f6182e1fd6e60ec41f95c1c5af2eab936ac92427"
+    },
+    "original_tl6": {
+      "name": "fttall_tlead_s6@ep3",
+      "member": "weights_tl6.npz",
+      "bytes": 4249448,
+      "sha256": "1e674f922ffe3000f5c9c03d16d094315fa58bc5376d8f06be351811c8c38a60"
+    }
+  },
+  "candidate_assets": {
+    "h390_s3": {
+      "run_reference": "vt_all_h390_ds_homogeneous_s3_r3@ep5",
+      "member_bytes": 3908280,
+      "member_sha256": "62b11349b4372beda7abbd35f7e006d2c967237070cbd5318c7a2f15bc0d1ec6",
+      "primary_source": {
+        "path": "submissions/10-11-67/11_h390_student_s3_h388_teacher_s5_all_q8vnni.zip",
+        "archive_sha256": "d83723831277cf7327ab84ba781a2f2ebe883aca40cd1f7bc6a222e30be28284",
+        "entry": "weights_0.npz"
+      },
+      "byte_identical_member_bank_alias": {
+        "path": "artifacts/team_models_20261013/E.zip",
+        "archive_sha256": "2aed2137c347344146e3481c83388d64bd5060b1c13bb66554b0bf9cc0027024",
+        "entry": "weights_0.npz"
+      },
+      "direct_member_path": "artifacts/team_models_20261013/E/weights_0.npz",
+      "checkpoint_sha256": "04675f8220ba949c1dfb6c5796a3f25a9b8f655bb48f83c188bf8f9bacd361e0",
+      "provenance": {
+        "path": "artifacts/runs/vt_all_h390_ds_homogeneous_s3_r3/provenance.json",
+        "sha256": "40dc970d2b30efd79f83447de0fdc22e66e6a2a48fd39ee814232e3c3ba77c4c"
+      },
+      "fit_exposure": "Seed 3, epoch 5, FP16 training, train+valid all-data fit: 10,606 train + 1,873 valid row groups; no held-out evaluation groups."
+    },
+    "h390_s4": {
+      "run_reference": "vt_all_h390_ds_homogeneous_s4_r3@ep5",
+      "member_bytes": 3908280,
+      "member_sha256": "9f019d54a147296037b1bb2c6ad8b15b87070bde0402ff5426ce9c4804f52eaf",
+      "primary_source": {
+        "path": "artifacts/team_models_20261013/E.zip",
+        "archive_sha256": "2aed2137c347344146e3481c83388d64bd5060b1c13bb66554b0bf9cc0027024",
+        "entry": "weights_1.npz"
+      },
+      "direct_member_path": "artifacts/team_models_20261013/E/weights_1.npz",
+      "checkpoint_sha256": "cefee5b51cae7b72247a26558444f526e915a9fb7ad3927abd6cc02e63018419",
+      "provenance": {
+        "path": "artifacts/runs/vt_all_h390_ds_homogeneous_s4_r3/provenance.json",
+        "sha256": "3e3fd49545ebcfe151a406092f81c10802a5c65e37adf0fb984cb6979b6755eb"
+      },
+      "fit_exposure": "Seed 4, epoch 5, FP16 training, train+valid all-data fit: 10,606 train + 1,873 valid row groups; no held-out evaluation groups."
+    },
+    "independent_static_metadata_check": {
+      "shape": "Both H390 NPZs match TL3 S5's 16 float32 array names and shapes: 2-layer GRU H256, input 211, two outputs, 211-element mean/std.",
+      "payload_dedup": "Reviewer compared all 16 raw array payload hashes: zero S3/S4 payload matches to old TL3 S5; zero S3/S4 matches to each other; both normalizers differ.",
+      "review_limit": "The existing H390 package uses wnn_native, while original TL3 uses wnn_cpp. Structural NPZ compatibility is established; native output parity and runtime under TL3 remain pending root's admitted check."
+    }
+  },
+  "candidates": [
+    {
+      "id": "tl3_h390_s3",
+      "zip": "tl3_h390_s3_20261024.zip",
+      "receipt": "tl3_h390_s3_BUILD_RECEIPT_R1.json",
+      "member_map": [
+        {"weights": "weights_s5.npz", "name": "vt_all_h390_ds_homogeneous_s3_r3@ep5", "coef": 0.34},
+        {"weights": "weights_tl5.npz", "name": "fttall_tlead_s5@ep3", "coef": 0.33},
+        {"weights": "weights_tl6.npz", "name": "fttall_tlead_s6@ep3", "coef": 0.33}
+      ],
+      "estimated_bytes_from_entry_sizes": 12812144,
+      "new_fits": 0
+    },
+    {
+      "id": "tl3_h390_s3_s4",
+      "zip": "tl3_h390_s3_s4_20261024.zip",
+      "receipt": "tl3_h390_s3_s4_BUILD_RECEIPT_R1.json",
+      "added_member_path": "weights_s4.npz",
+      "member_map": [
+        {"weights": "weights_s5.npz", "name": "vt_all_h390_ds_homogeneous_s3_r3@ep5", "coef": 0.17},
+        {"weights": "weights_s4.npz", "name": "vt_all_h390_ds_homogeneous_s4_r3@ep5", "coef": 0.17},
+        {"weights": "weights_tl5.npz", "name": "fttall_tlead_s5@ep3", "coef": 0.33},
+        {"weights": "weights_tl6.npz", "name": "fttall_tlead_s6@ep3", "coef": 0.33}
+      ],
+      "estimated_bytes_from_entry_sizes": 16720424,
+      "new_fits": 0
+    }
+  ],
+  "packaging_contract": {
+    "method": "Copy only source-pinned archive entries from the original TL3 ZIP; substitute the existing S3 NPZ bytes and add existing S4 NPZ bytes only for the second endpoint.",
+    "wrapper": "The unchanged TL3 wrapper loads every member as FP32 arrays and passes fixed coefficients to wnn_cpp.Ensemble; members without fp32 metadata use the existing dynamic-int8 path.",
+    "changed_entries": ["members.json", "weights_s5.npz"],
+    "additional_entry_only_for_second_endpoint": "weights_s4.npz",
+    "maximum_zip_bytes_exclusive": 20000000,
+    "freeze": "Coefficients are frozen by authority before any score; no leaderboard feedback or local score selects coefficients."
+  },
+  "evidence_policy": {
+    "official_metric": "global_wp_clip2_v1; unchanged if a later grade is admitted.",
+    "evaluation": "No target/prediction read or grade in this package-build task.",
+    "expected_public_gain": null,
+    "validation_exposure": "The H390 components were fit on all train+valid groups. Original TL5/TL6 membership and validation exposure are unknown from the preserved source ZIP and are carried unchanged; no clean held-out or expected public-score claim.",
+    "upload": false
+  },
+  "output_directory": "submissions/quota_20261024",
+  "create_only": true
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "wnn.local-thermal-response.v1",
+  "created_utc": "2026-10-24T12:20:54.332387+00:00",
+  "basis": "User pasted sensors at CPU package93C and GPU61C/0percentutilization; root inspected process table",
+  "user_cpu_ceiling_cores": 10,
+  "operational_cpu_cap_cores": 1,
+  "memory_hard_bytes": 1073741824,
+  "swap_bytes": 0,
+  "action": "systemctl --user set-property wnn-campaign.slice CPUQuota=100%",
+  "observed_foreign_process": {
+    "name": "cpptools",
+    "pid": 64852,
+    "reported_cpu_percent": 454,
+    "rss_kib": 5997284,
+    "cgroup": "VSCode app scope, outside research slice"
+  },
+  "limits": "ps CPU percentage is a process-lifetime average, not an instantaneous thermal attribution. Foreign process left unchanged. Lower operational cap is within user ceiling and does not cancel remote work.",
+  "local_new_fits_admitted": false,
+  "kaggle_profile_continues": true
+}
