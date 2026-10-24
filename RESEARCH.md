@@ -7,6 +7,10 @@ validation, inference and operations.
 
 ## Evidence path
 
+Latest campaign: [October24 research, all-PR recovery and live EDA](research/campaign_2026-10-24/resume4h_r1/README.md). Two [checked exploratory quota ZIPs](research/campaign_2026-10-24/resume4h_r1/quota_submission_r1/RESULTS_AND_HANDOFF_R1.md) are delivered; F1's fixed correction shrink is essentially flat. The requested [additional Astra/ultra fundamentals review](research/campaign_2026-10-24/resume4h_r1/astra_fundamentals_r1/README.md) supplies seven deduplicated cards and an actionable no-fit probe. The earlier [ten-reviewer synthesis](research/unified/reviews/astra_ultra_audit_20261023_r1/SYNTHESIS.md) and [all ten reports](research/unified/reviews/astra_ultra_audit_20261023_r1/README.md) remain preserved. Research is resumed within the current bounded allocation; no public gain is promised.
+
+Evening October24 additions: the [independent value/blind-spot review](research/unified/reviews/independent_value_review_20261024_r1/SYNTHESIS_R1.md) (three fresh-context reviewers; endgame mechanics, noise-floor/TL3-anatomy elephants, ranked actions) and the [own-optimizer Muon research](research/experiment_drafts/own-optimizer-muon-20261024/README.md) (proposal, synthetic screen, matched real-checkpoint rank diagnostic, strict-FP32 Newton-Schulz compliance patch). Analysis plus bounded synthetic experiments only; no competition-data fits or uploads.
+
 1. Read the [research objective](specs/research-objective.md) and
    [current state](specs/current-state.md).
 2. Follow a topic from the [unified library](research/unified/README.md) to its

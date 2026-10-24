@@ -1,0 +1,98 @@
+{
+  "optim": "muon_ns2stage",
+  "seed": 2,
+  "steps": 800,
+  "final_val_wpearson": 0.8532430529594421,
+  "final_val_wmse": 0.08916597068309784,
+  "best_val_wpearson": 0.8573106527328491,
+  "curve": [
+    {
+      "step": 100,
+      "train_loss": 0.12523601483553648,
+      "val_wpearson": 0.7867051362991333,
+      "val_wmse": 0.12447084486484528
+    },
+    {
+      "step": 200,
+      "train_loss": 0.09108626749366522,
+      "val_wpearson": 0.850459098815918,
+      "val_wmse": 0.09121251851320267
+    },
+    {
+      "step": 300,
+      "train_loss": 0.07432883232831955,
+      "val_wpearson": 0.8571564555168152,
+      "val_wmse": 0.08692914247512817
+    },
+    {
+      "step": 400,
+      "train_loss": 0.08188720792531967,
+      "val_wpearson": 0.8573106527328491,
+      "val_wmse": 0.08676028996706009
+    },
+    {
+      "step": 500,
+      "train_loss": 0.0763714462518692,
+      "val_wpearson": 0.8557285070419312,
+      "val_wmse": 0.08786001801490784
+    },
+    {
+      "step": 600,
+      "train_loss": 0.06619053473696113,
+      "val_wpearson": 0.8545573353767395,
+      "val_wmse": 0.08828283846378326
+    },
+    {
+      "step": 700,
+      "train_loss": 0.07384221069514751,
+      "val_wpearson": 0.8546832799911499,
+      "val_wmse": 0.08863089978694916
+    },
+    {
+      "step": 800,
+      "train_loss": 0.07192528946325183,
+      "val_wpearson": 0.8532430529594421,
+      "val_wmse": 0.08916597068309784
+    }
+  ],
+  "wall_seconds": 253.24,
+  "erank_weight_hh_l0": 0.9482439393357398,
+  "erank_last_update_hh": 0.993834044655842,
+  "erank_last_momentum_hh": 0.5212204335779907,
+  "muon_param_names": [
+    "weight_ih_l0",
+    "weight_hh_l0",
+    "weight_ih_l1",
+    "weight_hh_l1",
+    "head.weight"
+  ],
+  "defaults": {
+    "base_lr": 0.003,
+    "adam_betas": [
+      0.9,
+      0.95
+    ],
+    "adam_wd": 0.01,
+    "muon_momentum": 0.95,
+    "muon_wd": 0.01,
+    "ns_aggressive": [
+      3.4445,
+      -4.775,
+      2.0315
+    ],
+    "ns_stabilizing": [
+      1.5,
+      0.0,
+      -0.5
+    ],
+    "muon_rms": 0.2,
+    "chunk": 192,
+    "batch_seqs": 8,
+    "warmup": 50,
+    "data_seed": 1234
+  },
+  "versions": {
+    "torch": "2.14.0+cu130",
+    "numpy": "2.2.6"
+  }
+}
