@@ -116,3 +116,10 @@ engineering receipts/configs/logs are preserved on the
 with archive/file hashes. Production run and admission roots are
 `/data/epanov_s/tabdata/runs/pr32-teachers-20261024-r2` and
 `/data/epanov_s/tabdata/runs/pr32-production-admission-20261024-r2`.
+
+The subsequent r4 batch cohort now has an external
+[intermediate validation monitor](validation_monitor/README.md), added at user
+request on October 24. It reports same-checkpoint train-probe and full held-out
+losses plus official WP from retained epoch snapshots. The first available
+snapshots are small-model epoch28 and large-model epoch15. The original fixed
+epoch30 endpoint and immutable scientific source remain unchanged.
