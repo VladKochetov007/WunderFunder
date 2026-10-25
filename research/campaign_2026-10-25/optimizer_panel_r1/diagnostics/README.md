@@ -47,3 +47,10 @@ sequences): AdamW z-saturation 40.8% / 47.5% / 45.4% at epoch ends 0 / 1 / 2 (τ
 3,526 → 3,161 rows); Muon 1.4% / 2.9% / 3.2%. The collapse is established during epoch 0 —
 the high-LR phase — so the LR-fairness arm (AdamW 5e-4) and the from-step-10 spectral cap
 are the right causal tests.
+
+**Lag profile** ([lag_profile.py](lag_profile.py) → [R1 json](lag_profile_R1.json), F0, pooled WP
+of y_t vs p_{t+k}): AdamW −4…+16 = .6209 .6411 .6508 **.6595** .6536 .6466 .6397 .6335 .6173
+.5954; Muon .6245 .6450 .6547 **.6633** .6581 .6509 .6444 .6386 .6235 .6019. Both peak at k=0
+with the same shape; Muon is ≈+0.004 at every lag. **Correction:** the run-start
+concentration is not a reaction-speed (timing) effect; Muon predicts better levels per row,
+which matters most where labels have just stepped and on large moves.
