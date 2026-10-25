@@ -11,6 +11,7 @@ from wnn.evaluation import paired_component_moments
 from wnn.gmetric import GlobalAccumulator, _merge_moments
 from wnn.splits import file_sha256, load_campaign_split
 from wnn.training.sequence_cache import validate_export_schema, validate_producer
+from wnn.training.sequence_epoch_prediction import EPOCH_KIND, validate_epoch_producer
 
 
 def score_export(root: Path, split_manifest: Path, predictions: Path, output: Path) -> None:
@@ -28,7 +29,13 @@ def score_export(root: Path, split_manifest: Path, predictions: Path, output: Pa
     fitting = [("train", g) for g in split.train_groups] + [
         ("valid", g) for g in split.valid_groups
     ]
-    validate_producer(meta["producer"], split.sha256, fitting)
+    epoch_evaluation = meta["producer"].get("kind") == EPOCH_KIND
+    if epoch_evaluation:
+        if json.loads(split_manifest.read_text()).get("schema") != "wnn.sequence-inner-split.v1":
+            raise ValueError("retained epoch selection cannot consume outer evaluation")
+        validate_epoch_producer(meta["producer"], split.sha256, fitting)
+    else:
+        validate_producer(meta["producer"], split.sha256, fitting)
     members = [(entry["split"], entry["row_group"]) for entry in meta["sequences"]]
     expected = [("valid", group) for group in split.evaluation_groups]
     if len(set(members)) != len(members) or set(members) != set(expected):
@@ -75,7 +82,11 @@ def score_export(root: Path, split_manifest: Path, predictions: Path, output: Pa
         "component_centered_moments": {
             str(k): v.tolist() for k, v in centered_by_component.items()
         },
-        "interpretation": "Exposed fold; fixed endpoint, not checkpoint selection or public score.",
+        "interpretation": (
+            "Inner development metric for epoch selection; not outer confirmation or public score."
+            if epoch_evaluation
+            else "Exposed fold; fixed endpoint, not checkpoint selection or public score."
+        ),
     }
     with output.open("x") as stream:
         json.dump(receipt, stream, indent=2, allow_nan=False)

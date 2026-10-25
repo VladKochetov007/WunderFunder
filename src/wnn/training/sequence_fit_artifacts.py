@@ -51,9 +51,16 @@ def write_final_outputs(
     profile_receipt: Path,
     profile_hash: str,
     global_step: int,
+    epoch_index_sha256: str | None = None,
 ) -> bool:
     """Write a fixed-final model and its terminal hash, preserving any prior artifact."""
     epochs = int(config["epochs"])
+    retention = config.get("checkpoint_retention", "final_only")
+    if retention == "all_epochs":
+        if not _is_sha256(epoch_index_sha256):
+            raise ValueError("all-epoch retention requires the final epoch-index digest")
+    elif retention != "final_only" or epoch_index_sha256 is not None:
+        raise ValueError("fixed-final retention received an invalid epoch-index binding")
     model_path = output / "model.pt"
     provenance: dict[str, object] = {
         "schema": "wnn.sequence-provenance.v1",
@@ -69,6 +76,8 @@ def write_final_outputs(
             str(config["model"].get("attention_backend", "math")),
         ),
     }
+    if epoch_index_sha256 is not None:
+        provenance["epoch_index_sha256"] = epoch_index_sha256
     if model_path.exists():
         saved = torch.load(model_path, map_location="cpu", weights_only=False)
         saved_provenance = saved.get("provenance") if isinstance(saved, dict) else None
@@ -78,6 +87,7 @@ def write_final_outputs(
             or saved.get("completed_epochs") != epochs
             or not isinstance(saved_provenance, dict)
             or saved_provenance.get("identity") != identity
+            or saved_provenance.get("epoch_index_sha256") != epoch_index_sha256
         ):
             raise FileExistsError("an incompatible model.pt already exists; refusing to replace it")
     else:
@@ -98,6 +108,8 @@ def write_final_outputs(
         "model_sha256": file_sha256(model_path),
         "identity": identity,
     }
+    if epoch_index_sha256 is not None:
+        status["epoch_index_sha256"] = epoch_index_sha256
     if status_path.exists():
         saved_status = json.loads(status_path.read_text(encoding="utf-8"))
         if json_value(saved_status) != json_value(status):
@@ -105,6 +117,15 @@ def write_final_outputs(
     else:
         atomic_write_json(status, status_path)
     return True
+
+
+def _is_sha256(value: object) -> bool:
+    """Accept a lowercase hexadecimal SHA-256 digest only."""
+    return (
+        isinstance(value, str)
+        and len(value) == 64
+        and all(character in "0123456789abcdef" for character in value)
+    )
 
 
 def record_epoch_metrics(

@@ -76,7 +76,12 @@ def recipe() -> dict[str, Any]:
 def validate_config(config: dict[str, Any]) -> None:
     """Require a complete, strict sequence runtime config with no ignored fields."""
     require(
-        set(config) == TOP_LEVEL_CONFIG_KEYS, "sequence config is incomplete or has unknown fields"
+        set(config) in (TOP_LEVEL_CONFIG_KEYS, TOP_LEVEL_CONFIG_KEYS | {"checkpoint_retention"}),
+        "sequence config is incomplete or has unknown fields",
+    )
+    require(
+        config.get("checkpoint_retention", "final_only") in ("final_only", "all_epochs"),
+        "unsupported checkpoint retention policy",
     )
     model = config.get("model")
     require(

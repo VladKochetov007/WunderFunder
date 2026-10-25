@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
+
 **Merged into `research-team`, 24 October 2026:**
 [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32) at
 [`b0ab07b6`](https://github.com/VladKochetov007/WunderFunder/commit/b0ab07b6632ae74e728ee535b7e3950c6c22b946), then
