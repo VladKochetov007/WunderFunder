@@ -14,6 +14,11 @@ from wnn.i1_history import (
 )
 from wnn.i1_history_scan import i1_history_features_numpy, i1_history_features_torch_chunk
 from wnn.i1_history_streaming import StreamingI1History
+from wnn.i1_lead_block import FEATURE_NAMES as I1_LEAD_FEATURE_NAMES
+from wnn.i1_lead_block import MODE as I1_LEAD_MODE
+from wnn.i1_lead_block import StreamingI1LeadBlock
+from wnn.i1_lead_block import features_numpy as i1_lead_features_numpy
+from wnn.i1_lead_block import features_torch as i1_lead_features_torch
 from wnn.kalman_group_features import FEATURE_NAMES as KALMAN_GROUP_FEATURE_NAMES
 from wnn.kalman_group_features import MODE as KALMAN_GROUP_MODE
 from wnn.kalman_group_features import StreamingKalmanGroupFeatures
@@ -56,6 +61,7 @@ RESEARCH_FEATURE_MODES = (
     I1_HISTORY_MODE,
     KALMAN_GROUP_MODE,
     *FIELD_AGE_FEATURE_MODES,
+    I1_LEAD_MODE,
 )
 MOMENT_PROJECTION_WIDTH = 16
 MOMENT_FAST_HALF_LIFE = 32.0
@@ -103,6 +109,8 @@ def research_feature_names(mode: str) -> tuple[str, ...]:
         return i1_history_feature_names()
     if mode == KALMAN_GROUP_MODE:
         return KALMAN_GROUP_FEATURE_NAMES
+    if mode == I1_LEAD_MODE:
+        return I1_LEAD_FEATURE_NAMES
     if mode in FIELD_AGE_FEATURE_MODES:
         return tuple(f"{mode}_{index}" for index in range(112))
     return tuple(f"currentV_{index}" for index in range(22)) + (
@@ -142,6 +150,10 @@ def research_feature_control_indices(mode: str, control: str = "none") -> tuple[
         if control == "all":
             return tuple(range(len(KALMAN_GROUP_FEATURE_NAMES)))
         raise ValueError("Kalman group-state control must be none or all")
+    if mode == I1_LEAD_MODE:
+        if control == "all":
+            return tuple(range(len(I1_LEAD_FEATURE_NAMES)))
+        raise ValueError("i1 lead-block control must be none or all")
     if control != "newest" or mode not in MOMENT_FEATURE_MODES:
         raise ValueError("feature control is unsupported for this research feature mode")
     if mode == "causal_moments":
@@ -634,6 +646,11 @@ def research_features_numpy(
     if mode in FIELD_AGE_FEATURE_MODES:
         output = _field_age_features_numpy(x, mode)
         return output[0] if squeeze else output
+    if mode == I1_LEAD_MODE:
+        output = i1_lead_features_numpy(x)
+        if zero_width:
+            output[...] = 0.0
+        return output[0] if squeeze else output
     volume = x[..., 22:44]
     delta = np.diff(volume, axis=1, prepend=volume[:, :1])
     path = np.stack((np.abs(delta[..., :11]).sum(-1), np.abs(delta[..., 11:]).sum(-1)), -1)
@@ -704,6 +721,11 @@ def research_features_torch(
         return features
     if mode in FIELD_AGE_FEATURE_MODES:
         return _field_age_features_torch(raw, mode, output)
+    if mode == I1_LEAD_MODE:
+        features = i1_lead_features_torch(raw, output)
+        if zero_width:
+            features.zero_()
+        return features
     volume = raw[..., 22:44]
     delta = torch.diff(volume, dim=1, prepend=volume[:, :1])
     path = torch.stack((delta[..., :11].abs().sum(-1), delta[..., 11:].abs().sum(-1)), -1)
@@ -884,6 +906,8 @@ class StreamingResearchFeatures:
         self.kalman_group = (
             StreamingKalmanGroupFeatures(control) if mode == KALMAN_GROUP_MODE else None
         )
+        self.i1_lead = StreamingI1LeadBlock() if mode == I1_LEAD_MODE else None
+        self.i1_lead_zero = bool(research_feature_control_width(mode, control))
         if mode in MOMENT_FEATURE_MODES and self.causal_moments is None:
             raise ValueError("causal moment features require a fitting-only prior")
         if mode == I1_HISTORY_MODE and self.i1_history is None:
@@ -904,6 +928,9 @@ class StreamingResearchFeatures:
         if self.kalman_group is not None:
             self.kalman_group.reset()
             return
+        if self.i1_lead is not None:
+            self.i1_lead.reset()
+            return
         self.previous: np.ndarray | None = None
         self.origin: np.ndarray | None = None
         self.sums = np.zeros(4, dtype=np.float64)
@@ -921,6 +948,9 @@ class StreamingResearchFeatures:
             return self.field_ages.update(raw)
         if self.kalman_group is not None:
             return self.kalman_group.update(raw)
+        if self.i1_lead is not None:
+            held = self.i1_lead.update(raw)
+            return np.zeros_like(held) if self.i1_lead_zero else held
         if not self.names:
             return np.empty(0, dtype=np.float32)
         volume = raw[22:44]
