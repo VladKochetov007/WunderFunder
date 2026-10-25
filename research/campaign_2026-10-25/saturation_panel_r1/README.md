@@ -25,3 +25,5 @@ saturation is ~15× Muon's), correlationally.
 | S3 | Muon H512×2 | Muon H512×1 | does Muon unlock depth/scale that AdamW could not use? |
 
 Queue: clip panel → mechanism panel → this panel → Muon stage-6 production-lineage fit.
+
+**Amendment (before launch):** S2 Muon+chrono replaced by S2 Muon `--muon-rms 0.3` after the mechanism panel showed chrono init −0.0057 under AdamW and Muon half-step −0.0024 (the step-size direction to test is up, not long timescales).

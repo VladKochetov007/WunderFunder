@@ -10,7 +10,7 @@ export WNN_PROJECT_ROOT=$ROOT TMPDIR=/home/vlad/development/wunder/research_tmp 
   WNN_GPU_MEMORY_BYTES=4500000000 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2
 log(){ echo "$(date -u +%FT%TZ) $*" | tee -a $Q/panel.log; }
 while systemctl --user is-active -q wnn-clippanel || systemctl --user is-active -q wnn-mechpanel; do sleep 60; done
-for name in sat_f0_s1001_s1_adamw_speccap4_r1 sat_f0_s1001_s2_muon_chrono_r1 sat_f0_s1001_s3_muon_h512x2_r1 sat_f2_s1002_s1_adamw_speccap4_r1 sat_f2_s1002_s2_muon_chrono_r1 sat_f2_s1002_s3_muon_h512x2_r1; do
+for name in sat_f0_s1001_s1_adamw_speccap4_r1 sat_f0_s1001_s2_muon_rms03_r1 sat_f0_s1001_s3_muon_h512x2_r1 sat_f2_s1002_s1_adamw_speccap4_r1 sat_f2_s1002_s2_muon_rms03_r1 sat_f2_s1002_s3_muon_h512x2_r1; do
   fold=$($PY -c "import json,sys;print(json.load(open(sys.argv[1]))[sys.argv[2]]['fold'])" $Q/PLANS_R1.json $name)
   mapfile -t A < <($PY -c "import json,sys;[print(a) for a in json.load(open(sys.argv[1]))[sys.argv[2]]['argv']]" $Q/PLANS_R1.json $name)
   A=("${A[@]/#scripts\/train_rnn.py/$W/scripts/train_rnn.py}")

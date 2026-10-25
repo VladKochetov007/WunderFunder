@@ -63,3 +63,16 @@ Muon advantage survives against the better-tuned AdamW on this cell. Saturation 
 Dose-response across F0 models (z-saturation / τ q99 / WP): AdamW 1e-3 45% / 546k / .6595;
 M1 14% / 229k / .6594; AdamW 5e-4 25% / 32k / .6608; Muon 3% / 166 / .6633 — WP tracks the
 frozen-unit tail better than mean saturation. Follow-up: [AdamW lr 2.5e-4 ladder](../lr_ladder_r1/).
+
+## Interim: batch 2, F0 ([grade](grade_f0_batch2_R1.json))
+
+| Arm | WP | Paired Δ [95% CI] |
+|---|---:|---|
+| E1b Muon `--muon-rms 0.1` (half step) | 0.660990 | −0.002359 vs Muon [−0.004337, −0.000506] |
+| M2 AdamW β2 .95 | 0.660539 | +0.001009 vs AdamW [−0.002029, +0.004077] |
+| M4 AdamW chrono init | 0.653809 | **−0.005721 vs AdamW [−0.010013, −0.000942]** |
+
+Muon is not over-stepping at rms 0.2 (half step loses). β2 .95 at most a small effect. Long
+initial gate timescales (chrono) hurt — consistent with the frozen-unit finding that long,
+never-updating memory is harmful here. Consequence: the saturation panel's Muon+chrono arm
+was replaced before launch by Muon `--muon-rms 0.3` (larger step).
