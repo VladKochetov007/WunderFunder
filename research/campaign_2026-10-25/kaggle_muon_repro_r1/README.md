@@ -20,3 +20,21 @@ arms are compared only to Kaggle controls (hardware/precision differ from local)
   v1, T4×2, no internet, pushed 12:10 UTC, status RUNNING (not yet proof of fitting).
 - Kaggle returns run directories only (`model_ep2.pt`, provenance, history); export and the
   official paired grade happen locally. Two fits run concurrently (one per T4).
+
+## R1 terminal: ERROR before training (execution evidence, not a scientific result)
+
+Kernel v1 ended `ERROR` after ~2 h ([summary](terminal_r1/summary.json), [failure](terminal_r1/failure.json),
+[input identity](terminal_r1/input_identity_f0_adamw.json)). Runner verified all sealed code and
+the four cache mounts; parquets were deferred as declared. Both F0 workers ran 5,400 s with
+**empty worker logs, peak GPU 0 B, peak RSS 556 MB**, then timed out; F2 specs never started.
+`train_rnn` prints its first line only in `initialize_progress`, after split/membership
+validation, loader construction, model build and normalization (≈6 s locally), so the stall is
+inside data setup on Kaggle's mounts, location unknown.
+
+## R2 (diagnostic + results attempt)
+
+`scripts/kaggle_traced_train.py` runs `train_rnn` unchanged via `runpy` with
+`faulthandler.dump_traceback_later(240, repeat=True)`, so any stall writes all thread stacks to
+the worker log every 4 minutes. Only the F0 pair (`krepro_f0_s2001_{adamw,muon}_r2`), 3,600 s
+timeout. Dataset `vladkochetov07/wnn-muon-repro-20261025-r2` (READY, 555,980 B archive), kernel
+`…-r2-runner` v1 pushed 14:13 UTC.
