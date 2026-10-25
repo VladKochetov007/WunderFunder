@@ -1,0 +1,51 @@
+{
+ "schema": "wnn.external-invocations.v1",
+ "created_utc": "2026-10-25T00:40:00Z",
+ "user_authorization": "2026-10-25 'feel free to call opencode grok and freebuff subagents to generate ideas and red team them'",
+ "brief": {
+  "path": "research/campaign_2026-10-25/loss_ideation_r1/external/BRIEF_R1.md",
+  "sha256": "f04c036555cb8a2ad84cff180405028ffc5487e2c9ac867901976deeb9a9a4fa"
+ },
+ "isolation": "each run in its own workspace under ws/ containing only BRIEF.md; grok --permission-mode plan --no-subagents --max-turns 4; opencode free routes only; 15 min timeout, nice 10",
+ "invocations": [
+  {
+   "tool": "grok",
+   "interface": "native grok CLI grok 1.0.52 (0920c8169e27) [stable]",
+   "model": "grok-4.7",
+   "output": "research/campaign_2026-10-25/loss_ideation_r1/external/grok_4.7_R1.md",
+   "sha256": "c1f59d9f19e0251bed4556f1596e9876efe40fdd658ef73db6c1e15fdb56d798",
+   "status": "completed"
+  },
+  {
+   "tool": "opencode",
+   "interface": "opencode 1.18.35",
+   "model": "opencode/deepseek-v4.1-flash-free",
+   "output": "research/campaign_2026-10-25/loss_ideation_r1/external/oc_deepseek_R1.md",
+   "sha256": "5f588fea41241bac4e007a729c955ca7b0e030af64358470599675cedd74e7b7",
+   "status": "completed"
+  },
+  {
+   "tool": "opencode",
+   "interface": "opencode 1.18.35",
+   "model": "opencode/glm-5.3-flash-free",
+   "output": "research/campaign_2026-10-25/loss_ideation_r1/external/oc_glm_R1.md",
+   "sha256": "4a5996733a48384c9cb6c0b0feff0712613da2f7ab6b36622559681c12ba2249",
+   "status": "completed"
+  },
+  {
+   "tool": "opencode",
+   "interface": "opencode 1.18.35",
+   "model": "opencode/nemotron-3-ultra-free",
+   "output": "research/campaign_2026-10-25/loss_ideation_r1/external/oc_nemotron_R1.md",
+   "sha256": "ab560df6ad7107be9dba364293b6e6e52d0ea4ad37b7532ff95642f1996970a8",
+   "status": "completed"
+  }
+ ],
+ "failed_attempts": [
+  "opencode first launch: message placed after --file was parsed as a file path ('File not found'); relaunched with message first"
+ ],
+ "not_invoked": {
+  "freebuff": "interactive-only CLI; no verified headless interface (CLAUDE.md forbids inventing flags)"
+ },
+ "private_reasoning_archived": false
+}
