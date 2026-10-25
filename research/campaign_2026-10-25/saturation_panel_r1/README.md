@@ -27,3 +27,17 @@ saturation is ~15× Muon's), correlationally.
 Queue: clip panel → mechanism panel → this panel → Muon stage-6 production-lineage fit.
 
 **Amendment (before launch):** S2 Muon+chrono replaced by S2 Muon `--muon-rms 0.3` after the mechanism panel showed chrono init −0.0057 under AdamW and Muon half-step −0.0024 (the step-size direction to test is up, not long timescales).
+
+## Interim F0 ([grade](grade_f0_partial_R1.json), [saturation](../optimizer_panel_r1/diagnostics/gate_saturation_sat_R1.json))
+
+| Arm | WP | Paired Δ [95% CI] | z-sat | τ q99 | z preact RMS in/rec |
+|---|---:|---|---:|---:|---|
+| S1 AdamW + spectral cap 4 | 0.66061 | +0.00107 vs AdamW [−0.00213, +0.00431]; Muon − S1 **+0.00274 [+0.00080, +0.00472]** | 25.4% | 61,591 | 2.91 / 1.80 |
+| S2 Muon rms 0.3 | 0.66385 | +0.00050 vs Muon 0.2 [−0.00164, +0.00290] | 5.4% | 414 | 1.36 / 0.93 |
+
+Post-hoc spectral capping of the GRU gate blocks halves saturation (same rung as AdamW 5e-4:
+25% / 32k / .6608) but leaves the update gate's input drive large; Muon keeps a significant
+lead. Weight-norm control alone does not reproduce update-side spectral equalization. Muon's
+step is on a plateau (0.1 −0.0024; 0.3 +0.0005 vs 0.2). Dose-response (z-sat / τ q99 / WP,
+F0): AdamW 1e-3 45% / 546k / .6595; M1 14% / 229k / .6594; AdamW 5e-4 25% / 32k / .6608;
+S1 25% / 62k / .6606; Muon .2 3% / 166 / .6633; Muon .3 5% / 414 / .6639.
