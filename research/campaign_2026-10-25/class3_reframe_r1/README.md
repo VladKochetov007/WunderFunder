@@ -45,3 +45,10 @@ fraction 0.0). Most frequent (t0, t1) in ticks: (0,−1) 136,481; (−1,0) 122,4
 class-3 rows are the binary inside states F-at-bid / F-at-ask; since a zero label has zero
 metric weight, each target's inside contribution comes from one state only, and the
 outside excursions (|y| ≥ 3 ticks, clipped at 2) carry disproportionate weight.
+
+**Prior-evidence note (dedup miss).** The residual audit replicates September's E-092/E-096
+GBM residual probes (Δ −0.0097/−0.0095, class 3 −0.034/−0.036, chain-grouped) on a much
+stronger 0.681 GRU, with the same conclusion. The non-recurrent GBM blend member was also
+already negative (E-093, E-115 −0.0014). The value-review "non-recurrent diversity member"
+card should therefore require a materially different member, not another tree on hand
+features. Treat today's audit as confirmation on the current lineage, not new information.

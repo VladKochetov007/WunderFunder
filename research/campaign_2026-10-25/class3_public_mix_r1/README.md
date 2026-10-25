@@ -38,3 +38,7 @@ F1 was not repaired; instead a more sensitive matched strict-FP32 stage is runni
 LR 1e-4, fixed CP5, [control](stage6_control_f0.argv) vs [cw143](stage6_candidate_f0.argv),
 graded by [screen_stage6_f0.json](screen_stage6_f0.json) (also vs the historical FP16
 parent as a reference).
+
+Note: the cancelled cw2.0 arm had already started (queue2 began at 01:25:32, right after
+the F1 failure) and was stopped about 15 minutes in, before any checkpoint; its empty
+run directory was removed. No partial result exists or is claimed.
