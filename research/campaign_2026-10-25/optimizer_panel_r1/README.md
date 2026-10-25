@@ -38,3 +38,25 @@ i.e. the slow EMA (α=4) multiplies the effective step at the AdamW LR; this res
 link for Muon: orthogonalization discards per-step gradient magnitude, so its recurrent
 matrices are immune to clipping's implicit batch reweighting — part of its gain may be robust
 normalization; the clip panel helps separate this. F2 cells pending.
+
+## F2 Muon and Cautious ([partial grade](grade_f2_partial_R1.json)) — Muon replicates
+
+| Arm | Official WP | Paired Δ vs AdamW | Class 3 |
+|---|---:|---|---:|
+| AdamW | 0.683091 | — | 0.43985 |
+| Muon (rnn), strict FP32 | 0.687427 | **+0.004336 [+0.001969, +0.007153]** | 0.44467 |
+| Cautious AdamW | 0.682020 | −0.001071 [−0.002813, +0.000514] | 0.43815 |
+
+**Muon: +0.0038 (F0) / +0.0043 (F2), mean +0.0041, both intervals exclude zero** — the largest
+replicated gain this session, above the ~0.001 seed-noise floor; class 3 improves in both
+cells. Cautious AdamW negative in both cells: closed. AdEMAMix F2 pending.
+
+## Successor: Muon on the production student lineage (`wnn-muon6`, queued after clip panel)
+
+Stage-6 warm continuation (init `c20261003_combo_s3_f0@ep3`, 6 epochs, LR 1e-4, distillation
+α .9, fixed CP5) with `--optim muon --muon-scope rnn --muon-ortho-dtype fp32
+--strict-muon-fp32` ([argv](stage6_muon_f0.argv), [runner](run_stage6_muon.sh)) vs the reused
+strict-FP32 AdamW stage-6 control (0.6812108). Same frozen overnight source as the control:
+that tree's Muon defaults to BF16 Newton–Schulz on CUDA (`auto`), so the explicit fp32 flags
+are required — caught before launch; a cherry-pick of the main-branch fix was unnecessary and
+discarded.
