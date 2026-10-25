@@ -52,3 +52,14 @@ M1 gate saturation ([json](../optimizer_panel_r1/diagnostics/gate_saturation_m1_
 r 14.1% (AdamW 45/23, Muon 3/1), τ q50/q90/q99 = 2.9 / 70 / 228,643 rows — frozen units
 persist as in AdamW, absent under Muon (q99 ≈170). Quality tracks the frozen-unit tail, not the
 mean saturation fraction. F2 cell pending.
+
+## Interim: E1 AdamW lr 5e-4, F0 ([grade](grade_f0_e1_only_R1.json))
+
+AdamW 1e-3 0.659530 → **AdamW 5e-4 0.660790** (+0.001259 [−0.000990, +0.003972]); **Muon 1e-3
+− AdamW 5e-4 = +0.002559 [+0.000271, +0.004814]**. Part of the original gap was AdamW LR; the
+Muon advantage survives against the better-tuned AdamW on this cell. Saturation of AdamW 5e-4
+([json](../optimizer_panel_r1/diagnostics/gate_saturation_e1_R1.json)): z 25.2%, τ q99 32,435.
+
+Dose-response across F0 models (z-saturation / τ q99 / WP): AdamW 1e-3 45% / 546k / .6595;
+M1 14% / 229k / .6594; AdamW 5e-4 25% / 32k / .6608; Muon 3% / 166 / .6633 — WP tracks the
+frozen-unit tail better than mean saturation. Follow-up: [AdamW lr 2.5e-4 ladder](../lr_ladder_r1/).
