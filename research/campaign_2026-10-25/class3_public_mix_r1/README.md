@@ -50,3 +50,17 @@ FP16 parent CP5 0.6811554 (Δ +0.0000554, 95% [−0.000143, +0.000238]); class 3
 0.4169; public-mix 0.64249 vs 0.64245. The precision/source change does not confound the
 stage; the control is a faithful baseline for the cw143 candidate. (Scoring took ~30 min
 CPU because the parent's legacy sidecar triggers checkpoint-hash discovery.)
+
+## Stage-6 result (2026-10-25 05:38 UTC) — [grade](grade_stage6_f0_R1.json) — arm closed
+
+| Arm | Official WP | Class 3 | Public-mix (E-298) |
+|---|---:|---:|---:|
+| control (strict FP32, CP5) | 0.6812108 | 0.41700 | 0.642491 |
+| cw143 | 0.6809947 | 0.41666 | 0.642299 |
+
+Paired: official **−0.000216** [−0.000457, −0.000024]; public-mix −0.000192
+[−0.000392, −0.000037]. Class 3 itself does not improve. Both regimes (warm LR3e-5 and
+6-epoch LR1e-4) give small negative deltas. Decision: close class-3 up-weighting for the
+student lineage; the prepared seed-4 pair is **not** launched. One seed per regime on an
+exposed fold; teacher-level class weighting (H-360) is not addressed. Label-weight floor
+was considered as the next weighting arm and rejected as a closed direction (Oct-11 nulls).
