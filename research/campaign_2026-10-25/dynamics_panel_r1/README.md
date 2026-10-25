@@ -26,3 +26,4 @@ the same family as FTT's 52 lead features, which carry most of TL3's public scor
   unaffected.
 - F0 control (aux weight 0) official WP **0.65907** (10% membership, cold H512×1, CP2;
   per-run diagnostic, not the paired grade).
+- F0 aux 0.05 official WP **0.65953** vs control 0.65907 (+0.00046, per-run diagnostics; paired interval pending the frozen grader after F2).
