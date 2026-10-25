@@ -1,6 +1,8 @@
 # Ideas and hypotheses
 
-- [Class-3 public-mix weighting screen, October 25](../../campaign_2026-10-25/class3_public_mix_r1/README.md) — H-C3MIX-PUBLIC-WEIGHT-R1, running: `--class-weight 1,1,1,1.43` on the strong warm H256×2 student, matched to the E-298 public-fit class mix (class 3 ≈46% publicly vs fewer locally). F0 candidate vs reused exact WMSE control (0.68131) plus queued F1 pair; graded on official WP and the public-mix diagnostic. Three new fits; exposed folds; direction evidence only.
+- [Dynamics-aux four-fit panel execution, October 25](../../campaign_2026-10-25/dynamics_panel_r1/README.md) — runs the reviewed, cost-deferred E-FUTURE-INPUT-DYNAMICS-20261021-R1 panel (52 future-input dynamics targets, weight 0 vs 0.05, F0/F2 cold H512×1 on 10% memberships) on corrected source 781deb6a5 with the frozen paired grader. Same mechanism family as FTT's 52 lead features. Running.
+
+- [Class-3 public-mix weighting screen, October 25](../../campaign_2026-10-25/class3_public_mix_r1/README.md) — H-C3MIX-PUBLIC-WEIGHT-R1, **closed negative** (warm −0.00006, stage-6 −0.00022; class 3 not improved): `--class-weight 1,1,1,1.43` on the strong warm H256×2 student, matched to the E-298 public-fit class mix (class 3 ≈46% publicly vs fewer locally). F0 candidate vs reused exact WMSE control (0.68131) plus queued F1 pair; graded on official WP and the public-mix diagnostic. Three new fits; exposed folds; direction evidence only.
 
 - [October25 loss/objective ideas](../../campaign_2026-10-25/loss_ideation_r1/SYNTHESIS_R1.md#ranked-ideas-new-or-never-tested) — five new cards (H-LOSS25-*): event-hazard auxiliary head (gated by a zero-fit change-at-book-event probe), difference-mode u auxiliary loss keeping per-target |y| WMSE as main term, causal rows-since-event measure weighting, zero-fit PR32 checkpoint blend probe, faithful/β-NLL rerun with clip-fraction admission. Proposals only; canonical review entry in [reviews](../reviews/README.md).
 
