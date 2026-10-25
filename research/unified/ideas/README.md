@@ -1,5 +1,9 @@
 # Ideas and hypotheses
 
+- [Optimizer theory and panels, October 25](../../campaign_2026-10-25/optimizer_panel_r1/OPTIMIZER_THEORY_R1.md) — regime analysis (noise-dominated labels, early peak, 94% clipped steps, schedule ties) mapped onto Adam/Muon/Shampoo-SOAP/AdEMAMix/Cautious/variance reduction/clipping/averaging literature; new `CautiousAdamW` and `AdEMAMix` optimizers; running [optimizer panel](../../campaign_2026-10-25/optimizer_panel_r1/README.md) (strict-FP32 Muon, Cautious, AdEMAMix) and [clip-regime panel](../../campaign_2026-10-25/clip_regime_r1/README.md). Running-norm arm dropped as a duplicate of the Oct-10 null.
+
+- [i1 lead-block screen, October 25](../../campaign_2026-10-25/i1_lead_panel_r1/README.md) — H-I1LEAD-HELD-R1: FTT's 52 lead inputs (i1 held at the last i0 book event) added to the cold GRU; running.
+
 - [Dynamics-aux four-fit panel execution, October 25](../../campaign_2026-10-25/dynamics_panel_r1/README.md) — runs the reviewed, cost-deferred E-FUTURE-INPUT-DYNAMICS-20261021-R1 panel (52 future-input dynamics targets, weight 0 vs 0.05, F0/F2 cold H512×1 on 10% memberships) on corrected source 781deb6a5 with the frozen paired grader. Same mechanism family as FTT's 52 lead features. Running.
 
 - [Class-3 public-mix weighting screen, October 25](../../campaign_2026-10-25/class3_public_mix_r1/README.md) — H-C3MIX-PUBLIC-WEIGHT-R1, **closed negative** (warm −0.00006, stage-6 −0.00022; class 3 not improved): `--class-weight 1,1,1,1.43` on the strong warm H256×2 student, matched to the E-298 public-fit class mix (class 3 ≈46% publicly vs fewer locally). F0 candidate vs reused exact WMSE control (0.68131) plus queued F1 pair; graded on official WP and the public-mix diagnostic. Three new fits; exposed folds; direction evidence only.

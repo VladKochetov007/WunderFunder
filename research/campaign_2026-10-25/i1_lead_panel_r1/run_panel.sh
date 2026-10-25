@@ -17,7 +17,7 @@ for name in i1lead_f0_s1001_control_r1 i1lead_f0_s1001_lead_r1 i1lead_f2_s1002_c
   if [ ! -f $ROOT/cache/pred_${name}_valid.npy ]; then log "export $name"
     PYTHONPATH=$W/src $PY $W/scripts/predict_run.py $name valid --epoch 2 \
       --campaign-split-manifest $ROOT/research/campaign_2026-09-29/artifacts/splits/fold$fold.json \
-      --campaign-full-valid-feature-only --device cuda --inference-precision fp32 --loader-workers 0 --output-name $name > $Q/$name.export.log 2>&1; fi
+      --campaign-full-valid-feature-only --device cuda --inference-precision fp32 --output-name $name > $Q/$name.export.log 2>&1; fi
 done
 for f in 0 2; do log "score F$f"; PYTHONPATH=$ROOT/src:$ROOT/scripts $PY $ROOT/scripts/screen_score.py $Q/screen_f$f.json --output $Q/grade_f${f}_R1.json > $Q/score_f$f.log 2>&1 || log "score F$f failed"; done
 log "panel done"
