@@ -18,6 +18,12 @@ def add_optimizer_arguments(ap: argparse.ArgumentParser) -> None:
         "cautious_adamw/ademamix: src/wnn/optim_variants.py",
     )
     research.add_argument(
+        "--muon-rms",
+        type=float,
+        default=0.2,
+        help="Muon-group step RMS scale (Adam groups unchanged)",
+    )
+    research.add_argument(
         "--muon-update",
         choices=["ns", "rms"],
         default="ns",

@@ -36,6 +36,11 @@ def add_performance_arguments(ap: argparse.ArgumentParser) -> None:
         help="autocast dtype; bf16 trains without GradScaler",
     )
     perf.add_argument(
+        "--strict-fp32-kernels",
+        action="store_true",
+        help="disable TF32 in cuDNN (incl. RNN) and CUDA matmul; requires --precision fp32",
+    )
+    perf.add_argument(
         "--amp-init-scale",
         type=float,
         default=65536.0,

@@ -163,6 +163,13 @@ def configure_runtime(run: TrainingRun) -> None:
         torch.backends.cudnn.allow_tf32 = False
     elif args.student_frontier_stage or args.student_frontier_preflight_only:
         ap.error("student-frontier stage/preflight flags require --student-frontier-contract")
+    if getattr(args, "strict_fp32_kernels", False):
+        if args.precision != "fp32":
+            ap.error("--strict-fp32-kernels requires --precision fp32")
+        torch.backends.cuda.matmul.allow_tf32 = False
+        torch.backends.cudnn.allow_tf32 = False
+        if hasattr(torch.backends.cudnn, "rnn"):
+            torch.backends.cudnn.rnn.fp32_precision = "ieee"
     if args.activation_profile_first_chunk and args.pin_memory:
         ap.error("first-chunk profile batch reuse requires a non-pinned DataLoader")
     if args.mask_weight and args.train_source == "train":

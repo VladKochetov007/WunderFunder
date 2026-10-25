@@ -115,6 +115,7 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
             return MuonAdamW(
                 muon_param_groups(model, args.muon_scope),
                 update=getattr(args, "muon_update", "ns"),
+                rms=getattr(args, "muon_rms", 0.2),
                 **common,
             )
         return torch.optim.AdamW(
@@ -145,7 +146,12 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
                 }
             )
     if args.optim == "muon":
-        return MuonAdamW(split, update=getattr(args, "muon_update", "ns"), **common)
+        return MuonAdamW(
+            split,
+            update=getattr(args, "muon_update", "ns"),
+            rms=getattr(args, "muon_rms", 0.2),
+            **common,
+        )
     return torch.optim.AdamW(split, fused=bool(args.fused_adam), **common)
 
 
