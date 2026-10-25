@@ -23,7 +23,9 @@ NON_FEATURES = {"seq_ix", "step_in_seq", "need_prediction", "t0", "t1", "is_scor
 
 
 def load(run: str) -> dict:
-    state = torch.load(f"artifacts/runs/{run}/model_ep2.pt", map_location="cpu", weights_only=False)
+    ep = run.split("@")[1] if "@" in run else "2"
+    run = run.split("@")[0]
+    state = torch.load(f"artifacts/runs/{run}/model_ep{ep}.pt", map_location="cpu", weights_only=False)
     return state.get("model", state)
 
 

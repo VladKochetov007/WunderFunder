@@ -25,3 +25,25 @@ Root mechanism hypotheses for Muon's +0.004 (pre-registered):
 - H-c **conditioning**: Muon prevents the low-rank, large-sv update-gate collapse; would show
   as a gain that neither D1 nor D2 reproduces. Follow-up: spectral-norm-capped AdamW.
 - D3 Muon + per-module clip and D4 Muon `--muon-scope hidden` probe additivity.
+
+## Zero-fit EDA, round 2 (CPU only)
+
+**Where Muon's gain lives** ([muon_gain_decomposition.py](muon_gain_decomposition.py) →
+[R1 json](muon_gain_decomposition_R1.json); within-slice pooled WP, Muon − AdamW):
+
+| Slice | F0 | F2 |
+|---|---|---|
+| class 0 / 1 / 2 / 3 | +.0041 / +.0078 / +.0121 / +.0022 | +.0042 / +.0060 / +.0032 / +.0048 |
+| run age 0 / 1–3 / 4–15 / 16–63 / 64+ rows | +.0080 / +.0074 / +.0043 / +.0026 / +.0005 | +.0062 / +.0063 / +.0032 / +.0037 / +.0041 |
+| position 99–999 / 1k–5k / 5k–12k / 12k+ | +.0017 / +.0084 / +.0023 / +.0031 | +.0067 / +.0069 / +.0044 / +.0028 |
+| top |y| quintile | +.0075 | +.0090 |
+
+The gain is broad across classes and largest right after label changes (run age 0–3) and on
+the largest-|y| rows (the lowest quintile is noise-dominated within-slice). Consistent with
+the saturation mechanism: frozen/instant AdamW units adapt poorly when the label steps.
+
+**When AdamW collapses** ([gate_saturation_epochs_R1.json](gate_saturation_epochs_R1.json), 6 F0
+sequences): AdamW z-saturation 40.8% / 47.5% / 45.4% at epoch ends 0 / 1 / 2 (τ q90 723 →
+3,526 → 3,161 rows); Muon 1.4% / 2.9% / 3.2%. The collapse is established during epoch 0 —
+the high-LR phase — so the LR-fairness arm (AdamW 5e-4) and the from-step-10 spectral cap
+are the right causal tests.
