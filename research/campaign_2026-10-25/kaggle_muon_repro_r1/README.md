@@ -38,3 +38,21 @@ inside data setup on Kaggle's mounts, location unknown.
 the worker log every 4 minutes. Only the F0 pair (`krepro_f0_s2001_{adamw,muon}_r2`), 3,600 s
 timeout. Dataset `vladkochetov07/wnn-muon-repro-20261025-r2` (READY, 555,980 B archive), kernel
 `…-r2-runner` v1 pushed 14:13 UTC.
+
+## R2 diagnosis (traced) and R3
+
+R2 v1 failed at provider startup (empty log); an identical v2 ran. Stack dumps every 4 minutes
+([worker log](terminal_r2/worker_f0_adamw_r2.log)) show both workers for the whole hour in
+`splits.load_campaign_split → portability.verify_portable_source → sha256_file`: the fold
+manifests' `sources` include `datasets/train.parquet` (29.2 GB) and `valid.parquet` (5.6 GB), so
+each worker re-hashed ~35 GB through the input mount concurrently. The runner had deferred those
+files (its own check of the 2.2 GB caches took ~54 s). This likely also explains the Oct-24
+"Kaggle CPU profile timed out at 855 s" incident.
+
+**Fix (R3):** `scripts/kaggle_traced_train.py` wraps `wnn.portability._content_digest` with a
+lock-protected cross-process cache (`WNN_SHARED_DIGEST_CACHE`): each relocated source is hashed
+once per kernel and still compared with the sealed registry. Local two-run test: first run
+computes all six digests (35 GB in ≈31 s on NVMe), second run hits the cache; both reach
+training. R3: all four fits (`krepro_{f0_s2001,f2_s2002}_{adamw,muon}_r3`), 5,400 s, dataset
+`vladkochetov07/wnn-muon-repro-20261025-r3` (READY, 739,008 B), kernel `…-r3-runner` pushed
+16:17 UTC, RUNNING.
