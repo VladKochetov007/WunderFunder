@@ -76,3 +76,12 @@ Muon is not over-stepping at rms 0.2 (half step loses). β2 .95 at most a small 
 initial gate timescales (chrono) hurt — consistent with the frozen-unit finding that long,
 never-updating memory is harmful here. Consequence: the saturation panel's Muon+chrono arm
 was replaced before launch by Muon `--muon-rms 0.3` (larger step).
+
+## Interim: M1 F2 replicates; TF32 F0 ([M1 F2](grade_f2_m1_only_R1.json), [TF F0](grade_f0_tf_only_R1.json))
+
+- **M1 F2:** AdamW 0.683091, Muon 0.687427, M1 0.683388 → M1 − Muon **−0.004039 [−0.005899, −0.002123]**,
+  M1 − AdamW +0.000297 [−0.001387, +0.002293]. **Two-cell supported:** removing only the
+  orthogonalization returns Muon to AdamW level; the gain needs spectrally equalized recurrent updates.
+- **TF arm F0:** strict FP32 kernels 0.658476 vs TF32 AdamW 0.659530 → −0.001054
+  [−0.002546, +0.000285]. No quality benefit from true FP32 on this cell; F2 pending before
+  deciding whether `--strict-fp32-kernels` becomes the default (policy compliance argues yes).
