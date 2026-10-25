@@ -27,3 +27,14 @@ this warm LR3e-5 two-epoch continuation; the regime is insensitive to row-measur
 The unstarted cw2.0 dose arm was cancelled (amendment R2). F1 pair continues.
 One seed, exposed fold: direction evidence only, not a refutation of class weighting in
 teacher/cold training (H-360).
+
+## F1 execution failure and stage-6 replacement (amendment R3)
+
+The queued F1 control failed at startup: `ValueError: distillation cache metadata exceeds
+its 512000-byte read bound` (the F1 four-family cache metadata is larger than the frozen
+source's bound). Execution evidence only. Because the warm LR3e-5 regime proved insensitive,
+F1 was not repaired; instead a more sensitive matched strict-FP32 stage is running
+(`wnn-c3mix-queue3`, [queue3.sh](queue3.sh)): init `c20261003_combo_s3_f0@ep3`, 6 epochs,
+LR 1e-4, fixed CP5, [control](stage6_control_f0.argv) vs [cw143](stage6_candidate_f0.argv),
+graded by [screen_stage6_f0.json](screen_stage6_f0.json) (also vs the historical FP16
+parent as a reference).
