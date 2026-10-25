@@ -34,3 +34,14 @@ of component: the residual is dominated by component-specific level offsets that
 transfer. At probe capacity these hand features add no transferable information beyond
 the GRU. This is negative evidence for the cheap feature versions of GLM/Grok mechanisms
 3–6; it does not test representation changes (lattice/branch heads, Bayesian filter).
+
+## Class-3 label lattice check (zero-fit, 150 valid class-3 sequences, scored rows)
+
+All class-3 labels are exact integer multiples of the tick quantum 0.65687 (non-integer
+fraction 0.0). Most frequent (t0, t1) in ticks: (0,−1) 136,481; (−1,0) 122,445; (1,−3)
+33,588; (−3,1) 28,411; (−3,2)/(2,−3) ~13k each; then (±3..5, ∓3). t0+t1 = −1 on 285k rows
+(spread 1 tick). This **confirms the stated law with sp+2** (outside branch pinned at
+−(sp+2) = −3 for sp=1) and rejects Grok's off-by-one concern. About two thirds of scored
+class-3 rows are the binary inside states F-at-bid / F-at-ask; since a zero label has zero
+metric weight, each target's inside contribution comes from one state only, and the
+outside excursions (|y| ≥ 3 ticks, clipped at 2) carry disproportionate weight.
