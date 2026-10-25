@@ -9,6 +9,7 @@ import torch
 from torch import nn
 
 from wnn.optim import MuonAdamW, muon_param_groups, wsd_lambda
+from wnn.optim_variants import AdEMAMix, CautiousAdamW
 
 
 def add_arguments(parser: argparse.ArgumentParser) -> None:
@@ -96,6 +97,19 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
         raise ValueError("--momentum requires --optim sgd")
     common = dict(lr=args.lr, betas=(0.9, args.beta2), weight_decay=args.wd)
     is_grouped = bool(args.optim_switch) or args.head_lr_mult != 1
+    if args.optim in ("cautious_adamw", "ademamix"):
+        if is_grouped or args.fused_adam:
+            raise ValueError("research AdamW variants require ungrouped, unfused construction")
+        params = [p for p in model.parameters() if p.requires_grad]
+        if args.optim == "cautious_adamw":
+            return CautiousAdamW(params, **common)
+        return AdEMAMix(
+            params,
+            alpha=args.ademamix_alpha,
+            beta3=args.ademamix_beta3,
+            warmup=args.ademamix_warmup,
+            **common,
+        )
     if not is_grouped:
         if args.optim == "muon":
             return MuonAdamW(muon_param_groups(model, args.muon_scope), **common)
@@ -165,7 +179,10 @@ def build_scheduler(
         raise ValueError("warmup fraction must be finite and in [0,1)")
     if args.sched == "wsd":
         return torch.optim.lr_scheduler.LambdaLR(
-            opt, wsd_lambda(total, warm, args.wsd_decay, args.wsd_final, getattr(args, "wsd_shape", "sqrt"))
+            opt,
+            wsd_lambda(
+                total, warm, args.wsd_decay, args.wsd_final, getattr(args, "wsd_shape", "sqrt")
+            ),
         )
     if args.sched == "sgdr":
         return torch.optim.lr_scheduler.LambdaLR(

@@ -12,9 +12,15 @@ def add_optimizer_arguments(ap: argparse.ArgumentParser) -> None:
     )
     research.add_argument(
         "--optim",
-        choices=["adamw", "muon", "sgd"],
+        choices=["adamw", "muon", "sgd", "cautious_adamw", "ademamix"],
         default="adamw",
-        help="muon: orthogonalised per-gate updates on the recurrent matrices, AdamW elsewhere",
+        help="muon: orthogonalised per-gate updates on the recurrent matrices, AdamW elsewhere; "
+        "cautious_adamw/ademamix: src/wnn/optim_variants.py",
+    )
+    research.add_argument("--ademamix-alpha", type=float, default=4.0, help="slow-EMA mix weight")
+    research.add_argument("--ademamix-beta3", type=float, default=0.999, help="slow-EMA decay")
+    research.add_argument(
+        "--ademamix-warmup", type=int, default=0, help="alpha/beta3 warmup steps (0: none)"
     )
     research.add_argument(
         "--muon-scope",
