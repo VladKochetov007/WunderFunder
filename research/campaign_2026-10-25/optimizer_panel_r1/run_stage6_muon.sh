@@ -9,7 +9,7 @@ cd $ROOT
 export WNN_PROJECT_ROOT=$ROOT TMPDIR=$W WNN_THREADS=2 WNN_LOADER_WORKERS=0 WNN_LOADER_RAM_GB=3.5 \
   WNN_GPU_MEMORY_BYTES=4500000000 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2
 log(){ echo "$(date -u +%FT%TZ) $*" | tee -a $O/stage6_muon.log; }
-while systemctl --user is-active -q wnn-optpanel || systemctl --user is-active -q wnn-clippanel; do sleep 60; done
+while systemctl --user is-active -q wnn-clippanel || systemctl --user is-active -q wnn-mechpanel; do sleep 60; done
 log "fit muon6_f0_s3_rnn_e6_r1"; PYTHONPATH=$W/src $PY $(cat $O/stage6_muon_f0.argv) > $O/muon6.fit.log 2>&1
 log "export"; PYTHONPATH=$W/src $PY $W/scripts/predict_run.py muon6_f0_s3_rnn_e6_r1 valid --epoch 5 \
   --campaign-split-manifest $ROOT/research/campaign_2026-09-29/artifacts/splits/fold0.json \

@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+- [Muon mechanism panel, October 25](../../campaign_2026-10-25/mechanism_panel_r1/README.md) — H-OPT25-MUON-MECHANISM-R1: RMS-momentum ablation (new `--muon-update rms`), β2 .95, per-module clipping and chrono gate init vs AdamW/Muon controls; running.
+
 - [Optimizer theory and panels, October 25](../../campaign_2026-10-25/optimizer_panel_r1/OPTIMIZER_THEORY_R1.md) — regime analysis (noise-dominated labels, early peak, 94% clipped steps, schedule ties) mapped onto Adam/Muon/Shampoo-SOAP/AdEMAMix/Cautious/variance reduction/clipping/averaging literature; new `CautiousAdamW` and `AdEMAMix` optimizers; running [optimizer panel](../../campaign_2026-10-25/optimizer_panel_r1/README.md) (strict-FP32 Muon, Cautious, AdEMAMix) and [clip-regime panel](../../campaign_2026-10-25/clip_regime_r1/README.md). Running-norm arm dropped as a duplicate of the Oct-10 null.
 
 - [i1 lead-block screen, October 25](../../campaign_2026-10-25/i1_lead_panel_r1/README.md) — H-I1LEAD-HELD-R1: FTT's 52 lead inputs (i1 held at the last i0 book event) added to the cold GRU; running.
