@@ -56,3 +56,18 @@ computes all six digests (35 GB in ≈31 s on NVMe), second run hits the cache; 
 training. R3: all four fits (`krepro_{f0_s2001,f2_s2002}_{adamw,muon}_r3`), 5,400 s, dataset
 `vladkochetov07/wnn-muon-repro-20261025-r3` (READY, 739,008 B), kernel `…-r3-runner` pushed
 16:17 UTC, RUNNING.
+
+## R3 result — Muon replicated (collected 2026-10-26)
+
+R3 v1 failed at provider startup (empty log); identical v2 completed: four fits, Tesla T4,
+14–17 min each, every relocated source hashed once and reused ([summary](terminal_r3/summary.json)).
+Run directories copied into `artifacts/runs/` (checkpoint SHA-256 match the receipts), exported
+and graded locally ([export/grade script](export_grade_r3.sh)):
+
+| Cell | AdamW | Muon | Muon − AdamW [95% CI] | class 3 AdamW → Muon |
+|---|---:|---:|---|---|
+| F0 / seed 2001 ([grade](grade_r3_f0_s2001.json)) | 0.658505 | 0.662119 | **+0.003615 [+0.000413, +0.006500]** | 0.39082 → 0.39163 |
+| F2 / seed 2002 ([grade](grade_r3_f2_s2002.json)) | 0.683105 | 0.686365 | **+0.003260 [+0.001379, +0.005159]** | 0.43962 → 0.44133 |
+
+**Status: replicated** across seeds (1001/1002 → 2001/2002), hardware (RTX 3060 → T4) and kernel
+precision (TF32 cuDNN → true FP32). Same exposed folds; not a fresh holdout.
