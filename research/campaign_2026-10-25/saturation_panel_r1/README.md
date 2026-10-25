@@ -41,3 +41,11 @@ lead. Weight-norm control alone does not reproduce update-side spectral equaliza
 step is on a plateau (0.1 −0.0024; 0.3 +0.0005 vs 0.2). Dose-response (z-sat / τ q99 / WP,
 F0): AdamW 1e-3 45% / 546k / .6595; M1 14% / 229k / .6594; AdamW 5e-4 25% / 32k / .6608;
 S1 25% / 62k / .6606; Muon .2 3% / 166 / .6633; Muon .3 5% / 414 / .6639.
+
+## More cells ([S3 F0](grade_f0_s3_R1.json), [S1 F2](grade_f2_s1_R1.json))
+
+- **S3 Muon H512×2, F0:** 0.66427 vs Muon H512×1 0.66335 → +0.00092 [−0.00173, +0.00345]: depth
+  adds little at this scale (F2 pending).
+- **S1 spectral cap, F2:** 0.68509 vs AdamW 0.68309 → +0.00200 [−0.00046, +0.00520]; Muon − S1
+  **+0.00234 [+0.00066, +0.00388]**. Across both cells the cap recovers ≈30–45% of the
+  AdamW→Muon gap (mean +0.0015) while Muon keeps a significant lead.
