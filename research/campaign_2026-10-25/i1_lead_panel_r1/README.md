@@ -34,3 +34,11 @@ the input projection is linear, a "move since i0 event" difference variant carri
 information and is not queued. Likely explanation: 52 near-collinear inputs add variance in
 this 10%-data cold fit; FTT's benefit may come from its tied i0/i1 encoder or full-data
 training rather than the block itself. F2 pending.
+
+## F2 result and closure ([grade_f2_R1.json](grade_f2_R1.json))
+
+F2: control 0.683091, lead 0.681479, paired **−0.001612 [−0.003001, −0.000259]**; class 3
+0.43985 → 0.43819; public-mix 0.65852 → 0.65725. Both cells negative with intervals excluding
+zero: **H-I1LEAD-HELD-R1 closed negative** for concatenated inputs in the cold GRU. FTT's
+advantage, if causal, must come from its tied i0/i1 encoder, full-data training or ensemble
+role — not from adding this block to our architecture.

@@ -15,3 +15,10 @@ families onto it.
   [F0](screen_f0.json)/[F2](screen_f2.json). Running after the lead screen.
 - Execution note: a first queue start launched briefly while the lead unit was in a failed
   state; it was stopped before any checkpoint and the empty run directory removed.
+
+## Interim: strict-FP32 Muon, F0 ([grade](grade_f0_muon_only_R1.json))
+
+AdamW control 0.659530 → Muon(rnn) **0.663349**, paired **+0.003818 [+0.000562, +0.007782]**;
+class 3 0.39129 → 0.39347. Matches the historical bf16-era Muon gain (~+0.004) and contradicts
+the Oct-24 synthetic screen: the strict-FP32 fix did not remove Muon's real-data advantage.
+F2 cell pending; one seed per cell.
