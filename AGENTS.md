@@ -1,5 +1,9 @@
 # Project agent instructions
 
+## October 25 session: paused by user, jobs landing
+
+User: "let current experiments land gracefully, wrap all the research progress … stop research loop, just finish with already running jobs". The research loop is deleted; admit nothing new. Two jobs land on their own: local `wnn-muon6` (auto-graded) and Kaggle `wnn-muon-repro-20261025-r3-runner` (collect manually). Read the [session synthesis](research/campaign_2026-10-25/SESSION_SYNTHESIS_R1.md) and [pause receipt](research/campaign_2026-10-25/PAUSE_R1.json) first. New recipes must use `--strict-fp32-kernels` (torch 2.14 cuDNN RNN defaults to TF32). Resume only on an explicit user instruction.
+
 ## October24 bounded cycle: complete
 
 The four-hour cycle has closed new scientific admission. All admitted diagnostics are terminal and evidence is preserved in draft PR #41; no follow-up fit, provider retry or competition upload is authorized by remaining worker accounting. The user-requested additional single Astra/ultra review is complete. Collection completed before14:38:12UTC; the notebook server is stopped and its app/figures are saved. Final publication commit56f6e369dfa2dd6f172bd0ce7e94c8a3b9dbf857 passes CI. Preserve the original resume below as history and use the [collection receipt](research/campaign_2026-10-24/resume4h_r1/COLLECTION_AND_PUBLICATION_R1.json) and frontier for current status. No new allocation is inferred.
