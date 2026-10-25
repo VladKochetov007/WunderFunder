@@ -49,3 +49,17 @@ S1 25% / 62k / .6606; Muon .2 3% / 166 / .6633; Muon .3 5% / 414 / .6639.
 - **S1 spectral cap, F2:** 0.68509 vs AdamW 0.68309 → +0.00200 [−0.00046, +0.00520]; Muon − S1
   **+0.00234 [+0.00066, +0.00388]**. Across both cells the cap recovers ≈30–45% of the
   AdamW→Muon gap (mean +0.0015) while Muon keeps a significant lead.
+
+## Final panel ([F0](grade_f0_R1.json), [F2](grade_f2_R1.json))
+
+| Comparison | F0 | F2 |
+|---|---|---|
+| S1 spectral cap − AdamW | +0.00107 [−0.00213, +0.00431] | +0.00200 [−0.00046, +0.00520] |
+| Muon − S1 | **+0.00274 [+0.00080, +0.00472]** | **+0.00234 [+0.00066, +0.00388]** |
+| S2 Muon rms .3 − Muon .2 | +0.00050 [−0.00164, +0.00290] | +0.00016 [−0.00070, +0.00095] |
+| S3 Muon H512×2 − Muon H512×1 | +0.00092 [−0.00173, +0.00345] | +0.00026 [−0.00203, +0.00203] |
+
+Conclusions: weight-spectrum capping recovers ~30–45% of the AdamW→Muon gap but Muon stays
+significantly ahead in both cells; Muon's step is on a plateau (0.2 ≈ 0.3, 0.1 worse); a second
+GRU layer adds nothing measurable at 10% data. Muon H512×1 rms 0.2 remains the recipe of record
+for the production-lineage test.
