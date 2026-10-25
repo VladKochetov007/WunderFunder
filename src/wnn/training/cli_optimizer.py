@@ -42,6 +42,12 @@ def add_optimizer_arguments(ap: argparse.ArgumentParser) -> None:
         "--ademamix-warmup", type=int, default=0, help="alpha/beta3 warmup steps (0: none)"
     )
     research.add_argument(
+        "--muon-ns-dtype",
+        choices=["fp32", "bf16"],
+        default="fp32",
+        help="bf16: diagnostic reproduction of the historical parents' Newton-Schulz precision",
+    )
+    research.add_argument(
         "--muon-scope",
         choices=["rnn", "hidden"],
         default="rnn",

@@ -115,6 +115,7 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
             return MuonAdamW(
                 muon_param_groups(model, args.muon_scope),
                 update=getattr(args, "muon_update", "ns"),
+                ns_dtype=getattr(args, "muon_ns_dtype", "fp32"),
                 rms=getattr(args, "muon_rms", 0.2),
                 **common,
             )
@@ -149,6 +150,7 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
         return MuonAdamW(
             split,
             update=getattr(args, "muon_update", "ns"),
+            ns_dtype=getattr(args, "muon_ns_dtype", "fp32"),
             rms=getattr(args, "muon_rms", 0.2),
             **common,
         )

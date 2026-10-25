@@ -18,13 +18,16 @@ from torch import nn
 NS_COEFFS = (3.4445, -4.7750, 2.0315)  # quintic Newton-Schulz, K. Jordan's Muon
 
 
-def orthogonalize(g: torch.Tensor, steps: int = 5, eps: float = 1e-7) -> torch.Tensor:
+def orthogonalize(
+    g: torch.Tensor, steps: int = 5, eps: float = 1e-7, dtype: torch.dtype = torch.float32
+) -> torch.Tensor:
     """Approximate U V^T of every trailing (m, n) matrix of ``g`` (singular values pushed into ~[0.7, 1.2]).
 
-    Always fp32: the strict-FP32 policy forbids bf16 casts on any device.
+    fp32 by default (strict-FP32 policy). ``dtype=torch.bfloat16`` exists only to reproduce the
+    historical production parents' bf16 Newton-Schulz as a labeled diagnostic arm.
     """
     a, b, c = NS_COEFFS
-    x = g.to(torch.float32)
+    x = g.to(dtype)
     tall = x.size(-2) > x.size(-1)
     if tall:
         x = x.mT
@@ -54,9 +57,12 @@ class MuonAdamW(torch.optim.Optimizer):
         ns_steps: int = 5,
         rms: float = 0.2,
         update: str = "ns",
+        ns_dtype: str = "fp32",
     ):
         if update not in ("ns", "rms"):
             raise ValueError(f"unknown Muon update rule: {update}")
+        if ns_dtype not in ("fp32", "bf16"):
+            raise ValueError(f"unknown Newton-Schulz dtype: {ns_dtype}")
         defaults = dict(
             lr=lr,
             betas=betas,
@@ -65,6 +71,7 @@ class MuonAdamW(torch.optim.Optimizer):
             ns_steps=ns_steps,
             rms=rms,
             update=update,
+            ns_dtype=ns_dtype,
             muon=False,
             blocks=1,
         )
@@ -106,7 +113,8 @@ class MuonAdamW(torch.optim.Optimizer):
                             block_rms.clamp_min(1e-12) * math.sqrt(max(rows, cols))
                         )
                     else:
-                        update = orthogonalize(nesterov, group["ns_steps"])
+                        dtype = torch.bfloat16 if group["ns_dtype"] == "bf16" else torch.float32
+                        update = orthogonalize(nesterov, group["ns_steps"], dtype=dtype)
                     p.mul_(1 - lr * wd)
                     p.add_(
                         update.reshape(p.shape),

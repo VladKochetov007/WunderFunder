@@ -77,3 +77,16 @@ def test_muon_rms_update_matches_polar_step_rms() -> None:
         assert abs(float(rms_ns) - 0.2) < 0.05
     sv = torch.linalg.svdvals(steps["rms"][0])
     assert float(sv.max() / sv.min()) > 1.5  # rms keeps the singular spread; polar flattens it
+
+
+def test_muon_bf16_newton_schulz_diagnostic_close_to_fp32():
+    import torch
+
+    from wnn.optim import orthogonalize
+
+    g = torch.randn(3, 64, 64, generator=torch.Generator().manual_seed(0))
+    full = orthogonalize(g)
+    half = orthogonalize(g, dtype=torch.bfloat16)
+    assert half.dtype == torch.float32
+    assert not torch.equal(full, half)
+    assert torch.allclose(full, half, atol=5e-2)
