@@ -30,3 +30,4 @@ historically). **Result (23:19 UTC):** both rebuilt arrays are **byte-identical*
 pinned by the R3 consumer: train `0692a2b1cd63…` (1,696,960,128 B), valid `d51495b8020b…`
 (299,680,128 B). Metadata differs only in local paths/timestamps (`446c077d…`). Teachers'
 train exports took ~6–8 min each on the RTX 3060.
+- [RECIPE_AUDIT_R1.md](RECIPE_AUDIT_R1.md): independent audit — no FAIL; provenance/memory risks recorded.
