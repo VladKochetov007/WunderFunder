@@ -112,7 +112,11 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
         )
     if not is_grouped:
         if args.optim == "muon":
-            return MuonAdamW(muon_param_groups(model, args.muon_scope), **common)
+            return MuonAdamW(
+                muon_param_groups(model, args.muon_scope),
+                update=getattr(args, "muon_update", "ns"),
+                **common,
+            )
         return torch.optim.AdamW(
             [p for p in model.parameters() if p.requires_grad],
             fused=bool(args.fused_adam),
@@ -141,7 +145,7 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
                 }
             )
     if args.optim == "muon":
-        return MuonAdamW(split, **common)
+        return MuonAdamW(split, update=getattr(args, "muon_update", "ns"), **common)
     return torch.optim.AdamW(split, fused=bool(args.fused_adam), **common)
 
 

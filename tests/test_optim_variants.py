@@ -55,3 +55,25 @@ def test_ademamix_schedule_endpoints() -> None:
     assert a0 == 0.0 and abs(b0 - 0.9) < 1e-12
     assert AdEMAMix._schedules(group, 100) == (5.0, 0.999)
     assert AdEMAMix._schedules(group, 50)[1] < 0.999
+
+
+def test_muon_rms_update_matches_polar_step_rms() -> None:
+    from wnn.optim import MuonAdamW
+
+    torch.manual_seed(0)
+    steps = {}
+    for rule in ("ns", "rms"):
+        w = torch.nn.Parameter(torch.zeros(12, 4))
+        opt = MuonAdamW(
+            [{"params": [w], "muon": True, "blocks": 3}], lr=1.0, weight_decay=0.0, update=rule
+        )
+        w.grad = torch.randn(12, 4, generator=torch.Generator().manual_seed(1))
+        opt.step()
+        steps[rule] = w.detach().reshape(3, 4, 4)
+    for b in range(3):
+        rms_ns = steps["ns"][b].pow(2).mean().sqrt()
+        rms_rms = steps["rms"][b].pow(2).mean().sqrt()
+        torch.testing.assert_close(rms_rms, torch.tensor(0.2), rtol=1e-5, atol=1e-6)
+        assert abs(float(rms_ns) - 0.2) < 0.05
+    sv = torch.linalg.svdvals(steps["rms"][0])
+    assert float(sv.max() / sv.min()) > 1.5  # rms keeps the singular spread; polar flattens it

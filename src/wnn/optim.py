@@ -53,7 +53,10 @@ class MuonAdamW(torch.optim.Optimizer):
         weight_decay: float = 1e-2,
         ns_steps: int = 5,
         rms: float = 0.2,
+        update: str = "ns",
     ):
+        if update not in ("ns", "rms"):
+            raise ValueError(f"unknown Muon update rule: {update}")
         defaults = dict(
             lr=lr,
             betas=betas,
@@ -61,6 +64,7 @@ class MuonAdamW(torch.optim.Optimizer):
             weight_decay=weight_decay,
             ns_steps=ns_steps,
             rms=rms,
+            update=update,
             muon=False,
             blocks=1,
         )
@@ -94,9 +98,15 @@ class MuonAdamW(torch.optim.Optimizer):
                     buf.lerp_(g, 1 - beta1)
                     k = group["blocks"]
                     rows, cols = p.shape[0] // k, p.shape[1]
-                    update = orthogonalize(
-                        g.lerp(buf, beta1).reshape(k, rows, cols), group["ns_steps"]
-                    )
+                    nesterov = g.lerp(buf, beta1).reshape(k, rows, cols)
+                    if group["update"] == "rms":
+                        # Ablation: same per-block step RMS as the polar factor, singular spread kept.
+                        block_rms = nesterov.pow(2).mean(dim=(-2, -1), keepdim=True).sqrt()
+                        update = nesterov / (
+                            block_rms.clamp_min(1e-12) * math.sqrt(max(rows, cols))
+                        )
+                    else:
+                        update = orthogonalize(nesterov, group["ns_steps"])
                     p.mul_(1 - lr * wd)
                     p.add_(
                         update.reshape(p.shape),

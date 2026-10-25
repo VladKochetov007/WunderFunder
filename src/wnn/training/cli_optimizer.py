@@ -17,6 +17,12 @@ def add_optimizer_arguments(ap: argparse.ArgumentParser) -> None:
         help="muon: orthogonalised per-gate updates on the recurrent matrices, AdamW elsewhere; "
         "cautious_adamw/ademamix: src/wnn/optim_variants.py",
     )
+    research.add_argument(
+        "--muon-update",
+        choices=["ns", "rms"],
+        default="ns",
+        help="rms: ablation replacing the Newton-Schulz polar factor by RMS-matched momentum",
+    )
     research.add_argument("--ademamix-alpha", type=float, default=4.0, help="slow-EMA mix weight")
     research.add_argument("--ademamix-beta3", type=float, default=0.999, help="slow-EMA decay")
     research.add_argument(
