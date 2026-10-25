@@ -20,7 +20,7 @@ PARQUET = {
     "datasets/train.parquet": ("4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81", 29240219011),
     "datasets/valid.parquet": ("2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782", 5615509128),
 }
-CELLS = {"f0": ("f0_s1001", 2001, "0"), "f2": ("f2_s1002", 2002, "2")}
+CELLS = {"f0": ("f0_s1001", 2001, "0")}
 
 
 def sha256(path: Path) -> str:
@@ -45,7 +45,7 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     files = subprocess.run(["git", "ls-files", "src/wnn"], cwd=ROOT, capture_output=True, text=True, check=True)
     code_paths = sorted(p for p in files.stdout.split() if p.endswith(".py"))
-    code_paths += ["scripts/train_rnn.py", "scripts/kaggle_gpu_runner.py", "scripts/kaggle_common.py",
+    code_paths += ["scripts/train_rnn.py", "scripts/kaggle_traced_train.py", "scripts/kaggle_gpu_runner.py", "scripts/kaggle_common.py",
                    "scripts/kaggle_kernel.py", "utils.py"]
     code = sorted((descriptor(p) for p in code_paths), key=lambda d: d["path"])
     registry = {"version": 1, "sources": {}}
@@ -63,7 +63,7 @@ def main() -> None:
         base = lead[f"i1lead_{cell}_control_r1"]["argv"]
         for arm in ("adamw", "muon"):
             argv = list(base)
-            name = f"krepro_{key}_s{seed}_{arm}_r1"
+            name = f"krepro_{key}_s{seed}_{arm}_r2"
             argv[argv.index("--name") + 1] = name
             argv[argv.index("--seed") + 1] = str(seed)
             if arm == "muon":
@@ -78,13 +78,13 @@ def main() -> None:
                 "version": 1,
                 "name": name,
                 "kind": "fit_only",
-                "argv": ["{python}", *argv[1:]],
+                "argv": ["{python}", "-u", "scripts/kaggle_traced_train.py", *argv[argv.index("scripts/train_rnn.py") + 1 :]],
                 "code": code,
                 "code_sha256": canonical(code),
                 "inputs": inputs,
                 "artifacts": [f"artifacts/runs/{name}/{f}" for f in ("model_ep2.pt", "provenance.json", "history.json")],
                 "limits": {"cpus": 2, "gpu_memory_bytes": 6_000_000_000, "gpu_stop_bytes": 8_000_000_000,
-                           "ram_bytes": 7_000_000_000, "timeout_seconds": 5400},
+                           "ram_bytes": 7_000_000_000, "timeout_seconds": 3600},
                 "environment": {"NVIDIA_TF32_OVERRIDE": "0", "PYTHONHASHSEED": "0",
                                 "WNN_DEFERRED_IDENTITY_PATHS": "datasets/train.parquet,datasets/valid.parquet",
                                 "WNN_PORTABLE_DATA_MANIFEST": registry_rel},
