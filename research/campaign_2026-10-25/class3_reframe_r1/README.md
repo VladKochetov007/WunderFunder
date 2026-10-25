@@ -9,6 +9,7 @@ decisive observations.
   branch-first classification with exact jump constants (locked-book identity), queue
   depletion race + Hawkes clustering, i1 lead-lag conditioning, change-vs-carry regime
   split, iceberg refill signature, discrete Bayesian filter over branch/level.
+- [FTT lead-block fingerprint](FTT_LEAD_BLOCK_FINGERPRINT_R1.md): the 52 extra FTT inputs are near-raw i1 values held/lagged in time (not EMA, not differences); FTT likely gains from its tied i0/i1 encoder; teammate ask defined.
 - [Grok 4.7, R2](external/grok_4.7_R2.md) (R1 [stalled](external/grok_4.7_R1_attempt1_stalled.md)
   after loading repo skills; rerun from an isolated scratch directory): absolute-F lattice
   projection, latch forecast across runs, Cont–de Larrard depletion-race formula, i1 as
