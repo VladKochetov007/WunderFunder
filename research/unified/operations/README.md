@@ -1,5 +1,7 @@
 # Execution, incidents, and preservation
 
+- [VS Code cpptools load and two laptop resets, Oct 25](VSCODE_CPPTOOLS_AND_RESETS_20261025_R1.md) — cpptools indexed 18k third-party C/C++ headers (5.9 GB, >100% CPU) after each boot; workspace excludes and path pins cut it to 31 MB idle. Two resets interrupted the clip panel (one clean, one abrupt with no logged cause); guards tightened to 92 °C.
+
 - [Session freezes and strict process control, October 24 evening](SESSION_FREEZES_STRICT_PROCESS_CONTROL_20261024_R1.md) — two laptop freeze/reboots during the evening review/optimizer session (one killed the first optimizer grid mid-fit; only adamw_s0 survived, partials preserved). Records the user-mandated session posture: zero subagents, one strictly gated synchronous process at a time (thermal <84 °C and MemAvailable ≥8 GB pre-checks, 700 MB/1-core/330 s cgroup caps, 60 s cool-downs). Analysis plus the bounded synthetic optimizer screen only; no competition-data fits or uploads.
 
 - [October24 terminal collection](../../campaign_2026-10-24/resume4h_r1/TERMINAL_R1.json) and [publication receipt](../../campaign_2026-10-24/resume4h_r1/COLLECTION_AND_PUBLICATION_R1.json) — all admitted diagnostics are terminal; exact quota ZIPs and notebook artifacts are preserved, draft PR #41 is published, and no new fit or upload is inferred. [Tree build/check](../../bandit_tree/generated/RESUME4H_BUILD_CHECK_R2.json) verifies the full execution checkout, separately from the sparse publication view.

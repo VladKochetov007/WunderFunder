@@ -1,7 +1,9 @@
 {
     "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
     "python.testing.pytestEnabled": true,
-    "python.testing.pytestArgs": ["tests"],
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff",
         "editor.formatOnSave": true
@@ -9,6 +11,38 @@
     "files.watcherExclude": {
         "**/datasets/**": true,
         "**/cache/**": true,
-        "**/artifacts/**": true
-    }
+        "**/artifacts/**": true,
+        "**/.venv*/**": true,
+        "**/research/campaign_*/runtime/**": true,
+        "**/.claude/worktrees/**": true,
+        "**/submissions/**": true
+    },
+    "C_Cpp.files.exclude": {
+        "**/.venv*/**": true,
+        "**/research/**": true,
+        "**/artifacts/**": true,
+        "**/.claude/**": true,
+        "**/cache/**": true,
+        "**/datasets/**": true,
+        "**/submissions/**": true,
+        "**/node_modules/**": true
+    },
+    "C_Cpp.workspaceParsingPriority": "low",
+    "C_Cpp.maxConcurrentThreads": 2,
+    "C_Cpp.maxCachedProcesses": 1,
+    "C_Cpp.intelliSenseMemoryLimit": 2048,
+    "C_Cpp.default.browse.limitSymbolsToIncludedHeaders": true,
+    "search.exclude": {
+        "**/.venv*/**": true,
+        "**/artifacts/**": true,
+        "**/cache/**": true,
+        "**/datasets/**": true,
+        "**/.claude/worktrees/**": true
+    },
+    "C_Cpp.default.browse.path": [
+        "${workspaceFolder}/src/wnn/csrc"
+    ],
+    "C_Cpp.default.includePath": [
+        "${workspaceFolder}/src/wnn/csrc"
+    ]
 }

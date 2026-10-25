@@ -4,10 +4,10 @@ log=/home/vlad/development/wunder/wnn_connectome_starterpack/research/campaign_2
 hot=0; frozen=0
 while systemctl --user is-active -q wnn-clippanel; do
   t=$(sensors | awk '/Package id 0/{gsub(/[+°C]/,"",$4); print int($4)}')
-  if [ "$t" -ge 97 ]; then hot=$((hot+1)); else hot=0; fi
+  if [ "$t" -ge 92 ]; then hot=$((hot+1)); else hot=0; fi
   if [ $frozen -eq 0 ] && [ $hot -ge 3 ]; then
     for u in wnn-clippanel; do systemctl --user freeze $u 2>/dev/null; done; frozen=1; echo "$(date -u +%FT%TZ) freeze t=$t" >> $log
-  elif [ $frozen -eq 1 ] && [ "$t" -le 88 ]; then
+  elif [ $frozen -eq 1 ] && [ "$t" -le 84 ]; then
     for u in wnn-clippanel; do systemctl --user thaw $u 2>/dev/null; done; frozen=0; echo "$(date -u +%FT%TZ) thaw t=$t" >> $log
   fi
   sleep 20
