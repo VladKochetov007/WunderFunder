@@ -18,6 +18,13 @@ def add_optimizer_arguments(ap: argparse.ArgumentParser) -> None:
         "cautious_adamw/ademamix: src/wnn/optim_variants.py",
     )
     research.add_argument(
+        "--spectral-cap",
+        type=float,
+        default=0.0,
+        help="clamp GRU gate-block singular values at this value after optimizer steps (0: off)",
+    )
+    research.add_argument("--spectral-cap-every", type=int, default=10, help="cap cadence in steps")
+    research.add_argument(
         "--muon-rms",
         type=float,
         default=0.2,

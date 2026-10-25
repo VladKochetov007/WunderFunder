@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import torch
 
+from wnn.spectral_cap import maybe_cap_
 from wnn.training.state import TrainingRun
 from wnn.training_qat import invalidate_qat_cache, project_qat_scales_
 from wnn.training_views import update_ema_for_rows
@@ -36,6 +37,7 @@ def optimizer_step(run: TrainingRun) -> None:
         grad_stats.observe()
     dynamics.perturb_and_clip(step_count)
     scaler.step(opt)
+    maybe_cap_(model, args, step_count)
     project_qat_scales_(model)
     invalidate_qat_cache(model)
     if qat_cache_identity is not None:
