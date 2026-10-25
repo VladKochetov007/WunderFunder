@@ -121,6 +121,12 @@ follow the 4–6-fit policy (matched F0/F2 × control/candidate unless noted).
    u=(y0−y1)/2, λ∈{0.1,0.3}. Addresses u under-dispersion (35% of label variance) that
    post-hoc rescaling could not fix — i.e. a representation, not calibration, deficit.
    Not the failed sum0 KD arm (that removed v). 4 fits.
+   **Self-correction (loop tick 1):** a Bayes-shrunk predictor with u-corr 0.634 should
+   carry var ratio ρ²≈0.40; observed 0.35 is close, so "u under-dispersion" is mostly
+   expected shrinkage. The anomaly is v (pred variance 0.171 ≈ label 0.164 at corr
+   0.599, i.e. ~3× the shrunk expectation), yet shrinking v hurt post hoc — |y|-weighted
+   per-target Pearson does not separate cleanly into modes. **Downgraded below idea 3.**
+   The existing `--aux-sign` head already supervises the u sign.
 3. **Rows-since-book-event / run-age measure weighting (H-LOSS25-RUNAGE-MEASURE-R1).**
    Long runs hold 56% of weight and 72% of residual SS. Weight by a *causal* x-function
    (rows since last book event), so the population target is unchanged and only
@@ -157,3 +163,28 @@ valid rows; train class mix differs. Class-3 causal inferability remains unverif
 Run the zero-fit gates (idea1 probe, idea4 teammate predictions),
 then admit one 4-fit screen for idea 2 or 3 on the local GPU within the user's
 5 GB VRAM / 10-core / 30 GB envelope, after user confirmation of a fit allocation.
+
+## Loop tick 1 update (2026-10-25 ~03:40 Kyiv)
+
+- **Idea 1 gate ran and is uninformative as specified.**
+  [Probe](event_change_probe.py) → [receipt](event_change_probe_R1.json): HistGBM on 400
+  valid sequences (1.52M train / 0.74M test i0 book-event rows, 85 held-out chains).
+  Label change at a book event is predicted with **AUC 1.000** in every class, and the
+  difference-mode direction given a change with AUC 0.994. This is quote arithmetic,
+  not hidden information: t0=F−ask and t1=bid−F move mechanically when the quotes move.
+  So the "label changes only on book events" observation does not identify a learnable
+  hazard. The informative quantity is the move of F *relative to* the quotes, i.e. the
+  ordinary near-future price-direction problem, which the GRU already targets.
+  H-LOSS25-EVENT-HAZARD-R1 (and H-362 as phrased) → `screen_failed_trivial_target`.
+  A meaningful successor needs a target that excludes the mechanical quote update
+  (e.g. ΔF in ticks for class 3 via the exact target law). Not admitted.
+- **Idea 3 is a duplicate.** `main_row_weights` already has `--since-weight`, a causal
+  rows-since-i0-price-event weight (1/(1+since/s), floored) used in the public
+  since/since lineage — and it *down*-weights long runs. The proposed up-weighting is
+  the opposite direction of an existing arm, so it is not a new mechanism. Treat it as an
+  optional sign-flip ablation of `--since-weight`, not a new card.
+- Revised ranking: PR32 blend probe (teammate predictions requested in
+  [PR32 comment](https://github.com/VladKochetov007/WunderFunder/pull/32#issuecomment-6391381202)),
+  then the coded C4 batch-mass EMA screen, then faithful/β-NLL; idea 2 stays downgraded.
+  The loss family offers no remaining candidate above the 0.001 noise floor on current
+  evidence. The structural bottleneck is the F-direction information itself.
