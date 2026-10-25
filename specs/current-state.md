@@ -1,5 +1,14 @@
 # Current project state
 
+## October 25: loss review, class-3 reframe and GPU weighting screen
+
+User session (resources 5 GB VRAM / 30 GB RAM / 10 cores; "utilize gpu, experiment!"; 30-min research loop). Index: [loss review](../research/campaign_2026-10-25/loss_ideation_r1/README.md), [class-3 reframe](../research/campaign_2026-10-25/class3_reframe_r1/README.md), [class-3 weighting screen](../research/campaign_2026-10-25/class3_public_mix_r1/README.md).
+
+- **Loss family diagnosis:** |y|-weighted MSE is already Bayes-aligned with pooled WP, so distance-function changes (NLL, Pearson, Huber, KD variants) cannot move the target; the NLL test was clipping-confounded. Row-measure weighting and distillation are the families that worked. Per-target normalization is a measured no-op (t0 mass share 0.496). External Grok/OpenCode red team claims verified/rejected in the synthesis.
+- **PR32 teammate B300 Transformers memorize:** scored-valid weighted variance is 1.80, so val WMSE ~1.55 is weighted R² ~0.14 (train ~0.995). 1.54B val WP fell 0.37→0.27 (F0) epochs 15→21; teammate stopped the fits, epoch-15 checkpoints/predictions retained. Blend-probe predictions and a protocol redesign were requested on PR32.
+- **Zero-fit gates:** label change at book events is trivially predictable (AUC 1.0, quote arithmetic) — the hidden quantity is F relative to quotes. A cross-fitted residual-information audit finds causal depletion/refill/rate/i1-lead features add no transferable information beyond the strong GRU (Δ −0.004 all / −0.012 class 3).
+- **GPU:** class-3 weight 1.43 (matched to the E-298 public class mix) in the warm LR3e-5 continuation is null on F0 (−0.00006 official, −0.00009 public-mix). A more sensitive matched strict-FP32 6-epoch LR1e-4 pair is running (`wnn-c3mix-queue3`). No new submission.
+
 ## October 24 evening: independent value review and own-optimizer research
 
 User-requested evening session (continues until explicit stop; resource ceiling raised to **10 CPU cores / 5 GB VRAM / 38 GB RAM**, superseding the earlier one-core/1-GiB operational cap after two laptop freeze/reboots — the strict process-control posture and its gates are recorded in the [operations note](../research/unified/operations/SESSION_FREEZES_STRICT_PROCESS_CONTROL_20261024_R1.md)). Zero competition-data fits, zero uploads.
