@@ -22,3 +22,19 @@ AdamW control 0.659530 → Muon(rnn) **0.663349**, paired **+0.003818 [+0.000562
 class 3 0.39129 → 0.39347. Matches the historical bf16-era Muon gain (~+0.004) and contradicts
 the Oct-24 synthetic screen: the strict-FP32 fix did not remove Muon's real-data advantage.
 F2 cell pending; one seed per cell.
+
+## F0 panel ([grade_f0_R1.json](grade_f0_R1.json))
+
+| Arm | Official WP | Paired Δ vs AdamW [95% CI] | Class 3 | Public-mix |
+|---|---:|---|---:|---:|
+| AdamW (control) | 0.659530 | — | 0.3913 | 0.6195 |
+| Muon (rnn), strict FP32 | 0.663349 | **+0.003818 [+0.000562, +0.007782]** | 0.3935 | 0.6238 |
+| Cautious AdamW | 0.658172 | −0.001359 [−0.003956, +0.001343] | 0.3889 | 0.6182 |
+| AdEMAMix (α4, β3 .999) | 0.655013 | **−0.004517 [−0.007931, −0.000390]** | 0.3852 | 0.6148 |
+
+AdEMAMix telemetry: clip rate rises 0.85 → 0.99 and mean clip factor falls to 0.35 by epoch 2,
+i.e. the slow EMA (α=4) multiplies the effective step at the AdamW LR; this result is
+"AdEMAMix at AdamW's LR", not a test of its mechanism at a matched effective step. Theory
+link for Muon: orthogonalization discards per-step gradient magnitude, so its recurrent
+matrices are immune to clipping's implicit batch reweighting — part of its gain may be robust
+normalization; the clip panel helps separate this. F2 cells pending.
