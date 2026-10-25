@@ -27,3 +27,24 @@ the same family as FTT's 52 lead features, which carry most of TL3's public scor
 - F0 control (aux weight 0) official WP **0.65907** (10% membership, cold H512×1, CP2;
   per-run diagnostic, not the paired grade).
 - F0 aux 0.05 official WP **0.65953** vs control 0.65907 (+0.00046, per-run diagnostics; paired interval pending the frozen grader after F2).
+
+## Paired grade — [dynamics_panel_grade_R1.json](dynamics_panel_grade_R1.json)
+
+Frozen grader run unchanged through [grade_wrapper.py](grade_wrapper.py) (allowlists
+`torch.torch_version.TorchVersion` for `weights_only` loading of our own checkpoints, the
+same PyTorch 2.6 issue as the Oct-24 C5 diagnostic; grader dir added to `PYTHONPATH`).
+
+| Cell | control | aux 0.05 | aux − control [95% component CI] | 90/10 mix − control | rows 99–500 aux Δ |
+|---|---:|---:|---|---|---:|
+| F0/s1001 | 0.659074 | 0.659535 | +0.000460 [−0.00156, +0.00223] | +0.000226 [+0.000024, +0.000407] | +0.0136 |
+| F2/s1002 | 0.684108 | 0.683952 | −0.000157 [−0.00144, +0.00093] | +0.000144 [+0.000020, +0.000256] | +0.0042 |
+
+**Interpretation.** Aux alone: equal-weight mean +0.00015, below the pre-registered
++0.0003 follow-up target and inside seed noise — `insufficient_evidence`, not negative.
+The fixed 90/10 mixture is positive in both cells, but any second independently fitted
+model would add ensemble value; without a control+control blend this does not isolate the
+auxiliary mechanism. The consistent signal is early-sequence: rows 99–500 gain +0.0136 /
++0.0042, suggesting the future-input target speeds state formation after reset, a region
+with small metric weight. Two fold/seed cells, exposed folds, 10% memberships: no public
+claim. Decision: do not scale this recipe; an early-row-targeted or warm-start variant
+would need a new mechanism-specific hypothesis.
