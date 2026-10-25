@@ -85,3 +85,26 @@ was replaced before launch by Muon `--muon-rms 0.3` (larger step).
 - **TF arm F0:** strict FP32 kernels 0.658476 vs TF32 AdamW 0.659530 → −0.001054
   [−0.002546, +0.000285]. No quality benefit from true FP32 on this cell; F2 pending before
   deciding whether `--strict-fp32-kernels` becomes the default (policy compliance argues yes).
+
+## Final panel ([F0](grade_f0_R1.json), [F2](grade_f2_R1.json)) — all effects replicate across both cells
+
+| Comparison | F0 Δ [95% CI] | F2 Δ [95% CI] |
+|---|---|---|
+| **Muon − AdamW 5e-4 (tuned)** | **+0.00256 [+0.00027, +0.00481]** | **+0.00346 [+0.00171, +0.00530]** |
+| **M1 (no orthogonalization) − Muon** | **−0.00398 [−0.00573, −0.00199]** | **−0.00404 [−0.00590, −0.00212]** |
+| M1 − AdamW | −0.00016 [−0.00275, +0.00332] | +0.00030 [−0.00139, +0.00229] |
+| AdamW 5e-4 − AdamW 1e-3 | +0.00126 [−0.00099, +0.00397] | +0.00088 [−0.00080, +0.00300] |
+| Muon half step − Muon | −0.00236 [−0.00434, −0.00051] | −0.00211 [−0.00373, −0.00025] |
+| AdamW β2 .95 − AdamW | +0.00101 [−0.00203, +0.00408] | +0.00047 [−0.00076, +0.00180] |
+| AdamW chrono − AdamW | −0.00572 [−0.01001, −0.00094] | −0.00561 [−0.00808, −0.00321] |
+| strict FP32 kernels − TF32 | −0.00105 [−0.00255, +0.00028] | −0.00011 [−0.00066, +0.00053] |
+
+**Conclusions.** (1) Muon beats an LR-tuned AdamW (mean +0.0030) — the claim survives the LR-
+fairness critique. (2) The gain requires orthogonalized (spectrally equalized) recurrent
+updates; fixed-step normalized momentum without Newton–Schulz equals AdamW. (3) Muon's step is
+not too large (half step loses); a larger step is tested in the saturation panel. (4) Long
+initial gate timescales hurt (chrono −0.0057), consistent with harmful frozen units. (5) True
+FP32 kernels cost no measurable quality — new recipes should use `--strict-fp32-kernels` for
+policy compliance. Limits: 10% data, cold H512×1, exposed folds, one seed per cell; the
+independent Kaggle reproduction (fresh seeds, T4, true FP32) and the full-scale production
+test (Muon stage-6) are pending.

@@ -1,5 +1,11 @@
 # Current project state
 
+## October 25 (afternoon): Muon mechanism established on the fast recipe
+
+- Strict-FP32 Muon beats LR-tuned AdamW (5e-4) by +0.0026/+0.0035 (F0/F2) and AdamW 1e-3 by +0.0038/+0.0043; removing only the Newton–Schulz orthogonalization returns it to AdamW level (−0.0040 both cells). Mechanism: spectrally equalized recurrent updates prevent AdamW's gate collapse (45–48% saturated update gates, frozen units with τ q99 ~5e5 rows vs Muon 3%, ~170 rows). Chrono long-timescale init hurts (−0.0057). Clipping at 1.0 helps (no-clip −0.0025). [Mechanism panel](../research/campaign_2026-10-25/mechanism_panel_r1/README.md), [diagnostics](../research/campaign_2026-10-25/optimizer_panel_r1/diagnostics/README.md).
+- **Policy finding:** torch 2.14 ran cuDNN GRU recurrences in TF32 in every local/B300 'strict FP32' fit (Kaggle T4 runs were true FP32); new `--strict-fp32-kernels` costs no measurable quality (−0.0011/−0.0001) and should be used in new recipes.
+- Pending: Kaggle independent reproduction (fresh seeds, T4), saturation panel (spectral cap, Muon larger step, Muon H512×2), AdamW 2.5e-4, Muon on the production stage-6 student. Ops: cpptools capped (5.9 GB → 31 MB), RAM guard, 92 °C thermal guards after three laptop restarts.
+
 ## October 25: loss review, class-3 reframe and GPU weighting screen
 
 User session (resources 5 GB VRAM / 30 GB RAM / 10 cores; "utilize gpu, experiment!"; 30-min research loop). Index: [loss review](../research/campaign_2026-10-25/loss_ideation_r1/README.md), [class-3 reframe](../research/campaign_2026-10-25/class3_reframe_r1/README.md), [class-3 weighting screen](../research/campaign_2026-10-25/class3_public_mix_r1/README.md).
