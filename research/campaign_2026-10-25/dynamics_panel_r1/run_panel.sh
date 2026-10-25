@@ -23,6 +23,14 @@ for a in s['argv']:
     a=a.replace('{python}',sys.argv[3])
     if a.startswith('scripts/') and a.endswith('.py'): a=sys.argv[4]+'/'+a
     print(a)" $plan $i $PY $S)
+    case "${A[0]}" in
+      fit_*) [ -f $ROOT/artifacts/runs/$r/model_ep2.pt ] && { log "$r skip ${A[0]} (checkpoint exists)"; continue; } ;;
+      export_*) [ -f $ROOT/cache/pred_${r}_valid.npy ] && { log "$r skip ${A[0]} (prediction exists)"; continue; } ;;
+      score_*) A=("${A[0]}" "${A[@]:1}"); for j in "${!A[@]}"; do [[ "${A[$j]}" == $S/scripts/score_run.py ]] && A[$j]=$ROOT/scripts/score_run.py; done
+               log "$r step ${A[0]} (main-checkout scorer)"
+               PYTHONPATH=$ROOT/src:$ROOT/scripts "${A[@]:1}" > $Q/${r}_${A[0]}.log 2>&1 || { log "FAILED $r ${A[0]}"; exit 1; }
+               continue ;;
+    esac
     log "$r step ${A[0]}"
     "${A[@]:1}" > $Q/${r}_${A[0]}.log 2>&1 || { log "FAILED $r ${A[0]}"; exit 1; }
   done

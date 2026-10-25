@@ -15,3 +15,14 @@ the same family as FTT's 52 lead features, which carry most of TL3's public scor
   source commit; `dynamics_auxiliary.py` hash identical in both trees).
 - Units `wnn-dynpanel`, `wnn-dynpanel-thermal` (freeze ≥97 °C / thaw ≤88 °C); ≤14 GB RAM,
   no swap, ≤1.5 CPU, ≤4.5 GB CUDA allocator. Status: running.
+
+## Execution notes
+
+- Attempt 1: F0 control fit (4,620 updates, ~15 min) and export succeeded; the recipe's
+  per-run `score_run.py` step failed because that script resolves its root from the frozen
+  source tree (`.../dynamics-screen-corrected-20261022/cache/valid_targets...` missing).
+  Path issue only. The runner now skips completed fit/export steps and runs score steps with
+  the main checkout's `scripts/score_run.py` (same official metric); the paired grader is
+  unaffected.
+- F0 control (aux weight 0) official WP **0.65907** (10% membership, cold H512×1, CP2;
+  per-run diagnostic, not the paired grade).
