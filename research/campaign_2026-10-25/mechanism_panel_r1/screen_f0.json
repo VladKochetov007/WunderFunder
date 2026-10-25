@@ -12,14 +12,20 @@
   "m1_muon_rmsmom": {
    "mech_f0_s1001_m1_muon_rmsmom_r1": 1.0
   },
+  "e1_adamw_lr5e4": {
+   "mech_f0_s1001_e1_adamw_lr5e4_r1": 1.0
+  },
+  "e1b_muon_rms01": {
+   "mech_f0_s1001_e1b_muon_rms01_r1": 1.0
+  },
   "m2_beta2_095": {
    "mech_f0_s1001_m2_beta2_095_r1": 1.0
   },
-  "m3_clip_per_module": {
-   "mech_f0_s1001_m3_clip_per_module_r1": 1.0
-  },
   "m4_chrono": {
    "mech_f0_s1001_m4_chrono_r1": 1.0
+  },
+  "tf_adamw_strict_fp32": {
+   "mech_f0_s1001_tf_adamw_strict_fp32_r1": 1.0
   }
  },
  "comparisons": [
@@ -32,15 +38,27 @@
    "adamw"
   ],
   [
+   "e1_adamw_lr5e4",
+   "adamw"
+  ],
+  [
+   "muon_ns",
+   "e1_adamw_lr5e4"
+  ],
+  [
+   "e1b_muon_rms01",
+   "muon_ns"
+  ],
+  [
    "m2_beta2_095",
    "adamw"
   ],
   [
-   "m3_clip_per_module",
+   "m4_chrono",
    "adamw"
   ],
   [
-   "m4_chrono",
+   "tf_adamw_strict_fp32",
    "adamw"
   ]
  ],
