@@ -60,3 +60,18 @@ strict-FP32 AdamW stage-6 control (0.6812108). Same frozen overnight source as t
 that tree's Muon defaults to BF16 Newton–Schulz on CUDA (`auto`), so the explicit fp32 flags
 are required — caught before launch; a cherry-pick of the main-branch fix was unnecessary and
 discarded.
+
+## Complete panel ([F0](grade_f0_R1.json), [F2](grade_f2_R1.json))
+
+| Arm | F0 Δ | F2 Δ | Verdict |
+|---|---|---|---|
+| Muon (rnn), strict FP32 | +0.003818 [+0.000562, +0.007782] | +0.004336 [+0.001969, +0.007153] | **supported, two cells** |
+| Cautious AdamW | −0.001359 [−0.003956, +0.001343] | −0.001071 [−0.002813, +0.000514] | closed (negative both) |
+| AdEMAMix α4 β3 .999 | −0.004517 [−0.007931, −0.000390] | −0.003761 [−0.006096, −0.001570] | negative at AdamW's LR (effective-step inflation); mechanism untested at matched step |
+
+## Laptop reboot (2026-10-25 ~10:30 UTC)
+
+The optimizer panel had completed before the reboot. The clip panel's first fit
+(`clip_f0_s1001_noclip_r1`) was interrupted in epoch 1 with no CP2; its partial run was
+removed and the fit restarted from scratch at 10:42 UTC. The Muon stage-6 successor had not
+started and was relaunched behind the clip panel. Research loop recreated.
