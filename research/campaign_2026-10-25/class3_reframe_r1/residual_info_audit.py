@@ -25,6 +25,7 @@ from wnn.gmetric import global_wp  # noqa: E402
 
 NON_FEATURES = {"seq_ix", "step_in_seq", "need_prediction", "t0", "t1", "is_scored"}
 WINDOWS = (4, 16, 64)
+DYNAMICS_ONLY = "--dynamics-only" in sys.argv
 
 
 def windowed_counts(events: np.ndarray, w: int) -> np.ndarray:
@@ -41,7 +42,7 @@ def causal_features(x: np.ndarray) -> np.ndarray:
     i0_ev = (d[:, :22] != 0).any(1, keepdims=True).astype(np.float32)
     i1_ev = (d[:, 52:74] != 0).any(1, keepdims=True).astype(np.float32)
     trade_ev = (d[:, 22:44] != 0).any(1, keepdims=True).astype(np.float32)
-    feats = [x[:, :112]]
+    feats = [] if DYNAMICS_ONLY else [x[:, :112]]
     for w in WINDOWS:
         feats.append(windowed_counts(sign, w))
         ev = np.hstack([i0_ev, i1_ev, trade_ev])
@@ -66,7 +67,7 @@ def wp(y: np.ndarray, p: np.ndarray) -> float:
 
 
 def main() -> None:
-    name, out = sys.argv[1], sys.argv[2]
+    name, out = sys.argv[1], sys.argv[2]  # optional trailing --dynamics-only
     side = json.load(open(f"cache/pred_{name}_valid.json"))
     pred = np.load(f"cache/pred_{name}_valid.npy", mmap_mode="r")
     order = [int(g) for g in side["row_groups"]]
@@ -104,12 +105,16 @@ def main() -> None:
         tr, te = fid != k, fid == k
         for j in range(2):
             w = np.abs(Yc[tr, j])
-            reg = HistGradientBoostingRegressor(max_iter=200, learning_rate=0.05, max_leaf_nodes=31,
-                                                min_samples_leaf=200, l2_regularization=1.0, random_state=0)
-            reg.fit(X[tr], Yc[tr, j] - P[tr, j], sample_weight=w)
-            g_tr = reg.predict(X[tr])
-            r = Yc[tr, j] - P[tr, j]
-            b = float((w * g_tr * r).sum() / max((w * g_tr * g_tr).sum(), 1e-12))
+            reg = HistGradientBoostingRegressor(max_iter=150, learning_rate=0.05, max_leaf_nodes=15,
+                                                min_samples_leaf=2000, l2_regularization=10.0, random_state=0)
+            # beta from an inner component-disjoint holdout so it is not fit on in-sample g
+            inner = tr & (np.array([fold_of[c] for c in C]) == (k + 1) % 3)
+            outer = tr & ~inner
+            reg.fit(X[outer], Yc[outer, j] - P[outer, j], sample_weight=np.abs(Yc[outer, j]))
+            g_in = reg.predict(X[inner])
+            r = Yc[inner, j] - P[inner, j]
+            wi = np.abs(Yc[inner, j])
+            b = max(0.0, float((wi * g_in * r).sum() / max((wi * g_in * g_in).sum(), 1e-12)))
             betas.append(b)
             G[te, j] = b * reg.predict(X[te])
     report = {"pred": name, "n_rows": int(len(P)), "n_components": int(len(comps)), "betas": betas}

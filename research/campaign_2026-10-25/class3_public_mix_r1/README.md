@@ -13,3 +13,17 @@ weight matched to the E-298 public-fit class mix) improve the strong warm H256×
   `scripts/screen_score.py` with the E-298 public-fit class-mix diagnostic.
   F0/F1 are exposed folds, one seed per fold: direction evidence only.
 - Status: running. Results will be appended here.
+
+## F0 result (2026-10-25 01:25 UTC) — [grade](grade_f0_R1.json)
+
+| Arm | Official WP | Class 3 WP | Public-mix (E-298) WP |
+|---|---:|---:|---:|
+| control (reused) | 0.6813132 | 0.41737 | 0.64258 |
+| cw143 | 0.6812545 | 0.41717 | 0.64249 |
+
+Paired component bootstrap (141 components): official −0.0000586 [−0.000131, −0.0000015];
+public-mix −0.0000930 [−0.000176, −0.000023]. Class weight did not move class 3 at all in
+this warm LR3e-5 two-epoch continuation; the regime is insensitive to row-measure changes.
+The unstarted cw2.0 dose arm was cancelled (amendment R2). F1 pair continues.
+One seed, exposed fold: direction evidence only, not a refutation of class weighting in
+teacher/cold training (H-360).
