@@ -1,0 +1,30 @@
+{
+  "schema": "wnn.transformer-recovery-recipe.v1",
+  "status": "REMOTE_ACCEPTANCE_PENDING",
+  "id": "E-B300-TRANSFORMER-RECOVERY-R5",
+  "source_baseline": "d32be666a10c6928a100a91a021337225520ce32",
+  "new_teacher_fits": 4,
+  "new_student_fits": 0,
+  "models": "1.54B Transformer",
+  "precision": "bf16_bf16x9",
+  "optimizer": "MuonAdamW",
+  "epochs": 30,
+  "learning_rates": [
+    0.0001,
+    0.0003
+  ],
+  "fold_seeds": {
+    "0": 201001,
+    "2": 201002
+  },
+  "inner_split_seeds": {
+    "0": 41001,
+    "2": 41002
+  },
+  "inner_component_fraction": 0.2,
+  "checkpoint_retention": "all_epochs",
+  "selection": "shared-epoch-max-mean-inner-wp-earlier-tie",
+  "actual_fits": 0,
+  "local_tests_executed": false,
+  "automatic_launch_after_cluster_restart": false
+}

@@ -13,19 +13,30 @@ import torch.distributed as dist
 from wnn.data import SEQUENCE_LENGTH
 from wnn.splits import file_sha256, load_campaign_split
 from wnn.training.sequence_data import SequenceRecords
+from wnn.training.sequence_epoch_prediction import (
+    EPOCH_KIND,
+    epoch_admission,
+    validate_epoch_payload,
+)
 from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_precision import forward_context
 
 # Checkpoint payloads contain tensors and JSON-compatible provenance, validated on load.
 
 
-def load_endpoint(checkpoint: Path, device: torch.device) -> tuple[torch.nn.Module, dict[str, Any]]:
-    """Load only a completed fixed-final endpoint with explicit FP32 ancestry."""
+def load_endpoint(
+    checkpoint: Path, device: torch.device, admission: dict[str, Any] | None = None
+) -> tuple[torch.nn.Module, dict[str, Any]]:
+    """Load a fixed-final endpoint or an explicitly admitted retained epoch."""
     payload = torch.load(checkpoint, map_location="cpu", weights_only=True)
-    if payload.get("checkpoint_schema") != "wnn.sequence-fit.v1":
+    if admission is not None:
+        validate_epoch_payload(payload, admission)
+    elif payload.get("checkpoint_schema") != "wnn.sequence-fit.v1":
         raise ValueError("unsupported endpoint; native/legacy weights require an explicit adapter")
     config = payload["config"]
-    if payload["completed_epochs"] != config["epochs"] or payload["epoch"] != config["epochs"] - 1:
+    if admission is None and (
+        payload["completed_epochs"] != config["epochs"] or payload["epoch"] != config["epochs"] - 1
+    ):
         raise ValueError("cache/score requires the fixed-final completed checkpoint")
     for name, value in payload["model"].items():
         if value.is_floating_point() and (
@@ -83,7 +94,22 @@ def export_predictions(args: argparse.Namespace) -> None:
     runtime = initialize_distributed()
     device, rank, world = runtime.device, runtime.rank, runtime.world_size
     split = load_campaign_split(args.split_manifest, args.data_root)
-    model, payload = load_endpoint(args.checkpoint, device)
+    admission = None
+    index_path, index_hash = (
+        getattr(args, "epoch_index", None),
+        getattr(args, "epoch_index_sha256", None),
+    )
+    if bool(index_path) != bool(index_hash):
+        raise ValueError("epoch evaluation requires both --epoch-index and --epoch-index-sha256")
+    if index_path is not None:
+        raw_split = json.loads(args.split_manifest.read_text())
+        if (
+            args.membership != "evaluation"
+            or raw_split.get("schema") != "wnn.sequence-inner-split.v1"
+        ):
+            raise ValueError("retained epochs are admitted only for inner evaluation")
+        admission = epoch_admission(args.checkpoint, index_path, index_hash)
+    model, payload = load_endpoint(args.checkpoint, device, admission)
     if payload["data"]["split_sha256"] != split.sha256:
         raise ValueError("endpoint does not exclude this evaluation fold")
     fitting = [("train", g) for g in split.train_groups] + [
@@ -128,6 +154,9 @@ def export_predictions(args: argparse.Namespace) -> None:
         entry_map = {(entry["split"], entry["row_group"]): entry for entry in all_entries}
         if len(all_entries) != len(members) or set(entry_map) != set(members):
             raise ValueError("missing or duplicate export shards")
+        producer = _producer(args.checkpoint, payload)
+        if admission is not None:
+            producer.update({"kind": EPOCH_KIND, "epoch_admission": admission})
         manifest = {
             "schema": "sequence-teacher-cache-v1"
             if args.membership == "fit"
@@ -138,7 +167,7 @@ def export_predictions(args: argparse.Namespace) -> None:
             "split_sha256": split.sha256,
             "hint_dim": payload["config"]["model"]["hint_dim"] if args.membership == "fit" else 0,
             "sequence_length": SEQUENCE_LENGTH,
-            "producer": _producer(args.checkpoint, payload),
+            "producer": producer,
             "world_size": world,
             "sequences": [entry_map[member] for member in members],
         }
@@ -158,6 +187,8 @@ def main() -> None:
     parser.add_argument("--split-manifest", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--membership", choices=("fit", "evaluation"), required=True)
+    parser.add_argument("--epoch-index", type=Path)
+    parser.add_argument("--epoch-index-sha256")
     args = parser.parse_args()
     if int(os.environ.get("WORLD_SIZE", "1")) < 1:
         parser.error("invalid distributed world size")

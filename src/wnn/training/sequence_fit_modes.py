@@ -19,6 +19,8 @@ from wnn.training.sequence_distributed import (
     barrier,
     coordinated_call,
 )
+from wnn.training.sequence_epoch_fit import publish_epoch_snapshot, reconcile_epoch_snapshots
+from wnn.training.sequence_epoch_index import MAX_RETAINED_EPOCHS
 from wnn.training.sequence_fit_artifacts import (
     epoch_summary,
     record_epoch_metrics,
@@ -137,9 +139,15 @@ def run_full_fit(
     profile_receipt: Path,
     profile_hash: str,
 ) -> None:
-    """Resume or complete a fixed-final fit, saving only safe epoch checkpoints."""
+    """Resume or complete a fit, retaining inference snapshots only when requested."""
     history: list[dict[str, object]] = []
     global_step, start_epoch = 0, 0
+    retention = str(config.get("checkpoint_retention", "final_only"))
+    if retention not in ("final_only", "all_epochs"):
+        raise ValueError("unsupported checkpoint retention policy")
+    if retention == "all_epochs" and int(config["epochs"]) > MAX_RETAINED_EPOCHS:
+        raise ValueError("all-epoch retention supports at most 10,000 configured epochs")
+    latest_index: dict[str, object] | None = None
     if resume_path is not None:
         start_epoch, global_step, history = _load_resume(
             resume_path, identity, base_model, optimizer, scheduler, context, rank_log, output
@@ -164,6 +172,21 @@ def run_full_fit(
         )
     if not 0 <= start_epoch <= int(config["epochs"]):
         raise ValueError("resume checkpoint next_epoch is outside the configured schedule")
+    if retention == "all_epochs":
+        latest_index = reconcile_epoch_snapshots(
+            output,
+            base_model,
+            config,
+            identity,
+            normalization,
+            data_provenance,
+            profile_receipt,
+            profile_hash,
+            start_epoch,
+            global_step,
+            history,
+            context,
+        )
     for epoch in range(start_epoch, int(config["epochs"])):
         torch.cuda.reset_peak_memory_stats(context.device)
         result = train_epoch(
@@ -220,6 +243,23 @@ def run_full_fit(
             ),
             context,
         )
+        if retention == "all_epochs":
+            latest_index = publish_epoch_snapshot(
+                output,
+                base_model,
+                config,
+                identity,
+                normalization,
+                data_provenance,
+                profile_receipt,
+                profile_hash,
+                history,
+                epoch,
+                global_step,
+                latest_index,
+                context,
+                "safe-epoch inference snapshot publication",
+            )
     coordinated_call(
         lambda: (
             write_final_outputs(
@@ -233,6 +273,7 @@ def run_full_fit(
                 profile_receipt,
                 profile_hash,
                 global_step,
+                str(latest_index["index_sha256"]) if latest_index is not None else None,
             )
             if context.is_primary
             else True
