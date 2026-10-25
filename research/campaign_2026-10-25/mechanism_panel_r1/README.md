@@ -42,3 +42,13 @@ Final 12 fits (F0, F2; frozen source `7829859e4`): M1 Muon `--muon-update rms`; 
 `--lr 5e-4`; E1b Muon `--muon-rms 0.1`; M2 AdamW `--beta2 0.95`; M4 AdamW `--rnn-init chrono`;
 TF AdamW `--strict-fp32-kernels`. Key comparisons: M1 vs Muon-NS; Muon-NS vs AdamW-5e-4
 (best-vs-tuned); TF vs AdamW (TF32 effect).
+
+## Interim: M1 (RMS-momentum, no orthogonalization), F0 ([grade](grade_f0_m1_only_R1.json))
+
+AdamW 0.659530, Muon-NS 0.663349, **M1 0.659367**: M1 − Muon **−0.003982 [−0.005734, −0.001994]**,
+M1 − AdamW −0.000163 [−0.002746, +0.003316]. Same step RMS, no second moment, singular spread
+kept → AdamW-level quality: on this cell the entire Muon gain needs the orthogonalization.
+M1 gate saturation ([json](../optimizer_panel_r1/diagnostics/gate_saturation_m1_R1.json)): z 13.9% /
+r 14.1% (AdamW 45/23, Muon 3/1), τ q50/q90/q99 = 2.9 / 70 / 228,643 rows — frozen units
+persist as in AdamW, absent under Muon (q99 ≈170). Quality tracks the frozen-unit tail, not the
+mean saturation fraction. F2 cell pending.
