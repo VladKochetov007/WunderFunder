@@ -1,5 +1,9 @@
 # Current project state
 
+## October 25 evening: session wrapped, two jobs landing (user pause)
+
+The user ended the session: research loop deleted, no new admissions. Landing: Muon on the production stage-6 student (local, auto-graded) and the Kaggle R3 independent reproduction (collect manually). Full results, ledger, incidents, new code, handoff commands and ranked next steps: [session synthesis](../research/campaign_2026-10-25/SESSION_SYNTHESIS_R1.md), [pause receipt](../research/campaign_2026-10-25/PAUSE_R1.json). Strongest result: strict-FP32 Muon beats LR-tuned AdamW by +0.0026/+0.0035 on the fast recipe, via orthogonalized recurrent updates that prevent gate collapse. No new submission.
+
 ## October 25 (afternoon): Muon mechanism established on the fast recipe
 
 - Strict-FP32 Muon beats LR-tuned AdamW (5e-4) by +0.0026/+0.0035 (F0/F2) and AdamW 1e-3 by +0.0038/+0.0043; removing only the Newton–Schulz orthogonalization returns it to AdamW level (−0.0040 both cells). Mechanism: spectrally equalized recurrent updates prevent AdamW's gate collapse (45–48% saturated update gates, frozen units with τ q99 ~5e5 rows vs Muon 3%, ~170 rows). Chrono long-timescale init hurts (−0.0057). Clipping at 1.0 helps (no-clip −0.0025). [Mechanism panel](../research/campaign_2026-10-25/mechanism_panel_r1/README.md), [diagnostics](../research/campaign_2026-10-25/optimizer_panel_r1/diagnostics/README.md).
