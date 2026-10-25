@@ -15,11 +15,17 @@ from split_inputs import validate_outer_inner_pair
 def audit_splits(campaign: dict[str, Any]) -> dict[str, Any]:
     """Validate and count the exact train/development/outer memberships for both folds."""
     records = []
+    memberships = {}
+    graph_identity = None
     for fold in (0, 2):
         outer_path = Path(campaign["outer_splits"][f"F{fold}"]["source_path"])
         inner_path = Path(campaign["inner_splits"][f"F{fold}"]["source_path"])
         outer, inner = read_object(outer_path), read_object(inner_path)
         validate_outer_inner_pair(outer_path, outer, inner_path, inner, fold)
+        current_graph = (inner["sources"], inner["sequences"])
+        if graph_identity is not None and current_graph != graph_identity:
+            raise ValueError("F0/F2 source identities or component maps differ")
+        graph_identity = current_graph
         components = {
             (source, row["row_group"]): row["component"]
             for source, rows in inner["sequences"].items()
@@ -33,6 +39,7 @@ def audit_splits(campaign: dict[str, Any]) -> dict[str, Any]:
         training_components = {components[member] for member in train_members}
         development_components = {components[member] for member in development}
         outer_components = {components[member] for member in held_out}
+        memberships[fold] = (development_components, outer_components)
         overlaps = {
             "train_development": len(training_components & development_components),
             "train_outer": len(training_components & outer_components),
@@ -68,6 +75,14 @@ def audit_splits(campaign: dict[str, Any]) -> dict[str, Any]:
     return {
         "schema": "wnn.recovery-split-audit.v1",
         "folds": records,
+        "cross_fold_development_outer_components": {
+            "F0_inner_vs_F2_outer": len(memberships[0][0] & memberships[2][1]),
+            "F2_inner_vs_F0_outer": len(memberships[2][0] & memberships[0][1]),
+        },
+        "cross_fold_interpretation": (
+            "Counterpart outer-fold exposure is reported, not forbidden; "
+            "shared epoch selection is development tuning, not untouched confirmation."
+        ),
         "normalization": "all fitting members only; excludes development and outer components",
         "selection": "inner development only; previously exposed outer folds are reporting only",
         "data_rows_recomputed": False,
