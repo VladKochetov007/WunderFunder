@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from pathlib import Path
 from typing import Any
 
@@ -50,6 +51,14 @@ def audit_splits(campaign: dict[str, Any]) -> dict[str, Any]:
                 "train_components": len(training_components),
                 "development_sequences": len(development),
                 "development_components": len(development_components),
+                "development_fraction_basis": "outer fitting valid-source sequences",
+                "requested_development_fraction": inner["selection"]["evaluation_fraction"],
+                "target_development_sequences": math.ceil(
+                    inner["selection"]["evaluation_fraction"] * len(outer["fit"]["valid"])
+                ),
+                "actual_development_fraction": len(development) / len(outer["fit"]["valid"]),
+                "excluded_training_source_sequences": len(outer["fit"]["train"])
+                - len(inner["fit"]["train"]),
                 "outer_sequences": len(held_out),
                 "outer_components": len(outer_components),
                 "overlapping_components": overlaps,
