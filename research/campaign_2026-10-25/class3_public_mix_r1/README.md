@@ -42,3 +42,11 @@ parent as a reference).
 Note: the cancelled cw2.0 arm had already started (queue2 began at 01:25:32, right after
 the F1 failure) and was stopped about 15 minutes in, before any checkpoint; its empty
 run directory was removed. No partial result exists or is claimed.
+
+## Stage-6 control check ([grade](grade_stage6_control_check_R1.json))
+
+Strict-FP32 6-epoch replay `c3mix6_f0_s3_control_e6_r1` CP5 = **0.6812108** vs historical
+FP16 parent CP5 0.6811554 (Δ +0.0000554, 95% [−0.000143, +0.000238]); class 3 0.4170 vs
+0.4169; public-mix 0.64249 vs 0.64245. The precision/source change does not confound the
+stage; the control is a faithful baseline for the cw143 candidate. (Scoring took ~30 min
+CPU because the parent's legacy sidecar triggers checkpoint-hash discovery.)
