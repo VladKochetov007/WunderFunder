@@ -17,3 +17,20 @@ not explicit. Prediction: adding the block improves WP, most in class 3.
   [Plans](PLANS_R1.json), [runner](run_panel.sh), screens [F0](screen_f0.json)/[F2](screen_f2.json)
   with class and E-298 public-mix breakdowns. Exposed folds, one seed per fold.
 - Units `wnn-i1lead`, `wnn-i1lead-thermal`. Status: running (~1 h).
+
+## Execution note and F0 result
+
+Export initially failed: the current `predict_run.py` rejects `--loader-workers` (accepted by
+older frozen trees); the flag was removed and the completed fit reused. F0 grade
+([grade_f0_R1.json](grade_f0_R1.json)):
+
+| Arm | Official WP | class 0 | class 1 | class 2 | class 3 | public-mix |
+|---|---:|---:|---:|---:|---:|---:|
+| control (zero block) | 0.659530 | 0.7944 | 0.7344 | 0.7227 | 0.3913 | 0.6195 |
+| lead block | 0.654645 | 0.7880 | 0.7326 | 0.7210 | 0.3821 | 0.6155 |
+
+Paired **−0.004885 [−0.007007, −0.003018]**: the held-i1 block hurts in every class. Because
+the input projection is linear, a "move since i0 event" difference variant carries the same
+information and is not queued. Likely explanation: 52 near-collinear inputs add variance in
+this 10%-data cold fit; FTT's benefit may come from its tied i0/i1 encoder or full-data
+training rather than the block itself. F2 pending.
