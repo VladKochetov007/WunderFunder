@@ -26,5 +26,7 @@ cache resolution (contract and source verification passed).
 
 The cache is rebuilt by the pristine R2 builder from teacher exports: valid exports are the
 historical files; train exports are new (current `predict_run.py`, checkpoint FP16 inference as
-historically). It is a numerical reproduction, not byte-identical to the historical R2 cache
-(digest `0692a2b1…` train) — agreement to be measured.
+historically). **Result (23:19 UTC):** both rebuilt arrays are **byte-identical** to the historical R2 cache
+pinned by the R3 consumer: train `0692a2b1cd63…` (1,696,960,128 B), valid `d51495b8020b…`
+(299,680,128 B). Metadata differs only in local paths/timestamps (`446c077d…`). Teachers'
+train exports took ~6–8 min each on the RTX 3060.
