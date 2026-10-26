@@ -75,3 +75,12 @@ The optimizer panel had completed before the reboot. The clip panel's first fit
 (`clip_f0_s1001_noclip_r1`) was interrupted in epoch 1 with no CP2; its partial run was
 removed and the fit restarted from scratch at 10:42 UTC. The Muon stage-6 successor had not
 started and was relaunched behind the clip panel. Research loop recreated.
+
+## Stage-6 production-lineage transfer (rerun after reboot, graded 2026-10-26 00:55 UTC)
+
+`muon6_f0_s3_rnn_e6_r1` (strict-FP32 Muon, scope rnn, warm from `c20261003_combo_s3_f0@ep3`, 6 ep,
+LR 1e-4, distill α 0.9, CP5) vs strict-FP32 AdamW control `c3mix6_f0_s3_control_e6_r1`, F0, 468
+sequences ([grade](grade_stage6_muon_f0_R1.json)):
+**0.681471 vs 0.681211, +0.00026 [−0.00041, +0.00101]**, P(≤0) 0.26. Small positive, as expected:
+the parent was already Muon-trained with gates ~10% saturated
+([diagnostic](../../campaign_2026-10-26/diagnostics_r1/README.md)). One seed, exposed F0.

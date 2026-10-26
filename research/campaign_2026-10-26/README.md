@@ -19,3 +19,9 @@ evidence: [October 25 synthesis](../campaign_2026-10-25/SESSION_SYNTHESIS_R1.md)
    the student slot at fixed TL3 coefficients (same rule as the Oct-24 quota ZIPs). Native-ZIP
    checks (CPU replay, A–B–A reset, size/runtime) before any upload decision; no automatic upload.
 4. Falsifier: Muon stage-6 F0 ≤ AdamW control → do not promote Muon students into the blend.
+
+## Gate result (2026-10-26 00:55 UTC)
+
+Stage-6 transfer: Muon − AdamW **+0.00026 [−0.00041, +0.00101]** (F0, one seed). Pre-declared
+gate (delta > 0) passes → Muon students are promoted into the packages. Expected effect on the
+production lineage is small: its parents were already Muon-trained.
