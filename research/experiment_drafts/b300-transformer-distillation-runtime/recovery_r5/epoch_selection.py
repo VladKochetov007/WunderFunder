@@ -166,10 +166,13 @@ def _fold_pin(fold: dict[str, Any], epoch_position: int | None = None) -> dict[s
     return result
 
 
-def select_shared_epoch(f0_output: Path, f2_output: Path, output: Path) -> dict[str, Any]:
-    """Select the earliest epoch maximizing equal-fold mean inner WP, or publish HOLD."""
-    f0, missing0 = _load_fold(f0_output, 0)
-    f2, missing2 = _load_fold(f2_output, 2)
+def selection_from_folds(
+    f0: dict[str, Any] | None,
+    f2: dict[str, Any] | None,
+    missing0: list[dict[str, Any]],
+    missing2: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Calculate the shared decision from already verified fold receipts."""
     missing = missing0 + missing2
     if f0 is not None and f2 is not None:
         for fold in (f0, f2):
@@ -213,7 +216,6 @@ def select_shared_epoch(f0_output: Path, f2_output: Path, output: Path) -> dict[
             "decision": None,
         }
         summary["selection_sha256"] = canonical_sha256(summary)
-        write_json_new(output, summary)
         return summary
 
     config0 = f0["fit"]["config"]
@@ -249,9 +251,16 @@ def select_shared_epoch(f0_output: Path, f2_output: Path, output: Path) -> dict[
             "F2": [item["score_sha256"] for item in f2["observed"]],
         },
     }
-    decision = unsigned | {"selection_sha256": canonical_sha256(unsigned)}
-    write_json_new(output, decision)
-    return decision
+    return unsigned | {"selection_sha256": canonical_sha256(unsigned)}
+
+
+def select_shared_epoch(f0_output: Path, f2_output: Path, output: Path) -> dict[str, Any]:
+    """Select the earliest epoch maximizing equal-fold mean inner WP, or publish HOLD."""
+    f0, missing0 = _load_fold(f0_output, 0)
+    f2, missing2 = _load_fold(f2_output, 2)
+    result = selection_from_folds(f0, f2, missing0, missing2)
+    write_json_new(output, result)
+    return result
 
 
 def main() -> None:

@@ -108,6 +108,18 @@ def get_recovery_cell(root: Path, cell_id: str) -> dict[str, Any]:
     return records[0]
 
 
+def require_no_retention_intent(root: Path, cell: dict[str, Any], action: str) -> None:
+    """Block operations that would misrepresent a fit after compacting its epoch snapshots."""
+    if action not in ("fit", "resume", "export"):
+        raise ValueError("retention guard received an unsupported operation")
+    intent = root / cell["run_dir"] / "fit" / "retention_intent.json"
+    if intent.exists() or intent.is_symlink():
+        raise ValueError(
+            f"cannot {action} after retained-epoch cleanup has begun ({intent}); "
+            "use the immutable MIDAS bundle exported before cleanup"
+        )
+
+
 def check_receiver(root: Path, check_id: str) -> None:
     """Run existing hardware acceptance plus recovery checks on the B300 receiver."""
     campaign, manifest = load_recovery(root)
@@ -128,6 +140,7 @@ def check_receiver(root: Path, check_id: str) -> None:
             "tests/test_recovery_epoch_sweep.py",
             "tests/test_recovery_epoch_sweep_resume.py",
             "tests/test_midas_training_export.py",
+            "tests/test_recovery_retention.py",
         ],
         log,
         receiver_check_environment(),
@@ -208,6 +221,8 @@ def main() -> None:
             if not args.cell:
                 parser.error("--cell is required for a receiver action")
             cell = get_recovery_cell(root, args.cell)
+            if args.action in ("fit", "resume"):
+                require_no_retention_intent(root, cell, args.action)
             checks = receiver_acceptance(root, campaign)
             if args.action == "fit":
                 storage_admission(root, cell)
