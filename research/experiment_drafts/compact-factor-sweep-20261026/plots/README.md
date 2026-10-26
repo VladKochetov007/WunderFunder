@@ -1,5 +1,5 @@
 <!-- tabdata-compact-factor-sweep-20261026 -->
-Campaign status: **profiles_or_preparation**. Complete new validation points: **0/40**; 20 retained PR43 points reused for control/joint-treatment plots.
+Campaign status: **stopped_by_user**. Complete new validation points: **0/40**; 20 retained PR43 points reused for control/joint-treatment plots.
 
 Eight new five-epoch fits; four two-B300 groups per wave. Batch128/rank, global256, 1150updates/fit. BF16/BF16x9, FP32 masters/states, warmup5% + cosine.
 
