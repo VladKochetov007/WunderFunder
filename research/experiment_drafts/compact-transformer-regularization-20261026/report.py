@@ -31,6 +31,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
     args = parser.parse_args()
+    if (args.root / "DELIVERY_COMPLETE.json").exists():
+        return
     pointer = args.root / "SELECTED_PLAN.json"
     publication = args.root / "GITHUB_PR.json"
     if not pointer.exists() or not publication.exists():
@@ -45,6 +47,15 @@ def main() -> None:
     for path in run.glob("*/validation/epoch-*/RESULT.json"):
         result = json.loads(path.read_text())
         if result.get("status") == "complete":
+            from verify import verify_result
+
+            try:
+                verify_result(path, Path(plan["source_root"]))
+            except (ValueError, OSError) as error:
+                (args.root / "METRIC_VERIFICATION_FAILED.json").write_text(
+                    json.dumps({"result": str(path), "error": str(error)}) + "\n"
+                )
+                raise
             points.append(result)
     digest = hashlib.sha256(json.dumps(points, sort_keys=True).encode()).hexdigest()
     stamp = args.root / "GITHUB_PROGRESS.json"

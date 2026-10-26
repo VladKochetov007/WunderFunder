@@ -342,6 +342,9 @@ def _run_phase(
         metric_result.update(
             {
                 "official_wp": all_result["wp"],
+                "official_wp_t0": all_result["t0"],
+                "official_wp_t1": all_result["t1"],
+                "official_selected_rows": all_result["selected_rows"],
                 "official_wp_metric_id": all_result["metric_id"],
                 "weighted_mse_on_scored_rows": scored_result["wmse"],
                 "weighted_mse_rows_on_scored_rows": scored_result["wmse_rows"],
@@ -511,6 +514,8 @@ def run_evaluation(args: argparse.Namespace) -> int:
         "heldout_component_ids": heldout_components,
         "source_commit": plan["source_commit"],
         "source_sha256": identity["source_sha256"],
+        "evaluation_operator_sha256": _sha256(Path(__file__).resolve()),
+        "metrics_operator_sha256": _sha256(Path(__file__).with_name("metrics.py")),
         "online_epoch_loss": epoch_loss,
         "resource_start": resource_start,
         "max_gpu_gib": args.max_gpu_gib,
