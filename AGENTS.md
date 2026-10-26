@@ -2,7 +2,7 @@
 
 ## October 26 resume: Muon submissions
 
-User: "Go on with research. form the best submissions with new information … make best possible single GRU and blend"; up to 20 GB RAM, 5 GB VRAM, 10 CPU cores. Supersedes the October 25 pause. Kaggle R3 replicated Muon (+0.0036/+0.0033, fresh seeds, T4, true FP32). Active: local `wnn-muon6` (stage-6 transfer test), `wnn-tcache` (H390 teacher cache rebuild), `wnn-finals` (all-data strict-FP32 Muon students `vt_all_h390m_s{3,4}_r1`). See the [campaign](research/campaign_2026-10-26/README.md) and [resume receipt](research/campaign_2026-10-26/RESUME_R1.json). No automatic upload.
+User: "Go on with research. form the best submissions with new information … make best possible single GRU and blend"; up to 20 GB RAM, 5 GB VRAM, 10 CPU cores. Supersedes the October 25 pause. Kaggle R3 replicated Muon (+0.0036/+0.0033, fresh seeds, T4, true FP32). Done (04:52 UTC): stage-6 Muon transfer +0.00026; parent FP16/bf16 Muon numerics cost nothing (Kaggle); final students `vt_all_h390m_s{3,4}_r1` built; four checked ZIPs in `submissions/muon_20261026/` ([results](research/campaign_2026-10-26/submissions_r1/README.md)). Muon students correlate 0.9995 with AdamW siblings: expect public within noise of Oct-24 quota ZIPs. No jobs running. See the [campaign](research/campaign_2026-10-26/README.md) and [resume receipt](research/campaign_2026-10-26/RESUME_R1.json). No automatic upload.
 
 ## October 25 session: paused by user, jobs landing
 
