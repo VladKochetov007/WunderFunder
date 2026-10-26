@@ -137,6 +137,10 @@ def run_wave(root: Path, wave: str) -> None:
                 raise RuntimeError(reason)
             time.sleep(5)
         points = list((folder / "cohort-b128").glob("*/validation/epoch-*/RESULT.json"))
+        if controller.returncode != 0 or monitor.returncode != 0:
+            raise RuntimeError("fit or observer terminated with a nonzero exit")
+        if read(folder / "cohort-b128/STATE.json").get("status") != "completed":
+            raise RuntimeError("canonical cohort did not complete successfully")
         if len(points) != 20 or any(read(p).get("status") != "complete" for p in points):
             raise ValueError("wave ended without twenty complete validation points")
         save(folder / "DELIVERY_COMPLETE.json", {"unix": time.time(), "validation_points": 20})

@@ -505,6 +505,13 @@ def run_monitor(args: argparse.Namespace) -> int:
 
 
 def main() -> None:
+    import signal
+
+    def interrupted(signum: int, frame: object) -> None:
+        raise InterruptedError(f"validation observer received signal{signum}")
+
+    signal.signal(signal.SIGTERM, interrupted)
+    signal.signal(signal.SIGINT, interrupted)
     parser = argparse.ArgumentParser(
         description="Observe immutable safe-epoch indexes and evaluate each once."
     )

@@ -20,7 +20,9 @@ class OperatorContractTests(unittest.TestCase):
     def test_configs_and_rejections(self) -> None:
         root = Path("/data/epanov_s/tabdata/runs/compact-factor-sweep-20261026")
         for wave in ["regularization_factors", "learning_rate"]:
-            for path in (root / wave / "configs").glob("*.json"):
+            paths = list((root / wave / "configs").glob("*.json"))
+            self.assertEqual(len(paths), 4)
+            for path in paths:
                 cfg = json.loads(path.read_text())
                 _check_recipe(path.stem, cfg, wave)
                 wrong = copy.deepcopy(cfg)

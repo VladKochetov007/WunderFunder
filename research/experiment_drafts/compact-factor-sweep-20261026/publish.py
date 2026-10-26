@@ -108,7 +108,19 @@ def main() -> None:
         parent = ref["object"]["sha"]
         commit = api.request("GET", REPOSITORY + "/git/commits/" + parent)
         entries = []
-        for path in sorted((root / "plots").iterdir()):
+        for filename in [
+            "coordinates.json",
+            "coordinates.csv",
+            "selection.json",
+            "README.md",
+            "regularization.png",
+            "regularization.svg",
+            "learning_rate.png",
+            "learning_rate.svg",
+        ]:
+            path = root / "plots" / filename
+            if path.is_symlink() or not 0 < path.stat().st_size <= 2_000_000:
+                raise ValueError("plot artifact is not a bounded regular file")
             blob = api.request(
                 "POST",
                 REPOSITORY + "/git/blobs",
