@@ -19,3 +19,11 @@ little left to fix in this lineage; the h390m/muon6 change is "Muon also in the 
 strict FP32". Prior for the stage-6 transfer test: small effect. A null there does not contradict
 the cold-recipe result. Larger headroom would need the parents themselves retrained under
 strict-FP32 Muon (cold, full data) — candidate next experiment.
+
+## Checkpoint weight averaging (zero-fit) — null
+
+[average_checkpoints.py](average_checkpoints.py) uniform-averages epochs 3–5 of the stage-6 F0 runs;
+[swa_grade.sh](swa_grade.sh) exports (FP32) and grades ([grade](grade_swa.json)):
+AdamW 0.681211 → 0.681247 (+0.00004 [−0.00055, +0.00048]); Muon 0.681471 → 0.681492
+(+0.00002 [−0.00017, +0.00021]). OneCycle anneals LR to ~0, so late epochs are nearly identical;
+no averaging member for the packages.
