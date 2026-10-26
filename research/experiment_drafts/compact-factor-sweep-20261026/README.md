@@ -101,3 +101,7 @@ Receiver root: `/data/epanov_s/tabdata/runs/compact-factor-sweep-20261026/`.
 Source, environment, exact plans/approvals, rank and hardware logs, safe weights,
 epoch snapshots and prediction arrays remain separately preserved. Actual startup,
 terminal status and publication URL must be recorded from receipts.
+
+## User stop — 2026-10-26 05:00 UTC
+
+All owned GPU profiling processes were stopped and automatic factor-campaign cron entries removed. Verified no tabdata training ranks remain; ARC-AGI processes were not touched. **Zero new scientific fits started**. Eight100GiB-cap12update engineering profiles completed; four90GiB-cap repeats stopped after6/8/6/7updates. These are resource measurements, not predictive-quality results. PR43 four complete fits and20validation points/checkpoints remain preserved; their figures are in plots/. The full eight-fit follow-up remains unrun. Evidence archive: /data/epanov_s/tabdata/runs/compact-factor-sweep-20261026/STOP_EVIDENCE_20261026.tar.gz (SHA256 be1362219fc9fa5ee7b243dcf9d5cf638173006d17e0bce5ab11c299984d0142). See results/STOP_SUMMARY.json and results/STOP_EVIDENCE_MANIFEST.json.
