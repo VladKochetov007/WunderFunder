@@ -22,3 +22,16 @@ scores verify the package and are not held-out quality. Muon's support: fast-rec
 +0.00026 [−0.00041, +0.00101]. Expected public change vs the H390-based ZIPs: small; no forecast.
 Local callback time ratio suggests the single GRU runs ~5× faster than the TL3 blend (TL3 public
 runtime 39:12); not a competition timing measurement.
+
+## How different is the Muon student? (full valid exports, all scored rows, descriptive)
+
+| Pair | corr t0 | corr t1 |
+|---|---:|---:|
+| Muon h390m s3 vs AdamW H390 S3 (same parent) | 0.99953 | 0.99955 |
+| AdamW H390 S3 vs S4 (different seed/parent) | 0.99373 | 0.99416 |
+| Muon h390m s3 vs AdamW H390 S4 | 0.99365 | 0.99405 |
+
+The 6-epoch distill stage moves the warm Muon-trained parent very little; optimizer choice there
+changes predictions ~12× less than the seed/parent does. The Muon ZIPs are therefore near-copies
+of the Oct-24 H390 quota ZIPs; expect public differences within noise. **Seed/parent diversity
+(s3+s4 pair) is a larger lever than the optimizer in this lineage.**
