@@ -190,7 +190,7 @@ def main() -> None:
             args.root / "CAMPAIGN_STATE.json",
             {"status": "completed", "unix": time.time(), "new_fits": 8, "validation_points": 40},
         )
-    except (OSError, ValueError, RuntimeError) as error:
+    except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
         save(
             args.root / "CAMPAIGN_STATE.json",
             {"status": "failed_preserved", "unix": time.time(), "error": str(error)},
