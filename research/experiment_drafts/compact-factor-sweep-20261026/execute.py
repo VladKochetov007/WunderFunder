@@ -59,11 +59,29 @@ def validation_failure(folder: Path, started: float) -> str | None:
     return None
 
 
+def memory_failure() -> str | None:
+    """Yield our cohort if co-resident work consumes the remaining physical margin."""
+    result = subprocess.run(
+        ["nvidia-smi", "--query-gpu=index,memory.free", "--format=csv,noheader,nounits"],
+        capture_output=True,
+        text=True,
+        check=True,
+        timeout=10,
+    )
+    for line in result.stdout.splitlines():
+        index, free_mib = line.split(",")
+        if float(free_mib) < 16 * 1024:
+            return f"GPU{index.strip()} physical freeVRAM below16GiB; yield only our cohort"
+    return None
+
+
 def run_wave(root: Path, wave: str) -> None:
     """Run four fits and their observers; preserve any failure without retries."""
     folder = root / wave
-    plan = folder / "plan-selected.json"
     pointer = read(folder / "SELECTED_PLAN.json")
+    plan = Path(pointer["path"]).resolve(strict=True)
+    if plan.parent != folder.resolve() or plan.is_symlink():
+        raise ValueError("selected plan must stay inside its wave folder")
     if pointer["sha256"] != sha(plan):
         raise ValueError("approved plan changed")
     runtime = Path(__file__).resolve().parent
@@ -100,7 +118,7 @@ def run_wave(root: Path, wave: str) -> None:
         )
         children.append(hardware)
         controller = spawn(
-            [sys.executable, str(OPERATORS / "run_panel.py"), "--plan", str(plan)],
+            [sys.executable, str(runtime / "run_panel.py"), "--plan", str(plan)],
             folder / "FIT_CONTROLLER.log",
         )
         children.append(controller)
@@ -110,7 +128,7 @@ def run_wave(root: Path, wave: str) -> None:
             {
                 "pid": controller.pid,
                 "created_unix": started,
-                "command": [str(OPERATORS / "run_panel.py"), "--plan", str(plan)],
+                "command": [str(runtime / "run_panel.py"), "--plan", str(plan)],
             },
         )
         save(
@@ -124,6 +142,8 @@ def run_wave(root: Path, wave: str) -> None:
         )
         while controller.poll() is None or monitor.poll() is None:
             reason = validation_failure(folder, started)
+            if reason is None:
+                reason = memory_failure()
             if controller.poll() not in {None, 0}:
                 reason = f"fit controller exit{controller.returncode}"
             if monitor.poll() not in {None, 0}:

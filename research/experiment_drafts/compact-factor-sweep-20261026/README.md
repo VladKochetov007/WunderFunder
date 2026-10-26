@@ -53,21 +53,36 @@ Two sequential waves, four concurrent fits per wave, disjoint GPU pairs0–1,
 B256 cohort gained only~1% bottleneck throughput at roughly twice reservedVRAM.
 Prior complete fits measured68–79minutes; allow~2.5–3hours plus fresh profile
 startup/validation, conditional on current load. Approximately20–24deviceGPUh.
-Own rank allocators cap100GiB; observed prior reserved~80–81GiB/rank; observer
-caps12GiB. Host availableRAM and physical scratch must pass actual admission.
+Own rank allocators cap90GiB after fresh exact-cap profiles; observed prior
+reserved~80–81GiB/rank. The observer caps12GiB and uses only the firstGPU of each
+pair. Admission reserves16GiB perGPU, with an additional live free-memory guard.
+Host availableRAM and physical scratch must pass actual admission.
 No swap, paid-resource changes or foreign-process cleanup. Each wave deadline
 3hours; two waves only; no automatic scientific retry or indefinite queue.
 
 `stage.py --mode prepare --root ROOT` freezes configs/plans and reused result
 hashes; `--mode profile` runs two bounded resource cohorts. Root independently
 inspects profiles and records exact approvals before fitting. Existing canonical
-run_panel.py, profile_panel.py, cuda_budget.py and telemetry.py are referenced
-from the immutable parent operator deployment, not copied trainers.
+profile_panel.py, cuda_budget.py and telemetry.py are referenced from the
+immutable parent operator deployment. The new run_panel.py copies the existing
+controller with only its observer-budget placement corrected; no trainer is copied.
 `execute.py --root ROOT` runs both admitted waves under native-cron one-shot
 ownership, independently of SSH. `monitor.py/evaluate.py/metrics.py` preserve
 canonical source/index/profile admission and add explicit frozen wave recipes.
 Any stale/failed observer, invalid index/admission, nonzero fit exit or independent
 metric verification failure stops only the owned active cohort and preserves outputs.
+The live resource guard also yields our cohort if anyGPU has less than16GiB free.
+This is shared-device monitoring, not hard isolation from sudden ARC allocations.
+
+### Resource amendment before scientific startup
+
+ARC-AGI restarted during initial100GiB-cap profiling. All eight resource profiles
+passed, but subsequent admission failed because its GPU5 rank grew to~160GiB.
+No scientific fit had started. The failed reviews and original profiles are retained.
+R2 repeats exact profiles at90GiB cap, keeps the scientific configs/batch unchanged,
+charges the observer only to its actual firstGPU, and rechecks allocation at each
+wave start. With concurrent ARC load, current wall estimate is3–4hours, not the
+initial idle-node2.5–3hours. Actual CPU/source/profile/data admission remains required.
 
 ## Curves and delivery
 
