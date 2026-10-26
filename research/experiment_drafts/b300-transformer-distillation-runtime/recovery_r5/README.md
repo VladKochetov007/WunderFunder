@@ -1,6 +1,7 @@
 # Повторное обучение Transformer 1,54B и отчёты для MIDAS
 
 Основа: [PR #42](https://github.com/VladKochetov007/WunderFunder/pull/42) смержен в `research-team`.
+Команды запуска и очистка: [draft PR #45](https://github.com/VladKochetov007/WunderFunder/pull/45) → `research-team`.
 
 [Точные команды запуска и хранения](LAUNCH_AND_STORAGE.md) связывают подготовку
 данных/splits, приёмку, четыре fit и полные оценки эпох. Пары LR обрабатываются
