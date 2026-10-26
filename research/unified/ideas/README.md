@@ -1,6 +1,6 @@
 # Ideas and hypotheses
 
-[Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
+[Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained through explicit inner-only shared epoch selection and portable MIDAS evidence. [Launch/storage handoff](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/LAUNCH_AND_STORAGE.md) completes one LR pair before the next, with explicit post-selection cleanup preserving selected/final weights and evidence; ~407 GB is a weight-only peak estimate, not total disk capacity. Published in [draft PR45](https://github.com/VladKochetov007/WunderFunder/pull/45), based on merged PR42; B300 acceptance and all new results remain pending, cluster restart awaited.
 
 **Merged into `research-team`, 24 October 2026:**
 [PR #32](https://github.com/VladKochetov007/WunderFunder/pull/32) at

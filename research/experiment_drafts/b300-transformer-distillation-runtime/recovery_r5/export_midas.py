@@ -6,11 +6,11 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any  # Validated manifests contain heterogeneous JSON fields.
 
-from recovery_runtime import get_recovery_cell, load_recovery
+from epoch_selection import _load_fold
+from recovery_runtime import get_recovery_cell, load_recovery, require_no_retention_intent
 
-# Run metadata and score receipts have separately validated heterogeneous JSON fields.
 LIMIT = 64 << 20
 
 
@@ -49,14 +49,83 @@ def encoded(value: object) -> bytes:
     return (json.dumps(value, indent=2, sort_keys=True, allow_nan=False) + "\n").encode()
 
 
-def export_bundle(campaign_root: Path, cell_id: str, output: Path) -> Path:
+def validate_evaluation_override(
+    evaluation_output: Path,
+    output: Path,
+    fit: Path,
+    cell: dict[str, Any],
+    config: dict[str, Any],
+    config_file_sha256: str,
+    config_path: Path,
+    split_sha256: str,
+    split_path: Path,
+    data: dict[str, Any],
+    source_sha256: str,
+) -> Path:
+    """Require an explicit sweep directory to be complete and bound to this cell."""
+    requested = evaluation_output.expanduser()
+    if requested.is_symlink():
+        raise ValueError("evaluation output must not be a symlink")
+    directory = requested.resolve(strict=True)
+    if not directory.is_dir():
+        raise ValueError("evaluation output must be an existing directory")
+    fit_directory = fit.resolve(strict=True)
+    if directory == fit_directory or directory.is_relative_to(fit_directory):
+        raise ValueError("evaluation output must not be inside the fit directory")
+    fold, missing = _load_fold(directory, cell["fold"])
+    if (
+        fold is None
+        or missing
+        or fold.get("missing")
+        or fold.get("sweep") is None
+        or fold["sweep"].get("status") != "complete"
+        or len(fold.get("observed", [])) != 30
+    ):
+        raise ValueError("evaluation override must contain one complete 30-epoch sweep")
+    verified_fit = fold["fit"]
+    identity = verified_fit["identity"]
+    index, index_raw = read(fit / "epoch_index.json")
+    binding = fold["split_binding"]
+    if (
+        Path(verified_fit["fit_dir"]).resolve(strict=True) != fit.resolve(strict=True)
+        or Path(fold["plan"]["config_path"]).resolve(strict=True)
+        != config_path.resolve(strict=True)
+        or verified_fit["config_file_sha256"] != config_file_sha256
+        or identity.get("config_sha256") != canonical(config)
+        or identity.get("source_sha256") != source_sha256
+        or identity.get("data") != data
+        or Path(binding["inner_path"]).resolve(strict=True) != split_path.resolve(strict=True)
+        or binding["inner_sha256"] != split_sha256
+        or binding["fold"] != cell["fold"]
+        or hashlib.sha256(index_raw).hexdigest() != verified_fit["index_file_sha256"]
+        or index.get("index_sha256") != verified_fit["index_sha256"]
+    ):
+        raise ValueError("evaluation override belongs to a different fit, config, index, or split")
+    destination = output.expanduser().resolve()
+    if any(
+        destination == protected or destination.is_relative_to(protected)
+        for protected in (fit_directory, directory)
+    ) or directory.is_relative_to(destination):
+        raise ValueError("evaluation override and evidence bundle paths must not overlap")
+    return directory
+
+
+def export_bundle(
+    campaign_root: Path,
+    cell_id: str,
+    output: Path,
+    *,
+    evaluation_output: Path | None = None,
+) -> Path:
     """Export source-qualified progress; absence of a terminal receipt means partial."""
     campaign, _ = load_recovery(campaign_root)
     cell = get_recovery_cell(campaign_root, cell_id)
+    require_no_retention_intent(campaign_root, cell, "export")
     fit = campaign_root / cell["run_dir"] / "fit"
     metadata, metadata_raw = read(fit / "run_metadata.json")
     config = metadata["config"]
-    expected_config, _ = read(campaign_root / cell["config"])
+    config_path = campaign_root / cell["config"]
+    expected_config, expected_config_raw = read(config_path)
     expected_config["model"]["precision_mode"] = expected_config["precision_mode"]
     if config != expected_config:
         raise ValueError("fit metadata config does not match the declared R5 cell")
@@ -70,6 +139,21 @@ def export_bundle(campaign_root: Path, cell_id: str, output: Path) -> Path:
         or data["fold"] != cell["fold"]
     ):
         raise ValueError("fit metadata source/split identity differs from the planned cell")
+    evaluation = campaign_root / cell["run_dir"] / "epoch_evaluation"
+    if evaluation_output is not None:
+        evaluation = validate_evaluation_override(
+            evaluation_output,
+            output,
+            fit,
+            cell,
+            config,
+            hashlib.sha256(expected_config_raw).hexdigest(),
+            config_path,
+            split_sha,
+            Path(cell["split_manifest"]),
+            data,
+            metadata["source"]["sha256"],
+        )
     output.mkdir(parents=True, exist_ok=False)
     metadata_ref = emit(output, "run_metadata.json", metadata_raw)
     config_ref = emit(output, "config.json", encoded(config))
@@ -127,7 +211,6 @@ def export_bundle(campaign_root: Path, cell_id: str, output: Path) -> Path:
                     "producer_sha256": ref["sha256"],
                 }
             )
-    evaluation = campaign_root / cell["run_dir"] / "epoch_evaluation"
     for checkpoint in checkpoints:
         epoch = checkpoint["epoch"]
         grade = evaluation / "epochs" / f"epoch-{epoch:06d}" / "score.json"
@@ -202,8 +285,15 @@ def main() -> None:
     parser.add_argument("--campaign-root", type=Path, required=True)
     parser.add_argument("--cell", required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--evaluation-output", type=Path)
     args = parser.parse_args()
-    print(export_bundle(args.campaign_root.resolve(), args.cell, args.output.resolve()))
+    result = export_bundle(
+        args.campaign_root.resolve(),
+        args.cell,
+        args.output.resolve(),
+        evaluation_output=args.evaluation_output,
+    )
+    print(result)
 
 
 if __name__ == "__main__":

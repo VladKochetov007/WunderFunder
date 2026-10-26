@@ -1,6 +1,13 @@
 # Повторное обучение Transformer 1,54B и отчёты для MIDAS
 
-Публикация: [draft PR #42](https://github.com/VladKochetov007/WunderFunder/pull/42) → `research-team`.
+Основа: [PR #42](https://github.com/VladKochetov007/WunderFunder/pull/42) смержен в `research-team`.
+Команды запуска и очистка: [draft PR #45](https://github.com/VladKochetov007/WunderFunder/pull/45) → `research-team`.
+
+[Точные команды запуска и хранения](LAUNCH_AND_STORAGE.md) связывают подготовку
+данных/splits, приёмку, четыре fit и полные оценки эпох. Пары LR обрабатываются
+последовательно: после общего выбора эпохи и MIDAS export можно явно убрать
+лишние снимки завершённой пары. Пик только весов оценивается примерно в 407 GB
+вместо 740 GB; optimizer state, predictions и запас требуют дополнительного места.
 
 Статус: код подготовлен; проверки на B300, обучение и оценка не выполнены. Ждём перезапуск кластера. Этот пакет создаёт четыре новых обучения с нуля и отдельные выходные папки. Предыдущие результаты и веса не изменяются.
 
@@ -97,7 +104,11 @@ uv run --no-sync python "$R5/export_midas.py" \
   --output "/storage/r5-evidence/$CELL-snapshot1"
 ```
 
-Перенести эту небольшую папку доступным командным способом. Веса не включаются. В checkout MIDAS с изменениями [draft PR #3](https://github.com/Ivanhacker13/midas-orchestrator/pull/3):
+Экспорт выполняется до retention cleanup; после первого intent новый экспорт
+запрещён. Сохранить предварительный bundle вместе с retention plan/receipts:
+его remote references описывают веса до очистки, а не текущую доступность всех
+снимков. Перенести эту небольшую папку доступным командным способом. Веса не
+включаются. В checkout MIDAS со смерженным [PR #3](https://github.com/Ivanhacker13/midas-orchestrator/pull/3):
 
 ```bash
 python -m midas training-evidence import --workspace . \
