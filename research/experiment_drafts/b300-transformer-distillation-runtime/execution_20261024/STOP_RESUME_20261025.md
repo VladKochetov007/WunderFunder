@@ -16,8 +16,11 @@ server-monitor cron entries were preserved. No new fit or replay was launched.
 The large models' safe states contain 9,870 successful updates, model weights,
 optimizer, scheduler and per-rank RNG state. Partial epoch22 updates/logs are
 not a complete epoch22 checkpoint. All retained epoch15–21 snapshots and all20
-complete validation points remain available. Epoch15 is the best retained and
-evaluated large-model epoch, not a demonstrated optimum across earlier epochs.
+complete validation points remain available. Correction on October26: the best
+retained per-fold checkpoints are F0 completed epoch16 (WP0.3848928) and F2
+completed epoch15 (WP0.4140200). If one common epoch is required, epoch15 has the
+highest equal-fold mean among retained epochs15–21 (0.3929920). Earlier epochs
+remain unobserved; no global training optimum is established.
 
 **Metric clarification:** lower WMSE is better; higher official weighted Pearson
 WP is better. Large-model F0 WP fell from0.371964 at epoch15 to0.267118 at epoch21
