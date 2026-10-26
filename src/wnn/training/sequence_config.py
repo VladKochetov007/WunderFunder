@@ -58,8 +58,12 @@ MODEL_DEFAULTS: dict[str, Any] = {
 def load_config(path: Path) -> dict[str, Any]:
     """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
-    if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | {"model", "checkpoint_retention"}):
+    if not isinstance(raw, dict) or set(raw) - (
+        set(DEFAULTS) | {"model", "checkpoint_retention", "dropout_policy"}
+    ):
         raise ValueError("unknown sequence recipe field")
+    if "dropout_policy" in raw and raw["dropout_policy"] != "explicit_regularization_v1":
+        raise ValueError("unsupported explicit dropout policy")
     # Omission preserves historical config hashes and fixed-final profile identities.
     if "checkpoint_retention" in raw and raw["checkpoint_retention"] not in (
         "final_only",
@@ -149,7 +153,16 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("sequence Muon currently supports Transformer models only")
     if model["hint_projection"] not in ("fixed", "learned"):
         raise ValueError("hint_projection must be fixed or learned")
-    if model["dropout"] != 0 or type(model["checkpoint_blocks"]) is not bool:
+    dropout = model["dropout"]
+    explicit_dropout = raw.get("dropout_policy") == "explicit_regularization_v1"
+    if explicit_dropout and (
+        isinstance(dropout, bool)
+        or not isinstance(dropout, (int, float))
+        or not math.isfinite(dropout)
+        or not 0 <= dropout < 1
+    ):
+        raise ValueError("explicit dropout must be finite numeric in [0, 1)")
+    if (not explicit_dropout and dropout != 0) or type(model["checkpoint_blocks"]) is not bool:
         raise ValueError("this paired runtime freezes dropout=0 and boolean checkpoint_blocks")
     if model["architecture"] == "transformer" and model["hidden"] % (2 * model["heads"]):
         raise ValueError("RoPE requires an even integral head dimension")
