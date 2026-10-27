@@ -16,6 +16,8 @@ KNOWN_GRAPH_DETAILS = frozenset(
         "schematic_conv_gelu_batchnorm_order",
         "global_residual_post_layer_norm",
         "gated_fusion",
+        "fusion_gate_linear_silu_linear_sigmoid",
+        "post_gate_channel_product",
         "decoder_post_rms_norm_and_gelu_ffn",
     }
 )
@@ -28,7 +30,8 @@ UNRESOLVED_DETAILS = frozenset(
         "lstm_and_attention_block_counts",
         "attention_history_and_convolution_kernel",
         "relative_time_scale_and_source",
-        "fusion_operands_order_and_gate_equation",
+        "fusion_channel_order",
+        "fusion_bypass_source_equation",
         "hidden_cell_projection_and_ffn_widths",
         "convolution_hidden_width",
         "batch_norm_axis_and_running_stat_convention",
@@ -56,7 +59,13 @@ class GALAMConfig:
     timestamp_source: Literal["ordinal", "provided"]
     timestamp_scale: float
     feed_forward_width: int
-    fusion_operand_order: tuple[Literal["global", "local"], Literal["global", "local"]]
+    fusion_mode: Literal["diagram_channel_product"]
+    fusion_channel_order: tuple[
+        Literal["global_memory", "local_memory", "hidden_projection", "cell_projection"],
+        Literal["global_memory", "local_memory", "hidden_projection", "cell_projection"],
+        Literal["global_memory", "local_memory", "hidden_projection", "cell_projection"],
+        Literal["global_memory", "local_memory", "hidden_projection", "cell_projection"],
+    ]
     faithful_details: frozenset[str]
     assumed_details: frozenset[str]
     role: Literal["historical_32_to_32", "connectome_112_to_2", "custom"]
@@ -113,13 +122,21 @@ class GALAMConfig:
             not isinstance(detail, str) for detail in self.faithful_details | self.assumed_details
         ):
             raise ValueError("fidelity details must be strings")
+        if self.fusion_mode != "diagram_channel_product":
+            raise ValueError("fusion_mode must be diagram_channel_product")
+        allowed_channels = {
+            "global_memory",
+            "local_memory",
+            "hidden_projection",
+            "cell_projection",
+        }
         if (
-            not isinstance(self.fusion_operand_order, tuple)
-            or len(self.fusion_operand_order) != 2
-            or any(item not in ("global", "local") for item in self.fusion_operand_order)
-            or set(self.fusion_operand_order) != {"global", "local"}
+            not isinstance(self.fusion_channel_order, tuple)
+            or len(self.fusion_channel_order) != 4
+            or any(item not in allowed_channels for item in self.fusion_channel_order)
+            or set(self.fusion_channel_order) != allowed_channels
         ):
-            raise ValueError("fusion_operand_order must contain global and local exactly once")
+            raise ValueError("fusion_channel_order must order each product source exactly once")
         if self.faithful_details & self.assumed_details:
             raise ValueError("a detail cannot be both source-supported and assumed")
         expected = KNOWN_GRAPH_DETAILS | UNRESOLVED_DETAILS
@@ -186,7 +203,13 @@ def _template_config(
         timestamp_source="ordinal",
         timestamp_scale=1.0,
         feed_forward_width=128,
-        fusion_operand_order=("global", "local"),
+        fusion_mode="diagram_channel_product",
+        fusion_channel_order=(
+            "global_memory",
+            "local_memory",
+            "hidden_projection",
+            "cell_projection",
+        ),
         faithful_details=faithful,
         assumed_details=assumed,
         role=role,
@@ -210,7 +233,8 @@ def galam_config_from_mapping(values: Mapping[str, object]) -> GALAMConfig:
         "timestamp_source",
         "timestamp_scale",
         "feed_forward_width",
-        "fusion_operand_order",
+        "fusion_mode",
+        "fusion_channel_order",
         "faithful_details",
         "assumed_details",
         "role",
@@ -222,7 +246,8 @@ def galam_config_from_mapping(values: Mapping[str, object]) -> GALAMConfig:
     scalar_ints = required - {
         "timestamp_scale",
         "timestamp_source",
-        "fusion_operand_order",
+        "fusion_mode",
+        "fusion_channel_order",
         "faithful_details",
         "assumed_details",
         "role",
@@ -238,11 +263,20 @@ def galam_config_from_mapping(values: Mapping[str, object]) -> GALAMConfig:
     role = values["role"]
     if role not in ("historical_32_to_32", "connectome_112_to_2", "custom"):
         raise ValueError("role must be a recognized GALAM config role")
-    order = values["fusion_operand_order"]
-    if not isinstance(order, (list, tuple)) or len(order) != 2:
-        raise ValueError("fusion_operand_order must be a two-item list or tuple")
-    if any(item not in ("global", "local") for item in order):
-        raise ValueError("fusion_operand_order contains an unsupported operand")
+    fusion_mode = values["fusion_mode"]
+    if fusion_mode != "diagram_channel_product":
+        raise ValueError("fusion_mode must be diagram_channel_product")
+    order = values["fusion_channel_order"]
+    allowed_channels = {
+        "global_memory",
+        "local_memory",
+        "hidden_projection",
+        "cell_projection",
+    }
+    if not isinstance(order, (list, tuple)) or len(order) != 4:
+        raise ValueError("fusion_channel_order must contain four product sources")
+    if any(item not in allowed_channels for item in order) or set(order) != allowed_channels:
+        raise ValueError("fusion_channel_order must order each product source exactly once")
     return GALAMConfig(
         input_features=_mapping_int(values, "input_features"),
         output_features=_mapping_int(values, "output_features"),
@@ -258,8 +292,15 @@ def galam_config_from_mapping(values: Mapping[str, object]) -> GALAMConfig:
         timestamp_source=cast(Literal["ordinal", "provided"], timestamp_source),
         timestamp_scale=float(scale),
         feed_forward_width=_mapping_int(values, "feed_forward_width"),
-        fusion_operand_order=cast(
-            tuple[Literal["global", "local"], Literal["global", "local"]], tuple(order)
+        fusion_mode=cast(Literal["diagram_channel_product"], fusion_mode),
+        fusion_channel_order=cast(
+            tuple[
+                Literal["global_memory", "local_memory", "hidden_projection", "cell_projection"],
+                Literal["global_memory", "local_memory", "hidden_projection", "cell_projection"],
+                Literal["global_memory", "local_memory", "hidden_projection", "cell_projection"],
+                Literal["global_memory", "local_memory", "hidden_projection", "cell_projection"],
+            ],
+            tuple(order),
         ),
         faithful_details=_string_set(values["faithful_details"], "faithful_details"),
         assumed_details=_string_set(values["assumed_details"], "assumed_details"),

@@ -18,6 +18,7 @@ from wnn.galam import (
     historical_32_config,
 )
 from wnn.galam.attention import TemporalSelfAttention
+from wnn.galam.fusion import DiagramChannelProductGate
 from wnn.galam.mixer import CausalConvMixer, PerTimeBatchNorm1d
 
 
@@ -74,8 +75,10 @@ def test_config_rejects_invalid_dimensions_scales_roles_and_fidelity_claims() ->
         replace(config, role="unknown")
     with pytest.raises(ValueError, match="timestamp_source"):
         replace(config, timestamp_source="relative")
-    with pytest.raises(ValueError, match="fusion_operand_order"):
-        replace(config, fusion_operand_order=("global", "global"))
+    with pytest.raises(ValueError, match="fusion_mode"):
+        replace(config, fusion_mode="two_stream_weighted_sum")
+    with pytest.raises(ValueError, match="fusion_channel_order"):
+        replace(config, fusion_channel_order=("global_memory",) * 4)
     with pytest.raises(ValueError, match="immutable frozensets"):
         replace(config, faithful_details=set(config.faithful_details))
     false_assumptions = config.assumed_details - {"width_and_attention_heads"}
@@ -96,6 +99,35 @@ def test_source_schematic_global_norms_and_conv_channel_path() -> None:
     assert mixer.conv2.conv.in_channels == config.conv_hidden_width
     assert mixer.conv2.conv.out_channels == config.width
     assert mixer.norm2.norm.num_features == config.width
+    assert config.fusion_mode == "diagram_channel_product"
+    assert "fusion_channel_order" in config.assumed_details
+    assert model.fusion.gates[0].weight.shape == (4 * config.width, 4 * config.width)
+    assert model.fusion_norm.normalized_shape == (4 * config.width,)
+    assert model.feed_forward[0].in_features == 4 * config.width
+    assert model.feed_forward[-1].out_features == 4 * config.width
+    assert model.readout.in_features == 4 * config.width
+
+
+def test_decoder_gate_multiplies_the_same_ordered_channel_bypass() -> None:
+    width = 2
+    order = ("global_memory", "local_memory", "hidden_projection", "cell_projection")
+    gate = DiagramChannelProductGate(width, "diagram_channel_product", order).eval()
+    with torch.no_grad():
+        for parameter in gate.parameters():
+            parameter.zero_()
+        logits = torch.linspace(-1.5, 1.5, 4 * width)
+        gate.gates[-1].bias.copy_(logits)
+    sources = {
+        "global_memory": torch.tensor([[1.0, 2.0]]),
+        "local_memory": torch.tensor([[3.0, 4.0]]),
+        "hidden_projection": torch.tensor([[5.0, 6.0]]),
+        "cell_projection": torch.tensor([[7.0, 8.0]]),
+    }
+    bypass = torch.cat(tuple(sources[name] for name in order), dim=-1)
+    actual = gate(**sources)
+    expected = bypass * torch.sigmoid(logits).unsqueeze(0)
+    assert actual.shape == (1, 4 * width)
+    torch.testing.assert_close(actual, expected)
 
 
 def test_conv_mixer_uses_schematic_conv_gelu_bn_order() -> None:

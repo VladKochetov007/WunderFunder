@@ -1,23 +1,33 @@
 from __future__ import annotations
 
+from typing import Literal
+
 import torch
 from torch import nn
 
 from wnn.galam.config import GALAMConfig
 
 
-class TwoWayFusionGate(nn.Module):
-    """Fuse global and local streams with two learned sigmoid gates."""
+class DiagramChannelProductGate(nn.Module):
+    """Apply a learned sigmoid gate to the ordered decoder channel bypass."""
 
-    def __init__(self, width: int, operand_order: tuple[str, str]) -> None:
-        """Create the gate context and projected local hidden/cell value."""
+    def __init__(
+        self,
+        width: int,
+        mode: Literal["diagram_channel_product"],
+        channel_order: tuple[str, str, str, str],
+    ) -> None:
+        """Create a 4-width Linear-SiLU-Linear gate from the schematic detail."""
         super().__init__()
-        self.operand_order = operand_order
-        self.local_value = nn.Linear(3 * width, width)
+        if mode != "diagram_channel_product":
+            raise ValueError("fusion mode must be diagram_channel_product")
+        self.width = width
+        self.mode = mode
+        self.channel_order = channel_order
         self.gates = nn.Sequential(
-            nn.Linear(4 * width, width),
+            nn.Linear(4 * width, 4 * width),
             nn.SiLU(),
-            nn.Linear(width, 2 * width),
+            nn.Linear(4 * width, 4 * width),
         )
 
     def forward(
@@ -27,18 +37,17 @@ class TwoWayFusionGate(nn.Module):
         hidden_projection: torch.Tensor,
         cell_projection: torch.Tensor,
     ) -> torch.Tensor:
-        """Return a gate-weighted sum with configured global/local operand order."""
-        local_value = self.local_value(
-            torch.cat((local_memory, hidden_projection, cell_projection), dim=-1)
-        )
-        context = torch.cat(
-            (global_memory, local_memory, hidden_projection, cell_projection), dim=-1
-        )
-        gates = torch.sigmoid(self.gates(context)).chunk(2, dim=-1)
-        values = {"global": global_memory, "local": local_value}
-        return gates[0] * values[self.operand_order[0]] + gates[1] * values[self.operand_order[1]]
+        """Multiply the ordered concatenated bypass by its sigmoid gate channels."""
+        sources = {
+            "global_memory": global_memory,
+            "local_memory": local_memory,
+            "hidden_projection": hidden_projection,
+            "cell_projection": cell_projection,
+        }
+        bypass = torch.cat(tuple(sources[name] for name in self.channel_order), dim=-1)
+        return bypass * torch.sigmoid(self.gates(bypass))
 
 
-def make_fusion(config: GALAMConfig) -> TwoWayFusionGate:
-    """Build the explicitly ordered two-stream fusion specified in a config."""
-    return TwoWayFusionGate(config.width, config.fusion_operand_order)
+def make_fusion(config: GALAMConfig) -> DiagramChannelProductGate:
+    """Build the configured diagram-channel product gate."""
+    return DiagramChannelProductGate(config.width, config.fusion_mode, config.fusion_channel_order)

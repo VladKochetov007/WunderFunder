@@ -5,7 +5,7 @@ from torch import nn
 
 from wnn.galam.attention import TemporalSelfAttention
 from wnn.galam.config import GALAMConfig
-from wnn.galam.fusion import TwoWayFusionGate
+from wnn.galam.fusion import make_fusion
 from wnn.galam.mixer import CausalConvMixer, PerTimeBatchNorm1d
 from wnn.galam.state import AttentionCache, ConvMixerState, GALAMState
 
@@ -40,15 +40,16 @@ class GALAM(nn.Module):
             for _ in range(config.global_blocks)
         )
         self.global_mixer_norms = nn.ModuleList(nn.LayerNorm(width) for _ in self.global_mixers)
-        self.fusion = TwoWayFusionGate(width, config.fusion_operand_order)
-        self.fusion_norm = nn.RMSNorm(width)
+        decoder_width = 4 * width
+        self.fusion = make_fusion(config)
+        self.fusion_norm = nn.RMSNorm(decoder_width)
         self.feed_forward = nn.Sequential(
-            nn.Linear(width, config.feed_forward_width),
+            nn.Linear(decoder_width, config.feed_forward_width),
             nn.GELU(),
-            nn.Linear(config.feed_forward_width, width),
+            nn.Linear(config.feed_forward_width, decoder_width),
         )
-        self.feed_forward_norm = nn.RMSNorm(width)
-        self.readout = nn.Linear(width, config.output_features)
+        self.feed_forward_norm = nn.RMSNorm(decoder_width)
+        self.readout = nn.Linear(decoder_width, config.output_features)
 
     @staticmethod
     def _attention(config: GALAMConfig) -> TemporalSelfAttention:
