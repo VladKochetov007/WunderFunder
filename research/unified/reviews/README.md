@@ -533,3 +533,8 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 - [Parent-fit terminal-verifier V1 failure metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_VERIFIER_FAILURE_REVIEW_V1.json): one captured CPU-support unit failed at `_check_loader_and_rng` line863 because its combined CUDA RNG guard rejected the saved state. The specific type/shape/count predicate was not inspected; native exit0 metadata remains separate, with no CPU acceptance, retry, OOM, or quality conclusion.
 - [Parent RNG diagnostic V2 source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_RNG_DIAGNOSTIC_SOURCE_REVIEW_V2.json): supersedes V1 after identifying its missed `terminal_success: false` fixture condition. The actual failed fixture passes the V2 gate; RNG shape remains unknown pending diagnostic output, with no fit acceptance or verifier retry claimed.
 - [Parent RNG diagnostic source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_RNG_DIAGNOSTIC_SOURCE_REVIEW_V1.json): conditional review of the separate metadata-only diagnostic and exact frozen inputs; actual RNG shape remains unknown until diagnostic output is inspected. No fit acceptance or retry is claimed.
+- [GALAM independent source/dataflow review](../../experiment_drafts/galam-reconstruction-20261027/INDEPENDENT_REVIEW.json)
+  checks the supplied diagram against implemented graph and canonical adapter.
+  Corrected LayerNorm/ConvMixer order, represented the post-gate product and
+  blocked singleton/padded-DDP BatchNorm inputs. Exact bypass equation, original
+  dimensions/weights and FiLM remain unknown; no historical parity or GPU gain.

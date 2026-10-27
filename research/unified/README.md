@@ -1,5 +1,15 @@
 # Unified research library
 
+## 27 October: chronological validation and GALAM reconstruction
+
+[ADR0044](../../specs/adr/0044-chronological-primary-validation.md) makes the
+Predictorium-style train/valid boundary mandatory for future primary comparisons.
+The [source-traced GALAM packet](../experiment_drafts/galam-reconstruction-20261027/README.md)
+provides reconstructed visible blocks,32→32/112→2 example configurations and
+canonical training integration. [Sources and unknowns](sources/galam-20261027/README.md)
+separate original diagram evidence from assumptions. CPU checks pass; no new fit,
+GPU profile, actual-data chronology audit or exact reference identity is claimed.
+
 PR32 R4: [batch96/64 selection, batch128 measurement and CPU/transfer costs](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/BATCH_THROUGHPUT_20261024.md).
 
 PR32 execution handoff: [measured Blackwell recipe, startup repair and four-teacher allocation](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/README.md).

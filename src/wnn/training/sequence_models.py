@@ -237,6 +237,10 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     if torch.get_default_dtype() != torch.float32:
         raise TypeError("sequence model construction requires the default dtype to be float32")
     architecture = config.get("architecture")
+    if architecture == "galam":
+        from wnn.training.galam_adapter import GALAMSequenceAdapter
+
+        return GALAMSequenceAdapter(config)
     if architecture not in ("transformer", "gru"):
         raise ValueError("model config architecture must be 'transformer' or 'gru'")
     hidden = _integer_option(config, "hidden")

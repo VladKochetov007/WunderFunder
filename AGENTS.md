@@ -1,5 +1,28 @@
 # Project agent instructions
 
+## Mandatory chronological primary validation — user instruction, 2026-10-27
+
+Always use the Predictorium-style order **train | valid | public | small gap |
+private** for prospective primary model comparisons. This is a binding project
+decision, superseding the random/component-fold primary-selection defaults below.
+Use the official earlier training file for fitting and the independent later
+validation file for primary evaluation; preserve complete sequences. Never fit
+on primary valid, including preprocessing, normalizers, teachers, initializer
+ancestry or learned blend weights. Do not sort shuffled seq_ix to infer time.
+Additional chronological splits require actual source-qualified temporal order.
+Keep historical frozen sources and scores unchanged and label their protocol.
+An old random-fold score is not the new chronological primary endpoint.
+
+This records the user's required protocol. The linked March5 post describes
+Predictorium, not direct evidence of current Connectome timestamps. A missing
+time mapping must stay explicit. See [ADR0044](specs/adr/0044-chronological-primary-validation.md).
+
+Latest scope is **implementation and bounded CPU correctness checks only**:
+no training, GPU profiling, remote execution or resource allocation is resumed.
+Reconstruct GALAM from the supplied diagram with source-linked unknowns; do not
+call a guessed width/head/window/ensemble configuration an exact reproduction.
+The reconstruction packet is [here](research/experiment_drafts/galam-reconstruction-20261027/README.md).
+
 ## B300 precision amendment — user correction, 2026-10-24
 
 For PR32 / the high-compute R4 continuation, mandatory strict-FP32 model compute

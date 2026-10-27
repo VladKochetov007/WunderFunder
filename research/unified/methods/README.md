@@ -1,5 +1,12 @@
 # Methods, sampling, and metric
 
+- [Mandatory chronological primary validation, ADR0044](../../../specs/adr/0044-chronological-primary-validation.md)
+  replaces prospective random-fold primary selection with earlier-train/later-valid
+  membership. [Executable producer and admission checks](../../../src/wnn/chronological_splits.py)
+  pin source coverage and exclude valid-linked fit components; no real-data audit
+  or new fit was performed. [GALAM packet](../../experiment_drafts/galam-reconstruction-20261027/README.md)
+  demonstrates the new policy in a source-traced, CPU-checked adaptation.
+
 [Canonical tiedlead implementation](../../campaign_2026-10-18/quality_gap_r1/tiedlead_capability_publication_r1/README.md) preserves sequence-wide causal lead gathering, raw-scale shared branch encoding, per-call delta reset and carried recurrent state. The isolated branch supports canonical checkpoint prediction/evaluation; actual-data/GPU and native ZIP/ONNX behavior are unmeasured.
 
 [Strict propensity V3 engineering publication](../../campaign_2026-10-18/quality_gap_r1/propensity_capability_publication_r2/README.md) adds optimizer diagnostics and exact epoch-boundary state recovery to the opt-in strict path;33tinyCPUtests and independent review pass. Branch235db75a is published, not staged on B or merged into the running source. Recovery retains failures and unknown in-flight step calls, with journal-corruption and runtime/GPU limits explicit. This supplies an engineering component for the modified final-supervision experiment, not a quality result or admission.

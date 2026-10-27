@@ -154,17 +154,18 @@ def validate_campaign_checkpoint(
         return
     if args.split_manifest:
         source = checkpoint.get("args", {})
+        chronological = (
+            campaign_split is not None
+            and campaign_split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
+        )
         if (
             source.get("split_manifest_sha256") != args.split_manifest_sha256
-            or not source.get("no_eval_during_fit")
+            or (not chronological and not source.get("no_eval_during_fit"))
             or source.get("checkpoint_policy") != "fixed"
             or (checkpoint.get("epoch") != source.get("checkpoint_epoch"))
         ):
             raise ValueError("source checkpoint lacks matching clean-fold fitting provenance")
-        if (
-            campaign_split is not None
-            and campaign_split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
-        ):
+        if chronological:
             provenance = checkpoint.get("provenance")
             if (
                 not isinstance(provenance, dict)

@@ -8,9 +8,10 @@ import torch
 from torch import Tensor, nn
 from torch.nn import functional as F
 
+from wnn.galam import GALAMState
 from wnn.training.sequence_attention import TransformerState
 
-SequenceState = Tensor | TransformerState | None
+SequenceState = Tensor | TransformerState | GALAMState | None
 
 
 class HintProjector(nn.Module):
@@ -48,6 +49,8 @@ def detach_state(state: SequenceState) -> SequenceState:
     if state is None:
         return None
     if isinstance(state, Tensor):
+        return state.detach()
+    if isinstance(state, GALAMState):
         return state.detach()
     if isinstance(state, TransformerState):
         return TransformerState(

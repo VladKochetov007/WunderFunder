@@ -1,5 +1,20 @@
 # Modular recurrent training
 
+## 27 October chronology and GALAM
+
+Future fits require the source-bound chronological manifest from
+[`build_chronological_primary_split.py`](../../../scripts/build_chronological_primary_split.py),
+with earlier train only and full later valid evaluation. Old random-fold manifests
+remain loadable for historical analysis but are rejected for new fitting.
+[ADR0044](../../../specs/adr/0044-chronological-primary-validation.md) records scope.
+
+[`galam_adapter.py`](galam_adapter.py) exposes the reconstructed
+[`wnn.galam`](../galam/__init__.py) graph through the existing sequence runtime,
+with explicit state detachment, train-only normalization and strict BN batch
+admission. [The packet](../../../research/experiment_drafts/galam-reconstruction-20261027/README.md)
+contains source fidelity, configs and CPU checks; no exact identity, scientific
+fit, real-data audit or GPU performance has been established.
+
 Use `scripts/train_rnn.py` for the stable command line. New Python callers should import focused components directly:
 
 ```python

@@ -5,6 +5,7 @@ from typing import Any, cast
 
 import torch
 
+from wnn.training.galam_adapter import validate_galam_batch_plan
 from wnn.training.sequence_config import (
     load_config,
     validate_expected_fold,
@@ -122,6 +123,11 @@ def run_sequence_fit(
         data = coordinated_call(
             lambda: build_data(config, data_root, split_manifest, teacher_cache),
             "sequence data construction",
+            context,
+        )
+        coordinated_call(
+            lambda: validate_galam_batch_plan(config, len(data.fit), context.world_size),
+            "GALAM BatchNorm batch-plan validation",
             context,
         )
         coordinated_call(

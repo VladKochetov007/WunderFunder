@@ -74,8 +74,20 @@ def load_config(path: Path) -> dict[str, Any]:
     # Preserve legacy AdamW's .999 while defaulting the Muon-side AdamW groups to .95.
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95
-    model = MODEL_DEFAULTS | raw.get("model", {})
-    if set(model) - set(MODEL_DEFAULTS):
+    raw_model = raw.get("model", {})
+    allowed_model_fields = set(MODEL_DEFAULTS)
+    if raw_model.get("architecture") == "galam":
+        from wnn.training.galam_adapter import galam_model_settings
+
+        model = galam_model_settings(raw_model)
+        allowed_model_fields.update(("galam", "precision_mode"))
+        if config["precision_mode"] != "fp32" or config["optimizer"] != "adamw":
+            raise ValueError("unprofiled GALAM currently requires fp32 and AdamW")
+        if type(config["batch_size"]) is not int or config["batch_size"] < 2:
+            raise ValueError("GALAM per-time BatchNorm requires batch_size >= 2 per rank")
+    else:
+        model = MODEL_DEFAULTS | raw_model
+    if set(model) - allowed_model_fields:
         raise ValueError("unknown sequence model field")
     config["model"] = model
     for key in (
@@ -135,12 +147,14 @@ def load_config(path: Path) -> dict[str, Any]:
     if config["schedule"] == "legacy_warmup_cosine" and ratio != 0:
         raise ValueError("legacy_warmup_cosine requires min_lr_ratio=0")
     for key in ("hidden", "layers", "heads", "ff_multiplier", "context_rows"):
+        if key == "ff_multiplier" and model["architecture"] == "galam":
+            continue  # Explicit positive integer feed_forward_width is checked in GALAMConfig.
         if type(model[key]) is not int or model[key] < 1:
             raise ValueError(f"model.{key} must be a positive integer")
     if type(model["hint_dim"]) is not int or model["hint_dim"] < 0:
         raise ValueError("hint_dim must be a nonnegative integer")
-    if model["architecture"] not in ("transformer", "gru"):
-        raise ValueError("architecture must be transformer or gru")
+    if model["architecture"] not in ("transformer", "gru", "galam"):
+        raise ValueError("architecture must be transformer, gru, or galam")
     if model["attention_backend"] not in ("math", "efficient", "flex"):
         raise ValueError("model.attention_backend must be math, efficient, or flex")
     if model["architecture"] == "gru" and model["attention_backend"] != "math":
