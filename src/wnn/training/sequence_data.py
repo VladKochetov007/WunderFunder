@@ -11,7 +11,12 @@ from attrs import define
 from torch.utils.data import Dataset
 
 from wnn.data import N_FEATURES, SEQUENCE_LENGTH, WARMUP
-from wnn.splits import MAX_CAMPAIGN_SPLIT_BYTES, CampaignSplit, load_campaign_split
+from wnn.splits import (
+    CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+    MAX_CAMPAIGN_SPLIT_BYTES,
+    CampaignSplit,
+    load_campaign_split,
+)
 from wnn.training.datasets import Sequences
 from wnn.training.environment import InputConfiguration, TrainingEnvironment
 from wnn.training.sequence_cache import TeacherCache
@@ -198,10 +203,13 @@ def build_data(
     split_manifest: Path,
     teacher_cache: Path | None = None,
 ) -> SequenceData:
-    """Validate the canonical component split before opening any training stream."""
+    """Validate mandatory chronological membership before opening training streams."""
     split = load_campaign_split(split_manifest, data_root)
+    if split.schema != CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA or split.valid_groups:
+        raise ValueError(
+            "new sequence fits require the chronological primary manifest with no fit-valid rows"
+        )
     members = [("train", group) for group in split.train_groups]
-    members += [("valid", group) for group in split.valid_groups]
     hint_dim = config["model"]["hint_dim"]
     needed = config["kd_weight"] > 0 or config["hint_weight"] > 0
     if needed and teacher_cache is None:

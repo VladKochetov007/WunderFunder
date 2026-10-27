@@ -157,7 +157,12 @@ def load_initializer(run: TrainingRun) -> None:
             )
         if args.qat != "none" and init.get("factorization"):
             ap.error("combined QAT and factorized initialization is not implemented")
-        validate_campaign_checkpoint(init, args, final_initializer=args.final_model_adaptation)
+        validate_campaign_checkpoint(
+            init,
+            args,
+            final_initializer=args.final_model_adaptation,
+            campaign_split=campaign_split,
+        )
         if args.spread_aux_mode != "original":
             validate_spread_parent(init, campaign_split.sha256, provenance["fit_row_groups"])
         provenance["initial_checkpoint_sha256"] = file_sha256(init_path)

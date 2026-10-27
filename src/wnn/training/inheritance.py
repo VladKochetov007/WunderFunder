@@ -9,6 +9,7 @@ from wnn.research_features import (
     MOMENT_FEATURE_MODES,
     research_feature_names,
 )
+from wnn.splits import CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA, CampaignSplit
 
 
 def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: list[str]) -> None:
@@ -132,9 +133,13 @@ def expand_research_feature_state(
 
 
 def validate_campaign_checkpoint(
-    checkpoint: dict, args: argparse.Namespace, *, final_initializer: bool = False
+    checkpoint: dict,
+    args: argparse.Namespace,
+    *,
+    final_initializer: bool = False,
+    campaign_split: CampaignSplit | None = None,
 ) -> None:
-    """Reject initialization or propensity weights fitted outside this clean outer fold."""
+    """Check initializer/propensity provenance and chrono fit membership when supplied."""
     if final_initializer:
         source = checkpoint.get("args", {})
         if (
@@ -156,3 +161,34 @@ def validate_campaign_checkpoint(
             or (checkpoint.get("epoch") != source.get("checkpoint_epoch"))
         ):
             raise ValueError("source checkpoint lacks matching clean-fold fitting provenance")
+        if (
+            campaign_split is not None
+            and campaign_split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
+        ):
+            provenance = checkpoint.get("provenance")
+            if (
+                not isinstance(provenance, dict)
+                or provenance.get("split_manifest_sha256") != campaign_split.sha256
+            ):
+                raise ValueError(
+                    "source checkpoint provenance names a different chronological split"
+                )
+            fitting = provenance.get("fit_row_groups") if isinstance(provenance, dict) else None
+            if not isinstance(fitting, dict) or set(fitting) != {"train", "valid"}:
+                raise ValueError("source checkpoint lacks chronological fit membership")
+            members = []
+            for split in ("train", "valid"):
+                groups = fitting[split]
+                if (
+                    not isinstance(groups, list)
+                    or any(type(group) is not int or group < 0 for group in groups)
+                    or len(set(groups)) != len(groups)
+                ):
+                    raise ValueError("source checkpoint has malformed chronological fit groups")
+                members.append(groups)
+            try:
+                campaign_split.assert_fit_groups(*members)
+            except ValueError as error:
+                raise ValueError(
+                    "source checkpoint fit crosses chronological validation"
+                ) from error
