@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import math
 from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Literal, cast
@@ -12,6 +13,8 @@ KNOWN_GRAPH_DETAILS = frozenset(
         "learned_relative_timestamp_bias",
         "query_key_rms_normalization",
         "schematic_global_conv_mixer",
+        "schematic_conv_gelu_batchnorm_order",
+        "global_residual_post_layer_norm",
         "gated_fusion",
         "decoder_post_rms_norm_and_gelu_ffn",
     }
@@ -27,6 +30,7 @@ UNRESOLVED_DETAILS = frozenset(
         "relative_time_scale_and_source",
         "fusion_operands_order_and_gate_equation",
         "hidden_cell_projection_and_ffn_widths",
+        "convolution_hidden_width",
         "batch_norm_axis_and_running_stat_convention",
         "author_geglu_text_vs_schematic_conv_mixer",
         "connectome_output_adaptation",
@@ -47,6 +51,7 @@ class GALAMConfig:
     local_attention_blocks: int
     attention_history: int
     conv_kernel_size: int
+    conv_hidden_width: int
     relative_bias_width: int
     timestamp_source: Literal["ordinal", "provided"]
     timestamp_scale: float
@@ -68,16 +73,52 @@ class GALAMConfig:
             self.local_attention_blocks,
             self.attention_history,
             self.conv_kernel_size,
+            self.conv_hidden_width,
             self.relative_bias_width,
             self.feed_forward_width,
         )
-        if any(value <= 0 for value in integer_fields):
+        if any(
+            isinstance(value, bool) or not isinstance(value, int) or value <= 0
+            for value in integer_fields
+        ):
             raise ValueError("GALAM dimensions, depths, and bounded histories must be positive")
         if self.width % self.attention_heads:
             raise ValueError("width must be divisible by attention_heads")
-        if self.timestamp_scale <= 0:
-            raise ValueError("timestamp_scale must be positive")
-        if set(self.fusion_operand_order) != {"global", "local"}:
+        if (
+            isinstance(self.timestamp_scale, bool)
+            or not isinstance(self.timestamp_scale, (int, float))
+            or not math.isfinite(self.timestamp_scale)
+            or self.timestamp_scale <= 0
+        ):
+            raise ValueError("timestamp_scale must be finite and positive")
+        if self.timestamp_source not in ("ordinal", "provided"):
+            raise ValueError("timestamp_source must be ordinal or provided")
+        if self.role not in ("historical_32_to_32", "connectome_112_to_2", "custom"):
+            raise ValueError("role must be historical_32_to_32, connectome_112_to_2, or custom")
+        if self.role == "historical_32_to_32" and (self.input_features, self.output_features) != (
+            32,
+            32,
+        ):
+            raise ValueError("historical_32_to_32 role requires 32 inputs and 32 outputs")
+        if self.role == "connectome_112_to_2" and (self.input_features, self.output_features) != (
+            112,
+            2,
+        ):
+            raise ValueError("connectome_112_to_2 role requires 112 inputs and 2 outputs")
+        if not isinstance(self.faithful_details, frozenset) or not isinstance(
+            self.assumed_details, frozenset
+        ):
+            raise ValueError("fidelity detail sets must be immutable frozensets")
+        if any(
+            not isinstance(detail, str) for detail in self.faithful_details | self.assumed_details
+        ):
+            raise ValueError("fidelity details must be strings")
+        if (
+            not isinstance(self.fusion_operand_order, tuple)
+            or len(self.fusion_operand_order) != 2
+            or any(item not in ("global", "local") for item in self.fusion_operand_order)
+            or set(self.fusion_operand_order) != {"global", "local"}
+        ):
             raise ValueError("fusion_operand_order must contain global and local exactly once")
         if self.faithful_details & self.assumed_details:
             raise ValueError("a detail cannot be both source-supported and assumed")
@@ -88,6 +129,19 @@ class GALAMConfig:
             expected = expected - {HISTORICAL_SHAPE_DETAIL}
         else:
             expected = expected - {"connectome_output_adaptation", HISTORICAL_SHAPE_DETAIL}
+        required_faithful = KNOWN_GRAPH_DETAILS
+        required_assumed = UNRESOLVED_DETAILS
+        if self.role == "historical_32_to_32":
+            required_faithful = required_faithful | {HISTORICAL_SHAPE_DETAIL}
+            required_assumed = required_assumed - {"connectome_output_adaptation"}
+        elif self.role == "connectome_112_to_2":
+            required_faithful = required_faithful - {HISTORICAL_SHAPE_DETAIL}
+        else:
+            required_assumed = required_assumed - {"connectome_output_adaptation"}
+        if not required_faithful <= self.faithful_details:
+            raise ValueError("source-supported details cannot be marked assumed")
+        if not required_assumed <= self.assumed_details:
+            raise ValueError("unresolved details must remain marked assumed")
         if self.faithful_details | self.assumed_details != expected:
             raise ValueError(
                 "faithful_details and assumed_details must classify every declared detail"
@@ -127,6 +181,7 @@ def _template_config(
         local_attention_blocks=1,
         attention_history=64,
         conv_kernel_size=5,
+        conv_hidden_width=128,
         relative_bias_width=32,
         timestamp_source="ordinal",
         timestamp_scale=1.0,
@@ -150,6 +205,7 @@ def galam_config_from_mapping(values: Mapping[str, object]) -> GALAMConfig:
         "local_attention_blocks",
         "attention_history",
         "conv_kernel_size",
+        "conv_hidden_width",
         "relative_bias_width",
         "timestamp_source",
         "timestamp_scale",
@@ -197,6 +253,7 @@ def galam_config_from_mapping(values: Mapping[str, object]) -> GALAMConfig:
         local_attention_blocks=_mapping_int(values, "local_attention_blocks"),
         attention_history=_mapping_int(values, "attention_history"),
         conv_kernel_size=_mapping_int(values, "conv_kernel_size"),
+        conv_hidden_width=_mapping_int(values, "conv_hidden_width"),
         relative_bias_width=_mapping_int(values, "relative_bias_width"),
         timestamp_source=cast(Literal["ordinal", "provided"], timestamp_source),
         timestamp_scale=float(scale),

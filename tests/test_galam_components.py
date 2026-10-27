@@ -1,18 +1,24 @@
 from __future__ import annotations
 
+import math
 from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import asdict, replace
 from typing import Literal
 
+import pytest
 import torch
+from torch.nn import functional as F
 
 from wnn.galam import (
     GALAM,
+    GALAMConfig,
     connectome_112_to_2_config,
     galam_config_from_mapping,
     historical_32_config,
 )
+from wnn.galam.attention import TemporalSelfAttention
+from wnn.galam.mixer import CausalConvMixer, PerTimeBatchNorm1d
 
 
 @contextmanager
@@ -26,7 +32,7 @@ def _single_threaded() -> Iterator[None]:
         torch.set_num_threads(previous)
 
 
-def _small_config(timestamp_source: Literal["ordinal", "provided"] = "ordinal"):
+def _small_config(timestamp_source: Literal["ordinal", "provided"] = "ordinal") -> GALAMConfig:
     """Return a small explicitly assumed config for causal component checks."""
     return replace(
         historical_32_config(),
@@ -34,6 +40,7 @@ def _small_config(timestamp_source: Literal["ordinal", "provided"] = "ordinal"):
         attention_heads=2,
         attention_history=4,
         conv_kernel_size=3,
+        conv_hidden_width=16,
         relative_bias_width=4,
         feed_forward_width=12,
         timestamp_source=timestamp_source,
@@ -52,6 +59,88 @@ def test_configs_keep_historical_and_connectome_shapes_distinct() -> None:
     assert "connectome_output_adaptation" in adaptation.assumed_details
     assert "connectome_output_adaptation" not in historical.assumed_details
     assert galam_config_from_mapping(asdict(historical)) == historical
+
+
+def test_config_rejects_invalid_dimensions_scales_roles_and_fidelity_claims() -> None:
+    config = historical_32_config()
+    with pytest.raises(ValueError, match="dimensions"):
+        replace(config, width=True)
+    for scale in (math.nan, math.inf, -math.inf, 0.0):
+        with pytest.raises(ValueError, match="finite and positive"):
+            replace(config, timestamp_scale=scale)
+    with pytest.raises(ValueError, match="requires 32 inputs"):
+        replace(config, input_features=112)
+    with pytest.raises(ValueError, match="role"):
+        replace(config, role="unknown")
+    with pytest.raises(ValueError, match="timestamp_source"):
+        replace(config, timestamp_source="relative")
+    with pytest.raises(ValueError, match="fusion_operand_order"):
+        replace(config, fusion_operand_order=("global", "global"))
+    with pytest.raises(ValueError, match="immutable frozensets"):
+        replace(config, faithful_details=set(config.faithful_details))
+    false_assumptions = config.assumed_details - {"width_and_attention_heads"}
+    false_fidelity = config.faithful_details | {"width_and_attention_heads"}
+    with pytest.raises(ValueError, match="unresolved details"):
+        replace(config, faithful_details=false_fidelity, assumed_details=false_assumptions)
+
+
+def test_source_schematic_global_norms_and_conv_channel_path() -> None:
+    config = _small_config()
+    model = GALAM(config)
+    assert all(isinstance(norm, torch.nn.LayerNorm) for norm in model.global_attention_norms)
+    assert all(isinstance(norm, torch.nn.LayerNorm) for norm in model.global_mixer_norms)
+    mixer = model.global_mixers[0]
+    assert mixer.conv1.conv.in_channels == config.width
+    assert mixer.conv1.conv.out_channels == config.conv_hidden_width
+    assert mixer.norm1.norm.num_features == config.conv_hidden_width
+    assert mixer.conv2.conv.in_channels == config.conv_hidden_width
+    assert mixer.conv2.conv.out_channels == config.width
+    assert mixer.norm2.norm.num_features == config.width
+
+
+def test_conv_mixer_uses_schematic_conv_gelu_bn_order() -> None:
+    with _single_threaded():
+        mixer = CausalConvMixer(width=1, hidden_width=1, kernel_size=1).train()
+        with torch.no_grad():
+            mixer.conv1.conv.weight.fill_(1.0)
+            mixer.conv1.conv.bias.zero_()
+            mixer.conv2.conv.weight.fill_(1.0)
+            mixer.conv2.conv.bias.zero_()
+        values = torch.tensor([[-2.0], [0.25], [2.0]])
+        actual, _ = mixer.forward_step(values, None)
+
+        first = F.gelu(values)
+        first = (first - first.mean(dim=0)) / torch.sqrt(first.var(dim=0, unbiased=False) + 1e-5)
+        expected = F.gelu(first)
+        expected = (expected - expected.mean(dim=0)) / torch.sqrt(
+            expected.var(dim=0, unbiased=False) + 1e-5
+        )
+        torch.testing.assert_close(actual, expected, rtol=1e-5, atol=1e-6)
+
+
+def test_attention_does_not_attend_beyond_declared_total_context() -> None:
+    with _single_threaded(), torch.no_grad():
+        torch.manual_seed(37)
+        attention = TemporalSelfAttention(8, 2, history=3, bias_width=4, timestamp_scale=1.0).eval()
+        shared = torch.randn(3, 1, 8)
+        sequences = (
+            torch.cat((torch.randn(6, 1, 8), shared)),
+            torch.cat((torch.randn(2, 1, 8), shared)),
+        )
+        outputs = []
+        for sequence in sequences:
+            cache = None
+            for index, value in enumerate(sequence):
+                time = torch.tensor([float(index)])
+                output, cache = attention.forward_step(value, time, cache)
+            outputs.append(output)
+        torch.testing.assert_close(outputs[0], outputs[1], rtol=1e-5, atol=1e-6)
+
+
+def test_training_batch_norm_has_clear_minimum_batch_contract() -> None:
+    norm = PerTimeBatchNorm1d(3).train()
+    with pytest.raises(ValueError, match="batch size >= 2"):
+        norm(torch.randn(1, 3))
 
 
 def test_empty_chunk_is_a_noop_and_state_detach_cuts_history_graph() -> None:
@@ -107,15 +196,17 @@ def test_full_prefix_chunk_and_step_outputs_match_with_bounded_state() -> None:
         torch.testing.assert_close(full, torch.cat(steps, dim=1), rtol=1e-5, atol=1e-6)
         assert state.steps_seen == values.shape[1]
         assert all(
-            cache is not None and cache.keys.shape[2] <= config.attention_history
+            cache is not None and cache.keys.shape[2] == config.attention_history
             for cache in state.local_attention
         )
         assert all(
-            cache is not None and cache.keys.shape[2] <= config.attention_history
+            cache is not None and cache.keys.shape[2] == config.attention_history
             for cache in state.global_attention
         )
         assert all(mixer is not None for mixer in state.global_mixers)
+        assert state.global_mixers[0].first_inputs.shape[1] == config.width
         assert state.global_mixers[0].first_inputs.shape[-1] == config.conv_kernel_size - 1
+        assert state.global_mixers[0].second_inputs.shape[1] == config.conv_hidden_width
         reset = model.reset_state(3, values.device, values.dtype)
         assert reset.steps_seen == 0
         assert all(cache is None for cache in reset.local_attention + reset.global_attention)

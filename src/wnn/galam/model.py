@@ -33,12 +33,13 @@ class GALAM(nn.Module):
             self._attention(config) for _ in range(config.global_blocks)
         )
         self.global_attention_norms = nn.ModuleList(
-            nn.RMSNorm(width) for _ in self.global_attention
+            nn.LayerNorm(width) for _ in self.global_attention
         )
         self.global_mixers = nn.ModuleList(
-            CausalConvMixer(width, config.conv_kernel_size) for _ in range(config.global_blocks)
+            CausalConvMixer(width, config.conv_hidden_width, config.conv_kernel_size)
+            for _ in range(config.global_blocks)
         )
-        self.global_mixer_norms = nn.ModuleList(nn.RMSNorm(width) for _ in self.global_mixers)
+        self.global_mixer_norms = nn.ModuleList(nn.LayerNorm(width) for _ in self.global_mixers)
         self.fusion = TwoWayFusionGate(width, config.fusion_operand_order)
         self.fusion_norm = nn.RMSNorm(width)
         self.feed_forward = nn.Sequential(

@@ -48,7 +48,7 @@ class TemporalSelfAttention(nn.Module):
     def forward_step(
         self, x: torch.Tensor, timestamp: torch.Tensor, cache: AttentionCache | None
     ) -> tuple[torch.Tensor, AttentionCache]:
-        """Attend to the current item and cached past, then truncate the returned cache."""
+        """Attend to at most `history` total keys and return the bounded cache."""
         batch = x.shape[0]
         query = self._project(self.query(x), self.query_norm).unsqueeze(2)
         key = self._project(self.key(x), self.key_norm).unsqueeze(2)
@@ -60,6 +60,10 @@ class TemporalSelfAttention(nn.Module):
             key_times = torch.cat((cache.timestamps, times), dim=1)
         else:
             key_times = times
+        if key.shape[2] > self.history:
+            key = key[:, :, -self.history :]
+            value = value[:, :, -self.history :]
+            key_times = key_times[:, -self.history :]
         scores = torch.matmul(query, key.transpose(-1, -2)) / math.sqrt(self.head_width)
         scores = scores + self.relative_bias(times, key_times)
         weights = torch.softmax(scores, dim=-1)
