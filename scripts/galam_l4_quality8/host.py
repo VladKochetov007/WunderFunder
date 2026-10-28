@@ -22,6 +22,7 @@ GPU_QUERY = "index,name,uuid,memory.total,memory.free"
 CUDA_QUERY_SCRIPT = r'''
 import json
 import torch
+from wnn.training.sequence_monitor_identity import gpu_identifier
 
 if not torch.cuda.is_available() or torch.cuda.device_count() != 8:
     raise SystemExit("expected eight CUDA-visible devices")
@@ -33,9 +34,13 @@ for index in range(torch.cuda.device_count()):
         raw_uuid = raw_uuid.decode("utf-8")
     if raw_uuid is None:
         raise SystemExit("CUDA device UUID is unavailable")
+    physical_uuid = gpu_identifier(torch.device("cuda", index))
+    if physical_uuid is None:
+        raise SystemExit("CUDA physical UUID could not be normalized")
     devices.append({
         "name": torch.cuda.get_device_name(index),
         "uuid": str(raw_uuid),
+        "physical_uuid": physical_uuid,
         "capability": [properties.major, properties.minor],
         "total_memory_bytes": int(properties.total_memory),
     })
@@ -141,10 +146,10 @@ def validate_host_profiles(cells: list[CellPlan], host: HostState) -> dict[str, 
         if (
             profile_device.get("rank") != 0
             or profile_device.get("local_rank") != 0
-            or profile_device.get("uuid") != gpu["uuid"]
+            or profile_device.get("uuid") != cuda_device["uuid"]
+            or cuda_device.get("physical_uuid") != gpu["uuid"]
             or profile_device.get("name") != cuda_device["name"]
             or profile_device.get("capability") != cuda_device["capability"]
-            or profile_device.get("uuid") != cuda_device["uuid"]
             or not isinstance(expected_memory, int)
             or expected_memory != cuda_device["total_memory_bytes"]
         ):
@@ -223,11 +228,18 @@ def _query_cuda_devices() -> dict[str, dict[str, Any]]:
     if not isinstance(devices, list) or len(devices) != 8:
         raise LaunchError("CUDA inventory process did not report exactly eight devices")
     result_by_uuid: dict[str, dict[str, Any]] = {}
+    seen_raw_uuids: set[str] = set()
     for item in devices:
         if not isinstance(item, dict):
             raise LaunchError("CUDA inventory contains a malformed device record")
         uuid = item.get("uuid")
-        if not isinstance(uuid, str) or uuid in result_by_uuid:
+        physical_uuid = item.get("physical_uuid")
+        if (
+            not isinstance(uuid, str)
+            or uuid in seen_raw_uuids
+            or not isinstance(physical_uuid, str)
+            or physical_uuid in result_by_uuid
+        ):
             raise LaunchError("CUDA inventory contains a missing or duplicate UUID")
         if (
             item.get("name") != "NVIDIA L4"
@@ -236,7 +248,10 @@ def _query_cuda_devices() -> dict[str, dict[str, Any]]:
             or item["total_memory_bytes"] <= 0
         ):
             raise LaunchError("CUDA inventory contains a non-L4 or invalid memory identity")
-        result_by_uuid[uuid] = item
+        if not physical_uuid.startswith("GPU-"):
+            raise LaunchError("CUDA inventory has an invalid physical UUID representation")
+        seen_raw_uuids.add(uuid)
+        result_by_uuid[physical_uuid] = item
     return result_by_uuid
 
 

@@ -93,7 +93,10 @@ def test_host_probe_requires_exactly_eight_l4_uuids(monkeypatch: pytest.MonkeyPa
 
     def completed(command: list[str], **_kwargs: Any) -> SimpleNamespace:
         if "--query-gpu=index" in command[1]:
-            rows = [f"{index}, NVIDIA L4, GPU-{index:036d}, 23034, 22000" for index in range(8)]
+            rows = [
+                f"{index}, NVIDIA L4, GPU-{index:08x}-abcd-ef01-2345-{index:012x}, 23034, 22000"
+                for index in range(8)
+            ]
             return SimpleNamespace(stdout="\n".join(rows))
         if command[1:2] == ["-c"]:
             return SimpleNamespace(
@@ -101,7 +104,8 @@ def test_host_probe_requires_exactly_eight_l4_uuids(monkeypatch: pytest.MonkeyPa
                     [
                         {
                             "name": "NVIDIA L4",
-                            "uuid": f"GPU-{index:036d}",
+                            "uuid": f"{index:08x}-abcd-ef01-2345-{index:012x}",
+                            "physical_uuid": f"GPU-{index:08x}-abcd-ef01-2345-{index:012x}",
                             "capability": [8, 9],
                             "total_memory_bytes": 23_670_685_696,
                         }
@@ -115,7 +119,9 @@ def test_host_probe_requires_exactly_eight_l4_uuids(monkeypatch: pytest.MonkeyPa
     state = host.probe_host()
     assert set(state.gpus) == set(range(8))
     assert state.driver == "570.0"
-    assert state.cuda_devices["GPU-000000000000000000000000000000000000"]["total_memory_bytes"] == 23_670_685_696
+    assert state.cuda_devices[
+        "GPU-00000000-abcd-ef01-2345-000000000000"
+    ]["total_memory_bytes"] == 23_670_685_696
 
     def seven_gpus(command: list[str], **kwargs: Any) -> SimpleNamespace:
         result = completed(command, **kwargs)
@@ -140,7 +146,8 @@ def test_host_profile_uses_exact_cuda_memory_not_nvidia_smi_capacity(
     gpus: dict[int, dict[str, Any]] = {}
     cuda_devices: dict[str, dict[str, Any]] = {}
     for index in range(8):
-        uuid = f"GPU-{index:036d}"
+        uuid = f"GPU-{index:08x}-abcd-ef01-2345-{index:012x}"
+        raw_uuid = uuid.removeprefix("GPU-")
         gpus[index] = {
             "name": "NVIDIA L4",
             "uuid": uuid,
@@ -149,7 +156,8 @@ def test_host_profile_uses_exact_cuda_memory_not_nvidia_smi_capacity(
         }
         cuda_devices[uuid] = {
             "name": "NVIDIA L4",
-            "uuid": uuid,
+            "uuid": raw_uuid,
+            "physical_uuid": uuid,
             "capability": [8, 9],
             "total_memory_bytes": cuda_bytes,
         }
@@ -164,7 +172,10 @@ def test_host_profile_uses_exact_cuda_memory_not_nvidia_smi_capacity(
         device = {
             "rank": 0,
             "local_rank": 0,
-            **cuda_devices[gpus[cell.gpu]["uuid"]],
+            "name": "NVIDIA L4",
+            "capability": [8, 9],
+            "uuid": cuda_devices[gpus[cell.gpu]["uuid"]]["uuid"],
+            "total_memory_bytes": cuda_bytes,
         }
         raw_runtime = {
             "python": host.platform.python_version(),
