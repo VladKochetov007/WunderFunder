@@ -285,6 +285,49 @@ def test_pid_reuse_is_rejected_before_any_signal(monkeypatch: pytest.MonkeyPatch
     assert signaled == []
 
 
+def test_exited_adopted_fit_is_reconciled_through_artifact_verifier(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    plan = _plan(tmp_path)
+    plan["sha256"] = "e" * 64
+    started = 1000.0
+    adoption = {
+        "pid": 4125363,
+        "process_group": 4125363,
+        "session": 4125363,
+        "start_ticks": "2060336421",
+        "gpu_index": 0,
+        "gpu_uuid": "GPU-test",
+        "started_unix": started,
+        "source_sha256": "c" * 64,
+        "args_sha256": "d" * 64,
+        "argv": ["python", "scripts/train_rnn.py"],
+    }
+    status = driver._new_status(plan, adoption)
+    state_path = tmp_path / "state" / "status.json"
+    state_path.parent.mkdir()
+    verified: list[tuple[str, int, str]] = []
+    monkeypatch.setattr(driver, "owned_group_state", lambda _record: "exited")
+    monkeypatch.setattr(
+        driver,
+        "verify_run_output",
+        lambda _root, node, _split, source: verified.append(
+            (str(node["id"]), int(node["endpoint"]), str(source))
+        )
+        or {"run": node["run"], "epoch": node["endpoint"]},
+    )
+
+    driver._poll_tasks(tmp_path, state_path, status, plan, object(), {}, started + 10.0)
+
+    task = status["tasks"]["fit:fin256_s3"]
+    node = status["nodes"]["fin256_s3"]
+    assert verified == [("fin256_s3", 3, "c" * 64)]
+    assert task["state"] == "complete"
+    assert task["return_code"] == 0
+    assert node["state"] == "running"
+    assert node["phase"] == "export_pending"
+
+
 def test_actual_r3_adoption_receipts_validate_without_current_hash_recipe(
     tmp_path: Path,
 ) -> None:
