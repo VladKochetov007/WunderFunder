@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Callable
 
 import torch
 from torch import nn
@@ -44,6 +45,9 @@ class TemporalSelfAttention(nn.Module):
         self.key_norm = nn.RMSNorm(self.head_width)
         self.relative_bias = RelativeTimeBias(bias_width, heads, timestamp_scale)
         self.output = nn.Linear(width, width)
+        self._monitor_observer: (
+            Callable[[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor], None] | None
+        ) = None
 
     def forward_step(
         self, x: torch.Tensor, timestamp: torch.Tensor, cache: AttentionCache | None
@@ -65,12 +69,16 @@ class TemporalSelfAttention(nn.Module):
             value = value[:, :, -self.history :]
             key_times = key_times[:, -self.history :]
         scores = torch.matmul(query, key.transpose(-1, -2)) / math.sqrt(self.head_width)
-        scores = scores + self.relative_bias(times, key_times)
+        bias = self.relative_bias(times, key_times)
+        scores = scores + bias
         weights = torch.softmax(scores, dim=-1)
         attended = torch.matmul(weights, value).transpose(1, 2).reshape(batch, self.width)
         keep = slice(-self.history, None)
         next_cache = AttentionCache(key[:, :, keep], value[:, :, keep], key_times[:, keep])
-        return self.output(attended), next_cache
+        result = self.output(attended)
+        if self._monitor_observer is not None:
+            self._monitor_observer(weights, bias, times, key_times)
+        return result, next_cache
 
     def _project(self, values: torch.Tensor, norm: nn.RMSNorm | None = None) -> torch.Tensor:
         """Split the feature dimension into heads and apply the declared QK norm."""

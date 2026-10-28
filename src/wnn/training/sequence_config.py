@@ -59,9 +59,13 @@ def load_config(path: Path) -> dict[str, Any]:
     """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
     if not isinstance(raw, dict) or set(raw) - (
-        set(DEFAULTS) | {"model", "checkpoint_retention", "dropout_policy"}
+        set(DEFAULTS) | {"model", "checkpoint_retention", "dropout_policy", "monitoring"}
     ):
         raise ValueError("unknown sequence recipe field")
+    if "monitoring" in raw:
+        _validate_monitoring_config(
+            raw["monitoring"], raw.get("model", {}), raw.get("epochs", DEFAULTS["epochs"])
+        )
     if "dropout_policy" in raw and raw["dropout_policy"] != "explicit_regularization_v1":
         raise ValueError("unsupported explicit dropout policy")
     # Omission preserves historical config hashes and fixed-final profile identities.
@@ -207,6 +211,24 @@ def load_config(path: Path) -> dict[str, Any]:
     model["precision_mode"] = config["precision_mode"]
     config["model"] = model
     return config
+
+
+def _validate_monitoring_config(value: object, raw_model: object, epochs: object) -> None:
+    """Validate the opt-in online GALAM monitor without changing legacy defaults."""
+    if not isinstance(value, dict) or set(value) != {
+        "train_eval_sequences",
+        "diagnostics_every_steps",
+    }:
+        raise ValueError("monitoring requires train_eval_sequences and diagnostics_every_steps")
+    if not isinstance(raw_model, dict) or raw_model.get("architecture") != "galam":
+        raise ValueError("online sequence monitoring currently requires model.architecture=galam")
+    if type(epochs) is not int or not 1 <= epochs <= 10_000:
+        raise ValueError("monitored fits require epochs in [1, 10000]")
+    for key in ("train_eval_sequences", "diagnostics_every_steps"):
+        if type(value[key]) is not int or value[key] < 1:
+            raise ValueError(f"monitoring.{key} must be a positive integer")
+    if value["train_eval_sequences"] > 256:
+        raise ValueError("monitoring.train_eval_sequences cannot exceed 256")
 
 
 def validate_runtime_requirements(

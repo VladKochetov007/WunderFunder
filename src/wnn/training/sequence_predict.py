@@ -11,7 +11,12 @@ import torch
 import torch.distributed as dist
 
 from wnn.data import SEQUENCE_LENGTH
-from wnn.splits import file_sha256, load_campaign_split
+from wnn.splits import (
+    CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+    SEQUENCE_INNER_SPLIT_SCHEMA,
+    file_sha256,
+    load_campaign_split,
+)
 from wnn.training.sequence_data import SequenceRecords
 from wnn.training.sequence_epoch_prediction import (
     EPOCH_KIND,
@@ -94,6 +99,7 @@ def export_predictions(args: argparse.Namespace) -> None:
     runtime = initialize_distributed()
     device, rank, world = runtime.device, runtime.rank, runtime.world_size
     split = load_campaign_split(args.split_manifest, args.data_root)
+    report_only_primary_valid = bool(getattr(args, "report_only_primary_valid", False))
     admission = None
     index_path, index_hash = (
         getattr(args, "epoch_index", None),
@@ -102,19 +108,29 @@ def export_predictions(args: argparse.Namespace) -> None:
     if bool(index_path) != bool(index_hash):
         raise ValueError("epoch evaluation requires both --epoch-index and --epoch-index-sha256")
     if index_path is not None:
-        raw_split = json.loads(args.split_manifest.read_text())
-        if (
-            args.membership != "evaluation"
-            or raw_split.get("schema") != "wnn.sequence-inner-split.v1"
-        ):
-            raise ValueError("retained epochs are admitted only for inner evaluation")
+        if args.membership != "evaluation":
+            raise ValueError("retained epochs are inference-only and require evaluation membership")
+        if split.schema == SEQUENCE_INNER_SPLIT_SCHEMA:
+            if report_only_primary_valid:
+                raise ValueError("report-only primary mode requires the chronological split")
+        elif split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+            if not report_only_primary_valid:
+                raise ValueError(
+                    "chronological retained epochs require --report-only-primary-valid"
+                )
+        else:
+            raise ValueError(
+                "retained epochs are supported only for inner or chronological reports"
+            )
         admission = epoch_admission(args.checkpoint, index_path, index_hash)
+    elif report_only_primary_valid:
+        raise ValueError("--report-only-primary-valid requires a retained epoch checkpoint")
     model, payload = load_endpoint(args.checkpoint, device, admission)
     if payload["data"]["split_sha256"] != split.sha256:
         raise ValueError("endpoint does not exclude this evaluation fold")
-    fitting = [("train", g) for g in split.train_groups] + [
-        ("valid", g) for g in split.valid_groups
-    ]
+    fitting = [("train", g) for g in split.train_groups]
+    if split.schema != CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        fitting += [("valid", g) for g in split.valid_groups]
     if payload["data"]["fit_members"] != [list(member) for member in fitting]:
         raise ValueError("endpoint fitting membership is not this source-qualified split")
     members = (
@@ -157,6 +173,8 @@ def export_predictions(args: argparse.Namespace) -> None:
         producer = _producer(args.checkpoint, payload)
         if admission is not None:
             producer.update({"kind": EPOCH_KIND, "epoch_admission": admission})
+            if report_only_primary_valid:
+                producer["primary_valid_report_only"] = True
         manifest = {
             "schema": "sequence-teacher-cache-v1"
             if args.membership == "fit"
@@ -189,6 +207,7 @@ def main() -> None:
     parser.add_argument("--membership", choices=("fit", "evaluation"), required=True)
     parser.add_argument("--epoch-index", type=Path)
     parser.add_argument("--epoch-index-sha256")
+    parser.add_argument("--report-only-primary-valid", action="store_true")
     args = parser.parse_args()
     if int(os.environ.get("WORLD_SIZE", "1")) < 1:
         parser.error("invalid distributed world size")

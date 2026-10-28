@@ -21,6 +21,7 @@ from wnn.training.sequence_distributed import (
     wrap_distributed,
 )
 from wnn.training.sequence_fit_modes import run_full_fit
+from wnn.training.sequence_fit_monitor_setup import initialize_monitor, select_train_eval_members
 from wnn.training.sequence_fit_utils import (
     RankJsonlLog,
     SequenceDataset,
@@ -29,6 +30,10 @@ from wnn.training.sequence_fit_utils import (
     total_updates,
 )
 from wnn.training.sequence_models import build_sequence_model
+from wnn.training.sequence_monitor_events import (
+    MONITOR_EVALUATION_FILENAME,
+    MONITOR_EVENT_FILENAME,
+)
 from wnn.training.sequence_optimizer_telemetry import optimizer_contract
 from wnn.training.sequence_profile import run_profile
 from wnn.training.sequence_provenance import (
@@ -135,6 +140,8 @@ def run_sequence_fit(
             "split fold validation",
             context,
         )
+        monitor_config = config.get("monitoring")
+        train_eval_members = select_train_eval_members(monitor_config, data)
         seed_worker(int(config["seed"]), 0)
         base_model, normalization = coordinated_call(
             lambda: _prepare_model(config, data, context), "model construction", context
@@ -147,6 +154,14 @@ def run_sequence_fit(
             raise ValueError("configured fit has no optimizer updates")
         optimizer, scheduler = make_optimizer(base_model, config, schedule_updates)
         root = Path(__file__).resolve().parents[3]
+        if monitor_config is not None:
+            data.provenance["monitoring_plan"] = {
+                "validation_reporting": (
+                    "full official valid after each epoch; report-only; no checkpoint selection"
+                ),
+                "train_eval_members": [list(member) for member in train_eval_members],
+                "event_files": [MONITOR_EVENT_FILENAME, MONITOR_EVALUATION_FILENAME],
+            }
         source = source_identity(root, entrypoint)
         runtime = runtime_identity(context)
         identity = run_identity(config, data.provenance, source, runtime, context.world_size)
@@ -174,6 +189,16 @@ def run_sequence_fit(
             context,
         )
         recorder = recorder_result if context.is_primary else None
+        train_eval_dataset, monitor = initialize_monitor(
+            data_root,
+            output,
+            monitor_config if not profile_updates else None,
+            train_eval_members,
+            data,
+            identity,
+            resume_path is not None,
+            context,
+        )
         rank_log = coordinated_call(
             lambda: RankJsonlLog(
                 output / f"rank{context.rank}.jsonl", resume=resume_path is not None
@@ -196,6 +221,7 @@ def run_sequence_fit(
                     output,
                     profile_updates,
                     schedule_updates,
+                    monitoring_plan=data.provenance.get("monitoring_plan"),
                 )
                 return
             if receipt_path is None or profile_hash is None:
@@ -217,6 +243,11 @@ def run_sequence_fit(
                 resume_path,
                 receipt_path,
                 profile_hash,
+                evaluation_dataset=cast(SequenceDataset, data.evaluation)
+                if monitor is not None
+                else None,
+                train_eval_dataset=train_eval_dataset,
+                monitor=monitor,
             )
         finally:
             rank_log.close()

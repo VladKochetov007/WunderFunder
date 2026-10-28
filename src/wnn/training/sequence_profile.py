@@ -3,6 +3,7 @@ from __future__ import annotations
 import resource
 import sys
 import time
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
@@ -44,6 +45,7 @@ def run_profile(
     output: Path,
     profile_updates: int,
     max_updates: int,
+    monitoring_plan: Mapping[str, object] | None = None,
 ) -> None:
     """Run bounded real-data updates and emit an unapproved engineering-only receipt."""
     if not 1 <= profile_updates <= max_updates:
@@ -138,6 +140,12 @@ def run_profile(
         "scientific_checkpoint_written": False,
         "approval_note": "Review the engineering evidence and set approved=true before a full fit.",
     }
+    if monitoring_plan is not None:
+        receipt["evaluation_annotation"] = {
+            "no_eval_during_fit": True,
+            "validation_reporting": "not evaluated during bounded engineering profile",
+            "intended_validation_reporting": monitoring_plan.get("validation_reporting"),
+        }
     coordinated_call(
         lambda: (
             _write_profile_receipt(receipt, output / "profile_receipt.json")

@@ -150,6 +150,17 @@ def load_training_state(
             or not all(_counter(value) for value in offsets)
         ):
             raise ValueError("resume checkpoint is missing per-rank safe log offsets")
+        identity_data = expected_identity.get("data")
+        monitor_enabled = isinstance(identity_data, Mapping) and "monitoring_plan" in identity_data
+        monitor_offsets = loaded.get("monitor_offsets")
+        if monitor_enabled and (
+            not isinstance(monitor_offsets, Mapping)
+            or set(monitor_offsets) != {"events", "evaluations"}
+            or not all(_counter(value) for value in monitor_offsets.values())
+        ):
+            raise ValueError("monitored resume checkpoint is missing safe monitor log offsets")
+        if not monitor_enabled and monitor_offsets is not None:
+            raise ValueError("unmonitored resume checkpoint unexpectedly contains monitor offsets")
         state = loaded
     except Exception as exception:
         error = f"{type(exception).__name__}: {exception}"

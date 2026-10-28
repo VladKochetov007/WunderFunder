@@ -76,6 +76,15 @@ def write_final_outputs(
             str(config["model"].get("attention_backend", "math")),
         ),
     }
+    monitoring_plan = data_provenance.get("monitoring_plan")
+    if isinstance(monitoring_plan, Mapping):
+        provenance["evaluation_annotation"] = {
+            "no_eval_during_fit": False,
+            "validation_reporting": (
+                "full official valid after each epoch; report-only; no checkpoint selection"
+            ),
+            "monitoring_plan": json_value(monitoring_plan),
+        }
     if epoch_index_sha256 is not None:
         provenance["epoch_index_sha256"] = epoch_index_sha256
     if model_path.exists():
