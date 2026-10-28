@@ -3,8 +3,8 @@ independent incumbent on our adopted train/valid boundary. This draft restores i
 predictor graph as fresh train-only fits and evaluates the fixed endpoint on all
 official validation sequences.
 
-1. **Status and lineage.** Owned by SemyonEpanov/tabdata. One fin256_s3 teacher is
-   running; source/correctness/profile receipts are in this packet. This branch
+1. **Status and lineage.** Owned by SemyonEpanov/tabdata. One fin256_s3 teacher
+   completed all4 epochs; source/correctness/profile receipts are in this packet. This branch
    stacks on PR46; its seven GALAM fits continue unchanged. Full TL3 is not ready.
 2. **Mechanism.** Restore the original three prediction roles, diverse full/raw
    GRU teachers, fixed-epoch fine-tuning and mixed-target/four-family distillation.
@@ -32,13 +32,19 @@ official validation sequences.
    or a useful separately frozen ensemble contribution, supports further work;
    lower/uncertain results remain evidence about this adapted recipe, not all KD.
 9. **Execution.** See README, frozen recipe module and receiving receipts. First
-   fin256_s3 is detached and immutable; remaining finite-DAG admission and the
-   read-only dashboard bridge are being completed. Never restart the first fit.
+   fin256_s3 is complete and immutable; remaining finite-DAG admission is being
+   completed. All4 first-teacher train/val WMSE and WP points are connected to
+   the existing local dashboard under tl3c_fin256_s3. The other16 native views
+   consume trainer logs without repeating full-valid forward passes.
 10. **Return evidence.** Source/config/data/ancestor identities, every epoch's
     objective/full-valid WP, LR/gradients/resources, resumable state and fixed
     checkpoint, prediction banks, streaming fixed-blend scores and raw negatives.
-11. **Current result.** First teacher epoch1: full-valid WP .6744168482
-    (t0 .6702838726, t1 .6785498239),3,220 completed updates, no skips/nonfinite
-    gradients; fit588.1s + valid226.3s. This is an intermediate teacher, not TL3.
-    CPU receiving checks:26 pass/2 native-Muon-reference skips on Torch2.8.
-    An actual CUDA Muon engineering profile is pending. No final model promotion.
+11. **Current result.** First teacher fixed ep3: full-valid WP .6882596674
+    (t0 .6846225432, t1 .6918967916),12,880 completed updates, no skips/nonfinite
+    gradients. Epoch scores: .6744168482 / .6852992218 / .6878730780 / .6882596674.
+    Delta to the exposed plain-GRU benchmark is+.0104035442; recipes differ and
+    this is one teacher, not the final TL3 result or public-transfer evidence.
+    Native-Muon CUDA engineering profile:40 finite completed updates,37.11seq/s
+    for H128. Initial receiving checks:26pass/2 native-reference skips on
+    Torch2.8; finite-controller/recipe/monitor checks now30CPU passes. Read-only
+    dashboard broker additionally passes10 focused CPU tests.

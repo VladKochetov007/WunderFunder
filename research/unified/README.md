@@ -6,10 +6,13 @@ The [TL3 restoration packet](../experiment_drafts/tl3-chronological-20261028/REA
 recovers the three-member endpoint and17-predictor dependency graph, with every
 ancestor retrained on official train. Historical valid-fitted propensity is
 replaced explicitly by neutral weighting; unknown optimizer facts stay unknown.
-The first scratch GRU256x2 teacher is running after40 finite real-device profile
-updates; seven original GALAM fits continue. Native-Muon, causal tiedlead and
+The first scratch GRU256x2 teacher completed all4 epochs: fixed-endpoint full-valid
+WP0.6882596674 versus the exposed plain-GRU benchmark0.6778561232. All4 train/valid
+WMSE and WP points are in the existing dashboard (run tl3c_fin256_s3); seven original
+GALAM fits continue. Native-Muon, causal tiedlead and
 cache-provenance adapters and the fixed endpoint scorer have focused checks.
-Full TL3 metrics and its dashboard bridge remain pending; old public0.66832 is
+The remaining16 fits and their native-log dashboard views are being admitted.
+Full TL3 metrics remain pending; old public0.66832 is
 not an independent score on our current valid.
 
 ## 28 October: authorized fixed eight-L4 launch

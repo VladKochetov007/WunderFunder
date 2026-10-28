@@ -44,7 +44,7 @@ baseline. No historical weights or fitted-data scores are promoted.
 - **Evidence:** immutable resolved recipes/source hashes, profile/update evidence,
   train objective, full-valid WP by target, LR/preclip gradients, checkpoints,
   resource telemetry, ancestry/cache hashes and an evaluated final prediction
-  bundle. No measured TL3 restoration gain is available yet.
+  bundle. The first teacher is complete; the full TL3 endpoint is not yet available.
 
 This is empirical software research (tierB): exact code checks can falsify bugs;
 finite exposed validation cannot establish market transfer. No fresh hidden
@@ -97,12 +97,12 @@ partial is not completed; training on official valid is forbidden.
 
 ## Current execution
 
-One new scientific fit, **tl3c_fin256_s3**, has started on free L4 GPU0 using the
+One new scientific fit, **tl3c_fin256_s3**, completed on free L4 GPU0 using the
 already-admitted source-r3. It is a scratch GRU256x2, batch32/chunk2000, four
 epochs, WMSE plus .3 structural/.3 next-change heads and EMA consistency1,
 since-event32 weighting, fresh AdamW .001 + OneCycle, strict FP32. The selected
-teacher endpoint is fixed ep3. It is detached from SSH with a six-hour per-fit
-limit; no old GALAM fit or source is modified. Actual profile:40/40 completed
+teacher endpoint is fixed ep3. It ran detached from SSH with a six-hour per-fit
+limit; no old GALAM fit or source was modified. Actual profile:40/40 completed
 updates, finite losses and preclip gradients,17.21 sequences/s;322 batches/epoch
 implies about10minutes of fitting plus validation/checkpoint time per epoch.
 
@@ -112,7 +112,19 @@ throughput improvement, so another scientific fit is not admitted to the same
 card. The finite chain will use verified released GPUs. Full TL3 restoration and
 its validation score remain pending, not completed.
 
-The user's follow-up explicitly requires TL3 in the same validation dashboard.
-The bridge consumes owned legacy checkpoints/logs without changing the live fit;
-composite train objective must be distinct from comparable train/valid WMSE and
-WP. A fixed fitting-only diagnostic cohort is not primary validation.
+The fixed first-teacher endpoint scores **WP0.6882596673755748**, versus the exposed
+plain GRU benchmark0.6778561232160607 (delta+0.0104035441595141). Full-valid epoch
+scores are0.6744168482,0.6852992218,0.6878730780 and0.6882596674. This is one teacher
+fit with different inputs/objective, not a causal ablation or the final TL3 score.
+See the [actual first-teacher receipt](receiving/FIRST_TEACHER_PROGRESS_R1.json).
+
+The same [validation dashboard](http://127.0.0.1:18766/) now contains all four
+checkpoint-derived train/valid WMSE and WP points under **tl3c_fin256_s3**.
+The train diagnostic uses32 frozen sorted fitting groups and all rows after
+warmup; full valid uses the official is_scored mask. Their absolute loss gap is
+not a directly matched-mask overfit estimate. Composite online training objective
+is a separate series. The bridge did not restart training or modify its source.
+
+The remaining16 fits and automatic native-log dashboard views are being admitted
+through the fixed finite dependency graph. Only actual controller state establishes
+running status. The first completed teacher must be adopted, never fitted again.

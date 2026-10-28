@@ -23,4 +23,13 @@ They contain no model/data payloads or credentials.
 Actual GPU0 allocation was about4.2GiB with the fit active. A co-resident profile
 was finite but yielded only9.11seq/s per profiled fit; no second scientific fit
 was started on that card. All seven original GALAM trainers remain unchanged.
-The finite TL3 chain, monitored train/val curves and final blend score are pending.
+The first teacher completed4 epochs with12880/12880 optimizer updates and no
+skips/nonfinite gradients. [First-teacher result](FIRST_TEACHER_PROGRESS_R1.json)
+preserves the actual VALID records; fixed ep3 WP0.6882596674 is development
+evidence, not the complete TL3 endpoint.
+
+All4 first-teacher train/valid WMSE and WP points were backfilled from SHA-bound
+owned checkpoints and verified through the existing dashboard API, run
+`tl3c_fin256_s3`. The comparable objective is WMSE; the fitting probe uses32 train
+groups/all-after-warmup, while valid uses all1873 groups/official scored mask.
+The remaining finite TL3 chain and final blend score are pending.
