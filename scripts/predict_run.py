@@ -33,6 +33,7 @@ from wnn.research_features import (
 from wnn.resources import configure_strict_fp32, configure_torch, dataloader_budget
 from wnn.sentinel import SentinelPreprocessor
 from wnn.splits import file_sha256, load_campaign_split
+from wnn.training.prediction_inputs import configure_prediction_inputs
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
 ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
@@ -247,6 +248,8 @@ def main():
     if ck.get("readout") is not None:
         train_rnn.READOUT = [t.to(device) for t in ck["readout"]]
         train_rnn.READOUT_TILTED = ck.get("readout_tilted", False)
+    prediction_environment = train_rnn._api.environment()
+    configure_prediction_inputs(prediction_environment, ck.get("args", {}))
     dataset = (
         FeatureOnlySequences(split, groups.tolist()) if feature_only else Sequences(split, groups)
     )
@@ -274,11 +277,13 @@ def main():
     for batch in loader:
         x = batch if feature_only else batch[0]
         if fam is None:
-            p = predict(model, x, 4000, device)
+            p = predict(model, x, 4000, device, environment=prediction_environment)
         else:  # research probe: keep every output column (family heads are the last 8)
             model.eval()
             with torch.no_grad():
-                inputs = train_rnn.build_inputs(x.to(device, non_blocking=True))
+                inputs = train_rnn.build_inputs(
+                    x.to(device, non_blocking=True), environment=prediction_environment
+                )
             state, parts = None, []
             for s0 in range(0, inputs.shape[1], 4000):
                 with (

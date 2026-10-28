@@ -73,6 +73,16 @@ def record_provenance(run: TrainingRun) -> None:
                 "src/wnn/training/inputs.py": file_sha256(
                     environment.source_root / "src/wnn/training/inputs.py"
                 ),
+                "src/wnn/training/prediction_inputs.py": file_sha256(
+                    environment.source_root / "src/wnn/training/prediction_inputs.py"
+                ),
+                "scripts/predict_run.py": file_sha256(
+                    environment.source_root / "scripts/predict_run.py"
+                ),
+                "src/wnn/features.py": file_sha256(
+                    environment.source_root / "src/wnn/features.py"
+                ),
+                "src/wnn/data.py": file_sha256(environment.source_root / "src/wnn/data.py"),
             },
         }
     if fit_subset is not None:
