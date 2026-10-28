@@ -124,7 +124,16 @@ def test_tiedlead_model_uses_source_shaped_residuals() -> None:
 
 def test_tiedlead_encoder_is_selectable_from_the_canonical_cli() -> None:
     args = build_parser().parse_args(
-        ["--name", "bounded-check", "--device", "cpu", "--enc", "tiedlead"]
+        [
+            "--name",
+            "bounded-check",
+            "--device",
+            "cpu",
+            "--precision",
+            "fp32",
+            "--enc",
+            "tiedlead",
+        ]
     )
     assert args.enc == "tiedlead"
 
@@ -142,6 +151,8 @@ def test_tiedlead_encoder_is_selectable_from_the_canonical_cli() -> None:
             "cpu",
             "--enc",
             "tiedlead",
+            "--precision",
+            "fp32",
             "--hidden",
             "64",
         ]
@@ -151,3 +162,23 @@ def test_tiedlead_encoder_is_selectable_from_the_canonical_cli() -> None:
     invalid_run.options.args = incompatible
     with pytest.raises(SystemExit):
         validate_models(invalid_run)
+
+    no_propensity_args = build_parser().parse_args(
+        [
+            "--name",
+            "bounded-check",
+            "--device",
+            "cpu",
+            "--precision",
+            "fp32",
+            "--enc",
+            "tiedlead",
+            "--propensity",
+            "old-propensity",
+        ]
+    )
+    propensity_run = TrainingRun(TrainingEnvironment())
+    propensity_run.options.ap = build_parser()
+    propensity_run.options.args = no_propensity_args
+    with pytest.raises(SystemExit):
+        validate_models(propensity_run)

@@ -31,6 +31,8 @@ def validate_models(run: TrainingRun) -> None:
             unsupported.append("hidden=256 and layers=2")
         if args.dropout != 0:
             unsupported.append("dropout=0")
+        if args.precision != "fp32":
+            unsupported.append("strict FP32 precision")
         if args.raw_only or args.numeric_map != "none":
             unsupported.append("raw-only or numeric-map inputs")
         if (
@@ -38,9 +40,10 @@ def validate_models(run: TrainingRun) -> None:
             or args.privileged_mode != "none"
             or args.heuristics
             or args.online_norm
-            or args.prop_input
         ):
             unsupported.append("additional input feature transforms")
+        if args.propensity or args.prop_cache or args.prop_input:
+            unsupported.append("propensity weights, cache, or input features")
         if (
             args.sentinel_base_width
             or args.sentinel_indicators != "none"
