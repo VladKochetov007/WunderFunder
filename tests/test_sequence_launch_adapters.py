@@ -294,14 +294,15 @@ def test_gru_muon_owns_only_gate_matrices_and_resumes_strict_fp32_state() -> Non
     optimizer_config = _optimizer_config(model_config)
     optimizer = build_sequence_muon_optimizer(model, optimizer_config)
     by_role = {str(group["role"]): group for group in optimizer.param_groups}
-    assert set(by_role) == {"muon_gru_gates", "adamw_matrix", "adamw_no_decay"}
+    assert set(by_role) == {"muon_gru_gates", "adamw_other"}
     assert by_role["muon_gru_gates"]["blocks"] == 3
     assert all(
         name.startswith("gru.weight_ih_l") or name.startswith("gru.weight_hh_l")
         for name in by_role["muon_gru_gates"]["param_names"]
     )
-    assert "inp.weight" in by_role["adamw_matrix"]["param_names"]
-    assert all("weight_" not in name for name in by_role["adamw_no_decay"]["param_names"])
+    assert "inp.weight" in by_role["adamw_other"]["param_names"]
+    assert any(name.endswith(".bias") for name in by_role["adamw_other"]["param_names"])
+    assert by_role["adamw_other"]["weight_decay_enabled"] is True
     owned = [parameter for group in optimizer.param_groups for parameter in group["params"]]
     trainable = [parameter for parameter in model.parameters() if parameter.requires_grad]
     assert {id(parameter) for parameter in owned} == {id(parameter) for parameter in trainable}
@@ -342,8 +343,7 @@ def test_galam_muon_excludes_lstm_and_covers_attention_ffn_with_adamw_elsewhere(
     assert set(by_role) == {
         "muon_attention",
         "muon_feedforward",
-        "adamw_matrix",
-        "adamw_no_decay",
+        "adamw_other",
     }
     muon_names = [
         name
@@ -354,7 +354,7 @@ def test_galam_muon_excludes_lstm_and_covers_attention_ffn_with_adamw_elsewhere(
     assert any("global_attention" in name for name in muon_names)
     assert any("feed_forward" in name for name in muon_names)
     assert not any("lstm" in name for name in muon_names)
-    adamw_names = by_role["adamw_matrix"]["param_names"] + by_role["adamw_no_decay"]["param_names"]
+    adamw_names = by_role["adamw_other"]["param_names"]
     lstm_names = [name for name in adamw_names if name.startswith("galam.lstm.")]
     assert lstm_names
     owned = [parameter for group in optimizer.param_groups for parameter in group["params"]]
@@ -366,3 +366,47 @@ def test_galam_muon_excludes_lstm_and_covers_attention_ffn_with_adamw_elsewhere(
     assert all(parameter.grad is not None for parameter in trainable)
     optimizer.step()
     assert optimizer_states_are_finite_fp32(optimizer)
+
+
+@pytest.mark.parametrize(
+    "model_config", [_model_config(), _small_galam_config()], ids=["gru", "galam"]
+)
+def test_adapter_non_muon_update_matches_plain_adamw(model_config: dict[str, object]) -> None:
+    """Every non-Muon parameter keeps the plain AdamW decay and moment update exactly."""
+    torch.manual_seed(53)
+    hybrid_model = build_sequence_model(model_config)
+    control_model = build_sequence_model(model_config)
+    control_model.load_state_dict(hybrid_model.state_dict(), strict=True)
+    optimizer_config = _optimizer_config(model_config)
+    hybrid = build_sequence_muon_optimizer(hybrid_model, optimizer_config)
+    control = torch.optim.AdamW(
+        control_model.parameters(),
+        lr=float(optimizer_config["lr"]),
+        betas=(
+            float(optimizer_config["adamw_beta1"]),
+            float(optimizer_config["adamw_beta2"]),
+        ),
+        eps=float(optimizer_config["adamw_eps"]),
+        weight_decay=float(optimizer_config["weight_decay"]),
+    )
+    muon_names = {
+        name for group in hybrid.param_groups if group["muon"] for name in group["param_names"]
+    }
+    expected_non_muon = {
+        name for name, parameter in hybrid_model.named_parameters() if parameter.requires_grad
+    } - muon_names
+    assert expected_non_muon
+    for name, parameter in hybrid_model.named_parameters():
+        gradient = torch.full_like(parameter, 0.01)
+        parameter.grad = gradient.clone()
+        control_model.get_parameter(name).grad = gradient.clone()
+
+    hybrid.step()
+    control.step()
+    for name in sorted(expected_non_muon):
+        torch.testing.assert_close(
+            hybrid_model.get_parameter(name),
+            control_model.get_parameter(name),
+            rtol=1e-6,
+            atol=1e-7,
+        )

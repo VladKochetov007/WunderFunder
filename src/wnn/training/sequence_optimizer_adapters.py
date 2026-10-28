@@ -82,10 +82,8 @@ def _gru_group_specs(model: nn.Module) -> list[dict[str, object]]:
                 raise ValueError(f"GRU gate matrix {name} must contain three stacked gate blocks")
             role, decay_enabled = "muon_gru_gates", True
             muon_names.add(name)
-        elif parameter.ndim <= 1 or name.endswith(".bias"):
-            role, decay_enabled = "adamw_no_decay", False
         else:
-            role, decay_enabled = "adamw_matrix", True
+            role, decay_enabled = "adamw_other", True
         roles[role].append((name, parameter, decay_enabled))
     expected_names = {
         f"gru.weight_{kind}_l{layer}"
@@ -97,7 +95,7 @@ def _gru_group_specs(model: nn.Module) -> list[dict[str, object]]:
     expected_ids = {id(parameter) for _, parameter in named_parameters}
     return optimizer_group_specs(
         roles,
-        ("muon_gru_gates", "adamw_matrix", "adamw_no_decay"),
+        ("muon_gru_gates", "adamw_other"),
         {"muon_gru_gates": 3},
         expected_ids,
     )
@@ -138,10 +136,8 @@ def _galam_group_specs(model: nn.Module) -> list[dict[str, object]]:
         elif _GALAM_FEEDFORWARD_PATTERN.fullmatch(name):
             role, decay_enabled = "muon_feedforward", True
             muon_names.add(name)
-        elif parameter.ndim <= 1 or name.endswith(".bias"):
-            role, decay_enabled = "adamw_no_decay", False
         else:
-            role, decay_enabled = "adamw_matrix", True
+            role, decay_enabled = "adamw_other", True
         if role in ("muon_attention", "muon_feedforward") and parameter.ndim != 2:
             raise ValueError(f"GALAM Muon parameter {name} must be a matrix")
         roles[role].append((name, parameter, decay_enabled))
@@ -168,7 +164,7 @@ def _galam_group_specs(model: nn.Module) -> list[dict[str, object]]:
     expected_ids = {id(parameter) for _, parameter in named_parameters}
     return optimizer_group_specs(
         roles,
-        ("muon_attention", "muon_feedforward", "adamw_matrix", "adamw_no_decay"),
+        ("muon_attention", "muon_feedforward", "adamw_other"),
         {"muon_attention": 1, "muon_feedforward": 1},
         expected_ids,
     )
