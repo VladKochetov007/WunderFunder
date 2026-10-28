@@ -16,6 +16,13 @@ MAX_EVALUATION_EVENTS = 10_000
 MAX_EVALUATION_LINE_BYTES = 32_768
 MAX_EVENT_LINE_BYTES = 131_072
 MAX_EVENT_LOG_BYTES = 1 << 30
+EXTENDED_EVENT_LINE_CAPS = {
+    "status": 16_384,
+    "train_step": 4_096,
+    "evaluation": MAX_EVALUATION_LINE_BYTES,
+    "diagnostics": 32_768,
+    "resources": 8_192,
+}
 MONITOR_EVENT_FILENAME = "monitor_events.jsonl"
 MONITOR_EVALUATION_FILENAME = "monitor_evaluations.jsonl"
 MonitorKind = Literal["status", "train_step", "evaluation", "diagnostics", "resources"]
@@ -25,10 +32,11 @@ _EVENT_KINDS = {"status", "train_step", "evaluation", "diagnostics", "resources"
 class MonitorEventWriter:
     """Append monitor events and retain one bounded, replay-safe evaluation per epoch."""
 
-    def __init__(self, path: Path, *, resume: bool) -> None:
+    def __init__(self, path: Path, *, resume: bool, extended_limits: bool = False) -> None:
         """Open event streams for a new run or validate their resumed append-only prefixes."""
         self.path = path
         self.evaluation_path = path.with_name(MONITOR_EVALUATION_FILENAME)
+        self._line_caps = EXTENDED_EVENT_LINE_CAPS if extended_limits else None
         _prepare_append_file(path, resume)
         _prepare_append_file(self.evaluation_path, resume)
         self._evaluation_events: dict[
@@ -51,9 +59,15 @@ class MonitorEventWriter:
             raise RuntimeError("restore monitor offsets from the safe checkpoint before appending")
         event = _event(kind, step, epoch, metrics, context)
         line = _event_line(event)
+        if kind == "evaluation" and len(line) > MAX_EVALUATION_LINE_BYTES:
+            raise ValueError("monitor evaluation event exceeds its bounded line size")
+        if self._line_caps is not None:
+            line_cap = self._line_caps[kind]
+            if len(line) > line_cap:
+                raise ValueError(f"extended {kind} monitor event exceeds its {line_cap}-byte cap")
+        elif len(line) > MAX_EVENT_LINE_BYTES:
+            raise ValueError("monitor event exceeds its bounded line size")
         if kind == "evaluation":
-            if len(line) > MAX_EVALUATION_LINE_BYTES:
-                raise ValueError("monitor evaluation event exceeds its bounded line size")
             previous = self._evaluation_events.get(epoch)
             if previous is not None:
                 if previous != _evaluation_signature(step, metrics, context):
@@ -64,8 +78,6 @@ class MonitorEventWriter:
                     raise ValueError("monitor evaluation journal reached its 10,000-epoch bound")
                 _append_line(self.evaluation_path, line)
                 self._evaluation_events[epoch] = _evaluation_signature(step, metrics, context)
-        if len(line) > MAX_EVENT_LINE_BYTES:
-            raise ValueError("monitor event exceeds its bounded line size")
         if self.path.stat().st_size + len(line) > MAX_EVENT_LOG_BYTES:
             raise ValueError("monitor event log reached its 1 GiB bound")
         _append_line(self.path, line)

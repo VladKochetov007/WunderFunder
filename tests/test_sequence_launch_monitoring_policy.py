@@ -1,22 +1,32 @@
 from __future__ import annotations
 
 import json
+from dataclasses import asdict, replace
 from pathlib import Path
 
 import pytest
 import torch
 from torch import nn
 
+from wnn.galam import connectome_112_to_2_config
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_loop import _training_telemetry_due
 from wnn.training.sequence_models import build_sequence_model
-from wnn.training.sequence_monitor import MonitorEventWriter, SequenceMonitor
-from wnn.training.sequence_monitor_budget import validate_monitor_event_budget
+from wnn.training.sequence_monitor import SequenceMonitor
+from wnn.training.sequence_monitor_budget import (
+    validate_monitor_event_budget,
+    validate_profile_monitor_event_budget,
+)
 from wnn.training.sequence_monitor_checkpoints import (
     advance_early_stop,
     write_checkpoint_pointers,
 )
 from wnn.training.sequence_monitor_diagnostics import DiagnosticProbe
+from wnn.training.sequence_monitor_events import (
+    EXTENDED_EVENT_LINE_CAPS,
+    MAX_EVENT_LINE_BYTES,
+    MonitorEventWriter,
+)
 
 
 class _MonitorDataset:
@@ -123,11 +133,37 @@ def test_train_eval_and_full_valid_keep_distinct_masks_and_batch_size(tmp_path: 
     assert "timing/train_eval_seconds" in metrics
     assert "timing/full_valid_seconds" in metrics
     assert "timing/paired_evaluation_seconds" in metrics
-    event = json.loads((tmp_path / "monitor_events.jsonl").read_text().splitlines()[0])
+    monitor.train_step(
+        {
+            "step": 2,
+            "total_loss": 0.2,
+            "label_loss": 0.2,
+            "kd_loss": 0.0,
+            "hint_loss": 0.0,
+            "gradient_norm_preclip": 1.2,
+            "gradient_clip_threshold": 1.0,
+            "gradient_clipped": 0.0,
+            "window_seconds": 0.5,
+            "optimizer_seconds": 0.1,
+            "valid_rows_per_second": 20.0,
+            "forwarded_rows_per_second": 24.0,
+            "valid_rows": 12,
+            "forwarded_rows": 16,
+            "real_rows": 16,
+            "learning_rates": {"base": 0.001, "head": 0.001},
+        },
+        0,
+        0.5,
+        torch.device("cpu"),
+    )
+    event_lines = (tmp_path / "monitor_events.jsonl").read_text().splitlines()
+    event = json.loads(event_lines[0])
     assert event["kind"] == "evaluation"
+    assert len(event_lines[0].encode()) <= EXTENDED_EVENT_LINE_CAPS["evaluation"]
     assert event["context"]["train_eval"]["row_mask"] == "all_after_warmup"
     assert event["context"]["valid"]["row_mask"] == "is_scored"
     assert "masks differ" in event["context"]["mask_comparison"]
+    assert len(event_lines[-1].encode()) <= EXTENDED_EVENT_LINE_CAPS["train_step"]
 
 
 def test_early_stop_keeps_strict_best_separate_from_min_delta_patience(tmp_path: Path) -> None:
@@ -210,11 +246,55 @@ def test_early_stop_keeps_strict_best_separate_from_min_delta_patience(tmp_path:
     assert saved["early_stopping"]["bad_count"] == 4
 
 
-def test_monitor_budget_preserves_full_eval_journal_under_sparse_training_logs() -> None:
-    event_count = validate_monitor_event_budget(360_000, 20, 100, 1_000)
-    assert event_count < 8_192
-    with pytest.raises(ValueError, match="1 GiB event journal bound"):
-        validate_monitor_event_budget(360_000, 20, 1, 1_000)
+def test_monitor_budget_uses_per_kind_caps_near_the_one_gib_limit() -> None:
+    budget = validate_monitor_event_budget(2_080_000, 20, 50, 100)
+    assert budget.event_counts == {
+        "status": 44,
+        "train_step": 41_620,
+        "evaluation": 20,
+        "diagnostics": 20_800,
+        "resources": 20_800,
+    }
+    assert budget.estimated_total_bytes == 1_023_819_776
+    assert budget.estimated_total_bytes < budget.journal_limit_bytes
+    assert budget.as_dict()["estimated_total_bytes"] == budget.estimated_total_bytes
+
+    with pytest.raises(ValueError, match="exceeding the 1 GiB bound"):
+        validate_monitor_event_budget(2_080_000, 20, 50, 94)
+
+
+def test_profile_budget_counts_profile_updates_and_statuses_only() -> None:
+    budget = validate_profile_monitor_event_budget(400, 100_000, 50, 100)
+    assert budget.event_counts == {
+        "status": 2,
+        "train_step": 8,
+        "evaluation": 0,
+        "diagnostics": 4,
+        "resources": 4,
+    }
+    assert budget.estimated_total_bytes == 229_376
+
+
+def test_extended_writer_enforces_each_kind_cap_and_preserves_legacy_line_limit(
+    tmp_path: Path,
+) -> None:
+    for kind, cap in EXTENDED_EVENT_LINE_CAPS.items():
+        event_dir = tmp_path / kind
+        event_dir.mkdir()
+        writer = MonitorEventWriter(
+            event_dir / "monitor_events.jsonl", resume=False, extended_limits=True
+        )
+        metrics = {} if kind == "status" else {"metric/value": 1.0}
+        with pytest.raises(ValueError):
+            writer.append(kind, 1, 1, metrics, {"padding": "x" * cap})
+
+    legacy_dir = tmp_path / "legacy"
+    legacy_dir.mkdir()
+    legacy_path = legacy_dir / "monitor_events.jsonl"
+    legacy = MonitorEventWriter(legacy_path, resume=False)
+    legacy.append("train_step", 1, 1.0, {"train/loss": 1.0}, {"padding": "x" * 8192})
+    legacy_size = legacy_path.stat().st_size
+    assert EXTENDED_EVENT_LINE_CAPS["train_step"] < legacy_size < MAX_EVENT_LINE_BYTES
 
 
 def test_sparse_telemetry_keeps_epoch_boundaries_and_full_eval_events(tmp_path: Path) -> None:
@@ -256,3 +336,22 @@ def test_plain_gru_diagnostics_do_not_require_galam_branches() -> None:
     assert "local/hidden_state_rms" in metrics
     assert "local/gate/r/layer_0/mean" in metrics
     assert not any(key.startswith("global/") for key in metrics)
+
+
+def test_galam_width128_depth_two_diagnostic_event_fits_its_line_cap(tmp_path: Path) -> None:
+    galam = replace(connectome_112_to_2_config(), width=128, lstm_layers=2)
+    model = build_sequence_model(
+        {"architecture": "galam", "galam": asdict(galam) | {"variant": "schematic_lstm_full"}}
+    ).train()
+    values = torch.randn(2, 8, 112)
+    with DiagnosticProbe(model) as probe:
+        prediction, _, _ = model(values)
+        prediction.square().mean().backward()
+    metrics = probe.metrics()
+
+    event_dir = tmp_path / "galam"
+    event_dir.mkdir()
+    event_path = event_dir / "monitor_events.jsonl"
+    writer = MonitorEventWriter(event_path, resume=False, extended_limits=True)
+    writer.append("diagnostics", 100, 0.5, metrics, {"scope": "sampled GALAM window"})
+    assert len(event_path.read_bytes()) <= EXTENDED_EVENT_LINE_CAPS["diagnostics"]

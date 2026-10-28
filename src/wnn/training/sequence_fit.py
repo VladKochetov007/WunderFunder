@@ -21,7 +21,12 @@ from wnn.training.sequence_distributed import (
     wrap_distributed,
 )
 from wnn.training.sequence_fit_modes import run_full_fit
-from wnn.training.sequence_fit_monitor_setup import initialize_monitor, select_train_eval_members
+from wnn.training.sequence_fit_monitor_setup import (
+    initialize_monitor,
+    prepare_monitor_event_budgets,
+    record_monitoring_plan,
+    select_train_eval_members,
+)
 from wnn.training.sequence_fit_utils import (
     RankJsonlLog,
     SequenceDataset,
@@ -30,11 +35,6 @@ from wnn.training.sequence_fit_utils import (
     total_updates,
 )
 from wnn.training.sequence_models import build_sequence_model
-from wnn.training.sequence_monitor_budget import validate_monitor_event_budget
-from wnn.training.sequence_monitor_events import (
-    MONITOR_EVALUATION_FILENAME,
-    MONITOR_EVENT_FILENAME,
-)
 from wnn.training.sequence_optimizer_telemetry import optimizer_contract
 from wnn.training.sequence_profile import run_profile
 from wnn.training.sequence_provenance import (
@@ -162,35 +162,21 @@ def run_sequence_fit(
         schedule_updates = total_updates(config, len(fit_dataset), context.world_size)
         if schedule_updates < 1:
             raise ValueError("configured fit has no optimizer updates")
-        if monitor_config is not None and "training_telemetry_every_steps" in monitor_config:
-            validate_monitor_event_budget(
-                schedule_updates,
-                int(config["epochs"]),
-                int(monitor_config["training_telemetry_every_steps"]),
-                int(monitor_config["diagnostics_every_steps"]),
-            )
+        monitor_event_budget, profile_event_budget = prepare_monitor_event_budgets(
+            monitor_config, schedule_updates, int(config["epochs"]), profile_updates
+        )
         optimizer, scheduler = make_optimizer(base_model, config, schedule_updates)
         root = Path(__file__).resolve().parents[3]
         if monitor_config is not None:
             model_config = config["model"]
             input_feature_mode = str(model_config.get("input_feature_mode", "raw112"))
-            data.provenance["monitoring_plan"] = {
-                "validation_reporting": "full official valid after each epoch; metrics exposed",
-                "train_eval_mask": monitor_config.get("train_eval_mask", "is_scored"),
-                "valid_mask": "is_scored",
-                "input_feature_mode": input_feature_mode,
-                "checkpoint_selection": (
-                    "best pointer follows strict raw full-valid WP highs; validation is exposed"
-                ),
-                "early_stopping": monitor_config.get("early_stopping"),
-                "early_stopping_semantics": (
-                    "min_delta resets patience only; count consecutive full-valid checks from "
-                    "the first check; stop eligibility begins at min_epoch; scheduler horizon "
-                    "remains the configured epoch cap"
-                ),
-                "train_eval_members": [list(member) for member in train_eval_members],
-                "event_files": [MONITOR_EVENT_FILENAME, MONITOR_EVALUATION_FILENAME],
-            }
+            record_monitoring_plan(
+                data,
+                monitor_config,
+                train_eval_members,
+                input_feature_mode,
+                monitor_event_budget,
+            )
         source = source_identity(root, entrypoint)
         runtime = runtime_identity(context)
         identity = run_identity(config, data.provenance, source, runtime, context.world_size)
@@ -254,6 +240,9 @@ def run_sequence_fit(
                     monitor=monitor,
                     monitor_enabled=monitor_config is not None,
                     monitoring_plan=data.provenance.get("monitoring_plan"),
+                    monitor_event_budget=(
+                        None if profile_event_budget is None else profile_event_budget.as_dict()
+                    ),
                 )
                 return
             if receipt_path is None or profile_hash is None:

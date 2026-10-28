@@ -55,7 +55,11 @@ class SequenceMonitor:
         self.input_feature_mode = input_feature_mode
         self.early_stopping = config.get("early_stopping")
         self.resource_sampler = HostResourceSampler(output)
-        self.writer = MonitorEventWriter(output / MONITOR_EVENT_FILENAME, resume=resume)
+        self.writer = MonitorEventWriter(
+            output / MONITOR_EVENT_FILENAME,
+            resume=resume,
+            extended_limits="training_telemetry_every_steps" in config,
+        )
         self._train_eval_members = train_eval_members
         self._valid_members = valid_members
         self._monitoring_plan = {"validation_reporting": "full official valid after each epoch"}
@@ -180,10 +184,7 @@ class SequenceMonitor:
             {
                 "loss_scope": "online optimizer window on the recipe training mask",
                 "epoch_index": epoch_index + 1,
-                "comparison": (
-                    "train/loss is online on the recipe mask; train_eval/loss uses "
-                    "all_after_warmup; valid/loss uses official is_scored; masks differ"
-                ),
+                "comparison": f"train/loss is online; {self._metric_context['mask_comparison']}",
                 "training_telemetry_every_steps": self.training_telemetry_every_steps,
                 "device_type": device.type,
             },

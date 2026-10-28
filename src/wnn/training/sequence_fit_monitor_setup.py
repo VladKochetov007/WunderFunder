@@ -8,6 +8,15 @@ from wnn.training.sequence_data import SequenceData, SequenceRecords
 from wnn.training.sequence_distributed import DistributedContext, coordinated_call
 from wnn.training.sequence_fit_utils import SequenceDataset
 from wnn.training.sequence_monitor import SequenceMonitor
+from wnn.training.sequence_monitor_budget import (
+    MonitorEventBudget,
+    validate_monitor_event_budget,
+    validate_profile_monitor_event_budget,
+)
+from wnn.training.sequence_monitor_events import (
+    MONITOR_EVALUATION_FILENAME,
+    MONITOR_EVENT_FILENAME,
+)
 from wnn.training.sequence_provenance import canonical_sha256
 
 
@@ -24,6 +33,63 @@ def select_train_eval_members(monitor_config: object, data: SequenceData) -> lis
     if not members or any(member not in data.fit.members for member in members):
         raise ValueError("fixed train-eval cohort is not a subset of actual fit membership")
     return members
+
+
+def prepare_monitor_event_budgets(
+    monitor_config: object,
+    schedule_updates: int,
+    epochs: int,
+    profile_updates: int,
+) -> tuple[MonitorEventBudget | None, MonitorEventBudget | None]:
+    """Preflight the complete fit journal and the smaller profile journal separately."""
+    if not isinstance(monitor_config, Mapping):
+        return None, None
+    if "training_telemetry_every_steps" not in monitor_config:
+        return None, None
+    training_every_steps = int(monitor_config["training_telemetry_every_steps"])
+    diagnostics_every_steps = int(monitor_config["diagnostics_every_steps"])
+    full_budget = validate_monitor_event_budget(
+        schedule_updates, epochs, training_every_steps, diagnostics_every_steps
+    )
+    profile_budget = None
+    if profile_updates:
+        profile_budget = validate_profile_monitor_event_budget(
+            profile_updates,
+            schedule_updates // epochs,
+            training_every_steps,
+            diagnostics_every_steps,
+        )
+    return full_budget, profile_budget
+
+
+def record_monitoring_plan(
+    data: SequenceData,
+    monitor_config: Mapping[str, object],
+    train_eval_members: list[tuple[str, int]],
+    input_feature_mode: str,
+    event_budget: MonitorEventBudget | None,
+) -> None:
+    """Record mask, selection, and event-journal policy in fit provenance."""
+    plan: dict[str, object] = {
+        "validation_reporting": "full official valid after each epoch; metrics exposed",
+        "train_eval_mask": monitor_config.get("train_eval_mask", "is_scored"),
+        "valid_mask": "is_scored",
+        "input_feature_mode": input_feature_mode,
+        "checkpoint_selection": (
+            "best pointer follows strict raw full-valid WP highs; validation is exposed"
+        ),
+        "early_stopping": monitor_config.get("early_stopping"),
+        "early_stopping_semantics": (
+            "min_delta resets patience only; count consecutive full-valid checks from the first "
+            "check; stop eligibility begins at min_epoch; scheduler horizon remains the configured "
+            "epoch cap"
+        ),
+        "train_eval_members": [list(member) for member in train_eval_members],
+        "event_files": [MONITOR_EVENT_FILENAME, MONITOR_EVALUATION_FILENAME],
+    }
+    if event_budget is not None:
+        plan["event_journal_budget"] = event_budget.as_dict()
+    data.provenance["monitoring_plan"] = plan
 
 
 def initialize_monitor(

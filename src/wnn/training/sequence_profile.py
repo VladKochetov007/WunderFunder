@@ -53,6 +53,7 @@ def run_profile(
     monitor: SequenceMonitor | None = None,
     monitor_enabled: bool = False,
     monitoring_plan: Mapping[str, object] | None = None,
+    monitor_event_budget: Mapping[str, object] | None = None,
 ) -> None:
     """Run bounded real-data updates and emit an unapproved engineering-only receipt."""
     if not 1 <= profile_updates <= max_updates:
@@ -165,6 +166,8 @@ def run_profile(
             "validation_reporting": "not evaluated during bounded engineering profile",
             "intended_validation_reporting": monitoring_plan.get("validation_reporting"),
         }
+    if monitor_event_budget is not None:
+        receipt["monitor_event_journal_budget"] = dict(monitor_event_budget)
     coordinated_call(
         lambda: (
             _write_profile_receipt(receipt, output / "profile_receipt.json")
