@@ -1,5 +1,8 @@
 # Authorized fixed eight-fit launch
 
+Latest direct check, **2026-10-28 13:10UTC**: **7 GALAM running; plain GRU terminal early-stop after10epochs, best WP0.677856 at epoch8**. GALAM LSTM128 reaches0.672369 at epoch3. See [verified curves, checkpoints and live GPU samples](receiving/results-20261028T1310Z/README.md). The earlier startup snapshot below is historical.
+
+
 **Full training is running on all eight L4s.**
 [Execution status](EXECUTION_STATUS.json) and [owned process receipt](receiving/full-launch_receipt.json)
 bind the fresh fits to launch `e635250b62fa489d94c987d4898ff417`, source R9
