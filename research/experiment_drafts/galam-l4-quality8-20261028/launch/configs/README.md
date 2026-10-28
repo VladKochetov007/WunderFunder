@@ -1,13 +1,15 @@
 # Eight explicit launch recipes
 
 g0 through g7 match [PANEL.json](../PANEL.json) and the user's fixed v3 allocation.
-Each starts from fresh weights and has one assigned GPU. Initial batches are
-32 for plain GRU and16 for GALAM; these are engineering candidates, not measured
-optima. The common controlled GALAM batch and telemetry cadence will be updated
-from the admitted profile before science, with old hashes retained in receipts.
+Each starts from fresh weights and has one assigned GPU. Current actual-data
+profile candidates are batch32 for plain GRU and384 for all GALAM arms, following
+the strict-FP32 synthetic shape sweep. One prefetched batch is explicit; full
+valid reporting uses batch384. The common controlled GALAM batch must pass the
+actual-source memory/throughput profile before science. Old candidate hashes are
+retained in Git and engineering receipts.
 
 Every recipe has maximum20epochs, all-fit train-only normalization, no teacher
 or hint loss, all-after-warmup fitting, full-valid epoch monitoring and all-epoch
-checkpoint retention. The interval200 diagnostics/telemetry budget is deliberately
-bounded under1GiB for the initial batch16 case; it can scale with the chosen batch.
+checkpoint retention. Diagnostics/telemetry intervals are100 for plain GRU and25
+for GALAM, with event-specific and full-run byte bounds enforced at startup.
 No five/ten-epoch v1 recipe or historical result is overwritten.

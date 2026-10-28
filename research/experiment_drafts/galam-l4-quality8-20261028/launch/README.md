@@ -5,6 +5,9 @@ The user explicitly authorized full execution of the allocation in
 materializes exactly eight fits; [configs](configs/README.md) are complete runtime
 recipes. Old v1 files remain untouched. Batch candidates will be profiled and
 frozen with exact config hashes before the scientific fits.
+The [current draft PR contract](PR.md) describes this full eight-fit scope.
+[Draft PR46](https://github.com/VladKochetov007/WunderFunder/pull/46) was created
+as SemyonEpanov; [publication receipt](PR_PUBLICATION.json) records its identity.
 
 All use a common20-epoch maximum, strict FP32, fresh seed1001, official earlier
 train fitting and complete official valid reporting. No pretrained initializer,
