@@ -1,5 +1,15 @@
 # Ideas and hypotheses
 
+[Source-separated Transformer → GRU comparison](../../experiment_drafts/source-holdout-transformer-kd-20261028/README.md)
+prepares six fresh five-epoch fits: compact teacher, labels-only GRU and normalized-KD
+GRU at two seeds on one train-only/full-valid source holdout. Whole components touching
+valid are purged from train; complete source caches include previously omitted train528.
+It reuses the merged #32/#42 trainer with explicit BF16/BF16x9 and adds receiver acceptance,
+profile review, same-seed FINAL5 teacher bindings and a complete paired report.
+H-SOURCE-HOLDOUT-TRANSFORMER-KD-20261028 / E-SOURCE-HOLDOUT-TRANSFORMER-KD-20261028-R1.
+Source/static preparation only: no local tests, model execution, GPU launches or quality
+result. Full valid is exposed development data; chronology and unknown linkage are unproven.
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**
