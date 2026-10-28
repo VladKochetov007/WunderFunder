@@ -1,5 +1,10 @@
 # Block GALAM-GRU72 and frozen BatchNorm diagnostic
 
+[Draft PR #50](https://github.com/VladKochetov007/WunderFunder/pull/50), base
+`research-team`. Implementation commit:
+`980533a97f5736ec0ae4aaab15e20cf607f91f67`.
+[Review only this packet above PR46](https://github.com/VladKochetov007/WunderFunder/compare/8482de5c71ce8bdd9974780438d518ea50bfeca8...codex/galam-block-bn-diagnostic).
+
 Prepared for GPU execution, **no numerical checks, profiles, inference or fits
 have run for this packet**. Local validation is source-only. The user requested
 implementation/publication and explicitly excluded local tests/training and

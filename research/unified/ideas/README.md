@@ -218,4 +218,4 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 
 - [Compact Transformer factor/LR screens with live train/val figures](../../experiment_drafts/compact-factor-sweep-20261026/README.md): eight new fits, exact PR43 controls reused; bounded profiles before admission.
 
-- [Block GALAM-GRU72 and frozen BatchNorm diagnostic](../../experiment_drafts/galam-block-bn-20261029/README.md): opt-in chunk execution, receiver output/state/gradient checks and full-update profiles; separate train-only BN recalibration on an immutable epoch snapshot. Zero new fits, no local tests/model execution, no live-worker changes; numerical parity, speed and quality remain unmeasured.
+- [Block GALAM-GRU72 and frozen BatchNorm diagnostic](../../experiment_drafts/galam-block-bn-20261029/README.md), [draft PR50](https://github.com/VladKochetov007/WunderFunder/pull/50): opt-in chunk execution, receiver output/state/gradient checks and full-update profiles; separate train-only BN recalibration on an immutable epoch snapshot. Zero new fits, no local tests/model execution, no live-worker changes; numerical parity, speed and quality remain unmeasured.

@@ -1,5 +1,9 @@
 # [Experiment] Block GALAM-GRU72 and frozen BatchNorm diagnostic
 
+[GPU commands and packet](https://github.com/VladKochetov007/WunderFunder/blob/codex/galam-block-bn-diagnostic/research/experiment_drafts/galam-block-bn-20261029/README.md).
+[Incremental changes above dependency PR46](https://github.com/VladKochetov007/WunderFunder/compare/8482de5c71ce8bdd9974780438d518ea50bfeca8...codex/galam-block-bn-diagnostic).
+Implementation commit: `980533a97f5736ec0ae4aaab15e20cf607f91f67`.
+
 1. **Status, lineage and owner.** Implementation preparation; zero receiver runs.
    Stacked on PR46 at `8482de5c71ce8bdd9974780438d518ea50bfeca8`, targeting
    `research-team`. H/E-GALAM-BLOCK-20261029 and H/E-GALAM-BN-20261029-R1.
