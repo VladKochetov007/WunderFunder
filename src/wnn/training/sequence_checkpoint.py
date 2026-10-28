@@ -150,6 +150,17 @@ def load_training_state(
             or not all(_counter(value) for value in offsets)
         ):
             raise ValueError("resume checkpoint is missing per-rank safe log offsets")
+        identity_data = expected_identity.get("data")
+        monitor_enabled = isinstance(identity_data, Mapping) and "monitoring_plan" in identity_data
+        monitor_offsets = loaded.get("monitor_offsets")
+        if monitor_enabled and (
+            not isinstance(monitor_offsets, Mapping)
+            or set(monitor_offsets) != {"events", "evaluations"}
+            or not all(_counter(value) for value in monitor_offsets.values())
+        ):
+            raise ValueError("monitored resume checkpoint is missing safe monitor log offsets")
+        if not monitor_enabled and monitor_offsets is not None:
+            raise ValueError("unmonitored resume checkpoint unexpectedly contains monitor offsets")
         state = loaded
     except Exception as exception:
         error = f"{type(exception).__name__}: {exception}"
@@ -204,10 +215,15 @@ def save_final_model(
     completed_epochs: int,
     data_provenance: Mapping[str, object],
     provenance: dict[str, object],
+    *,
+    allow_early_stop: bool = False,
 ) -> None:
     """Write the fixed-final inference envelope once after every configured epoch."""
-    if completed_epochs != int(config["epochs"]):
-        raise ValueError("final model requires all configured epochs to be complete")
+    configured_epochs = int(config["epochs"])
+    if completed_epochs != configured_epochs and not (
+        allow_early_stop and 1 <= completed_epochs < configured_epochs
+    ):
+        raise ValueError("final model requires all configured epochs or a declared early stop")
     if path.exists():
         raise FileExistsError(f"refusing to replace existing final model: {path}")
     cpu_state = {name: tensor.detach().cpu() for name, tensor in model_state.items()}

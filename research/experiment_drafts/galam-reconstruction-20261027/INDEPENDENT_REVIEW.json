@@ -1,0 +1,107 @@
+{
+    "schema":  "galam-independent-review-v1",
+    "reviewer":  "independent implementation and fidelity reviewer",
+    "reviewed_at_utc":  "2026-10-27T00:55:16Z",
+    "repository":  "C:/Users/admin/Documents/Codex/reviews/WunderFunder-galam-20261027",
+    "commit":  "dc8f6fd09a59abbf112a87d13552e8926bd4073a",
+    "snapshot_note":  "GALAM decoder product is committed in dc8f6fd. Concurrent root edits to sequence_config.py, sequence_fit.py, and new galam_adapter.py remain uncommitted; this reviewer did not edit repository files.",
+    "review_scope":  [
+                         "Supplied GALAM architecture screenshot and enlarged global, mixer, attention, and decoder crops",
+                         "Author-provided observation-0060.json text",
+                         "research/experiment_drafts/galam-reconstruction-20261027/CONTRACT.json",
+                         "src/wnn/galam/ and src/wnn/training/galam_adapter.py",
+                         "Bounded static/dataflow review and previously completed independent tiny CPU checks"
+                     ],
+    "verdict":  {
+                    "implementation_correctness":  "Visible global norm, ConvMixer ordering, attention history, and post-gate product details are represented in the reviewed source. Independent tiny CPU checks confirm output shape, future-prefix invariance, and chunk-state parity. The concurrent BatchNorm admission edits also reject singleton batches, singleton tails, and zero-weight DDP padding rows before model construction; those edits are not committed or runtime-reverified here.",
+                    "reference_fidelity":  "Exact GALAM identity remains unverified. Evidence is visual diagrams plus author descriptions; the original code, checkpoint, and complete hyperparameters are unavailable in reviewed sources. Keep reference_identity at tier C and do not claim exact architecture, score reproduction, or training reproduction.",
+                    "claim_gate":  "Consistent with CONTRACT.json: no exactness or numerical-replication claim is supported."
+                },
+    "findings":  [
+                     {
+                         "id":  "SOURCE_UNKNOWN_PROJECTION_WIDTHS_ARE_COUPLED",
+                         "severity":  "low",
+                         "status_at_snapshot":  "low-priority configuration caveat; source unknown and no parity contradiction established",
+                         "classification":  "intentional assumption with incomplete configurability",
+                         "location":  [
+                                          "src/wnn/galam/config.py:18-30,42-58",
+                                          "src/wnn/galam/model.py:29-30",
+                                          "src/wnn/galam/fusion.py:16-21",
+                                          "src/wnn/training/galam_adapter.py:14-17"
+                                      ],
+                         "evidence":  "The fidelity ledger marks hidden/cell projection and FFN widths unresolved, but hidden_projection and cell_projection are tied to model width; fusion local feature/value and the gate MLP hidden width (4*width) are also tied by code. The nested record does not vary these widths independently.",
+                         "impact":  "This is reproducible as a chosen tied-width assumption, but the adapter says every architecture parameter is explicit and the contract asks for a configurable graph. The current mapping does not independently express the unresolved projection or fusion-gate hidden widths. This is not evidence that the chosen widths differ from the original.",
+                         "smallest_correction":  "Either expose the independently unresolved projection/gate widths in GALAMConfig and require them in mappings, or explicitly record the width ties as fixed assumptions and narrow the configurability wording. This is not evidence that the tied widths differ from Denis Tomin\u0027s implementation."
+                     },
+                     {
+                         "id":  "GALAM_DDP_SENTINEL_CONTAMINATES_BATCHNORM",
+                         "severity":  "closed",
+                         "status_at_snapshot":  "Resolved in concurrent uncommitted adapter edit; valid world-size admission still depends on actual source-qualified fit membership.",
+                         "classification":  "concrete training dataflow issue found and blocked by admission rule",
+                         "location":  [
+                                          "src/wnn/training/sequence_distributed.py:77-88",
+                                          "src/wnn/training/sequence_data.py:82-90",
+                                          "src/wnn/training/sequence_loop.py:198-208,222-242",
+                                          "src/wnn/training/galam_adapter.py:53-77",
+                                          "src/wnn/galam/mixer.py:10-23"
+                                      ],
+                         "evidence":  "local_sequence_indices pads each rank to equal length with -1. SequenceDataset.__getitem__(-1) returns an all-zero sequence and mask, collate includes it, and GALAMSequenceAdapter normalizes all values before calling the model. PerTimeBatchNorm1d uses every row and receives no membership/loss mask. A fit of 7 sequences at world_size 2 and batch_size 2 would have passed the singleton checks while placing a zero-weight sentinel in a two-row BatchNorm batch. The latest adapter edit rejects fit_sequences % world_size != 0 before model construction.",
+                         "impact":  "Without the new guard, the zero-loss padding row would change normalized activations and BatchNorm statistics for real rows. Current admission blocks that case by requiring a world size that divides the actual fitting membership.",
+                         "smallest_correction":  "Implemented in the concurrent adapter edit: reject nondivisible fit membership and retain the existing batch_size \u003e= 2 and no-singleton-tail checks. Confirm the real source-qualified sequence count before selecting an admitted world size."
+                     }
+                 ],
+    "remaining_source_gaps":  [
+                                  "No public original GALAM repository, technical report, source checkpoint, or complete original training recipe was found in the bounded source scout; the supplied local images and author observation text are the implementation evidence.",
+                                  "The diagram and text do not settle width, head count, block counts, attention cache/window semantics, convolution kernel and hidden width, timestamp scale/source, BatchNorm axis and running-stat convention, fusion gate equation/order/bypass operand, hidden/cell projection widths, and FFN widths.",
+                                  "The author text names a GeGLU MLP-Mixer while the supplied global diagram depicts ConvMixer; retain this conflict as unresolved and do not silently equate them.",
+                                  "The Connectome 112-to-2 sequence adapter adds train-only external normalization and an empty hint output; adapter docstring says these are runtime adaptations, not claims about the original model.",
+                                  "The author reports SWA and a four-model FiLM ensemble, but the inspected package is a single-model architecture/adapter and does not reproduce those training/submission steps or reported scores.",
+                                  "The decoder image establishes a multiplication node and its position but does not specify the bypass equation; the author note describes two sigmoid gates. The implementation selects one 4*width sigmoid vector over a four-source concatenation. Gate grouping and the exact bypass operand remain assumed.",
+                                  "The current gate hidden width (4*width) and hidden/cell projection widths are tied in code rather than separate required config fields; the selected widths do not establish source parity.",
+                                  "The actual source-qualified fit count is not available in this read-only snapshot, so admission for the desired 8-GPU world size cannot yet be established."
+                              ],
+    "independent_checks":  {
+                               "method":  "Tiny synthetic CPU checks using the supplied Python environment, PYTHONPATH=repo/src, OMP_NUM_THREADS=1, MKL_NUM_THREADS=1; no data, fitting, GPU, remote execution, SSH, or builder unit tests.",
+                               "observations":  [
+                                                    "Full-sequence output and two-chunk carried-state output matched with max absolute difference 0.0 on a small configured model.",
+                                                    "Perturbing future rows left earlier outputs unchanged with max absolute difference 0.0.",
+                                                    "Attention hook observed the configured total history count, including current key, after the context-bound fix.",
+                                                    "Global residual normalization modules were LayerNorm; nonfinite timestamp_scale and a historical 32-to-32 role with mismatched feature dimensions were rejected.",
+                                                    "After decoder-product commit dc8f6fd, a fresh tiny width=8 CPU eval check produced shape [1,7,32], gate width 32 and decoder width 32; full-vs-two-chunk max absolute error was 0.0 and changing future rows left the first four outputs unchanged (max absolute difference 0.0)."
+                                                ],
+                               "limitations":  "Checks used random synthetic tensors only and did not run builder unit tests, load challenge data, fit weights, use GPU, or verify original code/weight parity. They did not runtime-exercise the uncommitted training-admission changes; DDP sentinel blocking was reviewed statically. The real membership/world-size pair is unavailable."
+                           },
+    "reviewer_change_policy":  "Read-only; no repository files changed by this reviewer.",
+    "resolved_in_snapshot":  [
+                                 {
+                                     "id":  "GLOBAL_POST_LAYER_NORM",
+                                     "result":  "Corrected: global attention and mixer residual paths use LayerNorm, matching the supplied global crop\u0027s Post-LayerNorm labels; previous RMSNorm contradicted the diagram.",
+                                     "location":  "src/wnn/galam/model.py:35-42"
+                                 },
+                                 {
+                                     "id":  "CONVMIXER_OPERATOR_ORDER",
+                                     "result":  "Corrected: each mixer stage is causal Conv1d -\u003e GELU -\u003e BatchNorm1d, repeated twice; hidden channel width is explicit. This matches the supplied mixer inset\u0027s bottom-up flow.",
+                                     "location":  "src/wnn/galam/mixer.py:60-79; src/wnn/galam/config.py:49-58"
+                                 },
+                                 {
+                                     "id":  "ATTENTION_HISTORY_BOUND",
+                                     "result":  "Corrected implementation bounds the scored key set, including the current step, to the configured history count. Independent hook check observed two scored keys for history=2. Whether the unavailable original author intended history to include the current token remains a source-level unknown.",
+                                     "location":  "src/wnn/galam/attention.py:41-75"
+                                 },
+                                 {
+                                     "id":  "STRICT_GALAM_MAPPING_VALIDATION",
+                                     "result":  "Config rejects missing/extra mapping keys, invalid dimensions and role/shape mismatch, invalid timestamp scale, incomplete fidelity classifications, and invalid fusion operand order.",
+                                     "location":  "src/wnn/galam/config.py:64-143,194-267"
+                                 },
+                                 {
+                                     "id":  "POSTGATE_CHANNEL_PRODUCT",
+                                     "result":  "Corrected: explicit required diagram_channel_product mode adds the separate decoder multiplication and preserves the following Post-RMSNorm, FFN residual plus, and second Post-RMSNorm. Four-source bypass/equation and gate partition remain assumed.",
+                                     "location":  "src/wnn/galam/fusion.py:12-48; src/wnn/galam/model.py:43-52,128-129; src/wnn/galam/config.py:20,33,62,125-139"
+                                 },
+                                 {
+                                     "id":  "GALAM_BATCH_ADMISSION_GUARDS",
+                                     "result":  "Current uncommitted edits reject batch_size \u003c 2 at config load, singleton final partial batches, and fit membership that would be padded with zero-weight DDP sentinels. The actual world-size admission cannot be known until the source-qualified fit count is loaded.",
+                                     "location":  "src/wnn/training/sequence_config.py:80-90; src/wnn/training/galam_adapter.py:53-77; src/wnn/training/sequence_fit.py:129"
+                                 }
+                             ]
+}

@@ -1,0 +1,162 @@
+﻿{
+  "schema": "gru-history-evidence-review.v1",
+  "reviewed_head": "a52ccafb01a6ceb9cbef46bdde381d3fed31ae78",
+  "repository": "C:/Users/admin/Documents/Codex/reviews/WunderFunder-galam-20261027",
+  "review_date": "2026-10-28",
+  "review_mode": "read-only; metadata, reports, recipes and source inspection only",
+  "question": "Which historical plain-GRU recipe knowledge can responsibly inform the revised eight-L4 GALAM quality screen and a possible clean GRU teacher?",
+  "protocol": {
+    "primary": "official earlier train membership for fitting, complete later official valid for evaluation, whole sequences, fitting-only normalization and ancestry",
+    "authority": "specs/adr/0044-chronological-primary-validation.md",
+    "historical_status": "Existing random-fold F0/F1/F3 results remain exposed historical development evidence. They are not retrospective chronological confirmation; seq_ix is not time."
+  },
+  "findings": [
+    {
+      "id": "HISTORICAL_FOLDS_ARE_NOT_CHRONOLOGICAL",
+      "classification": "protocol caveat",
+      "finding": "The recurrent scores most useful for architecture and optimizer priors came from random/component fold panels, including the repeatedly inspected F0 468-group panel and historical F1/F3 panels. ADR0044 now requires the official train-to-full-valid file boundary. These historical scores cannot rank new recipes on the required primary endpoint or establish a time-transfer effect.",
+      "evidence": [
+        "specs/adr/0044-chronological-primary-validation.md: historical fold results are preserved but are not chronological confirmation; seq_ix and row-group order do not establish time.",
+        "research/unified/reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md: F0 and F3 evidence is repeatedly exposed fold evidence; F3 architecture contrast is one seed.",
+        "research/unified/reviews/CPU_STUDENT_FRONTIER_H512L1_RESULT_REVIEW_20261015_R1.md: F0 score covers 468 evaluation groups, 141 components and 808,863 scored rows."
+      ],
+      "consequence": "Treat every historical score below as a recipe prior only. Use the official train and full official valid membership for the new primary comparison; do not derive another split order from seq_ix."
+    },
+    {
+      "id": "BEST_PLAIN_GRU_RECIPE_IS_A_CONFOUNDED_PRIOR",
+      "classification": "historical recipe, not clean comparator",
+      "finding": "The closest historical scratch recipe to a strong plain-GRU starting point is H256x2 with 211 causal inputs, batch 32, chunk 1000, three epochs, LR 1e-3, recurrent-matrix Muon, OneCycle (the run receipt records sched=onecycle; profile_warmup=5 is a profiling field, and the scheduler warmup fraction is not bound by the inspected provenance), FP16, clipped |y|-weighted MSE and aux_next=0.3 plus aux_struct=0.3. Its provenance binds train_source=train+valid and a random fold-0 split; it also uses a fold-specific propensity model. The run is not a clean precedent for current chronological fitting.",
+      "evidence": [
+        "artifacts/runs/combo_scratch_f0ep3s3_onecycle_f0/provenance.json: hidden=256, layers=2, chunk=1000, batch=32, epochs=3, lr=0.001, optim=muon, muon_scope=rnn, loss=wmse, aux_next=0.3, aux_struct=0.3, train_source=train+valid, precision=fp16.",
+        "research/brief-2026-09-28-optim.md: describes the old OneCycle 1e-3/AdamW recipe family and 211 raw-plus-causal input representation; it also records validation-mask fine-tuning in that historical pipeline."
+      ],
+      "consequence": "This bundle is the best-supported historical plain-GRU hyperparameter prior found, not a measured ideal and not an exact recipe to reuse. A prospective model must start fresh, recompute all transforms on official train only, exclude valid-derived mask/propensity/teacher/initializer ancestry, and report any precision or feature change as an adaptation."
+    },
+    {
+      "id": "APPARENTLY_STRONGER_WARM_GRU_IS_NOT_A_COLD_RESULT",
+      "classification": "comparison refutation",
+      "finding": "The historical H256x2 warm lineage reached 0.68282334 for its parent and 0.68314181 for the two-epoch student, but the student-parent delta is only about +0.000318 and its paired component interval [-0.001320, +0.001799] crosses zero. The student used a different alpha=0.7 teacher/cache, LR=1e-4, FP16 and B16/C1000 continuation. The parent provenance uses train+valid and a family teacher cache. This cannot be presented as a fresh scratch-GRU win or a teacher-transfer effect.",
+      "evidence": [
+        "research/unified/ideas/QUALITY_BOTTLENECK_AND_STUDENT_TRADEOFFS_20261015_R1.md: older warm student score 0.683141813; exact parent 0.682823341; paired interval crosses zero.",
+        "artifacts/runs/oldz4_h230_parent_f0_s3_r3/provenance.json: H256x2, chunk=1000, B16, four epochs, LR=1e-3, hidden-only Muon with multiplier 3, FP16, EMA, train_source=train+valid, auxiliary losses and propensity.",
+        "artifacts/runs/oldz4_h230_student_f0_s3_r3/provenance.json: H256x2 student, B16/C1000, two epochs, LR=1e-4, FP16 and family distillation cache."
+      ],
+      "consequence": "Do not load this checkpoint, its normalization, or its caches into a clean baseline/teacher. Recreate any intended treatment from random initialization with train-only ancestry."
+    },
+    {
+      "id": "WIDTH_DEPTH_WINNER_DOES_NOT_TRANSFER",
+      "classification": "mixed one-seed evidence",
+      "finding": "On the short exposed F0 teacher-target screen, H512x1 beat H256x2 by +0.00346012 (conditional component-bootstrap 95% interval [+0.00200307,+0.00490448]); H384x2 beat it by +0.0019104 (interval [+0.0003020,+0.0034776]). H256x1 was effectively tied, while H192x2 was lower. On a separate cold labels-only F3 comparison, H512x1 and H384x2 were essentially tied: deep-minus-wide +0.0001154, interval [-0.0024723,+0.0020551]. These are distinct one-seed recipes/folds, and the bootstrap is conditional on fixed predictions.",
+      "evidence": [
+        "research/unified/reviews/CPU_STUDENT_FRONTIER_H512L1_RESULT_REVIEW_20261015_R1.md: matched F0 H512x1 versus H256x2 result, target ancestry, 14,920-update one-epoch recipe and limitations.",
+        "research/campaign_2026-10-14/cpu_student_frontier_r1/FRONTIER.md: H384x2 versus H256x2 F0 screen and H256x1/H192x2 contrasts.",
+        "research/unified/reviews/TEAM_UPDATES_AND_TEACHER_LINEAGE_20261019.md: cold labels-only F3 H512x1/H384x2 pair and interval."
+      ],
+      "consequence": "No universal width/depth winner follows. In particular, the historical H384 contrast is not a +0.0012 robust chronological result. H512x1 is a useful candidate, not a default theorem; these dimensions do not map directly to GALAM width."
+    },
+    {
+      "id": "OBJECTIVE_TRANSFER_HAS_MASK_AND_ANCESTRY_LIMITS",
+      "classification": "recipe drift and leakage boundary",
+      "finding": "The best-aligned historical main objective is squared error on labels/predictions clipped at +/-2 with row mass proportional to abs(clipped label), matching the global metric's clipping and target weighting. Historical stronger variants add propensity weights, true-mask weighting, auxiliary objectives and validation-row fine-tuning. Official train lacks is_scored, and the old mask/propensity pipeline used exposed validation-side information. Current GALAM v1 configs use all post-warmup train rows, train-only normalization and no teacher/propensity/auxiliary cache.",
+      "evidence": [
+        "research/brief-2026-09-28-optim.md: weighted-MSE/propensity/true-mask/auxiliary recipe and validation LP-FT history.",
+        "src/wnn/training/sequence_objectives.py: clipped-label absolute-magnitude weighted squared error.",
+        "research/experiment_drafts/galam-l4-quality8-20261028/configs/a0-baseline.json: training_mask=all_after_warmup, normalization_scope=all_fit.",
+        "research/experiment_drafts/galam-l4-quality8-20261028/README.md: requires a labelled train diagnostic mask and explicitly preserves official valid is_scored."
+      ],
+      "consequence": "Retain clipped |y|-weighted MSE as the simple supervised prior. Do not import a valid-derived propensity model, true-mask fitting, validation LP-FT, or old teacher caches. Any train-only propensity/auxiliary extension is a separate fitted recipe whose ancestry and incremental effect must be recorded."
+    },
+    {
+      "id": "OPTIMIZER_PRIORS_ARE_CONTEXTUAL",
+      "classification": "historical optimizer evidence",
+      "finding": "Muon-RNN with LR 1e-3/OneCycle is a documented historical recipe, but no isolated chronological comparison establishes it as the best for GALAM. A historical F1 effects screen reports AdamW switch delta -0.00411 with interval [-0.00935,+0.00113], LR=5e-4 delta -0.00217 with interval [-0.00559,+0.00125], and Muon LR multiplier 6 delta -0.00550 with interval [-0.00955,-0.00145]. This was a single old fold/seed screen with many attempted variants. Legacy src/wnn/optim.py supports recurrent Muon groups; the new sequence optimizer is Transformer-specific and sequence_config.py rejects GALAM+Muon.",
+      "evidence": [
+        "artifacts/runs/combo_scratch_f0ep3s3_onecycle_f0/provenance.json: Muon RNN LR=1e-3 scratch bundle.",
+        "hpo/evidence/scratch_effects_fold1.json: one-fold effect estimates and component intervals.",
+        "src/wnn/optim.py: recurrent gate-matrix Muon groups.",
+        "src/wnn/training/sequence_optimizer.py and src/wnn/training/sequence_config.py: current sequence Muon is Transformer-only; GALAM v1 requires FP32 AdamW."
+      ],
+      "consequence": "For the current GALAM panel, use one supported optimizer and schedule across all eight arms. Do not apply Muon to A3 only. A GRU Muon comparison or a GALAM hybrid optimizer requires an explicit implementation/config amendment and a matched control; neither has present GALAM quality evidence."
+    },
+    {
+      "id": "TWENTY_EPOCHS_ARE_AUTHORIZED_BUT_NOT_HISTORICALLY_SELECTED",
+      "classification": "duration caveat",
+      "finding": "The project history warns that longer fitting on this label-noise-dominated task can degrade validation: the 2026-09-28 synthesis says 8+ epochs without EMA memorized noise, and the F1 effects screen reports six epochs at -0.01739 (interval [-0.03018,-0.00460]) and an eight-epoch Muon/EMA variant at -0.03623 (interval [-0.05286,-0.01960]) versus its local baseline. These are old, non-chronological and recipe-specific negatives; they do not prove that a correctly retimed 20-epoch GALAM run will fail. The common-20-epoch proposal is unmaterialized; an early epoch on a 20-epoch cosine schedule is not the same recipe as a standalone five-epoch run.",
+      "evidence": [
+        "research/brief-2026-09-28-optim.md: overfit warning for 8+ epochs without EMA.",
+        "hpo/evidence/scratch_effects_fold1.json: six- and eight-epoch F1 outcomes with conditional intervals.",
+        "research/experiment_drafts/galam-l4-quality8-20261028/V2_DISCUSSION.md: common 20-epoch cap proposal and schedule-retiming caveat; no profiles/fits.",
+        "research/experiment_drafts/galam-l4-quality8-20261028/README.md: v1 JSON remains five epochs; the first wave is 45 fit-epochs."
+      ],
+      "consequence": "The user-accepted 20-epoch concept can be carried forward as a deliberate common schedule amendment, not as a historically discovered optimum. Freeze one schedule across arms, report fixed common epoch 5/10/20 checkpoints, and do not equate the epoch-5 checkpoint with a separate five-epoch run. Treat valid-selected checkpoints as exposed development selections."
+    },
+    {
+      "id": "GALAM_GRU72_IS_NOT_A_PLAIN_GRU_REPRODUCTION",
+      "classification": "architecture transfer caveat",
+      "finding": "The current A3 is the schematic GALAM GRU72 variant (112 inputs to two outputs, about 358,170 parameters) versus the GALAM LSTM64 baseline (about 376,426). It retains the global/local attention/mixer/fusion design while changing recurrence type and width. Historical plain GRUs use a 211-feature encoder with different heads, objectives and training ancestry. GALAM's original source code, checkpoint and complete hyperparameters are unavailable; the reconstruction is explicitly schematic, not exact.",
+      "evidence": [
+        "research/experiment_drafts/galam-l4-quality8-20261028/configs/a3-gru72.json",
+        "research/experiment_drafts/galam-l4-quality8-20261028/configs/a0-baseline.json",
+        "research/experiment_drafts/galam-l4-quality8-20261028/configs/INSPECTION.json",
+        "research/experiment_drafts/galam-reconstruction-20261027/README.md and INDEPENDENT_REVIEW.json: original implementation/hyperparameters unavailable; exact reproduction unsupported."
+      ],
+      "consequence": "Interpret A3 as one full architecture alternative under the common GALAM recipe. It cannot establish a best plain-GRU hidden size or an exact GALAM reproduction."
+    },
+    {
+      "id": "CURRENT_PRESETS_HAVE_NO_FIT_OR_PROFILE_EVIDENCE",
+      "classification": "receiving/readiness caveat",
+      "finding": "The current GALAM quality8 packet records zero scientific fits and zero GPU profiles. Batch 16 is unprofiled; full-sequence execution loops over time in Python. The README still identifies incomplete train ranges, train-eval mask handling and runtime/driver compatibility as receiving blockers. The separate 20-epoch discussion is proposal-only.",
+      "evidence": [
+        "research/experiment_drafts/galam-l4-quality8-20261028/README.md",
+        "research/experiment_drafts/galam-l4-quality8-20261028/CONTRACT.json",
+        "research/experiment_drafts/galam-l4-quality8-20261028/V2_DISCUSSION.md"
+      ],
+      "consequence": "No current GALAM batch, optimizer, epoch count or elapsed-time estimate is empirically established. Complete the already documented data and receiver gates and measure actual batch/validation throughput before estimating or launching the revised cohort."
+    }
+  ],
+  "preset_boundaries": {
+    "historical_plain_gru_candidate_for_a_clean_retraining": {
+      "status": "best-supported historical prior, not a known optimum",
+      "architecture": "fresh H256x2 plain GRU; 211 inputs only if the existing causal feature assembly is verified and all fitted transforms are train-only",
+      "historical_fit_recipe_prior": {
+        "batch_size": 32,
+        "chunk_rows": 1000,
+        "epochs": 3,
+        "optimizer": "Muon on recurrent gate matrices",
+        "base_lr": 0.001,
+        "schedule": "OneCycle; scheduler warmup fraction not recovered from inspected provenance",
+        "historical_precision": "fp16",
+        "main_loss": "clipped-label absolute-magnitude weighted MSE",
+        "historical_auxiliary_losses": {
+          "aux_next": 0.3,
+          "aux_struct": 0.3
+        }
+      },
+      "clean_retraining_rules": [
+        "new random initialization and new run identity",
+        "fit only on official train sequences; no valid rows in normalization, propensity, teacher, initializer, or optimizer state ancestry",
+        "full official valid is evaluation only; never valid LP-FT or true-mask training",
+        "recompute sampler/update totals and schedule from actual train membership",
+        "record any precision or feature adaptation; this is no longer an exact reproduction",
+        "keep auxiliary heads off unless their targets are independently verified causal and their addition is explicitly measured"
+      ],
+      "use_in_current_eight_arm_panel": "Do not silently substitute this different plain-GRU recipe into GALAM A3. It would change the architecture and optimization treatment together. If selected as a separate clean teacher, declare the additional/substituted fit and ancestry explicitly."
+    },
+    "current_galam_comparison": {
+      "common_control": "Preserve the current supported AdamW/FP32/common-loss/common-schedule recipe across every arm unless a formal v2 amendment changes all arms together.",
+      "A3_interpretation": "Keep the schematic GRU72 arm as an architecture comparison, not a known best preset.",
+      "20_epoch_revision": "May be adopted as an explicit shared schedule amendment, with a retimed schedule and fixed checkpoints at common epochs; historical evidence does not nominate 20 as optimal.",
+      "selection": "Use the official full-valid metric each epoch as exposed development reporting. Predeclare any best-valid checkpoint rule and describe its result as validation-selected; do not call it independent confirmation."
+    },
+    "not_supported": [
+      "an ideal plain-GRU preset for current chronological Connectome train/valid",
+      "a robust chronological H384x2 advantage",
+      "a transfer claim from the old 0.68314 warm student to a fresh model",
+      "a public-score forecast from local fold deltas",
+      "exact GALAM reconstruction or parity",
+      "a GALAM Muon/hybrid quality advantage",
+      "a 20-epoch quality optimum"
+    ]
+  }
+}
+

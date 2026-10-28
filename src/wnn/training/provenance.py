@@ -126,7 +126,9 @@ def record_provenance(run: TrainingRun) -> None:
         propensity_path = environment.root / "artifacts" / "runs" / args.propensity / "model.pt"
         if campaign_split is not None:
             validate_campaign_checkpoint(
-                torch.load(propensity_path, map_location="cpu", weights_only=False), args
+                torch.load(propensity_path, map_location="cpu", weights_only=False),
+                args,
+                campaign_split=campaign_split,
             )
         provenance["propensity_checkpoint_sha256"] = file_sha256(propensity_path)
         if args.prop_cache and args.profile_steps and (args.activation_backend != "none"):

@@ -1,3 +1,27 @@
+[Eight-L4 actual data, resource and first-epoch reviews](../../experiment_drafts/galam-l4-quality8-20261028/launch/receiving/README.md)
+verify source/index/split/mask bindings, all eight successful strict-FP32 profiles,
+UUID/memory and data identities, and GRU epoch1 full-valid coverage/pointers.
+The reviews are bounded metadata/resource checks; they do not independently
+rescore weights, establish a gain or promote a final model. All eight fits run;
+first reported valid WP is0.6681328342. Raw source/evidence byte archives and
+explicit startup-failure exclusions preserve the execution trace.
+
+[GRU historical presets and transfer audit](GRU_PRESETS_HISTORY_AUDIT_20261028_R1.md)
+recovers the plain256x2 scratch versus low-LR warm-student recipes, width/depth
+screens, HPO/averaging/loss negatives, actual target arithmetic and public lineage.
+It distinguishes old train+valid/component-fold evidence from the mandatory
+official chronological protocol and recommends a fresh plain-GRU anchor before
+calling a schematic GALAM-GRU variant a baseline. Three independent role records
+are linked; zero new fits/profiles/regrades, remote refresh unavailable.
+
+[GALAM L4/dashboard independent engineering review](../../experiment_drafts/galam-l4-monitoring-20261028/INDEPENDENT_REVIEW.json)
+traces variant/config fidelity, official evaluation masks, pooled scores, replay
+offsets, profile provenance, sensor addressing and bounded reader/server behavior.
+[Validation and limits](../../experiment_drafts/galam-l4-monitoring-20261028/VALIDATION.json)
+separate CPU/browser correctness from unrun GPU/data/quality admission. The same
+11 broad legacy failures reproduce at the frozen base on Windows; no global
+green suite or measured scientific gain is claimed.
+
 [Independent successful-score stop audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/exact_stop/ACTUAL_STOP_METADATA_REVIEW.json) passes local original raw/transport/source/acceptance joins and successful-only stop; no B action, imports, tests or model/data array reads.
 
 [Prior B300 validation audit](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/VALIDATION_AUDIT.md): source and receipt review at `f1beeb4c`; confirms the reported 0.3849/0.4140 epoch labels and stable heldout masks, identifies train/validation WP mask mismatch and exposed outer-fold selection limits. No replay or raw-array recomputation; supports the R5 inner-validation repeat.
@@ -533,3 +557,13 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
 - [Parent-fit terminal-verifier V1 failure metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_VERIFIER_FAILURE_REVIEW_V1.json): one captured CPU-support unit failed at `_check_loader_and_rng` line863 because its combined CUDA RNG guard rejected the saved state. The specific type/shape/count predicate was not inspected; native exit0 metadata remains separate, with no CPU acceptance, retry, OOM, or quality conclusion.
 - [Parent RNG diagnostic V2 source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_RNG_DIAGNOSTIC_SOURCE_REVIEW_V2.json): supersedes V1 after identifying its missed `terminal_success: false` fixture condition. The actual failed fixture passes the V2 gate; RNG shape remains unknown pending diagnostic output, with no fit acceptance or verifier retry claimed.
 - [Parent RNG diagnostic source review](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_RNG_DIAGNOSTIC_SOURCE_REVIEW_V1.json): conditional review of the separate metadata-only diagnostic and exact frozen inputs; actual RNG shape remains unknown until diagnostic output is inspected. No fit acceptance or retry is claimed.
+- [GALAM independent source/dataflow review](../../experiment_drafts/galam-reconstruction-20261027/INDEPENDENT_REVIEW.json)
+  checks the supplied diagram against implemented graph and canonical adapter.
+  Corrected LayerNorm/ConvMixer order, represented the post-gate product and
+  blocked singleton/padded-DDP BatchNorm inputs. Exact bypass equation, original
+  dimensions/weights and FiLM remain unknown; no historical parity or GPU gain.
+
+- [GALAM frozen-checkpoint ensemble diagnostics](../../experiment_drafts/galam-ensemble-diagnostics-20261028/README.md): independently reviewed inference-only fixed blends against clean GRU, full official valid with exposed-selection limits, short CUDA traces; seven active fits unchanged. Preparation is not a measured gain.
+
+- [Measured GALAM blend contribution and CUDA trace](../../experiment_drafts/galam-ensemble-diagnostics-20261028/RESULTS.md): fixed80/20WP0.681219679 versus cleanGRU0.677856123, independently rescored; complete sensitivity panel, traces/costs and exposed-validation limits.
+- [Independent source/log diagnosis](../../experiment_drafts/galam-l4-quality8-20261028/launch/receiving/INDEPENDENT_TRACE_DIAGNOSIS_20261028.md): BN running-stat risk, causal/TBPTT paths and sampled gradients; no demonstrated causal BN score effect.

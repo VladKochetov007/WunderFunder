@@ -1,0 +1,168 @@
+{
+  "status": "recipes_load_and_weights_build",
+  "scientific_fits": 0,
+  "forward_passes": 0,
+  "GPU_work": false,
+  "records": [
+    {
+      "config": "full-gru-s1001.json",
+      "config_file_sha256": "2fa22c72276cca1cb76d759528b627deb580bf12f5deb568fe6703cd96fee673",
+      "parameters": 286698,
+      "effective_model": {
+        "variant": "schematic_gru_full",
+        "recurrent_cell": "gru",
+        "has_global": true,
+        "has_cell": false,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection"
+        ],
+        "decoder_width": 192,
+        "inactive_fields": []
+      },
+      "monitoring": {
+        "train_eval_sequences": 32,
+        "diagnostics_every_steps": 25
+      },
+      "epochs": 5,
+      "training_mask": "all_after_warmup",
+      "batch_size": 16
+    },
+    {
+      "config": "full-gru-s1002.json",
+      "config_file_sha256": "a4ebae78e78ec2302feb83eb2e394b02d39d61fab968d13578020c9227757732",
+      "parameters": 286698,
+      "effective_model": {
+        "variant": "schematic_gru_full",
+        "recurrent_cell": "gru",
+        "has_global": true,
+        "has_cell": false,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection"
+        ],
+        "decoder_width": 192,
+        "inactive_fields": []
+      },
+      "monitoring": {
+        "train_eval_sequences": 32,
+        "diagnostics_every_steps": 25
+      },
+      "epochs": 5,
+      "training_mask": "all_after_warmup",
+      "batch_size": 16
+    },
+    {
+      "config": "full-lstm-s1001.json",
+      "config_file_sha256": "e1308d9ae4a5e00b867e9e3a0892df07c7fce1bb441a7c09d849084d53025b74",
+      "parameters": 376426,
+      "effective_model": {
+        "variant": "schematic_lstm_full",
+        "recurrent_cell": "lstm",
+        "has_global": true,
+        "has_cell": true,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection",
+          "cell_projection"
+        ],
+        "decoder_width": 256,
+        "inactive_fields": []
+      },
+      "monitoring": {
+        "train_eval_sequences": 32,
+        "diagnostics_every_steps": 25
+      },
+      "epochs": 5,
+      "training_mask": "all_after_warmup",
+      "batch_size": 16
+    },
+    {
+      "config": "full-lstm-s1002.json",
+      "config_file_sha256": "ee13e657c71e6493302d8b1b929105ac0c9694c37a5c7332eb5c0e6cce9026f2",
+      "parameters": 376426,
+      "effective_model": {
+        "variant": "schematic_lstm_full",
+        "recurrent_cell": "lstm",
+        "has_global": true,
+        "has_cell": true,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection",
+          "cell_projection"
+        ],
+        "decoder_width": 256,
+        "inactive_fields": []
+      },
+      "monitoring": {
+        "train_eval_sequences": 32,
+        "diagnostics_every_steps": 25
+      },
+      "epochs": 5,
+      "training_mask": "all_after_warmup",
+      "batch_size": 16
+    },
+    {
+      "config": "local-lstm-s1001.json",
+      "config_file_sha256": "45892f857dd73cdab5be8e755f3b50201c82482761e5e0f23a823a1ab7ea7254",
+      "parameters": 195398,
+      "effective_model": {
+        "variant": "schematic_lstm_local_only",
+        "recurrent_cell": "lstm",
+        "has_global": false,
+        "has_cell": true,
+        "active_fusion_channel_order": [
+          "local_memory",
+          "hidden_projection",
+          "cell_projection"
+        ],
+        "decoder_width": 192,
+        "inactive_fields": [
+          "global_blocks",
+          "conv_hidden_width",
+          "conv_kernel_size"
+        ]
+      },
+      "monitoring": {
+        "train_eval_sequences": 32,
+        "diagnostics_every_steps": 25
+      },
+      "epochs": 5,
+      "training_mask": "all_after_warmup",
+      "batch_size": 16
+    },
+    {
+      "config": "local-lstm-s1002.json",
+      "config_file_sha256": "1ea943982de3115734f0631612cfe99bd3e156cd0045485b3113ad98eaf5ccf1",
+      "parameters": 195398,
+      "effective_model": {
+        "variant": "schematic_lstm_local_only",
+        "recurrent_cell": "lstm",
+        "has_global": false,
+        "has_cell": true,
+        "active_fusion_channel_order": [
+          "local_memory",
+          "hidden_projection",
+          "cell_projection"
+        ],
+        "decoder_width": 192,
+        "inactive_fields": [
+          "global_blocks",
+          "conv_hidden_width",
+          "conv_kernel_size"
+        ]
+      },
+      "monitoring": {
+        "train_eval_sequences": 32,
+        "diagnostics_every_steps": 25
+      },
+      "epochs": 5,
+      "training_mask": "all_after_warmup",
+      "batch_size": 16
+    }
+  ]
+}

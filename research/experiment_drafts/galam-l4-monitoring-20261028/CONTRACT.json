@@ -1,0 +1,35 @@
+{
+  "schema": "wnn.engineering-contract.v1",
+  "date": "2026-10-28",
+  "objective_mode": "engineering",
+  "source_base": "4bcb49f1",
+  "scope": "Implement local live research dashboard, causal online evaluation/diagnostics, explicit recurrent ablations and a bounded L4 experiment handoff. No scientific fits or remote resource allocation in this implementation task.",
+  "verification": "Bounded single-thread CPU synthetic correctness and browser/API checks; real data, GPU performance, training quality and original GALAM identity remain unverified.",
+  "primary_validation": "Official earlier train for fitting; full later official valid for primary reporting. Whole sequences and connected-component exclusions. No chronology inferred from seq_ix; previously inspected valid remains exposed.",
+  "monitoring": {
+    "filename": "monitor_events.jsonl",
+    "event_schema": "wnn.monitor.v1",
+    "fields": ["schema", "kind", "step", "epoch", "wall_time", "metrics", "context"],
+    "metrics": "Flat finite numeric map with slash-separated names; absent measurements stay absent.",
+    "kinds": ["status", "train_step", "evaluation", "diagnostics", "resources"],
+    "metadata": "Reuse immutable run_metadata.json where available; dashboard may report incomplete metadata explicitly.",
+    "comparability": "Online train/loss is separate from comparable train_eval/loss and valid/loss. Official full valid scores are separate from diagnostics. Never manufacture unmeasured values.",
+    "metric_prefixes": ["train", "train_eval", "valid", "optimizer", "local", "global", "fusion", "attention", "relative_bias", "gpu", "cpu", "throughput", "timing"],
+    "service": "Loopback-only local read-only HTTP dashboard, offline assets, bounded incremental reads, explicit stale/error status. No training start/stop or shell endpoint."
+  },
+  "owners": {
+    "root": "Integration, experiment packet, resource reasoning, acceptance and independent-review coordination",
+    "dashboard_builder": "Dashboard reader/server/offline UI and API/security/partial-log tests",
+    "metrics_builder": "Canonical sequence-loop integration, full valid and comparable train-eval metrics, diagnostics and resource event production",
+    "variants_builder": "Explicit GRU and local-only adaptations with causal/reset/chunk tests; original LSTM template preserved"
+  },
+  "budgets": {
+    "scientific_fits": 0,
+    "remote_actions": "One persistent SSH connection for read-only L4 inventory after the user supplied the host; no remote file mutation or compute allocation.",
+    "paid_allocation": 0,
+    "local_cpu_threads_per_test": 1,
+    "aggregate_heavy_tests": "Serialize across roles; no GPU work."
+  },
+  "prospective_panel": "Initially 3 arms x 2 matched seeds = 6 total scientific fits, subject to exact runnable-recipe and receiving-host profile. Not dispatched.",
+  "limitations": ["No original GALAM dimensions, weights or complete training recipe", "Live L4 inventory is in L4_PREFLIGHT.json; incomplete data, full disks and unaudited runtime block fitting", "No measured LSTM/GRU slowdown or L4 ETA"]
+}

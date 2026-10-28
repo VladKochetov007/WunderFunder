@@ -1,0 +1,66 @@
+{
+  "schema": "wnn.galam-block-bn-preparation.v1",
+  "status": "prepared_unrun",
+  "objective_mode": "engineering",
+  "dependency_pr": 46,
+  "dependency_commit": "8482de5c71ce8bdd9974780438d518ea50bfeca8",
+  "integration_base": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "hypothesis_ids": [
+    "H-GALAM-BLOCK-20261029",
+    "H-GALAM-BN-20261029"
+  ],
+  "experiment_ids": [
+    "E-GALAM-BLOCK-20261029-R1",
+    "E-GALAM-BN-20261029-R1"
+  ],
+  "authority": {
+    "prepare_and_publish": true,
+    "local_tests": false,
+    "local_training": false,
+    "remote_launch": false,
+    "change_live_jobs": false
+  },
+  "scientific_fits": {
+    "new": 0,
+    "reused_completed_controls": 0,
+    "teacher": 0,
+    "student": 0,
+    "scope": "Numerical engineering and frozen-checkpoint postprocessing; not a new fitting screen."
+  },
+  "block": {
+    "variant": "schematic_gru_full",
+    "width": 72,
+    "precision": "fp32",
+    "tf32": false,
+    "batch": 384,
+    "chunk": 64,
+    "history": 64,
+    "profile_warmup_updates": 4,
+    "profile_measured_updates": 12,
+    "canonical_profile_updates_per_backend": 25,
+    "recipe_change": "execution_backend only",
+    "speedup_target": 3.0,
+    "measured_speedup": null,
+    "requires_receiver_acceptance": true
+  },
+  "batchnorm": {
+    "checkpoint_policy": "Operator pins one immutable PR46 checkpoint and indexed ancestry before reading diagnostic outcomes. No automatic best/latest selection.",
+    "backend": "step",
+    "calibration_membership": "256 deterministically selected eligible train sequences; seed1001; all rows; no labels",
+    "calibration_batch": 32,
+    "method": "Sequential layerwise pooled eval-input moments; upstream recalibrated buffers applied before downstream pass",
+    "eval": "All official valid is_scored rows after warmup99; pooled global_wp_clip2_v1",
+    "new_fits": 0,
+    "parameters_changed": false,
+    "output": "Separate inference-only candidate checkpoint; never overwrite or resume original"
+  },
+  "interpretation": {
+    "validation": "exposed official valid, approximate feature-connected overlap exclusions; no independently proven calendar chronology",
+    "parity": "Numerical equivalence required, not bitwise equality or same optimization trajectory guaranteed",
+    "bn_gain_threshold": 0.001,
+    "bn_result": "Exploratory checkpoint-conditional diagnostic; no significance/public transfer claim",
+    "pipeline_speedup": "Full epoch includes data, monitoring and validation; synthetic update timing is not epoch speedup"
+  },
+  "pull_request": "https://github.com/VladKochetov007/WunderFunder/pull/50",
+  "implementation_commit": "980533a97f5736ec0ae4aaab15e20cf607f91f67"
+}
