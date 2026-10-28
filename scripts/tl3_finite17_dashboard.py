@@ -33,9 +33,20 @@ def run_bridge(root: Path, state: Path, runs: Path, poll: int, startup: int, hou
     started, startup_limit = time.monotonic(), time.monotonic() + startup
     while time.monotonic() - started < hours * 3600:
         result = publish_once(root, state, runs)
-        if result["status"] not in {"waiting_for_plan", "running"}:
-            return 0 if result["status"] == "completed" else 1
-        if time.monotonic() >= startup_limit:
+        status = result["status"]
+        if status == "completed":
+            return 0
+        if status in {
+            "failed",
+            "budget_exhausted",
+            "interrupted",
+            "finished_with_failures",
+            "disk_capacity_blocked",
+        }:
+            return 1
+        if status not in {"waiting_for_plan", "running"}:
+            raise BridgeError(f"finite driver returned an unknown status: {status}")
+        if status == "waiting_for_plan" and time.monotonic() >= startup_limit:
             raise BridgeError("finite plan/status did not appear before startup timeout")
         time.sleep(poll)
     raise BridgeError("native finite17 bridge reached its runtime bound")

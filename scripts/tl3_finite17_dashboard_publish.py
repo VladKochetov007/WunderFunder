@@ -66,7 +66,11 @@ def publish_once(
     telemetry: tuple[list[dict[str, Any]], list[dict[str, Any]]] | None = None,
 ) -> dict[str, Any]:
     """Publish one finite status/log snapshot to the 16 non-adopted dashboard views."""
-    root, state = root.resolve(strict=True), state.resolve(strict=True)
+    root = root.resolve(strict=True)
+    state = state.expanduser().absolute()
+    if state.is_symlink() or (state.exists() and not state.is_dir()):
+        raise BridgeError("finite state path must be a regular directory when present")
+    state = state.resolve(strict=False)
     runs = runs.expanduser().absolute()
     if runs.is_symlink() or not runs.is_dir() or runs.resolve(strict=True) != runs:
         raise BridgeError("dashboard runs root must be a resolved directory")

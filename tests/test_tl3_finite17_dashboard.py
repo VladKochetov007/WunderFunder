@@ -282,13 +282,51 @@ def test_native_broker_keeps_polling_while_driver_is_running(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     snapshots = iter(({"status": "running"}, {"status": "completed"}))
+    clock = iter((0.0, 0.0, 2.0, 2.0))
     monkeypatch.setattr(dashboard.sys, "platform", "linux")
     monkeypatch.setattr(dashboard, "publish_once", lambda *_args: next(snapshots))
     monkeypatch.setattr(dashboard.time, "sleep", lambda _seconds: None)
+    monkeypatch.setattr(dashboard.time, "monotonic", lambda: next(clock))
 
     assert (
-        dashboard.run_bridge(tmp_path / "root", tmp_path / "state", tmp_path / "runs", 15, 60, 1)
+        dashboard.run_bridge(tmp_path / "root", tmp_path / "state", tmp_path / "runs", 15, 1, 1)
         == 0
+    )
+
+
+def test_native_broker_waits_when_state_directory_has_not_been_created(
+    tmp_path: Path,
+) -> None:
+    root = tmp_path / "flat"
+    root.mkdir()
+    runs = tmp_path / "dashboard-runs"
+    runs.mkdir()
+
+    result = dashboard.publish_once(root, root / "finite17-state", runs)
+
+    assert result["status"] == "waiting_for_plan"
+
+
+@pytest.mark.parametrize(
+    "status",
+    (
+        "failed",
+        "budget_exhausted",
+        "interrupted",
+        "finished_with_failures",
+        "disk_capacity_blocked",
+    ),
+)
+def test_native_broker_stops_on_each_driver_failure_terminal(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, status: str
+) -> None:
+    monkeypatch.setattr(dashboard.sys, "platform", "linux")
+    monkeypatch.setattr(dashboard, "publish_once", lambda *_args: {"status": status})
+    monkeypatch.setattr(dashboard.time, "monotonic", lambda: 0.0)
+
+    assert (
+        dashboard.run_bridge(tmp_path / "root", tmp_path / "state", tmp_path / "runs", 15, 1, 1)
+        == 1
     )
 
 
