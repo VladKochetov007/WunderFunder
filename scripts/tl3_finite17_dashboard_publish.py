@@ -52,6 +52,10 @@ try:
 except ModuleNotFoundError:
     from tl3_finite17_dashboard_metrics import _cohort_event
 try:
+    from scripts.tl3_finite17_dashboard_final import publish_final_view
+except ModuleNotFoundError:
+    from tl3_finite17_dashboard_final import publish_final_view
+try:
     from scripts.tl3_finite17_dashboard_process import _owned_process, _resource, _telemetry
 except ModuleNotFoundError:
     from tl3_finite17_dashboard_process import _owned_process, _resource, _telemetry
@@ -226,9 +230,13 @@ def publish_once(
         added += _resource(
             view, plan, node, task, progress_epoch, process, telemetry_rows, proc_root, events
         )
+    final_view = publish_final_view(root, state, runs, plan, status, train_groups, valid_groups)
+    if final_view is not None:
+        added += int(final_view["events_added"])
     return {
         "status": status.get("status"),
         "plan_sha256": plan["sha256"],
         "nodes": 16,
+        "final_blend_published": final_view is not None,
         "events_added": added,
     }
