@@ -351,6 +351,57 @@ def test_bridge_import_is_idempotent_and_labels_both_masks(
     assert (view / "bridge_receipt.json").is_file()
 
 
+def test_epoch_zero_full_valid_is_monitorable_before_fixed_epoch_three(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    receipt_path, _manifest_path, checkpoint_sha, _split_sha = _make_bridge_fixture(tmp_path)
+    binding, _receipt = bridge.load_binding(receipt_path)
+    provenance_path = binding.output / "provenance.json"
+    provenance = bridge._read_json(provenance_path)
+    provenance["args"]["epochs"] = 4
+    provenance["args"]["checkpoint_epoch"] = 3
+    provenance_path.write_text(json.dumps(provenance), encoding="utf-8")
+
+    runs_root = tmp_path / "dashboard-runs"
+    runs_root.mkdir()
+    monkeypatch.setattr(bridge, "is_timeout_parent_live", lambda *_args: False)
+    monkeypatch.setattr(bridge, "has_exact_trainer_process", lambda *_args: False)
+    run_identity = bridge._run_identity(binding)
+    evaluation = {
+        "schema": "wnn.tl3-frozen-checkpoint-evaluation.v1",
+        "run_identity_sha256": run_identity,
+        "source_identity_sha256": binding.source_identity_sha256,
+        "completed_epoch": 1,
+        "source_epoch_index": 0,
+        "checkpoint_sha256": checkpoint_sha,
+        "train_eval": {
+            "row_mask": "all_after_warmup",
+            "cohort_count": 32,
+            "cohort_group_order_sha256": bridge._canonical_sha256(list(range(1, 33))),
+            "metrics": {"wp": 0.1, "t0": 0.2, "t1": 0.3, "wmse": 0.4},
+        },
+        "valid": {
+            "row_mask": "is_scored",
+            "cohort_count": 2,
+            "cohort_group_order_sha256": bridge._canonical_sha256([101, 102]),
+            "metrics": {"wp": 0.25, "t0": 0.1, "t1": 0.2, "wmse": 0.5},
+        },
+    }
+    monkeypatch.setattr(bridge, "_run_evaluator", lambda *_args: evaluation)
+
+    result = bridge.bridge_once(receipt_path, runs_root)
+
+    assert result["status"] == "running"
+    events = [
+        json.loads(line)
+        for line in (runs_root / "tl3c_fin256_s3" / "monitor_events.jsonl").read_text().splitlines()
+    ]
+    evaluation_events = [event for event in events if event["kind"] == "evaluation"]
+    assert len(evaluation_events) == 1
+    assert evaluation_events[0]["context"]["completed_epoch"] == 1
+    assert evaluation_events[0]["metrics"]["valid/wp"] == 0.25
+
+
 def test_bridge_rejects_worker_mask_or_logged_valid_mismatch(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
