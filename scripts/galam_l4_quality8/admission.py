@@ -83,6 +83,18 @@ def preflight(
             "cuda_runtime": str(__import__("torch").version.cuda),
             "nvidia_driver": host.driver,
             "gpu_uuids": [host.gpus[index]["uuid"] for index in range(8)],
+            "gpu_memory": [
+                {
+                    "index": index,
+                    "uuid": host.gpus[index]["uuid"],
+                    "nvidia_smi_total_mib": host.gpus[index]["total_mib"],
+                    "nvidia_smi_free_mib": host.gpus[index]["free_mib"],
+                    "cuda_total_memory_bytes": host.cuda_devices[
+                        host.gpus[index]["uuid"]
+                    ]["total_memory_bytes"],
+                }
+                for index in range(8)
+            ],
             "cublas_workspace_config": ":4096:8",
         },
         "cells": cell_records,

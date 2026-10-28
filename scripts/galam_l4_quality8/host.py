@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 import os
 import platform
 import subprocess
@@ -18,6 +19,28 @@ from .common import LaunchError, parse_cpu_list
 from .contract import CellPlan
 
 GPU_QUERY = "index,name,uuid,memory.total,memory.free"
+CUDA_QUERY_SCRIPT = r'''
+import json
+import torch
+
+if not torch.cuda.is_available() or torch.cuda.device_count() != 8:
+    raise SystemExit("expected eight CUDA-visible devices")
+devices = []
+for index in range(torch.cuda.device_count()):
+    properties = torch.cuda.get_device_properties(index)
+    raw_uuid = getattr(properties, "uuid", None)
+    if isinstance(raw_uuid, bytes):
+        raw_uuid = raw_uuid.decode("utf-8")
+    if raw_uuid is None:
+        raise SystemExit("CUDA device UUID is unavailable")
+    devices.append({
+        "name": torch.cuda.get_device_name(index),
+        "uuid": str(raw_uuid),
+        "capability": [properties.major, properties.minor],
+        "total_memory_bytes": int(properties.total_memory),
+    })
+print(json.dumps(devices, sort_keys=True))
+'''
 EXPECTED_TORCH = "2.8.0+cu128"
 EXPECTED_CUDA = "12.8"
 EXPECTED_CUBLAS_WORKSPACE = ":4096:8"
@@ -28,6 +51,7 @@ class HostState:
     """Receiver facts needed to admit every profile and assign its isolated process."""
 
     gpus: dict[int, dict[str, Any]]
+    cuda_devices: dict[str, dict[str, Any]]
     driver: str
     available_cpus: frozenset[int]
     numa_cpus: dict[int, frozenset[int]]
@@ -70,6 +94,9 @@ def probe_host() -> HostState:
         raise LaunchError("receiver must expose eight indexed GPUs with one driver version")
     if any(gpu["name"] != "NVIDIA L4" or not gpu["uuid"].startswith("GPU-") for gpu in gpus.values()):
         raise LaunchError("all eight receiver GPUs must be NVIDIA L4 devices with UUIDs")
+    cuda_devices = _query_cuda_devices()
+    if set(cuda_devices) != {gpu["uuid"] for gpu in gpus.values()}:
+        raise LaunchError("CUDA UUID inventory differs from the eight physical L4 UUIDs")
 
     numa_cpus: dict[int, frozenset[int]] = {}
     for node in (0, 1):
@@ -80,6 +107,7 @@ def probe_host() -> HostState:
             raise LaunchError(f"NUMA node {node} is unavailable on the receiver") from error
     return HostState(
         gpus=gpus,
+        cuda_devices=cuda_devices,
         driver=next(iter(drivers)),
         available_cpus=frozenset(os.sched_getaffinity(0)),
         numa_cpus=numa_cpus,
@@ -97,6 +125,9 @@ def validate_host_profiles(cells: list[CellPlan], host: HostState) -> dict[str, 
         if not set(cell.cpus).issubset(host.numa_cpus[cell.numa_node]):
             raise LaunchError(f"{cell.cell_id}: panel CPU set disagrees with its NUMA node")
         gpu = host.gpus[cell.gpu]
+        cuda_device = host.cuda_devices.get(gpu["uuid"])
+        if cuda_device is None:
+            raise LaunchError(f"{cell.cell_id}: assigned GPU UUID is not CUDA-visible")
         profile_runtime = cell.profile["identity"].get("runtime")
         if not isinstance(profile_runtime, dict):
             raise LaunchError(f"{cell.cell_id}: profile runtime identity is missing")
@@ -107,15 +138,15 @@ def validate_host_profiles(cells: list[CellPlan], host: HostState) -> dict[str, 
             raise LaunchError(f"{cell.cell_id}: fixed fits require a one-device profile")
         profile_device = devices[0]
         expected_memory = profile_device.get("total_memory_bytes")
-        actual_memory = gpu["total_mib"] * (1 << 20)
         if (
             profile_device.get("rank") != 0
             or profile_device.get("local_rank") != 0
             or profile_device.get("uuid") != gpu["uuid"]
-            or profile_device.get("name") != "NVIDIA L4"
-            or profile_device.get("capability") != [8, 9]
+            or profile_device.get("name") != cuda_device["name"]
+            or profile_device.get("capability") != cuda_device["capability"]
+            or profile_device.get("uuid") != cuda_device["uuid"]
             or not isinstance(expected_memory, int)
-            or abs(expected_memory - actual_memory) > (1 << 20)
+            or expected_memory != cuda_device["total_memory_bytes"]
         ):
             raise LaunchError(f"{cell.cell_id}: profile GPU identity differs from assigned L4 UUID")
         if (
@@ -153,9 +184,9 @@ def validate_host_profiles(cells: list[CellPlan], host: HostState) -> dict[str, 
                 {
                     "rank": 0,
                     "local_rank": 0,
-                    "name": "NVIDIA L4",
-                    "capability": [8, 9],
-                    "uuid": gpu["uuid"],
+                    "name": cuda_device["name"],
+                    "capability": cuda_device["capability"],
+                    "uuid": cuda_device["uuid"],
                     "total_memory_bytes": expected_memory,
                 }
             ],
@@ -165,6 +196,48 @@ def validate_host_profiles(cells: list[CellPlan], host: HostState) -> dict[str, 
             raise LaunchError(f"{cell.cell_id}: reconstructed runtime does not equal its profile")
         result[cell.cell_id] = runtime
     return result
+
+
+def _query_cuda_devices() -> dict[str, dict[str, Any]]:
+    """Query exact CUDA UUID and allocatable-memory identities in a short-lived process."""
+    env = os.environ.copy()
+    env.pop("CUDA_VISIBLE_DEVICES", None)
+    env.pop("RANK", None)
+    env.pop("WORLD_SIZE", None)
+    env.pop("LOCAL_RANK", None)
+    env["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+    env["OMP_NUM_THREADS"] = "1"
+    env["MKL_NUM_THREADS"] = "1"
+    result = subprocess.run(
+        [sys.executable, "-c", CUDA_QUERY_SCRIPT],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=30,
+        env=env,
+    )
+    try:
+        devices = json.loads(result.stdout)
+    except json.JSONDecodeError as error:
+        raise LaunchError("CUDA inventory process returned invalid JSON") from error
+    if not isinstance(devices, list) or len(devices) != 8:
+        raise LaunchError("CUDA inventory process did not report exactly eight devices")
+    result_by_uuid: dict[str, dict[str, Any]] = {}
+    for item in devices:
+        if not isinstance(item, dict):
+            raise LaunchError("CUDA inventory contains a malformed device record")
+        uuid = item.get("uuid")
+        if not isinstance(uuid, str) or uuid in result_by_uuid:
+            raise LaunchError("CUDA inventory contains a missing or duplicate UUID")
+        if (
+            item.get("name") != "NVIDIA L4"
+            or item.get("capability") != [8, 9]
+            or type(item.get("total_memory_bytes")) is not int
+            or item["total_memory_bytes"] <= 0
+        ):
+            raise LaunchError("CUDA inventory contains a non-L4 or invalid memory identity")
+        result_by_uuid[uuid] = item
+    return result_by_uuid
 
 
 def _runtime_precision(

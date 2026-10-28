@@ -36,8 +36,6 @@ def start_fits(
     plans = _plans_from_admitted(receipt, admitted)
     children: dict[str, subprocess.Popen[bytes]] = {}
     for cell in plans:
-        Path(receipt["cells"][cell.cell_id]["output"]).mkdir(mode=0o700)
-    for cell in plans:
         record = receipt["cells"][cell.cell_id]
         run_output = Path(record["output"])
         log_path = Path(record["log"])

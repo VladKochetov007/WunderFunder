@@ -73,6 +73,41 @@ def summarize_cell(cell_id: str, record: dict[str, Any], launch_root: Path) -> d
     output = Path(str(record.get("output", "")))
     if (launch_root / "runs").is_symlink():
         raise LaunchError("runs directory cannot be a symlink")
+    expected_output = launch_root / "runs" / cell_id
+    if output.resolve(strict=False) != expected_output.resolve(strict=False):
+        raise LaunchError(f"{cell_id}: run output path differs from its receipt-owned cell path")
+    process_state = owned_process_state(record)
+    if output.is_symlink():
+        raise LaunchError(f"{cell_id}: run output cannot be a symlink")
+    if not output.exists():
+        if process_state == "running":
+            return {
+                "gpu": record.get("gpu"),
+                "gpu_uuid": record.get("gpu_uuid"),
+                "pid": record.get("pid"),
+                "start_ticks": record.get("start_ticks"),
+                "process_group": record.get("process_group"),
+                "process_state": process_state,
+                "state": "running",
+                "output": str(output),
+                "log": record.get("log"),
+                "terminal_status": None,
+                "checkpoint_pointers": None,
+                "latest_epoch_metrics": None,
+                "latest_official_validation": None,
+            }
+        return {
+            "gpu": record.get("gpu"),
+            "gpu_uuid": record.get("gpu_uuid"),
+            "pid": record.get("pid"),
+            "start_ticks": record.get("start_ticks"),
+            "process_group": record.get("process_group"),
+            "process_state": process_state,
+            "state": "failed",
+            "output": str(output),
+            "log": record.get("log"),
+            "integrity_error": "fit exited before creating its reserved run directory",
+        }
     try:
         resolved_output = output.resolve(strict=True)
         resolved_output.relative_to(launch_root)
@@ -80,7 +115,6 @@ def summarize_cell(cell_id: str, record: dict[str, Any], launch_root: Path) -> d
         raise LaunchError(f"{cell_id}: run output path escapes the launch receipt") from None
     if output.is_symlink() or not resolved_output.is_dir():
         raise LaunchError(f"{cell_id}: run output is missing or unsafe")
-    process_state = owned_process_state(record)
     terminal = _optional_json(resolved_output / "terminal_status.json")
     pointers = _optional_json(resolved_output / "checkpoint_pointers.json")
     latest_metric = read_jsonl_tail(resolved_output / "metrics.jsonl")
@@ -149,8 +183,6 @@ def _validate_terminal(
         raise LaunchError("terminal completion kind disagrees with fit status")
     if status == "completed" and completed != 20:
         raise LaunchError("completed fits must reach the configured twenty-epoch maximum")
-    if status == "early_stopped" and completed >= 20:
-        raise LaunchError("an early-stopped fit must end before the configured maximum")
     if type(terminal.get("global_updates")) is not int or terminal["global_updates"] < 1:
         raise LaunchError("terminal fit update count is invalid")
     if not _is_sha256(terminal.get("model_sha256")):

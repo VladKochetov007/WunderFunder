@@ -95,12 +95,27 @@ def test_host_probe_requires_exactly_eight_l4_uuids(monkeypatch: pytest.MonkeyPa
         if "--query-gpu=index" in command[1]:
             rows = [f"{index}, NVIDIA L4, GPU-{index:036d}, 23034, 22000" for index in range(8)]
             return SimpleNamespace(stdout="\n".join(rows))
+        if command[1:2] == ["-c"]:
+            return SimpleNamespace(
+                stdout=json.dumps(
+                    [
+                        {
+                            "name": "NVIDIA L4",
+                            "uuid": f"GPU-{index:036d}",
+                            "capability": [8, 9],
+                            "total_memory_bytes": 23_670_685_696,
+                        }
+                        for index in range(8)
+                    ]
+                )
+            )
         return SimpleNamespace(stdout="\n".join(["570.0"] * 8))
 
     monkeypatch.setattr(host.subprocess, "run", completed)
     state = host.probe_host()
     assert set(state.gpus) == set(range(8))
     assert state.driver == "570.0"
+    assert state.cuda_devices["GPU-000000000000000000000000000000000000"]["total_memory_bytes"] == 23_670_685_696
 
     def seven_gpus(command: list[str], **kwargs: Any) -> SimpleNamespace:
         result = completed(command, **kwargs)
@@ -111,6 +126,69 @@ def test_host_probe_requires_exactly_eight_l4_uuids(monkeypatch: pytest.MonkeyPa
     monkeypatch.setattr(host.subprocess, "run", seven_gpus)
     with pytest.raises(LaunchError, match="eight indexed GPUs"):
         host.probe_host()
+
+
+def test_host_profile_uses_exact_cuda_memory_not_nvidia_smi_capacity(
+    approved_packet: tuple[Path, dict[str, Path]], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    panel_path, profiles = approved_packet
+    _, cells = load_panel_cells(panel_path, profiles)
+    monkeypatch.setattr(host.torch, "__version__", host.EXPECTED_TORCH)
+    monkeypatch.setattr(host.torch.version, "cuda", host.EXPECTED_CUDA)
+    monkeypatch.setattr(host.torch.backends.cudnn, "version", lambda: 8902)
+    cuda_bytes = 23_670_685_696
+    gpus: dict[int, dict[str, Any]] = {}
+    cuda_devices: dict[str, dict[str, Any]] = {}
+    for index in range(8):
+        uuid = f"GPU-{index:036d}"
+        gpus[index] = {
+            "name": "NVIDIA L4",
+            "uuid": uuid,
+            "total_mib": 23034,
+            "free_mib": 22000,
+        }
+        cuda_devices[uuid] = {
+            "name": "NVIDIA L4",
+            "uuid": uuid,
+            "capability": [8, 9],
+            "total_memory_bytes": cuda_bytes,
+        }
+    state = host.HostState(
+        gpus=gpus,
+        cuda_devices=cuda_devices,
+        driver="570.0",
+        available_cpus=frozenset(range(80)),
+        numa_cpus={0: frozenset(range(32)), 1: frozenset(range(48, 80))},
+    )
+    for cell in cells:
+        device = {
+            "rank": 0,
+            "local_rank": 0,
+            **cuda_devices[gpus[cell.gpu]["uuid"]],
+        }
+        raw_runtime = {
+            "python": host.platform.python_version(),
+            "platform": host.platform.platform(),
+            "torch": host.EXPECTED_TORCH,
+            "cuda_runtime": host.EXPECTED_CUDA,
+            "cudnn": 8902,
+            "nvidia_driver": "570.0",
+            "visible_devices": 1,
+            "world_size": 1,
+            "matmul_precision": "highest",
+            "matmul_tf32": False,
+            "cudnn_tf32": False,
+            "autocast": False,
+            "amp_scaler": False,
+            "cublas_workspace_config": host.EXPECTED_CUBLAS_WORKSPACE,
+            "devices": [device],
+        }
+        partial = {"precision": host.precision_identity("fp32", "math", environ={})}
+        cell.profile["identity"]["runtime"] = host._runtime_precision(
+            cell, raw_runtime, partial
+        )
+    assert abs(cuda_bytes - 23034 * (1 << 20)) > 1 << 20
+    assert len(host.validate_host_profiles(cells, state)) == 8
 
 
 def test_launch_reserves_output_and_spawns_supervisor_detached(
@@ -168,7 +246,7 @@ def test_monitor_reads_terminal_artifacts_and_accepts_declared_early_stop(
         output.mkdir()
         identity = {"cell": index}
         early_stop = index == 0
-        completed_epochs = 8 if early_stop else 20
+        completed_epochs = 20
         model_path = output / "model.pt"
         model_path.write_bytes(b"mock model weights")
         status = "early_stopped" if early_stop else "completed"
@@ -259,6 +337,34 @@ def test_monitor_reads_terminal_artifacts_and_accepts_declared_early_stop(
     assert "official is_scored" in summary["cells"]["g0-cell"]["integrity_error"]
 
 
+def test_monitor_waits_for_trainer_owned_output_directory(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    launch_root = tmp_path / "launch"
+    (launch_root / "runs").mkdir(parents=True)
+    cells = {
+        f"g{index}-cell": {
+            "gpu": index,
+            "gpu_uuid": f"GPU-{index}",
+            "pid": 1000 + index,
+            "start_ticks": 100 + index,
+            "process_group": 1000 + index,
+            "output": str(launch_root / "runs" / f"g{index}-cell"),
+            "log": str(launch_root / "logs" / f"g{index}-cell.log"),
+        }
+        for index in range(8)
+    }
+    receipt_path = launch_root / "launch_receipt.json"
+    receipt_path.write_text(
+        json.dumps({"schema": monitor.RECEIPT_SCHEMA, "cells": cells}), encoding="utf-8"
+    )
+    monkeypatch.setattr(monitor, "owned_process_state", lambda _record: "running")
+    summary = monitor.refresh_summary(receipt_path)
+    assert summary["status"] == "running"
+    assert all(cell["state"] == "running" for cell in summary["cells"].values())
+    assert not (launch_root / "runs" / "g0-cell").exists()
+
+
 def test_fit_spawn_is_exact_eight_uuid_pinned_detached_processes(
     tmp_path: Path, approved_packet: tuple[Path, dict[str, Path]], monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -328,6 +434,7 @@ def test_fit_spawn_is_exact_eight_uuid_pinned_detached_processes(
     )
     assert len(children) == 8
     assert len(launches) == 8
+    assert not any((output_root / "runs" / cell.cell_id).exists() for cell in plans)
     for index, launch in enumerate(launches):
         kwargs = launch["kwargs"]
         assert kwargs["start_new_session"] is True
