@@ -32,7 +32,9 @@ RECEIPT_REQUIRED = {
     "started_utc",
 }
 EVENT_SCHEMA = "wnn.monitor.v1"
-BRIDGE_SCHEMA = "wnn.tl3-dashboard-bridge.v1"
+BRIDGE_SCHEMA = "wnn.tl3-dashboard-bridge.v2"
+ADOPTION_SCHEMA = "wnn.tl3-fit-adoption.v1"
+TRAINING_SOURCE_SCHEMA = "wnn.training-source.v1"
 MAX_JSON_BYTES = 16 << 20
 MAX_LOG_BYTES = 64 << 20
 MAX_VIEW_LOG_BYTES = 8 << 20
@@ -66,7 +68,12 @@ class RunBinding:
     parent_start_ticks: int
     command: tuple[str, ...]
     receipt_sha256: str
-    source_identity_sha256: str
+    adoption_sha256: str
+    source_identity_file_sha256: str
+    actual_training_source_sha256: str
+    training_source_identity_record_sha256: str
+    source_identity_file: Path
+    training_source_identity_file: Path
     split_sha256: str
 
 
@@ -114,8 +121,13 @@ def _command_value(command: tuple[str, ...], flag: str) -> str:
     return command[positions[0] + 1]
 
 
-def load_binding(receipt_path: Path) -> tuple[RunBinding, dict[str, Any]]:
-    """Validate the TL3 receipt and derive its immutable source paths."""
+def load_binding(
+    receipt_path: Path,
+    adoption_path: Path | None = None,
+    training_source_identity_path: Path | None = None,
+    source_identity_file_path: Path | None = None,
+) -> tuple[RunBinding, dict[str, Any]]:
+    """Validate launch, adoption, and both independent source identity scopes."""
     receipt = _read_json(receipt_path, 1 << 20)
     if not RECEIPT_REQUIRED.issubset(receipt):
         raise BridgeError("TL3 launch receipt is missing required ownership fields")
@@ -164,6 +176,81 @@ def load_binding(receipt_path: Path) -> tuple[RunBinding, dict[str, Any]]:
     if _command_value(tuple(command), "--name") != run:
         raise BridgeError("launch run name disagrees with trainer argv")
     manifest = Path(_command_value(tuple(command), "--split-manifest")).resolve(strict=True)
+    node_id = run.removeprefix("tl3c_")
+    adoption_path = adoption_path or receipt_path.with_name(f"{node_id}.adoption.json")
+    training_source_identity_path = training_source_identity_path or receipt_path.with_name(
+        "adopted-source.identity.json"
+    )
+    source_identity_file_path = source_identity_file_path or (
+        source_root.parent / f"{source_root.name}.identity.json"
+    )
+    adoption = _read_json(adoption_path, 1 << 20)
+    training_source_identity = _read_json(training_source_identity_path, 1 << 20)
+    source_identity_file = _read_json(source_identity_file_path, 8 << 20)
+    adoption_fields = {
+        "schema",
+        "node_id",
+        "run",
+        "source_sha256",
+        "source_identity_file_sha256",
+        "source_root",
+        "argv",
+        "training_args",
+        "pid",
+        "start_ticks",
+    }
+    if not adoption_fields.issubset(adoption):
+        raise BridgeError("TL3 adoption receipt is missing required source-binding fields")
+    if (
+        adoption.get("schema") != ADOPTION_SCHEMA
+        or adoption.get("node_id") != node_id
+        or adoption.get("run") != run
+        or adoption.get("argv") != command
+        or adoption.get("pid") != receipt["pid"]
+        or str(adoption.get("start_ticks")) != str(receipt["start_ticks"])
+        or adoption.get("source_identity_file_sha256") != receipt["source_identity_sha256"]
+        or not SHA256.fullmatch(str(adoption.get("source_sha256")))
+    ):
+        raise BridgeError("TL3 adoption receipt does not bind the exact launch and two source hashes")
+    if Path(str(adoption.get("source_root"))).resolve(strict=True) != source_root:
+        raise BridgeError("TL3 adoption source root differs from the launch command")
+    if adoption.get("training_args") != list(command[script_index + 1 :]):
+        raise BridgeError("TL3 adoption trainer argv differs from the launch command")
+    source_identity_file_sha256 = _sha256_file(source_identity_file_path)
+    if source_identity_file_sha256 != receipt["source_identity_sha256"]:
+        raise BridgeError("full source identity file bytes differ from the launch receipt")
+    if source_identity_file.get("git") != receipt.get("source_git"):
+        raise BridgeError("full source identity git field differs from the launch receipt")
+    if not isinstance(source_identity_file.get("files"), dict):
+        raise BridgeError("full source identity file omits its file hash map")
+    if training_source_identity.get("schema") != TRAINING_SOURCE_SCHEMA:
+        raise BridgeError("adopted trainer source identity schema is invalid")
+    training_files = training_source_identity.get("files")
+    if (
+        not isinstance(training_files, dict)
+        or training_source_identity.get("sha256") != adoption["source_sha256"]
+        or _canonical_sha256(training_files) != adoption["source_sha256"]
+    ):
+        raise BridgeError("adopted trainer source identity hash does not match its file map")
+    full_source_files = source_identity_file["files"]
+    for relative_name, expected_sha256 in training_files.items():
+        if (
+            not isinstance(relative_name, str)
+            or not isinstance(expected_sha256, str)
+            or not SHA256.fullmatch(expected_sha256)
+        ):
+            raise BridgeError("adopted trainer source identity has a malformed file entry")
+        relative = Path(relative_name)
+        if relative.is_absolute() or ".." in relative.parts or not relative.parts:
+            raise BridgeError("adopted trainer source identity has an unsafe path")
+        source_file = source_root.joinpath(*relative.parts)
+        resolved_source_file = source_file.resolve(strict=True)
+        if resolved_source_file != source_file or not resolved_source_file.is_relative_to(source_root):
+            raise BridgeError(f"trainer source path escapes or aliases its root: {relative_name}")
+        if _sha256_file(resolved_source_file) != expected_sha256:
+            raise BridgeError(f"trainer source bytes differ from adoption: {relative_name}")
+        if relative.suffix == ".py" and full_source_files.get(relative_name) != expected_sha256:
+            raise BridgeError(f"trainer source file differs from the full source map: {relative_name}")
     output = data_root / "artifacts" / "runs" / run
     log = data_root / "logs" / f"{run}.log"
     if output.resolve(strict=False) != output or log.resolve(strict=False) != log:
@@ -182,7 +269,12 @@ def load_binding(receipt_path: Path) -> tuple[RunBinding, dict[str, Any]]:
         parent_start_ticks=parent_ticks,
         command=tuple(command),
         receipt_sha256=_sha256_file(receipt_path),
-        source_identity_sha256=str(receipt["source_identity_sha256"]),
+        adoption_sha256=_sha256_file(adoption_path),
+        source_identity_file_sha256=source_identity_file_sha256,
+        actual_training_source_sha256=str(adoption["source_sha256"]),
+        training_source_identity_record_sha256=_canonical_sha256(training_source_identity),
+        source_identity_file=source_identity_file_path.resolve(strict=True),
+        training_source_identity_file=training_source_identity_path.resolve(strict=True),
         split_sha256=str(receipt["split_sha256"]),
     )
     return binding, receipt
@@ -456,8 +548,12 @@ def validate_run_provenance(
 ) -> tuple[dict[str, Any], list[int], list[int], list[int]]:
     """Bind run code, official split, and actual fit/evaluation memberships."""
     identity = provenance.get("trainer_implementation")
-    if not isinstance(identity, dict) or identity.get("sha256") != binding.source_identity_sha256:
-        raise BridgeError("run trainer source identity differs from its launch receipt")
+    if (
+        not isinstance(identity, dict)
+        or identity.get("sha256") != binding.actual_training_source_sha256
+        or _canonical_sha256(identity) != binding.training_source_identity_record_sha256
+    ):
+        raise BridgeError("run trainer source identity differs from the adopted training source")
     if provenance.get("split_manifest_sha256") != binding.split_sha256:
         raise BridgeError("run provenance split hash differs from its launch receipt")
     manifest = _read_json(binding.split_manifest)
@@ -497,10 +593,19 @@ def validate_run_provenance(
     args = provenance.get("args")
     if not isinstance(args, dict):
         raise BridgeError("run provenance omits effective trainer arguments")
+    eval_source = args.get("eval_source")
+    if eval_source not in {"dev", "vfold"}:
+        raise BridgeError("effective trainer arguments do not select official validation")
+    if eval_source == "vfold" and (
+        type(args.get("valid_fold")) is not int
+        or args["valid_fold"] != 0
+        or type(args.get("n_valid_folds")) is not int
+        or args["n_valid_folds"] != 1
+    ):
+        raise BridgeError("manifest-managed vfold is not the single full official-valid fold")
     if (
         args.get("name") != binding.run
         or args.get("train_source") != "train"
-        or args.get("eval_source") != "dev"
         or args.get("full_valid") is not True
         or args.get("train_seqs") != len(expected_train)
         or args.get("no_eval_during_fit") is not False
@@ -510,10 +615,8 @@ def validate_run_provenance(
         or type(args.get("checkpoint_epoch")) is not int
         or not 0 <= args["checkpoint_epoch"] < args["epochs"]
         or args.get("precision") != "fp32"
-        or args.get("init")
         or args.get("resume_state")
         or args.get("propensity")
-        or args.get("distill")
     ):
         raise BridgeError("effective trainer recipe violates the fresh train-only TL3 contract")
     return args, train, fit_valid, evaluated
@@ -538,8 +641,13 @@ def _safe_mkdir(path: Path, runs_root: Path, binding: RunBinding) -> None:
             {
                 "schema": BRIDGE_SCHEMA,
                 "run": binding.run,
-                "receipt_sha256": binding.receipt_sha256,
-                "source_identity_sha256": binding.source_identity_sha256,
+                "launch_receipt_sha256": binding.receipt_sha256,
+                "adoption_receipt_sha256": binding.adoption_sha256,
+                "source_identity_file_sha256": binding.source_identity_file_sha256,
+                "actual_training_source_sha256": binding.actual_training_source_sha256,
+                "training_source_identity_record_sha256": binding.training_source_identity_record_sha256,
+                "source_identity_file": str(binding.source_identity_file),
+                "training_source_identity_file": str(binding.training_source_identity_file),
                 "source_output": str(binding.output),
             },
             exclusive=True,
@@ -554,7 +662,16 @@ def _safe_mkdir(path: Path, runs_root: Path, binding: RunBinding) -> None:
         if (
             existing.get("schema") != BRIDGE_SCHEMA
             or existing.get("run") != binding.run
-            or existing.get("receipt_sha256") != binding.receipt_sha256
+            or existing.get("launch_receipt_sha256") != binding.receipt_sha256
+            or existing.get("adoption_receipt_sha256") != binding.adoption_sha256
+            or existing.get("source_identity_file_sha256") != binding.source_identity_file_sha256
+            or existing.get("actual_training_source_sha256")
+            != binding.actual_training_source_sha256
+            or existing.get("training_source_identity_record_sha256")
+            != binding.training_source_identity_record_sha256
+            or existing.get("source_identity_file") != str(binding.source_identity_file)
+            or existing.get("training_source_identity_file")
+            != str(binding.training_source_identity_file)
             or existing.get("source_output") != str(binding.output)
         ):
             raise BridgeError("dashboard view is owned by a different bridge receipt")
@@ -755,14 +872,18 @@ def _run_evaluator(
         str(binding.data_root),
         "--source-root",
         str(binding.source_root),
+        "--source-identity-file",
+        str(binding.source_identity_file),
+        "--source-identity-file-sha256",
+        binding.source_identity_file_sha256,
         "--split-manifest",
         str(binding.split_manifest),
         "--epoch-index",
         str(epoch_index),
         "--run-identity-sha256",
         run_identity,
-        "--source-identity-sha256",
-        binding.source_identity_sha256,
+        "--training-source-sha256",
+        binding.actual_training_source_sha256,
         "--batch-size",
         str(batch_size),
     ]
@@ -811,7 +932,9 @@ def _run_identity(binding: RunBinding) -> str:
         {
             "run": binding.run,
             "receipt_sha256": binding.receipt_sha256,
-            "source_identity_sha256": binding.source_identity_sha256,
+            "adoption_receipt_sha256": binding.adoption_sha256,
+            "source_identity_file_sha256": binding.source_identity_file_sha256,
+            "actual_training_source_sha256": binding.actual_training_source_sha256,
             "split_sha256": binding.split_sha256,
         }
     )
@@ -841,7 +964,12 @@ def _metadata(
             "bridge_schema": BRIDGE_SCHEMA,
             "run_identity_sha256": run_identity,
             "launch_receipt_sha256": binding.receipt_sha256,
-            "source_identity_sha256": binding.source_identity_sha256,
+            "adoption_receipt_sha256": binding.adoption_sha256,
+            "source_identity_file_sha256": binding.source_identity_file_sha256,
+            "actual_training_source_sha256": binding.actual_training_source_sha256,
+            "training_source_identity_record_sha256": binding.training_source_identity_record_sha256,
+            "source_identity_file": str(binding.source_identity_file),
+            "training_source_identity_file": str(binding.training_source_identity_file),
             "source_git": receipt["source_git"],
             "launch_profile_evidence": receipt.get("profile_evidence", {}),
             "launch_checkpoint_policy": receipt.get("checkpoint_policy"),
@@ -871,7 +999,8 @@ def _event_context(
     context: dict[str, Any] = {
         "run": binding.run,
         "run_identity_sha256": run_identity,
-        "source_identity_sha256": binding.source_identity_sha256,
+        "source_identity_file_sha256": binding.source_identity_file_sha256,
+        "actual_training_source_sha256": binding.actual_training_source_sha256,
         "split_manifest_sha256": binding.split_sha256,
         "source_timestamp_available": False,
     }
@@ -906,12 +1035,20 @@ def bridge_once(
     receipt_path: Path,
     dashboard_runs_root: Path,
     *,
+    adoption_path: Path | None = None,
+    training_source_identity_path: Path | None = None,
+    source_identity_file_path: Path | None = None,
     evaluate_missing: bool = True,
-    eval_batch_size: int = 4,
+    eval_batch_size: int = 16,
     eval_timeout: int = 1800,
 ) -> dict[str, Any]:
     """Import one bounded snapshot from a receipt-owned legacy fit."""
-    binding, receipt = load_binding(receipt_path)
+    binding, receipt = load_binding(
+        receipt_path,
+        adoption_path,
+        training_source_identity_path,
+        source_identity_file_path,
+    )
     view = dashboard_runs_root / binding.run
     _safe_mkdir(view, dashboard_runs_root, binding)
     run_identity = _run_identity(binding)
@@ -946,6 +1083,7 @@ def bridge_once(
             global_batch,
             epoch_index + (batch_index + 1) / total_batches,
             {
+                "train/loss": point["loss"],
                 "train/objective_batch": point["loss"],
                 "optimizer/lr": point["lr"],
                 "throughput/sequences_per_second": point["rate"],
@@ -977,21 +1115,35 @@ def bridge_once(
         if type(step) is not int:
             raise BridgeError("VALID log record lacks cumulative optimizer attempts")
         grad = log_records["gradients"].get(epoch_index)
-        if isinstance(grad, dict):
-            gradient_metrics = _flatten_gradients(grad)
-            if gradient_metrics:
-                event = _event(
-                    "diagnostics",
-                    step,
-                    epoch_index + 1,
-                    gradient_metrics,
-                    {
-                        **_event_context(binding, run_identity, checkpoint_sha),
-                        "gradient_timing": "after unscale and before clipping",
-                        "source_epoch_index": epoch_index,
-                    },
-                )
-                added += int(_append_event(view / "monitor_events.jsonl", event, known))
+        diagnostic_metrics = _flatten_gradients(grad) if isinstance(grad, dict) else {}
+        for source, target in (
+            ("weighted_pearson", "valid/score"),
+            ("global_t0", "valid/score/t0"),
+            ("global_t1", "valid/score/t1"),
+        ):
+            value = valid.get(source)
+            if (
+                isinstance(value, (int, float))
+                and not isinstance(value, bool)
+                and math.isfinite(float(value))
+            ):
+                diagnostic_metrics[target] = value
+        if diagnostic_metrics:
+            diagnostic_context = {
+                **_event_context(binding, run_identity, checkpoint_sha),
+                "valid_score_source": "trainer VALID log; pooled full official validation",
+                "source_epoch_index": epoch_index,
+            }
+            if isinstance(grad, dict):
+                diagnostic_context["gradient_timing"] = "after unscale and before clipping"
+            event = _event(
+                "diagnostics",
+                step,
+                epoch_index + 1,
+                diagnostic_metrics,
+                diagnostic_context,
+            )
+            added += int(_append_event(view / "monitor_events.jsonl", event, known))
         trainer = find_owned_trainer(binding)
         if trainer is not None:
             trainer_pid, trainer_identity = trainer
@@ -1045,7 +1197,10 @@ def bridge_once(
             continue
         if (
             evaluation.get("schema") != "wnn.tl3-frozen-checkpoint-evaluation.v1"
-            or evaluation.get("source_identity_sha256") != binding.source_identity_sha256
+            or evaluation.get("source_identity_file_sha256")
+            != binding.source_identity_file_sha256
+            or evaluation.get("actual_training_source_sha256")
+            != binding.actual_training_source_sha256
             or evaluation.get("completed_epoch") != epoch_index + 1
             or evaluation.get("source_epoch_index") != epoch_index
         ):
@@ -1115,6 +1270,10 @@ def bridge_once(
                 value = cohort_metrics.get(name)
                 if isinstance(value, (int, float)) and math.isfinite(float(value)):
                     metrics[f"{prefix}/{name}"] = value
+            metrics[f"{prefix}/score"] = cohort_metrics["wp"]
+            metrics[f"{prefix}/score/t0"] = cohort_metrics["t0"]
+            metrics[f"{prefix}/score/t1"] = cohort_metrics["t1"]
+            metrics[f"{prefix}/loss"] = cohort_metrics["wmse"]
         fit_summary = valid.get("fit_summary", {})
         if isinstance(fit_summary, dict):
             objective = fit_summary.get("objective_mean")
@@ -1208,10 +1367,13 @@ def _parser() -> argparse.ArgumentParser:
         description="Bridge one receipt-owned legacy TL3 run to the local dashboard."
     )
     parser.add_argument("--receipt", type=Path, required=True)
+    parser.add_argument("--adoption", type=Path, required=True)
+    parser.add_argument("--training-source-identity", type=Path, required=True)
+    parser.add_argument("--source-identity-file", type=Path, required=True)
     parser.add_argument("--dashboard-runs-root", type=Path, required=True)
     parser.add_argument("--poll-seconds", type=int, default=60)
     parser.add_argument("--timeout-seconds", type=int, default=22_200)
-    parser.add_argument("--eval-batch-size", type=int, default=4)
+    parser.add_argument("--eval-batch-size", type=int, default=16)
     parser.add_argument("--eval-timeout-seconds", type=int, default=1800)
     parser.add_argument("--skip-evaluation", action="store_true")
     parser.add_argument("--once", action="store_true", help="perform one import pass and exit")
@@ -1230,6 +1392,9 @@ def main() -> None:
         result = bridge_once(
             args.receipt,
             args.dashboard_runs_root,
+            adoption_path=args.adoption,
+            training_source_identity_path=args.training_source_identity,
+            source_identity_file_path=args.source_identity_file,
             evaluate_missing=not args.skip_evaluation,
             eval_batch_size=args.eval_batch_size,
             eval_timeout=args.eval_timeout_seconds,

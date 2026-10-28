@@ -80,7 +80,12 @@ def test_trainer_must_be_descendant_and_start_ticks_must_match(tmp_path: Path) -
         parent_start_ticks=900,
         command=("timeout", "21600", *expected),
         receipt_sha256="a" * 64,
-        source_identity_sha256="b" * 64,
+        adoption_sha256="d" * 64,
+        source_identity_file_sha256="b" * 64,
+        actual_training_source_sha256="e" * 64,
+        training_source_identity_record_sha256="f" * 64,
+        source_identity_file=tmp_path / "source.identity.json",
+        training_source_identity_file=tmp_path / "adopted-source.identity.json",
         split_sha256="c" * 64,
     )
 
@@ -111,7 +116,12 @@ def test_orphaned_exact_trainer_prevents_false_terminal_status(tmp_path: Path) -
         parent_start_ticks=900,
         command=command,
         receipt_sha256="a" * 64,
-        source_identity_sha256="b" * 64,
+        adoption_sha256="d" * 64,
+        source_identity_file_sha256="b" * 64,
+        actual_training_source_sha256="e" * 64,
+        training_source_identity_record_sha256="f" * 64,
+        source_identity_file=tmp_path / "source.identity.json",
+        training_source_identity_file=tmp_path / "adopted-source.identity.json",
         split_sha256="c" * 64,
     )
 
@@ -207,9 +217,18 @@ def _make_bridge_fixture(tmp_path: Path) -> tuple[Path, Path, str, str]:
     data_root = tmp_path / "data"
     source_root = tmp_path / "source"
     (source_root / "scripts").mkdir(parents=True)
+    (source_root / "src" / "wnn" / "training").mkdir(parents=True)
+    (source_root / "src" / "wnn").mkdir(exist_ok=True)
     (source_root / "scripts" / "train_rnn.py").write_text(
         "# frozen source marker\n", encoding="utf-8"
     )
+    (source_root / "src" / "wnn" / "training" / "runner.py").write_text(
+        "# trainer source marker\n", encoding="utf-8"
+    )
+    (source_root / "src" / "wnn" / "nn.py").write_text(
+        "# extra full-source file\n", encoding="utf-8"
+    )
+    (source_root / "pyproject.toml").write_text("[project]\nname='fixture'\n", encoding="utf-8")
     (data_root / "artifacts" / "runs" / "tl3c_fin256_s3").mkdir(parents=True)
     (data_root / "logs").mkdir()
     run_dir = data_root / "artifacts" / "runs" / "tl3c_fin256_s3"
@@ -226,7 +245,35 @@ def _make_bridge_fixture(tmp_path: Path) -> tuple[Path, Path, str, str]:
     manifest_path = tmp_path / "chronological_primary.json"
     manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
     split_sha = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
-    source_sha = "a" * 64
+    source_git = "a" * 40
+    trainer_paths = (
+        "scripts/train_rnn.py",
+        "pyproject.toml",
+        "src/wnn/training/runner.py",
+    )
+    trainer_files = {
+        relative: hashlib.sha256((source_root / relative).read_bytes()).hexdigest()
+        for relative in trainer_paths
+    }
+    trainer_sha = bridge._canonical_sha256(trainer_files)
+    training_source_identity = {
+        "schema": "wnn.training-source.v1",
+        "sha256": trainer_sha,
+        "files": trainer_files,
+        "missing_dependency_files": ["uv.lock"],
+        "runtime_dependencies": {"attrs": "26.1.0"},
+    }
+    source_identity_file = source_root.parent / "source.identity.json"
+    full_source_files = {
+        name: digest for name, digest in trainer_files.items() if name.endswith(".py")
+    }
+    full_source_files["src/wnn/nn.py"] = hashlib.sha256(
+        (source_root / "src" / "wnn" / "nn.py").read_bytes()
+    ).hexdigest()
+    source_identity_file.write_text(
+        json.dumps({"git": source_git, "files": full_source_files}), encoding="utf-8"
+    )
+    source_identity_file_sha = hashlib.sha256(source_identity_file.read_bytes()).hexdigest()
     args = {
         "name": "tl3c_fin256_s3",
         "train_source": "train",
@@ -244,7 +291,7 @@ def _make_bridge_fixture(tmp_path: Path) -> tuple[Path, Path, str, str]:
         "distill": None,
     }
     provenance = {
-        "trainer_implementation": {"sha256": source_sha},
+        "trainer_implementation": training_source_identity,
         "split_manifest_sha256": split_sha,
         "fit_row_groups": {"train": train_groups, "valid": []},
         "evaluation_row_groups": valid_groups,
@@ -253,7 +300,7 @@ def _make_bridge_fixture(tmp_path: Path) -> tuple[Path, Path, str, str]:
     }
     (run_dir / "provenance.json").write_text(json.dumps(provenance), encoding="utf-8")
     (data_root / "logs" / "tl3c_fin256_s3.log").write_text(
-        "ep 0 batch 1/1 loss 0.75 lr 0.001 seq/s 1.25\n"
+        "ep 0 batch 0/1 loss 0.75 lr 0.001 seq/s 1.25\n"
         'GRAD_STATS {"epoch":0,"steps":1,"clip":1.0,"clip_rate":0.0}\n'
         'VALID {"epoch":0,"weighted_pearson":0.25,"global_t0":0.1,"global_t1":0.2,'
         '"update_diagnostics":{"cumulative":{"optimizer_attempts":1}},'
@@ -271,6 +318,23 @@ def _make_bridge_fixture(tmp_path: Path) -> tuple[Path, Path, str, str]:
         "--split-manifest",
         str(manifest_path),
     ]
+    script_index = command.index(str(source_root / "scripts" / "train_rnn.py"))
+    adoption = {
+        "schema": "wnn.tl3-fit-adoption.v1",
+        "node_id": "fin256_s3",
+        "run": "tl3c_fin256_s3",
+        "source_sha256": trainer_sha,
+        "source_identity_file_sha256": source_identity_file_sha,
+        "source_root": str(source_root.resolve()),
+        "argv": command,
+        "training_args": command[script_index + 1 :],
+        "pid": 999999991,
+        "start_ticks": "900",
+    }
+    (tmp_path / "fin256_s3.adoption.json").write_text(json.dumps(adoption), encoding="utf-8")
+    (tmp_path / "adopted-source.identity.json").write_text(
+        json.dumps(training_source_identity), encoding="utf-8"
+    )
     receipt = {
         "run": "tl3c_fin256_s3",
         "command": command,
@@ -280,8 +344,8 @@ def _make_bridge_fixture(tmp_path: Path) -> tuple[Path, Path, str, str]:
         },
         "pid": 999999991,
         "start_ticks": "900",
-        "source_identity_sha256": source_sha,
-        "source_git": "a" * 40,
+        "source_identity_sha256": source_identity_file_sha,
+        "source_git": source_git,
         "split_sha256": split_sha,
         "limits": {"wall_seconds": 21600},
         "started_utc": "2026-10-28T16:50:48Z",
@@ -303,6 +367,19 @@ def test_bridge_import_is_idempotent_and_labels_both_masks(
     monkeypatch.setattr(bridge, "has_exact_trainer_process", lambda *_args: False)
     pending = bridge.bridge_once(receipt_path, runs_root, evaluate_missing=False)
     assert pending["status"] == "fit_complete_pending_evaluation"
+    view = runs_root / "tl3c_fin256_s3"
+    initial_events = [
+        json.loads(line) for line in (view / "monitor_events.jsonl").read_text().splitlines()
+    ]
+    valid_log_events = [
+        event
+        for event in initial_events
+        if event["kind"] == "diagnostics" and "valid/score" in event["metrics"]
+    ]
+    assert len(valid_log_events) == 1
+    assert valid_log_events[0]["metrics"]["valid/score"] == 0.25
+    assert valid_log_events[0]["metrics"]["valid/score/t0"] == 0.1
+    assert valid_log_events[0]["metrics"]["valid/score/t1"] == 0.2
 
     binding, _receipt = bridge.load_binding(receipt_path)
     run_identity = bridge._run_identity(binding)
@@ -311,7 +388,8 @@ def test_bridge_import_is_idempotent_and_labels_both_masks(
     evaluation = {
         "schema": "wnn.tl3-frozen-checkpoint-evaluation.v1",
         "run_identity_sha256": run_identity,
-        "source_identity_sha256": binding.source_identity_sha256,
+        "source_identity_file_sha256": binding.source_identity_file_sha256,
+        "actual_training_source_sha256": binding.actual_training_source_sha256,
         "completed_epoch": 1,
         "source_epoch_index": 0,
         "checkpoint_sha256": checkpoint_sha,
@@ -334,7 +412,6 @@ def test_bridge_import_is_idempotent_and_labels_both_masks(
     assert completed["status"] == "completed"
     assert repeated["status"] == "completed"
 
-    view = runs_root / "tl3c_fin256_s3"
     events = [json.loads(line) for line in (view / "monitor_events.jsonl").read_text().splitlines()]
     evaluations = [event for event in events if event["kind"] == "evaluation"]
     assert len(evaluations) == 1
@@ -343,9 +420,17 @@ def test_bridge_import_is_idempotent_and_labels_both_masks(
     assert event["metrics"]["valid/wmse"] == 0.5
     assert event["metrics"]["train_eval/wmse"] == 0.4
     assert event["metrics"]["train/objective_window_mean"] == 0.75
+    assert event["metrics"]["train_eval/loss"] == 0.4
+    assert event["metrics"]["valid/loss"] == 0.5
+    assert event["metrics"]["train_eval/score"] == 0.1
+    assert event["metrics"]["valid/score"] == 0.25
+    assert event["metrics"]["train_eval/score/t0"] == 0.2
+    assert event["metrics"]["valid/score/t0"] == 0.1
     assert event["context"]["train_eval"]["row_mask"] == "all_after_warmup"
     assert event["context"]["valid"]["row_mask"] == "is_scored"
     assert "observed_at" not in event["context"]
+    training_events = [record for record in events if record["kind"] == "train_step"]
+    assert training_events[0]["metrics"]["train/loss"] == 0.75
     assert parse_event(json.dumps(event).encode()) is not None
     assert sum(1 for record in (view / "monitor_evaluations.jsonl").read_text().splitlines()) == 1
     assert (view / "bridge_receipt.json").is_file()
@@ -370,7 +455,8 @@ def test_epoch_zero_full_valid_is_monitorable_before_fixed_epoch_three(
     evaluation = {
         "schema": "wnn.tl3-frozen-checkpoint-evaluation.v1",
         "run_identity_sha256": run_identity,
-        "source_identity_sha256": binding.source_identity_sha256,
+        "source_identity_file_sha256": binding.source_identity_file_sha256,
+        "actual_training_source_sha256": binding.actual_training_source_sha256,
         "completed_epoch": 1,
         "source_epoch_index": 0,
         "checkpoint_sha256": checkpoint_sha,
@@ -412,7 +498,8 @@ def test_bridge_rejects_worker_mask_or_logged_valid_mismatch(
     evaluation = {
         "schema": "wnn.tl3-frozen-checkpoint-evaluation.v1",
         "run_identity_sha256": bridge._run_identity(binding),
-        "source_identity_sha256": binding.source_identity_sha256,
+        "source_identity_file_sha256": binding.source_identity_file_sha256,
+        "actual_training_source_sha256": binding.actual_training_source_sha256,
         "completed_epoch": 1,
         "source_epoch_index": 0,
         "checkpoint_sha256": checkpoint_sha,
@@ -443,6 +530,62 @@ def test_provenance_requires_full_train_membership_without_duplicates(tmp_path: 
     provenance["fit_row_groups"]["train"][-1] = provenance["fit_row_groups"]["train"][0]
 
     with pytest.raises(bridge.BridgeError, match="train fit membership"):
+        bridge.validate_run_provenance(binding, provenance)
+
+
+def test_launch_and_trainer_source_hash_scopes_are_independent(tmp_path: Path) -> None:
+    receipt_path, _manifest_path, _checkpoint_sha, _split_sha = _make_bridge_fixture(tmp_path)
+    binding, receipt = bridge.load_binding(receipt_path)
+    provenance = bridge._read_json(binding.output / "provenance.json")
+
+    assert binding.source_identity_file_sha256 == receipt["source_identity_sha256"]
+    assert binding.actual_training_source_sha256 == provenance["trainer_implementation"]["sha256"]
+    assert binding.actual_training_source_sha256 != binding.source_identity_file_sha256
+    assert (
+        bridge._canonical_sha256(provenance["trainer_implementation"])
+        == binding.training_source_identity_record_sha256
+    )
+
+
+def test_evaluator_cli_receives_both_source_hash_scopes(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    receipt_path, _manifest_path, _checkpoint_sha, _split_sha = _make_bridge_fixture(tmp_path)
+    binding, _receipt = bridge.load_binding(receipt_path)
+    invocation: dict[str, object] = {}
+
+    def fake_run(command: list[str], **kwargs: object) -> SimpleNamespace:
+        invocation["command"] = command
+        invocation["kwargs"] = kwargs
+        return SimpleNamespace(stdout="{}", stderr="")
+
+    monkeypatch.setattr(bridge.subprocess, "run", fake_run)
+    assert bridge._run_evaluator(binding, "a" * 64, 0, 16, 30) == {}
+
+    command = invocation["command"]
+    assert isinstance(command, list)
+    parsed = checkpoint_eval._parser().parse_args(command[2:])
+    assert parsed.source_identity_file_sha256 == binding.source_identity_file_sha256
+    assert parsed.training_source_sha256 == binding.actual_training_source_sha256
+
+
+def test_manifest_managed_vfold_requires_the_single_full_valid_fold(tmp_path: Path) -> None:
+    receipt_path, _manifest_path, _checkpoint_sha, _split_sha = _make_bridge_fixture(tmp_path)
+    binding, _receipt = bridge.load_binding(receipt_path)
+    provenance = bridge._read_json(binding.output / "provenance.json")
+    provenance["args"].update({"eval_source": "vfold", "valid_fold": 0, "n_valid_folds": 1})
+
+    bridge.validate_run_provenance(binding, provenance)
+
+    # These frozen ancestry declarations are resolved by the lineage driver and
+    # teacher binder; the bridge still enforces the same exact fit/eval groups.
+    provenance["args"].update(
+        {"init": "frozen_initializer.pt", "distill": "fit_only_teacher", "raw_only": True}
+    )
+    bridge.validate_run_provenance(binding, provenance)
+
+    provenance["args"]["n_valid_folds"] = 2
+    with pytest.raises(bridge.BridgeError, match="single full official-valid fold"):
         bridge.validate_run_provenance(binding, provenance)
 
 

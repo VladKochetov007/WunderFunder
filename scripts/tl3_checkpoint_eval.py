@@ -133,15 +133,20 @@ def evaluate_checkpoint(
     run_dir: Path,
     data_root: Path,
     source_root: Path,
+    source_identity_file: Path,
+    source_identity_file_sha256: str,
+    training_source_sha256: str,
     split_manifest: Path,
     epoch_index: int,
     run_identity_sha256: str,
-    source_identity_sha256: str,
     batch_size: int,
 ) -> dict[str, Any]:
     """Evaluate one frozen checkpoint on 32 train groups and full official valid."""
     source_root = source_root.resolve(strict=True)
     sys.dont_write_bytecode = True
+    source_identity_file = source_identity_file.resolve(strict=True)
+    if _sha256(source_identity_file) != source_identity_file_sha256:
+        raise ValueError("full source identity file differs from the launch receipt")
     sys.path.insert(0, str(source_root / "src"))
     import torch
     from torch.utils.data import DataLoader
@@ -161,12 +166,12 @@ def evaluate_checkpoint(
     implementation = provenance.get("trainer_implementation")
     if (
         not isinstance(implementation, dict)
-        or implementation.get("sha256") != source_identity_sha256
+        or implementation.get("sha256") != training_source_sha256
     ):
-        raise ValueError("run source identity does not match the launch receipt")
+        raise ValueError("run trainer source identity does not match the adoption receipt")
     environment = TrainingEnvironment(source_root=source_root, root=data_root)
     current_identity = training_source_identity(environment)
-    if current_identity.get("sha256") != source_identity_sha256:
+    if current_identity.get("sha256") != training_source_sha256:
         raise ValueError("evaluator source tree differs from the fitted trainer source")
     if _sha256(split_manifest) != provenance.get("split_manifest_sha256"):
         raise ValueError("official split manifest does not match run provenance")
@@ -203,7 +208,6 @@ def evaluate_checkpoint(
         or args.get("cell", "gru") != "gru"
         or args.get("enc", "linear") not in {"linear", "tiedlead"}
         or args.get("precision") != "fp32"
-        or args.get("raw_only")
         or args.get("numeric_map", "none") != "none"
         or args.get("online_norm")
         or args.get("heuristics")
@@ -226,6 +230,7 @@ def evaluate_checkpoint(
     model = make_model(args, int(checkpoint["n_in"]), output_width).cuda().eval()
     model.load_state_dict(checkpoint["model"], strict=True)
     model._inference_fp32 = True
+    environment.inputs.raw_only = bool(args.get("raw_only"))
     environment.inputs.tiedlead = args.get("enc") == "tiedlead"
     if checkpoint.get("readout") is not None:
         environment.readout.tables = tuple(
@@ -262,7 +267,8 @@ def evaluate_checkpoint(
     return {
         "schema": "wnn.tl3-frozen-checkpoint-evaluation.v1",
         "run_identity_sha256": run_identity_sha256,
-        "source_identity_sha256": source_identity_sha256,
+        "source_identity_file_sha256": source_identity_file_sha256,
+        "actual_training_source_sha256": training_source_sha256,
         "completed_epoch": epoch_index + 1,
         "source_epoch_index": epoch_index,
         "checkpoint_sha256": checkpoint_sha256,
@@ -279,10 +285,12 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--run-dir", type=Path, required=True)
     parser.add_argument("--data-root", type=Path, required=True)
     parser.add_argument("--source-root", type=Path, required=True)
+    parser.add_argument("--source-identity-file", type=Path, required=True)
+    parser.add_argument("--source-identity-file-sha256", required=True)
+    parser.add_argument("--training-source-sha256", required=True)
     parser.add_argument("--split-manifest", type=Path, required=True)
     parser.add_argument("--epoch-index", type=int, required=True)
     parser.add_argument("--run-identity-sha256", required=True)
-    parser.add_argument("--source-identity-sha256", required=True)
     parser.add_argument("--batch-size", type=int, choices=range(1, 17), required=True)
     return parser
 
@@ -296,10 +304,12 @@ def main() -> None:
         args.run_dir,
         args.data_root,
         args.source_root,
+        args.source_identity_file,
+        args.source_identity_file_sha256,
+        args.training_source_sha256,
         args.split_manifest,
         args.epoch_index,
         args.run_identity_sha256,
-        args.source_identity_sha256,
         args.batch_size,
     )
     print(json.dumps(result, sort_keys=True, allow_nan=False), flush=True)
