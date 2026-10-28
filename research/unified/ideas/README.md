@@ -1,7 +1,7 @@
 # Ideas and hypotheses
 
 [Source-separated Transformer → GRU comparison](../../experiment_drafts/source-holdout-transformer-kd-20261028/README.md)
-prepares six fresh five-epoch fits: compact teacher, labels-only GRU and normalized-KD
+([draft PR #47](https://github.com/VladKochetov007/WunderFunder/pull/47)) prepares six fresh five-epoch fits: compact teacher, labels-only GRU and normalized-KD
 GRU at two seeds on one train-only/full-valid source holdout. Whole components touching
 valid are purged from train; complete source caches include previously omitted train528.
 It reuses the merged #32/#42 trainer with explicit BF16/BF16x9 and adds receiver acceptance,

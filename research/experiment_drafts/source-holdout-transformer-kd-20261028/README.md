@@ -1,7 +1,7 @@
 # Source-separated Transformer → GRU comparison
 
 **Prepared implementation; receiver acceptance and all six fits remain unrun.**
-Target: `research-team`. Base: `7e4074314a62d0907c9608f9220cf72958708a2d`.
+[Draft PR #47](https://github.com/VladKochetov007/WunderFunder/pull/47) targets `research-team`. Implementation commit: `952e0101a73df3b1823c64c3c6cb341509a2aaed`. Base: `7e4074314a62d0907c9608f9220cf72958708a2d`.
 H-SOURCE-HOLDOUT-TRANSFORMER-KD-20261028 /
 E-SOURCE-HOLDOUT-TRANSFORMER-KD-20261028-R1.
 
