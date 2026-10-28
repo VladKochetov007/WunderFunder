@@ -38,6 +38,7 @@ def require_chronological_primary_training(
         or args.valid_repeat != 1
         or args.valid_fold >= 0
         or args.no_eval_during_fit
+        or args.checkpoint_policy != "fixed"
         or args.eval_source not in ("dev", "vfold")
         or args.fit_subset_manifest is not None
         or args.fit_groups_manifest is not None

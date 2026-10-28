@@ -13,6 +13,7 @@ from wnn.sentinel import SentinelPreprocessor
 from wnn.sentinel_calibration import validate_fit as validate_sentinel_fit
 from wnn.splits import file_sha256
 from wnn.spread_aux import validate_spread_parent
+from wnn.tiedlead import LEAD_WIDTH
 from wnn.training.inheritance import (
     can_extend_research_features,
     expand_research_feature_state,
@@ -57,6 +58,9 @@ def build_model(run: TrainingRun) -> None:
         + len(research_feature_names(environment.inputs.research_features))
         + (N_FEATURES if environment.inputs.privileged_mode != "none" else 0)
     )
+    environment.inputs.tiedlead = args.enc == "tiedlead"
+    if environment.inputs.tiedlead:
+        n_in += LEAD_WIDTH
     if args.raw_only:
         environment.inputs.raw_only = True
     if args.heuristics:

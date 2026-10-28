@@ -29,6 +29,7 @@ class InputConfiguration:
     online_norm: bool = False
     heuristics: bool = False
     raw_only: bool = False
+    tiedlead: bool = False
     research_features: str = "none"
     research_feature_prior: dict[str, Any] | None = None
     research_feature_control: str = "none"

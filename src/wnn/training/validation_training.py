@@ -18,9 +18,40 @@ from wnn.training_views import origin_windows
 
 def validate_models(run: TrainingRun) -> None:
     """Resolve inherited model arguments and the declared checkpoint/continuation policy."""
+    environment = run.environment
     ap = run.options.ap
     args = run.options.args
     continuation = run.options.continuation
+    environment.inputs.tiedlead = args.enc == "tiedlead"
+    if environment.inputs.tiedlead:
+        unsupported = []
+        if args.arch != "gru" or args.cell != "gru":
+            unsupported.append("plain GRU architecture/cell")
+        if (args.hidden, args.layers) != (256, 2):
+            unsupported.append("hidden=256 and layers=2")
+        if args.dropout != 0:
+            unsupported.append("dropout=0")
+        if args.raw_only or args.numeric_map != "none":
+            unsupported.append("raw-only or numeric-map inputs")
+        if (
+            args.research_features != "none"
+            or args.privileged_mode != "none"
+            or args.heuristics
+            or args.online_norm
+            or args.prop_input
+        ):
+            unsupported.append("additional input feature transforms")
+        if (
+            args.sentinel_base_width
+            or args.sentinel_indicators != "none"
+            or args.sentinel_values != "unchanged"
+        ):
+            unsupported.append("sentinel preprocessing")
+        if unsupported:
+            ap.error(
+                "tiedlead requires the supported 263-column plain GRU recipe; incompatible: "
+                + ", ".join(unsupported)
+            )
     final_initializer_error = final_initializer_distillation_error(args)
     if final_initializer_error is not None:
         ap.error(final_initializer_error)
