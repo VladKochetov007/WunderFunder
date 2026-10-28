@@ -60,6 +60,8 @@ def _base(name: str, seed: int, hidden: int, split: Path) -> list[str]:
         "--pin-memory",
         "--grad-stats",
         "--save-training-state",
+        "--train-eval-seqs",
+        "0" if name == "fin256_s3" else "32",
     ]
 
 
