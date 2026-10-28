@@ -36,6 +36,7 @@
       <section id="synthetic-banner" class="synthetic-banner hidden" role="status">
         Synthetic fixture selected · demo data only · no scientific result
       </section>
+      <section id="history-banner" class="history-banner hidden" role="status"></section>
 
       <section class="workspace">
         <aside class="panel run-panel" aria-labelledby="runs-title">
@@ -90,7 +91,17 @@
                 <p class="eyebrow">COMPARABLE EVALUATION &amp; DIAGNOSTICS</p>
                 <h2 id="chart-section-title">Run signals</h2>
               </div>
-              <span class="section-note">Step or epoch follows the event record</span>
+              <div class="chart-controls">
+                <label class="axis-control" for="chart-x-axis">
+                  <span>HORIZONTAL AXIS</span>
+                  <select id="chart-x-axis" class="axis-select">
+                    <option value="epoch" selected>Epoch</option>
+                    <option value="step">Training step</option>
+                    <option value="elapsed">Elapsed wall time</option>
+                  </select>
+                </label>
+                <span id="chart-axis-note" class="section-note">Epoch values are recorded by each event.</span>
+              </div>
             </div>
             <div id="chart-grid" class="chart-grid"></div>
           </section>

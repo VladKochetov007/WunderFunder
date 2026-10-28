@@ -24,11 +24,13 @@ def _utc_now() -> datetime:
     return datetime.now(UTC)
 
 
-def _downsample(events: list[dict[str, object]], limit: int) -> list[dict[str, object]]:
+def downsample_events(events: list[dict[str, object]], limit: int) -> list[dict[str, object]]:
     """Select evenly spaced retained events while keeping both endpoints."""
+    if limit <= 0:
+        return []
     if len(events) <= limit:
         return events
-    if limit < 2:
+    if limit == 1:
         return events[-1:]
     count = len(events)
     indices = {round(index * (count - 1) / (limit - 1)) for index in range(limit)}
@@ -39,6 +41,11 @@ def _downsample(events: list[dict[str, object]], limit: int) -> list[dict[str, o
 class EventStream:
     """Incremental bounded state for one append-only monitor event log."""
 
+    filename: str = "monitor_events.jsonl"
+    max_retained_events: int = MAX_RETAINED_EVENTS
+    max_retained_bytes: int = MAX_RETAINED_BYTES
+    max_line_bytes: int = MAX_LINE_BYTES
+    expected_kind: str | None = None
     events: deque[dict[str, object]] = field(default_factory=deque)
     retained_bytes: int = 0
     signature: tuple[int, int] | None = None
@@ -50,6 +57,7 @@ class EventStream:
     total_events: int = 0
     dropped_events: int = 0
     initial_history_limited: bool = False
+    history_reset: bool = False
     read_error: str | None = None
     seen_file: bool = False
     last_event_at: datetime | None = None
@@ -57,14 +65,18 @@ class EventStream:
     def refresh(self, root: Path, run_id: str) -> None:
         """Read a bounded append or reset after rotation, truncation, or error."""
         try:
-            with open_run_file(root, run_id, "monitor_events.jsonl") as handle:
+            with open_run_file(root, run_id, self.filename) as handle:
                 file_stat = os.fstat(handle.fileno())
                 self.read_error = None
                 self.seen_file = True
                 identity = (file_stat.st_dev, file_stat.st_ino)
                 marker_changed = self._marker_changed(handle, file_stat.st_size)
                 if self.signature != identity or file_stat.st_size < self.offset or marker_changed:
+                    history_lost = self.signature is not None and (
+                        bool(self.events) or self.offset > 0 or self.dropped_events > 0
+                    )
                     self._reset(identity)
+                    self.history_reset = self.history_reset or history_lost
                     self._read_initial(handle, file_stat.st_size)
                 else:
                     self._read_append(handle, file_stat.st_size)
@@ -86,6 +98,10 @@ class EventStream:
         age = (_utc_now() - self.last_event_at).total_seconds()
         return "stale" if age > STALE_AFTER_SECONDS else "live"
 
+    def history_is_limited(self) -> bool:
+        """Report whether older records were skipped, evicted, or reset away."""
+        return self.initial_history_limited or self.dropped_events > 0 or self.history_reset
+
     def snapshot(self, limit: int) -> dict[str, object]:
         """Return a bounded, downsampled API representation of retained events."""
         retained = list(self.events)
@@ -103,13 +119,13 @@ class EventStream:
         last_event_at = self.last_event_at.isoformat() if self.last_event_at else None
         return {
             "status": self.status(),
-            "events": _downsample(retained, limit),
+            "events": downsample_events(retained, limit),
             "metric_keys": metric_keys,
             "metric_keys_truncated": metric_keys_truncated,
             "event_count": self.total_events,
             "retained_count": len(retained),
             "dropped_count": self.dropped_events,
-            "history_limited": self.initial_history_limited,
+            "history_limited": self.history_is_limited(),
             "invalid_lines": self.invalid_lines,
             "last_event_at": last_event_at,
             "error": self.read_error
@@ -181,7 +197,7 @@ class EventStream:
         for line in lines[:-1]:
             self._consume_line(line)
         trailing = lines[-1]
-        if len(trailing) > MAX_LINE_BYTES:
+        if len(trailing) > self.max_line_bytes:
             self.invalid_lines += 1
             self.discarding_long_line = True
         elif trailing:
@@ -189,23 +205,26 @@ class EventStream:
 
     def _consume_line(self, line: bytes) -> None:
         line = line.removesuffix(b"\r")
-        if len(line) > MAX_LINE_BYTES:
+        if len(line) > self.max_line_bytes:
             self.invalid_lines += 1
             return
         event = parse_event(line)
-        if event is None:
+        if event is None or (self.expected_kind and event["kind"] != self.expected_kind):
             self.invalid_lines += 1
             return
         self.total_events += 1
         event_size = len(
             json.dumps(event, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
         )
-        if event_size > MAX_RETAINED_BYTES:
+        if event_size > self.max_retained_bytes:
             self.dropped_events += 1
             return
         self.events.append(event)
         self.retained_bytes += event_size
-        while len(self.events) > MAX_RETAINED_EVENTS or self.retained_bytes > MAX_RETAINED_BYTES:
+        while (
+            len(self.events) > self.max_retained_events
+            or self.retained_bytes > self.max_retained_bytes
+        ):
             dropped = self.events.popleft()
             self.retained_bytes -= len(
                 json.dumps(dropped, separators=(",", ":"), ensure_ascii=False).encode("utf-8")

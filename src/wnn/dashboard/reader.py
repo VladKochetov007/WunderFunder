@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from threading import RLock
 
+from wnn.dashboard.history import RunStreams, new_run_streams, snapshot_history
 from wnn.dashboard.storage import (
     MAX_LISTED_RUNS,
     MissingFileError,
@@ -19,7 +20,7 @@ from wnn.dashboard.storage import (
 from wnn.dashboard.stream import EventStream
 
 MAX_ACTIVE_STREAMS = 20
-MAX_METADATA_CACHE_ENTRIES = 128
+MAX_METADATA_CACHE_ENTRIES = MAX_LISTED_RUNS
 MAX_SELECTED_RUNS = 8
 DEFAULT_EVENT_LIMIT = 1_200
 MAX_EVENT_LIMIT = 1_500
@@ -52,7 +53,7 @@ class DashboardReader:
         if not self.root.is_dir():
             raise ValueError("the run root must be a directory")
         self._lock = RLock()
-        self._streams: OrderedDict[str, EventStream] = OrderedDict()
+        self._streams: OrderedDict[str, RunStreams] = OrderedDict()
         self._metadata: OrderedDict[str, MetadataCacheEntry] = OrderedDict()
 
     def list_runs(self, source_filter: str = "", config_filter: str = "") -> dict[str, object]:
@@ -62,11 +63,12 @@ class DashboardReader:
             results: list[dict[str, object]] = []
             for index, (run_id, _) in enumerate(candidates):
                 metadata, metadata_error = self._get_metadata(run_id)
-                stream = self._streams.get(run_id)
-                if index < RUNS_REFRESH_COUNT or stream is not None:
-                    stream = self._get_stream(run_id)
-                    stream.refresh(self.root, run_id)
-                summary = self._summary(run_id, metadata, metadata_error, stream)
+                streams = self._streams.get(run_id)
+                if index < RUNS_REFRESH_COUNT or streams is not None:
+                    streams = self._get_streams(run_id)
+                    streams.training.refresh(self.root, run_id)
+                    streams.evaluations.refresh(self.root, run_id)
+                summary = self._summary(run_id, metadata, metadata_error, streams)
                 if not self._matches(summary, source_filter, config_filter):
                     continue
                 results.append(summary)
@@ -80,17 +82,22 @@ class DashboardReader:
             raise ValueError("invalid run identifier")
         limit = max(2, min(int(limit), MAX_EVENT_LIMIT))
         snapshots: list[dict[str, object]] = []
+        max_points = limit
         with self._lock:
             for run_id in dict.fromkeys(run_ids):
                 self._ensure_run_directory(run_id)
                 metadata, metadata_error = self._get_metadata(run_id)
-                stream = self._get_stream(run_id)
-                stream.refresh(self.root, run_id)
-                snapshot = self._summary(run_id, metadata, metadata_error, stream)
-                snapshot.update(stream.snapshot(limit))
-                snapshot["synthetic"] = self._is_synthetic(metadata, stream)
+                streams = self._get_streams(run_id)
+                streams.training.refresh(self.root, run_id)
+                streams.evaluations.refresh(self.root, run_id)
+                snapshot = self._summary(run_id, metadata, metadata_error, streams)
+                snapshot.update(snapshot_history(streams, limit))
+                run_points = snapshot.get("max_points")
+                if isinstance(run_points, int):
+                    max_points = max(max_points, run_points)
+                snapshot["synthetic"] = self._is_synthetic(metadata, streams)
                 snapshots.append(snapshot)
-        return {"runs": snapshots, "max_points": limit}
+        return {"runs": snapshots, "max_points": max_points, "requested_points": limit}
 
     def _ensure_run_directory(self, run_id: str) -> None:
         run_path = self.root / run_id
@@ -137,23 +144,38 @@ class DashboardReader:
         while len(self._metadata) > MAX_METADATA_CACHE_ENTRIES:
             self._metadata.popitem(last=False)
 
-    def _get_stream(self, run_id: str) -> EventStream:
-        stream = self._streams.pop(run_id, None)
-        if stream is None:
-            stream = EventStream()
-        self._streams[run_id] = stream
+    def _get_streams(self, run_id: str) -> RunStreams:
+        streams = self._streams.pop(run_id, None)
+        if streams is None:
+            streams = new_run_streams()
+        self._streams[run_id] = streams
         while len(self._streams) > MAX_ACTIVE_STREAMS:
             self._streams.popitem(last=False)
-        return stream
+        return streams
 
     def _summary(
         self,
         run_id: str,
         metadata: dict[str, object],
         metadata_error: str | None,
-        stream: EventStream | None,
+        streams: RunStreams | None,
     ) -> dict[str, object]:
-        events = list(stream.events) if stream else []
+        training = streams.training if streams else None
+        evaluations = streams.evaluations if streams else None
+        events = list(training.events) if training else []
+        if not events and evaluations:
+            events = list(evaluations.events)
+        latest_stream = max(
+            (
+                stream
+                for stream in (training, evaluations)
+                if stream is not None and stream.last_event_at is not None
+            ),
+            key=lambda stream: stream.last_event_at,
+            default=None,
+        )
+        if latest_stream is not None:
+            events = list(latest_stream.events)
         latest = events[-1] if events else None
         context = latest.get("context", {}) if latest else {}
         return {
@@ -163,31 +185,57 @@ class DashboardReader:
             "provenance": metadata["provenance"],
             "metadata_status": "incomplete" if metadata_error else "ok",
             "metadata_error": metadata_error,
-            "synthetic": self._is_synthetic(metadata, stream),
-            "status": stream.status() if stream else "unread",
+            "synthetic": self._is_synthetic(metadata, streams),
+            "status": self._overall_status(training, evaluations),
             "latest_step": latest.get("step") if latest else None,
-            "last_event_at": stream.last_event_at.isoformat()
-            if stream and stream.last_event_at
+            "last_event_at": latest_stream.last_event_at.isoformat()
+            if latest_stream and latest_stream.last_event_at
             else None,
-            "event_count": stream.total_events if stream else 0,
-            "retained_count": len(stream.events) if stream else 0,
-            "dropped_count": stream.dropped_events if stream else 0,
-            "history_limited": stream.initial_history_limited if stream else False,
-            "invalid_lines": stream.invalid_lines if stream else 0,
-            "error": (
-                stream.read_error
-                or (
-                    f"{stream.invalid_lines} invalid monitor lines"
-                    if stream.invalid_lines
-                    else None
-                )
-                if stream
-                else None
+            "event_count": training.total_events if training else 0,
+            "retained_count": len(training.events) if training else 0,
+            "dropped_count": training.dropped_events if training else 0,
+            "history_limited": training.history_is_limited() if training else False,
+            "invalid_lines": training.invalid_lines if training else 0,
+            "evaluation_status": evaluations.status() if evaluations else "unread",
+            "evaluation_event_count": evaluations.total_events if evaluations else 0,
+            "evaluation_retained_count": len(evaluations.events) if evaluations else 0,
+            "evaluation_dropped_count": evaluations.dropped_events if evaluations else 0,
+            "evaluation_history_limited": (
+                evaluations.history_is_limited() if evaluations else False
             ),
+            "evaluation_error": self._stream_error(evaluations),
+            "error": (self._stream_error(training) or self._stream_error(evaluations)),
             "context_synthetic": bool(context.get("synthetic"))
             if isinstance(context, dict)
             else False,
         }
+
+    @staticmethod
+    def _stream_error(stream: EventStream | None) -> str | None:
+        if stream is None:
+            return None
+        if stream.read_error:
+            return stream.read_error
+        if stream.invalid_lines:
+            return f"{stream.invalid_lines} invalid monitor lines"
+        return None
+
+    @staticmethod
+    def _overall_status(training: EventStream | None, evaluations: EventStream | None) -> str:
+        if training is None:
+            return "unread"
+        statuses = [training.status()]
+        if evaluations:
+            statuses.append(evaluations.status())
+        if "error" in statuses:
+            return "error"
+        if "live" in statuses:
+            return "live"
+        if "stale" in statuses:
+            return "stale"
+        if "no_data" in statuses:
+            return "no_data"
+        return "unread"
 
     @staticmethod
     def _matches(summary: dict[str, object], source_filter: str, config_filter: str) -> bool:
@@ -196,14 +244,15 @@ class DashboardReader:
         return source_filter.casefold() in source_text and config_filter.casefold() in config_text
 
     @staticmethod
-    def _is_synthetic(metadata: dict[str, object], stream: EventStream | None) -> bool:
+    def _is_synthetic(metadata: dict[str, object], streams: RunStreams | None) -> bool:
         if metadata.get("synthetic") is True:
             return True
         source_text = json.dumps(metadata.get("source", ""), ensure_ascii=False).casefold()
         if "synthetic" in source_text:
             return True
-        if stream:
-            for event in reversed(stream.events):
+        if streams:
+            events = (*streams.training.events, *streams.evaluations.events)
+            for event in reversed(events):
                 context = event.get("context", {})
                 if isinstance(context, dict) and context.get("synthetic") is True:
                     return True

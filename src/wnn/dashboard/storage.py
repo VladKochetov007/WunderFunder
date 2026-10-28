@@ -13,7 +13,11 @@ MAX_METADATA_BYTES = 1_048_576
 MAX_DISCOVERED_RUNS = 1_000
 MAX_LISTED_RUNS = 200
 RUN_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,79}\Z")
-ALLOWED_FILES = {"run_metadata.json", "monitor_events.jsonl"}
+ALLOWED_FILES = {
+    "run_metadata.json",
+    "monitor_events.jsonl",
+    "monitor_evaluations.jsonl",
+}
 
 
 class MissingFileError(FileNotFoundError):
