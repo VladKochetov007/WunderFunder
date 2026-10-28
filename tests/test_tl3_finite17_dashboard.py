@@ -307,6 +307,50 @@ def test_native_broker_keeps_polling_while_driver_is_running(
     )
 
 
+def test_native_broker_waits_for_completed_terminal_receipt(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root, state, runs, identity = _fixture(tmp_path)
+    proc_root = tmp_path / "proc"
+    _proc_fixture(proc_root, root, identity["task"])
+    monkeypatch.setattr(dashboard._process.os, "sysconf", lambda _key: 4_096, raising=False)
+    plan = dashboard._read_json(state / "plan.json")
+    status_path = state / "status.json"
+    status = dashboard._read_json(status_path)
+    score_path = root / "final-score.json"
+    score_path.write_text(
+        json.dumps(
+            {
+                "schema": "wnn.tl3-chronological-score.v1",
+                "split_manifest_sha256": plan["split"]["split_manifest_sha256"],
+                "valid_sequences": 1_873,
+                "selected_rows": 3_528_273,
+            }
+        ),
+        encoding="utf-8",
+    )
+    status.update(
+        {
+            "status": "completed",
+            "fits_used": 1,
+            "score": {
+                "state": "complete",
+                "path": str(score_path),
+                "sha256": dashboard._sha256_file(score_path),
+            },
+        }
+    )
+    status_path.write_text(json.dumps(status), encoding="utf-8")
+
+    result = dashboard.publish_once(root, state, runs, proc_root=proc_root, telemetry=([], []))
+
+    assert result["status"] == "running"
+    assert result["driver_status"] == "completed"
+    assert result["terminal_receipt_pending"] is True
+    assert result["final_blend_published"] is False
+    assert not (runs / "tl3c_final_fixed_blend").exists()
+
+
 def test_native_broker_waits_when_state_directory_has_not_been_created(
     tmp_path: Path,
 ) -> None:

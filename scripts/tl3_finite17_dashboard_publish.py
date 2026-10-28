@@ -233,8 +233,12 @@ def publish_once(
     final_view = publish_final_view(root, state, runs, plan, status, train_groups, valid_groups)
     if final_view is not None:
         added += int(final_view["events_added"])
+    driver_status = status.get("status")
+    terminal_pending = driver_status == "completed" and final_view is None
     return {
-        "status": status.get("status"),
+        "status": "running" if terminal_pending else driver_status,
+        "driver_status": driver_status,
+        "terminal_receipt_pending": terminal_pending,
         "plan_sha256": plan["sha256"],
         "nodes": 16,
         "final_blend_published": final_view is not None,

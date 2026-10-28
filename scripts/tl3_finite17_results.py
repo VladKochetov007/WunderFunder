@@ -60,6 +60,7 @@ def build_snapshot(
             }
         )
     final_blend = None
+    terminal_receipt_pending = False
     if status.get("status") == "completed":
         try:
             from scripts.tl3_finite17_dashboard_final_validation import validate_final_score
@@ -68,18 +69,19 @@ def build_snapshot(
         state_dir = Path(str(plan["state_dir"])).resolve(strict=True)
         final_report = validate_final_score(root, state_dir, plan, status, train, valid)
         if final_report is None:
-            raise BridgeError("completed finite DAG has no verified fixed blend score")
-        blend = final_report["blend"]
-        final_blend = {
-            "wp": float(blend["wp"]),
-            "t0": float(blend["t0"]),
-            "t1": float(blend["t1"]),
-            "selected_rows": int(blend["selected_rows"]),
-            "weights": final_report["run_weights"],
-            "clean_gru_reference_wp": final_report["clean_gru_reference_wp"],
-            "delta_to_clean_gru": final_report["delta_to_clean_gru"],
-            "score_sha256": final_report["score_sha256"],
-        }
+            terminal_receipt_pending = True
+        else:
+            blend = final_report["blend"]
+            final_blend = {
+                "wp": float(blend["wp"]),
+                "t0": float(blend["t0"]),
+                "t1": float(blend["t1"]),
+                "selected_rows": int(blend["selected_rows"]),
+                "weights": final_report["run_weights"],
+                "clean_gru_reference_wp": final_report["clean_gru_reference_wp"],
+                "delta_to_clean_gru": final_report["delta_to_clean_gru"],
+                "score_sha256": final_report["score_sha256"],
+            }
     counts = {
         name: sum(cell["state"] == name for cell in cells)
         for name in ("not_started", "running", "complete", "failed", "blocked")
@@ -89,12 +91,13 @@ def build_snapshot(
         "plan_sha256": plan["sha256"],
         "source_sha256": plan["source_identity"]["training_source_sha256"],
         "split_manifest_sha256": plan["split"]["split_manifest_sha256"],
-        "driver_status": status.get("status"),
+        "driver_status": "terminal_pending" if terminal_receipt_pending else status.get("status"),
         "fits_used": fits_used,
         "planned_fits": len(nodes),
         "fit_states": counts,
         "nodes": cells,
         "final_blend": final_blend,
+        "terminal_receipt_pending": terminal_receipt_pending,
     }
 
 

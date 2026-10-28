@@ -9,6 +9,7 @@ import pytest
 from scripts import tl3_finite17_dashboard_final as final_view
 from scripts import tl3_finite17_dashboard_final_validation as final_validation
 from scripts.tl3_finite17_dashboard_core import _canonical_sha256, _sha256_file
+from scripts.tl3_finite17_github_posts import _terminal_receipt
 
 WEIGHTS = {
     "w18final_distilled_s5": 0.34,
@@ -204,3 +205,17 @@ def test_final_blend_rejects_score_member_weight_drift(
             root, state_dir, runs_dir, plan, status, list(range(10_325)), valid
         )
     assert not (runs_dir / "tl3c_final_fixed_blend").exists()
+
+
+def test_missing_terminal_receipt_keeps_final_view_and_watcher_pending(tmp_path: Path) -> None:
+    root, state_dir, runs_dir, plan, status, valid = _fixture(tmp_path)
+    (state_dir / "terminal.json").unlink()
+
+    assert (
+        final_view.publish_final_view(
+            root, state_dir, runs_dir, plan, status, list(range(10_325)), valid
+        )
+        is None
+    )
+    assert not (runs_dir / "tl3c_final_fixed_blend").exists()
+    assert _terminal_receipt(state_dir, status, plan) is None

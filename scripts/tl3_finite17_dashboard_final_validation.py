@@ -125,10 +125,13 @@ def _terminal_score(
     if status_path.is_symlink() or terminal_path.is_symlink():
         raise BridgeError("finite terminal receipts cannot be symlinks")
     disk_status = _read_json(status_path)
+    if disk_status != status:
+        raise BridgeError("finite status changed while its terminal receipt was being published")
+    if not terminal_path.exists():
+        return None
     terminal = _read_json(terminal_path)
     if (
-        disk_status != status
-        or terminal.get("schema") != "wnn.tl3-finite17-terminal.v1"
+        terminal.get("schema") != "wnn.tl3-finite17-terminal.v1"
         or terminal.get("status") != "completed"
         or terminal.get("plan_sha256") != plan.get("sha256")
         or terminal.get("state_sha256") != _sha256_file(status_path)
