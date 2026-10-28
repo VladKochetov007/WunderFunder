@@ -143,6 +143,15 @@ def test_tiedlead_encoder_is_selectable_from_the_canonical_cli() -> None:
     validate_models(run)
     assert run.environment.inputs.tiedlead
 
+    half_precision = build_parser().parse_args(
+        ["--name", "bounded-check", "--device", "cpu", "--enc", "tiedlead"]
+    )
+    half_precision_run = TrainingRun(TrainingEnvironment())
+    half_precision_run.options.ap = build_parser()
+    half_precision_run.options.args = half_precision
+    with pytest.raises(SystemExit):
+        validate_models(half_precision_run)
+
     incompatible = build_parser().parse_args(
         [
             "--name",
