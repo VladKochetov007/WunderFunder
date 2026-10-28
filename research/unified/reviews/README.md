@@ -562,3 +562,5 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
   Corrected LayerNorm/ConvMixer order, represented the post-gate product and
   blocked singleton/padded-DDP BatchNorm inputs. Exact bypass equation, original
   dimensions/weights and FiLM remain unknown; no historical parity or GPU gain.
+
+- [GALAM frozen-checkpoint ensemble diagnostics](../../experiment_drafts/galam-ensemble-diagnostics-20261028/README.md): independently reviewed inference-only fixed blends against clean GRU, full official valid with exposed-selection limits, short CUDA traces; seven active fits unchanged. Preparation is not a measured gain.
