@@ -1,5 +1,8 @@
 # GALAM quality screen: one baseline and seven candidates on eight L4s
 
+Latest consultation: [common20-epoch cap / hybrid optimizer proposal](V2_DISCUSSION.md).
+It is not yet materialized or admitted; the checked recipes below remain v1.
+
 Prepared for consultation, 28 October 2026. Zero scientific fits and zero GPU
 profiles. The user requests one independent fit per GPU, prioritizing quality.
 This eight-fit wave replaces the earlier prospective six-fit/two-seed panel;
