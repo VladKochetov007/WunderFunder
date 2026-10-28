@@ -7,7 +7,7 @@ import torch
 from torch import Tensor, nn
 
 from wnn.galam import GALAMState, galam_config_from_mapping
-from wnn.galam.variant_config import galam_variant_from_mapping
+from wnn.galam.variant_config import galam_variant_from_mapping, validate_variant_config
 from wnn.galam.variants import build_galam_variant
 
 
@@ -24,6 +24,7 @@ def galam_model_settings(raw: Mapping[str, object]) -> dict[str, object]:
     variant = galam_variant_from_mapping(nested)
     config_values = {name: value for name, value in nested.items() if name != "variant"}
     config = galam_config_from_mapping(config_values)
+    validate_variant_config(config, variant)
     if (config.input_features, config.output_features) != (112, 2):
         raise ValueError("sequence training requires the explicit 112-to-2 GALAM adaptation")
     if config.timestamp_source != "ordinal":

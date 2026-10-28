@@ -25,6 +25,8 @@ def _settings(variant: str | None = None) -> dict[str, object]:
         conv_kernel_size=3,
     )
     nested: dict[str, object] = asdict(config)
+    if variant == "schematic_lstm_local_only":
+        nested["conv_kernel_size"] = 5
     if variant is not None:
         nested["variant"] = variant
     return {"architecture": "galam", "galam": nested}
@@ -149,3 +151,27 @@ def test_ablation_changes_decoder_and_parameter_count() -> None:
         for model in (baseline, gru, local_only)
     }
     assert len(parameter_counts) == 3
+
+
+@pytest.mark.parametrize(
+    "name,value", [("global_blocks", 2), ("conv_kernel_size", 3), ("conv_hidden_width", 32)]
+)
+def test_local_only_rejects_tuning_inactive_fields(name: str, value: int) -> None:
+    """Reject hashes that pretend to tune global modules absent from the selected graph."""
+    settings = _settings("schematic_lstm_local_only")
+    settings["galam"][name] = value
+    with pytest.raises(ValueError, match="inactive field"):
+        galam_model_settings(settings)
+
+
+@pytest.mark.parametrize("variant", ["schematic_gru_full", "schematic_lstm_local_only"])
+def test_variant_uses_declared_active_channel_order(variant: str) -> None:
+    """A valid permutation of declared fusion channels must reach the active gate."""
+    settings = _settings(variant)
+    settings["galam"]["fusion_channel_order"] = tuple(
+        reversed(settings["galam"]["fusion_channel_order"])
+    )
+    adapter = build_sequence_model(settings)
+    excluded = "cell_projection" if variant == "schematic_gru_full" else "global_memory"
+    expected = tuple(name for name in settings["galam"]["fusion_channel_order"] if name != excluded)
+    assert adapter.galam.fusion.channel_order == expected

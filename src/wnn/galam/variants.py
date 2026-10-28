@@ -10,7 +10,12 @@ from wnn.galam.config import GALAMConfig
 from wnn.galam.mixer import CausalConvMixer, PerTimeBatchNorm1d
 from wnn.galam.model import GALAM
 from wnn.galam.state import AttentionCache, ConvMixerState, GALAMState
-from wnn.galam.variant_config import AdaptedGALAMVariant, GALAMVariant
+from wnn.galam.variant_config import (
+    AdaptedGALAMVariant,
+    GALAMVariant,
+    validate_variant_config,
+    variant_channel_order,
+)
 from wnn.galam.variant_fusion import BranchChannelProductGate
 
 
@@ -37,6 +42,7 @@ class GALAMAdaptation(nn.Module):
             raise ValueError("GALAMAdaptation only builds the explicit GRU and local-only variants")
         self.config = config
         self.variant = variant
+        validate_variant_config(config, variant)
         self._is_gru = variant == "schematic_gru_full"
         self._has_global = self._is_gru
         width = config.width
@@ -46,14 +52,13 @@ class GALAMAdaptation(nn.Module):
                 config.input_features, width, num_layers=config.lstm_layers, batch_first=True
             )
             self.hidden_projection = nn.Sequential(nn.Linear(width, width), nn.GELU())
-            channel_order = ("global_memory", "local_memory", "hidden_projection")
         else:
             self.lstm = nn.LSTM(
                 config.input_features, width, num_layers=config.lstm_layers, batch_first=True
             )
             self.hidden_projection = nn.Sequential(nn.Linear(width, width), nn.GELU())
             self.cell_projection = nn.Sequential(nn.Linear(width, width), nn.GELU())
-            channel_order = ("local_memory", "hidden_projection", "cell_projection")
+        channel_order = cast(tuple[str, str, str], variant_channel_order(config, variant))
         self.local_attention = nn.ModuleList(
             self._attention(config) for _ in range(config.local_attention_blocks)
         )

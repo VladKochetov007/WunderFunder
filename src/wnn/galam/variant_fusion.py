@@ -13,10 +13,10 @@ class BranchChannelProductGate(nn.Module):
         """Create a gate whose width follows the selected branch ablation."""
         super().__init__()
         allowed = {
-            ("global_memory", "local_memory", "hidden_projection"),
-            ("local_memory", "hidden_projection", "cell_projection"),
+            frozenset(("global_memory", "local_memory", "hidden_projection")),
+            frozenset(("local_memory", "hidden_projection", "cell_projection")),
         }
-        if channel_order not in allowed:
+        if len(channel_order) != 3 or frozenset(channel_order) not in allowed:
             raise ValueError("adapted GALAM fusion requires a declared three-branch ordering")
         self.channel_order = channel_order
         decoder_width = len(channel_order) * width

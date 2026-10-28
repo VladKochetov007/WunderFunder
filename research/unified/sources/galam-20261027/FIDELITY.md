@@ -47,6 +47,13 @@ the original model.
 
 ## Not established by these sources
 
+Variant inspection now reports effective channel order, decoder width and inactive
+fields. Active fusion order is derived from the declared four-channel order by
+removing the absent branch, so a declared permutation is honored. Local-only
+global/ConvMixer fields must retain explicit inactive placeholders: global_blocks1,
+conv_hidden_width2*width, conv_kernel_size5; attempts to tune them are rejected.
+These placeholders do not claim original historical values.
+
 Original weights, exact hidden/FFN/bias/ConvMixer dimensions, head counts, block
 counts, normalization eps/momentum, context window, precise fusion arithmetic,
 optimizer/scheduler/initialization recipe, SWA epochs/weights and four-model FiLM
