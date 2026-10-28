@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from types import SimpleNamespace
@@ -13,6 +14,8 @@ import pyarrow.parquet as pq
 import pytest
 
 from wnn.chronological_manifest import build_chronological_primary_manifest
+from wnn.chronological_source_index import build_source_index
+from wnn.chronological_splits import _footer_identity
 from wnn.splits import CampaignSplit, load_campaign_split
 from wnn.training.data_membership import select_membership
 from wnn.training.inheritance import validate_campaign_checkpoint
@@ -34,20 +37,63 @@ def source_root(tmp_path: Path) -> Path:
                 "seq_ix": ids,
                 "t0": np.zeros(4, dtype=np.float32),
                 "t1": np.ones(4, dtype=np.float32),
-                "is_scored": np.ones(4, dtype=bool),
+                **({"is_scored": np.ones(4, dtype=bool)} if split == "valid" else {}),
             }
         )
         pq.write_table(table, tmp_path / f"datasets/{split}.parquet", row_group_size=1)
-        np.savez(
-            tmp_path / f"cache/{split}_targets.npz",
-            row_group=np.arange(4, dtype=np.int64),
-            seq_ix=ids,
+    source_identities = {}
+    for split in ("train", "valid"):
+        source = tmp_path / f"datasets/{split}.parquet"
+        stat = source.stat()
+        footer = _footer_identity(source)
+        source_identities[f"datasets/{split}.parquet"] = {
+            "bytes": stat.st_size,
+            "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+            "mtime_ns": stat.st_mtime_ns,
+            "footer_bytes": footer["footer_bytes"],
+            "footer_sha256": footer["footer_sha256"],
+            "row_group_count": 4,
+            "sequence_length": 1,
+            "has_is_scored": split == "valid",
+        }
+    source_audit_path = tmp_path / "cache/source_audit.json"
+    source_audit_path.write_text(
+        json.dumps({"schema": "wnn.source-audit.v1", "sources": source_identities}, indent=2) + "\n"
+    )
+    for split in ("train", "valid"):
+        source = tmp_path / f"datasets/{split}.parquet"
+        build_source_index(
+            tmp_path,
+            split,
+            expected_bytes=source.stat().st_size,
+            expected_sha256=source_identities[f"datasets/{split}.parquet"]["sha256"],
+            expected_row_groups=4,
+            sequence_length=1,
         )
+    index_receipts = {
+        split: json.loads((tmp_path / f"cache/{split}_index.identity.json").read_text())
+        for split in ("train", "valid")
+    }
     np.savez(
-        tmp_path / "cache/chains.npz",
+        tmp_path / "cache/chronological_chains.npz",
         split=np.array(["train"] * 4 + ["valid"] * 4),
         row_group=np.array([0, 1, 2, 3, 0, 1, 2, 3], dtype=np.int64),
         next=np.array([4, -1, -1, -1, -1, -1, 7, 6], dtype=np.int64),
+        source_audit_sha256=np.array(hashlib.sha256(source_audit_path.read_bytes()).hexdigest()),
+        source_sha256=np.array(
+            [index_receipts[split]["source_sha256"] for split in ("train", "valid")]
+        ),
+        index_map_sha256=np.array(
+            [index_receipts[split]["index_map_sha256"] for split in ("train", "valid")]
+        ),
+        index_receipt_sha256=np.array(
+            [
+                hashlib.sha256(
+                    (tmp_path / f"cache/{split}_index.identity.json").read_bytes()
+                ).hexdigest()
+                for split in ("train", "valid")
+            ]
+        ),
     )
     return tmp_path
 
@@ -97,7 +143,7 @@ def test_valid_targets_never_enter_fit_or_normalization_and_teacher_cache(
             "hint_weight": 0,
             "hint_mode": "aligned",
             "seed": 7,
-            "training_mask": "is_scored",
+            "training_mask": "all_after_warmup",
             "normalization_scope": "prefix",
             "normalization_sequences": 32,
         },

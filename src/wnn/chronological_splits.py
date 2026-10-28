@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import os
 from pathlib import Path
 from typing import Any
@@ -23,16 +24,22 @@ _CHRONOLOGY_BASIS = "official train/valid source boundary; calendar timestamps u
 _SOURCE_NAMES = {
     "datasets/train.parquet",
     "datasets/valid.parquet",
-    "cache/chains.npz",
-    "cache/train_targets.npz",
-    "cache/valid_targets.npz",
+    "cache/chronological_chains.npz",
+    "cache/train_index.npz",
+    "cache/valid_index.npz",
+    "cache/train_index.identity.json",
+    "cache/valid_index.identity.json",
+    "cache/source_audit.json",
 }
 _SOURCE_IDENTITY_FIELDS = {
     "datasets/train.parquet": {"bytes", "mtime_ns", "footer_bytes", "footer_sha256"},
     "datasets/valid.parquet": {"bytes", "mtime_ns", "footer_bytes", "footer_sha256"},
-    "cache/chains.npz": {"bytes", "mtime_ns", "sha256"},
-    "cache/train_targets.npz": {"bytes", "mtime_ns", "sha256", "index_sha256"},
-    "cache/valid_targets.npz": {"bytes", "mtime_ns", "sha256", "index_sha256"},
+    "cache/chronological_chains.npz": {"bytes", "mtime_ns", "sha256"},
+    "cache/train_index.npz": {"bytes", "mtime_ns", "sha256", "index_sha256"},
+    "cache/valid_index.npz": {"bytes", "mtime_ns", "sha256", "index_sha256"},
+    "cache/train_index.identity.json": {"bytes", "mtime_ns", "sha256"},
+    "cache/valid_index.identity.json": {"bytes", "mtime_ns", "sha256"},
+    "cache/source_audit.json": {"bytes", "mtime_ns", "sha256"},
 }
 _MANIFEST_FIELDS = {
     "schema",
@@ -81,6 +88,10 @@ def _target_identity(path: Path) -> dict[str, int | str]:
     stat = path.stat()
     digest = hashlib.sha256()
     with np.load(path, allow_pickle=False) as index:
+        if set(index.files) != {"row_group", "seq_ix"}:
+            raise ValueError(
+                f"chronological source index must contain only row_group and seq_ix: {path}"
+            )
         row_groups = np.asarray(index["row_group"])
         seq_ix = np.asarray(index["seq_ix"])
     if (
@@ -138,7 +149,7 @@ def _graph_members(
     root: Path,
 ) -> tuple[dict[tuple[str, int], int], tuple[tuple[str, int, int], ...]]:
     """Recover source-qualified components from the feature-only successor graph."""
-    with np.load(root / "cache/chains.npz", allow_pickle=False) as graph:
+    with np.load(root / "cache/chronological_chains.npz", allow_pickle=False) as graph:
         splits = np.asarray(graph["split"])
         row_groups = np.asarray(graph["row_group"])
         next_rows = np.asarray(graph["next"])
@@ -161,6 +172,37 @@ def _graph_members(
     return component_of, nodes
 
 
+def _validate_graph_source_binding(root: Path, source_audit_sha256: str) -> None:
+    """Require the graph to carry hashes for the exact audit and both indexes."""
+    fields = {
+        "split",
+        "row_group",
+        "next",
+        "source_audit_sha256",
+        "source_sha256",
+        "index_map_sha256",
+        "index_receipt_sha256",
+    }
+    with np.load(root / "cache/chronological_chains.npz", allow_pickle=False) as graph:
+        if set(graph.files) != fields:
+            raise ValueError("chronological graph has missing or unsupported source bindings")
+        if str(np.asarray(graph["source_audit_sha256"]).item()) != source_audit_sha256:
+            raise ValueError("chronological graph was built from a different source audit")
+        for field in ("source_sha256", "index_map_sha256", "index_receipt_sha256"):
+            if np.asarray(graph[field]).shape != (2,):
+                raise ValueError(f"chronological graph has an invalid {field} binding")
+        for index, split in enumerate(("train", "valid")):
+            receipt_path = root / f"cache/{split}_index.identity.json"
+            receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+            expected = {
+                "source_sha256": receipt.get("source_sha256"),
+                "index_map_sha256": receipt.get("index_map_sha256"),
+                "index_receipt_sha256": file_sha256(receipt_path),
+            }
+            if any(str(graph[field][index]) != value for field, value in expected.items()):
+                raise ValueError(f"chronological graph source binding differs for {split}")
+
+
 def _expected_membership(
     component_of: dict[tuple[str, int], int],
 ) -> tuple[tuple[int, ...], tuple[int, ...], tuple[int, ...]]:
@@ -181,10 +223,15 @@ def _expected_membership(
 
 def validate_official_source_coverage(root: Path, component_of: dict[tuple[str, int], int]) -> None:
     """Require graph and target-index row groups to cover both complete parquets."""
+    from wnn.chronological_source_index import (
+        _load_source_audit,
+        validate_source_index_receipt,
+    )
+
+    _, source_audit_sha256 = _load_source_audit(root)
+    _validate_graph_source_binding(root, source_audit_sha256)
     for split in ("train", "valid"):
-        with np.load(root / f"cache/{split}_targets.npz", allow_pickle=False) as index:
-            groups = np.asarray(index["row_group"])
-            seq_ix = np.asarray(index["seq_ix"])
+        groups, seq_ix = validate_source_index_receipt(root, split, source_audit_sha256)
         if (
             groups.ndim != 1
             or seq_ix.shape != groups.shape

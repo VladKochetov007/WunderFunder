@@ -5,6 +5,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from wnn.chronological_source_index import (
+    SOURCE_AUDIT_PATH,
+    _load_source_audit,
+    validate_source_index_receipt,
+)
 from wnn.chronological_splits import (
     _CHRONOLOGY_BASIS,
     _COMPONENT_METHOD,
@@ -20,22 +25,37 @@ from wnn.splits import CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA, file_sha256
 
 
 def _source_identities(root: Path) -> dict[str, dict[str, int | str]]:
-    """Fingerprint official parquets and the feature-only graph/index producers."""
+    """Fingerprint official parquets, source audit, graph, and thin indexes."""
     sources = {
         name: _footer_identity(root / name)
         for name in ("datasets/train.parquet", "datasets/valid.parquet")
     }
-    graph_path = root / "cache/chains.npz"
+    _, source_audit_sha256 = _load_source_audit(root)
+    source_audit_path = root / SOURCE_AUDIT_PATH
+    source_audit_stat = source_audit_path.stat()
+    sources[SOURCE_AUDIT_PATH.as_posix()] = {
+        "bytes": source_audit_stat.st_size,
+        "mtime_ns": source_audit_stat.st_mtime_ns,
+        "sha256": source_audit_sha256,
+    }
+    for split in ("train", "valid"):
+        validate_source_index_receipt(root, split, source_audit_sha256)
+        receipt_path = root / f"cache/{split}_index.identity.json"
+        receipt_stat = receipt_path.stat()
+        sources[receipt_path.relative_to(root).as_posix()] = {
+            "bytes": receipt_stat.st_size,
+            "mtime_ns": receipt_stat.st_mtime_ns,
+            "sha256": file_sha256(receipt_path),
+        }
+    graph_path = root / "cache/chronological_chains.npz"
     graph_stat = graph_path.stat()
-    sources["cache/chains.npz"] = {
+    sources["cache/chronological_chains.npz"] = {
         "bytes": graph_stat.st_size,
         "mtime_ns": graph_stat.st_mtime_ns,
         "sha256": file_sha256(graph_path),
     }
     for split in ("train", "valid"):
-        sources[f"cache/{split}_targets.npz"] = _target_identity(
-            root / f"cache/{split}_targets.npz"
-        )
+        sources[f"cache/{split}_index.npz"] = _target_identity(root / f"cache/{split}_index.npz")
     return sources
 
 
