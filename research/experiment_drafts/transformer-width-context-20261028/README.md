@@ -1,6 +1,7 @@
 # Transformer quality: width versus context
 
-**Prepared; no fits or receiver profiles have run.** This study prioritizes the
+**[Draft PR #48](https://github.com/VladKochetov007/WunderFunder/pull/48); no fits or receiver profiles have run.**
+Implementation commit: `06ef176d0aed42fdfac1c46395451a58aae73374`. This study prioritizes the
 standalone Transformer. Six fresh Transformer fits, zero GRU/student fits.
 H-TRANSFORMER-WIDTH-CONTEXT-20261028 / E-TRANSFORMER-WIDTH-CONTEXT-20261028-R1.
 
