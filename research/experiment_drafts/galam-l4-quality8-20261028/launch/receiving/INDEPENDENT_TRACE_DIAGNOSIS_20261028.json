@@ -1,0 +1,100 @@
+﻿{
+  "schema": "wnn.galam_trace_audit.v1",
+  "audit_date": "2026-10-28",
+  "audit_mode": "read_only",
+  "canonical_worktree": "C:/Users/admin/Documents/Codex/reviews/WunderFunder-galam-20261027",
+  "source_commit": "50053909e365549b9146002d6c7d9118b81e9f97",
+  "training_source_sha256": "f9685716d64ecb5ceef2ec821781fa4078ff21661201edfcdac8292867990230",
+  "panel_sha256": "d76aacd40f615bb2858c0d3701042a08ee2965077febcafa33a1dc223404498b",
+  "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "metrics_snapshot": {
+    "path": "C:/Users/admin/Documents/Codex/reviews/tabdata-online-training-metrics-20261028T1432Z.json",
+    "sha256": "118a2c66262bc240d67441471af19a430d29d2ecb93156bef25ac72a573bf79f",
+    "observed_utc": "2026-10-28T14:32:30.745003+00:00",
+    "launch_id": "e635250b62fa489d94c987d4898ff417",
+    "status": "running",
+    "valid_sequences": 1873,
+    "valid_scored_rows": 3528273,
+    "valid_exposed_for_stopping_and_checkpoint_selection": true
+  },
+  "older_checkpoint_proof": {
+    "path": "research/experiment_drafts/galam-l4-quality8-20261028/launch/receiving/results-20261028T1310Z/README.md",
+    "as_of_utc": "2026-10-28T13:10:00Z",
+    "checkpoint_bytes_checked_at_capture": true,
+    "prediction_arrays_independently_rescored": false,
+    "not_current_byte_proof_for_1432Z_snapshot": true
+  },
+  "cell_results": [
+    {"cell":"g0-plain-gru256x2","state":"early_stopped","epochs":10,"best_epoch":8,"best_valid_wp":0.6778561232160607,"last_epoch":10,"last_valid_wp":0.6697160255888588},
+    {"cell":"g1-galam-lstm64","state":"running","epochs":3,"best_epoch":3,"best_valid_wp":0.669442024452944,"last_epoch":3,"last_valid_wp":0.669442024452944},
+    {"cell":"g2-galam-lstm128","state":"running","epochs":3,"best_epoch":3,"best_valid_wp":0.6723694126086656,"last_epoch":3,"last_valid_wp":0.6723694126086656},
+    {"cell":"g3-galam-depth2","state":"running","epochs":3,"best_epoch":3,"best_valid_wp":0.6708431140297493,"last_epoch":3,"last_valid_wp":0.6708431140297493},
+    {"cell":"g4-galam-gru72","state":"running","epochs":4,"best_epoch":3,"best_valid_wp":0.6713575233247067,"last_epoch":4,"last_valid_wp":0.6704385055675629},
+    {"cell":"g5-galam-history256","state":"running","epochs":4,"best_epoch":3,"best_valid_wp":0.6707255618808201,"last_epoch":4,"last_valid_wp":0.6705376120319468},
+    {"cell":"g6-galam-tbptt256","state":"running","epochs":4,"best_epoch":4,"best_valid_wp":0.6639267671087467,"last_epoch":4,"last_valid_wp":0.6639267671087467},
+    {"cell":"g7-galam-muon","state":"running","epochs":4,"best_epoch":3,"best_valid_wp":0.6699241944917504,"last_epoch":4,"last_valid_wp":0.6696120106614856}
+  ],
+  "sampled_diagnostics_one_window_per_cell": {
+    "scope_note": "Asynchronous single windows, not time series or a gradient-decay test. Values are descriptive only.",
+    "g1-galam-lstm64": {"epoch_position":3.724411312270737,"hidden_state_gradient_rms":1.4211144151528488e-05,"cell_state_gradient_rms":7.838518926585535e-06,"fusion_gate_saturated_fraction":0.08167441685994466,"local_attention_mean_abs_lag":29.646,"global_attention_mean_abs_lag":24.297},
+    "g2-galam-lstm128": {"epoch_position":3.748077150633061,"hidden_state_gradient_rms":1.5396e-05,"cell_state_gradient_rms":8.6197e-06,"fusion_gate_saturated_fraction":0.60966,"fusion_gate_mean":0.21249,"local_attention_mean_abs_lag":26.662,"global_attention_mean_abs_lag":23.453},
+    "g3-galam-depth2": {"epoch_position":3.7037037037037037,"hidden_state_gradient_rms":2.051e-05,"cell_state_gradient_rms":1.2438e-05,"fusion_gate_saturated_fraction":0.045873,"local_attention_mean_abs_lag":28.557,"global_attention_mean_abs_lag":24.986},
+    "g4-galam-gru72": {"epoch_position":4.978700745473908,"hidden_state_gradient_rms":4.674e-05,"fusion_gate_saturated_fraction":0.14393,"local_attention_mean_abs_lag":32.809,"global_attention_mean_abs_lag":28.994},
+    "g5-galam-history256": {"epoch_position":4.191811619926636,"hidden_state_gradient_rms":1.6963e-05,"cell_state_gradient_rms":1.2596e-05,"fusion_gate_saturated_fraction":0.07979,"local_attention_mean_abs_lag":96.47,"global_attention_mean_abs_lag":81.633,"local_attention_entropy":4.5209,"global_attention_entropy":4.5631},
+    "g6-galam-tbptt256": {"epoch_position":4.664791373652133,"hidden_state_gradient_rms":4.4011e-06,"cell_state_gradient_rms":2.4686e-06,"fusion_gate_saturated_fraction":0.00021164,"local_attention_mean_abs_lag":30.342,"global_attention_mean_abs_lag":22.717},
+    "g7-galam-muon": {"epoch_position":4.6740030765589875,"hidden_state_gradient_rms":1.6675e-05,"cell_state_gradient_rms":1.1131e-05,"fusion_gate_saturated_fraction":0.090593,"local_attention_mean_abs_lag":28.079,"global_attention_mean_abs_lag":25.834}
+  },
+  "findings": [
+    {
+      "id":"bn_running_stat_tail",
+      "classification":"confirmed_code_behavior_effect_unmeasured",
+      "statement":"Per-time BatchNorm uses default running-stat tracking, is invoked per row in a Python time loop, and evaluation uses running moments. With 20,000 rows, each BN receives about 20,000 updates per sequence batch; default momentum 0.1 emphasizes the last few dozen timestamps in the last fit batches.",
+      "code":["src/wnn/galam/mixer.py:10-24","src/wnn/galam/model.py:103-124","src/wnn/training/sequence_monitor_evaluation.py:27-61","src/wnn/galam/config.py:27-40"],
+      "measured_harm":false,
+      "future_label_leakage":false
+    },
+    {
+      "id":"causal_state_and_tbptt",
+      "classification":"implementation_trace_consistent",
+      "statement":"Attention cache is past plus current and bounded by history; convolution retains only left history; recurrent/cache state crosses chunk boundaries and is detached at each boundary.",
+      "code":["src/wnn/galam/attention.py:52-80","src/wnn/galam/mixer.py:27-52","src/wnn/training/sequence_loop_window.py:42-62"],
+      "confirmed_defect_found":false
+    },
+    {
+      "id":"objective_surrogate",
+      "classification":"confirmed_design_difference_not_bug",
+      "statement":"Training is per-window absolute-target-weighted MSE over pooled outputs; scoring clips predictions/targets and averages two per-target global weighted Pearson correlations. The objectives are related but not equivalent.",
+      "code":["src/wnn/training/sequence_objectives.py:17-66","src/wnn/gmetric.py:23-40","src/wnn/gmetric.py:159-183"],
+      "prediction_clipping_fraction_valid_range": [0.0001,0.0011]
+    },
+    {
+      "id":"python_time_loop",
+      "classification":"confirmed_cost_center_candidate_not_attributed",
+      "statement":"Each chunk dispatches one Python recurrent/attention/mixer step per row; telemetry shows about one core busy per GALAM process and optimizer time much smaller than per-window time, but window timers begin after batch acquisition and no training profiler trace was reviewed.",
+      "code":["src/wnn/galam/model.py:103-124","src/wnn/training/sequence_loop.py:80-126"],
+      "last12_telemetry_clip_counts":"9-12 of 12 updates per cell",
+      "last12_update_window_seconds_mean_range":[0.926,3.640],
+      "last12_optimizer_seconds_mean_range":[0.0008,0.0204]
+    },
+    {
+      "id":"ensemble_evidence",
+      "classification":"insufficient_prediction_evidence",
+      "statement":"Reviewed local proof has scalar curves and checkpoint digests but no independently rescored aligned prediction arrays; pairwise residual complementarity and ensemble WP are not established."
+    }
+  ],
+  "headroom_assessment": {
+    "galam_checks_at_snapshot":[3,3,3,4,4,4,4],
+    "minimum_stopping_epoch":5,
+    "all_galam_first_three_valid_checks_increased":true,
+    "g6_epoch_four_increased":true,
+    "score_gain_promised":false,
+    "architecture_ranking_supported":false
+  },
+  "fast_falsifiers": [
+    "On a clone of a frozen checkpoint, compare original BatchNorm buffers with a fit-only no-gradient recalibration pass; inspect time-indexed input/activation moments and then report full-valid differences as exposed diagnostics.",
+    "Read complete monitor histories for hidden/cell state-gradient RMS, per-channel fusion gates, attention lag/entropy, relative-bias spread, and clipping; do not infer a trend from one sampled window.",
+    "Profile one actual-source training window and one evaluation batch, separating input preparation/prefetch/H2D, Python per-row dispatch, forward, backward, and optimizer.",
+    "After terminal predictions exist, compute aligned residual correlations and a predeclared fixed blend; do not tune blend weights or membership on the already-used valid."
+  ],
+  "ensemble_recommendation":"Keep GALAM as a candidate ensemble member only if aligned prediction residuals show complementarity; use predeclared fixed weights unless fitting-only chronological evidence exists."
+}
