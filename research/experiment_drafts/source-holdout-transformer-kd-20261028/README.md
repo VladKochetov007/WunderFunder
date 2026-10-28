@@ -1,5 +1,13 @@
 # Source-separated Transformer → GRU comparison
 
+The [standalone Transformer quality study](../transformer-width-context-20261028/README.md)
+reuses this receiver runtime through a closed study registry. Its six pure-Transformer
+cells and run roots are separate; `run.sh` here always selects this original KD study.
+New preparation records the study ID and exact helper hashes. Earlier prepared roots
+must stay on their original source commit; they are not migrated by switching branches.
+Shared score/interval code now lives in [packet_comparison.py](packet_comparison.py),
+and study selection in [packet_study.py](packet_study.py).
+
 **Prepared implementation; receiver acceptance and all six fits remain unrun.**
 [Draft PR #47](https://github.com/VladKochetov007/WunderFunder/pull/47) targets `research-team`. Implementation commit: `952e0101a73df3b1823c64c3c6cb341509a2aaed`. Base: `7e4074314a62d0907c9608f9220cf72958708a2d`.
 H-SOURCE-HOLDOUT-TRANSFORMER-KD-20261028 /

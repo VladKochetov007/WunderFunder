@@ -26,6 +26,7 @@ from packet_contract import (
     write_new,
 )
 from packet_lineage import validate_cache, validate_evaluation, validate_terminal
+from packet_study import DEFAULT_STUDY, STUDY, STUDY_ENV
 
 
 def execute(command: list[str], receipt: Path, timeout: int) -> None:
@@ -84,6 +85,7 @@ def prepare(args: argparse.Namespace) -> None:
         args.root / "packet.json",
         {
             "schema": "wnn.source-kd-packet.v1",
+            "study": STUDY.slug,
             "git_commit": args.expected_commit,
             "data_root": str(args.data_root),
             "packet_files": packet_files(),
@@ -100,6 +102,8 @@ def prepare(args: argparse.Namespace) -> None:
 
 def command_for(args: argparse.Namespace) -> tuple[list[str], int]:
     """Build exactly one explicit fit, profile, cache, or fixed-final evaluation command."""
+    require(args.cell in CELLS, "Cell does not belong to the selected study")
+    require(args.action != "cache" or STUDY.allow_cache, "This study has no KD cache stage")
     cell_root = args.root / args.cell
     common = ["--data-root", str(args.data_root), "--split-manifest", str(args.root / "split.json")]
     torchrun = [
@@ -242,7 +246,15 @@ def main() -> None:
         require(args.cell is None, "Acceptance is shared by all six cells")
         directory = args.root / "acceptance"
         directory.mkdir(exist_ok=False)
-        command = ["env", "CUBLAS_EMULATE_SINGLE_PRECISION=0", sys.executable, "-m", "pytest", "-q"]
+        command = [
+            "env",
+            "CUBLAS_EMULATE_SINGLE_PRECISION=0",
+            f"{STUDY_ENV}={DEFAULT_STUDY}",
+            sys.executable,
+            "-m",
+            "pytest",
+            "-q",
+        ]
         command += [str(REPO / "tests" / f"{name}.py") for name in TEST_MODULES]
         command += [f"--junitxml={directory / 'pytest.xml'}"]
         execute(command, directory / "command.json", 3_600)

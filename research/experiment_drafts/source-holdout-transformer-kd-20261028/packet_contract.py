@@ -10,10 +10,12 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from packet_study import SHARED_PACKET, STUDY
+
 # Heterogeneous JSON receipts are checked explicitly at their trust boundaries.
-PACKET = Path(__file__).resolve().parent
-REPO = PACKET.parents[2]
-CELLS = tuple(f"{role}_s{seed}" for seed in (1001, 1002) for role in ("teacher", "labels", "kd"))
+PACKET = STUDY.packet
+REPO = SHARED_PACKET.parents[2]
+CELLS = STUDY.cells
 
 
 def require(condition: bool, reason: str) -> None:
@@ -82,7 +84,14 @@ def source_files() -> dict[str, str]:
 
 def packet_files() -> dict[str, str]:
     """Bind executable packet configuration and dispatch code to preparation."""
-    paths = sorted(path for path in PACKET.rglob("*") if path.suffix in (".py", ".json", ".sh"))
+    paths = sorted(
+        {
+            path
+            for directory in (SHARED_PACKET, PACKET)
+            for path in directory.rglob("*")
+            if path.suffix in (".py", ".json", ".sh")
+        }
+    )
     return {path.relative_to(REPO).as_posix(): file_hash(path) for path in paths}
 
 
@@ -109,6 +118,8 @@ def binding(root: Path, data_root: Path, expected_commit: str) -> dict[str, Any]
     guard(root, expected_commit)
     value = read(root / "packet.json")
     require(value.get("schema") == "wnn.source-kd-packet.v1", "Wrong packet schema")
+    require(value.get("study") == STUDY.slug, "Prepared root belongs to another study")
+    require(value.get("cells") == list(CELLS), "Frozen study cells differ")
     require(value.get("git_commit") == expected_commit, "Packet commit changed")
     require(value.get("data_root") == str(data_root), "Packet data root changed")
     require(value.get("packet_files") == packet_files(), "Packet code/config changed")

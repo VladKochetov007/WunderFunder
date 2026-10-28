@@ -5,12 +5,14 @@ from pathlib import Path
 from typing import Any
 
 from packet_contract import REPO, file_hash, read, require, write_new
+from packet_study import STUDY
 
 # JSON metadata includes heterogeneous test-report and artifact identity fields.
 TEST_MODULES = (
     "test_sequence_source_splits",
     "test_sequence_kd_normalization",
     "test_source_kd_packet",
+    "test_transformer_width_context_packet",
     "test_b300_sequence_models",
     "test_b300_sequence_contracts",
     "test_sequence_precision",
@@ -37,6 +39,7 @@ def seal_acceptance(root: Path) -> None:
     value: dict[str, Any] = {
         "schema": "wnn.source-kd-acceptance.v1",
         "status": "passed",
+        "study": STUDY.slug,
         "packet_sha256": file_hash(root / "packet.json"),
         "command_sha256": file_hash(root / "acceptance/command.json"),
         "report_sha256": file_hash(report),
@@ -54,6 +57,7 @@ def require_acceptance(root: Path) -> None:
         value.get("schema") == "wnn.source-kd-acceptance.v1" and value.get("status") == "passed",
         "Receiver acceptance required",
     )
+    require(value.get("study") == STUDY.slug, "Acceptance belongs to another study")
     require(
         value.get("packet_sha256") == file_hash(root / "packet.json"),
         "Acceptance belongs to another packet",

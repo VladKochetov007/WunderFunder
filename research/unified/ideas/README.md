@@ -1,5 +1,14 @@
 # Ideas and hypotheses
 
+[Standalone Transformer width/context screen](../../experiment_drafts/transformer-width-context-20261028/README.md)
+prioritizes teacher quality: six fresh Transformer fits (baseline768/window1024,
+width1024/window1024, width768/window4096 × two seeds), zero GRU fits. Reuses the
+source-holdout and explicit B300 receiver commands from draft #47; all endpoints
+fixed at epoch5, BF16/BF16x9, full-valid component-purged evaluation. H-TRANSFORMER-WIDTH-CONTEXT-20261028 /
+E-TRANSFORMER-WIDTH-CONTEXT-20261028-R1. Separates width/context from #44's stopped
+LR/regularization screen. Static preparation only; no new profiles/fits/results,
+no chronology/significance claim, no automatic student or1.5B launch.
+
 [Source-separated Transformer → GRU comparison](../../experiment_drafts/source-holdout-transformer-kd-20261028/README.md)
 ([draft PR #47](https://github.com/VladKochetov007/WunderFunder/pull/47)) prepares six fresh five-epoch fits: compact teacher, labels-only GRU and normalized-KD
 GRU at two seeds on one train-only/full-valid source holdout. Whole components touching
