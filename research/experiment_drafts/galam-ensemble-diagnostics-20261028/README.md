@@ -1,6 +1,6 @@
 # Frozen-checkpoint GALAM ensemble diagnostics ? 28 October 2026
 
-Status: prepared and independently reviewed; no new scientific fits. User asks to diagnose logs/traces, assess training headroom and produce a useful ensemble regressor. Preserve all eight original hypotheses and the seven still-running fits. Use only the freed GPU0 for bounded inference.
+Status: completed and independently rescored; no new scientific fits. User asks to diagnose logs/traces, assess training headroom and produce a useful ensemble regressor. Preserve all eight original hypotheses and the seven still-running fits. Use only the freed GPU0 for bounded inference.
 
 [PLAN.json](PLAN.json) freezes clean plainGRU256x2 epoch8, GALAM-LSTM128 epoch3 and GALAM-GRU72 epoch3, including exact checkpoint and immutable epoch-index identities. Primary comparison is80%GRU+20%GALAM, with fixed10%/30%GALAM sensitivity. No learned weights, calibration or validation-fitted preprocessing. The reference is a clean one-model benchmark, not the delivered full team ensemble. Standalone validation selected these checkpoints, so all results are development-exposed, single-seed and exploratory.
 
@@ -13,3 +13,5 @@ Frozen plan SHA256: `e0674782692d850e8910af807bbdc6407f851413bec66a7264cb909c9e6
 Execution budget: one otherwise-free physicalL4,8CPUcores,40GiBRAMtarget,2GiBdisk and45minutes wall time. No fit, rental, power change, process stop or source/config change to the seven active fits. Capture one short **inference-only** CPU/CUDA trace per GALAM endpoint; it is not a backward/optimizer trace. Profiler time is not an uninstrumented benchmark. Prove original fit continuity from supervisor/process evidence separately.
 
 Receiving helper: `/data2/lc-epanov_s/tabdata/runtime/launch-20261028/blend-probe-r1/scripts/probe_quality8_fixed_blend.py`. Output: `/data2/lc-epanov_s/tabdata/runtime/launch-20261028/galam-ensemble-discovery-20261028-r1`. Root owns execution, collection and PR46 publication. Large prediction arrays/traces stay outsideGit; publish bounded receipts and hashes.
+
+[Measured results and trace diagnosis](RESULTS.md): fixed80/20GRU+GALAM-LSTM128 WP0.681219679 (+.003363555); GRU+GALAM-GRU72 WP0.680993482 (+.003137359). The [recipe](ENSEMBLE_RECIPE.json) preserves predeclared coefficients. All bounded evidence files are described in the result note; full deployed-ensemble and transfer effects remain unknown.

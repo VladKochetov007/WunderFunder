@@ -1,3 +1,9 @@
+## 28 October15:43UTC: measured GALAM contribution; seven fits continue
+
+[Fixed blend result](../research/experiment_drafts/galam-ensemble-diagnostics-20261028/RESULTS.md):80%cleanGRUepoch8+20%GALAM-LSTM128epoch3 scores0.681219679 (+.003363555) on full official valid, independently rescored from hashed arrays. GALAM-GRU72fixed20% gives0.680993482 (+.003137359). Exposed, single-seed benchmark evidence; no fitted coefficients, full-team-ensemble, serving or public-score claim.
+
+Inference worker4086649 exited and freedGPU0. Seven original fits keep their original PIDs/start ticks/source/configs; GRU is terminal after10epochs. ReuseSSH98495. No stopped fit resumed or extra neural fit launched. Earlier startup notes below are historical.
+
 ## 28 October: eight full L4 fits are active
 
 Do not duplicate or resume these jobs. The user explicitly authorized the fixed

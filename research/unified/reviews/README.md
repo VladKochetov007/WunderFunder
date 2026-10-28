@@ -564,3 +564,6 @@ The former root `reviews/` and `writeups/` aliases have been removed. New review
   dimensions/weights and FiLM remain unknown; no historical parity or GPU gain.
 
 - [GALAM frozen-checkpoint ensemble diagnostics](../../experiment_drafts/galam-ensemble-diagnostics-20261028/README.md): independently reviewed inference-only fixed blends against clean GRU, full official valid with exposed-selection limits, short CUDA traces; seven active fits unchanged. Preparation is not a measured gain.
+
+- [Measured GALAM blend contribution and CUDA trace](../../experiment_drafts/galam-ensemble-diagnostics-20261028/RESULTS.md): fixed80/20WP0.681219679 versus cleanGRU0.677856123, independently rescored; complete sensitivity panel, traces/costs and exposed-validation limits.
+- [Independent source/log diagnosis](../../experiment_drafts/galam-l4-quality8-20261028/launch/receiving/INDEPENDENT_TRACE_DIAGNOSIS_20261028.md): BN running-stat risk, causal/TBPTT paths and sampled gradients; no demonstrated causal BN score effect.

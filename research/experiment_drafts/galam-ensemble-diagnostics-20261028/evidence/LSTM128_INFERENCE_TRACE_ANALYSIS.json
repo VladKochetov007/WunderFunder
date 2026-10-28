@@ -1,0 +1,244 @@
+{
+  "scope": "frozen GALAM128 checkpoint inference only, batch384,64steps after64warmup, originalFP32; profiler overhead included",
+  "kernel_events": 7683,
+  "kernel_union_us": 92818.40966796875,
+  "scope_us": 295993.533,
+  "kernel_span_us": 294181.40283203125,
+  "launch_calls": 7683,
+  "categories": {
+    "user_annotation": 1,
+    "cpu_op": 34247,
+    "overhead": 3,
+    "kernel": 7683,
+    "ac2g": 17994,
+    "cuda_runtime": 9863,
+    "gpu_memcpy": 192,
+    "gpu_memset": 256,
+    "gpu_user_annotation": 2,
+    "": 62,
+    "Trace": 1
+  },
+  "cpu_top": [
+    {
+      "name": "aten::addmm",
+      "count": 1280,
+      "self_cpu_us": 73605.94300000099,
+      "cpu_us": 86554.01199999999,
+      "self_device_us": 14568.363000000116,
+      "device_us": 14568.363000000116
+    },
+    {
+      "name": "quality8_frozen_checkpoint_inference_chunk",
+      "count": 1,
+      "self_cpu_us": 62954.37399999978,
+      "cpu_us": 295993.533,
+      "self_device_us": 0.0,
+      "device_us": 93323.43499999904
+    },
+    {
+      "name": "cudaLaunchKernel",
+      "count": 7683,
+      "self_cpu_us": 47405.84599999878,
+      "cpu_us": 47462.728999998784,
+      "self_device_us": 0.0,
+      "device_us": 91.26299999999901
+    },
+    {
+      "name": "aten::bmm",
+      "count": 256,
+      "self_cpu_us": 13653.588999999858,
+      "cpu_us": 15747.660999999813,
+      "self_device_us": 3600.5599999998612,
+      "device_us": 3600.5599999998612
+    },
+    {
+      "name": "aten::cat",
+      "count": 577,
+      "self_cpu_us": 5337.435999999978,
+      "cpu_us": 9277.345999999978,
+      "self_device_us": 26827.97600000025,
+      "device_us": 26919.23900000025
+    },
+    {
+      "name": "aten::rms_norm",
+      "count": 448,
+      "self_cpu_us": 5287.822000001492,
+      "cpu_us": 40448.428000000524,
+      "self_device_us": 0.0,
+      "device_us": 5053.352999999546
+    },
+    {
+      "name": "aten::mul",
+      "count": 960,
+      "self_cpu_us": 5144.746999999443,
+      "cpu_us": 9569.76299999932,
+      "self_device_us": 2146.5049999995317,
+      "device_us": 2146.5049999995317
+    },
+    {
+      "name": "aten::add_",
+      "count": 576,
+      "self_cpu_us": 5075.624000000165,
+      "cpu_us": 7788.828000000371,
+      "self_device_us": 867.1060000004636,
+      "device_us": 867.1060000004636
+    },
+    {
+      "name": "aten::pow",
+      "count": 448,
+      "self_cpu_us": 5024.966999999555,
+      "cpu_us": 8343.78499999964,
+      "self_device_us": 630.720999999774,
+      "device_us": 630.720999999774
+    },
+    {
+      "name": "aten::empty",
+      "count": 1537,
+      "self_cpu_us": 4369.361999999946,
+      "cpu_us": 4369.361999999946,
+      "self_device_us": 0,
+      "device_us": 0
+    },
+    {
+      "name": "aten::mean",
+      "count": 448,
+      "self_cpu_us": 4192.461000000265,
+      "cpu_us": 6542.85900000008,
+      "self_device_us": 1285.178000000058,
+      "device_us": 1285.178000000058
+    },
+    {
+      "name": "aten::_cudnn_rnn",
+      "count": 64,
+      "self_cpu_us": 3786.7919999998467,
+      "cpu_us": 6625.931000000019,
+      "self_device_us": 17079.175999999912,
+      "device_us": 17079.175999999912
+    }
+  ],
+  "cuda_top": [
+    {
+      "name": "quality8_frozen_checkpoint_inference_chunk",
+      "count": 2,
+      "self_cpu_us": 0,
+      "cpu_us": 0,
+      "self_device_us": 578332.889,
+      "device_us": 578332.889
+    },
+    {
+      "name": "aten::cat",
+      "count": 577,
+      "self_cpu_us": 5337.435999999978,
+      "cpu_us": 9277.345999999978,
+      "self_device_us": 26827.97600000025,
+      "device_us": 26919.23900000025
+    },
+    {
+      "name": "void at::native::(anonymous namespace)::CatArrayBatchedCopy<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 4, 64, 64>(at::native::(anonymous namespace)::OpaqueType<4u>*, at::native::(anonymous namespace)::CatArrInputTensorMetadata<at::native::(anonymous namespace)::OpaqueType<4u>, unsigned int, 64, 64>, at::native::(anonymous namespace)::TensorSizeStride<unsigned int, 4u>, int, unsigned int)",
+      "count": 252,
+      "self_cpu_us": 0,
+      "cpu_us": 0,
+      "self_device_us": 24541.039000000175,
+      "device_us": 24541.039000000175
+    },
+    {
+      "name": "aten::cudnn_convolution",
+      "count": 128,
+      "self_cpu_us": 2953.8089999999556,
+      "cpu_us": 4218.510999999917,
+      "self_device_us": 20450.830000000104,
+      "device_us": 20450.830000000104
+    },
+    {
+      "name": "aten::_cudnn_rnn",
+      "count": 64,
+      "self_cpu_us": 3786.7919999998467,
+      "cpu_us": 6625.931000000019,
+      "self_device_us": 17079.175999999912,
+      "device_us": 17079.175999999912
+    },
+    {
+      "name": "_5x_cudnn_ampere_scudnn_128x128_relu_medium_nn_v1",
+      "count": 64,
+      "self_cpu_us": 0,
+      "cpu_us": 0,
+      "self_device_us": 16940.992999999973,
+      "device_us": 16940.992999999973
+    },
+    {
+      "name": "void RNN_blockPersist_fp_LSTM<float, float, float, 128>(float const*, float*, float const*, float*, float const*, float*, float*, float const*, float const*, float*, int, int, int, int, int, int, cudnnRNNClipMode_t, cudnnNanPropagation_t, float, float)",
+      "count": 64,
+      "self_cpu_us": 0,
+      "cpu_us": 0,
+      "self_device_us": 16484.516999999927,
+      "device_us": 16484.516999999927
+    },
+    {
+      "name": "aten::addmm",
+      "count": 1280,
+      "self_cpu_us": 73605.94300000099,
+      "cpu_us": 86554.01199999999,
+      "self_device_us": 14568.363000000116,
+      "device_us": 14568.363000000116
+    },
+    {
+      "name": "ampere_sgemm_32x128_tn",
+      "count": 384,
+      "self_cpu_us": 0,
+      "cpu_us": 0,
+      "self_device_us": 7698.048999999777,
+      "device_us": 7698.048999999777
+    },
+    {
+      "name": "ampere_sgemm_32x32_sliced1x4_tn",
+      "count": 768,
+      "self_cpu_us": 0,
+      "cpu_us": 0,
+      "self_device_us": 4762.547000000153,
+      "device_us": 4762.547000000153
+    },
+    {
+      "name": "aten::bmm",
+      "count": 256,
+      "self_cpu_us": 13653.588999999858,
+      "cpu_us": 15747.660999999813,
+      "self_device_us": 3600.5599999998612,
+      "device_us": 3600.5599999998612
+    },
+    {
+      "name": "void implicit_convolve_sgemm<float, float, 128, 5, 5, 3, 3, 3, 1, false, false, true>(int, int, int, float const*, int, float*, float const*, kernel_conv_params, unsigned long long, int, float, float, int, float const*, float const*, bool, bool, int, int)",
+      "count": 64,
+      "self_cpu_us": 0,
+      "cpu_us": 0,
+      "self_device_us": 3422.1240000000653,
+      "device_us": 3422.1240000000653
+    }
+  ],
+  "recurrent_ops": [
+    {
+      "name": "aten::lstm",
+      "count": 64,
+      "self_cpu_us": 2052.273999999922,
+      "cpu_us": 9133.293999999963,
+      "self_device_us": 0.0,
+      "device_us": 17079.175999999912
+    },
+    {
+      "name": "aten::_cudnn_rnn",
+      "count": 64,
+      "self_cpu_us": 3786.7919999998467,
+      "cpu_us": 6625.931000000019,
+      "self_device_us": 17079.175999999912,
+      "device_us": 17079.175999999912
+    },
+    {
+      "name": "void RNN_blockPersist_fp_LSTM<float, float, float, 128>(float const*, float*, float const*, float*, float const*, float*, float*, float const*, float const*, float*, int, int, int, int, int, int, cudnnRNNClipMode_t, cudnnNanPropagation_t, float, float)",
+      "count": 64,
+      "self_cpu_us": 0,
+      "cpu_us": 0,
+      "self_device_us": 16484.516999999927,
+      "device_us": 16484.516999999927
+    }
+  ],
+  "kernel_active_fraction_of_profile_scope": 0.3135825594810166
+}

@@ -97,3 +97,5 @@ credential value is present. The publisher is prepared, not yet running.
 - [Latest live snapshot](full-live-snapshot.json): 2026-10-28T06:47:04.673788Z, eight active fits; GRU epoch4 WP0.6760966529.
 
 - [Direct result/resource check at13:10UTC](results-20261028T1310Z/README.md): seven healthy GALAM fits, terminal GRU, best/last byte hashes, all recorded full-valid coverage, consecutive GPU samples.
+
+- [Independent trace diagnosis](INDEPENDENT_TRACE_DIAGNOSIS_20261028.md) and [JSON](INDEPENDENT_TRACE_DIAGNOSIS_20261028.json): source/masking/BN/gradient/context and comparison audit; frozen14:32snapshot, no fit or score-gain claim.

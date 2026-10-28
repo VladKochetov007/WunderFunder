@@ -1,7 +1,8 @@
 # Fixed eight-L4 quality panel with full chronological validation
 
-1. **Status, lineage and owner.** Exactly eight fresh full fits are running on
-eight L4s under launch `e635250b62fa489d94c987d4898ff417`. The approved panel is in
+1. **Status, lineage and owner.** Exactly eight fresh full fits were launched on
+eight L4s under launch `e635250b62fa489d94c987d4898ff417`; plain GRU is terminal and
+seven GALAM continue unchanged. The approved panel is in
 `launch/PANEL.json`; complete sources and all eight actual-source profiles passed
 independent resource/identity review. Root owns delivery through results. GALAM
 is reconstructed from Denis Tomin's screenshots with explicit unknown original
@@ -54,13 +55,28 @@ train/valid loss and WP/t0/t1 curves, LR/preclip gradient norm, sampled model an
 CPU/RAM/VRAM/disk telemetry, elapsed/work counts, all epoch checkpoints and
 strict-best/last pointers. Keep large payloads on approved storage; publish
 bounded evidence and results with honest completion percentages.
-11. **Results and trace.** GRU epoch1 reports full-valid WP0.6681328342
-(t0:0.6659784031, t1:0.6702872654), all1873 sequences/3,528,273 scored rows.
-Its checkpoint SHA is `94db7c641883d5de298e2dbc54d3671b894acac452f8ef03547b3b5e85798536`.
-This is an intermediate single-seed result; all eight fits continue, with no final
-ranking or public-score claim. Diagnostic train-eval has a different row mask and
-cannot establish a train/validation gap. Exact source R9 commit50053909 and
-engineering byte archives, independent reviews, process ownership and first-epoch
-evidence are linked from `research/experiment_drafts/galam-l4-quality8-20261028/launch/README.md`.
+11. **Results and trace.** Plain GRU stopped after10epochs under its declared
+policy; best epoch8 full-valid WP0.677856123. Seven original GALAM fits continue
+with their original PID/starttick/source/config bindings. Frozen GALAM-LSTM128
+epoch3 scores0.672369413 and GALAM-GRU72 epoch3 scores0.671357523 alone.
 
-Latest measured snapshot (2026-10-28T06:47:04.673788Z): GRU has completed epoch4, full-valid WP0.6760966529 (t0:0.6688052605, t1:0.6833880453), weighted MSE0.9808772327. Checkpoint SHA `008f5370056ba33c2566663a483dd79fe6b84743501ec907bc6f1915d8649b1a`. All eight fits remain running; the other seven have not completed their first full epoch at this snapshot. This is intermediate exposed-validation evidence.
+A separately frozen inference-only diagnostic on the freedGPU0 reproduced all
+three standalone scores on1873official-valid sequences/3528273scored rows.
+Primary fixed80%GRU+20%GALAM-LSTM128 scores **0.681219679**, delta **+.003363555**;
+with GALAM-GRU72 it scores **0.680993482**, delta **+.003137359**. Both targets
+improve. A separate review session independently rescored actual hashed
+LSTM128/GRU arrays with a float64 formula, agreeing within2e-13. Fixed10/30%
+sensitivities are reported beside predeclared20%primary; no coefficients fitted.
+
+These are exposed, single-seed results against the clean GRU benchmark, not the
+full deployed team ensemble, hidden transfer or CPU package approval. Zero new
+scientific fits; the diagnostic worker exited and freedGPU0. An independent
+source/log audit identifies an untested BN running-stat risk. Actual short
+inference traces show high per-time kernel-launch counts; no backward/optimizer
+profiling claim is made.
+
+Results, independent rescore, complete fixed panel, prediction/trace hashes,
+timing and original-fit continuity:
+`research/experiment_drafts/galam-ensemble-diagnostics-20261028/RESULTS.md`.
+Original source/data/config/profile evidence remains in
+`research/experiment_drafts/galam-l4-quality8-20261028/launch/README.md`.
