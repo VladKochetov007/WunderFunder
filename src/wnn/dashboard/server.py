@@ -2,6 +2,10 @@ from __future__ import annotations
 
 import json
 import logging
+import socket
+import threading
+import time
+from contextlib import suppress
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import cast
@@ -11,6 +15,10 @@ from wnn.dashboard.reader import DashboardReader
 
 LOGGER = logging.getLogger(__name__)
 MAX_QUERY_LENGTH = 4_096
+MAX_CONCURRENT_REQUESTS = 4
+MAX_BUSY_DRAIN_BYTES = 65_536
+BUSY_DRAIN_SECONDS = 0.1
+BUSY_BODY = b"Dashboard busy\n"
 STATIC_FILES = {
     "/": ("index.html", "text/html; charset=utf-8"),
     "/dashboard.css": ("dashboard.css", "text/css; charset=utf-8"),
@@ -26,7 +34,7 @@ SECURITY_HEADERS = {
 
 
 class DashboardHTTPServer(ThreadingHTTPServer):
-    """A bounded-thread local server that exposes read-only dashboard routes."""
+    """A four-worker local server that exposes read-only dashboard routes."""
 
     allow_reuse_address = True
     daemon_threads = True
@@ -39,7 +47,58 @@ class DashboardHTTPServer(ThreadingHTTPServer):
         if not 0 <= port <= 65_535:
             raise ValueError("port must be between 0 and 65535")
         self.reader = DashboardReader(run_root)
+        self._request_workers = threading.BoundedSemaphore(MAX_CONCURRENT_REQUESTS)
         super().__init__((host, port), DashboardRequestHandler)
+
+    def process_request(self, request: socket.socket, client_address: tuple[str, int]) -> None:
+        """Start at most four workers and return a bounded overload response."""
+        if not self._request_workers.acquire(blocking=False):
+            try:
+                self._reject_busy(request)
+            finally:
+                self.shutdown_request(request)
+            return
+        try:
+            request.settimeout(15.0)
+            super().process_request(request, client_address)
+        except BaseException:
+            self._request_workers.release()
+            raise
+
+    def process_request_thread(
+        self, request: socket.socket, client_address: tuple[str, int]
+    ) -> None:
+        """Release a worker slot after every request handler exit path."""
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self._request_workers.release()
+
+    def _reject_busy(self, request: socket.socket) -> None:
+        """Close an excess connection with a minimal retryable 503 response."""
+        headers = (
+            "HTTP/1.1 503 Service Unavailable\r\n"
+            "Content-Type: text/plain; charset=utf-8\r\n"
+            f"Content-Length: {len(BUSY_BODY)}\r\n"
+            "Connection: close\r\n"
+            "Retry-After: 1\r\n\r\n"
+        ).encode("ascii")
+        deadline = time.monotonic() + BUSY_DRAIN_SECONDS
+        remaining = MAX_BUSY_DRAIN_BYTES
+        with suppress(OSError):
+            while remaining:
+                seconds_left = deadline - time.monotonic()
+                if seconds_left <= 0:
+                    break
+                request.settimeout(seconds_left)
+                try:
+                    chunk = request.recv(min(4_096, remaining))
+                except TimeoutError:
+                    break
+                if not chunk:
+                    break
+                remaining -= len(chunk)
+            request.sendall(headers + BUSY_BODY)
 
 
 class DashboardRequestHandler(BaseHTTPRequestHandler):

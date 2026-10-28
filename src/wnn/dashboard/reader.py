@@ -4,6 +4,7 @@ import json
 import os
 import stat
 from collections import OrderedDict
+from dataclasses import dataclass
 from pathlib import Path
 from threading import RLock
 
@@ -18,6 +19,7 @@ from wnn.dashboard.storage import (
 from wnn.dashboard.stream import EventStream
 
 MAX_ACTIVE_STREAMS = 20
+MAX_METADATA_CACHE_ENTRIES = 128
 MAX_SELECTED_RUNS = 8
 DEFAULT_EVENT_LIMIT = 1_200
 MAX_EVENT_LIMIT = 1_500
@@ -27,6 +29,15 @@ RUNS_REFRESH_COUNT = 12
 def _empty_metadata() -> dict[str, object]:
     """Return explicit placeholders for unavailable run metadata."""
     return {"source": "unknown", "config": {}, "provenance": {}, "synthetic": False}
+
+
+@dataclass
+class MetadataCacheEntry:
+    """Keep each run's last good metadata and any bounded transient error."""
+
+    signature: tuple[int, ...] | None
+    metadata: dict[str, object]
+    error: str | None = None
 
 
 class DashboardReader:
@@ -42,8 +53,7 @@ class DashboardReader:
             raise ValueError("the run root must be a directory")
         self._lock = RLock()
         self._streams: OrderedDict[str, EventStream] = OrderedDict()
-        self._metadata: dict[str, tuple[tuple[int, ...], dict[str, object]]] = {}
-        self._metadata_errors: dict[str, str] = {}
+        self._metadata: OrderedDict[str, MetadataCacheEntry] = OrderedDict()
 
     def list_runs(self, source_filter: str = "", config_filter: str = "") -> dict[str, object]:
         """List recent runs, with case-insensitive source and config filtering."""
@@ -93,22 +103,39 @@ class DashboardReader:
 
     def _get_metadata(self, run_id: str) -> tuple[dict[str, object], str | None]:
         cached = self._metadata.get(run_id)
-        cached_signature = cached[0] if cached else None
+        if cached is not None:
+            self._metadata.move_to_end(run_id)
+        cached_signature = cached.signature if cached else None
         try:
             metadata, signature = read_run_metadata(self.root, run_id, cached_signature)
         except MissingFileError:
-            self._metadata_errors[run_id] = "run metadata is missing"
-            return _empty_metadata(), self._metadata_errors[run_id]
+            return self._metadata_failure(run_id, cached, "run metadata is missing")
         except (OSError, ValueError, json.JSONDecodeError):
-            self._metadata_errors[run_id] = "run metadata is unavailable or invalid"
-            return _empty_metadata(), self._metadata_errors[run_id]
+            return self._metadata_failure(run_id, cached, "run metadata is unavailable or invalid")
         if metadata is None and cached is not None:
-            return cached[1], self._metadata_errors.get(run_id)
+            cached.error = None
+            self._metadata.move_to_end(run_id)
+            return cached.metadata, None
         if metadata is None:
-            return _empty_metadata(), "run metadata is unavailable"
-        self._metadata[run_id] = (signature, metadata)
-        self._metadata_errors.pop(run_id, None)
+            return self._metadata_failure(run_id, cached, "run metadata is unavailable")
+        self._remember_metadata(run_id, MetadataCacheEntry(signature, metadata))
         return metadata, None
+
+    def _metadata_failure(
+        self, run_id: str, cached: MetadataCacheEntry | None, error: str
+    ) -> tuple[dict[str, object], str]:
+        if cached is None:
+            cached = MetadataCacheEntry(None, _empty_metadata(), error)
+        else:
+            cached.error = error
+        self._remember_metadata(run_id, cached)
+        return _empty_metadata(), error
+
+    def _remember_metadata(self, run_id: str, entry: MetadataCacheEntry) -> None:
+        self._metadata[run_id] = entry
+        self._metadata.move_to_end(run_id)
+        while len(self._metadata) > MAX_METADATA_CACHE_ENTRIES:
+            self._metadata.popitem(last=False)
 
     def _get_stream(self, run_id: str) -> EventStream:
         stream = self._streams.pop(run_id, None)
