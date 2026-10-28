@@ -27,3 +27,10 @@ normalization/coverage verification, independent recipe review and matched
 source/config/runtime receipts. Receiver software is the existing isolated
 Torch2.8+cu128 environment; it must pass receiving checks, rather than installing
 the incompatible cu130 lock onto driver570. No other service belongs to us.
+
+[prepare_data.py](prepare_data.py) is the bounded receiving-side preparation
+owner: it waits for the transfer's finalized train filename, then runs the pinned
+source audit, thin indexes, complete source-qualified component graph and primary
+manifest. It prewarms train-only raw112/event211 normalization once. Each phase
+has a durable receipt/log; it starts no scientific fit and never promotes a
+partial file by logical size.
