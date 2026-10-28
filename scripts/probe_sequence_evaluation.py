@@ -20,7 +20,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--source-audit", type=Path, required=True)
     parser.add_argument("--device", default="cuda:0")
     parser.add_argument("--batch-size", type=int, choices=(128, 384), default=128)
-    parser.add_argument("--chunk-rows", type=int, choices=(64, 256), default=64)
+    parser.add_argument("--chunk-rows", type=int, choices=(64, 256, 1000), default=64)
     parser.add_argument("--max-sequences", type=int, default=MAX_PROBE_SEQUENCES)
     parser.add_argument("--output-json", type=Path)
     return parser

@@ -120,8 +120,8 @@ def run_evaluation_probe(
     max_sequences: int = MAX_PROBE_SEQUENCES,
 ) -> dict[str, object]:
     """Time one bounded canonical evaluation with fresh random, untrained weights."""
-    if batch_size not in (128, 384) or chunk_rows not in (64, 256):
-        raise ValueError("probe batch size must be 128 or 384 and chunk rows 64 or 256")
+    if batch_size not in (128, 384) or chunk_rows not in (64, 256, 1000):
+        raise ValueError("probe batch size must be128/384 and chunk rows64/256/1000")
     if device_name != "cpu" and not device_name.startswith("cuda"):
         raise ValueError("device must be cpu or a CUDA device such as cuda:0")
     config_path = config_path.resolve()
@@ -196,7 +196,7 @@ def run_evaluation_probe(
     forwarded_rows = len(records) * SEQUENCE_LENGTH
     return {
         "schema": "tabdata.untrained-validation-evaluation-probe.v1",
-        "purpose": "synthetic_engineering_only",
+        "purpose": "actual_valid_subset_engineering_only",
         "quality_claim": "none_untrained_weights",
         "no_fit_or_checkpoint": True,
         "config": {
