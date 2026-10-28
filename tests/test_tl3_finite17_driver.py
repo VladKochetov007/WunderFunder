@@ -20,6 +20,22 @@ from wnn.distillation_cache import row_groups_sha256
 R3_FIXTURE_DIR = Path(__file__).parent / "fixtures" / "tl3_finite17"
 
 
+def test_r3_adamw_checkpoint_can_omit_the_unused_new_muon_option(tmp_path: Path) -> None:
+    node = _plan(tmp_path)["nodes"][0]
+    actual = driver._expected_effective_args(node)
+    actual.pop("muon_lr_mult")
+    actual.pop("train_eval_seqs")
+    driver._verify_checkpoint_args(node, actual)
+
+
+def test_native_muon_checkpoint_cannot_omit_its_scientific_multiplier(tmp_path: Path) -> None:
+    node = next(n for n in _plan(tmp_path)["nodes"] if n["id"] == "fttall_tlead_s5")
+    actual = driver._expected_effective_args(node)
+    actual.pop("muon_lr_mult")
+    with pytest.raises(contract.DriverError, match="muon_lr_mult"):
+        driver._verify_checkpoint_args(node, actual)
+
+
 def _plan(tmp_path: Path) -> dict[str, object]:
     nodes = build_nodes(Path("split.json"), tmp_path)
     for node in nodes:
@@ -86,9 +102,7 @@ def test_unrelated_tiedlead_failure_does_not_block_w18_cache_or_fit(
     plan = _plan(tmp_path)
     plan["w18_cache"] = str(tmp_path / "w18-mixed-targets")
     node_map = {node["id"]: node for node in plan["nodes"]}
-    states = {
-        name: {"state": "not_started", "phase": "not_started"} for name in node_map
-    }
+    states = {name: {"state": "not_started", "phase": "not_started"} for name in node_map}
     for name in W18_COEFFICIENTS:
         states[name] = {"state": "complete", "phase": "train_export_complete"}
     states["fttall_tlead_s5"] = {"state": "failed", "phase": "fit"}
@@ -133,9 +147,7 @@ def test_completed_final_member_exports_valid_before_unrelated_fits(
     plan = _plan(tmp_path)
     node_map = {node["id"]: node for node in plan["nodes"]}
     run = "tl3c_fttall_tlead_s5"
-    states = {
-        name: {"state": "not_started", "phase": "not_started"} for name in node_map
-    }
+    states = {name: {"state": "not_started", "phase": "not_started"} for name in node_map}
     states["fttall_tlead_s5"] = {"state": "complete", "phase": "fit_complete"}
     status: dict[str, object] = {
         "nodes": states,
@@ -195,9 +207,7 @@ def test_failed_w18_ancestor_blocks_that_tail_but_preserves_independent_work(
     plan = _plan(tmp_path)
     nodes = {node["id"]: node for node in plan["nodes"]}
     status = {
-        "nodes": {
-            name: {"state": "not_started", "phase": "not_started"} for name in nodes
-        },
+        "nodes": {name: {"state": "not_started", "phase": "not_started"} for name in nodes},
         "cache": {"state": "not_started"},
         "final_exports": {run: "not_started" for run in plan["final_runs"]},
         "score": {"state": "not_started"},
@@ -220,9 +230,7 @@ def test_launch_failure_does_not_count_a_spawned_fit_twice(tmp_path: Path) -> No
         "fits_used": 2,
         "gpu_seconds_completed": 0.0,
         "last_error": None,
-        "nodes": {
-            name: {"state": "not_started", "phase": "not_started"} for name in nodes
-        },
+        "nodes": {name: {"state": "not_started", "phase": "not_started"} for name in nodes},
     }
     task = {
         "task_id": "fit:fin256_s4",
@@ -485,10 +493,10 @@ def test_exited_adopted_fit_is_reconciled_through_artifact_verifier(
     monkeypatch.setattr(
         driver,
         "verify_run_output",
-        lambda _root, node, _split, source: verified.append(
-            (str(node["id"]), int(node["endpoint"]), str(source))
-        )
-        or {"run": node["run"], "epoch": node["endpoint"]},
+        lambda _root, node, _split, source: (
+            verified.append((str(node["id"]), int(node["endpoint"]), str(source)))
+            or {"run": node["run"], "epoch": node["endpoint"]}
+        ),
     )
 
     driver._poll_tasks(tmp_path, state_path, status, plan, object(), {}, started + 10.0)
@@ -545,7 +553,9 @@ def test_w18_cache_verifies_exact_sources_membership_and_file_hashes(
 ) -> None:
     train_groups = [3, 8]
     eval_groups = [30]
-    split = SimpleNamespace(train_groups=train_groups, valid_groups=(), evaluation_groups=eval_groups)
+    split = SimpleNamespace(
+        train_groups=train_groups, valid_groups=(), evaluation_groups=eval_groups
+    )
     monkeypatch.setattr(driver, "load_campaign_split", lambda *_args: split)
     cache_root = tmp_path / "cache"
     cache_root.mkdir()

@@ -431,6 +431,9 @@ def _normalize_persisted_args(raw: object, expected: dict[str, object]) -> dict[
         actual["n_valid_folds"] = 1
     if "train_eval_seqs" in expected and "train_eval_seqs" not in actual:
         actual["train_eval_seqs"] = 0
+    # R3 predates this Muon-only CLI option. It cannot affect its AdamW fit.
+    if actual.get("optim") == "adamw" and "muon_lr_mult" not in actual:
+        actual["muon_lr_mult"] = 1.0
     return actual
 
 
