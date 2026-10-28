@@ -16,7 +16,7 @@ from wnn.training.sequence_fit_utils import optimizer_states_are_finite_fp32
 from wnn.training.sequence_model_helpers import SequenceState
 from wnn.training.sequence_models import detach_state
 
-MAX_TOTAL_UPDATES, MAX_CHUNK_ROWS, MAX_BATCH_SIZE = 20, 2_000, 128
+MAX_TOTAL_UPDATES, MAX_CHUNK_ROWS, MAX_BATCH_SIZE = 20, 2_000, 384
 MAX_SYNTHETIC_BYTES = 256 * 1024 * 1024
 MAX_ACTIVATION_PROXY = 128_000_000
 

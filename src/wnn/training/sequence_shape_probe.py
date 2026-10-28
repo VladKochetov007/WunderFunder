@@ -14,6 +14,7 @@ import torch
 from torch import Tensor
 
 from wnn.training.sequence_config import load_config
+from wnn.training.sequence_distributed import configure_strict_fp32
 from wnn.training.sequence_fit_utils import make_optimizer
 from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_shape_probe_support import (
@@ -25,6 +26,27 @@ from wnn.training.sequence_shape_probe_support import (
 )
 
 PROBE_SEED = 20261028
+
+
+def _precision_flags(mode: str) -> dict[str, object]:
+    """Record and verify process flags for the declared strict-FP32 probe mode."""
+    flags: dict[str, object] = {
+        "mode": mode,
+        "float32_matmul_precision": torch.get_float32_matmul_precision(),
+        "cuda_matmul_tf32": torch.backends.cuda.matmul.allow_tf32,
+        "cudnn_tf32": torch.backends.cudnn.allow_tf32,
+        "cuda_autocast_enabled": torch.is_autocast_enabled("cuda"),
+        "cpu_autocast_enabled": torch.is_autocast_enabled("cpu"),
+    }
+    flags["strict_fp32"] = (
+        mode == "fp32"
+        and flags["float32_matmul_precision"] == "highest"
+        and flags["cuda_matmul_tf32"] is False
+        and flags["cudnn_tf32"] is False
+        and flags["cuda_autocast_enabled"] is False
+        and flags["cpu_autocast_enabled"] is False
+    )
+    return flags
 
 
 def source_identity(config_path: Path) -> dict[str, object]:
@@ -65,6 +87,7 @@ def run_probe(args: argparse.Namespace) -> dict[str, object]:
     model_config = config["model"]
     if not isinstance(model_config, Mapping):
         raise TypeError("validated config model must be a mapping")
+    configure_strict_fp32()
     torch.manual_seed(PROBE_SEED)
     if device.type == "cuda":
         torch.cuda.manual_seed_all(PROBE_SEED)
@@ -123,6 +146,9 @@ def run_probe(args: argparse.Namespace) -> dict[str, object]:
     host_elapsed_seconds = time.perf_counter() - host_started
     prediction_finite = bool(torch.stack(finite_flags).all())
     checks = _check_finite(model, optimizer)
+    precision = _precision_flags(str(config["precision_mode"]))
+    if precision["strict_fp32"] is not True:
+        raise RuntimeError("sequence probe precision flags did not remain strict FP32")
     if args.profiler_trace is not None:
         _capture_optional_trace(
             args.profiler_trace,
@@ -159,6 +185,7 @@ def run_probe(args: argparse.Namespace) -> dict[str, object]:
         },
         "model": dict(model_config),
         "optimizer": str(config["optimizer"]),
+        "precision": precision,
         "seed": PROBE_SEED,
         "batch_size": batch_size,
         "chunk_rows": chunk_rows,
