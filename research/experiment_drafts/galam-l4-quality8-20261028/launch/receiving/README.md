@@ -37,3 +37,31 @@ preserves its audited scratch batch and more optimizer updates per epoch.
 
 The numbers above cannot establish a full training ETA, validation score or
 quality-optimal batch. No scientific fit or checkpoint is represented here.
+
+## Actual valid timing and receiving launcher
+
+The16 `evaluation-r1-g*-b*.json` receipts run the canonical evaluator on384
+whole official-valid sequences using fresh untrained weights and identity
+normalization. They prove bounded evaluator behavior/finite outputs and measure
+128 versus384 batches; their scores are not trained-model results.
+[Timing summary](EVALUATION_THROUGHPUT_SUMMARY.json) records approximately69–78s
+for GALAM384, versus190–200s at128. Linear full-valid projections are estimates;
+actual epoch evaluation remains complete1873-group validation.
+
+Source-r4/r5/r6 archive identity receipts bind the staged versions. The
+[R4 evaluation tests](receiving-r4-probe-tests.log) pass4 checks; the
+[R6 launcher checks](receiving-r6-launcher-tests.log) pass8 checks on Torch2.8.
+[R6 host inventory](receiving-r6-host.json) and its [log](receiving-r6-host.log)
+verify all eight L4 UUIDs, current CUDA-usable memory and driver570.172.08.
+The [R5 inventory failure](receiving-r5-host.log) and
+[UUID diagnostic](receiving-r5-uuid-diagnostic.json) are preserved: CUDA returns
+raw UUIDs, whereas SMI prefixes them with `GPU-`. The operational join now
+normalizes physical identity while preserving raw UUIDs in the exact runtime
+identity. SMI physical23034MiB and CUDA usable23,670,685,696B are distinct facts.
+
+[Independent prelaunch review](PRELAUNCH_REVIEW.json) identifies the remaining
+PCI ordering issue in the waiting profile owner. The
+[exact waiting-owner stop receipt](actual-profile-cohort-r1.stop.json) shows
+zero profile/scientific starts; its replacement explicitly selects PCI_BUS_ID.
+All actual-source profiles and scientific admission are still pending data
+delivery and independent artifact review.
