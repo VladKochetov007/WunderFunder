@@ -215,10 +215,15 @@ def save_final_model(
     completed_epochs: int,
     data_provenance: Mapping[str, object],
     provenance: dict[str, object],
+    *,
+    allow_early_stop: bool = False,
 ) -> None:
     """Write the fixed-final inference envelope once after every configured epoch."""
-    if completed_epochs != int(config["epochs"]):
-        raise ValueError("final model requires all configured epochs to be complete")
+    configured_epochs = int(config["epochs"])
+    if completed_epochs != configured_epochs and not (
+        allow_early_stop and 1 <= completed_epochs < configured_epochs
+    ):
+        raise ValueError("final model requires all configured epochs or a declared early stop")
     if path.exists():
         raise FileExistsError(f"refusing to replace existing final model: {path}")
     cpu_state = {name: tensor.detach().cpu() for name, tensor in model_state.items()}

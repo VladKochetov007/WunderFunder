@@ -25,6 +25,8 @@ from wnn.training.sequence_fit_utils import (
     SequenceDataset,
 )
 from wnn.training.sequence_monitor import SequenceMonitor
+from wnn.training.sequence_monitor_checkpoints import write_checkpoint_pointers
+from wnn.training.sequence_provenance import canonical_sha256
 
 
 def run_full_fit_impl(
@@ -50,7 +52,7 @@ def run_full_fit_impl(
     monitor: SequenceMonitor | None = None,
     save_state: Callable[[Path, dict[str, object], DistributedContext], None] = save_training_state,
 ) -> None:
-    """Resume or complete a fit, with report-only online validation when opted in."""
+    """Resume or complete a fit with opt-in full-valid monitoring and early stopping."""
     history: list[dict[str, object]] = []
     global_step, start_epoch = 0, 0
     retention = str(config.get("checkpoint_retention", "final_only"))
@@ -105,21 +107,6 @@ def run_full_fit_impl(
         )
     if not 0 <= start_epoch <= int(config["epochs"]):
         raise ValueError("resume checkpoint next_epoch is outside the configured schedule")
-    if monitoring_enabled:
-        coordinated_call(
-            lambda: (
-                monitor.status(
-                    "running",
-                    global_step,
-                    start_epoch,
-                    monitor.fit_status_context(resume_path is not None),
-                )
-                if context.is_primary and monitor is not None
-                else True
-            ),
-            "monitor running status append",
-            context,
-        )
     if retention == "all_epochs":
         latest_index = reconcile_epoch_snapshots(
             output,
@@ -135,6 +122,39 @@ def run_full_fit_impl(
             history,
             context,
         )
+    if monitoring_enabled:
+        early_policy = config["monitoring"].get("early_stopping")
+        resumed_stop = bool(history and history[-1].get("early_stopped", False))
+
+        def append_resume_status() -> bool:
+            """Rebuild the safe checkpoint pointer before publishing the run state."""
+            if context.is_primary:
+                if monitor is None:
+                    raise RuntimeError("rank zero monitor was not initialized")
+                status = "early_stopped" if resumed_stop else "running"
+                status_context = monitor.fit_status_context(resume_path is not None)
+                if history and isinstance(early_policy, Mapping):
+                    if latest_index is None:
+                        raise RuntimeError("monitored resume is missing retained epoch snapshots")
+                    pointers = write_checkpoint_pointers(
+                        output,
+                        canonical_sha256(identity),
+                        status,
+                        history,
+                        latest_index,
+                        early_policy,
+                    )
+                    status_context.update(
+                        {
+                            "best_checkpoint": pointers["best"],
+                            "last_checkpoint": pointers["last"],
+                            "early_stopping": pointers["early_stopping"],
+                        }
+                    )
+                monitor.status(status, global_step, start_epoch, status_context)
+            return True
+
+        coordinated_call(append_resume_status, "monitor running status append", context)
     run_epochs(
         FitEpochRuntime(
             dataset,

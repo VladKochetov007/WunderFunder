@@ -24,7 +24,7 @@ def evaluate_monitoring_sets(
     context: DistributedContext,
     evaluation_batch_size: int = 1,
 ) -> tuple[dict[str, int | float], dict[str, int | float]]:
-    """Evaluate both report-only cohorts while restoring mode, buffers, and RNG."""
+    """Evaluate both declared cohorts while restoring model mode, buffers, and RNG."""
     modes = [(module, module.training) for module in model.modules()]
     bn_buffers = _batch_norm_buffers(model)
     rng = _rng_state(context)
@@ -32,6 +32,7 @@ def evaluate_monitoring_sets(
     try:
         model.eval()
         with torch.inference_mode():
+            train_started = time.perf_counter()
             train_metrics = evaluate_dataset(
                 model,
                 train_eval,
@@ -41,6 +42,8 @@ def evaluate_monitoring_sets(
                 context,
                 evaluation_batch_size,
             )
+            train_metrics["timing/train_eval_seconds"] = time.perf_counter() - train_started
+            valid_started = time.perf_counter()
             valid_metrics = evaluate_dataset(
                 model,
                 valid,
@@ -50,12 +53,15 @@ def evaluate_monitoring_sets(
                 context,
                 evaluation_batch_size,
             )
+            valid_metrics["timing/full_valid_seconds"] = time.perf_counter() - valid_started
     finally:
         for module, training in modes:
             module.training = training
         _restore_rng(rng, context)
     _assert_batch_norm_unchanged(bn_buffers)
     elapsed = time.perf_counter() - started
+    train_metrics["timing/paired_evaluation_seconds"] = elapsed
+    valid_metrics["timing/paired_evaluation_seconds"] = elapsed
     train_metrics["timing/evaluation_seconds"] = elapsed
     valid_metrics["timing/evaluation_seconds"] = elapsed
     return train_metrics, valid_metrics
@@ -71,7 +77,7 @@ def evaluate_dataset(
     context: DistributedContext,
     evaluation_batch_size: int = 1,
 ) -> dict[str, int | float]:
-    """Compute official-mask weighted MSE and globally pooled official WP."""
+    """Compute the cohort-mask weighted MSE and globally pooled WP."""
     if not len(dataset) or chunk_rows <= 0 or evaluation_batch_size <= 0:
         raise ValueError("monitoring evaluation requires sequences and positive batch/chunk sizes")
     accumulator = GlobalAccumulator()
@@ -91,30 +97,34 @@ def evaluate_dataset(
         if inputs.ndim != 3 or targets.shape != (*inputs.shape[:2], 2):
             raise ValueError("monitoring dataset does not contain canonical full sequences")
         state = None
+        prediction_chunks: list[torch.Tensor] = []
         for start in range(0, inputs.shape[1], chunk_rows):
             stop = min(start + chunk_rows, inputs.shape[1])
             values = inputs[:, start:stop].to(context.device, non_blocking=True)
             with forward_context(precision_mode, context.device.type):
                 prediction, _, next_state = model(values, state)
             state = detach_state(next_state)
-            predicted = prediction.float().cpu().numpy()
-            target = targets[:, start:stop].numpy()
-            scored = mask[:, start:stop].numpy()
-            accumulator.add(target, predicted, scored)
-            clipped_target = np.clip(target, -2.0, 2.0)
-            weight = np.abs(clipped_target) * scored[..., None]
-            difference = predicted.astype(np.float64) - clipped_target.astype(np.float64)
-            squared_error += float((weight * np.square(difference)).sum())
-            target_weight += float(weight.sum())
-            selected = np.broadcast_to(scored[..., None], predicted.shape)
-            chosen = predicted[selected].astype(np.float64)
-            prediction_sum += float(chosen.sum())
-            prediction_square_sum += float(np.square(chosen).sum())
-            clipped_count += int((np.abs(chosen) > 2.0).sum())
-            selected_values += len(chosen)
-            selected_rows += int(scored.sum())
+            prediction_chunks.append(prediction.float())
+        # One device-to-host copy per sequence batch avoids synchronizing for every
+        # short recurrent chunk while preserving the full pooled scoring inputs.
+        predicted = torch.cat(prediction_chunks, dim=1).cpu().numpy()
+        target = targets.numpy()
+        scored = mask.numpy()
+        accumulator.add(target, predicted, scored)
+        clipped_target = np.clip(target, -2.0, 2.0)
+        weight = np.abs(clipped_target) * scored[..., None]
+        difference = predicted.astype(np.float64) - clipped_target.astype(np.float64)
+        squared_error += float((weight * np.square(difference)).sum())
+        target_weight += float(weight.sum())
+        selected = np.broadcast_to(scored[..., None], predicted.shape)
+        chosen = predicted[selected].astype(np.float64)
+        prediction_sum += float(chosen.sum())
+        prediction_square_sum += float(np.square(chosen).sum())
+        clipped_count += int((np.abs(chosen) > 2.0).sum())
+        selected_values += len(chosen)
+        selected_rows += int(scored.sum())
     if selected_values <= 0:
-        raise ValueError("monitoring cohort has no official scored rows")
+        raise ValueError(f"{prefix} monitoring cohort has no selected rows")
     pooled = accumulator.result()
     mean = prediction_sum / selected_values
     variance = max(0.0, prediction_square_sum / selected_values - mean * mean)

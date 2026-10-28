@@ -4,14 +4,10 @@ import json
 import math
 import os
 import stat
-import time
 from collections.abc import Mapping
-from contextlib import suppress
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
-
-import torch
 
 from wnn.training.sequence_fit_utils import truncate_with_evidence
 
@@ -267,19 +263,3 @@ def _write_all(descriptor: int, payload: bytes) -> None:
         if written <= 0:
             raise OSError("monitor event append made no progress")
         offset += written
-
-
-def resource_metrics(device: torch.device) -> dict[str, int | float]:
-    """Return only process and device resource readings that the host exposes."""
-    metrics: dict[str, int | float] = {"cpu/process_time_seconds": time.process_time()}
-    if device.type == "cuda" and torch.cuda.is_available():
-        with suppress(AssertionError, RuntimeError):
-            metrics.update(
-                {
-                    "gpu/allocated_bytes": torch.cuda.memory_allocated(device),
-                    "gpu/reserved_bytes": torch.cuda.memory_reserved(device),
-                    "gpu/peak_allocated_bytes": torch.cuda.max_memory_allocated(device),
-                    "gpu/peak_reserved_bytes": torch.cuda.max_memory_reserved(device),
-                }
-            )
-    return metrics

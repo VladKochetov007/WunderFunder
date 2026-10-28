@@ -209,11 +209,11 @@ function comparableScoreKeys() {
 
 function metricGroups() {
   return [
-    { title: "Comparable loss", subtitle: "train_eval/loss and valid/loss · same evaluation path", keys: exactKeys("train_eval/loss", "valid/loss"), wide: true },
-    { title: "Online training loss", subtitle: "train/loss is collected during updates; it is not comparable to evaluation loss", keys: exactKeys("train/loss"), dashed: true },
-    { title: "Comparable score / WP", subtitle: "Comparable recorded score or weighted Pearson (WP) series", keys: comparableScoreKeys(), wide: true },
-    { title: "Per-target score · t0", subtitle: "Recorded t0 score series for train_eval and valid", keys: targetScoreKeys("t0") },
-    { title: "Per-target score · t1", subtitle: "Recorded t1 score series for train_eval and valid", keys: targetScoreKeys("t1") },
+    { title: "Train eval and full validation loss", subtitle: "Each curve uses its recorded cohort mask; train_eval may use all_after_warmup while valid uses official is_scored", keys: exactKeys("train_eval/loss", "valid/loss"), wide: true },
+    { title: "Online training loss", subtitle: "train/loss uses the training objective mask during updates; it is separate from evaluation", keys: exactKeys("train/loss"), dashed: true },
+    { title: "Train eval and full validation score / WP", subtitle: "Pooled weighted Pearson (WP); row masks are recorded per cohort and can differ", keys: comparableScoreKeys(), wide: true },
+    { title: "Per-target score t0", subtitle: "Recorded t0 series; row masks are recorded per cohort", keys: targetScoreKeys("t0") },
+    { title: "Per-target score t1", subtitle: "Recorded t1 series; row masks are recorded per cohort", keys: targetScoreKeys("t1") },
     { title: "Learning rate", subtitle: "Recorded optimizer learning rate", keys: findKeys((key) => key === "optimizer/lr" || key.startsWith("optimizer/lr/") || key.endsWith("/learning_rate")) },
     { title: "Gradient norm", subtitle: "Recorded optimizer gradient norm", keys: findKeys((key) => key.startsWith("optimizer/") && key.includes("grad") && key.includes("norm")) },
     { title: "Gradient clipping", subtitle: "Recorded clipping threshold, fraction, or count", keys: findKeys((key) => key.startsWith("optimizer/") && key.includes("clip")) },

@@ -8,7 +8,10 @@ import re
 import shutil
 import subprocess
 import time
+from contextlib import suppress
 from pathlib import Path
+
+import torch
 
 NVIDIA_UUID = r"(?:[0-9A-Fa-f]{32}|[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12})"
 GPU_IDENTIFIER = re.compile(
@@ -164,3 +167,19 @@ class HostResourceSampler:
             pass
         metrics.update(_query_gpu(gpu_identifier))
         return metrics
+
+
+def resource_metrics(device: torch.device) -> dict[str, int | float]:
+    """Return only process and device resource readings that the host exposes."""
+    metrics: dict[str, int | float] = {"cpu/process_time_seconds": time.process_time()}
+    if device.type == "cuda" and torch.cuda.is_available():
+        with suppress(AssertionError, RuntimeError):
+            metrics.update(
+                {
+                    "gpu/allocated_bytes": torch.cuda.memory_allocated(device),
+                    "gpu/reserved_bytes": torch.cuda.memory_reserved(device),
+                    "gpu/peak_allocated_bytes": torch.cuda.max_memory_allocated(device),
+                    "gpu/peak_reserved_bytes": torch.cuda.max_memory_reserved(device),
+                }
+            )
+    return metrics

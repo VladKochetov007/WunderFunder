@@ -14,6 +14,7 @@ from wnn.training.sequence_distributed import (
     global_sum,
     local_sequence_indices,
 )
+from wnn.training.sequence_features import sequence_input_width
 from wnn.training.sequence_fit_utils import (
     SEQUENCE_ROWS,
     RankJsonlLog,
@@ -68,6 +69,8 @@ def train_epoch(
         for start in range(0, SEQUENCE_ROWS, chunk_rows)
     ]
     accumulation = int(config["accumulate_chunks"])
+    model_config = config["model"]
+    feature_count = sequence_input_width(str(model_config.get("input_feature_mode", "raw112")))
     batches_per_rank = math.ceil(math.ceil(len(dataset) / context.world_size) / batch_size)
     windows_per_batch = math.ceil(len(intervals) / accumulation)
     updates_per_epoch = batches_per_rank * windows_per_batch
@@ -80,6 +83,7 @@ def train_epoch(
                 collate_sequences(dataset, current_batch_ids),
                 context.device,
                 int(config["model"]["hint_dim"]),
+                feature_count,
             ),
             "sequence batch load and validation",
             context,
@@ -153,13 +157,27 @@ def train_epoch(
             )
             record["learning_rates"] = rates
             record["optimizer_seconds"] = optimizer_seconds
-            rank_log.write(record)
             if monitor_enabled:
+                monitor_config = config.get("monitoring")
+                if not isinstance(monitor_config, dict):
+                    raise TypeError("enabled monitor configuration must be a mapping")
+                telemetry_interval = int(monitor_config.get("training_telemetry_every_steps", 1))
+                telemetry_sample = _training_telemetry_due(
+                    global_step, updates, updates_per_epoch, telemetry_interval
+                )
+                if telemetry_sample:
+                    # The same opt-in cadence bounds rank-local diagnostic JSONL growth.
+                    rank_log.write(record)
+            else:
+                telemetry_sample = True
+                rank_log.write(record)
+            if monitor_enabled and (telemetry_sample or sample):
                 _append_monitor_events(
                     record,
                     epoch,
                     epoch_position,
                     global_step,
+                    telemetry_sample,
                     sample,
                     diagnostics,
                     monitor,
@@ -167,6 +185,15 @@ def train_epoch(
                 )
         state = None
     return EpochResult(updates, True, total_count, time.perf_counter() - started)
+
+
+def _training_telemetry_due(
+    step: int, updates_in_epoch: int, updates_per_epoch: int, cadence: int
+) -> bool:
+    """Retain sampled optimizer records and every epoch's final update."""
+    if min(step, updates_in_epoch, updates_per_epoch, cadence) < 1:
+        raise ValueError("telemetry counters and cadence must be positive")
+    return step % cadence == 0 or updates_in_epoch == updates_per_epoch
 
 
 def _diagnostic_interval(config: dict[str, object], enabled: bool) -> int:
@@ -181,6 +208,7 @@ def _append_monitor_events(
     epoch: int,
     epoch_position: float,
     step: int,
+    telemetry_sample: bool,
     sample: bool,
     diagnostics: DiagnosticProbe | None,
     monitor: SequenceMonitor | None,
@@ -193,7 +221,8 @@ def _append_monitor_events(
         if context.is_primary:
             if monitor is None:
                 raise RuntimeError("rank zero monitor was not initialized")
-            monitor.train_step(record, epoch, epoch_position, context.device)
+            if telemetry_sample:
+                monitor.train_step(record, epoch, epoch_position, context.device)
             if sample:
                 if diagnostics is None:
                     raise RuntimeError("rank zero diagnostic probe is missing")

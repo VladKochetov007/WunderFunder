@@ -35,14 +35,26 @@ def initialize_monitor(
     identity: dict[str, object],
     resume: bool,
     context: DistributedContext,
+    input_feature_mode: str = "raw112",
 ) -> tuple[SequenceDataset | None, SequenceMonitor | None]:
-    """Build the official-mask cohort and rank-zero append-only monitor writer."""
+    """Build the declared train-eval cohort and rank-zero append-only monitor writer."""
     if monitor_config is None:
         return None, None
+    train_eval_mask = monitor_config.get("train_eval_mask", "is_scored")
+    if train_eval_mask not in ("is_scored", "all_after_warmup"):
+        raise ValueError("monitored train-eval has an unsupported row mask")
+    if train_eval_mask != data.fit.training_mask:
+        raise ValueError("train-eval row mask must match the actual fitting objective mask")
 
     def build_train_eval() -> SequenceRecords:
-        """Read the fixed fitting cohort with the official scored row mask."""
-        cohort = SequenceRecords(data_root, train_eval_members, 0, training_mask="is_scored")
+        """Read fitting sequences with their actual all-after-warmup training mask."""
+        cohort = SequenceRecords(
+            data_root,
+            train_eval_members,
+            0,
+            training_mask=str(train_eval_mask),
+            input_feature_mode=input_feature_mode,
+        )
         cohort.validate_source_schema()
         return cohort
 
@@ -60,6 +72,7 @@ def initialize_monitor(
                 data.split.sha256,
                 canonical_sha256(identity),
                 resume=resume,
+                input_feature_mode=input_feature_mode,
             )
         return True
 

@@ -10,7 +10,7 @@ from wnn.training.sequence_monitor_gates import collect_recurrent_gates
 
 
 class DiagnosticProbe:
-    """Collect bounded sampled activation, gradient, gate, attention, and prediction stats."""
+    """Collect bounded sampled diagnostics from GALAM, GRU, and attention branches."""
 
     def __init__(self, model: nn.Module) -> None:
         """Bind temporary hooks to the existing model without changing its forward math."""
@@ -26,7 +26,7 @@ class DiagnosticProbe:
     def __enter__(self) -> DiagnosticProbe:
         """Install ephemeral hooks for this optimizer window only."""
         for name, module in self.model.named_modules():
-            path = _galam_path(name)
+            path = _model_path(name)
             if isinstance(module, (nn.LSTM, nn.GRU)) and path in ("lstm", "gru"):
                 self._handles.append(module.register_forward_hook(self._recurrent_hook(path)))
                 continue
@@ -227,7 +227,7 @@ def _first_tensor(value: object) -> Tensor | None:
     return None
 
 
-def _galam_path(name: str) -> str:
+def _model_path(name: str) -> str:
     if ".galam." in name:
         return name.split(".galam.", 1)[1]
     if name.startswith("galam."):

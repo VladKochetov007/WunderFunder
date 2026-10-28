@@ -1,8 +1,5 @@
 from __future__ import annotations
 
-import hashlib
-import json
-import re
 from collections.abc import Mapping
 from pathlib import Path
 
@@ -16,9 +13,23 @@ from wnn.training.sequence_monitor_evaluation import evaluate_monitoring_sets
 from wnn.training.sequence_monitor_events import (
     MONITOR_EVENT_FILENAME,
     MonitorEventWriter,
-    resource_metrics,
 )
-from wnn.training.sequence_monitor_resources import HostResourceSampler
+from wnn.training.sequence_monitor_identity import (
+    gpu_identifier as _gpu_identifier,
+)
+from wnn.training.sequence_monitor_identity import (
+    mask_comparison as _mask_comparison,
+)
+from wnn.training.sequence_monitor_identity import (
+    mask_definition as _mask_definition,
+)
+from wnn.training.sequence_monitor_identity import (
+    membership_sha256 as _membership_sha256,
+)
+from wnn.training.sequence_monitor_identity import (
+    validate_dataset_members as _validate_dataset_members,
+)
+from wnn.training.sequence_monitor_resources import HostResourceSampler, resource_metrics
 
 
 class SequenceMonitor:
@@ -34,38 +45,49 @@ class SequenceMonitor:
         run_identity_sha256: str,
         *,
         resume: bool,
+        input_feature_mode: str = "raw112",
     ) -> None:
         """Bind event streams to exact source-qualified membership and run metadata."""
         self.diagnostics_every_steps = int(config["diagnostics_every_steps"])
+        self.training_telemetry_every_steps = int(config.get("training_telemetry_every_steps", 1))
+        self.evaluation_batch_size = int(config.get("eval_batch_size", 1))
+        self.train_eval_mask = str(config.get("train_eval_mask", "is_scored"))
+        self.input_feature_mode = input_feature_mode
+        self.early_stopping = config.get("early_stopping")
         self.resource_sampler = HostResourceSampler(output)
         self.writer = MonitorEventWriter(output / MONITOR_EVENT_FILENAME, resume=resume)
         self._train_eval_members = train_eval_members
         self._valid_members = valid_members
-        self._monitoring_plan = {
-            "validation_reporting": (
-                "full official valid after each epoch; report-only; no checkpoint selection"
-            )
-        }
+        self._monitoring_plan = {"validation_reporting": "full official valid after each epoch"}
         self._train_eval_context = {
             "evaluation_scope": "fixed source-qualified fitting cohort; diagnostic only",
+            "row_mask": self.train_eval_mask,
+            "mask_definition": _mask_definition(self.train_eval_mask),
             "member_count": len(train_eval_members),
             "member_sha256": _membership_sha256(train_eval_members),
+            "input_feature_mode": input_feature_mode,
         }
         self._valid_context = {
-            "evaluation_scope": "full official valid; report-only; validation remains out of fitting",
+            "evaluation_scope": (
+                "full official valid; exposed to declared stopping and checkpoint pointers; "
+                "validation remains out of fitting"
+            ),
+            "row_mask": "is_scored",
+            "mask_definition": "official is_scored mask after row 99 warmup",
             "split_sha256": split_sha256,
             "member_count": len(valid_members),
             "member_sha256": _membership_sha256(valid_members),
+            "input_feature_mode": input_feature_mode,
         }
         self._metric_context = {
             "metric_id": METRIC_ID,
             "run_identity_sha256": run_identity_sha256,
-            "mask": "official is_scored mask after row 99 warmup",
             "loss_definition": (
                 "weighted MSE of raw predictions against clip(target,-2,2), "
                 "weighted by abs(clipped target)"
             ),
             "wp_definition": "one global pooled clipped weighted Pearson over the whole cohort",
+            "mask_comparison": _mask_comparison(self.train_eval_mask),
             "run_metadata": "run_metadata.json",
         }
 
@@ -74,9 +96,14 @@ class SequenceMonitor:
         return {
             "resume": resume,
             "no_eval_during_fit": False,
-            "validation_reporting": (
-                "full official valid after each epoch; report-only; no checkpoint selection"
+            "validation_reporting": self._monitoring_plan["validation_reporting"],
+            "checkpoint_selection": (
+                "best pointer follows strict valid WP highs; validation is exposed"
             ),
+            "early_stopping": self.early_stopping,
+            "train_eval_mask": self.train_eval_mask,
+            "valid_mask": "is_scored",
+            "input_feature_mode": self.input_feature_mode,
             "train_eval_members": [list(member) for member in self._train_eval_members],
             "train_eval_member_sha256": self._train_eval_context["member_sha256"],
             "valid_member_count": self._valid_context["member_count"],
@@ -90,6 +117,9 @@ class SequenceMonitor:
             "no_eval_during_fit": True,
             "validation_reporting": "not evaluated during bounded engineering profile",
             "intended_validation_reporting": self._monitoring_plan.get("validation_reporting"),
+            "train_eval_mask": self.train_eval_mask,
+            "valid_mask": "is_scored",
+            "input_feature_mode": self.input_feature_mode,
             "train_eval_members": [list(member) for member in self._train_eval_members],
             "train_eval_member_sha256": self._train_eval_context["member_sha256"],
             "valid_member_count": self._valid_context["member_count"],
@@ -128,7 +158,7 @@ class SequenceMonitor:
             "optimizer/was_clipped": float(record["gradient_clipped"]),
             "timing/window_seconds": float(record["window_seconds"]),
             "timing/optimizer_seconds": float(record["optimizer_seconds"]),
-            "throughput/scored_rows_per_second": float(record["valid_rows_per_second"]),
+            "throughput/objective_rows_per_second": float(record["valid_rows_per_second"]),
             "throughput/forwarded_rows_per_second": float(record["forwarded_rows_per_second"]),
             "train/selected_rows": int(record["valid_rows"]),
             "train/forwarded_rows": int(record["forwarded_rows"]),
@@ -151,9 +181,10 @@ class SequenceMonitor:
                 "loss_scope": "online optimizer window on the recipe training mask",
                 "epoch_index": epoch_index + 1,
                 "comparison": (
-                    "train/loss is online; train_eval/loss and valid/loss use official masks "
-                    "and weighted MSE"
+                    "train/loss is online on the recipe mask; train_eval/loss uses "
+                    "all_after_warmup; valid/loss uses official is_scored; masks differ"
                 ),
+                "training_telemetry_every_steps": self.training_telemetry_every_steps,
                 "device_type": device.type,
             },
         )
@@ -209,10 +240,12 @@ class SequenceMonitor:
         context: DistributedContext,
         epoch: int,
         step: int,
-    ) -> None:
+    ) -> dict[str, int | float]:
         """Append one paired report event with train-eval and complete official-valid scores."""
-        _validate_dataset_members(train_eval, self._train_eval_members, "train_eval")
-        _validate_dataset_members(valid, self._valid_members, "valid")
+        _validate_dataset_members(
+            train_eval, self._train_eval_members, "train_eval", self.train_eval_mask
+        )
+        _validate_dataset_members(valid, self._valid_members, "valid", "is_scored")
         train_metrics, valid_metrics = evaluate_monitoring_sets(
             model,
             train_eval,
@@ -220,7 +253,7 @@ class SequenceMonitor:
             chunk_rows,
             precision_mode,
             context,
-            evaluation_batch_size,
+            evaluation_batch_size or self.evaluation_batch_size,
         )
         if train_metrics["train_eval/sequence_count"] != len(self._train_eval_members):
             raise ValueError(
@@ -234,65 +267,31 @@ class SequenceMonitor:
         valid_metrics["valid/score"] = valid_metrics["valid/wp"]
         valid_metrics["valid/score/t0"] = valid_metrics["valid/wp/t0"]
         valid_metrics["valid/score/t1"] = valid_metrics["valid/wp/t1"]
+        combined = train_metrics | valid_metrics
         self.writer.append(
             "evaluation",
             step,
             epoch + 1,
-            train_metrics | valid_metrics,
+            combined,
             self._metric_context
             | {
                 "train_eval": self._train_eval_context
-                | {"coverage_complete": True, "batch_size": evaluation_batch_size},
+                | {
+                    "coverage_complete": True,
+                    "batch_size": evaluation_batch_size or self.evaluation_batch_size,
+                },
                 "valid": self._valid_context
                 | {
                     "coverage_complete": True,
                     "selected_rows": valid_metrics["valid/selected_rows"],
-                    "batch_size": evaluation_batch_size,
+                    "batch_size": evaluation_batch_size or self.evaluation_batch_size,
                 },
             },
         )
+        return combined
 
     def status(
         self, state: str, step: int, epoch: int, context: dict[str, object] | None = None
     ) -> None:
         """Append run status without rewriting fit metadata or earlier event lines."""
         self.writer.append("status", step, epoch, {}, {"status": state, **(context or {})})
-
-
-def _membership_sha256(members: list[tuple[str, int]]) -> str:
-    """Hash exact source-qualified membership without sorting identifiers."""
-    encoded = json.dumps([list(member) for member in members], separators=(",", ":")).encode()
-    return hashlib.sha256(encoded).hexdigest()
-
-
-def _validate_dataset_members(
-    dataset: SequenceDataset, expected: list[tuple[str, int]], scope: str
-) -> None:
-    """Check canonical SequenceRecords membership when the dataset exposes it."""
-    actual = getattr(dataset, "members", None)
-    if actual is not None and list(actual) != expected:
-        raise ValueError(f"{scope} dataset membership differs from its recorded cohort")
-    if getattr(dataset, "training_mask", "is_scored") != "is_scored":
-        raise ValueError(f"{scope} reporting cohort must use the official is_scored mask")
-
-
-def _gpu_identifier(device: torch.device) -> str | None:
-    """Resolve the physical UUID for this CUDA worker without guessing visible ordinals."""
-    if device.type != "cuda" or not torch.cuda.is_available():
-        return None
-    try:
-        identifier = getattr(torch.cuda.get_device_properties(device), "uuid", None)
-    except (AssertionError, RuntimeError, ValueError):
-        return None
-    if isinstance(identifier, bytes):
-        identifier = identifier.decode("ascii", errors="ignore")
-    elif identifier is not None and not isinstance(identifier, str):
-        identifier = str(identifier)
-    if not isinstance(identifier, str) or not identifier:
-        return None
-    if re.fullmatch(
-        r"[0-9A-Fa-f]{32}|[0-9A-Fa-f]{8}(?:-[0-9A-Fa-f]{4}){3}-[0-9A-Fa-f]{12}",
-        identifier,
-    ):
-        return f"GPU-{identifier}"
-    return identifier

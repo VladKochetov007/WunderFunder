@@ -20,6 +20,10 @@ from wnn.training.sequence_fit_artifacts import (
     record_epoch_metrics,
     write_final_outputs,
 )
+from wnn.training.sequence_fit_monitor_epoch import (
+    evaluate_full_valid,
+    publish_checkpoint_status,
+)
 from wnn.training.sequence_fit_resume import current_monitor_offsets, save_safe_state
 from wnn.training.sequence_fit_utils import (
     RankJsonlLog,
@@ -28,6 +32,9 @@ from wnn.training.sequence_fit_utils import (
 )
 from wnn.training.sequence_loop import train_epoch
 from wnn.training.sequence_monitor import SequenceMonitor
+from wnn.training.sequence_monitor_checkpoints import (
+    advance_early_stop,
+)
 from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
 
 
@@ -66,7 +73,12 @@ def run_epochs(
 ) -> None:
     """Train, report validation before checkpoints, and finish the primary artifacts."""
     config, context, output = runtime.config, runtime.context, runtime.output
+    monitoring = config.get("monitoring")
+    early_policy = monitoring.get("early_stopping") if isinstance(monitoring, Mapping) else None
+    stopped_early = bool(history and history[-1].get("early_stopped", False))
     for epoch in range(start_epoch, int(config["epochs"])):
+        if stopped_early:
+            break
         torch.cuda.reset_peak_memory_stats(context.device)
         result = train_epoch(
             runtime.dataset,
@@ -86,28 +98,52 @@ def run_epochs(
         if not all_ranks_true(optimizer_states_are_finite_fp32(runtime.optimizer), context):
             raise FloatingPointError("optimizer state is not finite strict-FP32 at epoch boundary")
         global_step += result.updates
+        evaluation: dict[str, int | float] | None = None
         if monitoring_enabled:
-            coordinated_call(
-                lambda current_epoch=epoch, current_step=global_step: (
-                    runtime.monitor.evaluate_epoch(
-                        runtime.base_model,
-                        runtime.train_eval_dataset,
-                        runtime.evaluation_dataset,
-                        int(config["chunk_rows"]),
-                        int(config["batch_size"]),
-                        str(config.get("precision_mode", "fp32")),
-                        context,
-                        current_epoch,
-                        current_step,
-                    )
-                    if context.is_primary and runtime.monitor is not None
-                    else True
-                ),
-                "full report-only train-eval and valid evaluation",
+            if not isinstance(monitoring, Mapping):
+                raise TypeError("enabled monitor configuration must be a mapping")
+            evaluation = evaluate_full_valid(
+                runtime.monitor,
+                runtime.base_model,
+                runtime.train_eval_dataset,
+                runtime.evaluation_dataset,
+                config,
+                monitoring,
                 context,
+                epoch,
+                global_step,
             )
         summary = epoch_summary(result, config)
-        history.append({"epoch": epoch, **summary})
+        history_row: dict[str, object] = {"epoch": epoch, **summary}
+        stop_decision = None
+        if evaluation is not None:
+            history_row.update(
+                {
+                    "train_eval_wp": float(evaluation["train_eval/wp"]),
+                    "train_eval_wp_t0": float(evaluation["train_eval/wp/t0"]),
+                    "train_eval_wp_t1": float(evaluation["train_eval/wp/t1"]),
+                    "valid_wp": float(evaluation["valid/wp"]),
+                    "valid_wp_t0": float(evaluation["valid/wp/t0"]),
+                    "valid_wp_t1": float(evaluation["valid/wp/t1"]),
+                }
+            )
+            if isinstance(early_policy, Mapping):
+                stop_decision = advance_early_stop(
+                    history, epoch + 1, float(evaluation["valid/wp"]), early_policy
+                )
+                history_row.update(
+                    {
+                        "early_stop_best_raw_wp": stop_decision.best_wp,
+                        "early_stop_best_epoch": stop_decision.best_epoch,
+                        "early_stop_patience_reference_wp": stop_decision.reference_wp,
+                        "early_stop_delta_improved": stop_decision.delta_improved,
+                        "early_stop_best_improved": stop_decision.best_improved,
+                        "early_stop_bad_checks": stop_decision.bad_checks,
+                        "early_stopped": stop_decision.should_stop,
+                    }
+                )
+                stopped_early = stop_decision.should_stop
+        history.append(history_row)
         rates = optimizer_learning_rates(runtime.optimizer)
         coordinated_call(
             lambda current_summary=summary, current_epoch=epoch, current_step=global_step, current_rate=rates: (
@@ -156,6 +192,36 @@ def run_epochs(
                 context,
                 "safe-epoch inference snapshot publication",
             )
+        if isinstance(early_policy, Mapping):
+            if latest_index is None:
+                raise RuntimeError("early-stop monitoring requires retained epoch checkpoints")
+            epoch_status = (
+                "early_stopped"
+                if stopped_early
+                else "completed"
+                if epoch + 1 == int(config["epochs"])
+                else "running"
+            )
+
+            publish_checkpoint_status(
+                output,
+                runtime.identity,
+                epoch_status,
+                global_step,
+                epoch + 1,
+                history,
+                latest_index,
+                early_policy,
+                runtime.monitor,
+                context,
+                {
+                    "valid_wp": float(evaluation["valid/wp"]),
+                    "stop_reason": "patience_exhausted" if stopped_early else None,
+                },
+                "monitored checkpoint pointer update",
+            )
+        if stopped_early:
+            break
     coordinated_call(
         lambda: (
             write_final_outputs(
@@ -174,17 +240,23 @@ def run_epochs(
             if context.is_primary
             else True
         ),
-        "fixed-final checkpoint write",
+        "completed checkpoint write",
         context,
     )
     if monitoring_enabled:
-        coordinated_call(
-            lambda: (
-                runtime.monitor.status("completed", global_step, int(config["epochs"]))
-                if context.is_primary and runtime.monitor is not None
-                else True
-            ),
-            "monitor completed status append",
+        final_status = "early_stopped" if stopped_early else "completed"
+        publish_checkpoint_status(
+            output,
+            runtime.identity,
+            final_status,
+            global_step,
+            len(history),
+            history,
+            latest_index,
+            early_policy if isinstance(early_policy, Mapping) else None,
+            runtime.monitor,
             context,
+            {"completion_kind": "declared_early_stop" if stopped_early else "max_epochs"},
+            "monitor terminal status append",
         )
     barrier(context)

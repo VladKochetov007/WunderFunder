@@ -30,6 +30,7 @@ from wnn.training.sequence_fit_utils import (
     total_updates,
 )
 from wnn.training.sequence_models import build_sequence_model
+from wnn.training.sequence_monitor_budget import validate_monitor_event_budget
 from wnn.training.sequence_monitor_events import (
     MONITOR_EVALUATION_FILENAME,
     MONITOR_EVENT_FILENAME,
@@ -64,19 +65,22 @@ def _prepare_model(
     mean, std = data.normalization()
     mean = mean.to(device=context.device, dtype=torch.float32).reshape(-1)
     std = std.to(device=context.device, dtype=torch.float32).reshape(-1)
+    model_mean = getattr(model, "mean", None)
+    model_std = getattr(model, "std", None)
+    if not isinstance(model_mean, torch.Tensor) or not isinstance(model_std, torch.Tensor):
+        raise TypeError("sequence model must expose mean and std normalization buffers")
     valid_normalization = (
-        mean.shape == (112,)
-        and std.shape == (112,)
+        mean.ndim == 1
+        and mean.numel() > 0
+        and mean.shape == std.shape == model_mean.shape == model_std.shape
         and bool(torch.isfinite(mean).all())
         and bool(torch.isfinite(std).all())
         and bool((std > 0).all())
     )
     if not valid_normalization:
-        raise ValueError("normalization must contain 112 finite means and positive FP32 scales")
-    model_mean = getattr(model, "mean", None)
-    model_std = getattr(model, "std", None)
-    if not isinstance(model_mean, torch.Tensor) or not isinstance(model_std, torch.Tensor):
-        raise TypeError("sequence model must expose mean and std normalization buffers")
+        raise ValueError(
+            "normalization must match model buffers and contain finite positive scales"
+        )
     with torch.no_grad():
         model_mean.copy_(mean)
         model_std.copy_(std)
@@ -158,12 +162,31 @@ def run_sequence_fit(
         schedule_updates = total_updates(config, len(fit_dataset), context.world_size)
         if schedule_updates < 1:
             raise ValueError("configured fit has no optimizer updates")
+        if monitor_config is not None and "training_telemetry_every_steps" in monitor_config:
+            validate_monitor_event_budget(
+                schedule_updates,
+                int(config["epochs"]),
+                int(monitor_config["training_telemetry_every_steps"]),
+                int(monitor_config["diagnostics_every_steps"]),
+            )
         optimizer, scheduler = make_optimizer(base_model, config, schedule_updates)
         root = Path(__file__).resolve().parents[3]
         if monitor_config is not None:
+            model_config = config["model"]
+            input_feature_mode = str(model_config.get("input_feature_mode", "raw112"))
             data.provenance["monitoring_plan"] = {
-                "validation_reporting": (
-                    "full official valid after each epoch; report-only; no checkpoint selection"
+                "validation_reporting": "full official valid after each epoch; metrics exposed",
+                "train_eval_mask": monitor_config.get("train_eval_mask", "is_scored"),
+                "valid_mask": "is_scored",
+                "input_feature_mode": input_feature_mode,
+                "checkpoint_selection": (
+                    "best pointer follows strict raw full-valid WP highs; validation is exposed"
+                ),
+                "early_stopping": monitor_config.get("early_stopping"),
+                "early_stopping_semantics": (
+                    "min_delta resets patience only; count consecutive full-valid checks from "
+                    "the first check; stop eligibility begins at min_epoch; scheduler horizon "
+                    "remains the configured epoch cap"
                 ),
                 "train_eval_members": [list(member) for member in train_eval_members],
                 "event_files": [MONITOR_EVENT_FILENAME, MONITOR_EVALUATION_FILENAME],
@@ -204,6 +227,7 @@ def run_sequence_fit(
             identity,
             resume_path is not None,
             context,
+            str(config["model"].get("input_feature_mode", "raw112")),
         )
         rank_log = coordinated_call(
             lambda: RankJsonlLog(
