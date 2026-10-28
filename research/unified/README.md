@@ -1,5 +1,15 @@
 # Unified research library
 
+## 28 October: authorized fixed eight-L4 launch
+
+The [current launch packet](../experiment_drafts/galam-l4-quality8-20261028/launch/README.md)
+supersedes the earlier six-fit and v1 preparation panels with the user's exact
+plain-GRU benchmark plus seven GALAM configurations. [Draft PR46](https://github.com/VladKochetov007/WunderFunder/pull/46)
+is published as SemyonEpanov. The receiver passes38 targeted Torch2.8 CPU checks;
+24 discarded strict-FP32 shape probes support a common GALAM384 candidate.
+Full train delivery/source-qualified preparation and exact real-data profiles
+still precede scientific admission. No trained-model quality is claimed here.
+
 ## 28 October: GALAM local monitoring and L4 preparation
 
 The [implementation packet](../experiment_drafts/galam-l4-monitoring-20261028/README.md)

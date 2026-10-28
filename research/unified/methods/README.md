@@ -1,5 +1,11 @@
 # Methods, sampling, and metric
 
+- [Fixed eight-L4 delivery](../../experiment_drafts/galam-l4-quality8-20261028/launch/README.md)
+  implements bounded source-audit/index/component/split preparation, cached
+  train-only112/211-feature moments, one-batch prefetch and strict profile-based
+  admission. Receiving compatibility and synthetic shape evidence are measured;
+  complete-source profiles/full fits remain pending input delivery.
+
 - [GALAM live monitoring and L4 preparation](../../experiment_drafts/galam-l4-monitoring-20261028/README.md)
   separates comparable train-eval/valid curves from online fitting loss, preserves
   full chronological primary evaluation, and defines bounded model/resource
