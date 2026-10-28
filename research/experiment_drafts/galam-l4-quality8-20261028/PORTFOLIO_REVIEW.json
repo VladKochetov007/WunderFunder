@@ -1,0 +1,37 @@
+﻿{
+  "schema": "wnn.galam-quality8-final-panel-review.v1",
+  "date": "2026-10-28",
+  "review_scope": "Offline proposal/source review only. No fits, tests, GPU use, SSH, or server changes.",
+  "verdict": "The proposed eight-fit panel is coherent for a one-seed quality screen. Keep the full LSTM baseline as the engineering anchor and drop heads8 in favor of the LR arm. Treat all scores as exposed-valid recipe selection, not independent confirmation.",
+  "panel": [
+    {"arm": "baseline", "treatment": "Full LSTM W64, history64, chunk64, batch16, FP32 AdamW 1e-4, 5 epochs.", "review": "Good documented anchor. Its dimensions, optimizer, and horizon are assumptions, not the recovered GALAM recipe."},
+    {"arm": "width128", "treatment": "Full LSTM W128; scale dependent widths to 2W.", "review": "Strong quality-relevant capacity test. This changes the whole width-scaled graph and parameter count, so label it a capacity package; check the exact count and profile memory."},
+    {"arm": "lstm-depth2", "treatment": "Full LSTM with two recurrent layers.", "review": "Useful representation-depth test; supported by config/state shapes. Additional recurrence and no inter-layer dropout raise optimization/overfit risk."},
+    {"arm": "gru72", "treatment": "Full GRU W72, approximate parameter match to baseline.", "review": "Useful alternative architecture. Not a pure cell comparison: it removes cell state/projection and changes fusion from four to three channels. Verify exact parameter count; make no gate-only attribution."},
+    {"arm": "history256", "treatment": "Full LSTM with history256; keep timestamp_scale=1 and all other baseline fields fixed.", "review": "Plausible longer-memory quality test, but it tests that cache under an assumed relative-time scale. The Linear-Tanh-Linear bias sees ordinal distance divided by scale; at scale1, larger lags can enter saturated Tanh regions, reducing fine lag distinctions. Record attention lag/bias diagnostics. With chunk64, cache values from prior chunks are detached: they can influence predictions, but gradients do not flow through those past chunks. Do not describe it as longer BPTT."},
+    {"arm": "tbptt256", "treatment": "Full LSTM chunk256, batch16, accumulate_chunks1.", "review": "Direct longer-gradient-horizon test. It also gives about 4x fewer optimizer updates per epoch and 4x more rows per update; the schedule is recomputed over fewer total updates. Declare this as a joint horizon/update-granularity treatment, report updates, tokens/update, gradient norms and peak memory. Keeping batch16 avoids changing the per-time BatchNorm batch size."},
+    {"arm": "adamw-lr", "treatment": "Full LSTM baseline with AdamW lr2e-4 (if retaining the current 3e-4 proposal, label it a 3x high-risk step).",
+     "review": "High relevance because 1e-4 is not measured as optimal. I favor 2e-4 as the first adjacent test with one fit and no baseline curve evidence; this is a risk choice, not a claim that 2e-4 is better. A 3e-4 arm is more discriminating but more likely to destabilize or overshoot."},
+    {"arm": "horizon10", "treatment": "Full LSTM baseline for 10 epochs; same warmup fraction, cosine schedule stretched across all 10 epochs.", "review": "High quality potential and a good use of an L4 lane. This is longer training plus a retimed LR trajectory, not simply epochs6-10 appended to the baseline schedule. Fixed endpoint is epoch10; 5-epoch/intermediate scores remain report-only."}
+  ],
+  "cross_arm_notes": {
+    "breadth": "All fits use seed1001. Shared seed supports a reproducible breadth screen, not seed-variance estimation, significance, or matched initialization tensors across different shapes.",
+    "budget": "Seven 5-epoch fits plus one 10-epoch fit equals 45 fit-epochs. This is not a wall-time estimate; no warmed L4 throughput is known. Width128, history256, and chunk256 can have different per-row cost and memory.",
+    "checkpoint_policy": "Report full official valid after each epoch, without selection or early stopping on valid. Use each recipe's fixed final scheduled epoch as primary checkpoint. Valid is already exposed and repeated use increases selection exposure.",
+    "comparison_limits": "Do not combine candidate changes in this wave or infer interactions. Rank descriptively on the complete official valid endpoint, report per-target metrics and all arm outcomes, and use a targeted follow-up before treating any single-seed winner as stable."
+  },
+  "readiness": "Recipe-only review; launch still depends on the existing data, disk, runtime, GPU-availability, source-qualified membership, and user-consultation gates. The official train/valid boundary remains primary; train-only transforms and no seq_ix ordering are mandatory.",
+  "unknowns": [
+    "No numerical quality gain, optimal width/head/history, best learning rate, training ETA, or L4 memory use is known.",
+    "Original GALAM dimensions and training recipe remain unavailable; current W64 anchor is a schematic Connectome adaptation, not exact reconstruction."
+  ],
+  "source_checks": [
+    "research/experiment_drafts/galam-l4-monitoring-20261028/PLAN.json",
+    "research/experiment_drafts/galam-l4-monitoring-20261028/L4_PREFLIGHT.json",
+    "research/unified/sources/galam-20261027/FIDELITY.md",
+    "src/wnn/galam/attention.py",
+    "src/wnn/galam/state.py",
+    "src/wnn/training/sequence_loop.py",
+    "src/wnn/training/sequence_loop_window.py"
+  ]
+}

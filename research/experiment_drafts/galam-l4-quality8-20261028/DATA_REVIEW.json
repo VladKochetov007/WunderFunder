@@ -1,0 +1,293 @@
+﻿{
+    "schema":  "wnn.offline-data-recovery-review.v1",
+    "date":  "2026-10-28",
+    "worktree":  "C:/Users/admin/Documents/Codex/reviews/WunderFunder-galam-20261027",
+    "branch":  "experiment/galam-l4-quality8-20261028",
+    "scope":  "Offline, read-only local review; no SSH, network, downloads, GPU, training, tests, or repo edits.",
+    "decision":  "not_ready_after_read_only_memory_audit; storage decision pending user consultation",
+    "authority":  {
+                      "contract":  "research/experiment_drafts/galam-l4-quality8-20261028/CONTRACT.json",
+                      "validation_policy":  "specs/adr/0044-chronological-primary-validation.md",
+                      "data_protocol":  "official train-only fitting; complete official valid evaluation; preserve whole sequences; exclude train components linked to valid; no seq_ix time ordering; previously inspected valid remains exposed"
+                  },
+    "source_review":  {
+                          "official_dataset_downloader_in_repo":  false,
+                          "finding":  "No reusable in-repo official raw-dataset downloader was found. Root supplied receiver INPUTS pins for train and valid. Train SHA/size are pinned, but the receiving partial has not been freshly rehashed; valid has a complete receipt and fresh footer/schema inventory.",
+                          "required_before_staging":  [
+                                                          "Consult on using the receipt-pinned train source and recovery/resume route for the existing partial, or provide another verified complete path.",
+                                                          "After completion, freshly hash the entire train file and compare exact bytes/SHA-256 to the INPUTS pin before accepting it.",
+                                                          "Record train Parquet footer/schema/group count and verify complete 20,000-row sequences, targets, and source-qualified seq_ix membership."
+                                                      ],
+                          "partial_file":  {
+                                               "path":  "/data2/lc-epanov_s/tabdata/datasets/train.parquet.partial",
+                                               "logical_bytes":  29240219011,
+                                               "allocated_bytes_from_reported_blocks":  8470466560,
+                                               "status":  "incomplete Parquet input; final range is missing and footer/schema are unavailable; no fresh full-file rehash",
+                                               "caveat":  "The receipt records 31 of 109 ranges complete, prefix 0, and a remaining final range at offset 28,991,029,248 of length 249,189,763 bytes. The first bytes are PAR1 but the final four bytes are 00000000, so this is not a verified complete Parquet. Allocated blocks (8,470,466,560) differ from receipt-recorded completed lengths (8,321,499,136); do not infer a contiguous or verified prefix.",
+                                               "expected_full_bytes_from_INPUTS_pin":  29240219011,
+                                               "expected_full_sha256_from_INPUTS_pin":  "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+                                               "receipt_progress":  "prefix 0; 31 of 109 ranges recorded complete, 8,321,499,136 completed bytes recorded, 20,918,719,875 remaining bytes recorded"
+                                           },
+                          "receiver_pins_and_receipt_state":  {
+                                                                  "train":  {
+                                                                                "bytes":  29240219011,
+                                                                                "sha256":  "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+                                                                                "transfer_prefix_completed_ranges":  0,
+                                                                                "receipt_completed_ranges":  31,
+                                                                                "receipt_total_ranges":  109,
+                                                                                "receipt_recorded_completed_bytes":  8321499136,
+                                                                                "receipt_recorded_remaining_bytes":  20918719875,
+                                                                                "fresh_rehash_performed":  false,
+                                                                                "progress_status":  "receipt-recorded only; not newly verified current progress",
+                                                                                "last_range_offset":  28991029248,
+                                                                                "last_range_length":  249189763,
+                                                                                "last_range_completed":  false,
+                                                                                "first_four_bytes":  "PAR1",
+                                                                                "last_four_bytes":  "00000000",
+                                                                                "footer_schema_available":  false,
+                                                                                "current_parquet_status":  "incomplete; footer/schema unavailable until the final range is resumed and verified"
+                                                                            },
+                                                                  "valid":  {
+                                                                                "bytes":  5615509128,
+                                                                                "sha256":  "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+                                                                                "receipt_status":  "complete",
+                                                                                "footer_rows":  37460000,
+                                                                                "footer_row_groups":  1873,
+                                                                                "rows_per_group":  20000,
+                                                                                "observed_columns":  "seq_ix, step_in_seq, 112 inputs, t0, t1, is_scored, need_prediction"
+                                                                            }
+                                                              }
+                      },
+    "scientific_input_closure":  {
+                                     "raw_sources":  [
+                                                         {
+                                                             "path":  "datasets/train.parquet",
+                                                             "expected_bytes_from_INPUTS_pin":  29240219011,
+                                                             "expected_sha256_from_INPUTS_pin":  "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+                                                             "role":  "complete earlier fitting source with t0/t1 labels; receiving partial is not yet freshly verified complete"
+                                                         },
+                                                         {
+                                                             "path":  "datasets/valid.parquet",
+                                                             "bytes":  5615509128,
+                                                             "sha256":  "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+                                                             "receipt_status":  "complete",
+                                                             "footer":  {
+                                                                            "rows":  37460000,
+                                                                            "row_groups":  1873,
+                                                                            "rows_per_group":  20000
+                                                                        },
+                                                             "observed_columns":  [
+                                                                                      "seq_ix",
+                                                                                      "step_in_seq",
+                                                                                      "112 inputs",
+                                                                                      "t0",
+                                                                                      "t1",
+                                                                                      "is_scored",
+                                                                                      "need_prediction"
+                                                                                  ],
+                                                             "role":  "complete later primary evaluation source; never fit or fit transforms on it"
+                                                         },
+                                                         {
+                                                             "path":  "datasets/valid_mask.parquet",
+                                                             "bytes":  91972846,
+                                                             "observed_columns":  [
+                                                                                      "seq_ix",
+                                                                                      "step_in_seq",
+                                                                                      "is_scored"
+                                                                                  ],
+                                                             "role":  "optional identity-consistency audit; unnecessary for current valid evaluation path because valid.parquet contains is_scored"
+                                                         }
+                                                     ],
+                                     "required_derived_membership":  [
+                                                                         "Feature-only source-qualified successor/component graph: cache/chains.npz with split, row_group, next, chain, and position.",
+                                                                         "Train and valid target index arrays with source-local row_group and seq_ix for each Parquet row group.",
+                                                                         "Frozen chronological manifest from scripts/build_chronological_primary_split.py after graph/index coverage and component checks pass."
+                                                                     ],
+                                     "labels_and_masks":  "The proposed recipe uses all_after_warmup for training; independently establish that every training t0/t1 label is valid outside is_scored before admission. For primary evaluation use embedded valid.parquet is_scored AND row_index\u003e=99, covering all 1,873 official valid sequences.",
+                                     "mask_integration_blocker":  "Resolved for the current evaluation path: fresh valid footer/schema inventory confirms is_scored is embedded in valid.parquet. The separate valid_mask.parquet is optional for a row-alignment/identity consistency audit and may remain needed by historical packets.",
+                                     "monitored_train_eval_schema_gate":  "sequence_fit_monitor_setup.py constructs train-eval SequenceRecords with training_mask=is_scored and calls validate_source_schema. If the official train source lacks is_scored (as existing project data notes indicate), monitored fitting aborts. Verify the completed train schema; if it lacks the mask, an explicitly labeled all_after_warmup train-eval path may be needed and requires review. No code change was made."
+                                 },
+    "existing_index_builders":  {
+                                    "chain_builder":  "scripts/sequence_chains.py reads feature edges and writes cache/chains.npz; hardcodes 10,607 train and 1,873 valid row groups, skips CORRUPT_TRAIN_ROW_GROUPS={528}, and defaults to 6 processes. Valid count is confirmed by the fresh valid footer; train count is not yet confirmed from a train footer.",
+                                    "target_builder":  "scripts/cache_targets.py writes row_group/seq_ix plus full y/mask/market_class arrays; it also skips train group 528 and has no small index-only mode.",
+                                    "manifest_builder":  "src/wnn/chronological_manifest.py requires graph and target-index membership to equal every physical row group in both Parquet files. It does not infer chronology from seq_ix. scripts/build_chronological_primary_split.py accepts --root and --output.",
+                                    "blocking_mismatch":  "The legacy producers omit group 528, while the new manifest requires graph and target-index coverage for every physical Parquet row group. data.py describes group 528 as a decode failure in a local copy. Audit the completed pinned train source footer and group readability before indexing; do not carry this historical exclusion forward without evidence. If the source is healthy, the current builders omit a real group; if corrupt, current manifest coverage still rejects the gap.",
+                                    "minimum_cache_option":  "The manifest reads only row_group and seq_ix from target caches. An index-only writer would avoid storing full labels/masks, but none was found in the repository; no new writer or data generation was done in this review."
+                                },
+    "storage":  {
+                    "required_raw_input_bytes_train_plus_valid":  34855728139,
+                    "optional_valid_mask_sidecar_bytes":  91972846,
+                    "raw_total_including_optional_sidecar_bytes":  34947700985,
+                    "raw_input_total_decimal_gb_train_plus_valid":  34.855728139,
+                    "trusted_train_size_bytes":  29240219011,
+                    "snapshot_free_bytes":  {
+                                                "/data2":  1267863552,
+                                                "/":  1744154624,
+                                                "/data":  1464483840
+                                            },
+                    "receipt_recorded_train_completion":  {
+                                                              "remaining_bytes":  20918719875,
+                                                              "completed_bytes":  8321499136,
+                                                              "completed_ranges":  31,
+                                                              "total_ranges":  109,
+                                                              "freshly_verified":  false
+                                                          },
+                    "minimum_in_place_completion":  {
+                                                        "assumption":  "valid.parquet is already complete on the same project filesystem; use the receipt-pinned train source and resume in place only after consultation",
+                                                        "additional_train_bytes_recorded_remaining":  20918719875,
+                                                        "shortfall_vs_data2_free_before_outputs_or_reserve":  19501888899,
+                                                        "caveat":  "Existing valid.parquet and mask sidecar are already allocated and are not counted again. Disk need uses expected train bytes minus current train partial allocated blocks: 20,769,752,451 bytes before filesystem overhead. Network receipt separately records 20,918,719,875 bytes remaining. No fresh rehash; actual allocation/progress remains unverified.",
+                                                        "additional_train_disk_allocation_from_current_partial_bytes":  20769752451,
+                                                        "network_transfer_bytes_recorded_remaining":  20918719875
+                                                    },
+                    "fresh_complete_train_copy_preserving_partial":  {
+                                                                         "new_train_bytes":  29240219011,
+                                                                         "shortfall_vs_data2_free_if_valid_is_already_resident":  27972355459,
+                                                                         "caveat":  "This is a separate full train copy while retaining the partial; it does not restage the already complete valid file. Confirm actual destination mount before budgeting."
+                                                                     },
+                    "legacy_target_cache_overhead_estimate_bytes":  {
+                                                                        "train_targets_npz_if_10606_groups":  1909164544,
+                                                                        "valid_targets_npz_for_1873_groups":  337184952,
+                                                                        "combined_if_train_has_10607_groups_and_group_528_is_excluded":  2246349496,
+                                                                        "basis":  "Uncompressed y and bool mask arrays from cache_targets.py; valid count is confirmed, train row-group count remains unknown. The new fit reader needs row_group/seq_ix membership, not cached label payloads.",
+                                                                        "status":  "Avoid for minimum staging if an index-only producer is approved; no such producer is currently in the repository."
+                                                                    },
+                    "policy":  "Use one shared raw-data copy for all eight GPUs. Stage only on approved physical project storage; tmpfs (/tmp or /dev/shm) is not a substitute. Do not delete, move, mount, resize, or extend storage before consultation.",
+                    "minimum_provisioning":  "For in-place completion, incremental train disk allocation is 20,769,752,451 bytes (expected train size minus 8,470,466,560 currently allocated bytes); with /data2 free at 1,267,863,552 bytes, the shortfall is 19,501,888,899 bytes before filesystem overhead and runtime/output reserve. Separately, network transfer receipt records 20,918,719,875 bytes remaining and is not a fresh rehash. Existing valid.parquet and valid_mask.parquet are already allocated and not double-counted. User requested memory audit first; no storage choice has been made.",
+                    "project_owned_cleanup_inventory":  {
+                                                            "observed_candidate":  {
+                                                                                       "name":  "uv_cache",
+                                                                                       "bytes":  401592320,
+                                                                                       "status":  "inventory fact only; not approved for deletion; exact path/ownership scope not supplied in this report"
+                                                                                   },
+                                                            "other_candidates":  "pending root read-only inventory",
+                                                            "observed_directories":  [
+                                                                                         {
+                                                                                             "name":  ".venv",
+                                                                                             "bytes":  7659151360,
+                                                                                             "disposition":  "preserve existing environment"
+                                                                                         },
+                                                                                         {
+                                                                                             "name":  "uv_cache",
+                                                                                             "bytes":  401592320,
+                                                                                             "disposition":  "not approved for deletion; even full removal is far below current shortfall"
+                                                                                         },
+                                                                                         {
+                                                                                             "name":  "runtime",
+                                                                                             "bytes":  19439616,
+                                                                                             "disposition":  "inventory only; no cleanup authorized"
+                                                                                         },
+                                                                                         {
+                                                                                             "name":  "scratch",
+                                                                                             "bytes":  667648,
+                                                                                             "disposition":  "inventory only; no cleanup authorized"
+                                                                                         },
+                                                                                         {
+                                                                                             "name":  "tmp/downloads",
+                                                                                             "bytes":  0,
+                                                                                             "disposition":  "empty at inventory"
+                                                                                         }
+                                                                                     ],
+                                                            "effect":  "No cleanup authorized. Current cache scans are incomplete and process maps are partly unreadable, so no cache can be declared idle/safe to remove. The earlier 401,592,320-byte uv_cache candidate alone cannot close the approximately 19.50 GB incremental disk shortfall; preserve .venv.",
+                                                            "root_reported_usage_bytes":  {
+                                                                                              "rsna":  76912775168,
+                                                                                              "rsna_uv_cache":  106647621632,
+                                                                                              "rsna_uv_cache_environments_v2":  97670987776,
+                                                                                              "rsna_uv_cache_archive_v0":  8950157312,
+                                                                                              "rsna_python":  114872320,
+                                                                                              "tabdata":  15005171712,
+                                                                                              "llmexps":  404594688,
+                                                                                              "reported_total":  199372230656,
+                                                                                              "note":  "Root-reported read-only du figures; do not infer all entries are disjoint or safe to clean."
+                                                                                          },
+                                                            "cache_scan":  {
+                                                                               "files_counted":  300001,
+                                                                               "time_seconds":  22.52,
+                                                                               "bytes_counted":  59228545024,
+                                                                               "all_observed_nlink":  1,
+                                                                               "status":  "capped/incomplete; does not establish full cache contents or safe reclaimable total"
+                                                                           },
+                                                            "raw_instance_store":  {
+                                                                                       "devices":  8,
+                                                                                       "bytes_each_gib":  875.4,
+                                                                                       "state":  "raw and unmounted; safe unused status not established",
+                                                                                       "action":  "no administrator mount changes"
+                                                                                   },
+                                                            "cleanup_consultation":  "Consult on either selected cache environments to audit for removal or administrator evaluation of instance-store use. No blanket deletion, environment deletion, mount change, or exact ETA is recommended."
+                                                        }
+                },
+    "runtime":  {
+                    "receiver_snapshot":  "Python 3.12.14, Torch 2.8.0+cu128, CUDA runtime 12.8, PyArrow 19.0.1; NVIDIA driver 570.172.08.",
+                    "locked_research_runtime":  "pyproject.toml requires Torch \u003e=2.14,\u003c2.15; uv.lock pins Torch 2.14.0+cu130 and CUDA 13.0 packages.",
+                    "recommendation":  "The lock pins Torch 2.14.0+cu130/CUDA 13.0, while the receiver is Torch 2.8.0+cu128 on driver 570.172.08. Do not assume this driver supports the locked cu130 runtime. After consultation, check documented/actual driver compatibility and use an isolated project-scoped locked environment only if supported; otherwise qualify 2.8/cu128 as a deliberately different runtime with explicit API/numerical and one-GPU profile evidence. No installation or workload occurred."
+                },
+    "staging_plan_after_consultation":  [
+                                            "Confirm the receipt-pinned train identity and obtain approval for the in-place recovery/resume route, or use another verified complete path; do not interpret recorded ranges as freshly verified bytes.",
+                                            "After the requested memory audit, consult on selected cache environments versus administrator evaluation of raw instance-store. For in-place train completion, current incremental disk shortfall is 19,501,888,899 bytes before overhead/output reserve; do not double-count already allocated valid/mask.",
+                                            "After completion, freshly verify the entire train size/SHA-256, then inspect its Parquet footer/schema/group count and all sequence row lengths. Valid already has a complete receipt, pinned SHA, and footer/schema inventory.",
+                                            "Use embedded valid.parquet is_scored for primary scoring; optionally compare valid_mask.parquet by seq_ix/step_in_seq/is_scored identity. Reconcile training label validity outside is_scored before using all_after_warmup.",
+                                            "Reconcile group-528 policy against the verified train source, then generate a feature-only graph and compact source-qualified row_group/seq_ix indexes from actual group counts. Keep workers bounded (one or two CPU workers); do not use the chain script default six without review.",
+                                            "Run chronological manifest coverage/component checks; assert valid membership is full evaluation, fit-valid is empty, and train components intersecting valid are excluded. Fit normalizers only on final train fitting members.",
+                                            "Keep the raw data shared across GPUs; profile one actual receiver GPU and full-valid evaluation before starting the eight-fit panel.",
+                                            "Check the completed train schema against monitoring setup: its train-eval cohort currently requires is_scored. If absent, resolve and explicitly label a train-eval mask policy before launching monitored fits; do not silently claim mask equivalence with valid."
+                                        ],
+    "old_packets":  "Preserve historical recipes, source pins, caches, scores, and exposure labels unchanged. They may be replayed only with their exact pinned inputs; old/random-fold packets do not substitute for the new complete official train source or chronological manifest.",
+    "consultation_items":  [
+                               "Memory audit is complete as read-only evidence; choose whether to investigate specific cache environments for reclaim or ask an administrator to assess raw instance-store. No cleanup or mount choice has been made.",
+                               "For in-place train completion, authorize a concrete physical-storage path or exact cleanup candidates; incremental shortfall is about 19.50 GB before overhead/output reserve. Do not delete broad caches or the existing .venv.",
+                               "Approve recovery/resumption using the exact receipt-pinned train size/SHA, or provide an alternate verified complete train path.",
+                               "After train verification, approve receiver runtime preparation and bounded measurements only after cu130/driver compatibility is established.",
+                               "Finalize eight-fit recipe/retention panel, schedule, and budget after verified input staging and measured profile."
+                           ],
+    "unverified_or_not_done":  [
+                                   "Train source size/SHA are pinned by parent-supplied INPUTS receipt, but the current partial was not freshly rehashed; 31 completed ranges/8,321,499,136 bytes are receipt-recorded, not newly verified progress. The final 249,189,763-byte range remains incomplete.",
+                                   "Train Parquet footer/schema and row-group count are unavailable until that range is resumed and the full file is verified; row-group 528 readability, label validity outside is_scored, and final source-qualified target index remain unverified.",
+                                   "The train-evaluation monitor currently requires is_scored. Whether the completed train source has that column remains unknown; an alternate explicitly labeled train-eval policy may need review.",
+                                   "Parent supplied a complete valid receipt and fresh footer/schema inventory; this offline reviewer did not connect to the receiver. The optional sidecar identity-consistency audit was not run.",
+                                   "Root closed its sole SSH connection normally at approximately 01:44Z; no remote changes were made.",
+                                   "No data preparation, transfer, environment change, test, training, profile, or fit was run by this reviewer.",
+                                   "Read-only memory/disk facts were supplied by root; 949 of 2,651 process maps were unreadable, so no cache-idle conclusion is supported. Cache file accounting was capped/incomplete; raw instance-store is not proven safe/unused."
+                               ],
+    "local_references":  [
+                             "AGENTS.md",
+                             "specs/adr/0044-chronological-primary-validation.md",
+                             "research/experiment_drafts/galam-l4-quality8-20261028/CONTRACT.json",
+                             "research/experiment_drafts/galam-l4-monitoring-20261028/L4_PREFLIGHT.json",
+                             "research/experiment_drafts/galam-reconstruction-20261027/README.md",
+                             "scripts/sequence_chains.py",
+                             "scripts/cache_targets.py",
+                             "scripts/build_chronological_primary_split.py",
+                             "src/wnn/chronological_manifest.py",
+                             "src/wnn/chronological_splits.py",
+                             "src/wnn/training/sequence_data.py",
+                             "pyproject.toml",
+                             "uv.lock"
+                         ],
+    "read_only_server_audit":  {
+                                   "source":  "parent-supplied read-only root audit; this reviewer did not SSH",
+                                   "connection":  "root closed the sole SSH connection normally",
+                                   "memory":  {
+                                                  "total_gib":  728,
+                                                  "available_gib":  457,
+                                                  "shared_gib":  230,
+                                                  "swap_gib":  0,
+                                                  "psi_pressure":  "none observed",
+                                                  "interpretation":  "no current RAM pressure observed, but this does not establish cache idleness"
+                                              },
+                                   "process_maps":  {
+                                                        "pids_scanned":  2651,
+                                                        "unreadable_maps":  949,
+                                                        "observed_cache_matches":  0,
+                                                        "interpretation":  "cannot assert caches are idle because many maps were unreadable"
+                                                    },
+                                   "gpu":  {
+                                               "count":  8,
+                                               "model":  "NVIDIA L4",
+                                               "memory_mib_each":  23034,
+                                               "free_devices":  7,
+                                               "gpu4_existing_root_services_mib":  1148,
+                                               "interpretation":  "do not stop existing root-owned services or assume all eight devices are free"
+                                           },
+                                   "cleanup_review":  "Cache size scan was capped at 300,001 files and 22.52 seconds; it counted 59,228,545,024 bytes, all observed nlink=1, and is incomplete. Raw 8x875.4-GiB NVMe instance-store is unmounted and not proven safe/unused. Consult on selected cache environments versus administrator evaluation of instance-store; no blanket deletion, mount change, or ETA."
+                               }
+}

@@ -1,3 +1,91 @@
+## 28 October15:43UTC: measured GALAM contribution; seven fits continue
+
+[Fixed blend result](../research/experiment_drafts/galam-ensemble-diagnostics-20261028/RESULTS.md):80%cleanGRUepoch8+20%GALAM-LSTM128epoch3 scores0.681219679 (+.003363555) on full official valid, independently rescored from hashed arrays. GALAM-GRU72fixed20% gives0.680993482 (+.003137359). Exposed, single-seed benchmark evidence; no fitted coefficients, full-team-ensemble, serving or public-score claim.
+
+Inference worker4086649 exited and freedGPU0. Seven original fits keep their original PIDs/start ticks/source/configs; GRU is terminal after10epochs. ReuseSSH98495. No stopped fit resumed or extra neural fit launched. Earlier startup notes below are historical.
+
+## 28 October: eight full L4 fits are active
+
+Do not duplicate or resume these jobs. The user explicitly authorized the fixed
+[full eight-fit panel](../research/experiment_drafts/galam-l4-quality8-20261028/launch/README.md).
+Launch e635250b62fa489d94c987d4898ff417 runs all eight independent fresh fits on
+8 L4 GPUs, seed1001, maximum20epochs, min5/patience4/delta.0005 stopping.
+Plain GRU batch32; all seven GALAM variants batch384; one prefetched batch;
+full official valid every epoch. Fitting uses10325 train sequences only, excludes
+282 train members linked to valid, and preserves all1873 valid sequences.
+
+[First GRU epoch](../research/experiment_drafts/galam-l4-quality8-20261028/launch/FIRST_EPOCH_RESULT.json)
+reports full-valid WP0.6681328342 on3,528,273 scored rows; it is intermediate,
+single-seed and development-exposed. Train-eval uses a different row mask, so
+its lower WP is not an overfit-gap comparison. Other fits continue. Exact source,
+process ownership, independent reviews and evidence byte archives are indexed
+in the packet; PR46 and its node publisher record hourly/terminal updates as
+SemyonEpanov, independently of SSH. Root final source is R9 commit50053909 / SHA
+f9685716d64ecb5ceef2ec821781fa4078ff21661201edfcdac8292867990230.
+
+## 28 October — GRU recipe history audited before revised L4 execution
+
+The user accepts the revised twenty-epoch-cap layout in principle, with GRU
+history audited first. [The synthesis](../research/unified/reviews/GRU_PRESETS_HISTORY_AUDIT_20261028_R1.md)
+distinguishes the historical plain H256x2 scratch prior (causal211inputs,
+chunk1000, B32, Muon recurrent gates, LR1e-3, OneCycle) from warm AdamW1e-4
+students and the new schematic GALAM-GRU72. It recommends a fresh plain-GRU
+control, labels width/depth/HPO/loss/epoch evidence as historical and preserves
+the old train+valid/propensity/teacher ancestry exclusions. Three independent
+metadata/source reviews; no new fit, regrade, test, GPU profile, SSH or transfer.
+GitHub connector refresh unavailable404/422; source base a52ccafb. Data/runtime/
+monitor-mask/integration/profile gates remain before the revised launch.
+
+## 28 October — eight-L4 quality proposal, memory audit and authorized cleanup
+
+The user requests one baseline plus seven candidates, one per L4, and consultation
+before full launch. The [new packet](../research/experiment_drafts/galam-l4-quality8-20261028/README.md)
+contains eight loader-checked recipes and independent portfolio/data reviews.
+Zero scientific fits or GPU profiles. Official chronological primary validation
+remains mandatory; the old six-fit panel is superseded for this wave only.
+
+The user then requested a memory audit and explicitly authorized deleting RSNA.
+Exact own rsna/rsna_uv_cache/rsna_python paths were removed, /data2 free space
+verified74,581,975,040bytes, tabdata sources/Python preserved. RAM~457GiB available,
+all L4 computation idle in snapshot, root-owned GPU4 services retain1148MiB.
+Train receipt has31/109completed ranges and20,918,719,875bytes remaining before
+reverification; valid footer and complete transfer receipt exist. No download,
+runtime install or fit has started. Data/index/train-monitor-mask/runtime and
+actual profile/time-budget checks remain before full launch. Prior entries below
+describe historical snapshots, including now-superseded disk-full observations.
+
+## 28 October — local dashboard, recurrent variants and L4 preflight
+
+The user requests implemented online monitoring and a local dashboard, plus a
+GRU/local-only comparison plan for8xL4. The [new packet](../research/experiment_drafts/galam-l4-monitoring-20261028/README.md)
+preserves the engineering contract and a live read-only resource receipt.
+Eight L4 cards respond, but the inspected data mounts are full, official train
+is only a partial download and chronological caches are not found in the bounded
+project inventory. The existing host Torch2.8 differs from the checked source's
+Torch2.14 environment. No scientific fit, GPU profile or remote mutation has run.
+Prospective primary validation remains ADR0044; historical folds are unchanged.
+
+Implementation source d430dbf6 includes full epoch monitoring, replay-safe journals,
+sampled diagnostics/resources, monitored engineering profiles and GRU/local-only
+variants. [Validation](../research/experiment_drafts/galam-l4-monitoring-20261028/VALIDATION.json)
+records92 targeted passes/1Windows symlink skip and real browser/API checks;
+the same11 wider legacy failures reproduce at frozen base4bcb49f1. Local services
+127.0.0.1:8766(real run folder empty) and8767(labelled synthetic demo) are up.
+Six recipes are prepared; zero competition fits or GPU profiles ran, and the
+single inventory SSH connection was closed normally. Receiving checks/data/disk
+repair remain prerequisites, not authorization to restart stopped jobs.
+
+## 27 October — chronological validation policy and GALAM preparation
+
+The user requires Predictorium-style chronological primary validation for all
+future work. [ADR0044](adr/0044-chronological-primary-validation.md) supersedes
+random-fold primary-selection defaults while preserving historical receipts.
+The [GALAM reconstruction packet](../research/experiment_drafts/galam-reconstruction-20261027/README.md)
+implements source-traced components from four supplied screenshots. Original
+widths, heads, context and ensemble details remain unverified. No scientific
+fit, GPU profile, remote execution or empirical quality claim is authorized or
+performed in this preparation. Old dated running entries below are history.
+
 **21 October13:29UTC — fixed first-cell comparison completed and stopped:** [Final five-arm report](../research/campaign_2026-10-19/full_gru_tweaks_r1/FIRST_CELL_COMPARISON_20261021.md) records all five fixedep5 scores on468 fit-excluded EXPOSED development groups. CONTROL WP0.674830; EMA0.674779; Sparse0.674935; NLL0.675569; AllThree0.675909. AllThree−CONTROL+0.001078, unadjusted paired95% component CI[+0.000069,+0.002245]; the other three intervals cross zero. These intervals are conditional on the fixed models, not fit-seed/public-transfer uncertainty. [ROOT acceptance](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/SCORE_ACCEPTANCE.json) was durable13:23UTC before [Exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/exact_stop/README.md)13:29UTC of only successful score-v3; both failed score units remain preserved/excluded. All6scientificfits and5separate prerequisites are closed, no further fits/re-export/retuning. [Independent metadata audit](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/ACTUAL_SCORE_ACCEPTANCE_METADATA_REVIEW.json) verifies original RESULT/scalar/source joins without ROOT array reads. [Final source/recovery index](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021_V6.md) preserves versioned source gates and negatives. [Publication validation](../research/campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_FIRST_CELL_SCORED.json) records final local publication checks.
 
 ---

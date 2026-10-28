@@ -1,5 +1,40 @@
 # Unified research library
 
+## 28 October: authorized fixed eight-L4 launch
+
+The [current launch packet](../experiment_drafts/galam-l4-quality8-20261028/launch/README.md)
+supersedes the earlier six-fit and v1 preparation panels with the user's exact
+plain-GRU benchmark plus seven GALAM configurations. [Draft PR46](https://github.com/VladKochetov007/WunderFunder/pull/46)
+is published as SemyonEpanov. All eight full fits now run after complete data
+preparation and independent checks of eight actual-source profiles. Common
+GALAM batch384 and plain-GRU32 are frozen. [GRU epoch1](../experiment_drafts/galam-l4-quality8-20261028/launch/FIRST_EPOCH_RESULT.json)
+reports full-valid WP0.6681328342 on all1873 valid sequences; it is an intermediate
+single-seed result with exposed validation. The node posts hourly and terminal
+updates independently of SSH; source/evidence archives and ownership are linked
+from the packet. No final model ranking or public-score claim is made.
+
+## 28 October: GALAM local monitoring and L4 preparation
+
+The [implementation packet](../experiment_drafts/galam-l4-monitoring-20261028/README.md)
+tracks actual train/valid telemetry, a local selectable dashboard and explicit
+recurrent/branch adaptations. Its [live L4 preflight](../experiment_drafts/galam-l4-monitoring-20261028/L4_PREFLIGHT.json)
+finds8GPUs but full data disks and an unverified partial train file; no fit or GPU
+profile was launched. Original GALAM identity and training quality stay unverified.
+[Validation](../experiment_drafts/galam-l4-monitoring-20261028/VALIDATION.json)
+records92 targeted passes/1skip, independent criticism and live browser checks;
+the local demo is explicitly synthetic. Six runnable recipes remain unadmitted
+until actual data/headroom/runtime/profile checks pass.
+
+## 27 October: chronological validation and GALAM reconstruction
+
+[ADR0044](../../specs/adr/0044-chronological-primary-validation.md) makes the
+Predictorium-style train/valid boundary mandatory for future primary comparisons.
+The [source-traced GALAM packet](../experiment_drafts/galam-reconstruction-20261027/README.md)
+provides reconstructed visible blocks,32→32/112→2 example configurations and
+canonical training integration. [Sources and unknowns](sources/galam-20261027/README.md)
+separate original diagram evidence from assumptions. CPU checks pass; no new fit,
+GPU profile, actual-data chronology audit or exact reference identity is claimed.
+
 PR32 R4: [batch96/64 selection, batch128 measurement and CPU/transfer costs](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/BATCH_THROUGHPUT_20261024.md).
 
 PR32 execution handoff: [measured Blackwell recipe, startup repair and four-teacher allocation](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/README.md).

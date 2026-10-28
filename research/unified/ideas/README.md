@@ -1,5 +1,12 @@
 # Ideas and hypotheses
 
+- [Source-traced GALAM and four WUNDERNN directions](../sources/galam-20261027/SOURCE_IDEAS.json)
+  preserves Sultan's recurrent diversity/SWA/augmentation, Denis's dual-memory
+  fusion, AlexKlos's pretrained GRU memory and arsenyinfo's causal EMA/ridge.
+  [H-GALAM-20261027 / E-GALAM-20261027 packet](../../experiment_drafts/galam-reconstruction-20261027/README.md)
+  implements the visible GALAM graph and chronological policy only; no new
+  scientific fit or exact-reference claim. Other directions remain unrun arms.
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**
@@ -208,3 +215,5 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 - [R4 fixed nonlinear follow-up](../../campaign_2026-10-19/idea_screens_r4/README.md) tests four matched identity/tanh random-feature cases on the existing R3 panel. Selected endpoints lose0.009039/0.023440WP; the predeclared history alpha1 contrast remains+0.002015 with32positive fixed-prediction drop-one contrasts. No outer retuning, generic nonlinear-family rejection, full-model/public or recurrent-state claim. Results, exact22pin source, tests/reviews, audit and operational evidence are indexed together.
 
 - [Idea12 narrow moment-decoder result](../../campaign_2026-10-19/idea_screens_r5/RESULTS.md): with identical fitted heads, a predicted denominator loses0.025555WP to a constant denominator; all32 fixed-prediction drop-one contrasts are negative. A positive constant-vs-stored-R3 recipe contrast is retained without claiming joint-head causality or general moment-model failure.
+
+- [Compact Transformer factor/LR screens with live train/val figures](../../experiment_drafts/compact-factor-sweep-20261026/README.md): eight new fits, exact PR43 controls reused; bounded profiles before admission.
