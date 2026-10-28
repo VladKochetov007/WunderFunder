@@ -1,3 +1,16 @@
+## 28 October — GRU recipe history audited before revised L4 execution
+
+The user accepts the revised twenty-epoch-cap layout in principle, with GRU
+history audited first. [The synthesis](../research/unified/reviews/GRU_PRESETS_HISTORY_AUDIT_20261028_R1.md)
+distinguishes the historical plain H256x2 scratch prior (causal211inputs,
+chunk1000, B32, Muon recurrent gates, LR1e-3, OneCycle) from warm AdamW1e-4
+students and the new schematic GALAM-GRU72. It recommends a fresh plain-GRU
+control, labels width/depth/HPO/loss/epoch evidence as historical and preserves
+the old train+valid/propensity/teacher ancestry exclusions. Three independent
+metadata/source reviews; no new fit, regrade, test, GPU profile, SSH or transfer.
+GitHub connector refresh unavailable404/422; source base a52ccafb. Data/runtime/
+monitor-mask/integration/profile gates remain before the revised launch.
+
 ## 28 October — eight-L4 quality proposal, memory audit and authorized cleanup
 
 The user requests one baseline plus seven candidates, one per L4, and consultation

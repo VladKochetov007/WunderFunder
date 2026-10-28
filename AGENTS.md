@@ -1,5 +1,15 @@
 # Project agent instructions
 
+## GRU history before revised L4 execution — user instruction, 2026-10-28
+
+The user accepts the revised twenty-epoch-cap layout in principle and requires
+understanding historical GRU presets/results first. The [historical audit](research/unified/reviews/GRU_PRESETS_HISTORY_AUDIT_20261028_R1.md)
+recovers scratch-versus-warm recipes and explicitly separates old train+valid
+ancestry from ADR0044. Plain GRU256x2 and schematic GALAM-GRU72 are different
+models. The audit starts no fit/profile or remote action and does not silently
+change checked v1 recipes. Prepare receiving-safe revised recipes from the new
+instruction; old stopped fits and exposed teachers remain historical.
+
 ## Eight-L4 quality screen and RSNA cleanup — user instruction, 2026-10-28
 
 Prepare exactly one baseline plus seven quality-focused one-GPU fits. This wave

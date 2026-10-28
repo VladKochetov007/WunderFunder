@@ -1,7 +1,9 @@
 # GALAM quality screen: one baseline and seven candidates on eight L4s
 
-Latest consultation: [common20-epoch cap / hybrid optimizer proposal](V2_DISCUSSION.md).
-It is not yet materialized or admitted; the checked recipes below remain v1.
+Latest user steering accepts the [common20-epoch cap / hybrid optimizer layout](V2_DISCUSSION.md)
+in principle, with [GRU-history audit first](gru_history/README.md). The audit is
+complete; revised recipes/adapters/receiving profiles are not yet materialized
+or admitted. The checked JSON recipes below remain v1.
 
 Prepared for consultation, 28 October 2026. Zero scientific fits and zero GPU
 profiles. The user requests one independent fit per GPU, prioritizing quality.

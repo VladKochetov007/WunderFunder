@@ -1,3 +1,11 @@
+[GRU historical presets and transfer audit](GRU_PRESETS_HISTORY_AUDIT_20261028_R1.md)
+recovers the plain256x2 scratch versus low-LR warm-student recipes, width/depth
+screens, HPO/averaging/loss negatives, actual target arithmetic and public lineage.
+It distinguishes old train+valid/component-fold evidence from the mandatory
+official chronological protocol and recommends a fresh plain-GRU anchor before
+calling a schematic GALAM-GRU variant a baseline. Three independent role records
+are linked; zero new fits/profiles/regrades, remote refresh unavailable.
+
 [GALAM L4/dashboard independent engineering review](../../experiment_drafts/galam-l4-monitoring-20261028/INDEPENDENT_REVIEW.json)
 traces variant/config fidelity, official evaluation masks, pooled scores, replay
 offsets, profile provenance, sensor addressing and bounded reader/server behavior.
