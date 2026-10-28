@@ -8,6 +8,18 @@ from typing import Any
 import pytest
 
 from scripts import tl3_finite17_dashboard as dashboard
+from scripts import tl3_finite17_dashboard_evidence as evidence
+
+
+def test_live_log_reads_complete_lines_without_requiring_a_stable_size(tmp_path: Path) -> None:
+    path = tmp_path / "fit.log"
+    path.write_bytes(b'ep 0 batch 0/322 loss 1.2 lr 0.001 seq/s 17.0\nVALID {"epoch":')
+    parsed = evidence._parse_log(path)
+    assert len(parsed["progress"]) == 1
+    assert not parsed["valid"]
+    with path.open("ab") as stream:
+        stream.write(b"0}\n")
+    assert evidence._parse_log(path)["valid"] == [{"epoch": 0}]
 
 
 def _sha(value: object) -> str:

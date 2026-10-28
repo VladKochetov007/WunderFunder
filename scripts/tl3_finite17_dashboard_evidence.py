@@ -32,12 +32,12 @@ def _parse_log(path: Path) -> dict[str, Any]:
     records: dict[str, Any] = {"progress": [], "gradients": {}, "valid": []}
     if path.is_symlink() or not path.is_file():
         return records
-    size = path.stat().st_size
-    if size > MAX_LOG_BYTES:
+    # The trainer appends while we read. Consume a bounded complete-line prefix
+    # rather than requiring an idle log between stat() and read().
+    with path.open("rb") as stream:
+        raw = stream.read(MAX_LOG_BYTES + 1)
+    if len(raw) > MAX_LOG_BYTES:
         raise BridgeError("finite fit log exceeded its size bound")
-    raw = path.read_bytes()
-    if len(raw) != size:
-        raise BridgeError("finite fit log changed while being read")
     lines = raw.splitlines(keepends=True)
     if lines and not lines[-1].endswith((b"\n", b"\r")):
         lines.pop()
