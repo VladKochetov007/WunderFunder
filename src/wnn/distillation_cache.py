@@ -10,7 +10,7 @@ from typing import Any
 
 import numpy as np
 
-from wnn.splits import CampaignSplit
+from wnn.splits import CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA, CampaignSplit
 
 CACHE_FORMAT = "wnn.heterogeneous-distillation-cache"
 CACHE_VERSION = 1
@@ -38,8 +38,9 @@ def file_sha256(path: Path, chunk_bytes: int = 8 << 20) -> str:
     return digest.hexdigest()
 
 
-def _validate_cleanfold_t3_profile(metadata: dict[str, Any], variant: str,
-                                   require_families: bool) -> None:
+def _validate_cleanfold_t3_profile(
+    metadata: dict[str, Any], variant: str, require_families: bool
+) -> None:
     """Validate the narrow three-teacher cleanfold cache without relaxing legacy caches."""
     if variant != "homogeneous" or require_families:
         raise ValueError("cleanfold T3 cache supports only the two-column homogeneous target")
@@ -65,24 +66,33 @@ def _validate_cleanfold_t3_profile(metadata: dict[str, Any], variant: str,
             raise ValueError("cleanfold T3 sources must be positive-weight strong epoch-2 teachers")
         coefficient_values.append(value)
     coefficient_sum = math.fsum(coefficient_values)
-    if (abs(coefficient_sum - 0.3) > 1e-7
-            or abs(coefficient_sum - float(metadata.get("coefficient_sum", 0.0))) > 1e-7
-            or abs(float(metadata.get("homogeneous_scale", 0.0)) - 0.8125) > 1e-7):
-        raise ValueError("cleanfold T3 requires three original 0.1 strong coefficients and a 0.8125 homogeneous scale")
+    if (
+        abs(coefficient_sum - 0.3) > 1e-7
+        or abs(coefficient_sum - float(metadata.get("coefficient_sum", 0.0))) > 1e-7
+        or abs(float(metadata.get("homogeneous_scale", 0.0)) - 0.8125) > 1e-7
+    ):
+        raise ValueError(
+            "cleanfold T3 requires three original 0.1 strong coefficients and a 0.8125 homogeneous scale"
+        )
     by_run = {item.get("run"): item for item in sources if isinstance(item, dict)}
     if len(by_run) != 3 or set(by_run) != set(runs):
         raise ValueError("cleanfold T3 checkpoint records do not match source coefficients")
     for item in coefficients:
         record = by_run[item["run"]]
-        if (record.get("family") != "strong" or record.get("epoch") != 2
-                or abs(float(record.get("coefficient", 0.0)) - float(item["coefficient"])) > 1e-7):
+        if (
+            record.get("family") != "strong"
+            or record.get("epoch") != 2
+            or abs(float(record.get("coefficient", 0.0)) - float(item["coefficient"])) > 1e-7
+        ):
             raise ValueError(f"cleanfold T3 source record disagrees: {item['run']}")
     target = metadata.get("target_contract", {})
-    if (target.get("formula") != "float32(0.8125 * float32_mean(three_epoch2_predictions))"
-            or target.get("teacher_epoch") != 2
-            or target.get("teacher_mean") != "unweighted arithmetic mean in float32"
-            or target.get("clipping") != "none during cache construction"
-            or abs(float(target.get("coefficient_multiplier", 0.0)) - 0.8125) > 1e-7):
+    if (
+        target.get("formula") != "float32(0.8125 * float32_mean(three_epoch2_predictions))"
+        or target.get("teacher_epoch") != 2
+        or target.get("teacher_mean") != "unweighted arithmetic mean in float32"
+        or target.get("clipping") != "none during cache construction"
+        or abs(float(target.get("coefficient_multiplier", 0.0)) - 0.8125) > 1e-7
+    ):
         raise ValueError("cleanfold T3 target arithmetic contract differs")
     student = metadata.get("student_contract", {})
     expected_student = {
@@ -222,16 +232,19 @@ def validate_distillation_cache(
         ("train", split.train_groups),
         ("valid", split.valid_groups),
     ):
-        with np.load(
-            data_root / "cache" / f"{source_split}_targets.npz", allow_pickle=False
-        ) as targets:
-            target_groups = np.asarray(targets["row_group"], dtype=np.int64)
-        if len(np.unique(target_groups)) != len(target_groups):
-            raise ValueError(f"{source_split} target index repeats a row group")
         fitting = set(map(int, fitting_groups))
-        expected_groups = [int(group) for group in target_groups if int(group) in fitting]
-        if set(expected_groups) != fitting:
-            raise ValueError(f"{source_split} target index omits campaign fitting groups")
+        if not fitting and split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+            expected_groups: list[int] = []
+        else:
+            with np.load(
+                data_root / "cache" / f"{source_split}_targets.npz", allow_pickle=False
+            ) as targets:
+                target_groups = np.asarray(targets["row_group"], dtype=np.int64)
+            if len(np.unique(target_groups)) != len(target_groups):
+                raise ValueError(f"{source_split} target index repeats a row group")
+            expected_groups = [int(group) for group in target_groups if int(group) in fitting]
+            if set(expected_groups) != fitting:
+                raise ValueError(f"{source_split} target index omits campaign fitting groups")
 
         keys = [f"main_{variant}_{source_split}"]
         if require_families:
@@ -257,7 +270,11 @@ def validate_distillation_cache(
                 raise ValueError(f"cache row groups are misaligned for {key}")
             expected_width = MAIN_WIDTH if key.startswith("main_") else FAMILY_WIDTH
             shape = (len(expected_groups), SEQUENCE_ROWS, expected_width)
-            array = np.load(path, mmap_mode="r", allow_pickle=False)
+            array = np.load(
+                path,
+                mmap_mode="r" if expected_groups else None,
+                allow_pickle=False,
+            )
             if array.shape != shape or array.dtype != np.float32:
                 raise ValueError(
                     f"cache shape or dtype differs for {key}: {array.shape}, {array.dtype}"

@@ -33,6 +33,9 @@ from wnn.research_features import (
 from wnn.resources import configure_strict_fp32, configure_torch, dataloader_budget
 from wnn.sentinel import SentinelPreprocessor
 from wnn.splits import file_sha256, load_campaign_split
+from wnn.training.chronological_teacher import (
+    select_chronological_full_train_index,
+)
 from wnn.training.prediction_inputs import configure_prediction_inputs
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
@@ -46,18 +49,37 @@ def campaign_prediction_groups(
     *,
     evaluation_only: bool = False,
     full_valid: bool = False,
+    full_train_index: bool = False,
+    checkpoint_file: str | None = None,
+    checkpoint_sha256: str | None = None,
+    run_provenance: dict[str, object] | None = None,
 ) -> np.ndarray:
     """Bind feature-only campaign exports to checkpoint ancestry and row order."""
     if split not in ("train", "valid"):
         raise ValueError("campaign exports require train or valid source")
-    if evaluation_only and full_valid:
-        raise ValueError("evaluation-only and full-valid selectors are mutually exclusive")
+    selectors = sum((evaluation_only, full_valid, full_train_index))
+    if selectors > 1:
+        raise ValueError("campaign row selectors are mutually exclusive")
     if (evaluation_only or full_valid) and split != "valid":
         raise ValueError("evaluation/full-valid selectors require the valid source")
+    if full_train_index and split != "train":
+        raise ValueError("full-train-index selector requires the train source")
     manifest = load_campaign_split(manifest_path, ROOT)
     if manifest.sha256 != checkpoint.get("args", {}).get("split_manifest_sha256"):
         raise ValueError("campaign manifest differs from the fitted checkpoint")
-    if full_valid:
+    if full_train_index:
+        if checkpoint_file is None or checkpoint_sha256 is None or run_provenance is None:
+            raise ValueError("full train index export needs checkpoint and run provenance")
+        groups = select_chronological_full_train_index(
+            ROOT,
+            manifest,
+            checkpoint,
+            checkpoint_file,
+            checkpoint_sha256,
+            run_provenance,
+            str(checkpoint.get("args", {}).get("name", "teacher")),
+        )
+    elif full_valid:
         with np.load(ROOT / "cache/valid_targets.npz", allow_pickle=False) as targets:
             groups = np.asarray(targets["row_group"], dtype=np.int64)
     elif evaluation_only:
@@ -137,6 +159,11 @@ def main():
     parser.add_argument("--campaign-split-manifest", type=Path)
     parser.add_argument("--campaign-evaluation-only", action="store_true")
     parser.add_argument("--campaign-full-valid-feature-only", action="store_true")
+    parser.add_argument(
+        "--campaign-full-train-index-feature-only",
+        action="store_true",
+        help="export a chronological teacher in the full source train-index order",
+    )
     parser.add_argument("--device", choices=("cuda", "cpu"), default="cuda")
     parser.add_argument(
         "--fit-subset-manifest",
@@ -158,15 +185,24 @@ def main():
     parser.add_argument("--gate-mode", choices=["soft", "hard", "confident"], default="soft")
     args = parser.parse_args()
     name, split = args.name, args.split
-    if (args.campaign_evaluation_only or args.campaign_full_valid_feature_only) and (
-        args.campaign_split_manifest is None
-    ):
+    if (
+        args.campaign_evaluation_only
+        or args.campaign_full_valid_feature_only
+        or args.campaign_full_train_index_feature_only
+    ) and (args.campaign_split_manifest is None):
         parser.error("campaign row selectors require --campaign-split-manifest")
     if args.fit_subset_manifest is not None and args.campaign_split_manifest is not None:
         parser.error("E540 and campaign selectors are mutually exclusive")
     checkpoint_name = f"model_ep{args.epoch}.pt" if args.epoch is not None else "model.pt"
     checkpoint_path = ROOT / "artifacts" / "runs" / name / checkpoint_name
     ck = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    checkpoint_sha256 = file_sha256(checkpoint_path)
+    run_provenance_path = ROOT / "artifacts" / "runs" / name / "provenance.json"
+    run_provenance = None
+    run_provenance_sha256 = None
+    if args.campaign_full_train_index_feature_only:
+        run_provenance = json.loads(run_provenance_path.read_text(encoding="utf-8"))
+        run_provenance_sha256 = file_sha256(run_provenance_path)
     if ck["args"].get("privileged_mode", "none") != "none":
         raise ValueError(
             "privileged teachers require component-crossfit extraction, not causal prediction export"
@@ -179,6 +215,10 @@ def main():
             split,
             evaluation_only=args.campaign_evaluation_only,
             full_valid=args.campaign_full_valid_feature_only,
+            full_train_index=args.campaign_full_train_index_feature_only,
+            checkpoint_file=checkpoint_name,
+            checkpoint_sha256=checkpoint_sha256,
+            run_provenance=run_provenance,
         )
     elif args.fit_subset_manifest is not None:
         if (
@@ -311,7 +351,15 @@ def main():
         "run": name,
         "split": split,
         "epoch": ck.get("epoch"),
-        "checkpoint_sha256": file_sha256(checkpoint_path),
+        "checkpoint_sha256": checkpoint_sha256,
+        "checkpoint_file": checkpoint_name,
+        "run_provenance_sha256": (
+            run_provenance_sha256
+            if run_provenance_sha256 is not None
+            else file_sha256(run_provenance_path)
+            if run_provenance_path.is_file()
+            else None
+        ),
         "prediction_sha256": file_sha256(final),
         "split_manifest_sha256": ck["args"].get("split_manifest_sha256"),
         "quote_cache": quote_cache,
@@ -333,6 +381,8 @@ def main():
         "campaign_export_scope": (
             "full-valid-feature-only"
             if args.campaign_full_valid_feature_only
+            else "chronological-full-train-index-feature-only"
+            if args.campaign_full_train_index_feature_only
             else "evaluation"
             if args.campaign_evaluation_only
             else "fit"
