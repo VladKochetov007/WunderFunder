@@ -93,6 +93,7 @@ def main() -> None:
             os.environ,
             PYTHONPATH=str(source / "src"),
             CUDA_VISIBLE_DEVICES=str(cell["gpu"]),
+            CUDA_DEVICE_ORDER="PCI_BUS_ID",
             OMP_NUM_THREADS="8",
             MKL_NUM_THREADS="8",
             OPENBLAS_NUM_THREADS="1",
