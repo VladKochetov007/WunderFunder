@@ -65,3 +65,13 @@ PCI ordering issue in the waiting profile owner. The
 zero profile/scientific starts; its replacement explicitly selects PCI_BUS_ID.
 All actual-source profiles and scientific admission are still pending data
 delivery and independent artifact review.
+
+[Training source equivalence](training-source-equivalence.json) verifies identical
+224-file training identities across R4/R5/R6: SHA256
+`168561624b88828b343445b26e2a2409408c6a90ba7ca0a5ecc8a6f15fa916a9`.
+[Official mask coverage](valid-scoring-mask-coverage.json) directly reads all1873
+valid groups:3,528,273 official scored rows, zero in each sequence's first99.
+The runtime's warm-up exclusion therefore removes no official scored-valid row.
+[Publisher credential metadata](pr46-publisher-credential-receipt.json) records
+only account/ownership/private-file mode and public transport-key identity; no
+credential value is present. The publisher is prepared, not yet running.

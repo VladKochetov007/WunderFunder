@@ -64,3 +64,11 @@ directories belong to the trainer's exclusive-create operation. The supervisor
 accepts the actual producer's declared early-stop result even on epoch20; it
 never resumes or retries a scientific fit automatically. Eight mocked receiving
 contract tests cover the corrected ownership/output/memory semantics.
+
+The [node publisher](../../../../scripts/publish_galam_quality8.py) implements
+the user's standing request for hourly and per-experiment GitHub updates toPR46
+as SemyonEpanov. It checks exact source/split/run identities and full-valid masks,
+records comment URLs and distinct retry-safe event keys, and has a96-hour bound.
+Nine mocked checks cover identity and repeated hourly publication. It will run
+independently of SSH after launch, using a private ephemeral credential outside
+the artifact-serving directory and removing its exact credential inode on exit.
