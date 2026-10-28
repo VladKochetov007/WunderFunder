@@ -82,6 +82,37 @@ class _SequenceDataset:
         return self.records[index]
 
 
+@pytest.mark.parametrize("scope", ["train_eval", "valid"])
+def test_monitor_rejects_nonofficial_reporting_masks(tmp_path: Path, scope: str) -> None:
+    """Do not label all-after-warmup evaluation as the official scored-row endpoint."""
+    train_eval = _SequenceDataset([9])
+    valid = _SequenceDataset([12])
+    selected = train_eval if scope == "train_eval" else valid
+    selected.training_mask = "all_after_warmup"
+    monitor = SequenceMonitor(
+        tmp_path,
+        {"diagnostics_every_steps": 2},
+        [("train", 9)],
+        [("valid", 12)],
+        "c" * 64,
+        "d" * 64,
+        resume=False,
+    )
+    with pytest.raises(ValueError, match="official is_scored"):
+        monitor.evaluate_epoch(
+            _RandomBatchNormModel(),
+            train_eval,
+            valid,
+            3,
+            2,
+            "fp32",
+            DistributedContext(0, 0, 1, torch.device("cpu"), False),
+            0,
+            1,
+        )
+    assert (tmp_path / "monitor_evaluations.jsonl").stat().st_size == 0
+
+
 class _RandomBatchNormModel(nn.Module):
     def __init__(self) -> None:
         super().__init__()

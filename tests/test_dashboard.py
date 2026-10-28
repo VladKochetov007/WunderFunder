@@ -169,6 +169,15 @@ class DashboardParserTests(unittest.TestCase):
         self.assertFalse(snapshot["evaluation_history_limited"])
         self.assertLessEqual(len(snapshot["events"]), 1_200)
 
+    def test_step_order_survives_wall_clock_correction(self) -> None:
+        now = datetime.now(UTC)
+        records = [event(1, now), event(2, now - timedelta(hours=1))]
+        (self.run_dir / "monitor_events.jsonl").write_text(
+            "".join(json.dumps(item) + "\n" for item in records), encoding="utf-8"
+        )
+        snapshot = self.reader.get_runs(["run-one"])["runs"][0]
+        self.assertEqual([item["step"] for item in snapshot["events"]], [1, 2])
+
     def test_evaluation_journal_retention_limit_is_visible(self) -> None:
         eval_log = self.run_dir / "monitor_evaluations.jsonl"
         eval_log.write_text(

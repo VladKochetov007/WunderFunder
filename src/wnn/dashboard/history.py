@@ -37,14 +37,19 @@ def _event_identity(event: dict[str, object]) -> tuple[object, object, object]:
     return event.get("kind"), event.get("epoch"), event.get("step")
 
 
-def _sort_key(event: dict[str, object]) -> tuple[float, int]:
-    """Order merged records by their recorded wall time and step."""
+def _sort_key(event: dict[str, object]) -> tuple[int, float, float]:
+    """Keep training progress ordered even if the host wall clock changes on resume."""
     try:
         timestamp = datetime.fromisoformat(str(event.get("wall_time"))).timestamp()
     except (ValueError, OverflowError):
         timestamp = 0.0
     step = event.get("step")
-    return timestamp, step if isinstance(step, int) else 0
+    epoch = event.get("epoch")
+    return (
+        step if isinstance(step, int) else 0,
+        float(epoch) if isinstance(epoch, (int, float)) else 0.0,
+        timestamp,
+    )
 
 
 def _merge_events(

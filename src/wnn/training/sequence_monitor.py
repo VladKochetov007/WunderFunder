@@ -254,8 +254,8 @@ def _validate_dataset_members(
     actual = getattr(dataset, "members", None)
     if actual is not None and list(actual) != expected:
         raise ValueError(f"{scope} dataset membership differs from its recorded cohort")
-    if scope == "train_eval" and getattr(dataset, "training_mask", "is_scored") != "is_scored":
-        raise ValueError("train-eval diagnostic cohort must use the official is_scored mask")
+    if getattr(dataset, "training_mask", "is_scored") != "is_scored":
+        raise ValueError(f"{scope} reporting cohort must use the official is_scored mask")
 
 
 def _gpu_identifier(device: torch.device) -> str | None:

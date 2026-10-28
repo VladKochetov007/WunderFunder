@@ -231,6 +231,8 @@ function metricGroups() {
     { title: "CPU utilization", subtitle: "Recorded CPU utilization", keys: findKeys((key) => key.startsWith("cpu/") && (key.includes("util") || key.includes("usage"))) },
     { title: "CPU memory / RSS", subtitle: "Recorded process or host resident memory", keys: findKeys((key) => key.startsWith("cpu/") && (key.includes("rss") || key.includes("memory"))) },
     { title: "Throughput", subtitle: "Recorded rows, samples, or steps per second", keys: findKeys((key) => key.startsWith("throughput/")) },
+    { title: "Output disk free", subtitle: "Available physical disk space for logs and checkpoints", keys: findKeys((key) => key.startsWith("disk/") && key.includes("free")) },
+    { title: "Output disk utilization", subtitle: "Recorded filesystem utilization in percent", keys: exactKeys("disk/used_pct") },
     { title: "Phase timing", subtitle: "Recorded training, evaluation, and diagnostic phase times", keys: findKeys((key) => key.startsWith("timing/")), wide: true },
   ];
 }
@@ -441,7 +443,7 @@ metricSelect.addEventListener("change", () => {
 chartXAxis.addEventListener("change", () => {
   state.xAxis = chartXAxis.value;
   const note = state.xAxis === "elapsed"
-    ? "Elapsed time starts at the first retained event in each run."
+    ? "Wall time since the first retained event; includes pauses and resume downtime."
     : `${axisLabel()} values come directly from each event.`;
   document.getElementById("chart-axis-note").textContent = note;
   renderCharts();
