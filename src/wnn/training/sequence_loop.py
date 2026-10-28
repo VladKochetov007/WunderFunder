@@ -30,6 +30,7 @@ from wnn.training.sequence_loop_window import (
 from wnn.training.sequence_monitor import SequenceMonitor
 from wnn.training.sequence_monitor_diagnostics import DiagnosticProbe
 from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
+from wnn.training.sequence_prefetch import SequenceBatchPrefetcher
 from wnn.training.sequence_update import finish_update
 
 
@@ -76,115 +77,144 @@ def train_epoch(
     updates_per_epoch = batches_per_rank * windows_per_batch
     total_count = torch.zeros(8, dtype=torch.float64, device=context.device)
     updates = 0
-    for batch_start in range(0, len(indices), batch_size):
-        batch_ids = indices[batch_start : batch_start + batch_size]
-        batch = coordinated_call(
-            lambda current_batch_ids=batch_ids: move_and_validate_batch(
-                collate_sequences(dataset, current_batch_ids),
-                context.device,
-                int(config["model"]["hint_dim"]),
-                feature_count,
-            ),
-            "sequence batch load and validation",
-            context,
-        )
-        target, teacher, mask, hints, x = (
-            batch["y"],
-            batch["teacher"],
-            batch["mask"],
-            batch["hints"],
-            batch["x"],
-        )
-        real_count = sum(index >= 0 for index in batch_ids)
-        state: Any = None
-        for window_start in range(0, len(intervals), accumulation):
-            if max_updates is not None and updates >= max_updates:
-                return EpochResult(updates, False, total_count, time.perf_counter() - started)
-            window_started = time.perf_counter()
-            chunks = intervals[window_start : window_start + accumulation]
-            denominators = window_denominators_global(target, mask, hints, chunks, context)
-            optimizer.zero_grad(set_to_none=True)
-            rates = optimizer_learning_rates(optimizer)
-            current_lr = float(optimizer.param_groups[0]["lr"])
-            step = global_step + 1
-            interval = _diagnostic_interval(config, monitor_enabled)
-            sample = interval > 0 and step % interval == 0
-            probe = (
-                monitor.diagnostic_probe(model)
-                if monitor is not None and sample
-                else nullcontext(None)
-            )
-            with probe as diagnostics:
-                state, local_stats = backward_window(
-                    model,
-                    optimizer,
-                    target,
-                    teacher,
-                    hints,
-                    mask,
-                    x,
-                    chunks,
-                    real_count,
-                    denominators,
-                    state,
-                    config,
+    prefetch_batches = config.get("input_prefetch_batches", 0)
+    if type(prefetch_batches) is not int or prefetch_batches not in (0, 1):
+        raise ValueError("input_prefetch_batches must be 0 or 1")
+    prefetcher = None
+    if prefetch_batches:
+        if context.world_size != 1:
+            raise ValueError("input batch prefetch is currently supported only for world_size=1")
+        if context.device.type != "cuda":
+            raise ValueError("pinned sequence prefetch requires a CUDA training device")
+        prefetcher = SequenceBatchPrefetcher(dataset, indices, batch_size, context.device)
+    try:
+        for batch_start in range(0, len(indices), batch_size):
+            if prefetcher is None:
+                batch_ids = indices[batch_start : batch_start + batch_size]
+                batch = coordinated_call(
+                    lambda current_batch_ids=batch_ids: move_and_validate_batch(
+                        collate_sequences(dataset, current_batch_ids),
+                        context.device,
+                        int(config["model"]["hint_dim"]),
+                        feature_count,
+                    ),
+                    "sequence batch load and validation",
                     context,
-                    diagnostics,
                 )
-            gradient_norm, optimizer_seconds = finish_update(
-                model, optimizer, scheduler, context, float(config["grad_clip"])
-            )
-            updates += 1
-            global_step += 1
-            epoch_position = epoch + updates / updates_per_epoch
-            global_stats = global_sum(local_stats, context)
-            total_count[:6] += global_stats
-            total_count[6:] += denominators
-            elapsed = time.perf_counter() - window_started
-            record = window_record(
-                global_stats,
-                denominators,
-                context.rank,
-                epoch,
-                global_step,
-                current_lr,
-                gradient_norm,
-                elapsed,
-                torch.cuda.max_memory_allocated(context.device),
-                float(config["grad_clip"]),
-                float(config["kd_weight"]),
-                float(config["hint_weight"]),
-            )
-            record["learning_rates"] = rates
-            record["optimizer_seconds"] = optimizer_seconds
-            if monitor_enabled:
-                monitor_config = config.get("monitoring")
-                if not isinstance(monitor_config, dict):
-                    raise TypeError("enabled monitor configuration must be a mapping")
-                telemetry_interval = int(monitor_config.get("training_telemetry_every_steps", 1))
-                telemetry_sample = _training_telemetry_due(
-                    global_step, updates, updates_per_epoch, telemetry_interval
-                )
-                if telemetry_sample:
-                    # The same opt-in cadence bounds rank-local diagnostic JSONL growth.
-                    rank_log.write(record)
             else:
-                telemetry_sample = True
-                rank_log.write(record)
-            if monitor_enabled and (telemetry_sample or sample):
-                _append_monitor_events(
-                    record,
-                    epoch,
-                    epoch_position,
-                    global_step,
-                    telemetry_sample,
-                    sample,
-                    diagnostics,
-                    monitor,
-                    context,
+                prefetched = next(prefetcher)
+                batch_ids = list(prefetched.indices)
+                prefetched.wait_on_current_stream()
+                batch = move_and_validate_batch(
+                    prefetched.batch,
+                    context.device,
+                    int(config["model"]["hint_dim"]),
+                    feature_count,
                 )
-        state = None
-    return EpochResult(updates, True, total_count, time.perf_counter() - started)
+            target, teacher, mask, hints, x = (
+                batch["y"],
+                batch["teacher"],
+                batch["mask"],
+                batch["hints"],
+                batch["x"],
+            )
+            real_count = sum(index >= 0 for index in batch_ids)
+            state: Any = None
+            for window_start in range(0, len(intervals), accumulation):
+                if max_updates is not None and updates >= max_updates:
+                    return EpochResult(updates, False, total_count, time.perf_counter() - started)
+                window_started = time.perf_counter()
+                chunks = intervals[window_start : window_start + accumulation]
+                denominators = window_denominators_global(target, mask, hints, chunks, context)
+                optimizer.zero_grad(set_to_none=True)
+                rates = optimizer_learning_rates(optimizer)
+                current_lr = float(optimizer.param_groups[0]["lr"])
+                step = global_step + 1
+                interval = _diagnostic_interval(config, monitor_enabled)
+                sample = interval > 0 and step % interval == 0
+                probe = (
+                    monitor.diagnostic_probe(model)
+                    if monitor is not None and sample
+                    else nullcontext(None)
+                )
+                with probe as diagnostics:
+                    state, local_stats = backward_window(
+                        model,
+                        optimizer,
+                        target,
+                        teacher,
+                        hints,
+                        mask,
+                        x,
+                        chunks,
+                        real_count,
+                        denominators,
+                        state,
+                        config,
+                        context,
+                        diagnostics,
+                    )
+                gradient_norm, optimizer_seconds = finish_update(
+                    model, optimizer, scheduler, context, float(config["grad_clip"])
+                )
+                updates += 1
+                global_step += 1
+                epoch_position = epoch + updates / updates_per_epoch
+                global_stats = global_sum(local_stats, context)
+                total_count[:6] += global_stats
+                total_count[6:] += denominators
+                elapsed = time.perf_counter() - window_started
+                record = window_record(
+                    global_stats,
+                    denominators,
+                    context.rank,
+                    epoch,
+                    global_step,
+                    current_lr,
+                    gradient_norm,
+                    elapsed,
+                    torch.cuda.max_memory_allocated(context.device),
+                    float(config["grad_clip"]),
+                    float(config["kd_weight"]),
+                    float(config["hint_weight"]),
+                )
+                record["learning_rates"] = rates
+                record["optimizer_seconds"] = optimizer_seconds
+                if monitor_enabled:
+                    monitor_config = config.get("monitoring")
+                    if not isinstance(monitor_config, dict):
+                        raise TypeError("enabled monitor configuration must be a mapping")
+                    telemetry_interval = int(
+                        monitor_config.get("training_telemetry_every_steps", 1)
+                    )
+                    telemetry_sample = _training_telemetry_due(
+                        global_step, updates, updates_per_epoch, telemetry_interval
+                    )
+                    if telemetry_sample:
+                        # The same opt-in cadence bounds rank-local diagnostic JSONL growth.
+                        rank_log.write(record)
+                else:
+                    telemetry_sample = True
+                    rank_log.write(record)
+                if monitor_enabled and (telemetry_sample or sample):
+                    _append_monitor_events(
+                        record,
+                        epoch,
+                        epoch_position,
+                        global_step,
+                        telemetry_sample,
+                        sample,
+                        diagnostics,
+                        monitor,
+                        context,
+                    )
+            state = None
+            if prefetcher is not None:
+                prefetched.release_pinned_source()
+        return EpochResult(updates, True, total_count, time.perf_counter() - started)
+    finally:
+        if prefetcher is not None:
+            prefetcher.close()
 
 
 def _training_telemetry_due(

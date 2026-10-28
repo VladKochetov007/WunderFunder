@@ -7,6 +7,7 @@ from typing import Any
 
 from wnn.training.sequence_config_validation import (
     is_galam_lstm64_muon,
+    validate_input_prefetch_batches,
     validate_monitoring_config,
 )
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
@@ -63,9 +64,18 @@ def load_config(path: Path) -> dict[str, Any]:
     """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
     if not isinstance(raw, dict) or set(raw) - (
-        set(DEFAULTS) | {"model", "checkpoint_retention", "dropout_policy", "monitoring"}
+        set(DEFAULTS)
+        | {
+            "model",
+            "checkpoint_retention",
+            "dropout_policy",
+            "monitoring",
+            "input_prefetch_batches",
+        }
     ):
         raise ValueError("unknown sequence recipe field")
+    if "input_prefetch_batches" in raw:
+        validate_input_prefetch_batches(raw["input_prefetch_batches"])
     if "monitoring" in raw:
         validate_monitoring_config(
             raw["monitoring"],

@@ -6,6 +6,12 @@ import math
 from collections.abc import Mapping
 
 
+def validate_input_prefetch_batches(value: object) -> None:
+    """Bound opt-in pinned sequence prefetch to one in-flight batch."""
+    if type(value) is not int or value not in (0, 1):
+        raise ValueError("input_prefetch_batches must be 0 or 1")
+
+
 def validate_monitoring_config(
     value: object, raw_model: object, epochs: object, checkpoint_retention: object
 ) -> None:
