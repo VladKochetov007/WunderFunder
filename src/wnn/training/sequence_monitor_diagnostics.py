@@ -20,6 +20,7 @@ class DiagnosticProbe:
         self._fraction: dict[str, Tensor] = {}
         self._maximum: dict[str, Tensor] = {}
         self._count: dict[str, int] = {}
+        self._missing_gradient_output_count = 0
         self._handles: list[torch.utils.hooks.RemovableHandle] = []
         self._observers: list[nn.Module] = []
 
@@ -107,7 +108,17 @@ class DiagnosticProbe:
         self._add_distribution_metrics(result, "train/prediction", remove_rms=True)
         self._add_distribution_metrics(result, "relative_bias/local", remove_rms=False)
         self._add_distribution_metrics(result, "relative_bias/global", remove_rms=False)
+        result["diagnostics/missing_gradient_output_count"] = self._missing_gradient_output_count
         return result
+
+    def _gradient_hook(self, key: str) -> Callable[[Tensor | None], None]:
+        def _observe(gradient: Tensor | None) -> None:
+            if gradient is None:
+                self._missing_gradient_output_count += 1
+                return
+            self._add_rms(_gradient_key(key), gradient)
+
+        return _observe
 
     def _activation_hook(self, key: str) -> Callable[..., None]:
         def _observe(module: nn.Module, inputs: tuple[object, ...], output: object) -> None:
@@ -116,7 +127,7 @@ class DiagnosticProbe:
                 return
             self._add_rms(key, tensor)
             if tensor.requires_grad:
-                tensor.register_hook(lambda gradient: self._add_rms(_gradient_key(key), gradient))
+                tensor.register_hook(self._gradient_hook(key))
 
         return _observe
 
@@ -136,9 +147,7 @@ class DiagnosticProbe:
                 key = "local/recurrent_output_rms"
                 self._add_rms(key, sequence_output)
                 if sequence_output.requires_grad:
-                    sequence_output.register_hook(
-                        lambda gradient: self._add_rms(_gradient_key(key), gradient)
-                    )
+                    sequence_output.register_hook(self._gradient_hook(key))
             if isinstance(state, tuple) and len(state) == 2:
                 hidden, cell = state
                 self._record_state("local/hidden_state_rms", hidden)
@@ -170,7 +179,7 @@ class DiagnosticProbe:
         if isinstance(value, Tensor):
             self._add_rms(key, value)
             if value.requires_grad:
-                value.register_hook(lambda gradient: self._add_rms(_gradient_key(key), gradient))
+                value.register_hook(self._gradient_hook(key))
 
     def _record_gate(self, name: str, value: Tensor, sigmoid: bool, layer: int) -> None:
         prefix = f"local/gate/{name}/layer_{layer}"

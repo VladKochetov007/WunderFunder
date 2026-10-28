@@ -338,6 +338,54 @@ def test_plain_gru_diagnostics_do_not_require_galam_branches() -> None:
     assert not any(key.startswith("global/") for key in metrics)
 
 
+def test_none_gradient_output_is_counted_without_zero_substitution() -> None:
+    probe = DiagnosticProbe(nn.Linear(2, 2))
+    callback = probe._gradient_hook("local/activation_rms/test")
+
+    assert callback(None) is None
+    metrics = probe.metrics()
+    assert metrics["diagnostics/missing_gradient_output_count"] == 1
+    assert "local/gradient_rms/test" not in metrics
+
+
+@pytest.mark.parametrize("architecture", ["gru", "galam"])
+def test_prediction_only_diagnostics_allow_unused_hint_and_state_outputs(
+    architecture: str,
+) -> None:
+    if architecture == "gru":
+        settings = {
+            "architecture": "gru",
+            "hidden": 8,
+            "layers": 1,
+            "heads": 1,
+            "ff_multiplier": 2,
+            "context_rows": 8,
+            "dropout": 0.0,
+            "checkpoint_blocks": False,
+            "hint_dim": 4,
+            "hint_projection": "learned",
+            "attention_backend": "math",
+            "compile_blocks": False,
+            "precision_mode": "fp32",
+        }
+    else:
+        galam = replace(connectome_112_to_2_config(), width=128, lstm_layers=2)
+        settings = {
+            "architecture": "galam",
+            "galam": asdict(galam) | {"variant": "schematic_lstm_full"},
+        }
+    model = build_sequence_model(settings).train()
+    values = torch.randn(2, 8, 112)
+
+    with DiagnosticProbe(model) as probe:
+        prediction, _unused_hint, _unused_state = model(values)
+        prediction.square().mean().backward()
+
+    metrics = probe.metrics()
+    assert metrics["diagnostics/missing_gradient_output_count"] >= 0
+    assert "local/hidden_state_rms" in metrics
+
+
 def test_galam_width128_depth_two_diagnostic_event_fits_its_line_cap(tmp_path: Path) -> None:
     galam = replace(connectome_112_to_2_config(), width=128, lstm_layers=2)
     model = build_sequence_model(
