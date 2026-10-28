@@ -1,3 +1,21 @@
+## 28 October — eight-L4 quality proposal, memory audit and authorized cleanup
+
+The user requests one baseline plus seven candidates, one per L4, and consultation
+before full launch. The [new packet](../research/experiment_drafts/galam-l4-quality8-20261028/README.md)
+contains eight loader-checked recipes and independent portfolio/data reviews.
+Zero scientific fits or GPU profiles. Official chronological primary validation
+remains mandatory; the old six-fit panel is superseded for this wave only.
+
+The user then requested a memory audit and explicitly authorized deleting RSNA.
+Exact own rsna/rsna_uv_cache/rsna_python paths were removed, /data2 free space
+verified74,581,975,040bytes, tabdata sources/Python preserved. RAM~457GiB available,
+all L4 computation idle in snapshot, root-owned GPU4 services retain1148MiB.
+Train receipt has31/109completed ranges and20,918,719,875bytes remaining before
+reverification; valid footer and complete transfer receipt exist. No download,
+runtime install or fit has started. Data/index/train-monitor-mask/runtime and
+actual profile/time-budget checks remain before full launch. Prior entries below
+describe historical snapshots, including now-superseded disk-full observations.
+
 ## 28 October — local dashboard, recurrent variants and L4 preflight
 
 The user requests implemented online monitoring and a local dashboard, plus a

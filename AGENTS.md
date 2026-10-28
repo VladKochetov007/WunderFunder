@@ -1,5 +1,15 @@
 # Project agent instructions
 
+## Eight-L4 quality screen and RSNA cleanup — user instruction, 2026-10-28
+
+Prepare exactly one baseline plus seven quality-focused one-GPU fits. This wave
+supersedes the earlier six-fit/two-seed prospective panel only. Consult the user
+on the recipes, receiving setup and full launch. After a requested memory audit,
+the user explicitly authorized deleting RSNA: own project/cache/Python paths were
+removed and /data2 has74.58GB free. No training/profile/download was started.
+See [quality8 preparation and audit](research/experiment_drafts/galam-l4-quality8-20261028/README.md).
+Chronological policy, original-reconstruction uncertainty and old results remain.
+
 ## Local GALAM dashboard and L4 preparation — user instruction, 2026-10-28
 
 Implement live local monitoring with selectable run/config comparisons, actual
