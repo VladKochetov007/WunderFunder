@@ -10,7 +10,7 @@
   "train_source": "official earlier train only",
   "validation": "complete official later valid, original is_scored mask and pooled official WP",
   "checkpoint_policy": "all epochs plus strict-best and last pointers; min5/patience4/delta0.0005 stopping",
-  "batch_status": "starting candidates only; exact common GALAM batch to be profiled and frozen before fitting",
+  "batch_status": "strict_fp32_shape_candidates_awaiting_real_data_profile",
   "schedule": "warmup_cosine_v2 over20 configured epochs, warmup5%; deliberate adaptation from historical short OneCycle GRU",
   "baseline_adaptation": "Fresh GRU256x2/event211, no old weights/teachers/propensity/auxiliary supervision; system-level benchmark versus raw112 GALAM",
   "cells": [
@@ -20,9 +20,11 @@
       "cpu_affinity": "0-7",
       "numa_node": 0,
       "config": "configs/g0-plain-gru256x2.json",
-      "config_file_sha256": "35af97c8351aa34c8286df0413d4a12244ff35f25b4ee25e526aaf8512ba5291",
+      "config_file_sha256": "08048b42cb18de2179277332b51a322ad68643c1e84dea2368d2b98227514aa2",
       "initial_batch_size": 32,
-      "scientific_fits": 1
+      "scientific_fits": 1,
+      "batch_size": 32,
+      "profile_updates": 100
     },
     {
       "id": "g1-galam-lstm64",
@@ -30,9 +32,11 @@
       "cpu_affinity": "8-15",
       "numa_node": 0,
       "config": "configs/g1-galam-lstm64.json",
-      "config_file_sha256": "55fcf5b48af76b15a8ae63d50c63046afee4242020ff09d870507205dfdcf3b8",
+      "config_file_sha256": "698a654256177000b0e575a45da6ffb94066753cfbffc812ed429eeb1a9f9b5b",
       "initial_batch_size": 16,
-      "scientific_fits": 1
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
     },
     {
       "id": "g2-galam-lstm128",
@@ -40,9 +44,11 @@
       "cpu_affinity": "16-23",
       "numa_node": 0,
       "config": "configs/g2-galam-lstm128.json",
-      "config_file_sha256": "0fbd82c18744060df199559a5397fe8f06a9811f71255bb26cbfc7772d672a00",
+      "config_file_sha256": "58546e3f05c27af09d03c72a447146e38e404441ec91c2f238859791057a40da",
       "initial_batch_size": 16,
-      "scientific_fits": 1
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
     },
     {
       "id": "g3-galam-depth2",
@@ -50,9 +56,11 @@
       "cpu_affinity": "24-31",
       "numa_node": 0,
       "config": "configs/g3-galam-depth2.json",
-      "config_file_sha256": "d58768f635895c1e5a7525075f4909ce6006290c4acaf1d7463f2fd89e4a11c9",
+      "config_file_sha256": "fd5e726eb1dc212e085b6d73eaa586954a419656780c9c0f4cf519d3046a8c66",
       "initial_batch_size": 16,
-      "scientific_fits": 1
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
     },
     {
       "id": "g4-galam-gru72",
@@ -60,9 +68,11 @@
       "cpu_affinity": "48-55",
       "numa_node": 1,
       "config": "configs/g4-galam-gru72.json",
-      "config_file_sha256": "23c5a458fa35eb6d3a5cae032562f5d03b42ff6cd8aee60d55640584191b317d",
+      "config_file_sha256": "d2b2946bb0241d472627ea058229cdb5c12a2f513cf106c7a7178639944f841c",
       "initial_batch_size": 16,
-      "scientific_fits": 1
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
     },
     {
       "id": "g5-galam-history256",
@@ -70,9 +80,11 @@
       "cpu_affinity": "56-63",
       "numa_node": 1,
       "config": "configs/g5-galam-history256.json",
-      "config_file_sha256": "0dcfdc1fc8f47d35f8f8accd8f38c9bdeaf12eccced37467472c49031cc036fc",
+      "config_file_sha256": "a4e6a92b2c4698458519f7899c7e5cde34af5a988ed643820d25740066cba205",
       "initial_batch_size": 16,
-      "scientific_fits": 1
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
     },
     {
       "id": "g6-galam-tbptt256",
@@ -80,9 +92,11 @@
       "cpu_affinity": "64-71",
       "numa_node": 1,
       "config": "configs/g6-galam-tbptt256.json",
-      "config_file_sha256": "12fff32dbcca4c567a70e63d77a790038703e933cc2d7c123f879adfab381608",
+      "config_file_sha256": "62af80d1a28d819b3bf7cda1b6fcd7cd2de500aab387b33201055d8edc838ce7",
       "initial_batch_size": 16,
-      "scientific_fits": 1
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 80
     },
     {
       "id": "g7-galam-muon",
@@ -90,9 +104,12 @@
       "cpu_affinity": "72-79",
       "numa_node": 1,
       "config": "configs/g7-galam-muon.json",
-      "config_file_sha256": "81ef1a63d2702fe5bac69453437b720386b1fac6b1cdd91ffdf99f8f22974b54",
+      "config_file_sha256": "5ab5647288342ef0d777601a80b6fa16a4163cbe36128f5721a06607114d9865",
       "initial_batch_size": 16,
-      "scientific_fits": 1
+      "scientific_fits": 1,
+      "batch_size": 384,
+      "profile_updates": 314
     }
-  ]
+  ],
+  "engineering_basis": "R2 strict-FP32 L4 shape probes: GALAM384 improves rows/s over128/256 and fits bounded synthetic memory. Full20k-row current+prefetched input buffers and diagnostic overhead still require real-source profiles. Plain GRU32 retains audited scratch batch; eval384 is report-only."
 }

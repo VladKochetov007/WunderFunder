@@ -34,3 +34,12 @@ source audit, thin indexes, complete source-qualified component graph and primar
 manifest. It prewarms train-only raw112/event211 normalization once. Each phase
 has a durable receipt/log; it starts no scientific fit and never promotes a
 partial file by logical size.
+
+The [receiving engineering evidence](receiving/README.md) contains discarded
+strict-FP32 shape probes and actual Torch2.8 CPU checks. GALAM's common batch384
+is now a real-source-profile candidate, with one prefetched full input batch;
+plain GRU retains historical batch32. Report-only evaluation uses batch384.
+This changes optimization step count relative to the provisional GALAM16 start,
+so final batch/step counts are recorded before fitting, without LR scaling.
+Telemetry/diagnostics are sampled every25 GALAM updates and100 plain-GRU updates.
+None of these engineering measurements is a trained-model quality result.

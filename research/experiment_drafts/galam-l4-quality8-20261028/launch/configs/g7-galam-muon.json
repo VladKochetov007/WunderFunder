@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "epochs": 20,
-  "batch_size": 16,
+  "batch_size": 384,
   "accumulate_chunks": 1,
   "chunk_rows": 64,
   "seed": 1001,
@@ -73,10 +73,10 @@
   },
   "monitoring": {
     "train_eval_sequences": 32,
-    "diagnostics_every_steps": 200,
+    "diagnostics_every_steps": 25,
     "train_eval_mask": "all_after_warmup",
-    "eval_batch_size": 16,
-    "training_telemetry_every_steps": 200,
+    "eval_batch_size": 384,
+    "training_telemetry_every_steps": 25,
     "early_stopping": {
       "min_epoch": 5,
       "patience": 4,
@@ -93,5 +93,6 @@
   "hint_weight": 0.0,
   "muon_momentum": 0.95,
   "muon_ns_steps": 5,
-  "muon_ns_eps": 1e-07
+  "muon_ns_eps": 1e-07,
+  "input_prefetch_batches": 1
 }
