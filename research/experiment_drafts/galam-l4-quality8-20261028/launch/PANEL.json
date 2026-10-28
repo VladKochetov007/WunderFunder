@@ -1,0 +1,98 @@
+{
+  "schema": "tabdata.fixed-eight-launch.v1",
+  "status": "recipes_prepared_not_admitted",
+  "authority": "User explicitly requests full execution without hypothesis changes",
+  "epochs_max": 20,
+  "seed": 1001,
+  "scientific_fits": 8,
+  "teacher_fits": 0,
+  "precision": "fp32",
+  "train_source": "official earlier train only",
+  "validation": "complete official later valid, original is_scored mask and pooled official WP",
+  "checkpoint_policy": "all epochs plus strict-best and last pointers; min5/patience4/delta0.0005 stopping",
+  "batch_status": "starting candidates only; exact common GALAM batch to be profiled and frozen before fitting",
+  "schedule": "warmup_cosine_v2 over20 configured epochs, warmup5%; deliberate adaptation from historical short OneCycle GRU",
+  "baseline_adaptation": "Fresh GRU256x2/event211, no old weights/teachers/propensity/auxiliary supervision; system-level benchmark versus raw112 GALAM",
+  "cells": [
+    {
+      "id": "g0-plain-gru256x2",
+      "gpu": 0,
+      "cpu_affinity": "0-7",
+      "numa_node": 0,
+      "config": "configs/g0-plain-gru256x2.json",
+      "config_file_sha256": "35af97c8351aa34c8286df0413d4a12244ff35f25b4ee25e526aaf8512ba5291",
+      "initial_batch_size": 32,
+      "scientific_fits": 1
+    },
+    {
+      "id": "g1-galam-lstm64",
+      "gpu": 1,
+      "cpu_affinity": "8-15",
+      "numa_node": 0,
+      "config": "configs/g1-galam-lstm64.json",
+      "config_file_sha256": "55fcf5b48af76b15a8ae63d50c63046afee4242020ff09d870507205dfdcf3b8",
+      "initial_batch_size": 16,
+      "scientific_fits": 1
+    },
+    {
+      "id": "g2-galam-lstm128",
+      "gpu": 2,
+      "cpu_affinity": "16-23",
+      "numa_node": 0,
+      "config": "configs/g2-galam-lstm128.json",
+      "config_file_sha256": "0fbd82c18744060df199559a5397fe8f06a9811f71255bb26cbfc7772d672a00",
+      "initial_batch_size": 16,
+      "scientific_fits": 1
+    },
+    {
+      "id": "g3-galam-depth2",
+      "gpu": 3,
+      "cpu_affinity": "24-31",
+      "numa_node": 0,
+      "config": "configs/g3-galam-depth2.json",
+      "config_file_sha256": "d58768f635895c1e5a7525075f4909ce6006290c4acaf1d7463f2fd89e4a11c9",
+      "initial_batch_size": 16,
+      "scientific_fits": 1
+    },
+    {
+      "id": "g4-galam-gru72",
+      "gpu": 4,
+      "cpu_affinity": "48-55",
+      "numa_node": 1,
+      "config": "configs/g4-galam-gru72.json",
+      "config_file_sha256": "23c5a458fa35eb6d3a5cae032562f5d03b42ff6cd8aee60d55640584191b317d",
+      "initial_batch_size": 16,
+      "scientific_fits": 1
+    },
+    {
+      "id": "g5-galam-history256",
+      "gpu": 5,
+      "cpu_affinity": "56-63",
+      "numa_node": 1,
+      "config": "configs/g5-galam-history256.json",
+      "config_file_sha256": "0dcfdc1fc8f47d35f8f8accd8f38c9bdeaf12eccced37467472c49031cc036fc",
+      "initial_batch_size": 16,
+      "scientific_fits": 1
+    },
+    {
+      "id": "g6-galam-tbptt256",
+      "gpu": 6,
+      "cpu_affinity": "64-71",
+      "numa_node": 1,
+      "config": "configs/g6-galam-tbptt256.json",
+      "config_file_sha256": "12fff32dbcca4c567a70e63d77a790038703e933cc2d7c123f879adfab381608",
+      "initial_batch_size": 16,
+      "scientific_fits": 1
+    },
+    {
+      "id": "g7-galam-muon",
+      "gpu": 7,
+      "cpu_affinity": "72-79",
+      "numa_node": 1,
+      "config": "configs/g7-galam-muon.json",
+      "config_file_sha256": "81ef1a63d2702fe5bac69453437b720386b1fac6b1cdd91ffdf99f8f22974b54",
+      "initial_batch_size": 16,
+      "scientific_fits": 1
+    }
+  ]
+}
