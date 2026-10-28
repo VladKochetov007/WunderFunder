@@ -92,6 +92,34 @@ def test_failed_w18_ancestor_blocks_that_tail_but_preserves_independent_work(
     assert driver._has_possible_work(status, plan)
 
 
+def test_spawned_fit_counts_against_caps_even_if_group_binding_fails(tmp_path: Path) -> None:
+    plan = _plan(tmp_path)
+    nodes = {node["id"]: node for node in plan["nodes"]}
+    status = {
+        "fits_used": 1,
+        "gpu_seconds_completed": 0.0,
+        "last_error": None,
+        "nodes": {
+            name: {"state": "not_started", "phase": "not_started"} for name in nodes
+        },
+    }
+    task = {
+        "task_id": "fit:fin256_s4",
+        "kind": "fit",
+        "node_id": "fin256_s4",
+        "state": "launch_intent",
+        "gpu_index": 0,
+        "started_unix": 1.0,
+        "popen_started": True,
+    }
+
+    driver._mark_launch_failed(status, task, "unbound child")
+
+    assert status["fits_used"] == 2
+    assert status["gpu_seconds_completed"] > 0
+    assert status["nodes"]["fin256_s4"]["state"] == "failed"
+
+
 def test_train_index_cache_contains_only_verified_row_group_ids(tmp_path: Path) -> None:
     cache = tmp_path / "cache"
     cache.mkdir()

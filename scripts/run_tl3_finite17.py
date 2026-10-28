@@ -856,6 +856,13 @@ def _mark_launch_failed(
     """Fail one immutable task intent without leaving a runnable node behind."""
     now = time.time()
     task.update({"state": "failed", "finished_unix": now, "error": message})
+    if task.get("popen_started"):
+        if task.get("gpu_index") is not None:
+            status["gpu_seconds_completed"] = float(status["gpu_seconds_completed"]) + max(
+                0.0, now - float(task["started_unix"])
+            )
+        if task.get("kind") == "fit":
+            status["fits_used"] = int(status["fits_used"]) + 1
     kind, node_id = task.get("kind"), task.get("node_id")
     if kind in {"fit", "train_export"} and isinstance(node_id, str):
         status["nodes"][node_id].update(
@@ -931,6 +938,9 @@ def _launch_task(
         _write_status(state_path, status)
         return
     children[task_id] = child
+    record["popen_started"] = True
+    if kind == "fit":
+        status["fits_used"] = int(status["fits_used"]) + 1
     identity_deadline = time.monotonic() + 2.0
     identity = proc_identity(child.pid)
     while identity is None and time.monotonic() < identity_deadline:
@@ -955,7 +965,6 @@ def _launch_task(
         }
     )
     if kind == "fit":
-        status["fits_used"] = int(status["fits_used"]) + 1
         node = status["nodes"][str(node_id)]
         node.update(
             {
