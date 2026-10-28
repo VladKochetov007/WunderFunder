@@ -1,5 +1,17 @@
 # Modular recurrent training
 
+## 28 October live GALAM monitoring
+
+The [L4 monitoring packet](../../../research/experiment_drafts/galam-l4-monitoring-20261028/README.md)
+adds opt-in `monitoring` config, canonical fit/loop orchestration, batched
+report-only train-eval/full-valid scoring and safe-checkpoint-bound event offsets.
+`sequence_monitor*` owns sampled model diagnostics, physical-UUID GPU/host sensors
+and append-only journals. Profiles exercise monitored training callbacks while
+explicitly skipping validation. `wnn.dashboard` reads the resulting files locally
+with selectable comparisons and honest retention/no-data/demo labels. Source
+fidelity, CPU/browser checks and real L4 data/disk blockers remain explicit; no
+fit or GPU performance is claimed. New GRU/local-only variants stay adaptations.
+
 ## 27 October chronology and GALAM
 
 Future fits require the source-bound chronological manifest from

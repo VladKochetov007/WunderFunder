@@ -1,5 +1,10 @@
 # Research-team experiment catalogue
 
+- [GALAM local live monitoring and L4 comparison preparation](galam-l4-monitoring-20261028/README.md)
+  adds a selectable offline dashboard, actual epoch evaluation and explicitly
+  adapted GRU/local-only variants. Read-only inventory confirms8L4 but incomplete
+  train data and full disks block fit admission; no GPU experiment is running.
+
 - [GALAM reconstruction and chronological primary validation](galam-reconstruction-20261027/README.md)
   implements the visible Denis Tomin diagram and canonical sequence adapter, with
   separate32→32 and112→2 assumed-size templates. Forty-five CPU checks pass;

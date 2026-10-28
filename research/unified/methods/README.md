@@ -1,5 +1,11 @@
 # Methods, sampling, and metric
 
+- [GALAM live monitoring and L4 preparation](../../experiment_drafts/galam-l4-monitoring-20261028/README.md)
+  separates comparable train-eval/valid curves from online fitting loss, preserves
+  full chronological primary evaluation, and defines bounded model/resource
+  telemetry. Demo data are not training evidence. A partial train download and
+  full disks block actual L4 fits.
+
 - [Mandatory chronological primary validation, ADR0044](../../../specs/adr/0044-chronological-primary-validation.md)
   replaces prospective random-fold primary selection with earlier-train/later-valid
   membership. [Executable producer and admission checks](../../../src/wnn/chronological_splits.py)

@@ -1,5 +1,17 @@
 # Unified research library
 
+## 28 October: GALAM local monitoring and L4 preparation
+
+The [implementation packet](../experiment_drafts/galam-l4-monitoring-20261028/README.md)
+tracks actual train/valid telemetry, a local selectable dashboard and explicit
+recurrent/branch adaptations. Its [live L4 preflight](../experiment_drafts/galam-l4-monitoring-20261028/L4_PREFLIGHT.json)
+finds8GPUs but full data disks and an unverified partial train file; no fit or GPU
+profile was launched. Original GALAM identity and training quality stay unverified.
+[Validation](../experiment_drafts/galam-l4-monitoring-20261028/VALIDATION.json)
+records92 targeted passes/1skip, independent criticism and live browser checks;
+the local demo is explicitly synthetic. Six runnable recipes remain unadmitted
+until actual data/headroom/runtime/profile checks pass.
+
 ## 27 October: chronological validation and GALAM reconstruction
 
 [ADR0044](../../specs/adr/0044-chronological-primary-validation.md) makes the

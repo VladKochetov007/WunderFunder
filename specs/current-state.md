@@ -1,3 +1,24 @@
+## 28 October — local dashboard, recurrent variants and L4 preflight
+
+The user requests implemented online monitoring and a local dashboard, plus a
+GRU/local-only comparison plan for8xL4. The [new packet](../research/experiment_drafts/galam-l4-monitoring-20261028/README.md)
+preserves the engineering contract and a live read-only resource receipt.
+Eight L4 cards respond, but the inspected data mounts are full, official train
+is only a partial download and chronological caches are not found in the bounded
+project inventory. The existing host Torch2.8 differs from the checked source's
+Torch2.14 environment. No scientific fit, GPU profile or remote mutation has run.
+Prospective primary validation remains ADR0044; historical folds are unchanged.
+
+Implementation source d430dbf6 includes full epoch monitoring, replay-safe journals,
+sampled diagnostics/resources, monitored engineering profiles and GRU/local-only
+variants. [Validation](../research/experiment_drafts/galam-l4-monitoring-20261028/VALIDATION.json)
+records92 targeted passes/1Windows symlink skip and real browser/API checks;
+the same11 wider legacy failures reproduce at frozen base4bcb49f1. Local services
+127.0.0.1:8766(real run folder empty) and8767(labelled synthetic demo) are up.
+Six recipes are prepared; zero competition fits or GPU profiles ran, and the
+single inventory SSH connection was closed normally. Receiving checks/data/disk
+repair remain prerequisites, not authorization to restart stopped jobs.
+
 ## 27 October — chronological validation policy and GALAM preparation
 
 The user requires Predictorium-style chronological primary validation for all

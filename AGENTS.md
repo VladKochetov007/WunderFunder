@@ -1,5 +1,16 @@
 # Project agent instructions
 
+## Local GALAM dashboard and L4 preparation — user instruction, 2026-10-28
+
+Implement live local monitoring with selectable run/config comparisons, actual
+full-valid epoch evaluation and comparable train-eval curves, bounded sampled
+model/resource diagnostics, and explicit GRU/local-only adaptations. Preserve
+the original schematic LSTM recipe. Synthetic/demo plots are not scientific
+results. Original GALAM dimensions/training hyperparameters remain unknown.
+This task permits bounded CPU checks and one persistent read-only SSH inventory
+of the user-supplied L4 host; it does not restart stopped fits or allocate GPUs.
+See the [implementation and L4 packet](research/experiment_drafts/galam-l4-monitoring-20261028/README.md).
+
 ## Mandatory chronological primary validation — user instruction, 2026-10-27
 
 Always use the Predictorium-style order **train | valid | public | small gap |
