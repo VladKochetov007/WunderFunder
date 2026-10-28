@@ -9,6 +9,8 @@ import torch
 from torch import nn
 
 from wnn.optim import MuonAdamW, muon_param_groups, wsd_lambda
+from wnn.training.tl3_optimizer import TL3MuonAdamW, build_tl3_muon_optimizer
+from wnn.training.tl3_scheduler import TL3MuonOneCycle
 
 
 def add_arguments(parser: argparse.ArgumentParser) -> None:
@@ -94,6 +96,20 @@ def build_optimizer(model: nn.Module, args: argparse.Namespace) -> torch.optim.O
         )
     if momentum:
         raise ValueError("--momentum requires --optim sgd")
+    if args.optim == "tl3-muon":
+        if args.optim_switch or args.head_lr_mult != 1:
+            raise ValueError(
+                "--optim tl3-muon does not support optimizer switching or head LR scaling"
+            )
+        return build_tl3_muon_optimizer(
+            model,
+            lr=args.lr,
+            muon_lr_mult=args.muon_lr_mult,
+            beta2=args.beta2,
+            weight_decay=args.wd,
+            fused_adam=bool(args.fused_adam),
+            strict_fp32=getattr(args, "precision", "fp16") == "fp32",
+        )
     common = dict(lr=args.lr, betas=(0.9, args.beta2), weight_decay=args.wd)
     is_grouped = bool(args.optim_switch) or args.head_lr_mult != 1
     if not is_grouped:
@@ -158,14 +174,29 @@ def sgdr_lambda(
 
 def build_scheduler(
     opt: torch.optim.Optimizer, args: argparse.Namespace, total: int
-) -> torch.optim.lr_scheduler.LRScheduler:
+) -> torch.optim.lr_scheduler.LRScheduler | TL3MuonOneCycle:
     """Keep the default schedule and beta1 cycle; maintain head/trunk lr ratio."""
     warm = 0.05 if args.warmup_frac is None else args.warmup_frac
     if not math.isfinite(warm) or not 0 <= warm < 1:
         raise ValueError("warmup fraction must be finite and in [0,1)")
+    if args.optim == "tl3-muon":
+        if args.sched != "onecycle":
+            raise ValueError("--optim tl3-muon requires the historical onecycle schedule")
+        if not isinstance(opt, TL3MuonAdamW):
+            raise TypeError("--optim tl3-muon requires its composite optimizer")
+        return TL3MuonOneCycle(
+            opt,
+            lr=args.lr,
+            muon_lr_mult=args.muon_lr_mult,
+            total_steps=total,
+            warmup_frac=warm,
+        )
     if args.sched == "wsd":
         return torch.optim.lr_scheduler.LambdaLR(
-            opt, wsd_lambda(total, warm, args.wsd_decay, args.wsd_final, getattr(args, "wsd_shape", "sqrt"))
+            opt,
+            wsd_lambda(
+                total, warm, args.wsd_decay, args.wsd_final, getattr(args, "wsd_shape", "sqrt")
+            ),
         )
     if args.sched == "sgdr":
         return torch.optim.lr_scheduler.LambdaLR(
