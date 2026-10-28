@@ -31,6 +31,7 @@ def main() -> None:
     parser.add_argument("--expected-bytes", type=int)
     parser.add_argument("--expected-sha256")
     parser.add_argument("--expected-row-groups", type=int)
+    parser.add_argument("--root", type=Path, default=ROOT)
     args = parser.parse_args()
     if args.source_qualified:
         if args.limit is not None:
@@ -43,7 +44,7 @@ def main() -> None:
                 "--source-qualified requires the exact official bytes, SHA-256, and groups"
             )
         output = build_source_index(
-            ROOT,
+            args.root,
             args.split,
             expected_bytes=pin.byte_count,
             expected_sha256=pin.sha256,
@@ -51,11 +52,14 @@ def main() -> None:
         )
         print(output)
         return
-    if any(
-        value is not None
-        for value in (args.expected_bytes, args.expected_sha256, args.expected_row_groups)
+    if (
+        any(
+            value is not None
+            for value in (args.expected_bytes, args.expected_sha256, args.expected_row_groups)
+        )
+        or args.root != ROOT
     ):
-        parser.error("source identity options require --source-qualified")
+        parser.error("source identity/root options require --source-qualified")
 
     split = args.split
     limit = args.limit
