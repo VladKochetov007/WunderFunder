@@ -151,6 +151,70 @@ def test_source_feature_read_error_names_exact_parquet_group(
         sequence_chains._official_edge(("train", 528, str(tmp_path), 20_000))
 
 
+def test_nonfinite_feature_emits_exact_chain_failure_receipt(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A nonfinite value in a tiny official-graph fixture fails with source/group evidence."""
+    datasets = tmp_path / "datasets"
+    cache = tmp_path / "cache"
+    datasets.mkdir()
+    cache.mkdir()
+    train = np.zeros((20_000, len(FEATURE_COLUMNS)), dtype=np.float32)
+    train[123, 7] = np.nan
+    valid = np.zeros_like(train)
+    for split, values in (("train", train), ("valid", valid)):
+        pq.write_table(
+            pa.table({name: values[:, column] for column, name in enumerate(FEATURE_COLUMNS)}),
+            datasets / f"{split}.parquet",
+            row_group_size=20_000,
+        )
+
+    audit_bytes = b"synthetic root source audit\n"
+    (cache / "source_audit.json").write_bytes(audit_bytes)
+    audit_sha256 = hashlib.sha256(audit_bytes).hexdigest()
+    for split, source_sha256 in (("train", "a" * 64), ("valid", "c" * 64)):
+        (cache / f"{split}_index.identity.json").write_text(
+            json.dumps(
+                {
+                    "source_bytes": 123,
+                    "source_sha256": source_sha256,
+                    "source_audit_sha256": audit_sha256,
+                    "index_map_sha256": "d" * 64,
+                }
+            )
+        )
+
+    monkeypatch.setattr(
+        sequence_chains,
+        "OFFICIAL_SOURCE_PINS",
+        {
+            "train": types.SimpleNamespace(row_group_count=1),
+            "valid": types.SimpleNamespace(row_group_count=1),
+        },
+    )
+    monkeypatch.setattr(
+        sequence_chains,
+        "verify_source_index_receipt",
+        lambda _root, _split: (np.array([0], dtype=np.int64), np.array([0], dtype=np.int64)),
+    )
+    sequence_chains._OFFICIAL_FILES.pop(str(datasets / "train.parquet"), None)
+    sequence_chains._OFFICIAL_FILES.pop(str(datasets / "valid.parquet"), None)
+
+    with pytest.raises(SourceRowGroupReadError, match=r"train\.parquet row_group=0") as failure:
+        sequence_chains.build_official_chains(tmp_path, workers=1)
+
+    assert (
+        failure.value.detail == f"nonfinite float32 feature at row=123, column={FEATURE_COLUMNS[7]}"
+    )
+    receipt = json.loads((cache / "chronological_chains.failure.json").read_text())
+    assert receipt["source"] == "datasets/train.parquet"
+    assert receipt["split"] == "train"
+    assert receipt["row_group"] == 0
+    assert receipt["source_sha256"] == "a" * 64
+    assert receipt["source_audit_sha256"] == audit_sha256
+    assert receipt["error"] == failure.value.detail
+
+
 def test_successor_rule_matches_frozen_v1_formula(monkeypatch: pytest.MonkeyPatch) -> None:
     """The reusable rule is bit-for-bit equivalent on a tiny deterministic sample."""
     rng = np.random.default_rng(17)

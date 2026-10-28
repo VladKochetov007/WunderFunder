@@ -70,6 +70,16 @@ def _official_edge(args: tuple[str, int, str, int]) -> tuple[np.ndarray, np.ndar
             str(source),
             f"feature row count is {table.num_rows}; expected {sequence_length}",
         )
+    finite = np.isfinite(values)
+    if not finite.all():
+        first_bad = int(np.argmax(~finite))
+        bad_row, bad_column = divmod(first_bad, values.shape[1])
+        raise SourceRowGroupReadError(
+            split,
+            row_group,
+            str(source),
+            f"nonfinite float32 feature at row={bad_row}, column={FEATURE_COLUMNS[bad_column]}",
+        )
     middle = sequence_length // 2
     return values[:2].copy(), values[-2:].copy(), values[middle : middle + 2].copy()
 
