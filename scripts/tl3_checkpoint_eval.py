@@ -197,7 +197,9 @@ def evaluate_checkpoint(
     expected_sha = provenance.get("checkpoint_sha256", {}).get(checkpoint_name)
     if checkpoint_sha256 != expected_sha:
         raise ValueError("frozen checkpoint bytes do not match run provenance")
-    checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=True)
+    # These are hash-bound checkpoints produced by our owned local fit; its
+    # provenance includes TorchVersion, as do the canonical trainer's snapshots.
+    checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
     if not isinstance(checkpoint, dict) or checkpoint.get("epoch") != epoch_index:
         raise ValueError("frozen checkpoint epoch metadata does not match its filename")
     args = checkpoint.get("args")
