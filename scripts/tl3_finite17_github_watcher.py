@@ -179,7 +179,13 @@ def _run_loop(
                     now,
                     only_node=str(node["id"]),
                 )
-            terminal_sha = _terminal_receipt(state_dir, driver_status, plan)
+            # A terminal receipt may arrive after the snapshot was built. Wait
+            # one poll so the final comment includes its verified blend score.
+            terminal_sha = (
+                None
+                if snapshot.get("terminal_receipt_pending")
+                else _terminal_receipt(state_dir, driver_status, plan)
+            )
             if terminal_sha is not None:
                 terminal_key = f"terminal:{driver_status['status']}:{terminal_sha}"
                 _post_event(

@@ -98,6 +98,26 @@ def test_hourly_event_requires_elapsed_hour_and_changed_snapshot() -> None:
     assert posts._hourly_due(state, {**snapshot, "fits_used": 2}, 13_600)
 
 
+def test_terminal_arriving_after_snapshot_waits_for_a_complete_report(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root, state_dir, plan, status, train, valid = _fixture(tmp_path)
+    ready = results.build_snapshot(root, plan, status, train, valid)
+    snapshots = iter([{**ready, "terminal_receipt_pending": True}, ready])
+    sleeps: list[float] = []
+    fake = FakeGitHub()
+    output = tmp_path / "private"
+    output.mkdir()
+    monkeypatch.setattr(watcher, "_private_directory", lambda _path: None)
+    monkeypatch.setattr(watcher, "build_snapshot", lambda *_args: next(snapshots))
+    watcher._run_loop(root, state_dir, 123, output, fake, 60, 168, lambda: 1000.0, sleeps.append)
+    assert len(sleeps) == 1
+    posted = [request for request in fake.requests if request[0] == "POST"]
+    assert len(posted) == 3
+    final = json.loads((output / "watcher_status.json").read_text(encoding="utf-8"))
+    assert final["status"] == "terminal"
+
+
 def test_changed_snapshots_in_consecutive_hours_get_distinct_posts(tmp_path: Path) -> None:
     root, _state_dir, plan, status, train, valid = _fixture(tmp_path)
     first = results.build_snapshot(root, plan, status, train, valid)
