@@ -4,6 +4,7 @@ import hashlib
 import json
 import urllib.request
 from collections import deque
+from pathlib import Path
 
 # Any keeps nested JSON fixtures readable without changing the payloads under test.
 from typing import Any
@@ -35,6 +36,53 @@ def test_update_rejects_summary_from_different_source() -> None:
     summary["source_sha256"] = "f" * 64
     with pytest.raises(publisher.PublisherError, match="source_sha256"):
         publisher.format_update(receipt, summary, "hourly")
+
+
+def test_metrics_require_producer_run_identity_match() -> None:
+    receipt, summary = _snapshot()
+    cell = summary["cells"]["g0-event211"]
+    cell["latest_official_validation"]["context"]["run_identity_sha256"] = "e" * 64
+    body = publisher.format_update(receipt, summary, "hourly", "g0-event211")
+    assert "0.520000" not in body
+    assert "0.410000" not in body
+
+
+def test_two_consecutive_hourly_updates_have_distinct_dedup_keys(tmp_path: Path) -> None:
+    receipt, summary = _snapshot()
+    state: dict[str, Any] = {
+        "posted_event_keys": [],
+        "pending_event_keys": [],
+        "posts": [],
+    }
+
+    class _Recorder:
+        def __init__(self) -> None:
+            self.bodies: list[str] = []
+
+        def post(self, body: str, _marker: str, _deadline: float, _pending: bool) -> str:
+            self.bodies.append(body)
+            return f"https://github.com/VladKochetov007/WunderFunder/issues/46#issuecomment-{len(self.bodies)}"
+
+    client = _Recorder()
+    state_path = tmp_path / "publisher_state.json"
+    first_hour = 1_700_000_000.0
+    for last_hour in (first_hour, first_hour + 3600):
+        key = publisher._hourly_event_key(last_hour)
+        publisher._publish(
+            client,
+            state,
+            state_path,
+            receipt,
+            summary,
+            key,
+            "hourly",
+            2_000_000_000,
+            last_hour + 3600,
+        )
+
+    assert len(client.bodies) == 2
+    assert len(set(state["posted_event_keys"])) == 2
+    assert state["posts"][0]["event"] != state["posts"][1]["event"]
 
 
 def test_github_account_guard_fails_closed_without_auth_retry() -> None:
@@ -162,6 +210,7 @@ def _snapshot() -> tuple[dict[str, Any], dict[str, Any]]:
                 "kind": "evaluation",
                 "epoch": 3,
                 "context": {
+                    "run_identity_sha256": identity_hash,
                     "valid": {
                         "row_mask": "is_scored",
                         "coverage_complete": True,

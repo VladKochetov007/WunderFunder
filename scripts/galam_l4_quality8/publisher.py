@@ -260,7 +260,7 @@ def format_update(
         entry, record = cells.get(cell_id), records.get(cell_id)
         if not isinstance(entry, dict) or not isinstance(record, dict):
             raise PublisherError("requested cell is absent from the verified summary")
-        metrics = _metrics(entry, receipt.get("split_sha256"))
+        metrics = _metrics(entry, receipt.get("split_sha256"), record.get("identity_sha256"))
         epoch = metrics.get("epoch")
         terminal, pointers = entry.get("terminal_status"), entry.get("checkpoint_pointers")
         if (
@@ -370,13 +370,14 @@ def _run(
                 return
             last = state.get("last_hourly_epoch")
             if state.get("startup_posted") and _finite(last) and clock() - float(last) >= 3600:
+                event_key = _hourly_event_key(float(last))
                 _publish(
                     client,
                     state,
                     state_path,
                     receipt,
                     summary,
-                    "hourly",
+                    event_key,
                     "hourly",
                     deadline,
                     clock(),
@@ -428,7 +429,7 @@ def _publish(
     atomic_write_json(state_path, state)
 
 
-def _metrics(cell: dict[str, object], split_sha: object) -> dict[str, object]:
+def _metrics(cell: dict[str, object], split_sha: object, identity_sha: object) -> dict[str, object]:
     event = cell.get("latest_official_validation")
     if (
         not isinstance(event, dict)
@@ -445,6 +446,8 @@ def _metrics(cell: dict[str, object], split_sha: object) -> dict[str, object]:
     ):
         return {}
     valid, train = context.get("valid"), context.get("train_eval")
+    if context.get("run_identity_sha256") != identity_sha:
+        return {}
     good_valid = (
         isinstance(valid, dict)
         and valid.get("row_mask") == "is_scored"
@@ -592,3 +595,8 @@ def _finite(value: object) -> bool:
 
 def _positive(value: object) -> bool:
     return type(value) is int and value > 0
+
+
+def _hourly_event_key(last_hourly_epoch: float) -> str:
+    """Use the due-hour timestamp as a stable retry and deduplication key."""
+    return f"hourly:{int(last_hourly_epoch + 3600)}"
