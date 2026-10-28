@@ -1,0 +1,95 @@
+{
+  "schema": "wnn.transformer-width-context-recipe.v1",
+  "status": "PREPARED_UNRUN",
+  "study": "transformer-width-context-20261028",
+  "objective_mode": "competition",
+  "scientific_fits": 6,
+  "transformer_fits": 6,
+  "student_fits": 0,
+  "reused_controls": 0,
+  "seeds": [
+    1001,
+    1002
+  ],
+  "independent_splits": 1,
+  "cells": [
+    "baseline_s1001",
+    "wide_s1001",
+    "context_s1001",
+    "baseline_s1002",
+    "wide_s1002",
+    "context_s1002"
+  ],
+  "arms": {
+    "baseline": {
+      "hidden": 768,
+      "layers": 16,
+      "heads": 12,
+      "head_dim": 64,
+      "context_rows": 1024
+    },
+    "wide": {
+      "hidden": 1024,
+      "layers": 16,
+      "heads": 16,
+      "head_dim": 64,
+      "context_rows": 1024
+    },
+    "context": {
+      "hidden": 768,
+      "layers": 16,
+      "heads": 12,
+      "head_dim": 64,
+      "context_rows": 4096
+    }
+  },
+  "split": "wnn.sequence-source-holdout.v1; train-only, full-valid, remove valid-linked train components",
+  "endpoint": "fixed FINAL5; no validation selection",
+  "precision": "bf16_bf16x9; FP32 masters, gradients, optimizer state and loss",
+  "optimizer": "Muon + AdamW",
+  "learning_rate": 0.0001,
+  "warmup_fraction": 0.05,
+  "schedule": "warmup_cosine_v2",
+  "min_lr_ratio": 0.1,
+  "weight_decay": 0.01,
+  "grad_clip": 1.0,
+  "world_size": 2,
+  "batch_size_per_rank": 128,
+  "chunk_rows": 512,
+  "accumulate_chunks": 8,
+  "batch_status": "UNPROFILED for all three source-separated shapes",
+  "attention_semantics": {
+    "window": "per-layer causal sliding context; not total network receptive field",
+    "detachment": "KV state detached every512 rows;4096 context does not imply4096-step gradients"
+  },
+  "matching": "same data, epochs, updates and batch; not equal FLOPs or GPU-hours",
+  "profile_updates_per_cell": 12,
+  "retention": "final_only: safe epoch-boundary state and final model.pt",
+  "quality_gate": {
+    "practical_mean_delta_wp": 0.001,
+    "both_seed_deltas_nonnegative": true,
+    "contrasts": [
+      "wide-baseline",
+      "context-baseline"
+    ],
+    "interpretation": "follow-up signal only; multiple contrasts on exposed valid, two seeds do not establish significance"
+  },
+  "runtime_dependency": "source-holdout-transformer-kd-20261028 shared receiver code; explicit registered study, no cache or KD stages",
+  "run_order": [
+    "prepare",
+    "accept",
+    "profile one cell",
+    "inspect and admit one profile",
+    "fit one cell",
+    "evaluate fixed final",
+    "repeat explicit cells",
+    "compare all six endpoints"
+  ],
+  "limits": [
+    "full valid already exposed",
+    "chronology unverified",
+    "approximate feature linkage",
+    "five epochs do not settle asymptotic capacity",
+    "no GRU, distillation, quantization or automatic launches"
+  ]
+}

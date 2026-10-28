@@ -1,5 +1,15 @@
 # Modular recurrent training
 
+The [source-separated Transformer/KD packet](../../../research/experiment_drafts/source-holdout-transformer-kd-20261028/README.md)
+adds an optional `kd_loss_normalization=weighted_mean` objective to the canonical
+sequence path: label/KD losses share division by `1 + kd_weight`; hints keep their
+separate scale. Omission preserves historical additive behavior and config hashes.
+Backward loss, window/epoch logs and profile totals use the same convention.
+`wnn.sequence-source-holdout.v1` is an additional split schema: full valid is excluded
+from fitting, including all linked train components. Historical split schemas and
+retained-epoch inner-only evaluation restrictions remain unchanged. See
+`scripts/prepare_sequence_source_split.py`; receiver tests and fits are pending.
+
 Use `scripts/train_rnn.py` for the stable command line. New Python callers should import focused components directly:
 
 ```python

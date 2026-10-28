@@ -1,0 +1,77 @@
+{
+  "schema": "wnn.source-kd-recipe.v1",
+  "status": "PREPARED_UNRUN",
+  "scientific_fits": 6,
+  "seeds": [
+    1001,
+    1002
+  ],
+  "cells": [
+    "teacher_s1001",
+    "labels_s1001",
+    "kd_s1001",
+    "teacher_s1002",
+    "labels_s1002",
+    "kd_s1002"
+  ],
+  "data_protocol": {
+    "schema": "wnn.sequence-source-holdout.v1",
+    "fit": "all train components not connected to any valid row group",
+    "evaluation": "all valid row groups; fixed FINAL5 only",
+    "split_protocol_slot": 0,
+    "normalization": "all fitting members only",
+    "chronology_claim": false
+  },
+  "primary_contrast": "same-seed KD GRU minus labels-only GRU",
+  "teacher_role": "fresh compact Transformer trained on the same source holdout per seed",
+  "objective": "(label_WMSE + kd_weight * teacher_WMSE) / (1 + kd_weight); label-derived weights and all_after_warmup mask; no hints",
+  "endpoint": "configured-final-epoch 5; no validation selection",
+  "profile_updates_per_cell": 12,
+  "world_size": 2,
+  "required_device": "B300",
+  "precision": "bf16_bf16x9; FP32 masters, gradients, state and loss",
+  "batch_candidates": {
+    "teacher_per_rank": 128,
+    "student_per_rank": 32,
+    "status": "UNPROFILED on this source-separated dataset",
+    "teacher_origin": "PR43 compact fit transfer candidate only"
+  },
+  "retention": "final_only: safe epoch-boundary training_state.pt overwritten atomically and one final model.pt per cell",
+  "resource_policy": {
+    "max_vram_fraction": 0.8,
+    "host_resume_staging": "sum profile rank RSS plus 12*parameters*world_size; <=80% of actual job RAM",
+    "scratch": "32*parameters plus canonical FP32 prediction/cache arrays plus10GiB, checked against free scratch",
+    "profile_timeout_seconds": 3600,
+    "fit_timeout_seconds": 259200,
+    "export_timeout_seconds": 21600,
+    "source_preparation_timeout_seconds": 21600
+  },
+  "order": [
+    "prepare once",
+    "accept receiver correctness checks; all must pass without skips",
+    "profile and explicitly admit teacher_s1001",
+    "fit teacher_s1001",
+    "evaluate teacher_s1001 fixed FINAL5",
+    "cache teacher_s1001 fit members",
+    "profile/admit/fit/evaluate labels_s1001",
+    "profile/admit/fit/evaluate kd_s1001 using same-seed teacher",
+    "repeat explicit actions for seed1002",
+    "compare paired fixed-final results"
+  ],
+  "quality_gate": {
+    "practical_mean_delta": 0.001,
+    "both_seed_deltas_nonnegative": true,
+    "meaning": "screen for follow-up only; two seeds do not establish statistical significance"
+  },
+  "excluded": [
+    "old checkpoints",
+    "retained-epoch selection",
+    "source-valid fitting",
+    "ensembles",
+    "quantization",
+    "automatic queue",
+    "automatic fit after profiling"
+  ],
+  "objective_mode": "competition",
+  "verification_regime": "Exposed development evidence; receiver correctness and profiles pending, no public transfer evidence"
+}

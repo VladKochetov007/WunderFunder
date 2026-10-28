@@ -23,6 +23,7 @@ from wnn.training.sequence_fit_utils import (
     optimizer_states_are_finite_fp32,
 )
 from wnn.training.sequence_loop import train_epoch
+from wnn.training.sequence_objectives import objective_total
 
 
 def _write_profile_receipt(receipt: dict[str, object], path: Path) -> bool:
@@ -123,9 +124,14 @@ def run_profile(
             "label": label_loss,
             "distillation": kd_loss,
             "hint": hint_loss,
-            "total": label_loss
-            + float(config["kd_weight"]) * kd_loss
-            + float(config["hint_weight"]) * hint_loss,
+            "total": objective_total(
+                label_loss,
+                kd_loss,
+                hint_loss,
+                float(config["kd_weight"]),
+                float(config["hint_weight"]),
+                str(config.get("kd_loss_normalization", "additive")),
+            ),
         },
         "model_parameters": identity["model_parameters"],
         "memory_by_rank": memory,
@@ -194,9 +200,14 @@ def _record_profile_metrics(
     recorder.record_metrics(
         step=updates,
         epoch=0,
-        loss=label_loss
-        + float(config["kd_weight"]) * kd_loss
-        + float(config["hint_weight"]) * hint_loss,
+        loss=objective_total(
+            label_loss,
+            kd_loss,
+            hint_loss,
+            float(config["kd_weight"]),
+            float(config["hint_weight"]),
+            str(config.get("kd_loss_normalization", "additive")),
+        ),
         throughput={
             "valid_rows_per_second": valid_rows / max(elapsed, 1e-12),
             "forwarded_rows_per_second": forwarded_rows / max(elapsed, 1e-12),

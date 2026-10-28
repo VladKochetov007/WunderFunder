@@ -1,5 +1,9 @@
 # Research-team experiment catalogue
 
+- [Draft PR #48](https://github.com/VladKochetov007/WunderFunder/pull/48) — [Transformer width/context, October28](transformer-width-context-20261028/README.md): six pure-Transformer fits on the source holdout, two seeds, independent width/context perturbations and complete paired reporting; reuses draft #47's receiver helpers with explicit study isolation. All receiver execution remains pending; zero GRU fits in this allocation.
+
+- [Draft PR #47](https://github.com/VladKochetov007/WunderFunder/pull/47) — [Source-separated Transformer to GRU, October28](source-holdout-transformer-kd-20261028/README.md): executable six-fit panel on one train-only/full-valid source holdout, two seeds, normalized KD versus matched labels-only GRU, fixed FINAL5 endpoints and paired reporting. Includes complete source graph/index preparation, explicit receiver correctness/profile admission and fresh teacher-cache lineage. Draft implementation; all receiver execution and quality evidence remain pending.
+
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.

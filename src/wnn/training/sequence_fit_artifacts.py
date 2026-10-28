@@ -11,6 +11,7 @@ from wnn.research_reporting import RunRecorder
 from wnn.training.sequence_checkpoint import atomic_write_json, save_final_model
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_loop import EpochResult
+from wnn.training.sequence_objectives import objective_total
 from wnn.training.sequence_precision import precision_identity
 from wnn.training.sequence_provenance import file_sha256, json_value
 
@@ -30,9 +31,14 @@ def epoch_summary(
         "label_loss": label_loss,
         "kd_loss": kd_loss,
         "hint_loss": hint_loss,
-        "total_loss": label_loss
-        + float(config["kd_weight"]) * kd_loss
-        + float(config["hint_weight"]) * hint_loss,
+        "total_loss": objective_total(
+            label_loss,
+            kd_loss,
+            hint_loss,
+            float(config["kd_weight"]),
+            float(config["hint_weight"]),
+            str(config.get("kd_loss_normalization", "additive")),
+        ),
         "valid_rows": int(totals[3].item()),
         "forwarded_rows": int(totals[4].item()),
         "real_rows": int(totals[5].item()),
