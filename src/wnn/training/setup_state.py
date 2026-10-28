@@ -67,6 +67,9 @@ class DataState:
     teachers: list[tuple[str, float]] | None = None
     thin: tuple[float, float, float] | tuple[float, float, float, str] | None = None
     train_ds: torch.utils.data.Dataset | None = None
+    train_eval_loader: DataLoader | None = None
+    train_eval_members_sha256: str | None = None
+    train_eval_row_groups: list[int] | None = None
     train_idx: np.ndarray | None = None
     train_loader: DataLoader | None = None
     train_split: str | None = None

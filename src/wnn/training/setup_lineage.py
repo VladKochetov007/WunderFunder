@@ -213,6 +213,15 @@ def configure_runtime(run: TrainingRun) -> None:
         ap.error("--valid-train-fraction must be in (0, 1]")
     if not math.isfinite(args.amp_init_scale) or args.amp_init_scale <= 0:
         ap.error("--amp-init-scale must be finite and positive")
+    if not 0 <= args.train_eval_seqs <= 32:
+        ap.error("--train-eval-seqs must be between 0 and 32")
+    if args.train_eval_seqs and (
+        campaign_split is None
+        or campaign_split.schema != CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
+        or args.train_source != "train"
+        or args.no_eval_during_fit
+    ):
+        ap.error("--train-eval-seqs requires chronological train-only fitting with evaluation enabled")
     if args.valid_train_fraction < 1 and args.train_source not in ("train+valid", "valid"):
         ap.error("--valid-train-fraction requires a validation training source")
     if args.epoch_samples < 0 or (args.epoch_samples and args.valid_repeat != 1):
