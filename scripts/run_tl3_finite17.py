@@ -431,9 +431,6 @@ def _normalize_persisted_args(raw: object, expected: dict[str, object]) -> dict[
         actual["n_valid_folds"] = 1
     if "train_eval_seqs" in expected and "train_eval_seqs" not in actual:
         actual["train_eval_seqs"] = 0
-    # R3 predates this Muon-only CLI option. It cannot affect its AdamW fit.
-    if actual.get("optim") == "adamw" and "muon_lr_mult" not in actual:
-        actual["muon_lr_mult"] = 1.0
     return actual
 
 
@@ -515,6 +512,13 @@ def _verify_checkpoint_args(node: dict[str, object], checkpoint_args: object) ->
     expected = _expected_effective_args(node)
     actual = _normalize_persisted_args(checkpoint_args, expected)
     for key in _FIT_ARGUMENTS:
+        # R3's AdamW parser had no Muon multiplier; the option is unused here.
+        if (
+            key == "muon_lr_mult"
+            and key not in actual
+            and actual.get("optim") == expected.get("optim") == "adamw"
+        ):
+            continue
         if key not in actual or key not in expected or actual[key] != expected[key]:
             raise DriverError(f"{node['id']}: saved fit argument changed: {key}")
     if actual["train_source"] != "train" or actual["no_eval_during_fit"]:
