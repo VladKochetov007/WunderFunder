@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import shutil
+import subprocess
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -108,11 +109,11 @@ def test_failed_w18_ancestor_blocks_that_tail_but_preserves_independent_work(
     assert driver._has_possible_work(status, plan)
 
 
-def test_spawned_fit_counts_against_caps_even_if_group_binding_fails(tmp_path: Path) -> None:
+def test_launch_failure_does_not_count_a_spawned_fit_twice(tmp_path: Path) -> None:
     plan = _plan(tmp_path)
     nodes = {node["id"]: node for node in plan["nodes"]}
     status = {
-        "fits_used": 1,
+        "fits_used": 2,
         "gpu_seconds_completed": 0.0,
         "last_error": None,
         "nodes": {
@@ -133,6 +134,75 @@ def test_spawned_fit_counts_against_caps_even_if_group_binding_fails(tmp_path: P
 
     assert status["fits_used"] == 2
     assert status["gpu_seconds_completed"] > 0
+    assert status["nodes"]["fin256_s4"]["state"] == "failed"
+
+
+def test_spawned_fit_group_binding_failure_reaps_child_and_counts_once(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    events: list[str] = []
+
+    class FakePopen:
+        pid = 4125364
+
+        def __init__(self) -> None:
+            self.wait_calls = 0
+
+        def poll(self) -> None:
+            return None
+
+        def terminate(self) -> None:
+            events.append("terminate")
+
+        def kill(self) -> None:
+            events.append("kill")
+
+        def wait(self, timeout: float | None = None) -> int:
+            self.wait_calls += 1
+            events.append("wait")
+            if self.wait_calls == 1:
+                raise subprocess.TimeoutExpired("fake-child", timeout)
+            return -9
+
+    child = FakePopen()
+    monkeypatch.setattr(driver.subprocess, "Popen", lambda *_args, **_kwargs: child)
+    monkeypatch.setattr(driver, "_write_status", lambda _path, _status: None)
+    monkeypatch.setattr(driver, "_child_environment", lambda _root, _uuid: {})
+    monkeypatch.setattr(
+        driver,
+        "proc_identity",
+        lambda pid: {"start_ticks": 77, "process_group": pid + 1, "session": pid + 1},
+    )
+    status: dict[str, object] = {
+        "tasks": {},
+        "fits_used": 1,
+        "gpu_seconds_completed": 0.0,
+        "last_error": None,
+        "nodes": {"fin256_s4": {"state": "not_started", "phase": "not_started"}},
+    }
+    children: dict[str, subprocess.Popen[bytes]] = {}
+
+    driver._launch_task(
+        root=tmp_path,
+        state_dir=tmp_path / "state",
+        state_path=tmp_path / "state/status.json",
+        status=status,
+        children=children,
+        task_id="fit:fin256_s4",
+        kind="fit",
+        command=["python", "scripts/train_rnn.py", "--name", "tl3c_fin256_s4"],
+        gpu=(0, "GPU-test"),
+        node_id="fin256_s4",
+        cpu_affinity=tuple(range(8)),
+        expected_source_sha256="a" * 64,
+    )
+
+    task = status["tasks"]["fit:fin256_s4"]
+    assert status["fits_used"] == 2
+    assert task["state"] == "failed"
+    assert task["pid"] == child.pid
+    assert events == ["terminate", "wait", "kill", "wait"]
+    assert "fit:fin256_s4" not in children
     assert status["nodes"]["fin256_s4"]["state"] == "failed"
 
 

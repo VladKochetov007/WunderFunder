@@ -51,6 +51,7 @@ from wnn.portability import sha256_file
 from wnn.splits import load_campaign_split
 
 MODEL_ARTIFACT_RESERVE_BYTES = 2 << 30
+SPAWN_CLEANUP_SECONDS = 5
 POLL_SECONDS = 20
 TRAIN_EXPORT_SCOPE = "chronological-full-train-index-feature-only"
 NODE_PRIORITY = (
@@ -860,13 +861,10 @@ def _mark_launch_failed(
     """Fail one immutable task intent without leaving a runnable node behind."""
     now = time.time()
     task.update({"state": "failed", "finished_unix": now, "error": message})
-    if task.get("popen_started"):
-        if task.get("gpu_index") is not None:
-            status["gpu_seconds_completed"] = float(status["gpu_seconds_completed"]) + max(
-                0.0, now - float(task["started_unix"])
-            )
-        if task.get("kind") == "fit":
-            status["fits_used"] = int(status["fits_used"]) + 1
+    if task.get("popen_started") and task.get("gpu_index") is not None:
+        status["gpu_seconds_completed"] = float(status["gpu_seconds_completed"]) + max(
+            0.0, now - float(task["started_unix"])
+        )
     kind, node_id = task.get("kind"), task.get("node_id")
     if kind in {"fit", "train_export"} and isinstance(node_id, str):
         status["nodes"][node_id].update(
@@ -879,6 +877,39 @@ def _mark_launch_failed(
     elif kind == "score":
         status["score"] = {"state": "failed", "error": message}
     status["last_error"] = message
+
+
+def _stop_spawned_child(child: subprocess.Popen[bytes]) -> None:
+    """Terminate and reap one exact Popen child, escalating to kill after a bound."""
+    if child.poll() is not None:
+        child.wait()
+        return
+    try:
+        child.terminate()
+    except ProcessLookupError:
+        pass
+    except OSError:
+        # A concurrent exit or a failed TERM still gets a bounded wait and KILL attempt.
+        pass
+    try:
+        child.wait(timeout=SPAWN_CLEANUP_SECONDS)
+        return
+    except subprocess.TimeoutExpired:
+        pass
+    except OSError:
+        pass
+    try:
+        child.kill()
+    except ProcessLookupError:
+        pass
+    except OSError as error:
+        raise DriverError(f"failed to kill spawned child PID {child.pid}: {error}") from error
+    try:
+        child.wait(timeout=SPAWN_CLEANUP_SECONDS)
+    except subprocess.TimeoutExpired as error:
+        raise DriverError(f"spawned child PID {child.pid} survived TERM and KILL") from error
+    except OSError as error:
+        raise DriverError(f"could not reap spawned child PID {child.pid}: {error}") from error
 
 
 def _launch_task(
@@ -962,12 +993,33 @@ def _launch_task(
         time.sleep(0.01)
         identity = proc_identity(child.pid)
     if identity is None or identity["process_group"] != child.pid or identity["session"] != child.pid:
-        _mark_launch_failed(
-            status,
-            record,
-            "spawned child did not establish its receipt-bound process group",
-        )
         record["pid"] = child.pid
+        failure = "spawned child did not establish its receipt-bound process group"
+        try:
+            _stop_spawned_child(child)
+        except DriverError as error:
+            record.update(
+                {
+                    "state": "running",
+                    "spawn_cleanup_pending": True,
+                    "spawn_failure": failure,
+                    "cleanup_error": str(error),
+                }
+            )
+            if kind == "fit":
+                status["nodes"][str(node_id)].update(
+                    {
+                        "state": "running",
+                        "phase": "spawn_cleanup_pending",
+                        "cell_started_unix": record["started_unix"],
+                    }
+                )
+            _write_status(state_path, status)
+            raise DriverError(
+                f"{task_id}: child cleanup remains pending; its GPU stays reserved: {error}"
+            ) from error
+        children.pop(task_id, None)
+        _mark_launch_failed(status, record, failure)
         _write_status(state_path, status)
         return
     record.update(
@@ -1133,8 +1185,30 @@ def _poll_tasks(
     children: dict[str, subprocess.Popen[bytes]],
     now: float,
 ) -> None:
-    """Monitor PID start ticks, process groups, deadlines, exits, and final artifacts."""
+    """Monitor child ownership and outputs; only the live controller owns Popen return codes.
+
+    After controller restart, an exited non-adopted child lacks a trusted return code and is
+    marked failed without artifact adoption. Spawn-cleanup retries likewise require the local
+    Popen handle; a restart refuses to release that GPU or retry the fit.
+    """
     for task_id, task in list(_active_tasks(status).items()):
+        if task.get("spawn_cleanup_pending"):
+            child = children.get(task_id)
+            if child is None:
+                raise DriverError(
+                    f"{task_id}: spawn cleanup lost its Popen handle; refusing to retry or release GPU"
+                )
+            try:
+                _stop_spawned_child(child)
+            except DriverError as error:
+                task["cleanup_error"] = str(error)
+                status["last_error"] = str(error)
+                _write_status(state_path, status)
+                continue
+            children.pop(task_id, None)
+            _mark_launch_failed(status, task, str(task["spawn_failure"]))
+            _write_status(state_path, status)
+            continue
         if task.get("command_sha256") != canonical_sha256(task.get("command")) and not task.get(
             "adopted"
         ):
@@ -1446,10 +1520,25 @@ def _gpu_seconds(status: dict[str, object], now: float) -> float:
     return float(status["gpu_seconds_completed"]) + active
 
 
-def _terminate_active(status: dict[str, object]) -> list[str]:
-    """Stop only task groups whose stored PID, start ticks, session, and PGID still match."""
+def _terminate_active(
+    status: dict[str, object], children: dict[str, subprocess.Popen[bytes]]
+) -> list[str]:
+    """Stop receipt-bound groups or exact Popen handles awaiting spawn cleanup."""
     errors = []
-    for task in _active_tasks(status).values():
+    for task_id, task in _active_tasks(status).items():
+        if task.get("spawn_cleanup_pending"):
+            child = children.get(task_id)
+            if child is None:
+                errors.append(f"{task_id}: spawn cleanup lost its Popen handle")
+                continue
+            try:
+                _stop_spawned_child(child)
+            except DriverError as error:
+                errors.append(f"{task_id}: {error}")
+                continue
+            children.pop(task_id, None)
+            _mark_launch_failed(status, task, str(task["spawn_failure"]))
+            continue
         try:
             if not terminate_owned_group(task):
                 errors.append(f"{task['task_id']}: owned process group did not exit")
@@ -1541,12 +1630,13 @@ def _enforce_budgets(
     status: dict[str, object],
     plan: dict[str, object],
     now: float,
+    children: dict[str, subprocess.Popen[bytes]],
 ) -> bool:
     """Stop only owned groups when wall or GPU-hour authority is exhausted."""
     wall = now - float(status["started_unix"])
     gpu = _gpu_seconds(status, now)
     if wall > MAX_WALL_SECONDS:
-        errors = _terminate_active(status)
+        errors = _terminate_active(status, children)
         _terminalize(
             state_dir,
             state_path,
@@ -1557,7 +1647,7 @@ def _enforce_budgets(
         )
         return True
     if gpu > MAX_GPU_SECONDS:
-        errors = _terminate_active(status)
+        errors = _terminate_active(status, children)
         _terminalize(
             state_dir,
             state_path,
@@ -1640,11 +1730,11 @@ def run_controller(args: argparse.Namespace) -> int:
         while True:
             now = time.time()
             if stop["requested"]:
-                errors = _terminate_active(status)
+                errors = _terminate_active(status, children)
                 reason = f"controller received signal {stop['signal']}; " + "; ".join(errors)
                 _terminalize(state_dir, state_path, status, plan, "interrupted", reason)
                 return 130
-            if _enforce_budgets(state_dir, state_path, status, plan, now):
+            if _enforce_budgets(state_dir, state_path, status, plan, now, children):
                 return 2
             _poll_tasks(root, state_path, status, plan, split, children, now)
             _mark_blocked_stages(status, plan)
