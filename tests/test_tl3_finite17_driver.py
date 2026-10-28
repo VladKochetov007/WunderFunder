@@ -47,7 +47,12 @@ def test_finite_recipe_priority_starts_fin256_s4_before_other_roots(
         for name in node_map
     }
     states["fin256_s4"] = {"state": "not_started", "phase": "not_started"}
-    status = {"nodes": states, "fits_used": 1, "tasks": {}}
+    status = {
+        "nodes": states,
+        "fits_used": 1,
+        "tasks": {},
+        "final_exports": {run: {"state": "complete"} for run in plan["final_runs"]},
+    }
     launched: list[dict[str, object]] = []
     monkeypatch.setattr(
         driver,
@@ -73,6 +78,105 @@ def test_finite_recipe_priority_starts_fin256_s4_before_other_roots(
     assert launched[0]["task_id"] == "fit:fin256_s4"
     assert launched[0]["kind"] == "fit"
     assert launched[0]["cpu_affinity"] == tuple(range(8))
+
+
+def test_unrelated_tiedlead_failure_does_not_block_w18_cache_or_fit(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    plan = _plan(tmp_path)
+    plan["w18_cache"] = str(tmp_path / "w18-mixed-targets")
+    node_map = {node["id"]: node for node in plan["nodes"]}
+    states = {
+        name: {"state": "not_started", "phase": "not_started"} for name in node_map
+    }
+    for name in W18_COEFFICIENTS:
+        states[name] = {"state": "complete", "phase": "train_export_complete"}
+    states["fttall_tlead_s5"] = {"state": "failed", "phase": "fit"}
+    status: dict[str, object] = {
+        "nodes": states,
+        "cache": {"state": "not_started"},
+        "tasks": {},
+        "final_exports": {run: "not_started" for run in plan["final_runs"]},
+        "score": {"state": "not_started"},
+        "last_error": None,
+    }
+    launched: list[dict[str, object]] = []
+    monkeypatch.setattr(driver, "_cache_command", lambda *_args: ["python", "cache.py"])
+    monkeypatch.setattr(driver, "_write_status", lambda _path, _status: None)
+    monkeypatch.setattr(driver, "_launch_task", lambda **kwargs: launched.append(kwargs))
+
+    driver._mark_blocked_stages(status, plan)
+    started = driver._start_cache_if_ready(
+        root=tmp_path,
+        python=Path("python"),
+        state_dir=tmp_path / "state",
+        state_path=tmp_path / "state/status.json",
+        status=status,
+        plan=plan,
+        children={},
+    )
+
+    assert started
+    assert launched[0]["task_id"] == "cache:w18-mixed-targets"
+    assert status["cache"]["state"] == "not_started"
+    assert status["nodes"]["w18final_distilled_s5"]["state"] == "not_started"
+    assert status["final_exports"]["tl3c_fttall_tlead_s5"] == "blocked"
+    assert status["score"]["state"] == "blocked"
+
+    status["cache"]["state"] = "complete"
+    assert driver._dependency_ready(node_map["w18final_distilled_s5"], status)
+
+
+def test_completed_final_member_exports_valid_before_unrelated_fits(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    plan = _plan(tmp_path)
+    node_map = {node["id"]: node for node in plan["nodes"]}
+    run = "tl3c_fttall_tlead_s5"
+    states = {
+        name: {"state": "not_started", "phase": "not_started"} for name in node_map
+    }
+    states["fttall_tlead_s5"] = {"state": "complete", "phase": "fit_complete"}
+    status: dict[str, object] = {
+        "nodes": states,
+        "fits_used": 1,
+        "tasks": {},
+        "source_identity": {"training_source_sha256": "a" * 64},
+        "final_exports": {final_run: "not_started" for final_run in plan["final_runs"]},
+    }
+    launched: list[dict[str, object]] = []
+    monkeypatch.setattr(
+        driver,
+        "_prediction_output_paths",
+        lambda root, final_run, _split: (root / f"{final_run}.npy",),
+    )
+    monkeypatch.setattr(
+        driver,
+        "_predict_command",
+        lambda _root, _python, _split_path, final_run, split, _selector: [
+            "predict",
+            final_run,
+            split,
+        ],
+    )
+    monkeypatch.setattr(driver, "_write_status", lambda _path, _status: None)
+    monkeypatch.setattr(driver, "_launch_task", lambda **kwargs: launched.append(kwargs))
+
+    started = driver._start_ready_gpu_task(
+        root=tmp_path,
+        python=Path("python"),
+        state_dir=tmp_path / "state",
+        state_path=tmp_path / "state/status.json",
+        status=status,
+        plan=plan,
+        gpu=(0, "GPU-test"),
+        cpu_affinity=tuple(range(8)),
+        children={},
+    )
+
+    assert started
+    assert launched[0]["task_id"] == f"valid-export:{run}"
+    assert launched[0]["kind"] == "valid_export"
 
 
 def test_child_environment_matches_admitted_cpu_and_loader_limits(tmp_path: Path) -> None:

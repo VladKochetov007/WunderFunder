@@ -1281,26 +1281,14 @@ def _all_w18_sources_complete(status: dict[str, object]) -> bool:
     )
 
 
-def _all_non_w18_complete(status: dict[str, object], plan: dict[str, object]) -> bool:
-    """Keep the W18 student as the last of the 17 fixed fits."""
-    w18 = "w18final_distilled_s5"
-    return all(
-        name == w18 or status["nodes"][name]["state"] == "complete"
-        for name in _node_map(plan)
-    )
-
-
 def _dependency_ready(
-    node: dict[str, object], status: dict[str, object], plan: dict[str, object]
+    node: dict[str, object], status: dict[str, object]
 ) -> bool:
     """Require each parent export and, for W18, its final six-source cache."""
     if any(status["nodes"][str(parent)]["state"] != "complete" for parent in node["parents"]):
         return False
     if node["id"] == "w18final_distilled_s5":
-        return (
-            status["cache"]["state"] == "complete"
-            and _all_non_w18_complete(status, plan)
-        )
+        return status["cache"]["state"] == "complete"
     return True
 
 
@@ -1327,8 +1315,7 @@ def _start_ready_gpu_task(
     )
     for node_id, node in ordered_nodes:
         node_state = status["nodes"][node_id]
-        phase = node_state.get("phase")
-        if phase == "export_pending":
+        if node_state.get("phase") == "export_pending":
             run = str(node["run"])
             output_paths = _prediction_output_paths(root, run, "train")
             if any(path.exists() or path.is_symlink() for path in output_paths):
@@ -1356,7 +1343,41 @@ def _start_ready_gpu_task(
                 expected_source_sha256=str(node_state["source_sha256"]),
             )
             return True
-        if node_state.get("state") != "not_started" or not _dependency_ready(node, status, plan):
+
+    for run, record in status["final_exports"].items():
+        if record != "not_started":
+            continue
+        node = next((item for item in nodes.values() if item["run"] == run), None)
+        if node is None:
+            raise DriverError(f"final run is missing from the frozen DAG: {run}")
+        if status["nodes"][str(node["id"])]["state"] != "complete":
+            continue
+        output_paths = _prediction_output_paths(root, run, "valid")
+        if any(path.exists() or path.is_symlink() for path in output_paths):
+            status["final_exports"][run] = "failed"
+            status["last_error"] = f"unowned final prediction output already exists: {run}"
+            _write_status(state_path, status)
+            return True
+        command = _predict_command(root, python, split_path, run, "valid", "valid-evaluation")
+        _launch_task(
+            root=root,
+            state_dir=state_dir,
+            state_path=state_path,
+            status=status,
+            children=children,
+            task_id=f"valid-export:{run}",
+            kind="valid_export",
+            command=command,
+            gpu=gpu,
+            node_id=run,
+            cpu_affinity=cpu_affinity,
+            expected_source_sha256=str(plan["source_identity"]["training_source_sha256"]),
+        )
+        return True
+
+    for node_id, node in ordered_nodes:
+        node_state = status["nodes"][node_id]
+        if node_state.get("state") != "not_started" or not _dependency_ready(node, status):
             continue
         if int(status["fits_used"]) >= FIT_LIMIT:
             return False
@@ -1388,34 +1409,6 @@ def _start_ready_gpu_task(
             expected_source_sha256=str(plan["source_identity"]["training_source_sha256"]),
         )
         return True
-    final_ready = all(status["nodes"][name]["state"] == "complete" for name in nodes)
-    if final_ready:
-        for run, record in status["final_exports"].items():
-            if record == "not_started":
-                output_paths = _prediction_output_paths(root, run, "valid")
-                if any(path.exists() or path.is_symlink() for path in output_paths):
-                    status["final_exports"][run] = "failed"
-                    status["last_error"] = f"unowned final prediction output already exists: {run}"
-                    _write_status(state_path, status)
-                    return True
-                command = _predict_command(
-                    root, python, split_path, run, "valid", "valid-evaluation"
-                )
-                _launch_task(
-                    root=root,
-                    state_dir=state_dir,
-                    state_path=state_path,
-                    status=status,
-                    children=children,
-                    task_id=f"valid-export:{run}",
-                    kind="valid_export",
-                    command=command,
-                    gpu=gpu,
-                    node_id=run,
-                    cpu_affinity=cpu_affinity,
-                    expected_source_sha256=str(plan["source_identity"]["training_source_sha256"]),
-                )
-                return True
     return False
 
 
@@ -1437,10 +1430,8 @@ def _start_cache_if_ready(
     plan: dict[str, object],
     children: dict[str, subprocess.Popen[bytes]],
 ) -> bool:
-    """Build W18 cache once, after its six train exports and all other fits finish."""
+    """Build W18 cache as soon as its six required train exports finish."""
     if status["cache"]["state"] != "not_started" or not _all_w18_sources_complete(status):
-        return False
-    if not _all_non_w18_complete(status, plan) or _active_tasks(status):
         return False
     output = Path(str(plan["w18_cache"]))
     if output.exists() or output.is_symlink():
@@ -1585,14 +1576,6 @@ def _mark_blocked_stages(status: dict[str, object], plan: dict[str, object]) -> 
     if status["cache"]["state"] in {"failed", "blocked"}:
         status["nodes"]["w18final_distilled_s5"].update(
             {"state": "blocked", "phase": "cache_unavailable"}
-        )
-    if any(
-        status["nodes"][name]["state"] in {"failed", "blocked"}
-        for name in _node_map(plan)
-        if name != "w18final_distilled_s5"
-    ):
-        status["nodes"]["w18final_distilled_s5"].update(
-            {"state": "blocked", "phase": "required_non_w18_fit_failed"}
         )
     for run in plan["final_runs"]:
         node = next(item for item in _node_map(plan).values() if item["run"] == run)
