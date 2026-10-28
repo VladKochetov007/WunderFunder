@@ -566,11 +566,11 @@ def _verify_history(history: object, node: dict[str, object], expected_updates: 
             update_diagnostics.get("epoch") if isinstance(update_diagnostics, dict) else None
         )
         cumulative_counts = (
-            update_diagnostics.get("cumulative")
-            if isinstance(update_diagnostics, dict)
-            else None
+            update_diagnostics.get("cumulative") if isinstance(update_diagnostics, dict) else None
         )
-        if not all(isinstance(counts, dict) for counts in (fit_counts, epoch_counts, cumulative_counts)):
+        if not all(
+            isinstance(counts, dict) for counts in (fit_counts, epoch_counts, cumulative_counts)
+        ):
             raise DriverError(f"{node['id']}: history lacks optimizer update evidence")
         expected_counts = (
             (fit_counts, per_epoch),
@@ -586,7 +586,9 @@ def _verify_history(history: object, node: dict[str, object], expected_updates: 
                 or type(counters.get("amp_skipped_updates")) is not int
                 or counters["amp_skipped_updates"] != 0
             ):
-                raise DriverError(f"{node['id']}: fixed schedule update count or skip count changed")
+                raise DriverError(
+                    f"{node['id']}: fixed schedule update count or skip count changed"
+                )
 
 
 def verify_run_output(
@@ -1677,12 +1679,30 @@ def _file_lock(state_dir: Path):
     return handle
 
 
+def receiver_python(path: Path) -> Path:
+    """Keep a venv executable symlink intact and probe its required dependencies."""
+    python = path.expanduser().absolute()
+    if not python.is_file():
+        raise DriverError("--python must point to the isolated receiver interpreter")
+    try:
+        subprocess.run(
+            [str(python), "-c", "import numpy, torch, pyarrow"],
+            check=True,
+            capture_output=True,
+            timeout=30,
+        )
+    except (OSError, subprocess.SubprocessError) as error:
+        raise DriverError("receiver interpreter cannot import numpy/torch/pyarrow") from error
+    return python
+
+
 def run_controller(args: argparse.Namespace) -> int:
     """Run or resume the finite TL3 graph without touching unrelated GPU processes."""
     if not sys.platform.startswith("linux"):
         raise DriverError("finite GPU scheduling is available only on the receiving Linux host")
     root = args.root.resolve(strict=True)
     split_path = args.split_manifest.resolve(strict=True)
+    python = receiver_python(args.python)
     state_dir = args.state.expanduser().absolute()
     if state_dir.exists() and state_dir.is_symlink():
         raise DriverError("state path cannot be a symlink")
@@ -1726,9 +1746,6 @@ def run_controller(args: argparse.Namespace) -> int:
 
         signal.signal(signal.SIGTERM, request_stop)
         signal.signal(signal.SIGINT, request_stop)
-        python = args.python.resolve(strict=True)
-        if not python.is_file():
-            raise DriverError("--python must point to the isolated receiver interpreter")
         poll_seconds = args.poll_seconds
         if not 1 <= poll_seconds <= 300:
             raise DriverError("poll interval must be from 1 through 300 seconds")

@@ -20,6 +20,40 @@ from wnn.distillation_cache import row_groups_sha256
 R3_FIXTURE_DIR = Path(__file__).parent / "fixtures" / "tl3_finite17"
 
 
+def test_receiver_preserves_virtual_environment_executable_and_probes_before_admission(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    executable = tmp_path / "venv/bin/python"
+    executable.parent.mkdir(parents=True)
+    executable.write_text("receiver executable", encoding="utf-8")
+    commands: list[list[str]] = []
+
+    def probe(command: list[str], **_kwargs: object) -> None:
+        commands.append(command)
+
+    def forbidden_resolve(*_args: object, **_kwargs: object) -> None:
+        raise AssertionError("resolving the venv symlink changes Python environment discovery")
+
+    monkeypatch.setattr(Path, "resolve", forbidden_resolve)
+    monkeypatch.setattr(driver.subprocess, "run", probe)
+    assert driver.receiver_python(executable) == executable.absolute()
+    assert commands == [[str(executable), "-c", "import numpy, torch, pyarrow"]]
+
+
+def test_receiver_dependency_failure_prevents_admission(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    executable = tmp_path / "python"
+    executable.touch()
+
+    def fail(command: list[str], **_kwargs: object) -> None:
+        raise subprocess.CalledProcessError(1, command)
+
+    monkeypatch.setattr(driver.subprocess, "run", fail)
+    with pytest.raises(driver.DriverError, match="cannot import"):
+        driver.receiver_python(executable)
+
+
 def test_r3_adamw_checkpoint_can_omit_the_unused_new_muon_option(tmp_path: Path) -> None:
     node = _plan(tmp_path)["nodes"][0]
     actual = driver._expected_effective_args(node)
