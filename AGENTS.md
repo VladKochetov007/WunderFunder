@@ -1,5 +1,18 @@
 # Project agent instructions
 
+## Explicit full eight-L4 launch — user instruction, 2026-10-28
+
+The user now explicitly authorizes full execution of the eight experiments in
+L4_ALLOCATION_V3.md, without changing their hypotheses: plain fresh GRU256x2,
+GALAM LSTM64, LSTM128, depth2, GRU72, history256, TBPTT256 and the declared
+attention/FFN-only Muon hybrid. Maximum20epochs, fixed official chronological
+primary validation, monitored checkpoints and the agreed bounded stop policy.
+Necessary data completion, runtime preparation, adapter repairs, meaningful
+CPU checks and actual-device engineering profiles are authorized prerequisites.
+Use the existing persistent SSH session; no reconnect loop, unrelated cleanup,
+foreign-service stops, additional scientific fits, billing or new instances.
+This supersedes earlier preparation-only scope for this exact eight-fit packet.
+
 ## GRU history before revised L4 execution — user instruction, 2026-10-28
 
 The user accepts the revised twenty-epoch-cap layout in principle and requires
