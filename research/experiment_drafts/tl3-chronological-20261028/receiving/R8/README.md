@@ -42,6 +42,12 @@ export completed and **fin256_s4 is now fitting**: one teacher complete, one fit
 running and15 predictors not yet started. Its actual API stream contains online
 loss, learning rate, throughput and verified process/GPU memory/utilization.
 
+[First native paired evaluation](NATIVE_FIRST_EPOCH_R1.json) verifies fin256_s4
+epoch1 WP0.6748902187479032 on all3,528,273 scored valid rows, with585.1s fitting
+and94.7s validation. The actual dashboard evaluation contains matching train/valid
+WMSE and WP aliases with checkpoint/cohort provenance; no extra full-valid pass
+was needed. This is an intermediate epoch, not a selected endpoint.
+
 [Watcher launch](watcher.launch.json), [actual artifact check](watcher-actual-snapshot.json)
 and [first GitHub posts](watcher-first-posts.json) bind the detached PR49 publisher.
 It verified SemyonEpanov and posted both initial status and the first completed
