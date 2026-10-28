@@ -53,17 +53,38 @@ def scaled_objective(
     world_size: int,
     kd_weight: float,
     hint_weight: float,
+    kd_loss_normalization: str = "additive",
 ) -> torch.Tensor:
     """Scale local sums for DDP's gradient averaging across the full window."""
     label_denom = float(denominators[0].item())
     hint_denom = float(denominators[1].item())
     label_scale = world_size / label_denom if label_denom > 0 else 0.0
     hint_scale = world_size / hint_denom if hint_denom > 0 else 0.0
-    return (
-        numerators.label * label_scale
-        + numerators.distillation * (kd_weight * label_scale)
-        + numerators.hints * (hint_weight * hint_scale)
+    prediction_loss = numerators.label * label_scale + numerators.distillation * (
+        kd_weight * label_scale
     )
+    if kd_loss_normalization == "weighted_mean":
+        prediction_loss = prediction_loss / (1.0 + kd_weight)
+    elif kd_loss_normalization != "additive":
+        raise ValueError("unsupported KD loss normalization")
+    return prediction_loss + numerators.hints * (hint_weight * hint_scale)
+
+
+def objective_total(
+    label_loss: float,
+    kd_loss: float,
+    hint_loss: float,
+    kd_weight: float,
+    hint_weight: float,
+    kd_loss_normalization: str = "additive",
+) -> float:
+    """Report the fitted objective, normalizing label/KD together but never hints."""
+    prediction_loss = label_loss + kd_weight * kd_loss
+    if kd_loss_normalization == "weighted_mean":
+        prediction_loss /= 1.0 + kd_weight
+    elif kd_loss_normalization != "additive":
+        raise ValueError("unsupported KD loss normalization")
+    return prediction_loss + hint_weight * hint_loss
 
 
 def detached_sums(

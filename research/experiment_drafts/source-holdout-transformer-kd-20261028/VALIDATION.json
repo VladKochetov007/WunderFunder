@@ -1,0 +1,42 @@
+{
+  "schema": "wnn.preparation-validation.v1",
+  "date": "2026-10-28",
+  "status": "STATIC_CHECKS_PASSED_RECEIVER_PENDING",
+  "base_sha": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "local_checks": {
+    "ruff_check": "passed on 18 changed Python files",
+    "ruff_format_check": "passed on 18 changed Python files",
+    "canonical_training_structure": {"files": 94, "errors": 0},
+    "ast_parse": "passed; no imports of project or model code",
+    "new_module_function_limits": "source modules <=300 lines; functions <=200 lines",
+    "json_jsonl_parse": "passed",
+    "bash_syntax": "passed for run.sh",
+    "git_diff_check": "passed",
+    "independent_source_review": "no remaining launch blocker identified; not runtime proof"
+  },
+  "executed": {
+    "local_tests": false,
+    "local_training": false,
+    "local_inference": false,
+    "local_model_imports": false,
+    "local_gpu_profiles": false,
+    "remote_jobs": 0,
+    "scientific_fits": 0
+  },
+  "pending": [
+    "receiver complete data preparation and component exclusions",
+    "receiver targeted correctness tests including causal prefix, KD gradients and recovery",
+    "six fresh twelve-update real-data BF16/BF16x9 profiles and explicit admissions",
+    "six five-epoch fixed-final fits",
+    "two fitting-only same-seed teacher caches",
+    "six full-valid prediction exports, official grades and complete paired comparison",
+    "future CPU serving, package and public transfer checks if an endpoint earns follow-up"
+  ],
+  "limitations": [
+    "full valid is exposed development data",
+    "one source split with two seeds is not significance or two-fold robustness",
+    "feature linkage graph is approximate; chronological ordering is unverified",
+    "local parquet immutability uses size, mtime and footer; portable registry verifies full bytes",
+    "batch sizes, speed and memory remain unmeasured for this packet"
+  ]
+}

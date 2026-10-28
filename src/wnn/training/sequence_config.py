@@ -58,7 +58,8 @@ MODEL_DEFAULTS: dict[str, Any] = {
 def load_config(path: Path) -> dict[str, Any]:
     """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
-    if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | {"model", "checkpoint_retention"}):
+    optional_fields = {"model", "checkpoint_retention", "kd_loss_normalization"}
+    if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | optional_fields):
         raise ValueError("unknown sequence recipe field")
     # Omission preserves historical config hashes and fixed-final profile identities.
     if "checkpoint_retention" in raw and raw["checkpoint_retention"] not in (
@@ -66,6 +67,11 @@ def load_config(path: Path) -> dict[str, Any]:
         "all_epochs",
     ):
         raise ValueError("checkpoint_retention must be final_only or all_epochs")
+    if "kd_loss_normalization" in raw and raw["kd_loss_normalization"] not in (
+        "additive",
+        "weighted_mean",
+    ):
+        raise ValueError("kd_loss_normalization must be additive or weighted_mean")
     config = DEFAULTS | raw
     # Preserve legacy AdamW's .999 while defaulting the Muon-side AdamW groups to .95.
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:

@@ -27,6 +27,7 @@ from wnn.training.sequence_models import detach_state
 from wnn.training.sequence_objectives import (
     detached_sums,
     objective_numerators,
+    objective_total,
     scaled_objective,
     window_denominators,
 )
@@ -107,6 +108,7 @@ def _backward_window(
                 context.world_size,
                 float(config["kd_weight"]),
                 float(config["hint_weight"]),
+                str(config.get("kd_loss_normalization", "additive")),
             )
             _check_finite_loss(loss, context)
             with backward_context(mode, context.device.type):
@@ -148,6 +150,7 @@ def _window_record(
     gradient_clip: float,
     kd_weight: float,
     hint_weight: float,
+    kd_loss_normalization: str = "additive",
 ) -> dict[str, object]:
     """Convert global sufficient sums and this rank's diagnostics into a JSON row."""
     label_denom = float(denominators[0].item())
@@ -162,7 +165,9 @@ def _window_record(
         "label_loss": label_loss,
         "kd_loss": kd_loss,
         "hint_loss": hint_loss,
-        "total_loss": label_loss + kd_weight * kd_loss + hint_weight * hint_loss,
+        "total_loss": objective_total(
+            label_loss, kd_loss, hint_loss, kd_weight, hint_weight, kd_loss_normalization
+        ),
         "valid_rows": int(stats[3].item()),
         "forwarded_rows": int(stats[4].item()),
         "real_rows": int(stats[5].item()),
@@ -267,6 +272,7 @@ def train_epoch(
                 float(config["grad_clip"]),
                 float(config["kd_weight"]),
                 float(config["hint_weight"]),
+                str(config.get("kd_loss_normalization", "additive")),
             )
             record["learning_rates"] = rates
             record["optimizer_seconds"] = optimizer_seconds
