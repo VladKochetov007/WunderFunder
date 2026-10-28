@@ -187,7 +187,7 @@ def evaluate_checkpoint(
         raise ValueError("train evaluation groups do not come from the official train-only fit")
     if set(valid_groups) != set(evaluation.get("valid", [])):
         raise ValueError("validation evaluation is not full official validation")
-    train_prefix = [int(group) for group in train_groups[:32]]
+    train_prefix = [int(group) for group in sorted(train_groups)[:32]]
     valid_order = [int(group) for group in valid_groups]
     if len(train_prefix) != 32 or not valid_order:
         raise ValueError("fixed evaluation cohorts are incomplete")

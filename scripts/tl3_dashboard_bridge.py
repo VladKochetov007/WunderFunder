@@ -1218,7 +1218,7 @@ def bridge_once(
         train_eval = evaluation.get("train_eval")
         if not isinstance(valid_eval, dict) or not isinstance(train_eval, dict):
             raise BridgeError("frozen evaluator receipt omits valid/train_eval cohorts")
-        expected_train_order = [int(group) for group in train_groups[:32]]
+        expected_train_order = [int(group) for group in sorted(train_groups)[:32]]
         if (
             train_eval.get("row_mask") != "all_after_warmup"
             or train_eval.get("cohort_count") != 32
@@ -1293,7 +1293,7 @@ def bridge_once(
             "train_eval": {
                 "row_mask": "all_after_warmup",
                 "cohort_count": len(train_groups[:32]),
-                "cohort_group_order_sha256": _canonical_sha256(train_groups[:32]),
+                "cohort_group_order_sha256": _canonical_sha256(sorted(train_groups)[:32]),
             },
             "valid": {
                 "row_mask": "is_scored",

@@ -14,10 +14,12 @@ import torch
 
 from wnn.gmetric import GlobalAccumulator
 from wnn.splits import file_sha256, load_campaign_split
+from wnn.training.checkpoints import configure_checkpoint_policy
 from wnn.training.chronological_teacher import validate_chronological_teacher_checkpoint
+from wnn.training.cli import build_parser
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from tl3_chronological_recipes import FINAL_WEIGHTS, PREFIX  # noqa: E402
+from tl3_chronological_recipes import FINAL_WEIGHTS, PREFIX, SPLIT_SHA256, build_nodes  # noqa: E402
 
 
 def fixed_blend(predictions: list[np.ndarray]) -> np.ndarray:
@@ -37,14 +39,18 @@ def load_prediction(
     path = root / "cache" / f"pred_{run}_valid.npy"
     metadata = json.loads(path.with_suffix(".json").read_text())
     rows = metadata.get("row_groups")
+    with np.load(root / "cache" / "valid_index.npz", allow_pickle=False) as source_index:
+        source_order = source_index["row_group"].tolist()
     if (
         metadata.get("run") != run
         or metadata.get("split") != "valid"
         or metadata.get("split_manifest_sha256") != split_sha256
         or metadata.get("inference_precision") != "fp32"
         or not isinstance(rows, list)
+        or any(type(row) is not int for row in rows)
         or len(rows) != len(set(rows))
         or set(rows) != set(groups)
+        or rows != source_order
         or metadata.get("prediction_sha256") != file_sha256(path)
     ):
         raise ValueError(f"prediction ancestry, precision or full-valid coverage differs: {run}")
@@ -54,8 +60,37 @@ def load_prediction(
     return array, {group: i for i, group in enumerate(rows)}, metadata
 
 
+def validate_final_recipe(
+    actual: dict[str, object], node_id: str, manifest_path: Path, data_root: Path
+) -> None:
+    """Reject named endpoints whose resolved scientific recipe differs from the frozen node."""
+    node = next(node for node in build_nodes(manifest_path, data_root) if node["id"] == node_id)
+    parser = build_parser()
+    expected = parser.parse_args(node["args"])
+    configure_checkpoint_policy(expected, parser)
+    # The validated chronological manifest replaces these legacy CLI fold aliases.
+    managed = {"eval_source", "valid_fold", "n_valid_folds"}
+    if (actual.get("eval_source"), actual.get("valid_fold"), actual.get("n_valid_folds")) != (
+        "vfold",
+        0,
+        1,
+    ):
+        raise ValueError("final checkpoint does not use the manifest-managed primary boundary")
+    for key, wanted in vars(expected).items():
+        if key in managed:
+            continue
+        observed = actual.get(key)
+        if key in {"split_manifest", "distill_cache_root"} and wanted:
+            observed = str(Path(str(observed)).resolve())
+            wanted = str(Path(str(wanted)).resolve())
+        if observed != wanted:
+            raise ValueError(f"fixed final recipe mismatch for {node_id}: {key}")
+
+
 def grade(data_root: Path, manifest_path: Path, output: Path) -> dict[str, object]:
     """Stream official targets once and score all fixed members and their blend."""
+    if file_sha256(manifest_path) != SPLIT_SHA256:
+        raise ValueError("primary split differs from the frozen TL3 manifest")
     split = load_campaign_split(manifest_path, data_root)
     groups = list(split.evaluation_groups)
     if len(groups) != 1873 or split.valid_groups or len(split.train_groups) != 10325:
@@ -66,6 +101,7 @@ def grade(data_root: Path, manifest_path: Path, output: Path) -> dict[str, objec
         run = PREFIX + name
         checkpoint = data_root / "artifacts" / "runs" / run / "model.pt"
         ck = torch.load(checkpoint, map_location="cpu", weights_only=False)
+        validate_final_recipe(ck["args"], name, manifest_path, data_root)
         checkpoint_hash = file_sha256(checkpoint)
         run_provenance = json.loads(checkpoint.with_name("provenance.json").read_text())
         validate_chronological_teacher_checkpoint(
@@ -76,6 +112,8 @@ def grade(data_root: Path, manifest_path: Path, output: Path) -> dict[str, objec
         array, position, metadata = load_prediction(data_root, run, groups, split.sha256)
         if metadata.get("checkpoint_sha256") != checkpoint_hash:
             raise ValueError(f"evaluation predictions came from another checkpoint: {run}")
+        if metadata.get("epoch") != ck["epoch"]:
+            raise ValueError(f"evaluation predictions came from another checkpoint epoch: {run}")
         arrays.append(array)
         positions.append(position)
         member_records.append(
