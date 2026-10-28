@@ -34,7 +34,8 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path, dict[str, Any]]:
     state.mkdir(parents=True)
     runs.mkdir()
     train = list(range(10_325))
-    valid = list(range(10_325, 12_198))
+    # Actual train/valid Parquet sources reuse the same numeric row-group IDs.
+    valid = list(range(1_873))
     manifest = root / "split_manifest.json"
     manifest.write_text(
         json.dumps(

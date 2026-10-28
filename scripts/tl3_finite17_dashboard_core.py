@@ -125,12 +125,14 @@ def _plan_and_split(
         or len(valid) != VALID_GROUPS
         or len(set(train)) != TRAIN_GROUPS
         or len(set(valid)) != VALID_GROUPS
-        or set(train).intersection(valid)
         or split.get("fit_train_count") != TRAIN_GROUPS
         or split.get("fit_valid_count") != 0
         or split.get("evaluation_valid_count") != VALID_GROUPS
     ):
         raise BridgeError("finite plan does not contain exact train-only/full-valid membership")
+    # Row-group numbers are local to each Parquet source: (train, 0) and
+    # (valid, 0) are different members. The pinned manifest/source audit owns
+    # feature-connected exclusions; numeric row-group overlap is not leakage.
     return plan, status, list(map(int, train)), list(map(int, valid))
 
 
