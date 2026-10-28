@@ -116,6 +116,8 @@ class GALAM(nn.Module):
         self._validate_state(x, state)
         time = self._resolve_timestamp(x, state, timestamp)
         normalized = self.local_input_norm(x)
+        if state.lstm_cell is None:
+            raise ValueError("LSTM GALAM state requires a cell tensor")
         _, (hidden, cell) = self.lstm(normalized.unsqueeze(1), (state.lstm_hidden, state.lstm_cell))
         hidden_step = hidden[-1]
         cell_step = cell[-1]
@@ -154,7 +156,11 @@ class GALAM(nn.Module):
     def _validate_state(self, x: torch.Tensor, state: GALAMState) -> None:
         """Check recurrent state shape, placement, type, and cache depth before use."""
         expected = (self.config.lstm_layers, x.shape[0], self.config.width)
-        if state.lstm_hidden.shape != expected or state.lstm_cell.shape != expected:
+        if (
+            state.lstm_cell is None
+            or state.lstm_hidden.shape != expected
+            or state.lstm_cell.shape != expected
+        ):
             raise ValueError("state LSTM tensors do not match model depth, batch, and width")
         if state.lstm_hidden.device != x.device or state.lstm_hidden.dtype != x.dtype:
             raise ValueError("state device and dtype must match the input tensor")

@@ -23,6 +23,28 @@ unknown; this requirement cannot be satisfied by silently inventing them.
 | 32 feature next-state prediction | historical config | 32→32 template. All hidden widths and context choices are illustrative, not the original hyperparameters. |
 | Current Connectome inputs/outputs | adaptation config | 112→2 is a separately labelled adaptation, not literal historical identity. |
 
+## Explicit implementation variants (28 October)
+
+The optional nested `galam.variant` selector defaults to
+`schematic_lstm_full` when absent. This preserves the existing LSTM source-
+schematic implementation and keeps old serialized recipes unchanged. It does
+not make that implementation an exact reconstruction of Denis's lost model.
+
+`schematic_gru_full` is an explicit recurrent-cell adaptation: it keeps the
+global and local memories, replaces LSTM with GRU, has no cell state or cell
+projection, and fuses global memory, local memory, and projected hidden state
+through a three-width decoder. `schematic_lstm_local_only` is an explicit branch
+ablation: it omits the global projection, global attention, and ConvMixer, then
+fuses local memory with projected LSTM hidden and cell states through a
+three-width decoder. The local-only model does not instantiate unused global
+parameters.
+
+Both adapted decoders and their total parameter counts differ from the
+four-width LSTM template. The initial comparison is matched by declared hidden
+width; any matched-compute recipe must be a separate, explicitly parameterized
+comparison. These variants are engineering adaptations, not source claims about
+the original model.
+
 ## Not established by these sources
 
 Original weights, exact hidden/FFN/bias/ConvMixer dimensions, head counts, block

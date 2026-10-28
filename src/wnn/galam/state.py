@@ -27,7 +27,7 @@ class GALAMState:
     """Explicit recurrent, attention, convolution, and ordinal-position state."""
 
     lstm_hidden: torch.Tensor
-    lstm_cell: torch.Tensor
+    lstm_cell: torch.Tensor | None
     local_attention: tuple[AttentionCache | None, ...]
     global_attention: tuple[AttentionCache | None, ...]
     global_mixers: tuple[ConvMixerState | None, ...]
@@ -37,7 +37,7 @@ class GALAMState:
         """Detach stored history at a caller-chosen truncated-BPTT boundary."""
         return GALAMState(
             lstm_hidden=self.lstm_hidden.detach(),
-            lstm_cell=self.lstm_cell.detach(),
+            lstm_cell=None if self.lstm_cell is None else self.lstm_cell.detach(),
             local_attention=tuple(_detach_attention(cache) for cache in self.local_attention),
             global_attention=tuple(_detach_attention(cache) for cache in self.global_attention),
             global_mixers=tuple(_detach_mixer(state) for state in self.global_mixers),

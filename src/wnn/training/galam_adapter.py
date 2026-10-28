@@ -6,7 +6,9 @@ from collections.abc import Mapping
 import torch
 from torch import Tensor, nn
 
-from wnn.galam import GALAM, GALAMState, galam_config_from_mapping
+from wnn.galam import GALAMState, galam_config_from_mapping
+from wnn.galam.variant_config import galam_variant_from_mapping
+from wnn.galam.variants import build_galam_variant
 
 
 def galam_model_settings(raw: Mapping[str, object]) -> dict[str, object]:
@@ -19,7 +21,9 @@ def galam_model_settings(raw: Mapping[str, object]) -> dict[str, object]:
     nested = raw.get("galam")
     if not isinstance(nested, Mapping):
         raise ValueError("GALAM requires an explicit model.galam configuration")
-    config = galam_config_from_mapping(nested)
+    variant = galam_variant_from_mapping(nested)
+    config_values = {name: value for name, value in nested.items() if name != "variant"}
+    config = galam_config_from_mapping(config_values)
     if (config.input_features, config.output_features) != (112, 2):
         raise ValueError("sequence training requires the explicit 112-to-2 GALAM adaptation")
     if config.timestamp_source != "ordinal":
@@ -27,7 +31,9 @@ def galam_model_settings(raw: Mapping[str, object]) -> dict[str, object]:
     expected: dict[str, object] = {
         "architecture": "galam",
         "hidden": config.width,
-        "layers": config.global_blocks,
+        "layers": config.lstm_layers
+        if variant == "schematic_lstm_local_only"
+        else config.global_blocks,
         "heads": config.attention_heads,
         "ff_multiplier": config.feed_forward_width / config.width,
         "context_rows": config.attention_history,
@@ -83,7 +89,7 @@ def validate_galam_batch_plan(
 
 
 class GALAMSequenceAdapter(nn.Module):
-    """Expose the source-traced GALAM adaptation through the existing sequence loop.
+    """Expose the selected GALAM template or labelled adaptation to sequence training.
 
     This adapter adds train-only external normalization and the runtime's empty
     representation-hint output. Neither is a claim about the original recipe.
@@ -95,7 +101,10 @@ class GALAMSequenceAdapter(nn.Module):
         nested = resolved["galam"]
         if not isinstance(nested, Mapping):
             raise TypeError("validated GALAM settings must retain a mapping")
-        self.galam = GALAM(galam_config_from_mapping(nested))
+        variant = galam_variant_from_mapping(nested)
+        config_values = {name: value for name, value in nested.items() if name != "variant"}
+        self.variant = variant
+        self.galam = build_galam_variant(galam_config_from_mapping(config_values), variant)
         self.register_buffer("mean", torch.zeros(112, dtype=torch.float32))
         self.register_buffer("std", torch.ones(112, dtype=torch.float32))
         self.precision_mode = "fp32"
