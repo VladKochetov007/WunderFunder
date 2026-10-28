@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from wnn.galam import galam_config_from_mapping
+from wnn.galam.execution import galam_execution_backend
 from wnn.galam.variant_config import describe_variant, galam_variant_from_mapping
 from wnn.galam.variants import build_galam_variant
 
@@ -30,10 +31,11 @@ def main() -> None:
         if not isinstance(nested, dict):
             parser.error("runtime config must contain model.galam")
     variant = galam_variant_from_mapping(nested)
+    backend = galam_execution_backend(nested, variant)
     config = galam_config_from_mapping(
-        {key: value for key, value in nested.items() if key != "variant"}
+        {key: value for key, value in nested.items() if key not in ("variant", "execution_backend")}
     )
-    model = build_galam_variant(config, variant)
+    model = build_galam_variant(config, variant, backend)
     print(
         json.dumps(
             {
@@ -43,6 +45,7 @@ def main() -> None:
                 "role": config.role,
                 "parameter_count": sum(parameter.numel() for parameter in model.parameters()),
                 "effective_model": describe_variant(config, variant),
+                "execution_backend": backend,
                 "known_graph_details": sorted(config.faithful_details)
                 if variant == "schematic_lstm_full"
                 else [],

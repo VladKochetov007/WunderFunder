@@ -217,3 +217,5 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 - [Idea12 narrow moment-decoder result](../../campaign_2026-10-19/idea_screens_r5/RESULTS.md): with identical fitted heads, a predicted denominator loses0.025555WP to a constant denominator; all32 fixed-prediction drop-one contrasts are negative. A positive constant-vs-stored-R3 recipe contrast is retained without claiming joint-head causality or general moment-model failure.
 
 - [Compact Transformer factor/LR screens with live train/val figures](../../experiment_drafts/compact-factor-sweep-20261026/README.md): eight new fits, exact PR43 controls reused; bounded profiles before admission.
+
+- [Block GALAM-GRU72 and frozen BatchNorm diagnostic](../../experiment_drafts/galam-block-bn-20261029/README.md): opt-in chunk execution, receiver output/state/gradient checks and full-update profiles; separate train-only BN recalibration on an immutable epoch snapshot. Zero new fits, no local tests/model execution, no live-worker changes; numerical parity, speed and quality remain unmeasured.

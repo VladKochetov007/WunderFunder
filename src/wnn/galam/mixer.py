@@ -4,6 +4,7 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
+from wnn.galam.block_norm import per_time_batch_norm
 from wnn.galam.state import ConvMixerState
 
 
@@ -16,11 +17,13 @@ class PerTimeBatchNorm1d(nn.Module):
         self.norm = nn.BatchNorm1d(features)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        """Normalize one time position shaped batch by features."""
-        if x.ndim != 2:
-            raise ValueError("per-time BatchNorm input must have shape [batch, features]")
+        """Normalize one position or a chunk with separate batch moments per time."""
+        if x.ndim not in (2, 3):
+            raise ValueError("per-time BatchNorm input must have shape [batch, (time,) features]")
         if self.training and x.shape[0] < 2:
             raise ValueError("training-time BatchNorm requires batch size >= 2")
+        if x.ndim == 3:
+            return per_time_batch_norm(x, self.norm)
         return self.norm(x)
 
 

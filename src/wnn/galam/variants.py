@@ -7,6 +7,7 @@ from torch import nn
 
 from wnn.galam.attention import TemporalSelfAttention
 from wnn.galam.config import GALAMConfig
+from wnn.galam.execution import GALAMExecutionBackend, galam_execution_backend
 from wnn.galam.mixer import CausalConvMixer, PerTimeBatchNorm1d
 from wnn.galam.model import GALAM
 from wnn.galam.state import AttentionCache, ConvMixerState, GALAMState
@@ -19,8 +20,17 @@ from wnn.galam.variant_config import (
 from wnn.galam.variant_fusion import BranchChannelProductGate
 
 
-def build_galam_variant(config: GALAMConfig, variant: GALAMVariant) -> nn.Module:
+def build_galam_variant(
+    config: GALAMConfig,
+    variant: GALAMVariant,
+    execution_backend: GALAMExecutionBackend = "step",
+) -> nn.Module:
     """Build the preserved LSTM template or one explicitly labelled adaptation."""
+    backend = galam_execution_backend({"execution_backend": execution_backend}, variant)
+    if backend == "block":
+        from wnn.galam.block_model import GALAMBlockGRU
+
+        return GALAMBlockGRU(config)
     if variant == "schematic_lstm_full":
         return GALAM(config)
     return GALAMAdaptation(config, cast(AdaptedGALAMVariant, variant))

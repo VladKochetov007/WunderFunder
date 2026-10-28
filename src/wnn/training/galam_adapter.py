@@ -7,6 +7,7 @@ import torch
 from torch import Tensor, nn
 
 from wnn.galam import GALAMState, galam_config_from_mapping
+from wnn.galam.execution import galam_execution_backend
 from wnn.galam.variant_config import galam_variant_from_mapping, validate_variant_config
 from wnn.galam.variants import build_galam_variant
 
@@ -22,7 +23,12 @@ def galam_model_settings(raw: Mapping[str, object]) -> dict[str, object]:
     if not isinstance(nested, Mapping):
         raise ValueError("GALAM requires an explicit model.galam configuration")
     variant = galam_variant_from_mapping(nested)
-    config_values = {name: value for name, value in nested.items() if name != "variant"}
+    galam_execution_backend(nested, variant)
+    config_values = {
+        name: value
+        for name, value in nested.items()
+        if name not in ("variant", "execution_backend")
+    }
     config = galam_config_from_mapping(config_values)
     validate_variant_config(config, variant)
     if (config.input_features, config.output_features) != (112, 2):
@@ -104,9 +110,15 @@ class GALAMSequenceAdapter(nn.Module):
         if not isinstance(nested, Mapping):
             raise TypeError("validated GALAM settings must retain a mapping")
         variant = galam_variant_from_mapping(nested)
-        config_values = {name: value for name, value in nested.items() if name != "variant"}
+        backend = galam_execution_backend(nested, variant)
+        config_values = {
+            name: value
+            for name, value in nested.items()
+            if name not in ("variant", "execution_backend")
+        }
         self.variant = variant
-        self.galam = build_galam_variant(galam_config_from_mapping(config_values), variant)
+        self.execution_backend = backend
+        self.galam = build_galam_variant(galam_config_from_mapping(config_values), variant, backend)
         self.register_buffer("mean", torch.zeros(112, dtype=torch.float32))
         self.register_buffer("std", torch.ones(112, dtype=torch.float32))
         self.precision_mode = "fp32"
