@@ -46,3 +46,11 @@ This changes optimization step count relative to the provisional GALAM16 start,
 so final batch/step counts are recorded before fitting, without LR scaling.
 Telemetry/diagnostics are sampled every25 GALAM updates and100 plain-GRU updates.
 None of these engineering measurements is a trained-model quality result.
+
+[Profile cohort owner](profile_cohort.py) waits for completed data preparation,
+then starts exactly eight bounded, discard-only actual-source profiles with the
+final config hashes, GPU and CPU affinity. It records owned process incarnations
+and exits; it never approves itself or starts scientific fits.
+[Monitor budget preflight](MONITOR_BUDGET_PREFLIGHT.json) bounds journals using
+the complete10607-group train count as an upper bound. The largest projected
+journal is317,390,848B, within the enforced1GiB cap, before any early stop.
