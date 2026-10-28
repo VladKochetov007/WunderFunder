@@ -1,3 +1,11 @@
+[Independent TL3 restoration review](../../experiment_drafts/tl3-chronological-20261028/INDEPENDENT_TL3_TRAINONLY_REVIEW_R1.json)
+checks source recovery, clean chronology and known implementation gaps: conflicting
+checkpoint gates, tiedlead inference configuration, exact cache order/ancestry and
+historical optimizer differences. [The receiving record](../../experiment_drafts/tl3-chronological-20261028/receiving/README.md)
+separates the rejected pre-update attempt from40 finite actual-device updates and
+the first detached train-only teacher fit. This is engineering admission, not a
+restored TL3 quality result or an exact historical reproduction claim.
+
 [Eight-L4 actual data, resource and first-epoch reviews](../../experiment_drafts/galam-l4-quality8-20261028/launch/receiving/README.md)
 verify source/index/split/mask bindings, all eight successful strict-FP32 profiles,
 UUID/memory and data identities, and GRU epoch1 full-valid coverage/pointers.

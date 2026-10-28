@@ -1,5 +1,22 @@
 # Project agent instructions
 
+## Fresh TL3 train-only restoration — user instruction, 2026-10-28
+
+The user explicitly requests restoring TL3 training and evaluating the resulting
+models on our primary validation. Rebuild the historical three-member dependency
+graph from fresh official-train fits; do not reuse train+valid weights, teachers,
+normalizers or propensity. The source audit identifies17 predictor fits (54
+configured epochs) and a historical propensity estimator that cannot be fitted
+from official train because it has no is_scored labels. Replace only that learned
+propensity with neutral weighting and disable valid-mask weighting; document the
+adaptation instead of claiming exact historical TL3 reproduction. Preserve the
+seven currently running GALAM fits and immutable R9 source. Use free GPU0 first,
+then verified released resources; no new provider, billing, unrelated stop or
+cleanup. Freeze ancestor endpoint epochs before their full-valid results.
+See [the restoration packet](research/experiment_drafts/tl3-chronological-20261028/README.md).
+This scoped authorization supersedes the older eight-fit-only admission limit;
+it does not resume unrelated stopped fits or change ADR0044.
+
 ## Explicit full eight-L4 launch — user instruction, 2026-10-28
 
 The user now explicitly authorizes full execution of the eight experiments in
