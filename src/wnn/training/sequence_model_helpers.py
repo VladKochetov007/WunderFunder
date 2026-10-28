@@ -10,8 +10,30 @@ from torch.nn import functional as F
 
 from wnn.galam import GALAMState
 from wnn.training.sequence_attention import TransformerState
+from wnn.training.sequence_precision import validate_forward_state
 
 SequenceState = Tensor | TransformerState | GALAMState | None
+
+
+def validate_sequence_fp32_environment(
+    model: nn.Module, values: Tensor, precision_mode: str
+) -> None:
+    """Enforce FP32 inputs, model state, and the declared forward precision policy."""
+    if values.dtype != torch.float32:
+        raise TypeError("sequence models require float32 inputs")
+    if any(parameter.dtype != torch.float32 for parameter in model.parameters()):
+        raise TypeError("sequence models require float32 parameters")
+    if any(buffer is not None and buffer.dtype != torch.float32 for buffer in model.buffers()):
+        raise TypeError("sequence models require float32 buffers")
+    validate_forward_state(precision_mode, values.device.type)
+
+
+def validate_sequence_input_shape(values: Tensor, input_width: int = 112) -> None:
+    """Require a nonempty batch and row chunk with the configured input width."""
+    if values.ndim != 3 or values.shape[-1] != input_width:
+        raise ValueError(f"sequence models require inputs shaped [batch, rows, {input_width}]")
+    if values.shape[0] <= 0 or values.shape[1] <= 0:
+        raise ValueError("sequence batches and row chunks must be non-empty")
 
 
 class HintProjector(nn.Module):

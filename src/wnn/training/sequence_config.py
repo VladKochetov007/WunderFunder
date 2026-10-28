@@ -5,6 +5,10 @@ import math
 from pathlib import Path
 from typing import Any
 
+from wnn.training.sequence_config_validation import (
+    is_galam_lstm64_muon,
+    validate_monitoring_config,
+)
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
 
 # JSON is heterogeneous at this boundary; validated fields are consumed by the runtime.
@@ -63,8 +67,11 @@ def load_config(path: Path) -> dict[str, Any]:
     ):
         raise ValueError("unknown sequence recipe field")
     if "monitoring" in raw:
-        _validate_monitoring_config(
-            raw["monitoring"], raw.get("model", {}), raw.get("epochs", DEFAULTS["epochs"])
+        validate_monitoring_config(
+            raw["monitoring"],
+            raw.get("model", {}),
+            raw.get("epochs", DEFAULTS["epochs"]),
+            raw.get("checkpoint_retention", "final_only"),
         )
     if "dropout_policy" in raw and raw["dropout_policy"] != "explicit_regularization_v1":
         raise ValueError("unsupported explicit dropout policy")
@@ -79,14 +86,26 @@ def load_config(path: Path) -> dict[str, Any]:
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95
     raw_model = raw.get("model", {})
-    allowed_model_fields = set(MODEL_DEFAULTS)
+    if not isinstance(raw_model, dict):
+        raise ValueError("model must be a mapping")
+    allowed_model_fields = set(MODEL_DEFAULTS) | {"input_feature_mode"}
     if raw_model.get("architecture") == "galam":
         from wnn.training.galam_adapter import galam_model_settings
 
-        model = galam_model_settings(raw_model)
+        galam_input_mode = raw_model.get("input_feature_mode", "raw112")
+        model = galam_model_settings(
+            {name: value for name, value in raw_model.items() if name != "input_feature_mode"}
+        )
+        if "input_feature_mode" in raw_model:
+            model["input_feature_mode"] = galam_input_mode
         allowed_model_fields.update(("galam", "precision_mode"))
-        if config["precision_mode"] != "fp32" or config["optimizer"] != "adamw":
-            raise ValueError("unprofiled GALAM currently requires fp32 and AdamW")
+        galam_muon = is_galam_lstm64_muon(model)
+        if config["precision_mode"] != "fp32" or (
+            config["optimizer"] != "adamw" and not galam_muon
+        ):
+            raise ValueError(
+                "unprofiled GALAM requires fp32 and AdamW except for the LSTM64 hybrid"
+            )
         if type(config["batch_size"]) is not int or config["batch_size"] < 2:
             raise ValueError("GALAM per-time BatchNorm requires batch_size >= 2 per rank")
     else:
@@ -159,6 +178,13 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("hint_dim must be a nonnegative integer")
     if model["architecture"] not in ("transformer", "gru", "galam"):
         raise ValueError("architecture must be transformer, gru, or galam")
+    input_feature_mode = model.get("input_feature_mode", "raw112")
+    if input_feature_mode not in ("raw112", "event211"):
+        raise ValueError("model.input_feature_mode must be raw112 or event211")
+    if input_feature_mode == "event211" and model["architecture"] != "gru":
+        raise ValueError("event211 inputs are supported only by the standalone GRU adapter")
+    if input_feature_mode == "event211" and (model["hidden"], model["layers"]) != (256, 2):
+        raise ValueError("event211 is scoped to the standalone GRU256x2 launch")
     if model["attention_backend"] not in ("math", "efficient", "flex"):
         raise ValueError("model.attention_backend must be math, efficient, or flex")
     if model["architecture"] == "gru" and model["attention_backend"] != "math":
@@ -167,8 +193,21 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("model.compile_blocks must be boolean")
     if model["architecture"] == "gru" and model["compile_blocks"]:
         raise ValueError("model.compile_blocks requires a Transformer model")
-    if config["optimizer"] == "muon" and model["architecture"] != "transformer":
-        raise ValueError("sequence Muon currently supports Transformer models only")
+    if config["optimizer"] == "muon":
+        supported_muon = (
+            model["architecture"] == "transformer"
+            or (
+                model["architecture"] == "gru"
+                and input_feature_mode == "event211"
+                and (model["hidden"], model["layers"]) == (256, 2)
+            )
+            or is_galam_lstm64_muon(model)
+        )
+        if not supported_muon:
+            raise ValueError(
+                "sequence Muon supports Transformer models only by default; "
+                "approved GRU/GALAM adapters are explicit exceptions"
+            )
     if model["hint_projection"] not in ("fixed", "learned"):
         raise ValueError("hint_projection must be fixed or learned")
     dropout = model["dropout"]
@@ -211,24 +250,6 @@ def load_config(path: Path) -> dict[str, Any]:
     model["precision_mode"] = config["precision_mode"]
     config["model"] = model
     return config
-
-
-def _validate_monitoring_config(value: object, raw_model: object, epochs: object) -> None:
-    """Validate the opt-in online GALAM monitor without changing legacy defaults."""
-    if not isinstance(value, dict) or set(value) != {
-        "train_eval_sequences",
-        "diagnostics_every_steps",
-    }:
-        raise ValueError("monitoring requires train_eval_sequences and diagnostics_every_steps")
-    if not isinstance(raw_model, dict) or raw_model.get("architecture") != "galam":
-        raise ValueError("online sequence monitoring currently requires model.architecture=galam")
-    if type(epochs) is not int or not 1 <= epochs <= 10_000:
-        raise ValueError("monitored fits require epochs in [1, 10000]")
-    for key in ("train_eval_sequences", "diagnostics_every_steps"):
-        if type(value[key]) is not int or value[key] < 1:
-            raise ValueError(f"monitoring.{key} must be a positive integer")
-    if value["train_eval_sequences"] > 256:
-        raise ValueError("monitoring.train_eval_sequences cannot exceed 256")
 
 
 def validate_runtime_requirements(

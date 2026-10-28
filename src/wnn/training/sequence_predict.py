@@ -139,7 +139,8 @@ def export_predictions(args: argparse.Namespace) -> None:
     collective_output_setup(args.output, False, runtime)
     if world > 1:
         dist.barrier()
-    dataset = SequenceRecords(args.data_root, members, 0)
+    input_feature_mode = payload["config"]["model"].get("input_feature_mode", "raw112")
+    dataset = SequenceRecords(args.data_root, members, 0, input_feature_mode=input_feature_mode)
     entries = []
     for index in range(rank, len(dataset), world):
         source, group = members[index]
@@ -180,7 +181,7 @@ def export_predictions(args: argparse.Namespace) -> None:
             if args.membership == "fit"
             else "sequence-predictions-v1",
             "complete": True,
-            "input_schema": "raw112-v1",
+            "input_schema": payload["data"]["input_schema"],
             "membership": args.membership,
             "split_sha256": split.sha256,
             "hint_dim": payload["config"]["model"]["hint_dim"] if args.membership == "fit" else 0,

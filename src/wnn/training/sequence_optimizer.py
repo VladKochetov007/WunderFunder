@@ -1,4 +1,4 @@
-"""Strict-FP32 Muon groups for causal Transformer sequence fits."""
+"""Strict-FP32 Muon/AdamW groups for canonical sequence models."""
 
 from __future__ import annotations
 
@@ -11,6 +11,10 @@ import torch
 from torch import nn
 
 from wnn.optim import MuonAdamW
+from wnn.training.sequence_optimizer_adapters import (
+    adapter_muon_group_specs,
+    optimizer_group_specs,
+)
 
 _QKV_PATTERN = re.compile(r"^blocks\.(\d+)\.qkv\.weight$")
 _MUON_ROLES: dict[str, int] = {
@@ -84,43 +88,16 @@ def _group_specs(model: nn.Module) -> list[dict[str, object]]:
     if len(owned_ids) != len(set(owned_ids)) or set(owned_ids) != expected_ids:
         raise ValueError("sequence Muon groups must own every trainable parameter exactly once")
 
-    specs: list[dict[str, object]] = []
-    role_order = (*_MUON_ROLES, "adamw_matrix", "adamw_no_decay")
-    for role in role_order:
-        entries = roles.get(role, [])
-        if not entries:
-            continue
-        muon = role in _MUON_ROLES
-        decay_enabled = entries[0][2]
-        if any(entry[2] != decay_enabled for entry in entries):
-            raise ValueError(f"optimizer role {role} has inconsistent weight-decay policy")
-        specs.append(
-            {
-                "params": [parameter for _, parameter, _ in entries],
-                "param_names": [name for name, _, _ in entries],
-                "role": role,
-                "group_name": role,
-                "optimizer_implementation": "wnn.optim.MuonAdamW",
-                "optimizer_group_schema": "wnn.sequence-muon-group.v1",
-                "muon": muon,
-                "blocks": _MUON_ROLES.get(role, 1),
-                "weight_decay_enabled": decay_enabled,
-                "strict_fp32": True,
-            }
-        )
-    spec_ids = [id(parameter) for group in specs for parameter in group["params"]]
-    if len(spec_ids) != len(set(spec_ids)) or set(spec_ids) != expected_ids:
-        raise ValueError(
-            "sequence optimizer groups must own every trainable parameter exactly once"
-        )
-    return specs
+    return optimizer_group_specs(
+        roles, (*_MUON_ROLES, "adamw_matrix", "adamw_no_decay"), _MUON_ROLES, expected_ids
+    )
 
 
 def build_sequence_muon_optimizer(model: nn.Module, config: Mapping[str, object]) -> MuonAdamW:
-    """Create one resumable Muon/AdamW optimizer for a strict-FP32 Transformer.
+    """Create a resumable Muon/AdamW optimizer for the configured sequence model.
 
     Args:
-        model: A built sequence Transformer with named causal attention blocks.
+        model: A built sequence model with its architecture-specific named parameters.
         config: Validated sequence recipe with Muon, AdamW, and shared learning-rate settings.
 
     Returns:
@@ -143,10 +120,13 @@ def build_sequence_muon_optimizer(model: nn.Module, config: Mapping[str, object]
     model_config = config.get("model")
     if not isinstance(model_config, Mapping):
         raise TypeError("sequence Muon config requires a model mapping")
-    if model_config.get("architecture") != "transformer":
-        raise ValueError("sequence Muon is scoped to Transformer models")
-
-    groups = _group_specs(model)
+    architecture = model_config.get("architecture")
+    if architecture == "transformer":
+        groups = _group_specs(model)
+    elif architecture in ("gru", "galam"):
+        groups = adapter_muon_group_specs(model, str(architecture))
+    else:
+        raise ValueError("sequence Muon does not support this model architecture")
     for group in groups:
         role = str(group["role"])
         muon = bool(group["muon"])
