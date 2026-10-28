@@ -110,6 +110,12 @@ def run_sequence_fit(
         raise ValueError("--resume must name <output>/training_state.pt")
     if profile_updates < 0 or (profile_updates and (resume_path or receipt_path)):
         raise ValueError("profile runs cannot resume or consume a profile admission receipt")
+    if profile_updates and "monitoring" in config:
+        diagnostic_interval = int(config["monitoring"]["diagnostics_every_steps"])
+        if profile_updates < diagnostic_interval:
+            raise ValueError(
+                "profile updates must reach diagnostics_every_steps to exercise sampled hooks"
+            )
     if not profile_updates and receipt_path is None:
         raise ValueError("a full fit requires --profile-receipt with explicit approval")
     context = initialize_distributed()
@@ -192,7 +198,7 @@ def run_sequence_fit(
         train_eval_dataset, monitor = initialize_monitor(
             data_root,
             output,
-            monitor_config if not profile_updates else None,
+            monitor_config,
             train_eval_members,
             data,
             identity,
@@ -221,6 +227,8 @@ def run_sequence_fit(
                     output,
                     profile_updates,
                     schedule_updates,
+                    monitor=monitor,
+                    monitor_enabled=monitor_config is not None,
                     monitoring_plan=data.provenance.get("monitoring_plan"),
                 )
                 return

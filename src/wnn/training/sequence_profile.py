@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import resource
 import sys
 import time
 from collections.abc import Mapping
@@ -9,6 +8,11 @@ from typing import Any
 
 import torch
 import torch.distributed as dist
+
+try:
+    import resource
+except ImportError:  # pragma: no cover - exercised on Windows hosts
+    resource = None
 
 from wnn.research_reporting import RunRecorder
 from wnn.training.sequence_checkpoint import atomic_write_json
@@ -24,6 +28,7 @@ from wnn.training.sequence_fit_utils import (
     optimizer_states_are_finite_fp32,
 )
 from wnn.training.sequence_loop import train_epoch
+from wnn.training.sequence_monitor import SequenceMonitor
 
 
 def _write_profile_receipt(receipt: dict[str, object], path: Path) -> bool:
@@ -45,11 +50,23 @@ def run_profile(
     output: Path,
     profile_updates: int,
     max_updates: int,
+    monitor: SequenceMonitor | None = None,
+    monitor_enabled: bool = False,
     monitoring_plan: Mapping[str, object] | None = None,
 ) -> None:
     """Run bounded real-data updates and emit an unapproved engineering-only receipt."""
     if not 1 <= profile_updates <= max_updates:
         raise ValueError("--profile-updates must be within the configured full-fit update budget")
+    if monitor_enabled:
+        monitor_config = config.get("monitoring")
+        if not isinstance(monitor_config, Mapping):
+            raise ValueError("profile monitoring requires its validated monitoring config")
+        diagnostic_interval = int(monitor_config["diagnostics_every_steps"])
+        if profile_updates < diagnostic_interval:
+            raise ValueError(
+                "profile updates must reach diagnostics_every_steps to exercise sampled hooks"
+            )
+        _append_profile_status(monitor, "running", 0, 0, context)
     torch.cuda.reset_peak_memory_stats(context.device)
     started = time.perf_counter()
     updates, epochs_seen = 0, 0
@@ -66,6 +83,8 @@ def run_profile(
             epochs_seen,
             updates,
             profile_updates - updates,
+            monitor=monitor,
+            monitor_enabled=monitor_enabled,
         )
         updates += result.updates
         totals += result.totals
@@ -175,12 +194,42 @@ def run_profile(
         "profile metrics record",
         context,
     )
+    if monitor_enabled:
+        _append_profile_status(
+            monitor,
+            "profile_complete" if complete else "profile_incomplete",
+            updates,
+            epochs_seen,
+            context,
+        )
     if not complete:
         raise RuntimeError("profile failed its requested work or optimizer-state checks")
 
 
-def _host_peak_rss_bytes() -> int:
+def _append_profile_status(
+    monitor: SequenceMonitor | None,
+    state: str,
+    updates: int,
+    epochs_seen: int,
+    context: DistributedContext,
+) -> None:
+    """Append an honest profile-only status while coordinating rank-zero I/O errors."""
+
+    def append() -> bool:
+        """Write profile status only from rank zero and identify validation as unrun."""
+        if context.is_primary:
+            if monitor is None:
+                raise RuntimeError("rank zero monitor was not initialized for the profile")
+            monitor.status(state, updates, epochs_seen, monitor.profile_status_context())
+        return True
+
+    coordinated_call(append, "profile monitor status append", context)
+
+
+def _host_peak_rss_bytes() -> int | None:
     """Normalize the platform-specific resource.ru_maxrss unit to bytes."""
+    if resource is None:
+        return None
     value = int(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
     return value if sys.platform == "darwin" else value * 1024
 

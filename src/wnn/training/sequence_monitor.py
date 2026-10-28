@@ -41,6 +41,11 @@ class SequenceMonitor:
         self.writer = MonitorEventWriter(output / MONITOR_EVENT_FILENAME, resume=resume)
         self._train_eval_members = train_eval_members
         self._valid_members = valid_members
+        self._monitoring_plan = {
+            "validation_reporting": (
+                "full official valid after each epoch; report-only; no checkpoint selection"
+            )
+        }
         self._train_eval_context = {
             "evaluation_scope": "fixed source-qualified fitting cohort; diagnostic only",
             "member_count": len(train_eval_members),
@@ -72,6 +77,19 @@ class SequenceMonitor:
             "validation_reporting": (
                 "full official valid after each epoch; report-only; no checkpoint selection"
             ),
+            "train_eval_members": [list(member) for member in self._train_eval_members],
+            "train_eval_member_sha256": self._train_eval_context["member_sha256"],
+            "valid_member_count": self._valid_context["member_count"],
+            "valid_member_sha256": self._valid_context["member_sha256"],
+            "split_sha256": self._valid_context["split_sha256"],
+        }
+
+    def profile_status_context(self) -> dict[str, object]:
+        """Describe profile-only telemetry without claiming validation was evaluated."""
+        return {
+            "no_eval_during_fit": True,
+            "validation_reporting": "not evaluated during bounded engineering profile",
+            "intended_validation_reporting": self._monitoring_plan.get("validation_reporting"),
             "train_eval_members": [list(member) for member in self._train_eval_members],
             "train_eval_member_sha256": self._train_eval_context["member_sha256"],
             "valid_member_count": self._valid_context["member_count"],

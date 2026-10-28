@@ -15,10 +15,11 @@ from wnn.data import SEQUENCE_LENGTH, WARMUP
 from wnn.galam import connectome_112_to_2_config
 from wnn.gmetric import GlobalAccumulator, global_wp
 from wnn.splits import CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA, CampaignSplit, file_sha256
-from wnn.training import sequence_checkpoint, sequence_score
+from wnn.training import sequence_checkpoint, sequence_profile, sequence_score
 from wnn.training.sequence_config import load_config
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_epoch_prediction import EPOCH_KIND, digest
+from wnn.training.sequence_loop import EpochResult
 from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_monitor import (
     MonitorEventWriter,
@@ -445,6 +446,143 @@ def test_monitored_resume_checkpoint_requires_and_loads_monitor_offsets(
     state.pop("monitor_offsets")
     with pytest.raises(RuntimeError, match="safe monitor log offsets"):
         sequence_checkpoint.load_training_state(tmp_path / "state.pt", identity, context)
+
+
+def test_profile_routes_monitor_telemetry_without_validation_scoring(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    class _ProfileMonitor:
+        def __init__(self) -> None:
+            self.statuses: list[tuple[str, dict[str, object]]] = []
+            self.train_steps = 0
+            self.diagnostic_calls = 0
+            self.resource_calls = 0
+            self.evaluations = 0
+
+        def profile_status_context(self) -> dict[str, object]:
+            return {
+                "no_eval_during_fit": True,
+                "validation_reporting": "not evaluated during bounded engineering profile",
+            }
+
+        def status(self, state: str, step: int, epoch: int, context: dict[str, object]) -> None:
+            self.statuses.append((state, context))
+
+        def train_step(self, *_args: object) -> None:
+            self.train_steps += 1
+
+        def diagnostics(self, *_args: object) -> None:
+            self.diagnostic_calls += 1
+
+        def resources(self, *_args: object) -> None:
+            self.resource_calls += 1
+
+        def evaluate_epoch(self, *_args: object) -> None:
+            self.evaluations += 1
+
+    monitor = _ProfileMonitor()
+    trainer_calls: list[dict[str, object]] = []
+    totals = torch.tensor([1, 0, 0, 1, 1, 1, 2, 0], dtype=torch.float64)
+
+    def fake_train_epoch(
+        dataset: object,
+        model: nn.Module,
+        optimizer: torch.optim.Optimizer,
+        scheduler: torch.optim.lr_scheduler.LambdaLR,
+        config: dict[str, object],
+        context: DistributedContext,
+        rank_log: object,
+        epoch: int,
+        global_step: int,
+        max_updates: int | None = None,
+        monitor: _ProfileMonitor | None = None,
+        monitor_enabled: bool = False,
+    ) -> EpochResult:
+        trainer_calls.append({"monitor": monitor, "monitor_enabled": monitor_enabled})
+        assert monitor is not None and monitor_enabled
+        record = {
+            "step": 1,
+            "total_loss": 0.5,
+            "label_loss": 0.5,
+            "kd_loss": 0.0,
+            "hint_loss": 0.0,
+            "gradient_norm_preclip": 0.4,
+            "gradient_clip_threshold": 1.0,
+            "gradient_clipped": 0,
+            "window_seconds": 0.1,
+            "optimizer_seconds": 0.01,
+            "valid_rows_per_second": 10.0,
+            "forwarded_rows_per_second": 20.0,
+            "valid_rows": 1,
+            "forwarded_rows": 2,
+            "real_rows": 1,
+            "learning_rates": {"adamw": 0.001},
+        }
+        monitor.train_step(record, epoch, 0.5, context.device)
+        monitor.diagnostics(1, epoch, 0.5, {"local/activation_rms/0": 0.1})
+        monitor.resources(1, epoch, 0.5, context.device)
+        return EpochResult(1, True, totals, 0.1)
+
+    monkeypatch.setattr(sequence_profile, "train_epoch", fake_train_epoch)
+    monkeypatch.setattr(torch.cuda, "reset_peak_memory_stats", lambda device: None)
+    monkeypatch.setattr(torch.cuda, "max_memory_allocated", lambda device: 10)
+    monkeypatch.setattr(torch.cuda, "max_memory_reserved", lambda device: 20)
+    monkeypatch.setattr(
+        torch.cuda, "get_device_properties", lambda device: SimpleNamespace(total_memory=100)
+    )
+    monkeypatch.setattr(sequence_profile, "_host_peak_rss_bytes", lambda: 30)
+    receipts: list[dict[str, object]] = []
+    monkeypatch.setattr(
+        sequence_profile,
+        "_write_profile_receipt",
+        lambda receipt, path: receipts.append(receipt) or True,
+    )
+    context = DistributedContext(0, 0, 1, torch.device("cpu"), False)
+    model = nn.Linear(1, 1)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=0.001)
+    scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lambda step: 1.0)
+    plan = {"validation_reporting": "full official valid after each epoch; report-only"}
+    sequence_profile.run_profile(
+        dataset=object(),
+        model=model,
+        optimizer=optimizer,
+        scheduler=scheduler,
+        config={
+            "epochs": 1,
+            "kd_weight": 0.0,
+            "hint_weight": 0.0,
+            "monitoring": {"diagnostics_every_steps": 1},
+        },
+        context=context,
+        rank_log=None,
+        recorder=None,
+        identity={"model_parameters": {}},
+        output=tmp_path,
+        profile_updates=1,
+        max_updates=1,
+        monitor=monitor,
+        monitor_enabled=True,
+        monitoring_plan=plan,
+    )
+    assert trainer_calls == [{"monitor": monitor, "monitor_enabled": True}]
+    assert (
+        monitor.train_steps,
+        monitor.diagnostic_calls,
+        monitor.resource_calls,
+        monitor.evaluations,
+    ) == (
+        1,
+        1,
+        1,
+        0,
+    )
+    assert [status for status, _ in monitor.statuses] == ["running", "profile_complete"]
+    assert all(context["no_eval_during_fit"] is True for _, context in monitor.statuses)
+    annotation = receipts[0]["evaluation_annotation"]
+    assert annotation["no_eval_during_fit"] is True
+    assert annotation["validation_reporting"] == "not evaluated during bounded engineering profile"
+    assert annotation["intended_validation_reporting"] == plan["validation_reporting"]
 
 
 def test_monitoring_config_is_opt_in_and_identity_preserving(tmp_path: Path) -> None:
