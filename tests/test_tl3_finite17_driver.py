@@ -53,6 +53,84 @@ def _plan(tmp_path: Path) -> dict[str, object]:
     }
 
 
+@pytest.fixture
+def trainer_history_fixture() -> list[dict[str, object]]:
+    """Serialize four rows through the canonical epoch counter and fit summary producers."""
+    import torch
+
+    from wnn.run_identity import EpochUpdateCounter
+    from wnn.training.epoch import fit_epoch_summary
+
+    updates_per_epoch = 3220
+    cumulative: dict[str, int] = {}
+    run = SimpleNamespace(
+        progress=SimpleNamespace(
+            fit_loss_windows=0,
+            fit_loss_sum=None,
+            fit_lr_first=None,
+            fit_lr_last=None,
+            fit_lr_sum=None,
+        )
+    )
+    history = []
+    for epoch in range(4):
+        counter = EpochUpdateCounter(torch.device("cpu"))
+        counter.attempts = updates_per_epoch
+        counter.ema_updates = updates_per_epoch
+        counter.completed_batches = 322
+        diagnostics = counter.finish(cumulative)
+        history.append(
+            {
+                "epoch": epoch,
+                "split": f"vfold{driver.VALID_GROUPS}",
+                "weighted_pearson": 0.5,
+                "update_diagnostics": diagnostics,
+                "fit_summary": fit_epoch_summary(run, diagnostics["epoch"]),
+            }
+        )
+    return json.loads(json.dumps(history))
+
+
+def test_history_accepts_actual_trainer_update_summary_shape(
+    trainer_history_fixture: list[dict[str, object]],
+) -> None:
+    history = trainer_history_fixture
+    node = {"id": "fin256_s3", "epochs": 4}
+
+    driver._verify_history(history, node, 12880)
+
+    assert history[0]["fit_summary"]["optimizer_updates"]["optimizer_attempts"] == 3220
+    assert history[3]["update_diagnostics"]["cumulative"]["optimizer_attempts"] == 12880
+
+
+@pytest.mark.parametrize(
+    ("location", "index", "field", "value"),
+    [
+        ("fit", 0, "optimizer_attempts", 3219),
+        ("fit", 0, "amp_skipped_updates", 1),
+        ("epoch", 0, "optimizer_completed_updates", 3219),
+        ("cumulative", 3, "optimizer_attempts", 12879),
+        ("cumulative", 3, "amp_skipped_updates", 1),
+    ],
+)
+def test_history_rejects_wrong_epoch_or_cumulative_update_counters(
+    trainer_history_fixture: list[dict[str, object]],
+    location: str,
+    index: int,
+    field: str,
+    value: int,
+) -> None:
+    counts = (
+        trainer_history_fixture[index]["fit_summary"]["optimizer_updates"]
+        if location == "fit"
+        else trainer_history_fixture[index]["update_diagnostics"][location]
+    )
+    counts[field] = value
+
+    with pytest.raises(driver.DriverError, match="fixed schedule update count or skip count"):
+        driver._verify_history(trainer_history_fixture, {"id": "fin256_s3", "epochs": 4}, 12880)
+
+
 def test_finite_recipe_priority_starts_fin256_s4_before_other_roots(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

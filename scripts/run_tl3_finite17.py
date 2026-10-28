@@ -560,19 +560,33 @@ def _verify_history(history: object, node: dict[str, object], expected_updates: 
         if not isinstance(score, (int, float)) or not math.isfinite(float(score)):
             raise DriverError(f"{node['id']}: validation history contains a nonfinite score")
         fit_summary = row.get("fit_summary")
-        counters = (
-            fit_summary.get("optimizer_updates", {}).get("epoch")
-            if isinstance(fit_summary, dict)
+        fit_counts = fit_summary.get("optimizer_updates") if isinstance(fit_summary, dict) else None
+        update_diagnostics = row.get("update_diagnostics")
+        epoch_counts = (
+            update_diagnostics.get("epoch") if isinstance(update_diagnostics, dict) else None
+        )
+        cumulative_counts = (
+            update_diagnostics.get("cumulative")
+            if isinstance(update_diagnostics, dict)
             else None
         )
-        if not isinstance(counters, dict):
+        if not all(isinstance(counts, dict) for counts in (fit_counts, epoch_counts, cumulative_counts)):
             raise DriverError(f"{node['id']}: history lacks optimizer update evidence")
-        if (
-            counters.get("optimizer_attempts") != per_epoch
-            or counters.get("optimizer_completed_updates") != per_epoch
-            or counters.get("amp_skipped_updates") != 0
-        ):
-            raise DriverError(f"{node['id']}: fixed schedule update count or skip count changed")
+        expected_counts = (
+            (fit_counts, per_epoch),
+            (epoch_counts, per_epoch),
+            (cumulative_counts, per_epoch * (index + 1)),
+        )
+        for counters, expected in expected_counts:
+            if (
+                type(counters.get("optimizer_attempts")) is not int
+                or counters["optimizer_attempts"] != expected
+                or type(counters.get("optimizer_completed_updates")) is not int
+                or counters["optimizer_completed_updates"] != expected
+                or type(counters.get("amp_skipped_updates")) is not int
+                or counters["amp_skipped_updates"] != 0
+            ):
+                raise DriverError(f"{node['id']}: fixed schedule update count or skip count changed")
 
 
 def verify_run_output(
