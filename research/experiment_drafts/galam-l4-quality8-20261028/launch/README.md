@@ -54,3 +54,13 @@ and exits; it never approves itself or starts scientific fits.
 [Monitor budget preflight](MONITOR_BUDGET_PREFLIGHT.json) bounds journals using
 the complete10607-group train count as an upper bound. The largest projected
 journal is317,390,848B, within the enforced1GiB cap, before any early stop.
+
+The [fixed-eight launcher](../../../../scripts/launch_galam_quality8.py) and its
+[operational components](../../../../scripts/galam_l4_quality8/) reconstruct the
+profile-bound identity, verify the eight L4 UUIDs and current CUDA-usable memory,
+then run a detached supervisor with owned PID/start-tick records. NVIDIA SMI
+physical memory is recorded separately from CUDA-usable memory. Fresh run
+directories belong to the trainer's exclusive-create operation. The supervisor
+accepts the actual producer's declared early-stop result even on epoch20; it
+never resumes or retries a scientific fit automatically. Eight mocked receiving
+contract tests cover the corrected ownership/output/memory semantics.
