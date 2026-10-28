@@ -32,10 +32,17 @@ official validation sequences.
    or a useful separately frozen ensemble contribution, supports further work;
    lower/uncertain results remain evidence about this adapted recipe, not all KD.
 9. **Execution.** See README, frozen recipe module and receiving receipts. First
-   fin256_s3 is complete and immutable; remaining finite-DAG admission is being
-   completed. All4 first-teacher train/val WMSE and WP points are connected to
+   fin256_s3 is complete and immutable; the detached R8 finite controller has
+   adopted its verified checkpoint, completed train prediction export and
+   started fin256_s4. All4
+   first-teacher train/val WMSE and WP points are connected to
    the existing local dashboard under tl3c_fin256_s3. The other16 native views
-   consume trainer logs without repeating full-valid forward passes.
+   consume trainer logs without repeating full-valid forward passes. All17
+   configurations are visible; one fit is running and15 remain queued. R7's
+   pre-update environment failures are preserved in the receiving packet. The
+   SemyonEpanov watcher already posted first-teacher results and continues
+   hourly/on verified fit completion. Terminal fixed-blend scoring is wired to
+   the same dashboard as tl3c_final_fixed_blend without an invented train curve.
 10. **Return evidence.** Source/config/data/ancestor identities, every epoch's
     objective/full-valid WP, LR/gradients/resources, resumable state and fixed
     checkpoint, prediction banks, streaming fixed-blend scores and raw negatives.
@@ -46,5 +53,6 @@ official validation sequences.
     this is one teacher, not the final TL3 result or public-transfer evidence.
     Native-Muon CUDA engineering profile:40 finite completed updates,37.11seq/s
     for H128. Initial receiving checks:26pass/2 native-reference skips on
-    Torch2.8; finite-controller/recipe/monitor checks now30CPU passes. Read-only
-    dashboard broker additionally passes10 focused CPU tests.
+    Torch2.8; finite-controller/recipe/monitor checks now38 receiving CPU passes.
+    Read-only dashboard broker additionally passes11 focused CPU tests; actual
+    API inspection confirms17 selectable TL3 entries without errors.

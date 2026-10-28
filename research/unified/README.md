@@ -11,7 +11,13 @@ WP0.6882596674 versus the exposed plain-GRU benchmark0.6778561232. All4 train/va
 WMSE and WP points are in the existing dashboard (run tl3c_fin256_s3); seven original
 GALAM fits continue. Native-Muon, causal tiedlead and
 cache-provenance adapters and the fixed endpoint scorer have focused checks.
-The remaining16 fits and their native-log dashboard views are being admitted.
+The [R8 receiving packet](../experiment_drafts/tl3-chronological-20261028/receiving/R8/README.md)
+records verified first-teacher adoption, completed prediction export and38
+passing receiving checks. All17 model entries are visible in the dashboard;
+fin256_s4 is fitting and15 predictors are queued.
+[Draft PR49](https://github.com/VladKochetov007/WunderFunder/pull/49) is published
+as SemyonEpanov with automatic hourly/fit-terminal updates. A report-only final
+blend dashboard view is wired to verified terminal scoring, which remains pending.
 Full TL3 metrics remain pending; old public0.66832 is
 not an independent score on our current valid.
 

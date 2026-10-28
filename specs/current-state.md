@@ -1,3 +1,16 @@
+## 28 October: first TL3 train-only teacher complete; finite continuation active
+
+[TL3 restoration](../research/experiment_drafts/tl3-chronological-20261028/README.md)
+completed fresh fin256_s3, fixed ep3 WP0.6882596674 on all1873 official-valid
+groups. This is one teacher, not the final TL3 endpoint or a public result.
+The [R8 controller](../research/experiment_drafts/tl3-chronological-20261028/receiving/R8/README.md)
+adopts its12880 verified updates and completed teacher prediction export;
+fin256_s4 is fitting and15 further frozen fits are queued. Seven original GALAM
+fits remain unchanged. Reuse SSH98495.
+Do not duplicate the controller, restart first fit or mutate flat R8/source-r3.
+All17 TL3 configurations are connected to dashboard18766; first teacher has all4
+train/valid WMSE and score points. Draft PR49 is owned by SemyonEpanov.
+
 ## 28 October15:43UTC: measured GALAM contribution; seven fits continue
 
 [Fixed blend result](../research/experiment_drafts/galam-ensemble-diagnostics-20261028/RESULTS.md):80%cleanGRUepoch8+20%GALAM-LSTM128epoch3 scores0.681219679 (+.003363555) on full official valid, independently rescored from hashed arrays. GALAM-GRU72fixed20% gives0.680993482 (+.003137359). Exposed, single-seed benchmark evidence; no fitted coefficients, full-team-ensemble, serving or public-score claim.

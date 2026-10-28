@@ -6,6 +6,14 @@ separates the rejected pre-update attempt from40 finite actual-device updates an
 the first detached train-only teacher fit. This is engineering admission, not a
 restored TL3 quality result or an exact historical reproduction claim.
 
+[Actual R8 execution and dashboard evidence](../../experiment_drafts/tl3-chronological-20261028/receiving/R8/README.md)
+records producer-shaped history checks, the diagnosed pre-update venv failure,
+38 passing receiving checks, immutable first-teacher adoption and all17 actual
+dashboard entries. First-teacher fixed WP0.6882596674 is exposed development
+evidence; the full fixed blend is still pending. Native curves, the terminal
+fixed-blend view and SemyonEpanov's PR49 publisher use separate report-only helpers;
+19 integrated local checks pass, and actual first-fit publication is recorded.
+
 [Eight-L4 actual data, resource and first-epoch reviews](../../experiment_drafts/galam-l4-quality8-20261028/launch/receiving/README.md)
 verify source/index/split/mask bindings, all eight successful strict-FP32 profiles,
 UUID/memory and data identities, and GRU epoch1 full-valid coverage/pointers.

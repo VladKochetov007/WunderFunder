@@ -32,4 +32,7 @@ All4 first-teacher train/valid WMSE and WP points were backfilled from SHA-bound
 owned checkpoints and verified through the existing dashboard API, run
 `tl3c_fin256_s3`. The comparable objective is WMSE; the fitting probe uses32 train
 groups/all-after-warmup, while valid uses all1873 groups/official scored mask.
-The remaining finite TL3 chain and final blend score are pending.
+The [R8 receiving packet](R8/README.md) records38 passing actual-host checks,
+the verified adoption and detached finite controller. It is now exporting the
+first teacher's train predictions;16 fits remain queued. All17 configurations
+are present in the same dashboard. Final blend quality remains pending.

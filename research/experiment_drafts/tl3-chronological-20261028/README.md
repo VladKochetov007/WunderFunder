@@ -125,6 +125,16 @@ warmup; full valid uses the official is_scored mask. Their absolute loss gap is
 not a directly matched-mask overfit estimate. Composite online training objective
 is a separate series. The bridge did not restart training or modify its source.
 
-The remaining16 fits and automatic native-log dashboard views are being admitted
-through the fixed finite dependency graph. Only actual controller state establishes
-running status. The first completed teacher must be adopted, never fitted again.
+The remaining16 fits are admitted through the fixed finite dependency graph.
+The [R8 receiving record](receiving/R8/README.md) binds the detached controller,
+verified first-teacher adoption and native-log observer. The first train
+prediction export completed, and fin256_s4 is fitting;15 predictors remain queued.
+All17 model configurations are visible in the same dashboard. Future native
+curves use trainer logs without a second full-valid forward pass. First-teacher
+backfill is complete; its fit is never repeated.
+
+[Draft PR49](https://github.com/VladKochetov007/WunderFunder/pull/49) is published
+as SemyonEpanov. Its detached result watcher already posted the first teacher
+and will post hourly changes and verified fit/terminal results automatically.
+The final fixed-blend result will appear as **tl3c_final_fixed_blend** after
+terminal scoring, as one evaluation point rather than a fabricated fit curve.
