@@ -185,13 +185,29 @@ def _fixture(
                 "train_eval_wp_t0": 0.35 + epoch * 0.01,
                 "train_eval_wp_t1": 0.45 + epoch * 0.01,
                 "train_eval_wmse": 0.7,
+                "update_diagnostics": {
+                    "epoch": {
+                        "optimizer_attempts": 3_220,
+                        "optimizer_completed_updates": 3_220,
+                        "amp_skipped_updates": 0,
+                        "ema_updates": 3_220,
+                        "completed_batches": 322,
+                    },
+                    "cumulative": {
+                        "optimizer_attempts": 3_220 * (epoch + 1),
+                        "optimizer_completed_updates": 3_220 * (epoch + 1),
+                        "amp_skipped_updates": 0,
+                        "ema_updates": 3_220 * (epoch + 1),
+                        "completed_batches": 322 * (epoch + 1),
+                    },
+                },
                 "fit_summary": {
                     "optimizer_updates": {
-                        "epoch": {
-                            "optimizer_attempts": 3_220,
-                            "optimizer_completed_updates": 3_220,
-                            "amp_skipped_updates": 0,
-                        }
+                        "optimizer_attempts": 3_220,
+                        "optimizer_completed_updates": 3_220,
+                        "amp_skipped_updates": 0,
+                        "ema_updates": 3_220,
+                        "completed_batches": 322,
                     }
                 },
             }

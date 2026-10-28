@@ -188,16 +188,29 @@ def _verify_history(history: object, node: dict[str, Any], train: list[int]) -> 
         ):
             raise BridgeError(f"{node['id']}: history lacks complete official-valid metrics")
         summary = row.get("fit_summary")
-        counts = (
-            summary.get("optimizer_updates", {}).get("epoch") if isinstance(summary, dict) else None
-        )
-        if (
-            not isinstance(counts, dict)
-            or counts.get("optimizer_attempts") != per_epoch
-            or counts.get("optimizer_completed_updates") != per_epoch
-            or counts.get("amp_skipped_updates") != 0
+        fit_counts = summary.get("optimizer_updates") if isinstance(summary, dict) else None
+        diagnostics = row.get("update_diagnostics")
+        epoch_counts = diagnostics.get("epoch") if isinstance(diagnostics, dict) else None
+        cumulative_counts = diagnostics.get("cumulative") if isinstance(diagnostics, dict) else None
+        if not all(
+            isinstance(counts, dict) for counts in (fit_counts, epoch_counts, cumulative_counts)
         ):
             raise BridgeError(f"{node['id']}: history update counters differ from the plan")
+        expected_counts = (
+            (fit_counts, per_epoch),
+            (epoch_counts, per_epoch),
+            (cumulative_counts, per_epoch * (epoch + 1)),
+        )
+        for counters, expected in expected_counts:
+            if (
+                type(counters.get("optimizer_attempts")) is not int
+                or counters["optimizer_attempts"] != expected
+                or type(counters.get("optimizer_completed_updates")) is not int
+                or counters["optimizer_completed_updates"] != expected
+                or type(counters.get("amp_skipped_updates")) is not int
+                or counters["amp_skipped_updates"] != 0
+            ):
+                raise BridgeError(f"{node['id']}: history update counters differ from the plan")
         if node["id"] != ADOPTED_NODE and (
             row.get("train_eval_source") != "train"
             or row.get("train_eval_mask") != "all_after_warmup"
