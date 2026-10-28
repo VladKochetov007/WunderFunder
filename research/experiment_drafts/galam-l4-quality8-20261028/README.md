@@ -1,5 +1,9 @@
 # GALAM quality screen: one baseline and seven candidates on eight L4s
 
+Latest concrete resource proposal: [eight-L4 allocation v3](L4_ALLOCATION_V3.md).
+It includes a fresh plain-GRU benchmark, seven GALAM candidates/controls, actual
+NUMA mapping, adaptive profiles, output budgeting and current implementation gaps.
+
 Latest user steering accepts the [common20-epoch cap / hybrid optimizer layout](V2_DISCUSSION.md)
 in principle, with [GRU-history audit first](gru_history/README.md). The audit is
 complete; revised recipes/adapters/receiving profiles are not yet materialized
