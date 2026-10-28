@@ -68,3 +68,13 @@ launch receipt are bound in [final observer launch](dashboard-final.launch.json)
 and [receiving admission](dashboard-final-admission.json). All frozen controller
 source files still match the live plan. The integrated local report/observer/
 watcher suite passes19 tests; actual terminal final-blend scoring is pending.
+
+[Current final reporters](reporters-final.launch.json) replace only the read-only
+observers with the terminal handoff fix. They wait while completed status is
+written before its terminal receipt, and the publisher waits for a snapshot
+containing the verified blend before posting the final comment. Present invalid
+receipts still fail closed. The training controller/source and publisher's
+existing deduplication state/deadline remain unchanged.
+The final integrated local report/dashboard/watcher suite passes23 checks.
+Both actual reporter processes are live without log errors; the controller is
+still running with2 fits admitted and one verified completed teacher.
