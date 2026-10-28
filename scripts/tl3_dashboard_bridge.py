@@ -211,7 +211,9 @@ def load_binding(
         or adoption.get("source_identity_file_sha256") != receipt["source_identity_sha256"]
         or not SHA256.fullmatch(str(adoption.get("source_sha256")))
     ):
-        raise BridgeError("TL3 adoption receipt does not bind the exact launch and two source hashes")
+        raise BridgeError(
+            "TL3 adoption receipt does not bind the exact launch and two source hashes"
+        )
     if Path(str(adoption.get("source_root"))).resolve(strict=True) != source_root:
         raise BridgeError("TL3 adoption source root differs from the launch command")
     if adoption.get("training_args") != list(command[script_index + 1 :]):
@@ -245,12 +247,16 @@ def load_binding(
             raise BridgeError("adopted trainer source identity has an unsafe path")
         source_file = source_root.joinpath(*relative.parts)
         resolved_source_file = source_file.resolve(strict=True)
-        if resolved_source_file != source_file or not resolved_source_file.is_relative_to(source_root):
+        if resolved_source_file != source_file or not resolved_source_file.is_relative_to(
+            source_root
+        ):
             raise BridgeError(f"trainer source path escapes or aliases its root: {relative_name}")
         if _sha256_file(resolved_source_file) != expected_sha256:
             raise BridgeError(f"trainer source bytes differ from adoption: {relative_name}")
         if relative.suffix == ".py" and full_source_files.get(relative_name) != expected_sha256:
-            raise BridgeError(f"trainer source file differs from the full source map: {relative_name}")
+            raise BridgeError(
+                f"trainer source file differs from the full source map: {relative_name}"
+            )
     output = data_root / "artifacts" / "runs" / run
     log = data_root / "logs" / f"{run}.log"
     if output.resolve(strict=False) != output or log.resolve(strict=False) != log:
@@ -1199,8 +1205,7 @@ def bridge_once(
             continue
         if (
             evaluation.get("schema") != "wnn.tl3-frozen-checkpoint-evaluation.v1"
-            or evaluation.get("source_identity_file_sha256")
-            != binding.source_identity_file_sha256
+            or evaluation.get("source_identity_file_sha256") != binding.source_identity_file_sha256
             or evaluation.get("actual_training_source_sha256")
             != binding.actual_training_source_sha256
             or evaluation.get("completed_epoch") != epoch_index + 1
