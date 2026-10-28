@@ -59,8 +59,8 @@ def galam_model_settings(raw: Mapping[str, object]) -> dict[str, object]:
 
 def validate_galam_batch_plan(
     config: Mapping[str, object], fit_sequences: int, world_size: int
-) -> None:
-    """Reject singleton training batches before any GALAM fitting or profiling.
+) -> bool:
+    """Reject singleton batches and return the coordinated setup success sentinel.
 
     The canonical loop pads rank membership to an equal sequence count but keeps
     the final partial batch. Per-time BatchNorm needs at least two batch members;
@@ -68,7 +68,7 @@ def validate_galam_batch_plan(
     """
     model = config.get("model")
     if not isinstance(model, Mapping) or model.get("architecture") != "galam":
-        return
+        return True
     batch_size = config.get("batch_size")
     if type(batch_size) is not int or batch_size < 2:
         raise ValueError("GALAM per-time BatchNorm requires batch_size >= 2 per rank")
@@ -87,6 +87,7 @@ def validate_galam_batch_plan(
             "GALAM batch plan produces a singleton BatchNorm batch; "
             "choose a batch size compatible with actual chronological membership"
         )
+    return True
 
 
 class GALAMSequenceAdapter(nn.Module):

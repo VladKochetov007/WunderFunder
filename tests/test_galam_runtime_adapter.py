@@ -14,6 +14,7 @@ from wnn.training.galam_adapter import (
     validate_galam_batch_plan,
 )
 from wnn.training.sequence_config import load_config
+from wnn.training.sequence_distributed import DistributedContext, coordinated_call
 from wnn.training.sequence_model_helpers import detach_state
 from wnn.training.sequence_models import build_sequence_model
 
@@ -92,6 +93,29 @@ def test_galam_admission_rejects_singleton_full_and_tail_batches(tmp_path: Path)
         validate_galam_batch_plan(config, fit_sequences=7, world_size=2)
     validate_galam_batch_plan(config, fit_sequences=8, world_size=2)
     validate_galam_batch_plan(config | {"batch_size": 3}, fit_sequences=6, world_size=1)
+
+
+@pytest.mark.parametrize("architecture", ["gru", "galam"])
+def test_batch_admission_reports_success_through_actual_coordinator(architecture: str) -> None:
+    context = DistributedContext(0, 0, 1, torch.device("cpu"), False)
+    config = {"model": {"architecture": architecture}, "batch_size": 384}
+    accepted = coordinated_call(
+        lambda: validate_galam_batch_plan(config, fit_sequences=10_325, world_size=1),
+        "GALAM BatchNorm batch-plan validation",
+        context,
+    )
+    assert accepted is True
+
+
+def test_coordinated_batch_admission_preserves_singleton_failure() -> None:
+    context = DistributedContext(0, 0, 1, torch.device("cpu"), False)
+    config = {"model": {"architecture": "galam"}, "batch_size": 384}
+    with pytest.raises(RuntimeError, match="singleton"):
+        coordinated_call(
+            lambda: validate_galam_batch_plan(config, fit_sequences=385, world_size=1),
+            "GALAM BatchNorm batch-plan validation",
+            context,
+        )
 
 
 def test_future_suffix_does_not_change_prefix_in_eval_or_training() -> None:
