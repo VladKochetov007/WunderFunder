@@ -68,6 +68,10 @@ def test_trainer_must_be_descendant_and_start_ticks_must_match(tmp_path: Path) -
     (proc_root / "42" / "stat").write_text(_proc_stat(42, 41, 901), encoding="utf-8")
     expected = ["python", "-u", "/frozen/scripts/train_rnn.py", "--name", "tl3c"]
     (proc_root / "42" / "cmdline").write_bytes("\0".join(expected).encode() + b"\0")
+    # A forked DataLoader worker inherits the exact training argv.
+    (proc_root / "43").mkdir()
+    (proc_root / "43" / "stat").write_text(_proc_stat(43, 42, 902), encoding="utf-8")
+    (proc_root / "43" / "cmdline").write_bytes("\0".join(expected).encode() + b"\0")
     binding = bridge.RunBinding(
         run="tl3c",
         data_root=tmp_path,

@@ -343,7 +343,9 @@ def find_owned_trainer(
             )
         except (FileNotFoundError, PermissionError, OSError, UnicodeDecodeError):
             continue
-        if argv == expected:
+        # taskset execs the trainer directly under timeout. Forked DataLoader
+        # workers retain its argv but are children of the trainer, not timeout.
+        if argv == expected and descendants[pid]["parent_pid"] == binding.parent_pid:
             identity = descendants[pid]
             if identity["state"] not in {"Z", "X"}:
                 matches.append((pid, identity))
