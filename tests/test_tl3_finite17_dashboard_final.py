@@ -115,6 +115,8 @@ def _fixture(tmp_path: Path, *, wrong_weight: bool = False) -> tuple[Any, ...]:
                 "metric_id": "global_wp_clip2_v1",
             }
         },
+        "clean_gru_reference_wp": 0.6778561232160607,
+        "blend_delta_to_clean_gru": 0.68 - 0.6778561232160607,
         "exposure": "exposed official valid; fixed coefficients",
     }
     score_path = root / "final-score.json"

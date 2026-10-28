@@ -252,12 +252,24 @@ def validate_final_score(
         or blend.get("metric_id") != "global_wp_clip2_v1"
         or blend.get("selected_rows") != VALID_ROWS
         or not all(_finite(blend.get(key)) for key in ("wp", "t0", "t1"))
+        or not _finite(score.get("clean_gru_reference_wp"))
+        or not _finite(score.get("blend_delta_to_clean_gru"))
+        or not math.isclose(
+            float(score["blend_delta_to_clean_gru"]),
+            float(blend["wp"]) - float(score["clean_gru_reference_wp"]),
+            rel_tol=0,
+            abs_tol=1e-12,
+        )
     ):
-        raise BridgeError("fixed blend score is missing finite official pooled metrics")
+        raise BridgeError(
+            "fixed blend score is missing consistent official metrics or baseline delta"
+        )
     return {
         "score": score,
         "score_sha256": score_sha,
         "run_weights": run_weights,
         "members": members,
         "blend": blend,
+        "clean_gru_reference_wp": float(score["clean_gru_reference_wp"]),
+        "delta_to_clean_gru": float(score["blend_delta_to_clean_gru"]),
     }

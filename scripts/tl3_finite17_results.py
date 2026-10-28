@@ -59,6 +59,27 @@ def build_snapshot(
                 "metrics": verified,
             }
         )
+    final_blend = None
+    if status.get("status") == "completed":
+        try:
+            from scripts.tl3_finite17_dashboard_final_validation import validate_final_score
+        except ModuleNotFoundError:
+            from tl3_finite17_dashboard_final_validation import validate_final_score
+        state_dir = Path(str(plan["state_dir"])).resolve(strict=True)
+        final_report = validate_final_score(root, state_dir, plan, status, train, valid)
+        if final_report is None:
+            raise BridgeError("completed finite DAG has no verified fixed blend score")
+        blend = final_report["blend"]
+        final_blend = {
+            "wp": float(blend["wp"]),
+            "t0": float(blend["t0"]),
+            "t1": float(blend["t1"]),
+            "selected_rows": int(blend["selected_rows"]),
+            "weights": final_report["run_weights"],
+            "clean_gru_reference_wp": final_report["clean_gru_reference_wp"],
+            "delta_to_clean_gru": final_report["delta_to_clean_gru"],
+            "score_sha256": final_report["score_sha256"],
+        }
     counts = {
         name: sum(cell["state"] == name for cell in cells)
         for name in ("not_started", "running", "complete", "failed", "blocked")
@@ -73,6 +94,7 @@ def build_snapshot(
         "planned_fits": len(nodes),
         "fit_states": counts,
         "nodes": cells,
+        "final_blend": final_blend,
     }
 
 
@@ -115,6 +137,28 @@ def format_update(snapshot: dict[str, Any], title: str, only_node: str | None = 
         label = f"{state} / {phase}" if phase else str(state)
         lines.append(
             f"| `{node['id']}` | {label} | {epoch} | `{fit_source}` | {valid_wp} | {best_wp} | {train_wp} |"
+        )
+    final_blend = snapshot.get("final_blend")
+    if only_node is None and isinstance(final_blend, dict):
+        weights = ", ".join(
+            f"`{run}` {weight:.2f}" for run, weight in final_blend["weights"].items()
+        )
+        lines.extend(
+            [
+                "",
+                "### Terminal fixed blend on official valid",
+                (
+                    f"WP {final_blend['wp']:.6f} (t0 {final_blend['t0']:.6f}, "
+                    f"t1 {final_blend['t1']:.6f}) over {final_blend['selected_rows']:,} "
+                    "`is_scored` rows."
+                ),
+                f"Frozen weights: {weights}.",
+                (
+                    f"Delta to clean GRU reference ({final_blend['clean_gru_reference_wp']:.6f}): "
+                    f"{final_blend['delta_to_clean_gru']:+.6f}."
+                ),
+                f"Score SHA `{final_blend['score_sha256']}`.",
+            ]
         )
     lines.append("")
     lines.append(
