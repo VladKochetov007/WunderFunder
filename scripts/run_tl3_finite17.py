@@ -251,9 +251,7 @@ def _child_environment(root: Path, gpu_uuid: str | None) -> dict[str, str]:
     environment.update(
         {
             "WNN_PROJECT_ROOT": str(root),
-            "PYTHONPATH": os.pathsep.join(
-                (str(root / "src"), str(root), str(root / "scripts"))
-            ),
+            "PYTHONPATH": os.pathsep.join((str(root / "src"), str(root), str(root / "scripts"))),
             "PYTHONUNBUFFERED": "1",
             "PYTHONHASHSEED": "0",
             "OPENBLAS_NUM_THREADS": "1",
@@ -540,9 +538,7 @@ def _verify_membership(provenance: dict[str, object], split: object, node_id: st
         raise DriverError(f"{node_id}: checkpoint membership is not train-only/full-valid")
 
 
-def _verify_history(
-    history: object, node: dict[str, object], expected_updates: int
-) -> None:
+def _verify_history(history: object, node: dict[str, object], expected_updates: int) -> None:
     """Require every fixed epoch, complete update count, and full-valid report."""
     epochs = int(node["epochs"])
     if not isinstance(history, list) or len(history) != epochs:
@@ -634,7 +630,9 @@ def verify_run_output(
     if init:
         run_spec = str(init).partition("@ep")
         parent = root / "artifacts/runs" / run_spec[0] / f"model_ep{run_spec[2]}.pt"
-        if not parent.is_file() or provenance.get("initial_checkpoint_sha256") != sha256_file(parent):
+        if not parent.is_file() or provenance.get("initial_checkpoint_sha256") != sha256_file(
+            parent
+        ):
             raise DriverError(f"{node['id']}: initialized checkpoint ancestry changed")
     cache = provenance.get("distillation_cache")
     if checkpoint["args"].get("distill_cache_root") and (
@@ -670,9 +668,9 @@ def verify_prediction(
     metadata = read_json(sidecar)
     checkpoint_path = root / "artifacts/runs" / run / "model.pt"
     provenance_path = checkpoint_path.with_name("provenance.json")
-    expected_groups_hash = __import__("hashlib").sha256(
-        np.asarray(groups, dtype="<i8").tobytes()
-    ).hexdigest()
+    expected_groups_hash = (
+        __import__("hashlib").sha256(np.asarray(groups, dtype="<i8").tobytes()).hexdigest()
+    )
     if (
         metadata.get("run") != run
         or metadata.get("split") != split_name
@@ -715,7 +713,9 @@ def verify_distillation_cache(plan: dict[str, object]) -> dict[str, object]:
     train_index = Path(str(plan["root"])) / "cache/train_targets.npz"
     with np.load(train_index, allow_pickle=False) as archive:
         train_groups = np.asarray(archive["row_group"], dtype=np.int64)
-    expected_train_groups = [int(group) for group in train_groups if int(group) in set(split.train_groups)]
+    expected_train_groups = [
+        int(group) for group in train_groups if int(group) in set(split.train_groups)
+    ]
     expected_sources = [
         {
             "family": value["family"],
@@ -733,7 +733,8 @@ def verify_distillation_cache(plan: dict[str, object]) -> dict[str, object]:
         or metadata.get("fit_groups", {}).get("train") != list(split.train_groups)
         or metadata.get("fit_groups", {}).get("valid") != []
         or metadata.get("evaluation_valid_groups") != list(split.evaluation_groups)
-        or metadata.get("stored_targets") != [
+        or metadata.get("stored_targets")
+        != [
             "main_source",
             "main_normalized",
             "main_homogeneous",
@@ -758,7 +759,11 @@ def verify_distillation_cache(plan: dict[str, object]) -> dict[str, object]:
         if relative.is_absolute() or len(relative.parts) != 1:
             raise DriverError(f"W18 cache filename escapes its root: {key}")
         target = path / relative
-        if target.is_symlink() or not target.is_file() or target.stat().st_size != record.get("bytes"):
+        if (
+            target.is_symlink()
+            or not target.is_file()
+            or target.stat().st_size != record.get("bytes")
+        ):
             raise DriverError(f"W18 cache file is missing or changed: {key}")
         if not isinstance(record.get("sha256"), str) or len(record["sha256"]) != 64:
             raise DriverError(f"W18 cache file lacks a producer hash: {key}")
@@ -769,7 +774,9 @@ def verify_distillation_cache(plan: dict[str, object]) -> dict[str, object]:
             raise DriverError(f"W18 cache target membership digest changed: {key}")
         target_width = 8 if key.startswith("families_") else 2
         expected_shape = [len(expected_groups), 20000, target_width]
-        expected_bytes = int(np.prod(expected_shape, dtype=np.int64)) * np.dtype(np.float32).itemsize
+        expected_bytes = (
+            int(np.prod(expected_shape, dtype=np.int64)) * np.dtype(np.float32).itemsize
+        )
         if (
             record.get("shape") != expected_shape
             or record.get("dtype") != "float32"
@@ -804,7 +811,8 @@ def _remaining_write_bytes(
         1
         for name, node in nodes.items()
         if node.get("export_train")
-        and node_status[name].get("phase") not in {
+        and node_status[name].get("phase")
+        not in {
             "train_export_running",
             "train_export_complete",
             "fit_failed",
@@ -827,8 +835,7 @@ def _remaining_write_bytes(
     remaining_fits = sum(
         1
         for name in nodes
-        if status["nodes"][name].get("state") in {"not_started", "running"}
-        and name != "fin256_s3"
+        if status["nodes"][name].get("state") in {"not_started", "running"} and name != "fin256_s3"
     )
     return (
         remaining_train_exports * train_bytes
@@ -855,9 +862,7 @@ def _log_path(state_dir: Path, task_id: str) -> Path:
     return state_dir / "logs" / f"{safe}.log"
 
 
-def _mark_launch_failed(
-    status: dict[str, object], task: dict[str, object], message: str
-) -> None:
+def _mark_launch_failed(status: dict[str, object], task: dict[str, object], message: str) -> None:
     """Fail one immutable task intent without leaving a runnable node behind."""
     now = time.time()
     task.update({"state": "failed", "finished_unix": now, "error": message})
@@ -867,9 +872,7 @@ def _mark_launch_failed(
         )
     kind, node_id = task.get("kind"), task.get("node_id")
     if kind in {"fit", "train_export"} and isinstance(node_id, str):
-        status["nodes"][node_id].update(
-            {"state": "failed", "phase": str(kind), "error": message}
-        )
+        status["nodes"][node_id].update({"state": "failed", "phase": str(kind), "error": message})
     elif kind == "valid_export" and isinstance(node_id, str):
         status["final_exports"][node_id] = "failed"
     elif kind == "cache":
@@ -936,9 +939,7 @@ def _launch_task(
     launch_command = command
     if gpu is not None and cpu_affinity is not None:
         launch_command = ["taskset", "-c", ",".join(map(str, cpu_affinity)), *command]
-    args_sha256 = (
-        canonical_sha256(command[command.index("--name") :]) if kind == "fit" else None
-    )
+    args_sha256 = canonical_sha256(command[command.index("--name") :]) if kind == "fit" else None
     log_path = _log_path(state_dir, task_id)
     log_path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     record: dict[str, object] = {
@@ -992,7 +993,11 @@ def _launch_task(
     while identity is None and time.monotonic() < identity_deadline:
         time.sleep(0.01)
         identity = proc_identity(child.pid)
-    if identity is None or identity["process_group"] != child.pid or identity["session"] != child.pid:
+    if (
+        identity is None
+        or identity["process_group"] != child.pid
+        or identity["session"] != child.pid
+    ):
         record["pid"] = child.pid
         failure = "spawned child did not establish its receipt-bound process group"
         try:
@@ -1105,18 +1110,14 @@ def _complete_task(
         verified = verify_run_output(root, node, split, source_sha)
         status["nodes"][str(node["id"])]["verified_run"] = verified
         if node["export_train"]:
-            status["nodes"][str(node["id"])].update(
-                {"state": "running", "phase": "export_pending"}
-            )
+            status["nodes"][str(node["id"])].update({"state": "running", "phase": "export_pending"})
         else:
             status["nodes"][str(node["id"])].update(
                 {"state": "complete", "phase": "fit_complete", "completed_unix": now}
             )
     elif kind == "train_export":
         node = _node_map(plan)[str(task["node_id"])]
-        groups = _prediction_groups(
-            root, Path(str(plan["split"]["split_manifest"])), "train"
-        )
+        groups = _prediction_groups(root, Path(str(plan["split"]["split_manifest"])), "train")
         receipt = verify_prediction(
             root,
             str(node["run"]),
@@ -1223,7 +1224,9 @@ def _poll_tasks(
             _record_task_failure(
                 status,
                 task,
-                "six-hour bounded task timeout" if terminated else "task survived owned-group timeout",
+                "six-hour bounded task timeout"
+                if terminated
+                else "task survived owned-group timeout",
                 now,
             )
             continue
@@ -1276,14 +1279,10 @@ def _block_failed_descendants(status: dict[str, object], plan: dict[str, object]
 
 def _all_w18_sources_complete(status: dict[str, object]) -> bool:
     """Check the exact six target-cache teachers, including their train exports."""
-    return all(
-        status["nodes"][name]["state"] == "complete" for name in W18_COEFFICIENTS
-    )
+    return all(status["nodes"][name]["state"] == "complete" for name in W18_COEFFICIENTS)
 
 
-def _dependency_ready(
-    node: dict[str, object], status: dict[str, object]
-) -> bool:
+def _dependency_ready(node: dict[str, object], status: dict[str, object]) -> bool:
     """Require each parent export and, for W18, its final six-source cache."""
     if any(status["nodes"][str(parent)]["state"] != "complete" for parent in node["parents"]):
         return False
@@ -1309,9 +1308,9 @@ def _start_ready_gpu_task(
     split_path = Path(str(plan["split"]["split_manifest"]))
     ordered_nodes = sorted(
         nodes.items(),
-        key=lambda item: NODE_PRIORITY.index(item[0])
-        if item[0] in NODE_PRIORITY
-        else len(NODE_PRIORITY),
+        key=lambda item: (
+            NODE_PRIORITY.index(item[0]) if item[0] in NODE_PRIORITY else len(NODE_PRIORITY)
+        ),
     )
     for node_id, node in ordered_nodes:
         node_state = status["nodes"][node_id]
@@ -1382,10 +1381,13 @@ def _start_ready_gpu_task(
         if int(status["fits_used"]) >= FIT_LIMIT:
             return False
         current_source = source_identity(root)
-        if current_source["training_source_sha256"] != plan["source_identity"][
-            "training_source_sha256"
-        ]:
-            _record_unstarted_failure(status, node_id, "frozen training source changed before launch")
+        if (
+            current_source["training_source_sha256"]
+            != plan["source_identity"]["training_source_sha256"]
+        ):
+            _record_unstarted_failure(
+                status, node_id, "frozen training source changed before launch"
+            )
             _write_status(state_path, status)
             return True
         run_dir = Path(str(node["run_directory"]))
@@ -1412,9 +1414,7 @@ def _start_ready_gpu_task(
     return False
 
 
-def _record_unstarted_failure(
-    status: dict[str, object], node_id: str, message: str
-) -> None:
+def _record_unstarted_failure(status: dict[str, object], node_id: str, message: str) -> None:
     """Close a duplicate/unsafe output path without launching or retrying a fit."""
     status["nodes"][node_id].update({"state": "failed", "phase": "preflight", "error": message})
     status["last_error"] = f"{node_id}: {message}"
@@ -1569,8 +1569,7 @@ def _mark_blocked_stages(status: dict[str, object], plan: dict[str, object]) -> 
     """Block only impossible cache, W18, final-export, or score stages after failures."""
     _block_failed_descendants(status, plan)
     if status["cache"]["state"] == "not_started" and any(
-        status["nodes"][name]["state"] in {"failed", "blocked"}
-        for name in W18_COEFFICIENTS
+        status["nodes"][name]["state"] in {"failed", "blocked"} for name in W18_COEFFICIENTS
     ):
         status["cache"] = {"state": "blocked", "reason": "a W18 teacher failed"}
     if status["cache"]["state"] in {"failed", "blocked"}:
@@ -1585,8 +1584,7 @@ def _mark_blocked_stages(status: dict[str, object], plan: dict[str, object]) -> 
         ):
             status["final_exports"][run] = "blocked"
     if status["score"]["state"] == "not_started" and any(
-        _stage_state(value) in {"failed", "blocked"}
-        for value in status["final_exports"].values()
+        _stage_state(value) in {"failed", "blocked"} for value in status["final_exports"].values()
     ):
         status["score"] = {"state": "blocked", "reason": "a final member is unavailable"}
 
@@ -1687,7 +1685,9 @@ def run_controller(args: argparse.Namespace) -> int:
         split = load_campaign_split(split_path, root)
         train_groups, _ = verify_source_index_receipt(root, "train")
         private_index = plan.get("private_train_index")
-        if not isinstance(private_index, dict) or private_index.get("group_count") != len(train_groups):
+        if not isinstance(private_index, dict) or private_index.get("group_count") != len(
+            train_groups
+        ):
             raise DriverError("private row-group-only train index is not receipt-bound")
         if (root / "final-score.json").exists():
             raise DriverError("fixed score output already exists; use a fresh chain state")
@@ -1698,6 +1698,7 @@ def run_controller(args: argparse.Namespace) -> int:
             )
         children: dict[str, subprocess.Popen[bytes]] = {}
         stop = {"requested": False, "signal": None}
+
         def request_stop(signum: int, _frame: object) -> None:
             stop["requested"] = True
             stop["signal"] = signum
@@ -1755,7 +1756,9 @@ def run_controller(args: argparse.Namespace) -> int:
                 _require_disk_headroom(root, remaining)
             except DriverError as error:
                 status["last_error"] = str(error)
-                _terminalize(state_dir, state_path, status, plan, "disk_capacity_blocked", str(error))
+                _terminalize(
+                    state_dir, state_path, status, plan, "disk_capacity_blocked", str(error)
+                )
                 return 2
             devices, applications = nvidia_inventory()
             protected = protected_gpu_indices(args.protected_galam_receipt, devices)

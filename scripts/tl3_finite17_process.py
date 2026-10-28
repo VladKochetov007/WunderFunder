@@ -189,9 +189,7 @@ def _read_galam_cells(
         gpu = record.get("gpu")
         if type(gpu) is not int or gpu in seen_gpus:
             raise DriverError("protected GALAM receipt repeats or omits a GPU index")
-        if devices is not None and (
-            gpu not in devices or record.get("gpu_uuid") != devices[gpu]
-        ):
+        if devices is not None and (gpu not in devices or record.get("gpu_uuid") != devices[gpu]):
             raise DriverError("protected GALAM GPU index/UUID crosswalk changed")
         seen_gpus.add(gpu)
         result.append(record)
@@ -200,9 +198,7 @@ def _read_galam_cells(
     return result
 
 
-def gpu_cpu_affinities(
-    receipt_path: Path, devices: dict[int, str]
-) -> dict[int, tuple[int, ...]]:
+def gpu_cpu_affinities(receipt_path: Path, devices: dict[int, str]) -> dict[int, tuple[int, ...]]:
     """Reuse the admitted eight-core physical GPU to CPU map for new workers."""
     cells = _read_galam_cells(receipt_path, devices)
     affinities: dict[int, tuple[int, ...]] = {}
@@ -220,9 +216,7 @@ def gpu_cpu_affinities(
     return affinities
 
 
-def protected_gpu_indices(
-    receipt_path: Path, devices: dict[int, str] | None = None
-) -> set[int]:
+def protected_gpu_indices(receipt_path: Path, devices: dict[int, str] | None = None) -> set[int]:
     """Reserve every live receipt-bound GALAM card without adopting or signaling it."""
     cells = _read_galam_cells(receipt_path, devices)
     protected: set[int] = set()

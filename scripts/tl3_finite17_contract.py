@@ -77,9 +77,7 @@ def _source_paths(root: Path) -> list[Path]:
 def source_identity(root: Path) -> dict[str, object]:
     """Hash exact local source files and the training subset recorded in checkpoints."""
     root = root.resolve(strict=True)
-    files = {
-        path.relative_to(root).as_posix(): sha256_file(path) for path in _source_paths(root)
-    }
+    files = {path.relative_to(root).as_posix(): sha256_file(path) for path in _source_paths(root)}
     training = training_source_identity(TrainingEnvironment(root=root, source_root=root))
     return {
         "schema": "wnn.tl3-source-identity.v1",
@@ -156,9 +154,7 @@ def _verify_legacy_source_documents(
     return source_root, files
 
 
-def _verify_legacy_source_files(
-    source_root: str, files: dict[str, str], root: Path
-) -> None:
+def _verify_legacy_source_files(source_root: str, files: dict[str, str], root: Path) -> None:
     """Hash only the bounded historical code closure beneath the pinned R3 directory."""
     root = root.resolve(strict=True)
     source_path = Path(source_root)
@@ -197,8 +193,7 @@ def _normalized_args(raw: list[str]) -> dict[str, object]:
         raise DriverError("frozen trainer arguments do not parse") from error
     configure_checkpoint_policy(args, parser)
     values = {
-        key: str(value) if isinstance(value, Path) else value
-        for key, value in vars(args).items()
+        key: str(value) if isinstance(value, Path) else value for key, value in vars(args).items()
     }
     if values.get("checkpoint_policy") == "fixed" and values.get("checkpoint_epoch") is None:
         values["checkpoint_epoch"] = int(values["epochs"]) - 1
@@ -225,7 +220,9 @@ def validate_recipe_arguments(nodes: list[dict[str, object]], split: object) -> 
         try:
             require_chronological_primary_training(parser, args, split)
         except SystemExit as error:
-            raise DriverError(f"{node['id']}: chronological primary gate rejected recipe") from error
+            raise DriverError(
+                f"{node['id']}: chronological primary gate rejected recipe"
+            ) from error
         if args.checkpoint_epoch != int(node["endpoint"]):
             raise DriverError(f"{node['id']}: fixed endpoint differs from the recipe")
         if args.train_source != "train" or args.train_seqs != TRAIN_GROUPS:
