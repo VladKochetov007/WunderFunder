@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <title>WunderFunder · Local Research Monitor</title>
+    <link rel="stylesheet" href="/dashboard.css">
+    <script src="/dashboard.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+        <div>
+          <p class="eyebrow">WUNDERFUNDER / TABDATA</p>
+          <h1>Research monitor</h1>
+        </div>
+      </div>
+      <div class="topbar-meta">
+        <span class="mode-chip"><span class="mode-dot"></span>LOCAL · READ ONLY</span>
+        <span id="connection-status" class="connection-status">Connecting…</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="intro-row">
+        <div>
+          <p class="eyebrow">LIVE RUN TELEMETRY</p>
+          <h2>Training, evaluation, and runtime signals</h2>
+          <p class="intro-copy">Auto-refreshes every 3 seconds · data stays on this machine · no training controls</p>
+        </div>
+        <button id="refresh-now" class="button button-secondary" type="button">Refresh now <span aria-hidden="true">↻</span></button>
+      </section>
+
+      <section id="synthetic-banner" class="synthetic-banner hidden" role="status">
+        Synthetic fixture selected · demo data only · no scientific result
+      </section>
+
+      <section class="workspace">
+        <aside class="panel run-panel" aria-labelledby="runs-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">RUNS</p>
+              <h2 id="runs-title">Select comparisons</h2>
+            </div>
+            <span id="selection-count" class="count-chip">0 / 8</span>
+          </div>
+          <label class="field-label" for="source-filter">Source filter</label>
+          <input id="source-filter" class="text-input" type="search" placeholder="e.g. local, cluster, synthetic">
+          <label class="field-label" for="config-filter">Config filter</label>
+          <input id="config-filter" class="text-input" type="search" placeholder="Search full config">
+          <div class="run-list-head"><span>RUN / SOURCE</span><span>STATUS</span></div>
+          <div id="run-list" class="run-list" aria-live="polite">
+            <div class="empty-state compact">Looking for run folders…</div>
+          </div>
+          <p class="panel-footnote">Choose up to eight runs. Config and provenance values are locally redacted for common secret fields.</p>
+        </aside>
+
+        <section class="content-column">
+          <section class="panel config-panel" aria-labelledby="config-title">
+            <div class="panel-heading config-heading">
+              <div>
+                <p class="eyebrow">RUN DETAILS</p>
+                <h2 id="config-title">Config &amp; provenance</h2>
+              </div>
+              <span class="subtle-label">Full sanitized metadata</span>
+            </div>
+            <div id="config-list" class="config-list">
+              <div class="empty-state compact">Select a run to inspect its configuration.</div>
+            </div>
+          </section>
+
+          <section class="panel metric-panel" aria-labelledby="metrics-title">
+            <div class="panel-heading metric-heading">
+              <div>
+                <p class="eyebrow">METRIC EXPLORER</p>
+                <h2 id="metrics-title">Any recorded metric</h2>
+              </div>
+              <span id="metric-count" class="subtle-label">0 metric keys</span>
+            </div>
+            <label class="field-label" for="metric-select">Choose slash-keyed series to compare</label>
+            <select id="metric-select" class="metric-select" multiple size="4" aria-describedby="metric-help"></select>
+            <p id="metric-help" class="panel-footnote">Use Ctrl or ⌘ to select multiple metrics. Missing values remain gaps in each line.</p>
+          </section>
+
+          <section class="chart-section" aria-labelledby="chart-section-title">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">COMPARABLE EVALUATION &amp; DIAGNOSTICS</p>
+                <h2 id="chart-section-title">Run signals</h2>
+              </div>
+              <span class="section-note">Step or epoch follows the event record</span>
+            </div>
+            <div id="chart-grid" class="chart-grid"></div>
+          </section>
+        </section>
+      </section>
+    </main>
+    <footer class="footer">
+      <span>Offline assets · loopback only · read-only API</span>
+      <span id="updated-at">Waiting for first refresh</span>
+    </footer>
+  </body>
+</html>
