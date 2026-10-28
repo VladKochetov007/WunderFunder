@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import shutil
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -9,10 +10,13 @@ import numpy as np
 import pytest
 
 from scripts import run_tl3_finite17 as driver
+from scripts import tl3_finite17_contract as contract
 from scripts import tl3_finite17_process as processes
 from scripts.tl3_chronological_recipes import FINAL_WEIGHTS, PREFIX, W18_COEFFICIENTS, build_nodes
 from scripts.tl3_finite17_contract import canonical_sha256, ensure_private_train_index
 from wnn.distillation_cache import row_groups_sha256
+
+R3_FIXTURE_DIR = Path(__file__).parent / "fixtures" / "tl3_finite17"
 
 
 def _plan(tmp_path: Path) -> dict[str, object]:
@@ -59,6 +63,7 @@ def test_finite_recipe_priority_starts_fin256_s4_before_other_roots(
         status=status,
         plan=plan,
         gpu=(0, "GPU-test"),
+        cpu_affinity=tuple(range(8)),
         children={},
     )
 
@@ -66,6 +71,17 @@ def test_finite_recipe_priority_starts_fin256_s4_before_other_roots(
     assert len(launched) == 1
     assert launched[0]["task_id"] == "fit:fin256_s4"
     assert launched[0]["kind"] == "fit"
+    assert launched[0]["cpu_affinity"] == tuple(range(8))
+
+
+def test_child_environment_matches_admitted_cpu_and_loader_limits(tmp_path: Path) -> None:
+    environment = driver._child_environment(tmp_path, "GPU-test")
+
+    assert str(tmp_path) in environment["PYTHONPATH"]
+    assert environment["WNN_THREADS"] == "4"
+    assert environment["WNN_LOADER_WORKERS"] == "2"
+    assert environment["WNN_LOADER_RAM_GB"] == "8"
+    assert environment["OMP_NUM_THREADS"] == environment["MKL_NUM_THREADS"] == "4"
 
 
 def test_failed_w18_ancestor_blocks_that_tail_but_preserves_independent_work(
@@ -182,6 +198,42 @@ def test_galam_protection_requires_a_live_pid_with_matching_start_ticks(
     assert processes.protected_gpu_indices(receipt_path) == {2}
 
 
+def test_gpu_cpu_placement_uses_the_receipt_crosswalk(tmp_path: Path) -> None:
+    receipt_path = tmp_path / "galam.json"
+    affinities = {
+        0: [0, 1, 2, 3, 4, 5, 6, 7],
+        1: [8, 9, 10, 11, 12, 13, 14, 15],
+        2: [16, 17, 18, 19, 20, 21, 22, 23],
+        3: [24, 25, 26, 27, 28, 29, 30, 31],
+        4: [48, 49, 50, 51, 52, 53, 54, 55],
+        5: [56, 57, 58, 59, 60, 61, 62, 63],
+        6: [64, 65, 66, 67, 68, 69, 70, 71],
+        7: [72, 73, 74, 75, 76, 77, 78, 79],
+    }
+    devices = {gpu: f"GPU-{gpu}" for gpu in affinities}
+    receipt_path.write_text(
+        json.dumps(
+            {
+                "schema": "wnn.galam-l4-quality8-launch.v1",
+                "cells": {
+                    f"g{gpu}": {
+                        "gpu": gpu,
+                        "gpu_uuid": devices[gpu],
+                        "cpu_affinity": cores,
+                    }
+                    for gpu, cores in affinities.items()
+                },
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    actual = processes.gpu_cpu_affinities(receipt_path, devices)
+
+    assert actual[4] == tuple(affinities[4])
+    assert set(actual) == set(devices)
+
+
 def test_owned_timeout_kills_only_the_recorded_session_group(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -231,6 +283,44 @@ def test_pid_reuse_is_rejected_before_any_signal(monkeypatch: pytest.MonkeyPatch
     with pytest.raises(driver.DriverError, match="unowned process group"):
         processes.terminate_owned_group(record, killpg=lambda pgid, _sig: signaled.append(pgid))
     assert signaled == []
+
+
+def test_actual_r3_adoption_receipts_validate_without_current_hash_recipe(
+    tmp_path: Path,
+) -> None:
+    for name in (
+        "adopted-source.identity.json",
+        "source-r3.identity.json",
+        "fin256_s3.adoption.json",
+    ):
+        shutil.copyfile(R3_FIXTURE_DIR / name, tmp_path / name)
+    adoption = json.loads((tmp_path / "fin256_s3.adoption.json").read_text(encoding="utf-8"))
+
+    source_root, files = contract._verify_legacy_source_documents(adoption, tmp_path)
+
+    assert source_root.endswith("/source-r3")
+    assert len(files) == 120
+    assert files["scripts/train_rnn.py"] == (
+        "4b64186743e7c9535abc544b63139ff5ad6b7a1e5d9bc6f72feb689d451fb5ab"
+    )
+
+
+def test_legacy_source_file_check_hashes_the_bounded_code_closure(tmp_path: Path) -> None:
+    source_root = tmp_path / "source-r3"
+    source_root.mkdir()
+    source_file = source_root / "src/wnn/training/legacy.py"
+    source_file.parent.mkdir(parents=True)
+    source_file.write_bytes(b"pinned old R3 implementation\n")
+    identity = hashlib.sha256(source_file.read_bytes()).hexdigest()
+
+    contract._verify_legacy_source_files(
+        str(source_root), {"src/wnn/training/legacy.py": identity}, tmp_path
+    )
+    source_file.write_bytes(b"modified implementation\n")
+    with pytest.raises(driver.DriverError, match="source file bytes changed"):
+        contract._verify_legacy_source_files(
+            str(source_root), {"src/wnn/training/legacy.py": identity}, tmp_path
+        )
 
 
 def test_w18_cache_verifies_exact_sources_membership_and_file_hashes(

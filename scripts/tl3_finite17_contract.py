@@ -6,7 +6,7 @@ import hashlib
 import json
 import os
 import tempfile
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 import numpy as np
 
@@ -97,6 +97,92 @@ def _training_source_sha(value: dict[str, object]) -> str:
         if isinstance(digest, str) and len(digest) == 64:
             return digest
     raise DriverError("training source identity lacks a SHA-256 aggregate")
+
+
+def _verify_legacy_source_documents(
+    adoption: dict[str, object], root: Path
+) -> tuple[str, dict[str, str]]:
+    """Validate the original R3 identity JSON without applying today's hash recipe."""
+    adopted_path = root / "adopted-source.identity.json"
+    snapshot_path = root / "source-r3.identity.json"
+    for path in (adopted_path, snapshot_path):
+        if path.is_symlink() or not path.is_file():
+            raise DriverError(f"required immutable R3 source receipt is missing: {path.name}")
+    if sha256_file(snapshot_path) != adoption.get("source_identity_file_sha256"):
+        raise DriverError("R3 source snapshot JSON bytes differ from the adoption receipt")
+    try:
+        adopted = json.loads(adopted_path.read_text(encoding="utf-8"))
+        snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise DriverError("R3 source identity receipts are unreadable JSON") from error
+    files = adopted.get("files") if isinstance(adopted, dict) else None
+    snapshot_files = snapshot.get("files") if isinstance(snapshot, dict) else None
+    if (
+        not isinstance(adopted, dict)
+        or adopted.get("schema") != "wnn.training-source.v1"
+        or not isinstance(files, dict)
+        or not files
+        or not isinstance(snapshot, dict)
+        or not isinstance(snapshot_files, dict)
+    ):
+        raise DriverError("R3 source identity receipts do not match the historical schemas")
+    if adopted.get("missing_dependency_files") != ["uv.lock"]:
+        raise DriverError("R3 source receipt dependency omissions changed")
+    if any(
+        not isinstance(name, str)
+        or not isinstance(digest, str)
+        or len(digest) != 64
+        or any(character not in "0123456789abcdef" for character in digest)
+        for name, digest in files.items()
+    ):
+        raise DriverError("R3 source manifest contains an invalid path or content digest")
+    manifest_sha = hashlib.sha256(
+        json.dumps(files, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    ).hexdigest()
+    if manifest_sha != adopted.get("sha256") or manifest_sha != adoption.get("source_sha256"):
+        raise DriverError("R3 source closure does not reproduce the adopted training SHA")
+    missing_snapshot_paths = set(files) - set(snapshot_files)
+    if missing_snapshot_paths != {"pyproject.toml"}:
+        raise DriverError("R3 source closure does not align with its source snapshot manifest")
+    if any(files[name] != snapshot_files[name] for name in set(files) & set(snapshot_files)):
+        raise DriverError("R3 closure file hashes disagree with the recorded source snapshot")
+    source_root = adoption.get("source_root")
+    if (
+        not isinstance(source_root, str)
+        or not PurePosixPath(source_root).is_absolute()
+        or PurePosixPath(source_root).name != "source-r3"
+    ):
+        raise DriverError("adopted source root is not the pinned R3 directory")
+    return source_root, files
+
+
+def _verify_legacy_source_files(
+    source_root: str, files: dict[str, str], root: Path
+) -> None:
+    """Hash only the bounded historical code closure beneath the pinned R3 directory."""
+    root = root.resolve(strict=True)
+    source_path = Path(source_root)
+    if source_path.is_symlink():
+        raise DriverError("adopted R3 source directory cannot be a symlink")
+    resolved_source = source_path.resolve(strict=True)
+    if resolved_source != (root / "source-r3").resolve(strict=True):
+        raise DriverError("adopted R3 source directory is not the runtime root child")
+    for name, expected in files.items():
+        relative = Path(name)
+        if relative.is_absolute() or ".." in relative.parts:
+            raise DriverError(f"R3 source manifest contains an unsafe path: {name}")
+        path = resolved_source / relative
+        try:
+            resolved_path = path.resolve(strict=True)
+        except OSError as error:
+            raise DriverError(f"R3 source file is missing: {name}") from error
+        if (
+            path.is_symlink()
+            or not path.is_file()
+            or not resolved_path.is_relative_to(resolved_source)
+            or sha256_file(path) != expected
+        ):
+            raise DriverError(f"R3 source file bytes changed: {name}")
 
 
 def _normalized_args(raw: list[str]) -> dict[str, object]:
@@ -257,24 +343,14 @@ def build_plan(
     root, split_path = root.resolve(strict=True), split_path.resolve(strict=True)
     data = verify_data_contract(root, split_path)
     split = data["split"]
-    nodes = build_nodes(split_path, root / "cache")
+    nodes = build_nodes(split_path, root)
     validate_recipe_arguments(nodes, split)
     first_node = next(node for node in nodes if node["id"] == "fin256_s3")
     validate_adoption(adoption, first_node, root)
-    if source_identity(root)["training_source_sha256"] != adoption.get("source_sha256"):
-        # The adopted seed-3 fit may use the explicitly pinned source-r3 closure.
-        source_root = adoption.get("source_root")
-        if not isinstance(source_root, str):
-            raise DriverError("adopted first fit lacks its pinned source root")
-        adopted_source = training_source_identity(
-            TrainingEnvironment(root=root, source_root=Path(source_root))
-        )
-        if _training_source_sha(adopted_source) != adoption.get("source_sha256"):
-            raise DriverError("adopted first fit source SHA differs from its R3 identity")
+    identity = source_identity(root)
     scorer = root / "scripts/score_tl3_chronological.py"
     if not scorer.is_file():
         raise DriverError("fixed chronological TL3 scorer is missing before chain admission")
-    identity = source_identity(root)
     rows, _ = verify_source_index_receipt(root, "train")
     private_index = ensure_private_train_index(root, rows)
     enriched = []
@@ -352,17 +428,13 @@ def validate_adoption(
         raise DriverError("adoption receipt original argv is invalid")
     if canonical_sha256(training_args) != adoption.get("args_sha256"):
         raise DriverError("adopted training arguments differ from their receipt hash")
-    if argv[argv.index("--name") :] != training_args if "--name" in argv else True:
+    name_index = argv.index("--name") if "--name" in argv else -1
+    if name_index < 0 or argv[name_index:] != training_args:
         raise DriverError("adopted complete argv does not end in its pinned training arguments")
     if _normalized_args(training_args) != _normalized_args(list(node["args"])):
         raise DriverError("adopted first fit differs from fin256_s3 after documented defaults")
-    source_root = Path(str(adoption["source_root"])).resolve(strict=True)
-    source = training_source_identity(TrainingEnvironment(root=root, source_root=source_root))
-    if _training_source_sha(source) != adoption.get("source_sha256"):
-        raise DriverError("adopted R3 training source changed")
-    source_identity_path = source_root / "src/wnn/training/source_identity.py"
-    if sha256_file(source_identity_path) != adoption.get("source_identity_file_sha256"):
-        raise DriverError("adopted R3 source-identity implementation changed")
+    source_root, source_files = _verify_legacy_source_documents(adoption, root)
+    _verify_legacy_source_files(source_root, source_files, root)
     pid, pgid = adoption.get("pid"), adoption.get("process_group")
     if type(pid) is not int or type(pgid) is not int or pid != pgid:
         raise DriverError("adopted process group is not led by the receipt PID")

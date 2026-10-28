@@ -38,6 +38,7 @@ from scripts.tl3_finite17_contract import (
 )
 from scripts.tl3_finite17_process import (
     free_gpu_devices,
+    gpu_cpu_affinities,
     nvidia_inventory,
     owned_group_state,
     proc_identity,
@@ -254,11 +255,14 @@ def _child_environment(root: Path, gpu_uuid: str | None) -> dict[str, str]:
             ),
             "PYTHONUNBUFFERED": "1",
             "PYTHONHASHSEED": "0",
-            "OMP_NUM_THREADS": "8",
-            "MKL_NUM_THREADS": "8",
             "OPENBLAS_NUM_THREADS": "1",
             "NUMEXPR_NUM_THREADS": "1",
             "ARROW_NUM_THREADS": "1",
+            "WNN_THREADS": "4",
+            "WNN_LOADER_WORKERS": "2",
+            "WNN_LOADER_RAM_GB": "8",
+            "OMP_NUM_THREADS": "4",
+            "MKL_NUM_THREADS": "4",
         }
     )
     if gpu_uuid is None:
@@ -889,12 +893,21 @@ def _launch_task(
     command: list[str],
     gpu: tuple[int, str] | None,
     node_id: str | None,
+    cpu_affinity: tuple[int, ...] | None = None,
     expected_source_sha256: str | None = None,
 ) -> None:
     """Persist one intent, then spawn one detached task in its own session."""
     tasks = status["tasks"]
     if task_id in tasks:
         raise DriverError(f"task already has an immutable launch record: {task_id}")
+    if (gpu is None) != (cpu_affinity is None):
+        raise DriverError("GPU task and receipt-bound CPU affinity must be supplied together")
+    launch_command = command
+    if gpu is not None and cpu_affinity is not None:
+        launch_command = ["taskset", "-c", ",".join(map(str, cpu_affinity)), *command]
+    args_sha256 = (
+        canonical_sha256(command[command.index("--name") :]) if kind == "fit" else None
+    )
     log_path = _log_path(state_dir, task_id)
     log_path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
     record: dict[str, object] = {
@@ -903,12 +916,14 @@ def _launch_task(
         "node_id": node_id,
         "state": "launch_intent",
         "adopted": False,
-        "command": command,
-        "command_sha256": canonical_sha256(command),
+        "command": launch_command,
+        "command_sha256": canonical_sha256(launch_command),
         "source_sha256": expected_source_sha256,
+        "args_sha256": args_sha256,
         "log": str(log_path),
         "gpu_index": None if gpu is None else gpu[0],
         "gpu_uuid": None if gpu is None else gpu[1],
+        "cpu_affinity": None if cpu_affinity is None else list(cpu_affinity),
         "started_unix": time.time(),
     }
     tasks[task_id] = record
@@ -924,7 +939,7 @@ def _launch_task(
     try:
         with log_file:
             child = subprocess.Popen(
-                command,
+                launch_command,
                 cwd=root,
                 env=environment,
                 stdin=subprocess.DEVNULL,
@@ -972,7 +987,7 @@ def _launch_task(
                 "phase": "fit",
                 "cell_started_unix": record["started_unix"],
                 "source_sha256": expected_source_sha256,
-                "args_sha256": canonical_sha256(command[2:]),
+                "args_sha256": args_sha256,
             }
         )
     elif kind == "train_export":
@@ -1224,6 +1239,7 @@ def _start_ready_gpu_task(
     status: dict[str, object],
     plan: dict[str, object],
     gpu: tuple[int, str],
+    cpu_affinity: tuple[int, ...],
     children: dict[str, subprocess.Popen[bytes]],
 ) -> bool:
     """Start one eligible train/export task on a physically empty allowed GPU."""
@@ -1262,6 +1278,7 @@ def _start_ready_gpu_task(
                 command=command,
                 gpu=gpu,
                 node_id=node_id,
+                cpu_affinity=cpu_affinity,
                 expected_source_sha256=str(node_state["source_sha256"]),
             )
             return True
@@ -1293,6 +1310,7 @@ def _start_ready_gpu_task(
             command=command,
             gpu=gpu,
             node_id=node_id,
+            cpu_affinity=cpu_affinity,
             expected_source_sha256=str(plan["source_identity"]["training_source_sha256"]),
         )
         return True
@@ -1320,6 +1338,7 @@ def _start_ready_gpu_task(
                     command=command,
                     gpu=gpu,
                     node_id=run,
+                    cpu_affinity=cpu_affinity,
                     expected_source_sha256=str(plan["source_identity"]["training_source_sha256"]),
                 )
                 return True
@@ -1667,6 +1686,7 @@ def run_controller(args: argparse.Namespace) -> int:
                 return 2
             devices, applications = nvidia_inventory()
             protected = protected_gpu_indices(args.protected_galam_receipt, devices)
+            cpu_affinities = gpu_cpu_affinities(args.protected_galam_receipt, devices)
             free = free_gpu_devices(
                 devices,
                 applications,
@@ -1685,6 +1705,7 @@ def run_controller(args: argparse.Namespace) -> int:
                         status=status,
                         plan=plan,
                         gpu=gpu,
+                        cpu_affinity=cpu_affinities[gpu[0]],
                         children=children,
                     )
                 except (DriverError, OSError, ValueError) as error:

@@ -165,22 +165,68 @@ def nvidia_inventory(
     return devices, applications
 
 
-def protected_gpu_indices(
+def _read_galam_cells(
     receipt_path: Path, devices: dict[int, str] | None = None
-) -> set[int]:
-    """Reserve every nonterminal GALAM card without adopting or signaling its PIDs."""
+) -> list[dict[str, Any]]:
+    """Read the exact eight-cell owner receipt and bind its GPU UUID mapping."""
     import json
 
     if receipt_path.is_symlink() or not receipt_path.is_file():
         raise DriverError("the seven-GALAM ownership receipt is missing or unsafe")
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
     cells = receipt.get("cells")
-    if not isinstance(cells, dict) or len(cells) != 8:
+    if (
+        receipt.get("schema") != "wnn.galam-l4-quality8-launch.v1"
+        or not isinstance(cells, dict)
+        or len(cells) != 8
+    ):
         raise DriverError("the protected GALAM receipt does not identify its exact eight cells")
-    protected: set[int] = set()
+    result = []
+    seen_gpus: set[int] = set()
     for record in cells.values():
         if not isinstance(record, dict):
             raise DriverError("malformed cell in the protected GALAM receipt")
+        gpu = record.get("gpu")
+        if type(gpu) is not int or gpu in seen_gpus:
+            raise DriverError("protected GALAM receipt repeats or omits a GPU index")
+        if devices is not None and (
+            gpu not in devices or record.get("gpu_uuid") != devices[gpu]
+        ):
+            raise DriverError("protected GALAM GPU index/UUID crosswalk changed")
+        seen_gpus.add(gpu)
+        result.append(record)
+    if devices is not None and seen_gpus != set(devices):
+        raise DriverError("protected GALAM receipt does not cover every physical GPU")
+    return result
+
+
+def gpu_cpu_affinities(
+    receipt_path: Path, devices: dict[int, str]
+) -> dict[int, tuple[int, ...]]:
+    """Reuse the admitted eight-core physical GPU to CPU map for new workers."""
+    cells = _read_galam_cells(receipt_path, devices)
+    affinities: dict[int, tuple[int, ...]] = {}
+    used_cores: set[int] = set()
+    for record in cells:
+        gpu = int(record["gpu"])
+        raw = record.get("cpu_affinity")
+        if not isinstance(raw, list) or len(raw) != 8 or any(type(core) is not int for core in raw):
+            raise DriverError("protected GALAM cell lacks its eight-core CPU affinity")
+        cores = tuple(sorted(raw))
+        if len(set(cores)) != 8 or used_cores.intersection(cores):
+            raise DriverError("protected GALAM CPU affinity overlaps or repeats cores")
+        affinities[gpu] = cores
+        used_cores.update(cores)
+    return affinities
+
+
+def protected_gpu_indices(
+    receipt_path: Path, devices: dict[int, str] | None = None
+) -> set[int]:
+    """Reserve every live receipt-bound GALAM card without adopting or signaling it."""
+    cells = _read_galam_cells(receipt_path, devices)
+    protected: set[int] = set()
+    for record in cells:
         gpu = record.get("gpu")
         pid = record.get("pid")
         pgid = record.get("process_group")
@@ -192,10 +238,6 @@ def protected_gpu_indices(
             or not isinstance(ticks, (str, int))
         ):
             raise DriverError("protected GALAM cell lacks a PID-bound GPU identity")
-        if devices is not None and (
-            gpu not in devices or record.get("gpu_uuid") != devices[gpu]
-        ):
-            raise DriverError("protected GALAM GPU index/UUID crosswalk changed")
         identity = proc_identity(pid)
         if identity is not None and (
             identity["start_ticks"] == int(ticks) and identity["process_group"] == pgid
