@@ -4,9 +4,13 @@
 eight-fit v3 panel, maximum20epochs with the declared early stop. The
 [launch packet](launch/README.md) and [PANEL.json](launch/PANEL.json) are the
 current recipes; the v1 table and preparation-only notes below are historical.
-Receiving Torch2.8 checks and strict-FP32 shape probes have run. Complete train
-delivery, source-qualified preparation and actual-data profiles still precede
-scientific admission; no trained quality result is claimed.
+Full training is now running on all eight L4s after complete source-qualified
+preparation and independently reviewed real-source profiles. GRU's first full
+epoch reports official-valid WP0.6681328342; all eight fits continue. See the
+[execution snapshot](launch/EXECUTION_STATUS.json), [first epoch](launch/FIRST_EPOCH_RESULT.json)
+and [PR46](https://github.com/VladKochetov007/WunderFunder/pull/46).
+
+## Historical preparation notes and v1 recipes
 
 Latest concrete resource proposal: [eight-L4 allocation v3](L4_ALLOCATION_V3.md).
 It includes a fresh plain-GRU benchmark, seven GALAM candidates/controls, actual

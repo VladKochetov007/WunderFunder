@@ -1,3 +1,11 @@
+[Eight-L4 actual data, resource and first-epoch reviews](../../experiment_drafts/galam-l4-quality8-20261028/launch/receiving/README.md)
+verify source/index/split/mask bindings, all eight successful strict-FP32 profiles,
+UUID/memory and data identities, and GRU epoch1 full-valid coverage/pointers.
+The reviews are bounded metadata/resource checks; they do not independently
+rescore weights, establish a gain or promote a final model. All eight fits run;
+first reported valid WP is0.6681328342. Raw source/evidence byte archives and
+explicit startup-failure exclusions preserve the execution trace.
+
 [GRU historical presets and transfer audit](GRU_PRESETS_HISTORY_AUDIT_20261028_R1.md)
 recovers the plain256x2 scratch versus low-LR warm-student recipes, width/depth
 screens, HPO/averaging/loss negatives, actual target arithmetic and public lineage.

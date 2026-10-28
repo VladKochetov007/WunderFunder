@@ -1,3 +1,22 @@
+## 28 October: eight full L4 fits are active
+
+Do not duplicate or resume these jobs. The user explicitly authorized the fixed
+[full eight-fit panel](../research/experiment_drafts/galam-l4-quality8-20261028/launch/README.md).
+Launch e635250b62fa489d94c987d4898ff417 runs all eight independent fresh fits on
+8 L4 GPUs, seed1001, maximum20epochs, min5/patience4/delta.0005 stopping.
+Plain GRU batch32; all seven GALAM variants batch384; one prefetched batch;
+full official valid every epoch. Fitting uses10325 train sequences only, excludes
+282 train members linked to valid, and preserves all1873 valid sequences.
+
+[First GRU epoch](../research/experiment_drafts/galam-l4-quality8-20261028/launch/FIRST_EPOCH_RESULT.json)
+reports full-valid WP0.6681328342 on3,528,273 scored rows; it is intermediate,
+single-seed and development-exposed. Train-eval uses a different row mask, so
+its lower WP is not an overfit-gap comparison. Other fits continue. Exact source,
+process ownership, independent reviews and evidence byte archives are indexed
+in the packet; PR46 and its node publisher record hourly/terminal updates as
+SemyonEpanov, independently of SSH. Root final source is R9 commit50053909 / SHA
+f9685716d64ecb5ceef2ec821781fa4078ff21661201edfcdac8292867990230.
+
 ## 28 October — GRU recipe history audited before revised L4 execution
 
 The user accepts the revised twenty-epoch-cap layout in principle, with GRU

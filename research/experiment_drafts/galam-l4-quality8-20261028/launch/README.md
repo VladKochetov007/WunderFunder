@@ -1,10 +1,35 @@
 # Authorized fixed eight-fit launch
 
+**Full training is running on all eight L4s.**
+[Execution status](EXECUTION_STATUS.json) and [owned process receipt](receiving/full-launch_receipt.json)
+bind the fresh fits to launch `e635250b62fa489d94c987d4898ff417`, source R9
+commit50053909 and training-source SHA `f9685716d64ecb5ceef2ec821781fa4078ff21661201edfcdac8292867990230`.
+The [first complete GRU epoch](FIRST_EPOCH_RESULT.json) reports full-valid
+WP0.6681328342; this is an intermediate single-seed result, not a final endpoint.
+[Independent epoch metadata review](receiving/INDEPENDENT_FIRST_SCIENTIFIC_EPOCH_G0_REVIEW.json)
+checks its coverage/pointers without rescoring model predictions.
+The [first-epoch GitHub update](FIRST_EPOCH_UPDATE.md) keeps the distinct masks
+and intermediate-result interpretation next to the reported scores.
+
+All10325 retained train sequences fit;282 train sequences linked to validation
+components are excluded. Full official valid keeps1873 sequences and3,528,273
+scored rows. Normalization uses retained train members only. The protocol is
+the user-adopted official train/valid file boundary; current calendar timestamps
+remain unverified. No seq_ix ordering or random primary folds are introduced.
+
+The [live dashboard](http://127.0.0.1:18766/) displays all eight actual runs via
+the existing SSH forward. Training, the dashboard service and the node GitHub
+publisher have detached ownership. The [first node update](https://github.com/VladKochetov007/WunderFunder/pull/46#issuecomment-6461962327)
+was posted as SemyonEpanov; further hourly/per-experiment/final updates run on the
+node independently of SSH. [Exact source and engineering evidence archives](ARTIFACTS.json)
+preserve receiving bytes, successful profiles and the excluded startup failures.
+Do not duplicate this active eight-fit launch.
+
 The user explicitly authorized full execution of the allocation in
 [v3](../L4_ALLOCATION_V3.md), without changing hypotheses. [PANEL.json](PANEL.json)
 materializes exactly eight fits; [configs](configs/README.md) are complete runtime
-recipes. Old v1 files remain untouched. Batch candidates will be profiled and
-frozen with exact config hashes before the scientific fits.
+recipes. Old v1 files remain untouched. Final batches are32 for plain GRU and384
+for all seven GALAM cells, with one prefetched input batch and eval batch384.
 The [current draft PR contract](PR.md) describes this full eight-fit scope.
 [Draft PR46](https://github.com/VladKochetov007/WunderFunder/pull/46) was created
 as SemyonEpanov; [publication receipt](PR_PUBLICATION.json) records its identity.
@@ -27,9 +52,10 @@ rows; valid uses official is_scored. These masks are explicitly labelled.
 Engineering synthetic shape probes are discarded and provide no model quality.
 Full scientific admission also requires actual-source profiles with diagnostics,
 normalization/coverage verification, independent recipe review and matched
-source/config/runtime receipts. Receiver software is the existing isolated
-Torch2.8+cu128 environment; it must pass receiving checks, rather than installing
-the incompatible cu130 lock onto driver570. No other service belongs to us.
+source/config/runtime receipts. All eight passed those gates in
+[the independent resource review](receiving/INDEPENDENT_PROFILE_R4_ALL8_RESOURCE_REVIEW.json).
+Receiver software is the checked isolated Torch2.8+cu128 environment on driver570.
+Foreign services remain outside this run's ownership.
 
 [prepare_data.py](prepare_data.py) is the bounded receiving-side preparation
 owner: it waits for the transfer's finalized train filename, then runs the pinned
@@ -40,7 +66,7 @@ partial file by logical size.
 
 The [receiving engineering evidence](receiving/README.md) contains discarded
 strict-FP32 shape probes and actual Torch2.8 CPU checks. GALAM's common batch384
-is now a real-source-profile candidate, with one prefetched full input batch;
+passed the full-input real-source profiles, with one prefetched full input batch;
 plain GRU retains historical batch32. Report-only evaluation uses batch384.
 This changes optimization step count relative to the provisional GALAM16 start,
 so final batch/step counts are recorded before fitting, without LR scaling.

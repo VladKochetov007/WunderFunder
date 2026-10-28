@@ -1,5 +1,23 @@
 # Receiving engineering evidence
 
+The [active logout-policy query](logout-survival-environment.json) reports
+`KillUserProcesses=false`. Together with separate process sessions/groups,
+`/dev/null` stdin and owned file logs, this verifies SSH-disconnect isolation
+without interrupting the running jobs. No host policy was changed.
+
+Current full execution is documented by the [launch receipt](full-launch_receipt.json),
+[dashboard receipt](full-dashboard_receipt.json), [verified detached process proof](full-detached-proof.json)
+and [first node publisher receipt](full-publisher-state.json). All eight fits have
+positive actual optimizer progress. The [independent receiver metadata review](INDEPENDENT_RECEIVER_METADATA_REVIEW_R2.json)
+checks source/index/split/mask bindings; the [all-eight R4 review](INDEPENDENT_PROFILE_R4_ALL8_RESOURCE_REVIEW.json)
+checks the successful real-source profiles. The [first scientific-epoch review](INDEPENDENT_FIRST_SCIENTIFIC_EPOCH_G0_REVIEW.json)
+checks GRU epoch1 identity, full-valid coverage, result and checkpoint pointers
+without reading weights or independently rescoring predictions.
+[Raw byte archives and their hashes](../ARTIFACTS.json) preserve exact source and
+engineering evidence outside this descriptive historical record. They contain
+no weights, dataset payload or credential value. Earlier preparation snapshots
+below retain their original stage-specific limitations.
+
 These files were collected from the authorized eight-L4 host through the single
 persistent SSH session. [source-r2.identity.json](source-r2.identity.json) binds
 the extracted source archive to canonical commit b930df6d. The
@@ -75,3 +93,5 @@ The runtime's warm-up exclusion therefore removes no official scored-valid row.
 [Publisher credential metadata](pr46-publisher-credential-receipt.json) records
 only account/ownership/private-file mode and public transport-key identity; no
 credential value is present. The publisher is prepared, not yet running.
+
+- [Latest live snapshot](full-live-snapshot.json): 2026-10-28T06:47:04.673788Z, eight active fits; GRU epoch4 WP0.6760966529.

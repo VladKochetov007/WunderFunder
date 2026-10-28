@@ -1,8 +1,9 @@
 # Fixed eight-L4 quality panel with full chronological validation
 
-1. **Status, lineage and owner.** Full execution is authorized for exactly eight
-fresh fits. The fixed panel is in `launch/PANEL.json`; raw source delivery and
-real-data admission are in progress. Root owns delivery through results. GALAM
+1. **Status, lineage and owner.** Exactly eight fresh full fits are running on
+eight L4s under launch `e635250b62fa489d94c987d4898ff417`. The approved panel is in
+`launch/PANEL.json`; complete sources and all eight actual-source profiles passed
+independent resource/identity review. Root owns delivery through results. GALAM
 is reconstructed from Denis Tomin's screenshots with explicit unknown original
 dimensions; no exact reproduction claim is made.
 2. **Why it should work.** Test capacity, recurrent depth/type, attention history,
@@ -11,16 +12,16 @@ LSTM64 control. Plain GRU256x2/event211 is a historical whole-system benchmark,
 not a pure recurrent-cell ablation. Each GALAM arm changes only its declared
 treatment; dimensions needed by a wider/GRU model are part of that treatment.
 3. **Compute advantage.** Eight independent L4s give one lane per fixed arm.
-Strict-FP32 synthetic batch sweeps are measured engineering evidence; full-input
-prefetch, shared-reader contention and real profiles still govern admission.
+Strict-FP32 synthetic sweeps and eight successful full-input real profiles govern
+the frozen GRU32/GALAM384 batches, one-batch prefetch and eval384 setting.
 Memory occupancy is not evidence of delivered training speed or quality.
 4. **Frozen comparison.** GPU0: plain GRU256x2/211 causal features/gate-wise Muon
 plus AdamW/LR1e-3. GPU1: GALAM LSTM64/AdamW/LR1e-4. GPUs2–7: width128, depth2,
 GRU72, history256, TBPTT256, attention/FFN-only Muon respectively. Common seed1001,
 strict FP32, fresh weights, no teacher/KD/old initializer, weight decay.01,
 clip1, maximum20epochs, warmup-cosine-v2 with5% warmup, train-only all-fit moments.
-AdamW beta1.9/beta2.999/eps1e-8; Muon momentum.95/NS5/eps1e-7. Common GALAM batch
-is selected and hashed before fitting, without silent LR scaling.
+AdamW beta1.9/beta2.999/eps1e-8; Muon momentum.95/NS5/eps1e-7. Common GALAM batch384
+is frozen and hashed; plain GRU keeps32. No LR scaling was added.
 5. **Bounded fitting panel.** Exactly8 new scientific fits, one per GPU; no reused
 trained control, additional seed, teacher or distillation fits. Engineering
 profiles discard their weights. Stop policy: min5 completed epochs,
@@ -39,19 +40,27 @@ Predictorium chronology is user policy; current calendar timestamps are unproven
 deltas and cost to the matched GALAM control. Improvement supports follow-up;
 negative or inconclusive single-seed results do not prove a direction useless.
 Plain GRU compares the complete system, not an isolated architecture component.
-9. **How to run.** Existing isolated Torch2.8+cu128 runtime on the authorized
+9. **How to run.** The active isolated Torch2.8+cu128 runtime on the authorized
 eight-L4 host. `launch/prepare_data.py` audits/indexes/builds the chronological
-manifest and prewarms raw112/event211 normalization. Then exact-source profiles
-exercise diagnostics and consume a prefetched successor. Full fits require
-reviewed identity-matched profile receipts. One persistent SSH, detached owned
-workers, fixed GPU/CPU affinity and loopback dashboard; foreign services untouched.
+manifest and prewarmed raw112/event211 normalization on10325 retained train
+sequences. Full valid keeps1873 sequences;282 train sequences connected to valid
+are excluded. Eight exact-source profiles exercised diagnostics and a prefetched
+successor. `scripts/launch_galam_quality8.py` admitted reviewed identity-matched
+receipts and started detached owned workers with GPU/CPU affinity. The read-only
+dashboard is on loopback18766; node hourly/terminal GitHub reporting survives SSH.
+Do not duplicate the active panel. Foreign services are untouched.
 10. **Evidence to return.** Config/source/data/runtime hashes, ownership/PIDs,
 train/valid loss and WP/t0/t1 curves, LR/preclip gradient norm, sampled model and
 CPU/RAM/VRAM/disk telemetry, elapsed/work counts, all epoch checkpoints and
 strict-best/last pointers. Keep large payloads on approved storage; publish
 bounded evidence and results with honest completion percentages.
-11. **Results and trace.** Current measured evidence is only the receiving
-compatibility suite and discarded strict-FP32 shape probes under
-`launch/receiving/`. Scientific fits/results are not yet claimed. The canonical
-packet is `research/experiment_drafts/galam-l4-quality8-20261028/launch/README.md`;
-subsequent updates must retain failed engineering attempts and exact source pins.
+11. **Results and trace.** GRU epoch1 reports full-valid WP0.6681328342
+(t0:0.6659784031, t1:0.6702872654), all1873 sequences/3,528,273 scored rows.
+Its checkpoint SHA is `94db7c641883d5de298e2dbc54d3671b894acac452f8ef03547b3b5e85798536`.
+This is an intermediate single-seed result; all eight fits continue, with no final
+ranking or public-score claim. Diagnostic train-eval has a different row mask and
+cannot establish a train/validation gap. Exact source R9 commit50053909 and
+engineering byte archives, independent reviews, process ownership and first-epoch
+evidence are linked from `research/experiment_drafts/galam-l4-quality8-20261028/launch/README.md`.
+
+Latest measured snapshot (2026-10-28T06:47:04.673788Z): GRU has completed epoch4, full-valid WP0.6760966529 (t0:0.6688052605, t1:0.6833880453), weighted MSE0.9808772327. Checkpoint SHA `008f5370056ba33c2566663a483dd79fe6b84743501ec907bc6f1915d8649b1a`. All eight fits remain running; the other seven have not completed their first full epoch at this snapshot. This is intermediate exposed-validation evidence.

@@ -5,10 +5,13 @@
 The [current launch packet](../experiment_drafts/galam-l4-quality8-20261028/launch/README.md)
 supersedes the earlier six-fit and v1 preparation panels with the user's exact
 plain-GRU benchmark plus seven GALAM configurations. [Draft PR46](https://github.com/VladKochetov007/WunderFunder/pull/46)
-is published as SemyonEpanov. The receiver passes38 targeted Torch2.8 CPU checks;
-24 discarded strict-FP32 shape probes support a common GALAM384 candidate.
-Full train delivery/source-qualified preparation and exact real-data profiles
-still precede scientific admission. No trained-model quality is claimed here.
+is published as SemyonEpanov. All eight full fits now run after complete data
+preparation and independent checks of eight actual-source profiles. Common
+GALAM batch384 and plain-GRU32 are frozen. [GRU epoch1](../experiment_drafts/galam-l4-quality8-20261028/launch/FIRST_EPOCH_RESULT.json)
+reports full-valid WP0.6681328342 on all1873 valid sequences; it is an intermediate
+single-seed result with exposed validation. The node posts hourly and terminal
+updates independently of SSH; source/evidence archives and ownership are linked
+from the packet. No final model ranking or public-score claim is made.
 
 ## 28 October: GALAM local monitoring and L4 preparation
 

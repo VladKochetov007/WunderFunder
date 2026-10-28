@@ -1,12 +1,11 @@
 # Eight explicit launch recipes
 
 g0 through g7 match [PANEL.json](../PANEL.json) and the user's fixed v3 allocation.
-Each starts from fresh weights and has one assigned GPU. Current actual-data
-profile candidates are batch32 for plain GRU and384 for all GALAM arms, following
-the strict-FP32 synthetic shape sweep. One prefetched batch is explicit; full
-valid reporting uses batch384. The common controlled GALAM batch must pass the
-actual-source memory/throughput profile before science. Old candidate hashes are
-retained in Git and engineering receipts.
+Each starts from fresh weights and has one assigned GPU. Frozen batches are32
+for plain GRU and384 for all GALAM arms, after eight successful real-source
+profiles and independent identity/resource review. One prefetched batch is
+explicit; full-valid reporting uses batch384. All eight full fits are running.
+Old candidate hashes are retained in Git and engineering receipts.
 
 Every recipe has maximum20epochs, all-fit train-only normalization, no teacher
 or hint loss, all-after-warmup fitting, full-valid epoch monitoring and all-epoch
