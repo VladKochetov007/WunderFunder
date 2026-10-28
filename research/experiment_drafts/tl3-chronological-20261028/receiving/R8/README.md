@@ -54,6 +54,10 @@ It verified SemyonEpanov and posted both initial status and the first completed
 teacher. Updates continue once an hour when state changes and promptly after
 each verified fit or terminal DAG status. The credential and private publisher
 state remain outside the artifact HTTP root and are not included here.
+[Terminal-report watcher revision](watcher-final.launch.json) preserves the same
+deduplication state and original deadline, and adds the validated final blend
+WP/t0/t1, fixed weights, scored-row count, clean-GRU delta and score hash to the
+terminal PR comment. Its focused result/watcher/final-score tests pass9 cases.
 [R7 process-exit proof](rejected-r7-exits.json) confirms all rejected owned
 children/controller exited before the correction.
 
