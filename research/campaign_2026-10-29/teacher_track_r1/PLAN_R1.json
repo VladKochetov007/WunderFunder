@@ -1,0 +1,13 @@
+{
+  "id": "E-TEACHER29-R1",
+  "declared_utc": "2026-10-29T09:30:00Z",
+  "user_instruction": "teacher-quality track: PR46/47/49 teachers, fixed Muon GRU student recipe, bounded blend + distillation investigation, +0.001 adoption threshold",
+  "protocol": {"fit": "official train only, 10325 sequences (282 valid-connected train sequences excluded)", "eval": "all 1873 official valid sequences, global_wp_clip2_v1", "split": "PR49 builder rebuilt locally (membership sha256 7959d999...; PR49 file sha 0c4de3a2... pending byte comparison)", "adr": "ADR0044"},
+  "student_recipe": {"stage_P": "H256x2 GRU, Muon(rnn), strict FP32, batch 32, chunk 1000, 4 epochs, fixed endpoint ep3, aux struct/next 0.3, since-weight 32, no propensity, lr 1e-3", "stage_child": "init P@ep3, 6 epochs, lr 1e-4, same loss/weights, aux off", "trainer": "PR49 canonical trainer (worktree 188c0788e) via strict_launch.py"},
+  "arms_seed3": {"P": "parent", "C0": "child, labels only (matched control)", "D1": "child, distill alpha 0.9 (production setting), teacher cache tl3c_fbc1k_s5 train export", "D2": "child, distill alpha 0.6, same teacher"},
+  "teacher_selection_rule": "best verified PR49 teacher that has a train-side prediction export: tl3c_fbc1k_s5 (posted 0.691355); switch to a mean-of-teachers cache only if exports for tiedlead s5/s6 exist and their verified scores are within 0.0005",
+  "confirmation": "only for the best D if D - C0 >= +0.001 on seed 3: seeds 4 and 5 x (P, C0, D*)",
+  "fit_budget_max": 10,
+  "adoption": "deployable (served ZIP) configuration beats its matched baseline by >= +0.001 consistently across confirmation seeds, within size/runtime limits; blend value measured against the protocol-comparable deployed blend (TL3C, PR51) once its artifacts are available",
+  "selection_exposure": "full valid has been inspected by teammates for PR46/49 monitoring; all valid results here are selection evidence, no untouched confirmation split exists"
+}
