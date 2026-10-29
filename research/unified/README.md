@@ -1,5 +1,14 @@
 # Unified research library
 
+## 29 October:24 model checkpoint artifacts published
+
+[Checkpoint publication](../experiment_drafts/checkpoint-publication-20261029/README.md)
+delivers8 PR46 and16 PR49 model bundles through private GitHub releases, linked
+from their experiment PRs as SemyonEpanov. Best-observed and fixed TL3 endpoints
+remain distinct; W18 is untrained/absent. All source hashes, CPU payloads and
+roundtrip downloads were verified, with independent selection/ancestry review.
+This changes no fitting recipe or scientific result.
+
 ## 29 October: heterogeneous teachers and reported TL3 endpoints
 
 [Heterogeneous-teacher proposal](ideas/HETEROGENEOUS_TEACHERS_20261029_R1.md)

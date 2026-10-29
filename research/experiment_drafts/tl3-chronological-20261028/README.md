@@ -1,5 +1,10 @@
 # TL3 fresh train-only restoration
 
+[Checkpoint release, 29 October](../checkpoint-publication-20261029/README.md)
+publishes the16 trained models' best-observed, fixed-endpoint and runtime
+checkpoints, with configs/provenance/SHA256 and API download verification.
+The untrained W18 checkpoint is absent; this artifact delivery adds no fit or score.
+
 The user requests restoring TL3 training and measuring the complete resulting
 predictor on our official primary validation. This is a new adaptation: historical
 TL3 fitted train+valid and its published score0.66832 is not our independent-valid

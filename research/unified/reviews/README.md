@@ -1,3 +1,9 @@
+[Checkpoint publication verification](../../experiment_drafts/checkpoint-publication-20261029/README.md)
+records an independent review of24 best checkpoints, six differing TL3 fixed
+endpoints, source-qualified memberships/normalization and original payload hashes.
+Both published private releases passed complete asset download verification;
+no new fit or score is inferred from checkpoint packaging.
+
 [Independent TL3 restoration review](../../experiment_drafts/tl3-chronological-20261028/INDEPENDENT_TL3_TRAINONLY_REVIEW_R1.json)
 checks source recovery, clean chronology and known implementation gaps: conflicting
 checkpoint gates, tiedlead inference configuration, exact cache order/ancestry and
