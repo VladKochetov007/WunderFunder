@@ -16,6 +16,7 @@ import torch
 from torch import nn
 
 NS_COEFFS = (3.4445, -4.7750, 2.0315)  # quintic Newton-Schulz, K. Jordan's Muon
+NORMUON_BETA2 = 0.95  # neuron-wise second-moment decay (NorMuon, arXiv 2510.05491)
 
 
 def orthogonalize(
@@ -59,7 +60,7 @@ class MuonAdamW(torch.optim.Optimizer):
         update: str = "ns",
         ns_dtype: str = "fp32",
     ):
-        if update not in ("ns", "rms"):
+        if update not in ("ns", "rms", "normuon"):
             raise ValueError(f"unknown Muon update rule: {update}")
         if ns_dtype not in ("fp32", "bf16"):
             raise ValueError(f"unknown Newton-Schulz dtype: {ns_dtype}")
@@ -83,6 +84,20 @@ class MuonAdamW(torch.optim.Optimizer):
                         raise ValueError(
                             f"Muon needs 2-D weights with rows divisible by {group['blocks']}"
                         )
+
+    @staticmethod
+    def _neuron_normalize(state: dict, update: torch.Tensor, eps: float) -> torch.Tensor:
+        """NorMuon: divide each output row (neuron) of the polar factor by its running RMS,
+        then restore every gate block's Frobenius norm so the Muon step-size convention holds."""
+        row_sq = update.pow(2).mean(dim=-1, keepdim=True)
+        if "neuron_sq" not in state:
+            state["neuron_sq"] = torch.zeros_like(row_sq)
+        state["neuron_sq"].lerp_(row_sq, 1 - NORMUON_BETA2)
+        normalized = update / (state["neuron_sq"].sqrt() + eps)
+        scale = update.norm(dim=(-2, -1), keepdim=True) / normalized.norm(
+            dim=(-2, -1), keepdim=True
+        ).clamp_min(1e-12)
+        return normalized * scale
 
     @torch.no_grad()
     def step(self, closure=None):
@@ -115,6 +130,8 @@ class MuonAdamW(torch.optim.Optimizer):
                     else:
                         dtype = torch.bfloat16 if group["ns_dtype"] == "bf16" else torch.float32
                         update = orthogonalize(nesterov, group["ns_steps"], dtype=dtype)
+                    if group["update"] == "normuon":
+                        update = self._neuron_normalize(state, update, eps)
                     p.mul_(1 - lr * wd)
                     p.add_(
                         update.reshape(p.shape),

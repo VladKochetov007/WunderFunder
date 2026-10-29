@@ -41,6 +41,12 @@ def add_shape_arguments(ap: argparse.ArgumentParser) -> None:
     )
     ap.add_argument("--layers", type=int, default=2)
     ap.add_argument("--dropout", type=float, default=0.0)
+    ap.add_argument(
+        "--ensemble-k",
+        type=int,
+        default=1,
+        help="TabM-mini GRU ensemble members (plain GRU only); 1 keeps the ordinary model",
+    )
 
 
 def add_architecture_arguments(ap: argparse.ArgumentParser) -> None:

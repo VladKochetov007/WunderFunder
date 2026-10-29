@@ -12,6 +12,7 @@ from wnn.nn import DualClockModel, GatedRNNModel, RNNModel, TCNModel, TwoClockMo
 from wnn.sentinel import SentinelInputProjection
 from wnn.specialist import PrefixAdapterGRUModel, SpecialistGRUModel
 from wnn.structured_state import StructuredStateModel
+from wnn.tabm_gru import TabMGRUModel
 from wnn.training.i1_inputs import configure_i1_input_mask
 from wnn.training.model_validation import independent_width_configuration_error
 
@@ -164,6 +165,8 @@ def _make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Mo
                     f"unknown block-memory freeze prefix {prefix!r}; trunk is project,layers"
                 )
         return model
+    if args_dict.get("ensemble_k", 1) > 1:
+        return _make_tabm(args_dict, n_in, n_out)
     model = RNNModel(
         n_in,
         args_dict["hidden"],
@@ -187,3 +190,27 @@ def _make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Mo
     if args_dict.get("sentinel_indicators", "none") != "none":
         model.inp = SentinelInputProjection(model.inp, args_dict["sentinel_base_width"])
     return model
+
+
+def _make_tabm(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Module:
+    """TabM-mini GRU ensemble; only the plain linear-encoder GRU layout is materializable."""
+    unsupported = {
+        "arch": "gru",
+        "cell": "gru",
+        "enc": "linear",
+        "numeric_map": "none",
+        "readout_activation": "gelu",
+        "head_layers": 1,
+        "dropout": 0,
+        "dynamics_aux_head": False,
+        "sentinel_indicators": "none",
+        "encoder_width": None,
+        "recurrent_width": None,
+        "readout_width": None,
+    }
+    for key, expected in unsupported.items():
+        if args_dict.get(key, expected) != expected:
+            raise ValueError(f"--ensemble-k requires {key}={expected!r}")
+    return TabMGRUModel(
+        n_in, args_dict["hidden"], args_dict["layers"], n_out, args_dict["ensemble_k"]
+    )

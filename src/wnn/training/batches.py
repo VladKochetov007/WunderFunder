@@ -70,6 +70,13 @@ def prepare_batch(run: TrainingRun) -> None:
     if rest:
         prop_cached = rest[0] if args.pin_memory else rest[0].to(device, non_blocking=True)
     timer.mark("h2d")
+    members = getattr(run.network.model, "ensemble_k", 1)
+    if members > 1:
+        # TabM: each member trains on every sequence, so row-weighted losses average members.
+        x, y, scored_dev, kept_len, spread_encoded, prop_cached = (
+            None if value is None else value.repeat_interleave(members, dim=0)
+            for value in (x, y, scored_dev, kept_len, spread_encoded, prop_cached)
+        )
     inputs = build_inputs(x, environment=environment)
     timer.mark("inputs")
     teach = None

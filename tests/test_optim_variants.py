@@ -90,3 +90,26 @@ def test_muon_bf16_newton_schulz_diagnostic_close_to_fp32():
     assert half.dtype == torch.float32
     assert not torch.equal(full, half)
     assert torch.allclose(full, half, atol=5e-2)
+
+
+def test_normuon_equalizes_neuron_rows_and_keeps_block_norm() -> None:
+    from wnn.optim import MuonAdamW, orthogonalize
+
+    torch.manual_seed(0)
+    weight = torch.nn.Parameter(torch.zeros(6, 4))
+    grad = torch.randn(6, 4) @ torch.diag(torch.tensor([5.0, 1.0, 0.1, 0.01]))
+    grad[:2] *= 30
+    weight.grad = grad.clone()
+    opt = MuonAdamW(
+        [{"params": [weight], "muon": True, "blocks": 2}],
+        lr=1.0,
+        weight_decay=0.0,
+        betas=(0.0, 0.999),
+        update="normuon",
+    )
+    opt.step()
+    step = -weight.detach().reshape(2, 3, 4)
+    plain = orthogonalize(grad.reshape(2, 3, 4))
+    torch.testing.assert_close(step.norm(dim=(-2, -1)), plain.norm(dim=(-2, -1)) * 0.2 * 4**0.5)
+    rows = step.norm(dim=-1)
+    assert (rows.std(dim=-1) / rows.mean(dim=-1)).max() < 1e-3

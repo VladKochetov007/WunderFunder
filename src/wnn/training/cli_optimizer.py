@@ -32,9 +32,10 @@ def add_optimizer_arguments(ap: argparse.ArgumentParser) -> None:
     )
     research.add_argument(
         "--muon-update",
-        choices=["ns", "rms"],
+        choices=["ns", "rms", "normuon"],
         default="ns",
-        help="rms: ablation replacing the Newton-Schulz polar factor by RMS-matched momentum",
+        help="rms: ablation replacing the Newton-Schulz polar factor by RMS-matched momentum; "
+        "normuon: neuron-wise RMS normalization after Newton-Schulz (arXiv 2510.05491)",
     )
     research.add_argument("--ademamix-alpha", type=float, default=4.0, help="slow-EMA mix weight")
     research.add_argument("--ademamix-beta3", type=float, default=0.999, help="slow-EMA decay")
