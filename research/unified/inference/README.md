@@ -4,6 +4,8 @@ Serving implementations, quantization, package identity and measured runtime.
 
 ## Current navigation
 
+- [PR49 TL3C submission ZIPs, October 29](../../campaign_2026-10-29/submissions_pr49_r1/README.md) — PR51 packet + Semyon's train-only checkpoints, team `wnn_cpp` dynamic INT8 (host AVX-512 VNNI path, same binary as our uploaded TL3 ZIPs). Served full valid: blend 0.692336, tiedlead s5 0.691434 (= Torch 0.691415); blend +0.0009 over single; blend projected ≈45 min on the portal from the TL3 calibration. Not uploaded (human gate).
+
 - [Two checked October 24 quota ZIPs](../../campaign_2026-10-24/resume4h_r1/quota_submission_r1/RESULTS_AND_HANDOFF_R1.md) — fixed H390 S3/S4 and S3 student replacements in TL3 pass actual Python3.11 native replay, finite/reset/ABI checks, exact shared-input identity and official scoring. Pair point deltas are +0.003742/F0 and +0.000205/F2, with about24% more callback time on this host. H390 was fit on train+valid and TL3 ancestry is unresolved; these are exposed sampled diagnostics, no public forecast or upload. The report links both ZIPs and all provenance/review receipts.
 
 

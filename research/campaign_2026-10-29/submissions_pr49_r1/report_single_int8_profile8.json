@@ -1,0 +1,130 @@
+{
+  "schema": "tl3c-callback-validation-v1",
+  "submission_approved": false,
+  "scope": "receiver execution only; no training or portal submission",
+  "receiver": {
+    "python": "3.11.18 (main, Oct 28 2026, 02:05:49) [GCC 12.2.0]",
+    "machine": "x86_64",
+    "cpu": 0,
+    "affinity": [
+      0
+    ],
+    "address_space_limit_bytes": 16000000000,
+    "network_interfaces": [
+      "lo"
+    ],
+    "cgroup_cpu_max": [
+      "100000",
+      "100000"
+    ],
+    "cgroup_memory_max_bytes": 16000000000,
+    "thread_environment": {
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "scorer_source_sha256": "e8e1034d61be359ebe943015e4e6bd2f76716303eff520857b7d07eeeb6144a6",
+  "libraries": {
+    "numpy": "2.2.6",
+    "pyarrow": "19.0.1"
+  },
+  "artifact": {
+    "sha256": "c69055c2025f992377ffdd688bb9298c620f6d08f191ac545fb25c5ae14b31fd",
+    "bytes": 4950998,
+    "mode": "dynamic_int8"
+  },
+  "build_receipt_sha256": "60fef4aa2ac99692a3f8b91048b115ee99f65e391464a10eba3fedd40929cca3",
+  "member_signature": [
+    {
+      "run": "tl3c_fttall_tlead_s5",
+      "coef": 1.0,
+      "family": "tiedlead263",
+      "checkpoint_sha256": "cf944dffac66d674894e4c589d839c407b3d28cb01d35a26f58ff08c7743f65f"
+    }
+  ],
+  "reference_kind": "callback_dynamic_int8",
+  "data_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+  "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "row_groups": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "state_checks": {
+    "a_b_a_bitwise": true,
+    "warmup_mask_state_independent": true,
+    "callback_rows_skipped": 0,
+    "input_gap_policy": "gaps forbidden; validate_sequence requires every step 0..19999"
+  },
+  "native": {
+    "level": "v3",
+    "path": "/tmp/tl3c-receiver-vh0x29bh/v3/wnn_cpp.cpython-311-x86_64-linux-gnu.so",
+    "sha256": "3cb4546229e80cca81cda9cdec1b9c6146b380271077e26f9324d8a4b6ecad9a"
+  },
+  "sequence_ids": [
+    256678,
+    751005,
+    1200028,
+    1892371,
+    1990332,
+    2308749,
+    4490992,
+    6746551
+  ],
+  "metrics": {
+    "t0": 0.7191572057415395,
+    "t1": 0.7380126120129895,
+    "weighted_pearson": 0.7285849088772645,
+    "wp": 0.7285849088772645,
+    "blocks": 8,
+    "selected_rows": 12392,
+    "effective_scored_rows": 12392,
+    "metric_clip": [
+      -2.0,
+      2.0
+    ],
+    "metric_id": "global_wp_clip2_v1",
+    "aggregation": "pool all selected rows per target, then mean t0/t1"
+  },
+  "score_scope": "profile_subset_not_primary",
+  "predictions": {
+    "path": "predictions.npy",
+    "sha256": "9601ddfbad289dcc37c4ed249e1f099e08b0e51bd3a217160eb7dce20e73123d"
+  },
+  "timing": {
+    "startup_seconds": 0.017389725995599292,
+    "validation_loop_wall_seconds": 5.466278265987057,
+    "callback_seconds": 4.788078209021478,
+    "callback_rows": 160000,
+    "callback_us_per_row": 29.925488806384237,
+    "per_sequence_end_to_end_seconds": [
+      0.8498268900002586,
+      0.6376929850084707,
+      0.6776995730033377,
+      0.6003779229940847,
+      0.6549045020074118,
+      0.7563124130101642,
+      0.6354227160045411,
+      0.6263362140016397
+    ],
+    "includes": "loop includes decode, callbacks, scoring, reference comparison and prediction writes",
+    "excludes": "input hashes, ZIP extraction, post-loop A-B-A checks and final output hash"
+  },
+  "runtime_projection": {
+    "status": "unknown_test_cardinality"
+  },
+  "comparison": {
+    "status": "pending_reference",
+    "chunk4000_parity": "unverified"
+  },
+  "validation_completed": true,
+  "requested_comparison_passed": null,
+  "peak_rss_bytes": 364421120
+}

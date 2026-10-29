@@ -20,6 +20,8 @@ all Kaggle. Local slice raised from the stale Oct-24 1 GiB/1-core cap to 28G hig
   (adversarial AUC 0.984, 1% cross-split time links); shift is multivariate (max univariate AUC
   0.70); replicates E-094/E-110/E-161. Protocol: [robust validation](../unified/methods/ROBUST_VALIDATION_20261029_R1.md).
 
+- [PR49 TL3C submission ZIPs](submissions_pr49_r1/README.md) — two checked uploadable ZIPs (blend 0.692336 / single 0.691434 served full valid).
+
 ## Status: paused by user (14:10Z)
 
 "Finish with current ideas. pause research loop." Only the teacher track's declared fits are
