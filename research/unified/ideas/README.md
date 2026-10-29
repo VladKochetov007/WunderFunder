@@ -1,5 +1,12 @@
 # Ideas and hypotheses
 
+- [Heterogeneous teachers before scaling seeds](HETEROGENEOUS_TEACHERS_20261029_R1.md)
+  records the user's GRU/LSTM/GALAM/other-family proposal, a6-new-fit paired
+  student screen, fixed family-level weights and chronological ancestry rules.
+  Existing blend gains support testing complementarity; the latest reported
+  six fine-tune regressions argue against mandatory unchanged GCorr stages.
+  Proposal only: no new fits, queue/source changes or resource allocation.
+
 - [Source-traced GALAM and four WUNDERNN directions](../sources/galam-20261027/SOURCE_IDEAS.json)
   preserves Sultan's recurrent diversity/SWA/augmentation, Denis's dual-memory
   fusion, AlexKlos's pretrained GRU memory and arsenyinfo's causal EMA/ridge.

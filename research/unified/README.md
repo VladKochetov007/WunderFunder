@@ -1,5 +1,16 @@
 # Unified research library
 
+## 29 October: heterogeneous teachers and reported TL3 endpoints
+
+[Heterogeneous-teacher proposal](ideas/HETEROGENEOUS_TEACHERS_20261029_R1.md)
+turns the user's multi-architecture pool into a proposed6-new-fit comparison,
+with existing ancestors reused and the student's WP as the primary endpoint.
+It records PR49's terminal report:16 fits complete, best tiedlead WP0.691415,
+W18 blocked on cache_unavailable and all6 fixed fine-tune endpoints below
+their base parents. Scores are from the artifact-verified publisher; the current
+SSH reconnection timed out, so live state and the cache's raw error are unverified.
+The proposal changes no frozen source or running allocation.
+
 ## 28 October: fresh TL3 train-only restoration
 
 The [TL3 restoration packet](../experiment_drafts/tl3-chronological-20261028/README.md)
