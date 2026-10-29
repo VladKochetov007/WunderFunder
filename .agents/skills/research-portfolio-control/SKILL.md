@@ -59,6 +59,18 @@ structural correspondence and falsifier; do not fabricate applicability.
 Each proposed card owes a mechanism, assumptions, predicted observable, cheapest
 discriminating test, likely failure mode, cost and descendant/combination path.
 Deduplicate mechanisms after independent proposals, not before they can differ.
+
+After first commitment (so ideation stays independent), add a triage block before
+spending fits: (1) **ceiling** — best case computable from existing predictions or
+checkpoints (oracle/seed-ensemble blend, error budget, information audit) and its
+source; (2) **mechanism presence** — a zero-fit probe that the deficit exists in the
+artifact we actually ship, not only in a cold screen; (3) **transfer path** — the
+stages between the screen and the served endpoint and any measured multiplier;
+(4) **detectability** — ceiling versus panel standard error and public noise;
+(5) **decision** — the action each outcome changes. Order checks analytic →
+zero-fit → small screen → stage-matched transfer. The block sets priors and order;
+it is not a kill switch (ADR0009). See the
+[triage reflection](../../../research/unified/methods/IDEA_TRIAGE_REFLECTION_20261029_R1.md).
 Use the current model preference and provider-access checks from AGENTS.md; a
 catalog entry or launched CLI is not a delivered proposal.
 

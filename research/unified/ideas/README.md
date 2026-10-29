@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+- [TabM-mini GRU ensemble and NorMuon screen, October 29](../../campaign_2026-10-29/tabm_gru_r1/README.md) — H-TABM29-GRU-R1 / H-NORMUON29-R1: parameter-efficient recurrent ensemble (shared GRU, per-member signed input scale and output layer, mean of member losses; members materialize exactly as plain GRUs for the native engine) and neuron-normalized Muon. Zero-fit ceiling from existing Muon predictions ≈ +0.0015 over best single (four siblings). Six fits running (4 Kaggle, 2 local); results pending. Campaign index: [README](../../campaign_2026-10-29/README.md).
+
 - [Muon mechanism panel, October 25](../../campaign_2026-10-25/mechanism_panel_r1/README.md) — H-OPT25-MUON-MECHANISM-R1: RMS-momentum ablation (new `--muon-update rms`), β2 .95, per-module clipping and chrono gate init vs AdamW/Muon controls; running.
 
 - [Optimizer theory and panels, October 25](../../campaign_2026-10-25/optimizer_panel_r1/OPTIMIZER_THEORY_R1.md) — regime analysis (noise-dominated labels, early peak, 94% clipped steps, schedule ties) mapped onto Adam/Muon/Shampoo-SOAP/AdEMAMix/Cautious/variance reduction/clipping/averaging literature; new `CautiousAdamW` and `AdEMAMix` optimizers; running [optimizer panel](../../campaign_2026-10-25/optimizer_panel_r1/README.md) (strict-FP32 Muon, Cautious, AdEMAMix) and [clip-regime panel](../../campaign_2026-10-25/clip_regime_r1/README.md). Running-norm arm dropped as a duplicate of the Oct-10 null.
