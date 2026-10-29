@@ -188,5 +188,67 @@ def _(ROOT, json, np, wp):
     return
 
 
+@app.cell(hide_code=True)
+def _(
+    PLOTS,
+    load_fold,
+    np,
+    plt,
+    tabm4_local,
+    tabm4_ones_local,
+    tabm8_f0,
+    tabm8_f2,
+    wp,
+):
+    def _all_sources():
+        def rho(a, b, w):
+            a, b = a.ravel() - np.average(a.ravel(), weights=w), b.ravel() - np.average(b.ravel(), weights=w)
+            return float(np.average(a * b, weights=w) / np.sqrt(np.average(a * a, weights=w) * np.average(b * b, weights=w)))
+        cases = [  # (label, fold, control, candidate, family)
+            ("seed", 0, "krepro_f0_s2001_muon_r3", "optim_f0_s1001_muon_r1", "seed / variant"),
+            ("seed", 2, "krepro_f2_s2002_muon_r3", "optim_f2_s1002_muon_r1", "seed / variant"),
+            ("rms0.3", 0, "optim_f0_s1001_muon_r1", "sat_f0_s1001_s2_muon_rms03_r1", "seed / variant"),
+            ("rms0.3", 2, "optim_f2_s1002_muon_r1", "sat_f2_s1002_s2_muon_rms03_r1", "seed / variant"),
+            ("H512x2", 0, "optim_f0_s1001_muon_r1", "sat_f0_s1001_s3_muon_h512x2_r1", "seed / variant"),
+            ("H512x2", 2, "optim_f2_s1002_muon_r1", "sat_f2_s1002_s3_muon_h512x2_r1", "seed / variant"),
+            ("AdamW", 0, "krepro_f0_s2001_muon_r3", "krepro_f0_s2001_adamw_r3", "other optimizer"),
+            ("AdamW", 2, "krepro_f2_s2002_muon_r3", "krepro_f2_s2002_adamw_r3", "other optimizer"),
+            ("AdEMAMix", 0, "optim_f0_s1001_muon_r1", "optim_f0_s1001_ademamix_r1", "other optimizer"),
+            ("AdEMAMix", 2, "optim_f2_s1002_muon_r1", "optim_f2_s1002_ademamix_r1", "other optimizer"),
+            ("NorMuon", 0, "krepro_f0_s2001_muon_r3", "tabm29_f0_s2001_normuon_r1", "other optimizer"),
+            ("NorMuon", 2, "krepro_f2_s2002_muon_r3", "tabm29_f2_s2002_normuon_r1", "other optimizer"),
+            ("mask .15", 0, "krepro_f0_s2001_muon_r3", "vmask29_f0_s2001_p15_r1", "view mask"),
+            ("mask .15", 2, "krepro_f2_s2002_muon_r3", "vmask29_f2_s2002_p15_r1", "view mask"),
+            ("mask .15", 0, "tabm29_f0_s1001_muon_local_r1", "vmask29_f0_s1001_p15_local_r1", "view mask"),
+            ("mask .30", 0, "krepro_f0_s2001_muon_r3", "vmask29_f0_s2001_p30_r1", "view mask"),
+            ("mask .30", 2, "krepro_f2_s2002_muon_r3", "vmask29_f2_s2002_p30_r1", "view mask"),
+        ]
+        rows = []
+        for label, fold, ctl, cand, fam in cases:
+            y, pr = load_fold(fold, [ctl, cand])
+            w = np.abs(np.clip(y, -2, 2)).ravel()
+            rows.append(dict(label=label, fold=fold, family=fam, one_minus_rho=1 - rho(pr[ctl], pr[cand], w),
+                             deficit=wp(y, pr[ctl]) - wp(y, pr[cand]), pair_minus_ctrl=wp(y, 0.5 * (pr[ctl] + pr[cand])) - wp(y, pr[ctl])))
+        for name, s in (("TabM k4 signs", tabm4_local), ("TabM k4 ones", tabm4_ones_local), ("TabM k8", tabm8_f0), ("TabM k8", tabm8_f2)):
+            rows.append(dict(label=name, fold=-1, family="TabM member", one_minus_rho=1 - s["member_rho_mean"], deficit=s["control"] - s["member_mean"], pair_minus_ctrl=float("nan")))
+        fig, ax = plt.subplots(figsize=(7, 4.5))
+        xs = np.linspace(0, 0.022, 50)
+        ax.plot(xs, 1e3 * 2 * 0.168 * xs, "k--", lw=1, label="break-even: pair beats control iff deficit < 2·0.168·(1−ρ)")
+        cols = {"seed / variant": "tab:blue", "other optimizer": "tab:orange", "view mask": "tab:green", "TabM member": "tab:red"}
+        for fam, col in cols.items():
+            sel = [r for r in rows if r["family"] == fam]
+            ax.scatter([r["one_minus_rho"] for r in sel], [1e3 * r["deficit"] for r in sel], c=col, label=fam, s=40, alpha=0.85)
+            for r in sel:
+                ax.annotate(r["label"], (r["one_minus_rho"], 1e3 * r["deficit"]), fontsize=6, xytext=(3, 2), textcoords="offset points")
+        ax.axhline(0, color="grey", lw=0.5)
+        ax.set_xlabel("1 − ρ to the control (|y|-weighted)"); ax.set_ylabel("control WP − candidate WP (×1e-3)")
+        ax.set_title("Diversity sources on the cold panel: who sits below break-even?"); ax.grid(alpha=0.3); ax.legend(fontsize=7)
+        fig.tight_layout(); fig.savefig(PLOTS / "diversity_sources_tradeoff.png", dpi=130)
+        return rows, fig
+    diversity_rows, diversity_fig = _all_sources()
+    diversity_fig
+    return
+
+
 if __name__ == "__main__":
     app.run()
