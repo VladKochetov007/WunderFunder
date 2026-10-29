@@ -39,13 +39,18 @@ class MemberOutput(nn.Module):
 class TabMGRUModel(RNNModel):
     """Plain linear-encoder GRU with k TabM-mini members; see the module docstring."""
 
-    def __init__(self, n_in: int, hidden: int, layers: int, n_out: int, k: int) -> None:
+    def __init__(
+        self, n_in: int, hidden: int, layers: int, n_out: int, k: int, init: str = "signs"
+    ) -> None:
         super().__init__(n_in, hidden, layers, 0.0, n_out=n_out)
         if k < 2:
             raise ValueError("a TabM ensemble needs at least two members")
         self.ensemble_k = k
+        if init not in ("signs", "ones"):
+            raise ValueError(f"unknown TabM adapter init: {init}")
         signs = torch.randint(0, 2, (k, n_in)).float() * 2 - 1
-        self.member_scale = nn.Parameter(signs)
+        # "ones": members start as the same function except their output layers.
+        self.member_scale = nn.Parameter(signs if init == "signs" else torch.ones(k, n_in))
         # Keep the ``head.2.*`` names so checkpoint readers still find n_out at weight.shape[0].
         self.head._modules["2"] = MemberOutput(self.readout_width, n_out, k)
 

@@ -47,6 +47,12 @@ def add_shape_arguments(ap: argparse.ArgumentParser) -> None:
         default=1,
         help="TabM-mini GRU ensemble members (plain GRU only); 1 keeps the ordinary model",
     )
+    ap.add_argument(
+        "--ensemble-init",
+        choices=["signs", "ones"],
+        default="signs",
+        help="TabM input-adapter init: random signs (TabM) or ones",
+    )
 
 
 def add_architecture_arguments(ap: argparse.ArgumentParser) -> None:
