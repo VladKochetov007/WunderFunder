@@ -98,10 +98,12 @@ def _(PLOTS, np, pairs, plt):
 
 
 @app.cell(hide_code=True)
-def _(itertools, load_fold, np, wp):
+def _(ROOT, itertools, load_fold, np, wp):
     def member_stats(run, control, fold=0, k=4):
         names = [f"{run}_m{i}" for i in range(k)]
-        y, pr = load_fold(fold, [run, control, *names])
+        y, pr = load_fold(fold, [r for r in [run, control, *names] if (ROOT / f"cache/pred_{r}_valid.npy").exists()])
+        if run not in pr:
+            pr[run] = np.mean([pr[n] for n in names], axis=0)
         w = np.abs(np.clip(y, -2, 2)).ravel()
         def corr(a, b):
             a, b = a.ravel() - np.average(a.ravel(), weights=w), b.ravel() - np.average(b.ravel(), weights=w)
@@ -115,13 +117,36 @@ def _(itertools, load_fold, np, wp):
                     law_pred_gain=0.168 * (1 - float(np.mean(rhos))) * (1 - 1 / k) * 2)
     tabm4_local = member_stats("tabm29_f0_s1001_tabm4_local_r1", "tabm29_f0_s1001_muon_local_r1")
     tabm4_local
-    return (member_stats,)
+    return member_stats, tabm4_local
 
 
 @app.cell(hide_code=True)
-def _(member_stats):
+def _(member_stats, mo):
     tabm4_ones_local = member_stats("tabm29_f0_s1001_tabm4ones_local_r1", "tabm29_f0_s1001_muon_local_r1")
-    tabm4_ones_local
+    tabm8_f0 = member_stats("tabm29_f0_s2001_tabm8_r1", "krepro_f0_s2001_muon_r3", fold=0, k=8)
+    tabm8_f2 = member_stats("tabm29_f2_s2002_tabm8_r1", "krepro_f2_s2002_muon_r3", fold=2, k=8)
+    mo.md(f"ones {tabm4_ones_local}  \n k8 F0 {tabm8_f0}  \n k8 F2 {tabm8_f2}")
+    return tabm4_ones_local, tabm8_f0, tabm8_f2
+
+
+@app.cell(hide_code=True)
+def _(PLOTS, np, plt, tabm4_local, tabm4_ones_local, tabm8_f0, tabm8_f2):
+    def _tradeoff():
+        pts = [("k4 ones F0", tabm4_ones_local, 4), ("k4 signs F0", tabm4_local, 4), ("k8 signs F0", tabm8_f0, 8), ("k8 signs F2", tabm8_f2, 8)]
+        fig, ax = plt.subplots(figsize=(6.5, 4.2))
+        xs = np.linspace(0, 0.015, 50)
+        for k, ls in ((4, ":"), (8, "--")):
+            ax.plot(xs, 1e3 * 0.336 * (1 - 1 / k) * xs, "k" + ls, lw=1, label=f"ensemble gain law, k={k}")
+        for name, s, k in pts:
+            x = 1 - s["member_rho_mean"]; deficit = s["control"] - s["member_mean"]
+            ax.scatter([x], [1e3 * deficit], s=50, label=f"{name}: member deficit")
+            ax.annotate(f"net {1e3*(s['ensemble']-s['control']):+.1f}", (x, 1e3 * deficit), textcoords="offset points", xytext=(5, -10), fontsize=7)
+        ax.set_xlabel("1 − mean member-pair correlation"); ax.set_ylabel("×1e-3 WP")
+        ax.set_title("TabM-GRU: member weakness grows faster than ensemble gain"); ax.grid(alpha=0.3); ax.legend(fontsize=7)
+        fig.tight_layout(); fig.savefig(PLOTS / "tabm_tradeoff.png", dpi=130)
+        return fig
+    tradeoff_fig = _tradeoff()
+    tradeoff_fig
     return
 
 

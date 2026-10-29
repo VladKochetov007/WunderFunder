@@ -78,3 +78,46 @@ run, which incidentally confirms deterministic training. Run quarantined under
 `research_tmp/invalid_*`, factory fixed with a test (commit after `9cdde7286`), relaunched.
 Mechanism test running: k=4 with `--ensemble-init ones` (members differ only by output layer
 and learned scale drift), control reused.
+
+### All results (Kaggle grades [F0](grade_kaggle_f0_s2001.json) / [F2](grade_kaggle_f2_s2002.json), local [signs](grade_local_f0.json) / [ones](grade_local_ones_f0.json))
+
+| Arm | Cell | Δ vs matched single Muon [95% CI] |
+|---|---|---|
+| TabM k=4 signs | local F0/s1001 | −0.00121 [−0.00276, +0.00033] |
+| TabM k=4 ones | local F0/s1001 | +0.00027 [−0.00106, +0.00166] (ones − signs +0.00148) |
+| TabM k=8 signs | Kaggle F0/s2001 | **−0.00412 [−0.00890, −0.00042]** |
+| TabM k=8 signs | Kaggle F2/s2002 | **−0.00318 [−0.00523, −0.00069]** |
+| NorMuon | Kaggle F0/s2001 | −0.00028 [−0.00107, +0.00047] |
+| NorMuon | Kaggle F2/s2002 | +0.00054 [−0.00010, +0.00136] |
+
+k=8 ensembles were scored as the exact 1/8 mean of exported members (in-model k=8 eval OOMs at
+the local 4.6 GB cap; the mean equals the ensemble, checked to 1e-11 for k=4).
+
+**Member decomposition ([plot](plots/tabm_tradeoff.png)).**
+
+| Run | member mean | member ρ | ensemble − member mean (law) |
+|---|---:|---:|---|
+| k=4 ones F0 | 0.66349 | 0.9995 | +0.00012 (+0.00013) |
+| k=4 signs F0 | 0.66004 | 0.9914 | +0.0021 (+0.0022) |
+| k=8 F0 | 0.65437 | 0.9870 | +0.0036 (+0.0038) |
+| k=8 F2 | 0.67962 | 0.9877 | +0.0036 (+0.0036) |
+
+The pair law generalizes to k members: ensemble − mean member ≈ 0.336·(1−1/k)·(1−ρ̄), within
+1e-4 in all four runs. The adapter init moves members along a trade-off: random signs buy
+diversity but each member loses 0.0033 (k=4) to 0.007–0.008 (k=8) against a single model;
+ones-init keeps members at full strength but nearly identical. Member weakness grows faster
+than the ensemble gain (slope ≈0.4–0.6 vs ≤0.29), so there is no interior sweet spot on this
+curve with a shared H512 core. Prediction recorded before the k=8 results (weaker members,
+lower ρ, net negative) held.
+
+**Disposition.**
+- H-TABM29-GRU-R1: **screen_failed** for TabM-mini on this recipe (shared H512×1, cold, 10%
+  data). Not refuted for wider cores (TabM reports larger nets carry more members) or for a
+  teacher role; neither is prioritized, because the ensemble ceiling is ≈ +0.002 and seed blends
+  already deliver it at serving time.
+- H-NORMUON29-R1: **screen_failed / null** (mean +0.00013, signs disagree). Closed.
+- Kept: `--ensemble-k/--ensemble-init`, `--muon-update normuon` (tested, default off), the member
+  splitter, and the k-member blend law as a zero-fit triage tool.
+
+Fits used: 7 new (4 Kaggle, 3 local including the corrected ones-init; the invalid signs rerun
+is quarantined and not counted as evidence).
