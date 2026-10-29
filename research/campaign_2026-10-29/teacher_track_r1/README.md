@@ -33,6 +33,11 @@ Muon 0.677856.
   full-valid WP per epoch 0.67972 / 0.68490 / 0.68743 / **0.68671 (fixed ep3)**; finite, one thermal
   freeze/thaw. A train-only Muon H256×2 already sits at PR49 fin256-teacher level (0.68826, AdamW)
   and above the PR46 plain-GRU benchmark (0.67786, different batch/features).
-- **C0 (labels-only child, matched control) running** ([runner](run_child.sh)); runtime config verified:
+- **C0 (labels-only child, matched control) done**: full-valid WP per epoch 0.68369 / 0.68391 / 0.68169 / 0.67831 / 0.67627 / **0.67562 (fixed ep5)** — six labels-only epochs at LR 1e-4 on train-only data overfit hard (−0.0111 vs its parent). Plan amendment 1 (made before any distilled result): adoption baseline = best undistilled single, max(P, C0) = P 0.68671. Earlier status: ([runner](run_child.sh)); runtime config verified:
   init `tt29_parent_s3@ep3`, 6 epochs, LR 1e-4, batch 16, `distill=""`, strict FP32, 10,325 train.
   D1/D2 wait for the fbc1k_s5 train-side cache.
+
+- **Fallback teacher reproduction running** ([runner](run_rep_teachers.sh), [exact PR49 args](rep_teacher_args.py)):
+  `tt29rep_fin256_s3` → train export → `tt29rep_fin256_s4` → export → `tt29rep_fbc1k_s5`
+  (distilled from both fin256, α 0.5, boot-h 8, TL3-Muon×3, EMA) → train + full-valid exports.
+  Note: fbc1k_s5 is itself an H256×2 GRU, i.e. a deployable student-shaped model.
