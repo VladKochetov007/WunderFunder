@@ -58,7 +58,7 @@ monitor also scans every fit/export log and the unit's exit.
 
 Semyon posted all 16 PR49 checkpoints (unquantized, SHA-verified):
 [release](https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr49-checkpoints-20261029-r1)
-(81 MB zip + manifest; manifest copy in `research_tmp/pr49_release/`). Best fixed endpoints:
+(81 MB zip; stored git-ignored and extracted at `submissions/pr49_tl3c_checkpoints_20261029/` — models under `extracted/tl3c_<name>/checkpoints/model_ep3.pt`; manifest and SHA-256 copies committed in [pr49_release/](pr49_release/)). Best fixed endpoints:
 fttall_tlead_s5 0.691415, fbc1k_s5 0.691355, fttall_tlead_s6 0.690949, fin256_s3 0.688260,
 fmu128_s3 0.687845. The local fallback was ~1.5 h in when it arrived and is kept for R1 because
 the PR49 export/distill validators bind teacher, parent and child to one split-manifest hash
