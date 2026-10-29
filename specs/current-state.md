@@ -1,5 +1,9 @@
 # Current project state
 
+## October 29: paused by user, teacher-track pilots landing
+
+TabM-mini GRU, NorMuon and column view masks screen-failed (12 fits; blend law holds). Validation audit: official valid is a regime-shifted block (adversarial AUC 0.984, multivariate drivers), replicating E-094; protocol in [robust validation](../research/unified/methods/ROBUST_VALIDATION_20261029_R1.md). Teacher track under train-only/full-valid protocol: parent P 0.68671, labels-only child C0 0.67562 (overfits); PR49 teachers reproduced locally; D1/D2 distillation pilots landing. [Campaign](../research/campaign_2026-10-29/README.md), [pause receipt](../research/campaign_2026-10-29/PAUSE_R1.json). No new submission.
+
 ## October 25 evening: session wrapped, two jobs landing (user pause)
 
 The user ended the session: research loop deleted, no new admissions. Landing: Muon on the production stage-6 student (local, auto-graded) and the Kaggle R3 independent reproduction (collect manually). Full results, ledger, incidents, new code, handoff commands and ranked next steps: [session synthesis](../research/campaign_2026-10-25/SESSION_SYNTHESIS_R1.md), [pause receipt](../research/campaign_2026-10-25/PAUSE_R1.json). Strongest result: strict-FP32 Muon beats LR-tuned AdamW by +0.0026/+0.0035 on the fast recipe, via orthogonalized recurrent updates that prevent gate collapse. No new submission.
