@@ -24,6 +24,15 @@ So an implicit ensemble of this recipe is bounded near **+0.002** unless joint t
 deep ensemble. At the production stage the ceiling shrinks further (student slot ≈ +0.0006
 public; warm optimizer transfer ×0.07). This is bounded exploration, not the main line.
 
+**Blend-value law (zero-fit EDA, [notebook](ensemble_eda.py), [plot](plots/pair_gain_vs_corr.png)).**
+Across all 28 pairs of eight cold-panel models per fold (Muon seeds/variants, AdamW, Cautious,
+AdEMAMix), equal-weight pair WP minus mean single WP ≈ **0.168 × (1 − ρ)**, where ρ is the
+|y|-weighted prediction correlation; the line passes through the origin and fits both folds and
+both same-optimizer and mixed pairs tightly. Muon siblings sit at ρ 0.995–0.998 (gain
++0.0004–0.0008); AdamW/AdEMAMix partners reach ρ ≈ 0.98 (+0.0034 over the mean, but negative
+over the better member). Rule: a new member helps the better one iff 0.168·(1−ρ) > ½·score gap.
+For TabM this means member ρ ≲ 0.988 at unchanged member quality is needed to reach +0.002.
+
 **NorMuon pre-check.** For square 512×512 gate blocks the polar factor of a *random* matrix has
 equal row norms (cv 0.011) → near no-op; for low-rank gradients with hot rows the 5-step NS
 factor leaves rows uneven (cv 1.6), and normalization boosts updates of quiet neurons — a
