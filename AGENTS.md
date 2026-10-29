@@ -1,5 +1,9 @@
 # Project agent instructions
 
+## October 29 session: TabM-style GRU, custom Muon, idea triage
+
+User: "think about custom optimization, about TabM like architecture but for this competition with recurrency" plus an idea-triage reflection; 30 GB RAM, 5 GB VRAM, all Kaggle. Done: TabM-mini GRU (`--ensemble-k`, `--ensemble-init`), NorMuon (`--muon-update normuon`) and train-only column view masks (`--view-mask-p`) all **screen_failed** on the cold Muon panel (12 new fits); the k-member blend law ensemble−mean member ≈ 0.336·(1−1/k)·(1−ρ̄) holds exactly, and only seeds/small variants sit below break-even deficit < 2·0.168·(1−ρ). Reframe (Opus + Grok) cards triaged against prior evidence; quadratic output defect closed. [Campaign](research/campaign_2026-10-29/README.md) · [triage reflection](research/unified/methods/IDEA_TRIAGE_REFLECTION_20261029_R1.md). Loop stopped; no jobs running. Next lever: teacher quality (coordinate with teammate PRs 46/47/49). `wnn-campaign.slice` raised to 28G/30G/10 cores.
+
 ## October 26 resume: Muon submissions
 
 User: "Go on with research. form the best submissions with new information … make best possible single GRU and blend"; up to 20 GB RAM, 5 GB VRAM, 10 CPU cores. Supersedes the October 25 pause. Kaggle R3 replicated Muon (+0.0036/+0.0033, fresh seeds, T4, true FP32). Done (04:52 UTC): stage-6 Muon transfer +0.00026; parent FP16/bf16 Muon numerics cost nothing (Kaggle); final students `vt_all_h390m_s{3,4}_r1` built; four checked ZIPs in `submissions/muon_20261026/` ([results](research/campaign_2026-10-26/submissions_r1/README.md)). Muon students correlate 0.9995 with AdamW siblings: expect public within noise of Oct-24 quota ZIPs. No jobs running. See the [campaign](research/campaign_2026-10-26/README.md) and [resume receipt](research/campaign_2026-10-26/RESUME_R1.json). No automatic upload.
