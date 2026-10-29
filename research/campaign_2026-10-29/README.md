@@ -11,3 +11,4 @@ all Kaggle. Local slice raised from the stale Oct-24 1 GiB/1-core cap to 28G hig
 - [Idea-triage reflection](../unified/methods/IDEA_TRIAGE_REFLECTION_20261029_R1.md) — what
   separates useful ideas here (ceiling, mechanism presence, transfer, detectability, decision)
   and the matching skill change.
+- [Fresh-context reframe](reframe_r1/README.md) and [view-mask screen](view_mask_r1/README.md).

@@ -150,5 +150,43 @@ def _(PLOTS, np, plt, tabm4_local, tabm4_ones_local, tabm8_f0, tabm8_f2):
     return
 
 
+@app.cell(hide_code=True)
+def _(ROOT, json, np, wp):
+    def _defect(run, fold, seed=0):
+        split = json.loads((ROOT / f"research/campaign_2026-09-29/artifacts/splits/fold{fold}.json").read_text())
+        groups = [int(g) for g in split["evaluation"]["valid"]]
+        with np.load(ROOT / "cache/valid_targets.npz") as z:
+            pos = {int(g): i for i, g in enumerate(z["row_group"])}
+            idx = [pos[g] for g in groups]
+            y, mask = z["y"][idx].astype(np.float32), z["mask"][idx]
+        side = json.loads((ROOT / f"cache/pred_{run}_valid.json").read_text())
+        arr = np.load(ROOT / f"cache/pred_{run}_valid.npy", mmap_mode="r")
+        rp = {int(g): i for i, g in enumerate(side["row_groups"])}
+        p = np.stack([np.asarray(arr[rp[g]], np.float32) for g in groups])
+        seq = np.broadcast_to(np.arange(len(groups))[:, None], mask.shape)
+        y, p, seq = y[mask], p[mask], seq[mask]
+        probe = np.random.default_rng(seed).random(len(groups)) < 0.5
+        pr = probe[seq]
+        def feats(p):
+            p0, p1 = p[:, 0], p[:, 1]
+            return np.stack([np.ones_like(p0), p0, p1, p0 * p0, p1 * p1, p0 * p1, np.abs(p0), np.abs(p1)], 1).astype(np.float64)
+        X = feats(p)
+        yc = np.clip(y, -2, 2)
+        out = {}
+        for name, cols in (("affine", [0, 1, 2]), ("quad", list(range(8)))):
+            q = p.copy()
+            for t in range(2):
+                w = np.abs(yc[pr, t])
+                A = X[pr][:, cols] * w[:, None]
+                beta = np.linalg.solve(A.T @ X[pr][:, cols] + 1e-3 * np.eye(len(cols)), A.T @ yc[pr, t])
+                q[:, t] = X[:, cols] @ beta
+            out[name] = wp(y[~pr], q[~pr]) - wp(y[~pr], p[~pr])
+        out["base_confirm"] = wp(y[~pr], p[~pr])
+        return out
+    defect = {f"{r}|seed{s}": _defect(r, f, s) for r, f in (("krepro_f0_s2001_muon_r3", 0), ("krepro_f2_s2002_muon_r3", 2)) for s in (0, 1)}
+    defect
+    return
+
+
 if __name__ == "__main__":
     app.run()
