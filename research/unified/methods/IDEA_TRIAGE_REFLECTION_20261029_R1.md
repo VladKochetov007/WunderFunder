@@ -27,6 +27,7 @@ should be asking ourselves.
 | Loss family (NLL/Pearson/Huber/KD) | several fits before the analysis | |y|-weighted MSE is Bayes-aligned with pooled WP, so distance changes cannot move the target. An analytic invariant would have closed the family at zero cost. |
 | Class-3 up-weighting, i1 lead block, hand microstructure features | 8+ fits | Negative; information audits (AUC 1.0 quote arithmetic, held-i1 fingerprint) were the decisive cheap evidence. |
 | TabM ensemble ceiling (today) | zero-fit | Mean of two Muon seeds +0.0011 over the mean single; four Muon siblings +0.0013/+0.0015 over the best single (F0/F2, intervals > 0). Any implicit ensemble of this recipe is bounded near +0.002 before transfer losses. |
+| Re-derived adversarial AUC and chain-link counts (today) | ~45 min CPU | `rg adversarial research/experiments.jsonl` finds E-094/E-110/E-161 from 2026-09-26, incl. a stress panel validated against LB that later protocols forgot. **Search the ledger before any new analysis.** |
 | Stale 1-GiB slice cap from Oct 24 (today) | ~15 min idle, an OOM | A session-start check that live cgroup caps equal the latest user allocation. |
 
 Independent value review (Oct 24) already put numbers on the frame: public seed noise

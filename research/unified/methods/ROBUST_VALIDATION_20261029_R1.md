@@ -16,6 +16,22 @@ evidence_paths:
 User: "I think validation is issue. think about most robust way for models validation / cross
 validation, so it may help for public lb and for long term stability in out of sample."
 
+## 0. Prior evidence (found after the re-run; credit and correction)
+
+Today's results **replicate a month-old finding**; they are not new:
+- **E-094 (2026-09-26)**: adversarial validation train vs valid within each class, AUC
+  0.989–0.993; drivers i0/i1 volume-code means and a-column stds (scale/regime). Claim then:
+  "test likely differs again, so robustness to per-sequence scale/regime shift matters more than
+  fit on validation."
+- **E-161**: 90 train↔valid chain links vs ≈2,300 expected under random split; "train vs valid =
+  different time periods", likely four instruments (one per class).
+- **E-110**: a **stress panel** — the two thirds of valid sequences least train-like by OOF
+  adversarial score (`cache/adv_valid_score.npy`) — ordered all three then-known LB comparisons
+  correctly where plain valid misordered one; adopted as primary selection proxy on 2026-09-26,
+  then dropped from later campaign protocols without a recorded reason.
+New today: the train-only (ADR0044) context, and that the 90 boundary links run in both
+directions (48/42), which argues against one later period.
+
 ## 1. What we measured today (zero-fit)
 
 | Evidence | Result | Meaning |
@@ -41,16 +57,20 @@ shift. Random or component folds over the pooled data cannot see this.
    regime groups (adversarial/feature-summary clusters, chain components kept whole), fit on K−1,
    evaluate on the held-out group. All hyperparameters, blend weights, epochs and distillation
    settings are chosen here, not on valid. This gives several shifted folds instead of one.
-4. **Choose for stability, not only the mean.** Prefer the candidate whose gain is positive on
+4. **Stress panel as a co-primary readout (restore E-110).** Report every valid comparison on
+   full valid *and* on the least-train-like two thirds (OOF adversarial score); prefer
+   candidates that win on both. E-110's LB agreement rests on only three comparisons — re-check
+   it with the public calibration submissions below.
+5. **Choose for stability, not only the mean.** Prefer the candidate whose gain is positive on
    most regime folds (sign consistency, worst fold), with fewer tuned degrees of freedom (equal
    or fixed blend weights, fixed epochs, seed averages). Under shift these transfer better.
-5. **Seeds.** At any adoption decision, ≥3 matched seeds per arm; report mean, paired seed SD and
+6. **Seeds.** At any adoption decision, ≥3 matched seeds per arm; report mean, paired seed SD and
    the component bootstrap. The +0.001 threshold must exceed ≈2 combined SE.
-6. **Public LB = one more shifted fold, used as an instrument.** Submissions are designed
+7. **Public LB = one more shifted fold, used as an instrument.** Submissions are designed
    experiments with pre-declared expected differences, not hill-climbing: (a) a valid→public
    transfer slope from 2–3 train-only models spanning a known valid range; (b) the value of the
    final refit (same recipe, train-only vs train+valid). Never pick blend weights from LB.
-7. **Final model = refit on train+valid** with the selected fixed recipe and several seeds:
+8. **Final model = refit on train+valid** with the selected fixed recipe and several seeds:
    more regimes in training is the most direct defence against the next shift.
 
 ## 3. Immediate next steps
