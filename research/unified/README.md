@@ -1,5 +1,20 @@
 # Unified research library
 
+## 29 October: fresh TL3 submission preparation
+
+Published as [draft PR51](https://github.com/VladKochetov007/WunderFunder/pull/51); receiver results pending.
+
+The [submission packet](../experiment_drafts/tl3c-submission-20261029/README.md)
+prepares tiedlead seed5 and a fixed 0.34 fbc1k / 0.33 tiedlead seed5 / 0.33 seed6
+mixture from fresh PR49 checkpoints. It includes exact input/native pins, saved-EMA
+export, float32/INT8 callbacks and offline Python3.11 receiver checks with a pinned
+Torch chunk4000 reference. The historical native archive contributes libraries only.
+[PR49 terminal evidence](https://github.com/VladKochetov007/WunderFunder/pull/49#issuecomment-6484849146)
+shows16 completed fits and W18 blocked; the new mixture is not the canonical final
+TL3 endpoint. Static review passed; weights are not available on the preparation
+host, so no fresh ZIP, blend score, measured CPU compliance or portal result exists.
+No local model execution, new fitting or live-job changes occurred.
+
 PR32 R4: [batch96/64 selection, batch128 measurement and CPU/transfer costs](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/BATCH_THROUGHPUT_20261024.md).
 
 PR32 execution handoff: [measured Blackwell recipe, startup repair and four-teacher allocation](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/README.md).

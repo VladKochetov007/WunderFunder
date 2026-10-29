@@ -1,0 +1,52 @@
+{
+  "schema": "tl3c-submission-plan-v1",
+  "id": "E-TL3C-SUBMISSION-20261029",
+  "hypothesis_id": "H-TL3C-SUBMISSION-20261029",
+  "status": "prepared_not_exported_or_scored",
+  "training_pr": "https://github.com/VladKochetov007/WunderFunder/pull/49",
+  "training_source_commit": "188c0788e571c6f981cdc6827fef0d50bd38cf14",
+  "result_source": "https://github.com/VladKochetov007/WunderFunder/pull/49#issuecomment-6484849146",
+  "result_observed_utc": "2026-10-29T00:56:02Z",
+  "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "fit_train_sequences": 10325,
+  "fit_valid_sequences": 0,
+  "evaluation_sequences": 1873,
+  "evaluation_scored_rows": 3528273,
+  "validation_exposed": true,
+  "new_scientific_fits": 0,
+  "candidates": {
+    "tiedlead-s5": [{"run": "tl3c_fttall_tlead_s5", "checkpoint": "model_ep3.pt", "weight": 1.0}],
+    "blend": [
+      {"run": "tl3c_fbc1k_s5", "checkpoint": "model_ep3.pt", "weight": 0.34},
+      {"run": "tl3c_fttall_tlead_s5", "checkpoint": "model_ep3.pt", "weight": 0.33},
+      {"run": "tl3c_fttall_tlead_s6", "checkpoint": "model_ep3.pt", "weight": 0.33}
+    ]
+  },
+  "modes": {
+    "f32": {"fast_activations": false, "half_weights": false, "dynamic_int8": false},
+    "dynamic_int8": {"fast_activations": true, "half_weights": false, "dynamic_int8": true}
+  },
+  "selection": {
+    "metric": "global_wp_clip2_v1",
+    "useful_blend_delta_over_same_mode_single": 0.0005,
+    "maximum_int8_wp_drop_from_same_candidate_f32": 0.0002,
+    "equivalence_atol": 0.00001,
+    "inference_limit_seconds": 3600,
+    "preferred_projected_seconds_with_margin": 2880,
+    "projection_requires_official_test_sequence_count": true,
+    "zip_maximum_bytes": 20000000,
+    "memory_maximum_bytes": 16000000000,
+    "cpu_cores": 1,
+    "auto_promote": false,
+    "public_upload": false
+  },
+  "known_unknowns": [
+    "Fresh checkpoints and ancestry assets are not available on the preparation Mac.",
+    "Old native runtime source is unavailable; matching tensor shapes do not prove semantics.",
+    "PR49 evaluation resets row-change features every 4000 rows; native streaming may differ.",
+    "Legacy child provenance does not fully bind consumed teacher prediction bytes.",
+    "Blend quality, f32/INT8 drift, receiver ABI, speed and delivered ZIP size are unmeasured.",
+    "Official hidden-test sequence count and target CPU capability are not confirmed."
+  ],
+  "canonical_tl3_distinction": "This replaces the blocked W18 member with fbc1k as a new declared candidate, not a completed historical TL3 endpoint."
+}

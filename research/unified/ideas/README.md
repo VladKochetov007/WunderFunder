@@ -1,5 +1,12 @@
 # Ideas and hypotheses
 
+Published as [draft PR51](https://github.com/VladKochetov007/WunderFunder/pull/51); receiver results pending.
+
+- [Fresh TL3 CPU submission candidates](../../experiment_drafts/tl3c-submission-20261029/README.md):
+  fixed singleton and three-member blend; receiver export, float32/INT8 callback,
+  pinned Torch reference and offline CPU scoring. Zero new fits; fresh weights,
+  actual ZIP export, parity and full-valid/resource evidence are still pending.
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**
