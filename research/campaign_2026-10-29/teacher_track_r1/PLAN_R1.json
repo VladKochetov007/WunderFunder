@@ -29,5 +29,12 @@
   "before_any_distilled_result": true,
   "reason": "C0 labels-only child overfits (full-valid 0.6837,0.6839,0.6817,0.6783 at ep0-3) below parent P 0.6867",
   "rule": "report D vs matched C0 AND vs best undistilled deployable single = max(P@ep3, C0@ep5); adoption requires D - max(P, C0) >= +0.001"
+ },
+ "amendment_2": {
+  "utc": "2026-10-29T10:45:00Z",
+  "reason": "no PR49 artifact reply after ~2 h",
+  "fallback": "reproduce tl3c_fin256_s3, tl3c_fin256_s4 and tl3c_fbc1k_s5 locally with the exact PR49 recipes (renamed tt29rep_*), train-index exports for distillation, full-valid export for verification; starts after C0; cancelled if PR49 artifacts arrive first",
+  "teacher_fit_budget": 3,
+  "verification": "reproduced fbc1k full-valid WP compared with posted 0.691355 (seed/hardware differ; not expected bitwise)"
  }
 }
