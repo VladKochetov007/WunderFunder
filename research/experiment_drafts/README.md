@@ -1,5 +1,17 @@
 # Research-team experiment catalogue
 
+- [GALAM local live monitoring and L4 comparison preparation](galam-l4-monitoring-20261028/README.md)
+  adds a selectable offline dashboard, actual epoch evaluation and explicitly
+  adapted GRU/local-only variants. Read-only inventory confirms8L4 but incomplete
+  train data and full disks block fit admission; no GPU experiment is running.
+
+- [GALAM reconstruction and chronological primary validation](galam-reconstruction-20261027/README.md)
+  implements the visible Denis Tomin diagram and canonical sequence adapter, with
+  separate32→32 and112→2 assumed-size templates. Forty-five CPU checks pass;
+  source fidelity and BatchNorm admission were independently reviewed. Original
+  parameters/FiLM remain unavailable, so no exact replication is claimed. No fit
+  or B300 profile was launched. Includes the standing chronological split policy.
+
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.

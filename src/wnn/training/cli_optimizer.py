@@ -12,15 +12,24 @@ def add_optimizer_arguments(ap: argparse.ArgumentParser) -> None:
     )
     research.add_argument(
         "--optim",
-        choices=["adamw", "muon", "sgd"],
+        choices=["adamw", "muon", "tl3-muon", "sgd"],
         default="adamw",
-        help="muon: orthogonalised per-gate updates on the recurrent matrices, AdamW elsewhere",
+        help=(
+            "muon: orthogonalised per-gate recurrent updates; tl3-muon: Torch Muon on all "
+            "hidden 2D matrices plus AdamW exclusions"
+        ),
     )
     research.add_argument(
         "--muon-scope",
         choices=["rnn", "hidden"],
         default="rnn",
-        help="hidden: Muon also on head.0.weight",
+        help="only for --optim muon; hidden also applies Muon to head.0.weight",
+    )
+    research.add_argument(
+        "--muon-lr-mult",
+        type=float,
+        default=3.0,
+        help="TL3 Muon learning-rate multiplier; AdamW keeps --lr",
     )
     research.add_argument("--beta2", type=float, default=0.999, help="Adam second-moment decay")
     research.add_argument(

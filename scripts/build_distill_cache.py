@@ -24,7 +24,16 @@ from wnn.distillation_cache import (
     file_sha256,
     row_groups_sha256,
 )
-from wnn.splits import CampaignSplit, load_campaign_split
+from wnn.splits import (
+    CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+    CampaignSplit,
+    load_campaign_split,
+)
+from wnn.training.chronological_teacher import (
+    validate_chronological_teacher_checkpoint,
+    validate_chronological_teacher_membership,
+    validate_chronological_train_index_order,
+)
 
 # Parsed JSON fields are intentionally dynamic and retain their source schema.
 
@@ -89,7 +98,10 @@ def _expected_groups(split: CampaignSplit, name: str) -> tuple[int, ...]:
 def _target_order(data_root: Path, split_name: str) -> list[int]:
     path = data_root / "cache" / f"{split_name}_targets.npz"
     with np.load(path, allow_pickle=False) as targets:
-        groups = np.asarray(targets["row_group"], dtype=np.int64)
+        raw_groups = np.asarray(targets["row_group"])
+    if raw_groups.ndim != 1 or raw_groups.dtype.kind not in "iu":
+        raise ValueError(f"target index must be a one-dimensional integer array: {path}")
+    groups = raw_groups.astype(np.int64, copy=False)
     if len(np.unique(groups)) != len(groups):
         raise ValueError(f"target index repeats a row group: {path}")
     return list(map(int, groups))
@@ -127,14 +139,27 @@ def _audit_ancestor_closure(
     if (
         checkpoint.get("epoch") != checkpoint_args.get("checkpoint_epoch")
         or checkpoint_args.get("checkpoint_policy") != "fixed"
-        or not checkpoint_args.get("no_eval_during_fit")
         or checkpoint_args.get("split_manifest_sha256") != split.sha256
     ):
         raise ValueError(f"ancestor {run} is not a fixed clean-fold checkpoint")
     checkpoint_provenance = checkpoint.get("provenance", {})
-    if checkpoint_provenance.get("fit_row_groups") != provenance.get("fit_row_groups"):
-        raise ValueError(f"ancestor {run} checkpoint membership differs from run provenance")
-    _verify_run_membership(checkpoint_provenance, split, run)
+    if split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        if checkpoint_args.get("no_eval_during_fit") is not False:
+            raise ValueError(f"ancestor {run} skipped required official validation evaluation")
+        validate_chronological_teacher_checkpoint(
+            checkpoint,
+            provenance,
+            split,
+            checkpoint_file,
+            checkpoint_sha256,
+            run,
+        )
+    else:
+        if not checkpoint_args.get("no_eval_during_fit"):
+            raise ValueError(f"ancestor {run} is not a fixed clean-fold checkpoint")
+        if checkpoint_provenance.get("fit_row_groups") != provenance.get("fit_row_groups"):
+            raise ValueError(f"ancestor {run} checkpoint membership differs from run provenance")
+        _verify_run_membership(checkpoint_provenance, split, run)
 
     closure = [
         {
@@ -201,6 +226,9 @@ def _verify_run_membership(
     """Require source fitting groups to stay inside the clean fold's fit pool."""
     if provenance.get("split_manifest_sha256") != split.sha256:
         raise ValueError(f"teacher {run} uses a different split manifest")
+    if split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        validate_chronological_teacher_membership(provenance, split, run)
+        return {"train": len(split.train_groups), "valid": 0}
     fit_groups = provenance.get("fit_row_groups")
     if not isinstance(fit_groups, dict):
         raise ValueError(f"teacher {run} has no recorded fit membership")
@@ -247,6 +275,15 @@ def _inspect_teacher(
         or args.get("split_manifest_sha256") != split.sha256
     ):
         raise ValueError(f"teacher {run} checkpoint is not the requested fixed clean-fold epoch")
+    if split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        validate_chronological_teacher_checkpoint(
+            checkpoint,
+            provenance,
+            split,
+            checkpoint_path.name,
+            checkpoint_sha256,
+            run,
+        )
     checkpoint_provenance = checkpoint.get("provenance", {})
     _verify_run_membership(checkpoint_provenance, split, run)
     model_state = checkpoint.get("model", {})
@@ -292,6 +329,17 @@ def _inspect_teacher(
         ):
             raise ValueError(
                 f"teacher {run} {split_name} prediction sidecar is not bound to its checkpoint"
+            )
+        if split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA and (
+            split_name != "train"
+            or sidecar.get("campaign_export_scope") != "chronological-full-train-index-feature-only"
+            or sidecar.get("campaign_split_manifest_sha256") != split.sha256
+            or sidecar.get("feature_only") is not True
+            or sidecar.get("checkpoint_file") != checkpoint_path.name
+            or sidecar.get("run_provenance_sha256") != file_sha256(provenance_path)
+        ):
+            raise ValueError(
+                f"teacher {run} train prediction is not a provenance-bound full-index export"
             )
         row_groups = list(map(int, sidecar.get("row_groups", [])))
         if row_groups != expected_order:
@@ -374,7 +422,16 @@ def build_cache(args: argparse.Namespace) -> Path:
     if args.chunk_sequences < 1 or args.chunk_sequences > 64:
         raise ValueError("chunk sequence count must be between 1 and 64")
 
-    target_orders = {name: _target_order(data_root, name) for name in ("train", "valid")}
+    target_orders = {
+        "train": _target_order(data_root, "train"),
+        "valid": (
+            []
+            if split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
+            else _target_order(data_root, "valid")
+        ),
+    }
+    if split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        validate_chronological_train_index_order(data_root, target_orders["train"], split, "train")
     row_groups = {
         name: [
             group for group in target_orders[name] if group in set(_expected_groups(split, name))
@@ -405,6 +462,9 @@ def build_cache(args: argparse.Namespace) -> Path:
 
     records: list[dict[str, Any]] = []
     predictions: dict[str, dict[str, np.ndarray]] = {}
+    prediction_splits = (
+        ("train",) if split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA else ("train", "valid")
+    )
     for source in args.teacher:
         if source.family not in FAMILY_ORDER:
             raise ValueError(f"unknown teacher family: {source.family}")
@@ -412,7 +472,12 @@ def build_cache(args: argparse.Namespace) -> Path:
             source.run, split, checkpoint_root, f"model_ep{source.epoch}.pt"
         )
         record, arrays, _ = _inspect_teacher(
-            source.run, split, cache_root, checkpoint_root, target_orders, source.epoch
+            source.run,
+            split,
+            cache_root,
+            checkpoint_root,
+            {name: target_orders[name] for name in prediction_splits},
+            source.epoch,
         )
         record["family"] = source.family
         record["coefficient"] = source.coefficient
@@ -429,6 +494,13 @@ def build_cache(args: argparse.Namespace) -> Path:
             target: (len(groups), SEQUENCE_ROWS, TARGET_WIDTHS[target])
             for target in OUTPUT_TARGETS[args.output_profile]
         }
+        if not groups:
+            for name, shape in shapes.items():
+                path = partial / f"{name}_{split_name}.npy"
+                empty = np.empty(shape, dtype=np.float32)
+                np.save(path, empty, allow_pickle=False)
+                file_entries[f"{name}_{split_name}"] = _array_entry(path, groups, empty)
+            continue
         outputs = {
             name: np.lib.format.open_memmap(
                 partial / f"{name}_{split_name}.npy", mode="w+", dtype=np.float32, shape=shape

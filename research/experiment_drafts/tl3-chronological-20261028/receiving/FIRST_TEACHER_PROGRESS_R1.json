@@ -1,0 +1,553 @@
+{
+  "schema": "wnn.tl3-first-teacher-progress.v1",
+  "retrieved_utc": "2026-10-28T17:45:52.699301+00:00",
+  "run": "tl3c_fin256_s3",
+  "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "log_prefix_sha256": "9d3b1dbdffd8daf2bf4c1858d303c47e9557141b7de927790079a8b4043878d6",
+  "completed_epochs": 4,
+  "configured_epochs": 4,
+  "fixed_endpoint_epoch_index": 3,
+  "validation": [
+    {
+      "t0": 0.6702838726185671,
+      "t1": 0.6785498238566101,
+      "weighted_pearson": 0.6744168482375886,
+      "blocks": 1873,
+      "eligible_blocks": 1872,
+      "selected_rows": 3528273,
+      "metric_id": "global_wp_clip2_v1",
+      "global_t0": 0.6702838726185671,
+      "global_t1": 0.6785498238566101,
+      "per_seq_wp": 0.6316722591422648,
+      "block_t0": 0.6309540231529677,
+      "block_t1": 0.632390495131562,
+      "frac_abs_pred_gt2": 8.049263761619353e-05,
+      "by_class": {
+        "0": 0.7866344215722868,
+        "1": 0.7576947119243573,
+        "2": 0.7207477780189082,
+        "3": 0.41992385487006123
+      },
+      "block_by_class": {
+        "0": 0.7788,
+        "1": 0.7499,
+        "2": 0.7202,
+        "3": 0.4337
+      },
+      "epoch": 0,
+      "train_seconds": 588.1,
+      "eval_seconds": 226.3,
+      "split": "vfold1873",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 3220,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 3220,
+          "ema_updates": 3220,
+          "completed_batches": 322
+        },
+        "cumulative": {
+          "optimizer_attempts": 3220,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 3220,
+          "ema_updates": 3220,
+          "completed_batches": 322
+        },
+        "sample_order_identity": {
+          "sampler_class": "RandomSampler",
+          "batch_size": 32,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "f81300d129ac2510e0e9c0091096943fb7dd5847ee240a4d7adddd2c8e5ee3c7"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "f81300d129ac2510e0e9c0091096943fb7dd5847ee240a4d7adddd2c8e5ee3c7"
+          },
+          "num_workers": 2,
+          "persistent_workers": false,
+          "sampler_replacement": false,
+          "sampler_num_samples": 10325
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "6ed4223680a4bf18589730965f5d30698645967b212ae0a03ac94da04bd1c4db"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "341222123bba487342f77abe7e4dea7f79d8e84a48634c141fc32bf418700728"
+          }
+        },
+        "grad_stats": {
+          "epoch": 0,
+          "steps": 3220,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            0.95605,
+            1.89139,
+            4.76027
+          ],
+          "clip_rate": 0.9404,
+          "mean_clip_factor": 0.5516,
+          "family_median": {
+            "rnn_hh": 0.0551,
+            "rnn_ih": 0.10764,
+            "inp": 0.20006,
+            "head": 1.86131,
+            "bias": 0.18329
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0019,
+            "rnn_ih": 0.0051,
+            "inp": 0.0168,
+            "head": 0.9594,
+            "bias": 0.0168
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": 2.033926903387034,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 3220,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 3.9999999999999996e-05,
+            "last": 0.0008946124265963175,
+            "mean": 0.0008754640053172582
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 3220,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 3220,
+          "ema_updates": 3220,
+          "completed_batches": 322
+        }
+      }
+    },
+    {
+      "t0": 0.6814186684670257,
+      "t1": 0.6891797751086328,
+      "weighted_pearson": 0.6852992217878293,
+      "blocks": 1873,
+      "eligible_blocks": 1872,
+      "selected_rows": 3528273,
+      "metric_id": "global_wp_clip2_v1",
+      "global_t0": 0.6814186684670257,
+      "global_t1": 0.6891797751086328,
+      "per_seq_wp": 0.6427322003085061,
+      "block_t0": 0.6415479271363839,
+      "block_t1": 0.6439164734806283,
+      "frac_abs_pred_gt2": 0.00019938933296828222,
+      "by_class": {
+        "0": 0.8005101681938972,
+        "1": 0.7692495592340134,
+        "2": 0.7314048466749189,
+        "3": 0.4321660870037847
+      },
+      "block_by_class": {
+        "0": 0.7898,
+        "1": 0.7615,
+        "2": 0.7295,
+        "3": 0.4457
+      },
+      "epoch": 1,
+      "train_seconds": 556.2,
+      "eval_seconds": 112.2,
+      "split": "vfold1873",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 3220,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 3220,
+          "ema_updates": 3220,
+          "completed_batches": 322
+        },
+        "cumulative": {
+          "optimizer_attempts": 6440,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 6440,
+          "ema_updates": 6440,
+          "completed_batches": 644
+        },
+        "sample_order_identity": {
+          "sampler_class": "RandomSampler",
+          "batch_size": 32,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "7766f59a4e7f9c05624fd3003d5d543911be2975d60bf896c343afca56e7310f"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "7766f59a4e7f9c05624fd3003d5d543911be2975d60bf896c343afca56e7310f"
+          },
+          "num_workers": 2,
+          "persistent_workers": false,
+          "sampler_replacement": false,
+          "sampler_num_samples": 10325
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "6ed4223680a4bf18589730965f5d30698645967b212ae0a03ac94da04bd1c4db"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "341222123bba487342f77abe7e4dea7f79d8e84a48634c141fc32bf418700728"
+          }
+        },
+        "grad_stats": {
+          "epoch": 1,
+          "steps": 3220,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            0.9214,
+            1.56317,
+            2.89206
+          ],
+          "clip_rate": 0.9099,
+          "mean_clip_factor": 0.6579,
+          "family_median": {
+            "rnn_hh": 0.05741,
+            "rnn_ih": 0.10326,
+            "inp": 0.19871,
+            "head": 1.53504,
+            "bias": 0.14641
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0016,
+            "rnn_ih": 0.0052,
+            "inp": 0.0214,
+            "head": 0.9619,
+            "bias": 0.0099
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": 1.7709628845593943,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 3220,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 0.0008945335955887642,
+            "last": 0.0005414731568670717,
+            "mean": 0.000731306825732166
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 3220,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 3220,
+          "ema_updates": 3220,
+          "completed_batches": 322
+        }
+      }
+    },
+    {
+      "t0": 0.6842182308739069,
+      "t1": 0.6915279252212824,
+      "weighted_pearson": 0.6878730780475946,
+      "blocks": 1873,
+      "eligible_blocks": 1872,
+      "selected_rows": 3528273,
+      "metric_id": "global_wp_clip2_v1",
+      "global_t0": 0.6842182308739069,
+      "global_t1": 0.6915279252212824,
+      "per_seq_wp": 0.6454322929077363,
+      "block_t0": 0.6443351333113763,
+      "block_t1": 0.6465294525040964,
+      "frac_abs_pred_gt2": 0.0003148849309563064,
+      "by_class": {
+        "0": 0.8035887403851363,
+        "1": 0.7723579849212303,
+        "2": 0.7345293334178311,
+        "3": 0.43545333258763896
+      },
+      "block_by_class": {
+        "0": 0.7921,
+        "1": 0.7648,
+        "2": 0.7326,
+        "3": 0.4481
+      },
+      "epoch": 2,
+      "train_seconds": 557.1,
+      "eval_seconds": 122.5,
+      "split": "vfold1873",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 3220,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 3220,
+          "ema_updates": 3220,
+          "completed_batches": 322
+        },
+        "cumulative": {
+          "optimizer_attempts": 9660,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 9660,
+          "ema_updates": 9660,
+          "completed_batches": 966
+        },
+        "sample_order_identity": {
+          "sampler_class": "RandomSampler",
+          "batch_size": 32,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "d8823fe7608f83a251fb5739e5db7d5b670756d368f0ef6fc016987e41e8d785"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "d8823fe7608f83a251fb5739e5db7d5b670756d368f0ef6fc016987e41e8d785"
+          },
+          "num_workers": 2,
+          "persistent_workers": false,
+          "sampler_replacement": false,
+          "sampler_num_samples": 10325
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "6ed4223680a4bf18589730965f5d30698645967b212ae0a03ac94da04bd1c4db"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "341222123bba487342f77abe7e4dea7f79d8e84a48634c141fc32bf418700728"
+          }
+        },
+        "grad_stats": {
+          "epoch": 2,
+          "steps": 3220,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            0.85306,
+            1.43917,
+            2.61545
+          ],
+          "clip_rate": 0.8621,
+          "mean_clip_factor": 0.7045,
+          "family_median": {
+            "rnn_hh": 0.07681,
+            "rnn_ih": 0.12862,
+            "inp": 0.23495,
+            "head": 1.40114,
+            "bias": 0.12792
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0034,
+            "rnn_ih": 0.0094,
+            "inp": 0.0336,
+            "head": 0.9447,
+            "bias": 0.0089
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": 1.725985660908385,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 3220,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 0.0005413452701625276,
+            "last": 0.00016169467050145472,
+            "mean": 0.0003424385809557838
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 3220,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 3220,
+          "ema_updates": 3220,
+          "completed_batches": 322
+        }
+      }
+    },
+    {
+      "t0": 0.6846225431846994,
+      "t1": 0.6918967915664502,
+      "weighted_pearson": 0.6882596673755748,
+      "blocks": 1873,
+      "eligible_blocks": 1872,
+      "selected_rows": 3528273,
+      "metric_id": "global_wp_clip2_v1",
+      "global_t0": 0.6846225431846994,
+      "global_t1": 0.6918967915664502,
+      "per_seq_wp": 0.6457773478630515,
+      "block_t0": 0.6445578800147007,
+      "block_t1": 0.6469968157114022,
+      "frac_abs_pred_gt2": 0.0004108242191009596,
+      "by_class": {
+        "0": 0.8046678091907896,
+        "1": 0.7728103312145878,
+        "2": 0.7353013694479016,
+        "3": 0.43514236422971464
+      },
+      "block_by_class": {
+        "0": 0.7927,
+        "1": 0.7654,
+        "2": 0.7333,
+        "3": 0.4479
+      },
+      "epoch": 3,
+      "train_seconds": 557.7,
+      "eval_seconds": 105.6,
+      "split": "vfold1873",
+      "update_diagnostics": {
+        "epoch": {
+          "optimizer_attempts": 3220,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 3220,
+          "ema_updates": 3220,
+          "completed_batches": 322
+        },
+        "cumulative": {
+          "optimizer_attempts": 12880,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 12880,
+          "ema_updates": 12880,
+          "completed_batches": 1288
+        },
+        "sample_order_identity": {
+          "sampler_class": "RandomSampler",
+          "batch_size": 32,
+          "drop_last": true,
+          "loader_generator": "global CPU RNG",
+          "loader_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "2cef1b1babf5e371f9de84549f1236d56b2eae432fb55f96de39a66a1d91ead6"
+          },
+          "sampler_generator": "global CPU RNG",
+          "sampler_rng": {
+            "shape": [
+              5056
+            ],
+            "dtype": "torch.uint8",
+            "bytes_sha256": "2cef1b1babf5e371f9de84549f1236d56b2eae432fb55f96de39a66a1d91ead6"
+          },
+          "num_workers": 2,
+          "persistent_workers": false,
+          "sampler_replacement": false,
+          "sampler_num_samples": 10325
+        },
+        "normalization_identity": {
+          "mean": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "6ed4223680a4bf18589730965f5d30698645967b212ae0a03ac94da04bd1c4db"
+          },
+          "std": {
+            "shape": [
+              211
+            ],
+            "dtype": "torch.float32",
+            "bytes_sha256": "341222123bba487342f77abe7e4dea7f79d8e84a48634c141fc32bf418700728"
+          }
+        },
+        "grad_stats": {
+          "epoch": 3,
+          "steps": 3220,
+          "nonfinite_steps": 0,
+          "clip": 1.0,
+          "total_q05_q50_q95": [
+            0.79401,
+            1.30313,
+            2.41994
+          ],
+          "clip_rate": 0.7894,
+          "mean_clip_factor": 0.7583,
+          "family_median": {
+            "rnn_hh": 0.10056,
+            "rnn_ih": 0.16285,
+            "inp": 0.27725,
+            "head": 1.24749,
+            "bias": 0.11083
+          },
+          "family_sq_share_mean": {
+            "rnn_hh": 0.0068,
+            "rnn_ih": 0.0176,
+            "inp": 0.0546,
+            "head": 0.9127,
+            "bias": 0.0083
+          }
+        }
+      },
+      "fit_summary": {
+        "objective_mean": 1.6937641025329968,
+        "objective_reduction": "arithmetic mean of per-window scalar objectives before optimizer update",
+        "optimizer_windows": 3220,
+        "learning_rate_by_group": [
+          {
+            "group": 0,
+            "first": 0.00016160027089252068,
+            "last": 4.0000000000000003e-07,
+            "mean": 5.539537060348822e-05
+          }
+        ],
+        "optimizer_updates": {
+          "optimizer_attempts": 3220,
+          "amp_skipped_updates": 0,
+          "optimizer_completed_updates": 3220,
+          "ema_updates": 3220,
+          "completed_batches": 322
+        }
+      }
+    }
+  ],
+  "claim": "exposed full-valid intermediate teacher scores; not final TL3/public/private"
+}

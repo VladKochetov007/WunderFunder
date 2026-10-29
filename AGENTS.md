@@ -1,5 +1,89 @@
 # Project agent instructions
 
+## Fresh TL3 train-only restoration — user instruction, 2026-10-28
+
+The user explicitly requests restoring TL3 training and evaluating the resulting
+models on our primary validation. Rebuild the historical three-member dependency
+graph from fresh official-train fits; do not reuse train+valid weights, teachers,
+normalizers or propensity. The source audit identifies17 predictor fits (54
+configured epochs) and a historical propensity estimator that cannot be fitted
+from official train because it has no is_scored labels. Replace only that learned
+propensity with neutral weighting and disable valid-mask weighting; document the
+adaptation instead of claiming exact historical TL3 reproduction. Preserve the
+seven currently running GALAM fits and immutable R9 source. Use free GPU0 first,
+then verified released resources; no new provider, billing, unrelated stop or
+cleanup. Freeze ancestor endpoint epochs before their full-valid results.
+See [the restoration packet](research/experiment_drafts/tl3-chronological-20261028/README.md).
+This scoped authorization supersedes the older eight-fit-only admission limit;
+it does not resume unrelated stopped fits or change ADR0044.
+
+## Explicit full eight-L4 launch — user instruction, 2026-10-28
+
+The user now explicitly authorizes full execution of the eight experiments in
+L4_ALLOCATION_V3.md, without changing their hypotheses: plain fresh GRU256x2,
+GALAM LSTM64, LSTM128, depth2, GRU72, history256, TBPTT256 and the declared
+attention/FFN-only Muon hybrid. Maximum20epochs, fixed official chronological
+primary validation, monitored checkpoints and the agreed bounded stop policy.
+Necessary data completion, runtime preparation, adapter repairs, meaningful
+CPU checks and actual-device engineering profiles are authorized prerequisites.
+Use the existing persistent SSH session; no reconnect loop, unrelated cleanup,
+foreign-service stops, additional scientific fits, billing or new instances.
+This supersedes earlier preparation-only scope for this exact eight-fit packet.
+
+## GRU history before revised L4 execution — user instruction, 2026-10-28
+
+The user accepts the revised twenty-epoch-cap layout in principle and requires
+understanding historical GRU presets/results first. The [historical audit](research/unified/reviews/GRU_PRESETS_HISTORY_AUDIT_20261028_R1.md)
+recovers scratch-versus-warm recipes and explicitly separates old train+valid
+ancestry from ADR0044. Plain GRU256x2 and schematic GALAM-GRU72 are different
+models. The audit starts no fit/profile or remote action and does not silently
+change checked v1 recipes. Prepare receiving-safe revised recipes from the new
+instruction; old stopped fits and exposed teachers remain historical.
+
+## Eight-L4 quality screen and RSNA cleanup — user instruction, 2026-10-28
+
+Prepare exactly one baseline plus seven quality-focused one-GPU fits. This wave
+supersedes the earlier six-fit/two-seed prospective panel only. Consult the user
+on the recipes, receiving setup and full launch. After a requested memory audit,
+the user explicitly authorized deleting RSNA: own project/cache/Python paths were
+removed and /data2 has74.58GB free. No training/profile/download was started.
+See [quality8 preparation and audit](research/experiment_drafts/galam-l4-quality8-20261028/README.md).
+Chronological policy, original-reconstruction uncertainty and old results remain.
+
+## Local GALAM dashboard and L4 preparation — user instruction, 2026-10-28
+
+Implement live local monitoring with selectable run/config comparisons, actual
+full-valid epoch evaluation and comparable train-eval curves, bounded sampled
+model/resource diagnostics, and explicit GRU/local-only adaptations. Preserve
+the original schematic LSTM recipe. Synthetic/demo plots are not scientific
+results. Original GALAM dimensions/training hyperparameters remain unknown.
+This task permits bounded CPU checks and one persistent read-only SSH inventory
+of the user-supplied L4 host; it does not restart stopped fits or allocate GPUs.
+See the [implementation and L4 packet](research/experiment_drafts/galam-l4-monitoring-20261028/README.md).
+
+## Mandatory chronological primary validation — user instruction, 2026-10-27
+
+Always use the Predictorium-style order **train | valid | public | small gap |
+private** for prospective primary model comparisons. This is a binding project
+decision, superseding the random/component-fold primary-selection defaults below.
+Use the official earlier training file for fitting and the independent later
+validation file for primary evaluation; preserve complete sequences. Never fit
+on primary valid, including preprocessing, normalizers, teachers, initializer
+ancestry or learned blend weights. Do not sort shuffled seq_ix to infer time.
+Additional chronological splits require actual source-qualified temporal order.
+Keep historical frozen sources and scores unchanged and label their protocol.
+An old random-fold score is not the new chronological primary endpoint.
+
+This records the user's required protocol. The linked March5 post describes
+Predictorium, not direct evidence of current Connectome timestamps. A missing
+time mapping must stay explicit. See [ADR0044](specs/adr/0044-chronological-primary-validation.md).
+
+Latest scope is **implementation and bounded CPU correctness checks only**:
+no training, GPU profiling, remote execution or resource allocation is resumed.
+Reconstruct GALAM from the supplied diagram with source-linked unknowns; do not
+call a guessed width/head/window/ensemble configuration an exact reproduction.
+The reconstruction packet is [here](research/experiment_drafts/galam-reconstruction-20261027/README.md).
+
 ## B300 precision amendment — user correction, 2026-10-24
 
 For PR32 / the high-compute R4 continuation, mandatory strict-FP32 model compute

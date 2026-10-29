@@ -1,0 +1,139 @@
+﻿{
+    "schema":  "galam-independent-review.v1",
+    "review_status":  "final through 5583152e profile-fidelity follow-up and bd45e50f dashboard/mask follow-up; current source delta is CSS-only",
+    "candidate":  {
+                      "canonical_commit":  "1243a946",
+                      "metrics_actor_commit":  "d129e666",
+                      "dashboard_history_commit":  "ce24a213",
+                      "variant_config_commit":  "33b665c7",
+                      "variant_commit_reviewed":  "58c639c23c937cf4cd35db0d631539a41db6a0e1",
+                      "variant_base":  "4bcb49f1",
+                      "dashboard_order_commit":  "bd45e50f",
+                      "profile_fidelity_commit":  "5583152e"
+                  },
+    "confirmed_findings":  [
+                               {
+                                   "id":  "GALAM-LEGACY-PARITY",
+                                   "severity":  "info",
+                                   "status":  "closed",
+                                   "finding":  "Omitting the optional GALAM variant dispatch preserves legacy GALAM state and predictions.",
+                                   "evidence":  "Old base versus updated source, same seed/config/input: identical state-dict keys and tensors, bitwise-equal prediction output, maximum absolute error 0.0, output shape [2,7,2]."
+                               },
+                               {
+                                   "id":  "GALAM-VARIANT-CONFIG",
+                                   "severity":  "medium",
+                                   "status":  "closed in 33b665c7",
+                                   "finding":  "Variant configuration now reports effective topology, rejects noncanonical inactive local-only fields, and makes active fusion order explicit so changed ordering cannot be silently ignored.",
+                                   "evidence":  "Static review and the variant/runtime/component test group."
+                               },
+                               {
+                                   "id":  "MON-RESUME-SCHEMA",
+                                   "severity":  "high",
+                                   "status":  "closed in 1243a946",
+                                   "finding":  "Monitor identity and resume checkpoint validation now use data.monitoring_plan consistently and require both event offsets for monitored resumes.",
+                                   "evidence":  "Test added for accepting monitored offsets and rejecting their absence; root reports integrated targeted suite passed."
+                               },
+                               {
+                                   "id":  "MON-PARTIAL-TAIL",
+                                   "severity":  "medium",
+                                   "status":  "closed in 1243a946",
+                                   "finding":  "Resume now applies safe checkpoint offsets before parsing evaluation history, allowing orphan partial JSONL tails to be preserved and truncated. Appends are gated until restore completes.",
+                                   "evidence":  "Static review and partial-tail/safe-offset tests in the monitoring suite."
+                               },
+                               {
+                                   "id":  "MON-BOUNDED-LOG",
+                                   "severity":  "medium",
+                                   "status":  "bounded; operational limitation remains",
+                                   "finding":  "Evaluation history has count/byte limits and the generic monitor event journal has a 1 GiB bound.",
+                                   "limitation":  "When the generic event journal reaches its cap, appending raises and the monitored fit stops; there is no rotation or drop-with-warning policy."
+                               },
+                               {
+                                   "id":  "MON-OFFICIAL-COVERAGE",
+                                   "severity":  "high",
+                                   "status":  "closed in canonical follow-up",
+                                   "finding":  "Monitoring verifies exact source-qualified membership and requires the official is_scored mask for both train-eval and valid reporting cohorts before claiming complete coverage.",
+                                   "evidence":  "Current root worktree changes enforce the mask for both cohorts and add two parametrized rejection cases; root reports targeted suite passed."
+                               },
+                               {
+                                   "id":  "MON-ZERO-WEIGHT",
+                                   "severity":  "medium",
+                                   "status":  "closed in 1243a946",
+                                   "finding":  "A cohort with official scored rows but zero total target weight reports zero weighted loss and preserves official WP=0 semantics instead of aborting the fit.",
+                                   "evidence":  "Zero-target-weight test present; root reports targeted suite passed."
+                               },
+                               {
+                                   "id":  "MON-REPORT-PROVENANCE",
+                                   "severity":  "high",
+                                   "status":  "closed in 1243a946",
+                                   "finding":  "Monitored full fits record no_eval_during_fit=false and report-only validation with no checkpoint selection. Bounded profiles record no_eval_during_fit=true and say validation was not evaluated.",
+                                   "evidence":  "Static review of fit/profile/checkpoint provenance and monitor status context."
+                               },
+                               {
+                                   "id":  "MON-RESOURCE-SAMPLING",
+                                   "severity":  "info",
+                                   "status":  "integrated in 1243a946",
+                                   "finding":  "The resource sampler is wired into sampled monitor events. It records process/host/disk readings and queries NVIDIA sensors only with a validated physical or MIG UUID; unavailable readings are omitted.",
+                                   "evidence":  "Static review. Root reports six mocked resource tests passed."
+                               },
+                               {
+                                   "id":  "DASH-EVALUATION-HISTORY",
+                                   "severity":  "medium",
+                                   "status":  "closed in ce24a213",
+                                   "finding":  "A separate bounded evaluation journal preserves sparse epoch reports in the dashboard, avoids interpolation by drawing recorded points, and exposes when training or evaluation history is windowed.",
+                                   "evidence":  "Static review. Root reports dashboard/API tests and browser QA with sparse evaluation records and 12,000 dense events passed."
+                               },
+                               {
+                                   "id":  "DASH-ELAPSED-CLOCK",
+                                   "severity":  "low",
+                                   "status":  "step-order correction closed in bd45e50f; elapsed axis limitation remains explicit",
+                                   "finding":  "Elapsed x uses wall time from the first retained event, so it includes pauses and resume downtime and can be affected by host clock correction. The current event merge sorts by wall_time; root plans to sort merged history by step for clock corrections.",
+                                   "limitation":  "Epoch and step axes are durable. Elapsed wall time includes pauses and resume downtime; a host clock correction can still make elapsed x values discontinuous or nonmonotone even though merged event order follows step. No persisted monotonic elapsed-since-run counter exists across resume."
+                               },
+                               {
+                                   "id":  "DASH-DISK-PANEL",
+                                   "severity":  "low",
+                                   "status":  "closed in current root follow-up",
+                                   "finding":  "Dashboard now has default panels for output-volume free bytes and filesystem used percentage; both were previously available only through the custom metric selector.",
+                                   "evidence":  "Current root worktree adds disk/free_bytes and disk/used_pct metric groups."
+                               },
+                               {
+                                   "id":  "PROFILE-MONITOR-ROUTE",
+                                   "severity":  "high",
+                                   "status":  "closed in 5583152e",
+                                   "finding":  "Opt-in monitoring is now initialized for bounded profiles and the actual SequenceMonitor is routed through train_epoch, so train-step, sampled diagnostics, and resources are exercised. The profile path makes no valid evaluation calls and writes no model/training checkpoint.",
+                                   "evidence":  "Static review plus new profile routing test verifies train/diagnostic/resource callbacks, zero evaluate_epoch calls, profile statuses, and receipt no_eval_during_fit=true."
+                               },
+                               {
+                                   "id":  "PROFILE-SAMPLING-ADMISSION",
+                                   "severity":  "medium",
+                                   "status":  "closed in 5583152e",
+                                   "finding":  "Monitored profile updates must reach diagnostics_every_steps, ensuring at least one sampled hook window.",
+                                   "evidence":  "The check exists before distributed initialization and is repeated in run_profile."
+                               },
+                               {
+                                   "id":  "PROFILE-RSS-OPTIONAL",
+                                   "severity":  "low",
+                                   "status":  "documented constraint",
+                                   "finding":  "On Windows, the optional resource import yields no host RSS value. The profile receipt can represent this as null, but validate_profile_receipt still requires positive integer host RSS, so that receipt cannot admit a full fit.",
+                                   "evidence":  "Static review of _host_peak_rss_bytes and validate_profile_receipt; no Windows GPU profile was executed."
+                               }
+                           ],
+    "checks_actually_run_by_reviewer":  {
+                                            "legacy_prediction_comparison":  "Completed; exact parity as described above.",
+                                            "variant_tests":  "29 passed: tests/test_galam_variants.py, tests/test_galam_runtime_adapter.py, tests/test_galam_components.py; provided CPU Torch environment, one thread.",
+                                            "metrics_dashboard_resource_source":  "Read-only static review; no Torch tests run by reviewer."
+                                        },
+    "checks_reported_by_root_or_actors":  {
+                                              "integrated_targeted_suite":  "Root reports 92 passed, 1 Windows symlink-privilege skip in 16.51 seconds at 5583152e plus the root CSS working tree; includes the profile monitoring route and earlier focused suites.",
+                                              "dashboard":  "15 tests: 14 passed, one Windows link-privilege skip; six resource mocks passed; browser QA covered config/mobile and dense/sparse event histories.",
+                                              "baseline_comparison":  "Root reports the same 11 legacy failures on the original base worktree (eight Windows directory-fsync, one link-privilege, two stale epoch-fixture path), with three passes; these were not introduced by this work.",
+                                              "lint":  "Root reports Ruff formatting/check across 49 files passed.",
+                                              "profile_cli":  "The planned 50-update profile with diagnostics_every_steps=25 was not executed."
+                                          },
+    "unverified":  [
+                       "No actual GPU/MIG sensor query or full-host preflight was performed; admission for real training remains unverified.",
+                       "No real training fit, SSH, publication, or scientific result evaluation was performed.",
+                       "The planned 50-update profile with diagnostics_every_steps=25 was not run; actual GPU/MIG profile behavior and global GPU admission remain unverified."
+                   ],
+    "interpretation":  "This is an implementation and monitoring review only. It does not establish scientific readiness, model quality, or training performance."
+}

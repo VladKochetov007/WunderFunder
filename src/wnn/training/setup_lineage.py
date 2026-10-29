@@ -1,14 +1,52 @@
 from __future__ import annotations
 
+import argparse
 import math
 
 from wnn import student_frontier
 from wnn.privileged import load_inner_manifest
 from wnn.resources import configure_strict_fp32
-from wnn.splits import file_sha256, load_campaign_split
+from wnn.splits import (
+    CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+    CampaignSplit,
+    file_sha256,
+    load_campaign_split,
+)
 from wnn.training.membership import load_component_fit_subset
 from wnn.training.state import TrainingRun
 from wnn.training_state import load_training_state
+
+
+def require_chronological_primary_training(
+    parser: argparse.ArgumentParser,
+    args: argparse.Namespace,
+    campaign_split: CampaignSplit | None,
+) -> None:
+    """Reject future recurrent fits without the official train/full-valid boundary."""
+    if campaign_split is None:
+        parser.error(
+            "future recurrent fits require --split-manifest with chronological primary membership"
+        )
+    if campaign_split.schema != CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        parser.error("random-fold manifests are historical; use a chronological primary manifest")
+    if campaign_split.valid_groups:
+        parser.error("chronological primary validation forbids fitting any valid sequences")
+    if (
+        args.train_source != "train"
+        or args.include_heldout_valid
+        or args.valid_train_fraction != 1
+        or args.valid_repeat != 1
+        or args.valid_fold >= 0
+        or args.no_eval_during_fit
+        or args.checkpoint_policy != "fixed"
+        or args.eval_source not in ("dev", "vfold")
+        or args.fit_subset_manifest is not None
+        or args.fit_groups_manifest is not None
+        or args.class_balance
+    ):
+        parser.error(
+            "chronological primary fitting accepts official train only and full-valid evaluation; fit-valid, random-fold and no-eval options are forbidden"
+        )
 
 
 def load_lineage(run: TrainingRun) -> None:
@@ -30,6 +68,7 @@ def load_lineage(run: TrainingRun) -> None:
     campaign_split = (
         load_campaign_split(args.split_manifest, environment.root) if args.split_manifest else None
     )
+    require_chronological_primary_training(ap, args, campaign_split)
     fit_subset = None
     if args.fit_subset_manifest is not None:
         if campaign_split is None:
@@ -174,6 +213,15 @@ def configure_runtime(run: TrainingRun) -> None:
         ap.error("--valid-train-fraction must be in (0, 1]")
     if not math.isfinite(args.amp_init_scale) or args.amp_init_scale <= 0:
         ap.error("--amp-init-scale must be finite and positive")
+    if not 0 <= args.train_eval_seqs <= 32:
+        ap.error("--train-eval-seqs must be between 0 and 32")
+    if args.train_eval_seqs and (
+        campaign_split is None
+        or campaign_split.schema != CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
+        or args.train_source != "train"
+        or args.no_eval_during_fit
+    ):
+        ap.error("--train-eval-seqs requires chronological train-only fitting with evaluation enabled")
     if args.valid_train_fraction < 1 and args.train_source not in ("train+valid", "valid"):
         ap.error("--valid-train-fraction requires a validation training source")
     if args.epoch_samples < 0 or (args.epoch_samples and args.valid_repeat != 1):
