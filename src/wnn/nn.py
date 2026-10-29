@@ -194,6 +194,11 @@ class RNNModel(nn.Module):
         indices = getattr(self, "_i1_input_mask_indices", ())
         if indices:
             normalized[..., list(indices)] = 0.0
+        view_mask_p = getattr(self, "_view_mask_p", 0.0)
+        if self.training and view_mask_p > 0:
+            # Train-only SpecAugment-style view: drop whole columns (set to their mean) per sequence.
+            keep = torch.rand(x.shape[0], 1, x.shape[-1], device=x.device) >= view_mask_p
+            normalized = normalized * keep
         return normalized
 
     def forward(self, x, h=None):

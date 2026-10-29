@@ -63,3 +63,15 @@ def test_training_batch_must_hold_whole_member_repeats() -> None:
 def test_factory_passes_adapter_init() -> None:
     args = {"hidden": 8, "layers": 1, "dropout": 0.0, "ensemble_k": 2, "ensemble_init": "ones"}
     assert torch.equal(make_model(args, 5, 2).member_scale, torch.ones(2, 5))
+
+
+def test_view_mask_is_train_only_and_masks_whole_columns() -> None:
+    torch.manual_seed(0)
+    model = make_model({"hidden": 8, "layers": 1, "dropout": 0.0, "view_mask_p": 0.5}, 6, 2)
+    x = torch.randn(3, 4, 6)
+    model.train()
+    masked = model._normalized_inputs(x)
+    zero_columns = (masked == 0).all(dim=1)
+    assert zero_columns.any() and ((masked == 0).any(dim=1) == zero_columns).all()
+    model.eval()
+    torch.testing.assert_close(model._normalized_inputs(x), (x - model.mean) / model.std)

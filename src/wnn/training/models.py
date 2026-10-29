@@ -21,6 +21,11 @@ def make_model(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Mod
     """Build a model and restore checkpoint-declared semantic input masks."""
     model = _make_model(args_dict, n_in, n_out)
     configure_i1_input_mask(model, args_dict, n_in)
+    view_mask_p = args_dict.get("view_mask_p", 0.0)
+    if view_mask_p:
+        if not isinstance(model, RNNModel) or not 0 < view_mask_p < 1:
+            raise ValueError("--view-mask-p needs an RNNModel and 0 < p < 1")
+        model._view_mask_p = view_mask_p
     return model
 
 
