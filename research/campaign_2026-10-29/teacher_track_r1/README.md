@@ -29,4 +29,10 @@ Muon 0.677856.
 - Strict-FP32 launcher for the PR49 trainer: [strict_launch.py](strict_launch.py); shared args:
   [recipe_args.sh](recipe_args.sh). Profile ([log](profile_parent.log)): strict flags confirmed,
   10,325 train sequences, full valid, 160 finite updates, 19.9 seq/s.
-- Parent P seed 3 running locally ([runner](run_parent.sh)); children wait for the teacher cache.
+- **Parent P seed 3 done** ([runner](run_parent.sh), [log](tt29_parent_s3.fit.log), [history](runs/tt29_parent_s3/history.json)):
+  full-valid WP per epoch 0.67972 / 0.68490 / 0.68743 / **0.68671 (fixed ep3)**; finite, one thermal
+  freeze/thaw. A train-only Muon H256×2 already sits at PR49 fin256-teacher level (0.68826, AdamW)
+  and above the PR46 plain-GRU benchmark (0.67786, different batch/features).
+- **C0 (labels-only child, matched control) running** ([runner](run_child.sh)); runtime config verified:
+  init `tt29_parent_s3@ep3`, 6 epochs, LR 1e-4, batch 16, `distill=""`, strict FP32, 10,325 train.
+  D1/D2 wait for the fbc1k_s5 train-side cache.
