@@ -2,6 +2,8 @@
 
 ## 29 October: fresh TL3 submission preparation
 
+Published as [draft PR51](https://github.com/VladKochetov007/WunderFunder/pull/51); receiver results pending.
+
 The [submission packet](../experiment_drafts/tl3c-submission-20261029/README.md)
 prepares tiedlead seed5 and a fixed 0.34 fbc1k / 0.33 tiedlead seed5 / 0.33 seed6
 mixture from fresh PR49 checkpoints. It includes exact input/native pins, saved-EMA

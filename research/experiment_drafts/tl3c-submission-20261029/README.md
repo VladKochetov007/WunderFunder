@@ -1,5 +1,7 @@
 # Fresh TL3 submission candidates
 
+[Draft PR51](https://github.com/VladKochetov007/WunderFunder/pull/51) targets `research-team`.
+
 **Prepared, not yet exported or scored.** Fresh PR49 checkpoints are not on the
 preparation Mac. This packet creates CPU submission ZIPs once the receiver has
 those assets. No local tests, training, inference, remote jobs or portal upload

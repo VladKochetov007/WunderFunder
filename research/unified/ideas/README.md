@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+Published as [draft PR51](https://github.com/VladKochetov007/WunderFunder/pull/51); receiver results pending.
+
 - [Fresh TL3 CPU submission candidates](../../experiment_drafts/tl3c-submission-20261029/README.md):
   fixed singleton and three-member blend; receiver export, float32/INT8 callback,
   pinned Torch reference and offline CPU scoring. Zero new fits; fresh weights,
