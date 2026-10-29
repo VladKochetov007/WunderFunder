@@ -41,3 +41,15 @@ Muon 0.677856.
   `tt29rep_fin256_s3` → train export → `tt29rep_fin256_s4` → export → `tt29rep_fbc1k_s5`
   (distilled from both fin256, α 0.5, boot-h 8, TL3-Muon×3, EMA) → train + full-valid exports.
   Note: fbc1k_s5 is itself an H256×2 GRU, i.e. a deployable student-shaped model.
+
+## Incident: export stopped on stale target cache (13:16Z restart)
+
+The `tt29rep_fin256_s3` fit finished (full-valid 0.68780 at ep3), but the train export failed:
+`target index does not cover the full official training source`. The scratch root hardlinked
+the Sep-26 `cache/train_targets.npz` (10,606 groups; row group 528 was undecodable in the
+pre-Oct-3 download, E-035). The current `train.parquet` decodes 528, the fit used it (10,325 =
+10,607 − 282), and the PR49 validator requires it. `rebuild_train_targets.py` rewrote the
+scratch cache with all 10,607 groups after breaking the hardlink (the shared main cache is
+untouched); the 10,606 old groups are bit-identical. Chain restarted, skipping the finished fit.
+My earlier monitor watched only `local.log`, so the failure sat ~70 min unnoticed; the new
+monitor also scans every fit/export log and the unit's exit.
