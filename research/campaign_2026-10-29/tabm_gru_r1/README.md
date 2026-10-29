@@ -58,4 +58,19 @@ continues only if positive on both cells.
 
 ## Results
 
-Pending.
+### Local F0/s1001, TabM k=4 (signs) vs matched strict Muon ([grade](grade_local_f0.json))
+
+| | WP F0 |
+|---|---:|
+| Matched single Muon (`tabm29_f0_s1001_muon_local_r1`) | 0.663340 |
+| TabM k=4 ensemble | 0.662129 — **−0.00121 [−0.00276, +0.00033]** |
+| Its four members, materialized and exported as plain GRUs ([splitter](split_members.py)) | 0.66077 / 0.65950 / 0.65993 / 0.65994 (mean 0.660035) |
+| Mean member-pair ρ | 0.9914 (seed pairs: 0.995–0.998) |
+
+Ensemble − mean member = +0.0021, matching the blend law (0.168·(1−ρ) scaled to k=4: +0.0022).
+Members are **more diverse than independent seeds but each is −0.0033 weaker** than the single
+model; weakness outweighs diversity. TabM's "weak but diverse" regime, but with a net loss here.
+Hypothesis: random ±1 input signs force one shared H512 GRU to serve k different input
+encodings. **Prediction before the Kaggle k=8 results:** weaker members, lower ρ, net negative.
+Mechanism test running: k=4 with `--ensemble-init ones` (members differ only by output layer
+and learned scale drift), control reused.

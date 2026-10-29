@@ -52,7 +52,7 @@ def _(ROOT, global_wp, json, np):
         return float(global_wp(y, p, np.ones(len(y), bool))["wp"])
 
     data = {f: load_fold(f, rs) for f, rs in RUNS.items()}
-    return data, wp
+    return data, load_fold, wp
 
 
 @app.cell(hide_code=True)
@@ -74,7 +74,7 @@ def _(data, mo, np, wp):
         return out, {f: {r: wp(y, p) for r, p in pr.items()} for f, (y, pr) in data.items()}
     pairs, singles = _pairs()
     mo.ui.table(pairs)
-    return (pairs,)
+    return itertools, pairs
 
 
 @app.cell(hide_code=True)
@@ -94,6 +94,27 @@ def _(PLOTS, np, pairs, plt):
         return fig, k
     pair_fig, slope = _plot()
     pair_fig
+    return
+
+
+@app.cell(hide_code=True)
+def _(itertools, load_fold, np, wp):
+    def _members(run, control, fold=0, k=4):
+        names = [f"{run}_m{i}" for i in range(k)]
+        y, pr = load_fold(fold, [run, control, *names])
+        w = np.abs(np.clip(y, -2, 2)).ravel()
+        def corr(a, b):
+            a, b = a.ravel() - np.average(a.ravel(), weights=w), b.ravel() - np.average(b.ravel(), weights=w)
+            return float(np.average(a * b, weights=w) / np.sqrt(np.average(a * a, weights=w) * np.average(b * b, weights=w)))
+        member_wp = [wp(y, pr[n]) for n in names]
+        rhos = [corr(pr[a], pr[b]) for a, b in itertools.combinations(names, 2)]
+        mean_pred = np.mean([pr[n] for n in names], axis=0)
+        return dict(ensemble=wp(y, pr[run]), ensemble_recomputed=wp(y, mean_pred), control=wp(y, pr[control]),
+                    members=member_wp, member_mean=float(np.mean(member_wp)), member_rho_mean=float(np.mean(rhos)),
+                    rho_ens_control=corr(pr[run], pr[control]),
+                    law_pred_gain=0.168 * (1 - float(np.mean(rhos))) * (1 - 1 / k) * 2)
+    tabm4_local = _members("tabm29_f0_s1001_tabm4_local_r1", "tabm29_f0_s1001_muon_local_r1")
+    tabm4_local
     return
 
 
