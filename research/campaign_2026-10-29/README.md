@@ -12,3 +12,15 @@ all Kaggle. Local slice raised from the stale Oct-24 1 GiB/1-core cap to 28G hig
   separates useful ideas here (ceiling, mechanism presence, transfer, detectability, decision)
   and the matching skill change.
 - [Fresh-context reframe](reframe_r1/README.md) and [view-mask screen](view_mask_r1/README.md).
+- [Teacher-quality track](teacher_track_r1/README.md) — train-only (ADR0044) blend and
+  distillation of PR49 teachers into the fixed Muon GRU child; plan and ≤10-fit budget declared
+  before launch. Parent P 0.68671, labels-only child C0 overfits to 0.67562; PR49 teachers
+  reproduced locally (fin256_s3 0.68780 vs posted 0.68826). D1/D2 pilots landing.
+- [Validation audit](validation_r1/README.md) — official valid is a regime-shifted block
+  (adversarial AUC 0.984, 1% cross-split time links); shift is multivariate (max univariate AUC
+  0.70); replicates E-094/E-110/E-161. Protocol: [robust validation](../unified/methods/ROBUST_VALIDATION_20261029_R1.md).
+
+## Status: paused by user (14:10Z)
+
+"Finish with current ideas. pause research loop." Only the teacher track's declared fits are
+landing; see [pause receipt](PAUSE_R1.json). Final results are written here on landing.

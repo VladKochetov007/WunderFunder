@@ -15,6 +15,7 @@ Reusable metric, causal data handling, statistical and implementation contracts.
 ## Current navigation
 
 - [Robust validation, October 29](ROBUST_VALIDATION_20261029_R1.md) — zero-fit audit: official valid is block-structured (1% cross-split time links vs ≈25% under random split; links both directions) and almost perfectly separable from train (adversarial AUC 0.984). Recommends leave-regime-out inner CV, official valid as logged confirmation only, stability-based selection, ≥3 seeds, public LB as designed calibration, final train+valid refit. [Audit folder](../../campaign_2026-10-29/validation_r1/README.md).
+- [Validation audit receipts, October 29](../../campaign_2026-10-29/validation_r1/README.md) — adversarial validation (OOF AUC 0.984, shuffle 0.499), univariate drivers (max 0.70: `i1_v18` mean, volume-code and price level/spread stats), saved per-sequence features for regime-cluster folds; replicates E-094. Stress panel is a guard cell only (forensic W3).
 
 - [Idea-triage reflection, October 29](IDEA_TRIAGE_REFLECTION_20261029_R1.md) — what separated useful from wasted work in the Oct 23–29 sessions (Muon cold +0.0035 vs warm +0.00026 was predictable from zero-fit gate saturation; loss family closable analytically; TabM ceiling ≈ +0.002 from existing predictions). Proposes ceiling / mechanism-presence / transfer / detectability / decision triage; adds that block to `research-portfolio-control`. Method note, no fits.
 
