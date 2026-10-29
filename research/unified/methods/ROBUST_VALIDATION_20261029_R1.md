@@ -27,8 +27,12 @@ Today's results **replicate a month-old finding**; they are not new:
   different time periods", likely four instruments (one per class).
 - **E-110**: a **stress panel** — the two thirds of valid sequences least train-like by OOF
   adversarial score (`cache/adv_valid_score.npy`) — ordered all three then-known LB comparisons
-  correctly where plain valid misordered one; adopted as primary selection proxy on 2026-09-26,
-  then dropped from later campaign protocols without a recorded reason.
+  correctly where plain valid misordered one; adopted as primary selection proxy on 2026-09-26.
+  **Correction:** it was demoted the same day for a recorded reason — forensic review W3
+  (`research/panel/forensic.md`): 3 LB constraints, 2 knobs, terciles picked post hoc, one
+  constraint a −1.4σ noise point, worse out of sample (forecasts off by 0.0013–0.0018). The
+  2026-09-26 plan kept full valid as primary and stress λ0.05 only as a guard cell. The same plan
+  refuted domain importance weights and train filtering (AUC 0.99 leaves n_eff ≈ 1e-5 of train).
 New today: the train-only (ADR0044) context, and that the 90 boundary links run in both
 directions (48/42), which argues against one later period.
 
@@ -57,10 +61,11 @@ shift. Random or component folds over the pooled data cannot see this.
    regime groups (adversarial/feature-summary clusters, chain components kept whole), fit on K−1,
    evaluate on the held-out group. All hyperparameters, blend weights, epochs and distillation
    settings are chosen here, not on valid. This gives several shifted folds instead of one.
-4. **Stress panel as a co-primary readout (restore E-110).** Report every valid comparison on
-   full valid *and* on the least-train-like two thirds (OOF adversarial score); prefer
-   candidates that win on both. E-110's LB agreement rests on only three comparisons — re-check
-   it with the public calibration submissions below.
+4. **Stress panel as a guard cell, not co-primary.** Report the least-train-like two thirds
+   (OOF adversarial score) beside full valid; investigate a sign flip, but do not select on it
+   (forensic W3: it was fitted to 3 LB points and forecast worse out of sample). Re-test it only
+   with the public calibration submissions below. Do not use adversarial importance weights or
+   train filtering for fitting (refuted 2026-09-26: AUC ≈0.99 leaves n_eff ≈ 1e-5).
 5. **Choose for stability, not only the mean.** Prefer the candidate whose gain is positive on
    most regime folds (sign consistency, worst fold), with fewer tuned degrees of freedom (equal
    or fixed blend weights, fixed epochs, seed averages). Under shift these transfer better.
