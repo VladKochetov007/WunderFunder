@@ -26,3 +26,7 @@ all Kaggle. Local slice raised from the stale Oct-24 1 GiB/1-core cap to 28G hig
 
 "Finish with current ideas. pause research loop." Only the teacher track's declared fits are
 landing; see [pause receipt](PAUSE_R1.json). Final results are written here on landing.
+
+## Stopped by user (17:25Z)
+
+All jobs killed; see [stop receipt](STOP_R1.json). D1 (α0.9) finished at 0.68997 (+0.0033 over parent P, below teacher fbc1k 0.69142); D2 interrupted and needs a rerun. Resume steps are listed in the receipt.
