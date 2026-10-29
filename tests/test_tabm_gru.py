@@ -58,3 +58,8 @@ def test_training_batch_must_hold_whole_member_repeats() -> None:
     model = _model().train()
     with pytest.raises(ValueError, match="whole member repeats"):
         model(torch.randn(4, 3, 7))
+
+
+def test_factory_passes_adapter_init() -> None:
+    args = {"hidden": 8, "layers": 1, "dropout": 0.0, "ensemble_k": 2, "ensemble_init": "ones"}
+    assert torch.equal(make_model(args, 5, 2).member_scale, torch.ones(2, 5))

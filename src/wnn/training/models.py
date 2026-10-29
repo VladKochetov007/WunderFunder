@@ -212,5 +212,10 @@ def _make_tabm(args_dict: dict[str, Any], n_in: int, n_out: int) -> torch.nn.Mod
         if args_dict.get(key, expected) != expected:
             raise ValueError(f"--ensemble-k requires {key}={expected!r}")
     return TabMGRUModel(
-        n_in, args_dict["hidden"], args_dict["layers"], n_out, args_dict["ensemble_k"]
+        n_in,
+        args_dict["hidden"],
+        args_dict["layers"],
+        n_out,
+        args_dict["ensemble_k"],
+        args_dict.get("ensemble_init", "signs"),
     )
