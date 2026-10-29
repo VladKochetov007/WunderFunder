@@ -72,5 +72,9 @@ Members are **more diverse than independent seeds but each is −0.0033 weaker**
 model; weakness outweighs diversity. TabM's "weak but diverse" regime, but with a net loss here.
 Hypothesis: random ±1 input signs force one shared H512 GRU to serve k different input
 encodings. **Prediction before the Kaggle k=8 results:** weaker members, lower ρ, net negative.
+**Incident:** the first `--ensemble-init ones` attempt silently trained the signs model (the
+factory edit did not apply after a reformat); its predictions were bit-identical to the signs
+run, which incidentally confirms deterministic training. Run quarantined under
+`research_tmp/invalid_*`, factory fixed with a test (commit after `9cdde7286`), relaunched.
 Mechanism test running: k=4 with `--ensemble-init ones` (members differ only by output layer
 and learned scale drift), control reused.

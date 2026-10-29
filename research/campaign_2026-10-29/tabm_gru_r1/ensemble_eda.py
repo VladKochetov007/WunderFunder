@@ -99,7 +99,7 @@ def _(PLOTS, np, pairs, plt):
 
 @app.cell(hide_code=True)
 def _(itertools, load_fold, np, wp):
-    def _members(run, control, fold=0, k=4):
+    def member_stats(run, control, fold=0, k=4):
         names = [f"{run}_m{i}" for i in range(k)]
         y, pr = load_fold(fold, [run, control, *names])
         w = np.abs(np.clip(y, -2, 2)).ravel()
@@ -113,8 +113,15 @@ def _(itertools, load_fold, np, wp):
                     members=member_wp, member_mean=float(np.mean(member_wp)), member_rho_mean=float(np.mean(rhos)),
                     rho_ens_control=corr(pr[run], pr[control]),
                     law_pred_gain=0.168 * (1 - float(np.mean(rhos))) * (1 - 1 / k) * 2)
-    tabm4_local = _members("tabm29_f0_s1001_tabm4_local_r1", "tabm29_f0_s1001_muon_local_r1")
+    tabm4_local = member_stats("tabm29_f0_s1001_tabm4_local_r1", "tabm29_f0_s1001_muon_local_r1")
     tabm4_local
+    return (member_stats,)
+
+
+@app.cell(hide_code=True)
+def _(member_stats):
+    tabm4_ones_local = member_stats("tabm29_f0_s1001_tabm4ones_local_r1", "tabm29_f0_s1001_muon_local_r1")
+    tabm4_ones_local
     return
 
 
