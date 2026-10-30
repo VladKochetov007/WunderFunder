@@ -198,20 +198,21 @@ function exactKeys(...keys) {
 
 function targetScoreKeys(target) {
   const targetPattern = new RegExp(`(?:^|[/_])${target}(?:$|[/_])`, "i");
-  return findKeys((key) => (key.startsWith("train_eval/") || key.startsWith("valid/"))
+  return findKeys((key) => (key.startsWith("train_eval/") || key.startsWith("control/") || key.startsWith("valid/"))
     && (key.includes("score") || key.includes("/wp/")) && targetPattern.test(key));
 }
 
 function comparableScoreKeys() {
-  return findKeys((key) => (key.startsWith("train_eval/") || key.startsWith("valid/"))
-    && (key === "train_eval/score" || key === "valid/score" || key.includes("/wp/")));
+  return findKeys((key) => (key.startsWith("train_eval/") || key.startsWith("control/") || key.startsWith("valid/"))
+    && (key === "train_eval/score" || key === "control/score" || key === "valid/score" || key.includes("/wp/")));
 }
 
 function metricGroups() {
   return [
-    { title: "Train eval and full validation loss", subtitle: "Each curve uses its recorded cohort mask; train_eval may use all_after_warmup while valid uses official is_scored", keys: exactKeys("train_eval/loss", "valid/loss"), wide: true },
+    { title: "Train eval, inner control and full validation loss", subtitle: "Control is a train-only selection proxy with all_after_warmup rows. Official valid uses is_scored. Missing cohorts are not evaluated.", keys: exactKeys("train_eval/loss", "control/loss", "valid/loss"), wide: true },
     { title: "Online training loss", subtitle: "train/loss uses the training objective mask during updates; it is separate from evaluation", keys: exactKeys("train/loss"), dashed: true },
-    { title: "Train eval and full validation score / WP", subtitle: "Pooled weighted Pearson (WP); row masks are recorded per cohort and can differ", keys: comparableScoreKeys(), wide: true },
+    { title: "Train eval, inner control and full validation score / WP", subtitle: "Pooled WP. Inner control is a fitting-only proxy; official valid has a different scoring mask. Cohort identities remain separate.", keys: comparableScoreKeys(), wide: true },
+    { title: "Training objective components", subtitle: "Label, teacher and auxiliary terms belong to their recorded stage and are separate from evaluation loss", keys: findKeys((key) => key.startsWith("train/") && key.includes("loss") && key !== "train/loss"), wide: true },
     { title: "Per-target score t0", subtitle: "Recorded t0 series; row masks are recorded per cohort", keys: targetScoreKeys("t0") },
     { title: "Per-target score t1", subtitle: "Recorded t1 series; row masks are recorded per cohort", keys: targetScoreKeys("t1") },
     { title: "Learning rate", subtitle: "Recorded optimizer learning rate", keys: findKeys((key) => key === "optimizer/lr" || key.startsWith("optimizer/lr/") || key.endsWith("/learning_rate")) },

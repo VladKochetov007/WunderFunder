@@ -1,5 +1,19 @@
 # Project agent instructions
 
+## Four-stage Optuna search on eight B300 — user launch,2026-10-31
+
+The user explicitly authorizes the proposed base-regressor, fine-tuning,
+distillation and ensemble search on8B300, with graphs/checkpoints at every stage.
+Root bounds the initial wave by6node-hours from first GPU profile and48scientific
+fit attempts including auxiliary ancestors and finalist refits, with20minutes
+reserved for collection. Use the one SSH session13998 on10.14.14.26. Existing
+NIER jobs/MPS remain untouched; profile coexistence and adapt only owned workers.
+No new provider/billing or unrelated stop. Official chronology and no primary-valid
+fitting remain binding. The [contract](research/experiment_drafts/multistage-optuna-b300-20261031/CONTRACT.json)
+distinguishes inner train proxies from final full-valid evidence. Old completed
+fits and immutable sources remain unchanged. Frozen recipes, independent admission,
+actual profiles and durable bounded jobs are required before costly execution.
+
 ## Graphs at every solution stage — user instruction,2026-10-31
 
 Save live and standalone graphs for base fitting, fine-tuning, distillation and

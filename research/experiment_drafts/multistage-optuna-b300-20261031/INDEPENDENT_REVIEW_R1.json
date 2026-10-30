@@ -1,0 +1,294 @@
+{
+  "schema": "wnn.multistage-independent-review.v1",
+  "experiment_id": "E-MULTISTAGE-OPTUNA-B300-20261031-R1",
+  "review_id": "INDEPENDENT_REVIEW_R1",
+  "status": "initial_review_saved; R3_short_profile_source_review_pass; portable_index_patch_static_pass; launcher_static_pass; inner_metric_identity_fix_still_required_before_scientific_fits",
+  "reviewer_role": "independent specification/data/protocol critic",
+  "review_basis": {
+    "files_read_before_saving": [
+      "AGENTS.md",
+      "specs/adr/0044-chronological-primary-validation.md",
+      "specs/stage-monitoring.md",
+      "research/experiment_drafts/multistage-optuna-b300-20261031/CONTRACT.json",
+      "research-evidence-review/SKILL.md",
+      "research-recipe-audit/SKILL.md"
+    ],
+    "builder_code_read_before_saving": false,
+    "finding_scope": "Specification-level risks and falsifiers only; no implementation or receiving-host evidence reviewed yet.",
+    "authority_interpretation": "The launch is authorized within the packet's stated bounds. This review does not spend GPU resources or independently admit a recipe.",
+    "canonical_code_review_after_initial_save": [
+      "src/wnn/chronological_splits.py",
+      "src/wnn/sequence_inner_splits.py"
+    ]
+  },
+  "risk_falsifier_table": [
+    {
+      "id": "R1-DATA-01",
+      "severity": "hard_admission_gate",
+      "topic": "Official primary split identity and membership",
+      "risk": "A row-level, random, seq_ix-derived, or otherwise altered split could leak across the binding official boundary.",
+      "falsifier": "Receiving-side manifest hash differs from 0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c, or counts/whole-sequence membership differ from 10,325 train and 1,873 valid.",
+      "smallest_resolution": "Verify exact source files, manifest hash, whole-sequence membership and disjointness on the receiving host before fitting.",
+      "spec_evidence": "CONTRACT.json data_policy; ADR0044."
+    },
+    {
+      "id": "R1-DATA-02",
+      "severity": "hard_admission_gate",
+      "topic": "Primary-valid exclusion",
+      "risk": "Primary valid could enter HPO objectives, blend weights, normalizers, teacher/initializer choice, preprocessing, or early stopping.",
+      "falsifier": "Any fit, optimizer, learned transform, candidate ranking, or adaptive decision depends on primary-valid targets or scores before finalist recipes and checkpoints are frozen.",
+      "smallest_resolution": "Trace data flow and selection code; freeze candidates, endpoints and weights before the actual full-valid scoring pass. Keep valid diagnostics out of Optuna feedback.",
+      "spec_evidence": "CONTRACT.json primary_valid/finalists; ADR0044."
+    },
+    {
+      "id": "R1-DATA-03",
+      "severity": "hard_admission_gate",
+      "topic": "Train-only inner control/OOF and ancestry",
+      "risk": "Inner-held-out sequences or connected components could appear in their own model's normalizer, teacher, initializer, or prediction-producing ancestor.",
+      "falsifier": "For any inner OOF prediction, its held-out members intersect the fitting membership of any predictor or fitted preprocessing/teacher/initializer in that prediction's ancestry, or known connected groups cross the holdout boundary.",
+      "smallest_resolution": "Require per-member ancestry/membership manifests; rebuild only the necessary inner-safe ancestors. Existing full-train TL3 remains a primary reference and is ineligible as an inner OOF member until rebuilt.",
+      "spec_evidence": "CONTRACT.json ancestry/search; ADR0044."
+    },
+    {
+      "id": "R1-DATA-04",
+      "severity": "hard_admission_gate",
+      "topic": "No invented auxiliary chronology",
+      "risk": "Shuffled seq_ix, Parquet order, or arbitrary folds could be described as chronological evidence.",
+      "falsifier": "An auxiliary split claims temporal order without source-qualified timestamp/order metadata and a frozen manifest.",
+      "smallest_resolution": "Use a clearly named fitting-only grouped control/OOF design without chronology claims, or provide actual temporal-order evidence before calling it chronological.",
+      "spec_evidence": "ADR0044; CONTRACT.json search/inner_proxy."
+    },
+    {
+      "id": "R1-OBJECTIVE-01",
+      "severity": "hard_admission_gate",
+      "topic": "Inner proxy is not official WP",
+      "risk": "The all-after-warmup, weighted-Pearson train proxy could be reported or optimized as if it were official is_scored WMSE/WP.",
+      "falsifier": "Code or reports call the inner proxy the official metric, omit its mask/selected-row count, or use train proxy loss as primary-valid-equivalent evidence.",
+      "smallest_resolution": "Label it fitting-only proxy, persist exact row mask/count, targets and reduction, and keep official full-valid scoring separate.",
+      "spec_evidence": "CONTRACT.json inner_proxy; stage-monitoring.md; ADR0044."
+    },
+    {
+      "id": "R1-OBJECTIVE-02",
+      "severity": "review_pending",
+      "topic": "Loss/reduction/mask arithmetic",
+      "risk": "The implementation may silently differ in target weights, Pearson reduction, masks, denominators, clipping order, or auxiliary terms.",
+      "falsifier": "A separately derived tiny-example result disagrees with the implementation, or source trace shows a different formula/mask/reduction from the frozen recipe and declared adaptation.",
+      "smallest_resolution": "Inspect the exact runtime path and final commands; verify formulas independently on a tiny constructed example and report any intentional adaptation as a distinct arm.",
+      "spec_evidence": "Research-recipe-audit procedure; CONTRACT.json objective and precision declarations.",
+      "status": "Not assessed before this initial record."
+    },
+    {
+      "id": "R1-ANCESTOR-01",
+      "severity": "hard_admission_gate",
+      "topic": "Legacy TL3 control eligibility",
+      "risk": "The existing full-train TL3 result/checkpoint could be reused as a train-only inner control or ensemble component despite fitting on inner-held-out members.",
+      "falsifier": "Any inner-fit selection, OOF weight search, teacher pool or distillation target uses predictions from the existing full-train TL3 model.",
+      "smallest_resolution": "Keep that model only as a named primary reference until the necessary inner-safe ancestry has been rebuilt and qualified.",
+      "spec_evidence": "CONTRACT.json ancestry; AGENTS.md four-stage authorization."
+    },
+    {
+      "id": "R1-ENSEMBLE-01",
+      "severity": "hard_admission_gate",
+      "topic": "Qualified ensemble inputs and pooled metric",
+      "risk": "Weights could be optimized on non-OOF/in-sample predictions, or component WP values could be averaged instead of evaluating the pooled clipped predictions.",
+      "falsifier": "Any selected component prediction is not qualified inner OOF/control for its row, weights violate nonnegative sum-to-one constraints, or reported ensemble objective is not recomputed on pooled clipped predictions with declared metric semantics.",
+      "smallest_resolution": "Bind each prediction row to its held-out ancestry and compute the objective from the actual weighted pooled outputs, applying clipping and target/reduction rules in the declared order.",
+      "spec_evidence": "CONTRACT.json stage 4; research-recipe-audit checklist."
+    },
+    {
+      "id": "R1-CHECKPOINT-01",
+      "severity": "review_pending",
+      "topic": "Checkpoint endpoint eligibility and identity",
+      "risk": "Primary-valid best-observed moments, ambiguous scheduled endpoints, or mutable resume state could silently become finalists or ancestors.",
+      "falsifier": "Checkpoint role/epoch/update/SHA is missing or changed, optimizer/scheduler/RNG state is not bound where resume is intended, or a primary-valid-best checkpoint enters an ancestor or frozen recipe.",
+      "smallest_resolution": "Record scheduled, inner-selected and primary-valid-best roles separately; freeze eligible endpoints before valid evaluation and bind checkpoint/config/parent identities.",
+      "spec_evidence": "stage-monitoring.md; ADR0044."
+    },
+    {
+      "id": "R1-RUNTIME-01",
+      "severity": "hard_admission_gate",
+      "topic": "Strict FP32 execution",
+      "risk": "Autocast, TF32, BF16/BF16x9, or inherited process settings could change the declared scientific recipe.",
+      "falsifier": "Runtime flags, environment, cuBLAS behavior or observed tensor/parameter dtypes show an undeclared reduced-precision path.",
+      "smallest_resolution": "Capture receiver runtime settings and exercise the exact real-shape path; hold any changed precision as a separately identified arm.",
+      "spec_evidence": "CONTRACT.json precision; standing project precision amendment is not declared for this new comparison."
+    },
+    {
+      "id": "R1-RESOURCE-01",
+      "severity": "hard_admission_gate",
+      "topic": "Shared B300 allocation and worker ownership",
+      "risk": "Profiles or workers could alter NIER/MPS state, exceed shared-node headroom, or terminate a process not owned by this packet.",
+      "falsifier": "Before/after process, MPS or device inventory changes outside packet-owned PIDs; a cleanup target lacks a captured packet ownership record; or initial workers exceed the measured coexistence allocation.",
+      "smallest_resolution": "Capture read-only baseline inventory; begin at no more than one owned worker per GPU; tag and persist owned PID/process-group identities; adapt only those workers. Never stop/reconfigure foreign NIER/MPS processes.",
+      "spec_evidence": "CONTRACT.json allocation; AGENTS.md four-stage authorization."
+    },
+    {
+      "id": "R1-BUDGET-01",
+      "severity": "hard_admission_gate",
+      "topic": "Six-hour and 48-attempt caps",
+      "risk": "Ancillary OOF/TL3 ancestors or finalist refits might be omitted from the attempt count, or late work might consume the 20-minute collection reserve.",
+      "falsifier": "Attempt ledger omits any scientific fit including auxiliary ancestors/final refits, any individual attempt exceeds 7,200 seconds, total exceeds 48, or new work continues inside the final 1,200-second collection reserve.",
+      "smallest_resolution": "Start a monotonic deadline at first GPU profile; pre-register/count every scientific fit; stop admissions by deadline minus 1,200 seconds and collect artifacts/checkpoints/graphs.",
+      "spec_evidence": "CONTRACT.json allocation; AGENTS.md four-stage authorization."
+    },
+    {
+      "id": "R1-MONITOR-01",
+      "severity": "hard_admission_gate",
+      "topic": "Stage graphs and evidence capture",
+      "risk": "The required per-stage scientific evidence could be lost, mismasked, or reconstructed after workers are released.",
+      "falsifier": "Any fitted stage lacks producer-native metrics, source/config/parent/checkpoint identity, required metric/mask labels, stage plots, or terminal artifact collection before owned worker release.",
+      "smallest_resolution": "Require live events and standalone PNG/SVG exports from actual recorded metrics; retain raw metrics and checkpoint hashes before cleanup.",
+      "spec_evidence": "specs/stage-monitoring.md; CONTRACT.json required_outputs."
+    },
+    {
+      "id": "R1-FINAL-01",
+      "severity": "claim_boundary",
+      "topic": "Final evidence and transfer claim",
+      "risk": "A development-exposed full-valid delta or inner proxy could be translated into an unsupported hidden/public score claim.",
+      "falsifier": "A report predicts public/private gain from local delta alone, treats the verification tier as hidden-transfer evidence, or omits repeated validation exposure.",
+      "smallest_resolution": "Report actual frozen full-valid evidence and its exposure; state that it does not establish hidden/public transfer or independence.",
+      "spec_evidence": "CONTRACT.json baseline/verification_tier; research-evidence-review procedure."
+    },
+    {
+      "id": "R1-SEQUENCING-01",
+      "severity": "bounded_admission",
+      "topic": "Avoid unnecessary family-wide blocking",
+      "risk": "A late or unimplemented adapter could unnecessarily idle already-qualified controls and consume the bounded GPU window.",
+      "falsifier": "Runnable, independently admitted control recipes are held solely because a different optional family remains under implementation, despite separate worker/resource caps and compatible monitoring.",
+      "smallest_resolution": "Admit ready controls and useful fallback arms independently once their own data, recipe, runtime, profile, and worker checks pass; do not let that waive any per-arm gate.",
+      "spec_evidence": "Task-level direction to permit ready controls while late adapters are implemented; AGENTS.md rolling executable-queue policy."
+    },
+    {
+      "id": "R1-SPLIT-HELPER-01",
+      "severity": "confirmed_blocker_for_existing_inner_helper_only",
+      "topic": "Existing inner splitter cannot create OOF from official-train-only fitting membership",
+      "risk": "Reusing the canonical sequence_inner_splits helper for adaptive inner control/OOF assumes a nonempty fitting-valid partition that the chronological primary manifest intentionally does not contain.",
+      "falsifier": "The manifest loaded by load_chronological_split has fit.valid=[] and CampaignSplit.valid_groups=(); _selected_membership reads only split.valid_groups and raises when fewer than two fitting validation components exist.",
+      "smallest_resolution": "Implement a distinct train-only, whole-connected-component auxiliary OOF/control manifest and validator, explicitly nonchronological absent timestamp/order evidence; preserve heldout exclusion across every model/preprocessor/teacher/initializer ancestor. Keep the existing helper unchanged for its original contract.",
+      "spec_evidence": "Source inspected after initial record: src/wnn/chronological_splits.py::_expected_membership/load_chronological_split; src/wnn/sequence_inner_splits.py::_selected_membership.",
+      "status": "Confirmed against current tracked source; new builder implementation not yet available."
+    },
+    {
+      "id": "R1-SOURCE-01",
+      "severity": "hard_admission_gate",
+      "topic": "Receiving graph/index source coverage mismatch",
+      "risk": "The old B300 graph has one fewer node than the expected combined primary train/valid sequence inventory, so cached connected components, inner membership, and any apparent OOF row coverage cannot be trusted without regeneration.",
+      "falsifier": "Root-reported old graph count is 12479, while expected source count is 10607+1873=12480.",
+      "smallest_resolution": "Before any fit, independently verify the regenerated graph, train/valid indexes, source audit, source hashes and split manifest against the exact receiving raw parquet files; require complete unique coverage and declared 10325/1873 fit/evaluation counts.",
+      "spec_evidence": "Root receiving-host inventory communicated 2026-10-31; CONTRACT.json primary source hash/count policy; ADR0044.",
+      "status": "Receiving-side discrepancy reported by root; regenerated identities not reviewed by critic."
+    },
+    {
+      "id": "R1-DEADLINE-02",
+      "severity": "hard_admission_gate_for_automation",
+      "topic": "Campaign reserve deadline must be checked at the locked reservation boundary",
+      "risk": "A profile/fit can pass a deadline check, block on the shared budget ledger lock, and then start after its admitted wall would cross the 20-minute collection-reserve cutoff.",
+      "falsifier": "Current reserve_profile samples now/deadline before acquiring budget.lock; reserve_fit computes remaining wall before acquiring that lock.",
+      "smallest_resolution": "Under the budget lock, re-read the durable deadline, recompute current time and allowable wall, then append the reserved attempt; repeat the cutoff check immediately before spawning the bounded child.",
+      "spec_evidence": "src/wnn/multistage_search_runtime.py::reserve_profile and ::reserve_fit, reviewed after builder code became available; CONTRACT.json six-hour deadline and 1200-second reserve.",
+      "status": "Confirmed in current builder code; corrective patch requested, not yet re-reviewed."
+    },
+    {
+      "id": "R1-WALL-01",
+      "severity": "hard_admission_gate_for_automation",
+      "topic": "Profile/fit timeout must bound actual child and cleanup wall",
+      "risk": "Requested timeout may not be a hard wall limit if timer starts after spawn/receipt work, polling overshoots by two seconds, and termination receives an additional grace interval.",
+      "falsifier": "Current run_owned_command starts the monotonic timer after Popen and initial receipt publication; it polls every two seconds and can wait ten seconds after SIGTERM.",
+      "smallest_resolution": "Use one absolute deadline established before spawn, check it during supervision, and ensure termination/receipt finalization cannot push actual process wall past the per-attempt or campaign collection cutoff.",
+      "spec_evidence": "src/wnn/multistage_search_runtime.py::run_owned_command; CONTRACT.json 180-second profile, 7200-second fit, six-hour campaign, 1200-second collection reserve.",
+      "status": "Confirmed in current builder code; corrective patch requested, not yet re-reviewed."
+    },
+    {
+      "id": "R1-PID-01",
+      "severity": "hard_admission_gate_for_automation",
+      "topic": "Owner receipt failure must not strand an unrecorded live process",
+      "risk": "If writing a process ownership receipt fails after spawning a detached worker or profile child, the runner may propagate the I/O error while leaving a live process with no durable PID/birth/PGID record.",
+      "falsifier": "Current launch_detached_worker and run_owned_command persist owner receipts after Popen without a cleanup guard around receipt-write failure.",
+      "smallest_resolution": "On any post-spawn receipt failure, signal only the Popen-owned process group/handle, confirm exit, then propagate the error; retain root-owned exact PID/birth/PGID checks for normal cleanup.",
+      "spec_evidence": "src/wnn/multistage_search_runtime.py::launch_detached_worker and ::run_owned_command.",
+      "status": "Confirmed in current builder code; corrective patch requested, not yet re-reviewed."
+    },
+    {
+      "id": "R1-WORLD-01",
+      "severity": "hard_admission_gate",
+      "topic": "Exact profile and fit world-size identity conflict",
+      "risk": "An exact config cannot be profiled at a world size different from the full fit identity, and the current admission/profile policy and candidate config request different values.",
+      "falsifier": "Current validate_admission requires profile_policy.world_size == 1 while the current stage-one GRU/LSTM recipe config has required_world_size == 8.",
+      "smallest_resolution": "Choose one per-recipe world-size policy with root after actual coexistence inventory; bind that same world size into profile policy, config, trial request, runtime identity and fit. Never profile a modified config.",
+      "spec_evidence": "src/wnn/multistage_search.py::validate_admission; scripts/multistage_recipes.py::_sequence_config; root node policy.",
+      "status": "Confirmed current code mismatch; root reports correction underway in a new R3 world-size-one recipe."
+    },
+    {
+      "id": "R1-METRIC-IDENTITY-01",
+      "severity": "hard_admission_gate",
+      "topic": "Inner objective validator stamps an expected identity without verifying the producer identity",
+      "risk": "A score receipt can be given the selected checkpoint identity hash even if its embedded producer provenance does not match that identity.",
+      "falsifier": "Current validate_inner_objective receives expected_identity_sha256 but assigns it into the receipt without recomputing/comparing objective.producer.provenance.identity; select_best_control_epoch also trusts index entries without calling validate_index.",
+      "smallest_resolution": "Validate the producer/checkpoint/split/fit-members and recompute canonical SHA256 of producer provenance identity before adding the identity hash; validate the epoch index schema/hash before selecting its checkpoint.",
+      "spec_evidence": "src/wnn/multistage_search_metrics.py::validate_inner_objective and ::select_best_control_epoch; src/wnn/training/sequence_epoch_prediction.py::validate_index.",
+      "status": "Confirmed in current builder code; corrective patch requested, not yet re-reviewed."
+    },
+    {
+      "id": "R1-PORTABLE-INDEX-01",
+      "severity": "hard_source_admission_gate",
+      "topic": "Portable source mtime handling in index receipts",
+      "risk": "A relocated byte-identical official parquet was rejected because the source-index verifier compared receiver mtime to the original root audit mtime.",
+      "falsifier": "The reported receiver failure was in chronological_source_index._verify_source_audit_entry after full registry SHA validation; validator also compared receipt mtime to current file stat.",
+      "smallest_resolution": "In registry mode verify the exact sealed full-file SHA/size first, ignore only current mtime, preserve the original audit mtime in index receipts, and retain strict local mode.",
+      "spec_evidence": "src/wnn/chronological_source_index.py::_verify_source_audit_entry and validate_source_index_receipt; tests/test_chronological_primary_splits.py::test_portable_primary_manifest_accepts_relocated_mtimes_and_rejects_tampering.",
+      "status": "Patch reviewed statically: full hash/size validation precedes the mtime exception; source audit identity remains byte-bound; index receipt carries original audit mtime. Regression added but not run by critic; receiver rerun remains root-owned."
+    },
+    {
+      "id": "R1-LAUNCHER-OWNERSHIP-01",
+      "severity": "hard_profile_admission_gate",
+      "topic": "Direct anchor-profile launcher UUID, config, receiver and timeout binding",
+      "risk": "The original launcher selected GPUs 0-5 without UUID pinning, did not verify R3 config hashes or full receiver evidence, and could leave children running after launcher death.",
+      "falsifier": "Static inspection of the original launch_anchor_profiles.py found index-only selection, free-memory-only preflight, incomplete receiver checks, no GNU timeout watchdog, and unbounded wait after kill.",
+      "smallest_resolution": "Require the root B300 allowlist and receiver SHA/count receipt, compare each exact config to the R3 node hash, run by UUID with owned PID/birth/PGID receipts, and arm GNU timeout TERM/KILL watchdog under 180s.",
+      "spec_evidence": "research/experiment_drafts/multistage-optuna-b300-20261031/launch_anchor_profiles.py.",
+      "status": "Rewritten by critic and statically reviewed; py_compile passed. Six-profile launch remains root-owned and requires root materialize the strict inventory and receiver wrapper receipt; no GPU job was started by critic."
+    }
+  ],
+  "reviewer_limits": [
+    "No SSH, fit, data download, commit, publish or foreign-process action was performed.",
+    "No builders' new code or remote implementation was read before this file was saved.",
+    "No scientific recipe is approved by this specification-only record.",
+    "After saving the initial specification review, read only the canonical split helpers needed to verify the existing fit_valid incompatibility; builders current new code is still unread."
+  ],
+  "authority_updates": [
+    {
+      "source": "root resource decision, 2026-10-31",
+      "profile_attempts": "maximum 56 bounded attempts at 180 seconds each (8 initial plus up to 48 per distinct run identity)",
+      "unchanged_caps": "21600 seconds from first GPU profile; 48 scientific fit attempts including auxiliary ancestors/finalists; reserve 1200 seconds for collection",
+      "review_status": "Received from root; critic did not inspect SSH/node."
+    },
+    {
+      "source": "root receiving-host inventory, 2026-10-31",
+      "data_integrity": "Old B300 chains.npz has 12479 entries versus expected 10607 train-source sequences plus 1873 valid-source sequences; root is replacing it with corrected LC-primary graph/indices/audit bound to the declared primary split hash.",
+      "node_state": "Root reports 8 B300, active NIER/MPS, Torch 2.14/CUDA 13; profile clients are bounded and MPS is not reconfigured.",
+      "review_status": "Reported by root; not independently inspected by critic. Require receiving-side identity and membership verification before fit."
+    },
+    {
+      "source": "root receiving validation, 2026-10-31",
+      "data_integrity": "Root reports receiver-data-r2 success with primary split 0c4de3..., train/aux fit 8260 and control 2065, auxiliary SHA 26b448..., portable registry SHA dc0cb4..., source-r3 capsule SHA 41929c...; not independently inspected on receiver.",
+      "node_state": "No GPU profiles started when last reported; six exact R3 short profiles authorized under root-owned launcher.",
+      "review_status": "Root-reported receiver evidence only; launcher now requires a root-supplied wrapper receipt and UUID inventory."
+    }
+  ],
+  "reviewed_new_code_paths_after_initial_save": [
+    "research/experiment_drafts/multistage-optuna-b300-20261031/PROFILE_REVIEW_POLICY_R1.json",
+    "research/experiment_drafts/multistage-optuna-b300-20261031/launch_anchor_profiles.py",
+    "research/experiment_drafts/multistage-optuna-b300-20261031/review_profile.py",
+    "src/wnn/chronological_source_index.py",
+    "src/wnn/multistage_data.py",
+    "src/wnn/multistage_search.py",
+    "src/wnn/multistage_search_controller.py",
+    "src/wnn/multistage_search_runtime.py",
+    "src/wnn/splits.py",
+    "src/wnn/training/sequence_data.py",
+    "src/wnn/training/sequence_lstm_adapter.py",
+    "src/wnn/training/sequence_profile.py",
+    "src/wnn/training/sequence_score.py",
+    "tests/test_chronological_primary_splits.py"
+  ]
+}
