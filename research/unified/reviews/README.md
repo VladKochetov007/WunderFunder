@@ -1,3 +1,10 @@
+[GitHub candidate refresh](GITHUB_CANDIDATES_20261030_R1.md) inventories49 PRs
+and reviews the next useful packets: PR51 fresh-checkpoint CPU candidates,
+PR50 block-GRU/BN diagnostics, then PR47 paired Transformer-to-GRU transfer and
+PR48 width/context training. Downloaded pinned source and7/7 saved PR51 lineage
+metadata checks are recorded; native parity, numerical acceptance, runtime and
+new quality remain unmeasured. No new execution or resource allocation starts.
+
 [Checkpoint publication verification](../../experiment_drafts/checkpoint-publication-20261029/README.md)
 records an independent review of24 best checkpoints, six differing TL3 fixed
 endpoints, source-qualified memberships/normalization and original payload hashes.
