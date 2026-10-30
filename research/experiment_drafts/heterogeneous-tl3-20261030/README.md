@@ -9,6 +9,13 @@ dependency; never substitute fbc1k and label that result canonical TL3. Historic
 
 ## Actual receiving progress
 
+[Initial full-valid table](results/R1/COMPARISON.md) completes5 of12 predeclared
+rows. Canonical fresh TL3 scores0.6923774245652725; its fixed90/10 GALAM mixture
+scores0.692496447 (+0.000119022), while90/10 TCN gives0.692343740 (−0.000033684).
+These are exposed fixed-prediction comparisons, not a completed six-fit screen
+or a public-score result. Missing rows remain explicitly unavailable. See the
+[result index](results/README.md) for source/metric/coverage evidence.
+
 The two new teachers and the original W18 baseline completion are fitting in
 detached, wall-bounded owned workers. LSTM/TCN passed80 finite real-data updates
 each and actual CUDA prefix/chunk-carry checks; W18 passed40. The identified
