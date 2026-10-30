@@ -17,6 +17,13 @@ Reuse the current single SSH connection and existing L4 node; no new provider,
 billing, foreign-process stop or unrelated cleanup. See the
 [execution packet](research/experiment_drafts/heterogeneous-tl3-20261030/README.md).
 
+This exact screen is now complete: six new four-epoch fits plus the original W18
+recovery, all12fixed comparisons and independent25output numerical verification.
+Seven-model checkpoint/source artifacts are published and actual GitHub downloads
+are SHA256-verified. See the [final results](research/experiment_drafts/heterogeneous-tl3-20261030/results/R3/README.md).
+All scoped GPU workers exited. Do not duplicate these fits or infer a new training
+wave from this completed authority; preserve the fixed endpoints and exposure.
+
 ## Fresh TL3 train-only restoration — user instruction, 2026-10-28
 
 The user explicitly requests restoring TL3 training and evaluating the resulting

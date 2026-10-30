@@ -12,8 +12,10 @@ Heterogeneous student transfer is positive at both paired seeds
 controls, but its tested20%addition to TL3 is negative. All25singleton/ensemble
 outputs independently agree within5.55e-15 on the full actual scoring mask.
 The node publisher posted results to [PR52](https://github.com/VladKochetov007/WunderFunder/pull/52)
-as SemyonEpanov and exited. Seven-model checkpoint/source archives are verified
-on the node and local transport; GitHub download receipts follow actual upload.
+as SemyonEpanov and exited. Seven-model checkpoint/source archives are published
+in the [verified release](https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr52-heterogeneous-checkpoints-20261030-r1);
+all six assets passed actual GitHub download SHA256 checks. Final reviewed
+updates are linked from PR52 and the W18 recovery in PR49.
 Our GPU workers have exited. These are exposed validation results, not public scores.
 
 Use the one persistent SSH session91101 and worktree

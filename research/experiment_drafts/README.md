@@ -1,10 +1,12 @@
 # Research-team experiment catalogue
 
 - [Heterogeneous teachers and TL3 ensemble comparison](heterogeneous-tl3-20261030/README.md)
-  runs the authorized six-fit panel: LSTM, causal TCN and four paired GRU students.
-  The full official-valid table compares12 fixed combinations against canonical
-  fresh TL3; W18 completion is a separate baseline dependency. Profiles and native
-  cache/source qualification are recorded; no completed gain is claimed yet.
+  completes six fits and the original W18 dependency. All12 fixed combinations
+  are graded on full official valid; all25model/ensemble outputs independently
+  agree within5.55e-15. Student transfer is positive at both seeds, but its tested
+ 20%TL3 addition is negative. Best tested90%TL3 +10%GALAM gives+0.0001190223.
+  Seven-model weights/source release is GitHub-download-verified; our GPU jobs
+  have exited. Results remain exposed-validation evidence.
 
 - [GALAM local live monitoring and L4 comparison preparation](galam-l4-monitoring-20261028/README.md)
   adds a selectable offline dashboard, actual epoch evaluation and explicitly

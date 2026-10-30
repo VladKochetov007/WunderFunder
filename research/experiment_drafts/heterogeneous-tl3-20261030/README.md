@@ -17,6 +17,16 @@ is90%TL3 +10%GALAM:0.6924964468441978 versus TL30.6923774245652725. All25outputs
 pass an independent actual-array two-pass rescore, maximum disagreement5.55e-15.
 See [full interpretation and execution evidence](results/R3/README.md).
 
+[Verified checkpoint/source release](https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr52-heterogeneous-checkpoints-20261030-r1)
+contains all seven completed models and33original checkpoint snapshots.
+All six release assets passed actual GitHub download SHA256 verification; see
+[release receipt](GITHUB_CHECKPOINT_RELEASE_R1.json). Final independently reviewed
+results were posted as SemyonEpanov in
+[PR52](https://github.com/VladKochetov007/WunderFunder/pull/52#issuecomment-6532373933)
+and [W18's PR49](https://github.com/VladKochetov007/WunderFunder/pull/49#issuecomment-6532374408).
+The [publication receipt](FINAL_PUBLICATION_RECEIPT_R1.json) records actual authors
+and URLs. All scoped GPU processes exited; no new fitting wave is admitted.
+
 [Earlier measured table](results/R2/COMPARISON.md) completes8 of12 rows. The
 heterogeneous teacher pool improves over the two-GRU pool by0.0005554431WP;
 its transfer to paired students remains pending. Adding all three alternate
@@ -295,5 +305,6 @@ roles. A separate source archive includes original Python/dependency subsets,
 scoped tools and receiving evidence; external data/ancestor weights stay separate.
 Each ZIP member is CRC/SHA256 roundtrip-verified. Five bounded archive checks pass;
 the [actual complete node archives](receiving/CHECKPOINT_EXPORT_R1.json) contain
-all seven models. Local backup transport hashes match; the GitHub publication
-receipt is appended after actual upload/download verification.
+all seven models. Local backup transport hashes match; the
+[GitHub publication receipt](GITHUB_CHECKPOINT_RELEASE_R1.json) confirms all six
+uploaded assets were downloaded and SHA256-verified.

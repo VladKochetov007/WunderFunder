@@ -69,4 +69,8 @@ seven completed models and every original epoch snapshot, with fixed/runtime/
 best-observed roles, original normalization/provenance/history and separate source
 ZIPs. Every member passed CRC/SHA256 roundtrip checks, and transport to the local
 backup matches the node checksums. External data and ancestor weights remain
-separate. GitHub download verification is recorded after actual publication.
+separate. The [actual GitHub release](https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr52-heterogeneous-checkpoints-20261030-r1)
+is authored by SemyonEpanov; [all six assets](../../GITHUB_CHECKPOINT_RELEASE_R1.json)
+passed actual download SHA256 verification. Final reviewed updates are recorded
+in [PR52](https://github.com/VladKochetov007/WunderFunder/pull/52#issuecomment-6532373933)
+and [PR49](https://github.com/VladKochetov007/WunderFunder/pull/49#issuecomment-6532374408).

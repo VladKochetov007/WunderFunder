@@ -11,6 +11,13 @@
 - [Checkpoint export](CHECKPOINT_EXPORT_R1.json) records seven completed models,
  original member hashes and separate model/source ZIP roundtrip checks. Private
  local backup transport also matches the node checksum inventory.
+- [Per-model checkpoint manifest](CHECKPOINT_MANIFEST_R1.json) preserves the
+ exact33checkpoint byte identities, seven producer histories/configurations,
+ and distinct fixed/runtime/best-observed endpoint roles. The independent review
+ joins all seven runtime checkpoint hashes to the scored R3 endpoints.
+- [Final dashboard check](DASHBOARD_FINAL_R1.json) finds all seven completed
+ views,26epoch evaluations and zero invalid lines. Native `stale` indicates last
+ event age after completion; it does not change the completed fit metadata.
 
 - [Heterogeneous actual arithmetic](HETEROGENEOUS_ACTUAL_ARITHMETIC_R1.json)
  independently passes30/30 ordered-FP32 scalar coordinates. The
