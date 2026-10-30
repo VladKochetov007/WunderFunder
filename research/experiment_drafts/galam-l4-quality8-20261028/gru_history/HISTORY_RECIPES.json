@@ -1,0 +1,423 @@
+﻿{
+    "title":  "Historical plain GRU recipe audit",
+    "as_of":  "2026-10-28",
+    "worktree":  "C:/Users/admin/Documents/Codex/reviews/WunderFunder-galam-20261027",
+    "head":  "a52ccafb01a6ceb9cbef46bdde381d3fed31ae78",
+    "scope":  "Read-only source and metadata review. No fitting, GPU, SSH, network changes, source edits, or checkpoint/large-array reads.",
+    "protocol":  {
+                     "future_primary":  "Official chronological train-only fit, then independent official valid; preserve whole sequences. Learned preprocessing, teachers, caches and initializers must have fitting-only ancestry.",
+                     "historical_rule":  "Keep old frozen recipes/results historical. Old component-fold, train+valid, random, public, and proxy scores are not current primary validation evidence.",
+                     "identifier_rule":  "seq_ix and Parquet order do not establish timestamp chronology; require actual order evidence for any further chronological split.",
+                     "sources":  [
+                                     {
+                                         "path":  "AGENTS.md",
+                                         "lines":  "standing instruction",
+                                         "excerpt":  "Fit only on the earlier training partition; evaluate on the later independent validation partition."
+                                     },
+                                     {
+                                         "path":  "specs/adr/0044-chronological-primary-validation.md",
+                                         "lines":  "8-25,40-47",
+                                         "excerpt":  "Preserve historical recipes and label old folds historical."
+                                     }
+                                 ]
+                 },
+    "answer_summary":  "Among inspected history, the most useful reproducible plain-GRU baselines are the H256x2 scratch recipe and its warm-start student variants, plus the exact H384 HPO trial 35 record. Their metrics come from old component folds whose fit ancestry included official-valid members, so none is a current train-only chronological result. The largest scalar found (.71815) is a narrow strict425 branch result with uncertified ancestry and no public/private estimate. The best traced public report is a three-member TL3 submission at .66832. The original GALAM architecture and recipe remain unknown; plain-GRU settings are not validated GALAM-GRU settings.",
+    "top6_findings":  [
+                          {
+                              "rank":  1,
+                              "finding":  "No inspected historical result qualifies as official train-only chronological primary validation.",
+                              "evidence_class":  "protocol/source audit",
+                              "evidence":  [
+                                               {
+                                                   "path":  "specs/adr/0044-chronological-primary-validation.md",
+                                                   "lines":  "8-25,40-47",
+                                                   "excerpt":  "Fit only on training; seq_ix is not timestamp order."
+                                               },
+                                               {
+                                                   "path":  "research/unified/README.md",
+                                                   "lines":  "21-23",
+                                                   "excerpt":  "No actual-data chronology audit or exact reference identity is claimed."
+                                               }
+                                           ],
+                              "interpretation":  "Old fold results below are descriptive and already exposed. The March 5 Predictorium statement motivates policy; it does not independently establish Connectome timestamp order."
+                          },
+                          {
+                              "rank":  2,
+                              "finding":  "Strong historical internal GRU evidence includes a warm-start T3 F0 control at WP .681154 and a fixed oldZ4 student/HFT Q8 pair at .683494 on F0; both are old-fold evaluations, not official valid.",
+                              "evidence_class":  "historical proxy / old component-fold evaluation",
+                              "evidence":  [
+                                               {
+                                                   "path":  "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r4/records/RESULTS.md",
+                                                   "lines":  "3",
+                                                   "excerpt":  "F0 WP .68115416 versus Q8 .67382636 on matched rows."
+                                               },
+                                               {
+                                                   "path":  "research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/native_shared_cleanfold_q8_r2/quality_output_r2/QUALITY_RESULT_R2.json",
+                                                   "lines":  "505,982,1010",
+                                                   "excerpt":  "fold0 .683494; fold1 .670025; training_performed false."
+                                               }
+                                           ],
+                              "interpretation":  "The Q8 artifact is an evaluation of a fixed .5/.5 student/HFT blend, not a new fit. T3 is a warm-started, teacher-cache-dependent student and does not isolate distillation, initialization or optimizer effects."
+                          },
+                          {
+                              "rank":  3,
+                              "finding":  "The traced best public score is TL3 at .66832, a three-model ensemble from a user-supplied 100-submission trace.",
+                              "evidence_class":  "public submission report",
+                              "evidence":  [
+                                               {
+                                                   "path":  "research/campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/README.md",
+                                                   "lines":  "3,18-30",
+                                                   "excerpt":  "tl3.zip / 1lmehfi3 / 0.66832; members weighted .34/.33/.33."
+                                               }
+                                           ],
+                              "interpretation":  "This is public leaderboard evidence, not official valid or private evidence. Portal payload bytes are unverified. The blend combines one distilled 211-feature GRU and two tied-lead 263-feature GRUs; it is not one plain-GRU recipe."
+                          },
+                          {
+                              "rank":  4,
+                              "finding":  "HPO trial 35 is the strongest specifically recoverable H384 teacher recipe: two-fold adjusted objective .6687635, with old fold1 .6695942 and fold0 .6799267.",
+                              "evidence_class":  "historical HPO / exposed component-fold proxy",
+                              "evidence":  [
+                                               {
+                                                   "path":  "hpo/studies/teacher_v2/events.jsonl",
+                                                   "lines":  "209,241,273-274",
+                                                   "excerpt":  "trial 35 complete; objective .6687635182552166."
+                                               },
+                                               {
+                                                   "path":  "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/solution_report/CURRENT_BEST_SOLUTION_EXPLAINED.md",
+                                                   "lines":  "91-99",
+                                                   "excerpt":  "Fold1 objective, fold0 reduced by difficulty offset; folds2/3 confirmation."
+                                               }
+                                           ],
+                              "interpretation":  "This is a tunable historical lead, not a validated optimum: the objective uses two old folds; reported raw delta intervals include zero. The report\u0027s roughly +.0012 width comparison over four old folds is narrow and uncertain."
+                          },
+                          {
+                              "rank":  5,
+                              "finding":  "The canonical scratch H256x2 recipe reaches about .666-.667 on old fold1; a six-epoch run peaks at epoch 3 then degrades to about .662 and .649.",
+                              "evidence_class":  "historical fold curve",
+                              "evidence":  [
+                                               {
+                                                   "path":  "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/solution_report/CURRENT_BEST_SOLUTION_EXPLAINED.md",
+                                                   "lines":  "42-60",
+                                                   "excerpt":  "Fold1 reaches about .666 at epochs 2-3; six-epoch path peaks .6671 at epoch 3 then declines."
+                                               }
+                                           ],
+                              "interpretation":  "This supports a short-run scratch control and warns against assuming more epochs help this particular recipe. It is not a general epoch ceiling."
+                          },
+                          {
+                              "rank":  6,
+                              "finding":  "A .7181503 strict425 pair is the highest scalar found, but it is not comparable evidence for the main task or public/private quality.",
+                              "evidence_class":  "narrow proxy / uncertified ancestry",
+                              "evidence":  [
+                                               {
+                                                   "path":  "research/campaign_2026-10-06/branch_teacher_audit/RECENT_OTHER_BRANCHES.md",
+                                                   "lines":  "17",
+                                                   "excerpt":  "wave12 pair .7181503 vs teacher .7153250; organizer pretraining uncertified."
+                                               }
+                                           ],
+                              "interpretation":  "It reuses fold0 on a 425-sequence/123-chain true-mask slice, has no train holdout, and its difference from direct supervision has an interval crossing zero. The underlying result path is absent from this HEAD; no public/private estimate is stated. Do not select it over better-matched evidence by scalar alone."
+                          }
+                      ],
+    "recipe_cards":  [
+                         {
+                             "id":  "scratch_h256_fold0_seed5_ep3",
+                             "role":  "plain GRU scratch teacher / baseline",
+                             "architecture":  {
+                                                  "family":  "GRU",
+                                                  "input_features":  211,
+                                                  "feature_composition":  "112 raw + 99 causal features",
+                                                  "layers":  2,
+                                                  "hidden":  256,
+                                                  "dropout":  0,
+                                                  "head":  "Linear 211-\u003e256 GELU; 2-layer GRU; skip-concatenated head 512-\u003e256-\u003e2; no attention"
+                                              },
+                             "normalization":  "Per-feature z-score from fitting members; exact numeric mean/std vector is run-bound and not reproduced here.",
+                             "target_and_loss":  "WMSE; target clipped to +/-2; label magnitude weighting and propensity correction (power 2, epsilon .03); chunk-normalized objective; auxiliary structure and next-step losses each .3.",
+                             "optimizer_and_schedule":  "Muon for recurrent matrices, AdamW for input/head/bias parameters; LR .001, weight decay .01; OneCycle, 5% warmup then cosine to max_lr/2500.",
+                             "execution":  {
+                                               "batch_size":  32,
+                                               "chunk_length":  1000,
+                                               "epochs":  3,
+                                               "selected_epoch_zero_based":  2,
+                                               "seed":  5,
+                                               "precision":  "FP16"
+                                           },
+                             "data_and_score_scope":  "Old fold0 component-disjoint split; fit used train plus non-evaluation valid members. Historical old-fold score, not current official valid.",
+                             "source":  {
+                                            "path":  "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/local_queue_r1/done/66_f0ep3s5-fit.json",
+                                            "lines":  "18-88",
+                                            "excerpt":  "H256x2; fold0; train+valid; B32/C1000; fixed epoch 2."
+                                        },
+                             "report_source":  {
+                                                   "path":  "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/solution_report/CURRENT_BEST_SOLUTION_EXPLAINED.md",
+                                                   "lines":  "20-50,60",
+                                                   "excerpt":  "211 inputs; two-layer H256 GRU; short-run fold1 trajectory."
+                                               },
+                             "replay_notes":  "Historical run manifest is concrete. Use it only as a historical recipe; do not silently replace membership with official train-only protocol and call it a reproduction."
+                         },
+                         {
+                             "id":  "h230_warm_student_fold1_seed3_ep3",
+                             "role":  "plain GRU warm-start teacher-distilled student",
+                             "architecture":  {
+                                                  "family":  "GRU",
+                                                  "input_features":  211,
+                                                  "layers":  2,
+                                                  "hidden":  256,
+                                                  "head":  "same H256 skip-head family"
+                                              },
+                             "normalization":  "Parent-compatible z-score identity; numeric transform is tied to the parent/run artifact.",
+                             "target_and_loss":  "Student target .3 labels + .7 four-family teacher average; WMSE/chunk; auxiliary structure and next-step .3/.3; family-head loss .1; propensity power 2/epsilon .03.",
+                             "optimizer_and_schedule":  "AdamW LR 1e-4, weight decay .01, OneCycle; exact warmup fraction not pinned in the launch manifest.",
+                             "execution":  {
+                                               "batch_size":  16,
+                                               "chunk_length":  2000,
+                                               "epochs":  3,
+                                               "selected_epoch_zero_based":  2,
+                                               "seed":  3,
+                                               "precision":  "FP16",
+                                               "alpha_teacher":  0.7
+                                           },
+                             "ancestry":  "Warm start c20261003_combo_s3_f1@ep3; fixed four-family teacher cache, coefficient sum .8125 before declared target mixing.",
+                             "data_and_score_scope":  "Old fold1 component split; train+valid historical fit with held-out component group evaluation. Reported H230 WP .66922; exposed old fold, not official valid.",
+                             "source":  {
+                                            "path":  "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/local_queue_r1/done/18_h230-f1-s3-ep3-fit-r1.json",
+                                            "lines":  "18-96",
+                                            "excerpt":  "Warm start; B16/C2000; alpha .7; family loss .1; fixed epoch 2."
+                                        },
+                             "replay_notes":  "Training and teacher-cache ancestry include old component-fold membership; the recipe is not a validated train-only chronological student."
+                         },
+                         {
+                             "id":  "teacher_hpo_trial35",
+                             "role":  "plain GRU teacher HPO point; exact event-record hyperparameters",
+                             "architecture":  {
+                                                  "family":  "GRU",
+                                                  "input_features":  "campaign default 211; trial event itself does not repeat input dimension",
+                                                  "layers":  2,
+                                                  "hidden":  384,
+                                                  "dropout":  0.1592949958,
+                                                  "input_activation":  "GELU",
+                                                  "initialization":  "default"
+                                              },
+                             "normalization":  "Campaign fit-set z-score; exact per-run numeric stats not in the HPO event row.",
+                             "target_and_loss":  "WMSE; label-weight power .8146287591 and floor .1068298558; class-3 weight 1.2320221433; propensity power 2; auxiliary structure/next .3/.3.",
+                             "optimizer_and_schedule":  "muon_hidden; LR .001033319571; Muon multiplier .7771685584; weight decay .00313357239; WSD-linear; warmup .05; WSD decay .1038307290; final LR fraction .0323694645; 2 restarts; SWA fraction .2318759432.",
+                             "execution":  {
+                                               "batch_size":  32,
+                                               "chunk_length":  1000,
+                                               "epochs":  4,
+                                               "selected_epoch_zero_based":  3,
+                                               "seed":  3,
+                                               "folds":  [
+                                                             0,
+                                                             1
+                                                         ]
+                                           },
+                             "score_scope":  {
+                                                 "fold1_wp":  0.6695941724205425,
+                                                 "fold0_wp":  0.679926650783106,
+                                                 "two_fold_adjusted_objective":  0.6687635182552166,
+                                                 "classification":  "historical component folds; fit logs show train plus non-evaluation valid groups"
+                                             },
+                             "source":  {
+                                            "path":  "hpo/studies/teacher_v2/events.jsonl",
+                                            "lines":  "209,241,273-274",
+                                            "excerpt":  "trial35 H384 / WSD-linear; completed adjusted objective .6687635."
+                                        },
+                             "replay_notes":  "Raw event provides exact HPO settings and the logs fix seed/checkpoint, but this review did not recover a single shell command or a current-protocol replay. The trial objective is not official chronological validation."
+                         },
+                         {
+                             "id":  "clean_t3_warm_student_f0_seed3_ep6",
+                             "role":  "historical warm-start GRU student / strong internal control",
+                             "architecture":  {
+                                                  "family":  "GRU",
+                                                  "layers":  2,
+                                                  "hidden":  256,
+                                                  "batch_size":  16,
+                                                  "chunk_length":  2000
+                                              },
+                             "normalization":  "Same fit normalization as warm parent; numeric transform is artifact-bound.",
+                             "target_and_loss":  "WMSE/chunk, target clipped and weighted; target is .9 mean teacher cache + .1 clipped label; teacher cache averages three H384 teachers scaled by .8125; auxiliary losses .3/.3.",
+                             "optimizer_and_schedule":  "AdamW LR 1e-4, weight decay .01, OneCycle.",
+                             "execution":  {
+                                               "epochs":  6,
+                                               "selected_epoch_zero_based":  5,
+                                               "seed":  3,
+                                               "precision":  "FP16",
+                                               "completed_updates":  44741
+                                           },
+                             "ancestry":  "Warm-start c20261003_combo_s3_f0@ep3; teacher cache clean_t3_f0_h390_t3r5_a9_r2; parent and child share normalization.",
+                             "score_scope":  "Matched old F0 rows: WP .6811541566 versus Q8 .6738263577. Historical component fold; not an independent official valid result and does not isolate KD/init/features/optimizer/duration.",
+                             "source":  {
+                                            "path":  "artifacts/runs/clean_t3_f0_control_s3_a9_t3r5_r2_p3_envr1/provenance.json",
+                                            "lines":  "2,9-10,28,114,12666,13079",
+                                            "excerpt":  "H256x2; alpha .9; six epochs; train+valid; warm parent."
+                                        },
+                             "review_source":  {
+                                                   "path":  "research/unified/reviews/CLEAN_T3_TEACHER_STUDENT_BOTTLENECK_REVIEW_20261015_R1.md",
+                                                   "lines":  "24-27,41-47",
+                                                   "excerpt":  "Teacher cache and warm-start ancestry; 44,741 updates."
+                                               },
+                             "replay_notes":  "This is a strong historical internal control, not evidence that distillation or six epochs caused the matched-row gap."
+                         },
+                         {
+                             "id":  "tl3_public_three_member_ensemble",
+                             "role":  "highest traced public submission in inspected source",
+                             "blend":  {
+                                           "score":  0.66832,
+                                           "identifier":  "1lmehfi3",
+                                           "members":  [
+                                                           {
+                                                               "weight":  0.34,
+                                                               "model":  "distilled GRU256x2, 211 features; warm fbc1k parent; AdamW 2 epochs; teacher alpha .7"
+                                                           },
+                                                           {
+                                                               "weight":  0.33,
+                                                               "model":  "tied-lead GRU256x2, 263 features (211+52 lead); scratch parent; Muon/AdamW 4 epochs; EMA; alpha .5"
+                                                           },
+                                                           {
+                                                               "weight":  0.33,
+                                                               "model":  "tied-lead GRU256x2, same 263-feature family, second seed/checkpoint"
+                                                           }
+                                                       ]
+                                       },
+                             "score_scope":  "Public leaderboard per user-supplied 100-submission trace; not valid/private. Portal payload bytes unverified.",
+                             "source":  {
+                                            "path":  "research/campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/README.md",
+                                            "lines":  "3,18-30",
+                                            "excerpt":  "tl3 score .66832; members .34/.33/.33."
+                                        },
+                             "replay_notes":  "This is an ensemble recipe, not a single plain-GRU baseline; do not attribute its public score to one member."
+                         },
+                         {
+                             "id":  "oldz4_student_hft_fixed_q8_pair",
+                             "role":  "fixed two-member historical output blend; evaluation only",
+                             "blend":  {
+                                           "members":  [
+                                                           "oldz4 student",
+                                                           "HFT"
+                                                       ],
+                                           "weights":  [
+                                                           0.5,
+                                                           0.5
+                                                       ],
+                                           "inference":  "Q8VNNI",
+                                           "fold0_wp":  0.6834944364991873,
+                                           "fold1_wp":  0.6700246323383656
+                                       },
+                             "score_scope":  "Old exposed component folds; artifact explicitly says training_performed false. Not current official valid.",
+                             "training_provenance_for_student":  {
+                                                                     "architecture":  "GRU H256x2",
+                                                                     "optimizer":  "AdamW",
+                                                                     "lr":  0.0001,
+                                                                     "weight_decay":  0.01,
+                                                                     "scheduler":  "OneCycle; warmup_frac null",
+                                                                     "batch_size":  16,
+                                                                     "chunk_length":  2000,
+                                                                     "epochs":  2,
+                                                                     "selected_epoch_zero_based":  1,
+                                                                     "seed":  3,
+                                                                     "alpha_teacher":  0.7,
+                                                                     "family_head_loss":  0.1,
+                                                                     "auxiliary":  ".3/.3",
+                                                                     "init":  "oldz4_h230_parent_f0_s3_r3@ep3",
+                                                                     "fit_source":  "train+valid historical fold",
+                                                                     "teacher_cache":  "bd26_h230_w384_family_v1"
+                                                                 },
+                             "source":  {
+                                            "path":  "research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/native_shared_cleanfold_q8_r2/CONTRACT_R2.json",
+                                            "lines":  "11-28,123-130",
+                                            "excerpt":  "Fixed .5/.5 student/HFT; old component folds."
+                                        },
+                             "evaluation_source":  {
+                                                       "path":  "research/campaign_2026-10-06/bandit_continuation/ops_continuation_20261011/native_shared_cleanfold_q8_r2/quality_output_r2/QUALITY_RESULT_R2.json",
+                                                       "lines":  "505,982,1010",
+                                                       "excerpt":  "F0 .683494; F1 .670025; no training performed."
+                                                   },
+                             "student_source":  {
+                                                    "path":  "artifacts/runs/oldz4_h230_student_f0_s3_r3/provenance.json",
+                                                    "lines":  "2,9-10,28,100,158,12843",
+                                                    "excerpt":  "H256x2; AdamW; warm-start; alpha .7; two epochs."
+                                                }
+                         }
+                     ],
+    "positive_experiments":  [
+                                 {
+                                     "claim":  "The six-epoch T3 warm student exceeds the matched old-F0 Q8 control by .0073278 WP.",
+                                     "evidence":  "Matched-row evaluation only; one exposed fold and warm-start/cache bundle confound attribution.",
+                                     "source":  "research/campaign_2026-10-18/quality_gap_r1/strong_control_evaluation_r4/records/RESULTS.md:3,25"
+                                 },
+                                 {
+                                     "claim":  "Trial35 H384 is a historical HPO lead; report describes roughly +.0012 consistent width gain over four old folds.",
+                                     "evidence":  "Two-fold adjusted objective .66876; raw delta intervals cover zero; not proof H384 is optimal.",
+                                     "source":  "hpo/studies/teacher_v2/events.jsonl:209,274; research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/solution_report/CURRENT_BEST_SOLUTION_EXPLAINED.md:91-99"
+                                 },
+                                 {
+                                     "claim":  "TL3 is the strongest traced public result in inspected source at .66832.",
+                                     "evidence":  "User-supplied submission trace; score belongs to a three-model blend; payload bytes are not verified.",
+                                     "source":  "research/campaign_2026-10-18/quality_gap_r1/public_submission_trace_r1/README.md:3,18-30"
+                                 }
+                             ],
+    "negative_or_cautionary_experiments":  [
+                                               {
+                                                   "claim":  "The six-epoch scratch curve peaks around epoch 3 and then falls to .662/.649.",
+                                                   "evidence":  "One old fold/recipe trajectory; do not turn into a universal duration ceiling.",
+                                                   "source":  "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/solution_report/CURRENT_BEST_SOLUTION_EXPLAINED.md:60"
+                                               },
+                                               {
+                                                   "claim":  "Alpha-zero student CP1/3/5 scores are .6763677/.6722203/.6668425 versus alpha .9 .6803146/.6809641/.6811554.",
+                                                   "evidence":  "At CP5 alpha-zero delta is -.01431282 with interval [-.03116723,-.00112208]; one exposed F0. Training-fit improves while evaluation declines, descriptive rather than causal.",
+                                                   "source":  "research/campaign_2026-10-15/student_quality_tradeoff_r1/README.md:16,18,24"
+                                               },
+                                               {
+                                                   "claim":  "The six-fold/student-setting or narrow width comparisons do not justify hard ceilings or a universal architecture choice.",
+                                                   "evidence":  "Small old-fold/seed scope; intervals overlap zero; long-run or broader architecture negatives are not general impossibility results.",
+                                                   "source":  "research/campaign_2026-10-06/bandit_continuation/diversity_stack_20261009/solution_report/CURRENT_BEST_SOLUTION_EXPLAINED.md:80,99"
+                                               }
+                                           ],
+    "public_valid_proxy_ledger":  [
+                                      {
+                                          "result":  "TL3 .66832",
+                                          "label":  "public report",
+                                          "caveat":  "user-supplied trace; trio blend; portal payload unverified"
+                                      },
+                                      {
+                                          "result":  "HPO35 .66876 objective; .66959 F1; .67993 F0",
+                                          "label":  "historical component-fold evaluation / adjusted proxy",
+                                          "caveat":  "old train+valid membership; folds not chrono; exposed"
+                                      },
+                                      {
+                                          "result":  "T3 F0 .681154",
+                                          "label":  "historical matched-row proxy",
+                                          "caveat":  "warm-start/cache dependent; one old fold; no causal attribution"
+                                      },
+                                      {
+                                          "result":  "oldZ4 student/HFT Q8 F0 .683494; F1 .670025",
+                                          "label":  "fixed ensemble output evaluation",
+                                          "caveat":  "training_performed=false; old component folds; not official valid"
+                                      },
+                                      {
+                                          "result":  "strict425 wave12 pair .7181503",
+                                          "label":  "narrow branch proxy",
+                                          "caveat":  "425 sequences/123 chains; fold0 reused; organizer pretraining uncertified; no public/private estimate"
+                                      }
+                                  ],
+    "galam_boundary":  {
+                           "statement":  "Keep historical plain-GRU recipes distinct from the new schematic GALAM-GRU reconstruction.",
+                           "reason":  "Source-traced GALAM packet identifies visible blocks and example configurations but does not establish original dimensions, original training recipe, exact source identity or fidelity of hyperparameters. No plain-GRU historical hyperparameter is proven optimal for GALAM.",
+                           "source":  {
+                                          "path":  "research/unified/sources/galam-20261027/FIDELITY.md",
+                                          "lines":  "3-6,23",
+                                          "excerpt":  "Missing source details remain unknown; hidden widths and context choices are illustrative."
+                                      }
+                       },
+    "unknowns":  [
+                     "No historical result in this audit was re-run under the current official train-only fit / independent official valid protocol.",
+                     "The exact per-run normalization vectors and complete row/group ancestry for every old teacher/cache are artifact-bound; this report gives recipe semantics, not copied numeric arrays.",
+                     "Trial35 raw event parameters and fold score records are recovered, but one standalone executable command and exact process/environment capture were not recovered here.",
+                     "TL3 portal payload bytes and exact serving-side member payload identity remain unverified.",
+                     "Strict425 underlying wave12 report is absent from this HEAD; only the summary in RECENT_OTHER_BRANCHES.md was available.",
+                     "No current Connectome timestamp/order evidence is established by the Predictorium protocol statement or by seq_ix.",
+                     "Original GALAM image dimensions/source and exact original training recipe are unknown; no exact reconstruction claim is supported.",
+                     "The inspected source set is a bounded historical audit, not proof that no higher or stronger result exists elsewhere in all repository history."
+                 ],
+    "source_reference_convention":  "Repository paths are relative to the stated HEAD. Excerpts are short location aids, not full-source quotations."
+}

@@ -92,3 +92,7 @@ Keep provenance and source links with each imported item. Generated idea cards d
 ## Current sequence-moment investigation
 
 - [RevIN official implementation and its causal-use limitation](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) records the ICLR2022authors' [repository](https://github.com/ts-kim/RevIN) and inspected RevIN.py reduction over the supplied temporal axis. Relevant to mean/variance normalization: a whole-current-sequence call would leak future observations in this competition; the local expanding-prefix treatment is an adaptation, with no imported performance claim.
+
+## GALAM reconstruction — 27 October 2026
+
+[Source-traced GALAM and WUNDERNN discussion evidence](galam-20261027/README.md) preserves the supplied diagram and four screenshot hashes, public primary-source search, four requested research directions and a source-to-code fidelity map. Components and causal correctness checks are implemented; original dimensions, exact fusion operands, historical hyperparameters and the FiLM ensemble are unavailable. No exact reference identity or empirical gain is claimed.

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+import json
 import os
 
 import numpy as np
@@ -11,6 +13,22 @@ from wnn.resources import dataloader_budget
 from wnn.training.datasets import Sequences
 from wnn.training.state import TrainingRun
 from wnn.training_sampling import EpochOrderSampler
+
+
+def select_train_eval_row_groups(train_idx: np.ndarray, sequence_count: int) -> list[int]:
+    """Select a stable source-order prefix shared across fit seeds and configs."""
+    groups = np.asarray(train_idx)
+    if (
+        groups.ndim != 1
+        or groups.dtype.kind not in "iu"
+        or not 1 <= sequence_count <= 32
+        or len(set(map(int, groups))) != len(groups)
+    ):
+        raise ValueError("train-eval selection needs unique integer groups and a count in [1, 32]")
+    ordered = np.sort(groups.astype(np.int64, copy=False))
+    if len(ordered) < sequence_count:
+        raise ValueError("train-eval prefix exceeds the fitting membership")
+    return list(map(int, ordered[:sequence_count]))
 
 
 def build_loaders(run: TrainingRun) -> None:
@@ -33,6 +51,9 @@ def build_loaders(run: TrainingRun) -> None:
     sampler = run.data.sampler
     teachers = run.data.teachers
     thin = run.data.thin
+    train_eval_loader = None
+    train_eval_members_sha256 = None
+    train_eval_row_groups = None
     train_ds = run.data.train_ds
     train_idx = run.data.train_idx
     train_loader = run.data.train_loader
@@ -121,6 +142,25 @@ def build_loaders(run: TrainingRun) -> None:
         if valid_ds is None
         else DataLoader(valid_ds, batch_size=16, num_workers=0, prefetch_factor=None)
     )
+    if args.train_eval_seqs:
+        if train_split != "train":
+            ap.error("--train-eval-seqs requires a fitting source named train")
+        if campaign_split is None or not np.array_equal(
+            np.sort(train_idx), np.asarray(campaign_split.train_groups, dtype=np.int64)
+        ):
+            ap.error("--train-eval-seqs requires the complete official train fit membership")
+        train_eval_row_groups = select_train_eval_row_groups(train_idx, args.train_eval_seqs)
+        members = [["train", group] for group in train_eval_row_groups]
+        member_bytes = json.dumps(members, separators=(",", ":")).encode("ascii")
+        train_eval_members_sha256 = hashlib.sha256(member_bytes).hexdigest()
+        train_eval_ds = Sequences("train", train_eval_row_groups, environment=environment)
+        train_eval_loader = DataLoader(
+            train_eval_ds,
+            batch_size=args.train_eval_seqs,
+            shuffle=False,
+            drop_last=False,
+            num_workers=0,
+        )
     frontier_order = None
     if frontier_contract is not None:
         if frontier_cache_binding is None or extra_valid is None or train_split != "train":
@@ -143,6 +183,9 @@ def build_loaders(run: TrainingRun) -> None:
     run.data.sampler = sampler
     run.data.thin = thin
     run.data.train_ds = train_ds
+    run.data.train_eval_loader = train_eval_loader
+    run.data.train_eval_members_sha256 = train_eval_members_sha256
+    run.data.train_eval_row_groups = train_eval_row_groups
     run.data.train_loader = train_loader
     run.data.valid_loader = valid_loader
     run.data.workers = workers

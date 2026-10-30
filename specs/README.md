@@ -12,6 +12,7 @@ the evidence for individual results.
 4. [Idea generation](idea-generation.md)
 5. [Agent contract](agent-contract.md) and [experiment execution](experiment-execution.md)
 6. [Decision records](adr/README.md)
+7. [Graphs and checkpoint tracking at every stage](stage-monitoring.md)
 
 The latest user instruction and the dated entry at the top of
 [current-state.md](current-state.md) determine what is active. Older campaign

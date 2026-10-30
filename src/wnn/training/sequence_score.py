@@ -9,12 +9,24 @@ import numpy as np
 from wnn.data import SEQUENCE_LENGTH, WARMUP, SequenceFile
 from wnn.evaluation import paired_component_moments
 from wnn.gmetric import GlobalAccumulator, _merge_moments
-from wnn.splits import file_sha256, load_campaign_split
+from wnn.splits import (
+    CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+    SEQUENCE_INNER_SPLIT_SCHEMA,
+    file_sha256,
+    load_campaign_split,
+)
 from wnn.training.sequence_cache import validate_export_schema, validate_producer
 from wnn.training.sequence_epoch_prediction import EPOCH_KIND, validate_epoch_producer
 
 
-def score_export(root: Path, split_manifest: Path, predictions: Path, output: Path) -> None:
+def score_export(
+    root: Path,
+    split_manifest: Path,
+    predictions: Path,
+    output: Path,
+    *,
+    report_only_primary_valid: bool = False,
+) -> None:
     """Score every held-out row once with the canonical pooled official metric."""
     split = load_campaign_split(split_manifest, root)
     manifest_path = predictions / "manifest.json"
@@ -26,15 +38,31 @@ def score_export(root: Path, split_manifest: Path, predictions: Path, output: Pa
     if meta["split_sha256"] != split.sha256:
         raise ValueError("prediction split hash mismatch")
     validate_export_schema(meta, "evaluation")
-    fitting = [("train", g) for g in split.train_groups] + [
-        ("valid", g) for g in split.valid_groups
-    ]
+    fitting = [("train", g) for g in split.train_groups]
+    if split.schema != CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        fitting += [("valid", g) for g in split.valid_groups]
     epoch_evaluation = meta["producer"].get("kind") == EPOCH_KIND
     if epoch_evaluation:
-        if json.loads(split_manifest.read_text()).get("schema") != "wnn.sequence-inner-split.v1":
-            raise ValueError("retained epoch selection cannot consume outer evaluation")
-        validate_epoch_producer(meta["producer"], split.sha256, fitting)
+        if split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+            if (
+                not report_only_primary_valid
+                or meta["producer"].get("primary_valid_report_only") is not True
+            ):
+                raise ValueError(
+                    "chronological retained epochs require explicit report-only primary-valid mode"
+                )
+            validate_epoch_producer(
+                meta["producer"], split.sha256, fitting, primary_report_only=True
+            )
+        elif split.schema == SEQUENCE_INNER_SPLIT_SCHEMA:
+            if report_only_primary_valid:
+                raise ValueError("report-only primary mode requires the chronological split")
+            validate_epoch_producer(meta["producer"], split.sha256, fitting)
+        else:
+            raise ValueError("retained epoch reports require inner or chronological membership")
     else:
+        if report_only_primary_valid:
+            raise ValueError("report-only primary mode requires a retained epoch export")
         validate_producer(meta["producer"], split.sha256, fitting)
     members = [(entry["split"], entry["row_group"]) for entry in meta["sequences"]]
     expected = [("valid", group) for group in split.evaluation_groups]
@@ -83,10 +111,13 @@ def score_export(root: Path, split_manifest: Path, predictions: Path, output: Pa
             str(k): v.tolist() for k, v in centered_by_component.items()
         },
         "interpretation": (
-            "Inner development metric for epoch selection; not outer confirmation or public score."
+            "Report-only full official-valid metric for this retained epoch; no checkpoint selection; validation is exposed."
+            if report_only_primary_valid
+            else "Inner development metric for epoch selection; not outer confirmation or public score."
             if epoch_evaluation
             else "Exposed fold; fixed endpoint, not checkpoint selection or public score."
         ),
+        "report_only_primary_valid": report_only_primary_valid,
     }
     with output.open("x") as stream:
         json.dump(receipt, stream, indent=2, allow_nan=False)
@@ -100,5 +131,12 @@ def main() -> None:
     parser.add_argument("--split-manifest", type=Path, required=True)
     parser.add_argument("--predictions", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--report-only-primary-valid", action="store_true")
     args = parser.parse_args()
-    score_export(args.data_root, args.split_manifest, args.predictions, args.output)
+    score_export(
+        args.data_root,
+        args.split_manifest,
+        args.predictions,
+        args.output,
+        report_only_primary_valid=args.report_only_primary_valid,
+    )

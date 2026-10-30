@@ -1,0 +1,63 @@
+{
+  "schema": "wnn.tl3-chronological-score.v1",
+  "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "valid_sequences": 1873,
+  "selected_rows": 3528273,
+  "members": [
+    {
+      "run": "tl3c_w18final_distilled_s5",
+      "weight": 0.34,
+      "checkpoint_sha256": "a66488e99ed49373722c206df0fa8fd97c179246a72369b69732bb32029baae6",
+      "prediction_sha256": "642475ab1e26f18001312a8680dba621a0df079fe314c531eaf214308624aacb",
+      "epoch": 1
+    },
+    {
+      "run": "tl3c_fttall_tlead_s5",
+      "weight": 0.33,
+      "checkpoint_sha256": "f447271a524fde75779f171c1e796cf9827fda6bad8e3525f05def466393a13c",
+      "prediction_sha256": "1b42f30f61554286b68d15a5f640f346b94e988c69099f0f03fd7a4c4ab5aa3d",
+      "epoch": 3
+    },
+    {
+      "run": "tl3c_fttall_tlead_s6",
+      "weight": 0.33,
+      "checkpoint_sha256": "ef654318599b835c4b69426b56680335d11605f0f0a82557d52bccfcc3a5ed41",
+      "prediction_sha256": "9aa551910cc453bde7525a1a0e9bdabdf6f2909b0cd1a860d4454f36d85fd19e",
+      "epoch": 3
+    }
+  ],
+  "scores": {
+    "w18final_distilled_s5": {
+      "t0": 0.6878701879593053,
+      "t1": 0.6949628239945271,
+      "wp": 0.6914165059769162,
+      "selected_rows": 3528273,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "fttall_tlead_s5": {
+      "t0": 0.6878379819344286,
+      "t1": 0.6949925755598049,
+      "wp": 0.6914152787471167,
+      "selected_rows": 3528273,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "fttall_tlead_s6": {
+      "t0": 0.6868911592991259,
+      "t1": 0.6950066763906596,
+      "wp": 0.6909489178448928,
+      "selected_rows": 3528273,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "fixed_tl3_blend": {
+      "t0": 0.6887196906212466,
+      "t1": 0.6960351585092984,
+      "wp": 0.6923774245652725,
+      "selected_rows": 3528273,
+      "metric_id": "global_wp_clip2_v1"
+    }
+  },
+  "clean_gru_reference_wp": 0.6778561232160607,
+  "blend_delta_to_clean_gru": 0.014521301349211813,
+  "exposure": "exposed official valid; fixed coefficients, no new public/private result",
+  "baseline_uncertainty": "single-seed benchmark; no paired training-variance claim"
+}

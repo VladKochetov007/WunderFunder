@@ -1,0 +1,126 @@
+{
+  "all_checks_pass": true,
+  "artifact_files": {
+    "cell-admission.json": {
+      "bytes": 2526,
+      "sha256": "ec12f402a79ba17176ac0a68fdc52b3dbfbd6e399e0cde94aa5afd8f495ae75a"
+    },
+    "checkpoint_pointers.json": {
+      "bytes": 1263,
+      "sha256": "c9fc235940f35e689b63c810196ed8336a248b957fb2511f7e2cd04451c25880"
+    },
+    "metrics.jsonl": {
+      "bytes": 278,
+      "sha256": "4b3bd72805f0a29d793412c6862801ed4af0b704955bf184a6aa74ffb6b0eb11"
+    },
+    "monitor_evaluations.jsonl": {
+      "bytes": 2710,
+      "sha256": "911fa3de5f320771521e4bb76ebaf94bd976c905b697668cffcffaf918140af3"
+    },
+    "run_metadata.json": {
+      "bytes": 235679,
+      "sha256": "6952c5a8fc6dc2dd5c0c35e7fb1133c52cb305dbf0d78a282a8428543d613769"
+    }
+  },
+  "cell": "g0-plain-gru256x2",
+  "checkpoint": {
+    "best_epoch": 1,
+    "best_last_same_artifact": true,
+    "best_wp": 0.6681328342131636,
+    "checkpoint_bytes": 4539443,
+    "checkpoint_bytes_read_by_reviewer": false,
+    "checkpoint_sha256_root_verified": "94db7c641883d5de298e2dbc54d3671b894acac452f8ef03547b3b5e85798536",
+    "completed_epochs": 1,
+    "early_stopping": {
+      "bad_count": 0,
+      "min_delta": 0.0005,
+      "min_delta_applies_to": "patience reset only; best pointer uses strict raw WP",
+      "min_epoch": 5,
+      "patience": 4,
+      "patience_counting": "consecutive full-valid checks from the first check; stopping is eligible after min_epoch",
+      "patience_reference_wp": 0.6681328342131636
+    },
+    "last_epoch": 1,
+    "pointer_status": "running"
+  },
+  "checks": {
+    "R9_source_file_map_is_exact": true,
+    "all_reported_eval_metrics_finite_and_wp_pointer_consistent": true,
+    "best_and_last_point_to_root_verified_epoch1_checkpoint": true,
+    "current_panel_config_hash_and_identity_match": true,
+    "early_stop_not_triggered": true,
+    "evaluation_contains_all_official_valid_members": true,
+    "full_valid_and_train_eval_coverage_masks_rows_hashes": true,
+    "launch_cell_identity_binds_evaluation_and_pointers": true,
+    "normalizer_is_train_fit_only_event211": true,
+    "online_epoch_metric_is_finite_and_bound_to_epoch": true,
+    "split_and_source_table_match_reviewed_receipt": true,
+    "training_and_monitor_masks_are_pinned": true,
+    "whole_sequence_fit_contains_train_only_members": true
+  },
+  "claim_limits": [
+    "The full official-valid WP is a first-epoch monitored result on an exposed validation partition, not a public or private result.",
+    "No quality promotion, gain, or overfit claim is made.",
+    "Checkpoint hash/size verification is recorded in the producer admission evidence and was not independently repeated because checkpoint weights were out of scope.",
+    "The full eight-cell training cohort continues; this review did not stop or change it."
+  ],
+  "epoch1_metrics": {
+    "epoch": 1,
+    "epoch_training_seconds": 768.4311223737895,
+    "full_valid_seconds": 73.93800570443273,
+    "global_step": 6460,
+    "online_training_loss": 1.4497318059398403,
+    "train_eval": {
+      "coverage_complete": true,
+      "loss": 1.341924423600839,
+      "member_sha256": "af03f5f34692d6b783e11e9a22b5000cf781e880bad77488542e30724fba74ff",
+      "row_mask": "all_after_warmup",
+      "selected_rows": 636832,
+      "sequence_count": 32,
+      "t0_wp": 0.4630198738958195,
+      "t1_wp": 0.43671820097877595,
+      "wp": 0.4498690374372977
+    },
+    "train_eval_seconds": 1.2216475829482079,
+    "valid": {
+      "coverage_complete": true,
+      "loss": 1.0262915112082838,
+      "member_sha256": "44bdcf8444d841ce013411cd82a0ca1d9e46728937212cdc52e04da7e24ff3f7",
+      "row_mask": "is_scored",
+      "scored_rows": 3528273,
+      "sequence_count": 1873,
+      "t0_wp": 0.6659784030648332,
+      "t1_wp": 0.6702872653614939,
+      "wp": 0.6681328342131636
+    }
+  },
+  "identity": {
+    "config_sha256": "1e7757318d822501c4d729ad4c08a41ad8d2ee69e21e811f0af9b5be2d0e34d9",
+    "evaluation_valid_sequences": 1873,
+    "fit_train_sequences": 10325,
+    "fit_valid_sequences": 0,
+    "normalization": {
+      "identity_sha256": "d6343f6077eb5a445aa3464ff28cef67435c09abc140eea8951f197fa65e35d4",
+      "input_schema": "raw112-event211-v1",
+      "moments_sha256": "8094dea7c59d4e8c1ae88bcde084ed77e8d50b45be7261e9078785ae826b04e2",
+      "scope": "all_fit",
+      "sequence_count": 10325,
+      "source_fingerprints": [
+        "datasets/train.parquet"
+      ]
+    },
+    "source_files": 224,
+    "source_sha256": "f9685716d64ecb5ceef2ec821781fa4078ff21661201edfcdac8292867990230",
+    "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "teacher": null
+  },
+  "launch_id": "e635250b62fa489d94c987d4898ff417",
+  "mask_comparability": {
+    "conclusion": "Do not infer overfit or a train-to-validation generalization gap from these WP values. The diagnostic train_eval score uses a 32-sequence train cohort with all_after_warmup (636,832 selected rows); official valid covers all 1,873 sequences and uses is_scored (3,528,273 rows). The online training loss is a separate training objective. Only one epoch is reported.",
+    "producer_statement": "train_eval uses all_after_warmup; valid uses official is_scored; masks differ"
+  },
+  "result": "metadata_checks_pass_first_epoch_only_run_continues",
+  "reviewed_date_utc": "2026-10-28",
+  "schema": "wnn.independent-first-scientific-epoch-review.v1",
+  "scope": "bounded metadata audit; no arrays, weights, SSH, GPU execution, rescoring, promotion, or fit control"
+}
