@@ -1,0 +1,534 @@
+{
+  "schema": "wnn.heterogeneous-tl3-independent-review.v1",
+  "status": "source_review_complete_actual_student_cache_admission_pending",
+  "created_utc": "2026-10-30T17:54:32.067921+00:00",
+  "reviewer": "/root/heterogeneous_independent_critic",
+  "review_scope": "Independent static recipe/cache/ancestry/ensemble review; no local model imports, tests, inference, SSH, GPU use or scientific fits.",
+  "source_files_sha256": {
+    "scripts/heterogeneous_tl3_recipes.py": "219e71d1ecbfcc10b5b5caad850bb72ea86845cb290df0a04f2589bff824c9f0",
+    "scripts/build_distill_cache.py": "f557932c1e2ef6c4509d2fb92231bdc4ebf925da0db743174fc4b6247798a938",
+    "src/wnn/distillation_cache.py": "85fd2a09738c9a4afd6c43d2af8f60f4270578d0cbde6db1adefa1d557e3b0f0",
+    "src/wnn/training/cache_identity.py": "e8a29a954b6389af0758829f5dee88d0f9e7c37755b2bf3c68130a78a1f194a4",
+    "src/wnn/training/datasets.py": "5fad1faa4d35072edc36ff7f9a84a679d73710513704ac495c22934f74a10f0b",
+    "src/wnn/training/chronological_teacher.py": "8e24f5541afe3dfc515abe1af37272d5aa4e8dddc30887aab5387a368778e988",
+    "src/wnn/training/losses.py": "a9778db9fe9496689ec806f912c6b92c633bb767348ab5497824f824e7d177ba",
+    "src/wnn/training/sequence_predict.py": "6aa34d8cba4dc154b3276f7357e3a103fd55ef2ff6c036e0b3fbdcf89bea2974",
+    "src/wnn/training/sequence_epoch_prediction.py": "678ecf6ef350e68a1c286e6449ae0c8af3842559a07a74c918c860f2174463e3",
+    "scripts/predict_run.py": "804a891e07e2fc616bf0a561f4c6521133f1d011a1d26f6e3c52e82f02f1b723",
+    "scripts/heterogeneous_ensemble_contract.py": "fafa93658c884ce08c37be61329e2aeb5dce8b3aed4b8da844345a411e6f9788",
+    "scripts/heterogeneous_ensemble_score.py": "88f4f3ffd831737e4f3f487221fa5aa4175b8a1ee646edf3c8d7c5d8deb06da1",
+    "scripts/build_heterogeneous_pool_cache.py": "9712012ca5f6409176bd217dad7c49ddd61eb7bda896002dfbaa5606f5975389",
+    "scripts/export_galam_fitting_predictions.py": "7b896a5c1fd8e8615dcc39cf9c9962bac0d20786d677e78418a97d8ffa54a61e",
+    "src/wnn/heterogeneous_pool_cache.py": "633f97b8b031114bcbe8b1b24d9d408ea82d0f53837196e437b6772320c3ddd3",
+    "src/wnn/heterogeneous_pool_sources.py": "ea57d8f30dbd26eefe02964667a752548e6def2fb6a356d79620ccde94b1cd3d",
+    "src/wnn/training/data_caches.py": "e4018a13538b7c0cebcb42d233c6234429f8e84148a39586e4281133b1709148",
+    "src/wnn/training/source_identity.py": "873a0cab1330769bc55cbd2c9582db1836ccd51d9d0daaaaa641a803ea65a37a",
+    "scripts/heterogeneous_galam_probe.py": "188e85d5a37aa401b43da65aa8971cabd673391d11ee27d4dde13b56b15eced9",
+    "scripts/probe_quality8_fixed_blend.py": "514d3aae37d828f115396cedea37f4afd8506519da998225e7d74638b9c79e1d"
+  },
+  "claim": "A fixed heterogeneous GRU/GALAM/LSTM/TCN pool can improve matched GRU students and a declared ensemble relative to fresh canonical TL3.",
+  "fit_inventory": {
+    "new_teacher_fits": 2,
+    "new_student_fits": 4,
+    "total_new_study_fits": 6,
+    "configured_epochs": 24,
+    "expected_updates": 154560,
+    "baseline_w18_fit": "The remaining 17th fit of the already authorized TL3 restoration is a separate baseline recovery, not a seventh heterogeneous-study fit."
+  },
+  "primary_boundary": {
+    "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "fit_train": 10325,
+    "fit_valid": 0,
+    "evaluate_valid_sequences": 1873,
+    "evaluate_scored_rows": 3528273,
+    "chronology": "Official file boundary, whole sequences; no inferred seq_ix ordering."
+  },
+  "baseline": {
+    "name": "fresh canonical TL3",
+    "formula": ".34*W18zero_based_ep1 + .33*tiedlead_s5zero_based_ep3 + .33*tiedlead_s6zero_based_ep3",
+    "state": "W18 untrained until cache repair succeeds; replacement fbc mixture must remain a separately named candidate."
+  },
+  "recipe_checks": {
+    "six_fits_and_total_updates": "Static PASS",
+    "student_pairs_only_run_and_cache_differ": "Static PASS",
+    "pool_arithmetic": "control .5/.5; heterogeneous .35/.35/.1/.1/.1; sum1.0; blend raw FP32 predictions before training-time pool clip",
+    "student_target": "0.5*clip(label,-2,2)+0.5*clip(pool,-2,2); bootstrap0 and familyloss0",
+    "galam_epoch": "Declared GALAM zero-based2 is the third human epoch used in the prior fixed blend; do not accidentally use zero-based3."
+  },
+  "findings": [
+    {
+      "id": "HET-CACHE-01",
+      "severity": "actual_cache_validation_pending",
+      "finding": "Existing build_distill_cache and validator are W18-specific: coefficient sum0.8125, four historical families, two-epoch student convention, recurrent legacy checkpoint schema. They cannot represent normalized heterogeneous control/candidate pools or qualify TCN/GALAM unchanged.",
+      "required_resolution": "Add a distinct narrow cache profile and producer-qualified builder; preserve historical W18 defaults.",
+      "resolution_status": "The distinct wnn.heterogeneous-teacher-pool.v1 format, profiles, builder and validator are implemented and independently source-reviewed. Historical W18 defaults are preserved."
+    },
+    {
+      "id": "HET-SCALE-02",
+      "severity": "resolved_in_source",
+      "finding": "Sequences.__getitem__ divides legacy scaled teacher sum by len(teachers). Literal unit-sum mixture weights would shrink the target by teacher count.",
+      "required_resolution": "Use direct preweighted cache targets with coefficient sum1; no extra mean/division.",
+      "resolution_status": "The direct preweighted two-column cache avoids the legacy division by teacher count."
+    },
+    {
+      "id": "HET-GALAM-03",
+      "severity": "export_completion_pending",
+      "finding": "sequence_predict rejects retained epochs with fitting membership, and default fitting exports include hint columns. GALAM retained epoch cannot be relabeled as a legacy checkpoint.",
+      "required_resolution": "Explicit feature-only export adapter using original epoch admission, payload/config/source/data identities, causal state and first2 outputs; no forged legacy provenance.",
+      "resolution_status": "The feature-only retained-epoch exporter reuses native epoch admission and original saved normalization, pins the exact g2 checkpoint and imports the original source-r9 model modules."
+    },
+    {
+      "id": "HET-ORDER-04",
+      "severity": "receiving_check",
+      "finding": "Legacy source predictions cover10607 physical train groups, whereas fitting contains10325 after exclusions. Positional slicing can associate wrong teachers with labels.",
+      "required_resolution": "Validate authoritative full source order, join by source-qualified row_group identities, retain only exact fitting membership in target caches."
+    },
+    {
+      "id": "W18-SELECTED-05",
+      "severity": "receiving_validation_pending",
+      "finding": "Parent reports preserved failure: fbc train sidecar binds model.pt SHA759165..., builder requests model_ep3.pt SHA840966...; both describe fixed epoch3 but byte identities differ.",
+      "evidence_basis": "Parent direct-node log/state report; this critic did not access SSH.",
+      "required_resolution": "Use actual selected fixed model.pt checkpoint/provenance and original sidecar, or genuinely regenerate explicit-epoch predictions. Do not rewrite recorded hashes or mutate immutable runtime.",
+      "resolution_status": "identified_opt_in_source_repair_reviewed; actualcache_not_yet_reviewed"
+    },
+    {
+      "id": "HET-BASELINE-06",
+      "severity": "resolved_in_source",
+      "finding": "The initial scorer fixed TL3 alias coefficients without binding the canonical run/epoch identities.",
+      "required_resolution": "Require w18=tl3c_w18final_distilled_s5@1, tiedlead_s5=tl3c_fttall_tlead_s5@3, tiedlead_s6=tl3c_fttall_tlead_s6@3, fbc=tl3c_fbc1k_s5@3 for available legacy roles; keep pending explicit.",
+      "resolution_status": "Reserved roles now bind canonical TL3 run, epoch and producer identities. The fbc replacement has a separate ensemble name."
+    },
+    {
+      "id": "HET-GALAM-07",
+      "severity": "resolved_in_source",
+      "finding": "Initial exporter required normalization.split_sha256, absent in original SequenceData normalization records.",
+      "resolution_status": "The nonexistent normalization.split_sha256 requirement was removed; the enclosing data/index split binding remains."
+    },
+    {
+      "id": "HET-GALAM-08",
+      "severity": "resolved_in_source_with_receiving_proof",
+      "finding": "The initial exporter could mislabel another GALAM checkpoint as g2, and current model source files differed from the frozen producer.",
+      "resolution_status": "The exporter enforces the exact g2 human-epoch-3 checkpoint SHA256. Parent reports importing original source-r9 with 16 of 16 core module hashes matching the original epoch index.",
+      "independently_checked_prior_record": "The g2 checkpoint in galam-ensemble-diagnostics-20261028/evidence/RESULT.json matches the exporter constant c825ac5221490109844b090a0699b30225ac2a211287b7f8abf409b2a69f05d9.",
+      "receiving_evidence_reported_by_parent": "galam-model-source-admission-r2.json; original /data2/lc-epanov_s/tabdata/runtime/launch-20261028/source-r9/src. This reviewer did not access SSH."
+    },
+    {
+      "id": "HET-ORDER-09",
+      "severity": "resolved_in_source_receiving_fixture_pending",
+      "finding": "The initial new legacy qualifier compared ordered provenance membership lists, rejecting equivalent valid fitting/evaluation sets.",
+      "resolution_status": "R3 reuses canonical chronological membership validation and separately verifies actual prediction export row order. No source membership or scientific recipe changed."
+    }
+  ],
+  "admission": {
+    "teachers": "Parent reports 80 finite profile updates for each teacher and CUDA prefix/carry errors 3.35e-8 and 1.49e-7. Fits started on GPUs 0 and 1. This reviewer did not run those checks or inspect their raw receipts.",
+    "students": "The actual GRU-only cache scalar fixture independently passes 30 of 30 exact FP32 checks. Remaining controls require actual-cache finite profiles. Heterogeneous students still require completed new teacher/GALAM exports, the qualified heterogeneous cache and its corresponding arithmetic fixture/profile.",
+    "w18": "The selected-fixed/student-required source repair is reviewed. Parent reports a repaired cache and W18 profiling on GPU2; the prior 16 fits are preserved.",
+    "ensemble_scoring": "Source reviewed; actual full-validation prediction artifacts and canonical TL3 outputs remain required."
+  },
+  "receiving_checks": [
+    "Pin exact source/config/runtime/data/split/checkpoint/prediction files before profiles or fits.",
+    "Measure finite updates, peak memory, CPU/RAM/disk and OOM state with one owned device; preserve fixed batch/chunk/epoch choices.",
+    "LSTM/TCN prefix invariance, state reset and chunk-carry checks must exercise the actual model path.",
+    "Compare same-seed student initial-state, sampler order, normalization and update counts; same integer seed alone is not the complete evidence.",
+    "Never place valid rows/labels into learned ancestry or use valid to fit mixture coefficients.",
+    "Score blends in raw FP32 before official clipping with all1873 sequences/3528273 selected rows, and preserve failed/partial rows explicitly."
+  ],
+  "interpretation_limits": [
+    "All official-valid evidence is exposed development evidence.",
+    "Two matched student seeds do not establish significance or teacher-training variance.",
+    "Teacher outputs on fitting data are in-sample distillation targets, not OOF estimates.",
+    "An improved teacher pool does not establish improved student transfer or a public-score gain."
+  ],
+  "updated_utc": "2026-10-30T18:23:57.177220+00:00",
+  "review_history": [
+    {
+      "phase": "w18_identified_repair_source_review",
+      "prior_build_cache_sha256": "efcdd85e3eab012ebe06a89daed5ef60f9f6f35ce6777a60799fe14ec9616aae",
+      "reviewed_build_cache_sha256": "12cf591eef74d8db97596ecab1c4157e17b3e7db95e6c91c2d9d7c61a8ef1439",
+      "status": "source_review_pass_receiving_validation_pending"
+    },
+    {
+      "phase": "heterogeneous_cache_export_scorer_source_review",
+      "status": "source_review_complete_receiving_artifacts_pending",
+      "date_utc": "2026-10-30T18:08:06.805478+00:00"
+    },
+    {
+      "phase": "scored_only_probe_and_cache_r3_review",
+      "status": "source_review_pass_actual_receiving_artifacts_pending",
+      "date_utc": "2026-10-30T18:22:36.598542+00:00"
+    },
+    {
+      "phase": "actual_gru_only_cache_scalar_recomputation",
+      "status": "passed_30_of_30",
+      "date_utc": "2026-10-30T18:23:57.177220+00:00"
+    }
+  ],
+  "w18_source_review": {
+    "status": "no_source_level_blocker_for_cache_build",
+    "accepted_change": "The opt-in selected-fixed mode binds the actual model.pt checkpoint and preserves requested epoch, fixed selection, membership, sidecar, provenance, row order and SHA256 checks.",
+    "output_profile": "student-required retains main_source and families, which are the two W18-consumed targets.",
+    "unchanged": "Coefficient sum 0.8125, raw weighted mixture, family order/means, inherited fbc initialization and two-epoch W18 recipe remain unchanged. The historical epoch/all defaults remain unchanged.",
+    "required_receiving_checks": [
+      "Build the actual cache under identified source in a fresh output directory.",
+      "Run canonical cache validation for source targets and required families before W18 fitting.",
+      "Preserve the first failure, frozen source/state and all 16 completed fits."
+    ],
+    "tests_executed_by_reviewer": 0
+  },
+  "galam_export_source_review": {
+    "status": "no_remaining_source_level_blocker",
+    "checkpoint_sha256": "c825ac5221490109844b090a0699b30225ac2a211287b7f8abf409b2a69f05d9",
+    "epoch_zero_based": 2,
+    "fit_sequences": 10325,
+    "input_reads": "Training features only through SequenceFile.read(targets=False, mask=False); raw112 inputs.",
+    "normalization": "Load saved mean/std and use model.eval(); no normalizer refit or BatchNorm recalibration.",
+    "state": "Reset each independent batch of sequences; retain and detach original causal state across 64-row chunks.",
+    "output": "Complete FP32 bank [10325, 20000, 2]; publish qualification only after every sequence and final hash check.",
+    "resources": "One explicitly visible GPU, a numeric outer wall limit, create-only outputs and a 12 GiB free-disk floor.",
+    "actual_source_admission": "Parent reports 16 of 16 model, adapter, helper and data module hashes matching the original g2 index while importing original source-r9.",
+    "not_claimed": [
+      "Completed export",
+      "New numerical parity measured by this reviewer",
+      "Any new WP score",
+      "Public/private transfer"
+    ]
+  },
+  "cache_source_review": {
+    "status": "no_source_level_blocker_after_distinct_profile_implementation",
+    "arithmetic": "Ordered raw FP32 weighted sum with total coefficient 1.0; direct cached targets, with training clipping applied after pooling.",
+    "row_alignment": "Join each source by row-group identity and select the exact fitting membership in the existing target-index order.",
+    "student_contract": "Four epochs, fixed endpoint 3, B32/C1000, AdamW 1e-3, alpha 0.5, bootstrap disabled, no initializer, and matched EMA/auxiliary/since-event settings.",
+    "original_producers": "Legacy roots and native GALAM retained epochs keep their original, distinct provenance schemas.",
+    "receiving_evidence_still_owed": [
+      "Completed source exports and qualification metadata",
+      "Payload hashes and full membership validation for both pools",
+      "A small source/target fixture for independent coefficient and row-order arithmetic",
+      "A finite student profile consuming the actual qualified cache"
+    ]
+  },
+  "ensemble_source_review": {
+    "status": "no_scoring_arithmetic_or_baseline_identity_blocker",
+    "blending": "Compose raw FP32 predictions before official clipping, in declared operation order.",
+    "coverage": "All 1873 sequences and 3528273 scored rows; exclude the first 99 rows and retain the unchanged GlobalAccumulator metric.",
+    "baseline": "Canonical W18/tiedlead5/tiedlead6 roles are bound explicitly; the fbc replacement is separately named.",
+    "partial": "Unavailable models/ensembles retain null scores and deltas. GALAM scored-only observations use temporary ignored-row placeholders and are never represented as a complete observed model prediction bank.",
+    "reporting": "Both target scores, pooled WP, delta versus TL3, standalone scores, paired student deltas, and the actual GRU-only/heterogeneous teaching pools.",
+    "not_established": "Measured scores require actual qualified prediction artifacts; this source review does not establish training variability or public transfer.",
+    "source_kinds": "Legacy complete banks, native retained-epoch shards, and an explicit evaluation-only scored-probe adapter have separate producer validation."
+  },
+  "scored_only_probe_source_review": {
+    "status": "source_review_pass_actual_loader_grade_pending",
+    "reviewed_adapter": "scripts/heterogeneous_galam_probe.py",
+    "reviewed_original_producer": "scripts/probe_quality8_fixed_blend.py",
+    "original_producer_sha256": "514d3aae37d828f115396cedea37f4afd8506519da998225e7d74638b9c79e1d",
+    "original_source_fingerprint_check": "The reviewed original producer bytes hash exactly to the script SHA256 recorded in the old terminal RESULT and pinned by the adapter.",
+    "raw_prediction_semantics": "The producer saves predicted[mask] directly. GlobalAccumulator creates clipped copies and does not mutate the prediction input. The saved bank therefore retains raw FP32 model outputs.",
+    "row_order": "Original Boolean [batch,time] extraction is batch-major then time-major, matching consecutive per-group offset ranges reconstructed by the adapter.",
+    "mask_identity": "Both paths hash numpy.asarray((valid, physical_row_group), dtype=U16).tobytes() followed by flatnonzero(is_scored with first99 false).astype(<i4).tobytes(), in the same split evaluation order.",
+    "source_identity": "The adapter pins prediction, receipt, plan, terminal result, checkpoint and epoch index; joins the g2 role and human epoch3/native epoch2; verifies original source/data digests and exact fitting/evaluation membership.",
+    "normalization_scope": "Qualified as the original native g2 checkpoint and its recorded fitting-only data/source path, rather than inventing a legacy checkpoint representation or refitting statistics.",
+    "zero_placeholders": "Zeros exist only in temporary per-sequence arrays outside the independently reconstructed scoring mask. Pointwise mixtures and the official masked metric cannot depend on those positions.",
+    "usage_limit": "Evaluation-only adapter. Missing unscored predictions are not claimed as observed and must never be exported as a full prediction bank or used as KD fitting targets.",
+    "actual_receiving_checks_owed": [
+      "Run the loader against the original binary and actual official-valid mask, preserving the old row-order hash and 3528273 selected rows.",
+      "Rescore the reused raw GALAM member and compare with the old source-qualified WP0.6723694126086661."
+    ],
+    "reviewer_execution": "Static source/file-hash inspection only; no model imports, inference, tests or SSH."
+  },
+  "cache_r3_membership_review": {
+    "status": "source_review_pass_actual_cache_fixture_pending",
+    "observed_integration_failure_reported_by_parent": "R2 rejected valid legacy provenance solely because fitting/evaluation group lists used a different order from the normalized split lists. Parent reports exact sets of 10325 train, zero fitting valid and 1873 evaluation groups; no cache output was accepted.",
+    "identified_fix": "R3 calls the existing duplicate-safe, type-safe chronological membership validator for fitting/evaluation sets. Prediction order remains separately bound to its actual exporter sidecar and ordered row-group digest.",
+    "extra_binding": "Legacy sources require chronological-full-train-index-feature-only scope, matching campaign split hash and evaluation_membership_sha256 equal to the ordered row-group hash.",
+    "scientific_scope": "Same source-qualified membership, normalizer ancestry, teacher coefficients, model endpoints and six-fit DAG. This is a metadata representation repair, not a relaxed data split or new scientific attempt.",
+    "reported_checks": "Parent reports 13 focused cache tests passing in0.85s and Ruff passing; this reviewer read the regression but did not run the tests.",
+    "preservation": "Parent reports frozen source-r2/failed attempt preserved and a separate identified source-r3/cache-gru-only-r2 attempt."
+  },
+  "actual_gru_cache_arithmetic_review": {
+    "status": "passed_30_of_30_exact_fp32_scalar_checks",
+    "fixture": "receiving/GRU_ONLY_ACTUAL_ARITHMETIC_R1.json",
+    "fixture_sha256": "a74609d7266e630202d3cd13410995d3a43a10943b2d312d773b13375c473189",
+    "cache_sha256_reported_by_fixture": "f65c2d781c728fd24e1db31947939015b958f01c6ab39ccae0dd278888427f13",
+    "source_prediction_hashes_reported_by_fixture": [
+      "cd561d2af98977ac1c716b2b4e39358e73538876070565b3edf0d1719124780d",
+      "71ab0326cc3309cd39f0df0a9f5a6471ab899bd947517b2cb4cdadd07ccc84f4"
+    ],
+    "method": "Independent Python standard-library math.fsum and struct-based IEEE float32 rounding; no production mixing function or fixture pass flag used.",
+    "cases": [
+      {
+        "row_group": 0,
+        "row": 0,
+        "target": 0,
+        "independent_reference_float64": -0.16743986308574677,
+        "independent_ordered_float32": -0.16743986308574677,
+        "stored_float32": -0.16743986308574677,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 0,
+        "row": 0,
+        "target": 1,
+        "independent_reference_float64": 0.25252237915992737,
+        "independent_ordered_float32": 0.25252237915992737,
+        "stored_float32": 0.25252237915992737,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 0,
+        "row": 98,
+        "target": 0,
+        "independent_reference_float64": 0.6187635958194733,
+        "independent_ordered_float32": 0.6187635660171509,
+        "stored_float32": 0.6187635660171509,
+        "absolute_error_to_real_weighted_sum": 2.9802322387695312e-08
+      },
+      {
+        "row_group": 0,
+        "row": 98,
+        "target": 1,
+        "independent_reference_float64": 0.16968681290745735,
+        "independent_ordered_float32": 0.16968680918216705,
+        "stored_float32": 0.16968680918216705,
+        "absolute_error_to_real_weighted_sum": 3.725290298461914e-09
+      },
+      {
+        "row_group": 0,
+        "row": 99,
+        "target": 0,
+        "independent_reference_float64": 0.6275047659873962,
+        "independent_ordered_float32": 0.6275047659873962,
+        "stored_float32": 0.6275047659873962,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 0,
+        "row": 99,
+        "target": 1,
+        "independent_reference_float64": 0.1552867852151394,
+        "independent_ordered_float32": 0.1552867889404297,
+        "stored_float32": 0.1552867889404297,
+        "absolute_error_to_real_weighted_sum": 3.725290298461914e-09
+      },
+      {
+        "row_group": 0,
+        "row": 1000,
+        "target": 0,
+        "independent_reference_float64": 1.1218594312667847,
+        "independent_ordered_float32": 1.1218594312667847,
+        "stored_float32": 1.1218594312667847,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 0,
+        "row": 1000,
+        "target": 1,
+        "independent_reference_float64": -0.26033875346183777,
+        "independent_ordered_float32": -0.26033875346183777,
+        "stored_float32": -0.26033875346183777,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 0,
+        "row": 19999,
+        "target": 0,
+        "independent_reference_float64": -0.24852228164672852,
+        "independent_ordered_float32": -0.24852228164672852,
+        "stored_float32": -0.24852228164672852,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 0,
+        "row": 19999,
+        "target": 1,
+        "independent_reference_float64": 1.3473928570747375,
+        "independent_ordered_float32": 1.3473927974700928,
+        "stored_float32": 1.3473927974700928,
+        "absolute_error_to_real_weighted_sum": 5.960464477539063e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 0,
+        "target": 0,
+        "independent_reference_float64": -0.19363883882761002,
+        "independent_ordered_float32": -0.19363883137702942,
+        "stored_float32": -0.19363883137702942,
+        "absolute_error_to_real_weighted_sum": 7.450580596923828e-09
+      },
+      {
+        "row_group": 5309,
+        "row": 0,
+        "target": 1,
+        "independent_reference_float64": -0.12001932039856911,
+        "independent_ordered_float32": -0.12001931667327881,
+        "stored_float32": -0.12001931667327881,
+        "absolute_error_to_real_weighted_sum": 3.725290298461914e-09
+      },
+      {
+        "row_group": 5309,
+        "row": 98,
+        "target": 0,
+        "independent_reference_float64": -0.39951246976852417,
+        "independent_ordered_float32": -0.39951246976852417,
+        "stored_float32": -0.39951246976852417,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 5309,
+        "row": 98,
+        "target": 1,
+        "independent_reference_float64": -0.5138816982507706,
+        "independent_ordered_float32": -0.5138816833496094,
+        "stored_float32": -0.5138816833496094,
+        "absolute_error_to_real_weighted_sum": 1.4901161193847656e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 99,
+        "target": 0,
+        "independent_reference_float64": -0.4687974154949188,
+        "independent_ordered_float32": -0.4687974154949188,
+        "stored_float32": -0.4687974154949188,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 5309,
+        "row": 99,
+        "target": 1,
+        "independent_reference_float64": -0.47076548635959625,
+        "independent_ordered_float32": -0.47076547145843506,
+        "stored_float32": -0.47076547145843506,
+        "absolute_error_to_real_weighted_sum": 1.4901161193847656e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 1000,
+        "target": 0,
+        "independent_reference_float64": -0.5923168361186981,
+        "independent_ordered_float32": -0.5923168659210205,
+        "stored_float32": -0.5923168659210205,
+        "absolute_error_to_real_weighted_sum": 2.9802322387695312e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 1000,
+        "target": 1,
+        "independent_reference_float64": 0.968701034784317,
+        "independent_ordered_float32": 0.9687010049819946,
+        "stored_float32": 0.9687010049819946,
+        "absolute_error_to_real_weighted_sum": 2.9802322387695312e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 19999,
+        "target": 0,
+        "independent_reference_float64": 0.5625478327274323,
+        "independent_ordered_float32": 0.5625478029251099,
+        "stored_float32": 0.5625478029251099,
+        "absolute_error_to_real_weighted_sum": 2.9802322387695312e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 19999,
+        "target": 1,
+        "independent_reference_float64": 0.07696004584431648,
+        "independent_ordered_float32": 0.07696004211902618,
+        "stored_float32": 0.07696004211902618,
+        "absolute_error_to_real_weighted_sum": 3.725290298461914e-09
+      },
+      {
+        "row_group": 10606,
+        "row": 0,
+        "target": 0,
+        "independent_reference_float64": 0.005717437714338303,
+        "independent_ordered_float32": 0.005717437714338303,
+        "stored_float32": 0.005717437714338303,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 10606,
+        "row": 0,
+        "target": 1,
+        "independent_reference_float64": -0.40530407428741455,
+        "independent_ordered_float32": -0.40530407428741455,
+        "stored_float32": -0.40530407428741455,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 10606,
+        "row": 98,
+        "target": 0,
+        "independent_reference_float64": -0.14074617996811867,
+        "independent_ordered_float32": -0.14074617624282837,
+        "stored_float32": -0.14074617624282837,
+        "absolute_error_to_real_weighted_sum": 3.725290298461914e-09
+      },
+      {
+        "row_group": 10606,
+        "row": 98,
+        "target": 1,
+        "independent_reference_float64": -0.4107358604669571,
+        "independent_ordered_float32": -0.4107358455657959,
+        "stored_float32": -0.4107358455657959,
+        "absolute_error_to_real_weighted_sum": 1.4901161193847656e-08
+      },
+      {
+        "row_group": 10606,
+        "row": 99,
+        "target": 0,
+        "independent_reference_float64": -0.05288561061024666,
+        "independent_ordered_float32": -0.05288561061024666,
+        "stored_float32": -0.05288561061024666,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 10606,
+        "row": 99,
+        "target": 1,
+        "independent_reference_float64": -0.48454178869724274,
+        "independent_ordered_float32": -0.48454177379608154,
+        "stored_float32": -0.48454177379608154,
+        "absolute_error_to_real_weighted_sum": 1.4901161193847656e-08
+      },
+      {
+        "row_group": 10606,
+        "row": 1000,
+        "target": 0,
+        "independent_reference_float64": 0.07084907591342926,
+        "independent_ordered_float32": 0.07084907591342926,
+        "stored_float32": 0.07084907591342926,
+        "absolute_error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 10606,
+        "row": 1000,
+        "target": 1,
+        "independent_reference_float64": -0.5856353938579559,
+        "independent_ordered_float32": -0.5856354236602783,
+        "stored_float32": -0.5856354236602783,
+        "absolute_error_to_real_weighted_sum": 2.9802322387695312e-08
+      },
+      {
+        "row_group": 10606,
+        "row": 19999,
+        "target": 0,
+        "independent_reference_float64": -0.6276236474514008,
+        "independent_ordered_float32": -0.6276236772537231,
+        "stored_float32": -0.6276236772537231,
+        "absolute_error_to_real_weighted_sum": 2.9802322387695312e-08
+      },
+      {
+        "row_group": 10606,
+        "row": 19999,
+        "target": 1,
+        "independent_reference_float64": -0.0742690833285451,
+        "independent_ordered_float32": -0.07426908612251282,
+        "stored_float32": -0.07426908612251282,
+        "absolute_error_to_real_weighted_sum": 2.7939677238464355e-09
+      }
+    ],
+    "max_absolute_error_to_real_weighted_sum": 5.960464477539063e-08,
+    "max_error_to_independently_rounded_float32": 0.0,
+    "coverage": "Three actual groups (first, middle, last fitting coordinates), five rows including warmup and endpoint positions, both targets.",
+    "limits": "This independently verifies arithmetic of the provided actual scalar fixture. It does not reread the full remote source/cache arrays or independently establish every row identity. Full source/payload hashes and membership validation are receiving evidence supplied by the root operator."
+  }
+}

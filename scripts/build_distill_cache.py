@@ -51,6 +51,7 @@ EPOCH_CONVENTION = {
 OUTPUT_TARGETS = {
     "all": ("main_source", "main_normalized", "main_homogeneous", "families"),
     "homogeneous-only": ("main_homogeneous",),
+    "student-required": ("main_source", "families"),
 }
 TARGET_WIDTHS = {"main_source": 2, "main_normalized": 2, "main_homogeneous": 2, "families": 8}
 
@@ -250,13 +251,16 @@ def _inspect_teacher(
     checkpoint_root: Path,
     target_orders: dict[str, list[int]],
     epoch: int,
+    checkpoint_file: str | None = None,
 ) -> tuple[dict[str, Any], dict[str, np.ndarray], dict[str, dict[str, Any]]]:
     """Verify teacher checkpoint bytes, architecture, fit groups and prediction caches."""
     if not RUN_NAME.fullmatch(run):
         raise ValueError(f"invalid teacher run name: {run}")
     run_root = checkpoint_root / run
     provenance_path = run_root / "provenance.json"
-    checkpoint_path = run_root / f"model_ep{epoch}.pt"
+    if checkpoint_file not in (None, "model.pt", f"model_ep{epoch}.pt"):
+        raise ValueError("teacher checkpoint must be the selected fixed or explicit epoch snapshot")
+    checkpoint_path = run_root / (checkpoint_file or f"model_ep{epoch}.pt")
     if not provenance_path.is_file() or not checkpoint_path.is_file():
         raise FileNotFoundError(f"teacher {run} lacks provenance or model_ep{epoch}.pt")
     provenance = json.loads(provenance_path.read_text())
@@ -468,8 +472,13 @@ def build_cache(args: argparse.Namespace) -> Path:
     for source in args.teacher:
         if source.family not in FAMILY_ORDER:
             raise ValueError(f"unknown teacher family: {source.family}")
+        checkpoint_file = (
+            "model.pt"
+            if getattr(args, "prediction_checkpoint", "epoch") == "selected-fixed"
+            else f"model_ep{source.epoch}.pt"
+        )
         ancestor_closure = _audit_ancestor_closure(
-            source.run, split, checkpoint_root, f"model_ep{source.epoch}.pt"
+            source.run, split, checkpoint_root, checkpoint_file
         )
         record, arrays, _ = _inspect_teacher(
             source.run,
@@ -478,6 +487,7 @@ def build_cache(args: argparse.Namespace) -> Path:
             checkpoint_root,
             {name: target_orders[name] for name in prediction_splits},
             source.epoch,
+            checkpoint_file,
         )
         record["family"] = source.family
         record["coefficient"] = source.coefficient
@@ -582,6 +592,12 @@ def build_cache(args: argparse.Namespace) -> Path:
 def main() -> None:
     """Parse the frozen cache recipe and build its audited targets."""
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--prediction-checkpoint",
+        choices=("epoch", "selected-fixed"),
+        default="epoch",
+        help="Bind existing prediction bytes to their actual fixed selected checkpoint; never relabel hashes",
+    )
     parser.add_argument("--data-root", type=Path, default=ROOT)
     parser.add_argument("--teacher-cache-root", type=Path, default=ROOT / "cache")
     parser.add_argument("--checkpoint-root", type=Path, default=ROOT / "artifacts" / "runs")

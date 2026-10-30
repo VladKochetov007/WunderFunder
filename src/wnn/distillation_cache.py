@@ -148,6 +148,12 @@ def validate_distillation_cache(
     if len(metadata_raw) != metadata_size:
         raise ValueError("distillation cache metadata changed while being read")
     metadata = json.loads(metadata_raw)
+    if metadata.get("format") == "wnn.heterogeneous-teacher-pool.v1":
+        from wnn.heterogeneous_pool_cache import validate_pool_cache
+
+        return validate_pool_cache(
+            cache_root, data_root, split, variant, require_families=require_families
+        )
     if metadata.get("format") != CACHE_FORMAT or metadata.get("version") != CACHE_VERSION:
         raise ValueError("unsupported heterogeneous distillation cache format")
     if metadata.get("split_manifest_sha256") != split.sha256 or metadata.get("fold") != split.fold:

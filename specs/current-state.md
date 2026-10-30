@@ -1,3 +1,23 @@
+## 30 October: authorized heterogeneous six-fit screen and canonical TL3 baseline
+
+The user requests actual experiments and a full-valid ensemble table with TL3
+as baseline. [The execution packet](../research/experiment_drafts/heterogeneous-tl3-20261030/README.md)
+freezes two new LSTM/TCN teachers plus four paired GRU students,12 fixed ensemble
+rows and ADR0044. The TCN has completed four epochs; LSTM and the two control
+students are fitting. W18's original cache-file binding mismatch is repaired;
+its fixed two-epoch endpoint reports WP0.6914165059782622, with final predictions
+and canonical three-member blend grading in progress. This is not a public score.
+
+Use the one persistent SSH session91101 and worktree
+`WunderFunder-heterogeneous-20261030`; do not duplicate fits or mutate immutable
+remote source-r1/R2/R3. New pool source R3 corrects legitimate legacy membership
+order versus membership-set qualification; actual prediction joins remain keyed
+by source/group. The corrected control cache passed independent scalar checks.
+Old controller R1 was stopped alone for an admission-record representation repair;
+R2 adopts its existing export and all scientific workers. Dashboard18766 gains
+six actual experiment views and a distinct W18 recovery view. Full comparison
+results remain pending; no extra family seeds or correlation-fine-tune wave starts.
+
 ## 28 October: first TL3 train-only teacher complete; finite continuation active
 
 [TL3 restoration](../research/experiment_drafts/tl3-chronological-20261028/README.md)

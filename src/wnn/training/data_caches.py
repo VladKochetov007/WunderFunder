@@ -151,6 +151,13 @@ def bind_caches(run: TrainingRun) -> None:
             require_families=args.distill_family_weight > 0,
         )
         args.distill_cache_root = str(cache_root)
+        if (
+            distill_cache_validation["metadata"].get("format")
+            == "wnn.heterogeneous-teacher-pool.v1"
+        ):
+            from wnn.heterogeneous_pool_cache import validate_pool_student_options
+
+            validate_pool_student_options(args)
         if frontier_contract is not None:
             frontier_cache_binding = student_frontier.validate_cache_binding(
                 environment.root,

@@ -1,5 +1,11 @@
 # Research-team experiment catalogue
 
+- [Heterogeneous teachers and TL3 ensemble comparison](heterogeneous-tl3-20261030/README.md)
+  runs the authorized six-fit panel: LSTM, causal TCN and four paired GRU students.
+  The full official-valid table compares12 fixed combinations against canonical
+  fresh TL3; W18 completion is a separate baseline dependency. Profiles and native
+  cache/source qualification are recorded; no completed gain is claimed yet.
+
 - [GALAM local live monitoring and L4 comparison preparation](galam-l4-monitoring-20261028/README.md)
   adds a selectable offline dashboard, actual epoch evaluation and explicitly
   adapted GRU/local-only variants. Read-only inventory confirms8L4 but incomplete

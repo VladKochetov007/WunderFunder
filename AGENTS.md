@@ -1,5 +1,22 @@
 # Project agent instructions
 
+## Heterogeneous teachers and TL3 ensemble comparison — user instruction, 2026-10-30
+
+The user explicitly authorizes execution of the proposed six-fit screen and a
+comparative ensemble table using TL3 as baseline (ЕД3 is its Russian keyboard
+spelling). Add one fresh LSTM and one causal TCN teacher, reuse the clean GRU and
+GALAM teachers, and fit four paired GRU students at seeds1301/1302. Preserve the
+frozen coefficients, four-epoch final endpoints and official chronological split.
+The baseline is canonical fresh TL3:34%W18 +33%tiedlead seed5 +33%tiedlead seed6;
+complete only the previously blocked W18 dependency, preserving16 completed fits.
+The fbc replacement mixture remains a separately named candidate. Necessary
+engineering profiles, fitting-only teacher exports, identified cache-binding
+repairs, monitoring, actual full-valid scoring and GitHub result updates are in
+scope. No extra28-model grid or correlation-fine-tune stage is admitted.
+Reuse the current single SSH connection and existing L4 node; no new provider,
+billing, foreign-process stop or unrelated cleanup. See the
+[execution packet](research/experiment_drafts/heterogeneous-tl3-20261030/README.md).
+
 ## Fresh TL3 train-only restoration — user instruction, 2026-10-28
 
 The user explicitly requests restoring TL3 training and evaluating the resulting

@@ -1,5 +1,18 @@
 # Unified research library
 
+## 30 October: heterogeneous-teacher experiment authorized and started
+
+[Six-fit execution](../experiment_drafts/heterogeneous-tl3-20261030/README.md)
+adds one LSTM and one causal TCN teacher, then matched GRU-only/heterogeneous-pool
+students at two seeds. Both teachers passed80 finite actual-device updates and
+CUDA prefix/state-carry checks before full fitting. The original W18 cache failed
+because selected model.pt prediction hashes were compared to a distinct epoch
+file; an identified repair retains fixed epochs and actual file identities.
+W18 passed40 finite updates and is fitting, while original-source GALAM exports
+fitting features. Canonical TL3 is the table baseline; the fbc replacement remains
+separate. Twelve fixed mixtures, full official valid and zero fitted valid
+coefficients are preserved. Final comparisons remain pending.
+
 ## 29 October:24 model checkpoint artifacts published
 
 [Checkpoint publication](../experiment_drafts/checkpoint-publication-20261029/README.md)
