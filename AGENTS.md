@@ -1,5 +1,15 @@
 # Project agent instructions
 
+## Graphs at every solution stage — user instruction,2026-10-31
+
+Save live and standalone graphs for base fitting, fine-tuning, distillation and
+ensemble/Optuna search. Retain source metrics and exact checkpoint/config/parent
+identities; show train/control/valid loss and score separately, objective terms,
+LR, gradients and resource telemetry. Mark scheduled, eligible inner-selected
+and best-observed moments distinctly, preserving ADR0044 and mask differences.
+The [stage monitoring contract](specs/stage-monitoring.md) is binding for future
+runs. This reminder adds no fit restart or resource allocation.
+
 ## Heterogeneous teachers and TL3 ensemble comparison — user instruction, 2026-10-30
 
 The user explicitly authorizes execution of the proposed six-fit screen and a
