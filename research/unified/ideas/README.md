@@ -1,11 +1,11 @@
 # Ideas and hypotheses
 
-- [Authorized heterogeneous-teacher execution](../../experiment_drafts/heterogeneous-tl3-20261030/README.md)
-  turns the earlier proposal into six fixed LSTM/TCN/paired-student fits and12
-  predeclared ensemble comparisons against canonical fresh TL3. Separate native
-  source qualification, train-only weighted caches and independent source review
-  preserve the official chronological protocol. Two new teachers and the missing
-  W18 baseline dependency have started; completed quality comparisons are pending.
+- [Completed heterogeneous-teacher screen](../../experiment_drafts/heterogeneous-tl3-20261030/results/R3/README.md)
+  reports six fixed fits and12 predeclared ensembles against canonical fresh TL3.
+  Both matched student seeds improve; the two-student ensemble gains0.0004057735
+  over controls. Its tested20%TL3 addition is negative. Best tested fixed mixture
+  is90%TL3 +10%GALAM, +0.0001190223. All25outputs independently rescore within
+  5.55e-15 on exposed full valid; no public/significance claim or automatic new wave.
 
 - [Heterogeneous teachers before scaling seeds](HETEROGENEOUS_TEACHERS_20261029_R1.md)
   records the user's GRU/LSTM/GALAM/other-family proposal, a6-new-fit paired

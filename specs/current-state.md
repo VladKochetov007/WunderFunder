@@ -3,14 +3,18 @@
 The user requests actual experiments and a full-valid ensemble table with TL3
 as baseline. [The execution packet](../research/experiment_drafts/heterogeneous-tl3-20261030/README.md)
 freezes two new LSTM/TCN teachers plus four paired GRU students,12 fixed ensemble
-rows and ADR0044. Both teachers, both controls and the original W18 dependency
-are complete; the two heterogeneous students are fitting. Canonical TL3 scores
-0.6923774245652725 with exact independent original-grader agreement. The
-[second table](../research/experiment_drafts/heterogeneous-tl3-20261030/results/R2/COMPARISON.md)
-completes8/12 rows. The heterogeneous teacher pool improves over GRU-only by
-0.0005554431; paired student transfer is pending. A detached CPU-only publisher
-has posted the actual table to [PR52](https://github.com/VladKochetov007/WunderFunder/pull/52#issuecomment-6531502752)
-as SemyonEpanov. These are exposed validation results, not public scores.
+rows and ADR0044. All six fits and the original W18 dependency are complete.
+Canonical TL3 scores0.6923774245652725. The
+[complete12-row table](../research/experiment_drafts/heterogeneous-tl3-20261030/results/R3/COMPARISON.md)
+has best tested90%TL3 +10%GALAM0.6924964468441978 (+0.0001190223).
+Heterogeneous student transfer is positive at both paired seeds
+(+0.0006193485/+0.0002192739); its two-student mean gains0.0004057735 over
+controls, but its tested20%addition to TL3 is negative. All25singleton/ensemble
+outputs independently agree within5.55e-15 on the full actual scoring mask.
+The node publisher posted results to [PR52](https://github.com/VladKochetov007/WunderFunder/pull/52)
+as SemyonEpanov and exited. Seven-model checkpoint/source archives are verified
+on the node and local transport; GitHub download receipts follow actual upload.
+Our GPU workers have exited. These are exposed validation results, not public scores.
 
 Use the one persistent SSH session91101 and worktree
 `WunderFunder-heterogeneous-20261030`; do not duplicate fits or mutate immutable
@@ -19,8 +23,8 @@ order versus membership-set qualification; actual prediction joins remain keyed
 by source/group. The corrected control cache passed independent scalar checks.
 Old controller R1 was stopped alone for an admission-record representation repair;
 R2 adopts its existing export and all scientific workers. Dashboard18766 gains
-six actual experiment views and a distinct W18 recovery view. Full comparison
-results remain pending; no extra family seeds or correlation-fine-tune wave starts.
+six actual experiment views and a distinct W18 recovery view. No extra family
+seeds or correlation-fine-tune wave starts from these results.
 
 ## 28 October: first TL3 train-only teacher complete; finite continuation active
 

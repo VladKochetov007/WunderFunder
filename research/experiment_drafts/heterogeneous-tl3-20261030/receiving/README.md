@@ -1,5 +1,17 @@
 # Actual receiving evidence
 
+- [Final terminal summary](TERMINAL_SUMMARY_R2.json) records all seven completed
+ scientific fits,167,460 successful updates, zero recorded nonfinite gradients,
+ measured command-reservation times and no remaining scoped GPU PID. The two
+ actual fit phase names are both covered; unrelated GPU4 service is preserved.
+- [Controller terminal state](CONTROLLER_TERMINAL_R2.json) verifies all six new
+ fits and their exports with no retained controller errors.
+- [Independent full-array command](INDEPENDENT_TERMINAL_R1.json) completed with
+ return0; [all25output comparisons](../results/R3/INDEPENDENT_RESULT.json) pass.
+- [Checkpoint export](CHECKPOINT_EXPORT_R1.json) records seven completed models,
+ original member hashes and separate model/source ZIP roundtrip checks. Private
+ local backup transport also matches the node checksum inventory.
+
 - [Heterogeneous actual arithmetic](HETEROGENEOUS_ACTUAL_ARITHMETIC_R1.json)
  independently passes30/30 ordered-FP32 scalar coordinates. The
  [review](../INDEPENDENT_REVIEW_R1.json) separately checks both physical pool

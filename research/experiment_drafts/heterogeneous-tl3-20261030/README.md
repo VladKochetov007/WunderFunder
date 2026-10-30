@@ -9,7 +9,15 @@ dependency; never substitute fbc1k and label that result canonical TL3. Historic
 
 ## Actual receiving progress
 
-[Latest measured table](results/R2/COMPARISON.md) completes8 of12 rows. The
+[Final table](results/R3/COMPARISON.md) completes all12 rows. All six new fits
+and the original W18 recovery are complete. Heterogeneous students improve over
+their matched controls by+0.0006193485/+0.0002192739; their ensemble improves by
++0.0004057735. Its tested20%addition to TL3 is negative. The best tested mixture
+is90%TL3 +10%GALAM:0.6924964468441978 versus TL30.6923774245652725. All25outputs
+pass an independent actual-array two-pass rescore, maximum disagreement5.55e-15.
+See [full interpretation and execution evidence](results/R3/README.md).
+
+[Earlier measured table](results/R2/COMPARISON.md) completes8 of12 rows. The
 heterogeneous teacher pool improves over the two-GRU pool by0.0005554431WP;
 its transfer to paired students remains pending. Adding all three alternate
 families to TL3 at10% each is negative, -0.0001752911WP. See the
@@ -42,7 +50,7 @@ attempt is preserved and produced no output. R3's GRU-only cache is complete;
 agree with an independent weighted-sum calculation within FP32 rounding bounds.
 See the [receiving index](receiving/README.md) and
 [independent source review](INDEPENDENT_REVIEW_R1.json). Actual final quality
-comparisons remain pending; no uncompleted mixture score is inferred.
+comparisons are linked above; earlier unavailable rows retain their dated state.
 
 ## Frozen fitting panel
 
@@ -267,3 +275,25 @@ See [recipe generator](../../../scripts/heterogeneous_tl3_recipes.py),
 [cache builder](../../../scripts/build_heterogeneous_pool_cache.py),
 [chronological policy](../../../specs/adr/0044-chronological-primary-validation.md)
 and [original pool proposal](../../unified/ideas/HETEROGENEOUS_TEACHERS_20261029_R1.md).
+
+## Final numerical verification and checkpoint handoff
+
+The separate [independent rescorer](../../../scripts/independent_heterogeneous_rescore.py)
+uses its own [artifact reader](../../../scripts/independent_heterogeneous_inputs.py)
+and [two-pass weighted Pearson/mixer](../../../scripts/independent_heterogeneous_numeric.py).
+It imports no production scorer, mixer, metric accumulator or Torch, and checks
+all13 singleton outputs and12 frozen ensembles on the full actual scoring mask.
+It requires a complete final report and agreement within1e-10 for t0/t1/WP;
+four focused numeric fixtures pass. The [actual complete-array receipt](results/R3/INDEPENDENT_RESULT.json)
+passes all25outputs; both full-mask passes cover3,528,273 rows.
+
+The stdlib-only [checkpoint archiver](../../../scripts/archive_heterogeneous_checkpoints.py)
+accepts only successfully terminated owned fitting receipts. It preserves all
+six new fits and the recovered W18 dependency, original model bytes, every epoch
+snapshot, normalization/provenance/history, and distinct fixed/runtime/best-observed
+roles. A separate source archive includes original Python/dependency subsets,
+scoped tools and receiving evidence; external data/ancestor weights stay separate.
+Each ZIP member is CRC/SHA256 roundtrip-verified. Five bounded archive checks pass;
+the [actual complete node archives](receiving/CHECKPOINT_EXPORT_R1.json) contain
+all seven models. Local backup transport hashes match; the GitHub publication
+receipt is appended after actual upload/download verification.

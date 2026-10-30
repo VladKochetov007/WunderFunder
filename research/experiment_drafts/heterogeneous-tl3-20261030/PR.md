@@ -1,12 +1,22 @@
 # [Experiment] Heterogeneous teacher transfer and fixed ensembles against fresh TL3
 
+Six frozen fits and the original W18 recovery completed. The heterogeneous
+two-student ensemble improves over matched controls by0.0004057735WP, while its
+tested20%addition to TL3 is negative. Best tested fixed mixture is90%TL3 +10%GALAM:
+0.6924964468 versus canonical TL30.6923774246 (+0.0001190223).
+All25model/ensemble outputs independently rescore within5.55e-15 on full exposed
+official valid. This is neither a public score nor a significance claim.
+
+[Complete12-row table](results/R3/COMPARISON.md) and
+[actual results, source pins and independent review](results/R3/README.md).
+
 1. **Status, lineage and owner.** E-HETEROGENEOUS-TL3-20261030-R1,
    H-HETEROGENEOUS-TEACHERS-20261029. The user requests actual execution of the
-   proposed six-fit screen and a TL3-baseline ensemble comparison. Root owns
-   execution/collection; this packet prepares the exact recipes and fitting-only
-   cache consumer. Parent source is PR49 plus the preserved checkpoint-publication
-   and GitHub candidate review. Actual immutable source/profile/launch receipts
-   are separate. Code completion and CPU checks are not fitted results.
+   six-fit screen and a TL3-baseline ensemble comparison. Root completed
+   execution/collection; all six fixed4epoch fits and the original2epoch W18
+   dependency have terminal receipts. Parent source is PR49 plus the preserved
+   checkpoint-publication and GitHub candidate review. Actual immutable
+   source/profile/launch/result/archive receipts remain separate.
 2. **Mechanism.** A plain LSTM and causal dilated TCN may provide useful errors
    beyond the existing GRU/GALAM pool. Test whether a fixed heterogeneous target
    improves identical-capacity GRU students at paired seeds. Low prediction/error
@@ -30,7 +40,7 @@
 5. **Bounded fitting panel.** Six total new fits:2teacher+2control+2candidate,
    24configured epochs/154560expected optimizer updates. Three reused teacher
    checkpoints are not new replications. Canonical TL3 requires the separately
-   recovered W18 node; that pending historical fit is not counted among these six.
+   recovered W18 node; that separate original fit is not counted among these six.
    Profiles are disposable engineering, not scientific repetitions. No automatic
    extra seed, sweep or fit retry is admitted by this packet.
 6. **Validation and uncertainty.** Frozen official train-only/full-valid split,
@@ -67,11 +77,16 @@
     CPU/GPU/RAM/disk and timing; all fixed checkpoint and prediction hashes;
     complete fixed-ensemble table with exact coefficients/baseline/member counts.
     Preserve source-qualified failures and separate weights from small evidence.
-11. **Results and trace.** Focused local recipe/cache checks and Ruff/structure
-    validation are recorded in README. They are engineering evidence only.
-    An expanded archival-cache suite finds missing sparse-checkout historical
-    snapshots/receipts and a Windows-only `resource` import dependency; do not
-    hide these or modify frozen legacy fixtures to manufacture a pass. Actual
-    receiver/source/profile/launch/result evidence is appended by root. No exact
-    historical GALAM or TL3 reproduction, served/public score or completed
-    baseline is inferred from this preparation.
+11. **Results and trace.** All12fixed comparisons are complete. Paired singleton
+    deltas are+0.0006193485/+0.0002192739; heterogeneous student mean0.6898425573
+    versus control0.6894367839. Its20%TL3 addition scores0.6922595271,
+    delta-0.0001178975. All25outputs pass independent actual-array checks using
+    a separate two-pass metric/mixer. Actual normalizers, non-treatment args
+    and trainer-source identities match within each student seed. Seven fits
+    total167460successful updates/zero recorded nonfinite-gradient steps and
+    4.4289fit GPU-command hours; no scoped GPU PID remains. Original checkpoints,
+    all epoch snapshots and separate source/evidence ZIPs are retained, with
+    distinct fixed/runtime/best-observed roles. Legacy consumed-cache byte ancestry,
+    exposed validation, two seeds and serving/public-transfer limits remain explicit.
+    Earlier sparse-checkout/Windows archival-test failures remain documented in
+    README. No historical exact GALAM/TL3 or submission-ready reproduction claim.
