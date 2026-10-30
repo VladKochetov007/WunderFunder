@@ -121,7 +121,7 @@
   ],
   "admission": {
     "teachers": "Parent reports 80 finite profile updates for each teacher and CUDA prefix/carry errors 3.35e-8 and 1.49e-7. Fits started on GPUs 0 and 1. This reviewer did not run those checks or inspect their raw receipts.",
-    "students": "The actual GRU-only cache scalar fixture independently passes 30 of 30 exact FP32 checks. Remaining controls require actual-cache finite profiles. Heterogeneous students still require completed new teacher/GALAM exports, the qualified heterogeneous cache and its corresponding arithmetic fixture/profile.",
+    "students": "Both actual pool fixtures independently pass 30 of 30 exact ordered-FP32 scalar checks. Parent reports each heterogeneous profile passed 80 finite updates and both fits are running. Actual full arrays/profiles and command receipts remain operator evidence; no new source or arithmetic blocker was found.",
     "w18": "The selected-fixed/student-required source repair is reviewed. Parent reports a repaired cache and W18 profiling on GPU2; the prior 16 fits are preserved.",
     "ensemble_scoring": "Source reviewed; actual full-validation prediction artifacts and canonical TL3 outputs remain required."
   },
@@ -139,7 +139,7 @@
     "Teacher outputs on fitting data are in-sample distillation targets, not OOF estimates.",
     "An improved teacher pool does not establish improved student transfer or a public-score gain."
   ],
-  "updated_utc": "2026-10-30T18:23:57.177220+00:00",
+  "updated_utc": "2026-10-30T19:10:23.261898+00:00",
   "review_history": [
     {
       "phase": "w18_identified_repair_source_review",
@@ -161,6 +161,11 @@
       "phase": "actual_gru_only_cache_scalar_recomputation",
       "status": "passed_30_of_30",
       "date_utc": "2026-10-30T18:23:57.177220+00:00"
+    },
+    {
+      "phase": "actual_heterogeneous_cache_and_initial_ensemble_report",
+      "status": "scalar_arithmetic_and_report_identity_pass",
+      "date_utc": "2026-10-30T19:10:23.261898+00:00"
     }
   ],
   "w18_source_review": {
@@ -530,5 +535,361 @@
     "max_error_to_independently_rounded_float32": 0.0,
     "coverage": "Three actual groups (first, middle, last fitting coordinates), five rows including warmup and endpoint positions, both targets.",
     "limits": "This independently verifies arithmetic of the provided actual scalar fixture. It does not reread the full remote source/cache arrays or independently establish every row identity. Full source/payload hashes and membership validation are receiving evidence supplied by the root operator."
+  },
+  "actual_heterogeneous_cache_arithmetic_review": {
+    "status": "passed_30_of_30_exact_fp32_scalar_checks",
+    "fixture": "receiving/HETEROGENEOUS_ACTUAL_ARITHMETIC_R1.json",
+    "fixture_sha256": "c237809c409e61f0e7e5bb08ae9042c12df31c40f36aa1c6ba29f2e85046be4d",
+    "metadata_sha256_reported_by_fixture": "835337b31a74b6ecfd972311889fb8ad4b7b8ae5e3a1f6dec1b01e49a3a36fa6",
+    "source_order_and_coefficients": [
+      {
+        "run": "tl3c_fin256_s3",
+        "family": "gru",
+        "epoch": 3,
+        "coefficient": 0.35
+      },
+      {
+        "run": "tl3c_fin256_s4",
+        "family": "gru",
+        "epoch": 3,
+        "coefficient": 0.35
+      },
+      {
+        "run": "g2-galam-lstm128",
+        "family": "galam",
+        "epoch": 2,
+        "coefficient": 0.1
+      },
+      {
+        "run": "het6_lstm_s1201",
+        "family": "lstm",
+        "epoch": 3,
+        "coefficient": 0.1
+      },
+      {
+        "run": "het6_tcn_s1202",
+        "family": "tcn",
+        "epoch": 3,
+        "coefficient": 0.1
+      }
+    ],
+    "method": "Independent Python math.fsum and struct-based float32 rounding, including rounding each coefficient/product and each ordered addition. No production mixing helper or fixture pass flag was used.",
+    "cases": [
+      {
+        "row_group": 0,
+        "row": 0,
+        "target": 0,
+        "independent_reference_float64": -0.1801230013370514,
+        "independent_ordered_float32": -0.1801230013370514,
+        "stored_float32": -0.1801230013370514,
+        "error_to_real_weighted_sum": 0.0
+      },
+      {
+        "row_group": 0,
+        "row": 0,
+        "target": 1,
+        "independent_reference_float64": 0.2797075971961021,
+        "independent_ordered_float32": 0.2797076106071472,
+        "stored_float32": 0.2797076106071472,
+        "error_to_real_weighted_sum": 1.3411045107769581e-08
+      },
+      {
+        "row_group": 0,
+        "row": 99,
+        "target": 0,
+        "independent_reference_float64": 0.7073310852050781,
+        "independent_ordered_float32": 0.707331120967865,
+        "stored_float32": 0.707331120967865,
+        "error_to_real_weighted_sum": 3.5762786843029915e-08
+      },
+      {
+        "row_group": 0,
+        "row": 99,
+        "target": 1,
+        "independent_reference_float64": 0.13661819510161877,
+        "independent_ordered_float32": 0.13661819696426392,
+        "stored_float32": 0.13661819696426392,
+        "error_to_real_weighted_sum": 1.862645149230957e-09
+      },
+      {
+        "row_group": 0,
+        "row": 999,
+        "target": 0,
+        "independent_reference_float64": 1.1784469604492187,
+        "independent_ordered_float32": 1.178446888923645,
+        "stored_float32": 1.178446888923645,
+        "error_to_real_weighted_sum": 7.152557368605983e-08
+      },
+      {
+        "row_group": 0,
+        "row": 999,
+        "target": 1,
+        "independent_reference_float64": -0.28934097588062285,
+        "independent_ordered_float32": -0.289341002702713,
+        "stored_float32": -0.289341002702713,
+        "error_to_real_weighted_sum": 2.682209016002801e-08
+      },
+      {
+        "row_group": 0,
+        "row": 1000,
+        "target": 0,
+        "independent_reference_float64": 1.161529529094696,
+        "independent_ordered_float32": 1.161529541015625,
+        "stored_float32": 1.161529541015625,
+        "error_to_real_weighted_sum": 1.1920928910669204e-08
+      },
+      {
+        "row_group": 0,
+        "row": 1000,
+        "target": 1,
+        "independent_reference_float64": -0.26579025238752363,
+        "independent_ordered_float32": -0.26579025387763977,
+        "stored_float32": -0.26579025387763977,
+        "error_to_real_weighted_sum": 1.4901161415892261e-09
+      },
+      {
+        "row_group": 0,
+        "row": 19999,
+        "target": 0,
+        "independent_reference_float64": -0.24285370856523514,
+        "independent_ordered_float32": -0.24285371601581573,
+        "stored_float32": -0.24285371601581573,
+        "error_to_real_weighted_sum": 7.450580596923828e-09
+      },
+      {
+        "row_group": 0,
+        "row": 19999,
+        "target": 1,
+        "independent_reference_float64": 1.3023410618305205,
+        "independent_ordered_float32": 1.3023409843444824,
+        "stored_float32": 1.3023409843444824,
+        "error_to_real_weighted_sum": 7.748603803037213e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 0,
+        "target": 0,
+        "independent_reference_float64": -0.3042339615523815,
+        "independent_ordered_float32": -0.30423396825790405,
+        "stored_float32": -0.30423396825790405,
+        "error_to_real_weighted_sum": 6.705522526129215e-09
+      },
+      {
+        "row_group": 5309,
+        "row": 0,
+        "target": 1,
+        "independent_reference_float64": -0.09319624565541744,
+        "independent_ordered_float32": -0.09319624304771423,
+        "stored_float32": -0.09319624304771423,
+        "error_to_real_weighted_sum": 2.6077032061477823e-09
+      },
+      {
+        "row_group": 5309,
+        "row": 99,
+        "target": 0,
+        "independent_reference_float64": -0.46003805994987484,
+        "independent_ordered_float32": -0.46003806591033936,
+        "stored_float32": -0.46003806591033936,
+        "error_to_real_weighted_sum": 5.960464510845753e-09
+      },
+      {
+        "row_group": 5309,
+        "row": 99,
+        "target": 1,
+        "independent_reference_float64": -0.4573675528168678,
+        "independent_ordered_float32": -0.45736756920814514,
+        "stored_float32": -0.45736756920814514,
+        "error_to_real_weighted_sum": 1.6391277335436882e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 999,
+        "target": 0,
+        "independent_reference_float64": -0.5466404885053635,
+        "independent_ordered_float32": -0.5466404557228088,
+        "stored_float32": -0.5466404557228088,
+        "error_to_real_weighted_sum": 3.2782554670873765e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 999,
+        "target": 1,
+        "independent_reference_float64": 0.9099491596221922,
+        "independent_ordered_float32": 0.9099491238594055,
+        "stored_float32": 0.9099491238594055,
+        "error_to_real_weighted_sum": 3.576278673200761e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 1000,
+        "target": 0,
+        "independent_reference_float64": -0.575724744796753,
+        "independent_ordered_float32": -0.575724720954895,
+        "stored_float32": -0.575724720954895,
+        "error_to_real_weighted_sum": 2.384185793236071e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 1000,
+        "target": 1,
+        "independent_reference_float64": 0.915596106648445,
+        "independent_ordered_float32": 0.915596067905426,
+        "stored_float32": 0.915596067905426,
+        "error_to_real_weighted_sum": 3.8743019015186064e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 19999,
+        "target": 0,
+        "independent_reference_float64": 0.597903260588646,
+        "independent_ordered_float32": 0.5979031920433044,
+        "stored_float32": 0.5979031920433044,
+        "error_to_real_weighted_sum": 6.854534151390368e-08
+      },
+      {
+        "row_group": 5309,
+        "row": 19999,
+        "target": 1,
+        "independent_reference_float64": 0.03583819307386875,
+        "independent_ordered_float32": 0.03583819046616554,
+        "stored_float32": 0.03583819046616554,
+        "error_to_real_weighted_sum": 2.6077032061477823e-09
+      },
+      {
+        "row_group": 10606,
+        "row": 0,
+        "target": 0,
+        "independent_reference_float64": -0.09696398451924325,
+        "independent_ordered_float32": -0.09696398675441742,
+        "stored_float32": -0.09696398675441742,
+        "error_to_real_weighted_sum": 2.2351741707504758e-09
+      },
+      {
+        "row_group": 10606,
+        "row": 0,
+        "target": 1,
+        "independent_reference_float64": -0.4080933034420013,
+        "independent_ordered_float32": -0.40809330344200134,
+        "stored_float32": -0.40809330344200134,
+        "error_to_real_weighted_sum": 5.551115123125783e-17
+      },
+      {
+        "row_group": 10606,
+        "row": 99,
+        "target": 0,
+        "independent_reference_float64": -0.027093183994293214,
+        "independent_ordered_float32": -0.027093183249235153,
+        "stored_float32": -0.027093183249235153,
+        "error_to_real_weighted_sum": 7.450580603862722e-10
+      },
+      {
+        "row_group": 10606,
+        "row": 99,
+        "target": 1,
+        "independent_reference_float64": -0.5258892998099327,
+        "independent_ordered_float32": -0.5258892774581909,
+        "stored_float32": -0.5258892774581909,
+        "error_to_real_weighted_sum": 2.2351741790771484e-08
+      },
+      {
+        "row_group": 10606,
+        "row": 999,
+        "target": 0,
+        "independent_reference_float64": 0.05604207161813974,
+        "independent_ordered_float32": 0.05604206770658493,
+        "stored_float32": 0.05604206770658493,
+        "error_to_real_weighted_sum": 3.9115548092216734e-09
+      },
+      {
+        "row_group": 10606,
+        "row": 999,
+        "target": 1,
+        "independent_reference_float64": -0.5950603187084198,
+        "independent_ordered_float32": -0.5950602889060974,
+        "stored_float32": -0.5950602889060974,
+        "error_to_real_weighted_sum": 2.9802322387695312e-08
+      },
+      {
+        "row_group": 10606,
+        "row": 1000,
+        "target": 0,
+        "independent_reference_float64": 0.05635036025196313,
+        "independent_ordered_float32": 0.056350354105234146,
+        "stored_float32": 0.056350354105234146,
+        "error_to_real_weighted_sum": 6.146728986911043e-09
+      },
+      {
+        "row_group": 10606,
+        "row": 1000,
+        "target": 1,
+        "independent_reference_float64": -0.5785989671945572,
+        "independent_ordered_float32": -0.5785989165306091,
+        "stored_float32": -0.5785989165306091,
+        "error_to_real_weighted_sum": 5.066394803687757e-08
+      },
+      {
+        "row_group": 10606,
+        "row": 19999,
+        "target": 0,
+        "independent_reference_float64": -0.584883975982666,
+        "independent_ordered_float32": -0.5848839282989502,
+        "stored_float32": -0.5848839282989502,
+        "error_to_real_weighted_sum": 4.768371575369912e-08
+      },
+      {
+        "row_group": 10606,
+        "row": 19999,
+        "target": 1,
+        "independent_reference_float64": -0.11188196940347553,
+        "independent_ordered_float32": -0.11188197135925293,
+        "stored_float32": -0.11188197135925293,
+        "error_to_real_weighted_sum": 1.9557774011413898e-09
+      }
+    ],
+    "max_error_to_independently_rounded_float32": 0.0,
+    "max_error_to_real_weighted_sum": 7.748603803037213e-08,
+    "max_difference_from_reported_float64_reference": 0.0,
+    "limits": "Checks the provided actual scalar fixture; does not reread all remote arrays or independently establish their full row identities. Full payload/source qualification remains receiving evidence."
+  },
+  "initial_ensemble_report_review": {
+    "status": "metadata_and_arithmetic_pass",
+    "report": "results/R1/REPORT.json",
+    "report_sha256": "8ad2b048f3dcff0be68343e0e4b1d3806602bf1126ed2be666d5bbe2ed2f302b",
+    "input_manifest_sha256": "970ba293f262951900e3bc4c519ae1e242d037627544455e8d82a67bcad47cfe",
+    "independent_baseline_report": "receiving/CANONICAL_BASELINE_INDEPENDENT_R1.json",
+    "independent_baseline_report_sha256": "9725a82eb94a23a8be3f92348ea761166c2cf5a4d59ff2dacc0f3ee81235dd73",
+    "baseline_artifact_binding": "All three actual run names, fixed epochs, weights, checkpoint hashes and prediction hashes agree with the original canonical TL3 grader report.",
+    "score_agreement": "Both target scores and pooled WP agree exactly between the new R1 scorer and original canonical grader, including mask count/metric identity.",
+    "canonical_tl3_wp": 0.6923774245652725,
+    "complete_rows": [
+      {
+        "name": "TL3",
+        "wp": 0.6923774245652725,
+        "independently_recomputed_delta": 0.0
+      },
+      {
+        "name": "PR51_replacement",
+        "wp": 0.6923400491703047,
+        "independently_recomputed_delta": -3.737539496784237e-05
+      },
+      {
+        "name": "GRU_family",
+        "wp": 0.6886081210674475,
+        "independently_recomputed_delta": -0.003769303497825005
+      },
+      {
+        "name": "TL3_plus_GALAM",
+        "wp": 0.6924964468441978,
+        "independently_recomputed_delta": 0.00011902227892524042
+      },
+      {
+        "name": "TL3_plus_TCN",
+        "wp": 0.6923437402518542,
+        "independently_recomputed_delta": -3.368431341832512e-05
+      }
+    ],
+    "partial_status": "R1 explicitly marks missing LSTM/student ensembles unavailable with null scores and deltas. This is an as-of report, not a claim that later artifacts are absent.",
+    "interpretation": "Exposed fixed-prediction discovery. The GALAM delta is small and does not establish significance, unseen/private/public improvement or CPU serving compliance.",
+    "independence_limit": "This reviewer independently checked the supplied reports/identities/delta arithmetic, not a second full-array rescore."
   }
 }

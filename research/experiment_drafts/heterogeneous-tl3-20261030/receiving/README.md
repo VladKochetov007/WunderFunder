@@ -1,5 +1,14 @@
 # Actual receiving evidence
 
+- [Heterogeneous actual arithmetic](HETEROGENEOUS_ACTUAL_ARITHMETIC_R1.json)
+ independently passes30/30 ordered-FP32 scalar coordinates. The
+ [review](../INDEPENDENT_REVIEW_R1.json) separately checks both physical pool
+ fixtures and the original grader's exact canonical TL3 agreement.
+- [Publisher launch](PUBLISHER_LAUNCH_R1.json) and
+ [first actual publication state](RESULTS_PUBLISHER_R1.json) identify the detached
+ CPU-only observer, its code/PID birth and SemyonEpanov's actual PR52 comment.
+ No credential payload is included. These are dated snapshots, not final status.
+
 - [Initial receiving snapshot](R1/README.md) preserves immutable source inventories,
  native-model implementation matching, actual CUDA causal checks, cache failures
  and repairs, bounded numerical profiles, and the first live/terminal worker

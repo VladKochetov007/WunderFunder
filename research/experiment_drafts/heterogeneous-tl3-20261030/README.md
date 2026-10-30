@@ -9,6 +9,12 @@ dependency; never substitute fbc1k and label that result canonical TL3. Historic
 
 ## Actual receiving progress
 
+[Latest measured table](results/R2/COMPARISON.md) completes8 of12 rows. The
+heterogeneous teacher pool improves over the two-GRU pool by0.0005554431WP;
+its transfer to paired students remains pending. Adding all three alternate
+families to TL3 at10% each is negative, -0.0001752911WP. See the
+[dated result interpretation](results/R2/README.md) and actual PR52 comment.
+
 [Initial full-valid table](results/R1/COMPARISON.md) completes5 of12 predeclared
 rows. Canonical fresh TL3 scores0.6923774245652725; its fixed90/10 GALAM mixture
 scores0.692496447 (+0.000119022), while90/10 TCN gives0.692343740 (−0.000033684).
@@ -16,8 +22,10 @@ These are exposed fixed-prediction comparisons, not a completed six-fit screen
 or a public-score result. Missing rows remain explicitly unavailable. See the
 [result index](results/README.md) for source/metric/coverage evidence.
 
-The two new teachers and the original W18 baseline completion are fitting in
-detached, wall-bounded owned workers. LSTM/TCN passed80 finite real-data updates
+At19:15UTC both new teachers, both GRU-only students and the original W18
+baseline completion have terminated successfully. The two heterogeneous students
+are fitting in detached, wall-bounded owned workers. Their actual pooled cache
+passed independent30/30 exact ordered-FP32 scalar checks. LSTM/TCN passed80 finite real-data updates
 each and actual CUDA prefix/chunk-carry checks; W18 passed40. The identified
 W18 repair selects the actual fixed `model.pt` named by its prediction sidecars,
 retaining explicit epoch/ancestry checks and0.8125 coefficients. It stores only
@@ -231,6 +239,29 @@ when the unchanged request and status use the same encoding. Request byte hashes
 exact command/role/GPU/source and PID birth checks remain binding. It does not
 restart any fit or export. Six focused continuation checks pass, including a
 no-spawn adoption test that preserves the original receipt bytes.
+
+## Automatic result publication
+
+`watch_heterogeneous_results.py` and its report/GitHub support modules are a
+report-only continuation. They reuse the already-computed first table, poll final
+checkpoint/valid-sidecar readiness, and invoke the pinned `tools-r5` collector and
+CPU scorer only for a new artifact signature. Each new attempt gets a fresh
+`ensemble-results-auto/auto-NNNN` directory; failed signatures are not retried.
+Fixed full-valid tables are posted to PR52 as SemyonEpanov after an account check,
+with source/input/report hashes and explicit computed/pending-review labels.
+Unchanged results receive at most hourly progress comments. A durable pending-POST
+journal prevents duplicate ambiguous submissions; the first HTTP failure blocks
+further publication attempts while local grading can continue. The cap is24posts
+within21600seconds. A completed12-row table triggers final publication and exit.
+
+The watcher holds one OS file lock, records its PID/birth/code hashes in
+`results-publisher-state.json`, uses CPU58/59 with one-thread math libraries and
+no visible GPU. The private token file stays outside artifacts and is never
+printed, copied into state or passed to grading subprocesses. No fit, model
+inference, tensor upload or serving/public-score claim is added. Six focused
+tests use the actual first report plus mocked HTTP/CPU commands; no network or
+model evaluation runs in those local checks. Actual node launch and comment URLs
+are recorded separately by root.
 
 See [recipe generator](../../../scripts/heterogeneous_tl3_recipes.py),
 [cache builder](../../../scripts/build_heterogeneous_pool_cache.py),

@@ -3,10 +3,14 @@
 The user requests actual experiments and a full-valid ensemble table with TL3
 as baseline. [The execution packet](../research/experiment_drafts/heterogeneous-tl3-20261030/README.md)
 freezes two new LSTM/TCN teachers plus four paired GRU students,12 fixed ensemble
-rows and ADR0044. The TCN has completed four epochs; LSTM and the two control
-students are fitting. W18's original cache-file binding mismatch is repaired;
-its fixed two-epoch endpoint reports WP0.6914165059782622, with final predictions
-and canonical three-member blend grading in progress. This is not a public score.
+rows and ADR0044. Both teachers, both controls and the original W18 dependency
+are complete; the two heterogeneous students are fitting. Canonical TL3 scores
+0.6923774245652725 with exact independent original-grader agreement. The
+[second table](../research/experiment_drafts/heterogeneous-tl3-20261030/results/R2/COMPARISON.md)
+completes8/12 rows. The heterogeneous teacher pool improves over GRU-only by
+0.0005554431; paired student transfer is pending. A detached CPU-only publisher
+has posted the actual table to [PR52](https://github.com/VladKochetov007/WunderFunder/pull/52#issuecomment-6531502752)
+as SemyonEpanov. These are exposed validation results, not public scores.
 
 Use the one persistent SSH session91101 and worktree
 `WunderFunder-heterogeneous-20261030`; do not duplicate fits or mutate immutable
