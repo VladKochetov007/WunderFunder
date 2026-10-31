@@ -12,6 +12,7 @@ from wnn.multistage_search import (
     read_json,
 )
 from wnn.multistage_search_budget import utc_now
+from wnn.multistage_search_successor_review import validate_successor_review
 
 
 def approve_successor_profile(
@@ -29,6 +30,9 @@ def approve_successor_profile(
     request = read_json(request_path)
     attempt = read_json(attempt_path)
     review = read_json(review_path)
+    review_proof = validate_successor_review(
+        run_dir, trial_dir, stage, trial_number, request, review_path
+    )
     native_sha, review_sha = file_sha256(native_path), file_sha256(review_path)
     identity = native.get("identity")
     if not isinstance(identity, Mapping) or native.get("approved") is not False:
@@ -117,6 +121,9 @@ def approve_successor_profile(
                 "review_receipt_path": str(review_path.resolve()),
                 "review_receipt_sha256": review_sha,
                 "native_profile_sha256": native_sha,
+                "review_revision": review_proof["revision"],
+                "review_policy_sha256": review_proof["policy_sha256"],
+                "reviewer_script_sha256": review_proof["checker_sha256"],
                 "approved_at_utc": utc_now(),
             },
         }
@@ -136,6 +143,9 @@ def approve_successor_profile(
         "profile_attempt_receipt_path": str(attempt_path.resolve()),
         "profile_attempt_receipt_sha256": file_sha256(attempt_path),
         "reviewer": reviewer,
+        "review_revision": review_proof["revision"],
+        "review_policy_sha256": review_proof["policy_sha256"],
+        "reviewer_script_sha256": review_proof["checker_sha256"],
         "approved_at_utc": utc_now(),
         "status": "approved_for_exact_fit_identity",
     }

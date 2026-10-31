@@ -306,12 +306,29 @@ def _candidate_directories(roots: list[Path], registered: list[Path]) -> list[Pa
     return sorted(candidates)
 
 
+def _parse_registered_stage_root(value: str) -> tuple[Path, int]:
+    """Parse one existing runs-root role binding from the CLI."""
+    path, stage = _parse_registered_stage(value)
+    return path, stage
+
+
 def _parse_registered_stage(value: str) -> tuple[Path, int]:
     """Parse one explicit ``PATH=STAGE`` role binding from the CLI."""
     path_text, separator, stage_text = value.rpartition("=")
     if not separator or not path_text or stage_text not in {"1", "2", "3"}:
         raise ValueError("registered stage must have the form PATH=1|2|3")
     return Path(path_text), int(stage_text)
+
+
+def _stage_for_directory(
+    path: Path, registered: dict[Path, int], registered_roots: dict[Path, int]
+) -> int | None:
+    """Resolve exact-fit and direct-child stage registrations, rejecting conflicts."""
+    exact = registered.get(path)
+    parent = registered_roots.get(path.parent)
+    if exact is not None and parent is not None and exact != parent:
+        raise ValueError(f"conflicting registered stage roles for {path}")
+    return exact if exact is not None else parent
 
 
 def _load_fit_run(source_dir: Path, registered_stage: int | None = None) -> FitRun:
@@ -734,6 +751,7 @@ def watch(args: argparse.Namespace) -> None:
     roots = list(args.runs_root)
     registered = list(args.registered_run)
     registered_stage_by_path: dict[Path, int] = {}
+    registered_stage_roots: dict[Path, int] = {}
     for value in args.registered_stage:
         stage_path, stage = _parse_registered_stage(value)
         resolved_path = _source_directory(stage_path)
@@ -742,6 +760,20 @@ def watch(args: argparse.Namespace) -> None:
             raise ValueError(f"conflicting registered stage roles for {resolved_path}")
         registered_stage_by_path[resolved_path] = stage
         registered.append(resolved_path)
+    for value in args.registered_stage_root:
+        root_path, stage = _parse_registered_stage_root(value)
+        resolved_root = _source_directory(root_path)
+        try:
+            _lstat_regular(resolved_root / METADATA_FILE)
+        except FileNotFoundError:
+            pass
+        else:
+            raise ValueError("registered-stage-root must be a runs-root, not a fit directory")
+        previous = registered_stage_roots.get(resolved_root)
+        if previous is not None and previous != stage:
+            raise ValueError(f"conflicting registered stage roles for runs root {resolved_root}")
+        registered_stage_roots[resolved_root] = stage
+        roots.append(resolved_root)
     if not roots and not registered:
         raise ValueError("provide at least one --runs-root or --registered-run")
     lock_path = dashboard_root / ".multistage_monitor.lock"
@@ -756,7 +788,10 @@ def watch(args: argparse.Namespace) -> None:
                     current_runs: dict[str, FitRun] = {}
                     for path in directories:
                         try:
-                            run = _load_fit_run(path, registered_stage_by_path.get(path))
+                            stage = _stage_for_directory(
+                                path, registered_stage_by_path, registered_stage_roots
+                            )
+                            run = _load_fit_run(path, stage)
                         except (OSError, ValueError, TypeError, json.JSONDecodeError) as error:
                             LOG.warning("skipping unqualified fit path=%s reason=%s", path, error)
                             continue
@@ -829,6 +864,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--runs-root", action="append", type=Path, default=[])
     parser.add_argument("--registered-run", action="append", type=Path, default=[])
     parser.add_argument("--registered-stage", action="append", default=[])
+    parser.add_argument("--registered-stage-root", action="append", default=[])
     parser.add_argument("--dashboard-runs-root", required=True, type=Path)
     parser.add_argument("--deadline-epoch", type=float)
     parser.add_argument("--duration-seconds", type=float, default=21_600)

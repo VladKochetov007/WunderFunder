@@ -111,3 +111,17 @@ The [native finalizer](../../../scripts/finalize_native_multistage_fit.py)
 verifies immutable fit artifacts before exporting fitting-only control predictions.
 [Reporting R2](reporting-r2) is a frozen publication capsule;
 the live deployment version is recorded separately in runtime receipts.
+
+The [R2 execution update](PROGRESS_20261031_R2.md) records completed additional
+base fits, actual Source5B successor profiles/fits, teacher pool and dispatch.
+[R5](review_multistage_profile_r5.py) and [R6](review_multistage_profile_r6.py)
+preserve the earlier rejected receipts and repair only consumer bindings.
+The [proposal sidecar](STAGE2_PROPOSAL_CAP_OVERRIDE_R1.json) has a separate
+[independent review](INDEPENDENT_STAGE2_PROPOSAL_CAP_AMENDMENT_R1.json).
+The [initial dispatcher](run_stage3_wave_r1.py) and
+[resumed dispatcher](run_stage3_dispatch_r2.py) retain the same paired recipes.
+The [successor finalizer](../../../scripts/finalize_reviewed_successor_fit.py),
+[CPU ensemble runner](../../../scripts/multistage_stage4_runner.py), and
+[primary refit preparer](../../../scripts/prepare_multistage_primary_refits.py)
+separate execution, qualified inner scoring, primary reporting, and pending
+optional refit admission.
