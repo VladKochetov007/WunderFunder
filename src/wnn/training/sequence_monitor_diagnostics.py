@@ -249,6 +249,21 @@ def _attention_tag(path: str) -> str:
 
 
 def _activation_metric(path: str) -> str | None:
+    if path in ("input_projection", "output_head"):
+        return f"transformer/{path}_activation_rms"
+    if path.startswith("blocks."):
+        parts = path.split(".")
+        if (
+            len(parts) == 3
+            and parts[1].isdigit()
+            and parts[2]
+            in (
+                "attention_output",
+                "feedforward_in",
+                "feedforward_out",
+            )
+        ):
+            return f"transformer/layer_{parts[1]}/{parts[2]}_activation_rms"
     if path.startswith("local_norms."):
         return f"local/activation_rms/{path.rsplit('.', 1)[-1]}"
     if path.startswith("global_attention_norms."):

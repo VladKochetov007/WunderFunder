@@ -21,6 +21,7 @@ HOLDOUT_MODULUS = 5
 MAX_CAMPAIGN_SPLIT_BYTES = 2_000_000
 SEQUENCE_INNER_SPLIT_SCHEMA = "wnn.sequence-inner-split.v1"
 CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA = "wnn.chronological-primary.v1"
+MULTISTAGE_AUXILIARY_SPLIT_SCHEMA = "wnn.multistage-auxiliary-split.v1"
 
 
 def is_holdout(seq_ix: int) -> bool:
@@ -94,6 +95,10 @@ class CampaignSplit(NamedTuple):
     evaluation_groups: tuple[int, ...]
     components: tuple[tuple[str, int, int], ...]
     schema: str = "wnn.campaign-split.v1"
+    evaluation_source: str = "valid"
+    evaluation_role: str = "valid"
+    evaluation_mask: str = "is_scored"
+    primary_split_sha256: str | None = None
 
     def assert_fit_groups(self, train: Iterable[int], valid: Iterable[int]) -> None:
         """Reject unknown, excluded or evaluation-linked fitting rows."""
@@ -103,7 +108,9 @@ class CampaignSplit(NamedTuple):
         component_of = {(split, group): component for split, group, component in self.components}
         fitted = {component_of[("train", group)] for group in training}
         fitted.update(component_of[("valid", group)] for group in validation)
-        evaluated = {component_of[("valid", group)] for group in self.evaluation_groups}
+        evaluated = {
+            component_of[(self.evaluation_source, group)] for group in self.evaluation_groups
+        }
         if fitted & evaluated:
             raise ValueError("fit/evaluation component overlap")
 
@@ -136,6 +143,10 @@ def load_campaign_split(path: Path, root: Path) -> CampaignSplit:
         from wnn.chronological_splits import load_chronological_primary_split
 
         return load_chronological_primary_split(path, root, raw, manifest)
+    if manifest.get("schema") == MULTISTAGE_AUXILIARY_SPLIT_SCHEMA:
+        from wnn.multistage_data import load_multistage_auxiliary_split
+
+        return load_multistage_auxiliary_split(path, root, raw, manifest)
     return _load_canonical_campaign_split(path, root, raw, manifest)
 
 

@@ -7,11 +7,11 @@ import stat
 from pathlib import Path
 from typing import BinaryIO
 
-from wnn.dashboard.schema import sanitize_json
+from wnn.dashboard.schema import sanitize_config, sanitize_json
 
-MAX_METADATA_BYTES = 1_048_576
-MAX_DISCOVERED_RUNS = 1_000
-MAX_LISTED_RUNS = 200
+MAX_METADATA_BYTES = 16 * 1_048_576
+MAX_DISCOVERED_RUNS = 64
+MAX_LISTED_RUNS = 48
 RUN_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,79}\Z")
 ALLOWED_FILES = {
     "run_metadata.json",
@@ -109,7 +109,8 @@ def discover_run_ids(root: Path) -> list[tuple[str, int]]:
             if stat.S_ISDIR(entry_stat.st_mode):
                 found.append((entry.name, entry_stat.st_mtime_ns))
     found.sort(key=lambda item: item[1], reverse=True)
-    return found[:MAX_LISTED_RUNS]
+    # One extra entry lets the reader report whether the visible list was capped.
+    return found[: MAX_LISTED_RUNS + 1]
 
 
 def metadata_signature(handle: BinaryIO) -> tuple[int, int, int, int]:
@@ -140,7 +141,7 @@ def read_run_metadata(
     return (
         {
             "source": sanitize_json(decoded.get("source", "unknown")),
-            "config": sanitize_json(decoded.get("config", {})),
+            "config": sanitize_config(decoded.get("config", {})),
             "provenance": sanitize_json(decoded.get("provenance", {})),
             "synthetic": bool(decoded.get("synthetic", False)),
         },

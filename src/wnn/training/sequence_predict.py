@@ -13,6 +13,7 @@ import torch.distributed as dist
 from wnn.data import SEQUENCE_LENGTH
 from wnn.splits import (
     CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+    MULTISTAGE_AUXILIARY_SPLIT_SCHEMA,
     SEQUENCE_INNER_SPLIT_SCHEMA,
     file_sha256,
     load_campaign_split,
@@ -23,6 +24,7 @@ from wnn.training.sequence_epoch_prediction import (
     epoch_admission,
     validate_epoch_payload,
 )
+from wnn.training.sequence_fit_utils import collate_sequences
 from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_precision import forward_context
 
@@ -61,16 +63,29 @@ def predict_sequence(
     device: torch.device,
 ) -> np.ndarray:
     """Reset once per sequence, forward every warm-up row, and carry bounded causal state."""
+    if x.ndim != 2:
+        raise ValueError("single-sequence prediction requires a [rows,features] tensor")
+    return predict_sequence_batch(model, x.unsqueeze(0), chunk_rows, device)[0]
+
+
+@torch.no_grad()
+def predict_sequence_batch(
+    model: torch.nn.Module,
+    x: torch.Tensor,
+    chunk_rows: int,
+    device: torch.device,
+) -> np.ndarray:
+    """Predict independent complete sequences together with one causal state per sequence."""
+    if x.ndim != 3 or x.shape[0] < 1 or chunk_rows <= 0:
+        raise ValueError("batched prediction requires [batch,rows,features] and positive chunks")
     state = None
     outputs = []
     precision_mode = str(getattr(model, "precision_mode", "fp32"))
-    for start in range(0, len(x), chunk_rows):
+    for start in range(0, x.shape[1], chunk_rows):
         with forward_context(precision_mode, device.type):
-            prediction, hints, state = model(
-                x[start : start + chunk_rows].unsqueeze(0).to(device), state
-            )
-        outputs.append(torch.cat((prediction.float(), hints.float()), -1).squeeze(0).cpu().numpy())
-    values = np.concatenate(outputs).astype(np.float32, copy=False)
+            prediction, hints, state = model(x[:, start : start + chunk_rows].to(device), state)
+        outputs.append(torch.cat((prediction.float(), hints.float()), -1))
+    values = torch.cat(outputs, dim=1).cpu().numpy().astype(np.float32, copy=False)
     if not np.isfinite(values).all():
         raise ValueError("nonfinite endpoint output")
     return values
@@ -110,7 +125,7 @@ def export_predictions(args: argparse.Namespace) -> None:
     if index_path is not None:
         if args.membership != "evaluation":
             raise ValueError("retained epochs are inference-only and require evaluation membership")
-        if split.schema == SEQUENCE_INNER_SPLIT_SCHEMA:
+        if split.schema in (SEQUENCE_INNER_SPLIT_SCHEMA, MULTISTAGE_AUXILIARY_SPLIT_SCHEMA):
             if report_only_primary_valid:
                 raise ValueError("report-only primary mode requires the chronological split")
         elif split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
@@ -133,31 +148,52 @@ def export_predictions(args: argparse.Namespace) -> None:
         fitting += [("valid", g) for g in split.valid_groups]
     if payload["data"]["fit_members"] != [list(member) for member in fitting]:
         raise ValueError("endpoint fitting membership is not this source-qualified split")
+    batch_size = getattr(args, "batch_size", 1)
+    if type(batch_size) is not int or batch_size < 1:
+        raise ValueError("prediction batch size must be a positive integer")
     members = (
-        fitting if args.membership == "fit" else [("valid", g) for g in split.evaluation_groups]
+        fitting
+        if args.membership == "fit"
+        else [(split.evaluation_source, g) for g in split.evaluation_groups]
     )
     collective_output_setup(args.output, False, runtime)
     if world > 1:
         dist.barrier()
     input_feature_mode = payload["config"]["model"].get("input_feature_mode", "raw112")
-    dataset = SequenceRecords(args.data_root, members, 0, input_feature_mode=input_feature_mode)
+    dataset = SequenceRecords(
+        args.data_root,
+        members,
+        0,
+        training_mask=split.evaluation_mask if args.membership == "evaluation" else "is_scored",
+        input_feature_mode=input_feature_mode,
+    )
     entries = []
-    for index in range(rank, len(dataset), world):
-        source, group = members[index]
-        values = predict_sequence(
-            model, dataset[index]["x"], payload["config"]["chunk_rows"], device
+    rank_indices = list(range(rank, len(dataset), world))
+    for batch_start in range(0, len(rank_indices), batch_size):
+        batch_indices = rank_indices[batch_start : batch_start + batch_size]
+        batch = collate_sequences(dataset, batch_indices)
+        batch_values = predict_sequence_batch(
+            model, batch["x"], payload["config"]["chunk_rows"], device
         )
-        if args.membership == "evaluation":
-            values = values[:, :2].copy()
-        name = f"{source}-{group}.npy"
-        target = args.output / name
-        temporary = args.output / f"{name}.partial"
-        with temporary.open("xb") as stream:
-            np.save(stream, values, allow_pickle=False)
-        temporary.replace(target)
-        entries.append(
-            {"split": source, "row_group": group, "file": name, "sha256": file_sha256(target)}
-        )
+        for batch_offset, index in enumerate(batch_indices):
+            source, group = members[index]
+            values = batch_values[batch_offset]
+            if args.membership == "evaluation":
+                values = values[:, :2].copy()
+            name = f"{source}-{group}.npy"
+            target = args.output / name
+            temporary = args.output / f"{name}.partial"
+            with temporary.open("xb") as stream:
+                np.save(stream, values, allow_pickle=False)
+            temporary.replace(target)
+            entries.append(
+                {
+                    "split": source,
+                    "row_group": group,
+                    "file": name,
+                    "sha256": file_sha256(target),
+                }
+            )
     part = args.output / f"rank-{rank}.json"
     part.write_text(json.dumps(entries, sort_keys=True))
     if world > 1:
@@ -209,7 +245,15 @@ def main() -> None:
     parser.add_argument("--epoch-index", type=Path)
     parser.add_argument("--epoch-index-sha256")
     parser.add_argument("--report-only-primary-valid", action="store_true")
+    parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=1,
+        help="sequences per forward batch; each sequence retains an independent reset state",
+    )
     args = parser.parse_args()
+    if args.batch_size < 1:
+        parser.error("--batch-size must be positive")
     if int(os.environ.get("WORLD_SIZE", "1")) < 1:
         parser.error("invalid distributed world size")
     export_predictions(args)

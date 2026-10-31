@@ -186,8 +186,8 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError(f"model.{key} must be a positive integer")
     if type(model["hint_dim"]) is not int or model["hint_dim"] < 0:
         raise ValueError("hint_dim must be a nonnegative integer")
-    if model["architecture"] not in ("transformer", "gru", "galam"):
-        raise ValueError("architecture must be transformer, gru, or galam")
+    if model["architecture"] not in ("transformer", "gru", "lstm", "galam"):
+        raise ValueError("architecture must be transformer, gru, lstm, or galam")
     input_feature_mode = model.get("input_feature_mode", "raw112")
     if input_feature_mode not in ("raw112", "event211"):
         raise ValueError("model.input_feature_mode must be raw112 or event211")
@@ -197,11 +197,11 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("event211 is scoped to the standalone GRU256x2 launch")
     if model["attention_backend"] not in ("math", "efficient", "flex"):
         raise ValueError("model.attention_backend must be math, efficient, or flex")
-    if model["architecture"] == "gru" and model["attention_backend"] != "math":
+    if model["architecture"] in ("gru", "lstm") and model["attention_backend"] != "math":
         raise ValueError("attention backends are supported only by Transformer models")
     if type(model["compile_blocks"]) is not bool:
         raise ValueError("model.compile_blocks must be boolean")
-    if model["architecture"] == "gru" and model["compile_blocks"]:
+    if model["architecture"] in ("gru", "lstm") and model["compile_blocks"]:
         raise ValueError("model.compile_blocks requires a Transformer model")
     if config["optimizer"] == "muon":
         supported_muon = (

@@ -75,6 +75,7 @@ def run_epochs(
     config, context, output = runtime.config, runtime.context, runtime.output
     monitoring = config.get("monitoring")
     early_policy = monitoring.get("early_stopping") if isinstance(monitoring, Mapping) else None
+    evaluation_role = str(runtime.data_provenance.get("evaluation_role", "valid"))
     stopped_early = bool(history and history[-1].get("early_stopped", False))
     for epoch in range(start_epoch, int(config["epochs"])):
         if stopped_early:
@@ -115,34 +116,12 @@ def run_epochs(
             )
         summary = epoch_summary(result, config)
         history_row: dict[str, object] = {"epoch": epoch, **summary}
-        stop_decision = None
         if evaluation is not None:
-            history_row.update(
-                {
-                    "train_eval_wp": float(evaluation["train_eval/wp"]),
-                    "train_eval_wp_t0": float(evaluation["train_eval/wp/t0"]),
-                    "train_eval_wp_t1": float(evaluation["train_eval/wp/t1"]),
-                    "valid_wp": float(evaluation["valid/wp"]),
-                    "valid_wp_t0": float(evaluation["valid/wp/t0"]),
-                    "valid_wp_t1": float(evaluation["valid/wp/t1"]),
-                }
+            stopped_early = _record_evaluation_history(
+                history, history_row, evaluation, evaluation_role, epoch + 1, early_policy
             )
-            if isinstance(early_policy, Mapping):
-                stop_decision = advance_early_stop(
-                    history, epoch + 1, float(evaluation["valid/wp"]), early_policy
-                )
-                history_row.update(
-                    {
-                        "early_stop_best_raw_wp": stop_decision.best_wp,
-                        "early_stop_best_epoch": stop_decision.best_epoch,
-                        "early_stop_patience_reference_wp": stop_decision.reference_wp,
-                        "early_stop_delta_improved": stop_decision.delta_improved,
-                        "early_stop_best_improved": stop_decision.best_improved,
-                        "early_stop_bad_checks": stop_decision.bad_checks,
-                        "early_stopped": stop_decision.should_stop,
-                    }
-                )
-                stopped_early = stop_decision.should_stop
+        else:
+            stopped_early = False
         history.append(history_row)
         rates = optimizer_learning_rates(runtime.optimizer)
         coordinated_call(
@@ -260,3 +239,46 @@ def run_epochs(
             "monitor terminal status append",
         )
     barrier(context)
+
+
+def _record_evaluation_history(
+    history: list[dict[str, object]],
+    history_row: dict[str, object],
+    evaluation: dict[str, int | float],
+    evaluation_role: str,
+    completed_epoch: int,
+    early_policy: Mapping[str, object] | None,
+) -> bool:
+    """Store source-qualified metrics and advance primary-only stopping state."""
+    history_row.update(
+        {
+            "train_eval_wp": float(evaluation["train_eval/wp"]),
+            "train_eval_wp_t0": float(evaluation["train_eval/wp/t0"]),
+            "train_eval_wp_t1": float(evaluation["train_eval/wp/t1"]),
+            f"{evaluation_role}_wp": float(evaluation[f"{evaluation_role}/wp"]),
+            f"{evaluation_role}_wp_t0": float(evaluation[f"{evaluation_role}/wp/t0"]),
+            f"{evaluation_role}_wp_t1": float(evaluation[f"{evaluation_role}/wp/t1"]),
+        }
+    )
+    if early_policy is None:
+        return False
+    if evaluation_role != "valid":
+        raise ValueError("early-stop checkpoint pointers currently require primary valid")
+    decision = advance_early_stop(
+        history,
+        completed_epoch,
+        float(evaluation[f"{evaluation_role}/wp"]),
+        early_policy,
+    )
+    history_row.update(
+        {
+            "early_stop_best_raw_wp": decision.best_wp,
+            "early_stop_best_epoch": decision.best_epoch,
+            "early_stop_patience_reference_wp": decision.reference_wp,
+            "early_stop_delta_improved": decision.delta_improved,
+            "early_stop_best_improved": decision.best_improved,
+            "early_stop_bad_checks": decision.bad_checks,
+            "early_stopped": decision.should_stop,
+        }
+    )
+    return decision.should_stop

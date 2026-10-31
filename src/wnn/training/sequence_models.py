@@ -12,6 +12,7 @@ from wnn.training.sequence_attention import CausalTransformerBlock, TransformerS
 from wnn.training.sequence_compile import compile_transformer_blocks
 from wnn.training.sequence_features import RAW_INPUT_MODE, sequence_input_width
 from wnn.training.sequence_gru_adapter import GRUSequenceAdapter
+from wnn.training.sequence_lstm_adapter import LSTMSequenceAdapter
 from wnn.training.sequence_model_helpers import HintProjector as _HintProjector
 from wnn.training.sequence_model_helpers import detach_state as detach_state
 from wnn.training.sequence_model_helpers import (
@@ -198,8 +199,8 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         return GALAMSequenceAdapter(
             {name: value for name, value in config.items() if name != "input_feature_mode"}
         )
-    if architecture not in ("transformer", "gru"):
-        raise ValueError("model config architecture must be 'transformer' or 'gru'")
+    if architecture not in ("transformer", "gru", "lstm"):
+        raise ValueError("model config architecture must be transformer, gru, or lstm")
     hidden = _integer_option(config, "hidden")
     layers = _integer_option(config, "layers")
     heads = _integer_option(config, "heads")
@@ -243,6 +244,10 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
             precision_mode,
             input_feature_mode,
         )
+    if architecture == "lstm":
+        if compile_blocks or attention_backend != "math" or input_feature_mode != RAW_INPUT_MODE:
+            raise ValueError("LSTM supports raw112 inputs without Transformer-only options")
+        return LSTMSequenceAdapter(hidden, layers, dropout, hint_dim, hint_mode, precision_mode)
     if input_width != RAW_INPUT_WIDTH:
         raise ValueError("Transformer sequence adapters accept only raw112 inputs")
     if hidden % heads != 0 or (hidden // heads) % 2 != 0:

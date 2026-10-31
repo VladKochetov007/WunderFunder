@@ -3,6 +3,7 @@ from __future__ import annotations
 import random
 import time
 from collections.abc import Mapping
+from dataclasses import dataclass
 
 import numpy as np
 import torch
@@ -12,7 +13,99 @@ from wnn.gmetric import GlobalAccumulator
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_fit_utils import SequenceDataset, collate_sequences
 from wnn.training.sequence_models import detach_state
+from wnn.training.sequence_monitor_events import MonitorEventWriter
+from wnn.training.sequence_monitor_identity import validate_dataset_members
 from wnn.training.sequence_precision import forward_context
+
+
+@dataclass(frozen=True)
+class EvaluationEventContext:
+    """Immutable identities needed to validate and record one paired report."""
+
+    writer: MonitorEventWriter
+    train_eval_members: list[tuple[str, int]]
+    evaluation_members: list[tuple[str, int]]
+    train_eval_mask: str
+    evaluation_role: str
+    evaluation_mask: str
+    metric_context: dict[str, object]
+    train_eval_context: dict[str, object]
+    evaluation_context: dict[str, object]
+
+
+def evaluate_and_record_epoch(
+    model: nn.Module,
+    train_eval: SequenceDataset,
+    evaluation_set: SequenceDataset,
+    chunk_rows: int,
+    evaluation_batch_size: int,
+    precision_mode: str,
+    context: DistributedContext,
+    epoch: int,
+    step: int,
+    event_context: EvaluationEventContext,
+) -> dict[str, int | float]:
+    """Validate both memberships, score them, and append a role-labelled event."""
+    role = event_context.evaluation_role
+    validate_dataset_members(
+        train_eval, event_context.train_eval_members, "train_eval", event_context.train_eval_mask
+    )
+    validate_dataset_members(
+        evaluation_set,
+        event_context.evaluation_members,
+        role,
+        event_context.evaluation_mask,
+    )
+    train_metrics, role_metrics = evaluate_monitoring_sets(
+        model,
+        train_eval,
+        evaluation_set,
+        chunk_rows,
+        precision_mode,
+        context,
+        evaluation_batch_size,
+        evaluation_prefix=role,
+    )
+    if train_metrics["train_eval/sequence_count"] != len(event_context.train_eval_members):
+        raise ValueError("train-eval evaluation did not cover its complete fit cohort")
+    if role_metrics[f"{role}/sequence_count"] != len(event_context.evaluation_members):
+        raise ValueError("evaluation did not cover its complete source-qualified membership")
+    _add_score_aliases(train_metrics, role_metrics, role)
+    event_context.writer.append(
+        "evaluation",
+        step,
+        epoch + 1,
+        train_metrics | role_metrics,
+        event_context.metric_context
+        | {
+            "train_eval": event_context.train_eval_context
+            | {
+                "coverage_complete": True,
+                "batch_size": evaluation_batch_size,
+            },
+            role: event_context.evaluation_context
+            | {
+                "coverage_complete": True,
+                "selected_rows": role_metrics[f"{role}/selected_rows"],
+                "batch_size": evaluation_batch_size,
+            },
+        },
+    )
+    return train_metrics | role_metrics
+
+
+def _add_score_aliases(
+    train_metrics: dict[str, int | float],
+    role_metrics: dict[str, int | float],
+    role: str,
+) -> None:
+    """Add plotting-friendly score aliases while retaining the raw WP fields."""
+    train_metrics["train_eval/score"] = train_metrics["train_eval/wp"]
+    train_metrics["train_eval/score/t0"] = train_metrics["train_eval/wp/t0"]
+    train_metrics["train_eval/score/t1"] = train_metrics["train_eval/wp/t1"]
+    role_metrics[f"{role}/score"] = role_metrics[f"{role}/wp"]
+    role_metrics[f"{role}/score/t0"] = role_metrics[f"{role}/wp/t0"]
+    role_metrics[f"{role}/score/t1"] = role_metrics[f"{role}/wp/t1"]
 
 
 def evaluate_monitoring_sets(
@@ -23,6 +116,8 @@ def evaluate_monitoring_sets(
     precision_mode: str,
     context: DistributedContext,
     evaluation_batch_size: int = 1,
+    *,
+    evaluation_prefix: str = "valid",
 ) -> tuple[dict[str, int | float], dict[str, int | float]]:
     """Evaluate both declared cohorts while restoring model mode, buffers, and RNG."""
     modes = [(module, module.training) for module in model.modules()]
@@ -47,13 +142,15 @@ def evaluate_monitoring_sets(
             valid_metrics = evaluate_dataset(
                 model,
                 valid,
-                "valid",
+                evaluation_prefix,
                 chunk_rows,
                 precision_mode,
                 context,
                 evaluation_batch_size,
             )
-            valid_metrics["timing/full_valid_seconds"] = time.perf_counter() - valid_started
+            valid_metrics[f"timing/{evaluation_prefix}_seconds"] = (
+                time.perf_counter() - valid_started
+            )
     finally:
         for module, training in modes:
             module.training = training

@@ -1,0 +1,81 @@
+{
+  "schema": "wnn.multistage-profile-review-policy.v1",
+  "policy_id": "E-MULTISTAGE-OPTUNA-B300-20261031-R6-PROFILE-ADMISSION-R4",
+  "revision": "R4",
+  "status": "exact_R6_profile_re-review_policy_applied",
+  "basis": {
+    "prior_policy_path": "research/experiment_drafts/multistage-optuna-b300-20261031/PROFILE_REVIEW_POLICY_R3.json",
+    "prior_policy_sha256": "27bb288ef63860989a67b5dfe37a916346011344f46f5c278b2402cbc36ac47",
+    "plan_path": "research/experiment_drafts/multistage-optuna-b300-20261031/recipes/r6/PLAN.json",
+    "plan_sha256": "4b53810093e4a7f1a3134400b2091e0d053519d7533a5a1f4e0ed0596650b94c",
+    "created_after_profiles": true,
+    "caps_unchanged": true
+  },
+  "source": {
+    "root": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/operator-native4",
+    "source_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+    "source_file_inventory_entries": 269,
+    "source_file_map_rehash_matches": true,
+    "receiver_source_capsule_sha256": "41929c513e8e585c15424560ef9e4c2ceaee842efb641c73dd365848fd9d311b8"
+  },
+  "profile_requirements": {
+    "stage": 1,
+    "updates": 50,
+    "max_attempt_wall_seconds": 180,
+    "max_allocated_bytes": 68719476736,
+    "max_reserved_bytes": 68719476736,
+    "min_free_before_bytes": 34359738368,
+    "min_free_after_peak_bytes": 34359738368,
+    "preprofile_free_covers_minimum_plus_observed_reserved": true,
+    "max_host_rss_bytes": 25769803776,
+    "world_size": 1,
+    "precision_mode": "fp32",
+    "tf32": false,
+    "autocast": false,
+    "bf16x9": false,
+    "max_cpu_threads": 4,
+    "effective_thread_environment": {
+      "OMP_NUM_THREADS": "4",
+      "MKL_NUM_THREADS": "4",
+      "OPENBLAS_NUM_THREADS": "4"
+    },
+    "require_finite_loss_and_preclip_gradients": true,
+    "allowed_nonfinite_updates": 0,
+    "require_complete_rank_log": true,
+    "require_successful_owned_timeout_bounded_exit": true
+  },
+  "data_policy": {
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "primary_fit_train_sequences": 10325,
+    "primary_fit_valid_sequences": 0,
+    "primary_eval_valid_sequences": 1873,
+    "auxiliary_split_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075",
+    "auxiliary_fit_train_sequences": 8260,
+    "auxiliary_fit_valid_sequences": 0,
+    "auxiliary_control_train_sequences": 2065,
+    "auxiliary_evaluation_role": "control",
+    "auxiliary_evaluation_source": "train",
+    "auxiliary_chronology_claim": false,
+    "fit_control_components_disjoint": true,
+    "primary_valid_used_for_fit_or_profile": false,
+    "normalizer": "prefix32 from auxiliary fitting members only"
+  },
+  "manual_anchor_ids": [
+    "S1-GRU256x2-B256-AUX-CONTROL-PREFETCH1-R2",
+    "S1-LSTM256x2-B256-AUX-CONTROL-PREFETCH1-R2"
+  ],
+  "r6_ids": [
+    "gru384x2",
+    "gru256x3",
+    "lstm384x2",
+    "lstm256x3",
+    "galam64",
+    "transformer384x4"
+  ],
+  "campaign_bounds_unchanged": {
+    "max_fit_attempts": 48,
+    "max_profile_attempts": 56,
+    "campaign_wall_seconds_from_first_profile": 21600,
+    "collection_reserve_seconds": 1200
+  }
+}

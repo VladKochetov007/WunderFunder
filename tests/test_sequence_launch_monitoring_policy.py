@@ -9,6 +9,7 @@ import torch
 from torch import nn
 
 from wnn.galam import connectome_112_to_2_config
+from wnn.training.sequence_config_validation import validate_monitoring_config
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_loop import _training_telemetry_due
 from wnn.training.sequence_models import build_sequence_model
@@ -131,7 +132,7 @@ def test_train_eval_and_full_valid_keep_distinct_masks_and_batch_size(tmp_path: 
     assert model.seen_batch_sizes == [2] * 8
     assert model.training
     assert "timing/train_eval_seconds" in metrics
-    assert "timing/full_valid_seconds" in metrics
+    assert "timing/valid_seconds" in metrics
     assert "timing/paired_evaluation_seconds" in metrics
     monitor.train_step(
         {
@@ -162,7 +163,8 @@ def test_train_eval_and_full_valid_keep_distinct_masks_and_batch_size(tmp_path: 
     assert len(event_lines[0].encode()) <= EXTENDED_EVENT_LINE_CAPS["evaluation"]
     assert event["context"]["train_eval"]["row_mask"] == "all_after_warmup"
     assert event["context"]["valid"]["row_mask"] == "is_scored"
-    assert "masks differ" in event["context"]["mask_comparison"]
+    assert "actual fitting objective mask" in event["context"]["mask_comparison"]
+    assert "official is_scored mask" in event["context"]["mask_comparison"]
     assert len(event_lines[-1].encode()) <= EXTENDED_EVENT_LINE_CAPS["train_step"]
 
 
@@ -348,7 +350,7 @@ def test_none_gradient_output_is_counted_without_zero_substitution() -> None:
     assert "local/gradient_rms/test" not in metrics
 
 
-@pytest.mark.parametrize("architecture", ["gru", "galam"])
+@pytest.mark.parametrize("architecture", ["gru", "galam", "transformer"])
 def test_prediction_only_diagnostics_allow_unused_hint_and_state_outputs(
     architecture: str,
 ) -> None:
@@ -368,11 +370,27 @@ def test_prediction_only_diagnostics_allow_unused_hint_and_state_outputs(
             "compile_blocks": False,
             "precision_mode": "fp32",
         }
-    else:
+    elif architecture == "galam":
         galam = replace(connectome_112_to_2_config(), width=128, lstm_layers=2)
         settings = {
             "architecture": "galam",
             "galam": asdict(galam) | {"variant": "schematic_lstm_full"},
+        }
+    else:
+        settings = {
+            "architecture": "transformer",
+            "hidden": 16,
+            "layers": 2,
+            "heads": 4,
+            "ff_multiplier": 2,
+            "context_rows": 8,
+            "dropout": 0.0,
+            "checkpoint_blocks": True,
+            "hint_dim": 4,
+            "hint_projection": "learned",
+            "attention_backend": "math",
+            "compile_blocks": False,
+            "precision_mode": "fp32",
         }
     model = build_sequence_model(settings).train()
     values = torch.randn(2, 8, 112)
@@ -383,7 +401,31 @@ def test_prediction_only_diagnostics_allow_unused_hint_and_state_outputs(
 
     metrics = probe.metrics()
     assert metrics["diagnostics/missing_gradient_output_count"] >= 0
-    assert "local/hidden_state_rms" in metrics
+    if architecture == "transformer":
+        assert "transformer/layer_0/attention_output_activation_rms" in metrics
+        assert "transformer/layer_1/feedforward_out_activation_rms" in metrics
+    else:
+        assert "local/hidden_state_rms" in metrics
+
+
+def test_transformer_accepts_canonical_online_monitoring_controls() -> None:
+    monitoring = {
+        "train_eval_sequences": 16,
+        "diagnostics_every_steps": 50,
+        "train_eval_mask": "all_after_warmup",
+        "eval_batch_size": 16,
+        "training_telemetry_every_steps": 1,
+    }
+
+    assert (
+        validate_monitoring_config(
+            monitoring,
+            {"architecture": "transformer"},
+            4,
+            "all_epochs",
+        )
+        is None
+    )
 
 
 def test_galam_width128_depth_two_diagnostic_event_fits_its_line_cap(tmp_path: Path) -> None:

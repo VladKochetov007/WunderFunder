@@ -34,6 +34,7 @@ from wnn.training.sequence_fit_utils import (
     seed_worker,
     total_updates,
 )
+from wnn.training.sequence_initializer import load_fitting_initializer
 from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_optimizer_telemetry import optimizer_contract
 from wnn.training.sequence_profile import run_profile
@@ -104,12 +105,16 @@ def run_sequence_fit(
     resume: Path | None = None,
     profile_updates: int = 0,
     profile_receipt: Path | None = None,
+    initializer: Path | None = None,
 ) -> None:
     """Execute one torchrun fit or a non-scientific bounded profile on supplied data."""
     config = _mapping(load_config(config_path), "config")
     output = output.resolve()
     resume_path = resume.resolve() if resume is not None else None
     receipt_path = profile_receipt.resolve() if profile_receipt is not None else None
+    initializer_path = initializer.resolve() if initializer is not None else None
+    if initializer_path is not None and resume_path is not None:
+        raise ValueError("fresh --initializer and exact-state --resume are mutually exclusive")
     if resume_path is not None and resume_path != output / "training_state.pt":
         raise ValueError("--resume must name <output>/training_state.pt")
     if profile_updates < 0 or (profile_updates and (resume_path or receipt_path)):
@@ -156,6 +161,15 @@ def run_sequence_fit(
         base_model, normalization = coordinated_call(
             lambda: _prepare_model(config, data, context), "model construction", context
         )
+        if initializer_path is not None:
+            initializer_identity = coordinated_call(
+                lambda: load_fitting_initializer(
+                    initializer_path, base_model, config, data.provenance, normalization
+                ),
+                "fitting-only initializer validation and load",
+                context,
+            )
+            data.provenance["initializer"] = initializer_identity
         model = wrap_distributed(base_model, context)
         seed_worker(int(config["seed"]), context.rank)
         fit_dataset = cast(SequenceDataset, data.fit)

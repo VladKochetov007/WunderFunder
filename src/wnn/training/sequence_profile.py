@@ -163,8 +163,10 @@ def run_profile(
     if monitoring_plan is not None:
         receipt["evaluation_annotation"] = {
             "no_eval_during_fit": True,
-            "validation_reporting": "not evaluated during bounded engineering profile",
-            "intended_validation_reporting": monitoring_plan.get("validation_reporting"),
+            "evaluation_reporting": "not evaluated during bounded engineering profile",
+            "intended_evaluation_reporting": monitoring_plan.get(
+                "evaluation_reporting", monitoring_plan.get("validation_reporting")
+            ),
         }
     if monitor_event_budget is not None:
         receipt["monitor_event_journal_budget"] = dict(monitor_event_budget)
