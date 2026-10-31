@@ -13,6 +13,7 @@ from wnn.multistage_search_budget import utc_now
 from wnn.multistage_search_sources import training_source_for_stage
 from wnn.multistage_search_study import open_study
 from wnn.multistage_search_successor_parent import parent_identity_sha, qualified_parent
+from wnn.multistage_search_successor_proposal_cap import resolve_stage2_proposal_limit
 from wnn.splits import load_campaign_split
 from wnn.training.sequence_cache import TeacherCache
 from wnn.training.sequence_cache_weighted_pool_identity import auxiliary_members
@@ -39,8 +40,9 @@ def prepare_stage2_trial(
     if type(parent_config.get("lr")) not in (int, float) or parent_config["lr"] <= 0:
         raise ValueError("stage2 parent config needs a positive base learning rate")
     study = open_study(run_dir, "stage2-proposer", stage=2)
-    max_trials = admission.get("stage2", {}).get("max_trials")
-    if type(max_trials) is not int or len(study.get_trials(deepcopy=False)) >= max_trials:
+    proposal_limit = resolve_stage2_proposal_limit(run_dir, manifest, admission, study)
+    existing_trials = study.get_trials(deepcopy=False)
+    if len(existing_trials) >= proposal_limit.max_trials:
         raise RuntimeError("stage2 Optuna trial cap is exhausted")
     parent_identity_sha256 = parent_identity_sha(parent_result_path)
     if lr_multiplier is not None:
@@ -54,6 +56,11 @@ def prepare_stage2_trial(
         )
     trial = study.ask()
     number = _trial_number(trial)
+    if (
+        proposal_limit.permitted_next_trial_number is not None
+        and number != proposal_limit.permitted_next_trial_number
+    ):
+        raise ValueError("approved Stage2 cap permits proposal 6 only")
     multiplier = trial.suggest_categorical("lr_multiplier", [0.1, 0.25, 0.5])
     config = dict(parent_config)
     config["lr"] = float(parent_config["lr"]) * float(multiplier)
@@ -77,6 +84,16 @@ def prepare_stage2_trial(
         },
         "config": config,
     }
+    if proposal_limit.amendment_path is not None:
+        definition["proposal_cap_amendment"] = {
+            "path": str(proposal_limit.amendment_path),
+            "sha256": proposal_limit.amendment_sha256,
+            "review_path": str(proposal_limit.review_path),
+            "review_sha256": proposal_limit.review_sha256,
+            "base_cap": 6,
+            "derived_cap": 7,
+            "permitted_trial_number": 6,
+        }
     result = _write_trial(run_dir, manifest, admission, trial, definition)
     trial.set_user_attr("stage2", {"trial_dir": result["trial_dir"], "status": "prepared"})
     return result
@@ -124,7 +141,14 @@ def prepare_stage3_pair(
     _validate_student_config(base)
     study = open_study(run_dir, "stage3-proposer", stage=3)
     max_trials = admission.get("stage3", {}).get("max_trials")
-    if type(max_trials) is not int or len(study.get_trials(deepcopy=False)) + 2 > max_trials:
+    existing_trials = study.get_trials(deepcopy=False)
+    waiting = sum(
+        getattr(getattr(row, "state", None), "name", None) == "WAITING" for row in existing_trials
+    )
+    if waiting > 1:
+        raise ValueError("stage3 supports at most one queued treatment anchor per pair")
+    needed_new_trials = 2 - waiting
+    if type(max_trials) is not int or len(existing_trials) + needed_new_trials > max_trials:
         raise RuntimeError("stage3 does not have capacity for another matched two-fit pair")
     kd_trial = study.ask()
     kd_number = _trial_number(kd_trial)
@@ -205,7 +229,11 @@ def _write_trial(
     config = definition.get("config")
     if not isinstance(config, Mapping):
         raise ValueError("successor config is malformed")
-    atomic_write_json(config_path, config, replace=False)
+    raw_config = _serialize_runtime_config(config)
+    atomic_write_json(config_path, raw_config, replace=False)
+    normalized_config = load_config(config_path)
+    if normalized_config != dict(config):
+        raise ValueError("serialized successor config differs from its normalized recipe")
     config_sha = file_sha256(config_path)
     auxiliary = admission["data"]["auxiliary_manifest"]
     aux_path = Path(str(auxiliary["path"])).resolve(strict=True)
@@ -225,7 +253,7 @@ def _write_trial(
     value = dict(definition) | {
         "config_path": str(config_path.resolve()),
         "config_sha256": config_sha,
-        "config_identity_sha256": canonical_json_sha256(config),
+        "config_identity_sha256": canonical_json_sha256(normalized_config),
         "primary_split_sha256": admission["data"]["primary_split_sha256"],
         "auxiliary_split_manifest": str(aux_path),
         "auxiliary_split_sha256": auxiliary["sha256"],
@@ -254,6 +282,24 @@ def _write_trial(
         "pair_id": value.get("pair_id"),
         "pair_role": value.get("pair_role"),
     }
+
+
+def _serialize_runtime_config(config: Mapping[str, object]) -> dict[str, object]:
+    """Write native raw JSON while keeping its normalized identity unchanged."""
+    serialized = dict(config)
+    model = serialized.get("model")
+    if not isinstance(model, Mapping):
+        raise ValueError("successor config model is malformed")
+    raw_model = dict(model)
+    architecture = raw_model.get("architecture")
+    top_precision = serialized.get("precision_mode")
+    model_precision = raw_model.get("precision_mode")
+    if architecture != "galam" and model_precision is not None:
+        if model_precision != top_precision:
+            raise ValueError("runtime-only model precision differs from top-level precision")
+        raw_model.pop("precision_mode")
+    serialized["model"] = raw_model
+    return serialized
 
 
 def _campaign_inputs(run_dir: Path) -> tuple[dict[str, object], dict[str, object]]:

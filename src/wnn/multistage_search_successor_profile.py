@@ -37,7 +37,7 @@ def run_successor_profile(
     run_manifest = read_json(run_dir / "run.json")
     admission = read_json(Path(str(run_manifest["admission"]["path"])))
     study = open_study(run_dir, worker_id, stage=stage)
-    optuna_trial = next(
+    frozen_trial = next(
         (
             item
             for item in study.get_trials(deepcopy=False)
@@ -46,8 +46,16 @@ def run_successor_profile(
         ),
         None,
     )
-    if optuna_trial is None:
+    if frozen_trial is None:
         raise ValueError("successor profile must belong to one running Optuna trial")
+    trial_id = getattr(frozen_trial, "_trial_id", None)
+    if type(trial_id) is not int:
+        raise ValueError("running successor proposal omits its durable Optuna trial id")
+    import optuna
+
+    optuna_trial = optuna.trial.Trial(study, trial_id)
+    if optuna_trial.number != trial_number:
+        raise ValueError("reconstructed successor Trial differs from the requested number")
     trial_dir = run_dir / f"stage{stage}" / "trials" / f"{trial_number:06d}"
     definition_path = trial_dir / "trial_definition.json"
     definition = read_json(definition_path)

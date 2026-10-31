@@ -10,8 +10,11 @@ from unittest.mock import patch
 
 from scripts.multistage_monitor import (
     MAX_METADATA_BYTES,
+    _candidate_directories,
     _load_fit_run,
+    _parse_registered_stage_root,
     _promote_run_view,
+    _stage_for_directory,
 )
 from wnn.dashboard.reader import MAX_SELECTED_RUNS, DashboardReader
 from wnn.dashboard.schema import sanitize_config, sanitize_json
@@ -84,6 +87,49 @@ class MultistageMonitorIdentityTests(unittest.TestCase):
         registered = _load_fit_run(run_dir, registered_stage=1)
         self.assertEqual(registered.stage, 1)
         self.assertEqual(registered.stage_evidence, "registered_role")
+
+    def test_existing_empty_stage_root_accepts_future_direct_fit_child(self) -> None:
+        stage_root = self.root / "campaign" / "stage3" / "runs"
+        stage_root.mkdir(parents=True)
+        parsed_root, stage = _parse_registered_stage_root(f"{stage_root}=3")
+        self.assertEqual(parsed_root, stage_root)
+        self.assertEqual(stage, 3)
+        self.assertEqual(_candidate_directories([stage_root], []), [])
+
+        future_fit = stage_root / "004"
+        future_fit.mkdir()
+        (future_fit / "run_metadata.json").write_bytes(self.metadata_bytes)
+        directories = _candidate_directories([stage_root], [])
+        self.assertEqual(directories, [future_fit.resolve()])
+        self.assertEqual(_stage_for_directory(directories[0], {}, {stage_root: stage}), 3)
+        run = _load_fit_run(directories[0], registered_stage=3)
+        self.assertEqual(run.stage, 3)
+        self.assertEqual(run.stage_evidence, "registered_role")
+
+    def test_registered_stage_root_rejects_conflicting_trial_request(self) -> None:
+        stage_root = self.root / "campaign" / "stage1" / "runs"
+        stage_root.mkdir(parents=True)
+        fit_dir = stage_root / "new-fit"
+        fit_dir.mkdir()
+        (fit_dir / "run_metadata.json").write_bytes(self.metadata_bytes)
+        config_path = stage_root / "config.json"
+        config_path.write_bytes(self.config_bytes)
+        request = {
+            "schema": "wnn.multistage-trial-plan.v1",
+            "stage": 1,
+            "family": "GRU",
+            "config_path": str(config_path),
+            "config_sha256": hashlib.sha256(self.config_bytes).hexdigest(),
+            "source_sha256": self.source_sha,
+            "auxiliary_split_sha256": self.auxiliary_sha,
+            "primary_split_sha256": self.primary_sha,
+            "objective_scope": "inner_train_proxy",
+            "primary_valid_used": False,
+        }
+        (stage_root / "trial_request.json").write_text(json.dumps(request), encoding="utf-8")
+        stage = _stage_for_directory(fit_dir, {}, {stage_root: 3})
+        with self.assertRaisesRegex(ValueError, "conflicts with the bound trial request"):
+            _load_fit_run(fit_dir, registered_stage=stage)
 
     def test_hardlinked_aliases_share_canonical_run_identity(self) -> None:
         first = self._campaign_run("anchor", stage=1)
