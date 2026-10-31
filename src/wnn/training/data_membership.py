@@ -16,6 +16,7 @@ def select_membership(run: TrainingRun) -> None:
     eligible_valid_count = run.data.eligible_valid_count
     extra_valid = run.data.extra_valid
     fit_subset = run.data.fit_subset
+    final_fit_membership = getattr(run.data, "final_fit_membership", None)
     inner_crossfit = run.data.inner_crossfit
     n_valid = run.data.n_valid
     sampler = run.data.sampler
@@ -23,7 +24,10 @@ def select_membership(run: TrainingRun) -> None:
     train_split = run.data.train_split
     valid_idx = run.data.valid_idx
     valid_path = environment.root / "datasets" / "valid.parquet"
-    if campaign_split is None:
+    if final_fit_membership is not None:
+        dev_groups = dev_a = np.asarray(final_fit_membership.valid_groups, dtype=np.int64)
+        hold_groups = dev_b = np.empty(0, dtype=np.int64)
+    elif campaign_split is None:
         dev_groups, hold_groups = environment.valid_row_groups(valid_path)
         dev_a, dev_b = environment.dev_halves(valid_path)
     else:
@@ -109,7 +113,9 @@ def select_membership(run: TrainingRun) -> None:
         train_idx = np.random.default_rng(args.seed).permutation(dev_a)[: args.train_seqs]
     else:
         usable = (
-            np.asarray(campaign_split.train_groups)
+            np.asarray(final_fit_membership.train_groups, dtype=np.int64)
+            if final_fit_membership is not None
+            else np.asarray(campaign_split.train_groups)
             if campaign_split is not None
             else np.array([g for g in range(10607) if g not in environment.corrupt_train_groups])
         )
@@ -133,8 +139,12 @@ def select_membership(run: TrainingRun) -> None:
             train_idx if train_split == "train" else (),
             train_idx if train_split == "valid" else extra_valid if extra_valid is not None else (),
         )
-    eval_groups = {"devB": dev_b, "holdout": hold_groups, "vfold": fold_groups}.get(
-        args.eval_source, dev_groups
+    eval_groups = (
+        np.empty(0, dtype=np.int64)
+        if final_fit_membership is not None
+        else {"devB": dev_b, "holdout": hold_groups, "vfold": fold_groups}.get(
+            args.eval_source, dev_groups
+        )
     )
     n_valid = (
         len(eval_groups)

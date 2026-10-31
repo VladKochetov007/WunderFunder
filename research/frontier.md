@@ -1,5 +1,12 @@
 # Active frontier
 
+Current instruction,2026-10-31: prepare the [full-corpus final submission](experiment_drafts/final-submit-all-labeled-20261031/README.md)
+under [ADR0045](../specs/adr/0045-submission-only-all-labeled-final-fit.md).
+Reuse the fixed TL3+LSTM architecture; no broad new search. Audit all12480
+source-qualified groups, final-only teacher/cache ancestry, CPU serving and
+actual bounded profiles before full fits. Final valid is fitting data; old
+honest train-only scores remain recipe evidence. No platform upload yet.
+
 Current scoped continuation,2026-10-31: the user approved the
 [five-fit batch/TBPTT screen](experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md)
 after the completed multistage wave. Fixed4E, exact reused A/1301, official

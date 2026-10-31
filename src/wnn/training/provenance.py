@@ -9,6 +9,7 @@ from wnn.propensity import load_propensity
 from wnn.splits import file_sha256
 from wnn.tiedlead import TIEDLEAD_INPUT_WIDTH, TIEDLEAD_SCHEMA
 from wnn.training.checkpoints import serialized_args
+from wnn.training.final_submit_bridge import final_fit_identity
 from wnn.training.inheritance import validate_campaign_checkpoint
 from wnn.training.source_identity import training_source_identity
 from wnn.training.state import TrainingRun
@@ -19,6 +20,7 @@ def record_provenance(run: TrainingRun) -> None:
     environment = run.environment
     args = run.options.args
     campaign_split = run.data.campaign_split
+    final_fit_membership = run.data.final_fit_membership
     device = run.options.device
     distill_cache_validation = run.data.distill_cache_validation
     extra_valid = run.data.extra_valid
@@ -54,6 +56,10 @@ def record_provenance(run: TrainingRun) -> None:
         "evaluation_row_groups": valid_idx.tolist(),
         "checkpoint_sha256": {},
     }
+    if final_fit_membership is not None:
+        provenance["final_fit"] = final_fit_identity(final_fit_membership)
+    if getattr(args, "distill_provenance", None):
+        provenance["distill_teacher_exports"] = args.distill_provenance
     provenance["trainer_implementation"] = training_source_identity(environment)
     if args.enc == "tiedlead":
         provenance["input_feature_schema"] = {
@@ -66,9 +72,7 @@ def record_provenance(run: TrainingRun) -> None:
             "assembly": "complete sequence before TBPTT slicing",
             "normalization_membership": "training loader fitting members only",
             "source_sha256": {
-                "src/wnn/tiedlead.py": file_sha256(
-                    environment.source_root / "src/wnn/tiedlead.py"
-                ),
+                "src/wnn/tiedlead.py": file_sha256(environment.source_root / "src/wnn/tiedlead.py"),
                 "src/wnn/nn.py": file_sha256(environment.source_root / "src/wnn/nn.py"),
                 "src/wnn/training/inputs.py": file_sha256(
                     environment.source_root / "src/wnn/training/inputs.py"
@@ -79,9 +83,7 @@ def record_provenance(run: TrainingRun) -> None:
                 "scripts/predict_run.py": file_sha256(
                     environment.source_root / "scripts/predict_run.py"
                 ),
-                "src/wnn/features.py": file_sha256(
-                    environment.source_root / "src/wnn/features.py"
-                ),
+                "src/wnn/features.py": file_sha256(environment.source_root / "src/wnn/features.py"),
                 "src/wnn/data.py": file_sha256(environment.source_root / "src/wnn/data.py"),
             },
         }

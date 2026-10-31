@@ -4,12 +4,14 @@ import argparse
 
 import torch
 
+from wnn.final_submit_manifest import FinalFitMembership
 from wnn.research_features import (
     FIELD_AGE_FEATURE_MODES,
     MOMENT_FEATURE_MODES,
     research_feature_names,
 )
 from wnn.splits import CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA, CampaignSplit
+from wnn.training.final_submit_bridge import validate_final_fit_parent
 
 
 def inherit_init_arguments(args: argparse.Namespace, checkpoint: dict, options: list[str]) -> None:
@@ -138,8 +140,12 @@ def validate_campaign_checkpoint(
     *,
     final_initializer: bool = False,
     campaign_split: CampaignSplit | None = None,
+    final_fit_membership: FinalFitMembership | None = None,
 ) -> None:
     """Check initializer/propensity provenance and chrono fit membership when supplied."""
+    if final_fit_membership is not None:
+        validate_final_fit_parent(checkpoint, final_fit_membership)
+        return
     if final_initializer:
         source = checkpoint.get("args", {})
         if (

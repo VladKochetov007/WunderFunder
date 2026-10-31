@@ -12,6 +12,10 @@ from wnn.splits import (
     file_sha256,
     load_campaign_split,
 )
+from wnn.training.final_submit_bridge import (
+    load_final_fit_arguments,
+    validate_final_fit_training_options,
+)
 from wnn.training.membership import load_component_fit_subset
 from wnn.training.state import TrainingRun
 from wnn.training_state import load_training_state
@@ -62,13 +66,23 @@ def load_lineage(run: TrainingRun) -> None:
     saved_training = run.data.saved_training
     if continuation and (args.profile_steps or args.parity_dump):
         ap.error("profiling/parity early exits cannot save epoch continuation state")
+    final_fit_membership = load_final_fit_arguments(ap, args, environment.root)
+    if final_fit_membership is None:
+        campaign_split = (
+            load_campaign_split(args.split_manifest, environment.root)
+            if args.split_manifest
+            else None
+        )
+        require_chronological_primary_training(ap, args, campaign_split)
+    else:
+        try:
+            validate_final_fit_training_options(args)
+        except ValueError as error:
+            ap.error(str(error))
+        campaign_split = None
     saved_training = load_training_state(args.resume_state) if args.resume_state else None
     if args.resume_state:
         args.resume_state = str(args.resume_state)
-    campaign_split = (
-        load_campaign_split(args.split_manifest, environment.root) if args.split_manifest else None
-    )
-    require_chronological_primary_training(ap, args, campaign_split)
     fit_subset = None
     if args.fit_subset_manifest is not None:
         if campaign_split is None:
@@ -111,6 +125,7 @@ def load_lineage(run: TrainingRun) -> None:
     if args.privileged_horizon < 1:
         ap.error("--privileged-horizon must be positive")
     run.data.campaign_split = campaign_split
+    run.data.final_fit_membership = final_fit_membership
     run.data.fit_subset = fit_subset
     run.data.inner_crossfit = inner_crossfit
     run.data.saved_training = saved_training
@@ -121,6 +136,7 @@ def validate_membership(run: TrainingRun) -> None:
     ap = run.options.ap
     args = run.options.args
     campaign_split = run.data.campaign_split
+    final_fit_membership = run.data.final_fit_membership
     distillation_requested = run.options.distillation_requested
     frontier_contract = run.data.frontier_contract
     if campaign_split is not None:
@@ -140,8 +156,8 @@ def validate_membership(run: TrainingRun) -> None:
         ap.error(
             "--loss gcorr_pool keeps one pooled memory for the main head; --aux shift heads would share it"
         )
-    if args.distill_cache_root and campaign_split is None:
-        ap.error("--distill-cache-root requires a clean --split-manifest")
+    if args.distill_cache_root and campaign_split is None and final_fit_membership is None:
+        ap.error("--distill-cache-root requires a clean split or explicit final-fit manifest")
     if distillation_requested and args.loss != "wmse":
         ap.error("cached distillation trains wMSE toward the blended target; pass --loss wmse")
     if distillation_requested and args.loss_norm != "chunk":
@@ -221,7 +237,9 @@ def configure_runtime(run: TrainingRun) -> None:
         or args.train_source != "train"
         or args.no_eval_during_fit
     ):
-        ap.error("--train-eval-seqs requires chronological train-only fitting with evaluation enabled")
+        ap.error(
+            "--train-eval-seqs requires chronological train-only fitting with evaluation enabled"
+        )
     if args.valid_train_fraction < 1 and args.train_source not in ("train+valid", "valid"):
         ap.error("--valid-train-fraction requires a validation training source")
     if args.epoch_samples < 0 or (args.epoch_samples and args.valid_repeat != 1):

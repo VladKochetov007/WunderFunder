@@ -1,5 +1,15 @@
 # Unified research library
 
+## 31 October: submission-only full-corpus preparation
+
+[Final TL3 + LSTM packet](../experiment_drafts/final-submit-all-labeled-20261031/README.md)
+and [ADR0045](../../specs/adr/0045-submission-only-all-labeled-final-fit.md)
+record the user's explicit all-labeled final fit. Exact12480wholefitsequences,
+no independent eval or same-valid score claim; research chronology stays intact.
+The17TL3dependencyfits+oneLSTM retain prior endpoints and coefficients. Source
+audit and scoped CPU checks are complete; native package/profile/full-fit
+execution evidence is still pending. Historical results below remain unchanged.
+
 ## 31 October: approved batch/TBPTT continuation
 
 [The five-fit screen and fixed TL3 mixtures](../experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md)

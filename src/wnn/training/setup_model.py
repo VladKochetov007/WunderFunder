@@ -166,6 +166,7 @@ def load_initializer(run: TrainingRun) -> None:
             args,
             final_initializer=args.final_model_adaptation,
             campaign_split=campaign_split,
+            final_fit_membership=run.data.final_fit_membership,
         )
         if args.spread_aux_mode != "original":
             validate_spread_parent(init, campaign_split.sha256, provenance["fit_row_groups"])

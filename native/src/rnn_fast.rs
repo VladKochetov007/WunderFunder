@@ -1218,6 +1218,10 @@ impl FastRnn {
         self.n_out
     }
 
+    pub fn encoder_width(&self) -> usize {
+        self.encoder_width
+    }
+
     /// Input normalization used by the Python backbone, before its input projection.
     pub fn normalize_input(&self, input: &[f32], output: &mut [f32]) {
         assert_eq!(input.len(), self.n_in, "input width");
@@ -1228,6 +1232,19 @@ impl FastRnn {
             .zip(self.input_mean.iter().zip(&self.input_std))
         {
             *value = (*source - *mean) / *std;
+        }
+    }
+
+    /// Reproduce the tiedlead encoder's `(x - mean) / std * std + mean` reconstruction.
+    pub fn restore_normalized_input(&self, input: &[f32], output: &mut [f32]) {
+        assert_eq!(input.len(), self.n_in, "input width");
+        assert_eq!(output.len(), self.n_in, "restored input width");
+        for ((restored, source), (mean, std)) in output
+            .iter_mut()
+            .zip(input)
+            .zip(self.input_mean.iter().zip(&self.input_std))
+        {
+            *restored = ((*source - *mean) / *std) * *std + *mean;
         }
     }
 
@@ -1507,6 +1524,46 @@ impl FastRnn {
         self.step_then(x, out, after)
     }
 
+    /// Run an FP32 model after adding a per-row residual to its encoder preactivation.
+    ///
+    /// This supports the causal tiedlead encoder while leaving ordinary model stepping
+    /// and every existing predictor unchanged.
+    pub fn step_with_encoder_residual(
+        &mut self,
+        x: &[f32],
+        residual: &[f32],
+        out: &mut [f32],
+    ) -> Result<(), ShapeError> {
+        if self.precision != Precision::F32 {
+            return Err(ShapeError(
+                "encoder residual requires the final predictor's fp32 precision".into(),
+            ));
+        }
+        if x.len() != self.n_in {
+            return Err(ShapeError(format!(
+                "input width: expected {}, got {}",
+                self.n_in,
+                x.len()
+            )));
+        }
+        if residual.len() != self.encoder_width {
+            return Err(ShapeError(format!(
+                "encoder residual width: expected {}, got {}",
+                self.encoder_width,
+                residual.len()
+            )));
+        }
+        if out.len() != self.n_out {
+            return Err(ShapeError(format!(
+                "output width: expected {}, got {}",
+                self.n_out,
+                out.len()
+            )));
+        }
+        self.step_general_f32_with_residual(x, residual, out);
+        Ok(())
+    }
+
     /// The weights a step reads first (the input projection): what `step_then` of the member
     /// stepped just before this one prefetches.
     pub fn first_weights(&self) -> Ahead {
@@ -1666,6 +1723,10 @@ impl FastRnn {
     /// Portable matrix path for independent E/R/M widths and an optional second head layer.
     /// Equal-width one-head models stay on their existing specialized path.
     fn step_general_f32(&mut self, x: &[f32], out: &mut [f32]) {
+        self.step_general_f32_with_residual(x, &[], out);
+    }
+
+    fn step_general_f32_with_residual(&mut self, x: &[f32], residual: &[f32], out: &mut [f32]) {
         let weights = self.weights.as_ref();
         let state = self.state.as_mut();
         let e = self.encoder_width;
@@ -1680,6 +1741,9 @@ impl FastRnn {
                         *output += weight * value;
                     }
                 }
+            }
+            for (value, addition) in z.iter_mut().zip(residual) {
+                *value += addition;
             }
             activate_slice(self.act, z);
         }

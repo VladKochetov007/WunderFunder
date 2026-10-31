@@ -1,4 +1,18 @@
-## 31 October: bounded quality-horizon follow-up
+## 31 October: all-labeled submission-only refit preparation
+
+The user explicitly requests the strongest supported submission trained on the
+complete supplied labeled corpus. [ADR0045](adr/0045-submission-only-all-labeled-final-fit.md)
+permits final-only train+valid fitting; ordinary primary research remains
+unchanged. [Packet](../research/experiment_drafts/final-submit-all-labeled-20261031/README.md):
+17 canonical TL3 dependencies plus Source4 LSTM192x1 fixed8E, exact12480fitmembers,
+zero independent evaluation, fixed endpoints and nested blend coefficients.
+Both entire Parquets were freshly hashed; group528 is healthy on this source.
+New final trainer/cache/serving seams pass47 scoped CPU tests and the structural
+guard. Actual Linux native parity, package size/timing, GPU profiles and full fits
+remain pending. Use one SSH session42104; all8B300 were free at inventory time.
+No new provider/billing/foreign-process signal or automatic platform upload.
+
+## Historical 31 October: bounded quality-horizon follow-up
 
 The user approved the [five-fit batch/TBPTT screen](../research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md)
 and six no-fit TL3 mixtures. It is separate from the completed original wave.

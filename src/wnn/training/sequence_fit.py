@@ -5,13 +5,8 @@ from typing import Any, cast
 
 import torch
 
-from wnn.training.galam_adapter import validate_galam_batch_plan
-from wnn.training.sequence_config import (
-    load_config,
-    validate_expected_fold,
-    validate_runtime_requirements,
-)
-from wnn.training.sequence_data import SequenceData, build_data
+from wnn.training.sequence_config import validate_runtime_requirements
+from wnn.training.sequence_data import SequenceData
 from wnn.training.sequence_distributed import (
     DistributedContext,
     collective_output_setup,
@@ -20,6 +15,8 @@ from wnn.training.sequence_distributed import (
     shutdown_distributed,
     wrap_distributed,
 )
+from wnn.training.sequence_fit_admission import prepare_fit_admission, validate_fit_data_contract
+from wnn.training.sequence_fit_data_setup import build_fit_data
 from wnn.training.sequence_fit_modes import run_full_fit
 from wnn.training.sequence_fit_monitor_setup import (
     initialize_monitor,
@@ -46,13 +43,6 @@ from wnn.training.sequence_provenance import (
     source_identity,
     validate_profile_receipt,
 )
-
-
-def _mapping(value: object, name: str) -> dict[str, Any]:
-    """Validate the heterogeneous mapping boundary returned by the config loader."""
-    if not isinstance(value, dict):
-        raise TypeError(f"{name} must be a mapping")
-    return value
 
 
 def _prepare_model(
@@ -98,7 +88,7 @@ def _prepare_model(
 def run_sequence_fit(
     config_path: Path,
     data_root: Path,
-    split_manifest: Path,
+    split_manifest: Path | None,
     output: Path,
     entrypoint: Path,
     teacher_cache: Path | None = None,
@@ -106,27 +96,31 @@ def run_sequence_fit(
     profile_updates: int = 0,
     profile_receipt: Path | None = None,
     initializer: Path | None = None,
+    final_fit_manifest: Path | None = None,
+    final_fit_source_validation_receipt: Path | None = None,
+    final_fit_source_validation_sha256: str | None = None,
 ) -> None:
     """Execute one torchrun fit or a non-scientific bounded profile on supplied data."""
-    config = _mapping(load_config(config_path), "config")
-    output = output.resolve()
-    resume_path = resume.resolve() if resume is not None else None
-    receipt_path = profile_receipt.resolve() if profile_receipt is not None else None
-    initializer_path = initializer.resolve() if initializer is not None else None
-    if initializer_path is not None and resume_path is not None:
-        raise ValueError("fresh --initializer and exact-state --resume are mutually exclusive")
-    if resume_path is not None and resume_path != output / "training_state.pt":
-        raise ValueError("--resume must name <output>/training_state.pt")
-    if profile_updates < 0 or (profile_updates and (resume_path or receipt_path)):
-        raise ValueError("profile runs cannot resume or consume a profile admission receipt")
-    if profile_updates and "monitoring" in config:
-        diagnostic_interval = int(config["monitoring"]["diagnostics_every_steps"])
-        if profile_updates < diagnostic_interval:
-            raise ValueError(
-                "profile updates must reach diagnostics_every_steps to exercise sampled hooks"
-            )
-    if not profile_updates and receipt_path is None:
-        raise ValueError("a full fit requires --profile-receipt with explicit approval")
+    admission = prepare_fit_admission(
+        config_path,
+        output,
+        split_manifest,
+        teacher_cache,
+        resume,
+        profile_updates,
+        profile_receipt,
+        initializer,
+        final_fit_manifest,
+        final_fit_source_validation_receipt,
+        final_fit_source_validation_sha256,
+        data_root,
+    )
+    config = admission.config
+    output = admission.output
+    resume_path = admission.resume_path
+    receipt_path = admission.receipt_path
+    initializer_path = admission.initializer_path
+    final_membership = admission.final_membership
     context = initialize_distributed()
     try:
         coordinated_call(
@@ -141,18 +135,20 @@ def run_sequence_fit(
         collective_output_setup(output, resume_path is not None, context)
         seed_worker(int(config["seed"]), 0)
         data = coordinated_call(
-            lambda: build_data(config, data_root, split_manifest, teacher_cache),
+            lambda: build_fit_data(
+                config,
+                data_root,
+                split_manifest,
+                teacher_cache,
+                final_membership,
+                admission.final_source_validation_receipt,
+            ),
             "sequence data construction",
             context,
         )
         coordinated_call(
-            lambda: validate_galam_batch_plan(config, len(data.fit), context.world_size),
-            "GALAM BatchNorm batch-plan validation",
-            context,
-        )
-        coordinated_call(
-            lambda: validate_expected_fold(config, data.split.fold),
-            "split fold validation",
+            lambda: validate_fit_data_contract(config, data, context.world_size),
+            "batch and split validation",
             context,
         )
         monitor_config = config.get("monitoring")

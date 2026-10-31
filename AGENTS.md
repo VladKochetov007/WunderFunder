@@ -1,5 +1,20 @@
 # Project agent instructions
 
+## Submission-only full-corpus refit — user instruction, 2026-10-31
+
+The user explicitly asks to prepare the strongest supported submission by fitting
+all supplied labeled data. [ADR0045](specs/adr/0045-submission-only-all-labeled-final-fit.md)
+is the final-only exception anticipated by ADR0044:12,480 fitting sequences,
+including official valid, zero independent evaluation. Research chronology and
+old clean controls remain unchanged. Freeze epochs/coefficients from prior
+evidence; no new primary-valid selection or score claim after final fitting.
+The scope is17 canonical TL3 dependencies plus the existing Source4 LSTM192x1
+fixed8E, actual-device profiles, bounded detached training/monitoring and an
+offline CPU submission package. No broader search, new provider or foreign stop.
+Use the one SSH session42104. ROOT must freeze measured execution bounds and
+source/plan/command/profile identities before costly fits. Human platform upload
+remains separate from preparation. See the [packet](research/experiment_drafts/final-submit-all-labeled-20261031/README.md).
+
 ## Batch/TBPTT follow-up — user approval, 2026-10-31
 
 The user approved the quality-diagnosis follow-up. Exactly five fresh Source4

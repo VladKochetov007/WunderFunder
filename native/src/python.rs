@@ -1,8 +1,8 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::time::{Duration, Instant};
 
 use numpy::prelude::*;
-use numpy::{PyArray1, PyReadonlyArray1, PyReadonlyArrayDyn};
+use numpy::{PyArray1, PyArray2, PyReadonlyArray1, PyReadonlyArray2, PyReadonlyArrayDyn};
 use pyo3::exceptions::PyValueError;
 use pyo3::intern;
 use pyo3::prelude::*;
@@ -11,6 +11,7 @@ use crate::min_gru::{MinGruCellWeights, MinGruModel, MinGruPrecision, MinGruWeig
 use crate::rnn::{GruLayer, RnnModel, RnnWeights};
 use crate::rnn_fast::{Activations, FastRnn, Precision};
 use crate::state_init::{StateInitializer, StateInitializerConfig};
+use crate::tiedlead::{TiedLeadEncoder, TiedLeadWeights};
 
 type Q8Codes = HashMap<String, Py<PyAny>>;
 type FactorTensors = HashMap<String, HashMap<String, Py<PyAny>>>;
@@ -356,6 +357,255 @@ fn weights_from_dict(
         b2: take(&mut w, "head.2.bias")?,
     })
 }
+
+const FINAL_TL3_WIDTHS: [usize; 4] = [211, 263, 263, 112];
+const FINAL_TL3_ENCODER_WIDTHS: [usize; 4] = [256, 256, 256, 192];
+const FINAL_TL3_HIDDEN_WIDTHS: [usize; 4] = [256, 256, 256, 192];
+const FINAL_TL3_LAYER_COUNTS: [usize; 4] = [2, 2, 2, 1];
+const FINAL_TIED_KEYS: [&str; 8] = [
+    "tied.0.weight",
+    "tied.0.bias",
+    "tied.2.weight",
+    "tied.2.bias",
+    "tied_out.weight",
+    "tied_out.bias",
+    "lead_out.weight",
+    "lead_out.bias",
+];
+
+fn final_tensor_shape(
+    weights: &HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+    name: &str,
+) -> PyResult<Vec<usize>> {
+    weights
+        .get(name)
+        .map(|array| array.shape().to_vec())
+        .ok_or_else(|| PyValueError::new_err(format!("missing final predictor tensor {name}")))
+}
+
+fn require_final_shape(
+    weights: &HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+    name: &str,
+    expected: &[usize],
+) -> PyResult<()> {
+    let got = final_tensor_shape(weights, name)?;
+    if got != expected {
+        return Err(PyValueError::new_err(format!(
+            "final predictor tensor {name} must have shape {expected:?}, got {got:?}"
+        )));
+    }
+    Ok(())
+}
+
+fn take_final_array(
+    weights: &mut HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+    name: &str,
+) -> PyResult<Vec<f32>> {
+    let array = weights
+        .remove(name)
+        .ok_or_else(|| PyValueError::new_err(format!("missing final predictor tensor {name}")))?;
+    Ok(array.as_array().iter().copied().collect())
+}
+
+/// Validate the model-specific checkpoint schema before the general recurrent loader runs.
+fn parse_final_member(
+    mut weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+    role: usize,
+) -> PyResult<(RnnWeights, Option<TiedLeadWeights>)> {
+    if role >= FINAL_TL3_WIDTHS.len() {
+        return Err(PyValueError::new_err("invalid final predictor member role"));
+    }
+    let input_width = FINAL_TL3_WIDTHS[role];
+    require_final_shape(&weights, "mean", &[input_width])?;
+    require_final_shape(&weights, "std", &[input_width])?;
+    if weights.get("std").is_some_and(|array| {
+        array
+            .as_array()
+            .iter()
+            .any(|value| !value.is_finite() || *value <= 0.0)
+    }) {
+        return Err(PyValueError::new_err(
+            "final predictor std must be finite and positive",
+        ));
+    }
+    if weights
+        .values()
+        .any(|array| array.as_array().iter().any(|value| !value.is_finite()))
+    {
+        return Err(PyValueError::new_err(
+            "final predictor tensors must be finite",
+        ));
+    }
+
+    let input_projection = final_tensor_shape(&weights, "inp.weight")?;
+    if input_projection.len() != 2 || input_projection[1] != input_width || input_projection[0] == 0
+    {
+        return Err(PyValueError::new_err(format!(
+            "inp.weight must have shape [encoder_width, {input_width}], got {input_projection:?}"
+        )));
+    }
+    let encoder_width = input_projection[0];
+    if encoder_width != FINAL_TL3_ENCODER_WIDTHS[role] {
+        return Err(PyValueError::new_err(format!(
+            "final member {role} encoder width must be {}, got {encoder_width}",
+            FINAL_TL3_ENCODER_WIDTHS[role]
+        )));
+    }
+    require_final_shape(&weights, "inp.bias", &[encoder_width])?;
+
+    let mut allowed = HashSet::from([
+        "mean".to_owned(),
+        "std".to_owned(),
+        "inp.weight".to_owned(),
+        "inp.bias".to_owned(),
+        "head.0.weight".to_owned(),
+        "head.0.bias".to_owned(),
+        "head.2.weight".to_owned(),
+        "head.2.bias".to_owned(),
+    ]);
+    let recurrent_input = final_tensor_shape(&weights, "gru.weight_ih_l0")?;
+    let recurrent_hidden = final_tensor_shape(&weights, "gru.weight_hh_l0")?;
+    if recurrent_input.len() != 2 || recurrent_hidden.len() != 2 || recurrent_hidden[1] == 0 {
+        return Err(PyValueError::new_err(
+            "recurrent weight tensors must be matrices",
+        ));
+    }
+    let hidden_width = recurrent_hidden[1];
+    if hidden_width != FINAL_TL3_HIDDEN_WIDTHS[role] {
+        return Err(PyValueError::new_err(format!(
+            "final member {role} recurrent width must be {}, got {hidden_width}",
+            FINAL_TL3_HIDDEN_WIDTHS[role]
+        )));
+    }
+    let gate_rows = recurrent_hidden[0];
+    if gate_rows % hidden_width != 0 || ![3, 4].contains(&(gate_rows / hidden_width)) {
+        return Err(PyValueError::new_err(
+            "recurrent weights must describe a GRU or LSTM",
+        ));
+    }
+    let gates = gate_rows / hidden_width;
+    if role == 3 && gates != 4 {
+        return Err(PyValueError::new_err(
+            "final Source4 member tensors must use LSTM gates",
+        ));
+    }
+    if recurrent_input != [gates * hidden_width, encoder_width] {
+        return Err(PyValueError::new_err(format!(
+            "gru.weight_ih_l0 must have shape [{}, {encoder_width}], got {recurrent_input:?}",
+            gates * hidden_width
+        )));
+    }
+    let mut layer = 0usize;
+    loop {
+        let input_weight = format!("gru.weight_ih_l{layer}");
+        if !weights.contains_key(&input_weight) {
+            break;
+        }
+        let recurrent_input_width = if layer == 0 {
+            encoder_width
+        } else {
+            hidden_width
+        };
+        for (name, shape) in [
+            (
+                input_weight.clone(),
+                vec![gates * hidden_width, recurrent_input_width],
+            ),
+            (
+                format!("gru.weight_hh_l{layer}"),
+                vec![gates * hidden_width, hidden_width],
+            ),
+            (format!("gru.bias_ih_l{layer}"), vec![gates * hidden_width]),
+            (format!("gru.bias_hh_l{layer}"), vec![gates * hidden_width]),
+        ] {
+            require_final_shape(&weights, &name, &shape)?;
+            allowed.insert(name);
+        }
+        layer += 1;
+    }
+    if layer == 0 {
+        return Err(PyValueError::new_err(
+            "final predictor needs at least one recurrent layer",
+        ));
+    }
+
+    let head_shape = final_tensor_shape(&weights, "head.0.weight")?;
+    if head_shape.len() != 2 || head_shape[0] == 0 || head_shape[1] != hidden_width + encoder_width
+    {
+        return Err(PyValueError::new_err(format!(
+            "head.0.weight must have shape [readout_width, {}], got {head_shape:?}",
+            hidden_width + encoder_width
+        )));
+    }
+    let readout_width = head_shape[0];
+    if readout_width != FINAL_TL3_HIDDEN_WIDTHS[role] {
+        return Err(PyValueError::new_err(format!(
+            "final member {role} readout width must be {}, got {readout_width}",
+            FINAL_TL3_HIDDEN_WIDTHS[role]
+        )));
+    }
+    require_final_shape(&weights, "head.0.bias", &[readout_width])?;
+    require_final_shape(&weights, "head.2.weight", &[2, readout_width])?;
+    require_final_shape(&weights, "head.2.bias", &[2])?;
+    let tied = role == 1 || role == 2;
+    if tied {
+        let first = FINAL_TIED_KEYS[0];
+        let first_shape = final_tensor_shape(&weights, first)?;
+        if first_shape != [128, 104] {
+            return Err(PyValueError::new_err(format!(
+                "tied.0.weight must have shape [128, 104], got {first_shape:?}"
+            )));
+        }
+        for (name, shape) in [
+            ("tied.0.bias", vec![128]),
+            ("tied.2.weight", vec![64, 128]),
+            ("tied.2.bias", vec![64]),
+            ("tied_out.weight", vec![encoder_width, 128]),
+            ("tied_out.bias", vec![encoder_width]),
+            ("lead_out.weight", vec![encoder_width, 64]),
+            ("lead_out.bias", vec![encoder_width]),
+        ] {
+            require_final_shape(&weights, name, &shape)?;
+            allowed.insert(name.to_owned());
+        }
+        allowed.insert("tied.0.weight".into());
+    }
+    let mut unknown: Vec<String> = weights
+        .keys()
+        .filter(|name| !allowed.contains(*name))
+        .cloned()
+        .collect();
+    unknown.sort();
+    if !unknown.is_empty() {
+        return Err(PyValueError::new_err(format!(
+            "unsupported final predictor tensors: {}",
+            unknown.join(", ")
+        )));
+    }
+
+    let tied_weights = if tied {
+        let width = encoder_width;
+        let tied_w1 = take_final_array(&mut weights, "tied.0.weight")?;
+        let tied_b1 = take_final_array(&mut weights, "tied.0.bias")?;
+        let tied_w2 = take_final_array(&mut weights, "tied.2.weight")?;
+        let tied_b2 = take_final_array(&mut weights, "tied.2.bias")?;
+        let tied_out_w = take_final_array(&mut weights, "tied_out.weight")?;
+        let tied_out_b = take_final_array(&mut weights, "tied_out.bias")?;
+        let lead_out_w = take_final_array(&mut weights, "lead_out.weight")?;
+        let lead_out_b = take_final_array(&mut weights, "lead_out.bias")?;
+        Some(
+            TiedLeadWeights::new(
+                width, tied_w1, tied_b1, tied_w2, tied_b2, tied_out_w, tied_out_b, lead_out_w,
+                lead_out_b,
+            )
+            .map_err(PyValueError::new_err)?,
+        )
+    } else {
+        None
+    };
+    Ok((weights_from_dict(weights)?, tied_weights))
+}
+
 
 fn min_gru_array_shape(
     weights: &HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
@@ -989,6 +1239,7 @@ fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyMinGruPredictor>()?;
     m.add_class::<PyPredictor>()?;
     m.add_class::<PyEnsemblePredictor>()?;
+    m.add_class::<PyFinalTl3Predictor>()?;
     m.add_class::<PyModelStepper>()?;
     Ok(())
 }
@@ -1581,6 +1832,289 @@ impl PyEnsemblePredictor {
             .collect()
     }
 }
+
+/// Four-member chronological TL3 + raw112 LSTM predictor with exact staged blending.
+#[pyclass(name = "FinalTl3Predictor")]
+struct PyFinalTl3Predictor {
+    features: crate::stream::StreamFeatures,
+    models: Vec<FastRnn>,
+    tied: [TiedLeadEncoder; 2],
+    tied_inputs: [Vec<f32>; 2],
+    tied_restored_inputs: [Vec<f32>; 2],
+    tied_residuals: [Vec<f32>; 2],
+    w18_input: [f32; 211],
+    raw: [f32; 112],
+    event: [f32; 99],
+    member_outputs: [[f32; 2]; 4],
+    sequence: Option<i64>,
+    next_step: usize,
+}
+
+fn final_tl3_blend(members: &[[f32; 2]; 4]) -> [f32; 2] {
+    std::array::from_fn(|target| {
+        let mut baseline = 0.0f64;
+        baseline += f64::from(members[0][target]) * 0.34;
+        baseline += f64::from(members[1][target]) * 0.33;
+        baseline += f64::from(members[2][target]) * 0.33;
+        let baseline = baseline as f32;
+
+        let mut final_value = 0.0f64;
+        final_value += f64::from(baseline) * 0.9;
+        final_value += f64::from(members[3][target]) * 0.1;
+        final_value as f32
+    })
+}
+
+fn final_members_array<'py>(
+    py: Python<'py>,
+    members: &[[f32; 2]; 4],
+) -> PyResult<Bound<'py, PyArray2<f32>>> {
+    let flat = members.iter().flat_map(|row| row.iter().copied()).collect();
+    Ok(PyArray1::from_vec(py, flat).reshape([4, 2])?)
+}
+
+impl PyFinalTl3Predictor {
+    fn reset_sequence_state(&mut self) {
+        self.features.reset();
+        for model in &mut self.models {
+            model.reset();
+        }
+        for tied in &mut self.tied {
+            tied.reset();
+        }
+        self.member_outputs = [[0.0; 2]; 4];
+        self.next_step = 0;
+    }
+
+    fn advance_row(&mut self) -> PyResult<()> {
+        self.features.sanitize(&mut self.raw);
+        self.features.update(&self.raw, &mut self.event);
+        self.w18_input[..112].copy_from_slice(&self.raw);
+        self.w18_input[112..].copy_from_slice(&self.event);
+
+        self.models[0].step(&self.w18_input, &mut self.member_outputs[0]);
+        self.tied[0]
+            .assemble_input(&self.raw, &self.event, &mut self.tied_inputs[0])
+            .map_err(PyValueError::new_err)?;
+        self.models[1]
+            .restore_normalized_input(&self.tied_inputs[0], &mut self.tied_restored_inputs[0]);
+        self.tied[0]
+            .encoder_residual(&self.tied_restored_inputs[0], &mut self.tied_residuals[0])
+            .map_err(PyValueError::new_err)?;
+        self.models[1]
+            .step_with_encoder_residual(
+                &self.tied_inputs[0],
+                &self.tied_residuals[0],
+                &mut self.member_outputs[1],
+            )
+            .map_err(|error| PyValueError::new_err(error.0))?;
+        self.tied[1]
+            .assemble_input(&self.raw, &self.event, &mut self.tied_inputs[1])
+            .map_err(PyValueError::new_err)?;
+        self.models[2]
+            .restore_normalized_input(&self.tied_inputs[1], &mut self.tied_restored_inputs[1]);
+        self.tied[1]
+            .encoder_residual(&self.tied_restored_inputs[1], &mut self.tied_residuals[1])
+            .map_err(PyValueError::new_err)?;
+        self.models[2]
+            .step_with_encoder_residual(
+                &self.tied_inputs[1],
+                &self.tied_residuals[1],
+                &mut self.member_outputs[2],
+            )
+            .map_err(|error| PyValueError::new_err(error.0))?;
+        self.models[3].step(&self.raw, &mut self.member_outputs[3]);
+
+        if self
+            .member_outputs
+            .iter()
+            .flatten()
+            .any(|value| !value.is_finite())
+        {
+            return Err(PyValueError::new_err(
+                "final predictor produced a non-finite member score",
+            ));
+        }
+        self.next_step += 1;
+        Ok(())
+    }
+
+    fn process_data_point(
+        &mut self,
+        py: Python<'_>,
+        data_point: &Bound<'_, PyAny>,
+    ) -> PyResult<bool> {
+        let sequence: i64 = data_point.getattr(intern!(py, "seq_ix"))?.extract()?;
+        let step: usize = data_point.getattr(intern!(py, "step_in_seq"))?.extract()?;
+        if self.sequence != Some(sequence) {
+            if step != 0 {
+                return Err(PyValueError::new_err(
+                    "final predictor requires each new sequence to begin at step 0",
+                ));
+            }
+            self.reset_sequence_state();
+            self.sequence = Some(sequence);
+        } else if step != self.next_step {
+            return Err(PyValueError::new_err(format!(
+                "final predictor expected step {}, received {step}",
+                self.next_step
+            )));
+        }
+        let state = data_point.getattr(intern!(py, "state"))?;
+        read_row(py, &state, &mut self.raw)?;
+        self.advance_row()?;
+        data_point
+            .getattr(intern!(py, "need_prediction"))?
+            .is_truthy()
+    }
+}
+
+#[pymethods]
+impl PyFinalTl3Predictor {
+    #[new]
+    #[pyo3(signature = (weights))]
+    fn new(
+        py: Python<'_>,
+        weights: Vec<HashMap<String, PyReadonlyArrayDyn<'_, f32>>>,
+    ) -> PyResult<Self> {
+        if weights.len() != 4 {
+            return Err(PyValueError::new_err(
+                "final predictor requires ordered weights [W18, tiedlead_s5, tiedlead_s6, LSTM]",
+            ));
+        }
+        let mut models = Vec::with_capacity(4);
+        let mut tied = Vec::with_capacity(2);
+        for (role, member) in weights.into_iter().enumerate() {
+            let (rnn, tied_weights) = parse_final_member(member, role)?;
+            let model = FastRnn::with_precision(rnn, Activations::Exact, Precision::F32)
+                .map_err(|error| PyValueError::new_err(error.0))?;
+            if model.n_in() != FINAL_TL3_WIDTHS[role] || model.n_out() != 2 {
+                return Err(PyValueError::new_err(format!(
+                    "final member {role} has incompatible input or output width"
+                )));
+            }
+            let expected_cell = if role == 3 {
+                crate::rnn_fast::Cell::Lstm
+            } else {
+                crate::rnn_fast::Cell::Gru
+            };
+            let (layers, hidden_width) = model.hidden_state_shape();
+            if model.cell() != expected_cell
+                || model.encoder_width() != FINAL_TL3_ENCODER_WIDTHS[role]
+                || model.hidden() != FINAL_TL3_HIDDEN_WIDTHS[role]
+                || layers != FINAL_TL3_LAYER_COUNTS[role]
+            {
+                return Err(PyValueError::new_err(format!(
+                    "final member {role} cell/width/layer layout is unsupported: cell={:?}, encoder={}, hidden={hidden_width}, layers={layers}",
+                    model.cell(),
+                    model.encoder_width()
+                )));
+            }
+            if let Some(tied_weights) = tied_weights {
+                if model.encoder_width() != final_tl3_tied_encoder_width(&tied_weights) {
+                    return Err(PyValueError::new_err(
+                        "tiedlead residual width differs from the model encoder width",
+                    ));
+                }
+                tied.push(TiedLeadEncoder::new(tied_weights));
+            }
+            models.push(model);
+        }
+        let [tied_s5, tied_s6]: [TiedLeadEncoder; 2] = tied
+            .try_into()
+            .map_err(|_| PyValueError::new_err("both final tiedlead branches are required"))?;
+        let tied_inputs = std::array::from_fn(|_| vec![0.0; crate::tiedlead::INPUT_WIDTH]);
+        let tied_restored_inputs = std::array::from_fn(|_| vec![0.0; crate::tiedlead::INPUT_WIDTH]);
+        let tied_residuals = [
+            vec![0.0; models[1].encoder_width()],
+            vec![0.0; models[2].encoder_width()],
+        ];
+        let _ = py;
+        Ok(Self {
+            features: Default::default(),
+            models,
+            tied: [tied_s5, tied_s6],
+            tied_inputs,
+            tied_restored_inputs,
+            tied_residuals,
+            w18_input: [0.0; 211],
+            raw: [0.0; 112],
+            event: [0.0; 99],
+            member_outputs: [[0.0; 2]; 4],
+            sequence: None,
+            next_step: 0,
+        })
+    }
+
+    /// Reset all recurrent and causal feature state.
+    fn reset(&mut self) {
+        self.reset_sequence_state();
+        self.sequence = None;
+    }
+
+    /// Scorer callback; advances every member, returning None only for warm-up rows.
+    fn predict<'py>(
+        &mut self,
+        py: Python<'py>,
+        data_point: &Bound<'py, PyAny>,
+    ) -> PyResult<Option<Bound<'py, PyArray1<f32>>>> {
+        if !self.process_data_point(py, data_point)? {
+            return Ok(None);
+        }
+        let result = final_tl3_blend(&self.member_outputs);
+        Ok(Some(PyArray1::from_slice(py, &result)))
+    }
+
+    /// Advance the same callback path and return all four raw member outputs for parity checks.
+    fn step_members<'py>(
+        &mut self,
+        py: Python<'py>,
+        data_point: &Bound<'py, PyAny>,
+    ) -> PyResult<Bound<'py, PyArray2<f32>>> {
+        self.process_data_point(py, data_point)?;
+        final_members_array(py, &self.member_outputs)
+    }
+
+    /// Apply the exact nested TL3-then-LSTM FP64 blend and FP32 casts.
+    #[staticmethod]
+    fn blend_members<'py>(
+        py: Python<'py>,
+        members: PyReadonlyArray2<'py, f32>,
+    ) -> PyResult<Bound<'py, PyArray1<f32>>> {
+        let values = members.as_array();
+        if values.shape() != [4, 2] {
+            return Err(PyValueError::new_err(
+                "member scores must have shape (4, 2)",
+            ));
+        }
+        let rows: [[f32; 2]; 4] =
+            std::array::from_fn(|index| [values[[index, 0]], values[[index, 1]]]);
+        if rows.iter().flatten().any(|value| !value.is_finite()) {
+            return Err(PyValueError::new_err("member scores must be finite"));
+        }
+        Ok(PyArray1::from_slice(py, &final_tl3_blend(&rows)))
+    }
+
+    #[getter]
+    fn precision(&self) -> &'static str {
+        "f32"
+    }
+
+    #[getter]
+    fn member_widths(&self) -> Vec<usize> {
+        self.models.iter().map(FastRnn::n_in).collect()
+    }
+
+    #[getter]
+    fn member_weight_bytes(&self) -> Vec<usize> {
+        self.models.iter().map(FastRnn::weight_bytes).collect()
+    }
+}
+
+fn final_tl3_tied_encoder_width(weights: &TiedLeadWeights) -> usize {
+    weights.encoder_width()
+}
+
 
 /// Streaming predictor: event features + FastRnn, one row per call, no per-row allocation
 /// besides the returned 2-element array.

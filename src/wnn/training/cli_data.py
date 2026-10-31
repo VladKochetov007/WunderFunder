@@ -55,6 +55,23 @@ def add_fit_arguments(ap: argparse.ArgumentParser) -> None:
         help="frozen component-excluded outer-fold manifest",
     )
     ap.add_argument(
+        "--final-fit-manifest",
+        type=Path,
+        default=None,
+        help="explicit all-labeled-data membership; disables independent evaluation",
+    )
+    ap.add_argument(
+        "--final-fit-source-validation-receipt",
+        type=Path,
+        default=None,
+        help="source-validation receipt whose bytes match the required SHA256",
+    )
+    ap.add_argument(
+        "--final-fit-source-validation-sha256",
+        default=None,
+        help="receiver validation receipt SHA256 required by --final-fit-manifest",
+    )
+    ap.add_argument(
         "--student-frontier-contract",
         type=Path,
         help="explicit consumer recipe for the CPU-student architecture frontier",
