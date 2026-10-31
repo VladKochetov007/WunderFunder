@@ -1,4 +1,19 @@
-## 31 October04:50UTC: measured ensemble below TL3; full-primary refits active
+## 31 October final: 39 complete model artifacts, one partial; GPUs released
+
+[Final wave report](../research/experiment_drafts/multistage-optuna-b300-20261031/PROGRESS_20261031_FINAL.md):
+40 scientific attempts and56 profiles. All four fresh full-primary refits and
+their six prediction outputs are complete. Best new equal-four blend WP0.684699354
+versus fixed TL3 reference0.692377425: no baseline improvement. No public score.
+All10,325 fitting members are official train;0 valid enter fitting. Full1,873
+valid /3,528,273 scored rows. Both blend vectors were frozen before fitting.
+Independent raw-label arithmetic agrees within8e-15; both blends are bit-exact.
+The39 count means configured-final model artifacts; unknown historical outer
+exit codes remain unknown in the unchanged ledger. One GALAM stays partial.
+37 finalized models are in two SHA-verified GitHub prereleases; two pilots are
+separate. Results/curves/receipts are linked fromPR53. No owned GPU clients
+remain; foreign NIER/MPS are preserved. No further training is queued.
+
+## Historical 31 October04:50UTC: measured ensemble below TL3; full-primary refits active
 
 [PR53R4](../research/experiment_drafts/multistage-optuna-b300-20261031/PROGRESS_20261031_R4.md):
 frozen8-member ensemble WP0.6832272791 on all1873valid/3,528,273scored rows,
