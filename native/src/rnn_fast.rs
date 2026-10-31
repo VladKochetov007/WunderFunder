@@ -483,7 +483,7 @@ fn dot(a: &[f32], b: &[f32]) -> f32 {
     target_feature = "fma"
 )))]
 #[inline(always)]
-fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
+pub(crate) fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
     for ((o, row), bias) in out.iter_mut().zip(w.chunks_exact(x.len())).zip(b) {
         *o = dot(row, x) + bias;
     }
@@ -495,7 +495,7 @@ fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
     target_feature = "fma"
 ))]
 #[inline(always)]
-fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
+pub(crate) fn gemv(w: &[f32], b: &[f32], x: &[f32], out: &mut [f32]) {
     // SAFETY: this build targets AVX2 + FMA.
     unsafe { gemv_avx2(w, b, x, out) }
 }

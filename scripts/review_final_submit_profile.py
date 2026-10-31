@@ -711,7 +711,10 @@ def _process_ok(process: Mapping[str, Any], request: Mapping[str, Any]) -> bool:
     command = process.get("command")
     if not isinstance(command, list) or not all(isinstance(token, str) for token in command):
         return False
-    if request.get("mode") == "legacy_tl3":
+    request_mode = request.get("mode")
+    allowed_process_modes = {"final_submit_engineering_r2"}
+    if request_mode == "legacy_tl3":
+        allowed_process_modes.add("final_submit_engineering_r3")
         runtime_root = command[5].rsplit("/", 1)[0] if len(command) > 5 else ""
         argv_log_path_matches = len(command) > 6 and command[6] == request.get("log_path")
     else:
@@ -730,7 +733,7 @@ def _process_ok(process: Mapping[str, Any], request: Mapping[str, Any]) -> bool:
     cwd_matches = bool(runtime_root) and process.get("cwd") == f"{runtime_root}/source"
     return (
         process.get("schema") == "wnn.multistage-owned-process.v1"
-        and process.get("mode") == "final_submit_engineering_r2"
+        and process.get("mode") in allowed_process_modes
         and process.get("status") == "completed"
         and process.get("exit_code") == 0
         and process.get("timed_out") is False

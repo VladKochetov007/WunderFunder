@@ -1,6 +1,7 @@
 //! Causal state and nonlinear encoder for the `raw112-event99-lead52-v1` model input.
 
-use crate::kernels::{gelu, gemv};
+use crate::kernels::gelu;
+use crate::rnn_fast::{gemv, Activations};
 
 pub const RAW_WIDTH: usize = 112;
 pub const EVENT_WIDTH: usize = 99;
@@ -11,6 +12,16 @@ const SHARED_WIDTH: usize = 128;
 const BRANCH_WIDTH: usize = 64;
 const LEAD_RAW_START: usize = 52;
 const LEAD_RAW_STOP: usize = 104;
+
+#[inline]
+fn apply_gelu(values: &mut [f32], activations: Activations) {
+    match activations {
+        Activations::Exact => values.iter_mut().for_each(|value| *value = gelu(*value)),
+        Activations::Fast => values
+            .iter_mut()
+            .for_each(|value| *value = crate::approx::gelu_fast(*value)),
+    }
+}
 
 /// Weights for the residual branches attached to the ordinary linear encoder.
 pub struct TiedLeadWeights {
@@ -87,6 +98,7 @@ impl TiedLeadWeights {
 /// One tiedlead model's reusable scratch and current-sequence feature state.
 pub struct TiedLeadEncoder {
     weights: TiedLeadWeights,
+    activations: Activations,
     first: bool,
     previous_raw: [f32; LEAD_RAW_STOP],
     latest_i1: [f32; LEAD_WIDTH],
@@ -103,9 +115,15 @@ pub struct TiedLeadEncoder {
 impl TiedLeadEncoder {
     /// Create a resettable tiedlead encoder for one model.
     pub fn new(weights: TiedLeadWeights) -> Self {
+        Self::with_activations(weights, Activations::Exact)
+    }
+
+    /// Create a resettable tiedlead encoder with an explicit activation mode.
+    pub fn with_activations(weights: TiedLeadWeights, activations: Activations) -> Self {
         Self {
             lead_projection: vec![0.0; weights.encoder_width],
             weights,
+            activations,
             first: true,
             previous_raw: [0.0; LEAD_RAW_STOP],
             latest_i1: [0.0; LEAD_WIDTH],
@@ -222,18 +240,14 @@ impl TiedLeadEncoder {
             &self.shared_input,
             &mut self.shared_hidden,
         );
-        self.shared_hidden
-            .iter_mut()
-            .for_each(|value| *value = gelu(*value));
+        apply_gelu(&mut self.shared_hidden, self.activations);
         gemv(
             &self.weights.tied_w2,
             &self.weights.tied_b2,
             &self.shared_hidden,
             &mut self.branch_output,
         );
-        self.branch_output
-            .iter_mut()
-            .for_each(|value| *value = gelu(*value));
+        apply_gelu(&mut self.branch_output, self.activations);
         self.branch_output
     }
 }

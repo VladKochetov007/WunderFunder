@@ -1848,6 +1848,7 @@ struct PyFinalTl3Predictor {
     member_outputs: [[f32; 2]; 4],
     sequence: Option<i64>,
     next_step: usize,
+    fast_activations: bool,
 }
 
 fn final_tl3_blend(members: &[[f32; 2]; 4]) -> [f32; 2] {
@@ -1972,12 +1973,13 @@ impl PyFinalTl3Predictor {
 #[pymethods]
 impl PyFinalTl3Predictor {
     #[new]
-    #[pyo3(signature = (weights, precision="f32", q8_codes=None))]
+    #[pyo3(signature = (weights, precision="f32", q8_codes=None, fast_activations=false))]
     fn new(
         py: Python<'_>,
         weights: Vec<HashMap<String, PyReadonlyArrayDyn<'_, f32>>>,
         precision: &str,
         q8_codes: Option<Vec<Q8Codes>>,
+        fast_activations: bool,
     ) -> PyResult<Self> {
         if weights.len() != 4 {
             return Err(PyValueError::new_err(
@@ -1985,6 +1987,11 @@ impl PyFinalTl3Predictor {
             ));
         }
         let precision = parse_precision(precision)?;
+        let activations = if fast_activations {
+            Activations::Fast
+        } else {
+            Activations::Exact
+        };
         let dynamic_q8 = matches!(
             precision,
             Precision::Q8Vnni
@@ -2014,7 +2021,7 @@ impl PyFinalTl3Predictor {
         let mut tied = Vec::with_capacity(2);
         for (role, member) in weights.into_iter().enumerate() {
             let (rnn, tied_weights) = parse_final_member(member, role)?;
-            let mut model = FastRnn::with_precision(rnn, Activations::Exact, precision)
+            let mut model = FastRnn::with_precision(rnn, activations, precision)
                 .map_err(|error| PyValueError::new_err(error.0))?;
             if let Some(codes) = q8_codes.as_mut() {
                 import_q8(
@@ -2053,7 +2060,10 @@ impl PyFinalTl3Predictor {
                         "tiedlead residual width differs from the model encoder width",
                     ));
                 }
-                tied.push(TiedLeadEncoder::new(tied_weights));
+                tied.push(TiedLeadEncoder::with_activations(
+                    tied_weights,
+                    activations,
+                ));
             }
             models.push(model);
         }
@@ -2080,6 +2090,7 @@ impl PyFinalTl3Predictor {
             member_outputs: [[0.0; 2]; 4],
             sequence: None,
             next_step: 0,
+            fast_activations,
         })
     }
 
@@ -2140,6 +2151,11 @@ impl PyFinalTl3Predictor {
         } else {
             "mixed"
         }
+    }
+
+    #[getter]
+    fn fast_activations(&self) -> bool {
+        self.fast_activations
     }
 
     fn quantization_codes(&self, py: Python<'_>) -> PyResult<Vec<Q8Codes>> {
