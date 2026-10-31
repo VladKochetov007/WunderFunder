@@ -53,7 +53,7 @@ def _source6_info(root: Path) -> dict[str, object]:
 
     root = root.resolve(strict=True)
     identity = _source_identity(root)
-    score = root / "scripts/report_multistage_primary.py"
+    score = root / "scripts/score_sequence.py"
     info = {
         "root": str(root),
         "source_sha256": identity["sha256"],
