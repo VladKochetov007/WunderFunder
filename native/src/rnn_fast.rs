@@ -1560,7 +1560,14 @@ impl FastRnn {
                 out.len()
             )));
         }
-        self.step_general_f32_with_residual(x, residual, out);
+        if self.general_dims {
+            self.step_general_f32_with_residual(x, residual, out);
+        } else {
+            // Equal-width models use the same optimized GEMV kernels as ordinary F32 stepping.
+            // The residual is added at the same point as in the general path: after input
+            // projection and before the encoder activation.
+            self.step_impl_with_encoder_residual::<MODE_F32>(x, residual, out);
+        }
         Ok(())
     }
 
@@ -2379,6 +2386,16 @@ impl FastRnn {
 
     #[inline(always)]
     fn step_impl<const MODE: u8>(&mut self, x: &[f32], out: &mut [f32]) {
+        self.step_impl_with_encoder_residual::<MODE>(x, &[], out);
+    }
+
+    #[inline(always)]
+    fn step_impl_with_encoder_residual<const MODE: u8>(
+        &mut self,
+        x: &[f32],
+        residual: &[f32],
+        out: &mut [f32],
+    ) {
         let n = self.hidden;
         let fast = self.act == Activations::Fast;
         let wts = self.weights.as_ref();
@@ -2424,6 +2441,13 @@ impl FastRnn {
                 }
             }
             let z = &mut st[self.z.clone()];
+            if !residual.is_empty() {
+                debug_assert_eq!(MODE, MODE_F32);
+                debug_assert_eq!(residual.len(), z.len());
+                for (value, &addition) in z.iter_mut().zip(residual) {
+                    *value += addition;
+                }
+            }
             if fast {
                 z.iter_mut().for_each(|v| *v = gelu_fast(*v));
             } else {
@@ -3433,29 +3457,36 @@ mod tests {
     }
 
     #[test]
-    fn encoder_residual_initializes_scratch_for_equal_width_models() {
+    fn encoder_residual_uses_equal_width_fast_path_and_matches_general_reference() {
         let residual = [0.07, -0.04, 0.03, -0.02, 0.05, -0.06, 0.01, -0.08];
         let mut residual_model = FastRnn::new(weights(12, 8, 2, 37), Activations::Exact).unwrap();
-        let mut ordinary_model = FastRnn::new(weights(12, 8, 2, 37), Activations::Exact).unwrap();
+        let mut general_reference =
+            FastRnn::new(weights(12, 8, 2, 37), Activations::Exact).unwrap();
         assert!(residual_model.general_input.is_empty());
 
         let mut actual = [0.0; 2];
-        let mut ordinary = [0.0; 2];
+        let mut reference = [0.0; 2];
         let mut saved = Vec::new();
         let mut largest_difference = 0.0f32;
         for input in inputs(12, 80) {
             residual_model
                 .step_with_encoder_residual(&input, &residual, &mut actual)
                 .unwrap();
-            ordinary_model.step(&input, &mut ordinary);
+            general_reference.step_general_f32_with_residual(&input, &residual, &mut reference);
             assert!(actual.iter().all(|value| value.is_finite()));
             largest_difference = largest_difference
-                .max((actual[0] - ordinary[0]).abs())
-                .max((actual[1] - ordinary[1]).abs());
+                .max((actual[0] - reference[0]).abs())
+                .max((actual[1] - reference[1]).abs());
+            assert!(
+                (actual[0] - reference[0]).abs() < 2e-4
+                    && (actual[1] - reference[1]).abs() < 2e-4,
+                "optimized and general residual paths diverged: {actual:?} vs {reference:?}"
+            );
             saved.push(actual.map(f32::to_bits));
         }
-        assert!(largest_difference > 1e-6, "residual was not applied");
-        assert_eq!(residual_model.general_input.len(), 8);
+        assert!(largest_difference < 2e-4, "path difference: {largest_difference}");
+        assert!(residual_model.general_input.is_empty());
+        assert_eq!(general_reference.general_input.len(), 8);
 
         residual_model.reset();
         for (input, expected) in inputs(12, 80).iter().zip(saved) {
