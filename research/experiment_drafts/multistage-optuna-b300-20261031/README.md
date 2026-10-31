@@ -125,3 +125,7 @@ The [successor finalizer](../../../scripts/finalize_reviewed_successor_fit.py),
 [primary refit preparer](../../../scripts/prepare_multistage_primary_refits.py)
 separate execution, qualified inner scoring, primary reporting, and pending
 optional refit admission.
+
+The [R3 execution update](PROGRESS_20261031_R3.md) records all36 fit attempts,
+completed successor scoring, actual CPU ensemble search and downstream report
+repairs. It distinguishes the24-trial ceiling from actual study states.
