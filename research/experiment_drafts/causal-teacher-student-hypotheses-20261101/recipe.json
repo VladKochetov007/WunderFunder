@@ -1,0 +1,212 @@
+{
+  "schema": "wnn.causal-teacher-student-portfolio.v1",
+  "status": "PROPOSAL_ONLY",
+  "runnable": false,
+  "base_commit": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "objective_mode": "competition",
+  "validation": "official pooled clip2 weighted Pearson, separate targets and mean; full-valid already development-exposed",
+  "panel_default": {
+    "split": "one source-qualified component-separated train-only fit; exact split/data identity must be pinned before admission",
+    "paired_seeds": [
+      1001,
+      1002
+    ],
+    "control_fits": 2,
+    "treatment_fits": 2,
+    "total_fits_per_card": 4,
+    "seeds_are_folds": false,
+    "disagreement_exception": "three arms × two seeds = six fits"
+  },
+  "teacher_cache_oof_export_cost": "additional, explicitly budget per mechanism; unknown until actual qualification",
+  "no_automatic_queue": true,
+  "working_effect_threshold_wp": 0.0005,
+  "threshold_interpretation": "spending signal only, not significance or automatic promotion; uncertainty and negative results are preserved",
+  "precision": "FP32 for scientific screens; BF16/BF16x9 only where separately covered by explicit Transformer user amendment and recorded",
+  "limits": {
+    "python": "3.11",
+    "cpu_cores": 1,
+    "ram_gb": 16,
+    "time_minutes": 60,
+    "zip_max_mb": 20,
+    "internet": "disabled"
+  },
+  "proposals": [
+    {
+      "hypothesis_id": "H-CST-TEMPORAL-DELTA-KD-20261101",
+      "experiment_id": "E-CST-TEMPORAL-DELTA-KD-20261101",
+      "family": "connection",
+      "status": "PROPOSED",
+      "runnable": false,
+      "control": "standard prediction KD",
+      "treatment": "prediction KD plus causal lagged prediction-difference loss",
+      "paired_seeds": [
+        1001,
+        1002
+      ],
+      "fit_counts": {
+        "control": 2,
+        "treatment": 2,
+        "total_new_fits_excluding_teacher_parents": 4
+      },
+      "additional_dependency": "teacher cache with aligned time steps; no future",
+      "control_reuse": "only with exact source, split, ancestry and recipe match; otherwise all four fits are new",
+      "final_hyperparameters": "not frozen: implementation and receiver admission required"
+    },
+    {
+      "hypothesis_id": "H-CST-DISAGREEMENT-KD-20261101",
+      "experiment_id": "E-CST-DISAGREEMENT-KD-20261101",
+      "family": "connection",
+      "status": "PROPOSED",
+      "runnable": false,
+      "control": "fixed teacher-mix KD",
+      "treatment": "same mix with increased or decreased train-only disagreement-dependent loss weights",
+      "paired_seeds": [
+        1001,
+        1002
+      ],
+      "fit_counts": {
+        "control": 2,
+        "upweight_disagreement": 2,
+        "downweight_disagreement": 2,
+        "total_new_primary_fits": 6
+      },
+      "additional_dependency": "multiple source-qualified teachers and aligned fit-only predictions",
+      "control_reuse": "only with exact source, split, ancestry and recipe match; otherwise all four fits are new",
+      "final_hyperparameters": "not frozen: implementation and receiver admission required",
+      "treatment_arms": [
+        "upweight_disagreement",
+        "downweight_disagreement"
+      ]
+    },
+    {
+      "hypothesis_id": "H-CST-SHARED-STATE-GATED-HEADS-20261101",
+      "experiment_id": "E-CST-SHARED-STATE-GATED-HEADS-20261101",
+      "family": "student",
+      "status": "PROPOSED",
+      "runnable": false,
+      "control": "same recurrent backbone with matched fixed head combination",
+      "treatment": "same backbone and small causal head gate",
+      "paired_seeds": [
+        1001,
+        1002
+      ],
+      "fit_counts": {
+        "control": 2,
+        "treatment": 2,
+        "total_new_fits_excluding_teacher_parents": 4
+      },
+      "additional_dependency": "same teacher target; runtime and parameter-matched head controls",
+      "control_reuse": "only with exact source, split, ancestry and recipe match; otherwise all four fits are new",
+      "final_hyperparameters": "not frozen: implementation and receiver admission required"
+    },
+    {
+      "hypothesis_id": "H-CST-REGIME-TEACHER-MIX-20261101",
+      "experiment_id": "E-CST-REGIME-TEACHER-MIX-20261101",
+      "family": "connection",
+      "status": "PROPOSED",
+      "runnable": false,
+      "control": "fixed teacher mix with matched student",
+      "treatment": "prefix-only gate between source-qualified teachers",
+      "paired_seeds": [
+        1001,
+        1002
+      ],
+      "fit_counts": {
+        "control": 2,
+        "treatment": 2,
+        "total_new_fits_excluding_teacher_parents": 4
+      },
+      "additional_dependency": "OOF teacher fitting and cache cost; gate-fit units excluded from teacher fitting",
+      "control_reuse": "only with exact source, split, ancestry and recipe match; otherwise all four fits are new",
+      "final_hyperparameters": "not frozen: implementation and receiver admission required"
+    },
+    {
+      "hypothesis_id": "H-CST-MULTISCALE-TRANSFORMER-20261101",
+      "experiment_id": "E-CST-MULTISCALE-TRANSFORMER-20261101",
+      "family": "teacher",
+      "status": "PROPOSED",
+      "runnable": false,
+      "control": "causal local-window Transformer",
+      "treatment": "causal local window plus completed historical summaries",
+      "paired_seeds": [
+        1001,
+        1002
+      ],
+      "fit_counts": {
+        "control": 2,
+        "treatment": 2,
+        "total_new_fits_excluding_teacher_parents": 4
+      },
+      "additional_dependency": "new Transformer implementation and actual B300 profiling",
+      "control_reuse": "only with exact source, split, ancestry and recipe match; otherwise all four fits are new",
+      "final_hyperparameters": "not frozen: implementation and receiver admission required"
+    },
+    {
+      "hypothesis_id": "H-CST-PARALLEL-STATE-TEACHER-20261101",
+      "experiment_id": "E-CST-PARALLEL-STATE-TEACHER-20261101",
+      "family": "teacher",
+      "status": "PROPOSED",
+      "runnable": false,
+      "control": "causal Transformer teacher at declared resource budget",
+      "treatment": "Gated DeltaNet or Mamba-family teacher",
+      "paired_seeds": [
+        1001,
+        1002
+      ],
+      "fit_counts": {
+        "control": 2,
+        "treatment": 2,
+        "total_new_fits_excluding_teacher_parents": 4
+      },
+      "additional_dependency": "new kernels/adapter and B300 profiling; later student transfer separately",
+      "control_reuse": "only with exact source, split, ancestry and recipe match; otherwise all four fits are new",
+      "final_hyperparameters": "not frozen: implementation and receiver admission required",
+      "variant_selection": "Before admission select exactly one of Gated DeltaNet or Mamba; a second architecture needs an explicit additional budget."
+    },
+    {
+      "hypothesis_id": "H-CST-CAUSAL-SCALE-ENCODING-20261101",
+      "experiment_id": "E-CST-CAUSAL-SCALE-ENCODING-20261101",
+      "family": "representation",
+      "status": "PROPOSED",
+      "runnable": false,
+      "control": "unchanged feature encoding with same model",
+      "treatment": "raw features plus train-only causal scale and level representation",
+      "paired_seeds": [
+        1001,
+        1002
+      ],
+      "fit_counts": {
+        "control": 2,
+        "treatment": 2,
+        "total_new_fits_excluding_teacher_parents": 4
+      },
+      "additional_dependency": "online prefix-state implementation and equivalence checks",
+      "control_reuse": "only with exact source, split, ancestry and recipe match; otherwise all four fits are new",
+      "final_hyperparameters": "not frozen: implementation and receiver admission required"
+    },
+    {
+      "hypothesis_id": "H-CST-PREFIX-REGIME-ROBUSTNESS-20261101",
+      "experiment_id": "E-CST-PREFIX-REGIME-ROBUSTNESS-20261101",
+      "family": "objective",
+      "status": "PROPOSED",
+      "runnable": false,
+      "control": "ordinary WMSE with identical model and data",
+      "treatment": "train-only prefix-regime weighted or worst-group objective",
+      "paired_seeds": [
+        1001,
+        1002
+      ],
+      "fit_counts": {
+        "control": 2,
+        "treatment": 2,
+        "total_new_fits_excluding_teacher_parents": 4
+      },
+      "additional_dependency": "regime thresholds derived on fit groups and target-aware pooled grading",
+      "control_reuse": "only with exact source, split, ancestry and recipe match; otherwise all four fits are new",
+      "final_hyperparameters": "not frozen: implementation and receiver admission required",
+      "variant_selection": "Before admission select exactly one of group weighting or worst-group penalty; a second objective needs an explicit additional budget."
+    }
+  ],
+  "all_eight_primary_panel_fits_including_teacher_arms": 34,
+  "pull_request": "https://github.com/VladKochetov007/WunderFunder/pull/55"
+}
