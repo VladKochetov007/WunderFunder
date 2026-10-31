@@ -1893,38 +1893,58 @@ impl PyFinalTl3Predictor {
         self.w18_input[..112].copy_from_slice(&self.raw);
         self.w18_input[112..].copy_from_slice(&self.event);
 
+        crate::vnni::prof::select_member(Some(0));
         self.models[0].step(&self.w18_input, &mut self.member_outputs[0]);
-        self.tied[0]
-            .assemble_input(&self.raw, &self.event, &mut self.tied_inputs[0])
-            .map_err(PyValueError::new_err)?;
-        self.models[1]
-            .restore_normalized_input(&self.tied_inputs[0], &mut self.tied_restored_inputs[0]);
-        self.tied[0]
-            .encoder_residual(&self.tied_restored_inputs[0], &mut self.tied_residuals[0])
-            .map_err(PyValueError::new_err)?;
-        self.models[1]
-            .step_with_encoder_residual(
-                &self.tied_inputs[0],
-                &self.tied_residuals[0],
-                &mut self.member_outputs[1],
-            )
-            .map_err(|error| PyValueError::new_err(error.0))?;
-        self.tied[1]
-            .assemble_input(&self.raw, &self.event, &mut self.tied_inputs[1])
-            .map_err(PyValueError::new_err)?;
-        self.models[2]
-            .restore_normalized_input(&self.tied_inputs[1], &mut self.tied_restored_inputs[1]);
-        self.tied[1]
-            .encoder_residual(&self.tied_restored_inputs[1], &mut self.tied_residuals[1])
-            .map_err(PyValueError::new_err)?;
-        self.models[2]
-            .step_with_encoder_residual(
-                &self.tied_inputs[1],
-                &self.tied_residuals[1],
-                &mut self.member_outputs[2],
-            )
-            .map_err(|error| PyValueError::new_err(error.0))?;
+        crate::vnni::prof::select_member(None);
+        let tied_s5_result = (|| -> PyResult<()> {
+            crate::vnni::prof::select_member(Some(1));
+            let mut tied_clock = crate::vnni::prof::tick();
+            self.tied[0]
+                .assemble_input(&self.raw, &self.event, &mut self.tied_inputs[0])
+                .map_err(PyValueError::new_err)?;
+            self.models[1]
+                .restore_normalized_input(&self.tied_inputs[0], &mut self.tied_restored_inputs[0]);
+            self.tied[0]
+                .encoder_residual(&self.tied_restored_inputs[0], &mut self.tied_residuals[0])
+                .map_err(PyValueError::new_err)?;
+            crate::vnni::prof::lap(13, &mut tied_clock);
+            self.models[1]
+                .step_with_encoder_residual(
+                    &self.tied_inputs[0],
+                    &self.tied_residuals[0],
+                    &mut self.member_outputs[1],
+                )
+                .map_err(|error| PyValueError::new_err(error.0))?;
+            Ok(())
+        })();
+        crate::vnni::prof::select_member(None);
+        tied_s5_result?;
+        let tied_s6_result = (|| -> PyResult<()> {
+            crate::vnni::prof::select_member(Some(2));
+            let mut tied_clock = crate::vnni::prof::tick();
+            self.tied[1]
+                .assemble_input(&self.raw, &self.event, &mut self.tied_inputs[1])
+                .map_err(PyValueError::new_err)?;
+            self.models[2]
+                .restore_normalized_input(&self.tied_inputs[1], &mut self.tied_restored_inputs[1]);
+            self.tied[1]
+                .encoder_residual(&self.tied_restored_inputs[1], &mut self.tied_residuals[1])
+                .map_err(PyValueError::new_err)?;
+            crate::vnni::prof::lap(14, &mut tied_clock);
+            self.models[2]
+                .step_with_encoder_residual(
+                    &self.tied_inputs[1],
+                    &self.tied_residuals[1],
+                    &mut self.member_outputs[2],
+                )
+                .map_err(|error| PyValueError::new_err(error.0))?;
+            Ok(())
+        })();
+        crate::vnni::prof::select_member(None);
+        tied_s6_result?;
+        crate::vnni::prof::select_member(Some(3));
         self.models[3].step(&self.raw, &mut self.member_outputs[3]);
+        crate::vnni::prof::select_member(None);
 
         if self
             .member_outputs
@@ -2153,6 +2173,15 @@ impl PyFinalTl3Predictor {
         }
     }
 
+    /// Actual per-member precision after runtime CPU capability fallback.
+    #[getter]
+    fn effective_precisions(&self) -> Vec<&'static str> {
+        self.models
+            .iter()
+            .map(|model| precision_name(model.precision()))
+            .collect()
+    }
+
     #[getter]
     fn fast_activations(&self) -> bool {
         self.fast_activations
@@ -2191,6 +2220,54 @@ impl PyFinalTl3Predictor {
                     .sum()
             })
             .collect()
+    }
+
+    /// Recurrent execution metadata in fixed [W18, tiedlead_s5, tiedlead_s6, LSTM] order.
+    #[getter]
+    fn member_execution_shapes(&self) -> Vec<(String, usize, usize, usize, usize, bool)> {
+        self.models
+            .iter()
+            .map(|model| {
+                let (layers, hidden) = model.hidden_state_shape();
+                (
+                    match model.cell() {
+                        crate::rnn_fast::Cell::Gru => "gru".to_owned(),
+                        crate::rnn_fast::Cell::Lstm => "lstm".to_owned(),
+                    },
+                    model.n_in(),
+                    model.encoder_width(),
+                    hidden,
+                    layers,
+                    model.uses_general_dimensions(),
+                )
+            })
+            .collect()
+    }
+
+    /// Whether native Q8 stage cycle counters were enabled in the build.
+    #[getter]
+    fn q8_profile_enabled(&self) -> bool {
+        cfg!(feature = "profile")
+    }
+
+    /// Aggregate Q8 stage cycles; zero in builds without the `profile` feature.
+    #[getter]
+    fn q8_profile_cycles(&self) -> Vec<u64> {
+        crate::vnni::prof::cycles().to_vec()
+    }
+
+    /// Per-member Q8 stage cycles in fixed W18, tiedlead_s5, tiedlead_s6, LSTM order.
+    #[getter]
+    fn q8_profile_cycles_by_member(&self) -> Vec<Vec<u64>> {
+        crate::vnni::prof::member_cycles()
+            .into_iter()
+            .map(|cycles| cycles.to_vec())
+            .collect()
+    }
+
+    /// Clear Q8 profile counters before a single bounded representative sequence.
+    fn reset_q8_profile(&self) {
+        crate::vnni::prof::reset();
     }
 }
 

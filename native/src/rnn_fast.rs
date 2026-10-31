@@ -1503,6 +1503,11 @@ impl FastRnn {
         self.cell
     }
 
+    /// Whether the model uses the independent-width/general dynamic step path.
+    pub fn uses_general_dimensions(&self) -> bool {
+        self.general_dims
+    }
+
     pub fn reset(&mut self) {
         let (h, c) = (self.h.clone(), self.c.clone());
         self.state.as_mut()[h].fill(0.0);
