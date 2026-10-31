@@ -16,7 +16,7 @@ from wnn.training.sequence_monitor_identity import membership_sha256
 MAX_CHECKPOINT_BYTES = 256 * 1024 * 1024
 
 
-def regular_campaign_file(path: Path, label: str, limit: int = 16_000_000) -> Path:
+def regular_campaign_file(path: Path, label: str, limit: int = 64_000_000) -> Path:
     """Require a bounded, non-symlink campaign file before parsing its contents."""
     if path.is_symlink() or not path.is_file() or path.stat().st_size > limit:
         raise ValueError(f"{label} must be a bounded regular file")

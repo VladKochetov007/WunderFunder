@@ -26,7 +26,9 @@ def _sha256(path: Path) -> str:
 
 
 def _canonical_sha256(value: object) -> str:
-    raw = json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False)
+    raw = json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False
+    )
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
 
@@ -85,16 +87,16 @@ def _load_source6(source_root: Path) -> tuple[object, ...]:
         raise ValueError("Source6 scorer import resolved outside its verified tree")
     from wnn.multistage_primary_report import (  # noqa: PLC0415
         PRIMARY_SCORED_ROW_COUNT,
-        _StreamingMetrics,
         _score_primary_valid,
+        _StreamingMetrics,
     )
     from wnn.splits import load_campaign_split  # noqa: PLC0415
     from wnn.training.sequence_config import load_config  # noqa: PLC0415
     from wnn.training.sequence_data import SequenceRecords  # noqa: PLC0415
     from wnn.training.sequence_fit_utils import collate_sequences  # noqa: PLC0415
     from wnn.training.sequence_monitor_identity import membership_sha256  # noqa: PLC0415
-    from wnn.training.sequence_predict import load_endpoint  # noqa: PLC0415
     from wnn.training.sequence_precision import configure_precision_mode  # noqa: PLC0415
+    from wnn.training.sequence_predict import load_endpoint  # noqa: PLC0415
 
     return (
         PRIMARY_SCORED_ROW_COUNT,
@@ -124,7 +126,18 @@ def _verify_splits(request: Mapping[str, object], load_campaign_split: object):
     data_root = Path(str(request["data_root"]))
     primary_path = Path(str(request["primary_split"]["path"]))
     auxiliary_path = Path(str(request["auxiliary_split"]["path"]))
-    os.environ["WNN_PORTABLE_DATA_MANIFEST"] = str(request["portable_data_registry"]["path"])
+    registry = _regular(
+        Path(str(request["portable_data_registry"]["path"])), "portable data registry"
+    )
+    if _sha256(registry) != request["portable_data_registry"].get("sha256"):
+        raise ValueError("portable data registry changed after Stage4 ancestry validation")
+    if _sha256(_regular(primary_path, "primary split manifest")) != request["primary_split"].get(
+        "sha256"
+    ) or _sha256(_regular(auxiliary_path, "auxiliary split manifest")) != request[
+        "auxiliary_split"
+    ].get("sha256"):
+        raise ValueError("split manifest bytes changed after Stage4 ancestry validation")
+    os.environ["WNN_PORTABLE_DATA_MANIFEST"] = str(registry)
     primary = load_campaign_split(primary_path, data_root)
     auxiliary = load_campaign_split(auxiliary_path, data_root)
     if (
@@ -138,6 +151,17 @@ def _verify_splits(request: Mapping[str, object], load_campaign_split: object):
     ):
         raise ValueError("Source6 worker split membership differs from the frozen protocol")
     return primary, auxiliary
+
+
+def _verify_candidate_artifact_hashes(candidate: Mapping[str, object]) -> None:
+    for key, path_key, limit in (
+        ("trial_result_sha256", "trial_result_path", 64_000_000),
+        ("trial_request_sha256", "trial_request_path", 16_000_000),
+        ("config_sha256", "config_path", 16_000_000),
+    ):
+        path = _regular(Path(str(candidate[path_key])), path_key, limit)
+        if _sha256(path) != candidate.get(key):
+            raise ValueError(f"candidate {path_key} changed after validation")
 
 
 def score_member(args: argparse.Namespace) -> dict[str, object]:
@@ -169,12 +193,12 @@ def score_member(args: argparse.Namespace) -> dict[str, object]:
     candidate = candidates[args.member_index]
     if not isinstance(candidate, Mapping) or candidate.get("gpu_uuid") != args.gpu_uuid:
         raise ValueError("worker candidate/GPU binding differs from the parent request")
-    checkpoint = _regular(Path(str(candidate["checkpoint_path"])), "fixed-final checkpoint", 256 * 1024 * 1024)
+    checkpoint = _regular(
+        Path(str(candidate["checkpoint_path"])), "fixed-final checkpoint", 256 * 1024 * 1024
+    )
     if _sha256(checkpoint) != candidate.get("checkpoint_sha256"):
         raise ValueError("fixed-final checkpoint changed after Stage4 ancestry validation")
-    for key, path_key in (("trial_result_sha256", "trial_result_path"), ("trial_request_sha256", "trial_request_path"), ("config_sha256", "config_path")):
-        if _sha256(_regular(Path(str(candidate[path_key])), path_key)) != candidate.get(key):
-            raise ValueError(f"candidate {path_key} changed after validation")
+    _verify_candidate_artifact_hashes(candidate)
     config = load_config(Path(str(candidate["config_path"])))
     configure_precision_mode("fp32")
     import torch
@@ -188,8 +212,11 @@ def score_member(args: argparse.Namespace) -> dict[str, object]:
     if "B300" not in device_name.upper():
         raise ValueError(f"assigned primary scorer device is not a B300: {device_name}")
     model, payload = load_endpoint(checkpoint, device)
-    identity = payload.get("provenance", {}).get("identity")
+    provenance = payload.get("provenance")
+    identity = provenance.get("identity") if isinstance(provenance, Mapping) else None
     data = payload.get("data")
+    expected_fit = [["train", group] for group in auxiliary.train_groups]
+    expected_control = [["train", group] for group in auxiliary.evaluation_groups]
     if (
         not isinstance(identity, Mapping)
         or not isinstance(data, Mapping)
@@ -200,20 +227,31 @@ def score_member(args: argparse.Namespace) -> dict[str, object]:
         or payload.get("checkpoint_schema") != "wnn.sequence-fit.v1"
         or data.get("split_sha256") != auxiliary.sha256
         or data.get("primary_split_sha256") != primary.sha256
-        or len(data.get("fit_members", [])) != len(auxiliary.train_groups)
-        or any(member[0] != "train" for member in data.get("fit_members", []))
+        or data.get("fit_members") != expected_fit
+        or data.get("evaluation_members") != expected_control
+        or data.get("evaluation_source") != "train"
+        or data.get("evaluation_role") != "control"
+        or data.get("evaluation_mask") != "all_after_warmup"
     ):
         raise ValueError("Source6-loaded model identity differs from its validated candidate")
     members = [("valid", group) for group in primary.evaluation_groups]
     dataset = sequence_records(
-        Path(str(request["data_root"])), members, 0, training_mask="is_scored",
+        Path(str(request["data_root"])),
+        members,
+        0,
+        training_mask="is_scored",
         input_feature_mode=config["model"].get("input_feature_mode", "raw112"),
     )
     dataset.validate_source_schema()
     output_path = _regular_parent_path(Path(str(candidate["predictions_path"])))
     receipt_path = _regular_parent_path(Path(str(candidate["receipt_path"])))
     temporary = output_path.with_name(output_path.name + ".partial")
-    if output_path.exists() or output_path.is_symlink() or temporary.exists() or temporary.is_symlink():
+    if (
+        output_path.exists()
+        or output_path.is_symlink()
+        or temporary.exists()
+        or temporary.is_symlink()
+    ):
         raise FileExistsError("candidate prediction output must be fresh")
     metrics, prediction_receipt = score_primary_valid(
         model, dataset, int(config["chunk_rows"]), 64, device, temporary
@@ -229,17 +267,30 @@ def score_member(args: argparse.Namespace) -> dict[str, object]:
         "gpu_uuid": args.gpu_uuid,
         "device_name": device_name,
         "checkpoint_sha256": candidate["checkpoint_sha256"],
+        "trial_result_sha256": candidate["trial_result_sha256"],
+        "trial_request_sha256": candidate["trial_request_sha256"],
         "config_sha256": candidate["config_sha256"],
+        "config_identity_sha256": candidate["config_identity_sha256"],
+        "prediction_manifest_sha256": candidate["prediction_manifest_sha256"],
+        "inner_objective_sha256": candidate["inner_objective_sha256"],
         "source_sha256": candidate["training_source_sha256"],
         "producer_identity_sha256": candidate["producer_identity_sha256"],
         "primary_split_sha256": primary.sha256,
         "auxiliary_split_sha256": auxiliary.sha256,
         "metrics": metrics,
         "predictions": {
-            "path": str(output_path.resolve()), "sha256": _sha256(output_path),
-            "dtype": "float32", "shape": [PRIMARY_ROWS, 2], **prediction_receipt,
+            "path": str(output_path.resolve()),
+            "sha256": _sha256(output_path),
+            "dtype": "float32",
+            "shape": [PRIMARY_ROWS, 2],
+            **prediction_receipt,
         },
-        "scorer": {"source6_sha256": SOURCE6_SHA256, "score_script_sha256": SCORE_SCRIPT_SHA256, "batch_size": 64, "device": "cuda"},
+        "scorer": {
+            "source6_sha256": SOURCE6_SHA256,
+            "score_script_sha256": SCORE_SCRIPT_SHA256,
+            "batch_size": 64,
+            "device": "cuda",
+        },
     }
     _write_new(receipt_path, result)
     result["receipt_sha256"] = _sha256(receipt_path)

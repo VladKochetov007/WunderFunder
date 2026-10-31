@@ -5,6 +5,8 @@ from collections.abc import Mapping
 from pathlib import Path
 
 from wnn.multistage_search import canonical_json_sha256, file_sha256, read_json
+from wnn.multistage_search_sources import training_source_for_stage
+from wnn.training.sequence_provenance import source_identity
 
 
 def validate_fit_exit(
@@ -25,10 +27,24 @@ def validate_fit_exit(
     launch = read_json(launch_path)
     approval_path = trial_dir / "profile" / "approval_record.json"
     config_path = Path(str(request["config_path"])).resolve(strict=True)
+    source_root, source_revision, expected_source_sha, expected_files_sha = (
+        training_source_for_stage(read_json(run_dir / "run.json"), stage)
+    )
+    source = source_identity(source_root, source_root / "scripts" / "train_sequence.py")
+    launch_source_root = Path(str(launch["source_root"])).resolve(strict=True)
+    if (
+        launch_source_root != source_root
+        or request.get("source_revision") != source_revision
+        or request.get("source_sha256") != expected_source_sha
+        or source.get("sha256") != expected_source_sha
+        or request.get("source_files_sha256") != expected_files_sha
+        or canonical_json_sha256(source.get("files")) != expected_files_sha
+    ):
+        raise ValueError("fit launch source differs from the frozen stage source identity")
     params = request.get("params")
     kd_weight = params.get("kd_weight", 0.0) if isinstance(params, Mapping) else 0.0
     expected_command = [
-        str(Path(str(request["training_source_root"])).resolve() / "scripts" / "train_sequence.py"),
+        str(source_root / "scripts" / "train_sequence.py"),
         "--config",
         str(config_path),
         "--data-root",
@@ -46,7 +62,6 @@ def validate_fit_exit(
         expected_command.extend(["--teacher-cache", str(request["teacher_cache_path"])])
     command = receipt.get("command")
     child_environment = launch.get("child_environment")
-    source_root = Path(str(request["training_source_root"])).resolve(strict=True)
     selectors = request.get("requested_device_set")
     expected_environment = {
         "PYTHONPATH": f"{source_root / 'src'}{os.pathsep}{run_dir.parent / 'python-deps'}",
@@ -79,7 +94,7 @@ def validate_fit_exit(
         or receipt.get("schema") != "wnn.multistage-owned-process.v1"
         or receipt.get("stage") != stage
         or receipt.get("trial_number") != trial_number
-        or receipt.get("mode") != "fit"
+        or receipt.get("mode") not in {"fit", f"stage{stage}_fit"}
         or receipt.get("status") != "completed"
         or receipt.get("exit_code") != 0
         or receipt.get("timed_out") is not False
@@ -94,6 +109,10 @@ def validate_fit_exit(
     rows = [
         row for row in attempts if isinstance(row, Mapping) and row.get("attempt_id") == attempt_id
     ]
-    if len(rows) != 1 or rows[0].get("status") != "complete" or rows[0].get("exit_code") != 0:
+    if (
+        len(rows) != 1
+        or rows[0].get("status") not in {"complete", "completed"}
+        or rows[0].get("exit_code") != 0
+    ):
         raise ValueError("successor fit budget ledger does not attest one successful attempt")
     return {"path": str(receipt_path.resolve()), "sha256": file_sha256(receipt_path)}

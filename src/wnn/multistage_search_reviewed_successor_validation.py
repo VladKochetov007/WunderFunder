@@ -5,7 +5,7 @@ from collections.abc import Mapping
 from pathlib import Path
 
 from wnn.multistage_search import file_sha256, read_json
-from wnn.multistage_search_runtime import is_same_process
+from wnn.multistage_search_runtime import current_process_owner, is_same_process
 from wnn.multistage_search_successor_approval import approve_successor_profile
 from wnn.multistage_search_successor_parent import parent_identity_sha, qualified_parent
 from wnn.training.sequence_config import load_config
@@ -15,16 +15,27 @@ STAGE3_BASE_SHA = "31424878cc230cb2b5ca3b46f25b305495a83b6975f8814927cebcff7b0e7
 
 
 def ensure_gpu_slot_released(run_dir: Path, gpu_key: str) -> None:
-    """Reject launch while an exact owned worker/profile process still uses this GPU."""
+    """Reject launch while a distinct owned GPU worker still occupies this slot."""
     paths = set((run_dir / "workers").glob("*.json"))
     paths.update((run_dir / "workers").glob("*.launch_receipt.json"))
     paths.update(run_dir.glob("stage*/trials/*/profile/worker_receipt.json"))
     paths.update((run_dir.parent / "receipts").glob("*.json"))
+    current = current_process_owner()
     for path in paths:
         record = json.loads(path.read_text(encoding="utf-8"))
         if not isinstance(record, Mapping) or str(record.get("gpu_key")) != gpu_key:
             continue
-        candidates = (record, record.get("owner"), record.get("child"))
+        if record.get("schema") == "wnn.multistage-owned-process.v1":
+            child = record.get("child")
+            if not isinstance(child, Mapping):
+                raise ValueError(f"owned GPU process receipt has no child identity: {path}")
+            if isinstance(child, Mapping) and all(
+                child.get(key) == current.get(key) for key in ("pid", "birth", "pgid")
+            ):
+                continue
+            candidates = (child,)
+        else:
+            candidates = (record, record.get("owner"), record.get("child"))
         if any(isinstance(owner, Mapping) and _is_live_process(owner) for owner in candidates):
             raise RuntimeError(f"owned process still occupies GPU key {gpu_key}: {path}")
 

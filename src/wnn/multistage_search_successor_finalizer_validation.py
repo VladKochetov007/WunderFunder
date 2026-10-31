@@ -107,6 +107,9 @@ def validate_successor_fit(
         or payload.get("data") != data
         or not isinstance(provenance, Mapping)
         or provenance.get("identity") != identity
+        or provenance.get("fixed_checkpoint_policy") != "configured-final-epoch"
+        or provenance.get("completed_epochs") != config.get("epochs")
+        or provenance.get("requested_epochs") != config.get("epochs")
         or not isinstance(profile_ref, Mapping)
         or profile_ref.get("sha256") != approved_sha
         or payload.get("completed_epochs") != config.get("epochs")
@@ -127,13 +130,72 @@ def validate_successor_fit(
     if not isinstance(index_sha, str):
         raise ValueError("successor fixed-final checkpoint lacks its native epoch index")
     validate_index(index, index_sha)
+    entries = index.get("entries")
+    if not isinstance(entries, list) or not entries:
+        raise ValueError("successor native epoch index contains no retained checkpoints")
+    last_epoch_payload: Mapping[str, object] | None = None
+    for entry in entries:
+        if not isinstance(entry, Mapping):
+            raise ValueError("successor native epoch index entry is malformed")
+        relative = Path(str(entry["checkpoint_path"]))
+        epoch_checkpoint = fit_dir / relative
+        if epoch_checkpoint.is_symlink() or not epoch_checkpoint.is_file():
+            raise FileNotFoundError("successor indexed epoch checkpoint is missing or unsafe")
+        if not epoch_checkpoint.resolve(strict=True).is_relative_to(fit_dir.resolve()):
+            raise ValueError("successor indexed epoch checkpoint escapes its fit directory")
+        if file_sha256(epoch_checkpoint) != entry.get("checkpoint_sha256"):
+            raise ValueError(
+                "successor indexed epoch checkpoint bytes differ from the native index"
+            )
+        epoch_payload = torch.load(epoch_checkpoint, map_location="cpu", weights_only=True)
+        if not isinstance(epoch_payload, Mapping):
+            raise ValueError("successor indexed epoch checkpoint payload is malformed")
+        epoch_provenance = epoch_payload.get("provenance")
+        if (
+            epoch_payload.get("checkpoint_schema") != "wnn.sequence-epoch.v1"
+            or epoch_payload.get("identity") != identity
+            or epoch_payload.get("config") != dict(config)
+            or epoch_payload.get("data") != data
+            or epoch_payload.get("epoch") != entry.get("epoch")
+            or epoch_payload.get("completed_epochs") != entry.get("completed_epochs")
+            or epoch_payload.get("global_step") != entry.get("global_step")
+            or not isinstance(epoch_provenance, Mapping)
+            or epoch_provenance.get("identity") != identity
+            or epoch_provenance.get("normalization") != provenance.get("normalization")
+            or epoch_provenance.get("completed_epochs") != entry.get("completed_epochs")
+            or epoch_provenance.get("global_updates") != entry.get("global_step")
+            or not isinstance(epoch_provenance.get("profile_receipt"), Mapping)
+            or epoch_provenance["profile_receipt"].get("sha256") != approved_sha
+        ):
+            raise ValueError(
+                "successor indexed epoch payload differs from its exact native boundary"
+            )
+        last_epoch_payload = epoch_payload
+    final_model, epoch_model = payload.get("model"), last_epoch_payload.get("model")
+    if (
+        not isinstance(final_model, Mapping)
+        or not isinstance(epoch_model, Mapping)
+        or set(final_model) != set(epoch_model)
+        or any(
+            not isinstance(final_model[name], torch.Tensor)
+            or not isinstance(epoch_model[name], torch.Tensor)
+            or final_model[name].dtype != epoch_model[name].dtype
+            or final_model[name].shape != epoch_model[name].shape
+            or not torch.equal(final_model[name], epoch_model[name])
+            for name in final_model
+        )
+    ):
+        raise ValueError("configured-final model weights differ from the last indexed epoch state")
     if (
         index.get("identity") != identity
         or index.get("completed_epochs") != config.get("epochs")
         or index.get("global_step") != provenance.get("global_updates")
+        or provenance.get("epoch_index_sha256") != index_sha
         or terminal.get("global_updates") != provenance.get("global_updates")
         or terminal.get("epoch_index_sha256") != index_sha
-        or index["entries"][-1].get("checkpoint_sha256") != fit_model_sha
+        or entries[-1].get("epoch") != payload.get("epoch")
+        or entries[-1].get("completed_epochs") != payload.get("completed_epochs")
+        or entries[-1].get("global_step") != provenance.get("global_updates")
     ):
         raise ValueError("successor native terminal/index misses the configured final boundary")
     for name in ("monitor_events.jsonl", "monitor_evaluations.jsonl", "metrics.jsonl"):

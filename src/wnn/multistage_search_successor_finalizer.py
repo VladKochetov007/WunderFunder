@@ -120,7 +120,10 @@ def _finalize_locked(
     )
     source = source_identity(source_root, source_root / "scripts" / "train_sequence.py")
     if (
-        str(Path(str(request["training_source_root"])).resolve(strict=True)) != str(source_root)
+        (
+            request.get("training_source_root") is not None
+            and Path(str(request["training_source_root"])).resolve(strict=True) != source_root
+        )
         or request.get("source_revision") != _source_revision
         or source.get("sha256") != request.get("source_sha256")
         or source.get("sha256") != expected_source_sha

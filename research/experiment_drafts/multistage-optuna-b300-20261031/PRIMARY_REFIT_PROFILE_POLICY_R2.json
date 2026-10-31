@@ -1,0 +1,128 @@
+{
+  "schema": "wnn.primary-refit-profile-policy.v1",
+  "policy_id": "E-MULTISTAGE-OPTUNA-B300-20261031-PRIMARY-REFIT-PROFILE-R2",
+  "status": "frozen",
+  "identity": {
+    "stage": 4,
+    "source_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "primary_fit_train_sequences": 10325,
+    "primary_fit_valid_sequences": 0,
+    "primary_eval_valid_sequences": 1873,
+    "auxiliary_selection_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075",
+    "objective_scope": "inner_train_proxy",
+    "primary_valid_used_for_selection_or_profile_admission": false
+  },
+  "profile": {
+    "updates": 50,
+    "max_wall_seconds": 180,
+    "world_size": 1,
+    "precision_mode": "fp32",
+    "tf32": false,
+    "autocast": false,
+    "bf16x9": false,
+    "max_allocated_bytes": 68719476736,
+    "max_reserved_bytes": 68719476736,
+    "min_nvml_free_bytes": 34359738368,
+    "max_host_rss_bytes": 25769803776,
+    "cpu_threads": 4,
+    "effective_thread_environment": {
+      "OMP_NUM_THREADS": "4",
+      "MKL_NUM_THREADS": "4",
+      "OPENBLAS_NUM_THREADS": "4"
+    },
+    "require_finite_rank0_loss_gradient_and_lr_each_update": true,
+    "allowed_nonfinite_updates": 0,
+    "native_approved_must_be_false": true,
+    "native_errors_must_be_empty": true,
+    "no_primary_evaluation_during_profile": true,
+    "no_scientific_checkpoint": true
+  },
+  "normalization": {
+    "scope": "prefix",
+    "fit_prefix_sequences": 32,
+    "only_source": "datasets/train.parquet",
+    "fit_members_only": true
+  },
+  "device_identity": {
+    "inventory_schema": "wnn.b300-device-inventory.v1",
+    "inventory_sha256": "91730d3a5f0e55f2e16d14f80ca9e9d224b8014d53ef134a3d6f861f4ae249cd",
+    "model_substring": "B300",
+    "uuid_syntax": "strict 8-4-4-4-12 hexadecimal, optional GPU- prefix",
+    "uuid_comparison": "case-fold and strip only the optional GPU- prefix",
+    "memory_identity": {
+      "nvml_total_memory_bytes": 288400343040,
+      "torch_total_memory_bytes": 287428640768,
+      "same_uuid_required": true,
+      "cross_api_total_equality_required": false
+    }
+  },
+  "portable_data_registry": {
+    "sha256": "dc0cb4d1957b354509ae46f88b6bdf3708b44adc8ef6f375d2ad430f4a9a07a1"
+  },
+  "campaign_bounds": {
+    "max_fit_attempts": 48,
+    "max_profile_attempts": 56,
+    "stage4_fit_cap_initial_wave": 4,
+    "stage4_profile_cap_initial_wave": 4,
+    "campaign_wall_seconds": 21600,
+    "collection_reserve_seconds": 1200,
+    "reserve_start_epoch": 1793424069.6589406,
+    "hard_deadline_epoch": 1793425269.6589406,
+    "reserve_start_utc": "2026-10-31T05:21:09.6589406Z",
+    "hard_deadline_utc": "2026-10-31T05:41:09.6589406Z",
+    "deadline_receipt_sha256": "eb7cd396e2c5d8fb4bf0c5f9ae9cac483dba614dc0c7a45a3bc61d0edcaf0fab"
+  },
+  "receipt_contract": {
+    "worker_schema": "wnn.primary-refit-profile-worker.v1",
+    "attempt_schema": "wnn.primary-refit-profile-attempt.v1",
+    "review_schema": "wnn.primary-refit-profile-engineering-review.v1",
+    "review_status": "engineering_checks_passed",
+    "engineering_only": true,
+    "profile_approval": false,
+    "scientific_candidate_promotion": false,
+    "worker_required_fields": [
+      "fit_id",
+      "request_sha256",
+      "command",
+      "command_sha256",
+      "source_root",
+      "owner_process",
+      "child_process",
+      "child_environment",
+      "device",
+      "started_at_epoch",
+      "finished_at_epoch",
+      "status",
+      "exit_code"
+    ],
+    "attempt_required_fields": [
+      "fit_id",
+      "request_sha256",
+      "profile_path",
+      "profile_sha256",
+      "worker_receipt_path",
+      "worker_receipt_sha256",
+      "budget_snapshot_path",
+      "budget_snapshot_sha256",
+      "deadline_receipt_path",
+      "deadline_receipt_sha256",
+      "device_inventory_path",
+      "device_inventory_sha256",
+      "rank0_log_path",
+      "rank0_log_sha256",
+      "owner_process",
+      "child_process",
+      "nvml_pre_profile",
+      "profile_attempt_count_at_completion",
+      "fit_attempt_count_at_completion",
+      "actual_wall_seconds",
+      "started_at_epoch",
+      "finished_at_epoch",
+      "status",
+      "exit_code"
+    ]
+  },
+  "reviewer_script_sha256": "6e8fa528d96392d46581972447573242a8d987e9639fbfce8099f86bdf958910",
+  "reviewer_support_sha256": "c33bfca9c0b84c6958c4df9e3514d6a04f15e7838c904363146a5d324cb7b656"
+}
