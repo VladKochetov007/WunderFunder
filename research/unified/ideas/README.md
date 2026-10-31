@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[Causal teacher–student hypothesis portfolio, 1 November](../../experiment_drafts/causal-teacher-student-hypotheses-20261101/README.md) — eight proposed temporal-KD, teacher-disagreement, shared-state heads, causal teacher gating, multiscale Transformer, parallel-state teacher, scale-invariant representation and regime-robustness screens. The packet includes matched control concepts, teacher/OOF cost and serving/leakage boundaries; it is a **proposal**, not executable training or a new result. It cross-links PR47/48/50/52/53 and keeps scientific fits unstarted.
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**
