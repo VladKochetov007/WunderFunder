@@ -84,10 +84,34 @@ if tuple(item.get("role") for item in _manifest.get("members", ())) != ROLES:
     raise ValueError("final predictor members must be ordered W18, tiedlead s5, tiedlead s6, LSTM")
 if tuple(item.get("input_width") for item in _manifest["members"]) != WIDTHS:
     raise ValueError("final predictor member input schemas differ from the fixed contract")
-if _manifest.get("blend") != BLEND:
-    raise ValueError("final predictor blend tree differs from its fixed nested contract")
-if _manifest.get("precision") != "f32":
-    raise ValueError("final predictor package must preserve fp32 member weights")
+if _manifest.get("candidate_blend") != BLEND:
+    raise ValueError("final predictor candidate blend differs from its fixed source recipe")
+if _manifest.get("precision") not in ("f32", "q8vnni"):
+    raise ValueError("final predictor package has an unsupported serving precision")
+_serving_policy = _manifest.get("serving_policy")
+_fast_activations = _manifest.get("fast_activations")
+_active_member_indices = _manifest.get("active_member_indices")
+if _serving_policy not in ("full_mix", "w18_only") or type(_fast_activations) is not bool:
+    raise ValueError("final predictor package lacks explicit serving policy metadata")
+if _active_member_indices != ([0] if _serving_policy == "w18_only" else [0, 1, 2, 3]):
+    raise ValueError("final predictor active member metadata differs from its serving policy")
+if _serving_policy == "w18_only":
+    expected_callback_output = {
+        "schema": "wnn.single-member-output.v1",
+        "role": "w18",
+        "weight": 1.0,
+        "clip": "official-global-clip-after-callback",
+    }
+    if _manifest.get("precision") != "q8vnni" or not _fast_activations:
+        raise ValueError("w18_only callback requires q8vnni precision and fast activations")
+    if _manifest.get("blend") is not None:
+        raise ValueError("w18_only callback cannot claim the full candidate blend was applied")
+else:
+    expected_callback_output = {"schema": "wnn.nested-fp64-fp32.v1", "blend": BLEND}
+    if _manifest.get("blend") != BLEND:
+        raise ValueError("full_mix callback blend differs from its fixed nested contract")
+if _manifest.get("callback_output") != expected_callback_output:
+    raise ValueError("final predictor callback output metadata differs from its serving policy")
 if (
     _manifest.get("independent_evaluation_sequences") != 0
     or _manifest.get("independent_score_claim") != "forbidden"
@@ -184,7 +208,18 @@ class PredictionModel:
         weights = [
             _load_member(item["weights"], item["weights_sha256"]) for item in _manifest["members"]
         ]
-        self.model = wnn_native.FinalTl3Predictor(weights)
+        self.model = wnn_native.FinalTl3Predictor(
+            weights,
+            precision=_manifest["precision"],
+            fast_activations=_fast_activations,
+            serving_policy=_serving_policy,
+        )
         if tuple(self.model.member_widths) != WIDTHS:
             raise ValueError("native final predictor loaded unexpected member widths")
+        if tuple(self.model.active_member_indices) != tuple(_active_member_indices):
+            raise ValueError("native final predictor activated unexpected member roles")
+        if self.model.serving_policy != _serving_policy:
+            raise ValueError("native final predictor serving policy differs from the package")
+        if self.model.fast_activations != _fast_activations:
+            raise ValueError("native final predictor activation mode differs from the package")
         self.predict: Callable[[object], np.ndarray | None] = self.model.predict

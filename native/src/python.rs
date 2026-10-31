@@ -1861,6 +1861,7 @@ struct PyFinalTl3Predictor {
     sequence: Option<i64>,
     next_step: usize,
     fast_activations: bool,
+    w18_only: bool,
 }
 
 fn final_tl3_blend(members: &[[f32; 2]; 4]) -> [f32; 2] {
@@ -1908,6 +1909,18 @@ impl PyFinalTl3Predictor {
         crate::vnni::prof::select_member(Some(0));
         self.models[0].step(&self.w18_input, &mut self.member_outputs[0]);
         crate::vnni::prof::select_member(None);
+        if self.w18_only {
+            if self.member_outputs[0]
+                .iter()
+                .any(|value| !value.is_finite())
+            {
+                return Err(PyValueError::new_err(
+                    "final predictor produced a non-finite W18 score",
+                ));
+            }
+            self.next_step += 1;
+            return Ok(());
+        }
         let tied_s5_result = (|| -> PyResult<()> {
             crate::vnni::prof::select_member(Some(1));
             let mut tied_clock = crate::vnni::prof::tick();
@@ -2005,13 +2018,14 @@ impl PyFinalTl3Predictor {
 #[pymethods]
 impl PyFinalTl3Predictor {
     #[new]
-    #[pyo3(signature = (weights, precision="f32", q8_codes=None, fast_activations=false))]
+    #[pyo3(signature = (weights, precision="f32", q8_codes=None, fast_activations=false, serving_policy="full_mix"))]
     fn new(
         py: Python<'_>,
         weights: Vec<HashMap<String, PyReadonlyArrayDyn<'_, f32>>>,
         precision: &str,
         q8_codes: Option<Vec<Q8Codes>>,
         fast_activations: bool,
+        serving_policy: &str,
     ) -> PyResult<Self> {
         if weights.len() != 4 {
             return Err(PyValueError::new_err(
@@ -2051,6 +2065,15 @@ impl PyFinalTl3Predictor {
                 "final predictor q8_codes require dynamic q8vnni precision",
             ));
         }
+        let w18_only = match serving_policy {
+            "full_mix" => false,
+            "w18_only" => true,
+            _ => {
+                return Err(PyValueError::new_err(
+                    "final predictor serving_policy must be 'full_mix' or 'w18_only'",
+                ));
+            }
+        };
         let mut q8_codes = q8_codes.map(Vec::into_iter);
         let mut models = Vec::with_capacity(4);
         let mut tied = Vec::with_capacity(2);
@@ -2126,6 +2149,7 @@ impl PyFinalTl3Predictor {
             sequence: None,
             next_step: 0,
             fast_activations,
+            w18_only,
         })
     }
 
@@ -2144,7 +2168,11 @@ impl PyFinalTl3Predictor {
         if !self.process_data_point(py, data_point)? {
             return Ok(None);
         }
-        let result = final_tl3_blend(&self.member_outputs);
+        let result = if self.w18_only {
+            self.member_outputs[0]
+        } else {
+            final_tl3_blend(&self.member_outputs)
+        };
         Ok(Some(PyArray1::from_slice(py, &result)))
     }
 
@@ -2200,6 +2228,25 @@ impl PyFinalTl3Predictor {
     #[getter]
     fn fast_activations(&self) -> bool {
         self.fast_activations
+    }
+
+    #[getter]
+    fn serving_policy(&self) -> &'static str {
+        if self.w18_only {
+            "w18_only"
+        } else {
+            "full_mix"
+        }
+    }
+
+    /// Roles that actually run for every input row, in fixed receipt order.
+    #[getter]
+    fn active_member_indices(&self) -> Vec<usize> {
+        if self.w18_only {
+            vec![0]
+        } else {
+            vec![0, 1, 2, 3]
+        }
     }
 
     fn quantization_codes(&self, py: Python<'_>) -> PyResult<Vec<Q8Codes>> {

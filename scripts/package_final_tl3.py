@@ -72,6 +72,20 @@ BLEND = {
     "outer_cast": "float32",
     "clip": "official-global-clip-after-callback",
 }
+SERVING_POLICIES = ("full_mix", "w18_only")
+PRECISIONS = ("f32", "q8vnni")
+
+
+def validate_serving_options(policy: str, precision: str, fast_activations: bool) -> None:
+    """Fail closed on unsupported callback modes and their precision requirements."""
+    if policy not in SERVING_POLICIES:
+        raise ValueError(f"serving policy must be one of {SERVING_POLICIES}")
+    if precision not in PRECISIONS:
+        raise ValueError(f"precision must be one of {PRECISIONS}")
+    if type(fast_activations) is not bool:
+        raise ValueError("fast_activations must be a boolean")
+    if policy == "w18_only" and (precision != "q8vnni" or not fast_activations):
+        raise ValueError("w18_only serving requires precision=q8vnni and fast_activations=true")
 
 
 def sha256_file(path: Path) -> str:
@@ -670,6 +684,7 @@ def _load_member(
 
 
 def _write_package(args: argparse.Namespace) -> dict[str, object]:
+    validate_serving_options(args.serving_policy, args.precision, args.fast_activations)
     output = args.output_zip.resolve()
     receipt_path = (args.receipt or output.with_name(f"{output.stem}_build_receipt.json")).resolve()
     if receipt_path == output:
@@ -696,7 +711,7 @@ def _write_package(args: argparse.Namespace) -> dict[str, object]:
         package = stage / "pkg"
         package.mkdir()
         shutil.copyfile(ROOT / "submission" / "solution_final_tl3.py", package / "solution.py")
-        (package / "precision.txt").write_text("f32\n", encoding="utf-8")
+        (package / "precision.txt").write_text(f"{args.precision}\n", encoding="utf-8")
         member_records = [
             _load_member(path, role, package, final_receipt)
             for role, path in zip(
@@ -706,8 +721,22 @@ def _write_package(args: argparse.Namespace) -> dict[str, object]:
         final_mode = final_receipt is not None
         members_manifest = {
             "schema": "wnn.final-tl3-lstm-members.v1",
-            "precision": "f32",
-            "blend": BLEND,
+            "precision": args.precision,
+            "fast_activations": args.fast_activations,
+            "serving_policy": args.serving_policy,
+            "active_member_indices": [0] if args.serving_policy == "w18_only" else [0, 1, 2, 3],
+            "candidate_blend": BLEND,
+            "blend": BLEND if args.serving_policy == "full_mix" else None,
+            "callback_output": (
+                {
+                    "schema": "wnn.single-member-output.v1",
+                    "role": "w18",
+                    "weight": 1.0,
+                    "clip": "official-global-clip-after-callback",
+                }
+                if args.serving_policy == "w18_only"
+                else {"schema": "wnn.nested-fp64-fp32.v1", "blend": BLEND}
+            ),
             "candidate_scope": (
                 "approved_full_corpus_final_model_set"
                 if final_mode
@@ -786,7 +815,12 @@ def _write_package(args: argparse.Namespace) -> dict[str, object]:
             "native_libraries": native_hashes,
             "solution_sha256": sha256_file(ROOT / "submission" / "solution_final_tl3.py"),
             "packager_sha256": sha256_file(Path(__file__).resolve()),
-            "fixed_blend": BLEND,
+            "candidate_blend": BLEND,
+            "applied_blend": BLEND if args.serving_policy == "full_mix" else None,
+            "serving_policy": args.serving_policy,
+            "active_member_indices": members_manifest["active_member_indices"],
+            "precision": args.precision,
+            "fast_activations": args.fast_activations,
             "candidate_scope": members_manifest["candidate_scope"],
             "training_and_selection_scope": members_manifest["training_and_selection_scope"],
             "final_model_receipt": members_manifest.get("final_model_receipt"),
@@ -811,6 +845,9 @@ def main() -> None:
     parser.add_argument("--receipt", type=Path)
     parser.add_argument("--final-model-receipt", type=Path)
     parser.add_argument("--final-model-receipt-sha256")
+    parser.add_argument("--serving-policy", choices=SERVING_POLICIES, default="full_mix")
+    parser.add_argument("--precision", choices=PRECISIONS, default="f32")
+    parser.add_argument("--fast-activations", action="store_true")
     parser.add_argument("--max-zip-bytes", type=int, default=MAX_ZIP_BYTES)
     args = parser.parse_args()
     if not 0 < args.max_zip_bytes <= MAX_ZIP_BYTES:

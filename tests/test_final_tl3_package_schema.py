@@ -19,6 +19,7 @@ from scripts.package_final_tl3 import (
     canonical_sha256,
     load_final_model_receipt,
     validate_final_model_receipt,
+    validate_serving_options,
     validate_tensor_layout,
 )
 from wnn.final_submit_manifest import FinalFitMembership
@@ -26,6 +27,18 @@ from wnn.training.final_submit_bridge import SOURCE_VALIDATION_SHA256, final_fit
 
 TRAIN_GROUPS = 10_607
 VALID_GROUPS = 1_873
+
+
+def test_serving_policy_precision_requirements_are_explicit() -> None:
+    validate_serving_options("full_mix", "f32", False)
+    validate_serving_options("full_mix", "q8vnni", True)
+    validate_serving_options("w18_only", "q8vnni", True)
+    with pytest.raises(ValueError, match="q8vnni and fast_activations"):
+        validate_serving_options("w18_only", "f32", True)
+    with pytest.raises(ValueError, match="q8vnni and fast_activations"):
+        validate_serving_options("w18_only", "q8vnni", False)
+    with pytest.raises(ValueError, match="serving policy"):
+        validate_serving_options("silent_fallback", "q8vnni", True)
 
 
 def _receipt() -> dict[str, object]:

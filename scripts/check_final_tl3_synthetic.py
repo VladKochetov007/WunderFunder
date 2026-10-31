@@ -256,6 +256,53 @@ def run(args: argparse.Namespace) -> dict[str, object]:
     if not np.array_equal(native_blend, _blend_reference(probe)):
         raise AssertionError("native nested blend differs from its explicit FP64/FP32 reference")
 
+    # The opt-in serving fallback must run only W18 and return exactly its raw member score.
+    full_q8 = wnn_native.FinalTl3Predictor(
+        native_weights, precision="q8vnni", fast_activations=True
+    )
+    w18_only = wnn_native.FinalTl3Predictor(
+        native_weights,
+        precision="q8vnni",
+        fast_activations=True,
+        serving_policy="w18_only",
+    )
+    if tuple(w18_only.active_member_indices) != (0,) or w18_only.serving_policy != "w18_only":
+        raise AssertionError("W18-only policy does not report its active member truthfully")
+    if not all(name.startswith("q8vnni") for name in w18_only.effective_precisions):
+        raise AssertionError("W18-only policy did not preserve requested Q8 precision")
+    full_q8_rows: list[np.ndarray] = []
+    w18_replays: list[np.ndarray] = []
+    for sequence_id, sequence in (
+        (501, sequences[0]),
+        (502, sequences[1]),
+        (503, sequences[0]),
+    ):
+        full_rows, _ = _native_rows(full_q8, sequence_id, sequence, 0)
+        single_rows, _ = _native_rows(w18_only, sequence_id, sequence, 0)
+        full_q8_rows.append(full_rows)
+        w18_replays.append(single_rows)
+        if not np.array_equal(single_rows[:, 0, :], full_rows[:, 0, :]):
+            raise AssertionError("W18-only member output differs from full-mix member zero")
+        if np.any(single_rows[:, 1:, :] != 0):
+            raise AssertionError("W18-only step_members did not leave inactive roles empty")
+    if not np.array_equal(w18_replays[0], w18_replays[2]):
+        raise AssertionError("W18-only reset/replay did not reproduce identical outputs")
+    w18_callback = wnn_native.FinalTl3Predictor(
+        native_weights,
+        precision="q8vnni",
+        fast_activations=True,
+        serving_policy="w18_only",
+    )
+    for step, row in enumerate(sequences[0]):
+        value = w18_callback.predict(DataPoint(601, step, step >= args.warmup, row))
+        if step < args.warmup:
+            if value is not None:
+                raise AssertionError("W18-only callback emitted during warm-up")
+        elif value is None or not np.array_equal(
+            np.asarray(value, dtype=np.float32), w18_replays[0][step, 0]
+        ):
+            raise AssertionError("W18-only callback differs from the raw W18 member output")
+
     max_member_abs = np.max(np.abs(outputs[0] - reference[0]), axis=(0, 1)).tolist()
     max_member_rel = np.max(
         np.abs(outputs[0] - reference[0]) / np.maximum(np.abs(reference[0]), 1e-6), axis=(0, 1)
@@ -273,6 +320,9 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         "replay_identical": True,
         "future_prefix_invariant": True,
         "blend_bitwise_match": True,
+        "w18_only_raw_member_match": True,
+        "w18_only_reset_replay_identical": True,
+        "w18_only_active_member_indices": [0],
     }
 
 
