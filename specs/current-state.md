@@ -5,12 +5,18 @@ and six no-fit TL3 mixtures. It is separate from the completed original wave.
 Five actual50-update native Source4 profiles passed independent review; five
 fresh fixed4E fits use GPUs0/1/2/6/7 with exact A/1301 reused. NIER/MPS co-runs
 remain untouched. ROOT bound14:42:33-18:42:33UTC;7200seconds per fit.
-At15:57UTC A/1302 and both C seeds completed; B seeds are still running.
-The fixed prior-model comparison is complete:90%TL3+10%LSTM WP0.692502063
+All five fits and all five Source6 exports exited0 at fixed epoch4; all17
+comparison rows are complete. B-A is negative at both seeds; C-B is mixed.
+All six new equal-seed GRU-pool additions to TL3 are negative. The separate
+fixed prior-model comparison is complete:90%TL3+10%LSTM WP0.692502063
 versus TL30.692377425. Six mixtures were reported; no primary weight learning.
 This small observed gain is development-exposed, not a public/private forecast.
-Detached collection, numerical verification and checkpoint publication await
-the remaining fits. Dashboard adds five qh-* views at http://127.0.0.1:18777/.
+[Results](../research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/RESULTS.md)
+and five configured-final weights are published throughPR53 as SemyonEpanov.
+Root verified actual GitHub downloads/all63 internal files and score-bound model
+hashes. Delivery finished16:04:40UTC,82.1minutes after the first profile. All owned
+GPU commands exited; foreign NIER/MPS and old frozen results are preserved.
+No successor is queued. Dashboard retains five qh-* views at http://127.0.0.1:18777/.
 
 ## Historical 31 October final: 39 complete model artifacts, one partial; GPUs released
 

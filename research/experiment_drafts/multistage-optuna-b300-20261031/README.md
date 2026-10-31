@@ -1,9 +1,11 @@
 # Bounded multistage search on eight B300 GPUs
 
-**Current scoped continuation:** the user approved the
-[five-fit batch/TBPTT screen and fixed TL3 mixtures](quality-execution-r1/README.md).
-It has its own four-hour ROOT bound and does not reopen the original Optuna
-study. The completed original wave below remains unchanged.
+**Latest completed continuation:** [five-fit batch/TBPTT results and fixed TL3
+mixtures](quality-execution-r1/RESULTS.md). All5 new fits and17 comparisons are
+complete; new GRU-pool/TL3 mixtures are negative. Best prior-model fixed blend
+90%TL3+10%LSTM is0.692502063 on exposed valid. Weights/curves are published,
+owned GPU commands exited, no successor queued. The original wave below remains
+unchanged.
 
 **Completed:** [final results and operational receipt](PROGRESS_20261031_FINAL.md).
 40 scientific attempts produced39 configured-final artifacts and one partial

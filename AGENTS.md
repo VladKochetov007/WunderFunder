@@ -15,6 +15,11 @@ Official chronological primary validation, clean ancestry and exposed-valid
 interpretation remain binding. See the [execution packet](research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md).
 Earlier six-hour/48-fit authority below is historical for the completed wave.
 
+This five-fit follow-up is now complete: all five fits/score exports exited0,
+all17 comparison rows are present, five configured-final weights are published
+and verified, and all owned GPU commands exited. See [results](research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/RESULTS.md).
+Do not infer another fit or successor from this completed scope.
+
 ## Four-stage Optuna search on eight B300 — user launch,2026-10-31
 
 The user explicitly authorizes the proposed base-regressor, fine-tuning,

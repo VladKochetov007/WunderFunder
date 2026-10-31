@@ -9,6 +9,12 @@ are complete; best observed90%TL3+10%LSTM is0.692502063 versus0.692377425.
 This small exposed-valid gain is not public confirmation. The execution packet
 binds actual profiles, source/config identities and bounded final collection.
 
+The [completed17-row comparison](../experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/RESULTS.md)
+has5/5 new fixed4E fits, exact reused A/1301 and all expected composites.
+B-A is negative at both seeds; C-B is mixed. All six new GRU-pool/TL3 mixtures
+are negative. Five configured-final weights/receipts are published and verified;
+owned GPU commands exited, no successor queued, foreign NIER/MPS preserved.
+
 ## 30 October: heterogeneous teachers and12 fixed ensembles completed
 
 [Six-fit execution](../experiment_drafts/heterogeneous-tl3-20261030/README.md)

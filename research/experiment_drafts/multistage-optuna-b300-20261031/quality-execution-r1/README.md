@@ -1,5 +1,13 @@
 # Batch/TBPTT follow-up, 31 October 2026
 
+**Completed:** [all17 comparisons, paired deltas and delivery evidence](RESULTS.md).
+Five fresh four-epoch fits and all five score exports exited0. Smaller batch
+lost at both seeds; longer TBPTT was mixed. All six new GRU-pool additions to
+TL3 were negative. The separate prior-model panel's best observed mixture is
+90%TL3 +10%LSTM, WP0.692502063 versus TL30.692377425; this small exposed-valid
+gain is not confirmation. [Five weights](https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr53-quality-horizon-checkpoints-20261031-r1)
+are published and byte-verified. All owned GPU commands exited; NIER/MPS remain.
+
 The user approved the [quality diagnosis](../quality-diagnosis-r1/README.md).
 This is a separately bounded continuation after the completed original wave;
 it does not reopen the old Optuna study or resume stopped fits. The five new
@@ -56,7 +64,7 @@ Five original config-parser failures happened before CUDA; five repaired native
 Source4 profiles passed actual50-update runs and independent engineering review.
 No fitting code or old frozen source was changed by that representation repair.
 
-GPU0/1/2/6/7 host the five independent fits;3/4/5 replayed the three existing
+GPU0/1/2/6/7 hosted the five independent fits;3/4/5 replayed the three existing
 TL3 members and exited. Existing NIER/MPS co-runs are preserved. All owned GPU
 jobs have detached process identities and external timeouts. The collector waits
 for all five terminal process receipts and empty owned process groups before
@@ -73,5 +81,6 @@ only its inode-qualified staged GitHub credential. It never signals NIER/MPS.
 Published [fixed-mixture results](fixed-mixtures/REPORT.json),
 [execution contract](operator/CONTRACT_R2.json), source/config/reviewer receipts
 and the final comparison panel preserve the actual receiving artifacts.
-Final scoring and checkpoint delivery status must be read from the final
-receipts; preparation of these workers is not completion evidence.
+Final scoring and checkpoint delivery are complete; the [terminal audit](audit/ROOT_TERMINAL_SUMMARY.json)
+binds actual exit0/four-epoch records and the final GitHub publication receipt.
+No successor is queued under this completed five-fit authority.
