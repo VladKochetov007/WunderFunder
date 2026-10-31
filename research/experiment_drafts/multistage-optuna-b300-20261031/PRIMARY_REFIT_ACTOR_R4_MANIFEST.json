@@ -1,0 +1,92 @@
+{
+  "actor_revision": "R4",
+  "cli": {
+    "arguments": [
+      "--action fit",
+      "--fit-id <prepared-id>",
+      "--prepared-root <existing-prepared-four>",
+      "--runtime-root <H>",
+      "--run-dir <H/campaign-r2>",
+      "--operator-root <new-operator-root>",
+      "--device-inventory <actual-inventory-path>",
+      "--native-approval <new-R5-bound-root-approval.json>"
+    ],
+    "entrypoint": "run_primary_refit_actor_r4.py"
+  },
+  "execution_scope": "local only; no SSH/GPU/network/experiments/commits",
+  "existing_native_profiles_reused": true,
+  "files": {
+    "PRIMARY_REFIT_PROFILE_POLICY_R5.json": "72d9bcb70468d08baeba75bdee02e310f906b3d2c1ea37eb5e3738f753c2464f",
+    "primary_refit_actor_common_r4.py": "40e0b3ff928b43a183a2f7d70b67b84a3297a38329777b71ef89f0509e935ff3",
+    "primary_refit_actor_fit_r4.py": "705c1fb360cc5159f486f846b9c80bc043f2ed9c8df8e829e03f69cdb1acb372",
+    "primary_refit_actor_r4_test.py": "9f903987955e55ba22a64e81e8edf4017db8e4aaadaf5cddcd190406d073e4dd",
+    "primary_refit_actor_support_r4.py": "16a85aa500ada63128a4e9da51a4c02ce52cec775d3dd85b5e700d07c996867b",
+    "primary_refit_fit_guardian_r4.py": "8e178dda1388f4ab1b99442e2fbaaef33ff0ddd0df8080ae5b00c01d97ea9956",
+    "primary_refit_precision_contract_r5.py": "c059d0d05711badb52779f31f9b69cfcfe7badb16628da6a0c1e1c2b3b3be279",
+    "primary_refit_profile_review_support.py": "c33bfca9c0b84c6958c4df9e3514d6a04f15e7838c904363146a5d324cb7b656",
+    "receiving/B300_DEVICE_INVENTORY_ACTUAL_R2.json": "feffa074b132b3bee01c4854ee4753ec4f555743137a572e7fcb3edf106ae405",
+    "review_primary_refit_profile_r5.py": "054e99e01acd84d72e46006005f06c8840e5412ddaf0de1b43ddc8ec1765869c",
+    "run_primary_refit_actor_r4.py": "e91848e6496ed806675f17de469807b0de66eee3f7ea10a44ea2e6d1cdd3bd0a"
+  },
+  "fit_only": true,
+  "independent_grader_revision": "R5",
+  "limits": {
+    "allowed_gpu_keys": [
+      "0",
+      "1",
+      "2",
+      "3"
+    ],
+    "fit_wall_seconds": 7200,
+    "fresh_source4_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+    "hard_deadline_epoch": 1793425269.6589406,
+    "hard_deadline_utc": "2026-10-31T05:41:09.6589406Z",
+    "max_global_fit_attempts": 48,
+    "max_global_profile_attempts": 56,
+    "max_stage4_fit_attempts": 4,
+    "max_stage4_profile_attempts": 4,
+    "primary_evaluation_sequences": 1873,
+    "primary_fit_train_sequences": 10325,
+    "primary_fit_valid_sequences": 0,
+    "profile_updates": 50,
+    "profile_wall_seconds": 180,
+    "reserve_start_epoch": 1793424069.6589406,
+    "reserve_start_utc": "2026-10-31T05:21:09.6589406Z"
+  },
+  "native_primary_compatibility": "data.split_sha256 exact official primary; native alias null or exact primary only; unique10325train fitting and1873valid evaluation; role/source valid; no initializer/teacher",
+  "new_profiles_authorized": false,
+  "preserved_r3_manifest_sha256": "6c553044d0ce9137cb15e58de4d4a80e08e6b991e37f9922c81079b99be85224",
+  "root_approval_contract": {
+    "approved": true,
+    "approver_id": "root",
+    "native_fit_authorized": true,
+    "primary_valid_used_for_selection": false,
+    "required_exact_identity_fields": [
+      "fit_id",
+      "request_sha256",
+      "native_profile_sha256",
+      "engineering_review_sha256",
+      "config_sha256",
+      "source_sha256",
+      "primary_split_sha256",
+      "policy_sha256",
+      "reviewer_script_sha256",
+      "reviewer_support_sha256",
+      "device_inventory_sha256"
+    ],
+    "schema": "wnn.primary-refit-root-native-approval.v1",
+    "scientific_candidate_promotion": false,
+    "status": "approved"
+  },
+  "schema": "wnn.primary-refit-actor-delivery.v1",
+  "status": "local_cpu_verified_pending_independent_actor_review",
+  "verification": [
+    "Ruff and formatting passed",
+    "All actor/R5 dependencies AST parsed",
+    "Independent R5 policy/checker/precision-helper and shared-support byte pins verified",
+    "Entire historical R3 delivery manifest reverified byte-for-byte unchanged",
+    "2 CPU tests plus native null/exact alias positive and9negative cases passed",
+    "Exact frozen deadline synthetic budget accepts4fits when all56profile slots consumed; profile count remains56; fit5 rejected",
+    "Fit-only CLI rejects profile before imports"
+  ]
+}

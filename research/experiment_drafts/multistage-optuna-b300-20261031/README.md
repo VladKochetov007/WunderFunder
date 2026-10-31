@@ -1,5 +1,11 @@
 # Bounded multistage search on eight B300 GPUs
 
+**Completed:** [final results and operational receipt](PROGRESS_20261031_FINAL.md).
+40 scientific attempts produced39 configured-final artifacts and one partial
+GALAM. Best new full-primary mixture WP0.684699354 versus fixed TL30.692377425;
+baseline not beaten. Weights/graphs/results are published viaPR53; no owned GPU
+clients remain. The launch plan and earlier progress below remain historical.
+
 The user explicitly authorized this execution on31October2026. The objective is
 an independently evaluated, diverse regression ensemble and improved students,
 compared with the frozen fresh TL3 reference (official-valid WP0.6923774245652725).
@@ -129,3 +135,7 @@ optional refit admission.
 The [R3 execution update](PROGRESS_20261031_R3.md) records all36 fit attempts,
 completed successor scoring, actual CPU ensemble search and downstream report
 repairs. It distinguishes the24-trial ceiling from actual study states.
+
+[R4 primary results and full-data continuation](PROGRESS_20261031_R4.md) records
+the actual0.683227279 ensemble, independent numerical verification and four
+fresh full-primary refits admitted under the original reserve and fit caps.

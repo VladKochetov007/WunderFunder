@@ -248,3 +248,33 @@ def test_source6_identity_separates_predictor_scorer_and_report_wrapper(
     assert info["source_sha256"] == source_sha
     assert info["score_script_sha256"] == scorer_sha
     assert scorer_sha != primary_worker._sha256(tmp_path / "scripts/report_multistage_primary.py")
+
+
+def test_actual_primary_prediction_shape_fits_bounded_reader(tmp_path: Path) -> None:
+    path = tmp_path / "primary.npy"
+    array = np.lib.format.open_memmap(
+        path, mode="w+", dtype=np.float32, shape=(primary_blend.PRIMARY_ROWS, 2)
+    )
+    array.flush()
+    del array
+
+    loaded = primary_blend._load_scored_predictions(path)
+    assert path.stat().st_size == 28_226_312
+    assert loaded.shape == (3_528_273, 2)
+    assert loaded.dtype == np.float32
+    del loaded
+
+    with path.open("wb") as stream:
+        stream.truncate(32_000_001)
+    with pytest.raises(ValueError, match="bounded regular file"):
+        primary_blend._load_scored_predictions(path)
+
+
+@pytest.mark.parametrize("shape,dtype", [((3, 2), np.float32), ((2, 2), np.float64)])
+def test_primary_prediction_reader_preserves_shape_dtype_guards(
+    tmp_path: Path, shape: tuple[int, int], dtype: object
+) -> None:
+    path = tmp_path / "wrong.npy"
+    np.save(path, np.zeros(shape, dtype=dtype))
+    with pytest.raises(ValueError, match="wrong dtype or shape"):
+        primary_blend._load_scored_predictions(path)

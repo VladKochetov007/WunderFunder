@@ -1,3 +1,37 @@
+## 31 October final: 39 complete model artifacts, one partial; GPUs released
+
+[Final wave report](../research/experiment_drafts/multistage-optuna-b300-20261031/PROGRESS_20261031_FINAL.md):
+40 scientific attempts and56 profiles. All four fresh full-primary refits and
+their six prediction outputs are complete. Best new equal-four blend WP0.684699354
+versus fixed TL3 reference0.692377425: no baseline improvement. No public score.
+All10,325 fitting members are official train;0 valid enter fitting. Full1,873
+valid /3,528,273 scored rows. Both blend vectors were frozen before fitting.
+Independent raw-label arithmetic agrees within8e-15; both blends are bit-exact.
+The39 count means configured-final model artifacts; unknown historical outer
+exit codes remain unknown in the unchanged ledger. One GALAM stays partial.
+37 finalized models are in two SHA-verified GitHub prereleases; two pilots are
+separate. Results/curves/receipts are linked fromPR53. No owned GPU clients
+remain; foreign NIER/MPS are preserved. No further training is queued.
+
+## Historical 31 October04:50UTC: measured ensemble below TL3; full-primary refits active
+
+[PR53R4](../research/experiment_drafts/multistage-optuna-b300-20261031/PROGRESS_20261031_R4.md):
+frozen8-member ensemble WP0.6832272791 on all1873valid/3,528,273scored rows,
+versus fixed fresh TL3 reference0.6923774246. New models use8260 fitting members
+vs TL310325. All9 outputs independently reproduced from raw labels/mask within
+1e-10 and mixed FP32 predictions match bit-exactly. ActualCPUstudy24COMPLETE;
+original23records preserved through one bounded counter-error completion.
+
+Four fresh10325-member Source4 label-only refits run from04:32:46UTC, retaining
+inner-selected configs/seeds:2GRU384x2(4E),LSTM192x1(8E),Transformer384x4(4E).
+Actual R5 engineering reviews all passed; original profiles/source remain frozen.
+40scientific attempts total:35 prior complete artifacts,1partialGALAM,4running;
+56profiles used. No new profiles/extra fits or old stopped-job resumes.
+Live40views http://127.0.0.1:18777/; parent/source/checkpoint/valid context explicit.
+Reserve05:21:09UTC/hard05:41:09UTC unchanged; all owned fits are bounded and
+foreign NIER/MPS remain untouched. See the R4 report for original receipts,
+publication links, unknown legacy outer exits and full-primary collection plan.
+
 ## 31 October: four-stage B300 search, fixed-final artifacts published
 
 The authorized six-node-hour48-fit wave uses the current one SSH session69303.
