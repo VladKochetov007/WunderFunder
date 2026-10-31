@@ -1732,6 +1732,11 @@ impl FastRnn {
         let e = self.encoder_width;
         let r = self.hidden;
         let m = self.readout_width;
+        // Equal-width models normally use the specialized path and leave this scratch empty.
+        // The tiedlead residual path deliberately enters the general kernel for those models.
+        if self.general_input.len() < e.max(r) {
+            self.general_input.resize(e.max(r), 0.0);
+        }
         {
             let z = &mut state[self.z.clone()];
             z.copy_from_slice(&weights[self.b_in.clone()][..e]);
@@ -3425,6 +3430,40 @@ mod tests {
         m.reset();
         m.step(&x[0], &mut out);
         assert_eq!(out, first);
+    }
+
+    #[test]
+    fn encoder_residual_initializes_scratch_for_equal_width_models() {
+        let residual = [0.07, -0.04, 0.03, -0.02, 0.05, -0.06, 0.01, -0.08];
+        let mut residual_model = FastRnn::new(weights(12, 8, 2, 37), Activations::Exact).unwrap();
+        let mut ordinary_model = FastRnn::new(weights(12, 8, 2, 37), Activations::Exact).unwrap();
+        assert!(residual_model.general_input.is_empty());
+
+        let mut actual = [0.0; 2];
+        let mut ordinary = [0.0; 2];
+        let mut saved = Vec::new();
+        let mut largest_difference = 0.0f32;
+        for input in inputs(12, 80) {
+            residual_model
+                .step_with_encoder_residual(&input, &residual, &mut actual)
+                .unwrap();
+            ordinary_model.step(&input, &mut ordinary);
+            assert!(actual.iter().all(|value| value.is_finite()));
+            largest_difference = largest_difference
+                .max((actual[0] - ordinary[0]).abs())
+                .max((actual[1] - ordinary[1]).abs());
+            saved.push(actual.map(f32::to_bits));
+        }
+        assert!(largest_difference > 1e-6, "residual was not applied");
+        assert_eq!(residual_model.general_input.len(), 8);
+
+        residual_model.reset();
+        for (input, expected) in inputs(12, 80).iter().zip(saved) {
+            residual_model
+                .step_with_encoder_residual(input, &residual, &mut actual)
+                .unwrap();
+            assert_eq!(actual.map(f32::to_bits), expected);
+        }
     }
 
     #[test]
