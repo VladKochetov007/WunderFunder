@@ -3614,17 +3614,19 @@ mod tests {
 
     #[test]
     fn q8vnni_encoder_residual_is_applied_and_replays_for_equal_width_gru() {
-        let weights = weights(12, 8, 2, 73);
         let residual: Vec<f32> = (0..8).map(|index| (index as f32 - 3.5) * 0.03).collect();
         let mut with_residual = FastRnn::with_precision(
-            weights.clone(),
+            weights(12, 8, 2, 73),
             Activations::Exact,
             Precision::Q8VnniPortable,
         )
         .unwrap();
-        let mut ordinary =
-            FastRnn::with_precision(weights, Activations::Exact, Precision::Q8VnniPortable)
-                .unwrap();
+        let mut ordinary = FastRnn::with_precision(
+            weights(12, 8, 2, 73),
+            Activations::Exact,
+            Precision::Q8VnniPortable,
+        )
+        .unwrap();
         let inputs = inputs(12, 48);
         let mut actual = [0.0; 2];
         let mut baseline = [0.0; 2];
@@ -3656,26 +3658,32 @@ mod tests {
     fn q8vnni_general_lstm_residual_is_applied_and_replays() {
         let hidden = 192;
         let readout = hidden + 1;
-        let mut weights = lstm_weights(112, hidden, 1, 79);
         let weight_value = |index: usize| ((index * 37 % 101) as f32 / 50.0 - 1.0) * 0.15;
-        weights.w1 = (0..readout * 2 * hidden).map(weight_value).collect();
-        weights.b1 = (0..readout).map(|index| weight_value(index + 3)).collect();
-        weights.w2 = (0..2 * readout)
-            .map(|index| weight_value(index + 11))
-            .collect();
-        weights.b2 = vec![0.01, -0.02];
+        let make_weights = || {
+            let mut weights = lstm_weights(112, hidden, 1, 79);
+            weights.w1 = (0..readout * 2 * hidden).map(weight_value).collect();
+            weights.b1 = (0..readout).map(|index| weight_value(index + 3)).collect();
+            weights.w2 = (0..2 * readout)
+                .map(|index| weight_value(index + 11))
+                .collect();
+            weights.b2 = vec![0.01, -0.02];
+            weights
+        };
         let residual: Vec<f32> = (0..hidden)
             .map(|index| (index as f32 % 13.0 - 6.0) * 0.02)
             .collect();
         let mut with_residual = FastRnn::with_precision(
-            weights.clone(),
+            make_weights(),
             Activations::Exact,
             Precision::Q8VnniPortable,
         )
         .unwrap();
-        let mut ordinary =
-            FastRnn::with_precision(weights, Activations::Exact, Precision::Q8VnniPortable)
-                .unwrap();
+        let mut ordinary = FastRnn::with_precision(
+            make_weights(),
+            Activations::Exact,
+            Precision::Q8VnniPortable,
+        )
+        .unwrap();
         assert!(with_residual.general_dims);
         assert_eq!(with_residual.cell(), Cell::Lstm);
         let inputs = inputs(112, 20);
