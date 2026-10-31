@@ -1,5 +1,13 @@
 ## 31 October final: 39 complete model artifacts, one partial; GPUs released
 
+Planning follow-up only: [quality diagnosis](../research/experiment_drafts/multistage-optuna-b300-20261031/quality-diagnosis-r1/README.md)
+finds3,280 new-GRU updates vs12,880-25,760 in four-epoch legacy recipes; gradient
+detaches every256 rows. GRU/Transformer improve on their last measured epoch.
+These are hypotheses about recipe limitations, not proven causes or new gains.
+First proposed action is six fixed small-weight TL3 mixtures from existing
+predictions; subsequent three-arm/two-seed batch/TBPTT screen would need five
+new fits and one exact reused control. No follow-up GPU work is admitted/running.
+
 [Final wave report](../research/experiment_drafts/multistage-optuna-b300-20261031/PROGRESS_20261031_FINAL.md):
 40 scientific attempts and56 profiles. All four fresh full-primary refits and
 their six prediction outputs are complete. Best new equal-four blend WP0.684699354

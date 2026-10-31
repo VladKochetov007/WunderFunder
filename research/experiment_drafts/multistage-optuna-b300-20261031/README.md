@@ -6,6 +6,12 @@ GALAM. Best new full-primary mixture WP0.684699354 versus fixed TL30.692377425;
 baseline not beaten. Weights/graphs/results are published viaPR53; no owned GPU
 clients remain. The launch plan and earlier progress below remain historical.
 
+[Quality diagnosis and proposed follow-up](quality-diagnosis-r1/README.md)
+compares actual optimization budgets and the missing strong-reference mixture
+test. It admits no new training; proposed gains and changed-batch runtimes remain
+unknown. Five new fits plus one exact reused endpoint would distinguish smaller
+batches from longer TBPTT, after cheap fixed TL3 mixtures are evaluated.
+
 The user explicitly authorized this execution on31October2026. The objective is
 an independently evaluated, diverse regression ensemble and improved students,
 compared with the frozen fresh TL3 reference (official-valid WP0.6923774245652725).
