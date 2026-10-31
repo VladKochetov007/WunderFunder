@@ -1,0 +1,32 @@
+{
+  "schema": "wnn.resource-inventory.v1",
+  "observed_utc": "2026-10-28T00:13:49Z",
+  "method": "Read-only commands through one persistent SSH connection, successful key authentication. No password attempt, remote write, tensor workload or training.",
+  "host": "lc-epanov_s@10.61.10.209",
+  "gpu_count": 8,
+  "gpu_name": "NVIDIA L4",
+  "memory_total_mib_per_gpu": 23034,
+  "memory_used_mib": [0, 0, 0, 0, 1148, 0, 0, 0],
+  "utilization_pct_snapshot": [0, 0, 0, 0, 0, 0, 0, 0],
+  "gpu4_existing_work": "Two root-owned uvicorn processes, 316 and 818 MiB reported. Not ours; not altered.",
+  "topology": "GPU0-3 share NUMA0, GPU4-7 share NUMA1. NODE within groups and SYS across groups; no NVLink reported.",
+  "logical_cpus": 192,
+  "host_memory_gib": {"total": 728, "available": 457, "used": 35},
+  "swap": 0,
+  "free_disk_human": {"/": "1.7G, 98% used", "/data": "1.4G, 100% used", "/data2": "1.2G, 100% used"},
+  "project_root": "/data2/lc-epanov_s/tabdata",
+  "project_home_symlink": "/home/lc-epanov_s/tabdata",
+  "existing_environment": {"python": "3.12.14", "torch": "2.8.0+cu128", "cuda_runtime": "12.8", "pyarrow": "19.0.1", "cuda_available": true, "visible_gpu_count": 8},
+  "local_test_environment_difference": "The source's research dependency pins torch>=2.14,<2.15. The host's existing torch2.8 has not been accepted as recipe-compatible; no environment upgrade was performed.",
+  "data_inventory": {
+    "valid_parquet_bytes": 5615509128,
+    "valid_mask_parquet_bytes": 91972846,
+    "train_status": "Only train.parquet.partial found in this project; not a verified complete train.parquet.",
+    "train_partial_logical_bytes": 29240219011,
+    "train_partial_allocated_512byte_blocks": 16543880,
+    "required_caches": "No chains.npz, train_targets.npz or valid_targets.npz found within project maxdepth3. Absence outside this bounded search is not established."
+  },
+  "admission": "not_ready",
+  "blockers": ["No verified complete official train file in inspected project", "Insufficient disk headroom for data completion, provenance exports and checkpoints", "Chronological source/component manifest and caches not yet available/audited", "Receiving-host environment/API/CPU/GPU correctness and bounded profile not executed"],
+  "not_claimed": ["Resource reservation", "Current state after this snapshot", "Measured training speed or ETA", "A scientific fit or quality score"]
+}

@@ -5,6 +5,7 @@ from typing import Any, cast
 
 import torch
 
+from wnn.training.galam_adapter import validate_galam_batch_plan
 from wnn.training.sequence_config import (
     load_config,
     validate_expected_fold,
@@ -20,6 +21,12 @@ from wnn.training.sequence_distributed import (
     wrap_distributed,
 )
 from wnn.training.sequence_fit_modes import run_full_fit
+from wnn.training.sequence_fit_monitor_setup import (
+    initialize_monitor,
+    prepare_monitor_event_budgets,
+    record_monitoring_plan,
+    select_train_eval_members,
+)
 from wnn.training.sequence_fit_utils import (
     RankJsonlLog,
     SequenceDataset,
@@ -27,6 +34,7 @@ from wnn.training.sequence_fit_utils import (
     seed_worker,
     total_updates,
 )
+from wnn.training.sequence_initializer import load_fitting_initializer
 from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_optimizer_telemetry import optimizer_contract
 from wnn.training.sequence_profile import run_profile
@@ -58,19 +66,22 @@ def _prepare_model(
     mean, std = data.normalization()
     mean = mean.to(device=context.device, dtype=torch.float32).reshape(-1)
     std = std.to(device=context.device, dtype=torch.float32).reshape(-1)
+    model_mean = getattr(model, "mean", None)
+    model_std = getattr(model, "std", None)
+    if not isinstance(model_mean, torch.Tensor) or not isinstance(model_std, torch.Tensor):
+        raise TypeError("sequence model must expose mean and std normalization buffers")
     valid_normalization = (
-        mean.shape == (112,)
-        and std.shape == (112,)
+        mean.ndim == 1
+        and mean.numel() > 0
+        and mean.shape == std.shape == model_mean.shape == model_std.shape
         and bool(torch.isfinite(mean).all())
         and bool(torch.isfinite(std).all())
         and bool((std > 0).all())
     )
     if not valid_normalization:
-        raise ValueError("normalization must contain 112 finite means and positive FP32 scales")
-    model_mean = getattr(model, "mean", None)
-    model_std = getattr(model, "std", None)
-    if not isinstance(model_mean, torch.Tensor) or not isinstance(model_std, torch.Tensor):
-        raise TypeError("sequence model must expose mean and std normalization buffers")
+        raise ValueError(
+            "normalization must match model buffers and contain finite positive scales"
+        )
     with torch.no_grad():
         model_mean.copy_(mean)
         model_std.copy_(std)
@@ -94,16 +105,26 @@ def run_sequence_fit(
     resume: Path | None = None,
     profile_updates: int = 0,
     profile_receipt: Path | None = None,
+    initializer: Path | None = None,
 ) -> None:
     """Execute one torchrun fit or a non-scientific bounded profile on supplied data."""
     config = _mapping(load_config(config_path), "config")
     output = output.resolve()
     resume_path = resume.resolve() if resume is not None else None
     receipt_path = profile_receipt.resolve() if profile_receipt is not None else None
+    initializer_path = initializer.resolve() if initializer is not None else None
+    if initializer_path is not None and resume_path is not None:
+        raise ValueError("fresh --initializer and exact-state --resume are mutually exclusive")
     if resume_path is not None and resume_path != output / "training_state.pt":
         raise ValueError("--resume must name <output>/training_state.pt")
     if profile_updates < 0 or (profile_updates and (resume_path or receipt_path)):
         raise ValueError("profile runs cannot resume or consume a profile admission receipt")
+    if profile_updates and "monitoring" in config:
+        diagnostic_interval = int(config["monitoring"]["diagnostics_every_steps"])
+        if profile_updates < diagnostic_interval:
+            raise ValueError(
+                "profile updates must reach diagnostics_every_steps to exercise sampled hooks"
+            )
     if not profile_updates and receipt_path is None:
         raise ValueError("a full fit requires --profile-receipt with explicit approval")
     context = initialize_distributed()
@@ -125,22 +146,51 @@ def run_sequence_fit(
             context,
         )
         coordinated_call(
+            lambda: validate_galam_batch_plan(config, len(data.fit), context.world_size),
+            "GALAM BatchNorm batch-plan validation",
+            context,
+        )
+        coordinated_call(
             lambda: validate_expected_fold(config, data.split.fold),
             "split fold validation",
             context,
         )
+        monitor_config = config.get("monitoring")
+        train_eval_members = select_train_eval_members(monitor_config, data)
         seed_worker(int(config["seed"]), 0)
         base_model, normalization = coordinated_call(
             lambda: _prepare_model(config, data, context), "model construction", context
         )
+        if initializer_path is not None:
+            initializer_identity = coordinated_call(
+                lambda: load_fitting_initializer(
+                    initializer_path, base_model, config, data.provenance, normalization
+                ),
+                "fitting-only initializer validation and load",
+                context,
+            )
+            data.provenance["initializer"] = initializer_identity
         model = wrap_distributed(base_model, context)
         seed_worker(int(config["seed"]), context.rank)
         fit_dataset = cast(SequenceDataset, data.fit)
         schedule_updates = total_updates(config, len(fit_dataset), context.world_size)
         if schedule_updates < 1:
             raise ValueError("configured fit has no optimizer updates")
+        monitor_event_budget, profile_event_budget = prepare_monitor_event_budgets(
+            monitor_config, schedule_updates, int(config["epochs"]), profile_updates
+        )
         optimizer, scheduler = make_optimizer(base_model, config, schedule_updates)
         root = Path(__file__).resolve().parents[3]
+        if monitor_config is not None:
+            model_config = config["model"]
+            input_feature_mode = str(model_config.get("input_feature_mode", "raw112"))
+            record_monitoring_plan(
+                data,
+                monitor_config,
+                train_eval_members,
+                input_feature_mode,
+                monitor_event_budget,
+            )
         source = source_identity(root, entrypoint)
         runtime = runtime_identity(context)
         identity = run_identity(config, data.provenance, source, runtime, context.world_size)
@@ -168,6 +218,17 @@ def run_sequence_fit(
             context,
         )
         recorder = recorder_result if context.is_primary else None
+        train_eval_dataset, monitor = initialize_monitor(
+            data_root,
+            output,
+            monitor_config,
+            train_eval_members,
+            data,
+            identity,
+            resume_path is not None,
+            context,
+            str(config["model"].get("input_feature_mode", "raw112")),
+        )
         rank_log = coordinated_call(
             lambda: RankJsonlLog(
                 output / f"rank{context.rank}.jsonl", resume=resume_path is not None
@@ -190,6 +251,12 @@ def run_sequence_fit(
                     output,
                     profile_updates,
                     schedule_updates,
+                    monitor=monitor,
+                    monitor_enabled=monitor_config is not None,
+                    monitoring_plan=data.provenance.get("monitoring_plan"),
+                    monitor_event_budget=(
+                        None if profile_event_budget is None else profile_event_budget.as_dict()
+                    ),
                 )
                 return
             if receipt_path is None or profile_hash is None:
@@ -211,6 +278,11 @@ def run_sequence_fit(
                 resume_path,
                 receipt_path,
                 profile_hash,
+                evaluation_dataset=cast(SequenceDataset, data.evaluation)
+                if monitor is not None
+                else None,
+                train_eval_dataset=train_eval_dataset,
+                monitor=monitor,
             )
         finally:
             rank_log.close()

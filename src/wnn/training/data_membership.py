@@ -4,6 +4,7 @@ import numpy as np
 import torch
 from torch.utils.data import WeightedRandomSampler
 
+from wnn.splits import CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
 from wnn.training.state import TrainingRun
 
 
@@ -135,7 +136,15 @@ def select_membership(run: TrainingRun) -> None:
     eval_groups = {"devB": dev_b, "holdout": hold_groups, "vfold": fold_groups}.get(
         args.eval_source, dev_groups
     )
-    n_valid = len(eval_groups) if args.full_valid else min(args.valid_seqs, len(eval_groups))
+    n_valid = (
+        len(eval_groups)
+        if args.full_valid
+        or (
+            campaign_split is not None
+            and campaign_split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
+        )
+        else min(args.valid_seqs, len(eval_groups))
+    )
     valid_idx = np.random.default_rng(12345).permutation(eval_groups)[:n_valid]
     sampler = None
     if args.class_balance:

@@ -1,0 +1,54 @@
+{
+  "schema": "wnn.independent-trainonly-recipe-review.v1",
+  "review_id": "tl3-chronological-20261028",
+  "status": "conditional_pass_with_admission_gates",
+  "reviewed_canonical_revision": "a6f4048a9cf576a5a098336418f343e2937a2334",
+  "adapter_commits": [
+    "ca8afb790326d706cb1100b3287475f17dce633a",
+    "ec3f1a66607b8e72b97a959519d8a98fc1cb899f",
+    "25ab62c939dd0b2a6ed0527c0ae54f491c266bd7",
+    "a6f4048a9cf576a5a098336418f343e2937a2334"
+  ],
+  "review_scope": [
+    "Active legacy path: scripts/train_rnn.py -> wnn.training.runner.run_training and its lineage, membership, input, loss, and output modules.",
+    "Tiedlead model adapter, prediction input configuration, chronological split and fixed-checkpoint policy."
+  ],
+  "conclusion": "Code supports official-train-only fitting with full official-valid evaluation and the causal tiedlead 263-column schema. The checkpoint-gate contradiction is fixed. Fit admission still depends on exact run membership receipts and fresh direct-teacher ancestry proofs. This was a read-only code review; no tests, data, GPUs, remote services, or fitted artifacts were accessed.",
+  "findings": [
+    {
+      "severity": "blocking_admission",
+      "location": ["src/wnn/training/cache_identity.py:18-59", "src/wnn/training/data_caches.py:33-45"],
+      "trigger": "The direct --distill path checks sidecar split-manifest identity, target-index row order, and prediction bytes, then records sidecar epoch/checkpoint_sha256. It does not resolve that checkpoint or prove its run provenance and fit membership.",
+      "consequence": "A stable, aligned cache could still have been produced by a teacher trained on official validation, leaking primary validation into student targets.",
+      "required_check": "For every teacher, verify checkpoint bytes against a parsed run receipt; require fit.train membership equal to the frozen manifest train set, fit.valid empty, no validation-derived preprocessing/initializer/propensity, and the declared fixed checkpoint epoch."
+    },
+    {
+      "severity": "required_receipt_check",
+      "location": ["src/wnn/chronological_splits.py:297-327", "src/wnn/training/data_membership.py:110-148", "src/wnn/splits.py:98-108"],
+      "trigger": "Manifest validation pins the full membership, but the trainer selects a seeded permutation truncated by args.train_seqs; the runtime component check only requires a subset.",
+      "consequence": "A too-small train_seqs can produce a partial train-only fit without violating the split guard.",
+      "required_check": "For each run, verify set(provenance.fit_row_groups.train) equals manifest.fit.train, provenance.fit_row_groups.valid is empty, and set(provenance.evaluation_row_groups) equals the complete official valid set (1,873 groups for this frozen source). Record actual loader order and source hashes separately."
+    },
+    {
+      "severity": "documented_semantics",
+      "location": ["src/wnn/nn.py:160-177", "src/wnn/training/outputs.py:63", "scripts/predict_run.py:277-285", "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/source_snapshot/train_rnn_rs.py:1726"],
+      "trigger": "The tied encoder computes adjacent-row differences inside each model call and zeroes the first row. Training uses args.chunk calls; validation/export use 4,000-row calls.",
+      "consequence": "Tied-MLP inputs at chunk boundaries depend on chunk size. This matches the historical source's 4,000-row evaluation behavior and is not a causality leak, but it must remain traceable for parity claims.",
+      "required_check": "Record training and evaluation/export chunk sizes; keep validation and exported prediction aligned at the same 4,000-row boundaries."
+    }
+  ],
+  "recipe_checks": {
+    "primary_split": "Chronological loader requires the reconstructed official fit.train, fit.valid=[], and all official valid groups for evaluation. The campaign gate rejects random schemas, fit-valid, random-fold, subset, heldout-valid, and no-evaluation recipes; chronology comes from the supplied official boundary, not seq_ix.",
+    "checkpoint_policy": "Campaign split requires fixed checkpoint selection; chronological fitting permits evaluation during fit and rejects --no-eval-during-fit. The campaign mapping selects full-valid evaluation.",
+    "tiedlead_schema": "raw112 + causal event99 + lead52 = 263. lead52 gathers i1 raw columns 52:104 at the latest ev_i0px row at or before the current row; row zero is forced as an event. It is built per complete sequence before TBPTT. Inference selects this schema from checkpoint args.",
+    "strict_inputs": "Tiedlead gate requires GRU 256x2, dropout 0, strict FP32, and rejects extra transforms, propensity/cache/input, and sentinel preprocessing.",
+    "objective_trace": "Active wMSE clips labels to [-2,2], weights by abs(clipped label), and applies post-warmup valid rows. The declared recipe uses since_weight=32/floor=0.25, auxiliary next/struct=0.3 each, EMA consistency=1.0. Train has no is_scored mask; validation uses its actual is_scored mask.",
+    "fresh_adaptations": "Old fin256 weights, propensity, and caches are not reusable in the fresh train-only chain. Neutral weighting is required because the old propensity depends on validation scoring labels. Historical fin256 optimizer metadata is absent; explicit AdamW is an adaptation. Strict FP32 also differs from historical FP16.",
+    "tiedlead_default": "Historical launch sets RS_LEAD=1 and does not set RS_TIED_DIMS, so source default dimensions 128,64 are supported by the surviving launch script."
+  },
+  "limitations": [
+    "No live manifest or per-run receipt was available; the exact 10,325 fit and 1,873 validation memberships remain admission checks.",
+    "Direct teacher cache/checkpoint ancestry was not verified here.",
+    "No model-quality claim or exact reproduction claim is made."
+  ]
+}

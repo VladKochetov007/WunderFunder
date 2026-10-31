@@ -1,0 +1,43 @@
+{
+  "schema": "wnn.multistage-fixed-final-objective-gate.v1",
+  "reviewer": "multistage_independent_critic",
+  "revision": "R4",
+  "status": "required_not_attested",
+  "scientific_approval": false,
+  "scope": "Four-stage continuation objective and parent checkpoint semantics",
+  "bindings": {
+    "continuation_path": "recipes/R2_CONTINUATION.json",
+    "continuation_sha256": "03796b7cd5f1d57c6aa44590acf51edaab28f9b036cdaaeeb8ae5ef88e165562",
+    "profile_reviewer_path": "review_multistage_profile_r4.py",
+    "profile_reviewer_sha256": "3408e3a1aa0e86ec19f61758582ea1a8b965f4649ddc5a55e7e03aae8913b198",
+    "profile_policy_path": "PROFILE_REVIEW_POLICY_AUTOMATED_R4.json",
+    "profile_policy_sha256": "35defc15dc51ea98bf33ed262b11b896b7c17cf73a6c2075e2c57c88ad12873f"
+  },
+  "objective_contract": {
+    "fit_endpoint": "the exact fit_output/model.pt saved at the configured final epoch",
+    "checkpoint_policy": "configured-final-epoch",
+    "selection_metric": "inner-train control weighted Pearson using the frozen control scorer and all_after_warmup AND row_index>=99 mask",
+    "primary_validation_used": false,
+    "best_observed_control_metrics": "diagnostic_only; excluded from candidate selection",
+    "descendant_parent_weights": "the same fixed-final model.pt whose objective was recomputed"
+  },
+  "execution_attestation": {
+    "status": "not_run",
+    "attested": false,
+    "required_artifacts": [
+      "exact completed fit result and raw config hash",
+      "exact model.pt path and SHA256",
+      "native producer record proving configured-final epoch",
+      "auxiliary split SHA256 and exact control membership",
+      "source and scorer file hashes",
+      "ordered control prediction identity, row mask and score inputs",
+      "independent recomputation of the frozen control metric",
+      "receipt linking the recomputed objective to that exact model.pt"
+    ]
+  },
+  "review_notes": [
+    "Profile engineering admission does not attest full-fit objective execution.",
+    "Stage2 initializer and Stage3 teacher ancestry must use the qualified fixed-final model.pt endpoint.",
+    "No helper execution evidence was available for this review; do not promote an objective-selection claim until the separate execution receipt is independently checked."
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "profiles": [
+    {
+      "schema": "wnn.multistage-anchor-profile-attempt.v2",
+      "name": "gru-b256-s2-pilot-r2",
+      "anchor_id": "S2-gru-FT-LR1e-4-E2-R1",
+      "family": "gru",
+      "batch_size": 256,
+      "config_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/requests/stage2-pilot-r1/gru.json",
+      "config_sha256": "716820d4f0a2e881bb03b06789b781e991d976c65949adc038c448e513494766",
+      "source_root": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/source5b-core",
+      "python": "/data/epanov_s/tabdata/.venv/bin/python",
+      "device": {
+        "gpu_index": 6,
+        "uuid": "GPU-2913ac69-eccb-63b0-1112-e09ea9598b57",
+        "name": "NVIDIA B300 SXM6 AC",
+        "total_memory_bytes": 288400343040,
+        "profile_allowed": true,
+        "fit_allowed": true
+      },
+      "device_inventory_sha256": "91730d3a5f0e55f2e16d14f80ca9e9d224b8014d53ef134a3d6f861f4ae249cd",
+      "receiver_validation": {
+        "schema": "wnn.multistage-receiver-profile-gate.v1",
+        "status": "complete",
+        "producer_receipt": {
+          "path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/logs/receiver-data-r2.log",
+          "sha256": "59b5fa1bfb1ad23976e754d114495d6ea8b2a569950db3d272fc41927fdda955"
+        },
+        "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+        "auxiliary_split_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075",
+        "source_capsule_sha256": "41929c513e8e585c15424560ef9e4c2ceaee842efb641c73dd365848fd9d311b8",
+        "source_audit_sha256": "6d9f184fb5b6196a8d618d22cef36543e6237574a59e5f9c9f68acb6cbc1eed3",
+        "source_sha256": {
+          "train": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+          "valid": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+        },
+        "graph_sha256": "d8dab8a673ee3c8216f00828aad4f57b4281a0344becba5e0da9c494339bb6b4",
+        "index_receipt_sha256": {
+          "train": "d7093810c08a8aa2248a27edb8d6b66f3be7eb203b7cc12bd20508ee9beb704e",
+          "valid": "ff9833d27e723dcc21adc2593b1fcbfec038cf8a8c2e465488ca82b66937e2ab"
+        },
+        "counts": {
+          "primary_fit_train_sequences": 10325,
+          "primary_fit_valid_sequences": 0,
+          "primary_eval_valid_sequences": 1873,
+          "auxiliary_fit_train_sequences": 8260,
+          "auxiliary_fit_valid_sequences": 0,
+          "auxiliary_control_train_sequences": 2065
+        }
+      },
+      "first_profile_epoch": 1793403669.6589406,
+      "started_at_epoch": 1793406816.6723495,
+      "hard_deadline_epoch": 1793406996.6723495,
+      "status": "completed",
+      "cpu_thread_env": {
+        "OMP_NUM_THREADS": "4",
+        "MKL_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "4"
+      },
+      "pre_gpu_snapshot": {
+        "index": 6,
+        "uuid": "GPU-2913ac69-eccb-63b0-1112-e09ea9598b57",
+        "name": "NVIDIA B300 SXM6 AC",
+        "total_memory_bytes": 288400343040,
+        "free_memory_bytes": 284441968640,
+        "used_memory_bytes": 2987393024,
+        "utilization_percent": 42
+      },
+      "post_gpu_snapshot": {
+        "status": "observed",
+        "index": 6,
+        "uuid": "GPU-2913ac69-eccb-63b0-1112-e09ea9598b57",
+        "name": "NVIDIA B300 SXM6 AC",
+        "total_memory_bytes": 288400343040,
+        "free_memory_bytes": 283613593600,
+        "used_memory_bytes": 3815768064,
+        "utilization_percent": 0
+      },
+      "timeout_owner": {
+        "pid": 2759487,
+        "birth": "81670558",
+        "pgid": 2759487
+      },
+      "training_child": {
+        "pid": 2759488,
+        "birth": "81670559",
+        "pgid": 2759487
+      },
+      "exit_code": 0,
+      "command": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "169s",
+        "/data/epanov_s/tabdata/.venv/bin/python",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/source5b-core/scripts/train_sequence.py",
+        "--config",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/requests/stage2-pilot-r1/gru.json",
+        "--data-root",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/data",
+        "--split-manifest",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/data/cache/multistage/auxiliary-r3.json",
+        "--output",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/profiles/gru-b256-s2-pilot-r2",
+        "--profile-updates",
+        "50",
+        "--initializer",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/runs/anchor-gru-b256-r5/model.pt"
+      ],
+      "command_sha256": "d57f9ea3b0a45a4e2b8ca2c8b919a2bcf910dbf1caebcf0f41c991fbf3c1c3e5",
+      "error": null,
+      "finished_at_epoch": 1793406877.4485168,
+      "total_wall_seconds": 60.77616739273071,
+      "hard_deadline_met": true
+    },
+    {
+      "schema": "wnn.multistage-anchor-profile-attempt.v2",
+      "name": "lstm-b256-s2-pilot-r2",
+      "anchor_id": "S2-lstm-FT-LR1e-4-E2-R1",
+      "family": "lstm",
+      "batch_size": 256,
+      "config_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/requests/stage2-pilot-r1/lstm.json",
+      "config_sha256": "d81a32be7735953279f0a79fb6edd9c54fed2823adb51b6c086a321998bd406d",
+      "source_root": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/source5b-core",
+      "python": "/data/epanov_s/tabdata/.venv/bin/python",
+      "device": {
+        "gpu_index": 7,
+        "uuid": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+        "name": "NVIDIA B300 SXM6 AC",
+        "total_memory_bytes": 288400343040,
+        "profile_allowed": true,
+        "fit_allowed": true
+      },
+      "device_inventory_sha256": "91730d3a5f0e55f2e16d14f80ca9e9d224b8014d53ef134a3d6f861f4ae249cd",
+      "receiver_validation": {
+        "schema": "wnn.multistage-receiver-profile-gate.v1",
+        "status": "complete",
+        "producer_receipt": {
+          "path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/logs/receiver-data-r2.log",
+          "sha256": "59b5fa1bfb1ad23976e754d114495d6ea8b2a569950db3d272fc41927fdda955"
+        },
+        "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+        "auxiliary_split_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075",
+        "source_capsule_sha256": "41929c513e8e585c15424560ef9e4c2ceaee842efb641c73dd365848fd9d311b8",
+        "source_audit_sha256": "6d9f184fb5b6196a8d618d22cef36543e6237574a59e5f9c9f68acb6cbc1eed3",
+        "source_sha256": {
+          "train": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+          "valid": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+        },
+        "graph_sha256": "d8dab8a673ee3c8216f00828aad4f57b4281a0344becba5e0da9c494339bb6b4",
+        "index_receipt_sha256": {
+          "train": "d7093810c08a8aa2248a27edb8d6b66f3be7eb203b7cc12bd20508ee9beb704e",
+          "valid": "ff9833d27e723dcc21adc2593b1fcbfec038cf8a8c2e465488ca82b66937e2ab"
+        },
+        "counts": {
+          "primary_fit_train_sequences": 10325,
+          "primary_fit_valid_sequences": 0,
+          "primary_eval_valid_sequences": 1873,
+          "auxiliary_fit_train_sequences": 8260,
+          "auxiliary_fit_valid_sequences": 0,
+          "auxiliary_control_train_sequences": 2065
+        }
+      },
+      "first_profile_epoch": 1793403669.6589406,
+      "started_at_epoch": 1793406816.6730065,
+      "hard_deadline_epoch": 1793406996.6730065,
+      "status": "completed",
+      "cpu_thread_env": {
+        "OMP_NUM_THREADS": "4",
+        "MKL_NUM_THREADS": "4",
+        "OPENBLAS_NUM_THREADS": "4"
+      },
+      "pre_gpu_snapshot": {
+        "index": 7,
+        "uuid": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+        "name": "NVIDIA B300 SXM6 AC",
+        "total_memory_bytes": 288400343040,
+        "free_memory_bytes": 280831721472,
+        "used_memory_bytes": 6597640192,
+        "utilization_percent": 95
+      },
+      "post_gpu_snapshot": {
+        "status": "observed",
+        "index": 7,
+        "uuid": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+        "name": "NVIDIA B300 SXM6 AC",
+        "total_memory_bytes": 288400343040,
+        "free_memory_bytes": 278583574528,
+        "used_memory_bytes": 8845787136,
+        "utilization_percent": 11
+      },
+      "timeout_owner": {
+        "pid": 2759485,
+        "birth": "81670558",
+        "pgid": 2759485
+      },
+      "training_child": {
+        "pid": 2759486,
+        "birth": "81670558",
+        "pgid": 2759485
+      },
+      "exit_code": 0,
+      "command": [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=5s",
+        "169s",
+        "/data/epanov_s/tabdata/.venv/bin/python",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/source5b-core/scripts/train_sequence.py",
+        "--config",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/requests/stage2-pilot-r1/lstm.json",
+        "--data-root",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/data",
+        "--split-manifest",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/data/cache/multistage/auxiliary-r3.json",
+        "--output",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/profiles/lstm-b256-s2-pilot-r2",
+        "--profile-updates",
+        "50",
+        "--initializer",
+        "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/runs/anchor-lstm-b256-r5/model.pt"
+      ],
+      "command_sha256": "9582994d4acd73bd1db4ca9e4a4795e05db12e917bc498fe2f7bf43b9186cb65",
+      "error": null,
+      "finished_at_epoch": 1793406875.8356595,
+      "total_wall_seconds": 59.16265296936035,
+      "hard_deadline_met": true
+    }
+  ]
+}

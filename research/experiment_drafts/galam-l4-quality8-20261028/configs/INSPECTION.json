@@ -1,0 +1,218 @@
+{
+  "schema": "wnn.quality8-config-inspection.v1",
+  "source_base": "aac25c7c38fa9e39ff00a25a6b35f729bc00f047",
+  "scientific_fits": 0,
+  "forward_passes": 0,
+  "gpu_profiles": 0,
+  "competition_payloads_read_locally": 0,
+  "scope": "Schema load, random-weight CPU model construction and parameter count only. Not receiving admission or quality evidence.",
+  "cells": [
+    {
+      "arm": "a0-baseline",
+      "provisional_gpu": 0,
+      "config": "configs/a0-baseline.json",
+      "sha256": "e1308d9ae4a5e00b867e9e3a0892df07c7fce1bb441a7c09d849084d53025b74",
+      "loader": "passed",
+      "epochs": 5,
+      "batch_size": 16,
+      "chunk_rows": 64,
+      "lr": 0.0001,
+      "parameter_count": 376426,
+      "effective_model": {
+        "variant": "schematic_lstm_full",
+        "recurrent_cell": "lstm",
+        "has_global": true,
+        "has_cell": true,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection",
+          "cell_projection"
+        ],
+        "decoder_width": 256,
+        "inactive_fields": []
+      }
+    },
+    {
+      "arm": "a1-width128",
+      "provisional_gpu": 1,
+      "config": "configs/a1-width128.json",
+      "sha256": "2d1a910e5709b2fe3edf15a08dbb7da008fb5f060c63edb08f7c55a4e2618c58",
+      "loader": "passed",
+      "epochs": 5,
+      "batch_size": 16,
+      "chunk_rows": 64,
+      "lr": 0.0001,
+      "parameter_count": 1423978,
+      "effective_model": {
+        "variant": "schematic_lstm_full",
+        "recurrent_cell": "lstm",
+        "has_global": true,
+        "has_cell": true,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection",
+          "cell_projection"
+        ],
+        "decoder_width": 512,
+        "inactive_fields": []
+      }
+    },
+    {
+      "arm": "a2-depth2",
+      "provisional_gpu": 2,
+      "config": "configs/a2-depth2.json",
+      "sha256": "ddbacf71aeeb547ff292fed26ed19e2531afbc7d90baca3c70b59f327f437713",
+      "loader": "passed",
+      "epochs": 5,
+      "batch_size": 16,
+      "chunk_rows": 64,
+      "lr": 0.0001,
+      "parameter_count": 409706,
+      "effective_model": {
+        "variant": "schematic_lstm_full",
+        "recurrent_cell": "lstm",
+        "has_global": true,
+        "has_cell": true,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection",
+          "cell_projection"
+        ],
+        "decoder_width": 256,
+        "inactive_fields": []
+      }
+    },
+    {
+      "arm": "a3-gru72",
+      "provisional_gpu": 3,
+      "config": "configs/a3-gru72.json",
+      "sha256": "0ce7be3a182ed2a4d9d6d7ddac7b8861d8a84ea64aa320586d262d3d043e559e",
+      "loader": "passed",
+      "epochs": 5,
+      "batch_size": 16,
+      "chunk_rows": 64,
+      "lr": 0.0001,
+      "parameter_count": 358170,
+      "effective_model": {
+        "variant": "schematic_gru_full",
+        "recurrent_cell": "gru",
+        "has_global": true,
+        "has_cell": false,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection"
+        ],
+        "decoder_width": 216,
+        "inactive_fields": []
+      }
+    },
+    {
+      "arm": "a4-history256",
+      "provisional_gpu": 4,
+      "config": "configs/a4-history256.json",
+      "sha256": "d4c8be684463c754f3afb62ee123ca4d9dce1bde74c863a34f49c1ddb34b124f",
+      "loader": "passed",
+      "epochs": 5,
+      "batch_size": 16,
+      "chunk_rows": 64,
+      "lr": 0.0001,
+      "parameter_count": 376426,
+      "effective_model": {
+        "variant": "schematic_lstm_full",
+        "recurrent_cell": "lstm",
+        "has_global": true,
+        "has_cell": true,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection",
+          "cell_projection"
+        ],
+        "decoder_width": 256,
+        "inactive_fields": []
+      }
+    },
+    {
+      "arm": "a5-tbptt256",
+      "provisional_gpu": 5,
+      "config": "configs/a5-tbptt256.json",
+      "sha256": "bca3e57b4a45fcd83d5141ae161acdd5f48c41f8b10a1e52273da168cd95dd38",
+      "loader": "passed",
+      "epochs": 5,
+      "batch_size": 16,
+      "chunk_rows": 256,
+      "lr": 0.0001,
+      "parameter_count": 376426,
+      "effective_model": {
+        "variant": "schematic_lstm_full",
+        "recurrent_cell": "lstm",
+        "has_global": true,
+        "has_cell": true,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection",
+          "cell_projection"
+        ],
+        "decoder_width": 256,
+        "inactive_fields": []
+      }
+    },
+    {
+      "arm": "a6-lr2e4",
+      "provisional_gpu": 6,
+      "config": "configs/a6-lr2e4.json",
+      "sha256": "068590be5d2a95fbbebd2ec0292627ff7c4f6016bf81b4eae27d22d889eabed1",
+      "loader": "passed",
+      "epochs": 5,
+      "batch_size": 16,
+      "chunk_rows": 64,
+      "lr": 0.0002,
+      "parameter_count": 376426,
+      "effective_model": {
+        "variant": "schematic_lstm_full",
+        "recurrent_cell": "lstm",
+        "has_global": true,
+        "has_cell": true,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection",
+          "cell_projection"
+        ],
+        "decoder_width": 256,
+        "inactive_fields": []
+      }
+    },
+    {
+      "arm": "a7-horizon10",
+      "provisional_gpu": 7,
+      "config": "configs/a7-horizon10.json",
+      "sha256": "4e1546aacf2728f8ac10757ffa9a81216ade4127bfa44396b65b4d4e66569896",
+      "loader": "passed",
+      "epochs": 10,
+      "batch_size": 16,
+      "chunk_rows": 64,
+      "lr": 0.0001,
+      "parameter_count": 376426,
+      "effective_model": {
+        "variant": "schematic_lstm_full",
+        "recurrent_cell": "lstm",
+        "has_global": true,
+        "has_cell": true,
+        "active_fusion_channel_order": [
+          "global_memory",
+          "local_memory",
+          "hidden_projection",
+          "cell_projection"
+        ],
+        "decoder_width": 256,
+        "inactive_fields": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+    "generated_on":  "2026-10-27",
+    "scope":  "Bounded read-only scout of public GitHub, official Wunder RNN pages, and Denis Tomin\u0027s public LinkedIn post. No private Discord or other private sources accessed; no repositories cloned or executed.",
+    "galam_public_source_status":  {
+                                       "conclusion":  "No exact GALAM implementation or full technical report was located in the bounded public source search. Do not infer code equivalence from similarly named projects or from public challenge solutions.",
+                                       "author_github":  {
+                                                             "profile":  "https://github.com/denisalpino",
+                                                             "repository_found":  "https://github.com/denisalpino/denisalpino",
+                                                             "default_branch":  "main",
+                                                             "observed_tree_sha":  "26a8d5543c8f21fd06dc83ee0d7cf648c7f43934",
+                                                             "readme_blob_sha":  "9c169480c6a8b83e048848ace9fb6c6d53cfc59e",
+                                                             "tree_summary":  "Profile README, workflow files, and contribution SVG graphics; no GALAM model, training code, weights, or technical report in this repository tree.",
+                                                             "bounded_github_searches":  [
+                                                                                             "Repository search: denisalpino",
+                                                                                             "Repository search: GALAM Global Addressable Local Aligned Memory",
+                                                                                             "Code search: exact phrase Global Addressable Local Aligned Memory",
+                                                                                             "Code search: GALAM scoped to denisalpino"
+                                                                                         ],
+                                                             "search_result":  "Only the profile repository was returned for denisalpino repository search; the two code searches returned no results. This is evidence from a bounded search, not proof that no unindexed or future source exists."
+                                                         },
+                                       "author_public_statement":  {
+                                                                       "url":  "https://www.linkedin.com/posts/denisalpino_machinelearning-quantfinance-hft-activity-7408310006657519616-7_UT",
+                                                                       "type":  "Public author post; primary source for his own claims",
+                                                                       "claims_in_post":  [
+                                                                                              "Names the architecture GALAM (Global Addressable Local Aligned Memory), describing it as combining Transformer, LSTM, and TCN strengths.",
+                                                                                              "Describes temporal self-attention with a learnable relative-timestamp bias, a causal dual decoder using slow fusion, and a revised two-phase time-series ensemble.",
+                                                                                              "Reports a consistent 7th place on public and private leaderboards, and says the GALAM-only model was the best public result when excluding ensembling."
+                                                                                          ],
+                                                                       "limits":  "The post does not provide model equations, source, hyperparameters, decoder layout, ensemble recipe, weights, or reproducible results. It says details cannot yet be disclosed and a comprehensive technical report may be prepared later. Its high-level description is not an implementation specification.",
+                                                                       "placement_wording_caveat":  "The post opens with “I won” but later reports 7th place on both leaderboards; preserve both statements and do not convert either into independently verified contest placement."
+                                                                   },
+                                       "unverified_user_context":  "The task prompt supplied a Discord statement that source code/hyperparameters were lost with an SSD and that a rebuild scored 0.3839, followed by a four-model FiLM ensemble at 0.3871. This scout did not access or independently verify that private statement."
+                                   },
+    "public_2025_wundernn_sources":  [
+                                         {
+                                             "repository":  "https://github.com/aicheye/wundernn",
+                                             "default_branch":  "best",
+                                             "latest_observed_commit":  "3c49dd483fa337b321ba0ed7911699d043c0acc3",
+                                             "commit_date":  "2025-12-08T19:16:49Z",
+                                             "readme_blob_sha":  "511eb7294762bcad0138494d2957730feffba57d",
+                                             "public_artifacts":  [
+                                                                      "model_training.ipynb (blob ed579ad520bb8f975202c69631430d6b5a12f770)",
+                                                                      "src/solution.py (blob ad5e318c9c721ca7b3c6e65a17c4ad285789c867)",
+                                                                      "results/submission/solution.py (blob 772d95fb029cd324e72f36d03e51efb3117441f3)",
+                                                                      "results/submission/best_model.pkl and weights_t1.pkl / weights_t2.pkl",
+                                                                      "results/solution_submission.zip"
+                                                                  ],
+                                             "readme_claims":  "Transformer sequence predictor with sinusoidal plus learnable positional embeddings, multi-head self-attention, and position-wise attention; 32 features; reported mean R2 0.396.",
+                                             "evidence_caveat":  "Score and architecture details are author-reported in the README; this scout did not run or independently validate the notebook or weights. This is a public competing solution, not GALAM."
+                                         },
+                                         {
+                                             "repository":  "https://github.com/kc-z-e-n/wunder_rnn_challenge_2025",
+                                             "default_branch":  "main",
+                                             "latest_observed_commit":  "f2b1e3d3bf2ba269a8be5a467c78c4a08de7af67",
+                                             "commit_date":  "2025-10-21T16:04:23Z",
+                                             "readme_blob_sha":  "c0146858c4bb07b3d59c52cea8a8533c50e38785",
+                                             "training_script":  {
+                                                                     "path":  "drafts/train_gru.py",
+                                                                     "blob_sha":  "27880d6afacc4124777806572a7e3fc22bc65dfa",
+                                                                     "recorded_configuration":  "32 input features; one-layer GRU with hidden size 128; window 256, stride 4; AdamW lr 1e-3, weight decay 1e-4; batch 64; 20 epochs; seed 42; sequence-grouped 80/20 split; train-only standardization; masked MSE excludes warm-up targets before step 100."
+                                                                 },
+                                             "other_public_files":  [
+                                                                        "drafts/solution.py (blob 77e56560277cd65535355bcd234bd1aff02b7ff6), currently a moving-average predictor",
+                                                                        "drafts/gru_weights.npz (blob 4614c790f0013c3cb13beabc359c9fdb103ee5bb)"
+                                                                    ],
+                                             "evidence_caveat":  "README describes the 2025 task as 32-feature, 1000-step sequences and mean per-feature R2. The repository exposes a training script and weights, but no comparable public leaderboard result was established here. The trained GRU and the checked-in moving-average solution are distinct artifacts."
+                                         },
+                                         {
+                                             "repository":  "https://github.com/msrishav-28/wunder-fund-market-state-forecasting",
+                                             "latest_observed_commit":  "2c220eb5428039c52a44e4321348deacfc775383",
+                                             "commit_date":  "2026-06-16T18:03:18Z",
+                                             "technical_report":  "https://github.com/msrishav-28/wunder-fund-market-state-forecasting/blob/main/reports/phase2_technical_report.md",
+                                             "report_blob_sha":  "bab05e14add4aa84575ef192edbbc92512b6109a",
+                                             "readme_blob_sha":  "e79776c8da04882d2323c1a5da4a55550a4f8341",
+                                             "reported_method":  "Causal GRU ensemble: 3 members at d_model 256 plus 2 at d_model 384; 32-feature input; masked full-sequence BPTT; sequence-grouped validation; equally averaged ensemble.",
+                                             "reported_results":  "Technical report claims dev CV mean R2 0.3922, and cites public leaderboard #1 as 0.3920 and final winner as 0.3964. These are report claims, not independently checked official leaderboard records.",
+                                             "evidence_caveat":  "Useful reproducible public comparison and report, but it is a separate GRU system and not evidence for GALAM."
+                                         }
+                                     ],
+    "version_guard":  {
+                          "official_current_site":  "https://wundernn.io/",
+                          "official_current_submission_guide":  "https://wundernn.io/connectome/docs/submission_guide",
+                          "observation":  "The currently indexed official site describes a different task/version: the leader table is around 0.67; current submission docs describe 20,000-step sequences, 112 input features, and a two-value output. Do not compare those scores or code format directly with the 2025 32-feature, 1000-step challenge and GALAM reports."
+                      },
+    "sources_checked":  [
+                            "https://github.com/denisalpino",
+                            "https://github.com/denisalpino/denisalpino",
+                            "https://www.linkedin.com/posts/denisalpino_machinelearning-quantfinance-hft-activity-7408310006657519616-7_UT",
+                            "https://github.com/aicheye/wundernn",
+                            "https://github.com/kc-z-e-n/wunder_rnn_challenge_2025",
+                            "https://github.com/msrishav-28/wunder-fund-market-state-forecasting",
+                            "https://wundernn.io/",
+                            "https://wundernn.io/connectome/docs/submission_guide"
+                        ]
+}

@@ -1,0 +1,50 @@
+{
+  "schema": "wnn.matched-screen.v1",
+  "hypothesis_id": "H-GALAM-L4-20261028",
+  "experiment_id": "E-GALAM-L4-20261028",
+  "status": "prepared_not_dispatched",
+  "parent": "H-GALAM-20261027",
+  "comparison": "Practical quality/throughput frontier of full LSTM GALAM, full GRU adaptation and local-only LSTM adaptation. Not a pure recurrent-gate causal attribution.",
+  "primary_boundary": "wnn.chronological-primary.v1; train only fitting, complete official valid reporting",
+  "new_scientific_fits": 6,
+  "reused_clean_fits": 0,
+  "teacher_fits": 0,
+  "student_fits": 0,
+  "paired_seeds": [1001, 1002],
+  "cells": [
+    {"arm": "full_lstm", "seed": 1001, "config": "configs/full-lstm-s1001.json"},
+    {"arm": "full_lstm", "seed": 1002, "config": "configs/full-lstm-s1002.json"},
+    {"arm": "full_gru", "seed": 1001, "config": "configs/full-gru-s1001.json"},
+    {"arm": "full_gru", "seed": 1002, "config": "configs/full-gru-s1002.json"},
+    {"arm": "local_lstm", "seed": 1001, "config": "configs/local-lstm-s1001.json"},
+    {"arm": "local_lstm", "seed": 1002, "config": "configs/local-lstm-s1002.json"}
+  ],
+  "fixed_recipe": {
+    "precision": "fp32; BF16 is a separately implemented and checked future arm",
+    "optimizer": "AdamW",
+    "lr": 0.0001,
+    "weight_decay": 0.01,
+    "schedule": "warmup_cosine_v2; 5% warmup, min ratio0",
+    "epochs": 5,
+    "batch_size_per_fit": 16,
+    "batch_status": "starting candidate, not profiled or optimal; must pass actual membership/tail checks",
+    "chunk_rows": 64,
+    "accumulate_chunks": 1,
+    "attention_history": 64,
+    "training_mask": "all_after_warmup; receiving-host audit must establish label validity outside is_scored before admission",
+    "width": 64,
+    "monitoring": {"train_eval_sequences": 32, "diagnostics_every_steps": 25},
+    "primary_endpoint": "configured final epoch5 on full official valid; intermediate epochs diagnostic/exposed",
+    "checkpoint_retention": "all_epochs"
+  },
+  "decision_rule": {
+    "quality_candidate": "Descriptive paired mean WP gain>=0.0005 with both seed deltas reported; targeted follow-up required before treating this as a stable recipe gain.",
+    "efficiency_candidate": "No more than0.0003 descriptive mean WP loss, with >=1.25x measured rows/s at the compared endpoint and honest parameter/budget accounting.",
+    "uncertain": "Mixed seeds or intermediate results remain inconclusive; a zero-crossing conditional interval alone does not close the mechanism.",
+    "partial_or_failure": "Infrastructure-censored, NaN, OOM and incomplete fits are separately reported, not zero-valued or negative scientific results."
+  },
+  "resource_strategy": "Independent one-GPU profiles first; then six paired fits across available L4 slots. Two other slots may run separately bounded engineering profiles/receiving checks. Do not fill cards with duplicate fits or stop existing services. No eight-GPU DDP assumption.",
+  "estimate": "No measured ETA. Use N_fit*20000*epochs / warmed real_rows_per_second + measured evaluation/checkpoint/startup time; account for shared disk/CPU contention.",
+  "followups": ["LSTM without cell-projection versus GRU at the same3W fusion for more isolated attribution", "Remove only ConvMixer", "RelativePE ablation/lag-scale check", "Context versus TBPTT-length ladder", "Measured batch/worker count and FP32/BF16 throughput parity", "SWA/EMA with train-only BatchNorm recalibration", "Plain GRU/GRU+attention and causal EMA-ridge endpoint/ensemble comparisons"],
+  "admission_blockers": ["Verified full train data", "Physical disk headroom", "Actual source/component/target indexes and chronological manifest", "Receiving-host runtime compatibility", "Reviewed real-shape profile and declared fit budget"]
+}

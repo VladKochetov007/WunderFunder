@@ -1,0 +1,103 @@
+{
+  "actor_prerequisite": {
+    "all_bindings_reverified_unchanged": true,
+    "manifest": "research/experiment_drafts/multistage-optuna-b300-20261031/PRIMARY_REFIT_ACTOR_R4_MANIFEST.json",
+    "sha256": "949d8cc147b217a1d8bd406c453944a009847ccb54046801cead2d1e6b2ce0e6"
+  },
+  "execution_scope": "local code and CPU checks only; no SSH/network/GPU/training/publication/commits",
+  "files": {
+    "scripts/multistage_primary_refits_inputs.py": "1dc16bb303d1bbb3b7c2182c932edfd7daaa9e0567a4b0c966070dd8237758b8",
+    "scripts/multistage_primary_refits_outputs.py": "db7fcfe4c7da548a06b76d66afd50053851808959803af33a21d26798654a254",
+    "scripts/multistage_primary_refits_test.py": "0c5a7abc7c482de536b085d054ee8513b603e020b1ca905cada0d97e9801017c",
+    "scripts/report_multistage_primary_ensemble_blend.py": "ccbed7acff47d2c41bb4b40e7a0a341097813649c1a4fc0d1b7ceca5c24962af",
+    "scripts/report_multistage_primary_ensemble_worker.py": "209a2046f9ef9476a4744ede4804d96221eb03cf3dde5764baab061b6cd97322",
+    "scripts/report_multistage_primary_refits.py": "7e50db0f21a22592fd9e008f9922b523a44429b0cc69389119e1b303f9cb50a0",
+    "scripts/report_multistage_primary_refits_worker.py": "fb162473bf0ab49e859be5c3eab65f69812bb8e4b2fe9d62f25640fb44a97d7e"
+  },
+  "launch": [
+    "PYTHON",
+    "OP/scripts/report_multistage_primary_refits.py",
+    "--runtime-root",
+    "H",
+    "--prepared-root",
+    "H/campaign-r2/primary-refits-prep-r1",
+    "--source6-root",
+    "H/source6-eval",
+    "--dependency-root",
+    "H/cpu-deps-r1",
+    "--output",
+    "H/reports/full-primary-refits-r1",
+    "--python",
+    "PYTHON",
+    "--gpu-uuid",
+    "GPU0_UUID",
+    "--gpu-uuid",
+    "GPU1_UUID",
+    "--gpu-uuid",
+    "GPU2_UUID",
+    "--gpu-uuid",
+    "GPU3_UUID"
+  ],
+  "limits": {
+    "batch_size": 64,
+    "gpu_indices": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "hard_deadline_epoch": 1793425269.6589406,
+    "max_parallel_gpu_scorers": 4,
+    "member_seconds": 900,
+    "outer_seconds": 1100,
+    "output_collection_reserve_seconds": 30,
+    "worker_cpu_threads": 1
+  },
+  "outputs": [
+    "all original input/config/source/approval/process receipts",
+    "model.pt hardlinks for configured-final endpoints only",
+    "singleton and fixed-ensemble scored prediction NPYs",
+    "standalone singleton mask/order JSON receipts",
+    "full_primary_refit_report.json",
+    "primary_refit_comparison.csv",
+    "primary_refit_comparison.png",
+    "primary_refit_comparison.svg",
+    "ARTIFACT_MANIFEST.json"
+  ],
+  "preconditions": [
+    "all four exact owned guardians and children gone",
+    "all four exact child receipts terminal and ledger outcomes agree",
+    "R5 engineering reviews and root approvals bind original native profiles",
+    "configured-final complete models only; partial retained checkpoints never score or resume",
+    "both fixed4 blends require all four configured-final complete and all four singleton scores"
+  ],
+  "preserved_r1": {
+    "all_source_bytes_reverified": true,
+    "archive": "research\\experiment_drafts\\multistage-optuna-b300-20261031\\collector-r1-frozen",
+    "manifest_sha256": "d51f3e0464bc9090d059f886e0474c5b4c048034c3d416ef2c1ee7fecbaf11ca"
+  },
+  "r2_fixes": [
+    "Every GPU singleton and CPU blend runs under independent /usr/bin/timeout --signal=TERM --kill-after=5s; wrapper and Python argv are separately recorded",
+    "Watchdog cleanup finishes at least five seconds before absolute hard deadline; nonpositive cleanup headroom refuses admission",
+    "Configured-final model hash must equal native terminal_status.model_sha256",
+    "Z/X owned tuples are gone; any live process in the captured owned PGID blocks scoring"
+  ],
+  "reporting_r3_manifest_sha256": "dd9646106cc2e2c16b21e17a1b445f335e0c3299cca97b06b726b75d2202c273",
+  "schema": "wnn.full-primary-refit-final-collector-source.v2",
+  "source6": {
+    "identity_entrypoint": "scripts/predict_sequence.py",
+    "score_script": "scripts/score_sequence.py",
+    "score_script_sha256": "56502eb04c4cbe2495e78d6236ef354cb0820b1ecc63ab820610a804cfac89a3",
+    "source_sha256": "8d97910b523931bb115c4a979c32ec1c37c7353a666bf0dcf6f22e5de246ed35"
+  },
+  "status": "local_cpu_verified_pending_independent_r2_review",
+  "verification": [
+    "five focused CPU tests passed including PNG/SVG partial-only export",
+    "six existing canonical blend/source6 identity tests passed",
+    "actual node-frozen selection+vectors checked against raw actual Stage4 result",
+    "model hardlink/receipt preservation CPU check passed",
+    "Ruff/format and AST checks passed",
+    "CLI --help passed",
+    "Eight focused CPU tests pass, including independent wrappers, cleanup headroom, native model SHA and zombie/live process-group fixtures"
+  ]
+}
