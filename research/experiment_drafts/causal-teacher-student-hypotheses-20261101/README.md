@@ -1,6 +1,6 @@
 # Causal teacher–student hypotheses: research portfolio
 
-**Status: proposal only.** This draft collects eight distinct, reviewable ideas
+**Status: proposal only.** [Draft PR #55](https://github.com/VladKochetov007/WunderFunder/pull/55) collects eight distinct, reviewable ideas
 for the Wunder Connectome competition. It contains no implementation, accepted
 receiver command, training job, result, new submission ZIP or benchmark claim.
 No local tests, model execution, GPU profile, training, inference or upload were
@@ -33,6 +33,13 @@ the latter's delta is +0.000119022 on an exposed evaluation surface. The
 reports the separate TL3 + 10% LSTM mixture at 0.692502063, also exposed and not
 independently confirmed. PR53's 6/6 positive KD comparisons were an inner proxy,
 not a public score. No local score is a predicted leaderboard result.
+
+[PR54](https://github.com/VladKochetov007/WunderFunder/pull/54) separately
+proposes a final-fit-only TL3 + LSTM on all supplied labels. Its requested full-data
+members include official-valid groups and cannot be reused as clean controls,
+initializers, normalizers or teachers for this portfolio's train-only evaluation.
+The final-fit plan is separate from this proposal and its runtime state is not
+established by this note.
 
 Related prepared work: [PR47](https://github.com/VladKochetov007/WunderFunder/pull/47)
 compares a Transformer teacher with labels-only GRU students;
