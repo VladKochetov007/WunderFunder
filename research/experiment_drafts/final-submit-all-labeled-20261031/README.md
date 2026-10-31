@@ -50,9 +50,28 @@ initial preparation state.
     exit/checkpoint/export, loss/LR/gradient/resource traces, package hashes,
     independent critique and exact GitHub download verification. Tool/bootstrap
     failures are engineering evidence, not negative quality results.
-11. **Current state.** Source data audited; recipe and trainer seams implemented
-    with focused CPU checks. Actual native Linux compilation, parity, package
-    size/timing, actual GPU profiles and complete final fits remain pending.
+11. **Current state.** [Draft PR54](https://github.com/VladKochetov007/WunderFunder/pull/54)
+    is published as SemyonEpanov. Both actual R2 profiles pass the
+    [independent checker](INDEPENDENT_PROFILE_REVIEW_R2.json): native LSTM50
+    optimizer updates and legacy GRU60 updates (five measured whole-sequence
+    batches plus one warmup). The GRU profile measures9.06sequences/second,
+    approximately92minutes for its fixed four epochs, not a timing of every
+    specialized descendant. Full scientific fitting has not started.
+    Linux builds for v3/AVX2/v2 and the focused residual-scratch Rust regression
+    pass. Short synthetic CPU parity, reset and future-prefix checks pass.
+    However, the current residual F32 inference path measures858microseconds
+    per callback on one pinned Xeon6767P core: an extrapolated9.4hours for39.4M
+    rows, which fails the official60-minute budget. This is an engineering
+    blocker, not a delivered or eligible ZIP. A faster residual kernel, actual
+    full-sequence parity, Python3.11 offline package checks and final weights
+    remain pending. Preserve failed pre-CUDA R1 and original panic evidence.
+
+The plan keeps the17-TL3 subtotal54epochs/312,000updates separately from explicit
+aggregate totals18fits/62epochs/319,840updates. Root's detached execution bound
+is12node-hours from the first profile, maximum6hours per scientific fit,
+600seconds per engineering profile and30minutes reserved for collection.
+Each actual fit still needs its exact-recipe engineering admission. These bounds
+do not declare a fit running or promise that the complete DAG will finish.
 
 Official sources checked31October2026: [FAQ](https://wundernn.io/connectome/docs/faq)
 permits supplied train/valid labels; [submission guide](https://wundernn.io/connectome/docs/submission_guide)
