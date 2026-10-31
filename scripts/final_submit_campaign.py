@@ -21,6 +21,7 @@ from wnn.multistage_search import atomic_write_json, file_lock
 from wnn.multistage_search_owned_command import run_owned_command
 from wnn.multistage_search_runtime import base_environment, hold_gpu_slot, process_identity
 from wnn.training.environment import TrainingEnvironment
+from wnn.training.final_submit_bridge_teachers import audit_final_fit_ancestor_closure
 from wnn.training.source_identity import training_source_identity
 
 WRAPPER_SHA256 = "8ccc3c5bfa1c69e814391cf2d0a22105fc22d9991d907ced8c97f3150db8af41"
@@ -34,6 +35,7 @@ ROOT_PROFILE_NODES = {
 }
 HISTORICAL_PROFILE_COUNT = 4
 PROFILE_KEY_PREFIX = "legacy-"
+EARLY_SUCCESSOR_IDS = ("ffull_s3", "ffull_s4", "frawW_s3ft", "frawW_s4ft")
 
 
 def _profile_key(node_id: str) -> str:
@@ -1266,6 +1268,496 @@ def _adopt_qualified_operational_repairs(
     return inner
 
 
+def _wait_early_successor_panel(
+    args: argparse.Namespace,
+) -> tuple[dict[str, Any], Path, Path, str] | None:
+    """Wait for the root-owned four-fit worker to finish without touching R1 state."""
+    profile_panel = args.runtime_root / "receipts/early-successor-profile-panel-r4.approved.json"
+    if not profile_panel.is_file():
+        return None
+    launch_path = args.runtime_root / "receipts/fit-early-successors-r4-driver.launch.json"
+    completion_path = args.runtime_root / "receipts/early-successor-full-fit-panel-r4.complete.json"
+    while time.time() < contract.HARD_DEADLINE - contract.COLLECTION_RESERVE:
+        if not launch_path.is_file() or launch_path.is_symlink():
+            raise ValueError("early-successor approval exists without its one-shot worker receipt")
+        launch = contract.read_json(launch_path, 4_000_000)
+        child = launch.get("child") if isinstance(launch.get("child"), dict) else launch
+        pid, pgid = child.get("pid"), child.get("pgid")
+        birth = child.get("birth", child.get("start_ticks"))
+        if type(pid) is not int or type(pgid) is not int or not isinstance(birth, (str, int)):
+            raise ValueError("early-successor launch receipt omits PID/PGID/start identity")
+        current = process_identity(pid)
+        owner_alive = (
+            current is not None
+            and current.get("pgid") == pgid
+            and str(current.get("birth", current.get("start_ticks"))) == str(birth)
+        )
+        alive = owner_alive or _owned_group_alive(pgid)
+        if completion_path.is_file() and not completion_path.is_symlink() and not alive:
+            return (
+                contract.read_json(completion_path, 4_000_000),
+                completion_path,
+                launch_path,
+                contract.sha256_file(launch_path),
+            )
+        if not alive:
+            raise RuntimeError("early-successor worker exited without a complete proof panel")
+        time.sleep(10)
+    raise TimeoutError("collection reserve began while awaiting the four approved fits")
+
+
+def _early_profile_entries(
+    args: argparse.Namespace, plan: dict[str, Any], membership: Any
+) -> tuple[dict[str, dict[str, Any]], str]:
+    """Validate the exact independent profile panel and bind requests to recipes."""
+    path = args.runtime_root / "receipts/early-successor-profile-panel-r4.approved.json"
+    panel = contract.read_json(path, 1_000_000)
+    entries = panel.get("approved", panel.get("profiles", panel.get("entries")))
+    if not isinstance(entries, list) or len(entries) != 4:
+        raise ValueError("early-successor profile panel must contain exactly four approvals")
+    by_id = {str(item.get("node_id", "")): item for item in entries if isinstance(item, dict)}
+    if set(by_id) != set(EARLY_SUCCESSOR_IDS) or len(by_id) != len(entries):
+        raise ValueError("early-successor profile panel node set differs")
+    result: dict[str, dict[str, Any]] = {}
+    for node_id, item in by_id.items():
+        approval_raw, request_raw = Path(item["path"]), Path(item["request_path"])
+        approval_raw = (
+            approval_raw if approval_raw.is_absolute() else args.runtime_root / approval_raw
+        )
+        request_raw = request_raw if request_raw.is_absolute() else args.runtime_root / request_raw
+        approval_path, request_path = approval_raw.resolve(), request_raw.resolve()
+        if (
+            approval_raw.is_symlink()
+            or request_raw.is_symlink()
+            or approval_path != approval_raw.absolute()
+            or request_path != request_raw.absolute()
+        ):
+            raise ValueError(f"early-successor profile evidence traverses a symlink: {node_id}")
+        for evidence_path in (approval_path, request_path):
+            try:
+                evidence_path.relative_to(args.runtime_root)
+            except ValueError as error:
+                raise ValueError("early-successor profile evidence escapes runtime root") from error
+        expected_sha, request_sha = str(item["sha256"]), str(item["request_sha256"])
+        approval = _validate_approval(
+            node_id, approval_path, expected_sha, request_path, request_sha, plan, membership
+        )
+        if approval.get("gpu_uuid") != item.get("gpu_uuid"):
+            raise ValueError(f"early-successor profile GPU differs: {node_id}")
+        result[node_id] = {
+            "path": approval_path,
+            "sha256": expected_sha,
+            "gpu_uuid": str(item["gpu_uuid"]),
+            "request_path": request_path,
+            "request_sha256": request_sha,
+        }
+    if len({item["gpu_uuid"] for item in result.values()}) != 4:
+        raise ValueError("early-successor profile panel reuses a GPU")
+    return result, contract.sha256_file(path)
+
+
+def _validate_early_stage_receipt(
+    args: argparse.Namespace,
+    path: Path,
+    embedded: object,
+    argv: list[str],
+    *,
+    stage: int,
+    trial: int,
+    gpu_uuid: str,
+    output_dir: Path,
+) -> dict[str, Any]:
+    """Verify one frozen fit/export command receipt against the actual owned process."""
+    receipt = contract.read_json(path, 2_000_000)
+    command, timeout = receipt.get("command"), receipt.get("timeout_seconds")
+    if (
+        receipt != embedded
+        or receipt.get("schema") != "wnn.multistage-owned-process.v1"
+        or receipt.get("status") != "completed"
+        or receipt.get("exit_code") != 0
+        or receipt.get("timed_out") is not False
+        or receipt.get("mode") != "final_submit_finite_chain"
+        or receipt.get("stage") != stage
+        or receipt.get("trial_number") != trial
+        or receipt.get("gpu_key") != gpu_uuid
+        or receipt.get("cwd") != str(args.source_root.resolve())
+        or receipt.get("output_dir") != str(output_dir.resolve())
+        or type(timeout) is not int
+        or not 10 < timeout <= contract.MAX_FIT_SECONDS
+        or not isinstance(command, list)
+        or command[:3] != ["/usr/bin/timeout", "--signal=TERM", "--kill-after=10s"]
+        or command[3:4] != [f"{timeout - 10}s"]
+        or command[4:] != argv
+        or receipt.get("command_sha256") != contract.canonical_sha256(command)
+    ):
+        raise ValueError(f"early-successor owned command receipt differs: {path.name}")
+    return receipt
+
+
+def _validate_early_successor_proof(
+    args: argparse.Namespace,
+    plan: dict[str, Any],
+    membership: Any,
+    inner: dict[str, Any],
+    node: dict[str, Any],
+    profile: dict[str, Any],
+    intent: dict[str, Any],
+    intent_sha: str,
+    proof_path: Path,
+    expected_proof_sha: str,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Validate one completion proof, checkpoint, source-ordered exports, and ancestry."""
+    node_id, run = node["node_id"], node["run"]
+    if proof_path.is_symlink() or contract.sha256_file(proof_path) != expected_proof_sha:
+        raise ValueError(f"early-successor completion proof bytes differ: {node_id}")
+    proof = contract.read_json(proof_path, 8_000_000)
+    trial = contract.TL3_IDS.index(node_id) + 2
+    output = args.data_root / "artifacts/runs" / run
+    parents = {}
+    for parent_id in node["parents"]:
+        parent = next(
+            item
+            for item in director._node_records(plan, contract.verify_plan(plan, args.plan), args)
+            if item["node_id"] == parent_id
+        )
+        row = inner["nodes"].get(parent_id)
+        if not isinstance(row, dict) or row.get("status") != "complete":
+            raise ValueError(f"successor parent is not complete: {node_id} <- {parent_id}")
+        checkpoint = director.runtime.validate_fit_checkpoint(
+            node=parent,
+            output_dir=args.data_root / "artifacts/runs" / parent["run"],
+            membership=membership,
+        )
+        parents[parent_id] = {
+            "checkpoint_path": str(checkpoint),
+            "checkpoint_sha256": contract.sha256_file(checkpoint),
+        }
+        if (
+            row.get("checkpoint_path") != parents[parent_id]["checkpoint_path"]
+            or row.get("checkpoint_sha256") != parents[parent_id]["checkpoint_sha256"]
+        ):
+            raise ValueError(f"successor parent checkpoint changed: {parent_id}")
+    frozen = next(item for item in intent["items"] if item.get("node_id") == node_id)
+    if (
+        proof.get("schema") != "wnn.final-early-successor-completion.v1"
+        or proof.get("status") != "complete"
+        or proof.get("node_id") != node_id
+        or proof.get("run") != run
+        or proof.get("plan_sha256") != contract.PLAN_SHA256
+        or proof.get("source_capsule_sha256") != contract.SOURCE_CAPSULE_SHA256
+        or proof.get("membership_sha256") != membership.manifest_sha256
+        or proof.get("fit_members_sha256") != membership.fit_members_sha256
+        or proof.get("panel_path")
+        != str(args.runtime_root / "inputs/early-successor-full-fit-panel-r4.json")
+        or proof.get("panel_sha256") != intent_sha
+        or proof.get("profile_path") != str(profile["path"])
+        or proof.get("profile_sha256") != profile["sha256"]
+        or proof.get("request_path") != str(profile["request_path"])
+        or proof.get("request_sha256") != profile["request_sha256"]
+        or proof.get("parents") != parents
+        or proof.get("gpu_uuid") != profile["gpu_uuid"]
+        or proof.get("trial") != trial
+        or proof.get("fixed_endpoint") != node["endpoint"]
+        or proof.get("independent_score_claim") != "forbidden"
+        or frozen.get("run") != run
+        or frozen.get("args") != node["args"]
+        or frozen.get("profile_path") != str(profile["path"])
+        or frozen.get("profile_sha256") != profile["sha256"]
+        or frozen.get("gpu_uuid") != profile["gpu_uuid"]
+        or frozen.get("parents") != parents
+        or frozen.get("trial") != trial
+    ):
+        raise ValueError(f"early-successor proof is not bound to the frozen node: {node_id}")
+    result = proof.get("result")
+    if (
+        not isinstance(result, dict)
+        or result.get("status") != "complete"
+        or result.get("run") != run
+    ):
+        raise ValueError(f"early-successor result is incomplete: {node_id}")
+    fit_path = args.controller_root / "receipts/fits" / f"{node_id}.json"
+    fit_argv = director.execution.build_fit_argv(
+        node=node,
+        python=args.python,
+        source_root=args.source_root,
+        data_root=args.data_root,
+        plan=plan,
+        profile_path=Path(profile["path"]),
+    )
+    fit_process = _validate_early_stage_receipt(
+        args,
+        fit_path,
+        result.get("fit_process"),
+        fit_argv,
+        stage=1,
+        trial=trial,
+        gpu_uuid=profile["gpu_uuid"],
+        output_dir=output,
+    )
+    checkpoint = director.runtime.validate_fit_checkpoint(
+        node=node, output_dir=output, membership=membership
+    )
+    if (
+        result.get("node_id") != node_id
+        or result.get("fit_process_receipt") != str(fit_path)
+        or result.get("checkpoint_path") != str(checkpoint)
+        or result.get("checkpoint_sha256") != contract.sha256_file(checkpoint)
+        or checkpoint != output / f"model_ep{node['endpoint']}.pt"
+    ):
+        raise ValueError(f"early-successor fixed checkpoint differs: {node_id}")
+    exports = result.get("exports")
+    if not isinstance(exports, dict) or set(exports) != {"train", "valid"}:
+        raise ValueError(f"early-successor exports are incomplete: {node_id}")
+    for split in ("train", "valid"):
+        export = exports[split]
+        path = director.runtime.validate_export(args.data_root, run, split, membership)
+        receipt_path = args.controller_root / "receipts/exports" / f"{node_id}-{split}.json"
+        export_argv = [
+            str(args.python),
+            str(args.source_root / "scripts/predict_run.py"),
+            run,
+            split,
+            "--epoch",
+            str(node["endpoint"]),
+            "--final-fit-manifest",
+            str(args.membership),
+            "--final-fit-source-validation-receipt",
+            str(args.source_audit),
+            "--final-fit-source-validation-sha256",
+            contract.SOURCE_AUDIT_SHA256,
+            "--device",
+            "cuda",
+        ]
+        process = _validate_early_stage_receipt(
+            args,
+            receipt_path,
+            export.get("process"),
+            export_argv,
+            stage=2,
+            trial=trial,
+            gpu_uuid=profile["gpu_uuid"],
+            output_dir=args.data_root / "cache",
+        )
+        if (
+            export.get("status") != "complete"
+            or export.get("path") != str(path)
+            or export.get("sha256") != contract.sha256_file(path)
+            or export.get("receipt") != str(receipt_path)
+            or export.get("prediction_role")
+            != "fitting-only teacher features; no independent score"
+            or export.get("independent_score_claim") != "forbidden"
+            or process != contract.read_json(receipt_path, 2_000_000)
+        ):
+            raise ValueError(f"early-successor source export differs: {node_id}/{split}")
+    closure = audit_final_fit_ancestor_closure(run, checkpoint.name, membership, args.data_root)
+    required_runs = {parent["run"] for parent in parents.values()}
+    if required_runs - {entry.get("run") for entry in closure} or any(
+        entry.get("final_fit_manifest_sha256") != membership.manifest_sha256
+        or entry.get("final_fit_members_sha256") != membership.fit_members_sha256
+        or entry.get("source_validation_sha256") != membership.source_validation_sha256
+        for entry in closure
+    ):
+        raise ValueError(f"early-successor ancestor closure differs: {node_id}")
+    row = {
+        "status": "complete",
+        "fit_attempted": True,
+        "node_id": node_id,
+        "run": run,
+        "started_at_epoch": proof.get("started_epoch"),
+        "fit_started_at_epoch": result.get("fit_started_at_epoch"),
+        "fit_finished_at_epoch": result.get("fit_finished_at_epoch"),
+        "gpu_uuid": profile["gpu_uuid"],
+        "profile_receipt": str(profile["path"]),
+        "profile_sha256": profile["sha256"],
+        "profile_request_sha256": profile["request_sha256"],
+        "trial_number": trial,
+        "argv": fit_process["command"],
+        "argv_sha256": fit_process["command_sha256"],
+        "source_capsule_sha256": contract.SOURCE_CAPSULE_SHA256,
+        "plan_sha256": contract.PLAN_SHA256,
+        "membership_sha256": membership.manifest_sha256,
+        "fit_process_receipt": str(fit_path),
+        "fit_process": fit_process,
+        "checkpoint_path": str(checkpoint),
+        "checkpoint_sha256": contract.sha256_file(checkpoint),
+        "exports": exports,
+        "ancestor_closure": closure,
+        "independent_score_claim": "forbidden",
+    }
+    return proof, row
+
+
+def _adopt_early_successors(
+    args: argparse.Namespace, inner: dict[str, Any], plan: dict[str, Any], membership: Any
+) -> dict[str, Any]:
+    """Adopt the four root-run fits only after R1 is terminal and all proofs pass."""
+    events = inner.get("qualified_early_successor_adoptions", [])
+    if events:
+        if len(events) != 1 or events[0].get("resolved_node_ids") != list(EARLY_SUCCESSOR_IDS):
+            raise ValueError("early-successor adoption history is malformed")
+        event = events[0]
+        proofs = event.get("proofs")
+        if not isinstance(proofs, dict) or set(proofs) != set(EARLY_SUCCESSOR_IDS):
+            raise ValueError("early-successor adoption proof bindings are malformed")
+        for node_id, binding in proofs.items():
+            path = Path(str(binding.get("path", "")))
+            row = inner.get("nodes", {}).get(node_id, {})
+            if (
+                path.is_symlink()
+                or not path.is_file()
+                or contract.sha256_file(path) != binding.get("sha256")
+                or row.get("status") != "complete"
+                or row.get("fit_attempted") is not True
+            ):
+                raise ValueError(f"previously adopted successor proof no longer matches: {node_id}")
+        return inner
+    completed = _wait_early_successor_panel(args)
+    if completed is None:
+        return inner
+    completion, completion_path, launch_path, launch_sha = completed
+    if (
+        inner.get("phase") != "awaiting_profile_or_dependency"
+        or inner.get("active_workers")
+        or inner.get("active_lanes", 0) != 0
+        or inner.get("scientific_fits_started") != 8
+        or inner.get("scientific_fits_completed") != 8
+    ):
+        raise ValueError(
+            "early successors can only be adopted after the repaired first wave is terminal"
+        )
+    before_path = args.controller_root / "controller-state.json"
+    before_bytes = before_path.read_bytes()
+    if contract.read_json(before_path, 64_000_000) != inner:
+        raise ValueError("R1 controller state changed while early successor proofs were checked")
+    before_sha = hashlib.sha256(before_bytes).hexdigest()
+    snapshot = (
+        args.controller_root
+        / "receipts/repairs"
+        / f"controller-state.before-early-successors-{before_sha}.json"
+    )
+    _write_immutable_bytes(snapshot, before_bytes)
+    expected_first = ROOT_PROFILE_NODES | {"fin256_s3", "source4_lstm192x1"}
+    if set(inner.get("nodes", {})) != expected_first:
+        raise ValueError("R1 state is not the exact repaired eight-node first wave")
+    _require_identity(inner, plan, membership, args)
+    panel_path = args.runtime_root / "inputs/early-successor-full-fit-panel-r4.json"
+    panel = contract.read_json(panel_path, 4_000_000)
+    panel_sha = contract.sha256_file(panel_path)
+    profile_records, profile_panel_sha = _early_profile_entries(args, plan, membership)
+    if (
+        completion.get("schema") != "wnn.final-early-successor-panel-completion.v1"
+        or completion.get("status") != "complete"
+        or completion.get("plan_sha256") != contract.PLAN_SHA256
+        or completion.get("panel_path") != str(panel_path)
+        or completion.get("panel_sha256") != panel_sha
+        or panel.get("schema") != "wnn.final-early-successor-fit-panel.v1"
+        or panel.get("plan_sha256") != contract.PLAN_SHA256
+        or panel.get("source_capsule_sha256") != contract.SOURCE_CAPSULE_SHA256
+        or panel.get("membership_sha256") != membership.manifest_sha256
+        or panel.get("profile_panel_sha256") != profile_panel_sha
+        or panel.get("max_new_scientific_fits") != 4
+        or panel.get("total_unique_fit_roles_cap") != contract.TOTAL_FITS
+        or panel.get("write_shared_controller_state") is not False
+        or panel.get("foreign_signals") is not False
+    ):
+        raise ValueError("early-successor completion panel differs from frozen admission")
+    frozen = {
+        item.get("node_id"): item for item in panel.get("items", []) if isinstance(item, dict)
+    }
+    completion_items = completion.get("items")
+    if (
+        set(frozen) != set(EARLY_SUCCESSOR_IDS)
+        or not isinstance(completion_items, list)
+        or len(completion_items) != 4
+    ):
+        raise ValueError("early-successor panel does not contain the exact four fits")
+    proof_entries = {
+        item.get("node_id"): item for item in completion_items if isinstance(item, dict)
+    }
+    if set(proof_entries) != set(EARLY_SUCCESSOR_IDS) or len(proof_entries) != 4:
+        raise ValueError("early-successor completion proof list is incomplete")
+    plan_nodes = contract.verify_plan(plan, args.plan)
+    node_records = {
+        node["node_id"]: node for node in director._node_records(plan, plan_nodes, args)
+    }
+    verified: dict[str, tuple[dict[str, Any], dict[str, Any], str, str]] = {}
+    for node_id in EARLY_SUCCESSOR_IDS:
+        entry = proof_entries[node_id]
+        expected_path = args.runtime_root / "receipts" / f"early-successor-{node_id}.complete.json"
+        proof_path = Path(str(entry.get("proof_path", "")))
+        if proof_path != expected_path or entry.get("proof_sha256") != contract.sha256_file(
+            proof_path
+        ):
+            raise ValueError(f"early-successor proof panel path/hash differs: {node_id}")
+        proof, row = _validate_early_successor_proof(
+            args,
+            plan,
+            membership,
+            inner,
+            node_records[node_id],
+            profile_records[node_id],
+            panel,
+            panel_sha,
+            proof_path,
+            str(entry["proof_sha256"]),
+        )
+        if frozen[node_id].get("run") != node_records[node_id]["run"]:
+            raise ValueError(f"early-successor frozen run differs: {node_id}")
+        verified[node_id] = (proof, row, str(proof_path), str(entry["proof_sha256"]))
+    terminal_history = json.loads(json.dumps(inner.get("terminal_outcomes", [])))
+    for node_id, (_, row, _, _) in verified.items():
+        if node_id in inner["nodes"]:
+            raise ValueError(f"R1 already attempted early successor; refusing adoption: {node_id}")
+        inner["nodes"][node_id] = row
+    inner["scientific_fits_started"] = sum(
+        bool(row.get("fit_attempted")) for row in inner["nodes"].values()
+    )
+    inner["scientific_fits_completed"] = sum(
+        row.get("status") == "complete" for row in inner["nodes"].values()
+    )
+    inner["exports_completed"] = sum(
+        sum(item.get("status") == "complete" for item in row.get("exports", {}).values())
+        for row in inner["nodes"].values()
+    )
+    if (
+        inner["scientific_fits_started"] != 12
+        or inner["scientific_fits_completed"] != 12
+        or inner.get("terminal_outcomes", []) != terminal_history
+    ):
+        raise ValueError("early-successor adoption changed fit counts or terminal history")
+    proof_bindings = {
+        node_id: {"path": path, "sha256": digest}
+        for node_id, (_, _, path, digest) in verified.items()
+    }
+    inner["phase"] = "awaiting_profile_or_dependency"
+    inner.setdefault("qualified_early_successor_adoptions", []).append(
+        {
+            "schema": "wnn.final-submit-early-successor-adoption.v1",
+            "before_state_path": str(snapshot),
+            "before_state_sha256": before_sha,
+            "completion_panel_path": str(completion_path),
+            "completion_panel_sha256": contract.sha256_file(completion_path),
+            "worker_launch_receipt_path": str(launch_path),
+            "worker_launch_receipt_sha256": launch_sha,
+            "worker_exit_status": "unknown_after_detachment",
+            "worker_exit_status_reason": "Popen wrapper did not observe or record child exit",
+            "fit_panel_path": str(panel_path),
+            "fit_panel_sha256": panel_sha,
+            "profile_panel_path": str(
+                args.runtime_root / "receipts/early-successor-profile-panel-r4.approved.json"
+            ),
+            "profile_panel_sha256": profile_panel_sha,
+            "proofs": proof_bindings,
+            "resolved_node_ids": list(EARLY_SUCCESSOR_IDS),
+            "terminal_outcomes_preserved": True,
+            "adopted_at_epoch": time.time(),
+        }
+    )
+    inner["updated_at_epoch"] = time.time()
+    atomic_write_json(before_path, inner)
+    return inner
+
+
 def _inner_worker_alive(inner: dict[str, Any]) -> bool:
     """Check only process identities recorded by the finite director."""
     for worker in inner.get("active_workers", {}).values():
@@ -1660,6 +2152,7 @@ def main() -> None:
             inner_path = controller_root / "controller-state.json"
             inner = contract.read_json(inner_path, 64_000_000) if inner_path.is_file() else {}
             if inner.get("phase") == "complete":
+                inner = _adopt_early_successors(args, inner, plan, membership)
                 _require_identity(inner, plan, membership, args)
                 _require_complete(inner)
                 state.update({"phase": "complete", "finished_at_epoch": time.time()})
@@ -1687,6 +2180,11 @@ def main() -> None:
                 profiles, _ = _load_profiles(args, plan, membership)
             elif inner.get("phase") != "awaiting_profile_or_dependency":
                 inner = _director_pass(args, plan, nodes, profiles, state)
+            if inner.get("phase") in {
+                "awaiting_profile_or_dependency",
+                "complete",
+            } and not inner.get("active_workers"):
+                inner = _adopt_early_successors(args, inner, plan, membership)
             profiles, _ = _load_profiles(args, plan, membership)
             state["profiles_approved"] = len(profiles)
             state["profile_count_with_historical"] = len(profiles) + HISTORICAL_PROFILE_COUNT
