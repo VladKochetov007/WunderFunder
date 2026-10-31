@@ -126,8 +126,18 @@ def _verify_source(root: Path, name: str, identity: dict[str, Any]) -> None:
     expected_hash = identity.get("sha256")
     if expected_hash is not None and file_sha256(source) != expected_hash:
         raise ValueError(f"chronological primary source hash changed: {source}")
-    if "footer_sha256" in identity and _footer_identity(source) != identity:
-        raise ValueError(f"chronological parquet identity changed: {source}")
+    if "footer_sha256" in identity:
+        current_footer = _footer_identity(source)
+        if portable_registry:
+            # The sealed registry above verifies the complete original source bytes.
+            # Keep the manifest's original mtime for provenance, while allowing a
+            # byte-identical file copied to a receiver to have a different mtime.
+            current_footer.pop("mtime_ns")
+            expected_footer = {key: value for key, value in identity.items() if key != "mtime_ns"}
+            if current_footer != expected_footer:
+                raise ValueError(f"chronological parquet identity changed: {source}")
+        elif current_footer != identity:
+            raise ValueError(f"chronological parquet identity changed: {source}")
     if "index_sha256" in identity:
         current = _target_identity(source)
         if current.get("index_sha256") != identity["index_sha256"]:

@@ -15,7 +15,7 @@ def validate_input_prefetch_batches(value: object) -> None:
 def validate_monitoring_config(
     value: object, raw_model: object, epochs: object, checkpoint_retention: object
 ) -> None:
-    """Validate legacy GALAM and extended GALAM/GRU monitoring recipes."""
+    """Validate monitored recipes for the canonical sequence model families."""
     base_fields = {"train_eval_sequences", "diagnostics_every_steps"}
     extended_fields = {
         "train_eval_mask",
@@ -29,10 +29,15 @@ def validate_monitoring_config(
         or set(value) - (base_fields | extended_fields)
     ):
         raise ValueError("monitoring has unsupported fields or omits its required cohort controls")
-    if set(value) != base_fields and set(value) != base_fields | extended_fields:
-        raise ValueError("extended monitoring controls must be supplied together")
-    if not isinstance(raw_model, dict) or raw_model.get("architecture") not in ("galam", "gru"):
-        raise ValueError("online sequence monitoring requires model.architecture=galam or gru")
+    if value.keys() & extended_fields and "train_eval_mask" not in value:
+        raise ValueError("extended monitoring controls require train_eval_mask")
+    if not isinstance(raw_model, dict) or raw_model.get("architecture") not in (
+        "galam",
+        "gru",
+        "lstm",
+        "transformer",
+    ):
+        raise ValueError("online monitoring requires a supported sequence model")
     if type(epochs) is not int or not 1 <= epochs <= 10_000:
         raise ValueError("monitored fits require epochs in [1, 10000]")
     for key in ("train_eval_sequences", "diagnostics_every_steps"):
@@ -40,15 +45,18 @@ def validate_monitoring_config(
             raise ValueError(f"monitoring.{key} must be a positive integer")
     if value["train_eval_sequences"] > 256:
         raise ValueError("monitoring.train_eval_sequences cannot exceed 256")
-    if set(value) == base_fields:
-        return
-    if checkpoint_retention != "all_epochs":
-        raise ValueError("extended monitoring requires checkpoint_retention=all_epochs")
-    if value["train_eval_mask"] != "all_after_warmup":
+    if "train_eval_mask" in value and value["train_eval_mask"] != "all_after_warmup":
         raise ValueError("monitoring.train_eval_mask must be all_after_warmup")
-    for key in ("eval_batch_size", "training_telemetry_every_steps"):
+    extended_runtime = {"eval_batch_size", "training_telemetry_every_steps"}
+    if not value.keys() & extended_runtime and "early_stopping" not in value:
+        return
+    if not extended_runtime.issubset(value) or checkpoint_retention != "all_epochs":
+        raise ValueError("extended monitoring requires checkpoint_retention=all_epochs")
+    for key in extended_runtime:
         if type(value[key]) is not int or value[key] < 1:
             raise ValueError(f"monitoring.{key} must be a positive integer")
+    if "early_stopping" not in value:
+        return
     early_stopping = value["early_stopping"]
     if not isinstance(early_stopping, dict) or set(early_stopping) != {
         "min_epoch",

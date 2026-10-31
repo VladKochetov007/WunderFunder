@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Mapping
 from typing import Any
 
 from wnn.training.sequence_cache_ensemble_provenance import (
@@ -8,6 +9,10 @@ from wnn.training.sequence_cache_ensemble_provenance import (
 )
 from wnn.training.sequence_cache_ensemble_provenance import (
     common_provenance,
+)
+from wnn.training.sequence_cache_weighted_pool_lineage import (
+    WEIGHTED_POOL_KIND,
+    validate_weighted_pool_node,
 )
 
 MAX_ANCESTRY_DEPTH = 32
@@ -27,11 +32,11 @@ def _validate_teacher_reference(reference: object) -> dict[str, Any]:
     producer = reference["producer"]
     if reference.get("manifest_sha256") is not None and not is_sha256(reference["manifest_sha256"]):
         raise ValueError("invalid teacher manifest hash")
-    if producer.get("kind") == ENSEMBLE_KIND:
+    if producer.get("kind") in (ENSEMBLE_KIND, WEIGHTED_POOL_KIND):
         if reference.get("checkpoint_sha256") is not None:
-            raise ValueError("ensemble teacher identity cannot claim a checkpoint")
+            raise ValueError("composed teacher identity cannot claim a checkpoint")
         if reference.get("composition_sha256") != producer.get("composition_sha256"):
-            raise ValueError("ensemble teacher composition identity mismatch")
+            raise ValueError("composed teacher composition identity mismatch")
     elif reference.get("checkpoint_sha256") is not None and reference.get(
         "checkpoint_sha256"
     ) != producer.get("checkpoint_sha256"):
@@ -145,6 +150,10 @@ def validate_producer(
     producer: dict[str, Any],
     split_hash: str,
     members: list[tuple[str, int]],
+    *,
+    evaluation_members: list[tuple[str, int]] | None = None,
+    primary_split_sha256: str | None = None,
+    expected_sources: Mapping[str, object] | None = None,
 ) -> None:
     """Require same-fold fitting ancestry through linear and ensemble branches."""
     expected_members = [list(member) for member in members]
@@ -168,6 +177,15 @@ def validate_producer(
             kind = current.get("kind")
             if kind == ENSEMBLE_KIND:
                 children = _validate_ensemble_node(current)
+            elif kind == WEIGHTED_POOL_KIND:
+                children = validate_weighted_pool_node(
+                    current,
+                    split_hash,
+                    members,
+                    evaluation_members,
+                    primary_split_sha256,
+                    expected_sources,
+                )
             else:
                 if kind not in (None, "single_checkpoint"):
                     raise ValueError("unsupported teacher producer kind")

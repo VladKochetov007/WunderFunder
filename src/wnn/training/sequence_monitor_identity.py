@@ -24,13 +24,21 @@ def mask_definition(mask: str) -> str:
     raise ValueError(f"unsupported monitoring row mask: {mask}")
 
 
-def mask_comparison(train_eval_mask: str) -> str:
-    """Describe whether this run's train-eval and valid cohorts share a row mask."""
-    if train_eval_mask == "is_scored":
-        return "train_eval and valid both use the official is_scored mask"
-    if train_eval_mask == "all_after_warmup":
-        return "train_eval uses all_after_warmup; valid uses official is_scored; masks differ"
-    raise ValueError(f"unsupported train-eval mask: {train_eval_mask}")
+def mask_comparison(
+    train_eval_mask: str, evaluation_mask: str | None = None, role: str = "valid"
+) -> str:
+    """Describe how a fitting diagnostic mask compares with this evaluation role."""
+    if evaluation_mask is None:
+        if train_eval_mask == "is_scored":
+            return "train_eval and valid both use the official is_scored mask"
+        if train_eval_mask == "all_after_warmup":
+            return "train_eval uses all_after_warmup; valid uses official is_scored; masks differ"
+        raise ValueError(f"unsupported train-eval mask: {train_eval_mask}")
+    train_description = mask_definition(train_eval_mask)
+    evaluation_description = mask_definition(evaluation_mask)
+    if train_eval_mask == evaluation_mask:
+        return f"train_eval and {role} use {train_description}"
+    return f"train_eval uses {train_description}; {role} uses {evaluation_description}"
 
 
 def validate_dataset_members(

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -178,6 +179,7 @@ def _verify_source_audit_entry(
 ) -> None:
     """Match a root-issued full-file identity to current bounded parquet metadata."""
     source = root / "datasets" / f"{split}.parquet"
+    portable = _verify_portable_source_audit(root, split, identity)
     stat = source.stat()
     footer = _footer_identity(source)
     parquet = pq.ParquetFile(source)
@@ -202,12 +204,38 @@ def _verify_source_audit_entry(
         "sequence_length": sequence_length,
         "has_is_scored": "is_scored" in parquet.schema_arrow.names,
     }
-    if any(identity.get(key) != value for key, value in actual.items()):
+    compared = {key: value for key, value in actual.items() if not (portable and key == "mtime_ns")}
+    if any(identity.get(key) != value for key, value in compared.items()):
         raise ValueError(f"root-issued source audit metadata no longer matches {source}")
     if not isinstance(identity.get("sha256"), str) or not re.fullmatch(
         r"[0-9a-f]{64}", str(identity["sha256"])
     ):
         raise ValueError(f"root-issued source audit has an invalid SHA-256 for {source}")
+
+
+def _verify_portable_source_audit(
+    root: Path, split: str, audit_identity: dict[str, object]
+) -> bool:
+    """Verify relocated parquet bytes against the sealed registry before ignoring mtime."""
+    registry_name = os.environ.get("WNN_PORTABLE_DATA_MANIFEST")
+    if not registry_name:
+        return False
+    source_name = f"datasets/{split}.parquet"
+    registry = Path(registry_name)
+    payload = json.loads(registry.read_text(encoding="utf-8"))
+    sources = payload.get("sources") if isinstance(payload, dict) else None
+    entry = sources.get(source_name) if isinstance(sources, dict) else None
+    if not isinstance(entry, dict):
+        raise ValueError(f"portable source registry is missing {source_name}")
+    original_identity, sealed_sha256 = entry.get("original_identity"), entry.get("sha256")
+    if not isinstance(original_identity, dict) or sealed_sha256 != audit_identity.get("sha256"):
+        raise ValueError(f"portable source registry disagrees with root-issued audit for {split}")
+    if any(audit_identity.get(key) != value for key, value in original_identity.items()):
+        raise ValueError(f"portable source identity disagrees with root-issued audit for {split}")
+    from wnn.portability import verify_portable_source
+
+    verify_portable_source(root / source_name, source_name, original_identity, registry)
+    return True
 
 
 def _write_index_failure_receipt(
@@ -314,7 +342,7 @@ def build_source_index(
         "source_sha256": expected_sha256,
         "source_audit": SOURCE_AUDIT_PATH.as_posix(),
         "source_audit_sha256": source_audit_sha256,
-        "source_mtime_ns": before.st_mtime_ns,
+        "source_mtime_ns": audit_entry["mtime_ns"],
         "source_footer_bytes": footer_before["footer_bytes"],
         "source_footer_sha256": footer_before["footer_sha256"],
         "row_group_count": len(row_group),
@@ -365,7 +393,6 @@ def validate_source_index_receipt(
     receipt_path = root / "cache" / f"{split}_index.identity.json"
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
     parquet_path = root / "datasets" / f"{split}.parquet"
-    source_stat = parquet_path.stat()
     footer = _footer_identity(parquet_path)
     expected_receipt = {
         "schema": "wnn.official-source-index.v1",
@@ -375,7 +402,7 @@ def validate_source_index_receipt(
         "source_sha256": audit_entry["sha256"],
         "source_audit": SOURCE_AUDIT_PATH.as_posix(),
         "source_audit_sha256": source_audit_sha256,
-        "source_mtime_ns": source_stat.st_mtime_ns,
+        "source_mtime_ns": audit_entry["mtime_ns"],
         "source_footer_bytes": footer["footer_bytes"],
         "source_footer_sha256": footer["footer_sha256"],
         "row_group_count": audit_entry["row_group_count"],

@@ -91,8 +91,8 @@ def write_final_outputs(
     if isinstance(monitoring_plan, Mapping):
         provenance["evaluation_annotation"] = {
             "no_eval_during_fit": False,
-            "validation_reporting": (
-                "full official valid after each epoch; exposed for declared stopping and pointers"
+            "evaluation_reporting": monitoring_plan.get(
+                "evaluation_reporting", "full official valid after each epoch; exposed report"
             ),
             "monitoring_plan": json_value(monitoring_plan),
         }

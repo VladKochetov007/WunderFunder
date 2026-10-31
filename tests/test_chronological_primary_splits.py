@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -130,6 +131,45 @@ def test_shuffled_sequence_ids_preserve_source_membership_and_exclude_linked_fit
     manifest = json.loads(path.read_text())
     assert "seq_ix" not in json.dumps(manifest["sequences"])
     assert manifest["chronology_basis"].endswith("calendar timestamps unavailable")
+
+
+def test_portable_primary_manifest_accepts_relocated_mtimes_and_rejects_tampering(
+    source_root: Path, monkeypatch
+) -> None:
+    path = build_chronological_primary_manifest(source_root, source_root / "primary.json")
+    manifest = json.loads(path.read_text())
+    sources = {}
+    for name, identity in manifest["sources"].items():
+        source = source_root / name
+        sources[name] = {
+            "original_identity": identity,
+            "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+        }
+        stat = source.stat()
+        os.utime(source, ns=(stat.st_atime_ns, stat.st_mtime_ns + 10_000))
+    registry = source_root / "portable.json"
+    registry.write_text(
+        json.dumps(
+            {
+                "version": 1,
+                "split_manifest_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                "sources": sources,
+            }
+        )
+    )
+    monkeypatch.setenv("WNN_PORTABLE_DATA_MANIFEST", str(registry))
+
+    relocated = load_campaign_split(path, source_root)
+    assert relocated.train_groups == (1, 2, 3)
+    assert relocated.valid_groups == ()
+    assert relocated.evaluation_groups == (0, 1, 2, 3)
+
+    train = source_root / "datasets/train.parquet"
+    content = bytearray(train.read_bytes())
+    content[0] ^= 1
+    train.write_bytes(content)
+    with pytest.raises(ValueError, match="portable source content changed"):
+        load_campaign_split(path, source_root)
 
 
 def test_valid_targets_never_enter_fit_or_normalization_and_teacher_cache(

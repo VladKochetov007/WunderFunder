@@ -61,7 +61,7 @@ class DashboardReader:
         with self._lock:
             candidates = discover_run_ids(self.root)
             results: list[dict[str, object]] = []
-            for index, (run_id, _) in enumerate(candidates):
+            for index, (run_id, _) in enumerate(candidates[:MAX_LISTED_RUNS]):
                 metadata, metadata_error = self._get_metadata(run_id)
                 streams = self._streams.get(run_id)
                 if index < RUNS_REFRESH_COUNT or streams is not None:
@@ -72,7 +72,7 @@ class DashboardReader:
                 if not self._matches(summary, source_filter, config_filter):
                     continue
                 results.append(summary)
-            return {"runs": results, "truncated": len(candidates) >= MAX_LISTED_RUNS}
+            return {"runs": results, "truncated": len(candidates) > MAX_LISTED_RUNS}
 
     def get_runs(self, run_ids: list[str], limit: int = DEFAULT_EVENT_LIMIT) -> dict[str, object]:
         """Refresh and return a bounded event window for up to eight selected runs."""

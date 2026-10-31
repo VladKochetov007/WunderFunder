@@ -12,7 +12,7 @@ from wnn.galam import GALAMState
 from wnn.training.sequence_attention import TransformerState
 from wnn.training.sequence_precision import validate_forward_state
 
-SequenceState = Tensor | TransformerState | GALAMState | None
+SequenceState = Tensor | tuple[Tensor, Tensor] | TransformerState | GALAMState | None
 
 
 def validate_sequence_fp32_environment(
@@ -72,6 +72,8 @@ def detach_state(state: SequenceState) -> SequenceState:
         return None
     if isinstance(state, Tensor):
         return state.detach()
+    if isinstance(state, tuple) and len(state) == 2:
+        return state[0].detach(), state[1].detach()
     if isinstance(state, GALAMState):
         return state.detach()
     if isinstance(state, TransformerState):

@@ -1,0 +1,94 @@
+{
+  "schema": "wnn.multistage-first-eight-quality-arms.v1",
+  "stage": 1,
+  "native_source_root": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/operator-native4",
+  "native_source_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+  "existing_two_fits": "SOURCE3 GRU256x2 and LSTM256x2 onGPU6/7, no duplicates",
+  "profile_updates": 50,
+  "profile_wall_seconds": 180,
+  "new_scientific_fit_attempts_after_profile_approval": 6,
+  "nodes": [
+    {
+      "id": "gru384x2",
+      "family": "gru",
+      "gpu": 0,
+      "parent": "receiving/actual-profiles256-r1/requests/gru-b256-prefetch1-r5.json",
+      "parent_sha256": "c6e9b9c5f8adde119437d7644a19920908265c75be35a12e09891a4f7dd79374",
+      "config": "recipes/r6/gru384x2.json",
+      "config_sha256": "5305c3cac14949b1a504c8020342e381c342ed935602d6488dcb6e85d44b43e5",
+      "changes": {
+        "model.hidden": 384,
+        "model.layers": 2
+      }
+    },
+    {
+      "id": "gru256x3",
+      "family": "gru",
+      "gpu": 1,
+      "parent": "receiving/actual-profiles256-r1/requests/gru-b256-prefetch1-r5.json",
+      "parent_sha256": "c6e9b9c5f8adde119437d7644a19920908265c75be35a12e09891a4f7dd79374",
+      "config": "recipes/r6/gru256x3.json",
+      "config_sha256": "5152796e8099c1e6c1f1bc02df1a84195c2fb0aed8560951c3b8f37704ab9ade",
+      "changes": {
+        "model.hidden": 256,
+        "model.layers": 3
+      }
+    },
+    {
+      "id": "lstm384x2",
+      "family": "lstm",
+      "gpu": 2,
+      "parent": "receiving/actual-profiles256-r1/requests/lstm-b256-prefetch1-r5.json",
+      "parent_sha256": "32fea943e264eff90f34c1022e6144b1e069f3ab8c33fcb43ad9298ea8078626",
+      "config": "recipes/r6/lstm384x2.json",
+      "config_sha256": "26bff44a42d95ab7be45477560824428c52a7c0280540bb0024e14d3e5d88dc6",
+      "changes": {
+        "model.hidden": 384,
+        "model.layers": 2
+      }
+    },
+    {
+      "id": "lstm256x3",
+      "family": "lstm",
+      "gpu": 3,
+      "parent": "receiving/actual-profiles256-r1/requests/lstm-b256-prefetch1-r5.json",
+      "parent_sha256": "32fea943e264eff90f34c1022e6144b1e069f3ab8c33fcb43ad9298ea8078626",
+      "config": "recipes/r6/lstm256x3.json",
+      "config_sha256": "fd830afdc13a46a4f98249b71ac7d526c040a0a7f8f4f17ea582aa79b28ec5fe",
+      "changes": {
+        "model.hidden": 256,
+        "model.layers": 3
+      }
+    },
+    {
+      "id": "galam64",
+      "family": "galam",
+      "gpu": 4,
+      "parent": "recipes/configs/r4/galam-g1-adapt-r4.json",
+      "parent_sha256": "59f6cc39dc0b9a99c58c1312fb2562722d12f727ffc89a924b3f8369d5802869",
+      "config": "recipes/r6/galam64.json",
+      "config_sha256": "d8ab24b97dfdfcd381d4906b0073c742b8f19c562933deec720b7efbbbdee78e",
+      "changes": {
+        "batch_size": 256,
+        "input_prefetch_batches": 1,
+        "monitoring.eval_batch_size": 64,
+        "epochs": 4
+      }
+    },
+    {
+      "id": "transformer384x4",
+      "family": "transformer",
+      "gpu": 5,
+      "parent": "recipes/configs/r4/causal-transformer-base-r4.json",
+      "parent_sha256": "94368c52645c11873a8b7ab54995c0b3c58eb0c11d5b729823438262cd52b77d",
+      "config": "recipes/r6/transformer384x4.json",
+      "config_sha256": "976ffb4e0d6b3c2212963d1e9c1f0c304c25d1c6c08ccc2e7341c33d705dc85e",
+      "changes": {
+        "batch_size": 256,
+        "input_prefetch_batches": 1,
+        "monitoring.eval_batch_size": 64,
+        "epochs": 4
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "schema": "wnn.multistage-independent-profile-compatibility-amendment.v1",
+  "amendment_id": "INDEPENDENT_PROFILE_COMPATIBILITY_AMENDMENT_R2",
+  "reviewer": "multistage_independent_critic",
+  "reviewer_role": "independent specification/data/protocol critic",
+  "reviewed_at_utc": "2026-10-31T01:22:09Z",
+  "status": "approved_engineering_compatibility_only",
+  "prior_recipe_review": {
+    "path": "research/experiment_drafts/multistage-optuna-b300-20261031/INDEPENDENT_R2_RECIPE_REVIEW.json",
+    "sha256": "2d0dd946af20a7c476d54a15a35d898e6402d52074510810afa504a2c913b8bf",
+    "continuation_sha256": "03796b7cd5f1d57c6aa44590acf51edaab28f9b036cdaaeeb8ae5ef88e165562"
+  },
+  "new_reviewer": {
+    "path": "research/experiment_drafts/multistage-optuna-b300-20261031/review_multistage_profile_r2.py",
+    "sha256": "af50cd5f744f996971fd64330d9e89f67415beeea72d02a25edadd0b87d9a19c",
+    "policy_path": "research/experiment_drafts/multistage-optuna-b300-20261031/PROFILE_REVIEW_POLICY_AUTOMATED_R2.json",
+    "policy_sha256": "153655303a89dfd9dd2372a20238327aba36337a36141373c51c5cc1e30c2f0e",
+    "policy_schema": "wnn.multistage-profile-review-policy.v3",
+    "policy_status": "frozen"
+  },
+  "compatibility_change": {
+    "producer_observation": "Native Torch runtime reports the valid UUID without CUDA's display prefix; NVML and the device inventory report the same UUID with `GPU-`.",
+    "accepted_syntax": "strict 8-4-4-4-12 hexadecimal UUID, optionally prefixed by GPU-",
+    "canonical_comparison": "strip only the optional GPU- prefix and lowercase hexadecimal",
+    "strict_invalid_values_rejected": true,
+    "raw_request_selector_binding_unchanged": true,
+    "raw_nvml_request_binding_unchanged": true,
+    "memory_totals_and_resource_bounds_unchanged": true,
+    "scientific_sources_configs_data_and_objective_unchanged": true,
+    "R1_checker_and_policy_preserved_unchanged": true
+  },
+  "actual_producer_fixture": {
+    "profile_path": "research/experiment_drafts/multistage-optuna-b300-20261031/receiving/actual-profiles-r6/profiles/gru-b256-r6-gru384x2/profile_receipt.json",
+    "profile_sha256": "ad26b3b115c932fa34a9d99ba1cea44e6b6331e57b219ef2982d8e240ca9c391",
+    "native_torch_uuid": "daf615f5-ea55-860a-bfe1-41c36ab96c3e",
+    "wrapper_path": "research/experiment_drafts/multistage-optuna-b300-20261031/receiving/actual-profiles-r6/receipts/anchor-gru-b256-r6-gru384x2.json",
+    "wrapper_sha256": "d8fd8390df5d7b1dd8404903aeffd1989dafaf02241384d1540fa4ae44f29463",
+    "wrapper_inventory_uuid": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e",
+    "native_and_wrapper_uuid_canonical_match": true,
+    "observed_gpu_name": "NVIDIA B300 SXM6 AC"
+  },
+  "bounded_checks": {
+    "ruff": "passed",
+    "python_compile": "passed",
+    "cli_help": "passed",
+    "policy_json_parse": "passed",
+    "actual_profile_uuid_fixture_and_malformed_rejection": "passed",
+    "shared_cpu_mutex": "Local\\CodexTabdataCPUChecks20261028",
+    "ssh_gpu_fit_download_network": "not used"
+  },
+  "approval_boundary": "This amendment corrects producer UUID string representation compatibility only. It does not approve a profile, fit, checkpoint, candidate, metric, or performance claim; R2's separate exact-profile checker still evaluates all pinned source, data, math, loss, process, deadline and resource constraints."
+}

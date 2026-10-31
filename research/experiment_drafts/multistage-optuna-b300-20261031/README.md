@@ -78,3 +78,36 @@ inner-selected and best-observed checkpoint roles explicit. See the standing
 
 Current status must be read from actual receiving/launch/terminal receipts. This
 README alone does not assert that a GPU job started or that an experiment won.
+
+The [observed progress record](PROGRESS_20261031_R1.md) contains the first nine
+completed endpoints, two independent official-valid score reproductions, the
+SSH recovery, dashboard address and GitHub publication. The
+[R2 continuation recipe](recipes/R2_CONTINUATION.json) bounds the next eight
+GRU/LSTM trials and the subsequent stages without changing the earlier fits.
+
+Execution evidence is indexed by the immutable
+[R6 profile review](INDEPENDENT_R6_PROFILE_REVIEW.json),
+[Stage2 profile review](INDEPENDENT_STAGE2_PROFILE_REVIEW_R1.json),
+[R2 recipe review](INDEPENDENT_R2_RECIPE_REVIEW.json),
+[dropout repair amendment](INDEPENDENT_R2_DROPOUT_REPAIR_AMENDMENT_R1.json),
+and [R3 actual-profile review](INDEPENDENT_ACTUAL_PROFILE_REVIEW_R3.json).
+Native receiving bundles are retained under
+[R6 profiles](receiving/actual-profiles-r6),
+[Stage2 profiles](receiving/actual-stage2-profiles-r1), and
+[R2 profile zero](receiving/actual-r2-profile0).
+
+The versioned profile reviewers preserve rejected original receipts:
+[R1](review_multistage_profile.py), [R2](review_multistage_profile_r2.py),
+[R3](review_multistage_profile_r3.py), and [R4](review_multistage_profile_r4.py).
+R4's [fixed-final objective gate](INDEPENDENT_R4_FIXED_FINAL_OBJECTIVE_GATE.json)
+requires separately executed scoring of the configured-final checkpoint;
+engineering approval alone never attests that objective.
+
+Bounded native fit launchers are
+[Stage1](launch_reviewed_native_fit.py) and
+[successors](launch_reviewed_successor_fit.py), with an
+[exit-recording guardian](fit_guardian_r2.py).
+The [native finalizer](../../../scripts/finalize_native_multistage_fit.py)
+verifies immutable fit artifacts before exporting fitting-only control predictions.
+[Reporting R2](reporting-r2) is a frozen publication capsule;
+the live deployment version is recorded separately in runtime receipts.

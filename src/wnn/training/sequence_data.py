@@ -12,6 +12,7 @@ from attrs import define
 from wnn.splits import (
     CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
     MAX_CAMPAIGN_SPLIT_BYTES,
+    MULTISTAGE_AUXILIARY_SPLIT_SCHEMA,
     CampaignSplit,
     load_campaign_split,
 )
@@ -138,10 +139,27 @@ def build_data(
 ) -> SequenceData:
     """Validate mandatory chronological membership before opening training streams."""
     split = load_campaign_split(split_manifest, data_root)
-    if split.schema != CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA or split.valid_groups:
+    supported_schema = split.schema in (
+        CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+        MULTISTAGE_AUXILIARY_SPLIT_SCHEMA,
+    )
+    if not supported_schema or split.valid_groups:
         raise ValueError(
-            "new sequence fits require the chronological primary manifest with no fit-valid rows"
+            "sequence fits require primary or multistage membership with no fit-valid rows"
         )
+    if split.schema == MULTISTAGE_AUXILIARY_SPLIT_SCHEMA and (
+        split.evaluation_source != "train"
+        or split.evaluation_role != "control"
+        or split.evaluation_mask != "all_after_warmup"
+        or config.get("training_mask") != "all_after_warmup"
+    ):
+        raise ValueError("auxiliary fitting and control must use train-only all-after-warmup rows")
+    if (
+        split.evaluation_role == "control"
+        and isinstance(config.get("monitoring"), dict)
+        and config["monitoring"].get("early_stopping") is not None
+    ):
+        raise ValueError("auxiliary control supports fixed endpoints, not early-stop pointers")
     members = [("train", group) for group in split.train_groups]
     hint_dim = config["model"]["hint_dim"]
     input_feature_mode = config["model"].get("input_feature_mode", RAW_INPUT_MODE)
@@ -195,7 +213,13 @@ def build_data(
         "fold": split.fold,
         "sources": raw["sources"],
         "fit_members": [list(member) for member in members],
-        "evaluation_members": [["valid", group] for group in split.evaluation_groups],
+        "evaluation_members": [
+            [split.evaluation_source, group] for group in split.evaluation_groups
+        ],
+        "evaluation_role": split.evaluation_role,
+        "evaluation_source": split.evaluation_source,
+        "evaluation_mask": split.evaluation_mask,
+        "primary_split_sha256": split.primary_split_sha256,
         "input_schema": sequence_input_schema(input_feature_mode),
         "mask": (
             "all_after_warmup AND row_index>=99"
@@ -220,8 +244,9 @@ def build_data(
     fit.validate_source_schema()
     evaluation = SequenceRecords(
         data_root,
-        [("valid", g) for g in split.evaluation_groups],
+        [(split.evaluation_source, g) for g in split.evaluation_groups],
         0,
+        training_mask=split.evaluation_mask,
         input_feature_mode=input_feature_mode,
     )
     evaluation.validate_source_schema()

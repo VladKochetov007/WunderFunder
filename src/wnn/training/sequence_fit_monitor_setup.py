@@ -3,7 +3,10 @@ from __future__ import annotations
 from collections.abc import Mapping
 from pathlib import Path
 
-from wnn.splits import CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
+from wnn.splits import (
+    CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+    MULTISTAGE_AUXILIARY_SPLIT_SCHEMA,
+)
 from wnn.training.sequence_data import SequenceData, SequenceRecords
 from wnn.training.sequence_distributed import DistributedContext, coordinated_call
 from wnn.training.sequence_fit_utils import SequenceDataset
@@ -26,8 +29,11 @@ def select_train_eval_members(monitor_config: object, data: SequenceData) -> lis
         return []
     if not isinstance(monitor_config, Mapping):
         raise TypeError("validated monitoring config must remain a mapping")
-    if data.split.schema != CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
-        raise ValueError("online monitoring requires the official chronological primary split")
+    if data.split.schema not in (
+        CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+        MULTISTAGE_AUXILIARY_SPLIT_SCHEMA,
+    ):
+        raise ValueError("online monitoring requires a primary or auxiliary source-bound split")
     requested = int(monitor_config["train_eval_sequences"])
     members = list(data.fit.members[:requested])
     if not members or any(member not in data.fit.members for member in members):
@@ -71,16 +77,22 @@ def record_monitoring_plan(
 ) -> None:
     """Record mask, selection, and event-journal policy in fit provenance."""
     plan: dict[str, object] = {
-        "validation_reporting": "full official valid after each epoch; metrics exposed",
+        "evaluation_reporting": (
+            "full official valid after each epoch; development-exposed report"
+            if data.split.evaluation_role == "valid"
+            else "inner train control after each epoch; selection proxy, not primary validation"
+        ),
         "train_eval_mask": monitor_config.get("train_eval_mask", "is_scored"),
-        "valid_mask": "is_scored",
+        "evaluation_role": data.split.evaluation_role,
+        "evaluation_source": data.split.evaluation_source,
+        "evaluation_mask": data.split.evaluation_mask,
         "input_feature_mode": input_feature_mode,
         "checkpoint_selection": (
-            "best pointer follows strict raw full-valid WP highs; validation is exposed"
+            "best pointer follows strict raw evaluation WP highs; role is source-bound in monitor events"
         ),
         "early_stopping": monitor_config.get("early_stopping"),
         "early_stopping_semantics": (
-            "min_delta resets patience only; count consecutive full-valid checks from the first "
+            "min_delta resets patience only; count consecutive evaluation checks from the first "
             "check; stop eligibility begins at min_epoch; scheduler horizon remains the configured "
             "epoch cap"
         ),
@@ -139,6 +151,9 @@ def initialize_monitor(
                 canonical_sha256(identity),
                 resume=resume,
                 input_feature_mode=input_feature_mode,
+                evaluation_role=data.split.evaluation_role,
+                evaluation_mask=data.split.evaluation_mask,
+                primary_split_sha256=data.split.primary_split_sha256,
             )
         return True
 
