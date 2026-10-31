@@ -25,6 +25,19 @@ from report_multistage_primary_ensemble_worker import (  # noqa: E402
     _write_new,
 )
 
+MAX_SCORED_PREDICTION_BYTES = 32_000_000
+
+
+def _load_scored_predictions(path: Path) -> np.ndarray:
+    array = np.load(
+        _regular(path, "scored predictions", MAX_SCORED_PREDICTION_BYTES),
+        mmap_mode="r",
+        allow_pickle=False,
+    )
+    if array.dtype != np.float32 or array.shape != (PRIMARY_ROWS, 2):
+        raise ValueError("Source6 member prediction arrays have the wrong dtype or shape")
+    return array
+
 
 def weighted_prediction_block(predictions: Sequence[np.ndarray], weights: np.ndarray) -> np.ndarray:
     """Apply the fixed simplex weights to raw scored rows before competition clipping."""
@@ -108,7 +121,9 @@ def _load_member_receipts(
         if first_mask is not None and mask != first_mask:
             raise ValueError("candidate primary masks or scored-row orders differ")
         first_mask = mask
-        array_path = _regular(Path(str(prediction["path"])), "scored predictions")
+        array_path = _regular(
+            Path(str(prediction["path"])), "scored predictions", MAX_SCORED_PREDICTION_BYTES
+        )
         if _sha256(array_path) != prediction.get("sha256"):
             raise ValueError("candidate prediction array SHA differs from its receipt")
         arrays.append((array_path, receipt))
@@ -151,9 +166,7 @@ def _blend_and_score(
 
     torch.set_num_threads(1)
     torch.set_num_interop_threads(1)
-    predictions = [np.load(path, mmap_mode="r", allow_pickle=False) for path, _ in arrays]
-    if any(array.dtype != np.float32 or array.shape != (PRIMARY_ROWS, 2) for array in predictions):
-        raise ValueError("Source6 member prediction arrays have the wrong dtype or shape")
+    predictions = [_load_scored_predictions(path) for path, _ in arrays]
     candidates = request["candidates"]
     weights = np.asarray([float(candidate["weight"]) for candidate in candidates], dtype=np.float64)
     if (

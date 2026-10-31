@@ -129,3 +129,7 @@ optional refit admission.
 The [R3 execution update](PROGRESS_20261031_R3.md) records all36 fit attempts,
 completed successor scoring, actual CPU ensemble search and downstream report
 repairs. It distinguishes the24-trial ceiling from actual study states.
+
+[R4 primary results and full-data continuation](PROGRESS_20261031_R4.md) records
+the actual0.683227279 ensemble, independent numerical verification and four
+fresh full-primary refits admitted under the original reserve and fit caps.

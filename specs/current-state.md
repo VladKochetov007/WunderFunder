@@ -1,3 +1,22 @@
+## 31 October04:50UTC: measured ensemble below TL3; full-primary refits active
+
+[PR53R4](../research/experiment_drafts/multistage-optuna-b300-20261031/PROGRESS_20261031_R4.md):
+frozen8-member ensemble WP0.6832272791 on all1873valid/3,528,273scored rows,
+versus fixed fresh TL3 reference0.6923774246. New models use8260 fitting members
+vs TL310325. All9 outputs independently reproduced from raw labels/mask within
+1e-10 and mixed FP32 predictions match bit-exactly. ActualCPUstudy24COMPLETE;
+original23records preserved through one bounded counter-error completion.
+
+Four fresh10325-member Source4 label-only refits run from04:32:46UTC, retaining
+inner-selected configs/seeds:2GRU384x2(4E),LSTM192x1(8E),Transformer384x4(4E).
+Actual R5 engineering reviews all passed; original profiles/source remain frozen.
+40scientific attempts total:35 prior complete artifacts,1partialGALAM,4running;
+56profiles used. No new profiles/extra fits or old stopped-job resumes.
+Live40views http://127.0.0.1:18777/; parent/source/checkpoint/valid context explicit.
+Reserve05:21:09UTC/hard05:41:09UTC unchanged; all owned fits are bounded and
+foreign NIER/MPS remain untouched. See the R4 report for original receipts,
+publication links, unknown legacy outer exits and full-primary collection plan.
+
 ## 31 October: four-stage B300 search, fixed-final artifacts published
 
 The authorized six-node-hour48-fit wave uses the current one SSH session69303.

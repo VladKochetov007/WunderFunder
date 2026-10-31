@@ -18,8 +18,13 @@ from wnn.training.sequence_config import load_config
 def _strict_fp32(
     config: Mapping[str, object], provenance: Mapping[str, object], runtime: Mapping[str, object]
 ) -> bool:
+    # Finalized Source6 ancestry binds this runtime inside provenance.identity;
+    # its precision receipt is nested there, rather than duplicated at the top.
+    precision_provenance = dict(provenance)
+    if "precision" not in precision_provenance and isinstance(runtime.get("precision"), Mapping):
+        precision_provenance = {"precision": dict(runtime["precision"])}
     try:
-        validate_precision_contract(dict(config), dict(provenance), dict(runtime))
+        validate_precision_contract(dict(config), precision_provenance, dict(runtime))
     except ValueError:
         return False
     return (
