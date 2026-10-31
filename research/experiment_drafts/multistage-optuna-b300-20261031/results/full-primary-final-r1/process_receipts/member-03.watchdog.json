@@ -1,0 +1,35 @@
+{
+  "hard_deadline_epoch": 1793425269.6589406,
+  "independent_of_collector_lifetime": true,
+  "kill_after_seconds": 5,
+  "max_wall_seconds": 900,
+  "schema": "wnn.primary-refit-independent-watchdog.v1",
+  "worker_command": [
+    "/data/epanov_s/tabdata/.venv/bin/python",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/operator-r26/scripts/report_multistage_primary_refits_worker.py",
+    "--request",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/reports/full-primary-refits-r1/score_request.json",
+    "--request-sha256",
+    "d5cb434931ba8d3341720000609b79d43f77028bffe4188a9143261bba996936",
+    "--mode",
+    "member",
+    "--member-index",
+    "3"
+  ],
+  "wrapper_command": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "890s",
+    "/data/epanov_s/tabdata/.venv/bin/python",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/operator-r26/scripts/report_multistage_primary_refits_worker.py",
+    "--request",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/reports/full-primary-refits-r1/score_request.json",
+    "--request-sha256",
+    "d5cb434931ba8d3341720000609b79d43f77028bffe4188a9143261bba996936",
+    "--mode",
+    "member",
+    "--member-index",
+    "3"
+  ]
+}

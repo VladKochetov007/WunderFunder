@@ -1,0 +1,87 @@
+{
+  "schema": "wnn.multistage-primary-refit-selection.v1",
+  "status": "prepared_pending_review_and_profiles",
+  "selection_metric": "fixed-final inner_train_proxy pooled WP",
+  "selection_used_primary_valid": false,
+  "stage4_result": {
+    "path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/stage4/ensemble_result.json",
+    "sha256": "53ee064235ed7f6ee6ece71de58147abbd2908eccfa77aeefd66b743a912bc56",
+    "runner_request_sha256": "ca7d02b135bb19824049ad514e1605819c5fbdb47e5e8cd162c1faf7468a4b30"
+  },
+  "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "auxiliary_split_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075",
+  "source4_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+  "ranked_direct_stage1": [
+    {
+      "trial_number": 1002,
+      "family": "gru",
+      "fixed_final_inner_wp": 0.435766568741001,
+      "result_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/finalized/stage1-r6-gru384x2/trial_result.json",
+      "result_sha256": "4001801c130106cb70c95a8ebeb8950f1ab2c88056edcc01028ce383b1d386d9"
+    },
+    {
+      "trial_number": 9,
+      "family": "gru",
+      "fixed_final_inner_wp": 0.4344328143660291,
+      "result_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/finalized/stage1-tpe-000009/trial_result.json",
+      "result_sha256": "4e2f3af7612f9dafb714f11c8f36f0de14e3f229d36efa557b8a46bcc8d1fff4"
+    },
+    {
+      "trial_number": 0,
+      "family": "lstm",
+      "fixed_final_inner_wp": 0.4288804783950366,
+      "result_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/finalized/stage1-tpe-000000/trial_result.json",
+      "result_sha256": "d8429115dd48c94595ad592dd70b5231d0eaf7d903472a4707fcc232294e9465"
+    },
+    {
+      "trial_number": 1004,
+      "family": "transformer",
+      "fixed_final_inner_wp": 0.42323673770026904,
+      "result_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/finalized/stage1-r6-transformer384x4/trial_result.json",
+      "result_sha256": "6254cb73194db1832564db5b20ed1b85f320135200e270a71cc5159b39954114"
+    }
+  ],
+  "selected": [
+    {
+      "fit_id": "primary-refit-01-s1t001002-gru",
+      "request_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/primary-refits-prep-r1/requests/primary-refit-01-s1t001002-gru.json",
+      "request_sha256": "7bff6c622f7c13c5bbc1a2c50930b59d6b0e053c5ac3533754b8c0bb29090e49",
+      "config_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/primary-refits-prep-r1/configs/primary-refit-01-s1t001002-gru.json",
+      "config_sha256": "5305c3cac14949b1a504c8020342e381c342ed935602d6488dcb6e85d44b43e5",
+      "fixed_final_inner_wp": 0.435766568741001,
+      "source_result_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/finalized/stage1-r6-gru384x2/trial_result.json",
+      "source_result_sha256": "4001801c130106cb70c95a8ebeb8950f1ab2c88056edcc01028ce383b1d386d9"
+    },
+    {
+      "fit_id": "primary-refit-02-s1t000009-gru",
+      "request_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/primary-refits-prep-r1/requests/primary-refit-02-s1t000009-gru.json",
+      "request_sha256": "b5a360a3db552af2fe6c281a745909d21c7cfce81f2de7f054ba96600f66979c",
+      "config_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/primary-refits-prep-r1/configs/primary-refit-02-s1t000009-gru.json",
+      "config_sha256": "c65804aaaefc6da7478064bda98f78d2fcf51e84597a7e8b6873a46f44c8dfe5",
+      "fixed_final_inner_wp": 0.4344328143660291,
+      "source_result_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/finalized/stage1-tpe-000009/trial_result.json",
+      "source_result_sha256": "4e2f3af7612f9dafb714f11c8f36f0de14e3f229d36efa557b8a46bcc8d1fff4"
+    },
+    {
+      "fit_id": "primary-refit-03-s1t000000-lstm",
+      "request_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/primary-refits-prep-r1/requests/primary-refit-03-s1t000000-lstm.json",
+      "request_sha256": "d130e3ab3e66aab31d3e50fd8cdda45d6a0f9f23c2736b0c96fbf58064f0687e",
+      "config_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/primary-refits-prep-r1/configs/primary-refit-03-s1t000000-lstm.json",
+      "config_sha256": "32def9a0ff0859fca5fd2cfb0cb1b39ef47264562a6b1d55bf370f759ac0e368",
+      "fixed_final_inner_wp": 0.4288804783950366,
+      "source_result_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/finalized/stage1-tpe-000000/trial_result.json",
+      "source_result_sha256": "d8429115dd48c94595ad592dd70b5231d0eaf7d903472a4707fcc232294e9465"
+    },
+    {
+      "fit_id": "primary-refit-04-s1t001004-transformer",
+      "request_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/primary-refits-prep-r1/requests/primary-refit-04-s1t001004-transformer.json",
+      "request_sha256": "9a0e0121517694c3df7984a80f881e73c1f8c13f973d8dd4c34b25b7f30eef7b",
+      "config_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/primary-refits-prep-r1/configs/primary-refit-04-s1t001004-transformer.json",
+      "config_sha256": "976ffb4e0d6b3c2212963d1e9c1f0c304c25d1c6c08ccc2e7341c33d705dc85e",
+      "fixed_final_inner_wp": 0.42323673770026904,
+      "source_result_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/finalized/stage1-r6-transformer384x4/trial_result.json",
+      "source_result_sha256": "6254cb73194db1832564db5b20ed1b85f320135200e270a71cc5159b39954114"
+    }
+  ],
+  "interpretation": "Auxiliary checkpoints rank candidates only. Each refit starts fresh on all 10,325 official training sequences; any refit quality claim requires its new primary score."
+}

@@ -1,0 +1,58 @@
+{
+  "schema": "wnn.multistage-owned-process.v1",
+  "stage": 4,
+  "trial_number": 2,
+  "mode": "report_only_primary_refit_score",
+  "gpu_key": "GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67",
+  "owner": {
+    "pid": 2803031,
+    "pgid": 2803031,
+    "birth": "83368529"
+  },
+  "command": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "890s",
+    "/data/epanov_s/tabdata/.venv/bin/python",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/operator-r26/scripts/report_multistage_primary_refits_worker.py",
+    "--request",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/reports/full-primary-refits-r1/score_request.json",
+    "--request-sha256",
+    "d5cb434931ba8d3341720000609b79d43f77028bffe4188a9143261bba996936",
+    "--mode",
+    "member",
+    "--member-index",
+    "2"
+  ],
+  "command_sha256": "d89c9ad1b36a3f96aa425d5f555ee8a962a088598c17d5e2e198e1001cb8f0e2",
+  "cwd": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/source6-eval",
+  "output_dir": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/reports/full-primary-refits-r1",
+  "started_at_utc": "2026-10-31T05:16:37.641621+00:00",
+  "started_at_epoch": 1793423797.641662,
+  "timeout_seconds": 900,
+  "effective_thread_environment": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "child_environment": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "cpu_thread_env": {
+    "OMP_NUM_THREADS": "1",
+    "MKL_NUM_THREADS": "1"
+  },
+  "status": "completed",
+  "child": {
+    "pid": 2803039,
+    "pgid": 2803039,
+    "birth": "83368636"
+  },
+  "exit_code": 0,
+  "timed_out": false,
+  "finished_at_utc": "2026-10-31T05:18:00.409928+00:00",
+  "finished_at_epoch": 1793423880.4099934
+}
