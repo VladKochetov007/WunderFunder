@@ -1985,7 +1985,16 @@ impl PyFinalTl3Predictor {
             ));
         }
         let precision = parse_precision(precision)?;
-        if precision != Precision::F32 && precision.dyn8().is_none() {
+        let dynamic_q8 = matches!(
+            precision,
+            Precision::Q8Vnni
+                | Precision::Q8VnniAvx2
+                | Precision::Q8VnniPortable
+                | Precision::Q8Vnni256
+                | Precision::Q8VnniBlocked
+                | Precision::Q8VnniFused
+        );
+        if precision != Precision::F32 && !dynamic_q8 {
             return Err(PyValueError::new_err(
                 "final predictor supports f32 or dynamic q8vnni precision",
             ));
