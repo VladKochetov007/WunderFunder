@@ -1,5 +1,14 @@
 # Unified research library
 
+## 31 October: approved batch/TBPTT continuation
+
+[The five-fit screen and fixed TL3 mixtures](../experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md)
+follow the completed multistage study. Three arms share GRU384x2 and fixed4E;
+two seeds per arm include one exact reused control. Six prior-model mixtures
+are complete; best observed90%TL3+10%LSTM is0.692502063 versus0.692377425.
+This small exposed-valid gain is not public confirmation. The execution packet
+binds actual profiles, source/config identities and bounded final collection.
+
 ## 30 October: heterogeneous teachers and12 fixed ensembles completed
 
 [Six-fit execution](../experiment_drafts/heterogeneous-tl3-20261030/README.md)

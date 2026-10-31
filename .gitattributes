@@ -22,3 +22,9 @@ scripts/report_multistage_primary_refits.py -text
 scripts/report_multistage_primary_refits_worker.py -text
 scripts/report_multistage_primary_ensemble_blend.py -text
 scripts/report_multistage_primary_ensemble_worker.py -text
+
+# Preserve the deployed follow-up panel's exact script and receipt identities.
+scripts/*quality_horizon*.py -text whitespace=cr-at-eol
+research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/**/*.json -text whitespace=cr-at-eol
+research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/**/*.py -text whitespace=cr-at-eol
+research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/**/*.svg -text -whitespace

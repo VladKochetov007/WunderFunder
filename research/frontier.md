@@ -1,5 +1,14 @@
 # Active frontier
 
+Current scoped continuation,2026-10-31: the user approved the
+[five-fit batch/TBPTT screen](experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md)
+after the completed multistage wave. Fixed4E, exact reused A/1301, official
+train-only ancestry, two matched seeds per arm; no open-ended search. The six
+cheap prior-model mixtures are complete;90%TL3+10%LSTM scores0.692502063 versus
+TL30.692377425 on exposed official valid. Await all new terminal endpoints
+before interpreting batch/horizon effects. Preserve foreign NIER/MPS.
+The older dated allocations and targets below are historical.
+
 Current continuation, 2026-10-04: implementation and autonomous local/Kaggle
 GPU/TPU research are user-authorized. Read
 [the execution contract](campaign_2026-10-04/EXECUTION_CONTRACT.md) and

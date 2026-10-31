@@ -1,5 +1,10 @@
 # Bounded multistage search on eight B300 GPUs
 
+**Current scoped continuation:** the user approved the
+[five-fit batch/TBPTT screen and fixed TL3 mixtures](quality-execution-r1/README.md).
+It has its own four-hour ROOT bound and does not reopen the original Optuna
+study. The completed original wave below remains unchanged.
+
 **Completed:** [final results and operational receipt](PROGRESS_20261031_FINAL.md).
 40 scientific attempts produced39 configured-final artifacts and one partial
 GALAM. Best new full-primary mixture WP0.684699354 versus fixed TL30.692377425;

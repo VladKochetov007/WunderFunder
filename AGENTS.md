@@ -1,5 +1,20 @@
 # Project agent instructions
 
+## Batch/TBPTT follow-up — user approval, 2026-10-31
+
+The user approved the quality-diagnosis follow-up. Exactly five fresh Source4
+GRU384x2 fits and the exact reused A/1301 endpoint form a three-arm/two-seed
+screen: A=batch256/TBPTT256/acc4, B=64/256/4, C=64/1024/1; fixed epoch4,
+seeds1301/1302. Six fixed5%/10% TL3 mixtures with existing GRU/LSTM/Transformer
+are also admitted. No new teachers, EMA, correlation stage or open-ended sweep.
+ROOT selected four node-hours from14:42:33UTC,7200seconds per fit,15minutes
+for collection, at most10 profiles (five pre-CUDA parser failures retained).
+Actual native profiles and independent reviews passed before the five fits.
+Use persistent noninteractive SSH session46044. Foreign NIER/MPS stay untouched.
+Official chronological primary validation, clean ancestry and exposed-valid
+interpretation remain binding. See the [execution packet](research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md).
+Earlier six-hour/48-fit authority below is historical for the completed wave.
+
 ## Four-stage Optuna search on eight B300 — user launch,2026-10-31
 
 The user explicitly authorizes the proposed base-regressor, fine-tuning,
