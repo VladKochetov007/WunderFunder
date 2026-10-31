@@ -1972,22 +1972,50 @@ impl PyFinalTl3Predictor {
 #[pymethods]
 impl PyFinalTl3Predictor {
     #[new]
-    #[pyo3(signature = (weights))]
+    #[pyo3(signature = (weights, precision="f32", q8_codes=None))]
     fn new(
         py: Python<'_>,
         weights: Vec<HashMap<String, PyReadonlyArrayDyn<'_, f32>>>,
+        precision: &str,
+        q8_codes: Option<Vec<Q8Codes>>,
     ) -> PyResult<Self> {
         if weights.len() != 4 {
             return Err(PyValueError::new_err(
                 "final predictor requires ordered weights [W18, tiedlead_s5, tiedlead_s6, LSTM]",
             ));
         }
+        let precision = parse_precision(precision)?;
+        if precision != Precision::F32 && precision.dyn8().is_none() {
+            return Err(PyValueError::new_err(
+                "final predictor supports f32 or dynamic q8vnni precision",
+            ));
+        }
+        if q8_codes.as_ref().is_some_and(|codes| codes.len() != 4) {
+            return Err(PyValueError::new_err(
+                "final predictor q8_codes must contain one map per ordered member",
+            ));
+        }
+        if q8_codes.is_some() && precision == Precision::F32 {
+            return Err(PyValueError::new_err(
+                "final predictor q8_codes require dynamic q8vnni precision",
+            ));
+        }
+        let mut q8_codes = q8_codes.map(Vec::into_iter);
         let mut models = Vec::with_capacity(4);
         let mut tied = Vec::with_capacity(2);
         for (role, member) in weights.into_iter().enumerate() {
             let (rnn, tied_weights) = parse_final_member(member, role)?;
-            let model = FastRnn::with_precision(rnn, Activations::Exact, Precision::F32)
+            let mut model = FastRnn::with_precision(rnn, Activations::Exact, precision)
                 .map_err(|error| PyValueError::new_err(error.0))?;
+            if let Some(codes) = q8_codes.as_mut() {
+                import_q8(
+                    py,
+                    &mut model,
+                    codes
+                        .next()
+                        .ok_or_else(|| PyValueError::new_err("missing final member q8 codes"))?,
+                )?;
+            }
             if model.n_in() != FINAL_TL3_WIDTHS[role] || model.n_out() != 2 {
                 return Err(PyValueError::new_err(format!(
                     "final member {role} has incompatible input or output width"
@@ -2097,7 +2125,24 @@ impl PyFinalTl3Predictor {
 
     #[getter]
     fn precision(&self) -> &'static str {
-        "f32"
+        let first = self.models[0].precision();
+        if self.models.iter().all(|model| model.precision() == first) {
+            precision_name(first)
+        } else {
+            "mixed"
+        }
+    }
+
+    fn quantization_codes(&self, py: Python<'_>) -> PyResult<Vec<Q8Codes>> {
+        if !self.models.iter().all(FastRnn::is_dynamic_int8) {
+            return Err(PyValueError::new_err(
+                "final predictor quantization_codes requires dynamic q8vnni precision",
+            ));
+        }
+        self.models
+            .iter()
+            .map(|model| export_q8(py, model))
+            .collect()
     }
 
     #[getter]
@@ -2108,6 +2153,19 @@ impl PyFinalTl3Predictor {
     #[getter]
     fn member_weight_bytes(&self) -> Vec<usize> {
         self.models.iter().map(FastRnn::weight_bytes).collect()
+    }
+
+    #[getter]
+    fn member_dynamic_q8_weight_bytes(&self) -> Vec<usize> {
+        self.models
+            .iter()
+            .map(|model| {
+                model
+                    .dyn8_matrices()
+                    .map(|(_, matrix)| matrix.storage_bytes())
+                    .sum()
+            })
+            .collect()
     }
 }
 
