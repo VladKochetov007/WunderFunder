@@ -265,6 +265,18 @@ fn parse_precision(name: &str) -> PyResult<Precision> {
     }
 }
 
+fn parse_final_precision_mode(name: &str) -> PyResult<[Precision; 4]> {
+    if name == "q8vnni_fused_gru" {
+        return Ok([
+            Precision::Q8VnniFused,
+            Precision::Q8VnniFused,
+            Precision::Q8VnniFused,
+            Precision::Q8Vnni,
+        ]);
+    }
+    Ok([parse_precision(name)?; 4])
+}
+
 fn precision_name(p: Precision) -> &'static str {
     match p {
         Precision::F32 => "f32",
@@ -2006,22 +2018,25 @@ impl PyFinalTl3Predictor {
                 "final predictor requires ordered weights [W18, tiedlead_s5, tiedlead_s6, LSTM]",
             ));
         }
-        let precision = parse_precision(precision)?;
+        let member_precisions = parse_final_precision_mode(precision)?;
         let activations = if fast_activations {
             Activations::Fast
         } else {
             Activations::Exact
         };
-        let dynamic_q8 = matches!(
-            precision,
-            Precision::Q8Vnni
-                | Precision::Q8VnniAvx2
-                | Precision::Q8VnniPortable
-                | Precision::Q8Vnni256
-                | Precision::Q8VnniBlocked
-                | Precision::Q8VnniFused
-        );
-        if precision != Precision::F32 && !dynamic_q8 {
+        let all_f32 = member_precisions.iter().all(|p| *p == Precision::F32);
+        let all_dynamic_q8 = member_precisions.iter().all(|p| {
+            matches!(
+                p,
+                Precision::Q8Vnni
+                    | Precision::Q8VnniAvx2
+                    | Precision::Q8VnniPortable
+                    | Precision::Q8Vnni256
+                    | Precision::Q8VnniBlocked
+                    | Precision::Q8VnniFused
+            )
+        });
+        if !all_f32 && !all_dynamic_q8 {
             return Err(PyValueError::new_err(
                 "final predictor supports f32 or dynamic q8vnni precision",
             ));
@@ -2031,7 +2046,7 @@ impl PyFinalTl3Predictor {
                 "final predictor q8_codes must contain one map per ordered member",
             ));
         }
-        if q8_codes.is_some() && precision == Precision::F32 {
+        if q8_codes.is_some() && all_f32 {
             return Err(PyValueError::new_err(
                 "final predictor q8_codes require dynamic q8vnni precision",
             ));
@@ -2041,7 +2056,7 @@ impl PyFinalTl3Predictor {
         let mut tied = Vec::with_capacity(2);
         for (role, member) in weights.into_iter().enumerate() {
             let (rnn, tied_weights) = parse_final_member(member, role)?;
-            let mut model = FastRnn::with_precision(rnn, activations, precision)
+            let mut model = FastRnn::with_precision(rnn, activations, member_precisions[role])
                 .map_err(|error| PyValueError::new_err(error.0))?;
             if let Some(codes) = q8_codes.as_mut() {
                 import_q8(
@@ -2417,6 +2432,24 @@ impl PyPredictor {
 #[cfg(test)]
 mod shared_backbone_tests {
     use super::*;
+
+    #[test]
+    fn final_fused_gru_preset_keeps_lstm_on_vanilla_vnni() {
+        assert_eq!(
+            parse_final_precision_mode("q8vnni_fused_gru").unwrap(),
+            [
+                Precision::Q8VnniFused,
+                Precision::Q8VnniFused,
+                Precision::Q8VnniFused,
+                Precision::Q8Vnni,
+            ]
+        );
+        assert_eq!(
+            parse_final_precision_mode("q8vnni").unwrap(),
+            [Precision::Q8Vnni; 4]
+        );
+        assert!(parse_final_precision_mode("unsupported").is_err());
+    }
 
     fn fixture_weights(seed: usize) -> RnnWeights {
         let values = |count: usize, offset: usize| {

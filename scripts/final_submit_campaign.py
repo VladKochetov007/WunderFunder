@@ -227,11 +227,11 @@ def _validate_approval(
 def _panel_entries(path: Path) -> list[dict[str, Any]]:
     """Read the root-issued six-profile panel receipt."""
     panel = contract.read_json(path)
-    entries = panel.get("profiles", panel.get("entries"))
+    entries = panel.get("profiles", panel.get("entries", panel.get("approved")))
     if isinstance(entries, dict):
         entries = [dict(value, node_id=key) for key, value in entries.items()]
     if not isinstance(entries, list) or not all(isinstance(item, dict) for item in entries):
-        raise ValueError("root profile panel must contain a profiles or entries list")
+        raise ValueError("root profile panel must contain a profiles, entries or approved list")
     return entries
 
 
