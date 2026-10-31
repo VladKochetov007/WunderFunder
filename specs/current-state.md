@@ -1,3 +1,29 @@
+## 31 October: four-stage B300 search, fixed-final artifacts published
+
+The authorized six-node-hour48-fit wave uses the current one SSH session69303.
+Scientific attempts36:35 completed endpoints plus one partial GALAM64;52 of56
+engineering profiles. All33 finalized main-study endpoints have pinned Source6
+control predictions and recomputed checkpoint hashes; two initial FT pilots stay
+separate. Stage2 improves4/6 vs parents (extra epochs uncontrolled). Six matched
+Stage3 KD/control pairs improve by+.000774 to+.004964 on exposed inner8260/2065
+train-only control; KD weights differ across seeds. No primary or public gain
+is inferred. The frozen8-member CPU search is currently running.
+
+[PR53](https://github.com/VladKochetov007/WunderFunder/pull/53) contains code and
+[verified endpoint tables/plots](https://github.com/VladKochetov007/WunderFunder/tree/results/tabdata-multistage-b300-20261031/research/experiment_drafts/multistage-optuna-b300-20261031/results/verified-control-r3).
+[Checkpoint release](https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr53-multistage-checkpoints-20261031-r1)
+contains33 original fixed-final models and four pinned replay source trees; all8
+assets passed actual GitHub download SHA256 checks. Partial GALAM and the two
+initial pilots are excluded from those33 models. Dashboard http://127.0.0.1:18777/.
+
+Primary ensemble evaluation and optional four fresh10325-member direct-label
+refits remain pending at04:03UTC. Preserve official train/valid, clean ancestry
+and the frozen train-only weights. Legacy ledger terminal_unverified and the
+partial GALAM stale running status require separate owned-process qualification;
+never fabricate their unobserved outer exit codes. Preserve original ledger.
+Collection starts05:21UTC and hard stop05:41UTC. Foreign NIER/MPS are untouched.
+See [R3 progress](../research/experiment_drafts/multistage-optuna-b300-20261031/PROGRESS_20261031_R3.md).
+
 ## 30 October: authorized heterogeneous six-fit screen and canonical TL3 baseline
 
 The user requests actual experiments and a full-valid ensemble table with TL3

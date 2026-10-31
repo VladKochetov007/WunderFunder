@@ -322,6 +322,7 @@ def _report(
         "run_manifest": dict(request["run_manifest"]),
         "admission": dict(request["admission"]),
         "contract": dict(request["contract"]),
+        "terminal_qualification": request["terminal_qualification"],
         "stage4_runner_request": dict(request["stage4_runner_request"]),
         "stage4_runner_request_sha256": request["stage4_runner_request_sha256"],
         "stage4_weights": weights,

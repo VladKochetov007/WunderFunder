@@ -215,3 +215,36 @@ def test_member_worker_accepts_bounded_actual_kd_result_size(tmp_path: Path) -> 
         stream.truncate(64_000_001)
     with pytest.raises(ValueError, match="bounded regular file"):
         primary_worker._verify_candidate_artifact_hashes(candidate)
+
+
+def test_source6_identity_separates_predictor_scorer_and_report_wrapper(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / "scripts").mkdir()
+    (tmp_path / "src" / "wnn").mkdir(parents=True)
+    fixtures = {
+        "src/wnn/__init__.py": "# package\n",
+        "src/wnn/metric.py": "# metric\n",
+        "scripts/predict_sequence.py": "# predictor entrypoint\n",
+        "scripts/score_sequence.py": "# standalone scorer\n",
+        "scripts/report_multistage_primary.py": "# distinct report wrapper\n",
+    }
+    for name, content in fixtures.items():
+        (tmp_path / name).write_text(content, encoding="utf-8", newline="\n")
+    expected_files = {
+        name: primary_worker._sha256(tmp_path / name)
+        for name in fixtures
+        if name.startswith("src/") or name == "scripts/predict_sequence.py"
+    }
+    source_sha = primary_worker._canonical_sha256(expected_files)
+    scorer_sha = primary_worker._sha256(tmp_path / "scripts/score_sequence.py")
+    monkeypatch.setattr(primary_worker, "SOURCE6_SHA256", source_sha)
+    monkeypatch.setattr(primary_worker, "SCORE_SCRIPT_SHA256", scorer_sha)
+
+    identity = primary_worker._source_identity(tmp_path)
+    info = primary_parent._source6_info(tmp_path)
+
+    assert identity == {"sha256": source_sha, "files": expected_files}
+    assert info["source_sha256"] == source_sha
+    assert info["score_script_sha256"] == scorer_sha
+    assert scorer_sha != primary_worker._sha256(tmp_path / "scripts/report_multistage_primary.py")

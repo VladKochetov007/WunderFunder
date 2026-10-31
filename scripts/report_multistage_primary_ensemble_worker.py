@@ -33,7 +33,7 @@ def _canonical_sha256(value: object) -> str:
 
 
 def _source_identity(source_root: Path) -> dict[str, object]:
-    entrypoint = source_root / "scripts/report_multistage_primary.py"
+    entrypoint = source_root / "scripts/predict_sequence.py"
     paths = sorted((source_root / "src").rglob("*.py"))
     if not entrypoint.is_file() or entrypoint.is_symlink():
         raise ValueError("pinned Source6 scorer entrypoint is missing or unsafe")
@@ -47,7 +47,7 @@ def _source_identity(source_root: Path) -> dict[str, object]:
 
 def _verify_source6(source_root: Path, expected: Mapping[str, object]) -> None:
     identity = _source_identity(source_root)
-    script_sha = _sha256(source_root / "scripts/report_multistage_primary.py")
+    script_sha = _sha256(source_root / "scripts/score_sequence.py")
     if (
         identity["sha256"] != SOURCE6_SHA256
         or identity["sha256"] != expected.get("source_sha256")

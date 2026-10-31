@@ -53,7 +53,7 @@ def _source6_info(root: Path) -> dict[str, object]:
 
     root = root.resolve(strict=True)
     identity = _source_identity(root)
-    score = root / "scripts/report_multistage_primary.py"
+    score = root / "scripts/score_sequence.py"
     info = {
         "root": str(root),
         "source_sha256": identity["sha256"],
@@ -156,14 +156,9 @@ def prepare_request(args: argparse.Namespace) -> tuple[dict[str, Any], Path, str
     )
     if frozen_aux_path != auxiliary_path:
         raise ValueError("auxiliary split path differs from the frozen campaign reference")
-    budget = _read_json(run_dir / "budget.json", "fit budget ledger")
-    attempts = budget.get("fit_attempts")
-    terminal_fit_states = {"completed", "failed", "censored_timeout"}
-    if not isinstance(attempts, list) or any(
-        not isinstance(row, dict) or row.get("status") not in terminal_fit_states
-        for row in attempts
-    ):
-        raise ValueError("all scientific fits must be terminal before primary scoring")
+    from report_multistage_primary_terminal import qualify_primary_fit_terminal
+
+    terminal_qualification = qualify_primary_fit_terminal(run_dir)
     source6 = _source6_info(args.source6_root)
     if (
         run.get("evaluation_source_sha256") != SOURCE6_SHA256
@@ -317,6 +312,7 @@ def prepare_request(args: argparse.Namespace) -> tuple[dict[str, Any], Path, str
     request = {
         "schema": "wnn.multistage-primary-ensemble-score-request.v1",
         "status": "validated_ready_for_fixed_weight_primary_scoring",
+        "terminal_qualification": terminal_qualification,
         "run_manifest": {"path": str(run_path), "sha256": file_sha256(run_path)},
         "admission": {"path": str(admission_path), "sha256": file_sha256(admission_path)},
         "contract": {"path": str(contract_path), "sha256": file_sha256(contract_path)},
