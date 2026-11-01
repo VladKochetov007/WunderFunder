@@ -351,7 +351,7 @@ def run(args: argparse.Namespace) -> dict[str, object]:
                 old_mix.step_members(DataPoint(sequence.seq_ix, step, True, row)),
                 dtype=np.float32,
             )[0]
-        r11.reset()
+        old_mix.reset()
 
         delivered, delivered_native = _load_solution(package_root / "solution.py")
         loaded_native_path = Path(delivered_native.__file__).resolve()
