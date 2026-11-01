@@ -15,8 +15,10 @@ Prepare a separately identified W18-only CPU package after its own complete
 13-role ancestry, successful final fit receipt and actual package checks. It
 does not need TLead/LSTM completion. Continue the full-mixture delivery worker;
 the early package is a fallback, not a new quality or public-score claim.
-Session42104 subsequently closed with a transport reset; two bounded recovery
-connections timed out before the SSH banner. Last verified remote state:14/18
+Session42104 subsequently closed with a transport reset; four bounded recovery
+connections timed out/closed before authentication, including one60s banner wait
+and a noninteractive no-QoS probe. Do not keep retrying without new evidence.
+The GitHub reporter still published at01:57:47UTC. Last verified remote state:14/18
 fits complete, FBC running, early W18 publisher3647718 waiting on11/13 ancestors.
 Both TLead engineering profiles failed before CUDA because the watcher did not
 pass the source root in PYTHONPATH. The local repair is reviewed and staged as

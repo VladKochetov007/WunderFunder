@@ -12,7 +12,11 @@ startups +3 remaining successful profiles. No scientific budget changes.
 
 The repair capsule `final-control-profile-env-repair-67ab6056.tar.gz` is staged
 on the build-input release but has not been applied: the sole SSH connection
-reset, and two bounded recovery connections timed out before the SSH banner.
+reset, and four bounded recovery connections timed out/closed before
+authentication, including one60-second banner wait and one noninteractive
+no-QoS transport probe. No password was transmitted in these recovery probes.
+The GitHub reporter remained live at01:57:47UTC and showed FBC around3.05/4
+epochs, so an SSH observation failure is not evidence that training stopped.
 Stop only the exact old waiting R3 wrapper3643146 and W18 watcher3612009 before
 launching replacements, after checking their recorded identities and absence of
 successor fit children. Preserve R2/FBC and early publisher3647718. The latter
