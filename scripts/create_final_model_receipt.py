@@ -36,6 +36,8 @@ def _paths(args: argparse.Namespace) -> None:
         "root_admission": args.runtime_root / "ROOT_EXECUTION_ADMISSION_R1.json",
         "grader": args.runtime_root / "control-grader-r2/scripts/review_final_submit_profile.py",
         "director_script": args.runtime_root / "control-code-r1/scripts/final_submit_chain.py",
+        "r2_director_script": args.runtime_root / "control-code-r2/scripts/final_submit_chain.py",
+        "r2_root_admission": args.runtime_root / "ROOT_EXECUTION_ADMISSION_R2.json",
         "controller_root": args.runtime_root / "control/final-submit-chain",
     }
     for name, default in defaults.items():
@@ -101,15 +103,17 @@ def _verify_admission(args: argparse.Namespace) -> None:
 def _verify_repair_history(args: argparse.Namespace, state: dict[str, Any]) -> None:
     """If repairs were adopted, require their exact proofs and unchanged failure history."""
     nodes = state["nodes"]
-    repaired = {
-        name
-        for name in ("source4_lstm192x1", "orgbase")
-        if nodes[name].get("operational_repair") is not None
-    }
+    repaired = {name for name, row in nodes.items() if row.get("operational_repair") is not None}
     if not repaired:
         return
-    if repaired != {"source4_lstm192x1", "orgbase"}:
-        raise ValueError("only the paired native/orgbase admission repairs are allowed")
+    base_repairs = {"source4_lstm192x1", "orgbase"}
+    fin256_repairs = {"fin256_s3", "fin256_s4"}
+    if frozenset(repaired) not in {
+        frozenset(base_repairs),
+        frozenset(base_repairs | fin256_repairs),
+    }:
+        raise ValueError("repair history contains an unqualified first-wave node")
+    expected_repaired_order = ["source4_lstm192x1", "orgbase", *sorted(repaired & fin256_repairs)]
     events = state.get("qualified_operational_repairs")
     if not isinstance(events, list) or len(events) != 1:
         raise ValueError("controller state lacks one unique repair-adoption event")
@@ -123,7 +127,7 @@ def _verify_repair_history(args: argparse.Namespace, state: dict[str, Any]) -> N
     )
     if (
         event.get("schema") != "wnn.final-submit-operational-repair-adoption.v1"
-        or event.get("resolved_node_ids") != ["source4_lstm192x1", "orgbase"]
+        or event.get("resolved_node_ids") != expected_repaired_order
         or event.get("terminal_outcomes_preserved") is not True
         or before_path != expected_before
         or before_path.is_symlink()
@@ -143,22 +147,30 @@ def _verify_repair_history(args: argparse.Namespace, state: dict[str, Any]) -> N
         before.get("phase") != "failed"
         or before.get("identity") != state.get("identity")
         or set(prior_nodes or {}) != expected_first
-        or failures != {"source4_lstm192x1", "orgbase"}
+        or failures != repaired
         or state.get("terminal_outcomes") != before.get("terminal_outcomes")
         or any(
-            "not an idle B300" not in str(prior_nodes[name].get("error", "")) for name in failures
+            (
+                "launched fit argv differs" not in str(prior_nodes[name].get("error", ""))
+                if name == "fin256_s3"
+                else "not an idle B300" not in str(prior_nodes[name].get("error", ""))
+            )
+            for name in failures
         )
     ):
         raise ValueError("repair snapshot does not prove only the two admission failures")
     bindings = event.get("proofs")
-    for node_id, filename, schema in (
+    if not isinstance(bindings, dict) or set(bindings) != repaired:
+        raise ValueError("repair-adoption proof set differs from repaired roots")
+    base_proofs = (
         ("source4_lstm192x1", "native-admission-repair-r2.json", "wnn.native-admission-repair.v1"),
         (
             "orgbase",
             "orgbase-export-admission-repair-r2.json",
             "wnn.orgbase-export-admission-repair.v1",
         ),
-    ):
+    )
+    for node_id, filename, schema in base_proofs:
         path = args.runtime_root / "receipts" / filename
         binding = bindings.get(node_id) if isinstance(bindings, dict) else None
         if (
@@ -181,6 +193,234 @@ def _verify_repair_history(args: argparse.Namespace, state: dict[str, Any]) -> N
             or (node_id == "orgbase" and proof.get("fixed_endpoint") != 3)
         ):
             raise ValueError(f"repair proof has different ancestry or score semantics: {node_id}")
+    for node_id in sorted(repaired & fin256_repairs):
+        path = args.runtime_root / "receipts" / f"{node_id}-export-admission-repair-r4.json"
+        binding = bindings.get(node_id) if isinstance(bindings, dict) else None
+        if (
+            not isinstance(binding, dict)
+            or binding != nodes[node_id].get("operational_repair")
+            or binding.get("path") != str(path)
+            or path.is_symlink()
+            or contract.sha256_file(path) != binding.get("sha256")
+        ):
+            raise ValueError(f"fin256 export repair proof binding differs: {node_id}")
+        proof = contract.read_json(path, 16_000_000)
+        intent_path = (
+            args.runtime_root / "receipts" / f"{node_id}-export-admission-repair-r4.intent.json"
+        )
+        intent = contract.read_json(intent_path, 2_000_000)
+        expected_reused = ["train", "valid"] if node_id == "fin256_s3" else ["train"]
+        expected_missing = [] if node_id == "fin256_s3" else ["valid"]
+        if (
+            proof.get("schema") != "wnn.final-submit-export-only-repair.v1"
+            or proof.get("status") != "complete"
+            or proof.get("node_id") != node_id
+            or proof.get("run") != state["nodes"][node_id].get("run")
+            or proof.get("intent_path") != str(intent_path)
+            or proof.get("intent_sha256") != contract.sha256_file(intent_path)
+            or proof.get("plan_sha256") != contract.PLAN_SHA256
+            or proof.get("source_capsule_sha256") != contract.SOURCE_CAPSULE_SHA256
+            or proof.get("membership_sha256") != state["identity"]["membership_sha256"]
+            or proof.get("fit_members_sha256") != state["identity"]["fit_members_sha256"]
+            or proof.get("source_validation_sha256") != contract.SOURCE_AUDIT_SHA256
+            or proof.get("fixed_endpoint") != 3
+            or proof.get("scientific_retraining") is not False
+            or proof.get("independent_score_claim") != "forbidden"
+            or intent.get("schema") != "wnn.final-submit-export-only-repair-intent.v1"
+            or intent.get("node_id") != node_id
+            or intent.get("run") != state["nodes"][node_id].get("run")
+            or intent.get("plan_sha256") != contract.PLAN_SHA256
+            or intent.get("source_capsule_sha256") != contract.SOURCE_CAPSULE_SHA256
+            or intent.get("membership_sha256") != state["identity"]["membership_sha256"]
+            or intent.get("fit_members_sha256") != state["identity"]["fit_members_sha256"]
+            or intent.get("source_validation_sha256") != contract.SOURCE_AUDIT_SHA256
+            or intent.get("fixed_endpoint") != 3
+            or intent.get("prior_node_record") != prior_nodes[node_id]
+            or intent.get("completed_exports_reused") != expected_reused
+            or intent.get("missing_exports") != expected_missing
+            or intent.get("scientific_retraining") is not False
+            or intent.get("independent_score_claim") != "forbidden"
+            or intent.get("foreign_signals") is not False
+            or proof.get("fit_process_receipt")
+            != str(args.controller_root / "receipts/fits" / f"{node_id}.json")
+            or proof.get("fit_process_receipt_sha256")
+            != contract.sha256_file(args.controller_root / "receipts/fits" / f"{node_id}.json")
+            or intent.get("fit_process_receipt")
+            != str(args.controller_root / "receipts/fits" / f"{node_id}.json")
+            or intent.get("fit_process_receipt_sha256")
+            != contract.sha256_file(args.controller_root / "receipts/fits" / f"{node_id}.json")
+            or proof.get("checkpoint_path") != state["nodes"][node_id].get("checkpoint_path")
+            or proof.get("checkpoint_sha256")
+            != state["nodes"][node_id].get("checkpoint_sha256")
+            or intent.get("checkpoint_path") != state["nodes"][node_id].get("checkpoint_path")
+            or intent.get("checkpoint_sha256") != state["nodes"][node_id].get("checkpoint_sha256")
+        ):
+            raise ValueError(f"fin256 export repair ancestry or score semantics differ: {node_id}")
+
+
+def _verify_r2_execution_admission(args: argparse.Namespace, state: dict[str, Any]) -> None:
+    """Bind later director waves to the separate R2 control capsule and admission."""
+    files = {
+        f"scripts/{name}": contract.sha256_file(args.r2_director_script.parent / name)
+        for name in (
+            "final_submit_chain.py",
+            "final_submit_chain_contract.py",
+            "final_submit_chain_runtime.py",
+            "final_submit_chain_execution.py",
+        )
+    }
+    admission = contract.read_json(args.r2_root_admission, 1_000_000)
+    expected = {
+        "schema": contract.ADMISSION_SCHEMA,
+        "approved": True,
+        "plan_sha256": contract.PLAN_SHA256,
+        "source_capsule_sha256": contract.SOURCE_CAPSULE_SHA256,
+        "grader_sha256": contract.sha256_file(args.grader),
+        "director_sha256": files["scripts/final_submit_chain.py"],
+        "max_scientific_fits": contract.TOTAL_FITS,
+        "max_profiles": contract.MAX_PROFILES,
+        "max_fit_wall_seconds": contract.MAX_FIT_SECONDS,
+        "max_profile_wall_seconds": contract.MAX_PROFILE_SECONDS,
+        "max_lanes": contract.MAX_LANES,
+        "hard_deadline_epoch": contract.HARD_DEADLINE,
+        "collection_reserve_seconds": contract.COLLECTION_RESERVE,
+        "foreign_process_signals": False,
+    }
+    admission_sha = contract.sha256_file(args.r2_root_admission)
+    marker = state.get("execution_admissions")
+    if (
+        any(admission.get(key) != value for key, value in expected.items())
+        or admission.get("director_files") != files
+        or not isinstance(marker, list)
+        or len(marker) != 1
+        or marker[0].get("schema") != "wnn.final-submit-r2-execution-admission.v1"
+        or marker[0].get("root_admission_sha256") != admission_sha
+        or marker[0].get("director_files") != files
+    ):
+        raise ValueError("controller state or R2 root admission differs from the staged R2 code")
+    campaign_path = args.controller_root / "campaign-state.json"
+    campaign = contract.read_json(campaign_path, 16_000_000)
+    runs = campaign.get("director_runs")
+    r2_runs = [item for item in runs if item.get("wave", 0) > 1] if isinstance(runs, list) else []
+    if not r2_runs:
+        raise ValueError("campaign state does not record any R2 director waves")
+    for item in r2_runs:
+        receipt_path = Path(str(item.get("receipt_path", "")))
+        expected_path = args.controller_root / "receipts/campaign" / (
+            f"director-wave-{int(item.get('wave', 0)):02d}.json"
+        )
+        process = contract.read_json(receipt_path, 2_000_000)
+        command, timeout = process.get("command"), process.get("timeout_seconds")
+        if (
+            receipt_path != expected_path
+            or receipt_path.is_symlink()
+            or item.get("root_admission_sha256") != admission_sha
+            or item.get("status") not in {"completed", "adopted_completed"}
+            or item.get("receipt") != process
+            or item.get("argv") != command
+            or not isinstance(command, list)
+            or command.count(str(args.r2_director_script)) != 1
+            or contract.option_values(command, "--root-admission") != [str(args.r2_root_admission)]
+            or command[:3] != ["/usr/bin/timeout", "--signal=TERM", "--kill-after=10s"]
+            or type(timeout) is not int
+            or not 10 < timeout <= director.execution.NODE_CAP_SECONDS
+            or command[3:4] != [f"{timeout - 10}s"]
+            or process.get("status") != "completed"
+            or process.get("exit_code") != 0
+            or process.get("timed_out") is not False
+            or process.get("mode") != "final_submit_campaign_director"
+            or process.get("stage") != 1
+            or process.get("trial_number") != item.get("wave")
+            or process.get("gpu_key") != "campaign-controller"
+            or process.get("cwd") != str(args.source_root.resolve())
+            or process.get("output_dir") != str(args.controller_root.resolve())
+            or process.get("command_sha256") != contract.canonical_sha256(command)
+            or not _verify_r2_wave_argv(args, state, process)
+        ):
+            raise ValueError("campaign wave receipt is not bound to R2 admission and code")
+
+
+def _verify_r2_wave_argv(
+    args: argparse.Namespace, state: dict[str, Any], process: dict[str, Any]
+) -> bool:
+    """Require the exact fixed R2 director argv and its receipt-bound profile set."""
+    command = process.get("command")
+    timeout = process.get("timeout_seconds")
+    created = process.get("created_epoch")
+    if (
+        not isinstance(command, list)
+        or not all(isinstance(token, str) for token in command)
+        or type(timeout) is not int
+        or isinstance(created, bool)
+        or not isinstance(created, (int, float))
+    ):
+        return False
+    remaining = int(contract.HARD_DEADLINE - contract.COLLECTION_RESERVE - created)
+    if (
+        timeout <= 10
+        or timeout > director.execution.NODE_CAP_SECONDS
+        or timeout > remaining - 10
+        or command[:6]
+        != [
+            "/usr/bin/timeout",
+            "--signal=TERM",
+            "--kill-after=10s",
+            f"{timeout - 10}s",
+            str(args.python),
+            str(args.r2_director_script),
+        ]
+    ):
+        return False
+    fixed = (
+        ("--action", "run"),
+        ("--runtime-root", str(args.runtime_root)),
+        ("--source-root", str(args.source_root)),
+        ("--data-root", str(args.data_root)),
+        ("--plan", str(args.plan)),
+        ("--membership", str(args.membership)),
+        ("--source-audit", str(args.source_audit)),
+        ("--source-capsule", str(args.source_capsule)),
+        ("--native-config", str(args.native_config)),
+        ("--python", str(args.python)),
+        ("--grader", str(args.grader)),
+        ("--root-admission", str(args.r2_root_admission)),
+        ("--controller-root", str(args.controller_root)),
+        ("--max-lanes", str(contract.MAX_LANES)),
+    )
+    fixed_tail = [token for pair in fixed for token in pair]
+    tail = command[6:]
+    if tail[: len(fixed_tail)] != fixed_tail:
+        return False
+    approvals = tail[len(fixed_tail) :]
+    if len(approvals) % 2:
+        return False
+    rows = state.get("nodes")
+    if not isinstance(rows, dict):
+        return False
+    supplied: set[str] = set()
+    for option, value in zip(approvals[::2], approvals[1::2], strict=True):
+        fields = value.split("=", 3)
+        if option != "--profile-approval" or len(fields) != 4:
+            return False
+        node_id, digest, gpu_uuid, raw_path = fields
+        row = rows.get(node_id)
+        if (
+            node_id in supplied
+            or not isinstance(row, dict)
+            or row.get("profile_sha256") != digest
+            or row.get("gpu_uuid") != gpu_uuid
+            or row.get("profile_receipt") != raw_path
+        ):
+            return False
+        profile_path = Path(raw_path)
+        if (
+            profile_path.is_symlink()
+            or not profile_path.is_file()
+            or contract.sha256_file(profile_path) != digest
+        ):
+            return False
+        supplied.add(node_id)
+    return True
 
 
 def _completed_graph(
@@ -212,6 +452,7 @@ def _completed_graph(
     ):
         raise ValueError("controller state does not prove all 18 fixed fits completed")
     _verify_repair_history(args, state)
+    _verify_r2_execution_admission(args, state)
     nodes = director._node_records(plan, plan_nodes, args)
     if len(nodes) != contract.TOTAL_FITS or {node["node_id"] for node in nodes} != expected:
         raise ValueError("frozen plan does not materialize the exact 18-node graph")
@@ -433,6 +674,47 @@ def _verify_early_successor_adoption(
             raise ValueError(f"early-successor proof differs from adopted node: {node_id}")
 
 
+def _validate_owned_stage(
+    args: argparse.Namespace,
+    path: Path,
+    embedded: object,
+    argv: list[str],
+    *,
+    mode: str,
+    stage: int,
+    trial: int,
+    gpu_uuid: str,
+    output_dir: Path,
+) -> dict[str, Any]:
+    """Bind one completed child receipt to its exact frozen command and paths."""
+    if path.is_symlink() or not path.is_file():
+        raise ValueError(f"owned stage receipt is missing or linked: {path}")
+    process = contract.read_json(path, 2_000_000)
+    command, timeout = process.get("command"), process.get("timeout_seconds")
+    if (
+        process != embedded
+        or process.get("schema") != "wnn.multistage-owned-process.v1"
+        or process.get("status") != "completed"
+        or process.get("exit_code") != 0
+        or process.get("timed_out") is not False
+        or process.get("mode") != mode
+        or process.get("stage") != stage
+        or process.get("trial_number") != trial
+        or process.get("gpu_key") != gpu_uuid
+        or process.get("cwd") != str(args.source_root.resolve())
+        or process.get("output_dir") != str(output_dir.resolve())
+        or type(timeout) is not int
+        or not 10 < timeout <= contract.MAX_FIT_SECONDS
+        or not isinstance(command, list)
+        or command[:3] != ["/usr/bin/timeout", "--signal=TERM", "--kill-after=10s"]
+        or command[3:4] != [f"{timeout - 10}s"]
+        or command[4:] != argv
+        or process.get("command_sha256") != contract.canonical_sha256(command)
+    ):
+        raise ValueError(f"owned stage receipt differs from the frozen command: {path.name}")
+    return process
+
+
 def _validate_fits(
     args: argparse.Namespace,
     plan: dict[str, Any],
@@ -474,21 +756,48 @@ def _validate_fits(
             if repaired_native
             else "final_submit_finite_chain"
         )
-        process = contract.read_json(process_path, 2_000_000)
+        profile_path = Path(str(row.get("profile_receipt", "")))
         if (
             process_path != expected_receipt
-            or process != row.get("fit_process")
-            or process.get("status") != "completed"
-            or process.get("exit_code") != 0
-            or process.get("timed_out") is not False
-            or process.get("mode") != expected_mode
-            or process.get("stage") != 1
-            or process.get("trial_number") != expected_trial
-            or process.get("gpu_key") != row.get("gpu_uuid")
-            or process.get("output_dir") != str(root.resolve())
-            or process.get("command_sha256") != contract.canonical_sha256(process.get("command"))
+            or not profile_path.is_file()
+            or profile_path.is_symlink()
+            or row.get("profile_sha256") != contract.sha256_file(profile_path)
         ):
-            raise ValueError(f"fit process receipt is not complete: {node_id}")
+            raise ValueError(f"fit profile or receipt path differs: {node_id}")
+        profile = contract.validate_profile_approval(
+            node_id=node_id,
+            approval_path=profile_path,
+            expected_sha256=str(row["profile_sha256"]),
+            plan_sha256=contract.PLAN_SHA256,
+            membership=membership,
+            mode="native_source4_lstm" if node.get("native") else "legacy_tl3",
+        )
+        if profile.get("gpu_uuid") != row.get("gpu_uuid"):
+            raise ValueError(f"fit GPU differs from its approved profile: {node_id}")
+        fit_argv = director.execution.build_fit_argv(
+            node=node,
+            python=args.python,
+            source_root=args.source_root,
+            data_root=args.data_root,
+            plan=plan,
+            profile_path=profile_path,
+        )
+        if repaired_native:
+            repair = row.get("operational_repair")
+            proof = contract.read_json(Path(str(repair.get("path", ""))), 2_000_000)
+            if proof.get("gpu_uuid") != row.get("gpu_uuid"):
+                raise ValueError("native repair GPU differs from its qualified repair proof")
+        _validate_owned_stage(
+            args,
+            process_path,
+            row.get("fit_process"),
+            fit_argv,
+            mode=expected_mode,
+            stage=1,
+            trial=expected_trial,
+            gpu_uuid=str(row.get("gpu_uuid", "")),
+            output_dir=root,
+        )
         if node.get("export_train") is True:
             exports = row.get("exports")
             if not isinstance(exports, dict) or set(exports) != {"train", "valid"}:
@@ -496,6 +805,119 @@ def _validate_fits(
             for split in ("train", "valid"):
                 export = exports[split]
                 path = runtime.validate_export(args.data_root, run, split, membership)
+                repaired_export = node_id == "orgbase" and bool(
+                    row.get("operational_repair")
+                )
+                repaired_fin256 = node_id in {"fin256_s3", "fin256_s4"} and bool(
+                    row.get("operational_repair")
+                )
+                fin256_proof: dict[str, Any] | None = None
+                fin256_intent: dict[str, Any] | None = None
+                if repaired_fin256:
+                    repair = row["operational_repair"]
+                    fin256_proof = contract.read_json(Path(str(repair["path"])), 16_000_000)
+                    intent_path = (
+                        args.runtime_root
+                        / "receipts"
+                        / f"{node_id}-export-admission-repair-r4.intent.json"
+                    )
+                    fin256_intent = contract.read_json(intent_path, 2_000_000)
+                    if (
+                        fin256_proof.get("intent_path") != str(intent_path)
+                        or fin256_proof.get("intent_sha256") != contract.sha256_file(intent_path)
+                    ):
+                        raise ValueError(f"fin256 export repair intent binding differs: {node_id}")
+                    proof_exports = fin256_proof.get("exports")
+                    proof_export = (
+                        proof_exports.get(split) if isinstance(proof_exports, dict) else None
+                    )
+                    if not isinstance(proof_export, dict):
+                        raise ValueError(f"fin256 export repair omits {node_id}/{split}")
+                receipt_path = (
+                    args.controller_root
+                    / "receipts/exports"
+                    / (
+                        f"orgbase-{split}-external-r2.json"
+                        if repaired_export
+                        else f"{node_id}-{split}-external-r4.json"
+                        if repaired_fin256 and node_id == "fin256_s4" and split == "valid"
+                        else f"{node_id}-{split}.json"
+                    )
+                )
+                expected_gpu = str(row.get("gpu_uuid", ""))
+                export_mode = "final_submit_finite_chain"
+                export_trial = expected_trial
+                if repaired_fin256:
+                    proof_export = fin256_proof["exports"][split]
+                    if (
+                        proof_export.get("receipt") != str(receipt_path)
+                        or proof_export.get("receipt_sha256") != contract.sha256_file(receipt_path)
+                        or proof_export.get("path") != str(path)
+                        or proof_export.get("sha256") != contract.sha256_file(path)
+                        or proof_export.get("process") != export.get("process")
+                    ):
+                        raise ValueError(f"fin256 repair export receipt differs: {node_id}/{split}")
+                    if node_id == "fin256_s4" and split == "valid":
+                        expected_gpu = str(fin256_intent.get("gpu_uuid", ""))
+                        export_mode = "final_submit_export_only_repair_r4"
+                        export_trial = 103
+                if repaired_export:
+                    repair = row["operational_repair"]
+                    proof = contract.read_json(Path(str(repair["path"])), 2_000_000)
+                    intent_path = (
+                        args.runtime_root
+                        / "receipts/orgbase-export-admission-repair-r2.intent.json"
+                    )
+                    intent = contract.read_json(intent_path, 2_000_000)
+                    proof_exports = proof.get("exports")
+                    proof_export = (
+                        proof_exports.get(split) if isinstance(proof_exports, dict) else None
+                    )
+                    if (
+                        proof.get("intent_path") != str(intent_path)
+                        or proof.get("intent_sha256") != contract.sha256_file(intent_path)
+                        or proof.get("plan_sha256") != contract.PLAN_SHA256
+                        or proof.get("membership_sha256") != membership.manifest_sha256
+                        or not isinstance(proof_export, dict)
+                        or proof_export.get("receipt") != str(receipt_path)
+                        or proof_export.get("receipt_sha256") != contract.sha256_file(receipt_path)
+                        or export.get("receipt") != str(receipt_path)
+                    ):
+                        raise ValueError(
+                            f"qualified export repair proof differs: {node_id}/{split}"
+                        )
+                    expected_gpu = str(intent.get("gpu_uuid", ""))
+                    export_mode = "final_submit_orgbase_qualified_export_repair_r2"
+                    export_trial = 101
+                export_argv = [
+                    str(args.python),
+                    str(args.source_root / "scripts/predict_run.py"),
+                    run,
+                    split,
+                    "--epoch",
+                    str(node["endpoint"]),
+                    "--final-fit-manifest",
+                    str(args.membership),
+                    "--final-fit-source-validation-receipt",
+                    str(args.source_audit),
+                    "--final-fit-source-validation-sha256",
+                    contract.SOURCE_AUDIT_SHA256,
+                    "--device",
+                    "cuda",
+                ]
+                if export.get("receipt") != str(receipt_path):
+                    raise ValueError(f"teacher export receipt path differs: {node_id}/{split}")
+                _validate_owned_stage(
+                    args,
+                    receipt_path,
+                    export.get("process"),
+                    export_argv,
+                    mode=export_mode,
+                    stage=2,
+                    trial=export_trial,
+                    gpu_uuid=expected_gpu,
+                    output_dir=args.data_root / "cache",
+                )
                 if (
                     export.get("status") != "complete"
                     or export.get("path") != str(path)
@@ -659,8 +1081,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--source-capsule", type=Path)
     parser.add_argument("--native-config", type=Path)
     parser.add_argument("--root-admission", type=Path)
+    parser.add_argument("--r2-root-admission", type=Path)
     parser.add_argument("--grader", type=Path)
     parser.add_argument("--director-script", type=Path)
+    parser.add_argument("--r2-director-script", type=Path)
     parser.add_argument("--controller-root", type=Path)
     return parser
 
