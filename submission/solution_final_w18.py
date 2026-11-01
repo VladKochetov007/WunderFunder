@@ -147,6 +147,7 @@ def _validate_receipt(value: object) -> dict[str, object]:
         "fixed_endpoint",
         "members",
         "plan_sha256",
+        "fit_process_receipt",
         "teacher_recipe",
         "teacher_cache",
         "lineage_closure",
@@ -165,6 +166,52 @@ def _validate_receipt(value: object) -> dict[str, object]:
         or receipt.get("plan_sha256") != _W18_PLAN_SHA256
     ):
         raise ValueError("single-W18 receipt endpoint or evaluation policy is invalid")
+
+    fit_process = receipt.get("fit_process_receipt")
+    if (
+        not isinstance(fit_process, Mapping)
+        or set(fit_process) != {"path", "sha256", "record"}
+        or fit_process.get("path") != "w18_fit_process_receipt.json"
+        or not _is_sha256(fit_process.get("sha256"))
+        or not isinstance(fit_process.get("record"), Mapping)
+    ):
+        raise ValueError("single-W18 receipt lacks its exact fit-process receipt binding")
+    process = fit_process["record"]
+    command = process.get("command")
+    command_args = command[6:] if isinstance(command, list) else []
+    options: dict[str, list[str]] = {}
+    for index, token in enumerate(command_args):
+        if not isinstance(token, str):
+            continue
+        if token.startswith("--") and "=" in token:
+            option, _, option_value = token.partition("=")
+            options.setdefault(option, []).append(option_value)
+        elif token.startswith("--") and index + 1 < len(command_args):
+            next_value = command_args[index + 1]
+            if isinstance(next_value, str) and not next_value.startswith("--"):
+                options.setdefault(token, []).append(next_value)
+    if (
+        process.get("schema") != "wnn.multistage-owned-process.v1"
+        or type(process.get("stage")) is not int
+        or process.get("stage") != 1
+        or process.get("mode") != "final_submit_finite_chain"
+        or process.get("status") != "completed"
+        or type(process.get("exit_code")) is not int
+        or process.get("exit_code") != 0
+        or process.get("timed_out") is not False
+        or not isinstance(command, list)
+        or process.get("command_sha256")
+        != hashlib.sha256(json.dumps(command, separators=(",", ":")).encode()).hexdigest()
+        or options.get("--name") != [_W18_RUN]
+        or options.get("--epochs") != [str(_W18_ENDPOINT["configured_epochs"])]
+        or options.get("--checkpoint-epoch") != [str(_W18_ENDPOINT["checkpoint_epoch"])]
+        or options.get("--train-source") != ["train+valid"]
+        or options.get("--train-seqs") != [str(_FIT_GROUP_COUNTS["train"])]
+        or options.get("--final-fit-source-validation-sha256") != [_SOURCE_VALIDATION_SHA256]
+        or command_args.count("--include-heldout-valid") != 1
+        or command_args.count("--no-eval-during-fit") != 1
+    ):
+        raise ValueError("W18 fit-process receipt does not prove successful final all-labeled completion")
     members = receipt.get("members")
     if not isinstance(members, Mapping) or set(members) != {"w18"}:
         raise ValueError("single-W18 receipt must contain exactly W18, with no inactive members")
@@ -306,6 +353,7 @@ _expected_manifest_fields = {
     "active_member_indices",
     "callback_output",
     "final_model_receipt",
+    "fit_process_receipt",
     "members",
     "native_libraries",
 }
@@ -345,6 +393,25 @@ _receipt_value, _receipt_bytes = _read_json(HERE / "final_w18_receipt.json", 1_0
 if hashlib.sha256(_receipt_bytes).hexdigest() != _receipt_ref["sha256"]:
     raise ValueError("W18 receipt file differs from the package-bound receipt SHA256")
 _receipt = _validate_receipt(_receipt_value)
+
+_fit_process_ref = _manifest.get("fit_process_receipt")
+if (
+    not isinstance(_fit_process_ref, Mapping)
+    or set(_fit_process_ref) != {"path", "sha256"}
+    or _fit_process_ref.get("path") != "w18_fit_process_receipt.json"
+    or not _is_sha256(_fit_process_ref.get("sha256"))
+):
+    raise ValueError("W18 package manifest lacks its pinned fit-process receipt")
+_fit_process_value, _fit_process_bytes = _read_json(HERE / _fit_process_ref["path"], 2_000_000)
+if hashlib.sha256(_fit_process_bytes).hexdigest() != _fit_process_ref["sha256"]:
+    raise ValueError("W18 fit-process receipt bytes differ from the package manifest")
+_receipt_fit_process = _receipt["fit_process_receipt"]
+if (
+    _receipt_fit_process["path"] != _fit_process_ref["path"]
+    or _receipt_fit_process["sha256"] != _fit_process_ref["sha256"]
+    or dict(_receipt_fit_process["record"]) != _fit_process_value
+):
+    raise ValueError("W18 fit-process receipt differs from its final model receipt")
 
 _members = _manifest.get("members")
 if not isinstance(_members, list) or len(_members) != 1:

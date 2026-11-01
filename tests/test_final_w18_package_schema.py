@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import hashlib
+import json
+import tempfile
 from copy import deepcopy
+from pathlib import Path
 
 import pytest
 
@@ -16,11 +19,14 @@ from scripts.package_final_w18 import (
     TRAIN_SEQUENCES,
     VALID_SEQUENCES,
     W18_ENDPOINT,
+    W18_FIT_PROCESS_RECEIPT,
     W18_LINEAGE_SCHEMA,
     W18_PLAN_SHA256,
     W18_RECEIPT_SCHEMA,
     W18_RUN,
     _fit_members_digest,
+    _load_fit_process_receipt,
+    _validate_checkpoint_cache_provenance,
     canonical_sha256,
     validate_final_w18_receipt,
 )
@@ -69,6 +75,46 @@ def _receipt() -> dict[str, object]:
         }
         for run, family, coefficient, epoch in FINAL_W18_TEACHERS
     ]
+    command = [
+        "/usr/bin/timeout",
+        "--signal=TERM",
+        "--kill-after=10s",
+        "21590s",
+        "/runtime/python",
+        "/runtime/source/scripts/train_rnn.py",
+        "--name",
+        W18_RUN,
+        "--epochs",
+        "2",
+        "--checkpoint-epoch",
+        "1",
+        "--train-source",
+        "train+valid",
+        "--train-seqs",
+        str(TRAIN_SEQUENCES),
+        "--final-fit-source-validation-sha256",
+        SOURCE_VALIDATION_SHA256,
+        "--include-heldout-valid",
+        "--no-eval-during-fit",
+    ]
+    process = {
+        "schema": "wnn.multistage-owned-process.v1",
+        "stage": 1,
+        "trial_number": 0,
+        "mode": "final_submit_finite_chain",
+        "command": command,
+        "command_sha256": hashlib.sha256(
+            json.dumps(command, separators=(",", ":")).encode()
+        ).hexdigest(),
+        "cwd": "/runtime/source",
+        "output_dir": "/runtime/data/artifacts/runs/" + W18_RUN,
+        "started_at_epoch": 1_798_800_000.0,
+        "timeout_seconds": 21_600,
+        "status": "completed",
+        "exit_code": 0,
+        "timed_out": False,
+        "finished_at_epoch": 1_798_800_010.0,
+    }
     return {
         "schema": W18_RECEIPT_SCHEMA,
         "final_fit": fit,
@@ -86,6 +132,11 @@ def _receipt() -> dict[str, object]:
             }
         },
         "plan_sha256": W18_PLAN_SHA256,
+        "fit_process_receipt": {
+            "path": W18_FIT_PROCESS_RECEIPT,
+            "sha256": "d" * 64,
+            "record": process,
+        },
         "teacher_recipe": teacher_recipe,
         "teacher_cache": {
             "schema": "wnn.final-w18-teacher-cache-binding.v1",
@@ -165,4 +216,105 @@ def test_receipt_rejects_incomplete_all_corpus_membership() -> None:
     receipt["final_fit"]["fit_row_groups"]["valid"].pop()
     with pytest.raises(ValueError, match="all 12,480 whole sequences"):
         validate_final_w18_receipt(receipt)
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [("status", "failed"), ("exit_code", 1), ("timed_out", True)],
+)
+def test_receipt_rejects_uncompleted_owned_fit_process(field: str, value: object) -> None:
+    receipt = deepcopy(_receipt())
+    receipt["fit_process_receipt"]["record"][field] = value
+    with pytest.raises(ValueError, match="successful completion"):
+        validate_final_w18_receipt(receipt)
+
+
+def test_fit_process_loader_binds_plan_command_and_successful_child_exit() -> None:
+    process = deepcopy(_receipt()["fit_process_receipt"]["record"])
+    command = list(process["command"])
+    planned_args = command[6:]
+    with tempfile.TemporaryDirectory() as temporary:
+        root = Path(temporary)
+        source = root / "source"
+        output = root / "data" / "artifacts" / "runs" / W18_RUN
+        process["cwd"] = str(source.resolve())
+        process["output_dir"] = str(output.resolve())
+        command[4] = str((root / "python").resolve())
+        command[5] = str((source / "scripts" / "train_rnn.py").resolve())
+        process["command"] = command
+        process["command_sha256"] = hashlib.sha256(
+            json.dumps(command, separators=(",", ":")).encode()
+        ).hexdigest()
+        receipt_path = root / "fit-process.json"
+        receipt_path.write_text(json.dumps(process), encoding="utf-8")
+        binding, exact_bytes = _load_fit_process_receipt(
+            receipt_path,
+            checkpoint_path=output / "model_ep1.pt",
+            planned_args=planned_args,
+        )
+        assert binding["sha256"] == hashlib.sha256(exact_bytes).hexdigest()
+        assert binding["record"] == process
+
+        process["timed_out"] = True
+        receipt_path.write_text(json.dumps(process), encoding="utf-8")
+        with pytest.raises(ValueError, match="successful owned-process receipt"):
+            _load_fit_process_receipt(
+                receipt_path,
+                checkpoint_path=output / "model_ep1.pt",
+                planned_args=planned_args,
+            )
+
+
+def test_checkpoint_cache_provenance_joins_exact_validated_cache(tmp_path: Path) -> None:
+    cache_root = tmp_path / "teacher-cache"
+    cache_root.mkdir()
+    metadata = {
+        "source_coefficients": [
+            {"run": "teacher-a", "coefficient": 0.8125},
+        ],
+        "coefficient_sum": 0.8125,
+        "homogeneous_family": "strong",
+        "family_order": ["strong", "full_finetuned", "raw_wmse", "samefold_baseline"],
+        "epoch_convention": {"kind": "fixed"},
+    }
+    cache_result = {
+        "metadata": metadata,
+        "metadata_sha256": "a" * 64,
+        "verified_files": {"main_source_train": "b" * 64},
+    }
+    checkpoint_cache = {
+        "root": str(cache_root.resolve()),
+        "variant": "source",
+        "main_target_scale": 1.0,
+        "main_target_scale_applied_before_training_clip": True,
+        "metadata_sha256": cache_result["metadata_sha256"],
+        "verified_files": cache_result["verified_files"],
+        **metadata,
+    }
+    expected_args = {"distill_cache_variant": "source", "distill_cache_scale": 1.0}
+
+    _validate_checkpoint_cache_provenance(
+        checkpoint_cache,
+        expected_args=expected_args,
+        cache_root=cache_root,
+        cache_result=cache_result,
+    )
+
+    for field, wrong_value in (
+        ("root", str(tmp_path.resolve())),
+        ("variant", "other"),
+        ("metadata_sha256", "c" * 64),
+        ("verified_files", {"main_source_train": "d" * 64}),
+        ("source_coefficients", [{"run": "replacement", "coefficient": 0.8125}]),
+        ("homogeneous_family", "full_finetuned"),
+    ):
+        altered = deepcopy(checkpoint_cache)
+        altered[field] = wrong_value
+        with pytest.raises(ValueError):
+            _validate_checkpoint_cache_provenance(
+                altered,
+                expected_args=expected_args,
+                cache_root=cache_root,
+                cache_result=cache_result,
+            )
 
