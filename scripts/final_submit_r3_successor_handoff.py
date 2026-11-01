@@ -351,11 +351,11 @@ def _validate_pause(
         or proof.get("outer_script_sha256")
         != "27eea8a69ae228d473303e90a2266b0897fcf4d3088f3ae2de81a5a7e2541297"
         or not isinstance(command, list)
-        or len(command) < 8
+        or len(command) < 9
         or command[:3] != ["/usr/bin/timeout", "--signal=TERM", "--kill-after=10s"]
         or not str(command[3]).endswith("s")
         or command[4] != str(args.python)
-        or command[5] != str(outer_script)
+        or command[5:7] != ["-u", str(outer_script)]
     ):
         raise ValueError("outer launch command is not the pinned R8 campaign")
     wrapper_pid = launch.get("pid")
