@@ -927,7 +927,8 @@ def _validate_native_repair(
     checks = review.get("checks")
     if (
         approval.get("approved") is not True
-        or approval.get("request_sha256") != coexist.get("request_sha256")
+        or approval.get("request_sha256", review.get("evidence_sha256", {}).get("request"))
+        != coexist.get("request_sha256")
         or approval.get("approval_review_sha256") != contract.sha256_file(review_path)
         or approval.get("receipt_schema") != "wnn.sequence-profile.v1"
         or approval.get("status") != "profile_complete"
@@ -1848,7 +1849,7 @@ def _validate_early_successor_proof(
         ):
             raise ValueError(f"early-successor source export differs: {node_id}/{split}")
     closure = audit_final_fit_ancestor_closure(run, checkpoint.name, membership, args.data_root)
-    required_runs = {parent["run"] for parent in parents.values()}
+    required_runs = {inner["nodes"][parent_id]["run"] for parent_id in parents}
     if required_runs - {entry.get("run") for entry in closure} or any(
         entry.get("final_fit_manifest_sha256") != membership.manifest_sha256
         or entry.get("final_fit_members_sha256") != membership.fit_members_sha256
