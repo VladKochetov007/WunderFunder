@@ -1,5 +1,22 @@
 # Project agent instructions
 
+## Final-fit delivery acceleration — user instruction, 2026-11-01
+
+The user requests maximum delivery speed for the already running final refit.
+Keep healthy fits and frozen numerical recipes unchanged. Pipeline the three
+unstarted successors by their own dependencies and approved device profiles;
+do not make the two TLead fits wait for the unrelated FBC/W18 cache branch.
+Use the recorded exact-PID R8 supervisor pause and reviewed R3 successor
+handoff; keep R2 and its current fit/export processes running. Adopt successor
+results only after R2 releases its director lock, then resume that exact R8
+Python process. Preserve the original deadline and 18-fit cap.
+
+Prepare a separately identified W18-only CPU package after its own complete
+13-role ancestry, successful final fit receipt and actual package checks. It
+does not need TLead/LSTM completion. Continue the full-mixture delivery worker;
+the early package is a fallback, not a new quality or public-score claim.
+Use existing SSH session42104; no foreign process signals or extra science.
+
 ## Submission-only full-corpus refit — user instruction, 2026-10-31
 
 The user explicitly asks to prepare the strongest supported submission by fitting

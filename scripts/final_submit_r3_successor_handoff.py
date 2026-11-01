@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -95,6 +96,79 @@ def _group_alive(pgid: int) -> bool:
         if len(fields) > 2 and fields[2].isdecimal() and int(fields[2]) == pgid:
             return True
     return False
+
+
+def _validate_outer_cli(
+    args: argparse.Namespace, outer_script: Path, outer_argv: list[str]
+) -> None:
+    """Parse the exact R8 literal with its own frozen resolver and pin every resolved path."""
+    cli_argv = outer_argv[3:]
+    expected_literal = [
+        "--runtime-root",
+        str(args.root),
+        "--python",
+        str(args.python),
+        "--action",
+        "run",
+    ]
+    if (
+        outer_argv[:3] != [str(args.python), "-u", str(outer_script)]
+        or cli_argv != expected_literal
+    ):
+        raise ValueError("R8 launch must use the exact frozen default-path CLI literal")
+
+    r1_scripts = args.root / "control-code-r1/scripts"
+    module_names = (
+        "final_submit_chain",
+        "final_submit_chain_contract",
+        "final_submit_chain_execution",
+        "final_submit_chain_runtime",
+    )
+    prior_modules = {name: sys.modules.pop(name, None) for name in module_names}
+    prior_path = sys.path[:]
+    try:
+        sys.path[:0] = [str(r1_scripts), str(args.source / "src"), str(args.source)]
+        spec = importlib.util.spec_from_file_location("_pinned_r8_campaign_cli", outer_script)
+        if spec is None or spec.loader is None:
+            raise ImportError("cannot load the pinned R8 campaign CLI")
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[spec.name] = module
+        spec.loader.exec_module(module)
+        parsed = module.build_parser().parse_args(cli_argv)
+        module._resolve_paths(parsed)
+    finally:
+        sys.path[:] = prior_path
+        for name, value in prior_modules.items():
+            sys.modules.pop(name, None)
+            if value is not None:
+                sys.modules[name] = value
+        sys.modules.pop("_pinned_r8_campaign_cli", None)
+
+    expected_paths = {
+        "runtime_root": args.root,
+        "source_root": args.source,
+        "data_root": args.data,
+        "plan": args.plan_path,
+        "membership": args.membership_path,
+        "source_audit": args.audit_path,
+        "source_capsule": args.capsule,
+        "native_config": args.native_config,
+        "python": args.python,
+        "root_admission": args.r1_admission,
+        "r2_root_admission": args.r2_admission,
+        "grader": args.grader,
+        "director_script": args.root / "control-code-r1/scripts/final_submit_chain.py",
+        "r2_director_script": args.r2_script,
+        "wrapper": args.root / "profile_wrapper_r2.py",
+        "profile_panel": args.root / "receipts/root-profile-panel-r3.approved.json",
+        "controller_root": args.controller,
+        "state_path": args.controller / "campaign-state.json",
+        "adopt_director_receipt": args.root / "receipts/director-wave1-r1.launch.json",
+    }
+    if parsed.action != "run" or any(
+        Path(getattr(parsed, name)) != expected for name, expected in expected_paths.items()
+    ):
+        raise ValueError("R8 default-resolved arguments differ from their approved runtime roles")
 
 
 def _stopped(identity: dict[str, Any]) -> None:
@@ -375,29 +449,7 @@ def _validate_pause(
     ):
         raise ValueError("outer Python command line differs from its launch receipt")
     outer_argv = command[4:]
-    required_options = {
-        "--action": "run",
-        "--runtime-root": str(args.root),
-        "--source-root": str(args.source),
-        "--data-root": str(args.data),
-        "--plan": str(args.plan_path),
-        "--membership": str(args.membership_path),
-        "--source-audit": str(args.audit_path),
-        "--source-capsule": str(args.capsule),
-        "--native-config": str(args.native_config),
-        "--python": str(args.python),
-        "--root-admission": str(args.r1_admission),
-        "--r2-root-admission": str(args.r2_admission),
-        "--grader": str(args.grader),
-        "--director-script": str(args.root / "control-code-r1/scripts/final_submit_chain.py"),
-        "--r2-director-script": str(args.r2_script),
-        "--controller-root": str(args.controller),
-    }
-    if any(
-        contract.option_values(outer_argv, key) != [value]
-        for key, value in required_options.items()
-    ):
-        raise ValueError("R8 campaign arguments do not pin the approved plan and control roots")
+    _validate_outer_cli(args, outer_script, outer_argv)
     deadline = launch.get("created_epoch", 0) + int(str(command[3])[:-1])
     if abs(deadline - contract.HARD_DEADLINE) >= 2 or deadline <= contract.HARD_DEADLINE - 1200:
         raise ValueError("outer campaign timeout does not preserve the frozen hard deadline")

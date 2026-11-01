@@ -42,3 +42,18 @@ verified ZIP and its artifact manifest for the established human-upload step.
 No new paid provider, billing change or unrelated process stop is admitted.
 
 See the [execution packet](../../research/experiment_drafts/final-submit-all-labeled-20261031/README.md).
+
+## Delivery acceleration, 1 November 2026
+
+The user's request to accelerate changes scheduling and artifact dependencies,
+not the frozen fitting recipe. Each of the three unstarted final successors may
+start after its own parents and exact-recipe profile pass. TLead seeds5/6 do not
+wait for the unrelated FBC teacher or W18 target-cache construction. Preserve
+the live R2 worker and merge disjoint successor receipts only under its released
+director lock. The original hard deadline and eighteen-fit budget remain.
+
+A separately identified one-member W18 package may be delivered after its own
+thirteen-run ancestry and successful fixed-endpoint fit have been verified.
+Actual offline serving, numeric, causality, size and timing checks still apply.
+The historical W18 score is recipe evidence only; this earlier fallback neither
+replaces the complete mixture nor establishes a new generalization score.
