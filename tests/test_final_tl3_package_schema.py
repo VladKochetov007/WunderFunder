@@ -10,6 +10,9 @@ import numpy as np
 import pytest
 
 from scripts.check_final_tl3_package import (
+    EXPECTED_QUANTIZATION_CONTRACT_SHA256,
+    EXPECTED_R11_NATIVE_V3_SHA256,
+    EXPECTED_SERVING_HELPER_SHA256,
     _numeric_error_summary,
     _numeric_error_within_ceilings,
 )
@@ -31,6 +34,16 @@ from wnn.training.final_submit_bridge import SOURCE_VALIDATION_SHA256, final_fit
 
 TRAIN_GROUPS = 10_607
 VALID_GROUPS = 1_873
+
+
+def test_frozen_quantization_sha256_pins_are_64_lowercase_hex() -> None:
+    for value in (
+        EXPECTED_QUANTIZATION_CONTRACT_SHA256,
+        EXPECTED_R11_NATIVE_V3_SHA256,
+        EXPECTED_SERVING_HELPER_SHA256,
+    ):
+        assert len(value) == 64
+        assert set(value) <= set("0123456789abcdef")
 
 
 def test_serving_policy_precision_requirements_are_explicit() -> None:
