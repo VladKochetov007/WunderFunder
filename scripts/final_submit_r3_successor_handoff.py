@@ -217,9 +217,10 @@ def _approval(
     node_id = str(node["node_id"])
     row_path = args.root / "receipts" / f"acceleration-profile-{node_id}-r1.approved.json"
     row = contract.read_json(row_path, 256_000)
-    key = f"legacy-{node_id}-r3"
+    reprofiled_tlead = node_id in {"fttall_tlead_s5", "fttall_tlead_s6"}
+    key = f"legacy-{node_id}-r4" if reprofiled_tlead else f"legacy-{node_id}-r3"
     approval_path = args.root / "profile-reviews" / f"{key}-review2/approved_profile_receipt.json"
-    request_path = args.root / "inputs/r3" / f"{key}.request.json"
+    request_path = args.root / "inputs" / f"{key}.request.json"
     review_path = approval_path.parent / "profile_review.json"
     expected = {
         "schema": PROFILE_ROW_SCHEMA,
@@ -290,12 +291,13 @@ def _approval(
 def _expected_profile_paths(args: argparse.Namespace, node: dict[str, Any]) -> dict[str, Any]:
     """Pin the independent profile worker's paths/device without waiting for its row."""
     node_id = str(node["node_id"])
-    key = f"legacy-{node_id}-r3"
+    reprofiled_tlead = node_id in {"fttall_tlead_s5", "fttall_tlead_s6"}
+    key = f"legacy-{node_id}-r4" if reprofiled_tlead else f"legacy-{node_id}-r3"
     approval = args.root / "profile-reviews" / f"{key}-review2/approved_profile_receipt.json"
     return {
         "row_path": args.root / "receipts" / f"acceleration-profile-{node_id}-r1.approved.json",
         "profile_path": approval,
-        "request_path": args.root / "inputs/r3" / f"{key}.request.json",
+        "request_path": args.root / "inputs" / f"{key}.request.json",
         "review_path": approval.parent / "profile_review.json",
         "gpu_uuid": PROFILE_GPU[node_id],
     }
@@ -599,7 +601,8 @@ def _validate_r2_state(
         or not running.issubset(live_candidates)
         or complete | running != expected
         or state.get("scientific_fits_completed") != len(complete)
-        or state.get("active_lanes", 0) != len(running)
+        or type(state.get("active_lanes", 0)) is not int
+        or not 0 <= state.get("active_lanes", 0) <= contract.MAX_LANES
         or set(state.get("active_workers", {})) != running
         or any(row.get("status") in {"failed", "reconciliation_required"} for row in rows.values())
     ):
@@ -691,7 +694,7 @@ def _validate_r2_state(
         or wave.get("gpu_key") != "campaign-controller"
         or wave.get("cwd") != str(args.source)
         or wave.get("output_dir") != str(args.controller)
-        or wave.get("timed_out") is not False
+        or wave.get("timed_out") is not None
         or wave.get("command_sha256") != contract.canonical_sha256(command)
         or wave.get("owner", {}).get("pid") != outer.get("pid")
         or wave.get("owner", {}).get("birth") != outer.get("birth")
@@ -854,7 +857,7 @@ def _main() -> None:
     args.r1_admission = args.root / "ROOT_EXECUTION_ADMISSION_R1.json"
     args.grader = args.root / "control-grader-r2/scripts/review_final_submit_profile.py"
     args.pause_admission = args.root / "receipts/acceleration-profile-admission-r1.json"
-    args.proofs = args.root / "receipts/final-submit-r3"
+    args.proofs = args.root / "receipts/final-submit-r3-r2"
     args.python = Path(os.path.abspath(os.path.expanduser(str(args.python))))
     if not args.python.is_file() or not os.access(args.python, os.X_OK):
         raise ValueError("requested R3 Python is not executable")

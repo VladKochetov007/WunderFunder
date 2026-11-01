@@ -15,7 +15,19 @@ Prepare a separately identified W18-only CPU package after its own complete
 13-role ancestry, successful final fit receipt and actual package checks. It
 does not need TLead/LSTM completion. Continue the full-mixture delivery worker;
 the early package is a fallback, not a new quality or public-score claim.
-Use existing SSH session42104; no foreign process signals or extra science.
+Session42104 subsequently closed with a transport reset; two bounded recovery
+connections timed out before the SSH banner. Last verified remote state:14/18
+fits complete, FBC running, early W18 publisher3647718 waiting on11/13 ancestors.
+Both TLead engineering profiles failed before CUDA because the watcher did not
+pass the source root in PYTHONPATH. The local repair is reviewed and staged as
+`final-control-profile-env-repair-67ab6056.tar.gz`, but is NOT applied remotely.
+Before replacing the dispatcher, verify and stop ONLY the old waiting R3 wrapper
+3643146 and the waiting W18 profile watcher3612009 from their launch identities;
+no successor scientific fit had started at the last observation. Do not run old
+and replacement dispatchers together. Keep original R2/FBC and the working early
+publisher alive. Use one persistent recovery SSH connection; no foreign signals,
+connect loop or extra science. The repair keeps all requests directly in inputs,
+uses TLead profile keys-r4, W18-r3, state files-r2 and proofs final-submit-r3-r2.
 
 ## Submission-only full-corpus refit — user instruction, 2026-10-31
 
