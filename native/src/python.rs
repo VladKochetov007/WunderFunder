@@ -1252,6 +1252,7 @@ fn wnn_native(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyPredictor>()?;
     m.add_class::<PyEnsemblePredictor>()?;
     m.add_class::<PyFinalTl3Predictor>()?;
+    m.add_class::<PyFinalW18Predictor>()?;
     m.add_class::<PyModelStepper>()?;
     Ok(())
 }
@@ -2335,6 +2336,164 @@ impl PyFinalTl3Predictor {
 
 fn final_tl3_tied_encoder_width(weights: &TiedLeadWeights) -> usize {
     weights.encoder_width()
+}
+
+/// Single-member W18 submission predictor, with the same causal 211-column input path as TL3.
+#[pyclass(name = "FinalW18Predictor")]
+struct PyFinalW18Predictor {
+    features: crate::stream::StreamFeatures,
+    model: FastRnn,
+    raw: [f32; 112],
+    input: [f32; 211],
+    output: [f32; 2],
+    sequence: Option<i64>,
+    next_step: usize,
+    fast_activations: bool,
+}
+
+impl PyFinalW18Predictor {
+    fn reset_sequence_state(&mut self) {
+        self.features.reset();
+        self.model.reset();
+        self.output = [0.0; 2];
+        self.next_step = 0;
+    }
+
+    fn process_data_point(
+        &mut self,
+        py: Python<'_>,
+        data_point: &Bound<'_, PyAny>,
+    ) -> PyResult<bool> {
+        let sequence: i64 = data_point.getattr(intern!(py, "seq_ix"))?.extract()?;
+        let step: usize = data_point.getattr(intern!(py, "step_in_seq"))?.extract()?;
+        if self.sequence != Some(sequence) {
+            if step != 0 {
+                return Err(PyValueError::new_err(
+                    "final W18 predictor requires each new sequence to begin at step 0",
+                ));
+            }
+            self.reset_sequence_state();
+            self.sequence = Some(sequence);
+        } else if step != self.next_step {
+            return Err(PyValueError::new_err(format!(
+                "final W18 predictor expected step {}, received {step}",
+                self.next_step
+            )));
+        }
+
+        read_row(
+            py,
+            &data_point.getattr(intern!(py, "state"))?,
+            &mut self.raw,
+        )?;
+        let (raw, event) = self.input.split_at_mut(crate::stream::N_RAW);
+        raw.copy_from_slice(&self.raw);
+        self.features.sanitize(raw);
+        self.features.update(raw, event);
+        self.model.step(&self.input, &mut self.output);
+        if self.output.iter().any(|value| !value.is_finite()) {
+            return Err(PyValueError::new_err(
+                "final W18 predictor produced a non-finite score",
+            ));
+        }
+        self.next_step += 1;
+        data_point
+            .getattr(intern!(py, "need_prediction"))?
+            .is_truthy()
+    }
+}
+
+#[pymethods]
+impl PyFinalW18Predictor {
+    #[new]
+    #[pyo3(signature = (weights, precision="q8vnni", fast_activations=true))]
+    fn new(
+        weights: HashMap<String, PyReadonlyArrayDyn<'_, f32>>,
+        precision: &str,
+        fast_activations: bool,
+    ) -> PyResult<Self> {
+        if !matches!(precision, "f32" | "q8vnni") {
+            return Err(PyValueError::new_err(
+                "final W18 predictor supports only f32 or q8vnni precision",
+            ));
+        }
+        let activations = if fast_activations {
+            Activations::Fast
+        } else {
+            Activations::Exact
+        };
+        let (rnn, tied) = parse_final_member(weights, 0)?;
+        if tied.is_some() {
+            return Err(PyValueError::new_err(
+                "final W18 weights cannot contain tiedlead tensors",
+            ));
+        }
+        let model = FastRnn::with_precision(rnn, activations, parse_precision(precision)?)
+            .map_err(|error| PyValueError::new_err(error.0))?;
+        let (layers, hidden_width) = model.hidden_state_shape();
+        if model.n_in() != FINAL_TL3_WIDTHS[0]
+            || model.n_out() != 2
+            || model.cell() != crate::rnn_fast::Cell::Gru
+            || model.encoder_width() != FINAL_TL3_ENCODER_WIDTHS[0]
+            || model.hidden() != FINAL_TL3_HIDDEN_WIDTHS[0]
+            || layers != FINAL_TL3_LAYER_COUNTS[0]
+        {
+            return Err(PyValueError::new_err(format!(
+                "final W18 requires GRU 211->256, 256x2 with two outputs; got input={}, encoder={}, hidden={hidden_width}, layers={layers}, outputs={}",
+                model.n_in(),
+                model.encoder_width(),
+                model.n_out()
+            )));
+        }
+        Ok(Self {
+            features: Default::default(),
+            model,
+            raw: [0.0; 112],
+            input: [0.0; 211],
+            output: [0.0; 2],
+            sequence: None,
+            next_step: 0,
+            fast_activations,
+        })
+    }
+
+    /// Reset all recurrent and causal event-feature state.
+    fn reset(&mut self) {
+        self.reset_sequence_state();
+        self.sequence = None;
+    }
+
+    /// Scorer callback; state advances on every row and output follows `need_prediction`.
+    fn predict<'py>(
+        &mut self,
+        py: Python<'py>,
+        data_point: &Bound<'py, PyAny>,
+    ) -> PyResult<Option<Bound<'py, PyArray1<f32>>>> {
+        if !self.process_data_point(py, data_point)? {
+            return Ok(None);
+        }
+        Ok(Some(PyArray1::from_slice(py, &self.output)))
+    }
+
+    #[getter]
+    fn member_widths(&self) -> Vec<usize> {
+        vec![self.model.n_in()]
+    }
+
+    #[getter]
+    fn active_member_indices(&self) -> Vec<usize> {
+        vec![0]
+    }
+
+    #[getter]
+    fn precision(&self) -> &'static str {
+        precision_name(self.model.precision())
+    }
+
+    #[getter]
+    fn fast_activations(&self) -> bool {
+        self.fast_activations
+    }
 }
 
 
