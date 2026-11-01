@@ -286,6 +286,7 @@ def _validate_quantization_contract(
         "paired_reference_reports",
         "fidelity_result",
         "created_epoch",
+        "claim_policy",
     }
     if set(contract) != expected_fields:
         raise ValueError("quantization contract has missing or unsupported fields")
@@ -297,6 +298,8 @@ def _validate_quantization_contract(
         or contract.get("native_v3_sha256") != EXPECTED_R11_NATIVE_V3_SHA256
         or contract.get("source_validation_sha256") != source_validation_sha256
         or source_validation_sha256 != SOURCE_VALIDATION_SHA256
+        or contract.get("claim_policy")
+        != "old-reference exposed valid fidelity only; no final model score or FP32 equivalence"
         or type(contract.get("created_epoch")) is not int
         or contract["created_epoch"] <= 0
     ):
@@ -503,6 +506,7 @@ def _validate_quantization_contract(
     return {
         "path": str(contract_path),
         "sha256": expected_sha256,
+        "claim_policy": contract["claim_policy"],
         "native_v3_sha256": contract["native_v3_sha256"],
         "source_validation_sha256": contract["source_validation_sha256"],
         "numeric_ceilings_path": str(ceilings_path),
@@ -684,10 +688,6 @@ def run(args: argparse.Namespace) -> dict[str, object]:
         raise RuntimeError("exact submission ABI and one-core check requires Linux")
     if args.sequence_index < 0:
         raise ValueError("sequence index must be nonnegative")
-    if args.source not in ("train", "valid"):
-        raise ValueError("source must be train or valid")
-    if args.atol < 0 or args.rtol < 0:
-        raise ValueError("parity tolerances must be nonnegative")
     if args.zip_path.is_symlink() or not args.zip_path.is_file():
         raise FileNotFoundError(f"submission ZIP must be a regular file: {args.zip_path}")
     zip_bytes = args.zip_path.stat().st_size
@@ -895,6 +895,7 @@ def run(args: argparse.Namespace) -> dict[str, object]:
                 "numeric_ceilings_sha256": quantization["numeric_ceilings_sha256"],
                 "calibration_report_sha256": quantization["calibration_report_sha256"],
                 "reference_reports": quantization["reference_reports"],
+                "claim_policy": quantization["claim_policy"],
                 "old_reference_fidelity_delta": quantization["fidelity_delta"],
                 "old_reference_fidelity_minimum_delta": quantization["minimum_delta"],
                 "old_reference_fidelity_passed": fidelity_pass,
