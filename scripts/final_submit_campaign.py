@@ -1406,7 +1406,7 @@ def _adopt_qualified_operational_repairs(
     expected_first = ROOT_PROFILE_NODES | {"fin256_s3", "source4_lstm192x1"}
     nodes = inner.get("nodes")
     if (
-        inner.get("phase") != "failed"
+        inner.get("phase") not in {"failed", "awaiting_profile_or_dependency"}
         or inner.get("active_workers")
         or inner.get("active_lanes", 0) != 0
         or not isinstance(nodes, dict)
@@ -2365,12 +2365,13 @@ def _director_pass(
     inner_path = args.controller_root / "controller-state.json"
     inner = contract.read_json(inner_path, 64_000_000)
     _require_identity(inner, plan, membership, args)
-    if inner.get("phase") == "failed" or any(
+    failed_nodes = any(
         item.get("status") in {"failed", "reconciliation_required"}
         for item in inner.get("nodes", {}).values()
-    ):
+    )
+    if inner.get("phase") == "failed" or failed_nodes:
         if (
-            inner.get("phase") != "failed"
+            inner.get("phase") not in {"failed", "awaiting_profile_or_dependency"}
             or state["director_runs"][-1].get("wave") != 1
             or inner.get("active_workers")
         ):
@@ -2474,6 +2475,26 @@ def main() -> None:
                 raise ValueError("campaign exceeded the 24-profile ceiling")
             inner_path = controller_root / "controller-state.json"
             inner = contract.read_json(inner_path, 64_000_000) if inner_path.is_file() else {}
+            failed_nodes = any(
+                item.get("status") in {"failed", "reconciliation_required"}
+                for item in inner.get("nodes", {}).values()
+            )
+            if failed_nodes and inner.get("phase") in {
+                "failed",
+                "awaiting_profile_or_dependency",
+            }:
+                previous_director_runs = state.get("director_runs", [])
+                if (
+                    not previous_director_runs
+                    or previous_director_runs[-1].get("wave") != 1
+                    or previous_director_runs[-1].get("status")
+                    not in {"completed", "adopted_completed"}
+                ):
+                    raise RuntimeError(
+                        "qualified first-wave repair requires a terminal R1 director receipt"
+                    )
+                inner = _adopt_qualified_operational_repairs(args, inner, plan, membership)
+                _require_identity(inner, plan, membership, args)
             if inner.get("phase") == "complete":
                 inner = _adopt_early_successors(args, inner, plan, membership)
                 _require_identity(inner, plan, membership, args)
