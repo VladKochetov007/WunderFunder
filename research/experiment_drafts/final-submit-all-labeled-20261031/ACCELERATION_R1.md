@@ -1,5 +1,40 @@
 # Pipelined final-fit delivery, 1 November 2026
 
+## Recovery applied, 02:06UTC
+
+The user confirmed restored SSH; persistent session59354 is now connected.
+The reviewed repair capsule was downloaded and its exact files verified before
+use. Old waiting R3 group3643146 and W18 watcher3612009 were checked against their
+launch receipts and stopped; no successor fit output/receipt existed, neither
+process owned a child training stage, and the same healthy FBC identity was
+verified afterward. No scientific fit or foreign process was signaled.
+
+Replacement wrappers are R3 handoff3661172, TLead5 profiler3661173, TLead6
+profiler3661176 and W18 profiler3661178. The new R3 source is67ab6056…c4bd67;
+its fresh immutable intent is present in final-submit-r3-r2. Both TLead-r4
+profiles have started; W18 waits for its actual FBC/cache prerequisites. The
+early W18 publisher remains healthy, waiting on11/13 ancestry receipts. The
+14 completed scientific fits and current FBC training are retained.
+
+The interruption and earlier deployment snapshots below are historical.
+
+Both TLead-r4 profiles subsequently passed the unchanged independent checker
+(exit0). Each performed80/80 optimizer updates including warmup, with finite
+loss/gradients, zero OOM and measured6.56sequences/s. Peak allocated GPU memory
+was2,482,946,048bytes and host RSS about7.72GB. Both canonical four-epoch
+scientific fits then started through R3 on GPU3/4; their owned stage wrappers
+are3667647 and3667654. Together with the original FBC this is17/18 scientific
+fits started,14 complete, three concurrent fits and only W18 not yet started.
+The old controller's own counters remain15started until the final lock-bound
+R3 adoption; do not confuse that bookkeeping delay with missing successors.
+
+At the measured rate, a TLead fit costs12,480×4/6.56 ≈7,610seconds
+(2hours7minutes), plus startup/checkpoint overhead. W18's earlier artifact
+path remains independent of those completion times. Its07:00–08:00MSK estimate
+still includes the unfinished FBC/export/cache, W18 fit and actual ZIP checks.
+The [received recovery proofs](receiving/ssh-recovery-r1/receipts/profile-env-repair-live-r1.json)
+bind these real launches and preserve the failed attempts.
+
 Latest qualification:14/18 fits were complete at the last live observation.
 Both TLead engineering startups then failed before CUDA with
 `ModuleNotFoundError: scripts`: the watcher's in-process sys.path did not become

@@ -1,5 +1,33 @@
 # Project agent instructions
 
+## SSH recovery and profile repair applied — 2026-11-01
+
+User confirms SSH is ready. Persistent session59354 is connected; use it without
+reconnecting. The reviewed profile environment/path repair is now APPLIED, not
+pending. The old waiting R3 group3643146 and W18 watcher group3612009 were verified
+against their launch PID/PGID/birth/argv and stopped before replacements started.
+No successor fit had started, no fit or foreign process received a signal, and
+the same live FBC identity was verified after the stop. The immutable proof is
+runtime receipts/profile-env-repair-r1.json, with replacement launch receipts.
+
+Current replacement wrappers: R3 successor-handoff3661172; TLead5 profiler3661173;
+TLead6 profiler3661176; W18 profiler3661178. The new R3 source is
+control-code-r8/scripts/final_submit_r3_successor_handoff.py, SHA256
+67ab60560a66f23957c4a626484f6aee2523c81fbd2414514574407f57c4bd67;
+proofs use receipts/final-submit-r3-r2. Watcher-r2 supplies child PYTHONPATH,
+uses TLead-r4/W18-r3 request keys directly under inputs and counts both failed
+pre-CUDA TLead startups inside the unchanged global24-profile limit. No duplicate
+dispatcher/profile launch or scientific retry is authorized by this status note.
+R2/FBC and early W18 publisher3647718 remain running; the original frozen recipes,
+18-fit cap and deadline are unchanged. The interruption notes below are historical.
+
+Both TLead profiles now have independent exit0 approvals and both canonical
+four-epoch fits are RUNNING (owned stage wrappers3667647/3667654), with actual
+epoch0 batch0 loss updates observed. Actual total is17/18 fits started,14 complete,
+three concurrent fits including FBC, and W18 awaiting its cache. The original
+controller alone still says15started until R3's final locked adoption; its raw
+counter must not be presented as the combined active-fit count.
+
 ## Final-fit delivery acceleration — user instruction, 2026-11-01
 
 The user requests maximum delivery speed for the already running final refit.
