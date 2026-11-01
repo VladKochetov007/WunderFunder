@@ -2181,7 +2181,11 @@ def _adopt_director_wave(
             time.sleep(10)
             continue
         phase = inner.get("phase")
-        if phase == "failed":
+        failed_nodes = any(
+            row.get("status") in {"failed", "reconciliation_required"}
+            for row in inner.get("nodes", {}).values()
+        )
+        if phase == "failed" or failed_nodes:
             if run_record.get("wave") != 1:
                 raise RuntimeError("a later director wave failed; automatic repair is forbidden")
             inner = _adopt_qualified_operational_repairs(args, inner, plan, membership)
@@ -2483,17 +2487,7 @@ def main() -> None:
                 "failed",
                 "awaiting_profile_or_dependency",
             }:
-                previous_director_runs = state.get("director_runs", [])
-                if (
-                    not previous_director_runs
-                    or previous_director_runs[-1].get("wave") != 1
-                    or previous_director_runs[-1].get("status")
-                    not in {"completed", "adopted_completed"}
-                ):
-                    raise RuntimeError(
-                        "qualified first-wave repair requires a terminal R1 director receipt"
-                    )
-                inner = _adopt_qualified_operational_repairs(args, inner, plan, membership)
+                inner = _adopt_director_wave(args, state, profiles, plan, membership)
                 _require_identity(inner, plan, membership, args)
             if inner.get("phase") == "complete":
                 inner = _adopt_early_successors(args, inner, plan, membership)
