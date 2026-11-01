@@ -13,6 +13,8 @@ from scripts.check_final_tl3_package import (
     EXPECTED_QUANTIZATION_CONTRACT_SHA256,
     EXPECTED_R11_NATIVE_V3_SHA256,
     EXPECTED_SERVING_HELPER_SHA256,
+    LEGACY_MALFORMED_NATIVE_SHA256_DECLARATION,
+    _is_positive_finite_epoch,
     _numeric_error_summary,
     _numeric_error_within_ceilings,
 )
@@ -44,6 +46,17 @@ def test_frozen_quantization_sha256_pins_are_64_lowercase_hex() -> None:
     ):
         assert len(value) == 64
         assert set(value) <= set("0123456789abcdef")
+    assert len(LEGACY_MALFORMED_NATIVE_SHA256_DECLARATION) == 65
+    assert EXPECTED_R11_NATIVE_V3_SHA256 != LEGACY_MALFORMED_NATIVE_SHA256_DECLARATION
+
+
+def test_frozen_json_epochs_accept_finite_positive_numbers_only() -> None:
+    assert _is_positive_finite_epoch(1_798_876_800)
+    assert _is_positive_finite_epoch(1_798_876_800.125)
+    assert not _is_positive_finite_epoch(True)
+    assert not _is_positive_finite_epoch(0)
+    assert not _is_positive_finite_epoch(float("inf"))
+    assert not _is_positive_finite_epoch(float("nan"))
 
 
 def test_serving_policy_precision_requirements_are_explicit() -> None:

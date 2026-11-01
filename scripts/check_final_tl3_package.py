@@ -63,6 +63,9 @@ QUANTIZATION_CONTRACT_SCHEMA = "wnn.w18-final-quantization-admission.v1"
 NUMERIC_CEILINGS_SCHEMA = "wnn.w18-quantization-error-ceilings.v1"
 FIDELITY_CONTRACT_SCHEMA = "wnn.w18-old-reference-quantization-fidelity-contract.v1"
 EXPECTED_R11_NATIVE_V3_SHA256 = "a5ab8228c69173a47a4d5f9f25f1f94b2924cfe852b8f3166416d9561c947de9"
+LEGACY_MALFORMED_NATIVE_SHA256_DECLARATION = (
+    "a5ab8228c69173a47a4d5f9f25f1f94b2924cfe852b8f3166416d99561c947de9"
+)
 EXPECTED_QUANTIZATION_CONTRACT_SHA256 = (
     "ec1ce8811ceb43249aca3c1c79295c4124a6a80f6cc8320aeaadb71075ff9a3f"
 )
@@ -141,6 +144,17 @@ def _finite_number(value: object, label: str) -> float:
     if not math.isfinite(number):
         raise ValueError(f"{label} must be finite")
     return number
+
+
+def _is_positive_finite_epoch(value: object) -> bool:
+    """Accept JSON integer/float epochs but reject booleans and invalid numbers."""
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        return False
+    try:
+        number = float(value)
+    except OverflowError:
+        return False
+    return number > 0 and math.isfinite(number)
 
 
 def _numeric_error_summary(
@@ -300,8 +314,7 @@ def _validate_quantization_contract(
         or source_validation_sha256 != SOURCE_VALIDATION_SHA256
         or contract.get("claim_policy")
         != "old-reference exposed valid fidelity only; no final model score or FP32 equivalence"
-        or type(contract.get("created_epoch")) is not int
-        or contract["created_epoch"] <= 0
+        or not _is_positive_finite_epoch(contract.get("created_epoch"))
     ):
         raise ValueError("quantization contract differs from frozen R11 serving identities")
 
@@ -333,8 +346,7 @@ def _validate_quantization_contract(
         or ceilings.get("original_allclose_rtol") != 0.02
         or ceilings.get("original_allclose_failed_preserved") is not True
         or ceilings.get("score_computed") is not False
-        or type(ceilings.get("created_epoch")) is not int
-        or ceilings["created_epoch"] <= 0
+        or not _is_positive_finite_epoch(ceilings.get("created_epoch"))
     ):
         raise ValueError("W18 numeric ceilings changed the fixed calibration policy")
     for field, expected in (
@@ -420,6 +432,15 @@ def _validate_quantization_contract(
         {"precision": "q8vnni", "activation_mode": "fast"},
     ]
     budget = 0.0002
+    declared_native_sha256 = fidelity.get("native_library_sha256")
+    legacy_pin_error = None
+    if declared_native_sha256 == LEGACY_MALFORMED_NATIVE_SHA256_DECLARATION:
+        legacy_pin_error = {
+            "kind": "known_historical_malformed_declaration",
+            "declared_sha256": LEGACY_MALFORMED_NATIVE_SHA256_DECLARATION,
+            "actual_sha256": EXPECTED_R11_NATIVE_V3_SHA256,
+            "binding": "combined contract and both executed paired reports",
+        }
     if (
         set(fidelity) != fidelity_fields
         or fidelity.get("schema") != FIDELITY_CONTRACT_SCHEMA
@@ -428,14 +449,17 @@ def _validate_quantization_contract(
         != "old-reference exposed valid engineering fidelity; no final model score"
         or fidelity.get("old_w18_sha256") != EXPECTED_CHECKPOINT_SHA256[0]
         or fidelity.get("source_validation_sha256") != source_validation_sha256
-        or fidelity.get("native_library_sha256") != EXPECTED_R11_NATIVE_V3_SHA256
+        or declared_native_sha256
+        not in (
+            EXPECTED_R11_NATIVE_V3_SHA256,
+            LEGACY_MALFORMED_NATIVE_SHA256_DECLARATION,
+        )
         or fidelity.get("helper_sha256") != EXPECTED_SERVING_HELPER_SHA256
         or fidelity.get("pairs") != expected_pairs
         or fidelity.get("serving_policy") != "w18_only"
         or fidelity.get("workers_per_comparison") != 32
         or fidelity.get("timeout_seconds") != 1_200
-        or type(fidelity.get("created_epoch")) is not int
-        or fidelity["created_epoch"] <= 0
+        or not _is_positive_finite_epoch(fidelity.get("created_epoch"))
     ):
         raise ValueError("old-reference fidelity contract differs from its frozen policy")
 
@@ -516,6 +540,8 @@ def _validate_quantization_contract(
         "calibration_sequence_id": calibration["sequence_id"],
         "fidelity_contract_path": str(fidelity_path),
         "fidelity_contract_sha256": fidelity_sha256,
+        "fidelity_contract_declared_native_library_sha256": declared_native_sha256,
+        "legacy_declared_pin_error": legacy_pin_error,
         "reference_reports": {
             "f32": {
                 "path": str(f32_report_path),
