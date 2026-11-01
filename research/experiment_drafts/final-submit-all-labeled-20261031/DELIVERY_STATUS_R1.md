@@ -1,5 +1,9 @@
 # Delivered checkpoints and pending final packaging
 
+Current delivery acceleration is documented in [ACCELERATION_R1.md](ACCELERATION_R1.md).
+The snapshot below is historical; it does not describe the newer pipelined
+successor dispatcher or early W18-only artifact worker.
+
 Snapshot: 2026-11-01 00:38 UTC. This is a progress record, not a final score report.
 
 ## Actual delivery

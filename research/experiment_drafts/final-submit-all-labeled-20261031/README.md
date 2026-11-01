@@ -1,5 +1,8 @@
 # Full-corpus TL3 + LSTM submission preparation
 
+For the newer execution/serving status and pending profile-path repair, see
+[ACCELERATION_R1.md](ACCELERATION_R1.md). The preparation snapshot below is historical.
+
 The user requests fitting the strongest supported solution on all supplied
 labeled data for submission. [ADR0045](../../../specs/adr/0045-submission-only-all-labeled-final-fit.md)
 scopes this explicitly to final fitting; primary research validation remains
