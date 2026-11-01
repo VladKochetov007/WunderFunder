@@ -9,6 +9,10 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from scripts.check_final_tl3_package import (
+    _numeric_error_summary,
+    _numeric_error_within_ceilings,
+)
 from scripts.package_final_tl3 import (
     FINAL_FIXED_EPOCHS,
     FINAL_RECEIPT_SCHEMA,
@@ -39,6 +43,21 @@ def test_serving_policy_precision_requirements_are_explicit() -> None:
         validate_serving_options("w18_only", "q8vnni", False)
     with pytest.raises(ValueError, match="serving policy"):
         validate_serving_options("silent_fallback", "q8vnni", True)
+
+
+def test_final_q8_parity_keeps_allclose_diagnostic_separate_from_frozen_ceilings() -> None:
+    reference = np.ones((3, 2), dtype=np.float32)
+    predictions = reference + np.asarray([0.05, 0.06], dtype=np.float32)
+    summary = _numeric_error_summary(predictions, reference, atol=0.02, rtol=0.02)
+    ceilings = {
+        "maximum_rms_by_target": [0.051, 0.061],
+        "maximum_p99_abs_by_target": [0.051, 0.061],
+        "maximum_abs_by_target": [0.051, 0.061],
+    }
+    assert summary["allclose"] is False
+    assert _numeric_error_within_ceilings(summary, ceilings) is True
+    ceilings["maximum_abs_by_target"] = [0.049, 0.061]
+    assert _numeric_error_within_ceilings(summary, ceilings) is False
 
 
 def _receipt() -> dict[str, object]:
