@@ -157,6 +157,20 @@ def _is_positive_finite_epoch(value: object) -> bool:
     return number > 0 and math.isfinite(number)
 
 
+def _require_fields_with_optional_metadata(
+    value: dict[str, object],
+    required: set[str],
+    optional_metadata: set[str],
+    label: str,
+) -> None:
+    """Require all scientific fields and reject metadata outside an allowlist."""
+    actual = set(value)
+    missing = required - actual
+    unsupported = actual - required - optional_metadata
+    if missing or unsupported:
+        raise ValueError(f"{label} has missing required or unsupported fields")
+
+
 def _numeric_error_summary(
     predictions: np.ndarray,
     reference: np.ndarray,
@@ -336,10 +350,20 @@ def _validate_quantization_contract(
         "score_computed",
         "created_epoch",
     }
-    if set(ceilings) != ceiling_fields:
-        raise ValueError("W18 numeric ceilings have missing or unsupported fields")
+    _require_fields_with_optional_metadata(
+        ceilings,
+        ceiling_fields,
+        {"calibration_scope", "claim_policy"},
+        "W18 numeric ceilings",
+    )
     if (
         ceilings.get("schema") != NUMERIC_CEILINGS_SCHEMA
+        or (
+            "calibration_scope" in ceilings
+            and ceilings["calibration_scope"]
+            != "pinned old train-only W18 on official train row-group 0; not a task score"
+        )
+        or ("claim_policy" in ceilings and ceilings["claim_policy"] != contract["claim_policy"])
         or ceilings.get("old_w18_checkpoint_sha256") != EXPECTED_CHECKPOINT_SHA256[0]
         or ceilings.get("multiplier_fixed_before_new_weights_check") != 2
         or ceilings.get("original_allclose_atol") != 0.02

@@ -17,6 +17,7 @@ from scripts.check_final_tl3_package import (
     _is_positive_finite_epoch,
     _numeric_error_summary,
     _numeric_error_within_ceilings,
+    _require_fields_with_optional_metadata,
 )
 from scripts.package_final_tl3 import (
     FINAL_FIXED_EPOCHS,
@@ -57,6 +58,29 @@ def test_frozen_json_epochs_accept_finite_positive_numbers_only() -> None:
     assert not _is_positive_finite_epoch(0)
     assert not _is_positive_finite_epoch(float("inf"))
     assert not _is_positive_finite_epoch(float("nan"))
+
+
+def test_numeric_ceiling_schema_allows_only_whitelisted_informational_fields() -> None:
+    _require_fields_with_optional_metadata(
+        {"scientific": 1, "calibration_scope": "pinned"},
+        {"scientific"},
+        {"calibration_scope", "claim_policy"},
+        "numeric ceilings",
+    )
+    with pytest.raises(ValueError, match="missing required or unsupported fields"):
+        _require_fields_with_optional_metadata(
+            {"scientific": 1, "unrecognized": 2},
+            {"scientific"},
+            {"calibration_scope", "claim_policy"},
+            "numeric ceilings",
+        )
+    with pytest.raises(ValueError, match="missing required or unsupported fields"):
+        _require_fields_with_optional_metadata(
+            {"calibration_scope": "pinned"},
+            {"scientific"},
+            {"calibration_scope", "claim_policy"},
+            "numeric ceilings",
+        )
 
 
 def test_serving_policy_precision_requirements_are_explicit() -> None:
