@@ -32,3 +32,12 @@ Existing ideas and continuations: [PR22](https://github.com/VladKochetov007/Wund
 [earlier frequency analogy](../../campaign_2026-10-05/review_20261005/MECHANISM_AUDIT.md).
 Those older observations do not prove these recipes work. Published full-fit PR54
 weights cannot be repurposed as clean evaluation parents.
+
+## Source identity and resume
+
+Legacy RNN runs now bind the source digest to the entire `src/wnn/**/*.py` tree,
+the entrypoint and available dependency files. Symlinks in the source tree are
+rejected. The v2 source identity changes the digest and schema: an older v1
+resume state must not be presented as an exact continuation of this code. Create
+a fresh run, or use a separately reviewed weight initialization with explicit
+ancestry; existing already-running jobs on pinned source are not changed.
