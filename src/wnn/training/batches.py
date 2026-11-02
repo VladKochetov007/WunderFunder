@@ -9,6 +9,7 @@ import torch
 from wnn.data import TARGET_QUANTA
 from wnn.outcomes import N_SP_AUX, outcome_codes, sequence_class, structure_labels
 from wnn.training.inputs import build_inputs
+from wnn.training.sequence_channel_dropout import mask_sequence_channels
 from wnn.training.state import TrainingRun
 from wnn.training.targets import (
     kth_change_labels,
@@ -97,6 +98,15 @@ def prepare_batch(run: TrainingRun) -> None:
         inputs, y, valid, scored_dev, prop_model, prop_cached, args, x, environment=environment
     )
     timer.mark("weights")
+    if args.sequence_channel_dropout:
+        inputs = mask_sequence_channels(
+            inputs,
+            run.network.model.mean,
+            args.sequence_channel_dropout,
+            args.seed,
+            run.progress.epoch,
+            b,
+        )
     run.batch.family_targets = family_targets
     run.batch.inputs = inputs
     run.batch.main_valid = main_valid
