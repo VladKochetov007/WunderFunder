@@ -1,5 +1,7 @@
 # Sequence-level input-channel dropout
 
+Draft PR: [#59](https://github.com/VladKochetov007/WunderFunder/pull/59).
+
 Prepared comparison, **not run or receiver-accepted**. Test whether a GRU trained
 with occasional missing channels generalizes better than the exact same label-only
 GRU without dropout. For each sequence and training batch independently, mask 5%
