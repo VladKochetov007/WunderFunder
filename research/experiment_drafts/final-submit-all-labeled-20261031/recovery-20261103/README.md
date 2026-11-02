@@ -53,6 +53,21 @@ training loss, LR, gradients, throughput and saved epoch checkpoints.
 
 ## Delivery contract
 
+While fitting, the exact publication validator additionally accepted all12 parent
+fit receipts and checkpoint hashes. The frozen quantization contract preflight
+passed. Independent review identified two missing report-path aliases for the
+numeric-ceilings and fidelity-contract JSONs. Create-only aliases now point to
+the exact canonical F/inputs bytes; all5 expected publication evidence files
+were hash-checked. No deployed code, scientific recipe or contract changed.
+Supplemental receiving proofs are in reports/ANCESTOR_RECEIPT_PREFLIGHT_R1.json,
+reports/QUANT_CONTRACT_PREFLIGHT_R1.json and reports/EVIDENCE_ALIAS_BINDING_R1.json.
+
+The first full epoch completed in2240.3seconds, with7800/7800 completed optimizer
+updates,780batches, zero nonfinite-gradient steps and zero skipped updates.
+model_ep0.pt and the training state were saved. Training objective mean was
+0.6356465971; this is an in-sample optimization diagnostic, not independent
+validation. The unchanged final second epoch is running.
+
 The end-to-end worker automatically runs the qualified W18-only publisher after
 successful fitting. Its fit receipt is checked against R/source; all12 ancestors
 remain checked against F/source. The prevalidated cache SHA is rechecked before
