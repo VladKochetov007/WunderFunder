@@ -145,8 +145,10 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("model.compile_blocks must be boolean")
     if model["architecture"] != "transformer" and model["compile_blocks"]:
         raise ValueError("model.compile_blocks requires a Transformer model")
-    if model["architecture"] == "tcn" and (model["layers"] > 12 or config["precision_mode"] != "fp32"):
-        raise ValueError("TCN requires at most 12 layers and strict FP32")
+    if model["architecture"] == "tcn" and (
+        model["layers"] > 12 or config["precision_mode"] != "fp32" or model["checkpoint_blocks"]
+    ):
+        raise ValueError("TCN requires at most 12 layers, strict FP32, and no checkpoint blocks")
     if config["optimizer"] == "muon" and model["architecture"] != "transformer":
         raise ValueError("sequence Muon currently supports Transformer models only")
     if model["hint_projection"] not in ("fixed", "learned"):

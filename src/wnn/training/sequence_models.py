@@ -165,7 +165,6 @@ class _TransformerSequenceAdapter(nn.Module):
             self.blocks, previous.keys, previous.values, strict=True
         ):
             if self.checkpoint_blocks and self.training:
-
                 def _run_block(
                     x: Tensor,
                     key: Tensor,
@@ -225,11 +224,9 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         config: Model settings with architecture, hidden, layers, heads,
             ff_multiplier, and context_rows. Dropout, activation checkpointing,
             hint_dim, and hint_projection are optional.
-
     Returns:
         A module accepting raw ``[batch, rows, 112]`` values and returning
         predictions, hints, and resumable sequence state.
-
     Raises:
         TypeError: If a setting has the wrong type or the default dtype is reduced.
         ValueError: If the architecture or dimensions are invalid.
@@ -269,8 +266,11 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     if not 0.0 <= dropout < 1.0 or ff_multiplier <= 0.0:
         raise ValueError("dropout must be in [0, 1) and ff_multiplier must be positive")
     if architecture == "tcn":
-        if precision_mode != "fp32" or compile_blocks or attention_backend != "math":
-            raise ValueError("TCN requires strict FP32 without Transformer-only options")
+        if (
+            precision_mode != "fp32" or compile_blocks or checkpoint_blocks
+            or attention_backend != "math" or dropout != 0
+        ):
+            raise ValueError("TCN requires FP32, zero dropout and no Transformer-only options")
         return CausalTCN(hidden, layers, hint_dim, str(hint_mode))
     if architecture == "gru":
         if compile_blocks:

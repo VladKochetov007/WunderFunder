@@ -26,12 +26,13 @@ def validate_pcgrad(run: TrainingRun) -> None:
         or args.loss != "wmse"
         or args.loss_norm != "chunk"
         or args.td_alpha > 0
+        or args.filtered_residual_weight != 0
         or args.qat != "none"
         or run.options.controlled_loss
     ):
         run.options.ap.error(
             "--target-pcgrad requires one GPU, fp32, plain GRU, chunk WMSE, "
-            "no TD/QAT and the standard update clock"
+            "no TD/QAT/filtered loss and the standard update clock"
         )
 
 
