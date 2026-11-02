@@ -57,3 +57,39 @@ consider a smaller batch only as a separately frozen matched comparison.
 The trainer source identity is upgraded to `wnn.training-source.v2`, hashing all
 `src/wnn` Python files. Exact resume across the old v1 source identity is rejected;
 start these fresh cells under v2 rather than presenting old runs as resumed.
+
+## Receiver profile and held-out scoring
+
+Before the six-epoch fits, run each arm's exact training command above with a
+separate `NAME` ending `_profile`, adding `--profile-steps 8 --profile-warmup 2`;
+these bounded engineering updates do not produce a scientific fit. Inspect finite
+losses and preclip gradients, GPU/host memory and loader cost before admission.
+Preserve the actual hardware and source receipt. Rerun with the original distinct
+fit names only after the receiver checks succeed.
+
+For each completed cell set `RUN` to its fit name, `SPLIT_MANIFEST` to its exact
+manifest, and `TARGET_SHA256` to the independently verified digest of the target
+cache. Use a free GPU for prediction and the official scorer on the receiver:
+
+```bash
+: "${RUN:?}" "${SPLIT_MANIFEST:?}" "${TARGET_SHA256:?}"
+python scripts/predict_run.py "$RUN" valid --epoch 5 \
+  --campaign-split-manifest "$SPLIT_MANIFEST" --campaign-evaluation-only \
+  --device cuda --inference-precision fp32
+python research/experiment_drafts/channel-dropout-b300-20261103/score_evaluation.py \
+  --data-root "$WNN_PROJECT_ROOT" --split-manifest "$SPLIT_MANIFEST" \
+  --run "$RUN" --epoch 5 --target-cache-sha256 "$TARGET_SHA256" \
+  --output "$WNN_PROJECT_ROOT/artifacts/runs/$RUN/evaluation-grade.json"
+```
+
+The scorer is reused from PR58 at commit `7219e86a` and verifies the prediction,
+checkpoint, split, row membership and pinned target-cache hashes before applying
+the official pooled metric. A target-cache hash alone cannot establish that it
+came from the permitted original dataset. `predict_run.py` overwrites an export
+with the same name and deletes any old `cache/seqsums_<run>.npz`; never use an
+active or irreplaceable export name. Receiver parity and source provenance remain
+unverified.
+
+[Exogenous Dropout](https://arxiv.org/abs/2607.05452) motivates whole-channel
+corruption in other forecasting domains. Our features are anonymous and cannot
+be assumed to be exogenous; that paper does not establish gains on this task.

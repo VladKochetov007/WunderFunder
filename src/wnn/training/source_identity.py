@@ -40,7 +40,9 @@ def _package_sources(root: Path) -> list[Path]:
     def _raise_walk_error(error: OSError) -> None:
         raise error
 
-    for parent, directories, files in os.walk(package, followlinks=False, onerror=_raise_walk_error):
+    for parent, directories, files in os.walk(
+        package, followlinks=False, onerror=_raise_walk_error
+    ):
         base = Path(parent)
         if any((base / name).is_symlink() for name in directories):
             raise ValueError(f"source package contains a symbolic-link directory: {base}")
