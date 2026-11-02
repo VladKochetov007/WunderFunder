@@ -87,7 +87,7 @@ def main() -> None:
         pred = predicted[index]
         mask = masks[positions[group]].astype(bool, copy=True)
         mask[:WARMUP] = False
-        if not np.isfinite(pred).all() or not np.isfinite(target[mask]).all():
+        if not np.isfinite(pred[mask]).all() or not np.isfinite(target[mask]).all():
             raise ValueError(f"nonfinite prediction or scored target in group {group}")
         acc.add(target, pred, mask)
     record = {
