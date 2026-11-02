@@ -135,16 +135,20 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError(f"model.{key} must be a positive integer")
     if type(model["hint_dim"]) is not int or model["hint_dim"] < 0:
         raise ValueError("hint_dim must be a nonnegative integer")
-    if model["architecture"] not in ("transformer", "gru"):
-        raise ValueError("architecture must be transformer or gru")
+    if model["architecture"] not in ("transformer", "gru", "tcn"):
+        raise ValueError("architecture must be transformer, gru or tcn")
     if model["attention_backend"] not in ("math", "efficient", "flex"):
         raise ValueError("model.attention_backend must be math, efficient, or flex")
-    if model["architecture"] == "gru" and model["attention_backend"] != "math":
+    if model["architecture"] != "transformer" and model["attention_backend"] != "math":
         raise ValueError("attention backends are supported only by Transformer models")
     if type(model["compile_blocks"]) is not bool:
         raise ValueError("model.compile_blocks must be boolean")
-    if model["architecture"] == "gru" and model["compile_blocks"]:
+    if model["architecture"] != "transformer" and model["compile_blocks"]:
         raise ValueError("model.compile_blocks requires a Transformer model")
+    if model["architecture"] == "tcn" and (
+        model["layers"] > 12 or config["precision_mode"] != "fp32" or model["checkpoint_blocks"]
+    ):
+        raise ValueError("TCN requires at most 12 layers, strict FP32, and no checkpoint blocks")
     if config["optimizer"] == "muon" and model["architecture"] != "transformer":
         raise ValueError("sequence Muon currently supports Transformer models only")
     if model["hint_projection"] not in ("fixed", "learned"):

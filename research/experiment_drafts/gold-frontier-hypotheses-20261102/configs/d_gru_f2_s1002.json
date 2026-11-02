@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "model": {
+    "architecture": "gru",
+    "hidden": 256,
+    "layers": 2,
+    "heads": 8,
+    "ff_multiplier": 4,
+    "context_rows": 512,
+    "dropout": 0.0,
+    "checkpoint_blocks": false,
+    "hint_dim": 0,
+    "hint_projection": "learned",
+    "attention_backend": "math",
+    "compile_blocks": false
+  },
+  "epochs": 6,
+  "batch_size": 1,
+  "accumulate_chunks": 4,
+  "chunk_rows": 256,
+  "seed": 1002,
+  "lr": 0.0003,
+  "weight_decay": 0.01,
+  "grad_clip": 1.0,
+  "warmup_fraction": 0.05,
+  "kd_weight": 0.0,
+  "hint_weight": 0.0,
+  "normalization_sequences": 32,
+  "precision_mode": "fp32",
+  "expected_fold": 2,
+  "required_world_size": 1,
+  "required_device": "B300"
+}

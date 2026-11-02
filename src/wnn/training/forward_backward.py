@@ -5,6 +5,7 @@ import time
 import torch
 
 from wnn.training.forward import detach_state
+from wnn.training.pcgrad_targets import pcgrad_backward
 from wnn.training.state import TrainingRun
 
 
@@ -73,7 +74,10 @@ def backward_standard(run: TrainingRun) -> None:
         if compile_timings is not None and compile_timings["backward"] is None
         else None
     )
-    scaler.scale(loss).backward()
+    if run.options.args.target_pcgrad:
+        pcgrad_backward(run)
+    else:
+        scaler.scale(loss).backward()
     if backward_started is not None:
         if device.type == "cuda":
             torch.cuda.synchronize(device)

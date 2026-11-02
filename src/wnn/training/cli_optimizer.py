@@ -5,6 +5,11 @@ import argparse
 
 def add_optimizer_arguments(ap: argparse.ArgumentParser) -> None:
     """Register optimizer options in their historical order."""
+    ap.add_argument(
+        "--target-pcgrad",
+        action="store_true",
+        help="project conflicting target gradients on the plain GRU trunk (single GPU, label WMSE)",
+    )
     ap.add_argument("--lr", type=float, default=0.001)
     ap.add_argument("--wd", type=float, default=0.01)
     research = ap.add_argument_group(

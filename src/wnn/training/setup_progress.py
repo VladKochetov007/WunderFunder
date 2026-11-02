@@ -125,10 +125,17 @@ def initialize_progress(run: TrainingRun) -> None:
         provenance["training_clocks"].update(
             {
                 "origin_view": args.origin_view,
-                "prefix_rows_per_sequence": sum(window.start for window in initial_windows),
+                "prefix_rows_per_sequence": (
+                    sum(min(window.start, args.burnin_rows) for window in initial_windows)
+                    if args.origin_view == "burnin-prefix"
+                    else 0
+                    if args.origin_view == "burnin-reset"
+                    else sum(window.start for window in initial_windows)
+                ),
                 "supervised_rows_per_sequence": environment.sequence_length,
                 "variable_update_width": args.origin_view == "prefix-random",
-                "uses_replayed_state": args.origin_view != "prefix-discard",
+                "uses_replayed_state": args.origin_view not in ("prefix-discard", "burnin-reset"),
+                "burnin_rows": args.burnin_rows,
                 "ema_clock": "actual update rows"
                 if args.ema_reference_rows
                 else "attempted updates including AMP skips",

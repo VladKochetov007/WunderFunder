@@ -20,7 +20,14 @@ def origin_windows(
     equals the fixed partition exactly. Prefix replay therefore visits the same
     number of rows in both arms, including zero-loss prefixes.
     """
-    if mode not in ("off", "prefix-fixed", "prefix-random", "prefix-discard"):
+    if mode not in (
+        "off",
+        "prefix-fixed",
+        "prefix-random",
+        "prefix-discard",
+        "burnin-reset",
+        "burnin-prefix",
+    ):
         raise ValueError("unknown origin view")
     if sequence_rows <= 0 or update_rows <= 0 or micro_rows <= 0:
         raise ValueError("row intervals must be positive")

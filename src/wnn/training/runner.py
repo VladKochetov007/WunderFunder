@@ -12,6 +12,7 @@ from wnn.training.losses import auxiliary_loss, main_loss
 from wnn.training.macro_updates import backward_controlled, prepare_window
 from wnn.training.optimization import build_optimization
 from wnn.training.outputs import evaluate_epoch, finalize, save_epoch
+from wnn.training.pcgrad_targets import validate_pcgrad
 from wnn.training.profile_results import report_profile, write_parity
 from wnn.training.provenance import record_provenance
 from wnn.training.setup_lineage import configure_runtime, load_lineage, validate_membership
@@ -42,6 +43,7 @@ def run_training(
     validate_membership(run)
     configure_runtime(run)
     validate_clocks(run)
+    validate_pcgrad(run)
     select_membership(run)
     bind_caches(run)
     build_loaders(run)
