@@ -11,6 +11,8 @@ runnable, trained, graded or a ready submission.** No running job is touched.
   recipes are deliberately not a launch interface.
 - [PR.md](PR.md): review and decision brief.
 
+Draft PR: [https://github.com/VladKochetov007/WunderFunder/pull/58](https://github.com/VladKochetov007/WunderFunder/pull/58).
+
 Base: `research-team` at `7e4074314a62d0907c9608f9220cf72958708a2d`.
 Reference evidence: [PR53](https://github.com/VladKochetov007/WunderFunder/pull/53#issuecomment-6545905799);
 [PR54 artifacts](https://github.com/VladKochetov007/WunderFunder/pull/54#issuecomment-6555754846).
