@@ -29,7 +29,7 @@ cd "$WNN_REPO"
 export PYTHONPATH="$PWD/src${PYTHONPATH:+:$PYTHONPATH}"
 : "${WNN_PROJECT_ROOT:?}" "${F0_MANIFEST:?}" "${F2_MANIFEST:?}" "${CUDA_VISIBLE_DEVICES:?}"
 for CELL in F0 F2; do
-  if [ "$CELL" = F0 ]; then MANIFEST="$F0_MANIFEST"; SEED=1001; else MANIFEST="$F2_MANIFEST"; SEED=1002; fi
+  if [ "$CELL" = F0 ]; then MANIFEST="$F0_MANIFEST"; SEED=1001; FOLD=0; else MANIFEST="$F2_MANIFEST"; SEED=1002; FOLD=2; fi
   for ARM in control drop05; do
     if [ "$ARM" = control ]; then PROB=0; else PROB=0.05; fi
     NAME="channel_dropout_${CELL}_${ARM}"
@@ -38,7 +38,8 @@ for CELL in F0 F2; do
       --arch gru --cell gru --enc linear --numeric-map none --raw-only \
       --hidden 256 --layers 2 --batch 32 --chunk 2000 --epochs 6 \
       --loss wmse --precision fp32 --optim adamw --lr 0.001 --wd 0.01 \
-      --seed "$SEED" --split-manifest "$MANIFEST" --checkpoint-policy fixed \
+      --seed "$SEED" --split-manifest "$MANIFEST" --train-source train+valid --train-seqs 1000000 \
+      --valid-fold "$FOLD" --checkpoint-policy fixed \
       --checkpoint-epoch 5 --no-eval-during-fit --grad-stats --sequence-channel-dropout "$PROB"
   done
 done
