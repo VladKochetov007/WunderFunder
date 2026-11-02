@@ -22,7 +22,8 @@ def epoch_summary(
     totals = result.totals
     label_denom, hint_denom = float(totals[6].item()), float(totals[7].item())
     label_loss = float(totals[0].item()) / label_denom if label_denom > 0 else 0.0
-    kd_loss = float(totals[1].item()) / label_denom if label_denom > 0 else 0.0
+    kd_denom = float(totals[8].item()) if totals.numel() > 8 else label_denom
+    kd_loss = float(totals[1].item()) / kd_denom if kd_denom > 0 else 0.0
     hint_loss = float(totals[2].item()) / hint_denom if hint_denom > 0 else 0.0
     return {
         "updates": result.updates,

@@ -20,6 +20,7 @@ import pyarrow.parquet as pq
 HOLDOUT_MODULUS = 5
 MAX_CAMPAIGN_SPLIT_BYTES = 2_000_000
 SEQUENCE_INNER_SPLIT_SCHEMA = "wnn.sequence-inner-split.v1"
+SEQUENCE_SOURCE_SPLIT_SCHEMA = "wnn.sequence-source-holdout.v1"
 
 
 def is_holdout(seq_ix: int) -> bool:
@@ -130,6 +131,10 @@ def load_campaign_split(path: Path, root: Path) -> CampaignSplit:
         from wnn.sequence_inner_splits import load_inner_campaign_split
 
         return load_inner_campaign_split(path, root, raw, manifest)
+    if manifest.get("schema") == SEQUENCE_SOURCE_SPLIT_SCHEMA:
+        from wnn.sequence_source_splits import load_source_campaign_split
+
+        return load_source_campaign_split(path, root, raw, manifest)
     return _load_canonical_campaign_split(path, root, raw, manifest)
 
 

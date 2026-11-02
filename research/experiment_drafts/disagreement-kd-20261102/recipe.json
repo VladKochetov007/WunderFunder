@@ -1,0 +1,45 @@
+{
+  "schema": "wnn.disagreement-kd-recipe.v1",
+  "status": "IMPLEMENTED_RECEIVER_ACCEPTANCE_PENDING",
+  "base": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "source_holdout_pr47": "f0d8da40fb545a630e5f042bfcc3b3360784177e",
+  "data_identity": "strong sha256 over train and valid parquet; new derived source cache required",
+  "teacher_prerequisite": {
+    "fits": 3,
+    "seeds": [
+      2001,
+      2002,
+      2003
+    ],
+    "reuse": "only exact source/split/config/ancestry matching caches; not assumed",
+    "cache_exports": 3
+  },
+  "student_fits": 6,
+  "student_seeds": [
+    1001,
+    1002
+  ],
+  "arms": [
+    "constant",
+    "up",
+    "down"
+  ],
+  "coefficient": "q=mean_teacher_target_variance/(mean_teacher_target_variance+0.01); weights=1 or 1+/-0.5q; per-window target-weighted mass normalization",
+  "configs": [
+    "research/experiment_drafts/disagreement-kd-20261102/configs/student_constant_s1001.json",
+    "research/experiment_drafts/disagreement-kd-20261102/configs/student_constant_s1002.json",
+    "research/experiment_drafts/disagreement-kd-20261102/configs/student_down_s1001.json",
+    "research/experiment_drafts/disagreement-kd-20261102/configs/student_down_s1002.json",
+    "research/experiment_drafts/disagreement-kd-20261102/configs/student_up_s1001.json",
+    "research/experiment_drafts/disagreement-kd-20261102/configs/student_up_s1002.json",
+    "research/experiment_drafts/disagreement-kd-20261102/configs/teacher_s2001.json",
+    "research/experiment_drafts/disagreement-kd-20261102/configs/teacher_s2002.json",
+    "research/experiment_drafts/disagreement-kd-20261102/configs/teacher_s2003.json"
+  ],
+  "local_tests_run": false,
+  "training_run": false,
+  "inference_run": false,
+  "receiver_numerical_checks": "PENDING",
+  "b300_profiles": "PENDING",
+  "results": null
+}

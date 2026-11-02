@@ -8,7 +8,7 @@ import stat
 import time
 from collections.abc import Callable, Mapping, Sequence
 from pathlib import Path
-from typing import Protocol, TypedDict
+from typing import NotRequired, Protocol, TypedDict
 
 import numpy as np
 import torch
@@ -30,6 +30,7 @@ class SequenceItem(TypedDict):
     mask: torch.Tensor
     teacher: torch.Tensor
     hints: torch.Tensor
+    kd_row_weight: NotRequired[torch.Tensor]
 
 
 class SequenceDataset(Protocol):
@@ -84,6 +85,14 @@ def move_and_validate_batch(
         raise ValueError("sequence mask must be boolean with shape [B,20000]")
     if hints.shape != (*expected_rows, hint_dim):
         raise ValueError(f"hint target must have shape [B,20000,{hint_dim}]")
+    row_weight = moved.get("kd_row_weight")
+    if row_weight is not None and (
+        row_weight.shape != expected_rows
+        or row_weight.dtype != torch.float32
+        or not bool(torch.isfinite(row_weight).all())
+        or not bool(((row_weight >= 0.5) & (row_weight <= 1.5)).all())
+    ):
+        raise ValueError("KD row weights must be finite FP32 [B,20000] in [0.5,1.5]")
     for name, value in (("x", x), ("y", target), ("teacher", teacher), ("hints", hints)):
         if value.dtype != torch.float32:
             raise TypeError(f"{name} must use strict FP32, received {value.dtype}")

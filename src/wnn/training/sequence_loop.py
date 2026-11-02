@@ -72,6 +72,7 @@ def _backward_window(
     state: Any,  # Model-owned recurrent state has architecture-specific container structure.
     config: dict[str, object],
     context: DistributedContext,
+    kd_row_weight: torch.Tensor | None = None,
 ) -> tuple[Any, torch.Tensor]:
     """Forward and backpropagate one pre-normalized TBPTT accumulation window."""
     local_stats = torch.zeros(6, dtype=torch.float64, device=context.device)
@@ -100,6 +101,7 @@ def _backward_window(
                 teacher[:, start:stop],
                 hint_target[:, start:stop],
                 mask[:, start:stop],
+                None if kd_row_weight is None else kd_row_weight[:, start:stop],
             )
             loss = scaled_objective(
                 numerators,
@@ -122,12 +124,18 @@ def _window_denominators(
     hints: torch.Tensor,
     intervals: list[tuple[int, int]],
     context: DistributedContext,
+    kd_row_weight: torch.Tensor | None = None,
 ) -> torch.Tensor:
     """Reduce both objective denominators across every rank before any window backward."""
-    local = torch.zeros(2, dtype=torch.float32, device=context.device)
+    local = torch.zeros(
+        2 if kd_row_weight is None else 3, dtype=torch.float32, device=context.device
+    )
     for start, stop in intervals:
         local += window_denominators(
-            target[:, start:stop], mask[:, start:stop], hints[:, start:stop]
+            target[:, start:stop],
+            mask[:, start:stop],
+            hints[:, start:stop],
+            None if kd_row_weight is None else kd_row_weight[:, start:stop],
         )
     global_denominators = global_sum(local, context)
     if not all_ranks_true(bool(torch.isfinite(global_denominators).all()), context):
@@ -153,9 +161,10 @@ def _window_record(
     label_denom = float(denominators[0].item())
     hint_denom = float(denominators[1].item())
     label_loss = float(stats[0].item()) / label_denom if label_denom > 0 else 0.0
-    kd_loss = float(stats[1].item()) / label_denom if label_denom > 0 else 0.0
+    kd_denom = float(denominators[2].item()) if denominators.numel() > 2 else label_denom
+    kd_loss = float(stats[1].item()) / kd_denom if kd_denom > 0 else 0.0
     hint_loss = float(stats[2].item()) / hint_denom if hint_denom > 0 else 0.0
-    return {
+    record = {
         "rank": rank,
         "epoch": epoch,
         "step": step,
@@ -176,6 +185,9 @@ def _window_record(
         "forwarded_rows_per_second": float(stats[4].item()) / max(elapsed, 1e-12),
         "peak_memory_bytes": peak_memory,
     }
+    if denominators.numel() > 2:
+        record["kd_weight_mass"] = kd_denom
+    return record
 
 
 def train_epoch(
@@ -199,7 +211,10 @@ def train_epoch(
     batch_size = int(config["batch_size"])
     chunk_intervals = _chunks(SEQUENCE_ROWS, int(config["chunk_rows"]))
     accumulation = int(config["accumulate_chunks"])
-    total_count = torch.zeros(8, dtype=torch.float64, device=context.device)
+    uses_disagreement = config.get("disagreement_mode") is not None
+    total_count = torch.zeros(
+        9 if uses_disagreement else 8, dtype=torch.float64, device=context.device
+    )
     updates = 0
     for batch_start in range(0, len(indices), batch_size):
         batch_ids = indices[batch_start : batch_start + batch_size]
@@ -220,13 +235,18 @@ def train_epoch(
             batch["x"],
         )
         real_sequence_count = sum(index >= 0 for index in batch_ids)
+        kd_row_weight = batch.get("kd_row_weight")
+        if uses_disagreement != (kd_row_weight is not None):
+            raise ValueError("disagreement mode and cache row weights disagree")
         state: Any = None
         for window_start in range(0, len(chunk_intervals), accumulation):
             if max_updates is not None and updates >= max_updates:
                 return EpochResult(updates, False, total_count, time.perf_counter() - started)
             window_started = time.perf_counter()
             intervals = chunk_intervals[window_start : window_start + accumulation]
-            denominators = _window_denominators(target, mask, hints, intervals, context)
+            denominators = _window_denominators(
+                target, mask, hints, intervals, context, kd_row_weight
+            )
             optimizer.zero_grad(set_to_none=True)
             rates = optimizer_learning_rates(optimizer)
             lr = float(optimizer.param_groups[0]["lr"])
@@ -244,6 +264,7 @@ def train_epoch(
                 state,
                 config,
                 context,
+                kd_row_weight,
             )
             gradient_norm, optimizer_seconds = finish_update(
                 model, optimizer, scheduler, context, float(config["grad_clip"])

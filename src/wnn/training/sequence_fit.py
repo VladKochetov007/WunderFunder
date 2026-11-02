@@ -191,6 +191,12 @@ def run_sequence_fit(
                     profile_updates,
                     schedule_updates,
                 )
+                if config.get("disagreement_mode") is not None:
+                    coordinated_call(
+                        data.fit.cache.verify_unchanged,
+                        "disagreement source recheck after profile",
+                        context,
+                    )
                 return
             if receipt_path is None or profile_hash is None:
                 raise ValueError("full fit profile admission was not validated")

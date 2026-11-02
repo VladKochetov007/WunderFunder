@@ -95,6 +95,9 @@ legacy recurrent CLI or claim parity with historical anchored-window recipes.
 
 - `sequence_config`, `sequence_data`, `sequence_cache`: validated raw112 recipes,
   fitting-only normalization, source-qualified complete sequences and teacher ancestry.
+- `sequence_records`, `sequence_disagreement`: source-qualified sequence records and
+  optional three-teacher disagreement weights; the existing mean cache lacks the
+  individual predictions needed to derive disagreement.
 - `sequence_attention`, `sequence_models`: causal RoPE sliding KV, canonical GRU,
   FP32 checks and fixed/learned representation hints.
 - `sequence_distributed`, `sequence_objectives`, `sequence_loop`: equal-count
