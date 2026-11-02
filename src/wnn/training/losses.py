@@ -7,6 +7,7 @@ from wnn.distillation import four_family_weighted_mse
 from wnn.nn import weighted_mse_loss
 from wnn.outcomes import N_CODES, N_SP_AUX, readout, sequence_class
 from wnn.spread_aux import structural_loss
+from wnn.training.filtered_residual import filtered_residual_loss
 from wnn.training.initializer import final_initializer_distillation_target
 from wnn.training.state import TrainingRun
 from wnn.training_controls import blended_target
@@ -112,6 +113,10 @@ def main_loss(run: TrainingRun) -> None:
         loss = (w * (out[..., :2].float() - yc) ** 2).sum() / norm_ema.clamp_min(1e-08)
     else:
         loss = objective(out[..., :2], y[:, sl], main_valid[:, sl])
+    if args.filtered_residual_weight:
+        loss = loss + args.filtered_residual_weight * filtered_residual_loss(
+            out[..., :2], y[:, sl], main_valid[:, sl]
+        )
     run.batch.loss = loss
     run.progress.norm_ema = norm_ema
 

@@ -144,6 +144,12 @@ def validate_clocks(run: TrainingRun) -> None:
         or (args.origin_view != "off")
         or (args.credit_mode != "deterministic")
     )
+    if not math.isfinite(args.filtered_residual_weight) or args.filtered_residual_weight < 0:
+        ap.error("filtered residual weight must be finite and nonnegative")
+    if args.filtered_residual_weight and (
+        controlled_loss or args.loss == "ce_joint" or args.thin_prob or args.chunk < 16
+    ):
+        ap.error("filtered residual loss requires standard unthinned regression chunks of at least 16 rows")
     if args.origin_view != "off":
         try:
             origin_windows(

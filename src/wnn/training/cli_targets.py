@@ -41,6 +41,10 @@ def add_targets_arguments(ap: argparse.ArgumentParser) -> None:
         default=0.98,
         help="--loss gcorr_pool: per-chunk decay of the pooled weighted sums kept from earlier chunks",
     )
+    ap.add_argument(
+        "--filtered-residual-weight", type=float, default=0.0,
+        help="training-only two-scale filtered label-residual objective coefficient",
+    )
     ap.add_argument("--huber-delta", type=float, default=0.5)
     ap.add_argument(
         "--ce-tilt", action="store_true", help="weight code cross-entropy rows by mean |clip(y)|"
