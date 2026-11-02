@@ -58,7 +58,14 @@ MODEL_DEFAULTS: dict[str, Any] = {
 def load_config(path: Path) -> dict[str, Any]:
     """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
-    if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | {"model", "checkpoint_retention"}):
+    optional = {
+        "model",
+        "checkpoint_retention",
+        "temporal_kd_weight",
+        "temporal_kd_lag",
+        "train_source_only",
+    }
+    if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | optional):
         raise ValueError("unknown sequence recipe field")
     # Omission preserves historical config hashes and fixed-final profile identities.
     if "checkpoint_retention" in raw and raw["checkpoint_retention"] not in (
@@ -67,6 +74,21 @@ def load_config(path: Path) -> dict[str, Any]:
     ):
         raise ValueError("checkpoint_retention must be final_only or all_epochs")
     config = DEFAULTS | raw
+    if "train_source_only" in raw and type(raw["train_source_only"]) is not bool:
+        raise ValueError("train_source_only must be boolean")
+    temporal_weight = config.get("temporal_kd_weight", 0.0)
+    temporal_lag = config.get("temporal_kd_lag", 1)
+    if (
+        isinstance(temporal_weight, bool)
+        or not isinstance(temporal_weight, (int, float))
+        or not math.isfinite(temporal_weight)
+        or temporal_weight < 0
+    ):
+        raise ValueError("temporal_kd_weight must be finite and nonnegative")
+    if type(temporal_lag) is not int or temporal_lag < 1:
+        raise ValueError("temporal_kd_lag must be a positive integer")
+    if temporal_weight > 0 and (config["kd_weight"] <= 0 or temporal_lag >= config["chunk_rows"]):
+        raise ValueError("temporal KD requires level KD and lag smaller than chunk_rows")
     # Preserve legacy AdamW's .999 while defaulting the Muon-side AdamW groups to .95.
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95

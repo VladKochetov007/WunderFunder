@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[Temporal-difference KD on B300](../../experiment_drafts/temporal-kd-20261102/README.md) — [draft PR #56](https://github.com/VladKochetov007/WunderFunder/pull/56); four paired raw112 sequence-student fits plus two new teachers; separately normalized causal within-chunk teacher/student differences, train-source-only membership and receiver-first acceptance. Implementation prepared; no local tests, profile, training, inference or score. The sequence baseline is distinct from TL3/event211.
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**

@@ -95,6 +95,9 @@ legacy recurrent CLI or claim parity with historical anchored-window recipes.
 
 - `sequence_config`, `sequence_data`, `sequence_cache`: validated raw112 recipes,
   fitting-only normalization, source-qualified complete sequences and teacher ancestry.
+- `sequence_temporal_kd`: optional within-chunk causal difference KD with separately
+  reduced pair mass; default-off. Exact source-holdout graph/input preparation is
+  reused from PR47 via `wnn.sequence_source_inputs` and `wnn.sequence_source_splits`.
 - `sequence_attention`, `sequence_models`: causal RoPE sliding KV, canonical GRU,
   FP32 checks and fixed/learned representation hints.
 - `sequence_distributed`, `sequence_objectives`, `sequence_loop`: equal-count

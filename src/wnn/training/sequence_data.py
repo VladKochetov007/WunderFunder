@@ -200,6 +200,8 @@ def build_data(
 ) -> SequenceData:
     """Validate the canonical component split before opening any training stream."""
     split = load_campaign_split(split_manifest, data_root)
+    if config.get("train_source_only", False) and split.valid_groups:
+        raise ValueError("train_source_only prohibits any valid-source fitting members")
     members = [("train", group) for group in split.train_groups]
     members += [("valid", group) for group in split.valid_groups]
     hint_dim = config["model"]["hint_dim"]

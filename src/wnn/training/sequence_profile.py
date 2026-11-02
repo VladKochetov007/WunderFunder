@@ -51,7 +51,10 @@ def run_profile(
     torch.cuda.reset_peak_memory_stats(context.device)
     started = time.perf_counter()
     updates, epochs_seen = 0, 0
-    totals = torch.zeros(8, dtype=torch.float64, device=context.device)
+    temporal_weight = float(config.get("temporal_kd_weight", 0.0))
+    totals = torch.zeros(
+        10 if temporal_weight > 0 else 8, dtype=torch.float64, device=context.device
+    )
     while updates < profile_updates and epochs_seen < int(config["epochs"]):
         result = train_epoch(
             dataset,
@@ -72,6 +75,8 @@ def run_profile(
             break
     optimizer_finite = all_ranks_true(optimizer_states_are_finite_fp32(optimizer), context)
     errors = [] if optimizer_finite else ["optimizer state is not finite strict-FP32"]
+    if temporal_weight > 0 and float(totals[9].item()) <= 0:
+        errors.append("profile observed no valid temporal prediction pairs")
     valid_rows = int(totals[3].item())
     forwarded_rows = int(totals[4].item())
     real_rows = int(totals[5].item())
@@ -138,6 +143,12 @@ def run_profile(
         "scientific_checkpoint_written": False,
         "approval_note": "Review the engineering evidence and set approved=true before a full fit.",
     }
+    temporal_loss = 0.0
+    if temporal_weight > 0:
+        mass = float(totals[9].item())
+        temporal_loss = float(totals[8].item()) / mass if mass > 0 else 0.0
+        receipt["temporal_kd"] = {"loss": temporal_loss, "pair_elements": int(mass)}
+        receipt["losses"]["total"] += temporal_weight * temporal_loss
     coordinated_call(
         lambda: (
             _write_profile_receipt(receipt, output / "profile_receipt.json")
@@ -160,6 +171,7 @@ def run_profile(
                 hint_loss,
                 valid_rows,
                 forwarded_rows,
+                temporal_loss,
             )
             if context.is_primary and recorder is not None
             else True
@@ -187,6 +199,7 @@ def _record_profile_metrics(
     hint_loss: float,
     valid_rows: int,
     forwarded_rows: int,
+    temporal_loss: float = 0.0,
 ) -> bool:
     """Record one bounded engineering profile summary in repository run metadata."""
     if recorder is None:
@@ -196,7 +209,8 @@ def _record_profile_metrics(
         epoch=0,
         loss=label_loss
         + float(config["kd_weight"]) * kd_loss
-        + float(config["hint_weight"]) * hint_loss,
+        + float(config["hint_weight"]) * hint_loss
+        + float(config.get("temporal_kd_weight", 0.0)) * temporal_loss,
         throughput={
             "valid_rows_per_second": valid_rows / max(elapsed, 1e-12),
             "forwarded_rows_per_second": forwarded_rows / max(elapsed, 1e-12),

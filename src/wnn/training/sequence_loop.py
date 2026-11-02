@@ -32,6 +32,8 @@ from wnn.training.sequence_objectives import (
 )
 from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
 from wnn.training.sequence_precision import backward_context, forward_context
+from wnn.training.sequence_temporal_kd import record_temporal, temporal_mass, temporal_numerator
+from wnn.training.sequence_temporal_kd import sequence_chunk_intervals as _chunks
 from wnn.training.sequence_update import finish_update
 
 
@@ -43,13 +45,6 @@ class EpochResult:
     complete: bool
     totals: torch.Tensor
     elapsed_seconds: float
-
-
-def _chunks(row_count: int, chunk_rows: int) -> list[tuple[int, int]]:
-    """Return nonoverlapping row intervals covering the entire fixed sequence."""
-    return [
-        (start, min(start + chunk_rows, row_count)) for start in range(0, row_count, chunk_rows)
-    ]
 
 
 def _check_finite_loss(loss: torch.Tensor, context: DistributedContext) -> None:
@@ -74,7 +69,11 @@ def _backward_window(
     context: DistributedContext,
 ) -> tuple[Any, torch.Tensor]:
     """Forward and backpropagate one pre-normalized TBPTT accumulation window."""
-    local_stats = torch.zeros(6, dtype=torch.float64, device=context.device)
+    temporal_weight = float(config.get("temporal_kd_weight", 0.0))
+    lag = int(config.get("temporal_kd_lag", 1))
+    local_stats = torch.zeros(
+        8 if temporal_weight > 0 else 6, dtype=torch.float64, device=context.device
+    )
     for index, (start, stop) in enumerate(intervals):
         final_microchunk = index == len(intervals) - 1
         sync_context = (
@@ -108,6 +107,15 @@ def _backward_window(
                 float(config["kd_weight"]),
                 float(config["hint_weight"]),
             )
+            if temporal_weight > 0:
+                temporal = temporal_numerator(
+                    prediction, teacher[:, start:stop], mask[:, start:stop], lag
+                )
+                mass = float(denominators[2].item())
+                if mass > 0:
+                    loss = loss + temporal * (temporal_weight * context.world_size / mass)
+                local_stats[6] += temporal.detach().double()
+                local_stats[7] += temporal_mass(mask[:, start:stop], lag).detach().double()
             _check_finite_loss(loss, context)
             with backward_context(mode, context.device.type):
                 loss.backward()
@@ -122,13 +130,16 @@ def _window_denominators(
     hints: torch.Tensor,
     intervals: list[tuple[int, int]],
     context: DistributedContext,
+    temporal_lag: int = 0,
 ) -> torch.Tensor:
     """Reduce both objective denominators across every rank before any window backward."""
-    local = torch.zeros(2, dtype=torch.float32, device=context.device)
+    local = torch.zeros(3 if temporal_lag else 2, dtype=torch.float32, device=context.device)
     for start, stop in intervals:
-        local += window_denominators(
+        local[:2] += window_denominators(
             target[:, start:stop], mask[:, start:stop], hints[:, start:stop]
         )
+        if temporal_lag:
+            local[2] += temporal_mass(mask[:, start:stop], temporal_lag)
     global_denominators = global_sum(local, context)
     if not all_ranks_true(bool(torch.isfinite(global_denominators).all()), context):
         raise FloatingPointError("nonfinite objective denominator detected across torchrun ranks")
@@ -199,7 +210,9 @@ def train_epoch(
     batch_size = int(config["batch_size"])
     chunk_intervals = _chunks(SEQUENCE_ROWS, int(config["chunk_rows"]))
     accumulation = int(config["accumulate_chunks"])
-    total_count = torch.zeros(8, dtype=torch.float64, device=context.device)
+    temporal_weight = float(config.get("temporal_kd_weight", 0.0))
+    temporal_lag = int(config.get("temporal_kd_lag", 1)) if temporal_weight > 0 else 0
+    total_count = torch.zeros(10 if temporal_lag else 8, dtype=torch.float64, device=context.device)
     updates = 0
     for batch_start in range(0, len(indices), batch_size):
         batch_ids = indices[batch_start : batch_start + batch_size]
@@ -226,7 +239,9 @@ def train_epoch(
                 return EpochResult(updates, False, total_count, time.perf_counter() - started)
             window_started = time.perf_counter()
             intervals = chunk_intervals[window_start : window_start + accumulation]
-            denominators = _window_denominators(target, mask, hints, intervals, context)
+            denominators = _window_denominators(
+                target, mask, hints, intervals, context, temporal_lag
+            )
             optimizer.zero_grad(set_to_none=True)
             rates = optimizer_learning_rates(optimizer)
             lr = float(optimizer.param_groups[0]["lr"])
@@ -251,8 +266,11 @@ def train_epoch(
             updates += 1
             global_step += 1
             global_stats = global_sum(local_stats, context)
-            total_count[:6] += global_stats
-            total_count[6:] += denominators
+            total_count[:6] += global_stats[:6]
+            total_count[6:8] += denominators[:2]
+            if temporal_lag:
+                total_count[8] += global_stats[6]
+                total_count[9] += denominators[2]
             elapsed = time.perf_counter() - window_started
             record = _window_record(
                 global_stats,
@@ -269,6 +287,8 @@ def train_epoch(
                 float(config["hint_weight"]),
             )
             record["learning_rates"] = rates
+            if temporal_lag:
+                record_temporal(record, global_stats, denominators, temporal_lag, temporal_weight)
             record["optimizer_seconds"] = optimizer_seconds
             rank_log.write(record)
         state = None
