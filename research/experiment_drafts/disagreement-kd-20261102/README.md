@@ -1,5 +1,7 @@
 # Three-teacher disagreement-weighted KD
 
+[Draft PR #57](https://github.com/VladKochetov007/WunderFunder/pull/57) targets `research-team`.
+
 **Implementation prepared; no training, local tests, model inference, receiver
 acceptance or B300 profiles run.** Compare fixed teacher mean KD with bounded
 up/down-weighting by teacher disagreement. This is a raw112 sequence experiment,
@@ -17,6 +19,13 @@ The three FP32 predictions are averaged without pre-clipping, exactly as the
 existing mean merger. Each input is hashed before and after reading and rechecked
 at epoch boundaries. Each recorded identity contains the verified composition,
 parent producer trees, input manifest digests and descriptor digest.
+
+[PR #56](https://github.com/VladKochetov007/WunderFunder/pull/56) independently
+modifies shared sequence training and uses the unmodified PR47 source-only split.
+These drafts are not a combined recipe: their caches and source identities are
+not interchangeable. Integrating both requires a reviewed reconciliation of the
+split identity, loss/telemetry paths, provenance and receiver acceptance; do not
+weaken full-Parquet SHA validation or silently reuse profiles.
 
 For each row, variance is the population mean of squared deviations across the
 three teachers and two targets. `q = variance/(variance + 0.01)` uses fixed
