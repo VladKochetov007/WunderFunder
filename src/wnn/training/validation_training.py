@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import os
 
 import torch
 
@@ -144,6 +145,31 @@ def validate_clocks(run: TrainingRun) -> None:
         or (args.origin_view != "off")
         or (args.credit_mode != "deterministic")
     )
+    if (
+        not math.isfinite(args.sequence_channel_dropout)
+        or not 0 <= args.sequence_channel_dropout < 1
+    ):
+        ap.error("sequence channel dropout must be finite and in [0, 1)")
+    if args.sequence_channel_dropout and (
+        int(os.environ.get("WORLD_SIZE", "1")) != 1
+        or not args.raw_only
+        or args.arch != "gru"
+        or args.cell != "gru"
+        or args.enc != "linear"
+        or args.numeric_map != "none"
+        or args.precision != "fp32"
+        or args.init
+        or distillation_requested
+        or args.ema_teacher
+        or args.td_alpha
+        or controlled_loss
+        or args.research_features != "none"
+        or args.online_norm
+        or args.heuristics
+        or args.privileged_mode != "none"
+        or args.thin_prob
+    ):
+        ap.error("channel dropout requires cold raw-only FP32 GRU and label-only standard updates")
     if args.origin_view != "off":
         try:
             origin_windows(

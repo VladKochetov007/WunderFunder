@@ -74,7 +74,13 @@ def add_weights_arguments(ap: argparse.ArgumentParser) -> None:
 
 
 def add_features_arguments(ap: argparse.ArgumentParser) -> None:
-    """Register features options in their historical order."""
+    """Register feature options, including opt-in channel dropout."""
+    ap.add_argument(
+        "--sequence-channel-dropout",
+        type=float,
+        default=0.0,
+        help="train-only per-sequence feature masking probability",
+    )
     ap.add_argument(
         "--train-classes",
         default="",
