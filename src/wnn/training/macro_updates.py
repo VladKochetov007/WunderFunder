@@ -84,7 +84,16 @@ def backward_controlled(run: TrainingRun) -> None:
         with torch.autocast(device.type, dtype=amp_dtype, enabled=use_autocast):
             return environment.forward_chunk(ema_model.module, inputs, window, state)
 
-    if args.origin_view != "off":
+    if args.origin_view in ("burnin-reset", "burnin-prefix"):
+        h = h_ema = None
+        if args.origin_view == "burnin-prefix":
+            with torch.no_grad():
+                for start in range(max(0, sl.start - args.burnin_rows), sl.start, args.chunk):
+                    prefix = slice(start, min(start + args.chunk, sl.start))
+                    _, h = raw_forward(prefix, h)
+                    if args.ema_teacher:
+                        _, h_ema = teacher_forward(prefix, h_ema)
+    elif args.origin_view != "off":
         carried_h, carried_h_ema = (h, h_ema)
         h = h_ema = None
         with torch.no_grad():

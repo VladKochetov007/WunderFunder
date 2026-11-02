@@ -150,6 +150,11 @@ def validate_clocks(run: TrainingRun) -> None:
         controlled_loss or args.loss == "ce_joint" or args.thin_prob or args.chunk < 16
     ):
         ap.error("filtered residual loss requires standard unthinned regression chunks of at least 16 rows")
+    if args.origin_view in ("burnin-reset", "burnin-prefix"):
+        if args.chunk <= 0 or args.burnin_rows <= 0 or args.burnin_rows % args.chunk:
+            ap.error("burnin arms require positive --burnin-rows divisible by --chunk")
+    elif args.burnin_rows:
+        ap.error("--burnin-rows is only valid for burnin arms")
     if args.origin_view != "off":
         try:
             origin_windows(

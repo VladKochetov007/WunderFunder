@@ -29,10 +29,11 @@ def add_views_arguments(ap: argparse.ArgumentParser) -> None:
     ap.add_argument("--detach-jitter-seed", type=int, default=271828)
     ap.add_argument(
         "--origin-view",
-        choices=["off", "prefix-fixed", "prefix-random", "prefix-discard"],
+        choices=["off", "prefix-fixed", "prefix-random", "prefix-discard", "burnin-reset", "burnin-prefix"],
         default="off",
         help="replay causal prefixes before updates; discard matches fixed replay work while retaining carried state",
     )
+    ap.add_argument("--burnin-rows", type=int, default=0, help="causal prefix rows for burnin-prefix only")
     ap.add_argument("--origin-seed", type=int, default=79079)
     ap.add_argument(
         "--credit-mode",
