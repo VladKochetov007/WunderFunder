@@ -24,7 +24,7 @@ def epoch_summary(
     label_loss = float(totals[0].item()) / label_denom if label_denom > 0 else 0.0
     kd_loss = float(totals[1].item()) / label_denom if label_denom > 0 else 0.0
     hint_loss = float(totals[2].item()) / hint_denom if hint_denom > 0 else 0.0
-    return {
+    result_row = {
         "updates": result.updates,
         "complete": result.complete,
         "label_loss": label_loss,
@@ -38,6 +38,13 @@ def epoch_summary(
         "real_rows": int(totals[5].item()),
         "elapsed_seconds": result.elapsed_seconds,
     }
+    if float(config.get("temporal_kd_weight", 0.0)) > 0:
+        temporal_mass = float(totals[9].item())
+        temporal_loss = float(totals[8].item()) / temporal_mass if temporal_mass > 0 else 0.0
+        result_row["temporal_kd_loss"] = temporal_loss
+        result_row["temporal_pair_elements"] = int(temporal_mass)
+        result_row["total_loss"] += float(config["temporal_kd_weight"]) * temporal_loss
+    return result_row
 
 
 def write_final_outputs(
