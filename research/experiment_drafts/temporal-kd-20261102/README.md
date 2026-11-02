@@ -1,6 +1,6 @@
 # Temporal-difference KD for causal sequence students
 
-Status: implementation prepared; **receiver correctness, hardware admission, fit,
+Status: [draft PR #56](https://github.com/VladKochetov007/WunderFunder/pull/56); implementation prepared; **receiver correctness, hardware admission, fit,
 validation and submission are pending**. This is the `sequence_*` raw112 runtime,
 not the event211 TL3/PR52 trainer: its baseline has no established 0.692 score.
 The user prohibits local tests, training, inference and model imports; none ran.
