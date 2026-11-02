@@ -1,4 +1,20 @@
-## 3 November: final-fit audit —17 models saved, W18 and submission incomplete
+## 3 November: user-authorized W18-only submission recovery running
+
+The user explicitly requests the finished submission. The final-only cache reader
+was repaired after measuring694052metadata bytes against its512000-byte generic
+bound; a dedicated2MiB bound preserves all semantic/data/hash checks and leaves
+generic research caches unchanged. Seven CPU tests and independent review pass.
+Actual existing-cache validation passed all4 payload hashes and finite-value/
+membership checks. All17 completed checkpoint hashes match the archived weights.
+The fresh W18 profile passed60/60updates with finite loss/gradients, no OOM and
+5.96sequences/s. Its unchanged2E/15600-update fit is now running under a bounded
+detached end-to-end worker on one shared B300. Four-hour scope includes30minutes
+for collection; only this remaining model is fitted. See the
+[recovery packet](../research/experiment_drafts/final-submit-all-labeled-20261031/recovery-20261103/README.md).
+Actual ZIP checks and GitHub publication follow automatically; no public score
+or ready ZIP is claimed until those stages pass. Human platform upload is separate.
+
+## Historical3 November: final-fit audit —17 models saved, W18 and submission incomplete
 
 The final-only all-labeled wave completed17/18 scientific fits. The actual GitHub
 archive was downloaded locally and its SHA/CRC plus all17 model and17 exit0 fit

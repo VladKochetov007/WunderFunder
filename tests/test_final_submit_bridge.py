@@ -7,7 +7,13 @@ from types import SimpleNamespace
 
 import pytest
 
-from wnn.distillation_cache import CACHE_FORMAT, CACHE_VERSION
+from wnn.distillation_cache import (
+    CACHE_FORMAT,
+    CACHE_VERSION,
+    MAX_CACHE_METADATA_BYTES,
+    row_groups_sha256,
+    validate_distillation_cache,
+)
 from wnn.final_submit_manifest import FinalFitMembership
 from wnn.splits import CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA, CampaignSplit
 from wnn.training.data_membership import select_membership
@@ -18,7 +24,11 @@ from wnn.training.final_submit_bridge import (
     validate_final_fit_training_options,
     validate_source_validation_receipt,
 )
-from wnn.training.final_submit_bridge_cache import validate_final_distillation_cache
+from wnn.training.final_submit_bridge_cache import (
+    MAX_FINAL_CACHE_METADATA_BYTES,
+    _read_final_cache_metadata,
+    validate_final_distillation_cache,
+)
 from wnn.training.setup_lineage import require_chronological_primary_training
 
 TRAIN_SHA256 = "a" * 64
@@ -207,3 +217,60 @@ def test_historical_cache_manifest_cannot_be_relabelled_as_final_fit(tmp_path: P
 
     with pytest.raises(ValueError, match="no-evaluation final fit"):
         validate_final_distillation_cache(tmp_path, _membership(), "source", require_families=True)
+
+
+def test_final_cache_reader_accepts_repeated_12480_group_metadata_only_on_final_path(
+    tmp_path: Path,
+) -> None:
+    membership = _membership()
+    groups = {
+        "train": list(membership.train_groups),
+        "valid": list(membership.valid_groups),
+    }
+    files = {
+        f"{target}_{split}": {
+            "path": f"{target}_{split}.npy",
+            "row_groups": split_groups,
+            "row_groups_sha256": row_groups_sha256(split_groups),
+            "shape": [len(split_groups), 20_000, 8 if target == "families" else 2],
+            "dtype": "float32",
+            "sha256": "e" * 64,
+            "bytes": len(split_groups) * 20_000 * 4,
+        }
+        for target in ("main_source", "main_normalized", "main_homogeneous", "families")
+        for split, split_groups in groups.items()
+    }
+    metadata = {
+        "format": CACHE_FORMAT,
+        "version": CACHE_VERSION,
+        "fit_groups": groups,
+        "final_fit": final_fit_identity(membership),
+        "evaluation_valid_groups": [],
+        "files": files,
+    }
+    raw = (json.dumps(metadata, indent=2) + "\n").encode()
+    path = tmp_path / "metadata.json"
+    path.write_bytes(raw)
+
+    parsed, parsed_raw = _read_final_cache_metadata(path)
+
+    assert len(groups["train"]) + len(groups["valid"]) == 12_480
+    assert len(raw) > MAX_CACHE_METADATA_BYTES == 512_000
+    assert len(raw) <= MAX_FINAL_CACHE_METADATA_BYTES
+    assert parsed["fit_groups"] == groups
+    assert parsed_raw == raw
+    research_split = CampaignSplit(
+        path=Path("research-split.json"),
+        sha256=MANIFEST_SHA256,
+        fold=0,
+        n_folds=1,
+        train_groups=(),
+        valid_groups=(),
+        evaluation_groups=(),
+        components=(),
+        schema=CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+    )
+    with pytest.raises(ValueError, match="512000-byte read bound"):
+        validate_distillation_cache(
+            tmp_path, tmp_path, research_split, "source", require_families=False
+        )

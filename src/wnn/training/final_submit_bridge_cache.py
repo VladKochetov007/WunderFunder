@@ -15,7 +15,6 @@ from wnn.distillation_cache import (
     CACHE_VERSION,
     FAMILY_ORDER,
     MAIN_VARIANTS,
-    MAX_CACHE_METADATA_BYTES,
     SEQUENCE_ROWS,
     file_sha256,
     row_groups_sha256,
@@ -23,6 +22,23 @@ from wnn.distillation_cache import (
 from wnn.final_submit_manifest import FinalFitMembership
 from wnn.training.final_submit_bridge import final_fit_identity
 from wnn.training.final_submit_bridge_contract import validate_exact_final_w18_teachers
+
+MAX_FINAL_CACHE_METADATA_BYTES = 2 << 20
+
+
+def _read_final_cache_metadata(path: Path) -> tuple[dict[str, object], bytes]:
+    """Read bounded final-only metadata without changing the generic cache limit."""
+    size = path.stat().st_size
+    if size <= 0 or size > MAX_FINAL_CACHE_METADATA_BYTES:
+        raise ValueError("final-fit distillation metadata exceeds its bounded read size")
+    with path.open("rb") as stream:
+        raw = stream.read(MAX_FINAL_CACHE_METADATA_BYTES + 1)
+    if len(raw) != size or len(raw) > MAX_FINAL_CACHE_METADATA_BYTES:
+        raise ValueError("final-fit distillation metadata changed while being read")
+    metadata = json.loads(raw)
+    if not isinstance(metadata, dict):
+        raise ValueError("final-fit distillation metadata must be an object")
+    return metadata, raw
 
 
 def _validate_teacher_sources(
@@ -110,15 +126,7 @@ def validate_final_distillation_cache(
         raise ValueError(f"unknown distillation target variant: {variant}")
     root = cache_root.resolve(strict=True)
     metadata_path = root / "metadata.json"
-    size = metadata_path.stat().st_size
-    if size <= 0 or size > MAX_CACHE_METADATA_BYTES:
-        raise ValueError("final-fit distillation metadata exceeds its bounded read size")
-    raw = metadata_path.read_bytes()
-    if len(raw) != size:
-        raise ValueError("final-fit distillation metadata changed while being read")
-    metadata = json.loads(raw)
-    if not isinstance(metadata, dict):
-        raise ValueError("final-fit distillation metadata must be an object")
+    metadata, raw = _read_final_cache_metadata(metadata_path)
     identity = final_fit_identity(membership)
     if (
         metadata.get("format") != CACHE_FORMAT

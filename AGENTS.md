@@ -1,5 +1,38 @@
 # Project agent instructions
 
+## W18 submission recovery authorized and running — 3 November2026
+
+The user now explicitly says to prepare the finished submission. This is fresh
+authority for the necessary W18-only recovery, not a resume of the old campaign.
+Exactly one frozen W18 fit:2epochs,15,600updates,fixed ep1,seed5,batch16/chunk2000,
+same six final-fit teachers and all12,480 fitting members; no independent score.
+Preserve all17 verified completed models. ROOT bound the recovery to4wall-hours
+from source staging, with30minutes for collection, maximum3hours for the single
+fit and at most2 diagnosed engineering profile attempts. No new provider,
+foreign-process signals, unrelated fit or automatic competition upload.
+
+Active SSH session12250; use it without reconnecting. Original runtime F is
+/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1.
+New runtime R is /data/epanov_s/tabdata/runtime/w18-submit-recovery-20261103-r1.
+R/ROOT_AUTHORITY_R1.json sets hard deadline1793673140.7359152; R contains the
+actual source/execution bindings, independent reviews and per-phase receipts.
+The old F/source remains unchanged. New R/source differs from the old capsule
+only in final_submit_bridge_cache.py: bounded final-only2MiB metadata reader;
+the generic512000-byte cap and all numerical/lineage/payload checks stay unchanged.
+Actual cache694052bytes, all4 payload hashes/finite values and all17 checkpoint
+hashes have passed. The6 actual Linux serving import/CLI preflights passed.
+
+Detached end-to-end wrapper159305 owns the profile, fit, checked ZIP and GitHub
+delivery. Actual profile passed independent review after60/60 updates including
+warmup, finite loss/gradients, no OOM,5.96sequences/s. The canonical W18 fit is
+running in owned child group160868 on GPU3 (UUID76951d88-add3-0d6b-5bee-c0390915ca47).
+Fit receipt is F/control/final-submit-chain/receipts/fits/w18final_distilled_s5.json;
+live fit log R/logs/fit-r1.log. Do not launch a duplicate or replay the other17 fits.
+At successful completion, the qualified publisher uses R/source for W18 and
+F/source for its12 ancestors, requires all actual CPU ZIP gates, publishes a
+fresh20261103-r1 release as SemyonEpanov and verifies downloads. Its private token
+is0600 with inode-bound launcher cleanup. Previous terminal notes are historical.
+
 ## Terminal audit — 3 November2026
 
 The latest verified final-fit outcome is17/18 completed models, with all17

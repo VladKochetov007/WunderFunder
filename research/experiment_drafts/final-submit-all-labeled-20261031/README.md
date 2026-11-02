@@ -1,5 +1,8 @@
 # Full-corpus TL3 + LSTM submission preparation
 
+Current: [W18-only recovery](recovery-20261103/README.md) is running after the
+user's fresh submission instruction; all17 prior fits are preserved.
+
 Latest: [terminal audit3November](RESULTS_20261103_R1.md):17/18 model checkpoints
 verified and published; W18 blocked on cache metadata validation; no submission ZIP.
 
