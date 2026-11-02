@@ -165,6 +165,7 @@ class _TransformerSequenceAdapter(nn.Module):
             self.blocks, previous.keys, previous.values, strict=True
         ):
             if self.checkpoint_blocks and self.training:
+
                 def _run_block(
                     x: Tensor,
                     key: Tensor,
@@ -219,17 +220,9 @@ def _float_option(config: dict[str, object], name: str, default: float) -> float
 
 
 def build_sequence_model(config: dict[str, object]) -> nn.Module:
-    """Build a causal Transformer, GRU, or TCN with FP32 master parameters.
-    Args:
-        config: Model settings with architecture, hidden, layers, heads,
-            ff_multiplier, and context_rows. Dropout, activation checkpointing,
-            hint_dim, and hint_projection are optional.
-    Returns:
-        A module accepting raw ``[batch, rows, 112]`` values and returning
-        predictions, hints, and resumable sequence state.
-    Raises:
-        TypeError: If a setting has the wrong type or the default dtype is reduced.
-        ValueError: If the architecture or dimensions are invalid.
+    """Build a causal model with FP32 master parameters and resumable state.
+
+    The config specifies architecture, dimensions, precision and optional hints.
     """
     if torch.get_default_dtype() != torch.float32:
         raise TypeError("sequence model construction requires the default dtype to be float32")
@@ -267,8 +260,11 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         raise ValueError("dropout must be in [0, 1) and ff_multiplier must be positive")
     if architecture == "tcn":
         if (
-            precision_mode != "fp32" or compile_blocks or checkpoint_blocks
-            or attention_backend != "math" or dropout != 0
+            precision_mode != "fp32"
+            or compile_blocks
+            or checkpoint_blocks
+            or attention_backend != "math"
+            or dropout != 0
         ):
             raise ValueError("TCN requires FP32, zero dropout and no Transformer-only options")
         return CausalTCN(hidden, layers, hint_dim, str(hint_mode))

@@ -1,21 +1,53 @@
 {
   "schema": "wnn.research-proposal-portfolio.v1",
-  "status": "proposal_only",
+  "status": "code_prepared_receiver_acceptance_pending",
   "launch_ready": false,
   "base_branch": "research-team",
   "base_sha": "7e4074314a62d0907c9608f9220cf72958708a2d",
-  "primary_fit_budget_by_card": {"A": 4, "B": 4, "C": 4, "D": 4, "E": 0},
+  "primary_fit_budget_by_card": {
+    "A": 4,
+    "B": 4,
+    "C": 4,
+    "D": 4,
+    "E": 0
+  },
   "primary_fit_budget_total": 16,
   "card_e_zero_fits_condition": "only if all nested source-qualified OOF predictions already exist",
-  "excluded_additional_costs": ["missing clean parents", "teacher fits and prediction exports", "card D student transfer minimum four fits", "receiver profiles and serving checks"],
-  "cells_proposed_not_reserved": [{"fold": "F0", "seed": 1001}, {"fold": "F2", "seed": 1002}],
+  "excluded_additional_costs": [
+    "missing clean parents",
+    "teacher fits and prediction exports",
+    "card D student transfer minimum four fits",
+    "receiver profiles and serving checks"
+  ],
+  "cells_proposed_not_reserved": [
+    {
+      "fold": "F0",
+      "seed": 1001
+    },
+    {
+      "fold": "F2",
+      "seed": 1002
+    }
+  ],
   "reused_controls_assumed": 0,
   "objective": "official global_wp_clip2_v1",
   "evaluation": "component-disjoint, exposed development; clean ancestry and nested selection required",
   "scientific_precision": "FP32; previously authorized Transformer BF16 amendment only in a separately declared matched recipe",
-  "prerequisites": ["implementation", "frozen recipe", "clean ancestry", "receiver parity", "B300 resource profile"],
+  "prerequisites": [
+    "source-qualified real data and split/cache bindings",
+    "receiver causal and numerical acceptance",
+    "B300 resource profile for each training arm",
+    "nested OOF input and independently reviewed provenance for E"
+  ],
   "actual_fits": 0,
   "actual_profiles": 0,
   "local_tests": false,
-  "submission_ready": false
+  "submission_ready": false,
+  "implementation": {
+    "A": "filtered_residual.py and FILTERED_RESIDUAL_B300.md",
+    "B": "pcgrad_targets.py and pcgrad/run_b300.sh",
+    "C": "controlled prefix burn-in and burnin/run_fit.sh",
+    "D": "sequence_tcn.py and four D configs",
+    "E": "nested_oof/analyze.py; operator-reviewed actual OOF provenance required"
+  }
 }

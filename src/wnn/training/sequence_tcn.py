@@ -35,7 +35,11 @@ class CausalTCN(TCNModel):
         if state is None:
             tails = None
         else:
-            if state.shape != expected_shape or state.device != values.device or state.dtype != values.dtype:
+            if (
+                state.shape != expected_shape
+                or state.device != values.device
+                or state.dtype != values.dtype
+            ):
                 raise ValueError("TCN history shape, device or dtype is incompatible")
             tails = torch.split(state, self.history_lengths, dim=1)
         projected = F.gelu(self.inp((values - self.mean) / self.std))

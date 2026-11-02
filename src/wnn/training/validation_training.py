@@ -149,7 +149,9 @@ def validate_clocks(run: TrainingRun) -> None:
     if args.filtered_residual_weight and (
         controlled_loss or args.loss == "ce_joint" or args.thin_prob or args.chunk < 16
     ):
-        ap.error("filtered residual loss requires standard unthinned regression chunks of at least 16 rows")
+        ap.error(
+            "filtered residual loss requires standard unthinned regression chunks of at least 16 rows"
+        )
     if args.origin_view in ("burnin-reset", "burnin-prefix"):
         if args.chunk <= 0 or args.burnin_rows <= 0 or args.burnin_rows % args.chunk:
             ap.error("burnin arms require positive --burnin-rows divisible by --chunk")

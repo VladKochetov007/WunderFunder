@@ -16,7 +16,7 @@ On the receiver, first audit the reviewed source SHA, component-split membership
 cache ancestry, GPU driver/build and free memory, and run the project's receiver
 causality, reset and numerical checks. For each of two eligible cells set
 `SPLIT_MANIFEST`, `DISTILL_CACHE_ROOT`, `CELL_SEED`, `RUN_NAME`, `ARM`, plus
-`CUDA_VISIBLE_DEVICES` in the environment, then run:
+`CUDA_VISIBLE_DEVICES` and `WNN_PROJECT_ROOT` in the environment, then run:
 
 ```bash
 bash research/experiment_drafts/gold-frontier-hypotheses-20261102/burnin/run_fit.sh

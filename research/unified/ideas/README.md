@@ -209,4 +209,4 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 
 - [Idea12 narrow moment-decoder result](../../campaign_2026-10-19/idea_screens_r5/RESULTS.md): with identical fitted heads, a predicted denominator loses0.025555WP to a constant denominator; all32 fixed-prediction drop-one contrasts are negative. A positive constant-vs-stored-R3 recipe contrast is retained without claiming joint-head causality or general moment-model failure.
 
-- [Gold frontier objective, state, teacher and blend hypotheses](../../experiment_drafts/gold-frontier-hypotheses-20261102/README.md) — [draft PR #58](https://github.com/VladKochetov007/WunderFunder/pull/58); five proposal-only matched comparisons; no fits, profiles, score gain or submission readiness claim.
+- [Gold frontier objective, state, teacher and blend hypotheses](../../experiment_drafts/gold-frontier-hypotheses-20261102/README.md) — [draft PR #58](https://github.com/VladKochetov007/WunderFunder/pull/58); five prepared comparisons with B300 receiver acceptance pending; no fits, profiles, score gain or submission readiness claim.

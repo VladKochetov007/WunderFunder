@@ -45,7 +45,11 @@ def qualified_file(root: Path, record: dict) -> Path:
 
 def components(value: object) -> set[str]:
     """Require nonempty explicit unique string component IDs."""
-    if not isinstance(value, list) or not value or any(not isinstance(x, str) or not x for x in value):
+    if (
+        not isinstance(value, list)
+        or not value
+        or any(not isinstance(x, str) or not x for x in value)
+    ):
         raise ValueError("components must be a nonempty list of strings")
     result = set(value)
     if len(result) != len(value):
@@ -56,7 +60,12 @@ def components(value: object) -> set[str]:
 def validate_lineage(manifest: dict, root: Path, outer: set[str]) -> dict[str, dict]:
     """Validate declared receipt-bound complete DAG and reject cycles and missing nodes."""
     att = manifest.get("operator_attestation", {})
-    for key in ("complete_ancestry", "component_membership_verified", "row_alignment_and_masks_verified", "receipts_reviewed"):
+    for key in (
+        "complete_ancestry",
+        "component_membership_verified",
+        "row_alignment_and_masks_verified",
+        "receipts_reviewed",
+    ):
         if att.get(key) is not True:
             raise ValueError(f"operator attestation missing: {key}")
     if not isinstance(att.get("operator"), str) or not att["operator"].strip():
@@ -94,12 +103,18 @@ def validate_lineage(manifest: dict, root: Path, outer: set[str]) -> dict[str, d
     return nodes
 
 
-def check_producers(ids: list[str], nodes: dict[str, dict], excluded: set[str], members: list[str]) -> None:
+def check_producers(
+    ids: list[str], nodes: dict[str, dict], excluded: set[str], members: list[str]
+) -> None:
     """Ensure each member's entire declared dependency graph excludes its scored units."""
     if len(ids) != len(members) or len(set(ids)) != len(members):
         raise ValueError("each ensemble member needs a distinct source producer")
     for name, member in zip(ids, members, strict=True):
-        if name not in nodes or nodes[name]["kind"] not in {"model", "checkpoint"} or nodes[name].get("member") != member:
+        if (
+            name not in nodes
+            or nodes[name]["kind"] not in {"model", "checkpoint"}
+            or nodes[name].get("member") != member
+        ):
             raise ValueError("producer identity and declared member order differ")
     pending = list(ids)
     seen: set[str] = set()
@@ -137,6 +152,8 @@ def load_part(root: Path, part: dict, expected: set[str], count: int) -> tuple[n
         raise ValueError("row count or component string width exceeds limit")
     if target.shape != (n, 2) or prediction.shape != (n, count, 2) or mask.shape != (n,):
         raise ValueError("target/prediction/mask shapes or member count differ")
+    if target.dtype != np.float32 or prediction.dtype != np.float32:
+        raise ValueError("target and prediction arrays must use float32")
     if mask.dtype != np.bool_ or set(groups.tolist()) != expected:
         raise ValueError("component coverage or bool mask differs from manifest")
     if int(mask.sum()) < 1 or int(mask.sum()) > MAX_SELECTED_ROWS:
@@ -160,7 +177,11 @@ def execute(path: Path, output: Path, expected_manifest_sha256: str) -> None:
         raise ValueError("unsupported manifest schema")
     root = path.parent.resolve(strict=True)
     members = manifest["members"]
-    if not isinstance(members, list) or not 2 <= len(members) <= MAX_MODELS or len(set(members)) != len(members):
+    if (
+        not isinstance(members, list)
+        or not 2 <= len(members) <= MAX_MODELS
+        or len(set(members)) != len(members)
+    ):
         raise ValueError("members must be 2–8 distinct ordered IDs")
     count = len(members)
     datasets = manifest["source_datasets"]
@@ -169,7 +190,12 @@ def execute(path: Path, output: Path, expected_manifest_sha256: str) -> None:
     for dataset in datasets:
         qualified_file(root, dataset)
     original = np.asarray(manifest["baseline_weights"], dtype=np.float64)
-    if original.shape != (count,) or not np.isfinite(original).all() or np.any(original < 0) or not np.isclose(original.sum(), 1, atol=1e-8, rtol=0):
+    if (
+        original.shape != (count,)
+        or not np.isfinite(original).all()
+        or np.any(original < 0)
+        or not np.isclose(original.sum(), 1, atol=1e-8, rtol=0)
+    ):
         raise ValueError("baseline weights must be a simplex vector")
     shrink, ridge = float(manifest["shrink_to_baseline"]), float(manifest["ridge"])
     if not math.isfinite(shrink) or not 0 <= shrink <= 1 or not math.isfinite(ridge) or ridge <= 0:
@@ -195,7 +221,9 @@ def execute(path: Path, output: Path, expected_manifest_sha256: str) -> None:
     if sum(len(y) for y in targets) > MAX_SELECTED_ROWS:
         raise ValueError("inner total exceeds selected-row limit")
     y_inner, p_inner = np.concatenate(targets), np.concatenate(predictions)
-    fitted = fit_shared_clip2_weights(y_inner, p_inner, np.ones(len(y_inner), dtype=bool), original, ridge=ridge)
+    fitted = fit_shared_clip2_weights(
+        y_inner, p_inner, np.ones(len(y_inner), dtype=bool), original, ridge=ridge
+    )
     weights = (1.0 - shrink) * fitted.weights + shrink * original
     y_outer, p_outer = load_part(root, outer_part, outer, count)
     outer_mask = np.ones(len(y_outer), dtype=bool)

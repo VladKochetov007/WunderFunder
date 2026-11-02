@@ -76,8 +76,8 @@ related compute costs must be recorded. Do not use PR54 all-label weights for
 any part whose components they saw.
 
 Each NPZ contains exactly four arrays with common row order: `component` (1D
-fixed-width unicode or bytes component ID), `target` (N×2), `prediction`
-(N×M×2 in member order), and `mask` (N boolean official score mask). Each part's
+fixed-width unicode or bytes component ID), `target` (N×2 float32), `prediction`
+(N×M×2 float32 in member order), and `mask` (N boolean official score mask). Each part's
 observed component IDs must equal its declared components. Supply complete
 sequence rows, true official warmup/is_scored masks and source row ordering;
 never substitute output indices for component identity. Up to five million rows
@@ -92,7 +92,10 @@ DAG is complete, that its source membership is truthful, or that NPZ rows and
 masks match the original dataset. A named operator must inspect those original
 receipts and preprocessing/normalizer/checkpoint lineages and attest each field.
 Unknown or incomplete lineage must remain blocked. These claims are therefore
-operator-attested, not automatically verified. Never edit predictions or labels
+operator-attested, not automatically verified. The manifest hash alone does not
+prove it was frozen before the outer outcome; preserve an external timestamped
+pre-access receipt. Large inputs may require substantial host RAM; runtime and
+peak memory have not been measured. Never edit predictions or labels
 to make a manifest pass; freeze the full selection procedure before accessing
 outer scores. An exact submission ZIP still needs separate causal and one-vCPU
 quality, parity, size and runtime checks.

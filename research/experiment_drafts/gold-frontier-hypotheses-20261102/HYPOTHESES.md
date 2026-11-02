@@ -1,6 +1,8 @@
 # Gold frontier: five specific research proposals
 
-These are unimplemented hypotheses, not measured improvements or runnable jobs.
+A–D have training implementations and prospective B300 commands; E has a bounded
+OOF analysis implementation. Receiver acceptance, profiling, qualified inputs and
+actual execution remain pending. No result or launch admission is claimed.
 They complement the [portfolio in PR55](https://github.com/VladKochetov007/WunderFunder/pull/55),
 [temporal KD PR56](https://github.com/VladKochetov007/WunderFunder/pull/56),
 and [disagreement KD PR57](https://github.com/VladKochetov007/WunderFunder/pull/57).
@@ -28,7 +30,7 @@ control is assumed reusable until its full source, recipe, seed and ancestry mat
 A teacher-only advantage is not a student advantage; separately budget student
 transfer (minimum 2+2 paired fits), teacher export and serving measurements.
 
-Each implementation PR must freeze exact input/model/optimizer, effective batch,
+Before admission each run must freeze exact input/model/optimizer, effective batch,
 updates, LR and schedule, objective weights, loss masks, fold identities, clean
 parent and cache digests, checkpoint selection by inner-fit data, and training
 precision before the first fit. For these new GRU scientific fits use strict FP32,

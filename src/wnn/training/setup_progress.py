@@ -128,7 +128,8 @@ def initialize_progress(run: TrainingRun) -> None:
                 "prefix_rows_per_sequence": (
                     sum(min(window.start, args.burnin_rows) for window in initial_windows)
                     if args.origin_view == "burnin-prefix"
-                    else 0 if args.origin_view == "burnin-reset"
+                    else 0
+                    if args.origin_view == "burnin-reset"
                     else sum(window.start for window in initial_windows)
                 ),
                 "supervised_rows_per_sequence": environment.sequence_length,

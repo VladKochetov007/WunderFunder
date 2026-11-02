@@ -69,3 +69,54 @@ cache only after selecting the teacher with the predeclared inner criteria, usin
 `predict_sequence.py --membership fit`; the separately budgeted KD students and
 source-qualified caches remain an additional comparison. Full valid is exposed.
 A TCN teacher score does not imply KD transfer or a ready CPU submission.
+
+## Separately budgeted student transfer
+
+After both teacher runs for one cell complete and their clean ancestry is
+verified, export fitting-only caches. Then compare the same student trained
+against GRU and TCN teachers. This is **four additional student fits** for two
+cells, plus cache export and individual profiles, not included in the four
+teacher fits. Both teachers were fixed-final; do not select using outer scores.
+
+```bash
+KD_PACKET=research/experiment_drafts/b300-transformer-distillation-runtime
+for TEACHER in gru tcn; do
+  TEACHER_RUN="$WNN_RUN_ROOT/d_${TEACHER}_${CELL}"
+  CACHE="$WNN_RUN_ROOT/d_${TEACHER}_${CELL}_fit_cache"
+  STUDENT="$WNN_RUN_ROOT/d_student_from_${TEACHER}_${CELL}"
+  CONFIG="$KD_PACKET/configs/gru256_kd_${CELL}.json"
+  uv run --no-sync torchrun --standalone --nnodes=1 --nproc-per-node=1 \
+    scripts/predict_sequence.py --checkpoint "$TEACHER_RUN/model.pt" \
+    --data-root "$WNN_DATA_ROOT" --split-manifest "$SPLIT" --membership fit --output "$CACHE"
+  uv run --no-sync torchrun --standalone --nnodes=1 --nproc-per-node=1 \
+    scripts/train_sequence.py --config "$CONFIG" --data-root "$WNN_DATA_ROOT" \
+    --split-manifest "$SPLIT" --teacher-cache "$CACHE" \
+    --output "${STUDENT}_profile" --profile-updates 8
+done
+```
+
+Review and copy each profile receipt to its own `approved_profile.json` as
+above, preserving identity. Then run:
+
+```bash
+for TEACHER in gru tcn; do
+  CACHE="$WNN_RUN_ROOT/d_${TEACHER}_${CELL}_fit_cache"
+  STUDENT="$WNN_RUN_ROOT/d_student_from_${TEACHER}_${CELL}"
+  CONFIG="$KD_PACKET/configs/gru256_kd_${CELL}.json"
+  uv run --no-sync torchrun --standalone --nnodes=1 --nproc-per-node=1 \
+    scripts/train_sequence.py --config "$CONFIG" --data-root "$WNN_DATA_ROOT" \
+    --split-manifest "$SPLIT" --teacher-cache "$CACHE" --output "$STUDENT" \
+    --profile-receipt "${STUDENT}_profile/approved_profile.json"
+  uv run --no-sync torchrun --standalone --nnodes=1 --nproc-per-node=1 \
+    scripts/predict_sequence.py --checkpoint "$STUDENT/model.pt" --data-root "$WNN_DATA_ROOT" \
+    --split-manifest "$SPLIT" --membership evaluation --output "${STUDENT}_eval"
+  uv run --no-sync python scripts/score_sequence.py --data-root "$WNN_DATA_ROOT" \
+    --split-manifest "$SPLIT" --predictions "${STUDENT}_eval" --output "$STUDENT/score.json"
+done
+```
+
+These are output-KD students, with the same configuration, seed and data for
+each teacher; hint loss is zero. The existing KD recipes use three epochs, not
+the six-epoch teacher schedule. Exact cache acceptance, GPU profiles and KD
+transfer have not been run. Check teacher-cache size, ancestry, and all results;
+this still does not measure a complete CPU submission blend.

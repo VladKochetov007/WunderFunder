@@ -42,7 +42,9 @@ def add_targets_arguments(ap: argparse.ArgumentParser) -> None:
         help="--loss gcorr_pool: per-chunk decay of the pooled weighted sums kept from earlier chunks",
     )
     ap.add_argument(
-        "--filtered-residual-weight", type=float, default=0.0,
+        "--filtered-residual-weight",
+        type=float,
+        default=0.0,
         help="training-only two-scale filtered label-residual objective coefficient",
     )
     ap.add_argument("--huber-delta", type=float, default=0.5)
