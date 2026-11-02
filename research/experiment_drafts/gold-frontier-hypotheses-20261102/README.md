@@ -17,6 +17,7 @@ No running job is touched.
 - [C: prefix burn-in B300](burnin/README.md): controlled reset vs prefix replay.
 - [D: TCN B300](TCN_B300.md): causal TCN/GRU teacher configs and commands.
 - [E: nested OOF](nested_oof/README.md): bounded offline fit and scoring contract.
+- [A/B/C evaluation](legacy_grade/README.md): full-sequence export and official scorer.
 
 Draft PR: [https://github.com/VladKochetov007/WunderFunder/pull/58](https://github.com/VladKochetov007/WunderFunder/pull/58).
 

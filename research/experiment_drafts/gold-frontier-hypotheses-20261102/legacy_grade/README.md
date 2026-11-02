@@ -34,7 +34,7 @@ python research/experiment_drafts/gold-frontier-hypotheses-20261102/legacy_grade
 
 `predict_run.py` replaces an existing prediction with the same run name: reserve
 unique output names and do not execute against an active or irreplaceable export.
-A/B use their configured fixed epoch (A currently 1; B 5); C uses epoch 5. Repeat
+A, B and C use their configured fixed zero-based epoch 5. Repeat
 for each control and treatment with its own matching fold. Hash and retain both
 prediction sidecar and grade receipt. This is not a public leaderboard result and
 never authorizes a submission.

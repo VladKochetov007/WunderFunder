@@ -54,7 +54,9 @@ def main() -> None:
         or sidecar.get("prediction_sha256") != pred_hash
         or sidecar.get("inference_precision") != "fp32"
     ):
-        raise ValueError("prediction sidecar differs from the requested checkpoint or evaluation split")
+        raise ValueError(
+            "prediction sidecar differs from the requested checkpoint or evaluation split"
+        )
     predicted = np.load(prediction, mmap_mode="r", allow_pickle=False)
     if predicted.shape != (len(groups), ROWS, 2) or predicted.dtype != np.float32:
         raise ValueError("prediction shape or dtype differs from full float32 sequences")
