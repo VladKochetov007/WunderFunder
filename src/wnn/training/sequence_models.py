@@ -19,6 +19,7 @@ from wnn.training.sequence_precision import (
     configure_precision_mode,
     validate_forward_state,
 )
+from wnn.training.sequence_tcn import CausalTCN
 
 RAW_INPUT_WIDTH = 112
 
@@ -219,8 +220,7 @@ def _float_option(config: dict[str, object], name: str, default: float) -> float
 
 
 def build_sequence_model(config: dict[str, object]) -> nn.Module:
-    """Build a causal Transformer or canonical GRU with FP32 master parameters.
-
+    """Build a causal Transformer, GRU, or TCN with FP32 master parameters.
     Args:
         config: Model settings with architecture, hidden, layers, heads,
             ff_multiplier, and context_rows. Dropout, activation checkpointing,
@@ -237,8 +237,8 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     if torch.get_default_dtype() != torch.float32:
         raise TypeError("sequence model construction requires the default dtype to be float32")
     architecture = config.get("architecture")
-    if architecture not in ("transformer", "gru"):
-        raise ValueError("model config architecture must be 'transformer' or 'gru'")
+    if architecture not in ("transformer", "gru", "tcn"):
+        raise ValueError("model config architecture must be transformer, gru, or tcn")
     hidden = _integer_option(config, "hidden")
     layers = _integer_option(config, "layers")
     heads = _integer_option(config, "heads")
@@ -268,6 +268,10 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         )
     if not 0.0 <= dropout < 1.0 or ff_multiplier <= 0.0:
         raise ValueError("dropout must be in [0, 1) and ff_multiplier must be positive")
+    if architecture == "tcn":
+        if precision_mode != "fp32" or compile_blocks or attention_backend != "math":
+            raise ValueError("TCN requires strict FP32 without Transformer-only options")
+        return CausalTCN(hidden, layers, hint_dim, str(hint_mode))
     if architecture == "gru":
         if compile_blocks:
             raise ValueError("compile_blocks requires a Transformer model")
