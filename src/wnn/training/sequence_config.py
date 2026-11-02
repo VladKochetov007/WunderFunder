@@ -58,7 +58,9 @@ MODEL_DEFAULTS: dict[str, Any] = {
 def load_config(path: Path) -> dict[str, Any]:
     """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
-    if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | {"model", "checkpoint_retention"}):
+    if not isinstance(raw, dict) or set(raw) - (
+        set(DEFAULTS) | {"model", "checkpoint_retention", "disagreement_mode"}
+    ):
         raise ValueError("unknown sequence recipe field")
     # Omission preserves historical config hashes and fixed-final profile identities.
     if "checkpoint_retention" in raw and raw["checkpoint_retention"] not in (
@@ -67,6 +69,13 @@ def load_config(path: Path) -> dict[str, Any]:
     ):
         raise ValueError("checkpoint_retention must be final_only or all_epochs")
     config = DEFAULTS | raw
+    if "disagreement_mode" in raw and (
+        raw["disagreement_mode"] not in ("constant", "up", "down")
+        or config["kd_weight"] <= 0
+        or config["hint_weight"] != 0
+        or config["hint_mode"] != "aligned"
+    ):
+        raise ValueError("disagreement mode requires KD, zero hints, and aligned inputs")
     # Preserve legacy AdamW's .999 while defaulting the Muon-side AdamW groups to .95.
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95
@@ -135,6 +144,8 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError(f"model.{key} must be a positive integer")
     if type(model["hint_dim"]) is not int or model["hint_dim"] < 0:
         raise ValueError("hint_dim must be a nonnegative integer")
+    if config.get("disagreement_mode") is not None and model["hint_dim"] != 0:
+        raise ValueError("disagreement cache supports prediction-only teachers")
     if model["architecture"] not in ("transformer", "gru"):
         raise ValueError("architecture must be transformer or gru")
     if model["attention_backend"] not in ("math", "efficient", "flex"):

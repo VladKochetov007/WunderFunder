@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[Disagreement-weighted sequence distillation](../../experiment_drafts/disagreement-kd-20261102/README.md) — [draft PR #57](https://github.com/VladKochetov007/WunderFunder/pull/57): constant/up/down same-family teacher-disagreement weighting, two matched seeds and six FP32 student fits, with three source-qualified teachers separately budgeted if absent. Explicit train-source-only provenance, cache cost and receiving-host acceptance are required; no runs or quality results yet. This is raw112 sequence training, not the event211 TL3 score.
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**

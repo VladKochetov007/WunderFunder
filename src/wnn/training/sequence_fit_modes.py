@@ -204,6 +204,11 @@ def run_full_fit(
             raise RuntimeError("full fit ended before the complete epoch boundary")
         if not all_ranks_true(optimizer_states_are_finite_fp32(optimizer), context):
             raise FloatingPointError("optimizer state is not finite strict-FP32 at epoch boundary")
+        if config.get("disagreement_mode") is not None:
+            cache = getattr(dataset, "cache", None)
+            if cache is None:
+                raise ValueError("disagreement training lost its teacher caches")
+            coordinated_call(cache.verify_unchanged, "disagreement source recheck", context)
         global_step += result.updates
         summary = epoch_summary(result, config)
         history.append({"epoch": epoch, **summary})

@@ -51,7 +51,11 @@ def run_profile(
     torch.cuda.reset_peak_memory_stats(context.device)
     started = time.perf_counter()
     updates, epochs_seen = 0, 0
-    totals = torch.zeros(8, dtype=torch.float64, device=context.device)
+    totals = torch.zeros(
+        9 if config.get("disagreement_mode") is not None else 8,
+        dtype=torch.float64,
+        device=context.device,
+    )
     while updates < profile_updates and epochs_seen < int(config["epochs"]):
         result = train_epoch(
             dataset,
@@ -96,7 +100,8 @@ def run_profile(
     memory.sort(key=lambda item: item["rank"])
     label_denom, hint_denom = float(totals[6].item()), float(totals[7].item())
     label_loss = float(totals[0].item()) / label_denom if label_denom > 0 else 0.0
-    kd_loss = float(totals[1].item()) / label_denom if label_denom > 0 else 0.0
+    kd_denom = float(totals[8].item()) if totals.numel() > 8 else label_denom
+    kd_loss = float(totals[1].item()) / kd_denom if kd_denom > 0 else 0.0
     hint_loss = float(totals[2].item()) / hint_denom if hint_denom > 0 else 0.0
     elapsed = time.perf_counter() - started
     if updates != profile_updates:
