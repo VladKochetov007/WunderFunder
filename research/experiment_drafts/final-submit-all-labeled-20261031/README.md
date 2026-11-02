@@ -1,5 +1,8 @@
 # Full-corpus TL3 + LSTM submission preparation
 
+Latest: [terminal audit3November](RESULTS_20261103_R1.md):17/18 model checkpoints
+verified and published; W18 blocked on cache metadata validation; no submission ZIP.
+
 For the newer execution/serving status and pending profile-path repair, see
 [ACCELERATION_R1.md](ACCELERATION_R1.md). The preparation snapshot below is historical.
 

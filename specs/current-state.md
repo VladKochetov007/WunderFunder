@@ -1,4 +1,16 @@
-## 31 October: all-labeled submission-only refit preparation
+## 3 November: final-fit audit —17 models saved, W18 and submission incomplete
+
+The final-only all-labeled wave completed17/18 scientific fits. The actual GitHub
+archive was downloaded locally and its SHA/CRC plus all17 model and17 exit0 fit
+receipt payload hashes were independently verified. Both TLeads completed four
+epochs; FBC completed four and Source4 LSTM eight. W18 never started because
+final-fit cache metadata validation failed at its bounded-size read guard.
+The original controller's15 count excludes two completed sidecar TLeads.
+No submission ZIP or new valid/public score exists. The1November budget expired;
+this audit resumes no training. Preserve all17 models for a future bounded
+W18-only repair. See the [terminal audit](../research/experiment_drafts/final-submit-all-labeled-20261031/RESULTS_20261103_R1.md).
+
+## Historical31 October: all-labeled submission-only refit preparation
 
 The user explicitly requests the strongest supported submission trained on the
 complete supplied labeled corpus. [ADR0045](adr/0045-submission-only-all-labeled-final-fit.md)

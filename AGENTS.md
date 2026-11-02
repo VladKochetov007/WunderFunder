@@ -1,5 +1,22 @@
 # Project agent instructions
 
+## Terminal audit — 3 November2026
+
+The latest verified final-fit outcome is17/18 completed models, with all17
+exit0 receipts and checkpoint bytes verified from the actual published archive.
+W18 never started: the controller's distillation-cache validation failed at the
+metadata read-size guard. The old controller says15complete because the two
+successful R3 TLeads were not adopted after the W18 failure; the combined17 count
+is established by actual receipts. No final submission ZIP or new valid/public
+score exists. See research/experiment_drafts/final-submit-all-labeled-20261031/
+RESULTS_20261103_R1.md. All following RUNNING/recovery notes are historical.
+
+The1November hard deadline has expired. Do not resume old fits or launch profiles
+from this status note. Preserve the17 verified models; a future W18-only recovery
+needs an identified metadata/cache repair and a fresh bounded execution scope.
+Session59354 has reset, and status connection97142 timed out before the banner;
+there is no live SSH session established by this audit. Do not loop connections.
+
 ## SSH recovery and profile repair applied — 2026-11-01
 
 User confirms SSH is ready. Persistent session59354 is connected; use it without
