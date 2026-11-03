@@ -211,7 +211,9 @@ def _validate_receipt(value: object) -> dict[str, object]:
         or command_args.count("--include-heldout-valid") != 1
         or command_args.count("--no-eval-during-fit") != 1
     ):
-        raise ValueError("W18 fit-process receipt does not prove successful final all-labeled completion")
+        raise ValueError(
+            "W18 fit-process receipt does not prove successful final all-labeled completion"
+        )
     members = receipt.get("members")
     if not isinstance(members, Mapping) or set(members) != {"w18"}:
         raise ValueError("single-W18 receipt must contain exactly W18, with no inactive members")
@@ -271,7 +273,14 @@ def _validate_receipt(value: object) -> dict[str, object]:
     recipe = receipt.get("teacher_recipe")
     if not isinstance(recipe, list) or len(recipe) != len(_W18_TEACHERS):
         raise ValueError("single-W18 receipt must bind the six fixed training teachers")
-    recipe_fields = {"run", "family", "coefficient", "epoch", "checkpoint_file", "checkpoint_sha256"}
+    recipe_fields = {
+        "run",
+        "family",
+        "coefficient",
+        "epoch",
+        "checkpoint_file",
+        "checkpoint_sha256",
+    }
     for item, (run, family, coefficient, epoch) in zip(recipe, _W18_TEACHERS, strict=True):
         record = by_run[run]
         if (
@@ -335,6 +344,21 @@ def _load_weights(record: Mapping[str, object]) -> dict[str, np.ndarray]:
         raise ValueError("W18 weight archive hash differs from the package manifest")
     with np.load(path, allow_pickle=False) as archive:
         return {key: np.ascontiguousarray(archive[key], dtype=np.float32) for key in archive.files}
+
+
+def _member_matches_receipt(
+    package_member: Mapping[str, object], receipt_member: Mapping[str, object]
+) -> bool:
+    """Join package naming to the receipt schema while matching all identity hashes."""
+    return all(
+        package_member.get(package_field) == receipt_member.get(receipt_field)
+        for package_field, receipt_field in (
+            ("run_reference", "run"),
+            ("checkpoint_sha256", "checkpoint_sha256"),
+            ("configuration_sha256", "configuration_sha256"),
+            ("provenance_sha256", "provenance_sha256"),
+        )
+    )
 
 
 manifest_value, _manifest_bytes = _read_json(HERE / "members.json", 1_000_000)
@@ -430,10 +454,7 @@ if (
 ):
     raise ValueError("W18 package member record is malformed")
 _receipt_member = _receipt["members"]["w18"]
-if any(
-    _member.get(field) != _receipt_member.get(field)
-    for field in ("run_reference", "checkpoint_sha256", "configuration_sha256", "provenance_sha256")
-):
+if not _member_matches_receipt(_member, _receipt_member):
     raise ValueError("W18 package member differs from its full-fit checkpoint receipt")
 
 _native_libraries = _manifest.get("native_libraries")
@@ -444,7 +465,11 @@ for _relative, _digest in _native_libraries.items():
     if not _is_sha256(_digest):
         raise ValueError("W18 native library digest is malformed")
     _path = HERE / _relative
-    if _path.is_symlink() or not _path.is_file() or hashlib.sha256(_path.read_bytes()).hexdigest() != _digest:
+    if (
+        _path.is_symlink()
+        or not _path.is_file()
+        or hashlib.sha256(_path.read_bytes()).hexdigest() != _digest
+    ):
         raise ValueError(f"W18 native library digest differs: {_relative}")
 
 _level = _native_level()

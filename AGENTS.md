@@ -1,5 +1,25 @@
 # Project agent instructions
 
+## Latest3 November: CPU publication R3 active after callback alias repair
+
+W18 and all18 final fits remain completed; never refit from this note.
+R2 built the5.45MB ZIP, but its import failed because the callback compared
+package.run_reference against receipt.run_reference; the receipt correctly uses
+run. Both failed attempts and their artifacts are preserved; R1/R2 credentials
+were removed by their wrappers. The strict field-pair fix keeps all3 hash joins
+and maps run_reference to run. Twenty focused tests and independent review pass.
+Actual Python3.11/native preflight on staged R2 weights passed128real rows with
+finite predictions and identical reset replay. This is not final ZIP admission.
+
+R/control/publish_w18_r3.py SHA25c6dc2ab0436cf644d9b2cfe34257401a7ec912ce3acf8f18c1f0f7eed6d762
+qualifies only the new callback SHA68ec7a3901ef34e36ab87c3db13b1da657e96c63363d0d900c5b82095c721024
+and separate R5-serving/R3-report/token roots. Package builder remains10b8a990;
+checker, native libs, weights and numeric gates are unchanged. Detached CPU-only
+worker180051 runs launcher SHA c63cd40b5e1b036fcc5fb82885dcf91c07f580a7b2a3874333f381e3639e3d0e
+with original deadline and explicit R/reports-publish-r3/w18-publication-state-20261103-r3.json.
+Fresh credential publish-r3.token is0600 and inode-cleaned on exit. Persistent
+SSH12250 is still live. Confirm actual package/check/download before delivery.
+
 ## Latest3 November: W18 fit complete; CPU-only publication repair
 
 All18 fixed final fits are now complete when combining their actual receipts.

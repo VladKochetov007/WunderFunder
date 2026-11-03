@@ -2,6 +2,18 @@
 
 ## Current receiving status
 
+Latest CPU attempt isR3/worker180051. R2 built a5454538-byte ZIP and then the
+unchanged checker caught a callback identity-join typo: package.run_reference
+was compared to a nonexistent receipt.run_reference, while the schema correctly
+stores receipt.run. The strict field-pair repair preserves all3 hash comparisons
+and existing receipt/member validation. Twenty focused tests and independent
+review pass. Actual Python3.11 preflight using staged R2 weights, the corrected
+callback and real Linux native libraries passed128 real rows and reset replay.
+The original two failed attempts remain preserved; both credentials were cleaned.
+No scientific fit is repeated and all numerical/CPU gates remain unchanged.
+R3 uses separate reports/state/token paths under the unchanged hard deadline.
+The following R2/running notes are historical until final package admission.
+
 W18 completed successfully:15600/15600 updates, zero nonfinite-gradient steps,
 zero skipped updates,1560batches. Epoch training times were2240.3s and2209.9s;
 objective means0.6356465971 and0.6230432442. These are fitting diagnostics, not

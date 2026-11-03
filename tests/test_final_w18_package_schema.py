@@ -3,8 +3,12 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import json
+import shutil
+import sys
 import tempfile
+import types
 from copy import deepcopy
 from pathlib import Path
 
@@ -163,6 +167,103 @@ def _receipt() -> dict[str, object]:
             "sha256": canonical_sha256(lineage),
         },
     }
+
+
+def _load_solution_package(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    receipt = _receipt()
+    process = receipt["fit_process_receipt"]["record"]
+    process_bytes = json.dumps(process, sort_keys=True).encode()
+    receipt["fit_process_receipt"]["sha256"] = hashlib.sha256(process_bytes).hexdigest()
+    receipt_bytes = json.dumps(receipt, sort_keys=True).encode()
+    member = {
+        "role": "w18",
+        "run_reference": W18_RUN,
+        "checkpoint_sha256": receipt["members"]["w18"]["checkpoint_sha256"],
+        "configuration_sha256": receipt["members"]["w18"]["configuration_sha256"],
+        "provenance_sha256": receipt["members"]["w18"]["provenance_sha256"],
+        "weights": "weights_w18.npz",
+        "weights_sha256": "e" * 64,
+        "input_width": 211,
+    }
+    root = tmp_path / "valid"
+    root.mkdir()
+    shutil.copyfile(
+        Path(__file__).parents[1] / "submission/solution_final_w18.py", root / "solution.py"
+    )
+    (root / "final_w18_receipt.json").write_bytes(receipt_bytes)
+    (root / "w18_fit_process_receipt.json").write_bytes(process_bytes)
+    native_libraries = {}
+    for level in ("v2", "avx2", "v3"):
+        path = root / level / "wnn_native.abi3.so"
+        path.parent.mkdir()
+        path.write_bytes(level.encode())
+        native_libraries[f"{level}/wnn_native.abi3.so"] = hashlib.sha256(
+            path.read_bytes()
+        ).hexdigest()
+    manifest = {
+        "schema": "wnn.final-w18-package-manifest.v1",
+        "candidate_scope": "approved_full_corpus_final_w18",
+        "training_and_selection_scope": "all official train and valid labels fit; no independent evaluation",
+        "independent_evaluation_sequences": 0,
+        "independent_score_claim": "forbidden",
+        "serving_policy": "w18_only",
+        "precision": "q8vnni",
+        "fast_activations": True,
+        "active_member_indices": [0],
+        "callback_output": {
+            "schema": "wnn.single-member-output.v1",
+            "role": "w18",
+            "weight": 1.0,
+            "clip": "official-global-clip-after-callback",
+        },
+        "final_model_receipt": {
+            "path": "final_w18_receipt.json",
+            "schema": W18_RECEIPT_SCHEMA,
+            "sha256": hashlib.sha256(receipt_bytes).hexdigest(),
+        },
+        "fit_process_receipt": {
+            "path": W18_FIT_PROCESS_RECEIPT,
+            "sha256": hashlib.sha256(process_bytes).hexdigest(),
+        },
+        "members": [member],
+        "native_libraries": native_libraries,
+    }
+    (root / "members.json").write_text(json.dumps(manifest), encoding="utf-8")
+    module_name = f"solution_final_w18_test_{root.name}"
+    spec = importlib.util.spec_from_file_location(module_name, root / "solution.py")
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    native_path = str(root / "v2")
+    native_stub = types.ModuleType("wnn_native")
+    monkeypatch.setenv("WNN_NATIVE_LEVEL", "v2")
+    monkeypatch.setitem(sys.modules, module_name, module)
+    monkeypatch.setitem(sys.modules, "wnn_native", native_stub)
+    monkeypatch.syspath_prepend(native_path)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_solution_accepts_package_run_reference_alias(monkeypatch, tmp_path: Path) -> None:
+    module = _load_solution_package(tmp_path, monkeypatch)
+    receipt_member = module._receipt["members"]["w18"]
+    assert module._member["run_reference"] == receipt_member["run"]
+    assert module._member_matches_receipt(module._member, receipt_member)
+
+
+@pytest.mark.parametrize(
+    "field",
+    ("run", "checkpoint_sha256", "configuration_sha256", "provenance_sha256"),
+)
+def test_solution_rejects_member_receipt_identity_mismatch(
+    field: str, monkeypatch, tmp_path: Path
+) -> None:
+    module = _load_solution_package(tmp_path, monkeypatch)
+    receipt_member = dict(module._receipt["members"]["w18"])
+    receipt_member[field] = "f" * 64 if field != "run" else "other-run"
+    assert not module._member_matches_receipt(module._member, receipt_member)
 
 
 def test_single_w18_receipt_accepts_exact_member_and_thirteen_run_closure() -> None:
