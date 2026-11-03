@@ -1,5 +1,17 @@
 # W18-only submission recovery
 
+## Delivered
+
+The actual W18-only ZIP passed all10 original Linux/Python3.11 serving gates.
+All7 primary release assets were re-downloaded and hash-verified on the node.
+The exact local ZIP also passes SHA256, CRC and all8 build-manifest member hashes.
+All18 fixed scientific fits are complete; no W18 training GPU PID remains.
+The final wrapper exited0 and removed its credential. Graphs and the recovery
+proof archive are also published. Human platform upload is next; no new
+independent/public score is claimed. The following running notes are historical.
+See the [final delivery report](../RESULTS_20261103_W18_DELIVERY_R1.md) and
+[ready release](https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr54-final-w18-20261103-r1).
+
 ## Current receiving status
 
 Latest CPU attempt isR3/worker180051. R2 built a5454538-byte ZIP and then the

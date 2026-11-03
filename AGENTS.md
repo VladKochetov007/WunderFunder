@@ -1,5 +1,21 @@
 # Project agent instructions
 
+## Latest3 November: FINAL W18 ZIP DELIVERED; no active recovery fit
+
+All18 scientific fits are complete. The W18-only ZIP passed all10 unchanged
+actual Linux/Python3.11 CPU/numeric/reset/causality/size gates and is published at
+https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr54-final-w18-20261103-r1.
+ZIP5454663bytes; SHA256932700e4e10721829641870f18198fca06ba3f9c5f06be5541d70bf38bf880f9.
+All7 primary release assets were re-downloaded and verified on the node; a local
+SSH-transferred exact ZIP also passed SHA/CRC/all8 member hashes. Graphs and
+engineering proof archive are uploaded. Final publication wrapper180051 exited0
+and removed its credential; GPU_RELEASE_CHECK confirms no current W18 training
+GPU PID. No new fitting/profile is authorized by these delivered-status notes.
+All12480 sequences fit: no independent validation/public score exists for these
+weights. This is one served W18 student, not the CPU-unadmitted full mixture.
+Human platform upload is next. See RESULTS_20261103_W18_DELIVERY_R1.md in the
+final-submit packet. All following running/failure notes are historical.
+
 ## Latest3 November: CPU publication R3 active after callback alias repair
 
 W18 and all18 final fits remain completed; never refit from this note.

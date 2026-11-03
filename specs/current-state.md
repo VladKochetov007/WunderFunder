@@ -1,4 +1,16 @@
-## 3 November: all18 fits complete; qualified CPU package recovery running
+## 3 November: verified W18 submission ZIP delivered
+
+All18 scientific fits are complete. The actual5454663-byte W18-only ZIP passed
+all10 original CPU/numeric/reset/causality/size gates, is published and was
+download-verified. Its exact local copy also passes SHA/CRC/all8 member hashes.
+SHA256932700e4e10721829641870f18198fca06ba3f9c5f06be5541d70bf38bf880f9.
+Projection on the checked one-CPU host is575.6seconds; no new independent/public
+score is claimed because all12480 train+valid members fit. The final wrapper
+exited0, cleaned its credential and left no owned W18 training GPU process.
+Graphs and failure/recovery evidence are published. Human platform upload remains.
+See [delivery report](../research/experiment_drafts/final-submit-all-labeled-20261031/RESULTS_20261103_W18_DELIVERY_R1.md).
+
+## Historical3 November: all18 fits complete; qualified CPU package recovery running
 
 W18 completed both epochs with15600/15600 updates and no nonfinite/skipped steps.
 Its fixed model_ep1.pt SHA is
