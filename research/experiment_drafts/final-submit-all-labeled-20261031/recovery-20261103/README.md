@@ -1,5 +1,32 @@
 # W18-only submission recovery
 
+## Current receiving status
+
+W18 completed successfully:15600/15600 updates, zero nonfinite-gradient steps,
+zero skipped updates,1560batches. Epoch training times were2240.3s and2209.9s;
+objective means0.6356465971 and0.6230432442. These are fitting diagnostics, not
+independent scores. The completed checkpoint model_ep1.pt is4043687bytes, SHA256
+70cfefcfeb14b5a5e1f2a181fc7ddf15330a24aaf32e7f324b122fb54327daf8.
+Combined with the preserved17 models, all18 fixed scientific fits are complete.
+
+The first package attempt failed before producing a ZIP: the generic lineage
+walker followed W18 initialization but omitted cached teacher roots. Its logs,
+failure state and credential-cleanup receipt remain in R/reports and R/receipts.
+The independently reviewed package-only repair re-audits each of six frozen
+teacher roots, matches the direct checkpoint SHA and complete recorded cache
+ancestry, merges the closures, and retains the exact13-role gate. The actual
+receiver accepted all13 roles. Fifteen focused CPU tests pass; the scientific
+source, checkpoints, cache, checker, solution, native libs and ceilings do not
+change. Qualified package SHA256:
+10b8a990d2c1f2236ec5c7e8772553c709e0864baf1785b722598118afdf5c73.
+
+CPU-only detached publication worker179102 uses the same hard deadline, a new
+0600 inode-owned credential and R/reports-publish-r2. Its launcher explicitly
+sets the separate R2 state path even for exceptions, preserving the failed R1.
+No fit/profile is relaunched. The first actual ready artifact retains the
+20261103-r1 release/asset names; R2 identifies the packaging engineering attempt.
+The following earlier live notes are historical until the final check completes.
+
 The user explicitly requests a finished submission after the17-model audit.
 Reusing all17 verified final checkpoints leaves exactly one scientific fit: the
 frozen W18 student,2epochs,15,600updates,seed5,fixed model_ep1.pt. Architecture,

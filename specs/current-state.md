@@ -1,4 +1,19 @@
-## 3 November: user-authorized W18-only submission recovery running
+## 3 November: all18 fits complete; qualified CPU package recovery running
+
+W18 completed both epochs with15600/15600 updates and no nonfinite/skipped steps.
+Its fixed model_ep1.pt SHA is
+70cfefcfeb14b5a5e1f2a181fc7ddf15330a24aaf32e7f324b122fb54327daf8.
+The first packager omitted cached teacher branches from generic ancestry walking;
+no ZIP was produced and its failed attempt is preserved. A package-only repair
+independently re-audits all six frozen cache teacher branches, matches cache
+closure/checkpoint identities, and preserves exact13-role and all numeric gates.
+Fifteen CPU tests, the actual13-role Linux re-audit and independent review pass.
+CPU-only worker179102 is now packaging/checking/publishing under the same deadline
+with separate R2 reports/state and inode-owned credential cleanup. No GPU fit
+or profile is repeated. See the recovery packet above; actual ZIP checks remain
+pending and no new independent/public score is claimed.
+
+## Historical3 November: W18-only submission recovery running
 
 The user explicitly requests the finished submission. The final-only cache reader
 was repaired after measuring694052metadata bytes against its512000-byte generic

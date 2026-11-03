@@ -1,5 +1,28 @@
 # Project agent instructions
 
+## Latest3 November: W18 fit complete; CPU-only publication repair
+
+All18 fixed final fits are now complete when combining their actual receipts.
+W18 finished exit0,15600/15600 updates,2epochs, zero nonfinite/skipped updates.
+model_ep1.pt SHA25670cfefcfeb14b5a5e1f2a181fc7ddf15330a24aaf32e7f324b122fb54327daf8
+(4043687bytes). No new fitting or profiling is needed or authorized by this note.
+The first publisher failed before creating a ZIP because the generic ancestry
+audit followed initializer links but omitted the six cache-teacher branches.
+Its logs/state/failure are preserved; its launcher removed its0600 credential.
+
+Qualified packager R/serving-w18-package-r4 independently re-audits those six
+teacher roots, requires exact cache-source checkpoint/closure matches, and keeps
+the exact13-role gate. Actual Linux re-audit passed13roles;15CPU tests and an
+independent review pass. Checker, serving solution, native libs and numeric
+ceilings are unchanged. R/control/publish_w18_r2.py qualifies only package hash,
+serving/report/token roots. A detached CPU-only publication worker179102 is now
+running via launch_publish_r2b.py, SHA4cbc3240034f99e84fee33501f6ceede277c049f16f9662efe1063aadbf4a98b.
+It uses the same original hard deadline and an explicit separate state file:
+R/reports-publish-r2/w18-publication-state-20261103-r2.json. Never overwrite R1.
+New credential publish-r2.token is0600 and inode-cleaned by the wrapper.
+Use persistent SSH session12250; F/R definitions below remain valid.
+Do not claim a ready ZIP before actual checker and download verification pass.
+
 ## W18 submission recovery authorized and running — 3 November2026
 
 The user now explicitly says to prepare the finished submission. This is fresh

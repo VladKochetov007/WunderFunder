@@ -107,19 +107,11 @@ _CACHE_FILES = {
 
 
 def _valid_sha256(value: object) -> bool:
-    return (
-        isinstance(value, str)
-        and len(value) == 64
-        and set(value) <= _SHA256
-    )
+    return isinstance(value, str) and len(value) == 64 and set(value) <= _SHA256
 
 
 def _fit_members_digest(groups: Mapping[str, list[int]]) -> str:
-    members = [
-        [source, group]
-        for source in ("train", "valid")
-        for group in groups[source]
-    ]
+    members = [[source, group] for source in ("train", "valid") for group in groups[source]]
     encoded = json.dumps(members, separators=(",", ":")).encode("ascii")
     return hashlib.sha256(encoded).hexdigest()
 
@@ -251,11 +243,7 @@ def _validate_final_fit_identity(value: object) -> dict[str, object]:
         or set(groups) != {"train", "valid"}
         or groups.get("train") != list(range(TRAIN_SEQUENCES))
         or groups.get("valid") != list(range(VALID_SEQUENCES))
-        or any(
-            type(group) is not int
-            for source in ("train", "valid")
-            for group in groups[source]
-        )
+        or any(type(group) is not int for source in ("train", "valid") for group in groups[source])
         or fit.get("fit_members_sha256") != _fit_members_digest(groups)
     ):
         raise ValueError("W18 receipt fit membership is not all 12,480 whole sequences")
@@ -391,12 +379,10 @@ def validate_final_w18_receipt(
     if (
         command_options.get("--name") != [W18_RUN]
         or command_options.get("--epochs") != [str(W18_ENDPOINT["configured_epochs"])]
-        or command_options.get("--checkpoint-epoch")
-        != [str(W18_ENDPOINT["checkpoint_epoch"])]
+        or command_options.get("--checkpoint-epoch") != [str(W18_ENDPOINT["checkpoint_epoch"])]
         or command_options.get("--train-source") != ["train+valid"]
         or command_options.get("--train-seqs") != [str(TRAIN_SEQUENCES)]
-        or command_options.get("--final-fit-source-validation-sha256")
-        != [SOURCE_VALIDATION_SHA256]
+        or command_options.get("--final-fit-source-validation-sha256") != [SOURCE_VALIDATION_SHA256]
         or command_args.count("--include-heldout-valid") != 1
         or command_args.count("--no-eval-during-fit") != 1
     ):
@@ -442,9 +428,7 @@ def validate_final_w18_receipt(
         "checkpoint_file",
         "checkpoint_sha256",
     }
-    for item, (run, family, coefficient, epoch) in zip(
-        recipe, FINAL_W18_TEACHERS, strict=True
-    ):
+    for item, (run, family, coefficient, epoch) in zip(recipe, FINAL_W18_TEACHERS, strict=True):
         closure_record = closure_by_run[run]
         if (
             not isinstance(item, Mapping)
@@ -505,8 +489,43 @@ def _unique_lineage_records(
     if tuple(sorted(unique)) != _LINEAGE_RUNS:
         missing = sorted(set(_LINEAGE_RUNS) - set(unique))
         extra = sorted(set(unique) - set(_LINEAGE_RUNS))
-        raise ValueError(f"W18 closure must contain the exact 13 roles; missing={missing}, extra={extra}")
+        raise ValueError(
+            f"W18 closure must contain the exact 13 roles; missing={missing}, extra={extra}"
+        )
     return [unique[run] for run in _LINEAGE_RUNS]
+
+
+def _audit_w18_lineage_closure(
+    *,
+    membership: FinalFitMembership,
+    data_root: Path,
+    cache_sources: list[object],
+) -> list[dict[str, object]]:
+    """Join the student lineage to each independently re-audited cache-teacher branch."""
+    source_by_run = {
+        source.get("run"): source for source in cache_sources if isinstance(source, Mapping)
+    }
+    teacher_runs = {run for run, _, _, _ in FINAL_W18_TEACHERS}
+    if len(source_by_run) != len(cache_sources) or set(source_by_run) != teacher_runs:
+        raise ValueError("W18 cache sources differ from the six frozen lineage roots")
+
+    raw_closure = audit_final_fit_ancestor_closure(W18_RUN, "model_ep1.pt", membership, data_root)
+    for run, _, _, _ in FINAL_W18_TEACHERS:
+        source = source_by_run[run]
+        checkpoint_file = _LINEAGE_CHECKPOINTS[run]
+        teacher_closure = audit_final_fit_ancestor_closure(
+            run, checkpoint_file, membership, data_root
+        )
+        if (
+            not teacher_closure
+            or source.get("checkpoint_sha256") != teacher_closure[0].get("checkpoint_sha256")
+            or source.get("ancestor_closure") != teacher_closure
+        ):
+            raise ValueError(
+                f"W18 cache source closure differs from re-audited fit ancestry: {run}"
+            )
+        raw_closure.extend(teacher_closure)
+    return _unique_lineage_records(raw_closure, membership)
 
 
 def _validate_checkpoint_cache_provenance(
@@ -540,10 +559,9 @@ def _validate_checkpoint_cache_provenance(
         or checkpoint_cache.get("main_target_scale_applied_before_training_clip") is not True
     ):
         raise ValueError("final W18 checkpoint teacher-cache recipe differs from the frozen plan")
-    if (
-        checkpoint_cache.get("metadata_sha256") != cache_result.get("metadata_sha256")
-        or checkpoint_cache.get("verified_files") != cache_result.get("verified_files")
-    ):
+    if checkpoint_cache.get("metadata_sha256") != cache_result.get(
+        "metadata_sha256"
+    ) or checkpoint_cache.get("verified_files") != cache_result.get("verified_files"):
         raise ValueError("final W18 checkpoint was fitted from different teacher-cache bytes")
 
     for field in (
@@ -554,9 +572,7 @@ def _validate_checkpoint_cache_provenance(
         "epoch_convention",
     ):
         if checkpoint_cache.get(field) != metadata.get(field):
-            raise ValueError(
-                f"final W18 checkpoint teacher-cache provenance differs for {field}"
-            )
+            raise ValueError(f"final W18 checkpoint teacher-cache provenance differs for {field}")
 
 
 def _build_final_w18_receipt(
@@ -609,10 +625,11 @@ def _build_final_w18_receipt(
     if len(source_by_run) != len(cache_sources):
         raise ValueError("final W18 teacher cache source runs are duplicated or malformed")
 
-    raw_closure = audit_final_fit_ancestor_closure(
-        W18_RUN, "model_ep1.pt", membership, data_root
+    lineage_records = _audit_w18_lineage_closure(
+        membership=membership,
+        data_root=data_root,
+        cache_sources=cache_sources,
     )
-    lineage_records = _unique_lineage_records(raw_closure, membership)
     lineage_by_run = {record["run"]: record for record in lineage_records}
     teacher_recipe: list[dict[str, object]] = []
     for run, family, coefficient, epoch in FINAL_W18_TEACHERS:
@@ -669,12 +686,8 @@ def _resolve_inputs(
     membership_path = args.membership.resolve(strict=True)
     source_audit_path = args.source_audit.resolve(strict=True)
     plan_path = args.plan.resolve(strict=True)
-    membership = load_final_fit_membership(
-        membership_path, data_root, SOURCE_VALIDATION_SHA256
-    )
-    validate_source_validation_receipt(
-        source_audit_path, SOURCE_VALIDATION_SHA256, membership
-    )
+    membership = load_final_fit_membership(membership_path, data_root, SOURCE_VALIDATION_SHA256)
+    validate_source_validation_receipt(source_audit_path, SOURCE_VALIDATION_SHA256, membership)
     plan = chain_contract.read_json(plan_path, 2_000_000)
     plan_nodes = chain_contract.verify_plan(plan, plan_path)
     if plan.get("plan_sha256") != W18_PLAN_SHA256:
@@ -716,12 +729,15 @@ def _write_package(args: argparse.Namespace) -> dict[str, object]:
         raise ValueError(f"max zip bytes must lie in 1..{MAX_ZIP_BYTES}")
     output = args.output_zip.resolve()
     model_receipt_path = args.model_receipt.resolve()
-    build_receipt_path = (args.build_receipt or output.with_name(
-        f"{output.stem}_build_receipt.json"
-    )).resolve()
+    build_receipt_path = (
+        args.build_receipt or output.with_name(f"{output.stem}_build_receipt.json")
+    ).resolve()
     if len({output, model_receipt_path, build_receipt_path}) != 3:
         raise ValueError("W18 ZIP, model receipt and build receipt paths must be distinct")
-    if any(path.exists() or path.is_symlink() for path in (output, model_receipt_path, build_receipt_path)):
+    if any(
+        path.exists() or path.is_symlink()
+        for path in (output, model_receipt_path, build_receipt_path)
+    ):
         raise FileExistsError("W18 package outputs are create-only")
 
     membership, expected_args, planned_args = _resolve_inputs(args)
@@ -771,8 +787,7 @@ def _write_package(args: argparse.Namespace) -> dict[str, object]:
 
     native_root = args.native_from.resolve(strict=True)
     native_paths = {
-        level: native_root / level / "wnn_native.abi3.so"
-        for level in ("v2", "avx2", "v3")
+        level: native_root / level / "wnn_native.abi3.so" for level in ("v2", "avx2", "v3")
     }
     for path in native_paths.values():
         if path.is_symlink() or not path.is_file():

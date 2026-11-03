@@ -10,6 +10,7 @@ from pathlib import Path
 
 import pytest
 
+from scripts import package_final_w18 as w18_package
 from scripts.package_final_w18 import (
     _LINEAGE_CHECKPOINTS,
     FINAL_FIT_POLICY,
@@ -24,6 +25,7 @@ from scripts.package_final_w18 import (
     W18_PLAN_SHA256,
     W18_RECEIPT_SCHEMA,
     W18_RUN,
+    _audit_w18_lineage_closure,
     _fit_members_digest,
     _load_fit_process_receipt,
     _validate_checkpoint_cache_provenance,
@@ -60,7 +62,9 @@ def _receipt() -> dict[str, object]:
             "final_fit_members_sha256": fit_members_sha,
             "source_validation_sha256": SOURCE_VALIDATION_SHA256,
         }
-        for index, (run, checkpoint_file) in enumerate(sorted(_LINEAGE_CHECKPOINTS.items()), start=1)
+        for index, (run, checkpoint_file) in enumerate(
+            sorted(_LINEAGE_CHECKPOINTS.items()), start=1
+        )
     ]
     lineage_by_run = {record["run"]: record for record in lineage}
     w18_checkpoint_sha = lineage_by_run[W18_RUN]["checkpoint_sha256"]
@@ -168,16 +172,89 @@ def test_single_w18_receipt_accepts_exact_member_and_thirteen_run_closure() -> N
     assert len(receipt["lineage_closure"]["roles"]) == 13
 
 
+def test_lineage_closure_includes_reaudited_cached_teacher_branches(monkeypatch) -> None:
+    identity = {
+        "final_fit_manifest_sha256": "a" * 64,
+        "final_fit_members_sha256": "b" * 64,
+        "source_validation_sha256": SOURCE_VALIDATION_SHA256,
+    }
+
+    def record(run: str) -> dict[str, str]:
+        return {
+            "run": run,
+            "checkpoint_file": _LINEAGE_CHECKPOINTS[run],
+            "checkpoint_sha256": hashlib.sha256(run.encode()).hexdigest(),
+            **identity,
+        }
+
+    closures = {
+        W18_RUN: [record(W18_RUN), record("tl3final_fin256_s3"), record("tl3final_fin256_s4")],
+        "tl3final_fbc1k_s5": [record("tl3final_fbc1k_s5")],
+        "tl3final_ffull_s3": [
+            record("tl3final_ffull_s3"),
+            record("tl3final_fmu128_s3"),
+            record("tl3final_fin256_s3"),
+        ],
+        "tl3final_ffull_s4": [
+            record("tl3final_ffull_s4"),
+            record("tl3final_fmu128_s4"),
+            record("tl3final_fin256_s4"),
+        ],
+        "tl3final_frawW_s3ft": [
+            record("tl3final_frawW_s3ft"),
+            record("tl3final_frawW_s3"),
+            record("tl3final_fin256_s3"),
+        ],
+        "tl3final_frawW_s4ft": [
+            record("tl3final_frawW_s4ft"),
+            record("tl3final_frawW_s4"),
+            record("tl3final_fin256_s4"),
+        ],
+        "tl3final_orgbase": [record("tl3final_orgbase")],
+    }
+
+    def audit(run, checkpoint_file, membership, data_root):
+        assert checkpoint_file == _LINEAGE_CHECKPOINTS[run]
+        return closures[run]
+
+    monkeypatch.setattr(w18_package, "audit_final_fit_ancestor_closure", audit)
+    membership = type(
+        "Membership",
+        (),
+        {
+            "manifest_sha256": identity["final_fit_manifest_sha256"],
+            "fit_members_sha256": identity["final_fit_members_sha256"],
+            "source_validation_sha256": identity["source_validation_sha256"],
+        },
+    )()
+    sources = [
+        {
+            "run": run,
+            "checkpoint_sha256": closures[run][0]["checkpoint_sha256"],
+            "ancestor_closure": closures[run],
+        }
+        for run, _, _, _ in FINAL_W18_TEACHERS
+    ]
+
+    result = _audit_w18_lineage_closure(
+        membership=membership, data_root=Path("/unused"), cache_sources=sources
+    )
+    assert {item["run"] for item in result} == set(_LINEAGE_CHECKPOINTS)
+    assert len(result) == 13
+
+    sources[1]["ancestor_closure"] = [record("tl3final_ffull_s3")]
+    with pytest.raises(ValueError, match="cache source closure differs"):
+        _audit_w18_lineage_closure(
+            membership=membership, data_root=Path("/unused"), cache_sources=sources
+        )
+
+
 @pytest.mark.parametrize(
     "mutation",
     [
         lambda receipt: receipt.update(schema="wnn.final-model-set-receipt.v1"),
-        lambda receipt: receipt["members"].update(
-            tiedlead_s5={"run": "tl3final_fttall_tlead_s5"}
-        ),
-        lambda receipt: receipt["members"].update(
-            source4_lstm={"run": "final-lstm192x1"}
-        ),
+        lambda receipt: receipt["members"].update(tiedlead_s5={"run": "tl3final_fttall_tlead_s5"}),
+        lambda receipt: receipt["members"].update(source4_lstm={"run": "final-lstm192x1"}),
     ],
 )
 def test_full_mixture_or_inactive_member_receipt_is_rejected(mutation) -> None:
@@ -317,4 +394,3 @@ def test_checkpoint_cache_provenance_joins_exact_validated_cache(tmp_path: Path)
                 cache_root=cache_root,
                 cache_result=cache_result,
             )
-
