@@ -6,7 +6,7 @@ The user explicitly authorizes generating hypotheses and executing on the entire
 existing8xL4 cluster. This is fresh research authority; no old stopped fit resumes.
 Use research/experiment_drafts/w18-l4-quality-20261104/CONTRACT_R1.json. Root owns
 the budget/admission. First allocation is4configurations x2matched seeds =8fits;
-scientific recipes/endpoints must freeze before outcomes. One persistent SSH31936
+scientific recipes/endpoints must freeze before outcomes. Persistent SSH89449 (one controlled transport recovery after the interactive file transfer stalled)
 to lc-epanov_s@10.61.10.209 is live; only ROOT may use it, no reconnect loop.
 All8 L4 are idle;GPU4 has1148MiB unrelated service allocations that must remain.
 Data2 has12.9GB free. Reuse exact existing inputs/caches; new output cap8GB and
