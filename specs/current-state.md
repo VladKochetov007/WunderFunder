@@ -1,4 +1,18 @@
-## 4 November: W18 submitted to Connectome; SCORE running
+## 4 November: four objective/clipping fits running on L4
+
+Fresh user-authorized research is in
+[PR62](https://github.com/VladKochetov007/WunderFunder/pull/62) and its
+[execution packet](../research/experiment_drafts/l4-objective-20261104/EXECUTION_20261104_R1.md).
+Four actual profiles passed; four strictFP32 GRU256x2 fits compare clip5 against
+late auxiliary annealing, two matched seeds each, fixed4E/ep3. Their source
+11b8de361 remains immutable. A detached controller and real dashboard/resource
+monitor run under the3h receiving authority, including45min collection.
+No teacher/student improvement is claimed before complete fixed-endpoint
+evaluation. The old two Transformer teachers continue. Old R3 continuation
+failed at reference sidecar filename grading after two students completed;
+separate R4 recovery preserves their weights and avoids refitting.
+
+## Earlier4 November: W18 submitted to Connectome; SCORE running
 
 User-authorized platform upload completed once as Simon/team kotiki. Displayed
 ID1H7KP30Q, file tabdata-w18-final-20261103-r1.zip,13:09MSK. The exact5454663-byte

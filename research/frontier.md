@@ -1,5 +1,17 @@
 # Active frontier
 
+Current4 November: the user authorizes improving the served W18 endpoint on
+the existing eight L4. [PR62 objective follow-up](experiment_drafts/l4-objective-20261104/README.md)
+has four fresh GRU256x2 fits after four finite FP32 profiles: paired clip5 and
+late auxiliary anneal, fixed4E/ep3. Reuse PR61 teacher and PR60 student controls;
+at most two students require the frozen teacher gain gate. Official train-only
+ancestry/full official valid remain primary; valid is exposed. The failed
+no-update diagnostic provided no gradient evidence. No gain is claimed yet.
+PR61's two Transformer teachers remain running; its two completed wide-teacher
+students are being canonically graded through a separate recovery of the
+reference-sidecar filename check, without refitting. Older allocations below
+are historical and do not override the live receiving authorities.
+
 Current instruction,2026-10-31: prepare the [full-corpus final submission](experiment_drafts/final-submit-all-labeled-20261031/README.md)
 under [ADR0045](../specs/adr/0045-submission-only-all-labeled-final-fit.md).
 Reuse the fixed TL3+LSTM architecture; no broad new search. Audit all12480

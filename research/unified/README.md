@@ -1,5 +1,15 @@
 # Unified research library
 
+## 4 November: objective/clipping comparison on existing L4
+
+[PR62 execution](../experiment_drafts/l4-objective-20261104/EXECUTION_20261104_R1.md)
+records four finite actual profiles and four fresh paired GRU256x2 fits,
+comparing clip5 and late auxiliary annealing against reused controls. The
+diagnostic mask failure is retained without a scientific conclusion; the
+predeclared prior fallback chose the second arm. All sources, official
+train/valid membership, fixed checkpoints and conditional student spending
+rules are frozen. No new quality/public/serving result is established yet.
+
 ## 31 October: submission-only full-corpus preparation
 
 [Final TL3 + LSTM packet](../experiment_drafts/final-submit-all-labeled-20261031/README.md)

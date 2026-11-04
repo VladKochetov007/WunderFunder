@@ -17,6 +17,7 @@ sys.path[:0] = [str(ROOT), str(ROOT / "src")]
 from scripts.l4_teacher_capacity_20261104 import continue_students as cs  # noqa: E402
 from scripts.l4_teacher_capacity_20261104.recover_students import (  # noqa: E402
     _expected_stage2_receipt,
+    _stage2_args,
     _validate_teacher_admission,
     _wait_cache_review,
     finalize_target_compact,
@@ -31,7 +32,9 @@ RELEASE_SCHEMA = "wnn.root-gpu-release.v1"
 CONTROLLER_ID = "student_continuation_recovery_r4_controller"
 FINALIZER_ID = "causal_transformer_stage2_compact_finalize_r4"
 FINALIZER_CPU = list(range(32, 40))
-DISK_RESERVE = 6_500_000_000
+INIT_RESERVE = 6_500_000_000
+EXPORT_RESERVE = 5_300_000_000
+FINALIZE_RESERVE = 3_600_000_000
 
 
 def _read(path: Path) -> dict[str, Any]:
@@ -184,11 +187,11 @@ def _gpu2_release(path: Path, admission: dict, deadline: int) -> dict:
     return {"path": str(path.resolve()), "sha256": file_sha256(path), **release}
 
 
-def _wait_disk(panel: dict, deadline: int) -> None:
+def _wait_disk(panel: dict, deadline: int, required_free: int) -> None:
     mount = Path(panel["paths"]["disk_mount"])
-    while shutil.disk_usage(mount).free < DISK_RESERVE:
+    while shutil.disk_usage(mount).free < required_free:
         if cs._remaining(deadline) < 30:
-            raise TimeoutError("data2 free space remained below the 6.5 GB TF target reserve")
+            raise TimeoutError(f"data2 free space remained below the {required_free}-byte phase reserve")
         time.sleep(10)
 
 
@@ -240,7 +243,7 @@ def _run_finalizer(
         "--controller-receipt", str(controller_path.resolve()), "--worker-receipt", str(receipt_path.resolve()),
         "--gpu2-release-receipt", str(release_path.resolve())]
     cell.update({"family": "causal_transformer", "cpu_affinity": FINALIZER_CPU, "cpu_threads": 8})
-    _wait_disk(panel, deadline)
+    _wait_disk(panel, deadline, FINALIZE_RESERVE)
     receipt = cs._run_owned(
         panel, panel_hash, cell, "stage2", command, deadline,
         output_dir=Path(panel["families"]["causal_transformer"]["target_cache"]),
@@ -257,7 +260,7 @@ def _run_finalizer(
     adds = []
     for index, action, run in [(1, "init", None), *[(i, "add", run) for i, run in enumerate(cs.EXPECTED_RUNS["causal_transformer"], 2)]]:
         _, path, _ = _expected_stage2_receipt(panel, panel_hash, "causal_transformer", index,
-            cs._stage2_args(panel, "causal_transformer", action, run), status="completed", exit_code=0)
+            _stage2_args(panel, "causal_transformer", action, run), status="completed", exit_code=0)
         adds.append({"path": str(path.resolve()), "sha256": file_sha256(path)})
     summary = {"schema": "wnn.l4-teacher-stage2-metadata-recovery-r4.v1", "status": "compact_finalized_and_promoted",
         "family": "causal_transformer", "continuation_panel_sha256": panel_hash,
@@ -346,17 +349,17 @@ def _run(args: argparse.Namespace) -> dict[str, Any]:
         family = "causal_transformer"
         rows = cs._wait_teachers(panel, family, deadline)
         _validate_teacher_admission(panel, family, rows)
-        _wait_disk(panel, deadline)
+        _wait_disk(panel, deadline, INIT_RESERVE)
         _gpu2_release(Path(args.gpu2_release_receipt), admission, deadline)
         output = Path(panel["families"][family]["target_cache"])
         if output.exists() or output.is_symlink() or cs.partial_root(output).exists():
             raise FileExistsError("TF target already has output/partial; preserve and stop")
-        cs._run_stage2(panel, panel_hash, family, cs._stage2_args(panel, family, "init"), deadline, 1)
+        cs._run_stage2(panel, panel_hash, family, _stage2_args(panel, family, "init"), deadline, 1)
         for index, row in enumerate(rows, start=2):
-            _wait_disk(panel, deadline)
+            _wait_disk(panel, deadline, EXPORT_RESERVE)
             _gpu2_release(Path(args.gpu2_release_receipt), admission, deadline)
             export = cs._teacher_export(panel, panel_hash, family, row, deadline, index)
-            stage_args = cs._stage2_args(panel, family, "add", row["run"])
+            stage_args = _stage2_args(panel, family, "add", row["run"])
             stage_args.extend(["--sequence-export", str(export), "--teacher-panel", str(row["teacher_panel"])])
             cs._run_stage2(panel, panel_hash, family, stage_args, deadline, index)
         phase = "tf_compact_finalize_and_review"
