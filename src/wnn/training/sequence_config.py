@@ -60,6 +60,20 @@ MODEL_DEFAULTS: dict[str, Any] = {
 }
 
 
+def _validate_input_feature_mode(model: dict[str, Any]) -> str:
+    """Keep expanded inputs limited to the existing causal GRU and Transformer adapters."""
+    mode = model.get("input_feature_mode", "raw112")
+    if mode not in ("raw112", "event211"):
+        raise ValueError("model.input_feature_mode must be raw112 or event211")
+    if mode == "event211":
+        architecture = model["architecture"]
+        if architecture == "gru" and (model["hidden"], model["layers"]) != (256, 2):
+            raise ValueError("event211 is scoped to the standalone GRU256x2 launch")
+        if architecture not in ("gru", "transformer"):
+            raise ValueError("event211 inputs are supported only by GRU and Transformer adapters")
+    return str(mode)
+
+
 def load_config(path: Path) -> dict[str, Any]:
     """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
@@ -188,13 +202,7 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("hint_dim must be a nonnegative integer")
     if model["architecture"] not in ("transformer", "gru", "lstm", "galam"):
         raise ValueError("architecture must be transformer, gru, lstm, or galam")
-    input_feature_mode = model.get("input_feature_mode", "raw112")
-    if input_feature_mode not in ("raw112", "event211"):
-        raise ValueError("model.input_feature_mode must be raw112 or event211")
-    if input_feature_mode == "event211" and model["architecture"] != "gru":
-        raise ValueError("event211 inputs are supported only by the standalone GRU adapter")
-    if input_feature_mode == "event211" and (model["hidden"], model["layers"]) != (256, 2):
-        raise ValueError("event211 is scoped to the standalone GRU256x2 launch")
+    input_feature_mode = _validate_input_feature_mode(model)
     if model["attention_backend"] not in ("math", "efficient", "flex"):
         raise ValueError("model.attention_backend must be math, efficient, or flex")
     if model["architecture"] in ("gru", "lstm") and model["attention_backend"] != "math":

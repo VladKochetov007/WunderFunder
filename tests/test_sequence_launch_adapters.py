@@ -267,8 +267,26 @@ def test_sequence_config_accepts_only_declared_launch_adapters(tmp_path: Path) -
         "model": {"architecture": "transformer", "input_feature_mode": EVENT_INPUT_MODE}
     }
     transformer.pop("monitoring")
-    with pytest.raises(ValueError, match="only by the standalone GRU adapter"):
-        _write_recipe(tmp_path / "event-transformer.json", transformer)
+    transformer_config = _write_recipe(tmp_path / "event-transformer.json", transformer)
+    assert transformer_config["model"]["input_feature_mode"] == EVENT_INPUT_MODE
+
+    unsupported_lstm = transformer | {
+        "model": {"architecture": "lstm", "input_feature_mode": EVENT_INPUT_MODE}
+    }
+    with pytest.raises(ValueError, match="only by GRU and Transformer adapters"):
+        _write_recipe(tmp_path / "lstm-event211.json", unsupported_lstm)
+
+    unsupported_gru_width = recipe | {
+        "model": event_model | {"hidden": 128, "input_feature_mode": EVENT_INPUT_MODE}
+    }
+    with pytest.raises(ValueError, match="scoped to the standalone GRU256x2 launch"):
+        _write_recipe(tmp_path / "gru128-event211.json", unsupported_gru_width)
+
+    unsupported_input = transformer | {
+        "model": {"architecture": "transformer", "input_feature_mode": "event212"}
+    }
+    with pytest.raises(ValueError, match="model.input_feature_mode must be raw112 or event211"):
+        _write_recipe(tmp_path / "transformer-event212.json", unsupported_input)
 
     full_galam = asdict(connectome_112_to_2_config()) | {"variant": "schematic_lstm_full"}
     galam_recipe = {

@@ -25,8 +25,6 @@ from wnn.training.sequence_precision import (
     configure_precision_mode,
 )
 
-RAW_INPUT_WIDTH = sequence_input_width(RAW_INPUT_MODE)
-
 
 class _TransformerSequenceAdapter(nn.Module):
     """Causal RoPE Transformer; receptive field spans up to 1 + layers * (context_rows - 1)."""
@@ -44,6 +42,7 @@ class _TransformerSequenceAdapter(nn.Module):
         hint_mode: str,
         precision_mode: str,
         attention_backend: str,
+        input_feature_mode: str,
     ) -> None:
         super().__init__()
         self.hidden = hidden
@@ -54,9 +53,11 @@ class _TransformerSequenceAdapter(nn.Module):
         self.checkpoint_blocks = checkpoint_blocks
         self.precision_mode = precision_mode
         self.attention_backend = attention_backend
-        self.register_buffer("mean", torch.zeros(RAW_INPUT_WIDTH, dtype=torch.float32))
-        self.register_buffer("std", torch.ones(RAW_INPUT_WIDTH, dtype=torch.float32))
-        self.input_projection = nn.Linear(RAW_INPUT_WIDTH, hidden)
+        input_width = sequence_input_width(input_feature_mode)
+        self.input_feature_mode = input_feature_mode
+        self.register_buffer("mean", torch.zeros(input_width, dtype=torch.float32))
+        self.register_buffer("std", torch.ones(input_width, dtype=torch.float32))
+        self.input_projection = nn.Linear(input_width, hidden)
         self.blocks = nn.ModuleList(
             CausalTransformerBlock(hidden, heads, ff_width, dropout, attention_backend)
             for _ in range(layers)
@@ -102,7 +103,7 @@ class _TransformerSequenceAdapter(nn.Module):
         state: TransformerState | None = None,
     ) -> tuple[Tensor, Tensor, TransformerState]:
         """Predict each raw row using only current and bounded past sequence rows."""
-        validate_sequence_input_shape(values)
+        validate_sequence_input_shape(values, self.mean.numel())
         validate_sequence_fp32_environment(self, values, self.precision_mode)
         previous = self._state_for_batch(values, state)
         position = previous.next_position
@@ -190,7 +191,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     input_feature_mode = config.get("input_feature_mode", RAW_INPUT_MODE)
     if not isinstance(input_feature_mode, str):
         raise TypeError("model input_feature_mode must be a string")
-    input_width = sequence_input_width(input_feature_mode)
+    sequence_input_width(input_feature_mode)
     if architecture == "galam":
         if input_feature_mode != RAW_INPUT_MODE:
             raise ValueError("GALAM sequence adapters accept only raw112 inputs")
@@ -248,8 +249,6 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         if compile_blocks or attention_backend != "math" or input_feature_mode != RAW_INPUT_MODE:
             raise ValueError("LSTM supports raw112 inputs without Transformer-only options")
         return LSTMSequenceAdapter(hidden, layers, dropout, hint_dim, hint_mode, precision_mode)
-    if input_width != RAW_INPUT_WIDTH:
-        raise ValueError("Transformer sequence adapters accept only raw112 inputs")
     if hidden % heads != 0 or (hidden // heads) % 2 != 0:
         raise ValueError("Transformer hidden width must divide evenly into even rotary head widths")
     ff_width = int(hidden * ff_multiplier)
@@ -267,6 +266,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         hint_mode,
         precision_mode,
         attention_backend,
+        input_feature_mode,
     )
     compile_transformer_blocks(model.blocks, enabled=compile_blocks)
     return model
