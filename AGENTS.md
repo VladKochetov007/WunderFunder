@@ -1,5 +1,19 @@
 # Project agent instructions
 
+## Latest4 November: fresh12-fit L4 teacher/student cycle authorized
+
+User accepts the proposed8teacher+4student cycle and instructs execution.
+Use research/experiment_drafts/l4-teacher-capacity-20261104/CONTRACT_R1.json.
+ROOT owns one recovered persistent SSH83229; agents do noSSH/GPU/fits.
+Runtime /data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1.
+Eight L4 idle except1148MiB foreign services onGPU4; data2 free10.17GB.
+No unrelated deletion, no rentals. StrictFP32, officialtrain-only10325 ->
+fullvalid1873/3528273 scoredrows; exposeddevelopment. Three bounded
+independent actors/reviewers required by conduct-creative-research; model
+policyLuna/max. Start ready audited GRUs while Transformer adapter finishes.
+Reuse components and fix prior operational bugs; no new controller framework.
+Old stopped/completed fits stay unchanged; this is fresh scoped authority.
+
 ## Latest4 November: W18 L4 screen completed; no active GPU work
 
 All8 scientific fits and fixed-epoch1 exports completed. Canonical full-valid
