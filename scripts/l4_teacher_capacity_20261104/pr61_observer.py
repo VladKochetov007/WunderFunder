@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
 import struct
@@ -14,7 +15,9 @@ import zipfile
 from pathlib import Path
 from typing import Any  # JSON receipts have heterogeneous producer-defined fields.
 
-SOURCE_ROOT = Path(__file__).resolve().parents[2]
+SOURCE_ROOT = Path(
+    os.environ.get("WNN_OBSERVER_SOURCE_ROOT", Path(__file__).resolve().parents[2])
+).resolve()
 sys.path.insert(0, str(SOURCE_ROOT))
 
 from scripts import w18_l4_quality_finalize_20261104 as publisher  # noqa: E402
@@ -29,6 +32,7 @@ EXPECTED_FITS = 12
 EXPECTED_FIT_GROUPS = 10_325
 EXPECTED_VALID_SEQUENCES = 1_873
 EXPECTED_VALID_ROWS = 3_528_273
+COMMON_IDENTITY_KEYS = ("data_binding_sha256", "split_sha256", "fit_members_sha256")
 
 
 def _read(path: Path) -> dict[str, Any] | None:
@@ -86,6 +90,13 @@ def _verify_api_scope(client: publisher.GitHub) -> str:
     ):
         raise publisher.FinalizeError("live pull request is outside the frozen PR61 scope")
     return sha.lower()
+
+
+def _require_shared_identity(expected: dict[str, Any], actual: dict[str, Any], label: str) -> None:
+    """Require shared data/split membership while preserving each source binding."""
+    for key in COMMON_IDENTITY_KEYS:
+        if expected.get(key) != actual.get(key):
+            raise ValueError(f"{label} differs on shared identity {key}")
 
 
 def _phase_receipt(panel: dict[str, Any], cell: dict[str, Any], phase: str) -> Path:
@@ -310,11 +321,9 @@ def _snapshot(gru: dict[str, Any], tf: dict[str, Any], continuation_path: Path) 
             or Path(str(continuation.get("paths", {}).get("runtime_root", ""))) != runtime
         ):
             raise ValueError("continuation panel is outside the frozen PR61 runtime")
-        for identity_key in ("source_binding_sha256", "data_binding_sha256", "split_sha256"):
-            if continuation.get("identity", {}).get(identity_key) != gru.get("identity", {}).get(
-                identity_key
-            ):
-                raise ValueError(f"continuation panel identity differs on {identity_key}")
+        _require_shared_identity(
+            gru.get("identity", {}), continuation.get("identity", {}), "continuation panel"
+        )
     state = _read(runtime / "GRU_STATE_R1.json")
     if state is None or not isinstance(state.get("hard_deadline_epoch"), (int, float)):
         raise ValueError("shared GRU_STATE_R1 hard deadline is absent or malformed")
@@ -387,6 +396,13 @@ def _snapshot(gru: dict[str, Any], tf: dict[str, Any], continuation_path: Path) 
         "grades": grades,
         "continuation_status": continuation.get("status") if continuation else "pending_panel",
         "continuation_panel_path": str(continuation_path),
+        "source_bindings": {
+            "wide_gru_teacher": gru.get("identity", {}).get("source_binding_sha256"),
+            "causal_transformer_teacher": tf.get("identity", {}).get("source_binding_sha256"),
+            "student_continuation": continuation.get("identity", {}).get("source_binding_sha256")
+            if continuation
+            else None,
+        },
     }
 
 
@@ -398,6 +414,8 @@ def _status_text(snapshot: dict[str, Any], event: str, release: dict[str, Any] |
         f"Engineering profiles: **{snapshot['profile_completed']}/{snapshot['profile_count']} completed** (receipt inventory).",
         f"Scientific fits: **{snapshot['fit_completed']}/{EXPECTED_FITS} completed**, {snapshot['fit_terminal']}/{snapshot['fit_count']} terminal.",
         f"Student continuation: `{snapshot['continuation_status']}`.",
+        "Source bindings (family-specific): "
+        + "; ".join(f"`{name}` `{value}`" for name, value in snapshot["source_bindings"].items()),
         "",
         "| Family / run | Status | Phase | Epoch validation WP / WMSE | Grad norm | Clip |",
         "|---|---|---|---|---|---|",
@@ -530,6 +548,7 @@ def _validate_grade_gate(
         teacher_review_path = Path(str(binding["teacher_admission_receipt"]))
         teacher_review = _read(teacher_review_path)
         teacher_panel_path = Path(str(binding["teacher_panel"]))
+        teacher_panel = _read(teacher_panel_path)
         if (
             cache_review is None
             or not str(cache_review.get("status", "")).startswith("approved")
@@ -549,8 +568,18 @@ def _validate_grade_gate(
             or grade_value.get("teacher_admission_receipt_sha256")
             != binding.get("teacher_admission_receipt_sha256")
             or _sha(teacher_panel_path) != binding.get("teacher_panel_sha256")
+            or teacher_panel is None
+            or teacher_panel.get("schema")
+            != (
+                "wnn.l4-teacher-capacity-gru.v1"
+                if family == "wide_gru"
+                else "wnn.l4-teacher-capacity-transformer-panel.v1"
+            )
         ):
             return None
+        _require_shared_identity(
+            identity, teacher_panel.get("identity", {}), f"{family} teacher panel"
+        )
         target_contract = grade_value.get("target_contract")
         target_metadata_value = _read(cache_metadata) or {}
         positions = (
@@ -578,6 +607,8 @@ def _validate_grade_gate(
             or not isinstance(target_contract.get("teachers"), list)
             or len(target_contract["teachers"]) != 4
             or target_contract.get("teacher_runs_equal_weight") != list(binding["fit_receipts"])
+            or grade_value.get("target_teacher_records") != target_contract.get("teachers")
+            or target_contract != target_metadata_value.get("target_contract")
         ):
             return None
         family_results = complete.get("families", [])
@@ -756,9 +787,7 @@ def observe(
         raise ValueError(
             "observer panel cell inventory differs from the frozen 6-GRU/2-TF teacher set"
         )
-    for identity_key in ("source_binding_sha256", "data_binding_sha256", "split_sha256"):
-        if gru.get("identity", {}).get(identity_key) != tf.get("identity", {}).get(identity_key):
-            raise ValueError(f"teacher panels disagree on {identity_key}")
+    _require_shared_identity(gru.get("identity", {}), tf.get("identity", {}), "teacher panels")
     runtime = Path(str(gru["paths"]["runtime_root"]))
     if Path(str(tf["paths"]["runtime_root"])) != runtime:
         raise ValueError("teacher panels disagree on runtime root")

@@ -32,6 +32,24 @@ factor is not a measured parameter-update ratio. Gradient norms remain bounded
 in the reported epoch quantiles. A paired clip5/clip10 follow-up is proposed,
 not admitted to this twelve-fit allocation.
 
+The threshold1 is the inherited baseline setting and the CLI default in
+`src/wnn/training/cli_optimizer.py`; it was not calibrated separately for these
+widths. In the last epoch, the native per-seed summaries report:
+
+| Teacher | Median preclip global norm | Clipped updates | Mean raw-gradient multiplier |
+|---|---:|---:|---:|
+| GRU256x2 | 2.524–2.525 | 99.98–100% | .407–.411 |
+| GRU384x2 | 2.966–3.010 | 100% | .345–.347 |
+| GRU512x1 | 3.212–3.226 | 100% | .321–.324 |
+
+The head contributes66.7–77.2% of the mean squared global norm in that epoch.
+Consequently global clipping also scales recurrent gradients when the head
+dominates. This motivates a future threshold comparison, not a diagnosis that
+clipping caused the validation decline. All six runs have zero nonfinite
+gradient steps. A future comparison should reuse the exact clip1 controls,
+match seeds/LR/update budget, and monitor actual per-module parameter-update
+norms in addition to raw gradients, clipping frequency and official validation.
+
 ![Train and valid curves](plots/gru_train_valid.png)
 
 Train diagnostic:32 fitting sequences, all rows after warmup. Official valid:

@@ -118,6 +118,48 @@ def _option_value(argv: list[str], flag: str, run: str) -> str:
     return argv[positions[0] + 1]
 
 
+def _teacher_fit_output(
+    family: str, run: str, cell: dict[str, Any], teacher_panel: dict[str, Any]
+) -> Path:
+    """Resolve the exact fit output bound by the family-specific frozen panel."""
+    argv = cell.get("fit_argv")
+    _require(
+        isinstance(argv, list) and all(isinstance(token, str) for token in argv),
+        f"{run}: frozen teacher fit argv is missing",
+    )
+    if family == "wide_gru":
+        project = Path(str(teacher_panel.get("paths", {}).get("project_root", "")))
+        _require(
+            teacher_panel.get("schema") == "wnn.l4-teacher-capacity-gru.v1"
+            and project.is_absolute()
+            and cell.get("run_name") == run
+            and _option_value(argv, "--name", run) == run,
+            f"{run}: frozen native GRU run/name/project identity differs",
+        )
+        output = project / "artifacts" / "runs" / run
+        explicit_output = cell.get("fit_output")
+        _require(
+            explicit_output is None
+            or (
+                isinstance(explicit_output, str)
+                and Path(explicit_output).resolve() == output.resolve()
+            ),
+            f"{run}: optional native GRU output differs from its canonical run path",
+        )
+        return output
+    if family == "causal_transformer":
+        output_value = cell.get("fit_output")
+        _require(
+            cell.get("run_name") == run
+            and isinstance(output_value, str)
+            and Path(output_value).is_absolute()
+            and _option_value(argv, "--output", run) == output_value,
+            f"{run}: Transformer output must be absolute and match its frozen run/--output",
+        )
+        return Path(output_value)
+    raise ValueError(f"{run}: unknown teacher family {family}")
+
+
 def _check_initial_free_basis(shared_state: dict[str, Any], runtime_root: Path) -> dict[str, Any]:
     """Tie the original disk observation to its frozen receiving contract."""
     free_bytes = shared_state.get("initial_data2_free_bytes")
@@ -754,38 +796,7 @@ def _check_fit_receipt(
         isinstance(argv, list) and all(isinstance(token, str) for token in argv),
         f"{run}: frozen teacher fit argv is missing",
     )
-    if family == "wide_gru":
-        paths = teacher_panel.get("paths", {})
-        project = Path(str(paths.get("project_root", "")))
-        _require(
-            teacher_panel.get("schema") == "wnn.l4-teacher-capacity-gru.v1"
-            and project.is_absolute()
-            and cell.get("run_name") == run
-            and _option_value(argv, "--name", run) == run,
-            f"{run}: frozen native GRU run/name/project identity differs",
-        )
-        output = project / "artifacts" / "runs" / run
-        explicit_output = cell.get("fit_output")
-        _require(
-            explicit_output is None
-            or (
-                isinstance(explicit_output, str)
-                and Path(explicit_output).resolve() == output.resolve()
-            ),
-            f"{run}: optional native GRU output differs from its canonical run path",
-        )
-    elif family == "causal_transformer":
-        output_value = cell.get("fit_output")
-        _require(
-            isinstance(output_value, str)
-            and Path(output_value).is_absolute()
-            and Path(output_value).name == run
-            and _option_value(argv, "--output", run) == output_value,
-            f"{run}: Transformer requires explicit fit_output matching its frozen --output",
-        )
-        output = Path(output_value)
-    else:
-        raise ValueError(f"{run}: unknown teacher family {family}")
+    output = _teacher_fit_output(family, run, cell, teacher_panel)
     _require(
         receipt.get("status") == "completed"
         and receipt.get("exit_code") == 0

@@ -14,6 +14,7 @@ from scripts.l4_teacher_capacity_20261104.pr61_observer import (
     REPOSITORY,
     _credential_identity,
     _phase_receipt,
+    _require_shared_identity,
     _verify_api_scope,
 )
 from scripts.w18_l4_quality_finalize_20261104 import FinalizeError
@@ -68,6 +69,24 @@ def test_transformer_receipt_fallback_stays_in_transformer_namespace(tmp_path: P
     assert _phase_receipt(panel, cell, "fit") == (
         tmp_path / "receipts" / "transformer" / "fits" / "tf0_teacher_s1001.json"
     )
+
+
+def test_family_source_bindings_may_differ_when_data_membership_matches() -> None:
+    gru_identity = {
+        "source_binding_sha256": "a" * 64,
+        "data_binding_sha256": "c" * 64,
+        "split_sha256": "d" * 64,
+        "fit_members_sha256": "e" * 64,
+    }
+    tf_identity = {
+        "source_binding_sha256": "b" * 64,
+        "data_binding_sha256": "c" * 64,
+        "split_sha256": "d" * 64,
+        "fit_members_sha256": "e" * 64,
+    }
+
+    _require_shared_identity(gru_identity, tf_identity, "teacher panels")
+    assert gru_identity["source_binding_sha256"] != tf_identity["source_binding_sha256"]
 
 
 def test_credential_must_be_external_and_inode_bound(tmp_path: Path) -> None:
