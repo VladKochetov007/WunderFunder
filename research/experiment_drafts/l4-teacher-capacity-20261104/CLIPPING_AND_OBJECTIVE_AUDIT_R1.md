@@ -89,11 +89,40 @@ all changes in the first comparison. Use two seeds per arm and freeze4–6 total
 new fits at most, checkpoint/schedule/metric rules and fixed-blend endpoints
 before launch. None of these future fits has been launched or allocated here.
 
+If auxiliaries help early but conflict later, annealing their weights is a
+separate temporal-objective hypothesis. Preserve the readout layout and matched
+initialization when isolating loss coefficients: setting CLI auxiliary flags
+tozero can also remove output heads and shift RNG consumption, which would be
+a combined architecture/objective ablation. Log main/aux gradient norms and
+cosines, actual per-module update-to-weight ratios, per-output validation, and
+prediction scale/clipping fractions. A desired clipping percentage alone is
+not a quality objective.
+
+There is also a scale-dependent optimizer hypothesis. For an approximately
+semi-orthogonal square Muon gate update, the implemented `0.2*sqrt(H)` scaling
+gives roughly width-independent per-element update RMS at a fixed LR. Initial
+recurrent weight RMS decreases roughly as `1/sqrt(H)`, so the relative update
+can increase with `sqrt(H)`. Equal LR across widths therefore need not mean
+equal relative steps. This dimensional argument is conditional on initialization,
+matrix shape and approximate orthogonalization; measure actual gate-wise
+update/weight ratios before deriving a width-adjusted LR. It does not establish
+the cause of the observed capacity penalty.
+
 For the current series, all six GRU best-observed epochs are2, while the fixed
 primary endpoint is3. Both valid WP and WMSE decline in the last epoch. This is
 consistent with overfitting/objective mismatch but does not isolate clipping,
 auxiliaries or LR. Preserve [the completed results](RESULTS_GRU_20261104_R1.md)
 and the predeclared fixed-epoch teacher/student comparison unchanged.
+
+| Teacher | Mean WP at observedep2 | Mean WP at fixedep3 | Late change |
+|---|---:|---:|---:|
+| GRU256x2 | .68637593 | .68513454 | −.00124139 |
+| GRU384x2 | .68605994 | .68221578 | −.00384416 |
+| GRU512x1 | .68538002 | .68190412 | −.00347590 |
+
+These are posthoc means of two seeds from the existing histories, not newly
+selected primary endpoints. They motivate diagnosing late training behavior;
+they do not establish a cause or authorize swapping the fixed teacher epoch.
 
 ## Primary sources
 

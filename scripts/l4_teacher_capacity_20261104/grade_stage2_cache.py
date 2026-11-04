@@ -45,6 +45,7 @@ from scripts.l4_teacher_capacity_20261104.stage2_stream_teachers import (  # noq
     verify_sequence_teacher,
 )
 from wnn.distillation_cache import (  # noqa: E402
+    MAX_CACHE_METADATA_BYTES,
     SEQUENCE_ROWS,
     file_sha256,
     row_groups_sha256,
@@ -384,9 +385,9 @@ def _check_base_cache(panel: dict[str, Any], split: Any) -> tuple[Path, dict[str
 
 
 def _check_stage2_receipts(
-    panel: dict[str, Any], panel_hash: str, family: str, cache: Path
+    panel: dict[str, Any], panel_path: Path, panel_hash: str, family: str, cache: Path
 ) -> list[dict[str, Any]]:
-    """Verify every init/add/finalize command receipt for this exact continuation."""
+    """Verify unchanged R1 init/add receipts and the admitted R2 finalization."""
     paths = panel["paths"]
     binding = panel["families"][family]
     cache_arg = str(Path(binding["target_cache"]))
@@ -399,6 +400,7 @@ def _check_stage2_receipts(
     common = ["--family", family, "--output-cache", cache_arg]
     preinit_path = binding.get("stage2_init_receipt")
     receipts = []
+    init_add_records = []
     preinit_audit = None
     expected_steps: list[tuple[str, int, list[str]]] = []
     init_command_receipt = receipts_root / f"{family}_stage2_01.json"
@@ -466,9 +468,13 @@ def _check_stage2_receipts(
         receipts.append(
             {
                 "action": "init",
+                "path": str(Path(preinit_path).resolve()),
                 "sha256": file_sha256(Path(preinit_path)),
                 "receiving_artifact_audit": preinit_audit,
             }
+        )
+        init_add_records.append(
+            {"path": str(Path(preinit_path).resolve()), "sha256": file_sha256(Path(preinit_path))}
         )
     for index, run in enumerate(runs, start=2):
         args = ["add", *common, "--run", run]
@@ -482,7 +488,6 @@ def _check_stage2_receipts(
                 ]
             )
         expected_steps.append(("add", index, args))
-    expected_steps.append(("finalize", len(runs) + 2, ["finalize", *common]))
     for action, index, args in expected_steps:
         cell_id = f"{family}_stage2_{index:02d}"
         receipt_path = receipts_root / f"{cell_id}.json"
@@ -524,12 +529,330 @@ def _check_stage2_receipts(
             {
                 "action": action,
                 "cell_id": cell_id,
+                "path": str(receipt_path.resolve()),
                 "sha256": file_sha256(receipt_path),
                 "started_at_epoch": receipt.get("started_at_epoch"),
                 "finished_at_epoch": receipt.get("finished_at_epoch"),
             }
         )
+        init_add_records.append(
+            {"path": str(receipt_path.resolve()), "sha256": file_sha256(receipt_path)}
+        )
+    receipts.extend(
+        _check_stage2_recovery(
+            panel,
+            panel_path,
+            panel_hash,
+            family,
+            cache,
+            init_add_records,
+        )
+    )
     return receipts
+
+
+def _canonical_json_sha256(value: Any) -> str:
+    """Hash compact, sorted JSON to bind a recovery semantic comparison."""
+    encoded = json.dumps(value, sort_keys=True, separators=(",", ":"), allow_nan=False).encode(
+        "utf-8"
+    )
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _check_stage2_recovery(
+    panel: dict[str, Any],
+    panel_path: Path,
+    panel_hash: str,
+    family: str,
+    cache: Path,
+    init_add_records: list[dict[str, str]],
+) -> list[dict[str, Any]]:
+    """Require an owned compact-recovery receipt and recheck its promoted cache."""
+    paths = panel["paths"]
+    identity = panel["identity"]
+    runtime = Path(paths["runtime_root"])
+    control = Path(paths["control_root"])
+    receipts_root = runtime / "receipts" / "stage2"
+    recovery_admission_path = control / "STUDENT_RECOVERY_SOURCE_ADMISSION_R1.json"
+    recovery_admission = _read_json(recovery_admission_path)
+    recovery_admission_sha = file_sha256(recovery_admission_path)
+    _require(
+        recovery_admission.get("schema") == "wnn.l4-student-recovery-source-admission.v1"
+        and str(recovery_admission.get("status", "")).startswith("approved")
+        and recovery_admission.get("continuation_panel_sha256") == panel_hash
+        and all(
+            recovery_admission.get(key) == identity.get(key)
+            for key in (
+                "data_binding_sha256",
+                "split_sha256",
+                "fit_members_sha256",
+                "baseline_ancestry_sha256",
+            )
+        )
+        and isinstance(recovery_admission.get("source_binding_sha256"), str)
+        and len(recovery_admission["source_binding_sha256"]) == 64,
+        "approved metadata-recovery source admission does not bind this continuation",
+    )
+    recovery_source_sha = recovery_admission["source_binding_sha256"]
+    summary_path = receipts_root / f"{family}_metadata_recovery_r2.json"
+    summary = _read_json(summary_path)
+    expected_status = "compact_finalized_and_promoted"
+    expected_worker_name = (
+        "wide_gru_stage2_recovery_r2"
+        if family == "wide_gru"
+        else "causal_transformer_stage2_compact_finalize_r2"
+    )
+    worker_path = receipts_root / f"{expected_worker_name}.json"
+    entrypoint_path_value = summary.get("recovery_entrypoint_path")
+    _require(
+        summary.get("schema") == "wnn.l4-teacher-stage2-metadata-recovery.v1"
+        and summary.get("status") == expected_status
+        and summary.get("family") == family
+        and summary.get("continuation_panel_sha256") == panel_hash
+        and summary.get("recovery_source_binding_sha256") == recovery_source_sha
+        and summary.get("data_binding_sha256") == identity["data_binding_sha256"]
+        and summary.get("split_sha256") == identity["split_sha256"]
+        and summary.get("fit_members_sha256") == identity["fit_members_sha256"]
+        and summary.get("baseline_ancestry_sha256") == identity["baseline_ancestry_sha256"]
+        and summary.get("recovery_admission_receipt_path") == str(recovery_admission_path.resolve())
+        and summary.get("recovery_admission_receipt_sha256") == recovery_admission_sha
+        and summary.get("owned_worker_receipt_path") == str(worker_path.resolve())
+        and isinstance(entrypoint_path_value, str),
+        f"{family}: finalization summary does not bind the frozen R1 panel and approved R2 source",
+    )
+    entrypoint_path = Path(entrypoint_path_value).resolve(strict=True)
+    entrypoint_sha = file_sha256(entrypoint_path)
+    _require(
+        entrypoint_path.name == "recover_students.py"
+        and entrypoint_sha == summary.get("recovery_entrypoint_sha256"),
+        f"{family}: recovery entrypoint path/hash differs",
+    )
+    worker = _read_json(worker_path)
+    worker_owner = worker.get("owner", {})
+    worker_child = worker.get("child")
+    expected_cell_id = expected_worker_name
+    mode = "wide-recover-partial" if family == "wide_gru" else "finalize-compact"
+    expected_worker_command = [
+        str(paths["python"]),
+        str(entrypoint_path),
+        "--worker-mode",
+        mode,
+        "--family",
+        family,
+        "--panel",
+        str(panel_path.resolve()),
+        "--recovery-admission",
+        str(recovery_admission_path.resolve()),
+        "--worker-receipt",
+        str(worker_path.resolve()),
+    ]
+    worker_command = worker.get("command")
+    _require(
+        worker.get("schema") == "wnn.multistage-owned-process.v1"
+        and worker.get("status") == "completed"
+        and worker.get("exit_code") == 0
+        and worker.get("timed_out") is False
+        and worker_child == summary.get("owned_worker_child")
+        and isinstance(worker_command, list)
+        and len(worker_command) == len(expected_worker_command) + 3
+        and Path(worker_command[0]).name == "taskset"
+        and worker_command[1:3] == ["-c", ",".join(map(str, range(32, 40)))]
+        and worker_command[-len(expected_worker_command) :] == expected_worker_command
+        and worker.get("output_dir") == str(cache.resolve())
+        and worker.get("gpu_key") == "cpu-stage2"
+        and worker_owner.get("continuation_panel_sha256") == panel_hash
+        and worker_owner.get("family") == family
+        and worker_owner.get("cell_id") == expected_cell_id
+        and worker_owner.get("run_name") == expected_cell_id
+        and worker_owner.get("recovery_source_binding_sha256") == recovery_source_sha
+        and worker_owner.get("recovery_admission_receipt_sha256") == recovery_admission_sha
+        and worker_owner.get("recovery_admission_receipt_path")
+        == str(recovery_admission_path.resolve())
+        and worker_owner.get("recovery_entrypoint_path") == str(entrypoint_path)
+        and worker_owner.get("recovery_entrypoint_sha256") == entrypoint_sha
+        and worker_owner.get("source_binding_sha256") == identity["source_binding_sha256"]
+        and worker_owner.get("data_binding_sha256") == identity["data_binding_sha256"]
+        and worker_owner.get("split_sha256") == identity["split_sha256"]
+        and worker_owner.get("fit_members_sha256") == identity["fit_members_sha256"]
+        and worker_owner.get("baseline_ancestry_sha256") == identity["baseline_ancestry_sha256"]
+        and worker_owner.get("command_sha256")
+        == hashlib.sha256(json.dumps(worker_command, separators=(",", ":")).encode()).hexdigest(),
+        f"{family}: compact finalizer is not an exact successful owned CPU worker",
+    )
+    worker_started = worker.get("started_at_epoch")
+    worker_finished = worker.get("finished_at_epoch")
+    _require(
+        isinstance(worker_started, (int, float))
+        and isinstance(worker_finished, (int, float))
+        and worker_started <= worker_finished,
+        f"{family}: recovery worker timing is incomplete",
+    )
+
+    metadata_path = cache / "metadata.json"
+    metadata = _read_json(metadata_path)
+    metadata_sha = file_sha256(metadata_path)
+    build_path = cache / "stage2_build_receipt.json"
+    build = _read_json(build_path)
+    metadata_files = metadata.get("files", {})
+    main_entry = metadata_files.get("main_source_train", {})
+    teacher_records = metadata.get("target_contract", {}).get("teachers")
+    _require(
+        Path(str(summary.get("target_cache_path", ""))).resolve() == cache.resolve()
+        and summary.get("target_metadata_sha256") == metadata_sha
+        and summary.get("compact_metadata_sha256") == metadata_sha
+        and summary.get("semantic_metadata_sha256") == _canonical_json_sha256(metadata)
+        and summary.get("target_main_sha256") == main_entry.get("sha256")
+        and summary.get("target_main_sha256")
+        == file_sha256(cache / main_entry.get("path", "main_source_train.npy"))
+        and summary.get("target_cache_bytes") == TARGET_BYTES
+        and summary.get("target_contract_sha256")
+        == _canonical_json_sha256(metadata.get("target_contract"))
+        and summary.get("teacher_records") == teacher_records == build.get("teacher_records")
+        and Path(str(summary.get("stage2_build_receipt_path", ""))).resolve()
+        == build_path.resolve()
+        and summary.get("stage2_build_receipt_sha256") == file_sha256(build_path)
+        and metadata_path.stat().st_size <= MAX_CACHE_METADATA_BYTES
+        and isinstance(summary.get("stage2_init_add_receipts"), list)
+        and summary["stage2_init_add_receipts"] == init_add_records,
+        f"{family}: recovery summary differs from compact metadata, build or original R1 receipts",
+    )
+
+    timeline = []
+    if family == "wide_gru":
+        start_path = runtime / "receipts" / "continuation" / "STUDENT_CONTINUATION_START_R1.json"
+        failure_path = runtime / "receipts" / "continuation" / "STUDENT_CONTINUATION_FAILED_R1.json"
+        start = _read_json(start_path)
+        failure = _read_json(failure_path)
+        failed_cell = "wide_gru_stage2_06"
+        failed_path = receipts_root / f"{failed_cell}.json"
+        failed_log_path = runtime / "logs" / "stage2" / f"{failed_cell}.log"
+        failed_receipt = _read_json(failed_path)
+        failed_owner = failed_receipt.get("owner", {})
+        failed_command = failed_receipt.get("command")
+        failed_args = [
+            "finalize",
+            "--family",
+            family,
+            "--output-cache",
+            str(Path(panel["families"][family]["target_cache"])),
+        ]
+        stage2_script = (
+            Path(paths["source_root"])
+            / "scripts/l4_teacher_capacity_20261104/stream_stage2_targets.py"
+        )
+        _require(
+            start.get("schema") == "wnn.l4-teacher-capacity-continuation-state.v1"
+            and start.get("status") == "running"
+            and start.get("panel_sha256") == panel_hash
+            and failure.get("schema") == "wnn.l4-teacher-capacity-continuation-failure.v1"
+            and failure.get("status") == "failed"
+            and failure.get("panel_sha256") == panel_hash
+            and failure.get("family") == family
+            and failure.get("phase") == "stage2_target"
+            and "metadata exceeds its 512000-byte read bound" in str(failure.get("error", ""))
+            and failed_receipt.get("status") == "failed"
+            and failed_receipt.get("exit_code") == 1
+            and failed_receipt.get("timed_out") is False
+            and isinstance(failed_command, list)
+            and len(failed_command) >= len(failed_args) + 4
+            and Path(failed_command[0]).name == "taskset"
+            and failed_command[1:3] == ["-c", ",".join(map(str, range(32, 40)))]
+            and failed_command[-len(failed_args) :] == failed_args
+            and Path(failed_command[-len(failed_args) - 1]).resolve() == stage2_script.resolve()
+            and failed_receipt.get("output_dir") == str(cache.resolve())
+            and failed_owner.get("continuation_panel_sha256") == panel_hash
+            and failed_owner.get("cell_id") == failed_cell
+            and failed_owner.get("run_name") == failed_cell
+            and failed_owner.get("source_binding_sha256") == identity["source_binding_sha256"]
+            and failed_owner.get("data_binding_sha256") == identity["data_binding_sha256"]
+            and failed_owner.get("split_sha256") == SPLIT_SHA256
+            and failed_owner.get("command_sha256")
+            == hashlib.sha256(
+                json.dumps(failed_command, separators=(",", ":")).encode()
+            ).hexdigest()
+            and "metadata exceeds its 512000-byte read bound"
+            in failed_log_path.read_text(encoding="utf-8", errors="replace"),
+            "wide GRU R1 finalize was not the exact preserved metadata-size failure",
+        )
+        failed_started = failed_receipt.get("started_at_epoch")
+        failed_finished = failed_receipt.get("finished_at_epoch")
+        _require(
+            isinstance(failed_started, (int, float))
+            and isinstance(failed_finished, (int, float))
+            and failed_started <= failed_finished <= worker_started,
+            "wide GRU recovery preceded the original R1 finalize failure",
+        )
+        failure_records = {
+            "start_receipt": {
+                "path": str(start_path.resolve()),
+                "sha256": file_sha256(start_path),
+            },
+            "failure_receipt": {
+                "path": str(failure_path.resolve()),
+                "sha256": file_sha256(failure_path),
+            },
+            "finalize_receipt": {
+                "path": str(failed_path.resolve()),
+                "sha256": file_sha256(failed_path),
+                "log_path": str(failed_log_path.resolve()),
+                "log_sha256": file_sha256(failed_log_path),
+                "command": failed_command,
+                "owner": failed_owner,
+            },
+            "stage2_init_add_receipts": init_add_records,
+        }
+        _require(
+            summary.get("r1_failure_receipts") == failure_records,
+            "wide recovery summary does not bind every original R1 failure and init/add receipt",
+        )
+        backup_path = runtime / "receipts" / "stage2" / "wide_gru_metadata_original_pretty_r1.json"
+        backup = _read_json(backup_path, limit=4 << 20)
+        _require(
+            Path(str(summary.get("original_pretty_metadata_backup_path", ""))).resolve()
+            == backup_path.resolve()
+            and summary.get("original_pretty_metadata_sha256") == file_sha256(backup_path)
+            and backup == metadata
+            and backup_path.stat().st_size > MAX_CACHE_METADATA_BYTES,
+            "wide recovery did not preserve the original pretty metadata bytes/semantics",
+        )
+        timeline.append(
+            {
+                "action": "finalize_failed",
+                "cell_id": failed_cell,
+                "path": str(failed_path.resolve()),
+                "sha256": file_sha256(failed_path),
+                "started_at_epoch": failed_started,
+                "finished_at_epoch": failed_finished,
+            }
+        )
+    else:
+        finalize_cell = "causal_transformer_stage2_04"
+        finalize_receipt_path = receipts_root / f"{finalize_cell}.json"
+        finalize_log_path = runtime / "logs" / "stage2" / f"{finalize_cell}.log"
+        _require(
+            summary.get("original_r1_finalize_attempted") is False
+            and not finalize_receipt_path.exists()
+            and not finalize_log_path.exists(),
+            "Transformer R1 finalize was attempted or recovery summary claims otherwise",
+        )
+    timeline.append(
+        {
+            "action": "finalize_recovery",
+            "cell_id": expected_cell_id,
+            "path": str(worker_path.resolve()),
+            "sha256": file_sha256(worker_path),
+            "summary_path": str(summary_path.resolve()),
+            "summary_sha256": file_sha256(summary_path),
+            "recovery_source_binding_sha256": recovery_source_sha,
+            "recovery_admission_receipt_path": str(recovery_admission_path.resolve()),
+            "recovery_admission_receipt_sha256": recovery_admission_sha,
+            "recovery_entrypoint_path": str(entrypoint_path),
+            "recovery_entrypoint_sha256": entrypoint_sha,
+            "started_at_epoch": worker_started,
+            "finished_at_epoch": worker_finished,
+        }
+    )
+    return timeline
 
 
 def _assert_fp32_state(checkpoint: dict[str, Any], state_key: str, run: str) -> int:
@@ -1249,11 +1572,13 @@ def grade_cache(panel_path: Path, family: str) -> dict[str, Any]:
             )
         else:
             teacher_results.append(_check_transformer_record(run, record, teacher, split, project))
-    stage2_receipts = _check_stage2_receipts(panel, panel_hash, family, cache)
+    stage2_receipts = _check_stage2_receipts(panel, panel_path, panel_hash, family, cache)
     _require(
         len([item for item in stage2_receipts if item["action"] == "add"]) == len(teacher_results)
         and len([item for item in stage2_receipts if item["action"] == "init"]) == 1
-        and len([item for item in stage2_receipts if item["action"] == "finalize"]) == 1
+        and len([item for item in stage2_receipts if item["action"] == "finalize_recovery"]) == 1
+        and len([item for item in stage2_receipts if item["action"] == "finalize_failed"])
+        == (1 if family == "wide_gru" else 0)
         and all(
             item.get("action") == "init"
             or (
@@ -1272,7 +1597,9 @@ def grade_cache(panel_path: Path, family: str) -> dict[str, Any]:
             "teacher export started before target initialization completed",
         )
     add_receipts = [item for item in stage2_receipts if item["action"] == "add"]
-    finalize_receipt = next(item for item in stage2_receipts if item["action"] == "finalize")
+    finalize_receipt = next(
+        item for item in stage2_receipts if item["action"] == "finalize_recovery"
+    )
     for index, item in enumerate(teacher_results):
         add_receipt = add_receipts[index]
         _require(

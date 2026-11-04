@@ -23,3 +23,19 @@ scope and bounds; live progress is published in [PR61](https://github.com/VladKo
 Raw checkpoints, owned process receipts and failed attempts remain in the pinned
 receiving runtime. Current serving/submission all-corpus weights are ineligible
 for independent validation here. No public-score improvement is claimed.
+
+## Metadata-format recovery
+
+The R1 continuation completed all four native GRU training exports and target
+adds, then stopped at the final cache validator: pretty JSON metadata measured
+711,601bytes against the unchanged512,000-byte reader bound. The target arithmetic
+had already completed; the partial retains the final1,652,000,128-byte main array,
+original auxiliary hardlinks and build receipt. No student fit started in R1.
+
+A read-only serialization check produces291,936bytes of compact JSON with an
+identical parsed object. The separate recovery entrypoint preserves original
+metadata and failed receipts, verifies the arrays/lineage, compacts whitespace
+and promotes the cache before the same independently gated student comparisons.
+The pending Transformer finalization uses the same compact serialization. This
+is an operational recovery, with no teacher refit or numerical recipe change;
+actual execution is established only by the receiving recovery/process receipts.
