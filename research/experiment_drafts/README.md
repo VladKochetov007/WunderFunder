@@ -59,6 +59,16 @@ lose at the fixed endpoint; observed best checkpoints are kept separate. The
 clipping/objective audit includes a synthetic optimizer replay and prospective
 diagnostics, with no additional scientific fit or public improvement claimed.
 
+## Objective/clipping follow-up — 4 November2026
+
+[The bounded objective packet](l4-objective-20261104/README.md) proposes four
+matched scratch GRU teachers and up to two selected-family W18 students. Clip5
+and a fitting-only diagnostic-selected objective/LR arm reuse prior controls;
+the active twelve-fit cycle is preserved. Strict official chronological primary
+validation and explicit development-selection exposure remain. Source, no-update
+gradient diagnostics and default-off auxiliary scheduling are being prepared;
+actual resource profiles/fits/results remain pending receiving receipts.
+
 ## Readiness
 
 These are experiment handoffs. Existing GRU mechanisms reuse linked trainer/model code; new Transformer/geometry/smoothing code is a starter. Every recipe is marked launch_ready=false: receiving researchers must bind fold-clean assets, finish trainer/reporting integration and profile actual B300 shapes. The plan entry point prints a matrix and does not train. No wall time, numerical parity or LB gain is claimed. No tests were added/run; static lint/format and document review only.

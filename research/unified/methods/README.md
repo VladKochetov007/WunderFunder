@@ -58,6 +58,15 @@ use a later result receipt or the current audit to establish final status.
 
 This domain collects the reusable research protocol: data membership, causal sequence handling, target treatments, official scoring, and uncertainty interpretation.
 
+## Bounded objective follow-up — 4 November2026
+
+[The new objective/clipping packet](../../experiment_drafts/l4-objective-20261104/README.md)
+connects the prior audit to a fitting-only derivative diagnostic and maximum-six-fit
+teacher/student comparison. It preserves exact reused controls, official primary
+validation, default-off behavior and auxiliary-head layout, with an explicit
+selection rule and transient-cache disk policy. Preparation only until actual
+receiving diagnostic/profile/fit evidence is recorded; no quality/public gain.
+
 ## Clipping and objective audit — 4 November2026
 
 [The L4 clipping audit](../../experiment_drafts/l4-teacher-capacity-20261104/CLIPPING_AND_OBJECTIVE_AUDIT_R1.md)

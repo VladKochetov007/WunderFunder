@@ -1,5 +1,21 @@
 # Project agent instructions
 
+## Latest4 November: objective/clipping follow-up authorized
+
+The user now authorizes doing the best next experiments toward a serious final
+metric improvement. The separate six-fit-maximum allocation is in
+research/experiment_drafts/l4-objective-20261104/CONTRACT_R1.json: four fresh
+GRU256x2 teachers, then at most two selected-family W18 students. Reuse exact
+PR61/PR60 controls; preserve the current twelve-fit cycle unchanged. A fitting-only
+gradient diagnostic selects the second arm before any new fit. No public gain
+is promised. Existing eight L4 only; no rentals, foreign signals or old cache
+deletion. ROOT owns persistent SSH83229 and all GPU admission. New runtime is
+/data2/lc-epanov_s/tabdata/runtime/l4-objective-20261104-r1; its receiving authority
+starts17:04:33UTC and ends20:04:33UTC, with45minutes for collection. See the
+machine receipt for exact times/limits. Three existing actor/critic roles are
+bounded and do no SSH/GPU work. Source/recipe/profile evidence must precede fits.
+
+
 ## Latest4 November: fresh12-fit L4 teacher/student cycle authorized
 
 User accepts the proposed8teacher+4student cycle and instructs execution.
