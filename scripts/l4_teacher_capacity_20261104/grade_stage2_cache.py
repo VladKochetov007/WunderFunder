@@ -68,10 +68,10 @@ INITIAL_FREE_BASIS_RELATIVE = Path(
 FIT_MEMBERS_SHA256 = "075c50995165f7a35f31c1e4f022b27fc6247270cc15ddda28075e6eeb624e19"
 FBC_INIT_SHA256 = "840966894144bca5aafbf0a8e21ad0daab07a8503ba80e30d96668ef1bc3a496"
 R2_SOURCE_HASHES = {
-    "scripts/l4_teacher_capacity_20261104/stage2_stream_common.py": "e52b0e812292caefb0df3b101cec63098efeb1345e7bb37b225169c7ac94405",
+    "scripts/l4_teacher_capacity_20261104/stage2_stream_common.py": "e52b0e812292caefb0bdf3b101cec63098efeb1345e7bb37b225169c7ac94405",
     "scripts/l4_teacher_capacity_20261104/stage2_stream_finalize.py": "a84b1e053ff23034af8853b60488c7fa8c2921359aeca71e609e58beca79333b",
     "scripts/l4_teacher_capacity_20261104/stage2_stream_native.py": "15b6bbb87e07359d5379e9b70e45c76dddcd8a0e6e28071270e4a179ab02fa79",
-    "scripts/l4_teacher_capacity_20261104/stage2_stream_teachers.py": "316b7fc10734f326cd99b8b3fd0b02ceed70d5c09b2976b308b15e92cb03790",
+    "scripts/l4_teacher_capacity_20261104/stage2_stream_teachers.py": "316b7fcb10734f326cd99b8b3fd0b02ceed70d5c09b2976b308b15e92cb03790",
     "scripts/l4_teacher_capacity_20261104/stream_stage2_targets.py": "9ae855907edbbce2fc0c15d28b05fe82f1cabe9b222a5a4b18274ff1c52f3f2e",
 }
 R2_HANDOFF_SHA256 = "5316ae2bc4d835efd83ba5d65552024a99540bf53a850ce9883db39f0116868b"
@@ -1055,7 +1055,9 @@ def _check_gru_record(
         and saved.get("fit_source_positions_sha256")
         == positions_sha256(np.asarray(positions, dtype="<i8"))
         and saved.get("source_train_index_sha256") == source_hash
-        and saved.get("fit_row_group_hashes", {}).get("train") == fit_hash,
+        and saved.get("fit_row_group_hashes", {}).get("train")
+        == row_groups_sha256(list(map(int, provenance["fit_row_groups"]["train"])))
+        and saved.get("fit_row_groups_sha256") == fit_hash,
         f"{run}: saved source-to-fit mapping or prediction lineage differs",
     )
     _require(
@@ -1400,7 +1402,8 @@ def grade_cache(panel_path: Path, family: str) -> dict[str, Any]:
         "official split counts differ",
     )
     _require(
-        row_groups_sha256(list(split.train_groups)) == FIT_MEMBERS_SHA256,
+        canonical_sha256({"train": list(split.train_groups), "valid": list(split.valid_groups)})
+        == FIT_MEMBERS_SHA256,
         "official fit-member digest differs",
     )
     old_root, old_metadata = _check_base_cache(panel, split)
