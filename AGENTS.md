@@ -1,5 +1,17 @@
 # Project agent instructions
 
+## Latest4 November: W18 L4 screen completed; no active GPU work
+
+All8 scientific fits and fixed-epoch1 exports completed. Canonical full-valid
+grading and GitHub publication passed: PR60 and release
+https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr60-results-20261104-r1.
+No practically useful singleton improvement was found; do not promote a candidate.
+See research/experiment_drafts/w18-l4-quality-20261104/RESULTS_20261104_R1.md.
+All own GPU jobs are finished, no fits/profiles should resume from this note.
+The read-only dashboard/bridge remain CPU-only until the original deadline.
+The temporary publication credential was removed. Older running/preparing notes
+below are historical. New compute needs fresh scope/allocation.
+
 ## Latest4 November: fresh8xL4 baseline-improvement research authorized
 
 The user explicitly authorizes generating hypotheses and executing on the entire

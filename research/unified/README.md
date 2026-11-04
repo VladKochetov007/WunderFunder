@@ -279,3 +279,8 @@ The dated archive preserves the October 12 handoff as it stood when all admitted
 [October13 strategy implementation and experiments](../campaign_2026-10-13/strategy_execution_r1/README.md) records the subsequent explicit user resume, every actionable review item, full Kaggle/local GPU authority, accepted private-risk preference, owners and evidence. The earlier stop/archive paragraphs describe historical scope; ADR0034 now governs new research. No new model result at admission.
 
 </details>
+
+
+## 2026-11-04: completed W18 eight-L4 quality screen
+
+[Results](../experiment_drafts/w18-l4-quality-20261104/RESULTS_20261104_R1.md) ? [PR60](https://github.com/VladKochetov007/WunderFunder/pull/60). Eight matched fits completed; causal innovations and alpha0.5 worsened singleton WP, family0.01 had negligible effect. Largest observed fixed-blend gain+0.000051582 on exposed development valid; no promotion/public forecast. All own GPU work finished, weights and evidence published.

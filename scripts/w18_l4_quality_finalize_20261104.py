@@ -179,7 +179,9 @@ def _prior_guard(panel: CohortPanel) -> dict[str, object] | None:
                 "FIRST_CHECKPOINT_AUDIT_R1 reports non-train-only fitting membership"
             )
         if expected[cell_id] == "innovations" and item.get("prior_train_members") != 32:
-            raise FinalizeError("FIRST_CHECKPOINT_AUDIT_R1 reports invalid innovation prior membership")
+            raise FinalizeError(
+                "FIRST_CHECKPOINT_AUDIT_R1 reports invalid innovation prior membership"
+            )
     observed_panel = audit.get("panel_sha256") or audit.get("panel_sha")
     if observed_panel is None:
         return None
@@ -664,6 +666,7 @@ class GitHub:
             raise FinalizeError("GitHub returned a malformed uploaded asset")
         return cast(dict[str, object], value)
 
+
 def _publish_release(
     client: GitHub, assets: list[Path], target_commitish: str, body: str
 ) -> dict[str, object]:
@@ -733,7 +736,16 @@ def _publish_release(
         declared_digest = asset.get("digest")
         if declared_digest != f"sha256:{digest}":
             raise FinalizeError(f"release asset SHA256 metadata differs: {local.name}")
-        receipts.append({"name": local.name, "bytes": local.stat().st_size, "sha256": digest, "asset_id": asset.get("id"), "url": asset.get("browser_download_url"), "server_digest_verified": True})
+        receipts.append(
+            {
+                "name": local.name,
+                "bytes": local.stat().st_size,
+                "sha256": digest,
+                "asset_id": asset.get("id"),
+                "url": asset.get("browser_download_url"),
+                "server_digest_verified": True,
+            }
+        )
     if release.get("draft") is True:
         release = client.request(
             "PATCH",
@@ -746,6 +758,15 @@ def _publish_release(
         or release.get("draft") is True
     ):
         raise FinalizeError("release did not become a published prerelease")
+    published_assets = client.request("GET", assets_path)
+    if not isinstance(published_assets, list):
+        raise FinalizeError("published asset inventory is malformed")
+    by_id = {item.get("id"): item for item in published_assets if isinstance(item, dict)}
+    for receipt in receipts:
+        published = by_id.get(receipt["asset_id"], {})
+        if published.get("digest") != "sha256:" + receipt["sha256"]:
+            raise FinalizeError("published asset identity changed")
+        receipt["url"] = published["browser_download_url"]
     return {
         "status": "published",
         "tag": RELEASE_TAG,
@@ -857,14 +878,6 @@ def _finalize_work(args: argparse.Namespace, token_identity: tuple[int, int] | N
     grade_status = "not_run"
     grader = args.grader.expanduser().resolve(strict=True)
     try:
-        has_any_predictions = any(
-            (
-                Path(str(panel.value["paths"]["project_root"]))
-                / "cache"
-                / f"pred_{cell['run_name']}_valid.npy"
-            ).is_file()
-            for cell in cast(list[dict[str, object]], panel.value["cells"])
-        )
         # Never grade a merely partial wave, even when one or more prediction files
         # happen to exist. The wave controller's terminal export receipt is the gate.
         should_grade = pipeline_status == "exports_complete_pending_grade"
