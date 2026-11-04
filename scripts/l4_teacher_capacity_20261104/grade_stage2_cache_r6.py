@@ -13,8 +13,8 @@ sys.path[:0] = [str(ROOT), str(ROOT / "src")]
 from scripts.l4_teacher_capacity_20261104 import grade_stage2_cache_r5 as r5  # noqa: E402
 
 base = r5.base
-R6_ADMISSION_SCHEMA = "wnn.l4-stage2-cache-review-source-admission-r6.v1"
-R6_ADMISSION_NAME = "STAGE2_CACHE_REVIEW_SOURCE_ADMISSION_R6.json"
+R6_ADMISSION_SCHEMA = "wnn.l4-stage2-cache-review-source-admission-r6-r2.v1"
+R6_ADMISSION_NAME = "STAGE2_CACHE_REVIEW_SOURCE_ADMISSION_R6_R2.json"
 MINIMUM_STARTED_FREE_BYTES = 6_488_796_672
 
 _ADMISSION: dict[str, Any] | None = None
@@ -167,6 +167,151 @@ def _validate_admission(
     _PANEL_PATH = panel_path.resolve()
     _PANEL_SHA256 = panel_sha
     return panel, panel_sha, teacher
+
+
+def _check_r5_stop_and_wide_r6(
+    panel: dict[str, Any], panel_hash: str, admission: dict[str, Any]
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Retain R5 adoption checks while reading TL3's canonical ensemble row."""
+    stop_path = Path(panel["paths"]["control_root"]) / "STUDENT_RECOVERY_R4_STOP_R1.json"
+    r5._same_file(
+        stop_path,
+        admission.get("r4_stop_receipt_path"),
+        admission.get("r4_stop_receipt_sha256"),
+        "R4 pre-target stop proof",
+    )
+    stop = _read_json(stop_path)
+    base._require(
+        stop.get("schema") == "wnn.owned-controller-stop.v1"
+        and stop.get("status") == "stopped_before_tf_target"
+        and stop.get("tf_stage2_init_absent") is True
+        and stop.get("tf_export_receipts_absent") is True
+        and stop.get("no_scientific_fits_signaled") is True,
+        "R4 stop proof does not establish the unchanged pre-target boundary",
+    )
+    runtime = Path(panel["paths"]["runtime_root"])
+    r4_start_path = runtime / "receipts/continuation/STUDENT_CONTINUATION_RECOVERY_R4_START.json"
+    r4_start = _read_json(r4_start_path)
+    r4_ref = r4_start.get("controller_receipt", {})
+    r4_controller_path = Path(str(r4_ref.get("path", ""))).resolve(strict=True)
+    r5._same_file(
+        r4_controller_path,
+        stop.get("controller_receipt_path"),
+        stop.get("controller_receipt_sha256"),
+        "stopped R4 controller",
+    )
+    r4_controller = _read_json(r4_controller_path)
+    identity = panel["identity"]
+    r4_owner = r4_controller.get("owner", {})
+    r4_finished = r4_controller.get("finished_at_epoch")
+    base._require(
+        r4_start.get("schema") == "wnn.l4-teacher-capacity-continuation-recovery-r4.v1"
+        and r4_start.get("status") == "running"
+        and r4_start.get("panel_sha256") == panel_hash
+        and r4_controller.get("status") != "running"
+        and r4_controller.get("child") == r4_ref.get("child") == stop.get("controller_child")
+        and isinstance(r4_finished, (int, float))
+        and stop.get("created_epoch", 0) >= r4_finished
+        and r4_owner.get("cell_id") == "student_continuation_recovery_r4_controller"
+        and r4_owner.get("continuation_panel_sha256") == panel_hash
+        and r4_owner.get("source_binding_sha256") == identity["source_binding_sha256"]
+        and r4_owner.get("data_binding_sha256") == identity["data_binding_sha256"]
+        and r4_owner.get("split_sha256") == identity["split_sha256"]
+        and r4_owner.get("fit_members_sha256") == identity["fit_members_sha256"]
+        and r4_owner.get("baseline_ancestry_sha256") == identity["baseline_ancestry_sha256"],
+        "R4 stop proof does not match the actual terminal controller receipt",
+    )
+    tf_binding = panel["families"]["causal_transformer"]
+    teacher_panel = _read_json(Path(tf_binding["teacher_panel"]))
+    teacher_cells = {cell["run_name"]: cell for cell in teacher_panel["cells"]}
+    unchanged = stop.get("tf_fit_children_unchanged")
+    base._require(
+        isinstance(unchanged, list) and len(unchanged) == 2,
+        "R4 stop proof omits a Transformer fit identity",
+    )
+    unchanged_by_cell = {record.get("cell_id"): record.get("identity") for record in unchanged}
+    for run in base.EXPECTED_RUNS["causal_transformer"]:
+        cell = teacher_cells[run]
+        receipt = _read_json(Path(tf_binding["fit_receipts"][run]))
+        base._require(
+            unchanged_by_cell.get(cell.get("cell_id")) == receipt.get("child"),
+            f"{run}: teacher fit child identity differs from the R4 stop proof",
+        )
+    grade_path = Path(str(stop.get("wide_grade_receipt_path", ""))).resolve(strict=True)
+    r5._same_file(
+        grade_path,
+        stop.get("wide_grade_receipt_path"),
+        stop.get("wide_grade_receipt_sha256"),
+        "adopted wide grade",
+    )
+    grade = _read_json(grade_path)
+    adoption_path = runtime / "receipts/continuation/wide_gru_GRADE_ADOPTION_R5.json"
+    adoption = _read_json(adoption_path)
+    base._require(
+        grade.get("status") == "complete"
+        and grade.get("family") == "wide_gru"
+        and grade.get("panel_sha256") == panel_hash
+        and adoption.get("schema") == r5.STATE_SCHEMA
+        and adoption.get("status") == "complete"
+        and adoption.get("grade_receipt_path") == str(grade_path)
+        and adoption.get("grade_receipt_sha256") == base.file_sha256(grade_path)
+        and adoption.get("manifest_path") == grade.get("manifest_path")
+        and adoption.get("manifest_sha256") == grade.get("manifest_sha256")
+        and adoption.get("report_path") == grade.get("report_path")
+        and adoption.get("report_sha256") == grade.get("report_sha256"),
+        "R5 wide grade adoption differs from the root-pinned completed grade",
+    )
+    for field in ("manifest", "report"):
+        path_value = grade.get(f"{field}_path")
+        sha_value = grade.get(f"{field}_sha256")
+        r5._same_file(Path(str(path_value)), path_value, sha_value, f"wide canonical {field}")
+    manifest = _read_json(Path(grade["manifest_path"]))
+    report = _read_json(Path(grade["report_path"]))
+    cache_review_path = Path(grade["cache_admission_receipt_path"]).resolve(strict=True)
+    r5._same_file(
+        cache_review_path,
+        grade.get("cache_admission_receipt_path"),
+        grade.get("cache_admission_receipt_sha256"),
+        "wide independent cache review",
+    )
+    cache_review = _read_json(cache_review_path)
+    baseline_name = report.get("baseline")
+    baseline_rows = [
+        row
+        for row in report.get("rows", [])
+        if isinstance(row, dict) and row.get("name") == baseline_name
+    ]
+    baseline_row = baseline_rows[0] if len(baseline_rows) == 1 else {}
+    baseline_score = baseline_row.get("score", {})
+    base._require(
+        manifest.get("schema") == "wnn.l4tc-fixed-student-blend-inputs.v1"
+        and manifest.get("split", {}).get("sha256") == base.SPLIT_SHA256
+        and manifest.get("assembly", {}).get("family") == "wide_gru"
+        and manifest.get("assembly", {}).get("continuation_panel_sha256") == panel_hash
+        and report.get("schema") == "wnn.heterogeneous-ensemble-score.v1"
+        and report.get("status") == "complete"
+        and report.get("selected_rows") == 3_528_273
+        and report.get("input_manifest_sha256") == base.file_sha256(Path(grade["manifest_path"]))
+        and baseline_name == "TL3"
+        and baseline_row.get("status") == "complete"
+        and baseline_row.get("missing_members") == []
+        and baseline_score.get("selected_rows") == 3_528_273
+        and baseline_score.get("metric_id") == "global_wp_clip2_v1"
+        and abs(baseline_score.get("wp", 0) - 0.6923774245652725) <= 1e-7
+        and cache_review.get("status")
+        == "approved_stage2_cache_lineage_formula_not_numerically_recomputed"
+        and cache_review.get("family") == "wide_gru"
+        and adoption.get("cache_review_path") == str(cache_review_path)
+        and adoption.get("cache_review_sha256") == base.file_sha256(cache_review_path),
+        "adopted wide report, manifest, or cache-review evidence differs",
+    )
+    return stop, {
+        "path": str(adoption_path.resolve()),
+        "sha256": base.file_sha256(adoption_path),
+        "grade": grade,
+        "r4_controller_path": str(r4_controller_path),
+        "r4_controller_sha256": base.file_sha256(r4_controller_path),
+    }
 
 
 def _check_gpu2_release_r6(
@@ -339,6 +484,7 @@ def main() -> None:
 
     old_require = base._require
     old_gpu_release = r5._check_gpu2_release
+    old_wide_check = r5._check_r5_stop_and_wide
     old_export_wrapper = r5._check_r5_transformer_export_receipt
     old_write_json = base._write_json
     review_path = Path(panel["families"][args.family]["cache_admission_receipt"]).resolve()
@@ -378,6 +524,7 @@ def main() -> None:
 
     base._require = require_r6
     r5._check_gpu2_release = _check_gpu2_release_r6
+    r5._check_r5_stop_and_wide = _check_r5_stop_and_wide_r6
     r5._check_r5_transformer_export_receipt = export_wrapper
     base._write_json = write_review
     original_argv = sys.argv
@@ -399,6 +546,7 @@ def main() -> None:
         sys.argv = original_argv
         base._require = old_require
         r5._check_gpu2_release = old_gpu_release
+        r5._check_r5_stop_and_wide = old_wide_check
         r5._check_r5_transformer_export_receipt = old_export_wrapper
         base._write_json = old_write_json
 

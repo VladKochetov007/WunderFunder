@@ -103,3 +103,84 @@ def test_archive_writer_reuses_only_matching_manifest_and_bytes(tmp_path: Path) 
     source.write_text('{"status":"changed"}\n', encoding="utf-8")
     with pytest.raises(ValueError, match="differs from current verified inputs"):
         publisher._verify_or_write_archive(archive_path, entries, metadata)
+
+
+def test_native_transformer_owner_without_run_name_is_bound_by_frozen_cell(
+    tmp_path: Path,
+) -> None:
+    source_sha, data_sha, split_sha, members_sha = (f"{letter}" * 64 for letter in "abcd")
+    config_sha, source_git, panel_sha = "e" * 64, "f" * 40, "1" * 64
+    output = tmp_path / "fit-output"
+    command = ["python", "train_sequence.py", "--output", str(output)]
+    panel = {
+        "schema": "wnn.l4-teacher-capacity-transformer-panel.v1",
+        "source_git": source_git,
+        "identity": {
+            "source_binding_sha256": source_sha,
+            "data_binding_sha256": data_sha,
+            "split_sha256": split_sha,
+            "fit_members_sha256": members_sha,
+        },
+    }
+    cell = {
+        "cell_id": "tf_cell_s1001",
+        "run_name": "tf_run_s1001",
+        "fit_output": str(output),
+        "config_sha256": config_sha,
+        "normalized_config_sha256": "2" * 64,
+    }
+    receipt = {
+        "command": command,
+        "output_dir": str(output.resolve()),
+        "owner": {
+            "panel_sha256": panel_sha,
+            "cell_id": cell["cell_id"],
+            "source_binding_sha256": source_sha,
+            "source_git": source_git,
+            "data_binding_sha256": data_sha,
+            "split_sha256": split_sha,
+            "fit_members_sha256": members_sha,
+            "config_sha256": config_sha,
+        },
+    }
+    publisher._validate_native_tf_owner(panel, cell, receipt, panel_sha, command)
+
+    receipt["output_dir"] = str(tmp_path / "wrong-output")
+    with pytest.raises(ValueError, match="native Transformer fit identity differs"):
+        publisher._validate_native_tf_owner(panel, cell, receipt, panel_sha, command)
+    receipt["output_dir"] = str(output.resolve())
+    receipt["owner"]["run_name"] = "other_run"
+    with pytest.raises(ValueError, match="native Transformer fit identity differs"):
+        publisher._validate_native_tf_owner(panel, cell, receipt, panel_sha, command)
+
+
+def test_controller_receipt_completion_and_integer_deadline_handling(tmp_path: Path) -> None:
+    assert publisher._controller_outcome({"status": "running"}) == "waiting"
+    assert (
+        publisher._controller_outcome({"status": "completed", "exit_code": 0, "timed_out": False})
+        == "completed"
+    )
+    assert (
+        publisher._controller_outcome({"status": "completed", "exit_code": 1, "timed_out": False})
+        == "failed"
+    )
+    assert publisher._complete_deadline_matches(1_793_842_488, 1_793_842_488.8254418)
+    assert not publisher._complete_deadline_matches(1_793_842_488.8254418, 1_793_842_488.8254418)
+    receipt_path = tmp_path / "controller.json"
+    receipt_path.write_text(
+        json.dumps({"status": "running", "child": {"pid": 17}}), encoding="utf-8"
+    )
+    complete = {"controller_receipt": {"path": str(receipt_path), "child": {"pid": 17}}}
+    assert publisher._r5_controller_outcome(complete) == "waiting"
+    receipt_path.write_text(
+        json.dumps(
+            {
+                "status": "completed",
+                "exit_code": 0,
+                "timed_out": False,
+                "child": {"pid": 17},
+            }
+        ),
+        encoding="utf-8",
+    )
+    assert publisher._r5_controller_outcome(complete) == "completed"

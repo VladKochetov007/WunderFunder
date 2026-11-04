@@ -71,6 +71,78 @@ def _identity(panel: dict[str, Any], other: dict[str, Any], label: str) -> None:
             raise ValueError(f"{label} differs on shared identity {key}")
 
 
+def _validate_native_tf_owner(
+    panel: dict[str, Any],
+    cell: dict[str, Any],
+    receipt: dict[str, Any],
+    expected_panel_sha: str,
+    command: object,
+) -> None:
+    """Bind a native TF receipt even when its owner omits the redundant run name."""
+    owner = receipt.get("owner", {})
+    identity = panel.get("identity", {})
+    output = Path(str(cell.get("fit_output", ""))).resolve()
+    config_hashes = {
+        value
+        for value in (cell.get("config_sha256"), cell.get("normalized_config_sha256"))
+        if isinstance(value, str)
+    }
+    source_git = cell.get("source_git") or identity.get("source_git") or panel.get("source_git")
+    if (
+        panel.get("schema") != "wnn.l4-teacher-capacity-transformer-panel.v1"
+        or owner.get("cell_id") != cell.get("cell_id")
+        or owner.get("run_name") not in (None, cell.get("run_name"))
+        or owner.get("panel_sha256") != expected_panel_sha
+        or owner.get("source_binding_sha256") != identity.get("source_binding_sha256")
+        or owner.get("data_binding_sha256") != identity.get("data_binding_sha256")
+        or owner.get("split_sha256") != identity.get("split_sha256")
+        or owner.get("fit_members_sha256") != identity.get("fit_members_sha256")
+        or not config_hashes
+        or owner.get("config_sha256") not in config_hashes
+        or not output.is_absolute()
+        or receipt.get("output_dir") != str(output)
+        or receipt.get("command") != command
+    ):
+        raise ValueError(f"{cell['cell_id']}: native Transformer fit identity differs")
+    if source_git is not None and owner.get("source_git") != source_git:
+        raise ValueError(f"{cell['cell_id']}: native Transformer source git differs")
+    observed_git = owner.get("source_git")
+    if observed_git is not None and (
+        not isinstance(observed_git, str)
+        or len(observed_git) != 40
+        or any(character not in "0123456789abcdef" for character in observed_git)
+    ):
+        raise ValueError(f"{cell['cell_id']}: native Transformer source git is malformed")
+
+
+def _controller_outcome(receipt: dict[str, Any] | None) -> str:
+    if receipt is None or receipt.get("status") == "running":
+        return "waiting"
+    if (
+        receipt.get("status") == "completed"
+        and receipt.get("exit_code") == 0
+        and receipt.get("timed_out") is False
+    ):
+        return "completed"
+    return "failed"
+
+
+def _r5_controller_outcome(complete: dict[str, Any]) -> str:
+    reference = complete.get("controller_receipt")
+    if not isinstance(reference, dict) or not isinstance(reference.get("path"), str):
+        return "failed"
+    receipt = _read(Path(reference["path"]))
+    if receipt is None:
+        return "waiting"
+    if receipt.get("child") != reference.get("child"):
+        return "failed"
+    return _controller_outcome(receipt)
+
+
+def _complete_deadline_matches(value: object, deadline: float) -> bool:
+    return type(value) is int and value == int(deadline)
+
+
 def _api_head(client: publisher.GitHub) -> str:
     user = client.request("GET", "/user")
     pull = client.request("GET", f"/repos/{REPOSITORY}/pulls/{PR_NUMBER}")
@@ -127,7 +199,14 @@ def _snapshot(
             ]
         if receipt is not None:
             owner_panel = owner.get("panel_sha256", owner.get("cohort_panel_sha256"))
-            if (
+            native_tf = source_panel.get("schema") == "wnn.l4-teacher-capacity-transformer-panel.v1"
+            if native_tf:
+                if owner.get("run_name") not in (None, cell["run_name"]):
+                    raise ValueError(f"{cell['cell_id']}: native Transformer run name differs")
+                _validate_native_tf_owner(
+                    source_panel, cell, receipt, str(expected_panel_sha), command
+                )
+            elif (
                 owner_panel != expected_panel_sha
                 or owner.get("cell_id") != cell["cell_id"]
                 or owner.get("run_name") != cell["run_name"]
@@ -631,7 +710,7 @@ def _completion(
         or complete.get("all_family_grades_complete") is not True
         or complete.get("checkpoint_endpoint_epoch") != 1
         or complete.get("fixed_weights") != {"TL3": 0.9, "candidate": 0.1}
-        or complete.get("hard_deadline_epoch") != deadline
+        or not _complete_deadline_matches(complete.get("hard_deadline_epoch"), deadline)
         or not isinstance(complete.get("finished_epoch"), (int, float))
         or complete["finished_epoch"] > deadline
     ):
@@ -667,6 +746,7 @@ def _completion(
         or controller.get("exit_code") != 0
         or controller.get("timed_out") is not False
         or controller.get("child") != controller_ref.get("child")
+        or controller.get("command_sha256") != complete.get("controller_command_sha256")
         or controller.get("owner", {}).get("continuation_panel_sha256") != panel_sha
         or controller.get("owner", {}).get("source_binding_sha256")
         != identity["source_binding_sha256"]
@@ -674,6 +754,15 @@ def _completion(
         != complete.get("recovery_source_binding_sha256")
         or controller.get("owner", {}).get("recovery_admission_receipt_sha256")
         != complete.get("recovery_admission_receipt_sha256")
+        or any(
+            controller.get("owner", {}).get(key) != identity[key]
+            for key in (
+                "data_binding_sha256",
+                "split_sha256",
+                "fit_members_sha256",
+                "baseline_ancestry_sha256",
+            )
+        )
     ):
         raise ValueError("R5 controller has not reached its owned zero-exit terminal receipt")
     families = complete.get("families")
@@ -778,6 +867,8 @@ def _completion(
 
 
 def _weights(panel: dict[str, Any], grade: dict[str, Any]) -> list[tuple[Path, str]]:
+    from wnn.training.sequence_epoch_index import load_epoch_index
+
     entries: list[tuple[Path, str]] = []
     teacher_panel_path = Path(panel["families"]["causal_transformer"]["teacher_panel"])
     teacher_panel = _read(teacher_panel_path)
@@ -785,10 +876,23 @@ def _weights(panel: dict[str, Any], grade: dict[str, Any]) -> list[tuple[Path, s
         output = Path(cell["fit_output"])
         run = str(cell["run_name"])
         index_path = output / "epoch_index.json"
-        index = _read(index_path)
-        if index is None or len(index.get("entries", [])) != 4:
+        index = load_epoch_index(index_path)
+        index_identity = index.get("identity", {})
+        entries_index = index.get("entries")
+        normalized_config = cell.get("normalized_config_sha256")
+        if (
+            index.get("completed_epochs") != 4
+            or not isinstance(entries_index, list)
+            or len(entries_index) != 4
+            or (
+                isinstance(normalized_config, str)
+                and index_identity.get("config_sha256") != normalized_config
+            )
+        ):
             raise ValueError(f"{run}: expected four immutable native epoch checkpoints")
-        for entry in index["entries"]:
+        for epoch, entry in enumerate(entries_index):
+            if entry.get("epoch") != epoch or entry.get("completed_epochs") != epoch + 1:
+                raise ValueError(f"{run}: native epoch index is not the exact 0..3 prefix")
             relative = PurePosixPath(str(entry["checkpoint_path"]))
             checkpoint = output.joinpath(*relative.parts).resolve()
             if not checkpoint.is_relative_to(output.resolve()) or _sha(checkpoint) != entry.get(
@@ -1037,7 +1141,28 @@ def _poll(args: argparse.Namespace) -> int:
             )
             return 1
         complete = _read(r5_complete)
-        if complete is not None:
+        controller_outcome = _r5_controller_outcome(complete) if complete is not None else "waiting"
+        if complete is not None and controller_outcome == "failed":
+            body = _progress_body(
+                snapshot,
+                "R5 controller failed after completion record; no release",
+                "The owned controller receipt is not terminal zero-exit; preserve artifacts and do not refit.",
+                _profile_counts(panel, gru, tf),
+            )
+            _api_head(client)
+            comment = publisher._post_comment(
+                client,
+                body,
+                repository_name=REPOSITORY,
+                pr_number=PR_NUMBER,
+                publisher_login=LOGIN,
+                idempotency_marker=COMMENT_MARKER,
+            )
+            _save_state(
+                state_path, panel_sha, args.deadline, time.time(), snapshot, comment, "failed"
+            )
+            return 1
+        if complete is not None and controller_outcome == "completed":
             try:
                 payload = _completion(args.panel, r5_complete, args.deadline)
                 validated_panel, final, grades, fit_rows, profiles, evidence, weights, lineage = (
