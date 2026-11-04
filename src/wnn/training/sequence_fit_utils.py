@@ -64,9 +64,11 @@ def collate_sequences(dataset: SequenceDataset, indices: Sequence[int]) -> Seque
 
 
 def move_and_validate_batch(
-    batch: SequenceItem, device: torch.device, hint_dim: int
+    batch: SequenceItem, device: torch.device, hint_dim: int, feature_count: int = FEATURE_COUNT
 ) -> SequenceItem:
-    """Move one batch and enforce canonical FP32 row, target, mask, and hint shapes."""
+    """Move one batch and enforce configured feature, target, mask, and hint shapes."""
+    if type(feature_count) is not int or feature_count < 1:
+        raise ValueError("feature_count must be a positive integer")
     moved = {key: value.to(device=device, non_blocking=True) for key, value in batch.items()}
     x, target, mask, teacher, hints = (
         moved["x"],
@@ -76,8 +78,8 @@ def move_and_validate_batch(
         moved["hints"],
     )
     expected_rows = (x.shape[0], SEQUENCE_ROWS)
-    if x.shape != (*expected_rows, FEATURE_COUNT):
-        raise ValueError(f"expected x[B,20000,112], received {tuple(x.shape)}")
+    if x.shape != (*expected_rows, feature_count):
+        raise ValueError(f"expected x[B,20000,{feature_count}], received {tuple(x.shape)}")
     if target.shape != (*expected_rows, TARGET_COUNT) or teacher.shape != target.shape:
         raise ValueError("label and teacher batches must have shape [B,20000,2]")
     if mask.shape != expected_rows or mask.dtype != torch.bool:

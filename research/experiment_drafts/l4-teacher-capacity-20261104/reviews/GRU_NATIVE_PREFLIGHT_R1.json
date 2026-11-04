@@ -1,0 +1,96 @@
+{
+  "format": "wunderfunder.gru-native-teacher-preflight.v1",
+  "experiment_id": "E-L4-TEACHER-CAPACITY-20261104",
+  "status": "pass_with_explicit_strict_fp32_muon_source_adaptation",
+  "source_base_commit": "a52d07d1d254f638d83e2ff4a6f590b07fd9e903",
+  "source_family": "S_GRU",
+  "approved_source_adaptation": {
+    "path": "src/wnn/training_dynamics.py",
+    "behavior": "pass strict_fp32=(args.precision == 'fp32') into both MuonAdamW construction paths",
+    "classification": "fresh strict-FP32 adaptation; not exact historical replay",
+    "must_be_bound_by_final_source_manifest": true
+  },
+  "fit_cells": [
+    {"model": "gru256x2_control", "hidden": 256, "layers": 2, "seeds": [1001, 1002]},
+    {"model": "gru384x2", "hidden": 384, "layers": 2, "seeds": [1001, 1002]},
+    {"model": "gru512x1", "hidden": 512, "layers": 1, "seeds": [1001, 1002]}
+  ],
+  "recipe": {
+    "input_schema": "native_raw112_plus_causal_event99_v1",
+    "input_width": 211,
+    "architecture": "plain_gru_linear_encoder_skip_head",
+    "dropout": 0.0,
+    "objective": "wmse",
+    "loss_normalization": "chunk",
+    "batch_size": 32,
+    "chunk_rows": 1000,
+    "update_rows": 1000,
+    "detach_rows": 1000,
+    "epochs": 4,
+    "checkpoint_policy": "fixed",
+    "checkpoint_epoch_zero_based": 3,
+    "optimizer": "MuonAdamW",
+    "muon_scope": "rnn_gate_matrices_only",
+    "muon_gate_blocks": 3,
+    "adamw_scope": "all_other_trainable_parameters",
+    "lr_peak": 0.001,
+    "weight_decay": 0.01,
+    "schedule": "onecycle",
+    "warmup_fraction": 0.05,
+    "precision": "strict_fp32",
+    "initializer": null,
+    "resume_state": null,
+    "teacher_cache": null
+  },
+  "chronological_primary_validation": {
+    "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "fit_train_sequences": 10325,
+    "fit_valid_sequences": 0,
+    "evaluation_sequences": 1873,
+    "scored_rows": 3528273,
+    "metric": "global_wp_clip2_v1",
+    "fit_membership_must_equal_manifest_train": true,
+    "evaluation_membership_must_equal_manifest_evaluation": true,
+    "seq_ix_is_not_chronological": true,
+    "validation_exposure": "previously inspected development valid; not fresh confirmation"
+  },
+  "loader_and_schedule_math": {
+    "sequence_length": 20000,
+    "drop_last": true,
+    "full_batches_per_epoch": 322,
+    "fit_sequences_presented_per_epoch": 10304,
+    "tail_sequences_dropped_per_epoch": 21,
+    "chunks_or_updates_per_batch": 20,
+    "updates_per_epoch": 6440,
+    "total_updates": 25760,
+    "onecycle_pct_start": 0.05,
+    "nominal_warmup_updates": 1288,
+    "clock_must_be_frozen_across_all_four_epochs": true
+  },
+  "preflight_gates": [
+    {"id": "source", "predicate": "final S_GRU manifest binds base commit plus only the approved GRU source adaptation; staged code/config/source hashes equal launch receipt"},
+    {"id": "args", "predicate": "all frozen recipe values equal recipe; precision=fp32; loss=wmse; no unsupported initializer/resume/cache/continuation/early-stop options"},
+    {"id": "input", "predicate": "built model n_in=211; causal event99 enabled; raw-only, heuristics, online_norm, research_features, privileged inputs, propensity, numeric map, and tied-lead disabled"},
+    {"id": "membership", "predicate": "split hash equals required SHA; fit train group set equals official 10325 train groups; fit valid is empty; evaluation group set equals all 1873 official valid groups; no caller-supplied random fold or seq_ix ordering; any runtime vfold label maps exactly to manifest evaluation groups"},
+    {"id": "sampler", "predicate": "seed is 1001 or 1002; batch_order=seeded; sampler uses seed+epoch and is without replacement; no class-balance or epoch-sample replacement; realized epoch order identities retained"},
+    {"id": "normalizer", "predicate": "fresh no-init preprocessing reads training-loader records only; normalizer hash, seed, loader/sampler identity, and source hash are recorded; no claim of all-fit moments"},
+    {"id": "optimizer_groups", "predicate": "Muon optimizer has strict_fp32=true on all groups; exactly all trainable GRU weight_ih/weight_hh layer matrices are in one Muon group with blocks=3; all other trainable parameters are in AdamW; groups are disjoint and exhaustive"},
+    {"id": "numeric_runtime", "predicate": "FP32 parameters, gradients and floating optimizer state; autocast disabled; CUDA matmul TF32 false; cuDNN TF32 false; float32 matmul precision highest; strict Newton-Schulz completes at least one actual update"},
+    {"id": "clock", "predicate": "OneCycle total_steps=25760, pct_start=0.05, max_lr=0.001, cycle_momentum=true; four full epochs; no schedule shortening, optimizer switch, or stop-after-epoch"},
+    {"id": "checkpoint", "predicate": "fixed endpoint epoch 3; four epoch checkpoints/history retained; complete official valid reported each epoch; selected_epoch=3; checkpoint and provenance hashes recorded; best-observed scores remain report-only"},
+    {"id": "resources", "predicate": "wave wall deadline <=43200s with >=2700s collection reserve; aggregate new output <=6500000000 bytes; data2 free space >=3000000000 bytes before writes; <=24 profiles and <=12 scientific fits; no full six-bank train prediction materialization"}
+  ],
+  "owner_execution_required": [
+    "final isolated S_GRU source manifest/hash",
+    "official data and split receipt from the owned node",
+    "optimizer-group and strict-FP32 first-update receipt",
+    "per-shape owned-device profile and measured runtime",
+    "per-fit fixed-epoch3 checkpoint, provenance and full-valid history receipt"
+  ],
+  "reviewer_actions": {"ssh": false, "gpu_profiles": false, "scientific_fits": false, "tests": false, "source_edits": false},
+  "limitations": [
+    "No remote data was inspected; source manifest hash, actual node environment/data identity, L4 timing, and output-cap headroom remain owner preflight gates.",
+    "Legacy normalization uses the first two train-loader batches with every-seventh-row sampling over flattened batch-by-time feature rows, not all 10325 training sequences; its scope is fitting-only and must be described accurately.",
+    "21 training sequences are dropped per epoch by the current batch32 drop_last loader; fit membership is still all official train groups, but each epoch processes 10304 complete sequences."
+  ]
+}

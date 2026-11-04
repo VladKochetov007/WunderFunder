@@ -17,6 +17,7 @@ from wnn.research_features import (
     research_features_torch,
     validate_causal_moment_prior,
 )
+from wnn.tiedlead import TIEDLEAD_INPUT_WIDTH, tiedlead_i1_at_last_i0_price_event
 from wnn.training.environment import TrainingEnvironment
 
 
@@ -42,8 +43,14 @@ def build_inputs(
     ev = event_features_torch(raw)
     if environment.inputs.raw_only:
         ev = torch.zeros_like(ev)
+    lead = (
+        tiedlead_i1_at_last_i0_price_event(raw, ev) if environment.inputs.tiedlead else None
+    )
+    if lead is not None and extra.shape[-1] != 0:
+        raise ValueError("tiedlead input mode does not accept extra source columns")
     if (
         environment.inputs.research_features in MOMENT_FEATURE_MODES
+        and lead is None
         and (not environment.inputs.online_norm)
         and (not environment.inputs.heuristics)
         and (environment.inputs.privileged_mode == "none")
@@ -66,8 +73,10 @@ def build_inputs(
         )
         return inputs
     if x.requires_grad:
-        return _build_staged_inputs(raw, extra, ev, environment)
+        return _build_staged_inputs(raw, extra, ev, lead, environment)
     input_parts = [raw, ev]
+    if lead is not None:
+        input_parts.append(lead.to(raw.dtype))
     if environment.inputs.online_norm:
         input_parts.append(online_zscore_torch(raw))
     propensity_parts = (
@@ -106,6 +115,8 @@ def build_inputs(
     inputs = torch.cat(input_parts, dim=-1)
     if environment.inputs.sentinel_preprocessor is not None:
         inputs = environment.inputs.sentinel_preprocessor.torch(inputs)
+    if lead is not None:
+        _validate_tiedlead_width(inputs)
     return inputs
 
 
@@ -113,10 +124,13 @@ def _build_staged_inputs(
     raw: torch.Tensor,
     extra: torch.Tensor,
     event: torch.Tensor,
+    lead: torch.Tensor | None,
     environment: TrainingEnvironment,
 ) -> torch.Tensor:
     """Retain the legacy autograd accumulation order for differentiable inputs."""
     inputs = torch.cat([raw, event], dim=-1)
+    if lead is not None:
+        inputs = torch.cat([inputs, lead.to(raw.dtype)], dim=-1)
     if environment.inputs.online_norm:
         inputs = torch.cat([inputs, online_zscore_torch(raw)], dim=-1)
     propensity_inputs = inputs
@@ -159,7 +173,15 @@ def _build_staged_inputs(
         )
     if environment.inputs.sentinel_preprocessor is not None:
         inputs = environment.inputs.sentinel_preprocessor.torch(inputs)
+    if lead is not None:
+        _validate_tiedlead_width(inputs)
     return inputs
+
+
+def _validate_tiedlead_width(inputs: torch.Tensor) -> None:
+    """Keep the causal lead block in the model's final 52 input columns."""
+    if inputs.shape[-1] != TIEDLEAD_INPUT_WIDTH:
+        raise ValueError("tiedlead input mode requires exactly 263 assembled columns")
 
 
 def fit_research_feature_prior(

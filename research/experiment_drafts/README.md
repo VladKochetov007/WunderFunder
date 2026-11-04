@@ -1,5 +1,25 @@
 # Research-team experiment catalogue
 
+- [Heterogeneous teachers and TL3 ensemble comparison](heterogeneous-tl3-20261030/README.md)
+  completes six fits and the original W18 dependency. All12 fixed combinations
+  are graded on full official valid; all25model/ensemble outputs independently
+  agree within5.55e-15. Student transfer is positive at both seeds, but its tested
+ 20%TL3 addition is negative. Best tested90%TL3 +10%GALAM gives+0.0001190223.
+  Seven-model weights/source release is GitHub-download-verified; our GPU jobs
+  have exited. Results remain exposed-validation evidence.
+
+- [GALAM local live monitoring and L4 comparison preparation](galam-l4-monitoring-20261028/README.md)
+  adds a selectable offline dashboard, actual epoch evaluation and explicitly
+  adapted GRU/local-only variants. Read-only inventory confirms8L4 but incomplete
+  train data and full disks block fit admission; no GPU experiment is running.
+
+- [GALAM reconstruction and chronological primary validation](galam-reconstruction-20261027/README.md)
+  implements the visible Denis Tomin diagram and canonical sequence adapter, with
+  separate32→32 and112→2 assumed-size templates. Forty-five CPU checks pass;
+  source fidelity and BatchNorm admission were independently reviewed. Original
+  parameters/FiLM remain unavailable, so no exact replication is claimed. No fit
+  or B300 profile was launched. Includes the standing chronological split policy.
+
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
@@ -29,6 +49,15 @@ The [October 18 base-sync receipt](BRANCH_SYNC_20261018_R3.json) records the no-
 | [#12](https://github.com/VladKochetov007/WunderFunder/pull/12) | Expand clean heterogeneous recurrent teacher cohort | `ec1e55bba63a` |
 | [#13](https://github.com/VladKochetov007/WunderFunder/pull/13) | Fixed checkpoint trajectory averaging | `cc523fc5c1c3` |
 | [#14](https://github.com/VladKochetov007/WunderFunder/pull/14) | Causal innovation residuals beyond moment features | `65f6fffdc559` |
+
+## L4 teacher capacity and measured student transfer — 4 November2026
+
+[The twelve-fit packet](l4-teacher-capacity-20261104/README.md) indexes the frozen
+eight-teacher/four-student allocation, source-qualified Transformer adapter,
+streaming target construction and completed six-GRU results/graphs. Wider GRUs
+lose at the fixed endpoint; observed best checkpoints are kept separate. The
+clipping/objective audit includes a synthetic optimizer replay and prospective
+diagnostics, with no additional scientific fit or public improvement claimed.
 
 ## Readiness
 

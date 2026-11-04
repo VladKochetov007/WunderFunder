@@ -10,6 +10,7 @@ pub mod rnn;
 pub mod rnn_fast;
 pub mod state_init;
 pub mod stream;
+pub mod tiedlead;
 pub mod vnni;
 
 #[cfg(feature = "python")]

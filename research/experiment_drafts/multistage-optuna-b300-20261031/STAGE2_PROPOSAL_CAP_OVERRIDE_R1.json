@@ -1,0 +1,79 @@
+{
+  "schema": "wnn.multistage-stage-proposal-cap-override.v1",
+  "override_id": "STAGE2_MAX_TRIALS_7_ONE_KNOWN_ZERO_UPDATE_FAILURE",
+  "status": "proposed_for_independent_approval",
+  "experiment_id": "E-MULTISTAGE-OPTUNA-B300-20261031-R1",
+  "target": {
+    "stage": 2,
+    "field": "max_trials",
+    "semantics": "maximum total Stage2 Optuna proposal count, not fit count",
+    "expected_current_value": 6,
+    "proposed_value": 7,
+    "permitted_new_trial_number": 6
+  },
+  "bindings": {
+    "continuation_path": "research/experiment_drafts/multistage-optuna-b300-20261031/recipes/R2_CONTINUATION.json",
+    "continuation_sha256": "03796b7cd5f1d57c6aa44590acf51edaab28f9b036cdaaeeb8ae5ef88e165562",
+    "recipe_review_path": "research/experiment_drafts/multistage-optuna-b300-20261031/INDEPENDENT_R2_RECIPE_REVIEW.json",
+    "recipe_review_sha256": "2d0dd946af20a7c476d54a15a35d898e6402d52074510810afa504a2c913b8bf",
+    "campaign_run_json_sha256": "d1f32df19d671bab3bd648bfc004eec65dced7b8d6815076c29c3e5dd4baae8e",
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "auxiliary_split_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075"
+  },
+  "basis": {
+    "continuation_stage2_additional_fit_cap": 6,
+    "current_stage2_total_trial_cap": 6,
+    "known_nonproductive_proposals": 1,
+    "effective_configuration_slots": 6,
+    "calculation": "6 effective configurations + 1 known zero-update failed proposal = 7 total proposals",
+    "existing_study_trial_numbers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "existing_successful_profiles_not_to_repeat": [
+      1,
+      2,
+      3
+    ],
+    "remaining_candidate_proposal_numbers": [
+      4,
+      5,
+      6
+    ]
+  },
+  "known_failed_proposal": {
+    "stage": 2,
+    "trial_number": 0,
+    "status": "failed before optimizer update",
+    "rank0_log": "absent",
+    "native_profile_receipt": "absent",
+    "process_exit_code": 1,
+    "cause": "model/config precision serialization failure before updates",
+    "evidence_source": "root/operator report; verify exact runtime files before applying sidecar"
+  },
+  "invariants": {
+    "stage2_fit_cap_unchanged": 8,
+    "continuation_additional_stage2_fits_unchanged": 6,
+    "global_fit_cap_unchanged": 48,
+    "global_profile_attempt_cap_unchanged": 56,
+    "campaign_wall_seconds_unchanged": 21600,
+    "collection_reserve_seconds_unchanged": 1200,
+    "profile_wall_seconds_unchanged": 180,
+    "source_and_data_identities_unchanged": true,
+    "trial0_not_reused": true,
+    "approved_profiles_1_to_3_not_reprofiled": true,
+    "no_additional_profile_allowance_beyond_global_cap": true,
+    "no_recipe_or_scientific_hyperparameter_change": true
+  },
+  "application_preconditions": [
+    "The consumer must find the exact bound continuation and recipe-review bytes.",
+    "The frozen runtime admission remains unchanged with stage2.max_trials == 6; consume this as a separate sidecar only.",
+    "Root verifies trial 0 has no rank0 profile log or native profile receipt and records failed exit code 1 before applying the override.",
+    "Existing stage2 trials 1, 2, and 3 keep their R6 approvals and are not profiled again.",
+    "Every new successful profile and fit remains subject to the existing R6 reviewer, fit ledger, source/data pins, campaign deadline, and fit caps."
+  ]
+}

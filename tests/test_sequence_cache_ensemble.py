@@ -12,6 +12,12 @@ from wnn.splits import CampaignSplit, file_sha256
 from wnn.training import sequence_cache_ensemble
 from wnn.training.sequence_cache import ENSEMBLE_KIND, TeacherCache
 from wnn.training.sequence_cache_ensemble import merge_teacher_caches
+from wnn.training.sequence_cache_ensemble_provenance import common_provenance
+from wnn.training.sequence_normalization import (
+    build_normalization_identity,
+    moments_sha256,
+    normalization_identity_sha256,
+)
 
 SPLIT_HASH = "a" * 64
 MEMBERS = [("train", 0), ("valid", 1)]
@@ -62,7 +68,13 @@ def _producer(
 ) -> dict[str, Any]:
     """Build a complete source-bound fixed-fit producer with seed-local device UUIDs."""
     fit_members = [list(member) for member in members]
-    config: dict[str, Any] = {"seed": seed, "epochs": 30, "model": {"hint_dim": 0}}
+    config: dict[str, Any] = {
+        "seed": seed,
+        "epochs": 30,
+        "normalization_scope": "all_fit",
+        "model": {"hint_dim": 0},
+    }
+
     if precision_mode is not None:
         config["precision_mode"] = precision_mode
         config["model"].update(
@@ -74,24 +86,29 @@ def _producer(
         )
     if recipe_change:
         config.update(recipe_change)
+    source_fingerprints = {
+        "datasets/train.parquet": {"sha256": "2" * 64},
+        "datasets/valid.parquet": {"sha256": "3" * 64},
+    }
+    mean, scale = np.zeros(112, dtype=np.float32), np.ones(112, dtype=np.float32)
+    normalization_data: dict[str, Any] = {
+        "scope": "all_fit",
+        "sequence_count": len(members),
+        "source_fingerprints": source_fingerprints,
+    }
+    normalizer_identity = build_normalization_identity(
+        source_fingerprints, SPLIT_HASH, members, "all_fit", 112
+    )
+    normalization_data["identity_sha256"] = normalization_identity_sha256(normalizer_identity)
+    normalization_data["moments_sha256"] = moments_sha256(mean, scale)
     data = {
         "split_sha256": SPLIT_HASH,
         "fit_members": fit_members,
         "input_schema": "raw112-v1",
         "mask": "is_scored AND row_index>=99",
         "training_mask": "is_scored",
-        "normalization": {
-            "scope": "all_fit",
-            "sequence_count": len(members),
-            "source_fingerprints": {
-                "datasets/train.parquet": {"sha256": "2" * 64},
-                "datasets/valid.parquet": {"sha256": "3" * 64},
-            },
-        },
-        "sources": {
-            "datasets/train.parquet": {"sha256": "2" * 64},
-            "datasets/valid.parquet": {"sha256": "3" * 64},
-        },
+        "normalization": normalization_data,
+        "sources": source_fingerprints,
         "teacher": None,
     }
     devices = [
@@ -157,7 +174,7 @@ def _producer(
     provenance = {
         "schema": "wnn.sequence-provenance.v1",
         "identity": identity,
-        "normalization": {"mean": [0.0] * 112, "std": [1.0] * 112},
+        "normalization": {"mean": mean.tolist(), "std": scale.tolist()},
         "profile_receipt": {"path": f"/seed-{seed}/profile.json", "sha256": "5" * 64},
         "history": [{"seed": seed}],
         "fixed_checkpoint_policy": "configured-final-epoch",
@@ -173,6 +190,90 @@ def _producer(
         "config": config,
         "provenance": provenance,
     }
+
+
+def test_current_footer_source_provenance_uses_portable_registry(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Bind native footer-only metadata to the registry used by the live data loader."""
+    primary_split_hash = "b" * 64
+    registry_path = tmp_path / "portable-data-r1.json"
+    source_files = {}
+    registry_sources = {}
+    for name, content in (
+        ("datasets/train.parquet", b"train bytes, including a full content digest"),
+        ("datasets/valid.parquet", b"valid bytes, independently bound"),
+    ):
+        record = {
+            "bytes": len(content),
+            "mtime_ns": 123456789,
+            "footer_bytes": 12,
+            "footer_sha256": hashlib.sha256(content[-12:]).hexdigest(),
+        }
+        source_files[name] = record
+        registry_sources[name] = {
+            "original_identity": dict(record),
+            "sha256": hashlib.sha256(content).hexdigest(),
+        }
+    registry = {
+        "version": 1,
+        "split_manifest_sha256": primary_split_hash,
+        "sources": registry_sources,
+    }
+    registry_path.write_text(json.dumps(registry))
+    monkeypatch.setenv("WNN_PORTABLE_DATA_MANIFEST", str(registry_path))
+
+    members = [("train", 0)]
+    producer = _producer(17, "c" * 64, members, precision_mode="fp32")
+    provenance = producer["provenance"]
+    data = provenance["identity"]["data"]
+    train_sources = {"datasets/train.parquet": source_files["datasets/train.parquet"]}
+    data.update(
+        primary_split_sha256=primary_split_hash,
+        sources=source_files,
+    )
+    data["normalization"]["source_fingerprints"] = train_sources
+    normalization_identity = build_normalization_identity(
+        train_sources, SPLIT_HASH, members, "all_fit", 112
+    )
+    data["normalization"]["identity_sha256"] = normalization_identity_sha256(normalization_identity)
+    producer["fit_members"] = [["train", 0]]
+    producer["split_sha256"] = SPLIT_HASH
+    provenance["identity"]["data_sha256"] = _canonical_sha(data)
+    provenance["identity"]["runtime"].update(
+        {
+            "precision": {
+                "mode": "fp32",
+                "attention_backend": "math",
+                "cublas_emulate_single_precision": None,
+                "parameter_dtype": "float32",
+                "gradient_dtype": "float32",
+                "optimizer_state_dtype": "float32",
+                "activation_cache_dtype": "float32",
+                "amp_scaler": False,
+                "model_compute": "IEEE FP32",
+                "model_forward": "strict FP32",
+                "loss": "FP32",
+                "optimizer": "FP32 outside model precision contexts",
+            },
+            "compiler": {
+                "enabled": False,
+                "backend": None,
+                "mode": None,
+                "fullgraph": False,
+                "dynamic": None,
+                "recompile_limit": None,
+            },
+        }
+    )
+    provenance["precision"] = provenance["identity"]["runtime"]["precision"]
+
+    common_provenance(producer, provenance)
+
+    registry["sources"]["datasets/train.parquet"]["original_identity"]["footer_sha256"] = "f" * 64
+    registry_path.write_text(json.dumps(registry))
+    with pytest.raises(ValueError, match="portable registry source identity differs"):
+        common_provenance(producer, provenance)
 
 
 def _write_cache(
@@ -444,7 +545,7 @@ def test_accepts_distinct_b300_uuids_but_rejects_different_normalizer(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     roots = _caches(tmp_path, monkeypatch, normalizer_change=True)
-    with pytest.raises(ValueError, match="shared fit provenance"):
+    with pytest.raises(ValueError, match="normalizer provenance"):
         merge_teacher_caches(roots, tmp_path, tmp_path / "split.json", tmp_path / "mean")
 
     valid_root = tmp_path / "valid"

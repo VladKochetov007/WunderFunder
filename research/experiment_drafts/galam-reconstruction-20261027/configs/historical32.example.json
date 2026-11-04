@@ -1,0 +1,51 @@
+{
+  "input_features": 32,
+  "output_features": 32,
+  "width": 64,
+  "attention_heads": 4,
+  "lstm_layers": 1,
+  "global_blocks": 1,
+  "local_attention_blocks": 1,
+  "attention_history": 64,
+  "conv_kernel_size": 5,
+  "conv_hidden_width": 128,
+  "relative_bias_width": 32,
+  "timestamp_source": "ordinal",
+  "timestamp_scale": 1.0,
+  "feed_forward_width": 128,
+  "fusion_mode": "diagram_channel_product",
+  "fusion_channel_order": [
+    "global_memory",
+    "local_memory",
+    "hidden_projection",
+    "cell_projection"
+  ],
+  "faithful_details": [
+    "decoder_post_rms_norm_and_gelu_ffn",
+    "fusion_gate_linear_silu_linear_sigmoid",
+    "gated_fusion",
+    "global_residual_post_layer_norm",
+    "historical_32_input_and_output_widths",
+    "learned_relative_timestamp_bias",
+    "local_batch_norm_then_lstm",
+    "post_gate_channel_product",
+    "query_key_rms_normalization",
+    "schematic_conv_gelu_batchnorm_order",
+    "schematic_global_conv_mixer",
+    "separate_global_and_local_memories",
+    "temporal_attention_in_both_memories"
+  ],
+  "assumed_details": [
+    "attention_history_and_convolution_kernel",
+    "author_geglu_text_vs_schematic_conv_mixer",
+    "batch_norm_axis_and_running_stat_convention",
+    "convolution_hidden_width",
+    "fusion_bypass_source_equation",
+    "fusion_channel_order",
+    "hidden_cell_projection_and_ffn_widths",
+    "lstm_and_attention_block_counts",
+    "relative_time_scale_and_source",
+    "width_and_attention_heads"
+  ],
+  "role": "historical_32_to_32"
+}

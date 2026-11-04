@@ -1,0 +1,27 @@
+﻿{
+  "schema": "independent-galam-fixed-blend-rescore.v1",
+  "scope": "local read-only array audit and independent CPU rescore; no inference, GPU, remote action, fit, or canonical-source edit",
+  "corrected_frozen_plan_sha256": "e0674782692d850e8910af807bbdc6407f851413bec66a7264cb909c9e6103e2",
+  "probe_script_sha256_at_review": "514d3aae37d828f115396cedea37f4afd8506519da998225e7d74638b9c79e1d",
+  "inputs": {
+    "rows": 3528273,
+    "shape_each": [3528273, 2],
+    "dtype_each": "float32",
+    "target_sha256": "0a2f0d9c161f0d036a9a49bb3a08668e78e2cedd8336a279256df7242a9bfa99",
+    "reference_prediction_sha256": "97c56febedc0c1f986b31ab9c24901163de749a88385b5728b5328c5d81d3dfb",
+    "galam128_prediction_sha256": "51848a960564d29712764a3ce1811d373c3836537abf0150b5e2b054af6b2141",
+    "shared_row_order_sha256": "3bea10bd2a1f064e0675b73f960aa76814392ad58b2e6218221f01c0b483076f",
+    "all_arrays_finite": true,
+    "receipt_rows_and_metric_ids_verified": true
+  },
+  "method": "Independently computed each target's weighted Pearson in two float64 passes: clip target and prediction to [-2,2], weight by abs(clipped target), accumulate weighted means, then centered weighted covariance and variances. For blends, first mix raw float32 outputs with frozen coefficient and cast to float32, then apply the metric clip. Chunked at 262144 rows, one logical CPU affinity, peak working set 142.29 MiB.",
+  "metrics": {
+    "g0_reference": {"t0": 0.6727750026975245, "t1": 0.682937243734686, "wp": 0.6778561232161053, "delta_wp_vs_g0": 0.0},
+    "galam_lstm128": {"t0": 0.667491786422262, "t1": 0.677247038795163, "wp": 0.6723694126087125, "delta_wp_vs_g0": -0.0054867106073928},
+    "fixed_blend_90_10": {"t0": 0.6749079025336182, "t1": 0.684711539266546, "wp": 0.6798097209000822, "delta_wp_vs_g0": 0.0019535976839769},
+    "fixed_blend_80_20_primary": {"t0": 0.67642690771641, "t1": 0.6860124494427963, "wp": 0.6812196785796032, "delta_wp_vs_g0": 0.0033635553634979},
+    "fixed_blend_70_30": {"t0": 0.6773298884825295, "t1": 0.686811610375737, "wp": 0.6820707494291333, "delta_wp_vs_g0": 0.004214626213028}
+  },
+  "receipt_match": "Independent g0 and GALAM t0/t1/WP values match their endpoint receipts within 1e-6 (observed differences are below 2e-13). Both receipts attest all 3,528,273 rows and the same row-order SHA.",
+  "interpretation": "On this exposed primary-valid set, the frozen g0/GALAM-LSTM128 80/20 blend scores WP 0.6812196786, a +0.0033635554 observed delta over g0 alone; all predeclared 10/20/30 percent blends improve this observed metric. GALAM alone is below g0. This is a single-fit pairwise benchmark against the g0 GRU reference, not the full team ensemble. Validation was exposed to checkpoint selection, so this supports only a report-only observed-valid comparison and says nothing confirmatory about independent generalization, public/private score, or production deployment. The g4 endpoint was not included in this rescore."
+}

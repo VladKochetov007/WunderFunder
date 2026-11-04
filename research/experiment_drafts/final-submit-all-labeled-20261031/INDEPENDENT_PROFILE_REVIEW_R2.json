@@ -1,0 +1,124 @@
+{
+  "schema": "wnn.final-submit-independent-profile-review.v1",
+  "reviewer": "independent profile admission checker",
+  "status": "both_sample_profiles_pass",
+  "scope": "bounded engineering profile admission only; no quality score or submission claim",
+  "checked_at_utc": "2026-11-01",
+  "bundle": {
+    "artifact_relay_root": "C:/Users/admin/Documents/Codex/reviews/tabdata-final-submit-artifacts-20261031",
+    "archive_sha256": "21cde89a396785218bc2b064ad0ef34325c80b46145fc66fd8285530cc11af7c",
+    "manifest_sha256": "722f24f162c4333dca0c5d43eea4a6370b43df5365642aa0b97cf9c723e474cd",
+    "entries_verified": 15,
+    "all_manifest_byte_counts_and_sha256_verified": true
+  },
+  "plan": {
+    "path": "inputs/final-plan-r2.json",
+    "file_sha256": "72aab31bbc4e40de8712bc599b7d6ad922b8b4a5de44d16225d355e8d1e17e2f",
+    "internal_plan_sha256": "29802499ab6ba62586b612cd10164d27c9737a96cf8de41c09fef3f6d0402cf4",
+    "parent_plan_sha256": "16cff26f560de1770232d8cdbd048374cc9911fa112a51d23b46f6566d8b9bda",
+    "tl3_subtotal": {
+      "fits": 17,
+      "configured_epochs": 54,
+      "optimizer_updates": 312000
+    },
+    "source4_lstm_addition": {
+      "node_id": "source4_lstm192x1",
+      "config_file_sha256": "e4b909d9bd41dcc01bd1c8bf70b291b06f13d55910ccae0f04ec63710c409dc7",
+      "config_identity_sha256": "4de639f614307810ad578be64bb024ff5f688d667bfb1cf3c5ddfb4d08d39d6e",
+      "configured_epochs": 8,
+      "optimizer_updates": 7840
+    },
+    "aggregate": {
+      "fits": 18,
+      "configured_epochs": 62,
+      "optimizer_updates": 319840
+    },
+    "membership": {
+      "train_groups": 10607,
+      "valid_groups_fit": 1873,
+      "independent_evaluation_groups": 0,
+      "independent_score_claim": "forbidden"
+    }
+  },
+  "sources": {
+    "source_capsule_sha256": "8381c0d6a6333cbc32dca2187516994c5a80832193bcf2531bd606511bc7ccb4",
+    "source_validation_sha256": "1e8a8a794a0b8d9677a76030e570681074503d38aa2d54b80e36067566b94ce0",
+    "membership_file_sha256": "3f766945e00a2fa5edc6230d9c0bed125da112584f11e3d82458167a011bf543",
+    "source_file_maps_checked_against_capsule": {
+      "native_lstm_files": 314,
+      "legacy_tl3_files": 143,
+      "native_full_source_code_sha256": "c6c6e8bdf8ba636bc264d8b158f9ddf5e25e314e443ffc5011e6b4417a7b9f80",
+      "legacy_full_source_code_sha256": "d482ca41966b19ba52f7768d239b90a376b7ba83ec2462cd704a1c5959edbdfb"
+    }
+  },
+  "execution_harness": {
+    "profile_wrapper_request_sha256": null,
+    "profile_wrapper_sha256_postrun_bundle_manifest": "8ccc3c5bfa1c69e814391cf2d0a22105fc22d9991d907ced8c97f3150db8af41",
+    "profile_pair_launcher_sha256_postrun_bundle_manifest": "1ee36833afcb06afe2193e1934d8917dbf7eb32116f267663ca6cd9ac86d2649",
+    "bundle_manifest_sha256": "722f24f162c4333dca0c5d43eea4a6370b43df5365642aa0b97cf9c723e474cd",
+    "source_review": "profile wrapper only runpy-executes the public trainer and emits same-process resources; pair launcher computes source identity, writes request bytes, and launches the frozen command"
+  },
+  "profiles": [
+    {
+      "node_id": "source4_lstm192x1",
+      "mode": "native_source4_lstm",
+      "request_sha256": "857c9bf545f28db5900c886702ff8c4dc8d7e80e4711b5435fcbc39ba80040ef",
+      "process_receipt_sha256": "e535d044626810121a0b5885ab584f7cd364e7ccf8e6ce17facda539f19ad5b3",
+      "profile_receipt_sha256": "3aead0177fcd1fc1c9f9e12d2fbbbb63f85b6bf5312060bebaae240834c74e94",
+      "rank_log_sha256": "f779a065fcf6b24523b106fcdbc30b693b8b73d725c36da5b4aefedaabc8a9fd",
+      "approved_copy": "profile-reviews/native-lstm-r2-final/approved_profile_receipt.json",
+      "approved_copy_sha256": "cf777b3d198c9239a1df6e2d9d983218676f7b35b5d4069a99b4b405b103853a",
+      "review_sha256": "dd4462912ecce46d9c6664888879a6a14269755d3df1e27f2e92ce158e41ca1e",
+      "updates": 50,
+      "elapsed_seconds": 21.839201811,
+      "gpu_uuid": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e",
+      "peak_allocated_bytes": 4838799360,
+      "peak_reserved_bytes": 7595884544,
+      "host_peak_rss_bytes": 17108983808,
+      "oom_count": 0,
+      "profile_check_status": "approved"
+    },
+    {
+      "node_id": "fin256_s3",
+      "mode": "legacy_tl3",
+      "request_sha256": "4fee8b80977dabe985ad4d35bd2f55637ad229472e16fafcb2829639424396ca",
+      "process_receipt_sha256": "428fe51d9ae05fb5d537a2e5f4706124fe2e8e28b1b219aeb3d64a451190da19",
+      "profile_log_sha256": "eaa5504364723d35823b3f4961f5d0f343a66ed0e916520d48a2be7ad5b66978",
+      "approved_copy": "profile-reviews/legacy-fin256-r2-final/approved_profile_receipt.json",
+      "approved_copy_sha256": "9e01f3c052912052538916c7fcabe5084facdb043c5c74e9cfeb638588795e34",
+      "review_sha256": "032b8b407a483b82c4e31fc99669596a5207032379f7e4360d8ead0ea7e4f384",
+      "profile_batches_measured": 5,
+      "warmup_batches": 1,
+      "optimizer_attempts_total": 60,
+      "optimizer_completed_updates": 60,
+      "losses_and_gradients_finite": true,
+      "profile_step_wall_ms": 3533.86,
+      "sequence_per_second": 9.06,
+      "gpu_uuid": "GPU-25ae492c-db98-e1ae-0f5e-c56365a422c7",
+      "peak_allocated_bytes": 3023869440,
+      "peak_reserved_bytes": 4110417920,
+      "host_peak_rss_bytes": 7398563840,
+      "oom_count": 0,
+      "profile_check_status": "approved"
+    }
+  ],
+  "passed_checks": [
+    "pre-frozen request byte hashes",
+    "plan internal hash, TL3 subtotal, explicit Source4 addition, and aggregate inventory",
+    "complete 12,480-member source-qualified fit set and zero evaluation members",
+    "pinned source-validation receipt, row-group counts, and sequence decode evidence",
+    "expected source file maps recomputed from the source capsule archive",
+    "exact profile command binding to frozen scientific recipe",
+    "owned process exit zero, no timeout, expected GPU, CPU4 thread environment, and output path",
+    "native Source4 config and normalized config identity",
+    "strict FP32 runtime, finite loss/gradient evidence, measured resources, and no OOM",
+    "separate approved receipt copies; original native profile receipt remains unapproved"
+  ],
+  "limitations": [
+    "These profiles are engineering evidence only; they do not report predictive quality or support a public-score claim.",
+    "The legacy profile covers fin256_s3 with batch32/chunk2000. It does not directly exercise the tiedlead/chunk1000 or W18 distillation-cache consumer paths; their recipe and runtime cache guards remain necessary.",
+    "Both pre-run requests have profile_wrapper_sha256=null. The postrun bundle manifest binds profile_wrapper_r2.py at 8ccc3c5bfa1c69e814391cf2d0a22105fc22d9991d907ced8c97f3150db8af41, and its contents were inspected: it runpy-executes the public trainer and emits actual CUDA/RSS telemetry. The wrapper bytes were not prebound in the request.",
+    "The legacy profile exits before the normal run-provenance artifact is written. The checker used the actual serialized ARGS and DATA_COUNTS emitted by the trainer plus the frozen CLI request and source-capsule map; it did not create or infer trainer provenance.",
+    "The R2 plan internal hash and embedded amendment pointer were verified, but the parent R1 plan bytes were not included in the transferred bundle, so the parent hash could not be independently recomputed."
+  ]
+}

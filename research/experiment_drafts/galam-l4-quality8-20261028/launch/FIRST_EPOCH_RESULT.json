@@ -1,0 +1,102 @@
+{
+  "observed_utc": "2026-10-28T06:15:15.290921+00:00",
+  "cell": "g0-plain-gru256x2",
+  "result_kind": "intermediate_epoch_not_final_endpoint",
+  "validation_event": {
+    "context": {
+      "loss_definition": "weighted MSE of raw predictions against clip(target,-2,2), weighted by abs(clipped target)",
+      "mask_comparison": "train_eval uses all_after_warmup; valid uses official is_scored; masks differ",
+      "metric_id": "global_wp_clip2_v1",
+      "run_identity_sha256": "e8929831e1a56b975c85b7e7ba72d44f5a71f822786aa99432de537f65cdba1f",
+      "run_metadata": "run_metadata.json",
+      "train_eval": {
+        "batch_size": 384,
+        "coverage_complete": true,
+        "evaluation_scope": "fixed source-qualified fitting cohort; diagnostic only",
+        "input_feature_mode": "event211",
+        "mask_definition": "all rows after row 99 warmup; actual fitting objective mask",
+        "member_count": 32,
+        "member_sha256": "af03f5f34692d6b783e11e9a22b5000cf781e880bad77488542e30724fba74ff",
+        "row_mask": "all_after_warmup"
+      },
+      "valid": {
+        "batch_size": 384,
+        "coverage_complete": true,
+        "evaluation_scope": "full official valid; exposed to declared stopping and checkpoint pointers; validation remains out of fitting",
+        "input_feature_mode": "event211",
+        "mask_definition": "official is_scored mask after row 99 warmup",
+        "member_count": 1873,
+        "member_sha256": "44bdcf8444d841ce013411cd82a0ca1d9e46728937212cdc52e04da7e24ff3f7",
+        "row_mask": "is_scored",
+        "selected_rows": 3528273,
+        "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+      },
+      "wp_definition": "one global pooled clipped weighted Pearson over the whole cohort"
+    },
+    "epoch": 1,
+    "kind": "evaluation",
+    "metrics": {
+      "timing/evaluation_seconds": 75.15989573672414,
+      "timing/full_valid_seconds": 73.93800570443273,
+      "timing/paired_evaluation_seconds": 75.15989573672414,
+      "timing/train_eval_seconds": 1.2216475829482079,
+      "train_eval/loss": 1.341924423600839,
+      "train_eval/prediction_clipped_fraction": 0.0001067785538415155,
+      "train_eval/prediction_mean": -0.41272028940747574,
+      "train_eval/prediction_std": 0.4655818404199364,
+      "train_eval/score": 0.4498690374372977,
+      "train_eval/score/t0": 0.4630198738958195,
+      "train_eval/score/t1": 0.43671820097877595,
+      "train_eval/selected_rows": 636832,
+      "train_eval/sequence_count": 32,
+      "train_eval/wp": 0.4498690374372977,
+      "train_eval/wp/t0": 0.4630198738958195,
+      "train_eval/wp/t1": 0.43671820097877595,
+      "valid/loss": 1.0262915112082838,
+      "valid/prediction_clipped_fraction": 0.0002120017356933548,
+      "valid/prediction_mean": -0.28250570715946083,
+      "valid/prediction_std": 0.6741034265636966,
+      "valid/score": 0.6681328342131636,
+      "valid/score/t0": 0.6659784030648332,
+      "valid/score/t1": 0.6702872653614939,
+      "valid/selected_rows": 3528273,
+      "valid/sequence_count": 1873,
+      "valid/wp": 0.6681328342131636,
+      "valid/wp/t0": 0.6659784030648332,
+      "valid/wp/t1": 0.6702872653614939
+    },
+    "schema": "wnn.monitor.v1",
+    "step": 6460,
+    "wall_time": "2026-10-28T06:12:43.176026Z"
+  },
+  "checkpoint_pointers": {
+    "best": {
+      "epoch": 1,
+      "path": "epoch_checkpoints/epoch-000001-94db7c641883d5de298e2dbc54d3671b894acac452f8ef03547b3b5e85798536.pt",
+      "sha256": "94db7c641883d5de298e2dbc54d3671b894acac452f8ef03547b3b5e85798536",
+      "valid_wp": 0.6681328342131636
+    },
+    "best_checkpoint_policy": "strict highest valid WP; report-only validation is exposed",
+    "best_raw_wp": 0.6681328342131636,
+    "completed_epochs": 1,
+    "early_stopping": {
+      "bad_count": 0,
+      "min_delta": 0.0005,
+      "min_delta_applies_to": "patience reset only; best pointer uses strict raw WP",
+      "min_epoch": 5,
+      "patience": 4,
+      "patience_counting": "consecutive full-valid checks from the first check; stopping is eligible after min_epoch",
+      "patience_reference_wp": 0.6681328342131636
+    },
+    "last": {
+      "epoch": 1,
+      "path": "epoch_checkpoints/epoch-000001-94db7c641883d5de298e2dbc54d3671b894acac452f8ef03547b3b5e85798536.pt",
+      "sha256": "94db7c641883d5de298e2dbc54d3671b894acac452f8ef03547b3b5e85798536",
+      "valid_wp": 0.6681328342131636
+    },
+    "monitor_metric": "full official-valid pooled WP",
+    "run_identity_sha256": "e8929831e1a56b975c85b7e7ba72d44f5a71f822786aa99432de537f65cdba1f",
+    "schema": "wnn.sequence-monitor-checkpoints.v1",
+    "status": "running"
+  }
+}

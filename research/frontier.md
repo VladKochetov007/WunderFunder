@@ -1,5 +1,23 @@
 # Active frontier
 
+Current instruction,2026-10-31: prepare the [full-corpus final submission](experiment_drafts/final-submit-all-labeled-20261031/README.md)
+under [ADR0045](../specs/adr/0045-submission-only-all-labeled-final-fit.md).
+Reuse the fixed TL3+LSTM architecture; no broad new search. Audit all12480
+source-qualified groups, final-only teacher/cache ancestry, CPU serving and
+actual bounded profiles before full fits. Final valid is fitting data; old
+honest train-only scores remain recipe evidence. No platform upload yet.
+
+Current scoped continuation,2026-10-31: the user approved the
+[five-fit batch/TBPTT screen](experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md)
+after the completed multistage wave. Fixed4E, exact reused A/1301, official
+train-only ancestry, two matched seeds per arm; no open-ended search. The six
+cheap prior-model mixtures are complete;90%TL3+10%LSTM scores0.692502063 versus
+TL30.692377425 on exposed official valid. [Final endpoints](experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/RESULTS.md)
+are complete: B-A negative at both seeds, C-B mixed, all six new GRU-pool/TL3
+mixtures negative. Five configured-final weights and17rows are published; all
+owned GPU commands exited. No successor is queued. Foreign NIER/MPS preserved.
+The older dated allocations and targets below are historical.
+
 Current continuation, 2026-10-04: implementation and autonomous local/Kaggle
 GPU/TPU research are user-authorized. Read
 [the execution contract](campaign_2026-10-04/EXECUTION_CONTRACT.md) and

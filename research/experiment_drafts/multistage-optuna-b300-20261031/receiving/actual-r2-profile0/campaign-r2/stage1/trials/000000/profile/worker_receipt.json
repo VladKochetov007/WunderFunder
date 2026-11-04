@@ -1,0 +1,65 @@
+{
+  "schema": "wnn.multistage-owned-process.v1",
+  "stage": 1,
+  "trial_number": 0,
+  "mode": "profile",
+  "gpu_key": "7",
+  "owner": {
+    "pid": 2767817,
+    "pgid": 2767817,
+    "birth": "81996691",
+    "worker_id": "stage1-smoke-000001",
+    "mode": "profile"
+  },
+  "command": [
+    "/data/epanov_s/tabdata/.venv/bin/python",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/operator-native4/scripts/train_sequence.py",
+    "--config",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/stage1/trials/000000/config.json",
+    "--data-root",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/data",
+    "--split-manifest",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/data/cache/multistage/auxiliary-r3.json",
+    "--output",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/stage1/trials/000000/profile/training_output",
+    "--profile-updates",
+    "50"
+  ],
+  "command_sha256": "6a225d352ecd5bba743dd3fab2e15d81643276ee1e03330406832f086fe3b08c",
+  "cwd": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/operator-native4",
+  "output_dir": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/campaign-r2/stage1/trials/000000/profile/training_output",
+  "started_at_utc": "2026-10-31T01:28:00.080006+00:00",
+  "started_at_epoch": 1793410080.0800335,
+  "timeout_seconds": 180,
+  "effective_thread_environment": {
+    "OMP_NUM_THREADS": "4",
+    "MKL_NUM_THREADS": "4",
+    "OPENBLAS_NUM_THREADS": "4"
+  },
+  "child_environment": {
+    "OMP_NUM_THREADS": "4",
+    "MKL_NUM_THREADS": "4",
+    "OPENBLAS_NUM_THREADS": "4"
+  },
+  "cpu_thread_env": {
+    "OMP_NUM_THREADS": "4",
+    "MKL_NUM_THREADS": "4"
+  },
+  "status": "completed",
+  "child": {
+    "pid": 2767828,
+    "pgid": 2767828,
+    "birth": "81996880"
+  },
+  "exit_code": 0,
+  "timed_out": false,
+  "finished_at_utc": "2026-10-31T01:28:55.228299+00:00",
+  "finished_at_epoch": 1793410135.2283273,
+  "nvml_pre_profile": {
+    "status": "observed",
+    "device_uuid": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+    "free_memory_bytes": 287176654848,
+    "total_memory_bytes": 288400343040,
+    "observed_at_utc": "2026-10-31T01:28:00.079034+00:00"
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "schema": "wunder.connectome.challenge2.hypothesis_cards.v1",
+  "packet_id": "E-W18-L4-QUALITY-20261104/HYPOTHESES_BLIND_R1",
+  "initial_commit_time_utc": "2026-11-04T10:33:43Z",
+  "status": "blind_initial_commit",
+  "scope": {
+    "question": "Which reproducible train-only changes improve the eligible W18/GRU lineage or add useful signal to a fixed clean-reference blend?",
+    "proposal_only": true,
+    "fits_started_by_scout": 0,
+    "profiles_started_by_scout": 0,
+    "source_edits_by_scout": 0,
+    "other_agent_proposals_read": false,
+    "historical_result_tables_read": false,
+    "eligible_control": "Unresolved. ROOT must audit train-only ancestry first; otherwise define one fresh clean GRU256x2 control. Never use submitted full-corpus W18 or its ineligible teachers as validation parents."
+  },
+  "common_contract": {
+    "primary_split": "Official earlier 10,607 whole-sequence train members -> later 1,873 whole-sequence valid members; no random rows/folds and no seq_ix chronology.",
+    "fit_ancestry": "All learned weights, priors and preprocessing use eligible train members only. Validation has been repeatedly exposed and is discovery evidence, not independent confirmation.",
+    "primary_metric": "Official scored rows only; clipped-label-magnitude-weighted pooled Pearson, both targets, full official validation.",
+    "comparison": "One audited control plus three selected cards, each paired on fitting seeds 1001 and 1002. Max 20 epochs. Freeze one endpoint before fitting; report standalone candidate-control and fixed 0.9 control + 0.1 candidate deltas on identical rows.",
+    "blend_rule": "No coefficient or candidate selection on a reoptimized blend. A candidate may be useful below control standalone only if the predeclared 90/10 blend improves.",
+    "screen_thresholds_from_contract": {
+      "single_model_delta": 0.0003,
+      "fixed_blend_delta": 0.0002,
+      "meaning": "Allocation thresholds, not significance guarantees or predicted gains."
+    },
+    "execution_invariants": [
+      "Strict FP32; autocast, TF32 and training quantization off.",
+      "Reset every recurrent or feature state at sequence boundaries.",
+      "No validation in normalizer, teacher, initializer, preprocessing, or blend ancestry.",
+      "ROOT owns fit/profile admission and selects only three mechanisms from these eight cards."
+    ]
+  },
+  "cards": [
+    {
+      "id": "H01_CAUSAL_INNOVATIONS",
+      "lens": ["re-encode", "representation"],
+      "mechanism_family": "online local center-scale and innovation channels",
+      "change": "Append the existing causal_innovations representation to the baseline's 211 causal inputs. It supplies train-prior-shrunk slow/fast projected means and scales plus a current innovation channel. Fit its projected prior only on the official train members.",
+      "exact_existing_flags": ["--research-features causal_innovations"],
+      "hypothesis": "Within-sequence level or volatility changes may make a single static input scale unreliable. Presenting each row's causal surprise beside its raw and event inputs may let the GRU use both absolute level and local deviation.",
+      "predicted_observable": "Hypothesis: the feature channels vary within sequences, and paired full-valid score improves where the raw feature distribution changes. No numerical gain is estimated.",
+      "falsifier": "The train-only prior or feature replay fails the causal/reset audit; or, for the frozen two-seed recipe, both paired fixed-blend deltas are nonpositive and the full-valid primary endpoint does not reach its contract threshold. This falsifies this recipe, not online normalization in general.",
+      "cheapest_discriminating_test": "Before admission, audit prior membership/hash and run the existing CPU feature parity/reset checks on synthetic sequences; then profile the exact 211+80 input recipe. Quality discrimination still requires the paired full-train fits and frozen full-valid endpoint.",
+      "likely_failure": "The extra projected statistics duplicate existing event/online-normalization channels, or the fitted train prior poorly represents later sequences. The additional 80 input columns can also slow input construction.",
+      "implementation_and_cost": "Existing feature path; no model code change. Low-to-moderate memory and input cost (+80 columns), one train-only prior pass. Record actual profile before fitting.",
+      "fixed_blend_path": "Local innovations can correct a control prediction when the control misses regime-relative moves; even a weaker standalone candidate may help if those residuals differ from the control on scored rows.",
+      "references": []
+    },
+    {
+      "id": "H02_GROUP_AGE",
+      "lens": ["instrument", "re-encode"],
+      "mechanism_family": "observation-staleness state",
+      "change": "Append the existing group_age channels: log rows since any exact raw-field change within each of the seven fixed raw-field groups. State starts at each sequence boundary.",
+      "exact_existing_flags": ["--research-features group_age"],
+      "hypothesis": "A field's value may be less informative without knowing whether it changed just now or has been held for many rows. Age is an observable for that hidden data-collection state; it adds no future information.",
+      "predicted_observable": "Hypothesis: train-only age channels have nontrivial sequence variation and improve full-valid prediction around sparse or delayed raw updates. No numerical gain is estimated.",
+      "falsifier": "Train-only age channels are effectively constant or have no support across groups; or both paired fixed-blend deltas are nonpositive and the full-valid candidate fails the frozen practical screen.",
+      "cheapest_discriminating_test": "On fitting members only, count nonzero values and per-sequence age variation by group, then check reset behavior with synthetic held/change patterns. Do not inspect valid to choose age definitions.",
+      "likely_failure": "Raw fields may change every row, making ages nearly zero, or exact-equality age may reflect serialization quirks rather than meaningful staleness. The 7 row scans may also cost more than their small width suggests.",
+      "implementation_and_cost": "Existing feature mode; no fitted prior and no source change. Adds seven channels and a causal scan. Low model-size cost; runtime should be measured.",
+      "fixed_blend_path": "The age channels can supply a distinct timing cue when the GRU's value representation is similar but its uncertainty about stale versus fresh inputs differs; complementary errors could help at 10% weight.",
+      "references": []
+    },
+    {
+      "id": "H03_STRUCTURED_DECAY_STATE",
+      "lens": ["change-time", "architecture", "transfer"],
+      "mechanism_family": "learned multi-timescale state-space recurrence",
+      "change": "Replace the GRU with the existing structured-state model, initialized with a range of scalar half-lives and rotation phases. Keep the same 211 causal inputs and two outputs.",
+      "exact_existing_flags": ["--arch structured", "--hidden 96", "--layers 2", "--dropout 0", "--enc linear", "--decay-init multi"],
+      "hypothesis": "A fixed-width GRU may mix short and long dependencies into the same gates. Explicit learned decay channels could retain slow signals while responding to fast transitions, with a modest state width.",
+      "predicted_observable": "Hypothesis: trained half-lives remain spread instead of collapsing to one scale; full-valid quality or fixed-blend residual complementarity improves. No numerical gain is estimated.",
+      "falsifier": "Training dynamics are unstable, learned decay channels collapse to a narrow/unhelpful range, or both paired fixed-blend deltas are nonpositive and the frozen endpoint misses its screen.",
+      "cheapest_discriminating_test": "Static configuration/parameter audit, then one bounded strict-FP32 device throughput profile and state reset/replay parity before considering the paired fits.",
+      "likely_failure": "The structured recurrence may underfit input interactions or its FFT-based chunk path may be slower than expected. Its learned half-life bound is 8,192 rows, shorter than a 20,000-row sequence.",
+      "implementation_and_cost": "Existing model and trainer path. Hidden width 96 and two blocks keep the recurrent state small; actual FFT/profile cost must be measured before admission.",
+      "fixed_blend_path": "A state-space model can make different errors from a GRU by retaining slow state explicitly; a small 10% contribution may help even if the compact model's standalone score is lower.",
+      "references": ["S5_2022"]
+    },
+    {
+      "id": "H04_EVENT_CLOCK",
+      "lens": ["change-time", "instrument", "architecture"],
+      "mechanism_family": "row clock plus sparse quote-event clock",
+      "change": "Replace the plain GRU with the existing TwoClockModel. The row GRU updates every row; a second GRU updates only where raw a6 equals the endpoint sentinel and receives the row state, intervening-row mean, and log event interval.",
+      "exact_existing_flags": ["--arch twoclock", "--hidden 256", "--layers 2", "--event-hidden 128", "--dropout 0", "--enc linear"],
+      "hypothesis": "If target changes are tied to sparse a6 quote-move rows, a separate event-clock state can summarize activity between those rows without discarding the dense row stream.",
+      "predicted_observable": "Hypothesis: gains concentrate near event rows and the elapsed-row signal; the event state contributes beyond the row GRU. No numerical gain is estimated.",
+      "falsifier": "Train-only event counts show inadequate support, event state contributes negligibly, or the paired full-valid endpoint and fixed blend both fail their frozen screens.",
+      "cheapest_discriminating_test": "Count a6 endpoint rows and inter-event gaps on fitting members only; verify sequence reset and chunk-carry semantics; profile one exact recipe before the paired fit allocation.",
+      "likely_failure": "The event sentinel may be rare or not predictive of the official targets; the second recurrent cell adds latency and may overfit the event subset.",
+      "implementation_and_cost": "Existing architecture. Adds a 128-wide event GRU and event-row compaction; moderate runtime, with cost depending on train-only event density.",
+      "fixed_blend_path": "The event clock can supply sharper transition timing while the reference remains smooth; this is a plausible low-weight correction even if all-row standalone fit is weaker.",
+      "references": []
+    },
+    {
+      "id": "H05_DILATED_TCN",
+      "lens": ["re-encode", "change-time", "architecture"],
+      "mechanism_family": "finite-context causal convolution",
+      "change": "Use the existing causal dilated TCN in place of the recurrent trunk, keeping the baseline's 211 causal inputs. Ten dilation blocks retain a 1,023-row ring history, with the recurrent state reset per sequence.",
+      "exact_existing_flags": ["--arch tcn", "--hidden 256", "--layers 10", "--dropout 0", "--enc linear"],
+      "hypothesis": "Useful prediction signal may be dominated by local multi-scale patterns rather than information carried across the full 20,000 rows. A TCN is a deliberately different architecture that makes this assumption testable.",
+      "predicted_observable": "Hypothesis: local-convolution predictions may be more complementary than a second recurrent student; if older context matters, standalone score should expose that limitation. No numerical gain is estimated.",
+      "falsifier": "The exact 1,023-row receptive field misses necessary context and both paired standalone and fixed-blend screens fail; this falsifies this finite-context recipe only.",
+      "cheapest_discriminating_test": "Confirm the 1,023-row receptive field and reset/carry parity from the existing stream reference, then profile throughput and peak memory on the exact 20,000-row shape.",
+      "likely_failure": "The local context may be too short for sequence-level state, or 10 convolution blocks may use more memory/compute than the GRU despite parallel rows.",
+      "implementation_and_cost": "Existing architecture and stream reference; no source change. Hidden 256 across 10 blocks is a substantive model and needs an actual-device profile.",
+      "fixed_blend_path": "Finite-window predictions can correct recent-pattern errors while the GRU uses longer context. Its main value may be residual complementarity, not standalone rank.",
+      "references": ["TCN_2018"]
+    },
+    {
+      "id": "H06_PREFIX_SPECIALISTS",
+      "lens": ["factor", "re-encode"],
+      "mechanism_family": "causal sequence-prefix regime partition",
+      "change": "Use the existing shared-plus-specialists GRU. A causal router uses the first 99 rows to choose a sequence-fixed expert; all small expert GRUs update every row. Use a 288-wide shared layer and four 32-wide experts to keep trainable parameter count near GRU256x2.",
+      "exact_existing_flags": ["--arch specialist", "--hidden 288", "--layers 1", "--dropout 0", "--enc linear", "--expert-hidden 32", "--num-experts 4", "--specialist-route learned", "--prefix-rows 99"],
+      "hypothesis": "Different sequences may have stable regimes that justify separate small recurrent corrections. A prefix-only route allows the model to specialize by sequence without using future rows or changing route with later evidence.",
+      "predicted_observable": "Hypothesis: route occupancy is not collapsed to one expert, and expert outputs contribute with distinct residual behavior. No numerical gain is estimated.",
+      "falsifier": "The learned route collapses to one expert across train sequences, the specialists add no distinct residual contribution, or both fixed-blend seed deltas are nonpositive at the frozen endpoint.",
+      "cheapest_discriminating_test": "Statically verify parameter count against the eligible control; after a bounded profile, log train-only route occupancy and expert contribution before reading validation deltas.",
+      "likely_failure": "The first 99 rows may not identify a stable regime; prefix routing can overfit sequence-start quirks, and four expert GRUs add per-row work.",
+      "implementation_and_cost": "Existing architecture. Approximate parameter match is a static estimate, not a measured compute match; four small recurrent cells increase step cost.",
+      "fixed_blend_path": "Prefix specialization may repair a subset of sequence regimes that the globally shared model misses; a useful regime-specific residual can improve a fixed 10% blend even if averaging all sequences hurts standalone score.",
+      "references": []
+    },
+    {
+      "id": "H07_POOLED_CORRELATION_OBJECTIVE",
+      "lens": ["invert", "objective-alignment"],
+      "mechanism_family": "cross-chunk pooled weighted-Pearson training loss",
+      "change": "Keep the clean control model and inputs fixed, but replace its current supervised loss with the existing gcorr_pool objective and fixed pool decay 0.98. Its scored-row mask and clipped-label-magnitude weights must be verified against the official evaluator.",
+      "exact_existing_flags": ["--loss gcorr_pool", "--pool-decay 0.98"],
+      "hypothesis": "The official score is a pooled weighted Pearson, whereas the default mixed loss also rewards squared error and may center within sequence/chunk. Training through pooled weighted sums may better align updates with between-sequence score contributions.",
+      "predicted_observable": "Hypothesis: train-time pooled correlation rises without destabilizing variance; the full-valid official pooled metric and/or fixed blend improves. No numerical gain is estimated.",
+      "falsifier": "The implementation's clip/mask/target pooling does not match the official scoring form; or after that audit the two paired seed deltas show no improvement at the frozen primary endpoint and the fixed blend fails its threshold.",
+      "cheapest_discriminating_test": "On synthetic tensors only, verify the objective against an independent pooled weighted-Pearson calculation and check finite gradients, mask behavior, and chunk memory reset. Then use the paired full-train fits if admitted.",
+      "likely_failure": "Detached memory over prior chunks gives only current-chunk gradients; decay and shuffled sequence order may make the training objective a noisy approximation, while correlation loss can have unstable gradients at low variance.",
+      "implementation_and_cost": "Existing objective path; no model parameters and little arithmetic overhead. Freeze sequence/chunk order and memory reset behavior as part of the recipe.",
+      "fixed_blend_path": "Correlation-oriented fitting may trade pointwise error for better rank association or target-specific scale; the resulting residual can improve the fixed blend even if weighted MSE or standalone score is weaker.",
+      "references": []
+    },
+    {
+      "id": "H08_CHRONO_ORTH_INIT",
+      "lens": ["change-time", "training-dynamics"],
+      "mechanism_family": "long-timescale chrono gate and orthogonal recurrent initialization",
+      "change": "For a plain GRU256x2 control that uses default initialization, change only recurrent initialization to chrono_orth and set chrono_tmax to 20,000 rows. Do not use this card if the audited control already has equivalent initialization.",
+      "exact_existing_flags": ["--rnn-init chrono_orth", "--chrono-tmax 20000"],
+      "hypothesis": "A default recurrent gate spectrum may start too short for 20,000-row streams. Chrono biases supply a spread of update timescales up to sequence scale; orthogonal hidden matrices may preserve gradients while those gates learn.",
+      "predicted_observable": "Hypothesis: initial gate timescales cover longer memory and preclip gradient statistics remain viable; this could improve long-context validation dependence. No numerical gain is estimated.",
+      "falsifier": "The audited control already uses the same initialization, chrono gates saturate and optimization stalls, or both paired full-valid/fixed-blend outcomes fail the frozen screen.",
+      "cheapest_discriminating_test": "Before fitting, compare the actual control initializer and print the proposed initial gate-timescale distribution; a 20,000-row maximum is a proposal, not evidence of learned retention.",
+      "likely_failure": "Very long initial timescales can make gates slow to adapt; orthogonal initialization may interact poorly with the control's optimizer or clipping.",
+      "implementation_and_cost": "Existing initialization flags only; negligible parameter and inference cost. Effect can be decided with the same two-seed paired allocation.",
+      "fixed_blend_path": "Long-memory initialization may learn a different temporal bias from the reference and correct errors that depend on older context.",
+      "references": []
+    }
+  ],
+  "shortlist_for_root": [
+    {
+      "card_id": "H07_POOLED_CORRELATION_OBJECTIVE",
+      "information_gain": "High: it directly tests whether the current loss is misaligned with the official pooled metric, with negligible model and runtime change.",
+      "admission_condition": "First confirm the clean control does not already use an equivalent pooled-correlation objective; audit exact official clip, scoring mask, target handling and chunk/memory reset."
+    },
+    {
+      "card_id": "H01_CAUSAL_INNOVATIONS",
+      "information_gain": "High: it isolates a compact, causal nonstationarity representation while preserving the same recurrent model family.",
+      "admission_condition": "Fit and hash the projected prior on official train only; verify feature causality, reset and actual-device input cost before the paired fits."
+    },
+    {
+      "card_id": "H05_DILATED_TCN",
+      "information_gain": "High: it tests a distinct finite-context convolutional bias against a full-sequence recurrent control and can reveal ensemble complementarity.",
+      "admission_condition": "Profile exact 20,000-row strict-FP32 memory and throughput; keep the stated 1,023-row receptive field fixed."
+    }
+  ],
+  "references": [
+    {
+      "id": "TCN_2018",
+      "title": "An Empirical Evaluation of Generic Convolutional and Recurrent Networks for Sequence Modeling",
+      "authors": ["Shaojie Bai", "J. Zico Kolter", "Vladlen Koltun"],
+      "url": "https://arxiv.org/abs/1803.01271",
+      "use": "Primary literature motivating a generic causal convolution as a sequence-modeling alternative; it does not establish transfer to this competition."
+    },
+    {
+      "id": "S5_2022",
+      "title": "Simplified State Space Layers for Sequence Modeling",
+      "authors": ["Jimmy T. H. Smith", "Andrew Warrington", "Scott W. Linderman"],
+      "url": "https://arxiv.org/abs/2208.04933",
+      "use": "Primary literature motivating structured state-space sequence models; the repository's structured model is not claimed to reproduce S5."
+    }
+  ]
+}

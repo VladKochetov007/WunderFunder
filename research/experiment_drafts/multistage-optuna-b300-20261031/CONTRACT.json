@@ -1,0 +1,68 @@
+{
+  "schema": "wnn.multistage-optuna-contract.v1",
+  "experiment_id": "E-MULTISTAGE-OPTUNA-B300-20261031-R1",
+  "objective_mode": "competition",
+  "verification_tier": "B_for_actual_official_valid_C_for_inner_proxy_and_hidden_transfer",
+  "authority": "User: ну давай запускай на 8xB300; following four-stage search proposal and mandatory per-stage plots",
+  "host": "epanov_s@10.14.14.26",
+  "ssh_session": 13998,
+  "project_name": "tabdata",
+  "worktree": "WunderFunder-multistage-b300-20261031",
+  "baseline": {
+    "canonical_fresh_TL3_wp": 0.6923774245652725,
+    "fixed_90_TL3_10_GALAM_wp": 0.6924964468441978,
+    "exposure": "development-exposed full official valid; no hidden/public forecast",
+    "original_results": "research/experiment_drafts/heterogeneous-tl3-20261030/results/R3/REPORT.json"
+  },
+  "allocation": {
+    "gpus": 8,
+    "gpu_type": "NVIDIA B300 SXM6 AC",
+    "max_node_wall_seconds_from_first_gpu_profile": 21600,
+    "max_scientific_fit_attempts_including_auxiliary_TL3_and_final_refits": 48,
+    "max_individual_fit_wall_seconds": 7200,
+    "final_collection_reserve_seconds": 1200,
+    "profile_wall_seconds_per_attempt": 180,
+    "max_initial_profile_attempts": 14,
+    "max_total_profile_attempts": 56,
+    "profile_policy": "Up to8 actual initial throughput probes plus6 preserved zero-update Python-bootstrap failures;56 total profile attempts unchanged. Every distinct fit identity requires a matching profile; all within same6h deadline. Keep the native validator and separately frozen independent engineering review before approved native-compatible copy.",
+    "minimum_free_disk_gib": 80,
+    "local_aggregate_cpu_cores": 2,
+    "local_tests_mutex": "Local\\CodexTabdataCPUChecks20261028",
+    "initial_remote_cpu_threads_per_worker": 4,
+    "initial_remote_loader_ram_gib_per_worker": 8,
+    "new_provider_or_billing": false,
+    "existing_NIER_processes_and_MPS_must_remain_unchanged": true,
+    "worker_count": "measured shared-node profile; initially at most one owned worker per GPU"
+  },
+  "data_policy": {
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "primary_fit_train_sequences": 10325,
+    "primary_fit_valid_sequences": 0,
+    "primary_eval_valid_sequences": 1873,
+    "primary_eval_scored_rows": 3528273,
+    "search": "declared fitting-only auxiliary control or OOF from official train; known connected groups disjoint; never call shuffled seq_ix chronology",
+    "inner_proxy": "train has no official is_scored; all-after-warmup weighted Pearson is a labelled proxy",
+    "ancestry": "auxiliary heldout members excluded from fitting normalizers, teachers and initializers; existing full-train TL3 only primary reference until auxiliary ancestry rebuilt",
+    "primary_valid": "no learned blend weights, normalizers, teacher/initializer selection or Optuna objective fitting on primary valid",
+    "finalists": "freeze recipe/weights/endpoints before official-valid evaluation; preserve exposure"
+  },
+  "stages": [
+    {"id": 1, "name": "base_regressors", "candidate_families": ["gru", "lstm", "galam", "tcn", "causal_transformer"], "search": "bounded conditional TPE; warmup/horizon rebuilt per recipe; include known-good anchors"},
+    {"id": 2, "name": "finetune", "candidate": "skip control or lower-LR WMSE/correlation treatment; preserve parent checkpoints"},
+    {"id": 3, "name": "distillation", "candidate": "matched student controls and teacher pools; alpha and student recipe search; preserve family weights and target clipping arithmetic"},
+    {"id": 4, "name": "ensemble", "candidate": "CPU search of nonnegative weights summing to1 on qualified inner predictions; actual pooled clipped WP"}
+  ],
+  "precision": "strict FP32 initial scientific comparison; autocast/TF32/BF16x9 off; any changed precision is a separate identified arm",
+  "required_outputs": [
+    "actual source/config/data/ancestry identities and command receipts",
+    "durable detached bounded workers and owned-PID cleanup",
+    "live native dashboard; PNG/SVG and raw metrics for every stage",
+    "train objective separately from comparable labelled train-eval/control/valid WMSE and WP",
+    "per-target scores, LR, preclip gradients, nonfinite/clip counts and resource throughput",
+    "fixed/inner-selected/best-observed checkpoint roles and resumable state",
+    "all tried configurations, pruned/failed outcomes and terminal comparison against TL3",
+    "GitHub experiment draft plus actual hourly/terminal updates as SemyonEpanov"
+  ],
+  "admission": "receiver data/source verification, implemented inner evaluation, independent recipe review and real-shape profile required before scientific fits",
+  "status": "authorized_preparing_actual_node_inventory"
+}

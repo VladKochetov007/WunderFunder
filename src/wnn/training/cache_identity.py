@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from collections.abc import Iterable
 from pathlib import Path
@@ -11,7 +12,11 @@ from typing import Any
 import numpy as np
 
 from wnn.privileged import validate_crossfit_cache
-from wnn.splits import CampaignSplit, file_sha256
+from wnn.splits import CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA, CampaignSplit, file_sha256
+from wnn.training.chronological_teacher import (
+    validate_chronological_teacher_checkpoint,
+    validate_chronological_train_index_order,
+)
 from wnn.training.environment import TrainingEnvironment
 
 
@@ -37,24 +42,86 @@ def bind_fold_teachers(
                 raise ValueError(f"teacher sidecar does not describe {name}/{split}")
             if side.get("split_manifest_sha256") != campaign_split.sha256:
                 raise ValueError(f"teacher {name} was not fitted on the student's clean fold")
-            order = np.load(environment.root / "cache" / f"{split}_targets.npz")["row_group"]
+            with np.load(
+                environment.root / "cache" / f"{split}_targets.npz", allow_pickle=False
+            ) as targets:
+                order = np.asarray(targets["row_group"])
+            if order.ndim != 1 or order.dtype.kind not in "iu":
+                raise ValueError("teacher target index must be a one-dimensional integer array")
             if list(map(int, side.get("row_groups", []))) != order.tolist():
                 raise ValueError(f"teacher {name}/{split} rows are not in cache target order")
             digest = file_sha256(pred)
             if digest != side.get("prediction_sha256"):
                 raise ValueError(f"teacher prediction bytes changed since export: {pred}")
+            if campaign_split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+                if (
+                    split != "train"
+                    or side.get("campaign_export_scope")
+                    != "chronological-full-train-index-feature-only"
+                    or side.get("campaign_split_manifest_sha256") != campaign_split.sha256
+                    or side.get("feature_only") is not True
+                    or side.get("evaluation_membership_sha256")
+                    != hashlib.sha256(order.astype("<i8").tobytes()).hexdigest()
+                ):
+                    raise ValueError(
+                        f"teacher {name}/{split} is not a full-index train-only export"
+                    )
+                validate_chronological_train_index_order(
+                    environment.root, order.tolist(), campaign_split, name
+                )
+                checkpoint_file = side.get("checkpoint_file")
+                provenance_path = environment.root / "artifacts" / "runs" / name / "provenance.json"
+                if (
+                    not isinstance(checkpoint_file, str)
+                    or checkpoint_file not in ("model.pt", f"model_ep{side.get('epoch')}.pt")
+                    or side.get("run_provenance_sha256") != file_sha256(provenance_path)
+                ):
+                    raise ValueError(f"teacher {name} export lacks bound checkpoint provenance")
+                checkpoint_path = environment.root / "artifacts" / "runs" / name / checkpoint_file
+                checkpoint_sha256 = file_sha256(checkpoint_path)
+                if side.get("checkpoint_sha256") != checkpoint_sha256:
+                    raise ValueError(f"teacher {name} checkpoint bytes changed since export")
+                run_provenance = json.loads(provenance_path.read_text(encoding="utf-8"))
+                import torch
+
+                checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+                validate_chronological_teacher_checkpoint(
+                    checkpoint,
+                    run_provenance,
+                    campaign_split,
+                    checkpoint_file,
+                    checkpoint_sha256,
+                    name,
+                )
+                if side.get("epoch") != checkpoint.get("epoch"):
+                    raise ValueError(f"teacher {name} export epoch differs from checkpoint")
+                values = np.load(pred, mmap_mode="r", allow_pickle=False)
+                if values.shape != (len(order), environment.sequence_length, 2):
+                    raise ValueError(f"teacher {name}/{split} prediction schema differs")
+                if values.dtype != np.float32:
+                    raise ValueError(f"teacher {name}/{split} predictions must be float32")
             if "crossfit_format" in side:
                 validate_crossfit_cache(side, campaign_split, environment.root, split)
-            bound.append(
-                {
-                    "run": name,
-                    "split": split,
-                    "scale": scale,
-                    "epoch": side.get("epoch"),
-                    "checkpoint_sha256": side.get("checkpoint_sha256"),
-                    "prediction_sha256": digest,
-                }
-            )
+            record = {
+                "run": name,
+                "split": split,
+                "scale": scale,
+                "epoch": side.get("epoch"),
+                "checkpoint_sha256": side.get("checkpoint_sha256"),
+                "prediction_sha256": digest,
+            }
+            if campaign_split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+                record.update(
+                    {
+                        "checkpoint_file": checkpoint_file,
+                        "run_provenance_sha256": side["run_provenance_sha256"],
+                        "campaign_export_scope": side["campaign_export_scope"],
+                        "row_groups_sha256": hashlib.sha256(
+                            order.astype("<i8").tobytes()
+                        ).hexdigest(),
+                    }
+                )
+            bound.append(record)
     return bound
 
 
