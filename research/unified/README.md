@@ -1,5 +1,11 @@
 # Unified research library
 
+[The original PR61 continuation handoff](../experiment_drafts/l4-teacher-capacity-20261104/recovery-r5-r2/EXECUTION_R5_R2.md)
+records the live detached Transformer queue, actual passing receiver checks,
+cache admission and hourly/completion GitHub publication. Eight original fits
+are complete; two Transformer teachers are active and two original students
+remain pending. The separate PR62 comparison below is completed negative.
+
 ## 4 November: objective/clipping comparison on existing L4
 
 [The completed fixed-endpoint report](../experiment_drafts/l4-objective-20261104/RESULTS_20261104_R1.md)

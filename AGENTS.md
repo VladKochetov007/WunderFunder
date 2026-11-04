@@ -1,5 +1,21 @@
 # Project agent instructions
 
+## Latest 4 November: original PR61 R5 continuation and publication active
+
+Original two TF teachers still train on GPUs6/7. Owned R5 controller1603600 adopts
+the completed wide grade, then runs only the two original TF students after
+parallel GPU2/3 exports, ordered adds and independent cache admission. No new
+science recipes or fits are added. Source1128685; observer/checker sourcefa93f7.
+Actual R5 and corrected R6_R2/publisher receiving preflights passed. Detached
+cache watcher1627656 and publication wrapper1627657/owned child1627803 are live;
+the publisher posted a real PR61 status and updates on fit completion/hourly.
+Original deadline 5 Nov01:34:48.825UTC and45min collection reserve remain binding.
+See research/experiment_drafts/l4-teacher-capacity-20261104/recovery-r5-r2/EXECUTION_R5_R2.md
+and its raw source/admission/ownership/transport receipts. Temporary banks use
+bounded tmpfs RAM; explicit root storage amendment caps data2 output at7.1GB,
+with3GB free floor. ROOT still owns SSH83229. No agent SSH/GPU work.
+Separate PR62 comparison is completed negative; no optional students allowed.
+
 ## Latest4 November: PR62 teachers complete; no optional students
 
 All4 fresh objective/clipping teacher fits completed4E/103040updates, exit0.

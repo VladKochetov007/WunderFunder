@@ -8,6 +8,11 @@ all28 completed teacher/student epoch checkpoints are published. Two original
 Transformer teachers remain running under the separate old authority. Continue
 that evidence path before repeating numerical optimizer tuning.
 
+[Actual PR61 R5 handoff](experiment_drafts/l4-teacher-capacity-20261104/recovery-r5-r2/EXECUTION_R5_R2.md):
+the original TF fits and detached continuation are active. The independent
+cache-checker/publisher receiving gate passed; completion/hourly GitHub updates
+are running. This is an operational handoff, not another measured quality gain.
+
 Earlier4 November: the user authorizes improving the served W18 endpoint on
 the existing eight L4. [PR62 objective follow-up](experiment_drafts/l4-objective-20261104/README.md)
 has four fresh GRU256x2 fits after four finite FP32 profiles: paired clip5 and

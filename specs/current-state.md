@@ -1,3 +1,14 @@
+## 4 November: original Transformer continuation and publication active
+
+[R5 actual handoff and raw receipts](../research/experiment_drafts/l4-teacher-capacity-20261104/recovery-r5-r2/EXECUTION_R5_R2.md)
+record two original Transformer teachers still active, eight original fits
+completed, and two original students pending. The detached controller, independent
+cache-checker watcher and GitHub publisher are live after passing actual receiver
+checks. Publication updates on fit completion/hourly; no final quality gain is
+claimed. The original deadline and scientific recipes are unchanged. See the
+explicit storage/RAM amendment in that packet. The older R3/R4 failure/recovery
+notes below are historical; their raw artifacts remain untouched.
+
 ## 4 November: objective/clipping fits complete, no candidate promoted
 
 [All four fits completed](../research/experiment_drafts/l4-objective-20261104/RESULTS_20261104_R1.md)
