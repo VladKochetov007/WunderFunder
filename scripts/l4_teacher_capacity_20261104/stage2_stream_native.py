@@ -8,14 +8,24 @@ from typing import Any
 import numpy as np
 
 from scripts.build_distill_cache import _audit_ancestor_closure, _inspect_teacher
-from scripts.l4_teacher_capacity_20261104.stage2_stream_common import GRU_SHAPES, read_json
+from scripts.l4_teacher_capacity_20261104.stage2_stream_common import (
+    GRU_SHAPES,
+    fit_source_positions,
+    positions_sha256,
+    read_json,
+    sequence_hash,
+)
 from wnn.distillation_cache import file_sha256
 from wnn.splits import CampaignSplit
 
 
 def verify_native_gru(
-    run: str, split: CampaignSplit, project_root: Path, target_order: list[int]
-) -> tuple[dict[str, Any], np.ndarray]:
+    run: str,
+    split: CampaignSplit,
+    project_root: Path,
+    source_order: list[int],
+    fit_order: list[int],
+) -> tuple[dict[str, Any], np.ndarray, np.ndarray]:
     """Verify one fixed native GRU checkpoint and full chronological train export."""
     hidden, layers, seed = GRU_SHAPES[run]
     checkpoint_root = project_root / "artifacts" / "runs"
@@ -24,7 +34,7 @@ def verify_native_gru(
         split,
         project_root / "cache",
         checkpoint_root,
-        {"train": target_order},
+        {"train": source_order},
         3,
         "model_ep3.pt",
     )
@@ -54,4 +64,15 @@ def verify_native_gru(
     record["prediction_path"] = str(project_root / "cache" / f"pred_{run}_train.npy")
     record["provenance_sha256"] = file_sha256(provenance_path)
     record["checkpoint_path"] = str(checkpoint_path)
-    return record, arrays["train"]
+    positions = fit_source_positions(source_order, fit_order)
+    record.update(
+        {
+            "source_train_index_rows": len(source_order),
+            "source_train_index_sha256": sequence_hash(np.asarray(source_order, dtype="<i8")),
+            "fit_rows": len(fit_order),
+            "fit_row_groups_sha256": sequence_hash(np.asarray(fit_order, dtype="<i8")),
+            "fit_source_positions_sha256": positions_sha256(positions),
+            "prediction_row_groups_sha256": record["predictions"]["train"]["row_groups_sha256"],
+        }
+    )
+    return record, arrays["train"], positions

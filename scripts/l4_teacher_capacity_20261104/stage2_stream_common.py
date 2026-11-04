@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 from pathlib import Path
@@ -34,8 +35,12 @@ GRU_SHAPES = {
 }
 SPLIT_SHA256 = "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
 TRAIN_SEQUENCES = 10_325
+SOURCE_TRAIN_INDEX_SEQUENCES = 10_607
 TARGET_BYTES = TRAIN_SEQUENCES * SEQUENCE_ROWS * 2 * np.dtype(np.float32).itemsize + 128
-SEQUENCE_BANK_MAX_BYTES = TARGET_BYTES + TRAIN_SEQUENCES * 256
+NATIVE_BANK_MAX_BYTES = (
+    SOURCE_TRAIN_INDEX_SEQUENCES * SEQUENCE_ROWS * 2 * np.dtype(np.float32).itemsize + 128
+)
+SEQUENCE_BANK_MAX_BYTES = max(NATIVE_BANK_MAX_BYTES, TARGET_BYTES + TRAIN_SEQUENCES * 256)
 PR60_CACHE_METADATA_SHA256 = "f9e983f311589f3510263cf5f75dbfd113b799693d2e69e078989aa313469536"
 PR60_MAIN_TRAIN_SHA256 = "a5e298741d0d4ac251cb5068bf8a1a8d772f1e534efa739cc717d069c6d2f31e"
 PR60_FAMILIES_TRAIN_SHA256 = "ed1ebad4912908d6a476b49b53b2169b793fefb07966ab7a107559f1105bad20"
@@ -72,7 +77,7 @@ def load_state(output: Path, family: str) -> dict[str, Any]:
     """Load and bind an incremental family accumulator before accepting a teacher."""
     state = read_json(state_path(output))
     if (
-        state.get("schema") != "wnn.l4-teacher-stage2-stream.v1"
+        state.get("schema") != "wnn.l4-teacher-stage2-stream.v2"
         or state.get("family") != family
         or state.get("expected_runs") != list(EXPECTED_RUNS[family])
     ):
@@ -89,6 +94,29 @@ def sequence_hash(values: np.ndarray) -> str:
     return row_groups_sha256(list(map(int, values)))
 
 
+def fit_source_positions(source_order: list[int], fit_order: list[int]) -> np.ndarray:
+    """Map each official fit group to its position in the full source-index prediction bank."""
+    if len(source_order) != len(set(source_order)):
+        raise ValueError("full source row-group order contains duplicates")
+    positions = {group: index for index, group in enumerate(source_order)}
+    try:
+        selected = [positions[group] for group in fit_order]
+    except KeyError as error:
+        raise ValueError(
+            f"fit row group is absent from the full source index: {error.args[0]}"
+        ) from error
+    if len(selected) != len(set(selected)):
+        raise ValueError("fit-to-source mapping repeats a full-index position")
+    return np.asarray(selected, dtype="<i8")
+
+
+def positions_sha256(positions: np.ndarray) -> str:
+    """Hash the explicit little-endian int64 mapping from target rows to source-bank rows."""
+    if positions.ndim != 1 or positions.dtype != np.dtype("<i8"):
+        raise ValueError("source positions must be a one-dimensional little-endian int64 array")
+    return hashlib.sha256(positions.tobytes()).hexdigest()
+
+
 def initialize_target(
     output: Path,
     family: str,
@@ -102,10 +130,14 @@ def initialize_target(
     split = load_campaign_split(split_path, project_root)
     if split.schema != CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA or split.sha256 != SPLIT_SHA256:
         raise ValueError("stage-2 targets require the frozen chronological primary split")
-    target_order = _target_order(project_root, "train")
-    validate_chronological_train_index_order(project_root, target_order, split, "train")
-    if target_order != list(split.train_groups) or len(target_order) != TRAIN_SEQUENCES:
-        raise ValueError("verified train index differs from the exact 10,325 fitting groups")
+    source_order = _target_order(project_root, "train")
+    validate_chronological_train_index_order(project_root, source_order, split, "train")
+    fit_order = list(map(int, split.train_groups))
+    if len(source_order) != SOURCE_TRAIN_INDEX_SEQUENCES:
+        raise ValueError("verified full source train index differs from its 10,607 groups")
+    if fit_order != list(split.train_groups) or len(fit_order) != TRAIN_SEQUENCES:
+        raise ValueError("official chronological fit membership differs from its 10,325 groups")
+    fit_positions = fit_source_positions(source_order, fit_order)
     validation = validate_distillation_cache(
         old_cache, project_root, split, "source", require_families=True
     )
@@ -118,7 +150,7 @@ def initialize_target(
     ):
         raise ValueError("stage-2 input is not the independently qualified PR60 mixed cache")
     for key in ("main_source_train", "families_train"):
-        if old_files[key]["row_groups"] != target_order:
+        if old_files[key]["row_groups"] != fit_order:
             raise ValueError(f"qualified PR60 cache group order differs for {key}")
     output.parent.mkdir(parents=True, exist_ok=True)
     for split_name in ("train", "valid"):
@@ -144,7 +176,7 @@ def initialize_target(
     accumulator.flush()
     del accumulator
     state = {
-        "schema": "wnn.l4-teacher-stage2-stream.v1",
+        "schema": "wnn.l4-teacher-stage2-stream.v2",
         "family": family,
         "expected_runs": list(EXPECTED_RUNS[family]),
         "processed_runs": [],
@@ -156,8 +188,12 @@ def initialize_target(
         "project_root": str(project_root.resolve()),
         "split_manifest": str(split_path.resolve()),
         "split_manifest_sha256": split.sha256,
-        "fit_row_groups": target_order,
-        "fit_row_groups_sha256": sequence_hash(np.asarray(target_order, dtype=np.int64)),
+        "fit_row_groups": fit_order,
+        "fit_row_groups_sha256": sequence_hash(np.asarray(fit_order, dtype=np.int64)),
+        "source_train_index_row_groups": source_order,
+        "source_train_index_sha256": sequence_hash(np.asarray(source_order, dtype=np.int64)),
+        "fit_source_positions": fit_positions.tolist(),
+        "fit_source_positions_sha256": positions_sha256(fit_positions),
         "old_cache": str(old_cache.resolve()),
         "old_cache_metadata_sha256": validation["metadata_sha256"],
         "old_main_sha256": old_files["main_source_train"]["sha256"],

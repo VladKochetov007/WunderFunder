@@ -53,7 +53,18 @@ def _add_teacher(
     if family == "wide_gru":
         if sequence_export is not None or teacher_panel is not None:
             raise ValueError("wide-GRU inputs use only the canonical native train prediction")
-        record, values = verify_native_gru(run, split, project_root, groups)
+        source_order = list(map(int, state["source_train_index_row_groups"]))
+        positions = np.asarray(state["fit_source_positions"], dtype="<i8")
+        if len(source_order) != 10_607 or positions.shape != (len(groups),):
+            raise ValueError("saved full-index to fit-group mapping has the wrong shape")
+        record, values, observed_positions = verify_native_gru(
+            run, split, project_root, source_order, groups
+        )
+        if (
+            not np.array_equal(positions, observed_positions)
+            or record["fit_source_positions_sha256"] != state["fit_source_positions_sha256"]
+        ):
+            raise ValueError("native prediction mapping differs from the initialized target")
         prediction_path = Path(record["prediction_path"])
         cache_root = (project_root / "cache").resolve()
         if prediction_path.is_symlink() or not prediction_path.resolve().is_relative_to(cache_root):
@@ -62,7 +73,9 @@ def _add_teacher(
         write_json(partial_root(output) / "stage2_state.json", state)
         for start in range(0, len(groups), 8):
             stop = min(start + 8, len(groups))
-            add_clipped_values(accumulator, start, np.asarray(values[start:stop], dtype=np.float32))
+            source_positions = positions[start:stop]
+            selected_values = np.asarray(values[source_positions], dtype=np.float32)
+            add_clipped_values(accumulator, start, selected_values)
         del values
         bank_paths = [prediction_path]
     else:

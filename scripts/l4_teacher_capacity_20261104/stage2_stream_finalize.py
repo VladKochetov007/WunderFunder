@@ -130,7 +130,7 @@ def finalize_target(output: Path, family: str) -> None:
         {
             "format": CACHE_FORMAT,
             "version": CACHE_VERSION,
-            "cache_profile": "l4_teacher_capacity_stage2_stream_v1",
+            "cache_profile": "l4_teacher_capacity_stage2_stream_v2",
             "source_coefficients_scope": "unchanged PR60 base target and retained auxiliary heads",
             "base_cache": {
                 "path": str(old_cache),
@@ -154,6 +154,11 @@ def finalize_target(output: Path, family: str) -> None:
                 "new_family_source_scale": 0.8125,
                 "fit_groups": state["fit_row_groups"],
                 "fit_groups_sha256": state["fit_row_groups_sha256"],
+                "source_train_index_rows": len(state["source_train_index_row_groups"]),
+                "source_train_index_sha256": state["source_train_index_sha256"],
+                "fit_source_positions": state["fit_source_positions"],
+                "fit_source_positions_sha256": state["fit_source_positions_sha256"],
+                "fit_source_mapping": "for each fit-group target row, select this index from the full chronological train prediction bank",
                 "teachers": state["teacher_records"],
             },
             "retained_auxiliary_targets": {
