@@ -198,6 +198,11 @@ def collect(panel_path: Path, control_path: Path) -> dict[str, Any]:
         "control_panel_sha256": file_sha256(control_path),
         "identity": panel["identity"],
         "runtime": str(runtime),
+        "collector": {
+            "path": str(Path(__file__).resolve()),
+            "sha256": file_sha256(Path(__file__).resolve()),
+            "helper_source_root": str(SOURCE.resolve()),
+        },
         "runs": runs,
         "comparisons": comparisons,
         "claim_scope": "Fixedep3 teacher comparison on exposed official development; two seeds. No student, public, serving or statistical-significance claim.",
@@ -302,6 +307,7 @@ def main() -> None:
     body = "\n".join(lines)
     (output / "RESULTS.md").write_text(body + "\n", encoding="utf-8")
     evidence = [
+        (Path(__file__).resolve(), "teacher_report_collector.py"),
         (results, results.name),
         (output / "RESULTS.md", "RESULTS.md"),
         *[(p, p.name) for p in figure_paths],
