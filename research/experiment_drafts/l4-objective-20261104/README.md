@@ -30,4 +30,6 @@ rule is frozen in the contract and remains exposed-development selection.
 All primary comparisons use official train-only fitting and complete official
 validation under ADR0044. No random replacement split, teacher valid ancestry,
 changed scoring rule, quantization, or numerical public forecast is admitted.
-Current status: code/preparation; GPU diagnostic, profiles and new fits pending.
+Current status: all four actual profiles passed and four teacher fits are running.
+The diagnostic failed before gradient measurement; the frozen failure rule chose
+the prior-motivated aux_late arm. See [execution evidence](EXECUTION_20261104_R1.md).
