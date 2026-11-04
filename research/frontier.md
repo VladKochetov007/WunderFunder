@@ -1,6 +1,14 @@
 # Active frontier
 
-Current4 November: the user authorizes improving the served W18 endpoint on
+Current4 November: [the four-fit clipping/objective comparison is complete](experiment_drafts/l4-objective-20261104/RESULTS_20261104_R1.md).
+Clip5 mean delta−.000058670; late auxiliary anneal−.000212692 against matched
+fixed-ep3 controls. The exact spending gate returned `no_students`; neither
+change is promoted. PR61 wide-student canonical mean delta is−.000203715;
+all28 completed teacher/student epoch checkpoints are published. Two original
+Transformer teachers remain running under the separate old authority. Continue
+that evidence path before repeating numerical optimizer tuning.
+
+Earlier4 November: the user authorizes improving the served W18 endpoint on
 the existing eight L4. [PR62 objective follow-up](experiment_drafts/l4-objective-20261104/README.md)
 has four fresh GRU256x2 fits after four finite FP32 profiles: paired clip5 and
 late auxiliary anneal, fixed4E/ep3. Reuse PR61 teacher and PR60 student controls;

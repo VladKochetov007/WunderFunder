@@ -1,4 +1,13 @@
-## 4 November: four objective/clipping fits running on L4
+## 4 November: objective/clipping fits complete, no candidate promoted
+
+[All four fits completed](../research/experiment_drafts/l4-objective-20261104/RESULTS_20261104_R1.md)
+with fixedep3 mean WP control .685134544, clip5 .685075874 and late-aux .684921852.
+The frozen gate says `no_students`. Complete histories, figures, source/receipt
+identities and negative evidence are retained. Prior PR61 wide students are
+canonically worse than controls; their28 all-epoch checkpoints are published.
+The original two Transformer fits remain a separate pending allocation.
+
+## Earlier4 November: four objective/clipping fits running on L4
 
 Fresh user-authorized research is in
 [PR62](https://github.com/VladKochetov007/WunderFunder/pull/62) and its

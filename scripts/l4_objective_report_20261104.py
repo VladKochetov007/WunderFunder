@@ -248,7 +248,7 @@ def plots(report: dict[str, Any], output: Path) -> list[Path]:
                 ax.grid(alpha=0.2)
                 ax.legend(fontsize=7)
     fig.suptitle(
-        "Official valid; train diagnostic uses32 sequences and a different row mask. Two seeds are not CIs."
+        "Official valid; train diagnostic uses 32 sequences and a different row mask. Two seeds are not CIs."
     )
     paths = []
     for suffix in ("png", "svg"):

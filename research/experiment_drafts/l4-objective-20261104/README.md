@@ -30,6 +30,7 @@ rule is frozen in the contract and remains exposed-development selection.
 All primary comparisons use official train-only fitting and complete official
 validation under ADR0044. No random replacement split, teacher valid ancestry,
 changed scoring rule, quantization, or numerical public forecast is admitted.
-Current status: all four actual profiles passed and four teacher fits are running.
-The diagnostic failed before gradient measurement; the frozen failure rule chose
-the prior-motivated aux_late arm. See [execution evidence](EXECUTION_20261104_R1.md).
+Current status: [four teacher fits completed; neither arm improved quality](RESULTS_20261104_R1.md).
+The frozen spending gate returned `no_students`; no optional students or target
+cache were launched. The diagnostic failure supplied no gradient evidence.
+See [execution evidence](EXECUTION_20261104_R1.md) for the retained source/phase history.

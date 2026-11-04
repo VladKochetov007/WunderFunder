@@ -2,6 +2,12 @@
 
 ## 4 November: objective/clipping comparison on existing L4
 
+[The completed fixed-endpoint report](../experiment_drafts/l4-objective-20261104/RESULTS_20261104_R1.md)
+finds no useful gain in either arm, so no optional students are launched. Actual
+six candidate/control histories, all-epoch train/valid and gradient figures are
+retained. Clip5 reduced clipping markedly without improving WP; late auxiliary
+annealing is negative at both seeds. The rows below describe the earlier launch.
+
 [PR62 execution](../experiment_drafts/l4-objective-20261104/EXECUTION_20261104_R1.md)
 records four finite actual profiles and four fresh paired GRU256x2 fits,
 comparing clip5 and late auxiliary annealing against reused controls. The

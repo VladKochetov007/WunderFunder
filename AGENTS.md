@@ -1,5 +1,19 @@
 # Project agent instructions
 
+## Latest4 November: PR62 teachers complete; no optional students
+
+All4 fresh objective/clipping teacher fits completed4E/103040updates, exit0.
+Fixedep3 mean deltas: clip5−.000058670, lateaux−.000212692. Actual gate says
+no_students; do not launch the optional2 student fits or resume these teachers
+from this note. See research/experiment_drafts/l4-objective-20261104/RESULTS_20261104_R1.md.
+The report-only internal dev→vfold alias repair preserves exact official eval
+membership. Raw report collection passed; matplotlib is absent on the node, so
+actual JSON was transferred unchanged and figures rendered/inspected locally.
+PR61 wide canonical grading recovered without fit/export replay; its8completed
+model checkpoints are published at tabdata-pr61-completed-eight-20261104-r4.
+The original2Transformer fits remain active under the old deadline. ROOT owns
+SSH83229 and receiving/publication/resource repair; no agent SSH/GPU work.
+
 ## Latest4 November: objective/clipping follow-up authorized
 
 The user now authorizes doing the best next experiments toward a serious final
