@@ -1,4 +1,14 @@
-## 3 November: verified W18 submission ZIP delivered
+## 4 November: W18 submitted to Connectome; SCORE running
+
+User-authorized platform upload completed once as Simon/team kotiki. Displayed
+ID1H7KP30Q, file tabdata-w18-final-20261103-r1.zip,13:09MSK. The exact5454663-byte
+ZIP SHA remains932700e4e10721829641870f18198fca06ba3f9c5f06be5541d70bf38bf880f9.
+The platform showed upload success and increased usage from0/5 to1/5. PENDING
+and CHECK passed; SCORE was running, with no public score displayed yet.
+See the [submission receipt](../research/experiment_drafts/final-submit-all-labeled-20261031/platform-20261104/SUBMISSION_RECEIPT_R1.json).
+No training or duplicate submission was launched.
+
+## Historical3 November: verified W18 submission ZIP delivered
 
 All18 scientific fits are complete. The actual5454663-byte W18-only ZIP passed
 all10 original CPU/numeric/reset/causality/size gates, is published and was

@@ -1,5 +1,18 @@
 # Project agent instructions
 
+## Latest4 November: platform submission accepted; SCORE running
+
+The user explicitly authorized uploading/submitting the ready W18 ZIP. It was
+submitted once through authenticated Edge as Simon, team kotiki, at13:09MSK.
+Displayed submission ID1H7KP30Q; filename tabdata-w18-final-20261103-r1.zip;
+SHA256932700e4e10721829641870f18198fca06ba3f9c5f06be5541d70bf38bf880f9.
+Success banner and new row were observed, daily usage0/5 to1/5 and total107 to108.
+PENDING and CHECK passed; last observed SCORE was running with no score yet.
+See platform-20261104/SUBMISSION_RECEIPT_R1.json in the final-submit packet.
+Do not duplicate this submission because scoring has not finished. This upload
+authorizes no new fit/profile or old stopped job. The following human-upload
+next-step notes are historical; the platform handoff has now been completed.
+
 ## Latest3 November: FINAL W18 ZIP DELIVERED; no active recovery fit
 
 All18 scientific fits are complete. The W18-only ZIP passed all10 unchanged
