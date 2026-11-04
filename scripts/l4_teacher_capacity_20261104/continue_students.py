@@ -11,7 +11,7 @@ import re
 import shutil
 import sys
 import time
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 import numpy as np
@@ -75,6 +75,42 @@ def _option(args: list[str], flag: str) -> str:
     if len(positions) != 1 or positions[0] + 1 >= len(args):
         raise ValueError(f"student argv must contain exactly one {flag} VALUE")
     return args[positions[0] + 1]
+
+
+def teacher_fit_output(
+    teacher_panel: dict[str, Any], family: str, run: str, cell: dict[str, Any]
+) -> PurePosixPath:
+    """Resolve the frozen fit output; GRU panels use their canonical project layout."""
+    paths = teacher_panel.get("paths")
+    argv = cell.get("fit_argv")
+    if (
+        not isinstance(paths, dict)
+        or not isinstance(argv, list)
+        or any(not isinstance(token, str) for token in argv)
+    ):
+        raise ValueError(f"{run}: teacher cell lacks paths or frozen fit argv")
+    if family == "wide_gru":
+        if teacher_panel.get("schema") != "wnn.l4-teacher-capacity-gru.v1":
+            raise ValueError(
+                "canonical fit-output derivation is limited to the frozen GRU panel schema"
+            )
+        project = PurePosixPath(str(paths.get("project_root", "")))
+        if (
+            not project.is_absolute()
+            or cell.get("run_name") != run
+            or _option(argv, "--name") != run
+        ):
+            raise ValueError(f"{run}: GRU run/name/project identity differs")
+        return project / "artifacts" / "runs" / run
+    if family == "causal_transformer":
+        value = cell.get("fit_output")
+        if not isinstance(value, str) or not PurePosixPath(value).is_absolute():
+            raise ValueError(f"{run}: Transformer panel must explicitly bind fit_output")
+        output = PurePosixPath(value)
+        if output.name != run or _option(argv, "--output") != value:
+            raise ValueError(f"{run}: Transformer fit_output and frozen --output differ")
+        return output
+    raise ValueError(f"unknown teacher family: {family}")
 
 
 def validate_panel(path: Path) -> tuple[dict[str, Any], str]:
@@ -327,6 +363,7 @@ def _teacher_cells(panel: dict[str, Any], family: str) -> list[dict[str, Any]]:
     for run in runs:
         cell = by_run[run]
         cell_id = str(cell["cell_id"])
+        fit_output = teacher_fit_output(teacher, family, run, cell)
         receipt = Path(binding["fit_receipts"][run])
         rows.append(
             {
@@ -336,6 +373,7 @@ def _teacher_cells(panel: dict[str, Any], family: str) -> list[dict[str, Any]]:
                 "teacher_panel": panel_path,
                 "teacher_panel_sha256": _sha(panel_path),
                 "teacher_cell": cell,
+                "fit_output": str(fit_output),
                 "source_binding_sha256": teacher_identity.get("source_binding_sha256"),
                 "data_binding_sha256": teacher_identity.get("data_binding_sha256"),
             }
@@ -369,7 +407,7 @@ def _wait_teachers(panel: dict[str, Any], family: str, deadline: int) -> list[di
                 owner = receipt.get("owner", {})
                 cell = row["teacher_cell"]
                 owner_panel = owner.get("panel_sha256", owner.get("cohort_panel_sha256"))
-                expected_output = str(Path(str(cell.get("fit_output", ""))).resolve())
+                expected_output = str(Path(row["fit_output"]).resolve())
                 if (
                     owner_panel != row["teacher_panel_sha256"]
                     or owner.get("cell_id") != row["cell_id"]

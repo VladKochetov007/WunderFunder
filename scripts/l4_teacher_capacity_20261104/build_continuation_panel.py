@@ -22,6 +22,7 @@ sys.path.insert(0, str(HERE))
 from scripts.l4_teacher_capacity_20261104.continue_students import (  # noqa: E402
     PANEL_SCHEMA,
     SPLIT_SHA256,
+    teacher_fit_output,
     validate_panel,
 )
 from scripts.l4_teacher_capacity_20261104.stage2_stream_common import (  # noqa: E402
@@ -133,11 +134,11 @@ def teacher_binding(
         cell = by_run[run]
         if (
             not isinstance(cell.get("cell_id"), str)
-            or not isinstance(cell.get("fit_output"), str)
             or not isinstance(cell.get("fit_argv"), list)
             or not cell["fit_argv"]
         ):
-            raise ValueError(f"{run}: actual teacher cell lacks frozen id/argv/output")
+            raise ValueError(f"{run}: actual teacher cell lacks frozen id/argv")
+        teacher_fit_output(panel, family, run, cell)
         seed_match = re.search(r"_s(1001|1002)_", run)
         if seed_match is None or int(cell.get("seed", -1)) != int(seed_match.group(1)):
             raise ValueError(f"{run}: teacher run/cell seed identity differs")
