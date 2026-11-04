@@ -18,6 +18,8 @@
 
 9. **How to run.** Existing node lc-epanov_s@10.61.10.209, runtime /data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1, one GPU per teacher. Source/checkpoint/recipe/data/environment bound in receiving receipts. Native runner has separate profile/fit phases and independently reviewed admission. Transformer reuses train_sequence.py with its mandatory exact-profile gate. Twelve-hour shared limit from first profile,45min collection reserve,64CPUcores/400GiB owned RAM,6.5GBnewoutputcap/3GBfreefloor. Detached workers survive SSH disconnect; no foreign-process actions or blind retries.
 
+   The streamed stage-2 target implementation, commands, lineage checks, and disk accounting are in [STAGE2_HANDOFF_R1.md](STAGE2_HANDOFF_R1.md).
+
 10. **Evidence to return.** Per-cell argv/source/config/split/parents; epoch checkpoints; train/control/official-valid loss and score curves; LR/preclip gradients/nonfinite/skipped updates; CPU/RAM/VRAM/utilization; fixed-epoch compact prediction exports and canonical grades. Publish separate evidence/weight artifacts with SHA256 and receiving receipts; preserve failed R1 admission (no scientific updates) and its diagnosed missing-field repair.
 
 11. **Results and trace.** GRU engineering profiles all completed1360/1360optimizerupdates with finite losses/gradients and zeroAMPskips. Measured throughput control25.47/25.81,384x2 17.14/17.07,512x1 18.97/19.26sequences/s. Projected four-epoch training alone27/40/36min respectively; actual validation/export costs remain to measure. Profiles are not trained-model results. Full scientific metrics will be appended without substituting best-observed epochs for the fixed endpoint.
