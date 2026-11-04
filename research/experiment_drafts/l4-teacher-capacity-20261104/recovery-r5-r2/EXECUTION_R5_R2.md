@@ -64,3 +64,19 @@ and checks init -> both exports -> ordered adds -> finalizer.
 Live process/publication receipts here are time-stamped snapshots, not claims
 of future completion. No new serving candidate or public improvement is claimed.
 The separate PR62 teacher comparison is complete and says no_students.
+
+The final read-only runtime check is in `final-sanity-r1`: the exact controller,
+cache-watcher and publisher identities are live, no R5 failure exists, and both
+Transformer journals have finite loss/gradient observations at step15500,
+approximately2.4/4 epochs. The real automated GitHub status is
+https://github.com/VladKochetov007/WunderFunder/pull/61#issuecomment-6639856413.
+
+A final storage repair moved only the fresh observer Git object cache to an
+owned0700 tmpfs directory, retaining an objects symlink at its original path.
+All16 object-file hashes and every frozen source-file hash were verified before
+and after; Git HEAD and `git show` still match the original pin. No model, data
+or result file moved. About244MB of compressed objects now consume a separate
+300MB temporary RAM allowance within the unchanged400GiB overall allocation;
+the3.6GB export-bank cap is unchanged. Physical data2 free space recovered to
+about7.0GB. Exact placement and final runtime evidence are retained alongside
+their byte-level transport receipt.
