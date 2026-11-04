@@ -33,6 +33,12 @@ EXPECTED_FIT_GROUPS = 10_325
 EXPECTED_VALID_SEQUENCES = 1_873
 EXPECTED_VALID_ROWS = 3_528_273
 COMMON_IDENTITY_KEYS = ("data_binding_sha256", "split_sha256", "fit_members_sha256")
+RECOVERY_SCHEMA = "wnn.l4-teacher-capacity-continuation-recovery.v1"
+RECOVERY_COMPLETE_NAME = "STUDENT_CONTINUATION_RECOVERY_R3_COMPLETE.json"
+RECOVERY_START_NAME = "STUDENT_CONTINUATION_RECOVERY_R3_START.json"
+RECOVERY_CONTROLLER_NAME = "STUDENT_CONTINUATION_RECOVERY_R3_CONTROLLER.json"
+RECOVERY_CPUSET = "32,33,34,35,36,37,38,39"
+RECOVERY_CONTROLLER_CPUSET = ",".join(map(str, range(64)))
 
 
 def _read(path: Path) -> dict[str, Any] | None:
@@ -97,6 +103,555 @@ def _require_shared_identity(expected: dict[str, Any], actual: dict[str, Any], l
     for key in COMMON_IDENTITY_KEYS:
         if expected.get(key) != actual.get(key):
             raise ValueError(f"{label} differs on shared identity {key}")
+
+
+def _recovery_completion(
+    runtime: Path, panel_path: Path, panel: dict[str, Any], panel_sha: str
+) -> tuple[Path, dict[str, Any], list[Path]] | None:
+    """Validate recovery admission, original failure, controller ownership, and final state."""
+    complete_path = runtime / "receipts" / "continuation" / RECOVERY_COMPLETE_NAME
+    complete = _read(complete_path)
+    if complete is None:
+        return None
+    identity = panel.get("identity", {})
+    recovery_source = complete.get("recovery_source_binding_sha256")
+    start_path = runtime / "receipts" / "continuation" / RECOVERY_START_NAME
+    controller_path = runtime / "receipts" / "continuation" / RECOVERY_CONTROLLER_NAME
+    expected_admission = runtime / "control" / "STUDENT_RECOVERY_SOURCE_ADMISSION_R2.json"
+    admission_raw = complete.get("recovery_admission_receipt_path")
+    if (
+        not isinstance(admission_raw, str)
+        or Path(admission_raw).resolve() != expected_admission.resolve()
+    ):
+        return None
+    admission_path = Path(admission_raw)
+    if not admission_path.is_file() or admission_path.is_symlink():
+        return None
+    admission = _read(admission_path)
+    start = _read(start_path)
+    controller = _read(controller_path)
+    controller_child = complete.get("controller_child")
+    owner = controller.get("owner", {}) if controller is not None else {}
+    controller_command = controller.get("command") if controller is not None else None
+    controller_command_sha = (
+        hashlib.sha256(json.dumps(controller_command, separators=(",", ":")).encode()).hexdigest()
+        if isinstance(controller_command, list)
+        else None
+    )
+    controller_entrypoints = (
+        [
+            Path(str(argument))
+            for argument in controller_command
+            if Path(str(argument)).name == "recover_students.py"
+        ]
+        if isinstance(controller_command, list)
+        else []
+    )
+    controller_entrypoint = controller_entrypoints[0] if len(controller_entrypoints) == 1 else None
+    expected_controller_command = (
+        [
+            str(controller_command[0]),
+            "-c",
+            RECOVERY_CONTROLLER_CPUSET,
+            str(panel.get("paths", {}).get("python", "")),
+            str(controller_entrypoint.resolve()),
+            "--controller-mode",
+            "continue-students",
+            "--panel",
+            str(panel_path.resolve()),
+            "--recovery-admission",
+            str(admission_path.resolve()),
+            "--controller-receipt",
+            str(controller_path.resolve()),
+        ]
+        if isinstance(controller_command, list) and controller_entrypoint is not None
+        else None
+    )
+    if (
+        controller_entrypoint is None
+        or controller_entrypoint.is_symlink()
+        or not controller_entrypoint.is_file()
+    ):
+        return None
+    if (
+        complete.get("schema") != RECOVERY_SCHEMA
+        or complete.get("status") != "complete"
+        or complete.get("panel_sha256") != panel_sha
+        or not isinstance(recovery_source, str)
+        or re.fullmatch(r"[0-9a-f]{64}", recovery_source) is None
+        or Path(str(complete.get("controller_receipt_path", ""))).resolve()
+        != controller_path.resolve()
+        or admission is None
+        or _sha(admission_path) != complete.get("recovery_admission_receipt_sha256")
+        or admission.get("schema") != "wnn.l4-student-recovery-source-admission.v1"
+        or not str(admission.get("status", "")).startswith("approved")
+        or admission.get("source_binding_sha256") != recovery_source
+        or admission.get("continuation_panel_sha256") != panel_sha
+        or any(
+            admission.get(key) != identity.get(key)
+            for key in (
+                "data_binding_sha256",
+                "split_sha256",
+                "fit_members_sha256",
+                "baseline_ancestry_sha256",
+            )
+        )
+        or start is None
+        or start.get("schema") != RECOVERY_SCHEMA
+        or start.get("status") != "running"
+        or start.get("panel_sha256") != panel_sha
+        or start.get("recovery_source_binding_sha256") != recovery_source
+        or start.get("source_binding_sha256") != identity.get("source_binding_sha256")
+        or start.get("data_binding_sha256") != identity.get("data_binding_sha256")
+        or start.get("split_sha256") != identity.get("split_sha256")
+        or start.get("fit_members_sha256") != identity.get("fit_members_sha256")
+        or start.get("baseline_ancestry_sha256") != identity.get("baseline_ancestry_sha256")
+        or start.get("recovery_admission_receipt_path") != admission_raw
+        or start.get("recovery_admission_receipt_sha256")
+        != complete.get("recovery_admission_receipt_sha256")
+        or start.get("controller_receipt_path") != str(controller_path)
+        or start.get("controller_child") != controller_child
+        or start.get("controller_command_sha256") != complete.get("controller_command_sha256")
+        or complete.get("controller_command_sha256") != controller_command_sha
+        or not isinstance(controller_child, dict)
+        or type(controller_child.get("pid")) is not int
+        or type(controller_child.get("pgid")) is not int
+        or not isinstance(controller_child.get("birth"), str)
+        or any(
+            start.get(key) != complete.get(key)
+            for key in (
+                "r1_start_receipt_path",
+                "r1_start_receipt_sha256",
+                "r1_failure_receipt_path",
+                "r1_failure_receipt_sha256",
+                "hard_deadline_epoch",
+            )
+        )
+        or controller is None
+        or controller.get("schema") != "wnn.multistage-owned-process.v1"
+        or controller.get("status") != "completed"
+        or controller.get("exit_code") != 0
+        or controller.get("timed_out") is not False
+        or controller.get("child") != controller_child
+        or not isinstance(owner, dict)
+        or owner.get("continuation_panel_sha256") != panel_sha
+        or owner.get("source_binding_sha256") != identity.get("source_binding_sha256")
+        or owner.get("recovery_source_binding_sha256") != recovery_source
+        or owner.get("data_binding_sha256") != identity.get("data_binding_sha256")
+        or owner.get("split_sha256") != identity.get("split_sha256")
+        or owner.get("fit_members_sha256") != identity.get("fit_members_sha256")
+        or owner.get("baseline_ancestry_sha256") != identity.get("baseline_ancestry_sha256")
+        or owner.get("recovery_admission_receipt_path") != str(admission_path.resolve())
+        or owner.get("recovery_admission_receipt_sha256")
+        != complete.get("recovery_admission_receipt_sha256")
+        or owner.get("recovery_entrypoint_path")
+        != (str(controller_entrypoint.resolve()) if controller_entrypoint is not None else None)
+        or owner.get("recovery_entrypoint_sha256")
+        != (_sha(controller_entrypoint) if controller_entrypoint is not None else None)
+        or owner.get("cell_id") != "student_continuation_recovery_r3_controller"
+        or owner.get("run_name") != "student_continuation_recovery_r3_controller"
+        or owner.get("family") != "continuation"
+        or not isinstance(controller_command, list)
+        or not controller_command
+        or not str(controller_command[0]).endswith("taskset")
+        or controller_command != expected_controller_command
+        or controller.get("output_dir")
+        != str(Path(str(panel.get("paths", {}).get("project_root", ""))).resolve())
+        or controller.get("gpu_key") != "cpu-stage2"
+    ):
+        return None
+
+    r1_start_path = runtime / "receipts" / "continuation" / "STUDENT_CONTINUATION_START_R1.json"
+    r1_failure_path = runtime / "receipts" / "continuation" / "STUDENT_CONTINUATION_FAILED_R1.json"
+    r1_finalize_log_path = runtime / "logs" / "stage2" / "wide_gru_stage2_06.log"
+    r1_start = _read(r1_start_path)
+    r1_failure = _read(r1_failure_path)
+    if (
+        Path(str(complete.get("r1_start_receipt_path", ""))).resolve() != r1_start_path.resolve()
+        or Path(str(complete.get("r1_failure_receipt_path", ""))).resolve()
+        != r1_failure_path.resolve()
+        or r1_start is None
+        or r1_failure is None
+        or _sha(r1_start_path) != complete.get("r1_start_receipt_sha256")
+        or _sha(r1_failure_path) != complete.get("r1_failure_receipt_sha256")
+        or r1_start.get("schema") != "wnn.l4-teacher-capacity-continuation-state.v1"
+        or r1_start.get("status") != "running"
+        or r1_start.get("panel_sha256") != panel_sha
+        or r1_failure.get("schema") != "wnn.l4-teacher-capacity-continuation-failure.v1"
+        or r1_failure.get("status") != "failed"
+        or r1_failure.get("panel_sha256") != panel_sha
+        or r1_failure.get("family") != "wide_gru"
+        or r1_failure.get("phase") != "stage2_target"
+        or r1_failure.get("error_type") != "RuntimeError"
+        or r1_failure.get("error")
+        != "wide_gru_stage2_06 stage2 failed (1, timeout=False); preserve receipt"
+        or r1_failure.get("source_binding_sha256") != identity.get("source_binding_sha256")
+        or start.get("r1_start_receipt_path") != str(r1_start_path)
+        or start.get("r1_failure_receipt_path") != str(r1_failure_path)
+        or start.get("r1_start_receipt_sha256") != _sha(r1_start_path)
+        or start.get("r1_failure_receipt_sha256") != _sha(r1_failure_path)
+    ):
+        return None
+    if r1_finalize_log_path.is_symlink() or not r1_finalize_log_path.is_file():
+        return None
+    r1_finalize_log = r1_finalize_log_path.read_text(encoding="utf-8", errors="replace")
+    if "metadata exceeds its 512000-byte read bound" not in r1_finalize_log:
+        return None
+    for key in ("source_binding_sha256", "data_binding_sha256", "split_sha256"):
+        if r1_start.get(key) not in (None, identity.get(key)):
+            return None
+    if r1_failure.get("data_binding_sha256") not in (None, identity.get("data_binding_sha256")):
+        return None
+    required_bindings = {
+        "source_binding_sha256": identity.get("source_binding_sha256"),
+        "data_binding_sha256": identity.get("data_binding_sha256"),
+        "split_sha256": identity.get("split_sha256"),
+        "fit_members_sha256": identity.get("fit_members_sha256"),
+        "baseline_ancestry_sha256": identity.get("baseline_ancestry_sha256"),
+    }
+    if any(complete.get(key) != value for key, value in required_bindings.items()):
+        return None
+    state = _read(runtime / "GRU_STATE_R1.json")
+    family_rows = complete.get("families")
+    if (
+        state is None
+        or complete.get("hard_deadline_epoch") != state.get("hard_deadline_epoch")
+        or complete.get("checkpoint_endpoint_epoch") != 1
+        or complete.get("canonical_fixed_weights") != {"TL3": 0.9, "candidate": 0.1}
+        or complete.get("all_family_grades_complete") is not True
+        or not isinstance(family_rows, dict)
+        or set(family_rows) != {"wide_gru", "causal_transformer"}
+        or any(not isinstance(row, dict) for row in family_rows.values())
+    ):
+        return None
+    return (
+        complete_path,
+        complete,
+        [
+            admission_path,
+            start_path,
+            controller_path,
+            r1_start_path,
+            r1_failure_path,
+            r1_finalize_log_path,
+        ],
+    )
+
+
+def _recovery_progress(runtime: Path, panel_sha: str) -> tuple[str, str | None]:
+    """Summarize the actual R1 stop and R2 controller without implying a fit started."""
+    failure_path = runtime / "receipts" / "continuation" / "STUDENT_CONTINUATION_FAILED_R1.json"
+    start_path = runtime / "receipts" / "continuation" / RECOVERY_START_NAME
+    controller_path = runtime / "receipts" / "continuation" / RECOVERY_CONTROLLER_NAME
+    complete_path = runtime / "receipts" / "continuation" / RECOVERY_COMPLETE_NAME
+    failure = _read(failure_path)
+    start = _read(start_path)
+    controller = _read(controller_path)
+    complete = _read(complete_path)
+    if failure is not None and failure.get("panel_sha256") != panel_sha:
+        raise ValueError("R1 failure receipt is bound to a different continuation panel")
+    if start is not None and start.get("panel_sha256") != panel_sha:
+        raise ValueError("R3 recovery start receipt is bound to a different continuation panel")
+    issue = None
+    if failure is not None:
+        error = str(failure.get("error", ""))[:240]
+        issue = f"R1 stopped at {failure.get('family')} / {failure.get('phase')}: {error}"
+    if complete is not None and complete.get("panel_sha256") == panel_sha:
+        return "R3 completion receipt recorded; canonical grade gate pending", issue
+    if start is not None:
+        status = (
+            str(controller.get("status", start.get("status", "unknown")))
+            if controller is not None
+            else "waiting for owned controller receipt"
+        )
+        return f"R3 recovery controller {status}", issue
+    if failure is not None:
+        return "R1 failed; R3 recovery not started", issue
+    return "R1 continuation pending", issue
+
+
+def _verified_receipt_file(raw_path: object, expected_sha: object) -> Path | None:
+    """Resolve a regular evidence file only when its recorded SHA still matches."""
+    if not isinstance(raw_path, str) or not isinstance(expected_sha, str):
+        return None
+    path = Path(raw_path)
+    if path.is_symlink() or not path.is_file() or _sha(path) != expected_sha:
+        return None
+    return path
+
+
+def _recovery_family_evidence(
+    runtime: Path,
+    continuation_path: Path,
+    panel_sha: str,
+    recovery_source: str,
+    admission_path: Path,
+    admission_sha: str,
+    family: str,
+    panel: dict[str, Any],
+    binding: dict[str, Any],
+    family_record: dict[str, Any],
+    grade_value: dict[str, Any],
+) -> list[Path] | None:
+    """Verify compact stage-two promotion and its owned worker for one family."""
+    identity = panel["identity"]
+    summary_path = runtime / "receipts" / "stage2" / f"{family}_metadata_recovery_r3.json"
+    worker_name = (
+        "wide_gru_stage2_recovery_r3.json"
+        if family == "wide_gru"
+        else "causal_transformer_stage2_compact_finalize_r3.json"
+    )
+    worker_path = runtime / "receipts" / "stage2" / worker_name
+    summary = _read(summary_path)
+    worker = _read(worker_path)
+    cache = Path(str(binding.get("target_cache", ""))).resolve()
+    metadata_path = cache / "metadata.json"
+    metadata = _read(metadata_path)
+    if summary is None or worker is None or metadata is None:
+        return None
+    target_contract = metadata.get("target_contract")
+    files = metadata.get("files")
+    main_record = files.get("main_source_train") if isinstance(files, dict) else None
+    if not isinstance(target_contract, dict) or not isinstance(main_record, dict):
+        return None
+    main_path = (cache / str(main_record.get("path", ""))).resolve()
+    if not main_path.is_relative_to(cache) or main_path.is_symlink() or not main_path.is_file():
+        return None
+    entrypoint_path = _verified_receipt_file(
+        summary.get("recovery_entrypoint_path"), summary.get("recovery_entrypoint_sha256")
+    )
+    build_path = _verified_receipt_file(
+        summary.get("stage2_build_receipt_path"), summary.get("stage2_build_receipt_sha256")
+    )
+    build_receipt = _read(build_path) if build_path is not None else None
+    summary_sha = _sha(summary_path)
+    worker_sha = _sha(worker_path)
+    if (
+        Path(str(family_record.get("stage2_recovery_receipt_path", ""))).resolve()
+        != summary_path.resolve()
+        or family_record.get("stage2_recovery_receipt_sha256") != summary_sha
+        or Path(str(family_record.get("stage2_owned_receipt_path", ""))).resolve()
+        != worker_path.resolve()
+        or family_record.get("stage2_owned_receipt_sha256") != worker_sha
+        or summary.get("schema") != "wnn.l4-teacher-stage2-metadata-recovery.v1"
+        or summary.get("status") != "compact_finalized_and_promoted"
+        or summary.get("family") != family
+        or summary.get("continuation_panel_sha256") != panel_sha
+        or summary.get("recovery_source_binding_sha256") != recovery_source
+        or summary.get("data_binding_sha256") != identity.get("data_binding_sha256")
+        or summary.get("split_sha256") != identity.get("split_sha256")
+        or summary.get("fit_members_sha256") != identity.get("fit_members_sha256")
+        or summary.get("baseline_ancestry_sha256") != identity.get("baseline_ancestry_sha256")
+        or Path(str(summary.get("recovery_admission_receipt_path", ""))).resolve()
+        != admission_path.resolve()
+        or summary.get("recovery_admission_receipt_sha256") != admission_sha
+        or entrypoint_path is None
+        or entrypoint_path.name != "recover_students.py"
+        or build_path is None
+        or Path(str(build_path)).resolve() != (cache / "stage2_build_receipt.json").resolve()
+        or build_receipt is None
+        or build_receipt.get("schema") != "wnn.l4-teacher-stage2-stream.v2"
+        or build_receipt.get("family") != family
+        or build_receipt.get("output_cache") != str(cache)
+        or build_receipt.get("expected_runs") != target_contract.get("teacher_runs_equal_weight")
+        or build_receipt.get("processed_runs") != target_contract.get("teacher_runs_equal_weight")
+        or build_receipt.get("fit_row_groups") != target_contract.get("fit_groups")
+        or build_receipt.get("fit_row_groups_sha256") != target_contract.get("fit_groups_sha256")
+        or build_receipt.get("target_array_bytes") != summary.get("target_cache_bytes")
+        or build_receipt.get("pending_run") is not None
+        or build_receipt.get("split_manifest_sha256") != identity.get("split_sha256")
+        or build_receipt.get("fit_source_positions") != target_contract.get("fit_source_positions")
+        or build_receipt.get("fit_source_positions_sha256")
+        != target_contract.get("fit_source_positions_sha256")
+        or build_receipt.get("source_train_index_sha256")
+        != target_contract.get("source_train_index_sha256")
+        or build_receipt.get("teacher_records") != summary.get("teacher_records")
+        or any(
+            row.get("bank_discarded_after_aggregation") is not True
+            for row in build_receipt.get("teacher_records", [])
+            if isinstance(row, dict)
+        )
+        or Path(str(summary.get("target_cache_path", ""))).resolve() != cache
+        or Path(str(family_record.get("target_cache", ""))).resolve() != cache
+        or summary.get("target_metadata_sha256") != _sha(metadata_path)
+        or family_record.get("target_cache_metadata_sha256") != _sha(metadata_path)
+        or summary.get("compact_metadata_sha256") != _sha(metadata_path)
+        or summary.get("target_main_sha256") != main_record.get("sha256")
+        or summary.get("target_cache_bytes") != main_record.get("bytes")
+        or _sha(main_path) != main_record.get("sha256")
+        or summary.get("target_contract_sha256")
+        != hashlib.sha256(
+            json.dumps(
+                target_contract, sort_keys=True, separators=(",", ":"), allow_nan=False
+            ).encode()
+        ).hexdigest()
+        or summary.get("teacher_records") != target_contract.get("teachers")
+        or grade_value.get("target_contract") != target_contract
+        or grade_value.get("target_teacher_records") != target_contract.get("teachers")
+        or summary.get("semantic_metadata_sha256")
+        != hashlib.sha256(
+            json.dumps(metadata, sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
+        ).hexdigest()
+        or family_record.get("stage2_target_contract_sha256")
+        != summary.get("target_contract_sha256")
+        or Path(str(family_record.get("stage2_build_receipt_path", ""))).resolve()
+        != (cache / "stage2_build_receipt.json").resolve()
+        or family_record.get("stage2_build_receipt_sha256") != _sha(build_path)
+        or Path(str(family_record.get("cache_review_receipt_path", ""))).resolve()
+        != Path(str(binding.get("cache_admission_receipt", ""))).resolve()
+        or family_record.get("cache_review_receipt_sha256")
+        != _sha(Path(str(binding.get("cache_admission_receipt", ""))))
+        or not isinstance(summary.get("stage2_init_add_receipts"), list)
+    ):
+        return None
+
+    init_add_paths = []
+    for row in summary["stage2_init_add_receipts"]:
+        if not isinstance(row, dict):
+            return None
+        receipt_path = _verified_receipt_file(row.get("path"), row.get("sha256"))
+        if receipt_path is None:
+            return None
+        init_add_paths.append(receipt_path)
+    expected_init_add = (
+        [Path(str(binding["stage2_init_receipt"]))]
+        + [
+            runtime / "receipts" / "stage2" / f"{family}_stage2_{index:02d}.json"
+            for index in range(2, 6)
+        ]
+        if family == "wide_gru"
+        else [
+            runtime / "receipts" / "stage2" / f"{family}_stage2_{index:02d}.json"
+            for index in range(1, 4)
+        ]
+    )
+    if [path.resolve() for path in init_add_paths] != [
+        path.resolve() for path in expected_init_add
+    ]:
+        return None
+    if family == "wide_gru":
+        nested = summary.get("r1_failure_receipts")
+        if (
+            len(init_add_paths) != 5
+            or not isinstance(nested, dict)
+            or nested.get("stage2_init_add_receipts") != summary.get("stage2_init_add_receipts")
+        ):
+            return None
+        nested_paths: list[Path] = []
+        for name in ("start_receipt", "failure_receipt", "finalize_receipt"):
+            item = nested.get(name)
+            if not isinstance(item, dict):
+                return None
+            receipt_path = _verified_receipt_file(item.get("path"), item.get("sha256"))
+            if receipt_path is None:
+                return None
+            expected_receipt_path = (
+                runtime / "receipts" / "continuation" / "STUDENT_CONTINUATION_START_R1.json"
+                if name == "start_receipt"
+                else runtime / "receipts" / "continuation" / "STUDENT_CONTINUATION_FAILED_R1.json"
+                if name == "failure_receipt"
+                else runtime / "receipts" / "stage2" / "wide_gru_stage2_06.json"
+            )
+            if receipt_path.resolve() != expected_receipt_path.resolve():
+                return None
+            nested_paths.append(receipt_path)
+            if name == "finalize_receipt":
+                log_path = _verified_receipt_file(item.get("log_path"), item.get("log_sha256"))
+                expected_log_path = runtime / "logs" / "stage2" / "wide_gru_stage2_06.log"
+                if (
+                    log_path is None
+                    or log_path.resolve() != expected_log_path.resolve()
+                    or "metadata exceeds its 512000-byte read bound"
+                    not in log_path.read_text(encoding="utf-8", errors="replace")
+                    or not isinstance(item.get("command"), list)
+                    or not isinstance(item.get("owner"), dict)
+                ):
+                    return None
+                nested_paths.append(log_path)
+        backup_path = _verified_receipt_file(
+            summary.get("original_pretty_metadata_backup_path"),
+            summary.get("original_pretty_metadata_sha256"),
+        )
+        if backup_path is None:
+            return None
+        nested_paths.append(backup_path)
+    else:
+        if summary.get("original_r1_finalize_attempted") is not False:
+            return None
+        nested_paths = []
+
+    owner = worker.get("owner", {})
+    command = worker.get("command")
+    if (
+        worker.get("schema") != "wnn.multistage-owned-process.v1"
+        or worker.get("status") != "completed"
+        or worker.get("exit_code") != 0
+        or worker.get("timed_out") is not False
+        or worker.get("child") != summary.get("owned_worker_child")
+        or Path(str(summary.get("owned_worker_receipt_path", ""))).resolve()
+        != worker_path.resolve()
+        or not isinstance(owner, dict)
+        or owner.get("continuation_panel_sha256") != panel_sha
+        or owner.get("family") != family
+        or owner.get("source_binding_sha256") != identity.get("source_binding_sha256")
+        or owner.get("recovery_source_binding_sha256") != recovery_source
+        or owner.get("recovery_admission_receipt_sha256") != admission_sha
+        or owner.get("recovery_admission_receipt_path") != str(admission_path.resolve())
+        or owner.get("recovery_entrypoint_path") != str(entrypoint_path.resolve())
+        or owner.get("recovery_entrypoint_sha256") != summary.get("recovery_entrypoint_sha256")
+        or any(
+            owner.get(key) != identity.get(key)
+            for key in (
+                "data_binding_sha256",
+                "split_sha256",
+                "fit_members_sha256",
+                "baseline_ancestry_sha256",
+            )
+        )
+        or owner.get("cell_id")
+        != (
+            "wide_gru_stage2_recovery_r3"
+            if family == "wide_gru"
+            else "causal_transformer_stage2_compact_finalize_r3"
+        )
+        or owner.get("run_name") != owner.get("cell_id")
+        or not isinstance(command, list)
+        or not command
+        or worker.get("command_sha256")
+        != hashlib.sha256(json.dumps(command, separators=(",", ":")).encode()).hexdigest()
+        or owner.get("command_sha256") != worker.get("command_sha256")
+        or not str(command[0]).endswith("taskset")
+        or command
+        != [
+            str(command[0]),
+            "-c",
+            RECOVERY_CPUSET,
+            str(panel["paths"]["python"]),
+            str(entrypoint_path.resolve()),
+            "--worker-mode",
+            "wide-recover-partial" if family == "wide_gru" else "finalize-compact",
+            "--family",
+            family,
+            "--panel",
+            str(continuation_path.resolve()),
+            "--recovery-admission",
+            str(admission_path.resolve()),
+            "--worker-receipt",
+            str(worker_path.resolve()),
+        ]
+        or family_record.get("stage2_owned_child") != worker.get("child")
+        or worker.get("gpu_key") != "cpu-stage2"
+        or Path(str(worker.get("output_dir", ""))).resolve() != cache
+    ):
+        return None
+    return [
+        summary_path,
+        worker_path,
+        entrypoint_path,
+        build_path,
+        *init_add_paths,
+        *nested_paths,
+    ]
 
 
 def _phase_receipt(panel: dict[str, Any], cell: dict[str, Any], phase: str) -> Path:
@@ -327,6 +882,12 @@ def _snapshot(gru: dict[str, Any], tf: dict[str, Any], continuation_path: Path) 
     state = _read(runtime / "GRU_STATE_R1.json")
     if state is None or not isinstance(state.get("hard_deadline_epoch"), (int, float)):
         raise ValueError("shared GRU_STATE_R1 hard deadline is absent or malformed")
+    panel_sha = _sha(continuation_path) if continuation is not None else ""
+    continuation_status, continuation_issue = (
+        _recovery_progress(runtime, panel_sha)
+        if continuation is not None
+        else ("pending_panel", None)
+    )
     fits = []
     for row in _scientific_cells(gru, tf, continuation):
         cell, panel = row["cell"], row["panel"]
@@ -335,29 +896,41 @@ def _snapshot(gru: dict[str, Any], tf: dict[str, Any], continuation_path: Path) 
         output = _output_dir(panel, cell)
         phase = _terminal(receipt)
         epoch_metrics = _metrics(output) if output.is_dir() and not output.is_symlink() else []
-        fits.append(
-            {
-                "family": row["family"],
-                "run": str(cell["run_name"]),
-                "cell_id": str(cell["cell_id"]),
-                "seed": cell.get("seed"),
-                "status": phase,
-                "phase": (
-                    "fixed endpoint available"
-                    if phase == "completed"
-                    else "fit failed"
-                    if phase == "failed"
-                    else f"training, epoch {epoch_metrics[-1]['epoch'] + 1}"
-                    if phase == "running" and epoch_metrics
-                    else "training"
-                    if phase == "running"
-                    else "queued"
-                ),
-                "receipt": str(receipt_path),
-                "epochs": epoch_metrics,
-                "terminal": phase in {"completed", "failed"},
-            }
-        )
+        fit_row = {
+            "family": row["family"],
+            "run": str(cell["run_name"]),
+            "cell_id": str(cell["cell_id"]),
+            "seed": cell.get("seed"),
+            "status": phase,
+            "phase": (
+                "fixed endpoint available"
+                if phase == "completed"
+                else "fit failed"
+                if phase == "failed"
+                else f"training, epoch {epoch_metrics[-1]['epoch'] + 1}"
+                if phase == "running" and epoch_metrics
+                else "training"
+                if phase == "running"
+                else "queued"
+            ),
+            "receipt": str(receipt_path),
+            "epochs": epoch_metrics,
+            "terminal": phase in {"completed", "failed"},
+        }
+        if (
+            phase == "not_started"
+            and str(row["family"]).startswith("student_")
+            and continuation_status.startswith("R3 recovery controller")
+        ):
+            fit_row["status"] = "recovering"
+            fit_row["phase"] = "recovery controller active; student fit not started"
+        elif (
+            phase == "not_started"
+            and str(row["family"]).startswith("student_")
+            and continuation_issue is not None
+        ):
+            fit_row["phase"] = "R1 continuation failed; R3 student fit not started"
+        fits.append(fit_row)
     profile_paths = _profile_receipts(runtime, gru, tf, continuation)
     profiles = []
     for path in profile_paths:
@@ -394,7 +967,8 @@ def _snapshot(gru: dict[str, Any], tf: dict[str, Any], continuation_path: Path) 
         "fit_terminal": sum(row["terminal"] for row in fits),
         "fit_completed": sum(row["status"] == "completed" for row in fits),
         "grades": grades,
-        "continuation_status": continuation.get("status") if continuation else "pending_panel",
+        "continuation_status": continuation_status,
+        "continuation_issue": continuation_issue,
         "continuation_panel_path": str(continuation_path),
         "source_bindings": {
             "wide_gru_teacher": gru.get("identity", {}).get("source_binding_sha256"),
@@ -420,6 +994,8 @@ def _status_text(snapshot: dict[str, Any], event: str, release: dict[str, Any] |
         "| Family / run | Status | Phase | Epoch validation WP / WMSE | Grad norm | Clip |",
         "|---|---|---|---|---|---|",
     ]
+    if snapshot.get("continuation_issue"):
+        lines.insert(4, f"Original one-shot result: `{snapshot['continuation_issue']}`.")
     for fit in snapshot["fits"]:
         epochs = fit["epochs"]
         metric_text = (
@@ -488,9 +1064,18 @@ def _validate_grade_gate(
     runtime = Path(str(panel["paths"]["runtime_root"]))
     complete_path = runtime / "receipts" / "continuation" / "STUDENT_CONTINUATION_COMPLETE_R1.json"
     complete = _read(complete_path)
+    recovery_evidence: list[Path] = []
+    recovered = False
+    if complete is None:
+        recovery = _recovery_completion(runtime, continuation_path, panel, panel_sha)
+        if recovery is None:
+            return None
+        complete_path, complete, recovery_evidence = recovery
+        recovered = True
     if (
         complete is None
-        or complete.get("schema") != "wnn.l4-teacher-capacity-continuation-state.v1"
+        or complete.get("schema")
+        != (RECOVERY_SCHEMA if recovered else "wnn.l4-teacher-capacity-continuation-state.v1")
         or complete.get("status") != "complete"
         or complete.get("panel_sha256") != panel_sha
         or complete.get("all_family_grades_complete") is not True
@@ -520,13 +1105,71 @@ def _validate_grade_gate(
     ):
         return None
     grade_paths: list[Path] = []
+    recovery_family_evidence: list[Path] = []
+    recovery_entrypoints: set[Path] = set()
+    family_results = complete.get("families", [])
     for family in ("wide_gru", "causal_transformer"):
         binding = panel.get("families", {}).get(family)
         if not isinstance(binding, dict):
             return None
+        recovery_family = (
+            family_results.get(family) if recovered and isinstance(family_results, dict) else None
+        )
         grade = runtime / "grades" / family / "grade_receipt.json"
         report = runtime / "grades" / family / "report.json"
         grade_value, report_value = _read(grade), _read(report)
+        if recovered:
+            if recovery_family is None or grade_value is None:
+                return None
+            continuation_cells = continuation.get("students", {}).get("cells", [])
+            expected_student_runs = [
+                str(cell.get("run_name"))
+                for cell in continuation_cells
+                if isinstance(cell, dict) and cell.get("family") == family
+            ]
+            student_artifacts = grade_value.get("student_fit_artifacts", [])
+            teacher_artifacts = grade_value.get("teacher_fit_artifacts", [])
+            teacher_runs = (
+                grade_value.get("target_contract", {}).get("teacher_runs_equal_weight", [])
+                if isinstance(grade_value.get("target_contract"), dict)
+                else []
+            )
+            if (
+                len(expected_student_runs) != 2
+                or [item.get("run_name") for item in student_artifacts if isinstance(item, dict)]
+                != expected_student_runs
+                or any(
+                    item.get("endpoint_epoch") != 1
+                    for item in student_artifacts
+                    if isinstance(item, dict)
+                )
+                or [item.get("run_name") for item in teacher_artifacts if isinstance(item, dict)]
+                != teacher_runs
+                or len(teacher_artifacts) != (4 if family == "wide_gru" else 2)
+            ):
+                return None
+            admission_path = Path(str(complete["recovery_admission_receipt_path"]))
+            family_evidence = _recovery_family_evidence(
+                runtime,
+                continuation_path,
+                panel_sha,
+                str(complete["recovery_source_binding_sha256"]),
+                admission_path,
+                str(complete["recovery_admission_receipt_sha256"]),
+                family,
+                panel,
+                binding,
+                recovery_family,
+                grade_value,
+            )
+            if family_evidence is None:
+                return None
+            recovery_family_evidence.extend(family_evidence)
+            summary_path = runtime / "receipts" / "stage2" / f"{family}_metadata_recovery_r3.json"
+            summary = _read(summary_path)
+            if summary is None:
+                return None
+            recovery_entrypoints.add(Path(str(summary["recovery_entrypoint_path"])).resolve())
         if (
             grade_value is None
             or report_value is None
@@ -575,6 +1218,31 @@ def _validate_grade_gate(
                 if family == "wide_gru"
                 else "wnn.l4-teacher-capacity-transformer-panel.v1"
             )
+            or (
+                recovered
+                and (
+                    recovery_family is None
+                    or Path(str(recovery_family.get("target_cache", ""))).resolve()
+                    != Path(str(binding["target_cache"])).resolve()
+                    or recovery_family.get("target_cache_metadata_sha256") != _sha(cache_metadata)
+                    or Path(str(recovery_family.get("grade_receipt_path", ""))).resolve()
+                    != grade.resolve()
+                    or recovery_family.get("grade_receipt_sha256") != _sha(grade)
+                    or recovery_family.get("grade_status") != "complete"
+                    or Path(str(recovery_family.get("cache_review_receipt_path", ""))).resolve()
+                    != cache_review_path.resolve()
+                    or recovery_family.get("cache_review_receipt_sha256") != _sha(cache_review_path)
+                    or recovery_family.get("grade_candidate_rows")
+                    != grade_value.get("candidate_rows")
+                    or recovery_family.get("fit_artifacts")
+                    != grade_value.get("student_fit_artifacts")
+                    or recovery_family.get("valid_exports")
+                    != [
+                        item.get("path")
+                        for item in grade_value.get("compact_prediction_artifacts", [])
+                    ]
+                )
+            )
         ):
             return None
         _require_shared_identity(
@@ -609,11 +1277,24 @@ def _validate_grade_gate(
             or target_contract.get("teacher_runs_equal_weight") != list(binding["fit_receipts"])
             or grade_value.get("target_teacher_records") != target_contract.get("teachers")
             or target_contract != target_metadata_value.get("target_contract")
+            or (
+                recovered
+                and recovery_family.get("stage2_target_contract_sha256")
+                != hashlib.sha256(
+                    json.dumps(
+                        target_contract,
+                        sort_keys=True,
+                        separators=(",", ":"),
+                        allow_nan=False,
+                    ).encode()
+                ).hexdigest()
+            )
         ):
             return None
-        family_results = complete.get("families", [])
         family_result = (
-            next(
+            family_results.get(family)
+            if recovered and isinstance(family_results, dict)
+            else next(
                 (
                     item
                     for item in family_results
@@ -648,7 +1329,26 @@ def _validate_grade_gate(
                     )
                 grade_paths.append(source)
         grade_paths.extend((cache_metadata, cache_review_path))
-    return grade_paths
+    if recovered:
+        controller = _read(runtime / "receipts" / "continuation" / RECOVERY_CONTROLLER_NAME)
+        command = controller.get("command") if controller is not None else None
+        controller_entrypoints = (
+            {
+                Path(str(argument)).resolve()
+                for argument in command
+                if isinstance(argument, str) and Path(argument).name == "recover_students.py"
+            }
+            if isinstance(command, list)
+            else set()
+        )
+        if len(recovery_entrypoints) != 1 or controller_entrypoints != recovery_entrypoints:
+            return None
+    return [
+        *recovery_evidence,
+        *recovery_family_evidence,
+        complete_path,
+        *grade_paths,
+    ]
 
 
 def _archives(
@@ -854,13 +1554,7 @@ def observe(
                     continuation_path, panel_value, panel_value, continuation_sha
                 )
                 if grade_paths is not None:
-                    complete_state = (
-                        runtime
-                        / "receipts"
-                        / "continuation"
-                        / "STUDENT_CONTINUATION_COMPLETE_R1.json"
-                    )
-                    grade_paths.extend((gru_path, tf_path, continuation_path, complete_state))
+                    grade_paths.extend((gru_path, tf_path, continuation_path, state_path))
                     grade_paths.extend(
                         Path(str(panel_value[key]))
                         for key in ("admission_receipt",)
@@ -903,7 +1597,7 @@ def observe(
                         continue
                     pull_head = _verify_api_scope(client)
                     archives = _archives(
-                        runtime, gru_path, tf_path, continuation_path, complete_state, grade_paths
+                        runtime, gru_path, tf_path, continuation_path, state_path, grade_paths
                     )
                     release = publisher._publish_release(
                         client,
