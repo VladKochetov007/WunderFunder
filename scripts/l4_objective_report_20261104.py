@@ -112,6 +112,13 @@ def collect(panel_path: Path, control_path: Path) -> dict[str, Any]:
                 flag = "--" + key.replace("_", "-")
                 if flag in argv:
                     recipe[key] = converter(argv[argv.index(flag) + 1])
+            if "--split-manifest" in argv:
+                manifest = Path(argv[argv.index("--split-manifest") + 1])
+                if file_sha256(manifest) != split.sha256:
+                    raise ValueError(f"declared split differs: {run}")
+                # setup_lineage.validate_membership canonicalizes this label;
+                # exact evaluation membership was checked above, independent of label.
+                recipe["eval_source"] = "vfold"
             if [row["epoch"] for row in history] != [0, 1, 2, 3]:
                 raise ValueError(f"four complete epochs required: {run}")
             for row in history:

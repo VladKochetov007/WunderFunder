@@ -134,7 +134,8 @@ def teacher_result(
         "epochs": 4,
         "seed": cell["seed"],
         "train_source": "train",
-        "eval_source": "dev",
+        "eval_source": "vfold",
+        "split_manifest_sha256": split.sha256,
         "full_valid": True,
     }
     if (
