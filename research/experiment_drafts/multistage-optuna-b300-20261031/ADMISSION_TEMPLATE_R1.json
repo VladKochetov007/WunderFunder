@@ -1,0 +1,178 @@
+{
+  "schema": "wnn.multistage-search-admission.v1",
+  "status": "draft_pending_independent_review",
+  "experiment_id": "E-MULTISTAGE-OPTUNA-B300-20261031-R1",
+  "contract_sha256": "cc4cfb8fbe61b8ac1d94f287cd0896e8e04b1126faf533eff553d9b513ce47bf",
+  "independent_recipe_review": {
+    "status": "pending",
+    "review_id": "INDEPENDENT_REVIEW_R1",
+    "path": "research/experiment_drafts/multistage-optuna-b300-20261031/INDEPENDENT_REVIEW_R1.json",
+    "sha256": "d29dc1f50ce9fcf94b01c14890dd024c102bed3bc05553884516d94f83c5475a",
+    "required_before_prepare": true
+  },
+  "recipe_extension": {
+    "path": "research/experiment_drafts/multistage-optuna-b300-20261031/recipes/stage1-family-extension-r4.json",
+    "sha256": "97e316f5b46dd73407979140cd5f87527aa1394ac2fc80a02d72265dea1983af",
+    "revision": "R4"
+  },
+  "training_source_root": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/source-r3",
+  "training_source_revision": "native-source-r3-portable-20261031",
+  "training_source_identity_sha256": "873a3c07fd88d3eec9ed52b2472b8d7f37ef5f488855a3c753db438e4fdee5aa",
+  "evaluation_source_root": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/operator-native4",
+  "evaluation_source_revision": "operator-native4-pending-root-snapshot",
+  "source_capsule_sha256": "41929c513e8e585c15424560ef9e4c2ceaee842efb641c73dd365848fd9d311b8",
+  "first_gpu_profile_epoch": 1793403669.6589406,
+  "first_gpu_profile_receipt": {
+    "path": "research/experiment_drafts/multistage-optuna-b300-20261031/receiving/actual-profiles-r1/receipts/first-gpu-profile-r2.json",
+    "sha256": "d14b94444388de86260652fd28d524d03f115da03586a96ad2a4129474930791"
+  },
+  "preexisting_profile_attempts": 14,
+  "preprofiled_config_identity_sha256s": [
+    "505b517a9e4d7d9eb17bbe1f423bc7d54919fddfa8dda8361353e196702ef7e1",
+    "6017f97c1acba29e01bf98f2a6bbad2e1c9684f70e9c526c1471eaadc71fa6c9",
+    "01c0ad8f7223c7f595d7fc707c227cb327b5f721449c72dbdb0862121bd8eedd",
+    "f57327e25fb98636fa4e397f08656eb9eef4f6e014ee4f72c143b727fd5bcc29",
+    "2f10cdfb1edc2c5f7a25548aeb58e31364b699d6495da93a93002968612c92dc",
+    "24826498319252c62168c4ab0d3924d375bdba2d7c1559fb650a29026b468053",
+    "3194eb65edabb3a83d2cfe87fd7f346dffd1cfd357da98f644044bbf0e36a0bd",
+    "12fc5b9479f1c86d46a3fe9f7372f9126b39fe96f23b5484452589aca0d41386"
+  ],
+  "preexisting_fit_attempts": [
+    {
+      "attempt_id": "preexisting-stage1-gru-b256-r5",
+      "stage": 1,
+      "trial_number": null,
+      "status": "running",
+      "family": "gru",
+      "anchor_id": "S1-GRU256x2-B256-AUX-CONTROL-PREFETCH1-R2",
+      "config_identity_sha256": "3194eb65edabb3a83d2cfe87fd7f346dffd1cfd357da98f644044bbf0e36a0bd",
+      "training_source_sha256": "873a3c07fd88d3eec9ed52b2472b8d7f37ef5f488855a3c753db438e4fdee5aa",
+      "profile_receipt": {
+        "path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/profiles/gru-b256-r5/profile_receipt.json",
+        "sha256": "542d67c87d4fb552172612c47fdc779971450d057ff6bd9fd03aa4516580f6cc"
+      },
+      "output_dir": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/runs/anchor-gru-b256-r5"
+    },
+    {
+      "attempt_id": "preexisting-stage1-lstm-b256-r5",
+      "stage": 1,
+      "trial_number": null,
+      "status": "running",
+      "family": "lstm",
+      "anchor_id": "S1-LSTM256x2-B256-AUX-CONTROL-PREFETCH1-R2",
+      "config_identity_sha256": "12fc5b9479f1c86d46a3fe9f7372f9126b39fe96f23b5484452589aca0d41386",
+      "training_source_sha256": "873a3c07fd88d3eec9ed52b2472b8d7f37ef5f488855a3c753db438e4fdee5aa",
+      "profile_receipt": {
+        "path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/profiles/lstm-b256-r5/profile_receipt.json",
+        "sha256": "8aaed07ab950283280ca5eb9a08a1b47b07e8106295d48ea76811c7c31af4713"
+      },
+      "output_dir": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/runs/anchor-lstm-b256-r5"
+    }
+  ],
+  "reserved_gpu_keys": ["6", "7"],
+  "device_inventory_sha256": "feffa074b132b3bee01c4854ee4753ec4f555743137a572e7fcb3edf106ae405",
+  "data": {
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "primary_split_manifest": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/data/chronological_primary.json",
+    "primary_fit_train_sequences": 10325,
+    "primary_fit_valid_sequences": 0,
+    "primary_eval_valid_sequences": 1873,
+    "primary_valid_used": false,
+    "auxiliary_manifest": {
+      "path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/data/cache/multistage/auxiliary-r3.json",
+      "sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075"
+    },
+    "data_root": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/data",
+    "auxiliary_fit_train_sequences": 8260,
+    "auxiliary_fit_valid_sequences": 0,
+    "auxiliary_control_train_sequences": 2065,
+    "objective_scope": "inner_train_proxy",
+    "objective_metric": "wp",
+    "objective_row_mask": "all_after_warmup AND row_index>=99",
+    "objective_reduction": "mean_of_two_pooled_clipped_weighted_Pearson_targets",
+    "auxiliary_chronology_claim": false,
+    "fit_ancestry_excludes_control_members": true,
+    "known_connected_components_disjoint": true
+  },
+  "profile_policy": {
+    "independent_checker_policy": {
+      "path": "research/experiment_drafts/multistage-optuna-b300-20261031/PROFILE_REVIEW_POLICY_R2.json",
+      "sha256": "6e38e381040a411d15c78cd878913b61eb1fd3b39557c9cd99f18347ad4cc9c4"
+    },
+    "profile_updates": 50,
+    "profile_wall_seconds": 180,
+    "world_size": 1,
+    "max_concurrent_workers": 6,
+    "worker_cpu_threads": 4,
+    "effective_thread_environment": {
+      "OMP_NUM_THREADS": "4",
+      "MKL_NUM_THREADS": "4",
+      "OPENBLAS_NUM_THREADS": "4"
+    },
+    "device_inventory_sha256": "feffa074b132b3bee01c4854ee4753ec4f555743137a572e7fcb3edf106ae405",
+    "devices": {
+      "0": {"gpu_index": 0, "uuid": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e", "cuda_visible_devices": "GPU-daf615f5-ea55-860a-bfe1-41c36ab96c3e", "total_memory_bytes": 288400343040},
+      "1": {"gpu_index": 1, "uuid": "GPU-25ae492c-db98-e1ae-0f5e-c56365a422c7", "cuda_visible_devices": "GPU-25ae492c-db98-e1ae-0f5e-c56365a422c7", "total_memory_bytes": 288400343040},
+      "2": {"gpu_index": 2, "uuid": "GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67", "cuda_visible_devices": "GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67", "total_memory_bytes": 288400343040},
+      "3": {"gpu_index": 3, "uuid": "GPU-76951d88-add3-0d6b-5bee-c0390915ca47", "cuda_visible_devices": "GPU-76951d88-add3-0d6b-5bee-c0390915ca47", "total_memory_bytes": 288400343040},
+      "4": {"gpu_index": 4, "uuid": "GPU-e6d65cb1-aba4-14f5-d4e5-bf24ef1ee3d8", "cuda_visible_devices": "GPU-e6d65cb1-aba4-14f5-d4e5-bf24ef1ee3d8", "total_memory_bytes": 288400343040},
+      "5": {"gpu_index": 5, "uuid": "GPU-1fc4d921-dc78-6711-c2a8-ec0589b7f106", "cuda_visible_devices": "GPU-1fc4d921-dc78-6711-c2a8-ec0589b7f106", "total_memory_bytes": 288400343040}
+    }
+  },
+  "stage_fit_caps": {"1": 16, "2": 8, "3": 12, "4": 12},
+  "stage1": {
+    "family_extension": {
+      "path": "research/experiment_drafts/multistage-optuna-b300-20261031/recipes/stage1-family-extension-r4.json",
+      "sha256": "97e316f5b46dd73407979140cd5f87527aa1394ac2fc80a02d72265dea1983af"
+    },
+    "anchors": [],
+    "max_trials": 32,
+    "objective": {
+      "role": "control",
+      "source": "train",
+      "scope": "inner_train_proxy",
+      "name": "wp",
+      "row_mask": "all_after_warmup AND row_index>=99",
+      "primary_valid_used": false
+    }
+  },
+  "stage2": {
+    "max_trials": 8,
+    "parent_policy": "qualified fixed-final stage-one checkpoint only",
+    "initializer_mode": "weights_only",
+    "optimizer_state": "fresh",
+    "preserve_model_normalization_aux_split_and_fit_control_members": true,
+    "search_space": {
+      "lr": {"kind": "categorical", "choices": [0.0001, 0.0003, 0.0005]},
+      "weight_decay": {"kind": "categorical", "choices": [0.0, 0.01, 0.05]},
+      "epochs": {"kind": "categorical", "choices": [2, 4]}
+    }
+  },
+  "stage3": {
+    "max_trials": 12,
+    "loss_semantics": "L_label + kd_weight * L_teacher",
+    "teacher_pool_policy": "ordered positive FP32 weights summing to one over qualified fixed-final predictors",
+    "teacher_cache_membership": "auxiliary fit only; never include control members",
+    "search_space": {
+      "kd_weight": {"kind": "categorical", "choices": [0.05, 0.1, 0.25, 0.5, 1.0]},
+      "student_family": {"kind": "categorical", "choices": ["gru", "lstm"]}
+    }
+  },
+  "stage4": {
+    "max_optuna_trials": 24,
+    "max_search_wall_seconds": 1800,
+    "max_candidate_count": 8,
+    "candidate_scope": "qualified inner control predictions with disjoint fit/control ancestry",
+    "weight_constraints": "nonnegative weights summing to one",
+    "objective": "recompute pooled clipped WP after arithmetic blending",
+    "final_refit_cap": 12,
+    "primary_valid_used": false
+  },
+  "tpe_startup_trials": 5,
+  "sampler_seed": 20261031,
+  "notes": [
+    "This template intentionally fails prepare until an independent recipe review has status approved and the evaluation source snapshot exists at its pinned path.",
+    "The two B256 fits are pre-registered attempts and GPUs 6 and 7 remain reserved for their root-owned PIDs.",
+    "Only the six independently inventoried GPUs 0 through 5 are available to the rolling stage-one supervisor."
+  ]
+}

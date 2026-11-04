@@ -1,0 +1,168 @@
+{
+  "artifacts": {
+    "chronological_manifest": {
+      "bytes": 1016026,
+      "local_raw_copy": "chronological_primary.json",
+      "route": "/data-preparation-r1/chronological_primary.json",
+      "sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+    },
+    "source_audit": {
+      "bytes": 866,
+      "local_raw_copy": "source_audit.json",
+      "route": "/data-source-proof/source_audit.json",
+      "sha256": "6d9f184fb5b6196a8d618d22cef36543e6237574a59e5f9c9f68acb6cbc1eed3"
+    },
+    "source_audit_details": {
+      "bytes": 2376,
+      "local_raw_copy": "source_audit_details.json",
+      "route": "/data-source-proof/source_audit_details.json",
+      "sha256": "26b9e86490db76ef6b5ba252e12a3c6e94ace51f6148440b3fb3fa92f35f4589"
+    },
+    "train_index_identity": {
+      "bytes": 851,
+      "local_raw_copy": "train_index.identity.json",
+      "route": "/data-source-proof/train_index.identity.json",
+      "sha256": "d7093810c08a8aa2248a27edb8d6b66f3be7eb203b7cc12bd20508ee9beb704e"
+    },
+    "valid_index_identity": {
+      "bytes": 847,
+      "local_raw_copy": "valid_index.identity.json",
+      "route": "/data-source-proof/valid_index.identity.json",
+      "sha256": "ff9833d27e723dcc21adc2593b1fcbfec038cf8a8c2e465488ca82b66937e2ab"
+    },
+    "valid_mask_coverage": {
+      "bytes": 438,
+      "local_raw_copy": "valid-scoring-mask-coverage.json",
+      "route": "/valid-scoring-mask-coverage.json",
+      "sha256": "39a5d37a01a83981cf22aa8ba2c5362caa817b22dfd9ca81882e6ecab5c07f5f"
+    }
+  },
+  "index_bindings": {
+    "train_identity_raw_sha256": "d7093810c08a8aa2248a27edb8d6b66f3be7eb203b7cc12bd20508ee9beb704e",
+    "train_index_binary_sha256": "9ffac9a45c943cdaa2b8deb75986fad27489f163fe2b40919095637877334d0b",
+    "valid_identity_raw_sha256": "ff9833d27e723dcc21adc2593b1fcbfec038cf8a8c2e465488ca82b66937e2ab",
+    "valid_index_binary_sha256": "89d2da2589d224a0de9f20e8aa06551b6e817540fddd8fba6eaeb147ce04d1b7"
+  },
+  "limitations": [
+    "This review checks producer metadata and the split manifest; it does not independently reread or rehash the 34.85 GB source payloads.",
+    "Graph NPZ content was not fetched; only its manifest-reported identity and complete row-group component mapping were inspected.",
+    "The fetched source-audit metadata does not expose the full required feature-column schema, so schema validity relies on the audited producer phase.",
+    "The R4/R5/R6 model-code source digest supplied by root is not represented in these six metadata artifacts; verify it in the actual profile identities when available.",
+    "Official file-boundary chronology is supported; calendar timestamps are explicitly unavailable, so this is not an independent timestamp-order claim.",
+    "No actual profile receipts were available; data metadata review does not approve a fit."
+  ],
+  "manifest": {
+    "chronology_basis": "official train/valid source boundary; calendar timestamps unavailable",
+    "component_method": "undirected connected components of feature-only successor graph",
+    "graph_artifact": {
+      "bytes": 452890,
+      "mtime_ns": 1793164513872056909,
+      "sha256": "d8dab8a673ee3c8216f00828aad4f57b4281a0344becba5e0da9c494339bb6b4"
+    },
+    "graph_artifact_note": "Manifest records graph NPZ byte count/SHA; NPZ was not fetched or read under no-array scope.",
+    "graph_artifact_rehashed": false,
+    "policy": "official_train_fit_full_official_valid_evaluation_v1",
+    "raw_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "schema": "wnn.chronological-primary.v1"
+  },
+  "membership": {
+    "all_checks_pass": true,
+    "checks": {
+      "all_train_rowgroups_represented_once": true,
+      "all_valid_rowgroups_represented_once": true,
+      "evaluation_covers_all_valid_groups": true,
+      "excluded_are_exactly_train_groups_in_shared_components": true,
+      "fit_components_disjoint_from_official_valid_components": true,
+      "fit_train_and_excluded_partition_all_train": true,
+      "fit_valid_empty": true,
+      "historically_dropped_group_528_present_with_component": true,
+      "membership_uses_source_row_groups_not_seq_ix": true
+    },
+    "evaluation_valid_groups": 1873,
+    "excluded_train_component_overlap_groups": 282,
+    "fit_train_groups": 10325,
+    "fit_valid_groups": 0,
+    "train_component_count": 2794,
+    "train_valid_shared_component_count": 85,
+    "valid_component_count": 579
+  },
+  "readiness": {
+    "fit_admission_approved": false,
+    "metadata_ready_for_root_review": true,
+    "profile_receipts_available": false,
+    "scientific_approval_claimed": false
+  },
+  "review_method": {
+    "npz_array_payload_read": false,
+    "per_response_limit_bytes": 2097152,
+    "raw_copies_saved_under": "receiver_metadata_r2/",
+    "source_parquet_payload_read": false,
+    "ssh_or_gpu_used": false,
+    "transport": "HTTP GET to named 127.0.0.1:18767 routes with urllib ProxyHandler({})"
+  },
+  "reviewed_date_utc": "2026-10-28",
+  "schema": "wnn.independent-receiver-metadata-review.v1",
+  "source_audit": {
+    "details_binds_audit_sha256": true,
+    "details_status": "complete",
+    "raw_sha256": "6d9f184fb5b6196a8d618d22cef36543e6237574a59e5f9c9f68acb6cbc1eed3",
+    "schema": "wnn.source-audit.v1",
+    "sources": {
+      "train": {
+        "all_checks_pass": true,
+        "bytes": 29240219011,
+        "checks": {
+          "identity_binds_raw_audit_sha": true,
+          "identity_source_sha_matches_audit": true,
+          "index_identity_source_stat_footer_match": true,
+          "manifest_binds_index_binary_hash": true,
+          "manifest_binds_index_identity_hash": true,
+          "manifest_source_stat_footer_match": true,
+          "official_pin_matches_audit": true,
+          "producer_hashed_entire_source": true,
+          "producer_scanned_all_groups_and_rows": true
+        },
+        "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+        "has_is_scored": false,
+        "row_groups": 10607,
+        "scanned_rows": 212140000,
+        "sequence_length": 20000,
+        "sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81"
+      },
+      "valid": {
+        "all_checks_pass": true,
+        "bytes": 5615509128,
+        "checks": {
+          "identity_binds_raw_audit_sha": true,
+          "identity_source_sha_matches_audit": true,
+          "index_identity_source_stat_footer_match": true,
+          "manifest_binds_index_binary_hash": true,
+          "manifest_binds_index_identity_hash": true,
+          "manifest_source_stat_footer_match": true,
+          "official_pin_matches_audit": true,
+          "producer_hashed_entire_source": true,
+          "producer_scanned_all_groups_and_rows": true
+        },
+        "footer_sha256": "4e0a6ad91c87449cc74940e83195ec51c8900d31a25774537bc8283164a7d93b",
+        "has_is_scored": true,
+        "row_groups": 1873,
+        "scanned_rows": 37460000,
+        "sequence_length": 20000,
+        "sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+      }
+    }
+  },
+  "valid_scoring_mask": {
+    "matches_valid_pin": true,
+    "official_scored_in_first99_per_sequence": 0,
+    "official_scored_rows": 3528273,
+    "raw_sha256": "39a5d37a01a83981cf22aa8ba2c5362caa817b22dfd9ca81882e6ecab5c07f5f",
+    "row_groups": 1873,
+    "rows": 37460000,
+    "runtime_warmup_mask_changes_official_valid": false,
+    "source_bytes": 5615509128,
+    "source_mtime_ns": 1792305820900137524,
+    "source_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+  },
+  "verdict": "metadata_pass_with_limits"
+}

@@ -1,0 +1,125 @@
+{
+  "schema": "wunderfunder.l4-transformer-native-preflight.v1",
+  "experiment_id": "E-L4-TEACHER-CAPACITY-20261104",
+  "review_status": "recipe_source_pass_dispatch_blocked_pending_root_bindings",
+  "reviewed_commit": "ffebdbdc573e4494e0b53bd661c544ecc490b3df",
+  "reviewed_files": {
+    "transformer_panel_sha256_local": "2f88e55b089464f8ccda5adfbc8d19206e05ae39d1ef551c2b95171a32c728b7",
+    "transformer_readme_sha256": "0cfd41f78f1e9a68744f3f804904fa7ce9d4a8deff5e6541f572abe6ab2bbc36",
+    "config_seed_1001_sha256": "49d576575c97b90b4237c674407efac7ea0da7830476fca029dc8af018f24f5a",
+    "config_seed_1002_sha256": "1513436a0f5f3a868ce713f0dc9c99e8fe6eee729fd226eb45b9fc6c93b957ab9"
+  },
+  "recipe": {
+    "architecture": "causal_rope_transformer",
+    "input_schema": "raw112-event211-v1",
+    "input_width": 211,
+    "hidden": 384,
+    "layers": 8,
+    "heads": 8,
+    "head_width": 48,
+    "feedforward_width": 1536,
+    "context_rows_including_current": 1024,
+    "kv_cache_rows": 1023,
+    "dropout": 0.0,
+    "activation_checkpointing": true,
+    "attention_backend": "math",
+    "compile": false,
+    "optimizer": "AdamW",
+    "adamw_betas": [0.9, 0.999],
+    "adamw_eps": 1e-8,
+    "learning_rate": 0.0003,
+    "weight_decay": 0.01,
+    "gradient_clip": 1.0,
+    "precision": "strict_fp32",
+    "batch_size": 8,
+    "chunk_rows": 1024,
+    "accumulate_chunks": 4,
+    "epochs": 4,
+    "schedule": "warmup_cosine_v2",
+    "warmup_fraction": 0.05,
+    "total_updates": 25820,
+    "warmup_updates": 1291,
+    "fixed_endpoint_epoch_zero_based": 3,
+    "seeds": [1001, 1002],
+    "initialization": "fresh_scratch",
+    "teacher_cache": null,
+    "initializer": null
+  },
+  "data": {
+    "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "fit_train_sequences_expected": 10325,
+    "fit_valid_sequences_expected": 0,
+    "primary_valid_sequences_expected": 1873,
+    "primary_scored_rows_expected": 3528273,
+    "normalization": "all_fit over all official train members only; raw and event211 source closure included in cache identity",
+    "training_mask": "row_index>=99",
+    "primary_valid_mask": "official is_scored AND row_index>=99",
+    "validation_exposure": "previously inspected development valid; not independent confirmation"
+  },
+  "gates": [
+    {
+      "id": "adapter_event211",
+      "status": "pass_static",
+      "predicate": "config validation allows event211 for Transformer; builder creates 211-wide projection and mean/std buffers; existing GRU event211 restriction remains scoped to GRU256x2"
+    },
+    {
+      "id": "causality_and_reset",
+      "status": "pass_static",
+      "predicate": "event features are assembled once per whole sequence from prior/current rows; Transformer cache and absolute positions pass across chunks and reset per new sequence"
+    },
+    {
+      "id": "strict_fp32",
+      "status": "pass_static",
+      "predicate": "FP32 model/buffers/data/optimizer state, math SDPA, autocast disabled, TF32 disabled; AdamW only"
+    },
+    {
+      "id": "normalizer_ancestry",
+      "status": "pass_code_conditional_on_receiving_admission",
+      "predicate": "all_fit members are actual fit.train members; features read without labels/mask; moments cache identity binds source fingerprint, split, members and event211 schema"
+    },
+    {
+      "id": "chronological_membership",
+      "status": "required_before_profile",
+      "predicate": "receiving admission must prove exact official 10325 train, 0 fit-valid, full 1873 valid groups and official split SHA"
+    },
+    {
+      "id": "profile_length_receipt",
+      "status": "manual_external_gate_required",
+      "predicate": "panel requests exactly 50; run_profile enforces requested work and diagnostics cadence, but validate_profile_receipt checks only positive updates; reviewer must require updates==50 and step-50 diagnostics"
+    },
+    {
+      "id": "panel_source_data_fit_binding",
+      "status": "block_dispatch_current_local_panel",
+      "predicate": "local panel source_binding_sha256, data_binding_sha256 and fit_members_sha256 are null; fill from root-approved S_TF receiving admission"
+    },
+    {
+      "id": "current_gpu_identity",
+      "status": "root_verification_required",
+      "predicate": "verify current slot-6/7 UUIDs equal the intended physical devices; same physical GPU required for profile and fit"
+    },
+    {
+      "id": "profile_memory_throughput",
+      "status": "pending_actual_profile",
+      "predicate": "review each actual 50-update profile receipt for finite loss/state, no errors, positive row counts, measured memory and adequate remaining wave budget"
+    }
+  ],
+  "source_critical_bugs": [],
+  "profile_gate_caveat": "The existing receipt validator does not enforce the requested 50-update exact count; use the independent root-bound receipt review specified in TRANSFORMER_TEACHER_PANEL_R1.json and RECEIVING_R1.md. No trainer refactor requested.",
+  "checks_run": [
+    "Static source/config/panel/contract/receiving-note inspection",
+    "Schedule arithmetic checked from source formula",
+    "Config and panel SHA256 computed"
+  ],
+  "checks_not_run": [
+    "No tests",
+    "No transformer_cpu_check.py",
+    "No GPU/SSH/profile/fit",
+    "No actual dataset read or runtime device inventory"
+  ],
+  "dispatch_ready": false,
+  "dispatch_blockers": [
+    "Bind source/data/fit-member hashes in Transformer panel from root-approved receiving admission",
+    "Verify current GPU UUIDs for slots 6 and 7",
+    "Then approve exact 50-update profiles before either fit"
+  ]
+}

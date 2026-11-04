@@ -1,0 +1,32 @@
+from pathlib import Path
+import os,sys,json,hashlib,time
+F=Path('/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1');S=F/'source';D=F/'control-code-r1/scripts';C=F/'control/final-submit-chain'
+sys.path[:0]=[str(D),str(S/'src'),str(S)]
+from wnn.multistage_search_owned_command import run_owned_command
+from wnn.multistage_search_runtime import process_identity,hold_gpu_slot
+import final_submit_chain_runtime as runtime
+import final_submit_chain_contract as contract
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def save(p,v):
+ with p.open('x') as out:json.dump(v,out,sort_keys=True,indent=2)
+qualified=json.loads((F/'receipts/native-coexist-qualified-r3.json').read_bytes());assert qualified['scientific_recipe_unchanged']
+state=json.loads((C/'controller-state.json').read_bytes());prior=state['nodes']['source4_lstm192x1']
+assert prior['status']=='failed' and 'not an idle B300' in prior['error']
+assert not (C/'receipts/fits/source4_lstm192x1.json').exists()
+assert not (C/'logs/fits/source4_lstm192x1.log').exists()
+output=F/'data/artifacts/runs/final-lstm192x1';assert not output.exists()
+cmd=list(prior['argv']);uuid=prior['gpu_uuid']
+timeout=min(21600,int(contract.HARD_DEADLINE-contract.COLLECTION_RESERVE-time.time())-20);assert timeout>60;cmd[3]=str(timeout-10)+'s'
+profile=F/'profile-reviews/native-lstm-r2-final/approved_profile_receipt.json'
+assert sha(profile)==contract.NATIVE_PROFILE_SHA256
+receipt=C/'receipts/fits/source4_lstm192x1-external-r2.json';log=C/'logs/fits/source4_lstm192x1-external-r2.log'
+intent={'schema':'wnn.native-admission-repair-intent.v1','node_id':'source4_lstm192x1','run':'final-lstm192x1','reason':'R1 admission gate failed before any child; qualified fresh full fit after actual shared-GPU profile','prior_node_record':prior,'prior_original_child_receipt_absent':True,'prior_original_log_absent':True,'prior_original_output_absent':True,'plan_sha256':contract.PLAN_SHA256,'source_capsule_sha256':contract.SOURCE_CAPSULE_SHA256,'source_commit':contract.SOURCE_COMMIT,'profile_receipt':str(profile),'profile_receipt_sha256':sha(profile),'coexist_qualification_path':str(F/'receipts/native-coexist-qualified-r3.json'),'coexist_qualification_sha256':sha(F/'receipts/native-coexist-qualified-r3.json'),'command':cmd,'gpu_uuid':uuid,'process_receipt':str(receipt),'output':str(output),'unique_scientific_fit_roles_cap':18,'foreign_signals':False,'created_epoch':time.time()}
+save(F/'receipts/native-admission-repair-r2.intent.json',intent)
+env=dict(os.environ,PYTHONPATH=str(S/'src')+':'+str(S),WNN_PROJECT_ROOT=str(F/'data'),OMP_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',NVIDIA_TF32_OVERRIDE='0',TORCH_ALLOW_TF32_CUBLAS_OVERRIDE='0',PYTHONUNBUFFERED='1',CUDA_VISIBLE_DEVICES=uuid)
+with hold_gpu_slot(C,uuid):
+ code,timed,result=run_owned_command(cmd,cwd=S,env=env,log_path=log,receipt_path=receipt,owner=process_identity(os.getpid()),stage=1,trial_number=100,mode='final_submit_native_qualified_repair_r2',gpu_key=uuid,output_dir=output,timeout_seconds=timeout)
+assert code==0 and not timed,'native full fit failed; preserve evidence, no retry'
+membership=contract.verify_sources(data_root=F/'data',membership_path=F/'inputs/final-fit-membership-r1.json',audit_path=F/'inputs/SOURCE_VALIDATION_R1.json',audit_sha256=contract.SOURCE_AUDIT_SHA256)
+checkpoint=runtime.validate_fit_checkpoint(node={'node_id':'source4_lstm192x1','run':'final-lstm192x1'},output_dir=output,membership=membership)
+save(F/'receipts/native-admission-repair-r2.json',{'schema':'wnn.native-admission-repair.v1','status':'complete','node_id':'source4_lstm192x1','run':'final-lstm192x1','intent_path':str(F/'receipts/native-admission-repair-r2.intent.json'),'intent_sha256':sha(F/'receipts/native-admission-repair-r2.intent.json'),'fit_process_receipt':str(receipt),'fit_process_receipt_sha256':sha(receipt),'checkpoint_path':str(checkpoint),'checkpoint_sha256':sha(checkpoint),'terminal_receipt':str(output/'terminal_status.json'),'terminal_receipt_sha256':sha(output/'terminal_status.json'),'plan_sha256':contract.PLAN_SHA256,'source_capsule_sha256':contract.SOURCE_CAPSULE_SHA256,'membership_sha256':membership.manifest_sha256,'fit_members_sha256':membership.fit_members_sha256,'gpu_uuid':uuid,'full_fit_profile_sha256':sha(profile),'coexist_qualification_sha256':intent['coexist_qualification_sha256'],'fixed_completed_epochs':8,'scientific_retraining':False,'independent_score_claim':'forbidden','finished_epoch':time.time()})
+print('EXTERNAL_NATIVE_FIXED_8E_COMPLETE',str(checkpoint),flush=True)

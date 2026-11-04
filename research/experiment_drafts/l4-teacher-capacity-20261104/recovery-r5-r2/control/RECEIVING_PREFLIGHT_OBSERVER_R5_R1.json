@@ -1,0 +1,25 @@
+{
+  "schema": "wnn.observer-r5-receiving-preflight.v1",
+  "created_epoch": 1793819437.6545763,
+  "no_gpu_work": true,
+  "source_binding_sha256": "eba6ed42ebdb7a3ad09db4cec3faf1cd626640b8eb9a598ffb9fdd8aabe52e5b",
+  "checks": {
+    "r6_grader_admission": {
+      "status": "passed",
+      "details": null
+    },
+    "r5_live_controller_admission": {
+      "status": "failed",
+      "error_type": "ValueError",
+      "error": "adopted wide report, manifest, or cache-review evidence differs",
+      "traceback": "Traceback (most recent call last):\n  File \"<stdin>\", line 18, in <module>\n  File \"/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1/source-observer-r5/scripts/l4_teacher_capacity_20261104/grade_stage2_cache_r5.py\", line 292, in _check_r5_admission\n    stop, adoption = _check_r5_stop_and_wide(panel, panel_hash, admission)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1/source-observer-r5/scripts/l4_teacher_capacity_20261104/grade_stage2_cache_r5.py\", line 235, in _check_r5_stop_and_wide\n    base._require(\n  File \"/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1/source-observer-r5/scripts/l4_teacher_capacity_20261104/grade_stage2_cache.py\", line 113, in _require\n    raise ValueError(message)\nValueError: adopted wide report, manifest, or cache-review evidence differs\n"
+    },
+    "publisher_existing_grade": {
+      "status": "failed",
+      "error_type": "ValueError",
+      "error": "tf6_transformer_s1001: owned fit receipt identity/command differs",
+      "traceback": "Traceback (most recent call last):\n  File \"<stdin>\", line 21, in <module>\n  File \"<stdin>\", line 15, in <lambda>\n  File \"/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1/source-observer-r5/scripts/l4_teacher_capacity_20261104/publish_r5_results.py\", line 211, in preflight_existing\n    snapshot = _snapshot(panel, panel_sha, gru, tf)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1/source-observer-r5/scripts/l4_teacher_capacity_20261104/publish_r5_results.py\", line 136, in _snapshot\n    raise ValueError(f\"{cell['cell_id']}: owned fit receipt identity/command differs\")\nValueError: tf6_transformer_s1001: owned fit receipt identity/command differs\n"
+    }
+  },
+  "status": "failed"
+}

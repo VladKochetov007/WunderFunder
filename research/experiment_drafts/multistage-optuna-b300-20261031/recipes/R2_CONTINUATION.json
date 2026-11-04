@@ -1,0 +1,155 @@
+{
+  "schema": "wnn.multistage-r2-continuation-recipe.v1",
+  "revision": "R2-continuation-20261031",
+  "scope": "narrow continuation for the already-authorized four-stage campaign",
+  "data": {
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "auxiliary_split_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075",
+    "fit_members": 8260,
+    "control_members": 2065,
+    "source": "train",
+    "objective": "inner_train_proxy WP on all_after_warmup AND row_index>=99",
+    "primary_valid_used": false
+  },
+  "training_sources": {
+    "stage1": {
+      "root": "runtime/operator-native4",
+      "identity_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81"
+    },
+    "stage2": {
+      "root_argument": "--training-source",
+      "expected_identity_sha256": "2661a89285bd528e1bca690a340e71a21816a7b54e3ba1635d14925f3a9c1e4e"
+    },
+    "stage3": {
+      "root_argument": "--training-source",
+      "expected_identity_sha256": "2661a89285bd528e1bca690a340e71a21816a7b54e3ba1635d14925f3a9c1e4e"
+    },
+    "stage4": {"kind": "CPU-only ensemble search"},
+    "evaluation": {"root_argument": "--eval-source", "revision": "source6-eval"}
+  },
+  "limits": {
+    "stage_fit_caps": {"1": 16, "2": 8, "3": 12, "4": 12},
+    "preexisting_fit_attempts": 10,
+    "remaining_stage1_fits": 8,
+    "max_total_fits": 48,
+    "profile_attempts_used": 22,
+    "max_total_profile_attempts": 56,
+    "campaign_wall_seconds": 21600,
+    "collection_reserve_seconds": 1200,
+    "maximum_individual_fit_wall_seconds": 7200,
+    "maximum_profile_wall_seconds": 180,
+    "initial_concurrent_owned_jobs": 8
+  },
+  "stage1": {
+    "name": "base_regressors",
+    "additional_fit_cap": 8,
+    "families": {
+      "gru": {
+        "base_config": {
+          "path": "recipes/r6/gru384x2.json",
+          "sha256": "5305c3cac14949b1a504c8020342e381c342ed935602d6488dcb6e85d44b43e5"
+        },
+        "fixed": {
+          "batch_size": 256,
+          "input_prefetch_batches": 1,
+          "monitoring.eval_batch_size": 64,
+          "precision_mode": "fp32",
+          "training_mask": "all_after_warmup",
+          "normalization_scope": "prefix",
+          "optimizer": "adamw",
+          "teacher": null,
+          "initializer": null,
+          "kd_weight": 0.0,
+          "hint_weight": 0.0
+        },
+        "search": {
+          "model.hidden": [192, 256, 384],
+          "model.layers": [1, 2, 3],
+          "lr": {"low": 0.0003, "high": 0.003, "log": true},
+          "model.dropout": [0.0, 0.1],
+          "epochs": [4, 8],
+          "seed": [1302, 1303]
+        },
+        "conditional_rule": "when model.layers is 1, set model.dropout to 0.0"
+      },
+      "lstm": {
+        "base_config": {
+          "path": "recipes/r6/lstm384x2.json",
+          "sha256": "26bff44a42d95ab7be45477560824428c52a7c0280540bb0024e14d3e5d88dc6"
+        },
+        "fixed": {
+          "batch_size": 256,
+          "input_prefetch_batches": 1,
+          "monitoring.eval_batch_size": 64,
+          "precision_mode": "fp32",
+          "training_mask": "all_after_warmup",
+          "normalization_scope": "prefix",
+          "optimizer": "adamw",
+          "teacher": null,
+          "initializer": null,
+          "kd_weight": 0.0,
+          "hint_weight": 0.0
+        },
+        "search": {
+          "model.hidden": [192, 256, 384],
+          "model.layers": [1, 2, 3],
+          "lr": {"low": 0.0003, "high": 0.003, "log": true},
+          "model.dropout": [0.0, 0.1],
+          "epochs": [4, 8],
+          "seed": [1302, 1303]
+        },
+        "conditional_rule": "when model.layers is 1, set model.dropout to 0.0"
+      }
+    },
+    "max_distinct_profiled_configs": 8,
+    "no_duplicate_config_identity": true,
+    "profile_then_fit": true,
+    "score": "inner-train control WP only; no primary-valid objective"
+  },
+  "stage2": {
+    "name": "fine_tuning",
+    "additional_fit_cap": 6,
+    "parent": "qualified fixed-final direct label-only Stage1 endpoint",
+    "initializer": "weights-only; fresh AdamW optimizer and scheduler; no resume",
+    "lr_multiplier_choices": [0.1, 0.25, 0.5],
+    "epochs": 2,
+    "preserve_weight_decay": true,
+    "matched_skip_control": "the original Stage1 parent is the fixed skip control and is not refit",
+    "preserve_exact_model_norm_auxiliary_membership_and_strict_fp32": true
+  },
+  "stage3": {
+    "name": "distillation",
+    "additional_fit_cap": 12,
+    "paired_fits": true,
+    "maximum_pairs": 6,
+    "student_family": "gru",
+    "student_base_config": {
+      "path": "recipes/r2/gru256x2-stage3.json",
+      "sha256": "31424878cc230cb2b5ca3b46f25b305495a83b6975f8814927cebcff7b0e75f2"
+    },
+    "student_config_policy": "fixed GRU 256x2; pair seed varies; no family search",
+    "kd_weight_choices": [0.05, 0.1, 0.25, 0.5, 1.0],
+    "epochs": 2,
+    "student_objective": "L_label + kd_weight * L_teacher",
+    "teacher_pool": "ordered weighted auxiliary-fit-only cache from qualified fixed-final parents",
+    "control": "same seed/config, label-only, teacher absent, kd_weight=0",
+    "primary_valid_used": false
+  },
+  "stage4": {
+    "name": "ensemble",
+    "additional_fit_cap": 12,
+    "kind": "CPU-only Optuna search; no invented epochs",
+    "maximum_optuna_trials": 24,
+    "maximum_distinct_blend_candidates": 32,
+    "blend_weights": "nonnegative and sum to one",
+    "blend_arithmetic": "weighted arithmetic mean first, then clip the pooled output",
+    "objective": "recompute actual pooled clipped weighted Pearson on exact inner control predictions",
+    "final_refit_cap": 12,
+    "primary_valid_used": false
+  },
+  "review_boundary": {
+    "existing_full-train TL3": "fixed primary-reference comparison only; excluded from learned inner weights",
+    "official primary validation": "freeze candidate and weights before any evaluation; never an Optuna objective",
+    "old recipes_and_results": "immutable and historical"
+  }
+}

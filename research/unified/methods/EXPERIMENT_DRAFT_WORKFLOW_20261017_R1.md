@@ -10,6 +10,17 @@ evidence_paths: []
 
 # Research-team experiment draft workflow
 
+## Superseding primary validation amendment — 2026-10-27
+
+[ADR0044](../../../specs/adr/0044-chronological-primary-validation.md) replaces
+prospective random/component-fold primary comparisons with the mandatory
+Predictorium-style chronological train/valid boundary. Use earlier train for
+fitting and the complete later official valid for primary evaluation, with no
+fitting ancestry on valid. Do not order shuffled seq_ix. The fold examples below
+are historical; use matched distinct fitting seeds on the fixed chronological
+boundary for new screens, and keep any random-fold result auxiliary and labelled.
+No stopped job is resumed. Frozen historical recipes remain unchanged.
+
 ## Question and authority
 
 The October 17 user instruction establishes `main → research-team → experiment/<id>`: each scientific idea is a draft PR targeting **research-team**, with English code, numbered rationale and execution instructions. Prepare locally first. The subsequent user instruction explicitly authorizes pushing and creating draft PRs through gh, superseding the initial pre-push hold. This is authority for documentation, branches and implementation, not an implicit restart of paused fits, a new rental or a billing change. No queue manager is introduced.

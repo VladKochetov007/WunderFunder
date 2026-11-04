@@ -1,3 +1,335 @@
+## 4 November: original Transformer continuation and publication active
+
+[R5 actual handoff and raw receipts](../research/experiment_drafts/l4-teacher-capacity-20261104/recovery-r5-r2/EXECUTION_R5_R2.md)
+record two original Transformer teachers still active, eight original fits
+completed, and two original students pending. The detached controller, independent
+cache-checker watcher and GitHub publisher are live after passing actual receiver
+checks. Publication updates on fit completion/hourly; no final quality gain is
+claimed. The original deadline and scientific recipes are unchanged. See the
+explicit storage/RAM amendment in that packet. The older R3/R4 failure/recovery
+notes below are historical; their raw artifacts remain untouched.
+
+## 4 November: objective/clipping fits complete, no candidate promoted
+
+[All four fits completed](../research/experiment_drafts/l4-objective-20261104/RESULTS_20261104_R1.md)
+with fixedep3 mean WP control .685134544, clip5 .685075874 and late-aux .684921852.
+The frozen gate says `no_students`. Complete histories, figures, source/receipt
+identities and negative evidence are retained. Prior PR61 wide students are
+canonically worse than controls; their28 all-epoch checkpoints are published.
+The original two Transformer fits remain a separate pending allocation.
+
+## Earlier4 November: four objective/clipping fits running on L4
+
+Fresh user-authorized research is in
+[PR62](https://github.com/VladKochetov007/WunderFunder/pull/62) and its
+[execution packet](../research/experiment_drafts/l4-objective-20261104/EXECUTION_20261104_R1.md).
+Four actual profiles passed; four strictFP32 GRU256x2 fits compare clip5 against
+late auxiliary annealing, two matched seeds each, fixed4E/ep3. Their source
+11b8de361 remains immutable. A detached controller and real dashboard/resource
+monitor run under the3h receiving authority, including45min collection.
+No teacher/student improvement is claimed before complete fixed-endpoint
+evaluation. The old two Transformer teachers continue. Old R3 continuation
+failed at reference sidecar filename grading after two students completed;
+separate R4 recovery preserves their weights and avoids refitting.
+
+## Earlier4 November: W18 submitted to Connectome; SCORE running
+
+User-authorized platform upload completed once as Simon/team kotiki. Displayed
+ID1H7KP30Q, file tabdata-w18-final-20261103-r1.zip,13:09MSK. The exact5454663-byte
+ZIP SHA remains932700e4e10721829641870f18198fca06ba3f9c5f06be5541d70bf38bf880f9.
+The platform showed upload success and increased usage from0/5 to1/5. PENDING
+and CHECK passed; SCORE was running, with no public score displayed yet.
+See the [submission receipt](../research/experiment_drafts/final-submit-all-labeled-20261031/platform-20261104/SUBMISSION_RECEIPT_R1.json).
+No training or duplicate submission was launched.
+
+## Historical3 November: verified W18 submission ZIP delivered
+
+All18 scientific fits are complete. The actual5454663-byte W18-only ZIP passed
+all10 original CPU/numeric/reset/causality/size gates, is published and was
+download-verified. Its exact local copy also passes SHA/CRC/all8 member hashes.
+SHA256932700e4e10721829641870f18198fca06ba3f9c5f06be5541d70bf38bf880f9.
+Projection on the checked one-CPU host is575.6seconds; no new independent/public
+score is claimed because all12480 train+valid members fit. The final wrapper
+exited0, cleaned its credential and left no owned W18 training GPU process.
+Graphs and failure/recovery evidence are published. Human platform upload remains.
+See [delivery report](../research/experiment_drafts/final-submit-all-labeled-20261031/RESULTS_20261103_W18_DELIVERY_R1.md).
+
+## Historical3 November: all18 fits complete; qualified CPU package recovery running
+
+W18 completed both epochs with15600/15600 updates and no nonfinite/skipped steps.
+Its fixed model_ep1.pt SHA is
+70cfefcfeb14b5a5e1f2a181fc7ddf15330a24aaf32e7f324b122fb54327daf8.
+The first packager omitted cached teacher branches from generic ancestry walking;
+no ZIP was produced and its failed attempt is preserved. A package-only repair
+independently re-audits all six frozen cache teacher branches, matches cache
+closure/checkpoint identities, and preserves exact13-role and all numeric gates.
+Fifteen CPU tests, the actual13-role Linux re-audit and independent review pass.
+CPU-only worker179102 is now packaging/checking/publishing under the same deadline
+with separate R2 reports/state and inode-owned credential cleanup. No GPU fit
+or profile is repeated. See the recovery packet above; actual ZIP checks remain
+pending and no new independent/public score is claimed.
+
+## Historical3 November: W18-only submission recovery running
+
+The user explicitly requests the finished submission. The final-only cache reader
+was repaired after measuring694052metadata bytes against its512000-byte generic
+bound; a dedicated2MiB bound preserves all semantic/data/hash checks and leaves
+generic research caches unchanged. Seven CPU tests and independent review pass.
+Actual existing-cache validation passed all4 payload hashes and finite-value/
+membership checks. All17 completed checkpoint hashes match the archived weights.
+The fresh W18 profile passed60/60updates with finite loss/gradients, no OOM and
+5.96sequences/s. Its unchanged2E/15600-update fit is now running under a bounded
+detached end-to-end worker on one shared B300. Four-hour scope includes30minutes
+for collection; only this remaining model is fitted. See the
+[recovery packet](../research/experiment_drafts/final-submit-all-labeled-20261031/recovery-20261103/README.md).
+Actual ZIP checks and GitHub publication follow automatically; no public score
+or ready ZIP is claimed until those stages pass. Human platform upload is separate.
+
+## Historical3 November: final-fit audit —17 models saved, W18 and submission incomplete
+
+The final-only all-labeled wave completed17/18 scientific fits. The actual GitHub
+archive was downloaded locally and its SHA/CRC plus all17 model and17 exit0 fit
+receipt payload hashes were independently verified. Both TLeads completed four
+epochs; FBC completed four and Source4 LSTM eight. W18 never started because
+final-fit cache metadata validation failed at its bounded-size read guard.
+The original controller's15 count excludes two completed sidecar TLeads.
+No submission ZIP or new valid/public score exists. The1November budget expired;
+this audit resumes no training. Preserve all17 models for a future bounded
+W18-only repair. See the [terminal audit](../research/experiment_drafts/final-submit-all-labeled-20261031/RESULTS_20261103_R1.md).
+
+## Historical31 October: all-labeled submission-only refit preparation
+
+The user explicitly requests the strongest supported submission trained on the
+complete supplied labeled corpus. [ADR0045](adr/0045-submission-only-all-labeled-final-fit.md)
+permits final-only train+valid fitting; ordinary primary research remains
+unchanged. [Packet](../research/experiment_drafts/final-submit-all-labeled-20261031/README.md):
+17 canonical TL3 dependencies plus Source4 LSTM192x1 fixed8E, exact12480fitmembers,
+zero independent evaluation, fixed endpoints and nested blend coefficients.
+Both entire Parquets were freshly hashed; group528 is healthy on this source.
+New final trainer/cache/serving seams pass47 scoped CPU tests and the structural
+guard. Actual Linux native parity, package size/timing, GPU profiles and full fits
+remain pending. Use one SSH session42104; all8B300 were free at inventory time.
+No new provider/billing/foreign-process signal or automatic platform upload.
+
+## Historical 31 October: bounded quality-horizon follow-up
+
+The user approved the [five-fit batch/TBPTT screen](../research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md)
+and six no-fit TL3 mixtures. It is separate from the completed original wave.
+Five actual50-update native Source4 profiles passed independent review; five
+fresh fixed4E fits use GPUs0/1/2/6/7 with exact A/1301 reused. NIER/MPS co-runs
+remain untouched. ROOT bound14:42:33-18:42:33UTC;7200seconds per fit.
+All five fits and all five Source6 exports exited0 at fixed epoch4; all17
+comparison rows are complete. B-A is negative at both seeds; C-B is mixed.
+All six new equal-seed GRU-pool additions to TL3 are negative. The separate
+fixed prior-model comparison is complete:90%TL3+10%LSTM WP0.692502063
+versus TL30.692377425. Six mixtures were reported; no primary weight learning.
+This small observed gain is development-exposed, not a public/private forecast.
+[Results](../research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/RESULTS.md)
+and five configured-final weights are published throughPR53 as SemyonEpanov.
+Root verified actual GitHub downloads/all63 internal files and score-bound model
+hashes. Delivery finished16:04:40UTC,82.1minutes after the first profile. All owned
+GPU commands exited; foreign NIER/MPS and old frozen results are preserved.
+No successor is queued. Dashboard retains five qh-* views at http://127.0.0.1:18777/.
+
+## Historical 31 October final: 39 complete model artifacts, one partial; GPUs released
+
+Planning follow-up only: [quality diagnosis](../research/experiment_drafts/multistage-optuna-b300-20261031/quality-diagnosis-r1/README.md)
+finds3,280 new-GRU updates vs12,880-25,760 in four-epoch legacy recipes; gradient
+detaches every256 rows. GRU/Transformer improve on their last measured epoch.
+These are hypotheses about recipe limitations, not proven causes or new gains.
+First proposed action is six fixed small-weight TL3 mixtures from existing
+predictions; subsequent three-arm/two-seed batch/TBPTT screen would need five
+new fits and one exact reused control. No follow-up GPU work is admitted/running.
+
+[Final wave report](../research/experiment_drafts/multistage-optuna-b300-20261031/PROGRESS_20261031_FINAL.md):
+40 scientific attempts and56 profiles. All four fresh full-primary refits and
+their six prediction outputs are complete. Best new equal-four blend WP0.684699354
+versus fixed TL3 reference0.692377425: no baseline improvement. No public score.
+All10,325 fitting members are official train;0 valid enter fitting. Full1,873
+valid /3,528,273 scored rows. Both blend vectors were frozen before fitting.
+Independent raw-label arithmetic agrees within8e-15; both blends are bit-exact.
+The39 count means configured-final model artifacts; unknown historical outer
+exit codes remain unknown in the unchanged ledger. One GALAM stays partial.
+37 finalized models are in two SHA-verified GitHub prereleases; two pilots are
+separate. Results/curves/receipts are linked fromPR53. No owned GPU clients
+remain; foreign NIER/MPS are preserved. No further training is queued.
+
+## Historical 31 October04:50UTC: measured ensemble below TL3; full-primary refits active
+
+[PR53R4](../research/experiment_drafts/multistage-optuna-b300-20261031/PROGRESS_20261031_R4.md):
+frozen8-member ensemble WP0.6832272791 on all1873valid/3,528,273scored rows,
+versus fixed fresh TL3 reference0.6923774246. New models use8260 fitting members
+vs TL310325. All9 outputs independently reproduced from raw labels/mask within
+1e-10 and mixed FP32 predictions match bit-exactly. ActualCPUstudy24COMPLETE;
+original23records preserved through one bounded counter-error completion.
+
+Four fresh10325-member Source4 label-only refits run from04:32:46UTC, retaining
+inner-selected configs/seeds:2GRU384x2(4E),LSTM192x1(8E),Transformer384x4(4E).
+Actual R5 engineering reviews all passed; original profiles/source remain frozen.
+40scientific attempts total:35 prior complete artifacts,1partialGALAM,4running;
+56profiles used. No new profiles/extra fits or old stopped-job resumes.
+Live40views http://127.0.0.1:18777/; parent/source/checkpoint/valid context explicit.
+Reserve05:21:09UTC/hard05:41:09UTC unchanged; all owned fits are bounded and
+foreign NIER/MPS remain untouched. See the R4 report for original receipts,
+publication links, unknown legacy outer exits and full-primary collection plan.
+
+## 31 October: four-stage B300 search, fixed-final artifacts published
+
+The authorized six-node-hour48-fit wave uses the current one SSH session69303.
+Scientific attempts36:35 completed endpoints plus one partial GALAM64;52 of56
+engineering profiles. All33 finalized main-study endpoints have pinned Source6
+control predictions and recomputed checkpoint hashes; two initial FT pilots stay
+separate. Stage2 improves4/6 vs parents (extra epochs uncontrolled). Six matched
+Stage3 KD/control pairs improve by+.000774 to+.004964 on exposed inner8260/2065
+train-only control; KD weights differ across seeds. No primary or public gain
+is inferred. The frozen8-member CPU search is currently running.
+
+[PR53](https://github.com/VladKochetov007/WunderFunder/pull/53) contains code and
+[verified endpoint tables/plots](https://github.com/VladKochetov007/WunderFunder/tree/results/tabdata-multistage-b300-20261031/research/experiment_drafts/multistage-optuna-b300-20261031/results/verified-control-r3).
+[Checkpoint release](https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr53-multistage-checkpoints-20261031-r1)
+contains33 original fixed-final models and four pinned replay source trees; all8
+assets passed actual GitHub download SHA256 checks. Partial GALAM and the two
+initial pilots are excluded from those33 models. Dashboard http://127.0.0.1:18777/.
+
+Primary ensemble evaluation and optional four fresh10325-member direct-label
+refits remain pending at04:03UTC. Preserve official train/valid, clean ancestry
+and the frozen train-only weights. Legacy ledger terminal_unverified and the
+partial GALAM stale running status require separate owned-process qualification;
+never fabricate their unobserved outer exit codes. Preserve original ledger.
+Collection starts05:21UTC and hard stop05:41UTC. Foreign NIER/MPS are untouched.
+See [R3 progress](../research/experiment_drafts/multistage-optuna-b300-20261031/PROGRESS_20261031_R3.md).
+
+## 30 October: authorized heterogeneous six-fit screen and canonical TL3 baseline
+
+The user requests actual experiments and a full-valid ensemble table with TL3
+as baseline. [The execution packet](../research/experiment_drafts/heterogeneous-tl3-20261030/README.md)
+freezes two new LSTM/TCN teachers plus four paired GRU students,12 fixed ensemble
+rows and ADR0044. All six fits and the original W18 dependency are complete.
+Canonical TL3 scores0.6923774245652725. The
+[complete12-row table](../research/experiment_drafts/heterogeneous-tl3-20261030/results/R3/COMPARISON.md)
+has best tested90%TL3 +10%GALAM0.6924964468441978 (+0.0001190223).
+Heterogeneous student transfer is positive at both paired seeds
+(+0.0006193485/+0.0002192739); its two-student mean gains0.0004057735 over
+controls, but its tested20%addition to TL3 is negative. All25singleton/ensemble
+outputs independently agree within5.55e-15 on the full actual scoring mask.
+The node publisher posted results to [PR52](https://github.com/VladKochetov007/WunderFunder/pull/52)
+as SemyonEpanov and exited. Seven-model checkpoint/source archives are published
+in the [verified release](https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr52-heterogeneous-checkpoints-20261030-r1);
+all six assets passed actual GitHub download SHA256 checks. Final reviewed
+updates are linked from PR52 and the W18 recovery in PR49.
+Our GPU workers have exited. These are exposed validation results, not public scores.
+
+Use the one persistent SSH session91101 and worktree
+`WunderFunder-heterogeneous-20261030`; do not duplicate fits or mutate immutable
+remote source-r1/R2/R3. New pool source R3 corrects legitimate legacy membership
+order versus membership-set qualification; actual prediction joins remain keyed
+by source/group. The corrected control cache passed independent scalar checks.
+Old controller R1 was stopped alone for an admission-record representation repair;
+R2 adopts its existing export and all scientific workers. Dashboard18766 gains
+six actual experiment views and a distinct W18 recovery view. No extra family
+seeds or correlation-fine-tune wave starts from these results.
+
+## 28 October: first TL3 train-only teacher complete; finite continuation active
+
+[TL3 restoration](../research/experiment_drafts/tl3-chronological-20261028/README.md)
+completed fresh fin256_s3, fixed ep3 WP0.6882596674 on all1873 official-valid
+groups. This is one teacher, not the final TL3 endpoint or a public result.
+The [R8 controller](../research/experiment_drafts/tl3-chronological-20261028/receiving/R8/README.md)
+adopts its12880 verified updates and completed teacher prediction export;
+fin256_s4 is fitting and15 further frozen fits are queued. Seven original GALAM
+fits remain unchanged. Reuse SSH98495.
+Do not duplicate the controller, restart first fit or mutate flat R8/source-r3.
+All17 TL3 configurations are connected to dashboard18766; first teacher has all4
+train/valid WMSE and score points. Draft PR49 is owned by SemyonEpanov.
+
+## 28 October15:43UTC: measured GALAM contribution; seven fits continue
+
+[Fixed blend result](../research/experiment_drafts/galam-ensemble-diagnostics-20261028/RESULTS.md):80%cleanGRUepoch8+20%GALAM-LSTM128epoch3 scores0.681219679 (+.003363555) on full official valid, independently rescored from hashed arrays. GALAM-GRU72fixed20% gives0.680993482 (+.003137359). Exposed, single-seed benchmark evidence; no fitted coefficients, full-team-ensemble, serving or public-score claim.
+
+Inference worker4086649 exited and freedGPU0. Seven original fits keep their original PIDs/start ticks/source/configs; GRU is terminal after10epochs. ReuseSSH98495. No stopped fit resumed or extra neural fit launched. Earlier startup notes below are historical.
+
+## 28 October: eight full L4 fits are active
+
+Do not duplicate or resume these jobs. The user explicitly authorized the fixed
+[full eight-fit panel](../research/experiment_drafts/galam-l4-quality8-20261028/launch/README.md).
+Launch e635250b62fa489d94c987d4898ff417 runs all eight independent fresh fits on
+8 L4 GPUs, seed1001, maximum20epochs, min5/patience4/delta.0005 stopping.
+Plain GRU batch32; all seven GALAM variants batch384; one prefetched batch;
+full official valid every epoch. Fitting uses10325 train sequences only, excludes
+282 train members linked to valid, and preserves all1873 valid sequences.
+
+[First GRU epoch](../research/experiment_drafts/galam-l4-quality8-20261028/launch/FIRST_EPOCH_RESULT.json)
+reports full-valid WP0.6681328342 on3,528,273 scored rows; it is intermediate,
+single-seed and development-exposed. Train-eval uses a different row mask, so
+its lower WP is not an overfit-gap comparison. Other fits continue. Exact source,
+process ownership, independent reviews and evidence byte archives are indexed
+in the packet; PR46 and its node publisher record hourly/terminal updates as
+SemyonEpanov, independently of SSH. Root final source is R9 commit50053909 / SHA
+f9685716d64ecb5ceef2ec821781fa4078ff21661201edfcdac8292867990230.
+
+## 28 October — GRU recipe history audited before revised L4 execution
+
+The user accepts the revised twenty-epoch-cap layout in principle, with GRU
+history audited first. [The synthesis](../research/unified/reviews/GRU_PRESETS_HISTORY_AUDIT_20261028_R1.md)
+distinguishes the historical plain H256x2 scratch prior (causal211inputs,
+chunk1000, B32, Muon recurrent gates, LR1e-3, OneCycle) from warm AdamW1e-4
+students and the new schematic GALAM-GRU72. It recommends a fresh plain-GRU
+control, labels width/depth/HPO/loss/epoch evidence as historical and preserves
+the old train+valid/propensity/teacher ancestry exclusions. Three independent
+metadata/source reviews; no new fit, regrade, test, GPU profile, SSH or transfer.
+GitHub connector refresh unavailable404/422; source base a52ccafb. Data/runtime/
+monitor-mask/integration/profile gates remain before the revised launch.
+
+## 28 October — eight-L4 quality proposal, memory audit and authorized cleanup
+
+The user requests one baseline plus seven candidates, one per L4, and consultation
+before full launch. The [new packet](../research/experiment_drafts/galam-l4-quality8-20261028/README.md)
+contains eight loader-checked recipes and independent portfolio/data reviews.
+Zero scientific fits or GPU profiles. Official chronological primary validation
+remains mandatory; the old six-fit panel is superseded for this wave only.
+
+The user then requested a memory audit and explicitly authorized deleting RSNA.
+Exact own rsna/rsna_uv_cache/rsna_python paths were removed, /data2 free space
+verified74,581,975,040bytes, tabdata sources/Python preserved. RAM~457GiB available,
+all L4 computation idle in snapshot, root-owned GPU4 services retain1148MiB.
+Train receipt has31/109completed ranges and20,918,719,875bytes remaining before
+reverification; valid footer and complete transfer receipt exist. No download,
+runtime install or fit has started. Data/index/train-monitor-mask/runtime and
+actual profile/time-budget checks remain before full launch. Prior entries below
+describe historical snapshots, including now-superseded disk-full observations.
+
+## 28 October — local dashboard, recurrent variants and L4 preflight
+
+The user requests implemented online monitoring and a local dashboard, plus a
+GRU/local-only comparison plan for8xL4. The [new packet](../research/experiment_drafts/galam-l4-monitoring-20261028/README.md)
+preserves the engineering contract and a live read-only resource receipt.
+Eight L4 cards respond, but the inspected data mounts are full, official train
+is only a partial download and chronological caches are not found in the bounded
+project inventory. The existing host Torch2.8 differs from the checked source's
+Torch2.14 environment. No scientific fit, GPU profile or remote mutation has run.
+Prospective primary validation remains ADR0044; historical folds are unchanged.
+
+Implementation source d430dbf6 includes full epoch monitoring, replay-safe journals,
+sampled diagnostics/resources, monitored engineering profiles and GRU/local-only
+variants. [Validation](../research/experiment_drafts/galam-l4-monitoring-20261028/VALIDATION.json)
+records92 targeted passes/1Windows symlink skip and real browser/API checks;
+the same11 wider legacy failures reproduce at frozen base4bcb49f1. Local services
+127.0.0.1:8766(real run folder empty) and8767(labelled synthetic demo) are up.
+Six recipes are prepared; zero competition fits or GPU profiles ran, and the
+single inventory SSH connection was closed normally. Receiving checks/data/disk
+repair remain prerequisites, not authorization to restart stopped jobs.
+
+## 27 October — chronological validation policy and GALAM preparation
+
+The user requires Predictorium-style chronological primary validation for all
+future work. [ADR0044](adr/0044-chronological-primary-validation.md) supersedes
+random-fold primary-selection defaults while preserving historical receipts.
+The [GALAM reconstruction packet](../research/experiment_drafts/galam-reconstruction-20261027/README.md)
+implements source-traced components from four supplied screenshots. Original
+widths, heads, context and ensemble details remain unverified. No scientific
+fit, GPU profile, remote execution or empirical quality claim is authorized or
+performed in this preparation. Old dated running entries below are history.
+
 **21 October13:29UTC — fixed first-cell comparison completed and stopped:** [Final five-arm report](../research/campaign_2026-10-19/full_gru_tweaks_r1/FIRST_CELL_COMPARISON_20261021.md) records all five fixedep5 scores on468 fit-excluded EXPOSED development groups. CONTROL WP0.674830; EMA0.674779; Sparse0.674935; NLL0.675569; AllThree0.675909. AllThree−CONTROL+0.001078, unadjusted paired95% component CI[+0.000069,+0.002245]; the other three intervals cross zero. These intervals are conditional on the fixed models, not fit-seed/public-transfer uncertainty. [ROOT acceptance](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/SCORE_ACCEPTANCE.json) was durable13:23UTC before [Exact stop](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/exact_stop/README.md)13:29UTC of only successful score-v3; both failed score units remain preserved/excluded. All6scientificfits and5separate prerequisites are closed, no further fits/re-export/retuning. [Independent metadata audit](../research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/ACTUAL_SCORE_ACCEPTANCE_METADATA_REVIEW.json) verifies original RESULT/scalar/source joins without ROOT array reads. [Final source/recovery index](../research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/FIRST_CELL_SCORE_SOURCE_AND_RECOVERY_INDEX_20261021_V6.md) preserves versioned source gates and negatives. [Publication validation](../research/campaign_2026-10-19/full_gru_tweaks_r1/PUBLICATION_VALIDATION_20261021_FIRST_CELL_SCORED.json) records final local publication checks.
 
 ---

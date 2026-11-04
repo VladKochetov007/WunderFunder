@@ -1,0 +1,25 @@
+{
+  "reviewer_role": "/root/launch_data_manifest",
+  "review_kind": "independent read-only code and recipe review; root records delivered review and subsequent corrections",
+  "reviewed_commit": "9f37986c7e33df3f6ac429b0572221f96ab77da8",
+  "science_admission": false,
+  "profile_review": "pending actual source profile artifacts",
+  "passed": [
+    "Launcher reconstructs identity from frozen source, official chronological manifest, train-only normalization and runtime before validating approved profiles",
+    "Full fit uses GPU UUID and PCI_BUS_ID ordering",
+    "Full fit producer evaluates complete official valid with is_scored each epoch and explicitly labelled all_after_warmup train-eval",
+    "Consumer accepts declared policy early stop at epoch20, matching actual producer semantics"
+  ],
+  "finding": {
+    "file": "launch/profile_cohort.py",
+    "issue": "Numeric profile GPU selection omitted explicit PCI_BUS_ID, while later inventory/fits use physical UUIDs; a different CUDA enumeration would fail closed and waste profiling",
+    "resolution": "fd45dc82 adds PCI_BUS_ID; waiting owner replaced before any profile or scientific fit",
+    "receiver_owner_stop_receipt": "actual-profile-cohort-r1.stop.json"
+  },
+  "receiving_followup": {
+    "root_observed": "Torch raw UUID versus SMI GPU-prefixed UUID and CUDA-usable versus SMI physical memory",
+    "correction_commit": "42d9d91541547214f19244cfad02ab578e9f78ed",
+    "evidence": ["receiving-r5-host.log", "receiving-r5-uuid-diagnostic.json", "receiving-r6-host.json", "receiving-r6-launcher-tests.log"],
+    "limitation": "Receiving follow-up was executed by root; it is not a separate empirical review of future fit quality"
+  }
+}

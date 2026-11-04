@@ -1,0 +1,168 @@
+{
+  "schema": "wnn.independent-tl3-score-review.v1",
+  "reviewed_commit": "94913815",
+  "reviewed_paths": [
+    "scripts/score_tl3_chronological.py",
+    "scripts/tl3_chronological_recipes.py",
+    "tests/test_tl3_chronological_recipes.py",
+    "research/experiment_drafts/tl3-chronological-20261028/EXECUTION_DAG_R2.json",
+    "research/experiment_drafts/tl3-chronological-20261028/SOURCE_DAG_R1.json",
+    "src/wnn/splits.py",
+    "src/wnn/chronological_splits.py",
+    "src/wnn/training/chronological_teacher.py",
+    "src/wnn/gmetric.py",
+    "scripts/predict_run.py",
+    "scripts/build_distill_cache.py"
+  ],
+  "mode": "independent read-only source review; no fits, GPU, SSH, or remote actions",
+  "review_result": "block_final_grade_until_row_identity_and_recipe_binding_are_verified",
+  "findings": [
+    {
+      "id": "TL3-GRADE-001",
+      "severity": "blocking",
+      "area": "prediction row identity and order",
+      "evidence": [
+        {
+          "path": "scripts/score_tl3_chronological.py",
+          "lines": [39, 49],
+          "claim": "The sidecar row_groups list is checked for uniqueness and set equality, but not for exact order or strict integer element types."
+        },
+        {
+          "path": "scripts/score_tl3_chronological.py",
+          "lines": [51, 54],
+          "claim": "The prediction .npy bytes are hashed, then the sidecar order is used to build the row-group-to-array-position map. The sidecar itself is not hashed."
+        },
+        {
+          "path": "scripts/predict_run.py",
+          "lines": [350, 376],
+          "claim": "The canonical exporter writes prediction_sha256 and row_groups, and also emits evaluation_membership_sha256 for feature-only exports."
+        }
+      ],
+      "failure_mode": "Reordering the unhashed sidecar row_groups while retaining the same set leaves the array checksum and coverage check valid, but silently assigns each prediction row to a different validation target sequence.",
+      "required_check": "Require row_groups to equal the exact expected full-valid sequence order from the validated split/index, reject bools and non-integers, and validate the exported evaluation_membership_sha256 or an equivalent exact-order digest.",
+      "status_as_reviewed": "unfixed_in_94913815"
+    },
+    {
+      "id": "TL3-GRADE-002",
+      "severity": "high",
+      "area": "final recipe and ancestry identity",
+      "evidence": [
+        {
+          "path": "scripts/score_tl3_chronological.py",
+          "lines": [65, 78],
+          "claim": "The scorer selects three names from FINAL_WEIGHTS, verifies generic chronological checkpoint provenance and fixed epochs, and checks prediction checkpoint_sha256. It does not compare checkpoint arguments to the corresponding frozen final recipe node."
+        },
+        {
+          "path": "src/wnn/training/chronological_teacher.py",
+          "lines": [85, 104],
+          "claim": "The shared validator checks checkpoint policy, selected epoch, train-only membership, complete validation evaluation and file hash; it does not validate model hyperparameters, source identity, initializer/distillation edges, or cache closure."
+        },
+        {
+          "path": "scripts/tl3_chronological_recipes.py",
+          "lines": [76, 90],
+          "claim": "The executable recipe graph separately records each node's arguments, parents and fixed endpoint. The scorer does not consume this node definition."
+        }
+      ],
+      "failure_mode": "A different model or teacher recipe stored under one of the expected run names can satisfy the generic train/valid membership and endpoint checks and be reported as a fixed TL3 member.",
+      "required_check": "For each final member, compare normalized checkpoint args against the exact frozen build_nodes final recipe and verify the admitted run/source and teacher/cache ancestry receipt before scoring.",
+      "status_as_reviewed": "unfixed_in_94913815"
+    },
+    {
+      "id": "TL3-GRADE-003",
+      "severity": "moderate",
+      "area": "frozen split receipt",
+      "evidence": [
+        {
+          "path": "scripts/tl3_chronological_recipes.py",
+          "lines": [7, 9],
+          "claim": "The recipe module declares a frozen SPLIT_SHA256."
+        },
+        {
+          "path": "scripts/score_tl3_chronological.py",
+          "lines": [16, 20, 57, 62],
+          "claim": "The scorer imports only FINAL_WEIGHTS and PREFIX and checks sequence counts after load_campaign_split, but does not compare split.sha256 with SPLIT_SHA256."
+        },
+        {
+          "path": "src/wnn/chronological_splits.py",
+          "lines": [251, 313],
+          "claim": "The loader independently enforces the official primary schema, exact source identities, feature-only graph, and recomputed whole-sequence membership. This makes the missing constant check an exact-receipt gap rather than evidence that random or seq_ix-ordered validation is accepted."
+        }
+      ],
+      "failure_mode": "A different serialized manifest that still validates against the same official source identities and recomputed primary membership can pass the scorer even though the executable recipe names another manifest hash.",
+      "required_check": "Reject unless split.sha256 equals the recipe's frozen SPLIT_SHA256, and test that a different manifest receipt is rejected.",
+      "status_as_reviewed": "unfixed_in_94913815"
+    },
+    {
+      "id": "TL3-LEDGER-001",
+      "severity": "documentation_consistency",
+      "area": "since-event recipe fields",
+      "evidence": [
+        {
+          "path": "scripts/tl3_chronological_recipes.py",
+          "lines": [116, 126, 176, 207],
+          "claim": "The executable recipes set since_weight=32 and since_floor=.25 for roots, orgbase, fbc1k_s5 and both tiedlead final members."
+        },
+        {
+          "path": "research/experiment_drafts/tl3-chronological-20261028/EXECUTION_DAG_R2.json",
+          "lines": [103, 120, 125, 142, 178, 193],
+          "claim": "The resolved recipe entries for tiedlead_final, fbc1k_s5 and orgbase omit both since fields."
+        },
+        {
+          "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_checkpoint_metadata_execution_r1/TL3_CHECKPOINT_METADATA_R1.json",
+          "lines": [21, 146, 147, 1425, 1544, 1545],
+          "claim": "Captured checkpoint arguments record since_weight=32 and since_floor=.25 for fbc1k_s5_ep3 and orgbase_model."
+        },
+        {
+          "path": "research/campaign_2026-10-18/quality_gap_r1/tl3_source_closure_r1/raw_metadata/rs1013/logs/fttall_tlead_s5.log",
+          "lines": [4, 4],
+          "claim": "The historical tiedlead S5 resolved-args log records since_weight=32 and since_floor=.25."
+        },
+        {
+          "path": "research/experiment_drafts/tl3-chronological-20261028/README.md",
+          "lines": [77, 80],
+          "claim": "The README explicitly notes that the executable recipe module adds these recovered settings to the adapted DAG."
+        }
+      ],
+      "assessment": "The executable recipe values are supported by the historical metadata/log evidence and README. This is a machine-readable R2 ledger omission, not a mismatch in the Python launch recipes. SOURCE_DAG_R1 remains an immutable received evidence receipt.",
+      "required_check": "Add the fields to the R2 resolved recipes or make the recipe generator the explicit single source of truth and assert generated-node parity; do not rewrite SOURCE_DAG_R1.",
+      "status_as_reviewed": "not_a_runtime_recipe_error"
+    }
+  ],
+  "confirmed_controls": [
+    {
+      "area": "official primary policy and coverage",
+      "evidence": [
+        "scripts/score_tl3_chronological.py:59-62",
+        "scripts/score_tl3_chronological.py:91-113",
+        "src/wnn/training/chronological_teacher.py:32-54",
+        "src/wnn/chronological_splits.py:251-313"
+      ],
+      "result": "The scorer loads the schema-validated chronological primary split, requires 10,325 fit-train groups and 1,873 full-valid groups with no fit-valid groups, streams each full 20,000-row validation sequence, masks the first 99 rows, and requires exactly 3,528,273 selected rows. The split loader pins official source identities and recomputes whole-sequence membership; no seq_ix time ordering is used."
+    },
+    {
+      "area": "fixed FP32 blend and metric clipping order",
+      "evidence": [
+        "scripts/score_tl3_chronological.py:23-30",
+        "scripts/score_tl3_chronological.py:109-112",
+        "src/wnn/gmetric.py:33-38",
+        "src/wnn/gmetric.py:182-200"
+      ],
+      "result": "The scorer computes .34/.33/.33 sequentially in FP32 and passes the blended result to GlobalAccumulator. The official accumulator validates selected finite values and clips at metric time, so blending precedes the fixed [-2,2] metric clipping."
+    },
+    {
+      "area": "teacher cache API compatibility",
+      "evidence": [
+        "src/wnn/training/chronological_teacher.py:107-161",
+        "scripts/build_distill_cache.py:333-357",
+        "scripts/tl3_chronological_recipes.py:124, 144, 171, 200, 233, 258"
+      ],
+      "result": "The recipe graph marks the required direct teacher producers for full train export; the canonical cache path checks chronological checkpoint membership, full source-index ordering, prediction bytes, shape, dtype and finiteness. The fixed W18 source weights sum to .8125 as expected for the recovered unnormalized target composition."
+    }
+  ],
+  "test_evidence": {
+    "reported_by_root": "3 focused recipe/arithmetic tests passed",
+    "independently_run_for_this_review": false,
+    "coverage_limit": "The three tests in tests/test_tl3_chronological_recipes.py validate parsed recipes, selected policy flags, since weighting and FP32 blend arithmetic. They do not call grade() or test sidecar permutation, exact manifest pinning, source/ancestry identity, or 1,873/3,528,273 full-grade coverage end to end."
+  },
+  "followup_note": "This artifact reviews the scorer at 94913815. Root reported that a follow-up patch is being prepared for exact split-hash enforcement, valid-index row order, and final-node recipe comparison; those fixes are not verified by this review."
+}

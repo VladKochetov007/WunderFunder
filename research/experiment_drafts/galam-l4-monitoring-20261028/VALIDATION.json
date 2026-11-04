@@ -1,0 +1,64 @@
+{
+  "schema": "wnn.engineering-validation.v1",
+  "date_utc": "2026-10-28T01:02:00Z",
+  "status": "implementation_checked_receiving_fit_not_admitted",
+  "source_base": "4bcb49f1",
+  "implementation_source_commit": "d430dbf6e6d2bce550cef77c4ea2d635771beeca",
+  "branch": "experiment/galam-reconstruction-20261027",
+  "scientific_fits": 0,
+  "GPU_profiles": 0,
+  "competition_payloads_loaded_locally": 0,
+  "original_reference_weights_available": false,
+  "exact_GALAM_replication": false,
+  "checks": [
+    {
+      "command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONPATH=src python -m pytest -q tests/test_galam_components.py tests/test_galam_runtime_adapter.py tests/test_galam_variants.py tests/test_sequence_monitoring.py tests/test_sequence_monitor_resources.py tests/test_chronological_primary_splits.py tests/test_campaign_splits.py tests/test_sequence_inner_splits.py tests/test_b300_sequence_contracts.py tests/test_dashboard.py tests/test_dashboard_api.py",
+      "result": "92 passed, 1 skipped in 16.51s",
+      "skip": "Windows cannot create directory symlinks in this environment; no bypass or privilege change."
+    },
+    {"command": "ruff check all changed Python files since4bcb49f1", "result": "passed"},
+    {"command": "ruff format --check changed Python scope", "result": "49 files already formatted"},
+    {"command": "python scripts/check_training_structure.py", "result": "106 files, 0 errors, module300/function200 limits"},
+    {"command": "node --check src/wnn/dashboard/static/dashboard.js", "result": "passed"},
+    {"command": "git diff --check", "result": "passed"},
+    {"check": "Six prepared recipes load and random model weights build, no forward/optimizer step", "result": "full LSTM376426, full GRU286698, local-only LSTM195398 parameters; hashes/effective graph in configs/INSPECTION.json"},
+    {"check": "Independent tiny original-default versus adapted source comparison", "result": "identical state keys/tensors and bitwise-equal predictions, max abs error0.0; see independent receipt for exact source scope"},
+    {"check": "Real headless installed Edge UI check via Playwright1.64.1", "result": "config/run filtering, auto-refresh after append, synthetic labels, empty real-run directory, mobile no overflow, no page errors", "receipt": "UI_CHECK.json"},
+    {"check": "Dense synthetic event tail plus sparse evaluation journal", "result": "12000 train events retain all6 measured eval records, render6 valid-score points, show history windowing, support epoch/step/elapsed axes", "receipt": "SPARSE_UI_CHECK.json"}
+  ],
+  "legacy_wider_suite": {
+    "classification": "Not globally green. The same11 failures reproduce at frozen base4bcb49f1 with the same supplied CPU environment.",
+    "base_command": "PYTHONPATH=src python -m pytest -q tests/test_sequence_full_fit_data.py tests/test_sequence_epoch_prediction.py tests/test_sequence_epoch_index.py",
+    "base_result": "11 failed, 3 passed in3.98s",
+    "failure_classes": {"Windows directory open/fsync incompatibilities": 8, "Windows symlink privilege": 1, "preexisting noncanonical epoch-path fixtures": 2},
+    "failed_tests": [
+      "test_all_fit_normalization_reads_only_source_qualified_fitting_members",
+      "test_all_fit_cache_rejects_stale_identity",
+      "test_all_fit_cache_rejects_corrupt_moments_sha",
+      "test_modified_weight_cannot_be_admitted",
+      "test_undeclared_future_snapshot_cannot_be_admitted",
+      "test_weight_symlink_is_rejected",
+      "test_epoch_indexes_are_canonical_append_only_prefixes",
+      "test_resume_reconciliation_accepts_only_one_missing_tail",
+      "test_resume_reconciliation_promotes_a_pointer_one_snapshot_behind",
+      "test_loader_rejects_identity_drift_and_tampered_digest",
+      "test_resume_rejects_future_snapshot_and_history_gap"
+    ],
+    "CUDA_recovery": "Not exercised here; actor's broader batch skipped2 CUDA receiver checks."
+  },
+  "environment": {
+    "python": "3.12.14",
+    "torch": "2.14.1+cpu",
+    "numpy": "2.5.4",
+    "pyarrow": "26.0.0",
+    "ruff": "0.17.3",
+    "playwright": "1.64.1",
+    "CPU_threads_per_Torch_check": 1,
+    "note": "Existing bounded CPU environment reused. This is not parity with pinned research numpy/pyarrow or the L4 host Torch2.8. One UV setup was interrupted before any test body; no training ran in that environment."
+  },
+  "review": {"file": "INDEPENDENT_REVIEW.json", "method": "Separate Luna/max source review and independent variant checks; deterministic tools, not agreement, establish the correctness evidence", "critical_blocker_found_in_implementation": false},
+  "services": {"real_run_dashboard": "http://127.0.0.1:8766", "synthetic_demo": "http://127.0.0.1:8767", "runtime_receipt": "C:/Users/admin/Documents/Codex/reviews/tabdata-monitoring-20261028/SERVICE.json", "real_runs": 0, "binding": "loopback only; read-only"},
+  "remote_actions": "One successful persistent SSH connection, read-only inventory, then exit. No password retry, GPU work, package install, remote file mutation, training start/stop or changes to existing root-owned services.",
+  "receiving_blockers": ["Complete verified train data; current inspected project only has a sparse partial", "Physical disk headroom; data mounts had about1GB free at snapshot", "Actual audited chronological source/component/target indexes and manifest", "Validate labels outside is_scored before using prepared all_after_warmup fitting mask", "Accept receiving-host runtime or prepare an equivalent verified environment", "Measured warmed monitored GPU profile, validation time, fit budget and storage estimate"],
+  "limitations": ["No measured L4 speed, optimal batch, multi-worker benefit or LSTM/GRU elapsed ratio", "No scientific quality score or public/private forecast", "Original dimensions, exact fusion arithmetic and historical FiLM/training recipe remain unavailable", "Live event retention and producer quotas are finite; full scientific artifacts remain separate", "Elapsed axis is wall clock from first retained event, includes pauses and clock corrections", "Resources and sampled model diagnostics refer to rank-zero worker; independent one-GPU runs each expose their own worker"]
+}

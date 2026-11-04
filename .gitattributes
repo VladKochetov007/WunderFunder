@@ -1,0 +1,35 @@
+# Preserve receiving-host byte identities for this frozen inference diagnostic.
+research/experiment_drafts/galam-ensemble-diagnostics-20261028/PLAN.json -text
+research/experiment_drafts/galam-ensemble-diagnostics-20261028/evidence/*.json -text whitespace=cr-at-eol
+research/experiment_drafts/galam-ensemble-diagnostics-20261028/evidence/*.jsonl -text
+scripts/probe_quality8_fixed_blend.py text eol=lf
+# Keep actual receiving receipts and raw logs byte-identical after checkout.
+research/experiment_drafts/tl3-chronological-20261028/receiving/** -text whitespace=cr-at-eol
+research/experiment_drafts/checkpoint-publication-20261029/*.json -text whitespace=cr-at-eol
+tests/fixtures/tl3_finite17/*.json -text whitespace=cr-at-eol
+research/experiment_drafts/heterogeneous-tl3-20261030/**/*.json -text whitespace=cr-at-eol
+
+# Preserve raw multistage reviewer, actor and receiving artifact identities.
+research/experiment_drafts/multistage-optuna-b300-20261031/*.json -text whitespace=cr-at-eol
+research/experiment_drafts/multistage-optuna-b300-20261031/*.py -text whitespace=cr-at-eol
+research/experiment_drafts/multistage-optuna-b300-20261031/receiving/** -text whitespace=cr-at-eol
+research/experiment_drafts/multistage-optuna-b300-20261031/reporting-r3/** -text whitespace=cr-at-eol
+research/experiment_drafts/multistage-optuna-b300-20261031/collector-r1-frozen/** -text whitespace=cr-at-eol
+scripts/multistage_primary_refits_inputs.py -text
+scripts/multistage_primary_refits_outputs.py -text
+scripts/multistage_primary_refits_test.py -text
+scripts/report_multistage_primary_refits.py -text
+scripts/report_multistage_primary_refits_worker.py -text
+scripts/report_multistage_primary_ensemble_blend.py -text
+scripts/report_multistage_primary_ensemble_worker.py -text
+
+# Preserve the deployed follow-up panel's exact script and receipt identities.
+scripts/*quality_horizon*.py -text whitespace=cr-at-eol
+research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/**/*.json -text whitespace=cr-at-eol
+research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/**/*.py -text whitespace=cr-at-eol
+research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/**/*.svg -text -whitespace
+
+# Final-fit source and receiver contracts retain their original byte identities.
+research/experiment_drafts/final-submit-all-labeled-20261031/**/*.json -text whitespace=cr-at-eol
+# Preserve actual final delivery scripts, logs, plots and their manifest hashes.
+research/experiment_drafts/final-submit-all-labeled-20261031/recovery-20261103/terminal-receiving/** -text whitespace=cr-at-eol

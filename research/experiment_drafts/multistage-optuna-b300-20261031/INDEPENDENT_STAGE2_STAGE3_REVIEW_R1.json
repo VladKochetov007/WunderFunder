@@ -1,0 +1,70 @@
+{
+  "schema": "wnn.multistage-stage2-stage3-independent-review.v1",
+  "experiment_id": "E-MULTISTAGE-OPTUNA-B300-20261031-R1",
+  "review_id": "INDEPENDENT_STAGE2_STAGE3_REVIEW_R1",
+  "reviewer_role": "independent specification/data/protocol critic",
+  "review_scope": "Static review of fresh-optimizer initialization and weighted teacher-pool ancestry, arithmetic and cache integrity.",
+  "status": "stage2_recipe_conditionally_admissible_with_lineage_narrowing; stage3_precision_schema_fix_static_pass; actual_checkpoint_validation_pending",
+  "reviewed_paths": [
+    "src/wnn/training/sequence_initializer.py",
+    "src/wnn/training/sequence_fit.py",
+    "scripts/train_sequence.py",
+    "src/wnn/training/sequence_data.py",
+    "src/wnn/training/sequence_cache.py",
+    "src/wnn/training/sequence_cache_ensemble_lineage.py",
+    "src/wnn/training/sequence_cache_ensemble_provenance.py",
+    "src/wnn/training/sequence_cache_weighted_pool.py",
+    "src/wnn/training/sequence_cache_weighted_pool_identity.py",
+    "src/wnn/training/sequence_cache_weighted_pool_lineage.py",
+    "scripts/build_multistage_teacher_cache.py",
+    "src/wnn/training/sequence_predict.py",
+    "src/wnn/training/sequence_objectives.py",
+    "src/wnn/training/sequence_fit_artifacts.py",
+    "src/wnn/training/sequence_precision.py"
+  ],
+  "stage2_initializer": {
+    "verdict": "conditional_pass_for_pinned_clean_stage1_parent",
+    "confirmed": [
+      "Initializer is a regular, hash-checked canonical fixed-final checkpoint; the endpoint must be the configured final epoch.",
+      "Parent and child require FP32 mode and the same model configuration; floating parent tensors must be finite FP32 and strict state loading is used.",
+      "The parent normalization values must equal the child fitting normalization, and the loaded model mean/std buffers must exactly equal those child moments.",
+      "Only model weights are loaded. `--initializer` and `--resume` are mutually exclusive, and `sequence_fit.py` constructs a new optimizer and scheduler after initializer loading.",
+      "The initializer ancestry compares exact split, primary split, fit/control members, control role/source/mask and raw source identities; auxiliary split construction excludes primary valid and separates fit from control."
+    ],
+    "narrowing_requested": [
+      "`_MEMBERSHIP_FIELDS` omits `training_mask`, so the generic initializer loader can accept a parent fitted with a different target-row mask if the membership/source identities match.",
+      "The loader does not require a label-only parent (`kd_weight == 0`, `hint_weight == 0`, and `data.teacher is None`). The emitted initializer record does not carry transitive teacher-cache ancestry, so arbitrary teacher-trained parents would be opaque downstream.",
+      "The strict-FP32 parent check checks mode and principal runtime TF32/autocast flags but does not compare the exact precision identity, attention backend, cuBLAS environment and compiler receipt against the config."
+    ],
+    "recommendation": "For the current approved recipe, bind the initializer to the exact pinned label-only stage1 endpoint and same all-after-warmup mask. Tighten the loader or controller before allowing general parent selection. These findings do not invalidate current stage1 fits."
+  },
+  "stage3_weighted_pool": {
+    "verdict": "static_pass_after_precision_schema_patch; full-cache execution remains to be validated against actual fixed-final parents",
+    "confirmed": [
+      "The auxiliary split must be train-only, nonchronological, have no valid groups, exact `control` evaluation role and all-after-warmup mask. Fit and control members must be unique and disjoint.",
+      "Each parent must be a direct fixed-final FP32 label-trained checkpoint, with zero KD/hint weights, no model hints, exact auxiliary fit/control membership, exact source fingerprints and the same primary split identity. Initializer ancestry, when present, is bound to the same fit/control cohort.",
+      "Cache request pins trial ID, coefficient, input manifest, checkpoint, config, producer identity, producer and provenance hashes. Parent checkpoints, trial IDs and manifests must be unique; coefficients are finite, positive and sum to one within 1e-7.",
+      "The merger checks exact fit-member coverage, zero hint width, float32 20000x2 finite arrays, per-file and manifest SHA256 values, safe flat paths, sufficient disk headroom, stable inputs/split before and after streaming, and publishes a new cache by staged directory rename.",
+      "The runtime normalizer itself computes moments only over `SequenceData.fit.members`, and stage 2 requires exact equality of parent and child moments.",
+      "Pooling arithmetic is the declared parent-ordered sequential float32 multiply/add with no parent or pool clipping. The student objective clips pooled targets to [-2,2] and uses the same clipped-label absolute weights and denominator as label WMSE before applying KD weight; source matches `sequence_objectives.py`.",
+      "Batched inference resets causal state for every independent batch call and carries state only across chunks within that batch. Fit exports retain predictions/hints; evaluation exports drop hints. The reported serial/batched maximum CPU difference of 2.98e-8 is consistent with floating reduction-order variation and should remain recorded as an implementation tolerance."
+    ],
+    "resolved_blocker": {
+      "issue": "The original validator accepted only legacy FP32 precision strings and rejected current native strict-FP32 precision dictionaries/runtime compiler identities emitted by `sequence_precision.py` and `sequence_fit_artifacts.py`.",
+      "resolution_review": "The current patch adds an exact strict-FP32 dictionary contract, rejects cuBLAS emulation, checks runtime precision/attention backend/compiler against config, and retains legacy strict-FP32 support.",
+      "current_validator_sha256": "be672e456ec29420a365308751b499e80dfdd49e82864fd2b94792b809abf527",
+      "actual_profile_identity_check": "The validator accepted the native GRU b256 profile's FP32 precision/runtime/compiler identity against its exact R5 config.",
+      "review_limit": "One direct actual-profile identity check and static inspection only; no test suite or checkpoint/cache validation was run by this reviewer."
+    },
+    "remaining_evidence": [
+      "Run the validator against a real fixed-final parent checkpoint and its actual cache manifest after source/config/provenance identities are frozen.",
+      "Verify the frozen pool request weights and order against the intended recipe, then retain the output manifest SHA and representative pooled-array checksums.",
+      "For stronger independent auditability, recompute the normalizer identity from the exact producer fit_members and configured prefix/all-fit rule inside lineage validation. Current training code is fit-only, but the existing common-provenance verifier checks file-level fingerprints rather than the selected member set; fit and control both come from the same train parquet."
+    ]
+  },
+  "review_limits": [
+    "No SSH, GPU profile, fit, download, commit, publish, foreign-process action or MPS change was performed.",
+    "No tests were run by this reviewer.",
+    "This review does not promote any checkpoint, select a scientific candidate, or establish primary-valid or hidden/public performance."
+  ]
+}

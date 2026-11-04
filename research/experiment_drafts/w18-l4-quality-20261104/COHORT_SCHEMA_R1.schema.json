@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wnn.w18-l4-cohort.v1",
+  "title": "W18 L4 bounded eight-fit cohort",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "status",
+    "paths",
+    "identity",
+    "budget",
+    "profile_policy",
+    "admission_receipt",
+    "reference_predictions",
+    "fixed_blend_weight",
+    "endpoint",
+    "cells"
+  ],
+  "properties": {
+    "schema": {"const": "wnn.w18-l4-cohort.v1"},
+    "status": {"const": "recipes_frozen"},
+    "attempt_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,47}$"},
+    "paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_root",
+        "project_root",
+        "python",
+        "split_manifest",
+        "runtime_root",
+        "control_root",
+        "disk_mount"
+      ],
+      "properties": {
+        "source_root": {"$ref": "#/$defs/absolutePath"},
+        "project_root": {"$ref": "#/$defs/absolutePath"},
+        "python": {"$ref": "#/$defs/absolutePath"},
+        "split_manifest": {"$ref": "#/$defs/absolutePath"},
+        "runtime_root": {"$ref": "#/$defs/absolutePath"},
+        "control_root": {"$ref": "#/$defs/absolutePath"},
+        "disk_mount": {"$ref": "#/$defs/absolutePath"}
+      }
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_binding_sha256",
+        "data_binding_sha256",
+        "split_sha256",
+        "fit_members_sha256",
+        "fit_sequence_count",
+        "valid_members_sha256",
+        "valid_sequence_count",
+        "valid_scored_row_count",
+        "baseline_ancestry_sha256"
+      ],
+      "properties": {
+        "source_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "data_binding_sha256": {"$ref": "#/$defs/sha256"},
+        "split_sha256": {"$ref": "#/$defs/sha256"},
+        "fit_members_sha256": {"$ref": "#/$defs/sha256"},
+        "fit_sequence_count": {"type": "integer", "minimum": 1},
+        "valid_members_sha256": {"$ref": "#/$defs/sha256"},
+        "valid_sequence_count": {"const": 1873},
+        "valid_scored_row_count": {"const": 3528273},
+        "baseline_ancestry_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_scientific_fits",
+        "max_profiles",
+        "max_wave_seconds",
+        "collection_reserve_seconds",
+        "max_output_bytes",
+        "minimum_free_bytes",
+        "aggregate_cpu_threads",
+        "aggregate_memory_bytes"
+      ],
+      "properties": {
+        "max_scientific_fits": {"const": 8},
+        "max_profiles": {"type": "integer", "minimum": 8, "maximum": 16},
+        "max_wave_seconds": {"const": 43200},
+        "collection_reserve_seconds": {"const": 2700},
+        "max_output_bytes": {"const": 8000000000},
+        "minimum_free_bytes": {"const": 3000000000},
+        "aggregate_cpu_threads": {"const": 64},
+        "aggregate_memory_bytes": {"const": 429496729600}
+      }
+    },
+    "profile_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["warmup_batches", "timed_batches", "timeout_seconds"],
+      "properties": {
+        "warmup_batches": {"type": "integer", "minimum": 1},
+        "timed_batches": {"type": "integer", "minimum": 1},
+        "timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 3600},
+        "reason": {"type": "string"}
+      }
+    },
+    "admission_receipt": {"$ref": "#/$defs/absolutePath"},
+    "reference_predictions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/predictionMember"}
+    },
+    "fixed_blend_weight": {"const": 0.1},
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["epochs", "checkpoint_epoch", "train_diagnostic", "validation"],
+      "properties": {
+        "epochs": {"const": 2},
+        "checkpoint_epoch": {"const": 1},
+        "train_diagnostic": {"type": "string"},
+        "validation": {"type": "string"}
+      }
+    },
+    "cells": {
+      "type": "array",
+      "minItems": 8,
+      "maxItems": 8,
+      "items": {"$ref": "#/$defs/cell"}
+    }
+  },
+  "$defs": {
+    "absolutePath": {"type": "string", "minLength": 1, "pattern": "^/"},
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "predictionMember": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run",
+        "weight",
+        "prediction_path",
+        "sidecar_path",
+        "checkpoint_sha256"
+      ],
+      "properties": {
+        "run": {"type": "string", "minLength": 1},
+        "weight": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "prediction_path": {"$ref": "#/$defs/absolutePath"},
+        "sidecar_path": {"$ref": "#/$defs/absolutePath"},
+        "checkpoint_sha256": {"$ref": "#/$defs/sha256"},
+        "prediction_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cell_id",
+        "configuration_id",
+        "role",
+        "hypothesis_id",
+        "seed",
+        "gpu_uuid",
+        "cpu_threads",
+        "run_name",
+        "train_args",
+        "fit_timeout_seconds"
+      ],
+      "properties": {
+        "cell_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{2,63}$"},
+        "configuration_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{2,47}$"},
+        "role": {"enum": ["control", "mechanism"]},
+        "hypothesis_id": {"type": ["string", "null"]},
+        "seed": {"enum": [1001, 1002]},
+        "gpu_uuid": {"type": "string", "pattern": "^GPU-[0-9A-Fa-f-]+$"},
+        "cpu_threads": {"type": "integer", "minimum": 1, "maximum": 8},
+        "cpu_affinity": {
+          "type": ["array", "null"],
+          "items": {"type": "integer", "minimum": 0},
+          "uniqueItems": true,
+          "minItems": 1,
+          "maxItems": 8
+        },
+        "run_name": {"type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{2,95}$"},
+        "train_args": {
+          "type": "array",
+          "minItems": 8,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "fit_timeout_seconds": {"type": "integer", "minimum": 1, "maximum": 10800}
+      }
+    }
+  }
+}

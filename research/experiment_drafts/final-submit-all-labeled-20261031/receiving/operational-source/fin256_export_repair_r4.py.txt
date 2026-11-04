@@ -1,0 +1,47 @@
+from pathlib import Path
+import os,sys,json,hashlib,time,subprocess
+F=Path('/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1');S=F/'source';D=F/'control-code-r1/scripts';C=F/'control/final-submit-chain'
+sys.path[:0]=[str(D),str(S/'src'),str(S)]
+from wnn.multistage_search_owned_command import run_owned_command
+from wnn.multistage_search_runtime import process_identity,hold_gpu_slot
+import final_submit_chain_runtime as runtime
+import final_submit_chain_contract as contract
+def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+def save(p,v):
+ with p.open('x') as out: json.dump(v,out,sort_keys=True,indent=2)
+plan=json.loads((F/'inputs/final-plan-r2.json').read_bytes());state=json.loads((C/'controller-state.json').read_bytes())
+membership=contract.verify_sources(data_root=F/'data',membership_path=F/'inputs/final-fit-membership-r1.json',audit_path=F/'inputs/SOURCE_VALIDATION_R1.json',audit_sha256=contract.SOURCE_AUDIT_SHA256)
+uuid='GPU-df6fe7d0-64e5-7af2-467d-c1699cb6fc67'
+gpu=subprocess.check_output(['nvidia-smi','--id='+uuid,'--query-gpu=name,memory.free','--format=csv,noheader,nounits'],text=True).strip();assert 'B300' in gpu and int(gpu.rsplit(', ',1)[1])>=32768
+env=dict(os.environ,PYTHONPATH=str(S/'src')+':'+str(S),WNN_PROJECT_ROOT=str(F/'data'),OMP_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',NVIDIA_TF32_OVERRIDE='0',TORCH_ALLOW_TF32_CUBLAS_OVERRIDE='0',PYTHONUNBUFFERED='1',CUDA_VISIBLE_DEVICES=uuid)
+for ordinal,node_id in enumerate(['fin256_s3','fin256_s4'],102):
+ node=next(dict(n,node_id=node_id) for n in plan['nodes'] if n['id']==node_id)
+ prior=state['nodes'][node_id];assert prior['status']=='failed'
+ expected_error='launched fit argv differs' if node_id=='fin256_s3' else 'not an idle B300'
+ assert expected_error in prior['error']
+ fit_path=C/'receipts/fits'/(node_id+'.json');fit=json.loads(fit_path.read_bytes())
+ assert fit['status']=='completed' and fit['exit_code']==0 and not fit['timed_out']
+ checkpoint=runtime.validate_fit_checkpoint(node=node,output_dir=F/'data/artifacts/runs'/node['run'],membership=membership)
+ reused=['train','valid'] if node_id=='fin256_s3' else ['train'];missing=[] if node_id=='fin256_s3' else ['valid']
+ intent_path=F/'receipts'/(node_id+'-export-admission-repair-r4.intent.json')
+ common={'node_id':node_id,'run':node['run'],'plan_sha256':contract.PLAN_SHA256,'source_capsule_sha256':contract.SOURCE_CAPSULE_SHA256,'membership_sha256':membership.manifest_sha256,'fit_members_sha256':membership.fit_members_sha256,'source_validation_sha256':contract.SOURCE_AUDIT_SHA256,'fit_process_receipt':str(fit_path),'fit_process_receipt_sha256':sha(fit_path),'checkpoint_path':str(checkpoint),'checkpoint_sha256':sha(checkpoint),'fixed_endpoint':int(node['endpoint']),'scientific_retraining':False,'independent_score_claim':'forbidden'}
+ save(intent_path,dict(common,schema='wnn.final-submit-export-only-repair-intent.v1',prior_node_record=prior,gpu_uuid=uuid,completed_exports_reused=reused,missing_exports=missing,foreign_signals=False,created_epoch=time.time()))
+ exports={}
+ for split in ['train','valid']:
+  receipt=C/'receipts/exports'/(node_id+'-'+split+'.json')
+  if split in missing:
+   assert not receipt.exists()
+   for ext in ['npy','json']: assert not (F/'data/cache'/('pred_'+node['run']+'_'+split+'.'+ext)).exists()
+   timeout=min(21600,int(contract.HARD_DEADLINE-contract.COLLECTION_RESERVE-time.time())-20);assert timeout>60
+   cmd=['/usr/bin/timeout','--signal=TERM','--kill-after=10s',str(timeout-10)+'s','/data/epanov_s/tabdata/.venv/bin/python',str(S/'scripts/predict_run.py'),node['run'],split,'--epoch',str(node['endpoint']),'--final-fit-manifest',str(F/'inputs/final-fit-membership-r1.json'),'--final-fit-source-validation-receipt',str(F/'inputs/SOURCE_VALIDATION_R1.json'),'--final-fit-source-validation-sha256',contract.SOURCE_AUDIT_SHA256,'--device','cuda']
+   receipt=C/'receipts/exports'/(node_id+'-'+split+'-external-r4.json');log=C/'logs/exports'/(node_id+'-'+split+'-external-r4.log')
+   with hold_gpu_slot(C,uuid):
+    exit_code,timed,result=run_owned_command(cmd,cwd=S,env=env,log_path=log,receipt_path=receipt,owner=process_identity(os.getpid()),stage=2,trial_number=ordinal,mode='final_submit_export_only_repair_r4',gpu_key=uuid,output_dir=F/'data/cache',timeout_seconds=timeout)
+   assert exit_code==0 and not timed
+  process=json.loads(receipt.read_bytes());assert process['status']=='completed' and process['exit_code']==0 and not process['timed_out']
+  exported=runtime.validate_export(F/'data',node['run'],split,membership)
+  exports[split]={'status':'complete','path':str(exported),'sha256':sha(exported),'receipt':str(receipt),'receipt_sha256':sha(receipt),'process':process,'prediction_role':'fitting-only teacher features; no independent score','independent_score_claim':'forbidden'}
+ proof=F/'receipts'/(node_id+'-export-admission-repair-r4.json')
+ save(proof,dict(common,schema='wnn.final-submit-export-only-repair.v1',status='complete',intent_path=str(intent_path),intent_sha256=sha(intent_path),exports=exports,finished_epoch=time.time()))
+ print('QUALIFIED_EXPORT_REPAIR_COMPLETE',node_id,flush=True)
+
