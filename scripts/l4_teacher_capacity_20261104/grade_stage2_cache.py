@@ -573,7 +573,7 @@ def _check_stage2_recovery(
     runtime = Path(paths["runtime_root"])
     control = Path(paths["control_root"])
     receipts_root = runtime / "receipts" / "stage2"
-    recovery_admission_path = control / "STUDENT_RECOVERY_SOURCE_ADMISSION_R1.json"
+    recovery_admission_path = control / "STUDENT_RECOVERY_SOURCE_ADMISSION_R2.json"
     recovery_admission = _read_json(recovery_admission_path)
     recovery_admission_sha = file_sha256(recovery_admission_path)
     _require(
@@ -594,13 +594,13 @@ def _check_stage2_recovery(
         "approved metadata-recovery source admission does not bind this continuation",
     )
     recovery_source_sha = recovery_admission["source_binding_sha256"]
-    summary_path = receipts_root / f"{family}_metadata_recovery_r2.json"
+    summary_path = receipts_root / f"{family}_metadata_recovery_r3.json"
     summary = _read_json(summary_path)
     expected_status = "compact_finalized_and_promoted"
     expected_worker_name = (
-        "wide_gru_stage2_recovery_r2"
+        "wide_gru_stage2_recovery_r3"
         if family == "wide_gru"
-        else "causal_transformer_stage2_compact_finalize_r2"
+        else "causal_transformer_stage2_compact_finalize_r3"
     )
     worker_path = receipts_root / f"{expected_worker_name}.json"
     entrypoint_path_value = summary.get("recovery_entrypoint_path")
@@ -749,7 +749,9 @@ def _check_stage2_recovery(
             and failure.get("panel_sha256") == panel_hash
             and failure.get("family") == family
             and failure.get("phase") == "stage2_target"
-            and "metadata exceeds its 512000-byte read bound" in str(failure.get("error", ""))
+            and failure.get("error_type") == "RuntimeError"
+            and failure.get("error")
+            == "wide_gru_stage2_06 stage2 failed (1, timeout=False); preserve receipt"
             and failed_receipt.get("status") == "failed"
             and failed_receipt.get("exit_code") == 1
             and failed_receipt.get("timed_out") is False

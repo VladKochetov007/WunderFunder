@@ -127,7 +127,9 @@ def _admission(path: Path, panel: dict[str, Any], panel_hash: str) -> tuple[dict
     return receipt, file_sha256(path)
 
 
-def _check_controller_receipt(path: Path, panel_hash: str, recovery_source_sha: str) -> dict[str, Any]:
+def _check_controller_receipt(
+    path: Path, panel_hash: str, recovery_source_sha: str
+) -> dict[str, Any]:
     receipt = _read_json(path)
     current = current_process_owner()
     owner = receipt.get("owner", {})
@@ -160,7 +162,10 @@ def _expected_stage2_receipt(
     paths = panel["paths"]
     suffix = [
         paths["python"],
-        str(Path(paths["source_root"]) / "scripts/l4_teacher_capacity_20261104/stream_stage2_targets.py"),
+        str(
+            Path(paths["source_root"])
+            / "scripts/l4_teacher_capacity_20261104/stream_stage2_targets.py"
+        ),
         *args,
     ]
     owner = receipt.get("owner", {})
@@ -183,7 +188,9 @@ def _expected_stage2_receipt(
     return log_path, receipt_path, receipt
 
 
-def _stage2_args(panel: dict[str, Any], family: str, action: str, run: str | None = None) -> list[str]:
+def _stage2_args(
+    panel: dict[str, Any], family: str, action: str, run: str | None = None
+) -> list[str]:
     output = panel["families"][family]["target_cache"]
     args = [action, "--family", family, "--output-cache", output]
     if action == "init":
@@ -229,7 +236,9 @@ def _check_tf_stage2_pending(
     )
     fit_groups = list(map(int, split.train_groups))
     if state.get("fit_row_groups") != fit_groups:
-        raise ValueError("Transformer stage2 fit rows differ from the exact chronological train split")
+        raise ValueError(
+            "Transformer stage2 fit rows differ from the exact chronological train split"
+        )
     source_groups = state.get("source_train_index_row_groups")
     positions = state.get("fit_source_positions")
     expected_positions = fit_source_positions(source_groups, fit_groups)
@@ -329,7 +338,9 @@ def _check_tf_stage2_pending(
             or any(path.suffix == ".npy" for path in export_root.rglob("*"))
             or any(path.name != "manifest.json" for path in export_root.iterdir())
         ):
-            raise ValueError(f"Transformer export retained a prediction bank or lost its manifest: {run}")
+            raise ValueError(
+                f"Transformer export retained a prediction bank or lost its manifest: {run}"
+            )
         export_artifacts.append(
             {
                 "run_name": run,
@@ -365,7 +376,9 @@ def _check_wide_r1_history(
         or failure.get("panel_sha256") != panel_hash
         or failure.get("family") != "wide_gru"
         or failure.get("phase") != "stage2_target"
-        or "metadata exceeds its 512000-byte read bound" not in str(failure.get("error", ""))
+        or failure.get("error_type") != "RuntimeError"
+        or failure.get("error")
+        != "wide_gru_stage2_06 stage2 failed (1, timeout=False); preserve receipt"
     ):
         raise ValueError("R1 continuation did not fail at the known wide-GRU metadata-size gate")
     stage2_receipts = []
@@ -478,9 +491,9 @@ def _worker_context(
     ]
     target_cache = str(Path(panel["families"][family]["target_cache"]).resolve())
     cell_id = (
-        "wide_gru_stage2_recovery_r2"
+        "wide_gru_stage2_recovery_r3"
         if family == "wide_gru"
-        else "causal_transformer_stage2_compact_finalize_r2"
+        else "causal_transformer_stage2_compact_finalize_r3"
     )
     command_sha = hashlib.sha256(
         json.dumps(expected_command, separators=(",", ":")).encode()
@@ -562,7 +575,8 @@ def _check_complete_partial(
         or build.get("fit_row_groups") != fit_order
         or build.get("fit_row_groups_sha256") != row_groups_sha256(fit_order)
         or build.get("source_train_index_row_groups") != source_order
-        or build.get("source_train_index_sha256") != sequence_hash(np.asarray(source_order, dtype="<i8"))
+        or build.get("source_train_index_sha256")
+        != sequence_hash(np.asarray(source_order, dtype="<i8"))
         or build.get("fit_source_positions") != positions.tolist()
         or build.get("fit_source_positions_sha256") != positions_sha256(positions)
         or build.get("old_cache_metadata_sha256") != old["metadata_sha256"]
@@ -572,8 +586,7 @@ def _check_complete_partial(
         raise ValueError("completed stage2 build receipt does not bind the exact R2 row mapping")
     teacher_records = build["teacher_records"]
     if [record.get("run") for record in teacher_records] != expected_runs or any(
-        record.get("bank_discarded_after_aggregation") is not True
-        for record in teacher_records
+        record.get("bank_discarded_after_aggregation") is not True for record in teacher_records
     ):
         raise ValueError("stage2 teacher order or bounded bank lifecycle differs")
 
@@ -589,8 +602,7 @@ def _check_complete_partial(
     if (
         metadata.get("cache_profile") != "l4_teacher_capacity_stage2_stream_v2"
         or metadata.get("split_manifest_sha256") != split.sha256
-        or metadata.get("fit_groups")
-        != {"train": fit_order, "valid": list(split.valid_groups)}
+        or metadata.get("fit_groups") != {"train": fit_order, "valid": list(split.valid_groups)}
         or metadata.get("evaluation_valid_groups") != list(split.evaluation_groups)
         or metadata.get("base_cache", {}).get("metadata_sha256") != old["metadata_sha256"]
         or metadata.get("base_cache", {}).get("main_source_train_sha256") != PR60_MAIN_TRAIN_SHA256
@@ -599,7 +611,8 @@ def _check_complete_partial(
         or target.get("fit_groups") != fit_order
         or target.get("fit_groups_sha256") != row_groups_sha256(fit_order)
         or target.get("source_train_index_rows") != len(source_order)
-        or target.get("source_train_index_sha256") != sequence_hash(np.asarray(source_order, dtype="<i8"))
+        or target.get("source_train_index_sha256")
+        != sequence_hash(np.asarray(source_order, dtype="<i8"))
         or target.get("fit_source_positions") != positions.tolist()
         or target.get("fit_source_positions_sha256") != positions_sha256(positions)
         or target.get("teachers") != teacher_records
@@ -652,9 +665,9 @@ def _store_compact_metadata(partial: Path, metadata: dict[str, Any]) -> tuple[st
     metadata_path = partial / "metadata.json"
     original_raw = metadata_path.read_bytes()
     original_sha = hashlib.sha256(original_raw).hexdigest()
-    compact_raw = (
-        json.dumps(metadata, allow_nan=False, separators=(",", ":")) + "\n"
-    ).encode("utf-8")
+    compact_raw = (json.dumps(metadata, allow_nan=False, separators=(",", ":")) + "\n").encode(
+        "utf-8"
+    )
     if json.loads(compact_raw) != metadata:
         raise ValueError("compact metadata serializer changed its parsed JSON value")
     if not 0 < len(compact_raw) <= MAX_CACHE_METADATA_BYTES:
@@ -712,8 +725,8 @@ def recover_wide_partial(
     original_raw = (partial / "metadata.json").read_bytes()
     original_sha = hashlib.sha256(original_raw).hexdigest()
     backup = _preserve_original_metadata(panel, original_raw)
-    recovery_path = _runtime(panel) / "receipts/stage2/wide_gru_metadata_recovery_r2.json"
-    start_path = _runtime(panel) / "receipts/stage2/wide_gru_metadata_recovery_r2_START.json"
+    recovery_path = _runtime(panel) / "receipts/stage2/wide_gru_metadata_recovery_r3.json"
+    start_path = _runtime(panel) / "receipts/stage2/wide_gru_metadata_recovery_r3_START.json"
     _write_once(
         start_path,
         {
@@ -752,9 +765,11 @@ def recover_wide_partial(
             output, Path(panel["paths"]["project_root"]), split, "source", require_families=True
         )
         if result["metadata"] != metadata:
-            raise ValueError("promoted cache differs semantically from the original pretty metadata")
+            raise ValueError(
+                "promoted cache differs semantically from the original pretty metadata"
+            )
     except Exception as error:
-        failed_path = _runtime(panel) / "receipts/stage2/wide_gru_metadata_recovery_r2_FAILED.json"
+        failed_path = _runtime(panel) / "receipts/stage2/wide_gru_metadata_recovery_r3_FAILED.json"
         if not failed_path.exists():
             _write_once(
                 failed_path,
@@ -824,7 +839,13 @@ def finalize_target_compact(output: Path, family: str) -> dict[str, Any]:
         raise FileExistsError("compact finalizer requires the one active stage2 partial")
     if any(
         (partial / name).exists()
-        for name in ("main_source_train.npy", "main_source_valid.npy", "families_train.npy", "metadata.json", "stage2_build_receipt.json")
+        for name in (
+            "main_source_train.npy",
+            "main_source_valid.npy",
+            "families_train.npy",
+            "metadata.json",
+            "stage2_build_receipt.json",
+        )
     ):
         raise FileExistsError("partial already contains finalize output; do not finalize again")
     old_cache = Path(state["old_cache"])
@@ -984,9 +1005,9 @@ def finalize_target_compact(output: Path, family: str) -> dict[str, Any]:
     metadata_path = partial / "metadata.json"
     if metadata_path.exists() or metadata_path.is_symlink():
         raise FileExistsError("compact metadata path already exists before finalization")
-    compact_raw = (
-        json.dumps(metadata, allow_nan=False, separators=(",", ":")) + "\n"
-    ).encode("utf-8")
+    compact_raw = (json.dumps(metadata, allow_nan=False, separators=(",", ":")) + "\n").encode(
+        "utf-8"
+    )
     if not 0 < len(compact_raw) <= MAX_CACHE_METADATA_BYTES:
         raise ValueError("Transformer compact metadata exceeds the unchanged reader size bound")
     with metadata_path.open("xb") as stream:
@@ -1042,12 +1063,12 @@ def finalize_tf_from_owned_worker(
         panel_path,
         admission_path,
     )
-    _partial, _state, stage2_receipts, export_receipts = _check_tf_stage2_pending(
-        panel, panel_hash
-    )
+    _partial, _state, stage2_receipts, export_receipts = _check_tf_stage2_pending(panel, panel_hash)
     output = Path(panel["families"][family]["target_cache"])
-    summary_path = _runtime(panel) / "receipts/stage2/causal_transformer_metadata_recovery_r2.json"
-    start_path = _runtime(panel) / "receipts/stage2/causal_transformer_metadata_recovery_r2_START.json"
+    summary_path = _runtime(panel) / "receipts/stage2/causal_transformer_metadata_recovery_r3.json"
+    start_path = (
+        _runtime(panel) / "receipts/stage2/causal_transformer_metadata_recovery_r3_START.json"
+    )
     _write_once(
         start_path,
         {
@@ -1067,7 +1088,9 @@ def finalize_tf_from_owned_worker(
     try:
         result = finalize_target_compact(output, family)
     except Exception as error:
-        failed_path = _runtime(panel) / "receipts/stage2/causal_transformer_metadata_recovery_r2_FAILED.json"
+        failed_path = (
+            _runtime(panel) / "receipts/stage2/causal_transformer_metadata_recovery_r3_FAILED.json"
+        )
         if not failed_path.exists():
             _write_once(
                 failed_path,
@@ -1132,9 +1155,9 @@ def _worker_cli(args: argparse.Namespace) -> int:
     entrypoint = Path(__file__).resolve()
     worker_receipt_path = Path(args.worker_receipt)
     if args.worker_mode == "wide-recover-partial" and args.family == "wide_gru":
-        expected_cell_id = "wide_gru_stage2_recovery_r2"
+        expected_cell_id = "wide_gru_stage2_recovery_r3"
     elif args.worker_mode == "finalize-compact" and args.family == "causal_transformer":
-        expected_cell_id = "causal_transformer_stage2_compact_finalize_r2"
+        expected_cell_id = "causal_transformer_stage2_compact_finalize_r3"
     else:
         raise ValueError("worker mode/family is outside the two frozen recovery operations")
     _, expected_receipt = _receipt(
@@ -1207,14 +1230,18 @@ def _expected_worker_command(
 def _wait_for_receipt(path: Path, deadline: int) -> dict[str, Any]:
     while not path.is_file():
         if _remaining(deadline) < 30:
-            raise TimeoutError(f"owned receipt did not arrive before the collection reserve: {path}")
+            raise TimeoutError(
+                f"owned receipt did not arrive before the collection reserve: {path}"
+            )
         time.sleep(5)
     while True:
         record = _read_json(path)
         if record.get("status") not in ("launching", "running"):
             return record
         if _remaining(deadline) < 30:
-            raise TimeoutError(f"owned process is still running as the collection reserve begins: {path}")
+            raise TimeoutError(
+                f"owned process is still running as the collection reserve begins: {path}"
+            )
         time.sleep(5)
 
 
@@ -1236,9 +1263,9 @@ def _validate_completed_worker(
     entrypoint = Path(__file__).resolve()
     owner = record.get("owner", {})
     cell_id = (
-        "wide_gru_stage2_recovery_r2"
+        "wide_gru_stage2_recovery_r3"
         if family == "wide_gru"
-        else "causal_transformer_stage2_compact_finalize_r2"
+        else "causal_transformer_stage2_compact_finalize_r3"
     )
     if (
         record.get("schema") != "wnn.multistage-owned-process.v1"
@@ -1248,7 +1275,8 @@ def _validate_completed_worker(
         or record.get("command") != expected_command
         or record.get("command_sha256")
         != hashlib.sha256(json.dumps(expected_command, separators=(",", ":")).encode()).hexdigest()
-        or record.get("output_dir") != str(Path(panel["families"][family]["target_cache"]).resolve())
+        or record.get("output_dir")
+        != str(Path(panel["families"][family]["target_cache"]).resolve())
         or record.get("gpu_key") != "cpu-stage2"
         or owner.get("continuation_panel_sha256") != panel_hash
         or owner.get("source_binding_sha256") != panel["identity"]["source_binding_sha256"]
@@ -1303,8 +1331,10 @@ def _validate_teacher_admission(
 ) -> None:
     binding = panel["families"][family]
     path = Path(binding["teacher_admission_receipt"])
-    if not path.is_file() or path.is_symlink() or file_sha256(path) != binding.get(
-        "teacher_admission_receipt_sha256"
+    if (
+        not path.is_file()
+        or path.is_symlink()
+        or file_sha256(path) != binding.get("teacher_admission_receipt_sha256")
     ):
         raise FileNotFoundError(f"{family}: frozen teacher/cache admission is required")
     admission = _read_json(path)
@@ -1333,7 +1363,9 @@ def _build_tf_target(
     _validate_teacher_admission(panel, family, rows)
     output = Path(panel["families"][family]["target_cache"])
     if output.exists() or output.is_symlink() or partial_root(output).exists():
-        raise FileExistsError("Transformer stage2 target already exists; do not retry initialization")
+        raise FileExistsError(
+            "Transformer stage2 target already exists; do not retry initialization"
+        )
     init_args = _stage2_args(panel, family, "init")
     _run_stage2(panel, panel_hash, family, init_args, deadline, 1)
     for index, row in enumerate(rows, start=2):
@@ -1343,10 +1375,8 @@ def _build_tf_target(
             ["--sequence-export", str(export), "--teacher-panel", str(row["teacher_panel"])]
         )
         _run_stage2(panel, panel_hash, family, add_args, deadline, index)
-    cell_id = "causal_transformer_stage2_compact_finalize_r2"
-    log_path, receipt_path = _receipt(
-        panel, {"cell_id": cell_id, "run_name": cell_id}, "stage2"
-    )
+    cell_id = "causal_transformer_stage2_compact_finalize_r3"
+    log_path, receipt_path = _receipt(panel, {"cell_id": cell_id, "run_name": cell_id}, "stage2")
     if receipt_path.exists() or log_path.exists():
         raise FileExistsError("preserve existing Transformer compact-finalizer attempt")
     taskset = shutil.which("taskset")
@@ -1423,7 +1453,7 @@ def _build_tf_target(
         receipt_path,
         worker_receipt,
     )
-    summary_path = _runtime(panel) / "receipts/stage2/causal_transformer_metadata_recovery_r2.json"
+    summary_path = _runtime(panel) / "receipts/stage2/causal_transformer_metadata_recovery_r3.json"
     summary = _read_json(summary_path)
     if (
         summary.get("status") != "compact_finalized_and_promoted"
@@ -1484,8 +1514,8 @@ def _controller_context(
         or owner.get("recovery_admission_receipt_sha256") != admission_sha
         or owner.get("recovery_entrypoint_path") != str(entrypoint)
         or owner.get("recovery_entrypoint_sha256") != file_sha256(entrypoint)
-        or owner.get("cell_id") != "student_continuation_recovery_r2_controller"
-        or owner.get("run_name") != "student_continuation_recovery_r2_controller"
+        or owner.get("cell_id") != "student_continuation_recovery_r3_controller"
+        or owner.get("run_name") != "student_continuation_recovery_r3_controller"
         or owner.get("family") != "continuation"
     ):
         raise ValueError("continuation controller is not running under its exact owned receipt")
@@ -1502,7 +1532,7 @@ def _wait_wide_recovery(
     deadline: int,
 ) -> tuple[dict[str, Any], Path, dict[str, Any]]:
     family = "wide_gru"
-    receipt_path = _runtime(panel) / "receipts/stage2/wide_gru_stage2_recovery_r2.json"
+    receipt_path = _runtime(panel) / "receipts/stage2/wide_gru_stage2_recovery_r3.json"
     record = _wait_for_receipt(receipt_path, deadline)
     _validate_completed_worker(
         panel,
@@ -1516,7 +1546,7 @@ def _wait_wide_recovery(
         receipt_path,
         record,
     )
-    summary_path = _runtime(panel) / "receipts/stage2/wide_gru_metadata_recovery_r2.json"
+    summary_path = _runtime(panel) / "receipts/stage2/wide_gru_metadata_recovery_r3.json"
     summary = _read_json(summary_path)
     target_cache = Path(panel["families"][family]["target_cache"])
     if (
@@ -1536,15 +1566,15 @@ def _wait_wide_recovery(
     return summary, receipt_path, record
 
 
-def _wide_export_artifacts(panel: dict[str, Any], panel_hash: str, summary: dict[str, Any]) -> list[dict[str, Any]]:
+def _wide_export_artifacts(
+    panel: dict[str, Any], panel_hash: str, summary: dict[str, Any]
+) -> list[dict[str, Any]]:
     family = "wide_gru"
     artifacts = []
     for index, teacher in enumerate(summary["teacher_records"], start=2):
         run = teacher["run"]
         cell_id = f"wide_gru_native_export_{index:02d}_{run}"
-        _, receipt_path = _receipt(
-            panel, {"cell_id": cell_id, "run_name": run}, "teacher_export"
-        )
+        _, receipt_path = _receipt(panel, {"cell_id": cell_id, "run_name": run}, "teacher_export")
         record = _read_json(receipt_path)
         owner = record.get("owner", {})
         if (
@@ -1594,9 +1624,7 @@ def _family_completion(
 ) -> dict[str, Any]:
     grade_path = Path(student_result["grade_receipt_path"])
     grade_receipt = _read_json(grade_path)
-    recovery_path = _runtime(panel) / "receipts/stage2" / (
-        f"{family}_metadata_recovery_r2.json"
-    )
+    recovery_path = _runtime(panel) / "receipts/stage2" / (f"{family}_metadata_recovery_r3.json")
     stage2_receipt = _read_json(stage2_owned_receipt_path)
     target_cache = Path(panel["families"][family]["target_cache"])
     result = {
@@ -1650,9 +1678,9 @@ def run_recovery_controller(
     )
     deadline = _deadline(panel)
     runtime = _runtime(panel)
-    start_path = runtime / "receipts/continuation/STUDENT_CONTINUATION_RECOVERY_R2_START.json"
-    complete_path = runtime / "receipts/continuation/STUDENT_CONTINUATION_RECOVERY_R2_COMPLETE.json"
-    failed_path = runtime / "receipts/continuation/STUDENT_CONTINUATION_RECOVERY_R2_FAILED.json"
+    start_path = runtime / "receipts/continuation/STUDENT_CONTINUATION_RECOVERY_R3_START.json"
+    complete_path = runtime / "receipts/continuation/STUDENT_CONTINUATION_RECOVERY_R3_COMPLETE.json"
+    failed_path = runtime / "receipts/continuation/STUDENT_CONTINUATION_RECOVERY_R3_FAILED.json"
     if complete_path.exists() or failed_path.exists():
         raise FileExistsError("R2 controller has terminal evidence already; do not restart")
     history = _check_wide_r1_history(panel, panel_path, panel_hash)
@@ -1695,7 +1723,7 @@ def run_recovery_controller(
             panel, panel_hash, "wide_gru", wide_students, wide_summary, wide_receipt_path
         )
         _write_once(
-            runtime / "receipts/continuation/wide_gru_RECOVERY_COMPLETE_R2.json",
+            runtime / "receipts/continuation/wide_gru_RECOVERY_COMPLETE_R3.json",
             {"schema": RECOVERY_STATE_SCHEMA, "status": "complete", **base, **wide_result},
         )
         families["wide_gru"] = wide_result
@@ -1715,7 +1743,7 @@ def run_recovery_controller(
             panel, panel_hash, "causal_transformer", tf_students, tf_summary, tf_receipt_path
         )
         _write_once(
-            runtime / "receipts/continuation/causal_transformer_RECOVERY_COMPLETE_R2.json",
+            runtime / "receipts/continuation/causal_transformer_RECOVERY_COMPLETE_R3.json",
             {"schema": RECOVERY_STATE_SCHEMA, "status": "complete", **base, **tf_result},
         )
         families["causal_transformer"] = tf_result
@@ -1756,8 +1784,7 @@ def _controller_cli(args: argparse.Namespace) -> int:
     admission_path = Path(args.recovery_admission)
     admission, admission_sha = _admission(admission_path, panel, panel_hash)
     expected_receipt = (
-        _runtime(panel)
-        / "receipts/continuation/STUDENT_CONTINUATION_RECOVERY_R2_CONTROLLER.json"
+        _runtime(panel) / "receipts/continuation/STUDENT_CONTINUATION_RECOVERY_R3_CONTROLLER.json"
     )
     receipt_path = Path(args.controller_receipt)
     if receipt_path.resolve() != expected_receipt.resolve():
@@ -1778,9 +1805,7 @@ def _controller_cli(args: argparse.Namespace) -> int:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     modes = parser.add_mutually_exclusive_group(required=True)
-    modes.add_argument(
-        "--worker-mode", choices=("wide-recover-partial", "finalize-compact")
-    )
+    modes.add_argument("--worker-mode", choices=("wide-recover-partial", "finalize-compact"))
     modes.add_argument("--controller-mode", choices=("continue-students",))
     parser.add_argument("--family", choices=("wide_gru", "causal_transformer"))
     parser.add_argument("--panel", required=True)
@@ -1789,10 +1814,18 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--controller-receipt")
     args = parser.parse_args(argv)
     if args.worker_mode is not None:
-        if args.family is None or args.worker_receipt is None or args.controller_receipt is not None:
+        if (
+            args.family is None
+            or args.worker_receipt is None
+            or args.controller_receipt is not None
+        ):
             parser.error("worker mode requires --family and --worker-receipt only")
         return _worker_cli(args)
-    if args.family is not None or args.controller_receipt is None or args.worker_receipt is not None:
+    if (
+        args.family is not None
+        or args.controller_receipt is None
+        or args.worker_receipt is not None
+    ):
         parser.error("controller mode requires --controller-receipt and no worker-only arguments")
     return _controller_cli(args)
 
