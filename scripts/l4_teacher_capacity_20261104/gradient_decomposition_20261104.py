@@ -125,7 +125,9 @@ def main() -> None:
         del x, raw, target_np
         if inputs.shape != (BATCH, SEQUENCE_LENGTH, 112 + N_EVENT_FEATURES):
             raise ValueError(f"causal input shape differs: {tuple(inputs.shape)}")
-        valid = torch.arange(SEQUENCE_LENGTH, device=device)[None] >= WARMUP
+        valid = (torch.arange(SEQUENCE_LENGTH, device=device)[None] >= WARMUP).expand(
+            BATCH, -1
+        )
         spread, branch, cls = structure_labels(y, sequence_class(y))
         nx_rows, nx_up, nx_ok = next_change_labels(y, valid)
         labels = (valid, spread, branch, cls, nx_rows, nx_up, nx_ok)

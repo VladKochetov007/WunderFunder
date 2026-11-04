@@ -31,6 +31,9 @@ The attempted no-update diagnostic failed before gradient measurements: its
 Original failed source/log/receipt remain in the runtime. No retry was run.
 The frozen execution-failure branch selects aux_late from the prior hypothesis;
 this failure provides no evidence of gradient conflict or model quality.
+The working driver now expands the mask for a future identified attempt; the
+frozen afc24 diagnostic snapshot and its failure remain unchanged. The corrected
+driver was not run on the GPU in this allocation.
 
 Diagnostic source is afc24ac1033215f7db2be94c03390aa59452748c. Fit source is
 11b8de361b78d1650a811ccc8c138755bab7cc93. Independent source review found no
@@ -50,3 +53,8 @@ At most two W18 student fits remain conditional on the frozen teacher gate:
 the best new two-seed fixedep3 mean must exceed the reused control mean by
 at least .001. No teacher gain, student gain, public score or new submission is
 claimed at this running stage.
+
+[The terminal report collector](../../../scripts/l4_objective_report_20261104.py)
+joins actual fit ownership, chronological provenance, history metrics and fixed
+checkpoint hashes, then writes the comparison/curves and all-epoch teacher
+weight archive. Teacher reporting does not replace a student/serving evaluation.
