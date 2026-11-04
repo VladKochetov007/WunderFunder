@@ -58,3 +58,13 @@ claimed at this running stage.
 joins actual fit ownership, chronological provenance, history metrics and fixed
 checkpoint hashes, then writes the comparison/curves and all-epoch teacher
 weight archive. Teacher reporting does not replace a student/serving evaluation.
+
+## Terminal update, 4 November
+
+All four fresh teachers completed successfully. The actual frozen selector is
+`no_students`: both arm means are below the reused control and miss +.001.
+The optional two students are not launched. See RESULTS_20261104_R1.md,
+STUDENT_SELECTION_R1.json, INDEPENDENT_REVIEW_R1.md and the raw complete report.
+All16 epoch checkpoints and evidence are published in the PR62 teacher release;
+GITHUB_PUBLICATION_R3.json and ALLOCATION_COMPLETE_R1.json bind that handoff.
+The earlier running-stage paragraphs are historical execution notes.
