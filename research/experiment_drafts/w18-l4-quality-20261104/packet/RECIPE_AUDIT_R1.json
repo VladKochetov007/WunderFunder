@@ -1,0 +1,92 @@
+{
+  "schema": "wnn.w18_l4_recipe_audit.v1",
+  "status": "admit_frozen_r3_panel_to_bounded_profile_pending_root_byte_gate",
+  "date": "2026-11-04",
+  "scope": "independent recipe/code/preflight audit; no source edits, SSH, GPU, fit, scoring, or science approval",
+  "reviewed_source": {
+    "worktree_head": "f1c4f07c99328d6847e2f3e3864120688d45c99b",
+    "root_staged_commit": "4c57bee9227866c85407e50852973a70f53bf484",
+    "reviewed_recipe_paths_identical_at_both_commits": true
+  },
+  "active_panel": {
+    "path": "research/experiment_drafts/w18-l4-quality-20261104/FROZEN_PANEL_R3.json",
+    "sha256": "c98d4c8a42b6f772d36e79521799db920d97d8a650bc4323da7c71cf2b9d53f4",
+    "supersedes_unexecuted": ["FROZEN_PANEL_R1.json", "FROZEN_PANEL_R2.json"],
+    "r2_r3_cli_identity": "all eight train_args, run names and seeds match exactly",
+    "source_binding_sha256": "43c40870907040ce5802b8ac6d36fd5789918bef3f5e8cbf018cb59acb4dd5c8",
+    "numeric_source_binding": "NUMERIC_SOURCE_BINDING_LINUX_R1.json; 315 Git blob-bound files",
+    "execution_source_binding": "EXECUTION_SOURCE_BINDING_R1.json; four controller files",
+    "root_actual_node_byte_gate_pending": true,
+    "cell_count": 8,
+    "fit_sequence_count": 10325,
+    "valid_sequence_count": 1873,
+    "valid_scored_row_count": 3528273,
+    "fit_parent": "tl3c_fbc1k_s5@ep3",
+    "epochs": 2,
+    "checkpoint_epoch_zero_based": 1,
+    "seeds": [1001, 1002],
+    "batch_order": "seeded",
+    "common_fields_equal_after_normalizing_run_name_seed_and_declared_arm_fields": true,
+    "declared_arm_fields": ["--research-features", "--distill-alpha", "--distill-family-weight"]
+  },
+  "baseline_reference": {
+    "audit": "research/experiment_drafts/w18-l4-quality-20261104/packet/BASELINE_AUDIT_R1.json",
+    "strongest_fixed_eligible_reference": "canonical train-only TL3 blend",
+    "pooled_valid_wp": 0.6923774245652725,
+    "w18_member_pooled_valid_wp": 0.6914165059769162,
+    "validation_status": "exposed historical development comparison"
+  },
+  "recipe_checks": {
+    "native_batch_order_seeded_accepted": true,
+    "seeded_sampler_decouples_order_from_feature_width_global_rng": true,
+    "train_source_extra_valid_is_none": true,
+    "prior_helper_accepts_valid_members_if_miswired": true,
+    "serialized_prior_fit_member_gate_required": true,
+    "prior_sample_size": 32,
+    "innovation_feature_width": 80,
+    "parent_input_width": 211,
+    "child_input_width": 291,
+    "warm_start_zero_extension_preserves_parent_function_at_initialization": true,
+    "alpha_equation": "(1-alpha)*clamp(label,-2,2) + alpha*clamp(teacher,-2,2)",
+    "family_weight_0_01_preserves_positive_weight_family_head_shape": true,
+    "arm_a_family_head_random_initialization_nuisance": true,
+    "arm_a_interpretation": "paired two-seed conditional quality screen; not a clean causal estimate",
+    "full_sequence_features_before_recurrent_chunking": true,
+    "causal_feature_state_resets_per_sequence_and_carries_across_internal_blocks": true
+  },
+  "cpu_preflight": {
+    "python": "3.13.15",
+    "torch": "2.14",
+    "device": "CPU only; no CUDA calls",
+    "synthetic_train_only_prior_guard": {
+      "status": "pass",
+      "train_fit_groups": 40,
+      "sampled_prior_groups": 32,
+      "valid_parquet_opened": 0,
+      "output": "prior_membership_guard=PASS train_fit_groups=40 sampled_prior_groups=32 valid_opened=0"
+    },
+    "innovation_extension": {
+      "status": "pass",
+      "zero_new_input_weights": 80,
+      "new_mean_zero_std_one": 80,
+      "parent_function_tolerance": 1e-6,
+      "output": "innovation_extension=PASS parent_width=211 child_width=291 zero_input_weights=80 zero_mean_unit_std=80 parent_function_preserved=1e-6"
+    },
+    "existing_causal_feature_suite": {
+      "status": "pass_with_data_skip",
+      "passed": 8,
+      "skipped": 1,
+      "runtime_seconds": 7.57,
+      "skip_reason": "local datasets/*.parquet absent",
+      "windows_compatibility": "in-memory resource shim used for collection because imported trainer profile module imports Unix-only resource"
+    },
+    "panel_lint": {
+      "status": "pass",
+      "cells": 8,
+      "r2_r3_cli_identity_exact": true,
+      "fit_parent_endpoint_membership_sampler_valid": true
+    }
+  },
+  "report_path": "research/experiment_drafts/w18-l4-quality-20261104/packet/RECIPE_AUDIT_R1.md",
+  "final_recommendation": "Root verifies actual node bytes against Linux numeric and execution source bindings, then proceeds with bounded R3 profiling. Preserve train-only prior fit-member assertion and report arm A as a two-seed conditional screen with family-head initialization nuisance."
+}
