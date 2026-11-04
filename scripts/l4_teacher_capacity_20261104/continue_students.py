@@ -6,6 +6,7 @@ import argparse
 import concurrent.futures
 import hashlib
 import json
+import os
 import re
 import shutil
 import sys
@@ -103,6 +104,21 @@ def validate_panel(path: Path) -> tuple[dict[str, Any], str]:
         value = paths.get(key)
         if not isinstance(value, str) or not Path(value).is_absolute():
             raise ValueError(f"paths.{key} must be an absolute receiving-host path")
+    launcher = panel.get("python_launcher")
+    python_path = Path(paths["python"])
+    try:
+        python_target = python_path.resolve(strict=True)
+    except OSError as error:
+        raise ValueError("qualified Python launcher does not resolve") from error
+    if (
+        not isinstance(launcher, dict)
+        or launcher.get("path") != str(python_path)
+        or launcher.get("resolved_target") != str(python_target)
+        or not python_target.is_file()
+        or not os.access(python_target, os.X_OK)
+        or launcher.get("resolved_target_sha256") != file_sha256(python_target)
+    ):
+        raise ValueError("qualified Python launcher path/target/SHA binding differs")
     for key in (
         "source_binding_sha256",
         "data_binding_sha256",
@@ -138,6 +154,8 @@ def validate_panel(path: Path) -> tuple[dict[str, Any], str]:
         raise ValueError("frozen PR60 control panel bytes differ from the continuation identity")
     if baseline.get("schema") != "wnn.w18-l4-cohort.v1":
         raise ValueError("frozen PR60 W18 control panel is unavailable")
+    if paths["python"] != baseline.get("paths", {}).get("python"):
+        raise ValueError("Python launcher differs from the qualified PR60 virtual environment")
     baseline_cells = baseline.get("cells")
     if not isinstance(baseline_cells, list):
         raise ValueError("frozen PR60 W18 panel has no cells")

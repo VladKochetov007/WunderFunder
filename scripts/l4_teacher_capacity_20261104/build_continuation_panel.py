@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -56,6 +57,28 @@ def absolute(path: Path, label: str, *, must_exist: bool = True) -> Path:
     if value.is_symlink():
         raise ValueError(f"{label} must not be a symlink: {value}")
     return value
+
+
+def python_launcher(path: Path, qualified_path: Path) -> tuple[Path, dict[str, str]]:
+    """Allow only the exact qualified virtualenv launcher to be a symlink."""
+    value = path.expanduser().absolute()
+    qualified = qualified_path.expanduser().absolute()
+    if value != qualified:
+        raise ValueError(
+            f"Python launcher must equal the PR60-qualified interpreter path: {qualified}"
+        )
+    if not value.exists():
+        raise FileNotFoundError(f"qualified Python launcher is missing: {value}")
+    resolved = value.resolve(strict=True)
+    if not resolved.is_file() or not os.access(resolved, os.X_OK):
+        raise ValueError(f"qualified Python target must be a regular executable file: {resolved}")
+    if value.is_symlink() and not value.is_file():
+        raise ValueError(f"qualified Python symlink does not resolve to a regular file: {value}")
+    return value, {
+        "path": str(value),
+        "resolved_target": str(resolved),
+        "resolved_target_sha256": file_sha256(resolved),
+    }
 
 
 def digest(value: str, label: str) -> str:
@@ -189,7 +212,9 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], str]:
     project = absolute(args.project_root or (runtime / "project"), "project root")
     data_root = absolute(args.data_root or project, "data root")
     source_root = absolute(args.source_root, "delivery source root")
-    python = absolute(args.python or Path(pr60["paths"]["python"]), "Python executable")
+    python, python_binding = python_launcher(
+        args.python or Path(pr60["paths"]["python"]), Path(pr60["paths"]["python"])
+    )
     split = absolute(args.split_manifest or Path(pr60["paths"]["split_manifest"]), "split manifest")
     control_root = absolute(args.control_root or (runtime / "control"), "control root")
     shared_state = absolute(args.shared_state or (runtime / "GRU_STATE_R1.json"), "shared state")
@@ -305,6 +330,7 @@ def build(args: argparse.Namespace) -> tuple[dict[str, Any], str]:
             "old_cache": str(old_cache),
         },
         "identity": identity,
+        "python_launcher": python_binding,
         "families": families,
         "students": {"cells": students},
         "admission_receipt": str(admission_path),
