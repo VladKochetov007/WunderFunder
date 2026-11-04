@@ -1,0 +1,586 @@
+{
+  "data_binding": {
+    "auxiliary_control_sequences": 2065,
+    "auxiliary_fit_sequences": 8260,
+    "auxiliary_manifest_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075",
+    "chronology_claim": false,
+    "galam_fit_batch_remainders": {
+      "16": 4,
+      "32": 4,
+      "64": 4
+    },
+    "primary_fit_sequences": 10325
+  },
+  "experiment_id": "E-MULTISTAGE-OPTUNA-B300-20261031-R1",
+  "extends_recipe": {
+    "policy": "preserve R3 controls and anchor files unchanged",
+    "revision": "R3",
+    "sha256": "d6c5c98b84df0735a56179d4709a2fbd27fef42d8b6706e87937822ad0686d40"
+  },
+  "model_sources": {
+    "galam_preset": {
+      "adaptation": "L4 schematic_lstm_full shape/fidelity fields reused through the canonical GALAM sequence adapter; auxiliary fit-only normalization, ordinal sequence timestamps, batch32/one-GPU training, four-epoch anchor. Not an exact replay.",
+      "path": "research/experiment_drafts/galam-l4-quality8-20261028/launch/configs/g1-galam-lstm64.json",
+      "sha256": "698a654256177000b0e575a45da6ffb94066753cfbffc812ed429eeb1a9f9b5b"
+    },
+    "transformer": {
+      "adapter": "canonical causal Transformer sequence model",
+      "attention_backend": "math",
+      "precision": "strict fp32"
+    }
+  },
+  "nodes": [
+    {
+      "args": {
+        "config_path": "recipes/configs/r4/galam-g1-adapt-r4.json",
+        "config_sha256": "59f6cc39dc0b9a99c58c1312fb2562722d12f727ffc89a924b3f8369d5802869",
+        "sequence_config": {
+          "accumulate_chunks": 1,
+          "adamw_beta1": 0.9,
+          "adamw_beta2": 0.999,
+          "adamw_eps": 1e-08,
+          "batch_size": 32,
+          "checkpoint_retention": "all_epochs",
+          "chunk_rows": 256,
+          "epochs": 4,
+          "expected_fold": 0,
+          "grad_clip": 1.0,
+          "hint_mode": "aligned",
+          "hint_weight": 0.0,
+          "kd_weight": 0.0,
+          "lr": 0.0001,
+          "min_lr_ratio": 0.0,
+          "model": {
+            "architecture": "galam",
+            "attention_backend": "math",
+            "checkpoint_blocks": false,
+            "compile_blocks": false,
+            "context_rows": 64,
+            "dropout": 0.0,
+            "ff_multiplier": 2.0,
+            "galam": {
+              "assumed_details": [
+                "attention_history_and_convolution_kernel",
+                "author_geglu_text_vs_schematic_conv_mixer",
+                "batch_norm_axis_and_running_stat_convention",
+                "connectome_output_adaptation",
+                "convolution_hidden_width",
+                "fusion_bypass_source_equation",
+                "fusion_channel_order",
+                "hidden_cell_projection_and_ffn_widths",
+                "lstm_and_attention_block_counts",
+                "relative_time_scale_and_source",
+                "width_and_attention_heads"
+              ],
+              "attention_heads": 4,
+              "attention_history": 64,
+              "conv_hidden_width": 128,
+              "conv_kernel_size": 5,
+              "faithful_details": [
+                "decoder_post_rms_norm_and_gelu_ffn",
+                "fusion_gate_linear_silu_linear_sigmoid",
+                "gated_fusion",
+                "global_residual_post_layer_norm",
+                "learned_relative_timestamp_bias",
+                "local_batch_norm_then_lstm",
+                "post_gate_channel_product",
+                "query_key_rms_normalization",
+                "schematic_conv_gelu_batchnorm_order",
+                "schematic_global_conv_mixer",
+                "separate_global_and_local_memories",
+                "temporal_attention_in_both_memories"
+              ],
+              "feed_forward_width": 128,
+              "fusion_channel_order": [
+                "global_memory",
+                "local_memory",
+                "hidden_projection",
+                "cell_projection"
+              ],
+              "fusion_mode": "diagram_channel_product",
+              "global_blocks": 1,
+              "input_features": 112,
+              "local_attention_blocks": 1,
+              "lstm_layers": 1,
+              "output_features": 2,
+              "relative_bias_width": 32,
+              "role": "connectome_112_to_2",
+              "timestamp_scale": 1.0,
+              "timestamp_source": "ordinal",
+              "variant": "schematic_lstm_full",
+              "width": 64
+            },
+            "heads": 4,
+            "hidden": 64,
+            "hint_dim": 0,
+            "hint_projection": "learned",
+            "input_feature_mode": "raw112",
+            "layers": 1,
+            "precision_mode": "fp32"
+          },
+          "monitoring": {
+            "diagnostics_every_steps": 50,
+            "eval_batch_size": 32,
+            "train_eval_mask": "all_after_warmup",
+            "train_eval_sequences": 16,
+            "training_telemetry_every_steps": 1
+          },
+          "muon_momentum": 0.95,
+          "muon_ns_eps": 1e-07,
+          "muon_ns_steps": 5,
+          "normalization_scope": "prefix",
+          "normalization_sequences": 32,
+          "optimizer": "adamw",
+          "precision_mode": "fp32",
+          "required_device": "B300",
+          "required_world_size": 1,
+          "schedule": "warmup_cosine_v2",
+          "schema_version": 1,
+          "seed": 1301,
+          "training_mask": "all_after_warmup",
+          "warmup_fraction": 0.05,
+          "weight_decay": 0.01
+        },
+        "trainer": "scripts/train_sequence.py"
+      },
+      "checkpoint_roles": {
+        "best_observed": "maximum control WP; diagnostic and exposed development evidence",
+        "eligible_control_selected": "epoch snapshot selected by control WP only when the recipe freezes this rule",
+        "epoch_index": "epoch_index.json binds each retained epoch checkpoint SHA256",
+        "fixed_final": "model.pt at the configured final epoch"
+      },
+      "eval_metric": {
+        "is_scored_used": false,
+        "name": "wp",
+        "reduction": "mean_of_two_pooled_clipped_weighted_Pearson_targets",
+        "role": "control",
+        "row_mask": "all_after_warmup AND row_index>=99",
+        "scope": "inner_train_proxy",
+        "source": "train"
+      },
+      "family": "galam",
+      "fit_split": "multistage_auxiliary_fit",
+      "id": "S1-GALAM-R4-AUX-CONTROL",
+      "model_identity_note": "Uses the existing L4 schematic_lstm_full preset through the canonical GALAM sequence adapter, with strict FP32 and fit-only normalization; assumed details remain explicit and this is not an exact historical replay.",
+      "parents": [],
+      "recipe_status": "runnable after exact-identity one-GPU B300 profile admission",
+      "stage": 1
+    },
+    {
+      "args": {
+        "config_path": "recipes/configs/r4/causal-transformer-base-r4.json",
+        "config_sha256": "94368c52645c11873a8b7ab54995c0b3c58eb0c11d5b729823438262cd52b77d",
+        "sequence_config": {
+          "accumulate_chunks": 4,
+          "adamw_beta1": 0.9,
+          "adamw_beta2": 0.999,
+          "adamw_eps": 1e-08,
+          "batch_size": 16,
+          "checkpoint_retention": "all_epochs",
+          "chunk_rows": 256,
+          "dropout_policy": "explicit_regularization_v1",
+          "epochs": 4,
+          "expected_fold": 0,
+          "grad_clip": 1.0,
+          "hint_mode": "aligned",
+          "hint_weight": 0.0,
+          "kd_weight": 0.0,
+          "lr": 0.0003,
+          "min_lr_ratio": 0.0,
+          "model": {
+            "architecture": "transformer",
+            "attention_backend": "math",
+            "checkpoint_blocks": true,
+            "compile_blocks": false,
+            "context_rows": 256,
+            "dropout": 0.0,
+            "ff_multiplier": 4,
+            "heads": 8,
+            "hidden": 384,
+            "hint_dim": 0,
+            "hint_projection": "learned",
+            "input_feature_mode": "raw112",
+            "layers": 4
+          },
+          "monitoring": {
+            "diagnostics_every_steps": 50,
+            "eval_batch_size": 16,
+            "train_eval_mask": "all_after_warmup",
+            "train_eval_sequences": 16,
+            "training_telemetry_every_steps": 1
+          },
+          "muon_momentum": 0.95,
+          "muon_ns_eps": 1e-07,
+          "muon_ns_steps": 5,
+          "normalization_scope": "prefix",
+          "normalization_sequences": 32,
+          "optimizer": "adamw",
+          "precision_mode": "fp32",
+          "required_device": "B300",
+          "required_world_size": 1,
+          "schedule": "legacy_warmup_cosine",
+          "schema_version": 1,
+          "seed": 1301,
+          "training_mask": "all_after_warmup",
+          "warmup_fraction": 0.05,
+          "weight_decay": 0.01
+        },
+        "trainer": "scripts/train_sequence.py"
+      },
+      "checkpoint_roles": {
+        "best_observed": "maximum control WP; diagnostic and exposed development evidence",
+        "eligible_control_selected": "epoch snapshot selected by control WP only when the recipe freezes this rule",
+        "epoch_index": "epoch_index.json binds each retained epoch checkpoint SHA256",
+        "fixed_final": "model.pt at the configured final epoch"
+      },
+      "eval_metric": {
+        "is_scored_used": false,
+        "name": "wp",
+        "reduction": "mean_of_two_pooled_clipped_weighted_Pearson_targets",
+        "role": "control",
+        "row_mask": "all_after_warmup AND row_index>=99",
+        "scope": "inner_train_proxy",
+        "source": "train"
+      },
+      "family": "causal_transformer",
+      "fit_split": "multistage_auxiliary_fit",
+      "id": "S1-CAUSAL_TRANSFORMER-R4-AUX-CONTROL",
+      "model_identity_note": "New causal Transformer candidate through the canonical sequence trainer, strict-FP32 math attention and bounded rolling context.",
+      "parents": [],
+      "recipe_status": "runnable after exact-identity one-GPU B300 profile admission",
+      "stage": 1
+    }
+  ],
+  "profile_ladder": {
+    "additional_initial_profile_attempts": 2,
+    "profile_families": [
+      "galam",
+      "causal_transformer"
+    ],
+    "profile_updates": 50,
+    "profile_wall_seconds": 180,
+    "worker_world_size": 1
+  },
+  "recipe_revision": "R4",
+  "schema": "wnn.multistage-recipe-family-extension.v1",
+  "stage1": {
+    "anchors": [
+      {
+        "config": {
+          "path": "recipes/configs/r4/galam-g1-adapt-r4.json",
+          "sha256": "59f6cc39dc0b9a99c58c1312fb2562722d12f727ffc89a924b3f8369d5802869"
+        },
+        "family": "galam",
+        "id": "S1-GALAM-G1-LSTM64-R4-AUX-CONTROL",
+        "params": {
+          "attention_history": 64,
+          "batch_size": 32,
+          "epochs": 4,
+          "global_blocks": 1,
+          "local_attention_blocks": 1,
+          "lr": 0.0001,
+          "lstm_layers": 1
+        }
+      },
+      {
+        "config": {
+          "path": "recipes/configs/r4/causal-transformer-base-r4.json",
+          "sha256": "94368c52645c11873a8b7ab54995c0b3c58eb0c11d5b729823438262cd52b77d"
+        },
+        "family": "causal_transformer",
+        "id": "S1-CAUSAL-TRANSFORMER-H384-L4-C256-R4-AUX-CONTROL",
+        "params": {
+          "batch_size": 16,
+          "chunk_rows": 256,
+          "context_rows": 256,
+          "dropout": 0.0,
+          "epochs": 4,
+          "hidden": 384,
+          "layers": 4,
+          "lr": 0.0003
+        }
+      }
+    ],
+    "base_config": {
+      "path": "recipes/configs/r4/gru-base-r4.json",
+      "sha256": "24560bab776f2556c37775117c75129aba71b9d11e61818ee92154040057ec8a"
+    },
+    "families": {
+      "causal_transformer": {
+        "base_config": {
+          "path": "recipes/configs/r4/causal-transformer-base-r4.json",
+          "sha256": "94368c52645c11873a8b7ab54995c0b3c58eb0c11d5b729823438262cd52b77d"
+        },
+        "fixed_overrides": {},
+        "search_space": {
+          "batch_size": {
+            "choices": [
+              8,
+              16,
+              32
+            ],
+            "config_path": "batch_size",
+            "kind": "categorical"
+          },
+          "chunk_rows": {
+            "choices": [
+              128,
+              256
+            ],
+            "config_path": "chunk_rows",
+            "kind": "categorical"
+          },
+          "context_rows": {
+            "choices": [
+              128,
+              256,
+              512
+            ],
+            "config_path": "model.context_rows",
+            "kind": "categorical"
+          },
+          "dropout": {
+            "choices": [
+              0.0,
+              0.1
+            ],
+            "config_path": "model.dropout",
+            "kind": "categorical"
+          },
+          "epochs": {
+            "choices": [
+              2,
+              4,
+              6
+            ],
+            "config_path": "epochs",
+            "kind": "categorical"
+          },
+          "hidden": {
+            "choices": [
+              384,
+              512
+            ],
+            "config_path": "model.hidden",
+            "kind": "categorical"
+          },
+          "layers": {
+            "choices": [
+              3,
+              4,
+              6
+            ],
+            "config_path": "model.layers",
+            "kind": "categorical"
+          },
+          "lr": {
+            "choices": [
+              0.0001,
+              0.0003,
+              0.0005
+            ],
+            "config_path": "lr",
+            "kind": "categorical"
+          }
+        }
+      },
+      "galam": {
+        "base_config": {
+          "path": "recipes/configs/r4/galam-g1-adapt-r4.json",
+          "sha256": "59f6cc39dc0b9a99c58c1312fb2562722d12f727ffc89a924b3f8369d5802869"
+        },
+        "fixed_overrides": {},
+        "search_space": {
+          "attention_history": {
+            "choices": [
+              64,
+              128,
+              256
+            ],
+            "config_paths": [
+              "model.galam.attention_history",
+              "model.context_rows"
+            ],
+            "kind": "categorical"
+          },
+          "batch_size": {
+            "choices": [
+              16,
+              32,
+              64
+            ],
+            "config_path": "batch_size",
+            "kind": "categorical"
+          },
+          "epochs": {
+            "choices": [
+              2,
+              4,
+              6
+            ],
+            "config_path": "epochs",
+            "kind": "categorical"
+          },
+          "global_blocks": {
+            "choices": [
+              1,
+              2
+            ],
+            "config_paths": [
+              "model.galam.global_blocks",
+              "model.layers"
+            ],
+            "kind": "categorical"
+          },
+          "local_attention_blocks": {
+            "choices": [
+              1,
+              2
+            ],
+            "config_path": "model.galam.local_attention_blocks",
+            "kind": "categorical"
+          },
+          "lr": {
+            "choices": [
+              5e-05,
+              0.0001,
+              0.0003
+            ],
+            "config_path": "lr",
+            "kind": "categorical"
+          },
+          "lstm_layers": {
+            "choices": [
+              1,
+              2
+            ],
+            "config_path": "model.galam.lstm_layers",
+            "kind": "categorical"
+          }
+        }
+      },
+      "gru": {
+        "base_config": {
+          "path": "recipes/configs/r4/gru-base-r4.json",
+          "sha256": "24560bab776f2556c37775117c75129aba71b9d11e61818ee92154040057ec8a"
+        },
+        "fixed_overrides": {},
+        "search_space": {
+          "batch_size": {
+            "choices": [
+              16,
+              32,
+              64
+            ],
+            "config_path": "batch_size",
+            "kind": "categorical"
+          },
+          "dropout": {
+            "choices": [
+              0.0,
+              0.1
+            ],
+            "config_path": "model.dropout",
+            "kind": "categorical"
+          },
+          "epochs": {
+            "choices": [
+              2,
+              4,
+              6
+            ],
+            "config_path": "epochs",
+            "kind": "categorical"
+          },
+          "hidden": {
+            "choices": [
+              128,
+              256,
+              384
+            ],
+            "config_path": "model.hidden",
+            "kind": "categorical"
+          },
+          "layers": {
+            "choices": [
+              2,
+              3
+            ],
+            "config_path": "model.layers",
+            "kind": "categorical"
+          },
+          "lr": {
+            "choices": [
+              0.0003,
+              0.001,
+              0.002
+            ],
+            "config_path": "lr",
+            "kind": "categorical"
+          }
+        }
+      },
+      "lstm": {
+        "base_config": {
+          "path": "recipes/configs/r4/lstm-base-r4.json",
+          "sha256": "b44d354c8562c4546b839f9a42154be19ef96a0946af021cb1d559f78f2031d6"
+        },
+        "fixed_overrides": {},
+        "search_space": {
+          "batch_size": {
+            "choices": [
+              16,
+              32,
+              64
+            ],
+            "config_path": "batch_size",
+            "kind": "categorical"
+          },
+          "dropout": {
+            "choices": [
+              0.0,
+              0.1
+            ],
+            "config_path": "model.dropout",
+            "kind": "categorical"
+          },
+          "epochs": {
+            "choices": [
+              2,
+              4,
+              6
+            ],
+            "config_path": "epochs",
+            "kind": "categorical"
+          },
+          "hidden": {
+            "choices": [
+              128,
+              256,
+              384
+            ],
+            "config_path": "model.hidden",
+            "kind": "categorical"
+          },
+          "layers": {
+            "choices": [
+              2,
+              3
+            ],
+            "config_path": "model.layers",
+            "kind": "categorical"
+          },
+          "lr": {
+            "choices": [
+              0.0003,
+              0.001,
+              0.002
+            ],
+            "config_path": "lr",
+            "kind": "categorical"
+          }
+        }
+      }
+    }
+  }
+}

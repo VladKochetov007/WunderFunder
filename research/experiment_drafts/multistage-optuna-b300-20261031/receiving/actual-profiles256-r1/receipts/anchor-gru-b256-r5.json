@@ -1,0 +1,110 @@
+{
+  "schema": "wnn.multistage-anchor-profile-attempt.v2",
+  "name": "gru-b256-r5",
+  "anchor_id": "S1-GRU256x2-B256-AUX-CONTROL-PREFETCH1-R2",
+  "family": "gru",
+  "batch_size": 256,
+  "config_path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/requests/gru-b256-prefetch1-r5.json",
+  "config_sha256": "c6e9b9c5f8adde119437d7644a19920908265c75be35a12e09891a4f7dd79374",
+  "source_root": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/source-r3",
+  "python": "/data/epanov_s/tabdata/.venv/bin/python",
+  "device": {
+    "gpu_index": 6,
+    "uuid": "GPU-2913ac69-eccb-63b0-1112-e09ea9598b57",
+    "name": "NVIDIA B300 SXM6 AC",
+    "total_memory_bytes": 288400343040,
+    "profile_allowed": false
+  },
+  "device_inventory_sha256": "feffa074b132b3bee01c4854ee4753ec4f555743137a572e7fcb3edf106ae405",
+  "receiver_validation": {
+    "schema": "wnn.multistage-receiver-profile-gate.v1",
+    "status": "complete",
+    "producer_receipt": {
+      "path": "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/logs/receiver-data-r2.log",
+      "sha256": "59b5fa1bfb1ad23976e754d114495d6ea8b2a569950db3d272fc41927fdda955"
+    },
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "auxiliary_split_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075",
+    "source_capsule_sha256": "41929c513e8e585c15424560ef9e4c2ceaee842efb641c73dd365848fd9d311b8",
+    "source_audit_sha256": "6d9f184fb5b6196a8d618d22cef36543e6237574a59e5f9c9f68acb6cbc1eed3",
+    "source_sha256": {
+      "train": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+      "valid": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782"
+    },
+    "graph_sha256": "d8dab8a673ee3c8216f00828aad4f57b4281a0344becba5e0da9c494339bb6b4",
+    "index_receipt_sha256": {
+      "train": "d7093810c08a8aa2248a27edb8d6b66f3be7eb203b7cc12bd20508ee9beb704e",
+      "valid": "ff9833d27e723dcc21adc2593b1fcbfec038cf8a8c2e465488ca82b66937e2ab"
+    },
+    "counts": {
+      "primary_fit_train_sequences": 10325,
+      "primary_fit_valid_sequences": 0,
+      "primary_eval_valid_sequences": 1873,
+      "auxiliary_fit_train_sequences": 8260,
+      "auxiliary_fit_valid_sequences": 0,
+      "auxiliary_control_train_sequences": 2065
+    }
+  },
+  "first_profile_epoch": 1793403669.6589406,
+  "started_at_epoch": 1793404181.1003566,
+  "hard_deadline_epoch": 1793404361.1003566,
+  "status": "completed",
+  "cpu_thread_env": {
+    "OMP_NUM_THREADS": "4",
+    "MKL_NUM_THREADS": "4",
+    "OPENBLAS_NUM_THREADS": "4"
+  },
+  "pre_gpu_snapshot": {
+    "index": 6,
+    "uuid": "GPU-2913ac69-eccb-63b0-1112-e09ea9598b57",
+    "name": "NVIDIA B300 SXM6 AC",
+    "total_memory_bytes": 288400343040,
+    "free_memory_bytes": 276541997056,
+    "used_memory_bytes": 10887364608,
+    "utilization_percent": 94
+  },
+  "post_gpu_snapshot": {
+    "status": "observed",
+    "index": 6,
+    "uuid": "GPU-2913ac69-eccb-63b0-1112-e09ea9598b57",
+    "name": "NVIDIA B300 SXM6 AC",
+    "total_memory_bytes": 288400343040,
+    "free_memory_bytes": 276212744192,
+    "used_memory_bytes": 11216617472,
+    "utilization_percent": 82
+  },
+  "timeout_owner": {
+    "pid": 2752524,
+    "birth": "81407003",
+    "pgid": 2752524
+  },
+  "training_child": {
+    "pid": 2752525,
+    "birth": "81407003",
+    "pgid": 2752524
+  },
+  "exit_code": 0,
+  "command": [
+    "/usr/bin/timeout",
+    "--signal=TERM",
+    "--kill-after=5s",
+    "169s",
+    "/data/epanov_s/tabdata/.venv/bin/python",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/source-r3/scripts/train_sequence.py",
+    "--config",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/requests/gru-b256-prefetch1-r5.json",
+    "--data-root",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/data",
+    "--split-manifest",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/data/cache/multistage/auxiliary-r3.json",
+    "--output",
+    "/data/epanov_s/tabdata/runtime/multistage-optuna-20261031-r1/profiles/gru-b256-r5",
+    "--profile-updates",
+    "50"
+  ],
+  "command_sha256": "93ceb27e0a4b2d724ec01fd117859422919f59f653042eea43782a496693c5ac",
+  "error": null,
+  "finished_at_epoch": 1793404240.5357888,
+  "total_wall_seconds": 59.43543219566345,
+  "hard_deadline_met": true
+}

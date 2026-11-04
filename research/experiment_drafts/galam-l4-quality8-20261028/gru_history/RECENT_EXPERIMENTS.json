@@ -1,0 +1,336 @@
+{
+  "schema": "gru-recent-experiments-audit.v1",
+  "audit_date": "2026-10-28",
+  "canonical_checkout": "C:/Users/admin/Documents/Codex/reviews/WunderFunder-galam-20261027",
+  "head": "a52ccafb01a6ceb9cbef46bdde381d3fed31ae78",
+  "scope": {
+    "mode": "read-only source and receipt audit",
+    "sparse_checkout_access": "Campaign paths absent from the working tree were read with git show HEAD:path.",
+    "excluded_payloads": [
+      "model checkpoints",
+      "prediction arrays",
+      "training data arrays"
+    ],
+    "execution": "No fits, tests, profiles, GPU, SSH, network, or remote actions were run."
+  },
+  "current_protocol": {
+    "primary_order": "train | valid | public | small gap | private",
+    "rule": "Future primary fits, normalizers, teachers, initializers, and preprocessing use only the official earlier train file; evaluate on the complete later official valid file with whole sequences.",
+    "chronology_limit": "The adopted Predictorium protocol is a project decision, not independent proof of current Connectome timestamps. Do not infer chronology from seq_ix or Parquet row order.",
+    "historical_handling": "Keep older recipes and scores unchanged, label their protocol, and do not treat historical F0 evidence as chronological confirmation."
+  },
+  "full_gru_tweaks_r1": {
+    "status": "Completed five-child F0/seed-1001 scoring panel. Six scientific model fits were recorded: one shared parent plus five child fits. Five separate prerequisites were counted separately: three teachers, propensity, and dictionary. The parent is an initializer, not one of the five scored endpoints.",
+    "source_binding": {
+      "training_source_commit": "68ff682977b822f38351aac0f621146f5f13b440",
+      "training_source_manifest_sha256": "a44f8a3fd3fda1efdda578c8694036dffaf72ce6999e4e9095f6298365b35621",
+      "split_manifest_sha256": "c09f7240396a33ca82977115af8d6067e571c0ec25c58a3c99b438ca2d2294b7",
+      "scored_result": "records/first_cell_evaluation_v1/score_v4/status_capture_v2/RESULT.json",
+      "result_status": "FIXED_FIRST_CELL_DEVELOPMENT_EVIDENCE_SCORED"
+    },
+    "parent_recipe": {
+      "architecture": "Freshly initialized H256x2 GRU, linear encoder, 211 inputs, 23 outputs.",
+      "training": "Seed 1001; B16/C2000; strict FP32; AdamW lr=1e-4, wd=.01; fixed T3 teacher target; four epochs, fixed zero-based epoch 3; no evaluation during fit.",
+      "role": "Every scored child initialized from this same accepted parent checkpoint at epoch 3 and inherited its preprocessing/normalization."
+    },
+    "child_common_recipe": {
+      "architecture": "GRU, hidden 256, two layers, linear encoder, one-layer readout, dropout 0. Parent 211-input/23-output function was zero-extended to the common 467-input/25-output child layout.",
+      "feature_layout": "211-prefix = raw 112 plus canonical event 99; append 128 dictionary and 128 history slots. Inactive slots are exact zeros. The two appended outputs are logvariance rows; WMSE arms skip their variance contribution.",
+      "training": "Seed 1001; seeded sample order; train-source train+valid with valid-fold 0; 10,535 train sequences plus all 1,405 fit-valid sequences; full 20,000-row sequences; B16/C2000; six epochs, fixed epoch 5; AdamW lr=1e-4, wd=.01, beta2=.999; OneCycle warmup .05; global clip 1; strict FP32; no evaluation during fit; resumable state and gradient statistics saved.",
+      "observed_endpoint": "Each child completed 44,760 successful updates over 4,476 batches with zero skipped/nonfinite updates, selected fixed epoch 5, and was accepted. No quality score was emitted by the fit itself."
+    },
+    "target_and_objectives": {
+      "target": "0.1*clip(label,-2,2) + 0.9*clip(0.8125*mean(three fixed teacher predictions),-2,2).",
+      "main_weights": "abs(clip(label,-2,2)) multiplied by canonical main_valid; common denominator across arms.",
+      "auxiliary_losses": "Structural and next-step auxiliary weights .3 each; distillation family weight 0.",
+      "wmse": "sum(w*(mu-target)^2)/sum(w), with the common chunk-normalized WMSE compatibility setting.",
+      "nll": "sum(w*(exp(-s)*(mu-target)^2+s))/sum(w), with s=logvariance clamped to [-4,4]. The NLL arms use the same teacher/label target and weights."
+    },
+    "arms": [
+      {
+        "name": "Control",
+        "representation": "base inputs; WMSE",
+        "wp": 0.6748302983858399,
+        "delta_vs_control": 0,
+        "ci95": null
+      },
+      {
+        "name": "EMA",
+        "representation": "causal signed input-history EMA, half-life 32; WMSE; not parameter EMA/SWA",
+        "wp": 0.6747792209791308,
+        "delta_vs_control": -0.00005107740670973193,
+        "ci95": [
+          -0.00025864174751205615,
+          0.00008019527731853432
+        ]
+      },
+      {
+        "name": "Sparse",
+        "representation": "learned 112-to-16 dictionary; stable signed top-4 code plus 112 normalized raw residual features; WMSE",
+        "wp": 0.674934758146881,
+        "delta_vs_control": 0.00010445976104078714,
+        "ci95": [
+          -0.0003913196405530839,
+          0.0005018296697510554
+        ]
+      },
+      {
+        "name": "NLL",
+        "representation": "base inputs; coupled mean/logvariance NLL",
+        "wp": 0.6755687194545901,
+        "delta_vs_control": 0.0007384210687499948,
+        "ci95": [
+          -0.0002927248953398909,
+          0.0018695403768434257
+        ]
+      },
+      {
+        "name": "AllThree",
+        "representation": "EMA history + sparse dictionary/residual + coupled NLL",
+        "wp": 0.6759087040264298,
+        "delta_vs_control": 0.0010784056405884757,
+        "ci95": [
+          0.00006874907122863817,
+          0.0022453002986553526
+        ]
+      }
+    ],
+    "prerequisite_ancestry": {
+      "teachers": "Three H384x2 GRU teachers, seeds 3/4/5, linear encoder, output 23, batch 32/chunk 1000, three epochs/fixed epoch 2, strict FP32 Muon-all, lr=.001, wd=.01, OneCycle warmup .05, WMSE plus .3 structural/.3 next-step auxiliaries. Their actual argv uses train+valid and valid-fold 0; each has a source-bound accepted terminal receipt. The homogeneous cache supplies the blended target.",
+      "propensity": "Separate accepted 64-hidden, four-epoch, seed-0 strict-FP32 scoring-mask prerequisite; 3,520 updates; its receipt calls it train-only and makes no quality claim.",
+      "dictionary": "Separate accepted train-only representation prerequisite: 64 fit components, 31,808 sampled rows, 112 input features, 16-dimensional encoder, 112-dimensional decoder, signed top-k 4, 12 epochs, CPU FP32 AdamW lr=.001/wd=.0001, 756 updates. Fit-row normalization used FP64 CPU population moments then stored/applied FP32.",
+      "normalization": "Child normalization is inherited from the parent and identified by hashes. The report says it was computed from the parent's first two B16 fitting batches, not refit on all sequences.",
+      "ancestry_assessment": "Teacher and child command receipts explicitly use train+valid with internal valid-fold 0; child membership receipt is fit_train=10,535, fit_valid=1,405, evaluation=468. The shared parent is the full F0 fit and its children inherit that state. This is not official-train-only ancestry under the current policy. It is historical F0 component-heldout evidence; the 468 eval groups were fit-excluded, but the fit used the valid source and the F0 panel does not establish chronological order."
+    },
+    "evaluation": {
+      "scope": "Only the 468 fit-excluded, repeatedly exposed F0 development groups; 141 components; metric global_wp_clip2_v1; official row mask is is_scored AND (t >= 99); 808,863 selected rows per arm.",
+      "full_official_valid": "No. The scored panel is the 468-member F0 development panel, not the complete official valid file.",
+      "public": "No public endpoint or public score is reported.",
+      "uncertainty": "2,000 paired component-bootstrap replicates, seed 271828, conditional on the five fixed epoch-5 predictions. CIs are unadjusted across the four candidate/control contrasts and do not estimate fit-seed, endpoint-selection, or public-transfer uncertainty.",
+      "source_strength": "The scalar table and contrasts come from the captured original RESULT.json. The first-cell report records root acceptance and fit/score lifecycle closure. No metric was independently recomputed for this audit."
+    },
+    "interpretation": {
+      "confirmed": "All five fixed child endpoints were actually scored. AllThree is the highest observed WP in this one panel; its unadjusted conditional component interval is above zero. EMA and Sparse intervals include zero; NLL's interval also includes zero.",
+      "limits": "One fitting seed, one shared parent, one exposed legacy F0 panel, four unadjusted contrasts, and no full factorial. AllThree does not identify synergy or isolate which ingredient helped. The bootstrap does not replace replication or chronological primary validation.",
+      "next_use": "Treat AllThree and NLL as hypotheses for prospective screening, not confirmed gains. EMA-only and Sparse-only were approximately flat in this recipe/panel. None of these scores forecasts public transfer."
+    }
+  },
+  "plateau_review_r1": {
+    "status": "Prepared A/B/C arguments only; no fits or scientific scores were admitted. Frontier says numerical checks, source sealing, actual-shape profiles, and admission remained unfinished; no test or GPU job ran.",
+    "recipe": {
+      "architecture": "Cold-start H512x1 GRU, encoder/recurrent/readout width 512, one head layer, dropout 0; 367 equal-width inputs.",
+      "training": "Seed 1001; train-source train+valid, internal valid-fold 0; B8/C2000; three epochs, fixed epoch 2; AdamW, lr=.001, wd=.01, beta2=.999, OneCycle warmup .05, clip 1, strict FP32, WMSE chunk normalization; 4,620 expected updates per arm.",
+      "sample": "10% F0 component subset: 315 components; 1,118 train + 118 valid fitting sequences; complete 468-sequence F0 evaluation; 20,000 rows per sequence.",
+      "feature_processing": "Fit-only RMS within-sequence first-difference scale, floor 1e-4. Apply masks after common preprocessing/normalization.",
+      "arms": [
+        {
+          "name": "A",
+          "treatment": "All i1-derived channels masked; zero history slots."
+        },
+        {
+          "name": "B",
+          "treatment": "Standard raw/event inputs; zero history slots; shared control."
+        },
+        {
+          "name": "C",
+          "treatment": "Standard raw/event inputs plus 156 causal i1-history channels."
+        }
+      ],
+      "checkpoint_and_metric": "Fixed epoch 2, global_wp_clip2_v1, F0, exposed."
+    },
+    "limits": "These are proposals, not outcomes or admitted jobs. Like the earlier F0 campaign, the prepared command says train+valid and must be amended for current official-train-only primary work. The i1-history feature is distinct from the earlier signed innovation EMA."
+  },
+  "eight_l4_quality_wave": {
+    "current_packet": "GALAM quality screen; a different model family and recipe lineage from the Main T3 student experiment.",
+    "checked_v1_panel": [
+      "A0: full LSTM GALAM W64 baseline",
+      "A1: W128 capacity package",
+      "A2: two-layer LSTM",
+      "A3: GRU W72 approximate parameter match",
+      "A4: attention history 256",
+      "A5: TBPTT chunk 256",
+      "A6: AdamW lr 2e-4",
+      "A7: ten-epoch horizon"
+    ],
+    "shared_v1_settings": "Seed 1001; four heads; one global/local attention block; context 64; chunk 64; batch 16; AdamW wd .01; 5% warmup then cosine; clip 1; FP32; train-only normalization; all-epoch checkpoints. Batch 16 was unprofiled.",
+    "consultation_state": "The checked v1 recipes remain provisional. A later common-20-epoch/hybrid-Muon proposal is explicitly not materialized or admitted; it has zero new profiles/fits. Full training awaits consultation on recipes, time budget, and receiving admission.",
+    "evidence_transfer": "The older H256x2 Main T3 GRU feature/objective experiment is not direct evidence for the schematic GALAM GRU72 arm. The eight-L4 portfolio review describes GRU72 as a whole architecture change (cell-state/projection removal and 4W-to-3W fusion), not a gate-only contrast.",
+    "selection_limits": "One-seed breadth screen, not significance. Full official valid is already exposed and repeated epoch scoring increases selection exposure. The current packet fixes final-epoch endpoints without best-valid selection; any later best-by-valid/early-stop proposal must be explicitly adopted before fitting.",
+    "practical_lessons": [
+      "Keep the old scores labeled historical and do not use them as the L4 wave's expected delta.",
+      "Use the official earlier train and complete later valid boundary for the new fits; keep all normalization, features, teachers, initializers, and learned transforms on train-only membership.",
+      "Do not infer L4 runtime or quality from the older A4000/F0 results; the quality8 packet still requires measured receiving-side profiles and user consultation.",
+      "If A3 GRU72 is retained, report it as an architecture alternative and avoid attributing its result to one GRU gate change."
+    ]
+  },
+  "evidence": [
+    {
+      "path": "AGENTS.md",
+      "lines": "5-7, 24-39",
+      "class": "current project instructions",
+      "excerpt": "Prepare one baseline plus seven quality-focused one-GPU fits and consult on recipes/setup/full launch. Future primary work uses official earlier train and independent later valid; no validation in fit ancestry."
+    },
+    {
+      "path": "specs/adr/0044-chronological-primary-validation.md",
+      "lines": "8-14, 21-24, 40-42",
+      "class": "accepted project decision",
+      "excerpt": "Use the official train/valid boundary; no random/component fold as primary; validation excluded from fitting and preprocessing ancestry; preserve historical F0 without calling it chronological confirmation."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/status_capture_v2/RESULT.json",
+      "lines": "2-10, 664-704, 706-784, 791-795",
+      "class": "captured scorer result",
+      "excerpt": "Original result identifies the fixed F0/seed-1001 panel, all 468 fit-excluded exposed groups, source/split pins, per-arm global_wp_clip2_v1 scores, paired contrasts, and conditional-bootstrap limitations."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/FIRST_CELL_COMPARISON_20261021.md",
+      "lines": "1-3, 44-62",
+      "class": "summary and lifecycle cross-reference",
+      "excerpt": "Records the observed AllThree delta/interval, 468 exposed groups, fit-seed/public-transfer limits, six comparison fits plus five prerequisites, and the matched recipe. The raw RESULT.json is the score source."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/REMOTE_SUBMISSION.py",
+      "lines": "61-79, 80-120, 121-153",
+      "class": "pinned actual child arguments",
+      "excerpt": "Binds train+valid/valid-fold 0, seeded B16/C2000, six epochs/fixed ep5, H256x2, parent@ep3, base representation, WMSE head, teacher target, AdamW/OneCycle, clip and strict FP32."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_control_fit_v1/TERMINAL_ACCEPTANCE.json",
+      "lines": "2-40",
+      "class": "accepted terminal receipt",
+      "excerpt": "Confirms actual exit-success child, 44,760 updates, 4,476 batches, fixed ep5, and source commit."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/TERMINAL_ACCEPTANCE.json",
+      "lines": "116-120",
+      "class": "accepted terminal membership receipt",
+      "excerpt": "Records F0 membership counts: 10,535 fit_train, 1,405 fit_valid, 468 evaluation."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_ema_fit_v1/REMOTE_SUBMISSION.py",
+      "lines": "69-123",
+      "class": "pinned variant arguments",
+      "excerpt": "Changes the shared child recipe to EMA representation while retaining the WMSE objective."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_dictionary_fit_v1/REMOTE_SUBMISSION.py",
+      "lines": "233-289",
+      "class": "pinned variant arguments",
+      "excerpt": "Changes the shared child recipe to sparse representation with WMSE."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_nll_fit_v1/REMOTE_SUBMISSION.py",
+      "lines": "241-295",
+      "class": "pinned variant arguments",
+      "excerpt": "Uses base representation and mean-variance objective NLL."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/child_allthree_fit_v1/REMOTE_SUBMISSION.py",
+      "lines": "250-304",
+      "class": "pinned variant arguments",
+      "excerpt": "Uses EMA+sparse representation and NLL."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/README.md",
+      "lines": "1-11",
+      "class": "accepted parent fit summary",
+      "excerpt": "Records accepted 29,840-update parent, fresh seed-1001 H256x2 recipe, fixed ep3, two-batch normalization, strict FP32, and its declared adaptation limits."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/DESIGN.json",
+      "lines": "58-80, 94-114",
+      "class": "pre-outcome frozen design",
+      "excerpt": "Specifies the 467-wide raw/event/dictionary/history layout, zero extensions, feature treatments, NLL formula, target/weights, fixed endpoints and exposed folds."
+    },
+    {
+      "path": "src/wnn/training/mean_variance.py",
+      "lines": "47-66",
+      "class": "pinned objective implementation",
+      "excerpt": "Clamps logvariance to [-4,4] and computes weighted diagonal Gaussian NLL."
+    },
+    {
+      "path": "src/wnn/training/losses.py",
+      "lines": "53-93",
+      "class": "pinned main-loss implementation",
+      "excerpt": "Builds the clipped teacher/label target and weights from clipped-label magnitude times main_valid; dispatches the NLL or WMSE main objective."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/preparation/DICTIONARY_PREPARATION.json",
+      "lines": "2-40",
+      "class": "frozen prerequisite recipe",
+      "excerpt": "Train-only fit components, 64 sequences/31,808 rows, 112-to-16-to-112 dictionary, signed top-k 4, fit-only normalization, CPU FP32 AdamW."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/dictionary_f0_v1/ACCEPTANCE.json",
+      "lines": "2-24",
+      "class": "accepted prerequisite receipt",
+      "excerpt": "Confirms actual dictionary artifact acceptance, 64 fit sequences, 31,808 rows, 756 updates, and no predictor/quality score."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/propensity_f0_e4_v3/TERMINAL_ACCEPTANCE.json",
+      "lines": "2-48",
+      "class": "accepted prerequisite receipt",
+      "excerpt": "Confirms the train-only scoring-mask propensity prerequisite, 64-hidden/four-epoch recipe, 3,520 updates, no outer quality claim."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_v1/RECIPE.json",
+      "lines": "11-89",
+      "class": "teacher recipe/source binding",
+      "excerpt": "Pins H384x2 seeds 3/4/5 recipe family, Muon-all strict FP32, batch32/chunk1000, fixed ep2, train+valid with internal held-out fold, propensity and auxiliary weights."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s3_v1/README.md",
+      "lines": "3-15",
+      "class": "actual teacher terminal receipt index",
+      "excerpt": "Confirms S3 completed and was accepted/exact-stopped at 22,380 updates; identifies no inference or five-arm quality result at that stage."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s4_v1/TERMINAL_ACCEPTANCE.json",
+      "lines": "55-89",
+      "class": "actual teacher terminal receipt",
+      "excerpt": "Confirms S4 ran the same train+valid F0 recipe at seed 4, fixed ep2, 22,380 updates, accepted."
+    },
+    {
+      "path": "research/campaign_2026-10-19/full_gru_tweaks_r1/records/teacher_s5_v1/TERMINAL_ACCEPTANCE.json",
+      "lines": "55-89",
+      "class": "actual teacher terminal receipt",
+      "excerpt": "Confirms S5 ran the same train+valid F0 recipe at seed 5, fixed ep2, 22,380 updates, accepted."
+    },
+    {
+      "path": "research/campaign_2026-10-20/plateau_review_r1/recipe.json",
+      "lines": "3-71, 73-85, 361-394, 409-421",
+      "class": "prepared proposal only",
+      "excerpt": "Prepared cold H512x1 A/B/C settings, train+valid source, subset/update arithmetic, history treatments, exposed F0 evaluation, and not-admitted status."
+    },
+    {
+      "path": "research/campaign_2026-10-20/plateau_review_r1/FRONTIER.md",
+      "lines": "22-43",
+      "class": "campaign frontier status",
+      "excerpt": "No new fits or scientific scores; source seal, numerical checks, actual-shape profile and admission unfinished; no test or GPU job ran."
+    },
+    {
+      "path": "research/campaign_2026-10-20/plateau_review_r1/recipes/README.md",
+      "lines": "3-24",
+      "class": "prepared command description",
+      "excerpt": "A/B/C are prepared arguments only; gives masked i1, standard-input control, and 156-channel causal history distinctions."
+    },
+    {
+      "path": "research/experiment_drafts/galam-l4-quality8-20261028/README.md",
+      "lines": "3-48, 88-89",
+      "class": "current provisional eight-L4 packet",
+      "excerpt": "Lists v1 baseline plus seven GALAM candidates, one-seed settings, official train/valid policy, zero fits/profiles, and pending consultation."
+    },
+    {
+      "path": "research/experiment_drafts/galam-l4-quality8-20261028/PORTFOLIO_REVIEW.json",
+      "lines": "4-26",
+      "class": "offline portfolio review",
+      "excerpt": "Calls GRU72 a whole architecture alternative; recommends descriptive exposed-valid ranking, no interaction claims, and user/data/runtime gates."
+    },
+    {
+      "path": "research/experiment_drafts/galam-l4-quality8-20261028/V2_DISCUSSION.md",
+      "lines": "3-8, 25-40, 60-63",
+      "class": "unadopted consultation proposal",
+      "excerpt": "Common 20-epoch cap and hybrid Muon arm remain proposals with zero profiles/fits; actual-device profiling and official chronological boundary remain required."
+    }
+  ]
+}

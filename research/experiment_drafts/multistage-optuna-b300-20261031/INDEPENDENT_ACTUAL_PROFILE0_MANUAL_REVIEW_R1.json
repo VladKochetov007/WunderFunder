@@ -1,0 +1,179 @@
+{
+  "schema": "wnn.multistage-actual-profile-manual-review.v1",
+  "review_id": "stage1-trial000000-profile0-manual-correction-r1",
+  "reviewed_at_utc": "2026-10-31T01:39:23.291021+00:00",
+  "reviewer": "multistage_independent_critic",
+  "review_method": "manual independent correction; pinned Source4 config and normalization functions recomputed against the original transfer bundle",
+  "status": "approved",
+  "decision": "approved_for_exact_profile_engineering_admission_and_one_bound_full_fit",
+  "scope": {
+    "stage": 1,
+    "trial_number": 0,
+    "family": "lstm",
+    "profile_only": true,
+    "fit_admission_exact_config_only": true,
+    "engineering_admission_only": true,
+    "scientific_candidate_promotion": false,
+    "generalizes_to_other_trials": false
+  },
+  "supersedes": {
+    "receipt_path": "receiving/actual-r2-profile0/campaign-r2/stage1/trials/000000/profile/profile_review_receipt.json",
+    "receipt_sha256": "e3a2837f5efb252c624e7f071d01f87151bfea3efb371e61eece99102cad731b",
+    "original_status": "rejected",
+    "preserved_unchanged": true,
+    "failed_checks": [
+      "config_identity",
+      "normalization_is_fit_only",
+      "attempt_budget_snapshot",
+      "attempt_counts_match_budget",
+      "stage_fit_cap_counts"
+    ],
+    "corrections": {
+      "config_identity": "Raw config SHA is bound separately; pinned Source4 load_config canonical output reproduced the native normalized identity SHA.",
+      "normalization_is_fit_only": "R2 rejected valid producer normalization identity and moments digests because it required an incomplete exact dict. Fit-prefix identity SHA was independently recomputed from the first 32 of the declared auxiliary fit members; native and run_metadata data provenance match. moments_sha256 is format-checked and cross-bound but not recomputed from missing raw moment arrays.",
+      "attempt_budget_snapshot": "Caps are stored under frozen campaign_bounds, not profile. Actual snapshot and policy are 56 profiles/48 fits, stage caps 16/8/12/12.",
+      "attempt_counts_match_budget": "Same misplaced policy lookup; actual snapshot reports 23 profile attempts/10 fits and matches the attempt receipt.",
+      "stage_fit_cap_counts": "Same misplaced policy lookup; stage fit counts 8/2/0/0 are within stage caps and total fit cap."
+    },
+    "R2_receipt_not_rewritten_or_relabeled": true
+  },
+  "bindings": {
+    "native_profile_sha256": "b6ad42fde1537d67d59005810b1dce8b5073a958d2b441306986b5c58ef9e18a",
+    "trial_request_sha256": "48a1928fe2d7d9fc2dedc8afb9e6359b7e878105dc72f9630cadb7476195afdd",
+    "trial_plan_sha256": "ae4b47d64b7ee43352e6b445ae6704f8e74af47f884c966a244bf577087ad919",
+    "config_raw_sha256": "32def9a0ff0859fca5fd2cfb0cb1b39ef47264562a6b1d55bf370f759ac0e368",
+    "config_normalized_sha256": "0ddc83fdb28c76651c5d4ecdf5748e2c7da371ae70709ce22bdbe61c868da215",
+    "source_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+    "source_files_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+    "source_script_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "auxiliary_split_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075",
+    "worker_receipt_sha256": "9cf4114fe9656399d246a759afc6845bfe3c0fed216dddec2ac2f661bb521c4d",
+    "profile_attempt_receipt_sha256": "5b5c917950a68d56ca041c40afe9176d6dd8a6c89fb7f842ce508b3d15adca86",
+    "budget_snapshot_sha256": "4414df6cc24839557424e8c72f230c25cf9e5d6773e9205192d4594dbcaf7398",
+    "deadline_receipt_sha256": "eb7cd396e2c5d8fb4bf0c5f9ae9cac483dba614dc0c7a45a3bc61d0edcaf0fab",
+    "rank0_sha256": "2389148978b3747aa1350267a87371921057879332fcad5cdd5725337df160b3",
+    "run_metadata_sha256": "47babb56e2344a038595ef30bc9866bdace3b32f5146df813c2abac9468dc634",
+    "launch_owner_receipt_sha256": "fe9826718b688cebefb8a354b98203638f70c60db03d17f62683cfb6ee0fb068",
+    "contract_sha256": "cc4cfb8bfe61b8ac1d94f287cd0896e8e04b1126faf533eff553d9b513ce47bf",
+    "original_r2_policy_sha256": "153655303a89dfd9dd2372a20238327aba36337a36141373c51c5cc1e30c2f0e",
+    "original_r2_checker_sha256": "af50cd5f744f996971fd64330d9e89f67415beeea72d02a25edadd0b87d9a19c"
+  },
+  "evidence": {
+    "profile": {
+      "native_status": "profile_complete",
+      "approved": false,
+      "updates": 50,
+      "errors": [],
+      "scientific_checkpoint_written": false,
+      "elapsed_seconds": 20.95700332405977,
+      "rank0_rows": 50,
+      "rank0_steps": [
+        1,
+        50
+      ],
+      "all_required_loss_gradient_lr_and_throughput_values_finite": true,
+      "objective_total_matches_label_plus_weighted_kd_and_hint_each_update": true,
+      "gradients_under_clip": true
+    },
+    "recipe": {
+      "architecture": "lstm",
+      "hidden": 192,
+      "layers": 1,
+      "epochs": 8,
+      "batch_size": 256,
+      "input_prefetch_batches": 1,
+      "seed": 1302,
+      "optimizer": "adamw",
+      "lr": 0.0015008627097145002,
+      "weight_decay": 0.01,
+      "precision": "fp32",
+      "training_mask": "all_after_warmup",
+      "kd_weight": 0.0,
+      "hint_weight": 0.0,
+      "teacher": null,
+      "initializer": null,
+      "normalized_config_sha256_recomputed": "0ddc83fdb28c76651c5d4ecdf5748e2c7da371ae70709ce22bdbe61c868da215",
+      "normalization_identity_sha256_recomputed": "9c86dea102732a3b908d93e54b424a302806635cb561c6ac0985f4e001e679c5"
+    },
+    "membership": {
+      "aux_fit_members": 8260,
+      "aux_control_members": 2065,
+      "both_source_train": true,
+      "control_role": "control",
+      "aux_chronology_claim": false,
+      "primary_valid_used": false,
+      "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+      "primary_fit_train_sequences": 10325,
+      "primary_fit_valid_sequences": 0,
+      "primary_eval_valid_sequences": 1873
+    },
+    "normalization": {
+      "scope": "prefix",
+      "fit_prefix_sequences": 32,
+      "identity_sha256": "9c86dea102732a3b908d93e54b424a302806635cb561c6ac0985f4e001e679c5",
+      "moments_sha256": "f885748d82aa7ca4adee5c3add61c80bf1444f45ea02b4479230a03467cb844a",
+      "train_source_fingerprint": {
+        "bytes": 29240219011,
+        "footer_bytes": 60437285,
+        "footer_sha256": "071a60cc9e72a95b013fe6784318b92a6fb82b7c95b6371d1f21a0e5d04e3bfb",
+        "mtime_ns": 1793164297871254002
+      },
+      "run_metadata_data_equal_to_native_identity": true,
+      "moment_values_recomputed_locally": false
+    },
+    "runtime": {
+      "world_size": 1,
+      "strict_fp32": true,
+      "tf32": false,
+      "autocast": false,
+      "torch": "2.14.0+cu130",
+      "cuda_runtime": "13.0",
+      "device": "NVIDIA B300 SXM6 AC",
+      "native_uuid": "be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+      "nvml_uuid": "GPU-be85f55c-71a1-f389-eeed-55c63a0e3ce7",
+      "torch_memory_bytes": 287428640768,
+      "nvml_memory_bytes": 288400343040,
+      "cross_api_memory_equality_not_required": true
+    },
+    "resource_and_worker": {
+      "peak_allocated_bytes": 4838806528,
+      "peak_reserved_bytes": 7597981696,
+      "host_peak_rss_bytes": 18630574080,
+      "host_cap_bytes": 25769803776,
+      "nvml_pre_free_bytes": 287176654848,
+      "pre_free_minus_torch_reserved_bytes": 279578673152,
+      "required_headroom_bytes": 34359738368,
+      "post_profile_nvml_snapshot_present": false,
+      "owned_worker_status": "completed",
+      "child_exit_code": 0,
+      "timed_out": false,
+      "wall_seconds": 55.1482937335968,
+      "wall_cap_seconds": 180,
+      "MPS_or_foreign_process_stop_command_in_owned_command": false
+    },
+    "campaign": {
+      "completed_profile_attempts": 23,
+      "completed_fit_attempts": 10,
+      "caps": {
+        "profiles": 56,
+        "fits": 48,
+        "stage_fits": {
+          "1": 16,
+          "2": 8,
+          "3": 12,
+          "4": 12
+        }
+      },
+      "current_stage_fit_counts": {
+        "1": 8,
+        "2": 2,
+        "3": 0,
+        "4": 0
+      },
+      "seconds_to_deadline": 15134.430613279343,
+      "seconds_to_collection_reserve": 13934.430613279343
+    }
+  },
+  "operator_note": "Root must preserve this manual receipt and run the canonical native profile validator before creating an approved native-compatible copy. This receipt authorizes only the exact trial/config/source binding above."
+}

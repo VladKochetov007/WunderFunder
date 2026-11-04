@@ -1,0 +1,61 @@
+{
+    "date":  "2026-10-27",
+    "status":  "implementation_checked_no_fit",
+    "verification":  {
+                         "correctness":  "deterministic CPU fixtures",
+                         "exact_reference_identity":  "unverified; original code/config/weights unavailable"
+                     },
+    "source_base":  "19383f2c",
+    "builder_commits":  [
+                            "53752e2317e769ae00735fee4b6f7034a20d318e",
+                            "0ae1d48dd061a50d159f8933800b85d5c68f011e",
+                            "836b94b2b0f1883899b772faf2bfe606ecc4ac55"
+                        ],
+    "chronological_builder":  "994425a7088b068ad74b09e9d082ade17da665bd",
+    "checks":  [
+                   {
+                       "result":  "45 passed in 7.49s",
+                       "command":  "pytest -q tests/test_galam_runtime_adapter.py tests/test_galam_components.py tests/test_chronological_primary_splits.py tests/test_campaign_splits.py tests/test_sequence_inner_splits.py tests/test_b300_sequence_contracts.py"
+                   },
+                   {
+                       "result":  "7 passed in 5.24s after DDP BatchNorm padding correction",
+                       "command":  "pytest -q tests/test_galam_runtime_adapter.py"
+                   },
+                   {
+                       "result":  "passed",
+                       "command":  "ruff check changed Python modules"
+                   },
+                   {
+                       "result":  "95 files; 0 errors; module/function caps300/200",
+                       "command":  "scripts/check_training_structure.py"
+                   },
+                   {
+                       "result":  "112-to-2 schematic model; 376426 parameters; exact_replication false",
+                       "command":  "scripts/check_galam.py --config configs/connectome112.example.json"
+                   }
+               ],
+    "environment":  {
+                        "cpu_threads":  1,
+                        "attrs":  "26.1.0",
+                        "ruff":  "0.17.3",
+                        "numpy":  "2.5.4",
+                        "python":  "3.12.14",
+                        "pyarrow":  "26.0.0",
+                        "torch":  "2.14.1+cpu",
+                        "gpu":  0,
+                        "pytest":  "9.1.1"
+                    },
+    "scientific_fits":  0,
+    "remote_actions":  0,
+    "original_model_weights_loaded":  0,
+    "actual_data_audit":  false,
+    "GPU_performance_measured":  false,
+    "limitations":  [
+                        "Exact widths/heads/window/norm settings/fusion source equation and FiLM unavailable",
+                        "Three sample configurations are explicitly assumed",
+                        "BatchNorm DDP requires no padded membership, no singleton tail and batch\u003e=2",
+                        "Actual chronology/source-qualified membership not audited on node",
+                        "Other legacy fixed-checkpoint tests did not collect on Windows due existing Unix resource import; no claim about that unrun suite"
+                    ],
+    "review":  "INDEPENDENT_REVIEW.json"
+}

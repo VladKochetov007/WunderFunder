@@ -24,6 +24,8 @@ else:
     from train_rnn import Sequences, make_model, predict
 
 from wnn.data import N_FEATURES, SEQUENCE_LENGTH, SequenceFile
+from wnn.distillation_cache import row_groups_sha256
+from wnn.final_submit_manifest import FinalFitMembership, load_final_fit_membership
 from wnn.propensity import load_propensity
 from wnn.research_features import (
     MOMENT_FEATURE_MODES,
@@ -33,6 +35,16 @@ from wnn.research_features import (
 from wnn.resources import configure_strict_fp32, configure_torch, dataloader_budget
 from wnn.sentinel import SentinelPreprocessor
 from wnn.splits import file_sha256, load_campaign_split
+from wnn.training.chronological_teacher import (
+    select_chronological_full_train_index,
+)
+from wnn.training.final_submit_bridge import (
+    final_fit_identity,
+    validate_final_fit_artifact,
+    validate_final_fit_parent,
+    validate_source_validation_receipt,
+)
+from wnn.training.prediction_inputs import configure_prediction_inputs
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
 ROOT = Path(os.environ.get("WNN_PROJECT_ROOT", SOURCE_ROOT)).resolve()
@@ -45,18 +57,37 @@ def campaign_prediction_groups(
     *,
     evaluation_only: bool = False,
     full_valid: bool = False,
+    full_train_index: bool = False,
+    checkpoint_file: str | None = None,
+    checkpoint_sha256: str | None = None,
+    run_provenance: dict[str, object] | None = None,
 ) -> np.ndarray:
     """Bind feature-only campaign exports to checkpoint ancestry and row order."""
     if split not in ("train", "valid"):
         raise ValueError("campaign exports require train or valid source")
-    if evaluation_only and full_valid:
-        raise ValueError("evaluation-only and full-valid selectors are mutually exclusive")
+    selectors = sum((evaluation_only, full_valid, full_train_index))
+    if selectors > 1:
+        raise ValueError("campaign row selectors are mutually exclusive")
     if (evaluation_only or full_valid) and split != "valid":
         raise ValueError("evaluation/full-valid selectors require the valid source")
+    if full_train_index and split != "train":
+        raise ValueError("full-train-index selector requires the train source")
     manifest = load_campaign_split(manifest_path, ROOT)
     if manifest.sha256 != checkpoint.get("args", {}).get("split_manifest_sha256"):
         raise ValueError("campaign manifest differs from the fitted checkpoint")
-    if full_valid:
+    if full_train_index:
+        if checkpoint_file is None or checkpoint_sha256 is None or run_provenance is None:
+            raise ValueError("full train index export needs checkpoint and run provenance")
+        groups = select_chronological_full_train_index(
+            ROOT,
+            manifest,
+            checkpoint,
+            checkpoint_file,
+            checkpoint_sha256,
+            run_provenance,
+            str(checkpoint.get("args", {}).get("name", "teacher")),
+        )
+    elif full_valid:
         with np.load(ROOT / "cache/valid_targets.npz", allow_pickle=False) as targets:
             groups = np.asarray(targets["row_group"], dtype=np.int64)
     elif evaluation_only:
@@ -69,6 +100,56 @@ def campaign_prediction_groups(
     if groups.ndim != 1 or groups.size == 0 or len(set(groups.tolist())) != groups.size:
         raise ValueError("campaign export row groups must be nonempty and unique")
     return groups
+
+
+def final_fit_prediction_groups(
+    manifest_path: Path,
+    receipt_path: Path,
+    source_validation_sha256: str,
+    checkpoint: dict,
+    split: str,
+    run_provenance: dict[str, object],
+) -> tuple[np.ndarray, FinalFitMembership]:
+    """Select source-index rows after validating the exact all-data checkpoint lineage."""
+    if split not in ("train", "valid"):
+        raise ValueError("final-fit exports require a train or valid source")
+    membership = load_final_fit_membership(manifest_path, ROOT, source_validation_sha256)
+    validate_source_validation_receipt(receipt_path, source_validation_sha256, membership)
+    validate_final_fit_parent(checkpoint, membership)
+    run_args = run_provenance.get("args")
+    if not isinstance(run_args, dict) or type(checkpoint.get("epoch")) is not int:
+        raise ValueError("final-fit run provenance omits configured checkpoint arguments")
+    validate_final_fit_artifact(
+        run_args, run_provenance, membership, checkpoint_epoch=checkpoint["epoch"]
+    )
+    checkpoint_provenance = checkpoint.get("provenance", {})
+    identity = final_fit_identity(membership)
+    if (
+        not isinstance(checkpoint_provenance, dict)
+        or checkpoint_provenance.get("final_fit") != identity
+        or run_provenance.get("final_fit") != identity
+        or run_provenance.get("evaluation_row_groups") != []
+    ):
+        raise ValueError("final-fit export has different run or checkpoint provenance")
+    with np.load(ROOT / "cache" / f"{split}_targets.npz", allow_pickle=False) as targets:
+        raw_groups = np.asarray(targets["row_group"])
+    if raw_groups.ndim != 1 or raw_groups.dtype.kind not in "iu":
+        raise ValueError(f"final-fit {split} target index is malformed")
+    groups = raw_groups.astype(np.int64, copy=False)
+    expected = membership.train_groups if split == "train" else membership.valid_groups
+    if groups.tolist() != list(expected):
+        raise ValueError(f"final-fit {split} target index does not preserve source row order")
+    fit_groups = run_provenance.get("fit_row_groups")
+    expected_members = {
+        "train": membership.train_groups,
+        "valid": membership.valid_groups,
+    }
+    if not isinstance(fit_groups, dict) or any(
+        not isinstance(fit_groups.get(source), list) or set(fit_groups[source]) != set(members)
+        for source, members in expected_members.items()
+    ):
+        raise ValueError("final-fit export parent does not cover both labeled sources")
+    return groups, membership
 
 
 class FeatureOnlySequences(Dataset[torch.Tensor]):
@@ -136,6 +217,14 @@ def main():
     parser.add_argument("--campaign-split-manifest", type=Path)
     parser.add_argument("--campaign-evaluation-only", action="store_true")
     parser.add_argument("--campaign-full-valid-feature-only", action="store_true")
+    parser.add_argument("--final-fit-manifest", type=Path)
+    parser.add_argument("--final-fit-source-validation-receipt", type=Path)
+    parser.add_argument("--final-fit-source-validation-sha256")
+    parser.add_argument(
+        "--campaign-full-train-index-feature-only",
+        action="store_true",
+        help="export a chronological teacher in the full source train-index order",
+    )
     parser.add_argument("--device", choices=("cuda", "cpu"), default="cuda")
     parser.add_argument(
         "--fit-subset-manifest",
@@ -157,27 +246,71 @@ def main():
     parser.add_argument("--gate-mode", choices=["soft", "hard", "confident"], default="soft")
     args = parser.parse_args()
     name, split = args.name, args.split
-    if (args.campaign_evaluation_only or args.campaign_full_valid_feature_only) and (
-        args.campaign_split_manifest is None
-    ):
+    if (
+        args.campaign_evaluation_only
+        or args.campaign_full_valid_feature_only
+        or args.campaign_full_train_index_feature_only
+    ) and (args.campaign_split_manifest is None):
         parser.error("campaign row selectors require --campaign-split-manifest")
     if args.fit_subset_manifest is not None and args.campaign_split_manifest is not None:
         parser.error("E540 and campaign selectors are mutually exclusive")
+    final_fit_requested = args.final_fit_manifest is not None
+    receipt_requested = (
+        args.final_fit_source_validation_receipt is not None
+        or args.final_fit_source_validation_sha256 is not None
+    )
+    if final_fit_requested != receipt_requested or (
+        final_fit_requested
+        and (
+            args.final_fit_source_validation_receipt is None
+            or args.final_fit_source_validation_sha256 is None
+        )
+    ):
+        parser.error("--final-fit-manifest requires source-validation receipt path and SHA256")
+    if final_fit_requested and (
+        args.campaign_split_manifest is not None or args.fit_subset_manifest is not None
+    ):
+        parser.error("final-fit, campaign and E540 export selectors are mutually exclusive")
     checkpoint_name = f"model_ep{args.epoch}.pt" if args.epoch is not None else "model.pt"
     checkpoint_path = ROOT / "artifacts" / "runs" / name / checkpoint_name
     ck = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
+    checkpoint_sha256 = file_sha256(checkpoint_path)
+    run_provenance_path = ROOT / "artifacts" / "runs" / name / "provenance.json"
+    run_provenance = None
+    run_provenance_sha256 = None
+    if args.campaign_full_train_index_feature_only or final_fit_requested:
+        run_provenance = json.loads(run_provenance_path.read_text(encoding="utf-8"))
+        run_provenance_sha256 = file_sha256(run_provenance_path)
     if ck["args"].get("privileged_mode", "none") != "none":
         raise ValueError(
             "privileged teachers require component-crossfit extraction, not causal prediction export"
         )
-    feature_only = args.fit_subset_manifest is not None or args.campaign_split_manifest is not None
-    if args.campaign_split_manifest is not None:
+    final_fit_membership = None
+    feature_only = (
+        args.fit_subset_manifest is not None
+        or args.campaign_split_manifest is not None
+        or final_fit_requested
+    )
+    if final_fit_requested:
+        groups, final_fit_membership = final_fit_prediction_groups(
+            args.final_fit_manifest,
+            args.final_fit_source_validation_receipt,
+            args.final_fit_source_validation_sha256,
+            ck,
+            split,
+            run_provenance,
+        )
+    elif args.campaign_split_manifest is not None:
         groups = campaign_prediction_groups(
             args.campaign_split_manifest,
             ck,
             split,
             evaluation_only=args.campaign_evaluation_only,
             full_valid=args.campaign_full_valid_feature_only,
+            full_train_index=args.campaign_full_train_index_feature_only,
+            checkpoint_file=checkpoint_name,
+            checkpoint_sha256=checkpoint_sha256,
+            run_provenance=run_provenance,
         )
     elif args.fit_subset_manifest is not None:
         if (
@@ -247,6 +380,8 @@ def main():
     if ck.get("readout") is not None:
         train_rnn.READOUT = [t.to(device) for t in ck["readout"]]
         train_rnn.READOUT_TILTED = ck.get("readout_tilted", False)
+    prediction_environment = train_rnn._api.environment()
+    configure_prediction_inputs(prediction_environment, ck.get("args", {}))
     dataset = (
         FeatureOnlySequences(split, groups.tolist()) if feature_only else Sequences(split, groups)
     )
@@ -274,11 +409,13 @@ def main():
     for batch in loader:
         x = batch if feature_only else batch[0]
         if fam is None:
-            p = predict(model, x, 4000, device)
+            p = predict(model, x, 4000, device, environment=prediction_environment)
         else:  # research probe: keep every output column (family heads are the last 8)
             model.eval()
             with torch.no_grad():
-                inputs = train_rnn.build_inputs(x.to(device, non_blocking=True))
+                inputs = train_rnn.build_inputs(
+                    x.to(device, non_blocking=True), environment=prediction_environment
+                )
             state, parts = None, []
             for s0 in range(0, inputs.shape[1], 4000):
                 with (
@@ -306,9 +443,32 @@ def main():
         "run": name,
         "split": split,
         "epoch": ck.get("epoch"),
-        "checkpoint_sha256": file_sha256(checkpoint_path),
+        "checkpoint_sha256": checkpoint_sha256,
+        "checkpoint_file": checkpoint_name,
+        "run_provenance_sha256": (
+            run_provenance_sha256
+            if run_provenance_sha256 is not None
+            else file_sha256(run_provenance_path)
+            if run_provenance_path.is_file()
+            else None
+        ),
         "prediction_sha256": file_sha256(final),
         "split_manifest_sha256": ck["args"].get("split_manifest_sha256"),
+        "final_fit_manifest_sha256": (
+            None if final_fit_membership is None else final_fit_membership.manifest_sha256
+        ),
+        "final_fit_members_sha256": (
+            None if final_fit_membership is None else final_fit_membership.fit_members_sha256
+        ),
+        "source_validation_sha256": (
+            None if final_fit_membership is None else final_fit_membership.source_validation_sha256
+        ),
+        "prediction_role": (
+            "fitting-only teacher features; no independent score"
+            if final_fit_membership is not None
+            else None
+        ),
+        "independent_score_claim": ("forbidden" if final_fit_membership is not None else None),
         "quote_cache": quote_cache,
         "gate_mode": args.gate_mode,
         "inference_precision": "fp32" if getattr(model, "_inference_fp32", False) else "fp16",
@@ -319,15 +479,20 @@ def main():
         "row_groups": groups.tolist(),
         "evaluation_membership_sha256": (
             hashlib.sha256(np.asarray(groups, dtype="<i8").tobytes()).hexdigest()
-            if feature_only
+            if feature_only and not final_fit_requested
             else None
         ),
+        "row_groups_sha256": row_groups_sha256(groups.tolist()) if feature_only else None,
         "fit_subset_manifest_sha256": (
             file_sha256(args.fit_subset_manifest) if args.fit_subset_manifest is not None else None
         ),
         "campaign_export_scope": (
-            "full-valid-feature-only"
+            "final-fit-source-index-feature-only"
+            if final_fit_requested
+            else "full-valid-feature-only"
             if args.campaign_full_valid_feature_only
+            else "chronological-full-train-index-feature-only"
+            if args.campaign_full_train_index_feature_only
             else "evaluation"
             if args.campaign_evaluation_only
             else "fit"

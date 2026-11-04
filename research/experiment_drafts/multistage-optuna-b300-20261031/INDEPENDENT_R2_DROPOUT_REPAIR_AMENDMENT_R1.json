@@ -1,0 +1,92 @@
+{
+  "schema": "wnn.multistage-dropout-policy-compatibility-amendment.v1",
+  "amendment_id": "R2-STAGE1-DECLARED-DROPOUT-SEMANTICS-REPAIR-R1",
+  "reviewed_at_utc": "2026-10-31",
+  "reviewer": "multistage_independent_critic",
+  "status": "approved",
+  "decision": "approve_one_declared_config_field_to_activate_already_admitted_dropout_candidates",
+  "scope": {
+    "stage": 1,
+    "original_failed_trial_numbers": [
+      4,
+      5,
+      6
+    ],
+    "replacement_trial_numbers": [
+      8,
+      9,
+      10
+    ],
+    "trial7": "independent eighth fresh candidate using unchanged approved R2 search space",
+    "family": "GRU or LSTM only",
+    "profile_only_amendment": true,
+    "no_scientific_candidate_promotion": true,
+    "no_fit_approval_without_fresh_profile": true
+  },
+  "frozen_recipe_binding": {
+    "r2_continuation_path": "recipes/R2_CONTINUATION.json",
+    "r2_continuation_sha256": "03796b7cd5f1d57c6aa44590acf51edaab28f9b036cdaaeeb8ae5ef88e165562",
+    "r2_dropout_domain": [
+      0.0,
+      0.1
+    ],
+    "r2_conditional_rule": "when model.layers is 1, set model.dropout to 0.0",
+    "r6_gru384x2_base_sha256": "5305c3cac14949b1a504c8020342e381c342ed935602d6488dcb6e85d44b43e5",
+    "r6_lstm384x2_base_sha256": "26bff44a42d95ab7be45477560824428c52a7c0280540bb0024e14d3e5d88dc6",
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "objective_scope": "inner_train_proxy",
+    "primary_valid_used": false
+  },
+  "source_semantics_verified": {
+    "source_revision": "operator-native4:c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+    "source_sha256": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+    "source_file_sha256": {
+      "src/wnn/training/sequence_config.py": "5270e35559e174f0f72f7c6fcbe3fb260f5b6309db5d88fc8058d9347befc80a",
+      "src/wnn/training/sequence_models.py": "e08e65f4e2a0cc945393069b4482ca91b73775fb90942941bd04d44c475cf544",
+      "src/wnn/nn.py": "d72ee49f80fefd1b0b488428ce6e7dbec3930b724d3a0c26621efdc181678d12"
+    },
+    "source4_profile_identity_file_hashes_match": true,
+    "load_config_rule": "without dropout_policy, nonzero model.dropout is rejected; explicit_regularization_v1 admits finite dropout in [0,1)",
+    "model_path": "existing GRU/LSTM builder forwards dropout to RNNModel; RNNModel uses recurrent dropout only between layers, and the approved search forces one-layer candidates to dropout 0.0",
+    "source_modified": false
+  },
+  "permitted_config_amendment": {
+    "only_change": "add top-level field",
+    "field": "dropout_policy",
+    "value": "explicit_regularization_v1",
+    "preconditions": [
+      "the original sampled params have model.dropout == 0.1",
+      "model.layers is 2 or 3",
+      "the original config has no dropout_policy field"
+    ],
+    "all_other_original_config_fields_must_remain_byte-decoded-value_equal": true,
+    "original_sampled_params_must_be_reused_without_resampling": true,
+    "effective_model_dropout_must_remain_0_1": true,
+    "optimizer_seed_epochs_precision_mask_batch_normalization_and_data_fields_must_not_change": true,
+    "no change to R2_CONTINUATION.json or any frozen R6 recipe": true
+  },
+  "old_attempt_preservation": {
+    "failed_profiles_4_5_6_remain_unchanged_and_terminal": true,
+    "failed_raw_config_sha256s": "must be copied exactly into root-derived ADMISSION_R2_DROPOUT_REPAIR before replacement profiles are run",
+    "failed_profile_logs_and_receipts": "preserve original bytes and count the three failures in the 56-profile cap",
+    "replacement_attempts": "new trial IDs 8/9/10; each consumes one existing profile attempt slot"
+  },
+  "required_revalidation": {
+    "new_50_update_profile_per_replacement": true,
+    "profile_wall_seconds_cap": 180,
+    "host_rss_cap_bytes": 25769803776,
+    "gpu_allocated_and_reserved_cap_bytes": 68719476736,
+    "minimum_nvml_free_before_and_after_peak_bytes": 34359738368,
+    "strict_fp32_world_size_1": true,
+    "source_sha256_unchanged": true,
+    "fresh_R3_profile_review_before_full_fit": true,
+    "native_profile_must_be_unapproved_and_error_free": true,
+    "global_caps_unchanged": {
+      "profile_attempts": 56,
+      "scientific_fit_attempts": 48,
+      "campaign_wall_seconds": 21600,
+      "collection_reserve_seconds": 1200
+    }
+  },
+  "limitations": "This amendment does not itself approve any full fit. The new trial definition must bind the exact old raw-config SHA, the one-field derived config SHA, the original trial params and the preserved failure receipts; only the replacement profile can be reviewed for fit admission."
+}

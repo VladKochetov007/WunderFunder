@@ -1,0 +1,35 @@
+from pathlib import Path
+import os,sys,json,hashlib,time,subprocess
+F=Path('/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1');S=F/'source'
+sys.path[:0]=[str(F/'control-grader-r2/scripts'),str(S/'src'),str(S)]
+from wnn.multistage_search_owned_command import run_owned_command
+from wnn.multistage_search_runtime import process_identity,hold_gpu_slot
+import review_final_submit_profile as grader
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def canon(v):return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':'),allow_nan=False).encode()).hexdigest()
+def save(p,v):
+ with p.open('x') as out:json.dump(v,out,sort_keys=True,indent=2)
+state=json.loads((F/'control/final-submit-chain/controller-state.json').read_bytes());prior=state['nodes']['source4_lstm192x1']
+assert prior['status']=='failed' and 'not an idle B300' in prior['error']
+original=F/'control/final-submit-chain/receipts/fits/source4_lstm192x1.json'
+assert not original.exists() and not (F/'control/final-submit-chain/logs/fits/source4_lstm192x1.log').exists()
+assert not (F/'data/artifacts/runs/final-lstm192x1').exists()
+r=json.loads((F/'inputs/native-lstm-r2.request.json').read_bytes())
+key='native-lstm-coexist-r3';output=F/'profiles'/key;log=F/'logs'/(key+'.log');receipt=F/'receipts'/(key+'.child.json')
+r.update(profile_output=str(output),log_path=str(log),process_receipt=str(receipt),request_created_epoch=time.time())
+argv=list(r['argv']);argv[argv.index('--output')+1]=str(output);r['argv']=argv;r['argv_sha256']=canon(argv)
+req=F/'inputs'/(key+'.request.json');save(req,r)
+uuid=r['gpu_uuid']
+gpu=subprocess.check_output(['nvidia-smi','--query-gpu=uuid,memory.total,memory.used,utilization.gpu','--format=csv,noheader,nounits'],text=True)
+row=next(x.split(', ') for x in gpu.splitlines() if x.startswith(uuid))
+assert float(row[1])-float(row[2])>=32000
+save(F/'receipts/native-coexist-resource-admission-r3.json',{'schema':'wnn.native-coexist-resource-admission.v1','gpu_uuid':uuid,'device_memory_total_mib':int(row[1]),'device_memory_used_mib':int(row[2]),'device_utilization_percent':int(row[3]),'minimum_free_mib':32000,'foreign_signals':False,'prior_scheduler_failure':prior,'original_child_receipt_absent':True,'original_log_absent':True,'original_output_absent':True,'request_sha256':sha(req),'created_epoch':time.time(),'reason':'original scheduler 2GiB idle threshold was conservative; shared-device actual profile qualifies unchanged fixed recipe'})
+env=dict(os.environ,PYTHONPATH=str(S/'src')+':'+str(S),WNN_PROJECT_ROOT=str(F/'data'),OMP_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',NVIDIA_TF32_OVERRIDE='0',TORCH_ALLOW_TF32_CUBLAS_OVERRIDE='0',PYTHONUNBUFFERED='1',CUDA_VISIBLE_DEVICES=uuid)
+with hold_gpu_slot(F/'control/final-submit-chain',uuid):
+ code,timed,result=run_owned_command(argv,cwd=S,env=env,log_path=log,receipt_path=receipt,owner=process_identity(os.getpid()),stage=0,trial_number=50,mode='final_submit_engineering_r2',gpu_key=uuid,output_dir=output,timeout_seconds=600)
+assert code==0 and not timed
+out=F/'profile-reviews/native-lstm-coexist-r3'
+review=grader.review_profile(request_path=req,expected_request_sha256=sha(req),plan_path=F/'inputs/final-plan-r2.json',membership_path=F/'inputs/final-fit-membership-r1.json',source_audit_path=F/'inputs/SOURCE_VALIDATION_R1.json',source_capsule_path=F/'inputs/final-submit-source-39d83f739.tar.gz',process_path=receipt,profile_path=output/'profile_receipt.json',rank_log_path=output/'rank0.jsonl',config_path=F/'inputs/LSTM_CONFIG_R2.json',output_dir=out)
+assert review['status']=='approved',review['failed_checks']
+save(F/'receipts/native-coexist-qualified-r3.json',{'schema':'wnn.native-coexist-profile-qualified.v1','profile_approval':str(out/'approved_profile_receipt.json'),'profile_approval_sha256':sha(out/'approved_profile_receipt.json'),'request_sha256':sha(req),'gpu_uuid':uuid,'scientific_recipe_unchanged':True,'finished_epoch':time.time()})
+print('NATIVE_COEXIST_PROFILE_APPROVED',uuid,flush=True)

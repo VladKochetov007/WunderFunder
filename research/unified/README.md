@@ -1,5 +1,119 @@
 # Unified research library
 
+## 31 October: submission-only full-corpus preparation
+
+[Final TL3 + LSTM packet](../experiment_drafts/final-submit-all-labeled-20261031/README.md)
+and [ADR0045](../../specs/adr/0045-submission-only-all-labeled-final-fit.md)
+record the user's explicit all-labeled final fit. Exact12480wholefitsequences,
+no independent eval or same-valid score claim; research chronology stays intact.
+The17TL3dependencyfits+oneLSTM retain prior endpoints and coefficients. Source
+audit and scoped CPU checks are complete; native package/profile/full-fit
+execution evidence is still pending. Historical results below remain unchanged.
+
+## 31 October: approved batch/TBPTT continuation
+
+[The five-fit screen and fixed TL3 mixtures](../experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md)
+follow the completed multistage study. Three arms share GRU384x2 and fixed4E;
+two seeds per arm include one exact reused control. Six prior-model mixtures
+are complete; best observed90%TL3+10%LSTM is0.692502063 versus0.692377425.
+This small exposed-valid gain is not public confirmation. The execution packet
+binds actual profiles, source/config identities and bounded final collection.
+
+The [completed17-row comparison](../experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/RESULTS.md)
+has5/5 new fixed4E fits, exact reused A/1301 and all expected composites.
+B-A is negative at both seeds; C-B is mixed. All six new GRU-pool/TL3 mixtures
+are negative. Five configured-final weights/receipts are published and verified;
+owned GPU commands exited, no successor queued, foreign NIER/MPS preserved.
+
+## 30 October: heterogeneous teachers and12 fixed ensembles completed
+
+[Six-fit execution](../experiment_drafts/heterogeneous-tl3-20261030/README.md)
+completes one LSTM, one causal TCN and four paired GRU students, plus the original
+W18 recovery. [The full table](../experiment_drafts/heterogeneous-tl3-20261030/results/R3/COMPARISON.md)
+uses canonical fresh TL30.6923774246. Best tested90%TL3 +10%GALAM is0.6924964468
+(+0.0001190223). Heterogeneous students improve at both matched seeds
+(+0.0006193485/+0.0002192739); their ensemble gains0.0004057735 over controls,
+but its20%addition to TL3 is negative. All25model/ensemble outputs independently
+agree within5.55e-15. Full official valid remains exposed; no fitted coefficients,
+public result or significance claim. Our GPU workers have exited; exact seven-model
+checkpoint/source archives and source-qualified failures are retained in the packet.
+
+## 29 October:24 model checkpoint artifacts published
+
+[Checkpoint publication](../experiment_drafts/checkpoint-publication-20261029/README.md)
+delivers8 PR46 and16 PR49 model bundles through private GitHub releases, linked
+from their experiment PRs as SemyonEpanov. Best-observed and fixed TL3 endpoints
+remain distinct; W18 is untrained/absent. All source hashes, CPU payloads and
+roundtrip downloads were verified, with independent selection/ancestry review.
+This changes no fitting recipe or scientific result.
+
+## 29 October: heterogeneous teachers and reported TL3 endpoints
+
+[Heterogeneous-teacher proposal](ideas/HETEROGENEOUS_TEACHERS_20261029_R1.md)
+turns the user's multi-architecture pool into a proposed6-new-fit comparison,
+with existing ancestors reused and the student's WP as the primary endpoint.
+It records PR49's terminal report:16 fits complete, best tiedlead WP0.691415,
+W18 blocked on cache_unavailable and all6 fixed fine-tune endpoints below
+their base parents. Scores are from the artifact-verified publisher; the current
+SSH reconnection timed out, so live state and the cache's raw error are unverified.
+The proposal changes no frozen source or running allocation.
+
+## 28 October: fresh TL3 train-only restoration
+
+The [TL3 restoration packet](../experiment_drafts/tl3-chronological-20261028/README.md)
+recovers the three-member endpoint and17-predictor dependency graph, with every
+ancestor retrained on official train. Historical valid-fitted propensity is
+replaced explicitly by neutral weighting; unknown optimizer facts stay unknown.
+The first scratch GRU256x2 teacher completed all4 epochs: fixed-endpoint full-valid
+WP0.6882596674 versus the exposed plain-GRU benchmark0.6778561232. All4 train/valid
+WMSE and WP points are in the existing dashboard (run tl3c_fin256_s3); seven original
+GALAM fits continue. Native-Muon, causal tiedlead and
+cache-provenance adapters and the fixed endpoint scorer have focused checks.
+The [R8 receiving packet](../experiment_drafts/tl3-chronological-20261028/receiving/R8/README.md)
+records verified first-teacher adoption, completed prediction export and38
+passing receiving checks. All17 model entries are visible in the dashboard;
+fin256_s4 is fitting and15 predictors are queued.
+[Draft PR49](https://github.com/VladKochetov007/WunderFunder/pull/49) is published
+as SemyonEpanov with automatic hourly/fit-terminal updates. A report-only final
+blend dashboard view is wired to verified terminal scoring, which remains pending.
+Full TL3 metrics remain pending; old public0.66832 is
+not an independent score on our current valid.
+
+## 28 October: authorized fixed eight-L4 launch
+
+The [current launch packet](../experiment_drafts/galam-l4-quality8-20261028/launch/README.md)
+supersedes the earlier six-fit and v1 preparation panels with the user's exact
+plain-GRU benchmark plus seven GALAM configurations. [Draft PR46](https://github.com/VladKochetov007/WunderFunder/pull/46)
+is published as SemyonEpanov. All eight full fits now run after complete data
+preparation and independent checks of eight actual-source profiles. Common
+GALAM batch384 and plain-GRU32 are frozen. [GRU epoch1](../experiment_drafts/galam-l4-quality8-20261028/launch/FIRST_EPOCH_RESULT.json)
+reports full-valid WP0.6681328342 on all1873 valid sequences; it is an intermediate
+single-seed result with exposed validation. The node posts hourly and terminal
+updates independently of SSH; source/evidence archives and ownership are linked
+from the packet. No final model ranking or public-score claim is made.
+
+## 28 October: GALAM local monitoring and L4 preparation
+
+The [implementation packet](../experiment_drafts/galam-l4-monitoring-20261028/README.md)
+tracks actual train/valid telemetry, a local selectable dashboard and explicit
+recurrent/branch adaptations. Its [live L4 preflight](../experiment_drafts/galam-l4-monitoring-20261028/L4_PREFLIGHT.json)
+finds8GPUs but full data disks and an unverified partial train file; no fit or GPU
+profile was launched. Original GALAM identity and training quality stay unverified.
+[Validation](../experiment_drafts/galam-l4-monitoring-20261028/VALIDATION.json)
+records92 targeted passes/1skip, independent criticism and live browser checks;
+the local demo is explicitly synthetic. Six runnable recipes remain unadmitted
+until actual data/headroom/runtime/profile checks pass.
+
+## 27 October: chronological validation and GALAM reconstruction
+
+[ADR0044](../../specs/adr/0044-chronological-primary-validation.md) makes the
+Predictorium-style train/valid boundary mandatory for future primary comparisons.
+The [source-traced GALAM packet](../experiment_drafts/galam-reconstruction-20261027/README.md)
+provides reconstructed visible blocks,32→32/112→2 example configurations and
+canonical training integration. [Sources and unknowns](sources/galam-20261027/README.md)
+separate original diagram evidence from assumptions. CPU checks pass; no new fit,
+GPU profile, actual-data chronology audit or exact reference identity is claimed.
+
 PR32 R4: [batch96/64 selection, batch128 measurement and CPU/transfer costs](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/BATCH_THROUGHPUT_20261024.md).
 
 PR32 execution handoff: [measured Blackwell recipe, startup repair and four-teacher allocation](../experiment_drafts/b300-transformer-distillation-runtime/execution_20261024/README.md).
