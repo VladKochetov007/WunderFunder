@@ -1,5 +1,27 @@
 # Project agent instructions
 
+## Latest4 November: fresh8xL4 baseline-improvement research authorized
+
+The user explicitly authorizes generating hypotheses and executing on the entire
+existing8xL4 cluster. This is fresh research authority; no old stopped fit resumes.
+Use research/experiment_drafts/w18-l4-quality-20261104/CONTRACT_R1.json. Root owns
+the budget/admission. First allocation is4configurations x2matched seeds =8fits;
+scientific recipes/endpoints must freeze before outcomes. One persistent SSH31936
+to lc-epanov_s@10.61.10.209 is live; only ROOT may use it, no reconnect loop.
+All8 L4 are idle;GPU4 has1148MiB unrelated service allocations that must remain.
+Data2 has12.9GB free. Reuse exact existing inputs/caches; new output cap8GB and
+3GB free reserve. No unrelated cleanup, new provider/billing or foreign signals.
+
+Primary validation remains official train -> complete official valid, ADR0044.
+The submitted full-corpus W18/teacher weights are ineligible for this validation.
+Audit train-only baseline, preprocessing and all parent ancestry. Repeatedly
+inspected valid remains exposed. StrictFP32/noTF32/noAMP, no training quantization.
+Save comparable graphs and actual phase receipts. Skill conduct-creative-research
+requires bounded independent proposal, implementation and criticism; no actor
+may approve its own candidate. Delegated roles do no SSH, GPU work or extra fits.
+Historical task-specific resource limits below do not restrict this newly allocated
+owned cluster; old recipes, failures and source snapshots stay unchanged.
+
 ## Latest4 November: platform submission accepted; SCORE running
 
 The user explicitly authorized uploading/submitting the ready W18 ZIP. It was
