@@ -50,6 +50,15 @@ The [October 18 base-sync receipt](BRANCH_SYNC_20261018_R3.json) records the no-
 | [#13](https://github.com/VladKochetov007/WunderFunder/pull/13) | Fixed checkpoint trajectory averaging | `cc523fc5c1c3` |
 | [#14](https://github.com/VladKochetov007/WunderFunder/pull/14) | Causal innovation residuals beyond moment features | `65f6fffdc559` |
 
+## L4 teacher capacity and measured student transfer — 4 November2026
+
+[The twelve-fit packet](l4-teacher-capacity-20261104/README.md) indexes the frozen
+eight-teacher/four-student allocation, source-qualified Transformer adapter,
+streaming target construction and completed six-GRU results/graphs. Wider GRUs
+lose at the fixed endpoint; observed best checkpoints are kept separate. The
+clipping/objective audit includes a synthetic optimizer replay and prospective
+diagnostics, with no additional scientific fit or public improvement claimed.
+
 ## Readiness
 
 These are experiment handoffs. Existing GRU mechanisms reuse linked trainer/model code; new Transformer/geometry/smoothing code is a starter. Every recipe is marked launch_ready=false: receiving researchers must bind fold-clean assets, finish trainer/reporting integration and profile actual B300 shapes. The plan entry point prints a matrix and does not train. No wall time, numerical parity or LB gain is claimed. No tests were added/run; static lint/format and document review only.

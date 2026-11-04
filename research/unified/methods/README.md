@@ -58,6 +58,18 @@ use a later result receipt or the current audit to establish final status.
 
 This domain collects the reusable research protocol: data membership, causal sequence handling, target treatments, official scoring, and uncertainty interpretation.
 
+## Clipping and objective audit — 4 November2026
+
+[The L4 clipping audit](../../experiment_drafts/l4-teacher-capacity-20261104/CLIPPING_AND_OBJECTIVE_AUDIT_R1.md)
+traces global clipping through gatewise Muon/AdamW and the actual main/structural/
+next-loss reductions. A24-step synthetic CPU replay shows near-invariance to
+constant gradient scaling but changed update directions under varying clipping;
+it is not a GRU quality result. The note distinguishes head tensors from loss
+sources and proposes fitting-only gradient decomposition before further paired
+fits. Exact source/result hashes and independent-review limitations are linked.
+The [campaign packet](../../experiment_drafts/l4-teacher-capacity-20261104/README.md)
+also indexes the completed six-GRU negative result and fixed-endpoint curves.
+
 ## Read these sources
 
 - [Causal AR teacher/student and DDP training proposal](../ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md) gives free-running output recurrence, exact sequence/window/reset semantics, separately normalized weighted-DDP gradients with accumulation, official pooled evaluation, fitting ancestry and conditional eight-B300 cost arithmetic. The user's quality-first steering expands the scale/context/horizon and teacher-assistant portfolio. Four H-TRANSFORMER-* hypotheses and three proposed comparisons are recorded; no runnable trainer, hardware profile, admitted fit or quality claim. The canonical architecture/source description is in the [ideas index](../ideas/README.md).
