@@ -32,8 +32,15 @@ def test_native_gru_template_derives_output_without_changing_panel() -> None:
 
 def test_transformer_template_requires_and_matches_explicit_output() -> None:
     panel = _panel("TRANSFORMER_TEACHER_PANEL_R1.json")
-    cell = panel["cells"][0]
-    run = PurePosixPath(cell["fit_output"]).name
+    cell = dict(panel["cells"][0])
+    run = "l4tc_transformer_d384_l8_h8_s1001_20261104"
+    cell["run_name"] = run
+    cell["fit_output"] = str(
+        PurePosixPath(panel["paths"]["runtime_root"]) / "transformer" / "s1001" / "fit"
+    )
+    cell["fit_argv"] = list(cell["fit_argv"])
+    cell["fit_argv"][cell["fit_argv"].index("--output") + 1] = cell["fit_output"]
+    assert PurePosixPath(cell["fit_output"]).name == "fit"
     assert teacher_fit_output(panel, "causal_transformer", run, cell) == PurePosixPath(
         cell["fit_output"]
     )
@@ -41,6 +48,8 @@ def test_transformer_template_requires_and_matches_explicit_output() -> None:
     missing.pop("fit_output")
     with pytest.raises(ValueError, match="explicitly bind fit_output"):
         teacher_fit_output(panel, "causal_transformer", run, missing)
+    with pytest.raises(ValueError, match="fit_output and frozen --output differ"):
+        teacher_fit_output(panel, "causal_transformer", run + "_wrong", cell)
 
 
 def test_gru_output_derivation_rejects_changed_name_or_schema() -> None:

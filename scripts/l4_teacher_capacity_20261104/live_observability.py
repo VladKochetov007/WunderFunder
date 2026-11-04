@@ -276,6 +276,7 @@ def _append_watch_events(
 ) -> int:
     event_path = view / "monitor_events.jsonl"
     known = bridge._read_events(event_path)
+    latest_step = _latest_non_resource_step(event_path)
     added = 0
     for record in records:
         cell_metrics = record.get("cells", {}).get(cell_id)
@@ -303,7 +304,7 @@ def _append_watch_events(
         sample = int(record["sample_id"])
         event = bridge._event(
             "resources",
-            sample,
+            latest_step,
             float(record.get("latest_epoch", 0.0)),
             metrics,
             {
@@ -313,10 +314,59 @@ def _append_watch_events(
                 "gpu_uuid": cell_metrics.get("gpu_uuid"),
                 "observed_at_utc": record.get("observed_at_utc"),
                 "scope": "receipt-owned process group plus wave-wide totals",
+                "sample_id": sample,
             },
         )
         added += int(bridge._append_event(event_path, event, known))
     return added
+
+
+def _latest_non_resource_step(event_path: Path) -> int:
+    """Return the last real training/evaluation step, excluding observer samples."""
+    if event_path.is_symlink() or not event_path.is_file():
+        return 0
+    with event_path.open("rb") as stream:
+        size = event_path.stat().st_size
+        stream.seek(max(0, size - (2 << 20)))
+        raw = stream.read(2 << 20)
+    steps = []
+    for line in raw.splitlines():
+        try:
+            event = json.loads(line)
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            continue
+        if (
+            isinstance(event, dict)
+            and event.get("schema") == bridge.EVENT_SCHEMA
+            and event.get("kind") in {"train_step", "diagnostics", "evaluation"}
+            and type(event.get("step")) is int
+        ):
+            steps.append(event["step"])
+    return max(steps, default=0)
+
+
+def _resource_identity_present(event_path: Path, epoch: float, step: int) -> bool:
+    """Avoid duplicate resource events when the real optimizer step has not advanced."""
+    if event_path.is_symlink() or not event_path.is_file():
+        return False
+    with event_path.open("rb") as stream:
+        size = event_path.stat().st_size
+        stream.seek(max(0, size - (2 << 20)))
+        raw = stream.read(2 << 20)
+    for line in reversed(raw.splitlines()):
+        try:
+            event = json.loads(line)
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            continue
+        if (
+            isinstance(event, dict)
+            and event.get("schema") == bridge.EVENT_SCHEMA
+            and event.get("kind") == "resources"
+            and event.get("step") == step
+            and event.get("epoch") == epoch
+        ):
+            return True
+    return False
 
 
 def _read_watch(path: Path) -> list[dict[str, Any]]:
@@ -559,10 +609,14 @@ def _append_native_tf_resource(
             metrics[target] = value
     if not metrics:
         return False
+    epoch = _latest_native_epoch(event_path)
+    step = _latest_non_resource_step(event_path)
+    if _resource_identity_present(event_path, epoch, step):
+        return False
     event = bridge._event(
         "resources",
-        1_000_000_000 + sample_id,
-        _latest_native_epoch(event_path),
+        step,
+        epoch,
         metrics,
         {
             "run": _run_name(cell),
@@ -576,6 +630,7 @@ def _append_native_tf_resource(
             "source_binding_sha256": identity.get("source_binding_sha256"),
             "data_binding_sha256": identity.get("data_binding_sha256"),
             "fit_members_sha256": identity.get("fit_members_sha256"),
+            "sample_id": sample_id,
         },
     )
     encoded = (json.dumps(event, sort_keys=True, allow_nan=False) + "\n").encode()

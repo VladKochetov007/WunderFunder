@@ -7,6 +7,7 @@ import hashlib
 import json
 import logging
 import os
+import re
 import shutil
 import signal
 import stat
@@ -609,8 +610,11 @@ def _unlink_token(path: Path, identity: tuple[int, int] | None) -> bool:
 class GitHub:
     """Small fixed-repository publisher using only GitHub's HTTPS API."""
 
-    def __init__(self, token: str) -> None:
+    def __init__(
+        self, token: str, user_agent: str = "WunderFunder-W18-L4-results-finalizer"
+    ) -> None:
         self.token = token
+        self.user_agent = user_agent
         self.opener = urllib.request.build_opener(_NoRedirect())
 
     def request(self, method: str, path: str, payload: object = None) -> object:
@@ -624,7 +628,7 @@ class GitHub:
                 "Authorization": f"Bearer {self.token}",
                 "Accept": "application/vnd.github+json",
                 "Content-Type": "application/json; charset=utf-8",
-                "User-Agent": "WunderFunder-W18-L4-results-finalizer",
+                "User-Agent": self.user_agent,
                 "X-GitHub-Api-Version": "2022-11-28",
             },
             method=method,
@@ -645,15 +649,17 @@ class GitHub:
         except (json.JSONDecodeError, UnicodeDecodeError):
             raise FinalizeError("GitHub returned invalid JSON") from None
 
-    def upload(self, release_id: int, path: Path) -> dict[str, object]:
-        url = f"https://uploads.github.com/repos/{REPOSITORY}/releases/{release_id}/assets?"
+    def upload(
+        self, release_id: int, path: Path, repository: str = REPOSITORY
+    ) -> dict[str, object]:
+        url = f"https://uploads.github.com/repos/{repository}/releases/{release_id}/assets?"
         url += urllib.parse.urlencode({"name": path.name})
         headers = {
             "Authorization": f"Bearer {self.token}",
             "Accept": "application/vnd.github+json",
             "Content-Type": "application/octet-stream",
             "Content-Length": str(path.stat().st_size),
-            "User-Agent": "WunderFunder-W18-L4-results-finalizer",
+            "User-Agent": self.user_agent,
         }
         with path.open("rb") as stream:
             request = urllib.request.Request(url, data=stream, headers=headers, method="POST")
@@ -668,16 +674,30 @@ class GitHub:
 
 
 def _publish_release(
-    client: GitHub, assets: list[Path], target_commitish: str, body: str
+    client: GitHub,
+    assets: list[Path],
+    target_commitish: str,
+    body: str,
+    *,
+    repository_name: str = REPOSITORY,
+    publisher_login: str = LOGIN,
+    release_tag: str = RELEASE_TAG,
+    release_name: str | None = None,
 ) -> dict[str, object]:
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository_name):
+        raise FinalizeError("release repository name is invalid")
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+", publisher_login) or not re.fullmatch(
+        r"[A-Za-z0-9_.-]+", release_tag
+    ):
+        raise FinalizeError("release publisher or tag is invalid")
     user = client.request("GET", "/user")
-    repository = client.request("GET", f"/repos/{REPOSITORY}")
-    if not isinstance(user, dict) or user.get("login") != LOGIN:
+    repository = client.request("GET", f"/repos/{repository_name}")
+    if not isinstance(user, dict) or user.get("login") != publisher_login:
         raise FinalizeError("GitHub credential does not identify SemyonEpanov")
     permissions = repository.get("permissions") if isinstance(repository, dict) else None
     if (
         not isinstance(repository, dict)
-        or repository.get("full_name", "").lower() != REPOSITORY.lower()
+        or repository.get("full_name", "").lower() != repository_name.lower()
         or repository.get("private") is not True
         or not isinstance(permissions, dict)
         or permissions.get("push") is not True
@@ -687,7 +707,7 @@ def _publish_release(
         char not in "0123456789abcdef" for char in target_commitish.lower()
     ):
         raise FinalizeError("target commitish must be a full hexadecimal commit SHA")
-    tag_path = f"/repos/{REPOSITORY}/releases/tags/{RELEASE_TAG}"
+    tag_path = f"/repos/{repository_name}/releases/tags/{release_tag}"
     try:
         release = client.request("GET", tag_path)
     except FinalizeError as error:
@@ -695,11 +715,11 @@ def _publish_release(
             raise
         release = client.request(
             "POST",
-            f"/repos/{REPOSITORY}/releases",
+            f"/repos/{repository_name}/releases",
             {
-                "tag_name": RELEASE_TAG,
+                "tag_name": release_tag,
                 "target_commitish": target_commitish,
-                "name": "W18 L4 matched results — 2026-11-04",
+                "name": release_name or "W18 L4 matched results — 2026-11-04",
                 "body": body,
                 "draft": True,
                 "prerelease": True,
@@ -709,14 +729,14 @@ def _publish_release(
         raise FinalizeError("GitHub release identity is malformed")
     release_id = cast(int, release["id"])
     if (
-        release.get("tag_name") != RELEASE_TAG
+        release.get("tag_name") != release_tag
         or release.get("target_commitish") != target_commitish
     ):
         raise FinalizeError("existing GitHub release tag or target commit differs")
     author = release.get("author")
-    if isinstance(author, dict) and author.get("login") not in (None, LOGIN):
+    if isinstance(author, dict) and author.get("login") not in (None, publisher_login):
         raise FinalizeError("existing release belongs to another publisher")
-    assets_path = f"/repos/{REPOSITORY}/releases/{release_id}/assets?per_page=100"
+    assets_path = f"/repos/{repository_name}/releases/{release_id}/assets?per_page=100"
     inventory = client.request("GET", assets_path)
     if not isinstance(inventory, list):
         raise FinalizeError("GitHub release assets list is malformed")
@@ -726,6 +746,9 @@ def _publish_release(
         digest = _hash_file(local)
         asset = remote.get(local.name)
         if asset is None:
+            # Keep the original two-argument interface for lightweight client fakes.
+            # This publisher validates repository_name above and upload's default is
+            # the same fixed repository for this narrowly scoped release workflow.
             asset = client.upload(release_id, local)
         if (
             asset.get("name") != local.name
@@ -749,7 +772,7 @@ def _publish_release(
     if release.get("draft") is True:
         release = client.request(
             "PATCH",
-            f"/repos/{REPOSITORY}/releases/{release_id}",
+            f"/repos/{repository_name}/releases/{release_id}",
             {"draft": False, "prerelease": True, "body": body},
         )
     if (
@@ -769,14 +792,26 @@ def _publish_release(
         receipt["url"] = published["browser_download_url"]
     return {
         "status": "published",
-        "tag": RELEASE_TAG,
+        "tag": release_tag,
         "url": release.get("html_url"),
         "assets": receipts,
     }
 
 
-def _post_comment(client: GitHub, text: str) -> dict[str, object]:
-    endpoint = f"/repos/{REPOSITORY}/issues/{PR_NUMBER}/comments"
+def _post_comment(
+    client: GitHub,
+    text: str,
+    *,
+    repository_name: str = REPOSITORY,
+    pr_number: int = PR_NUMBER,
+    publisher_login: str = LOGIN,
+    idempotency_marker: str = COMMENT_MARKER,
+) -> dict[str, object]:
+    if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository_name):
+        raise FinalizeError("comment repository name is invalid")
+    if type(pr_number) is not int or pr_number < 1 or "\n" in idempotency_marker:
+        raise FinalizeError("comment identity is invalid")
+    endpoint = f"/repos/{repository_name}/issues/{pr_number}/comments"
     comments = client.request("GET", endpoint + "?per_page=100&sort=created&direction=desc")
     if not isinstance(comments, list):
         raise FinalizeError("GitHub PR comment inventory is malformed")
@@ -784,24 +819,26 @@ def _post_comment(client: GitHub, text: str) -> dict[str, object]:
         (
             item
             for item in comments
-            if isinstance(item, dict) and COMMENT_MARKER in str(item.get("body", ""))
+            if isinstance(item, dict) and idempotency_marker in str(item.get("body", ""))
         ),
         None,
     )
-    body = text + f"\n\n{COMMENT_MARKER}"
+    body = text + f"\n\n{idempotency_marker}"
     if existing is not None:
         user = existing.get("user")
-        if not isinstance(user, dict) or user.get("login") != LOGIN:
+        if not isinstance(user, dict) or user.get("login") != publisher_login:
             raise FinalizeError("idempotency marker exists under a different GitHub account")
         result = client.request(
-            "PATCH", f"/repos/{REPOSITORY}/issues/comments/{existing['id']}", {"body": body}
+            "PATCH",
+            f"/repos/{repository_name}/issues/comments/{existing['id']}",
+            {"body": body},
         )
     else:
         result = client.request("POST", endpoint, {"body": body})
     if not isinstance(result, dict) or not isinstance(result.get("html_url"), str):
         raise FinalizeError("GitHub did not return a PR comment URL")
     author = result.get("user")
-    if isinstance(author, dict) and author.get("login") != LOGIN:
+    if isinstance(author, dict) and author.get("login") != publisher_login:
         raise FinalizeError("posted PR comment author differs from SemyonEpanov")
     return {"status": "posted_or_updated", "url": result["html_url"]}
 

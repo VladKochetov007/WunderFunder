@@ -107,7 +107,7 @@ def teacher_fit_output(
         if not isinstance(value, str) or not PurePosixPath(value).is_absolute():
             raise ValueError(f"{run}: Transformer panel must explicitly bind fit_output")
         output = PurePosixPath(value)
-        if output.name != run or _option(argv, "--output") != value:
+        if cell.get("run_name") != run or _option(argv, "--output") != value:
             raise ValueError(f"{run}: Transformer fit_output and frozen --output differ")
         return output
     raise ValueError(f"unknown teacher family: {family}")
