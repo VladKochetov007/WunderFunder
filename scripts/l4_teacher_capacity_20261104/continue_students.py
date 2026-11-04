@@ -473,6 +473,7 @@ def _run_owned(
     gpu_uuid: str | None,
     stage: int,
     source_root: Path | None = None,
+    owner_extra: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     log_path, receipt_path = _receipt(panel, cell, phase)
     if receipt_path.exists() or log_path.exists():
@@ -517,6 +518,8 @@ def _run_owned(
             ).hexdigest(),
         }
     )
+    if owner_extra:
+        owner.update(owner_extra)
     defaults = {
         "profile": 1_800,
         "fit": 10_800,
@@ -1343,22 +1346,7 @@ def _grade_family(
         if float(reference.get("weight", -1)) != TL3_WEIGHTS[alias]:
             raise ValueError(f"PR60 reference weight differs from canonical TL3: {alias}")
         epoch = 1 if alias == "w18" else 3
-        prediction = Path(reference["prediction_path"])
-        metadata = Path(reference["sidecar_path"])
-        root = prediction.parent.parent
-        checkpoint = root / "artifacts/runs" / run / reference_checkpoint_filename(metadata, epoch)
-        provenance = root / "artifacts/runs" / run / "provenance.json"
-        member_records[alias] = collect_member(
-            run=run,
-            epoch=epoch,
-            prediction=prediction,
-            metadata_path=metadata,
-            checkpoint=checkpoint,
-            provenance=provenance,
-            row_order=row_order,
-            expected_checkpoint_sha256=reference["checkpoint_sha256"],
-            expected_prediction_sha256=reference["prediction_sha256"],
-        )
+        member_records[alias] = _collect_pr60_reference_member(reference, epoch, row_order)
     sources: dict[str, Any] = {
         alias: load_bank(record, _runtime(panel), split, row_order)
         for alias, record in member_records.items()
@@ -1638,6 +1626,29 @@ def _grade_family(
         replace=False,
     )
     return grade_root
+
+
+def _collect_pr60_reference_member(
+    reference: dict[str, Any], epoch: int, row_order: list[int]
+) -> dict[str, Any]:
+    """Bind one PR60 sidecar using its pinned checkpoint filename and epoch."""
+    run = str(reference["run"])
+    prediction = Path(reference["prediction_path"])
+    metadata = Path(reference["sidecar_path"])
+    checkpoint_filename = reference_checkpoint_filename(metadata, epoch)
+    run_root = prediction.parent.parent / "artifacts" / "runs" / run
+    return collect_member(
+        run=run,
+        epoch=epoch,
+        prediction=prediction,
+        metadata_path=metadata,
+        checkpoint=run_root / checkpoint_filename,
+        provenance=run_root / "provenance.json",
+        row_order=row_order,
+        checkpoint_filename=checkpoint_filename,
+        expected_checkpoint_sha256=reference["checkpoint_sha256"],
+        expected_prediction_sha256=reference["prediction_sha256"],
+    )
 
 
 def run(panel_path: Path) -> dict[str, Any]:

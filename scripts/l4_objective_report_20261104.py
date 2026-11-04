@@ -3,15 +3,17 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
+import os
 import shutil
 import sys
 import time
 from pathlib import Path
 from typing import Any
 
-SOURCE = Path(__file__).resolve().parents[1]
+SOURCE = Path(os.environ.get("WNN_REPORT_SOURCE_ROOT", Path(__file__).resolve().parents[1]))
 sys.path[:0] = [str(SOURCE), str(SOURCE / "src")]
 
 from scripts import w18_l4_quality_finalize_20261104 as publisher  # noqa: E402
@@ -39,6 +41,8 @@ def collect(panel_path: Path, control_path: Path) -> dict[str, Any]:
     split = load_campaign_split(Path(panel["paths"]["split_manifest"]), project)
     if len(split.train_groups) != 10325 or len(split.evaluation_groups) != 1873:
         raise ValueError("official fitting/evaluation membership differs")
+    import torch
+
     runs = []
     for current, path, cells in (
         (panel, panel_path, panel["cells"]),
@@ -58,15 +62,56 @@ def collect(panel_path: Path, control_path: Path) -> dict[str, Any]:
                 read(root / "provenance.json"),
             )
             owner = receipt.get("owner", {})
+            recipe_sha = hashlib.sha256(
+                json.dumps(cell["fit_argv"], separators=(",", ":")).encode()
+            ).hexdigest()
             if (
                 receipt.get("status") != "completed"
                 or receipt.get("exit_code") != 0
                 or receipt.get("timed_out") is not False
                 or owner.get("panel_sha256") != file_sha256(path)
                 or owner.get("cell_id") != cell["cell_id"]
+                or owner.get("run_name") != run
+                or owner.get("recipe_sha256") != recipe_sha
             ):
                 raise ValueError(f"fit not complete or not owned by frozen panel: {run}")
             validate_chronological_teacher_membership(provenance, split, run)
+            argv = cell["fit_argv"]
+            recipe = {"aux_anneal": "none"}
+            for key, converter in (
+                ("name", str),
+                ("seed", int),
+                ("hidden", int),
+                ("layers", int),
+                ("dropout", float),
+                ("cell", str),
+                ("batch", int),
+                ("chunk", int),
+                ("epochs", int),
+                ("lr", float),
+                ("wd", float),
+                ("clip", float),
+                ("optim", str),
+                ("muon_scope", str),
+                ("sched", str),
+                ("warmup_frac", float),
+                ("precision", str),
+                ("loss", str),
+                ("loss_norm", str),
+                ("aux_next", float),
+                ("aux_struct", float),
+                ("aux_weight", float),
+                ("batch_order", str),
+                ("checkpoint_policy", str),
+                ("checkpoint_epoch", int),
+                ("train_source", str),
+                ("train_seqs", int),
+                ("eval_source", str),
+                ("aux_anneal", str),
+            ):
+                flag = "--" + key.replace("_", "-")
+                if flag in argv:
+                    recipe[key] = converter(argv[argv.index(flag) + 1])
             if [row["epoch"] for row in history] != [0, 1, 2, 3]:
                 raise ValueError(f"four complete epochs required: {run}")
             for row in history:
@@ -82,6 +127,28 @@ def collect(panel_path: Path, control_path: Path) -> dict[str, Any]:
             digest = file_sha256(checkpoint)
             if provenance["checkpoint_sha256"][checkpoint.name] != digest:
                 raise ValueError(f"fixed checkpoint hash differs: {run}")
+            saved = torch.load(checkpoint, map_location="cpu", weights_only=False)
+            if saved.get("epoch") != 3:
+                raise ValueError(f"saved checkpoint epoch differs: {run}")
+            validate_chronological_teacher_membership(saved["provenance"], split, run)
+            for args in (provenance["args"], saved["args"]):
+                if any(
+                    args.get(key, "none" if key == "aux_anneal" else None) != value
+                    for key, value in recipe.items()
+                ):
+                    raise ValueError(
+                        f"actual checkpoint/training arguments differ from panel: {run}"
+                    )
+                if (
+                    args.get("split_manifest_sha256") != split.sha256
+                    or args.get("precision") != "fp32"
+                ):
+                    raise ValueError(f"actual precision or split differs: {run}")
+            if any(
+                value.is_floating_point() and value.dtype != torch.float32
+                for value in saved["model"].values()
+            ):
+                raise ValueError(f"non-FP32 checkpoint weights: {run}")
             runs.append(
                 {
                     "run_name": run,
@@ -100,13 +167,14 @@ def collect(panel_path: Path, control_path: Path) -> dict[str, Any]:
                     "fixed_ep3_wmse": history[3]["valid_wmse"],
                 }
             )
-    controls = {row["seed"]: row for row in runs if row["configuration_id"] == "gru256x2_control"}
-    if set(controls) != {1001, 1002}:
+    control_rows = [row for row in runs if row["configuration_id"] == "gru256x2_control"]
+    controls = {row["seed"]: row for row in control_rows}
+    if len(control_rows) != 2 or set(controls) != {1001, 1002}:
         raise ValueError("matched controls differ")
     comparisons = []
     for name in ("clip5", "aux_late"):
         members = [row for row in runs if row["configuration_id"] == name]
-        if {row["seed"] for row in members} != {1001, 1002}:
+        if len(members) != 2 or {row["seed"] for row in members} != {1001, 1002}:
             raise ValueError(f"matched candidate seeds differ: {name}")
         comparisons.append(
             {
