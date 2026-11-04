@@ -1,5 +1,32 @@
 # Modular recurrent training
 
+## 28 October live GALAM monitoring
+
+The [L4 monitoring packet](../../../research/experiment_drafts/galam-l4-monitoring-20261028/README.md)
+adds opt-in `monitoring` config, canonical fit/loop orchestration, batched
+report-only train-eval/full-valid scoring and safe-checkpoint-bound event offsets.
+`sequence_monitor*` owns sampled model diagnostics, physical-UUID GPU/host sensors
+and append-only journals. Profiles exercise monitored training callbacks while
+explicitly skipping validation. `wnn.dashboard` reads the resulting files locally
+with selectable comparisons and honest retention/no-data/demo labels. Source
+fidelity, CPU/browser checks and real L4 data/disk blockers remain explicit; no
+fit or GPU performance is claimed. New GRU/local-only variants stay adaptations.
+
+## 27 October chronology and GALAM
+
+Future fits require the source-bound chronological manifest from
+[`build_chronological_primary_split.py`](../../../scripts/build_chronological_primary_split.py),
+with earlier train only and full later valid evaluation. Old random-fold manifests
+remain loadable for historical analysis but are rejected for new fitting.
+[ADR0044](../../../specs/adr/0044-chronological-primary-validation.md) records scope.
+
+[`galam_adapter.py`](galam_adapter.py) exposes the reconstructed
+[`wnn.galam`](../galam/__init__.py) graph through the existing sequence runtime,
+with explicit state detachment, train-only normalization and strict BN batch
+admission. [The packet](../../../research/experiment_drafts/galam-reconstruction-20261027/README.md)
+contains source fidelity, configs and CPU checks; no exact identity, scientific
+fit, real-data audit or GPU performance has been established.
+
 Use `scripts/train_rnn.py` for the stable command line. New Python callers should import focused components directly:
 
 ```python

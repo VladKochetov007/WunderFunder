@@ -1,0 +1,41 @@
+{
+  "schema": "independent-galam-ensemble-inference-design.v1",
+  "scope": "read-only evidence/design review; no fit, inference, GPU, remote access, or canonical-source edits",
+  "inputs_from_root": {
+    "g0": {"recipe": "plain GRU, event211", "selected_epoch": 8, "reported_primary_valid_wp": 0.677856},
+    "galam": {"recipe": "GALAM LSTM128", "selected_epoch": 3, "reported_primary_valid_wp": 0.672369, "other_reported_epoch": {"epoch": 4, "wp": 0.670762}},
+    "chronological_membership": {"fit_train_groups": 10325, "evaluation_valid_groups": 1873, "official_scored_valid_rows": 3528273},
+    "exposure": "All primary-valid labels were exposed to checkpoint selection; any new primary-valid result is report-only and descriptive."
+  },
+  "reviewed_sources": [
+    "AGENTS.md",
+    "specs/adr/0044-chronological-primary-validation.md",
+    "src/wnn/gmetric.py",
+    "src/wnn/evaluation.py",
+    "src/wnn/training/sequence_predict.py",
+    "src/wnn/training/sequence_score.py",
+    "src/wnn/training/sequence_records.py",
+    "src/wnn/training/sequence_models.py",
+    "src/wnn/training/galam_adapter.py",
+    "src/wnn/training/sequence_cache_ensemble.py",
+    "src/wnn/blend_optimization.py",
+    "src/wnn/training/sequence_epoch_prediction.py"
+  ],
+  "findings": {
+    "frozen_inference_support": "sequence_predict.load_endpoint/export_predictions accepts pinned retained epochs through the epoch-index hash and report-only-primary-valid path. It builds either model through build_sequence_model. predict_sequence starts each 20,000-row sequence with empty state, forwards every warm-up row, and carries returned state across chunk_rows boundaries. GALAMSequenceAdapter forwards that state to GALAM.forward_chunk, which advances ordinal steps and carries recurrent/attention state. The configured per-model input path is preserved: event211 for g0 and raw112 for GALAM; GALAM rejects event211.",
+    "official_score_support": "sequence_score validates one producer's full evaluation coverage and scores original valid labels/masks with GlobalAccumulator. It drops the first WARMUP=99 mask positions, preserving all input rows for causal context, and reports the pooled t0, t1, and global_wp_clip2_v1 score. It does not accept a two-parent composite prediction producer.",
+    "ensemble_helper_scope": "sequence_cache_ensemble.merge_teacher_caches builds a fit-only equal-mean training teacher cache; it is not a held-out prediction blend. blend_optimization is a coefficient-fitting primitive and must not be used to learn weights from this exposed primary validation set.",
+    "existing_paired_helper": "paired_component_moments can summarize candidate/reference target-prediction moments by sequence for descriptive paired deltas. It does not directly return prediction-vs-prediction or residual-vs-residual correlation; compute those explicitly over the same selected rows if included. Do not present resampling on exposed valid as independent confirmation."
+  },
+  "minimal_inference_only_recipe": [
+    "Freeze the exact incumbent ensemble prediction formula and every parent endpoint identity first. If the deployed/target incumbent is a fixed ensemble E, keep E unchanged and verify its parent list does not already contain this GALAM checkpoint. If no incumbent ensemble artifact exists, use g0 epoch 8 as E for this initial two-model pilot.",
+    "Before reading any new primary-valid score, predeclare one inclusion coefficient; recommended pilot: candidate = 0.90 * E + 0.10 * GALAM_LSTM128_epoch3. Keep the exact-eight fit packet and all seven other fits unchanged. Do not tune coefficients, select epoch 3 versus 4 again, or fit calibration on valid.",
+    "Export frozen predictions for the exact pinned epoch indexes/checkpoint SHA values using sequence_predict with --membership evaluation and --report-only-primary-valid. Use each checkpoint's own config, train-only normalization provenance, and model input mode. Record epoch-index SHA, checkpoint SHA, split SHA, producer/config/provenance hashes, and prediction-manifest SHA.",
+    "Join only by each manifest's original (split='valid', row_group) identity, then preserve row order 0..19,999 within each group. Require exact equality to the split's 1,873 evaluation groups in every parent and candidate, no duplicates, each output shape (20000, 2), float32, and all finite. Read the original valid targets and is_scored mask; apply the canonical first-99-row warm-up mask. Require exactly 3,528,273 selected rows for each scored member/candidate.",
+    "Score E, GALAM alone, and the fixed candidate on the identical original mask with GlobalAccumulator, pooling across the complete valid cohort rather than averaging sequence scores. Report t0, t1, WP, selected-row count, and paired marginal delta candidate-minus-E. Blend raw model outputs with the predeclared coefficient and let the official metric apply its clip to the final prediction. Add same-mask per-target E-vs-GALAM prediction and residual correlations as descriptive complementarity diagnostics; state whether these are raw or use clipped values with official abs(clipped target) weights.",
+    "Write a separate report-only blend receipt outside the exact-eight fit packet. Bind the frozen formula/coefficients, parent checkpoint and prediction-manifest hashes, split/source identities, group/row coverage, normalizer provenance, official mask/count, and per-target scores/deltas. Do not forge a checkpoint producer to make the existing single-producer sequence_score validator accept a blend."
+  ],
+  "prelaunch_identity_requirement": "The exact incumbent ensemble E and fixed coefficient must be recorded before examining the new blend score. Without E's frozen formula and parent identities, a marginal ensemble-gain claim is undefined; the g0-only fallback is explicitly a two-model pilot.",
+  "interpretation_limit": "The reported g0/GALAM epochs were selected using this same exposed primary-valid partition. The proposed pass can establish only whether the frozen blend improves the observed exposed-valid metric; it cannot establish independent generalization, a public/private score, or a confirmatory gain. ADR-0044 requires chronological whole-sequence membership and prohibits random folds or seq_ix ordering.",
+  "decision": "Prediction plumbing supports the requested frozen GALAM inference. The smallest valid study is a fixed-weight, full-valid, source/row-aligned comparison against the precisely frozen incumbent, scored with the existing official pooled metric and recorded as report-only."
+}

@@ -15,6 +15,7 @@ from wnn.training.sequence_cache_ensemble_lineage import (
     is_sha256,
     validate_producer,
 )
+from wnn.training.sequence_cache_weighted_pool_lineage import WEIGHTED_POOL_KIND
 
 MAX_CACHE_MANIFEST_BYTES = 32_000_000
 
@@ -79,10 +80,24 @@ class TeacherCache:
         producer = meta.get("producer")
         if not isinstance(producer, dict):
             raise ValueError("teacher cache producer is malformed")
-        validate_producer(producer, split.sha256, members)
+        expected_sources = None
+        if split.path.is_file():
+            split_record = json.loads(split.path.read_text(encoding="utf-8"))
+            raw_sources = split_record.get("sources") if isinstance(split_record, dict) else None
+            expected_sources = raw_sources if isinstance(raw_sources, dict) else None
+        validate_producer(
+            producer,
+            split.sha256,
+            members,
+            evaluation_members=[
+                (split.evaluation_source, group) for group in split.evaluation_groups
+            ],
+            primary_split_sha256=split.primary_split_sha256,
+            expected_sources=expected_sources,
+        )
         self.entries = dict(zip(observed, sequences, strict=True))
         manifest_hash = hashlib.sha256(raw).hexdigest()
-        if producer.get("kind") == ENSEMBLE_KIND:
+        if producer.get("kind") in (ENSEMBLE_KIND, WEIGHTED_POOL_KIND):
             self.identity = {
                 "manifest_sha256": manifest_hash,
                 "composition_sha256": producer["composition_sha256"],

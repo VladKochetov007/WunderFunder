@@ -1,0 +1,234 @@
+{
+  "schema": "wnn.w18_l4_baseline_audit.v1",
+  "audit_date": "2026-11-04",
+  "status": "eligible_cached_w18_and_tl3_controls_exposed_validation",
+  "scope": "Independent baseline ancestry and evaluator audit for E-W18-L4-QUALITY-20261104. No SSH, fitting, profiling, inference, source edits, or science approval.",
+  "disposition": {
+    "canonical_tl3_eligible": true,
+    "w18_singleton_eligible": true,
+    "primary_cached_control": "Fixed canonical TL3 blend: 0.34*W18 seed5 epoch1 + 0.33*tiedlead seed5 epoch3 + 0.33*tiedlead seed6 epoch3.",
+    "w18_singleton_wp": 0.6914165059769162,
+    "canonical_tl3_wp": 0.6923774245652725,
+    "fbc_is_simpler_but_not_cache_free": true,
+    "paired_new_cohort_control": "Current W18 common-control recipe at matched seeds 1001/1002. Treat historical seed5 W18/TL3 as fixed anchors, not matched training-seed controls.",
+    "exposure": "Repeatedly inspected validation; exposed development evidence, not fresh confirmation."
+  },
+  "receiving_evidence": {
+    "archive_sha256": "0b51480d84fe12f572e49a703382ba03078119e4d41a5c7141d0c749d2fda130",
+    "archive_manifest_files": 49,
+    "archive_entries_all_match_sizes_and_hashes": true,
+    "actual_byte_audit_r1_sha256": "4976055a1849eb5642d92560a4971a31c0c35523d9106a7aea16cac540931bd1",
+    "actual_byte_audit_r1_pass": true,
+    "actual_byte_audit_r1_files": 45,
+    "actual_byte_audit_r2_sha256": "6a5a551ce1fe919f73383dbc9ad7337cdaf6554f83bf4cbbb009f802c9dbaf3a",
+    "actual_byte_audit_r2_pass": true,
+    "actual_byte_audit_r2_added_source_checks": 12,
+    "actual_byte_audit_r2_epoch_checkpoint_checks": 3
+  },
+  "data_boundary": {
+    "physical_train_sequences": 10607,
+    "train_sha256": "4a7756449a4bcf272cf715bb405a2152987041605f6c1cce650243ab2abf4e81",
+    "fit_train_sequences": 10325,
+    "excluded_train_component_overlap_sequences": 282,
+    "official_valid_sequences": 1873,
+    "valid_sha256": "2861ee30914065702626a3ac033d80d0563cdacaea50c667fc828c2eeb418782",
+    "scored_valid_rows": 3528273,
+    "split_manifest_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "all_17_run_fit_sets_equal_manifest_fit_train": true,
+    "all_17_fit_valid_empty": true,
+    "w18_cache_train_rowgroups_equal_fit_train": true,
+    "w18_cache_valid_target_rows": 0,
+    "full_source_train_rowgroups": 10607,
+    "positional_prefix_slice": false,
+    "train_index_identity_sha256": "d7093810c08a8aa2248a27edb8d6b66f3be7eb203b7cc12bd20508ee9beb704e",
+    "valid_index_identity_sha256": "ff9833d27e723dcc21adc2593b1fcbfec038cf8a8c2e465488ca82b66937e2ab",
+    "train_index_npz_sha256": "9ffac9a45c943cdaa2b8deb75986fad27489f163fe2b40919095637877334d0b",
+    "valid_index_npz_sha256": "89d2da2589d224a0de9f20e8aa06551b6e817540fddd8fba6eaeb147ce04d1b7"
+  },
+  "scores": {
+    "metric_id": "global_wp_clip2_v1",
+    "valid_sequences": 1873,
+    "scored_rows": 3528273,
+    "w18_seed5_epoch1": {
+      "t0": 0.6878701879593053,
+      "t1": 0.6949628239945271,
+      "wp": 0.6914165059769162
+    },
+    "tiedlead_seed5_epoch3": {
+      "t0": 0.6878379819344286,
+      "t1": 0.6949925755598049,
+      "wp": 0.6914152787471167
+    },
+    "tiedlead_seed6_epoch3": {
+      "t0": 0.6868911592991259,
+      "t1": 0.6950066763906596,
+      "wp": 0.6909489178448928
+    },
+    "canonical_tl3_blend": {
+      "t0": 0.6887196906212466,
+      "t1": 0.6960351585092984,
+      "wp": 0.6923774245652725
+    },
+    "fbc_seed5_epoch3": {
+      "t0": 0.6878423809933999,
+      "t1": 0.6948675848530959,
+      "wp": 0.6913549829232479
+    },
+    "blend_weights": {
+      "w18_seed5_epoch1": 0.34,
+      "tiedlead_seed5_epoch3": 0.33,
+      "tiedlead_seed6_epoch3": 0.33
+    },
+    "independent_rescore_max_abs_difference": 5.551115123125783e-15,
+    "rescore_tolerance": 1e-10,
+    "rescore_result_sha256": "0bc067efd291af9937a6e4846ebe12e422ff4c03e0a5a71f0aa76ee7f006cb24",
+    "score_limit": "Fixed exposed-valid arrays; no training variance, significance, or public/private transfer estimate."
+  },
+  "w18": {
+    "model_sha256": "a66488e99ed49373722c206df0fa8fd97c179246a72369b69732bb32029baae6",
+    "valid_prediction_sha256": "642475ab1e26f18001312a8680dba621a0df079fe314c531eaf214308624aacb",
+    "provenance_sha256": "3a67347d5c1133860c5cd3f910e296a0a5ee956aca54ec68290a763cf2946457",
+    "initial_checkpoint_sha256": "840966894144bca5aafbf0a8e21ad0daab07a8503ba80e30d96668ef1bc3a496",
+    "fbc_model_ep3_initializer_sha256": "840966894144bca5aafbf0a8e21ad0daab07a8503ba80e30d96668ef1bc3a496",
+    "fbc_model_pt_teacher_source_sha256": "759165147d99b33034b74f4af63a30e8a202dafc78fd5e5699d05b6cfe9bef90",
+    "epochs": 2,
+    "fixed_endpoint_zero_based": 1,
+    "successful_updates": 12900,
+    "elapsed_seconds": 1283.6448224559426,
+    "request_sha256": "3123d179944d012494af673a21d4f0d8331ccd6c9d745c1a7798bce9339e163a",
+    "command_sha256": "a18eb181ea1347c5d5fbf80744f4c9b1009e9512cd6aa48adfaaab52a8dd1678",
+    "source_aggregate_sha256": "7abc9b7e18679bc39723178099dd3859e93c414556ed3b06d829d61a5e43d3a4",
+    "recipe_local_path": "research/experiment_drafts/heterogeneous-tl3-20261030/receiving/R1/w18-node-r1.json",
+    "recipe_local_sha256": "148cd202970215a76e25051d8975b106072f28a13cdfada15e47fd0f2731af5a",
+    "distill_sources": [
+      {
+        "run": "fbc1k_s5",
+        "epoch": 3,
+        "family": "strong",
+        "coefficient": 0.3
+      },
+      {
+        "run": "ffull_s3",
+        "epoch": 1,
+        "family": "full_finetuned",
+        "coefficient": 0.1
+      },
+      {
+        "run": "ffull_s4",
+        "epoch": 1,
+        "family": "full_finetuned",
+        "coefficient": 0.1
+      },
+      {
+        "run": "frawW_s3ft",
+        "epoch": 1,
+        "family": "raw_wmse",
+        "coefficient": 0.125
+      },
+      {
+        "run": "frawW_s4ft",
+        "epoch": 1,
+        "family": "raw_wmse",
+        "coefficient": 0.125
+      },
+      {
+        "run": "orgbase",
+        "epoch": 3,
+        "family": "samefold_baseline",
+        "coefficient": 0.0625
+      }
+    ],
+    "distill_alpha": 0.7,
+    "family_weight": 0.1,
+    "cache_metadata_sha256": "f9e983f311589f3510263cf5f75dbfd113b799693d2e69e078989aa313469536",
+    "target_hashes": {
+      "main_source_train": "a5e298741d0d4ac251cb5068bf8a1a8d772f1e534efa739cc717d069c6d2f31e",
+      "families_train": "ed1ebad4912908d6a476b49b53b2169b793fefb07966ab7a107559f1105bad20",
+      "main_source_valid_empty": "d2d466d1a0ac20cdf65995a4aea1c80e63b2d6deef25c2f4812b1008227c8ceb",
+      "families_valid_empty": "15b07d633d4bca9b380e2f1c8f6a2e5468459bba9a10d789ed4741f209fea5c2"
+    }
+  },
+  "fbc_simpler_ancestor": {
+    "eligible": true,
+    "pooled_wp": 0.6913549829232479,
+    "still_distilled": true,
+    "training_teacher_sources": [
+      {
+        "run": "fin256_s3",
+        "checkpoint_sha256": "12f4735667cb7145d785b5f1662e921eaa7e53ec4dc918189bd3f2cb132bdb57",
+        "prediction_sha256": "cd561d2af98977ac1c716b2b4e39358e73538876070565b3edf0d1719124780d"
+      },
+      {
+        "run": "fin256_s4",
+        "checkpoint_sha256": "be2f4a6b2a398d3c1fd01818ef913b12a59837fc0d96ea02ac04e2885f11cb69",
+        "prediction_sha256": "71ab0326cc3309cd39f0df0a9f5a6471ab899bd947517b2cb4cdadd07ccc84f4"
+      }
+    ],
+    "conclusion": "Simpler than W18's six-teacher cache, not cache-free; the two root prediction arrays and weights were verified by R2."
+  },
+  "canonical_tl3_additional_ancestry": {
+    "teacher_prediction_and_producer_hashes_verified": true,
+    "fin256ft_s3_prediction_sha256": "34faade2e97fabb1bf2b24774138a13a954ca54fac2fca903e73ba9c42b4195b",
+    "fin256ft_s3_model_sha256": "a16af0197198c0d6aeccdb59c34df073248c957e39d35ed48ab67b08fb1fec9c",
+    "fin256_s3_model_ep3_sha256": "36a99a47cde014f053f4cb8163ec7f3e1580a149c6d32a5db9c4d8045e9efef1",
+    "fin256ft_s4_prediction_sha256": "4c9eff8b9204c0d463eac9e6a302ad2eb29548197b518af16794c014441fc2cc",
+    "fin256ft_s4_model_sha256": "934514cfa21c62040a7bea0f3af54323fa49b1a9aa1b5f6ee90053b7c3130cc2",
+    "fin256_s4_model_ep3_sha256": "3ce40c6f6a00e09cecfba0ac35566aa76c5791ddf761cb8a67cafbf1a38ae3d6"
+  },
+  "clean_gru_fallback": {
+    "historical_scores_wp": {
+      "fin256_s3": 0.6882596673782984,
+      "fin256_s4": 0.6871360997574087,
+      "mean": 0.6886081210674475
+    },
+    "current_control_seeds_if_needed": [
+      1001,
+      1002
+    ],
+    "recipe": {
+      "hidden": 256,
+      "layers": 2,
+      "dropout": 0,
+      "train_sequences": 10325,
+      "precision": "strict fp32",
+      "fixed_endpoint": "zero-based epoch 3",
+      "batch": 32,
+      "chunk": 2000,
+      "epochs": 4,
+      "learning_rate": 0.001,
+      "loss": "wmse",
+      "optimizer": "adamw",
+      "scheduler": "onecycle",
+      "auxiliaries": {
+        "next": 0.3,
+        "structural": 0.3,
+        "weight": 0.5
+      },
+      "ema_teacher": true,
+      "ema_decay": 0.999,
+      "eval_ema": true,
+      "since_weight": 32,
+      "since_floor": 0.25,
+      "initializer": null,
+      "distillation": null
+    }
+  },
+  "forbidden_full_corpus_reference": {
+    "submission_id": "1H7KP30Q",
+    "checkpoint_sha256": "70cfefcfeb14b5a5e1f2a181fc7ddf15330a24aaf32e7f324b122fb54327daf8",
+    "reason": "Train and valid entered fitting ancestry."
+  },
+  "source_evidence": {
+    "canonical_score_sha256": "9725a82eb94a23a8be3f92348ea761166c2cf5a4d59ff2dacc0f3ee81235dd73",
+    "independent_rescore_sha256": "0bc067efd291af9937a6e4846ebe12e422ff4c03e0a5a71f0aa76ee7f006cb24",
+    "w18_node_recipe_sha256": "148cd202970215a76e25051d8975b106072f28a13cdfada15e47fd0f2731af5a",
+    "w18_terminal_receipt_sha256": "425cca18bc1bfb8c94374d3c927fbfad8af0423f0fe573b2f1308db440322e95",
+    "independent_review_sha256": "43289def199ee72b4f549c248165d81ca15ea7321b0a842a2536e041dac912f8"
+  },
+  "caveats": [
+    "Validation is repeatedly inspected and exposed.",
+    "Single-seed fixed-prediction results do not estimate training variance or significance.",
+    "No public/private transfer claim is supported.",
+    "The full-corpus submitted W18 and 17 train+valid parents are forbidden as validation ancestors."
+  ]
+}

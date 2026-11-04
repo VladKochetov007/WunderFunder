@@ -1,0 +1,1332 @@
+{
+  "schema": "wnn.heterogeneous-six-controller.v1",
+  "attempt": "r2",
+  "status": "complete",
+  "controller_pid": 1344955,
+  "controller_start_ticks": "2078262600",
+  "source_identity": {
+    "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+    "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+  },
+  "controller_script": {
+    "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/tools-r4/scripts/run_heterogeneous_six.py",
+    "sha256": "9b6370c744b0890346e6703ee6907691ec54e34c9c0f7146bc82babd727431cd"
+  },
+  "verified_fits": {
+    "tcn_s1202": {
+      "artifacts": {
+        "model.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_tcn_s1202/model.pt",
+          "sha256": "a2fc2d0496aa61af2f0bb1afa93d1f7b5ae52e7c7017547ab1ccf45283548f46"
+        },
+        "model_ep3.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_tcn_s1202/model_ep3.pt",
+          "sha256": "cd64aeb74bb0e23385b6981eb7b4eaea63532237317722a83faae93e6f00526a"
+        },
+        "history.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_tcn_s1202/history.json",
+          "sha256": "c261fbd6713b3a7897d38a4e9540e46090ae9dd707eb75e4def25d3e4c3e2ba6"
+        },
+        "provenance.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_tcn_s1202/provenance.json",
+          "sha256": "59966e5c1737d8eefddf2faaeed8b83ec9b548ef91c51e7617170f2f4e3158f9"
+        }
+      },
+      "metrics": {
+        "latest_epoch": 4,
+        "latest_valid_wp": 0.6834042004120517,
+        "latest_valid_wp_t0": 0.6796145449917632,
+        "latest_valid_wp_t1": 0.6871938558323404,
+        "best_observed_valid_wp": 0.6834042004120517,
+        "best_observed_valid_epoch": 4,
+        "latest_valid_wmse": 0.962775034213886,
+        "train_eval_wp": 0.4685112780803894,
+        "train_eval_wp_t0": 0.4776422643596844,
+        "train_eval_wp_t1": 0.4593802918010944,
+        "train_eval_mask": "all_after_warmup",
+        "train_eval_wmse": 1.30067319496491
+      },
+      "training_source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889"
+    },
+    "lstm_s1201": {
+      "artifacts": {
+        "model.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_lstm_s1201/model.pt",
+          "sha256": "8e723faaa08d260d050489e0e4e56cc3c11846e49869188eb806d5c1910ff077"
+        },
+        "model_ep3.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_lstm_s1201/model_ep3.pt",
+          "sha256": "b4669447a2a7993f4432d1cffb6dd15c56a65dad5e73b064f14800189c978e81"
+        },
+        "history.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_lstm_s1201/history.json",
+          "sha256": "aee02476e510dd5be7898bfb346064232b01a3a9d1f072b0878458236f021167"
+        },
+        "provenance.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_lstm_s1201/provenance.json",
+          "sha256": "6c491ede97a40f9cb4bbcb22f920983ae5998a55425bcc8fe711f98f02102086"
+        }
+      },
+      "metrics": {
+        "latest_epoch": 4,
+        "latest_valid_wp": 0.6882074684344828,
+        "latest_valid_wp_t0": 0.6847943650763618,
+        "latest_valid_wp_t1": 0.6916205717926036,
+        "best_observed_valid_wp": 0.6883523517585913,
+        "best_observed_valid_epoch": 3,
+        "latest_valid_wmse": 0.9516782981031683,
+        "train_eval_wp": 0.4890680294560835,
+        "train_eval_wp_t0": 0.4972627433067666,
+        "train_eval_wp_t1": 0.4808733156054005,
+        "train_eval_mask": "all_after_warmup",
+        "train_eval_wmse": 1.2677117848651442
+      },
+      "training_source_sha256": "d174a35541ebfe6e0efc66fd124d491daf5c5643c338f5d0702c33f404418889"
+    },
+    "control_s1301": {
+      "artifacts": {
+        "model.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_control_s1301/model.pt",
+          "sha256": "c00d096ed209012143928cbbeb61af9af18b1b44681b8953e04a8be93c97a1ee"
+        },
+        "model_ep3.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_control_s1301/model_ep3.pt",
+          "sha256": "bcf12588358d362f096e33e736323f86cdaad78e26c5ab418613d517476f99c7"
+        },
+        "history.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_control_s1301/history.json",
+          "sha256": "805b1e8cf09d63017793dbdfd76333fba694deed2637f7233f70fcd5f18a1d26"
+        },
+        "provenance.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_control_s1301/provenance.json",
+          "sha256": "1918db6ed0bb5d2accac2746c7ca365d2f45b84f98642486795d060e041c7877"
+        }
+      },
+      "metrics": {
+        "latest_epoch": 4,
+        "latest_valid_wp": 0.688596971169054,
+        "latest_valid_wp_t0": 0.6850502170186543,
+        "latest_valid_wp_t1": 0.6921437253194537,
+        "best_observed_valid_wp": 0.6886052761907206,
+        "best_observed_valid_epoch": 3,
+        "latest_valid_wmse": 0.9503700598834386,
+        "train_eval_wp": 0.5000926479346556,
+        "train_eval_wp_t0": 0.5077484735703559,
+        "train_eval_wp_t1": 0.4924368222989552,
+        "train_eval_mask": "all_after_warmup",
+        "train_eval_wmse": 1.2496114052533627
+      },
+      "training_source_sha256": "a2a400cb25b2a600105f10180eab6fd4343d5b3002f1c205c174aa0c8a74b29e"
+    },
+    "control_s1302": {
+      "artifacts": {
+        "model.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_control_s1302/model.pt",
+          "sha256": "5ced61223f3940cb48d60223f6c45ac9d8c2e70d26754e107f471fc2d403392f"
+        },
+        "model_ep3.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_control_s1302/model_ep3.pt",
+          "sha256": "ecfae37c0f647096443e1f166c67adb51f3473692a91446f039b583eedf8ec41"
+        },
+        "history.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_control_s1302/history.json",
+          "sha256": "7bfc9986093982d61984264ba701eeb0faf4a6f7fdbbdc8d893f166df5e6f1f0"
+        },
+        "provenance.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_control_s1302/provenance.json",
+          "sha256": "9baa626772dbcb673823dc8143dafcd5afc3112aa130dbf723e54b9ce76480cf"
+        }
+      },
+      "metrics": {
+        "latest_epoch": 4,
+        "latest_valid_wp": 0.6887607762915973,
+        "latest_valid_wp_t0": 0.6848900338885212,
+        "latest_valid_wp_t1": 0.6926315186946732,
+        "best_observed_valid_wp": 0.6889071338396535,
+        "best_observed_valid_epoch": 3,
+        "latest_valid_wmse": 0.949887670695457,
+        "train_eval_wp": 0.5049875033356479,
+        "train_eval_wp_t0": 0.5129802146726242,
+        "train_eval_wp_t1": 0.4969947919986717,
+        "train_eval_mask": "all_after_warmup",
+        "train_eval_wmse": 1.241557010525072
+      },
+      "training_source_sha256": "a2a400cb25b2a600105f10180eab6fd4343d5b3002f1c205c174aa0c8a74b29e"
+    },
+    "heterogeneous_s1302": {
+      "artifacts": {
+        "model.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_heterogeneous_s1302/model.pt",
+          "sha256": "813d2da288e185d3334fa37146aa3226778cb5e8fb561d71b28d24db86b4f846"
+        },
+        "model_ep3.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_heterogeneous_s1302/model_ep3.pt",
+          "sha256": "daade647fd30d4397452bf05697d0b07eef7447493b632b99190d9f7921dc128"
+        },
+        "history.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_heterogeneous_s1302/history.json",
+          "sha256": "c67319168b9f286537a8c7371cd8a132bcce6e31d60c51fb42f2df4770cf7769"
+        },
+        "provenance.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_heterogeneous_s1302/provenance.json",
+          "sha256": "f63ade41cd5b30b077c5cc39247b3c3e04cdd4e0b0f39fc81a972368fa7bf785"
+        }
+      },
+      "metrics": {
+        "latest_epoch": 4,
+        "latest_valid_wp": 0.6889800502165178,
+        "latest_valid_wp_t0": 0.6850470163090477,
+        "latest_valid_wp_t1": 0.6929130841239878,
+        "best_observed_valid_wp": 0.6889800502165178,
+        "best_observed_valid_epoch": 4,
+        "latest_valid_wmse": 0.9489668574628912,
+        "train_eval_wp": 0.5005703047414474,
+        "train_eval_wp_t0": 0.5088723599780162,
+        "train_eval_wp_t1": 0.4922682495048785,
+        "train_eval_mask": "all_after_warmup",
+        "train_eval_wmse": 1.248955560444913
+      },
+      "training_source_sha256": "a2a400cb25b2a600105f10180eab6fd4343d5b3002f1c205c174aa0c8a74b29e"
+    },
+    "heterogeneous_s1301": {
+      "artifacts": {
+        "model.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_heterogeneous_s1301/model.pt",
+          "sha256": "69680b0fb96b4062a02a1068a7851059f951748f35b2377dc39f4b073230e41e"
+        },
+        "model_ep3.pt": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_heterogeneous_s1301/model_ep3.pt",
+          "sha256": "c3a0cf3b6f84cd304d2fcd0a76dbcecc74018eec657836f9211155d7fc13fb35"
+        },
+        "history.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_heterogeneous_s1301/history.json",
+          "sha256": "34fa3794b71347ecb2113a45a8588fb9ad754e29e9f4d84743c779c9ea16a0f5"
+        },
+        "provenance.json": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/artifacts/runs/het6_heterogeneous_s1301/provenance.json",
+          "sha256": "4e19937e32669c891294d2f75e1a1d376aba82bac1b1d573e2212774689e803a"
+        }
+      },
+      "metrics": {
+        "latest_epoch": 4,
+        "latest_valid_wp": 0.6892163197017632,
+        "latest_valid_wp_t0": 0.6856068031450548,
+        "latest_valid_wp_t1": 0.6928258362584716,
+        "best_observed_valid_wp": 0.6892163197017632,
+        "best_observed_valid_epoch": 4,
+        "latest_valid_wmse": 0.9484832392260403,
+        "train_eval_wp": 0.49815632134010057,
+        "train_eval_wp_t0": 0.5079496003260261,
+        "train_eval_wp_t1": 0.48836304235417505,
+        "train_eval_mask": "all_after_warmup",
+        "train_eval_wmse": 1.2527702641033618
+      },
+      "training_source_sha256": "a2a400cb25b2a600105f10180eab6fd4343d5b3002f1c205c174aa0c8a74b29e"
+    }
+  },
+  "exports": {
+    "export-tcn_s1202-train-r1": {
+      "prediction": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_tcn_s1202_train.npy",
+        "sha256": "a040371a4f424268269735533a8f576428e76139ae4c36e20a96392c6dda41dc"
+      },
+      "sidecar": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_tcn_s1202_train.json",
+        "sha256": "a8e695ad9d4db551bc83a12dd7a81efe84ea51c87c4ce05eaf2db7f8fa14c0b1"
+      }
+    },
+    "export-tcn_s1202-valid-r1": {
+      "prediction": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_tcn_s1202_valid.npy",
+        "sha256": "4b3e838f2499d47893caf2d2a711e2038b06cc3dc5198465da1e2360469f68e3"
+      },
+      "sidecar": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_tcn_s1202_valid.json",
+        "sha256": "907d7c56dcdf14bbc3fc0610bd1d7778369d20885987b4b293872d3d09adcd30"
+      }
+    },
+    "export-lstm_s1201-train-r1": {
+      "prediction": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_lstm_s1201_train.npy",
+        "sha256": "cfc57836a33c7cb51c9b6e1d066893c5f31fef327fc08aa1c197a17f4665ecfd"
+      },
+      "sidecar": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_lstm_s1201_train.json",
+        "sha256": "ce4ffec9f8d33359ee5ac808495cffd03feec0f91fa62020c0eece3824b9fb67"
+      }
+    },
+    "export-lstm_s1201-valid-r1": {
+      "prediction": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_lstm_s1201_valid.npy",
+        "sha256": "1454836b0158d1604da0dc9ed137c1e000c77bf7c18d39437a500bb6c2e0f3a3"
+      },
+      "sidecar": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_lstm_s1201_valid.json",
+        "sha256": "46b45906fbad76de98f2fbcb3d7232711afc860630ccb88f9f326c6bab470882"
+      }
+    },
+    "export-control_s1301-valid-r1": {
+      "prediction": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_control_s1301_valid.npy",
+        "sha256": "a5f7e3a404999441a4c526a10437c22eee63b6a57d5485262d0953a68429f7c8"
+      },
+      "sidecar": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_control_s1301_valid.json",
+        "sha256": "82408af1f29bd1a8036fcf7aaa215966433aa497d0ed885b6530c2b8ab452923"
+      }
+    },
+    "export-control_s1302-valid-r1": {
+      "prediction": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_control_s1302_valid.npy",
+        "sha256": "73c960a847851dd708273874202196ef5fb893cf0ff5a8b0465b274c90ff415e"
+      },
+      "sidecar": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_control_s1302_valid.json",
+        "sha256": "14abcc62b341afedbb2c1a369dbd5a9ad4652d4c69f7ac61d054ba0fc80e826a"
+      }
+    },
+    "export-heterogeneous_s1302-valid-r1": {
+      "prediction": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_heterogeneous_s1302_valid.npy",
+        "sha256": "7ea1990b0dde071752a854e90d22d52798f26bf920ad759ac1991a217a9a621e"
+      },
+      "sidecar": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_heterogeneous_s1302_valid.json",
+        "sha256": "6e9dfaf75d065b3ab14acd3f23b531358b09b75b63e9b53bac303a3fe795692b"
+      }
+    },
+    "export-heterogeneous_s1301-valid-r1": {
+      "prediction": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_heterogeneous_s1301_valid.npy",
+        "sha256": "7d802fa6c1a3f0a3b61df87177392237df89963e8db90b919df9d46eb3c9598d"
+      },
+      "sidecar": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/cache/pred_het6_heterogeneous_s1301_valid.json",
+        "sha256": "71ce6834c08403d04769727269d24813833994afe180453c7f8ce721e7083dfd"
+      }
+    }
+  },
+  "caches": {
+    "gru-only": {
+      "metadata_sha256": "db2464a75286898a2cb91cfab5cea88cb03849c147dc7ef639b785c1f32a53a1",
+      "verified_files": {
+        "main_source_train": "f65c2d781c728fd24e1db31947939015b958f01c6ab39ccae0dd278888427f13",
+        "main_source_valid": "d2d466d1a0ac20cdf65995a4aea1c80e63b2d6deef25c2f4812b1008227c8ceb"
+      }
+    },
+    "heterogeneous": {
+      "metadata_sha256": "835337b31a74b6ecfd972311889fb8ad4b7b8ae5e3a1f6dec1b01e49a3a36fa6",
+      "verified_files": {
+        "main_source_train": "d0b548f2674f5c952791a76e7bccf83a9e8f7e6be9dacc67e53cab06e797d678",
+        "main_source_valid": "d2d466d1a0ac20cdf65995a4aea1c80e63b2d6deef25c2f4812b1008227c8ceb"
+      }
+    }
+  },
+  "profiles": {
+    "profile-control_s1301-r1": {
+      "optimizer_attempts": 80,
+      "optimizer_completed_updates": 80,
+      "amp_skipped_updates": 0,
+      "grad_scaler_enabled": false,
+      "loss_checks": 80,
+      "loss_finite": true,
+      "gradient_finite": true,
+      "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+      "gradient_stats_steps": 80,
+      "gradient_stats_nonfinite_steps": 0,
+      "counts_consistent": true,
+      "valid_for_throughput": true
+    },
+    "profile-control_s1302-r1": {
+      "optimizer_attempts": 80,
+      "optimizer_completed_updates": 80,
+      "amp_skipped_updates": 0,
+      "grad_scaler_enabled": false,
+      "loss_checks": 80,
+      "loss_finite": true,
+      "gradient_finite": true,
+      "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+      "gradient_stats_steps": 80,
+      "gradient_stats_nonfinite_steps": 0,
+      "counts_consistent": true,
+      "valid_for_throughput": true
+    },
+    "profile-heterogeneous_s1302-r1": {
+      "optimizer_attempts": 80,
+      "optimizer_completed_updates": 80,
+      "amp_skipped_updates": 0,
+      "grad_scaler_enabled": false,
+      "loss_checks": 80,
+      "loss_finite": true,
+      "gradient_finite": true,
+      "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+      "gradient_stats_steps": 80,
+      "gradient_stats_nonfinite_steps": 0,
+      "counts_consistent": true,
+      "valid_for_throughput": true
+    },
+    "profile-heterogeneous_s1301-r1": {
+      "optimizer_attempts": 80,
+      "optimizer_completed_updates": 80,
+      "amp_skipped_updates": 0,
+      "grad_scaler_enabled": false,
+      "loss_checks": 80,
+      "loss_finite": true,
+      "gradient_finite": true,
+      "gradient_check_basis": "complete pre-clip GradStats gradient norms",
+      "gradient_stats_steps": 80,
+      "gradient_stats_nonfinite_steps": 0,
+      "counts_consistent": true,
+      "valid_for_throughput": true
+    }
+  },
+  "adopted_jobs": {
+    "profile-control_s1301-r1": {
+      "schema": "wnn.owned-command.v1",
+      "status": "complete",
+      "started_utc": "2026-10-30T18:25:50.032806+00:00",
+      "request_sha256": "322a0fda9b7457793715e6e85dfad0c03542250ea683f8229642aa823ef376e0",
+      "command_sha256": "7d725f3d347d2a55da610faf67019e2e2692e03033e7cf1735bdec8184c9879a",
+      "phase": "engineering_profile",
+      "role": "control_s1301",
+      "source_identity": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+        "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+      },
+      "gpu_uuid": "GPU-48b463a4-5b0a-e277-9ef1-ee37be8015b1",
+      "wall_seconds": 900,
+      "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+      "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/profile-control_s1301-r1.log",
+      "environment": {
+        "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+        "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src",
+        "CUDA_VISIBLE_DEVICES": "GPU-48b463a4-5b0a-e277-9ef1-ee37be8015b1",
+        "WNN_THREADS": "4",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "8",
+        "OMP_NUM_THREADS": "4",
+        "MKL_NUM_THREADS": "4",
+        "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+        "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "runner_pid": 1339236,
+      "runner_start_ticks": "2078186615",
+      "pid": 1339238,
+      "start_ticks": "2078186618",
+      "process_group": 1339238,
+      "session": 1339238,
+      "command_started_utc": "2026-10-30T18:25:50.037008+00:00",
+      "return_code": 0,
+      "finished_utc": "2026-10-30T18:26:12.986167+00:00",
+      "elapsed_seconds": 22.953390706330538,
+      "child_max_rss_kib": 4223168,
+      "child_user_seconds": 22.122372,
+      "child_system_seconds": 13.503026
+    },
+    "fit-control_s1301-r1": {
+      "schema": "wnn.owned-command.v1",
+      "status": "complete",
+      "started_utc": "2026-10-30T18:32:49.921222+00:00",
+      "request_sha256": "a0283713dc7df44f03175e52dc6cf4a82406d008d2dd87675026fd804b5b8c8e",
+      "command_sha256": "fec33ffb6c00a361c05735610642c49614cf2ed6bb569b507f0203976db8f6ea",
+      "phase": "scientific_fit",
+      "role": "control_s1301",
+      "source_identity": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+        "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+      },
+      "gpu_uuid": "GPU-48b463a4-5b0a-e277-9ef1-ee37be8015b1",
+      "wall_seconds": 21600,
+      "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+      "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/fit-control_s1301-r1.log",
+      "environment": {
+        "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+        "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src",
+        "CUDA_VISIBLE_DEVICES": "GPU-48b463a4-5b0a-e277-9ef1-ee37be8015b1",
+        "WNN_THREADS": "4",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "8",
+        "OMP_NUM_THREADS": "4",
+        "MKL_NUM_THREADS": "4",
+        "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+        "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "runner_pid": 1342416,
+      "runner_start_ticks": "2078228603",
+      "pid": 1342418,
+      "start_ticks": "2078228607",
+      "process_group": 1342418,
+      "session": 1342418,
+      "command_started_utc": "2026-10-30T18:32:49.926400+00:00",
+      "return_code": 0,
+      "finished_utc": "2026-10-30T19:14:17.176906+00:00",
+      "elapsed_seconds": 2487.2557137236,
+      "child_max_rss_kib": 8664440,
+      "child_user_seconds": 2623.033985,
+      "child_system_seconds": 969.92398
+    },
+    "profile-control_s1302-r1": {
+      "schema": "wnn.owned-command.v1",
+      "status": "complete",
+      "started_utc": "2026-10-30T18:25:50.035325+00:00",
+      "request_sha256": "8840bcb7f20371d5930d43e3ee8bf5ce3f34ced0d33394e39a7cb3dabb0a796e",
+      "command_sha256": "ab76ac37d0093cc3ac1ffc4c21a4bb60aff6d6e835e611b81b94aafa1f16fa32",
+      "phase": "engineering_profile",
+      "role": "control_s1302",
+      "source_identity": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+        "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+      },
+      "gpu_uuid": "GPU-004cdb0f-3bf7-0003-702e-0e2fb87215e8",
+      "wall_seconds": 900,
+      "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+      "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/profile-control_s1302-r1.log",
+      "environment": {
+        "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+        "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src",
+        "CUDA_VISIBLE_DEVICES": "GPU-004cdb0f-3bf7-0003-702e-0e2fb87215e8",
+        "WNN_THREADS": "4",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "8",
+        "OMP_NUM_THREADS": "4",
+        "MKL_NUM_THREADS": "4",
+        "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+        "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "runner_pid": 1339237,
+      "runner_start_ticks": "2078186615",
+      "pid": 1339239,
+      "start_ticks": "2078186619",
+      "process_group": 1339239,
+      "session": 1339239,
+      "command_started_utc": "2026-10-30T18:25:50.039251+00:00",
+      "return_code": 0,
+      "finished_utc": "2026-10-30T18:26:13.289188+00:00",
+      "elapsed_seconds": 23.25389502197504,
+      "child_max_rss_kib": 4223356,
+      "child_user_seconds": 22.2807,
+      "child_system_seconds": 13.586825
+    },
+    "fit-control_s1302-r1": {
+      "schema": "wnn.owned-command.v1",
+      "status": "complete",
+      "started_utc": "2026-10-30T18:32:49.923863+00:00",
+      "request_sha256": "60af4d33c3c4d69be5a9cd8773195d627b8cc1a67f99f1c231f99071d55aa867",
+      "command_sha256": "22dc750f9b09716594d4b16430158456ecfd74bb55456a1961c1cbdae99b9a4a",
+      "phase": "scientific_fit",
+      "role": "control_s1302",
+      "source_identity": {
+        "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+        "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+      },
+      "gpu_uuid": "GPU-004cdb0f-3bf7-0003-702e-0e2fb87215e8",
+      "wall_seconds": 21600,
+      "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+      "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/fit-control_s1302-r1.log",
+      "environment": {
+        "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+        "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src",
+        "CUDA_VISIBLE_DEVICES": "GPU-004cdb0f-3bf7-0003-702e-0e2fb87215e8",
+        "WNN_THREADS": "4",
+        "WNN_LOADER_WORKERS": "2",
+        "WNN_LOADER_RAM_GB": "8",
+        "OMP_NUM_THREADS": "4",
+        "MKL_NUM_THREADS": "4",
+        "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+        "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "runner_pid": 1342417,
+      "runner_start_ticks": "2078228604",
+      "pid": 1342419,
+      "start_ticks": "2078228608",
+      "process_group": 1342419,
+      "session": 1342419,
+      "command_started_utc": "2026-10-30T18:32:49.928832+00:00",
+      "return_code": 0,
+      "finished_utc": "2026-10-30T19:14:37.992598+00:00",
+      "elapsed_seconds": 2508.068766821176,
+      "child_max_rss_kib": 8618508,
+      "child_user_seconds": 2577.789844,
+      "child_system_seconds": 1026.792975
+    }
+  },
+  "errors": {},
+  "jobs": {
+    "export-tcn_s1202-train-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/export-tcn_s1202-train-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/export-tcn_s1202-train-r1.json",
+      "runner_pid": 1342149,
+      "runner_start_ticks": "2078224881",
+      "phase": "train_export",
+      "role": "tcn_s1202",
+      "gpu": 1,
+      "adopted": true,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T18:32:12.698380+00:00",
+        "request_sha256": "9c0629e13ff8117e6a30fd5ea691f266a845de08a3cedd4a3c5d34664c4b8262",
+        "command_sha256": "30ddf4fe2357bbb128d85e1ddcf6adc5b65af827c70427d5d1af67270ea4bdfd",
+        "phase": "train_export",
+        "role": "tcn_s1202",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+        "wall_seconds": 1800,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/export-tcn_s1202-train-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1342149,
+        "runner_start_ticks": "2078224881",
+        "pid": 1342152,
+        "start_ticks": "2078224885",
+        "process_group": 1342152,
+        "session": 1342152,
+        "command_started_utc": "2026-10-30T18:32:12.703212+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T18:34:50.652847+00:00",
+        "elapsed_seconds": 157.95449690893292,
+        "child_max_rss_kib": 3404108,
+        "child_user_seconds": 258.050536,
+        "child_system_seconds": 125.369332
+      }
+    },
+    "export-tcn_s1202-valid-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/export-tcn_s1202-valid-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/export-tcn_s1202-valid-r1.json",
+      "runner_pid": 1345091,
+      "runner_start_ticks": "2078263732",
+      "phase": "valid_export",
+      "role": "tcn_s1202",
+      "gpu": 1,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T18:38:41.204354+00:00",
+        "request_sha256": "df2fb2ea0737e96df746589ec239b4b27965ff16427512f2c6c7bf0d1ddb95d4",
+        "command_sha256": "6ed2788e732ff9850d06f752d40f0fab7f02ceea426195d694acab2c2d6f6ecf",
+        "phase": "valid_export",
+        "role": "tcn_s1202",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+        "wall_seconds": 1800,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/export-tcn_s1202-valid-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1345091,
+        "runner_start_ticks": "2078263732",
+        "pid": 1345094,
+        "start_ticks": "2078263736",
+        "process_group": 1345094,
+        "session": 1345094,
+        "command_started_utc": "2026-10-30T18:38:41.208097+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T18:39:13.171049+00:00",
+        "elapsed_seconds": 31.966712586581707,
+        "child_max_rss_kib": 2040116,
+        "child_user_seconds": 49.361763,
+        "child_system_seconds": 21.465874
+      }
+    },
+    "export-lstm_s1201-train-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/export-lstm_s1201-train-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/export-lstm_s1201-train-r1.json",
+      "runner_pid": 1352334,
+      "runner_start_ticks": "2078358043",
+      "phase": "train_export",
+      "role": "lstm_s1201",
+      "gpu": 0,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T18:54:24.313405+00:00",
+        "request_sha256": "8e4a6386adde86c79fc3bb443187fbb59619e1b2f82774c116df732f349de411",
+        "command_sha256": "533a09b620223b946719517f9860dd0f704f3b3e78468f04ac9c48823116c086",
+        "phase": "train_export",
+        "role": "lstm_s1201",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+        "wall_seconds": 1800,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/export-lstm_s1201-train-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1352334,
+        "runner_start_ticks": "2078358043",
+        "pid": 1352337,
+        "start_ticks": "2078358047",
+        "process_group": 1352337,
+        "session": 1352337,
+        "command_started_utc": "2026-10-30T18:54:24.319003+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T18:59:56.976930+00:00",
+        "elapsed_seconds": 332.6635496802628,
+        "child_max_rss_kib": 3414124,
+        "child_user_seconds": 380.397449,
+        "child_system_seconds": 171.871191
+      }
+    },
+    "export-lstm_s1201-valid-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/export-lstm_s1201-valid-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/export-lstm_s1201-valid-r1.json",
+      "runner_pid": 1354904,
+      "runner_start_ticks": "2078391728",
+      "phase": "valid_export",
+      "role": "lstm_s1201",
+      "gpu": 0,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T19:00:01.166633+00:00",
+        "request_sha256": "05b156d36f8a833fec883cfcf50ed63468ffaf56cc2c79d90d63e29abf9b3ad8",
+        "command_sha256": "e8e54c2e32660137ea0eb503b130de8c76c3b596d3ca71e9c547ff21456849cc",
+        "phase": "valid_export",
+        "role": "lstm_s1201",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+        "wall_seconds": 1800,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/export-lstm_s1201-valid-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1354904,
+        "runner_start_ticks": "2078391728",
+        "pid": 1354905,
+        "start_ticks": "2078391732",
+        "process_group": 1354905,
+        "session": 1354905,
+        "command_started_utc": "2026-10-30T19:00:01.170630+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T19:01:04.326283+00:00",
+        "elapsed_seconds": 63.159669041633606,
+        "child_max_rss_kib": 2052116,
+        "child_user_seconds": 71.782437,
+        "child_system_seconds": 29.386392
+      }
+    },
+    "cache-heterogeneous-controller-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/cache-heterogeneous-controller-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/cache-heterogeneous-controller-r1.json",
+      "runner_pid": 1354994,
+      "runner_start_ticks": "2078392678",
+      "phase": "cache",
+      "role": "heterogeneous",
+      "gpu": null,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "running",
+        "started_utc": "2026-10-30T19:00:10.670236+00:00",
+        "request_sha256": "fe78425078e758998e6dfd54f97a5b4dc0750535a88ef1234a8a43c08b8d41f7",
+        "command_sha256": "ad57111a9b758d66b1ca24184d8bfd5feee89711a03e33333bd97535e69eaed5",
+        "phase": "cache",
+        "role": "heterogeneous",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": null,
+        "wall_seconds": 1800,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/cache-heterogeneous-controller-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1354994,
+        "runner_start_ticks": "2078392678",
+        "pid": 1354997,
+        "start_ticks": "2078392682",
+        "process_group": 1354997,
+        "session": 1354997,
+        "command_started_utc": "2026-10-30T19:00:10.675429+00:00"
+      }
+    },
+    "profile-heterogeneous_s1302-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/profile-heterogeneous_s1302-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/profile-heterogeneous_s1302-r1.json",
+      "runner_pid": 1355364,
+      "runner_start_ticks": "2078398064",
+      "phase": "profile",
+      "role": "heterogeneous_s1302",
+      "gpu": 1,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T19:01:04.530880+00:00",
+        "request_sha256": "38ad0cc313d5052cf2c435c1dcc589cce9c256d633f12beb6b207767c6246a6c",
+        "command_sha256": "c10c48123e43093e9e383de4d7c8f671129ce9d9011af6f3c322956a1b729214",
+        "phase": "profile",
+        "role": "heterogeneous_s1302",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+        "wall_seconds": 900,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/profile-heterogeneous_s1302-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1355364,
+        "runner_start_ticks": "2078398064",
+        "pid": 1355367,
+        "start_ticks": "2078398068",
+        "process_group": 1355367,
+        "session": 1355367,
+        "command_started_utc": "2026-10-30T19:01:04.533849+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T19:01:30.387174+00:00",
+        "elapsed_seconds": 25.856320720165968,
+        "child_max_rss_kib": 4222784,
+        "child_user_seconds": 24.245461,
+        "child_system_seconds": 14.422998
+      }
+    },
+    "profile-heterogeneous_s1301-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/profile-heterogeneous_s1301-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/profile-heterogeneous_s1301-r1.json",
+      "runner_pid": 1355520,
+      "runner_start_ticks": "2078399643",
+      "phase": "profile",
+      "role": "heterogeneous_s1301",
+      "gpu": 0,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T19:01:20.315372+00:00",
+        "request_sha256": "58af94078bcc8921d44a4e7158bde3f1a474ff3f6e4db89ee6d9513d8af1a88d",
+        "command_sha256": "bf970f34be0732ba4977430a00bc6534ae4c11b34f1f740fc70ed2e880f854fc",
+        "phase": "profile",
+        "role": "heterogeneous_s1301",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+        "wall_seconds": 900,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/profile-heterogeneous_s1301-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1355520,
+        "runner_start_ticks": "2078399643",
+        "pid": 1355523,
+        "start_ticks": "2078399647",
+        "process_group": 1355523,
+        "session": 1355523,
+        "command_started_utc": "2026-10-30T19:01:20.318100+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T19:01:46.520887+00:00",
+        "elapsed_seconds": 26.20553857460618,
+        "child_max_rss_kib": 4222904,
+        "child_user_seconds": 24.433743,
+        "child_system_seconds": 14.712201
+      }
+    },
+    "fit-heterogeneous_s1302-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/fit-heterogeneous_s1302-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/fit-heterogeneous_s1302-r1.json",
+      "runner_pid": 1355663,
+      "runner_start_ticks": "2078401183",
+      "phase": "fit",
+      "role": "heterogeneous_s1302",
+      "gpu": 1,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T19:01:35.715538+00:00",
+        "request_sha256": "4542b8666bac1091f84008b8e1c87f79c0ca42b74b9c092918b37d3312454017",
+        "command_sha256": "3943821dac20b89b0ab1c49d65dea076db649657e3c6bd011f09bb245bb10d14",
+        "phase": "fit",
+        "role": "heterogeneous_s1302",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+        "wall_seconds": 20216.585529919714,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/fit-heterogeneous_s1302-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1355663,
+        "runner_start_ticks": "2078401183",
+        "pid": 1355673,
+        "start_ticks": "2078401187",
+        "process_group": 1355673,
+        "session": 1355673,
+        "command_started_utc": "2026-10-30T19:01:35.718505+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T19:43:34.705050+00:00",
+        "elapsed_seconds": 2518.989536046982,
+        "child_max_rss_kib": 8664556,
+        "child_user_seconds": 2592.535238,
+        "child_system_seconds": 1025.289282
+      }
+    },
+    "fit-heterogeneous_s1301-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/fit-heterogeneous_s1301-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/fit-heterogeneous_s1301-r1.json",
+      "runner_pid": 1355870,
+      "runner_start_ticks": "2078402721",
+      "phase": "fit",
+      "role": "heterogeneous_s1301",
+      "gpu": 0,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T19:01:51.102037+00:00",
+        "request_sha256": "b8651788c56473b48821fb23bc8843a6a97b63c03bd0510560434cf15fd2f107",
+        "command_sha256": "6f243d5870fe212155edb7cc876d29c06f050bcdc92a3d7ef320777a37e83db2",
+        "phase": "fit",
+        "role": "heterogeneous_s1301",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+        "wall_seconds": 20201.19858828932,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/fit-heterogeneous_s1301-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1355870,
+        "runner_start_ticks": "2078402721",
+        "pid": 1355873,
+        "start_ticks": "2078402725",
+        "process_group": 1355873,
+        "session": 1355873,
+        "command_started_utc": "2026-10-30T19:01:51.104783+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T19:44:48.212942+00:00",
+        "elapsed_seconds": 2577.1109246723354,
+        "child_max_rss_kib": 8630260,
+        "child_user_seconds": 2613.90873,
+        "child_system_seconds": 1071.70073
+      }
+    },
+    "export-control_s1301-valid-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/export-control_s1301-valid-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/export-control_s1301-valid-r1.json",
+      "runner_pid": 1361867,
+      "runner_start_ticks": "2078478754",
+      "phase": "valid_export",
+      "role": "control_s1301",
+      "gpu": 5,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T19:14:31.427732+00:00",
+        "request_sha256": "e4a56b074786b92b329899941bda4269ec47e0320be9f1d6a53d12baa9e879b5",
+        "command_sha256": "affa9fbea05626cfe030df87f722c5c07d513e2bde652c638c7563050d7c5c3f",
+        "phase": "valid_export",
+        "role": "control_s1301",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-48b463a4-5b0a-e277-9ef1-ee37be8015b1",
+        "wall_seconds": 1800,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/export-control_s1301-valid-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-48b463a4-5b0a-e277-9ef1-ee37be8015b1",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1361867,
+        "runner_start_ticks": "2078478754",
+        "pid": 1361870,
+        "start_ticks": "2078478758",
+        "process_group": 1361870,
+        "session": 1361870,
+        "command_started_utc": "2026-10-30T19:14:31.433450+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T19:15:24.475061+00:00",
+        "elapsed_seconds": 53.04734369367361,
+        "child_max_rss_kib": 2051124,
+        "child_user_seconds": 67.517024,
+        "child_system_seconds": 23.720994
+      }
+    },
+    "export-control_s1302-valid-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/export-control_s1302-valid-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/export-control_s1302-valid-r1.json",
+      "runner_pid": 1361997,
+      "runner_start_ticks": "2078480296",
+      "phase": "valid_export",
+      "role": "control_s1302",
+      "gpu": 6,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T19:14:46.850048+00:00",
+        "request_sha256": "ac3d1145c1dbc9dad4057d93444bbc3eeab2f84a7dfcb98de5518b272baf3e28",
+        "command_sha256": "99e5b709686b7433807411589bd27670e4799763362199f2202cbae77debf2b8",
+        "phase": "valid_export",
+        "role": "control_s1302",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-004cdb0f-3bf7-0003-702e-0e2fb87215e8",
+        "wall_seconds": 1800,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/export-control_s1302-valid-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-004cdb0f-3bf7-0003-702e-0e2fb87215e8",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1361997,
+        "runner_start_ticks": "2078480296",
+        "pid": 1362000,
+        "start_ticks": "2078480300",
+        "process_group": 1362000,
+        "session": 1362000,
+        "command_started_utc": "2026-10-30T19:14:46.854138+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T19:15:40.246352+00:00",
+        "elapsed_seconds": 53.39632831141353,
+        "child_max_rss_kib": 2051100,
+        "child_user_seconds": 65.877629,
+        "child_system_seconds": 25.594186
+      }
+    },
+    "export-heterogeneous_s1302-valid-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/export-heterogeneous_s1302-valid-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/export-heterogeneous_s1302-valid-r1.json",
+      "runner_pid": 1375364,
+      "runner_start_ticks": "2078653727",
+      "phase": "valid_export",
+      "role": "heterogeneous_s1302",
+      "gpu": 1,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T19:43:41.154285+00:00",
+        "request_sha256": "7a695fa23ca2082c81155d645736b72f7a10d036d19a4da51fcc36e247574550",
+        "command_sha256": "c40ec6bf8a0115466264326c2faba03cf47815ecdf3fe233cf497852f21aa43d",
+        "phase": "valid_export",
+        "role": "heterogeneous_s1302",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+        "wall_seconds": 1800,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/export-heterogeneous_s1302-valid-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1375364,
+        "runner_start_ticks": "2078653727",
+        "pid": 1375367,
+        "start_ticks": "2078653731",
+        "process_group": 1375367,
+        "session": 1375367,
+        "command_started_utc": "2026-10-30T19:43:41.159211+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T19:44:34.803801+00:00",
+        "elapsed_seconds": 53.64953155070543,
+        "child_max_rss_kib": 2051168,
+        "child_user_seconds": 66.354282,
+        "child_system_seconds": 25.003625
+      }
+    },
+    "export-heterogeneous_s1301-valid-r1": {
+      "status_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/export-heterogeneous_s1301-valid-r1.json",
+      "request_path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/requests/export-heterogeneous_s1301-valid-r1.json",
+      "runner_pid": 1376007,
+      "runner_start_ticks": "2078661391",
+      "phase": "valid_export",
+      "role": "heterogeneous_s1301",
+      "gpu": 0,
+      "observed": {
+        "schema": "wnn.owned-command.v1",
+        "status": "complete",
+        "started_utc": "2026-10-30T19:44:57.797346+00:00",
+        "request_sha256": "0115f4ba491f4f92ba9f895039b2298430e6142c8cfa98685e747bedf60bfd50",
+        "command_sha256": "50e9fae4d9ffbda33713610beb2bf579a91183a7f1632f704125ebe5431aa1bf",
+        "phase": "valid_export",
+        "role": "heterogeneous_s1301",
+        "source_identity": {
+          "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3.identity.json",
+          "sha256": "7a04ebb8f9fd50587745e64e4b0a5710c08d6c6e3e27f95f6dcdc2609b2e6787"
+        },
+        "gpu_uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+        "wall_seconds": 1800,
+        "cwd": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+        "log": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/logs/export-heterogeneous_s1301-valid-r1.log",
+        "environment": {
+          "CUDA_VISIBLE_DEVICES": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+          "WNN_PROJECT_ROOT": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1",
+          "PYTHONPATH": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3/src:/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/source-r3",
+          "WNN_THREADS": "4",
+          "WNN_LOADER_WORKERS": "2",
+          "WNN_LOADER_RAM_GB": "8",
+          "OMP_NUM_THREADS": "4",
+          "MKL_NUM_THREADS": "4",
+          "OPENBLAS_NUM_THREADS": "1",
+          "ARROW_NUM_THREADS": "1",
+          "CUBLAS_EMULATE_SINGLE_PRECISION": "0",
+          "TORCH_ALLOW_TF32_CUBLAS_OVERRIDE": "0",
+          "MALLOC_ARENA_MAX": "2"
+        },
+        "runner_pid": 1376007,
+        "runner_start_ticks": "2078661391",
+        "pid": 1376010,
+        "start_ticks": "2078661395",
+        "process_group": 1376010,
+        "session": 1376010,
+        "command_started_utc": "2026-10-30T19:44:57.803402+00:00",
+        "return_code": 0,
+        "finished_utc": "2026-10-30T19:45:52.245730+00:00",
+        "elapsed_seconds": 54.44840785115957,
+        "child_max_rss_kib": 2051196,
+        "child_user_seconds": 66.257387,
+        "child_system_seconds": 25.662488
+      }
+    }
+  },
+  "predecessor": {
+    "status": {
+      "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/status/controller-six-r1.json",
+      "sha256": "d1434d023b58b422f364fc2f05c0a89cca0578bbeec1ba6e0fcde232f5ceb737"
+    },
+    "stop_receipt": {
+      "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/controller-r1-stop.json",
+      "sha256": "359f1f4ddd3f15b29857b2cdd9f1ce755c6ef2263cec5e40229b6d977c91d0fc"
+    }
+  },
+  "controller_helpers": [
+    {
+      "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/tools-r4/scripts/heterogeneous_six_support.py",
+      "sha256": "d9025a3c1688f6a605eac8168ae89a0abc78977e0c1e9d3e40fb2dd05a5959b7"
+    },
+    {
+      "path": "/data2/lc-epanov_s/tabdata/runtime/heterogeneous-20261030-r1/tools-r4/scripts/heterogeneous_six_evidence.py",
+      "sha256": "ceea4e6d1960a7674420332fac679a086ca0736b20a6f23c899eaa2a1a33c3d2"
+    }
+  ],
+  "elapsed_seconds": 4046.732472203672,
+  "scientific_fits_admitted": 6,
+  "gpu_observation": {
+    "0": {
+      "uuid": "GPU-222adc44-ecd3-a645-cf7e-ddda9d495f7a",
+      "memory_mib": 0,
+      "utilization": 0,
+      "pids": []
+    },
+    "1": {
+      "uuid": "GPU-bce838c4-097e-0623-7b67-6a97f3778510",
+      "memory_mib": 0,
+      "utilization": 0,
+      "pids": []
+    },
+    "2": {
+      "uuid": "GPU-9fd565e2-ebb2-35be-c628-d971a575aa7e",
+      "memory_mib": 0,
+      "utilization": 0,
+      "pids": []
+    },
+    "3": {
+      "uuid": "GPU-02d8270f-e4ee-1363-8232-15c0726fdab1",
+      "memory_mib": 0,
+      "utilization": 0,
+      "pids": []
+    },
+    "4": {
+      "uuid": "GPU-9943f86e-f085-2d36-2c12-8d2a22111ef0",
+      "memory_mib": 1148,
+      "utilization": 0,
+      "pids": [
+        3731457,
+        1464449
+      ]
+    },
+    "5": {
+      "uuid": "GPU-48b463a4-5b0a-e277-9ef1-ee37be8015b1",
+      "memory_mib": 0,
+      "utilization": 0,
+      "pids": []
+    },
+    "6": {
+      "uuid": "GPU-004cdb0f-3bf7-0003-702e-0e2fb87215e8",
+      "memory_mib": 0,
+      "utilization": 0,
+      "pids": []
+    },
+    "7": {
+      "uuid": "GPU-cd069633-c451-769e-3727-cb1fe310e407",
+      "memory_mib": 0,
+      "utilization": 0,
+      "pids": []
+    }
+  }
+}

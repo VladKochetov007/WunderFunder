@@ -24,7 +24,24 @@ from wnn.distillation_cache import (
     file_sha256,
     row_groups_sha256,
 )
-from wnn.splits import CampaignSplit, load_campaign_split
+from wnn.final_submit_manifest import FinalFitMembership, load_final_fit_membership
+from wnn.splits import (
+    CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA,
+    CampaignSplit,
+    load_campaign_split,
+)
+from wnn.training.chronological_teacher import (
+    validate_chronological_teacher_checkpoint,
+    validate_chronological_teacher_membership,
+    validate_chronological_train_index_order,
+)
+from wnn.training.final_submit_bridge import (
+    final_fit_identity,
+    validate_final_fit_artifact,
+    validate_final_fit_provenance,
+    validate_source_validation_receipt,
+)
+from wnn.training.final_submit_bridge_teachers import audit_final_fit_ancestor_closure
 
 # Parsed JSON fields are intentionally dynamic and retain their source schema.
 
@@ -42,6 +59,7 @@ EPOCH_CONVENTION = {
 OUTPUT_TARGETS = {
     "all": ("main_source", "main_normalized", "main_homogeneous", "families"),
     "homogeneous-only": ("main_homogeneous",),
+    "student-required": ("main_source", "families"),
 }
 TARGET_WIDTHS = {"main_source": 2, "main_normalized": 2, "main_homogeneous": 2, "families": 8}
 
@@ -82,14 +100,17 @@ def parse_teacher(value: str) -> TeacherSource:
     return TeacherSource(family, run, coefficient, epoch)
 
 
-def _expected_groups(split: CampaignSplit, name: str) -> tuple[int, ...]:
+def _expected_groups(split: CampaignSplit | FinalFitMembership, name: str) -> tuple[int, ...]:
     return split.train_groups if name == "train" else split.valid_groups
 
 
 def _target_order(data_root: Path, split_name: str) -> list[int]:
     path = data_root / "cache" / f"{split_name}_targets.npz"
     with np.load(path, allow_pickle=False) as targets:
-        groups = np.asarray(targets["row_group"], dtype=np.int64)
+        raw_groups = np.asarray(targets["row_group"])
+    if raw_groups.ndim != 1 or raw_groups.dtype.kind not in "iu":
+        raise ValueError(f"target index must be a one-dimensional integer array: {path}")
+    groups = raw_groups.astype(np.int64, copy=False)
     if len(np.unique(groups)) != len(groups):
         raise ValueError(f"target index repeats a row group: {path}")
     return list(map(int, groups))
@@ -97,11 +118,12 @@ def _target_order(data_root: Path, split_name: str) -> list[int]:
 
 def _audit_ancestor_closure(
     run: str,
-    split: CampaignSplit,
+    split: CampaignSplit | FinalFitMembership,
     checkpoint_root: Path,
     checkpoint_file: str = "model.pt",
     expected_checkpoint_sha256: str | None = None,
     seen: set[str] | None = None,
+    data_root: Path | None = None,
 ) -> list[dict[str, Any]]:
     """Verify each learned ancestor stays inside the same clean outer fold."""
     visited = set() if seen is None else seen
@@ -118,6 +140,17 @@ def _audit_ancestor_closure(
     if not isinstance(args, dict):
         raise ValueError(f"ancestor {run} has invalid training arguments")
 
+    if isinstance(split, FinalFitMembership):
+        if data_root is None:
+            raise ValueError("final-fit ancestry audit requires the validated data root")
+        closure = audit_final_fit_ancestor_closure(run, checkpoint_file, split, data_root)
+        if (
+            expected_checkpoint_sha256
+            and closure[0]["checkpoint_sha256"] != expected_checkpoint_sha256
+        ):
+            raise ValueError(f"ancestor {run} checkpoint bytes disagree with its recorded hash")
+        return closure
+
     checkpoint_path = run_root / checkpoint_file
     checkpoint_sha256 = file_sha256(checkpoint_path)
     if expected_checkpoint_sha256 and checkpoint_sha256 != expected_checkpoint_sha256:
@@ -127,14 +160,35 @@ def _audit_ancestor_closure(
     if (
         checkpoint.get("epoch") != checkpoint_args.get("checkpoint_epoch")
         or checkpoint_args.get("checkpoint_policy") != "fixed"
-        or not checkpoint_args.get("no_eval_during_fit")
-        or checkpoint_args.get("split_manifest_sha256") != split.sha256
     ):
         raise ValueError(f"ancestor {run} is not a fixed clean-fold checkpoint")
     checkpoint_provenance = checkpoint.get("provenance", {})
-    if checkpoint_provenance.get("fit_row_groups") != provenance.get("fit_row_groups"):
-        raise ValueError(f"ancestor {run} checkpoint membership differs from run provenance")
-    _verify_run_membership(checkpoint_provenance, split, run)
+    if isinstance(split, FinalFitMembership):
+        validate_final_fit_artifact(
+            checkpoint_args, checkpoint_provenance, split, checkpoint_epoch=checkpoint.get("epoch")
+        )
+        validate_final_fit_artifact(
+            args, provenance, split, checkpoint_epoch=checkpoint.get("epoch")
+        )
+    elif checkpoint_args.get("split_manifest_sha256") != split.sha256:
+        raise ValueError(f"ancestor {run} uses a different split manifest")
+    elif split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        if checkpoint_args.get("no_eval_during_fit") is not False:
+            raise ValueError(f"ancestor {run} skipped required official validation evaluation")
+        validate_chronological_teacher_checkpoint(
+            checkpoint,
+            provenance,
+            split,
+            checkpoint_file,
+            checkpoint_sha256,
+            run,
+        )
+    else:
+        if not checkpoint_args.get("no_eval_during_fit"):
+            raise ValueError(f"ancestor {run} is not a fixed clean-fold checkpoint")
+        if checkpoint_provenance.get("fit_row_groups") != provenance.get("fit_row_groups"):
+            raise ValueError(f"ancestor {run} checkpoint membership differs from run provenance")
+        _verify_run_membership(checkpoint_provenance, split, run)
 
     closure = [
         {
@@ -142,7 +196,18 @@ def _audit_ancestor_closure(
             "provenance_sha256": file_sha256(provenance_path),
             "checkpoint_file": checkpoint_file,
             "checkpoint_sha256": checkpoint_sha256,
-            "split_manifest_sha256": split.sha256,
+            "split_manifest_sha256": None
+            if isinstance(split, FinalFitMembership)
+            else split.sha256,
+            "final_fit_manifest_sha256": (
+                split.manifest_sha256 if isinstance(split, FinalFitMembership) else None
+            ),
+            "final_fit_members_sha256": (
+                split.fit_members_sha256 if isinstance(split, FinalFitMembership) else None
+            ),
+            "source_validation_sha256": (
+                split.source_validation_sha256 if isinstance(split, FinalFitMembership) else None
+            ),
             "fit_group_counts": fit_counts,
             "fit_row_group_hashes": {
                 name: row_groups_sha256(list(map(int, provenance["fit_row_groups"].get(name, []))))
@@ -171,6 +236,7 @@ def _audit_ancestor_closure(
                 f"model_ep{int(epoch_text)}.pt" if separator else "model.pt",
                 parent_sha256,
                 visited.copy(),
+                data_root,
             )
         )
 
@@ -190,17 +256,28 @@ def _audit_ancestor_closure(
                 "model.pt",
                 propensity_sha256,
                 visited.copy(),
+                data_root,
             )
         )
     return closure
 
 
 def _verify_run_membership(
-    provenance: dict[str, Any], split: CampaignSplit, run: str
+    provenance: dict[str, Any], split: CampaignSplit | FinalFitMembership, run: str
 ) -> dict[str, int]:
     """Require source fitting groups to stay inside the clean fold's fit pool."""
+    if isinstance(split, FinalFitMembership):
+        args = provenance.get("args")
+        if isinstance(args, dict):
+            validate_final_fit_artifact(args, provenance, split)
+        else:
+            validate_final_fit_provenance(provenance, split)
+        return {"train": len(split.train_groups), "valid": len(split.valid_groups)}
     if provenance.get("split_manifest_sha256") != split.sha256:
         raise ValueError(f"teacher {run} uses a different split manifest")
+    if split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        validate_chronological_teacher_membership(provenance, split, run)
+        return {"train": len(split.train_groups), "valid": 0}
     fit_groups = provenance.get("fit_row_groups")
     if not isinstance(fit_groups, dict):
         raise ValueError(f"teacher {run} has no recorded fit membership")
@@ -217,18 +294,21 @@ def _verify_run_membership(
 
 def _inspect_teacher(
     run: str,
-    split: CampaignSplit,
+    split: CampaignSplit | FinalFitMembership,
     cache_root: Path,
     checkpoint_root: Path,
     target_orders: dict[str, list[int]],
     epoch: int,
+    checkpoint_file: str | None = None,
 ) -> tuple[dict[str, Any], dict[str, np.ndarray], dict[str, dict[str, Any]]]:
     """Verify teacher checkpoint bytes, architecture, fit groups and prediction caches."""
     if not RUN_NAME.fullmatch(run):
         raise ValueError(f"invalid teacher run name: {run}")
     run_root = checkpoint_root / run
     provenance_path = run_root / "provenance.json"
-    checkpoint_path = run_root / f"model_ep{epoch}.pt"
+    if checkpoint_file not in (None, "model.pt", f"model_ep{epoch}.pt"):
+        raise ValueError("teacher checkpoint must be the selected fixed or explicit epoch snapshot")
+    checkpoint_path = run_root / (checkpoint_file or f"model_ep{epoch}.pt")
     if not provenance_path.is_file() or not checkpoint_path.is_file():
         raise FileNotFoundError(f"teacher {run} lacks provenance or model_ep{epoch}.pt")
     provenance = json.loads(provenance_path.read_text())
@@ -240,13 +320,26 @@ def _inspect_teacher(
 
     checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
     args = checkpoint.get("args", {})
-    if (
-        checkpoint.get("epoch") != epoch
-        or args.get("checkpoint_policy") != "fixed"
-        or args.get("checkpoint_epoch") != epoch
-        or args.get("split_manifest_sha256") != split.sha256
-    ):
+    if checkpoint.get("epoch") != epoch or args.get("checkpoint_policy") != "fixed":
         raise ValueError(f"teacher {run} checkpoint is not the requested fixed clean-fold epoch")
+    if isinstance(split, FinalFitMembership):
+        validate_final_fit_artifact(
+            args, checkpoint.get("provenance", {}), split, checkpoint_epoch=epoch
+        )
+        validate_final_fit_artifact(
+            provenance.get("args", {}), provenance, split, checkpoint_epoch=epoch
+        )
+    elif args.get("split_manifest_sha256") != split.sha256:
+        raise ValueError(f"teacher {run} checkpoint uses a different split manifest")
+    elif split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        validate_chronological_teacher_checkpoint(
+            checkpoint,
+            provenance,
+            split,
+            checkpoint_path.name,
+            checkpoint_sha256,
+            run,
+        )
     checkpoint_provenance = checkpoint.get("provenance", {})
     _verify_run_membership(checkpoint_provenance, split, run)
     model_state = checkpoint.get("model", {})
@@ -287,11 +380,49 @@ def _inspect_teacher(
             sidecar.get("run") != run
             or sidecar.get("split") != split_name
             or sidecar.get("epoch") != epoch
-            or sidecar.get("split_manifest_sha256") != split.sha256
             or sidecar.get("checkpoint_sha256") != checkpoint_sha256
         ):
             raise ValueError(
                 f"teacher {run} {split_name} prediction sidecar is not bound to its checkpoint"
+            )
+        if (
+            isinstance(split, CampaignSplit)
+            and sidecar.get("split_manifest_sha256") != split.sha256
+        ):
+            raise ValueError(f"teacher {run} {split_name} prediction uses a different split")
+        if isinstance(split, FinalFitMembership) and (
+            sidecar.get("final_fit_manifest_sha256") != split.manifest_sha256
+            or sidecar.get("final_fit_members_sha256") != split.fit_members_sha256
+            or sidecar.get("source_validation_sha256") != split.source_validation_sha256
+            or sidecar.get("campaign_export_scope") != "final-fit-source-index-feature-only"
+            or sidecar.get("campaign_split_manifest_sha256") is not None
+            or sidecar.get("feature_only") is not True
+            or sidecar.get("prediction_role")
+            != "fitting-only teacher features; no independent score"
+            or sidecar.get("independent_score_claim") != "forbidden"
+            or sidecar.get("checkpoint_file") != checkpoint_path.name
+            or sidecar.get("run_provenance_sha256") != file_sha256(provenance_path)
+            or sidecar.get("row_groups_sha256")
+            != row_groups_sha256(_expected_groups(split, split_name))
+        ):
+            raise ValueError(
+                f"teacher {run} {split_name} export is not bound to final-fit ancestry"
+            )
+        if (
+            isinstance(split, CampaignSplit)
+            and split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
+            and (
+                split_name != "train"
+                or sidecar.get("campaign_export_scope")
+                != "chronological-full-train-index-feature-only"
+                or sidecar.get("campaign_split_manifest_sha256") != split.sha256
+                or sidecar.get("feature_only") is not True
+                or sidecar.get("checkpoint_file") != checkpoint_path.name
+                or sidecar.get("run_provenance_sha256") != file_sha256(provenance_path)
+            )
+        ):
+            raise ValueError(
+                f"teacher {run} train prediction is not a provenance-bound full-index export"
             )
         row_groups = list(map(int, sidecar.get("row_groups", [])))
         if row_groups != expected_order:
@@ -334,6 +465,16 @@ def _inspect_teacher(
         },
         "predictions": cache_records,
     }
+    if isinstance(split, FinalFitMembership):
+        record.update(
+            {
+                "final_fit_manifest_sha256": split.manifest_sha256,
+                "final_fit_members_sha256": split.fit_members_sha256,
+                "source_validation_sha256": split.source_validation_sha256,
+                "prediction_role": "fitting-only teacher targets; no independent score",
+                "independent_score_claim": "forbidden",
+            }
+        )
     return record, predictions, cache_records
 
 
@@ -351,11 +492,30 @@ def _array_entry(path: Path, row_groups: list[int], array: np.ndarray) -> dict[s
 
 
 def build_cache(args: argparse.Namespace) -> Path:
-    """Create the declared fold-bound distillation targets without array copies."""
+    """Create the declared split-bound or explicit final-fit distillation targets."""
     data_root = args.data_root.resolve()
     cache_root = args.teacher_cache_root.resolve()
     checkpoint_root = args.checkpoint_root.resolve()
-    split = load_campaign_split(args.split_manifest.resolve(), data_root)
+    final_fit_manifest = getattr(args, "final_fit_manifest", None)
+    final_fit_receipt = getattr(args, "final_fit_source_validation_receipt", None)
+    final_fit_receipt_sha256 = getattr(args, "final_fit_source_validation_sha256", None)
+    if final_fit_manifest is not None:
+        if args.split_manifest is not None or final_fit_receipt is None:
+            raise ValueError("final-fit cache requires only its manifest and source receipt")
+        split = load_final_fit_membership(
+            final_fit_manifest.resolve(),
+            data_root,
+            final_fit_receipt_sha256,
+        )
+        validate_source_validation_receipt(
+            final_fit_receipt,
+            final_fit_receipt_sha256,
+            split,
+        )
+    else:
+        if args.split_manifest is None:
+            raise ValueError("cache build requires --split-manifest or --final-fit-manifest")
+        split = load_campaign_split(args.split_manifest.resolve(), data_root)
     if any(source.epoch < 0 for source in args.teacher):
         raise ValueError("teacher epochs must be nonnegative zero-based indices")
     if abs(args.expected_coefficient_sum - 0.8125) > 1e-7:
@@ -374,7 +534,22 @@ def build_cache(args: argparse.Namespace) -> Path:
     if args.chunk_sequences < 1 or args.chunk_sequences > 64:
         raise ValueError("chunk sequence count must be between 1 and 64")
 
-    target_orders = {name: _target_order(data_root, name) for name in ("train", "valid")}
+    if isinstance(split, FinalFitMembership):
+        target_orders = {name: list(_expected_groups(split, name)) for name in ("train", "valid")}
+        for name in ("train", "valid"):
+            if _target_order(data_root, name) != target_orders[name]:
+                raise ValueError(f"{name} target index differs from final-fit source row order")
+    else:
+        target_orders = {
+            "train": _target_order(data_root, "train"),
+            "valid": (
+                []
+                if split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
+                else _target_order(data_root, "valid")
+            ),
+        }
+    if isinstance(split, CampaignSplit) and split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA:
+        validate_chronological_train_index_order(data_root, target_orders["train"], split, "train")
     row_groups = {
         name: [
             group for group in target_orders[name] if group in set(_expected_groups(split, name))
@@ -405,14 +580,34 @@ def build_cache(args: argparse.Namespace) -> Path:
 
     records: list[dict[str, Any]] = []
     predictions: dict[str, dict[str, np.ndarray]] = {}
+    prediction_splits = (
+        ("train",)
+        if isinstance(split, CampaignSplit) and split.schema == CHRONOLOGICAL_PRIMARY_SPLIT_SCHEMA
+        else ("train", "valid")
+    )
     for source in args.teacher:
         if source.family not in FAMILY_ORDER:
             raise ValueError(f"unknown teacher family: {source.family}")
+        checkpoint_file = (
+            "model.pt"
+            if getattr(args, "prediction_checkpoint", "epoch") == "selected-fixed"
+            else f"model_ep{source.epoch}.pt"
+        )
         ancestor_closure = _audit_ancestor_closure(
-            source.run, split, checkpoint_root, f"model_ep{source.epoch}.pt"
+            source.run,
+            split,
+            checkpoint_root,
+            checkpoint_file,
+            data_root=data_root,
         )
         record, arrays, _ = _inspect_teacher(
-            source.run, split, cache_root, checkpoint_root, target_orders, source.epoch
+            source.run,
+            split,
+            cache_root,
+            checkpoint_root,
+            {name: target_orders[name] for name in prediction_splits},
+            source.epoch,
+            checkpoint_file,
         )
         record["family"] = source.family
         record["coefficient"] = source.coefficient
@@ -429,6 +624,13 @@ def build_cache(args: argparse.Namespace) -> Path:
             target: (len(groups), SEQUENCE_ROWS, TARGET_WIDTHS[target])
             for target in OUTPUT_TARGETS[args.output_profile]
         }
+        if not groups:
+            for name, shape in shapes.items():
+                path = partial / f"{name}_{split_name}.npy"
+                empty = np.empty(shape, dtype=np.float32)
+                np.save(path, empty, allow_pickle=False)
+                file_entries[f"{name}_{split_name}"] = _array_entry(path, groups, empty)
+            continue
         outputs = {
             name: np.lib.format.open_memmap(
                 partial / f"{name}_{split_name}.npy", mode="w+", dtype=np.float32, shape=shape
@@ -468,11 +670,13 @@ def build_cache(args: argparse.Namespace) -> Path:
     metadata: dict[str, Any] = {
         "format": CACHE_FORMAT,
         "version": CACHE_VERSION,
-        "fold": split.fold,
-        "split_manifest": str(split.path),
-        "split_manifest_sha256": split.sha256,
+        "fold": None if isinstance(split, FinalFitMembership) else split.fold,
+        "split_manifest": None if isinstance(split, FinalFitMembership) else str(split.path),
+        "split_manifest_sha256": None if isinstance(split, FinalFitMembership) else split.sha256,
         "fit_groups": {"train": list(split.train_groups), "valid": list(split.valid_groups)},
-        "evaluation_valid_groups": list(split.evaluation_groups),
+        "evaluation_valid_groups": []
+        if isinstance(split, FinalFitMembership)
+        else list(split.evaluation_groups),
         "family_order": list(FAMILY_ORDER),
         "source_coefficients": [
             {
@@ -492,6 +696,9 @@ def build_cache(args: argparse.Namespace) -> Path:
         "files": file_entries,
         "estimated_bytes": estimated_bytes,
     }
+    if isinstance(split, FinalFitMembership):
+        metadata["final_fit"] = final_fit_identity(split)
+        metadata["prediction_role"] = "fitting-only-teacher-targets; no independent evaluation"
     (partial / "metadata.json").write_text(json.dumps(metadata, indent=2) + "\n")
     os.replace(partial, output_path)
     print(
@@ -510,10 +717,19 @@ def build_cache(args: argparse.Namespace) -> Path:
 def main() -> None:
     """Parse the frozen cache recipe and build its audited targets."""
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--prediction-checkpoint",
+        choices=("epoch", "selected-fixed"),
+        default="epoch",
+        help="Bind existing prediction bytes to their actual fixed selected checkpoint; never relabel hashes",
+    )
     parser.add_argument("--data-root", type=Path, default=ROOT)
     parser.add_argument("--teacher-cache-root", type=Path, default=ROOT / "cache")
     parser.add_argument("--checkpoint-root", type=Path, default=ROOT / "artifacts" / "runs")
-    parser.add_argument("--split-manifest", required=True, type=Path)
+    parser.add_argument("--split-manifest", type=Path)
+    parser.add_argument("--final-fit-manifest", type=Path)
+    parser.add_argument("--final-fit-source-validation-receipt", type=Path)
+    parser.add_argument("--final-fit-source-validation-sha256")
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument(
         "--teacher",
@@ -539,6 +755,23 @@ def main() -> None:
     parser.add_argument("--output-budget-gb", type=float, default=30.0)
     parser.add_argument("--min-free-gb", type=float, default=25.0)
     args = parser.parse_args()
+    final_fit_selected = args.final_fit_manifest is not None
+    receipt_selected = (
+        args.final_fit_source_validation_receipt is not None
+        or args.final_fit_source_validation_sha256 is not None
+    )
+    if final_fit_selected != receipt_selected or (
+        final_fit_selected
+        and (
+            args.final_fit_source_validation_receipt is None
+            or args.final_fit_source_validation_sha256 is None
+        )
+    ):
+        parser.error("--final-fit-manifest requires source-validation receipt path and SHA256")
+    if args.split_manifest is not None and final_fit_selected:
+        parser.error("--split-manifest and --final-fit-manifest are mutually exclusive")
+    if args.split_manifest is None and not final_fit_selected:
+        parser.error("cache build requires --split-manifest or --final-fit-manifest")
     if args.output_budget_gb <= 0 or args.min_free_gb < 0:
         parser.error("disk budgets must be positive (minimum free space may be zero)")
     build_cache(args)

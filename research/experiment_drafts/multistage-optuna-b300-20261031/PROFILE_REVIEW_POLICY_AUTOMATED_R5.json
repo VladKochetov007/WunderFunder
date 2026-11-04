@@ -1,0 +1,196 @@
+{
+  "schema": "wnn.multistage-profile-review-policy.v6",
+  "policy_id": "E-MULTISTAGE-OPTUNA-B300-20261031-AUTOMATED-PROFILE-ADMISSION-R5",
+  "revision": "AUTOMATED-R5",
+  "status": "frozen",
+  "frozen_artifacts_unchanged": [
+    "PROFILE_REVIEW_POLICY_R1.json",
+    "PROFILE_REVIEW_POLICY_R2.json",
+    "PROFILE_REVIEW_POLICY_R3.json",
+    "PROFILE_REVIEW_POLICY_R4.json",
+    "PROFILE_REVIEW_POLICY_R5.json",
+    "review_profile.py",
+    "PROFILE_REVIEW_POLICY_AUTOMATED_R1.json",
+    "review_multistage_profile.py",
+    "PROFILE_REVIEW_POLICY_AUTOMATED_R2.json",
+    "review_multistage_profile_r2.py",
+    "PROFILE_REVIEW_POLICY_AUTOMATED_R3.json",
+    "review_multistage_profile_r3.py",
+    "PROFILE_REVIEW_POLICY_AUTOMATED_R4.json",
+    "review_multistage_profile_r4.py"
+  ],
+  "identity": {
+    "source_sha256_by_stage": {
+      "1": "c520c67ca8d1fb49fc0c452a4606f5ad130ed51e7fc689fdaf9daea2b429dd81",
+      "2": "2661a89285bd528e1bca690a340e71a21816a7b54e3ba1635d14925f3a9c1e4e",
+      "3": "2661a89285bd528e1bca690a340e71a21816a7b54e3ba1635d14925f3a9c1e4e"
+    },
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "auxiliary_split_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075",
+    "primary_fit_train_sequences": 10325,
+    "primary_fit_valid_sequences": 0,
+    "primary_eval_valid_sequences": 1873,
+    "auxiliary_fit_train_sequences": 8260,
+    "auxiliary_fit_valid_sequences": 0,
+    "auxiliary_control_train_sequences": 2065,
+    "auxiliary_evaluation_role": "control",
+    "auxiliary_evaluation_source": "train",
+    "auxiliary_chronology_claim": false,
+    "objective_scope": "inner_train_proxy",
+    "primary_valid_used": false
+  },
+  "profile": {
+    "allowed_stages": [
+      1,
+      2,
+      3
+    ],
+    "updates": 50,
+    "max_wall_seconds": 180,
+    "world_size": 1,
+    "precision_mode": "fp32",
+    "tf32": false,
+    "autocast": false,
+    "bf16x9": false,
+    "max_allocated_bytes": 68719476736,
+    "max_reserved_bytes": 68719476736,
+    "min_nvml_free_before_bytes": 34359738368,
+    "min_nvml_free_after_peak_bytes": 34359738368,
+    "max_host_rss_bytes": 25769803776,
+    "cpu_threads": 4,
+    "effective_thread_environment": {
+      "OMP_NUM_THREADS": "4",
+      "MKL_NUM_THREADS": "4",
+      "OPENBLAS_NUM_THREADS": "4"
+    },
+    "require_finite_rank0_loss_gradient_and_lr_each_update": true,
+    "allowed_nonfinite_updates": 0,
+    "native_approved_must_be_false": true,
+    "native_errors_must_be_empty": true,
+    "primary_validation_fit_or_profile": false,
+    "require_terminal_owned_process_receipt": true
+  },
+  "memory_identity": {
+    "nvml_total_memory_bytes": 288400343040,
+    "torch_total_memory_bytes": 287428640768,
+    "compare_totals_across_apis": false,
+    "require_same_exact_device_uuid": true
+  },
+  "uuid_identity": {
+    "accepted_syntax": "strict 8-4-4-4-12 hexadecimal UUID, optionally prefixed by GPU-",
+    "canonical_comparison": "lowercase hex; strip only optional GPU- prefix",
+    "request_selector_and_nvml_binding": "remain exact raw-string comparisons",
+    "memory_and_device_identity_relaxed": false
+  },
+  "portable_data_registry": {
+    "filename": "portable-data-r1.json",
+    "sha256": "dc0cb4d1957b354509ae46f88b6bdf3708b44adc8ef6f375d2ad430f4a9a07a1",
+    "purpose": "bind footer-only parquet fingerprints in Source5B ancestry to the sealed full-source hashes"
+  },
+  "fixed_final_objective_gate": {
+    "status": "required_not_attested",
+    "candidate_checkpoint": "fit_output/model.pt",
+    "checkpoint_policy": "configured-final-epoch",
+    "objective": "inner-train control WP on all_after_warmup AND row_index>=99 recomputed from the exact configured-final model.pt",
+    "best_observed_control_metrics": "diagnostic_only; never the Optuna objective",
+    "required_execution_attestation": "a separately reviewed helper execution receipt bound to the exact result, final model.pt, config and scorer outputs",
+    "attestation_present": false
+  },
+  "campaign_bounds": {
+    "max_fit_attempts": 48,
+    "max_profile_attempts": 56,
+    "campaign_wall_seconds_from_first_profile": 21600,
+    "collection_reserve_seconds": 1200,
+    "stage_fit_cap_keys": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ]
+  },
+  "stage_rules": {
+    "stage1": {
+      "teacher": "absent",
+      "initializer": "absent",
+      "kd_weight": 0,
+      "hint_weight": 0,
+      "model_hint_dim": 0
+    },
+    "stage2": {
+      "teacher": "absent",
+      "kd_weight": 0,
+      "hint_weight": 0,
+      "model_hint_dim": 0,
+      "initializer": "exact_direct_label_only_parent_checkpoint",
+      "fresh_optimizer": true,
+      "resume_state": false,
+      "normalization_matches_parent_and_child_fit_membership": true
+    },
+    "stage3": {
+      "paired_roles": [
+        "label_only_control",
+        "kd_student"
+      ],
+      "control_teacher": "absent",
+      "control_kd_weight": 0,
+      "student_teacher": "exact_weighted_auxiliary_fit_cache",
+      "student_kd_weight": "positive",
+      "teacher_membership": "exact_auxiliary_fit_members_only",
+      "teacher_pool_kind": "weighted_teacher_pool_v1",
+      "weighted_pool_method": "ordered_fp32_weighted_sum",
+      "weighted_pool_target_contract": {
+        "formula": "sequential float32 sum(weight_i * prediction_i) in parent order",
+        "parent_clipping": "none",
+        "pool_clipping": "none",
+        "student_target_clipping": "clamp pooled teacher target to [-2,2] in weighted MSE",
+        "student_objective": "label_loss + kd_weight * teacher_loss"
+      }
+    }
+  },
+  "receipt": {
+    "schema": "wnn.multistage-successor-profile-review.v1",
+    "approved_reviewer": "independent",
+    "engineering_admission_only": true,
+    "scientific_candidate_promotion": false
+  },
+  "reviewer_script_sha256": "0e00c69de327b0c28a014b4345ef3cfc021051c17e86726d9f53fac0db58ceb1",
+  "read_only_request_compatibility": [
+    {
+      "stages": [
+        1,
+        2,
+        3
+      ],
+      "request_policy_sha256": "153655303a89dfd9dd2372a20238327aba36337a36141373c51c5cc1e30c2f0e",
+      "request_checker_policy_sha256": "153655303a89dfd9dd2372a20238327aba36337a36141373c51c5cc1e30c2f0e",
+      "request_reviewer_script_sha256": "af50cd5f744f996971fd64330d9e89f67415beeea72d02a25edadd0b87d9a19c",
+      "purpose": "read-only re-review of unchanged Stage1/Stage2/Stage3 profile requests produced under frozen Automated-R2; preserves their original request/policy/checker hashes",
+      "request_revision": "AUTOMATED-R2",
+      "campaign_run_json_sha256": "d1f32df19d671bab3bd648bfc004eec65dced7b8d6815076c29c3e5dd4baae8e"
+    },
+    {
+      "stages": [
+        2,
+        3
+      ],
+      "request_policy_sha256": "153655303a89dfd9dd2372a20238327aba36337a36141373c51c5cc1e30c2f0e",
+      "request_checker_policy_sha256": "153655303a89dfd9dd2372a20238327aba36337a36141373c51c5cc1e30c2f0e",
+      "request_reviewer_script_sha256": "af50cd5f744f996971fd64330d9e89f67415beeea72d02a25edadd0b87d9a19c",
+      "purpose": "read-only re-review of unchanged Stage2/Stage3 R2 requests missing the redundant reviewer SHA field; require the exact campaign run.json pinned R2 policy and reviewer file bytes",
+      "request_revision": "AUTOMATED-R2",
+      "allow_missing_request_reviewer_script_sha256": true,
+      "campaign_run_json_sha256": "d1f32df19d671bab3bd648bfc004eec65dced7b8d6815076c29c3e5dd4baae8e"
+    }
+  ],
+  "consumer_corrections": [
+    "recompute config_identity with source-pinned native load_config over exact config bytes",
+    "validate normalization identity_sha256 against fit-only source-bound membership and accept only valid producer moments_sha256 with native/run-metadata equality",
+    "read profile/fit/stage caps from campaign_bounds and compare to immutable budget/attempt snapshots",
+    "verify all producer source files from the request-bound source identity before importing the exact worker source tree",
+    "revalidate the portable auxiliary split against live data files and the pinned full-source registry",
+    "use the pinned Source5B load_fitting_initializer and TeacherCache/validate_producer paths for Stage2/Stage3 ancestry",
+    "normalize the unchanged Stage1 parent config bytes with the pinned Source5B load_config before comparing the native initializer parent config identity",
+    "retain parent/child normalization identity equality and use the canonical Source5B load_fitting_initializer replay to prove exact mean/std moment equality; do not compare mean/std arrays to the normalization identity receipt",
+    "for a missing R2 request reviewer SHA, bind the exact campaign run.json, original frozen R2 policy bytes and original reviewer script bytes before emitting the derived subject binding"
+  ]
+}

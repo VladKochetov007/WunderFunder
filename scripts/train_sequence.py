@@ -16,6 +16,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--split-manifest", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--teacher-cache", type=Path)
+    parser.add_argument("--initializer", type=Path)
     parser.add_argument("--resume", type=Path)
     parser.add_argument("--profile-updates", type=int, default=0)
     parser.add_argument("--profile-receipt", type=Path)
@@ -28,6 +29,8 @@ def main() -> None:
     args = parser.parse_args()
     if args.profile_updates < 0:
         parser.error("--profile-updates cannot be negative")
+    if args.initializer is not None and args.resume is not None:
+        parser.error("--initializer starts a fresh optimizer and cannot be combined with --resume")
     if args.profile_updates and (args.resume is not None or args.profile_receipt is not None):
         parser.error("profile runs cannot resume or consume a profile receipt")
     if not args.profile_updates and args.profile_receipt is None:
@@ -42,6 +45,7 @@ def main() -> None:
         resume=args.resume,
         profile_updates=args.profile_updates,
         profile_receipt=args.profile_receipt,
+        initializer=args.initializer,
     )
 
 

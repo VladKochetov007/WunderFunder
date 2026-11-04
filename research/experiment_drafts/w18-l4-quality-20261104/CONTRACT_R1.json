@@ -1,0 +1,83 @@
+{
+  "id": "E-W18-L4-QUALITY-20261104",
+  "status": "preparing_before_any_new_fit",
+  "objective_mode": "competition",
+  "question": "Which reproducible train-only changes improve the W18/GRU lineage or add useful signal to a fixed clean baseline blend?",
+  "authority": "User explicitly authorizes generating hypotheses and testing on the complete existing 8xL4 cluster, with the established validation contract.",
+  "source_base": "6493556e8",
+  "integration_branch": "research-team",
+  "integration_base_is_ancestor": true,
+  "baseline": {
+    "submitted_reference": "W18 GRU256x2 full-corpus student, submission 1H7KP30Q",
+    "submitted_weights_for_validation": "FORBIDDEN: all train+valid members entered fitting ancestry",
+    "eligible_research_control": null,
+    "control_resolution": "Audit the cached train-only W18/TL3 lineage first. If unavailable, explicitly qualify a fresh clean GRU256x2 reference; no hidden teacher refits or relabelled reproduction.",
+    "known_public_score": null
+  },
+  "validation": {
+    "protocol": "ADR0044 official earlier train -> later complete official valid",
+    "primary_metric": "pooled official clipped-label-magnitude-weighted Pearson, official scored rows, both targets",
+    "fit_membership": "Official train only; preserve the baseline's source-qualified boundary exclusions if required by its existing contract. Freeze exact membership/hash before admission.",
+    "evaluation_membership": "All 1873 official validation sequences; never a random fold or seq_ix-ordered split",
+    "ancestry": "Valid excluded from every normalizer, teacher, initializer, learned preprocessing and blend fitting",
+    "exposure": "Previously inspected development validation; not a fresh confirmation set",
+    "additional_chronological_splits": "Require real timestamp/order evidence; never infer order from shuffled identifiers"
+  },
+  "initial_allocation": {
+    "scientific_fits": 8,
+    "design": "Four configurations x two matched fitting seeds: one common control and three mechanisms, selected before candidate outcomes",
+    "seeds": [1001, 1002],
+    "maximum_epochs_per_fit": 20,
+    "fixed_primary_endpoint": "Freeze from baseline audit and actual-device cost before fitting; log best-observed checkpoints separately",
+    "maximum_engineering_profiles": 16,
+    "maximum_wave_wall_seconds_after_first_profile": 43200,
+    "collection_reserve_seconds": 2700,
+    "additional_scientific_fits": "Require a separately recorded allocation from the ongoing user authority; no automatic unbounded expansion"
+  },
+  "resources": {
+    "ssh": "lc-epanov_s@10.61.10.209",
+    "persistent_session": 31936,
+    "gpu_count": 8,
+    "observed_gpu_type": "NVIDIA L4, 23034 MiB each",
+    "gpu4_existing_service_memory_mib": 1148,
+    "foreign_process_signals": "FORBIDDEN",
+    "initial_workers": "One independent fit per admitted GPU; scale only from measured throughput and headroom",
+    "aggregate_cpu_limit": 64,
+    "aggregate_memory_limit_gib": 400,
+    "new_disk_output_limit_bytes": 8000000000,
+    "minimum_data2_free_bytes": 3000000000,
+    "observed_data2_free_bytes": 12899225600,
+    "local_work": "Preparation and bounded CPU tests only; no local GPU training",
+    "new_provider_or_billing": "FORBIDDEN"
+  },
+  "recipe_invariants": [
+    "Reuse canonical training components; never clone a trainer",
+    "Strict FP32, autocast/GradScaler/TF32 off for this comparison",
+    "Exact source/config/data/parent identities frozen before each actual fit",
+    "No quantization in research fitting or validation",
+    "Preserve all existing stopped/completed fits and historical results",
+    "No learned blend coefficients fitted on primary valid"
+  ],
+  "comparison": {
+    "primary": "Per-seed candidate minus matched control at the frozen endpoint, full official valid",
+    "secondary": "A predeclared 0.9 clean-reference + 0.1 candidate blend on identical rows; no post-hoc weight tuning",
+    "practically_useful_single_model_delta": 0.0003,
+    "practically_useful_blend_delta": 0.0002,
+    "interpretation": "Screening/allocation thresholds, not significance guarantees. Preserve all paired deltas, selection exposure, fixed-prediction uncertainty and incomplete endpoints."
+  },
+  "deliverables": [
+    "Committed diverse hypothesis cards and independent recipe/evaluator review",
+    "Actual-device profile with CPU/RAM/VRAM/step throughput and ETA",
+    "Detached bounded cohort, no duplicate fits, per-phase status and owned cleanup",
+    "Train/control/valid losses and scores, LR, gradients, skipped updates, throughput and resource graphs",
+    "Eligible checkpoints, final validation predictions, comparable per-seed table and fixed-blend results",
+    "Source/recipe/evidence on GitHub draft PRs targeting research-team"
+  ],
+  "abort": [
+    "Fitting ancestry touches valid or source/membership identity fails",
+    "Nonfinite loss/gradients, repeated OOM, disk reserve or aggregate memory limit breached",
+    "Original wave deadline reached: preserve last checkpoints and stop only owned workers"
+  ],
+  "verification_tier": "B for conditional exposed-validation comparisons; public/private transfer remains unconfirmed",
+  "root_owns_budget_and_admission": true
+}

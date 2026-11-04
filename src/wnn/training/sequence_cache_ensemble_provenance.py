@@ -3,13 +3,15 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import os
 import re
+from pathlib import Path
 from typing import Any
 
-LEGACY_STRICT_FP32 = "strict_fp32_no_autocast_no_tf32_math_sdpa"
-BF16_BF16X9 = "bf16_bf16x9"
-SUPPORTED_ATTENTION_BACKENDS = frozenset(("math", "efficient", "flex"))
-COMPILER_RECOMPILE_LIMIT = 64
+from wnn.training.sequence_cache_normalization_lineage import validate_normalization_ancestry
+from wnn.training.sequence_cache_precision import validate_precision_contract
+
+_PARQUET_FOOTER_FIELDS = frozenset(("bytes", "mtime_ns", "footer_bytes", "footer_sha256"))
 
 
 def canonical_sha256(value: object) -> str:
@@ -27,81 +29,43 @@ def canonical_sha256(value: object) -> str:
     return hashlib.sha256(encoded).hexdigest()
 
 
-def _bf16_bf16x9_identity(attention_backend: str) -> dict[str, object]:
-    """Mirror PR40's precision identity for the one accepted nonlegacy mode."""
-    if attention_backend not in SUPPORTED_ATTENTION_BACKENDS:
-        raise ValueError("teacher precision names an unsupported attention backend")
-    return {
-        "mode": BF16_BF16X9,
-        "attention_backend": attention_backend,
-        "cublas_emulate_single_precision": "1",
-        "parameter_dtype": "float32",
-        "gradient_dtype": "float32",
-        "optimizer_state_dtype": "float32",
-        "activation_cache_dtype": "float32",
-        "amp_scaler": False,
-        "model_compute": "BF16 autocast plus process-wide cuBLAS single-precision emulation",
-        "model_forward": "FP32 tensor interface with BF16 autocast and cuBLAS emulation",
-        "loss": "FP32 after prediction and hint casts",
-        "optimizer": "process-wide cuBLAS emulation may affect Muon operations",
-    }
+def _valid_sha256(value: object) -> bool:
+    """Return whether value is a lowercase SHA-256 digest."""
+    return isinstance(value, str) and re.fullmatch(r"[0-9a-f]{64}", value) is not None
 
 
-def _compiler_identity(enabled: bool) -> dict[str, object]:
-    """Return the PR40 compiler receipt dictated by the producer config."""
-    return {
-        "enabled": enabled,
-        "backend": "inductor" if enabled else None,
-        "mode": "default" if enabled else None,
-        "fullgraph": False,
-        "dynamic": None,
-        "recompile_limit": COMPILER_RECOMPILE_LIMIT if enabled else None,
-    }
-
-
-def _validate_precision_contract(
-    config: dict[str, Any], provenance: dict[str, Any], runtime: dict[str, Any]
-) -> object:
-    """Bind legacy strict-FP32 or PR40 BF16x9 attestations to the config."""
-    model = config.get("model")
-    if not isinstance(model, dict):
-        raise ValueError("teacher precision recipe has no model config")
-    mode = config.get("precision_mode", "fp32")
-    attention_backend = model.get("attention_backend", "math")
-    compile_blocks = model.get("compile_blocks", False)
+def _verify_portable_parquet_source(
+    name: str, record: dict[str, Any], primary_split_sha256: object
+) -> str:
+    """Bind footer-only run metadata to the registry verified by the data loader."""
+    registry_value = os.environ.get("WNN_PORTABLE_DATA_MANIFEST")
+    if not registry_value:
+        raise ValueError("footer-only teacher sources require the portable data registry")
+    registry = Path(registry_value)
+    if registry.is_symlink() or not registry.is_file() or registry.stat().st_size > 4 * 1024**2:
+        raise ValueError("portable data registry must be a small regular file")
+    try:
+        payload = json.loads(registry.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise ValueError("portable data registry is unreadable") from error
     if (
-        not isinstance(mode, str)
-        or not isinstance(attention_backend, str)
-        or type(compile_blocks) is not bool
+        not isinstance(payload, dict)
+        or payload.get("version") != 1
+        or not _valid_sha256(primary_split_sha256)
+        or payload.get("split_manifest_sha256") != primary_split_sha256
+        or not isinstance(payload.get("sources"), dict)
     ):
-        raise ValueError("teacher precision recipe is malformed")
-
-    if mode == BF16_BF16X9:
-        if model.get("precision_mode") != mode:
-            raise ValueError("teacher runtime model precision differs from its config")
-        expected = _bf16_bf16x9_identity(attention_backend)
-        if (
-            provenance.get("precision") != expected
-            or runtime.get("precision") != expected
-            or runtime.get("attention_backend") != attention_backend
-        ):
-            raise ValueError("teacher BF16x9 precision provenance does not match its config")
-        if runtime.get("compiler") != _compiler_identity(compile_blocks):
-            raise ValueError("teacher compiler provenance does not match its config")
-        return expected
-
-    if mode == "fp32" and provenance.get("precision") == LEGACY_STRICT_FP32:
-        if (
-            attention_backend != "math"
-            or compile_blocks
-            or "precision" in runtime
-            or "compiler" in runtime
-            or runtime.get("attention_backend") != "math"
-        ):
-            raise ValueError("legacy strict-FP32 provenance does not match its config")
-        return LEGACY_STRICT_FP32
-
-    raise ValueError("teacher precision provenance does not match a supported config")
+        raise ValueError("portable data registry does not bind the primary split")
+    original_identity = {key: value for key, value in record.items() if key != "sha256"}
+    entry = payload["sources"].get(name)
+    if (
+        not isinstance(entry, dict)
+        or entry.get("original_identity") != original_identity
+        or not _valid_sha256(entry.get("sha256"))
+        or ("sha256" in record and record["sha256"] != entry["sha256"])
+    ):
+        raise ValueError("portable registry source identity differs from teacher provenance")
+    return entry["sha256"]
 
 
 def common_provenance(producer: dict[str, Any], provenance: dict[str, Any]) -> dict[str, Any]:
@@ -155,17 +119,30 @@ def common_provenance(producer: dict[str, Any], provenance: dict[str, Any]) -> d
         key = f"datasets/{member[0]}.parquet"
         member_sources.add(key)
         record = sources.get(key)
-        if (
-            not isinstance(record, dict)
-            or not isinstance(record.get("sha256"), str)
-            or re.fullmatch(r"[0-9a-f]{64}", record["sha256"]) is None
-        ):
+        if not isinstance(record, dict):
+            raise ValueError("teacher fit source fingerprints are incomplete")
+        if "footer_sha256" in record:
+            if (
+                not _PARQUET_FOOTER_FIELDS.issubset(record)
+                or set(record) - (_PARQUET_FOOTER_FIELDS | {"sha256"})
+                or type(record.get("bytes")) is not int
+                or record["bytes"] <= 8
+                or type(record.get("mtime_ns")) is not int
+                or record["mtime_ns"] < 0
+                or type(record.get("footer_bytes")) is not int
+                or not 0 <= record["footer_bytes"] <= record["bytes"] - 8
+                or not _valid_sha256(record.get("footer_sha256"))
+                or ("sha256" in record and not _valid_sha256(record["sha256"]))
+            ):
+                raise ValueError("teacher parquet footer fingerprint is malformed")
+            _verify_portable_parquet_source(key, record, data.get("primary_split_sha256"))
+        elif set(record) != {"sha256"} or not _valid_sha256(record.get("sha256")):
             raise ValueError("teacher fit source fingerprints are incomplete")
     for key, fingerprint in data["normalization"]["source_fingerprints"].items():
         if (
             key not in member_sources
             or not isinstance(fingerprint, dict)
-            or fingerprint.get("sha256") != sources[key].get("sha256")
+            or fingerprint != sources[key]
         ):
             raise ValueError("teacher normalizer source fingerprints are inconsistent")
     if not data["normalization"]["source_fingerprints"]:
@@ -211,7 +188,10 @@ def common_provenance(producer: dict[str, Any], provenance: dict[str, Any]) -> d
         or runtime.get("amp_scaler") is not False
     ):
         raise ValueError("teacher runtime has incompatible FP32 process controls")
-    precision = _validate_precision_contract(config, provenance, runtime)
+    precision = validate_precision_contract(config, provenance, runtime)
+    # Historical scalar precision receipts predate membership-bound normalizer hashes.
+    if isinstance(precision, dict):
+        validate_normalization_ancestry(config, data, normalization, members)
     semantic_devices = []
     for device in devices:
         if (

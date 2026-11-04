@@ -894,6 +894,60 @@ pub mod prof {
     #[cfg(feature = "profile")]
     pub static CYCLES: [std::sync::atomic::AtomicU64; 32] =
         [const { std::sync::atomic::AtomicU64::new(0) }; 32];
+    #[cfg(feature = "profile")]
+    pub static MEMBER_CYCLES: [[std::sync::atomic::AtomicU64; 32]; 4] =
+        [const { [const { std::sync::atomic::AtomicU64::new(0) }; 32] }; 4];
+    #[cfg(feature = "profile")]
+    std::thread_local! {
+        static ACTIVE_MEMBER: std::cell::Cell<usize> = const { std::cell::Cell::new(usize::MAX) };
+    }
+
+    /// Mark the recurrent member whose following stage laps should be charged to.
+    #[inline(always)]
+    pub fn select_member(member: Option<usize>) {
+        #[cfg(feature = "profile")]
+        ACTIVE_MEMBER.with(|active| active.set(member.unwrap_or(usize::MAX)));
+        #[cfg(not(feature = "profile"))]
+        let _ = member;
+    }
+
+    /// Clear all stage counters before a bounded profile pass.
+    pub fn reset() {
+        select_member(None);
+        #[cfg(feature = "profile")]
+        {
+            for slot in &CYCLES {
+                slot.store(0, std::sync::atomic::Ordering::Relaxed);
+            }
+            for member in &MEMBER_CYCLES {
+                for slot in member {
+                    slot.store(0, std::sync::atomic::Ordering::Relaxed);
+                }
+            }
+        }
+    }
+
+    /// Snapshot aggregate stage cycles; zeros when the `profile` feature is disabled.
+    pub fn cycles() -> [u64; 32] {
+        #[cfg(feature = "profile")]
+        return std::array::from_fn(|index| {
+            CYCLES[index].load(std::sync::atomic::Ordering::Relaxed)
+        });
+        #[cfg(not(feature = "profile"))]
+        [0; 32]
+    }
+
+    /// Snapshot per-member stage cycles; zeros when the `profile` feature is disabled.
+    pub fn member_cycles() -> [[u64; 32]; 4] {
+        #[cfg(feature = "profile")]
+        return std::array::from_fn(|member| {
+            std::array::from_fn(|index| {
+                MEMBER_CYCLES[member][index].load(std::sync::atomic::Ordering::Relaxed)
+            })
+        });
+        #[cfg(not(feature = "profile"))]
+        [[0; 32]; 4]
+    }
 
     /// Time stamp, or 0 when profiling is off.
     #[inline(always)]
@@ -912,7 +966,15 @@ pub mod prof {
         #[cfg(feature = "profile")]
         {
             let now = tick();
-            CYCLES[slot].fetch_add(now - *t, std::sync::atomic::Ordering::Relaxed);
+            let elapsed = now - *t;
+            CYCLES[slot].fetch_add(elapsed, std::sync::atomic::Ordering::Relaxed);
+            ACTIVE_MEMBER.with(|active| {
+                let member = active.get();
+                if member < MEMBER_CYCLES.len() {
+                    MEMBER_CYCLES[member][slot]
+                        .fetch_add(elapsed, std::sync::atomic::Ordering::Relaxed);
+                }
+            });
             *t = now;
         }
     }

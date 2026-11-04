@@ -1,0 +1,47 @@
+{
+  "schema": "tabdata.fixed-checkpoint-report-only-blend.v1",
+  "weight_selection": "80/20 fixed before outcomes;10/30 sensitivity only, no fitted coefficients",
+  "reference": "clean GRU benchmark, not full deployed team ensemble",
+  "members": [
+    {
+      "weight": 0.8,
+      "cell": "g0-plain-gru256x2",
+      "checkpoint": "/data2/lc-epanov_s/tabdata/runs/quality8-full-20261028/runs/g0-plain-gru256x2/epoch_checkpoints/epoch-000008-faa62c7004a7ec7be53739df8c94163fcf66182a6bd004f9722407465845065a.pt",
+      "checkpoint_sha256": "faa62c7004a7ec7be53739df8c94163fcf66182a6bd004f9722407465845065a",
+      "epoch": 8,
+      "reported_wp": 0.6778561232160607,
+      "epoch_index": "/data2/lc-epanov_s/tabdata/runs/quality8-full-20261028/runs/g0-plain-gru256x2/epoch_indexes/epoch-000010.json",
+      "epoch_index_sha256": "96c0f854e7c7e79d4f0514756ece24b1f6cfe289d9ee38e6e66be367b6b87b7e",
+      "input_feature_mode": "event211"
+    },
+    {
+      "weight": 0.2,
+      "cell": "g2-galam-lstm128",
+      "checkpoint": "/data2/lc-epanov_s/tabdata/runs/quality8-full-20261028/runs/g2-galam-lstm128/epoch_checkpoints/epoch-000003-c825ac5221490109844b090a0699b30225ac2a211287b7f8abf409b2a69f05d9.pt",
+      "checkpoint_sha256": "c825ac5221490109844b090a0699b30225ac2a211287b7f8abf409b2a69f05d9",
+      "epoch": 3,
+      "reported_wp": 0.6723694126086656,
+      "epoch_index": "/data2/lc-epanov_s/tabdata/runs/quality8-full-20261028/runs/g2-galam-lstm128/epoch_indexes/epoch-000004.json",
+      "epoch_index_sha256": "4cb51371633543b31644e0f842f64f55b42ef21ec6cd38d2cacfbcbc19ef9da8",
+      "input_feature_mode": "raw112"
+    }
+  ],
+  "operation": "Mix raw FP32 predictions before official clipping. Reset both sequence states and assemble member-specific causal inputs/normalization.",
+  "validation_exposed": true,
+  "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+  "source_sha256": "f9685716d64ecb5ceef2ec821781fa4078ff21661201edfcdac8292867990230",
+  "validation_result": {
+    "candidate": "g2-galam-lstm128",
+    "galam_weight": 0.2,
+    "primary": true,
+    "metrics": {
+      "t0": 0.6764269077164725,
+      "t1": 0.6860124494426376,
+      "wp": 0.681219678579555,
+      "selected_rows": 3528273,
+      "metric_id": "global_wp_clip2_v1"
+    },
+    "delta_wp": 0.0033635553634947524
+  },
+  "serving_status": "Research candidate; CPU/offline ABI/reset/determinism/package/transfer not yet verified."
+}

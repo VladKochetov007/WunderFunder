@@ -1,0 +1,26 @@
+"""Bound the W18 delivery worker and clean only its own credential clone."""
+from pathlib import Path
+import atexit,hashlib,json,os,signal,subprocess,sys,time
+F=Path('/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1')
+token=F/'private/final-artifact-publish-w18-r1.token'
+source=F/'private/final-artifact-publish-r1.token'
+assert source.is_file() and not source.is_symlink() and source.stat().st_mode & 0o077==0
+fd=os.open(token,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
+with os.fdopen(fd,'wb') as out:out.write(source.read_bytes())
+st=token.lstat();identity=(st.st_dev,st.st_ino)
+def cleanup():
+ try:
+  current=token.lstat()
+  if (current.st_dev,current.st_ino)==identity:token.unlink()
+ except FileNotFoundError:pass
+atexit.register(cleanup)
+def stop(signum,frame):raise SystemExit(128+signum)
+signal.signal(signal.SIGTERM,stop)
+worker=F/'final_submit_w18_early_publish_r4.py'
+assert hashlib.sha256(worker.read_bytes()).hexdigest()=='1726028f29a4b6fec0a06f2fb1382489df35daa7a2586488c6207d09c55313dd'
+command=['/data/epanov_s/tabdata/.venv/bin/python','-u',str(worker),'--runtime-root',str(F),'--deadline-epoch','1793523959.0380824','--max-wait-seconds','21600','--poll-seconds','15']
+env=os.environ.copy();env.update({'CUDA_VISIBLE_DEVICES':'','OMP_NUM_THREADS':'1','OPENBLAS_NUM_THREADS':'1','MKL_NUM_THREADS':'1','PYTHONUNBUFFERED':'1'})
+try:rc=subprocess.call(command,env=env,cwd=F)
+finally:cleanup()
+with (F/'receipts/early-w18-publisher.exit.json').open('x') as out:json.dump({'exit_code':rc,'finished_epoch':time.time(),'owned_credential_cleanup':not token.exists()},out,indent=2)
+raise SystemExit(rc)
