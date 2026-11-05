@@ -210,3 +210,5 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 - [Idea12 narrow moment-decoder result](../../campaign_2026-10-19/idea_screens_r5/RESULTS.md): with identical fitted heads, a predicted denominator loses0.025555WP to a constant denominator; all32 fixed-prediction drop-one contrasts are negative. A positive constant-vs-stored-R3 recipe contrast is retained without claiming joint-head causality or general moment-model failure.
 
 - [Transformer causal recency bias B300](../../experiment_drafts/transformer-recency-b300-20261105/README.md) — paired teacher implementation; receiver acceptance pending, no result.
+
+- [Transformer recency draft PR #64](https://github.com/VladKochetov007/WunderFunder/pull/64) — receiver acceptance pending, no scores.

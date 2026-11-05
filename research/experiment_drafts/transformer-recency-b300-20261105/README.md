@@ -1,5 +1,7 @@
 # Transformer teacher: causal attention recency bias on B300
 
+Draft PR: [#64](https://github.com/VladKochetov007/WunderFunder/pull/64).
+
 Status: code and prospective launch only; no local tests, model imports, fits,
 GPU profiles, score or student transfer. Tests and numerical checks must run on
 the receiving host before admission. Four full teacher fits compare the same RoPE

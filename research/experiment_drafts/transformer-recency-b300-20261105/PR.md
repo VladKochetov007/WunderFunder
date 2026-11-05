@@ -16,7 +16,7 @@
    checkpoint. Configs differ only in bias value; no empirical optimality claim.
 5. **Budget:** 2 control + 2 candidate teachers = 4 new fits, on F0/101001 and
    F2/101002. No reused fits. Student transfer requires at least 4 new students
-   and two teacher-cache exports, plus profiles and receipt checks.
+   and four teacher-cache exports, plus profiles and receipt checks.
 6. **Validation:** official pooled masked clipped global WP, per-target deltas,
    paired sequence age/coverage and all failed cells. Two fold-seed-confounded
    pairs cannot prove significance. Existing validation and public scores are
