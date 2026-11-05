@@ -71,7 +71,7 @@ def load_config(path: Path) -> dict[str, Any]:
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95
     model = MODEL_DEFAULTS | raw.get("model", {})
-    if set(model) - set(MODEL_DEFAULTS):
+    if set(model) - (set(MODEL_DEFAULTS) | {"recency_bias"}):
         raise ValueError("unknown sequence model field")
     config["model"] = model
     for key in (
@@ -137,6 +137,16 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("hint_dim must be a nonnegative integer")
     if model["architecture"] not in ("transformer", "gru"):
         raise ValueError("architecture must be transformer or gru")
+    bias = model.get("recency_bias", 0.0)
+    if (
+        isinstance(bias, bool)
+        or not isinstance(bias, (float, int))
+        or not math.isfinite(bias)
+        or not 0 <= bias <= 4
+    ):
+        raise ValueError("model.recency_bias must be a finite number in [0,4]")
+    if bias and (model["architecture"] != "transformer" or model["attention_backend"] != "math"):
+        raise ValueError("recency bias requires Transformer math attention")
     if model["attention_backend"] not in ("math", "efficient", "flex"):
         raise ValueError("model.attention_backend must be math, efficient, or flex")
     if model["architecture"] == "gru" and model["attention_backend"] != "math":

@@ -94,6 +94,7 @@ class _TransformerSequenceAdapter(nn.Module):
         hint_mode: str,
         precision_mode: str,
         attention_backend: str,
+        recency_bias: float,
     ) -> None:
         super().__init__()
         self.hidden = hidden
@@ -108,7 +109,9 @@ class _TransformerSequenceAdapter(nn.Module):
         self.register_buffer("std", torch.ones(RAW_INPUT_WIDTH, dtype=torch.float32))
         self.input_projection = nn.Linear(RAW_INPUT_WIDTH, hidden)
         self.blocks = nn.ModuleList(
-            CausalTransformerBlock(hidden, heads, ff_width, dropout, attention_backend)
+            CausalTransformerBlock(
+                hidden, heads, ff_width, dropout, attention_backend, recency_bias
+            )
             for _ in range(layers)
         )
         self.output_norm = nn.LayerNorm(hidden)
@@ -219,20 +222,9 @@ def _float_option(config: dict[str, object], name: str, default: float) -> float
 
 
 def build_sequence_model(config: dict[str, object]) -> nn.Module:
-    """Build a causal Transformer or canonical GRU with FP32 master parameters.
+    """Build a causal model with FP32 master parameters and resumable state.
 
-    Args:
-        config: Model settings with architecture, hidden, layers, heads,
-            ff_multiplier, and context_rows. Dropout, activation checkpointing,
-            hint_dim, and hint_projection are optional.
-
-    Returns:
-        A module accepting raw ``[batch, rows, 112]`` values and returning
-        predictions, hints, and resumable sequence state.
-
-    Raises:
-        TypeError: If a setting has the wrong type or the default dtype is reduced.
-        ValueError: If the architecture or dimensions are invalid.
+    The config specifies architecture, dimensions, precision and optional hints.
     """
     if torch.get_default_dtype() != torch.float32:
         raise TypeError("sequence model construction requires the default dtype to be float32")
@@ -251,6 +243,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     precision_mode = config.get("precision_mode", "fp32")
     attention_backend = config.get("attention_backend", "math")
     compile_blocks = config.get("compile_blocks", False)
+    recency_bias = _float_option(config, "recency_bias", 0.0)
     if type(checkpoint_blocks) is not bool:
         raise TypeError("model config 'checkpoint_blocks' must be boolean")
     if hint_mode not in ("learned", "fixed"):
@@ -268,6 +261,10 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         )
     if not 0.0 <= dropout < 1.0 or ff_multiplier <= 0.0:
         raise ValueError("dropout must be in [0, 1) and ff_multiplier must be positive")
+    if recency_bias and (architecture != "transformer" or attention_backend != "math"):
+        raise ValueError("recency bias requires Transformer and math attention")
+    if not 0 <= recency_bias <= 4:
+        raise ValueError("recency bias must be in [0,4]")
     if architecture == "gru":
         if compile_blocks:
             raise ValueError("compile_blocks requires a Transformer model")
@@ -291,6 +288,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         hint_mode,
         precision_mode,
         attention_backend,
+        recency_bias,
     )
     compile_transformer_blocks(model.blocks, enabled=compile_blocks)
     return model

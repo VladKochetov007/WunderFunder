@@ -44,6 +44,7 @@ class CausalTransformerBlock(nn.Module):
         ff_width: int,
         dropout: float,
         attention_backend: str = "math",
+        recency_bias: float = 0.0,
     ) -> None:
         super().__init__()
         self.hidden = hidden
@@ -56,7 +57,7 @@ class CausalTransformerBlock(nn.Module):
         self.feedforward_in = nn.Linear(hidden, ff_width)
         self.feedforward_out = nn.Linear(ff_width, hidden)
         self.residual_dropout = nn.Dropout(dropout)
-        self.local_attention = LocalCausalAttention(attention_backend)
+        self.local_attention = LocalCausalAttention(attention_backend, recency_bias)
         self.register_buffer(
             "rotary_inverse_frequency",
             1.0
