@@ -7,7 +7,9 @@ Transformer and window with math SDPA: baseline bias 0 versus fixed bias 1. The
 new term is `-bias * (query_position - key_position)/(context_rows - 1)` for
 allowed past/current keys. It is added before softmax; forbidden future/outside
 window keys stay `-inf`. A context of one has zero distance and no recency effect.
-The bias is identical across heads, no learned weights, and is **not ALiBi**:
+The bias is identical across heads and has no learned weights. Distances are cast
+to the query dtype, so under BF16 autocast their values and bias are rounded;
+check the numerical effect on the receiver. This is **not ALiBi**:
 [Press et al.](https://arxiv.org/abs/2108.12409) motivated a distance penalty but
 used different positional settings. No paper result establishes this task's gain.
 
@@ -48,6 +50,7 @@ cd "$WNN_REPO"
 export PYTHONPATH="$PWD/src"
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
+export CUBLAS_EMULATE_SINGLE_PRECISION=1
 : "${WNN_DATA_ROOT:?}" "${WNN_SPLIT_F0:?}" "${WNN_SPLIT_F2:?}" "${WNN_RUN_ROOT:?}"
 PACKET=research/experiment_drafts/transformer-recency-b300-20261105
 # Set CELL=f0_s101001 and SPLIT="$WNN_SPLIT_F0"; repeat with f2_s101002/F2.
