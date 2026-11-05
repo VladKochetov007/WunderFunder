@@ -144,6 +144,16 @@ def validate_clocks(run: TrainingRun) -> None:
         or (args.origin_view != "off")
         or (args.credit_mode != "deterministic")
     )
+    if args.loss == "huber_curvature" and (
+        distillation_requested
+        or args.td_alpha
+        or args.ema_teacher
+        or controlled_loss
+        or args.loss_norm != "chunk"
+        or not math.isfinite(args.huber_delta)
+        or args.huber_delta <= 0
+    ):
+        ap.error("huber_curvature needs label-only standard training and positive finite delta")
     if args.origin_view != "off":
         try:
             origin_windows(
