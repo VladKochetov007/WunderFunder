@@ -4,7 +4,7 @@ This compares a cold label-only GRU trained with weighted MSE to the same GRU
 trained with twice the existing weighted Huber objective (delta 0.5). Both use
 the same clipped targets and |clipped-target| row weights. For residuals within
 the fixed delta, `2 * Huber` equals squared error and has the same gradient;
-outside it the gradient grows linearly rather than quadratically. This only
+outside it the loss grows linearly and its derivative is bounded at ±2δ, whereas the squared-error derivative grows with residual magnitude. This only
 matches local objective curvature, not optimizer trajectories or actual GPU
 compute. The hypothesis is that rare large prediction errors dominate updates;
 the alternative is that attenuating these errors discards valuable signal.
@@ -12,7 +12,9 @@ Inference is unchanged.
 
 This is a lower-priority continuation of previous Huber comparisons, which
 favored WMSE; [team review](../../unified/reviews/IMPORTED_CLAUDE_PLAN_20261019_R1.md)
-records that negative evidence. Earlier Huber used half the WMSE curvature near
+records that negative evidence. Historical E-071 reported 0.6556 versus 0.6651
+for WMSE: one epoch, H128, propensity squared and one seed; that is not this
+recipe and does not establish its outcome. Earlier Huber used half the WMSE curvature near
 zero, a possible optimizer-scale confound, not a proven explanation for its
 outcome. The team also reported a preliminary target-specific blend opportunity
 in an older small panel; it does not establish a general gain. PR62 varied global
