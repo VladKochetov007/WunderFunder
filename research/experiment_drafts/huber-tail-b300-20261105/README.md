@@ -1,5 +1,7 @@
 # Curvature-matched Huber versus weighted MSE on B300
 
+Draft PR: [#63](https://github.com/VladKochetov007/WunderFunder/pull/63).
+
 This compares a cold label-only GRU trained with weighted MSE to the same GRU
 trained with twice the existing weighted Huber objective (delta 0.5). Both use
 the same clipped targets and |clipped-target| row weights. For residuals within

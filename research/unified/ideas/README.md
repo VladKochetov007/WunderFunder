@@ -210,3 +210,5 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 - [Idea12 narrow moment-decoder result](../../campaign_2026-10-19/idea_screens_r5/RESULTS.md): with identical fitted heads, a predicted denominator loses0.025555WP to a constant denominator; all32 fixed-prediction drop-one contrasts are negative. A positive constant-vs-stored-R3 recipe contrast is retained without claiming joint-head causality or general moment-model failure.
 
 - [Curvature-matched Huber](../../experiment_drafts/huber-tail-b300-20261105/README.md): low-priority continuation of negative Huber findings; B300 receiver checks pending.
+
+- [Curvature-matched Huber draft PR #63](https://github.com/VladKochetov007/WunderFunder/pull/63) — receiver acceptance pending, no scores.
