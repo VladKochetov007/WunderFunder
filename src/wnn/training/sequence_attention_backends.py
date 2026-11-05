@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from collections.abc import Callable
 from functools import lru_cache
 
@@ -40,8 +41,9 @@ def _math_attention(
     key_start: int,
     context_rows: int,
     dropout_p: float,
+    recency_bias: float = 0.0,
 ) -> Tensor:
-    """Run the original fixed-query-chunk math SDPA implementation unchanged."""
+    """Run fixed-query-chunk causal math SDPA, optionally biasing past keys."""
     query_rows = query.shape[-2]
     key_rows = key.shape[-2]
     outputs: list[Tensor] = []
@@ -56,12 +58,16 @@ def _math_attention(
         key_positions = key_offset + key_start
         distances = query_positions[:, None] - key_positions[None, :]
         allowed = (distances >= 0) & (distances < context_rows)
+        mask = allowed[None, None, :, :]
+        if recency_bias:
+            bias = -recency_bias * distances.to(query.dtype) / max(context_rows - 1, 1)
+            mask = bias.masked_fill(~allowed, float("-inf"))[None, None, :, :]
         with sdpa_kernel(SDPBackend.MATH):
             attended = F.scaled_dot_product_attention(
                 query[..., query_offset:query_end, :],
                 key[..., first_key:end_key, :],
                 value[..., first_key:end_key, :],
-                attn_mask=allowed[None, None, :, :],
+                attn_mask=mask,
                 dropout_p=dropout_p,
                 is_causal=False,
             )
@@ -188,10 +194,17 @@ def _flex_attention(
 class LocalCausalAttention(nn.Module):
     """Dispatch exact rolling causal attention to one explicitly selected backend."""
 
-    def __init__(self, attention_backend: str = "math") -> None:
+    def __init__(self, attention_backend: str = "math", recency_bias: float = 0.0) -> None:
         super().__init__()
         if attention_backend not in ("math", "efficient", "flex"):
             raise ValueError("attention_backend must be 'math', 'efficient', or 'flex'")
+        if (
+            not math.isfinite(recency_bias)
+            or not 0 <= recency_bias <= 4
+            or (recency_bias and attention_backend != "math")
+        ):
+            raise ValueError("recency bias must be in [0,4] and requires math attention")
+        self.recency_bias = recency_bias
         self.attention_backend = attention_backend
 
     def forward(
@@ -224,7 +237,14 @@ class LocalCausalAttention(nn.Module):
 
         if self.attention_backend == "math":
             return _math_attention(
-                query, key, value, query_start, key_start, context_rows, dropout_p
+                query,
+                key,
+                value,
+                query_start,
+                key_start,
+                context_rows,
+                dropout_p,
+                self.recency_bias,
             )
         if self.attention_backend == "efficient":
             if not query.is_cuda:
