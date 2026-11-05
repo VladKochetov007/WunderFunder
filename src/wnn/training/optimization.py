@@ -139,6 +139,8 @@ def build_optimization(run: TrainingRun) -> bool:
             return (vv * (o.float() - yv) ** 2).sum() / (vv.sum() * yv.shape[-1]).clamp_min(1e-08)
         if args.loss == "huber":
             return weighted_huber_loss(o, t, v, args.huber_delta)
+        if args.loss == "huber_curvature":
+            return 2.0 * weighted_huber_loss(o, t, v, args.huber_delta)
         if args.loss == "gcorr":
             return weighted_pooled_corr_loss(o, t, v)
         if args.loss == "wmse_gcorr":

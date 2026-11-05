@@ -12,6 +12,7 @@ def add_targets_arguments(ap: argparse.ArgumentParser) -> None:
             "wmse",
             "mix",
             "huber",
+            "huber_curvature",
             "ce_joint",
             "mse",
             "gcorr",
