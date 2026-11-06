@@ -1,5 +1,7 @@
 # Research-team experiment catalogue
 
+- [Transformer SDPA head gate](transformer-sdpa-gate-20261106/README.md) — prepared but unpublished draft on `codex/transformer-sdpa-gate-20261106`, based on `7e407431`. Six initial teachers compare none/constant-half/headwise on F0/F2; a four-fit 1.54B scale stage and four student fits are separately conditional. No local tests, profiles, fits, caches, or results.
+
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.

@@ -70,9 +70,22 @@ def load_config(path: Path) -> dict[str, Any]:
     # Preserve legacy AdamW's .999 while defaulting the Muon-side AdamW groups to .95.
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95
-    model = MODEL_DEFAULTS | raw.get("model", {})
-    if set(model) - set(MODEL_DEFAULTS):
+    raw_model = raw.get("model", {})
+    if not isinstance(raw_model, dict):
+        raise ValueError("model must be a JSON object")
+    model = MODEL_DEFAULTS | raw_model
+    if set(model) - (set(MODEL_DEFAULTS) | {"attention_gate"}):
         raise ValueError("unknown sequence model field")
+    attention_gate_present = "attention_gate" in raw_model
+    attention_gate = model.pop("attention_gate", "none")
+    if type(attention_gate) is not str:
+        raise TypeError("model.attention_gate must be a string")
+    if attention_gate not in ("none", "constant_half", "headwise"):
+        raise ValueError("model.attention_gate must be none, constant_half, or headwise")
+    if model["architecture"] == "gru" and attention_gate_present:
+        raise ValueError("model.attention_gate is supported only by Transformer models")
+    if attention_gate != "none":
+        model["attention_gate"] = attention_gate
     config["model"] = model
     for key in (
         "schema_version",

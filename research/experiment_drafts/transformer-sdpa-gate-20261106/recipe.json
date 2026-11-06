@@ -1,0 +1,128 @@
+{
+  "schema": "wnn.transformer-sdpa-gate-recipe.v1",
+  "status": "implemented_unexecuted",
+  "hypothesis_id": "H-B300-SDPA-GATE-20261106",
+  "experiment_id": "E-B300-SDPA-GATE-20261106",
+  "owner": "research-team experiment author",
+  "branch": "codex/transformer-sdpa-gate-20261106",
+  "base_branch": "research-team",
+  "source_baseline": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "implementation_commit": null,
+  "primary_source": {
+    "url": "https://arxiv.org/abs/2505.06708",
+    "title": "Gated Attention for Large Language Models: Non-linearity, Sparsity, and Attention-Sink-Free",
+    "scope_limit": "LLM evidence motivates placement only; it is not evidence for this forecasting task."
+  },
+  "prior_proposal": "research/unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md",
+  "mechanism": {
+    "attention_gate_values": ["none", "constant_half", "headwise"],
+    "placement": "After exact-window SDPA and before the existing attention output projection",
+    "headwise_formula": "sigmoid(linear(norm_attention(x))) with zero-initialized weight and bias",
+    "headwise_shape": "[batch, heads, rows, 1]",
+    "muon_routing": "Existing QKV and hidden Muon groups unchanged; head_gate.weight uses AdamW matrix decay and head_gate.bias uses AdamW no-decay."
+  },
+  "initial_screen": {
+    "new_teacher_fits": 6,
+    "reused_endpoints": 0,
+    "arms": ["none", "constant_half", "headwise"],
+    "folds": [0, 2],
+    "fold_seeds": {"0": 101001, "2": 101002},
+    "fits_per_arm": 2,
+    "model": {
+      "architecture": "causal raw112 Transformer",
+      "hidden": 768,
+      "layers": 24,
+      "heads": 12,
+      "ff_width": 3072,
+      "context_rows": 1024,
+      "chunk_rows": 256,
+      "dropout": 0.0,
+      "hint_dim": 0,
+      "normalization_scope": "all_fit",
+      "training_mask": "all_after_warmup"
+    },
+    "training": {
+      "epochs": 30,
+      "checkpoint_policy": "fixed final epoch 29",
+      "optimizer": "Muon with auxiliary AdamW",
+      "muon_momentum": 0.95,
+      "muon_newton_schulz_steps": 5,
+      "peak_lr": 0.0003,
+      "warmup_fraction": 0.05,
+      "schedule": "warmup_cosine_v2",
+      "min_lr_ratio": 0.1,
+      "weight_decay": 0.01,
+      "gradient_clip": 1.0,
+      "batch_per_rank": 1,
+      "accumulate_chunks": 4,
+      "world_size": 8,
+      "device": "B300"
+    },
+    "runtime": {
+      "precision_mode": "bf16_bf16x9",
+      "required_environment": {"CUBLAS_EMULATE_SINGLE_PRECISION": "1", "CUBLAS_WORKSPACE_CONFIG": ":4096:8"},
+      "master_weights_gradients_loss_optimizer_state": "FP32",
+      "attention_backend": "efficient exact-window SDPA",
+      "compile_blocks": true,
+      "profile_identity": "Exact production config, source, split, data, precision, device and world size"
+    },
+    "evaluation": {
+      "metric": "global_wp_clip2_v1",
+      "mask": "official is_scored and row >= 99",
+      "checkpoint_selection": "none; held-out metrics are not consumed before final checkpoint",
+      "exposure": "F0 and F2 are previously exposed folds",
+      "primary_contrast": "headwise minus none",
+      "mechanistic_control": "constant_half minus none; headwise minus constant_half"
+    }
+  },
+  "conditional_scale_followup": {
+    "status": "separately_conditional_not_auto_started",
+    "new_teacher_fits": 4,
+    "arms": ["none", "headwise"],
+    "folds": [0, 2],
+    "fold_seeds": {"0": 101001, "2": 101002},
+    "model": {"hidden": 1792, "layers": 40, "heads": 28, "ff_width": 7168, "context_rows": 1024},
+    "training_recipe": "Same explicit recipe and precision as initial teachers; lr=3e-4 is an un-tuned starting point.",
+    "parameter_count_note": "Approximately 1.54B by architecture arithmetic; not measured.",
+    "student_transfer_included": false,
+    "separate_explicit_allocation_required": true
+  },
+  "conditional_student_followup": {
+    "status": "separately_conditional_not_auto_started",
+    "new_student_fits": 4,
+    "teacher_arms": ["none", "headwise"],
+    "folds": [0, 2],
+    "student_seeds": {"0": 1001, "2": 1002},
+    "model": {"hidden": 128, "layers": 2, "heads": 4, "context_rows": 128},
+    "teacher_source_family": "initial width768 teachers only",
+    "teacher_cache": "Fitting-membership output predictions; same exact cache path for profile and fit; one/eight-rank parity required.",
+    "objective": "KD weight 1, no hidden hints; no labels-only student control.",
+    "runtime": {"world_size": 1, "device": "B300", "precision_mode": "bf16_bf16x9"},
+    "teacher_training_cache_is_in_sample": true,
+    "separate_explicit_allocation_required": true
+  },
+  "fit_budget_if_all_stages_are_later_admitted": {
+    "initial_teacher_fits": 6,
+    "conditional_scale_teacher_fits": 4,
+    "conditional_student_fits": 4,
+    "total_new_fits": 14,
+    "reused_endpoints": 0,
+    "engineering_profiles_are_fits": false
+  },
+  "decision_rule": {
+    "exploratory_trigger": "+0.0005 mean WP with both paired fold deltas nonnegative",
+    "primary_comparison": "headwise minus none",
+    "significance_claim": false,
+    "uncertainty_limit": "Two exposed fold/seed pairs confound fold and seed and do not estimate training variance."
+  },
+  "execution": {
+    "actual_fits": 0,
+    "actual_profiles": 0,
+    "actual_tests": 0,
+    "actual_inference_runs": 0,
+    "actual_cache_exports": 0,
+    "local_gpu_actions": 0,
+    "pr_url": null,
+    "result": null
+  }
+}

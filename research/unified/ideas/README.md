@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[Query-dependent SDPA head gate](../../experiment_drafts/transformer-sdpa-gate-20261106/README.md), H-B300-SDPA-GATE-20261106 / E-B300-SDPA-GATE-20261106 — six new initial teachers (`none`/`constant_half`/`headwise` × F0/F2), plus separately conditional four-fit scale and four-fit student stages. Implementation and receiver packet prepared on `codex/transformer-sdpa-gate-20261106`; no local tests, B300 profiles, fits, inference, or quality results. The mechanism was already proposed in the large-dynamics Transformer idea; the cited LLM paper motivates placement but does not establish task benefit.
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**

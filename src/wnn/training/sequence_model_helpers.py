@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Mapping
 
 import torch
 from torch import Tensor, nn
@@ -11,6 +12,43 @@ from torch.nn import functional as F
 from wnn.training.sequence_attention import TransformerState
 
 SequenceState = Tensor | TransformerState | None
+
+
+def integer_model_option(
+    config: Mapping[str, object], name: str, default: int | None = None
+) -> int:
+    """Read a strictly typed integer from a model configuration."""
+    if name not in config:
+        if default is None:
+            raise ValueError(f"model config requires {name!r}")
+        return default
+    value = config[name]
+    if type(value) is not int:
+        raise TypeError(f"model config {name!r} must be an integer")
+    return value
+
+
+def float_model_option(config: Mapping[str, object], name: str, default: float) -> float:
+    """Read a finite numeric value from a model configuration."""
+    value = config.get(name, default)
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise TypeError(f"model config {name!r} must be numeric")
+    parsed = float(value)
+    if not math.isfinite(parsed):
+        raise ValueError(f"model config {name!r} must be finite")
+    return parsed
+
+
+def validate_attention_gate(config: Mapping[str, object], architecture: object) -> str:
+    """Validate the optional gate enum and reject it on the GRU adapter."""
+    gate = config.get("attention_gate", "none")
+    if type(gate) is not str:
+        raise TypeError("model config 'attention_gate' must be a string")
+    if gate not in ("none", "constant_half", "headwise"):
+        raise ValueError("model config attention_gate must be none, constant_half, or headwise")
+    if architecture == "gru" and "attention_gate" in config:
+        raise ValueError("model config attention_gate is supported only by Transformer models")
+    return gate
 
 
 class HintProjector(nn.Module):
