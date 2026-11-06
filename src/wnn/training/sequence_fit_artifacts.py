@@ -8,6 +8,7 @@ from typing import Any
 import torch
 
 from wnn.research_reporting import RunRecorder
+from wnn.training.sequence_blend import blend_loss_metrics
 from wnn.training.sequence_checkpoint import atomic_write_json, save_final_model
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_loop import EpochResult
@@ -37,6 +38,7 @@ def epoch_summary(
         "forwarded_rows": int(totals[4].item()),
         "real_rows": int(totals[5].item()),
         "elapsed_seconds": result.elapsed_seconds,
+        **blend_loss_metrics(config, label_loss),
     }
 
 

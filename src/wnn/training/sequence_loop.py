@@ -9,6 +9,7 @@ import torch
 from torch.nn.attention import SDPBackend, sdpa_kernel
 from torch.nn.parallel import DistributedDataParallel
 
+from wnn.training.sequence_blend import blend_loss_metrics
 from wnn.training.sequence_distributed import (
     DistributedContext,
     all_ranks_true,
@@ -100,6 +101,7 @@ def _backward_window(
                 teacher[:, start:stop],
                 hint_target[:, start:stop],
                 mask[:, start:stop],
+                blend_objective_alpha=float(config.get("blend_objective_alpha", 0.0)),
             )
             loss = scaled_objective(
                 numerators,
@@ -269,6 +271,7 @@ def train_epoch(
                 float(config["hint_weight"]),
             )
             record["learning_rates"] = rates
+            record.update(blend_loss_metrics(config, float(record["label_loss"])))
             record["optimizer_seconds"] = optimizer_seconds
             rank_log.write(record)
         state = None

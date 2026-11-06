@@ -5,6 +5,7 @@ import math
 from pathlib import Path
 from typing import Any
 
+from wnn.training.sequence_blend import validate_blend_config
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
 
 # JSON is heterogeneous at this boundary; validated fields are consumed by the runtime.
@@ -58,7 +59,8 @@ MODEL_DEFAULTS: dict[str, Any] = {
 def load_config(path: Path) -> dict[str, Any]:
     """Read a bounded precision-explicit recipe; reject silently ignored settings."""
     raw = json.loads(path.read_text())
-    if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | {"model", "checkpoint_retention"}):
+    optional = {"model", "checkpoint_retention", "blend_objective_alpha"}
+    if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | optional):
         raise ValueError("unknown sequence recipe field")
     # Omission preserves historical config hashes and fixed-final profile identities.
     if "checkpoint_retention" in raw and raw["checkpoint_retention"] not in (
@@ -179,6 +181,7 @@ def load_config(path: Path) -> dict[str, Any]:
     # This runtime-only field lets fit and inference build the same precision-aware model.
     model["precision_mode"] = config["precision_mode"]
     config["model"] = model
+    validate_blend_config(config)
     return config
 
 

@@ -10,6 +10,7 @@ import torch
 import torch.distributed as dist
 
 from wnn.research_reporting import RunRecorder
+from wnn.training.sequence_blend import blend_loss_metrics
 from wnn.training.sequence_checkpoint import atomic_write_json
 from wnn.training.sequence_distributed import (
     DistributedContext,
@@ -127,6 +128,11 @@ def run_profile(
             + float(config["kd_weight"]) * kd_loss
             + float(config["hint_weight"]) * hint_loss,
         },
+        **(
+            {"blend_objective": blend_loss_metrics(config, label_loss)}
+            if config.get("blend_objective_alpha", 0) > 0
+            else {}
+        ),
         "model_parameters": identity["model_parameters"],
         "memory_by_rank": memory,
         "peak_memory_bytes": max(item["peak_allocated_bytes"] for item in memory),
