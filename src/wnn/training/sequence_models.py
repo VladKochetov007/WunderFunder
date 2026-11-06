@@ -2,17 +2,15 @@
 
 from __future__ import annotations
 
-import math
-
 import torch
 from torch import Tensor, nn
 from torch.utils.checkpoint import checkpoint
 
 from wnn.nn import RNNModel
+from wnn.training import sequence_model_helpers
 from wnn.training.sequence_attention import CausalTransformerBlock, TransformerState
 from wnn.training.sequence_compile import compile_transformer_blocks
 from wnn.training.sequence_model_helpers import HintProjector as _HintProjector
-from wnn.training.sequence_model_helpers import detach_state as detach_state
 from wnn.training.sequence_precision import (
     PRECISION_MODES,
     checkpoint_context_fn,
@@ -21,6 +19,7 @@ from wnn.training.sequence_precision import (
 )
 
 RAW_INPUT_WIDTH = 112
+detach_state = sequence_model_helpers.detach_state
 
 
 def _check_fp32_environment(model: nn.Module, values: Tensor, precision_mode: str) -> None:
@@ -94,6 +93,7 @@ class _TransformerSequenceAdapter(nn.Module):
         hint_mode: str,
         precision_mode: str,
         attention_backend: str,
+        ff_activation: str,
     ) -> None:
         super().__init__()
         self.hidden = hidden
@@ -108,7 +108,14 @@ class _TransformerSequenceAdapter(nn.Module):
         self.register_buffer("std", torch.ones(RAW_INPUT_WIDTH, dtype=torch.float32))
         self.input_projection = nn.Linear(RAW_INPUT_WIDTH, hidden)
         self.blocks = nn.ModuleList(
-            CausalTransformerBlock(hidden, heads, ff_width, dropout, attention_backend)
+            CausalTransformerBlock(
+                hidden,
+                heads,
+                ff_width,
+                dropout,
+                attention_backend,
+                ff_activation=ff_activation,
+            )
             for _ in range(layers)
         )
         self.output_norm = nn.LayerNorm(hidden)
@@ -197,27 +204,6 @@ class _TransformerSequenceAdapter(nn.Module):
         return prediction, self.hint_projector(latent), next_state
 
 
-def _integer_option(config: dict[str, object], name: str, default: int | None = None) -> int:
-    if name not in config:
-        if default is None:
-            raise ValueError(f"model config requires {name!r}")
-        return default
-    value = config[name]
-    if type(value) is not int:
-        raise TypeError(f"model config {name!r} must be an integer")
-    return value
-
-
-def _float_option(config: dict[str, object], name: str, default: float) -> float:
-    value = config.get(name, default)
-    if isinstance(value, bool) or not isinstance(value, (int, float)):
-        raise TypeError(f"model config {name!r} must be numeric")
-    parsed = float(value)
-    if not math.isfinite(parsed):
-        raise ValueError(f"model config {name!r} must be finite")
-    return parsed
-
-
 def build_sequence_model(config: dict[str, object]) -> nn.Module:
     """Build a causal Transformer or canonical GRU with FP32 master parameters.
 
@@ -236,16 +222,19 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     """
     if torch.get_default_dtype() != torch.float32:
         raise TypeError("sequence model construction requires the default dtype to be float32")
+    sequence_model_helpers.validate_model_config(config)
     architecture = config.get("architecture")
+    if not isinstance(architecture, str):
+        raise TypeError("model config 'architecture' must be a string")
     if architecture not in ("transformer", "gru"):
         raise ValueError("model config architecture must be 'transformer' or 'gru'")
-    hidden = _integer_option(config, "hidden")
-    layers = _integer_option(config, "layers")
-    heads = _integer_option(config, "heads")
-    context_rows = _integer_option(config, "context_rows")
-    hint_dim = _integer_option(config, "hint_dim", 0)
-    dropout = _float_option(config, "dropout", 0.0)
-    ff_multiplier = _float_option(config, "ff_multiplier", 4.0)
+    hidden = sequence_model_helpers.integer_option(config, "hidden")
+    layers = sequence_model_helpers.integer_option(config, "layers")
+    heads = sequence_model_helpers.integer_option(config, "heads")
+    context_rows = sequence_model_helpers.integer_option(config, "context_rows")
+    hint_dim = sequence_model_helpers.integer_option(config, "hint_dim", 0)
+    dropout = sequence_model_helpers.float_option(config, "dropout", 0.0)
+    ff_multiplier = sequence_model_helpers.float_option(config, "ff_multiplier", 4.0)
     checkpoint_blocks = config.get("checkpoint_blocks", False)
     hint_mode = config.get("hint_projection", "learned")
     precision_mode = config.get("precision_mode", "fp32")
@@ -269,6 +258,8 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     if not 0.0 <= dropout < 1.0 or ff_multiplier <= 0.0:
         raise ValueError("dropout must be in [0, 1) and ff_multiplier must be positive")
     if architecture == "gru":
+        if sequence_model_helpers.has_transformer_feedforward_options(config):
+            raise ValueError("feed-forward options require a Transformer model")
         if compile_blocks:
             raise ValueError("compile_blocks requires a Transformer model")
         if attention_backend != "math":
@@ -276,9 +267,9 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         return _GRUSequenceAdapter(hidden, layers, dropout, hint_dim, hint_mode, precision_mode)
     if hidden % heads != 0 or (hidden // heads) % 2 != 0:
         raise ValueError("Transformer hidden width must divide evenly into even rotary head widths")
-    ff_width = int(hidden * ff_multiplier)
-    if ff_width <= 0:
-        raise ValueError("Transformer feed-forward width must be positive")
+    ff_activation, ff_width = sequence_model_helpers.transformer_feedforward(
+        config, hidden, ff_multiplier
+    )
     model = _TransformerSequenceAdapter(
         hidden,
         layers,
@@ -291,6 +282,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         hint_mode,
         precision_mode,
         attention_backend,
+        ff_activation,
     )
     compile_transformer_blocks(model.blocks, enabled=compile_blocks)
     return model

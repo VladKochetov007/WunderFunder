@@ -91,4 +91,6 @@ Keep provenance and source links with each imported item. Generated idea cards d
 
 ## Current sequence-moment investigation
 
+- [Gated Transformer FFN motivation and bounded local test](../../experiment_drafts/transformer-swiglu-20261106/README.md#why-this-experiment-exists) records Shazeer's primary [GLU Variants Improve Transformer](https://arxiv.org/abs/2002.05202), checked 2026-11-06. Its seq2seq results motivate a local SwiGLU comparison but establish no numerical-competition gain. SwiGLU was proposed earlier in the causal-AR and large-dynamics team plans; this packet implements that planned mechanism in the current GELU runtime, with no local/B300 execution evidence.
+
 - [RevIN official implementation and its causal-use limitation](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) records the ICLR2022authors' [repository](https://github.com/ts-kim/RevIN) and inspected RevIN.py reduction over the supplied temporal axis. Relevant to mean/variance normalization: a whole-current-sequence call would leak future observations in this competition; the local expanding-prefix treatment is an adaptation, with no imported performance claim.

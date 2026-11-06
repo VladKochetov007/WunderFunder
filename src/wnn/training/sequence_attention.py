@@ -44,17 +44,24 @@ class CausalTransformerBlock(nn.Module):
         ff_width: int,
         dropout: float,
         attention_backend: str = "math",
+        ff_activation: str = "gelu",
     ) -> None:
         super().__init__()
+        if not isinstance(ff_activation, str):
+            raise TypeError("Transformer feed-forward activation must be a string")
+        if ff_activation not in ("gelu", "swiglu"):
+            raise ValueError("Transformer feed-forward activation must be gelu or swiglu")
         self.hidden = hidden
         self.heads = heads
         self.head_dim = hidden // heads
+        self.ff_activation = ff_activation
         self.norm_attention = nn.LayerNorm(hidden)
         self.qkv = nn.Linear(hidden, 3 * hidden)
         self.attention_output = nn.Linear(hidden, hidden)
         self.norm_feedforward = nn.LayerNorm(hidden)
         self.feedforward_in = nn.Linear(hidden, ff_width)
         self.feedforward_out = nn.Linear(ff_width, hidden)
+        self.feedforward_gate = nn.Linear(hidden, ff_width) if ff_activation == "swiglu" else None
         self.residual_dropout = nn.Dropout(dropout)
         self.local_attention = LocalCausalAttention(attention_backend)
         self.register_buffer(
@@ -95,9 +102,16 @@ class CausalTransformerBlock(nn.Module):
         )
         attended = attended.transpose(1, 2).reshape(batch, rows, self.hidden)
         values = values + self.residual_dropout(self.attention_output(attended))
-        feedforward = self.feedforward_out(
-            F.gelu(self.feedforward_in(self.norm_feedforward(values)))
-        )
+        normalized = self.norm_feedforward(values)
+        if self.ff_activation == "gelu":
+            feedforward_hidden = F.gelu(self.feedforward_in(normalized))
+        else:
+            if self.feedforward_gate is None:
+                raise RuntimeError("SwiGLU block is missing its gate projection")
+            feedforward_hidden = F.silu(self.feedforward_gate(normalized)) * self.feedforward_in(
+                normalized
+            )
+        feedforward = self.feedforward_out(feedforward_hidden)
         values = values + self.residual_dropout(feedforward)
         cache_rows = min(context_rows - 1, all_key.shape[-2])
         if cache_rows == 0:
