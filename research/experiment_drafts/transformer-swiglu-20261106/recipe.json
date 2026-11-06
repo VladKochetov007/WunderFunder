@@ -1,0 +1,103 @@
+{
+  "schema": "wnn.transformer-swiglu-panel.v1",
+  "status": "implemented_remote_acceptance_pending",
+  "launch_ready": false,
+  "branch": "codex/transformer-swiglu-20261106",
+  "base_branch": "research-team",
+  "pr_url": "https://github.com/VladKochetov007/WunderFunder/pull/66",
+  "implementation_commit": "0531c33048a335059f7bb4fb6a4d2874c48ffcdb",
+  "source_baseline_commit": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "hypothesis_id": "H-B300-TRANSFORMER-SWIGLU-20261106",
+  "experiment_id": "E-B300-TRANSFORMER-SWIGLU-20261106",
+  "prior_idea_sources": [
+    "research/unified/ideas/CAUSAL_AR_TRANSFORMER_GRU_DISTILLATION_B300_20261017_R1.md",
+    "research/unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md"
+  ],
+  "external_motivation": {
+    "paper": "Shazeer, GLU Variants Improve Transformer",
+    "url": "https://arxiv.org/abs/2002.05202",
+    "use": "Motivates testing gated feed-forward variants; its task results do not predict this competition's outcome."
+  },
+  "new_teacher_fits": 4,
+  "new_student_fits_initial": 0,
+  "new_student_fits_separate_followup": 4,
+  "reused_endpoints": 0,
+  "teacher_epochs_per_fit": 30,
+  "planned_teacher_epochs": 120,
+  "followup_student_epochs": 120,
+  "teacher_world_size": 8,
+  "student_world_size": 1,
+  "endpoint": "fixed configured final epoch index 29",
+  "teacher_precision": "bf16_bf16x9",
+  "optimizer": "Muon with FP32 master/optimizer state and explicit semantic matrix groups",
+  "teacher_schedule": {
+    "name": "warmup_cosine_v2",
+    "warmup_fraction": 0.05,
+    "peak_lr": 0.0003,
+    "min_lr_ratio": 0.1,
+    "weight_decay": 0.01,
+    "grad_clip": 1.0,
+    "accumulate_chunks": 4,
+    "chunk_rows": 256,
+    "batch_per_rank": 1
+  },
+  "comparison": {
+    "metric": "global_wp_clip2_v1",
+    "arms": "GELU width 3072 versus SwiGLU width 2048 at hidden width 768; equal FFN matrix weights and leading dense FFN GEMM work",
+    "ffn_matrix_weights_per_block_each": 4718592,
+    "pairing": "same exposed fold, seed, schedule, fit/evaluation membership and precision; not bitwise common initialization",
+    "folds_exposed": [0, 2],
+    "seeds": {"0": 101001, "2": 101002},
+    "score_comparison": "Two fixed per-fold candidate-minus-reference deltas; report their arithmetic mean and each sign. Component bootstrap intervals are conditional on these fits."
+  },
+  "teacher_cells": [
+    {"id": "gelu_f0_s101001", "activation": "gelu", "width": 3072, "fold": 0, "seed": 101001, "config": "configs/teacher/gelu_f0_s101001.json", "config_sha256": "ba41ff23272229e1e5cf277e6674abe5d2258a2caa03f381953f3bd47b8dd06b"},
+    {"id": "swiglu_f0_s101001", "activation": "swiglu", "width": 2048, "fold": 0, "seed": 101001, "config": "configs/teacher/swiglu_f0_s101001.json", "config_sha256": "7597852a8baa6f8447d2dbb5e82e5f659588ca2b4eb958bfb78ccf5acfd6295e"},
+    {"id": "gelu_f2_s101002", "activation": "gelu", "width": 3072, "fold": 2, "seed": 101002, "config": "configs/teacher/gelu_f2_s101002.json", "config_sha256": "a1666a9c3951a41e3d63630f7de2fa9f2d11a7ac33eb2ff6a1d9267050add515"},
+    {"id": "swiglu_f2_s101002", "activation": "swiglu", "width": 2048, "fold": 2, "seed": 101002, "config": "configs/teacher/swiglu_f2_s101002.json", "config_sha256": "5082a3ea99097fe337e138a0734ba0fbfe4a6b87e5da816f3de4f8eb3e505016"}
+  ],
+  "student_followup": {
+    "allocation_separate": true,
+    "automatic": false,
+    "architecture": "T128x2 GELU Transformer",
+    "objective": "equal label regression plus output-only KD, kd_weight=1, hint_weight=0",
+    "precision": "bf16_bf16x9",
+    "normalization_scope": "all_fit",
+    "labels_only_control": false,
+    "comparison_scope": "Teacher-family transfer under one fixed student recipe; not KD benefit against labels alone.",
+    "cells": [
+      {"id": "student_gelu_f0_s1001", "teacher_cell": "gelu_f0_s101001", "fold": 0, "seed": 1001, "config": "configs/student/f0_s1001.json", "config_sha256": "fe9afa85848026b9d91d512363a3a775013460c799fb9cb2525e6425f7b966f1"},
+      {"id": "student_swiglu_f0_s1001", "teacher_cell": "swiglu_f0_s101001", "fold": 0, "seed": 1001, "config": "configs/student/f0_s1001.json", "config_sha256": "fe9afa85848026b9d91d512363a3a775013460c799fb9cb2525e6425f7b966f1"},
+      {"id": "student_gelu_f2_s1002", "teacher_cell": "gelu_f2_s101002", "fold": 2, "seed": 1002, "config": "configs/student/f2_s1002.json", "config_sha256": "8653e42f9f60796be369dab9277d279caf519e9c1cce7ad8c1428cf7d8a210b0"},
+      {"id": "student_swiglu_f2_s1002", "teacher_cell": "swiglu_f2_s101002", "fold": 2, "seed": 1002, "config": "configs/student/f2_s1002.json", "config_sha256": "8653e42f9f60796be369dab9277d279caf519e9c1cce7ad8c1428cf7d8a210b0"}
+    ]
+  },
+  "allocation_trigger_only": {
+    "mean_teacher_delta_minimum": 0.0005,
+    "both_fold_deltas_nonnegative": true,
+    "requires_passing_receiver_profiles": true,
+    "does_not_establish_significance": true
+  },
+  "receiver_acceptance": [
+    "targeted sequence tests and existing sequence model/recovery/Muon checks",
+    "two-rank DDP and per-activation semantic Muon ownership checks",
+    "one/eight-rank production and eight-rank warmup-zero peak-LR teacher profiles",
+    "one-rank production and warmup-zero peak-LR profile for each separately allocated student recipe",
+    "reviewer-approved identity-matching production profile before any fit",
+    "full-fit teacher cache export and one/eight-rank array parity before any student"
+  ],
+  "execution": {
+    "entrypoint": "research/experiment_drafts/transformer-swiglu-20261106/run.sh",
+    "stages_are_single_action": true,
+    "automatic_queue": false,
+    "automatic_profile_approval": false,
+    "source_pin_required": true,
+    "canonical_data_and_split_paths_required": true,
+    "physical_disk_output_root_required": true
+  },
+  "actual_new_fits": 0,
+  "actual_profiles": 0,
+  "local_tests_executed": false,
+  "local_training_or_inference_executed": false,
+  "limits": "Static implementation only. F0/F2 are exposed and seed varies with fold. No B300 admission, numerical parity, memory fit, fit, score, public transfer, significance, throughput or optimum established."
+}

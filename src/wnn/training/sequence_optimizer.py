@@ -23,7 +23,7 @@ def _parameter_role(name: str, parameter: torch.Tensor) -> tuple[str, bool]:
     """Assign a named Transformer parameter to a semantic optimizer group."""
     if _QKV_PATTERN.fullmatch(name):
         return "muon_qkv", True
-    if re.fullmatch(r"blocks\.\d+\.(attention_output|feedforward_(in|out))\.weight", name):
+    if re.fullmatch(r"blocks\.\d+\.(attention_output|feedforward_(in|gate|out))\.weight", name):
         return "muon_hidden", True
     if any(
         marker in name
@@ -47,6 +47,15 @@ def _group_specs(model: nn.Module) -> list[dict[str, object]]:
     ]
     if not named_parameters:
         raise ValueError("sequence model has no trainable parameters")
+
+    activation = getattr(blocks[0], "ff_activation", "gelu")
+    if activation not in ("gelu", "swiglu") or any(
+        getattr(block, "ff_activation", "gelu") != activation for block in blocks
+    ):
+        raise ValueError("Transformer blocks must share a supported feed-forward activation")
+    feedforward_names = ["feedforward_in", "feedforward_out"]
+    if activation == "swiglu":
+        feedforward_names.insert(1, "feedforward_gate")
 
     roles: dict[str, list[tuple[str, torch.Tensor, bool]]] = defaultdict(list)
     qkv_indices: set[int] = set()
@@ -72,10 +81,23 @@ def _group_specs(model: nn.Module) -> list[dict[str, object]]:
         for suffix in (
             "qkv",
             "attention_output",
-            "feedforward_in",
-            "feedforward_out",
+            *feedforward_names,
         )
     }
+    parameter_shapes = {name: tuple(parameter.shape) for name, parameter in named_parameters}
+    for index, block in enumerate(blocks):
+        hidden_width = block.feedforward_in.in_features
+        feedforward_width = block.feedforward_in.out_features
+        expected_shapes = {
+            "feedforward_in": (feedforward_width, hidden_width),
+            "feedforward_out": (hidden_width, feedforward_width),
+        }
+        if activation == "swiglu":
+            expected_shapes["feedforward_gate"] = (feedforward_width, hidden_width)
+        for suffix, shape in expected_shapes.items():
+            name = f"blocks.{index}.{suffix}.weight"
+            if parameter_shapes.get(name) != shape:
+                raise ValueError(f"Muon projection {name} has an invalid separate matrix shape")
     if muon_names != expected_muon_names:
         raise ValueError("every Transformer block must expose the declared Muon matrix groups")
 

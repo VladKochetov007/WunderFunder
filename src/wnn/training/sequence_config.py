@@ -71,9 +71,19 @@ def load_config(path: Path) -> dict[str, Any]:
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
         config["adamw_beta2"] = 0.95
     model = MODEL_DEFAULTS | raw.get("model", {})
-    if set(model) - set(MODEL_DEFAULTS):
+    if set(model) - (set(MODEL_DEFAULTS) | {"ff_activation", "ff_hidden"}):
         raise ValueError("unknown sequence model field")
     config["model"] = model
+    if "ff_activation" in model:
+        if not isinstance(model["ff_activation"], str):
+            raise TypeError("model.ff_activation must be a string")
+        if model["ff_activation"] not in ("gelu", "swiglu"):
+            raise ValueError("model.ff_activation must be gelu or swiglu")
+    if "ff_hidden" in model:
+        if type(model["ff_hidden"]) is not int:
+            raise TypeError("model.ff_hidden must be an integer")
+        if model["ff_hidden"] <= 0:
+            raise ValueError("model.ff_hidden must be positive")
     for key in (
         "schema_version",
         "epochs",
@@ -137,6 +147,8 @@ def load_config(path: Path) -> dict[str, Any]:
         raise ValueError("hint_dim must be a nonnegative integer")
     if model["architecture"] not in ("transformer", "gru"):
         raise ValueError("architecture must be transformer or gru")
+    if model["architecture"] == "gru" and {"ff_activation", "ff_hidden"} & set(model):
+        raise ValueError("Transformer feed-forward options require architecture=transformer")
     if model["attention_backend"] not in ("math", "efficient", "flex"):
         raise ValueError("model.attention_backend must be math, efficient, or flex")
     if model["architecture"] == "gru" and model["attention_backend"] != "math":

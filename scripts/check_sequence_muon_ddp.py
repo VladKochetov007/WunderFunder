@@ -95,7 +95,12 @@ def _semantic_groups(model: nn.Module, optimizer: Optimizer) -> dict[str, object
         name
         for name in named
         if name.endswith(
-            (".attention_output.weight", ".feedforward_in.weight", ".feedforward_out.weight")
+            (
+                ".attention_output.weight",
+                ".feedforward_in.weight",
+                ".feedforward_out.weight",
+                ".feedforward_gate.weight",
+            )
         )
     }
     adamw_matrix = named & {
@@ -112,7 +117,7 @@ def _semantic_groups(model: nn.Module, optimizer: Optimizer) -> dict[str, object
     flat_names = [name for group in optimizer.param_groups for name in group.get("param_names", [])]
     passed = (
         len(qkv) == 2
-        and len(hidden) == 6
+        and len(hidden) == 6 + sum(block.feedforward_gate is not None for block in model.blocks)
         and groups == expected
         and len(flat_names) == len(set(flat_names))
     )
@@ -225,17 +230,19 @@ def _run_update(training: Training, batches: list[list[Batch]], rank: int) -> Ca
     )
 
 
-def _run_checks(device: torch.device, rank: int, control: dist.ProcessGroup) -> list[Case]:
+def _run_checks(
+    device: torch.device, rank: int, control: dist.ProcessGroup, model_config: dict[str, object]
+) -> list[Case]:
     """Run uneven-mask and empty-rank windows with two explicit Muon updates."""
     torch.manual_seed(17_291)
     torch.cuda.manual_seed_all(17_291)
-    model = build_sequence_model(MODEL_CONFIG).to(device=device, dtype=torch.float32)
+    model = build_sequence_model(model_config).to(device=device, dtype=torch.float32)
     distributed = DistributedDataParallel(
         model, device_ids=[device.index], output_device=device.index, find_unused_parameters=False
     )
-    reference = build_sequence_model(MODEL_CONFIG).to(device=device, dtype=torch.float32)
+    reference = build_sequence_model(model_config).to(device=device, dtype=torch.float32)
     reference.load_state_dict(distributed.module.state_dict())
-    optimizer_config = OPTIMIZER_CONFIG | {"model": MODEL_CONFIG}
+    optimizer_config = OPTIMIZER_CONFIG | {"model": model_config}
     optimizer, scheduler = make_optimizer(model, optimizer_config, SCHEDULE_UPDATES)
     ref_optimizer, ref_scheduler = make_optimizer(reference, optimizer_config, SCHEDULE_UPDATES)
     training = (distributed, reference, optimizer, ref_optimizer, scheduler, ref_scheduler)
@@ -260,7 +267,7 @@ def _run_checks(device: torch.device, rank: int, control: dist.ProcessGroup) -> 
     return cases
 
 
-def _receipt(cases: list[Case], device: torch.device) -> Case:
+def _receipt(cases: list[Case], device: torch.device, model_config: dict[str, object]) -> Case:
     """Bind results to the strict precision mode, CUDA runtime, and numeric tolerances."""
     return {
         "passed": all(bool(case["passed"]) for case in cases),
@@ -271,6 +278,7 @@ def _receipt(cases: list[Case], device: torch.device) -> Case:
         "cuda_runtime": torch.version.cuda,
         "device": torch.cuda.get_device_name(device),
         "precision": "strict_fp32_no_tf32_no_autocast",
+        "model_config": model_config,
         "tolerance": {"atol": ATOL, "rtol": RTOL, "denominator_atol": DENOM_ATOL},
         "cases": cases,
     }
@@ -294,7 +302,11 @@ def main() -> None:
     """Run two-rank CUDA parity and write a synchronized pass or failure receipt."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-receipt", required=True, type=Path)
+    parser.add_argument("--ff-activation", choices=("gelu", "swiglu"), default="gelu")
     args = parser.parse_args()
+    model_config = dict(MODEL_CONFIG)
+    if args.ff_activation != "gelu":
+        model_config["ff_activation"] = args.ff_activation
     world, rank, local_rank = (
         int(os.environ.get(name, default))
         for name, default in (("WORLD_SIZE", "1"), ("RANK", "0"), ("LOCAL_RANK", "0"))
@@ -315,14 +327,14 @@ def main() -> None:
         cases: list[Case] = []
         local_error: Case | None = None
         try:
-            cases = _run_checks(device, rank, control)
+            cases = _run_checks(device, rank, control, model_config)
         except Exception as error:
             local_error = {"rank": rank, "error": f"{type(error).__name__}: {error}"}
         failures: list[Case | None] = [None] * WORLD_SIZE
         dist.all_gather_object(failures, local_error, group=control)
         if any(error is not None for error in failures):
             cases = [{"scenario": "execution_failure", "ranks": failures, "passed": False}]
-        receipt = _receipt(cases, device)
+        receipt = _receipt(cases, device, model_config)
         status: list[Case] = [{"ok": True, "error": ""}]
         if rank == 0:
             try:
