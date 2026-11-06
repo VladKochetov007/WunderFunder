@@ -92,3 +92,7 @@ Keep provenance and source links with each imported item. Generated idea cards d
 ## Current sequence-moment investigation
 
 - [RevIN official implementation and its causal-use limitation](../validation/SEQUENCE_MOMENT_GEOMETRY_20261017_R1.md) records the ICLR2022authors' [repository](https://github.com/ts-kim/RevIN) and inspected RevIN.py reduction over the supplied temporal axis. Relevant to mean/variance normalization: a whole-current-sequence call would leak future observations in this competition; the local expanding-prefix treatment is an adaptation, with no imported performance claim.
+
+## Clean-TL3 reference and additive correction — 6 November 2026
+
+[Published PR49/52 metadata mirrors and source pins](../../experiment_drafts/tl3-transformer-complement-20261106/reference_sources/README.md) identify17 original checkpoint/provenance roles and the exact c42 native replay. They preserve the missing historical consumed-cache reconstruction limit and distinguish original training-source inventories from replay source. [Submission audit/source synthesis](../../experiment_drafts/tl3-transformer-complement-20261106/SUBMISSION_AUDIT.md) links actual team results and the primary Friedman gradient-boosting antecedent; architecture, fixed mixture and curvature scaling are experimental choices, not a paper-derived competition gain.

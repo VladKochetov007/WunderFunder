@@ -4,6 +4,8 @@ from dataclasses import dataclass
 
 import torch
 
+from wnn.training.sequence_blend import compose_prediction
+
 
 @dataclass(frozen=True)
 class ObjectiveNumerators:
@@ -32,11 +34,18 @@ def objective_numerators(
     teacher: torch.Tensor,
     hint_target: torch.Tensor,
     mask: torch.Tensor,
+    *,
+    blend_objective_alpha: float = 0.0,
 ) -> ObjectiveNumerators:
     """Return clipped weighted label/KD sums and a masked elementwise hint sum."""
     clipped = target.float().clamp(-2.0, 2.0)
     weight = clipped.abs() * mask.to(dtype=torch.float32)[..., None]
     label_error = prediction.float() - clipped
+    if blend_objective_alpha > 0:
+        # Preserve original-label weights; alpha^-2 matches curvature with respect to the head.
+        label_error = (
+            compose_prediction(prediction, teacher, blend_objective_alpha) - clipped
+        ) / blend_objective_alpha
     teacher_error = prediction.float() - teacher.float().clamp(-2.0, 2.0)
     hint_error = hint_prediction.float() - hint_target.float()
     hint_weight = mask.to(dtype=torch.float32)[..., None]

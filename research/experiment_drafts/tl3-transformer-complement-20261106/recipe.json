@@ -1,0 +1,250 @@
+{
+  "schema": "wnn.tl3-transformer-complement-recipe.v1",
+  "status": "REMOTE_ACCEPTANCE_PENDING",
+  "objective_mode": "competition",
+  "verification_regime": "development_exposed_empirical_screen",
+  "hypothesis_id": "H-B300-TL3-TRANSFORMER-COMPLEMENT-20261106",
+  "experiment_id": "E-B300-TL3-TRANSFORMER-COMPLEMENT-20261106",
+  "date": "2026-11-06",
+  "owner": "team kotiki / receiving experiment operator",
+  "target_branch": "research-team",
+  "branch": "codex/tl3-transformer-complement-20261106",
+  "source_baseline": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "published_pr": null,
+  "published_commit": null,
+  "parent_prs": [
+    38,
+    49,
+    52,
+    53
+  ],
+  "question": "Does a Transformer trained for a fixed 0.9 TL3 + 0.1 Transformer endpoint improve that endpoint versus label-only training?",
+  "primary_endpoint": {
+    "expression": "0.9 * frozen_clean_tl3 + 0.1 * z",
+    "alpha": 0.1,
+    "component_preclipping": false,
+    "checkpoint": "final epoch 30",
+    "best_seed_selection": false,
+    "blend_weight_search": false
+  },
+  "objective": {
+    "control": "WMSE(z, clip(y,-2,2))",
+    "treatment": "WMSE(0.9*b+0.1*z, clip(y,-2,2)) / 0.1**2",
+    "weights": "abs(clip(original_y,-2,2))",
+    "training_mask": "all_after_warmup",
+    "denominator": "global original-label mass across ranks and accumulation",
+    "reference_gradient": false,
+    "curvature_matched": true,
+    "optimizer_trajectory_matched": false,
+    "kd_or_hint_enabled": false
+  },
+  "panel": [
+    {
+      "cell": "labels_s101001",
+      "arm": "labels",
+      "seed": 101001,
+      "config": "configs/labels_s101001.json",
+      "new_fits": 1
+    },
+    {
+      "cell": "complement_s101001",
+      "arm": "complement",
+      "seed": 101001,
+      "config": "configs/complement_s101001.json",
+      "new_fits": 1
+    },
+    {
+      "cell": "labels_s101002",
+      "arm": "labels",
+      "seed": 101002,
+      "config": "configs/labels_s101002.json",
+      "new_fits": 1
+    },
+    {
+      "cell": "complement_s101002",
+      "arm": "complement",
+      "seed": 101002,
+      "config": "configs/complement_s101002.json",
+      "new_fits": 1
+    }
+  ],
+  "new_fits": 4,
+  "new_fits_per_arm": {
+    "labels": 2,
+    "complement": 2
+  },
+  "epochs_per_fit": 30,
+  "total_new_model_epochs": 120,
+  "new_reference_fits": 0,
+  "new_student_fits": 0,
+  "reused_historical_checkpoint_roles": 17,
+  "reference_exports": 6,
+  "profiles": {
+    "per_cell": [
+      "profile-one",
+      "profile-eight",
+      "profile-peak"
+    ],
+    "updates_per_profile": 12,
+    "total_profiles": 12,
+    "scientific_replications": false
+  },
+  "split": {
+    "schema": "wnn.chronological-primary.v1",
+    "sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "expected_fold": 0,
+    "protocol": "single original PR49 source boundary; not F0/F2",
+    "fit_train": 10325,
+    "fit_valid": 0,
+    "evaluation_valid": 1873,
+    "rebuild_permitted": false,
+    "exposure": "development_exposed",
+    "calendar_timestamps_available": false
+  },
+  "reference": {
+    "native_kind": "pr49-tl3-reference-v1",
+    "schema": "sequence-reference-cache-v1",
+    "source_commit": "c42baf7b95946994216801b4eb9909422ea7effa",
+    "published_pins": "src/wnn/training/sequence_reference_pins.py",
+    "members": [
+      {
+        "run": "tl3c_w18final_distilled_s5",
+        "epoch_zero_based": 1,
+        "weight": 0.34
+      },
+      {
+        "run": "tl3c_fttall_tlead_s5",
+        "epoch_zero_based": 3,
+        "weight": 0.33
+      },
+      {
+        "run": "tl3c_fttall_tlead_s6",
+        "epoch_zero_based": 3,
+        "weight": 0.33
+      }
+    ],
+    "arithmetic": "fp32-left-to-right-0.34-0.33-0.33-no-clip",
+    "fit_predictions": "in-sample",
+    "historical_consumed_cache_bytes_reconstructed": false,
+    "expected_official_valid_wp": 0.6923774245652725,
+    "absolute_replay_tolerance": 2e-06
+  },
+  "model": {
+    "architecture": "transformer",
+    "input_schema": "raw112-v1",
+    "hidden": 768,
+    "layers": 24,
+    "heads": 12,
+    "ff_multiplier": 4,
+    "context_rows": 1024,
+    "chunk_rows": 256,
+    "attention_backend": "efficient",
+    "compile_blocks": true,
+    "checkpoint_blocks": false
+  },
+  "optimization": {
+    "precision_mode": "bf16_bf16x9",
+    "CUBLAS_EMULATE_SINGLE_PRECISION": "1",
+    "optimizer": "muon",
+    "lr": 0.0003,
+    "weight_decay": 0.01,
+    "warmup_fraction": 0.05,
+    "schedule": "warmup_cosine_v2",
+    "min_lr_ratio": 0.1,
+    "batch_per_rank": 1,
+    "accumulate_chunks": 4,
+    "grad_clip": 1.0,
+    "checkpoint_retention": "final_only",
+    "normalization_scope": "all_fit",
+    "configuration_authority": "configs/*.json"
+  },
+  "resources": {
+    "device": "B300",
+    "world_size": 8,
+    "same_physical_devices_and_software_all_cells": true,
+    "user_reports_hardware_available": true,
+    "gpu_hours_measured": null,
+    "peak_memory_measured": null,
+    "reservation_or_job_changes": false,
+    "scratch_and_compiler_caches": "under persistent WNN_RUN_ROOT; tmpfs/ramfs output rejected"
+  },
+  "comparison": {
+    "metric": "global_wp_clip2_v1",
+    "bootstrap_unit": "paired component",
+    "bootstrap_draws": 2000,
+    "bootstrap_seed": 271828,
+    "training_seeds": [
+      101001,
+      101002
+    ],
+    "source_splits": 1,
+    "all_four_cells_required": true,
+    "uncertainty": "conditional on fitted models; exposed development; no significance or public gain established"
+  },
+  "followup_gate": {
+    "mean_complement_minus_tl3_at_least": 0.0005,
+    "each_seed_complement_minus_tl3_at_least": 0,
+    "each_seed_complement_minus_labels_blend_at_least": 0,
+    "purpose": "separately declare follow-up budget only",
+    "automatic_next_fit": false
+  },
+  "receiver_stages": [
+    "reference_stage.py",
+    "data-check",
+    "six one-GPU reference-export invocations",
+    "reference-import",
+    "baseline-score",
+    "check",
+    "per-cell profile-one/profile-eight/profile-peak",
+    "manual reviewed production profile copy",
+    "per-cell fit/evaluate/bundle",
+    "compare"
+  ],
+  "receiver_acceptance": {
+    "gpu_objective_modes": [
+      "bf16",
+      "bf16_bf16x9"
+    ],
+    "gpu_modes_separate_processes": true,
+    "gpu_acceptance_skips_rejected": true,
+    "ddp_world_size": 2,
+    "ddp_objective_alphas": [
+      0,
+      0.1
+    ],
+    "completed": false
+  },
+  "actual_new_fits": 0,
+  "actual_gpu_profiles": 0,
+  "local_tests_executed": false,
+  "local_training_executed": false,
+  "local_inference_executed": false,
+  "local_model_imports_executed": false,
+  "launch_ready": false,
+  "automatic_queue": false,
+  "deployment": {
+    "cpu_submission_ready": false,
+    "compact_kd_implemented": false,
+    "composed_fit_cache_export_implemented": false,
+    "submission_uploaded": false
+  },
+  "limitations": [
+    "Fitting reference predictions are in-sample, not OOF.",
+    "Historical consumed training-cache bytes are not independently reconstructed from published ancestry.",
+    "Official valid is already exposed to team development.",
+    "Two seeds on one source split do not establish significance or training variance.",
+    "Curvature normalization does not match gradients or optimizer trajectories.",
+    "GPU memory, numerical acceptance, throughput and all scientific results remain unmeasured.",
+    "Large GPU endpoint still needs a separately implemented compact serving path."
+  ],
+  "static_update_budget": {
+    "batches_per_rank_per_epoch": 1291,
+    "accumulation_windows_per_sequence_batch": 20,
+    "optimizer_updates_per_epoch": 25820,
+    "optimizer_updates_per_fit": 774600,
+    "warmup_updates_per_fit": 38730,
+    "total_optimizer_updates_four_fits": 3098400,
+    "measured": false,
+    "engineering_profiles_additional": true
+  }
+}

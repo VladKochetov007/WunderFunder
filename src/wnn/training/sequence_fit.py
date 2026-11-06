@@ -94,6 +94,7 @@ def run_sequence_fit(
     resume: Path | None = None,
     profile_updates: int = 0,
     profile_receipt: Path | None = None,
+    reference_cache: Path | None = None,
 ) -> None:
     """Execute one torchrun fit or a non-scientific bounded profile on supplied data."""
     config = _mapping(load_config(config_path), "config")
@@ -120,7 +121,7 @@ def run_sequence_fit(
         collective_output_setup(output, resume_path is not None, context)
         seed_worker(int(config["seed"]), 0)
         data = coordinated_call(
-            lambda: build_data(config, data_root, split_manifest, teacher_cache),
+            lambda: build_data(config, data_root, split_manifest, teacher_cache, reference_cache),
             "sequence data construction",
             context,
         )
