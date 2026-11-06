@@ -3,7 +3,9 @@
 Status: **implemented handoff; receiver acceptance pending; zero new fits executed**.
 Hardware availability is user-reported; this packet has not profiled the receiving B300s.
 H-B300-TL3-TRANSFORMER-COMPLEMENT-20261106 / E-B300-TL3-TRANSFORMER-COMPLEMENT-20261106.
-Target: `research-team`; owner: team kotiki / receiving experiment operator.
+Published: [draft PR #67](https://github.com/VladKochetov007/WunderFunder/pull/67) targeting `research-team`; implementation commit
+`7f660553a1df3066f2e735e8975b39c225ec9870` ([publication receipt](PUBLICATION.json)).
+Owner: team kotiki / receiving experiment operator.
 Base: `7e4074314a62d0907c9608f9220cf72958708a2d`.
 See the [eleven-section PR](PR.md), [machine recipe](recipe.json) and
 [6 November submission audit](SUBMISSION_AUDIT.md).
@@ -351,5 +353,5 @@ storage, never Git or automatically attached archives.
 
 Implementation review and static lint/AST/shell checks are preparation evidence.
 No local tests, model imports, training, inference or GPU profiles were run.
-All four results, measured resources, receiver archive locations and publication
-commit/PR links remain pending until actual execution/publication supplies them.
+All four results, measured resources and receiver archive locations remain pending
+until actual execution. Publication is recorded above; publication is not GPU acceptance.
