@@ -20,6 +20,19 @@ class TransformerState:
     next_position: int
 
 
+class _HeadGateProjection(nn.Module):
+    """Zero-initialized query-to-head logits that preserve backbone RNG draws."""
+
+    def __init__(self, hidden: int, heads: int) -> None:
+        super().__init__()
+        self.weight = nn.Parameter(torch.zeros(heads, hidden))
+        self.bias = nn.Parameter(torch.zeros(heads))
+
+    def forward(self, values: Tensor) -> Tensor:
+        """Return one query-dependent gate logit per head and row."""
+        return F.linear(values, self.weight, self.bias)
+
+
 def _rotate(values: Tensor, positions: Tensor, inverse_frequency: Tensor) -> Tensor:
     """Apply rotary position embeddings to a batch of head vectors."""
     angles = positions[:, None] * inverse_frequency[None, :]
@@ -44,14 +57,23 @@ class CausalTransformerBlock(nn.Module):
         ff_width: int,
         dropout: float,
         attention_backend: str = "math",
+        attention_gate: str = "none",
     ) -> None:
         super().__init__()
+        if type(attention_gate) is not str:
+            raise TypeError("attention_gate must be a string")
+        if attention_gate not in ("none", "constant_half", "headwise"):
+            raise ValueError("attention_gate must be none, constant_half, or headwise")
         self.hidden = hidden
         self.heads = heads
         self.head_dim = hidden // heads
+        self.attention_gate = attention_gate
         self.norm_attention = nn.LayerNorm(hidden)
         self.qkv = nn.Linear(hidden, 3 * hidden)
         self.attention_output = nn.Linear(hidden, hidden)
+        self.head_gate = (
+            _HeadGateProjection(hidden, heads) if attention_gate == "headwise" else None
+        )
         self.norm_feedforward = nn.LayerNorm(hidden)
         self.feedforward_in = nn.Linear(hidden, ff_width)
         self.feedforward_out = nn.Linear(ff_width, hidden)
@@ -74,7 +96,8 @@ class CausalTransformerBlock(nn.Module):
     ) -> tuple[Tensor, Tensor, Tensor]:
         """Run the block and return its output plus the bounded cache."""
         batch, rows, _ = values.shape
-        query, current_key, current_value = self.qkv(self.norm_attention(values)).chunk(3, dim=-1)
+        normalized_attention = self.norm_attention(values)
+        query, current_key, current_value = self.qkv(normalized_attention).chunk(3, dim=-1)
         query = query.view(batch, rows, self.heads, self.head_dim).transpose(1, 2)
         current_key = current_key.view(batch, rows, self.heads, self.head_dim).transpose(1, 2)
         current_value = current_value.view(batch, rows, self.heads, self.head_dim).transpose(1, 2)
@@ -93,6 +116,11 @@ class CausalTransformerBlock(nn.Module):
             context_rows,
             dropout_p,
         )
+        if self.attention_gate == "constant_half":
+            attended = attended * 0.5
+        elif self.head_gate is not None:
+            gate = torch.sigmoid(self.head_gate(normalized_attention)).transpose(1, 2).unsqueeze(-1)
+            attended = attended * gate
         attended = attended.transpose(1, 2).reshape(batch, rows, self.hidden)
         values = values + self.residual_dropout(self.attention_output(attended))
         feedforward = self.feedforward_out(

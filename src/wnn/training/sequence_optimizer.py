@@ -23,6 +23,8 @@ def _parameter_role(name: str, parameter: torch.Tensor) -> tuple[str, bool]:
     """Assign a named Transformer parameter to a semantic optimizer group."""
     if _QKV_PATTERN.fullmatch(name):
         return "muon_qkv", True
+    if re.fullmatch(r"blocks\.\d+\.head_gate\.weight", name):
+        return "adamw_matrix", True
     if re.fullmatch(r"blocks\.\d+\.(attention_output|feedforward_(in|out))\.weight", name):
         return "muon_hidden", True
     if any(

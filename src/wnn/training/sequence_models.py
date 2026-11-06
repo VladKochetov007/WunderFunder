@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import math
-
 import torch
 from torch import Tensor, nn
 from torch.utils.checkpoint import checkpoint
@@ -11,8 +9,19 @@ from torch.utils.checkpoint import checkpoint
 from wnn.nn import RNNModel
 from wnn.training.sequence_attention import CausalTransformerBlock, TransformerState
 from wnn.training.sequence_compile import compile_transformer_blocks
-from wnn.training.sequence_model_helpers import HintProjector as _HintProjector
+from wnn.training.sequence_model_helpers import (
+    HintProjector as _HintProjector,
+)
 from wnn.training.sequence_model_helpers import detach_state as detach_state
+from wnn.training.sequence_model_helpers import (
+    float_model_option as _float_option,
+)
+from wnn.training.sequence_model_helpers import (
+    integer_model_option as _integer_option,
+)
+from wnn.training.sequence_model_helpers import (
+    validate_attention_gate,
+)
 from wnn.training.sequence_precision import (
     PRECISION_MODES,
     checkpoint_context_fn,
@@ -94,6 +103,7 @@ class _TransformerSequenceAdapter(nn.Module):
         hint_mode: str,
         precision_mode: str,
         attention_backend: str,
+        attention_gate: str,
     ) -> None:
         super().__init__()
         self.hidden = hidden
@@ -104,11 +114,19 @@ class _TransformerSequenceAdapter(nn.Module):
         self.checkpoint_blocks = checkpoint_blocks
         self.precision_mode = precision_mode
         self.attention_backend = attention_backend
+        self.attention_gate = attention_gate
         self.register_buffer("mean", torch.zeros(RAW_INPUT_WIDTH, dtype=torch.float32))
         self.register_buffer("std", torch.ones(RAW_INPUT_WIDTH, dtype=torch.float32))
         self.input_projection = nn.Linear(RAW_INPUT_WIDTH, hidden)
         self.blocks = nn.ModuleList(
-            CausalTransformerBlock(hidden, heads, ff_width, dropout, attention_backend)
+            CausalTransformerBlock(
+                hidden,
+                heads,
+                ff_width,
+                dropout,
+                attention_backend=attention_backend,
+                attention_gate=attention_gate,
+            )
             for _ in range(layers)
         )
         self.output_norm = nn.LayerNorm(hidden)
@@ -197,27 +215,6 @@ class _TransformerSequenceAdapter(nn.Module):
         return prediction, self.hint_projector(latent), next_state
 
 
-def _integer_option(config: dict[str, object], name: str, default: int | None = None) -> int:
-    if name not in config:
-        if default is None:
-            raise ValueError(f"model config requires {name!r}")
-        return default
-    value = config[name]
-    if type(value) is not int:
-        raise TypeError(f"model config {name!r} must be an integer")
-    return value
-
-
-def _float_option(config: dict[str, object], name: str, default: float) -> float:
-    value = config.get(name, default)
-    if isinstance(value, bool) or not isinstance(value, (int, float)):
-        raise TypeError(f"model config {name!r} must be numeric")
-    parsed = float(value)
-    if not math.isfinite(parsed):
-        raise ValueError(f"model config {name!r} must be finite")
-    return parsed
-
-
 def build_sequence_model(config: dict[str, object]) -> nn.Module:
     """Build a causal Transformer or canonical GRU with FP32 master parameters.
 
@@ -239,6 +236,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     architecture = config.get("architecture")
     if architecture not in ("transformer", "gru"):
         raise ValueError("model config architecture must be 'transformer' or 'gru'")
+    attention_gate = validate_attention_gate(config, architecture)
     hidden = _integer_option(config, "hidden")
     layers = _integer_option(config, "layers")
     heads = _integer_option(config, "heads")
@@ -291,6 +289,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         hint_mode,
         precision_mode,
         attention_backend,
+        attention_gate,
     )
     compile_transformer_blocks(model.blocks, enabled=compile_blocks)
     return model

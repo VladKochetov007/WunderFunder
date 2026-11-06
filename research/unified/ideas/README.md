@@ -1,5 +1,7 @@
 # Ideas and hypotheses
 
+[Query-dependent SDPA head gate](../../experiment_drafts/transformer-sdpa-gate-20261106/README.md), H-B300-SDPA-GATE-20261106 / E-B300-SDPA-GATE-20261106 — six new initial teachers (`none`/`constant_half`/`headwise` × F0/F2), plus separately conditional four-fit scale and four-fit student stages. Implementation and receiver packet prepared on `codex/transformer-sdpa-gate-20261106`; no local tests, B300 profiles, fits, inference, or quality results. The mechanism was already proposed in the large-dynamics Transformer idea; the cited LLM paper motivates placement but does not establish task benefit.
+
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
 **Merged into `research-team`, 24 October 2026:**
@@ -208,3 +210,5 @@ Search stable IDs in the JSONL ledgers first. Search prose and reviews with `rg 
 - [R4 fixed nonlinear follow-up](../../campaign_2026-10-19/idea_screens_r4/README.md) tests four matched identity/tanh random-feature cases on the existing R3 panel. Selected endpoints lose0.009039/0.023440WP; the predeclared history alpha1 contrast remains+0.002015 with32positive fixed-prediction drop-one contrasts. No outer retuning, generic nonlinear-family rejection, full-model/public or recurrent-state claim. Results, exact22pin source, tests/reviews, audit and operational evidence are indexed together.
 
 - [Idea12 narrow moment-decoder result](../../campaign_2026-10-19/idea_screens_r5/RESULTS.md): with identical fitted heads, a predicted denominator loses0.025555WP to a constant denominator; all32 fixed-prediction drop-one contrasts are negative. A positive constant-vs-stored-R3 recipe contrast is retained without claiming joint-head causality or general moment-model failure.
+
+Published [SDPA-gate draft PR #65](https://github.com/VladKochetov007/WunderFunder/pull/65): implementation `a24c2c2bc3bea07ce1ce5711194fe5574e701c5b`, six initial teacher fits and separately conditional scale/Transformer-student panels; no runtime or quality results.

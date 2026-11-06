@@ -1,0 +1,90 @@
+{
+  "schema": "wnn.transformer-sdpa-gate-validation.v1",
+  "status": "static_preparation_only",
+  "date": "2026-11-06",
+  "source_baseline": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "implementation_commit": "a24c2c2bc3bea07ce1ce5711194fe5574e701c5b",
+  "checks": {
+    "ruff_format": {
+      "status": "passed",
+      "scope": [
+        "scripts/check_sequence_muon_ddp.py",
+        "src/wnn/training/sequence_attention.py",
+        "src/wnn/training/sequence_models.py",
+        "src/wnn/training/sequence_model_helpers.py",
+        "src/wnn/training/sequence_config.py",
+        "src/wnn/training/sequence_optimizer.py",
+        "tests/test_sequence_sdpa_gate.py"
+      ],
+      "command": "uvx --offline ruff format --check <changed Python files>"
+    },
+    "ruff_check": {
+      "status": "passed",
+      "scope": [
+        "scripts/check_sequence_muon_ddp.py",
+        "src/wnn/training/sequence_attention.py",
+        "src/wnn/training/sequence_models.py",
+        "src/wnn/training/sequence_model_helpers.py",
+        "src/wnn/training/sequence_config.py",
+        "src/wnn/training/sequence_optimizer.py",
+        "tests/test_sequence_sdpa_gate.py"
+      ],
+      "command": "uvx --offline ruff check <changed Python files>"
+    },
+    "stdlib_json_config_parse": {
+      "status": "passed",
+      "counts": {
+        "initial_teacher_configs": 6,
+        "scale_teacher_configs": 4,
+        "student_configs": 2
+      },
+      "recipe_and_final_ledger_rows": "parsed",
+      "note": "Used only Python standard-library JSON parsing; did not import the training package."
+    },
+    "git_diff_check": {
+      "status": "passed",
+      "command": "git diff --cached --check",
+      "note": "Rechecked against the fully staged packet before commit."
+    },
+    "root_student_binding_review": {
+      "status": "source_reviewed",
+      "scope": "complete teacher config/source binding and evidence bundle",
+      "numerical_execution": false
+    },
+    "shell_syntax": {
+      "status": "passed",
+      "command": "bash -n student_stages.sh; embedded Python ast.parse only",
+      "stage_execution": false
+    }
+  },
+  "changed_code_line_counts": {
+    "src/wnn/training/sequence_models.py": 295,
+    "src/wnn/training/sequence_attention.py": 137,
+    "src/wnn/training/sequence_model_helpers.py": 96,
+    "src/wnn/training/sequence_config.py": 215,
+    "src/wnn/training/sequence_optimizer.py": 210,
+    "research/experiment_drafts/transformer-sdpa-gate-20261106/run.sh": 126,
+    "research/experiment_drafts/transformer-sdpa-gate-20261106/teacher_stages.sh": 114,
+    "research/experiment_drafts/transformer-sdpa-gate-20261106/student_stages.sh": 130
+  },
+  "not_run": [
+    "unit or integration tests",
+    "training",
+    "inference",
+    "model imports",
+    "profiles",
+    "GPU or DDP actions",
+    "shell stage execution"
+  ],
+  "receiver_gates_pending": [
+    "causal prefix and exact-window mask checks for math and efficient SDPA",
+    "streaming/chunk parity, sequence reset, and gradient parity with a nonconstant gate",
+    "two-rank DDP and gated Muon/AdamW parameter ownership",
+    "finite BF16/BF16x9 forward/backward and compiled efficient-backend profile on allocated B300s",
+    "human review of each exact unapproved engineering profile before fit",
+    "fixed-final teacher evaluation and one/eight-rank fitting-cache parity",
+    "source-qualified teacher cache binding before conditional student profiles/fits"
+  ],
+  "results": null,
+  "PR": "https://github.com/VladKochetov007/WunderFunder/pull/65"
+}
