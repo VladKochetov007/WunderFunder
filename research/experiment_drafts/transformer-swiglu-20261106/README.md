@@ -10,7 +10,7 @@ evidence_paths: []
 
 # Matched SwiGLU Transformer teachers on B300
 
-**Code and launch packet prepared; no receiver checks, profiles, fits, cache exports, inference or scoring have run.** The four-teacher panel and the separately allocated four-student transfer panel are both proposals. Current actual counts are zero. The branch starts at `research-team` commit `7e407431`; the implementation commit and PR URL will be added after publication.
+**Code and launch packet published; receiver acceptance remains pending.** The four-teacher panel and the separately allocated four-student transfer panel are both proposals. No receiver checks, profiles, fits, cache exports, inference or scoring have run. Draft PR: [#66](https://github.com/VladKochetov007/WunderFunder/pull/66), based on `research-team` commit `7e4074314a62d0907c9608f9220cf72958708a2d`. Implementation commit: `0531c33048a335059f7bb4fb6a4d2874c48ffcdb`. GitHub's static `lint` check passed at that implementation commit; this is not B300 execution evidence.
 
 This packet exposes optional `ff_activation` (`gelu` by default or `swiglu`) and `ff_hidden` options in the sequence Transformer. Historical recipes omit both keys: their loaded configuration, GELU state-dict keys, parameter creation order and default forward remain unchanged. SwiGLU computes `silu(gate(norm(x))) * up(norm(x))`, then applies the existing output projection. Its gate and up matrices are separate parameters and separate Muon matrices.
 

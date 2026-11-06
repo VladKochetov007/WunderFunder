@@ -1,6 +1,6 @@
 # Ideas and hypotheses
 
-[Matched SwiGLU versus GELU causal Transformer on B300](../../experiment_drafts/transformer-swiglu-20261106/README.md) implements the FFN mechanism already proposed in the causal-AR and large-dynamics plans. Four fresh T768×24 teachers hold FFN matrix weights and leading GEMM work constant; the separately allocated four-student output-KD panel is not part of the initial screen. Static preparation only: no local tests, B300 checks, profiles, fits, score or transfer evidence. F0/F2 remain exposed; `+0.0005` is an allocation trigger only.
+[Matched SwiGLU versus GELU causal Transformer on B300](../../experiment_drafts/transformer-swiglu-20261106/README.md), [draft PR #66](https://github.com/VladKochetov007/WunderFunder/pull/66), implements the FFN mechanism already proposed in the causal-AR and large-dynamics plans. Four fresh T768×24 teachers hold FFN matrix weights and leading GEMM work constant; the separately allocated four-student output-KD panel is not part of the initial screen. Implementation `0531c330` passed GitHub static lint. No local tests, B300 checks, profiles, fits, score or transfer evidence. F0/F2 remain exposed; `+0.0005` is an allocation trigger only.
 
 [Transformer 1.54B recovery R5](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/README.md): four fresh component-inner-validation fits, two Muon learning rates, all safe epochs retained, explicit inner-only epoch selection and portable MIDAS evidence. B300 acceptance and all new results remain pending; cluster restart is awaited.
 
