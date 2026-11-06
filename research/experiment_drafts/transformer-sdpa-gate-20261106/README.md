@@ -20,8 +20,7 @@ Implementation and receiver packet are prepared on branch
 `codex/transformer-sdpa-gate-20261106`, based on `research-team` at
 `7e4074314a62d0907c9608f9220cf72958708a2d`. The code adds optional
 `attention_gate=constant_half|headwise` to the existing causal Transformer block.
-No tests, profiles, fit, inference, cache export, or score ran locally. The
-branch is unpublished; PR URL and final implementation SHA remain pending.
+No tests, profiles, fit, inference, cache export, or score ran locally. Draft PR: [#65](https://github.com/VladKochetov007/WunderFunder/pull/65). Implementation commit: `a24c2c2bc3bea07ce1ce5711194fe5574e701c5b`.
 
 The large-dynamics idea already proposed a query-dependent sigmoid gate after
 attention as a separate candidate. This packet turns that proposal into a

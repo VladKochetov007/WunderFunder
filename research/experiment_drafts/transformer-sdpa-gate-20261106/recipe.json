@@ -7,7 +7,7 @@
   "branch": "codex/transformer-sdpa-gate-20261106",
   "base_branch": "research-team",
   "source_baseline": "7e4074314a62d0907c9608f9220cf72958708a2d",
-  "implementation_commit": null,
+  "implementation_commit": "a24c2c2bc3bea07ce1ce5711194fe5574e701c5b",
   "primary_source": {
     "url": "https://arxiv.org/abs/2505.06708",
     "title": "Gated Attention for Large Language Models: Non-linearity, Sparsity, and Attention-Sink-Free",
@@ -15,7 +15,11 @@
   },
   "prior_proposal": "research/unified/ideas/LARGE_DYNAMICS_TRANSFORMER_B300_20261019_R2.md",
   "mechanism": {
-    "attention_gate_values": ["none", "constant_half", "headwise"],
+    "attention_gate_values": [
+      "none",
+      "constant_half",
+      "headwise"
+    ],
     "placement": "After exact-window SDPA and before the existing attention output projection",
     "headwise_formula": "sigmoid(linear(norm_attention(x))) with zero-initialized weight and bias",
     "headwise_shape": "[batch, heads, rows, 1]",
@@ -24,9 +28,19 @@
   "initial_screen": {
     "new_teacher_fits": 6,
     "reused_endpoints": 0,
-    "arms": ["none", "constant_half", "headwise"],
-    "folds": [0, 2],
-    "fold_seeds": {"0": 101001, "2": 101002},
+    "arms": [
+      "none",
+      "constant_half",
+      "headwise"
+    ],
+    "folds": [
+      0,
+      2
+    ],
+    "fold_seeds": {
+      "0": 101001,
+      "2": 101002
+    },
     "fits_per_arm": 2,
     "model": {
       "architecture": "causal raw112 Transformer",
@@ -60,7 +74,10 @@
     },
     "runtime": {
       "precision_mode": "bf16_bf16x9",
-      "required_environment": {"CUBLAS_EMULATE_SINGLE_PRECISION": "1", "CUBLAS_WORKSPACE_CONFIG": ":4096:8"},
+      "required_environment": {
+        "CUBLAS_EMULATE_SINGLE_PRECISION": "1",
+        "CUBLAS_WORKSPACE_CONFIG": ":4096:8"
+      },
       "master_weights_gradients_loss_optimizer_state": "FP32",
       "attention_backend": "efficient exact-window SDPA",
       "compile_blocks": true,
@@ -78,10 +95,25 @@
   "conditional_scale_followup": {
     "status": "separately_conditional_not_auto_started",
     "new_teacher_fits": 4,
-    "arms": ["none", "headwise"],
-    "folds": [0, 2],
-    "fold_seeds": {"0": 101001, "2": 101002},
-    "model": {"hidden": 1792, "layers": 40, "heads": 28, "ff_width": 7168, "context_rows": 1024},
+    "arms": [
+      "none",
+      "headwise"
+    ],
+    "folds": [
+      0,
+      2
+    ],
+    "fold_seeds": {
+      "0": 101001,
+      "2": 101002
+    },
+    "model": {
+      "hidden": 1792,
+      "layers": 40,
+      "heads": 28,
+      "ff_width": 7168,
+      "context_rows": 1024
+    },
     "training_recipe": "Same explicit recipe and precision as initial teachers; lr=3e-4 is an un-tuned starting point.",
     "parameter_count_note": "Approximately 1.54B by architecture arithmetic; not measured.",
     "student_transfer_included": false,
@@ -90,14 +122,32 @@
   "conditional_student_followup": {
     "status": "separately_conditional_not_auto_started",
     "new_student_fits": 4,
-    "teacher_arms": ["none", "headwise"],
-    "folds": [0, 2],
-    "student_seeds": {"0": 1001, "2": 1002},
-    "model": {"hidden": 128, "layers": 2, "heads": 4, "context_rows": 128},
+    "teacher_arms": [
+      "none",
+      "headwise"
+    ],
+    "folds": [
+      0,
+      2
+    ],
+    "student_seeds": {
+      "0": 1001,
+      "2": 1002
+    },
+    "model": {
+      "hidden": 128,
+      "layers": 2,
+      "heads": 4,
+      "context_rows": 128
+    },
     "teacher_source_family": "initial width768 teachers only",
     "teacher_cache": "Fitting-membership output predictions; same exact cache path for profile and fit; one/eight-rank parity required.",
     "objective": "KD weight 1, no hidden hints; no labels-only student control.",
-    "runtime": {"world_size": 1, "device": "B300", "precision_mode": "bf16_bf16x9"},
+    "runtime": {
+      "world_size": 1,
+      "device": "B300",
+      "precision_mode": "bf16_bf16x9"
+    },
     "teacher_training_cache_is_in_sample": true,
     "separate_explicit_allocation_required": true
   },
@@ -122,7 +172,7 @@
     "actual_inference_runs": 0,
     "actual_cache_exports": 0,
     "local_gpu_actions": 0,
-    "pr_url": null,
+    "pr_url": "https://github.com/VladKochetov007/WunderFunder/pull/65",
     "result": null
   }
 }
