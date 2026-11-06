@@ -23,13 +23,18 @@ student_stage() {
     echo 'Student config and parity-checked matching teacher cache are required' >&2
     exit 2
   }
-  uv run --no-sync python - "$cache" "$teacher_checkpoint" "$split" "$WNN_DATA_ROOT" \
-    "$parity" "$teacher" "$fold" <<'PY'
+  mkdir -p -- "$run"
+  env CUBLAS_EMULATE_SINGLE_PRECISION=1 uv run --no-sync python - \
+    "$cache" "$teacher_checkpoint" "$split" "$WNN_DATA_ROOT" \
+    "$parity" "$teacher" "$fold" "$packet/configs/teacher_${name}.json" \
+    "$run/teacher_binding.json" <<'PY'
 import json
 import sys
 from pathlib import Path
 from wnn.splits import file_sha256, load_campaign_split
 from wnn.training.sequence_cache import TeacherCache
+from wnn.training.sequence_config import load_config
+from wnn.training.sequence_provenance import canonical_sha256, source_identity
 
 cache_root = Path(sys.argv[1])
 checkpoint_path = Path(sys.argv[2])
@@ -50,9 +55,14 @@ config = producer["config"]
 model = config["model"]
 parity = json.loads(parity_path.read_text(encoding="utf-8"))
 checkpoint_sha = file_sha256(checkpoint_path)
+expected_config = load_config(Path(sys.argv[8]))
+expected_source = source_identity(Path.cwd(), Path.cwd() / "scripts/train_sequence.py")
+identity = producer.get("provenance", {}).get("identity", {})
 expected_gate = "headwise" if arm == "headwise" else "none"
 expected_seed = 101001 if fold == 0 else 101002
 checks = {
+    "full teacher config": config == expected_config and identity.get("config_sha256") == canonical_sha256(expected_config),
+    "exact teacher source": identity.get("source_sha256") == expected_source["sha256"],
     "parity pass": parity.get("schema") == "wnn.sequence-cache-parity.v1" and parity.get("passed") is True,
     "cache manifest binding": parity.get("manifest_sha256", {}).get("eight") == file_sha256(manifest_path),
     "checkpoint binding": parity.get("checkpoint_sha256") == checkpoint_sha == producer.get("checkpoint_sha256"),
@@ -67,6 +77,26 @@ checks = {
 failed = [name for name, passed in checks.items() if not passed]
 if failed:
     raise SystemExit("teacher cache provenance mismatch: " + ", ".join(failed))
+binding = {
+    "schema": "wnn.sdpa-gate-teacher-binding.v1",
+    "teacher_checkpoint_sha256": checkpoint_sha,
+    "teacher_config_sha256": canonical_sha256(expected_config),
+    "teacher_source_sha256": expected_source["sha256"],
+    "split_sha256": split.sha256,
+    "cache_manifest_sha256": file_sha256(manifest_path),
+    "parity_receipt_sha256": file_sha256(parity_path),
+    "parity_receipt": parity,
+    "arm": arm,
+    "fold": fold,
+}
+binding_path = Path(sys.argv[9])
+if binding_path.exists():
+    if json.loads(binding_path.read_text(encoding="utf-8")) != binding:
+        raise SystemExit("existing student binding differs; preserve it and use a new run root")
+else:
+    with binding_path.open("x", encoding="utf-8") as stream:
+        json.dump(binding, stream, indent=2, allow_nan=False)
+        stream.write("\n")
 PY
   mkdir -p -- "$run"
   local train=(scripts/train_sequence.py --config "$config" --data-root "$WNN_DATA_ROOT" --split-manifest "$split" --teacher-cache "$cache")
@@ -120,10 +150,10 @@ PY
       }
       local bundle="$run/bundle"
       require_absent "$bundle"
-      uv run --no-sync python scripts/research_result_bundle.py --root "$fit" \
-        --output-dir "$bundle" --evidence run_metadata.json --evidence metrics.jsonl \
-        --evidence terminal_status.json --evidence score.json --evidence rank0.jsonl \
-        --weight model.pt --weight training_state.pt
+      uv run --no-sync python scripts/research_result_bundle.py --root "$run" \
+        --output-dir "$bundle" --evidence fit/run_metadata.json --evidence fit/metrics.jsonl \
+        --evidence fit/terminal_status.json --evidence fit/score.json --evidence fit/rank0.jsonl \
+        --evidence teacher_binding.json --weight fit/model.pt --weight fit/training_state.pt
       ;;
     *) echo "Unknown student action: $action" >&2; exit 2 ;;
   esac

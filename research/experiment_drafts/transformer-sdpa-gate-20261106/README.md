@@ -101,6 +101,16 @@ from the training targets or make F0/F2 fresh holdouts.
 
 ## Receiver workflow and gates
 
+After binding the actual run root, verify the receiver mount before any profile:
+
+```bash
+mkdir -p "$WNN_RUN_ROOT"
+findmnt -T "$WNN_RUN_ROOT" -o TARGET,SOURCE,FSTYPE
+df -h "$WNN_RUN_ROOT"
+```
+
+Use the allocated physical-disk mount; a tmpfs/ramfs mount is not admitted.
+
 See [PR.md](PR.md) for the eleven-section contract, [recipe.json](recipe.json)
 for the frozen fit inventory, [configs/](configs/) for all twelve complete
 recipes, [VALIDATION.json](VALIDATION.json) for static-only preparation evidence,
@@ -140,6 +150,10 @@ receipt. Each cell has a unique output/cache namespace; failed or previous
 attempts are retained and never overwritten. Set `CUBLAS_EMULATE_SINGLE_PRECISION=1`
 for every declared BF16/BF16x9 receiver stage. Do not launch any stage without
 the current separately reviewed execution allocation.
+
+Student admission also matches the complete teacher config and training-source
+digest against this checkout. The immutable `teacher_binding.json` records that
+match and the full parity receipt, and is included in the student's evidence bundle.
 
 ## Interpretation limits
 
