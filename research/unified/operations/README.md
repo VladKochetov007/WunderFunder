@@ -648,6 +648,29 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 [Parent terminal-checker root preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_ROOT_PREPARATION_V1.json): pins the final local checker, tests, source review and all sibling helper dependencies for the exact source68ff/seed1001 H256×2 parent. Nine synthetic checks and cold import/read sentinels pass; preparation adds zero fits and no remote admission, checkpoint read, terminal acceptance or quality result. Typed native exit0 has since been captured; fresh capped CPU support gates and root acceptance/exact stop remain required before use.
 # PR67 receiving preparation, 7 November 2026
 
+[Optimized B300 receiver](../../experiment_drafts/tl3-transformer-complement-execution-20261107/optimized_receiving/README.md)
+prepares four newly identified batch128/256 matched30E fits after the explicit
+optimization steering. It reuses unchanged source-r3 and the accepted owner relay,
+requires exact50-update production profiles and independent ROOT approval per
+cell, derives24,600/12,600 updates and bounds the panel to24h with1h reserve.
+Five focused CPU gates and independent static review pass; actual scientific
+profiles/fits and quality remain ROOT's receiving steps.
+
+[Throughput R1](../../experiment_drafts/tl3-transformer-complement-execution-20261107/throughput-r1/README.md)
+and [R2](../../experiment_drafts/tl3-transformer-complement-execution-20261107/throughput-r2/README.md)
+preserve separately identified direct-canonical engineering configs, exact POSIX
+argv/environment/config hashes and real-row/update budgets. R1 spans world1/2,
+batch4/16/32/64/128; ROOT admitted four50-update profiles. R2 contains the five
+separately admitted batch256/equal-global/peak probes. These are throughput
+measurements rather than quality results; no scientific fit is admitted by them.
+
+[Conditional observer-expiry continuation preparation](PR67_OBSERVER_EXPIRY_CONTINUATION_PREPARATION_20261107.md)
+documents the unchanged seven-day observation limit within ROOT's finite nine-day
+historical B4 fit envelope. The later explicit optimization steering retires those
+incomplete fits; this preparation supplies no permission to resume them. Per-epoch
+resumable state exists even under final-only retention. It proposes no live change
+or automatic replay.
+
 [Bounded B300 receiver](../../experiment_drafts/tl3-transformer-complement-execution-20261107/receiving/README.md)
 keeps frozen source-r3 unchanged while preparing checks, reference dependency
 gates, twelve bounded profiles and four independently ROOT-approved fits using

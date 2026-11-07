@@ -1,3 +1,9 @@
+[Actual B300 profile admission review](B300_ACTUAL_PROFILE_ADMISSION_REVIEW_20261107.md)
+independently parses all twelve native receipts, confirms exact source/config/
+member/normalizer/reference identities and update counts, and supports the
+unchanged four 30-epoch fits under ROOT's finite nine-day amendment. Warm timings
+imply about6.4days core fitting, not a24-hour job; this is no quality result.
+
 [Installed Triton IEEE correction review](MAMBA_TRITON_IEEE_ENVIRONMENT_REVIEW_20261107.md)
 uses ROOT's captured installed-source evidence to support the explicit
 `TRITON_F32_DEFAULT=ieee` environment correction with fresh cache and fresh
