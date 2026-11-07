@@ -1,5 +1,31 @@
 # Project agent instructions
 
+## Latest7 November: measured B300/L4 optimization amendment
+
+The user requests efficient training on both existing hosts. See
+research/experiment_drafts/architecture-execution-20261107/OPTIMIZATION_R2.md.
+B300's old B4 attempts are partial historical evidence; four new B128/A4/world2
+fits are running to30E/24600updates under the optimized24h receiving envelope,
+with1h collection reserve. The old nine-day B4 bound below is historical.
+L4 keeps the original eight12E fits. ROOT armed the two original GRU monitoring
+continuations under exact state/source/config pins and the original L4 deadline;
+both preflights passed before any old stop. Require native transition/archiver/
+resumed-update receipts before claiming those continuations active. No new seed,
+architecture or stopped unrelated fit is admitted. Preserve frozen R1 records.
+S3 canonical resume failed before updates on a None-returning monitor callback;
+the first S4 probe then exposed its own dict/OrderedDict comparison error. Both
+failed attempts and all original8E states remain historical. R3 correction passed
+actual CPU and real CUDA zero-update canonical restores, with live external
+archives, and both original GRUs resumed20:26:44UTC past51680updates. Current
+siblings are gru_sSEED_monitor_opt_r3/fit, producer source5bbbf68eccdc8c8773ff4b4eda2c4026d9c3f31b145dfc0d683b17d20a1987d0,
+controller2238454/birth2148028384; same12E endpoint and original L4 deadline.
+No unrelated resume or new scientific fit is admitted. Reporter selects exact
+pinned r3 aliases; do not fall back to historical original/S3/R2 producer rows.
+First B300 epoch mixture scores do not beat the clean TL3 reference; Mamba2's
+later valid degradation is evidence of overfitting, not a reason to relabel its
+best-observed exposed checkpoint as an independent final endpoint. ADR0044,
+ownership, full-valid coverage and SemyonEpanov publication identity remain.
+
 ## Latest7 November: twelve fresh fits explicitly authorized and running
 
 The user explicitly authorized setup and launch on the existing eight B300 and

@@ -1,4 +1,21 @@
-## 7 November: twelve-fit architecture execution
+## 7 November: measured B300/L4 optimization and online review
+
+[The optimization amendment](../research/experiment_drafts/architecture-execution-20261107/OPTIMIZATION_R2.md)
+supersedes the old B4 timing/status below. Four new B128 paired B300 fits are
+running to30E/24600updates; useful profile throughput improved about19x, with no
+quality parity claim. First-epoch mixture WP0.692369 is approximately equal to
+the clean TL3 reference0.692377. At20:26UTC two EMA fits had completed12E;
+automatic PR68 posts track later completions. Mamba2's falling valid after epoch6,
+despite improving train diagnostics,
+is an overfitting warning. Two original GRU diagnostic continuations first failed
+before updates; original E8 states are preserved. The corrected R3 receiving
+passed actual CPU/real CUDA canonical restores and both GRUs resumed20:26:44UTC
+past51680updates with live archives. New producer source5bbbf68eccdc... is pinned
+to exact r3 reporter rows; original/S3/R2 attempts remain historical. Current
+finite budgets remain optimized B30024h
+and original L4 clock. No final endpoint or public improvement is claimed.
+
+## Historical7 November: initial twelve-fit architecture execution
 
 [The execution packet](../research/experiment_drafts/architecture-execution-20261107/EXECUTION_R1.md)
 records eight fresh L4 fits and four fresh PR67 B300 fits. All eight L4 workers

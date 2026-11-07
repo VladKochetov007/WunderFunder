@@ -1,5 +1,17 @@
 # Unified research library
 
+## 7 November: measured cluster optimization and online validation
+
+[The current amendment](../experiment_drafts/architecture-execution-20261107/OPTIMIZATION_R2.md)
+records actual B128 B300 profiles and four new running30E fits, retired partial
+B4 attempts, unchanged official validation, Mamba2's later overfitting warning,
+and the two state-preserving L4 GRU monitoring continuations. After preserved
+S3/R2 failures, R3 passed actual CPU/real CUDA restores and both original fits
+resumed past their E8 frontier with live checkpoint archives. Native preflight/
+arming are distinct from verified updates. No final
+quality gain or public result is claimed. Frozen initial records below remain
+historical.
+
 ## 7 November: authorized architecture execution
 
 [The twelve-fit execution record](../experiment_drafts/architecture-execution-20261107/EXECUTION_R1.md)

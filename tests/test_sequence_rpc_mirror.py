@@ -82,14 +82,16 @@ def test_apply_rejects_corrupt_payload_and_cross_host_snapshot(tmp_path: Path) -
         apply_snapshot(snapshot, tmp_path / "view", tmp_path / "native", {}, "l4")
 
 
-def test_two_host_file_queue_keeps_source_times_and_rank_curves_out_of_liveness(
+@pytest.mark.parametrize("labels", [("l4", "b300"), ("l4", "b300", "b300-opt")])
+def test_panel_file_queue_keeps_source_times_and_rank_curves_out_of_liveness(
     tmp_path: Path,
+    labels: tuple[str, ...],
 ) -> None:
     nodes = []
-    for host in ("l4", "b300"):
+    for host in labels:
         remote = tmp_path / host / "remote"
         run = _source(remote)
-        if host == "b300":
+        if host in ("b300", "b300-opt"):
             (run / "rank0.jsonl").write_text(
                 json.dumps(
                     {
@@ -104,9 +106,10 @@ def test_two_host_file_queue_keeps_source_times_and_rank_curves_out_of_liveness(
                 )
                 + "\n"
             )
-        rpc = tmp_path / host / "rpc"
-        (rpc / "requests").mkdir(parents=True)
-        (rpc / "results").mkdir()
+        # Both B300 recipe panels share the existing physical-host transport queue.
+        rpc = tmp_path / ("b300" if host == "b300-opt" else host) / "rpc"
+        (rpc / "requests").mkdir(parents=True, exist_ok=True)
+        (rpc / "results").mkdir(exist_ok=True)
         nodes.append(
             {
                 "host": host,
@@ -154,3 +157,8 @@ def test_two_host_file_queue_keeps_source_times_and_rank_curves_out_of_liveness(
     assert derived["step"] == 1 and derived["epoch"] == 0.05
     assert derived["context"]["wall_time_is_update_time"] is False
     assert l4["last_event_at"].startswith("2020-01-01")
+    if "b300-opt" in labels:
+        optimized = reader.get_runs(["b300-opt-cell-fit"])["runs"][0]
+        assert "train/loss" in optimized["metric_keys"]
+        assert (tmp_path / "native" / "b300-cell-fit").is_dir()
+        assert (tmp_path / "native" / "b300-opt-cell-fit").is_dir()

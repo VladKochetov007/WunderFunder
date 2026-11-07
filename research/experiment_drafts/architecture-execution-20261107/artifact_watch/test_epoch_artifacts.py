@@ -123,6 +123,15 @@ def test_wrong_full_valid_mask_never_creates_snapshot(tmp_path: Path) -> None:
     assert not (tmp_path / "snapshots").exists()
 
 
+def test_long_B300_watch_does_not_extend_l4_discovery(tmp_path: Path) -> None:
+    """The ROOT nine-day B300 allowance does not extend L4's24-hour discovery."""
+    fixture_runs(tmp_path)
+    watcher = EpochPlots(tmp_path, Path(__file__).resolve().parents[4], Path("unused-python"))
+    watcher.scan(include_l4=False)
+    assert not watcher.jobs
+    assert not (tmp_path / "snapshots").exists()
+
+
 @pytest.mark.skipif(
     "PLOT_PYTHON" not in os.environ, reason="set the provisioned CPU plotting Python"
 )

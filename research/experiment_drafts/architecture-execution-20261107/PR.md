@@ -22,6 +22,9 @@ See CONTRACT.md, EXECUTION_R1.md and l4/configs-runtime-r3. Raw112/full20k
 sequences, chunk2000, B16/A1, AdamW3e-4/decay.01/clip1, warmup5%/cosine,
 fixed12E, seeds101001/101002. Fresh initialization, no parents or KD. FP32;
 Mamba Triton FP32 dot mode is explicitly IEEE and checked on actual kernels.
+The dated OPTIMIZATION_R2.md records the monitoring-only GRU amendment, native
+source/profile pins, preserved failed receiving attempts and exact state recovery.
+It changes no fitting seed, hypothesis, optimizer or12E endpoint.
 
 # 5. Bounded fitting panel
 
@@ -53,7 +56,15 @@ and any explicit ensemble contribution. No numerical gain is asserted at launch.
 Already launched by ROOT's l4/receiving controller; do not duplicate it. Runtime
 /data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1. Immutable
 source-r1 and exact capsule/config/profile/owner receipts are described in
-EXECUTION_R1.md. Detached workers survive SSH loss; cleanup is ownership-bound.
+EXECUTION_R1.md and the current OPTIMIZATION_R2.md. Detached workers survive SSH
+loss; cleanup is ownership-bound. The two plain-GRU trajectories resumed from
+complete original8E checkpoints with fresh S4 profile/identity/state proofs,
+actual CPU/real CUDA canonical restoration gates and external every-epoch full
+state archival. Actual CPU and real CUDA zero-update restores passed and both
+fits reached51750 updates20:26:51UTC, beyond the original51680 frontier. Current
+outputs use exact _monitor_opt_r3 siblings. Failed S3 and R2 attempts remain
+historical; old inference snapshots/indexes are preserved beside new full-state
+archives. These are the same original two scientific fits, not extra cells.
 
 # 10. Evidence to return
 
@@ -65,8 +76,11 @@ and real PNG/SVG epoch plots are retained. GitHub reporting is separate from fit
 
 # 11. Results and trace
 
-All eight workers produced actual updates/full-valid events; these are partial
-development observations, not complete epoch12 comparisons. See EXECUTION_R1.md
-and receiving-evidence. Independent receiving/profile/precision reviews preceded
+Two EMA/custom TabM-style fits completed12E/77520, valid WP approximately
+0.672695/0.671266. Other cells are partial; no completed eight-fit comparison or
+improvement over clean TL3 is claimed. Mamba2 improves train diagnostics but
+degrades on full valid after its observed epoch6 peak, an overfitting warning.
+See OPTIMIZATION_R2.md, frozen EXECUTION_R1.md and receiving evidence.
+Independent receiving/profile/precision and recovery reviews preceded each
 admission. Old sources/failures remain retained. No competition upload or extra
 fit is authorized by this draft.

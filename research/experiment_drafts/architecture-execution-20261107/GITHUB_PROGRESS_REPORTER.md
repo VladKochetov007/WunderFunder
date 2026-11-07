@@ -98,3 +98,105 @@ completion, profile exclusion, full-grade coverage, cached/future source clocks,
 wrong-account refusal, pending-marker recovery after a lost response, no-repeat
 uncertain writes, dry-run isolation, API-origin/error redaction, and collectorR2
 cursor/score preservation. These tests do not establish live API permissions.
+
+## Explicit optimized B300 panel
+
+The original B300 panel keeps its strict774600-update rule. A separately authorized
+optimized recipe uses `--panel-manifest <frozen.json>`, with this exact schema:
+
+```json
+{
+  "schema": "wnn.sequence-progress-panel.v1",
+  "panels": {
+    "b300": {
+      "run_prefix": "b300-opt",
+      "epochs": 30,
+      "source_sha256": "<actual producer source SHA256>",
+      "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+      "cells": {
+        "labels_s101001": {"config_sha256": "<canonical config SHA256>", "expected_updates": 0},
+        "labels_s101002": {"config_sha256": "<canonical config SHA256>", "expected_updates": 0},
+        "complement_s101001": {"config_sha256": "<canonical config SHA256>", "expected_updates": 0},
+        "complement_s101002": {"config_sha256": "<canonical config SHA256>", "expected_updates": 0}
+      }
+    }
+  }
+}
+```
+
+The placeholders and zero budgets above must be replaced before use. Each config
+SHA is `canonical_sha(parsed_config)` from the producer identity, rather than a
+newline-sensitive file-transport digest. Each positive update budget must equal
+the padded schedule derived from that cell's actual native metadata. Exact30epochs,
+official whole-sequence10325/1873membership, source and split remain mandatory.
+The reporter reads the manifest once, retains its exact byte SHA256 in comments
+and receipts, and reads only `b300-opt-<cell>-fit`. It never falls back to the
+historical `b300-<cell>-fit` directories. A source/config/budget mismatch produces
+an evidence-unavailable row and cannot produce a completion claim.
+
+Root appends this third logical panel to the existing bridge `hosts` array:
+
+```json
+{
+  "host": "b300-opt",
+  "rpc_root": "C:/Users/admin/Documents/Codex/artifacts/architecture-execution-20261107/b300-rpc",
+  "run_root": "/data/epanov_s/tabdata/runtime/architecture-execution-20261107-r1/throughput-engineering-r1/runs",
+  "collector_path": "/data/epanov_s/tabdata/runtime/architecture-execution-20261107-r1/control/collect_sequence_monitor_r2.py"
+}
+```
+
+The physical B300 RPC queue is reused; unique requests, cursors, ownership and
+dashboard IDs remain qualified by `b300-opt`. Existing `l4`/`b300` entries and
+bridge state stay present. Root restarts only its local bridge to load this
+nontraining revision; no frozen trainer or active scientific process is edited.
+
+After Root freezes the selected recipe identities, render before restarting only
+Root's existing reporter with its process environment credential:
+
+```powershell
+python scripts/report_sequence_progress.py --mirror-config C:/Users/admin/Documents/Codex/artifacts/architecture-execution-20261107/live-dashboard/mirror-config.json --l4-pr <L4-PR> --b300-pr 69 --panel-manifest C:/Users/admin/Documents/Codex/artifacts/architecture-execution-20261107/live-dashboard/b300-opt-panel.json --interval-seconds 1800 --poll-seconds 30 --max-seconds 777600 --dry-run --once
+```
+
+Remove `--dry-run --once` for the bounded live reporter. Keep the same state path:
+an older pending write is reconciled first; prior comment receipts and original
+panel's latest comment remain retained, while the manifest digest makes the new
+recipe transition explicit. The persistent original start clock is preserved.
+This mapping does not approve any profile or fit, or promote historical partials.
+
+## Two explicitly mapped L4 GRU continuations
+
+The same optional frozen panel file accepts one additional top-level key,
+`l4_continuations`, with exactly these two entries:
+
+```json
+"l4_continuations": {
+  "gru_s101001": {
+    "run_id": "l4-gru_s101001_monitor_opt-fit",
+    "source_sha256": "<actual continuation producer source SHA256>",
+    "config_sha256": "46364a0f68eefea9464918e848bf2af5166af4e2d65fbfb78d16d7c71d969325",
+    "expected_updates": 77520,
+    "epochs": 12
+  },
+  "gru_s101002": {
+    "run_id": "l4-gru_s101002_monitor_opt-fit",
+    "source_sha256": "<actual continuation producer source SHA256>",
+    "config_sha256": "fccc9a5bd2bd10eac158c6a647a5feea5368e18e88c4d0ed62bf3d71188d875b",
+    "expected_updates": 77520,
+    "epochs": 12
+  }
+}
+```
+
+Root supplies actual producer source identities from native R3 receipts. The
+620-file inventory digest is a different identity and must not be substituted.
+Keep existing `panels.b300` unchanged, or use `"panels": {}` for a file mapping
+only L4. This requires `--l4-pr`; no new command-line flag or collector revision
+is needed. The other six L4 rows remain unchanged. Missing or inconsistent new
+continuation evidence never falls back to an older completed row. Only these
+exact two host-qualified run IDs are accepted; arbitrary aliases are refused.
+
+Reports retain previous comment history and explicitly describe the preserved
+S1 epoch/log prefix followed by S3 updates. They do not attribute all12epochs to
+S3 or infer a quality gain. A final scientific endpoint requires the actual
+full-valid epoch12event at77520updates bound to the final S3 terminal identity.
+The separately published transition proof remains the lineage authority.

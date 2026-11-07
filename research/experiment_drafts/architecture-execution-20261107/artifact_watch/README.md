@@ -46,14 +46,20 @@ $plotPython = "$artifactRoot/local-plot-env/Scripts/python.exe"
 $watcher = "$sourceRoot/research/experiment_drafts/architecture-execution-20261107/artifact_watch/watch_epoch_plots.py"
 $env:PYTHONPATH = "$sourceRoot/src"
 Start-Process -WindowStyle Hidden -FilePath $plotPython -WorkingDirectory $sourceRoot `
-  -ArgumentList @('-u', $watcher, '--artifacts', $artifactRoot, '--source-root', $sourceRoot, '--plot-python', $plotPython, '--max-seconds', '86400') `
+  -ArgumentList @('-u', $watcher, '--artifacts', $artifactRoot, '--source-root', $sourceRoot, '--plot-python', $plotPython, '--max-seconds', '777600', '--l4-seconds', '86400') `
   -RedirectStandardOutput "$artifactRoot/epoch-plot-watcher.log" `
   -RedirectStandardError "$artifactRoot/epoch-plot-watcher.err" -PassThru
 ```
 
 The isolated CPU environment was provisioned entirely offline from existing UV
 cache: Python3.13.15, matplotlib3.11.2 and numpy2.5.4. No shared environment was
-changed. The watcher is bounded to86,400seconds and uses a cross-process lock.
+changed. The November7 ROOT amendment permits B300 discovery for777,600seconds
+(nine days), while L4 discovery remains bounded to86,400seconds. The original
+default max-seconds remains86,400 for historical callers; use the explicit command
+above for the amended B300 run. An already running24-hour watcher must be cleanly
+restarted by ROOT between plot jobs to receive the new finite duration. Startup
+watcher-source hashes are retained for honest loaded-code provenance.
+The watcher uses a cross-process lock.
 Its mutable status is `A/epoch-plot-watcher-status.json`. If no full validation
 event exists, no scientific graph is fabricated. `--once` performs one discovery
 pass and drains its pending plot jobs; it remains subject to the same wall bound.

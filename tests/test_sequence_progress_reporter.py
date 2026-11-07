@@ -3,7 +3,9 @@ from __future__ import annotations
 import base64
 import io
 import json
+import shutil
 import urllib.error
+from collections.abc import Callable
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -13,7 +15,14 @@ from scripts import report_sequence_progress as runner
 from scripts.collect_sequence_monitor_r2 import collect_runs
 from scripts.sequence_monitor_mirror_io import apply_snapshot
 from scripts.sequence_progress_github import ACCOUNT, REPOSITORY, ProgressGitHub
-from scripts.sequence_progress_report import SPLIT, canonical_sha, observe_host, render_report
+from scripts.sequence_progress_panel import load_panel_manifest
+from scripts.sequence_progress_report import (
+    CELLS,
+    SPLIT,
+    canonical_sha,
+    observe_host,
+    render_report,
+)
 
 
 def _write(path: Path, value: object) -> None:
@@ -291,3 +300,260 @@ def test_collector_r2_preserves_cursors_and_mirrors_native_score(tmp_path: Path)
     ).read_bytes()
     again = collect_runs(str(tmp_path / "remote"), "b300", cursors)
     assert again["runs"][0]["files"][0]["bytes"] == 0
+
+
+def _optimized_panel(root: Path) -> tuple[Path, Path, dict[str, object]]:
+    folder = _fit(root / "fixture", "b300")
+    folder = folder.rename(root / "b300-opt-labels_s101001-fit")
+    metadata = json.loads((folder / "run_metadata.json").read_bytes())
+    metadata["config"].update(batch_size=32, chunk_rows=256, accumulate_chunks=4)
+    _write(folder / "run_metadata.json", metadata)
+    updates = 30 * 162 * 20
+    _terminal(folder, metadata, 2, updates)
+    path = root.parent / "panel.json"
+    _write(
+        path,
+        {
+            "schema": "wnn.sequence-progress-panel.v1",
+            "panels": {
+                "b300": {
+                    "run_prefix": "b300-opt",
+                    "epochs": 30,
+                    "source_sha256": "a" * 64,
+                    "split_sha256": SPLIT,
+                    "cells": {
+                        cell: {
+                            "config_sha256": canonical_sha(metadata["config"]),
+                            "expected_updates": updates,
+                        }
+                        for cell in CELLS["b300"]
+                    },
+                }
+            },
+        },
+    )
+    return folder, path, load_panel_manifest(path)
+
+
+def test_opt_panel_binds_new_budget_without_loosening_original_default(tmp_path: Path) -> None:
+    native = tmp_path / "native"
+    _fit(native, "b300", complete=True)
+    folder, path, panels = _optimized_panel(native)
+    optimized = observe_host(native, "b300", 1_700_000_000, panels["b300"])
+    original = observe_host(native, "b300", 1_700_000_000)
+    assert optimized["cells"][0]["fit_complete"]
+    assert optimized["cells"][0]["budget_updates"] == 97200
+    assert original["cells"][0]["budget_updates"] == 774600
+    assert optimized["terminal_signature"] != original["terminal_signature"]
+    assert "b300-opt" in render_report(optimized)
+    assert panels["b300"]["manifest_sha256"] in render_report(optimized)
+    # Neither a convenient terminal count nor stale source/config identities can pass.
+    for key, replacement in (("batch_size", 64), ("epochs", 12)):
+        metadata = json.loads((folder / "run_metadata.json").read_bytes())
+        previous = metadata["config"][key]
+        metadata["config"][key] = replacement
+        _write(folder / "run_metadata.json", metadata)
+        assert not observe_host(native, "b300", 1_700_000_000, panels["b300"])["cells"][0][
+            "fit_complete"
+        ]
+        metadata["config"][key] = previous
+        _write(folder / "run_metadata.json", metadata)
+    metadata["source"]["sha256"] = "c" * 64
+    _write(folder / "run_metadata.json", metadata)
+    assert not observe_host(native, "b300", 1_700_000_000, panels["b300"])["cells"][0][
+        "fit_complete"
+    ]
+    # Loaded identity stays frozen even if the operator edits the file during execution.
+    path.write_text("{}")
+    assert panels["b300"]["cells"]["labels_s101001"]["expected_updates"] == 97200
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        lambda panel: panel.update(run_prefix="../b300"),
+        lambda panel: panel.update(epochs=12),
+        lambda panel: panel.update(split_sha256="c" * 64),
+        lambda panel: panel["cells"].pop("complement_s101002"),
+        lambda panel: panel["cells"]["labels_s101001"].update(expected_updates=True),
+        lambda panel: panel["cells"]["labels_s101001"].update(config_sha256="bad"),
+    ],
+)
+def test_panel_manifest_rejects_unbound_recipe(
+    tmp_path: Path, change: Callable[[dict[str, object]], None]
+) -> None:
+    _, path, _ = _optimized_panel(tmp_path / "native")
+    value = json.loads(path.read_bytes())
+    change(value["panels"]["b300"])
+    _write(path, value)
+    with pytest.raises(ValueError):
+        load_panel_manifest(path)
+
+
+def test_panel_transition_preserves_old_report_and_pending_reconciliation(tmp_path: Path) -> None:
+    native = tmp_path / "native"
+    _fit(native, "b300", complete=True)
+    state, path, client = {"pull_requests": {}}, tmp_path / "github-report-state.json", FakeGitHub()
+    client.lose_response = True
+    runner.report_once(native, {"b300": 67}, state, path, client, 1_700_000_000)
+    _, _, panels = _optimized_panel(native)
+    # Reconcile an earlier recipe's ambiguous write before publishing a new recipe.
+    client.lose_response = False
+    runner.report_once(native, {"b300": 67}, state, path, client, 1_700_000_301, panels=panels)
+    assert len(client.comments) == 1
+    runner.report_once(native, {"b300": 67}, state, path, client, 1_700_000_302, panels=panels)
+    assert len(client.comments) == 2
+    entry = state["pull_requests"]["67"]
+    history = entry["last_comments_by_panel"]
+    assert history["original"]["comment_id"] == 1
+    assert history[panels["b300"]["manifest_sha256"]]["comment_id"] == 2
+    assert "b300-opt" in client.comments[-1]["body"]
+    restarted = json.loads(path.read_bytes())
+    runner.report_once(native, {"b300": 67}, restarted, path, client, 1_700_000_303, panels=panels)
+    assert len(client.comments) == 2
+
+
+def test_panel_manifest_cli_dry_run_remains_credential_free(tmp_path: Path) -> None:
+    native = tmp_path / "native"
+    _, panel, _ = _optimized_panel(native)
+    config = tmp_path / "mirror.json"
+    _write(config, {"native_root": str(native)})
+    with (
+        patch(
+            "sys.argv",
+            [
+                "report",
+                "--mirror-config",
+                str(config),
+                "--b300-pr",
+                "69",
+                "--panel-manifest",
+                str(panel),
+                "--dry-run",
+                "--once",
+            ],
+        ),
+        patch.object(runner, "ProgressGitHub", side_effect=AssertionError("unexpected network")),
+    ):
+        assert runner.main() == 0
+    assert "b300-opt" in (tmp_path / "github-report-pr69-dry-run.md").read_text()
+
+
+def _l4_continuations(path: Path, config_sha: str) -> dict[str, object]:
+    value = {
+        "schema": "wnn.sequence-progress-panel.v1",
+        "panels": {},
+        "l4_continuations": {
+            f"gru_s{seed}": {
+                "run_id": f"l4-gru_s{seed}_monitor_opt-fit",
+                "source_sha256": "c" * 64,
+                "config_sha256": config_sha,
+                "expected_updates": 77520,
+                "epochs": 12,
+            }
+            for seed in (101001, 101002)
+        },
+    }
+    _write(path, value)
+    return value
+
+
+def test_l4_continuation_manifest_refuses_other_aliases_digests_and_budgets(tmp_path: Path) -> None:
+    path = tmp_path / "panel.json"
+    value = _l4_continuations(path, "a" * 64)
+    assert set(load_panel_manifest(path)) == {"l4"}
+    for seed in (101001, 101002):
+        value["l4_continuations"][f"gru_s{seed}"]["run_id"] = f"l4-gru_s{seed}_monitor_opt_r2-fit"
+    _write(path, value)
+    assert load_panel_manifest(path)["l4"]["continuations"] == value["l4_continuations"]
+    for seed in (101001, 101002):
+        value["l4_continuations"][f"gru_s{seed}"]["run_id"] = f"l4-gru_s{seed}_monitor_opt_r3-fit"
+    _write(path, value)
+    assert load_panel_manifest(path)["l4"]["continuations"] == value["l4_continuations"]
+    for field, replacement in (
+        ("run_id", "b300-opt-gru_s101001-fit"),
+        ("run_id", "l4-gru_s101002_monitor_opt-fit"),
+        ("run_id", "l4-gru_s101002_monitor_opt_r2-fit"),
+        ("run_id", "l4-gru_s101002_monitor_opt_r3-fit"),
+        ("run_id", "l4-gru_s101001_monitor_opt_r4-fit"),
+        ("run_id", "../l4-gru_s101001_monitor_opt-fit"),
+        ("source_sha256", "bad"),
+        ("config_sha256", "bad"),
+        ("expected_updates", 77519),
+        ("epochs", 13),
+    ):
+        changed = json.loads(json.dumps(value))
+        changed["l4_continuations"]["gru_s101001"][field] = replacement
+        _write(path, changed)
+        with pytest.raises(ValueError):
+            load_panel_manifest(path)
+    value["l4_continuations"]["mamba2_s101001"] = value["l4_continuations"]["gru_s101001"]
+    _write(path, value)
+    with pytest.raises(ValueError):
+        load_panel_manifest(path)
+
+
+def test_l4_exact_continuation_preserves_other_rows_history_and_final_identity(
+    tmp_path: Path,
+) -> None:
+    native = tmp_path / "native"
+    original = _fit(native, complete=True)
+    shutil.copytree(original, native / "l4-gru_local_s101001-fit")
+    continuation = native / "l4-gru_s101001_monitor_opt-fit"
+    shutil.copytree(original, continuation)
+    metadata = json.loads((continuation / "run_metadata.json").read_bytes())
+    metadata["source"]["sha256"] = "c" * 64
+    metadata["config"].update(seed=101001, model={"architecture": "gru"})
+    _write(continuation / "run_metadata.json", metadata)
+    _terminal(continuation, metadata, 1, 77520)
+    terminal = json.loads((continuation / "terminal_status.json").read_bytes())
+    terminal["identity"]["source_sha256"] = "c" * 64
+    _write(continuation / "terminal_status.json", terminal)
+    path = tmp_path / "panel.json"
+    _l4_continuations(path, canonical_sha(metadata["config"]))
+    panels = load_panel_manifest(path)
+    default = observe_host(native, "l4", 1_700_000_001)
+    selected = observe_host(native, "l4", 1_700_000_001, panels["l4"])
+    assert len(selected["cells"]) == 8 and selected["cells"][2:] == default["cells"][2:]
+    assert selected["cells"][0]["ids"]["source"] == "c" * 64
+    assert default["cells"][0]["ids"]["source"] == "a" * 64
+    assert selected["cells"][0]["fit_complete"] and not selected["cells"][0]["endpoint_complete"]
+    event = {
+        "kind": "evaluation",
+        "epoch": 12,
+        "step": 77520,
+        "context": {"split_sha256": SPLIT, "run_identity_sha256": "wrong-source"},
+        "metrics": {
+            "valid/sequence_count": 1873,
+            "valid/selected_rows": 3528273,
+            "valid/wp": 0.5,
+            "valid/wp/t0": 0.4,
+            "valid/wp/t1": 0.6,
+        },
+    }
+    journal = continuation / "monitor_evaluations.jsonl"
+    journal.write_text(json.dumps(event) + "\n")
+    assert not observe_host(native, "l4", 1_700_000_001, panels["l4"])["cells"][0][
+        "endpoint_complete"
+    ]
+    event["context"]["run_identity_sha256"] = canonical_sha(terminal["identity"])
+    journal.write_text(json.dumps(event) + "\n")
+    assert observe_host(native, "l4", 1_700_000_001, panels["l4"])["cells"][0]["endpoint_complete"]
+    state, state_path, client = {}, tmp_path / "state.json", FakeGitHub()
+    runner.report_once(native, {"l4": 68}, state, state_path, client, 1_700_000_000)
+    runner.report_once(native, {"l4": 68}, state, state_path, client, 1_700_000_001, panels=panels)
+    assert len(client.comments) == 2
+    assert "S1 epoch/log prefix" in client.comments[-1]["body"]
+    assert "original" in state["pull_requests"]["68"]["last_comments_by_panel"]
+    # A valid-looking old completion never substitutes for mismatched continuation evidence.
+    metadata["source"]["sha256"] = "d" * 64
+    _write(continuation / "run_metadata.json", metadata)
+    assert not observe_host(native, "l4", 1_700_000_002, panels["l4"])["cells"][0]["fit_complete"]
+    recovery_manifest = json.loads(path.read_bytes())
+    for suffix in ("_r2", "_r3"):
+        for cell, recipe in recovery_manifest["l4_continuations"].items():
+            recipe["run_id"] = f"l4-{cell}_monitor_opt{suffix}-fit"
+        _write(path, recovery_manifest)
+        recovery = load_panel_manifest(path)
+        row = observe_host(native, "l4", 1_700_000_003, recovery["l4"])["cells"][0]
+        assert row["phase"] == "fit not observed" and not row["fit_complete"]

@@ -11,6 +11,7 @@ from typing import Any
 
 from scripts.sequence_monitor_mirror_io import atomic_bytes, atomic_json
 from scripts.sequence_progress_github import ACCOUNT, REPOSITORY, ProgressGitHub
+from scripts.sequence_progress_panel import load_panel_manifest
 from scripts.sequence_progress_report import canonical_sha, observe_host, render_report
 from wnn.multistage_search import file_lock
 
@@ -52,7 +53,15 @@ def _record_post(
         "report_id": pending["report_id"],
         "body_sha256": pending["body_sha256"],
         "source_identities": pending.get("source_identities", {}),
+        "panel": pending.get("panel"),
     }
+    history = entry.setdefault("last_comments_by_panel", {})
+    previous = entry.get("last_comment")
+    if previous:
+        previous_panel = previous.get("panel") or {}
+        history[previous_panel.get("manifest_sha256", "original")] = previous
+    panel = pending.get("panel") or {}
+    history[panel.get("manifest_sha256", "original")] = record
     entry.update(
         last_posted_unix=now,
         last_terminal_signature=pending["terminal_signature"],
@@ -72,6 +81,7 @@ def report_once(
     client: ProgressGitHub,
     now: float,
     interval: int = 1800,
+    panels: JsonObject | None = None,
 ) -> None:
     """Batch due terminal/periodic updates per PR, reconciling every pending marker."""
     receipts = state_path.with_name("github-report-receipts.jsonl")
@@ -79,7 +89,7 @@ def report_once(
         entry = state.setdefault("pull_requests", {}).setdefault(str(number), {"host": host})
         if entry["host"] != host:
             raise ValueError("report state binds this PR to another host panel")
-        snapshot = observe_host(root, host, now)
+        snapshot = observe_host(root, host, now, (panels or {}).get(host))
         pending = entry.get("pending")
         if pending is None:
             terminal_changed = (
@@ -102,6 +112,7 @@ def report_once(
                 "source_identities": {
                     row["cell"]: row["ids"] for row in snapshot["cells"] if row.get("ids")
                 },
+                "panel": snapshot.get("panel"),
             }
             entry["pending"] = pending
             atomic_json(state_path, state)
@@ -153,6 +164,7 @@ def main() -> int:
     )
     parser.add_argument("--mirror-config", required=True, type=Path)
     parser.add_argument("--state", type=Path)
+    parser.add_argument("--panel-manifest", type=Path)
     parser.add_argument("--l4-pr", type=int)
     parser.add_argument("--b300-pr", type=int)
     parser.add_argument("--interval-seconds", type=int, default=1800)
@@ -178,11 +190,17 @@ def main() -> int:
     for name in ("OMP_NUM_THREADS", "MKL_NUM_THREADS", "OPENBLAS_NUM_THREADS"):
         os.environ[name] = "2"
     config = json.loads(args.mirror_config.read_bytes())
+    panels = load_panel_manifest(args.panel_manifest) if args.panel_manifest else {}
+    if set(panels) - set(targets):
+        parser.error("mapped panels require their corresponding --l4-pr/--b300-pr")
     root = Path(config["native_root"]).resolve(strict=True)
     state_path = args.state or args.mirror_config.with_name("github-report-state.json")
     state_path.parent.mkdir(parents=True, exist_ok=True)
     if args.dry_run:
-        reports = {host: render_report(observe_host(root, host, time.time())) for host in targets}
+        reports = {
+            host: render_report(observe_host(root, host, time.time(), panels.get(host)))
+            for host in targets
+        }
         for host, body in reports.items():
             atomic_bytes(
                 state_path.with_name(f"github-report-pr{targets[host]}-dry-run.md"), body.encode()
@@ -226,7 +244,7 @@ def main() -> int:
             }
             if not active:
                 return 0
-            report_once(root, active, state, state_path, client, now, args.interval_seconds)
+            report_once(root, active, state, state_path, client, now, args.interval_seconds, panels)
             if args.once:
                 return int(
                     any(

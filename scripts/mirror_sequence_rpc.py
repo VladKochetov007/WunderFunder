@@ -118,7 +118,7 @@ def tick(config: dict[str, object], state: dict[str, object], now: float) -> boo
                 LOGGER.exception("source mirror reply rejected for host %s", host)
                 continue
             current["cursors"] = cursors
-            if host == "b300":
+            if host in ("b300", "b300-opt"):
                 for run in payload["runs"]:
                     run_id = run["run_id"]
                     current["rank_views"][run_id] = update_rank0_view(
@@ -148,7 +148,7 @@ def tick(config: dict[str, object], state: dict[str, object], now: float) -> boo
 
 
 def main() -> None:
-    """Run the bounded local two-host file-queue bridge; open no SSH connection."""
+    """Run the bounded local panel file-queue bridge; open no SSH connection."""
     parser = argparse.ArgumentParser(
         description="Mirror source-native monitoring via existing file RPC"
     )
@@ -161,8 +161,14 @@ def main() -> None:
     config = _read_json(args.config)
     config["_once"] = args.once
     config["_done"] = []
-    if not 5 <= config.get("interval", 15) <= 60 or not 1 <= len(config["hosts"]) <= 2:
-        parser.error("configuration needs one/two hosts and interval between 5 and 60 seconds")
+    hosts = [node["host"] for node in config["hosts"]]
+    if (
+        not 5 <= config.get("interval", 15) <= 60
+        or not 1 <= len(hosts) <= 3
+        or len(set(hosts)) != len(hosts)
+        or not set(hosts) <= {"l4", "b300", "b300-opt"}
+    ):
+        parser.error("configuration needs distinct l4/b300/b300-opt panels and interval5..60")
     for name in ("dashboard_root", "native_root"):
         root = Path(config[name])
         if root.is_symlink():

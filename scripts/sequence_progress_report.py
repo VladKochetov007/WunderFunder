@@ -8,6 +8,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
+from scripts.sequence_progress_panel import validate_l4_continuation, validate_recipe
+
 # Native metadata/events contain heterogeneous nested JSON; fields are checked before use.
 JsonObject = dict[str, Any]
 EPOCHS = {"l4": 12, "b300": 30}
@@ -86,7 +88,9 @@ def _finite(value: object) -> bool:
     return isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value)
 
 
-def _budget(metadata: JsonObject, host: str) -> tuple[int, dict[str, str]]:
+def _budget(
+    metadata: JsonObject, host: str, panel: JsonObject | None = None
+) -> tuple[int, dict[str, str]]:
     config, provenance = metadata["config"], metadata["provenance"]
     data = provenance["data"]
     members, evaluation = data["fit_members"], data["evaluation_members"]
@@ -119,7 +123,7 @@ def _budget(metadata: JsonObject, host: str) -> tuple[int, dict[str, str]]:
         * math.ceil(math.ceil(len(members) / world) / batch)
         * math.ceil(math.ceil(20000 / chunk) / accumulation)
     )
-    if host == "b300" and updates != 774600:
+    if host == "b300" and panel is None and updates != 774600:
         raise ValueError("B300 production update budget differs from 774600")
     source = _sha(metadata.get("source", {}).get("sha256"))
     if source is None:
@@ -179,9 +183,16 @@ def _fixed_grade(score: JsonObject, terminal: JsonObject, ids: dict[str, str]) -
     )
 
 
-def observe_cell(root: Path, host: str, cell: str, now: float) -> JsonObject:
+def observe_cell(
+    root: Path, host: str, cell: str, now: float, panel: JsonObject | None = None
+) -> JsonObject:
     """Summarize only a declared fit directory, never a profile or unbound endpoint."""
-    folder = root / f"{host}-{cell}-fit"
+    continuation = (panel or {}).get("continuations", {}).get(cell) if host == "l4" else None
+    folder = root / (
+        continuation["run_id"]
+        if continuation
+        else f"{panel['run_prefix'] if panel else host}-{cell}-fit"
+    )
     row: JsonObject = {
         "cell": cell,
         "phase": "fit not observed",
@@ -190,13 +201,18 @@ def observe_cell(root: Path, host: str, cell: str, now: float) -> JsonObject:
         "endpoint_complete": False,
         "updates": None,
         "epoch": None,
+        "continuation": bool(continuation),
     }
     if folder.is_symlink() or not folder.is_dir():
         return row
     metadata = _object(folder / "run_metadata.json")
     if not metadata:
         return row | {"phase": "fit metadata pending"}
-    budget, ids = _budget(metadata, host)
+    budget, ids = _budget(metadata, host, panel)
+    if panel is not None and host == "b300":
+        validate_recipe(panel, cell, ids, budget)
+    if continuation:
+        validate_l4_continuation(continuation, cell, metadata, ids, budget)
     terminal, progress = (
         _object(folder / "terminal_status.json"),
         _object(folder / "monitor_progress.json"),
@@ -226,8 +242,14 @@ def observe_cell(root: Path, host: str, cell: str, now: float) -> JsonObject:
         if host == "l4"
         else (fit_complete and _fixed_grade(grade, terminal, ids))
     )
-    if host == "l4" and endpoint and latest.get("context", {}).get("run_identity_sha256"):
-        endpoint = latest["context"]["run_identity_sha256"] == canonical_sha(terminal["identity"])
+    if (
+        host == "l4"
+        and endpoint
+        and (continuation or latest.get("context", {}).get("run_identity_sha256"))
+    ):
+        endpoint = latest.get("context", {}).get("run_identity_sha256") == canonical_sha(
+            terminal["identity"]
+        )
     heartbeat = _time(progress.get("heartbeat_at"))
     observed = _time(latest_observer.get("wall_time"))
     times = [value for value in (heartbeat, observed) if value is not None]
@@ -287,12 +309,12 @@ def observe_cell(root: Path, host: str, cell: str, now: float) -> JsonObject:
     return row
 
 
-def observe_host(root: Path, host: str, now: float) -> JsonObject:
+def observe_host(root: Path, host: str, now: float, panel: JsonObject | None = None) -> JsonObject:
     """Collect a fixed host panel without fitting, scoring or scientific selection."""
     rows = []
     for cell in CELLS[host]:
         try:
-            rows.append(observe_cell(root, host, cell, now))
+            rows.append(observe_cell(root, host, cell, now, panel))
         except (OSError, ValueError, KeyError, TypeError, IndexError):
             rows.append(
                 {
@@ -314,12 +336,21 @@ def observe_host(root: Path, host: str, now: float) -> JsonObject:
         }
         for row in rows
     ]
-    return {
+    snapshot = {
         "host": host,
         "observed_at_utc": datetime.fromtimestamp(now, UTC).isoformat(),
         "cells": rows,
         "terminal_signature": canonical_sha(terminal),
     }
+    if panel is not None:
+        snapshot["panel"] = {
+            "run_prefix": panel["run_prefix"],
+            "manifest_sha256": panel["manifest_sha256"],
+        }
+        snapshot["terminal_signature"] = canonical_sha(
+            {"terminal": terminal, "panel": snapshot["panel"]}
+        )
+    return snapshot
 
 
 def render_report(snapshot: JsonObject) -> str:
@@ -334,6 +365,15 @@ def render_report(snapshot: JsonObject) -> str:
         "| Cell | Last observed phase | Updates | Epochs | Latest full-valid WP (t0, t1) | Source age |",
         "|---|---|---:|---:|---|---:|",
     ]
+    if snapshot.get("panel"):
+        panel = snapshot["panel"]
+        lines[1:1] = [
+            f"Recipe panel `{panel['run_prefix']}`; frozen manifest SHA256 `{panel['manifest_sha256']}`. Earlier recipe reports remain historical."
+        ]
+        if host == "l4":
+            lines[2:2] = [
+                "The two GRU continuation rows retain the S1 epoch/log prefix; later updates use the pinned continuation source. Source IDs below identify the continuation producers. No quality gain is inferred."
+            ]
     for row in rows:
         metrics = row.get("fixed_grade") or row.get("latest_valid", {})
         prefix = "" if row.get("fixed_grade") else "valid/"

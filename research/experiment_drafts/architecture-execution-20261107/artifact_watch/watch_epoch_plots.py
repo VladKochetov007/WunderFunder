@@ -28,6 +28,9 @@ class EpochPlots:
         self.jobs: dict[str, dict[str, object]] = {}
         self.errors: dict[str, str] = {}
         self.active: tuple[subprocess.Popen[bytes], dict[str, object], float] | None = None
+        self.watcher_sources = {
+            str(path): file_sha256(path) for path in Path(__file__).parent.glob("*.py")
+        }
         self.plot_sources = {
             str(source / name): file_sha256(source / name)
             for name in (
@@ -54,10 +57,12 @@ class EpochPlots:
             },
         )
 
-    def scan(self) -> None:
+    def scan(self, *, include_l4: bool = True) -> None:
         """Queue every newly recorded valid epoch, including delayed multi-epoch replay."""
         mirror = self.artifacts / "live-dashboard"
         for run in sorted((mirror / "runs").iterdir()):
+            if not include_l4 and run.name.startswith("l4-"):
+                continue
             if (
                 not run.is_dir()
                 or run.is_symlink()
@@ -191,9 +196,7 @@ class EpochPlots:
                     "snapshot": str(snapshot.resolve()),
                     "snapshot_manifest_sha256": file_sha256(snapshot / "snapshot_manifest.json"),
                     "plotter_source_sha256": self.plot_sources,
-                    "watcher_source_sha256": {
-                        str(path): file_sha256(path) for path in Path(__file__).parent.glob("*.py")
-                    },
+                    "watcher_source_sha256": self.watcher_sources,
                     "model_loads": 0,
                     "model_evaluations": 0,
                 },
@@ -225,16 +228,17 @@ class EpochPlots:
 
 
 def main() -> None:
-    """Watch for up to24hours, polling actual local mirrors every15seconds."""
+    """Watch B300 for up to nine days while bounding L4 discovery to24hours."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--artifacts", type=Path, default=Path(DEFAULT_ARTIFACTS))
     parser.add_argument("--source-root", type=Path, default=Path(__file__).resolve().parents[4])
     parser.add_argument("--plot-python", required=True, type=Path)
     parser.add_argument("--max-seconds", type=float, default=86400)
+    parser.add_argument("--l4-seconds", type=float, default=86400)
     parser.add_argument("--once", action="store_true")
     args = parser.parse_args()
-    if not 1 <= args.max_seconds <= 86400:
-        parser.error("max-seconds must be between1 and86400")
+    if not 1 <= args.max_seconds <= 777600 or not 1 <= args.l4_seconds <= 86400:
+        parser.error("max-seconds must be1..777600 and l4-seconds must be1..86400")
     args.artifacts.mkdir(parents=True, exist_ok=True)
     with file_lock(args.artifacts / "epoch-plot-watcher.lock", blocking=False):
         previous = args.artifacts / "epoch-plot-watcher-status.json"
@@ -246,10 +250,11 @@ def main() -> None:
             args.artifacts.resolve(), args.source_root.resolve(), args.plot_python.resolve()
         )
         deadline, next_scan = time.monotonic() + args.max_seconds, 0.0
+        l4_deadline = time.monotonic() + args.l4_seconds
         try:
             while time.monotonic() < deadline:
                 if time.monotonic() >= next_scan:
-                    watcher.scan()
+                    watcher.scan(include_l4=time.monotonic() < l4_deadline)
                     next_scan = time.monotonic() + 15
                 watcher.finish()
                 watcher.start_next(deadline - time.monotonic())
