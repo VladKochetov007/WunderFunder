@@ -1,5 +1,22 @@
 # Project agent instructions
 
+## Actual follow-up execution,8 November
+
+All6 new L4 fits and4 new B300 fits are running, not pending setup. Do not launch
+duplicates. PR71/70 carry new results; old PR68/69 publisher is stopped. All old
+B30030E attempts are historical partial9E/7380 states, exact8 trainers stopped.
+L4 fit controller2261449/birth2148815876; separate fixed-readout controller
+2272381/birth2148909734. B300 controller1580653/birth150271506, source88ad6a86,
+native plan02ce50018009b093a03564be4e02c3cf4ca027655bc8c2297923c064354767e5.
+Use the existing ROOT persistent RPC streams; no additional SSH. Artifact root
+C:/Users/admin/Documents/Codex/artifacts/architecture-execution-20261107;
+see ACTIVE_FOLLOWUP_20261108.json and both EXECUTION_R1.md packets. L4 per-file
+readout collector needs R2 (4MiB/file,8MiB total); active PR71 publisher uses
+report_l4_wave_r2.py with preserved state. First native full-valid4E L4 scores
+are.68187–.68233, below clean TL3.6923774; no gain/promotion claimed. Fixed
+SWA/E6 and B4E endpoints remain pending. GPU deadlines are original clocks,
+not extended by monitoring/source/archive changes. Do not resume stopped work.
+
 ## Latest8 November: generalization/objective repair explicitly authorized
 
 The user requests implementing and launching fixes on the existing L4/B300
