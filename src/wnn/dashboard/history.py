@@ -12,10 +12,11 @@ MAX_EVALUATION_BYTES = 2_097_152
 
 @dataclass
 class RunStreams:
-    """Hold bounded train and evaluation journals for one selected run."""
+    """Hold bounded training, evaluation, and independent-observer journals."""
 
     training: EventStream
     evaluations: EventStream
+    observer: EventStream
 
 
 def new_run_streams() -> RunStreams:
@@ -29,6 +30,7 @@ def new_run_streams() -> RunStreams:
             max_line_bytes=32_768,
             expected_kind="evaluation",
         ),
+        observer=EventStream(filename="monitor_observer.jsonl", expected_kind="resources"),
     )
 
 
@@ -96,12 +98,17 @@ def snapshot_history(streams: RunStreams, limit: int) -> dict[str, object]:
     """Merge retained logs while reserving points for every retained evaluation."""
     training = streams.training.snapshot(limit)
     evaluations = streams.evaluations.snapshot(MAX_EVALUATION_EVENTS)
-    train_events = list(streams.training.events)
+    observer = streams.observer.snapshot(limit)
+    train_events = list(streams.training.events) + list(streams.observer.events)
     journal_events = list(streams.evaluations.events)
     merged, duplicates, conflicts, effective_limit = _merge_events(
         train_events, journal_events, limit
     )
-    keys = set(training["metric_keys"]) | set(evaluations["metric_keys"])
+    keys = (
+        set(training["metric_keys"])
+        | set(evaluations["metric_keys"])
+        | set(observer["metric_keys"])
+    )
     metric_keys = sorted(keys)[:MAX_METRIC_KEYS_PER_RUN]
     evaluation_status = "error" if conflicts else evaluations["status"]
     evaluation_error = evaluations["error"]
@@ -113,6 +120,7 @@ def snapshot_history(streams: RunStreams, limit: int) -> dict[str, object]:
         "metric_keys_truncated": (
             training["metric_keys_truncated"]
             or evaluations["metric_keys_truncated"]
+            or observer["metric_keys_truncated"]
             or len(keys) > MAX_METRIC_KEYS_PER_RUN
         ),
         "evaluation_status": evaluation_status,
@@ -125,4 +133,6 @@ def snapshot_history(streams: RunStreams, limit: int) -> dict[str, object]:
         "evaluation_duplicates": duplicates,
         "evaluation_conflicts": conflicts,
         "max_points": effective_limit,
+        "observer_status": observer["status"],
+        "observer_error": observer["error"],
     }

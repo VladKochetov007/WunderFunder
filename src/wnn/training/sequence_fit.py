@@ -33,6 +33,7 @@ from wnn.training.sequence_fit_utils import (
 )
 from wnn.training.sequence_initializer import load_fitting_initializer
 from wnn.training.sequence_models import build_sequence_model
+from wnn.training.sequence_monitor_progress import close_monitor_progress
 from wnn.training.sequence_optimizer_telemetry import optimizer_contract
 from wnn.training.sequence_profile import run_profile
 from wnn.training.sequence_provenance import (
@@ -120,8 +121,8 @@ def run_sequence_fit(
     resume_path = admission.resume_path
     receipt_path = admission.receipt_path
     initializer_path = admission.initializer_path
-    final_membership = admission.final_membership
     context = initialize_distributed()
+    monitor = None
     try:
         coordinated_call(
             lambda: validate_runtime_requirements(
@@ -140,7 +141,7 @@ def run_sequence_fit(
                 data_root,
                 split_manifest,
                 teacher_cache,
-                final_membership,
+                admission.final_membership,
                 admission.final_source_validation_receipt,
             ),
             "sequence data construction",
@@ -283,4 +284,5 @@ def run_sequence_fit(
         finally:
             rank_log.close()
     finally:
+        close_monitor_progress(monitor)
         shutdown_distributed(context)

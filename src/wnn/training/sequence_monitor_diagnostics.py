@@ -7,6 +7,7 @@ from torch import Tensor, nn
 from torch.nn.parallel import DistributedDataParallel
 
 from wnn.training.sequence_monitor_gates import collect_recurrent_gates
+from wnn.training.sequence_monitor_parameters import SampledParameterProbe
 
 
 class DiagnosticProbe:
@@ -23,9 +24,11 @@ class DiagnosticProbe:
         self._missing_gradient_output_count = 0
         self._handles: list[torch.utils.hooks.RemovableHandle] = []
         self._observers: list[nn.Module] = []
+        self._parameters: SampledParameterProbe | None = None
 
     def __enter__(self) -> DiagnosticProbe:
         """Install ephemeral hooks for this optimizer window only."""
+        self._parameters = SampledParameterProbe(self.model)
         for name, module in self.model.named_modules():
             path = _model_path(name)
             if isinstance(module, (nn.LSTM, nn.GRU)) and path in ("lstm", "gru"):
@@ -77,6 +80,8 @@ class DiagnosticProbe:
 
     def metrics(self) -> dict[str, int | float]:
         """Synchronize once and return finite sampled metrics, omitting absent branches."""
+        if self._parameters is not None:
+            self._maximum.update(self._parameters.metrics())
         keys = sorted(set(self._sum) | set(self._square) | set(self._fraction) | set(self._maximum))
         tensors = [
             value

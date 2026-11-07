@@ -80,6 +80,8 @@ def run_epochs(
     for epoch in range(start_epoch, int(config["epochs"])):
         if stopped_early:
             break
+        if runtime.monitor is not None:
+            runtime.monitor.progress.phase("training", global_step, epoch)
         torch.cuda.reset_peak_memory_stats(context.device)
         result = train_epoch(
             runtime.dataset,

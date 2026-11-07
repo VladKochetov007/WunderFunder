@@ -17,6 +17,7 @@ ALLOWED_FILES = {
     "run_metadata.json",
     "monitor_events.jsonl",
     "monitor_evaluations.jsonl",
+    "monitor_observer.jsonl",
 }
 
 

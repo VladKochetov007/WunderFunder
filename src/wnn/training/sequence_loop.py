@@ -29,6 +29,7 @@ from wnn.training.sequence_loop_window import (
 )
 from wnn.training.sequence_monitor import SequenceMonitor
 from wnn.training.sequence_monitor_diagnostics import DiagnosticProbe
+from wnn.training.sequence_monitor_progress import record_successful_update
 from wnn.training.sequence_optimizer_telemetry import optimizer_learning_rates
 from wnn.training.sequence_prefetch import SequenceBatchPrefetcher
 from wnn.training.sequence_update import finish_update
@@ -180,6 +181,13 @@ def train_epoch(
                 )
                 record["learning_rates"] = rates
                 record["optimizer_seconds"] = optimizer_seconds
+                if monitor is not None:
+                    record_successful_update(
+                        monitor,
+                        global_step,
+                        epoch_position,
+                        float(record["forwarded_rows_per_second"]),
+                    )
                 if monitor_enabled:
                     monitor_config = config.get("monitoring")
                     if not isinstance(monitor_config, dict):

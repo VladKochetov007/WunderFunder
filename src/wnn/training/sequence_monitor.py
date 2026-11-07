@@ -29,7 +29,9 @@ from wnn.training.sequence_monitor_identity import (
 from wnn.training.sequence_monitor_identity import (
     membership_sha256 as _membership_sha256,
 )
+from wnn.training.sequence_monitor_progress import MonitorProgress
 from wnn.training.sequence_monitor_resources import HostResourceSampler, resource_metrics
+from wnn.training.sequence_monitor_telemetry import record_train_step
 
 
 class SequenceMonitor:
@@ -68,6 +70,7 @@ class SequenceMonitor:
             resume=resume,
             extended_limits="training_telemetry_every_steps" in config,
         )
+        self.progress = MonitorProgress(output)
         self._train_eval_members = train_eval_members
         self._evaluation_members = valid_members
         evaluation_label = (
@@ -174,44 +177,16 @@ class SequenceMonitor:
         device: torch.device,
     ) -> None:
         """Append optimizer and online training-window telemetry."""
-        step = int(record["step"])
-        metrics: dict[str, int | float] = {
-            "train/loss": float(record["total_loss"]),
-            "train/label_weighted_mse": float(record["label_loss"]),
-            "train/kd_loss": float(record["kd_loss"]),
-            "train/hint_loss": float(record["hint_loss"]),
-            "optimizer/gradient_norm_preclip": float(record["gradient_norm_preclip"]),
-            "optimizer/gradient_clip_threshold": float(record["gradient_clip_threshold"]),
-            "optimizer/was_clipped": float(record["gradient_clipped"]),
-            "timing/window_seconds": float(record["window_seconds"]),
-            "timing/optimizer_seconds": float(record["optimizer_seconds"]),
-            "throughput/objective_rows_per_second": float(record["valid_rows_per_second"]),
-            "throughput/forwarded_rows_per_second": float(record["forwarded_rows_per_second"]),
-            "train/selected_rows": int(record["valid_rows"]),
-            "train/forwarded_rows": int(record["forwarded_rows"]),
-            "train/real_rows": int(record["real_rows"]),
-        }
-        rates = record.get("learning_rates", {})
-        if isinstance(rates, Mapping):
-            metrics.update(
-                {
-                    f"optimizer/lr/{str(name).replace('/', '_')}": float(value)
-                    for name, value in rates.items()
-                }
-            )
-        self.writer.append(
-            "train_step",
-            step,
+        record_train_step(
+            self.writer,
+            record,
+            epoch_index,
             epoch_position,
-            metrics,
-            {
-                "loss_scope": "online optimizer window on the recipe training mask",
-                "epoch_index": epoch_index + 1,
-                "comparison": f"train/loss is online; {self._metric_context['mask_comparison']}",
-                "training_telemetry_every_steps": self.training_telemetry_every_steps,
-                "device_type": device.type,
-            },
+            device.type,
+            self.training_telemetry_every_steps,
+            str(self._metric_context["mask_comparison"]),
         )
+        self.progress.flush()
 
     def resources(
         self, step: int, epoch_index: int, epoch_position: float, device: torch.device
@@ -249,6 +224,7 @@ class SequenceMonitor:
                 "sampling": f"every {self.diagnostics_every_steps} optimizer steps",
                 "scope": "rank-zero sampled forward/backward optimizer window",
                 "missing_metrics": "unavailable model branches are omitted",
+                "parameter_norm_sampling": "first 4096 trainable scalars in model parameter order",
                 "epoch_index": epoch_index + 1,
             },
         )
@@ -266,7 +242,8 @@ class SequenceMonitor:
         step: int,
     ) -> dict[str, int | float]:
         """Append source-qualified train-eval and configured evaluation metrics."""
-        return evaluate_and_record_epoch(
+        self.progress.phase("evaluation", step, epoch + 1)
+        result = evaluate_and_record_epoch(
             model,
             train_eval,
             valid,
@@ -288,9 +265,12 @@ class SequenceMonitor:
                 self._evaluation_context,
             ),
         )
+        self.progress.phase("checkpoint", step, epoch + 1)
+        return result
 
     def status(
         self, state: str, step: int, epoch: int, context: dict[str, object] | None = None
     ) -> None:
         """Append run status without rewriting fit metadata or earlier event lines."""
         self.writer.append("status", step, epoch, {}, {"status": state, **(context or {})})
+        self.progress.phase("training" if state == "running" else state, step, epoch)

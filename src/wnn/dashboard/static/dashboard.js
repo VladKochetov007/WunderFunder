@@ -67,7 +67,8 @@ function renderRunList() {
       titleLine.append(tag);
     }
     const detail = run.latest_step === null ? labelSource(run.source) : `${labelSource(run.source)} · step ${run.latest_step}`;
-    text.append(titleLine, node("span", "run-source", detail));
+    const phase = run.phase ? ` · ${run.phase}` : "";
+    text.append(titleLine, node("span", "run-source", detail + phase));
     main.append(checkbox, text);
     const status = node("span", `status-badge ${run.status || "unread"}`, statusLabel(run.status));
     status.title = [run.error, run.evaluation_error, run.metadata_error, run.last_event_at].filter(Boolean).join(" · ") || "No event timestamp";
@@ -78,7 +79,7 @@ function renderRunList() {
 }
 
 function statusLabel(status) {
-  return ({ live: "live", stale: "stale", no_data: "no data", error: "error", unread: "unread" })[status] || "unknown";
+  return ({ live: "live", stale: "stale", no_data: "no data", error: "error", unread: "unread", completed: "completed", exited: "exited" })[status] || "unknown";
 }
 
 function selectRun(runId, selected) {
@@ -110,6 +111,11 @@ function renderConfigs() {
     const configLabel = node("div", "config-subhead", "CONFIG");
     const provenanceLabel = node("div", "config-subhead", "SOURCE / PROVENANCE");
     entry.append(configLabel, config, provenanceLabel, provenance);
+    if (run.observer_context && Object.keys(run.observer_context).length) {
+      const observation = node("pre");
+      observation.textContent = JSON.stringify({ status: run.observer_status, context: run.observer_context, metrics: run.observer_metrics }, null, 2);
+      entry.append(node("div", "config-subhead", "INDEPENDENT PROCESS / GPU OBSERVATION"), observation);
+    }
     configList.append(entry);
   }
 }
@@ -218,6 +224,8 @@ function metricGroups() {
     { title: "Learning rate", subtitle: "Recorded optimizer learning rate", keys: findKeys((key) => key === "optimizer/lr" || key.startsWith("optimizer/lr/") || key.endsWith("/learning_rate")) },
     { title: "Gradient norm", subtitle: "Recorded optimizer gradient norm", keys: findKeys((key) => key.startsWith("optimizer/") && key.includes("grad") && key.includes("norm")) },
     { title: "Gradient clipping", subtitle: "Recorded clipping threshold, fraction, or count", keys: findKeys((key) => key.startsWith("optimizer/") && key.includes("clip")) },
+    { title: "Sampled weight and update norms", subtitle: "First 4096 trainable scalar weights, sampled only at the configured diagnostics cadence", keys: exactKeys("optimizer/sampled_weight_l2_norm", "optimizer/sampled_update_l2_norm", "optimizer/sampled_update_to_weight_ratio") },
+    { title: "Progress and artifact ages", subtitle: "Heartbeat freshness, successful optimizer progress, producer-event age and checkpoint age are separate observations", keys: findKeys((key) => key.startsWith("observer/") && key.endsWith("_age_seconds")) },
     { title: "Branch norms and activation RMS", subtitle: "Recorded local and global norms, activation, hidden, or cell RMS", keys: findKeys((key) => (key.startsWith("local/") || key.startsWith("global/")) && !key.includes("grad") && ["norm", "rms", "activation", "hidden", "cell"].some((token) => key.includes(token))) },
     { title: "Branch gradients", subtitle: "Recorded local and global branch gradients", keys: findKeys((key) => (key.startsWith("local/") || key.startsWith("global/")) && key.includes("grad")) },
     { title: "Branch gates", subtitle: "Recorded local or global gate mean and saturation", keys: findKeys((key) => (key.startsWith("local/gate/") || key.startsWith("global/gate/")) && (key.endsWith("/mean") || key.includes("saturat"))) },

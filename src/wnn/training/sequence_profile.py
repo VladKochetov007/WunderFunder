@@ -168,6 +168,11 @@ def run_profile(
                 "evaluation_reporting", monitoring_plan.get("validation_reporting")
             ),
         }
+        if "validation_reporting" in monitoring_plan:
+            receipt["evaluation_annotation"].update(
+                validation_reporting="not evaluated during bounded engineering profile",
+                intended_validation_reporting=monitoring_plan["validation_reporting"],
+            )
     if monitor_event_budget is not None:
         receipt["monitor_event_journal_budget"] = dict(monitor_event_budget)
     coordinated_call(

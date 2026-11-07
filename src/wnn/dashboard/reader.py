@@ -68,6 +68,7 @@ class DashboardReader:
                     streams = self._get_streams(run_id)
                     streams.training.refresh(self.root, run_id)
                     streams.evaluations.refresh(self.root, run_id)
+                    streams.observer.refresh(self.root, run_id)
                 summary = self._summary(run_id, metadata, metadata_error, streams)
                 if not self._matches(summary, source_filter, config_filter):
                     continue
@@ -90,6 +91,7 @@ class DashboardReader:
                 streams = self._get_streams(run_id)
                 streams.training.refresh(self.root, run_id)
                 streams.evaluations.refresh(self.root, run_id)
+                streams.observer.refresh(self.root, run_id)
                 snapshot = self._summary(run_id, metadata, metadata_error, streams)
                 snapshot.update(snapshot_history(streams, limit))
                 run_points = snapshot.get("max_points")
@@ -162,13 +164,14 @@ class DashboardReader:
     ) -> dict[str, object]:
         training = streams.training if streams else None
         evaluations = streams.evaluations if streams else None
+        observer = streams.observer if streams else None
         events = list(training.events) if training else []
         if not events and evaluations:
             events = list(evaluations.events)
         latest_stream = max(
             (
                 stream
-                for stream in (training, evaluations)
+                for stream in (training, evaluations, observer)
                 if stream is not None and stream.last_event_at is not None
             ),
             key=lambda stream: stream.last_event_at,
@@ -186,7 +189,15 @@ class DashboardReader:
             "metadata_status": "incomplete" if metadata_error else "ok",
             "metadata_error": metadata_error,
             "synthetic": self._is_synthetic(metadata, streams),
-            "status": self._overall_status(training, evaluations),
+            "status": self._overall_status(training, evaluations, observer),
+            "phase": context.get("phase") if isinstance(context, dict) else None,
+            "observer_status": observer.status() if observer else "unread",
+            "observer_context": observer.events[-1]["context"]
+            if observer and observer.events
+            else {},
+            "observer_metrics": observer.events[-1]["metrics"]
+            if observer and observer.events
+            else {},
             "latest_step": latest.get("step") if latest else None,
             "last_event_at": latest_stream.last_event_at.isoformat()
             if latest_stream and latest_stream.last_event_at
@@ -204,7 +215,11 @@ class DashboardReader:
                 evaluations.history_is_limited() if evaluations else False
             ),
             "evaluation_error": self._stream_error(evaluations),
-            "error": (self._stream_error(training) or self._stream_error(evaluations)),
+            "error": (
+                self._stream_error(training)
+                or self._stream_error(evaluations)
+                or self._stream_error(observer)
+            ),
             "context_synthetic": bool(context.get("synthetic"))
             if isinstance(context, dict)
             else False,
@@ -221,7 +236,11 @@ class DashboardReader:
         return None
 
     @staticmethod
-    def _overall_status(training: EventStream | None, evaluations: EventStream | None) -> str:
+    def _overall_status(
+        training: EventStream | None,
+        evaluations: EventStream | None,
+        observer: EventStream | None = None,
+    ) -> str:
         if training is None:
             return "unread"
         statuses = [training.status()]
@@ -229,6 +248,21 @@ class DashboardReader:
             statuses.append(evaluations.status())
         if "error" in statuses:
             return "error"
+        if observer is not None and observer.events:
+            if observer.status() == "error":
+                return "error"
+            latest = observer.events[-1]
+            count = latest["metrics"].get("observer/process_alive_count")
+            if count == 0:
+                terminal = latest["context"].get("phase") in (
+                    "completed",
+                    "early_stopped",
+                    "profile_complete",
+                )
+                return "completed" if terminal else "exited"
+            if observer.status() == "live" and isinstance(count, (int, float)) and count > 0:
+                return "live"
+            # A training event is progress evidence; an absent heartbeat is still visible.
         if "live" in statuses:
             return "live"
         if "stale" in statuses:
@@ -251,7 +285,11 @@ class DashboardReader:
         if "synthetic" in source_text:
             return True
         if streams:
-            events = (*streams.training.events, *streams.evaluations.events)
+            events = (
+                *streams.training.events,
+                *streams.evaluations.events,
+                *streams.observer.events,
+            )
             for event in reversed(events):
                 context = event.get("context", {})
                 if isinstance(context, dict) and context.get("synthetic") is True:
