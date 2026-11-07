@@ -156,8 +156,8 @@ def main() -> None:
     parser.add_argument("--max-seconds", type=float, default=86_400)
     parser.add_argument("--once", action="store_true")
     args = parser.parse_args()
-    if not 1 <= args.max_seconds <= 604_800:
-        parser.error("max-seconds must be between 1 and 604800")
+    if not 1 <= args.max_seconds <= 777_600:
+        parser.error("max-seconds must be between 1 and 777600")
     config = _read_json(args.config)
     config["_once"] = args.once
     config["_done"] = []

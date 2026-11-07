@@ -8,7 +8,7 @@ import stat
 import tempfile
 from pathlib import Path
 
-from scripts.collect_sequence_monitor import CHUNK_BYTES, FILES, RUN_ID
+from scripts.collect_sequence_monitor_r2 import CHUNK_BYTES, FILES, RUN_ID
 
 
 def atomic_json(path: Path, value: object) -> None:
