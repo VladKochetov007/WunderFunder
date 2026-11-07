@@ -1,5 +1,19 @@
 # Project agent instructions
 
+## Latest8 November: ensemble-objective repair explicitly authorized
+
+The user explicitly requests implementing and launching fixes on the existing
+L4/B300 clusters. Shared authority is the generalization-fix-20261108 CONTRACT_R1
+in the companion generalization-fix worktree. This B300 packet admits exactly
+four new4E teachers (labels control versus unscaled mixture WMSE/correlation
+package, pairedseeds101101/101102), max4h wall from first new profile including
+1h collection reserve. Six L4 fits belong to the separate matched packet.
+ROOT alone owns existing SSH streams/GPU/signal authority. Old B300 jobs may
+only be retired through an explicit safe-checkpoint/owned-identity receipt once
+successors are qualified; partial30E outcomes remain historical. ADR0044 and
+qualified train-only reference ancestry are unchanged. No automatic extra fits,
+foreign stops, rentals, billing or competition upload.
+
 ## Latest7 November: measured B128 optimization supersedes the B4 allocation
 
 The user explicitly requested training optimization on B300 and L4. Four B4
