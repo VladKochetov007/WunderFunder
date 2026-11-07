@@ -160,6 +160,11 @@ class DiagnosticProbe:
             elif isinstance(state, Tensor):
                 self._record_state("local/hidden_state_rms", state)
             if getattr(module, "dropout", 0.0) == 0.0:
+                if isinstance(module, nn.GRU):
+                    x = inputs[0]
+                    scope = self._maximum
+                    scope["local/gate/replay_sequence_count"] = x.new_tensor(min(x.shape[0], 2))
+                    scope["local/gate/replay_prefix_rows"] = x.new_tensor(min(x.shape[1], 64))
                 collect_recurrent_gates(
                     module,
                     inputs[0],

@@ -53,7 +53,10 @@ def validate_monitoring_config(
     extended_runtime = {"eval_batch_size", "training_telemetry_every_steps"}
     if not value.keys() & extended_runtime and "early_stopping" not in value:
         return
-    if not extended_runtime.issubset(value) or checkpoint_retention != "all_epochs":
+    if not extended_runtime.issubset(value) or (
+        checkpoint_retention != "all_epochs"
+        and (checkpoint_retention != "final_only" or "early_stopping" in value)
+    ):
         raise ValueError("extended monitoring requires checkpoint_retention=all_epochs")
     for key in extended_runtime:
         if type(value[key]) is not int or value[key] < 1:

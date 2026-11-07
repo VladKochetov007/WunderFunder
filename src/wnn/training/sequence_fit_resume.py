@@ -79,15 +79,14 @@ def load_resume(
     )
     if monitoring_enabled:
         monitor_offsets = cast(dict[str, object], state["monitor_offsets"])
-        coordinated_call(
-            lambda: (
+
+        def restore_monitor() -> bool:
+            """Restore monitor prefixes and acknowledge the coordinated side effect."""
+            if context.is_primary and monitor is not None:
                 monitor.restore_offsets(monitor_offsets, global_step)
-                if context.is_primary and monitor is not None
-                else True
-            ),
-            "safe-boundary monitor log restore",
-            context,
-        )
+            return True
+
+        coordinated_call(restore_monitor, "safe-boundary monitor log restore", context)
     return next_epoch, global_step, history
 
 

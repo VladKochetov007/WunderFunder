@@ -27,6 +27,7 @@ from wnn.training.sequence_epoch_prediction import (
 from wnn.training.sequence_fit_utils import collate_sequences
 from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_precision import forward_context
+from wnn.training.sequence_swa import SWA_SCHEMA, validate_swa_payload
 
 # Checkpoint payloads contain tensors and JSON-compatible provenance, validated on load.
 
@@ -36,7 +37,11 @@ def load_endpoint(
 ) -> tuple[torch.nn.Module, dict[str, Any]]:
     """Load a fixed-final endpoint or an explicitly admitted retained epoch."""
     payload = torch.load(checkpoint, map_location="cpu", weights_only=True)
-    if admission is not None:
+    if payload.get("checkpoint_schema") == SWA_SCHEMA:
+        if admission is not None:
+            raise ValueError("SWA readouts cannot be admitted as a single retained epoch")
+        validate_swa_payload(payload)
+    elif admission is not None:
         validate_epoch_payload(payload, admission)
     elif payload.get("checkpoint_schema") != "wnn.sequence-fit.v1":
         raise ValueError("unsupported endpoint; native/legacy weights require an explicit adapter")

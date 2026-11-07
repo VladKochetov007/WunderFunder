@@ -6,6 +6,9 @@ import torch
 from torch import Tensor, nn
 from torch.nn import functional as F
 
+MAX_GRU_GATE_SEQUENCES = 2
+MAX_GRU_GATE_PREFIX_ROWS = 64
+
 
 def collect_recurrent_gates(
     module: nn.LSTM | nn.GRU,
@@ -14,6 +17,7 @@ def collect_recurrent_gates(
     record_gate: Callable[[str, Tensor, bool, int], None],
 ) -> None:
     """Recompute sampled recurrent gate distributions without changing model state."""
+    inputs, state = _sample_gru_gate_prefix(module, inputs, state)
     hidden_rows, cell_rows = _initial_state(module, inputs, state)
     if hidden_rows is None:
         return
@@ -81,3 +85,21 @@ def _initial_state(
     hidden_rows = [hidden[index] for index in range(module.num_layers)]
     cell_rows = [cell[index] for index in range(module.num_layers)] if cell is not None else None
     return hidden_rows, cell_rows
+
+
+def _sample_gru_gate_prefix(
+    module: nn.LSTM | nn.GRU, inputs: Tensor, state: object
+) -> tuple[Tensor, object]:
+    """Replay only the first two streams and64 prefix rows with their actual initial state.
+
+    These are contiguous prefix rows from the current TBPTT chunk. Skipping
+    intervening rows or resetting a carried state would describe different gates.
+    LSTM diagnostic behavior is unchanged by this GRU-specific optimization.
+    """
+    if not isinstance(module, nn.GRU):
+        return inputs, state
+    batch = min(inputs.shape[0], MAX_GRU_GATE_SEQUENCES)
+    sampled = inputs[:batch, :MAX_GRU_GATE_PREFIX_ROWS].detach()
+    if isinstance(state, Tensor):
+        state = state[:, :batch].detach()
+    return sampled, state
