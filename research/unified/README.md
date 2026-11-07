@@ -1,5 +1,14 @@
 # Unified research library
 
+## 7 November: authorized architecture execution
+
+[The twelve-fit execution record](../experiment_drafts/architecture-execution-20261107/EXECUTION_R1.md)
+contains eight fresh L4 compact regressors and four separate PR67 B300 teachers.
+Actual fits, epoch/full-valid events, native profiles, clean-TL3 replay and
+monitoring are recorded; no final endpoint gain or public result is claimed.
+Earlier planning-only notes below are historical. Source/config identities and
+official chronological primary validation remain fixed.
+
 ## 7 November: architecture choices for B300 and L4
 
 [The source-grounded portfolio](ideas/architecture_portfolio_20261107/README.md)

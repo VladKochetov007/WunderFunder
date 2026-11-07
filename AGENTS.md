@@ -1,5 +1,26 @@
 # Project agent instructions
 
+## Latest7 November: twelve fresh fits explicitly authorized and running
+
+The user explicitly authorized setup and launch on the existing eight B300 and
+eight L4 GPUs. See research/experiment_drafts/architecture-execution-20261107/
+EXECUTION_R1.md and the frozen CONTRACT.md. This supersedes the planning-only
+entry below. Exactly eight fresh L4 fits (four families, two seeds, fixed12E)
+and four PR67 B300 fits (labels/complement, two seeds, fixed30E) are admitted.
+No automatic architecture/seed/student expansion or old stopped-fit resumption.
+ROOT owns one persistent file-RPC SSH stream per host; builders do no SSH/GPU.
+All primary fitting uses official train10325/zero valid fitting; evaluate the
+complete official valid1873/3528273 scored rows, under ADR0044. Valid is exposed.
+L4 remains bounded24h from its first profile with a1h collection reserve.
+B300's measured774600 updates at~.71s/update require an explicit9-day maximum
+receiving amendment before first fit; four fits, twelve profiles and immutable
+source/config identities remain unchanged. Frozen native observer caps a single
+B300 worker at7days: a future source-identical safe-checkpoint continuation needs
+ROOT review of actual expiry/ownership and stays within the9-day maximum.
+Preserve foreign services, old artifacts and every failed preparation receipt.
+Dashboard http://127.0.0.1:8769/; GitHub updates must authenticate as SemyonEpanov.
+Do not infer a public gain from development valid or a falling training loss.
+
 ## Latest7 November: architecture planning only
 
 User requests high-quality architecture choices using existing8B300+8L4.

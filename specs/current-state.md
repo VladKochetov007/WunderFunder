@@ -1,4 +1,19 @@
-## 7 November: architecture planning and source refresh
+## 7 November: twelve-fit architecture execution
+
+[The execution packet](../research/experiment_drafts/architecture-execution-20261107/EXECUTION_R1.md)
+records eight fresh L4 fits and four fresh PR67 B300 fits. All eight L4 workers
+have produced real epoch/full-valid reports and standalone plots. Four B300
+workers passed native acceptance and twelve actual profiles, then ROOT admitted
+them at18:36UTC; real optimizer updates are now mirrored into the dashboard.
+The clean TL3 full-valid baseline replay is .6923774248169172 on1873 sequences /
+3528273 scored rows; it is a reproduced reference, not a new gain. B300 production
+profiles imply~6.4days core fitting for774600 updates, before validation/load/
+checkpoint overhead. The initial24h allocation was explicitly amended to9days
+before first fit; native single-worker observation remains capped7days. No final
+scientific endpoint or public gain is claimed. Older planning/running notes below
+are historical; frozen source identities and ADR0044 remain unchanged.
+
+## Historical7 November: architecture planning and source refresh
 
 [The new portfolio](../research/unified/ideas/architecture_portfolio_20261107/README.md)
 records proposed memory/local-attention, completed-patch, modern-Transformer and
