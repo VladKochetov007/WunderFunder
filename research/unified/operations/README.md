@@ -648,6 +648,15 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 [Parent terminal-checker root preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_ROOT_PREPARATION_V1.json): pins the final local checker, tests, source review and all sibling helper dependencies for the exact source68ff/seed1001 H256×2 parent. Nine synthetic checks and cold import/read sentinels pass; preparation adds zero fits and no remote admission, checkpoint read, terminal acceptance or quality result. Typed native exit0 has since been captured; fresh capped CPU support gates and root acceptance/exact stop remain required before use.
 # PR67 receiving preparation, 7 November 2026
 
+[Two-GRU continuation supervisor](../../experiment_drafts/tl3-transformer-complement-execution-20261107/l4_continuation_supervisor/README.md)
+prepares the explicitly authorized diagnostic-source/retention transition of the
+existing L4 GRU trajectories. It preflights exact source/config/runtime/profile
+contracts before waiting for a later whole epoch, stops only the proven original
+trainer group, invokes the unchanged migrator, and requires a live external
+safe-state archiver before guarded canonical resume. The original deadline and
+12E/77,520 endpoint remain; no new fit or seed is counted. Nine focused CPU tests
+pass; native stop/migration/resume and final quality remain ROOT's actions.
+
 [Optimized B300 receiver](../../experiment_drafts/tl3-transformer-complement-execution-20261107/optimized_receiving/README.md)
 prepares four newly identified batch128/256 matched30E fits after the explicit
 optimization steering. It reuses unchanged source-r3 and the accepted owner relay,

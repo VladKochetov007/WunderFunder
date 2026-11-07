@@ -85,3 +85,8 @@ counts, exact CLI paths/reference separation, unchanged ROOT approval and failed
 phase short-circuiting. The existing native relay proof remains the lifecycle
 basis; no relay code changes occur. Actual production profiles, ROOT review,
 full training/validation and collection remain receiving gates.
+
+[Independent review R1](INDEPENDENT_REVIEW_R1.md) binds the three implementation
+hashes, both panel hashes, exact config-only batch changes and five independently
+passing CPU gates. Its readiness finding applies to production profiles;
+ROOT retains every cell's later scientific fit admission.
