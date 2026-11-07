@@ -648,6 +648,13 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 [Parent terminal-checker root preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_ROOT_PREPARATION_V1.json): pins the final local checker, tests, source review and all sibling helper dependencies for the exact source68ff/seed1001 H256×2 parent. Nine synthetic checks and cold import/read sentinels pass; preparation adds zero fits and no remote admission, checkpoint read, terminal acceptance or quality result. Typed native exit0 has since been captured; fresh capped CPU support gates and root acceptance/exact stop remain required before use.
 # PR67 receiving preparation, 7 November 2026
 
+[GRU stopped-state recovery R3](../../experiment_drafts/tl3-transformer-complement-execution-20261107/l4_continuation_recovery_r3/README.md)
+corrects a probe-only false failure after native canonical CPU resume succeeded:
+the tensor projection now preserves OrderedDict rather than changing it to dict.
+The strict migration/payload helper and S4 science remain unchanged. Six CPU
+tests and independent review pass; fresh R3 outputs preserve R2 failures, and
+native CPU/CUDA probes remain required before continued fitting.
+
 [GRU stopped-state recovery R2](../../experiment_drafts/tl3-transformer-complement-execution-20261107/l4_continuation_recovery_r2/README.md)
 preserves the failed S3 attempt after canonical load_resume exposed a monitor
 None-return bug. ROOT stopped both originals safely at8E/51,680 and authorized
