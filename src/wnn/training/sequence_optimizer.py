@@ -170,6 +170,7 @@ def build_sequence_muon_optimizer(model: nn.Module, config: Mapping[str, object]
         rms=0.2,
         strict_fp32=True,
         ns_eps=ns_eps,
+        muon_batch_by_shape=bool(config.get("muon_batch_by_shape", False)),
     )
 
 
