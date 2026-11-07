@@ -1,5 +1,19 @@
 # Project agent instructions
 
+## Actual objective follow-up execution,8 November
+
+Four new fixed4E/3280 teachers are running on all8 B300 GPUs, not pending setup.
+PR70 reports them; new L4 follow-up is PR71. Old PR69 fixed30E attempts were
+retired as partial9E/7380 with complete safe checkpoints/full-valid/RNG retained
+and all8 exact old trainers proved absent; never resume them from this note.
+Native controller1580653/birth150271506, immutable training source88ad6a8637390f39906b7ada30792a822f2172298770d9f27476d10028cc0a28,
+receiver91e605e93, plan02ce50018009b093a03564be4e02c3cf4ca027655bc8c2297923c064354767e5.
+All actual NCCL/50-update/both-rank full-state reload gates passed before ROOT
+release. First timed-out engineering attempts remain historical. Existing ROOT
+RPC streams only; no duplicate fits/new SSH. See EXECUTION_R1.md and artifact
+C:/Users/admin/Documents/Codex/artifacts/architecture-execution-20261107/ACTIVE_FOLLOWUP_20261108.json.
+Full4E quality endpoints remain pending; no public-score gain is claimed.
+
 ## Latest8 November: ensemble-objective repair explicitly authorized
 
 The user explicitly requests implementing and launching fixes on the existing
