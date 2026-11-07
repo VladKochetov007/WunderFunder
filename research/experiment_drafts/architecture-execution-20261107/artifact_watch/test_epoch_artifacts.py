@@ -123,6 +123,27 @@ def test_wrong_full_valid_mask_never_creates_snapshot(tmp_path: Path) -> None:
     assert not (tmp_path / "snapshots").exists()
 
 
+@pytest.mark.parametrize("host", ["b300-opt", "b300-foreign"])
+def test_optimized_b300_panel_requires_an_exact_known_host(tmp_path: Path, host: str) -> None:
+    """Accept the real optimized panel while retaining unknown-host rejection."""
+    run, native, _ = fixture_runs(tmp_path)
+    renamed_run = run.with_name(f"{host}-fixture-fit")
+    renamed_native = native.with_name(f"{host}-fixture-fit")
+    run.rename(renamed_run)
+    native.rename(renamed_native)
+    owner = {"host": host, "source_directory": "/synthetic-fixture-only/fit"}
+    for path in (renamed_run, renamed_native):
+        (path / ".sequence_mirror_owner.json").write_text(json.dumps(owner))
+    events = complete_events(renamed_run / "monitor_evaluations.jsonl")
+    if host == "b300-opt":
+        snapshot = capture(renamed_run, renamed_native, tmp_path, *events[0])
+        assert snapshot is not None
+        assert len(complete_events(snapshot / "monitor_evaluations.jsonl")) == 1
+    else:
+        with pytest.raises(ValueError, match="host-qualified"):
+            capture(renamed_run, renamed_native, tmp_path, *events[0])
+
+
 def test_long_B300_watch_does_not_extend_l4_discovery(tmp_path: Path) -> None:
     """The ROOT nine-day B300 allowance does not extend L4's24-hour discovery."""
     fixture_runs(tmp_path)

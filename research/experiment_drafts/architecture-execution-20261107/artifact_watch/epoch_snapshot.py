@@ -159,7 +159,7 @@ def capture(
     if (
         owner != read_json(native / ".sequence_mirror_owner.json")
         or not run.name.startswith(f"{owner['host']}-")
-        or owner["host"] not in ("l4", "b300")
+        or owner["host"] not in ("l4", "b300", "b300-opt")
     ):
         raise ValueError("run is not an actual host-qualified owned bridge mirror")
     metadata_payload = (run / "run_metadata.json").read_bytes()
