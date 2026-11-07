@@ -1,3 +1,9 @@
+[Installed Triton IEEE correction review](MAMBA_TRITON_IEEE_ENVIRONMENT_REVIEW_20261107.md)
+uses ROOT's captured installed-source evidence to support the explicit
+`TRITON_F32_DEFAULT=ieee` environment correction with fresh cache and fresh
+actual-device oracle/PTX gates. It changes no pinned Mamba source and establishes
+no native result. Initial GRU profile admission remains independent.
+
 [Bounded L4 receiving runner review](L4_RECEIVING_RUNNER_INDEPENDENT_REVIEW_20261107.md)
 finds the six helper files statically ready after independently checking seven
 gate tests and two lifecycle/environment corrections. The note records actual
