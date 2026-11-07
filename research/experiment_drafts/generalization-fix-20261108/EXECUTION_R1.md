@@ -43,3 +43,12 @@ Local dashboard: http://127.0.0.1:8769/; l4 observation root now points to this
 wave. Transport retains the existing persistent SSH stream, no new SSH login.
 Native full-valid scores, parent hashes, exported predictions and fixed blend
 grades are pending; no local/public improvement is claimed.
+
+At22:53:01UTC ROOT admitted and armed separate fixed-readout controller2272381,
+birth2148909734. Readout source identity
+0042a76f80f685666da7f62f263b2d355d0c35c6eca18a1e0d1fe39097660bab was verified
+on the node; native control/l4-readouts-r1/ROOT-admission.json binds it to the
+qualified reference. It waits for complete6E parents and runs on spare GPUs6/7.
+The live training receiver/source was not edited. Actual E1 full-valid WP for
+the six seeds ranges0.66971–0.67485; fixed endpoint comparisons are still pending.
+Draft PR71 is live under SemyonEpanov. The separate B300 follow-up is PR70.

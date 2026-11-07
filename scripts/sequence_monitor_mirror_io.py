@@ -6,9 +6,29 @@ import json
 import os
 import stat
 import tempfile
+import time
 from pathlib import Path
 
 from scripts.collect_sequence_monitor_r2 import CHUNK_BYTES, FILES, RUN_ID
+
+WINDOWS_REPLACE_RETRY_SECONDS = 1.0
+
+
+def _replace_with_retry(source: Path, destination: Path) -> None:
+    """Allow transient Windows reader locks without changing atomic publication semantics."""
+    deadline = time.monotonic() + WINDOWS_REPLACE_RETRY_SECONDS
+    while True:
+        if source.is_symlink() or destination.is_symlink():
+            raise ValueError("mirror replacement cannot follow a symlink")
+        try:
+            os.replace(source, destination)
+            return
+        except PermissionError as error:
+            # Other permission failures remain errors; these are Windows access/share locks.
+            remaining = deadline - time.monotonic()
+            if getattr(error, "winerror", None) not in (5, 32, 33) or remaining <= 0:
+                raise
+            time.sleep(min(0.05, remaining))
 
 
 def atomic_json(path: Path, value: object) -> None:
@@ -27,7 +47,7 @@ def atomic_bytes(path: Path, payload: bytes) -> None:
             stream.write(payload)
             stream.flush()
             os.fsync(stream.fileno())
-        os.replace(temporary, path)
+        _replace_with_retry(temporary, path)
     finally:
         temporary.unlink(missing_ok=True)
 
@@ -61,7 +81,7 @@ def _archive_journal(path: Path) -> None:
     if archived.is_symlink():
         raise ValueError("journal archive cannot be a symlink")
     if not archived.exists():
-        os.replace(path, archived)
+        _replace_with_retry(path, archived)
 
 
 def _apply_chunk(directory: Path, chunk: dict[str, object], previous: dict[str, object]) -> bool:
@@ -110,7 +130,7 @@ def _apply_chunk(directory: Path, chunk: dict[str, object], previous: dict[str, 
         if target.stat().st_size > 16 * 1_048_576:
             raise ValueError("mirror JSON exceeds its 16 MiB bound")
         json.loads(target.read_bytes())
-        os.replace(target, path)
+        _replace_with_retry(target, path)
     return journal or bool(chunk["eof"])
 
 
