@@ -1,0 +1,96 @@
+{
+  "CPU_unit_verification": "26 passed in6.35s; seven callback semantics/AST tests plus two source4 whitelist tests and previous17 fixtures",
+  "ROOT_cleanup_status_cutoff103": {
+    "GPU0_1_used_memory_reported_MiB": [
+      0,
+      0
+    ],
+    "S3_relay_children_reported": false,
+    "old_supervisor_exists": false
+  },
+  "S3_failure_evidence": {
+    "new_successful_updates": 0,
+    "old_S1_and_S3_artifacts_preserved": true,
+    "seed101001_transition_proof_sha256": "e233737102c31120f2eb09149c07d58171317d09a6dd667b9abd56e1b8be59fa",
+    "seed101002_transition_proof_sha256": "4e78475a82d19f4ad9c80a5814db92114e78efdef923ea40d220c4ace6794a45"
+  },
+  "S3_profile_relabel_allowed": false,
+  "S3_status": "both copies migrated and archive_ready; canonical resume failed before new successful updates",
+  "S4_callback_semantics": "call monitor.restore_offsets when appropriate; return True only after successful return; preserve raised exceptions and canonical coordinator",
+  "S4_fresh_profile_required_per_seed_GPU": true,
+  "S4_source_delta_from_S3": [
+    "src/wnn/training/sequence_fit_resume.py"
+  ],
+  "S4_source_destination": "/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1/source-gru-monitor-resume-r1",
+  "S4_status": "source builder and receiving migration/archive adapters prepared; actual native S4 source/profile/resume receipts not yet collected here",
+  "actual_CPU_load_resume_probe": "owned by independent supervisor actor; not replaced by callback unit tests; CUDA restoration must remain explicitly untested if its setter is stubbed",
+  "cause": "coordinated_call rejects None, while SequenceMonitor.restore_offsets is side-effect-only and returns None",
+  "cumulative_source_delta_from_S1": [
+    "src/wnn/training/sequence_monitor_gates.py",
+    "src/wnn/training/sequence_monitor_diagnostics.py",
+    "src/wnn/training/sequence_config_validation.py",
+    "src/wnn/training/sequence_fit_resume.py"
+  ],
+  "deadline_epoch": 1794154066.717658,
+  "native_error": "RuntimeError: safe-boundary monitor log restore returned no value",
+  "new_scientific_fits": 0,
+  "new_seeds": 0,
+  "original_parents": {
+    "101001": {
+      "expected_global_step": 51680,
+      "expected_next_epoch": 8,
+      "old_checkpoint_sha256": "06a1bc3ce96a2033576dfc53085ebbfcff06663d390a9b5e3c39a0a7e978d93d",
+      "old_output": "/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1/runs/gru_s101001/fit",
+      "stopped_trainer_owner": {
+        "birth": "2146947674",
+        "pgid": 2139237,
+        "pid": 2139244
+      }
+    },
+    "101002": {
+      "expected_global_step": 51680,
+      "expected_next_epoch": 8,
+      "old_checkpoint_sha256": "909654a77629a17dd99c7a615d8d1997a115c7a7aad50f372ad3f22b61e5cc9a",
+      "old_output": "/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1/runs/gru_s101002/fit",
+      "stopped_trainer_owner": {
+        "birth": "2146947675",
+        "pgid": 2139239,
+        "pid": 2139245
+      }
+    }
+  },
+  "raw_receipts": {
+    "099-transition-live-status": {
+      "bytes": 4848,
+      "path": "native_receipts/099-transition-live-status.json",
+      "root_rpc_time_utc": "2026-11-07T20:06:39.424547+00:00",
+      "sha256": "fa6ebbf6721500484ac4294cb41799b2bcbf784add6873f20a65e07c20d43729"
+    },
+    "100-stop-exact-bugged-supervisor": {
+      "bytes": 2723,
+      "path": "native_receipts/100-stop-exact-bugged-supervisor.json",
+      "root_rpc_time_utc": "2026-11-07T20:07:43.218936+00:00",
+      "sha256": "b36a35a8de9bc5bf194ae768969f85ffbd67893d24e1ba82236bea4b276883cc"
+    },
+    "101-confirm-gru-safe-stop": {
+      "bytes": 10347,
+      "path": "native_receipts/101-confirm-gru-safe-stop.json",
+      "root_rpc_time_utc": "2026-11-07T20:08:36.069233+00:00",
+      "sha256": "aea821baabb798c54e6492295f4aba54c16c16f906ebfb92cc14a51ac5c32832"
+    },
+    "102-cleanup-own-s3-groups": {
+      "bytes": 1239,
+      "path": "native_receipts/102-cleanup-own-s3-groups.json",
+      "root_rpc_time_utc": "2026-11-07T20:09:35.939588+00:00",
+      "sha256": "5375d9a7f57562fbf1d1b5d64a9e232b22d6acb7fcb372da7e89b5967e70a8b5"
+    },
+    "103-native-gpu-safe-state": {
+      "bytes": 815,
+      "path": "native_receipts/103-native-gpu-safe-state.json",
+      "root_rpc_time_utc": "2026-11-07T20:12:15.800929+00:00",
+      "sha256": "a235e5e955f82aa1b9e8d078742775445cb522c7b4539524bf570203647b272a"
+    }
+  },
+  "schema": "wnn.gru-monitor-resume-fix.v1",
+  "supersedes_as_current_status": "NATIVE_PREPARATION_R1.json (that historical cutoff097 is preserved)"
+}
