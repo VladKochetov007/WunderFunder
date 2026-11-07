@@ -1,0 +1,34 @@
+from pathlib import Path
+import os,sys,json,hashlib,time,subprocess
+F=Path('/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1');S=F/'source';D=F/'control-code-r1/scripts';C=F/'control/final-submit-chain'
+sys.path[:0]=[str(D),str(S/'src'),str(S)]
+from wnn.multistage_search_owned_command import run_owned_command
+from wnn.multistage_search_runtime import process_identity,hold_gpu_slot
+import final_submit_chain_runtime as runtime
+import final_submit_chain_contract as contract
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
+def save(p,v):
+ with p.open('x') as out:json.dump(v,out,sort_keys=True,indent=2)
+plan=json.loads((F/'inputs/final-plan-r2.json').read_bytes());node=next(n for n in plan['nodes'] if n['id']=='orgbase');node['node_id']='orgbase'
+state=json.loads((C/'controller-state.json').read_bytes());prior=state['nodes']['orgbase']
+assert prior['status']=='failed' and 'not an idle B300' in prior['error']
+fit_receipt=C/'receipts/fits/orgbase.json';fit=json.loads(fit_receipt.read_bytes());assert fit['status']=='completed' and fit['exit_code']==0 and not fit['timed_out']
+assert not (C/'receipts/exports/orgbase-train.json').exists()
+membership=contract.verify_sources(data_root=F/'data',membership_path=F/'inputs/final-fit-membership-r1.json',audit_path=F/'inputs/SOURCE_VALIDATION_R1.json',audit_sha256=contract.SOURCE_AUDIT_SHA256)
+checkpoint=runtime.validate_fit_checkpoint(node=node,output_dir=F/'data/artifacts/runs'/node['run'],membership=membership)
+gpu_map=dict(line.split(', ',1) for line in subprocess.check_output(['nvidia-smi','--query-gpu=index,uuid','--format=csv,noheader'],text=True).strip().splitlines());uuid=gpu_map['2']
+save(F/'receipts/orgbase-export-admission-repair-r2.intent.json',{'schema':'wnn.orgbase-export-admission-repair-intent.v1','node_id':'orgbase','run':node['run'],'prior_node_record':prior,'original_export_child_absent':True,'actual_fit_completed':True,'scientific_retraining':False,'fixed_endpoint':3,'fit_process_receipt':str(fit_receipt),'fit_process_receipt_sha256':sha(fit_receipt),'checkpoint_path':str(checkpoint),'checkpoint_sha256':sha(checkpoint),'gpu_uuid':uuid,'source_capsule_sha256':contract.SOURCE_CAPSULE_SHA256,'plan_sha256':contract.PLAN_SHA256,'membership_sha256':membership.manifest_sha256,'foreign_signals':False,'created_epoch':time.time()})
+env=dict(os.environ,PYTHONPATH=str(S/'src')+':'+str(S),WNN_PROJECT_ROOT=str(F/'data'),OMP_NUM_THREADS='4',MKL_NUM_THREADS='4',OPENBLAS_NUM_THREADS='4',NVIDIA_TF32_OVERRIDE='0',TORCH_ALLOW_TF32_CUBLAS_OVERRIDE='0',PYTHONUNBUFFERED='1',CUDA_VISIBLE_DEVICES=uuid)
+exports={}
+with hold_gpu_slot(C,uuid):
+ for split in ('train','valid'):
+  for ext in ('npy','json'):assert not (F/'data/cache'/('pred_'+node['run']+'_'+split+'.'+ext)).exists()
+  timeout=min(21600,int(contract.HARD_DEADLINE-contract.COLLECTION_RESERVE-time.time())-20);assert timeout>60
+  cmd=['/usr/bin/timeout','--signal=TERM','--kill-after=10s',str(timeout-10)+'s','/data/epanov_s/tabdata/.venv/bin/python',str(S/'scripts/predict_run.py'),node['run'],split,'--epoch','3','--final-fit-manifest',str(F/'inputs/final-fit-membership-r1.json'),'--final-fit-source-validation-receipt',str(F/'inputs/SOURCE_VALIDATION_R1.json'),'--final-fit-source-validation-sha256',contract.SOURCE_AUDIT_SHA256,'--device','cuda']
+  receipt=C/'receipts/exports'/('orgbase-'+split+'-external-r2.json');log=C/'logs/exports'/('orgbase-'+split+'-external-r2.log')
+  code,timed,result=run_owned_command(cmd,cwd=S,env=env,log_path=log,receipt_path=receipt,owner=process_identity(os.getpid()),stage=2,trial_number=101,mode='final_submit_orgbase_qualified_export_repair_r2',gpu_key=uuid,output_dir=F/'data/cache',timeout_seconds=timeout)
+  assert code==0 and not timed,'export failed; preserve evidence, no retry'
+  exported=runtime.validate_export(F/'data',node['run'],split,membership)
+  exports[split]={'status':'complete','path':str(exported),'sha256':sha(exported),'receipt':str(receipt),'receipt_sha256':sha(receipt),'prediction_role':'fitting-only teacher features; no independent score','independent_score_claim':'forbidden'}
+save(F/'receipts/orgbase-export-admission-repair-r2.json',{'schema':'wnn.orgbase-export-admission-repair.v1','status':'complete','node_id':'orgbase','run':node['run'],'intent_path':str(F/'receipts/orgbase-export-admission-repair-r2.intent.json'),'intent_sha256':sha(F/'receipts/orgbase-export-admission-repair-r2.intent.json'),'fit_process_receipt':str(fit_receipt),'fit_process_receipt_sha256':sha(fit_receipt),'checkpoint_path':str(checkpoint),'checkpoint_sha256':sha(checkpoint),'fixed_endpoint':3,'exports':exports,'source_capsule_sha256':contract.SOURCE_CAPSULE_SHA256,'plan_sha256':contract.PLAN_SHA256,'membership_sha256':membership.manifest_sha256,'fit_members_sha256':membership.fit_members_sha256,'scientific_retraining':False,'independent_score_claim':'forbidden','finished_epoch':time.time()})
+print('EXTERNAL_ORGBASE_BOTH_FIT_FEATURE_EXPORTS_COMPLETE',flush=True)

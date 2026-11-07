@@ -1,0 +1,131 @@
+{
+  "schema": "wnn.multistage-profile-review-policy.v1",
+  "policy_id": "E-MULTISTAGE-OPTUNA-B300-20261031-R3-PROFILE-ENGINEERING-ADMISSION",
+  "frozen_before_anchor_profile_review": true,
+  "independent_reviewer": "multistage_independent_critic",
+  "purpose": "Engineering admission of one exact native training profile; this policy does not promote a scientific candidate or authorize primary-valid fitting.",
+  "identity": {
+    "must_match_trial_request": [
+      "trial_number",
+      "anchor_id",
+      "config_sha256",
+      "primary_split_sha256",
+      "auxiliary_split_sha256",
+      "source_revision",
+      "source_script_sha256",
+      "runtime_policy_sha256",
+      "profile_policy_sha256",
+      "profile_checker_policy_sha256",
+      "world_size",
+      "requested_world_size",
+      "expected_device_uuid_set",
+      "expected_device_total_memory_bytes",
+      "requested_updates",
+      "requested_profile_updates",
+      "source_sha256",
+      "source_files_sha256",
+      "cpu_thread_env",
+      "effective_thread_environment",
+      "worker_owned_process",
+      "worker_owned_process_command_sha256",
+      "worker_owner_receipt_path",
+      "worker_owner_receipt_sha256",
+      "profile_child_process",
+      "profile_child_command_sha256"
+    ],
+    "require_exact_native_identity_and_config_data_source_runtime": true
+  },
+  "model_and_precision": {
+    "device_model": "NVIDIA B300",
+    "world_size": 1,
+    "precision_mode": "fp32",
+    "tf32": false,
+    "bf16x9": false,
+    "autocast": false,
+    "device_uuid_set_must_equal_request": true
+  },
+  "resource_bounds": {
+    "max_allocated_bytes": 68719476736,
+    "max_reserved_bytes": 68719476736,
+    "minimum_free_before_profile_bytes": 34359738368,
+    "minimum_free_after_peak_bytes": 34359738368,
+    "preprofile_free_must_cover_minimum_plus_requested_peak": true,
+    "preprofile_free_must_cover_minimum_plus_observed_peak": true,
+    "max_host_rss_bytes": 8589934592,
+    "max_cpu_threads": 4,
+    "effective_thread_environment": {
+      "OMP_NUM_THREADS": "4",
+      "MKL_NUM_THREADS": "4",
+      "OPENBLAS_NUM_THREADS": "4"
+    },
+    "max_wall_seconds_including_startup_and_cleanup": 180
+  },
+  "profile_health": {
+    "required_real_updates": 50,
+    "require_each_update_loss_finite": true,
+    "require_each_update_gradient_norm_finite": true,
+    "require_complete_rank_logs": true,
+    "allowed_nonfinite_updates": 0,
+    "allowed_training_errors": 0,
+    "require_successful_exit": true
+  },
+  "data_and_objective": {
+    "primary_fit_train_sequences": 10325,
+    "primary_fit_valid_sequences": 0,
+    "primary_eval_valid_sequences": 1873,
+    "primary_valid_used_for_fit_or_profile": false,
+    "auxiliary_scope": "whole known components from official train only",
+    "auxiliary_chronology_claim": false,
+    "require_auxiliary_fit_and_holdout_component_disjointness": true,
+    "require_all_fit_ancestry_exclude_inner_heldout_members": true,
+    "evaluation_role": "control",
+    "evaluation_scope": "inner_train_proxy",
+    "evaluation_source": "train",
+    "evaluation_mask": "all_after_warmup",
+    "validation_reporting_for_auxiliary": false
+  },
+  "process_ownership": {
+    "require_worker_and_child_pid_birth_pgid": true,
+    "require_worker_and_child_command_sha256": true,
+    "permit_foreign_process_churn": true,
+    "permit_foreign_process_signals": false,
+    "permit_mps_mutations": false,
+    "pre_post_nvml_and_mps_snapshots_are_informational": true
+  },
+  "campaign_bounds": {
+    "max_fit_attempts": 48,
+    "max_profile_attempts": 56,
+    "campaign_wall_seconds_from_first_profile": 21600,
+    "collection_reserve_seconds": 1200,
+    "profile_wall_seconds_per_attempt": 180,
+    "bind_campaign_deadline_and_profile_attempt_receipts": true
+  },
+  "manual_anchor_ids": [
+    "S1-GRU256x2-B16-AUX-CONTROL-R3",
+    "S1-GRU256x2-B32-AUX-CONTROL-R3",
+    "S1-GRU256x2-B64-AUX-CONTROL-R3",
+    "S1-LSTM256x2-B16-AUX-CONTROL-R3",
+    "S1-LSTM256x2-B32-AUX-CONTROL-R3",
+    "S1-LSTM256x2-B64-AUX-CONTROL-R3"
+  ],
+  "anchor_review": {
+    "required_receipt_schema": "wnn.multistage-anchor-review.v1",
+    "required_status": "approved",
+    "reviewer": "root",
+    "required_bindings": [
+      "anchor_id",
+      "native_profile_sha256",
+      "review_receipt_sha256",
+      "trial_request_sha256"
+    ],
+    "engineering_failure_cannot_be_overridden": true
+  },
+  "receipt": {
+    "schema": "wnn.multistage-profile-review.v1",
+    "preserve_native_profile_bytes": true,
+    "bind_native_profile_request_attempt_worker_deadline_and_rank_log_hashes": true,
+    "anchor_pending_status": "pending_anchor_review",
+    "anchor_review_receipt_binds_pending_checker_receipt": true,
+    "nonanchor_pass_status": "approved"
+  }
+}

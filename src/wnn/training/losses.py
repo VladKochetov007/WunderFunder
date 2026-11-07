@@ -7,6 +7,7 @@ from wnn.distillation import four_family_weighted_mse
 from wnn.nn import weighted_mse_loss
 from wnn.outcomes import N_CODES, N_SP_AUX, readout, sequence_class
 from wnn.spread_aux import structural_loss
+from wnn.training.auxiliary_schedule import auxiliary_loss_coefficients
 from wnn.training.initializer import final_initializer_distillation_target
 from wnn.training.state import TrainingRun
 from wnn.training_controls import blended_target
@@ -148,6 +149,17 @@ def auxiliary_loss(run: TrainingRun) -> None:
     tier_label = run.batch.tier_label
     tier_weight = run.batch.tier_weight
     y = run.batch.y
+    aux_struct_weight = args.aux_struct
+    aux_next_weight = args.aux_next
+    aux_anneal = getattr(args, "aux_anneal", "none")
+    if aux_anneal != "none":
+        step_count = run.progress.step_count
+        total_steps = run.network.total
+        if step_count is None or total_steps is None:
+            raise RuntimeError("auxiliary schedule requires initialized optimizer-step clocks")
+        aux_struct_weight, aux_next_weight = auxiliary_loss_coefficients(
+            aux_anneal, aux_struct_weight, aux_next_weight, step_count, total_steps
+        )
     if args.arch == "gated" and args.gate_ce > 0:
         difference = y[:, sl, 0].float() - y[:, sl, 1].float()
         gate_weight = main_valid[:, sl].float() * difference.abs().clamp_max(2.0)
@@ -157,8 +169,8 @@ def auxiliary_loss(run: TrainingRun) -> None:
         loss = loss + args.gate_ce * (gate_bce * gate_weight).sum() / gate_weight.sum().clamp_min(
             1e-08
         )
-    if args.aux_struct > 0:
-        loss = loss + args.aux_struct * structural_loss(
+    if aux_struct_weight > 0:
+        loss = loss + aux_struct_weight * structural_loss(
             out,
             sp_lab[:, sl],
             br_lab[:, sl],
@@ -168,20 +180,20 @@ def auxiliary_loss(run: TrainingRun) -> None:
             N_SP_AUX,
             None if spread_encoded is None else spread_encoded[:, sl],
         )
-    if args.aux_next > 0:
+    if aux_next_weight > 0:
         o = out.float()
         wv = nw[:, sl]
         mse = (o[..., next_at] - (nx_rows[:, sl] - 3.0) / 2.0) ** 2
         bce = F.binary_cross_entropy_with_logits(
             o[..., next_at + 1], nx_up[:, sl], reduction="none"
         )
-        loss = loss + args.aux_next * ((mse + bce) * wv).sum() / wv.sum().clamp_min(1e-08)
+        loss = loss + aux_next_weight * ((mse + bce) * wv).sum() / wv.sum().clamp_min(1e-08)
         for j, (kr, ku, kok) in enumerate(kth):
             kw = main_valid[:, sl].float() * kok[:, sl].float()
             col = next_at + 2 + 2 * j
             kmse = (o[..., col] - (kr[:, sl] - 4.0) / 2.0) ** 2
             kbce = F.binary_cross_entropy_with_logits(o[..., col + 1], ku[:, sl], reduction="none")
-            loss = loss + args.aux_next * ((kmse + kbce) * kw).sum() / kw.sum().clamp_min(1e-08)
+            loss = loss + aux_next_weight * ((kmse + kbce) * kw).sum() / kw.sum().clamp_min(1e-08)
     if args.aux_tier > 0:
         ce = F.cross_entropy(
             out[..., tier_at : tier_at + 4].float().reshape(-1, 4),

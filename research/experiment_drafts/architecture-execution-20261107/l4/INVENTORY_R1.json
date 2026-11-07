@@ -1,0 +1,102 @@
+{
+  "schema": "architecture-l4-source-inventory.v1",
+  "status": "frozen source/config for independent review; receiver profiles and real Mamba pending",
+  "parameters": {
+    "ema_tabm_style": {
+      "count": 328880,
+      "basis": "actual CPU Torch2.14.1 model construction"
+    },
+    "gru_local": {
+      "count": 1362532,
+      "basis": "actual CPU Torch2.14.1 model construction"
+    },
+    "gru": {
+      "count": 950274,
+      "basis": "actual CPU Torch2.14.1 model construction"
+    },
+    "mamba2": {
+      "count": 647378,
+      "basis": "analytic pinned Mamba2 default bias=False/conv_bias=True, actual receiving count pending"
+    }
+  },
+  "configs": [
+    {
+      "path": "research/experiment_drafts/architecture-execution-20261107/l4/configs/ema_tabm_style_s101001.json",
+      "sha256": "edf96a0e3b88b66de633f0d27c4d6df5008513015b83a0971daf53374752edbd"
+    },
+    {
+      "path": "research/experiment_drafts/architecture-execution-20261107/l4/configs/ema_tabm_style_s101002.json",
+      "sha256": "64c89e397c2feb1779df739964cfb1c660d31d43d3cee1ca0fb0b3063810e1be"
+    },
+    {
+      "path": "research/experiment_drafts/architecture-execution-20261107/l4/configs/gru_local_s101001.json",
+      "sha256": "8fc275ae02f71639e91af37bded6567a98c42113ec8932b53960780b782be819"
+    },
+    {
+      "path": "research/experiment_drafts/architecture-execution-20261107/l4/configs/gru_local_s101002.json",
+      "sha256": "66a1b4aad3ad2f453155793aa5d6a61facb3bce282308808a2490c36e8faced1"
+    },
+    {
+      "path": "research/experiment_drafts/architecture-execution-20261107/l4/configs/gru_s101001.json",
+      "sha256": "1b2d460781fe2d6c38748b0171eec67bf991c92d937b21e4bad325e566717edd"
+    },
+    {
+      "path": "research/experiment_drafts/architecture-execution-20261107/l4/configs/gru_s101002.json",
+      "sha256": "f7d24e97c380adf32f530d0545bab3e5531880d32530e09b7fbcc9cabb6faad9"
+    },
+    {
+      "path": "research/experiment_drafts/architecture-execution-20261107/l4/configs/mamba2_s101001.json",
+      "sha256": "85839256a7a5b3f6f724fa3ed5ed7ae19ce54b0384908834b82516263c1c15bb"
+    },
+    {
+      "path": "research/experiment_drafts/architecture-execution-20261107/l4/configs/mamba2_s101002.json",
+      "sha256": "5f25e09b48a697b4895acf23f881e1fa28d78500a2a482c83e11b12e91599d8d"
+    }
+  ],
+  "sources": [
+    {
+      "path": "src/wnn/training/sequence_compact_config.py",
+      "sha256": "78d7b815b8658a32cf15e36ce801c01eb014e0df5e9ec3522a0ae4e899e650d4"
+    },
+    {
+      "path": "src/wnn/training/sequence_gru_local.py",
+      "sha256": "24fcae9818bc409d4e6d1b8079cafcb49129d2fa2ff24c763d3d3b0f7178c842"
+    },
+    {
+      "path": "src/wnn/training/sequence_ema_tabm.py",
+      "sha256": "aeff83ea41d8d2791016ff16cf68ebd1023946984258b1317696a14702456f1a"
+    },
+    {
+      "path": "src/wnn/training/sequence_mamba2.py",
+      "sha256": "b9a5fa1d949064250d60abc3f8d7e3d0e0df3df5e8116b0b02d0a0b7538a85ef"
+    },
+    {
+      "path": "src/wnn/training/sequence_mamba2_backend.py",
+      "sha256": "6bed25b1ac2a3b0575025ab076c575502165ac4ce78db73155a8508e7b8a41ba"
+    },
+    {
+      "path": "src/wnn/training/sequence_models.py",
+      "sha256": "5cde8685da389c0122fab45a54315bb6f3c693088daf391781b7e4f9645b2fba"
+    },
+    {
+      "path": "src/wnn/training/sequence_model_helpers.py",
+      "sha256": "e28b880f44e0c7e5355e2e4422af6b92a1b530e8ae3c648b40ee34f398ad5acb"
+    },
+    {
+      "path": "src/wnn/training/sequence_config.py",
+      "sha256": "7657739e97a879d6fe8be69f6d3be2d2b2dea685e529604494b6e1850f758483"
+    },
+    {
+      "path": "src/wnn/training/sequence_config_validation.py",
+      "sha256": "649b3150723b305b5d97be42f0d568530941f7f1689f90c009ed54734520ade0"
+    },
+    {
+      "path": "tests/test_compact_sequence_models.py",
+      "sha256": "9d4009b2161c9e51de5e374cd07d07c5fcd6ca56dd56afa138d06a767a804a08"
+    },
+    {
+      "path": "research/experiment_drafts/architecture-execution-20261107/l4/README.md",
+      "sha256": "f6d565c47c441d8cead58d06fa3d5952ce7c3d9f59a01f51c2e54a5ab020e2a0"
+    }
+  ]
+}

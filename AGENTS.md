@@ -1,5 +1,507 @@
 # Project agent instructions
 
+## Latest7 November: measured B300/L4 optimization amendment
+
+The user requests efficient training on both existing hosts. See
+research/experiment_drafts/architecture-execution-20261107/OPTIMIZATION_R2.md.
+B300's old B4 attempts are partial historical evidence; four new B128/A4/world2
+fits are running to30E/24600updates under the optimized24h receiving envelope,
+with1h collection reserve. The old nine-day B4 bound below is historical.
+L4 keeps the original eight12E fits. ROOT armed the two original GRU monitoring
+continuations under exact state/source/config pins and the original L4 deadline;
+both preflights passed before any old stop. Require native transition/archiver/
+resumed-update receipts before claiming those continuations active. No new seed,
+architecture or stopped unrelated fit is admitted. Preserve frozen R1 records.
+S3 canonical resume failed before updates on a None-returning monitor callback;
+the first S4 probe then exposed its own dict/OrderedDict comparison error. Both
+failed attempts and all original8E states remain historical. R3 correction passed
+actual CPU and real CUDA zero-update canonical restores, with live external
+archives, and both original GRUs resumed20:26:44UTC past51680updates. Current
+siblings are gru_sSEED_monitor_opt_r3/fit, producer source5bbbf68eccdc8c8773ff4b4eda2c4026d9c3f31b145dfc0d683b17d20a1987d0,
+controller2238454/birth2148028384; same12E endpoint and original L4 deadline.
+No unrelated resume or new scientific fit is admitted. Reporter selects exact
+pinned r3 aliases; do not fall back to historical original/S3/R2 producer rows.
+First B300 epoch mixture scores do not beat the clean TL3 reference; Mamba2's
+later valid degradation is evidence of overfitting, not a reason to relabel its
+best-observed exposed checkpoint as an independent final endpoint. ADR0044,
+ownership, full-valid coverage and SemyonEpanov publication identity remain.
+
+## Latest7 November: twelve fresh fits explicitly authorized and running
+
+The user explicitly authorized setup and launch on the existing eight B300 and
+eight L4 GPUs. See research/experiment_drafts/architecture-execution-20261107/
+EXECUTION_R1.md and the frozen CONTRACT.md. This supersedes the planning-only
+entry below. Exactly eight fresh L4 fits (four families, two seeds, fixed12E)
+and four PR67 B300 fits (labels/complement, two seeds, fixed30E) are admitted.
+No automatic architecture/seed/student expansion or old stopped-fit resumption.
+ROOT owns one persistent file-RPC SSH stream per host; builders do no SSH/GPU.
+All primary fitting uses official train10325/zero valid fitting; evaluate the
+complete official valid1873/3528273 scored rows, under ADR0044. Valid is exposed.
+L4 remains bounded24h from its first profile with a1h collection reserve.
+B300's measured774600 updates at~.71s/update require an explicit9-day maximum
+receiving amendment before first fit; four fits, twelve profiles and immutable
+source/config identities remain unchanged. Frozen native observer caps a single
+B300 worker at7days: a future source-identical safe-checkpoint continuation needs
+ROOT review of actual expiry/ownership and stays within the9-day maximum.
+Preserve foreign services, old artifacts and every failed preparation receipt.
+Dashboard http://127.0.0.1:8769/; GitHub updates must authenticate as SemyonEpanov.
+Do not infer a public gain from development valid or a falling training loss.
+
+## Latest7 November: architecture planning only
+
+User requests high-quality architecture choices using existing8B300+8L4.
+See research/unified/ideas/architecture_portfolio_20261107/README.md and CONTRACT.md.
+Three independent literature lenses and source refresh are complete; no SSH,
+model execution, GPU profile/fit, provider allocation or GitHub write occurred.
+PR61 terminal comment reports10/12 completed; two TF teachers finished and two
+students never started after profile-device identity rejection. Older running
+notes below are historical, not permission to resume. PR63–67 are prepared,
+unmeasured handoffs. This turn proposes an allocation, not a runnable admission.
+Full sequences20k/112raw;2k is TBPTT chunking. event211=112raw+99derived.
+Keep ADR0044 and all existing historical source/evidence unchanged.
+
+## Latest 4 November: original PR61 R5 continuation and publication active
+
+Original two TF teachers still train on GPUs6/7. Owned R5 controller1603600 adopts
+the completed wide grade, then runs only the two original TF students after
+parallel GPU2/3 exports, ordered adds and independent cache admission. No new
+science recipes or fits are added. Source1128685; observer/checker sourcefa93f7.
+Actual R5 and corrected R6_R2/publisher receiving preflights passed. Detached
+cache watcher1627656 and publication wrapper1627657/owned child1627803 are live;
+the publisher posted a real PR61 status and updates on fit completion/hourly.
+Original deadline 5 Nov01:34:48.825UTC and45min collection reserve remain binding.
+See research/experiment_drafts/l4-teacher-capacity-20261104/recovery-r5-r2/EXECUTION_R5_R2.md
+and its raw source/admission/ownership/transport receipts. Temporary banks use
+bounded tmpfs RAM; explicit root storage amendment caps data2 output at7.1GB,
+with3GB free floor. ROOT still owns SSH83229. No agent SSH/GPU work.
+Separate PR62 comparison is completed negative; no optional students allowed.
+
+## Latest4 November: PR62 teachers complete; no optional students
+
+All4 fresh objective/clipping teacher fits completed4E/103040updates, exit0.
+Fixedep3 mean deltas: clip5−.000058670, lateaux−.000212692. Actual gate says
+no_students; do not launch the optional2 student fits or resume these teachers
+from this note. See research/experiment_drafts/l4-objective-20261104/RESULTS_20261104_R1.md.
+The report-only internal dev→vfold alias repair preserves exact official eval
+membership. Raw report collection passed; matplotlib is absent on the node, so
+actual JSON was transferred unchanged and figures rendered/inspected locally.
+PR61 wide canonical grading recovered without fit/export replay; its8completed
+model checkpoints are published at tabdata-pr61-completed-eight-20261104-r4.
+The original2Transformer fits remain active under the old deadline. ROOT owns
+SSH83229 and receiving/publication/resource repair; no agent SSH/GPU work.
+
+## Latest4 November: objective/clipping follow-up authorized
+
+The user now authorizes doing the best next experiments toward a serious final
+metric improvement. The separate six-fit-maximum allocation is in
+research/experiment_drafts/l4-objective-20261104/CONTRACT_R1.json: four fresh
+GRU256x2 teachers, then at most two selected-family W18 students. Reuse exact
+PR61/PR60 controls; preserve the current twelve-fit cycle unchanged. A fitting-only
+gradient diagnostic selects the second arm before any new fit. No public gain
+is promised. Existing eight L4 only; no rentals, foreign signals or old cache
+deletion. ROOT owns persistent SSH83229 and all GPU admission. New runtime is
+/data2/lc-epanov_s/tabdata/runtime/l4-objective-20261104-r1; its receiving authority
+starts17:04:33UTC and ends20:04:33UTC, with45minutes for collection. See the
+machine receipt for exact times/limits. Three existing actor/critic roles are
+bounded and do no SSH/GPU work. Source/recipe/profile evidence must precede fits.
+
+
+## Latest4 November: fresh12-fit L4 teacher/student cycle authorized
+
+User accepts the proposed8teacher+4student cycle and instructs execution.
+Use research/experiment_drafts/l4-teacher-capacity-20261104/CONTRACT_R1.json.
+ROOT owns one recovered persistent SSH83229; agents do noSSH/GPU/fits.
+Runtime /data2/lc-epanov_s/tabdata/runtime/l4-teacher-capacity-20261104-r1.
+Eight L4 idle except1148MiB foreign services onGPU4; data2 free10.17GB.
+No unrelated deletion, no rentals. StrictFP32, officialtrain-only10325 ->
+fullvalid1873/3528273 scoredrows; exposeddevelopment. Three bounded
+independent actors/reviewers required by conduct-creative-research; model
+policyLuna/max. Start ready audited GRUs while Transformer adapter finishes.
+Reuse components and fix prior operational bugs; no new controller framework.
+Old stopped/completed fits stay unchanged; this is fresh scoped authority.
+
+## Latest4 November: W18 L4 screen completed; no active GPU work
+
+All8 scientific fits and fixed-epoch1 exports completed. Canonical full-valid
+grading and GitHub publication passed: PR60 and release
+https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr60-results-20261104-r1.
+No practically useful singleton improvement was found; do not promote a candidate.
+See research/experiment_drafts/w18-l4-quality-20261104/RESULTS_20261104_R1.md.
+All own GPU jobs are finished, no fits/profiles should resume from this note.
+The read-only dashboard/bridge remain CPU-only until the original deadline.
+The temporary publication credential was removed. Older running/preparing notes
+below are historical. New compute needs fresh scope/allocation.
+
+## Latest4 November: fresh8xL4 baseline-improvement research authorized
+
+The user explicitly authorizes generating hypotheses and executing on the entire
+existing8xL4 cluster. This is fresh research authority; no old stopped fit resumes.
+Use research/experiment_drafts/w18-l4-quality-20261104/CONTRACT_R1.json. Root owns
+the budget/admission. First allocation is4configurations x2matched seeds =8fits;
+scientific recipes/endpoints must freeze before outcomes. Persistent SSH89449 (one controlled transport recovery after the interactive file transfer stalled)
+to lc-epanov_s@10.61.10.209 is live; only ROOT may use it, no reconnect loop.
+All8 L4 are idle;GPU4 has1148MiB unrelated service allocations that must remain.
+Data2 has12.9GB free. Reuse exact existing inputs/caches; new output cap8GB and
+3GB free reserve. No unrelated cleanup, new provider/billing or foreign signals.
+
+Primary validation remains official train -> complete official valid, ADR0044.
+The submitted full-corpus W18/teacher weights are ineligible for this validation.
+Audit train-only baseline, preprocessing and all parent ancestry. Repeatedly
+inspected valid remains exposed. StrictFP32/noTF32/noAMP, no training quantization.
+Save comparable graphs and actual phase receipts. Skill conduct-creative-research
+requires bounded independent proposal, implementation and criticism; no actor
+may approve its own candidate. Delegated roles do no SSH, GPU work or extra fits.
+Historical task-specific resource limits below do not restrict this newly allocated
+owned cluster; old recipes, failures and source snapshots stay unchanged.
+
+## Latest4 November: platform submission accepted; SCORE running
+
+The user explicitly authorized uploading/submitting the ready W18 ZIP. It was
+submitted once through authenticated Edge as Simon, team kotiki, at13:09MSK.
+Displayed submission ID1H7KP30Q; filename tabdata-w18-final-20261103-r1.zip;
+SHA256932700e4e10721829641870f18198fca06ba3f9c5f06be5541d70bf38bf880f9.
+Success banner and new row were observed, daily usage0/5 to1/5 and total107 to108.
+PENDING and CHECK passed; last observed SCORE was running with no score yet.
+See platform-20261104/SUBMISSION_RECEIPT_R1.json in the final-submit packet.
+Do not duplicate this submission because scoring has not finished. This upload
+authorizes no new fit/profile or old stopped job. The following human-upload
+next-step notes are historical; the platform handoff has now been completed.
+
+## Latest3 November: FINAL W18 ZIP DELIVERED; no active recovery fit
+
+All18 scientific fits are complete. The W18-only ZIP passed all10 unchanged
+actual Linux/Python3.11 CPU/numeric/reset/causality/size gates and is published at
+https://github.com/VladKochetov007/WunderFunder/releases/tag/tabdata-pr54-final-w18-20261103-r1.
+ZIP5454663bytes; SHA256932700e4e10721829641870f18198fca06ba3f9c5f06be5541d70bf38bf880f9.
+All7 primary release assets were re-downloaded and verified on the node; a local
+SSH-transferred exact ZIP also passed SHA/CRC/all8 member hashes. Graphs and
+engineering proof archive are uploaded. Final publication wrapper180051 exited0
+and removed its credential; GPU_RELEASE_CHECK confirms no current W18 training
+GPU PID. No new fitting/profile is authorized by these delivered-status notes.
+All12480 sequences fit: no independent validation/public score exists for these
+weights. This is one served W18 student, not the CPU-unadmitted full mixture.
+Human platform upload is next. See RESULTS_20261103_W18_DELIVERY_R1.md in the
+final-submit packet. All following running/failure notes are historical.
+
+## Latest3 November: CPU publication R3 active after callback alias repair
+
+W18 and all18 final fits remain completed; never refit from this note.
+R2 built the5.45MB ZIP, but its import failed because the callback compared
+package.run_reference against receipt.run_reference; the receipt correctly uses
+run. Both failed attempts and their artifacts are preserved; R1/R2 credentials
+were removed by their wrappers. The strict field-pair fix keeps all3 hash joins
+and maps run_reference to run. Twenty focused tests and independent review pass.
+Actual Python3.11/native preflight on staged R2 weights passed128real rows with
+finite predictions and identical reset replay. This is not final ZIP admission.
+
+R/control/publish_w18_r3.py SHA25c6dc2ab0436cf644d9b2cfe34257401a7ec912ce3acf8f18c1f0f7eed6d762
+qualifies only the new callback SHA68ec7a3901ef34e36ab87c3db13b1da657e96c63363d0d900c5b82095c721024
+and separate R5-serving/R3-report/token roots. Package builder remains10b8a990;
+checker, native libs, weights and numeric gates are unchanged. Detached CPU-only
+worker180051 runs launcher SHA c63cd40b5e1b036fcc5fb82885dcf91c07f580a7b2a3874333f381e3639e3d0e
+with original deadline and explicit R/reports-publish-r3/w18-publication-state-20261103-r3.json.
+Fresh credential publish-r3.token is0600 and inode-cleaned on exit. Persistent
+SSH12250 is still live. Confirm actual package/check/download before delivery.
+
+## Latest3 November: W18 fit complete; CPU-only publication repair
+
+All18 fixed final fits are now complete when combining their actual receipts.
+W18 finished exit0,15600/15600 updates,2epochs, zero nonfinite/skipped updates.
+model_ep1.pt SHA25670cfefcfeb14b5a5e1f2a181fc7ddf15330a24aaf32e7f324b122fb54327daf8
+(4043687bytes). No new fitting or profiling is needed or authorized by this note.
+The first publisher failed before creating a ZIP because the generic ancestry
+audit followed initializer links but omitted the six cache-teacher branches.
+Its logs/state/failure are preserved; its launcher removed its0600 credential.
+
+Qualified packager R/serving-w18-package-r4 independently re-audits those six
+teacher roots, requires exact cache-source checkpoint/closure matches, and keeps
+the exact13-role gate. Actual Linux re-audit passed13roles;15CPU tests and an
+independent review pass. Checker, serving solution, native libs and numeric
+ceilings are unchanged. R/control/publish_w18_r2.py qualifies only package hash,
+serving/report/token roots. A detached CPU-only publication worker179102 is now
+running via launch_publish_r2b.py, SHA4cbc3240034f99e84fee33501f6ceede277c049f16f9662efe1063aadbf4a98b.
+It uses the same original hard deadline and an explicit separate state file:
+R/reports-publish-r2/w18-publication-state-20261103-r2.json. Never overwrite R1.
+New credential publish-r2.token is0600 and inode-cleaned by the wrapper.
+Use persistent SSH session12250; F/R definitions below remain valid.
+Do not claim a ready ZIP before actual checker and download verification pass.
+
+## W18 submission recovery authorized and running — 3 November2026
+
+The user now explicitly says to prepare the finished submission. This is fresh
+authority for the necessary W18-only recovery, not a resume of the old campaign.
+Exactly one frozen W18 fit:2epochs,15,600updates,fixed ep1,seed5,batch16/chunk2000,
+same six final-fit teachers and all12,480 fitting members; no independent score.
+Preserve all17 verified completed models. ROOT bound the recovery to4wall-hours
+from source staging, with30minutes for collection, maximum3hours for the single
+fit and at most2 diagnosed engineering profile attempts. No new provider,
+foreign-process signals, unrelated fit or automatic competition upload.
+
+Active SSH session12250; use it without reconnecting. Original runtime F is
+/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1.
+New runtime R is /data/epanov_s/tabdata/runtime/w18-submit-recovery-20261103-r1.
+R/ROOT_AUTHORITY_R1.json sets hard deadline1793673140.7359152; R contains the
+actual source/execution bindings, independent reviews and per-phase receipts.
+The old F/source remains unchanged. New R/source differs from the old capsule
+only in final_submit_bridge_cache.py: bounded final-only2MiB metadata reader;
+the generic512000-byte cap and all numerical/lineage/payload checks stay unchanged.
+Actual cache694052bytes, all4 payload hashes/finite values and all17 checkpoint
+hashes have passed. The6 actual Linux serving import/CLI preflights passed.
+
+Detached end-to-end wrapper159305 owns the profile, fit, checked ZIP and GitHub
+delivery. Actual profile passed independent review after60/60 updates including
+warmup, finite loss/gradients, no OOM,5.96sequences/s. The canonical W18 fit is
+running in owned child group160868 on GPU3 (UUID76951d88-add3-0d6b-5bee-c0390915ca47).
+Fit receipt is F/control/final-submit-chain/receipts/fits/w18final_distilled_s5.json;
+live fit log R/logs/fit-r1.log. Do not launch a duplicate or replay the other17 fits.
+At successful completion, the qualified publisher uses R/source for W18 and
+F/source for its12 ancestors, requires all actual CPU ZIP gates, publishes a
+fresh20261103-r1 release as SemyonEpanov and verifies downloads. Its private token
+is0600 with inode-bound launcher cleanup. Previous terminal notes are historical.
+
+## Terminal audit — 3 November2026
+
+The latest verified final-fit outcome is17/18 completed models, with all17
+exit0 receipts and checkpoint bytes verified from the actual published archive.
+W18 never started: the controller's distillation-cache validation failed at the
+metadata read-size guard. The old controller says15complete because the two
+successful R3 TLeads were not adopted after the W18 failure; the combined17 count
+is established by actual receipts. No final submission ZIP or new valid/public
+score exists. See research/experiment_drafts/final-submit-all-labeled-20261031/
+RESULTS_20261103_R1.md. All following RUNNING/recovery notes are historical.
+
+The1November hard deadline has expired. Do not resume old fits or launch profiles
+from this status note. Preserve the17 verified models; a future W18-only recovery
+needs an identified metadata/cache repair and a fresh bounded execution scope.
+Session59354 has reset, and status connection97142 timed out before the banner;
+there is no live SSH session established by this audit. Do not loop connections.
+
+## SSH recovery and profile repair applied — 2026-11-01
+
+User confirms SSH is ready. Persistent session59354 is connected; use it without
+reconnecting. The reviewed profile environment/path repair is now APPLIED, not
+pending. The old waiting R3 group3643146 and W18 watcher group3612009 were verified
+against their launch PID/PGID/birth/argv and stopped before replacements started.
+No successor fit had started, no fit or foreign process received a signal, and
+the same live FBC identity was verified after the stop. The immutable proof is
+runtime receipts/profile-env-repair-r1.json, with replacement launch receipts.
+
+Current replacement wrappers: R3 successor-handoff3661172; TLead5 profiler3661173;
+TLead6 profiler3661176; W18 profiler3661178. The new R3 source is
+control-code-r8/scripts/final_submit_r3_successor_handoff.py, SHA256
+67ab60560a66f23957c4a626484f6aee2523c81fbd2414514574407f57c4bd67;
+proofs use receipts/final-submit-r3-r2. Watcher-r2 supplies child PYTHONPATH,
+uses TLead-r4/W18-r3 request keys directly under inputs and counts both failed
+pre-CUDA TLead startups inside the unchanged global24-profile limit. No duplicate
+dispatcher/profile launch or scientific retry is authorized by this status note.
+R2/FBC and early W18 publisher3647718 remain running; the original frozen recipes,
+18-fit cap and deadline are unchanged. The interruption notes below are historical.
+
+Both TLead profiles now have independent exit0 approvals and both canonical
+four-epoch fits are RUNNING (owned stage wrappers3667647/3667654), with actual
+epoch0 batch0 loss updates observed. Actual total is17/18 fits started,14 complete,
+three concurrent fits including FBC, and W18 awaiting its cache. The original
+controller alone still says15started until R3's final locked adoption; its raw
+counter must not be presented as the combined active-fit count.
+
+## Final-fit delivery acceleration — user instruction, 2026-11-01
+
+The user requests maximum delivery speed for the already running final refit.
+Keep healthy fits and frozen numerical recipes unchanged. Pipeline the three
+unstarted successors by their own dependencies and approved device profiles;
+do not make the two TLead fits wait for the unrelated FBC/W18 cache branch.
+Use the recorded exact-PID R8 supervisor pause and reviewed R3 successor
+handoff; keep R2 and its current fit/export processes running. Adopt successor
+results only after R2 releases its director lock, then resume that exact R8
+Python process. Preserve the original deadline and 18-fit cap.
+
+Prepare a separately identified W18-only CPU package after its own complete
+13-role ancestry, successful final fit receipt and actual package checks. It
+does not need TLead/LSTM completion. Continue the full-mixture delivery worker;
+the early package is a fallback, not a new quality or public-score claim.
+Session42104 subsequently closed with a transport reset; four bounded recovery
+connections timed out/closed before authentication, including one60s banner wait
+and a noninteractive no-QoS probe. Do not keep retrying without new evidence.
+The GitHub reporter still published at01:57:47UTC. Last verified remote state:14/18
+fits complete, FBC running, early W18 publisher3647718 waiting on11/13 ancestors.
+Both TLead engineering profiles failed before CUDA because the watcher did not
+pass the source root in PYTHONPATH. The local repair is reviewed and staged as
+`final-control-profile-env-repair-67ab6056.tar.gz`, but is NOT applied remotely.
+Before replacing the dispatcher, verify and stop ONLY the old waiting R3 wrapper
+3643146 and the waiting W18 profile watcher3612009 from their launch identities;
+no successor scientific fit had started at the last observation. Do not run old
+and replacement dispatchers together. Keep original R2/FBC and the working early
+publisher alive. Use one persistent recovery SSH connection; no foreign signals,
+connect loop or extra science. The repair keeps all requests directly in inputs,
+uses TLead profile keys-r4, W18-r3, state files-r2 and proofs final-submit-r3-r2.
+
+## Submission-only full-corpus refit — user instruction, 2026-10-31
+
+The user explicitly asks to prepare the strongest supported submission by fitting
+all supplied labeled data. [ADR0045](specs/adr/0045-submission-only-all-labeled-final-fit.md)
+is the final-only exception anticipated by ADR0044:12,480 fitting sequences,
+including official valid, zero independent evaluation. Research chronology and
+old clean controls remain unchanged. Freeze epochs/coefficients from prior
+evidence; no new primary-valid selection or score claim after final fitting.
+The scope is17 canonical TL3 dependencies plus the existing Source4 LSTM192x1
+fixed8E, actual-device profiles, bounded detached training/monitoring and an
+offline CPU submission package. No broader search, new provider or foreign stop.
+Use the one SSH session42104. ROOT must freeze measured execution bounds and
+source/plan/command/profile identities before costly fits. Human platform upload
+remains separate from preparation. See the [packet](research/experiment_drafts/final-submit-all-labeled-20261031/README.md).
+
+## Batch/TBPTT follow-up — user approval, 2026-10-31
+
+The user approved the quality-diagnosis follow-up. Exactly five fresh Source4
+GRU384x2 fits and the exact reused A/1301 endpoint form a three-arm/two-seed
+screen: A=batch256/TBPTT256/acc4, B=64/256/4, C=64/1024/1; fixed epoch4,
+seeds1301/1302. Six fixed5%/10% TL3 mixtures with existing GRU/LSTM/Transformer
+are also admitted. No new teachers, EMA, correlation stage or open-ended sweep.
+ROOT selected four node-hours from14:42:33UTC,7200seconds per fit,15minutes
+for collection, at most10 profiles (five pre-CUDA parser failures retained).
+Actual native profiles and independent reviews passed before the five fits.
+Use persistent noninteractive SSH session46044. Foreign NIER/MPS stay untouched.
+Official chronological primary validation, clean ancestry and exposed-valid
+interpretation remain binding. See the [execution packet](research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/README.md).
+Earlier six-hour/48-fit authority below is historical for the completed wave.
+
+This five-fit follow-up is now complete: all five fits/score exports exited0,
+all17 comparison rows are present, five configured-final weights are published
+and verified, and all owned GPU commands exited. See [results](research/experiment_drafts/multistage-optuna-b300-20261031/quality-execution-r1/RESULTS.md).
+Do not infer another fit or successor from this completed scope.
+
+## Four-stage Optuna search on eight B300 — user launch,2026-10-31
+
+The user explicitly authorizes the proposed base-regressor, fine-tuning,
+distillation and ensemble search on8B300, with graphs/checkpoints at every stage.
+Root bounds the initial wave by6node-hours from first GPU profile and48scientific
+fit attempts including auxiliary ancestors and finalist refits, with20minutes
+reserved for collection. Use the one SSH session13998 on10.14.14.26. Existing
+NIER jobs/MPS remain untouched; profile coexistence and adapt only owned workers.
+No new provider/billing or unrelated stop. Official chronology and no primary-valid
+fitting remain binding. The [contract](research/experiment_drafts/multistage-optuna-b300-20261031/CONTRACT.json)
+distinguishes inner train proxies from final full-valid evidence. Old completed
+fits and immutable sources remain unchanged. Frozen recipes, independent admission,
+actual profiles and durable bounded jobs are required before costly execution.
+
+## Graphs at every solution stage — user instruction,2026-10-31
+
+Save live and standalone graphs for base fitting, fine-tuning, distillation and
+ensemble/Optuna search. Retain source metrics and exact checkpoint/config/parent
+identities; show train/control/valid loss and score separately, objective terms,
+LR, gradients and resource telemetry. Mark scheduled, eligible inner-selected
+and best-observed moments distinctly, preserving ADR0044 and mask differences.
+The [stage monitoring contract](specs/stage-monitoring.md) is binding for future
+runs. This reminder adds no fit restart or resource allocation.
+
+## Heterogeneous teachers and TL3 ensemble comparison — user instruction, 2026-10-30
+
+The user explicitly authorizes execution of the proposed six-fit screen and a
+comparative ensemble table using TL3 as baseline (ЕД3 is its Russian keyboard
+spelling). Add one fresh LSTM and one causal TCN teacher, reuse the clean GRU and
+GALAM teachers, and fit four paired GRU students at seeds1301/1302. Preserve the
+frozen coefficients, four-epoch final endpoints and official chronological split.
+The baseline is canonical fresh TL3:34%W18 +33%tiedlead seed5 +33%tiedlead seed6;
+complete only the previously blocked W18 dependency, preserving16 completed fits.
+The fbc replacement mixture remains a separately named candidate. Necessary
+engineering profiles, fitting-only teacher exports, identified cache-binding
+repairs, monitoring, actual full-valid scoring and GitHub result updates are in
+scope. No extra28-model grid or correlation-fine-tune stage is admitted.
+Reuse the current single SSH connection and existing L4 node; no new provider,
+billing, foreign-process stop or unrelated cleanup. See the
+[execution packet](research/experiment_drafts/heterogeneous-tl3-20261030/README.md).
+
+This exact screen is now complete: six new four-epoch fits plus the original W18
+recovery, all12fixed comparisons and independent25output numerical verification.
+Seven-model checkpoint/source artifacts are published and actual GitHub downloads
+are SHA256-verified. See the [final results](research/experiment_drafts/heterogeneous-tl3-20261030/results/R3/README.md).
+All scoped GPU workers exited. Do not duplicate these fits or infer a new training
+wave from this completed authority; preserve the fixed endpoints and exposure.
+
+## Fresh TL3 train-only restoration — user instruction, 2026-10-28
+
+The user explicitly requests restoring TL3 training and evaluating the resulting
+models on our primary validation. Rebuild the historical three-member dependency
+graph from fresh official-train fits; do not reuse train+valid weights, teachers,
+normalizers or propensity. The source audit identifies17 predictor fits (54
+configured epochs) and a historical propensity estimator that cannot be fitted
+from official train because it has no is_scored labels. Replace only that learned
+propensity with neutral weighting and disable valid-mask weighting; document the
+adaptation instead of claiming exact historical TL3 reproduction. Preserve the
+seven currently running GALAM fits and immutable R9 source. Use free GPU0 first,
+then verified released resources; no new provider, billing, unrelated stop or
+cleanup. Freeze ancestor endpoint epochs before their full-valid results.
+See [the restoration packet](research/experiment_drafts/tl3-chronological-20261028/README.md).
+This scoped authorization supersedes the older eight-fit-only admission limit;
+it does not resume unrelated stopped fits or change ADR0044.
+
+## Explicit full eight-L4 launch — user instruction, 2026-10-28
+
+The user now explicitly authorizes full execution of the eight experiments in
+L4_ALLOCATION_V3.md, without changing their hypotheses: plain fresh GRU256x2,
+GALAM LSTM64, LSTM128, depth2, GRU72, history256, TBPTT256 and the declared
+attention/FFN-only Muon hybrid. Maximum20epochs, fixed official chronological
+primary validation, monitored checkpoints and the agreed bounded stop policy.
+Necessary data completion, runtime preparation, adapter repairs, meaningful
+CPU checks and actual-device engineering profiles are authorized prerequisites.
+Use the existing persistent SSH session; no reconnect loop, unrelated cleanup,
+foreign-service stops, additional scientific fits, billing or new instances.
+This supersedes earlier preparation-only scope for this exact eight-fit packet.
+
+## GRU history before revised L4 execution — user instruction, 2026-10-28
+
+The user accepts the revised twenty-epoch-cap layout in principle and requires
+understanding historical GRU presets/results first. The [historical audit](research/unified/reviews/GRU_PRESETS_HISTORY_AUDIT_20261028_R1.md)
+recovers scratch-versus-warm recipes and explicitly separates old train+valid
+ancestry from ADR0044. Plain GRU256x2 and schematic GALAM-GRU72 are different
+models. The audit starts no fit/profile or remote action and does not silently
+change checked v1 recipes. Prepare receiving-safe revised recipes from the new
+instruction; old stopped fits and exposed teachers remain historical.
+
+## Eight-L4 quality screen and RSNA cleanup — user instruction, 2026-10-28
+
+Prepare exactly one baseline plus seven quality-focused one-GPU fits. This wave
+supersedes the earlier six-fit/two-seed prospective panel only. Consult the user
+on the recipes, receiving setup and full launch. After a requested memory audit,
+the user explicitly authorized deleting RSNA: own project/cache/Python paths were
+removed and /data2 has74.58GB free. No training/profile/download was started.
+See [quality8 preparation and audit](research/experiment_drafts/galam-l4-quality8-20261028/README.md).
+Chronological policy, original-reconstruction uncertainty and old results remain.
+
+## Local GALAM dashboard and L4 preparation — user instruction, 2026-10-28
+
+Implement live local monitoring with selectable run/config comparisons, actual
+full-valid epoch evaluation and comparable train-eval curves, bounded sampled
+model/resource diagnostics, and explicit GRU/local-only adaptations. Preserve
+the original schematic LSTM recipe. Synthetic/demo plots are not scientific
+results. Original GALAM dimensions/training hyperparameters remain unknown.
+This task permits bounded CPU checks and one persistent read-only SSH inventory
+of the user-supplied L4 host; it does not restart stopped fits or allocate GPUs.
+See the [implementation and L4 packet](research/experiment_drafts/galam-l4-monitoring-20261028/README.md).
+
+## Mandatory chronological primary validation — user instruction, 2026-10-27
+
+Always use the Predictorium-style order **train | valid | public | small gap |
+private** for prospective primary model comparisons. This is a binding project
+decision, superseding the random/component-fold primary-selection defaults below.
+Use the official earlier training file for fitting and the independent later
+validation file for primary evaluation; preserve complete sequences. Never fit
+on primary valid, including preprocessing, normalizers, teachers, initializer
+ancestry or learned blend weights. Do not sort shuffled seq_ix to infer time.
+Additional chronological splits require actual source-qualified temporal order.
+Keep historical frozen sources and scores unchanged and label their protocol.
+An old random-fold score is not the new chronological primary endpoint.
+
+This records the user's required protocol. The linked March5 post describes
+Predictorium, not direct evidence of current Connectome timestamps. A missing
+time mapping must stay explicit. See [ADR0044](specs/adr/0044-chronological-primary-validation.md).
+
+Latest scope is **implementation and bounded CPU correctness checks only**:
+no training, GPU profiling, remote execution or resource allocation is resumed.
+Reconstruct GALAM from the supplied diagram with source-linked unknowns; do not
+call a guessed width/head/window/ensemble configuration an exact reproduction.
+The reconstruction packet is [here](research/experiment_drafts/galam-reconstruction-20261027/README.md).
+
 ## B300 precision amendment — user correction, 2026-10-24
 
 For PR32 / the high-compute R4 continuation, mandatory strict-FP32 model compute

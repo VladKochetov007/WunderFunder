@@ -1,0 +1,273 @@
+{
+  "approval_preflight_failures": [
+    {
+      "reason": "device_total_memory_bytes is a list, not a scalar; TypeError before continuation stop",
+      "rpc": "091"
+    },
+    {
+      "reason": "devices is nested in identity.runtime, not identity root; KeyError before continuation stop; RPC wrapper itself returned ok around inner returncode1",
+      "rpc": "092"
+    },
+    {
+      "reason": "20 successful updates produce two rank0 log rows at cadence10, not20 rows; assertion before continuation stop; RPC wrapper itself returned ok around inner returncode1",
+      "rpc": "094"
+    }
+  ],
+  "chronological_primary": {
+    "evaluation_sequences": 1873,
+    "fit_train": 10325,
+    "fit_valid": 0,
+    "role": "exposed development valid; no quality/public-gain claim",
+    "selected_rows": 3528273,
+    "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c"
+  },
+  "collection": "exact local copies of ROOT file-RPC result bytes; no SSH/GPU/process action by packet actor",
+  "native_source_preparation": {
+    "changed_files": {
+      "src/wnn/training/sequence_config_validation.py": {
+        "new_sha256": "03428415791ed3ca0b066411b40b678425d0242106919774d1ed1b0b7683a611",
+        "parent_sha256": "ad5108ae5c6cd18b400df4859dfbcc22704f9dbb00e32df4a196c0dd342ac8e6"
+      },
+      "src/wnn/training/sequence_monitor_diagnostics.py": {
+        "new_sha256": "1df367341aac769bc0f8eb86b498e698aa0753dde7dbfdc1673d3921fe7007c1",
+        "parent_sha256": "5593fe186c19b0925ae612266080099ba9b6270cfd4ac4d065eb4734c0c32d5c"
+      },
+      "src/wnn/training/sequence_monitor_gates.py": {
+        "new_sha256": "167f77f7d1326b36627ba781c71b29c07e72a78a361d1af3608d7ccdcefc544f",
+        "parent_sha256": "07e13a17f5546848fa78b7a67e954edeff519340a29844073ad1f15390c667ed"
+      }
+    },
+    "checkpoint_migration_authorized_by_this_receipt": false,
+    "external_archival_required_for_these_two_continuations": true,
+    "historical_S1_and_S2_changed": false,
+    "manifest": "/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1/source-gru-monitor-archive-r1-manifest.json",
+    "models_executed": 0,
+    "new_inventory_sha256": "a28f86a74c6d8617c6b4df37fbb9c972dd9148e2ea1e520a27888109a744e8f6",
+    "parent_inventory_sha256": "7d3324230effb050ff083b939e26ad638e5df5c5b72ea70b0f8aed169997db4a",
+    "schema": "wnn.gru-monitor-archive-source.v1",
+    "scope": "bounded GRU prefix gate telemetry; extended final_only monitoring allowed only without early_stopping",
+    "source": "/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1/source-gru-monitor-archive-r1"
+  },
+  "observed_supervisor_launch": {
+    "boundary_migration_proof_received": false,
+    "limitation": "point-in-time native launch receipt; not evidence of subsequent liveness, migration or completion",
+    "migration_or_new_trainer_updates_verified": false,
+    "owner": {
+      "birth": "2147894167",
+      "command": [
+        "/tmp/tabdata-lc-epanov_s-architecture-20261107-env/bin/python",
+        "/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1/control/gru-monitor-transition-r1/supervisor.py",
+        "--plan",
+        "/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1/control/gru-monitor-transition-r1/supervisor-plan.json",
+        "--plan-sha256",
+        "dfc7a770c5b5ac14e0b09edc3395d50aae7fdcf10924130966dd961104f55a83"
+      ],
+      "command_sha256": "30b7509c85258cb813c5c1b030951f50361308acce32ae44862835817826a4a9",
+      "cwd": "/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1",
+      "pgid": 2230567,
+      "pid": 2230567,
+      "plan_sha256": "dfc7a770c5b5ac14e0b09edc3395d50aae7fdcf10924130966dd961104f55a83",
+      "schema": "wnn.multistage-worker-owner.v1",
+      "started_at_epoch": 1794081825.5176508,
+      "started_at_utc": "2026-11-07T20:03:45.519122+00:00",
+      "status": "running"
+    },
+    "plan": {
+      "cells": [
+        [
+          101001,
+          0
+        ],
+        [
+          101002,
+          1
+        ]
+      ],
+      "deadline": 1794154066.717658,
+      "remaining_seconds": 72240.884922266,
+      "sha256": "dfc7a770c5b5ac14e0b09edc3395d50aae7fdcf10924130966dd961104f55a83",
+      "source": "/data2/lc-epanov_s/tabdata/runtime/architecture-execution-20261107-r1/source-gru-monitor-archive-r1"
+    },
+    "rpc": "097",
+    "state_supported_by_receipt": "launched/armed"
+  },
+  "passing_approval": {
+    "inner_returncode": 0,
+    "parity_checked_steps": [
+      10,
+      20
+    ],
+    "reported_max_differences": {
+      "gradient_norm_preclip": 0.0,
+      "label_loss": 0.0
+    },
+    "rpc": "096",
+    "source_data_state_checks_weakened": false,
+    "supervisor_plan_sha256": "dfc7a770c5b5ac14e0b09edc3395d50aae7fdcf10924130966dd961104f55a83"
+  },
+  "profiles": {
+    "101001": {
+      "identity_summary": {
+        "config": "46364a0f68eefea9464918e848bf2af5166af4e2d65fbfb78d16d7c71d969325",
+        "devices": [
+          {
+            "capability": [
+              8,
+              9
+            ],
+            "local_rank": 0,
+            "name": "NVIDIA L4",
+            "rank": 0,
+            "total_memory_bytes": 23670685696,
+            "uuid": "222adc44-ecd3-a645-cf7e-ddda9d495f7a"
+          }
+        ],
+        "source": "99ca81ddbe76a1a4004b8c0395edc67e7977428b7c41f384750619e9f5a4796e",
+        "total_updates": 77520,
+        "world": 1
+      },
+      "logged_source_parity": {
+        "gradient_norm_preclip_max_absolute_difference": 0.0,
+        "label_loss_max_absolute_difference": 0.0,
+        "limit": "two logged updates per profile; not a full-training bitwise-equivalence proof",
+        "rows_per_source": 2,
+        "sampled_rows": [
+          {
+            "gradient_norm_preclip": 1.0469131469726562,
+            "label_loss": 2.0991626187196406,
+            "step": 10
+          },
+          {
+            "gradient_norm_preclip": 1.3745020627975464,
+            "label_loss": 2.0732859440426683,
+            "step": 20
+          }
+        ],
+        "steps": [
+          10,
+          20
+        ],
+        "training_telemetry_every_steps": 10
+      },
+      "native_profile_summary": {
+        "elapsed_seconds": 3.37751130387187,
+        "errors": [],
+        "peak_reserved_bytes": 1306525696,
+        "status": "profile_complete",
+        "updates": 20
+      },
+      "scientific_fits_added": 0
+    },
+    "101002": {
+      "identity_summary": {
+        "config": "fccc9a5bd2bd10eac158c6a647a5feea5368e18e88c4d0ed62bf3d71188d875b",
+        "devices": [
+          {
+            "capability": [
+              8,
+              9
+            ],
+            "local_rank": 0,
+            "name": "NVIDIA L4",
+            "rank": 0,
+            "total_memory_bytes": 23670685696,
+            "uuid": "bce838c4-097e-0623-7b67-6a97f3778510"
+          }
+        ],
+        "source": "99ca81ddbe76a1a4004b8c0395edc67e7977428b7c41f384750619e9f5a4796e",
+        "total_updates": 77520,
+        "world": 1
+      },
+      "logged_source_parity": {
+        "gradient_norm_preclip_max_absolute_difference": 0.0,
+        "label_loss_max_absolute_difference": 0.0,
+        "limit": "two logged updates per profile; not a full-training bitwise-equivalence proof",
+        "rows_per_source": 2,
+        "sampled_rows": [
+          {
+            "gradient_norm_preclip": 1.0170482397079468,
+            "label_loss": 1.915838230954347,
+            "step": 10
+          },
+          {
+            "gradient_norm_preclip": 0.8805330991744995,
+            "label_loss": 1.883859800183235,
+            "step": 20
+          }
+        ],
+        "steps": [
+          10,
+          20
+        ],
+        "training_telemetry_every_steps": 10
+      },
+      "native_profile_summary": {
+        "elapsed_seconds": 3.34066566452384,
+        "errors": [],
+        "peak_reserved_bytes": 1306525696,
+        "status": "profile_complete",
+        "updates": 20
+      },
+      "scientific_fits_added": 0
+    }
+  },
+  "raw_receipts": {
+    "080-build-gru-archive-source": {
+      "bytes": 1805,
+      "path": "native_receipts/080-build-gru-archive-source.json",
+      "root_rpc_time_utc": "2026-11-07T19:28:58.286257+00:00",
+      "sha256": "da07dd31db055a888f299133f3c7c28268f38349002f191fa6fccc3f0c7e82ee"
+    },
+    "089-gru-r5-profile-results": {
+      "bytes": 2603,
+      "path": "native_receipts/089-gru-r5-profile-results.json",
+      "root_rpc_time_utc": "2026-11-07T19:53:20.882514+00:00",
+      "sha256": "580e7c2930e6c8822b2070b25f04477ba423be9b519609af873624da8d46178f"
+    },
+    "091-approve-gru-profiles-build-plan": {
+      "bytes": 770,
+      "path": "native_receipts/091-approve-gru-profiles-build-plan.json",
+      "root_rpc_time_utc": "2026-11-07T19:55:41.021874+00:00",
+      "sha256": "e3f0642d6c1b79aed0963b0c034ea66d7a8531a860a8666dfa04cbceafea22dd"
+    },
+    "092-approve-gru-profiles-r2": {
+      "bytes": 823,
+      "path": "native_receipts/092-approve-gru-profiles-r2.json",
+      "root_rpc_time_utc": "2026-11-07T20:01:46.035869+00:00",
+      "sha256": "fa76e53b760961c3e13f71d6995fe381351b9e25f2c62e0795acbd173df5be34"
+    },
+    "093-profile-schema": {
+      "bytes": 1041,
+      "path": "native_receipts/093-profile-schema.json",
+      "root_rpc_time_utc": "2026-11-07T20:02:06.887917+00:00",
+      "sha256": "1623b4afeab93a9901e26c9c0de10c4611796060f8a86330d5344342c9f8030c"
+    },
+    "094-approve-gru-profiles-r3": {
+      "bytes": 675,
+      "path": "native_receipts/094-approve-gru-profiles-r3.json",
+      "root_rpc_time_utc": "2026-11-07T20:02:28.256098+00:00",
+      "sha256": "1177bee59e1722599c999713b4dc59ddb23e6b6803bbb06a27f69f305d42a7b3"
+    },
+    "095-profile-row-schema": {
+      "bytes": 2191,
+      "path": "native_receipts/095-profile-row-schema.json",
+      "root_rpc_time_utc": "2026-11-07T20:02:50.318379+00:00",
+      "sha256": "2fe87f8d7555efe944b0d345223d9d70a364e2a7dc2d788a4801e78f58331f9f"
+    },
+    "096-approve-gru-profiles-r4": {
+      "bytes": 619,
+      "path": "native_receipts/096-approve-gru-profiles-r4.json",
+      "root_rpc_time_utc": "2026-11-07T20:03:18.480992+00:00",
+      "sha256": "97d2ad20208b9d596204ba05f53ac2dedfbc34cc495fb3578ac47a5b0615d4ca"
+    },
+    "097-arm-gru-transition-supervisor": {
+      "bytes": 1467,
+      "path": "native_receipts/097-arm-gru-transition-supervisor.json",
+      "root_rpc_time_utc": "2026-11-07T20:03:45.735330+00:00",
+      "sha256": "4016070089888e0ea4702793fa2d78e2f0e38ebce65e8c7277f5c1562c6b339e"
+    }
+  },
+  "schema": "wnn.gru-monitor-native-preparation.v1",
+  "scope": "two existing GRU fits, seeds101001/101002; engineering/source-monitor transition only",
+  "trainer_source_sha256": "99ca81ddbe76a1a4004b8c0395edc67e7977428b7c41f384750619e9f5a4796e"
+}

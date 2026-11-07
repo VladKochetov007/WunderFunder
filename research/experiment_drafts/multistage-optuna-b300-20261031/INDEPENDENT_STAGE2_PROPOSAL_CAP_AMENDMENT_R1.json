@@ -1,0 +1,83 @@
+{
+  "schema": "wnn.multistage-independent-runtime-projection-amendment.v1",
+  "review_id": "INDEPENDENT_STAGE2_PROPOSAL_CAP_AMENDMENT_R1",
+  "reviewer": "multistage_independent_critic",
+  "reviewer_role": "independent specification/data/protocol critic",
+  "reviewed_at_utc": "2026-10-31T02:43:36Z",
+  "status": "approved",
+  "engineering_admission_only": true,
+  "scientific_candidate_promotion": false,
+  "override_path": "research/experiment_drafts/multistage-optuna-b300-20261031/STAGE2_PROPOSAL_CAP_OVERRIDE_R1.json",
+  "override_sha256": "e59d3a312099263636b4b63e89eb65d00a7c44e5d37aa479b35fbb585521af10",
+  "bindings": {
+    "continuation_path": "research/experiment_drafts/multistage-optuna-b300-20261031/recipes/R2_CONTINUATION.json",
+    "continuation_sha256": "03796b7cd5f1d57c6aa44590acf51edaab28f9b036cdaaeeb8ae5ef88e165562",
+    "recipe_review_path": "research/experiment_drafts/multistage-optuna-b300-20261031/INDEPENDENT_R2_RECIPE_REVIEW.json",
+    "recipe_review_sha256": "2d0dd946af20a7c476d54a15a35d898e6402d52074510810afa504a2c913b8bf",
+    "campaign_run_json_sha256": "d1f32df19d671bab3bd648bfc004eec65dced7b8d6815076c29c3e5dd4baae8e",
+    "primary_split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "auxiliary_split_sha256": "26b448bad7f60612cea482f4abaf5f184e5a724228eef227d7e78a8155190075"
+  },
+  "decision": {
+    "stage": 2,
+    "field": "max_trials",
+    "expected_existing_value": 6,
+    "approved_derived_value": 7,
+    "meaning": "total Stage2 proposal count, including failed proposals",
+    "scope": "one sidecar-only Stage2 proposal ceiling change"
+  },
+  "review_basis": {
+    "frozen_continuation_review_status": "approved",
+    "continuation_stage2_additional_fit_cap": 6,
+    "runtime_stage2_fit_cap": 8,
+    "stage2_global_fit_cap": 8,
+    "global_fit_cap": 48,
+    "global_profile_attempt_cap": 56,
+    "proposal_arithmetic": "six effective candidate proposals plus one known zero-update failed proposal equals seven total proposals",
+    "known_trial0_failure": {
+      "stage": 2,
+      "trial_number": 0,
+      "reported_rank0_log": "absent",
+      "reported_native_profile_receipt": "absent",
+      "reported_exit_code": 1,
+      "classification": "failed before optimizer updates; censored implementation/profile attempt, not a negative scientific result",
+      "source": "root/operator report; root must verify exact node artifacts before applying override"
+    },
+    "existing_approved_profile_trials": [
+      1,
+      2,
+      3
+    ],
+    "existing_queued_proposal_trials": [
+      4,
+      5
+    ],
+    "single_additional_proposal_number": 6
+  },
+  "unchanged_limits": {
+    "stage2_additional_effective_fits": 6,
+    "stage2_fit_cap": 8,
+    "global_fit_cap": 48,
+    "global_profile_attempt_cap": 56,
+    "campaign_wall_seconds_from_first_profile": 21600,
+    "collection_reserve_seconds": 1200,
+    "max_profile_wall_seconds": 180,
+    "all_data_source_split_and_training_source_hashes": true,
+    "r6_approved_profiles_1_2_3_reprofiled": false,
+    "admission_and_campaign_run_bytes_rewritten": false,
+    "stage3_proposal_cap_changed": false,
+    "stage3_max_trials_remains": 12
+  },
+  "application_preconditions": [
+    "Verify the unchanged runtime admission currently has stage2.max_trials == 6 and apply only the sidecar override to 7.",
+    "Verify trial 0 has no rank0 log or native profile receipt and the recorded process exit code is 1.",
+    "Preserve the R6 approvals and profile bytes for trials 1, 2, and 3; do not reprofile them.",
+    "Keep trials 4 and 5 and the one permitted new proposal 6 under existing independent profile admission and fit ledger controls.",
+    "Do not increase any profile, fit, wall-clock, memory, source, data, or evaluation cap."
+  ],
+  "review_limits": [
+    "The continuation and prior independent recipe review bytes were hashed locally and match their approved bindings.",
+    "The current runtime admission value, failed trial 0 details, and live proposal states were supplied by root/operator and must be checked against node artifacts when the sidecar is applied.",
+    "This receipt approves only the bounded Stage2 proposal cap projection; it does not amend the recipe, fit cap, campaign deadline, profile budget, or scientific protocol."
+  ]
+}

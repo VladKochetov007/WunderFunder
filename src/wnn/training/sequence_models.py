@@ -1,4 +1,4 @@
-"""Causal Transformer and canonical GRU adapters for raw-112 sequence training."""
+"""Causal Transformer and canonical GRU adapters for sequence training."""
 
 from __future__ import annotations
 
@@ -8,74 +8,23 @@ import torch
 from torch import Tensor, nn
 from torch.utils.checkpoint import checkpoint
 
-from wnn.nn import RNNModel
 from wnn.training.sequence_attention import CausalTransformerBlock, TransformerState
+from wnn.training.sequence_compact_config import COMPACT_ARCHITECTURES, compact_model_settings
 from wnn.training.sequence_compile import compile_transformer_blocks
+from wnn.training.sequence_features import RAW_INPUT_MODE, sequence_input_width
+from wnn.training.sequence_gru_adapter import GRUSequenceAdapter
+from wnn.training.sequence_lstm_adapter import LSTMSequenceAdapter
 from wnn.training.sequence_model_helpers import HintProjector as _HintProjector
 from wnn.training.sequence_model_helpers import detach_state as detach_state
+from wnn.training.sequence_model_helpers import (
+    validate_sequence_fp32_environment,
+    validate_sequence_input_shape,
+)
 from wnn.training.sequence_precision import (
     PRECISION_MODES,
     checkpoint_context_fn,
     configure_precision_mode,
-    validate_forward_state,
 )
-
-RAW_INPUT_WIDTH = 112
-
-
-def _check_fp32_environment(model: nn.Module, values: Tensor, precision_mode: str) -> None:
-    if values.dtype != torch.float32:
-        raise TypeError("sequence models require float32 inputs")
-    if any(parameter.dtype != torch.float32 for parameter in model.parameters()):
-        raise TypeError("sequence models require float32 parameters")
-    if any(buffer is not None and buffer.dtype != torch.float32 for buffer in model.buffers()):
-        raise TypeError("sequence models require float32 buffers")
-    validate_forward_state(precision_mode, values.device.type)
-
-
-def _check_input_shape(values: Tensor) -> None:
-    if values.ndim != 3 or values.shape[-1] != RAW_INPUT_WIDTH:
-        raise ValueError("sequence models accept only raw input shaped [batch, rows, 112]")
-    if values.shape[0] <= 0 or values.shape[1] <= 0:
-        raise ValueError("sequence batches and row chunks must be non-empty")
-
-
-class _GRUSequenceAdapter(RNNModel):
-    """Expose canonical GRU hidden rows for hints without changing its prediction path."""
-
-    def __init__(
-        self,
-        hidden: int,
-        layers: int,
-        dropout: float,
-        hint_dim: int,
-        hint_mode: str,
-        precision_mode: str,
-    ) -> None:
-        super().__init__(
-            RAW_INPUT_WIDTH, hidden, layers, dropout, n_out=2, cell="gru", enc="linear"
-        )
-        self.precision_mode = precision_mode
-        self.hint_projector = _HintProjector(hidden, hint_dim, hint_mode)
-
-    def forward(self, values: Tensor, state: Tensor | None = None) -> tuple[Tensor, Tensor, Tensor]:
-        """Return canonical GRU predictions, hidden-state hints, and recurrent state."""
-        _check_input_shape(values)
-        _check_fp32_environment(self, values, self.precision_mode)
-        if state is not None and (
-            state.shape != (self.gru.num_layers, values.shape[0], self.hidden)
-            or state.device != values.device
-            or state.dtype != torch.float32
-        ):
-            raise ValueError(
-                "GRU state must match the model layers, batch, device, and float32 dtype"
-            )
-        encoded = self.encode((values - self.mean) / self.std)
-        recurrent, next_state = self.gru(encoded, state)
-        prediction = self.head(torch.cat((recurrent, encoded), dim=-1))
-        # Autocast can return BF16 recurrent state; the next chunk's public
-        # streaming interface and saved activation state remain FP32.
-        return prediction, self.hint_projector(recurrent), next_state.float()
 
 
 class _TransformerSequenceAdapter(nn.Module):
@@ -94,6 +43,7 @@ class _TransformerSequenceAdapter(nn.Module):
         hint_mode: str,
         precision_mode: str,
         attention_backend: str,
+        input_feature_mode: str,
     ) -> None:
         super().__init__()
         self.hidden = hidden
@@ -104,9 +54,11 @@ class _TransformerSequenceAdapter(nn.Module):
         self.checkpoint_blocks = checkpoint_blocks
         self.precision_mode = precision_mode
         self.attention_backend = attention_backend
-        self.register_buffer("mean", torch.zeros(RAW_INPUT_WIDTH, dtype=torch.float32))
-        self.register_buffer("std", torch.ones(RAW_INPUT_WIDTH, dtype=torch.float32))
-        self.input_projection = nn.Linear(RAW_INPUT_WIDTH, hidden)
+        input_width = sequence_input_width(input_feature_mode)
+        self.input_feature_mode = input_feature_mode
+        self.register_buffer("mean", torch.zeros(input_width, dtype=torch.float32))
+        self.register_buffer("std", torch.ones(input_width, dtype=torch.float32))
+        self.input_projection = nn.Linear(input_width, hidden)
         self.blocks = nn.ModuleList(
             CausalTransformerBlock(hidden, heads, ff_width, dropout, attention_backend)
             for _ in range(layers)
@@ -152,8 +104,8 @@ class _TransformerSequenceAdapter(nn.Module):
         state: TransformerState | None = None,
     ) -> tuple[Tensor, Tensor, TransformerState]:
         """Predict each raw row using only current and bounded past sequence rows."""
-        _check_input_shape(values)
-        _check_fp32_environment(self, values, self.precision_mode)
+        validate_sequence_input_shape(values, self.mean.numel())
+        validate_sequence_fp32_environment(self, values, self.precision_mode)
         previous = self._state_for_batch(values, state)
         position = previous.next_position
         hidden = self.input_projection((values - self.mean) / self.std)
@@ -227,8 +179,8 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
             hint_dim, and hint_projection are optional.
 
     Returns:
-        A module accepting raw ``[batch, rows, 112]`` values and returning
-        predictions, hints, and resumable sequence state.
+        A module accepting its configured causal input width and returning predictions,
+        hints, and resumable sequence state.
 
     Raises:
         TypeError: If a setting has the wrong type or the default dtype is reduced.
@@ -237,8 +189,34 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     if torch.get_default_dtype() != torch.float32:
         raise TypeError("sequence model construction requires the default dtype to be float32")
     architecture = config.get("architecture")
-    if architecture not in ("transformer", "gru"):
-        raise ValueError("model config architecture must be 'transformer' or 'gru'")
+    input_feature_mode = config.get("input_feature_mode", RAW_INPUT_MODE)
+    if not isinstance(input_feature_mode, str):
+        raise TypeError("model input_feature_mode must be a string")
+    sequence_input_width(input_feature_mode)
+    if architecture in COMPACT_ARCHITECTURES:
+        settings = compact_model_settings(config)
+        configure_precision_mode("fp32")
+        if architecture == "gru_local":
+            from wnn.training.sequence_gru_local import GRULocalSequenceAdapter
+
+            return GRULocalSequenceAdapter(settings)
+        if architecture == "mamba2":
+            from wnn.training.sequence_mamba2 import Mamba2SequenceAdapter
+
+            return Mamba2SequenceAdapter(settings)
+        from wnn.training.sequence_ema_tabm import EMATabMStyleSequenceAdapter
+
+        return EMATabMStyleSequenceAdapter(settings)
+    if architecture == "galam":
+        if input_feature_mode != RAW_INPUT_MODE:
+            raise ValueError("GALAM sequence adapters accept only raw112 inputs")
+        from wnn.training.galam_adapter import GALAMSequenceAdapter
+
+        return GALAMSequenceAdapter(
+            {name: value for name, value in config.items() if name != "input_feature_mode"}
+        )
+    if architecture not in ("transformer", "gru", "lstm"):
+        raise ValueError("model config architecture must be transformer, gru, or lstm")
     hidden = _integer_option(config, "hidden")
     layers = _integer_option(config, "layers")
     heads = _integer_option(config, "heads")
@@ -273,7 +251,19 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
             raise ValueError("compile_blocks requires a Transformer model")
         if attention_backend != "math":
             raise ValueError("attention backend selection requires a Transformer model")
-        return _GRUSequenceAdapter(hidden, layers, dropout, hint_dim, hint_mode, precision_mode)
+        return GRUSequenceAdapter(
+            hidden,
+            layers,
+            dropout,
+            hint_dim,
+            hint_mode,
+            precision_mode,
+            input_feature_mode,
+        )
+    if architecture == "lstm":
+        if compile_blocks or attention_backend != "math" or input_feature_mode != RAW_INPUT_MODE:
+            raise ValueError("LSTM supports raw112 inputs without Transformer-only options")
+        return LSTMSequenceAdapter(hidden, layers, dropout, hint_dim, hint_mode, precision_mode)
     if hidden % heads != 0 or (hidden // heads) % 2 != 0:
         raise ValueError("Transformer hidden width must divide evenly into even rotary head widths")
     ff_width = int(hidden * ff_multiplier)
@@ -291,6 +281,7 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
         hint_mode,
         precision_mode,
         attention_backend,
+        input_feature_mode,
     )
     compile_transformer_blocks(model.blocks, enabled=compile_blocks)
     return model

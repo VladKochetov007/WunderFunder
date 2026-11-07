@@ -33,10 +33,8 @@ def configure_checkpoint_policy(args: argparse.Namespace, parser: argparse.Argum
         parser.error("--checkpoint-epoch requires --checkpoint-policy fixed")
     if args.no_eval_during_fit and args.checkpoint_policy != "fixed":
         parser.error("--no-eval-during-fit requires --checkpoint-policy fixed")
-    if args.split_manifest and (
-        not (args.no_eval_during_fit and args.checkpoint_policy == "fixed")
-    ):
-        parser.error("campaign manifests require fixed checkpoints and --no-eval-during-fit")
+    if args.split_manifest and args.checkpoint_policy != "fixed":
+        parser.error("campaign manifests require fixed checkpoints")
 
 
 def checkpoint_selected(

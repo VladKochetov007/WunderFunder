@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/serving-w18-package-r3/scripts/package_final_w18.py", line 922, in <module>
+    main()
+  File "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/serving-w18-package-r3/scripts/package_final_w18.py", line 918, in main
+    print(json.dumps(_write_package(args), sort_keys=True, indent=2, allow_nan=False))
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/serving-w18-package-r3/scripts/package_final_w18.py", line 750, in _write_package
+    final_receipt = _build_final_w18_receipt(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/serving-w18-package-r3/scripts/package_final_w18.py", line 615, in _build_final_w18_receipt
+    lineage_records = _unique_lineage_records(raw_closure, membership)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/serving-w18-package-r3/scripts/package_final_w18.py", line 508, in _unique_lineage_records
+    raise ValueError(f"W18 closure must contain the exact 13 roles; missing={missing}, extra={extra}")
+ValueError: W18 closure must contain the exact 13 roles; missing=['tl3final_ffull_s3', 'tl3final_ffull_s4', 'tl3final_fmu128_s3', 'tl3final_fmu128_s4', 'tl3final_frawW_s3', 'tl3final_frawW_s3ft', 'tl3final_frawW_s4', 'tl3final_frawW_s4ft', 'tl3final_orgbase'], extra=[]

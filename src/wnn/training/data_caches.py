@@ -9,6 +9,8 @@ from wnn.outcomes import N_SP_AUX
 from wnn.splits import file_sha256
 from wnn.spread_aux import validate_spread_cache
 from wnn.training.cache_identity import bind_fold_teachers, prop_cache_path
+from wnn.training.final_submit_bridge_cache import validate_final_distillation_cache
+from wnn.training.final_submit_bridge_teachers import bind_final_fit_teachers
 from wnn.training.state import TrainingRun
 
 
@@ -18,6 +20,7 @@ def bind_caches(run: TrainingRun) -> None:
     ap = run.options.ap
     args = run.options.args
     campaign_split = run.data.campaign_split
+    final_fit_membership = run.data.final_fit_membership
     distill_cache_validation = run.data.distill_cache_validation
     extra_valid = run.data.extra_valid
     frontier_cache_binding = run.data.frontier_cache_binding
@@ -36,7 +39,11 @@ def bind_caches(run: TrainingRun) -> None:
             (t.partition("*")[0], float(t.partition("*")[2] or 1.0))
             for t in args.distill.split(",")
         ]
-        if campaign_split is not None:
+        if final_fit_membership is not None:
+            args.distill_provenance = bind_final_fit_teachers(
+                teachers, final_fit_membership, environment.root
+            )
+        elif campaign_split is not None:
             used = {"train": ("train",), "valid": ("valid",)}.get(
                 args.train_source, ("train", "valid")
             )
@@ -143,14 +150,31 @@ def bind_caches(run: TrainingRun) -> None:
         if not cache_root.is_absolute():
             cache_root = environment.root / cache_root
         cache_root = cache_root.resolve()
-        distill_cache_validation = validate_distillation_cache(
-            cache_root,
-            environment.root,
-            campaign_split,
-            args.distill_cache_variant,
-            require_families=args.distill_family_weight > 0,
-        )
+        if final_fit_membership is not None:
+            distill_cache_validation = validate_final_distillation_cache(
+                cache_root,
+                final_fit_membership,
+                args.distill_cache_variant,
+                require_families=args.distill_family_weight > 0,
+            )
+        else:
+            if campaign_split is None:
+                ap.error("distillation cache requires a validated split or final-fit manifest")
+            distill_cache_validation = validate_distillation_cache(
+                cache_root,
+                environment.root,
+                campaign_split,
+                args.distill_cache_variant,
+                require_families=args.distill_family_weight > 0,
+            )
         args.distill_cache_root = str(cache_root)
+        if (
+            distill_cache_validation["metadata"].get("format")
+            == "wnn.heterogeneous-teacher-pool.v1"
+        ):
+            from wnn.heterogeneous_pool_cache import validate_pool_student_options
+
+            validate_pool_student_options(args)
         if frontier_contract is not None:
             frontier_cache_binding = student_frontier.validate_cache_binding(
                 environment.root,

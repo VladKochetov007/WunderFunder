@@ -12,6 +12,7 @@ import torch
 from attrs import define
 from torch.utils.data import DataLoader
 
+from wnn.final_submit_manifest import FinalFitMembership
 from wnn.outcomes import ReadoutMoments
 from wnn.resources import DutyCycle
 from wnn.splits import CampaignSplit
@@ -47,6 +48,7 @@ class DataState:
     distill_cache_validation: dict[str, Any] | None = None
     eligible_valid_count: int | None = None
     extra_valid: np.ndarray | None = None
+    final_fit_membership: FinalFitMembership | None = None
     fit_subset: dict[str, Any] | None = None
     frontier_cache_binding: dict[str, Any] | None = None
     frontier_contract: dict[str, Any] | None = None
@@ -67,6 +69,9 @@ class DataState:
     teachers: list[tuple[str, float]] | None = None
     thin: tuple[float, float, float] | tuple[float, float, float, str] | None = None
     train_ds: torch.utils.data.Dataset | None = None
+    train_eval_loader: DataLoader | None = None
+    train_eval_members_sha256: str | None = None
+    train_eval_row_groups: list[int] | None = None
     train_idx: np.ndarray | None = None
     train_loader: DataLoader | None = None
     train_split: str | None = None

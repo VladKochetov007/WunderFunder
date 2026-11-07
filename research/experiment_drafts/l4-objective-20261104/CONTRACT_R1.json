@@ -1,0 +1,119 @@
+{
+  "id": "E-L4-OBJECTIVE-20261104",
+  "status": "authorized_preparing",
+  "authority": "Latest user: do the best next experiments toward a serious improvement of the final metric. Existing twelve-fit cycle remains unchanged.",
+  "objective_mode": "competition",
+  "objective": "Improve an eligible fixed TL3/student endpoint; no public gain forecast from proxy results.",
+  "validation": {
+    "split_manifest": "/data2/lc-epanov_s/tabdata/runtime/launch-20261028/data-preparation-r1/chronological_primary.json",
+    "split_sha256": "0c4de3a253d23b3a5d5ca73b7aeb7fcae2b974673e4f9ec51e94e593c59d114c",
+    "fit_train_sequences": 10325,
+    "fit_valid_sequences": 0,
+    "primary_valid_sequences": 1873,
+    "primary_scored_rows": 3528273,
+    "metric": "global_wp_clip2_v1; official is_scored AND rows>=99",
+    "ancestry": "Only fitting train members may fit normalizers, teachers, initializers, priors or learned transformations.",
+    "exposure": "Previously inspected development valid; not fresh confirmation. No seq_ix chronology or replacement random folds."
+  },
+  "budget": {
+    "new_scientific_fits_max": 6,
+    "teacher_fits": 4,
+    "selected_family_student_fits_max": 2,
+    "reused_control_fits": 2,
+    "wall_seconds_from_receiving_authority": 10800,
+    "collection_reserve_seconds": 2700,
+    "diagnostic_max_seconds": 300,
+    "diagnostic_optimizer_updates": 0,
+    "new_output_cap_bytes": 2500000000,
+    "minimum_free_data2_bytes": 3000000000,
+    "external_output_reserve_bytes": 500000000,
+    "aggregate_cpu_cores": 64,
+    "aggregate_memory_bytes": 429496729600,
+    "fit_gpus": [
+      2,
+      3,
+      4,
+      5
+    ],
+    "new_billing": false
+  },
+  "runtime": "/data2/lc-epanov_s/tabdata/runtime/l4-objective-20261104-r1",
+  "authority_receipt": "control/ROOT_AUTHORITY_R1.json",
+  "diagnostic": {
+    "source_controls": "PR61 GRU256x2 seeds1001/1002 checkpoints ep2/ep3",
+    "batches": 8,
+    "batch_size": 32,
+    "chunk_rows": 1000,
+    "window_starts": [
+      1000,
+      3000,
+      5000,
+      7000,
+      9000,
+      11000,
+      13000,
+      15000
+    ],
+    "same_groups_all_checkpoints": "First256 noncorrupt fitting groups in recorded seed1001 order; official fit membership verified for every checkpoint. No split changes.",
+    "terms": [
+      "main WMSE",
+      "0.3 structural",
+      "0.3 next",
+      "combined"
+    ],
+    "state_updates": false,
+    "scope": "Training-only derivative diagnosis; not model quality or independent confirmation."
+  },
+  "second_arm_rule": {
+    "condition": "At ep3, BOTH seeds have mean GRU aux-sum/main cosine <= -0.05 and median GRU aux/main norm ratio >=0.5 across the eight frozen batches.",
+    "if_true": "aux_late: hold aux_struct/aux_next=.3 through half of optimizer attempts, then linearly taper to zero at the last planned update; clip1 unchanged.",
+    "if_false": "lr_half: peak LR0.0005 vs0.001, clip1 and constant auxiliaries unchanged; integrated decoupled weight decay also changes.",
+    "on_diagnostic_execution_failure": "Preserve attempt; use source-reviewed aux_late as a prior-motivated unconfirmed hypothesis, not evidence of conflict. No blind GPU retry."
+  },
+  "teachers": {
+    "architecture": "GRU256x2 native211, all23 main/struct/next output rows preserved",
+    "seeds": [
+      1001,
+      1002
+    ],
+    "epochs": 4,
+    "fixed_checkpoint_epoch_zero_based": 3,
+    "arm1": "clip5 only",
+    "arm2": "Frozen by training-only diagnostic rule before any new teacher fit.",
+    "baseline": "Exact PR61 clip1 scratch controls; same normalizer membership, seeded sample order and initialization; default-off source path audited.",
+    "other_args": "Reuse original teacher argv; change only run name and declared treatment. Strict FP32/noAMP/noTF32."
+  },
+  "students": {
+    "selection_rule": "Among the two new arms, choose the highest two-seed mean fixed-ep3 full-valid WP only if its mean exceeds reused matched-control mean by >=0.001. Tie within1e-6 resolves to clip5. Otherwise do not spend the optional two student fits. This is selection on exposed development data.",
+    "count_max": 2,
+    "seeds": [
+      1001,
+      1002
+    ],
+    "recipe": "Same train-only W18 GRU256x2/FBC initializer, FP32, AdamW1e-4, batch16/chunk2000,2epochs/fixedep1; change only declared teacher target relative to control.",
+    "target_formula": "T_new=0.8*T_old+0.2*0.8125*mean(clip(new_family_prediction,-2,2)); native training then retains alpha0.7 and its existing clipping/weighting. The0.8125 factor preserves the old preweighted target amplitude.",
+    "parent": "Same clean tl3c_fbc1k_s5@ep3 initializer and qualified PR60 base/family cache.",
+    "target_storage": "Stream both selected teachers directly into one FP32 fit-order target array, no full intermediate train prediction banks. Each model uses its own checkpoint normalization.",
+    "retention": "New target payload is explicitly transient; remove only after both student fits, prediction exports, canonical grades and retained metadata/checkpoints. Never remove old PR60 or current12 caches."
+  },
+  "comparison": {
+    "controls": "Reuse original PR61 teacher controls and PR60 W18 student controls.",
+    "metric": "Unchanged canonical global_wp_clip2_v1 on full official valid mask",
+    "endpoint": "Fixed .9 TL3 + .1 candidate; report all seeds and controls",
+    "useful_teacher_delta": 0.001,
+    "useful_fixed_blend_delta": 0.0005,
+    "numerical_effect_prior": null,
+    "uncertainty": "Two seeds; exposed development. Teacher-based family selection adds exposure, not independent confirmation.",
+    "deployable_primary": "Two-seed W18 singleton gain over matched PR60 W18 controls; identical compact serving architecture. TL3 mixture is a research endpoint until actual CPU serving admission.",
+    "useful_student_singleton_delta": 0.001
+  },
+  "requirements": [
+    "Run actual-shape finite FP32 profiles before new fits.",
+    "Save checkpoints, train/valid curves, gradients and source/parent identities.",
+    "Use existing run_cell/owned-command/scoring/dashboard helpers; no new controller framework.",
+    "Do not modify current12 numerical settings or foreign processes.",
+    "Freeze receiving identities from actual bytes, never transcribe terminal hashes.",
+    "Post GitHub updates as SemyonEpanov with separate scientific and operational outcomes.",
+    "Do not promote an unserved TL3 mixture as a ready submission; validate the actual compact student CPU artifact before final release."
+  ]
+}

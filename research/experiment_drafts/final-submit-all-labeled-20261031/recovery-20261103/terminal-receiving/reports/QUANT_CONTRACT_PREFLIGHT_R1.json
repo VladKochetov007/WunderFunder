@@ -1,0 +1,66 @@
+{
+  "status": "passed",
+  "verified_epoch": 1793660161.848034,
+  "contract": {
+    "path": "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/inputs/w18-final-quantization-admission-r1.json",
+    "sha256": "ec1ce8811ceb43249aca3c1c79295c4124a6a80f6cc8320aeaadb71075ff9a3f",
+    "claim_policy": "old-reference exposed valid fidelity only; no final model score or FP32 equivalence",
+    "native_v3_sha256": "a5ab8228c69173a47a4d5f9f25f1f94b2924cfe852b8f3166416d9561c947de9",
+    "source_validation_sha256": "1e8a8a794a0b8d9677a76030e570681074503d38aa2d54b80e36067566b94ce0",
+    "numeric_ceilings_path": "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/inputs/w18-final-quant-numeric-ceilings-r1.json",
+    "numeric_ceilings_sha256": "f691d0b9d4a2499d46d1dda15c8f6ecb97cf66594ad42a960bd9bbb7e4edb2cc",
+    "calibration_report_path": "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/reports/w18-only-old-reference-numeric-calibration-r11.json",
+    "calibration_report_sha256": "844b3e807f6808f865be73f387fdc31900fa7cb48f6af676dd4736ea04abccd4",
+    "calibration_sequence_id": 43601,
+    "fidelity_contract_path": "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/inputs/w18-old-reference-quantization-fidelity-contract-r1.json",
+    "fidelity_contract_sha256": "71646a0c0aaf8c2a52bbe23b8e9dc58089154cda66ccb5b6cc6c796db4d25480",
+    "fidelity_contract_declared_native_library_sha256": "a5ab8228c69173a47a4d5f9f25f1f94b2924cfe852b8f3166416d99561c947de9",
+    "legacy_declared_pin_error": {
+      "kind": "known_historical_malformed_declaration",
+      "declared_sha256": "a5ab8228c69173a47a4d5f9f25f1f94b2924cfe852b8f3166416d99561c947de9",
+      "actual_sha256": "a5ab8228c69173a47a4d5f9f25f1f94b2924cfe852b8f3166416d9561c947de9",
+      "binding": "combined contract and both executed paired reports"
+    },
+    "reference_reports": {
+      "f32": {
+        "path": "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/reports/w18-old-reference-f32-exact-valid-r1.json",
+        "sha256": "c08020374f4666fafa613236a31167d78883a6edaafb22c269cc18ae13c1ff1b",
+        "weighted_pearson": 0.6914165042737994
+      },
+      "q8": {
+        "path": "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/reports/w18-old-reference-q8vnni-fast-valid-r1.json",
+        "sha256": "14643c511906530d44ccd82eb7b0c1c3c959dcb8a254d5081383677e1e44a29c",
+        "weighted_pearson": 0.6914021819338281
+      }
+    },
+    "fidelity_delta": -1.4322339971339915e-05,
+    "minimum_delta": -0.0002,
+    "fidelity_passed": true,
+    "shared_sequence_ids_sha256": true,
+    "ceilings": {
+      "schema": "wnn.w18-quantization-error-ceilings.v1",
+      "calibration_report_path": "/data/epanov_s/tabdata/runtime/final-submit-all-labeled-20261031-r1/reports/w18-only-old-reference-numeric-calibration-r11.json",
+      "calibration_report_sha256": "844b3e807f6808f865be73f387fdc31900fa7cb48f6af676dd4736ea04abccd4",
+      "calibration_scope": "pinned old train-only W18 on official train row-group 0; not a task score",
+      "old_w18_checkpoint_sha256": "a66488e99ed49373722c206df0fa8fd97c179246a72369b69732bb32029baae6",
+      "multiplier_fixed_before_new_weights_check": 2.0,
+      "maximum_rms_by_target": [
+        0.007595723327067938,
+        0.008979632848327796
+      ],
+      "maximum_p99_abs_by_target": [
+        0.02050376683473587,
+        0.023459434509277344
+      ],
+      "maximum_abs_by_target": [
+        0.04375985264778137,
+        0.05005139112472534
+      ],
+      "original_allclose_atol": 0.02,
+      "original_allclose_rtol": 0.02,
+      "original_allclose_failed_preserved": true,
+      "score_computed": false,
+      "created_epoch": 1793491826.4589596
+    }
+  }
+}
