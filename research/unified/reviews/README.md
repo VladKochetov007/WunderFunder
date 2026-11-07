@@ -1,3 +1,9 @@
+[Bounded L4 receiving runner review](L4_RECEIVING_RUNNER_INDEPENDENT_REVIEW_20261107.md)
+finds the six helper files statically ready after independently checking seven
+gate tests and two lifecycle/environment corrections. The note records actual
+reviewed file hashes and limits admission to source-bound, ROOT-approved cells;
+it does not approve Mamba, unmeasured profiles or completed scientific endpoints.
+
 [Two actual L4 GRU profile reviews](L4_GRU_RECEIVING_PROFILE_REVIEW_20261107.md)
 find no measured finite-work/resource blocker for the two GRU fits, independently
 of Mamba and other families. ROOT must verify complete native identities and
