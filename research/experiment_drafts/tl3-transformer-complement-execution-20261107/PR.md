@@ -20,18 +20,22 @@ and fixed-blend deltas; lower scaled train objective alone cannot support gain.
 # 4. Method and frozen recipe
 
 S3 source6ab2f679e70928f913b97d5a29f0d1e09ceacaa3; T768/L24/H12,
-170198786 parameters, context1024, chunk256, B4/A4/world2, Muon3e-4,
-warmup5%/cosine floor.1, clip1, fixed30E/774600 updates. BF16/BF16x9 with
+170198786 parameters, context1024, chunk256, B128/A4/world2, Muon3e-4,
+warmup5%/cosine floor.1, clip1, fixed30E/24600 updates. BF16/BF16x9 with
 FP32 master/gradient/loss/state tensors; no IEEE-FP32 parity claim.
 
 # 5. Bounded fitting panel
 
-Labels/complement × seeds101001/101002 =4 fresh fits,12 engineering profiles,
-no automatic expansion. Measured~.71s/update implies~6.4days core fitting;
-6–8days is planning, not a guarantee. Before first fit ROOT amended initial24h
-to finite9days, preserving caps and1h collection reserve. Native single-worker
-observer is capped7days; exact same-fit continuation requires expiry/ownership
-and safe checkpoint review within the same9-day maximum.
+Labels/complement × seeds101001/101002 =4 optimized fresh fits. The user
+explicitly requested throughput optimization; the four undersized B4 attempts
+were retired at1263–1291updates, preserved as partial, never counted complete.
+Thirteen additional native engineering profiles cover batch16/32/64/128/256,
+one-versus-two GPUs, complement/peak-LR and all four exact production cells.
+New receiving bound24h including1h collection reserve, fitcap4/profilecap8.
+B128 delivered~215–220k warm rows/s versus historical B4~11k, with118GBreserved;
+B256 gains only~8.6% while doubling batch/memory. Core fitting estimate~8h,
+excluding validation/loading/checkpoint overhead; first complete epoch refines it.
+The old B4/nine-day allocation is historical, not current execution authority.
 
 # 6. Validation and uncertainty
 
@@ -54,10 +58,12 @@ not promote from teacher-only quality, partial fits or zero-crossing intervals.
 
 # 9. How to run
 
-Already running under ROOT-owned receiving/controller.py; do not duplicate.
-Use the mandatory short alias /data/epanov_s/tdn7run, frozen source-r3 and
-wrapper/run commands in README/EXECUTION_R1.md. Detached processes survive SSH
-loss; cleanup and any continuation are receipt/PID-birth bound.
+Already running under ROOT-owned optimized_receiving/optimized_controller.py;
+do not duplicate. Four exact50-update production profiles passed before ROOT
+approved each unchanged native receipt. Frozen source-r3 remains byte-identical;
+only the matched batch and derived schedule budget changed. Short physical-disk
+scratch/compiler paths, canonical train/predict/score/bundle commands and
+ownership-bound cleanup are documented in optimized_receiving/README.md.
 
 # 10. Evidence to return
 
@@ -70,8 +76,10 @@ Terminal reporting distinguishes fit completion, grading and artifact upload.
 # 11. Results and trace
 
 Actual81 native tests plus compiled BF16/BF16x9 and two-rank DDP/Muon checks
-passed; all12 actual profiles passed and independent review preceded ROOT
-approval. Clean-TL3 full-valid replay .6923774248169172 matches the qualified
-reference. All4 fits started18:36UTC and made actual optimizer updates. No
-final endpoint, new public result or improvement is claimed. See EXECUTION_R1.md
-and exact receiving-evidence; failed preparation is preserved, not relabelled.
+passed. All thirteen optimization profiles, including four-cell native admission, passed;
+independent receiving tests/reviews preceded launch. Clean-TL3 full-valid replay
+.6923774248169172 reproduces the qualified reference. All four optimized fits
+are running with actual updates; this is not completion of the old B4 recipe.
+No final endpoint, public result or quality gain is claimed. See OPTIMIZATION_R1.md;
+EXECUTION_R1.md and earlier evidence remain historical and unchanged. Optional
+batched-Muon code is prepared but is not used by these frozen S3 workers.

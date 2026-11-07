@@ -1,5 +1,10 @@
 # PR67 receiving amendment: four parallel two-B300 fits
 
+Current execution uses [the measured B128 optimization](OPTIMIZATION_R1.md):
+four matched30E/24600-update fits under the new24h receiving controller. The
+user explicitly requested optimization; old B4 attempts/nine-day authority below
+are historical partial attempts, preserved unchanged. No final gain is claimed.
+
 Actual ROOT execution is now recorded in [EXECUTION_R1.md](EXECUTION_R1.md).
 All four fresh fits started18:36UTC after native acceptance, twelve profiles,
 independent review and clean-TL3 baseline replay. Measured full-schedule cost

@@ -1,5 +1,22 @@
 # Project agent instructions
 
+## Latest7 November: measured B128 optimization supersedes the B4 allocation
+
+The user explicitly requested training optimization on B300 and L4. Four B4
+attempts were retired as partial at1263–1291updates; preserve their old source,
+journals and receipts. The current B300 panel uses matched B128/A4/world2,
+fixed30E/24600updates, with source6ab2f679e unchanged. Thirteen new engineering
+profiles passed; each exact production seed/config/pair passed50updates and
+ROOT approval. New control: runtime/architecture-execution-20261107-r1/control/
+b300-optimized-r1. Its24h/1hreserve allocation replaces the old nine-day B4
+execution; no old B4 continuation or extra seeds are admitted. See
+research/experiment_drafts/tl3-transformer-complement-execution-20261107/OPTIMIZATION_R1.md.
+Only batch and the resulting canonical update/warmup counts changed. Official
+train10325/zero valid fitting/full valid1873/3528273 and all source/ancestry,
+precision, objective, fixed blend and ownership constraints remain. Optional
+Muon batching source is prepared, not used by these workers. Root owns one
+persistent SSH stream per host. No quality gain is inferred from throughput.
+
 ## Latest7 November: PR67 receiving execution explicitly authorized
 
 The user explicitly requested setup and launch on the existing B300/L4 hosts.
