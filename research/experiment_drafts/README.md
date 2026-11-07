@@ -1,5 +1,10 @@
 # Research-team experiment catalogue
 
+- [Ensemble-objective package, 8 November](ensemble-objective-fix-20261108/README.md)
+  prepares four fresh fixed4E matched B300 teachers under the explicit new contract.
+  Native NCCL gradient equivalence and four actual-shaped50-update/reload profiles
+  pass; ROOT owns safe retirement and fresh fit launch. Quality endpoints remain pending.
+
 - [PR67 receiving amendment, 7 November](tl3-transformer-complement-execution-20261107/README.md)
   prepares four matched two-B300 fixed-final fits with unchanged update budget,
   full official-valid reports every epoch and Git-free source capsule admission.

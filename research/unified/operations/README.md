@@ -714,3 +714,12 @@ official validation after every epoch. Root owns remote execution. Local static
 checks pass; receiver baseline/acceptance/profiles and all model endpoints remain
 unmeasured by the preparation agent. Different physical device pairs are an
 explicit exploratory confound. The packet records exact commands and ancestry.
+
+[8 November ensemble-objective package](../../experiment_drafts/ensemble-objective-fix-20261108/README.md)
+freezes four new matched4E teachers, seeds101101/101102, with labels WMSE control
+and fixed-mixture unscaled WMSE plus attenuated microbatch correlation. The explicit
+pretrial.01 prediction-std floor is a package factor; the official grader is unchanged.
+Eight strict native NCCL gradient cases and four50-update actual BF16/BF16x9 profiles
+with both-rank state/RNG reload pass. The external receiver retains the earliest4h
+clock, ROOT profile copies, safe old-partial retirement, fixed4E3280 endpoint,
+canonical scoring, and actual per-epoch plots. No quality endpoint is claimed yet.

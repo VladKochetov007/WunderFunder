@@ -47,6 +47,19 @@ new native profile additionally round-trips actual-shaped model, optimizer,
 scheduler and host/CUDA RNG with strict container/dtype/shape/stride/byte checks,
 coordinated over both ranks. Successful temporary engineering state is removed;
 no resumable scientific profile schema is written. These native checks, memory,
-finite updates, ROOT approval and safe retirement of the old partial30E attempts
-remain fit-admission gates. The old model capsules/configs/results remain intact.
-ROOT exclusively owns SSH, hardware admission and process signals.
+finite updates and ROOT approval have now passed for all four exact cells in
+native attempt2 (RPC161):50 updates each, strict both-rank reload, peak reserved
+117.803–117.805GB and160.8–175.9s while coexisting with old fits. Attempt1 exceeded
+its180s startup/coexistence bound after40–44 updates, without OOM/nonfinite; both
+attempts remain historical evidence. ROOT explicitly allowed only attempt2 at300s,
+without resetting the original four-hour clock. This demonstrates engineering
+readiness, not a quality gain or exclusive-device throughput.
+
+The [bounded receiver](receiving/README.md) is frozen at91e605e93, with six focused
+CPU tests and independent static review. It requires ROOT's safe old-fit retirement
+receipt before admitting four fresh fits, then canonical full-valid scoring and
+actual per-epoch PNG/SVG evidence. Source identity is
+`88ad6a8637390f39906b7ada30792a822f2172298770d9f27476d10028cc0a28`;
+the source capsule remains commit590ceec257fdc3e9911a6253151d363cee619e86.
+Fresh scientific endpoints remain pending. The old model capsules/configs/results
+remain intact. ROOT exclusively owns SSH, hardware admission and process signals.
