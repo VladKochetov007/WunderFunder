@@ -1,3 +1,16 @@
+[Two actual L4 GRU profile reviews](L4_GRU_RECEIVING_PROFILE_REVIEW_20261107.md)
+find no measured finite-work/resource blocker for the two GRU fits, independently
+of Mamba and other families. ROOT must verify complete native identities and
+preserve approved receipt copies. The note hashes actual captured summaries and
+ownership evidence; no scientific score or later-step stability is established.
+
+[PR67 feature-only train-index alias review](PR67_REFERENCE_TRAIN_INDEX_ALIAS_REVIEW_20261107.md)
+traces exact c42 predictor/helper/split Git blobs and confirms only `row_group`
+is read from the target-named compatibility path. A documented new receiver-owned
+alias to the preserved canonical index is compatible with that route while all
+source/order/ancestry guards remain unchanged; the original target cache is
+preserved and baseline replay remains pending.
+
 [Independent compact execution review, 7 November](COMPACT_EXECUTION_INDEPENDENT_REVIEW_20261107.md)
 checks the builder's R2 source/config inventory and independently passes 28 tiny
 CPU tests with one required real-Mamba CUDA test pending. No source blocker was
