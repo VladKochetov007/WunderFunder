@@ -20,7 +20,11 @@ SEEDS = (101001, 101002)
 ARMS = ("labels", "complement")
 
 
-def matched_identity(candidate: dict[str, Any], expected_source: dict[str, object]) -> str:
+def matched_identity(
+    candidate: dict[str, Any],
+    expected_source: dict[str, object],
+    allow_homogeneous_devices: bool = False,
+) -> str:
     """Bind actual source, config, data, runtime and normalization before pairing."""
     provenance = candidate["provenance"]
     identity = provenance["identity"]
@@ -37,11 +41,20 @@ def matched_identity(candidate: dict[str, Any], expected_source: dict[str, objec
     if data.get("reference") != candidate.get("reference"):
         raise ValueError("panel fitting reference is inconsistent with provenance")
     comparable_data = {key: value for key, value in data.items() if key != "reference"}
+    runtime = identity["runtime"]
+    if allow_homogeneous_devices:
+        if identity["world_size"] != 2 or candidate["config"]["required_world_size"] != 2:
+            raise ValueError("homogeneous-device panel amendment requires two ranks per cell")
+        runtime = dict(runtime)
+        runtime["devices"] = [
+            {key: value for key, value in worker.items() if key != "uuid"}
+            for worker in runtime["devices"]
+        ]
     return canonical_sha256(
         {
             "data": comparable_data,
             "normalization": provenance["normalization"],
-            "runtime": identity["runtime"],
+            "runtime": runtime,
             "world_size": identity["world_size"],
             "optimizer": identity["optimizer"],
             "model_parameters": identity["model_parameters"],
@@ -98,6 +111,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--config-root", type=Path)
+    parser.add_argument("--allow-homogeneous-devices", action="store_true")
     args = parser.parse_args()
     packet = Path(__file__).resolve().parent
     repository = packet.parents[2]
@@ -111,6 +126,7 @@ def main() -> None:
     source_shas = set()
     panel_identities = set()
     receipt_hashes = {"baseline": file_sha256(baseline_path)}
+    actual_devices = {}
     for seed in SEEDS:
         for arm in ARMS:
             cell = f"{arm}_s{seed}"
@@ -126,10 +142,14 @@ def main() -> None:
             if producer["composition"]["alpha"] != 0.1:
                 raise ValueError("panel coefficient changed")
             candidate = producer["candidate"]
-            if candidate["config"] != load_config(packet / "configs" / f"{cell}.json"):
+            config_root = args.config_root if args.config_root is not None else packet / "configs"
+            if candidate["config"] != load_config(config_root / f"{cell}.json"):
                 raise ValueError("panel cell recipe differs from committed config")
             source_shas.add(candidate["provenance"]["identity"]["source_sha256"])
-            panel_identities.add(matched_identity(candidate, source))
+            panel_identities.add(
+                matched_identity(candidate, source, args.allow_homogeneous_devices)
+            )
+            actual_devices[cell] = candidate["provenance"]["identity"]["runtime"]["devices"]
             records[cell] = score
             receipt_hashes[cell] = file_sha256(path)
     if len(source_shas) != 1:
@@ -164,6 +184,10 @@ def main() -> None:
         "split_sha256": baseline["split_sha256"],
         "receipt_sha256": receipt_hashes,
         "source_sha256": next(iter(source_shas)),
+        "device_comparison": "identical specifications; UUIDs recorded separately"
+        if args.allow_homogeneous_devices
+        else "exact same physical allocation",
+        "actual_devices_by_cell": actual_devices,
         "paired_results": rows,
         "mean_complement_minus_tl3": float(np.mean(improvements)),
         "mean_complement_minus_control": float(np.mean(treatment_deltas)),

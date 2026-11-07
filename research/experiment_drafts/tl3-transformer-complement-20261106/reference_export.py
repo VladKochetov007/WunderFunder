@@ -17,6 +17,8 @@ def main() -> None:
     """Export one fixed PR49 member/source with the actual pinned legacy predictor."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--legacy-source-root", required=True, type=Path)
+    parser.add_argument("--legacy-source-manifest", type=Path)
+    parser.add_argument("--legacy-source-manifest-sha256")
     parser.add_argument("--data-root", required=True, type=Path)
     parser.add_argument("--split-manifest", required=True, type=Path)
     parser.add_argument("--member", required=True, choices=tuple(MEMBER_RUNS))
@@ -24,7 +26,9 @@ def main() -> None:
     args = parser.parse_args()
     source_root, data_root = args.legacy_source_root.resolve(), args.data_root.resolve()
     split_path = args.split_manifest.resolve()
-    source_commit = check_source(source_root)
+    source_commit = check_source(
+        source_root, args.legacy_source_manifest, args.legacy_source_manifest_sha256
+    )
     split = load_campaign_split(split_path, data_root)
     producer = audit_ancestors(data_root, split)
     run = MEMBER_RUNS[args.member]
@@ -62,7 +66,7 @@ def main() -> None:
         PYTHONDONTWRITEBYTECODE="1",
     )
     subprocess.run(command, env=env, cwd=source_root, check=True)
-    check_source(source_root)
+    check_source(source_root, args.legacy_source_manifest, args.legacy_source_manifest_sha256)
     if audit_ancestors(data_root, split) != producer:
         raise ValueError("reference ancestors changed during prediction export")
     write_new_json(
@@ -74,6 +78,7 @@ def main() -> None:
             "source": args.source,
             "source_commit": source_commit,
             "predictor_sha256": file_sha256(predictor),
+            "source_capsule_manifest_sha256": args.legacy_source_manifest_sha256,
             "argv": command,
             "reference_sha256": canonical_sha256(producer),
             "prediction_sha256": file_sha256(bank),

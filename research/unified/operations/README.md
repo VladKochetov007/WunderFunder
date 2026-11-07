@@ -646,3 +646,12 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 [Parent-fit RNG diagnostic V1](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/rng_diagnostic_v1/READONLY_REJECTION.json) was rejected before output creation or submission. Its V2 successor produced a successful, accepted diagnostic-only capture of RNG metadata under the same parent-state stat; see the [record](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/rng_diagnostic_v2/README.md) and [metadata review](../../campaign_2026-10-19/full_gru_tweaks_r1/records/parent_fit_r2_v1/rng_diagnostic_v2/METADATA_REVIEW.json). This does not accept the parent fit or establish quality, and the exact-stop adapter is limited to the V2 diagnostic unit.
 
 [Parent terminal-checker root preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_ROOT_PREPARATION_V1.json): pins the final local checker, tests, source review and all sibling helper dependencies for the exact source68ff/seed1001 H256×2 parent. Nine synthetic checks and cold import/read sentinels pass; preparation adds zero fits and no remote admission, checkpoint read, terminal acceptance or quality result. Typed native exit0 has since been captured; fresh capped CPU support gates and root acceptance/exact stop remain required before use.
+# PR67 receiving preparation, 7 November 2026
+
+[Separate receiving amendment](../../experiment_drafts/tl3-transformer-complement-execution-20261107/README.md)
+preserves the frozen PR67 objective and original update budget while preparing
+four parallel two-B300 fits, immutable source capsules and report-only full
+official validation after every epoch. Root owns remote execution. Local static
+checks pass; receiver baseline/acceptance/profiles and all model endpoints remain
+unmeasured by the preparation agent. Different physical device pairs are an
+explicit exploratory confound. The packet records exact commands and ancestry.

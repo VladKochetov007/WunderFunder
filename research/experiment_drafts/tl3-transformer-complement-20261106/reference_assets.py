@@ -20,6 +20,7 @@ from wnn.training.sequence_reference_pins import (
     PRIMARY_SPLIT_SHA256,
     PUBLISHED_RUNS,
 )
+from wnn.training.sequence_source_capsule import verify_source_capsule
 
 # Published run provenance has mixed scalar, sequence and mapping JSON fields.
 MEMBER_RUNS = dict(
@@ -27,8 +28,14 @@ MEMBER_RUNS = dict(
 )
 
 
-def check_source(root: Path) -> str:
+def check_source(
+    root: Path, manifest: Path | None = None, manifest_sha256: str | None = None
+) -> str:
     """Require the exact PR49 source commit and unmodified importable Python files."""
+    if manifest is not None or manifest_sha256 is not None:
+        if manifest is None or manifest_sha256 is None:
+            raise ValueError("source capsule requires its manifest and trusted manifest digest")
+        return verify_source_capsule(root, manifest, manifest_sha256, PR49_SOURCE_COMMIT)
     actual = subprocess.check_output(
         ["git", "-C", str(root), "rev-parse", "HEAD"], text=True
     ).strip()

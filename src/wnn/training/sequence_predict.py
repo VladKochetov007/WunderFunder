@@ -4,7 +4,7 @@ import argparse
 import json
 import os
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import torch
@@ -22,6 +22,9 @@ from wnn.training.sequence_epoch_prediction import (
 )
 from wnn.training.sequence_models import build_sequence_model
 from wnn.training.sequence_precision import forward_context
+
+if TYPE_CHECKING:
+    from wnn.training.sequence_reference_cache import ReferenceCache
 
 # Checkpoint payloads contain tensors and JSON-compatible provenance, validated on load.
 
@@ -92,6 +95,13 @@ def _producer(checkpoint: Path, payload: dict[str, Any]) -> dict[str, Any]:
     if "reference" in data:
         producer["reference"] = data["reference"]
     return producer
+
+
+def verify_prediction_reference(reference: ReferenceCache, rank: int) -> bool:
+    """Check immutable shared reference bytes on rank zero and coordinate a success value."""
+    if rank == 0:
+        reference.verify_unchanged()
+    return True
 
 
 def export_predictions(args: argparse.Namespace) -> None:
@@ -170,7 +180,7 @@ def export_predictions(args: argparse.Namespace) -> None:
         dist.barrier()
     if reference is not None:
         coordinated_call(
-            lambda: reference.verify_unchanged() if rank == 0 else None,
+            lambda: verify_prediction_reference(reference, rank),
             "reference cache stability after export",
             runtime,
         )

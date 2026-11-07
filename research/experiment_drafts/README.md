@@ -1,5 +1,10 @@
 # Research-team experiment catalogue
 
+- [PR67 receiving amendment, 7 November](tl3-transformer-complement-execution-20261107/README.md)
+  prepares four matched two-B300 fixed-final fits with unchanged update budget,
+  full official-valid reports every epoch and Git-free source capsule admission.
+  The frozen eight-rank packet is preserved; profiles and scientific results are pending.
+
 - [PR #28: teacher-transfer-frontier](https://github.com/VladKochetov007/WunderFunder/pull/28) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #29: teacher-representation-hints](https://github.com/VladKochetov007/WunderFunder/pull/29) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.
 - [PR #30: streaming-student-distillation](https://github.com/VladKochetov007/WunderFunder/pull/30) — reviewed proposal with CP30 recipe; packet lives on its experiment branch, no fits or ready launch.

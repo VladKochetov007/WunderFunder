@@ -5,6 +5,7 @@ from typing import Any, cast
 
 import torch
 
+from wnn.training.sequence_complement_monitor import ComplementMonitor
 from wnn.training.sequence_config import (
     load_config,
     validate_expected_fold,
@@ -95,9 +96,12 @@ def run_sequence_fit(
     profile_updates: int = 0,
     profile_receipt: Path | None = None,
     reference_cache: Path | None = None,
+    monitor_reference_root: Path | None = None,
 ) -> None:
     """Execute one torchrun fit or a non-scientific bounded profile on supplied data."""
     config = _mapping(load_config(config_path), "config")
+    if ("monitoring" in config) != (monitor_reference_root is not None):
+        raise ValueError("monitoring requires --monitor-reference-root, omitted for old recipes")
     output = output.resolve()
     resume_path = resume.resolve() if resume is not None else None
     receipt_path = profile_receipt.resolve() if profile_receipt is not None else None
@@ -129,6 +133,22 @@ def run_sequence_fit(
             lambda: validate_expected_fold(config, data.split.fold),
             "split fold validation",
             context,
+        )
+        monitor = (
+            coordinated_call(
+                lambda: ComplementMonitor(
+                    data,
+                    monitor_reference_root,
+                    config,
+                    output,
+                    resume=resume_path is not None,
+                    primary=context.is_primary and not profile_updates,
+                ),
+                "report-only monitor setup",
+                context,
+            )
+            if monitor_reference_root is not None
+            else None
         )
         seed_worker(int(config["seed"]), 0)
         base_model, normalization = coordinated_call(
@@ -212,6 +232,7 @@ def run_sequence_fit(
                 resume_path,
                 receipt_path,
                 profile_hash,
+                monitor=monitor,
             )
         finally:
             rank_log.close()
