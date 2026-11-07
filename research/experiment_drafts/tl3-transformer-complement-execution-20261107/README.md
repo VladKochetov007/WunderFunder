@@ -1,5 +1,11 @@
 # PR67 receiving amendment: four parallel two-B300 fits
 
+The later [bounded receiving controller](receiving/README.md) stages outside
+frozen source-r3, reuses ROOT's known ownership helpers, enforces the mandatory
+short run alias, and advances four independently approved cells through finite
+profiles/fits/evaluation/bundles. Its local CPU/static checks do not launch work;
+ROOT must retain the native lifecycle proof before GPU use.
+
 Status: prepared receiving source; no models, profiles or native inference were
 executed by this preparation agent. The root operator owns all SSH/GPU work.
 The November 7 user explicitly authorized configuration and launch on the

@@ -648,6 +648,14 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 [Parent terminal-checker root preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_ROOT_PREPARATION_V1.json): pins the final local checker, tests, source review and all sibling helper dependencies for the exact source68ff/seed1001 H256×2 parent. Nine synthetic checks and cold import/read sentinels pass; preparation adds zero fits and no remote admission, checkpoint read, terminal acceptance or quality result. Typed native exit0 has since been captured; fresh capped CPU support gates and root acceptance/exact stop remain required before use.
 # PR67 receiving preparation, 7 November 2026
 
+[Bounded B300 receiver](../../experiment_drafts/tl3-transformer-complement-execution-20261107/receiving/README.md)
+keeps frozen source-r3 unchanged while preparing checks, reference dependency
+gates, twelve bounded profiles and four independently ROOT-approved fits using
+existing PID/birth/PGID helpers. The short run alias avoids the diagnosed AF_UNIX
+path failure. Nine local CPU gate/lifecycle checks pass; native Linux containment
+proof and all actual controller/GPU stages remain receiver-owned and unexecuted
+by the preparation agent.
+
 [Separate receiving amendment](../../experiment_drafts/tl3-transformer-complement-execution-20261107/README.md)
 preserves the frozen PR67 objective and original update budget while preparing
 four parallel two-B300 fits, immutable source capsules and report-only full
