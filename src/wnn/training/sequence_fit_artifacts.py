@@ -11,6 +11,7 @@ from wnn.research_reporting import RunRecorder
 from wnn.training.sequence_blend import blend_loss_metrics
 from wnn.training.sequence_checkpoint import atomic_write_json, save_final_model
 from wnn.training.sequence_distributed import DistributedContext
+from wnn.training.sequence_ensemble_reporting import objective_metrics
 from wnn.training.sequence_loop import EpochResult
 from wnn.training.sequence_precision import precision_identity
 from wnn.training.sequence_provenance import file_sha256, json_value
@@ -39,6 +40,7 @@ def epoch_summary(
         "real_rows": int(totals[5].item()),
         "elapsed_seconds": result.elapsed_seconds,
         **blend_loss_metrics(config, label_loss),
+        **objective_metrics(config, result.objective_totals),
     }
 
 

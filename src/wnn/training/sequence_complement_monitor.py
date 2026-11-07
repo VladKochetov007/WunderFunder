@@ -82,7 +82,7 @@ class ComplementMonitor:
             "reference_sha256": fit_reference.identity["reference_sha256"],
             "fit_reference_manifest_sha256": fit_reference.identity["manifest_sha256"],
             "evaluation_reference_manifest_sha256": valid_reference.identity["manifest_sha256"],
-            "checkpoint_selection": "fixed final epoch 30; monitoring is report only",
+            "checkpoint_selection": f"fixed final epoch {config['epochs']}; monitoring is report only",
             "evaluation_exposure": "development exposed; official source boundary",
         }
         # Both ranks bind reporting inputs before run identity is computed. They do
@@ -117,6 +117,7 @@ class ComplementMonitor:
             context,
             self.batch_size,
             blend_alpha=0.1,
+            report_standalone=config.get("objective_mode") is not None,
         )
         if valid["valid/sequence_count"] != 1873 or valid["valid/selected_rows"] != 3_528_273:
             raise RuntimeError("full official valid monitoring coverage is incomplete")

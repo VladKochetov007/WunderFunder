@@ -7,6 +7,7 @@ from typing import Any
 
 from wnn.training.sequence_blend import validate_blend_config
 from wnn.training.sequence_complement_monitor import validate_complement_monitor
+from wnn.training.sequence_ensemble_config import validate_ensemble_objective
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
 
 # JSON is heterogeneous at this boundary; validated fields are consumed by the runtime.
@@ -66,6 +67,8 @@ def load_config(path: Path) -> dict[str, Any]:
         "blend_objective_alpha",
         "monitoring",
         "muon_batch_by_shape",
+        "objective_mode",
+        "correlation_prediction_std_floor",
     }
     if not isinstance(raw, dict) or set(raw) - (set(DEFAULTS) | optional):
         raise ValueError("unknown sequence recipe field")
@@ -190,6 +193,7 @@ def load_config(path: Path) -> dict[str, Any]:
     config["model"] = model
     validate_blend_config(config)
     validate_complement_monitor(config)
+    validate_ensemble_objective(config)
     if "muon_batch_by_shape" in config and (
         type(config["muon_batch_by_shape"]) is not bool
         or config["optimizer"] != "muon"

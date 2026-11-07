@@ -18,6 +18,7 @@ from wnn.training.sequence_distributed import (
     barrier,
     coordinated_call,
 )
+from wnn.training.sequence_ensemble_reporting import objective_metrics
 from wnn.training.sequence_fit_utils import (
     RankJsonlLog,
     SequenceDataset,
@@ -25,6 +26,7 @@ from wnn.training.sequence_fit_utils import (
 )
 from wnn.training.sequence_loop import train_epoch
 from wnn.training.sequence_monitor_progress import MonitorProgress
+from wnn.training.sequence_profile_reload import check_profile_reload
 
 
 def _write_profile_receipt(receipt: dict[str, object], path: Path) -> bool:
@@ -56,6 +58,11 @@ def run_profile(
     started = time.perf_counter()
     updates, epochs_seen = 0, 0
     totals = torch.zeros(8, dtype=torch.float64, device=context.device)
+    objective_totals = (
+        torch.zeros(5, dtype=torch.float64, device=context.device)
+        if config.get("objective_mode")
+        else None
+    )
     while updates < profile_updates and epochs_seen < int(config["epochs"]):
         result = train_epoch(
             dataset,
@@ -72,9 +79,16 @@ def run_profile(
         )
         updates += result.updates
         totals += result.totals
+        if objective_totals is not None:
+            objective_totals += result.objective_totals
         epochs_seen += int(result.complete)
         if result.updates == 0:
             break
+    reload_check = (
+        check_profile_reload(model, optimizer, scheduler, context, output)
+        if config.get("objective_mode")
+        else None
+    )
     optimizer_finite = all_ranks_true(optimizer_states_are_finite_fp32(optimizer), context)
     errors = [] if optimizer_finite else ["optimizer state is not finite strict-FP32"]
     valid_rows = int(totals[3].item())
@@ -113,6 +127,7 @@ def run_profile(
     if updates < 1 or elapsed <= 0:
         errors.append("profile did not produce positive optimizer work and elapsed time")
         complete = False
+    terms = objective_metrics(config, objective_totals)
     receipt = {
         "receipt_schema": "wnn.sequence-profile.v1",
         "status": "profile_complete" if complete else "profile_incomplete",
@@ -148,6 +163,10 @@ def run_profile(
         "scientific_checkpoint_written": False,
         "approval_note": "Review the engineering evidence and set approved=true before a full fit.",
     }
+    if terms:
+        receipt["objective_terms"] = terms
+        receipt["losses"]["total"] = terms["total_loss"]
+        receipt["engineering_reload"] = reload_check
     coordinated_call(
         lambda: (
             _write_profile_receipt(receipt, output / "profile_receipt.json")
@@ -170,6 +189,7 @@ def run_profile(
                 hint_loss,
                 valid_rows,
                 forwarded_rows,
+                terms.get("total_loss"),
             )
             if context.is_primary and recorder is not None
             else True
@@ -197,6 +217,7 @@ def _record_profile_metrics(
     hint_loss: float,
     valid_rows: int,
     forwarded_rows: int,
+    objective_total: float | None = None,
 ) -> bool:
     """Record one bounded engineering profile summary in repository run metadata."""
     if recorder is None:
@@ -204,7 +225,9 @@ def _record_profile_metrics(
     recorder.record_metrics(
         step=updates,
         epoch=0,
-        loss=label_loss
+        loss=objective_total
+        if objective_total is not None
+        else label_loss
         + float(config["kd_weight"]) * kd_loss
         + float(config["hint_weight"]) * hint_loss,
         throughput={

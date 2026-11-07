@@ -15,6 +15,8 @@ from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_fit_utils import SequenceDataset, collate_sequences
 from wnn.training.sequence_models import detach_state
 from wnn.training.sequence_monitor_events import MonitorEventWriter
+from wnn.training.sequence_monitor_head_metrics import HeadMetrics
+from wnn.training.sequence_monitor_head_metrics import add_score_aliases as _add_score_aliases
 from wnn.training.sequence_monitor_identity import validate_dataset_members
 from wnn.training.sequence_precision import forward_context
 
@@ -95,20 +97,6 @@ def evaluate_and_record_epoch(
     return train_metrics | role_metrics
 
 
-def _add_score_aliases(
-    train_metrics: dict[str, int | float],
-    role_metrics: dict[str, int | float],
-    role: str,
-) -> None:
-    """Add plotting-friendly score aliases while retaining the raw WP fields."""
-    train_metrics["train_eval/score"] = train_metrics["train_eval/wp"]
-    train_metrics["train_eval/score/t0"] = train_metrics["train_eval/wp/t0"]
-    train_metrics["train_eval/score/t1"] = train_metrics["train_eval/wp/t1"]
-    role_metrics[f"{role}/score"] = role_metrics[f"{role}/wp"]
-    role_metrics[f"{role}/score/t0"] = role_metrics[f"{role}/wp/t0"]
-    role_metrics[f"{role}/score/t1"] = role_metrics[f"{role}/wp/t1"]
-
-
 def evaluate_monitoring_sets(
     model: nn.Module,
     train_eval: SequenceDataset,
@@ -120,6 +108,7 @@ def evaluate_monitoring_sets(
     *,
     evaluation_prefix: str = "valid",
     blend_alpha: float | None = None,
+    report_standalone: bool = False,
 ) -> tuple[dict[str, int | float], dict[str, int | float]]:
     """Evaluate both declared cohorts while restoring model mode, buffers, and RNG."""
     modes = [(module, module.training) for module in model.modules()]
@@ -139,6 +128,7 @@ def evaluate_monitoring_sets(
                 context,
                 evaluation_batch_size,
                 blend_alpha=blend_alpha,
+                report_standalone=report_standalone,
             )
             train_metrics["timing/train_eval_seconds"] = time.perf_counter() - train_started
             valid_started = time.perf_counter()
@@ -151,6 +141,7 @@ def evaluate_monitoring_sets(
                 context,
                 evaluation_batch_size,
                 blend_alpha=blend_alpha,
+                report_standalone=report_standalone,
             )
             valid_metrics[f"timing/{evaluation_prefix}_seconds"] = (
                 time.perf_counter() - valid_started
@@ -179,11 +170,14 @@ def evaluate_dataset(
     evaluation_batch_size: int = 1,
     *,
     blend_alpha: float | None = None,
+    report_standalone: bool = False,
 ) -> dict[str, int | float]:
     """Compute the cohort-mask weighted MSE and globally pooled WP."""
     if not len(dataset) or chunk_rows <= 0 or evaluation_batch_size <= 0:
         raise ValueError("monitoring evaluation requires sequences and positive batch/chunk sizes")
     accumulator = GlobalAccumulator()
+    standalone = HeadMetrics() if report_standalone else None
+    mixture_metrics = HeadMetrics() if report_standalone else None
     squared_error = 0.0
     target_weight = 0.0
     prediction_sum = 0.0
@@ -211,15 +205,21 @@ def evaluate_dataset(
         # One device-to-host copy per sequence batch avoids synchronizing for every
         # short recurrent chunk while preserving the full pooled scoring inputs.
         predicted_tensor = torch.cat(prediction_chunks, dim=1).cpu()
+        if standalone is not None:
+            standalone.add(targets.numpy(), predicted_tensor.numpy(), mask.numpy())
         if blend_alpha is not None:
             predicted_tensor = compose_prediction(predicted_tensor, batch["teacher"], blend_alpha)
         predicted = predicted_tensor.numpy()
         target = targets.numpy()
         scored = mask.numpy()
+        if mixture_metrics is not None:
+            mixture_metrics.add(target, predicted, scored)
         accumulator.add(target, predicted, scored)
-        clipped_target = np.clip(target, -2.0, 2.0)
+        clipped_target = np.where(scored[..., None], np.clip(target, -2.0, 2.0), 0)
         weight = np.abs(clipped_target) * scored[..., None]
-        difference = predicted.astype(np.float64) - clipped_target.astype(np.float64)
+        difference = np.where(scored[..., None], predicted, 0).astype(
+            np.float64
+        ) - clipped_target.astype(np.float64)
         squared_error += float((weight * np.square(difference)).sum())
         target_weight += float(weight.sum())
         selected = np.broadcast_to(scored[..., None], predicted.shape)
@@ -244,6 +244,8 @@ def evaluate_dataset(
         f"{prefix}/prediction_mean": mean,
         f"{prefix}/prediction_std": variance**0.5,
         f"{prefix}/prediction_clipped_fraction": clipped_count / selected_values,
+        **(standalone.metrics(prefix) if standalone is not None else {}),
+        **(mixture_metrics.metrics(prefix, "mixture") if mixture_metrics is not None else {}),
     }
 
 

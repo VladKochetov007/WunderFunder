@@ -61,6 +61,12 @@ def blend_loss_metrics(config: Mapping[str, object], label_loss: float) -> dict[
     alpha = float(config.get("blend_objective_alpha", 0.0))
     if alpha <= 0:
         return {}
+    if config.get("objective_mode") == "mixture_wmse_pearson_v1":
+        return {
+            "blend_objective_alpha": alpha,
+            "composite_wmse": label_loss,
+            "label_loss_is_curvature_scaled": False,
+        }
     return {
         "blend_objective_alpha": alpha,
         "composite_wmse": label_loss * alpha**2,
