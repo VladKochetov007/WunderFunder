@@ -648,6 +648,16 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 [Parent terminal-checker root preparation](../../campaign_2026-10-19/full_gru_tweaks_r1/preparation/PARENT_FIT_TERMINAL_ROOT_PREPARATION_V1.json): pins the final local checker, tests, source review and all sibling helper dependencies for the exact source68ff/seed1001 H256×2 parent. Nine synthetic checks and cold import/read sentinels pass; preparation adds zero fits and no remote admission, checkpoint read, terminal acceptance or quality result. Typed native exit0 has since been captured; fresh capped CPU support gates and root acceptance/exact stop remain required before use.
 # PR67 receiving preparation, 7 November 2026
 
+[GRU stopped-state recovery R2](../../experiment_drafts/tl3-transformer-complement-execution-20261107/l4_continuation_recovery_r2/README.md)
+preserves the failed S3 attempt after canonical load_resume exposed a monitor
+None-return bug. ROOT stopped both originals safely at8E/51,680 and authorized
+direct unchanged-S1-state recovery to fresh S4 siblings under the original
+deadline. R2 requires actual full canonical CPU and real-CUDA zero-update restore
+probes before resumed fitting, retains external archival, and fixes the native
+callback long-grace shutdown hang without changing S1 helpers. Five focused
+CPU tests and independent review pass; native probes/continuations remain ROOT's
+gates, with no new fit or seed counted.
+
 [Two-GRU continuation supervisor](../../experiment_drafts/tl3-transformer-complement-execution-20261107/l4_continuation_supervisor/README.md)
 prepares the explicitly authorized diagnostic-source/retention transition of the
 existing L4 GRU trajectories. It preflights exact source/config/runtime/profile
