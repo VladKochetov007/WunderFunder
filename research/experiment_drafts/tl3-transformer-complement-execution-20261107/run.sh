@@ -30,6 +30,8 @@ export CUBLAS_WORKSPACE_CONFIG=:4096:8 CUBLAS_EMULATE_SINGLE_PRECISION=1
   --manifest "$WNN_SOURCE_MANIFEST" --manifest-sha256 "$WNN_SOURCE_MANIFEST_SHA256" \
   --commit "$WNN_EXPECTED_COMMIT"
 launch=("$WNN_PYTHON" -m torch.distributed.run --standalone --nnodes=1)
+observe=("$WNN_PYTHON" scripts/observe_sequence.py --interval 10 \
+  --max-seconds "${WNN_OBSERVER_MAX_SECONDS:-604800}")
 
 case "$action" in
   data-check)
@@ -74,6 +76,7 @@ if [[ "$action" == check ]]; then
     tests/test_chronological_primary_splits.py tests/test_b300_sequence_models.py \
     tests/test_b300_sequence_contracts.py tests/test_sequence_full_fit_data.py \
     tests/test_sequence_recovery_cuda.py tests/test_sequence_muon.py tests/test_pr67_receiving.py \
+    tests/test_sequence_observer.py \
     --junitxml="$checks/pytest.xml" 2>&1 | tee "$checks/pytest.log"
   gpu_test=tests/test_sequence_blend_gpu.py::test_compiled_composite_objective_matches_eager_finite_outputs_and_gradients
   for precision in bf16 bf16_bf16x9; do
@@ -114,12 +117,13 @@ case "$action" in
       train[2]="$config"
     fi
     if [[ "$action" == profile-one ]]; then world=1; export CUDA_VISIBLE_DEVICES="${devices[0]}"; fi
-    "${launch[@]}" --nproc-per-node="$world" "${train[@]}" --output "$run/$action" --profile-updates 12 ;;
+    "${observe[@]}" --output "$run/$action" -- "${launch[@]}" \
+      --nproc-per-node="$world" "${train[@]}" --output "$run/$action" --profile-updates 12 ;;
   fit|resume)
     for name in profile-one profile-two profile-peak; do [[ -f "$run/$name/profile_receipt.json" ]] || exit 2; done
     [[ -f "$run/approved_profile.json" ]] || exit 2
     extra=(); [[ "$action" != resume ]] || extra=(--resume "$run/fit/training_state.pt")
-    "${launch[@]}" --nproc-per-node=2 "${train[@]}" --output "$run/fit" \
+    "${observe[@]}" --output "$run/fit" -- "${launch[@]}" --nproc-per-node=2 "${train[@]}" --output "$run/fit" \
       --profile-receipt "$run/approved_profile.json" "${extra[@]}" ;;
   evaluate)
     [[ -f "$run/fit/terminal_status.json" ]] || exit 2
@@ -131,7 +135,9 @@ case "$action" in
   bundle)
     evidence=()
     for name in run_metadata.json metrics.jsonl terminal_status.json score.json rank0.jsonl rank1.jsonl \
-      monitor_events.jsonl monitor_evaluations.jsonl; do evidence+=(--evidence "fit/$name"); done
+      monitor_events.jsonl monitor_evaluations.jsonl monitor_progress.json monitor_observer.jsonl; do
+      evidence+=(--evidence "fit/$name")
+    done
     "$WNN_PYTHON" scripts/research_result_bundle.py --root "$run" --output-dir "$run/bundle" \
       "${evidence[@]}" --evidence evaluation/manifest.json --evidence approved_profile.json \
       --evidence profile-one/profile_receipt.json --evidence profile-two/profile_receipt.json \

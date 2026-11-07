@@ -15,8 +15,13 @@ uncertainty and pending checks. Different UUID pairs are an explicit exploratory
 hardware confound; this is a new recipe identity rather than measured eight-rank
 parity. Four new fits, two per arm, no new teacher/student fits or submission.
 
-Validation: local Ruff and training structure checks. Focused CPU tests,
-receiver acceptance, baseline replay, native precision/DDP/Muon checks, real
+The explicit source-r3 extension adds independently authored process/resource
+observation and phase/successful-finite-update heartbeats. It preserves source-r2
+and requires fresh admission. Observation never selects or interrupts a fit.
+
+Validation: local Ruff, Bash syntax, training structure and 59 focused CPU checks;
+independent r2 review passed 53 CPU checks. Receiver acceptance, baseline replay,
+native precision/DDP/Muon checks, real
 profiles and all scientific endpoints remain pending. Root exclusively owns
 remote execution; an independent reviewer must approve the actual production
 profile copy for each cell before fitting. No performance result is claimed.

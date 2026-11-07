@@ -24,6 +24,7 @@ from wnn.training.sequence_fit_utils import (
     optimizer_states_are_finite_fp32,
 )
 from wnn.training.sequence_loop import train_epoch
+from wnn.training.sequence_monitor_progress import MonitorProgress
 
 
 def _write_profile_receipt(receipt: dict[str, object], path: Path) -> bool:
@@ -45,6 +46,8 @@ def run_profile(
     output: Path,
     profile_updates: int,
     max_updates: int,
+    *,
+    progress: MonitorProgress | None = None,
 ) -> None:
     """Run bounded real-data updates and emit an unapproved engineering-only receipt."""
     if not 1 <= profile_updates <= max_updates:
@@ -65,6 +68,7 @@ def run_profile(
             epochs_seen,
             updates,
             profile_updates - updates,
+            progress=progress,
         )
         updates += result.updates
         totals += result.totals

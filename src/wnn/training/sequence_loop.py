@@ -25,6 +25,7 @@ from wnn.training.sequence_fit_utils import (
     move_and_validate_batch,
 )
 from wnn.training.sequence_models import detach_state
+from wnn.training.sequence_monitor_progress import MonitorProgress
 from wnn.training.sequence_objectives import (
     detached_sums,
     objective_numerators,
@@ -191,6 +192,8 @@ def train_epoch(
     epoch: int,
     global_step: int,
     max_updates: int | None = None,
+    *,
+    progress: MonitorProgress | None = None,
 ) -> EpochResult:
     """Run complete sequences in padded distributed order with fixed-window DDP scaling."""
     started = time.perf_counter()
@@ -201,6 +204,9 @@ def train_epoch(
     batch_size = int(config["batch_size"])
     chunk_intervals = _chunks(SEQUENCE_ROWS, int(config["chunk_rows"]))
     accumulation = int(config["accumulate_chunks"])
+    steps_per_epoch = ((len(indices) + batch_size - 1) // batch_size) * (
+        (len(chunk_intervals) + accumulation - 1) // accumulation
+    )
     total_count = torch.zeros(8, dtype=torch.float64, device=context.device)
     updates = 0
     for batch_start in range(0, len(indices), batch_size):
@@ -274,5 +280,11 @@ def train_epoch(
             record.update(blend_loss_metrics(config, float(record["label_loss"])))
             record["optimizer_seconds"] = optimizer_seconds
             rank_log.write(record)
+            if progress is not None:
+                progress.optimizer_update(
+                    global_step,
+                    epoch + updates / steps_per_epoch,
+                    float(record["forwarded_rows_per_second"]),
+                )
         state = None
     return EpochResult(updates, True, total_count, time.perf_counter() - started)

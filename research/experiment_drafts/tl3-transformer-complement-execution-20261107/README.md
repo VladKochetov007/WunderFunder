@@ -155,9 +155,38 @@ bundles. The wrapper creates no allocation, queue or receiving approval.
 - [Focused tests](../../../tests/test_pr67_receiving.py) cover capsule mutation,
   the export sentinel, composition plus RNG restoration, and report-log recovery.
 
-Local Ruff and training structure checks pass. Local Torch tests and all native
-receiver/CUDA/profile/full-data checks are pending. This preparation establishes
+Local Ruff, Bash syntax and training structure checks pass. Independent CPU
+review passed 53 tests; the subsequent observer revision passed 59 focused CPU
+checks in 8.48 seconds. All native receiver/CUDA/profile/full-data checks remain
+pending. This preparation establishes
 no numerical parity, throughput, model score or public/private transfer. Independent
 review is owned by the compact-model builder; findings are resolved separately.
 The frozen PR67 two-seed contrasts, bootstrap and follow-up-only trigger remain
 the scientific decision rule. Validation monitoring adds exposure, not a holdout.
+
+## Explicit source-r3 observational extension
+
+The previous source-r2 commit `f754f0be4f48d99c4cff9f284f6e0fa684495267`
+remains frozen. At root's request, source-r3 adds the independently authored
+stdlib observer/progress helpers from architecture execution source
+`b080d3f0874d45a6112f409603a0a10f6ec48420`, plus narrow integration hooks.
+This is a new source identity requiring fresh native checks and profiles.
+The [independent r2 review](INDEPENDENT_REVIEW_R1.md) and
+[reviewed source digests](REVIEWED_SOURCE_R1.json) remain scoped to r2.
+
+The wrapper now observes each profile/fit process and descendants independently,
+recording all-device UUID/resource telemetry in `monitor_observer.jsonl`.
+It enables a five-second observational heartbeat in `monitor_progress.json`.
+Training, evaluation, checkpoint and actual terminal completion are distinct
+phases; only a successful finite optimizer update advances update progress.
+A heartbeat alone is not successful optimizer work. The observer never signals
+processes, adopts foreign GPU PIDs or changes model/update state. Its default
+observation bound is 604,800 seconds; root can set `WNN_OBSERVER_MAX_SECONDS`
+within the helper's declared bounds. That bound stops observation only, so the
+durable worker owner must retain its own execution/collection deadline.
+Do not add a second observer writing the same output journal.
+
+No observer is required on legacy FP32 reference exports or model-independent
+scoring. Both observer artifacts are included in each production evidence bundle;
+resuming preserves the independent observation history while the scientific
+report streams restore their checkpointed offsets.

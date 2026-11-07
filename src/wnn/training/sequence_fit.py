@@ -29,6 +29,7 @@ from wnn.training.sequence_fit_utils import (
     total_updates,
 )
 from wnn.training.sequence_models import build_sequence_model
+from wnn.training.sequence_monitor_progress import close_monitor_progress
 from wnn.training.sequence_optimizer_telemetry import optimizer_contract
 from wnn.training.sequence_profile import run_profile
 from wnn.training.sequence_provenance import (
@@ -112,6 +113,7 @@ def run_sequence_fit(
     if not profile_updates and receipt_path is None:
         raise ValueError("a full fit requires --profile-receipt with explicit approval")
     context = initialize_distributed()
+    monitor: ComplementMonitor | None = None
     try:
         coordinated_call(
             lambda: validate_runtime_requirements(
@@ -142,7 +144,8 @@ def run_sequence_fit(
                     config,
                     output,
                     resume=resume_path is not None,
-                    primary=context.is_primary and not profile_updates,
+                    primary=context.is_primary,
+                    report_epochs=not profile_updates,
                 ),
                 "report-only monitor setup",
                 context,
@@ -211,7 +214,10 @@ def run_sequence_fit(
                     output,
                     profile_updates,
                     schedule_updates,
+                    progress=monitor.progress if monitor is not None else None,
                 )
+                if monitor is not None and monitor.progress is not None:
+                    monitor.progress.phase("profile_completed", profile_updates, 0)
                 return
             if receipt_path is None or profile_hash is None:
                 raise ValueError("full fit profile admission was not validated")
@@ -237,4 +243,5 @@ def run_sequence_fit(
         finally:
             rank_log.close()
     finally:
+        close_monitor_progress(monitor)
         shutdown_distributed(context)

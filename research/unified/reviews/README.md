@@ -1,3 +1,10 @@
+[Independent compact execution review, 7 November](COMPACT_EXECUTION_INDEPENDENT_REVIEW_20261107.md)
+checks the builder's R2 source/config inventory and independently passes 28 tiny
+CPU tests with one required real-Mamba CUDA test pending. No source blocker was
+found for receiving checks/profiles; exact split/row coverage, native backend,
+finite updates and real resource profiles remain admission gates. This is
+software evidence, with no data access, scientific fit or performance result.
+
 [Independent successful-score stop audit](../../campaign_2026-10-19/full_gru_tweaks_r1/records/first_cell_evaluation_v1/score_v4/exact_stop/ACTUAL_STOP_METADATA_REVIEW.json) passes local original raw/transport/source/acceptance joins and successful-only stop; no B action, imports, tests or model/data array reads.
 
 [Prior B300 validation audit](../../experiment_drafts/b300-transformer-distillation-runtime/recovery_r5/VALIDATION_AUDIT.md): source and receipt review at `f1beeb4c`; confirms the reported 0.3849/0.4140 epoch labels and stable heldout masks, identifies train/validation WP mask mismatch and exposed outer-fold selection limits. No replay or raw-array recomputation; supports the R5 inner-validation repeat.

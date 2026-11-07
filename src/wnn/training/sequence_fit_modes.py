@@ -148,6 +148,8 @@ def run_full_fit(
         )
     else:
         rank_log_offsets = gather_rank_log_offsets(rank_log.position(), context)
+        if monitor is not None and monitor.progress is not None:
+            monitor.progress.phase("checkpoint", 0, 0)
         save_training_state(
             output / "training_state.pt",
             _training_state(
@@ -183,6 +185,8 @@ def run_full_fit(
             context,
         )
     for epoch in range(start_epoch, int(config["epochs"])):
+        if monitor is not None and monitor.progress is not None:
+            monitor.progress.phase("training", global_step, epoch)
         torch.cuda.reset_peak_memory_stats(context.device)
         result = train_epoch(
             dataset,
@@ -194,6 +198,7 @@ def run_full_fit(
             rank_log,
             epoch,
             global_step,
+            progress=monitor.progress if monitor is not None else None,
         )
         if not result.complete:
             raise RuntimeError("full fit ended before the complete epoch boundary")
@@ -230,6 +235,8 @@ def run_full_fit(
         metrics_offset = coordinated_call(
             lambda: get_metrics_offset(output, context), "aggregate metrics offset", context
         )
+        if monitor is not None and monitor.progress is not None:
+            monitor.progress.phase("checkpoint", global_step, epoch + 1)
         save_training_state(
             output / "training_state.pt",
             _training_state(
@@ -264,6 +271,8 @@ def run_full_fit(
                 context,
                 "safe-epoch inference snapshot publication",
             )
+    if monitor is not None and monitor.progress is not None:
+        monitor.progress.phase("checkpoint", global_step, int(config["epochs"]))
     coordinated_call(
         lambda: (
             write_final_outputs(
@@ -286,3 +295,5 @@ def run_full_fit(
         context,
     )
     barrier(context)
+    if monitor is not None and monitor.progress is not None:
+        monitor.progress.phase("completed", global_step, int(config["epochs"]))

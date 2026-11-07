@@ -10,6 +10,7 @@ from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_monitor_evaluation import evaluate_monitoring_sets
 from wnn.training.sequence_monitor_events import MONITOR_EVENT_FILENAME, MonitorEventWriter
 from wnn.training.sequence_monitor_identity import membership_sha256
+from wnn.training.sequence_monitor_progress import MonitorProgress
 from wnn.training.sequence_reference_cache import ReferenceCache
 from wnn.training.sequence_reference_pins import PRIMARY_SPLIT_SHA256
 
@@ -40,6 +41,7 @@ class ComplementMonitor:
         *,
         resume: bool,
         primary: bool,
+        report_epochs: bool = True,
     ) -> None:
         if data.split.sha256 != PRIMARY_SPLIT_SHA256 or data.split.valid_groups:
             raise ValueError("complement monitor requires the original train-only official split")
@@ -87,8 +89,11 @@ class ComplementMonitor:
         # not become inputs to the label-only objective or fitting normalization.
         data.provenance["report_only_monitor"] = self.context
         self.writer = (
-            MonitorEventWriter(output / MONITOR_EVENT_FILENAME, resume=resume) if primary else None
+            MonitorEventWriter(output / MONITOR_EVENT_FILENAME, resume=resume)
+            if primary and report_epochs
+            else None
         )
+        self.progress = MonitorProgress(output) if primary else None
 
     def evaluate(
         self,
@@ -101,6 +106,8 @@ class ComplementMonitor:
         """Evaluate raw master weights on rank zero, restoring mode, buffers, and all RNG."""
         if self.writer is None:
             return True
+        if self.progress is not None:
+            self.progress.phase("evaluation", step, epoch)
         train, valid = evaluate_monitoring_sets(
             model,
             self.train_eval,
