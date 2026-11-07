@@ -66,3 +66,18 @@ the existing graph selector. PNG/SVG rendering can run locally from unchanged
 captured journals when the node has no matplotlib; it must never reevaluate a
 model. Official valid and the fixed fitting-only train-eval cohort retain their
 own masks and identities.
+
+Render PNG and SVG artifacts from an immutable local collection snapshot:
+
+```powershell
+$env:PYTHONPATH = 'src;.'
+python scripts/plot_sequence_monitor.py --run-dir <collected-run> --plots-dir <plots-output>
+```
+
+Install matplotlib only in the local plotting environment when absent. The
+exporter reuses native plotting components, retains every evaluation, declares
+the existing dense-telemetry strides and writes `plot_source.json` with raw-file
+and PNG/SVG SHA256 digests. It reads primary-valid and inner-control roles from
+the recorded metrics, and leaves all producer journals unchanged. Run once after
+each newly collected evaluation and at termination; no receiving-node matplotlib
+or model evaluation is required.
