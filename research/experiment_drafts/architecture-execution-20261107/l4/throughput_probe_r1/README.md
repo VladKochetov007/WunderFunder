@@ -1,10 +1,22 @@
 # L4 throughput pulse and bounded GRU gate telemetry
 
-Current receipt-backed status: both S3 copies migrated atE8/51680, but canonical
+Current receipt-backed status: both original GRU cells are **actively training
+under S4** at the native113 cutoff,20:26:51UTC on7November. Both real canonical
+CPU and CUDA zero-update resume probes passed, both archivers became ready,
+and production training advanced fromE8/51680 to51750 updates. See
+[active continuation evidence](ACTIVE_CONTINUATION_S4_R3.md). The final12E
+endpoint is unchanged and completion is not yet claimed.
+
+S4 source preparation and both native20-update profiles had already passed
+ROOT approval with zero logged S1 loss/gradient differences. That earlier
+[qualification107](NATIVE_QUALIFICATION_S4_R1.md) and its pending-resume wording
+remain a historical cutoff, superseded by the actual113 probe/update evidence.
+
+The preceding S3 attempt: both copies migrated atE8/51680, but canonical
 resume failed before new updates because the monitor restoration callback
 returned None. ROOT preserved both original S1 safe checkpoints and cleaned up
-the failed S3 processes. The [S4 resume fix](RESUME_FIX_S4_R1.md) is prepared;
-new native source/profile/resume receipts are not yet collected in this packet.
+the failed S3 processes. The [S4 resume fix](RESUME_FIX_S4_R1.md) records that
+diagnosis and the exact four-file amendment.
 The exact native output, including approval preflight failures091/092/094 and
 resume failure099, is retained in [native_receipts](native_receipts/).
 

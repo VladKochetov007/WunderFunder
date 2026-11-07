@@ -1,3 +1,7 @@
+Historical diagnosis through103; actual S4 source qualification, canonical CPU
+and CUDA probe success, archive readiness and production updates are now recorded
+in [ACTIVE_CONTINUATION_S4_R3.md](ACTIVE_CONTINUATION_S4_R3.md).
+
 Both original GRU fits reached the safeE8 boundary at51680 updates. Both S3
 checkpoint copies migrated and reported archive readiness, but the monitored
 resume path failed before any new successful update. The native traceback in
