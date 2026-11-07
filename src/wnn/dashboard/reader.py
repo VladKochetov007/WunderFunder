@@ -69,6 +69,7 @@ class DashboardReader:
                     streams.training.refresh(self.root, run_id)
                     streams.evaluations.refresh(self.root, run_id)
                     streams.observer.refresh(self.root, run_id)
+                    streams.rank_zero.refresh(self.root, run_id)
                 summary = self._summary(run_id, metadata, metadata_error, streams)
                 if not self._matches(summary, source_filter, config_filter):
                     continue
@@ -92,6 +93,7 @@ class DashboardReader:
                 streams.training.refresh(self.root, run_id)
                 streams.evaluations.refresh(self.root, run_id)
                 streams.observer.refresh(self.root, run_id)
+                streams.rank_zero.refresh(self.root, run_id)
                 snapshot = self._summary(run_id, metadata, metadata_error, streams)
                 snapshot.update(snapshot_history(streams, limit))
                 run_points = snapshot.get("max_points")
@@ -165,6 +167,7 @@ class DashboardReader:
         training = streams.training if streams else None
         evaluations = streams.evaluations if streams else None
         observer = streams.observer if streams else None
+        rank_zero = streams.rank_zero if streams else None
         events = list(training.events) if training else []
         if not events and evaluations:
             events = list(evaluations.events)
@@ -202,10 +205,14 @@ class DashboardReader:
             "last_event_at": latest_stream.last_event_at.isoformat()
             if latest_stream and latest_stream.last_event_at
             else None,
-            "event_count": training.total_events if training else 0,
-            "retained_count": len(training.events) if training else 0,
-            "dropped_count": training.dropped_events if training else 0,
-            "history_limited": training.history_is_limited() if training else False,
+            "event_count": (training.total_events if training else 0)
+            + (rank_zero.total_events if rank_zero else 0),
+            "retained_count": (len(training.events) if training else 0)
+            + (len(rank_zero.events) if rank_zero else 0),
+            "dropped_count": (training.dropped_events if training else 0)
+            + (rank_zero.dropped_events if rank_zero else 0),
+            "history_limited": (training.history_is_limited() if training else False)
+            or (rank_zero.history_is_limited() if rank_zero else False),
             "invalid_lines": training.invalid_lines if training else 0,
             "evaluation_status": evaluations.status() if evaluations else "unread",
             "evaluation_event_count": evaluations.total_events if evaluations else 0,

@@ -267,7 +267,8 @@ function buildSeries(keys, customDashed) {
   const series = [];
   state.snapshots.forEach((run, runIndex) => {
     const events = run.events || [];
-    const timeOrigin = events.length ? Date.parse(events[0].wall_time) : Number.NaN;
+    const timedEvents = events.filter((event) => !(event.context && event.context.wall_time_is_update_time === false));
+    const timeOrigin = timedEvents.length ? Date.parse(timedEvents[0].wall_time) : Number.NaN;
     for (const key of keys) {
       const points = events.map((event) => {
         const metrics = event.metrics || {};
@@ -275,7 +276,7 @@ function buildSeries(keys, customDashed) {
         let x = Number.NaN;
         if (state.xAxis === "epoch") x = event.epoch;
         else if (state.xAxis === "step") x = event.step;
-        else {
+        else if (!(event.context && event.context.wall_time_is_update_time === false)) {
           const eventTime = Date.parse(event.wall_time);
           if (Number.isFinite(eventTime) && Number.isFinite(timeOrigin)) x = (eventTime - timeOrigin) / 1_000;
         }

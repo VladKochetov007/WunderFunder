@@ -18,6 +18,7 @@ ALLOWED_FILES = {
     "monitor_events.jsonl",
     "monitor_evaluations.jsonl",
     "monitor_observer.jsonl",
+    "monitor_rank0.jsonl",
 }
 
 
