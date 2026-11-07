@@ -1,5 +1,16 @@
 # Project agent instructions
 
+## Latest8 November: generalization/objective repair explicitly authorized
+
+The user requests implementing and launching fixes on the existing L4/B300
+clusters. research/experiment_drafts/generalization-fix-20261108/CONTRACT_R1.md
+bounds two follow-ups:6L4 anti-overfit/representation fits and4B300 objective
+fits, matched new seeds101101/101102, max4h/host from first new profile including
+1h collection reserve. This supersedes earlier no-new-fit scope only for these
+packets. ROOT retains sole SSH/GPU/signal authority and existing streams. Freeze
+actual runnable recipes after audit/profiles; no promotion without empirical
+evidence. Keep original fits/results/sources historical, ADR0044 unchanged.
+
 ## Latest7 November: measured B300/L4 optimization amendment
 
 The user requests efficient training on both existing hosts. See
