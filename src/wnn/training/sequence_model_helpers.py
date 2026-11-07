@@ -3,16 +3,26 @@
 from __future__ import annotations
 
 import math
+from typing import Protocol, Self, runtime_checkable
 
 import torch
 from torch import Tensor, nn
 from torch.nn import functional as F
 
-from wnn.galam import GALAMState
 from wnn.training.sequence_attention import TransformerState
 from wnn.training.sequence_precision import validate_forward_state
 
-SequenceState = Tensor | tuple[Tensor, Tensor] | TransformerState | GALAMState | None
+
+@runtime_checkable
+class DetachableSequenceState(Protocol):
+    """An architecture-owned state that can detach all of its recurrent tensors."""
+
+    def detach(self) -> Self:
+        """Return the same state representation with all carried graphs cut."""
+        ...
+
+
+SequenceState = Tensor | tuple[Tensor, Tensor] | TransformerState | DetachableSequenceState | None
 
 
 def validate_sequence_fp32_environment(
@@ -74,7 +84,7 @@ def detach_state(state: SequenceState) -> SequenceState:
         return state.detach()
     if isinstance(state, tuple) and len(state) == 2:
         return state[0].detach(), state[1].detach()
-    if isinstance(state, GALAMState):
+    if isinstance(state, DetachableSequenceState):
         return state.detach()
     if isinstance(state, TransformerState):
         return TransformerState(

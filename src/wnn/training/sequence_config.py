@@ -5,6 +5,11 @@ import math
 from pathlib import Path
 from typing import Any
 
+from wnn.training.sequence_compact_config import (
+    COMPACT_ARCHITECTURES,
+    compact_model_fields,
+    validate_compact_recipe,
+)
 from wnn.training.sequence_config_validation import (
     is_galam_lstm64_muon,
     validate_input_prefetch_batches,
@@ -112,7 +117,9 @@ def load_config(path: Path) -> dict[str, Any]:
     raw_model = raw.get("model", {})
     if not isinstance(raw_model, dict):
         raise ValueError("model must be a mapping")
-    allowed_model_fields = set(MODEL_DEFAULTS) | {"input_feature_mode"}
+    allowed_model_fields = (
+        set(MODEL_DEFAULTS) | {"input_feature_mode"} | compact_model_fields(raw_model)
+    )
     if raw_model.get("architecture") == "galam":
         from wnn.training.galam_adapter import galam_model_settings
 
@@ -200,8 +207,8 @@ def load_config(path: Path) -> dict[str, Any]:
             raise ValueError(f"model.{key} must be a positive integer")
     if type(model["hint_dim"]) is not int or model["hint_dim"] < 0:
         raise ValueError("hint_dim must be a nonnegative integer")
-    if model["architecture"] not in ("transformer", "gru", "lstm", "galam"):
-        raise ValueError("architecture must be transformer, gru, lstm, or galam")
+    if model["architecture"] not in ("transformer", "gru", "lstm", "galam", *COMPACT_ARCHITECTURES):
+        raise ValueError("unsupported sequence architecture")
     input_feature_mode = _validate_input_feature_mode(model)
     if model["attention_backend"] not in ("math", "efficient", "flex"):
         raise ValueError("model.attention_backend must be math, efficient, or flex")
@@ -259,14 +266,15 @@ def load_config(path: Path) -> dict[str, Any]:
     ):
         raise ValueError("required_world_size must be null or a positive integer")
     required_device = config["required_device"]
-    if required_device not in (None, "B300"):
-        raise ValueError("required_device must be null or B300")
+    if required_device not in (None, "B300", "L4"):
+        raise ValueError("required_device must be null, B300, or L4")
     expected_fold = config["expected_fold"]
     if expected_fold is not None and (type(expected_fold) is not int or expected_fold < 0):
         raise ValueError("expected_fold must be null or a nonnegative integer")
     # This runtime-only field lets fit and inference build the same precision-aware model.
     model["precision_mode"] = config["precision_mode"]
     config["model"] = model
+    validate_compact_recipe(config)
     return config
 
 
@@ -277,8 +285,9 @@ def validate_runtime_requirements(
     required_world_size = config["required_world_size"]
     if required_world_size is not None and world_size != required_world_size:
         raise ValueError(f"recipe requires world size {required_world_size}, received {world_size}")
-    if config["required_device"] == "B300" and "B300" not in device_name.upper():
-        raise ValueError(f"recipe requires an NVIDIA B300 device, received {device_name!r}")
+    required_device = config["required_device"]
+    if required_device is not None and required_device not in device_name.upper():
+        raise ValueError(f"recipe requires NVIDIA {required_device}, received {device_name!r}")
     return True
 
 

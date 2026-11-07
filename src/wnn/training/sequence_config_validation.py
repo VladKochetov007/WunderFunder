@@ -36,6 +36,9 @@ def validate_monitoring_config(
         "gru",
         "lstm",
         "transformer",
+        "gru_local",
+        "mamba2",
+        "ema_tabm_style",
     ):
         raise ValueError("online monitoring requires a supported sequence model")
     if type(epochs) is not int or not 1 <= epochs <= 10_000:

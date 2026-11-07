@@ -9,6 +9,7 @@ from torch import Tensor, nn
 from torch.utils.checkpoint import checkpoint
 
 from wnn.training.sequence_attention import CausalTransformerBlock, TransformerState
+from wnn.training.sequence_compact_config import COMPACT_ARCHITECTURES, compact_model_settings
 from wnn.training.sequence_compile import compile_transformer_blocks
 from wnn.training.sequence_features import RAW_INPUT_MODE, sequence_input_width
 from wnn.training.sequence_gru_adapter import GRUSequenceAdapter
@@ -192,6 +193,20 @@ def build_sequence_model(config: dict[str, object]) -> nn.Module:
     if not isinstance(input_feature_mode, str):
         raise TypeError("model input_feature_mode must be a string")
     sequence_input_width(input_feature_mode)
+    if architecture in COMPACT_ARCHITECTURES:
+        settings = compact_model_settings(config)
+        configure_precision_mode("fp32")
+        if architecture == "gru_local":
+            from wnn.training.sequence_gru_local import GRULocalSequenceAdapter
+
+            return GRULocalSequenceAdapter(settings)
+        if architecture == "mamba2":
+            from wnn.training.sequence_mamba2 import Mamba2SequenceAdapter
+
+            return Mamba2SequenceAdapter(settings)
+        from wnn.training.sequence_ema_tabm import EMATabMStyleSequenceAdapter
+
+        return EMATabMStyleSequenceAdapter(settings)
     if architecture == "galam":
         if input_feature_mode != RAW_INPUT_MODE:
             raise ValueError("GALAM sequence adapters accept only raw112 inputs")
