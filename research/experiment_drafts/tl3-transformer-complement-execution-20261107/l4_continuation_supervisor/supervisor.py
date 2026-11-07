@@ -267,6 +267,7 @@ class Supervisor:
             != trainer
         ):
             raise RuntimeError("original trainer ownership changed before stop")
+        self.guard()
         terminate_owned_process(owned["child"], grace_seconds=2)
         exit_end = time.monotonic() + 30
         while is_same_process(trainer) or is_same_process(owned["child"]):
