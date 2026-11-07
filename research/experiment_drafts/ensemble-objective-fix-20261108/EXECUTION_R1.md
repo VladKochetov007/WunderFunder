@@ -27,7 +27,7 @@ reported separately from the same monitoring forwards. Official grader remains
 unchanged; training surrogate floors prediction std at.01. Validation is exposed
 development evidence. Reused reference WP0.6923774248169172 is not a new gain.
 
-Authority starts at the original actual NCCL probe1794091436.370UTC epoch:
+Authority starts at original actual NCCL probe epoch1794091436.3614902:
 fit cutoff8 November01:43:56UTC; final collection deadline02:43:56UTC. No reset,
 automatic retry, extra seed or student. Native receiver monitors full-valid
 WMSE/WP/targets, standalone+mixture, objective terms, LR, preclip norms,
