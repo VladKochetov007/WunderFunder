@@ -652,8 +652,10 @@ Actual-profile mode outputs: [A8 log](../../campaign_2026-10-13/qat_renewable_r1
 corrects a probe-only false failure after native canonical CPU resume succeeded:
 the tensor projection now preserves OrderedDict rather than changing it to dict.
 The strict migration/payload helper and S4 science remain unchanged. Six CPU
-tests and independent review pass; fresh R3 outputs preserve R2 failures, and
-native CPU/CUDA probes remain required before continued fitting.
+tests and independent review pass; fresh R3 outputs preserve R2 failures.
+ROOT's actual receipt113 now shows both canonical CPU and real CUDA zero-update
+probes passed, live archive readiness and both original fits active at update
+51,750 on7 November20:26:51UTC. Final12E/77,520 and complete archival remain pending.
 
 [GRU stopped-state recovery R2](../../experiment_drafts/tl3-transformer-complement-execution-20261107/l4_continuation_recovery_r2/README.md)
 preserves the failed S3 attempt after canonical load_resume exposed a monitor

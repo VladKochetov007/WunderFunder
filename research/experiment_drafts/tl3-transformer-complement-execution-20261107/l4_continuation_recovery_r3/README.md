@@ -1,5 +1,11 @@
 # GRU recovery R3: preserve the actual state_dict container
 
+**ACTIVE at20:26:51UTC on7 November2026:** both native CPU and real CUDA probes
+passed at8E/51,680, both external archivers became ready, and both original GRU
+trajectories advanced to successful update51,750. See
+[actual execution and raw receipt113](EXECUTION_20261107.md). Final12E/77,520 and
+complete archival/validation are still pending; no new fit or seed was added.
+
 Native R2 canonical CPU load_resume succeeded at8E/51,680, then the probe's
 verification falsely failed: its CPU tensor projection created a plain dict,
 while the saved model state was an OrderedDict. The strict same_payload helper
@@ -39,8 +45,9 @@ with the same S1/src:Q1 PYTHONPATH and original venv Python.
 |recovery_supervisor.py|7726ae53a6ab3d5ca9b46c76c21237e74b5838cea511f78721931d0d181e92f5|
 |run_probe.py|18911c7ecf7088b5257adc27b0276982ca7b66218bb6a266978fe0f12e89dae0|
 
-Native canonical CPU and separate real CUDA zero-update restoration probes
-remain mandatory gates before archiver-ready production continuation. CPU mode
-still stubs only the CUDA RNG setter and never claims real CUDA restoration.
-The fixed bounded callback/reaping and archive-death guards are retained. The
-preparation agent performed no SSH, GPU, process or native recovery action.
+Native canonical CPU and separate real CUDA zero-update restoration gates have
+passed in receipt113, followed by archive readiness and actual production
+updates. CPU mode still stubs only the CUDA RNG setter; the separate CUDA mode
+uses no stub. The bounded callback/reaping and archive-death guards remain active.
+ROOT performed native execution; the preparation agent performed no SSH, GPU,
+process or native recovery action.
