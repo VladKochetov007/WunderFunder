@@ -75,7 +75,8 @@ def main() -> None:
         "approved": True,
         "reviewer": "ROOT",
         "runtime": str(runtime),
-        "python": str(args.python.resolve(strict=True)),
+        # Keep the venv entrypoint: resolving its interpreter symlink loses the venv.
+        "python": str(args.python.absolute()),
         "tools": str(tools),
         "control": str(runtime / "control/gru-monitor-transition-r1"),
         "observed_worker": str(args.observed_worker.resolve(strict=True)),
