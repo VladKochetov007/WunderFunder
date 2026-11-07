@@ -84,3 +84,7 @@ foreign process and reused PID. Other tests cover failed preflight preserving
 the old worker, archiver death/timeout/unproved clean exit, final-only clean exit,
 and cleanup excluding foreign/other-seed commands. No native stop, migration,
 archival, CUDA work or resumed endpoint was executed by the preparation agent.
+
+[Independent review R1](INDEPENDENT_REVIEW_R1.md) binds the four final execution
+hashes and9 independently passing CPU tests. No remaining mechanical blocker was
+found; ROOT retains every native plan/profile, old-stop and continuation gate.
