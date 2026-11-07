@@ -33,6 +33,8 @@ def export_plots(run_dir: Path, plots_dir: Path) -> dict[str, object]:
     if observer_path.is_file():
         observer, observer_policy = read_training_events(observer_path)
         training.extend(observer)
+    rank_path = run_dir / "monitor_rank0.jsonl"
+    rank_zero, rank_policy = read_training_events(rank_path) if rank_path.is_file() else ([], {})
     import matplotlib
 
     matplotlib.use("Agg")
@@ -75,6 +77,17 @@ def export_plots(run_dir: Path, plots_dir: Path) -> dict[str, object]:
         ("online_objectives", _plot_online(plt, training, first_wall)),
         ("optimizer_telemetry", _plot_optimizer(plt, training, first_wall)),
     ]
+    if rank_zero:
+        # Native B300 rank rows lack update timestamps. Use their actual update
+        # clock rather than interpreting sampled source-file mtime as update time.
+        for name, plotter in (
+            ("native_rank0_objectives_by_update", _plot_online),
+            ("native_rank0_optimizer_by_update", _plot_optimizer),
+        ):
+            figure = plotter(plt, rank_zero, None)
+            if figure is not None:
+                figure.axes[-1].set_xlabel("Optimizer updates")
+                figures.append((name, figure))
     keys = {key for event in training for key in event.get("metrics", {})}
     for name, selected in (
         (
@@ -138,6 +151,8 @@ def export_plots(run_dir: Path, plots_dir: Path) -> dict[str, object]:
             "monitor_events.jsonl",
             "monitor_evaluations.jsonl",
             "monitor_observer.jsonl",
+            "monitor_rank0.jsonl",
+            "rank0.jsonl",
             "epoch_index.json",
             "terminal_status.json",
         )
@@ -153,6 +168,7 @@ def export_plots(run_dir: Path, plots_dir: Path) -> dict[str, object]:
         "training_sampling_policy": training_policy,
         "evaluation_sampling_policy": evaluation_policy,
         "observer_sampling_policy": observer_policy,
+        "rank_zero_sampling_policy": rank_policy,
         "plots_sha256": exports,
         "plot_count": len(exports),
         "model_evaluations_triggered": 0,

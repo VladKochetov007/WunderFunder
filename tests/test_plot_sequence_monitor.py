@@ -52,6 +52,7 @@ def test_local_plot_export_preserves_native_journals_and_role(tmp_path: Path) ->
         ("monitor_evaluations.jsonl", evaluation),
         ("monitor_events.jsonl", training),
         ("monitor_observer.jsonl", observation),
+        ("monitor_rank0.jsonl", {**training, "context": {"wall_time_is_update_time": False}}),
     ):
         (run / name).write_text(json.dumps(event) + "\n", encoding="utf-8")
     before = {path.name: path.read_bytes() for path in run.iterdir()}
@@ -64,6 +65,7 @@ def test_local_plot_export_preserves_native_journals_and_role(tmp_path: Path) ->
     assert (output / "train_eval_vs_evaluation_wmse.png").is_file()
     assert (output / "train_eval_vs_evaluation_wp.svg").is_file()
     assert (output / "gpu_utilization.png").is_file()
+    assert (output / "native_rank0_objectives_by_update.png").is_file()
     for name, content in before.items():
         assert (run / name).read_bytes() == content
         assert result["source_sha256"][name] == hashlib.sha256(content).hexdigest()
