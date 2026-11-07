@@ -1,5 +1,41 @@
 # Project agent instructions
 
+## Latest7 November: measured B128 optimization supersedes the B4 allocation
+
+The user explicitly requested training optimization on B300 and L4. Four B4
+attempts were retired as partial at1263–1291updates; preserve their old source,
+journals and receipts. The current B300 panel uses matched B128/A4/world2,
+fixed30E/24600updates, with source6ab2f679e unchanged. Thirteen new engineering
+profiles passed; each exact production seed/config/pair passed50updates and
+ROOT approval. New control: runtime/architecture-execution-20261107-r1/control/
+b300-optimized-r1. Its24h/1hreserve allocation replaces the old nine-day B4
+execution; no old B4 continuation or extra seeds are admitted. See
+research/experiment_drafts/tl3-transformer-complement-execution-20261107/OPTIMIZATION_R1.md.
+Only batch and the resulting canonical update/warmup counts changed. Official
+train10325/zero valid fitting/full valid1873/3528273 and all source/ancestry,
+precision, objective, fixed blend and ownership constraints remain. Optional
+Muon batching source is prepared, not used by these workers. Root owns one
+persistent SSH stream per host. No quality gain is inferred from throughput.
+
+## Latest7 November: PR67 receiving execution explicitly authorized
+
+The user explicitly requested setup and launch on the existing B300/L4 hosts.
+Four fresh30-epoch PR67 fits now run on four two-B300 pairs, two seeds each for
+labels and fixed90%cleanTL3+10%Transformer objective. See
+research/experiment_drafts/tl3-transformer-complement-execution-20261107/EXECUTION_R1.md.
+Frozen source6ab2f679e remains unchanged; twelve actual profiles/native acceptance
+and exact clean-TL3 baseline replay passed before ROOT approval. No automatic
+extra seeds/teachers/students or historical stopped-fit resumption is authorized.
+Official train10325 only, zero valid fitting, full valid1873/3528273 scored rows;
+ADR0044 overrides historical random-fold defaults. BF16/BF16x9 mode is explicit.
+Measured~.71s/update ×774600 requires~6.4days core fitting before full-valid
+overhead. ROOT explicitly amended the initial24h maximum to finite9days before
+first fit, with unchanged four-fit/twelve-profile caps and1h collection reserve.
+Native observer has a7-day per-worker cap; a source-identical same-fit continuation
+requires actual expiry/ownership/checkpoint review within the9-day maximum.
+ROOT alone owns persistent SSH file-RPC and GPU admission; preserve foreign jobs.
+Old resource/preparation notes below are historical where this scope supersedes.
+
 ## B300 precision amendment — user correction, 2026-10-24
 
 For PR32 / the high-compute R4 continuation, mandatory strict-FP32 model compute

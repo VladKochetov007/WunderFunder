@@ -1,0 +1,45 @@
+{
+  "schema": "wnn.experiment-preparation-validation.v1",
+  "date": "2026-11-06",
+  "status": "code_and_recipe_only",
+  "base_commit": "7e4074314a62d0907c9608f9220cf72958708a2d",
+  "source_split_port": {
+    "upstream_commit": "c42baf7b95946994216801b4eb9909422ea7effa",
+    "files": ["src/wnn/chronological_manifest.py", "src/wnn/chronological_source_index.py", "src/wnn/chronological_splits.py"],
+    "review": "exact upstream source port; tests adapted to the receiving canonical runtime"
+  },
+  "static_checks": {
+    "ruff_format": "passed",
+    "ruff_check": "passed",
+    "python_ast_parse": "passed",
+    "packet_json_parse": "passed",
+    "bash_n": "passed",
+    "git_diff_check": "passed",
+    "training_structure": {"passed": true, "files": 99, "errors": 0, "max_module_lines": 300, "max_function_lines": 200}
+  },
+  "independent_source_review": {
+    "reviewer": "top_pipeline_scout",
+    "result": "no remaining static blocker found",
+    "resolved": [
+      "Profile loss schema retains the historical four objective keys; blend diagnostics are separate",
+      "Profiles and fitting require complete hash-bound acceptance, not a merely existing JUnit file",
+      "Legacy prediction replay requires one explicitly allocated GPU",
+      "Panel comparison binds actual source/config/data/normalization/runtime/optimizer and completed budgets"
+    ],
+    "limitation": "source reading only; no runtime execution or numerical evidence"
+  },
+  "not_executed": ["local tests", "model imports", "training", "inference", "GPU profiles", "receiver acceptance", "competition upload"],
+  "receiver_required": [
+    "Exact PR49 source/data/split and 17 published ancestor asset checks",
+    "Fresh six-bank native reference replay and baseline WP within 2e-6 of 0.6923774245652725",
+    "Algebra, cache, split, causal/chunk/model, resume and Muon acceptance",
+    "Compiled-efficient versus eager-math BF16 and BF16x9 objective/gradient checks in separate processes",
+    "Two-rank weighted objective/default/complement and Muon acceptance",
+    "One-rank, eight-rank and peak-LR engineering profiles for every scientific cell",
+    "Explicit receiver approval of each production profile",
+    "All four final-epoch fits, scored fixed composites, paired component comparison"
+  ],
+  "measured_new_model_results": null,
+  "new_cpu_submission_readiness": false,
+  "publication": "See PUBLICATION.json for verified draft PR and code commit"
+}

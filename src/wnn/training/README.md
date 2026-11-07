@@ -114,6 +114,14 @@ They must run on the receiving host; this delivery executed no local tests or mo
 
 ## Quality checks
 
+The separately identified [November 7 PR67 receiving adapter](../../../research/experiment_drafts/tl3-transformer-complement-execution-20261107/README.md)
+adds `sequence_complement_monitor`, reuses the canonical monitor evaluation/event/
+identity helpers, and binds report-only journal offsets through `sequence_fit_state`.
+It reports the fixed reference composition on full official valid each epoch while
+preserving fixed-final fitting. `sequence_source_capsule` checks sender-bound Git
+blob inventories when the receiving node has no Git executable. Frozen configs
+retain their default behavior. Static preparation does not establish native parity.
+
 Static checks and checker unit tests do not require the training dependencies:
 
 ```bash

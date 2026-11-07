@@ -81,6 +81,7 @@ class MuonAdamW(torch.optim.Optimizer):
         rms: float = 0.2,
         strict_fp32: bool = False,
         ns_eps: float = 1e-7,
+        muon_batch_by_shape: bool = False,
     ) -> None:
         defaults = dict(
             lr=lr,
@@ -94,6 +95,10 @@ class MuonAdamW(torch.optim.Optimizer):
             strict_fp32=strict_fp32,
             ns_eps=ns_eps,
         )
+        if type(muon_batch_by_shape) is not bool:
+            raise TypeError("muon_batch_by_shape must be boolean")
+        if muon_batch_by_shape:
+            defaults["muon_batch_by_shape"] = True
         super().__init__(params, defaults)
         for group in self.param_groups:
             if group.get("strict_fp32", False) and (
@@ -120,6 +125,11 @@ class MuonAdamW(torch.optim.Optimizer):
         for group in self.param_groups:
             lr, wd, eps = group["lr"], group["weight_decay"], group["eps"]
             beta1, beta2 = group["betas"]
+            if group["muon"] and group.get("muon_batch_by_shape", False):
+                from wnn.optim_muon_batch import batched_muon_group_step
+
+                batched_muon_group_step(group, self.state, orthogonalize)
+                continue
             for p in group["params"]:
                 state = self.state.get(p)
                 strict_fp32 = group.get("strict_fp32", False)

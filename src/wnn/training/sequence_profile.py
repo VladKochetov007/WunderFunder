@@ -10,6 +10,7 @@ import torch
 import torch.distributed as dist
 
 from wnn.research_reporting import RunRecorder
+from wnn.training.sequence_blend import blend_loss_metrics
 from wnn.training.sequence_checkpoint import atomic_write_json
 from wnn.training.sequence_distributed import (
     DistributedContext,
@@ -23,6 +24,7 @@ from wnn.training.sequence_fit_utils import (
     optimizer_states_are_finite_fp32,
 )
 from wnn.training.sequence_loop import train_epoch
+from wnn.training.sequence_monitor_progress import MonitorProgress
 
 
 def _write_profile_receipt(receipt: dict[str, object], path: Path) -> bool:
@@ -44,6 +46,8 @@ def run_profile(
     output: Path,
     profile_updates: int,
     max_updates: int,
+    *,
+    progress: MonitorProgress | None = None,
 ) -> None:
     """Run bounded real-data updates and emit an unapproved engineering-only receipt."""
     if not 1 <= profile_updates <= max_updates:
@@ -64,6 +68,7 @@ def run_profile(
             epochs_seen,
             updates,
             profile_updates - updates,
+            progress=progress,
         )
         updates += result.updates
         totals += result.totals
@@ -127,6 +132,11 @@ def run_profile(
             + float(config["kd_weight"]) * kd_loss
             + float(config["hint_weight"]) * hint_loss,
         },
+        **(
+            {"blend_objective": blend_loss_metrics(config, label_loss)}
+            if config.get("blend_objective_alpha", 0) > 0
+            else {}
+        ),
         "model_parameters": identity["model_parameters"],
         "memory_by_rank": memory,
         "peak_memory_bytes": max(item["peak_allocated_bytes"] for item in memory),
