@@ -1,5 +1,12 @@
 # PR67 receiving amendment: four parallel two-B300 fits
 
+Actual ROOT execution is now recorded in [EXECUTION_R1.md](EXECUTION_R1.md).
+All four fresh fits started18:36UTC after native acceptance, twelve profiles,
+independent review and clean-TL3 baseline replay. Measured full-schedule cost
+requires the explicit finite9-day receiving amendment; see its unchanged exact
+receipt in receiving-evidence. No final improvement is claimed. Preparation-only
+statements below describe the earlier builder stage and are historical.
+
 The later [bounded receiving controller](receiving/README.md) stages outside
 frozen source-r3, reuses ROOT's known ownership helpers, enforces the mandatory
 short run alias, and advances four independently approved cells through finite
