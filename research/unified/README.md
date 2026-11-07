@@ -1,5 +1,16 @@
 # Unified research library
 
+## 7 November: architecture choices for B300 and L4
+
+[The source-grounded portfolio](ideas/architecture_portfolio_20261107/README.md)
+separates new state/multiscale representation hypotheses from PR67's existing
+fixed-blend objective handoff. It records the actual PR61 terminal status10/12,
+unstarted TF students, dated public-score audit, independent lens notes and
+proposed device allocation. Literature/planning only; old allocations remain
+expired and no training or receiving profile ran here.
+
+## Historical4 November: automatic continuation handoff
+
 [The original PR61 continuation handoff](../experiment_drafts/l4-teacher-capacity-20261104/recovery-r5-r2/EXECUTION_R5_R2.md)
 records the live detached Transformer queue, actual passing receiver checks,
 cache admission and hourly/completion GitHub publication. Eight original fits

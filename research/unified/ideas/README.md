@@ -1,5 +1,12 @@
 # Ideas and hypotheses
 
+- [7 November architecture portfolio](architecture_portfolio_20261107/README.md)
+  ranks carried-state/local-attention, completed-patch memory, recurrent hybrids,
+  modern Transformer/TL3-contribution and cheap statistical regressors. Three
+  independent literature lenses, current PR61/63–67 status, causal/CPU limits,
+  a proposed B300/L4 allocation and arithmetic are retained. Planning only;
+  no new model/GPU/SSH action or measured gain.
+
 - [Completed heterogeneous-teacher screen](../../experiment_drafts/heterogeneous-tl3-20261030/results/R3/README.md)
   reports six fixed fits and12 predeclared ensembles against canonical fresh TL3.
   Both matched student seeds improve; the two-student ensemble gains0.0004057735

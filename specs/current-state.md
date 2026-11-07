@@ -1,4 +1,16 @@
-## 4 November: original Transformer continuation and publication active
+## 7 November: architecture planning and source refresh
+
+[The new portfolio](../research/unified/ideas/architecture_portfolio_20261107/README.md)
+records proposed memory/local-attention, completed-patch, modern-Transformer and
+cheap-readout branches for the user's existing8B300/8L4. All current action was
+planning, repository/API/literature reading and arithmetic; no model or GPU work.
+Fresh PR61 status reports10/12 completed fits, two finished TF teachers and two
+unstarted students after a profile-device receipt rejection. The old running
+notes below are historical. PR63–67 remain preparation, not measured improvements.
+Independent source/design criticism is retained; receiver/empirical gates are
+not passed by a literature review. Official chronological policy is unchanged.
+
+## Historical4 November: original Transformer continuation and publication active
 
 [R5 actual handoff and raw receipts](../research/experiment_drafts/l4-teacher-capacity-20261104/recovery-r5-r2/EXECUTION_R5_R2.md)
 record two original Transformer teachers still active, eight original fits

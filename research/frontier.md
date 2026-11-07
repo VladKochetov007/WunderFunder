@@ -1,5 +1,15 @@
 # Active frontier
 
+Current7 November: [architecture portfolio](unified/ideas/architecture_portfolio_20261107/README.md)
+is prepared from independent lenses and a fresh GitHub source read. Highest new
+representation priority is carried memory plus local attention; PR67 is the
+existing implementation-backed fixed-TL3-contribution handoff, still unrun.
+Old PR61 terminal status is10/12 fits completed, both TF teachers finished,
+TF students unstarted after profile identity rejection. No old allocation is
+active by inference from earlier notes. The proposed8B300/8L4 use is planning
+only; no new compute or empirical gain occurred. Retain sibling/duplicate
+mechanisms and exposed validation labels explicitly.
+
 Current4 November: [the four-fit clipping/objective comparison is complete](experiment_drafts/l4-objective-20261104/RESULTS_20261104_R1.md).
 Clip5 mean delta−.000058670; late auxiliary anneal−.000212692 against matched
 fixed-ep3 controls. The exact spending gate returned `no_students`; neither

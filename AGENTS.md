@@ -1,5 +1,18 @@
 # Project agent instructions
 
+## Latest7 November: architecture planning only
+
+User requests high-quality architecture choices using existing8B300+8L4.
+See research/unified/ideas/architecture_portfolio_20261107/README.md and CONTRACT.md.
+Three independent literature lenses and source refresh are complete; no SSH,
+model execution, GPU profile/fit, provider allocation or GitHub write occurred.
+PR61 terminal comment reports10/12 completed; two TF teachers finished and two
+students never started after profile-device identity rejection. Older running
+notes below are historical, not permission to resume. PR63–67 are prepared,
+unmeasured handoffs. This turn proposes an allocation, not a runnable admission.
+Full sequences20k/112raw;2k is TBPTT chunking. event211=112raw+99derived.
+Keep ADR0044 and all existing historical source/evidence unchanged.
+
 ## Latest 4 November: original PR61 R5 continuation and publication active
 
 Original two TF teachers still train on GPUs6/7. Owned R5 controller1603600 adopts
