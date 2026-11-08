@@ -57,3 +57,7 @@ local artifact root. Coarse controller status can lag actual producer updates.
 checkpoint availability, detached monitor/publisher owners and the first
 automatic PR72 update. E1/E2 monitors remain provisional; final E4 grades and
 independent endpoint byte bindings are pending.
+
+[The R2 postprocessing repair](POSTPROCESS_REPAIR_R2.md) handles the observed
+WMSE reduction roundoff after the frozen receiver exits, preserving its source
+and receipts. It changes no scientific fit, metric or endpoint policy.
