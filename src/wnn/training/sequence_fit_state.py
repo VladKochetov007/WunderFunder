@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import torch
 
+from wnn.training.sequence_checkpoint_policy import RESUME_STATE_PURPOSE
+
 
 def training_state(
     identity: dict[str, object],
@@ -19,6 +21,7 @@ def training_state(
     """Serialize the same safe epoch state, optionally including report-only log offsets."""
     state = {
         "checkpoint_schema": "wnn.sequence-resume.v1",
+        "checkpoint_purpose": RESUME_STATE_PURPOSE,
         "contract": identity,
         "world_size": world_size,
         "next_epoch": next_epoch,

@@ -10,6 +10,11 @@ import torch
 from wnn.research_reporting import RunRecorder
 from wnn.training.sequence_blend import blend_loss_metrics
 from wnn.training.sequence_checkpoint import atomic_write_json, save_final_model
+from wnn.training.sequence_checkpoint_policy import (
+    CONFIGURED_FINAL_EPOCH,
+    FINAL_ENDPOINT_PURPOSE,
+    validate_checkpoint_endpoint_policy,
+)
 from wnn.training.sequence_distributed import DistributedContext
 from wnn.training.sequence_ensemble_reporting import objective_metrics
 from wnn.training.sequence_loop import EpochResult
@@ -58,6 +63,7 @@ def write_final_outputs(
     epoch_index_sha256: str | None = None,
 ) -> bool:
     """Write a fixed-final model and its terminal hash, preserving any prior artifact."""
+    validate_checkpoint_endpoint_policy(config)
     epochs = int(config["epochs"])
     retention = config.get("checkpoint_retention", "final_only")
     if retention == "all_epochs":
@@ -73,6 +79,8 @@ def write_final_outputs(
         "profile_receipt": {"path": str(profile_receipt), "sha256": profile_hash},
         "history": json_value(history),
         "fixed_checkpoint_policy": "configured-final-epoch",
+        "checkpoint_purpose": FINAL_ENDPOINT_PURPOSE,
+        "checkpoint_endpoint_policy": CONFIGURED_FINAL_EPOCH,
         "completed_epochs": epochs,
         "global_updates": global_step,
         "precision": precision_identity(

@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from wnn.training.sequence_blend import validate_blend_config
+from wnn.training.sequence_checkpoint_policy import validate_checkpoint_endpoint_policy
 from wnn.training.sequence_complement_monitor import validate_complement_monitor
 from wnn.training.sequence_ensemble_config import validate_ensemble_objective
 from wnn.training.sequence_precision import PRECISION_MODES, validate_process_environment
@@ -64,6 +65,7 @@ def load_config(path: Path) -> dict[str, Any]:
     optional = {
         "model",
         "checkpoint_retention",
+        "checkpoint_endpoint_policy",
         "blend_objective_alpha",
         "monitoring",
         "muon_batch_by_shape",
@@ -78,6 +80,7 @@ def load_config(path: Path) -> dict[str, Any]:
         "all_epochs",
     ):
         raise ValueError("checkpoint_retention must be final_only or all_epochs")
+    validate_checkpoint_endpoint_policy(raw)
     config = DEFAULTS | raw
     # Preserve legacy AdamW's .999 while defaulting the Muon-side AdamW groups to .95.
     if config["optimizer"] == "muon" and "adamw_beta2" not in raw:
