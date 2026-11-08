@@ -251,7 +251,7 @@ def train_epoch(
                     scheduler,
                     context,
                     float(config["grad_clip"]),
-                    global_step + updates + 1,
+                    global_step + 1,
                     int(diagnostics_interval),
                 )
             updates += 1
