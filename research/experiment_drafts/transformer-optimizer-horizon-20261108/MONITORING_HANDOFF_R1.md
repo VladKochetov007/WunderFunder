@@ -22,6 +22,11 @@ These are trajectory diagnostics on exposed full official valid
 Train-eval has a different population and mask; do not interpret its score
 level relative to valid as a comparable generalization gap.
 
+The [actual C2 E2 figure](evidence/plots/C2_muon512_a2_s203101-epoch02.png)
+was downloaded without rerendering, hash-checked and visually inspected.
+Both target WPs improve and both validation WMSEs decrease from E1 to E2;
+two epochs do not establish a durable gain or absence of later overfitting.
+
 ## Durable monitoring
 
 - Local dashboard: http://127.0.0.1:8769/ (HTTP/API checked).
@@ -59,3 +64,8 @@ actual image checks. Native epoch weights and evidence archives stay under
 `/data/epanov_s/tabdata/runtime/transformer-optimizer-horizon-20261108-r1/runs`.
 The receiver will export, score, bundle and compare all six exact E4 endpoints;
 the publisher marks final byte audit pending until that comparison exists.
+
+[The separate TL3 replay and architecture audit](https://github.com/VladKochetov007/WunderFunder/pull/73)
+records the best cached standalone referenceWP0.6914165040 and fixed blend
+0.6923774248, with its historical consumed-cache ancestry limitation. These
+are exposed cached-artifact scores, not newly trained competitors or public gains.
